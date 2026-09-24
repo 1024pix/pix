@@ -18,7 +18,8 @@ par quel moyen la règle se vérifie. Ce qui est en place dans la CI est dans
 ## Sommaire
 
 [Rôle](#rôle) · [Invariants](#invariants) · [Exceptions légitimes](#exceptions-légitimes) ·
-[Tests attendus](#tests-attendus) · [Checklist de revue](#checklist-de-revue) · [Sources](#sources)
+[Exemple complet](#exemple-complet) · [Tests attendus](#tests-attendus) ·
+[Checklist de revue](#checklist-de-revue) · [Sources](#sources)
 
 | # | Invariant | Vérification |
 | --- | --- | --- |
@@ -302,6 +303,100 @@ Une exception ne vaut que pour l'invariant de sa ligne. Elle n'excuse rien d'aut
 | **R1** | Une limite de taille de charge déclarée sur la route | autorisé : c'est une contrainte de forme |
 | **R1** | Une validation qui exprime une règle métier | **pas une exception** : elle est contournable |
 | **R2** | Un contrôle de droit dans le contrôleur | **pas une exception** : c'est une violation de `R2` |
+
+---
+
+## Exemple complet
+
+Une route de lecture protégée par un pre-handler, tirée du code : la déclaration, son
+enregistrement, son test d'acceptance. La déclaration est conforme telle quelle. Le test ne l'est
+pas : il ne vérifie que l'accès autorisé. Le bloc du test est donc sa version corrigée.
+
+```js
+// la route — R1, R2, R3, R4 et R5 tenus
+{
+  method: 'GET',
+  path: '/api/combined-courses/{combinedCourseId}',
+  config: {
+    pre: [{ method: questSecurityPreHandlers.checkUserCanManageCombinedCourse }],   // R2
+    handler: combinedCourseController.getById,                                     // R4, R5
+    validate: {
+      params: Joi.object({
+        combinedCourseId: identifiersType.combinedCourseId,                        // R1 : type partagé
+      }),
+    },
+    notes: [                                                                       // R3
+      "- Récupération du parcours combiné dont l'id est passé en paramètre," +
+        " Nécessite que l'utilisateur soit membre de l'organisation propriétaire du parcours combiné",
+    ],
+    tags: ['api', 'combined-course', 'orga'],                                      // R3
+  },
+},
+```
+
+**Code.** [`combined-course-route.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/application/combined-course-route.js#L85-L102). Les commentaires sont ajoutés.
+
+```js
+// l'enregistrement — le fichier de route est un plugin, listé par le contexte
+const register = async function (server) {
+  server.route([ /* … les routes du fichier … */ ]);
+};
+export const combinedCourseRoute = { name: 'quest/combined-courses-api', register };
+
+// api/src/quest/routes.js
+const questRoutes = [combinedCourseRoute, questRoute, verifiedCodeRoute, combinedCourseBlueprintRoute, attestationRoute];
+```
+
+**Code.** Le plugin : [`combined-course-route.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/application/combined-course-route.js#L17-L18), [ligne 265](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/application/combined-course-route.js#L265). La liste du contexte : [`routes.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/routes.js#L7-L13), mise sur une ligne.
+
+```js
+// le test — acceptance, serveur et base réels
+describe('GET /api/combined-courses/{combinedCourseId}', function () {
+  context('when user has membership in the combined course organization', function () {
+    it('should return the combined course details', async function () {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({ code: 'PARCOURS123', organizationId });
+      databaseBuilder.factory.buildMembership({ userId, organizationId });
+      await databaseBuilder.commit();
+
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/combined-courses/${combinedCourseId}`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+      });
+
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  // ajouté : le refus prouve que R2 est tenu
+  context('when user has no membership in the combined course organization', function () {
+    it('should return 403', async function () {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({ code: 'PARCOURS123', organizationId });
+      await databaseBuilder.commit();
+
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/combined-courses/${combinedCourseId}`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+      });
+
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+});
+```
+
+**Code.** Version corrigée de [`combined-course-route_test.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/quest/acceptance/application/combined-course-route_test.js#L231-L258), simplifiée : le parcours est construit sans son nom, et les options de requête sont en ligne.
+
+Corrections apportées :
+
+- ajout du cas de refus : un utilisateur connecté, sans appartenance à l'organisation du parcours,
+  reçoit une réponse 403. Sans ce cas, le test passerait aussi sans le pre-handler. Invariant `R2`,
+  et règle du [refus testé](#tests-attendus).
 
 ---
 

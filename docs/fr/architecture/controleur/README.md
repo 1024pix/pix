@@ -18,7 +18,7 @@ invariant dit par quel moyen la règle se vérifie. Ce qui est en place dans la 
 ## Sommaire
 
 [Rôle](#rôle) · [Invariants](#invariants) · [Exceptions légitimes](#exceptions-légitimes) ·
-[Tests attendus](#tests-attendus) · [Checklist de revue](#checklist-de-revue) · [Sources](#sources)
+[Exemple complet](#exemple-complet) · [Tests attendus](#tests-attendus) · [Checklist de revue](#checklist-de-revue) · [Sources](#sources)
 
 | # | Invariant | Vérification |
 | --- | --- | --- |
@@ -288,6 +288,121 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Un `DomainTransaction.execute` autour de l'appel | **pas une exception** : la transaction appartient au usecase, selon `U7` de `../usecase/README.md`. `C2` |
 | Deux usecases métier enchaînés | **pas une exception** : intention sans nom. `C1` |
 | Le contrôle des droits écrit ici | **pas une exception** : voir `R2` de `../route/README.md` |
+
+---
+
+## Exemple complet
+
+Le contrôleur des passages, dans la forme par défaut de `C3` : le fichier, son enregistrement sur la
+route, son test. Ce fichier n'est pas entièrement conforme : le bloc ci-dessous est sa version
+corrigée. Les fonctions déjà conformes et sans rapport avec les corrections
+sont abrégées.
+
+```js
+// le contrôleur — version corrigée
+import { extractUserIdFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
+
+const create = async function (request, h, { usecases, passageSerializer }) {
+  const {
+    'module-id': moduleId,
+    'module-version': moduleVersion,
+    'occurred-at': occurredAt,
+    'sequence-number': sequenceNumber,
+  } = request.payload.data.attributes;
+  const userId = extractUserIdFromRequest(request);
+
+  const passage = await usecases.startPassage({ moduleId, moduleVersion, userId, occurredAt, sequenceNumber });
+
+  const serializedPassage = passageSerializer.serialize(passage);
+  return h.response(serializedPassage).created();
+};
+
+const verifyAndSaveAnswer = async function (request, h, { usecases, elementAnswerSerializer }) {
+  const { passageId } = request.params;
+  const { 'element-id': elementId, 'user-response': userResponse } = request.payload.data.attributes;
+  const elementAnswer = await usecases.verifyAndSaveAnswer({ passageId, elementId, userResponse });
+  const serializedElementAnswer = elementAnswerSerializer.serialize(elementAnswer);
+  return h.response(serializedElementAnswer).created();
+};
+
+const terminate = async function (request, h, { usecases, passageSerializer }) { … };
+
+const startEmbedLlmChat = async function (request, h, { usecases, llmChatSerializer }) {
+  const { configId } = request.payload;
+  const userId = request.auth.credentials.userId;
+  const passageId = request.params.passageId;
+  const startedChatDTO = await usecases.startEmbedLlmChat({ configId, userId, passageId });
+
+  return h.response(llmChatSerializer.serialize(startedChatDTO)).code(201);
+};
+
+const promptToLLMChat = async function (request, h, { usecases }) { … };
+
+const passageController = { create, verifyAndSaveAnswer, terminate, startEmbedLlmChat, promptToLLMChat };
+
+export { passageController };
+```
+
+**Code.** Version corrigée de [`passage-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/application/passages/passage-controller.js#L1-L67).
+
+Corrections apportées :
+
+- `create` appelle un seul usecase, `startPassage`, au lieu de `createPassage` puis
+  `recordPassageEvents`. La charge de l'événement `PASSAGE_STARTED` est fabriquée dans ce usecase.
+  Ce usecase est hypothétique. `C1`, et `C2` pour la charge de l'événement.
+- `startEmbedLlmChat` reçoit `llmChatSerializer` en paramètre au lieu de l'importer. Le sérialiseur
+  s'ajoute à l'objet de dépendances de `handlerWithDependencies`, et l'import disparaît du fichier.
+  `C3`.
+
+`promptToLLMChat` renvoie un flux sans sérialiseur : c'est une exception légitime.
+
+```js
+// l'enregistrement — la route enveloppe la fonction, qui reçoit usecases et sérialiseurs (C3)
+{
+  method: 'POST',
+  path: '/api/passages/{passageId}/answers',
+  config: {
+    auth: false,
+    validate: { params: …, payload: … },
+    handler: handlerWithDependencies(passageController.verifyAndSaveAnswer),
+    notes: ["- Permet de vérifier la réponse d'un élément et de la stocker"],
+    tags: ['api', 'passages', 'element', 'réponse'],
+  },
+},
+```
+
+**Code.** [`passage-route.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/application/passages/passage-route.js#L37-L62), simplifié : la validation est abrégée.
+
+```js
+// le test — unitaire, usecase et sérialiseur substitués, sans fixture métier
+it('should call verifyAndSave use-case and return serialized element-answer', async function () {
+  const passageId = Symbol('passage-id');
+  const elementId = Symbol('element-id');
+  const userResponse = Symbol('user-response');
+  const createdElementAnswer = Symbol('created element-answer');
+  const serializedElementAnswer = Symbol('serialized element-answer');
+
+  const usecases = { verifyAndSaveAnswer: sinon.stub() };
+  usecases.verifyAndSaveAnswer.withArgs({ passageId, elementId, userResponse }).resolves(createdElementAnswer);
+  const elementAnswerSerializer = { serialize: sinon.stub() };
+  elementAnswerSerializer.serialize.withArgs(createdElementAnswer).returns(serializedElementAnswer);
+  const hStub = { response: sinon.stub() };
+  hStub.response.withArgs(serializedElementAnswer).returns({ created: sinon.stub().returns(serializedElementAnswer) });
+
+  const result = await passageController.verifyAndSaveAnswer(
+    { params: { passageId }, payload: { data: { attributes: { 'element-id': elementId, 'user-response': userResponse } } } },
+    hStub,
+    { usecases, elementAnswerSerializer },
+  );
+
+  expect(result).to.equal(serializedElementAnswer);
+});
+```
+
+**Code.** [`passage-controller_test.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/devcomp/unit/application/passages/passage-controller_test.js#L72-L115), simplifié : les commentaires et un champ inutile de la charge sont retirés.
+
+La forme par défaut rend le test direct : les doublures passent en troisième argument, sans
+substitution de module.
 
 ---
 

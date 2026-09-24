@@ -18,7 +18,8 @@ invariant dit par quel moyen la règle se vérifie. Ce qui est en place dans la 
 ## Sommaire
 
 [Rôle](#rôle) · [Invariants](#invariants) · [Exceptions légitimes](#exceptions-légitimes) ·
-[Tests attendus](#tests-attendus) · [Checklist de revue](#checklist-de-revue) · [Sources](#sources)
+[Exemple complet](#exemple-complet) · [Tests attendus](#tests-attendus) ·
+[Checklist de revue](#checklist-de-revue) · [Sources](#sources)
 
 | # | Invariant | Vérification |
 | --- | --- | --- |
@@ -310,6 +311,100 @@ Une exception ne vaut que pour l'invariant de sa ligne. Elle n'excuse rien d'aut
 | **RM2** | Il est construit depuis une source externe | **autorisé** : le repository traduit et valide la source, pas le read-model. C'est l'exception de RM2 |
 | **V2** | Il porte l'identifiant d'autre chose | **autorisé** : c'est une donnée, pas son identité. Voir `V2` de `../objet-valeur/README.md` |
 | forme du fichier | Il n'a aucune dérivation et se réduit à une forme | **toléré** : ne se signale pas seul, car nommer le contrat d'une requête peut suffire. Voir [Tests attendus](#tests-attendus) |
+
+---
+
+## Exemple complet
+
+Aucun read-model du code n'est entièrement conforme. `Country` est le plus proche : il ne viole que
+`V1`. Voici sa version corrigée, le repository qui le construit, le sérialiseur qui compose sa clé de
+présentation, et son test.
+
+```js
+// le read-model, version corrigée — des champs privés, exposés en lecture seule
+class Country {
+  #code;
+  #name;
+  #matcher;
+
+  constructor({ code, name, matcher }) {
+    this.#code = code;
+    this.#name = name;
+    this.#matcher = matcher;
+  }
+
+  get code()    { return this.#code; }
+  get name()    { return this.#name; }
+  get matcher() { return this.#matcher; }
+}
+```
+
+**Code.** Version corrigée de [`Country.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/read-models/Country.js#L1-L7).
+
+Corrections apportées :
+
+- `V1` : les trois champs publics deviennent privés, exposés par des accesseurs sans mutateur.
+
+Le reste est déjà conforme. Aucune validation (`RM2`), aucun import (`V4`), aucune clé composée dans
+le read-model (`V2`), et le fichier est dans `domain/read-models/` (`RM4`).
+
+```js
+// le repository — une requête, puis une traduction en read-model
+function _toDomain(row) {
+  return new Country({
+    ...row,
+    name: row.commonName,
+  });
+}
+```
+
+**Code.** [`country-repository.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/infrastructure/repositories/country-repository.js#L49-L54), inchangé.
+
+```js
+// le sérialiseur, version corrigée — la clé de présentation se compose ici (V2)
+const serialize = function (country) {
+  return new Serializer('country', {
+    attributes: ['code', 'name'],
+    transform(country) {
+      return { id: `${country.code}_${country.matcher}`, code: country.code, name: country.name };
+    },
+  }).serialize(country);
+};
+```
+
+**Code.** Version corrigée de [`country-serializer.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/infrastructure/serializers/jsonapi/country-serializer.js#L5-L12).
+
+Corrections apportées :
+
+- conséquence de `V1` : l'original copie le read-model par `{ ...country }`. Une décomposition ne
+  copie pas les accesseurs, qui vivent sur le prototype. La transformation nomme donc les champs. La
+  réponse de l'API reste identique : le [test du sérialiseur](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/shared/unit/infrastructure/serializers/jsonapi/country-serializer_test.js#L8-L45)
+  passe sans changement.
+
+```js
+// le test — unitaire pur, aucun double : la forme produite, et l'absence d'écriture
+describe('Unit | Shared | Domain | ReadModels | Country', function () {
+  it('exposes the code, the name and the matcher', function () {
+    const country = new Country({ code: '99345', name: 'TOGO', matcher: 'GOOT' });
+
+    expect(country.code).to.equal('99345');
+    expect(country.name).to.equal('TOGO');
+    expect(country.matcher).to.equal('GOOT');
+  });
+
+  it('cannot be written after construction', function () {
+    const country = new Country({ code: '99345', name: 'TOGO', matcher: 'GOOT' });
+
+    expect(() => { country.code = '99100'; }).to.throw(TypeError);
+  });
+});
+```
+
+**Code.** Test ajouté : `Country` n'a pas de test unitaire. Sa place, par comparaison de noms, est
+`api/tests/shared/unit/domain/read-models/Country_test.js`.
+
+Le second cas vérifie `V1`. Un module ES s'exécute en mode strict : écrire sur un accesseur sans
+mutateur y lève une `TypeError`.
 
 ---
 

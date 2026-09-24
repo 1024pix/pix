@@ -18,7 +18,7 @@ la CI est dans [`outillage.md`](outillage.md).
 ## Sommaire
 
 [Rôle](#rôle) · [Invariants](#invariants) · [Exceptions légitimes](#exceptions-légitimes) ·
-[Tests attendus](#tests-attendus) · [Checklist de revue](#checklist-de-revue) · [Sources](#sources)
+[Exemple complet](#exemple-complet) · [Tests attendus](#tests-attendus) · [Checklist de revue](#checklist-de-revue) · [Sources](#sources)
 
 | # | Invariant | Vérification |
 | --- | --- | --- |
@@ -378,6 +378,81 @@ l'invariant de sa ligne. Elle n'excuse rien d'autre.
 | **E7** | Une Entity tient les instances d'Entities du **même** Aggregate | autorisé : c'est la définition d'un Aggregate |
 | **E8** | Deux contextes ont une Entity de même nom | autorisé : c'est l'Ubiquitous Language par contexte |
 | catégorie | L'objet n'a aucune règle propre, et personne ne le lit pour décider | **ce n'est pas une Entity** : le [test de discrimination](#le-test-de-discrimination) s'applique, puis `../read-model/README.md` |
+
+---
+
+## Exemple complet
+
+Aucune Entity du code n'est entièrement conforme. L'exemple est la version corrigée de `Passage`, le
+passage d'un utilisateur dans un module. C'est l'Entity la plus proche du conforme : identité portée
+(E1), aucun import (E4), aucun mutateur nu (E6), aucune méthode de persistance (E5), aucune instance
+d'un autre Aggregate (E7). Une Entity n'a pas d'enregistrement : elle s'importe directement.
+
+```js
+// l'Entity, version corrigée
+import { PassageTerminatedError } from '../errors.js';
+
+class Passage {
+  constructor({ id, moduleId, userId, createdAt, updatedAt, terminatedAt }) {
+    this.id = id;
+    this.moduleId = moduleId;
+    this.userId = userId;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.terminatedAt = terminatedAt;
+  }
+
+  terminate({ now }) {
+    if (this.terminatedAt) throw new PassageTerminatedError();
+    this.terminatedAt = now;
+  }
+}
+
+export { Passage };
+```
+
+**Code.** Version corrigée de [`Passage.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/Passage.js#L1-L16).
+
+Corrections apportées :
+
+- **E3**, refus de la transition invalide : `terminate` lève `PassageTerminatedError` sur un passage
+  déjà terminé. Dans l'original, ce refus est dans le usecase
+  [`terminate-passage.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/usecases/terminate-passage.js#L6-L8).
+  Tout autre appelant de `terminate` y échappe. Le usecase n'a plus à le vérifier.
+- **E4**, date en paramètre : `terminate` reçoit `now` au lieu de lire `new Date()`. Le usecase la
+  fournit.
+
+Reste hors correction : la validation à la construction, que demande aussi E3. Aucune règle du code
+ne dit quels champs sont obligatoires, et un `userId` absent y est admis. La corriger supposerait une
+règle métier que l'exemple ne peut pas inventer.
+
+```js
+// le test — unitaire pur : aucune base, aucun double, la date est une valeur
+describe('#terminate', function () {
+  it('should terminate the passage at the given date', function () {
+    const now = new Date('2024-01-02');
+    const passage = new Passage({ id: 1, moduleId: 'module-id', userId: 123 });
+
+    passage.terminate({ now });
+
+    expect(passage.terminatedAt).to.deep.equal(now);
+  });
+
+  it('should refuse to terminate a passage already terminated', function () {
+    const terminatedAt = new Date('2024-01-01');
+    const passage = new Passage({ id: 1, moduleId: 'module-id', userId: 123, terminatedAt });
+
+    expect(() => passage.terminate({ now: new Date('2024-01-02') })).to.throw(PassageTerminatedError);
+    expect(passage.terminatedAt).to.deep.equal(terminatedAt);
+  });
+});
+```
+
+**Code.** Version corrigée de [`Passage_test.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/devcomp/unit/domain/models/Passage_test.js#L29-L44).
+
+Le premier test est corrigé : l'original fige l'horloge avec `sinon.useFakeTimers`, un double qui
+signale la violation de E4. Le second est ajouté : c'est le test du refus, absent de l'original. Il
+vérifie aussi que l'échec laisse l'état intact.
 
 ---
 

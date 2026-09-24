@@ -18,7 +18,8 @@ invariant dit par quel moyen la règle se vérifie. Ce qui est en place dans la 
 ## Sommaire
 
 [Rôle](#rôle) · [Invariants](#invariants) · [Exceptions légitimes](#exceptions-légitimes) ·
-[Tests attendus](#tests-attendus) · [Checklist de revue](#checklist-de-revue) · [Sources](#sources)
+[Exemple complet](#exemple-complet) · [Tests attendus](#tests-attendus) ·
+[Checklist de revue](#checklist-de-revue) · [Sources](#sources)
 
 | # | Invariant | Vérification |
 | --- | --- | --- |
@@ -443,6 +444,129 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | **V3**, **V5** | L'objet est anémique et aucune règle ne le lit | **ce n'est pas un Value Object** : le [discriminant](#le-discriminant) s'applique, puis `../read-model/README.md` |
 | **V5** | Un Value Object sans comportement, dans une famille où d'autres en ont | **toléré** : ne se signale pas seul, car un type nommé peut valoir pour la seule signature |
 | **V7** | Un accesseur reconstruit un objet à chaque appel | **autorisé** — c'est la forme sûre de V7 |
+
+---
+
+## Exemple complet
+
+L'exemple est la version corrigée d'un Value Object réel proche du conforme, `AnswerStatus`. Il ne porte aucune identité, ne fait aucune I/O, porte ses
+règles et offre des constructeurs statiques nommés. Il enfreint deux invariants : V1 et V3.
+
+Un Value Object ne s'enregistre nulle part : il n'est pas injecté, il s'importe là où il sert.
+L'exemple se limite donc à la classe et à son test.
+
+```js
+// l'original — champ public, aucune validation
+class AnswerStatus {
+  constructor({ status } = {}) {
+    // TODO: throw a BadAnswerStatus error if the status is bad + adapt the tests
+    this.status = status;
+  }
+
+  isOK() {
+    return this.status === statuses.OK;
+  }
+  …
+  static get OK() {
+    return new AnswerStatus({ status: statuses.OK });
+  }
+  …
+}
+```
+
+**Code.** [`AnswerStatus.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/AnswerStatus.js#L10-L85), simplifié.
+
+```js
+// la version corrigée
+import { DomainError } from '../errors.js';
+
+class AnswerStatus {
+  #status;
+
+  constructor({ status } = {}) {
+    if (!Object.values(statuses).includes(status)) {
+      throw new DomainError(`Invalid answer status: ${status}`);
+    }
+    this.#status = status;
+  }
+
+  get status() {
+    return this.#status;
+  }
+
+  isFailed() {
+    return this.#status !== statuses.OK;
+  }
+
+  isOK() {
+    return this.#status === statuses.OK;
+  }
+  …
+  static get OK() {
+    return new AnswerStatus({ status: statuses.OK });
+  }
+  …
+  static from(other) {
+    if (other instanceof AnswerStatus) {
+      return other;
+    }
+    return new AnswerStatus({ status: other });
+  }
+}
+```
+
+**Code.** Version corrigée de [`AnswerStatus.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/AnswerStatus.js#L10-L85), simplifiée.
+
+Corrections apportées :
+
+- **V1**, champ privé : `status` devient `#status`. Un accesseur en lecture seule garde la valeur
+  lisible. Une chaîne est une primitive : l'exposer ne rompt pas V7.
+- **V3**, validation à la construction : un statut hors de `statuses` lève une `DomainError`, avant
+  l'affectation. Le `TODO` disparaît. `from`, qui passe par le constructeur, valide aussi les valeurs
+  brutes.
+
+Le reste est inchangé : les prédicats portent la règle (V5), les constructeurs statiques nommés
+produisent de nouvelles instances (V1), et rien n'importe l'infrastructure (V4).
+
+```js
+// le test — l'original, unitaire pur : le comportement seulement
+context('AnswerStatus#isOK', function () {
+  it('should be true with AnswerStatus.OK', function () {
+    expect(AnswerStatus.OK.isOK()).to.be.true;
+  });
+
+  it('should be false with AnswerStatuses KO, SKIPPED, TIMEDOUT, FOCUSEDOUT and UNIMPLEMENTED', function () {
+    expect(AnswerStatus.KO.isOK()).to.be.false;
+    expect(AnswerStatus.SKIPPED.isOK()).to.be.false;
+    …
+  });
+});
+```
+
+**Code.** [`AnswerStatus_test.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/shared/unit/domain/models/AnswerStatus_test.js#L6-L18), simplifié.
+
+Le test original vérifie le comportement, mais ni la validation ni l'immuabilité. Il est complété par
+deux cas, sans double :
+
+```js
+// le test — complété : la validation (V3) et l'immuabilité (V1)
+context('constructor', function () {
+  it('should throw a DomainError when the status is unknown', function () {
+    expect(() => new AnswerStatus({ status: 'unknown' })).to.throw(DomainError);
+  });
+
+  it('should not allow the status to be reassigned', function () {
+    const answerStatus = AnswerStatus.OK;
+
+    expect(() => {
+      answerStatus.status = AnswerStatus.statuses.KO;
+    }).to.throw(TypeError);
+    expect(answerStatus.isOK()).to.be.true;
+  });
+});
+```
+
+**Code.** Complément de [`AnswerStatus_test.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/shared/unit/domain/models/AnswerStatus_test.js#L5-L103). La réassignation lève une `TypeError` parce qu'un module ES s'exécute en mode strict et que `status` n'a pas de mutateur.
 
 ---
 
