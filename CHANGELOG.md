@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## [5.507.3](https://github.com/1024pix/pix/compare/v5.507.2...v5.507.3) (2026-09-24)
+
+### :bug: Correction
+
+- [#17592](https://github.com/1024pix/pix/pull/17592) Corriger l'affichage de la colonne oralisation (PIX-OUPS)
+
+### :arrow_up: Montée de version
+
+- [#17593](https://github.com/1024pix/pix/pull/17593) Mise à jour de @1024pix/epreuves-components vers 4.26.5
+
 ## [5.507.2](https://github.com/1024pix/pix/compare/v5.507.1...v5.507.2) (2026-09-24)
 
 ### :bug: Correction
