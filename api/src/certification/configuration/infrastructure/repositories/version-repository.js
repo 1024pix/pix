@@ -58,30 +58,9 @@ export async function findActiveByScope({ scope }) {
  */
 export async function save(version) {
   const knexConn = DomainTransaction.getConnection();
-  const dataToInsert = {
-    id: version.id ?? undefined,
-    scope: version.scope,
-    startDate: version.startDate,
-    expirationDate: version.expirationDate,
-    assessmentDuration: version.assessmentDuration,
-    minimumAnswersRequiredToValidateACertification: version.minimumAnswersRequiredToValidateACertification,
-    comments: version.comments,
-    globalScoringConfiguration: version.globalScoringConfiguration
-      ? JSON.stringify(version.globalScoringConfiguration)
-      : null,
-    competencesScoringConfiguration: version.competencesScoringConfiguration
-      ? JSON.stringify(version.competencesScoringConfiguration)
-      : null,
-    challengesConfiguration: JSON.stringify(version.challengesConfiguration),
-    status: version.status,
-    externalCalibrationId: version.externalCalibrationId ?? null,
-  };
+  const dataToInsert = _adaptModelToDb(version);
 
-  const [{ id }] = await knexConn('certification_versions')
-    .insert(dataToInsert)
-    .onConflict('id')
-    .merge()
-    .returning('id');
+  const [{ id }] = await knexConn('certification_versions').insert(dataToInsert).returning('id');
 
   await knexConn('certification_versions_tubes').where('version_id', id).del();
 
@@ -90,6 +69,17 @@ export async function save(version) {
   await knexConn.batchInsert('certification_versions_tubes', versionLinkedTubeIds);
 
   return id;
+}
+
+/**
+ * @param {Version} version
+ */
+export async function update(version) {
+  const knexConn = DomainTransaction.getConnection();
+  const dataToInsert = _adaptModelToDb(version);
+
+  await knexConn('certification_versions').update(dataToInsert).where({ id: version.id }).returning('id');
+  return;
 }
 
 export async function remove(id) {
@@ -127,6 +117,26 @@ function buildBaseQuery() {
     })
     .groupBy('certification_versions.id')
     .orderBy('certification_versions.id');
+}
+
+function _adaptModelToDb(versionModel) {
+  return {
+    scope: versionModel.scope,
+    startDate: versionModel.startDate,
+    expirationDate: versionModel.expirationDate,
+    assessmentDuration: versionModel.assessmentDuration,
+    minimumAnswersRequiredToValidateACertification: versionModel.minimumAnswersRequiredToValidateACertification,
+    comments: versionModel.comments,
+    globalScoringConfiguration: versionModel.globalScoringConfiguration
+      ? JSON.stringify(versionModel.globalScoringConfiguration)
+      : null,
+    competencesScoringConfiguration: versionModel.competencesScoringConfiguration
+      ? JSON.stringify(versionModel.competencesScoringConfiguration)
+      : null,
+    challengesConfiguration: JSON.stringify(versionModel.challengesConfiguration),
+    status: versionModel.status,
+    externalCalibrationId: versionModel.externalCalibrationId ?? null,
+  };
 }
 
 function _toDomain({
