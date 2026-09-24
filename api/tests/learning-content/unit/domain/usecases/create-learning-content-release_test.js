@@ -85,6 +85,9 @@ describe('Learning Content | Unit | UseCase | create-learning-content-release', 
         saveMany: sinon.stub(),
         clearCache: sinon.stub(),
       };
+      const learningContentCache = {
+        clear: sinon.stub(),
+      };
 
       // when
       await createLearningContentRelease({
@@ -100,6 +103,7 @@ describe('Learning Content | Unit | UseCase | create-learning-content-release', 
         tutorialRepository,
         missionRepository,
         moduleRepository,
+        learningContentCache,
       });
 
       // then
@@ -127,6 +131,7 @@ describe('Learning Content | Unit | UseCase | create-learning-content-release', 
       expect(tutorialRepository.clearCache).to.have.been.calledOnceWithExactly();
       expect(missionRepository.clearCache).to.have.been.calledOnceWithExactly();
       expect(moduleRepository.clearCache).to.have.been.calledOnceWithExactly();
+      expect(learningContentCache.clear).to.have.been.calledOnceWithExactly();
     });
   });
 });

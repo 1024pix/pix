@@ -1,19 +1,7 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
-import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 import { Module } from '../../domain/models/module/Module.js';
 import { ModuleMetadata } from '../../domain/models/module/ModuleMetadata.js';
-
-const TABLE_NAME = 'learningcontent.modules';
-
-/** @type {LearningContentRepository} */
-let instance;
-
-function getInstance() {
-  if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME, idType: 'uuid' });
-  }
-  return instance;
-}
+import { getInstance } from './module-repository.js';
 
 async function getAllByIds({ ids }) {
   const modules = await getInstance().loadMany(ids);
