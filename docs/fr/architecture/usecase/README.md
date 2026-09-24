@@ -452,6 +452,8 @@ Une exception ne vaut que pour l'invariant de sa ligne. Elle n'excuse rien d'aut
 | **U2** | Un usecase reçoit un journal en dépendance injectée | **autorisé** : injecté, pas importé. À distinguer d'un modèle qui importe l'infrastructure |
 | rôle | Un fichier de `services/` sans I/O, testé en unitaire pur | **autorisé**, c'est un vrai Domain Service |
 | rôle | Un fichier de `services/` qui reçoit un repository | **pas une exception** : c'est un usecase, à traiter comme tel. Sa place est dans `usecases/` |
+| rôle | Un `catch` qui attrape une erreur du domaine **nommée** pour décider de la suite | **autorisé** : c'est de l'orchestration. La journalisation passe par une dépendance injectée, selon `U2` |
+| rôle | Un `catch` sans filtre qui journalise puis continue | **pas une exception** : il avale les erreurs de programmation et les rend invisibles. Voir `X7` de [`ecarts.md`](ecarts.md) |
 
 ---
 
@@ -544,6 +546,7 @@ Ordonnée par ROI décroissant. Le statut de chaque ligne vient du moyen de vér
 [ ] [partiel] U5  Aucune notion de transport : ni request, ni code HTTP, ni sérialisation
 [ ] [humain]  U6  Renvoie des objets du domaine local, jamais un DTO étranger ni un objet de réponse
 [ ] [humain]  U7  Le périmètre atomique est explicite quand plusieurs écritures ont lieu
+[ ] [humain]      Aucun catch sans filtre qui journalise puis continue ; seule une erreur du domaine nommée s'attrape
 [ ] [partiel] U4  Un fichier, un nom de verbe en kebab-case, Ubiquitous Language du contexte
 [ ] [auto]    U8  Enregistré dans l'index des usecases
 [ ] [auto]    Un fichier de test existe, et son nom correspond à celui du usecase
@@ -551,8 +554,8 @@ Ordonnée par ROI décroissant. Le statut de chaque ligne vient du moyen de vér
 [ ] [auto]    Si le fichier est dans services/ et reçoit une I/O, c'est un usecase
 ```
 
-À terme, sept lignes restent : deux `[partiel]`, U5 et U4, et cinq `[humain]`, U1, U2, U6, U7 et le
-type de test. U1 a, avec U9, le ROI le plus fort de ce dossier, et sa ligne reste humaine : aucun
+À terme, huit lignes restent : deux `[partiel]`, U5 et U4, et six `[humain]`, U1, U2, U6, U7, le
+`catch` sans filtre et le type de test. U1 a, avec U9, le ROI le plus fort de ce dossier, et sa ligne reste humaine : aucun
 moyen fiable ne le vérifie.
 
 ---

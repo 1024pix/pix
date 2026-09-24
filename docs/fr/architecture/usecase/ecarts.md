@@ -16,6 +16,7 @@ la théorie dans [`explication.md`](explication.md#la-théorie-des-écarts).
 | **X1** La règle métier vit dans le usecase | dérive | La même règle réécrite dans plusieurs usecases, et différemment. Les modèles se vident | Le usecase se lit d'une traite, sans ouvrir le modèle | **À corriger** |
 | **X2** Le usecase renvoie un objet façonné pour la réponse HTTP | dérive | Changer la réponse de l'API oblige à changer le usecase. Il cesse d'être réutilisable hors HTTP | Un contrôleur qui n'a plus rien à faire | **À corriger** |
 | **X6** Une API interne est injectée directement dans le usecase | dérive | La réponse du voisin entre dans le domaine sans traduction : un changement de son contrat casse le usecase, et l'Anticorruption Layer est contournée | Un repository de moins à écrire | **À corriger** |
+| **X7** Un `catch` sans filtre journalise puis continue | dérive | Un bug ou une panne d'infrastructure passe pour un succès : le usecase répond comme si tout allait bien, et seule une ligne de journal en garde la trace | Le parcours de l'utilisateur ne s'interrompt jamais | **À corriger** |
 | **X4** Dépendances et entrées métier sont mélangées | convention assumée | Rien ne distingue la frontière du usecase de ses entrées, ni à la lecture ni au typage | Une seule signature, et l'injection reste triviale | *À surveiller* |
 | **X3** Le fichier de câblage des usecases importe l'infrastructure | vestige assumé en convention | Nul : le fichier est toujours au même chemin, donc exemptable | Le câblage est là où sont les usecases qu'il câble | *Rien à faire* |
 | **X5** Un usecase réduit à un seul appel de repository | convention assumée | Un fichier et un test pour une délégation | Le point d'entrée est toujours au même endroit, et l'ajout d'une règle ne change pas la structure | *Rien à faire* |
@@ -227,3 +228,38 @@ La théorie est dans
 enveloppe l'API, y traduire la réponse dans le langage local, et injecter ce repository à la place de
 l'API. Le signal de [`outillage.md`](outillage.md#vérifications) produit la liste. Le remplacement de
 l'injection est mécanique ; la traduction demande de décider la forme locale.
+
+### X7. Un `catch` sans filtre journalise puis continue
+
+**Exemple concret.**
+
+```js
+try {
+  const userId = await emailValidationDemandRepository.get(token);
+  …
+  await userRepository.update(user.mapToDatabaseDto());
+  await emailValidationDemandRepository.remove(token);
+} catch (error) {
+  logger.error({ message: error.message, context: 'email-validation', data: { token }, team: 'acces' });
+}
+
+return _getRedirectionUrl(redirectUrl);
+```
+
+**Code.** [`validate-user-account-email.usecase.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/identity-access-management/domain/usecases/validate-user-account-email.usecase.js#L24-L44), simplifié. Le `logger` est importé à la [ligne 2](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/identity-access-management/domain/usecases/validate-user-account-email.usecase.js#L2), ce qui enfreint aussi `U3`.
+
+Le `catch` attrape tout : une erreur métier attendue, mais aussi un bug ou une base indisponible. Dans
+tous les cas, l'utilisateur est redirigé comme si la validation avait réussi.
+
+À l'inverse, attraper une erreur du domaine nommée, comme `AssessmentLackOfChallengesError`, pour
+décider de la suite est de l'orchestration : voir
+[`update-assessment-with-next-challenge.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/domain/usecases/update-assessment-with-next-challenge.js#L76-L77).
+
+**Verdict.** À corriger : le bénéfice, un parcours jamais interrompu, s'obtient autrement, en
+attrapant les seules erreurs attendues. Le coût est un défaut invisible.
+
+**Correction.** Remplacer le `catch` sans filtre par un `catch` des erreurs du domaine attendues, et
+laisser remonter les autres au mappeur d'erreurs. La journalisation, si elle reste utile, passe par une
+dépendance injectée. La correction n'est pas mécanique : il faut savoir quelles erreurs le parcours
+attend.
+
