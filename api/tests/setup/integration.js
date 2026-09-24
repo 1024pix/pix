@@ -1,5 +1,6 @@
 import nock from 'nock';
 
+import * as certificationCpfCityRepository from '../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../src/certification/enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as moduleRepository from '../../src/devcomp/infrastructure/repositories/module-repository.js';
 import * as tutorialRepository from '../../src/devcomp/infrastructure/repositories/tutorial-repository.js';
@@ -51,6 +52,7 @@ export const mochaHooks = {
       await databaseBuilder.clean();
       await learningContentCache.clear();
       certificationCpfCountryRepository.clearCache();
+      certificationCpfCityRepository.clearCache();
     },
   ],
 
