@@ -157,7 +157,7 @@ s'appuie sur un échantillon compté.
 
 Périmètre : `fiche-entite.md`, `fiche-objet-valeur.md`, `fiche-racine-agregat.md`,
 `fiche-read-model.md`, `fiche-service-domaine.md`, `fiche-specification.md`. Les six autres fiches
-n'ont pas eu cette passe.
+ont eu la même passe le 2026-09-24, voir ci-dessous.
 
 Quatre étapes, dans cet ordre.
 
@@ -198,6 +198,45 @@ Ce qui reste ouvert :
 - L'arborescence de `X3` dans `fiche-racine-agregat.md` contient le nom d'un contexte, repris du
   code réel. C'est une entorse à la règle 1.
 - Aucune des six fiches n'a été relue par un tiers après cette passe.
+
+## Passe du 2026-09-24 sur les autres fiches
+
+Périmètre : `fiche-repository.md`, `fiche-usecase.md`, `fiche-api-interne.md`,
+`fiche-controleur.md`, `fiche-route.md`, `fiche-serialiseur.md`, et le parcours
+`fiche-application.md`.
+
+Même processus que pour les fiches domaine, appliqué par le skill `technical-writing` : conformité
+au gabarit, exemples vérifiés dans le code, simplification et ton de référence, puis vérification
+par inventaire des faits, revue adversariale et lecteur neuf.
+
+Ce que la passe a trouvé et corrigé :
+
+- des exemples inventés ou déformés dans chaque fiche, remplacés par du vrai code ou dits
+  hypothétiques ;
+- des paires conforme / fautive manquantes, surtout dans les fiches usecase, API interne, route et
+  contrôleur ;
+- des décomptes de checklist faux dans chaque fiche ;
+- deux titres hors gabarit dans `fiche-repository.md` (§ 5 et § 7), renommés ;
+- des restes de `I7`, retiré, dans `fiche-repository.md` ;
+- des affirmations fausses sur le code : `X4` de `fiche-api-interne.md` disait n'avoir aucune
+  occurrence ; `fiche-controleur.md` renvoyait à `X4` au lieu de `I4` ;
+- dans le parcours, un `U1` qui était `U4`, et `R2` réduit à deux de ses trois formes.
+
+Ce qui reste ouvert, et demande une décision d'équipe :
+
+- `X4` et `C4` de `fiche-controleur.md` disent que le framework interdit d'injecter les usecases
+  dans un contrôleur ; le contexte devcomp le fait déjà. Le verdict de `X4` est à revoir.
+- La nature de `X3` et `X4` dans `fiche-repository.md`, et de `X5` dans `fiche-api-interne.md` :
+  le corps décrit une convention jamais décidée par écrit, que le vocabulaire du gabarit (convention
+  assumée, dérive, vestige) ne nomme pas bien.
+- Le script de `R2` dans `fiche-route.md` signale les routes authentifiées sans restriction, dites
+  légitimes : faux positifs acceptés, ou règle « authentifié suffit » à écrire.
+- L'injection d'une API interne directement dans un usecase (`U9` de `fiche-usecase.md`) n'a pas de
+  statut décidé, alors que l'ADR 55 la place dans un repository.
+- `X3` de `fiche-usecase.md` et `X5` de `fiche-repository.md` énoncent le même écart.
+- La règle `M1` de `fiche-serialiseur.md` ne voit pas une condition portée par un paramètre de
+  `serialize`, et les exports CSV portent de vraies règles métier sans que la fiche dise si elle les
+  couvre.
 
 ## Ordre de relecture proposé
 
