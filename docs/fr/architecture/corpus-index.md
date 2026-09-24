@@ -321,15 +321,41 @@ sur le code, ou dits simplifiés ou hypothétiques. Les plus notables :
 
 ### Questions ouvertes nées du découpage
 
-- Réglé : `C3` admet les deux formes d'injection, l'enveloppe de la route par défaut et la valeur par
-  défaut du troisième paramètre. `X4` de `controleur/` passe « à surveiller » jusqu'à l'alignement.
-- Réglé : la grille de verdict dit maintenant « à corriger : le coût dépasse le bénéfice, ou le
-  bénéfice s'obtient autrement », ce qui correspond aux verdicts rendus.
-- Réglé : `Section` de devcomp est une Entity, interne à l'Aggregate `Module`. L'exemple conforme de
-  `V3` de `objet-valeur/` devient `QrocmSolutions`.
-- Réglé : la clé de présentation se compose dans le sérialiseur (cas 1), et une clé que le client
-  renvoie reste dans un Value Object qui la construit et la découpe (cas 2). Dans tous les cas, la
-  réponse de l'API reste identique : seule la construction de la clé se déplace.
+Réglées le 2026-09-24 :
+
+- `C3` admet les deux formes d'injection, l'enveloppe de la route par défaut et la valeur par défaut
+  du troisième paramètre. `X4` de `controleur/` passe « à surveiller » jusqu'à l'alignement.
+- La grille de verdict dit maintenant « à corriger : le coût dépasse le bénéfice, ou le bénéfice
+  s'obtient autrement », ce qui correspond aux verdicts rendus, dont `X2` de `service-domaine/`.
+- `Section` de devcomp est une Entity, interne à l'Aggregate `Module`. L'exemple conforme de `V3` de
+  `objet-valeur/` devient `QrocmSolutions`.
+- La clé de présentation se compose dans le sérialiseur (cas 1), et une clé que le client renvoie
+  reste dans un Value Object qui la construit et la découpe (cas 2). Dans tous les cas, la réponse de
+  l'API reste identique : seule la construction de la clé se déplace.
+- L'exemple conforme de `S8` était une violation de degré 2. Il en devient l'exemple réel, et
+  l'exemple conforme est un usecase qui évalue la specification entière.
+- Dans un usecase, un `catch` sans filtre qui journalise puis continue est interdit : c'est `X7` de
+  `usecase/ecarts.md`. Attraper une erreur du domaine nommée pour décider est autorisé.
+- `Country`, exemple conforme de `RM2`, a des champs publics : sa ligne **Code.** le dit conforme pour
+  `RM2` seulement.
+- Les câblages de `quest` et `devcomp` qui importent l'infrastructure d'autres contextes sont décrits
+  sous `X3` de `usecase/ecarts.md`.
+
+Ouvertes :
+
+- **La ligne `A3` de la checklist de `racine-agregat/`** est alignée sur la décision « un repository
+  par Aggregate ». L'ancienne ligne demandait si la convention était assumée.
+- **`api-interne/`** : deux cas non tranchés, une fonction utilisée par un seul consommateur et l'import
+  individuel d'un usecase. La source de `P3` et `P5` est une page Confluence, à reporter dans l'ADR 55.
+- **`domain/services/` réservé aux vrais Domain Services** : la décision n'est écrite dans aucun ADR.
+- **`racine-agregat/`** : appliquée telle quelle, la fiche disqualifie du code existant, car peu
+  d'objets satisfont `A1` et `A2`.
+- **`read-model/`** : le classement des fichiers de `read-models/` selon les quatre tests n'est pas
+  fait. Il conditionne le passage de la règle de `RM3` en erreur.
+- **Constats sur le code, à porter dans les `ecarts.md`** : `CriterionProperty` et
+  `get-next-activity-info.js` importent le logger, contre `V4` et `D1`.
+- **Exemples manquants** : `M3` et `M4` de `serialiseur/` n'ont pas de paire conforme / fautive. Six
+  dossiers n'ont pas d'exemple complet, faute de fichier réel court et conforme.
 
 ## Ordre de relecture proposé
 
