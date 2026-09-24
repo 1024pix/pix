@@ -113,7 +113,7 @@ Critère de découpe : un codemod peut appliquer une décision, il ne peut pas e
 | Invariant | Codemod | Ce qu'il fait |
 | --- | --- | --- |
 | **V1**, **V7** | oui | Passer un champ public en champ privé avec accesseur, et renommer les usages |
-| **X5** cas 1 | oui, une fois le classement fait | Retirer l'affectation de l'objet et composer la clé dans le sérialiseur |
+| **X5** cas 1 | oui, une fois le classement fait | Retirer l'affectation de l'objet et composer la clé dans le sérialiseur, à valeur identique : la réponse de l'API ne change pas |
 | **V3**, **V5** | non | Chaque cas demande de décider quelle règle valider, et où elle vit |
 
 Un cas d'arrêt sur V1 : si un champ public est **écrit** depuis l'extérieur, le codemod ne peut pas le
