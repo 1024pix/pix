@@ -188,6 +188,18 @@ donc aux règles d'un format publié :
 
 Une valeur existante ne change jamais de signification : un nouveau sens prend une nouvelle valeur.
 
+```js
+// conforme — un nouveau sens prend une nouvelle valeur ; les valeurs existantes gardent le leur
+const statuses = { STARTED: 'STARTED', COMPLETED: 'COMPLETED', ARCHIVED: 'ARCHIVED' };
+
+// fautif — COMPLETED désignait une participation terminée, il désigne maintenant une participation
+// partagée : la chaîne ne change pas, le front affiche un sens faux
+const statuses = { STARTED: 'STARTED', COMPLETED: 'COMPLETED' };
+```
+
+**Code.** Hypothétique : un changement de sens ne laisse aucune trace dans le code, c'est ce qui le
+rend dangereux.
+
 **Ce qui casse.** Casser le format casse les applications front, chez d'autres équipes, à
 l'exécution. Le changement de sens ne se signale nulle part : ni la compilation, ni les tests, ni les
 consommateurs, jusqu'à ce qu'un comportement devienne faux quelque part.
@@ -198,6 +210,18 @@ changement de sens se vérifie en revue. Voir [`outillage.md`](outillage.md#m3--
 ### M4. Un sérialiseur par ressource exposée
 
 **Énoncé.** Un fichier par ressource, nommé d'après elle.
+
+```
+// conforme — une ressource, un fichier, nommé d'après elle
+devcomp/infrastructure/serializers/jsonapi/tutorial-serializer.js
+
+// fautif — trois fichiers produisent la même ressource target-profile, un par appelant
+prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-serializer.js
+prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js
+prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-for-specifier-serializer.js
+```
+
+**Code.** Conforme : [`tutorial-serializer.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/infrastructure/serializers/jsonapi/tutorial-serializer.js). Fautif : [le dossier](https://github.com/1024pix/pix/tree/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/target-profile/infrastructure/serializers/jsonapi), où les trois fichiers déclarent le type `target-profile`.
 
 **Ce qui casse.** Rien à l'exécution. C'est un invariant d'hygiène : il rend le fichier trouvable. Il
 rend aussi visible la violation décrite sous `M1` : deux sérialiseurs pour une même ressource se voient

@@ -18,7 +18,8 @@ invariant dit par quel moyen la règle se vérifie. Ce qui est en place dans la 
 ## Sommaire
 
 [Rôle](#rôle) · [Invariants](#invariants) · [Exceptions légitimes](#exceptions-légitimes) ·
-[Tests attendus](#tests-attendus) · [Checklist de revue](#checklist-de-revue) · [Sources](#sources)
+[Exemple complet](#exemple-complet) · [Tests attendus](#tests-attendus) ·
+[Checklist de revue](#checklist-de-revue) · [Sources](#sources)
 
 **Invariants propres.**
 
@@ -318,6 +319,123 @@ Une exception ne vaut que pour l'invariant de sa ligne. Elle n'excuse rien d'aut
 | **A7** | Une transaction qui couvre plusieurs Aggregates dont les écritures doivent échouer ou réussir ensemble | **autorisé**, c'est la décision de l'ADR 25 : orchestration dans le usecase, sans événements |
 | **E7** | Un identifiant d'un autre contexte porté comme donnée | **autorisé**, c'est E7 bien appliqué |
 | **E7** | La racine tient les instances de ses objets internes | **autorisé**, c'est la définition d'un Aggregate |
+
+---
+
+## Exemple complet
+
+Aucune Aggregate Root du code n'est entièrement conforme. L'exemple est la version corrigée de
+`CombinedCourse`, la racine la plus proche : son invariant de frontière est nommable et vérifié par
+le schéma. Les mêmes noms et les mêmes champs sont gardés. Les extraits sont simplifiés : les liens
+sous les blocs mènent au code d'origine.
+
+L'invariant de frontière, celui de A1 : « à tout instant, toute participation portée par un parcours
+combiné est une `CombinedCourseParticipation` ».
+
+```js
+// la racine, version corrigée
+export class CombinedCourse {
+  #participations;
+
+  constructor({
+    id, code, organizationId, name, description, illustration,
+    participations = [], questId,
+    blueprintId = null, deletedAt = null, deletedBy = null, baseSurveyUrl = null,
+  } = {}) {
+    this.id = id;
+    // … code, organizationId, name, description, illustration, questId, blueprintId,
+    //   deletedAt, deletedBy, baseSurveyUrl : affectés comme dans l'original
+    this.#participations = [...participations];
+
+    this.#validate();
+  }
+
+  get participations() {
+    return [...this.#participations];
+  }
+
+  get participationsCount() {
+    return this.#participations.length;
+  }
+
+  get completedParticipationsCount() {
+    return this.#participations.filter((participation) => participation.isCompleted()).length;
+  }
+
+  #validate() {
+    const { error } = schema.validate({ ...this, participations: this.#participations });
+    if (error) {
+      throw EntityValidationError.fromJoiErrors(error.details, undefined, { data: this });
+    }
+  }
+}
+```
+
+**Code.** Version corrigée de [`CombinedCourse.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-courses/entities/CombinedCourse.js#L20-L76). Le schéma Joi est inchangé : [`CombinedCourse.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-courses/entities/CombinedCourse.js#L6-L19).
+
+Corrections apportées :
+
+- **A2**, collection privée : `participations` devient le champ privé `#participations`. L'appelant
+  ne peut plus remplacer la collection, ni la modifier par la référence qu'il a passée au
+  constructeur, puisque celui-ci en garde une copie.
+- **A2**, lecture par copie : l'accesseur `participations` rend une copie, forme autorisée par les
+  [exceptions légitimes](#exceptions-légitimes). Les deux comptages restent la voie principale.
+- **A1** et **E3**, invariant de frontière vérifié à tout instant : dans l'original, un appelant peut
+  réaffecter `participations` après la construction, sans aucune validation. Le champ privé rend
+  cette affectation impossible, donc la validation du constructeur tient pour toute la vie de
+  l'objet. Le schéma reçoit la collection privée explicitement, parce que `{ ...this }` ne copie pas
+  les champs privés.
+- **E7**, référence par identité : l'original reçoit l'instance de `Quest` en second paramètre et
+  l'expose par l'accesseur `quest`. `Quest` a son propre repository, donc c'est une autre racine
+  (A3). La version corrigée ne garde que `questId`. Le usecase qui a besoin de la quête la charge
+  par son repository.
+
+Choix sur **A6** : l'Aggregate garde ses douze champs. L'invariant de frontière n'engage que
+`participations`, et A6 décrit la forme réduite. Mais A6 fait de la réduction la réponse à un coût
+de chargement, et aucune mesure de ce coût n'est citée. La réduction déplace aussi les autres champs
+vers un objet distinct, donc hors de ce fichier. Elle reste l'écart décrit en A6.
+
+A3 et A7 ne se voient pas dans ce fichier. A3 porte sur le dossier des repositories, voir `X4` de
+[`../repository/ecarts.md`](../repository/ecarts.md#x4-plusieurs-repositories-pour-un-même-aggregate).
+A7 porte sur les usecases.
+
+```js
+// le test, version corrigée : les participations passent par le constructeur
+it('should return the number of participations', function () {
+  const combinedCourse = new CombinedCourse({
+    id: 1, organizationId: 1, name: 'name', code: 'code',
+    participations: [
+      new CombinedCourseParticipation({ id: 1, questId: 1, organizationLearnerId: 1, status: CombinedCourseParticipationStatuses.STARTED }),
+      new CombinedCourseParticipation({ id: 2, questId: 1, organizationLearnerId: 2, status: CombinedCourseParticipationStatuses.STARTED }),
+    ],
+  });
+
+  expect(combinedCourse.participationsCount).to.equal(2);
+});
+
+// le test caractéristique, ajouté : une participation d'une autre forme est refusée
+it('should refuse a participation that is not a CombinedCourseParticipation', function () {
+  expect(() => {
+    new CombinedCourse({ id: 1, organizationId: 1, name: 'name', code: 'code', participations: [{ id: 1 }] });
+  }).to.throw(EntityValidationError);
+});
+
+// ajouté : la collection ne se remplace pas de l'extérieur
+it('should not let the caller replace the participations', function () {
+  const combinedCourse = new CombinedCourse({ id: 1, organizationId: 1, name: 'name', code: 'code' });
+
+  expect(() => {
+    combinedCourse.participations = [{ id: 1 }];
+  }).to.throw(TypeError);
+});
+```
+
+**Code.** Version corrigée de [`CombinedCourse_test.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/quest/unit/domain/models/combined-course/CombinedCourse_test.js#L52-L81). Les deux autres tests sont ajoutés : l'original n'en a pas d'équivalent.
+
+Dans l'original, le test de comptage réaffecte `participations` après la construction. Il s'appuie
+donc sur la violation de A2. Le seul test de refus porte sur `code`, un champ simple, et pas sur
+l'invariant de frontière. Le test de réaffectation attend une `TypeError` parce qu'un module ES
+s'exécute en mode strict : affecter une propriété qui n'a qu'un accesseur y lève une erreur.
 
 ---
 

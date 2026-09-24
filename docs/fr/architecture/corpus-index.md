@@ -370,6 +370,8 @@ Réglées le 2026-09-24 :
   des critères de classement. La notion se trompe dans les deux sens, le mot sans l'Aggregate et
   l'Aggregate sans le mot : voir `racine-agregat/explication.md`.
 - Les décisions qui n'ont pas d'ADR sont regroupées dans la section « ADR à écrire ».
+- Les exemples manquants : `M3` et `M4` de `serialiseur/` ont leur paire, et l'exemple complet peut
+  être la version corrigée du fichier réel le plus proche, ce que dit maintenant `gabarit.md`.
 - Les imports du journal dans le domaine sont décrits : `CriterionProperty` sous `X3` de
   `specification/ecarts.md`, `get-next-activity-info.js` sous `X1` de `service-domaine/ecarts.md`.
 
@@ -380,8 +382,6 @@ Ouvertes :
   pour les décrire en écart dans `racine-agregat/ecarts.md`, avec de vrais exemples.
 - **`read-model/`** : le classement des fichiers de `read-models/` selon les quatre tests n'est pas
   fait. Il conditionne le passage de la règle de `RM3` en erreur.
-- **Exemples manquants** : `M3` et `M4` de `serialiseur/` n'ont pas de paire conforme / fautive. Six
-  dossiers n'ont pas d'exemple complet, faute de fichier réel court et conforme.
 
 ## Ordre de relecture proposé
 
