@@ -102,9 +102,6 @@ GEMINI.md
 !package.json
 !package-lock.json
 
-# Allow JSON files in learning-content/modules directory
-!learning-content/modules/*.json
-
 # Allow jsconfig and tsconfig files
 !jsconfig.json
 !tsconfig*.json
