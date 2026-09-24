@@ -51,7 +51,7 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | [**X5**](#x5-le-dto-expose-exactement-les-champs-de-lentity) | le DTO expose exactement les champs de l'Entity | **à corriger** |
 
 Hors numérotation : le [sens de lecture](#le-sens-de-lecture-souvent-inversé) du § 1, qui relie
-cette fiche à `I1` de `fiche-repository.md`. La distinction entre objet de contrat et read-model est
+cette fiche à `I1` de `repository/README.md`. La distinction entre objet de contrat et read-model est
 dans `X1` de `fiche-read-model.md`, pas ici.
 
 ---
@@ -80,8 +80,8 @@ L'API interne est écrite par le contexte **fournisseur**. Le contexte **consomm
 directement depuis son domaine. Il la reçoit injectée dans un de ses repositories, qui traduit vers
 son propre vocabulaire.
 
-Cette fiche et `fiche-repository.md` se lisent donc ensemble. `P1` décrit ce qui sort de l'API.
-`I1` de `fiche-repository.md` décrit ce que le voisin doit en faire : le traduire, et non le laisser
+Cette fiche et `repository/README.md` se lisent donc ensemble. `P1` décrit ce qui sort de l'API.
+`I1` de `repository/README.md` décrit ce que le voisin doit en faire : le traduire, et non le laisser
 entrer intact dans son domaine.
 
 ### Ce qu'une API interne n'est pas
@@ -92,8 +92,8 @@ Si le code correspond à une ligne, ce n'est pas une API interne.
 | --- | --- | --- |
 | est appelé par une requête HTTP | un contrôleur, dans `application/` | `fiche-controleur.md` |
 | réalise l'intention métier | un usecase | `fiche-usecase.md` |
-| accède aux données | un repository | `fiche-repository.md` |
-| consomme l'API d'un voisin | un repository du contexte consommateur | `fiche-repository.md` |
+| accède aux données | un repository | `repository/README.md` |
+| consomme l'API d'un voisin | un repository du contexte consommateur | `repository/README.md` |
 | met en forme pour une réponse HTTP | un sérialiseur | `fiche-serialiseur.md` |
 | réagit à un événement d'un autre contexte | le mécanisme événementiel | hors périmètre du corpus |
 
@@ -690,7 +690,7 @@ Un sous-cas se détecte sans analyse de flot :
 
 C'est le cas le plus simple : le modèle du domaine sort tel quel. Les élargissements, comme une
 variable intermédiaire ou une expression conditionnelle, suivent la même progression que `I1` de
-`fiche-repository.md`, avec le même risque croissant de faux positifs.
+`repository/README.md`, avec le même risque croissant de faux positifs.
 
 Ce sous-cas a déjà un faux positif : si le usecase renvoie un scalaire ou rien, la fonction n'expose
 aucun modèle. C'est la limite de l'indice du § 8.
@@ -789,17 +789,17 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 | --- | --- | --- |
 | Fonction d'API interne | **unitaire**, usecase substitué | uniquement le mapping du modèle vers le DTO |
 | DTO | **unitaire pur** | la forme produite, les renommages, les mises en forme |
-| Contrat vu du consommateur | **unitaire** côté consommateur, API substituée | le mapping du DTO vers son vocabulaire local. Voir `fiche-repository.md` |
+| Contrat vu du consommateur | **unitaire** côté consommateur, API substituée | le mapping du DTO vers son vocabulaire local. Voir `repository/README.md` |
 
-L'existence du fichier de test se vérifie en comparant les noms. Moyens et limites au § 6 de
-`fiche-repository.md`.
+L'existence du fichier de test se vérifie en comparant les noms. Moyens et limites dans
+`repository/outillage.md`.
 
 Le test d'une API interne ne doit **pas** rejouer la logique du usecase. Il vérifie la traduction, et
 rien d'autre. S'il faut des fixtures métier pour faire passer ce test, `P1` ou `P2` est violé.
 
 Un indice de diagnostic, avec sa limite. Une API dont le test unitaire n'a rien à vérifier ne traduit
 rien, donc elle expose probablement le modèle du domaine. Limite : une fonction qui renvoie un
-scalaire ou rien n'a pas de traduction à tester, comme au § 3 de `fiche-repository.md`.
+scalaire ou rien n'a pas de traduction à tester, comme dans les exceptions légitimes de `repository/README.md`.
 
 ---
 

@@ -427,7 +427,7 @@ usecase. Il se classe avec le test du § 1, puis se déplace ou se découpe. La 
 avertissement pendant ce classement, puis passe en erreur.
 
 La même analyse de la signature sert au discriminant du § 6 de `fiche-usecase.md`. Elle sert aussi à
-l'étape 1 de I1 dans `fiche-repository.md`, qui repère déjà les paramètres en `/Api$/`. Le coût
+l'étape 1 de I1 dans `repository/outillage.md`, qui repère déjà les paramètres en `/Api$/`. Le coût
 supplémentaire est donc faible.
 
 La règle `dependency-cruiser` complète la précédente pour les imports directs :

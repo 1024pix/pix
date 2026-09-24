@@ -95,7 +95,7 @@ Si le code correspond à une ligne, ce n'est pas une Entity.
 | n'a pas d'identité propre, deux instances de mêmes valeurs sont interchangeables | un Value Object, dans `domain/models/` | `fiche-objet-valeur.md` |
 | est assemblé pour une lecture, et aucune règle ne le lit | un read-model, dans `domain/read-models/` | `fiche-read-model.md` |
 | garantit une règle portant sur plusieurs objets à la fois | une Aggregate Root | `fiche-racine-agregat.md` |
-| charge ou écrit des données | un repository | `fiche-repository.md` |
+| charge ou écrit des données | un repository | `repository/README.md` |
 | coordonne plusieurs Entities et repositories pour réaliser une intention | `domain/usecases/` | `fiche-usecase.md` |
 | applique une règle qui ne relève d'aucune Entity, sans I/O | `domain/services/` | `fiche-service-domaine.md` |
 | met en forme pour une réponse HTTP | `infrastructure/serializers/` | `fiche-serialiseur.md` |
@@ -267,7 +267,7 @@ La méthode de sérialisation exprime alors un contrat, pas un schéma de base.
 Le test qui discrimine : *si le schéma de la base changeait, cette méthode devrait-elle changer ?* Si
 oui, elle est au service de la persistance. Si elle suit un format documenté indépendant, non.
 
-`fiche-repository.md` ne porte pas cet invariant. Son ancien numéro `I7` est retiré, parce que
+`repository/README.md` ne porte pas cet invariant. Son ancien numéro `I7` est retiré, parce que
 l'invariant porte sur le modèle, pas sur le repository.
 
 ### E6. Aucun mutateur nu

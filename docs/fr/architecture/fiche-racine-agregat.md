@@ -210,7 +210,7 @@ dans l'Aggregate. S'ils ont besoin d'être retrouvés indépendamment, ils ne so
 d'un contexte dit alors combien d'unités de cohérence il a.
 
 ```
-// fautif — cinq repositories pour une seule frontière de cohérence, détaillé en X4 de fiche-repository.md
+// fautif — cinq repositories pour une seule frontière de cohérence, détaillé en X4 de repository/ecarts.md
 infrastructure/repositories/
   combined-courses/
     combined-course-repository.js               getById, save
@@ -234,7 +234,7 @@ trop cher passe par un read-model, pas par un repository d'Aggregate de plus. Ga
 
 **Ce qui casse.** Compter les repositories cesse d'être une information. C'est un invariant
 d'hygiène : il ne prévient aucun défaut, il préserve la valeur d'un indicateur. L'écart est traité sous X4
-de `fiche-repository.md`.
+de `repository/README.md`.
 
 ### A6. Petit Aggregate
 
@@ -269,7 +269,7 @@ touchent qu'un champ. Il concentre aussi les écritures concurrentes, donc la co
 
 C'est aussi la réponse de la littérature au coût de chargement : réduire l'Aggregate plutôt que le
 charger partiellement. Le modèle partiellement rempli est écarté pour la raison exposée dans X4 de
-`fiche-repository.md`.
+`repository/ecarts.md`.
 
 ### A7. Une transaction, un Aggregate
 
@@ -319,7 +319,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Une transaction qui couvre plusieurs Aggregates dont les écritures doivent échouer ou réussir ensemble | **autorisé**, c'est la décision de l'ADR 25 : orchestration dans le usecase, sans événements. Voir X4 |
 | Un identifiant d'un autre contexte porté comme donnée | **autorisé**, c'est E7 bien appliqué |
 | La racine tient les instances de ses objets internes | **autorisé**, c'est la définition d'un Aggregate |
-| Plusieurs repositories pour une même frontière | **pas une exception** : c'est X4 de `fiche-repository.md`, une dérive à corriger. Seul un read-model justifié par une mesure de charge reste séparé |
+| Plusieurs repositories pour une même frontière | **pas une exception** : c'est X4 de `repository/ecarts.md`, une dérive à corriger. Seul un read-model justifié par une mesure de charge reste séparé |
 | Un dossier `aggregates/` contenant des read-models | **pas une exception** — c'est X1 |
 
 ---
@@ -357,7 +357,7 @@ depuis le code.
 ## 5. Écarts avec la théorie
 
 Le numéro **X3** n'est pas attribué. Il portait « plusieurs repositories pour une même frontière ».
-C'est énoncé au § 5 de `fiche-repository.md` sous `X4`, là où se trouvent les fichiers en cause. Le
+C'est énoncé dans `repository/ecarts.md` sous `X4`, là où se trouvent les fichiers en cause. Le
 symptôme vu d'ici est A3 qui tombe. Le numéro n'est pas réattribué.
 
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |

@@ -18,7 +18,7 @@ Trois conséquences de ce cadrage :
   `invariants-clean-archi-ddd.md`. Une cérémonie dont le bénéfice n'est pas obtenu passe avant une
   entorse dont le coût est nul.
 
-Fiches de référence pour les constats ci-dessous : `fiche-repository.md`, `fiche-specification.md`,
+Fiches de référence pour les constats ci-dessous : `repository/README.md`, `fiche-specification.md`,
 `fiche-racine-agregat.md`, `fiche-service-domaine.md`.
 
 ---
@@ -226,7 +226,7 @@ et porter la règle la plus mal placée du contexte.
 
 **Ce qu'il faudrait faire.** Sortir la réactivation dans le usecase, et scinder en deux opérations de
 repository nommées pour ce qu'elles font. Le signal générique — un préfixe de lecture sur une
-fonction qui écrit — est détectable, voir `fiche-repository.md` § 6.
+fonction qui écrit — est détectable, voir `repository/outillage.md`.
 
 ---
 
@@ -302,7 +302,7 @@ Et il existe **deux `rewardUser`** : celui de `quest` qui évalue, celui de `pro
 Même nom, deux contextes, sens différents — comportement attendu en DDD, mais à connaître.
 
 **Ce qu'il faudrait faire.** Une API interne `quest/application/api/` exposant le déclenchement, et
-la règle `dependency-cruiser` au grain de la couche décrite dans `fiche-repository.md` § 6. Attention
+la règle `dependency-cruiser` au grain de la couche décrite dans `repository/outillage.md`. Attention
 à l'ordre : cette règle ne peut pas être activée avant que le câblage de `domain/usecases/index.js`
 soit traité, sinon elle sort sur du code conforme à la convention Pix actuelle.
 
@@ -358,7 +358,7 @@ niveau plus haut, directement dans `domain/usecases/index.js`. Seul cas dans `qu
 contexte, donc toute lecture d'ensemble devient fausse — pour un humain comme pour un agent.
 
 **Ce qu'il faudrait faire.** L'inscrire dans l'index, et écrire le script de complétude de
-`fiche-repository.md` § 6 pour que le cas ne se reproduise pas.
+`repository/outillage.md` pour que le cas ne se reproduise pas.
 
 ---
 

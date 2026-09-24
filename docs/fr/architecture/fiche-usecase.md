@@ -97,7 +97,7 @@ Table de décision. Si le code correspond à une ligne, ce n'est pas un usecase.
 | applique une règle sur un seul objet | l'Entity ou le Value Object | `fiche-entite.md`, `fiche-objet-valeur.md` |
 | applique une règle sans aucune I/O dans sa signature | un Domain Service, dans `domain/services/` | `fiche-service-domaine.md` |
 | compose des règles évaluables et pilotées par des données | une Specification | `fiche-specification.md` |
-| accède à une source de données | un repository | `fiche-repository.md` |
+| accède à une source de données | un repository | `repository/README.md` |
 | lit une requête HTTP, choisit un code de retour, sérialise | `application/` | `fiche-controleur.md`, `fiche-route.md`, `fiche-serialiseur.md` |
 | expose une capacité à un autre contexte | `application/api/` | `fiche-api-interne.md` |
 | met en forme des données pour une lecture | un read-model, construit par un repository | `fiche-read-model.md` |
@@ -292,7 +292,7 @@ return {
 domaine : changer la réponse oblige à changer le usecase. C'est X2 au § 5.
 
 Le second cas, le DTO d'un autre contexte, est le plus discret. Il vient presque toujours d'une
-violation en amont, dans un repository qui n'a pas traduit. Voir I1 de `fiche-repository.md`.
+violation en amont, dans un repository qui n'a pas traduit. Voir I1 de `repository/README.md`.
 
 ### U7. Le périmètre transactionnel est explicite
 
@@ -345,7 +345,7 @@ sera annulé si la seconde échoue.
 
 **Le coût de la forme ambiante.** La transaction n'apparaît pas dans la signature. Sans
 `withTransaction` dans sa déclaration, rien ne dit si le usecase s'exécute dans la transaction d'un
-appelant. Voir `X3` de `fiche-repository.md`, où cet écart est instruit. La contrepartie est de
+appelant. Voir `X3` de `repository/ecarts.md`, où cet écart est instruit. La contrepartie est de
 **documenter le périmètre** quand il n'est pas évident.
 
 **Sur plusieurs Aggregates.** L'ADR 25 retient la transaction qui en couvre plusieurs quand les
@@ -371,7 +371,7 @@ import { duplicateModule } from '../domain/usecases/duplicate-module.js';
 cesse d'être la liste exhaustive de ce que le contexte sait faire. Toute lecture d'ensemble devient
 donc fausse, pour un humain comme pour un agent.
 
-C'est l'équivalent de I6 dans `fiche-repository.md`, où la conséquence est plus grave : là-bas,
+C'est l'équivalent de I6 dans `repository/README.md`, où la conséquence est plus grave : là-bas,
 l'injection ne s'applique pas et le repository échoue au premier appel.
 
 ### U9. Aucun accès direct au domaine d'un autre contexte
@@ -381,7 +381,7 @@ contexte. Il passe par l'**API interne** de ce contexte, et jamais directement :
 dans un repository du contexte consommateur, que le usecase reçoit.
 
 Ce repository est l'Anticorruption Layer : il traduit la réponse du voisin dans le langage du domaine
-local. C'est la décision de l'ADR 55, et `X6` de `fiche-repository.md`. Un usecase qui reçoit l'API
+local. C'est la décision de l'ADR 55, et `X6` de `repository/ecarts.md`. Un usecase qui reçoit l'API
 interne elle-même contourne cette traduction : c'est l'écart `X6` au § 5.
 
 ```js
@@ -613,7 +613,7 @@ Le chemin est fixe. Il est donc **exempté dans la règle** du § 6, ce qui rend
 L'exemption ne couvre pas le câblage qui importe l'infrastructure d'un **autre** contexte : c'est une
 violation, et elle demande une seconde règle.
 
-La règle qui l'exempte est écrite au § 6 de `fiche-repository.md`.
+La règle qui l'exempte est écrite au `repository/outillage.md`.
 
 ### X5. Un usecase réduit à un seul appel de repository
 
@@ -700,7 +700,7 @@ La règle est triviale à écrire. Elle se déclenchera sur l'existant, et c'est
 liste des fichiers de `services/` à classer. Elle reste en avertissement jusqu'à la fin de ce
 classement, préalable à la correction de X1 de `fiche-service-domaine.md`.
 
-Le même parcours d'AST sert l'étape 1 de I1 dans `fiche-repository.md`, qui repère déjà les
+Le même parcours d'AST sert l'étape 1 de I1 dans `repository/outillage.md`, qui repère déjà les
 paramètres en `/Api$/`.
 
 ### Ce qui n'est pas mécanisable
@@ -773,7 +773,7 @@ migration.
 
 Le typage apporte ici une vérification : les ports déclarés rendent vérifiable ce que le usecase
 appelle sur ses dépendances. Une méthode absente ou mal nommée devient une erreur de compilation. Sans
-typage, elle échoue à l'exécution. C'est le § 7 de `fiche-repository.md`.
+typage, elle échoue à l'exécution. C'est « Vérifier par le typage » dans `repository/outillage.md`.
 
 Les contraintes de syntaxe imposées par la configuration sont dans `migration-typescript.md`.
 
@@ -790,8 +790,8 @@ Tester les usecases en intégration seulement est une convention d'équipe. Elle
 unitaires qui ne feraient que vérifier l'ordre des appels à des doublures, ce qui reproduit
 l'implémentation au lieu de la contraindre.
 
-L'existence du fichier de test se vérifie en comparant les noms. Moyens et limites au § 6 de
-`fiche-repository.md`.
+L'existence du fichier de test se vérifie en comparant les noms. Moyens et limites dans
+`repository/outillage.md`.
 
 Un indice de diagnostic, avec sa limite. Si un usecase demande beaucoup de fixtures pour un cas
 simple, son Aggregate est souvent trop gros : voir A6 de `fiche-racine-agregat.md`. Limite : un

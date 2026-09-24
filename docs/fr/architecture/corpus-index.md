@@ -23,7 +23,7 @@ instruites.
 
 | Fiche | Préfixe | Couverture |
 | --- | --- | --- |
-| `fiche-repository.md` | `I` | le port vers l'extérieur, base ou API voisine |
+| `repository/` (dossier, pilote du nouveau gabarit) | `I` | le port vers l'extérieur, base ou API voisine |
 | `fiche-specification.md` | `S` | moteur de règles composable et piloté par des données |
 | `fiche-objet-valeur.md` | `V` | Value Object |
 | `fiche-read-model.md` | `RM` | read-model — la forme assemblée pour une lecture |
@@ -243,6 +243,53 @@ Ce que l'équipe a décidé après la passe :
   plusieurs repositories ne se justifie que par une mesure de charge.
 
 Toutes les questions ouvertes de cette passe sont décidées.
+
+## Passe du 2026-09-24 : découpage Diátaxis, pilote `repository/`
+
+Un rapport d'étonnement d'un technical writer externe, sur l'ancienne `fiche-repository.md`, a montré
+que la fiche servait trois lecteurs à la fois : le développeur, le relecteur, et l'équipe qui décide
+de l'architecture et de l'outillage. Décision : un dossier par type de fichier, découpé selon
+Diátaxis. Le gabarit est dans `gabarit.md`. Le pilote est `repository/` :
+
+- `README.md`, la référence : règles applicables aujourd'hui, exceptions, exemple complet, tests,
+  checklist ;
+- `explication.md` : ROI, histoire des décisions, théorie des écarts, sources détaillées ;
+- `outillage.md` : les vérifications à mettre en place ;
+- `ecarts.md` : le suivi des écarts, daté.
+
+Erreurs du rapport corrigées au passage :
+
+- l'ordre des invariants, différent entre le sommaire, le ROI et la checklist ;
+- le verdict de `X4`, qui ne découlait pas de la règle de verdict écrite ;
+- l'exemple fautif de `I1`, qui renvoyait un booléen, donc un scalaire autorisé ;
+- l'étape 1 de la règle de `I1`, qui ne détectait pas son propre exemple ;
+- la même fonction conforme pour `I2` et fautive pour `I10` ;
+- l'index présenté comme une exception de `I5` ;
+- les statuts de checklist de `I2` et du signal de `I10`.
+
+Les onze autres fiches restent au format de l'ancien gabarit jusqu'à validation du pilote.
+
+### Numéros retirés
+
+Un numéro retiré n'est jamais réattribué.
+
+| Numéro | Portait | Où c'est traité |
+| --- | --- | --- |
+| `I7` de `repository/` | le modèle ne porte pas de méthode au service de la persistance | `E5` de `fiche-entite.md` |
+| `I8` de `repository/` | le nom du fichier dit la source du repository | écarté : la couche est uniforme, voir `repository/explication.md` |
+| `X5` de `repository/` | `domain/usecases/index.js` importe l'infrastructure | `X3` de `fiche-usecase.md` |
+| `X3` de `fiche-racine-agregat.md` | plusieurs repositories pour une même frontière | `X4` de `repository/ecarts.md` |
+
+### Questions ouvertes nées du pilote
+
+- Les tests attendus d'un repository adossé à un service HTTP externe ne sont pas décrits.
+- `I6` exige que tout repository figure dans l'index du contexte. Certains contextes n'ont pas
+  d'index de repositories et câblent dans `domain/usecases/index.js`. La portée de `I6` est à
+  préciser.
+- Repris de l'ancien encadré « À instruire » de la fiche : la définition d'« objet du domaine local »
+  est à relire une fois, pour confirmer qu'elle couvre bien les cas de `I1` et `I2`.
+- Repris du même encadré : le grain de chargement d'un repository dépend de ce que désigne un dossier
+  `aggregates/`. Voir `fiche-racine-agregat.md`.
 
 ## Ordre de relecture proposé
 

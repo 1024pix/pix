@@ -128,7 +128,7 @@ Si le code correspond à une ligne, ce n'est pas une Specification.
 
 | Le code… | Va dans | Fiche |
 | --- | --- | --- |
-| charge les données du candidat | un repository, puis un usecase qui assemble le candidat | `fiche-repository.md`, `fiche-usecase.md` |
+| charge les données du candidat | un repository, puis un usecase qui assemble le candidat | `repository/README.md`, `fiche-usecase.md` |
 | décide quoi faire du résultat | `domain/usecases/` | `fiche-usecase.md` |
 | applique une règle sur un seul objet, sans composition | l'Entity ou le Value Object concerné | `fiche-entite.md`, `fiche-objet-valeur.md` |
 | applique une règle transverse non composable, sans I/O | `domain/services/` | `fiche-service-domaine.md` |
@@ -795,8 +795,8 @@ Les contraintes de syntaxe imposées par la configuration sont dans `migration-t
 | Correspondance énumération ↔ candidat | **unitaire** | `S7`, sur une instance |
 | Les repositories qui assemblent le candidat | **intégration** | que chaque propriété est effectivement renseignée |
 
-L'existence du fichier de test se vérifie par comparaison de noms. Moyens et limites au § 6 de
-`fiche-repository.md`.
+L'existence du fichier de test se vérifie par comparaison de noms. Moyens et limites dans
+`repository/outillage.md`.
 
 Deux indices de diagnostic, avec leurs exceptions :
 
