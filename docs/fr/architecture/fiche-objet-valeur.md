@@ -379,8 +379,8 @@ Une forme de **création** est un concept distinct : un objet qui n'existe pas e
 d'identité, ce qui est une différence de nature et non un raccourci. `…ForCreation` est légitime.
 
 Une forme de **mise à jour** qui porte un sous-ensemble de champs est autre chose : c'est un modèle
-partiellement rempli, et `X4` de `fiche-repository.md` explique pourquoi il est écarté. Le test du
-motif sépare les cas :
+partiellement rempli. `X4` de `fiche-repository.md` explique pourquoi il est écarté. Le test du motif
+sépare les cas :
 
 | Motif invoqué | Verdict |
 | --- | --- |
