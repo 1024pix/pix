@@ -62,7 +62,7 @@ R2 s'appuie sur la documentation d'architecture Pix (Confluence), mais sur aucun
 
 ```
 [ ] U4  L'intention métier a un nom et un fichier dans usecases/         → fiche-usecase.md
-[ ] R2  Pre-handler de sécurité, stratégie d'authentification explicite, ou route déclarée publique (auth: false)  → fiche-route.md
+[ ] R2  Pre-handler de sécurité, stratégie explicite, auth: false, ou authentifiée sans restriction et voulue  → fiche-route.md
 [ ] R1  La forme de toutes les entrées est déclarée et validée           → fiche-route.md
 [ ] C1  Un seul usecase appelé par le contrôleur                         → fiche-controleur.md
 [ ] C2  Aucune décision dans le contrôleur, code d'erreur compris        → fiche-controleur.md

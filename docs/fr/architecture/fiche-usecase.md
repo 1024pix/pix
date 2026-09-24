@@ -13,11 +13,7 @@ typage de s'appliquer est dans `migration-typescript.md`.
 >   d'abord de le créer.
 > - L'ADR 25 remplace l'ADR 9. Sa décision est plus étroite que son titre : elle porte sur les
 >   événements dans les transactions. `U7` en donne la règle applicable.
-> - `U9` ne dit pas si un usecase peut recevoir directement l'API interne d'un voisin, ou seulement un
->   repository qui l'enveloppe. Voir `X6` de `fiche-repository.md`.
 > - Le `try/catch` qui journalise, au § 3, n'a pas de statut décidé.
-> - X3 est énoncé en entier ici et dans `X5` de `fiche-repository.md`. Garder un seul énoncé complet,
->   et un renvoi dans l'autre fiche. X1 est aussi traité par `fiche-entite.md`, qui renvoie ici.
 
 ## Sommaire
 
@@ -48,6 +44,7 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | --- | --- | --- |
 | [**X1**](#x1-la-règle-métier-vit-dans-le-usecase) | la règle métier vit dans le usecase | **à corriger** |
 | [**X2**](#x2-le-usecase-renvoie-un-objet-façonné-pour-la-réponse-http) | le usecase renvoie un objet façonné pour la réponse HTTP | **à corriger** |
+| [**X6**](#x6-une-api-interne-est-injectée-directement-dans-le-usecase) | une API interne est injectée directement dans le usecase | **à corriger** |
 | [**X4**](#x4-dépendances-et-entrées-métier-sont-mélangées) | dépendances et entrées métier sont mélangées | à surveiller |
 | [**X3**](#x3-le-fichier-de-câblage-des-usecases-importe-linfrastructure) | le fichier de câblage des usecases importe l'infrastructure | rien à faire |
 | [**X5**](#x5-un-usecase-réduit-à-un-seul-appel-de-repository) | un usecase réduit à un seul appel de repository | rien à faire |
@@ -335,7 +332,8 @@ const updateOrganizationInformation = withTransaction(async function ({
 const updateOrganizationInformation = async function ({ … }) { … };
 ```
 
-`learnersApi` y est injectée directement dans le usecase : voir la question ouverte de U9.
+`learnersApi` y est injectée directement dans le usecase, ce qui est fautif pour U9 : c'est l'écart `X6`
+au § 5. L'exemple ne vaut ici que pour la transaction.
 
 **Aucun événement dans une transaction.** C'est la décision de l'ADR 25. Son motif est mesuré : des
 deadlocks constatés en production, qui épuisaient le pool de connexions. Un enchaînement qui doit
@@ -379,11 +377,12 @@ l'injection ne s'applique pas et le repository échoue au premier appel.
 ### U9. Aucun accès direct au domaine d'un autre contexte
 
 **Énoncé.** Un usecase n'importe ni le domaine, ni l'infrastructure, ni les usecases d'un autre
-contexte. Il passe par l'**API interne** de ce contexte, injectée comme les autres dépendances.
+contexte. Il passe par l'**API interne** de ce contexte, et jamais directement : l'API est enveloppée
+dans un repository du contexte consommateur, que le usecase reçoit.
 
-L'ADR 55 injecte l'API interne dans un repository du contexte consommateur, qui traduit sa réponse.
-Le usecase reçoit alors ce repository. Voir `X6` de `fiche-repository.md`. Une API interne reçue
-directement par le usecase n'a pas de statut décidé.
+Ce repository est l'Anticorruption Layer : il traduit la réponse du voisin dans le langage du domaine
+local. C'est la décision de l'ADR 55, et `X6` de `fiche-repository.md`. Un usecase qui reçoit l'API
+interne elle-même contourne cette traduction : c'est l'écart `X6` au § 5.
 
 ```js
 // fautif — le domaine d'un voisin, atteint directement
@@ -462,6 +461,7 @@ Les écarts sont numérotés `X` et non `U`, qui est le préfixe des invariants 
 | --- | --- | --- | --- | --- |
 | **X1** La règle métier vit dans le usecase | dérive | La même règle réécrite dans plusieurs usecases, et différemment. Les modèles se vident | Le usecase se lit d'une traite, sans ouvrir le modèle | **À corriger** |
 | **X2** Le usecase renvoie un objet façonné pour la réponse HTTP | dérive | Changer la réponse de l'API oblige à changer le usecase. Il cesse d'être réutilisable hors HTTP | Un contrôleur qui n'a plus rien à faire | **À corriger** |
+| **X6** Une API interne est injectée directement dans le usecase | dérive | La réponse du voisin entre dans le domaine sans traduction : un changement de son contrat casse le usecase, et l'Anticorruption Layer est contournée | Un repository de moins à écrire | **À corriger** |
 | **X4** Dépendances et entrées métier sont mélangées | convention assumée | Rien ne distingue la frontière du usecase de ses entrées, ni à la lecture ni au typage | Une seule signature, et l'injection reste triviale | *À surveiller* |
 | **X3** Le fichier de câblage des usecases importe l'infrastructure | vestige assumé en convention | Nul — le fichier est toujours au même chemin, donc exemptable | Le câblage est là où sont les usecases qu'il câble | *Rien à faire* |
 | **X5** Un usecase réduit à un seul appel de repository | convention assumée | Un fichier et un test pour une délégation | Le point d'entrée est toujours au même endroit, et l'ajout d'une règle ne change pas la structure | *Rien à faire* |
@@ -538,6 +538,38 @@ déplacement est mécanique quand la mise en forme est isolée. Il ne l'est pas 
 construit un objet sur mesure, comme ci-dessus : il faut alors décider si la bonne réponse est un
 read-model.
 
+### X6. Une API interne est injectée directement dans le usecase
+
+**Ce que dit la théorie.** Un contexte qui consomme un voisin traduit le modèle de ce voisin à sa
+frontière, pour que ce modèle n'entre pas dans le sien : c'est l'Anticorruption Layer d'Evans. L'ADR 55
+place cette traduction dans un repository du contexte consommateur.
+
+**Exemple concret.**
+
+```js
+// fautif — l'API interne du voisin arrive telle quelle dans le usecase
+const updateOrganizationInformation = withTransaction(async function ({ …, learnersApi }) {
+  …
+  await learnersApi.deleteOrganizationLearnerBeforeImportFeature({ userId, organizationId: organization.id });
+  …
+});
+
+// conforme — forme corrigée (hypothétique) : un repository du contexte enveloppe l'API
+const updateOrganizationInformation = withTransaction(async function ({ …, organizationLearnerRepository }) {
+  …
+  await organizationLearnerRepository.deleteBeforeImportFeature({ userId, organizationId: organization.id });
+  …
+});
+```
+
+Le motif n'est pas isolé : plusieurs contextes injectent ainsi des APIs internes dans leurs
+usecases.
+
+**Correction.** Pour chaque usecase concerné, créer ou réutiliser le repository du contexte qui
+enveloppe l'API, y traduire la réponse dans le langage local, et injecter ce repository à la place de
+l'API. Le signal du § 6 produit la liste. Le remplacement de l'injection est mécanique ; la
+traduction demande de décider la forme locale.
+
 ### X4. Dépendances et entrées métier sont mélangées
 
 **Ce que dit la théorie.** Rien directement. L'écart porte sur la lisibilité de la frontière, pas sur
@@ -581,7 +613,7 @@ Le chemin est fixe. Il est donc **exempté dans la règle** du § 6, ce qui rend
 L'exemption ne couvre pas le câblage qui importe l'infrastructure d'un **autre** contexte : c'est une
 violation, et elle demande une seconde règle.
 
-`fiche-repository.md` traite le même écart depuis la règle qui l'exempte.
+La règle qui l'exempte est écrite au § 6 de `fiche-repository.md`.
 
 ### X5. Un usecase réduit à un seul appel de repository
 
@@ -613,6 +645,7 @@ est retirée.
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
 | **U3** aucun import d'infrastructure | règle `dependency-cruiser` de chemin, avec exemption du câblage | configuration seule | aucun |
+| **X6** API interne injectée dans le usecase, signal | règle ESLint : paramètre en `/Api$/` dans un fichier de `domain/usecases/`, câblage exclu | ~20 lignes | aucun attendu : le suffixe `Api` est la convention des APIs internes |
 | **U9** API interne obligatoire | règle `dependency-cruiser` au grain de la couche | configuration seule | aucun, si « un autre contexte » est bien exprimé |
 | **U5** aucune notion de transport | règle ESLint : identifiant `request` ou `h`, ou import du framework HTTP | ~20 lignes | aucun attendu |
 | **U8** enregistré dans l'index | script `tests/tooling/` | ~30 lignes | aucun |
@@ -779,7 +812,7 @@ Chaque ligne porte son statut au regard du § 6 :
 
 ```
 [ ] [humain]  U1  Aucun calcul métier ; les if portent sur l'existence, pas sur des propriétés métier
-[ ] [auto]    U9  Aucun accès au domaine ni à l'infrastructure d'un autre contexte — API interne seulement
+[ ] [auto]    U9  Aucun accès au domaine ni à l'infrastructure d'un autre contexte — API interne, via un repository
 [ ] [auto]    U3  Aucun import d'infrastructure
 [ ] [humain]  U2  Toutes les dépendances arrivent en paramètres
 [ ] [partiel] U5  Aucune notion de transport : ni request, ni code HTTP, ni sérialisation

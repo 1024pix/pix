@@ -52,8 +52,7 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | [**X1**](#x1-aucun-port-nest-déclaré) | aucun port n'est déclaré | **à corriger** |
 | [**X2**](#x2-méthode-de-persistance-sur-le-modèle) | méthode de persistance sur le modèle | **à corriger** |
 | [**X3**](#x3-la-connexion-à-la-base-ne-passe-pas-par-la-signature) | la connexion à la base ne passe pas par la signature | à surveiller |
-| [**X4**](#x4-plusieurs-repositories-pour-un-même-aggregate) | plusieurs repositories pour un même Aggregate | rien à faire |
-| [**X5**](#x5-domainusecasesindexjs-importe-linfrastructure) | `domain/usecases/index.js` importe l'infrastructure | rien à faire |
+| [**X4**](#x4-plusieurs-repositories-pour-un-même-aggregate) | plusieurs repositories pour un même Aggregate | à surveiller |
 | [**X6**](#x6-le-repository-couvre-aussi-laccès-aux-contextes-voisins) | le repository couvre aussi l'accès aux contextes voisins | rien à faire |
 
 Hors numérotation : la définition d'un [objet du domaine local](#ce-quest-un-objet-du-domaine-local)
@@ -483,9 +482,12 @@ le seul verdict qui engage du travail. Table triée par verdict.
 | **X1** Aucun port n'est déclaré | dérive | l'injection et le code de câblage | **nul** : aucun contrat vérifiable | **À corriger** |
 | **X2** Méthode de persistance sur le modèle | dérive | différé, à la prochaine migration de schéma | **nul** | **À corriger** |
 | **X3** La connexion à la base ne passe pas par la signature | convention assumée | un usecase ne dit pas, à la lecture, s'il est transactionnel | réel : signatures propres | À surveiller |
-| **X4** Plusieurs repositories pour un même Aggregate | convention assumée | quelques fichiers de plus | réel : chaque requête est écrite pour son besoin | Rien à faire |
-| **X5** `domain/usecases/index.js` importe l'infrastructure | vestige assumé en convention | nul : le fichier est toujours au même chemin | le câblage est là où sont les usecases qu'il câble | Rien à faire, exempté dans la règle |
+| **X4** Plusieurs repositories pour un même Aggregate | convention assumée | quelques fichiers de plus, et A3 de `fiche-racine-agregat.md` tombe : compter les repositories ne dit plus rien de la conception | réel : chaque requête est écrite pour son besoin | À surveiller |
 | **X6** Le repository couvre aussi l'accès aux contextes voisins | convention assumée | nul | réel : un seul concept, le domaine ignore la source | Rien à faire |
+
+Le numéro **X5** n'est pas attribué. Il portait « `domain/usecases/index.js` importe
+l'infrastructure ». C'est énoncé au § 5 de `fiche-usecase.md` sous `X3`, là où se trouve le fichier.
+La règle qui l'exempte reste au § 6 de cette fiche. Le numéro n'est pas réattribué.
 
 ### X1. Aucun port n'est déclaré
 
@@ -609,11 +611,12 @@ infrastructure/repositories/
   combined-course-details-repository.js               findByOrganizationId, avec tout ce qu'un écran affiche
   combined-course-participations/
     combined-course-participation-repository.js       une Entity interne à la frontière
+    organization-learner-participation-repository.js
   prescription/
     combined-course-participant-repository.js         la même frontière, vue d'un autre besoin
 ```
 
-Quatre repositories pour un seul Aggregate. Les sous-dossiers portent le nom du besoin appelant, ce
+Cinq repositories pour un seul Aggregate. Les sous-dossiers portent le nom du besoin appelant, ce
 qui dit exactement ce que le découpage est. DDD n'aurait qu'un repository.
 
 Le bénéfice est réel : chaque requête est écrite pour son besoin, sans champ chargé pour rien et sans
@@ -643,7 +646,7 @@ La forme retenue par la littérature est donc une troisième forme :
 - un modèle d'écriture, l'Aggregate, petit et toujours chargé entier ;
 - autant de modèles de lecture que de besoins, sans invariant.
 
-**Correction.** Aucune sur le découpage. Deux points à tenir :
+**Correction.** Aucune sur le découpage. Deux points à tenir, d'où le verdict « à surveiller » :
 
 1. Le **vocabulaire**. Compter les repositories d'un contexte ne dit plus combien il a de frontières de
    cohérence. Ne pas poser le mot « Aggregate » sur un dossier si les repositories ne suivent pas ce
@@ -654,26 +657,6 @@ La forme retenue par la littérature est donc une troisième forme :
 
 Limite, selon Fowler : séparer lecture et écriture ajoute de la complexité et ne doit pas être le
 défaut. La séparation se fait là où la pression de charge existe.
-
-### X5. `domain/usecases/index.js` importe l'infrastructure
-
-**Ce que dit la théorie.** Clean Architecture place le câblage des dépendances dans une couche
-externe, jamais dans le domaine.
-
-**Exemple concret.** Ce fichier câble les dépendances : il importe les repositories du contexte et
-les injecte dans les usecases.
-
-```js
-// domain/usecases/index.js — un fichier du domaine qui importe l'infrastructure
-import { repositories } from '../../infrastructure/repositories/index.js';
-```
-
-Le déplacer coûterait un fichier par contexte plus tous leurs importateurs, pour aucun changement de
-comportement. Et le câblage importerait l'infrastructure où qu'il aille, puisque c'est sa fonction.
-
-**Correction.** Aucune sur le fichier. Le chemin étant fixe, il est **exempté dans la règle** du § 6,
-ce qui rend celle-ci activable. L'exemption ne couvre pas le câblage qui importe l'infrastructure d'un
-**autre** contexte : c'est une violation, qui demande une seconde règle.
 
 ### X6. Le repository couvre aussi l'accès aux contextes voisins
 
@@ -693,6 +676,9 @@ pas.
 
 **Correction.** Aucune. C'est la lecture port/adaptateur : le domaine ignore la source, donc la couche
 est uniforme. La seule conséquence de la source porte sur le type de test attendu, au § 8.
+
+Ce repository est le seul point d'entrée vers le voisin : le usecase le reçoit, jamais l'API interne
+elle-même. Voir `X6` de `fiche-usecase.md`.
 
 ---
 
