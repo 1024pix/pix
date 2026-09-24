@@ -340,11 +340,12 @@ Réglées le 2026-09-24 :
   `RM2` seulement.
 - Les câblages de `quest` et `devcomp` qui importent l'infrastructure d'autres contextes sont décrits
   sous `X3` de `usecase/ecarts.md`.
+- La ligne `A3` de la checklist de `racine-agregat/` est validée : un seul repository par Aggregate,
+  et un repository de plus seulement pour une lecture qui renvoie un read-model, justifiée par une
+  mesure.
 
 Ouvertes :
 
-- **La ligne `A3` de la checklist de `racine-agregat/`** est alignée sur la décision « un repository
-  par Aggregate ». L'ancienne ligne demandait si la convention était assumée.
 - **`api-interne/`** : deux cas non tranchés, une fonction utilisée par un seul consommateur et l'import
   individuel d'un usecase. La source de `P3` et `P5` est une page Confluence, à reporter dans l'ADR 55.
 - **`domain/services/` réservé aux vrais Domain Services** : la décision n'est écrite dans aucun ADR.
