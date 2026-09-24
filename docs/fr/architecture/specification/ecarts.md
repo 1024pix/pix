@@ -51,7 +51,8 @@ return quest.isSuccessful(this.dataForQuest);
 
 **Code.** [`CombinedCourseDetails.isSuccessful`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js#L302-L321).
 
-Le consommateur ne consomme pas un service, il réassemble le modèle d'un autre.
+Le consommateur ne consomme pas un service, il réassemble le modèle d'un autre. Le même fichier cumule les trois degrés de `S8` : il lit la forme interne
+des critères et en évalue un isolément, dans [`#generateItems`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js#L219-L228).
 
 **Verdict.** À corriger. Le bénéfice, un besoin satisfait sans toucher au moteur, ne compense pas le
 coût : le moteur ne peut pas devenir un Bounded Context distinct. La théorie est dans

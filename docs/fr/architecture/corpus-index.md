@@ -330,8 +330,8 @@ sur le code, ou dits simplifiés ou hypothétiques. Les plus notables :
 - **Le deuxième cas de la clé de présentation**, la clé que le client renvoie et que le serveur
   découpe, reste dans un Value Object selon `objet-valeur/`. La décision « les identifiants front vont
   dans le sérialiseur » ne dit pas si elle couvre ce cas.
-- **`S8` dans `specification/`.** L'exemple conforme évalue une exigence isolée, ce que le degré 2 de
-  violation de `S8` décrit comme fautif.
+- Réglé : l'exemple conforme de `S8` était une violation de degré 2. Il en devient l'exemple réel, et
+  l'exemple conforme est un usecase qui évalue la specification entière.
 - **`X2` dans `service-domaine/`.** Le verdict est « à corriger » alors que le bénéfice est réel, ce
   que la grille réserve à un coût payé sans bénéfice.
 - **La ligne `A3` de la checklist de `racine-agregat/`** est alignée sur la décision « un repository
