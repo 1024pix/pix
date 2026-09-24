@@ -502,6 +502,7 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
       expect(realUser.isAnonymous).to.be.false;
       expect(realUser.mustValidateTermsOfService).to.be.false;
       expect(realUser.lastTermsOfServiceValidatedAt).to.deep.equal(now);
+      expect(realUser.lastDataProtectionPolicySeenAt).to.deep.equal(now);
     });
   });
 });
