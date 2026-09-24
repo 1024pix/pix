@@ -40,7 +40,7 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | [**X1**](#x1-deux-usecases-sont-appelés-à-la-suite) | deux usecases sont appelés à la suite | **à corriger** |
 | [**X2**](#x2-un-code-derreur-est-choisi-dans-le-contrôleur) | un code d'erreur est choisi dans le contrôleur | **à corriger** |
 | [**X3**](#x3-un-accès-direct-au-repository-ou-au-domaine-dun-voisin) | un accès direct au repository, ou au domaine d'un voisin | **à corriger** |
-| [**X4**](#x4-les-usecases-sont-importés-sans-injection) | les usecases sont importés sans injection | rien à faire |
+| [**X4**](#x4-les-usecases-sont-importés-sans-injection) | les usecases sont importés sans injection | **à corriger** |
 
 Hors numérotation : la [table de décision](#ce-quun-contrôleur-nest-pas) du § 1. L'écart « le
 contrôle des droits est écrit dans le contrôleur » n'est pas dans cette fiche : il est sous
@@ -233,10 +233,10 @@ import { usecases } from '../domain/usecases/index.js';
 reçoit alors deux réponses selon le chemin emprunté. Une règle peut ainsi cesser d'être appliquée sans
 que personne l'ait décidé.
 
-**Exception.** Les usecases du contexte courant sont importés directement, sans injection, parce que
-le framework HTTP ne permet pas d'injecter dans les routes. C'est `X4` au § 5. Cette exception ne
-s'étend **pas** aux usecases d'un autre contexte : franchir une frontière passe par l'API interne,
-selon `U9` de `fiche-usecase.md`.
+**Les usecases du contexte courant** sont les seuls que le contrôleur reçoit. Dans l'état cible, ils
+arrivent par injection ; aujourd'hui, ils sont le plus souvent importés, ce qui est l'écart `X4` au
+§ 5. Aucune forme ne s'étend aux usecases d'un autre contexte : franchir une frontière passe par l'API
+interne, selon `U9` de `fiche-usecase.md`.
 
 ### C5. Un contrôleur par ressource, une fonction par action
 
@@ -270,7 +270,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 
 | Cas | Statut |
 | --- | --- |
-| Les usecases du contexte importés sans injection | **autorisé**, contrainte du framework. `C4`, et voir `X4` |
+| Les usecases du contexte importés sans injection | **toléré** : c'est l'écart `X4`, dont la cible est l'injection. `C4` |
 | L'utilisateur extrait de la requête via un utilitaire partagé | **autorisé**, c'est de l'extraction |
 | Un code de succès non standard — 201, 204 | **autorisé** — propriété constante de la route. `C2` |
 | Un `if` sur la présence d'un paramètre optionnel | **autorisé** |
@@ -310,7 +310,7 @@ pas le contrôleur bon : cela le rend **absent du raisonnement**, ce qui est le 
 | **X1** Deux usecases sont appelés à la suite | dérive | Une intention composée existe sans nom, donc introuvable, et vérifiée seulement en acceptance | Pas de fichier de plus à écrire, et la séquence se lit d'une traite | **À corriger** |
 | **X2** Un code d'erreur est choisi dans le contrôleur | dérive | Le même cas produit deux réponses selon le point d'entrée, et le front perd le code d'erreur exploitable | Le statut est décidé au plus près de la réponse, sans passer par le domaine | **À corriger** |
 | **X3** Un accès direct au repository, ou au domaine d'un voisin | dérive | Les règles du domaine sont contournées, et une frontière de contexte est franchie hors contrat | La lecture est immédiate, sans usecase ni API interne à écrire | **À corriger** |
-| **X4** Les usecases sont importés sans injection | convention assumée | Les usecases n'apparaissent pas dans la signature : le test remplace les méthodes de l'objet `usecases` importé | Réel : aucun conteneur d'injection à câbler. Le framework HTTP ne permet pas d'injecter dans les routes, donc l'alternative serait ce conteneur | *Rien à faire* |
+| **X4** Les usecases sont importés sans injection | vestige | Les usecases n'apparaissent pas dans la signature : le test remplace les méthodes de l'objet `usecases` importé | Faible : aucune enveloppe à poser sur la route | **À corriger** |
 
 ### X1. Deux usecases sont appelés à la suite
 
@@ -415,21 +415,28 @@ et le motif ESM vaut ici aussi : un export importé ne peut pas être substitué
 **Exemple concret.**
 
 ```js
-import { usecases } from '../../domain/usecases/index.js';   // pas injecté
+// fautif — les usecases sont importés : le test doit remplacer les méthodes de l'objet importé
+import { usecases } from '../../domain/usecases/index.js';
+
+// conforme — les usecases arrivent en paramètre, par une enveloppe posée sur la route
+handler: handlerWithDependencies(passageController.create),
 ```
 
-**Correction.** Aucune. Le framework HTTP construit les routes au démarrage sans passer par un
-conteneur d'injection, donc le contrôleur n'a pas de point d'entrée où recevoir ses usecases.
-L'ADR 46 assume explicitement cette exception.
+La forme conforme existe déjà : un contexte l'emploie, avec une enveloppe qui passe au contrôleur un
+objet `dependencies` contenant les usecases et les sérialiseurs. Le framework HTTP n'empêche donc pas
+l'injection des usecases. Sa limite porte sur l'injection des **contrôleurs** dans les routes.
 
-Le coût de la convention est limité. Les tests unitaires de contrôleur substituent le sérialiseur,
-selon `C3`. Ils vérifient que le bon usecase est appelé avec les bons paramètres en remplaçant les
-méthodes de l'objet `usecases` importé. Ce qui n'est pas substituable n'a pas besoin de l'être, parce
-que la logique est ailleurs.
+L'ADR 46 écarte l'injection des usecases dans les contrôleurs sans en donner de motif. Cette exception
+est un vestige : la cible est l'injection de toutes les dépendances, et un chantier transverse
+d'injection est en cours.
 
-**Révision.** Un conteneur d'injection introduit pour d'autres raisons rend l'exception inutile, et
-change ce verdict.
+**Correction.** Faire recevoir au contrôleur ses usecases en paramètre, par la même enveloppe que le
+contexte qui le fait déjà. Le chantier transverse d'injection fixe la forme définitive ; un
+contrôleur neuf suit la forme déjà en place.
 
+Le coût de la forme actuelle est limité : les tests unitaires de contrôleur remplacent les méthodes
+de l'objet `usecases` importé, et la logique est ailleurs. C'est ce qui rend la correction
+progressive plutôt qu'urgente.
 ---
 
 ## 6. Vérification déterministe
@@ -592,7 +599,7 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | La couche, et **C2** | Martin, *Clean Architecture*, ch. « Presenters and Humble Objects » — le contrôleur est dépourvu de logique pour que son test soit trivial | le livre de 2017 ; billet gratuit |
 | **C1** un usecase par point d'entrée | Pix : **ADR 20**, qui rend le usecase obligatoire pour toute route | ADR 20 |
 | La transaction hors du contrôleur | Pix : **ADR 25**, qui remplace l'ADR 9. Celui-ci plaçait `DomainTransaction.execute` dans le contrôleur ; l'ADR 25 ne le reprend pas, et la forme dominante place la transaction dans le usecase | ADR 9 et 25 |
-| **C3** sérialiseur injecté | Pix : **ADR 46**, et son motif ESM. L'exception des usecases non injectés y est explicitement assumée | ADR 46 |
+| **C3** sérialiseur injecté | Pix : **ADR 46**, et son motif ESM. L'ADR écarte l'injection des usecases dans les contrôleurs sans motif ; la cible est désormais l'injection, voir `X4` | ADR 46 |
 | **C4** aucun accès aux données | Martin, « The Clean Architecture » — la règle de dépendance. Pix : **ADR 55** pour la frontière entre contextes | billet gratuit ; ADR 55 |
 | **C5** nommage | **aucune source** — convention de rangement | — |
 | Le mappeur d'erreurs (`C2`, `X2`) | Pix : **ADR 44**, qui rend le code d'erreur obligatoire. **ADR 13** décrit la structure de l'objet d'erreur JSON:API — `status`, `code` fonctionnel, `title`, `detail`, `meta` — et pose que plusieurs messages peuvent correspondre à un même statut HTTP. **Son état est `Proposed`** : il éclaire le raisonnement, il ne fait pas autorité | ADR 13 et 44 |

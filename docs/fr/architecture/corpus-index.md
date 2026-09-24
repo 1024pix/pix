@@ -222,18 +222,23 @@ Ce que la passe a trouvé et corrigé :
   occurrence ; `fiche-controleur.md` renvoyait à `X4` au lieu de `I4` ;
 - dans le parcours, un `U1` qui était `U4`, et `R2` réduit à deux de ses trois formes.
 
-Ce qui reste ouvert, et demande une décision d'équipe :
+Ce que l'équipe a décidé après la passe :
 
-- `X4` et `C4` de `fiche-controleur.md` disent que le framework interdit d'injecter les usecases
-  dans un contrôleur ; le contexte devcomp le fait déjà. Le verdict de `X4` est à revoir.
+- `X4` de `fiche-controleur.md` devient un vestige à corriger : la cible est l'injection des
+  usecases dans le contrôleur, comme le fait déjà devcomp.
+- Le script de `R2` ne produit aucun faux positif : il liste les routes authentifiées sans
+  restriction, sans les faire échouer, et leur examen reste en revue.
+- Un usecase ne reçoit jamais une API interne directement : elle passe par un repository du contexte,
+  l'Anticorruption Layer de l'ADR 55. C'est l'écart `X6` de `fiche-usecase.md`, à corriger.
+- Un écart énoncé dans deux fiches n'est gardé qu'une fois. `X5` de `fiche-repository.md` est retiré
+  au profit de `X3` de `fiche-usecase.md`. `X3` de `fiche-racine-agregat.md` est retiré au profit de
+  `X4` de `fiche-repository.md`, dont le verdict devient « à surveiller ».
+
+Ce qui reste ouvert :
+
 - La nature de `X3` et `X4` dans `fiche-repository.md`, et de `X5` dans `fiche-api-interne.md` :
   le corps décrit une convention jamais décidée par écrit, que le vocabulaire du gabarit (convention
   assumée, dérive, vestige) ne nomme pas bien.
-- Le script de `R2` dans `fiche-route.md` signale les routes authentifiées sans restriction, dites
-  légitimes : faux positifs acceptés, ou règle « authentifié suffit » à écrire.
-- L'injection d'une API interne directement dans un usecase (`U9` de `fiche-usecase.md`) n'a pas de
-  statut décidé, alors que l'ADR 55 la place dans un repository.
-- `X3` de `fiche-usecase.md` et `X5` de `fiche-repository.md` énoncent le même écart.
 - La règle `M1` de `fiche-serialiseur.md` ne voit pas une condition portée par un paramètre de
   `serialize`, et les exports CSV portent de vraies règles métier sans que la fiche dise si elle les
   couvre.

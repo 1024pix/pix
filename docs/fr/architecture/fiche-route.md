@@ -14,11 +14,6 @@ typage de s'appliquer est dans `migration-typescript.md`.
 >   Elle reste à écrire dans un ADR, parce que sa source vit hors du dépôt.
 > - Le **motif** que cette fiche donne au classement de `R2`, la visibilité d'un oubli, n'a pas de
 >   source. La page en donne un autre. Voir le § 4.
-> - Le § 6 n'annonce aucun faux positif pour le script de `R2`. Or une route authentifiée sans
->   restriction n'a aucune des trois formes que le script reconnaît, et le § 2 dit cet état légitime
->   et fréquent. Un script qui exige l'une des trois formes signale donc ces routes. Une piste existe :
->   exiger sur ces routes une mention explicite du type « authentifié suffit ». Elle revient à
->   inventorier toutes les routes, et son coût reste à mettre en balance avec ce qu'elle rapporte.
 > - Le numéro X2 n'est pas attribué. Il portait « aucune liste des routes délibérément publiques »,
 >   et en concluait `R2` invérifiable. Or `auth: false` déclare une route publique, et cette
 >   déclaration est employée. La vérification de `R2` n'a donc aucun préalable. Le numéro n'est pas
@@ -500,7 +495,7 @@ infrastructure.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
-| **R2** contrôles d'accès | script `tests/tooling/` : toute route déclare un pre-handler de sécurité, **ou** `auth: false`, **ou** une stratégie explicite | ~40 lignes | aucun. Ne couvre pas les routes authentifiées sans restriction : voir la limite de `R2` au § 2 |
+| **R2** contrôles d'accès | script `tests/tooling/` : classe chaque route par pre-handler de sécurité, `auth: false` ou stratégie explicite, et liste celles qui n'ont aucune des trois | ~40 lignes | aucun : les routes authentifiées sans restriction sont listées, pas signalées. Voir la limite de `R2` au § 2 |
 | **R3** documentation | script : toute route déclare étiquettes et description | ~30 lignes | aucun |
 | **R1** validation déclarée | script : toute route ayant des paramètres d'adresse déclare leur validation | ~30 lignes | faibles : un paramètre validé par un type partagé plutôt que par un schéma explicite |
 | **R4** aucune logique | règle ESLint : déclaration de fonction dans un objet de route, hors champ de traitement d'échec | ~30 lignes | **à mesurer** : voir `X4` |
@@ -508,10 +503,12 @@ infrastructure.
 
 ### R2 — faisable aujourd'hui, sans préalable
 
-Le script est mécanique. Sa règle :
+Le script est mécanique. Il classe chaque route selon ce qu'elle déclare :
 
-> Toute route déclare un pre-handler de sécurité, **ou** `auth: false`, **ou** une stratégie
-> d'authentification explicite.
+- un pre-handler de sécurité ;
+- `auth: false` ;
+- une stratégie d'authentification explicite ;
+- aucune des trois : la route est authentifiée sans restriction.
 
 Les trois formes existent dans le code. La troisième s'oublie facilement en écrivant le script :
 
@@ -526,13 +523,13 @@ config: {
 Elle est plus rare que les deux autres. Un script qui l'ignore signale pourtant du code légitime, et
 perd sa crédibilité au premier passage.
 
-Si le script signale toute route sans l'une des trois formes, un contrôle d'accès retiré par erreur
-fait échouer un test. Ce choix est ouvert : voir l'encadré « À instruire ».
+Le script ne fait échouer aucune route authentifiée sans restriction, parce que cet état est
+légitime et fréquent (§ 2) : la signaler produirait un faux positif. Il en sort la liste, qui rend
+l'omission visible. Décider si une route de cette liste doit porter un contrôle reste en revue :
+c'est la limite de `R2` énoncée au § 2.
 
-Le script **ne** couvre **pas** la route authentifiée sans restriction supplémentaire, qui n'a aucune
-des trois formes. Il ne peut pas la signaler sans produire du bruit sur un état légitime. C'est la
-limite de `R2` énoncée au § 2, et elle reste en revue. Les deux derniers paragraphes ne sont pas
-conciliés : voir l'encadré « À instruire ».
+Un contrôle d'accès retiré par erreur fait donc passer la route dans la liste, sans faire échouer
+de test. La revue le voit si elle lit la liste de la PR.
 
 ### R3 et R1 — deux scripts triviaux
 
@@ -623,7 +620,7 @@ Chaque ligne porte son statut au regard du § 6 :
 - Une ligne `[humain]` reste en entier : aucun moyen déterministe n'est connu.
 
 ```
-[ ] [auto]    R2  Un pre-handler de sécurité est déclaré, ou auth: false, ou une stratégie d'authentification explicite
+[ ] [auto]    R2  La route est classée : pre-handler de sécurité, auth: false, stratégie explicite, ou aucune des trois
 [ ] [humain]  R2  Aucun contrôle de droit délégué au contrôleur
 [ ] [humain]  R2  Si la route est authentifiée sans restriction, c'est voulu, pas un oubli
 [ ] [partiel] R1  La forme de toutes les entrées est déclarée et validée

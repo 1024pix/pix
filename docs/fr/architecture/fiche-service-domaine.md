@@ -256,7 +256,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Un service prend plusieurs objets du domaine et renvoie un Value Object | **autorisé**, c'est le cas nominal de D2 |
 | Un service exporté sous forme de classe sans état | **autorisé**, mais le module de fonctions est la forme préférée (§ 7) |
 | Un service partagé entre plusieurs usecases | **autorisé** si D1 tient. Le partage n'est pas le critère |
-| Le fichier de câblage `index.js` importe l'infrastructure | **autorisé**, exclu des règles de D1 : il câble, il ne porte aucune règle. Voir X5 de `fiche-repository.md` |
+| Le fichier de câblage `index.js` importe l'infrastructure | **autorisé**, exclu des règles de D1 : il câble, il ne porte aucune règle. Voir X3 de `fiche-usecase.md` |
 | Un service qui reçoit un repository | **pas une exception** : c'est un usecase, quel que soit son dossier |
 | Un service qui prend un seul objet du domaine | **pas une exception**, mais un signal : la règle appartient probablement à cet objet, ou à celui qu'il produit. Voir D4 |
 
@@ -315,7 +315,7 @@ domain/services/
 
 Le dossier ne distingue pas ces natures. Un relecteur ne sait donc pas quels invariants appliquer, et
 la règle ESLint de D1 ne peut pas passer en erreur. Le troisième fichier est une exception nommée au
-§ 3, symétrique de `domain/usecases/index.js`. Voir X5 de `fiche-repository.md`.
+§ 3, symétrique de `domain/usecases/index.js`. Voir X3 de `fiche-usecase.md`.
 
 **Correction.** `domain/services/` est réservé aux vrais Domain Services. Les fichiers qui font
 des I/O vont dans `usecases/`.

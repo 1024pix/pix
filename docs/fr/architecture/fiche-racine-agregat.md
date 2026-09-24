@@ -55,7 +55,6 @@ E3 et E7 jouent un rôle particulier pour une racine, E4 et E6 reviennent dans l
 | --- | --- | --- |
 | [**X1**](#x1-le-mot--aggregate--est-posé-sur-des-dossiers-sans-frontière-nommable) | le mot « Aggregate » est posé sur des dossiers sans frontière nommable | **à corriger** |
 | [**X2**](#x2-aucune-racine-nest-déclarée-nulle-part) | aucune racine n'est déclarée nulle part | **à corriger** |
-| [**X3**](#x3-plusieurs-repositories-pour-une-même-frontière) | plusieurs repositories pour une même frontière | à surveiller |
 | [**X4**](#x4-une-opération-modifie-plusieurs-aggregates-dans-la-même-transaction) | une opération modifie plusieurs Aggregates dans la même transaction | rien à faire |
 
 Hors numérotation : le [test de discrimination](#le-test-de-discrimination) du § 1. En trois
@@ -211,7 +210,7 @@ dans l'Aggregate. S'ils ont besoin d'être retrouvés indépendamment, ils ne so
 d'un contexte dit alors combien d'unités de cohérence il a.
 
 ```
-// fautif — cinq repositories pour une seule frontière de cohérence, détaillé en X3 au § 5
+// fautif — cinq repositories pour une seule frontière de cohérence, détaillé en X4 de fiche-repository.md
 infrastructure/repositories/
   combined-courses/
     combined-course-repository.js               getById, save
@@ -237,8 +236,8 @@ de requêtage. Deux positions sont cohérentes, une troisième ne l'est pas :
 - garder le mot et multiplier les repositories, ce qui vide le vocabulaire de son sens.
 
 **Ce qui casse.** Compter les repositories cesse d'être une information. C'est un invariant
-d'hygiène : il ne prévient aucun défaut, il préserve la valeur d'un indicateur. Voir X3 au § 5, et X4
-de `fiche-repository.md`, qui traite le même écart du côté du repository.
+d'hygiène : il ne prévient aucun défaut, il préserve la valeur d'un indicateur. L'écart est traité sous X4
+de `fiche-repository.md`.
 
 ### A6. Petit Aggregate
 
@@ -323,7 +322,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | Une transaction qui couvre plusieurs Aggregates dont les écritures doivent échouer ou réussir ensemble | **autorisé**, c'est la décision de l'ADR 25 : orchestration dans le usecase, sans événements. Voir X4 |
 | Un identifiant d'un autre contexte porté comme donnée | **autorisé**, c'est E7 bien appliqué |
 | La racine tient les instances de ses objets internes | **autorisé**, c'est la définition d'un Aggregate |
-| Plusieurs repositories pour une même frontière | **pas une exception** — c'est X3, une convention admise seulement si elle est assumée explicitement |
+| Plusieurs repositories pour une même frontière | **pas une exception** : c'est X4 de `fiche-repository.md`, une convention admise seulement si elle est assumée explicitement |
 | Un dossier `aggregates/` contenant des read-models | **pas une exception** — c'est X1 |
 
 ---
@@ -360,11 +359,14 @@ depuis le code.
 
 ## 5. Écarts avec la théorie
 
+Le numéro **X3** n'est pas attribué. Il portait « plusieurs repositories pour une même frontière ».
+C'est énoncé au § 5 de `fiche-repository.md` sous `X4`, là où se trouvent les fichiers en cause. Le
+symptôme vu d'ici est A3 qui tombe. Le numéro n'est pas réattribué.
+
 | Écart | Nature | Coût payé | Bénéfice obtenu | Verdict |
 | --- | --- | --- | --- | --- |
 | **X1** Le mot « Aggregate » est posé sur des dossiers sans frontière nommable | dérive | Le dossier promet une garantie qui n'existe pas. Un relecteur y cherche des invariants absents, et leur absence passe pour normale | Un rangement, quel qu'il soit | **À corriger** |
 | **X2** Aucune racine n'est déclarée nulle part | dérive | A1 n'est vérifiable ni par un humain ni par un outil, et l'indicateur de A3 est incalculable | Nul | **À corriger** |
-| **X3** Plusieurs repositories pour une même frontière | convention assumée | A3 tombe, donc compter les repositories ne dit plus rien de la conception | Réel — chaque requête est écrite pour son besoin, sans champ chargé pour rien | *À surveiller* |
 | **X4** Une opération modifie plusieurs Aggregates dans la même transaction | convention assumée | Une transaction verrouille plus que nécessaire, et masque une frontière mal placée | Réel et **mesuré** — l'alternative par événements a causé des deadlocks en production, et la cohérence immédiate évite tout appareil de compensation | *Rien à faire* |
 
 ### X1. Le mot « Aggregate » est posé sur des dossiers sans frontière nommable
@@ -432,38 +434,6 @@ X2 est donc le prérequis de la revue de A1 et de l'indicateur de A3.
 
 Le vrai levier n'est pas l'outillage, c'est la déclaration. Tant qu'aucun fichier ne dit « voici
 les racines de ce contexte et ce que chacune garantit », aucune analyse statique ne peut le déduire.
-
-### X3. Plusieurs repositories pour une même frontière
-
-**Ce que dit la théorie.** Le Repository porte sur les Aggregates, pas sur les Entities internes ni sur
-les besoins de requête. Un repository par racine.
-
-**Exemple concret.** Cinq repositories pour une seule frontière de cohérence :
-
-```
-infrastructure/repositories/
-  combined-courses/
-    combined-course-repository.js               getById, save
-  combined-course-details-repository.js         findByOrganizationId, avec tout ce qu'un écran affiche
-  combined-course-participations/
-    combined-course-participation-repository.js une Entity interne à la frontière
-    organization-learner-participation-repository.js
-  prescription/
-    combined-course-participant-repository.js   la même frontière, vue d'un autre besoin
-```
-
-Les sous-dossiers suivent le besoin appelant : le découpage se fait par requête, pas par Aggregate.
-
-**Correction.** Aucune sur le découpage : le bénéfice est réel. X4 de `fiche-repository.md` détaille
-ce point et choisit entre les deux options. Le modèle partiellement rempli est écarté : la réponse
-est de réduire l'Aggregate.
-
-La convention tient à deux conditions :
-
-1. Le mot « Aggregate » ne s'emploie sur un dossier que si chaque repository y correspond à une
-   racine. C'est X1.
-2. Les repositories créés pour un besoin de lecture renvoient des **read-models**, pas des racines
-   partiellement chargées. C'est la limite de la convention.
 
 ### X4. Une opération modifie plusieurs Aggregates dans la même transaction
 
