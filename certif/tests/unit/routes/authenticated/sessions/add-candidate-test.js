@@ -14,6 +14,7 @@ module('Unit | Route | authenticated/sessions/add-candidate', function (hooks) {
   module('#model', function () {
     const session = Symbol('session');
     const countries = Symbol('countries');
+    const certificationCandidates = Symbol('certificationCandidates');
 
     function stubFindRecord({ hasExpired }) {
       const findRecord = sinon.stub();
@@ -22,9 +23,10 @@ module('Unit | Route | authenticated/sessions/add-candidate', function (hooks) {
       return findRecord;
     }
 
-    test('it should return the session and the countries', async function (assert) {
+    test('it should return the session, the enrolled candidates and the countries', async function (assert) {
       // given
       route.store.findRecord = stubFindRecord({ hasExpired: false });
+      route.store.query = sinon.stub().resolves(certificationCandidates);
       route.store.peekAll = sinon.stub().returns([]);
       route.store.findAll = sinon.stub().resolves(countries);
 
@@ -33,14 +35,16 @@ module('Unit | Route | authenticated/sessions/add-candidate', function (hooks) {
 
       // then
       sinon.assert.calledWith(route.store.findRecord, 'session-enrolment', '123');
+      sinon.assert.calledWith(route.store.query, 'certification-candidate', { sessionId: '123' });
       sinon.assert.calledWith(route.store.findAll, 'country');
-      assert.deepEqual(model, { session, countries });
+      assert.deepEqual(model, { session, countries, certificationCandidates });
     });
 
     test('it should not fetch the countries when they are already loaded', async function (assert) {
       // given
       const loadedCountries = [Symbol('country')];
       route.store.findRecord = stubFindRecord({ hasExpired: false });
+      route.store.query = sinon.stub().resolves(certificationCandidates);
       route.store.peekAll = sinon.stub().returns(loadedCountries);
       route.store.findAll = sinon.stub().resolves(countries);
 
@@ -49,7 +53,7 @@ module('Unit | Route | authenticated/sessions/add-candidate', function (hooks) {
 
       // then
       sinon.assert.notCalled(route.store.findAll);
-      assert.deepEqual(model, { session, countries: loadedCountries });
+      assert.deepEqual(model, { session, countries: loadedCountries, certificationCandidates });
     });
 
     test('it should redirect to the sessions list when the session has expired', async function (assert) {

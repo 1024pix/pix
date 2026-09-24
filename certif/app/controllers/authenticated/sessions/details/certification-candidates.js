@@ -14,7 +14,6 @@ export default class CertificationCandidatesController extends Controller {
   @alias('model.session') currentSession;
   @alias('model.certificationCandidates') certificationCandidates;
   @alias('model.reloadCertificationCandidate') reloadCertificationCandidate;
-  @alias('model.countries') countries;
 
   get pageTitle() {
     return `${this.intl.t('pages.sessions.detail.candidates.page-title')} | Session ${
@@ -54,13 +53,5 @@ export default class CertificationCandidatesController extends Controller {
   @action
   async reloadCertificationCandidateInController() {
     await this.reloadCertificationCandidate();
-  }
-
-  get shouldDisplayPaymentOptions() {
-    return this._currentCertificationCenterIsNotSco();
-  }
-
-  _currentCertificationCenterIsNotSco() {
-    return !this.currentUser.currentAllowedCertificationCenterAccess.isSco;
   }
 }

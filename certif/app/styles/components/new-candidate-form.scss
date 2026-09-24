@@ -1,38 +1,17 @@
-.new-candidate-modal {
-  min-width: 576px;
-  max-width: 576px;
+@use 'pix-design-tokens/typography';
 
-  &__form {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .radio-button-container {
-    display: flex;
-    gap: var(--pix-spacing-4x);
-    align-items: center;
-
-    > div {
-      margin-top: 0;
-    }
-  }
-}
-
-.new-candidate-modal-form {
-  &__info-panel {
-    margin-top: 8px;
-  }
-
+.new-candidate-form {
   &__required-fields-mention {
-    width: 100%;
+    @extend %pix-body-m;
+
+    margin-bottom: var(--pix-spacing-4x);
   }
 
   &__field {
     display: flex;
     gap: var(--pix-spacing-4x);
     width: 100%;
-    margin: 12px 0;
+    margin: var(--pix-spacing-6x) 0;
 
     label {
       text-wrap: pretty;
@@ -60,12 +39,26 @@
       width: 248px;
     }
   }
+
+  &__actions {
+    display: flex;
+    gap: var(--pix-spacing-6x);
+    align-items: flex-end;
+  }
+
+  .radio-button-container {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+
+    > div {
+      margin-top: 0;
+    }
+  }
 }
 
-.new-candidate-tooltip {
-  &__icon {
+.new-candidate-tooltip__icon {
   width: 1rem;
   height: 1rem;
   fill: var(--pix-neutral-800);
-  }
 }

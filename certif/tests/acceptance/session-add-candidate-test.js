@@ -25,7 +25,7 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     const screen = await visit(`/sessions/${sessionId}/candidats`);
 
     // when
-    await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+    await click(screen.getByRole('link', { name: 'Inscrire un candidat' }));
     await fillIn(screen.getByLabelText('Nom de naissance *'), 'Quatorze');
     await fillIn(screen.getByLabelText('Prénom *'), 'Louis');
     await click(screen.getByLabelText('Homme'));
@@ -50,7 +50,7 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     const screen = await visit(`/sessions/${sessionId}/candidats`);
 
     // when
-    await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+    await click(screen.getByRole('link', { name: 'Inscrire un candidat' }));
     await fillIn(screen.getByLabelText('Nom de naissance *'), 'Quatorze');
     await fillIn(screen.getByLabelText('Prénom *'), 'Louis');
     await click(screen.getByLabelText('Homme'));
@@ -80,7 +80,7 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     const screen = await visit(`/sessions/${sessionId}/candidats`);
 
     // when
-    await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+    await click(screen.getByRole('link', { name: 'Inscrire un candidat' }));
     await fillIn(screen.getByLabelText('Nom de naissance *'), 'Quatorze');
     await fillIn(screen.getByLabelText('Prénom *'), 'Louis');
     await click(screen.getByLabelText('Homme'));

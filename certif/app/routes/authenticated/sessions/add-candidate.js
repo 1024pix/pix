@@ -18,13 +18,16 @@ export default class AuthenticatedSessionsAddCandidateRoute extends Route {
     }
 
     const session = await this.store.findRecord('session-enrolment', params.session_id);
+    const certificationCandidates = await this.store.query('certification-candidate', {
+      sessionId: params.session_id,
+    });
 
     let countries = this.store.peekAll('country');
     if (countries.length === 0) {
       countries = await this.store.findAll('country');
     }
 
-    return { session, countries };
+    return { session, countries, certificationCandidates };
   }
 
   afterModel(model) {

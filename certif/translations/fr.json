@@ -627,12 +627,11 @@
         "candidates": {
           "add-form": {
             "actions": {
-              "close-extra-information": "Fermer la modale d'ajout de candidat",
+              "back": "Retour à la liste des candidats",
               "enrol-the-candidate": "Inscrire le candidat"
             },
-            "complementary-certification-none": "Aucune",
-            "email-convocation-info": "L'envoi automatique de convocation par Pix n'est pas encore disponible. Le centre de certification se charge de convoquer les candidats.",
-            "info-panel": "Les candidats verront leurs résultats affichés directement sur leur compte Pix. Dans ce champ, merci d'indiquer le mail du prescripteur, si celui-ci souhaite avoir accès au résultat également.",
+            "email-convocation-info": "⚠️ L'envoi automatique de convocation par Pix n'est pas encore disponible.<br/>Le centre de certification se charge de convoquer les candidats.",
+            "info-panel": "ℹ️ Les candidats verront leurs résultats affichés directement sur leur compte Pix.<br/>Dans ce champ, merci d'indiquer le mail du prescripteur, si celui-ci souhaite avoir accès au résultat également.",
             "notifications": {
               "error-add-duplicate": "Ce candidat est déjà dans la liste, vous ne pouvez pas l'ajouter à nouveau.",
               "error-add-unknown": "Une erreur s'est produite lors de l'ajout du candidat.",

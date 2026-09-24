@@ -8,22 +8,6 @@ import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
-const emptyCandidateData = {
-  firstName: '',
-  lastName: '',
-  birthdate: '',
-  birthCity: '',
-  birthCountry: '',
-  email: '',
-  externalId: '',
-  resultRecipientEmail: '',
-  birthPostalCode: '',
-  birthInseeCode: '',
-  sex: '',
-  extraTimePercentage: '',
-  subscription: '',
-};
-
 module(
   'Integration | Component | Sessions | SessionDetails | EnrolledCandidates | candidate-creation-form',
   function (hooks) {
@@ -34,6 +18,7 @@ module(
 
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+          type: 'SUP',
           habilitations: [
             { id: '0', label: 'Pix+ Droit', key: 'DROIT' },
             { id: '1', label: 'Pix+ Professionnels de Santé', key: 'PRO_SANTE' },
@@ -52,11 +37,7 @@ module(
       // when
       const screen = await render(
         <template>
-          <CandidateCreationForm
-            @countries={{countries}}
-            @updateCandidateData={{updateCandidateStub}}
-            @candidateData={{emptyCandidateData}}
-          />
+          <CandidateCreationForm @countries={{countries}} @updateCandidateData={{updateCandidateStub}} />
         </template>,
       );
 
@@ -72,28 +53,12 @@ module(
       assert.dom(screen.getByRole('textbox', { name: 'Code INSEE de naissance *' })).exists();
       assert.dom(screen.getByRole('textbox', { name: 'Identifiant externe' })).exists();
       assert.dom(screen.getByRole('textbox', { name: 'Temps majoré (%)' })).exists();
+      assert.dom(screen.getByRole('textbox', { name: /E-mail du prescripteur/ })).exists();
       assert
-        .dom(
-          screen.getByRole('textbox', {
-            name: 'E-mail du prescripteur (enseignant, formateur), pour la réception des résultats',
-          }),
-        )
+        .dom(screen.getByText(/Les candidats verront leurs résultats affichés directement sur leur compte Pix/))
         .exists();
-      assert
-        .dom(
-          screen.getByText(
-            "Les candidats verront leurs résultats affichés directement sur leur compte Pix. Dans ce champ, merci d'indiquer le mail du prescripteur, si celui-ci souhaite avoir accès au résultat également.",
-          ),
-        )
-        .exists();
-      assert.dom(screen.getByRole('textbox', { name: 'E-mail de convocation' })).exists();
-      assert
-        .dom(
-          screen.getByText(
-            "L'envoi automatique de convocation par Pix n'est pas encore disponible. Le centre de certification se charge de convoquer les candidats.",
-          ),
-        )
-        .exists();
+      assert.dom(screen.getByRole('textbox', { name: /E-mail de convocation/ })).exists();
+      assert.dom(screen.getByText(/L'envoi automatique de convocation par Pix n'est pas encore disponible/)).exists();
     });
 
     test('it should have some inputs required', async function (assert) {
@@ -155,7 +120,6 @@ module(
               @countries={{countries}}
               @updateCandidateData={{updateCandidateFromEventStub}}
               @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
-              @candidateData={{emptyCandidateData}}
               @saveCandidate={{saveCandidateStub}}
             />
           </template>,
@@ -175,25 +139,22 @@ module(
         await fillIn(screen.getByLabelText('Identifiant externe'), candidateData.externalId);
         await fillIn(screen.getByLabelText('Code INSEE de naissance *'), candidateData.birthInseeCode);
         await fillIn(screen.getByLabelText('Temps majoré (%)'), candidateData.extraTimePercentage);
-        await fillIn(
-          screen.getByLabelText('E-mail du prescripteur (enseignant, formateur), pour la réception des résultats'),
-          candidateData.resultRecipientEmail,
-        );
-        await fillIn(screen.getByLabelText('E-mail de convocation'), candidateData.email);
+        await fillIn(screen.getByLabelText(/E-mail du prescripteur/), candidateData.resultRecipientEmail);
+        await fillIn(screen.getByLabelText(/E-mail de convocation/), candidateData.email);
         await click(screen.getByRole('radio', { name: 'Certification Pix' }));
 
         await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
         // then
-        sinon.assert.calledOnceWithExactly(saveCandidateStub, candidateData);
-        assert.ok(true);
+        sinon.assert.calledOnce(saveCandidateStub);
+        const savedCandidate = saveCandidateStub.firstCall.args[0];
+        assert.deepEqual(savedCandidate.getProperties(Object.keys(candidateData)), candidateData);
       });
     });
 
-    module('when shouldDisplayPaymentOptions is true', function () {
+    module('when the certification center is not SCO', function () {
       test('it shows candidate form with billing information', async function (assert) {
         // given
-        const shouldDisplayPaymentOptions = true;
         const updateCandidateStub = sinon.stub();
         const updateCandidateFromValueStub = sinon.stub();
         const countries = [];
@@ -204,8 +165,6 @@ module(
             <CandidateCreationForm
               @countries={{countries}}
               @updateCandidateData={{updateCandidateStub}}
-              @candidateData={{emptyCandidateData}}
-              @shouldDisplayPaymentOptions={{shouldDisplayPaymentOptions}}
               @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
             />
           </template>,
@@ -228,8 +187,6 @@ module(
               <CandidateCreationForm
                 @countries={{countries}}
                 @updateCandidateData={{updateCandidateStub}}
-                @candidateData={{emptyCandidateData}}
-                @shouldDisplayPaymentOptions={{true}}
                 @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
               />
             </template>,
@@ -252,7 +209,6 @@ module(
       module('when the selected billing mode is NOT PREPAID', function () {
         test('it should NOT display prepaid code field', async function (assert) {
           // given
-          const shouldDisplayPaymentOptions = true;
           const updateCandidateStub = sinon.stub();
           const updateCandidateFromValueStub = sinon.stub();
           const countries = [];
@@ -263,8 +219,6 @@ module(
               <CandidateCreationForm
                 @countries={{countries}}
                 @updateCandidateData={{updateCandidateStub}}
-                @candidateData={{emptyCandidateData}}
-                @shouldDisplayPaymentOptions={{shouldDisplayPaymentOptions}}
                 @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
               />
             </template>,
@@ -297,11 +251,7 @@ module(
       // when
       const screen = await render(
         <template>
-          <CandidateCreationForm
-            @countries={{countries}}
-            @updateCandidateData={{updateCandidateStub}}
-            @candidateData={{emptyCandidateData}}
-          />
+          <CandidateCreationForm @countries={{countries}} @updateCandidateData={{updateCandidateStub}} />
         </template>,
       );
 
@@ -321,7 +271,6 @@ module(
             @sessionId='123'
             @countries={{countries}}
             @updateCandidateData={{updateCandidateStub}}
-            @candidateData={{emptyCandidateData}}
           />
         </template>,
       );
@@ -346,7 +295,6 @@ module(
               @countries={{countries}}
               @updateCandidateData={{updateCandidateFromEventStub}}
               @updateCandidateDataFromValue={{updateCandidateDataFromValue}}
-              @candidateData={{emptyCandidateData}}
             />
           </template>,
         );
@@ -382,7 +330,6 @@ module(
               @countries={{countries}}
               @updateCandidateData={{updateCandidateFromEventStub}}
               @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
-              @candidateData={{emptyCandidateData}}
             />
           </template>,
         );
@@ -410,7 +357,6 @@ module(
               @countries={{countries}}
               @updateCandidateData={{updateCandidateFromEventStub}}
               @updateCandidateDataFromValue={{updateCandidateFromValueStub}}
-              @candidateData={{emptyCandidateData}}
             />
           </template>,
         );

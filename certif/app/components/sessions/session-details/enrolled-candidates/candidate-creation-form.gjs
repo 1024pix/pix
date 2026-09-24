@@ -3,18 +3,18 @@ import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixIcon from '@1024pix/pix-ui/components/pix-icon';
 import PixInput from '@1024pix/pix-ui/components/pix-input';
 import PixLabel from '@1024pix/pix-ui/components/pix-label';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
 import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
 import PixSelect from '@1024pix/pix-ui/components/pix-select';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
+import EmberObject from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
-import CandidateCreationModalComplementaryList from './candidate-creation-modal-complementary-list';
+import CandidateCreationFormComplementaryList from './candidate-creation-form-complementary-list';
 
 const FRANCE_INSEE_CODE = '99100';
 const INSEE_CODE_OPTION = 'insee';
@@ -23,11 +23,13 @@ const POSTAL_CODE_OPTION = 'postal';
 export default class CandidateCreationForm extends Component {
   @service currentUser;
   @service intl;
+  @service router;
 
   @tracked selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
   @tracked selectedCountryInseeCode = FRANCE_INSEE_CODE;
   @tracked isLoading = false;
   @tracked selectedBillingMode;
+  @tracked candidateData = this._createCandidateInStaging();
 
   get complementaryCertificationsHabilitations() {
     return this.currentUser.currentAllowedCertificationCenterAccess?.habilitations;
@@ -96,6 +98,10 @@ export default class CandidateCreationForm extends Component {
     });
   }
 
+  get shouldDisplayPaymentOptions() {
+    return !this.currentUser.currentAllowedCertificationCenterAccess.isSco;
+  }
+
   get billingModeOptions() {
     const freeLabel = this.intl.t('common.labels.billing-mode.free');
     const paidLabel = this.intl.t('common.labels.billing-mode.paid');
@@ -112,38 +118,38 @@ export default class CandidateCreationForm extends Component {
     this.selectedBirthGeoCodeOption = option;
 
     if (this.isInseeCodeOptionSelected) {
-      this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthCity', '');
-      this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthPostalCode', '');
+      this.args.updateCandidateDataFromValue(this.candidateData, 'birthCity', '');
+      this.args.updateCandidateDataFromValue(this.candidateData, 'birthPostalCode', '');
     } else if (this.isPostalCodeOptionSelected) {
-      this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthInseeCode', '');
+      this.args.updateCandidateDataFromValue(this.candidateData, 'birthInseeCode', '');
     }
   };
 
   updateBirthdate = (event) => {
-    this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthdate', event.target.value);
+    this.args.updateCandidateDataFromValue(this.candidateData, 'birthdate', event.target.value);
   };
 
   updateBillingMode = (billingMode) => {
     this.selectedBillingMode = billingMode;
-    this.args.updateCandidateDataFromValue(this.args.candidateData, 'billingMode', billingMode);
+    this.args.updateCandidateDataFromValue(this.candidateData, 'billingMode', billingMode);
   };
 
   selectBirthCountry = (option) => {
     this.selectedCountryInseeCode = option;
     const countryName = this._getCountryName();
-    this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthCountry', countryName);
-    this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthCity', '');
-    this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthPostalCode', '');
+    this.args.updateCandidateDataFromValue(this.candidateData, 'birthCountry', countryName);
+    this.args.updateCandidateDataFromValue(this.candidateData, 'birthCity', '');
+    this.args.updateCandidateDataFromValue(this.candidateData, 'birthPostalCode', '');
     if (this._isFranceSelected()) {
-      this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthInseeCode', '');
+      this.args.updateCandidateDataFromValue(this.candidateData, 'birthInseeCode', '');
     } else {
       this.selectBirthGeoCodeOption(INSEE_CODE_OPTION);
-      this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthInseeCode', '99');
+      this.args.updateCandidateDataFromValue(this.candidateData, 'birthInseeCode', '99');
     }
   };
 
   updateSubscription = (complementaryCertificationHabilitation) => {
-    this.args.candidateData.subscription = complementaryCertificationHabilitation;
+    this.candidateData.subscription = complementaryCertificationHabilitation;
   };
 
   onFormSubmit = async (event) => {
@@ -151,15 +157,42 @@ export default class CandidateCreationForm extends Component {
     this.isLoading = true;
 
     try {
-      const result = await this.args.saveCandidate(this.args.candidateData);
+      const result = await this.args.saveCandidate(this.candidateData);
 
       if (result) {
-        this._resetForm();
+        this.router.transitionTo('authenticated.sessions.details.certification-candidates', this.args.sessionId);
       }
     } finally {
       this.isLoading = false;
     }
   };
+
+  _createCandidateInStaging() {
+    let addedAttributes = {};
+    if (this.shouldDisplayPaymentOptions) {
+      addedAttributes = {
+        billingMode: '',
+        prepaymentCode: '',
+      };
+    }
+
+    return EmberObject.create({
+      firstName: '',
+      lastName: '',
+      birthdate: '',
+      birthCity: '',
+      birthCountry: 'FRANCE',
+      email: '',
+      externalId: '',
+      resultRecipientEmail: '',
+      birthPostalCode: '',
+      birthInseeCode: '',
+      sex: '',
+      extraTimePercentage: '',
+      subscriptions: [],
+      ...addedAttributes,
+    });
+  }
 
   _isFranceSelected() {
     return this.selectedCountryInseeCode === FRANCE_INSEE_CODE;
@@ -170,26 +203,28 @@ export default class CandidateCreationForm extends Component {
     return country.name;
   }
 
-  _resetForm() {
-    document.getElementById('new-candidate-form').reset();
-    this.selectedCountryInseeCode = FRANCE_INSEE_CODE;
-    this.selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
-    this.selectedBillingMode = undefined;
-  }
-
   <template>
+    <PixButtonLink
+      @route='authenticated.sessions.details.certification-candidates'
+      @model={{@sessionId}}
+      @variant='tertiary'
+      @iconBefore='arrowLeft'
+      class='previous-button'
+    >
+      {{t 'pages.sessions.detail.candidates.add-form.actions.back'}}
+    </PixButtonLink>
+
     <h1 class='page-title'>{{t 'pages.sessions.detail.candidates.add-form.title'}}</h1>
 
-    <form id='new-candidate-form' class='new-candidate-modal__form' {{on 'submit' this.onFormSubmit}}>
-
-      <p class='new-candidate-modal-form__required-fields-mention'>
+    <form class='new-candidate-form' {{on 'submit' this.onFormSubmit}}>
+      <p class='new-candidate-form__required-fields-mention'>
         {{t 'common.forms.mandatory-fields' htmlSafe=true}}
       </p>
 
-      <div class='new-candidate-modal-form__field'>
+      <div class='new-candidate-form__field'>
         <PixInput
           @id='lastname'
-          {{on 'input' (fn @updateCandidateData @candidateData 'lastName')}}
+          {{on 'input' (fn @updateCandidateData this.candidateData 'lastName')}}
           required
           aria-required={{true}}
           autocomplete='off'
@@ -199,7 +234,7 @@ export default class CandidateCreationForm extends Component {
         </PixInput>
         <PixInput
           @id='firstname'
-          {{on 'input' (fn @updateCandidateData @candidateData 'firstName')}}
+          {{on 'input' (fn @updateCandidateData this.candidateData 'firstName')}}
           required
           aria-required={{true}}
           autocomplete='off'
@@ -209,7 +244,7 @@ export default class CandidateCreationForm extends Component {
         </PixInput>
       </div>
 
-      <div class='new-candidate-modal-form__field'>
+      <div class='new-candidate-form__field'>
         <fieldset>
           <legend class='label'>
             <PixLabel @requiredLabel={{t 'common.forms.required'}}>
@@ -221,7 +256,7 @@ export default class CandidateCreationForm extends Component {
               @value='F'
               name='sex'
               required
-              {{on 'change' (fn @updateCandidateData @candidateData 'sex')}}
+              {{on 'change' (fn @updateCandidateData this.candidateData 'sex')}}
             >
               <:label>{{t 'common.labels.candidate.gender.woman'}}</:label>
             </PixRadioButton>
@@ -229,7 +264,7 @@ export default class CandidateCreationForm extends Component {
               @value='M'
               name='sex'
               required
-              {{on 'change' (fn @updateCandidateData @candidateData 'sex')}}
+              {{on 'change' (fn @updateCandidateData this.candidateData 'sex')}}
             >
               <:label>{{t 'common.labels.candidate.gender.man'}}</:label>
             </PixRadioButton>
@@ -237,7 +272,7 @@ export default class CandidateCreationForm extends Component {
         </fieldset>
       </div>
 
-      <div class='new-candidate-modal-form__field'>
+      <div class='new-candidate-form__field'>
         <div>
           <PixLabel @requiredLabel={{t 'common.forms.required'}} for='birth-date'>
             {{t 'common.labels.candidate.birth-date'}}
@@ -255,7 +290,7 @@ export default class CandidateCreationForm extends Component {
         </div>
       </div>
 
-      <div class='new-candidate-modal-form__field'>
+      <div class='new-candidate-form__field'>
         <PixSelect
           @id='birth-country'
           @options={{this.countryOptions}}
@@ -270,7 +305,7 @@ export default class CandidateCreationForm extends Component {
       </div>
 
       {{#if this.isBirthGeoCodeRequired}}
-        <div class='new-candidate-modal-form__field'>
+        <div class='new-candidate-form__field'>
           <fieldset>
             <legend class='label'>
               <PixLabel @requiredLabel={{t 'common.forms.required'}}>
@@ -301,10 +336,10 @@ export default class CandidateCreationForm extends Component {
       {{/if}}
 
       {{#if this.isBirthInseeCodeRequired}}
-        <div class='new-candidate-modal-form__field'>
+        <div class='new-candidate-form__field'>
           <PixInput
             @id='birth-insee-code'
-            {{on 'input' (fn @updateCandidateData @candidateData 'birthInseeCode')}}
+            {{on 'input' (fn @updateCandidateData this.candidateData 'birthInseeCode')}}
             required
             aria-required={{true}}
             autocomplete='off'
@@ -317,10 +352,10 @@ export default class CandidateCreationForm extends Component {
       {{/if}}
 
       {{#if this.isBirthPostalCodeRequired}}
-        <div class='new-candidate-modal-form__field'>
+        <div class='new-candidate-form__field'>
           <PixInput
             @id='birth-postal-code'
-            {{on 'input' (fn @updateCandidateData @candidateData 'birthPostalCode')}}
+            {{on 'input' (fn @updateCandidateData this.candidateData 'birthPostalCode')}}
             required
             aria-required={{true}}
             autocomplete='off'
@@ -333,10 +368,10 @@ export default class CandidateCreationForm extends Component {
       {{/if}}
 
       {{#if this.isBirthCityRequired}}
-        <div class='new-candidate-modal-form__field'>
+        <div class='new-candidate-form__field'>
           <PixInput
             @id='birth-city'
-            {{on 'input' (fn @updateCandidateData @candidateData 'birthCity')}}
+            {{on 'input' (fn @updateCandidateData this.candidateData 'birthCity')}}
             required
             aria-required={{true}}
             autocomplete='off'
@@ -347,59 +382,52 @@ export default class CandidateCreationForm extends Component {
         </div>
       {{/if}}
 
-      <div class='new-candidate-modal-form__field'>
+      <div class='new-candidate-form__field'>
         <PixInput
           @id='external-id'
-          {{on 'input' (fn @updateCandidateData @candidateData 'externalId')}}
+          {{on 'input' (fn @updateCandidateData this.candidateData 'externalId')}}
           autocomplete='off'
         >
           <:label>{{t 'common.forms.certification-labels.external-id'}}</:label>
         </PixInput>
       </div>
 
-      <div class='new-candidate-modal-form__field'>
+      <div class='new-candidate-form__field'>
         <PixInput
           @id='extra-time-percentage'
-          class='input {{if this.validation.email.hasError "input--error"}}'
-          {{on 'input' (fn @updateCandidateData @candidateData 'extraTimePercentage')}}
+          {{on 'input' (fn @updateCandidateData this.candidateData 'extraTimePercentage')}}
           autocomplete='off'
         >
           <:label>{{t 'common.forms.certification-labels.extratime-percentage'}}</:label>
         </PixInput>
       </div>
 
-      <div class='new-candidate-modal-form__field'>
+      <div class='new-candidate-form__field'>
         <PixInput
           @id='result-recipient-email'
-          {{on 'input' (fn @updateCandidateData @candidateData 'resultRecipientEmail')}}
+          {{on 'input' (fn @updateCandidateData this.candidateData 'resultRecipientEmail')}}
           type='email'
           autocomplete='nope'
+          @subLabel={{t 'pages.sessions.detail.candidates.add-form.info-panel' htmlSafe=true}}
         >
           <:label>{{t 'common.forms.certification-labels.email-results'}}</:label>
         </PixInput>
       </div>
 
-      <PixNotificationAlert class='new-candidate-modal-form__info-panel' @withIcon={{true}}>
-        {{t 'pages.sessions.detail.candidates.add-form.info-panel' htmlSafe=true}}
-      </PixNotificationAlert>
-
-      <div class='new-candidate-modal-form__field'>
+      <div class='new-candidate-form__field'>
         <PixInput
           @id='email'
-          {{on 'input' (fn @updateCandidateData @candidateData 'email')}}
+          {{on 'input' (fn @updateCandidateData this.candidateData 'email')}}
           type='email'
           autocomplete='nope'
+          @subLabel={{t 'pages.sessions.detail.candidates.add-form.email-convocation-info' htmlSafe=true}}
         >
           <:label>{{t 'common.forms.certification-labels.email-convocation'}}</:label>
         </PixInput>
       </div>
 
-      <PixNotificationAlert class='new-candidate-modal-form__info-panel' @withIcon={{true}}>
-        {{t 'pages.sessions.detail.candidates.add-form.email-convocation-info'}}
-      </PixNotificationAlert>
-
-      {{#if @shouldDisplayPaymentOptions}}
-        <div class='new-candidate-modal-form__field'>
+      {{#if this.shouldDisplayPaymentOptions}}
+        <div class='new-candidate-form__field'>
           <PixSelect
             @id='billing-mode'
             @options={{this.billingModeOptions}}
@@ -413,8 +441,7 @@ export default class CandidateCreationForm extends Component {
           </PixSelect>
 
           {{#if this.isPrepaidBillingMode}}
-
-            <div class='new-candidate-modal-form__tooltip'>
+            <div class='new-candidate-form__tooltip'>
               <label for='prepayment-code' class='label'>
                 {{t 'common.forms.certification-labels.prepayment-code'}}
               </label>
@@ -438,7 +465,7 @@ export default class CandidateCreationForm extends Component {
               <PixInput
                 @id='prepayment-code'
                 type='text'
-                {{on 'input' (fn @updateCandidateData @candidateData 'prepaymentCode')}}
+                {{on 'input' (fn @updateCandidateData this.candidateData 'prepaymentCode')}}
                 autocomplete='off'
               />
             </div>
@@ -447,22 +474,26 @@ export default class CandidateCreationForm extends Component {
       {{/if}}
 
       {{#if this.complementaryCertificationsHabilitations.length}}
-        <CandidateCreationModalComplementaryList
+        <CandidateCreationFormComplementaryList
           @complementaryCertificationsHabilitations={{this.complementaryCertificationsHabilitations}}
           @updateSubscription={{this.updateSubscription}}
         />
       {{/if}}
+
+      <div class='new-candidate-form__actions'>
+        <PixButtonLink
+          @route='authenticated.sessions.details.certification-candidates'
+          @model={{@sessionId}}
+          @variant='secondary'
+          @isBorderVisible='true'
+        >
+          {{t 'common.actions.back'}}
+        </PixButtonLink>
+
+        <PixButton @type='submit' @isLoading={{this.isLoading}} @isDisabled={{this.isLoading}}>
+          {{t 'pages.sessions.detail.candidates.add-form.actions.enrol-the-candidate'}}
+        </PixButton>
+      </div>
     </form>
-    <PixButtonLink
-      @route='authenticated.sessions.details.certification-candidates'
-      @model={{@sessionId}}
-      @variant='secondary'
-      @isBorderVisible='true'
-    >
-      {{t 'common.actions.back'}}
-    </PixButtonLink>
-    <PixButton @type='submit' @isLoading={{this.isLoading}} @isDisabled={{this.isLoading}} form='new-candidate-form'>
-      {{t 'pages.sessions.detail.candidates.add-form.actions.enrol-the-candidate'}}
-    </PixButton>
   </template>
 }
