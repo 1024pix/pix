@@ -98,17 +98,20 @@ pagination. Jamais une ligne SQL, jamais le DTO d'un autre contexte, jamais le c
 HTTP. La règle se vérifie par fonction, pas par fichier.
 
 ```js
-// conforme — passage par une fonction de mapping locale
-const result = await knexConnection('view-active-organization-learners')
+// conforme — la ligne est traduite en objet du domaine local
+const organizationLearner = await knexConn('view-active-organization-learners')
   .where({ userId, organizationId })
-  .first();
-return result ? _toDomain(result) : null;
+  .first('*');
+if (!organizationLearner) return null;
+return new OrganizationLearner(organizationLearner);
 
 // fautif — passe-plat : le DTO UserTeamsInfo publié par le contexte voisin sort tel quel
 const getUserTeamsInfo = async ({ userId, dependencies = { userTeamsApi } }) => {
   return dependencies.userTeamsApi.getUserTeamsInfo(userId);
 };
 ```
+
+**Code.** Conforme : [`registration-organization-learner-repository.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/prescription/organization-learner/infrastructure/repositories/registration-organization-learner-repository.js#L7-L11). Fautif : [`user-teams-api.repository.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/privacy/infrastructure/repositories/user-teams-api.repository.js#L12-L14).
 
 **Ce qui casse.** Le usecase lit un objet dont la forme est décidée par un autre contexte. Un
 renommage dans ce contexte casse le contexte appelant à l'exécution, sans qu'aucune règle de
@@ -139,6 +142,8 @@ await combinedCourseParticipantRepository.getOrCreateNewOrganizationLearner({
   organizationLearner: { firstName: user.firstName, lastName: user.lastName },
 });
 ```
+
+**Code.** Conforme : [`combined-course-participant-repository.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/quest/infrastructure/repositories/prescription/combined-course-participant-repository.js#L7). Fautif : [`start-combined-course.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/quest/domain/usecases/start-combined-course.js#L10-L16).
 
 **Ce qui casse.** Même mécanique que I1, mais la fuite traverse le usecase. I2 découle de I1 : si
 aucun repository ne renvoie de DTO étranger, aucun ne circule pour être passé en entrée.
@@ -171,6 +176,8 @@ const findByTemporaryKey = async function (temporaryKey) {
 const getByTemporaryKey = async function (temporaryKey) { /* corps identique */ };
 ```
 
+**Code.** Fautif : [`account-recovery-demand.repository.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/identity-access-management/infrastructure/repositories/account-recovery-demand.repository.js#L15-L28). La forme corrigée est hypothétique.
+
 Les deux corps sont identiques. Seul le nom dit à l'appelant s'il doit prévoir un `try` ou un test
 à `null`.
 
@@ -195,6 +202,8 @@ chaque site d'appel doit lire l'implémentation.
   throw error;
 }
 ```
+
+**Code.** [`combined-course-participant-repository.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/quest/infrastructure/repositories/prescription/combined-course-participant-repository.js#L32-L40).
 
 Le motif fautif est le `catch` qui traduit un cas connu et relâche les autres. Une violation non
 reconnue est traduite, elle aussi, en une erreur du domaine.
@@ -226,6 +235,8 @@ import * as privacyUsersApi from '../../../privacy/application/api/users-api.js'
 const canSelfDeleteAccount = async ({ userId, dependencies = { privacyUsersApi } }) => { … };
 ```
 
+**Code.** Conforme : [`index.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/quest/infrastructure/repositories/index.js#L4). Fautif : [`privacy-users-api.repository.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/deprecated/infrastructure/repositories/privacy-users-api.repository.js#L1-L5).
+
 La forme fautive est trompeuse : `dependencies` est un paramètre, donc un test peut substituer une
 doublure. Mais l'import reste écrit dans le fichier, donc le repository reste couplé au voisin.
 
@@ -255,6 +266,8 @@ const repositories = injectDependencies(repositoriesWithoutInjectedDependencies,
 
 // fautif — le fichier existe dans le dossier et n'est pas déclaré ici
 ```
+
+**Code.** Conforme : [`index.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/quest/infrastructure/repositories/index.js#L4-L80). Le cas fautif est hypothétique.
 
 L'index importe les API des contextes voisins pour les injecter : c'est la forme que prescrit I5.
 
@@ -302,6 +315,8 @@ export async function createOrganizationLearner({ … }) { … }
 export async function reactivateOrganizationLearner({ id }) { … }
 ```
 
+**Code.** Fautif : [`combined-course-participant-repository.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/quest/infrastructure/repositories/prescription/combined-course-participant-repository.js#L6-L42), simplifié. La forme corrigée est hypothétique.
+
 La règle cachée ici est une règle métier : un élève désactivé qui revient sur un parcours est
 réactivé sans que l'appelant le sache.
 
@@ -341,6 +356,8 @@ const findPaginatedFilteredTutorials = async function ({
 };
 ```
 
+**Code.** Fautif : [`tutorial-repository.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/devcomp/infrastructure/repositories/tutorial-repository.js#L79-L93), simplifié : les appels y sont dans un `Promise.all`. La forme corrigée est hypothétique. Le usecase actuel ne reçoit que `tutorialRepository` : [`find-paginated-filtered-tutorials.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/devcomp/domain/usecases/find-paginated-filtered-tutorials.js#L3-L10).
+
 **Ce qui casse.** L'orchestration se retrouve à un endroit où aucune autre règle ne la cherche : I5
 ne voit que les API et les clients, I10 que les conditions métier. Vers un autre contexte, l'import
 franchit en plus une frontière hors de l'API interne.
@@ -356,7 +373,7 @@ exception, décrits aux [exceptions légitimes](#exceptions-légitimes) : le dat
 base, et l'écriture qui doit survivre à l'échec de la transaction en cours.
 
 ```js
-// fautif — learning-content/infrastructure/repositories/framework-repository.js
+// fautif — la connexion knex est importée
 import { knex } from '../../../../db/knex-database-connection.js';
 
 async list() {
@@ -371,6 +388,8 @@ async list() {
   return frameworkDtos.map(toDomain);
 }
 ```
+
+**Code.** Fautif : [`framework-repository.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/learning-content/infrastructure/repositories/framework-repository.js#L16-L19), import à la ligne 1. La forme corrigée remplace l'import par celui de `DomainTransaction`.
 
 `DomainTransaction.getConnection()` rend la transaction en cours s'il y en a une, et la connexion
 ordinaire sinon. Le repository n'a donc pas à savoir s'il tourne dans une transaction.
@@ -414,10 +433,11 @@ de la persistance : un objet dont les clés sont des colonnes, ou un DTO étrang
 ## Exemple complet
 
 Un repository qui enveloppe l'API interne d'un voisin, tiré du code : la fonction, son
-enregistrement, son test.
+enregistrement, son test. Les extraits sont simplifiés : les liens sous les blocs mènent au code
+complet.
 
 ```js
-// school/infrastructure/repositories/organization-learner-repository.js
+// le repository
 import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
 
 const getById = async function ({ organizationLearnerId, organizationLearnerApi }) {
@@ -428,7 +448,7 @@ const getById = async function ({ organizationLearnerId, organizationLearnerApi 
 ```
 
 ```js
-// school/infrastructure/repositories/index.js — I6 et I5 : l'index importe l'API et l'injecte
+// l'index du contexte — I6 et I5 : il importe l'API et l'injecte
 import * as organizationLearnerApi from '../../../prescription/organization-learner/application/api/organization-learners-api.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
@@ -440,8 +460,7 @@ const repositories = injectDependencies(repositoriesWithoutInjectedDependencies,
 ```
 
 ```js
-// tests/school/unit/infrastructure/repositories/organization-learner-repository_test.js
-// unitaire, l'API substituée : seul le mapping est testé
+// le test — unitaire, l'API substituée : seul le mapping est testé
 it('should return the student corresponding to the id', async function () {
   const rawStudent = { id: 1234, firstName: 'Léon', lastName: 'De Bruxelles', division: '4ème', organizationId: 23456 };
   const expectedStudent = new OrganizationLearner(rawStudent);
@@ -456,6 +475,8 @@ it('should return the student corresponding to the id', async function () {
   expect(student).to.deep.equal(expectedStudent);
 });
 ```
+
+**Code.** Le repository : [`organization-learner-repository.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/school/infrastructure/repositories/organization-learner-repository.js#L14-L18). L'index : [`index.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/school/infrastructure/repositories/index.js#L1-L18). Le test : [`organization-learner-repository_test.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/tests/school/unit/infrastructure/repositories/organization-learner-repository_test.js#L27-L46).
 
 Pour un repository adossé à la base, la forme est celle de I12 : `DomainTransaction.getConnection()`,
 une requête, puis une traduction en objet du domaine. Le test est un test d'intégration.

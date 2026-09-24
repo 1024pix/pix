@@ -33,6 +33,8 @@ const getCombinedCourseById = async ({ combinedCourseId, combinedCourseRepositor
 };
 ```
 
+**Code.** [`get-combined-course-by-id.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/quest/domain/usecases/get-combined-course-by-id.js#L3-L5).
+
 Rien ne déclare que `combinedCourseRepository` sait faire `getById`, ni ce que cette fonction rend.
 Une faute de frappe dans le nom de la méthode échoue à l'exécution. Un repository qui perd une
 fonction ne casse aucune compilation.
@@ -64,6 +66,8 @@ class Chat {
 const chatDTO = chat.toDTO();
 ```
 
+**Code.** [`Chat.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/llm/domain/models/Chat.js#L270-L285), simplifié, et `fromDTO` ligne 287. L'appel : [`chat-repository.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/llm/infrastructure/repositories/chat-repository.js#L47).
+
 La racine délègue à ses objets internes, qui portent chacun leur `toDTO()`. Déplacer le mapping
 suppose donc de déplacer toute la chaîne, pas une seule méthode.
 
@@ -85,6 +89,8 @@ const getByCode = async ({ code }) => {
 // forme explicite, prescrite par l'ADR 9 et non retenue
 const getByCode = async ({ code, knexConn }) => { … };
 ```
+
+**Code.** Forme en vigueur : [`combined-course-repository.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/quest/infrastructure/repositories/combined-courses/combined-course-repository.js#L7-L8). La forme explicite est hypothétique.
 
 **Verdict.** La forme en vigueur est décidée par l'équipe : c'est I12 de [`README.md`](README.md). Le
 coût reste réel, parce qu'un usecase ne dit pas s'il s'exécute dans une transaction. L'écart est donc
@@ -110,6 +116,8 @@ infrastructure/repositories/
   prescription/
     combined-course-participant-repository.js         la même frontière, vue d'un autre besoin
 ```
+
+**Code.** [Le dossier](https://github.com/1024pix/pix/tree/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/quest/infrastructure/repositories).
 
 Cinq repositories pour un seul Aggregate. `combined-course-details-repository.js` est à la racine du
 dossier, les autres dans des sous-dossiers nommés d'après le besoin appelant.
@@ -138,6 +146,8 @@ infrastructure/repositories/
   prescriber-repository.js            → des tables de la base
   privacy-users-api.repository.js     → l'API interne d'un autre Bounded Context
 ```
+
+**Code.** [Le dossier](https://github.com/1024pix/pix/tree/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/deprecated/infrastructure/repositories).
 
 **Verdict.** La couche ne distingue pas la source, ce qui est la lecture port / adaptateur : voir
 [`explication.md`](explication.md#x6-lanticorruption-layer). Aucun coût réel.
