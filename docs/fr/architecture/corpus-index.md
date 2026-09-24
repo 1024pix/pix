@@ -77,6 +77,25 @@ dépôt qui fasse autorité.
 | La transaction reste au grain du **usecase**, même sur plusieurs Aggregates | ADR 25, sur un motif mesuré : les événements dans les transactions ont causé des deadlocks en production | `A7` de `racine-agregat/README.md` devient une question de conception et non la règle appliquée. `X4` passe en *rien à faire*. `U7` gagne son critère |
 | Pas d'ADR sur la stabilité du format des réponses HTTP | Ce que font les applications front n'est pas le sujet de ce corpus. Et deux tiers de l'écart se règlent par un outil plutôt que par une procédure | `X3` de `serialiseur/ecarts.md` se réduit à une règle : ne jamais redéfinir le sens d'une valeur existante. Le reste attend le paquet partagé — voir `migration-typescript.md` |
 
+## ADR à écrire
+
+Ces décisions sont appliquées dans les fiches, mais aucun ADR ne les consigne. Un ADR est le seul
+endroit du dépôt qui fasse autorité : chacune reste à y écrire.
+
+| Décision | Fiche qui l'applique |
+| --- | --- |
+| La connexion à la base vient toujours de `DomainTransaction`, avec deux exceptions : le datamart, et l'écriture qui doit survivre à la transaction | `I12` de `repository/README.md` |
+| Un repository par Aggregate ; un repository de plus seulement pour une lecture mesurée, qui renvoie un read-model | `X4` de `repository/ecarts.md`, `A3` de `racine-agregat/README.md` |
+| Un seul régime de câblage : tout repository est dans l'index du contexte | `I6` de `repository/README.md` |
+| Une API interne passe toujours par un repository du contexte consommateur, l'Anticorruption Layer | `U9` de `usecase/README.md` |
+| Une API interne appelle ses usecases par l'index, jamais par un import direct | `api-interne/README.md`, exceptions légitimes |
+| Un DTO n'expose que les champs que ses consommateurs lisent | `P9` de `api-interne/README.md` |
+| Aucune règle métier dans un sérialiseur, exports CSV compris ; une clé de présentation se compose dans le sérialiseur | `M1` de `serialiseur/README.md`, `V2` de `objet-valeur/README.md` |
+| Dans un usecase, aucun `catch` sans filtre qui journalise puis continue | `X7` de `usecase/ecarts.md` |
+| `domain/services/` est réservé aux vrais Domain Services | `service-domaine/README.md`, rôle |
+| Les contrôles d'accès se déclarent sur la route | `R2` de `route/README.md`, aujourd'hui sourcé par une page Confluence |
+| L'emplacement des objets de contrat et la documentation générée des APIs internes | `P3` et `P5` de `api-interne/README.md`, aujourd'hui sourcés par la page Confluence liée à l'ADR 55 |
+
 ## Les autres fichiers
 
 | Fichier | Rôle |
@@ -350,18 +369,17 @@ Réglées le 2026-09-24 :
 - La fiche de la racine d'Aggregate déclare peu d'objets Aggregates, et c'est attendu : A1 et A2 sont
   des critères de classement. La notion se trompe dans les deux sens, le mot sans l'Aggregate et
   l'Aggregate sans le mot : voir `racine-agregat/explication.md`.
+- Les décisions qui n'ont pas d'ADR sont regroupées dans la section « ADR à écrire ».
+- Les imports du journal dans le domaine sont décrits : `CriterionProperty` sous `X3` de
+  `specification/ecarts.md`, `get-next-activity-info.js` sous `X1` de `service-domaine/ecarts.md`.
 
 Ouvertes :
 
-- **`api-interne/`** : la source de `P3` et `P5` est une page Confluence, à reporter dans l'ADR 55.
-- **`domain/services/` réservé aux vrais Domain Services** : la décision n'est écrite dans aucun ADR.
 - **Des Aggregates manquants.** Certains usecases portent des règles sur plusieurs objets à la fois,
   faute d'une racine pour les porter. Aucun inventaire de ces règles n'existe : c'est le préalable
   pour les décrire en écart dans `racine-agregat/ecarts.md`, avec de vrais exemples.
 - **`read-model/`** : le classement des fichiers de `read-models/` selon les quatre tests n'est pas
   fait. Il conditionne le passage de la règle de `RM3` en erreur.
-- **Constats sur le code, à porter dans les `ecarts.md`** : `CriterionProperty` et
-  `get-next-activity-info.js` importent le logger, contre `V4` et `D1`.
 - **Exemples manquants** : `M3` et `M4` de `serialiseur/` n'ont pas de paire conforme / fautive. Six
   dossiers n'ont pas d'exemple complet, faute de fichier réel court et conforme.
 

@@ -35,6 +35,9 @@ domain/services/
 
 **Code.** [Le dossier](https://github.com/1024pix/pix/tree/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/domain/services). Le usecase : [`get-campaign-progression.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/domain/services/get-campaign-progression.js#L3-L13). Le câblage : [`index.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/domain/services/index.js#L1-L42).
 
+Un autre fichier du dossier `school/domain/services/`, [`get-next-activity-info.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/school/domain/services/get-next-activity-info.js),
+importe et appelle le journal : il enfreint lui aussi D1, par l'infrastructure implicite.
+
 Le dossier ne distingue pas ces natures. Un relecteur ne sait donc pas quels invariants appliquer, et
 la règle ESLint de D1 ne peut pas passer en erreur. Le troisième fichier est une exception légitime de
 [`README.md`](README.md#exceptions-légitimes), symétrique de `domain/usecases/index.js`. Voir `X3` de
