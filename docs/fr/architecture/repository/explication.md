@@ -116,7 +116,7 @@ contrat n'a aucun support dans le code : il se résume au nom du paramètre que 
 
 Evans, *DDD*, ch. « A Model Expressed in Software » : le modèle ne porte pas de méthode dont le
 repository est le seul consommateur. L'exception du format publié vient du ch. « Maintaining Model
-Integrity », Published Language. La règle est `E5` de `../fiche-entite.md`.
+Integrity », Published Language. La règle est `E5` de `../entite/README.md`.
 
 ### X4. Le grain de chargement
 

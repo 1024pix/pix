@@ -18,8 +18,8 @@ Trois conséquences de ce cadrage :
   `invariants-clean-archi-ddd.md`. Une cérémonie dont le bénéfice n'est pas obtenu passe avant une
   entorse dont le coût est nul.
 
-Fiches de référence pour les constats ci-dessous : `repository/README.md`, `fiche-specification.md`,
-`fiche-racine-agregat.md`, `fiche-service-domaine.md`.
+Fiches de référence pour les constats ci-dessous : `repository/README.md`, `specification/README.md`,
+`racine-agregat/README.md`, `service-domaine/README.md`.
 
 ---
 
@@ -192,7 +192,7 @@ projection, `false` par collection vide.
 `try/catch` qui journalise. Le `TypeError` est donc avalé : l'apprenant ne reçoit pas sa récompense,
 l'API répond normalement, et seul un log en garde la trace.
 
-**Ce qu'il faudrait faire.** Écrire le test de totalité de `fiche-specification.md` § 6 — il ne
+**Ce qu'il faudrait faire.** Écrire le test de totalité de `specification/README.md` § 6 — il ne
 remonte qu'une violation, donc test et correctif tiennent dans la même PR. Puis donner à
 `organization` la même garantie de forme qu'à `organizationLearner`.
 
@@ -479,7 +479,7 @@ Le contrat tient. Mais rien ne le garantit : l'étape « enregistrer dans `TYPES
 par Joi, l'étape « charger la donnée dans le repository » ne l'est par rien. Un type enregistré sans
 donnée derrière produit le constat 3 — `TypeError` ou `false` silencieux selon la propriété.
 
-**Ce qu'il faudrait faire.** Le test de correspondance de `fiche-specification.md` § 6, dix lignes.
+**Ce qu'il faudrait faire.** Le test de correspondance de `specification/README.md` § 6, dix lignes.
 Il passe aujourd'hui : c'est un test de non-régression qui verrouille l'étape non protégée.
 
 Le chantier de lazy loading prévu en septembre — « la quest déclarera ce dont elle a besoin » — rend

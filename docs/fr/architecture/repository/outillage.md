@@ -92,9 +92,9 @@ La règle se vérifie par contre-épreuve. Un import fautif introduit dans un so
 déclencher. L'import est retiré ensuite.
 
 Règle jumelle, pour interdire au domaine d'importer l'infrastructure. Elle sert `U3` de
-`../fiche-usecase.md` et vit ici parce qu'elle partage les pièges des précédentes. Le fichier de
+`../usecase/README.md` et vit ici parce qu'elle partage les pièges des précédentes. Le fichier de
 câblage en est exempté : il importe l'infrastructure par fonction, et il est toujours au même chemin.
-Voir `X3` de `../fiche-usecase.md`.
+Voir `X3` de `../usecase/ecarts.md`.
 
 ```js
 {

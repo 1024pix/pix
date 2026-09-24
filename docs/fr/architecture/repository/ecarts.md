@@ -15,7 +15,7 @@ la théorie dans [`explication.md`](explication.md#la-théorie-des-écarts).
 | --- | --- | --- | --- | --- |
 | **X1** Aucun port n'est déclaré | dérive | l'injection et le code de câblage | **nul** : aucun contrat vérifiable | **À corriger** |
 | **X2** Méthode de persistance sur le modèle | dérive | différé, à la prochaine migration de schéma | **nul** | **À corriger** |
-| **X4** Plusieurs repositories pour un même Aggregate | dérive | quelques fichiers de plus, et A3 de `../fiche-racine-agregat.md` tombe : compter les repositories ne dit plus rien de la conception | **nul** : le gain de performance est supposé, jamais mesuré | **À corriger** |
+| **X4** Plusieurs repositories pour un même Aggregate | dérive | quelques fichiers de plus, et A3 de `../racine-agregat/README.md` tombe : compter les repositories ne dit plus rien de la conception | **nul** : le gain de performance est supposé, jamais mesuré | **À corriger** |
 | **X7** Des repositories sont câblés hors de l'index | dérive | deux régimes de câblage ; l'index ne liste plus les ports du contexte | quelques lignes d'index en moins | **À corriger** |
 | **X3** La connexion à la base ne passe pas par la signature | convention assumée | un usecase ne dit pas, à la lecture, s'il est transactionnel | réel : signatures propres | À surveiller |
 | **X6** Le repository couvre aussi l'accès aux contextes voisins | convention assumée | nul | réel : un seul concept, le domaine ignore la source | Rien à faire |
@@ -74,7 +74,7 @@ suppose donc de déplacer toute la chaîne, pas une seule méthode.
 
 **Correction.** Déplacer la fonction de mapping dans le repository, sous forme de fonction locale. Le
 déplacement est mécanique. À vérifier avant : si la forme sérialisée est un format publié, la méthode
-reste sur le modèle. Voir `E5` de `../fiche-entite.md`.
+reste sur le modèle. Voir `E5` de `../entite/README.md`.
 
 ### X3. La connexion à la base ne passe pas par la signature
 
@@ -100,7 +100,7 @@ coût reste réel, parce qu'un usecase ne dit pas s'il s'exécute dans une trans
 
 **Correction.** Aucune sur la forme. Écrire l'ADR qui acte l'abandon de la forme explicite et son
 motif, des signatures propres. Cet ADR reprend la contrepartie : documenter le périmètre
-transactionnel quand il n'est pas évident, ce qu'exige `U7` de `../fiche-usecase.md`.
+transactionnel quand il n'est pas évident, ce qu'exige `U7` de `../usecase/README.md`.
 
 ### X4. Plusieurs repositories pour un même Aggregate
 
@@ -132,10 +132,10 @@ Entity chargée plus tôt dans la même requête HTTP est souvent déjà dans le
 1. S'il sert une écriture, ou une lecture qui a besoin des invariants, le fusionner dans le
    repository de l'Aggregate.
 2. S'il sert une lecture sans invariant, il ne reste séparé que si une mesure montre que charger
-   l'Aggregate entier est trop cher. Il renvoie alors un read-model : voir `../fiche-read-model.md`.
+   l'Aggregate entier est trop cher. Il renvoie alors un read-model : voir `../read-model/README.md`.
 
 Le mot « Aggregate » ne se pose sur un dossier que si ses repositories suivent ce grain : voir A3 de
-`../fiche-racine-agregat.md`. La théorie est dans
+`../racine-agregat/README.md`. La théorie est dans
 [`explication.md`](explication.md#x4-le-grain-de-chargement).
 
 ### X6. Le repository couvre aussi l'accès aux contextes voisins
@@ -154,7 +154,7 @@ infrastructure/repositories/
 [`explication.md`](explication.md#x6-lanticorruption-layer). Aucun coût réel.
 
 **Correction.** Aucune. Ce repository est le seul point d'entrée vers le voisin : le usecase le
-reçoit, jamais l'API interne elle-même. Voir `X6` de `../fiche-usecase.md`.
+reçoit, jamais l'API interne elle-même. Voir `X6` de `../usecase/ecarts.md`.
 
 ### X7. Des repositories sont câblés hors de l'index
 

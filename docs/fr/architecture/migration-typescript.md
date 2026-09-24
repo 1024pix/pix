@@ -64,7 +64,7 @@ partagé** peut porter deux choses :
 - les **constantes** qui portent du sens — valeurs possibles d'un état, codes d'erreur, énumérations
   du contrat.
 
-Ce que ça change pour le corpus : `M3` de `fiche-serialiseur.md` est aujourd'hui le seul invariant sans
+Ce que ça change pour le corpus : `M3` de `serialiseur/README.md` est aujourd'hui le seul invariant sans
 aucun moyen de vérification, parce que ses consommateurs sont hors du dépôt. Le paquet le ramène en
 grande partie dans le domaine du vérifiable, et le détail des trois niveaux est au § 7 de cette fiche.
 
