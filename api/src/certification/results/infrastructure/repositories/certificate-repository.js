@@ -44,7 +44,7 @@ export async function findByDivisionForScoIsManagingStudentsOrganization({ organ
 
   return await Promise.all(
     mostRecentCertificationsPerOrganizationLearner
-      .sort((a, b) => {
+      .toSorted((a, b) => {
         const akey = a.lastName + a.firstName;
         const bkey = b.lastName + b.firstName;
         return akey > bkey ? 1 : bkey > akey ? -1 : 0;

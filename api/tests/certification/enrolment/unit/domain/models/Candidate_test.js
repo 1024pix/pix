@@ -1016,9 +1016,13 @@ describe('Certification | Enrolment | Unit | Domain | Models | Candidate', funct
         lastName: 'Mercure',
       });
 
-      const sortedCandidates = [michelJacques, jeannetteJacques, fredericMercure, francoisMercure, fridaMercure].sort(
-        Candidate.sortByLastNameAndFirstName,
-      );
+      const sortedCandidates = [
+        michelJacques,
+        jeannetteJacques,
+        fredericMercure,
+        francoisMercure,
+        fridaMercure,
+      ].toSorted(Candidate.sortByLastNameAndFirstName);
 
       expect(sortedCandidates).to.deepEqualArray([
         jeannetteJacques,

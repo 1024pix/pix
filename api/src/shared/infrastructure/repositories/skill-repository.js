@@ -59,7 +59,7 @@ export async function findOperativeByIds(ids) {
   const skillDtos = await getInstance().getMany(ids);
   return skillDtos
     .filter((skillDto) => skillDto && OPERATIVE_STATUSES.includes(skillDto.status))
-    .sort(byId)
+    .toSorted(byId)
     .map(toDomain);
 }
 
@@ -67,7 +67,7 @@ export async function findByRecordIds(ids) {
   const skillDtos = await getInstance().getMany(ids);
   return skillDtos
     .filter((skillDto) => skillDto)
-    .sort(byId)
+    .toSorted(byId)
     .map(toDomain);
 }
 
@@ -75,7 +75,7 @@ export async function findActiveByRecordIds(ids) {
   const skillDtos = await getInstance().getMany(ids);
   return skillDtos
     .filter((skillDto) => skillDto && skillDto.status === ACTIVE_STATUS)
-    .sort(byId)
+    .toSorted(byId)
     .map(toDomain);
 }
 

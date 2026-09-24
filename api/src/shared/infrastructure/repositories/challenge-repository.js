@@ -62,8 +62,8 @@ export async function getMany(ids, locale) {
   const localeChallengeDtos = locale
     ? challengeDtos.filter((challengeDto) => challengeDto.locales.includes(locale))
     : challengeDtos;
-  localeChallengeDtos.sort(byId);
-  const challengesDtosWithSkills = await loadChallengeDtosSkills(localeChallengeDtos);
+  const sortedChallengeDtos = localeChallengeDtos.toSorted(byId);
+  const challengesDtosWithSkills = await loadChallengeDtosSkills(sortedChallengeDtos);
   return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
 }
 
@@ -88,7 +88,7 @@ export async function findValidatedChallengeDtosByCompetenceId(competenceId, loc
 
 export async function findOperativeChallengeDtosBySkillsAndLocales(skills, locales) {
   const skillIds = skills.map((skill) => skill.id);
-  const cacheKey = `findOperativesBySkillsAndLocales([${skillIds.sort()}], ${locales.sort().join(',')})`;
+  const cacheKey = `findOperativesBySkillsAndLocales([${skillIds.toSorted()}], ${locales.toSorted().join(',')})`;
 
   const findOperativeByLocaleBySkillIdsCallback = (knex) =>
     knex
