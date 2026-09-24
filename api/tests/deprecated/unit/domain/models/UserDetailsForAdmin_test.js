@@ -46,8 +46,8 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
     });
 
     context('terms of service', function () {
-      context('when the user TOS statuses are ACCEPTED for pix app and pix orga', function () {
-        it('returns the userDetailsForAdmin with accepted Pix App and Pix Orga TOS status', async function () {
+      context('when the user TOS statuses are ACCEPTED for pix app, pix orga and pix certif', function () {
+        it('returns the userDetailsForAdmin with accepted Pix App, Pix Orga and Pix Certif TOS status', async function () {
           // given
           const user = domainBuilder.buildUser({
             cgu: false, // irrelevant data to enlighten the fact that values come now from tosStatus
@@ -57,6 +57,7 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
 
           const pixAppTosAcceptedAt = new Date('2025-01-15');
           const pixOrgaTosAcceptedAt = new Date('2026-01-15');
+          const pixCertifTosAcceptedAt = new Date('2026-02-15');
           const userDetailsForAdmin = new UserDetailsForAdmin({
             userId: user.id,
           });
@@ -70,16 +71,40 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
             documentPath: '/tos/v4.pdf',
             acceptedAt: pixOrgaTosAcceptedAt,
           };
+          const pixCertifTosStatus = {
+            status: STATUS.ACCEPTED,
+            documentPath: '/tos/v6.pdf',
+            acceptedAt: pixCertifTosAcceptedAt,
+          };
 
           // when
-          userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus });
+          userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus, pixCertifTosStatus });
 
           // then
           expect(userDetailsForAdmin.cgu).to.be.true;
           expect(userDetailsForAdmin.lastPixAppTermsOfServiceValidatedAt).to.deep.equal(pixAppTosAcceptedAt);
           expect(userDetailsForAdmin.lastPixOrgaTermsOfServiceValidatedAt).to.deep.equal(pixOrgaTosAcceptedAt);
+          expect(userDetailsForAdmin.lastPixCertifTermsOfServiceValidatedAt).to.deep.equal(pixCertifTosAcceptedAt);
           expect(userDetailsForAdmin.pixAppTermsOfServiceAccepted).to.equal(true);
           expect(userDetailsForAdmin.pixOrgaTermsOfServiceAccepted).to.equal(true);
+          expect(userDetailsForAdmin.pixCertifTermsOfServiceAccepted).to.equal(true);
+        });
+      });
+
+      context('when the user TOS status is REQUESTED for pix certif', function () {
+        it('returns the userDetailsForAdmin with a not accepted Pix Certif TOS status', function () {
+          // given
+          const userDetailsForAdmin = new UserDetailsForAdmin({});
+          const pixAppTosStatus = { status: STATUS.ACCEPTED, acceptedAt: new Date('2025-01-15') };
+          const pixOrgaTosStatus = { status: STATUS.ACCEPTED, acceptedAt: new Date('2025-01-15') };
+          const pixCertifTosStatus = { status: STATUS.REQUESTED, acceptedAt: null };
+
+          // when
+          userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus, pixCertifTosStatus });
+
+          // then
+          expect(userDetailsForAdmin.pixCertifTermsOfServiceAccepted).to.be.false;
+          expect(userDetailsForAdmin.lastPixCertifTermsOfServiceValidatedAt).to.be.null;
         });
       });
 
@@ -101,9 +126,10 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
             documentPath: '/tos/v4.pdf',
             acceptedAt: pixOrgaTosAcceptedAt,
           };
+          const pixCertifTosStatus = { status: STATUS.ACCEPTED, acceptedAt: new Date('2026-01-15') };
 
           // when
-          userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus });
+          userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus, pixCertifTosStatus });
 
           // then
           expect(userDetailsForAdmin.cgu).to.be.false;
@@ -112,8 +138,8 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
         });
       });
 
-      context('when the user TOS statuses for Pix App and Pix Orga are UPDATE-REQUESTED', function () {
-        it('returns the user with update-requested Pix Orga and Pix App TOS statuses', function () {
+      context('when the user TOS statuses for Pix App, Pix Orga and Pix Certif are UPDATE-REQUESTED', function () {
+        it('returns the user with update-requested Pix App, Pix Orga and Pix Certif TOS statuses', function () {
           // given
           const user = domainBuilder.buildUser({
             cgu: false, // irrelevant data to enlighten the fact that values come now from tosStatus
@@ -125,16 +151,19 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
           });
           const pixAppTosStatus = { status: STATUS.UPDATE_REQUESTED, acceptedAt: null };
           const pixOrgaTosStatus = { status: STATUS.UPDATE_REQUESTED, acceptedAt: null };
+          const pixCertifTosStatus = { status: STATUS.UPDATE_REQUESTED, acceptedAt: null };
 
           // when
-          userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus });
+          userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus, pixCertifTosStatus });
 
           // then
           expect(userDetailsForAdmin.cgu).to.be.true;
           expect(userDetailsForAdmin.lastPixAppTermsOfServiceValidatedAt).to.be.null;
           expect(userDetailsForAdmin.lastPixOrgaTermsOfServiceValidatedAt).to.be.null;
+          expect(userDetailsForAdmin.lastPixCertifTermsOfServiceValidatedAt).to.be.null;
           expect(userDetailsForAdmin.pixAppTermsOfServiceAccepted).to.be.false;
           expect(userDetailsForAdmin.pixOrgaTermsOfServiceAccepted).to.be.false;
+          expect(userDetailsForAdmin.pixCertifTermsOfServiceAccepted).to.be.false;
         });
       });
 
@@ -151,9 +180,10 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
           });
           const pixAppTosStatus = { status: STATUS.NOT_APPLICABLE, acceptedAt: null };
           const pixOrgaTosStatus = { status: STATUS.REQUESTED, acceptedAt: null };
+          const pixCertifTosStatus = { status: STATUS.NOT_APPLICABLE, acceptedAt: null };
 
           // when
-          userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus });
+          userDetailsForAdmin.setTosStatus({ pixAppTosStatus, pixOrgaTosStatus, pixCertifTosStatus });
 
           // then
           expect(userDetailsForAdmin.cgu).to.be.false;

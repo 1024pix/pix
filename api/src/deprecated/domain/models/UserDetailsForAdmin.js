@@ -60,13 +60,16 @@ class UserDetailsForAdmin {
       : null;
   }
 
-  setTosStatus({ pixAppTosStatus, pixOrgaTosStatus }) {
+  setTosStatus({ pixAppTosStatus, pixOrgaTosStatus, pixCertifTosStatus }) {
     this.cgu = pixAppTosStatus.status === STATUS.ACCEPTED || pixAppTosStatus.status === STATUS.UPDATE_REQUESTED;
     this.pixAppTermsOfServiceAccepted = pixAppTosStatus.status === STATUS.ACCEPTED;
     this.lastPixAppTermsOfServiceValidatedAt = pixAppTosStatus.acceptedAt;
 
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTosStatus.status === STATUS.ACCEPTED;
     this.lastPixOrgaTermsOfServiceValidatedAt = pixOrgaTosStatus.acceptedAt;
+
+    this.pixCertifTermsOfServiceAccepted = pixCertifTosStatus.status === STATUS.ACCEPTED;
+    this.lastPixCertifTermsOfServiceValidatedAt = pixCertifTosStatus.acceptedAt;
   }
 }
 
