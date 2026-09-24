@@ -13,6 +13,22 @@ ch. « The Life Cycle of a Domain Object », et la règle 1 de Vernon, « Effect
 La différence entre une garantie et une convention fait tout l'intérêt de la catégorie. C'est ce que
 protège A2 : si la frontière est contournable, la règle n'est plus qu'une convention.
 
+### Ce que la fiche dit du code actuel
+
+Appliquée telle quelle, cette référence déclare que peu d'objets du code sont des Aggregates : peu
+ont une règle commune nommable (A1), et peu protègent leur collection interne (A2). Ce résultat est
+attendu. A1 et A2 sont d'abord des **critères de classement**, pas une condamnation du code. La
+notion d'Aggregate a été peu comprise jusqu'ici, et elle se trompe dans deux sens :
+
+- **le mot sans l'Aggregate** : un dossier `aggregates/` contient des objets sans règle commune. Ce
+  sont des Entities ou des read-models mal rangés, que `X1` de [`ecarts.md`](ecarts.md) reclasse ;
+- **l'Aggregate sans le mot** : une règle qui porte sur plusieurs objets à la fois est écrite dans un
+  usecase, faute d'une racine pour la porter. Le usecase a alors trop de logique, ce que décrit `X1`
+  de `../usecase/ecarts.md`. Chacune de ces règles est un candidat à un Aggregate manquant.
+
+La référence sert donc d'abord à trancher une question de conception, « est-ce un Aggregate ? »,
+dans un sens comme dans l'autre.
+
 ### L'invariant de frontière mince
 
 L'exemple nommable de A1 est mince : il contraint un type, pas une quantité métier. Un invariant mince

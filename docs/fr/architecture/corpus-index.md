@@ -347,13 +347,17 @@ Réglées le 2026-09-24 :
   passe par l'index des usecases.
 - Une fonction d'API interne utilisée par un seul consommateur est autorisée ; son nom dit le besoin,
   pas l'écran du consommateur.
+- La fiche de la racine d'Aggregate déclare peu d'objets Aggregates, et c'est attendu : A1 et A2 sont
+  des critères de classement. La notion se trompe dans les deux sens, le mot sans l'Aggregate et
+  l'Aggregate sans le mot : voir `racine-agregat/explication.md`.
 
 Ouvertes :
 
 - **`api-interne/`** : la source de `P3` et `P5` est une page Confluence, à reporter dans l'ADR 55.
 - **`domain/services/` réservé aux vrais Domain Services** : la décision n'est écrite dans aucun ADR.
-- **`racine-agregat/`** : appliquée telle quelle, la fiche disqualifie du code existant, car peu
-  d'objets satisfont `A1` et `A2`.
+- **Des Aggregates manquants.** Certains usecases portent des règles sur plusieurs objets à la fois,
+  faute d'une racine pour les porter. Aucun inventaire de ces règles n'existe : c'est le préalable
+  pour les décrire en écart dans `racine-agregat/ecarts.md`, avec de vrais exemples.
 - **`read-model/`** : le classement des fichiers de `read-models/` selon les quatre tests n'est pas
   fait. Il conditionne le passage de la règle de `RM3` en erreur.
 - **Constats sur le code, à porter dans les `ecarts.md`** : `CriterionProperty` et
