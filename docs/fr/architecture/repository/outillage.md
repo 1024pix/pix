@@ -243,6 +243,8 @@ export async function findById({ userId, userApi }) {
 }
 ```
 
+**Code.** [`user-repository.js`](https://github.com/1024pix/pix/blob/0f2dfa128fb9faed26300f72d808a812c4952158/api/src/quest/infrastructure/repositories/user-repository.js#L1-L4).
+
 Les faux positifs de l'étape 2 viennent des fonctions qui renvoient un scalaire extrait de la réponse,
 autorisées par les exceptions légitimes.
 

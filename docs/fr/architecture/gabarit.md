@@ -109,10 +109,15 @@ cette règle.
 ## Règles communes
 
 Les règles de langue, de ton et d'exemples sont celles du gabarit de `corpus-index.md`, règles 1 à 4,
-avec deux changements :
+avec trois changements :
 
 - **Pas d'encadré « À instruire » dans les fiches.** Les questions ouvertes vont dans l'index du corpus,
   `corpus-index.md`.
+- **Chaque extrait réel a un permalien.** Sous le bloc de code, une ligne **Code.** donne un lien
+  GitHub vers un commit fixe, avec les lignes exactes : `…/blob/<sha>/api/…#L7-L11`. Un lien vers une
+  branche est interdit, parce que le code change et que l'exemple doit rester retrouvable. Le chemin
+  n'est plus répété dans le commentaire du bloc. Un extrait hypothétique n'a pas de lien, et la ligne
+  le dit. Pour mettre un exemple à jour, on change l'extrait et le commit ensemble.
 - **Le cadre « état cible » disparaît de la référence.** Une règle de `README.md` s'applique
   aujourd'hui. Ce qui dépend d'une migration se dit dans la ligne **Vérification**, ou dans
   `outillage.md`.
