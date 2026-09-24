@@ -43,7 +43,7 @@ async function checkAdministrationTeamExists(administrationTeamId, administratio
   }
 }
 
-async function checkStructureCategoryExists(structureCategoryId, structureCategoryRepository) {
+async function checkStructureCategoryExists({ structureCategoryId, structureCategoryRepository, currentLine }) {
   const existingStructureCategory = await structureCategoryRepository.findById(structureCategoryId);
 
   if (!existingStructureCategory) {
@@ -51,6 +51,7 @@ async function checkStructureCategoryExists(structureCategoryId, structureCatego
       message: `Structure category not found for id ${structureCategoryId}`,
       meta: {
         structureCategoryId,
+        currentLine,
       },
     });
   }
