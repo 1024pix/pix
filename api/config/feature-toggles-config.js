@@ -31,7 +31,7 @@ export default {
   },
   isEmbedLLMEnabled: {
     type: 'boolean',
-    description: 'Allow embeds with LLM prompts to interact with the LLM API and start a conversation',
+    description: 'Allow embeds with LLM prompts to interact with the LLM API and start a conversation. When false, returns 503 errors to the browser, but don\'t disable the selection of exercises or the display of activities that use the LLM.',
     defaultValue: false,
     tags: ['modulix', 'team-contenu', 'llm', 'embed', 'pix-app'],
   },
