@@ -18,7 +18,7 @@ règle. Les taux de faux positifs de la table sont estimés, pas mesurés.
 | **C1** un seul usecase | règle ESLint : plus d'un appel sur `usecases` dans une fonction de contrôleur | ~30 lignes | faibles : le cas « écriture puis lecture » |
 | **C2** aucune décision | règle ESLint : `.code()` avec un littéral supérieur ou égal à 400 | ~20 lignes | **à mesurer** |
 | **C5** nommage | script `tests/tooling/` : nom du fichier et de l'objet exporté | ~20 lignes | aucun |
-| **C3** sérialiseur injecté | revue | — | — |
+| **C3** dépendances en paramètre | revue | — | — |
 
 ### C4 — règles de chemin
 

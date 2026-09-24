@@ -321,10 +321,8 @@ sur le code, ou dits simplifiés ou hypothétiques. Les plus notables :
 
 ### Questions ouvertes nées du découpage
 
-- **`C3` contre `X4` dans `controleur/`.** `C3` exige une valeur par défaut sur le paramètre du
-  sérialiseur. La forme cible de `X4`, l'enveloppe de devcomp, passe ce paramètre sans valeur par
-  défaut. L'exemple conforme de `C4` importe aussi les usecases, la forme que `X4` déclare
-  vestige.
+- Réglé : `C3` admet les deux formes d'injection, l'enveloppe de la route par défaut et la valeur par
+  défaut du troisième paramètre. `X4` de `controleur/` passe « à surveiller » jusqu'à l'alignement.
 - Réglé : la grille de verdict dit maintenant « à corriger : le coût dépasse le bénéfice, ou le
   bénéfice s'obtient autrement », ce qui correspond aux verdicts rendus.
 - **`Section` de devcomp** sert d'exemple conforme de Value Object (`V3` de `objet-valeur/`) et
