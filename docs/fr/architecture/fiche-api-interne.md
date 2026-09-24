@@ -33,6 +33,7 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | [**P1**](#p1-lapi-expose-un-dto-jamais-un-modèle-du-domaine) | l'API expose un DTO, jamais un modèle du domaine | **forte** | règle ESLint, partielle |
 | [**P2**](#p2-lapi-passe-par-un-usecase) | l'API passe par un usecase | **forte** | `dependency-cruiser` |
 | [**P6**](#p6-le-contrat-est-stable) | le contrat est stable | **forte** | revue |
+| [**P9**](#p9-le-dto-nexpose-que-ce-que-ses-consommateurs-utilisent) | le DTO n'expose que ce que ses consommateurs utilisent | **forte** | revue |
 | [**P3**](#p3-le-contrat-est-documenté) | le contrat est documenté | moyenne | script, partiel, sans faux positif |
 | [**P8**](#p8-lapi-ne-transite-pas-vers-un-autre-contexte) | l'API ne transite pas vers un autre contexte | moyenne | `dependency-cruiser` |
 | [**P7**](#p7-le-comportement-ne-dépend-pas-de-lappelant) | le comportement ne dépend pas de l'appelant | moyenne | revue |
@@ -47,7 +48,7 @@ typage de s'appliquer est dans `migration-typescript.md`.
 | [**X2**](#x2-lapi-appelle-un-repository-sans-passer-par-un-usecase) | l'API appelle un repository sans passer par un usecase | **à corriger** |
 | [**X3**](#x3-lobjet-de-contrat-nest-pas-dans-le-dossier-décidé) | l'objet de contrat n'est pas dans le dossier décidé | **à corriger** |
 | [**X4**](#x4-lapi-importe-une-api-ou-un-repository-dun-contexte-tiers) | l'API importe une API ou un repository d'un contexte tiers | **à corriger** |
-| [**X5**](#x5-le-dto-expose-exactement-les-champs-de-lentity) | le DTO expose exactement les champs de l'Entity | à surveiller |
+| [**X5**](#x5-le-dto-expose-exactement-les-champs-de-lentity) | le DTO expose exactement les champs de l'Entity | **à corriger** |
 
 Hors numérotation : le [sens de lecture](#le-sens-de-lecture-souvent-inversé) du § 1, qui relie
 cette fiche à `I1` de `fiche-repository.md`. La distinction entre objet de contrat et read-model est
@@ -129,8 +130,9 @@ vert, parce que la dépendance de module n'a pas changé.
 L'ADR 55 accepte et documente la duplication que `P1` introduit. Ce n'est pas une dette : c'est le
 prix de la liberté de refactorer.
 
-Envelopper le modèle dans un DTO aux mêmes champs, sans choisir ces champs, respecte `P1` à la lettre
-et le viole dans son esprit. Le lint passe au vert, et la forme interne reste le contrat. Voir `X5`.
+Envelopper le modèle dans un DTO aux mêmes champs respecte `P1` à la lettre et le viole dans son
+esprit. Le lint passe au vert, et la forme interne reste le contrat. `P9` dit quels champs le DTO
+porte ; `X5` décrit l'écart.
 
 ### P2. L'API passe par un usecase
 
@@ -375,6 +377,38 @@ Quand la composition est vraiment nécessaire, c'est au **consommateur** de l'as
 les deux APIs. Cette composition est de l'orchestration, donc elle relève d'un usecase chez le
 consommateur.
 
+### P9. Le DTO n'expose que ce que ses consommateurs utilisent
+
+**Énoncé.** Un champ figure dans le DTO parce qu'au moins un contexte consommateur le lit. Un champ
+qu'aucun consommateur ne lit n'y figure pas, même s'il existe sur le modèle.
+
+```js
+// conforme — une projection : trois champs choisis dans le modèle User
+export class UserDTO {
+  constructor(user) {
+    this.firstName = user.firstName;
+    this.lastName = user.lastName;
+    this.id = user.id;
+  }
+}
+
+// fautif — application/api/models/CampaignParticipation.js recopie le read-model du même nom
+export class CampaignParticipation {
+  constructor({
+    participantFirstName, participantLastName, participantExternalId = null,
+    userId, campaignParticipationId, createdAt, sharedAt, status,
+  } = {}) { … }
+}
+```
+
+Le DTO est alors la liste exacte de ce que l'équipe du fournisseur s'engage à maintenir. Tout le
+reste du modèle peut changer sans prévenir personne.
+
+**Ce qui casse.** Un champ exposé sans consommateur est une promesse que personne n'a demandée.
+L'équipe du fournisseur ne peut plus distinguer le contrat du reste : avant chaque refactoring
+interne, elle doit vérifier chez tous les consommateurs si le champ touché est lu. `P6` devient
+coûteux à tenir, et le bénéfice de `P1` disparaît.
+
 ---
 
 ## 3. Exceptions légitimes
@@ -403,6 +437,7 @@ Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'a
 | **P1** un DTO, jamais le modèle | **forte** | Le fournisseur refactore son domaine sans casser personne. C'est la contrepartie du coût de la couche |
 | **P2** passe par un usecase | **forte** | Les règles métier valent aussi pour les voisins. Sans `P2`, l'API est une porte dérobée vers la base |
 | **P6** contrat stable | **forte** | Un changement chez le fournisseur ne casse pas la CI de plusieurs équipes |
+| **P9** seulement ce qui est utilisé | **forte** | L'équipe du fournisseur sait exactement quel contrat elle doit respecter. Tout champ hors du DTO se refactore sans coordination |
 | **P3** contrat documenté | moyenne | Un consommateur sait ce qu'il peut appeler sans lire le code du fournisseur. La charge mentale entre équipes baisse |
 | **P8** pas de transit | moyenne | Le graphe de dépendances entre contextes reste lisible et acyclique |
 | **P7** indépendant de l'appelant | moyenne | Le couplage que la couche existe pour supprimer ne se recrée pas |
@@ -420,8 +455,8 @@ déjà payé : une couche d'API interne dont les DTO sont les modèles paie le c
 
 ### Ce que ça n'apporte pas
 
-Ces invariants ne disent pas ce qu'il faut exposer. Une API qui les respecte tous mais expose des
-dizaines de méthodes calquées sur les besoins d'un seul consommateur n'est pas un contrat : c'est un
+`P9` borne les champs d'un DTO, pas le découpage des fonctions. Une API qui respecte tous les
+invariants mais expose des dizaines de méthodes calquées sur les besoins d'un seul consommateur n'est pas un contrat : c'est un
 tunnel. Le dimensionnement reste un travail de conception entre les deux équipes.
 
 ---
@@ -434,7 +469,7 @@ tunnel. Le dimensionnement reste un travail de conception entre les deux équipe
 | **X2** L'API appelle un repository sans passer par un usecase | dérive | Deux comportements pour la même question, selon qu'elle est posée de l'intérieur ou de l'extérieur | La lecture est immédiate, sans usecase à écrire | **À corriger** |
 | **X3** L'objet de contrat n'est pas dans le dossier décidé | dérive | La convention documentée n'est pas appliquée partout, donc son script de vérification ne peut pas être bloquant. Et le mot `read-model` recouvre deux notions | Nul : la décision existe, mais elle n'est pas appliquée | **À corriger** |
 | **X4** L'API importe une API ou un repository d'un contexte tiers | dérive | Le graphe déclaré ne décrit plus le graphe réel. Une règle de dépendance passe au vert sur un couplage réel | La composition est faite une fois chez le fournisseur au lieu de chez chaque consommateur | **À corriger** |
-| **X5** Le DTO expose exactement les champs de l'Entity | convention assumée si la coïncidence est délibérée, dérive sinon | Le contrat suit le modèle : ajouter un champ interne l'expose, le renommer casse le contrat | Réel si la coïncidence est délibérée : le contrat est alors le modèle, et il n'y a rien à décider | *À surveiller* |
+| **X5** Le DTO expose exactement les champs de l'Entity | dérive | Le contrat suit le modèle : ajouter un champ interne l'expose, le renommer casse le contrat. L'équipe du fournisseur ne sait pas quels champs ses consommateurs lisent | Pas de choix de champs à faire à l'ouverture de l'API | **À corriger** |
 
 ### X1. L'API renvoie un modèle du domaine plutôt qu'un DTO
 
@@ -462,7 +497,7 @@ travail de contrat, pas une transformation.
 
 Ne jamais envelopper le modèle dans un DTO aux mêmes champs sans avoir choisi ces champs. Le lint
 passe au vert, la forme interne reste le contrat, et la dette devient invisible. Voir le § 6 pour ce
-que la règle ne voit pas, et `X5` pour la coïncidence délibérée.
+que la règle ne voit pas, et `P9` pour le choix des champs.
 
 ### X2. L'API appelle un repository sans passer par un usecase
 
@@ -550,8 +585,9 @@ peut y en avoir plusieurs. C'est le prix d'un graphe exact. Une fois les écarts
 
 ### X5. Le DTO expose exactement les champs de l'Entity
 
-**Ce que dit la théorie.** Le Published Language est choisi pour l'échange. Il peut coïncider avec le
-modèle interne, mais la coïncidence doit être un choix constaté, pas un défaut d'arbitrage.
+**Ce que dit la théorie.** Le Published Language est choisi pour l'échange, pas recopié du modèle
+interne. Robinson en donne le critère : le contrat d'un fournisseur est l'union de ce que ses
+consommateurs utilisent. C'est `P9`.
 
 **Exemple concret.** La classe de base du DTO de contrat recopie le read-model du domaine du même
 nom : mêmes champs, mêmes accesseurs.
@@ -598,18 +634,13 @@ export class UserDTO {
 }
 ```
 
-Le risque existe : un DTO écrit à la hâte au moment d'ouvrir une API prend la forme du modèle, et
-personne ne revient dessus.
+Un DTO écrit au moment d'ouvrir une API prend facilement la forme du modèle, et personne ne revient
+dessus.
 
-**Correction.** Aucune tant que la coïncidence est **délibérée** : un contrat qui reprend le modèle
-peut être le bon contrat. C'est ce qui classe l'écart *à surveiller* plutôt qu'à corriger.
-
-Vérifier, fonction par fonction, si chaque champ exposé l'est parce qu'un consommateur en a besoin, ou
-parce qu'il était là. La seconde réponse rend `P6` intenable : personne ne peut s'engager sur la
-stabilité de champs que personne n'a choisis.
-
-**Révision.** Le premier champ interne à masquer, ou le premier renommage refusé parce qu'il
-casserait le contrat, rend l'arbitrage dû.
+**Correction.** Pour chaque DTO, relever les champs que lisent les contextes consommateurs, qui sont
+ceux qui déclarent dépendre du fournisseur. Retirer les autres, en coordination avec ces contextes
+comme le demande `P6`. Le relevé demande de lire le code des consommateurs ; le retrait est ensuite
+mécanique.
 
 ---
 
@@ -629,7 +660,7 @@ infrastructure.
 | **P1** un DTO | règle ESLint : un `return` d'API qui rend directement le résultat d'un usecase | ~40 lignes | un connu, les autres **à mesurer** |
 | **P5** emplacement | script : l'objet de contrat est dans `application/api/models/` | ~20 lignes | aucun. **Bloquant après `X3`** |
 | **P4** DTO sans comportement | voir § 6 de `fiche-objet-valeur.md` | — | — |
-| **P6**, **P7** | revue | — | — |
+| **P6**, **P7**, **P9** | revue | — | — |
 
 ### P2 et P8 — deux règles de chemin, les plus rentables
 
@@ -665,7 +696,7 @@ Ce sous-cas a déjà un faux positif : si le usecase renvoie un scalaire ou rien
 aucun modèle. C'est la limite de l'indice du § 8.
 
 **Limite.** La règle ne voit pas une API qui construit un objet recopiant exactement le modèle. Ce cas
-respecte `P1` à la lettre et le viole dans son esprit. C'est `X5`, et seule la revue le détecte.
+respecte `P1` à la lettre et viole `P9`. C'est `X5`, et seule la revue le détecte.
 
 ### P3 — le générateur est déjà l'oracle
 
@@ -745,7 +776,7 @@ Une API en `.ts` qui importe ses usecases depuis des `.js` ne vérifie que la fo
 C'est précisément ce que `P1` protège, donc le bénéfice existe même quand l'amont n'est pas migré.
 Contrairement aux usecases, l'API interne est donc un candidat de migration précoce.
 
-Le typage ne couvre pas `X5`. Un DTO typé peut recopier le modèle champ par champ, et le compilateur
+Le typage ne couvre pas `P9`. Un DTO typé peut recopier le modèle champ par champ, et le compilateur
 n'a rien à dire.
 
 Les contraintes de syntaxe imposées par la configuration sont dans `migration-typescript.md`.
@@ -784,9 +815,9 @@ Chaque ligne porte son statut au regard du § 6 :
 
 ```
 [ ] [partiel] P1  Aucun return ne rend directement un modèle du domaine
-[ ] [humain]  P1  Le DTO ne recopie pas le modèle champ par champ, sauf coïncidence délibérée — voir X5
 [ ] [auto]    P2  Chaque fonction passe par un usecase, jamais par un repository
 [ ] [humain]  P6  Aucun renommage ni retrait sans avoir listé les contextes consommateurs
+[ ] [humain]  P9  Chaque champ du DTO est lu par au moins un contexte consommateur
 [ ] [partiel] P3  Chaque fonction exportée est documentée ; le fichier API.md régénéré est identique à celui du dépôt
 [ ] [auto]    P8  Aucun import d'un autre contexte : ni repository, ni API tierce
 [ ] [humain]  P7  Aucun paramètre ni branche qui dépend de l'identité de l'appelant
@@ -796,8 +827,8 @@ Chaque ligne porte son statut au regard du § 6 :
 [ ] [humain]  Test unitaire avec usecase substitué, portant sur le mapping seul
 ```
 
-À terme, il reste sept lignes : deux `[partiel]` et cinq `[humain]`. La plus importante est la
-deuxième : `P1` a une règle et un typage, et ni l'un ni l'autre ne voit un DTO qui recopie le
+À terme, il reste sept lignes : deux `[partiel]` et cinq `[humain]`. La plus importante est
+celle de `P9` : `P1` a une règle et un typage, et ni l'un ni l'autre ne voit un DTO qui recopie le
 modèle. Cette violation passe au vert sur tous les outils, et elle annule le bénéfice de la couche.
 
 ---
@@ -816,10 +847,11 @@ Bibliographie et liens dans `references-ddd.md`. Sources primaires des conventio
 | **P4** DTO sans comportement | Evans, ch. « A Model Expressed in Software » : Value Object. Énoncés dans `fiche-objet-valeur.md` | *DDD Reference* |
 | **P5** emplacement du DTO | **documentation liée à l'ADR 55** : dossier `api` dans la couche application, sous-dossier `models` pour les classes de contrat. Page Confluence de l'espace EDTDT, donc hors du dépôt | le lien en fin d'ADR 55 |
 | **P6** stabilité du contrat | Evans, ch. « Maintaining Model Integrity ». Vernon, *IDDD*, ch. « Integrating Bounded Contexts » | *DDD Reference* ; dddcommunity.org |
+| **P9** seulement ce qui est utilisé | Robinson, « Consumer-Driven Contracts: A Service Evolution Pattern » (2006). Pix : décision d'équipe, sans ADR | martinfowler.com, gratuit |
 | **P7** indépendance de l'appelant | **aucune source.** Déduction : une API qui dépend de son appelant n'est pas un Open Host Service | — |
 | **P8** pas de transit | **aucune source.** Déduction de la Context Map d'Evans : le graphe déclaré doit décrire le graphe réel | — |
 
-**Deux invariants sur huit n'ont aucune source** : `P7` et `P8`, tous deux des déductions explicites.
+**Deux invariants sur neuf n'ont aucune source** : `P7` et `P8`, tous deux des déductions explicites.
 `P5` a une source : la documentation liée à l'ADR 55 fixe l'emplacement du DTO.
 
 Cette source est hors du dépôt. Une page Confluence peut changer sans que rien ici ne le signale, et
