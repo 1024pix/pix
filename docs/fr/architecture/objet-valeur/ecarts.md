@@ -121,7 +121,11 @@ L'équipe a décidé qu'une clé de présentation se compose dans le sérialiseu
 [cas de la clé de présentation](README.md#le-cas-de-la-clé-de-présentation), sous V2. La théorie est
 dans [`explication.md`](explication.md#x5-la-clé-de-présentation-est-fabriquée-dans-le-domaine).
 
-**Correction.** Classer selon les trois cas de V2, puis :
+**Correction.** La réponse de l'API reste identique : le front ne doit rien voir changer. La
+correction déplace la construction de la clé là où elle est pertinente, elle ne change pas sa valeur.
+Un test du sérialiseur qui compare la réponse avant et après le déplacement le garantit.
+
+Classer selon les trois cas de V2, puis :
 
 1. **Clé de présentation pure.** Le sérialiseur la compose depuis les champs qu'il a déjà. L'objet du
    domaine n'a pas d'`id`. C'est le cas majoritaire, et la correction est mécanique.

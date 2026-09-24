@@ -327,31 +327,9 @@ sur le code, ou dits simplifiés ou hypothétiques. Les plus notables :
   bénéfice s'obtient autrement », ce qui correspond aux verdicts rendus.
 - **`Section` de devcomp** sert d'exemple conforme de Value Object (`V3` de `objet-valeur/`) et
   d'Entity (`X3` de `entite/`). Sa catégorie est à fixer.
-- **Le deuxième cas de la clé de présentation**, la clé que le client renvoie et que le serveur
-  découpe, reste dans un Value Object selon `objet-valeur/`. La décision « les identifiants front vont
-  dans le sérialiseur » ne dit pas si elle couvre ce cas.
-- Réglé : l'exemple conforme de `S8` était une violation de degré 2. Il en devient l'exemple réel, et
-  l'exemple conforme est un usecase qui évalue la specification entière.
-- **`X2` dans `service-domaine/`.** Le verdict est « à corriger » alors que le bénéfice est réel, ce
-  que la grille réserve à un coût payé sans bénéfice.
-- **La ligne `A3` de la checklist de `racine-agregat/`** est alignée sur la décision « un repository
-  par Aggregate ». L'ancienne ligne demandait si la convention était assumée.
-- **`Country`, exemple conforme de `RM2` dans `read-model/`**, a des champs publics et viole `V1`.
-- **Le `try/catch` qui journalise dans un usecase** n'a pas de statut décidé. Il est sorti des
-  exceptions de `usecase/README.md`.
-- **`api-interne/`** : deux cas non tranchés, une fonction utilisée par un seul consommateur et l'import
-  individuel d'un usecase. La source de `P3` et `P5` est une page Confluence, à reporter dans l'ADR 55.
-- **`domain/services/` réservé aux vrais Domain Services** : la décision n'est écrite dans aucun ADR.
-- **`racine-agregat/`** : appliquée telle quelle, la fiche disqualifie du code existant, car peu
-  d'objets satisfont `A1` et `A2`.
-- **`read-model/`** : le classement des fichiers de `read-models/` selon les quatre tests n'est pas
-  fait. Il conditionne le passage de la règle de `RM3` en erreur.
-- **Constats sur le code, à porter dans les `ecarts.md`** : `quest` et `devcomp` câblent
-  l'infrastructure d'autres contextes depuis `domain/usecases/index.js`, la violation que décrit `X3`
-  de `usecase/ecarts.md`. `CriterionProperty` et `get-next-activity-info.js` importent le logger,
-  contre `V4` et `D1`.
-- **Exemples manquants** : `M3` et `M4` de `serialiseur/` n'ont pas de paire conforme / fautive. Six
-  dossiers n'ont pas d'exemple complet, faute de fichier réel court et conforme.
+- Réglé : la clé de présentation se compose dans le sérialiseur (cas 1), et une clé que le client
+  renvoie reste dans un Value Object qui la construit et la découpe (cas 2). Dans tous les cas, la
+  réponse de l'API reste identique : seule la construction de la clé se déplace.
 
 ## Ordre de relecture proposé
 
