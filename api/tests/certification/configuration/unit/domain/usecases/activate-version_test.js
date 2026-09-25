@@ -21,7 +21,6 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
     versionRepository = {
       getById: sinon.stub(),
       findActiveByScope: sinon.stub(),
-      save: sinon.stub(),
       update: sinon.stub(),
     };
     calibrationRepository = {
