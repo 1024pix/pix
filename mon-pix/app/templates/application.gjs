@@ -41,8 +41,7 @@ export default class ApplicationTemplate extends Component {
       ].includes(this.router.currentRouteName);
 
     const isEvaluationPages =
-      this.router.currentRouteName.startsWith('assessments.') ||
-      this.router.currentRouteName === 'campaigns.assessment.tutorial' ||
+      !this.router.currentRouteName.startsWith('assessments.tutorial') ||
       this.router.currentRouteName.startsWith('organizations.');
 
     const isCertificationsPages = ['authenticated.certifications.information', 'companion'].includes(

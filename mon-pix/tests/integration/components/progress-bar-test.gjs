@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
-import ProgressBar from 'mon-pix/components/progress-bar';
+import ProgressBar from 'mon-pix/components/ui/assessment/progress-bar';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';

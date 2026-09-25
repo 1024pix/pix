@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import AssessmentBanner from 'mon-pix/components/assessment-banner';
+import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
