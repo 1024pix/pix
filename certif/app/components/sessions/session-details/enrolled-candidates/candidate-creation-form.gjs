@@ -150,12 +150,12 @@ export default class CandidateCreationForm extends Component {
 
   @action
   updateFieldFromEvent(field, event) {
-    this.candidateData[field] = event.target.value;
+    this.updateField(field, event.target.value);
   }
 
   @action
   updateField(field, value) {
-    this.candidateData[field] = value;
+    this.candidateData = { ...this.candidateData, [field]: value };
   }
 
   @action
@@ -348,6 +348,7 @@ export default class CandidateCreationForm extends Component {
         <div class='new-candidate-form__field'>
           <PixInput
             @id='birth-insee-code'
+            @value={{this.candidateData.birthInseeCode}}
             {{on 'input' (fn this.updateFieldFromEvent 'birthInseeCode')}}
             required
             aria-required={{true}}
@@ -364,6 +365,7 @@ export default class CandidateCreationForm extends Component {
         <div class='new-candidate-form__field'>
           <PixInput
             @id='birth-postal-code'
+            @value={{this.candidateData.birthPostalCode}}
             {{on 'input' (fn this.updateFieldFromEvent 'birthPostalCode')}}
             required
             aria-required={{true}}
@@ -380,6 +382,7 @@ export default class CandidateCreationForm extends Component {
         <div class='new-candidate-form__field'>
           <PixInput
             @id='birth-city'
+            @value={{this.candidateData.birthCity}}
             {{on 'input' (fn this.updateFieldFromEvent 'birthCity')}}
             required
             aria-required={{true}}
