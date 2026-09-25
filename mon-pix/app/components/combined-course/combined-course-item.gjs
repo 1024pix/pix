@@ -65,7 +65,7 @@ const Content = <template>
           <PixIcon
             @name="checkCircle"
             @plainIcon={{true}}
-            class="combined-course-item__icon {{if @hasYellowBorder 'combined-course-item__icon--yellow'}}"
+            class="combined-course-item__completion-icon {{if @hasYellowBorder 'combined-course-item__icon--yellow'}}"
             @ariaHidden={{true}}
           />
         </div>

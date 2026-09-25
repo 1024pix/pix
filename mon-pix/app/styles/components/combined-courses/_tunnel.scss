@@ -18,7 +18,11 @@
     position: absolute;
     top: 0;
     right: 0;
-    padding: var(--pix-spacing-8x);
+    padding: var(--pix-spacing-6x);
+
+    @include breakpoints.device-is('tablet') {
+      padding: var(--pix-spacing-8x);
+    }
   }
 }
 

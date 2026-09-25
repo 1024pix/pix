@@ -11,11 +11,24 @@ import Level from '../level';
 
 <template>
   <div class="step-details__main">
-    {{#if @item.iconUrl}}
-      <div class="step-details__icon">
-        <img role="presentation" src={{@item.iconUrl}} alt="" />
-      </div>
-    {{/if}}
+    <div class="step-details__heading">
+      {{#if @item.iconUrl}}
+        <div class="step-details__icon">
+          <img role="presentation" src={{@item.iconUrl}} alt="" />
+        </div>
+      {{/if}}
+      {{#if @item.isCompleted}}
+        <div class="step-details__indicator--completed">
+          <span class="step-details__completion-field">{{t "pages.combined-courses.items.completed"}}</span>
+          <PixIcon
+            @name="checkCircle"
+            @plainIcon={{true}}
+            class="step-details__icon"
+            @ariaHidden={{true}}
+          />
+        </div>
+      {{/if}}
+    </div>
     <h1 class="step-details__title">{{@item.title}}</h1>
     {{#if @item.description}}
       <p class="step-details__description">{{htmlSafe @item.description}}</p>

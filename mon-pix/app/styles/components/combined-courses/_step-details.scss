@@ -54,6 +54,31 @@
 
   }
 
+  &__heading {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__indicator--completed {
+    @extend %pix-body-m;
+
+    display: none;
+
+    @include breakpoints.device-is('tablet') {
+      display: flex;
+      gap: var(--pix-spacing-2x);
+      align-items: center;
+      height: var(--pix-spacing-6x);
+      color: var(--pix-primary-500);
+      font-weight: var(--pix-font-bold);
+
+      .step-details__icon {
+        width: var(--pix-spacing-8x);
+        height: var(--pix-spacing-8x);
+      }
+    }
+  }
+
   &__indicators {
     @extend %pix-body-s;
 
@@ -72,21 +97,21 @@
         align-items: center;
 
         dt {
-          width: 16px;
-          height: 16px;
+          width: var(--pix-spacing-4x);
+          height: var(--pix-spacing-4x);
           line-height: normal;
 
           .duration {
             &__icon {
-              width: 16px;
-              height: 16px;
+              width: var(--pix-spacing-4x);
+              height: var(--pix-spacing-4x);
             }
           }
 
           .level {
             &__icon {
-              width: 16px;
-              height: 16px;
+              width: var(--pix-spacing-4x);
+              height: var(--pix-spacing-4x);
             }
           }
         }
