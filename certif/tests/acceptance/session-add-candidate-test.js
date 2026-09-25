@@ -33,6 +33,8 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     await click(screen.getByLabelText('Pays de naissance *'));
     await click(screen.getByText('Portugal'));
     await fillIn(screen.getByLabelText('Commune de naissance *'), 'Paris');
+    await click(screen.getByLabelText('Tarification part Pix *'));
+    await click(screen.getByText('Gratuite'));
     await click(screen.getByLabelText('Pix+ Droit'));
     await click(screen.getByLabelText('Certification Pix'));
     await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
@@ -58,6 +60,8 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     await click(screen.getByLabelText('Pays de naissance *'));
     await click(screen.getByText('Portugal'));
     await fillIn(screen.getByLabelText('Commune de naissance *'), 'Paris');
+    await click(screen.getByLabelText('Tarification part Pix *'));
+    await click(screen.getByText('Gratuite'));
     await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
     // then
@@ -88,6 +92,8 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     await click(screen.getByLabelText('Pays de naissance *'));
     await click(screen.getByText('Portugal'));
     await fillIn(screen.getByLabelText('Commune de naissance *'), 'Paris');
+    await click(screen.getByLabelText('Tarification part Pix *'));
+    await click(screen.getByText('Gratuite'));
     await click(screen.getByLabelText('Pix+ Droit'));
     await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 

@@ -29,6 +29,7 @@ export default class CandidateCreationForm extends Component {
   @tracked selectedCountryInseeCode = FRANCE_INSEE_CODE;
   @tracked isLoading = false;
   @tracked selectedBillingMode;
+  @tracked hasAttemptedSubmit = false;
   @tracked candidateData;
 
   constructor() {
@@ -125,6 +126,14 @@ export default class CandidateCreationForm extends Component {
     return this.currentUser.currentAllowedCertificationCenterAccess.hasBillingMode;
   }
 
+  get billingModeError() {
+    if (!this.hasAttemptedSubmit || !this.shouldDisplayPaymentOptions || this.selectedBillingMode) {
+      return null;
+    }
+
+    return this.intl.t('common.api-error-messages.certification-candidate.CANDIDATE_BILLING_MODE_REQUIRED');
+  }
+
   get billingModeOptions() {
     const freeLabel = this.intl.t('common.labels.billing-mode.free');
     const paidLabel = this.intl.t('common.labels.billing-mode.paid');
@@ -183,6 +192,12 @@ export default class CandidateCreationForm extends Component {
   @action
   async onFormSubmit(event) {
     event.preventDefault();
+    this.hasAttemptedSubmit = true;
+
+    if (this.billingModeError) {
+      return;
+    }
+
     this.isLoading = true;
 
     try {
@@ -424,6 +439,8 @@ export default class CandidateCreationForm extends Component {
             @placeholder={{this.billingMenuPlaceholder}}
             @hideDefaultOption={{true}}
             @texts={{hash requiredLabel=(t 'common.forms.required')}}
+            @errorMessage={{this.billingModeError}}
+            @validationStatus={{if this.billingModeError 'error'}}
           >
             <:label>{{t 'common.forms.certification-labels.pricing'}}</:label>
           </PixSelect>
