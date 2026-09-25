@@ -11,68 +11,6 @@ import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
 
 export default class AssessmentBanner extends Component {
-  <template>
-    <div class="assessment-banner">
-      <header class="assessment-banner-container" role="banner">
-        <img class="assessment-banner__pix-logo" src="/images/pix-logo-blanc.svg" alt="{{t 'common.pix'}}" />
-        {{#if this.title}}
-          <div class="assessment-banner__splitter"></div>
-          <h1 class="assessment-banner__title">
-            <span class="sr-only"> {{t "pages.assessment-banner.title"}} </span>
-            {{this.title}}
-          </h1>
-        {{/if}}
-        <div class="assessment-banner__actions">
-          {{#if this.showTextToSpeechActivationButton}}
-            <PixTooltip class="assessment-banner__text-to-speech-toggle" @position="left" @isInline={{true}}>
-              <:triggerElement>
-                <button type="button" aria-label={{this.textToSpeechTooltipText}} {{on "click" @toggleTextToSpeech}}>
-                  <PixIcon @name={{if @isTextToSpeechActivated "volumeOn" "volumeOff"}} />
-                </button>
-              </:triggerElement>
-              <:tooltip>
-                {{this.textToSpeechTooltipText}}
-              </:tooltip>
-            </PixTooltip>
-          {{/if}}
-          {{#if @displayHomeLink}}
-            <button type="button" class="assessment-banner__home-link" onclick={{this.toggleClosingModal}}>
-              {{t "common.actions.quit"}}
-              <PixIcon @name="logout" @ariaHidden={{true}} />
-            </button>
-            <PixModal
-              class="assessment-banner__closing-modal"
-              @title={{t "pages.assessment-banner.modal.title"}}
-              @showModal={{this.showClosingModal}}
-              @onCloseButtonClick={{this.toggleClosingModal}}
-            >
-              <:content>
-                <p>{{t "pages.assessment-banner.modal.content"}}</p>
-              </:content>
-              <:footer>
-                <ul class="assessment-banner-closing-modal__footer">
-                  <li>
-                    <PixButton @variant="secondary" @triggerAction={{this.toggleClosingModal}}>
-                      {{t "common.actions.stay"}}
-                    </PixButton>
-                  </li>
-                  <li>
-                    <ButtonLinkWithHistory
-                      @redirectionUrl={{this.redirectionUrl}}
-                      @defaultRoute="authenticated"
-                      aria-label={{t "pages.assessment-banner.modal.actions.quit.extra-information"}}
-                    >
-                      {{t "common.actions.quit"}}
-                    </ButtonLinkWithHistory>
-                  </li>
-                </ul>
-              </:footer>
-            </PixModal>
-          {{/if}}
-        </div>
-      </header>
-    </div>
-  </template>
   @service intl;
   @service featureToggles;
   @service currentUser;
@@ -140,9 +78,73 @@ export default class AssessmentBanner extends Component {
     );
   }
 
-  @action toggleClosingModal() {
+  @action
+  toggleClosingModal() {
     this.showClosingModal = !this.showClosingModal;
   }
+
+  <template>
+    <div class="assessment-banner">
+      <header class="assessment-banner-container" role="banner">
+        <img class="assessment-banner__pix-logo" src="/images/pix-logo-blanc.svg" alt="{{t 'common.pix'}}" />
+        {{#if this.title}}
+          <div class="assessment-banner__splitter"></div>
+          <h1 class="assessment-banner__title">
+            <span class="sr-only"> {{t "pages.assessment-banner.title"}} </span>
+            {{this.title}}
+          </h1>
+        {{/if}}
+        <div class="assessment-banner__actions">
+          {{#if this.showTextToSpeechActivationButton}}
+            <PixTooltip class="assessment-banner__text-to-speech-toggle" @position="left" @isInline={{true}}>
+              <:triggerElement>
+                <button type="button" aria-label={{this.textToSpeechTooltipText}} {{on "click" @toggleTextToSpeech}}>
+                  <PixIcon @name={{if @isTextToSpeechActivated "volumeOn" "volumeOff"}} />
+                </button>
+              </:triggerElement>
+              <:tooltip>
+                {{this.textToSpeechTooltipText}}
+              </:tooltip>
+            </PixTooltip>
+          {{/if}}
+          {{#if @displayHomeLink}}
+            <button type="button" class="assessment-banner__home-link" onclick={{this.toggleClosingModal}}>
+              {{t "common.actions.quit"}}
+              <PixIcon @name="logout" @ariaHidden={{true}} />
+            </button>
+            <PixModal
+              class="assessment-banner__closing-modal"
+              @title={{t "pages.assessment-banner.modal.title"}}
+              @showModal={{this.showClosingModal}}
+              @onCloseButtonClick={{this.toggleClosingModal}}
+            >
+              <:content>
+                <p>{{t "pages.assessment-banner.modal.content"}}</p>
+              </:content>
+              <:footer>
+                <ul class="assessment-banner-closing-modal__footer">
+                  <li>
+                    <PixButton @variant="secondary" @triggerAction={{this.toggleClosingModal}}>
+                      {{t "common.actions.stay"}}
+                    </PixButton>
+                  </li>
+                  <li>
+                    <ButtonLinkWithHistory
+                      @redirectionUrl={{this.redirectionUrl}}
+                      @defaultRoute="authenticated"
+                      aria-label={{t "pages.assessment-banner.modal.actions.quit.extra-information"}}
+                    >
+                      {{t "common.actions.quit"}}
+                    </ButtonLinkWithHistory>
+                  </li>
+                </ul>
+              </:footer>
+            </PixModal>
+          {{/if}}
+        </div>
+      </header>
+    </div>
+  </template>
 }
 
 class ButtonLinkWithHistory extends Component {
