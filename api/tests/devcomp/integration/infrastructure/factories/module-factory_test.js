@@ -866,10 +866,11 @@ describe('Integration | Devcomp | Infrastructure | Factories | Module ', functio
                       element: {
                         id: '3a9f2269-99ba-4631-b6fd-6802c88d5c26',
                         type: 'embed',
-                        isCompletionRequired: false,
+                        isCompletionRequired: true,
                         title: "Simulateur d'adresse mail",
                         url: 'https://embed.fr',
                         height: 150,
+                        solution: 'solution 1',
                       },
                     },
                   ],

@@ -169,6 +169,7 @@ export class ModuleFactory {
         return undefined;
     }
   }
+
   static #buildAudio(element) {
     return new Audio({
       id: element.id,
@@ -214,6 +215,7 @@ export class ModuleFactory {
       url: element.url,
       instruction: element.instruction,
       height: element.height,
+      solution: element.solution,
     });
   }
 

@@ -2,7 +2,7 @@ import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asser
 import { Element } from './Element.js';
 
 class Embed extends Element {
-  constructor({ id, isCompletionRequired, title, url, instruction, height }) {
+  constructor({ id, isCompletionRequired, title, url, instruction, height, solution }) {
     super({ id, type: 'embed' });
 
     assertNotNullOrUndefined(isCompletionRequired, 'The isCompletionRequired attribute is required for an embed');
@@ -16,6 +16,7 @@ class Embed extends Element {
     this.instruction = instruction;
     this.height = height;
     this.isAnswerable = this.isCompletionRequired;
+    this.solution = solution;
   }
 }
 
