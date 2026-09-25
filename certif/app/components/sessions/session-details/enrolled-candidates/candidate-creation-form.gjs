@@ -172,6 +172,10 @@ export default class CandidateCreationForm extends Component {
   updateBillingMode(billingMode) {
     this.selectedBillingMode = billingMode;
     this.updateField('billingMode', billingMode);
+
+    if (!this.isPrepaidBillingMode) {
+      this.updateField('prepaymentCode', '');
+    }
   }
 
   @action

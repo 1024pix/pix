@@ -215,6 +215,45 @@ module(
             .dom(screen.queryByLabelText(t('pages.sessions.detail.candidates.add-form.prepayment-information')))
             .doesNotExist();
         });
+
+        test('it should not submit the prepayment code entered before switching billing mode', async function (assert) {
+          // given
+          const saveCandidateStub = sinon.stub();
+
+          const countries = [{ id: 1, code: '99100', name: 'France' }];
+
+          const screen = await render(
+            <template>
+              <CandidateCreationForm @countries={{countries}} @saveCandidate={{saveCandidateStub}} />
+            </template>,
+          );
+
+          await fillIn(screen.getByLabelText('Prénom *'), 'Lara');
+          await fillIn(screen.getByLabelText('Nom de naissance *'), 'Pafromage');
+          await click(screen.getByRole('radio', { name: 'Femme' }));
+          await fillIn(screen.getByLabelText('Date de naissance *'), '1985-08-23');
+          await click(screen.getByRole('radio', { name: 'Code INSEE' }));
+          await fillIn(screen.getByLabelText('Code INSEE de naissance *'), '59386');
+          await click(screen.getByRole('radio', { name: 'Certification Pix' }));
+
+          await click(screen.getByRole('button', { name: `${t('common.forms.certification-labels.pricing')} *` }));
+          await click(await screen.findByRole('option', { name: t('common.labels.billing-mode.prepaid') }));
+          await fillIn(
+            screen.getByRole('textbox', { name: t('common.forms.certification-labels.prepayment-code') }),
+            '12345',
+          );
+
+          await click(screen.getByRole('button', { name: `${t('common.forms.certification-labels.pricing')} *` }));
+          await click(await screen.findByRole('option', { name: t('common.labels.billing-mode.free') }));
+
+          // when
+          await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
+
+          // then
+          sinon.assert.calledOnce(saveCandidateStub);
+          assert.deepEqual(saveCandidateStub.firstCall.args[0].billingMode, 'FREE');
+          assert.deepEqual(saveCandidateStub.firstCall.args[0].prepaymentCode, '');
+        });
       });
     });
 
