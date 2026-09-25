@@ -22,7 +22,6 @@
 @use 'components/authentication/oidc-reconciliation' as *;
 @use 'components/autonomous-course/landing-page-start-block' as *;
 @use 'components/assessments/live-alert' as *;
-@use 'components/assessment-banner' as *;
 @use 'components/background-banner' as *;
 @use 'components/campaign-participation-overview/card' as *;
 @use 'components/campaign-participation-overview/grid' as *;
@@ -175,6 +174,8 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @use 'authentication/sso-selection-form' as *;
 @use 'user-account/delete-account-section' as *;
 @use 'user-account/user-account-navigation' as *;
+
+@use 'ui/assessment/banner' as *;
 @use 'ui/assessment/progress-bar' as *;
 
 /* pages */

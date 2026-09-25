@@ -1,0 +1,44 @@
+@use 'pix-design-tokens/typography';
+
+.assessment-banner {
+  padding: var(--pix-spacing-8x);
+  background: linear-gradient(90deg, rgba(69, 45, 157, 0.80) 0%, rgba(69, 45, 157, 0.00) 60%), #957EE8;
+  border-radius: 16px;
+  color: var(--pix-neutral-0);
+  margin-bottom: var(--pix-spacing-10x);
+
+  &__title {
+    display: flex;
+    gap: var(--pix-spacing-3x);
+    align-items: center;
+    margin-bottom: var(--pix-spacing-8x);
+
+    & img {
+      height: 24px;
+    }
+  }
+
+  &__text {
+    @extend %pix-body-m;
+
+    flex-grow: 2;
+  }
+
+  &__separator {
+    width: 1px;
+    background-color: var(--pix-neutral-0);
+    height: 16px;
+  }
+
+  &__action {
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--pix-spacing-4x);
+
+    & .pix-button {
+      text-decoration: none !important;
+      color: var(--pix-neutral-0) !important;
+    }
+  }
+}

@@ -9,6 +9,8 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
+import { and } from 'ember-truth-helpers';
+import ProgressBar from 'mon-pix/components/ui/assessment/progress-bar';
 
 export default class AssessmentBanner extends Component {
   @service intl;
@@ -84,19 +86,20 @@ export default class AssessmentBanner extends Component {
   }
 
   <template>
-    <div class="assessment-banner">
-      <header class="assessment-banner-container" role="banner">
-        <img class="assessment-banner__pix-logo" src="/images/pix-logo-blanc.svg" alt="{{t 'common.pix'}}" />
+    <header class="assessment-banner" role="banner">
+      <div class="assessment-banner__title">
+        <img src="/images/pix-logo-blanc.svg" alt="" />
         {{#if this.title}}
-          <div class="assessment-banner__splitter"></div>
-          <h1 class="assessment-banner__title">
-            <span class="sr-only"> {{t "pages.assessment-banner.title"}} </span>
+          <span class="assessment-banner__separator" />
+          <h1 class="assessment-banner__text">
+            <span class="sr-only">{{t "pages.assessment-banner.title"}}</span>
             {{this.title}}
           </h1>
         {{/if}}
-        <div class="assessment-banner__actions">
+
+        <div class="assessment-banner__action">
           {{#if this.showTextToSpeechActivationButton}}
-            <PixTooltip class="assessment-banner__text-to-speech-toggle" @position="left" @isInline={{true}}>
+            <PixTooltip @position="left" @isInline={{true}}>
               <:triggerElement>
                 <button type="button" aria-label={{this.textToSpeechTooltipText}} {{on "click" @toggleTextToSpeech}}>
                   <PixIcon @name={{if @isTextToSpeechActivated "volumeOn" "volumeOff"}} />
@@ -107,43 +110,45 @@ export default class AssessmentBanner extends Component {
               </:tooltip>
             </PixTooltip>
           {{/if}}
+          {{#if (and this.showTextToSpeechActivationButton @displayHomeLink)}}
+            <span class="assessment-banner__separator" />
+          {{/if}}
           {{#if @displayHomeLink}}
-            <button type="button" class="assessment-banner__home-link" onclick={{this.toggleClosingModal}}>
+            <PixButton @variant="tertiary" @iconAfter="close" @triggerAction={{this.toggleClosingModal}}>
               {{t "common.actions.quit"}}
-              <PixIcon @name="logout" @ariaHidden={{true}} />
-            </button>
-            <PixModal
-              class="assessment-banner__closing-modal"
-              @title={{t "pages.assessment-banner.modal.title"}}
-              @showModal={{this.showClosingModal}}
-              @onCloseButtonClick={{this.toggleClosingModal}}
-            >
-              <:content>
-                <p>{{t "pages.assessment-banner.modal.content"}}</p>
-              </:content>
-              <:footer>
-                <ul class="assessment-banner-closing-modal__footer">
-                  <li>
-                    <PixButton @variant="secondary" @triggerAction={{this.toggleClosingModal}}>
-                      {{t "common.actions.stay"}}
-                    </PixButton>
-                  </li>
-                  <li>
-                    <ButtonLinkWithHistory
-                      @redirectionUrl={{this.redirectionUrl}}
-                      @defaultRoute="authenticated"
-                      aria-label={{t "pages.assessment-banner.modal.actions.quit.extra-information"}}
-                    >
-                      {{t "common.actions.quit"}}
-                    </ButtonLinkWithHistory>
-                  </li>
-                </ul>
-              </:footer>
-            </PixModal>
+            </PixButton>
           {{/if}}
         </div>
-      </header>
-    </div>
+      </div>
+      <ProgressBar
+        @completionRate={{@completionRate}}
+        @assessment={{@assessment}}
+        @currentChallengeNumber={{@currentChallengeNumber}}
+        @showGlobalProgression={{@showGlobalProgression}}
+      />
+    </header>
+
+    <PixModal
+      @title={{t "pages.assessment-banner.modal.title"}}
+      @showModal={{this.showClosingModal}}
+      @onCloseButtonClick={{this.toggleClosingModal}}
+    >
+      <:content>
+        <p>{{t "pages.assessment-banner.modal.content"}}</p>
+      </:content>
+      <:footer>
+        <PixButton @variant="secondary" @triggerAction={{this.toggleClosingModal}}>
+          {{t "common.actions.stay"}}
+        </PixButton>
+        <ButtonLinkWithHistory
+          @redirectionUrl={{this.redirectionUrl}}
+          @defaultRoute="authenticated"
+          aria-label={{t "pages.assessment-banner.modal.actions.quit.extra-information"}}
+        >
+          {{t "common.actions.quit"}}
+        </ButtonLinkWithHistory>
+      </:footer>
+    </PixModal>
   </template>
 }
 
