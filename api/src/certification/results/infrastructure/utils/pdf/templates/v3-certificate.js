@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 
 import { ComplementaryCertificationKeys } from '../../../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { CERTIFICATE_LABEL_CONTEXTS } from '../../../../domain/models/v3/CertificateMeshLevel.js';
+import generateV3CompetencesTemplate from './v3-certificate-competences.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const __badgesDirname = url.fileURLToPath(new URL('../badges/', import.meta.url));
@@ -177,6 +178,10 @@ export default function generateV3CertificateTemplate({ pdf, data, translate }) 
       width: 50,
       height: 50,
     });
+  }
+
+  if (data.resultCompetenceTree) {
+    generateV3CompetencesTemplate({ pdf, data, translate });
   }
 }
 
