@@ -156,262 +156,6 @@
   },
   "certification": {
     "certificate": {
-      "areas" : {
-        "1" : {
-          "index": "1",
-          "label": "Information et données",
-          "competences": {
-            "1" : {
-              "index": "1.1",
-              "title": "Mener une recherche et une veille d’information",
-              "description" :"Mener une recherche et une veille d'information pour répondre à un besoin d'information et se tenir au courant de l'actualité d'un sujet (avec un moteur de recherche, au sein d'un réseau social, par abonnement à des flux ou des lettres d'information, ou tout autre moyen)",
-              "levels": {
-                "1": "Lire et repérer des informations sur un support numérique. Savoir que les informations qui circulent sur le Web ne sont pas toutes fiables.",
-                "2": "Effectuer une recherche simple en ligne en utilisant un moteur de recherche.Questionner la fiabilité et la pertinence des sources.",
-                "3": "Utiliser divers services en ligne pour trouver une information. Repérer des indices simples pour vérifier la fiabilité et la pertinence d'une source d'information.Connaitre le principe de l'abonnement à des publications en ligne.",
-                "4": "Effectuer une recherche pour obtenir une information pertinente répondant à ses besoins.Évaluer la fiabilité et la pertinence d'une source d'information.Construire un veille en utilisant les abonnements à des publications en ligne.",
-                "5": "Construire des stratégies complexes de recherche pour trouver des informations pertinentes et fiables. Connaitre des outils de veille informationnelle.",
-                "6": "Adapter sa stratégie de recherche pour trouver l'information la plus adaptée dans un contexte de surabondance (bruit) et d'ambiguité de l'information. Construire un veille en utilisant des outils de veille informationnelle. Utiliser des outils de détection de fausses informations.",
-                "7": "Vous savez mener une véritable enquête sur le web pour retrouver une information, identifier sa source, la vérifier, même si vous disposez de données très partielles, ou que cette information n’est pas indexée par les moteurs de recherche, ou que vous devez recourir à des techniques de requête avancées."
-              }
-            },
-            "2" : {
-              "index": "1.2",
-              "title": "Gérer des données",
-              "description" :"Stocker et organiser des données pour les retrouver, les conserver et en faciliter l'accès et la gestion (avec un gestionnaire de fichiers, un espace de stockage en ligne, des classeurs, des bases de données, un système d'information, …).",
-              "levels": {
-                "1": "Stocker ses fichiers dans l’ordinateur utilisé et les retrouver",
-                "2": "Stocker et organiser ses fichiers dans l'ordinateur utilisé.Sauvegarder ses fichiers sur un support de stockage alternatif.",
-                "3": "Stocker et organiser ses fichiers dans des environnements numériques de sorte qu’ils soient facilement. Connaitre les propriétés élémentaires d'un fichier (date, auteur, taille).",
-                "4": "Stocker et organiser ses données pour qu'elles soient accessibles dans des environnements numériques locaux et distants. Concevoir une organisation efficace de rangement de dossiers en tenant compte des formats de fichiers",
-                "5": "Optimiser le stockage des fichiers (archive, compression, etc). Exploiter les métadonnées des fichiers. Synchroniser des données locales avec un espace de stockage en ligne.",
-                "6": "Mobiliser les fonctionnalités avancées des services de stockage en ligne. Concevoir une stratégie de synchronisation de ses données",
-                "7": "Automatiser l’organisation arborescente de ses fichiers et dossiers. Automatiser ses sauvegardes selon ses besoins. Optimiser la qualité de l’organisation de ses données"
-              }
-            },
-            "3" : {
-              "index": "1.3",
-              "title": "Traiter des données",
-              "description" :"Appliquer des traitements à des données pour les analyser et les interpréter (avec un tableur, un programme, un logiciel de traitement d'enquête, une requête calcul dans une base de données, …).",
-              "levels": {
-                "1": "Lire et saisir des données en tableaux",
-                "2": "Insérer, saisir, et trier des données en tableaux pour obtenir une information. Lire une représentation graphique interactive simple",
-                "3": "Organiser, trier et filtrer des données  à l'aide d'un logiciel tableur. Appliquer une formule simple pour résoudre un problème. Respecter les formats de données lors de leur saisie en tableau",
-                "4": "Traiter des données pour répondre à une question. Réaliser des représentations graphiques courantes. Appliquer une fonction statistique simple. Analyser un jeu de données pour vérifier sa qualité.",
-                "5": "Automatiser un traitement de données.Adapter le format d'une donnée (texteombre). Réaliser des représentations graphiques adaptées à un besoin. Nettoyer un jeu de données",
-                "6": "Repérer, trouver et exploiter des sources de données ouvertes. Effectuer des traitements simples sur des données volumineuses. Nettoyer et préparer des données pour les exploiter",
-                "7": "Créer des représentations synthétiques de jeux de données complexes. Adapter des données mal structurées pour pouvoir les analyser. Automatiser des requêtes d'interrogation de données ouvertes"
-              }
-            }
-          }
-        },
-        "2" : {
-          "index": "2",
-          "label": "Communication et collaboration",
-          "competences": {
-            "1" : {
-              "index": "2.1",
-              "title": "Interagir",
-              "description" :"Interagir avec des individus et de petits groupes pour échanger dans divers contextes liés à la vie privée ou à une activité professionnelle, de façon ponctuelle et récurrente (avec une messagerie électronique, une messagerie instantanée, un système de visio-conférence, …).",
-              "levels": {
-                "1": "Utiliser un outil ou service de communication numérique adapté à un besoin (instantané ou différé)",
-                "2": "Utiliser différents outils ou services de communication numérique. Connaître et utiliser les règles de civilité lors des interactions en ligne.",
-                "3": "Adapter ses pratiques de communication en tenant compte du contexte et du besoin. Respecter les principales règles de civilité et le droit des personnes lors des interactions en ligne",
-                "4": "Sélectionner les outils ou services de communication numérique adaptés au contexte et à la situation de communication. Adapter son expression en ligne en fonction de ses interlocuteurs. Filtrer et éviter les contenus inappropriés",
-                "5": "Paramètrer ses outils ou services de communication numérique pour les adapter au contexte et à la situation de communication. Modérer les interactions en ligne pour garantir le respect des règles de civilité et le droit des personnes",
-                "6": "Gérer efficacement son courrier électronique (automatisation). Organiser et accompagner l'accès des collaborateurs aux outils de visio-conférence. Administrer un groupe de messagerie instantanée.",
-                "7": "Choisir et configurer des outils de communication synchrones et asynchrones selon les situations. Optimiser l'utilisation des outils de communication en adoptant des pratiques respectueuses et efficaces"
-              }
-            },
-            "2" : {
-              "index": "2.2",
-              "title": "Partager et publier",
-              "description" :"Partager et publier des informations et des contenus pour communiquer ses propres productions ou opinions, relayer celles des autres en contexte de communication publique (avec des plateformes de partage, des réseaux sociaux, des blogs, des espaces de forum et de commentaire, des CMS, …).",
-              "levels": {
-                "1": "Consulter des publications sur les réseaux sociaux",
-                "2": "Publier des contenus  en ligne en diffusion privée. Modifier les informations générales attachées à son profil dans un environnement numérique en fonction du contexte d’usage",
-                "3": "Publier des contenus numériques en ligne en diffusion publique et réagir sur des contenus publiés. Connaitre les principaux réseaux sociaux, les caractéristiques de leurs publications et leurs fonctionalités de bases.",
-                "4": "Choisir un outil approprié pour partager des contenus avec un public large. Partager du contenu en direct avec un public large. Paramétrer la visibilité d’un contenu partagé. Savoir créer des identités numériques multiples, adaptées aux différents contextes et usages",
-                "5": "Maîtriser son expression publique en ligne en fonction du média. Adapter sa stratégie de diffusion et de visibilité de ses contenus selon le contexte et le public",
-                "6": "Développer une stratégie de présence en ligne selon l'impact attendu. Contrôler son audience sur différents réseaux sociaux",
-                "7": "Produire du contenu en ligne destiné à un large public sur différents médias sociaux. Gérer la diffusion de ses contenus en ligne de manière optimale, en utilisant les outils de suivi de fréquentation. Comprendre le fonctionnement des modèles économiques utilisés."
-              }
-            },
-            "3" : {
-              "index": "2.3",
-              "title": "Collaborer",
-              "description" :"Collaborer dans un groupe pour réaliser un projet, co-produire des ressources, des connaissances, des données, et pour apprendre (avec des plateformes de travail collaboratif et de partage de document, des éditeurs en ligne, des fonctionnalités de suivi de modifications ou de gestion de versions, …).",
-              "levels": {
-                "1": "Consulter un agenda électronique partagé",
-                "2": "Participer à des événements collaboratifs à l'aide d'un agenda partagé. Accéder à des documents disponibles sur un espace de travail partagé ",
-                "3": "Utiliser un dispositif d’écriture collaborative pour  coproduire des contenus dans le cadre d’un projet. Partager des documents dans un espace de travail partagé. Organiser des événements collaboratifs à l'aide d'un agenda partagé",
-                "4": "Partager des documents avec des droits d'accès adaptés dans le cadre d'un projet. Planifier des événements collaboratifs",
-                "5": "Adopter des comportements et des méthodes adaptés au travail collaboratif. Gérer les accès d'un groupe de travail aux outils numériques en ligne",
-                "6": "Organiser et accompagner des pratiques de travail collaboratif adaptées aux besoins d'un projet. Paramétrer les outils collaboratifs pour améliorer l'organisation du projet",
-                "7": "Utiliser de manière avancée des outils de gestion de travail collaboratif afin d’optimiser l’organisation des projets. Analyser et corriger les problèmes spécifiques engendré par le partage et la création collaborative (suivi de version, gestion de conflit, etc)"
-              }
-            },
-            "4" : {
-              "index": "2.4",
-              "title": "S'insérer dans le monde numérique",
-              "description" :"Maîtriser les stratégies et enjeux de la présence en ligne, appréhender l'évolution des techniques et des applications de l'intelligence artificielle, et choisir ses pratiques pour se positionner en tant qu'acteur social, économique et citoyen dans le monde numérique, en lien avec ses règles, limites et potentialités, et en accord avec des valeurs et/ou pour répondre à des objectifs (avec les réseaux sociaux et les outils permettant de développer une présence publique sur Internet, les algorithmes et les services pilotés par l’intelligence artificielle, et en lien avec la vie citoyenne, la vie professionnelle, la vie privée, …).",
-              "levels": {
-                "1": "Comprendre la nécessité de protéger son identité en ligne quels que soient les contextes (professionnel, personnel)",
-                "2": "Utiliser des moyens simples pour protéger son identité en ligne. Télécharger des documents sur un service en ligne",
-                "3": "Comprendre comment les traces numériques dessinent une réputation en ligne. Recourir à des applications ou des services en ligne pour réaliser des tâches administratives personnelles et professionnelles. Identifier la présence d'un système d'intelligence artificielle dans une interaction en ligne",
-                "4": "Gérer, actualiser et améliorer son identité numérique publique et protéger sa e-réputation dans des environnements numériques divers. Recourir à des applications ou des services en ligne pour soutenir son activité professionnelle. Connaître le rôle des données dans les techniques d’intelligence artificielle",
-                "5": "Repérer les traces personnelles laissées lors des utilisations de services en ligne. Connaître ses droits d’information, d’accès, de rectification, d’opposition, de suppression et de déréférencement. Connaître les principes et enjeux de l'anonymisation des données. Connaître des utilisations courantes de l’intelligence artificielle",
-                "6": "Définir des stratégies de protection de la e-réputation dans des environnements numériques divers. Comprendre les enjeux éthiques de la collecte et l’exploitation de données par les systèmes d’intelligence artificielle",
-                "7": "Maîtriser l’ensemble des traces numériques laissées par une présence en ligne.Connaitre les stratégies économiques et comportementales liées aux pratiques en ligne.Comprendre le fonctionnement des système d’intelligence artificielle et anticiper les enjeux éthiques associés."
-              }
-            }
-          }
-        },
-        "3" : {
-          "index": "3",
-          "label": "Création de contenu",
-          "competences": {
-            "1" : {
-              "index": "3.1",
-              "title": "Développer des documents textuels",
-              "description" :"Produire des documents à contenu majoritairement textuel pour communiquer des idées, rendre compte et valoriser ses travaux (avec des logiciels de traitement de texte, de présentation, de création de page web, de carte conceptuelle, …).",
-              "levels": {
-                "1": "Saisir un texte dans une application d’édition de texte",
-                "2": "Mettre en forme un texte dans une application d'édition de texte",
-                "3": "Créer des documents à l’aide d'un logiciel de traitement de texte. Enrichir un contenu textuel en y intégrant des objets numériques variés (liens, tableaux, image, vidéo, etc)",
-                "4": "Créer des documents à l’aide de différentes logiciels et applications (diaporama, textes, etc). Importer, éditer et modifier des contenus existants en y intégrant de nouveaux objets numériques",
-                "5": "Concevoir, organiser et éditorialiser des contenus majoritairement textuels sur différents supports et dans différents formats. Systématiser la mise en forme d'un document",
-                "6": "Créer des supports numériques adaptés en conformité avec les règles d'une organisation (charte graphique, etc). Concevoir un modèle et garantir la robustesse et l'adaptabilité du contenu saisi",
-                "7": "Concevoir les règles de mise en forme adaptées à ses besoins et automatiser, autant que possible, l’application de ces règles. Optimiser la conception des documents textes et des présentations"
-              }
-            },
-            "2" : {
-              "index": "3.2",
-              "title": "Développer des documents multimédia",
-              "description" :"Développer des documents à contenu multimédia pour créer ses propres productions multimédia, enrichir ses créations textuelles (avec des logiciels de capture et d'édition d'image / son / vidéo / animation, ...).",
-              "levels": {
-                "1": "Manipuler une image. Lire un son ou une vidéo",
-                "2": "Manipuler une image, un son ou une vidéo. Connaitre les formats courants des fichiers image et son",
-                "3": "Acquérir des images en ligne. Utiliser des outils de dessin basiques dans un logiciel d'édition. Connaitre les formats courants des fichiers sons et vidéo",
-                "4": "Appliquer des traitements de retouche sur des images, des sons et des vidéos. Connaitre des logiciels de retouche d'image, de son et de vidéo",
-                "5": "Différencier image vectorielle et image matricielle. Utiliser des procédures avancées pour modifier des contenus multimedia",
-                "6": "Analyser et paramétrer les propriétés d'une image. Utiliser des procédures expertes pour modifier des contenus multimedia",
-                "7": "Exploiter les caractéristiques techniques avancées des images, des vidéos et des sons. Utiliser les outils de montage et de retouche pour réaliser des créations multimédia de qualité."
-              }
-            },
-            "3" : {
-              "index": "3.3",
-              "title": "Adapter les documents à leur finalité",
-              "description" :"Adapter des documents de tous types en fonction de l'usage envisagé et maîtriser l'usage des licences pour permettre, faciliter et encadrer l'utilisation dans divers contextes (mise à jour fréquente, diffusion multicanale, impression, mise en ligne, projection, …), avec les fonctionnalités des logiciels liées à la préparation d'impression, de projection, de mise en ligne, les outils de conversion de format…",
-              "levels": {
-                "1": "Connaitre les caractéristiques basiques de mise en page d’un document. Imprimer un document numérique",
-                "2": "Connaître les règles élémentaires du droit d’auteur et du droit à l’image. Savoir qu'il existe des moyens pour rendre accessible des documents numériques.",
-                "3": "Organiser et optimiser des contenus numériques pour les publier en ligne. Utiliser des fonctionnalités simples pour permettre l’accessibilité d’un document. Appliquer les règles du droit d’auteur et du droit à l’image",
-                "4": "Organiser des contenus numériques en vue de leur consultation et/ou de leur réutilisation par autrui. Adapter les formats des contenus numériques pour les diffuser selon des modalités variées",
-                "5": "Protéger un document produit par des droits de reproduction, rediffusion et réutilisation. Favoriser l'accessibilité des documents numériques pour les personnes en situation de handicap",
-                "6": "Connaître et appliquer les principales règles régissant le droit d'auteur. Réutiliser un document disponible sur le web en identifiant sa licence et en s'y conformant. Connaître et appliquer les principales techniques pour rendre un document accessible (personnes en situation de handicap)",
-                "7": "Maîtriser les principales règles d’accessibilité et les droits de réutilisation et d’attribution de documents multimédias, de vidéos, de musiques, et de logiciels pour diffuser ses créations."
-              }
-            },
-            "4" : {
-              "index": "3.4",
-              "title": "Programmer",
-              "description" :"Écrire des programmes et des algorithmes pour répondre à un besoin (automatiser une tâche répétitive, accomplir des tâches complexes ou chronophages, résoudre un problème logique, …) et pour développer un contenu riche (jeu, site web…), avec des environnements de développement informatique simples, des logiciels de planification de tâches.",
-              "levels": {
-                "1": "Comprendre un programme qui comporte une séquence d'instructions simples. Exécuter un programme dans un environnement de programmation simplifié",
-                "2": "Réaliser un programme qui utilise une séquence et une boucle d'instructions simples. Compléter un programme écrit dans un langage par blocs",
-                "3": "Développer un programme pour répondre à un problème en utilisant un langage de programmation simplifié. Connaitre le principe du codage binaire",
-                "4": "Concevoir un algorithme comportant plusieurs instructions de contrôle (alternatives, répétitions). Modifier le comportement d'un objet régi par un programme simple. Connaître des codages d'information courants (RVB, ACSII)",
-                "5": "Créer un programme animant un objet graphique ou réel, dans un langage de programmation répandu. Comprendre une méthode algorithmique connue. Comprendre un principe de compression de l'information",
-                "6": "Créer un programme pour résoudre un problème. Utiliser une méthode algorithmique connue. Écrire des requêtes d'interrogation d'une base de données (SQL). Connaître des méthodes de compression",
-                "7": "Créer un programme optimisé pour résoudre un problème. Repérer et corriger des épreuves courantes dans un programme. Installer et interroger une base de données relationnelle. Évaluer l'efficacité d'une méthode de compression"
-              }
-            }
-          }
-        },
-        "4" : {
-          "index": "4",
-          "label": "Protection et sécurité",
-          "competences": {
-            "1" : {
-              "index": "4.1",
-              "title": "Sécuriser l'environnement numérique",
-              "description" :"Sécuriser les équipements, les communications et les données pour se prémunir contre les attaques, pièges, désagréments et incidents susceptibles de nuire au bon fonctionnement des matériels, logiciels, sites internet, et de compromettre les transactions et les données (avec des logiciels de protection, la maîtrise de bonnes pratiques, …).",
-              "levels": {
-                "1": "Connaître les comportements et pratiques de prudence élémentaire face au risque de malveillance numérique",
-                "2": "Connaitre les risques principaux qui menacent son environnement informatique et ses transactions en ligne. Connaître les bonnes pratiques de bases concernant le choix et l’utilisation des mots de passe",
-                "3": "Choisir et appliquer des mesures simples de protection de son environnement informatique. Identifier des configurations assurant la sécurité de ses transactions en ligne (Wifi privé, sites sécurisés)",
-                "4": "Identifier différents risques numériques et mettre en œuvre des stratégies de protection des ressources matérielles et logicielles. Vérifier l'absence de menace dans un contenu avant action (ouverture, activation, installation). Sécuriser ses accès aux environnements numériques",
-                "5": "Vérifier l'identité certifiée associée à un site Internet sécurisé. Connaître les risques liés à un réseau wifi ouvert",
-                "6": "Identifier un type précis de menace (parmi des attaques, logiciels malveillants, techniques de piraterie) et comprendre les enjeux associés. Évaluer la pertinence, et les conséquences possibles, de l’utilisation d’une connexion Internet non sécurisée en fonction des usages",
-                "7": "Évaluer les risques d’infection d'un environnement numérique en recourant à des procédés de vérification avancés. Protéger un appareil d’attaques potentielles en optimisant la configuration des paramètres de sécurité"
-              }
-            },
-            "2" : {
-              "index": "4.2",
-              "title": "Protéger les données personnelles et la vie privée",
-              "description" :"Maîtriser ses traces et gérer les données personnelles pour protéger sa vie privée et celle des autres, et adopter une pratique éclairée (avec le paramétrage des paramètres de confidentialité, la surveillance régulière de ses traces, ...).",
-              "levels": {
-                "1": "Identifier les données à caractère personnel et celles à ne pas partager",
-                "2": "Savoir que les données partagées dans une transaction en ligne peuvent être lues ou collectées par d’autres personnes",
-                "3": "Appliquer des procédures pour protéger les données personnelles. Sécuriser et paramétrer la confidentialité d’un profil numérique. Être attentif aux traces personnelles laissées lors de l’utilisation de services en ligne",
-                "4": "Mettre en œuvre des stratégies de protection de sa vie privée et de ses données personnelles et respecter celles des autres. Sécuriser sa navigation en ligne et analyser les pages et fichiers consultés et utilisés. Trouver et interpréter les conditions générales d'utilisation d'un service en ligne",
-                "5": "Repérer les traces personnelles laissées lors des utilisations de services en ligne. Évaluer la pertinence d'une collecte de données par un service en ligne et en comprendre les finalités. Connaître les principes et enjeux de l'anonymisation des données",
-                "6": "Connaître les droits des citoyens européens garantis par le RGPD. Connaître la nature et la localisation des traces laissées lors d'une connexion internet. Maîtriser les grands enjeux économiques, sociaux, politiques et juridiques de la protection des données personnelles",
-                "7": "Comprendre les limites des outils de protection des données et de la vie privée. Repérer et analyser les méthodes de traçage avancées et connaitre des solutions pour s’en prémunir"
-              }
-            },
-            "3" : {
-              "index": "4.3",
-              "title": "Protéger la santé, le bien-être et l'environnement",
-              "description" :"Prévenir et limiter les risques générés par le numérique sur la santé, le bien-être et l'environnement mais aussi tirer parti de ses potentialités pour favoriser le développement personnel, le soin, l'inclusion dans la société et la qualité des conditions de vie, pour soi et pour les autres (avec la connaissance des effets du numérique sur la santé physique et psychique et sur l'environnement, et des pratiques, services et outils numériques dédiés au bien-être, à la santé, à l'accessibilité, …).",
-              "levels": {
-                "1": "Comprendre que l’utilisation non réfléchie des technologies numériques peut avoir des impacts négatifs sur sa santé et son équilibre social et psychologique",
-                "2": "Utiliser des moyens simples pour préserver sa santé en adaptant son espace de travail et en régulant ses pratiques. Reconnaître les comportements et contenus qui relèvent du cyberharcèlement",
-                "3": "Adapter son utilisation des technologies numériques pour protéger sa santé et son équilibre social et psychologique. Réagir pour soi ou pour autrui à des situations de cyber-harcèlement. Connaitre les pratiques numériques qui limitent la consommation de l’énergie et des ressources",
-                "4": "Connaître les conséquences principales de l’utilisation immodérée des technologies numériques sur la santé et l’équilibre social et psychologique (cyberdépendance). Connaitre le rôle du recyclage et du réemploi dans la réduction de l'impact du numérique sur l'environnement",
-                "5": "Mettre en œuvre des stratégies de protection de sa santé et de celle des autres dans un environnement numérique. Maîtriser le temps de connexion et connaître les conséquences d'un usage excessif. Connaitre l'impact environnemental des différentes étapes du cycle de vie d'un appareil numérique",
-                "6": "Choisir et promouvoir des stratégies de protection de sa santé et de celle des autres dans un environnement numérique (ergonomie du poste de travail, déconnexion, ...). Expliquer l’impact environnemental du numérique, en recourant à des indicateurs et des modèles étayés (sac à dos écologique, analyse de cycle de vie, PUE, etc)",
-                "7": "Choisir et mettre en œuvre des stratégies de protection de la santé des personnes dans un environnement numérique pour limiter les risques de cyberviolence et de cyberdépendance.Construire un raisonnement critique sur l’impact environnemental du numérique, en questionnant les indicateurs et les données."
-              }
-            }
-          }
-        },
-        "5" : {
-          "index": "5",
-          "label": "Environnement numérique",
-          "competences": {
-            "1" : {
-              "index": "5.1",
-              "title": "Résoudre des problèmes techniques",
-              "description" :"Résoudre des problèmes techniques pour garantir et rétablir le bon fonctionnement d'un environnement informatique (avec les outils de configuration et de maintenance des logiciels ou des systèmes d'exploitation, et en mobilisant les ressources techniques ou humaines nécessaires, …).",
-              "levels": {
-                "1": "Eviter certaines erreurs courantes lors de l'utilisation d'un appareil numérique (smartphone, clavier, écran)",
-                "2": "Résoudre des problèmes courants dans l'utilisation d'un appareil numérique ou l’accès à un service en ligne (perte de mot de passe)",
-                "3": "Identifier des problèmes techniques liés à un environnement informatique. Résoudre des problèmes simples liés au stockage ou au partage de données",
-                "4": "Différencier et interpréter les problèmes liés à l'utilisation des technologies (erreur humaine, défaillance technique, etc.)",
-                "5": "Entretenir le système d'exploitation, les données, les connexions, les équipements de son environnement personnel et professionnel. Diagnostiquer des pannes simples sur les appareils numériques",
-                "6": "Choisir et mettre en œuvre des stratégies pour résoudre ou anticiper des problèmes et des pannes techniques en utilisant des outils et réseaux numériques",
-                "7": "Diagnostiquer et résoudre des problèmes ou des pannes techniques complexes nécessitant une compréhension fine du fonctionnement des appareils numériques, des logiciels et des réseaux"
-              }
-            },
-            "2" : {
-              "index": "5.2",
-              "title": "Construire un environnement numérique",
-              "description" :"Installer, configurer et enrichir un environnement numérique (matériels, outils, services) pour disposer d'un cadre adapté aux activités menées, à leur contexte d'exercice ou à des valeurs (avec les outils de configuration des logiciels et des systèmes d'exploitation, l'installation de nouveaux logiciels ou la souscription à des services, …).",
-              "levels": {
-                "1": "Utiliser les fonctionnalités indispensables de son environnement numérique (système d'exploitation). Installer une application sur un smartphone",
-                "2": "Retrouver des ressources et des contenus dans son environnement numérique (système d'exploitation). Connaître les principaux matériels et périphériques de son environnement numérique",
-                "3": "Configurer son environnement numérique et installer un logiciel. Connaitre les composants matériels et logiciels de son environnement.",
-                "4": "Se connecter au réseau internet et connaître les bases de son fonctionnement. Choisir les logiciels, outils et services pour constituer son environnement numérique",
-                "5": "Comprendre les grands principes techniques de fonctionnement des ordinateurs et l'éventail de l'offre logicielle. Connaître les grands jalons de l'histoire de l'informatique et de l'émergence d'internet",
-                "6": "Comprendre les grands principes techniques de fonctionnement des réseaux informatiques. Comprendre les grands enjeux de la gouvernance d'internet et de l'ouverture des formats et des plateformes",
-                "7": "Construire son environnement numérique et optimiser sa configuration en s’appuyant sur une compréhension poussée du fonctionnement des appareils numériques et des réseaux et sur une connaissance fine des modèles de composants logiciels et matériels."
-              }
-            }
-          }
-        }
-      },
       "file-metadata": {
         "title": "Certification(s) Pix"
       },
@@ -449,6 +193,268 @@
         "title": "Attestation"
       },
       "v3": {
+        "competence-results": {
+          "areas" : {
+            "1" : {
+              "index": "1",
+              "label": "Information et données",
+              "competences": {
+                "1" : {
+                  "index": "1.1",
+                  "title": "Mener une recherche et une veille d’information",
+                  "description" :"Mener une recherche et une veille d'information pour répondre à un besoin d'information et se tenir au courant de l'actualité d'un sujet (avec un moteur de recherche, au sein d'un réseau social, par abonnement à des flux ou des lettres d'information, ou tout autre moyen)",
+                  "levels": {
+                    "1": "Lire et repérer des informations sur un support numérique. Savoir que les informations qui circulent sur le Web ne sont pas toutes fiables.",
+                    "2": "Effectuer une recherche simple en ligne en utilisant un moteur de recherche.Questionner la fiabilité et la pertinence des sources.",
+                    "3": "Utiliser divers services en ligne pour trouver une information. Repérer des indices simples pour vérifier la fiabilité et la pertinence d'une source d'information.Connaitre le principe de l'abonnement à des publications en ligne.",
+                    "4": "Effectuer une recherche pour obtenir une information pertinente répondant à ses besoins.Évaluer la fiabilité et la pertinence d'une source d'information.Construire un veille en utilisant les abonnements à des publications en ligne.",
+                    "5": "Construire des stratégies complexes de recherche pour trouver des informations pertinentes et fiables. Connaitre des outils de veille informationnelle.",
+                    "6": "Adapter sa stratégie de recherche pour trouver l'information la plus adaptée dans un contexte de surabondance (bruit) et d'ambiguité de l'information. Construire un veille en utilisant des outils de veille informationnelle. Utiliser des outils de détection de fausses informations.",
+                    "7": "Vous savez mener une véritable enquête sur le web pour retrouver une information, identifier sa source, la vérifier, même si vous disposez de données très partielles, ou que cette information n’est pas indexée par les moteurs de recherche, ou que vous devez recourir à des techniques de requête avancées."
+                  }
+                },
+                "2" : {
+                  "index": "1.2",
+                  "title": "Gérer des données",
+                  "description" :"Stocker et organiser des données pour les retrouver, les conserver et en faciliter l'accès et la gestion (avec un gestionnaire de fichiers, un espace de stockage en ligne, des classeurs, des bases de données, un système d'information, …).",
+                  "levels": {
+                    "1": "Stocker ses fichiers dans l’ordinateur utilisé et les retrouver.",
+                    "2": "Stocker et organiser ses fichiers dans l'ordinateur utilisé.Sauvegarder ses fichiers sur un support de stockage alternatif.",
+                    "3": "Stocker et organiser ses fichiers dans des environnements numériques de sorte qu’ils soient facilement. Connaitre les propriétés élémentaires d'un fichier (date, auteur, taille).",
+                    "4": "Stocker et organiser ses données pour qu'elles soient accessibles dans des environnements numériques locaux et distants. Concevoir une organisation efficace de rangement de dossiers en tenant compte des formats de fichiers.",
+                    "5": "Optimiser le stockage des fichiers (archive, compression, etc). Exploiter les métadonnées des fichiers. Synchroniser des données locales avec un espace de stockage en ligne.",
+                    "6": "Mobiliser les fonctionnalités avancées des services de stockage en ligne. Concevoir une stratégie de synchronisation de ses données.",
+                    "7": "Automatiser l’organisation arborescente de ses fichiers et dossiers. Automatiser ses sauvegardes selon ses besoins. Optimiser la qualité de l’organisation de ses données."
+                  }
+                },
+                "3" : {
+                  "index": "1.3",
+                  "title": "Traiter des données",
+                  "description" :"Appliquer des traitements à des données pour les analyser et les interpréter (avec un tableur, un programme, un logiciel de traitement d'enquête, une requête calcul dans une base de données, …).",
+                  "levels": {
+                    "1": "Lire et saisir des données en tableaux.",
+                    "2": "Insérer, saisir, et trier des données en tableaux pour obtenir une information. Lire une représentation graphique interactive simple.",
+                    "3": "Organiser, trier et filtrer des données  à l'aide d'un logiciel tableur. Appliquer une formule simple pour résoudre un problème. Respecter les formats de données lors de leur saisie en tableau.",
+                    "4": "Traiter des données pour répondre à une question. Réaliser des représentations graphiques courantes. Appliquer une fonction statistique simple. Analyser un jeu de données pour vérifier sa qualité.",
+                    "5": "Automatiser un traitement de données.Adapter le format d'une donnée (texteombre). Réaliser des représentations graphiques adaptées à un besoin. Nettoyer un jeu de données.",
+                    "6": "Repérer, trouver et exploiter des sources de données ouvertes. Effectuer des traitements simples sur des données volumineuses. Nettoyer et préparer des données pour les exploiter.",
+                    "7": "Créer des représentations synthétiques de jeux de données complexes. Adapter des données mal structurées pour pouvoir les analyser. Automatiser des requêtes d'interrogation de données ouvertes."
+                  }
+                }
+              }
+            },
+            "2" : {
+              "index": "2",
+              "label": "Communication et collaboration",
+              "competences": {
+                "1" : {
+                  "index": "2.1",
+                  "title": "Interagir",
+                  "description" :"Interagir avec des individus et de petits groupes pour échanger dans divers contextes liés à la vie privée ou à une activité professionnelle, de façon ponctuelle et récurrente (avec une messagerie électronique, une messagerie instantanée, un système de visio-conférence, …).",
+                  "levels": {
+                    "1": "Utiliser un outil ou service de communication numérique adapté à un besoin (instantané ou différé).",
+                    "2": "Utiliser différents outils ou services de communication numérique. Connaître et utiliser les règles de civilité lors des interactions en ligne.",
+                    "3": "Adapter ses pratiques de communication en tenant compte du contexte et du besoin. Respecter les principales règles de civilité et le droit des personnes lors des interactions en ligne.",
+                    "4": "Sélectionner les outils ou services de communication numérique adaptés au contexte et à la situation de communication. Adapter son expression en ligne en fonction de ses interlocuteurs. Filtrer et éviter les contenus inappropriés.",
+                    "5": "Paramètrer ses outils ou services de communication numérique pour les adapter au contexte et à la situation de communication. Modérer les interactions en ligne pour garantir le respect des règles de civilité et le droit des personnes.",
+                    "6": "Gérer efficacement son courrier électronique (automatisation). Organiser et accompagner l'accès des collaborateurs aux outils de visio-conférence. Administrer un groupe de messagerie instantanée.",
+                    "7": "Choisir et configurer des outils de communication synchrones et asynchrones selon les situations. Optimiser l'utilisation des outils de communication en adoptant des pratiques respectueuses et efficaces."
+                  }
+                },
+                "2" : {
+                  "index": "2.2",
+                  "title": "Partager et publier",
+                  "description" :"Partager et publier des informations et des contenus pour communiquer ses propres productions ou opinions, relayer celles des autres en contexte de communication publique (avec des plateformes de partage, des réseaux sociaux, des blogs, des espaces de forum et de commentaire, des CMS, …).",
+                  "levels": {
+                    "1": "Consulter des publications sur les réseaux sociaux.",
+                    "2": "Publier des contenus  en ligne en diffusion privée. Modifier les informations générales attachées à son profil dans un environnement numérique en fonction du contexte d’usage.",
+                    "3": "Publier des contenus numériques en ligne en diffusion publique et réagir sur des contenus publiés. Connaitre les principaux réseaux sociaux, les caractéristiques de leurs publications et leurs fonctionalités de bases.",
+                    "4": "Choisir un outil approprié pour partager des contenus avec un public large. Partager du contenu en direct avec un public large. Paramétrer la visibilité d’un contenu partagé. Savoir créer des identités numériques multiples, adaptées aux différents contextes et usages.",
+                    "5": "Maîtriser son expression publique en ligne en fonction du média. Adapter sa stratégie de diffusion et de visibilité de ses contenus selon le contexte et le public.",
+                    "6": "Développer une stratégie de présence en ligne selon l'impact attendu. Contrôler son audience sur différents réseaux sociaux.",
+                    "7": "Produire du contenu en ligne destiné à un large public sur différents médias sociaux. Gérer la diffusion de ses contenus en ligne de manière optimale, en utilisant les outils de suivi de fréquentation. Comprendre le fonctionnement des modèles économiques utilisés."
+                  }
+                },
+                "3" : {
+                  "index": "2.3",
+                  "title": "Collaborer",
+                  "description" :"Collaborer dans un groupe pour réaliser un projet, co-produire des ressources, des connaissances, des données, et pour apprendre (avec des plateformes de travail collaboratif et de partage de document, des éditeurs en ligne, des fonctionnalités de suivi de modifications ou de gestion de versions, …).",
+                  "levels": {
+                    "1": "Consulter un agenda électronique partagé.",
+                    "2": "Participer à des événements collaboratifs à l'aide d'un agenda partagé. Accéder à des documents disponibles sur un espace de travail partagé.",
+                    "3": "Utiliser un dispositif d’écriture collaborative pour  coproduire des contenus dans le cadre d’un projet. Partager des documents dans un espace de travail partagé. Organiser des événements collaboratifs à l'aide d'un agenda partagé.",
+                    "4": "Partager des documents avec des droits d'accès adaptés dans le cadre d'un projet. Planifier des événements collaboratifs.",
+                    "5": "Adopter des comportements et des méthodes adaptés au travail collaboratif. Gérer les accès d'un groupe de travail aux outils numériques en ligne.",
+                    "6": "Organiser et accompagner des pratiques de travail collaboratif adaptées aux besoins d'un projet. Paramétrer les outils collaboratifs pour améliorer l'organisation du projet.",
+                    "7": "Utiliser de manière avancée des outils de gestion de travail collaboratif afin d’optimiser l’organisation des projets. Analyser et corriger les problèmes spécifiques engendré par le partage et la création collaborative (suivi de version, gestion de conflit, etc)."
+                  }
+                },
+                "4" : {
+                  "index": "2.4",
+                  "title": "S'insérer dans le monde numérique",
+                  "description" :"Maîtriser les stratégies et enjeux de la présence en ligne, appréhender l'évolution des techniques et des applications de l'intelligence artificielle, et choisir ses pratiques pour se positionner en tant qu'acteur social, économique et citoyen dans le monde numérique, en lien avec ses règles, limites et potentialités, et en accord avec des valeurs et/ou pour répondre à des objectifs (avec les réseaux sociaux et les outils permettant de développer une présence publique sur Internet, les algorithmes et les services pilotés par l’intelligence artificielle, et en lien avec la vie citoyenne, la vie professionnelle, la vie privée, …).",
+                  "levels": {
+                    "1": "Comprendre la nécessité de protéger son identité en ligne quels que soient les contextes (professionnel, personnel).",
+                    "2": "Utiliser des moyens simples pour protéger son identité en ligne. Télécharger des documents sur un service en ligne.",
+                    "3": "Comprendre comment les traces numériques dessinent une réputation en ligne. Recourir à des applications ou des services en ligne pour réaliser des tâches administratives personnelles et professionnelles. Identifier la présence d'un système d'intelligence artificielle dans une interaction en ligne.",
+                    "4": "Gérer, actualiser et améliorer son identité numérique publique et protéger sa e-réputation dans des environnements numériques divers. Recourir à des applications ou des services en ligne pour soutenir son activité professionnelle. Connaître le rôle des données dans les techniques d’intelligence artificielle.",
+                    "5": "Repérer les traces personnelles laissées lors des utilisations de services en ligne. Connaître ses droits d’information, d’accès, de rectification, d’opposition, de suppression et de déréférencement. Connaître les principes et enjeux de l'anonymisation des données. Connaître des utilisations courantes de l’intelligence artificielle.",
+                    "6": "Définir des stratégies de protection de la e-réputation dans des environnements numériques divers. Comprendre les enjeux éthiques de la collecte et l’exploitation de données par les systèmes d’intelligence artificielle.",
+                    "7": "Maîtriser l’ensemble des traces numériques laissées par une présence en ligne.Connaitre les stratégies économiques et comportementales liées aux pratiques en ligne.Comprendre le fonctionnement des système d’intelligence artificielle et anticiper les enjeux éthiques associés."
+                  }
+                }
+              }
+            },
+            "3" : {
+              "index": "3",
+              "label": "Création de contenu",
+              "competences": {
+                "1" : {
+                  "index": "3.1",
+                  "title": "Développer des documents textuels",
+                  "description" :"Produire des documents à contenu majoritairement textuel pour communiquer des idées, rendre compte et valoriser ses travaux (avec des logiciels de traitement de texte, de présentation, de création de page web, de carte conceptuelle, …).",
+                  "levels": {
+                    "1": "Saisir un texte dans une application d’édition de texte.",
+                    "2": "Mettre en forme un texte dans une application d'édition de texte.",
+                    "3": "Créer des documents à l’aide d'un logiciel de traitement de texte. Enrichir un contenu textuel en y intégrant des objets numériques variés (liens, tableaux, image, vidéo, etc).",
+                    "4": "Créer des documents à l’aide de différentes logiciels et applications (diaporama, textes, etc). Importer, éditer et modifier des contenus existants en y intégrant de nouveaux objets numériques.",
+                    "5": "Concevoir, organiser et éditorialiser des contenus majoritairement textuels sur différents supports et dans différents formats. Systématiser la mise en forme d'un document.",
+                    "6": "Créer des supports numériques adaptés en conformité avec les règles d'une organisation (charte graphique, etc). Concevoir un modèle et garantir la robustesse et l'adaptabilité du contenu saisi.",
+                    "7": "Concevoir les règles de mise en forme adaptées à ses besoins et automatiser, autant que possible, l’application de ces règles. Optimiser la conception des documents textes et des présentations."
+                  }
+                },
+                "2" : {
+                  "index": "3.2",
+                  "title": "Développer des documents multimédia",
+                  "description" :"Développer des documents à contenu multimédia pour créer ses propres productions multimédia, enrichir ses créations textuelles (avec des logiciels de capture et d'édition d'image / son / vidéo / animation, ...).",
+                  "levels": {
+                    "1": "Manipuler une image. Lire un son ou une vidéo.",
+                    "2": "Manipuler une image, un son ou une vidéo. Connaitre les formats courants des fichiers image et son.",
+                    "3": "Acquérir des images en ligne. Utiliser des outils de dessin basiques dans un logiciel d'édition. Connaitre les formats courants des fichiers sons et vidéo.",
+                    "4": "Appliquer des traitements de retouche sur des images, des sons et des vidéos. Connaitre des logiciels de retouche d'image, de son et de vidéo.",
+                    "5": "Différencier image vectorielle et image matricielle. Utiliser des procédures avancées pour modifier des contenus multimedia.",
+                    "6": "Analyser et paramétrer les propriétés d'une image. Utiliser des procédures expertes pour modifier des contenus multimedia.",
+                    "7": "Exploiter les caractéristiques techniques avancées des images, des vidéos et des sons. Utiliser les outils de montage et de retouche pour réaliser des créations multimédia de qualité."
+                  }
+                },
+                "3" : {
+                  "index": "3.3",
+                  "title": "Adapter les documents à leur finalité",
+                  "description" :"Adapter des documents de tous types en fonction de l'usage envisagé et maîtriser l'usage des licences pour permettre, faciliter et encadrer l'utilisation dans divers contextes (mise à jour fréquente, diffusion multicanale, impression, mise en ligne, projection, …), avec les fonctionnalités des logiciels liées à la préparation d'impression, de projection, de mise en ligne, les outils de conversion de format…",
+                  "levels": {
+                    "1": "Connaitre les caractéristiques basiques de mise en page d’un document. Imprimer un document numérique",
+                    "2": "Connaître les règles élémentaires du droit d’auteur et du droit à l’image. Savoir qu'il existe des moyens pour rendre accessible des documents numériques.",
+                    "3": "Organiser et optimiser des contenus numériques pour les publier en ligne. Utiliser des fonctionnalités simples pour permettre l’accessibilité d’un document. Appliquer les règles du droit d’auteur et du droit à l’image.",
+                    "4": "Organiser des contenus numériques en vue de leur consultation et/ou de leur réutilisation par autrui. Adapter les formats des contenus numériques pour les diffuser selon des modalités variées.",
+                    "5": "Protéger un document produit par des droits de reproduction, rediffusion et réutilisation. Favoriser l'accessibilité des documents numériques pour les personnes en situation de handicap.",
+                    "6": "Connaître et appliquer les principales règles régissant le droit d'auteur. Réutiliser un document disponible sur le web en identifiant sa licence et en s'y conformant. Connaître et appliquer les principales techniques pour rendre un document accessible (personnes en situation de handicap).",
+                    "7": "Maîtriser les principales règles d’accessibilité et les droits de réutilisation et d’attribution de documents multimédias, de vidéos, de musiques, et de logiciels pour diffuser ses créations."
+                  }
+                },
+                "4" : {
+                  "index": "3.4",
+                  "title": "Programmer",
+                  "description" :"Écrire des programmes et des algorithmes pour répondre à un besoin (automatiser une tâche répétitive, accomplir des tâches complexes ou chronophages, résoudre un problème logique, …) et pour développer un contenu riche (jeu, site web…), avec des environnements de développement informatique simples, des logiciels de planification de tâches.",
+                  "levels": {
+                    "1": "Comprendre un programme qui comporte une séquence d'instructions simples. Exécuter un programme dans un environnement de programmation simplifié.",
+                    "2": "Réaliser un programme qui utilise une séquence et une boucle d'instructions simples. Compléter un programme écrit dans un langage par blocs.",
+                    "3": "Développer un programme pour répondre à un problème en utilisant un langage de programmation simplifié. Connaitre le principe du codage binaire.",
+                    "4": "Concevoir un algorithme comportant plusieurs instructions de contrôle (alternatives, répétitions). Modifier le comportement d'un objet régi par un programme simple. Connaître des codages d'information courants (RVB, ACSII).",
+                    "5": "Créer un programme animant un objet graphique ou réel, dans un langage de programmation répandu. Comprendre une méthode algorithmique connue. Comprendre un principe de compression de l'information.",
+                    "6": "Créer un programme pour résoudre un problème. Utiliser une méthode algorithmique connue. Écrire des requêtes d'interrogation d'une base de données (SQL). Connaître des méthodes de compression.",
+                    "7": "Créer un programme optimisé pour résoudre un problème. Repérer et corriger des épreuves courantes dans un programme. Installer et interroger une base de données relationnelle. Évaluer l'efficacité d'une méthode de compression."
+                  }
+                }
+              }
+            },
+            "4" : {
+              "index": "4",
+              "label": "Protection et sécurité",
+              "competences": {
+                "1" : {
+                  "index": "4.1",
+                  "title": "Sécuriser l'environnement numérique",
+                  "description" :"Sécuriser les équipements, les communications et les données pour se prémunir contre les attaques, pièges, désagréments et incidents susceptibles de nuire au bon fonctionnement des matériels, logiciels, sites internet, et de compromettre les transactions et les données (avec des logiciels de protection, la maîtrise de bonnes pratiques, …).",
+                  "levels": {
+                    "1": "Connaître les comportements et pratiques de prudence élémentaire face au risque de malveillance numérique.",
+                    "2": "Connaitre les risques principaux qui menacent son environnement informatique et ses transactions en ligne. Connaître les bonnes pratiques de bases concernant le choix et l’utilisation des mots de passe.",
+                    "3": "Choisir et appliquer des mesures simples de protection de son environnement informatique. Identifier des configurations assurant la sécurité de ses transactions en ligne (Wifi privé, sites sécurisés).",
+                    "4": "Identifier différents risques numériques et mettre en œuvre des stratégies de protection des ressources matérielles et logicielles. Vérifier l'absence de menace dans un contenu avant action (ouverture, activation, installation). Sécuriser ses accès aux environnements numériques.",
+                    "5": "Vérifier l'identité certifiée associée à un site Internet sécurisé. Connaître les risques liés à un réseau wifi ouvert.",
+                    "6": "Identifier un type précis de menace (parmi des attaques, logiciels malveillants, techniques de piraterie) et comprendre les enjeux associés. Évaluer la pertinence, et les conséquences possibles, de l’utilisation d’une connexion Internet non sécurisée en fonction des usages.",
+                    "7": "Évaluer les risques d’infection d'un environnement numérique en recourant à des procédés de vérification avancés. Protéger un appareil d’attaques potentielles en optimisant la configuration des paramètres de sécurité."
+                  }
+                },
+                "2" : {
+                  "index": "4.2",
+                  "title": "Protéger les données personnelles et la vie privée",
+                  "description" :"Maîtriser ses traces et gérer les données personnelles pour protéger sa vie privée et celle des autres, et adopter une pratique éclairée (avec le paramétrage des paramètres de confidentialité, la surveillance régulière de ses traces, ...).",
+                  "levels": {
+                    "1": "Identifier les données à caractère personnel et celles à ne pas partager.",
+                    "2": "Savoir que les données partagées dans une transaction en ligne peuvent être lues ou collectées par d’autres personnes.",
+                    "3": "Appliquer des procédures pour protéger les données personnelles. Sécuriser et paramétrer la confidentialité d’un profil numérique. Être attentif aux traces personnelles laissées lors de l’utilisation de services en ligne.",
+                    "4": "Mettre en œuvre des stratégies de protection de sa vie privée et de ses données personnelles et respecter celles des autres. Sécuriser sa navigation en ligne et analyser les pages et fichiers consultés et utilisés. Trouver et interpréter les conditions générales d'utilisation d'un service en ligne.",
+                    "5": "Repérer les traces personnelles laissées lors des utilisations de services en ligne. Évaluer la pertinence d'une collecte de données par un service en ligne et en comprendre les finalités. Connaître les principes et enjeux de l'anonymisation des données.",
+                    "6": "Connaître les droits des citoyens européens garantis par le RGPD. Connaître la nature et la localisation des traces laissées lors d'une connexion internet. Maîtriser les grands enjeux économiques, sociaux, politiques et juridiques de la protection des données personnelles.",
+                    "7": "Comprendre les limites des outils de protection des données et de la vie privée. Repérer et analyser les méthodes de traçage avancées et connaitre des solutions pour s’en prémunir."
+                  }
+                },
+                "3" : {
+                  "index": "4.3",
+                  "title": "Protéger la santé, le bien-être et l'environnement",
+                  "description" :"Prévenir et limiter les risques générés par le numérique sur la santé, le bien-être et l'environnement mais aussi tirer parti de ses potentialités pour favoriser le développement personnel, le soin, l'inclusion dans la société et la qualité des conditions de vie, pour soi et pour les autres (avec la connaissance des effets du numérique sur la santé physique et psychique et sur l'environnement, et des pratiques, services et outils numériques dédiés au bien-être, à la santé, à l'accessibilité, …).",
+                  "levels": {
+                    "1": "Comprendre que l’utilisation non réfléchie des technologies numériques peut avoir des impacts négatifs sur sa santé et son équilibre social et psychologique.",
+                    "2": "Utiliser des moyens simples pour préserver sa santé en adaptant son espace de travail et en régulant ses pratiques. Reconnaître les comportements et contenus qui relèvent du cyberharcèlement.",
+                    "3": "Adapter son utilisation des technologies numériques pour protéger sa santé et son équilibre social et psychologique. Réagir pour soi ou pour autrui à des situations de cyber-harcèlement. Connaitre les pratiques numériques qui limitent la consommation de l’énergie et des ressources.",
+                    "4": "Connaître les conséquences principales de l’utilisation immodérée des technologies numériques sur la santé et l’équilibre social et psychologique (cyberdépendance). Connaitre le rôle du recyclage et du réemploi dans la réduction de l'impact du numérique sur l'environnement.",
+                    "5": "Mettre en œuvre des stratégies de protection de sa santé et de celle des autres dans un environnement numérique. Maîtriser le temps de connexion et connaître les conséquences d'un usage excessif. Connaitre l'impact environnemental des différentes étapes du cycle de vie d'un appareil numérique.",
+                    "6": "Choisir et promouvoir des stratégies de protection de sa santé et de celle des autres dans un environnement numérique (ergonomie du poste de travail, déconnexion, ...). Expliquer l’impact environnemental du numérique, en recourant à des indicateurs et des modèles étayés (sac à dos écologique, analyse de cycle de vie, PUE, etc).",
+                    "7": "Choisir et mettre en œuvre des stratégies de protection de la santé des personnes dans un environnement numérique pour limiter les risques de cyberviolence et de cyberdépendance.Construire un raisonnement critique sur l’impact environnemental du numérique, en questionnant les indicateurs et les données."
+                  }
+                }
+              }
+            },
+            "5" : {
+              "index": "5",
+              "label": "Environnement numérique",
+              "competences": {
+                "1" : {
+                  "index": "5.1",
+                  "title": "Résoudre des problèmes techniques",
+                  "description" :"Résoudre des problèmes techniques pour garantir et rétablir le bon fonctionnement d'un environnement informatique (avec les outils de configuration et de maintenance des logiciels ou des systèmes d'exploitation, et en mobilisant les ressources techniques ou humaines nécessaires, …).",
+                  "levels": {
+                    "1": "Eviter certaines erreurs courantes lors de l'utilisation d'un appareil numérique (smartphone, clavier, écran).",
+                    "2": "Résoudre des problèmes courants dans l'utilisation d'un appareil numérique ou l’accès à un service en ligne (perte de mot de passe).",
+                    "3": "Identifier des problèmes techniques liés à un environnement informatique. Résoudre des problèmes simples liés au stockage ou au partage de données.",
+                    "4": "Différencier et interpréter les problèmes liés à l'utilisation des technologies (erreur humaine, défaillance technique, etc.).",
+                    "5": "Entretenir le système d'exploitation, les données, les connexions, les équipements de son environnement personnel et professionnel. Diagnostiquer des pannes simples sur les appareils numériques.",
+                    "6": "Choisir et mettre en œuvre des stratégies pour résoudre ou anticiper des problèmes et des pannes techniques en utilisant des outils et réseaux numériques.",
+                    "7": "Diagnostiquer et résoudre des problèmes ou des pannes techniques complexes nécessitant une compréhension fine du fonctionnement des appareils numériques, des logiciels et des réseaux."
+                  }
+                },
+                "2" : {
+                  "index": "5.2",
+                  "title": "Construire un environnement numérique",
+                  "description" :"Installer, configurer et enrichir un environnement numérique (matériels, outils, services) pour disposer d'un cadre adapté aux activités menées, à leur contexte d'exercice ou à des valeurs (avec les outils de configuration des logiciels et des systèmes d'exploitation, l'installation de nouveaux logiciels ou la souscription à des services, …).",
+                  "levels": {
+                    "1": "Utiliser les fonctionnalités indispensables de son environnement numérique (système d'exploitation). Installer une application sur un smartphone.",
+                    "2": "Retrouver des ressources et des contenus dans son environnement numérique (système d'exploitation). Connaître les principaux matériels et périphériques de son environnement numérique.",
+                    "3": "Configurer son environnement numérique et installer un logiciel. Connaitre les composants matériels et logiciels de son environnement.",
+                    "4": "Se connecter au réseau internet et connaître les bases de son fonctionnement. Choisir les logiciels, outils et services pour constituer son environnement numérique",
+                    "5": "Comprendre les grands principes techniques de fonctionnement des ordinateurs et l'éventail de l'offre logicielle. Connaître les grands jalons de l'histoire de l'informatique et de l'émergence d'internet.",
+                    "6": "Comprendre les grands principes techniques de fonctionnement des réseaux informatiques. Comprendre les grands enjeux de la gouvernance d'internet et de l'ouverture des formats et des plateformes.",
+                    "7": "Construire son environnement numérique et optimiser sa configuration en s’appuyant sur une compréhension poussée du fonctionnement des appareils numériques et des réseaux et sur une connaissance fine des modèles de composants logiciels et matériels."
+                  }
+                }
+              }
+            }
+          },
+          "level-tag": "Niveau ",
+          "level-not-obtained": "Non obtenu",
+          "competences-info": "Votre score Pix permet de déduire un niveau estimé dans l’ensemble des compétences numériques. Pour certaines compétences, votre niveau réel peut varier. Les niveaux sont évalués sur une échelle de 1 à 7.",
+          "competences-title": "Votre profil de compétences numériques :"
+        },
         "complementary-content": {
           "title": "Certification complémentaire obtenue :"
         },
