@@ -38,10 +38,10 @@ export class RevokedUserAccess {
    */
   assertRefreshTokenNotRevoked(refreshToken) {
     if (this.revokedSessionIds?.includes(refreshToken.sessionId)) {
-      throw new InvalidInputDataError(
-        `Refresh token is revoked because sessionId ${refreshToken.sessionId} is revoked`,
-        'INVALID_REFRESH_TOKEN',
-      );
+      throw new InvalidInputDataError({
+        message: `Refresh token is revoked because sessionId ${refreshToken.sessionId} is revoked`,
+        code: 'INVALID_REFRESH_TOKEN',
+      });
     }
   }
 }

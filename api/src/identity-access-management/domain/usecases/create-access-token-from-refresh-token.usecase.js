@@ -46,7 +46,7 @@ export async function createAccessTokenFromRefreshToken({
     revokedUserAccess.assertRefreshTokenNotRevoked(decodedRefreshToken);
   } catch (err) {
     if (err instanceof InvalidInputDataError) {
-      logger.warn({ err }, 'invalid refresh token');
+      logger.warn({ err: { code: err.code, message: err.message } }, 'invalid refresh token');
       throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
     }
     throw err;

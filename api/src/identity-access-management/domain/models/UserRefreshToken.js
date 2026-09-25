@@ -46,7 +46,8 @@ export class UserRefreshToken {
       expectedType: tokenType.REFRESH_TOKEN,
       expectedAudience,
     });
-    if (!decodedRefreshToken) throw new InvalidInputDataError('Refresh token verify fail', 'INVALID_REFRESH_TOKEN');
+    if (!decodedRefreshToken)
+      throw new InvalidInputDataError({ message: 'Refresh token verify fail', code: 'INVALID_REFRESH_TOKEN' });
 
     return new UserRefreshToken({
       id: decodedRefreshToken.jti,
