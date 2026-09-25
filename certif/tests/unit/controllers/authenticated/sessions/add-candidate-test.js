@@ -19,7 +19,7 @@ module('Unit | Controller | authenticated/sessions/add-candidate', function (hoo
     controller.store = { createRecord: sinon.stub().returns(candidateRecord) };
     controller.intl = { t: sinon.stub().returns('a message') };
     controller.pixToast = { sendSuccessNotification: sinon.stub(), sendErrorNotification: sinon.stub() };
-    controller.model = { session: { id: '123' }, certificationCandidates: [] };
+    controller.model = { session: { id: '123' } };
   });
 
   module('#addCertificationCandidate', function () {
@@ -42,15 +42,13 @@ module('Unit | Controller | authenticated/sessions/add-candidate', function (hoo
       sinon.assert.calledWith(candidateRecord.save, {
         adapterOptions: { registerToSession: true, sessionId: '123' },
       });
-      sinon.assert.calledOnce(controller.pixToast.sendSuccessNotification);
+      assert.true(controller.pixToast.sendSuccessNotification.calledOnce);
     });
 
-    module('when a candidate with the same identity is already enrolled', function () {
-      test('it should not save the candidate', async function (assert) {
+    module('when the candidate is already enrolled in the session', function () {
+      test('it should display the duplicate error message and discard the record', async function (assert) {
         // given
-        controller.model.certificationCandidates = [
-          { firstName: 'lara', lastName: 'pafromage', birthdate: '1985-08-23' },
-        ];
+        candidateRecord.save = sinon.stub().rejects({ errors: [{ status: '409' }] });
 
         // when
         const success = await controller.addCertificationCandidate({
@@ -62,9 +60,12 @@ module('Unit | Controller | authenticated/sessions/add-candidate', function (hoo
 
         // then
         assert.false(success);
-        sinon.assert.notCalled(candidateRecord.save);
-        sinon.assert.calledOnce(candidateRecord.deleteRecord);
-        sinon.assert.calledOnce(controller.pixToast.sendErrorNotification);
+        sinon.assert.calledWith(
+          controller.intl.t,
+          'pages.sessions.detail.candidates.add-form.notifications.error-add-duplicate',
+        );
+        sinon.assert.calledWith(controller.pixToast.sendErrorNotification, { message: 'a message' });
+        assert.true(candidateRecord.deleteRecord.calledOnce);
       });
     });
   });

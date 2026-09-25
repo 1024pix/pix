@@ -26,11 +26,6 @@ export default class AddCandidateController extends Controller {
   async _saveCertificationCandidate(certificationCandidateData) {
     const certificationCandidate = this._createCertificationCandidateRecord(certificationCandidateData);
 
-    if (this._hasDuplicate(certificationCandidate)) {
-      this._handleDuplicateError(certificationCandidate);
-      return false;
-    }
-
     try {
       await certificationCandidate.save({
         adapterOptions: { registerToSession: true, sessionId: this.model.session.id },
@@ -102,27 +97,7 @@ export default class AddCandidateController extends Controller {
     certificationCandidate.deleteRecord();
   }
 
-  _handleDuplicateError(certificationCandidate) {
-    const errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-form.notifications.error-add-duplicate`);
-    this._handleSavingError({ errorText, certificationCandidate });
-  }
-
   _fromPercentageStringToDecimal(value) {
     return value ? toNumber(value) / 100 : value;
-  }
-
-  _hasDuplicate(certificationCandidate) {
-    const currentFirstName = certificationCandidate.firstName;
-    const currentLastName = certificationCandidate.lastName;
-    const currentBirthdate = certificationCandidate.birthdate;
-
-    return (
-      this.model.certificationCandidates.find(
-        ({ lastName, firstName, birthdate }) =>
-          lastName.toLowerCase() === currentLastName.toLowerCase() &&
-          firstName.toLowerCase() === currentFirstName.toLowerCase() &&
-          birthdate === currentBirthdate,
-      ) !== undefined
-    );
   }
 }
