@@ -88,7 +88,7 @@ module(
           extraTimePercentage: '20',
           sex: 'F',
           subscription: 'CORE',
-          billingMode: '',
+          billingMode: 'FREE',
           prepaymentCode: '',
         };
 
@@ -120,6 +120,8 @@ module(
         await fillIn(screen.getByLabelText('Temps majoré (%)'), candidateData.extraTimePercentage);
         await fillIn(screen.getByLabelText(/E-mail du prescripteur/), candidateData.resultRecipientEmail);
         await fillIn(screen.getByLabelText(/E-mail de convocation/), candidateData.email);
+        await click(screen.getByRole('button', { name: `${t('common.forms.certification-labels.pricing')} *` }));
+        await click(await screen.findByRole('option', { name: t('common.labels.billing-mode.free') }));
         await click(screen.getByRole('radio', { name: 'Certification Pix' }));
 
         // when
@@ -141,6 +143,34 @@ module(
 
         // then
         assert.dom(screen.getByRole('button', { name: 'Tarification part Pix *' })).isVisible();
+      });
+
+      test('it should not submit the candidate when no billing mode is selected', async function (assert) {
+        // given
+        const saveCandidateStub = sinon.stub();
+
+        const countries = [{ id: 1, code: '99100', name: 'France' }];
+
+        const screen = await render(
+          <template><CandidateCreationForm @countries={{countries}} @saveCandidate={{saveCandidateStub}} /></template>,
+        );
+
+        await fillIn(screen.getByLabelText('Prénom *'), 'Lara');
+        await fillIn(screen.getByLabelText('Nom de naissance *'), 'Pafromage');
+        await click(screen.getByRole('radio', { name: 'Femme' }));
+        await fillIn(screen.getByLabelText('Date de naissance *'), '1985-08-23');
+        await click(screen.getByRole('radio', { name: 'Code INSEE' }));
+        await fillIn(screen.getByLabelText('Code INSEE de naissance *'), '59386');
+        await click(screen.getByRole('radio', { name: 'Certification Pix' }));
+
+        // when
+        await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
+
+        // then
+        assert.true(saveCandidateStub.notCalled);
+        assert
+          .dom(screen.getByText(t('common.api-error-messages.certification-candidate.CANDIDATE_BILLING_MODE_REQUIRED')))
+          .isVisible();
       });
 
       module('when the selected billing mode is PREPAID', function () {
