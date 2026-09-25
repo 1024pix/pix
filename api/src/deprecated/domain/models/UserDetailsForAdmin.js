@@ -8,16 +8,12 @@ class UserDetailsForAdmin {
     firstName,
     lastName,
     email,
-    pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted,
     organizationLearners,
     authenticationMethods,
     createdAt,
     updatedAt,
     lang,
     locale,
-    lastPixOrgaTermsOfServiceValidatedAt,
-    lastPixCertifTermsOfServiceValidatedAt,
     lastLoggedAt,
     emailConfirmedAt,
     userLogin,
@@ -33,15 +29,11 @@ class UserDetailsForAdmin {
     this.lastName = lastName;
     this.username = username;
     this.email = email;
-    this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
-    this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
     this.organizationLearners = organizationLearners;
     this.authenticationMethods = authenticationMethods;
     this.createdAt = createdAt;
     this.lang = lang;
     this.locale = getNearestSupportedLocale(locale);
-    this.lastPixOrgaTermsOfServiceValidatedAt = lastPixOrgaTermsOfServiceValidatedAt;
-    this.lastPixCertifTermsOfServiceValidatedAt = lastPixCertifTermsOfServiceValidatedAt;
     this.lastLoggedAt = lastLoggedAt;
     this.emailConfirmedAt = emailConfirmedAt;
     this.userLogin = userLogin;

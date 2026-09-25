@@ -15,8 +15,6 @@ describe('Unit | Deprecated | Infrastructure | Serializer | JSONAPI | user-detai
         createdAt: now,
         lang: 'fr',
         locale: 'fr-FR',
-        lastPixOrgaTermsOfServiceValidatedAt: now,
-        lastPixCertifTermsOfServiceValidatedAt: now,
         lastLoggedAt: now,
         emailConfirmedAt: now,
         hasBeenAnonymised: false,

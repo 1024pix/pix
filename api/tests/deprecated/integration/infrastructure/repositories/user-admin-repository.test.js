@@ -65,7 +65,6 @@ describe('Integration | Deprecated | Infrastructure | Repository | User', functi
         createdAt,
         updatedAt: createdAt,
         lastTermsOfServiceValidatedAt,
-        lastPixCertifTermsOfServiceValidatedAt: lastLoggedAt,
         emailConfirmedAt,
       });
 
@@ -93,7 +92,6 @@ describe('Integration | Deprecated | Infrastructure | Repository | User', functi
       expect(userDetailsForAdmin.updatedAt).to.deep.equal(createdAt);
       expect(userDetailsForAdmin.lang).to.equal('en');
       expect(userDetailsForAdmin.locale).to.equal('en');
-      expect(userDetailsForAdmin.lastPixCertifTermsOfServiceValidatedAt).to.deep.equal(lastLoggedAt);
       expect(userDetailsForAdmin.lastLoggedAt).to.deep.equal(lastLoggedAt);
       expect(userDetailsForAdmin.emailConfirmedAt).to.deep.equal(emailConfirmedAt);
       expect(userDetailsForAdmin.hasBeenAnonymised).to.be.false;
