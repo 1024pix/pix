@@ -39,15 +39,14 @@ export async function createAccessTokenFromRefreshToken({
         throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
       }
     } else {
-      decodedRefreshToken = UserRefreshToken.decode(refreshToken);
-      decodedRefreshToken.assertSameAudience(audience);
+      decodedRefreshToken = UserRefreshToken.decode(refreshToken, { expectedAudience: audience });
     }
 
     const revokedUserAccess = await revokedUserAccessRepository.findByUserId(decodedRefreshToken.userId);
     revokedUserAccess.assertRefreshTokenNotRevoked(decodedRefreshToken);
   } catch (err) {
     if (err instanceof InvalidInputDataError) {
-      logger.warn({ err });
+      logger.warn({ err }, 'invalid refresh token');
       throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
     }
     throw err;

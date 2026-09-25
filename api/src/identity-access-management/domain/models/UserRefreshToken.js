@@ -37,9 +37,14 @@ export class UserRefreshToken {
     );
   }
 
-  static decode(encodedRefreshToken) {
+  /**
+   * @param {string} encodedRefreshToken
+   * @param {{ expectedAudience?: string }} options
+   */
+  static decode(encodedRefreshToken, { expectedAudience } = {}) {
     const decodedRefreshToken = tokenService.getDecodedToken(encodedRefreshToken, config.authentication.secret, {
       expectedType: tokenType.REFRESH_TOKEN,
+      expectedAudience,
     });
     if (!decodedRefreshToken) throw new InvalidInputDataError('Refresh token verify fail', 'INVALID_REFRESH_TOKEN');
 
@@ -50,14 +55,5 @@ export class UserRefreshToken {
       audience: decodedRefreshToken.aud,
       source: decodedRefreshToken.source,
     });
-  }
-
-  assertSameAudience(audience) {
-    if (audience !== this.audience) {
-      throw new InvalidInputDataError(
-        `Refresh token audience mismatch ${audience} != ${this.audience}`,
-        'INVALID_REFRESH_TOKEN',
-      );
-    }
   }
 }
