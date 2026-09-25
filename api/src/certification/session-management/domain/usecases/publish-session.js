@@ -24,7 +24,10 @@ export async function publishSession({
   }
 
   const finalizedSession = await updateFinalizedSession(finalizedSessionRepository, sessionId);
-  await certificationRepository.publishCertificationCourses({ certificationCourseIds, publishedAt: finalizedSession.publishedAt });
+  await certificationRepository.publishCertificationCourses({
+    certificationCourseIds,
+    publishedAt: finalizedSession.publishedAt,
+  });
   await sessionManagementRepository.updatePublishedAt({ id: sessionId, publishedAt: finalizedSession.publishedAt });
 }
 

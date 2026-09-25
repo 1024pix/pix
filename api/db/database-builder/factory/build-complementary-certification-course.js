@@ -2,7 +2,7 @@ import { databaseBuffer } from '../database-buffer.js';
 import { buildComplementaryCertification } from './build-complementary-certification.js';
 import { buildComplementaryCertificationBadge } from './build-complementary-certification-badge.js';
 
-const buildComplementaryCertificationCourse = function ({
+export function buildComplementaryCertificationCourse ({
   id = databaseBuffer.getNextId(),
   complementaryCertificationId,
   certificationCourseId,
@@ -29,5 +29,3 @@ const buildComplementaryCertificationCourse = function ({
     values,
   });
 };
-
-export { buildComplementaryCertificationCourse };

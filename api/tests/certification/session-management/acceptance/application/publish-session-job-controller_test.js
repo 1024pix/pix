@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { CleaSessionPublishedEventHandler } from '../../../../../src/certification/session-management/application/clea-session-published.event-handler.js';
+import { PrescriberSessionPublishedEventHandler } from '../../../../../src/certification/session-management/application/prescriber-session-published.event-handler.js';
 import { PublishSessionJobController } from '../../../../../src/certification/session-management/application/publish-session-job-controller.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -60,6 +62,7 @@ describe('Acceptance | Application | publish-session-job-controller', function (
       const data = { sessionId: session.id };
       await jobController.handle({ data });
 
+      const payload = { sessionId: session.id, publishedAt: publishedAt };
 
       const [finalizedSession] = await knex('finalized-sessions').where({ sessionId: session.id });
       expect(finalizedSession.publishedAt).to.deep.equal(publishedAt);
@@ -70,6 +73,11 @@ describe('Acceptance | Application | publish-session-job-controller', function (
 
       const [sessionToCheck] = await knex('sessions').where({ id: session.id });
       expect(sessionToCheck.publishedAt).to.deep.equal(publishedAt);
+
+      const cleaHandler = new CleaSessionPublishedEventHandler();
+      expect(cleaHandler.jobName).to.have.performed.withEventPayload(payload);
+      const prescriberHandler = new PrescriberSessionPublishedEventHandler();
+      expect(prescriberHandler.jobName).to.have.performed.withEventPayload(payload);
     });
   });
 });
