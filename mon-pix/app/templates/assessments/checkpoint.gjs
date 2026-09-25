@@ -1,13 +1,12 @@
 import PixBannerAlert from '@1024pix/pix-ui/components/pix-banner-alert';
-import PixProgressBar from '@1024pix/pix-ui/components/pix-progress-bar';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
-import AssessmentBanner from 'mon-pix/components/assessment-banner';
 import CheckpointContinue from 'mon-pix/components/checkpoint-continue';
 import ComparisonWindow from 'mon-pix/components/comparison-window';
 import InElement from 'mon-pix/components/in-element';
 import LevelupNotif from 'mon-pix/components/levelup-notif';
 import ResultItem from 'mon-pix/components/result-item';
+import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
 
 <template>
   {{pageTitle @controller.pageTitle}}
@@ -20,34 +19,17 @@ import ResultItem from 'mon-pix/components/result-item';
     </InElement>
   {{/if}}
 
-  <div class="background-banner-wrapper challenge">
+  <main class="challenge">
+    <AssessmentBanner
+      @assessment={{@model}}
+      @displayHomeLink={{@controller.displayHomeLink}}
+      @completionRate={{@controller.completionRate}}
+      @displayTextToSpeechActivationButton={{false}}
+      @showGlobalProgression={{true}}
+    />
 
-    <div class="challenge__banner">
-      <AssessmentBanner
-        @assessment={{@model}}
-        @displayHomeLink={{@controller.displayHomeLink}}
-        @displayTextToSpeechActivationButton={{false}}
-      />
-    </div>
-
-    <div class="checkpoint__container rounded-panel--over-background-banner">
-      <div class="checkpoint__header">
-        {{#if @controller.shouldDisplayAnswers}}
-          <PixProgressBar
-            class="checkpoint__progression-gauge"
-            @value={{@controller.completionRate}}
-            @label={{t "pages.checkpoint.completion-percentage.label" completion=@controller.completionRate}}
-            @percentageValue={{t "common.display.percentage" value=@controller.completionRate}}
-            @subtitle={{t "pages.checkpoint.completion-percentage.caption"}}
-            @themeMode="dark"
-          />
-          <div class="checkpoint__continue-wrapper">
-            <CheckpointContinue @assessmentId={{@model.id}} @nextPageButtonText={{@controller.nextPageButtonText}} />
-          </div>
-        {{/if}}
-      </div>
-
-      <main class="rounded-panel rounded-panel--strong checkpoint__content" role="main">
+    <div class="checkpoint__container">
+      <div class="rounded-panel rounded-panel--strong checkpoint__content" role="div">
         {{#if @controller.shouldDisplayAnswers}}
           <div class="rounded-panel-one-line-header">
             <h2 class="rounded-panel-header-text__content rounded-panel-title rounded-panel-title--all-small-caps">
@@ -72,7 +54,7 @@ import ResultItem from 'mon-pix/components/result-item';
             <CheckpointContinue @assessmentId={{@model.id}} @nextPageButtonText={{@controller.nextPageButtonText}} />
           </div>
         {{/if}}
-      </main>
+      </div>
     </div>
 
     {{#if @controller.shouldDisplayAnswers}}
@@ -82,7 +64,7 @@ import ResultItem from 'mon-pix/components/result-item';
         @closeComparisonWindow={{@controller.closeComparisonWindow}}
       />
     {{/if}}
-  </div>
+  </main>
 
   {{#if @controller.showLevelup}}
     <LevelupNotif @level={{@controller.newLevel}} @competenceName={{@controller.competenceLeveled}} />

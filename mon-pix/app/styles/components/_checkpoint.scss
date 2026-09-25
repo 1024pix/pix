@@ -34,11 +34,6 @@
   }
 }
 
-.checkpoint__progression-gauge {
-  @include breakpoints.device-is('tablet') {
-    width: 65%;
-  }
-}
 
 .checkpoint__continue-wrapper {
   display: none;
