@@ -1,4 +1,4 @@
-import { STATUS } from '../../../legal-documents/domain/models/LegalDocumentStatus.js';
+import { STATUS } from '../../../legal-documents/application/api/legal-documents-api.js';
 import { getNearestSupportedLocale } from '../../../shared/domain/services/locale-service.js';
 
 class UserDetailsForAdmin {
