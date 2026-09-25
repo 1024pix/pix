@@ -188,6 +188,76 @@ module(
       });
     });
 
+    module('when the certification center is SCO', function (hooks) {
+      hooks.beforeEach(function () {
+        this.owner.lookup('service:current-user').currentAllowedCertificationCenterAccess.type = 'SCO';
+      });
+
+      test('it does not show billing information', async function (assert) {
+        // given
+        const countries = [];
+
+        // when
+        const screen = await render(<template><CandidateCreationForm @countries={{countries}} /></template>);
+
+        // then
+        assert
+          .dom(screen.queryByRole('button', { name: `${t('common.forms.certification-labels.pricing')} *` }))
+          .doesNotExist();
+        assert
+          .dom(screen.queryByRole('textbox', { name: t('common.forms.certification-labels.prepayment-code') }))
+          .doesNotExist();
+      });
+
+      test('it should submit a candidate without any billing information', async function (assert) {
+        // given
+        const candidateData = {
+          firstName: 'Lara',
+          lastName: 'Pafromage',
+          birthdate: '1985-08-23',
+          birthCity: '',
+          birthCountry: 'France',
+          birthInseeCode: '59386',
+          birthPostalCode: '',
+          email: '',
+          resultRecipientEmail: '',
+          externalId: '',
+          extraTimePercentage: '',
+          sex: 'F',
+          subscription: 'CORE',
+        };
+
+        const saveCandidateStub = sinon.stub();
+
+        const countries = [{ id: 1, code: '99100', name: 'France' }];
+
+        const screen = await render(
+          <template><CandidateCreationForm @countries={{countries}} @saveCandidate={{saveCandidateStub}} /></template>,
+        );
+
+        await fillIn(screen.getByLabelText('Prénom *'), candidateData.firstName);
+        await fillIn(screen.getByLabelText('Nom de naissance *'), candidateData.lastName);
+        await click(screen.getByRole('radio', { name: 'Femme' }));
+        await fillIn(screen.getByLabelText('Date de naissance *'), candidateData.birthdate);
+        await click(screen.getByLabelText('Pays de naissance *'));
+        await click(
+          await screen.findByRole('option', {
+            name: 'France',
+          }),
+        );
+        await click(screen.getByRole('radio', { name: 'Code INSEE' }));
+        await fillIn(screen.getByLabelText('Code INSEE de naissance *'), candidateData.birthInseeCode);
+        await click(screen.getByRole('radio', { name: 'Certification Pix' }));
+
+        // when
+        await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
+
+        // then
+        sinon.assert.calledOnce(saveCandidateStub);
+        assert.deepEqual(saveCandidateStub.firstCall.args[0], candidateData);
+      });
+    });
+
     test('it shows a countries list with France selected as default', async function (assert) {
       // given
       const countries = [

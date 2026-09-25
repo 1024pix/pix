@@ -122,7 +122,7 @@ export default class CandidateCreationForm extends Component {
   }
 
   get shouldDisplayPaymentOptions() {
-    return !this.currentUser.currentAllowedCertificationCenterAccess.isSco;
+    return this.currentUser.currentAllowedCertificationCenterAccess.hasBillingMode;
   }
 
   get billingModeOptions() {

@@ -92,7 +92,7 @@ export default class CandidateDetailsModal extends Component {
   }
 
   get shouldDisplayPaymentOptions() {
-    return !this.currentUser.currentAllowedCertificationCenterAccess.isSco;
+    return this.currentUser.currentAllowedCertificationCenterAccess.hasBillingMode;
   }
 
   <template>
