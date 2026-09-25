@@ -23,7 +23,6 @@ export default class CombinedCourseItem extends Model {
   @attr('number') duration;
   @attr('string') image;
   @attr('string') shortId;
-  // TODO correct types
   @attr('string') description;
   @attr('array') objectives;
   @attr('string') level;

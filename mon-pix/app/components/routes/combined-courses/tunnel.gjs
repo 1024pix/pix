@@ -49,7 +49,7 @@ export default class CombinedCourseTunnel extends Component {
   <template>
     <main class="combined-course-tunnel">
       <nav class="combined-course-tunnel__exit">
-        <PixButtonLink @variant="tertiary" @route="authenticated" @iconAfter="doorOpen">
+        <PixButtonLink @variant="tertiary" @route="authenticated" @iconAfter="close">
           {{t "common.actions.quit"}}
         </PixButtonLink>
       </nav>
