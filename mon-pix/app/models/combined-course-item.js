@@ -25,7 +25,7 @@ export default class CombinedCourseItem extends Model {
   @attr('string') shortId;
   // TODO correct types
   @attr('string') description;
-  @attr('string') objectives;
+  @attr('array') objectives;
   @attr('string') level;
 
   @belongsTo('combined-course', { async: false, inverse: 'items' }) combinedCourse;

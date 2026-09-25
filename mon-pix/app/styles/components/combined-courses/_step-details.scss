@@ -67,33 +67,31 @@
     gap: var(--pix-spacing-4x);
     margin-top: var(--pix-spacing-2x);
 
-    dl {
-      display: inline-flex;
-      gap: var(--pix-spacing-1x);
-      align-items: center;
-
-      dt {
-      width: 16px;
-      height: 16px;
-      line-height: normal;
-
-      .duration {
-       &__icon {
-        width: 16px;
-        height: 16px;
+      dl {
+        display: inline-flex;
+        gap: var(--pix-spacing-1x);
+        align-items: center;
+  
+        dt {
+          width: 16px;
+          height: 16px;
+          line-height: normal;
+    
+          .duration {
+            &__icon {
+              width: 16px;
+              height: 16px;
+            }
+          }
+  
+          .level {
+            &__icon {
+              width: 16px;
+              height: 16px;
+            }
+          }
+        }
       }
-     }
-
-    .level {
-      &__icon {
-        width: 16px;
-        height: 16px;
-      }
     }
-     }
-
-    }
-    }
-
   }
 }

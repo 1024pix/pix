@@ -215,17 +215,23 @@
 
     @extend %pix-body-s;
 
-    .duration {
-      &__icon {
-        width: 16px;
-        height: 16px;
-      }
-    }
+    dt {
+      width: 16px;
+      height: 16px;
+      line-height: normal;
 
-    .level {
-      &__icon {
-        width: 16px;
-        height: 16px;
+      .duration {
+        &__icon {
+          width: 16px;
+          height: 16px;
+        }
+      }
+  
+      .level {
+        &__icon {
+          width: 16px;
+          height: 16px;
+        }
       }
     }
   }
