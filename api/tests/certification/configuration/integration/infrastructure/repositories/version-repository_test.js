@@ -42,7 +42,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         await databaseBuilder.commit();
 
         // when
-        const versionId = await versionRepository.save(version);
+        const versionId = await versionRepository.create(version);
 
         // then
         const { id, ...savedVersionBody } = await versionRepository.getById({ id: versionId });

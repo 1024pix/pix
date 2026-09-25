@@ -56,7 +56,7 @@ export async function findActiveByScope({ scope }) {
  * @param {Version} version
  * @returns {Promise<number>} versionId
  */
-export async function save(version) {
+export async function create(version) {
   const knexConn = DomainTransaction.getConnection();
   const dataToInsert = _adaptModelToDb(version);
 
