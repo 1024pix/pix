@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## [5.508.1](https://github.com/1024pix/pix/compare/v5.508.0...v5.508.1) (2026-09-25)
+
+### :bug: Correction
+
+- [#17604](https://github.com/1024pix/pix/pull/17604) Initialisation du cache de contenu pédagogique via Redis dans les workers
+
 # [5.508.0](https://github.com/1024pix/pix/compare/v5.507.3...v5.508.0) (2026-09-25)
 
 ### :rocket: Amélioration
