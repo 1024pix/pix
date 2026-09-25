@@ -15,7 +15,11 @@ export default class CombinedCourseTunnel extends Component {
   constructor() {
     super(...arguments);
 
-    this.selectedItem = this.args.combinedCourse.nextCombinedCourseItem;
+    const nextItem = this.args.combinedCourse.nextCombinedCourseItem;
+    if (!nextItem) {
+      this.goToItem(this.args.combinedCourse.items.at(-1));
+    }
+    this.selectedItem = nextItem;
   }
 
   @service currentUser;
