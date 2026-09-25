@@ -9,8 +9,8 @@ import _ from 'lodash';
 import { databaseConnectionRegistry } from '../../../db/database-connection-registry.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { parseCsv } from '../../../scripts/helpers/csvHelpers.js';
+import { logger } from '../../shared/infrastructure/utils/logger.js';
 import { normalizeAndSortChars } from '../../shared/infrastructure/utils/string-utils.js';
-
 const CURRENT_NAME_COLUMN = 'LIBCOG';
 const ALTERNATIVE_NAME_COLUMN = 'LIBENR';
 const INSEE_CODE_COLUMN = 'COG';
@@ -60,7 +60,7 @@ function buildCountries({ csvData }) {
     });
 }
 
-function checkTransformUnicity(countries) {
+function checkTransformUnicity(countries, logger) {
   const grouped = _.groupBy(countries, 'matcher');
   let hasError = false;
   for (const code in grouped) {
@@ -68,7 +68,7 @@ function checkTransformUnicity(countries) {
     const uniq = _.uniq(_.map(group, 'code'));
     if (uniq.length > 1) {
       const conflictNames = group.map((country) => country.originalName);
-      console.error(`CONFLICT: ${uniq.join()} ${conflictNames.join()}`);
+      logger.error(`CONFLICT: ${uniq.join()} ${conflictNames.join()}`);
       hasError = true;
     }
   }
@@ -79,30 +79,30 @@ function checkTransformUnicity(countries) {
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
-async function main(filePath) {
-  console.log('Starting script import-certification-cpf-countries');
+async function main(filePath, logger) {
+  logger.info('Starting script import-certification-cpf-countries');
   const trx = await knex.transaction();
 
   try {
-    console.log(`Reading and parsing csv data file ${filePath}... `);
+    logger.info(`Reading and parsing csv data file ${filePath}... `);
     const csvData = await parseCsv(filePath, { header: true, delimiter: ',', skipEmptyLines: true });
-    console.log('ok');
+    logger.info('ok');
 
-    console.log('Retrieving countries name and code... ');
+    logger.info('Retrieving countries name and code... ');
     const countries = buildCountries({ csvData });
-    console.log('ok');
+    logger.info('ok');
 
-    console.log('Verify data integrity... ');
-    checkTransformUnicity(countries);
+    logger.info('Verify data integrity... ');
+    checkTransformUnicity(countries, logger);
 
-    console.log('Emptying existing countries in database... ');
+    logger.info('Emptying existing countries in database... ');
     await trx('certification-cpf-countries').del();
-    console.log('Inserting countries in database... ');
+    logger.info('Inserting countries in database... ');
     await knex.batchInsert('certification-cpf-countries', countries).transacting(trx);
     await trx.commit();
-    console.log('ok');
+    logger.info('ok');
 
-    console.log('\nDone.');
+    logger.info('\nDone.');
   } catch (error) {
     if (trx) {
       await trx.rollback();
@@ -115,9 +115,9 @@ async function main(filePath) {
   if (isLaunchedFromCommandLine) {
     try {
       const filePath = process.argv[2];
-      await main(filePath);
+      await main(filePath, logger);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       process.exitCode = 1;
     } finally {
       await databaseConnectionRegistry.disconnect();

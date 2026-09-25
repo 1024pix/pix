@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import lodash from 'lodash';
 import sinon from 'sinon';
 
 import {
@@ -8,13 +7,14 @@ import {
 } from '../../../../src/certification/scripts/import-certification-cpf-countries.js';
 import { catchErr } from '../../../tooling/test-utils/error.js';
 
-const { noop } = lodash;
-
 describe('Unit | Scripts | import-certification-cpf-countries.js', function () {
+  let loggerStub;
   beforeEach(function () {
-    sinon.stub(console, 'error').callsFake(noop);
+    loggerStub = {
+      error: sinon.stub(),
+      info: sinon.stub(),
+    };
   });
-
   describe('#buildCountries', function () {
     context('Allowed countries type', function () {
       it('should return countries with type 1', function () {
@@ -158,12 +158,12 @@ describe('Unit | Scripts | import-certification-cpf-countries.js', function () {
             matcher: 'AACDEELMMNOOPSSSTTUY',
           },
         ];
-        const error = checkTransformUnicity(countries);
+        const error = checkTransformUnicity(countries, loggerStub);
 
         // then
         expect(error).to.be.undefined;
-        // eslint-disable-next-line no-console
-        expect(console.error).not.to.have.been.called;
+
+        expect(loggerStub.error).not.to.have.been.called;
       });
     });
 
@@ -195,16 +195,16 @@ describe('Unit | Scripts | import-certification-cpf-countries.js', function () {
             matcher: 'AAAAACDEELLLLMMNOOPSSSTTUY',
           },
         ];
-        const error = await catchErr(checkTransformUnicity)(countries);
+        const error = await catchErr(checkTransformUnicity)(countries, loggerStub);
 
         // then
         expect(error).to.be.instanceOf(Error);
-        // eslint-disable-next-line no-console
-        expect(console.error.getCall(0)).to.have.been.calledWithExactly(
+
+        expect(loggerStub.error.getCall(0)).to.have.been.calledWithExactly(
           'CONFLICT: 99140,99141 RÉPUBLIQUE DÉMOCRATIQUE ALLEMANDE,RÉPUBLIQUE DÉMOCRATIQUE ALLEMANDE',
         );
-        // eslint-disable-next-line no-console
-        expect(console.error.getCall(1)).to.have.been.calledWithExactly(
+
+        expect(loggerStub.error.getCall(1)).to.have.been.calledWithExactly(
           'CONFLICT: 990000,990001 LA LA LA COMME DANS TOUT LES PAYS,COMME DANS TOUT LES PAYS LA LA LA',
         );
       });
