@@ -12,7 +12,9 @@ const findAllWithReward = async ({ includeCombinedCourses }) => {
   if (!includeCombinedCourses) {
     query = query
       .leftJoin('combined_course_blueprints', 'quests.id', 'combined_course_blueprints.questId')
-      .whereNull('combined_course_blueprints.id');
+      .whereNull('combined_course_blueprints.id')
+      .leftJoin('combined_courses', 'quests.id', 'combined_courses.questId')
+      .whereNull('combined_courses.id');
   }
   const quests = await query;
   return toDomain(quests);
