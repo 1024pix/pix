@@ -1,5 +1,31 @@
 # Pix Changelog
 
+# [5.508.0](https://github.com/1024pix/pix/compare/v5.507.3...v5.508.0) (2026-09-25)
+
+### :rocket: Amélioration
+
+- [#17591](https://github.com/1024pix/pix/pull/17591) Ajout de complexité sur le mot de passe surveillant (PIX-24330)
+- [#17514](https://github.com/1024pix/pix/pull/17514) Ajouter l'ID de catégorie sur la création d'orgas en masse (PIX-23569)
+- [#17584](https://github.com/1024pix/pix/pull/17584) Intégration du PoC LTI dans la branche principale (PIX-24340)
+- [#17422](https://github.com/1024pix/pix/pull/17422) Rendre le refresh token stateless (PIX-24119)
+
+### :bug: Correction
+
+- [#17595](https://github.com/1024pix/pix/pull/17595) Corriger les erreurs 502 sur l'api /passages/passageId/answers (PIX-24405)
+- [#17596](https://github.com/1024pix/pix/pull/17596) Ne pas afficher le statut d'obtention de l'attestation pendant un parcours combiné sur l'écran de fin de campagne (PIX-24264)
+
+### :building_construction: Tech
+
+- [#17589](https://github.com/1024pix/pix/pull/17589) Ajouter une règle de lint pour interdire l'usage de `sort` au profit de `toSorted`
+- [#17601](https://github.com/1024pix/pix/pull/17601) Attendre getLocked dans le test `should not lock table for update`
+- [#17600](https://github.com/1024pix/pix/pull/17600) Faire échouer la requête datamart dans le test `datamart indisponible`
+- [#17587](https://github.com/1024pix/pix/pull/17587) Filtre les memberships désactivés via SQL.
+- [#17594](https://github.com/1024pix/pix/pull/17594) Suppression du package archivé glimmer/tracking (PIX-TECH)
+
+### :arrow_up: Montée de version
+
+- [#17564](https://github.com/1024pix/pix/pull/17564) Update dependency @1024pix/pix-ui to ^68.2.6 (mon-pix)
+
 ## [5.507.3](https://github.com/1024pix/pix/compare/v5.507.2...v5.507.3) (2026-09-24)
 
 ### :bug: Correction
