@@ -45,9 +45,9 @@ export async function activateVersion({
   const activeVersion = await versionRepository.findActiveByScope({ scope: draftVersion.scope });
   if (activeVersion) {
     activeVersion.archive(now);
-    await versionRepository.save(activeVersion);
+    await versionRepository.update(activeVersion);
   }
 
   draftVersion.activate(now);
-  await versionRepository.save(draftVersion);
+  await versionRepository.update(draftVersion);
 }
