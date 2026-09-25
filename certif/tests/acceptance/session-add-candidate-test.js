@@ -115,9 +115,27 @@ module('Acceptance | Session Add Candidate', function (hooks) {
     assert.strictEqual(currentURL(), '/sessions');
   });
 
-  async function _setupCertificationCenter({ server, sessionId, habilitations, hasExpired = false }) {
+  test('it should redirect to the session candidates when the certification center manages students', async function (assert) {
+    // given
+    await _setupCertificationCenter({ server, sessionId, habilitations: [], isScoManagingStudents: true });
+
+    // when
+    await visit(`/sessions/${sessionId}/inscription-candidat`);
+
+    // then
+    assert.strictEqual(currentURL(), `/sessions/${sessionId}/candidats`);
+  });
+
+  async function _setupCertificationCenter({
+    server,
+    sessionId,
+    habilitations,
+    hasExpired = false,
+    isScoManagingStudents = false,
+  }) {
     allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
-      type: 'PRO',
+      type: isScoManagingStudents ? 'SCO' : 'PRO',
+      isRelatedToManagingStudentsOrganization: isScoManagingStudents,
       habilitations,
     });
     const certificationPointOfContact = server.create('certification-point-of-contact', {

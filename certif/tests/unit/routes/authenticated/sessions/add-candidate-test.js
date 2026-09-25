@@ -69,4 +69,26 @@ module('Unit | Route | authenticated/sessions/add-candidate', function (hooks) {
       assert.strictEqual(model, transition);
     });
   });
+
+  module('#afterModel', function () {
+    const model = { session: { id: '123', certificationCenterId: 456 } };
+
+    test('it should redirect to the session candidates when the certification center manages students', function (assert) {
+      // given
+      const transition = Symbol('transition');
+      route.router = { replaceWith: sinon.stub().returns(transition) };
+      route.currentUser.currentAllowedCertificationCenterAccess = { isScoManagingStudents: true };
+
+      // when
+      const result = route.afterModel(model);
+
+      // then
+      sinon.assert.calledWith(
+        route.router.replaceWith,
+        'authenticated.sessions.details.certification-candidates',
+        '123',
+      );
+      assert.strictEqual(result, transition);
+    });
+  });
 });
