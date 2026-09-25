@@ -10,7 +10,6 @@ export default class SurveyBanner extends Component {
 
   get shouldDisplayBanner() {
     const routeNameWhereToDisplayBanner = [
-      'authenticated.index',
       'authenticated.campaigns.new',
       'authenticated.campaigns.loading',
       'authenticated.campaigns.combined-courses',
