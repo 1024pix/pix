@@ -29,5 +29,9 @@ export default class AuthenticatedSessionsAddCandidateRoute extends Route {
 
   afterModel(model) {
     this.currentUser.updateCurrentCertificationCenter(model.session.certificationCenterId);
+
+    if (this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents) {
+      return this.router.replaceWith('authenticated.sessions.details.certification-candidates', model.session.id);
+    }
   }
 }
