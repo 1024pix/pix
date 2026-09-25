@@ -341,6 +341,44 @@ module(
         assert.dom(screen.queryByLabelText('Code postal de naissance *')).isNotVisible();
         assert.dom(screen.getByLabelText('Commune de naissance *')).isVisible();
       });
+
+      test('it should clear the birth city when another foreign country is selected', async function (assert) {
+        // given
+        const countries = [
+          { code: '99123', name: 'Borduristan' },
+          { code: '99345', name: 'Syldavie' },
+        ];
+
+        const screen = await render(<template><CandidateCreationForm @countries={{countries}} /></template>);
+
+        await click(screen.getByRole('button', { name: 'Pays de naissance *' }));
+        await click(await screen.findByRole('option', { name: 'Borduristan' }));
+        await fillIn(screen.getByLabelText('Commune de naissance *'), 'Bordurie-Ville');
+
+        // when
+        await click(screen.getByRole('button', { name: 'Pays de naissance *' }));
+        await click(await screen.findByRole('option', { name: 'Syldavie' }));
+
+        // then
+        assert.dom(screen.getByLabelText('Commune de naissance *')).hasValue('');
+      });
+
+      test('it should clear the birth city entered along a french postal code', async function (assert) {
+        // given
+        const countries = [{ code: '99123', name: 'Borduristan' }];
+
+        const screen = await render(<template><CandidateCreationForm @countries={{countries}} /></template>);
+
+        await click(screen.getByRole('radio', { name: 'Code postal' }));
+        await fillIn(screen.getByLabelText('Commune de naissance *'), 'Lille');
+
+        // when
+        await click(screen.getByRole('button', { name: 'Pays de naissance *' }));
+        await click(await screen.findByRole('option', { name: 'Borduristan' }));
+
+        // then
+        assert.dom(screen.getByLabelText('Commune de naissance *')).hasValue('');
+      });
     });
 
     module('when the insee code option is selected', function () {
