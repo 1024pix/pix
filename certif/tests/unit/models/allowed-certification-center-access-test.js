@@ -195,4 +195,26 @@ module('Unit | Model | allowed-certification-center-access', function (hooks) {
       assert.false(model.hasHabilitations);
     });
   });
+
+  module('#get hasBillingMode', function () {
+    test('should return false when AllowedCertificationCenterAccess is of type SCO', function (assert) {
+      // given
+      const model = store.createRecord('allowed-certification-center-access', {
+        type: 'SCO',
+      });
+
+      // then
+      assert.false(model.hasBillingMode);
+    });
+
+    test('should return true when AllowedCertificationCenterAccess is not of type SCO', function (assert) {
+      // given
+      const model = store.createRecord('allowed-certification-center-access', {
+        type: 'PRO',
+      });
+
+      // then
+      assert.true(model.hasBillingMode);
+    });
+  });
 });

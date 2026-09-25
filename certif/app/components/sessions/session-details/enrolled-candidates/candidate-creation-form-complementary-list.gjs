@@ -6,7 +6,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
-export default class CandidateCreationModalComplementaryList extends Component {
+export default class CandidateCreationFormComplementaryList extends Component {
   @service currentUser;
   @service intl;
 
@@ -23,7 +23,7 @@ export default class CandidateCreationModalComplementaryList extends Component {
   };
 
   <template>
-    <div class='new-candidate-modal-form__field'>
+    <div class='new-candidate-form__field'>
       <fieldset id='complementary-certifications'>
         <legend class='label'>
           <PixLabel @requiredLabel={{t 'common.forms.required'}}>

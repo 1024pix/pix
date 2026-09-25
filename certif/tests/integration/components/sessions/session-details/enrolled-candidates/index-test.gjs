@@ -270,7 +270,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
       // then
       assert.strictEqual(
-        screen.getByRole('button', { name: 'Inscrire un candidat' }).getAttribute('aria-disabled'),
+        screen.getByRole('link', { name: 'Inscrire un candidat' }).getAttribute('aria-disabled'),
         'true',
       );
     });
@@ -407,7 +407,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
       // then
       assert.dom(screen.getByRole('link', { name: 'Inscrire des candidats' })).isVisible();
-      assert.dom(screen.queryByRole('button', { name: 'Inscrire un candidat' })).isNotVisible();
+      assert.dom(screen.queryByRole('link', { name: 'Inscrire un candidat' })).isNotVisible();
     });
 
     test('it hides externalId and email column', async function (assert) {
@@ -454,7 +454,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
       // then
       assert.dom(screen.queryByRole('link', { name: 'Inscrire des candidats' })).isNotVisible();
-      assert.dom(screen.getByRole('button', { name: 'Inscrire un candidat' })).isVisible();
+      assert.dom(screen.getByRole('link', { name: 'Inscrire un candidat' })).isVisible();
     });
 
     test('it shows email columns', async function (assert) {

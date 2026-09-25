@@ -6,17 +6,15 @@ import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
-import EmberObject, { action } from '@ember/object';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import get from 'lodash/get';
-import toNumber from 'lodash/toNumber';
 import dayjsUtcFormat from 'pix-certif/helpers/dayjs-utc-format';
 import { formatPercentage } from 'pix-certif/helpers/format-percentage';
 
-import CandidateCreationModal from './candidate-creation-modal';
 import CandidateDetailsModal from './candidate-details-modal';
 import CandidateEditionModal from './candidate-edition-modal';
 
@@ -25,15 +23,12 @@ const TRANSLATE_PREFIX = 'pages.sessions.detail.candidates';
 export default class EnrolledCandidates extends Component {
   @service store;
   @service intl;
-  @service currentUser;
   @service pixToast;
   @service featureToggles;
-  @tracked newCandidate = {};
   @tracked shouldDisplayCertificationCandidateModal = false;
   @tracked shouldDisplayEditCertificationCandidateModal = false;
   @tracked certificationCandidateInDetailsModal = null;
   @tracked certificationCandidateInEditModal = null;
-  @tracked showNewCandidateModal = false;
 
   get caption() {
     if (this.args.shouldDisplayScoStudentRegistration) {
@@ -54,65 +49,15 @@ export default class EnrolledCandidates extends Component {
     try {
       await certificationCandidate.destroyRecord({ adapterOptions: { sessionId } });
       this.pixToast.sendSuccessNotification({
-        message: this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.success-remove`),
+        message: this.intl.t(`${TRANSLATE_PREFIX}.add-form.notifications.success-remove`),
       });
     } catch (error) {
-      let errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-remove-unknown`);
+      let errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-form.notifications.error-remove-unknown`);
       if (get(error, 'errors[0].code') === 403) {
-        errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-remove-already-in`);
+        errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-form.notifications.error-remove-already-in`);
       }
       this.pixToast.sendErrorNotification({ message: errorText });
     }
-  }
-
-  @action
-  addCertificationCandidateInStaging() {
-    let addedAttributes = {};
-    if (this.args.shouldDisplayPaymentOptions) {
-      addedAttributes = {
-        billingMode: '',
-        prepaymentCode: '',
-      };
-    }
-    this.newCandidate = EmberObject.create({
-      firstName: '',
-      lastName: '',
-      birthdate: '',
-      birthCity: '',
-      birthCountry: 'FRANCE',
-      email: '',
-      externalId: '',
-      resultRecipientEmail: '',
-      birthPostalCode: '',
-      birthInseeCode: '',
-      sex: '',
-      extraTimePercentage: '',
-      subscriptions: [],
-      ...addedAttributes,
-    });
-  }
-
-  @action
-  async addCertificationCandidate(candidate) {
-    const certificationCandidate = { ...candidate };
-    certificationCandidate.extraTimePercentage = this._fromPercentageStringToDecimal(candidate.extraTimePercentage);
-    const success = await this.saveCertificationCandidate(certificationCandidate);
-    if (success) {
-      this.closeNewCandidateModal();
-    }
-    return success;
-  }
-
-  @action
-  updateCertificationCandidateInStagingFieldFromEvent(candidateInStaging, field, ev) {
-    const { value } = ev.target;
-
-    candidateInStaging.set(field, value);
-  }
-
-  @action
-  updateCertificationCandidateInStagingFieldFromValue(candidateInStaging, field, value) {
-    candidateInStaging.set(field, value);
   }
 
   @action
@@ -139,39 +84,6 @@ export default class EnrolledCandidates extends Component {
   }
 
   @action
-  updateCertificationCandidateInStagingBirthdate(candidateInStaging, value) {
-    candidateInStaging.set('birthdate', value);
-  }
-
-  @action
-  async saveCertificationCandidate(certificationCandidateData) {
-    const { certificationCandidate, subscriptions } =
-      this._createCertificationCandidateRecord(certificationCandidateData);
-
-    if (this._hasDuplicate(certificationCandidate)) {
-      this._handleDuplicateError(certificationCandidate);
-      return;
-    }
-
-    try {
-      await certificationCandidate.save({
-        adapterOptions: { registerToSession: true, sessionId: this.args.sessionId, subscriptions },
-      });
-      this.args.reloadCertificationCandidate();
-      this.pixToast.sendSuccessNotification({
-        message: this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.success-add`),
-      });
-      return true;
-    } catch (errorResponse) {
-      const status = get(errorResponse, 'errors[0].status');
-
-      const errorText = this._getErrorText({ status, errorResponse });
-      this._handleSavingError({ errorText, certificationCandidate });
-      return false;
-    }
-  }
-
-  @action
   openCertificationCandidateDetailsModal(candidate) {
     this.shouldDisplayCertificationCandidateModal = true;
     this.certificationCandidateInDetailsModal = candidate;
@@ -190,99 +102,8 @@ export default class EnrolledCandidates extends Component {
   }
 
   @action
-  openNewCandidateModal() {
-    this.addCertificationCandidateInStaging();
-    this.showNewCandidateModal = true;
-  }
-
-  @action
-  closeNewCandidateModal() {
-    this.showNewCandidateModal = false;
-  }
-
-  @action
   closeEditCandidateModal() {
     this.shouldDisplayEditCertificationCandidateModal = false;
-  }
-
-  _createCertificationCandidateRecord(certificationCandidateData) {
-    if (!certificationCandidateData.subscription) {
-      certificationCandidateData.subscription = 'CORE';
-    }
-    return {
-      certificationCandidate: this.store.createRecord('certification-candidate', certificationCandidateData),
-    };
-  }
-
-  _getErrorText({ status, errorResponse }) {
-    switch (status) {
-      case '409':
-        return this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-add-duplicate`);
-      case '422':
-        return this._handleEntityValidationError(errorResponse);
-      case '400':
-        return this._handleMissingQueryParamError(errorResponse);
-      case '412':
-      case '403':
-        return this._handleApiError(errorResponse);
-      default:
-        return this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-add-unknown`);
-    }
-  }
-
-  _handleEntityValidationError(errorResponse) {
-    const error = errorResponse?.errors?.[0];
-    if (error?.code) {
-      return this.intl.t(`common.api-error-messages.certification-candidate.${error.code}`, {
-        ...error?.meta,
-      });
-    }
-  }
-
-  _handleApiError(errorResponse) {
-    const error = errorResponse?.errors?.[0];
-    if (error?.code) {
-      return this.intl.t(`common.api-error-messages.${error.code}`, {
-        ...error?.meta,
-      });
-    }
-  }
-
-  _handleMissingQueryParamError(errorResponse) {
-    const error = errorResponse?.errors?.[0];
-    if (error?.detail === 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID') {
-      return this.intl.t(`common.api-error-messages.certification-candidate.${error.detail}`);
-    }
-  }
-
-  _handleSavingError({ errorText, certificationCandidate }) {
-    const error = errorText ?? this.intl.t(`common.api-error-messages.internal-server-error`);
-    this.pixToast.sendErrorNotification({ message: error });
-    certificationCandidate.deleteRecord();
-  }
-
-  _handleDuplicateError(certificationCandidate) {
-    const errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-add-duplicate`);
-    this._handleSavingError({ errorText, certificationCandidate });
-  }
-
-  _fromPercentageStringToDecimal(value) {
-    return value ? toNumber(value) / 100 : value;
-  }
-
-  _hasDuplicate(certificationCandidate) {
-    const currentFirstName = certificationCandidate.firstName;
-    const currentLastName = certificationCandidate.lastName;
-    const currentBirthdate = certificationCandidate.birthdate;
-
-    return (
-      this.args.certificationCandidates.find(
-        ({ lastName, firstName, birthdate }) =>
-          lastName.toLowerCase() === currentLastName.toLowerCase() &&
-          firstName.toLowerCase() === currentFirstName.toLowerCase() &&
-          birthdate === currentBirthdate,
-      ) !== undefined
-    );
   }
 
   computeSubscriptionsText = (candidate) => {
@@ -303,21 +124,20 @@ export default class EnrolledCandidates extends Component {
       </h3>
       {{#if @shouldDisplayScoStudentRegistration}}
         <PixButtonLink
-          @isDisabled={{@disableEnrollCandidate}}
           @route='authenticated.sessions.add-student'
           @model={{@sessionId}}
+          @isDisabled={{@disableEnrollCandidate}}
         >
           {{t 'pages.sessions.detail.candidates.list.actions.inscription-multiple.label'}}
         </PixButtonLink>
       {{else}}
-        <PixButton
-          id='add-candidate'
+        <PixButtonLink
+          @route='authenticated.sessions.add-candidate'
+          @model={{@sessionId}}
           @isDisabled={{@disableEnrollCandidate}}
-          @triggerAction={{this.openNewCandidateModal}}
-          @size='small'
         >
           {{t 'pages.sessions.detail.candidates.list.actions.inscription.label'}}
-        </PixButton>
+        </PixButtonLink>
       {{/if}}
     </header>
     {{#if @certificationCandidates}}
@@ -486,20 +306,8 @@ export default class EnrolledCandidates extends Component {
         @showModal={{this.shouldDisplayCertificationCandidateModal}}
         @closeModal={{this.closeCertificationCandidateDetailsModal}}
         @candidate={{this.certificationCandidateInDetailsModal}}
-        @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
       />
     {{/if}}
-
-    <CandidateCreationModal
-      @showModal={{this.showNewCandidateModal}}
-      @closeModal={{this.closeNewCandidateModal}}
-      @countries={{@countries}}
-      @saveCandidate={{this.addCertificationCandidate}}
-      @candidateData={{this.newCandidate}}
-      @updateCandidateData={{this.updateCertificationCandidateInStagingFieldFromEvent}}
-      @updateCandidateDataFromValue={{this.updateCertificationCandidateInStagingFieldFromValue}}
-      @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
-    />
 
     <CandidateEditionModal
       @showModal={{this.shouldDisplayEditCertificationCandidateModal}}
