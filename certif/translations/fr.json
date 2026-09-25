@@ -640,6 +640,7 @@
               "success-add": "Le candidat a été inscrit avec succès.",
               "success-remove": "Le candidat a été supprimé avec succès."
             },
+            "page-title": "Inscription d'un candidat",
             "prepayment-information": "Information du code de prépaiement",
             "prepayment-tooltip": "(Requis notamment dans le cas d'un achat de crédits combinés)<br />Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345'.<br/>Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.",
             "title": "Inscrire un candidat"

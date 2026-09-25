@@ -640,6 +640,7 @@
               "success-add": "The candidate has been successfully enrolled.",
               "success-remove": "The candidate has been successfully deleted."
             },
+            "page-title": "Candidate enrolment",
             "prepayment-information": "Prepayment code information",
             "prepayment-tooltip": "Required in particular when purchasing combined credits)<br />It must be comprised of the organisation’s SIRET and of the invoice’s number. Ex : 12345678912345/FACT12345.<br />If you don’t have an invoice, a prepayment code must be set with Pix.",
             "title": "Enrol a candidate"
