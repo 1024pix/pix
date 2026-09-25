@@ -194,7 +194,9 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
         const sessions = await knex('sessions');
         expect(sessions).to.have.lengthOf(1);
         expect(sessions[0].certificationCenter).to.equal(certificationCenter);
-        expect(sessions[0].invigilatorPassword).to.match(/^[23456789bcdfghjkmpqrstvwxyBCDFGHJKMPQRSTVWXY!*?]{6}$/);
+        expect(sessions[0].invigilatorPassword).to.match(
+          /^[23456789abcdefghjkmpqrstuvwxyABCDEFGHJKMPQRSTUVWXY!*?]{6}$/,
+        );
         expect(sessions[0].version).to.equal(3);
         expect(response.statusCode).to.equal(201);
       });

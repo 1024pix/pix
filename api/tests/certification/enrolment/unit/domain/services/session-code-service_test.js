@@ -19,7 +19,7 @@ describe('Unit | Service | CodeSession', function () {
       const result = sessionCodeService.generateInvigilatorPassword();
 
       // then
-      expect(result).to.match(/^[23456789bcdfghjkmpqrstvwxyBCDFGHJKMPQRSTVWXY!*?]{6}$/);
+      expect(result).to.match(/^[23456789abcdefghjkmpqrstuvwxyABCDEFGHJKMPQRSTUVWXY!*?]{6}$/);
     });
   });
 });
