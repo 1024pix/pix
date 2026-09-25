@@ -916,8 +916,10 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
         credit: 50,
       };
 
-      const organization = databaseBuilder.factory.buildOrganization({
-        ...organizationAttributes,
+      const structureCategoryId = databaseBuilder.factory.buildStructureCategory().id;
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({
+        organizationData: { ...organizationAttributes },
+        categoryId: structureCategoryId,
       });
       await databaseBuilder.commit();
 
@@ -933,6 +935,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
             'administration-team-id': administrationTeamId,
             'country-code': country.code,
             'organization-learner-type-name': newOrganizationLearnerType.name,
+            'category-id': structureCategoryId,
           },
         },
       };

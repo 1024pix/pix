@@ -17,6 +17,7 @@ const updateOrganizationInformation = withTransaction(async function ({
   });
 
   let organizationLearnerType;
+  // TODO: organizationLearnerType.id is required at creation, no org has it empty in DB — this if could be removed like categoryId's
   if (organization.organizationLearnerType.id) {
     organizationLearnerType = await organizationVerificationService.checkOrganizationLearnerTypeExists(
       organization.organizationLearnerType.id,
@@ -32,16 +33,15 @@ const updateOrganizationInformation = withTransaction(async function ({
     administrationTeamRepository,
   );
 
+  // TODO: countryCode is required at creation, no org has it empty in DB — this if could be removed like categoryId's
   if (organization.countryCode) {
     await organizationVerificationService.checkCountryExists(organization.countryCode, countryRepository);
   }
 
-  if (organization.categoryId) {
-    await organizationVerificationService.checkStructureCategoryExists({
-      structureCategoryId: organization.categoryId,
-      structureCategoryRepository,
-    });
-  }
+  await organizationVerificationService.checkStructureCategoryExists({
+    structureCategoryId: organization.categoryId,
+    structureCategoryRepository,
+  });
 
   existingOrganization.updateWithDataProtectionOfficerAndTags(
     organization,
