@@ -23,30 +23,33 @@ export async function createAccessTokenFromRefreshToken({
   locale,
   refreshTokenRepository,
   userRepository,
+  revokedUserAccessRepository,
 }) {
   let decodedRefreshToken;
 
-  if (RefreshToken.isStatefulRefreshToken(refreshToken)) {
-    decodedRefreshToken = await refreshTokenRepository.findByToken({ token: refreshToken });
+  try {
+    if (RefreshToken.isStatefulRefreshToken(refreshToken)) {
+      decodedRefreshToken = await refreshTokenRepository.findByToken({ token: refreshToken });
 
-    if (!decodedRefreshToken) {
-      throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
-    }
-
-    if (!decodedRefreshToken.hasSameAudience(audience)) {
-      throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
-    }
-  } else {
-    try {
-      decodedRefreshToken = UserRefreshToken.decode(refreshToken);
-      decodedRefreshToken.assertSameAudience(audience);
-    } catch (err) {
-      if (err instanceof InvalidInputDataError) {
-        logger.warn({ err });
+      if (!decodedRefreshToken) {
         throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
       }
-      throw err;
+
+      if (!decodedRefreshToken.hasSameAudience(audience)) {
+        throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
+      }
+    } else {
+      decodedRefreshToken = UserRefreshToken.decode(refreshToken, { expectedAudience: audience });
     }
+
+    const revokedUserAccess = await revokedUserAccessRepository.findByUserId(decodedRefreshToken.userId);
+    revokedUserAccess.assertRefreshTokenNotRevoked(decodedRefreshToken);
+  } catch (err) {
+    if (err instanceof InvalidInputDataError) {
+      logger.warn({ err: { code: err.code, message: err.message } }, 'invalid refresh token');
+      throw new UnauthorizedError('Refresh token is invalid', 'INVALID_REFRESH_TOKEN');
+    }
+    throw err;
   }
 
   const foundUser = await userRepository.findById(decodedRefreshToken.userId);
