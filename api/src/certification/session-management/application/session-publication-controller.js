@@ -3,12 +3,12 @@ import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as sessionManagementSerializer from '../infrastructure/serializers/session-serializer.js';
 
-async function publish(request, h, dependencies = { sessionManagementSerializer }) {
+async function publish(request, h) {
   const sessionId = request.params.id;
 
-  const session = await usecases.publishSession({ sessionId });
+  await usecases.sessionPublicationRequest({ sessionId });
 
-  return dependencies.sessionManagementSerializer.serialize({ session });
+  return h.response().code(204);
 }
 
 async function unpublish(request, h, dependencies = { sessionManagementSerializer }) {
@@ -21,8 +21,7 @@ async function unpublish(request, h, dependencies = { sessionManagementSerialize
 
 async function publishInBatch(request, h) {
   const sessionIds = request.payload.data.attributes.ids;
-
-  const result = await usecases.publishSessionsInBatch({ sessionIds });
+  const result = await usecases.sessionsPublicationRequest({ sessionIds });
 
   if (result.hasPublicationErrors()) {
     _logSessionBatchPublicationErrors(result);

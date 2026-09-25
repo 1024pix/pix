@@ -1,46 +1,54 @@
-import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
+import { CertificationCourseNotPublishableError, SessionAlreadyPublishedError } from '../errors.js';
 
-/**
- * @typedef {import ('../../../../../src/certification/session-management/domain/usecases/index.js').CertificationRepository} CertificationRepository
- */
-
-/**
- * @param {object} params
- * @param {CertificationRepository} params.certificationRepository
- * @param {certificationCenterRepository} params.certificationCenterRepository
- * @param {FinalizedSessionRepository} params.finalizedSessionRepository
- * @param {SessionManagementRepository} params.sessionManagementRepository
- * @param {SharedSessionRepository} params.sharedSessionRepository
- * @param {SessionPublicationService} params.sessionPublicationService
- */
 export async function publishSession({
   sessionId,
-  publishedAt = new Date(),
   certificationRepository,
-  certificationCenterRepository,
   finalizedSessionRepository,
-  sharedSessionRepository,
   sessionManagementRepository,
-  sessionPublicationService,
 }) {
-  return DomainTransaction.execute(async function () {
-    const { session, startedCertificationCoursesUserIds } = await sessionPublicationService.publishSession({
-      sessionId,
-      publishedAt,
-      certificationRepository,
-      finalizedSessionRepository,
-      sessionManagementRepository,
-      sharedSessionRepository,
-    });
+  const session = await sessionManagementRepository.get({ id: sessionId });
+  if (!session) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
 
-    await sessionPublicationService.manageEmails({
-      session,
-      startedCertificationCoursesUserIds,
-      publishedAt,
-      certificationCenterRepository,
-      sessionManagementRepository,
-    });
+  if (session.isPublished()) {
+    throw new SessionAlreadyPublishedError();
+  }
 
-    return sessionManagementRepository.get({ id: sessionId });
+  const certificationCourseIds = await certificationRepository.getStatusesBySessionId(sessionId);
+
+  if (isAnyCertificationNotPublishable(certificationCourseIds)) {
+    throw new CertificationCourseNotPublishableError(sessionId);
+  }
+
+  const finalizedSession = await updateFinalizedSession(finalizedSessionRepository, sessionId);
+  await certificationRepository.publishCertificationCourses({
+    certificationCourseIds,
+    publishedAt: finalizedSession.publishedAt,
   });
+  await sessionManagementRepository.updatePublishedAt({ id: sessionId, publishedAt: finalizedSession.publishedAt });
+}
+
+async function updateFinalizedSession(finalizedSessionRepository, sessionId) {
+  const finalizedSession = await finalizedSessionRepository.get({ sessionId });
+  finalizedSession.publish();
+  await finalizedSessionRepository.save({ finalizedSession });
+  return finalizedSession;
+}
+
+function isAnyCertificationNotPublishable(certificationStatuses) {
+  const hasCertificationWithNoAssessmentResultStatus = hasCertificationWithNoScoring(certificationStatuses);
+  return hasCertificationInError(certificationStatuses) || hasCertificationWithNoAssessmentResultStatus;
+}
+
+function hasCertificationInError(certificationStatus) {
+  return certificationStatus.some(
+    ({ pixCertificationStatus }) => pixCertificationStatus === AssessmentResult.status.ERROR,
+  );
+}
+
+function hasCertificationWithNoScoring(certificationStatuses) {
+  return certificationStatuses.some(({ pixCertificationStatus }) => pixCertificationStatus === null);
 }

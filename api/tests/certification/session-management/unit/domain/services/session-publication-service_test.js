@@ -2,29 +2,17 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
-  CertificationCourseNotPublishableError,
   SendingEmailToRefererError,
   SendingEmailToResultRecipientError,
-  SessionAlreadyPublishedError,
 } from '../../../../../../src/certification/session-management/domain/errors.js';
-import { FinalizedSession } from '../../../../../../src/certification/session-management/domain/models/FinalizedSession.js';
-import {
-  manageEmails,
-  publishSession,
-} from '../../../../../../src/certification/session-management/domain/services/session-publication-service.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
+import { manageEmails } from '../../../../../../src/certification/session-management/domain/services/session-publication-service.js';
 import { EmailingAttempt } from '../../../../../../src/shared/mail/domain/models/EmailingAttempt.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Session Management | Unit | Domain | Services | session-publication-service', function () {
   const sessionId = 123;
-  let certificationRepository,
-    sessionManagementRepository,
-    finalizedSessionRepository,
-    certificationCenterRepository,
-    mailService;
+  let sessionManagementRepository, certificationCenterRepository, mailService;
   let now;
   const sessionDate = '2020-05-08';
   const recipient1 = 'email1@example.net';
@@ -65,160 +53,6 @@ describe('Certification | Session Management | Unit | Domain | Services | sessio
     });
     now = new Date('2019-01-01T05:06:07Z');
     sinon.useFakeTimers({ now, toFake: ['Date'] });
-  });
-
-  describe('#publishSession', function () {
-    context('when the session exists', function () {
-      beforeEach(function () {
-        certificationRepository = {
-          getStatusesBySessionId: sinon.stub(),
-          publishCertificationCourses: sinon.stub(),
-        };
-        sessionManagementRepository = {
-          get: sinon.stub(),
-          updatePublishedAt: sinon.stub(),
-        };
-        finalizedSessionRepository = {
-          get: sinon.stub(),
-          save: sinon.stub(),
-        };
-        sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(originalSession);
-      });
-
-      context('when the session is already published', function () {
-        it('should throw an error', async function () {
-          // given
-          const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
-            id: 'sessionId',
-            publishedAt: new Date(),
-          });
-          const sessionManagementRepository = { get: sinon.stub() };
-          sessionManagementRepository.get.withArgs({ id: 'sessionId' }).resolves(session);
-
-          // when
-          const error = await catchErr(publishSession)({
-            sessionId: 'sessionId',
-            publishedAt: now,
-            certificationRepository: undefined,
-            finalizedSessionRepository: undefined,
-            sessionManagementRepository,
-          });
-
-          // then
-          expect(error).to.be.an.instanceof(SessionAlreadyPublishedError);
-        });
-      });
-
-      context('when session is published', function () {
-        it('should update the published date', async function () {
-          // given
-          const certificationStatuses = [{ id: 1 }, { id: 2 }];
-          const updatedSessionWithPublishedAt = { ...originalSession, publishedAt: now };
-          certificationRepository.getStatusesBySessionId.withArgs(sessionId).resolves(certificationStatuses);
-          certificationRepository.publishCertificationCourses.withArgs(certificationStatuses).resolves();
-          sessionManagementRepository.updatePublishedAt
-            .withArgs({ id: sessionId, publishedAt: now })
-            .resolves(updatedSessionWithPublishedAt);
-          const finalizedSession = new FinalizedSession({
-            sessionId,
-            publishedAt: null,
-          });
-          finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
-
-          // when
-          await publishSession({
-            sessionId,
-            publishedAt: now,
-            certificationRepository,
-            finalizedSessionRepository,
-            sessionManagementRepository,
-          });
-
-          // then
-          expect(finalizedSession.publishedAt).to.equal(now);
-          expect(finalizedSessionRepository.save).to.have.been.calledWithExactly({ finalizedSession });
-          expect(certificationRepository.publishCertificationCourses).to.have.been.calledWithExactly(
-            certificationStatuses,
-          );
-        });
-      });
-
-      context('when some certifications are in error', function () {
-        it('should throw a CertificationCourseNotPublishableError', async function () {
-          // given
-          const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
-            id: 'sessionId',
-            publishedAt: null,
-          });
-          const sessionManagementRepository = { get: sinon.stub() };
-          sessionManagementRepository.get.withArgs({ id: 'sessionId' }).resolves(session);
-          certificationRepository.getStatusesBySessionId
-            .withArgs('sessionId')
-            .resolves([{ pixCertificationStatus: AssessmentResult.status.ERROR }]);
-
-          // when
-          const error = await catchErr(publishSession)({
-            sessionId: 'sessionId',
-            publishedAt: now,
-            certificationRepository,
-            finalizedSessionRepository: undefined,
-            sessionManagementRepository,
-          });
-
-          // then
-          expect(error).to.be.instanceOf(CertificationCourseNotPublishableError);
-        });
-      });
-
-      context('when some certification are still started', function () {
-        it('should throw a CertificationCourseNotPublishableError without publishing any certification nor setting pixCertificationStatus', async function () {
-          // given
-          const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
-            id: 'sessionId',
-            publishedAt: null,
-          });
-          const sessionManagementRepository = { get: sinon.stub() };
-          sessionManagementRepository.get.withArgs({ id: 'sessionId' }).resolves(session);
-          certificationRepository.getStatusesBySessionId
-            .withArgs('sessionId')
-            .resolves([{ pixCertificationStatus: null }]);
-
-          // when
-          const error = await catchErr(publishSession)({
-            sessionId: 'sessionId',
-            publishedAt: now,
-            certificationRepository,
-            finalizedSessionRepository: undefined,
-            sessionManagementRepository,
-          });
-
-          // then
-          expect(error).to.be.instanceOf(CertificationCourseNotPublishableError);
-        });
-      });
-    });
-
-    context('when the session does not exist', function () {
-      it('throws an error', async function () {
-        // given
-        const sessionManagementRepository = {
-          get: sinon.stub(),
-        };
-        sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(null);
-
-        // when
-        const error = await catchErr(publishSession)({
-          sessionId: 'sessionId',
-          publishedAt: now,
-          certificationRepository: undefined,
-          finalizedSessionRepository: undefined,
-          sessionManagementRepository,
-        });
-
-        // then
-        expect(error).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
-      });
-    });
   });
 
   describe('#manageEmails', function () {
