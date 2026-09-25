@@ -11,6 +11,10 @@ export default class AddCandidateController extends Controller {
   @service pixToast;
   @service store;
 
+  get pageTitle() {
+    return `${this.intl.t(`${TRANSLATE_PREFIX}.add-form.page-title`)} | Session ${this.model.session.id} | Pix Certif`;
+  }
+
   @action
   async addCertificationCandidate(candidate) {
     const certificationCandidate = { ...candidate };
