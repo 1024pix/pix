@@ -1,9 +1,9 @@
 import pixRecommendedConfig from '@1024pix/eslint-plugin/config';
+import vitest from '@vitest/eslint-plugin';
 import { defineConfig } from 'eslint/config';
 import chaiExpect from 'eslint-plugin-chai-expect';
 import i18nJsonPlugin from 'eslint-plugin-i18n-json';
 import knex from 'eslint-plugin-knex';
-import mocha from 'eslint-plugin-mocha';
 import nRecommendedConfig from 'eslint-plugin-n';
 import unicorn from 'eslint-plugin-unicorn';
 import tseslint from 'typescript-eslint';
@@ -72,20 +72,47 @@ export default defineConfig([
   },
   // Overridden rules for "tests" files
   {
-    ...mocha.configs.recommended,
+    ...vitest.configs.env,
     files: ['tests/**/*.{js,ts}'],
+    plugins: { vitest },
+    languageOptions: {
+      ...vitest.configs.env.languageOptions,
+      // Declared to match exactly what tests/setup/vitest-hooks.js injects. Vitest runs with
+      // `globals: false`, so spreading the plugin's full global set would declare `expect`,
+      // `vi` and friends as available and let a missing `import { expect } from 'chai'` pass
+      // lint, only to fail at runtime.
+      globals: {
+        describe: 'readonly',
+        context: 'readonly', // Mocha's alias for describe, still injected
+        it: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+      },
+    },
     rules: {
-      ...mocha.configs.recommended.rules,
-      'mocha/no-exclusive-tests': 'error',
-      'mocha/no-pending-tests': 'error',
-      'mocha/no-root-hooks': 'error',
-      'mocha/consistent-spacing-between-blocks': 'off',
+      // Only the direct equivalents of the rules that were enforced under
+      // eslint-plugin-mocha. The plugin's own `recommended` set would flag pre-existing
+      // content across the whole suite, which is a separate discussion.
+      'vitest/no-focused-tests': 'error', // was mocha/no-exclusive-tests
+      'vitest/no-disabled-tests': 'error', // was mocha/no-pending-tests
+      // The plugin does not know `context` is an alias for `describe`, so it would miss
+      // `context.only`, which silently reduces CI to a single suite.
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: "CallExpression[callee.object.name='context'][callee.property.name=/^(only|skip)$/]",
+          message: 'Use describe.only / describe.skip so that the vitest lint rules can catch it.',
+        },
+      ],
     },
   },
   // Allow process.env for specific files
   {
     files: [
       'tests/setup/*.{js,ts}',
+      'vitest.config.{js,ts}',
       'config/config.{js,ts}',
       'config/seeds-config.{js,ts}',
       'db/migrations/*.{js,ts}',

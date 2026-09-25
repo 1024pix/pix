@@ -1,7 +1,7 @@
 {
   "include": ["**/*.ts"],
   "compilerOptions": {
-    "types": ["node", "mocha", "sinon-chai", "chai-as-promised"],
+    "types": ["node", "sinon-chai", "chai-as-promised"],
     "target": "esnext",
     "module": "nodenext",
     "moduleResolution": "nodenext",

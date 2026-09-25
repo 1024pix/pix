@@ -19,10 +19,10 @@ export const jobChai = (_chai, utils) => {
   Assertion.addMethod('withJobsCount', async function (expectedCount) {
     const jobName = this._obj;
     const rawJobs = await JobClient.instance.fetch(jobName, { includeMetadata: true, batchSize: expectedCount + 1 });
-    const jobs = rawJobs.toSorted((a, b) => {
-      if (a.createdOn > b.createdOn) return 1;
-      return -1;
-    });
+    // Returning 0 for equal timestamps matters: jobs inserted by a single batched call share
+    // the same `createdOn`, and a comparator that answers -1 in both directions breaks the
+    // comparison contract, which makes the sort result unspecified.
+    const jobs = rawJobs.toSorted((a, b) => new Date(a.createdOn).getTime() - new Date(b.createdOn).getTime());
 
     const actualCount = jobs?.length ?? 0;
     assert.strictEqual(
@@ -106,11 +106,28 @@ async function _checkPayloads(payloads) {
     expectedPayloadsWithoutCorrelactionContext,
     `Payload expectedPayloadWithoutCorreslationContext is undefined`,
   );
-  try {
-    sinon.assert.match(actualPayloadsWithoutCorrelactionContext, expectedPayloadsWithoutCorrelactionContext);
-  } catch {
-    this.assert(false, `Job '${jobName}' was performed with a different payload`, undefined, payloads, actualPayloads);
-  }
+  // Jobs inserted by a single batched call share the same `createdOn` and carry a uuid `id`,
+  // so pg-boss guarantees no order between them. Match the payloads as an unordered multiset
+  // rather than position by position, while still supporting the sinon matchers
+  // (sinon.match.string, sinon.match.number…) that callers embed in the expected payloads.
+  const remainingActualPayloads = [...actualPayloadsWithoutCorrelactionContext];
+  const unmatchedPayloads = expectedPayloadsWithoutCorrelactionContext.filter((expectedPayload) => {
+    const matchIndex = remainingActualPayloads.findIndex((actualPayload) =>
+      sinon.match(expectedPayload).test(actualPayload),
+    );
+    if (matchIndex === -1) return true;
+
+    remainingActualPayloads.splice(matchIndex, 1);
+    return false;
+  });
+
+  this.assert(
+    unmatchedPayloads.length === 0,
+    `Job '${jobName}' was performed with a different payload`,
+    undefined,
+    payloads,
+    actualPayloads,
+  );
 }
 
 function _withoutCorrelactionContext(payloads) {
