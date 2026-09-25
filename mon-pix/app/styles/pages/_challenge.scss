@@ -3,60 +3,16 @@
 @use 'pix-design-tokens/colors';
 
 .challenge {
-  &__content {
-    width: 100%;
-    max-width: 990px;
-    padding: 0 20px;
-
-    @include breakpoints.device-is('desktop') {
-      padding: 0;
-    }
-  }
-
-  /* CSS patch to delete when screen improved */
-  &-statement {
-    p + p {
-      margin-top: var(--pix-spacing-1x);
-    }
-
-    h2 {
-      font-weight: bold;
-      font-size: 1.5em;
-    }
-
-    ol,
-    ul {
-      margin: 1em 0;
-      padding-inline-start: 40px;
-      list-style-type: decimal;
-    }
-
-    ul {
-      list-style-type: disc;
-    }
-  }
-
-  /* ! End of CSS patch */
-
-  &__banner {
-    width: 100%;
-    margin-bottom: 73px;
-  }
+  padding: var(--pix-spacing-6x);
 
   &__feedback {
-    z-index: 1;
-    width: 100%;
     max-width: 990px;
-    margin: var(--pix-spacing-4x) 0;
-    padding: 0 20px;
-    text-align: left;
-
-    @include breakpoints.device-is('desktop') {
-      padding: 0;
-    }
+    margin: 0 auto;
   }
 
   &__info-alert {
+    max-width: 990px;
+    margin: 0 auto;
     position: relative;
     z-index: 1;
     display: flex;
@@ -125,6 +81,9 @@
 
 .focus-zone-warning--triggered {
   z-index: 1;
+  margin: 0 auto;
+  position: relative;
+  max-width: 990px;
   background-color: var(--pix-neutral-20);
   border-radius: 5px;
   outline: 5px dashed colors.$pix-shades-100;
