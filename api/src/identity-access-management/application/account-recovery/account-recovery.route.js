@@ -1,10 +1,7 @@
-import { JoiDate } from '@joi/date';
-import BaseJoi from 'joi';
+import Joi from 'joi';
 
 import { PasswordSchema } from '../../../shared/domain/validators/password-validator.js';
 import { accountRecoveryController } from './account-recovery.controller.js';
-
-const Joi = BaseJoi.extend(JoiDate);
 
 export const accountRecoveryRoutes = [
   {

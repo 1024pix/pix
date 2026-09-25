@@ -10,7 +10,7 @@ const logger = child('iam:create-user', { event: SCOPES.IAM });
  * @param {Object} params
  * @param {string} params.locale
  * @param {string} params.password
- * @param {string} params.user
+ * @param {import('../models/User.js').User} params.user
  * @param {string} params.redirectionUrl
  * @param {import('../../infrastructure/repositories/authentication-method.repository.js').AuthenticationMethodRepository} params.authenticationMethodRepository
  * @param {Object} params.campaignRepository
@@ -47,9 +47,11 @@ const createUser = async function ({
       passwordValidator,
     });
 
-    const userHasValidatedPixTermsOfService = user.cgu === true;
-    if (userHasValidatedPixTermsOfService) {
-      user.lastTermsOfServiceValidatedAt = new Date();
+    const userHasCheckedLegalDocumentsAtSignup = user.cgu === true;
+    if (userHasCheckedLegalDocumentsAtSignup) {
+      const now = new Date();
+      user.lastTermsOfServiceValidatedAt = now;
+      user.lastDataProtectionPolicySeenAt = now;
     }
 
     const hashedPassword = await cryptoService.hashPassword(password);
@@ -129,7 +131,7 @@ function _validatePassword(password, passwordValidator) {
 /**
  * @param {Object} params
  * @param {string} params.password
- * @param {string} params.user
+ * @param {import('../models/User.js').User} params.user
  * @param {import('../../infrastructure/repositories/user.repository.js')} params.userRepository
  * @param {import('../../../shared/domain/validators/user-validator.js')} params.userValidator
  * @param {import('../../../shared/domain/validators/password-validator.js')} params.passwordValidator

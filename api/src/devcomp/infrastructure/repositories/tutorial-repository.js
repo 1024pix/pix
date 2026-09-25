@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { FRENCH_SPOKEN, getBaseLocale } from '../../../shared/domain/services/locale-service.js';
 import * as knowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import { LearningContentRedisRepository } from '../../../shared/infrastructure/repositories/learning-content-redis-repository.js';
 import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import * as paginateModule from '../../../shared/infrastructure/utils/paginate.js';
@@ -23,7 +24,7 @@ export async function findByRecordIdsForCurrentUser({ ids, userId, locale }) {
 
     tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto.locale === tutorialLocale);
   }
-  tutorialDtos.sort(byId);
+  tutorialDtos = tutorialDtos.toSorted(byId);
   const tutorials = tutorialDtos.map(toDomain);
   const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
   const tutorialEvaluations = await tutorialEvaluationRepository.find({
@@ -40,7 +41,7 @@ export async function findPaginatedFilteredForCurrentUser({ userId, filters = {}
   const userSavedTutorials = await userSavedTutorialRepository.find({ userId });
   const tutorialIds = userSavedTutorials.map(({ tutorialId }) => tutorialId);
   let tutorialDtos = await getInstance().loadMany(tutorialIds);
-  tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto).sort(byId);
+  tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto).toSorted(byId);
   const tutorialEvaluations = await tutorialEvaluationRepository.find({
     userId,
   });
@@ -103,7 +104,7 @@ export async function findPaginatedFilteredRecommendedByUserId({
       if (lang) {
         tutorialDtos = tutorialDtos.filter((tutorialDto) => getBaseLocale(tutorialDto.locale) === lang);
       }
-      tutorialDtos.sort(byId);
+      tutorialDtos = tutorialDtos.toSorted(byId);
       const tutorials = tutorialDtos.map(toDomain);
 
       return toTutorialsForUserForRecommandation({
@@ -162,13 +163,22 @@ function toTutorialsForUserForRecommandation({ tutorials, tutorialEvaluations, u
 }
 
 export function clearCache(id) {
-  return getInstance().clearCache(id);
+  return getInstance().clearCache?.(id);
 }
+
+/** @type {LearningContentRedisRepository} */
+let redisInstance;
 
 /** @type {LearningContentRepository} */
 let instance;
 
 function getInstance() {
+  if (LearningContentRedisRepository.isEnabled) {
+    if (!redisInstance) {
+      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME });
+    }
+    return redisInstance;
+  }
   if (!instance) {
     instance = new LearningContentRepository({ tableName: TABLE_NAME });
   }

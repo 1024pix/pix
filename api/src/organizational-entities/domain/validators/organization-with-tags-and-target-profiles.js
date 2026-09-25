@@ -1,8 +1,9 @@
 import Joi from 'joi';
 
-import { EntityValidationError } from '../../../shared/domain/errors.js';
+import { VALIDATION_ERRORS } from '../../../shared/constants.js';
 import { Membership } from '../../../shared/domain/models/Membership.js';
 import { getSupportedLocales } from '../../../shared/domain/services/locale-service.js';
+import { OrganizationBatchCreationError } from '../errors.js';
 import { Organization } from '../models/Organization.js';
 
 const lowerCaseSupportedLocales = getSupportedLocales().map((supportedLocale) => supportedLocale.toLocaleLowerCase());
@@ -66,12 +67,16 @@ const schema = Joi.object({
     'any.required': "L'id du public prescrit est manquant",
     'number.base': "L'id du public prescrit n'est pas un nombre",
   }),
+  categoryId: Joi.number().strict().empty(null).required().messages({
+    'any.required': VALIDATION_ERRORS.FIELD_REQUIRED,
+    'number.base': VALIDATION_ERRORS.FIELD_NOT_A_NUMBER,
+  }),
 });
 
-const validate = function (organization) {
+const validate = function (organization, currentLine) {
   const { error } = schema.validate(organization, { abortEarly: false, allowUnknown: true });
   if (error) {
-    throw EntityValidationError.fromJoiErrors(error.details);
+    throw OrganizationBatchCreationError.fromJoiErrors(error.details, currentLine);
   }
   return true;
 };

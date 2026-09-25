@@ -46,6 +46,7 @@ export class MassCreateUserAccountsScript extends Script {
           createAt: now,
           updatedAt: now,
           cgu: true,
+          lastDataProtectionPolicySeenAt: now,
           lang: 'fr',
           locale: 'fr-FR',
         };

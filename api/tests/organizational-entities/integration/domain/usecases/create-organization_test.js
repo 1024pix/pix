@@ -203,7 +203,7 @@ describe('Integration | UseCases | create-organization', function () {
         // then
         expect(error).to.be.instanceOf(StructureCategoryNotFound);
         expect(error.message).to.equal('Structure category not found for id 99999');
-        expect(error.meta).to.deep.equal({ structureCategoryId: 99999 });
+        expect(error.meta.structureCategoryId).to.equal(99999);
       });
     });
 

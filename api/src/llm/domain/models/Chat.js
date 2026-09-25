@@ -46,7 +46,7 @@ export class Chat {
     this.moduleId = moduleId;
     this.configurationId = configurationId;
     this.configuration = configuration;
-    this.messages = messages.sort((messA, messB) => messA.index - messB.index);
+    this.messages = messages.toSorted((messA, messB) => messA.index - messB.index);
     this.haveVictoryConditionsBeenFulfilled = haveVictoryConditionsBeenFulfilled;
     this.totalInputTokens = totalInputTokens;
     this.totalOutputTokens = totalOutputTokens;

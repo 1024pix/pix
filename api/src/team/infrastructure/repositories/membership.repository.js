@@ -195,6 +195,14 @@ export const findByUserId = async function (userId) {
   return memberships.map(_toDomain);
 };
 
+export const findActiveByUserId = async function (userId) {
+  const knexConnection = DomainTransaction.getConnection();
+
+  const memberships = await knexConnection(MEMBERSHIPS_TABLE).where({ userId, disabledAt: null });
+
+  return memberships.map(_toDomain);
+};
+
 const _toDomain = (membershipData, userData = null, organizationData = null, organizationTags = null) => {
   const membership = new Membership(membershipData);
   if (userData) membership.user = new User(userData);

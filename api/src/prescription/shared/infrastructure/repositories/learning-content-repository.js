@@ -83,7 +83,7 @@ export async function findByOrganizationId({ organizationId, locale }) {
 
   const frameworks = await _getLearningContentByTubes(tubes, locale);
 
-  return frameworks.sort((frameworkA, frameworkB) => {
+  return frameworks.toSorted((frameworkA, frameworkB) => {
     if (frameworkA.name === PIX_ORIGIN) return -1;
     if (frameworkB.name === PIX_ORIGIN) return 1;
     return frameworkA.name.localeCompare(frameworkB.name);

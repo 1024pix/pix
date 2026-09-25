@@ -8,7 +8,7 @@ import * as clientApplicationRepository from '../../infrastructure/repositories/
 import * as oidcProviderRepository from '../../infrastructure/repositories/oidc-provider-repository.js';
 import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';
 import * as participationDatasetRepository from '../../infrastructure/repositories/participation-dataset-repository.js';
-import { extractTransformAndLoadData } from './extract-transform-and-load-data.js';
+import { extractTransformAndLoadData } from './extract-transform-and-load-data.ts';
 import { findCampaigns } from './find-campaigns.js';
 import { findCertificationDataset } from './find-certification-dataset.js';
 import { findOrganizationIdsByClientApplication } from './find-organization-ids-by-client-application.js';

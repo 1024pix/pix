@@ -3,6 +3,7 @@ import { NotFoundError } from '../../domain/errors.js';
 import { Skill } from '../../domain/models/Skill.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { child, SCOPES } from '../utils/logger.js';
+import { LearningContentRedisRepository } from './learning-content-redis-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
 const TABLE_NAME = 'learningcontent.skills';
@@ -58,7 +59,7 @@ export async function findOperativeByIds(ids) {
   const skillDtos = await getInstance().getMany(ids);
   return skillDtos
     .filter((skillDto) => skillDto && OPERATIVE_STATUSES.includes(skillDto.status))
-    .sort(byId)
+    .toSorted(byId)
     .map(toDomain);
 }
 
@@ -66,7 +67,7 @@ export async function findByRecordIds(ids) {
   const skillDtos = await getInstance().getMany(ids);
   return skillDtos
     .filter((skillDto) => skillDto)
-    .sort(byId)
+    .toSorted(byId)
     .map(toDomain);
 }
 
@@ -74,12 +75,12 @@ export async function findActiveByRecordIds(ids) {
   const skillDtos = await getInstance().getMany(ids);
   return skillDtos
     .filter((skillDto) => skillDto && skillDto.status === ACTIVE_STATUS)
-    .sort(byId)
+    .toSorted(byId)
     .map(toDomain);
 }
 
 export function clearCache(id) {
-  return getInstance().clearCache(id);
+  return getInstance().clearCache?.(id);
 }
 
 function byId(entityA, entityB) {
@@ -104,10 +105,19 @@ function toDomain(skillDto, locale, useFallback) {
   });
 }
 
+/** @type {LearningContentRedisRepository} */
+let redisInstance;
+
 /** @type {LearningContentRepository} */
 let instance;
 
 function getInstance() {
+  if (LearningContentRedisRepository.isEnabled) {
+    if (!redisInstance) {
+      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME });
+    }
+    return redisInstance;
+  }
   if (!instance) {
     instance = new LearningContentRepository({ tableName: TABLE_NAME });
   }

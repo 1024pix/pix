@@ -4,6 +4,7 @@ import { service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
+import { errorValidationCodesRegistry } from 'pix-admin/utils/error-validation-codes-registry';
 
 import AdministrationBlockLayout from '../block-layout';
 import DownloadTemplate from '../download-template';
@@ -37,18 +38,57 @@ export default class OrganizationsImport extends Component {
             this.pixToast.sendErrorNotification({ message: `${error.meta}` });
             break;
           case 'PARENT_ORGANIZATION_NOT_IN_NETWORK': {
-            const message = [
-              `${this.intl.t('components.administration.organizations-import.notifications.errors.no-organization-created')}`,
-              `${this.intl.t('components.administration.organizations-import.notifications.errors.error-location', { errorLine: error.meta.currentLine, errorField: '"parentOrganizationId"' })}`,
+            const basicMessage = _buildBasicErrorMessageWithLocation(this.intl, error.meta.currentLine);
+            const detailedMessage = _buildErrorDetailsMessage(
+              this.intl,
+              'parentOrganizationId',
               this.intl.t(
                 'components.administration.organizations-import.notifications.errors.PARENT_ORGANIZATION_NOT_IN_NETWORK',
                 { parentOrganizationId: error.meta.parentOrganizationId },
               ),
-            ];
+            );
 
-            this.pixToast.sendErrorNotification({ message: htmlSafe(message.join('<br>')) });
+            this.pixToast.sendErrorNotification({ message: basicMessage });
+            this.pixToast.sendErrorNotification({ message: detailedMessage });
             break;
           }
+
+          case 'STRUCTURE_CATEGORY_NOT_FOUND': {
+            const basicMessage = _buildBasicErrorMessageWithLocation(this.intl, error.meta.currentLine);
+            const detailedMessage = _buildErrorDetailsMessage(
+              this.intl,
+              'categoryId',
+              this.intl.t(
+                'components.administration.organizations-import.notifications.errors.STRUCTURE_CATEGORY_NOT_FOUND',
+                { structureCategoryId: error.meta.structureCategoryId },
+              ),
+            );
+
+            this.pixToast.sendErrorNotification({ message: basicMessage });
+            this.pixToast.sendErrorNotification({ message: detailedMessage });
+            break;
+          }
+
+          case 'VALIDATION_ERROR': {
+            const basicMessageWithLocation = _buildBasicErrorMessageWithLocation(this.intl, error.meta.currentLine);
+            this.pixToast.sendErrorNotification({ message: basicMessageWithLocation });
+
+            for (const invalidAttribute of error.meta.invalidAttributes) {
+              const validationErrorMessage = errorValidationCodesRegistry.getTranslatedMessageFromValidationCode(
+                this.intl,
+                invalidAttribute.message,
+              );
+              const detailedMessage = _buildErrorDetailsMessage(
+                this.intl,
+                invalidAttribute.attribute,
+                validationErrorMessage,
+              );
+              this.pixToast.sendErrorNotification({ message: detailedMessage });
+            }
+
+            break;
+          }
+
           default:
             this.pixToast.sendErrorNotification({ message: error.detail });
         }
@@ -70,4 +110,22 @@ export default class OrganizationsImport extends Component {
       </DownloadTemplate>
     </AdministrationBlockLayout>
   </template>
+}
+
+function _buildBasicErrorMessageWithLocation(intl, errorLine) {
+  const messages = [
+    `${intl.t('components.administration.organizations-import.notifications.errors.no-organization-created')}`,
+    `${intl.t('components.administration.organizations-import.notifications.errors.error-location', { errorLine })}`,
+  ];
+
+  return htmlSafe(messages.join('<br>'));
+}
+
+function _buildErrorDetailsMessage(intl, errorField, errorDetails) {
+  const messages = [
+    `${intl.t('components.administration.organizations-import.notifications.errors.error-field', { errorField })}`,
+    errorDetails,
+  ];
+
+  return htmlSafe(messages.join('<br>'));
 }

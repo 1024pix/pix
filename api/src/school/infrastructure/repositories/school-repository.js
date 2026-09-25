@@ -44,7 +44,7 @@ const getDivisions = async function ({ organizationId, organizationLearnerApi })
     organizationId,
   });
   const divisionLearners = organizationLearners.map((organizationLearner) => organizationLearner.division);
-  return [...new Set(divisionLearners)].sort().map((divisionName) => new Division({ name: divisionName }));
+  return [...new Set(divisionLearners)].toSorted().map((divisionName) => new Division({ name: divisionName }));
 };
 
 const getSessionExpirationDate = async function ({ code }) {

@@ -58,7 +58,7 @@ class OrganizationLearnerImportFormat {
             }
           : [],
       )
-      .sort(this.#sortObject);
+      .toSorted(this.#sortObject);
   }
 
   get headersName() {
@@ -70,7 +70,7 @@ class OrganizationLearnerImportFormat {
       .map(({ name, config }) => {
         return { name, config, position: config?.displayable?.position };
       })
-      .sort(this.#sortObject);
+      .toSorted(this.#sortObject);
   }
 
   get orderedFilterableColumns() {
@@ -80,7 +80,7 @@ class OrganizationLearnerImportFormat {
           ? { name: config.displayable.name, position: config.displayable.position }
           : [],
       )
-      .sort(this.#sortObject);
+      .toSorted(this.#sortObject);
   }
 
   get columnsToDisplay() {

@@ -5,6 +5,7 @@ import { Challenge } from '../../domain/models/Challenge.js';
 import * as solutionAdapter from '../../infrastructure/adapters/solution-adapter.js';
 import { httpAgent } from '../http-agent.js';
 import { child, SCOPES } from '../utils/logger.js';
+import { LearningContentRedisRepository } from './learning-content-redis-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 import * as skillRepository from './skill-repository.js';
 
@@ -61,8 +62,8 @@ export async function getMany(ids, locale) {
   const localeChallengeDtos = locale
     ? challengeDtos.filter((challengeDto) => challengeDto.locales.includes(locale))
     : challengeDtos;
-  localeChallengeDtos.sort(byId);
-  const challengesDtosWithSkills = await loadChallengeDtosSkills(localeChallengeDtos);
+  const sortedChallengeDtos = localeChallengeDtos.toSorted(byId);
+  const challengesDtosWithSkills = await loadChallengeDtosSkills(sortedChallengeDtos);
   return challengesDtosWithSkills.map(([challengeDto, skill]) => toDomain({ challengeDto, skill }));
 }
 
@@ -87,7 +88,7 @@ export async function findValidatedChallengeDtosByCompetenceId(competenceId, loc
 
 export async function findOperativeChallengeDtosBySkillsAndLocales(skills, locales) {
   const skillIds = skills.map((skill) => skill.id);
-  const cacheKey = `findOperativesBySkillsAndLocales([${skillIds.sort()}], ${locales.sort().join(',')})`;
+  const cacheKey = `findOperativesBySkillsAndLocales([${skillIds.toSorted()}], ${locales.toSorted().join(',')})`;
 
   const findOperativeByLocaleBySkillIdsCallback = (knex) =>
     knex
@@ -100,7 +101,7 @@ export async function findOperativeChallengeDtosBySkillsAndLocales(skills, local
 }
 
 export function clearCache(id) {
-  return getInstance().clearCache(id);
+  return getInstance().clearCache?.(id);
 }
 
 async function loadWebComponentInfo(challengeDto) {
@@ -189,10 +190,19 @@ function toDomain({ challengeDto, webComponentTagName, webComponentProps, skill,
   });
 }
 
+/** @type {LearningContentRedisRepository} */
+let redisInstance;
+
 /** @type {LearningContentRepository} */
 let instance;
 
 export function getInstance() {
+  if (LearningContentRedisRepository.isEnabled) {
+    if (!redisInstance) {
+      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME });
+    }
+    return redisInstance;
+  }
   if (!instance) {
     instance = new LearningContentRepository({ tableName: TABLE_NAME });
   }

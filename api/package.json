@@ -1,6 +1,6 @@
 {
   "name": "pix-api",
-  "version": "5.506.0",
+  "version": "5.507.3",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques",
   "homepage": "https://github.com/1024pix/pix#readme",
@@ -88,7 +88,7 @@
     "modulix:test": "npm run test:api:path -- 'tests/devcomp/unit/infrastructure/datasources/learning-content/module-datasource_test.js' 'tests/devcomp/unit/infrastructure/datasources/learning-content/validation/module-validation_test.js' 'tests/devcomp/unit/infrastructure/repositories/module-repository_test.js' && TEST_SETUP_MODE=unit npm run test:api:path -- 'tests/devcomp/acceptance/module-instantiation_test.js'"
   },
   "dependencies": {
-    "@1024pix/epreuves-components": "^4.26.0",
+    "@1024pix/epreuves-components": "^4.26.5",
     "@1024pix/oppsy": "^1.0.2",
     "@1024pix/pix-types": "file:../packages/pix-types",
     "@aws-sdk/client-s3": "^3.121.0",
@@ -123,6 +123,7 @@
     "@opentelemetry/sdk-trace": "^2.9.0",
     "@opentelemetry/semantic-conventions": "^1.40.0",
     "@pdf-lib/fontkit": "^1.1.1",
+    "@redis/client": "^6.2.1",
     "@xmldom/xmldom": "^0.9.10",
     "bcrypt": "^6.0.0",
     "cron-parser": "^5.0.0",
@@ -176,6 +177,7 @@
     "@types/chai-as-promised": "^8.0.2",
     "@types/mocha": "^10.0.10",
     "@types/node": "^26.4.1",
+    "@types/pg": "^8.23.1",
     "@types/sinon": "^22.0.0",
     "@types/sinon-chai": "^4.0.0",
     "chai": "^6.2.2",

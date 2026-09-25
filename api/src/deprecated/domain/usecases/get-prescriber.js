@@ -15,18 +15,17 @@ export const getPrescriber = async function ({
   membershipRepository,
   userOrgaSettingsRepository,
 }) {
-  const memberships = await membershipRepository.findByUserId(userId);
-  const activeMemberships = memberships.filter(({ disabledAt }) => !disabledAt);
-  if (activeMemberships.length === 0) {
+  const memberships = await membershipRepository.findActiveByUserId(userId);
+  if (memberships.length === 0) {
     throw new UserHasNoOrganizationMembershipError();
   }
 
-  const firstOrganizationId = activeMemberships[0].organizationId;
+  const firstOrganizationId = memberships[0].organizationId;
 
   const userOrgaSettings = await userOrgaSettingsRepository.findOneByUserId(userId);
   if (!userOrgaSettings) {
     await userOrgaSettingsRepository.create(userId, firstOrganizationId);
-  } else if (!_isCurrentOrganizationInMemberships(userOrgaSettings, activeMemberships)) {
+  } else if (!_isCurrentOrganizationInMemberships(userOrgaSettings, memberships)) {
     await userOrgaSettingsRepository.update(userId, firstOrganizationId);
   }
   return prescriberRepository.getPrescriber({ userId });

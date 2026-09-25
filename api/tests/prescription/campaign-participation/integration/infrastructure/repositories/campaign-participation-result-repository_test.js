@@ -199,7 +199,9 @@ describe('Integration | Repository | Campaign Participation Result', function ()
       await databaseBuilder.commit();
       const campaignAssessmentParticipationResult =
         await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId);
-      const competenceResults = campaignAssessmentParticipationResult.competenceResults.sort((a, b) => a.id <= b.id);
+      const competenceResults = campaignAssessmentParticipationResult.competenceResults.toSorted(
+        (a, b) => a.id <= b.id,
+      );
       expect(competenceResults).to.deep.equal([
         {
           id: 'rec1',

@@ -10,7 +10,7 @@ const serialize = (model) =>
       attributes: ['badge', 'count', 'percentage'],
     },
     transform(record) {
-      record.data = record.data.sort((a, b) => b.percentage - a.percentage);
+      record.data = record.data.toSorted((a, b) => b.percentage - a.percentage);
       return record;
     },
   }).serialize(model);

@@ -170,6 +170,28 @@ class UnableToAttachCertificationCenterToOrganization extends DomainError {
   }
 }
 
+class OrganizationBatchCreationError extends DomainError {
+  constructor({
+    code = 'ORGANIZATION_BATCH_CREATION_ERROR',
+    message = 'Organization batch creation validation failed.',
+    meta,
+  } = {}) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+
+  static fromJoiErrors(joiErrors, currentLine) {
+    const invalidAttributes = joiErrors.map((error) => {
+      return { attribute: error.context.key, message: error.message };
+    });
+    return new OrganizationBatchCreationError({
+      code: 'VALIDATION_ERROR',
+      meta: { invalidAttributes, currentLine },
+    });
+  }
+}
+
 export {
   AdministrationTeamNotFound,
   ArchiveCertificationCentersInBatchError,
@@ -180,6 +202,7 @@ export {
   FeatureNotFound,
   FeatureParamsNotProcessable,
   NetworkAlreadyExistError,
+  OrganizationBatchCreationError,
   OrganizationBatchUpdateError,
   OrganizationLearnerTypeNotFound,
   OrganizationNotFound,

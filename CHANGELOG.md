@@ -1,5 +1,49 @@
 # Pix Changelog
 
+## [5.507.3](https://github.com/1024pix/pix/compare/v5.507.2...v5.507.3) (2026-09-24)
+
+### :bug: Correction
+
+- [#17592](https://github.com/1024pix/pix/pull/17592) Corriger l'affichage de la colonne oralisation (PIX-OUPS)
+
+### :arrow_up: Montée de version
+
+- [#17593](https://github.com/1024pix/pix/pull/17593) Mise à jour de @1024pix/epreuves-components vers 4.26.5
+
+## [5.507.2](https://github.com/1024pix/pix/compare/v5.507.1...v5.507.2) (2026-09-24)
+
+### :bug: Correction
+
+- [#17590](https://github.com/1024pix/pix/pull/17590) Maddo : Cache du contenu pédagogique dans Redis
+
+## [5.507.1](https://github.com/1024pix/pix/compare/v5.507.0...v5.507.1) (2026-09-24)
+
+### :bug: Correction
+
+- [#17576](https://github.com/1024pix/pix/pull/17576) Ne pas présenter le bandeau d'évolution des politiques de confidentialités à la fin du processus d'inscription (PIX-24281)
+
+### :building_construction: Tech
+
+- [#17585](https://github.com/1024pix/pix/pull/17585) Ajoute un index sur la colonne `userId` de la table `memberships`.
+- [#17511](https://github.com/1024pix/pix/pull/17511) Mettre le contenu pédagogique en cache dans Redis
+- [#17579](https://github.com/1024pix/pix/pull/17579) Modifie l'assertion du usecase `get-campaign-parameters-for-simulator`
+- [#17572](https://github.com/1024pix/pix/pull/17572) Répliquer les données du datawarehouse vers le datamart avec COPY FROM STDIN
+
+# [5.507.0](https://github.com/1024pix/pix/compare/v5.506.0...v5.507.0) (2026-09-24)
+
+### :rocket: Amélioration
+
+- [#17559](https://github.com/1024pix/pix/pull/17559) Ajouter le suivi des recherches dans le catalogue (PIX-23647).
+
+### :bug: Correction
+
+- [#17583](https://github.com/1024pix/pix/pull/17583) Changement des séparateurs des clé `name` dans pour le endpoint replication MADDO (PIX-2378)
+- [#17551](https://github.com/1024pix/pix/pull/17551) Éviter les collisions d'identifiants entre les parcours combinés et les profils cibles du catalogue (PIX-24322).
+
+### :building_construction: Tech
+
+- [#17568](https://github.com/1024pix/pix/pull/17568) Migration typescript des value-objects Campaign, Module, RecommendedModule, TargetProfile
+
 # [5.506.0](https://github.com/1024pix/pix/compare/v5.505.1...v5.506.0) (2026-09-23)
 
 ### :rocket: Amélioration
