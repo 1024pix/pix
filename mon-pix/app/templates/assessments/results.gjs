@@ -1,22 +1,20 @@
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
-import AssessmentBanner from 'mon-pix/components/assessment-banner';
 import ComparisonWindow from 'mon-pix/components/comparison-window';
 import ResultItem from 'mon-pix/components/result-item';
+import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
 <template>
   {{pageTitle (t "pages.assessment-results.title")}}
 
   <div class="assessment-results">
 
-    <div class="assessment-results__assessment-banner">
-      <AssessmentBanner
-        @assessment={{@model}}
-        @checkpoint={{false}}
-        @displayHomeLink={{false}}
-        @displayTextToSpeechActivationButton={{false}}
-      />
-    </div>
+    <AssessmentBanner
+      @assessment={{@model}}
+      @checkpoint={{false}}
+      @displayHomeLink={{false}}
+      @displayTextToSpeechActivationButton={{false}}
+    />
 
     <div class="assessment-results__content">
       <p class="assessment-results__title">
