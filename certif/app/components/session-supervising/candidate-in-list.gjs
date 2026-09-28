@@ -1,8 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixButton, PixIcon, PixIconButton, PixNotificationAlert, PixTag } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { action, set } from '@ember/object';
 import { service } from '@ember/service';
