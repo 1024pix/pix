@@ -136,6 +136,7 @@ async function getIdentityProvidersByRequestedApplication(request, h) {
   }
 }
 
+// Old implementation. TODO: Remove when FT isSessionLogoutEnabled is removed.
 /**
  * @typedef {function} getRedirectLogoutUrl
  * @param request
@@ -182,21 +183,21 @@ async function reconcileUser(request, h) {
 }
 
 /**
- * @typedef {function} logout
  * @param request
  * @param h
  * @return {Promise<{redirectLogoutUrl: string}>}
  */
 async function logout(request, h) {
-  const userId = request.auth.credentials.userId;
+  const { userId, sessionId } = request.auth.credentials;
   const { identity_provider: identityProvider, logout_url_uuid: logoutUrlUUID } = request.payload;
 
   const origin = getForwardedOrigin(request.headers);
   const requestedApplication = RequestedApplication.fromOrigin(origin);
 
   const redirectLogoutUrl = await usecases.logoutOidcUser({
-    identityProvider,
     userId,
+    sessionId,
+    identityProvider,
     logoutUrlUUID,
     requestedApplication,
   });

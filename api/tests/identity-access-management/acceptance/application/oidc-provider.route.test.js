@@ -6,10 +6,14 @@ import jsonwebtoken from 'jsonwebtoken';
 import { authenticationSessionService } from '../../../../src/identity-access-management/domain/services/authentication-session.service.js';
 import { AuthenticationSessionContent } from '../../../../src/shared/domain/models/AuthenticationSessionContent.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
+import { temporaryStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { createMockedTestOidcProviders } from '../../../tooling/mocks/openid-client.mock.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
-import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
+import {
+  generateAuthenticatedUserRequestHeaders,
+  generateInjectOptions,
+} from '../../../tooling/test-utils/http-server.js';
 
 const UUID_PATTERN = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
 
@@ -594,40 +598,85 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
   });
 
   describe('POST /api/oidc/logout', function () {
+    let revokedUserAccessTemporaryStorage;
+
     beforeEach(async function () {
-      await createServerWithMockedTestOidcProvider({
-        application: 'app',
-        applicationTld: '.org',
-        postLogoutRedirectUri: `https://app.dev.pix.fr/post-logout-redirect-uri`,
+      revokedUserAccessTemporaryStorage = temporaryStorage.withPrefix('revoked-user-access:');
+      await revokedUserAccessTemporaryStorage.flushAll();
+    });
+
+    context('when the OIDC provider has shouldCloseSession=true', function () {
+      beforeEach(async function () {
+        await createServerWithMockedTestOidcProvider({
+          application: 'app',
+          applicationTld: '.org',
+          shouldCloseSession: true,
+          postLogoutRedirectUri: `https://app.dev.pix.fr/post-logout-redirect-uri`,
+        });
+      });
+
+      it('revokes the user current session only and returns an object which contains the post logout url with an HTTP status code 200', async function () {
+        // given
+        const userId = 1992;
+        const sessionId = 123456;
+        const options = generateInjectOptions({
+          method: 'POST',
+          url: '/api/oidc/logout',
+          payload: {
+            identity_provider: 'OIDC_EXAMPLE_NET',
+            logout_url_uuid: '86e1338f-304c-41a8-9472-89fe1b9748a1',
+          },
+          audience: 'https://app.pix.org',
+          authorizationData: { userId, sessionId },
+        });
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.redirectLogoutUrl).to.equal(
+          'https://oidc.example.net/ea5ac20c-5076-4806-860a-b0aeb01645d4/oauth2/v2.0/logout?client_id=client',
+        );
+
+        const revokedKeys = await revokedUserAccessTemporaryStorage.keys(`${userId}:*`);
+        expect(revokedKeys).to.deep.equal([`${userId}:${sessionId}`]);
       });
     });
 
-    it('returns an object which contains the post logout url with an HTTP status code 200 and revokes access and refresh tokens', async function () {
-      // given
-      const userId = 1992;
-      const options = {
-        method: 'POST',
-        url: '/api/oidc/logout',
-        payload: {
-          identity_provider: 'OIDC_EXAMPLE_NET',
-          logout_url_uuid: '86e1338f-304c-41a8-9472-89fe1b9748a1',
-        },
-        headers: generateAuthenticatedUserRequestHeaders({ userId }),
-      };
+    context('when the OIDC provider has shouldCloseSession=false', function () {
+      beforeEach(async function () {
+        await createServerWithMockedTestOidcProvider({
+          application: 'app',
+          applicationTld: '.org',
+          shouldCloseSession: false,
+        });
+      });
 
-      // when
-      const response = await server.inject(options);
+      it('revokes the user current session only and returns an HTTP status code 200', async function () {
+        // given
+        const userId = 1992;
+        const sessionId = 123456;
+        const options = generateInjectOptions({
+          method: 'POST',
+          url: '/api/oidc/logout',
+          payload: {
+            identity_provider: 'OIDC_EXAMPLE_NET',
+          },
+          audience: 'https://app.pix.org',
+          authorizationData: { userId, sessionId },
+        });
 
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result.redirectLogoutUrl).to.equal(
-        'https://oidc.example.net/ea5ac20c-5076-4806-860a-b0aeb01645d4/oauth2/v2.0/logout?client_id=client',
-      );
+        // when
+        const response = await server.inject(options);
 
-      /*const revokedUserAccess = await revokedUserAccessRepository.findByUserId(userId);
-      expect(revokedUserAccess.revokeTimeStamp).to.be.a('number');
-      const refreshTokens = await refreshTokenRepository.findAllByUserId(userId);
-      expect(refreshTokens).to.have.lengthOf(0);*/
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.redirectLogoutUrl).to.be.undefined;
+
+        const revokedKeys = await revokedUserAccessTemporaryStorage.keys(`${userId}:*`);
+        expect(revokedKeys).to.deep.equal([`${userId}:${sessionId}`]);
+      });
     });
   });
 
@@ -897,6 +946,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
     applicationTld,
     identityProvider,
     connectionMethodCode,
+    shouldCloseSession,
     postLogoutRedirectUri,
   }) {
     const openidClientMocks = await createMockedTestOidcProviders([
@@ -905,6 +955,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
         applicationTld,
         identityProvider,
         connectionMethodCode,
+        shouldCloseSession,
         postLogoutRedirectUri,
       },
     ]);
