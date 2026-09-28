@@ -40,7 +40,7 @@ describe('Integration | UseCase | find-paginated-filtered-organization-campaigns
 
       const areaId = databaseBuilder.factory.learningContent.buildArea({ frameworkId }).id;
 
-      const competenceId = databaseBuilder.factory.learningContent.buildCompetence({ areaId }).id;
+      const competenceId = databaseBuilder.factory.learningContent.buildCompetence({ areaId, index: '1.1' }).id;
 
       const tubeId = databaseBuilder.factory.learningContent.buildTube({ competenceId }).id;
 
@@ -82,6 +82,7 @@ describe('Integration | UseCase | find-paginated-filtered-organization-campaigns
           id: 'tubeIdA',
           competenceId: 'competenceIdA',
           competenceName: 'name FR Compétence A',
+          competenceIndex: '1.1',
           areaName: undefined,
           title: 'practicalTitle FR Tube A',
           description: 'practicalDescription FR Tube A',
