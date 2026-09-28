@@ -7,6 +7,7 @@ import FocusedCertificationChallengeInstructions from 'mon-pix/components/focuse
 import LevelupNotif from 'mon-pix/components/levelup-notif';
 import TimedChallengeInstructions from 'mon-pix/components/timed-challenge-instructions';
 import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
+
 <template>
   {{pageTitle @controller.pageTitle}}
 
@@ -53,40 +54,42 @@ import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
       />
     {{/if}}
 
-    {{#if @controller.displayTimedChallengeInstructions}}
-      <TimedChallengeInstructions
-        @hasUserConfirmedWarning={{@controller.setUserTimedChallengeConfirmation}}
-        @time={{@model.challenge.timer}}
-      />
-    {{/if}}
-
-    {{#if @controller.displayFocusedCertificationChallengeWarning}}
-      <FocusedCertificationChallengeInstructions
-        @hasUserConfirmedWarning={{@controller.setUserFocusCertificationChallengeConfirmation}}
-      />
-    {{/if}}
-
-    {{#if @controller.displayChallenge}}
-      {{! SAFARI >=26.4 WORKAROUND: forces unmount/mount of content when challenge changes }}
-      {{#each (array @model.challenge)}}
-        <Content
-          @answer={{@model.answer}}
-          @assessment={{@model.assessment}}
-          @challenge={{@model.challenge}}
-          @focusedOutOfWindow={{@controller.focusedOutOfWindow}}
-          @hasFocusedOutOfWindow={{@controller.hasFocusedOutOfWindow}}
-          @hideOutOfFocusBorder={{@controller.hideOutOfFocusBorder}}
-          @isFocusedChallengeAndUserHasFocusedOutOfChallenge={{@controller.isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
-          @isTextToSpeechActivated={{@controller.isTextToSpeechActivated}}
-          @resetAllChallengeInfo={{@controller.resetAllChallengeInfo}}
-          @resetChallengeInfoOnResume={{@controller.resetChallengeInfoOnResume}}
-          @setFocusedOutOfChallenge={{@controller.setFocusedOutOfChallenge}}
-          @showOutOfFocusBorder={{@controller.showOutOfFocusBorder}}
-          @submitLiveAlert={{@controller.submitLiveAlert}}
-          @timeoutChallenge={{@controller.timeoutChallenge}}
+    <div class="challenge__display">
+      {{#if @controller.displayTimedChallengeInstructions}}
+        <TimedChallengeInstructions
+          @hasUserConfirmedWarning={{@controller.setUserTimedChallengeConfirmation}}
+          @time={{@model.challenge.timer}}
         />
-      {{/each}}
-    {{/if}}
+      {{/if}}
+
+      {{#if @controller.displayFocusedCertificationChallengeWarning}}
+        <FocusedCertificationChallengeInstructions
+          @hasUserConfirmedWarning={{@controller.setUserFocusCertificationChallengeConfirmation}}
+        />
+      {{/if}}
+
+      {{#if @controller.displayChallenge}}
+        {{! SAFARI >=26.4 WORKAROUND: forces unmount/mount of content when challenge changes }}
+        {{#each (array @model.challenge)}}
+          <Content
+            @answer={{@model.answer}}
+            @assessment={{@model.assessment}}
+            @challenge={{@model.challenge}}
+            @focusedOutOfWindow={{@controller.focusedOutOfWindow}}
+            @hasFocusedOutOfWindow={{@controller.hasFocusedOutOfWindow}}
+            @hideOutOfFocusBorder={{@controller.hideOutOfFocusBorder}}
+            @isFocusedChallengeAndUserHasFocusedOutOfChallenge={{@controller.isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
+            @isTextToSpeechActivated={{@controller.isTextToSpeechActivated}}
+            @resetAllChallengeInfo={{@controller.resetAllChallengeInfo}}
+            @resetChallengeInfoOnResume={{@controller.resetChallengeInfoOnResume}}
+            @setFocusedOutOfChallenge={{@controller.setFocusedOutOfChallenge}}
+            @showOutOfFocusBorder={{@controller.showOutOfFocusBorder}}
+            @submitLiveAlert={{@controller.submitLiveAlert}}
+            @timeoutChallenge={{@controller.timeoutChallenge}}
+          />
+        {{/each}}
+      {{/if}}
+    </div>
   </main>
 
   {{#if @model.challenge.focused}}

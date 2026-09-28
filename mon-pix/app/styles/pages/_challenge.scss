@@ -5,19 +5,19 @@
 .challenge {
   padding: var(--pix-spacing-6x);
 
-  &__feedback {
+  &__display {
     max-width: 990px;
     margin: 0 auto;
   }
 
   &__info-alert {
-    max-width: 990px;
-    margin: 0 auto;
     position: relative;
     z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 990px;
+    margin: 0 auto;
     overflow: hidden;
     color: var(--pix-primary-900);
     border-radius: 51px;
@@ -80,10 +80,8 @@
 }
 
 .focus-zone-warning--triggered {
-  z-index: 1;
-  margin: 0 auto;
   position: relative;
-  max-width: 990px;
+  z-index: 1;
   background-color: var(--pix-neutral-20);
   border-radius: 5px;
   outline: 5px dashed colors.$pix-shades-100;

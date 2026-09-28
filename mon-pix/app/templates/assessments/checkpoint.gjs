@@ -29,7 +29,7 @@ import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
     />
 
     <div class="checkpoint__container">
-      <div class="rounded-panel rounded-panel--strong checkpoint__content" role="div">
+      <div class="rounded-panel rounded-panel--strong checkpoint__content">
         {{#if @controller.shouldDisplayAnswers}}
           <div class="rounded-panel-one-line-header">
             <h2 class="rounded-panel-header-text__content rounded-panel-title rounded-panel-title--all-small-caps">
