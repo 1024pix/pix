@@ -1302,6 +1302,8 @@
           "description": "Completate la tua diagnosi per sbloccare un programma di moduli su misura per i tuoi risultati!",
           "title": "Programma di moduli personalizzato"
         },
+        "start-campaign": "Inizia",
+        "start-module": "Inizia il modulo",
         "tagText": "Ecco dove sei!"
       },
       "process-custom-passages": {

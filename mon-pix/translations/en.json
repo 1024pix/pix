@@ -1302,6 +1302,8 @@
           "description": "Complete your assessment to unlock a programme of modules tailored to your results!",
           "title": "Customised module programme"
         },
+        "start-campaign": "Start",
+        "start-module": "Start module",
         "tagText": "You're at that point!"
       },
       "process-custom-passages": {

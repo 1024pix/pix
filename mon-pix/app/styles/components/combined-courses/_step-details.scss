@@ -1,0 +1,121 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/breakpoints';
+
+.step-details {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--pix-spacing-10x);
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
+  padding: var(--pix-spacing-10x) var(--pix-spacing-4x);
+  background-color: var(--pix-neutral-0);
+  border-radius: 0 0 var(--pix-spacing-10x) var(--pix-spacing-10x);
+  box-shadow: var(--pix-shadow-default);
+
+  @include breakpoints.device-is('tablet') {
+      align-self: stretch;
+      padding: 80px;
+      padding-left: var(--pix-spacing-10x);
+      border-radius: var(--pix-spacing-10x) 0 0 var(--pix-spacing-10x);
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-4x);
+  }
+
+  &__icon {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  &__title {
+    @extend %pix-title-s;
+  }
+
+  &__description {
+    @extend %pix-body-m;
+  }
+
+  &__objectives {
+    &--item {
+       @extend %pix-body-m;
+
+       display: flex;
+       font-weight: var(--pix-font-bold);
+    }
+
+    &--chevron {
+      fill: var(--pix-primary-300);
+    }
+
+  }
+
+  &__heading {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__indicator--completed {
+    @extend %pix-body-m;
+
+    display: none;
+
+    @include breakpoints.device-is('tablet') {
+      display: flex;
+      gap: var(--pix-spacing-2x);
+      align-items: center;
+      height: var(--pix-spacing-6x);
+      color: var(--pix-primary-500);
+      font-weight: var(--pix-font-bold);
+
+      .step-details__icon {
+        width: var(--pix-spacing-8x);
+        height: var(--pix-spacing-8x);
+      }
+    }
+  }
+
+  &__indicators {
+    @extend %pix-body-s;
+
+    display: none;
+
+    @extend %pix-body-s;
+
+    @include breakpoints.device-is('tablet') {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    margin-top: var(--pix-spacing-2x);
+
+      dl {
+        display: inline-flex;
+        gap: var(--pix-spacing-1x);
+        align-items: center;
+
+        dt {
+          width: var(--pix-spacing-4x);
+          height: var(--pix-spacing-4x);
+          line-height: normal;
+
+          .duration {
+            &__icon {
+              width: var(--pix-spacing-4x);
+              height: var(--pix-spacing-4x);
+            }
+          }
+
+          .level {
+            &__icon {
+              width: var(--pix-spacing-4x);
+              height: var(--pix-spacing-4x);
+            }
+          }
+        }
+      }
+    }
+  }
+}

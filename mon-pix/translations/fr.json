@@ -1302,6 +1302,8 @@
           "description": "Terminez votre diagnostic pour débloquer un programme de modules adapté à votre résultat !",
           "title": "Programme personnalisé de modules"
         },
+        "start-campaign": "Commencer",
+        "start-module": "Commencer le module",
         "tagText": "Vous en êtes là !"
       },
       "process-custom-passages": {

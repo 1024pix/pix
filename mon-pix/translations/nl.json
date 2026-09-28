@@ -1302,6 +1302,8 @@
           "description": "Voltooi uw diagnose om een moduleprogramma te ontgrendelen dat is afgestemd op uw resultaat!",
           "title": "Gepersonaliseerd programma met modules"
         },
+        "start-campaign": "Beginnen",
+        "start-module": "De module starten",
         "tagText": "U bent er nu!"
       },
       "process-custom-passages": {

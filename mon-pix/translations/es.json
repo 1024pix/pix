@@ -1302,6 +1302,8 @@
           "description": "¡Completa tu diagnóstico para desbloquear un programa de módulos adaptado a tu resultado!",
           "title": "Programa personalizado de módulos"
         },
+        "start-campaign": "Empezar",
+        "start-module": "Empezar el módulo",
         "tagText": "¡Ya estás ahí!"
       },
       "process-custom-passages": {
