@@ -25,10 +25,6 @@
       "generator": "template",
       "template": "%PR_NUMBER%"
     },
-    "OTEL_ENABLED": {
-      "description": "Enable Open Telemetry on the review app",
-      "value": "true"
-    },
     "OTEL_RESOURCE_ATTRIBUTES": {
       "generator": "template",
       "template": "deployment.environment=review-pr%PR_NUMBER%"

@@ -17,6 +17,7 @@ import { poleEmploiRoute } from './src/prescription/campaign-participation/appli
 import { healthcheckRoute } from './src/shared/application/healthcheck/index.js';
 import { installHapiHook } from './src/shared/infrastructure/execution-context-manager.js';
 import { instrumentHapiServer } from './src/shared/infrastructure/open-telemetry/hapi-tracing.js';
+import { isOpenTelemetryInitialized } from './src/shared/infrastructure/open-telemetry/state.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';
 import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/deserializer.js';
 import { maddoSwaggers } from './src/shared/swaggers.js';
@@ -148,7 +149,7 @@ const setupOpenApiSpecification = async function (server) {
 };
 
 const setupOpenTelemetry = function (server) {
-  if (config.logging.otelEnabled) {
+  if (isOpenTelemetryInitialized()) {
     instrumentHapiServer(server);
   }
 };

@@ -39,6 +39,7 @@ import { questRoutes } from './src/quest/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
 import { installHapiHook } from './src/shared/infrastructure/execution-context-manager.js';
 import { instrumentHapiServer } from './src/shared/infrastructure/open-telemetry/hapi-tracing.js';
+import { isOpenTelemetryInitialized } from './src/shared/infrastructure/open-telemetry/state.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';
 import { deserializer } from './src/shared/infrastructure/serializers/jsonapi/deserializer.js';
 import { sharedRoutes } from './src/shared/routes.js';
@@ -220,7 +221,7 @@ const setupOpenApiSpecification = async function (server) {
 };
 
 const setupOpenTelemetry = function (server) {
-  if (config.logging.otelEnabled) {
+  if (isOpenTelemetryInitialized()) {
     instrumentHapiServer(server);
   }
 };

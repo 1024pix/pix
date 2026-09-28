@@ -1,0 +1,12 @@
+services:
+  jaeger:
+    image: jaegertracing/jaeger:2.21.0
+    container_name: pix-api-jaeger
+    command: ['--config', 'file:/etc/jaeger/config.yaml']
+    volumes:
+      - ./jaeger.yaml:/etc/jaeger/config.yaml:ro
+    ports:
+      # UI, see docs/en/OpenTelemetry.md
+      - '${PIX_JAEGER_UI_PORT:-16686}:16686'
+      # OTLP over HTTP, the protocol used by the API exporters
+      - '${PIX_JAEGER_OTLP_PORT:-4318}:4318'

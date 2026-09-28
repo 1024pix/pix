@@ -1,0 +1,45 @@
+# Jaeger configuration for local development, see docs/en/OpenTelemetry.md.
+#
+# This is the default "all-in-one" configuration (in-memory storage, UI on 16686) plus two
+# pipelines swallowing metrics and logs: the API exports them just like traces, while Jaeger
+# only stores traces. Without those pipelines, every metrics or logs export answers 404 and
+# fills the API logs with errors.
+service:
+  extensions: [jaeger_storage, jaeger_query]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [jaeger_storage_exporter]
+    metrics:
+      receivers: [otlp]
+      exporters: [nop]
+    logs:
+      receivers: [otlp]
+      exporters: [nop]
+
+extensions:
+  jaeger_query:
+    storage:
+      traces: local_storage
+  jaeger_storage:
+    backends:
+      local_storage:
+        memory:
+          max_traces: 100000
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  batch:
+
+exporters:
+  jaeger_storage_exporter:
+    trace_storage: local_storage
+  nop:
