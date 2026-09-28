@@ -1,6 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixCode from '@1024pix/pix-ui/components/pix-code';
+import { PixButton, PixButtonLink, PixCode } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
