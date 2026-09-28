@@ -7,7 +7,7 @@ import { setupMirage } from 'pix-orga/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntl from '../helpers/setup-intl';
+import setupIntl, { waitLanguageChanged } from '../helpers/setup-intl';
 import { createPrescriberByUser, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 
 module('Acceptance | Login', function (hooks) {
@@ -58,6 +58,7 @@ module('Acceptance | Login', function (hooks) {
         await click(screen.getByRole('button', { name: t('components.locale-switcher.label') }));
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Français' }));
+        await waitLanguageChanged('fr');
 
         // then
         assert.strictEqual(currentURL(), '/connexion');
