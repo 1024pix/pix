@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Devcomp** (Développement de Compétences) manages interactive learning modules and trainings. It covers:
 
-- **Modules** — interactive learning content stored as JSON files, delivered through grains and elements
+- **Modules** — interactive learning content, delivered through grains and elements, stored in the `learningcontent.modules` PostgreSQL table
 - **Passages** — user sessions tracking progress through a module
 - **Trainings** — curated resources (modules, external links) tied to target profiles and recommendation triggers
 - **Tutorials** — supplementary learning content users can save and rate
@@ -18,24 +18,23 @@ From `api/`:
 
 ```bash
 # Run all devcomp tests
-npm run test:api:unit -- --grep devcomp
+npm run test:api:path -- 'tests/devcomp/unit/**/*test.js'
 
 # Run a specific test file
 npm run test:api:path -- tests/devcomp/unit/domain/usecases/get-module_test.js
-
-# Validate module JSON files
-npm run modulix:test
 
 # Load only DevComp seeds (faster local DB reset)
 export SEEDS_CONTEXT=DEVCOMP
 npm run db:reset
 ```
 
+Local dev note: `learningcontent.modules` is not seeded by `db:reset` — run `npm run cache:refresh` to populate module content locally.
+
 ## Architecture
 
 ### Module content
 
-Modules are stored as JSON files in `infrastructure/datasources/learning-content/modules/` (72 modules). They are loaded at startup into an in-memory datasource (`module-datasource.js`) and never persisted to the database. A SHA256 hash of the content serves as the module version.
+Modules are stored in the `learningcontent.modules` PostgreSQL table, populated from Pix Editor. They are read through `module-repository.js`, which uses `LearningContentRepository`/`LearningContentRedisRepository` (in-memory or Redis cache depending on the `isLearningContentCacheRedis` toggle). The `version` column serves as the module version; a SHA256 hash is computed as a fallback when absent.
 
 The `ModuleFactory` (`infrastructure/factories/module-factory.js`) recursively builds the full domain object tree: `Module → Sections → Grains → Components → Elements`. Element type dispatch happens here.
 
@@ -70,11 +69,11 @@ Defined in `domain/errors.js`: `ModuleDoesNotExistError`, `PassageDoesNotExistEr
 
 ## Key files
 
-| Concern            | Path                                                               |
-| ------------------ | ------------------------------------------------------------------ |
-| Route registration | `routes.js`                                                        |
-| Usecase DI wiring  | `domain/usecases/index.js`                                         |
-| Repository exports | `infrastructure/repositories/index.js`                             |
-| Module datasource  | `infrastructure/datasources/learning-content/module-datasource.js` |
-| Module factory     | `infrastructure/factories/module-factory.js`                       |
-| Domain errors      | `domain/errors.js`                                                 |
+| Concern            | Path                                               |
+| ------------------ | -------------------------------------------------- |
+| Route registration | `routes.js`                                        |
+| Usecase DI wiring  | `domain/usecases/index.js`                         |
+| Repository exports | `infrastructure/repositories/index.js`             |
+| Module repository  | `infrastructure/repositories/module-repository.js` |
+| Module factory     | `infrastructure/factories/module-factory.js`       |
+| Domain errors      | `domain/errors.js`                                 |
