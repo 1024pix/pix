@@ -29,7 +29,7 @@ export async function createDraft({ scope, tubeIds, versionRepository }) {
   });
 
   const versionId = await DomainTransaction.execute(async () => {
-    return versionRepository.save(draftVersion);
+    return versionRepository.create(draftVersion);
   });
 
   return versionId;

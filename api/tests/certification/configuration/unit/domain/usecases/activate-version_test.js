@@ -21,7 +21,7 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
     versionRepository = {
       getById: sinon.stub(),
       findActiveByScope: sinon.stub(),
-      save: sinon.stub(),
+      update: sinon.stub(),
     };
     calibrationRepository = {
       find: sinon.stub(),
@@ -132,7 +132,7 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
         .build();
       versionRepository.getById.resolves(draftVersion);
       versionRepository.findActiveByScope.resolves(null);
-      versionRepository.save.resolves(draftVersion.id);
+      versionRepository.update.resolves(draftVersion.id);
       calibrationRepository.find.resolves(calibration);
       calibratedChallengesRepository.saveMany.resolves();
 
@@ -160,7 +160,7 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
         .build();
       versionRepository.getById.resolves(draftVersion);
       versionRepository.findActiveByScope.resolves(null);
-      versionRepository.save.resolves(draftVersion.id);
+      versionRepository.update.resolves(draftVersion.id);
       calibrationRepository.find.resolves(calibration);
       calibratedChallengesRepository.saveMany.resolves();
 
@@ -187,7 +187,7 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
         .build();
       versionRepository.getById.resolves(draftVersion);
       versionRepository.findActiveByScope.resolves(null);
-      versionRepository.save.resolves();
+      versionRepository.update.resolves();
       calibrationRepository.find.resolves({ calibratedChallenges: [] });
       calibratedChallengesRepository.saveMany.resolves();
 
@@ -197,7 +197,7 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
       // then
       expect(draftVersion.status).to.equal(VERSION_STATUSES.ACTIVE);
       expect(draftVersion.startDate).to.deep.equal(now);
-      sinon.assert.calledWithExactly(versionRepository.save, draftVersion);
+      sinon.assert.calledWithExactly(versionRepository.update, draftVersion);
     });
 
     context('when there is a currently active version for the same scope', function () {
@@ -219,7 +219,7 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
           .build();
         versionRepository.getById.resolves(draftVersion);
         versionRepository.findActiveByScope.resolves(currentActiveVersion);
-        versionRepository.save.resolves();
+        versionRepository.update.resolves();
         calibrationRepository.find.resolves({ calibratedChallenges: [] });
         calibratedChallengesRepository.saveMany.resolves();
 
@@ -229,7 +229,7 @@ describe('Certification | Configuration | Unit | UseCase | activate-version', fu
         // then
         expect(currentActiveVersion.status).to.equal(VERSION_STATUSES.ARCHIVED);
         expect(currentActiveVersion.expirationDate).to.deep.equal(now);
-        sinon.assert.calledWithExactly(versionRepository.save, currentActiveVersion);
+        sinon.assert.calledWithExactly(versionRepository.update, currentActiveVersion);
       });
     });
   });
