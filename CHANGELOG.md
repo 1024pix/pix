@@ -1,5 +1,24 @@
 # Pix Changelog
 
+# [5.509.0](https://github.com/1024pix/pix/compare/v5.508.1...v5.509.0) (2026-09-28)
+
+### :rocket: Amélioration
+
+- [#17461](https://github.com/1024pix/pix/pull/17461) Faire fonctionner la révocation de session pour le RefreshToken (PIX-24079)
+
+### :bug: Correction
+
+- [#17605](https://github.com/1024pix/pix/pull/17605) :bug: Corrige la façon d'appeler une traduction pour un placeholder de pix Certif (PIX-24426)
+- [#17602](https://github.com/1024pix/pix/pull/17602) Enlever la réecriture des tubes à chaque update de session (PIX24290)
+
+### :building_construction: Tech
+
+- [#17599](https://github.com/1024pix/pix/pull/17599) Petit nettoyage de rentrée sur les scripts certif
+
+### :arrow_up: Montée de version
+
+- [#17553](https://github.com/1024pix/pix/pull/17553) Update dependency @testing-library/dom to ^10.4.2 (orga)
+
 ## [5.508.1](https://github.com/1024pix/pix/compare/v5.508.0...v5.508.1) (2026-09-25)
 
 ### :bug: Correction
