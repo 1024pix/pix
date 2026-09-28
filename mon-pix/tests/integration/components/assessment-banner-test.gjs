@@ -11,6 +11,8 @@ import { waitForDialog, waitForDialogClose } from '../../helpers/wait-for';
 module('Integration | Component | assessment-banner', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  const assessment = {};
+
   hooks.beforeEach(function () {
     class CurrentUserStub extends Service {
       user = { id: 2, isAnonymous: false };
@@ -21,7 +23,9 @@ module('Integration | Component | assessment-banner', function (hooks) {
 
   test('should not display home link button if not requested', async function (assert) {
     // given & when
-    const screen = await render(<template><AssessmentBanner @displayHomeLink={{false}} /></template>);
+    const screen = await render(
+      <template><AssessmentBanner @displayHomeLink={{false}} @assessment={{assessment}} /></template>,
+    );
 
     // then
     assert.dom(screen.queryByRole('button', { name: 'Quitter' })).doesNotExist();
@@ -34,7 +38,9 @@ module('Integration | Component | assessment-banner', function (hooks) {
       // given
       router = this.owner.lookup('service:router');
       sinon.stub(router, 'transitionTo');
-      screen = await render(<template><AssessmentBanner @displayHomeLink={{true}} /></template>);
+      screen = await render(
+        <template><AssessmentBanner @displayHomeLink={{true}} @assessment={{assessment}} /></template>,
+      );
     });
 
     test('it should display home button', function (assert) {
@@ -220,6 +226,7 @@ module('Integration | Component | assessment-banner', function (hooks) {
               @displayTextToSpeechActivationButton={{true}}
               @isTextToSpeechActivated={{true}}
               @toggleTextToSpeech={{toggleTextToSpeech}}
+              @assessment={{assessment}}
             />
           </template>,
         );
@@ -245,6 +252,7 @@ module('Integration | Component | assessment-banner', function (hooks) {
                 @displayTextToSpeechActivationButton={{true}}
                 @isTextToSpeechActivated={{true}}
                 @toggleTextToSpeech={{toggleTextToSpeech}}
+                @assessment={{assessment}}
               />
             </template>,
           );
@@ -272,6 +280,7 @@ module('Integration | Component | assessment-banner', function (hooks) {
               @displayTextToSpeechActivationButton={{false}}
               @isTextToSpeechActivated={{true}}
               @toggleTextToSpeech={{toggleTextToSpeech}}
+              @assessment={{assessment}}
             />
           </template>,
         );
@@ -302,6 +311,7 @@ module('Integration | Component | assessment-banner', function (hooks) {
             @displayTextToSpeechActivationButton={{true}}
             @isTextToSpeechActivated={{true}}
             @toggleTextToSpeech={{toggleTextToSpeech}}
+            @assessment={{assessment}}
           />
         </template>,
       );

@@ -21,7 +21,7 @@ export default class AssessmentBanner extends Component {
 
   constructor(...args) {
     super(...args);
-    this.args?.assessment?.campaign.then(async (campaign) => {
+    this.args?.assessment?.campaign?.then(async (campaign) => {
       this.campaign = campaign;
       if (this.campaign?.customResultPageButtonUrl && !this.isRedirectionUrlInternal) {
         this.campaignParticipation = await this.store.queryRecord('campaign-participation', {
