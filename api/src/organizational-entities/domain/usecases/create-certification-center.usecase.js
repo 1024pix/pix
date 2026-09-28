@@ -72,13 +72,6 @@ const createCertificationCenter = async function ({
   createdCertificationCenter.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;
   createdCertificationCenter.dataProtectionOfficerEmail = dataProtectionOfficer.email;
 
-  if (organizationId) {
-    await organizationForAdminRepository.attachCertificationCenter({
-      organizationId,
-      certificationCenterId: createdCertificationCenter.id,
-    });
-  }
-
   return createdCertificationCenter;
 };
 

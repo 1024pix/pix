@@ -11,6 +11,21 @@ const save = async function (certificationCenter) {
     externalId: certificationCenter.externalId,
     createdBy: certificationCenter.createdBy,
   });
+
+  if (!certificationCenter.organizationId) {
+    const [structure] = await knexConn('structures').returning('id').insert({});
+
+    await knexConn('fct_structures').insert({
+      structure_id: structure.id,
+      certification_center_id: certificationCenterCreated.id,
+    });
+  } else {
+    await knexConn('fct_structures')
+      .update({
+        certification_center_id: certificationCenterCreated.id,
+      })
+      .where({ organization_id: certificationCenter.organizationId });
+  }
   return _toDomainCenterForAdmin(certificationCenterCreated);
 };
 

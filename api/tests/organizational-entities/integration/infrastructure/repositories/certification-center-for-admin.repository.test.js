@@ -6,6 +6,7 @@ import { CenterForAdmin } from '../../../../../src/organizational-entities/domai
 import * as certificationCenterForAdminRepository from '../../../../../src/organizational-entities/infrastructure/repositories/certification-center-for-admin.repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Integration | Organizational Entities | Infrastructure | Repository | certification-center-for-admin', function () {
   const now = new Date('2021-11-16');
@@ -35,6 +36,82 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       expect(savedCertificationCenter.name).to.equal(certificationCenterName);
       expect(savedCertificationCenter.type).to.equal(certificationCenterType);
       expect(savedCertificationCenter.createdBy).to.equal(userId);
+    });
+
+    it('creates a structure and a line in fct_structures table', async function () {
+      // given
+      const certificationCenterName = 'CertificationCenterName';
+      const certificationCenterType = 'SCO';
+      const userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
+      const certificationCenterForAdmin = new CenterForAdmin({
+        center: { name: certificationCenterName, type: certificationCenterType, createdBy: userId },
+      });
+
+      // when
+      const savedCertificationCenter = await certificationCenterForAdminRepository.save(certificationCenterForAdmin);
+
+      // then
+      const savedStructure = await knex('structures').first();
+      const fct_structure = await knex('fct_structures')
+        .where({ certification_center_id: savedCertificationCenter.id })
+        .first();
+      expect(fct_structure.structure_id).to.equal(savedStructure.id);
+    });
+
+    context('when organization id is provided', function () {
+      it('does not create a structure nor a new line in fct_structures table', async function () {
+        // given
+        const certificationCenterName = 'CertificationCenterName';
+        const certificationCenterType = 'SCO';
+        const userId = databaseBuilder.factory.buildUser().id;
+
+        const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+        await databaseBuilder.commit();
+
+        const certificationCenterDTO = domainBuilder.buildCenterForAdmin({
+          center: {
+            name: certificationCenterName,
+            type: certificationCenterType,
+            createdBy: userId,
+            organizationId: organization.id,
+          },
+        });
+
+        // when
+        await certificationCenterForAdminRepository.save(certificationCenterDTO);
+
+        // then
+        const savedStructures = await knex('structures');
+        expect(savedStructures).lengthOf(1);
+      });
+
+      it('updates fct_structures line according to provided organizationId', async function () {
+        // given
+        const certificationCenterName = 'CertificationCenterName';
+        const certificationCenterType = 'SCO';
+        const userId = databaseBuilder.factory.buildUser().id;
+
+        const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+        await databaseBuilder.commit();
+
+        const certificationCenterDTO = domainBuilder.buildCenterForAdmin({
+          center: {
+            name: certificationCenterName,
+            type: certificationCenterType,
+            createdBy: userId,
+            organizationId: organization.id,
+          },
+        });
+
+        // when
+        const savedCertificationCenter = await certificationCenterForAdminRepository.save(certificationCenterDTO);
+
+        // then
+        const fct_structure = await knex('fct_structures').where({ organization_id: organization.id }).first();
+        expect(fct_structure.certification_center_id).to.equal(savedCertificationCenter.id);
+      });
     });
   });
 
