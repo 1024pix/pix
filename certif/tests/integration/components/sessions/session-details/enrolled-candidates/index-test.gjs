@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
@@ -586,6 +586,45 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         assert.dom(screen.getByRole('button', { name: 'Editer le candidat Bob Taurial' })).exists();
         assert.dom(screen.getByRole('button', { name: 'Editer le candidat Lana Taurial' })).exists();
         assert.dom(screen.getByRole('button', { name: 'Editer le candidat Dummy Taurial' })).exists();
+      });
+    });
+
+    module('when the candidate update fails', function () {
+      test('it should close the edit modal and display an error notification', async function (assert) {
+        // given
+        const adapter = store.adapterFor('certification-candidate');
+        sinon.stub(adapter, 'updateRecord').rejects();
+
+        const pixToast = this.owner.lookup('service:pixToast');
+        sinon.stub(pixToast, 'sendErrorNotification');
+
+        const reloadCertificationCandidate = sinon.stub();
+
+        const localCertificationCandidates = certificationCandidates;
+        const localCountries = countries;
+
+        const screen = await render(
+          <template>
+            <EnrolledCandidates
+              @sessionId='1'
+              @certificationCandidates={{localCertificationCandidates}}
+              @countries={{localCountries}}
+              @reloadCertificationCandidate={{reloadCertificationCandidate}}
+            />
+          </template>,
+        );
+
+        // when
+        await click(screen.getByRole('button', { name: 'Editer le candidat Bob Taurial' }));
+        const editModal = await screen.findByRole('dialog', { name: "Modifier les informations d'un candidat" });
+        await click(within(editModal).getByRole('button', { name: 'Modifier' }));
+
+        // then
+        assert.dom(editModal).doesNotHaveAttribute('open');
+        sinon.assert.calledWith(pixToast.sendErrorNotification, {
+          message: t('pages.sessions.detail.candidates.edit-modal.notifications.error'),
+        });
+        sinon.assert.calledOnce(reloadCertificationCandidate);
       });
     });
   });
