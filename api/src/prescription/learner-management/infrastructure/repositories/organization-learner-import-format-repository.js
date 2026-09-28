@@ -32,7 +32,7 @@ const get = async function (organizationId) {
 
 const findAll = async function () {
   const knex = DomainTransaction.getConnection();
-  const results = await knex('organization-learner-import-formats');
+  const results = await knex('organization-learner-import-formats').orderBy('id');
   return results.map(_toDomain);
 };
 
