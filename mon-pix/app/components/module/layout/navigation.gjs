@@ -1,4 +1,4 @@
-import PixNavigation from '@1024pix/pix-ui/components/pix-navigation';
+import { PixNavigation } from '@1024pix/nebulix-ember';
 import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';

@@ -1,4 +1,4 @@
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixTag } from '@1024pix/nebulix-ember';
 import { concat } from '@ember/helper';
 import { t } from 'ember-intl';
 import htmlUnsafe from 'mon-pix/helpers/html-unsafe';

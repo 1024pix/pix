@@ -1,4 +1,4 @@
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import { PixButtonLink } from '@1024pix/nebulix-ember';
 import t from 'ember-intl/helpers/t';
 import HexagonScore from 'mon-pix/components/hexagon-score';
 import ProfileScorecards from 'mon-pix/components/profile-scorecards';

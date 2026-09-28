@@ -1,5 +1,4 @@
-import PixBannerAlert from '@1024pix/pix-ui/components/pix-banner-alert';
-import PixProgressBar from '@1024pix/pix-ui/components/pix-progress-bar';
+import { PixBannerAlert, PixProgressBar } from '@1024pix/nebulix-ember';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
 import AssessmentBanner from 'mon-pix/components/assessment-banner';

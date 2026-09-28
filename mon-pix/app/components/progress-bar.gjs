@@ -1,4 +1,4 @@
-import PixProgressBar from '@1024pix/pix-ui/components/pix-progress-bar';
+import { PixProgressBar } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';

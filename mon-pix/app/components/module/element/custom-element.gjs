@@ -1,7 +1,5 @@
 import { metadata } from '@1024pix/epreuves-components/metadata';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixButton, PixIcon, PixTag } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';

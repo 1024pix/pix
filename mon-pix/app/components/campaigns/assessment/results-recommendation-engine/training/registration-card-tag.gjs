@@ -1,5 +1,4 @@
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixIcon, PixTag } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 

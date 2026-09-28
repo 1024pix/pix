@@ -1,4 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
+import { PixButton } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { trackedArray, trackedMap } from '@ember/reactive/collections';
 import { service } from '@ember/service';

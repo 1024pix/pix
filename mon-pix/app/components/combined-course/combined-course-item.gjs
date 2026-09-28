@@ -1,6 +1,4 @@
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixStars from '@1024pix/pix-ui/components/pix-stars';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixIcon, PixStars, PixTag } from '@1024pix/nebulix-ember';
 import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { LinkTo } from '@ember/routing';
