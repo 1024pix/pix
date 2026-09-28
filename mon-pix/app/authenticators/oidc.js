@@ -5,9 +5,10 @@ import ENV from 'mon-pix/config/environment';
 import { decodeToken } from 'mon-pix/helpers/jwt';
 
 export default class OidcAuthenticator extends BaseAuthenticator {
+  @service featureToggles;
   @service oidcIdentityProviders;
   @service session;
-  @service locale;
+  @service requestManager;
 
   async authenticate({ code, state, iss, identityProviderSlug, authenticationKey, hostSlug }) {
     const request = {
@@ -79,20 +80,39 @@ export default class OidcAuthenticator extends BaseAuthenticator {
    */
   async invalidate(data) {
     const { access_token, shouldCloseSession, identityProviderCode, logoutUrlUuid } = data || {};
-    if (!shouldCloseSession) {
-      return;
-    }
 
-    const response = await fetch(
-      `${ENV.APP.API_HOST}/api/oidc/redirect-logout-url?identity_provider=${identityProviderCode}&logout_url_uuid=${logoutUrlUuid}`,
-      {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
+    if (this.featureToggles.featureToggles.isSessionLogoutEnabled) {
+      const response = await this.requestManager.request({
+        url: `${ENV.APP.API_HOST}/api/oidc/logout`,
+        method: 'POST',
+        body: JSON.stringify({
+          identity_provider: identityProviderCode,
+          logout_url_uuid: logoutUrlUuid,
+        }),
+      });
+
+      const { redirectLogoutUrl } = response.content;
+      if (redirectLogoutUrl) {
+        this.session.alternativeRootURL = redirectLogoutUrl;
+      }
+    } else {
+      // Old implementation
+
+      if (!shouldCloseSession) {
+        return;
+      }
+
+      const response = await fetch(
+        `${ENV.APP.API_HOST}/api/oidc/redirect-logout-url?identity_provider=${identityProviderCode}&logout_url_uuid=${logoutUrlUuid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
         },
-      },
-    );
-    const { redirectLogoutUrl } = await response.json();
+      );
+      const { redirectLogoutUrl } = await response.json();
 
-    this.session.alternativeRootURL = redirectLogoutUrl;
+      this.session.alternativeRootURL = redirectLogoutUrl;
+    }
   }
 }

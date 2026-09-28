@@ -161,34 +161,112 @@ module('Unit | Authenticator | oidc', function (hooks) {
   });
 
   module('#invalidate', function () {
-    module('when user has logout url in their session', function () {
-      test('should set alternativeRootURL with the redirect logout url', async function (assert) {
-        // given
-        const sessionStub = Service.create({
-          isAuthenticated: true,
-          data: {
-            authenticated: {
-              logout_url_uuid: 'uuid',
+    module('when isSessionLogoutEnabled feature toggle is true', function (hooks) {
+      hooks.beforeEach(async function () {
+        const featureToggles = this.owner.lookup('service:featureToggles');
+        sinon.stub(featureToggles, 'featureToggles').value({ isSessionLogoutEnabled: true });
+
+        this.requestManagerStub = { request: sinon.stub().resolves() };
+        this.owner.register('service:request-manager', this.requestManagerStub, { instantiate: false });
+      });
+
+      module('when /api/oidc/logout returns redirectLogoutUrl', function () {
+        test('sets alternativeRootURL to redirectLogoutUrl', async function (assert) {
+          // given
+          const redirectLogoutUrl = 'https://redirect.example.net/';
+          this.requestManagerStub.request = sinon.stub().resolves({
+            content: {
+              redirectLogoutUrl,
             },
-          },
-        });
-        const authenticator = this.owner.lookup('authenticator:oidc');
-        authenticator.session = sessionStub;
-        const redirectLogoutUrl =
-          'http://identity_provider_base_url/deconnexion?id_token_hint=ID_TOKEN&redirect_uri=http%3A%2F%2Flocalhost.fr%3A4200%2Fconnexion';
-        sinon.stub(window, 'fetch').resolves({
-          json: sinon.stub().resolves({ redirectLogoutUrl }),
-        });
+          });
 
-        // when
-        await authenticator.invalidate({
-          shouldCloseSession: true,
-          identityProviderCode: 'OIDC_PARTNER',
-          logoutUrlUuid: 'uuid',
-        });
+          const sessionStub = Service.create({
+            isAuthenticated: true,
+            data: {
+              authenticated: {
+                logout_url_uuid: 'uuid',
+              },
+            },
+          });
+          const authenticator = this.owner.lookup('authenticator:oidc');
+          authenticator.session = sessionStub;
 
-        // then
-        assert.strictEqual(authenticator.session.alternativeRootURL, redirectLogoutUrl);
+          // when
+          await authenticator.invalidate({
+            shouldCloseSession: true,
+            identityProviderCode: 'OIDC_PARTNER',
+            logoutUrlUuid: 'uuid',
+          });
+
+          // then
+          assert.strictEqual(authenticator.session.alternativeRootURL, redirectLogoutUrl);
+        });
+      });
+
+      module('when /api/oidc/logout returns nothing', function () {
+        test('does not set alternativeRootURL', async function (assert) {
+          // given
+          this.requestManagerStub.request = sinon.stub().resolves({ content: {} });
+
+          const sessionStub = Service.create({
+            isAuthenticated: true,
+            data: {
+              authenticated: {
+                logout_url_uuid: 'uuid',
+              },
+            },
+          });
+          const authenticator = this.owner.lookup('authenticator:oidc');
+          authenticator.session = sessionStub;
+
+          // when
+          await authenticator.invalidate({
+            shouldCloseSession: true,
+            identityProviderCode: 'OIDC_PARTNER',
+            logoutUrlUuid: 'uuid',
+          });
+
+          // then
+          assert.strictEqual(authenticator.session.alternativeRootURL, undefined);
+        });
+      });
+    });
+
+    module('when isSessionLogoutEnabled feature toggle is false', function (hooks) {
+      hooks.beforeEach(async function () {
+        const featureToggles = this.owner.lookup('service:featureToggles');
+        sinon.stub(featureToggles, 'featureToggles').value({ isSessionLogoutEnabled: false });
+      });
+
+      module('when user has logout url in their session', function () {
+        test('should set alternativeRootURL with the redirect logout url', async function (assert) {
+          // given
+          const sessionStub = Service.create({
+            isAuthenticated: true,
+            data: {
+              authenticated: {
+                logout_url_uuid: 'uuid',
+              },
+            },
+          });
+          const authenticator = this.owner.lookup('authenticator:oidc');
+          authenticator.session = sessionStub;
+          const redirectLogoutUrl =
+            'http://identity_provider_base_url/deconnexion?id_token_hint=ID_TOKEN&redirect_uri=http%3A%2F%2Flocalhost.fr%3A4200%2Fconnexion';
+          sinon.stub(window, 'fetch').resolves({
+            json: sinon.stub().resolves({ redirectLogoutUrl }),
+          });
+
+          // when
+          await authenticator.invalidate({
+            shouldCloseSession: true,
+            identityProviderCode: 'OIDC_PARTNER',
+            logoutUrlUuid: 'uuid',
+          });
+
+          // then
+          assert.strictEqual(authenticator.session.alternativeRootURL, redirectLogoutUrl);
+        });
       });
     });
   });
