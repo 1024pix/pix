@@ -56,7 +56,7 @@ async function listPublic() {
   return publicModules.map(_toDomain);
 }
 
-function _toDomain({ id, shortId, slug, title, isBeta, duration, image, visibility }) {
+function _toDomain({ id, shortId, slug, title, isBeta, duration, image, level, description, objectives, visibility }) {
   return new ModuleMetadata({
     id,
     shortId,
@@ -66,6 +66,9 @@ function _toDomain({ id, shortId, slug, title, isBeta, duration, image, visibili
     duration,
     image,
     visibility,
+    level,
+    description,
+    objectives,
   });
 }
 

@@ -67,6 +67,9 @@ describe('Integration | Devcomp | Application | Api | Modules', function () {
           title: 'Bac à sable',
           duration: 5,
           image: 'https://assets.pix.org/modules/placeholder-details.svg',
+          level: 'novice',
+          description: 'Un module de test',
+          objectives: ['Découvrir le bac à sable'],
         },
         {
           id: existingModuleId2,
@@ -75,6 +78,9 @@ describe('Integration | Devcomp | Application | Api | Modules', function () {
           title: 'Bien écrire une adresse mail',
           duration: 10,
           image: 'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-details.svg',
+          level: 'novice',
+          description: 'Un module sur les adresses mail',
+          objectives: ['Bien écrire une adresse mail'],
         },
       ];
 
@@ -330,6 +336,9 @@ describe('Integration | Devcomp | Application | Api | Modules', function () {
           slug: 'adresse-ip-publique-et-vous',
           title: "L'adresse IP publique : ce qu'elle révèle sur vous !",
           image: 'https://assets.pix.org/modules/placeholder-details.svg',
+          level: 'novice',
+          description: "Un module sur l'adresse IP",
+          objectives: ['Comprendre son adresse IP'],
         },
         {
           id: '9beb922f-4d8e-495d-9c85-0e7265ca78d6',
@@ -338,6 +347,9 @@ describe('Integration | Devcomp | Application | Api | Modules', function () {
           title: 'Au-delà des mots de passe : comment s’authentifier ?',
           duration: 5,
           image: 'https://assets.pix.org/modules/placeholder-details.svg',
+          level: 'novice',
+          description: 'Un module sur les mots de passe',
+          objectives: ["S'authentifier sans mot de passe"],
         },
       ];
 
