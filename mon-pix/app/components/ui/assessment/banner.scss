@@ -1,14 +1,19 @@
 @use 'pix-design-tokens/typography';
 
 .assessment-banner {
-  margin-bottom: var(--pix-spacing-10x);
-  padding: var(--pix-spacing-8x);
+  margin-bottom: var(--pix-spacing-4x);
+  padding: var(--pix-spacing-4x);
   color: var(--pix-neutral-0);
   background: linear-gradient(90deg, rgb(var(--pix-primary-700-inline), 80%) 0%, rgb(var(--pix-primary-700-inline), 0%) 60%), var(--pix-primary-300);
   border-radius: 16px;
 
+  @media (min-width: 769px) {
+    padding: var(--pix-spacing-8x);
+    margin-bottom: var(--pix-spacing-10x);
+  }
+
   &--certification {
-    background: linear-gradient(90deg, rgb(var(--pix-certif-700-inline), 0.80) 0%, rgb(var(--pix-certif-700-inline), 0.00) 60%), #38A09F;
+    background: linear-gradient(90deg, rgb(var(--pix-certif-700-inline), 0.80) 0%, rgb(var(--pix-certif-700-inline), 0.00) 60%), var(--pix-certif-300);
   }
 
   &__header {
@@ -17,8 +22,8 @@
   }
 
   &__title {
-    flex-grow: 2;
     display: flex;
+    flex-grow: 2;
     gap: var(--pix-spacing-3x);
     align-items: center;
 
@@ -50,23 +55,16 @@
   }
 }
 
-.progress-bar {
+.info-bar {
   display: flex;
   align-items: center;
-}
-
-.certification-number {
-  flex-grow: 2;
-  margin-left: auto;
-  color: var(--pix-neutral-0);
+  justify-content: space-between;
 
   &__label {
-    text-transform: uppercase;
-    opacity: 0.5;
+    @extend %pix-body-m;
   }
 
   &__value {
-    font-weight: bold;
-    font-size: 1.875rem;
+    @extend %pix-title-xxs;
   }
 }

@@ -315,6 +315,14 @@
         }
       }
     },
+    "info-bar": {
+      "certification-number": "Certification no.",
+      "completion-percentage": {
+        "caption": "customised test progression",
+        "label": "You have completed {completion, number, ::percent} of your customised test."
+      },
+      "progress": {"label": "Question", "position": "{current} of {total}" }
+    },
     "invited": {
       "reconciliation": {
         "error-message": {
@@ -1024,9 +1032,6 @@
         "numbered-label": "Answer {number}"
       },
       "certification": {
-        "banner": {
-          "certification-number": "Certification no."
-        },
         "title": "Certification {certificationNumber}"
       },
       "certification-feedback-panel": {
@@ -1185,9 +1190,6 @@
         "progress": "Your progression",
         "validation": "Validate or skip this question"
       },
-      "progress-bar": {
-        "label": "Question"
-      },
       "skip-error-message": {
         "qcm": "To validate, select at least two answers. Otherwise, click Skip.",
         "qcu": "To validate, select an answer. Otherwise, click Skip.",
@@ -1258,10 +1260,6 @@
           "info": "You have already answered !"
         },
         "header": "your answers"
-      },
-      "completion-percentage": {
-        "caption": "customised test progression",
-        "label": "You have completed {completion, number, ::percent} of your customised test."
       },
       "sharing-results": {
         "information-banner": "By clicking on the ‘View my results’ button, your results will be sent to the organiser."

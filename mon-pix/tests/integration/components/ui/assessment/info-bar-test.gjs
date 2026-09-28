@@ -1,11 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
-import ProgressBar from 'mon-pix/components/ui/assessment/progress-bar';
+import InfoBar from 'mon-pix/components/ui/assessment/info-bar';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | progress-bar', function (hooks) {
+module('Integration | Component | Ui | Assessment | info-bar', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('when should show the progress bar', function () {
@@ -36,7 +36,7 @@ module('Integration | Component | progress-bar', function (hooks) {
         // when
         const screen = await render(
           <template>
-            <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+            <InfoBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
           </template>,
         );
 
@@ -72,7 +72,7 @@ module('Integration | Component | progress-bar', function (hooks) {
         // when
         await render(
           <template>
-            <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+            <InfoBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
           </template>,
         );
 
@@ -107,7 +107,7 @@ module('Integration | Component | progress-bar', function (hooks) {
         // when
         const screen = await render(
           <template>
-            <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+            <InfoBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
           </template>,
         );
 
@@ -149,7 +149,7 @@ module('Integration | Component | progress-bar', function (hooks) {
         // when
         const screen = await render(
           <template>
-            <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+            <InfoBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
           </template>,
         );
 
@@ -186,7 +186,7 @@ module('Integration | Component | progress-bar', function (hooks) {
         // when
         const screen = await render(
           <template>
-            <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+            <InfoBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
           </template>,
         );
 
@@ -216,7 +216,7 @@ module('Integration | Component | progress-bar', function (hooks) {
           // when
           const screen = await render(
             <template>
-              <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+              <InfoBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
             </template>,
           );
 
@@ -246,7 +246,7 @@ module('Integration | Component | progress-bar', function (hooks) {
           // when
           const screen = await render(
             <template>
-              <ProgressBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
+              <InfoBar @assessment={{assessment}} @currentChallengeNumber={{currentChallengeNumber}} />
             </template>,
           );
 

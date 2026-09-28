@@ -3,9 +3,9 @@ import EmberObject from '@ember/object';
 import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Certification Banner', function (hooks) {
+module('Integration | Component | Ui | Assessment | Certification Banner', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   const assessment = {};

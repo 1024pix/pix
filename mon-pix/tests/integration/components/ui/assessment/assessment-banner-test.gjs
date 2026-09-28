@@ -5,10 +5,10 @@ import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { waitForDialog, waitForDialogClose } from '../../helpers/wait-for';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import { waitForDialog, waitForDialogClose } from '../../../../helpers/wait-for';
 
-module('Integration | Component | assessment-banner', function (hooks) {
+module('Integration | Component | Ui | Assessment | assessment-banner', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   const assessment = {};

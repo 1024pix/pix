@@ -7,7 +7,7 @@ import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
 import { and } from 'ember-truth-helpers';
 import startCase from 'lodash/startCase';
-import ProgressBar from 'mon-pix/components/ui/assessment/progress-bar';
+import InfoBar from 'mon-pix/components/ui/assessment/info-bar';
 
 export default class AssessmentBanner extends Component {
   @service intl;
@@ -33,23 +33,24 @@ export default class AssessmentBanner extends Component {
     });
   }
 
+  get isCertification() {
+    return this.args.assessment.isCertification;
+  }
+
   get cssClass() {
     const cssClass = ['assessment-banner'];
 
-    if (this.isCertificationContext) cssClass.push('assessment-banner--certification');
+    if (this.isCertification) cssClass.push('assessment-banner--certification');
 
     return cssClass.join(' ');
   }
 
-  get isCertificationContext() {
-    return !!this.args.certification;
-  }
-
   get candidateFullName() {
-    if (!this.isCertificationContext) return '';
+    if (!this.isCertification) return '';
 
-    const firstName = this.args.certification.get('firstName');
-    const lastName = this.args.certification.get('lastName');
+    const firstName = this.args.assessment.certificationCourse.get('firstName');
+    const lastName = this.args.assessment.certificationCourse.get('lastName');
+
     return `${startCase(firstName)} ${lastName.toUpperCase()}`;
   }
 
@@ -115,11 +116,11 @@ export default class AssessmentBanner extends Component {
             </h1>
           {{/if}}
         </div>
-        {{#if this.isCertificationContext}}
+        {{#if this.isCertification}}
           <h1 class="assessment-banner__title">{{this.candidateFullName}}</h1>
 
         {{/if}}
-        {{#unless this.isCertificationContext}}
+        {{#unless this.isCertification}}
           <div class="assessment-banner__action">
             {{#if this.showTextToSpeechActivationButton}}
               <PixTooltip @position="left" @isInline={{true}}>
@@ -144,32 +145,13 @@ export default class AssessmentBanner extends Component {
           </div>
         {{/unless}}
       </div>
-      {{log @certificationNumber}}
-      {{#if this.isCertificationContext}}
-        <ProgressBar
-          @completionRate={{@completionRate}}
-          @assessment={{@assessment}}
-          @currentChallengeNumber={{@currentChallengeNumber}}
-          @showGlobalProgression={{@showGlobalProgression}}
-        >
-          <:certificationNumber>
-            <div class="certification-number">
-              <div class="certification-number__label">{{t
-                  "pages.challenge.certification.banner.certification-number"
-                }}</div>
-              <div class="certification-number__value">{{@certificationNumber}}</div>
-            </div>
-          </:certificationNumber>
-        </ProgressBar>
-      {{else}}
-        <ProgressBar
-          @completionRate={{@completionRate}}
-          @assessment={{@assessment}}
-          @currentChallengeNumber={{@currentChallengeNumber}}
-          @showGlobalProgression={{@showGlobalProgression}}
-        />
-      {{/if}}
-
+      <InfoBar
+        @completionRate={{@completionRate}}
+        @assessment={{@assessment}}
+        @currentChallengeNumber={{@currentChallengeNumber}}
+        @showGlobalProgression={{@showGlobalProgression}}
+        @certificationNumber={{@certificationNumber}}
+      />
     </header>
 
     <PixModal
