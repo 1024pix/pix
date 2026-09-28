@@ -18,6 +18,7 @@ else
   export DATABASE_URL="$API_DATABASE_URL"
   npm run postdeploy:maddo
   npm run datamart:seed
+  scalingo -a pix-api-maddo-review-pr$PR_NUMBER restart
   # le premier déploiement de l'api n'a pas forcément déjà eu lieu
   scalingo -a pix-api-review-pr$PR_NUMBER restart || echo
 fi
