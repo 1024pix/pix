@@ -136,10 +136,12 @@ module('Acceptance | join and login', function (hooks) {
         await click(screen.getByRole('option', { name: 'Français' }));
 
         // then
-        assert.strictEqual(currentURL(), `/rejoindre?code=${invitationCode}&invitationId=${invitationId}`);
         assert.ok(
-          screen.getByText(t('pages.login.join-invitation', { organizationName: 'College BRO & Evil Associates' })),
+          await screen.findByText(
+            t('pages.login.join-invitation', { organizationName: 'College BRO & Evil Associates' }),
+          ),
         );
+        assert.strictEqual(currentURL(), `/rejoindre?code=${invitationCode}&invitationId=${invitationId}`);
       });
     });
   });
