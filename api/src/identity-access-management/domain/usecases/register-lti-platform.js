@@ -74,7 +74,7 @@ function createPixToolConfiguration(baseUrl) {
  * @param {string} args.platformConfigurationUrl
  * @param {string} args.registrationToken
  * @param {typeof import('../../../shared/infrastructure/http-agent.js').httpAgent} args.httpAgent
- * @param {typeof import('../../infrastructure/repositories/lti-platform-registration.repository.js').ltiPlatformRegistrationRepository} args.ltiPlatformRegistrationRepository
+ * @param {typeof import('../../../lti/infrastructure/repositories/lti-platform-registration.repository.js').ltiPlatformRegistrationRepository} args.ltiPlatformRegistrationRepository
  * @param {import('../../../shared/domain/services/crypto-service.js')} args.cryptoService
  */
 

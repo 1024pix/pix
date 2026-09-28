@@ -1,4 +1,5 @@
 import { config } from '../../../../config/config.js';
+import { ltiPlatformRegistrationRepository } from '../../../lti/infrastructure/repositories/lti-platform-registration.repository.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import * as userReconciliationService from '../../../shared/domain/services/user-reconciliation-service.js';
@@ -18,7 +19,6 @@ import { clientApplicationRepository } from '../../infrastructure/repositories/c
 import { emailValidationDemandRepository } from '../../infrastructure/repositories/email-validation-demand.repository.js';
 import { lastUserApplicationConnectionsRepository } from '../../infrastructure/repositories/last-user-application-connections.repository.js';
 import { legalDocumentApiRepository } from '../../infrastructure/repositories/legal-document-api.repository.js';
-import { ltiPlatformRegistrationRepository } from '../../infrastructure/repositories/lti-platform-registration.repository.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
 import { refreshTokenRepository } from '../../infrastructure/repositories/refresh-token.repository.js';
 import { resetPasswordDemandRepository } from '../../infrastructure/repositories/reset-password-demand.repository.js';
