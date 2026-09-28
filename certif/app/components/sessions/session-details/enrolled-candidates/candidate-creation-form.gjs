@@ -455,27 +455,29 @@ export default class CandidateCreationForm extends Component {
           </PixSelect>
 
           {{#if this.isPrepaidBillingMode}}
-            <div class='new-candidate-form__tooltip'>
-              <label for='prepayment-code' class='label'>
-                {{t 'common.forms.certification-labels.prepayment-code'}}
-              </label>
-              <PixTooltip @id='tooltip-prepayment-code' @position='left'>
-                <:triggerElement>
-                  <PixIcon
-                    @plainIcon={{true}}
-                    @name='info'
-                    @ariaHidden={{true}}
-                    aria-label={{t 'pages.sessions.detail.candidates.add-form.prepayment-information'}}
-                    tabindex='0'
-                    aria-describedby='tooltip-prepayment-code'
-                    class='new-candidate-tooltip__icon'
-                  />
-                </:triggerElement>
-                <:tooltip>
-                  {{t 'pages.sessions.detail.candidates.add-form.prepayment-tooltip' htmlSafe=true}}
-                </:tooltip>
-              </PixTooltip>
+            <div>
+              <div class='new-candidate-form__tooltip'>
+                <label for='prepayment-code' class='label'>
+                  {{t 'common.forms.certification-labels.prepayment-code'}}
+                </label>
+                <PixTooltip @id='tooltip-prepayment-code' @position='left'>
+                  <:triggerElement>
+                    <PixIcon
+                      @plainIcon={{true}}
+                      @name='info'
+                      @ariaHidden={{true}}
+                      aria-label={{t 'pages.sessions.detail.candidates.add-form.prepayment-information'}}
+                      tabindex='0'
+                      aria-describedby='tooltip-prepayment-code'
+                      class='new-candidate-tooltip__icon'
+                    />
+                  </:triggerElement>
+                  <:tooltip>
+                    {{t 'pages.sessions.detail.candidates.add-form.prepayment-tooltip' htmlSafe=true}}
+                  </:tooltip>
+                </PixTooltip>
 
+              </div>
               <PixInput
                 @id='prepayment-code'
                 type='text'
