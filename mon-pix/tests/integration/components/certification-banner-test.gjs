@@ -1,12 +1,14 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
-import CertificationBanner from 'mon-pix/components/certification-banner';
+import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Certification Banner', function (hooks) {
   setupIntlRenderingTest(hooks);
+
+  const assessment = {};
 
   module('On component rendering', function (hooks) {
     const firstName = 'tom';
@@ -28,7 +30,9 @@ module('Integration | Component | Certification Banner', function (hooks) {
 
     test('should render component with user fullName', async function (assert) {
       // when
-      const screen = await render(<template><CertificationBanner @certification={{state.certification}} /></template>);
+      const screen = await render(
+        <template><AssessmentBanner @certification={{state.certification}} @assessment={{assessment}} /></template>,
+      );
 
       // then
       assert.dom(screen.getByRole('heading', { name: fullName })).exists();
@@ -36,10 +40,20 @@ module('Integration | Component | Certification Banner', function (hooks) {
 
     test('should render component with certificationNumber', async function (assert) {
       // when
+      const certification = EmberObject.create({
+        id: certificationNumber,
+        firstName,
+        lastName,
+      });
       const screen = await render(
-        <template><CertificationBanner @certificationNumber={{state.certificationNumber}} /></template>,
+        <template>
+          <AssessmentBanner
+            @certificationNumber={{state.certificationNumber}}
+            @assessment={{assessment}}
+            @certification={{certification}}
+          />
+        </template>,
       );
-
       // then
       assert.dom(screen.getByText('N° de certification')).exists();
       assert.dom(screen.getByText(certificationNumber)).exists();

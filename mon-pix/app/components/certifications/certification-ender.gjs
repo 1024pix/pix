@@ -2,13 +2,13 @@ import { PixBlock, PixButtonLink, PixIcon, PixNotificationAlert } from '@1024pix
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
-import CertificationBanner from 'mon-pix/components/certification-banner';
+import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
 
 export default class CertificationEnder extends Component {
   @service currentUser;
 
   <template>
-    <CertificationBanner @certificationNumber={{@certificationNumber}} />
+    <AssessmentBanner @certificationNumber={{@certificationNumber}} />
 
     <PixBlock class="certification-ender">
       <div class="certification-ender__finished-test">

@@ -144,7 +144,7 @@ export default class AssessmentBanner extends Component {
           </div>
         {{/unless}}
       </div>
-
+      {{log @certificationNumber}}
       {{#if this.isCertificationContext}}
         <ProgressBar
           @completionRate={{@completionRate}}
