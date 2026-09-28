@@ -1,4 +1,4 @@
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { PixTooltip } from '@1024pix/nebulix-ember';
 import { hash } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import t from 'ember-intl/helpers/t';

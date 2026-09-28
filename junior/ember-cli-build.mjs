@@ -12,7 +12,7 @@ const sourceMapConfig = {
 export default async function (defaults) {
   const app = new EmberApp(defaults, {
     sassOptions: {
-      includePaths: ['node_modules/@1024pix/pix-ui/addon/styles'],
+      includePaths: ['node_modules/@1024pix/nebulix-ember/dist/styles'],
     },
     'ember-cli-template-lint': {
       testGenerator: 'qunit', // or 'mocha', etc.
