@@ -1,4 +1,5 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 import { click, findAll } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import ApplicationAdapter from 'mon-pix/adapters/application';
@@ -1272,6 +1273,66 @@ module('Integration | Component | Module | Passage', function (hooks) {
         type: 'PASSAGE_TERMINATED',
       });
       assert.ok(true);
+    });
+
+    module('when an error occures while terminating ze module', function () {
+      test('displays an error notification', async function (assert) {
+        // given
+        class PassageAdapterStub extends ApplicationAdapter {
+          terminate = sinon.stub().rejects(new Error('Failed to fetch'));
+        }
+        this.owner.register('adapter:passage', PassageAdapterStub);
+        const router = this.owner.lookup('service:router');
+        router.transitionTo = sinon.stub();
+        const metrics = this.owner.lookup('service:pix-metrics');
+        metrics.trackEvent = sinon.stub();
+        const store = this.owner.lookup('service:store');
+        const passageEventsService = this.owner.lookup('service:passage-events');
+        passageEventsService.record = sinon.stub();
+
+        const sendErrorNotificationStub = sinon.stub();
+        class PixToastStub extends Service {
+          sendErrorNotification = sendErrorNotificationStub;
+        }
+        this.owner.register('service:pixToast', PixToastStub);
+
+        const qcuElement = {
+          instruction: 'instruction',
+          proposals: ['radio1', 'radio2'],
+          type: 'qcu',
+        };
+        const grain = {
+          id: '123',
+          title: 'Grain title',
+          components: [{ type: 'element', element: qcuElement }],
+        };
+        const section = store.createRecord('section', {
+          id: 'section1',
+          type: 'blank',
+          grains: [grain],
+        });
+
+        const module = store.createRecord('module', {
+          id: '3985aab1-5e6c-4682-b2c4-714ffa418555',
+          slug: 'comment-finir-un-module',
+          title: 'Comment finir un module ?',
+          sections: [section],
+        });
+        const passage = store.createRecord('passage');
+        await render(<template><ModulePassage @module={{module}} @passage={{passage}} /></template>);
+
+        // when
+        await clickByName(t('pages.modulix.buttons.grain.terminate'));
+
+        // then
+        sinon.assert.calledWithExactly(sendErrorNotificationStub, {
+          message: t('common.api-error-messages.internal-server-error'),
+        });
+        sinon.assert.notCalled(router.transitionTo);
+        sinon.assert.notCalled(metrics.trackEvent);
+        sinon.assert.notCalled(passageEventsService.record);
+        assert.ok(true);
+      });
     });
   });
 

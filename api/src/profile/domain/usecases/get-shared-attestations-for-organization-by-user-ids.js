@@ -53,7 +53,7 @@ export async function getSharedAttestationsForOrganizationByUserIds({
     return attestationForms;
   };
 
-  const data = users.sort(sortByLastNameThenFirstName).reduce(usersToAttestationForm, []);
+  const data = users.toSorted(sortByLastNameThenFirstName).reduce(usersToAttestationForm, []);
 
   return {
     data,

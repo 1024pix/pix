@@ -1,5 +1,5 @@
 import {
-  BadGatewayError,
+  InternalServerError,
   PreconditionFailedError,
   UnprocessableEntityError,
 } from '../../shared/application/errors/http-errors.js';
@@ -21,13 +21,13 @@ const devcompDomainErrorMappingConfiguration = [
   {
     name: ModuleInstantiationError.name,
     httpErrorFn: (error) => {
-      return new BadGatewayError(error.message, error.code, error.meta);
+      return new InternalServerError(error.message, error.code, error.meta);
     },
   },
   {
     name: ElementInstantiationError.name,
     httpErrorFn: (error) => {
-      return new BadGatewayError(error.message, error.code, error.meta);
+      return new InternalServerError(error.message, error.code, error.meta);
     },
   },
   {

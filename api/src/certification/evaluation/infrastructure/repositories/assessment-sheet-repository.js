@@ -26,9 +26,8 @@ export async function getByAssessmentId(assessmentId) {
     return null;
   }
 
-  const answers = await answerRepository.findByAssessment(data.assessmentId);
-
-  answers.sort((a, b) => a.createdAt - b.createdAt);
+  const unsortedAnswers = await answerRepository.findByAssessment(data.assessmentId);
+  const answers = unsortedAnswers.toSorted((a, b) => a.createdAt - b.createdAt);
 
   return new AssessmentSheet({
     ...data,

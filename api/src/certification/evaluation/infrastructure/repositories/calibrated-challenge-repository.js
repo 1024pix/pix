@@ -72,9 +72,9 @@ export async function getMany({ ids, version }) {
     throw new NotFoundError('Some challenges do not exist in LCMS');
   });
 
-  lcmsChallengeDtos.sort(_byId);
-  const calibratedSkillsMap = await loadCalibratedSkillsMap(lcmsChallengeDtos);
-  return toDomainMap({ lcmsChallengeDtos, calibrations, calibratedSkillsMap });
+  const sortedLcmsChallengeDtos = lcmsChallengeDtos.toSorted(_byId);
+  const calibratedSkillsMap = await loadCalibratedSkillsMap(sortedLcmsChallengeDtos);
+  return toDomainMap({ lcmsChallengeDtos: sortedLcmsChallengeDtos, calibrations, calibratedSkillsMap });
 }
 
 /**
@@ -102,9 +102,9 @@ export async function getAllCalibratedChallenges({ version }) {
     throw new NotFoundError('Some challenges do not exist in LCMS');
   });
 
-  lcmsChallengeDtos.sort(_byId);
-  const calibratedSkillsMap = await loadCalibratedSkillsMap(lcmsChallengeDtos);
-  return toDomainMap({ lcmsChallengeDtos, calibrations, calibratedSkillsMap });
+  const sortedLcmsChallengeDtos = lcmsChallengeDtos.toSorted(_byId);
+  const calibratedSkillsMap = await loadCalibratedSkillsMap(sortedLcmsChallengeDtos);
+  return toDomainMap({ lcmsChallengeDtos: sortedLcmsChallengeDtos, calibrations, calibratedSkillsMap });
 }
 
 function _byId(challenge1, challenge2) {

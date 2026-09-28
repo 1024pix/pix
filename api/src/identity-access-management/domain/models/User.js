@@ -141,11 +141,13 @@ class User {
   }
 
   convertAnonymousToRealUser(userAttributes) {
+    const date = new Date();
     return new User({
       ...this,
       ...userAttributes,
       isAnonymous: false,
-      lastTermsOfServiceValidatedAt: new Date(),
+      lastTermsOfServiceValidatedAt: date,
+      lastDataProtectionPolicySeenAt: date,
       mustValidateTermsOfService: false,
     });
   }

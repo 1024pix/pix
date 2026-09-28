@@ -30,7 +30,8 @@ describe('Quest | Integration | Repository | course-repository', function () {
       // then
       expect(result).to.have.lengthOf(1);
       expect(result[0]).to.be.instanceOf(CourseItem);
-      expect(result[0].id).to.equal(blueprint.id);
+      expect(result[0].id).to.equal(`${COURSE_ITEM_TYPES.BLUEPRINT}-${blueprint.id}`);
+      expect(result[0].sourceId).to.equal(blueprint.id);
       expect(result[0].name).to.equal('BleuImprimer');
       expect(result[0].type).to.equal(COURSE_ITEM_TYPES.BLUEPRINT);
     });
@@ -137,7 +138,8 @@ describe('Quest | Integration | Repository | course-repository', function () {
       // then
       expect(result).to.have.lengthOf(1);
       expect(result[0]).to.be.instanceOf(CourseItem);
-      expect(result[0].id).to.equal(targetProfileId);
+      expect(result[0].id).to.equal(`${COURSE_ITEM_TYPES.TARGET_PROFILE}-${targetProfileId}`);
+      expect(result[0].sourceId).to.equal(targetProfileId);
       expect(result[0].name).to.equal('Profil partagé');
       expect(result[0].type).to.equal(COURSE_ITEM_TYPES.TARGET_PROFILE);
       expect(result[0].nbTubes).to.equal(2);

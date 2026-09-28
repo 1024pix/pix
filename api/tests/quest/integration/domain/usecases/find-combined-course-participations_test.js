@@ -12,6 +12,20 @@ describe('Quest | Integration | Domain | Usecases | findCombinedCourseParticipat
   let combinedCourseId, participation1, participation2, learner1, learner2;
 
   beforeEach(async function () {
+    databaseBuilder.factory.learningContent.buildModule({
+      id: 'eeeb4951-6f38-4467-a4ba-0c85ed71321a',
+      shortId: '27d6ca4f',
+      slug: 'demo-combinix-1',
+      title: 'Demo combinix 1',
+      details: {
+        image: 'https://assets.pix.org/modules/placeholder-details.svg',
+        description: 'Un module de test',
+        duration: 1,
+        level: 'novice',
+        objectives: ['Test parcours combiné'],
+        tabletSupport: 'comfortable',
+      },
+    });
     const { id: campaignId, organizationId } = databaseBuilder.factory.buildCampaign();
     const reward = databaseBuilder.factory.buildAttestation({ id: 2 });
     const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({

@@ -2,7 +2,7 @@ const findDivisionsByOrganization = async function ({ organizationId, divisionRe
   const divisionsOrderedByPostgres = await divisionRepository.findByOrganizationIdForCurrentSchoolYear({
     organizationId,
   });
-  const divisionsOrderedByName = divisionsOrderedByPostgres.sort((divisionA, divisionB) =>
+  const divisionsOrderedByName = divisionsOrderedByPostgres.toSorted((divisionA, divisionB) =>
     divisionA.name.localeCompare(divisionB.name, 'fr'),
   );
   return divisionsOrderedByName;

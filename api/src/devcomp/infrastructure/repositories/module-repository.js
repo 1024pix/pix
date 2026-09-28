@@ -2,6 +2,7 @@ import crypto from 'node:crypto';
 
 import { LearningContentResourceNotFound, NotFoundError } from '../../../shared/domain/errors.js';
 import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
+import { LearningContentRedisRepository } from '../../../shared/infrastructure/repositories/learning-content-redis-repository.js';
 import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 import { ModuleDoesNotExistError } from '../../domain/errors.js';
 import { ModuleFactory } from '../factories/module-factory.js';
@@ -115,15 +116,24 @@ function getModuleMethod(ref, moduleDatasource) {
 }
 
 export function clearCache(id) {
-  return getInstance().clearCache(id);
+  return getInstance().clearCache?.(id);
 }
 
 const TABLE_NAME = 'learningcontent.modules';
 
+/** @type {LearningContentRedisRepository} */
+let redisInstance;
+
 /** @type {LearningContentRepository} */
 let instance;
 
-function getInstance() {
+export function getInstance() {
+  if (LearningContentRedisRepository.isEnabled) {
+    if (!redisInstance) {
+      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME, idType: 'uuid' });
+    }
+    return redisInstance;
+  }
   if (!instance) {
     instance = new LearningContentRepository({ tableName: TABLE_NAME, idType: 'uuid' });
   }

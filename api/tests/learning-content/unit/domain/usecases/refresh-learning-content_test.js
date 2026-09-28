@@ -103,6 +103,9 @@ describe('Learning Content | Unit | Domain | Usecase | Refresh learning content'
           { id: 'moduleD', version: '2.0' },
         ]),
       };
+      const learningContentCache = {
+        clear: sinon.stub(),
+      };
 
       // when
       await refreshLearningContent({
@@ -118,6 +121,7 @@ describe('Learning Content | Unit | Domain | Usecase | Refresh learning content'
         tutorialRepository,
         missionRepository,
         moduleRepository,
+        learningContentCache,
       });
 
       // then
@@ -153,6 +157,7 @@ describe('Learning Content | Unit | Domain | Usecase | Refresh learning content'
       expect(tutorialRepository.clearCache).to.have.been.calledOnceWithExactly();
       expect(missionRepository.clearCache).to.have.been.calledOnceWithExactly();
       expect(moduleRepository.clearCache).to.have.been.calledOnceWithExactly();
+      expect(learningContentCache.clear).to.have.been.calledOnceWithExactly();
     });
   });
 });

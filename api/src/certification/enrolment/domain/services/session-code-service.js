@@ -1,7 +1,7 @@
 import { config } from '../../../../../config/config.js';
 
 const INVIGILATOR_PASSWORD_LENGTH = 6;
-const INVIGILATOR_PASSWORD_CHARS = '23456789bcdfghjkmpqrstvwxyBCDFGHJKMPQRSTVWXY!*?'.split('');
+const INVIGILATOR_PASSWORD_CHARS = '23456789abcdefghjkmpqrstuvwxyABCDEFGHJKMPQRSTUVWXY!*?'.split('');
 
 function sample(array) {
   const len = array == null ? 0 : array.length;

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { Campaign } from '../../../../../src/quest/domain/models/combined-courses/value-objects/Campaign.js';
+import { Campaign } from '../../../../../src/quest/domain/models/combined-courses/value-objects/Campaign.ts';
 import * as campaignRepository from '../../../../../src/quest/infrastructure/repositories/combined-courses/campaign-repository.js';
 
 describe('Quest | Unit | Infrastructure | Repositories | campaign', function () {

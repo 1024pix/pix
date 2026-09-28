@@ -9,7 +9,7 @@ import { Embed } from './Embed.js';
 class EmbedForAnswerVerification extends Embed {
   userResponse;
   constructor({ id, instruction, solution, validator, title, url, height }) {
-    super({ id, instruction, isCompletionRequired: true, title, url, height });
+    super({ id, instruction, isCompletionRequired: true, solution, title, url, height });
 
     assertNotNullOrUndefined(solution, 'The solution is required for a verification embed');
 

@@ -123,7 +123,7 @@ function _buildListChallengesAndAnswers({ certificationAssessment, competencesWi
       };
     })
     .filter(Boolean)
-    .sort((a, b) => (a['competence'] > b['competence'] ? 1 : a['competence'] < b['competence'] ? -1 : 0));
+    .toSorted((a, b) => (a['competence'] > b['competence'] ? 1 : a['competence'] < b['competence'] ? -1 : 0));
 
   return answeredChallengesAndAnswers.concat(Object.values(unansweredChallengesAndAnswers));
 }

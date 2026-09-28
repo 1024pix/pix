@@ -2,6 +2,7 @@ import { config, schema as configSchema } from './config/config.js';
 import { databaseConnectionRegistry } from './db/database-connection-registry.js';
 import { createMaddoServer } from './server.maddo.js';
 import { JobGroup } from './src/shared/application/jobs/job-controller.js';
+import { learningContentCache } from './src/shared/infrastructure/caches/learning-content-redis-cache.js';
 import { JobClient } from './src/shared/infrastructure/jobs/JobClient.js';
 import { releaseInfrastructure } from './src/shared/infrastructure/release-infrastructure.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
@@ -14,6 +15,7 @@ let isShuttingDown = false;
 
 const start = async function () {
   await databaseConnectionRegistry.initialize(['api', 'datamart', 'datawarehouse']);
+  await learningContentCache.connect();
   server = await createMaddoServer();
   await server.start();
 };

@@ -12,5 +12,5 @@ import { Candidate } from '../models/Candidate.js';
  */
 export async function getEnrolledCandidatesInSession({ sessionId, candidateRepository }) {
   const candidates = await candidateRepository.findBySessionId({ sessionId });
-  return candidates.sort(Candidate.sortByLastNameAndFirstName);
+  return candidates.toSorted(Candidate.sortByLastNameAndFirstName);
 }

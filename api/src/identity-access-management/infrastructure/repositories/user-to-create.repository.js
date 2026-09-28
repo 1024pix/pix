@@ -90,6 +90,7 @@ function _toUserDomain(userDTO) {
     locale: userDTO.locale,
     isAnonymous: Boolean(userDTO.isAnonymous),
     lastTermsOfServiceValidatedAt: userDTO.lastTermsOfServiceValidatedAt,
+    lastDataProtectionPolicySeenAt: userDTO.lastDataProtectionPolicySeenAt,
     hasSeenNewDashboardInfo: Boolean(userDTO.hasSeenNewDashboardInfo),
     mustValidateTermsOfService: Boolean(userDTO.mustValidateTermsOfService),
     pixCertifTermsOfServiceAccepted: Boolean(userDTO.pixCertifTermsOfServiceAccepted),

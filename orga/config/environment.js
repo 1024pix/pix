@@ -28,7 +28,11 @@ module.exports = function (environment) {
         // e.g. 'with-controller': true
       },
     },
-
+    ANALYTICS: {
+      ENABLED: analyticsEnabled,
+      SCRIPT_URL: process.env.ANALYTICS_SCRIPT_URL,
+      SITE_ID: process.env.ANALYTICS_SITE_ID,
+    },
     APP: {
       API_HOST: process.env.API_HOST || '',
       APPLICATION_NAME: process.env.APP || 'pix-orga-local',
@@ -98,17 +102,6 @@ module.exports = function (environment) {
     pagination: {
       debounce: 500,
     },
-
-    metricsAdapters: [
-      {
-        name: 'PlausibleAdapter',
-        environments: analyticsEnabled ? ['all'] : [],
-        config: {
-          siteId: process.env.ANALYTICS_SITE_ID,
-          scriptUrl: process.env.ANALYTICS_SCRIPT_URL,
-        },
-      },
-    ],
   };
 
   if (environment === 'development') {

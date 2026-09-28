@@ -1,6 +1,7 @@
 import { schema as configSchema } from './config/config.js';
 import { databaseConnectionRegistry } from './db/database-connection-registry.js';
 import { checkJobGroups, JobGroup } from './src/shared/application/jobs/job-controller.js';
+import { learningContentCache } from './src/shared/infrastructure/caches/learning-content-redis-cache.js';
 import { JobClient } from './src/shared/infrastructure/jobs/JobClient.js';
 import { releaseInfrastructure } from './src/shared/infrastructure/release-infrastructure.js';
 import { child } from './src/shared/infrastructure/utils/logger.js';
@@ -21,6 +22,7 @@ async function main() {
 
   const requiredDatabases = jobGroup === JobGroup.MADDO ? ['api', 'datamart', 'datawarehouse'] : ['api'];
   await databaseConnectionRegistry.initialize(requiredDatabases);
+  await learningContentCache.connect();
 
   await JobClient.instance.initialize({ worker: true, jobGroups });
 

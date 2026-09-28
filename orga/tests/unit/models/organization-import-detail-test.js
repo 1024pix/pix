@@ -9,7 +9,7 @@ module('Unit | Model | organization-import-detail', function (hooks) {
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('organization-import-detail', {
           status,
-          errors: [Symbol('error')],
+          importErrors: [Symbol('error')],
         });
         assert.ok(model.hasError);
       });
@@ -29,7 +29,7 @@ module('Unit | Model | organization-import-detail', function (hooks) {
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('organization-import-detail', {
         status: 'IMPORTED',
-        errors: [Symbol('warning')],
+        importErrors: [Symbol('warning')],
       });
       assert.ok(model.hasWarning);
     });

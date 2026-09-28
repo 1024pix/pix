@@ -37,6 +37,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | upgradeT
     expect(realUser).to.include(userAttributes);
     expect(realUser.isAnonymous).to.be.false;
     expect(realUser.lastTermsOfServiceValidatedAt).to.be.instanceOf(Date);
+    expect(realUser.lastDataProtectionPolicySeenAt).to.be.instanceOf(Date);
     expect(realUser.mustValidateTermsOfService).to.be.false;
 
     const authenticationMethod = await knex('authentication-methods').where({ userId: realUser.id }).first();

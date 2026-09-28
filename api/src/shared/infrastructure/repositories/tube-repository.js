@@ -3,6 +3,7 @@ import { LearningContentResourceNotFound } from '../../domain/errors.js';
 import { Tube } from '../../domain/models/Tube.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { child, SCOPES } from '../utils/logger.js';
+import { LearningContentRedisRepository } from './learning-content-redis-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
 const TABLE_NAME = 'learningcontent.tubes';
@@ -58,11 +59,11 @@ export async function findActiveByRecordIds(ids, locale) {
 }
 
 export function clearCache(id) {
-  return getInstance().clearCache(id);
+  return getInstance().clearCache?.(id);
 }
 
 function toDomainList(tubeDtos, locale) {
-  return tubeDtos.sort(byName).map((tubeDto) => toDomain(tubeDto, locale));
+  return tubeDtos.toSorted(byName).map((tubeDto) => toDomain(tubeDto, locale));
 }
 
 function byName(tube1, tube2) {
@@ -87,10 +88,19 @@ function toDomain(tubeDto, locale) {
   });
 }
 
+/** @type {LearningContentRedisRepository} */
+let redisInstance;
+
 /** @type {LearningContentRepository} */
 let instance;
 
 function getInstance() {
+  if (LearningContentRedisRepository.isEnabled) {
+    if (!redisInstance) {
+      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME });
+    }
+    return redisInstance;
+  }
   if (!instance) {
     instance = new LearningContentRepository({ tableName: TABLE_NAME });
   }

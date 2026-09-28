@@ -15,6 +15,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Embed', function () {
         url: 'https://example.org',
         instruction: '<p>instruction</p>',
         height: 150,
+        solution: 'solution 1',
       };
 
       // when
@@ -28,6 +29,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Embed', function () {
       expect(embed.url).to.equal('https://example.org');
       expect(embed.instruction).to.equal('<p>instruction</p>');
       expect(embed.height).to.equal(150);
+      expect(embed.solution).to.equal('solution 1');
     });
 
     describe('isAnswerable', function () {

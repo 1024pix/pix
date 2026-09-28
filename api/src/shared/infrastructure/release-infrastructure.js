@@ -1,4 +1,5 @@
 import { databaseConnectionRegistry } from '../../../db/database-connection-registry.js';
+import { learningContentCache } from './caches/learning-content-redis-cache.js';
 import { JobClient } from './jobs/JobClient.js';
 import { quitAllStorages } from './key-value-storages/index.js';
 import { stopPushingMetrics } from './metrics/pushgateway.js';
@@ -16,6 +17,7 @@ const defaultDependencies = {
   redisMonitor,
   stopPushingMetrics,
   logger,
+  learningContentCache,
 };
 
 export function createReleaseInfrastructure(dependencies = {}) {
@@ -28,6 +30,7 @@ export function createReleaseInfrastructure(dependencies = {}) {
     redisMonitor,
     stopPushingMetrics,
     logger,
+    learningContentCache,
   } = { ...defaultDependencies, ...dependencies };
 
   let isReleased = false;
@@ -54,6 +57,7 @@ export function createReleaseInfrastructure(dependencies = {}) {
     await releaseResource('redis mutex', () => quitMutex());
     await releaseResource('redis monitor', () => redisMonitor.quit());
     await releaseResource('metrics pushgateway', () => stopPushingMetrics());
+    await releaseResource('learning content cache', () => learningContentCache.close());
   };
 }
 

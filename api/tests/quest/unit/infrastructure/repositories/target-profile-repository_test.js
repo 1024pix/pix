@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { TargetProfile } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/TargetProfile.js';
+import { TargetProfile } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/TargetProfile.ts';
 import * as targetProfileRepository from '../../../../../src/quest/infrastructure/repositories/combined-course-blueprints/target-profile-repository.js';
 
 describe('Quest | Unit | Infrastructure | Repositories | target-profile', function () {

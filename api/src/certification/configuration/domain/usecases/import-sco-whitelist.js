@@ -45,7 +45,7 @@ function _getCSVLineNumbersWithError({ externalIds, updatedExternalIds }) {
       return idLineNumbersOccurences;
     });
 
-    return csvLineNumbersWithError.sort();
+    return csvLineNumbersWithError.toSorted();
   }
 
   return [];

@@ -3,14 +3,17 @@ import { expect } from 'chai';
 import { AnonymizeUserEventHandler } from '../../../../src/identity-access-management/application/jobs/anonymize-user.event-handler.js';
 import { RefreshToken } from '../../../../src/identity-access-management/domain/models/RefreshToken.js';
 import { refreshTokenRepository } from '../../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
+import { revokedUserAccessRepository } from '../../../../src/identity-access-management/infrastructure/repositories/revoked-user-access.repository.js';
 import { temporaryStorage } from '../../../../src/shared/infrastructure/key-value-storages/index.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 
+const revokedUserAccessTemporaryStorage = temporaryStorage.withPrefix('revoked-user-access:');
 const refreshTokenTemporaryStorage = temporaryStorage.withPrefix('refresh-tokens:');
 const userRefreshTokensTemporaryStorage = temporaryStorage.withPrefix('user-refresh-tokens:');
 
 describe('Integration | Identity Access Management | Application | anonymize-user-event-handler', function () {
   beforeEach(async function () {
+    await revokedUserAccessTemporaryStorage.flushAll();
     await refreshTokenTemporaryStorage.flushAll();
     await userRefreshTokensTemporaryStorage.flushAll();
   });
@@ -80,6 +83,10 @@ describe('Integration | Identity Access Management | Application | anonymize-use
       });
       expect(resetPasswordDemands).to.have.lengthOf(0);
 
+      const revokedUserAccess = await revokedUserAccessRepository.findByUserId(user.id);
+      expect(revokedUserAccess.revokedAllTimeStamp).to.be.a('number');
+
+      // Legacy repository. Will be removed in the quite-near future.
       const refreshToken = await refreshTokenRepository.findAllByUserId({
         userId: user.id,
       });

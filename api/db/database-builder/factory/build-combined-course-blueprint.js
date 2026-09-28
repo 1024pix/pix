@@ -4,6 +4,16 @@ import { CombinedCourseBlueprint } from '../../../src/quest/domain/models/combin
 import { databaseBuffer } from '../database-buffer.js';
 import { buildQuest } from './build-quest.js';
 import { buildTargetProfile } from './build-target-profile.js';
+import { buildModule } from './learning-content/build-module.js';
+
+const DEFAULT_MODULE_COUNT = 5;
+
+function _buildDefaultModules() {
+  return Array.from({ length: DEFAULT_MODULE_COUNT }, () => {
+    const shortId = crypto.randomUUID().slice(0, 8);
+    return buildModule({ shortId, slug: `combined-course-blueprint-module-${shortId}` }).id;
+  });
+}
 
 const buildCombinedCourseBlueprint = function ({
   id = databaseBuffer.getNextId(),
@@ -19,32 +29,19 @@ const buildCombinedCourseBlueprint = function ({
   rewardRequirementsDescription = null,
 } = {}) {
   const targetProfileId = buildTargetProfile().id;
-  questId = _.isUndefined(questId)
-    ? buildQuest({
-        rewardType: null,
-        rewardId: null,
-        successRequirements: [
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
-            targetProfileId,
-          }).toDTO(),
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
-            moduleId: 'eeeb4951-6f38-4467-a4ba-0c85ed71321a',
-          }).toDTO(),
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
-            moduleId: 'f32a2238-4f65-4698-b486-15d51935d335',
-          }).toDTO(),
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
-            moduleId: '6282925d-4775-4bca-b513-4c3009ec5886',
-          }).toDTO(),
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
-            moduleId: '08ef1a47-b691-4138-b899-39f3512fa152',
-          }).toDTO(),
-          CombinedCourseBlueprint.buildRequirementForCombinedCourse({
-            moduleId: 'ab82925d-4775-4bca-b513-4c3009ec5886',
-          }).toDTO(),
-        ],
-      }).id
-    : questId;
+  if (_.isUndefined(questId)) {
+    const moduleIds = _buildDefaultModules();
+    questId = buildQuest({
+      rewardType: null,
+      rewardId: null,
+      successRequirements: [
+        CombinedCourseBlueprint.buildRequirementForCombinedCourse({
+          targetProfileId,
+        }).toDTO(),
+        ...moduleIds.map((moduleId) => CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO()),
+      ],
+    }).id;
+  }
 
   const values = {
     id,

@@ -247,11 +247,32 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
         organizationLearnerImportFormatPayload,
       );
       expect(organizationLearnerImportFormat.orderedDisplayableColumns).to.deep.equal([
-        { name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, position: 1 },
-        { name: IMPORT_KEY_FIELD.COMMON_DIVISION, position: 2 },
+        {
+          name: 'Date de naissance',
+          position: 1,
+          config: {
+            validate: { type: 'date', format: 'YYYY-MM-DD', required: true },
+            reconcile: { fieldId: 'reconcileField3', name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, position: 3 },
+            displayable: { position: 1, name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, filterable: { type: 'string' } },
+            exportable: true,
+          },
+        },
+        {
+          name: 'CATEGORY',
+          position: 2,
+          config: {
+            mappingColumn: 'catégorie',
+            displayable: {
+              position: 2,
+              name: IMPORT_KEY_FIELD.COMMON_DIVISION,
+              filterable: { type: 'string' },
+            },
+            exportable: true,
+            validate: { type: 'string', required: true },
+          },
+        },
       ]);
     });
-
     it('should return empty when displayableColumns is not defined', function () {
       organizationLearnerImportFormatPayload.config.headers = [
         {
@@ -299,8 +320,28 @@ describe('Unit | Models | OrganizationLearnerImportFormat', function () {
         organizationLearnerImportFormatPayload,
       );
       expect(organizationLearnerImportFormat.columnsToDisplay).to.deep.equal([
-        IMPORT_KEY_FIELD.COMMON_BIRTHDATE,
-        IMPORT_KEY_FIELD.COMMON_DIVISION,
+        { name: IMPORT_KEY_FIELD.COMMON_BIRTHDATE, type: 'date', format: 'YYYY-MM-DD' },
+        { name: IMPORT_KEY_FIELD.COMMON_DIVISION },
+      ]);
+    });
+
+    it('should fallback on column name if displayable.name is not provided', function () {
+      const organizationLearnerImportFormat = new OrganizationLearnerImportFormat({
+        name: 'TEST',
+        fileType: 'csv',
+        config: {
+          unicityColumns: ['Identifiant'],
+          headers: [
+            { name: 'Identifiant', config: { displayable: { position: 2 } } },
+            { name: 'Name', config: { displayable: { position: 1, name: 'Nom prénom' } } },
+          ],
+        },
+        createdAt: new Date(),
+        createdBy: 1,
+      });
+      expect(organizationLearnerImportFormat.columnsToDisplay).to.deep.equal([
+        { name: 'Nom prénom' },
+        { name: 'Identifiant' },
       ]);
     });
 

@@ -16,14 +16,14 @@ describe('Deprecated | Unit | Domain | UseCase | get-prescriber', function () {
   beforeEach(function () {
     expectedResult = Symbol('prescriber');
     prescriberRepository = { getPrescriber: sinon.stub() };
-    membershipRepository = { findByUserId: sinon.stub() };
+    membershipRepository = { findActiveByUserId: sinon.stub() };
     userOrgaSettingsRepository = { findOneByUserId: sinon.stub(), create: sinon.stub(), update: sinon.stub() };
   });
 
   context('When user is not a member of any organization', function () {
     it('should throw UserNotMemberOfOrganizationError', async function () {
       // given
-      membershipRepository.findByUserId.resolves([]);
+      membershipRepository.findActiveByUserId.resolves([]);
 
       // when
       const error = await catchErr(getPrescriber)({
@@ -44,7 +44,7 @@ describe('Deprecated | Unit | Domain | UseCase | get-prescriber', function () {
       const user = domainBuilder.buildUser({ id: userId });
       const membership1 = domainBuilder.buildMembership({ user });
       const membership2 = domainBuilder.buildMembership({ user });
-      membershipRepository.findByUserId.withArgs(userId).resolves([membership1, membership2]);
+      membershipRepository.findActiveByUserId.withArgs(userId).resolves([membership1, membership2]);
       userOrgaSettingsRepository.findOneByUserId.withArgs(userId).resolves(null);
 
       // when
@@ -63,7 +63,7 @@ describe('Deprecated | Unit | Domain | UseCase | get-prescriber', function () {
       // given
       const user = domainBuilder.buildUser({ id: userId });
       const membership = domainBuilder.buildMembership({ user });
-      membershipRepository.findByUserId.withArgs(userId).resolves([membership]);
+      membershipRepository.findActiveByUserId.withArgs(userId).resolves([membership]);
       userOrgaSettingsRepository.findOneByUserId.withArgs(userId).resolves(null);
       prescriberRepository.getPrescriber.withArgs({ userId }).resolves(expectedResult);
 
@@ -85,7 +85,7 @@ describe('Deprecated | Unit | Domain | UseCase | get-prescriber', function () {
       // given
       const user = domainBuilder.buildUser({ id: userId });
       const membership = domainBuilder.buildMembership({ user });
-      membershipRepository.findByUserId.withArgs(userId).resolves([membership]);
+      membershipRepository.findActiveByUserId.withArgs(userId).resolves([membership]);
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
         currentOrganization: membership.organisation,
         user: membership.user,
@@ -108,7 +108,7 @@ describe('Deprecated | Unit | Domain | UseCase | get-prescriber', function () {
       // given
       const user = domainBuilder.buildUser({ id: userId });
       const membership = domainBuilder.buildMembership({ user });
-      membershipRepository.findByUserId.withArgs(userId).resolves([membership]);
+      membershipRepository.findActiveByUserId.withArgs(userId).resolves([membership]);
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
         currentOrganization: membership.organisation,
         user: membership.user,
@@ -134,7 +134,7 @@ describe('Deprecated | Unit | Domain | UseCase | get-prescriber', function () {
         const user = domainBuilder.buildUser({ id: userId });
         const membership1 = domainBuilder.buildMembership({ user });
         const membership2 = domainBuilder.buildMembership({ user });
-        membershipRepository.findByUserId.withArgs(userId).resolves([membership1, membership2]);
+        membershipRepository.findActiveByUserId.withArgs(userId).resolves([membership1, membership2]);
         const outdatedOrganization = domainBuilder.buildOrganization();
         const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
           currentOrganization: outdatedOrganization,

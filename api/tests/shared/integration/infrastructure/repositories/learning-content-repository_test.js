@@ -163,6 +163,79 @@ describe('Integration | Repository | learning-repository', function () {
           expect(queryHook).not.to.have.been.called;
         });
       });
+
+      describe('when result is partially cached', function () {
+        it('returns entities from cache and db', async function () {
+          // given
+          const cachedIds = ['entity2', 'entity3', 'entity5'];
+          const ids = ['entity4', 'entity1', 'entity5'];
+          await repository.loadMany(cachedIds);
+          queryHook.reset();
+
+          // when
+          const dtos = await repository.loadMany(ids);
+
+          // then
+          expect(dtos).to.deep.equal([
+            { id: 'entity4', name: 'Entity 4', group: 'group2' },
+            { id: 'entity1', name: 'Entity 1', group: 'group1' },
+            { id: 'entity5', name: 'Entity 5', group: 'group2' },
+          ]);
+          expect(queryHook).to.have.been.calledOnce;
+        });
+      });
+
+      describe('when called with an empty array', function () {
+        it('returns an empty array', async function () {
+          // given
+          const ids = [];
+
+          // when
+          const dtos = await repository.loadMany(ids);
+
+          // then
+          expect(dtos).to.deep.equal([]);
+          expect(queryHook).not.to.have.been.called;
+        });
+      });
+
+      describe('when some ids are not found', function () {
+        it('returns null for missing entities', async function () {
+          // given
+          const ids = ['entity4', 'notfound', 'entity5'];
+
+          // when
+          const dtos = await repository.loadMany(ids);
+
+          // then
+          expect(dtos).to.deep.equal([
+            { id: 'entity4', name: 'Entity 4', group: 'group2' },
+            null,
+            { id: 'entity5', name: 'Entity 5', group: 'group2' },
+          ]);
+          expect(queryHook).to.have.been.calledOnce;
+        });
+
+        describe('when result is cached', function () {
+          it('returns null for missing entities', async function () {
+            // given
+            const ids = ['entity4', 'notfound', 'entity5'];
+            await repository.loadMany(ids);
+            queryHook.reset();
+
+            // when
+            const dtos = await repository.loadMany(ids);
+
+            // then
+            expect(dtos).to.deep.equal([
+              { id: 'entity4', name: 'Entity 4', group: 'group2' },
+              null,
+              { id: 'entity5', name: 'Entity 5', group: 'group2' },
+            ]);
+            expect(queryHook).not.to.have.been.called;
+          });
+        });
+      });
     });
 
     describe('when database error', function () {
@@ -208,6 +281,35 @@ describe('Integration | Repository | learning-repository', function () {
           // then
           expect(dto).to.deep.equal({ id: 'entity3', name: 'Entity 3', group: 'group1' });
           expect(queryHook).not.to.have.been.called;
+        });
+      });
+
+      describe('when id is not found', function () {
+        it('returns null', async function () {
+          // given
+          const id = 'not found';
+
+          // when
+          const dto = await repository.load(id);
+
+          // then
+          expect(dto).to.be.null;
+        });
+
+        describe('when result is cached', function () {
+          it('returns null from cache', async function () {
+            // given
+            const id = 'not found';
+            await repository.load(id);
+            queryHook.reset();
+
+            // when
+            const dto = await repository.load(id);
+
+            // then
+            expect(dto).to.be.null;
+            expect(queryHook).not.to.have.been.called;
+          });
         });
       });
     });

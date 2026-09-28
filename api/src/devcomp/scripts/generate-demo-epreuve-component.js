@@ -45,7 +45,7 @@ export class GenerateDemoEpreuveComponentFile extends Script {
               const props = propsExamples[key];
               return generateGrain(key, props);
             })
-            .sort(byPOIName),
+            .toSorted(byPOIName),
         },
       ],
       glossary: [],

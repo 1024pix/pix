@@ -150,7 +150,7 @@ module('Integration | Component | Import::Banner', function (hooks) {
         createdBy: { firstName: 'Richard', lastName: 'Aldana' },
         createdAt: new Date(2020, 10, 1),
         updatedAt: new Date(2020, 10, 2),
-        errors: [{ code: 'UAI_MISMATCHED', meta: {} }],
+        importErrors: [{ code: 'UAI_MISMATCHED', meta: {} }],
       });
       // when
       const isLoading = false;
@@ -206,7 +206,7 @@ module('Integration | Component | Import::Banner', function (hooks) {
         status: 'IMPORTED',
         createdBy: { firstName: 'Richard', lastName: 'Aldana' },
         updatedAt: new Date(2020, 10, 2),
-        errors: [{ code: 'warning', meta: {} }],
+        importErrors: [{ code: 'warning', meta: {} }],
       });
       // when
       const screen = await render(
@@ -231,7 +231,7 @@ module('Integration | Component | Import::Banner', function (hooks) {
         status: 'VALIDATION_ERROR',
         createdAt,
         createdBy: { firstName: 'Dark', lastName: 'Vador' },
-        errors: [{ meta: [{ code: 'UAI_MISMATCHED' }], name: 'AggregateImportError' }],
+        importErrors: [{ meta: [{ code: 'UAI_MISMATCHED' }], name: 'AggregateImportError' }],
         hasFixableErrors: true,
       });
       // when
@@ -273,7 +273,7 @@ module('Integration | Component | Import::Banner', function (hooks) {
         status: 'IMPORT_ERROR',
         createdAt,
         createdBy: { firstName: 'Dark', lastName: 'Vador' },
-        errors: [
+        importErrors: [
           {
             name: 'OrganizationLearnersCouldNotBeSavedError',
             message: 'An error occurred during process',
@@ -321,7 +321,7 @@ module('Integration | Component | Import::Banner', function (hooks) {
         status: 'IMPORT_ERROR',
         createdAt,
         createdBy: { firstName: 'Dark', lastName: 'Vador' },
-        errors: [{ code: 'ERROR', meta: {} }],
+        importErrors: [{ code: 'ERROR', meta: {} }],
         hasFixableErrors: true,
       });
       // when

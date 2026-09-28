@@ -25,6 +25,7 @@ export const requiredFieldNamesForOrganizationsImport = [
   'parentOrganizationId',
   'countryCode',
   'organizationLearnerTypeId',
+  'categoryId',
 ];
 
 export async function deserializeForOrganizationsImport(file) {
@@ -53,6 +54,7 @@ export async function deserializeForOrganizationsImport(file) {
           columnName === 'administrationTeamId' ||
           columnName === 'countryCode' ||
           columnName === 'organizationLearnerTypeId' ||
+          columnName === 'categoryId' ||
           columnName === 'credit'
         ) {
           value = parseInt(value, 10);
@@ -73,7 +75,8 @@ export async function deserializeForOrganizationsImport(file) {
           columnName === 'administrationTeamId' ||
           columnName === 'countryCode' ||
           columnName === 'organizationLearnerTypeId' ||
-          columnName === 'credit'
+          columnName === 'credit' ||
+          columnName === 'categoryId'
         ) {
           value = null;
         }

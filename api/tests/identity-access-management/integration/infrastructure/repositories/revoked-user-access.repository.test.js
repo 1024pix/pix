@@ -84,8 +84,8 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         const result = await revokedUserAccessRepository.findByUserId(12345);
 
         // then
-        result.revokedSessionIds.sort();
-        expect(result).to.deep.equal({
+        const sortedResult = { ...result, revokedSessionIds: result.revokedSessionIds.toSorted() };
+        expect(sortedResult).to.deep.equal({
           revokedAllTimeStamp,
           revokedSessionIds: ['session1', 'session2'],
         });

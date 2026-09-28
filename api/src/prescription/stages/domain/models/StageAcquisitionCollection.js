@@ -16,7 +16,7 @@ class StageAcquisitionCollection {
   constructor(availableStages, stageAcquisitions) {
     this.#totalNumberOfStages = availableStages.length;
     this.#acquiredStages = availableStages
-      .sort(this.#sortByLevelOrThreshold)
+      .toSorted(this.#sortByLevelOrThreshold)
       .filter((availableStage) => stageAcquisitions.find(({ stageId }) => stageId === availableStage.id));
   }
 

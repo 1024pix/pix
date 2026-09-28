@@ -15,6 +15,20 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
       name: 'Diagnostic',
     });
     const moduleId = 'eeeb4951-6f38-4467-a4ba-0c85ed71321a';
+    databaseBuilder.factory.learningContent.buildModule({
+      id: moduleId,
+      shortId: '27d6ca4f',
+      slug: 'demo-combinix-1',
+      title: 'Demo combinix 1',
+      details: {
+        image: 'https://assets.pix.org/modules/placeholder-details.svg',
+        description: 'Un module de test',
+        duration: 1,
+        level: 'novice',
+        objectives: ['Test parcours combiné'],
+        tabletSupport: 'comfortable',
+      },
+    });
     const quest = databaseBuilder.factory.buildQuest({
       rewardType: null,
       rewardId: null,
@@ -143,6 +157,20 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
   });
   it('should return a combined course with module only', async function () {
     const moduleId = 'eeeb4951-6f38-4467-a4ba-0c85ed71321a';
+    databaseBuilder.factory.learningContent.buildModule({
+      id: moduleId,
+      shortId: '27d6ca4f',
+      slug: 'demo-combinix-1',
+      title: 'Demo combinix 1',
+      details: {
+        image: 'https://assets.pix.org/modules/placeholder-details.svg',
+        description: 'Un module de test',
+        duration: 1,
+        level: 'novice',
+        objectives: ['Test parcours combiné'],
+        tabletSupport: 'comfortable',
+      },
+    });
     const quest = databaseBuilder.factory.buildQuest({
       rewardType: null,
       rewardId: null,

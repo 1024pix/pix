@@ -93,6 +93,33 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
     });
 
     module('Import Feature cases', function () {
+      test('it should display oralization action when available', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          hasLearnerImportFeature = true;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        const participants = [];
+        participants.meta = {
+          headingCustomColumns: [{ name: 'ORALIZATION' }],
+        };
+        // when
+        const screen = await render(
+          <template>
+            <List
+              @participants={{participants}}
+              @triggerFiltering={{noop}}
+              @onClickLearner={{noop}}
+              @fullName={{fullNameFilter}}
+              @certificabilityFilter={{certificabilityFilter}}
+            />
+          </template>,
+        );
+        // then
+        assert.ok(screen.getByRole('columnheader', { name: 'Actions' }));
+      });
+
       test('it should display extra header when import feature available enabled', async function (assert) {
         // given
         class CurrentUserStub extends Service {
@@ -102,7 +129,7 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
 
         const participants = [];
         participants.meta = {
-          headingCustomColumns: ['awesome.column'],
+          headingCustomColumns: [{ name: 'awesome.column' }],
         };
         // when
         const screen = await render(
@@ -129,7 +156,7 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
 
         const participants = [];
         participants.meta = {
-          headingCustomColumns: ['awesome.column'],
+          headingCustomColumns: [{ name: 'awesome.column' }],
         };
 
         // when
@@ -236,7 +263,7 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
         ];
 
         participants.meta = {
-          headingCustomColumns: ['awesome.column'],
+          headingCustomColumns: [{ name: 'awesome.column' }],
         };
 
         // when
@@ -274,7 +301,7 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
         ];
 
         participants.meta = {
-          headingCustomColumns: ['awesome.column'],
+          headingCustomColumns: [{ name: 'awesome.column' }],
         };
 
         // when
@@ -422,7 +449,7 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
           this.owner.register('service:current-user', CurrentUserStub);
           participants.meta = {
             customFilters: ['COMMON_DIVISION'],
-            headingCustomColumns: [],
+            headingCustomColumns: [{ name: 'COMMON_DIVISION' }],
           };
         });
 

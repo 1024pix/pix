@@ -4,8 +4,9 @@ export const COURSE_ITEM_TYPES = {
 };
 
 export class CourseItem {
-  constructor({ id, name, type, nbTubes, nbModules, category, isSimplifiedAccess, areas, createdAt }) {
+  constructor({ id, sourceId, name, type, nbTubes, nbModules, category, isSimplifiedAccess, areas, createdAt }) {
     this.id = id;
+    this.sourceId = sourceId;
     this.createdAt = createdAt ?? null;
     this.name = name;
     this.type = type;

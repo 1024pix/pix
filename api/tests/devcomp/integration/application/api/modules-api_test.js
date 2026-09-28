@@ -25,6 +25,36 @@ describe('Integration | Devcomp | Application | Api | Modules', function () {
       const existingModuleId2 = 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d';
       const moduleIds = [existingModuleId1, existingModuleId2];
 
+      databaseBuilder.factory.learningContent.buildModule({
+        id: existingModuleId1,
+        shortId: '6a68bf32',
+        slug: 'bac-a-sable',
+        title: 'Bac à sable',
+        details: {
+          image: 'https://assets.pix.org/modules/placeholder-details.svg',
+          description: 'Un module de test',
+          duration: 5,
+          level: 'novice',
+          objectives: ['Découvrir le bac à sable'],
+          tabletSupport: 'comfortable',
+        },
+      });
+      databaseBuilder.factory.learningContent.buildModule({
+        id: existingModuleId2,
+        shortId: '9d4dcab8',
+        slug: 'bien-ecrire-son-adresse-mail',
+        title: 'Bien écrire une adresse mail',
+        details: {
+          image: 'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-details.svg',
+          description: 'Un module sur les adresses mail',
+          duration: 10,
+          level: 'novice',
+          objectives: ['Bien écrire une adresse mail'],
+          tabletSupport: 'comfortable',
+        },
+      });
+      await databaseBuilder.commit();
+
       // when
       const result = await modulesApi.getModulesByIds({ moduleIds });
 
@@ -108,6 +138,49 @@ describe('Integration | Devcomp | Application | Api | Modules', function () {
       const existingModuleId2 = 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d';
       const existingModuleId3 = '5df14039-803b-4db4-9778-67e4b84afbbd';
       const moduleIds = [existingModuleIdWithoutRelatedPassage, existingModuleId2, existingModuleId3];
+
+      databaseBuilder.factory.learningContent.buildModule({
+        id: existingModuleIdWithoutRelatedPassage,
+        shortId: '6a68bf32',
+        slug: 'bac-a-sable',
+        title: 'Bac à sable',
+        details: {
+          image: 'https://assets.pix.org/modules/placeholder-details.svg',
+          description: 'Un module de test',
+          duration: 5,
+          level: 'novice',
+          objectives: ['Découvrir le bac à sable'],
+          tabletSupport: 'comfortable',
+        },
+      });
+      databaseBuilder.factory.learningContent.buildModule({
+        id: existingModuleId2,
+        shortId: '9d4dcab8',
+        slug: 'bien-ecrire-son-adresse-mail',
+        title: 'Bien écrire une adresse mail',
+        details: {
+          image: 'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-details.svg',
+          description: 'Un module sur les adresses mail',
+          duration: 10,
+          level: 'novice',
+          objectives: ['Bien écrire une adresse mail'],
+          tabletSupport: 'comfortable',
+        },
+      });
+      databaseBuilder.factory.learningContent.buildModule({
+        id: existingModuleId3,
+        shortId: 'ecc13f55',
+        slug: 'adresse-ip-publique-et-vous',
+        title: "L'adresse IP publique : ce qu'elle révèle sur vous !",
+        details: {
+          image: 'https://assets.pix.org/modules/placeholder-details.svg',
+          description: "Un module sur l'adresse IP",
+          duration: 10,
+          level: 'novice',
+          objectives: ['Comprendre son adresse IP'],
+          tabletSupport: 'comfortable',
+        },
+      });
 
       databaseBuilder.factory.buildPassage({
         moduleId: existingModuleId2,
@@ -213,6 +286,36 @@ describe('Integration | Devcomp | Application | Api | Modules', function () {
       const existingModuleShortId1 = 'ecc13f55';
       const existingModuleShortId2 = 'e074af34';
       const moduleShortIds = [existingModuleShortId1, existingModuleShortId2];
+
+      databaseBuilder.factory.learningContent.buildModule({
+        id: '5df14039-803b-4db4-9778-67e4b84afbbd',
+        shortId: existingModuleShortId1,
+        slug: 'adresse-ip-publique-et-vous',
+        title: "L'adresse IP publique : ce qu'elle révèle sur vous !",
+        details: {
+          image: 'https://assets.pix.org/modules/placeholder-details.svg',
+          description: "Un module sur l'adresse IP",
+          duration: 10,
+          level: 'novice',
+          objectives: ['Comprendre son adresse IP'],
+          tabletSupport: 'comfortable',
+        },
+      });
+      databaseBuilder.factory.learningContent.buildModule({
+        id: '9beb922f-4d8e-495d-9c85-0e7265ca78d6',
+        shortId: existingModuleShortId2,
+        slug: 'au-dela-des-mots-de-passe',
+        title: 'Au-delà des mots de passe : comment s’authentifier ?',
+        details: {
+          image: 'https://assets.pix.org/modules/placeholder-details.svg',
+          description: 'Un module sur les mots de passe',
+          duration: 5,
+          level: 'novice',
+          objectives: ["S'authentifier sans mot de passe"],
+          tabletSupport: 'comfortable',
+        },
+      });
+      await databaseBuilder.commit();
 
       // when
       const result = await modulesApi.getModulesByShortIds({ moduleShortIds });

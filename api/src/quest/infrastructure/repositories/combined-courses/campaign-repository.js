@@ -1,5 +1,5 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { Campaign } from '../../../domain/models/combined-courses/value-objects/Campaign.js';
+import { Campaign } from '../../../domain/models/combined-courses/value-objects/Campaign.ts';
 
 export const getByCode = async function ({ code, campaignsApi }) {
   const campaign = await campaignsApi.getByCode(code);

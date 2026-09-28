@@ -15,6 +15,7 @@ export async function refreshLearningContent({
   tutorialRepository,
   missionRepository,
   moduleRepository,
+  learningContentCache,
 }) {
   const learningContent = await lcmsClient.getRelease();
 
@@ -41,6 +42,8 @@ export async function refreshLearningContent({
 
     await moduleRepository.saveMany(newerModules);
   });
+
+  await learningContentCache.clear();
 
   areaRepository.clearCache();
   competenceRepository.clearCache();

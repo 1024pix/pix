@@ -19,6 +19,11 @@ describe('DevComp | Integration | Domain | Usecases | findRecommendableModulesBy
 
     databaseBuilder.factory.buildTargetProfileTraining({ targetProfileId: targetProfileId1, trainingId: training.id });
     databaseBuilder.factory.buildTargetProfileTraining({ targetProfileId: targetProfileId2, trainingId: training.id });
+    databaseBuilder.factory.learningContent.buildModule({
+      id: moduleId,
+      shortId: 'ecc13f55',
+      slug: 'adresse-ip-publique-et-vous',
+    });
     await databaseBuilder.commit();
 
     const recommendedModules = await usecases.findRecommendableModulesByTargetProfileIds({
@@ -44,6 +49,11 @@ describe('DevComp | Integration | Domain | Usecases | findRecommendableModulesBy
     });
 
     databaseBuilder.factory.buildTargetProfileTraining({ targetProfileId: targetProfileId1, trainingId: training.id });
+    databaseBuilder.factory.learningContent.buildModule({
+      id: moduleId,
+      shortId: 'ecc13f55',
+      slug: 'adresse-ip-publique-et-vous',
+    });
     await databaseBuilder.commit();
 
     //when
@@ -79,6 +89,11 @@ describe('DevComp | Integration | Domain | Usecases | findRecommendableModulesBy
 
     databaseBuilder.factory.buildTargetProfileTraining({ targetProfileId: targetProfileId1, trainingId: training.id });
     databaseBuilder.factory.buildTargetProfileTraining({ targetProfileId: targetProfileId1, trainingId: training2.id });
+    databaseBuilder.factory.learningContent.buildModule({
+      id: module2Id,
+      shortId: 'ecc13f55',
+      slug: 'adresse-ip-publique-et-vous',
+    });
 
     await databaseBuilder.commit();
 

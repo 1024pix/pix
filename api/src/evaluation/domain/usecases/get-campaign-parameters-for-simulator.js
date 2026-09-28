@@ -40,7 +40,7 @@ const findCompetencesOfSkills = async ({ skills, locale, competenceRepository, a
 
   return competences
     .map(({ id, index, name, areaId }) => ({ id, index, name, areaColor: areaColorById.get(areaId) ?? null }))
-    .sort((competence, otherCompetence) =>
+    .toSorted((competence, otherCompetence) =>
       competence.index.localeCompare(otherCompetence.index, undefined, { numeric: true }),
     );
 };

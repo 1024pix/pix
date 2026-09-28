@@ -53,7 +53,7 @@ export default class Organization extends Model {
 
   @hasMany<Division>('division', { async: true, inverse: null }) declare divisions: AsyncHasMany<Division>;
 
-  @belongsTo('participation-statistic', { async: true, inverse: null })
+  @belongsTo<ParticipationStatistic>('participation-statistic', { async: true, inverse: null })
   declare participationStatistics: AsyncBelongsTo<ParticipationStatistic>;
 
   get hasGarIdentityProvider(): boolean {

@@ -43,7 +43,7 @@ function _getLowestByLevel(complementaryCertificationCourseResults) {
     return { acquired: false };
   }
   // eslint-disable-next-line no-unused-vars
-  const [lowestByLevel, ...tail] = complementaryCertificationCourseResults.sort((a, b) => {
+  const [lowestByLevel, ...tail] = complementaryCertificationCourseResults.toSorted((a, b) => {
     return a['level'] > b['level'] ? 1 : b['level'] > a['level'] ? -1 : 0;
   });
   return lowestByLevel;

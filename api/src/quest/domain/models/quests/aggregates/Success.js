@@ -40,7 +40,7 @@ export class Success {
       return 0;
     }
     const uniqCampaignSkills = this.skills;
-    const sortedKEByDateDesc = this.knowledgeElements.sort((keA, keB) => keB.createdAt - keA.createdAt);
+    const sortedKEByDateDesc = this.knowledgeElements.toSorted((keA, keB) => keB.createdAt - keA.createdAt);
     let total = 0;
     let validated = 0;
     for (const cappedTube of cappedTubes) {

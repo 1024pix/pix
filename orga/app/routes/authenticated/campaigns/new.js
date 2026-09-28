@@ -52,7 +52,6 @@ export default class NewRoute extends Route {
         ]);
         campaignAttributes.name = `${this.intl.t('pages.campaign-creation.copy-of')} ${from.name}`;
         if (campaignAttributes.targetProfileId) {
-          params.courseId = campaignAttributes.targetProfileId;
           campaignAttributes.targetProfile = await this.store.peekRecord(
             'target-profile',
             campaignAttributes.targetProfileId,
@@ -74,13 +73,19 @@ export default class NewRoute extends Route {
         backgroundReload: false,
         adapterOptions: { organizationId: organization.id },
       });
-      if (params?.courseId) {
-        campaign.course = courses.find(({ id }) => id === params.courseId);
+      if (params?.courseId || params?.source) {
+        if (params?.courseId) {
+          campaign.course = courses.find(({ id }) => id === params.courseId);
+        } else {
+          campaign.course = courses
+            .filter(({ type }) => type === 'targetProfile')
+            .find((course) => course.sourceId.toString() === campaign.targetProfileId);
+        }
 
-        if (!campaign.type && campaign.course.type === 'targetProfile') {
+        if (!campaign.type && campaign.course?.type === 'targetProfile') {
           campaign.setType('ASSESSMENT');
         }
-        if (campaign.course.type === 'blueprint') {
+        if (campaign.course?.type === 'blueprint') {
           campaign.setType('COMBINED_COURSE');
         }
       }

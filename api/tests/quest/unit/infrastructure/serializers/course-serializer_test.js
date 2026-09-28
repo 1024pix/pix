@@ -19,7 +19,8 @@ describe('Quest | Unit | Infrastructure | Serializers | course', function () {
       };
       const courseItems = [
         new CourseItem({
-          id: 1,
+          id: 'blueprint-1',
+          sourceId: 1,
           name: 'Blueprint A',
           type: COURSE_ITEM_TYPES.BLUEPRINT,
           nbTubes: 7,
@@ -29,7 +30,8 @@ describe('Quest | Unit | Infrastructure | Serializers | course', function () {
           areas: [area],
         }),
         new CourseItem({
-          id: 2,
+          id: 'targetProfile-2',
+          sourceId: 2,
           name: 'Profil cible B',
           type: COURSE_ITEM_TYPES.TARGET_PROFILE,
           nbTubes: 5,
@@ -46,7 +48,7 @@ describe('Quest | Unit | Infrastructure | Serializers | course', function () {
       expect(serialized).to.deep.equal({
         data: [
           {
-            id: '1',
+            id: 'blueprint-1',
             type: 'courses',
             attributes: {
               name: 'Blueprint A',
@@ -55,13 +57,14 @@ describe('Quest | Unit | Infrastructure | Serializers | course', function () {
               'nb-modules': 3,
               category: null,
               'is-simplified-access': null,
+              'source-id': 1,
             },
             relationships: {
               areas: { data: [{ type: 'areas', id: 'recAreaA' }] },
             },
           },
           {
-            id: '2',
+            id: 'targetProfile-2',
             type: 'courses',
             attributes: {
               name: 'Profil cible B',
@@ -70,6 +73,7 @@ describe('Quest | Unit | Infrastructure | Serializers | course', function () {
               'nb-modules': null,
               category: 'PREDEFINED',
               'is-simplified-access': true,
+              'source-id': 2,
             },
             relationships: {
               areas: { data: [{ type: 'areas', id: 'recAreaA' }] },

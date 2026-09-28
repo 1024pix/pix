@@ -3,6 +3,7 @@ import Joi from 'joi';
 import { config } from '../../../../config/config.js';
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { InvalidLtiPlatformRegistrationError } from '../errors.js';
+import { LtiPlatformRegistration } from '../models/LtiPlatformRegistration.js';
 
 const logger = child('iam:lti', { event: SCOPES.IAM });
 
@@ -132,18 +133,20 @@ export async function registerLtiPlatform({
   const { publicKey, privateKey } = await cryptoService.generateJSONWebKeyPair();
   const encryptedPrivateKey = await cryptoService.encrypt(JSON.stringify(privateKey));
 
-  await ltiPlatformRegistrationRepository.save({
+  const savedRegistration = await ltiPlatformRegistrationRepository.save({
     clientId: pixToolRegistration.client_id,
     platformOrigin: platformConfiguration.issuer,
     platformOpenIdConfigUrl: platformConfigurationUrl,
     encryptedPrivateKey,
     toolConfig: pixToolRegistration,
     publicKey,
-    status: 'pending',
+    status: LtiPlatformRegistration.status.PENDING,
   });
 
   logger.info(
     { client_id: pixToolRegistration.client_id, issuer: platformConfiguration.issuer },
     'Registration with LTI platform done.',
   );
+
+  return savedRegistration;
 }

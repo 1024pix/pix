@@ -43,7 +43,7 @@ class OrganizationLearnerImportFormat {
   #sortObject = (columnA, columnB) => columnA.position - columnB.position;
 
   get #displayable() {
-    return this.config.headers.flatMap((header) => (header?.config?.displayable ? header : [])).slice();
+    return this.config.headers.flatMap((header) => (header?.config?.displayable ? header : []));
   }
 
   get reconciliationFields() {
@@ -58,7 +58,7 @@ class OrganizationLearnerImportFormat {
             }
           : [],
       )
-      .sort(this.#sortObject);
+      .toSorted(this.#sortObject);
   }
 
   get headersName() {
@@ -67,10 +67,10 @@ class OrganizationLearnerImportFormat {
 
   get orderedDisplayableColumns() {
     return this.#displayable
-      .map(({ config }) => {
-        return { name: config.displayable.name, position: config.displayable.position };
+      .map(({ name, config }) => {
+        return { name, config, position: config?.displayable?.position };
       })
-      .sort(this.#sortObject);
+      .toSorted(this.#sortObject);
   }
 
   get orderedFilterableColumns() {
@@ -80,11 +80,22 @@ class OrganizationLearnerImportFormat {
           ? { name: config.displayable.name, position: config.displayable.position }
           : [],
       )
-      .sort(this.#sortObject);
+      .toSorted(this.#sortObject);
   }
 
   get columnsToDisplay() {
-    return this.orderedDisplayableColumns.map((column) => column?.config?.mappingColumn ?? column.name);
+    return this.orderedDisplayableColumns.map((column) => {
+      if (column.config?.validate?.type === 'date') {
+        return {
+          name: column.config.displayable?.name ?? column.name,
+          type: column.config?.validate?.type,
+          format: column.config?.validate?.format,
+        };
+      }
+      return {
+        name: column.config.displayable?.name ?? column.name,
+      };
+    });
   }
 
   get filtersToDisplay() {

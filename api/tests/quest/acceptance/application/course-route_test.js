@@ -38,7 +38,8 @@ describe('Quest | Acceptance | Application | Course catalogue Route', function (
         const data = response.result.data;
         expect(data).to.have.lengthOf(1);
         expect(data[0].attributes.type).to.equal(COURSE_ITEM_TYPES.TARGET_PROFILE);
-        expect(Number(data[0].id)).to.equal(targetProfileFromShare.id);
+        expect(data[0].id).to.equal(`${COURSE_ITEM_TYPES.TARGET_PROFILE}-${targetProfileFromShare.id}`);
+        expect(data[0].attributes['source-id']).to.equal(targetProfileFromShare.id);
         expect(data[0].attributes.name).to.equal('Profil partagé');
       });
 

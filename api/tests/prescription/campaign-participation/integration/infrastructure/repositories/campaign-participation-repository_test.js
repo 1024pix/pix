@@ -386,7 +386,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       await databaseBuilder.commit();
 
       const notLockedParticipation = await DomainTransaction.execute(async () => {
-        campaignParticipationRepository.getLocked(participation.id);
+        await campaignParticipationRepository.getLocked(participation.id);
         // we mimick a concurrent call on the campaign-participations table on another row
         return knex('campaign-participations')
           .where({ id: campaignParticipationNotSharedId })

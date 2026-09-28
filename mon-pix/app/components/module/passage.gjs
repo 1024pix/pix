@@ -20,6 +20,8 @@ export default class ModulePassage extends Component {
   @service featureToggles;
   @service modulixNavigationProgress;
   @service modulixPreviewMode;
+  @service intl;
+  @service pixToast;
 
   @tracked grainsToDisplay = this.computeGrainsToDisplay();
 
@@ -171,7 +173,14 @@ export default class ModulePassage extends Component {
   @action
   async onModuleTerminate({ grainId }) {
     const adapter = this.store.adapterFor('passage');
-    await adapter.terminate({ passageId: this.args.passage.id });
+    try {
+      await adapter.terminate({ passageId: this.args.passage.id });
+    } catch {
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t('common.api-error-messages.internal-server-error'),
+      });
+      return;
+    }
     this.pixMetrics.trackEvent(`Clic sur le bouton Terminer`, {
       category: 'Modulix',
       moduleId: this.args.module.id,

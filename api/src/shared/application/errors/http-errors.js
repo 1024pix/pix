@@ -124,14 +124,6 @@ export class ServiceUnavailableError extends BaseHttpError {
   }
 }
 
-export class BadGatewayError extends BaseHttpError {
-  constructor(message) {
-    super(message);
-    this.title = 'BadGateway';
-    this.status = 502;
-  }
-}
-
 export class BadRequestError extends BaseHttpError {
   constructor(message, code, meta) {
     super(message);

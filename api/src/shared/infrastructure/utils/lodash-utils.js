@@ -31,11 +31,10 @@ _.mixin({
   areCSVequivalent: function (string1, string2) {
     if (_.isString(string1) && _.isString(string2)) {
       const splitTrimSort = function (str) {
-        return _.chain(str) // "3, 1, 2 "
+        return str // "3, 1, 2 "
           .split(',') // ["3"," 1"," 2 "]
           .map(_.trim) // ["3","1","2"]
-          .sort() // ["1","2","3"]
-          .value();
+          .toSorted(); // ["1","2","3"]
       };
       return _(splitTrimSort(string1)).isEqual(splitTrimSort(string2));
     }

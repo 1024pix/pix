@@ -4,6 +4,7 @@ import { NotFoundError } from '../../domain/errors.js';
 import { Competence } from '../../domain/models/Competence.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { child, SCOPES } from '../utils/logger.js';
+import { LearningContentRedisRepository } from './learning-content-redis-repository.js';
 import { LearningContentRepository } from './learning-content-repository.js';
 
 const TABLE_NAME = 'learningcontent.competences';
@@ -42,12 +43,12 @@ export async function findByRecordIds({ competenceIds, locale }) {
   const competenceDtos = await getInstance().getMany(competenceIds);
   return competenceDtos
     .filter((competenceDto) => competenceDto)
-    .sort(byId)
+    .toSorted(byId)
     .map((competenceDto) => toDomain({ competenceDto, locale }));
 }
 
 export function clearCache(id) {
-  return getInstance().clearCache(id);
+  return getInstance().clearCache?.(id);
 }
 
 function byId(entityA, entityB) {
@@ -70,10 +71,19 @@ function toDomain({ competenceDto, locale }) {
   });
 }
 
+/** @type {LearningContentRedisRepository} */
+let redisInstance;
+
 /** @type {LearningContentRepository} */
 let instance;
 
 function getInstance() {
+  if (LearningContentRedisRepository.isEnabled) {
+    if (!redisInstance) {
+      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME });
+    }
+    return redisInstance;
+  }
   if (!instance) {
     instance = new LearningContentRepository({ tableName: TABLE_NAME });
   }

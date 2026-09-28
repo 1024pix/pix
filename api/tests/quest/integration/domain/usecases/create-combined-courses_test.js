@@ -64,6 +64,35 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
     const blueprint1 = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId: blueprintQuest1Id });
     const blueprint2 = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId: blueprintQuest2Id });
 
+    databaseBuilder.factory.learningContent.buildModule({
+      id: '5df14039-803b-4db4-9778-67e4b84afbbd',
+      shortId: 'ecc13f55',
+      slug: 'adresse-ip-publique-et-vous',
+      title: "L'adresse IP publique : ce qu'elle révèle sur vous !",
+      details: {
+        image: 'https://assets.pix.org/modules/placeholder-details.svg',
+        description: "Un module sur l'adresse IP",
+        duration: 10,
+        level: 'novice',
+        objectives: ['Comprendre son adresse IP'],
+        tabletSupport: 'comfortable',
+      },
+    });
+    databaseBuilder.factory.learningContent.buildModule({
+      id: 'f32a2238-4f65-4698-b486-15d51935d335',
+      shortId: 'df82ec66',
+      slug: 'demo-combinix-2',
+      title: 'Demo combinix 2',
+      details: {
+        image: 'https://assets.pix.org/modules/placeholder-details.svg',
+        description: 'Un module de test',
+        duration: 1,
+        level: 'novice',
+        objectives: ['Test parcours combiné 2'],
+        tabletSupport: 'comfortable',
+      },
+    });
+
     await databaseBuilder.commit();
     const input = `Identifiant des organisations*;Json configuration for quest*;Identifiant du createur des campagnes*;Identifiant du schéma de parcours*
 ${firstOrganizationId},${secondOrganizationId};"{""name"":""Combinix"",""description"":""ma description"", ""illustration"":""mon_illu.svg""}";${userId};${blueprint1.id}

@@ -36,12 +36,10 @@ function applyTreatments(string, enabledTreatments) {
   if (_.isEmpty(enabledTreatments)) {
     return result;
   }
-  _(enabledTreatments)
-    .sort()
-    .each((treatment) => {
-      const treatmentFunction = _.get(treatments, treatment);
-      result = treatmentFunction ? treatmentFunction(result) : result;
-    });
+  enabledTreatments.toSorted().forEach((treatment) => {
+    const treatmentFunction = _.get(treatments, treatment);
+    result = treatmentFunction ? treatmentFunction(result) : result;
+  });
   return result;
 }
 

@@ -5,6 +5,7 @@ import pick from 'lodash/pick.js';
 import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
 
+import { learningContentCache } from '../../infrastructure/caches/learning-content-redis-cache.js';
 import { executeInContext, EXECUTORS } from '../../infrastructure/execution-context-manager.js';
 import { releaseInfrastructure } from '../../infrastructure/release-infrastructure.js';
 import { logger } from '../../infrastructure/utils/logger.js';
@@ -38,9 +39,10 @@ export class ScriptRunner {
       isRunningFromCli,
       getProcessArgs,
       releaseInfrastructure,
+      learningContentCache,
     },
   ) {
-    const { isRunningFromCli, getProcessArgs, releaseInfrastructure } = dependencies;
+    const { isRunningFromCli, getProcessArgs, releaseInfrastructure, learningContentCache } = dependencies;
     const context = { event: ScriptClass.name, scriptId: randomUUID() };
     await executeInContext(
       context,
@@ -68,6 +70,8 @@ export class ScriptRunner {
             optionKeys = [...optionKeys, ...Object.keys(commands[command].options)];
           }
           const parsedOptions = pick(result, optionKeys);
+
+          await learningContentCache.connect();
 
           logger.info(`Start script`);
 

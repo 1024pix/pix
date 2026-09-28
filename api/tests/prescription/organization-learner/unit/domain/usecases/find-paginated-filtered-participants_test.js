@@ -135,7 +135,7 @@ describe('Unit | UseCases | find-paginated-participants', function () {
         organizationFeaturesAPI,
       });
 
-      expect(result.meta.headingCustomColumns).to.be.deep.equals(['ORALIZATION']);
+      expect(result.meta.headingCustomColumns).to.be.deep.equals([{ name: 'ORALIZATION' }]);
     });
 
     it('should add oralization value to participants', async function () {

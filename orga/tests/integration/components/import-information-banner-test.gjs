@@ -104,7 +104,7 @@ module('Integration | Component | ImportInformationBanner', function (hooks) {
       const importDetail = store.createRecord('organization-import-detail', {
         status,
         updatedAt: dayjs().toDate(),
-        errors: [{ code: 'some_error' }],
+        importErrors: [{ code: 'some_error' }],
       });
       // when
       const screen = await render(<template><ImportInformationBanner @importDetail={{importDetail}} /></template>);

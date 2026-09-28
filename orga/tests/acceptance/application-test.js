@@ -2,6 +2,8 @@ import { visit } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import ENV from 'pix-orga/config/environment';
+import PlausibleAdapter from 'pix-orga/metrics-adapters/plausible-adapter';
 import { setupMirage } from 'pix-orga/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -18,10 +20,37 @@ module('Application', function (hooks) {
     hooks.beforeEach(async function () {
       class MetricServiceStub extends Service {
         trackPage = sinon.stub();
+        activateAdapters = sinon.stub();
         context = {};
       }
 
       this.owner.register('service:metrics', MetricServiceStub);
+    });
+
+    test('should activate adapters', async function (assert) {
+      // given
+      const metricService = this.owner.lookup('service:metrics');
+
+      const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      createPrescriberByUser({ user });
+      await authenticateSession(user.id);
+
+      // when
+      await visit('/campagnes/les-miennes');
+
+      // then
+      assert.ok(
+        metricService.activateAdapters.calledOnceWithExactly([
+          {
+            name: 'PlausibleAdapter',
+            adapter: PlausibleAdapter,
+            environments: ENV.ANALYTICS.ENABLED ? ['all'] : [],
+            config: {
+              scriptUrl: ENV.ANALYTICS.SCRIPT_URL,
+            },
+          },
+        ]),
+      );
     });
 
     test('should trackPage', async function (assert) {

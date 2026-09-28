@@ -27,13 +27,15 @@ async function _validatePassage({ event, userId, passageRepository, passageEvent
     throw new DomainError('Wrong userId');
   }
 
-  const existingPassageEvents = await passageEventRepository.getAllByPassageId({ passageId: event.passageId });
-  const doesTerminatedEventHaveTheHighestSequenceNumber =
-    existingPassageEvents.length > 0 &&
-    existingPassageEvents[existingPassageEvents.length - 1].sequenceNumber >= event.sequenceNumber &&
-    event.type === 'PASSAGE_TERMINATED';
+  if (event.type !== 'PASSAGE_TERMINATED') {
+    return;
+  }
 
-  if (doesTerminatedEventHaveTheHighestSequenceNumber) {
+  const highestSequenceNumber = await passageEventRepository.getHighestSequenceNumberForPassageId({
+    passageId: event.passageId,
+  });
+
+  if (highestSequenceNumber >= event.sequenceNumber) {
     throw new DomainError('Passage event of type terminated should have the highest sequence number');
   }
 }

@@ -8,7 +8,7 @@ const { TUTORIAL, TRAINING, VALIDATION } = Activity.levels;
 
 export function getNextActivityInfo({ activities, stepCount }) {
   const byDescendingCreatedAt = (a, b) => b.createdAt - a.createdAt;
-  const sortedActivities = activities.sort(byDescendingCreatedAt);
+  const sortedActivities = activities.toSorted(byDescendingCreatedAt);
 
   if (_isStartingMission(sortedActivities)) {
     return new ActivityInfo({ stepIndex: 0, level: VALIDATION });

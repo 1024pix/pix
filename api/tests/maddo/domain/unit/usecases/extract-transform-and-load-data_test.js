@@ -1,212 +1,157 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { extractTransformAndLoadData } from '../../../../../src/maddo/domain/usecases/extract-transform-and-load-data.js';
+import { extractTransformAndLoadData } from '../../../../../src/maddo/domain/usecases/extract-transform-and-load-data.ts';
+import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Maddo | Domain | Usecases | Unit | extract-transform-and-load-data', function () {
-  let replicationRepository;
-  let fromQueryBuilder;
-  let fromFunction;
-
-  let toQueryBuilder;
-  let toFunction;
-
-  let connection;
-
+  const rows = [
+    { id: 1, name: 'a' },
+    { id: 2, name: 'b' },
+    { id: 3, name: 'c' },
+  ];
+  let replications;
+  let sourceQueryBuilder;
+  let targetQueryBuilder;
+  let copy;
+  let copyFromStdin;
+  let pgClient;
   let datamartKnex;
   let datawarehouseKnex;
 
-  beforeEach(function () {
-    replicationRepository = {
-      getByName: sinon.stub(),
-    };
-    fromQueryBuilder = {
-      async *stream() {
-        for (let i = 0; i < 5; i++) {
-          yield i;
-        }
-      },
-    };
-    fromFunction = sinon.stub().returns(fromQueryBuilder);
-    toQueryBuilder = {
-      connection: sinon.stub().resolves(),
-    };
-    toFunction = sinon.stub().returns(toQueryBuilder);
-    connection = Symbol('connection');
-    datamartKnex = {
-      context: {
-        client: {
-          acquireConnection: sinon.stub().resolves(connection),
-          releaseConnection: sinon.stub(),
-        },
-      },
-    };
-    datawarehouseKnex = Symbol('datawarehouseKnex');
+  const streamOf = (rows) => ({
+    async *stream() {
+      yield* rows;
+    },
   });
 
-  it('should insert into database with given query', async function () {
-    // given
-    const replicationName = 'foo';
-    const replication = {
-      from: fromFunction,
-      to: toFunction,
-      chunkSize: 2,
+  beforeEach(function () {
+    replications = { foo: { source: 'source_table', target: 'target_table', columns: ['id', 'name'] } };
+    sourceQueryBuilder = { select: sinon.stub().returns(streamOf(rows)) };
+    datawarehouseKnex = sinon.stub().withArgs('source_table').returns(sourceQueryBuilder);
+    targetQueryBuilder = { truncate: sinon.stub().resolves() };
+    pgClient = Symbol('pgClient');
+    datamartKnex = sinon.stub().withArgs('target_table').returns(targetQueryBuilder);
+    datamartKnex.context = {
+      client: {
+        acquireConnection: sinon.stub().resolves(pgClient),
+        releaseConnection: sinon.stub(),
+      },
     };
-    replicationRepository.getByName.returns(replication);
+    copy = {
+      writeRow: sinon.stub().resolves(),
+      end: sinon.stub().resolves({ rowCount: 3 }),
+      abort: sinon.stub().resolves(),
+    };
+    copyFromStdin = sinon.stub().returns(copy);
+  });
 
+  const run = (replicationName = 'foo') =>
+    extractTransformAndLoadData({ replicationName, datamartKnex, datawarehouseKnex, replications, copyFromStdin });
+
+  it('should truncate the target, then COPY the selected source columns into it and return the server row count', async function () {
     // when
-    await extractTransformAndLoadData({
-      replicationName,
-      replicationRepository,
-      datamartKnex,
-      datawarehouseKnex,
-    });
+    const result = await run();
 
     // then
-    expect(replicationRepository.getByName).to.have.been.calledOnceWithExactly(replicationName);
-
-    expect(fromFunction).to.have.been.calledOnce;
-    expect(fromFunction).to.have.been.calledWithExactly({ datawarehouseKnex, datamartKnex });
-    expect(fromFunction).to.have.been.calledBefore(toFunction);
-
-    expect(toFunction).to.have.been.calledThrice;
-    expect(toFunction).to.have.been.calledWithExactly({ datawarehouseKnex, datamartKnex }, [0, 1]);
-    expect(toFunction).to.have.been.calledWithExactly({ datawarehouseKnex, datamartKnex }, [2, 3]);
-    expect(toFunction).to.have.been.calledWithExactly({ datawarehouseKnex, datamartKnex }, [4]);
-
-    expect(toQueryBuilder.connection).to.have.been.calledThrice;
-    expect(toQueryBuilder.connection).to.always.have.been.calledWithExactly(connection);
-
-    expect(datamartKnex.context.client.releaseConnection).to.have.been.calledOnceWithExactly(connection);
-  });
-
-  describe('when chunkSize are not provided', function () {
-    it('should use default chunkSize', async function () {
-      // given
-      const replication = {
-        from: fromFunction,
-        to: toFunction,
-      };
-      replicationRepository.getByName.returns(replication);
-
-      // when
-      await extractTransformAndLoadData({
-        replicationName: 'foo',
-        replicationRepository,
-        datamartKnex,
-        datawarehouseKnex,
-      });
-
-      expect(toFunction).to.have.been.calledOnceWithExactly({ datawarehouseKnex, datamartKnex }, [0, 1, 2, 3, 4]);
+    expect(result).to.deep.equal({ count: 3 });
+    expect(targetQueryBuilder.truncate).to.have.been.calledOnce;
+    expect(targetQueryBuilder.truncate).to.have.been.calledBefore(copyFromStdin);
+    expect(copyFromStdin).to.have.been.calledOnceWithExactly({
+      pgClient,
+      table: 'target_table',
+      columns: ['id', 'name'],
     });
+    expect(sourceQueryBuilder.select).to.have.been.calledOnceWithExactly(['id', 'name']);
+    expect(copy.writeRow).to.have.been.calledThrice;
+    expect(copy.writeRow.args.map(([row]) => row)).to.deep.equal(rows);
+    expect(copy.end).to.have.been.calledOnce;
+    expect(copy.writeRow).to.have.been.calledBefore(copy.end);
+    expect(copy.abort).to.not.have.been.called;
+    expect(datamartKnex.context.client.releaseConnection).to.have.been.calledOnceWithExactly(pgClient);
   });
 
-  describe('when a before function is defined', function () {
-    it('should call before function first', async function () {
+  describe('when columns are a { target: source } mapping', function () {
+    it('should select with the mapping and COPY into the target column names', async function () {
       // given
-      const beforeFunction = sinon.stub().resolves();
-
-      const replication = {
-        from: fromFunction,
-        before: beforeFunction,
-        to: toFunction,
-        chunkSize: 2,
-      };
-      replicationRepository.getByName.returns(replication);
+      replications.foo.columns = { identifier: 'id', label: 'name' };
 
       // when
-      await extractTransformAndLoadData({
-        replicationName: 'foo',
-        replicationRepository,
-        datamartKnex,
-        datawarehouseKnex,
-      });
+      await run();
 
       // then
-      expect(beforeFunction).to.have.been.calledOnceWithExactly({ datawarehouseKnex, datamartKnex });
-      expect(beforeFunction).to.have.been.calledBefore(fromFunction);
-
-      expect(fromFunction).to.have.been.calledOnce;
-      expect(toFunction).to.have.been.calledThrice;
-      expect(toQueryBuilder.connection).to.have.been.calledThrice;
-    });
-
-    describe('when before returns an object', function () {
-      it('should be assigned in context', async function () {
-        // given
-        const beforeFunction = sinon.stub().resolves({ foo: 'foo', bar: 'bar' });
-
-        const replication = {
-          from: fromFunction,
-          to: toFunction,
-          before: beforeFunction,
-          chunkSize: 2,
-        };
-        replicationRepository.getByName.returns(replication);
-
-        // when
-        await extractTransformAndLoadData({
-          replicationName: 'foo',
-          replicationRepository,
-          datamartKnex,
-          datawarehouseKnex,
-        });
-
-        // then
-        expect(beforeFunction).to.have.been.calledOnceWithExactly({ datawarehouseKnex, datamartKnex });
-        expect(beforeFunction).to.have.been.calledBefore(fromFunction);
-
-        expect(fromFunction).to.have.been.calledOnceWithExactly({
-          datawarehouseKnex,
-          datamartKnex,
-          foo: 'foo',
-          bar: 'bar',
-        });
-
-        expect(toFunction).to.have.been.calledThrice;
-        expect(toFunction).to.have.been.calledWithExactly(
-          { datawarehouseKnex, datamartKnex, foo: 'foo', bar: 'bar' },
-          [0, 1],
-        );
-        expect(toFunction).to.have.been.calledWithExactly(
-          { datawarehouseKnex, datamartKnex, foo: 'foo', bar: 'bar' },
-          [2, 3],
-        );
-        expect(toFunction).to.have.been.calledWithExactly(
-          { datawarehouseKnex, datamartKnex, foo: 'foo', bar: 'bar' },
-          [4],
-        );
-
-        expect(toQueryBuilder.connection).to.have.been.calledThrice;
+      expect(sourceQueryBuilder.select).to.have.been.calledOnceWithExactly({ identifier: 'id', label: 'name' });
+      expect(copyFromStdin).to.have.been.calledOnceWithExactly({
+        pgClient,
+        table: 'target_table',
+        columns: ['identifier', 'label'],
       });
     });
   });
 
-  describe('when a transform function is defined', function () {
-    it('should call it for each row', async function () {
+  describe('when the source is empty', function () {
+    it('should end an empty COPY and return a zero count', async function () {
       // given
-      const transform = (row) => row + 1;
-      const replication = {
-        from: fromFunction,
-        to: toFunction,
-        transform,
-        chunkSize: 2,
-      };
-      replicationRepository.getByName.returns(replication);
+      sourceQueryBuilder.select.returns(streamOf([]));
+      copy.end.resolves({ rowCount: 0 });
 
       // when
-      await extractTransformAndLoadData({
-        replicationName: 'foo',
-        replicationRepository,
-        datamartKnex,
-        datawarehouseKnex,
-      });
+      const result = await run();
 
       // then
-      expect(toFunction).to.have.been.calledThrice;
-      expect(toFunction).to.have.been.calledWithExactly({ datawarehouseKnex, datamartKnex }, [1, 2]);
-      expect(toFunction).to.have.been.calledWithExactly({ datawarehouseKnex, datamartKnex }, [3, 4]);
-      expect(toFunction).to.have.been.calledWithExactly({ datawarehouseKnex, datamartKnex }, [5]);
+      expect(result).to.deep.equal({ count: 0 });
+      expect(copy.writeRow).to.not.have.been.called;
+      expect(copy.end).to.have.been.calledOnce;
+      expect(datamartKnex.context.client.releaseConnection).to.have.been.calledOnceWithExactly(pgClient);
+    });
+  });
+
+  describe('when the replication is unknown', function () {
+    it('should throw before touching any database', async function () {
+      // when
+      const error = await catchErr(run)('nope');
+
+      // then
+      expect(error.message).to.equal('Unknown replication "nope".');
+      expect(datamartKnex).to.not.have.been.called;
+      expect(datamartKnex.context.client.acquireConnection).to.not.have.been.called;
+    });
+  });
+
+  describe('when the source stream fails', function () {
+    it('should abort the COPY, release the pgClient and rethrow', async function () {
+      // given
+      const streamError = new Error('datawarehouse went away');
+      sourceQueryBuilder.select.returns({
+        async *stream() {
+          yield { id: 1, name: 'a' };
+          throw streamError;
+        },
+      });
+
+      // when
+      const error = await catchErr(run)();
+
+      // then
+      expect(error).to.equal(streamError);
+      expect(copy.abort).to.have.been.calledOnceWithExactly('replication "foo" failed');
+      expect(copy.end).to.not.have.been.called;
+      expect(datamartKnex.context.client.releaseConnection).to.have.been.calledOnceWithExactly(pgClient);
+    });
+  });
+
+  describe('when the COPY fails', function () {
+    it('should release the pgClient and rethrow the database error', async function () {
+      // given
+      const databaseError = new Error('invalid input syntax for type integer');
+      copy.end.rejects(databaseError);
+
+      // when
+      const error = await catchErr(run)();
+
+      // then
+      expect(error).to.equal(databaseError);
+      expect(datamartKnex.context.client.releaseConnection).to.have.been.calledOnceWithExactly(pgClient);
     });
   });
 });

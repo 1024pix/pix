@@ -12,6 +12,7 @@ class UserToCreate {
     username = null,
     mustValidateTermsOfService = false,
     lastTermsOfServiceValidatedAt = null,
+    lastDataProtectionPolicySeenAt = null,
     lang = 'fr',
     locale,
     hasSeenNewDashboardInfo = false,
@@ -29,6 +30,7 @@ class UserToCreate {
     this.username = username;
     this.mustValidateTermsOfService = mustValidateTermsOfService;
     this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
+    this.lastDataProtectionPolicySeenAt = lastDataProtectionPolicySeenAt;
     this.lang = lang;
     this.locale = getNearestSupportedLocale(locale);
     this.hasSeenNewDashboardInfo = hasSeenNewDashboardInfo;
@@ -55,6 +57,7 @@ class UserToCreate {
       ...user,
       cgu: true,
       lastTermsOfServiceValidatedAt: now,
+      lastDataProtectionPolicySeenAt: now,
       createdAt: now,
       updatedAt: now,
     });

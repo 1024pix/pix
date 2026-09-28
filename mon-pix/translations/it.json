@@ -1304,11 +1304,11 @@
         "tagText": "Ecco dove sei!"
       },
       "process-custom-passages": {
-        "description": "Analizziamo i tuoi risultati e costruiamo il tuo piano di allenamento personalizzato.",
+        "description": "Analizziamo i tuoi risultati e costruiamo una serie di percorsi adatta a te.",
         "list": {
           "generate-personalize-course": "Generate il tuo percorso personalizzato.",
           "results-analysis": "Analisi dei risultati.",
-          "select-passages": "Selezione di corsi di formazione adeguati."
+          "select-passages": "Selezione dei contenuti adeguati."
         },
         "title": "Calcolo del seguito del percorso in corso."
       },

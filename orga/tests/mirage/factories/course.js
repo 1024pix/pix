@@ -8,7 +8,12 @@ export default Factory.extend({
   description() {
     return faker.lorem.sentence();
   },
-
+  id() {
+    return `${this.type}-${this.sourceId}`;
+  },
+  sourceId() {
+    return faker.string.numeric();
+  },
   type() {
     return 'targetProfile';
   },

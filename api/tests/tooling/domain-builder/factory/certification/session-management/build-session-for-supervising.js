@@ -222,7 +222,7 @@ class SessionForSupervisingBuilder {
     const firstCertificationStartedAt =
       [...candidates]
         .filter(({ startDateTime }) => startDateTime)
-        .sort((a, b) => a.startDateTime - b.startDateTime)
+        .toSorted((a, b) => a.startDateTime - b.startDateTime)
         .at(0)?.startDateTime ?? null;
     return new SessionForSupervising({
       id: this.id,

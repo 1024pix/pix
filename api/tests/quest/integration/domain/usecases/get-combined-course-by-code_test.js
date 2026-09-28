@@ -54,6 +54,34 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
       databaseBuilder.factory.buildTraining({ type: 'modulix', link: '/modules/bases-clavier-1' });
       const moduleId1 = '6282925d-4775-4bca-b513-4c3009ec5886';
       const moduleId2 = '654c44dc-0560-4acc-9860-4a67c923577f';
+      databaseBuilder.factory.learningContent.buildModule({
+        id: moduleId1,
+        shortId: '6a68bf32',
+        slug: 'bac-a-sable',
+        title: 'Bac à sable',
+        details: {
+          image: 'https://assets.pix.org/modules/placeholder-details.svg',
+          description: 'Un module de test',
+          duration: 5,
+          level: 'novice',
+          objectives: ['Découvrir le bac à sable'],
+          tabletSupport: 'comfortable',
+        },
+      });
+      databaseBuilder.factory.learningContent.buildModule({
+        id: moduleId2,
+        shortId: '740d5aa9',
+        slug: 'bases-clavier-1',
+        title: 'Les bases du clavier sur ordinateur 1/2',
+        details: {
+          image: 'https://assets.pix.org/modules/1emarche-clavier1/picto-1eremarche_clavier1.svg',
+          description: 'Un module de test',
+          duration: 30,
+          level: 'novice',
+          objectives: ['Repérer les touches de base du clavier'],
+          tabletSupport: 'comfortable',
+        },
+      });
 
       const { id: questId1 } = databaseBuilder.factory.buildQuestForCombinedCourse({
         successRequirements: [
@@ -147,6 +175,48 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
       const moduleId1 = '6282925d-4775-4bca-b513-4c3009ec5886';
       const moduleId2 = '654c44dc-0560-4acc-9860-4a67c923577f';
       const moduleId3 = 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d';
+      databaseBuilder.factory.learningContent.buildModule({
+        id: moduleId1,
+        shortId: '6a68bf32',
+        slug: 'bac-a-sable',
+        title: 'Bac à sable',
+        details: {
+          image: 'https://assets.pix.org/modules/placeholder-details.svg',
+          description: 'Un module de test',
+          duration: 5,
+          level: 'novice',
+          objectives: ['Découvrir le bac à sable'],
+          tabletSupport: 'comfortable',
+        },
+      });
+      databaseBuilder.factory.learningContent.buildModule({
+        id: moduleId2,
+        shortId: '740d5aa9',
+        slug: 'bases-clavier-1',
+        title: 'Les bases du clavier sur ordinateur 1/2',
+        details: {
+          image: 'https://assets.pix.org/modules/1emarche-clavier1/picto-1eremarche_clavier1.svg',
+          description: 'Un module de test',
+          duration: 30,
+          level: 'novice',
+          objectives: ['Repérer les touches de base du clavier'],
+          tabletSupport: 'comfortable',
+        },
+      });
+      databaseBuilder.factory.learningContent.buildModule({
+        id: moduleId3,
+        shortId: '9d4dcab8',
+        slug: 'bien-ecrire-son-adresse-mail',
+        title: 'Bien écrire une adresse mail',
+        details: {
+          image: 'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-details.svg',
+          description: 'Un module sur les adresses mail',
+          duration: 10,
+          level: 'novice',
+          objectives: ['Bien écrire une adresse mail'],
+          tabletSupport: 'comfortable',
+        },
+      });
       databaseBuilder.factory.buildTargetProfileTraining({
         targetProfileId: targetProfile.id,
         trainingId: training1.id,
@@ -261,6 +331,48 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
       const moduleId1 = '6282925d-4775-4bca-b513-4c3009ec5886';
       const moduleId2 = '654c44dc-0560-4acc-9860-4a67c923577f';
       const moduleId3 = 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d';
+      databaseBuilder.factory.learningContent.buildModule({
+        id: moduleId1,
+        shortId: '6a68bf32',
+        slug: 'bac-a-sable',
+        title: 'Bac à sable',
+        details: {
+          image: 'https://assets.pix.org/modules/placeholder-details.svg',
+          description: 'Un module de test',
+          duration: 5,
+          level: 'novice',
+          objectives: ['Découvrir le bac à sable'],
+          tabletSupport: 'comfortable',
+        },
+      });
+      databaseBuilder.factory.learningContent.buildModule({
+        id: moduleId2,
+        shortId: '740d5aa9',
+        slug: 'bases-clavier-1',
+        title: 'Les bases du clavier sur ordinateur 1/2',
+        details: {
+          image: 'https://assets.pix.org/modules/1emarche-clavier1/picto-1eremarche_clavier1.svg',
+          description: 'Un module de test',
+          duration: 30,
+          level: 'novice',
+          objectives: ['Repérer les touches de base du clavier'],
+          tabletSupport: 'comfortable',
+        },
+      });
+      databaseBuilder.factory.learningContent.buildModule({
+        id: moduleId3,
+        shortId: '9d4dcab8',
+        slug: 'bien-ecrire-son-adresse-mail',
+        title: 'Bien écrire une adresse mail',
+        details: {
+          image: 'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-details.svg',
+          description: 'Un module sur les adresses mail',
+          duration: 10,
+          level: 'novice',
+          objectives: ['Bien écrire une adresse mail'],
+          tabletSupport: 'comfortable',
+        },
+      });
       databaseBuilder.factory.buildTargetProfileTraining({
         targetProfileId: targetProfile.id,
         trainingId: training1.id,

@@ -9,7 +9,7 @@ import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 describe('Integration | Devcomp | Application | Module | Router | module-router', function () {
   describe('GET /api/modules/v2/{shortId}', function () {
     describe('when controller throws a ModuleInstantiationError', function () {
-      it('should return an HTTP 502 error', async function () {
+      it('should return an HTTP 500 error', async function () {
         // given
         sinon.stub(modulesController, 'getByShortId').throws(new ModuleInstantiationError());
         const httpTestServer = new HttpTestServer();
@@ -27,12 +27,12 @@ describe('Integration | Devcomp | Application | Module | Router | module-router'
         const response = await httpTestServer.request('GET', `/api/modules/v2/${notExistingShortId}`, invalidPayload);
 
         // then
-        expect(response.statusCode).to.equal(502);
+        expect(response.statusCode).to.equal(500);
       });
     });
 
     describe('when controller throws an ElementInstantiationError', function () {
-      it('should return an HTTP 502 error', async function () {
+      it('should return an HTTP 500 error', async function () {
         // given
         sinon.stub(modulesController, 'getByShortId').throws(new ElementInstantiationError());
         const httpTestServer = new HttpTestServer();
@@ -50,7 +50,7 @@ describe('Integration | Devcomp | Application | Module | Router | module-router'
         const response = await httpTestServer.request('GET', `/api/modules/v2/${notExistingShortId}`, invalidPayload);
 
         // then
-        expect(response.statusCode).to.equal(502);
+        expect(response.statusCode).to.equal(500);
       });
     });
   });

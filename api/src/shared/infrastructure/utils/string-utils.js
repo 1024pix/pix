@@ -35,7 +35,7 @@ function splitIntoWordsAndRemoveBackspaces(string) {
  */
 function normalizeAndSortChars(str) {
   const normalizedName = normalize(str);
-  return [...normalizedName].sort().join('');
+  return [...normalizedName].toSorted().join('');
 }
 
 /**

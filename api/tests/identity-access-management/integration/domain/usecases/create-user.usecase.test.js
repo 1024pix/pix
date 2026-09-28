@@ -23,6 +23,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | create-u
     expect(savedUser).to.include(userData);
     expect(savedUser.cgu).to.be.true;
     expect(savedUser.lastTermsOfServiceValidatedAt).to.be.instanceOf(Date);
+    expect(savedUser.lastDataProtectionPolicySeenAt).to.be.instanceOf(Date);
 
     const legalDocumentAcceptation = await knex('legal-document-version-user-acceptances')
       .where({ userId: savedUser.id })

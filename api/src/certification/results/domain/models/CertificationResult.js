@@ -132,7 +132,7 @@ export class CertificationResult {
   }
 
   getUniqComplementaryCertificationCourseResultLabels() {
-    const sortedComplementaryCertifCourseResults = this.complementaryCertificationCourseResults.sort((a, b) => {
+    const sortedComplementaryCertifCourseResults = this.complementaryCertificationCourseResults.toSorted((a, b) => {
       return a['id'] > b['id'] ? 1 : b['id'] > a['id'] ? -1 : 0;
     });
     const sortedLabels = sortedComplementaryCertifCourseResults.map(({ label }) => label);

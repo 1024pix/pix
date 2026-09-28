@@ -1,5 +1,173 @@
 # Pix Changelog
 
+# [5.509.0](https://github.com/1024pix/pix/compare/v5.508.1...v5.509.0) (2026-09-28)
+
+### :rocket: Amélioration
+
+- [#17461](https://github.com/1024pix/pix/pull/17461) Faire fonctionner la révocation de session pour le RefreshToken (PIX-24079)
+
+### :bug: Correction
+
+- [#17605](https://github.com/1024pix/pix/pull/17605) :bug: Corrige la façon d'appeler une traduction pour un placeholder de pix Certif (PIX-24426)
+- [#17602](https://github.com/1024pix/pix/pull/17602) Enlever la réecriture des tubes à chaque update de session (PIX24290)
+
+### :building_construction: Tech
+
+- [#17599](https://github.com/1024pix/pix/pull/17599) Petit nettoyage de rentrée sur les scripts certif
+
+### :arrow_up: Montée de version
+
+- [#17553](https://github.com/1024pix/pix/pull/17553) Update dependency @testing-library/dom to ^10.4.2 (orga)
+
+## [5.508.1](https://github.com/1024pix/pix/compare/v5.508.0...v5.508.1) (2026-09-25)
+
+### :bug: Correction
+
+- [#17604](https://github.com/1024pix/pix/pull/17604) Initialisation du cache de contenu pédagogique via Redis dans les workers
+
+# [5.508.0](https://github.com/1024pix/pix/compare/v5.507.3...v5.508.0) (2026-09-25)
+
+### :rocket: Amélioration
+
+- [#17591](https://github.com/1024pix/pix/pull/17591) Ajout de complexité sur le mot de passe surveillant (PIX-24330)
+- [#17514](https://github.com/1024pix/pix/pull/17514) Ajouter l'ID de catégorie sur la création d'orgas en masse (PIX-23569)
+- [#17584](https://github.com/1024pix/pix/pull/17584) Intégration du PoC LTI dans la branche principale (PIX-24340)
+- [#17422](https://github.com/1024pix/pix/pull/17422) Rendre le refresh token stateless (PIX-24119)
+
+### :bug: Correction
+
+- [#17595](https://github.com/1024pix/pix/pull/17595) Corriger les erreurs 502 sur l'api /passages/passageId/answers (PIX-24405)
+- [#17596](https://github.com/1024pix/pix/pull/17596) Ne pas afficher le statut d'obtention de l'attestation pendant un parcours combiné sur l'écran de fin de campagne (PIX-24264)
+
+### :building_construction: Tech
+
+- [#17589](https://github.com/1024pix/pix/pull/17589) Ajouter une règle de lint pour interdire l'usage de `sort` au profit de `toSorted`
+- [#17601](https://github.com/1024pix/pix/pull/17601) Attendre getLocked dans le test `should not lock table for update`
+- [#17600](https://github.com/1024pix/pix/pull/17600) Faire échouer la requête datamart dans le test `datamart indisponible`
+- [#17587](https://github.com/1024pix/pix/pull/17587) Filtre les memberships désactivés via SQL.
+- [#17594](https://github.com/1024pix/pix/pull/17594) Suppression du package archivé glimmer/tracking (PIX-TECH)
+
+### :arrow_up: Montée de version
+
+- [#17564](https://github.com/1024pix/pix/pull/17564) Update dependency @1024pix/pix-ui to ^68.2.6 (mon-pix)
+
+## [5.507.3](https://github.com/1024pix/pix/compare/v5.507.2...v5.507.3) (2026-09-24)
+
+### :bug: Correction
+
+- [#17592](https://github.com/1024pix/pix/pull/17592) Corriger l'affichage de la colonne oralisation (PIX-OUPS)
+
+### :arrow_up: Montée de version
+
+- [#17593](https://github.com/1024pix/pix/pull/17593) Mise à jour de @1024pix/epreuves-components vers 4.26.5
+
+## [5.507.2](https://github.com/1024pix/pix/compare/v5.507.1...v5.507.2) (2026-09-24)
+
+### :bug: Correction
+
+- [#17590](https://github.com/1024pix/pix/pull/17590) Maddo : Cache du contenu pédagogique dans Redis
+
+## [5.507.1](https://github.com/1024pix/pix/compare/v5.507.0...v5.507.1) (2026-09-24)
+
+### :bug: Correction
+
+- [#17576](https://github.com/1024pix/pix/pull/17576) Ne pas présenter le bandeau d'évolution des politiques de confidentialités à la fin du processus d'inscription (PIX-24281)
+
+### :building_construction: Tech
+
+- [#17585](https://github.com/1024pix/pix/pull/17585) Ajoute un index sur la colonne `userId` de la table `memberships`.
+- [#17511](https://github.com/1024pix/pix/pull/17511) Mettre le contenu pédagogique en cache dans Redis
+- [#17579](https://github.com/1024pix/pix/pull/17579) Modifie l'assertion du usecase `get-campaign-parameters-for-simulator`
+- [#17572](https://github.com/1024pix/pix/pull/17572) Répliquer les données du datawarehouse vers le datamart avec COPY FROM STDIN
+
+# [5.507.0](https://github.com/1024pix/pix/compare/v5.506.0...v5.507.0) (2026-09-24)
+
+### :rocket: Amélioration
+
+- [#17559](https://github.com/1024pix/pix/pull/17559) Ajouter le suivi des recherches dans le catalogue (PIX-23647).
+
+### :bug: Correction
+
+- [#17583](https://github.com/1024pix/pix/pull/17583) Changement des séparateurs des clé `name` dans pour le endpoint replication MADDO (PIX-2378)
+- [#17551](https://github.com/1024pix/pix/pull/17551) Éviter les collisions d'identifiants entre les parcours combinés et les profils cibles du catalogue (PIX-24322).
+
+### :building_construction: Tech
+
+- [#17568](https://github.com/1024pix/pix/pull/17568) Migration typescript des value-objects Campaign, Module, RecommendedModule, TargetProfile
+
+# [5.506.0](https://github.com/1024pix/pix/compare/v5.505.1...v5.506.0) (2026-09-23)
+
+### :rocket: Amélioration
+
+- [#17571](https://github.com/1024pix/pix/pull/17571) Mettre à jour les wordings de l'écran de chargement des modules d'un parcours combiné (PIX-24366)
+
+### :bug: Correction
+
+- [#17582](https://github.com/1024pix/pix/pull/17582) Corriger l'erreur en production (PIX-24371).
+- [#17550](https://github.com/1024pix/pix/pull/17550) Révoquer les accès utilisateurs lors de l’anonymisation (PIX-7038)
+
+### :building_construction: Tech
+
+- [#17581](https://github.com/1024pix/pix/pull/17581) Ajoute d'un index username sur la table users.
+- [#17565](https://github.com/1024pix/pix/pull/17565) Mise à jour du package epreuves-components
+- [#17516](https://github.com/1024pix/pix/pull/17516) Test implementation helper pour selectionner une option d'un select / multiselect
+
+## [5.505.1](https://github.com/1024pix/pix/compare/v5.505.0...v5.505.1) (2026-09-23)
+
+### :bug: Correction
+
+- [#17557](https://github.com/1024pix/pix/pull/17557) Corrige l'affichage de la classe dans la liste des prescrits générique (PIX-24341)
+- [#17570](https://github.com/1024pix/pix/pull/17570) Gérer les erreurs lorsqu'on termine un module (PIX-24365)
+
+### :building_construction: Tech
+
+- [#17560](https://github.com/1024pix/pix/pull/17560) Migres les derniers models PixOrga en TS
+
+# [5.505.0](https://github.com/1024pix/pix/compare/v5.504.0...v5.505.0) (2026-09-23)
+
+### :rocket: Amélioration
+
+- [#17548](https://github.com/1024pix/pix/pull/17548) Accepter les CGU de l'utilisateur de Pix Certif en passant par le nouveau modèle (PIX-22443)
+- [#17578](https://github.com/1024pix/pix/pull/17578) Ajouter les pictos pour les attestations cyber CNAF (PIX-24367)
+
+### :building_construction: Tech
+
+- [#17556](https://github.com/1024pix/pix/pull/17556) Ajoute des index sur la table `users`.
+- [#17577](https://github.com/1024pix/pix/pull/17577) Amélioration d'un test de script
+- [#17580](https://github.com/1024pix/pix/pull/17580) Améliore les performances de la recherche d'utilisateurs depuis Pix Admin.
+- [#17566](https://github.com/1024pix/pix/pull/17566) Améliore les performances de la route qui enregistre un passage-event.
+
+### :arrow_up: Montée de version
+
+- [#17562](https://github.com/1024pix/pix/pull/17562) Update dependency @1024pix/pix-ui to ^68.2.6 (admin)
+- [#17563](https://github.com/1024pix/pix/pull/17563) Update dependency @1024pix/pix-ui to ^68.2.6 (junior)
+
+# [5.504.0](https://github.com/1024pix/pix/compare/v5.503.1...v5.504.0) (2026-09-22)
+
+### :rocket: Amélioration
+
+- [#17496](https://github.com/1024pix/pix/pull/17496) Ajout de filtre de date sur la liste des sessions (PIX-23750)
+- [#17481](https://github.com/1024pix/pix/pull/17481) Améliorer l'accessibilité du caroussel sur le moteur de reco (PIX-24069)
+- [#17491](https://github.com/1024pix/pix/pull/17491) Vérifier le header `typ` des access tokens (PIX-24247)
+
+### :bug: Correction
+
+- [#17554](https://github.com/1024pix/pix/pull/17554) Affiche la banniere avec le questionnaire du catalogue sur les pages manquantes (PIX-24334)
+- [#17547](https://github.com/1024pix/pix/pull/17547) Corriger la lecture des modules JSON lors de la vérification des réponses (PIX-24306)
+- [#17549](https://github.com/1024pix/pix/pull/17549) Corriger la lecture des modules JSON pour les besoins des parcours combinés (PIX-24308)
+- [#17517](https://github.com/1024pix/pix/pull/17517) Recharge la liste des filtres d'organization au changement d'orga (PIX-22991)
+
+### :building_construction: Tech
+
+- [#17539](https://github.com/1024pix/pix/pull/17539) Convertir des models PixOrga en TypeScript
+- [#17552](https://github.com/1024pix/pix/pull/17552) Editer modale de signalement pour préparer au nouveau PixTextArea (PIX-24331)
+- [#17558](https://github.com/1024pix/pix/pull/17558) Remplacement d'une callback done par une assertion 'await' 
+- [#17545](https://github.com/1024pix/pix/pull/17545) Upgrade d'un test dans `complementary-certification-course_test.js`
+
+### :arrow_up: Montée de version
+
+- [#17535](https://github.com/1024pix/pix/pull/17535) Update dependency joi to ^18.2.8 (admin)
+
 ## [5.503.1](https://github.com/1024pix/pix/compare/v5.503.0...v5.503.1) (2026-09-21)
 
 ### :bug: Correction

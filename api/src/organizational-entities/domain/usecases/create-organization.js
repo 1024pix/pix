@@ -36,10 +36,10 @@ const createOrganization = async function ({
     administrationTeamRepository,
   );
 
-  await organizationVerificationService.checkStructureCategoryExists(
-    organization.categoryId,
+  await organizationVerificationService.checkStructureCategoryExists({
+    structureCategoryId: organization.categoryId,
     structureCategoryRepository,
-  );
+  });
 
   const savedOrganization = await organizationForAdminRepository.save({
     organization,

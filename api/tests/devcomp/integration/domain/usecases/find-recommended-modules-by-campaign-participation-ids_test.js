@@ -32,6 +32,16 @@ describe('Integration | DevComp | Domain | Usecases | findRecommendedModulesByCa
       trainingId: secondTraining.id,
       campaignParticipationId: campaignParticipationId2,
     }).id;
+    databaseBuilder.factory.learningContent.buildModule({
+      id: moduleId,
+      shortId: 'ecc13f55',
+      slug: 'adresse-ip-publique-et-vous',
+    });
+    databaseBuilder.factory.learningContent.buildModule({
+      id: secondModuleId,
+      shortId: '9d4dcab8',
+      slug: 'bien-ecrire-son-adresse-mail',
+    });
     await databaseBuilder.commit();
 
     const recommendedModules = await usecases.findRecommendedModulesByCampaignParticipationIds({
@@ -75,6 +85,11 @@ describe('Integration | DevComp | Domain | Usecases | findRecommendedModulesByCa
       trainingId: secondTraining.id,
       campaignParticipationId: campaignParticipationId2,
     }).id;
+    databaseBuilder.factory.learningContent.buildModule({
+      id: moduleId,
+      shortId: 'ecc13f55',
+      slug: 'adresse-ip-publique-et-vous',
+    });
     await databaseBuilder.commit();
 
     const recommendedModules = await usecases.findRecommendedModulesByCampaignParticipationIds({

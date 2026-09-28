@@ -14,6 +14,7 @@ export async function createLearningContentRelease({
   tutorialRepository,
   missionRepository,
   moduleRepository,
+  learningContentCache,
 }) {
   const newLearningContent = await lcmsClient.createRelease();
 
@@ -30,6 +31,8 @@ export async function createLearningContentRelease({
     await missionRepository.saveMany(newLearningContent.missions);
     await moduleRepository.saveMany(newLearningContent.modules);
   });
+
+  await learningContentCache.clear();
 
   areaRepository.clearCache();
   competenceRepository.clearCache();

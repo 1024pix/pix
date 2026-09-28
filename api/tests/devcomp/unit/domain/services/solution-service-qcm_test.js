@@ -51,4 +51,15 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQCM ', function ()
       );
     });
   });
+
+  describe('when answers or solutions are frozen arrays', function () {
+    it('should not throw and should compare values correctly', function () {
+      const answers = Object.freeze(['2', '1']);
+      const solutions = Object.freeze(['1', '2']);
+
+      const result = service.match(answers, solutions);
+
+      expect(AnswerStatus.isOK(result)).to.be.true;
+    });
+  });
 });

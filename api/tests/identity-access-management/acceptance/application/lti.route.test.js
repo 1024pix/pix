@@ -37,7 +37,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | lti', functi
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result).to.deep.equal([publicKey]);
+      expect(response.result).to.deep.equal({ keys: [publicKey] });
     });
   });
 

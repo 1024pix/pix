@@ -66,7 +66,7 @@ const getStatusesForLearners = async function (missionId, organizationLearners) 
   const missionAssessmentsByLearnerId = await _getMissionAssessmentsByLearnerId(missionId, organizationLearnerIds);
 
   const lastRelevantAssessments = missionAssessmentsByLearnerId.map(([_organizationLearnerId, assessments]) => {
-    const sortedAssessments = assessments.sort(_byDescendingCreatedAt);
+    const sortedAssessments = assessments.toSorted(_byDescendingCreatedAt);
     const mostRecentCompletedAssessment = sortedAssessments.find((assessment) => assessment.status === 'completed');
     if (mostRecentCompletedAssessment) return mostRecentCompletedAssessment;
     return sortedAssessments[0];

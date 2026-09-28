@@ -39,8 +39,9 @@ class GenericParser {
     this.#columns = importFormat.config.headers;
 
     // compute support_encoding
-    this.#supportedEncodings = importFormat.config.acceptedEncoding;
-    this.#supportedEncodings.sort((encoding) => (encoding === 'utf8' ? -1 : 1));
+    this.#supportedEncodings = importFormat.config.acceptedEncoding.toSorted((encoding) =>
+      encoding === 'utf8' ? -1 : 1,
+    );
   }
 
   static buildParser() {

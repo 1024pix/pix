@@ -22,7 +22,7 @@ export async function getCertificationsResultsForLivretScolaire({
       return new Competence({ area, id: competence.index, name: competence.name });
     }),
   );
-  const sortedCompetences = competences.sort(sortBy('id'));
+  const sortedCompetences = competences.toSorted(sortBy('id'));
 
   return new CertificationsResults({ certifications, competences: sortedCompetences });
 }

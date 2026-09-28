@@ -2,6 +2,7 @@ import { config, schema as configSchema } from './config/config.js';
 import { databaseConnectionRegistry } from './db/database-connection-registry.js';
 import { createServer } from './server.js';
 import { JobGroup } from './src/shared/application/jobs/job-controller.js';
+import { learningContentCache } from './src/shared/infrastructure/caches/learning-content-redis-cache.js';
 import { JobClient } from './src/shared/infrastructure/jobs/JobClient.js';
 import * as prometheusPushGateway from './src/shared/infrastructure/metrics/pushgateway.js';
 import { releaseInfrastructure } from './src/shared/infrastructure/release-infrastructure.js';
@@ -20,6 +21,8 @@ async function _setupEcosystem() {
     so those matters are resolved before starting the server.
   */
   await databaseConnectionRegistry.initialize(['api']);
+
+  await learningContentCache.connect();
 }
 
 const start = async function () {

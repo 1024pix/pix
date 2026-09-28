@@ -28,8 +28,7 @@ export class CandidateTimeline {
    * @param {TimelineEvent} event
    */
   addEvent(event) {
-    this.events.push(event);
-    this.events.sort(this.#compareEventDates);
+    this.events = [...this.events, event].toSorted(this.#compareEventDates);
   }
 
   /**
