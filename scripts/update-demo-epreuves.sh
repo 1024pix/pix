@@ -10,4 +10,4 @@ cd ../junior
 npm i @1024pix/epreuves-components@latest
 
 cd ..
-node api/src/devcomp/scripts/generate-demo-epreuve-component.js
+# Regenerating the demo module is now done in Pix Editor, not via this script.
