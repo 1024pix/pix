@@ -1,6 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import { PixBlock, PixTable, PixTableColumn } from '@1024pix/nebulix-ember';
 import { concat } from '@ember/helper';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';

@@ -1,6 +1,4 @@
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
-import PixTabs from '@1024pix/pix-ui/components/pix-tabs';
+import { PixButtonLink, PixNotificationAlert, PixTabs } from '@1024pix/nebulix-ember';
 import { LinkTo } from '@ember/routing';
 import t from 'ember-intl/helpers/t';
 import CopyableId from 'pix-admin/components/ui/copyable-id';

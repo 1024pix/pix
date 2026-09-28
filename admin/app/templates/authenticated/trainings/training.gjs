@@ -1,6 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixTabs from '@1024pix/pix-ui/components/pix-tabs';
+import { PixBlock, PixButtonLink, PixTabs } from '@1024pix/nebulix-ember';
 import { LinkTo } from '@ember/routing';
 import { t } from 'ember-intl';
 import { pageTitle } from 'ember-page-title';

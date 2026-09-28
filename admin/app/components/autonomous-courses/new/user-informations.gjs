@@ -1,5 +1,4 @@
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
+import { PixInput, PixTextarea } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { t } from 'ember-intl';

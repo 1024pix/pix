@@ -1,5 +1,4 @@
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
-import PixTabs from '@1024pix/pix-ui/components/pix-tabs';
+import { PixNotificationAlert, PixTabs } from '@1024pix/nebulix-ember';
 import { LinkTo } from '@ember/routing';
 import t from 'ember-intl/helpers/t';
 import Breadcrumb from 'pix-admin/components/organizations/breadcrumb';

@@ -1,5 +1,4 @@
-import PixNavigation from '@1024pix/pix-ui/components/pix-navigation';
-import PixNavigationButton from '@1024pix/pix-ui/components/pix-navigation-button';
+import { PixNavigation, PixNavigationButton } from '@1024pix/nebulix-ember';
 import { hash } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';

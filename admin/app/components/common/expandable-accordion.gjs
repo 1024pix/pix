@@ -1,4 +1,4 @@
-import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
+import { PixAccordions } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import Component from '@glimmer/component';
