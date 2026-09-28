@@ -21,6 +21,8 @@
     padding: var(--pix-spacing-6x);
 
     @include breakpoints.device-is('tablet') {
+      position: fixed;
+      z-index: 101;
       padding: var(--pix-spacing-8x);
     }
   }
