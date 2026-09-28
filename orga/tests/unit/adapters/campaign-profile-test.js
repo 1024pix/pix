@@ -6,20 +6,30 @@ module('Unit | Adapters | campaign-profile', function (hooks) {
   setupTest(hooks);
 
   let adapter;
+  let ajaxStub;
 
   hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:campaign-profile');
-    adapter.ajax = sinon.stub().resolves();
+    ajaxStub = sinon.stub().resolves();
+    adapter.ajax = ajaxStub;
   });
 
-  module('#urlForQueryRecord', () => {
-    test('should build query url from campaign and campaign participation', async function (assert) {
+  module('#queryRecord', function () {
+    test('should call url with campaign and campaign participation, without them in query params', async function (assert) {
+      // given
       const query = { campaignId: 'campaignId1', campaignParticipationId: 'campaignParticipationId1' };
-      const url = await adapter.urlForQueryRecord(query);
 
-      assert.ok(url.endsWith('/api/campaigns/campaignId1/profiles-collection-participations/campaignParticipationId1'));
-      assert.strictEqual(query.campaignId, undefined);
-      assert.strictEqual(query.campaignParticipationId, undefined);
+      // when
+      await adapter.queryRecord(null, { modelName: 'campaign-profile' }, query);
+
+      // then
+      const [url, method, options] = ajaxStub.firstCall.args;
+      assert.true(
+        url.endsWith('/api/campaigns/campaignId1/profiles-collection-participations/campaignParticipationId1'),
+      );
+      assert.strictEqual(method, 'GET');
+      assert.deepEqual(options, { data: {} });
+      assert.deepEqual(query, { campaignId: 'campaignId1', campaignParticipationId: 'campaignParticipationId1' });
     });
   });
 });
