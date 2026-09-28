@@ -1,7 +1,4 @@
-import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import { PixAccordions, PixBlock, PixTable, PixTableColumn } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';

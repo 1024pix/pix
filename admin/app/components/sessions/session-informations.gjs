@@ -1,5 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { PixButton, PixTooltip } from '@1024pix/nebulix-ember';
 import { LinkTo } from '@ember/routing';
 import { t } from 'ember-intl';
 import formatDate from 'ember-intl/helpers/format-date';

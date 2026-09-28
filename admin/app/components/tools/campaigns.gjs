@@ -1,5 +1,4 @@
-import PixButtonUpload from '@1024pix/pix-ui/components/pix-button-upload';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
+import { PixButtonUpload, PixNotificationAlert } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';

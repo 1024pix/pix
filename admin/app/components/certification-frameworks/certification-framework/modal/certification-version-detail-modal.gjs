@@ -1,7 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixBlock, PixIcon, PixModal, PixTag } from '@1024pix/nebulix-ember';
 import { concat, get } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';

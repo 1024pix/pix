@@ -1,5 +1,4 @@
-import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixSearchInput, PixTag } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';

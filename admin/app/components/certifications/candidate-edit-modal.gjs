@@ -6,11 +6,7 @@ const FRANCE_INSEE_CODE = '99100';
 const INSEE_CODE_OPTION = 'insee';
 const POSTAL_CODE_OPTION = 'postal';
 
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { PixButton, PixInput, PixModal, PixRadioButton, PixSelect } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { service } from '@ember/service';

@@ -1,4 +1,4 @@
-import PixBreadcrumb from '@1024pix/pix-ui/components/pix-breadcrumb';
+import { PixBreadcrumb } from '@1024pix/nebulix-ember';
 import Component from '@glimmer/component';
 
 export default class Breadcrumb extends Component {

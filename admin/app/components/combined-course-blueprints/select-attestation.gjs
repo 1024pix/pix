@@ -1,4 +1,4 @@
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { PixSelect } from '@1024pix/nebulix-ember';
 import { hash } from '@ember/helper';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';

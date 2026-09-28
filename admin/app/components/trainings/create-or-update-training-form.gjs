@@ -1,10 +1,12 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
-import PixSegmentedControl from '@1024pix/pix-ui/components/pix-segmented-control';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import PixTextArea from '@1024pix/pix-ui/components/pix-textarea';
+import {
+  PixButton,
+  PixCheckbox,
+  PixInput,
+  PixMultiSelect,
+  PixSegmentedControl,
+  PixSelect,
+  PixTextarea as PixTextArea,
+} from '@1024pix/nebulix-ember';
 import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
