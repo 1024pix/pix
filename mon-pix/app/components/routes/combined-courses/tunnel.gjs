@@ -1,5 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import { PixButton, PixButtonLink } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
