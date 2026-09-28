@@ -175,11 +175,6 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
       const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
-      certificationCandidates[0].destroyRecord = sinon.stub();
-      certificationCandidates[1].destroyRecord = sinon.stub();
-      certificationCandidates[2].destroyRecord = sinon.stub();
-
-      // when
       const screen = await render(
         <template>
           <EnrolledCandidates
@@ -190,13 +185,13 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         </template>,
       );
 
+      // when
       await click(screen.getByRole('button', { name: 'Supprimer le candidat Eddy Taurial' }));
 
       // then
-      sinon.assert.calledOnce(certificationCandidates[0].destroyRecord);
-      sinon.assert.notCalled(certificationCandidates[1].destroyRecord);
-      sinon.assert.notCalled(certificationCandidates[2].destroyRecord);
-      assert.ok(true);
+      assert
+        .dom(screen.getByRole('heading', { name: t('pages.sessions.detail.candidates.deletion-modal.title') }))
+        .exists();
     });
   });
 

@@ -636,14 +636,24 @@
             "notifications": {
               "error-add-duplicate": "Ce candidat est déjà dans la liste, vous ne pouvez pas l'ajouter à nouveau.",
               "error-add-unknown": "Une erreur s'est produite lors de l'ajout du candidat.",
-              "error-remove-already-in": "Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.",
-              "error-remove-unknown": "Une erreur s'est produite lors de la suppression du candidat.",
-              "success-add": "Le candidat a été inscrit avec succès.",
-              "success-remove": "Le candidat a été supprimé avec succès."
+              "success-add": "Le candidat a été inscrit avec succès."
             },
             "prepayment-information": "Information du code de prépaiement",
             "prepayment-tooltip": "(Requis notamment dans le cas d'un achat de crédits combinés)<br />Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345'.<br/>Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.",
             "title": "Inscrire un candidat"
+          },
+          "deletion-modal": {
+            "actions": {
+              "close-extra-information": "Fermer la modale de suppression de candidat",
+              "submit": "Supprimer le/la candidat(e)"
+            },
+            "body": "Êtes-vous sûr(e) de vouloir supprimer le/la candidat(e) <strong>{firstName}&nbsp;{lastName}</strong> (né(e) le {birthdate})&nbsp;?",
+            "notifications": {
+              "error-remove-already-in": "Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.",
+              "error-remove-unknown": "Une erreur s'est produite lors de la suppression du candidat.",
+              "success-remove": "Le candidat a été supprimé avec succès."
+            },
+            "title": "Supprimer un candidat"
           },
           "detail-modal": {
             "actions": {
