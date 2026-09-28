@@ -1295,6 +1295,7 @@
         "aria-label-completed-campaign": "Este elemento se completa con una tasa de éxito del {value, number, ::percent}",
         "aria-label-completed-campaign-with-stages": "Ha obtenido {acquired, plural, =0 {no estrella} =1 {# estrella} other {# estrellas}} de {total}",
         "aria-label-duration": "Duración estimada: {duration} minutos.",
+        "aria-label-level": "Nivel: {level}",
         "completed": "¡Completado!",
         "duration": "≈ {duration} min.",
         "formation": {
