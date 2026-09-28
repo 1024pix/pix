@@ -1,7 +1,5 @@
 import { PixIcon, PixStars, PixTag } from '@1024pix/nebulix-ember';
-import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
-import { LinkTo } from '@ember/routing';
 import { t } from 'ember-intl';
 import { and, eq, not } from 'ember-truth-helpers';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
@@ -64,7 +62,7 @@ const Content = <template>
           <PixIcon
             @name="checkCircle"
             @plainIcon={{true}}
-            class="combined-course-item__icon {{if @hasYellowBorder 'combined-course-item__icon--yellow'}}"
+            class="combined-course-item__completion-icon {{if @hasYellowBorder 'combined-course-item__icon--yellow'}}"
             @ariaHidden={{true}}
           />
         </div>
@@ -126,12 +124,11 @@ function hasWhiteBackground(item) {
         </:duration>
       </Content>
     {{else}}
-      <LinkTo
+      <button
+        class="combined-course-item--selectable"
+        type="button"
         {{on "click" @onClick}}
-        @route={{@item.route}}
-        @models={{@item.models}}
-        @query={{hash redirection=@item.redirection}}
-        disabled
+        data-testid="selectable-item-button"
       >
         <Content
           @title={{@item.title}}
@@ -145,7 +142,7 @@ function hasWhiteBackground(item) {
           @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
           @hasWhiteBackground={{hasWhiteBackground @item}}
           @hasYellowBorder={{and (eq @item.type CombinedCourseItemTypes.MODULE) @isCombinedCourseCompleted}}
-          @isCurrentItem={{@isNextItemToComplete}}
+          @isCurrentItem={{@isSelectedItem}}
         >
           <:duration>
             {{#if @item.duration}}
@@ -153,16 +150,17 @@ function hasWhiteBackground(item) {
             {{/if}}
           </:duration>
           <:blockEnd>
-            {{#if @isNextItemToComplete}}
-              <PixTag @color="purple-light" class="combined-course-item__tag">{{t
-                  "pages.combined-courses.items.tagText"
-                }}
-                <PixIcon @name="distance" @plainIcon={{true}} @ariaHidden={{true}} /></PixTag>
+            {{#if @isSelectedItem}}
+              {{#if @displayNextItemTag}}
+                <PixTag @color="purple-light" class="combined-course-item__tag">{{t
+                    "pages.combined-courses.items.tagText"
+                  }}
+                  <PixIcon @name="distance" @plainIcon={{true}} @ariaHidden={{true}} /></PixTag>
+              {{/if}}
             {{/if}}
           </:blockEnd>
         </Content>
-
-      </LinkTo>
+      </button>
     {{/if}}
   {{/if}}
 </template>

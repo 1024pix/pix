@@ -5,7 +5,7 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { and, eq } from 'ember-truth-helpers';
 import Attestation from 'mon-pix/components/combined-course/attestation';
-import CombinedCourseItem from 'mon-pix/components/combined-course/combined-course-item';
+import CombinedCourseItemsList from 'mon-pix/components/combined-course/combined-course-items-list';
 import MarkdownToHtml from 'mon-pix/components/markdown-to-html';
 import { CombinedCourseStatuses } from 'mon-pix/models/combined-course';
 
@@ -65,49 +65,7 @@ const Header = <template>
   </header>
 </template>;
 
-const Step = <template>
-  <h2 class="combined-course__step-title">{{t "pages.combined-courses.content.step" stepNumber=(@stepNumber)}}
-  </h2>
-</template>;
-
 export default class CombinedCoursePresentation extends Component {
-  <template>
-    <section class="combined-course">
-      <div class="combined-course__exit">
-        <PixButtonLink @variant="tertiary" @route="authenticated" @iconAfter="doorOpen">
-          {{t "common.actions.quit"}}
-        </PixButtonLink>
-      </div>
-      <Header
-        @combinedCourse={{@combinedCourse}}
-        @startQuestParticipation={{this.startQuestParticipation}}
-        @goToNextItem={{this.goToNextItem}}
-        @isSurveyEnabled={{this.isSurveyEnabled}}
-      />
-      {{#if (eq @combinedCourse.reward.type "attestations")}}
-        <Attestation @attestation={{@combinedCourse.reward}} />
-      {{/if}}
-      <hr class="combined-course__divider" />
-      {{#if this.shouldDisplayRetryModulesText}}
-        <p class="combined-course__retry-text">{{t "pages.combined-courses.completed.retry-text"}}</p>
-      {{/if}}
-      {{#each @combinedCourse.items as |item index|}}
-        {{#unless @combinedCourse.areItemsOfTheSameType}}
-          {{#if (@combinedCourse.isPreviousItemDifferent index)}}
-            <Step @stepNumber={{this.getCurrentStep}} />
-          {{/if}}
-        {{/unless}}
-        <CombinedCourseItem
-          @item={{item}}
-          @isLocked={{item.isLocked}}
-          @isNextItemToComplete={{eq @combinedCourse.nextCombinedCourseItem item}}
-          @onClick={{if (eq @combinedCourse.status "NOT_STARTED") this.startQuestParticipation noop}}
-          @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
-        />
-      {{/each}}
-    </section>
-  </template>
-
   @service currentUser;
   @service session;
   @service featureToggles;
@@ -115,11 +73,8 @@ export default class CombinedCoursePresentation extends Component {
   @service store;
   @service router;
 
-  step = 1;
-
   @action
-  async startQuestParticipation(e) {
-    e.preventDefault();
+  async startQuestParticipation() {
     const combinedCourseAdapter = this.store.adapterFor('combined-course');
     await combinedCourseAdapter.start(this.args.combinedCourse.code);
     this.goToNextItem();
@@ -128,6 +83,17 @@ export default class CombinedCoursePresentation extends Component {
   @action
   goToNextItem() {
     const item = this.args.combinedCourse.nextCombinedCourseItem;
+    this.router.transitionTo(item.route, ...item.models, {
+      queryParams: { redirection: item.redirection },
+    });
+  }
+
+  @action
+  async goToItem(item) {
+    if (this.args.combinedCourse.status === 'NOT_STARTED') {
+      const combinedCourseAdapter = this.store.adapterFor('combined-course');
+      await combinedCourseAdapter.start(this.args.combinedCourse.code);
+    }
     this.router.transitionTo(item.route, ...item.models, {
       queryParams: { redirection: item.redirection },
     });
@@ -144,10 +110,35 @@ export default class CombinedCoursePresentation extends Component {
     );
   }
 
-  @action
-  getCurrentStep() {
-    return this.step++;
-  }
+  <template>
+    <main class="combined-course">
+      <nav class="combined-course__exit">
+        <PixButtonLink @variant="tertiary" @route="authenticated" @iconAfter="doorOpen">
+          {{t "common.actions.quit"}}
+        </PixButtonLink>
+      </nav>
+      <article>
+        <Header
+          @combinedCourse={{@combinedCourse}}
+          @startQuestParticipation={{this.startQuestParticipation}}
+          @goToNextItem={{this.goToNextItem}}
+          @isSurveyEnabled={{this.isSurveyEnabled}}
+        />
+        {{#if (eq @combinedCourse.reward.type "attestations")}}
+          <Attestation @attestation={{@combinedCourse.reward}} />
+        {{/if}}
+        <hr class="combined-course__divider" />
+        {{#if this.shouldDisplayRetryModulesText}}
+          <p class="combined-course__retry-text">{{t "pages.combined-courses.completed.retry-text"}}</p>
+        {{/if}}
+        <article class="combined-course__content">
+          <CombinedCourseItemsList
+            @combinedCourse={{@combinedCourse}}
+            @displayNextItemTag={{true}}
+            @onClick={{this.goToItem}}
+          />
+        </article>
+      </article>
+    </main>
+  </template>
 }
-
-function noop() {}
