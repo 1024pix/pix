@@ -1,0 +1,53 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/breakpoints';
+@use '../../globals/a11y' as *;
+
+.combined-course-tunnel {
+  position: relative;
+  z-index: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--pix-spacing-10x);
+  height: 100%;
+
+  @include breakpoints.device-is('tablet') {
+    flex-direction: row;
+  }
+
+  &__exit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: var(--pix-spacing-6x);
+
+    @include breakpoints.device-is('tablet') {
+      padding: var(--pix-spacing-8x);
+    }
+  }
+}
+
+.combined-course-tunnel-sticky {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  gap: var(--pix-spacing-4x);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--pix-spacing-4x) var(--pix-spacing-2x);
+  font-weight: bold;
+  background-color: var(--pix-neutral-0) ;
+  box-shadow: var(--pix-shadow-xl);
+
+  @extend %pix-body-s;
+
+  &__title {
+    text-align: justify;
+    word-break: break-all;
+  }
+
+  @include breakpoints.device-is('tablet') {
+    display: none;
+  }
+
+}

@@ -13,6 +13,7 @@ const Content = <template>
       {{if @hasWhiteBackground 'combined-course-item--white'}}
       {{if @isCurrentItem 'combined-course-item--current'}}
       {{if @isCampaignType 'combined-course-item--isCampaignType'}}"
+    aria-details={{if @isCurrentItem "step-details"}}
     ...attributes
   >
     <div class="combined-course-item__content">

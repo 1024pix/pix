@@ -18,7 +18,7 @@ module('Integration | Component | Combined Courses | Tunnel | Step-details', fun
         type: CombinedCourseItemTypes.CAMPAIGN,
         image: 'http://www.duckduck.fr',
         description: 'Item description',
-        objectives: ['<p>Objectif 1</p>'],
+        objectives: ['Objectif 1', '<p>Objectif 2</p>'],
         level: 'advanced',
         duration: 20,
       });
@@ -26,11 +26,11 @@ module('Integration | Component | Combined Courses | Tunnel | Step-details', fun
 
       // then
       assert.ok(screen.getByRole('presentation'));
-      assert.ok(screen.getByRole('paragraph'), { name: item.description });
+      assert.ok(screen.getByText(item.description));
       assert.ok(screen.getByRole('heading', { name: item.title }));
-      assert.ok(screen.getByText(item.objectives[0], { exact: false }));
-      assert.ok(screen.getByText(item.objectives[0], { exact: false }));
-      assert.ok(screen.getByText(item.objectives[0], { exact: false }));
+      assert.ok(screen.getByText(item.objectives[0]));
+      assert.ok(screen.getByText('Objectif 2'));
+      assert.notOk(await screen.queryByText('<p>', { exact: false }));
     });
   });
 });

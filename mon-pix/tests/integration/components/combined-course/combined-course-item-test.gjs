@@ -211,7 +211,7 @@ module('Integration | Component | combined course item', function (hooks) {
           <CombinedCourseItem
             @item={{combinedCourseItem}}
             @isLocked={{false}}
-            @isNextItemToComplete={{true}}
+            @isSelectedItem={{true}}
             @onClick={{onClickStub}}
             @displayNextItemTag={{true}}
           />
