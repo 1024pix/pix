@@ -1,6 +1,4 @@
-import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
-import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
-import PixSegmentedControl from '@1024pix/pix-ui/components/pix-segmented-control';
+import { PixFilterBanner, PixSearchInput, PixSegmentedControl } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';

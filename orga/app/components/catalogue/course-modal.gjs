@@ -1,7 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixOverlay from '@1024pix/pix-ui/components/pix-overlay';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixButton, PixButtonLink, PixOverlay, PixTag } from '@1024pix/nebulix-ember';
 import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';

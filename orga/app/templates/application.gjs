@@ -1,5 +1,4 @@
-import PixAppLayout from '@1024pix/pix-ui/components/pix-app-layout';
-import PixToastContainer from '@1024pix/pix-ui/components/pix-toast-container';
+import { PixAppLayout, PixToastContainer } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
 import pageTitle from 'ember-page-title/helpers/page-title';
 import Communication from 'pix-orga/components/banner/communication';

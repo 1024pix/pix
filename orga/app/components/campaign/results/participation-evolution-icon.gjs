@@ -1,4 +1,4 @@
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
+import { PixIcon } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
 
 const EVOLUTION_INFOS = {
