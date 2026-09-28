@@ -2,5 +2,5 @@
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "printWidth": 120,
   "singleQuote": true,
-  "ignorePatterns": ["**/not-a-json.json", "src/devcomp/infrastructure/datasources/learning-content/modules/**.json"]
+  "ignorePatterns": ["**/not-a-json.json"]
 }
