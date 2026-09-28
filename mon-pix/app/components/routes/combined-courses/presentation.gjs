@@ -1,6 +1,7 @@
 import PixButton from '@1024pix/pix-ui/components/pix-button';
 import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
 import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { get } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -8,8 +9,10 @@ import { t } from 'ember-intl';
 import { and, eq } from 'ember-truth-helpers';
 import Attestation from 'mon-pix/components/combined-course/attestation';
 import CombinedCourseItem from 'mon-pix/components/combined-course/combined-course-item';
+import NestedGroup from 'mon-pix/components/combined-course/nested-group';
 import MarkdownToHtml from 'mon-pix/components/markdown-to-html';
 import { CombinedCourseStatuses } from 'mon-pix/models/combined-course';
+import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 
 const CompletedText = <template>
   <div class="completed-text">
@@ -68,7 +71,7 @@ const Header = <template>
 </template>;
 
 const Step = <template>
-  <h2 class="combined-course__step-title">{{t "pages.combined-courses.content.step" stepNumber=(@stepNumber)}}
+  <h2 class="combined-course__step-title">{{t "pages.combined-courses.content.step" stepNumber=@stepNumber}}
   </h2>
 </template>;
 
@@ -96,16 +99,24 @@ export default class CombinedCoursePresentation extends Component {
       {{#each @combinedCourse.items as |item index|}}
         {{#unless @combinedCourse.areItemsOfTheSameType}}
           {{#if (@combinedCourse.isPreviousItemDifferent index)}}
-            <Step @stepNumber={{this.getCurrentStep}} />
+            <Step @stepNumber={{get this.stepNumbers index}} />
           {{/if}}
         {{/unless}}
-        <CombinedCourseItem
-          @item={{item}}
-          @isLocked={{item.isLocked}}
-          @isNextItemToComplete={{eq @combinedCourse.nextCombinedCourseItem item}}
-          @onClick={{if (eq @combinedCourse.status "NOT_STARTED") this.startQuestParticipation noop}}
-          @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
-        />
+        {{#if (eq item.type CombinedCourseItemTypes.COMBINED_COURSE)}}
+          <NestedGroup
+            @item={{item}}
+            @isCurrent={{eq @combinedCourse.nextCombinedCourseItem item}}
+            @onActivityClick={{if (eq @combinedCourse.status "NOT_STARTED") this.startQuestParticipation noop}}
+          />
+        {{else}}
+          <CombinedCourseItem
+            @item={{item}}
+            @isLocked={{item.isLocked}}
+            @isNextItemToComplete={{eq @combinedCourse.nextCombinedCourseItem item}}
+            @onClick={{if (eq @combinedCourse.status "NOT_STARTED") this.startQuestParticipation noop}}
+            @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
+          />
+        {{/if}}
       {{/each}}
     </section>
   </template>
@@ -117,8 +128,6 @@ export default class CombinedCoursePresentation extends Component {
   @service store;
   @service router;
 
-  step = 1;
-
   @action
   async startQuestParticipation(e) {
     e.preventDefault();
@@ -129,9 +138,16 @@ export default class CombinedCoursePresentation extends Component {
 
   @action
   goToNextItem() {
-    const item = this.args.combinedCourse.nextCombinedCourseItem;
-    this.router.transitionTo(item.route, ...item.models, {
-      queryParams: { redirection: item.redirection },
+    // the component can be torn down mid-transition, which used to throw here
+    const item = this.args.combinedCourse?.nextCombinedCourseItem;
+    if (!item) return;
+
+    // a nested course is not a destination: dive into its next activity
+    const target = item.type === CombinedCourseItemTypes.COMBINED_COURSE ? item.nextActivity : item;
+    if (!target) return;
+
+    this.router.transitionTo(target.route, ...target.models, {
+      queryParams: { redirection: target.redirection },
     });
   }
 
@@ -146,9 +162,18 @@ export default class CombinedCoursePresentation extends Component {
     );
   }
 
-  @action
-  getCurrentStep() {
-    return this.step++;
+  // derived from the items rather than counted during render: a counter incremented
+  // by the template drifts on every re-render (Étape 3, Étape 4 on the second one)
+  get stepNumbers() {
+    let step = 0;
+    let previousType = null;
+    return this.args.combinedCourse.items.map((item) => {
+      if (item.typeForStepDisplay !== previousType) {
+        step += 1;
+        previousType = item.typeForStepDisplay;
+      }
+      return step;
+    });
   }
 }
 

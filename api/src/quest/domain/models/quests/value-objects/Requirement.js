@@ -17,6 +17,7 @@ export const TYPES = {
     ORGANIZATION: 'organization',
     CAMPAIGN_PARTICIPATIONS: 'campaignParticipations',
     PASSAGES: 'passages',
+    COMBINED_COURSES: 'combinedCourses',
   },
 };
 

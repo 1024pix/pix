@@ -39,6 +39,13 @@ export default class CombinedCoursePresentationRoute extends Route {
 
   afterModel(combinedCourse) {
     this.accessStorage.clear(combinedCourse.organizationId);
+
+    // POC: inside a parent, a nested course is not a destination. parentCode is only
+    // set when the learner participates in that parent, so a course opened on its own
+    // keeps its page, and a parent cannot redirect to itself.
+    if (combinedCourse.parentCode) {
+      this.router.replaceWith('combined-courses.presentation', combinedCourse.parentCode);
+    }
   }
 
   activate() {
