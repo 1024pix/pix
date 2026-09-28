@@ -161,10 +161,25 @@ module('Unit | Authenticator | oidc', function (hooks) {
   });
 
   module('#invalidate', function () {
-    module('when user has logout url in their session', function () {
-      module('when user has no routeAfterInvalidation in their session', function () {
-        test('sets routeAfterInvalidation with the redirect logout url', async function (assert) {
+    module('when isSessionLogoutEnabled feature toggle is true', function (hooks) {
+      hooks.beforeEach(async function () {
+        const featureToggles = this.owner.lookup('service:featureToggles');
+        sinon.stub(featureToggles, 'featureToggles').value({ isSessionLogoutEnabled: true });
+
+        this.requestManagerStub = { request: sinon.stub().resolves() };
+        this.owner.register('service:request-manager', this.requestManagerStub, { instantiate: false });
+      });
+
+      module('when /api/oidc/logout returns redirectLogoutUrl', function () {
+        test('sets routeAfterInvalidation to redirectLogoutUrl', async function (assert) {
           // given
+          const redirectLogoutUrl = 'https://redirect.example.net/';
+          this.requestManagerStub.request = sinon.stub().resolves({
+            content: {
+              redirectLogoutUrl,
+            },
+          });
+
           const sessionStub = Service.create({
             isAuthenticated: true,
             data: {
@@ -175,11 +190,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
           });
           const authenticator = this.owner.lookup('authenticator:oidc');
           authenticator.session = sessionStub;
-          const redirectLogoutUrl =
-            'http://identity_provider_base_url/deconnexion?id_token_hint=ID_TOKEN&redirect_uri=http%3A%2F%2Flocalhost.fr%3A4200%2Fconnexion';
-          sinon.stub(window, 'fetch').resolves({
-            json: sinon.stub().resolves({ redirectLogoutUrl }),
-          });
 
           // when
           await authenticator.invalidate({
@@ -193,9 +203,11 @@ module('Unit | Authenticator | oidc', function (hooks) {
         });
       });
 
-      module('when user has already a routeAfterInvalidation in their session', function () {
-        test('does not change the routeAfterInvalidation', async function (assert) {
+      module('when /api/oidc/logout returns nothing', function () {
+        test('does not set routeAfterInvalidation', async function (assert) {
           // given
+          this.requestManagerStub.request = sinon.stub().resolves({ content: {} });
+
           const sessionStub = Service.create({
             isAuthenticated: true,
             data: {
@@ -203,11 +215,9 @@ module('Unit | Authenticator | oidc', function (hooks) {
                 logout_url_uuid: 'uuid',
               },
             },
-            routeAfterInvalidation: '/connexion?error=USER_HAS_NO_ORGANIZATION_MEMBERSHIP',
           });
           const authenticator = this.owner.lookup('authenticator:oidc');
           authenticator.session = sessionStub;
-          sinon.stub(window, 'fetch');
 
           // when
           await authenticator.invalidate({
@@ -217,11 +227,79 @@ module('Unit | Authenticator | oidc', function (hooks) {
           });
 
           // then
-          assert.strictEqual(
-            authenticator.session.routeAfterInvalidation,
-            '/connexion?error=USER_HAS_NO_ORGANIZATION_MEMBERSHIP',
-          );
-          sinon.assert.notCalled(window.fetch);
+          assert.strictEqual(authenticator.session.routeAfterInvalidation, undefined);
+        });
+      });
+    });
+
+    module('when isSessionLogoutEnabled feature toggle is false', function (hooks) {
+      hooks.beforeEach(async function () {
+        const featureToggles = this.owner.lookup('service:featureToggles');
+        sinon.stub(featureToggles, 'featureToggles').value({ isSessionLogoutEnabled: false });
+      });
+
+      module('when user has logout url in their session', function () {
+        module('when user has no routeAfterInvalidation in their session', function () {
+          test('sets routeAfterInvalidation with the redirect logout url', async function (assert) {
+            // given
+            const sessionStub = Service.create({
+              isAuthenticated: true,
+              data: {
+                authenticated: {
+                  logout_url_uuid: 'uuid',
+                },
+              },
+            });
+            const authenticator = this.owner.lookup('authenticator:oidc');
+            authenticator.session = sessionStub;
+            const redirectLogoutUrl =
+              'http://identity_provider_base_url/deconnexion?id_token_hint=ID_TOKEN&redirect_uri=http%3A%2F%2Flocalhost.fr%3A4200%2Fconnexion';
+            sinon.stub(window, 'fetch').resolves({
+              json: sinon.stub().resolves({ redirectLogoutUrl }),
+            });
+
+            // when
+            await authenticator.invalidate({
+              shouldCloseSession: true,
+              identityProviderCode: 'OIDC_PARTNER',
+              logoutUrlUuid: 'uuid',
+            });
+
+            // then
+            assert.strictEqual(authenticator.session.routeAfterInvalidation, redirectLogoutUrl);
+          });
+        });
+
+        module('when user has already a routeAfterInvalidation in their session', function () {
+          test('does not change the routeAfterInvalidation', async function (assert) {
+            // given
+            const sessionStub = Service.create({
+              isAuthenticated: true,
+              data: {
+                authenticated: {
+                  logout_url_uuid: 'uuid',
+                },
+              },
+              routeAfterInvalidation: '/connexion?error=USER_HAS_NO_ORGANIZATION_MEMBERSHIP',
+            });
+            const authenticator = this.owner.lookup('authenticator:oidc');
+            authenticator.session = sessionStub;
+            sinon.stub(window, 'fetch');
+
+            // when
+            await authenticator.invalidate({
+              shouldCloseSession: true,
+              identityProviderCode: 'OIDC_PARTNER',
+              logoutUrlUuid: 'uuid',
+            });
+
+            // then
+            assert.strictEqual(
+              authenticator.session.routeAfterInvalidation,
+              '/connexion?error=USER_HAS_NO_ORGANIZATION_MEMBERSHIP',
+            );
+            sinon.assert.notCalled(window.fetch);
+          });
         });
       });
     });
