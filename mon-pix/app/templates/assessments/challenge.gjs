@@ -35,9 +35,6 @@ import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
 
   <main class="challenge" role="main">
     <AssessmentBanner
-      @certificationNumber={{@model.assessment.certificationNumber}}
-      @certification={{@model.assessment.certificationCourse}}
-      @shouldBlurBanner={{@controller.shouldBlurBanner}}
       @assessment={{@model.assessment}}
       @completionRate={{@model.assessment.globalProgression}}
       @showGlobalProgression={{@model.assessment.globalProgression}}
