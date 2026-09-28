@@ -66,7 +66,9 @@ export async function create(version) {
 
   const versionLinkedTubeIds = version.tubeIds.map((tubeId) => ({ tube_id: tubeId, version_id: id }));
 
-  await knexConn.batchInsert('certification_versions_tubes', versionLinkedTubeIds);
+  await knexConn
+    .batchInsert('certification_versions_tubes', versionLinkedTubeIds)
+    .transacting(knexConn.isTransaction ? knexConn : null);
 
   return id;
 }
@@ -78,7 +80,7 @@ export async function update(version) {
   const knexConn = DomainTransaction.getConnection();
   const dataToInsert = _adaptModelToDb(version);
 
-  await knexConn('certification_versions').update(dataToInsert).where({ id: version.id }).returning('id');
+  await knexConn('certification_versions').update(dataToInsert).where({ id: version.id });
 }
 
 export async function remove(id) {
