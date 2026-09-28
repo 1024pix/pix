@@ -88,7 +88,14 @@ class LearningContentRedisCache {
     if (config.lcms.redisCache.clientPoolMaximum != undefined) {
       poolConfig.maximum = config.lcms.redisCache.clientPoolMaximum;
     }
-    return createClientPool({ url: config.redisUrl, database: config.lcms.redisCache.database }, poolConfig);
+    return createClientPool(
+      {
+        url: config.redisUrl,
+        database: config.lcms.redisCache.database,
+        pingInterval: config.lcms.redisCache.pingInterval,
+      },
+      poolConfig,
+    );
   }
 }
 
