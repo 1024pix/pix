@@ -87,7 +87,6 @@
     "monitoring:metrics": "node scripts/arborescence-monitoring/add-metrics-to-gist.js"
   },
   "dependencies": {
-    "@1024pix/epreuves-components": "^4.26.5",
     "@1024pix/oppsy": "^1.0.2",
     "@1024pix/pix-types": "file:../packages/pix-types",
     "@aws-sdk/client-s3": "^3.121.0",

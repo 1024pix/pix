@@ -1,9 +1,6 @@
 #!/bin/bash -e
 
-cd api
-npm i @1024pix/epreuves-components@latest
-
-cd ../mon-pix
+cd mon-pix
 npm i @1024pix/epreuves-components@latest
 
 cd ../junior
