@@ -1,4 +1,4 @@
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
+import { PixModal } from '@1024pix/nebulix-ember';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
 import ChallengeIllustration from 'mon-pix/components/challenge-illustration';

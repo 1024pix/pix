@@ -1,6 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixInputCode from '@1024pix/pix-ui/components/pix-input-code';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
+import { PixButton, PixInputCode, PixNotificationAlert } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';

@@ -1,4 +1,4 @@
-import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
+import { PixCheckbox } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';

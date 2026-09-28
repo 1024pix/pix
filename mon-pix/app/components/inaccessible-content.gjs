@@ -1,5 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import { PixBlock, PixButtonLink } from '@1024pix/nebulix-ember';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
 

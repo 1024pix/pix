@@ -1,4 +1,4 @@
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
+import { PixIcon } from '@1024pix/nebulix-ember';
 import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';

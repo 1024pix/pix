@@ -1,6 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
-import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
+import { PixButton, PixNotificationAlert, PixRadioButton } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';

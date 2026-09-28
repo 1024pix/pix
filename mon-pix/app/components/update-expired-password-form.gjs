@@ -1,8 +1,7 @@
 /* eslint ember/no-classic-components: 0 */
 /* eslint ember/require-tagless-components: 0 */
 
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixInputPassword from '@1024pix/pix-ui/components/pix-input-password';
+import { PixButton, PixInputPassword } from '@1024pix/nebulix-ember';
 import Component from '@ember/component';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';

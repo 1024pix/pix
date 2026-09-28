@@ -1,6 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixBlock, PixButtonLink, PixTag } from '@1024pix/nebulix-ember';
 import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
 import t from 'ember-intl/helpers/t';
 import { eq } from 'ember-truth-helpers';

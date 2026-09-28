@@ -1,6 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixInputPassword from '@1024pix/pix-ui/components/pix-input-password';
+import { PixButton, PixInput, PixInputPassword } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';

@@ -1,10 +1,12 @@
-import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
+import {
+  PixAccordions,
+  PixButton,
+  PixButtonLink,
+  PixIcon,
+  PixIconButton,
+  PixModal,
+  PixNotificationAlert,
+} from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';

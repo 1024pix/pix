@@ -1,8 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
+import { PixButton, PixIcon, PixModal, PixSelect, PixTextarea } from '@1024pix/nebulix-ember';
 import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';

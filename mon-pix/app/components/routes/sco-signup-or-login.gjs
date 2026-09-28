@@ -1,4 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
+import { PixButton } from '@1024pix/nebulix-ember';
 import { concat } from '@ember/helper';
 import t from 'ember-intl/helpers/t';
 import LoginForm from 'mon-pix/components/routes/login-form';
