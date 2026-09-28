@@ -6,18 +6,11 @@ import { Module } from '../../../../../src/devcomp/domain/models/module/Module.j
 import * as elementRepository from '../../../../../src/devcomp/infrastructure/repositories/element-repository.js';
 import { repositories } from '../../../../../src/devcomp/infrastructure/repositories/index.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
-import { waitFor } from '../../../../tooling/test-utils/wait.js';
 
 describe('Integration | DevComp | Repositories | ElementRepository', function () {
   describe('#getByIdForAnswerVerification', function () {
-    beforeEach(async function () {
-      await featureToggles.set('isFetchingModulesFromLearningContentEnabled', false);
-      await waitFor(() => featureToggles.use('isFetchingModulesFromLearningContentEnabled')?.value === false);
-    });
-
     it('should return an element from a component element', async function () {
       // given
       const moduleId = '6282925d-4775-4bca-b513-4c3009ec5886';
@@ -231,51 +224,8 @@ describe('Integration | DevComp | Repositories | ElementRepository', function ()
       expect(foundElement).to.deep.equal(element);
     });
 
-    describe('errors', function () {
-      describe('when module id is not found', function () {
-        it('should throw a NotFoundError', async function () {
-          // given
-          const nonExistingModuleId = 'dresser-des-pokemons';
-          const elementId = '67b68f2a-349d-4df7-90a5-c9f5dc930a1a';
-
-          // when
-          const error = await catchErr(elementRepository.getByIdForAnswerVerification)({
-            moduleId: nonExistingModuleId,
-            elementId,
-            moduleRepository: repositories.moduleRepository,
-          });
-
-          // then
-          expect(error).to.be.instanceOf(NotFoundError);
-        });
-      });
-
-      describe('when element id is not found', function () {
-        it('should throw a NotFoundError', async function () {
-          // given
-          const moduleId = 'adresse-ip-publique-et-vous';
-          const nonExistingElementId = '12';
-
-          // when
-          const error = await catchErr(elementRepository.getByIdForAnswerVerification)({
-            moduleId,
-            elementId: nonExistingElementId,
-            moduleRepository: repositories.moduleRepository,
-          });
-
-          // then
-          expect(error).to.be.instanceOf(NotFoundError);
-        });
-      });
-    });
-
-    describe('when the module is only available through the learning content database (not the static JSON files)', function () {
-      beforeEach(async function () {
-        await featureToggles.set('isFetchingModulesFromLearningContentEnabled', true);
-        await waitFor(() => featureToggles.use('isFetchingModulesFromLearningContentEnabled')?.value === true);
-      });
-
-      it('should still find the element by reading the module through the module repository', async function () {
+    describe('when the module is available through the learning content database', function () {
+      it('should find the element by reading the module through the module repository', async function () {
         // given
         const moduleId = '2f6b6b0a-df0a-4dc6-9b8d-df6e6f9d6a10';
         const elementId = '9d2f6b0a-df0a-4dc6-9b8d-df6e6f9d6a11';
@@ -322,6 +272,55 @@ describe('Integration | DevComp | Repositories | ElementRepository', function ()
         // then
         expect(foundElement).to.be.instanceof(QCUForAnswerVerification);
         expect(foundElement.id).to.equal(elementId);
+      });
+
+      it('should throw a NotFoundError when the element id does not exist in the module', async function () {
+        // given
+        const moduleId = '3a7c7c1b-ef1b-5ed7-10ce-ef7d7e0e7b11';
+        const existingElementId = 'ae3f7c1b-ef1b-5ed7-10ce-ef7d7e0e7b22';
+        const nonExistingElementId = 'bf4c8d2c-ff2c-6fe8-11df-ff8d8e1f8c33';
+        databaseBuilder.factory.learningContent.buildModule({
+          id: moduleId,
+          sections: [
+            {
+              id: '858d82ff-bddb-5544-b661-7f2fcbaf90698',
+              type: 'blank',
+              grains: [
+                {
+                  id: 'f423d44f-f8da-5b7a-8bb1-924b69b8f8ee',
+                  type: 'lesson',
+                  title: 'Test leçon',
+                  components: [
+                    {
+                      type: 'element',
+                      element: {
+                        id: existingElementId,
+                        type: 'qcu',
+                        instruction: '<p>Question existante</p>',
+                        proposals: [
+                          { id: '1', content: 'Oui', feedback: 'Correct' },
+                          { id: '2', content: 'Non', feedback: 'Incorrect' },
+                        ],
+                        solution: '1',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(elementRepository.getByIdForAnswerVerification)({
+          moduleId,
+          elementId: nonExistingElementId,
+          moduleRepository: repositories.moduleRepository,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
   });
