@@ -147,7 +147,6 @@
     "handlebars": ">=4.7.9"
   },
   "engines": {
-    "@1024pix/pix-ui": "^68.1.2",
     "node": "^24.20.0"
   },
   "ember": {
