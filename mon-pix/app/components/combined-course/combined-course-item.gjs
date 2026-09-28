@@ -6,6 +6,8 @@ import { t } from 'ember-intl';
 import { and, eq, not } from 'ember-truth-helpers';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 
+import Duration from './duration';
+
 const Content = <template>
   <div
     class="combined-course-item
@@ -94,14 +96,6 @@ const Content = <template>
   </div>
 </template>;
 
-const Duration = <template>
-  <PixIcon @name="acute" class="combined-course-item__duration__icon" @ariaHidden={{true}} />
-  <span aria-label={{t "pages.combined-courses.items.aria-label-duration" duration=@item.duration}}>{{t
-      "pages.combined-courses.items.duration"
-      duration=@item.duration
-    }}</span>
-</template>;
-
 function hasWhiteBackground(item) {
   return item.isCompleted || !item.isLocked;
 }
@@ -128,7 +122,7 @@ function hasWhiteBackground(item) {
         @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
       >
         <:duration>
-          {{#if @item.duration}}<Duration @item={{@item}} />{{/if}}
+          {{#if @item.duration}}<Duration @duration={{@item.duration}} />{{/if}}
         </:duration>
       </Content>
     {{else}}
@@ -155,7 +149,7 @@ function hasWhiteBackground(item) {
         >
           <:duration>
             {{#if @item.duration}}
-              <Duration @item={{@item}} />
+              <Duration @duration={{@item.duration}} />
             {{/if}}
           </:duration>
           <:blockEnd>
