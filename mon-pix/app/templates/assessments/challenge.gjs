@@ -1,7 +1,6 @@
 import { array } from '@ember/helper';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
-import CertificationBanner from 'mon-pix/components/certification-banner';
 import Content from 'mon-pix/components/challenge/content';
 import FocusedCertificationChallengeInstructions from 'mon-pix/components/focused-certification-challenge-instructions';
 import LevelupNotif from 'mon-pix/components/levelup-notif';
@@ -35,24 +34,19 @@ import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
   {{/if}}
 
   <main class="challenge" role="main">
-    {{#if @model.assessment.isCertification}}
-      <CertificationBanner
-        @certificationNumber={{@model.assessment.certificationNumber}}
-        @certification={{@model.assessment.certificationCourse}}
-        @shouldBlurBanner={{@controller.shouldBlurBanner}}
-      />
-    {{else}}
-      <AssessmentBanner
-        @assessment={{@model.assessment}}
-        @completionRate={{@model.assessment.globalProgression}}
-        @showGlobalProgression={{@model.assessment.globalProgression}}
-        @displayHomeLink={{@controller.displayHomeLink}}
-        @isTextToSpeechActivated={{@controller.isTextToSpeechActivated}}
-        @currentChallengeNumber={{@model.currentChallengeNumber}}
-        @toggleTextToSpeech={{@controller.toggleTextToSpeech}}
-        @displayTextToSpeechActivationButton={{true}}
-      />
-    {{/if}}
+    <AssessmentBanner
+      @certificationNumber={{@model.assessment.certificationNumber}}
+      @certification={{@model.assessment.certificationCourse}}
+      @shouldBlurBanner={{@controller.shouldBlurBanner}}
+      @assessment={{@model.assessment}}
+      @completionRate={{@model.assessment.globalProgression}}
+      @showGlobalProgression={{@model.assessment.globalProgression}}
+      @displayHomeLink={{@controller.displayHomeLink}}
+      @isTextToSpeechActivated={{@controller.isTextToSpeechActivated}}
+      @currentChallengeNumber={{@model.currentChallengeNumber}}
+      @toggleTextToSpeech={{@controller.toggleTextToSpeech}}
+      @displayTextToSpeechActivationButton={{true}}
+    />
 
     <div class="challenge__display">
       {{#if @controller.displayTimedChallengeInstructions}}

@@ -34,10 +34,9 @@ export default class ProgressBar extends Component {
   }
 
   <template>
-    <div>
+    <div class="progress-bar">
       {{#if @showGlobalProgression}}
         <PixProgressBar
-          class="checkpoint__progression-gauge"
           @value={{@completionRate}}
           @label={{t "pages.checkpoint.completion-percentage.label" completion=@completionRate}}
           @percentageValue={{t "common.display.percentage" value=@completionRate}}
@@ -47,6 +46,10 @@ export default class ProgressBar extends Component {
       {{else if this.showChallengeStepper}}
         <PixStepper @currentStep={{this.currentStepNumber}} @steps={{this.steps}} />
       {{else if this.showQuestionCounterOutside}}
+        {{#if (has-block "certificationNumber")}}
+          {{yield to="certificationNumber"}}
+        {{/if}}
+
         <div class="assessment-progress" role="progressbar" aria-label="{{t 'pages.challenge.parts.progress'}}">
           <div class="assessment-progress__label">{{t "pages.challenge.progress-bar.label"}}</div>
           <div class="assessment-progress__value">

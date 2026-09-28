@@ -6,6 +6,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
 import { and } from 'ember-truth-helpers';
+import startCase from 'lodash/startCase';
 import ProgressBar from 'mon-pix/components/ui/assessment/progress-bar';
 
 export default class AssessmentBanner extends Component {
@@ -30,6 +31,26 @@ export default class AssessmentBanner extends Component {
         });
       }
     });
+  }
+
+  get cssClass() {
+    const cssClass = ['assessment-banner'];
+
+    if (this.isCertificationContext) cssClass.push('assessment-banner--certification');
+
+    return cssClass.join(' ');
+  }
+
+  get isCertificationContext() {
+    return !!this.args.certification;
+  }
+
+  get candidateFullName() {
+    if (!this.isCertificationContext) return '';
+
+    const firstName = this.args.certification.get('firstName');
+    const lastName = this.args.certification.get('lastName');
+    return `${startCase(firstName)} ${lastName.toUpperCase()}`;
   }
 
   get isRedirectionUrlInternal() {
@@ -59,7 +80,7 @@ export default class AssessmentBanner extends Component {
   }
 
   get title() {
-    return this.args?.assessment?.title;
+    return this.args.certification ? null : this.args?.assessment?.title;
   }
 
   get textToSpeechTooltipText() {
@@ -82,46 +103,73 @@ export default class AssessmentBanner extends Component {
   }
 
   <template>
-    <header class="assessment-banner" role="banner">
-      <div class="assessment-banner__title">
-        <img src="/images/pix-logo-blanc.svg" alt="" />
-        {{#if this.title}}
-          <span class="assessment-banner__separator" />
-          <h1 class="assessment-banner__text">
-            <span class="sr-only">{{t "pages.assessment-banner.title"}}</span>
-            {{this.title}}
-          </h1>
-        {{/if}}
-
-        <div class="assessment-banner__action">
-          {{#if this.showTextToSpeechActivationButton}}
-            <PixTooltip @position="left" @isInline={{true}}>
-              <:triggerElement>
-                <button type="button" aria-label={{this.textToSpeechTooltipText}} {{on "click" @toggleTextToSpeech}}>
-                  <PixIcon @name={{if @isTextToSpeechActivated "volumeOn" "volumeOff"}} />
-                </button>
-              </:triggerElement>
-              <:tooltip>
-                {{this.textToSpeechTooltipText}}
-              </:tooltip>
-            </PixTooltip>
-          {{/if}}
-          {{#if (and this.showTextToSpeechActivationButton @displayHomeLink)}}
+    <header class={{this.cssClass}} role="banner">
+      <div class="assessment-banner__header">
+        <div class="assessment-banner__title">
+          <img src="/images/pix-logo-blanc.svg" alt="" />
+          {{#if this.title}}
             <span class="assessment-banner__separator" />
-          {{/if}}
-          {{#if @displayHomeLink}}
-            <PixButton @variant="tertiary" @iconAfter="close" @triggerAction={{this.toggleClosingModal}}>
-              {{t "common.actions.quit"}}
-            </PixButton>
+            <h1 class="assessment-banner__text">
+              <span class="sr-only">{{t "pages.assessment-banner.title"}}</span>
+              {{this.title}}
+            </h1>
           {{/if}}
         </div>
+        {{#if this.isCertificationContext}}
+          <h1 class="assessment-banner__title">{{this.candidateFullName}}</h1>
+
+        {{/if}}
+        {{#unless this.isCertificationContext}}
+          <div class="assessment-banner__action">
+            {{#if this.showTextToSpeechActivationButton}}
+              <PixTooltip @position="left" @isInline={{true}}>
+                <:triggerElement>
+                  <button type="button" aria-label={{this.textToSpeechTooltipText}} {{on "click" @toggleTextToSpeech}}>
+                    <PixIcon @name={{if @isTextToSpeechActivated "volumeOn" "volumeOff"}} />
+                  </button>
+                </:triggerElement>
+                <:tooltip>
+                  {{this.textToSpeechTooltipText}}
+                </:tooltip>
+              </PixTooltip>
+            {{/if}}
+            {{#if (and this.showTextToSpeechActivationButton @displayHomeLink)}}
+              <span class="assessment-banner__separator" />
+            {{/if}}
+            {{#if @displayHomeLink}}
+              <PixButton @variant="tertiary" @iconAfter="close" @triggerAction={{this.toggleClosingModal}}>
+                {{t "common.actions.quit"}}
+              </PixButton>
+            {{/if}}
+          </div>
+        {{/unless}}
       </div>
-      <ProgressBar
-        @completionRate={{@completionRate}}
-        @assessment={{@assessment}}
-        @currentChallengeNumber={{@currentChallengeNumber}}
-        @showGlobalProgression={{@showGlobalProgression}}
-      />
+
+      {{#if this.isCertificationContext}}
+        <ProgressBar
+          @completionRate={{@completionRate}}
+          @assessment={{@assessment}}
+          @currentChallengeNumber={{@currentChallengeNumber}}
+          @showGlobalProgression={{@showGlobalProgression}}
+        >
+          <:certificationNumber>
+            <div class="certification-number">
+              <div class="certification-number__label">{{t
+                  "pages.challenge.certification.banner.certification-number"
+                }}</div>
+              <div class="certification-number__value">{{@certificationNumber}}</div>
+            </div>
+          </:certificationNumber>
+        </ProgressBar>
+      {{else}}
+        <ProgressBar
+          @completionRate={{@completionRate}}
+          @assessment={{@assessment}}
+          @currentChallengeNumber={{@currentChallengeNumber}}
+          @showGlobalProgression={{@showGlobalProgression}}
+        />
+      {{/if}}
+
     </header>
 
     <PixModal
