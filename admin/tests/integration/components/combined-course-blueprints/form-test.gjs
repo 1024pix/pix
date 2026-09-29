@@ -5,19 +5,8 @@ import CombinedCourseBlueprintForm from 'pix-admin/components/combined-course-bl
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import selectOption from '../../../helpers/select-option';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-
-async function selectOption(screen, buttonLabel, optionLabel) {
-  const button = screen.getByRole('button', {
-    name: buttonLabel,
-  });
-
-  const list = within(button.closest('div')).getByRole('listbox', { hidden: true });
-
-  const option = within(list).getByText(optionLabel);
-
-  await click(option);
-}
 
 module('Integration | Component | CombinedCourseBlueprints::form', function (hooks) {
   setupIntlRenderingTest(hooks);
