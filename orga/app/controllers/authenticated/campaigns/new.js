@@ -8,16 +8,11 @@ export default class NewController extends Controller {
   @service store;
   @service notifications;
   @service intl;
-  @service featureToggles;
 
   @tracked errors;
   @tracked courseId = null;
 
   queryParams = ['source', 'courseId'];
-
-  get catalogueFeatureEnabled() {
-    return Boolean(this.featureToggles.featureToggles?.displayCatalogue);
-  }
 
   @action
   async createCampaign() {
