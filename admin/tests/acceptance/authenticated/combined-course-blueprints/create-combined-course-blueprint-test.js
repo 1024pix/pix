@@ -2,6 +2,7 @@ import { clickByName, visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import selectOption from 'pix-admin/tests/helpers/select-option';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
@@ -66,8 +67,8 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
     await click(
       screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
     );
-    await screen.findByRole('listbox');
-    await click(screen.getByRole('option', { name: 'Parentalite' }));
+
+    await selectOption(screen, t('components.combined-course-blueprints.attestation.select-label'), 'Parentalite');
 
     await click(
       screen.getByRole('radio', {
@@ -136,8 +137,7 @@ module('Acceptance | Combined course blueprint | New', function (hooks) {
     await click(
       screen.getByRole('button', { name: t('components.combined-course-blueprints.attestation.select-label') }),
     );
-    await screen.findByRole('listbox');
-    await click(screen.getByRole('option', { name: 'Parentalite' }));
+    await selectOption(screen, t('components.combined-course-blueprints.attestation.select-label'), 'Parentalite');
 
     await click(
       screen.getByRole('radio', {
