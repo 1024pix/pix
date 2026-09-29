@@ -1,20 +1,12 @@
 import { expect } from 'chai';
 
 import { Module } from '../../../../../src/devcomp/domain/models/module/Module.js';
-import moduleDatasource from '../../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
 import * as moduleRepository from '../../../../../src/devcomp/infrastructure/repositories/module-repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
-import { waitFor } from '../../../../tooling/test-utils/wait.js';
 
 describe('Integration | DevComp | Repositories | ModuleRepository', function () {
-  beforeEach(async function () {
-    await featureToggles.set('isFetchingModulesFromLearningContentEnabled', true);
-    await waitFor(() => featureToggles.use('isFetchingModulesFromLearningContentEnabled')?.value);
-  });
-
   describe('#getById', function () {
     it('should throw a NotFoundError if the module does not exist', async function () {
       // given
@@ -129,7 +121,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       const nonExistingModuleSlug = 'dresser-des-pokemons';
 
       // when
-      const error = await catchErr(moduleRepository.getBySlug)({ slug: nonExistingModuleSlug, moduleDatasource });
+      const error = await catchErr(moduleRepository.getBySlug)({ slug: nonExistingModuleSlug });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);

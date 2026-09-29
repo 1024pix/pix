@@ -1,13 +1,10 @@
 #!/bin/bash -e
 
-cd api
-npm i @1024pix/epreuves-components@latest
-
-cd ../mon-pix
+cd mon-pix
 npm i @1024pix/epreuves-components@latest
 
 cd ../junior
 npm i @1024pix/epreuves-components@latest
 
 cd ..
-node api/src/devcomp/scripts/generate-demo-epreuve-component.js
+# Regenerating the demo module is now done in Pix Editor, not via this script.

@@ -84,11 +84,9 @@
     "test:api:git-modified": "git ls-files -m -- '*test.{js,ts}' | xargs npm run test:api:path -- $1",
     "toggles": "LOG_FOR_HUMANS_FORMAT=compact node src/shared/infrastructure/feature-toggles/feature-toggles-script.js",
     "monitoring:arborescence": "node scripts/arborescence-monitoring/arborescence-monitoring.js",
-    "monitoring:metrics": "node scripts/arborescence-monitoring/add-metrics-to-gist.js",
-    "modulix:test": "npm run test:api:path -- 'tests/devcomp/unit/infrastructure/datasources/learning-content/module-datasource_test.js' 'tests/devcomp/unit/infrastructure/datasources/learning-content/validation/module-validation_test.js' 'tests/devcomp/unit/infrastructure/repositories/module-repository_test.js' && TEST_SETUP_MODE=unit npm run test:api:path -- 'tests/devcomp/acceptance/module-instantiation_test.js'"
+    "monitoring:metrics": "node scripts/arborescence-monitoring/add-metrics-to-gist.js"
   },
   "dependencies": {
-    "@1024pix/epreuves-components": "^4.26.5",
     "@1024pix/oppsy": "^1.0.2",
     "@1024pix/pix-types": "file:../packages/pix-types",
     "@aws-sdk/client-s3": "^3.121.0",
@@ -133,7 +131,6 @@
     "fast-levenshtein": "^3.0.0",
     "file-type": "^22.0.0",
     "hapi-swagger": "^17.3.2",
-    "html-validate": "^11.0.0",
     "hyparquet-writer": "^0.15.6",
     "i18n": "^0.15.0",
     "iconv-lite": "^0.7.0",
