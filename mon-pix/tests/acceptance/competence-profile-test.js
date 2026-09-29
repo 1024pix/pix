@@ -7,7 +7,7 @@ import { module, test } from 'qunit';
 
 import { authenticate } from '../helpers/authentication';
 
-module('Acceptance | Profile | Start competence', function (hooks) {
+module('Acceptance | Profile | Start competence', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   let user;

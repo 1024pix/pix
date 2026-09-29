@@ -205,6 +205,32 @@ module('Integration | Component | Ui | Assessment | assessment-banner', function
     });
   });
 
+  module('When global progression is requested', function () {
+    test('should render the info bar with the completion rate', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const assessment = store.createRecord('assessment', {
+        type: 'CAMPAIGN',
+        title: 'Mon titre',
+      });
+      const completionRate = 0.56;
+
+      // when
+      const screen = await render(
+        <template>
+          <AssessmentBanner
+            @assessment={{assessment}}
+            @showGlobalProgression={{true}}
+            @completionRate={{completionRate}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.getByRole('progressbar')).hasAttribute('value', '0.56');
+    });
+  });
+
   module('when the text to speech feature toggle is enabled', function (hooks) {
     hooks.beforeEach(async function () {
       const featureToggles = this.owner.lookup('service:featureToggles');

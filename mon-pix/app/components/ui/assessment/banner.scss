@@ -8,8 +8,8 @@
   border-radius: 16px;
 
   @media (min-width: 769px) {
-    padding: var(--pix-spacing-8x);
     margin-bottom: var(--pix-spacing-10x);
+    padding: var(--pix-spacing-8x);
   }
 
   &--certification {
@@ -24,9 +24,9 @@
 
   &__title {
     @media (min-width:769px) {
+      display: flex;
       gap: var(--pix-spacing-3x);
       align-items: center;
-      display: flex;
     }
 
 
@@ -42,7 +42,8 @@
 
   &__separator {
     width: 1px;
-    height: 40px;
+    height: 20px;
+    margin:6px 0;
     background-color: var(--pix-neutral-0);
     border-radius: 1px;
   }
@@ -57,7 +58,7 @@
       align-items: center;
     }
 
-    & .pix-button, .pix-icon-button {
+    & .pix-icon-button {
       color: var(--pix-neutral-0) !important;
       text-decoration: none !important;
 

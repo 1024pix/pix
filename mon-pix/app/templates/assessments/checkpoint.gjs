@@ -1,4 +1,4 @@
-import { PixBannerAlert, PixProgressBar } from '@1024pix/nebulix-ember';
+import { PixBannerAlert } from '@1024pix/nebulix-ember';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
 import CheckpointContinue from 'mon-pix/components/checkpoint-continue';

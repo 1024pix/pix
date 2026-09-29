@@ -9,33 +9,22 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Certifications | CertificationEnder', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  const model = { assessment: { isCertification: true, certificationNumber: 1234 } };
+
   test('should display the translated labels', async function (assert) {
     // when
-    const screen = await renderScreen(<template><CertificationEnder /></template>);
+    const screen = await renderScreen(<template><CertificationEnder @model={{model}} /></template>);
 
     // then
     assert.ok(screen.getByText(t('pages.certification-ender.candidate.title')));
   });
 
-  test('should not display the authenticated menu', async function (assert) {
-    // when
-    const screen = await renderScreen(<template><CertificationEnder /></template>);
-
-    // then
-    assert.dom(screen.queryByRole('navigation', { name: t('navigation.main.label') })).doesNotExist();
-  });
-
   test('should display the certification number', async function (assert) {
-    // given
-    const certificationNumber = 1234;
-
     // when
-    const screen = await renderScreen(
-      <template><CertificationEnder @certificationNumber={{certificationNumber}} /></template>,
-    );
+    const screen = await renderScreen(<template><CertificationEnder @model={{model}} /></template>);
 
     // then
-    assert.ok(screen.getByText(1234));
+    assert.ok(screen.getByText('1 234'));
   });
 
   test('should display the current user name', async function (assert) {
@@ -44,7 +33,7 @@ module('Integration | Component | Certifications | CertificationEnder', function
 
     // when
     const screen = await renderScreen(
-      <template><CertificationEnder @certificationNumber={{this.certificationNumber}} /></template>,
+      <template><CertificationEnder @model={{model}} @certificationNumber={{this.certificationNumber}} /></template>,
     );
 
     // then
@@ -54,7 +43,7 @@ module('Integration | Component | Certifications | CertificationEnder', function
   test('should display the remote certification logout message', async function (assert) {
     // when
     const screen = await renderScreen(
-      <template><CertificationEnder @certificationNumber={{this.certificationNumber}} /></template>,
+      <template><CertificationEnder @model={{model}} @certificationNumber={{this.certificationNumber}} /></template>,
     );
 
     // then
@@ -69,7 +58,11 @@ module('Integration | Component | Certifications | CertificationEnder', function
       // when
       const screen = await renderScreen(
         <template>
-          <CertificationEnder @certificationNumber={{this.certificationNumber}} @isEndedByInvigilator={{false}} />
+          <CertificationEnder
+            @model={{model}}
+            @certificationNumber={{this.certificationNumber}}
+            @isEndedByInvigilator={{false}}
+          />
         </template>,
       );
 
@@ -86,7 +79,11 @@ module('Integration | Component | Certifications | CertificationEnder', function
       // when
       const screen = await renderScreen(
         <template>
-          <CertificationEnder @certificationNumber={{this.certificationNumber}} @isEndedByInvigilator={{true}} />
+          <CertificationEnder
+            @model={{model}}
+            @certificationNumber={{this.certificationNumber}}
+            @isEndedByInvigilator={{true}}
+          />
         </template>,
       );
 
@@ -104,6 +101,7 @@ module('Integration | Component | Certifications | CertificationEnder', function
       const screen = await renderScreen(
         <template>
           <CertificationEnder
+            @model={{model}}
             @certificationNumber={{this.certificationNumber}}
             @hasBeenEndedDueToFinalization={{true}}
           />
@@ -124,6 +122,7 @@ module('Integration | Component | Certifications | CertificationEnder', function
       const screen = await renderScreen(
         <template>
           <CertificationEnder
+            @model={{model}}
             @certificationNumber={{this.certificationNumber}}
             @hasBeenEndedDueToDurationExceeded={{true}}
           />

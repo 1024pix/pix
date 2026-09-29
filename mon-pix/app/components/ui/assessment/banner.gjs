@@ -1,12 +1,10 @@
-import { PixButton, PixButtonLink, PixIcon, PixIconButton, PixModal, PixTooltip } from '@1024pix/nebulix-ember';
-import { on } from '@ember/modifier';
+import { PixButton, PixButtonLink, PixIconButton, PixModal, PixTooltip } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
 import { and } from 'ember-truth-helpers';
-import startCase from 'lodash/startCase';
 import InfoBar from 'mon-pix/components/ui/assessment/info-bar';
 
 export default class AssessmentBanner extends Component {
@@ -46,15 +44,6 @@ export default class AssessmentBanner extends Component {
     return cssClass.join(' ');
   }
 
-  get candidateFullName() {
-    if (!this.isCertification) return '';
-
-    const firstName = this.args.assessment.certificationCourse.get('firstName');
-    const lastName = this.args.assessment.certificationCourse.get('lastName');
-
-    return `${startCase(firstName)} ${lastName.toUpperCase()}`;
-  }
-
   get isRedirectionUrlInternal() {
     if (this.campaign.customResultPageButtonUrl.startsWith('http')) {
       return false;
@@ -65,6 +54,10 @@ export default class AssessmentBanner extends Component {
     } catch {
       return false;
     }
+  }
+
+  get certificationNumber() {
+    return this.args.assessment.certificationNumber;
   }
 
   get redirectionUrl() {
@@ -82,7 +75,7 @@ export default class AssessmentBanner extends Component {
   }
 
   get title() {
-    return this.args.certification ? null : this.args?.assessment?.title;
+    return this.isCertification ? null : this.args?.assessment?.title;
   }
 
   get textToSpeechTooltipText() {
@@ -117,18 +110,18 @@ export default class AssessmentBanner extends Component {
             </h1>
           {{/if}}
         </div>
-        {{#if this.isCertification}}
-          <h1 class="assessment-banner__title">{{this.candidateFullName}}</h1>
 
-        {{/if}}
         {{#unless this.isCertification}}
           <div class="assessment-banner__action">
             {{#if this.showTextToSpeechActivationButton}}
               <PixTooltip @position="left" @isInline={{true}}>
                 <:triggerElement>
-                  <button type="button" aria-label={{this.textToSpeechTooltipText}} {{on "click" @toggleTextToSpeech}}>
-                    <PixIcon @name={{if @isTextToSpeechActivated "volumeOn" "volumeOff"}} />
-                  </button>
+                  <PixIconButton
+                    @ariaLabel={{this.textToSpeechTooltipText}}
+                    @iconName={{if @isTextToSpeechActivated "volumeOn" "volumeOff"}}
+                    @size="small"
+                    @triggerAction={{@toggleTextToSpeech}}
+                  />
                 </:triggerElement>
                 <:tooltip>
                   {{this.textToSpeechTooltipText}}
@@ -160,7 +153,8 @@ export default class AssessmentBanner extends Component {
         @assessment={{@assessment}}
         @currentChallengeNumber={{@currentChallengeNumber}}
         @showGlobalProgression={{@showGlobalProgression}}
-        @certificationNumber={{@certificationNumber}}
+        @certificationNumber={{this.certificationNumber}}
+        @isEnded={{@isEnded}}
       />
     </header>
 

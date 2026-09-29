@@ -65,21 +65,23 @@ export default class InfoBar extends Component {
           </dt>
           <dd class="info-bar__value">{{this.certificationNumber}}</dd>
         </div>
-        <div>
-          <dt class="info-bar__label">{{t "components.info-bar.progress.label"}}</dt>
-          <dd
-            class="info-bar__value"
-            aria-label={{t
-              "components.info-bar.progress.position"
-              current=this.currentStepNumber
-              total=this.maxStepsNumber
-            }}
-          >
-            {{this.currentStepNumber}}
-            /
-            {{this.maxStepsNumber}}
-          </dd>
-        </div>
+        {{#unless @isEnded}}
+          <div>
+            <dt class="info-bar__label">{{t "components.info-bar.progress.label"}}</dt>
+            <dd
+              class="info-bar__value"
+              aria-label={{t
+                "components.info-bar.progress.position"
+                current=this.currentStepNumber
+                total=this.maxStepsNumber
+              }}
+            >
+              {{this.currentStepNumber}}
+              /
+              {{this.maxStepsNumber}}
+            </dd>
+          </div>
+        {{/unless}}
       </dl>
     {{/if}}
   </template>
