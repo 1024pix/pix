@@ -2,7 +2,7 @@ import { PixButton, PixIcon } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { htmlSafe } from '@ember/template';
 import t from 'ember-intl/helpers/t';
-import { eq } from 'ember-truth-helpers';
+import { eq, or } from 'ember-truth-helpers';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item.js';
 
 import Duration from '../duration';
@@ -24,18 +24,22 @@ import Level from '../level';
       {{/if}}
     </div>
     <h1 class="step-details__title">{{@item.title}}</h1>
-    {{#if @item.description}}
-      <p class="step-details__description">{{htmlSafe @item.description}}</p>
-    {{/if}}
-    {{#if @item.objectives}}
-      <ul class="step-details__objectives">
-        {{#each @item.objectives as |objective|}}
-          <li class="step-details__objectives--item">
-            <PixIcon @name="chevronRight" class="step-details__objectives--chevron" />
-            {{htmlSafe objective}}
-          </li>
-        {{/each}}
-      </ul>
+    {{#if (or @item.description @item.objectives.length)}}
+      <div class="step-details__summary" aria-live="polite" aria-atomic="true">
+        {{#if @item.description}}
+          <p class="step-details__description" id="step-details-description">{{htmlSafe @item.description}}</p>
+        {{/if}}
+        {{#if @item.objectives}}
+          <ul class="step-details__objectives" id="step-details-objectives">
+            {{#each @item.objectives as |objective|}}
+              <li class="step-details__objectives--item">
+                <PixIcon @name="chevronRight" class="step-details__objectives--chevron" @ariaHidden={{true}} />
+                {{htmlSafe objective}}
+              </li>
+            {{/each}}
+          </ul>
+        {{/if}}
+      </div>
     {{/if}}
   </div>
 

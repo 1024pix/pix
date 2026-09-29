@@ -3,6 +3,7 @@ import { on } from '@ember/modifier';
 import { t } from 'ember-intl';
 import { and, eq, not } from 'ember-truth-helpers';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
+import autofocus from 'mon-pix/modifiers/autofocus.js';
 
 import Duration from './duration';
 
@@ -130,6 +131,8 @@ function hasWhiteBackground(item) {
         type="button"
         {{on "click" @onClick}}
         data-testid="selectable-item-button"
+        aria-describedby={{if @isSelectedItem "step-details-description step-details-objectives"}}
+        {{autofocus @isSelectedItem}}
       >
         <Content
           @title={{@item.title}}

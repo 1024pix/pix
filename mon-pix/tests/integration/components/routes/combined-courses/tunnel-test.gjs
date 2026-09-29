@@ -224,5 +224,30 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
       assert.notOk(await screen.queryByText('pages.combined-courses.items.start-campaign'));
       assert.ok(await screen.findByRole('button', { name: t('pages.combined-courses.items.start-module') }));
     });
+
+    module('accessibility', function () {
+      test('should describe selected item button with step details', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const moduleItem = store.createRecord('combined-course-item', {
+          id: 1,
+          title: 'mon module',
+          type: CombinedCourseItemTypes.MODULE,
+          isLocked: false,
+          isCompleted: false,
+          description: 'Ma description',
+          objectives: ['Objectif 1', 'Objectif 2'],
+        });
+        const combinedCourse = store.createRecord('combined-course', { id: 4, items: [moduleItem] });
+
+        // when
+        const screen = await render(<template><CombinedCourseTunnel @combinedCourse={{combinedCourse}} /></template>);
+
+        // then
+        assert.ok(
+          screen.getByRole('button', { name: /mon module/, description: 'Ma description Objectif 1 Objectif 2' }),
+        );
+      });
+    });
   });
 });

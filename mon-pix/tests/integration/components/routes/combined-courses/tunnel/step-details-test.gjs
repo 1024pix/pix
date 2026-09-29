@@ -32,5 +32,25 @@ module('Integration | Component | Combined Courses | Tunnel | Step-details', fun
       assert.ok(screen.getByText('Objectif 2'));
       assert.notOk(await screen.queryByText('<p>', { exact: false }));
     });
+
+    test('should announce description and objectives in a polite live region', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const item = store.createRecord('combined-course-item', {
+        id: 1,
+        type: CombinedCourseItemTypes.MODULE,
+        description: 'Item description',
+        objectives: ['Objectif 1'],
+      });
+
+      // when
+      const screen = await render(<template><StepDetails @item={{item}} /></template>);
+
+      // then
+      const liveRegion = screen.getByText('Item description').closest('[aria-live]');
+      assert.dom(liveRegion).hasAttribute('aria-live', 'polite');
+      assert.dom(liveRegion).hasAttribute('aria-atomic', 'true');
+      assert.dom(liveRegion).containsText('Objectif 1');
+    });
   });
 });
