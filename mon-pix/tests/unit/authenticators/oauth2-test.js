@@ -20,12 +20,13 @@ module('Unit | Authenticator | oauth2', function (hooks) {
     assert.strictEqual(authenticator.serverTokenRevocationEndpoint, serverTokenRevocationEndpoint);
   });
 
-  module('#invalidate', function (hooks) {
-    hooks.beforeEach(function () {
-      sinon.stub(window, 'fetch').resolves();
-    });
+  module('#invalidate', function () {
+    module('when isSessionLogoutEnabled feature toggle is true', function (hooks) {
+      hooks.beforeEach(async function () {
+        this.requestManagerStub = { request: sinon.stub().resolves() };
+        this.owner.register('service:request-manager', this.requestManagerStub, { instantiate: false });
+      });
 
-    module('when isSessionLogoutEnabled feature toggle is true', function () {
       test('sends POST request on /api/logout to invalidate user’s session', async function (assert) {
         // given
         const authenticator = this.owner.lookup('authenticator:oauth2');
@@ -40,14 +41,19 @@ module('Unit | Authenticator | oauth2', function (hooks) {
 
         // then
         assert.true(true);
-        sinon.assert.calledOnceWithExactly(window.fetch, 'http://localhost:3000/api/logout', {
-          headers: { Authorization: 'Bearer test_access_token' },
+
+        sinon.assert.calledOnceWithExactly(this.requestManagerStub.request, {
+          url: 'http://localhost:3000/api/logout',
           method: 'POST',
         });
       });
     });
 
-    module('when isSessionLogoutEnabled feature toggle is false', function () {
+    module('when isSessionLogoutEnabled feature toggle is false', function (hooks) {
+      hooks.beforeEach(function () {
+        sinon.stub(window, 'fetch').resolves();
+      });
+
       test('calls default invalidate implementation', async function (assert) {
         // given
         const authenticator = this.owner.lookup('authenticator:oauth2');
