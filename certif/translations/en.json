@@ -636,14 +636,24 @@
             "notifications": {
               "error-add-duplicate": "This candidate is already in the list, you can't add them again.",
               "error-add-unknown": "An error occurred while adding the candidate.",
-              "error-remove-already-in": "This candidate has already joined the session, you can’t delete them.",
-              "error-remove-unknown": "An error occurred while deleting the candidate.",
-              "success-add": "The candidate has been successfully enrolled.",
-              "success-remove": "The candidate has been successfully deleted."
+              "success-add": "The candidate has been successfully enrolled."
             },
             "prepayment-information": "Prepayment code information",
             "prepayment-tooltip": "Required in particular when purchasing combined credits)<br />It must be comprised of the organisation’s SIRET and of the invoice’s number. Ex : 12345678912345/FACT12345.<br />If you don’t have an invoice, a prepayment code must be set with Pix.",
             "title": "Enrol a candidate"
+          },
+          "deletion-modal": {
+            "actions": {
+              "close-extra-information": "Close delete candidate modal",
+              "submit": "Delete the candidate"
+            },
+            "body": "Are you sure you want to delete the candidate <strong>{firstName} {lastName}</strong> (born on {birthdate})?",
+            "notifications": {
+              "error-remove-already-in": "This candidate has already joined the session, you can’t delete them.",
+              "error-remove-unknown": "An error occurred while deleting the candidate.",
+              "success-remove": "The candidate has been successfully deleted."
+            },
+            "title": "Delete a candidate"
           },
           "detail-modal": {
             "actions": {

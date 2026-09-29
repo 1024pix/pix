@@ -12,6 +12,7 @@ import dayjsUtcFormat from 'pix-certif/helpers/dayjs-utc-format';
 import { formatPercentage } from 'pix-certif/helpers/format-percentage';
 
 import CandidateCreationModal from './candidate-creation-modal';
+import CandidateDeletionModal from './candidate-deletion-modal';
 import CandidateDetailsModal from './candidate-details-modal';
 import CandidateEditionModal from './candidate-edition-modal';
 
@@ -29,6 +30,8 @@ export default class EnrolledCandidates extends Component {
   @tracked certificationCandidateInDetailsModal = null;
   @tracked certificationCandidateInEditModal = null;
   @tracked showNewCandidateModal = false;
+  @tracked candidateToDelete = null;
+  @tracked showCandidateDeletionModal = false;
 
   get caption() {
     if (this.args.shouldDisplayScoStudentRegistration) {
@@ -43,21 +46,9 @@ export default class EnrolledCandidates extends Component {
   }
 
   @action
-  async deleteCertificationCandidate(certificationCandidate) {
-    const sessionId = this.args.sessionId;
-
-    try {
-      await certificationCandidate.destroyRecord({ adapterOptions: { sessionId } });
-      this.pixToast.sendSuccessNotification({
-        message: this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.success-remove`),
-      });
-    } catch (error) {
-      let errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-remove-unknown`);
-      if (get(error, 'errors[0].code') === 403) {
-        errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-remove-already-in`);
-      }
-      this.pixToast.sendErrorNotification({ message: errorText });
-    }
+  toggleDeletionModal(candidate) {
+    this.candidateToDelete = candidate;
+    this.showCandidateDeletionModal = !this.showCandidateDeletionModal;
   }
 
   @action
@@ -459,7 +450,7 @@ export default class EnrolledCandidates extends Component {
                   <PixIconButton
                     @iconName='delete'
                     @plainIcon={{true}}
-                    {{on 'click' (fn this.deleteCertificationCandidate candidate)}}
+                    {{on 'click' (fn this.toggleDeletionModal candidate)}}
                     @ariaLabel='{{t
                       "pages.sessions.detail.candidates.list.actions.delete.extra-information"
                     }} {{candidate.firstName}} {{candidate.lastName}}'
@@ -502,6 +493,12 @@ export default class EnrolledCandidates extends Component {
       @candidate={{this.certificationCandidateInEditModal}}
       @updateCandidateDataFromValue={{this.updateEditCandidateInStagingFieldFromValue}}
       @updateCandidate={{this.updateCandidate}}
+    />
+
+    <CandidateDeletionModal
+      @showModal={{this.showCandidateDeletionModal}}
+      @toggleModal={{this.toggleDeletionModal}}
+      @candidate={{this.candidateToDelete}}
     />
   </template>
 }
