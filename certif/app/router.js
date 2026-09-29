@@ -34,6 +34,7 @@ Router.map(function () {
         this.route('certification-candidates', { path: '/candidats' });
       });
       this.route('add-student', { path: '/:session_id/inscription-eleves' });
+      this.route('add-candidate', { path: '/:session_id/inscription-candidat' });
     });
     this.route('team', { path: '/equipe' }, function () {
       this.route('list', { path: '/' }, function () {

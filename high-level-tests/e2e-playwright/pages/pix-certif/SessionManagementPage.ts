@@ -45,7 +45,13 @@ export class SessionManagementPage {
   async goToEnrollCandidateForm() {
     await this.page.getByRole('link', { name: /^Candidats/ }).click();
     await this.page.waitForURL(/\/sessions\/\d+\/candidats$/);
-    await this.page.getByRole('button', { name: 'Inscrire un candidat' }).click();
+    await this.page.getByRole('link', { name: 'Inscrire un candidat' }).click();
+    await this.page.waitForURL(/\/sessions\/\d+\/inscription-candidat$/);
+  }
+
+  async goBackToCandidatesList() {
+    await this.page.getByRole('link', { name: 'Retour à la liste des candidats' }).click();
+    await this.page.waitForURL(/\/sessions\/\d+\/candidats$/);
   }
 
   async goToEnrollScoCandidateForm() {
@@ -125,6 +131,7 @@ export class SessionManagementPage {
     }
     await this.page.getByRole('button', { name: 'Inscrire le candidat' }).click();
     if (checkForSuccess) {
+      await this.page.waitForURL(/\/sessions\/\d+\/candidats$/);
       await this.page.getByText('Le candidat a été inscrit avec succès.').waitFor({ state: 'visible' });
       await this.page.getByRole('button', { name: 'Fermer la notification' }).click();
     }
