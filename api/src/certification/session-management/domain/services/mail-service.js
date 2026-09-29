@@ -7,7 +7,7 @@ import { CertificationResultsLinkByEmailToken } from '../../../results/domain/mo
 
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 
-function sendNotificationToCertificationCenterRefererForCleaResults({ email, sessionId, sessionDate }) {
+export function sendNotificationToCertificationCenterRefererForCleaResults({ email, sessionId, sessionDate }) {
   const formattedSessionDate = dayjs(sessionDate).locale('fr').format('DD/MM/YYYY');
 
   const i18nFr = getI18n('fr');
@@ -23,7 +23,7 @@ function sendNotificationToCertificationCenterRefererForCleaResults({ email, ses
   return mailer.sendEmail(options);
 }
 
-function sendCertificationResultEmail({
+export function sendCertificationResultEmail({
   email,
   sessionId,
   sessionDate,
@@ -94,14 +94,7 @@ function sendCertificationResultEmail({
   });
 }
 
-const mailService = {
+export const mailService = {
   sendNotificationToCertificationCenterRefererForCleaResults,
   sendCertificationResultEmail,
 };
-
-/**
- * @typedef {object} MailService
- * @property {function} sendCertificationResultEmail
- * @property {function} sendNotificationToCertificationCenterRefererForCleaResults
- */
-export { mailService, sendCertificationResultEmail, sendNotificationToCertificationCenterRefererForCleaResults };

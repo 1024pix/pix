@@ -21,9 +21,10 @@ import {
   sharedCompetenceMarkRepository,
 } from '../../infrastructure/repositories/index.js';
 import { publishSessionJobRepository } from '../../infrastructure/repositories/publish-session-job-repository.js';
+import * as sessionManagementRepository from '../../infrastructure/repositories/session-management-repository.js';
 import * as sessionRepository from '../../infrastructure/repositories/session-repository.js';
 import { cpfExportsStorage } from '../../infrastructure/storage/cpf-exports-storage.js';
-import * as sessionPublicationService from '../services/session-publication-service.js';
+import { mailService } from '../services/mail-service.js';
 import { abortCertificationCourse } from './abort-certification-course.js';
 import { assignCertificationOfficerToJurySession } from './assign-certification-officer-to-jury-session.js';
 import { cancel } from './cancel.js';
@@ -52,6 +53,7 @@ import { registerPublishableSession } from './register-publishable-session.js';
 import { rejectCertificationCourse } from './reject-certification-course.js';
 import { saveCertificationIssueReport } from './save-certification-issue-report.js';
 import { saveJuryComplementaryCertificationCourseResult } from './save-jury-complementary-certification-course-result.js';
+import { sendCleaSessionResultsToReferers } from './send-session-results-to-referers.usecase.js';
 import { sessionPublicationRequest } from './session-publication-request.js';
 import { sessionsPublicationRequest } from './sessions-publication-request.js';
 import { superviseSession } from './supervise-session.js';
@@ -125,7 +127,6 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {complementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
  * @typedef {sessionJuryCommentRepository} SessionJuryCommentRepository
- * @typedef {sessionManagementRepository} SessionManagementRepository
  * @typedef {invigilatorSessionRepository} InvigilatorSessionRepository
  * @typedef {sessionSummaryRepository} SessionSummaryRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
@@ -134,8 +135,6 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {cpfExportsStorage} CpfExportsStorage
  * @typedef {placementProfileService} PlacementProfileService
  * @typedef {certificationCpfService} CertificationCpfService
- * @typedef {mailService} MailService
- * @typedef {sessionPublicationService} SessionPublicationService
  * @typedef {cpfExportRepository} CpfExportRepository
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  * @typedef {certificationCompanionAlertRepository} CertificationCompanionAlertRepository
@@ -156,12 +155,14 @@ const dependencies = {
   cpfExportRepository,
   placementProfileService,
   certificationCpfService,
+
+  mailService,
   certificationCenterRepository,
   certificationRepository,
   certificationIssueReportRepository,
   certificationCenterMembershipRepository,
   publishSessionJobRepository,
-  sessionPublicationService,
+  sessionManagementRepository,
   versionApi,
   userRepository,
   sessionRepository,
@@ -199,6 +200,7 @@ const usecasesWithoutInjectedDependencies = {
   rejectCertificationCourse,
   saveCertificationIssueReport,
   saveJuryComplementaryCertificationCourseResult,
+  sendCleaSessionResultsToReferers,
   superviseSession,
   uncancel,
   unfinalizeSession,

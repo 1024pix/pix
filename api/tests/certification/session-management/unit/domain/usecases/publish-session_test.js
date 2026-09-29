@@ -86,6 +86,7 @@ describe('Unit | domain | usecases | publish session', function () {
 
       expect(certificationRepository.publishCertificationCourses).to.have.been.calledWithExactly({
         certificationCourseIds,
+        publishedAt: now,
       });
     });
 

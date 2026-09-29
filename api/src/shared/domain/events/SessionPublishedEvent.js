@@ -1,15 +1,15 @@
-export class PublishSessionEvent {
-  constructor({ sessionId, publishedAt = new Date() }) {
+export class SessionPublishedEvent {
+  constructor({ sessionId, publishedAt }) {
     this.sessionId = sessionId;
     this.publishedAt = publishedAt;
   }
 
   static get eventName() {
-    return 'publish-session.requested';
+    return 'session.published';
   }
 
   get eventName() {
-    return PublishSessionEvent.eventName;
+    return SessionPublishedEvent.eventName;
   }
 
   get payload() {
