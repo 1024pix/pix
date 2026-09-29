@@ -1,5 +1,44 @@
 # Pix Changelog
 
+# [5.510.0](https://github.com/1024pix/pix/compare/v5.509.0...v5.510.0) (2026-09-29)
+
+### :rocket: Amélioration
+
+- [#17609](https://github.com/1024pix/pix/pull/17609) ajout de level, description, objectives dans les modules
+- [#17619](https://github.com/1024pix/pix/pull/17619) Ajouter le nom et l'index de la compétence dans les participations de campagne du endpoint maddo (PIX-24339).
+- [#17613](https://github.com/1024pix/pix/pull/17613) Fermer la modale d'édition de candidat de certif lors d'une erreur (PIX-24265).
+
+### :bug: Correction
+
+- [#17606](https://github.com/1024pix/pix/pull/17606) Supprimer l'affichage de la bannière de questionnaire sur le catalogue de la home de Pix Orga (PIX-24425)
+
+### :building_construction: Tech
+
+- [#17630](https://github.com/1024pix/pix/pull/17630) Améliore les performances de la recherche d'utilisateur par email contenant une chaine de caractères.
+- [#17626](https://github.com/1024pix/pix/pull/17626) Cache contenu pédagogique : amélioration gestion des clients Redis
+- [#17614](https://github.com/1024pix/pix/pull/17614) Codemod pour migrer de pix-ui vers nebulix-ember
+- [#17620](https://github.com/1024pix/pix/pull/17620) Migre `mon-pix` vers nebulix.
+- [#17621](https://github.com/1024pix/pix/pull/17621) Migre `orga` vers nebulix
+- [#17617](https://github.com/1024pix/pix/pull/17617) Migre Admin vers nebulix
+- [#17625](https://github.com/1024pix/pix/pull/17625) Migre certif vers `nebulix`.
+- [#17616](https://github.com/1024pix/pix/pull/17616) Migre Junior vers `nebulix`.
+- [#16818](https://github.com/1024pix/pix/pull/16818) Réduit le nombre d'appels SQL dans certains repositories
+- [#17607](https://github.com/1024pix/pix/pull/17607) Supprimer le code lié aux modules dans l'API (PIX-24261)
+- [#17633](https://github.com/1024pix/pix/pull/17633) Supprimer le codemod de migration nebulix-ember
+- [#17546](https://github.com/1024pix/pix/pull/17546) Vérifier le caractère obligatoire de la catégorie à la mise à jour d'une organisation (PIX-23577)
+
+### :arrow_up: Montée de version
+
+- [#17611](https://github.com/1024pix/pix/pull/17611) Update dependency @babel/eslint-parser to ^7.29.9 (orga)
+- [#17629](https://github.com/1024pix/pix/pull/17629) Update dependency @babel/plugin-transform-typescript to ^7.29.9 (orga)
+- [#17632](https://github.com/1024pix/pix/pull/17632) Update dependency baseline-browser-mapping to ^2.11.25 (e2e-playwright)
+- [#17634](https://github.com/1024pix/pix/pull/17634) Update dependency ember-modifier to ^4.3.0 (admin)
+- [#17635](https://github.com/1024pix/pix/pull/17635) Update dependency joi to ^18.2.9 (admin)
+- [#17538](https://github.com/1024pix/pix/pull/17538) Update dependency jsonwebtoken to v9.0.3 (e2e)
+- [#17637](https://github.com/1024pix/pix/pull/17637) Update dependency lodash to ^4.18.1 (admin)
+- [#17638](https://github.com/1024pix/pix/pull/17638) Update dependency lodash to ^4.18.1 (certif)
+- [#17627](https://github.com/1024pix/pix/pull/17627) Update dependency undici to v8.10.2 (api) [SECURITY]
+
 # [5.509.0](https://github.com/1024pix/pix/compare/v5.508.1...v5.509.0) (2026-09-28)
 
 ### :rocket: Amélioration
