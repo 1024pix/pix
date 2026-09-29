@@ -400,7 +400,7 @@ export default class CandidateCreationForm extends Component {
 
       <div class='new-candidate-form__field'>
         <PixInput @id='external-id' {{on 'input' (fn this.updateFieldFromEvent 'externalId')}} autocomplete='off'>
-          <:label>{{t 'common.forms.certification-labels.external-id'}}</:label>
+          <:label>{{t 'common.forms.certification-labels.local-id'}}</:label>
         </PixInput>
       </div>
 
@@ -503,7 +503,7 @@ export default class CandidateCreationForm extends Component {
           @variant='secondary'
           @isBorderVisible='true'
         >
-          {{t 'common.actions.back'}}
+          {{t 'common.actions.cancel'}}
         </PixButtonLink>
 
         <PixButton @type='submit' @isLoading={{this.isLoading}} @isDisabled={{this.isLoading}}>

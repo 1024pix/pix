@@ -46,7 +46,7 @@ module(
       assert.dom(screen.getByRole('radio', { name: 'Code INSEE' })).exists();
       assert.dom(screen.getByRole('radio', { name: 'Code postal' })).exists();
       assert.dom(screen.getByRole('textbox', { name: 'Code INSEE de naissance *' })).exists();
-      assert.dom(screen.getByRole('textbox', { name: 'Identifiant externe' })).exists();
+      assert.dom(screen.getByRole('textbox', { name: 'Identifiant local (numéro étudiant, matricule)' })).exists();
       assert.dom(screen.getByRole('textbox', { name: 'Temps majoré (%)' })).exists();
       assert.dom(screen.getByRole('textbox', { name: /E-mail du prescripteur/ })).exists();
       assert
@@ -115,7 +115,7 @@ module(
           }),
         );
         await click(screen.getByRole('radio', { name: 'Code INSEE' }));
-        await fillIn(screen.getByLabelText('Identifiant externe'), candidateData.externalId);
+        await fillIn(screen.getByLabelText('Identifiant local (numéro étudiant, matricule)'), candidateData.externalId);
         await fillIn(screen.getByLabelText('Code INSEE de naissance *'), candidateData.birthInseeCode);
         await fillIn(screen.getByLabelText('Temps majoré (%)'), candidateData.extraTimePercentage);
         await fillIn(screen.getByLabelText(/E-mail du prescripteur/), candidateData.resultRecipientEmail);
@@ -353,7 +353,7 @@ module(
 
       // then
       assert
-        .dom(screen.getByRole('link', { name: t('common.actions.back') }))
+        .dom(screen.getByRole('link', { name: t('common.actions.cancel') }))
         .hasAttribute('href', '/sessions/123/candidats');
     });
 

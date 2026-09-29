@@ -52,7 +52,7 @@ const FIELDS = [
     value: 'email',
   },
   {
-    label: 'forms.certification-labels.external-id',
+    label: 'forms.certification-labels.local-id',
     value: 'externalId',
   },
   {
