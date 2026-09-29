@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { InvalidLtiPlatformRegistrationError } from '../../../../../src/identity-access-management/domain/errors.js';
-import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
+import { InvalidLtiPlatformRegistrationError } from '../../../../../src/lti/domain/errors.js';
+import { usecases } from '../../../../../src/lti/domain/usecases/index.js';
 import { ltiPlatformRegistrationRepository } from '../../../../../src/lti/infrastructure/repositories/lti-platform-registration.repository.js';
 import { knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
-describe('Integration | Identity Access Management | Domain | Usecases | register-lti-platform', function () {
+describe('Integration | lti | Domain | Usecases | register-lti-platform', function () {
   it('discovers platform’s open ID configuration and register Pix configuration on the platform', async function () {
     // given
     const { platformOpenIdConfig, platformOpenIdConfigUrl, platformOrigin, toolConfig } =

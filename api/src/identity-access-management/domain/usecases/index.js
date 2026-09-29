@@ -1,5 +1,4 @@
 import { config } from '../../../../config/config.js';
-import { ltiPlatformRegistrationRepository } from '../../../lti/infrastructure/repositories/lti-platform-registration.repository.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import * as userReconciliationService from '../../../shared/domain/services/user-reconciliation-service.js';
@@ -49,7 +48,6 @@ const repositories = {
   auditLoggingJobRepository,
   lastUserApplicationConnectionsRepository,
   legalDocumentApiRepository,
-  ltiPlatformRegistrationRepository,
   oidcAuthenticationServiceRegistry,
   oidcProviderRepository,
   organizationRepository,
@@ -114,14 +112,12 @@ import { getIdentityProvidersByRequestedApplication } from './get-identity-provi
 import { getRedirectLogoutUrl } from './get-redirect-logout-url.usecase.js';
 import { getSamlAuthenticationRedirectionUrl } from './get-saml-authentication-redirection-url.js';
 import { getUserByResetPasswordDemand } from './get-user-by-reset-password-demand.usecase.js';
-import { listLtiPublicKeys } from './list-lti-public-keys.usecase.js';
 import { logoutOidcUser } from './logout-oidc-user.usecase.js';
 import { markAssessmentInstructionsInfoAsSeen } from './mark-assessment-instructions-info-as-seen.usecase.js';
 import { markUserHasSeenNewDashboardInfo } from './mark-user-has-seen-new-dashboard-info.usecase.js';
 import { reassignAuthenticationMethodToAnotherUser } from './reassign-authentication-method-to-another-user.usecase.js';
 import { reconcileOidcUser } from './reconcile-oidc-user.usecase.js';
 import { reconcileOidcUserForAdmin } from './reconcile-oidc-user-for-admin.usecase.js';
-import { registerLtiPlatform } from './register-lti-platform.js';
 import { rememberUserHasSeenChallengeTooltip } from './remember-user-has-seen-challenge-tooltip.usecase.js';
 import { rememberUserHasSeenLastDataProtectionPolicyInformation } from './remember-user-has-seen-last-data-protection-policy-information.usecase.js';
 import { removeAuthenticationMethod } from './remove-authentication-method.usecase.js';
@@ -168,14 +164,12 @@ const usecasesWithoutInjectedDependencies = {
   getRedirectLogoutUrl,
   getSamlAuthenticationRedirectionUrl,
   getUserByResetPasswordDemand,
-  listLtiPublicKeys,
   logoutOidcUser,
   markAssessmentInstructionsInfoAsSeen,
   markUserHasSeenNewDashboardInfo,
   reassignAuthenticationMethodToAnotherUser,
   reconcileOidcUserForAdmin,
   reconcileOidcUser,
-  registerLtiPlatform,
   rememberUserHasSeenChallengeTooltip,
   rememberUserHasSeenLastDataProtectionPolicyInformation,
   removeAuthenticationMethod,
