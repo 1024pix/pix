@@ -2,16 +2,16 @@ import { createPublicKey } from 'node:crypto';
 
 import jsonwebtoken from 'jsonwebtoken';
 
-import { config } from '../../../../config/config.js';
-import { ltiPlatformRegistrationRepository } from '../../../lti/infrastructure/repositories/lti-platform-registration.repository.js';
-import { ltiDeepLinkingSerializer } from '../../../lti/infrastructure/serializers/html/lti-deep-linking-serializer.js';
-import { ltiErrorSerializer } from '../../../lti/infrastructure/serializers/html/lti-error-serializer.js';
-import { ltiInitializationSerializer } from '../../../lti/infrastructure/serializers/html/lti-initialization-serializer.js';
-import { ltiRegistrationSerializer } from '../../../lti/infrastructure/serializers/html/lti-registration-serializer.js';
-import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
-import { httpAgent } from '../../../shared/infrastructure/http-agent.js';
-import { child } from '../../../shared/infrastructure/utils/logger.js';
-import { usecases } from '../../domain/usecases/index.js';
+import { config } from '../../../config/config.js';
+import { usecases } from '../../identity-access-management/domain/usecases/index.js';
+import { cryptoService } from '../../shared/domain/services/crypto-service.js';
+import { httpAgent } from '../../shared/infrastructure/http-agent.js';
+import { child } from '../../shared/infrastructure/utils/logger.js';
+import { ltiPlatformRegistrationRepository } from '../infrastructure/repositories/lti-platform-registration.repository.js';
+import { ltiDeepLinkingSerializer } from '../infrastructure/serializers/html/lti-deep-linking-serializer.js';
+import { ltiErrorSerializer } from '../infrastructure/serializers/html/lti-error-serializer.js';
+import { ltiInitializationSerializer } from '../infrastructure/serializers/html/lti-initialization-serializer.js';
+import { ltiRegistrationSerializer } from '../infrastructure/serializers/html/lti-registration-serializer.js';
 
 const logger = child('lti', { event: 'lti' });
 

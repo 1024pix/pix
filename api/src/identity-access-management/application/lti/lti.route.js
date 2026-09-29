@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { ltiController } from './lti.controller.js';
+import { ltiController } from '../../../lti/application/lti.controller.js';
 
 export const ltiRoutes = [
   {
