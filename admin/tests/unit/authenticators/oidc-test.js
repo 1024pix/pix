@@ -88,6 +88,8 @@ module('Unit | Authenticator | oidc', function (hooks) {
         expiresAt: 4702193958000,
         source,
         identityProviderCode,
+        shouldCloseSession: undefined,
+        logoutUrlUuid: undefined,
       });
       assert.ok(true);
     });
@@ -112,6 +114,8 @@ module('Unit | Authenticator | oidc', function (hooks) {
         expiresAt: 4702193958000,
         source,
         identityProviderCode,
+        shouldCloseSession: undefined,
+        logoutUrlUuid: undefined,
       });
       assert.ok(true);
     });
