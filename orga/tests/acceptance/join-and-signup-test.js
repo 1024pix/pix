@@ -7,7 +7,7 @@ import { setupMirage } from 'pix-orga/tests/test-support/setup-mirage';
 import { SessionStorageEntry } from 'pix-orga/utils/session-storage-entry';
 import { module, test } from 'qunit';
 
-import setupIntl from '../helpers/setup-intl';
+import setupIntl, { waitLanguageChanged } from '../helpers/setup-intl';
 
 module('Acceptance | join and signup', function (hooks) {
   setupApplicationTest(hooks);
@@ -71,6 +71,7 @@ module('Acceptance | join and signup', function (hooks) {
         await click(screen.getByRole('button', { name: t('components.locale-switcher.label') }));
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'English' }));
+        await waitLanguageChanged('en');
         await clickByName(t('pages.join.signup.submit'));
 
         // then

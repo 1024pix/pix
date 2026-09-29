@@ -3,7 +3,7 @@
 // and propagate the changes in the copies in all the fronts
 
 import { render } from '@1024pix/ember-testing-library';
-import { click } from '@ember/test-helpers';
+import { click, waitUntil } from '@ember/test-helpers';
 import LocaleSwitcher from 'pix-orga/components/locale-switcher';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -76,6 +76,7 @@ module('Integration | Component | LocaleSwitcher', function (hooks) {
       await click(screen.getByRole('button', { name: 'Sélectionnez une langue' }));
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'English' }));
+      await waitUntil(() => onLocaleChangeStub.called);
 
       // then
       assert.ok(onLocaleChangeStub.calledWithExactly('en'));

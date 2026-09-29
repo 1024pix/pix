@@ -11,9 +11,13 @@ module('Integration | Component | Campaign | Badges', function (hooks) {
 
   test('should render badge images for each one', async function (assert) {
     // given
+    const img1 =
+      'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221%22%2F%3E';
+    const img2 =
+      'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%222%22%2F%3E';
     const badges = [
-      { id: 1, title: 'badge1', imageUrl: 'img1.svg', altMessage: 'alt-img1' },
-      { id: 2, title: 'badge2', imageUrl: 'img2.svg', altMessage: 'alt-img2' },
+      { id: 1, title: 'badge1', imageUrl: img1, altMessage: 'alt-img1' },
+      { id: 2, title: 'badge2', imageUrl: img2, altMessage: 'alt-img2' },
     ];
     const acquiredBadges = [];
     // when
@@ -21,10 +25,10 @@ module('Integration | Component | Campaign | Badges', function (hooks) {
     // then
     const badgeImages = screen.getAllByRole('img');
     assert.strictEqual(badgeImages.length, 2);
-    assert.strictEqual(badgeImages[0].getAttribute('src'), 'img1.svg');
+    assert.strictEqual(badgeImages[0].getAttribute('src'), img1);
     assert.strictEqual(badgeImages[0].getAttribute('alt'), 'alt-img1');
 
-    assert.strictEqual(badgeImages[1].getAttribute('src'), 'img2.svg');
+    assert.strictEqual(badgeImages[1].getAttribute('src'), img2);
     assert.strictEqual(badgeImages[1].getAttribute('alt'), 'alt-img2');
   });
 

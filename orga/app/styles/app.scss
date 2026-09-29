@@ -1,4 +1,7 @@
 @charset "utf-8";
+
+// nebulix
+@use 'nebulix-styles' as *;
 @use 'pix-design-tokens/breakpoints';
 
 // global
@@ -126,7 +129,7 @@ input:invalid {
 }
 
 /**
- * to fix on pix-ui
+ * to fix on nebulix-ember
  * since the dropdown is hide using visibility, cypress take the content in account
  * which can lead to failing test since it see some content overlaping and
  * can't click on the element below.

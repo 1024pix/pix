@@ -379,7 +379,7 @@ export default function routes() {
       return schema.campaigns.create(campaign);
     } else if (campaign.type === 'ASSESSMENT') {
       const targetProfileId =
-        body.data.relationships['target-profile']?.data.id || body.data.relationships['course']?.data.id;
+        body.data.relationships['target-profile']?.data.id ?? body.data.relationships['course']?.data.id;
       return schema.campaigns.create({ ...campaign, targetProfileId });
     }
     return new Response(422);
@@ -502,7 +502,7 @@ export default function routes() {
       externalIdLabel: body.data.attributes['id-pix-label'],
     };
     const combinedCourseBlueprintId =
-      body.data.relationships['combined-course-blueprint']?.data.id || body.data.relationships['course']?.data.id;
+      body.data.relationships['combined-course-blueprint']?.data.id ?? body.data.relationships['course']?.data.id;
     return schema.campaigns.create({ ...campaign, combinedCourseBlueprintId });
   });
   this.get('feature-toggles', (schema) => {

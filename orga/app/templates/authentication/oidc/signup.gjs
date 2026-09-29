@@ -1,5 +1,4 @@
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
+import { PixButtonLink, PixNotificationAlert } from '@1024pix/nebulix-ember';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
 import OidcSignupForm from 'pix-orga/components/authentication/oidc-signup-form';
