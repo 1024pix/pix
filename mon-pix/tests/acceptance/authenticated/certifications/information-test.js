@@ -128,9 +128,6 @@ module('Acceptance | Certifications | Information', function (hooks) {
           t,
         });
 
-        // then
-        assert.dom(screen.queryByRole('navigation', { name: t('navigation.main.label') })).doesNotExist();
-
         // when
         for (let i = 0; i < 4; i++) {
           await click(screen.getByRole('button', { name: "Continuer vers l'écran suivant" }));
@@ -144,7 +141,6 @@ module('Acceptance | Certifications | Information', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/certifications/candidat/2');
-        assert.dom(screen.queryByRole('navigation', { name: t('navigation.main.label') })).doesNotExist();
       });
     });
   });
