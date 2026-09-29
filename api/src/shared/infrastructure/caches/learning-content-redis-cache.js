@@ -1,6 +1,7 @@
 import { createClientPool } from '@redis/client';
 
 import { config } from '../../../../config/config.js';
+import { Metrics } from '../metrics/metrics.js';
 import { child, SCOPES } from '../utils/logger.js';
 
 const logger = child('learningcontent:cache', { event: SCOPES.LEARNING_CONTENT });
@@ -15,7 +16,22 @@ class LearningContentRedisCache {
   }
 
   async connect() {
-    return this.#pool?.connect();
+    if (!this.#pool) return;
+
+    await this.#pool.connect();
+
+    const pool = this.#pool;
+
+    Metrics.createGauge({
+      name: 'lc_redis_clients',
+      help: 'Learning content Redis cache clients count',
+      labelNames: ['gauge'],
+      collect() {
+        this.set({ gauge: 'total' }, pool.totalClients);
+        this.set({ gauge: 'idle' }, pool.idleClients);
+        this.set({ gauge: 'inUse' }, pool.clientsInUse);
+      },
+    });
   }
 
   async close() {
@@ -88,7 +104,14 @@ class LearningContentRedisCache {
     if (config.lcms.redisCache.clientPoolMaximum != undefined) {
       poolConfig.maximum = config.lcms.redisCache.clientPoolMaximum;
     }
-    return createClientPool({ url: config.redisUrl, database: config.lcms.redisCache.database }, poolConfig);
+    return createClientPool(
+      {
+        url: config.redisUrl,
+        database: config.lcms.redisCache.database,
+        pingInterval: config.lcms.redisCache.pingInterval,
+      },
+      poolConfig,
+    );
   }
 }
 

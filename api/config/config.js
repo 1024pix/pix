@@ -139,6 +139,7 @@ export const schema = Joi.object({
   LCMS_REDIS_CACHE_DATABASE: Joi.number().integer().valid(1, 2, 3, 4).optional(),
   LCMS_REDIS_CACHE_CLIENT_POOL_MINIMUM: Joi.number().integer().min(1).optional(),
   LCMS_REDIS_CACHE_CLIENT_POOL_MAXIMUM: Joi.number().integer().min(1).optional(),
+  LCMS_REDIS_CACHE_CLIENT_PING_INTERVAL: Joi.string().optional(),
   LLM_CHAT_TEMPORARY_STORAGE_EXP_DELAY_SECONDS: Joi.string().optional(),
   LLM_CONFIGURATION_EDITOR_API_FETCH_CONNECTION_TIMEOUT_MS: Joi.number().min(0).optional(),
   LLM_CONFIGURATION_EDITOR_API_GET_CONFIGURATION_URL: Joi.string().optional(),
@@ -379,6 +380,9 @@ export const config = {
       database: _getNumber(process.env.LCMS_REDIS_CACHE_DATABASE, 1),
       clientPoolMinimum: _getNumber(process.env.LCMS_REDIS_CACHE_CLIENT_POOL_MINIMUM, 1),
       clientPoolMaximum: _getNumber(process.env.LCMS_REDIS_CACHE_CLIENT_POOL_MAXIMUM, 5),
+      pingInterval: process.env.LCMS_REDIS_CACHE_CLIENT_PING_INTERVAL
+        ? ms(process.env.LCMS_REDIS_CACHE_CLIENT_PING_INTERVAL)
+        : undefined,
     },
   },
   llm: {
