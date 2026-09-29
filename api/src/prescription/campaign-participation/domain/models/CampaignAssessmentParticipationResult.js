@@ -9,7 +9,7 @@ class CampaignAssessmentParticipationResult {
     campaignId,
     status,
     campaignLearningContent,
-    validatedTargetedKnowledgeElementsCountByCompetenceId = {},
+    validatedTargetedSkillsCountByCompetenceId = {},
   }) {
     this.campaignParticipationId = campaignParticipationId;
     this.campaignId = campaignId;
@@ -25,7 +25,7 @@ class CampaignAssessmentParticipationResult {
           area,
           competence,
           skillsCount: competence.skillCount,
-          validatedTargetedKnowledgeElementsCount: validatedTargetedKnowledgeElementsCountByCompetenceId[competence.id],
+          validatedTargetedSkillsCount: validatedTargetedSkillsCountByCompetenceId[competence.id],
         });
       });
     }

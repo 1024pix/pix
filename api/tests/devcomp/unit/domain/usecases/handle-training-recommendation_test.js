@@ -26,7 +26,7 @@ describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', 
         const campaignParticipationId = Symbol('campaign-participation-id');
         const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ campaignParticipationId });
         const campaignRepository = { findSkillsByCampaignParticipationId: sinon.stub() };
-        const knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+        const knowledgeStateRepository = { findByUserId: sinon.stub() };
 
         const campaignSkills = Symbol('campaign-skills');
         campaignRepository.findSkillsByCampaignParticipationId
@@ -35,19 +35,19 @@ describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', 
           })
           .resolves(campaignSkills);
 
-        const knowledgeElements = Symbol('knowledge-elements');
-        knowledgeElementRepository.findUniqByUserId
+        const knowledgeState = Symbol('knowledge-state');
+        knowledgeStateRepository.findByUserId
           .withArgs({
             userId: assessment.userId,
           })
-          .resolves(knowledgeElements);
+          .resolves(knowledgeState);
 
         const trainings = [
           { id: 1, shouldBeObtained: sinon.stub() },
           { id: 2, shouldBeObtained: sinon.stub() },
         ];
-        trainings[0].shouldBeObtained.withArgs(knowledgeElements, campaignSkills).returns(true);
-        trainings[1].shouldBeObtained.withArgs(knowledgeElements, campaignSkills).returns(true);
+        trainings[0].shouldBeObtained.withArgs(knowledgeState, campaignSkills).returns(true);
+        trainings[1].shouldBeObtained.withArgs(knowledgeState, campaignSkills).returns(true);
 
         findWithTriggersByCampaignParticipationIdAndLocaleStub
           .withArgs({
@@ -61,7 +61,7 @@ describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', 
           locale,
           assessment,
           campaignRepository,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
           trainingRepository,
           userRecommendedTrainingRepository,
         });
@@ -146,13 +146,13 @@ describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', 
   });
 
   describe('when there is no training to recommend', function () {
-    it('should not call campaignRepository and knowledgeElementRepository', async function () {
+    it('should not call campaignRepository and knowledgeStateRepository', async function () {
       // given
       const locale = Symbol('locale');
       const campaignParticipationId = Symbol('campaign-participation-id');
       const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ campaignParticipationId });
       const campaignRepository = { findSkillsByCampaignParticipationId: sinon.stub() };
-      const knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+      const knowledgeStateRepository = { findByUserId: sinon.stub() };
       const trainings = [];
       findWithTriggersByCampaignParticipationIdAndLocaleStub.resolves(trainings);
 
@@ -161,14 +161,14 @@ describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', 
         locale,
         assessment,
         campaignRepository,
-        knowledgeElementRepository,
+        knowledgeStateRepository,
         trainingRepository,
         userRecommendedTrainingRepository,
       });
 
       // then
       expect(campaignRepository.findSkillsByCampaignParticipationId).not.have.been.called;
-      expect(knowledgeElementRepository.findUniqByUserId).not.have.been.called;
+      expect(knowledgeStateRepository.findByUserId).not.have.been.called;
       expect(saveStub).not.have.been.called;
     });
   });

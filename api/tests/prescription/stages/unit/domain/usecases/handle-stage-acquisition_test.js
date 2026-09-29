@@ -8,7 +8,7 @@ describe('Evaluation | Unit | UseCase | handleStageAcquisition', function () {
   // Repositories
   let campaignParticipationRepository;
   let stageAcquisitionRepository;
-  let knowledgeElementForParticipationService;
+  let knowledgeStateForParticipationService;
   let campaignRepository;
   let stageRepository;
   let skillRepository;
@@ -24,7 +24,7 @@ describe('Evaluation | Unit | UseCase | handleStageAcquisition', function () {
     campaignParticipationRepository = { get: sinon.stub() };
     stageAcquisitionRepository = { getStageIdsByCampaignParticipation: sinon.stub(), saveStages: sinon.stub() };
     stageRepository = { getByCampaignParticipationId: sinon.stub() };
-    knowledgeElementForParticipationService = { findUniqByUserOrCampaignParticipationId: sinon.stub() };
+    knowledgeStateForParticipationService = { findByUserOrCampaignParticipationId: sinon.stub() };
     skillRepository = { findOperativeByIds: sinon.stub() };
     campaignRepository = {
       findSkillIdsByCampaignParticipationId: sinon.stub().resolves([domainBuilder.buildSkill().id]),
@@ -38,7 +38,7 @@ describe('Evaluation | Unit | UseCase | handleStageAcquisition', function () {
     dependencies = {
       campaignParticipationRepository,
       stageAcquisitionRepository,
-      knowledgeElementForParticipationService,
+      knowledgeStateForParticipationService,
       campaignRepository,
       stageRepository,
       skillRepository,
@@ -99,10 +99,7 @@ describe('Evaluation | Unit | UseCase | handleStageAcquisition', function () {
           domainBuilder.buildStage({ targetProfileId: campaign.targetProfileId }),
         ];
         const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign: campaign });
-        const knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({ id: 1, assessmentId: assessment.id, skillId: '1' }),
-          domainBuilder.buildKnowledgeElement({ id: 2, assessmentId: assessment.id, skillId: '2' }),
-        ];
+        const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({ validatedSkillIds: ['1', '2'] });
 
         // given
         campaignParticipationRepository.get
@@ -111,9 +108,9 @@ describe('Evaluation | Unit | UseCase | handleStageAcquisition', function () {
         stageRepository.getByCampaignParticipationId.withArgs(campaignParticipation.id).resolves(stages);
         getNewAcquiredStagesService.getNewAcquiredStages.returns(stages);
         stageAcquisitionRepository.getStageIdsByCampaignParticipation.withArgs(campaignParticipation.id).resolves([]);
-        knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId
+        knowledgeStateForParticipationService.findByUserOrCampaignParticipationId
           .withArgs({ userId: assessment.userId, campaignParticipationId: assessment.campaignParticipationId })
-          .resolves(knowledgeElements);
+          .resolves(knowledgeState);
         campaignRepository.findSkillIdsByCampaignParticipationId
           .withArgs({
             campaignParticipationId: assessment.campaignParticipationId,
@@ -139,19 +136,16 @@ describe('Evaluation | Unit | UseCase | handleStageAcquisition', function () {
           domainBuilder.buildStage({ targetProfileId: campaign.targetProfileId, level: 2, threshold: null }),
         ];
         const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign: campaign });
-        const knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({ id: 1, assessmentId: assessment.id, skillId: '1' }),
-          domainBuilder.buildKnowledgeElement({ id: 2, assessmentId: assessment.id, skillId: '2' }),
-        ];
+        const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({ validatedSkillIds: ['1', '2'] });
         campaignParticipationRepository.get
           .withArgs(assessment.campaignParticipationId)
           .resolves(campaignParticipation);
         stageRepository.getByCampaignParticipationId.withArgs(campaignParticipation.id).resolves(stages);
         getNewAcquiredStagesService.getNewAcquiredStages.returns(stages);
         stageAcquisitionRepository.getStageIdsByCampaignParticipation.withArgs(campaignParticipation.id).resolves([]);
-        knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId
+        knowledgeStateForParticipationService.findByUserOrCampaignParticipationId
           .withArgs({ userId: assessment.userId, campaignParticipationId: assessment.campaignParticipationId })
-          .resolves(knowledgeElements);
+          .resolves(knowledgeState);
         campaignRepository.findSkillIdsByCampaignParticipationId
           .withArgs({
             campaignParticipationId: assessment.campaignParticipationId,

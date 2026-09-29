@@ -1,12 +1,11 @@
 import { expect } from 'chai';
 
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
-import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { ENGLISH_SPOKEN } from '../../../../../src/shared/domain/services/locale-service.js';
 import * as placementProfileService from '../../../../../src/shared/domain/services/placement-profile-service.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { toLegacySnapshot } from '../../../../tooling/knowledge-state/legacy-snapshot.js';
 
 describe('Shared | Integration | Domain | Services | Placement Profile Service', function () {
   let userId, assessmentId, campaignParticipation;
@@ -63,7 +62,9 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
     databaseBuilder.factory.learningContent.buildSkill({
       id: 'recCitation4',
       nom: '@citation4',
-      pixValue: 1,
+      // La valeur en pix se lit sur l'acquis : elle n'est plus fabriquée par le
+      // knowledge element, qui ne fait plus que situer l'utilisateur.
+      pixValue: 64,
       version: 1,
       level: 4,
       competenceId: 'competenceRecordIdOne',
@@ -72,7 +73,7 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
     skillRemplir2DB = databaseBuilder.factory.learningContent.buildSkill({
       id: 'recRemplir2',
       nom: '@remplir2',
-      pixValue: 1,
+      pixValue: 23,
       version: 1,
       level: 2,
       competenceId: 'competenceRecordIdTwo',
@@ -81,7 +82,7 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
     databaseBuilder.factory.learningContent.buildSkill({
       id: 'recRemplir4',
       nom: '@remplir4',
-      pixValue: 1,
+      pixValue: 9,
       version: 1,
       level: 4,
       competenceId: 'competenceRecordIdTwo',
@@ -186,7 +187,6 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
         databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
           skillId: 'recRemplir2',
-          earnedPix: 23,
           userId,
           assessmentId,
         });
@@ -227,12 +227,12 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
       });
 
       it('should include both inferred and direct KnowlegdeElements to compute PixScore', async function () {
+        // La valeur se lit sur le référentiel : @remplir2 (23 pix) + @remplir4 (9 pix).
         // given
         databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
           skillId: 'recRemplir2',
-          earnedPix: 8,
-          source: KnowledgeElement.SourceType.INFERRED,
+          source: 'inferred',
           userId,
           assessmentId,
         });
@@ -240,8 +240,7 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
         databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
           skillId: 'recRemplir4',
-          earnedPix: 9,
-          source: KnowledgeElement.SourceType.DIRECT,
+          source: 'direct',
           userId,
           assessmentId,
         });
@@ -255,14 +254,15 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
         });
 
         // then
-        expect(actualPlacementProfile.userCompetences[1].pixScore).to.equal(17);
+        // Le niveau 4 réussi entraîne le niveau 2 : 23 + 9 pix.
+        expect(actualPlacementProfile.userCompetences[1].pixScore).to.equal(32);
       });
 
       context('when we dont want to limit pix score', function () {
         it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async function () {
           databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdOne',
-            earnedPix: 64,
+            skillId: 'recCitation4',
             userId,
             assessmentId,
           });
@@ -289,7 +289,7 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
         it('should limit pixScore to 40 and level to 5', async function () {
           databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdOne',
-            earnedPix: 64,
+            skillId: 'recCitation4',
             userId,
             assessmentId,
           });
@@ -319,7 +319,6 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
         databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
           skillId: 'recRemplir2',
-          earnedPix: 11,
           userId,
           assessmentId,
         });
@@ -327,7 +326,6 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
         databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
           skillId: 'missing skill id',
-          earnedPix: 11,
           userId,
           assessmentId,
         });
@@ -349,7 +347,7 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
         });
         expect(actualPlacementProfile.userCompetences[1]).to.deep.include({
           id: 'competenceRecordIdTwo',
-          pixScore: 22,
+          pixScore: 23,
           estimatedLevel: 2,
           skills: [
             domainBuilder.buildSkill({
@@ -450,7 +448,7 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
           campaignParticipationId: campaignParticipation.id,
-          snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
+          snapshot: toLegacySnapshot([ke]),
         });
 
         await databaseBuilder.commit();
@@ -475,12 +473,13 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
       });
 
       it('should include both inferred and direct KnowlegdeElements to compute PixScore', async function () {
+        // La valeur se lit sur le référentiel : @remplir2 (23 pix) + @remplir4 (9 pix).
         // given
         const ke1 = databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
           skillId: 'recRemplir2',
           earnedPix: 8,
-          source: KnowledgeElement.SourceType.INFERRED,
+          source: 'inferred',
           createdAt: new Date('2020-01-05'),
           userId,
           assessmentId,
@@ -490,7 +489,7 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
           competenceId: 'competenceRecordIdTwo',
           skillId: 'recRemplir4',
           earnedPix: 9,
-          source: KnowledgeElement.SourceType.DIRECT,
+          source: 'direct',
           userId,
           createdAt: new Date('2020-01-05'),
           assessmentId,
@@ -498,7 +497,7 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
           campaignParticipationId: campaignParticipation.id,
-          snapshot: new KnowledgeElementCollection([ke1, ke2]).toSnapshot(),
+          snapshot: toLegacySnapshot([ke1, ke2]),
         });
         await databaseBuilder.commit();
 
@@ -509,14 +508,14 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
         });
 
         // then
-        expect(actualPlacementProfiles[0].userCompetences[1].pixScore).to.equal(17);
+        expect(actualPlacementProfiles[0].userCompetences[1].pixScore).to.equal(32);
       });
 
       context('when we dont want to limit pix score', function () {
         it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async function () {
           const ke = databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdOne',
-            earnedPix: 64,
+            skillId: 'recCitation4',
             userId,
             createdAt: new Date('2020-01-05'),
             assessmentId,
@@ -524,7 +523,7 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
             campaignParticipationId: campaignParticipation.id,
-            snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
+            snapshot: toLegacySnapshot([ke]),
           });
 
           await databaseBuilder.commit();
@@ -549,7 +548,7 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
         it('should limit pixScore to 40 and level to 5', async function () {
           const ke = databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdOne',
-            earnedPix: 64,
+            skillId: 'recCitation4',
             userId,
             createdAt: new Date('2020-01-05'),
             assessmentId,
@@ -557,7 +556,7 @@ describe('Shared | Integration | Domain | Services | Placement Profile Service',
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
             campaignParticipationId: campaignParticipation.id,
-            snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
+            snapshot: toLegacySnapshot([ke]),
           });
 
           await databaseBuilder.commit();

@@ -9,7 +9,6 @@ import {
   REQUIREMENT_COMPARISONS,
   REQUIREMENT_TYPES,
 } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 
 describe('Quest | Unit | Domain | Models | Quest ', function () {
   describe('#constructor', function () {
@@ -131,12 +130,10 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
         successRequirements: [],
       });
       const success = new Success({
-        knowledgeElements: [
-          { status: KnowledgeElement.StatusType.VALIDATED, skillId: 'skillA' },
-          { status: KnowledgeElement.StatusType.VALIDATED, skillId: 'skillB' },
-          { status: KnowledgeElement.StatusType.VALIDATED, skillId: 'skillC' },
-          { status: KnowledgeElement.StatusType.VALIDATED, skillId: 'skillD' },
-        ],
+        knowledgeState: {
+          validatedSkillIds: ['skillA', 'skillB', 'skillC', 'skillD'],
+          floorByTubeId: { tubeA: 1, tubeB: 1 },
+        },
       });
       const data = new DataForQuest({ success });
 
@@ -161,10 +158,10 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
         ],
       });
       const success = new Success({
-        knowledgeElements: [
-          { status: KnowledgeElement.StatusType.VALIDATED, skillId: 'skillA', createdAt: new Date() },
-          { status: KnowledgeElement.StatusType.VALIDATED, skillId: 'skillC', createdAt: new Date() },
-        ],
+        knowledgeState: {
+          validatedSkillIds: ['skillA', 'skillC'],
+          floorByTubeId: { tubeA: 1, tubeB: 1 },
+        },
         campaignSkills: [
           { id: 'skillA', tubeId: 'tubeA', difficulty: 1 },
           { id: 'skillC', tubeId: 'tubeB', difficulty: 1 },
@@ -193,10 +190,10 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
         ],
       });
       const success = new Success({
-        knowledgeElements: [
-          { status: KnowledgeElement.StatusType.VALIDATED, skillId: 'skillA', createdAt: new Date() },
-          { status: KnowledgeElement.StatusType.INVALIDATED, skillId: 'skillC', createdAt: new Date() },
-        ],
+        knowledgeState: {
+          validatedSkillIds: ['skillA'],
+          floorByTubeId: { tubeA: 1 },
+        },
         campaignSkills: [
           { id: 'skillA', tubeId: 'tubeA', difficulty: 1 },
           { id: 'skillC', tubeId: 'tubeB', difficulty: 1 },
@@ -225,10 +222,10 @@ describe('Quest | Unit | Domain | Models | Quest ', function () {
         ],
       });
       const success = new Success({
-        knowledgeElements: [
-          { status: KnowledgeElement.StatusType.INVALIDATED, skillId: 'skillA', createdAt: new Date() },
-          { status: KnowledgeElement.StatusType.INVALIDATED, skillId: 'skillC', createdAt: new Date() },
-        ],
+        knowledgeState: {
+          validatedSkillIds: [],
+          floorByTubeId: {},
+        },
         campaignSkills: [
           { id: 'skillA', tubeId: 'tubeA', difficulty: 1 },
           { id: 'skillC', tubeId: 'tubeB', difficulty: 1 },

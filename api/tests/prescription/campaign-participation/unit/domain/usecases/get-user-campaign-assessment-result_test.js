@@ -19,7 +19,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
     badgeRepository,
     stageRepository,
     stageAcquisitionRepository,
-    knowledgeElementForParticipationService,
+    knowledgeStateForParticipationService,
     campaignParticipationRepository,
     badgeForCalculationRepository;
   let compareStagesAndAcquiredStages;
@@ -28,7 +28,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
   beforeEach(function () {
     badgeForCalculationRepository = { findByCampaignId: sinon.stub() };
     campaignParticipationRepository = { findOneByCampaignIdAndUserId: sinon.stub() };
-    knowledgeElementForParticipationService = { findUniqByUserOrCampaignParticipationId: sinon.stub() };
+    knowledgeStateForParticipationService = { findByUserOrCampaignParticipationId: sinon.stub() };
     badgeRepository = { findByCampaignId: sinon.stub() };
     participantResultRepository = {
       get: sinon.stub(),
@@ -41,7 +41,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
       campaignId,
       locale,
       badgeForCalculationRepository,
-      knowledgeElementForParticipationService,
+      knowledgeStateForParticipationService,
       badgeRepository,
       participantResultRepository,
       stageRepository,
@@ -55,7 +55,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
     it('should throw NoCampaignParticipationForUserAndCampaign error', async function () {
       // given
       badgeRepository.findByCampaignId.rejects(new NotFoundError());
-      knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId.rejects('I should not be called');
+      knowledgeStateForParticipationService.findByUserOrCampaignParticipationId.rejects('I should not be called');
       badgeForCalculationRepository.findByCampaignId.rejects('I should not be called');
       campaignParticipationRepository.findOneByCampaignIdAndUserId.withArgs({ userId, campaignId }).resolves(
         domainBuilder.buildCampaignParticipation({
@@ -98,9 +98,9 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
         totalNumberOfStages: 2,
         reachedStage: stage1,
       });
-      knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId
+      knowledgeStateForParticipationService.findByUserOrCampaignParticipationId
         .withArgs({ userId, campaignParticipationId })
-        .resolves([domainBuilder.buildKnowledgeElement()]);
+        .resolves(domainBuilder.buildKnowledgeState.forSkills({ validatedSkillIds: ['recSKIL123'] }));
       badgeForCalculationRepository.findByCampaignId
         .withArgs({ campaignId })
         .resolves([badgeForCalculationObtained1, badgeForCalculationNotObtained2, badgeForCalculationObtained3]);

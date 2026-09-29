@@ -46,6 +46,9 @@ describe('Certification | Enrolment | Acceptance | Routes | User', function () {
                         name: '@web3',
                         status: 'actif',
                         level: 3,
+                        // La valeur en pix se lit sur l'acquis : un seul par
+                        // compétence, il doit à lui seul porter le niveau 1.
+                        pixValue: 10,
                       },
                     ],
                   },
@@ -73,6 +76,9 @@ describe('Certification | Enrolment | Acceptance | Routes | User', function () {
                         name: '@fichier3',
                         status: 'actif',
                         level: 3,
+                        // La valeur en pix se lit sur l'acquis : un seul par
+                        // compétence, il doit à lui seul porter le niveau 1.
+                        pixValue: 10,
                       },
                     ],
                   },
@@ -100,6 +106,9 @@ describe('Certification | Enrolment | Acceptance | Routes | User', function () {
                         name: '@tri3',
                         status: 'actif',
                         level: 3,
+                        // La valeur en pix se lit sur l'acquis : un seul par
+                        // compétence, il doit à lui seul porter le niveau 1.
+                        pixValue: 10,
                       },
                     ],
                   },
@@ -137,6 +146,9 @@ describe('Certification | Enrolment | Acceptance | Routes | User', function () {
                         name: '@spam3',
                         status: 'actif',
                         level: 3,
+                        // La valeur en pix se lit sur l'acquis : un seul par
+                        // compétence, il doit à lui seul porter le niveau 1.
+                        pixValue: 10,
                       },
                     ],
                   },
@@ -164,6 +176,9 @@ describe('Certification | Enrolment | Acceptance | Routes | User', function () {
                         name: '@vocRS3',
                         status: 'actif',
                         level: 3,
+                        // La valeur en pix se lit sur l'acquis : un seul par
+                        // compétence, il doit à lui seul porter le niveau 1.
+                        pixValue: 10,
                       },
                     ],
                   },
@@ -177,7 +192,7 @@ describe('Certification | Enrolment | Acceptance | Routes | User', function () {
     databaseBuilder.factory.learningContent.build(learningContent);
 
     learningContent.skills.forEach(({ id: skillId, competenceId }) => {
-      databaseBuilder.factory.buildKnowledgeElement({ userId: user.id, earnedPix: 10, competenceId, skillId });
+      databaseBuilder.factory.buildKnowledgeElement({ userId: user.id, competenceId, skillId });
     });
 
     const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;

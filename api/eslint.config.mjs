@@ -73,7 +73,7 @@ export default defineConfig([
   // Overridden rules for "tests" files
   {
     ...mocha.configs.recommended,
-    files: ['tests/**/*.{js,ts}'],
+    files: ['tests/**/*.{js,ts}', 'poc/**/*_test.js'],
     rules: {
       ...mocha.configs.recommended.rules,
       'mocha/no-exclusive-tests': 'error',

@@ -1,24 +1,21 @@
-import dayjs from 'dayjs';
-
 import { MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING } from '../../../shared/constants.js';
 
-function keepKnowledgeElementsRecentOrValidated({ currentUserKnowledgeElements, createdAt, minimumDelayInDays }) {
-  const startedDateOfAssessment = createdAt;
-
-  return currentUserKnowledgeElements.filter((knowledgeElement) => {
-    const isNotOldEnoughToBeImproved =
-      dayjs(startedDateOfAssessment).diff(knowledgeElement.createdAt, 'days', true) < minimumDelayInDays;
-    return knowledgeElement.isValidated || isNotOldEnoughToBeImproved;
-  });
-}
-
+/**
+ * L'état vu par un parcours d'amélioration ou une nouvelle tentative : les
+ * échecs assez anciens sont oubliés pour que les acquis redeviennent posables,
+ * les validations restent acquises.
+ *
+ * @param {KnowledgeState} knowledgeState
+ * @param {Date} createdAt date de début du parcours
+ * @returns {KnowledgeState}
+ */
 const keepKnowledgeElementsValidatedOrAcquiredDuringAssessment = ({ currentUserKnowledgeElements, createdAt }) =>
   currentUserKnowledgeElements.filter(
     (knowledgeElement) => knowledgeElement.isValidated || dayjs(createdAt).isBefore(knowledgeElement.createdAt),
   );
 
-export function filterKnowledgeElements({
-  knowledgeElements,
+export function improveKnowledgeState({
+  knowledgeState,
   createdAt,
   isRetrying = false,
   isImproving = false,
@@ -32,13 +29,13 @@ export function filterKnowledgeElements({
     });
   }
 
-  if (isImproving) {
-    return keepKnowledgeElementsRecentOrValidated({
-      currentUserKnowledgeElements: knowledgeElements,
-      createdAt,
-      minimumDelayInDays: minimumDelayInDaysBeforeImproving,
-    });
+  if (isFromCampaignImprovingOrRetrying || isImproving) {
+    const minimumDelayInDays = isFromCampaignImprovingOrRetrying
+      ? minimumDelayInDaysBeforeRetrying
+      : minimumDelayInDaysBeforeImproving;
+
+    return knowledgeState.withoutStaleFailures({ since: createdAt, minimumDelayInDays });
   }
 
-  return knowledgeElements;
+  return knowledgeState;
 }

@@ -10,7 +10,7 @@ const getCampaignAssessmentParticipation = async function ({
   stageAcquisitionRepository,
   compareStagesAndAcquiredStages,
   campaignParticipationRepository,
-  knowledgeElementForParticipationService,
+  knowledgeStateForParticipationService,
   improvementService,
 }) {
   const campaignAssessmentParticipation =
@@ -46,7 +46,7 @@ const getCampaignAssessmentParticipation = async function ({
   } else {
     // this is a big duplicate from get progression. need to be factorize
     const skillIds = await campaignRepository.findSkillIds({ campaignId });
-    const knowledgeElements = await knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId({
+    const knowledgeState = await knowledgeStateForParticipationService.findByUserOrCampaignParticipationId({
       userId: campaignAssessmentParticipation.userId,
       campaignParticipationId,
       limitDate: null,
@@ -56,8 +56,8 @@ const getCampaignAssessmentParticipation = async function ({
       campaignParticipationId,
     });
 
-    const knowledgeElementsForProgression = improvementService.filterKnowledgeElements({
-      knowledgeElements,
+    const knowledgeStateForProgression = improvementService.improveKnowledgeState({
+      knowledgeState,
       isRetrying,
       createdAt: campaignAssessmentParticipation.createdAt,
       isImproving: true,
@@ -67,7 +67,7 @@ const getCampaignAssessmentParticipation = async function ({
     const progression = new Progression({
       id: campaignParticipationId,
       skillIds,
-      knowledgeElements: knowledgeElementsForProgression,
+      knowledgeState: knowledgeStateForProgression,
       isProfileCompleted: false,
     });
 

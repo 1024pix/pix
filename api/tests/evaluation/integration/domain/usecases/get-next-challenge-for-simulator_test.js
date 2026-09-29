@@ -17,7 +17,7 @@ describe('Integration | Usecases | Get next challenge for simulator', function (
         skills: [skill],
         challenges: [challenge],
         answers: [],
-        knowledgeElements: [],
+        knowledgeState: domainBuilder.buildKnowledgeState(),
         locale: 'fr-fr',
       });
 
@@ -39,7 +39,7 @@ describe('Integration | Usecases | Get next challenge for simulator', function (
         skills: [skill],
         challenges: [challenge],
         answers: [],
-        knowledgeElements: [],
+        knowledgeState: domainBuilder.buildKnowledgeState(),
         locale: 'fr-fr',
       });
 
@@ -61,7 +61,7 @@ describe('Integration | Usecases | Get next challenge for simulator', function (
         skills: [],
         challenges: [],
         answers: [],
-        knowledgeElements: [],
+        knowledgeState: domainBuilder.buildKnowledgeState(),
         locale: 'fr-fr',
       });
 

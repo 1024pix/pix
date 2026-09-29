@@ -1,15 +1,17 @@
 import { calculatePixScore } from '../../../../evaluation/domain/services/scoring/scoring-service.js';
 import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../shared/constants.js';
-import { KnowledgeElement } from '../../../../shared/domain/models/KnowledgeElement.js';
 const MAX_PIX_SCORE = MAX_REACHABLE_PIX_BY_COMPETENCE * 16;
 
 class ParticipantResultsShared {
-  constructor({ campaignParticipationId, knowledgeElements, skillIds, placementProfile }) {
-    const validatedKnowledgeElements = _getValidatedKnowledgeElements(knowledgeElements, skillIds);
+  /**
+   * @param {KnowledgeState} knowledgeState l'état figé au partage
+   */
+  constructor({ campaignParticipationId, knowledgeState, skillIds, placementProfile }) {
+    const validatedSkills = _getValidatedSkills(knowledgeState, skillIds);
 
     this.id = campaignParticipationId;
-    this.validatedSkillsCount = validatedKnowledgeElements.length;
-    this.pixScore = calculatePixScore(validatedKnowledgeElements);
+    this.validatedSkillsCount = validatedSkills.length;
+    this.pixScore = calculatePixScore(validatedSkills);
     if (skillIds.length > 0) {
       this.masteryRate = this.validatedSkillsCount / skillIds.length;
       this.isCertifiable = null;
@@ -20,13 +22,13 @@ class ParticipantResultsShared {
   }
 }
 
-function _getValidatedKnowledgeElements(knowledgeElements, skillIds) {
-  let filteredKnowledgeElements = knowledgeElements.filter((ke) => ke.status === KnowledgeElement.StatusType.VALIDATED);
+function _getValidatedSkills(knowledgeState, skillIds) {
+  const validatedSkills = knowledgeState.validatedSkills();
   if (skillIds.length > 0) {
-    filteredKnowledgeElements = filteredKnowledgeElements.filter((ke) => skillIds.includes(ke.skillId));
+    return validatedSkills.filter(({ id }) => skillIds.includes(id));
   }
 
-  return filteredKnowledgeElements;
+  return validatedSkills;
 }
 
 export { ParticipantResultsShared };

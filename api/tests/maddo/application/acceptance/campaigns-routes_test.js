@@ -1,10 +1,9 @@
 import { expect } from 'chai';
 
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.ts';
-import { KnowledgeElementCollection } from '../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { KnowledgeElement } from '../../../../src/shared/domain/models/KnowledgeElement.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
+import { toLegacySnapshot } from '../../../tooling/knowledge-state/legacy-snapshot.js';
 import { getMaddoServer } from '../../../tooling/server/shared-server.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../tooling/test-utils/http-server.js';
 
@@ -87,19 +86,19 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
           sharedAt: new Date('2025-01-03'),
         });
         const ke = databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
+          status: 'validated',
           skillId,
           userId: participation1.userId,
         });
         const ke2 = databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.INVALIDATED,
+          status: 'invalidated',
           skillId: skillId2,
           userId: participation1.userId,
         });
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
           campaignParticipationId: participation1.id,
-          snapshot: new KnowledgeElementCollection([ke, ke2]).toSnapshot(),
+          snapshot: toLegacySnapshot([ke, ke2]),
         });
 
         const organizationLearner2 = databaseBuilder.factory.buildOrganizationLearner({
@@ -309,14 +308,14 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
           sharedAt: new Date('2025-01-03'),
         });
         const ke = databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
+          status: 'validated',
           skillId,
           userId: participation1.userId,
         });
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
           campaignParticipationId: participation1.id,
-          snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
+          snapshot: toLegacySnapshot([ke]),
         });
 
         const organizationLearner2 = databaseBuilder.factory.buildOrganizationLearner({
@@ -487,13 +486,13 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
           sharedAt: new Date('2025-01-01'),
         });
         const ke = databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
+          status: 'validated',
           skillId,
           userId: participationSharedBefore.userId,
         });
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
           campaignParticipationId: participationSharedBefore.id,
-          snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
+          snapshot: toLegacySnapshot([ke]),
         });
 
         const participationSharedAfterDate = databaseBuilder.factory.buildCampaignParticipation({
@@ -509,7 +508,7 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
 
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
           campaignParticipationId: participationSharedAfterDate.id,
-          snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
+          snapshot: toLegacySnapshot([ke]),
         });
 
         databaseBuilder.factory.buildCampaignParticipation({
@@ -644,13 +643,13 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
           sharedAt: new Date('2025-01-01'),
         });
         const ke = databaseBuilder.factory.buildKnowledgeElement({
-          status: KnowledgeElement.StatusType.VALIDATED,
+          status: 'validated',
           skillId,
           userId: participationCreatedFirst.userId,
         });
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
           campaignParticipationId: participationCreatedSecond.id,
-          snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
+          snapshot: toLegacySnapshot([ke]),
         });
 
         await databaseBuilder.commit();

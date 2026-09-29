@@ -35,12 +35,12 @@ export class Training {
     this.description = description;
   }
 
-  shouldBeObtained(knowledgeElements, skills) {
+  shouldBeObtained(knowledgeState, skills) {
     if (this.trainingTriggers.length === 0) {
       return false;
     }
 
-    return this.trainingTriggers.every((trainingTrigger) => trainingTrigger.isFulfilled({ knowledgeElements, skills }));
+    return this.trainingTriggers.every((trainingTrigger) => trainingTrigger.isFulfilled({ knowledgeState, skills }));
   }
 
   static modes = {

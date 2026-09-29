@@ -2,7 +2,6 @@ import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { buildAnswer } from './build-answer.js';
 import { buildCampaign } from './build-campaign.js';
 import { buildCourse } from './build-course.js';
-import { buildKnowledgeElement } from './build-knowledge-element.js';
 import { buildTargetProfile } from './build-target-profile.js';
 
 function buildAssessment({
@@ -112,7 +111,6 @@ buildAssessment.ofTypeCompetenceEvaluation = function ({
   answers = [buildAnswer()],
   course = buildCourse({ id: 'courseId' }),
   targetProfile = buildTargetProfile(),
-  knowledgeElements = [buildKnowledgeElement()],
   campaignParticipation = null,
   competenceId = 789,
 } = {}) {
@@ -135,7 +133,6 @@ buildAssessment.ofTypeCompetenceEvaluation = function ({
     answers,
     course,
     targetProfile,
-    knowledgeElements,
     campaignParticipation,
   });
 };

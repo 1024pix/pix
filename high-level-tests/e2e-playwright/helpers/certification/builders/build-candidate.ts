@@ -62,18 +62,22 @@ async function makeUserReadyForCleaAndCertifiable(
     campaignParticipationId,
     badgeId,
   });
-  const keData = [];
-  const skillData = await knex('learningcontent.skills').select(['id', 'competenceId', 'pixValue']);
-  const skillMap = new Map(skillData.map((s) => [s.id, { competenceId: s.competenceId, earnedPix: s.pixValue }]));
-  for (const skillId of skillIds) {
-    keData.push({
-      source: 'direct',
-      status: 'validated',
-      skillId,
-      earnedPix: skillMap.get(skillId)?.earnedPix,
-      userId,
-      competenceId: skillMap.get(skillId)?.competenceId,
-    });
+  // L'utilisateur a validé tous les acquis de la campagne : par tube, le
+  // plancher monte au plus haut niveau validé.
+  const skillData = await knex('learningcontent.skills').select(['id', 'tubeId', 'level']).whereIn('id', skillIds);
+  const stateByTube = new Map<string, { floor: number; directLevels: Set<number> }>();
+  for (const { id, tubeId, level } of skillData) {
+    const tube = stateByTube.get(tubeId ?? id) ?? { floor: 0, directLevels: new Set<number>() };
+    tube.floor = Math.max(tube.floor, level);
+    tube.directLevels.add(level);
+    stateByTube.set(tubeId ?? id, tube);
   }
-  await knex('knowledge-elements').insert(keData);
+  await knex('knowledge-states').insert(
+    [...stateByTube.entries()].map(([tubeId, { floor, directLevels }]) => ({
+      userId,
+      tubeId,
+      floor,
+      directLevels: [...directLevels],
+    })),
+  );
 }

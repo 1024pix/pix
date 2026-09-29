@@ -17,7 +17,8 @@ import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_SCORE } from '../../../../../src
 describe('Profile | Unit | UseCase | get-user-profile', function () {
   let competenceRepository;
   let areaRepository;
-  let knowledgeElementRepository;
+  let knowledgeStateRepository;
+  let competenceScoreRepository;
   let competenceEvaluationRepository;
   const scorecard = { id: 'foo' };
   const locale = 'fr';
@@ -25,7 +26,8 @@ describe('Profile | Unit | UseCase | get-user-profile', function () {
   beforeEach(function () {
     competenceRepository = { listPixCompetencesOnly: sinon.stub() };
     areaRepository = { list: sinon.stub() };
-    knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
+    knowledgeStateRepository = { findByUserId: sinon.stub() };
+    competenceScoreRepository = { findByUserId: sinon.stub().resolves(new Map()) };
     competenceEvaluationRepository = { findByUserId: sinon.stub() };
     sinon.stub(Scorecard, 'buildFrom').returns(scorecard);
   });
@@ -56,35 +58,10 @@ describe('Profile | Unit | UseCase | get-user-profile', function () {
           type: 'COMPETENCE_EVALUATION',
           state: 'completed',
         });
-
-        const assessmentStartedOfCompetence2 = domainBuilder.buildAssessment({
-          type: 'CAMPAIGN',
-          state: 'started',
-        });
         const competenceEvaluationOfCompetence1 = domainBuilder.buildCompetenceEvaluation({
           competenceId: 1,
           assessment: assessmentFinishedOfCompetence1,
         });
-
-        const knowledgeElementList = [
-          domainBuilder.buildKnowledgeElement({
-            competenceId: 1,
-            assessment: assessmentFinishedOfCompetence1,
-          }),
-          domainBuilder.buildKnowledgeElement({
-            competenceId: 1,
-            assessment: assessmentFinishedOfCompetence1,
-          }),
-          domainBuilder.buildKnowledgeElement({
-            competenceId: 2,
-            assessment: assessmentStartedOfCompetence2,
-          }),
-        ];
-
-        const knowledgeElementGroupedByCompetenceId = {
-          1: [knowledgeElementList[0], knowledgeElementList[1]],
-          2: [knowledgeElementList[2]],
-        };
 
         const expectedUserScorecard = [
           domainBuilder.buildUserScorecard({
@@ -111,39 +88,19 @@ describe('Profile | Unit | UseCase | get-user-profile', function () {
           }),
         ];
 
-        knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves(
-          knowledgeElementGroupedByCompetenceId,
-        );
+        knowledgeStateRepository.findByUserId.resolves(domainBuilder.buildKnowledgeState());
         competenceEvaluationRepository.findByUserId.resolves([competenceEvaluationOfCompetence1]);
 
         Scorecard.buildFrom
-          .withArgs({
-            userId,
-            knowledgeElements: knowledgeElementGroupedByCompetenceId[1],
-            competence: competenceList[0],
-            competenceEvaluation: competenceEvaluationOfCompetence1,
-            area,
-          })
+          .withArgs(sinon.match({ userId, competence: competenceList[0], area }))
           .returns(expectedUserScorecard[0]);
 
         Scorecard.buildFrom
-          .withArgs({
-            userId,
-            knowledgeElements: knowledgeElementGroupedByCompetenceId[2],
-            competence: competenceList[1],
-            competenceEvaluation: undefined,
-            area,
-          })
+          .withArgs(sinon.match({ userId, competence: competenceList[1], area }))
           .returns(expectedUserScorecard[1]);
 
         Scorecard.buildFrom
-          .withArgs({
-            userId,
-            knowledgeElements: undefined,
-            competence: competenceList[2],
-            competenceEvaluation: undefined,
-            area,
-          })
+          .withArgs(sinon.match({ userId, competence: competenceList[2], area }))
           .returns(expectedUserScorecard[2]);
 
         const expectedPixScore = _.sumBy(expectedUserScorecard, 'earnedPix');
@@ -151,7 +108,8 @@ describe('Profile | Unit | UseCase | get-user-profile', function () {
         // when
         const userProfile = await getUserProfile({
           userId,
-          knowledgeElementRepository,
+          knowledgeStateRepository,
+          competenceScoreRepository,
           competenceRepository,
           areaRepository,
           competenceEvaluationRepository,

@@ -5,10 +5,8 @@ import {
   CampaignExternalIdTypes,
   CampaignParticipationStatuses,
 } from '../../../../../src/prescription/shared/domain/constants.ts';
-import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { stageUsecases } from '../../../../../src/prescription/stages/domain/usecases/index.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { getPlacementProfile } from '../../../../../src/shared/domain/services/placement-profile-service.js';
 import { FEATURE_CAMPAIGN_EXTERNAL_ID, FEATURE_CAMPAIGN_RECOMMENDATION_ENGINE_ID } from '../constants.js';
 import * as generic from './generic.js';
@@ -231,7 +229,7 @@ async function createAssessmentCampaign({
 
       if (isShared) {
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
-          snapshot: new KnowledgeElementCollection(keDataForSnapshot).toSnapshot(),
+          snapshot: JSON.stringify(keDataForSnapshot),
           campaignParticipationId,
         });
 
@@ -399,7 +397,7 @@ async function createProfilesCollectionCampaign({
         );
       }
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
-        snapshot: new KnowledgeElementCollection(keDataForSnapshot).toSnapshot(),
+        snapshot: JSON.stringify(keDataForSnapshot),
         campaignParticipationId,
       });
 
@@ -750,7 +748,7 @@ async function _getKnowledgeElementFromSkills(skills, validatedSkill = 0) {
 
     const keData = {
       source: 'direct',
-      status: isOk ? KnowledgeElement.StatusType.VALIDATED : KnowledgeElement.StatusType.INVALIDATED,
+      status: isOk ? 'validated' : 'invalidated',
       skillId: skill.id,
       earnedPix: isOk ? skill.pixValue : 0,
       competenceId: skill.competenceId,

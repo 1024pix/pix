@@ -2,7 +2,6 @@ import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { AnswerStatus } from '../../../shared/domain/models/AnswerStatus.js';
-import { KnowledgeElement } from '../../../shared/domain/models/KnowledgeElement.js';
 import { getChallengeLocales } from '../../../shared/domain/services/locale-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { smartRandomSimulatorController } from './smart-random-simulator-controller.js';
@@ -34,20 +33,12 @@ const getNextChallengeRoute = {
       payload: Joi.object({
         data: {
           attributes: {
-            knowledgeElements: Joi.array()
+            knowledgeState: Joi.array()
               .items({
-                source: Joi.string()
-                  .valid(KnowledgeElement.SourceType.DIRECT, KnowledgeElement.SourceType.INFERRED)
-                  .required(),
-                status: Joi.string()
-                  .valid(
-                    KnowledgeElement.StatusType.VALIDATED,
-                    KnowledgeElement.StatusType.INVALIDATED,
-                    KnowledgeElement.StatusType.RESET,
-                  )
-                  .required(),
-                answerId: identifiersType.answerId,
-                skillId: identifiersType.skillId,
+                tubeId: Joi.string().required(),
+                floor: Joi.number().integer().min(0).allow(null),
+                ceiling: Joi.number().integer().min(0).allow(null),
+                directLevels: Joi.array().items(Joi.number().integer()).default([]),
               })
               .required(),
             answers: Joi.array()

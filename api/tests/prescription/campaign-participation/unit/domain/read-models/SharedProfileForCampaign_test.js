@@ -11,8 +11,11 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
         const userId = 1;
         const competence = { id: 1, name: 'Useful competence', areaId: 'area' };
         const area = { id: 'area' };
-        const knowledgeElements = [domainBuilder.buildKnowledgeElement({ competenceId: competence.id })];
-        const expectedScorecard = Scorecard.buildFrom({ userId, competence, knowledgeElements });
+        const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({
+          validatedSkillIds: ['recSKIL123'],
+          competenceId: competence.id,
+        });
+        const expectedScorecard = Scorecard.buildFrom({ userId, competence, knowledgeState });
 
         const sharedProfileForCampaign = new SharedProfileForCampaign({
           userId,
@@ -21,9 +24,7 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
           },
           competences: [competence],
           allAreas: [area],
-          knowledgeElementsGroupedByCompetenceId: {
-            [competence.id]: knowledgeElements,
-          },
+          knowledgeState,
         });
 
         expect(sharedProfileForCampaign.scorecards[0]).to.deep.include({
@@ -44,6 +45,7 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
             sharedAt: new Date('2020-01-01'),
           },
           competencesWithArea: [competence],
+          knowledgeState: domainBuilder.buildKnowledgeState(),
         });
 
         expect(sharedProfileForCampaign.scorecards).to.deep.equal([]);
@@ -55,6 +57,7 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
     context('when participant is disabled', function () {
       it('cannot retry', function () {
         const sharedProfileForCampaign = new SharedProfileForCampaign({
+          knowledgeState: domainBuilder.buildKnowledgeState(),
           campaignParticipation: {
             sharedAt: new Date('2020-01-01'),
           },
@@ -69,6 +72,7 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
     context('when the campaign does not allow retry', function () {
       it('return false', function () {
         const sharedProfileForCampaign = new SharedProfileForCampaign({
+          knowledgeState: domainBuilder.buildKnowledgeState(),
           campaignParticipation: {
             sharedAt: new Date('2020-01-01'),
           },
@@ -81,6 +85,7 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
 
       it('returns false if campaign participation is deleted', function () {
         const sharedProfileForCampaign = new SharedProfileForCampaign({
+          knowledgeState: domainBuilder.buildKnowledgeState(),
           campaignParticipation: {
             sharedAt: new Date('2020-01-01'),
             deletedAt: new Date('2020-01-01'),
@@ -97,6 +102,7 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
       context('when participation is not shared', function () {
         it('return false', function () {
           const sharedProfileForCampaign = new SharedProfileForCampaign({
+            knowledgeState: domainBuilder.buildKnowledgeState(),
             campaignParticipation: {
               sharedAt: null,
             },
@@ -111,6 +117,7 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
       context('when the profile has been shared', function () {
         it('return true', function () {
           const sharedProfileForCampaign = new SharedProfileForCampaign({
+            knowledgeState: domainBuilder.buildKnowledgeState(),
             campaignParticipation: {
               sharedAt: new Date('2020-01-01'),
             },

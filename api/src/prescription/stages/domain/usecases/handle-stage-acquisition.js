@@ -4,7 +4,7 @@
  * @param skillRepository
  * @param campaignRepository
  * @param stageAcquisitionRepository
- * @param knowledgeElementForParticipationService
+ * @param knowledgeStateForParticipationService
  * @param campaignParticipationRepository
  * @param getNewAcquiredStagesService
  * @param getMasteryPercentageService
@@ -18,7 +18,7 @@ const handleStageAcquisition = async function ({
   skillRepository,
   campaignRepository,
   stageAcquisitionRepository,
-  knowledgeElementForParticipationService,
+  knowledgeStateForParticipationService,
   campaignParticipationRepository,
   getNewAcquiredStagesService,
   getMasteryPercentageService,
@@ -42,7 +42,7 @@ const handleStageAcquisition = async function ({
     convertLevelStagesIntoThresholdsService.convertLevelStagesIntoThresholds(stagesForThisCampaign, skills);
   }
 
-  const knowledgeElements = await knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId({
+  const knowledgeState = await knowledgeStateForParticipationService.findByUserOrCampaignParticipationId({
     userId: assessment.userId,
     campaignParticipationId: assessment.campaignParticipationId,
   });
@@ -50,21 +50,20 @@ const handleStageAcquisition = async function ({
     campaignParticipationId: assessment.campaignParticipationId,
   });
 
-  const masteryPercentage = getMasteryPercentageService.getMasteryPercentage(knowledgeElements, campaignSkillsIds);
+  const masteryPercentage = getMasteryPercentageService.getMasteryPercentage(knowledgeState, campaignSkillsIds);
 
   const alreadyAcquiredStagesIds = await stageAcquisitionRepository.getStageIdsByCampaignParticipation(
     campaignParticipation.id,
   );
 
-  const validatedKnowledgeElements = knowledgeElements.filter(({ isValidated }) => isValidated);
-
-  const knowledgeElementsInSkills = validatedKnowledgeElements.filter((knowledgeElement) =>
-    campaignSkillsIds.some((id) => String(id) === String(knowledgeElement.skillId)),
-  );
+  const validatedSkillIdsInCampaign = knowledgeState
+    .validatedSkills()
+    .map(({ id }) => id)
+    .filter((skillId) => campaignSkillsIds.some((id) => String(id) === String(skillId)));
 
   const stagesToStore = getNewAcquiredStagesService.getNewAcquiredStages(
     stagesForThisCampaign,
-    knowledgeElementsInSkills.length,
+    validatedSkillIdsInCampaign.length,
     masteryPercentage,
     alreadyAcquiredStagesIds,
   );

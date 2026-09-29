@@ -10,7 +10,7 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
   const loadCampaignParams = sinon.stub();
 
   hooks.beforeEach(async function () {
-    const knowledgeElements = [];
+    const knowledgeState = [];
     const answers = [];
     const skills = [];
     const challenges = [];
@@ -20,7 +20,7 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
 
     component = <template>
       <SmartRandomParams
-        @knowledgeElements={{knowledgeElements}}
+        @knowledgeState={{knowledgeState}}
         @answers={{answers}}
         @skills={{skills}}
         @challenges={{challenges}}

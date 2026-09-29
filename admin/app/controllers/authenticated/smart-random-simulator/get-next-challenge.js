@@ -2,13 +2,12 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { skillStatusInKnowledgeState, tubeIdOfSkill } from 'pix-admin/utils/knowledge-state';
 
 const GET_NEXT_CHALLENGE_API_ROUTE = '/api/admin/smart-random-simulator/get-next-challenge';
 const GET_CAMPAIGN_PARAMS_API_ROUTE = '/api/admin/smart-random-simulator/campaign-parameters';
 
 const ANSWER_STATUSES = { OK: 'ok', KO: 'ko' };
-const KNOWLEDGE_ELEMENTS_STATUSES = { VALIDATED: 'validated', INVALIDATED: 'invalidated' };
-const KNOWLEDGE_ELEMENTS_SOURCES = { DIRECT: 'direct', INFERRED: 'inferred' };
 
 const UNKNOWN_COMPETENCE = { id: null, index: null, name: 'Hors compétence', areaColor: null };
 
@@ -21,7 +20,7 @@ export default class SmartRandomSimulator extends Controller {
   @tracked competences = [];
   @tracked answers = [];
   @tracked challenges = [];
-  @tracked knowledgeElements = [];
+  @tracked knowledgeState = [];
   @tracked locale = 'fr-fr';
   @tracked assessmentId = '1';
 
@@ -55,7 +54,7 @@ export default class SmartRandomSimulator extends Controller {
   @action
   async reset() {
     this.answers = [];
-    this.knowledgeElements = [];
+    this.knowledgeState = [];
     this.returnedChallenges = [];
     this.assessmentComplete = false;
     this.pixScore = 0;
@@ -146,9 +145,7 @@ export default class SmartRandomSimulator extends Controller {
   }
 
   get numberOfSkillsStillAvailable() {
-    return this.skills.filter(
-      (skill) => !this.knowledgeElements.some((knowledgeElement) => knowledgeElement.skillId === skill.id),
-    ).length;
+    return this.skills.filter((skill) => skillStatusInKnowledgeState(this.knowledgeState, skill) === null).length;
   }
 
   get totalNumberOfSkills() {
@@ -165,7 +162,7 @@ export default class SmartRandomSimulator extends Controller {
       body: JSON.stringify({
         data: {
           attributes: {
-            knowledgeElements: this.knowledgeElements,
+            knowledgeState: this.knowledgeState,
             answers: this.answers,
             skills: this.skills,
             challenges: this.challenges,
@@ -200,8 +197,8 @@ export default class SmartRandomSimulator extends Controller {
 
   async answerCurrentChallenge(answerStatus = ANSWER_STATUSES.OK) {
     this.returnedChallenges[this.returnedChallenges.length - 1].result = answerStatus;
-    const newAnswer = this.addNewAnswer(answerStatus);
-    this.addNewKnowledgeElements(newAnswer);
+    this.addNewAnswer(answerStatus);
+    this.applyAnswerToKnowledgeState(answerStatus === ANSWER_STATUSES.OK);
     return await this.requestNextChallenge();
   }
 
@@ -215,57 +212,33 @@ export default class SmartRandomSimulator extends Controller {
     return newAnswer;
   }
 
-  addNewKnowledgeElements(newAnswer) {
-    const directNewKnowledgeElement = {
-      source: KNOWLEDGE_ELEMENTS_SOURCES.DIRECT,
-      status:
-        newAnswer.result === ANSWER_STATUSES.OK
-          ? KNOWLEDGE_ELEMENTS_STATUSES.VALIDATED
-          : KNOWLEDGE_ELEMENTS_STATUSES.INVALIDATED,
-      answerId: newAnswer.id,
-      skillId: this.currentChallenge.skill.id,
+  // Mêmes règles que KnowledgeState.withAnswer côté API : le plancher monte
+  // sur une bonne réponse, le plafond descend sur une mauvaise, et un plafond
+  // contredit par le plancher s'efface
+  applyAnswerToKnowledgeState(isOk) {
+    const skill = this.currentChallenge.skill;
+    const tubeId = tubeIdOfSkill(skill);
+    const previousBounds = this.knowledgeState.find((bounds) => bounds.tubeId === tubeId) ?? {
+      tubeId,
+      floor: 0,
+      ceiling: null,
+      directLevels: [],
     };
 
-    const currentSkillTested = this.currentChallenge.skill;
-    const currentSkillTubeName = this.getTubeNameFromSkillName(currentSkillTested.name);
-    const currentChallengeSkillDifficulty = this.currentChallenge.skill.difficulty;
-    const inferredSkills = (
-      newAnswer.result === ANSWER_STATUSES.OK
-        ? this.getLowerLevelSkillsFromSameTube(currentSkillTubeName, currentChallengeSkillDifficulty)
-        : this.getHigherLevelSkillsFromSameTube(currentSkillTubeName, currentChallengeSkillDifficulty)
-    ).filter((skill) => !this.hasKnowledgeElementForSkill(skill));
+    const bounds = {
+      ...previousBounds,
+      directLevels: [...new Set([...previousBounds.directLevels, skill.difficulty])],
+    };
+    if (isOk) {
+      bounds.floor = Math.max(bounds.floor, skill.difficulty);
+    } else {
+      bounds.ceiling = bounds.ceiling === null ? skill.difficulty : Math.min(bounds.ceiling, skill.difficulty);
+    }
+    if (bounds.ceiling !== null && bounds.ceiling <= bounds.floor) {
+      bounds.ceiling = null;
+    }
 
-    const inferredNewKnowledgeElements = inferredSkills.map((skill) => ({
-      source: KNOWLEDGE_ELEMENTS_SOURCES.INFERRED,
-      status:
-        newAnswer.result === ANSWER_STATUSES.OK
-          ? KNOWLEDGE_ELEMENTS_STATUSES.VALIDATED
-          : KNOWLEDGE_ELEMENTS_STATUSES.INVALIDATED,
-      answerId: newAnswer.id,
-      skillId: skill.id,
-    }));
-
-    this.knowledgeElements = [...this.knowledgeElements, directNewKnowledgeElement, ...inferredNewKnowledgeElements];
-  }
-
-  hasKnowledgeElementForSkill(skill) {
-    return this.knowledgeElements.some((knowledgeElement) => knowledgeElement.skillId === skill.id);
-  }
-
-  getLowerLevelSkillsFromSameTube(currentSkillTubeName, currentChallengeSkillDifficulty) {
-    return this.skills.filter(
-      (skill) =>
-        this.getTubeNameFromSkillName(skill.name) === currentSkillTubeName &&
-        skill.difficulty < currentChallengeSkillDifficulty,
-    );
-  }
-
-  getHigherLevelSkillsFromSameTube(currentSkillTubeName, currentChallengeSkillDifficulty) {
-    return this.skills.filter(
-      (skill) =>
-        this.getTubeNameFromSkillName(skill.name) === currentSkillTubeName &&
-        skill.difficulty > currentChallengeSkillDifficulty,
-    );
+    this.knowledgeState = [...this.knowledgeState.filter((otherBounds) => otherBounds.tubeId !== tubeId), bounds];
   }
 
   getTubeNameFromSkillName(skillName) {

@@ -6,7 +6,6 @@ const buildCorrectAnswersAndKnowledgeElementsForLearningContent = function ({
   learningContent,
   userId,
   placementDate,
-  earnedPix,
 }) {
   const competenceIdSkillIdPairs = [];
   learningContent.forEach((framework) => {
@@ -25,7 +24,6 @@ const buildCorrectAnswersAndKnowledgeElementsForLearningContent = function ({
                 competenceId: competence.id,
                 skillId: skill.id,
                 challengeId: challenge.id,
-                pixValue: earnedPix,
                 acquisitionDate: placementDate,
               });
             });
@@ -41,7 +39,6 @@ buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas = function (
   learningContent,
   userId,
   placementDate,
-  earnedPix,
 }) {
   const areasGroupedByFramework = _.groupBy(learningContent, 'frameworkId');
   const frameworks = [];
@@ -58,7 +55,6 @@ buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas = function (
     learningContent: frameworks,
     userId,
     placementDate,
-    earnedPix,
   });
 };
 

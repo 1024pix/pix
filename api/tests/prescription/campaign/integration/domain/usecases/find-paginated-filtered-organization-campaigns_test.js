@@ -3,9 +3,8 @@ import { expect } from 'chai';
 import { CampaignReport } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignReport.js';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { toLegacySnapshot } from '../../../../../tooling/knowledge-state/legacy-snapshot.js';
 
 describe('Integration | UseCase | find-paginated-filtered-organization-campaigns', function () {
   context('when cover rate is false', function () {
@@ -56,14 +55,14 @@ describe('Integration | UseCase | find-paginated-filtered-organization-campaigns
       });
 
       const ke = databaseBuilder.factory.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
+        status: 'validated',
         skillId,
         userId: participationUser.userId,
       });
 
       databaseBuilder.factory.buildKnowledgeElementSnapshot({
         campaignParticipationId: participationUser.id,
-        snapshot: new KnowledgeElementCollection([ke]).toSnapshot(),
+        snapshot: toLegacySnapshot([ke]),
       });
 
       await databaseBuilder.commit();

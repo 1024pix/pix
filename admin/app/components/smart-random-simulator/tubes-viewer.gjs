@@ -5,6 +5,7 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { lt } from 'ember-truth-helpers';
+import { skillStatusInKnowledgeState } from 'pix-admin/utils/knowledge-state';
 
 import Card from '../card';
 import { SMART_RANDOM_STEPS } from './SMART_RANDOM_STEPS';
@@ -64,8 +65,8 @@ export default class TubesViewer extends Component {
     const isCurrentSkill = this.isSkillTheCurrentSkill(skillInTube);
     if (isCurrentSkill) return SKILLS_STATUSES.CURRENT;
 
-    const knowledgeElementForSkill = this.knowledgeElementForSkill(skillInTube);
-    if (knowledgeElementForSkill) return knowledgeElementForSkill.status;
+    const knowledgeStateStatus = skillStatusInKnowledgeState(this.args.knowledgeState, skillInTube);
+    if (knowledgeStateStatus) return knowledgeStateStatus;
 
     const skillInSelectedStep = this.isSkillInSelectedStep(skillInTube);
     if (!skillInSelectedStep) return SKILLS_STATUSES.ELIMINATED;
@@ -110,10 +111,6 @@ export default class TubesViewer extends Component {
 
   isSkillInSelectedStep(skill) {
     return this.steps[this.args.displayedStepIndex].outputSkills.some((outputSkill) => outputSkill.id === skill.id);
-  }
-
-  knowledgeElementForSkill(skill) {
-    return this.args.knowledgeElements.find((knowledgeElement) => knowledgeElement.skillId === skill.id);
   }
 
   getStepName(stepName) {

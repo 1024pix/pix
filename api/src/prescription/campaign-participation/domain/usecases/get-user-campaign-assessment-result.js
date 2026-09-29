@@ -6,7 +6,7 @@ const getUserCampaignAssessmentResult = async function ({
   campaignId,
   locale,
   badgeRepository,
-  knowledgeElementForParticipationService,
+  knowledgeStateForParticipationService,
   badgeForCalculationRepository,
   participantResultRepository,
   stageRepository,
@@ -25,20 +25,18 @@ const getUserCampaignAssessmentResult = async function ({
   }
   try {
     const badges = await badgeRepository.findByCampaignId(campaignId);
-    const knowledgeElements = await knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId({
+    const knowledgeState = await knowledgeStateForParticipationService.findByUserOrCampaignParticipationId({
       userId,
       campaignParticipationId: campaignParticipation.id,
     });
 
-    const badgesForCalculation = await badgeForCalculationRepository.findByCampaignId({ campaignId });
-    const stillValidBadgeIds = badgesForCalculation
-      .filter((badge) => badge.shouldBeObtained(knowledgeElements))
-      .map(({ id }) => id);
+    const stillValidBadgeIds = await checkStillValidBadges(campaignId, knowledgeState, badgeForCalculationRepository);
 
-    const badgeWithAcquisitionPercentage = badgesForCalculation.map((badge) => ({
-      id: badge.id,
-      acquisitionPercentage: badge.getAcquisitionPercentage(knowledgeElements),
-    }));
+    const badgeWithAcquisitionPercentage = await getBadgeAcquisitionPercentage(
+      campaignId,
+      knowledgeState,
+      badgeForCalculationRepository,
+    );
 
     const badgesWithValidity = badges.map((badge) => ({
       ...badge,
@@ -72,5 +70,18 @@ const getUserCampaignAssessmentResult = async function ({
 };
 
 export { getUserCampaignAssessmentResult };
+
+async function checkStillValidBadges(campaignId, knowledgeState, badgeForCalculationRepository) {
+  const badgesForCalculation = await badgeForCalculationRepository.findByCampaignId({ campaignId });
+  return badgesForCalculation.filter((badge) => badge.shouldBeObtained(knowledgeState)).map(({ id }) => id);
+}
+
 // TODO PIX-21173 Create dedicated repository or service for badges to remove logic duplication for acquisition percentage
 // TODO PIX-21173 part2 We can use badgeAcquisitionRepository to avoid unnecessary calculation
+async function getBadgeAcquisitionPercentage(campaignId, knowledgeState, badgeForCalculationRepository) {
+  const badgesForCalculation = await badgeForCalculationRepository.findByCampaignId({ campaignId });
+  return badgesForCalculation.map((badge) => ({
+    id: badge.id,
+    acquisitionPercentage: badge.getAcquisitionPercentage(knowledgeState),
+  }));
+}

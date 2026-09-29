@@ -1,4 +1,5 @@
-import * as knowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import * as competenceScoreRepository from '../../../shared/infrastructure/repositories/competence-score-repository.js';
+import * as knowledgeStateRepository from '../../../shared/infrastructure/repositories/knowledge-state-repository.js';
 import * as scoringService from './scoring/scoring-service.js';
 
 const getCompetenceLevel = async function ({
@@ -6,15 +7,22 @@ const getCompetenceLevel = async function ({
   competenceId,
 
   dependencies = {
-    knowledgeElementRepository,
+    knowledgeStateRepository,
+    competenceScoreRepository,
     scoringService,
   },
 }) {
-  const knowledgeElements = await dependencies.knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
-    userId,
-    competenceId,
+  // Le niveau se lit sur le solde de la compétence, figé à la dernière action.
+  const pixByCompetence = await dependencies.competenceScoreRepository.findByUserId({ userId });
+  const exactlyEarnedPix = pixByCompetence.get(competenceId);
+  if (exactlyEarnedPix !== undefined) {
+    return dependencies.scoringService.calculateScoringInformationFromPix({ exactlyEarnedPix }).currentLevel;
+  }
+
+  const knowledgeState = await dependencies.knowledgeStateRepository.findByUserId({ userId });
+  const { currentLevel } = dependencies.scoringService.calculateScoringInformationForCompetence({
+    validatedSkills: knowledgeState.restrictedToCompetence(competenceId).validatedSkills(),
   });
-  const { currentLevel } = dependencies.scoringService.calculateScoringInformationForCompetence({ knowledgeElements });
   return currentLevel;
 };
 

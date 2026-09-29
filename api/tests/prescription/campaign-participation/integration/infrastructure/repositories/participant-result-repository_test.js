@@ -5,12 +5,20 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.ts';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { toLegacySnapshot } from '../../../../../tooling/knowledge-state/legacy-snapshot.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
+
+const buildKeData = (data) => ({
+  source: 'direct',
+  status: 'validated',
+  earnedPix: 4,
+  skillId: 'recSKIL123',
+  competenceId: 'recCOMP456',
+  ...data,
+});
 
 const { STARTED } = CampaignParticipationStatuses;
 
@@ -82,14 +90,16 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         tubes: [
           { id: 'recTube1', competenceId: 'rec1' },
           { id: 'recTube2', competenceId: 'rec2' },
+          { id: 'recTube3', competenceId: 'rec2' },
+          { id: 'recTube4', competenceId: 'rec2' },
         ],
         skills: [
           { id: 'skill1', status: 'actif', tubeId: 'recTube1', competenceId: 'rec1', pixValue: 2, level: 1 },
           { id: 'skill2', status: 'archivé', tubeId: 'recTube1', competenceId: 'rec1', level: 4 },
           { id: 'skill3', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2', pixValue: 20, level: 5 },
           { id: 'skill4', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2', pixValue: 200, level: 3 },
-          { id: 'skill5', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2', level: 6 },
-          { id: 'skill6', status: 'périmé', tubeId: 'recTube2', competenceId: 'rec2', level: 7 },
+          { id: 'skill5', status: 'actif', tubeId: 'recTube3', competenceId: 'rec2', level: 6 },
+          { id: 'skill6', status: 'périmé', tubeId: 'recTube4', competenceId: 'rec2', level: 7 },
         ],
         challenges: [
           { id: 'challenge1', skillId: 'skill1', status: 'validé', locales: ['FR'], alpha: 1, delta: 0 },
@@ -707,24 +717,24 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
             skillId: 'skill1',
             competenceId: 'rec1',
             createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
+            status: 'validated',
           },
           {
             userId,
             skillId: 'skill2',
             competenceId: 'rec1',
             createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.INVALIDATED,
+            status: 'invalidated',
           },
           {
             userId,
             skillId: 'skill5',
             competenceId: 'rec2',
             createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
+            status: 'validated',
           },
         ];
-        knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
+        _buildKnowledgeStates(knowledgeElementsAttributes);
 
         await databaseBuilder.commit();
         const participantResult = await participantResultRepository.get({
@@ -737,9 +747,11 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
 
         expect(participantResult).to.deep.include({
           id: campaignParticipationId,
-          testedSkillsCount: 2,
+          // Valider skill5 (niveau 6) entraîne skill3 et skill4, du même tube et
+          // de niveau inférieur : l'état de connaissance est monotone.
+          testedSkillsCount: 4,
           totalSkillsCount: 4,
-          validatedSkillsCount: 1,
+          validatedSkillsCount: 3,
         });
       });
 
@@ -758,17 +770,17 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
             skillId: 'skill1',
             competenceId: 'rec1',
             createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
+            status: 'validated',
           },
           {
             userId,
             skillId: 'skill6',
             competenceId: 'rec2',
             createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
+            status: 'validated',
           },
         ];
-        knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
+        _buildKnowledgeStates(knowledgeElementsAttributes);
 
         await databaseBuilder.commit();
         const participantResult = await participantResultRepository.get({
@@ -779,10 +791,12 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           locale: 'FR',
         });
 
+        // Valider skill6 (niveau 7) entraîne les acquis de niveau inférieur du
+        // même tube : l'état de connaissance est monotone.
         expect(participantResult).to.deep.include({
-          testedSkillsCount: 1,
+          testedSkillsCount: 3,
           totalSkillsCount: 4,
-          validatedSkillsCount: 1,
+          validatedSkillsCount: 3,
         });
       });
 
@@ -805,34 +819,32 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
               skillId: 'skill1',
               competenceId: 'rec1',
               createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.VALIDATED,
+              status: 'validated',
             },
             {
               userId,
               skillId: 'skill2',
               competenceId: 'rec1',
               createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.VALIDATED,
+              status: 'validated',
             },
             {
               userId,
               skillId: 'skill3',
               competenceId: 'rec2',
               createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.INVALIDATED,
+              status: 'invalidated',
             },
             {
               userId,
               skillId: 'skill4',
               competenceId: 'rec2',
               createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.VALIDATED,
+              status: 'validated',
             },
           ];
 
-          knowledgeElementsAttributes.forEach((attributes) =>
-            databaseBuilder.factory.buildKnowledgeElement(attributes),
-          );
+          _buildKnowledgeStates(knowledgeElementsAttributes);
 
           await databaseBuilder.commit();
         });
@@ -1042,13 +1054,15 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           });
 
           databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
-          databaseBuilder.factory.buildKnowledgeElement({
-            userId,
-            skillId: 'skill1',
-            competenceId: 'rec1',
-            createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
-          });
+          _buildKnowledgeStates([
+            {
+              userId,
+              skillId: 'skill1',
+              competenceId: 'rec1',
+              createdAt: new Date('2020-01-01'),
+              status: 'validated',
+            },
+          ]);
           await databaseBuilder.commit();
           const participantResult = await participantResultRepository.get({
             userId,
@@ -1085,32 +1099,32 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
 
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
         const knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({
+          buildKeData({
             userId,
             skillId: 'skill1',
             competenceId: 'rec1',
             createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
+            status: 'validated',
           }),
-          domainBuilder.buildKnowledgeElement({
+          buildKeData({
             userId,
             skillId: 'skill2',
             competenceId: 'rec1',
             createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.INVALIDATED,
+            status: 'invalidated',
           }),
-          domainBuilder.buildKnowledgeElement({
+          buildKeData({
             userId,
             skillId: 'skill5',
             competenceId: 'rec2',
             createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
+            status: 'validated',
           }),
         ];
-        const knowledgeElementsInSnapshot = new KnowledgeElementCollection(knowledgeElements);
+        const knowledgeElementsInSnapshot = toLegacySnapshot(knowledgeElements);
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
           campaignParticipationId,
-          snapshot: knowledgeElementsInSnapshot.toSnapshot(),
+          snapshot: knowledgeElementsInSnapshot,
         });
         await databaseBuilder.commit();
         const participantResult = await participantResultRepository.get({
@@ -1139,25 +1153,25 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
 
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
         const knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({
+          buildKeData({
             userId,
             skillId: 'skill1',
             competenceId: 'rec1',
             createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
+            status: 'validated',
           }),
-          domainBuilder.buildKnowledgeElement({
+          buildKeData({
             userId,
             skillId: 'skill6',
             competenceId: 'rec2',
             createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
+            status: 'validated',
           }),
         ];
-        const knowledgeElementsInSnapshot = new KnowledgeElementCollection(knowledgeElements);
+        const knowledgeElementsInSnapshot = toLegacySnapshot(knowledgeElements);
         databaseBuilder.factory.buildKnowledgeElementSnapshot({
           campaignParticipationId,
-          snapshot: knowledgeElementsInSnapshot.toSnapshot(),
+          snapshot: knowledgeElementsInSnapshot,
         });
         await databaseBuilder.commit();
 
@@ -1190,39 +1204,39 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
 
           const knowledgeElements = [
-            domainBuilder.buildKnowledgeElement({
+            buildKeData({
               userId,
               skillId: 'skill1',
               competenceId: 'rec1',
               createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.VALIDATED,
+              status: 'validated',
             }),
-            domainBuilder.buildKnowledgeElement({
+            buildKeData({
               userId,
               skillId: 'skill2',
               competenceId: 'rec1',
               createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.VALIDATED,
+              status: 'validated',
             }),
-            domainBuilder.buildKnowledgeElement({
+            buildKeData({
               userId,
               skillId: 'skill3',
               competenceId: 'rec2',
               createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.INVALIDATED,
+              status: 'invalidated',
             }),
-            domainBuilder.buildKnowledgeElement({
+            buildKeData({
               userId,
               skillId: 'skill4',
               competenceId: 'rec2',
               createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.VALIDATED,
+              status: 'validated',
             }),
           ];
-          const knowledgeElementsInSnapshot = new KnowledgeElementCollection(knowledgeElements);
+          const knowledgeElementsInSnapshot = toLegacySnapshot(knowledgeElements);
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
             campaignParticipationId,
-            snapshot: knowledgeElementsInSnapshot.toSnapshot(),
+            snapshot: knowledgeElementsInSnapshot,
           });
 
           await databaseBuilder.commit();
@@ -1432,18 +1446,18 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           });
 
           databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
-          const knowledgeElementsInSnapshot = new KnowledgeElementCollection([
-            domainBuilder.buildKnowledgeElement({
+          const knowledgeElementsInSnapshot = toLegacySnapshot([
+            buildKeData({
               userId,
               skillId: 'skill1',
               competenceId: 'rec1',
               createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.VALIDATED,
+              status: 'validated',
             }),
           ]);
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
             campaignParticipationId,
-            snapshot: knowledgeElementsInSnapshot.toSnapshot(),
+            snapshot: knowledgeElementsInSnapshot,
           });
           await databaseBuilder.commit();
           const participantResult = await participantResultRepository.get({
@@ -1459,6 +1473,58 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
     });
   });
 });
+
+/**
+ * Traduit une liste de knowledge elements en état de connaissance.
+ *
+ * Les knowledge elements ne sont plus persistés : un test qui veut placer un
+ * utilisateur dans un état donné décrit ses bornes par tube. Le plancher est le
+ * plus haut acquis validé, le plafond le plus bas acquis invalidé.
+ */
+function _buildKnowledgeStates(knowledgeElementsAttributes) {
+  const referential = {
+    skill1: { tubeId: 'recTube1', level: 1 },
+    skill2: { tubeId: 'recTube1', level: 4 },
+    skill3: { tubeId: 'recTube2', level: 5 },
+    skill4: { tubeId: 'recTube2', level: 3 },
+    skill5: { tubeId: 'recTube2', level: 6 },
+    skill6: { tubeId: 'recTube2', level: 7 },
+  };
+
+  const byTube = new Map();
+  for (const { userId, skillId, competenceId, createdAt, status } of knowledgeElementsAttributes) {
+    const skill = referential[skillId];
+    if (!skill) continue;
+
+    const key = `${userId}:${skill.tubeId}`;
+    const bounds = byTube.get(key) ?? {
+      userId,
+      tubeId: skill.tubeId,
+      competenceId,
+      floor: 0,
+      ceiling: null,
+      directLevels: [],
+      updatedAt: createdAt,
+    };
+
+    if (status === 'validated') {
+      bounds.floor = Math.max(bounds.floor, skill.level);
+    } else {
+      bounds.ceiling = bounds.ceiling === null ? skill.level : Math.min(bounds.ceiling, skill.level);
+    }
+    bounds.directLevels = [...new Set([...bounds.directLevels, skill.level])];
+    byTube.set(key, bounds);
+  }
+
+  for (const bounds of byTube.values()) {
+    // Un plafond passé sous le plancher n'est plus interprétable : la
+    // validation gagne, comme lorsque la lecture retient le plus récent.
+    if (bounds.ceiling !== null && bounds.ceiling <= bounds.floor) {
+      bounds.ceiling = null;
+    }
+    databaseBuilder.factory.buildKnowledgeState(bounds);
+  }
+}
 
 function _buildCampaignSkills(campaignId) {
   databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'skill1' });

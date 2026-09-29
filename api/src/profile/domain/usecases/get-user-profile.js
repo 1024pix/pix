@@ -8,11 +8,13 @@ const getUserProfile = async function ({
   competenceRepository,
   areaRepository,
   competenceEvaluationRepository,
-  knowledgeElementRepository,
+  knowledgeStateRepository,
+  competenceScoreRepository,
   locale,
 }) {
-  const [knowledgeElementsGroupedByCompetenceId, competences, competenceEvaluations] = await Promise.all([
-    knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId }),
+  const [knowledgeState, pixByCompetence, competences, competenceEvaluations] = await Promise.all([
+    knowledgeStateRepository.findByUserId({ userId }),
+    competenceScoreRepository.findByUserId({ userId }),
     competenceRepository.listPixCompetencesOnly({ locale }),
     competenceEvaluationRepository.findByUserId(userId),
   ]);
@@ -20,15 +22,15 @@ const getUserProfile = async function ({
 
   const scorecards = _.map(competences, (competence) => {
     const competenceId = competence.id;
-    const knowledgeElementsForCompetence = knowledgeElementsGroupedByCompetenceId[competenceId];
     const competenceEvaluation = _.find(competenceEvaluations, { competenceId });
     const area = allAreas.find((area) => area.id === competence.areaId);
     return Scorecard.buildFrom({
       userId,
-      knowledgeElements: knowledgeElementsForCompetence,
+      knowledgeState: knowledgeState.restrictedToCompetence(competenceId),
       competence,
       area,
       competenceEvaluation,
+      exactlyEarnedPix: pixByCompetence.get(competenceId),
     });
   });
 

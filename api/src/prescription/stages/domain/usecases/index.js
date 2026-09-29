@@ -1,7 +1,7 @@
 import * as getMasteryPercentageService from '../../../../evaluation/domain/services/get-mastery-percentage-service.js';
 import * as campaignRepository from '../../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import * as campaignParticipationRepository from '../../../../prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
-import knowledgeElementForParticipationService from '../../../../prescription/shared/domain/services/knowledge-element-for-participation-service.js';
+import knowledgeStateForParticipationService from '../../../../prescription/shared/domain/services/knowledge-state-for-participation-service.js';
 import * as targetProfileAdministrationRepository from '../../../../prescription/target-profile/infrastructure/repositories/target-profile-administration-repository.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
@@ -18,7 +18,7 @@ const dependencies = {
   convertLevelStagesIntoThresholdsService,
   getNewAcquiredStagesService,
   getMasteryPercentageService,
-  knowledgeElementForParticipationService,
+  knowledgeStateForParticipationService,
   skillRepository,
   stageAcquisitionRepository,
   stageCollectionForTargetProfileRepository,

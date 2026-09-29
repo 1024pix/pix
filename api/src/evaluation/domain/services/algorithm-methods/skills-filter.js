@@ -8,11 +8,7 @@ import { logPredictedLevel, logStep } from '../smart-random-log-service.js';
 
 const getPlayableSkills = (skills) => skills.filter(({ isPlayable }) => isPlayable);
 
-const notAlreadyTestedSkill = (knowledgeElements) => {
-  const alreadyTestedSkillIds = knowledgeElements.map(({ skillId }) => skillId);
-  return (skill) => !alreadyTestedSkillIds.includes(skill.id);
-};
-const getUntestedSkills = (knowledgeElements, skills) => skills.filter(notAlreadyTestedSkill(knowledgeElements));
+const getUntestedSkills = (knowledgeState, skills) => knowledgeState.untestedSkills(skills);
 
 const keepSkillsFromEasyTubes = (tubes, targetSkills) => {
   const skillsFromEasyTubes = getPrioritySkills(tubes);
@@ -68,11 +64,11 @@ const isSkillTooHard = (skill, predictedLevel) =>
 const removeTooDifficultSkills = (predictedLevel, targetSkills) =>
   targetSkills.filter((skill) => !isSkillTooHard(skill, predictedLevel));
 
-const getFilteredSkillsForFirstChallenge = ({ knowledgeElements, tubes, targetSkills }) => {
+const getFilteredSkillsForFirstChallenge = ({ knowledgeState, tubes, targetSkills }) => {
   const playableSkills = getPlayableSkills(targetSkills);
   logStep(STEPS_NAMES.NO_CHALLENGE, playableSkills);
 
-  const untestedSkills = getUntestedSkills(knowledgeElements, playableSkills);
+  const untestedSkills = getUntestedSkills(knowledgeState, playableSkills);
   logStep(STEPS_NAMES.ALREADY_TESTED, untestedSkills);
 
   const skillsFromEasyTubes = keepSkillsFromEasyTubes(tubes, untestedSkills);
@@ -88,7 +84,7 @@ const getFilteredSkillsForFirstChallenge = ({ knowledgeElements, tubes, targetSk
 };
 
 const getFilteredSkillsForNextChallenge = ({
-  knowledgeElements,
+  knowledgeState,
   tubes,
   predictedLevel,
   isLastChallengeTimed,
@@ -99,7 +95,7 @@ const getFilteredSkillsForNextChallenge = ({
   const playableSkills = getPlayableSkills(targetSkills);
   logStep(STEPS_NAMES.NO_CHALLENGE, playableSkills);
 
-  const untestedSkills = getUntestedSkills(knowledgeElements, playableSkills);
+  const untestedSkills = getUntestedSkills(knowledgeState, playableSkills);
   logStep(STEPS_NAMES.ALREADY_TESTED, untestedSkills);
 
   const skillsFromEasyTubes = keepSkillsFromEasyTubes(tubes, untestedSkills);

@@ -2,7 +2,7 @@ import * as campaignRepository from '../../../../../src/prescription/campaign/in
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
-import * as knowledgeElementSnapshotRepository from '../../../campaign/infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import * as knowledgeStateSnapshotRepository from '../../../campaign/infrastructure/repositories/knowledge-state-snapshot-repository.js';
 import { ParticipantResultsShared } from '../../domain/models/ParticipantResultsShared.js';
 import * as campaignParticipationRepository from './campaign-participation-repository.js';
 
@@ -17,7 +17,7 @@ const participantResultsSharedRepository = {
     const skillIds = await campaignRepository.findSkillIdsByCampaignParticipationId({
       campaignParticipationId,
     });
-    const knowledgeElements = await knowledgeElementSnapshotRepository.findByCampaignParticipationIds([
+    const knowledgeStates = await knowledgeStateSnapshotRepository.findByCampaignParticipationIds([
       campaignParticipationId,
     ]);
     const competences = await competenceRepository.listPixCompetencesOnly();
@@ -31,7 +31,7 @@ const participantResultsSharedRepository = {
 
     return new ParticipantResultsShared({
       campaignParticipationId,
-      knowledgeElements: knowledgeElements[campaignParticipationId],
+      knowledgeState: knowledgeStates[campaignParticipationId],
       skillIds,
       placementProfile,
     });

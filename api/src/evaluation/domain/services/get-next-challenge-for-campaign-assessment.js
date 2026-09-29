@@ -13,21 +13,21 @@ export async function getNextChallengeForCampaignAssessment({
   algorithmDataFetcherService,
   smartRandomService,
   campaignRepository,
-  knowledgeElementRepository,
-  knowledgeElementForParticipationService,
+  knowledgeStateRepository,
+  knowledgeStateForParticipationService,
   campaignParticipationRepository,
   improvementService,
 }) {
-  const { allAnswers, lastAnswer, targetSkills, challenges, knowledgeElements } =
+  const { allAnswers, lastAnswer, targetSkills, challenges, knowledgeState } =
     await algorithmDataFetcherService.fetchForCampaigns({
       assessment,
       locale,
       answerRepository,
       campaignRepository,
       smartRandomChallengeRepository,
-      knowledgeElementRepository,
+      knowledgeStateRepository,
       campaignParticipationRepository,
-      knowledgeElementForParticipationService,
+      knowledgeStateForParticipationService,
       improvementService,
     });
 
@@ -43,7 +43,7 @@ export async function getNextChallengeForCampaignAssessment({
   );
 
   const algoResult = smartRandomService.getPossibleSkillsForNextChallenge({
-    knowledgeElements,
+    knowledgeState,
     challenges,
     targetSkills,
     lastAnswer,

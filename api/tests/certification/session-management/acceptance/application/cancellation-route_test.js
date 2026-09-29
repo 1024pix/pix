@@ -32,6 +32,9 @@ describe('Certification | Session-management | Acceptance | Application | Routes
                   {
                     id: 'recSkill0_0',
                     nom: '@recSkill0_0',
+                    level: 1,
+                    // La valeur en pix se lit sur l'acquis.
+                    pixValue: 16,
                     challenges: [{ id: challengeId }],
                   },
                 ],
@@ -117,7 +120,6 @@ describe('Certification | Session-management | Acceptance | Application | Routes
           skillId: 'recSkill0_0',
           competenceId: 'index Compétence A',
           userId: certificationCourse.userId,
-          earnedPix: 16,
         });
 
         const options = {
@@ -245,7 +247,6 @@ describe('Certification | Session-management | Acceptance | Application | Routes
           skillId: 'recSkill0_0',
           competenceId: 'index Compétence A',
           userId: certificationCourse.userId,
-          earnedPix: 16,
         });
 
         const options = {

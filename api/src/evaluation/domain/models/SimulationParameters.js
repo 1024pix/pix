@@ -1,17 +1,16 @@
-import { KnowledgeElement } from '../../../shared/domain/models/KnowledgeElement.js';
 import { calculatePixScore } from '../services/scoring/scoring-service.js';
 
 class SimulationParameters {
   /**
-   * @param {KnowledgeElement[]} knowledgeElements
+   * @param {KnowledgeState} knowledgeState
    * @param {Answer[]} answers
    * @param {Skill[]} skills
    * @param {Challenge[]} challenges
    * @param {('en'|'fr-fr'|'fr'|'nl')} locale
    * @param {number} assessmentId
    */
-  constructor({ knowledgeElements, answers, skills, challenges, locale, assessmentId } = {}) {
-    this.knowledgeElements = knowledgeElements;
+  constructor({ knowledgeState, answers, skills, challenges, locale, assessmentId } = {}) {
+    this.knowledgeState = knowledgeState;
     this.answers = answers;
     this.skills = skills;
     this.challenges = challenges;
@@ -25,16 +24,11 @@ class SimulationParameters {
    * @returns {number}
    */
   get pixScore() {
-    const skillsById = new Map(this.skills.map((skill) => [skill.id, skill]));
+    const validatedSkills = this.knowledgeState
+      .validatedSkills(this.skills)
+      .map((skill) => ({ ...skill, pixValue: skill.pixValue ?? 0 }));
 
-    const validatedKnowledgeElements = this.knowledgeElements
-      .filter((knowledgeElement) => knowledgeElement.isValidated && skillsById.has(knowledgeElement.skillId))
-      .map((knowledgeElement) => {
-        const { pixValue, competenceId } = skillsById.get(knowledgeElement.skillId);
-        return new KnowledgeElement({ ...knowledgeElement, earnedPix: pixValue ?? 0, competenceId });
-      });
-
-    return calculatePixScore(validatedKnowledgeElements);
+    return calculatePixScore(validatedSkills);
   }
 }
 

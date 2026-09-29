@@ -16,7 +16,7 @@ import TubesViewer from 'pix-admin/components/smart-random-simulator/tubes-viewe
     <main class="page-body smart-random-simulator">
       <section class="admin-form__content">
         <SmartRandomParams
-          @knowledgeElements={{@controller.knowledgeElements}}
+          @knowledgeState={{@controller.knowledgeState}}
           @answers={{@controller.answers}}
           @skills={{@controller.skills}}
           @challenges={{@controller.challenges}}
@@ -41,7 +41,7 @@ import TubesViewer from 'pix-admin/components/smart-random-simulator/tubes-viewe
             <TubesViewer
               @tubesByCompetence={{@controller.tubesByCompetence}}
               @currentSkillId={{@controller.currentChallenge.skill.id}}
-              @knowledgeElements={{@controller.knowledgeElements}}
+              @knowledgeState={{@controller.knowledgeState}}
               @smartRandomLog={{@controller.smartRandomLog}}
               @totalNumberOfSkills={{@controller.skills.length}}
               @numberOfSkillsStillAvailable={{@controller.numberOfSkillsStillAvailable}}
@@ -64,7 +64,7 @@ import TubesViewer from 'pix-admin/components/smart-random-simulator/tubes-viewe
             <TubesViewer
               @tubesByCompetence={{@controller.tubesByCompetence}}
               @currentSkillId={{@controller.currentChallenge.skill.id}}
-              @knowledgeElements={{@controller.knowledgeElements}}
+              @knowledgeState={{@controller.knowledgeState}}
               @smartRandomLog={{@controller.smartRandomLog}}
               @totalNumberOfSkills={{@controller.skills.length}}
               @numberOfSkillsStillAvailable={{@controller.numberOfSkillsStillAvailable}}

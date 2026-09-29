@@ -7,7 +7,7 @@ import * as areaRepository from '../../../../shared/infrastructure/repositories/
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import * as campaignRepository from '../../../campaign/infrastructure/repositories/campaign-repository.js';
-import knowledgeElementForParticipationService from '../../../shared/domain/services/knowledge-element-for-participation-service.js';
+import knowledgeStateForParticipationService from '../../../shared/domain/services/knowledge-state-for-participation-service.js';
 import { convertLevelStagesIntoThresholds } from '../../../stages/domain/services/convert-level-stages-into-thresholds-service.js';
 import { AssessmentResult } from '../../domain/read-models/AssessmentResult.js';
 
@@ -78,7 +78,12 @@ async function _getParticipationResults(userId, campaignId) {
     isDeleted,
   } = await _getParticipationAttributes(userId, campaignId);
 
-  const knowledgeElements = await _findTargetedKnowledgeElements(campaignId, userId, campaignParticipationId, sharedAt);
+  const { assessedSkillIds, validatedSkillIds } = await _findTargetedSkillIds(
+    campaignId,
+    userId,
+    campaignParticipationId,
+    sharedAt,
+  );
 
   const acquiredBadgeIds = await _getAcquiredBadgeIds(userId, campaignParticipationId);
 
@@ -89,7 +94,8 @@ async function _getParticipationResults(userId, campaignId) {
     status,
     assessmentCreatedAt,
     participantExternalId,
-    knowledgeElements,
+    assessedSkillIds,
+    validatedSkillIds,
     masteryRate,
     acquiredBadgeIds: acquiredBadgeIds.map(({ badgeId }) => badgeId),
     isDeleted,
@@ -148,14 +154,18 @@ async function _getParticipationAttributes(userId, campaignId) {
   };
 }
 
-async function _findTargetedKnowledgeElements(campaignId, userId, campaignParticipationId, sharedAt) {
+async function _findTargetedSkillIds(campaignId, userId, campaignParticipationId, sharedAt) {
   const skillIds = await campaignRepository.findSkillIds({ campaignId });
-  const knowledgeElements = await knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId({
+  const knowledgeState = await knowledgeStateForParticipationService.findByUserOrCampaignParticipationId({
     userId,
     campaignParticipationId,
     limitDate: sharedAt,
   });
-  return knowledgeElements.filter(({ skillId }) => skillIds.includes(skillId));
+  const targeted = (skills) => skills.map(({ id }) => id).filter((id) => skillIds.includes(id));
+  return {
+    assessedSkillIds: targeted(knowledgeState.assessedSkills()),
+    validatedSkillIds: targeted(knowledgeState.validatedSkills()),
+  };
 }
 
 async function _getAcquiredBadgeIds(userId, campaignParticipationId) {

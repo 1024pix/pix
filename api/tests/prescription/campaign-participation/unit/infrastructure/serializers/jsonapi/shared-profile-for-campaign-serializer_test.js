@@ -32,10 +32,7 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
         domainBuilder.buildCompetence({ id: 'rec1', areaId: '1' }),
         domainBuilder.buildCompetence({ id: 'rec2', areaId: '2' }),
       ];
-      const knowledgeElementsGroupedByCompetenceId = {
-        rec1: [domainBuilder.buildKnowledgeElement()],
-        rec2: [domainBuilder.buildKnowledgeElement()],
-      };
+      const knowledgeState = domainBuilder.buildKnowledgeState.forSkills({ validatedSkillIds: ['recSKIL123'] });
 
       const campaignParticipation = domainBuilder.buildCampaignParticipation({
         id: '1',
@@ -48,7 +45,7 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
         isOrganizationLearnerActive: true,
         competences,
         allAreas: [area1, area2],
-        knowledgeElementsGroupedByCompetenceId,
+        knowledgeState,
         maxReachableLevel: 8,
         maxReachablePixScore: 768,
       });

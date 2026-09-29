@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { CampaignCollectiveResult } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignCollectiveResult.js';
 import * as campaignCollectiveResultRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-collective-result-repository.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.ts';
-import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { toLegacySnapshot } from '../../../../../tooling/knowledge-state/legacy-snapshot.js';
 const { STARTED } = CampaignParticipationStatuses;
 
 function _createUserWithSharedCampaignParticipation(userName, campaignId, sharedAt, isImproved) {
@@ -52,6 +52,37 @@ describe('Integration | Repository | Campaign collective result repository', fun
 
       beforeEach(async function () {
         campaignId = databaseBuilder.factory.buildCampaign().id;
+
+        // Le référentiel en base, nécessaire à la relecture des instantanés
+        // historiques. Chaque acquis y est seul dans son tube : les instantanés
+        // de ce test décrivent des verdicts acquis par acquis.
+        [
+          ['recUrl1', 'recCompetenceA'],
+          ['recUrl2', 'recCompetenceA'],
+          ['recUrl3', 'recCompetenceA'],
+          ['recUrl4', 'recCompetenceA'],
+          ['recUrl5', 'recCompetenceA'],
+          ['recFile2', 'recCompetenceB'],
+          ['recFile3', 'recCompetenceB'],
+          ['recFile5', 'recCompetenceB'],
+          ['recText1', 'recCompetenceB'],
+          ['recMedia1', 'recCompetenceC'],
+          ['recMedia2', 'recCompetenceC'],
+          ['recBrowser1', 'recCompetenceE'],
+          ['recComputer1', 'recCompetenceF'],
+          ['recAlgo1', 'recCompetenceG'],
+          ['recAlgo2', 'recCompetenceG'],
+        ].forEach(([skillId, competenceId]) =>
+          databaseBuilder.factory.learningContent.buildSkill({
+            id: skillId,
+            name: `@${skillId}1`,
+            level: 1,
+            tubeId: skillId,
+            competenceId,
+            status: 'actif',
+            pixValue: 2,
+          }),
+        );
 
         // Competence A - nobody validated skills @url4 and @url5
         const url1 = domainBuilder.buildSkill({ id: 'recUrl1', tubeId: 'recTubeA' });
@@ -470,9 +501,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
             campaignParticipationId: userWithCampaignParticipationFred.campaignParticipation.id,
-            snapshot: new KnowledgeElementCollection(
-              knowledgeElements.map(domainBuilder.buildKnowledgeElement),
-            ).toSnapshot(),
+            snapshot: toLegacySnapshot(knowledgeElements),
           });
 
           return databaseBuilder.commit();
@@ -890,9 +919,9 @@ describe('Integration | Repository | Campaign collective result repository', fun
           const knowledgeElementsAlice = knowledgeElementsDataAlice.map(databaseBuilder.factory.buildKnowledgeElement);
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            snapshot: new KnowledgeElementCollection(
+            snapshot: toLegacySnapshot(
               knowledgeElementsAlice.filter(({ createdAt }) => createdAt <= campaignParticipationShareDate),
-            ).toSnapshot(),
+            ),
             campaignParticipationId: userWithCampaignParticipationAlice.campaignParticipation.id,
           });
 
@@ -901,18 +930,18 @@ describe('Integration | Repository | Campaign collective result repository', fun
           );
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            snapshot: new KnowledgeElementCollection(
+            snapshot: toLegacySnapshot(
               knowledgeElementsCharlie.filter(({ createdAt }) => createdAt <= campaignParticipationShareDate),
-            ).toSnapshot(),
+            ),
             campaignParticipationId: userWithCampaignParticipationCharlie.campaignParticipation.id,
           });
 
           const knowledgeElementsBob = knowledgeElementsDataBob.map(databaseBuilder.factory.buildKnowledgeElement);
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            snapshot: new KnowledgeElementCollection(
+            snapshot: toLegacySnapshot(
               knowledgeElementsBob.filter(({ createdAt }) => createdAt <= campaignParticipationShareDate),
-            ).toSnapshot(),
+            ),
             campaignParticipationId: userWithCampaignParticipationBob.campaignParticipation.id,
           });
 
@@ -921,9 +950,9 @@ describe('Integration | Repository | Campaign collective result repository', fun
           const knowledgeElementsElo = knowledgeElementsDataElo.map(databaseBuilder.factory.buildKnowledgeElement);
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            snapshot: new KnowledgeElementCollection(
+            snapshot: toLegacySnapshot(
               knowledgeElementsElo.filter(({ createdAt }) => createdAt <= campaignParticipationShareDate),
-            ).toSnapshot(),
+            ),
             campaignParticipationId: userWithCampaignParticipationElo.campaignParticipation.id,
           });
 
@@ -975,7 +1004,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
           });
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            snapshot: new KnowledgeElementCollection([knowledgeElement]).toSnapshot(),
+            snapshot: toLegacySnapshot([knowledgeElement]),
             campaignParticipationId: campaignParticipation.id,
           });
 
@@ -1062,12 +1091,12 @@ describe('Integration | Repository | Campaign collective result repository', fun
           const knowledgeElementsBob = knowledgeElementsDataBob.map(databaseBuilder.factory.buildKnowledgeElement);
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            snapshot: new KnowledgeElementCollection(knowledgeElementsAlice).toSnapshot(),
+            snapshot: toLegacySnapshot(knowledgeElementsAlice),
             campaignParticipationId: userWithCampaignParticipationAlice.campaignParticipation.id,
           });
 
           databaseBuilder.factory.buildKnowledgeElementSnapshot({
-            snapshot: new KnowledgeElementCollection(knowledgeElementsBob).toSnapshot(),
+            snapshot: toLegacySnapshot(knowledgeElementsBob),
             campaignParticipationId: userWithCampaignParticipationBob.campaignParticipation.id,
           });
 

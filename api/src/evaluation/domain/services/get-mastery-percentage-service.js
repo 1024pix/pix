@@ -1,25 +1,21 @@
 /**
- * Returns mastery percentage based on user
- * knowledge elements and skillIds.
+ * Taux de maîtrise : la part des acquis visés que l'état donne validés.
  *
- * @param {KnowledgeElement[]} knowledgeElements
- * @param {string[]} skillIds
+ * @param {KnowledgeState} knowledgeState
+ * @param {string[]} skillIds les acquis visés
  * @param {boolean} round
  *
  * @returns {number}
  */
-export const getMasteryPercentage = (knowledgeElements, skillIds, round = true) => {
+export const getMasteryPercentage = (knowledgeState, skillIds, round = true) => {
   if (!skillIds.length) return 0;
 
-  const validatedKnowledgeElements = knowledgeElements.filter(({ isValidated }) => isValidated);
-
-  const knowledgeElementsInSkills = validatedKnowledgeElements.filter((knowledgeElement) =>
-    skillIds.some((id) => String(id) === String(knowledgeElement.skillId)),
-  );
+  const wantedSkillIds = new Set(skillIds.map(String));
+  const validatedCount = knowledgeState.validatedSkills().filter(({ id }) => wantedSkillIds.has(String(id))).length;
 
   if (round) {
-    return Math.round((knowledgeElementsInSkills.length * 100) / skillIds.length);
+    return Math.round((validatedCount * 100) / skillIds.length);
   } else {
-    return (knowledgeElementsInSkills.length * 100) / skillIds.length;
+    return (validatedCount * 100) / skillIds.length;
   }
 };

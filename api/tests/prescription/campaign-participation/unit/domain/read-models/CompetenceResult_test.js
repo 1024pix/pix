@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import { CompetenceResult } from '../../../../../../src/prescription/campaign-participation/domain/read-models/CompetenceResult.js';
-import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Read-Models | ParticipantResult | CompetenceResult', function () {
@@ -21,18 +20,14 @@ describe('Unit | Domain | Read-Models | ParticipantResult | CompetenceResult', f
 
     const totalSkillsCount = 3;
 
-    const knowledgeElements = [
-      domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.VALIDATED }),
-      domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.INVALIDATED }),
-    ];
-
     const reachedStage = 1;
 
     const competenceResult = new CompetenceResult({
       competence,
       area,
       totalSkillsCount,
-      knowledgeElements,
+      testedSkillsCount: 2,
+      validatedSkillsCount: 1,
       reachedStage,
     });
 

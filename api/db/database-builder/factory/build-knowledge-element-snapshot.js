@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { KnowledgeElementCollection } from '../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { databaseBuffer } from '../database-buffer.js';
 import { buildKnowledgeElement } from './build-knowledge-element.js';
 import { buildUser } from './build-user.js';
@@ -12,11 +11,13 @@ const buildKnowledgeElementSnapshot = function ({
   userId,
 } = {}) {
   if (!snapshot) {
-    const knowledgeElements = [];
     userId = _.isUndefined(userId) ? buildUser().id : userId;
-    knowledgeElements.push(buildKnowledgeElement({ userId, createdAt: new Date('2020-01-01') }));
-    knowledgeElements.push(buildKnowledgeElement({ userId, createdAt: new Date('2020-01-01') }));
-    snapshot = new KnowledgeElementCollection(knowledgeElements).toSnapshot();
+    // Instantané au format historique — une entrée par acquis — encore lisible
+    // par la désérialisation, qui le replie en état.
+    const knowledgeElement = buildKnowledgeElement({ userId, createdAt: new Date('2020-01-01') });
+    snapshot = JSON.stringify([
+      _.pick(knowledgeElement, ['createdAt', 'source', 'status', 'earnedPix', 'skillId', 'competenceId']),
+    ]);
   }
 
   const values = {
@@ -26,7 +27,7 @@ const buildKnowledgeElementSnapshot = function ({
   };
 
   return databaseBuffer.pushInsertable({
-    tableName: 'knowledge-element-snapshots',
+    tableName: 'knowledge-state-snapshots',
     values,
   });
 };
