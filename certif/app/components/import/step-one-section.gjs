@@ -1,7 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
+import { PixButton, PixButtonLink, PixIcon, PixNotificationAlert } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import t from 'ember-intl/helpers/t';
 import FileImportBlock from 'pix-certif/components/import/file-import-block';

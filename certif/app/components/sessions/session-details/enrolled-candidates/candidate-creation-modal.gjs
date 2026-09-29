@@ -1,12 +1,14 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixLabel from '@1024pix/pix-ui/components/pix-label';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
-import PixRadioButton from '@1024pix/pix-ui/components/pix-radio-button';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import {
+  PixButton,
+  PixIcon,
+  PixInput,
+  PixLabel,
+  PixModal,
+  PixNotificationAlert,
+  PixRadioButton,
+  PixSelect,
+  PixTooltip,
+} from '@1024pix/nebulix-ember';
 import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { service } from '@ember/service';

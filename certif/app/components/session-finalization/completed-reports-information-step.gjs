@@ -1,7 +1,4 @@
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import { PixIcon, PixNotificationAlert, PixTable, PixTableColumn } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
