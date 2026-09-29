@@ -76,6 +76,7 @@ function computeReportForChallengeCounts(version, calibration, reportLines) {
     new CalibrationReportLine({
       label: REPORT_LABELS.ENGLISH_CALIBRATED_CHALLENGE_COUNT,
       content: calibration.getChallengeCountForLocale(ENGLISH_SPOKEN),
+      alertLevel: calibration.getChallengeCountForLocale(ENGLISH_SPOKEN) > 0 ? null : ALERT_LEVELS.LOW,
     }),
   );
 }

@@ -123,13 +123,39 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
           .buildForReport();
 
         const report = buildReport({ version, calibration });
-
         expect(report.reportLines).to.deep.include.members([
           {
             additionalContent: null,
             alertLevel: null,
             label: REPORT_LABELS.ENGLISH_CALIBRATED_CHALLENGE_COUNT,
             content: 2,
+          },
+        ]);
+      });
+
+      it('adds a low alert level when no english challenges found', function () {
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['tubeA'] })
+          .build();
+        const calibration = domainBuilder.certification.configuration
+          .calibrationBuilder()
+          .onScope({ scope: CALIBRATION_SCOPES.CORE })
+          .asValidated({ startedAt: new Date() })
+          .withCalibratredChallenges([
+            { tubeId: 'tubeA', locales: ['fr', 'fr-fr'] },
+            { tubeId: 'tubeA', locales: ['fr'] },
+            { tubeId: 'tubeA', locales: ['fr'] },
+          ])
+          .buildForReport();
+
+        const report = buildReport({ version, calibration });
+        expect(report.reportLines).to.deep.include.members([
+          {
+            additionalContent: null,
+            alertLevel: ALERT_LEVELS.LOW,
+            label: REPORT_LABELS.ENGLISH_CALIBRATED_CHALLENGE_COUNT,
+            content: 0,
           },
         ]);
       });
