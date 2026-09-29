@@ -1,4 +1,4 @@
-import { PixButton, PixButtonLink, PixIcon, PixModal, PixTooltip } from '@1024pix/nebulix-ember';
+import { PixButton, PixButtonLink, PixIcon, PixIconButton, PixModal, PixTooltip } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -11,6 +11,7 @@ import InfoBar from 'mon-pix/components/ui/assessment/info-bar';
 
 export default class AssessmentBanner extends Component {
   @service intl;
+  @service media;
   @service featureToggles;
   @service currentUser;
   @service store;
@@ -138,9 +139,18 @@ export default class AssessmentBanner extends Component {
               <span class="assessment-banner__separator" />
             {{/if}}
             {{#if @displayHomeLink}}
-              <PixButton @variant="tertiary" @iconAfter="close" @triggerAction={{this.toggleClosingModal}}>
-                {{t "common.actions.quit"}}
-              </PixButton>
+              {{#if this.media.isDesktop}}
+                <PixButton @variant="tertiary" @iconAfter="close" @triggerAction={{this.toggleClosingModal}}>
+                  {{t "common.actions.quit"}}
+                </PixButton>
+              {{else}}
+                <PixIconButton
+                  @iconName="close"
+                  @size="small"
+                  @triggerAction={{this.toggleClosingModal}}
+                  @ariaLabel={{t "common.actions.quit"}}
+                />
+              {{/if}}
             {{/if}}
           </div>
         {{/unless}}

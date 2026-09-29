@@ -1,4 +1,5 @@
 import { PixProgressBar, PixStepper } from '@1024pix/nebulix-ember';
+import { hash } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
@@ -18,10 +19,6 @@ export default class InfoBar extends Component {
 
   get showChallengeStepper() {
     return !this.isCertification && this.args.assessment.showChallengeStepper;
-  }
-
-  get showQuestionCounterOutside() {
-    return !this.showChallengeStepper && this.args.assessment.showQuestionCounter;
   }
 
   get maxStepsNumber() {
@@ -52,7 +49,15 @@ export default class InfoBar extends Component {
         @themeMode="dark"
       />
     {{else if this.showChallengeStepper}}
-      <PixStepper @currentStep={{this.currentStepNumber}} @steps={{this.steps}} />
+      <PixStepper
+        @currentStep={{this.currentStepNumber}}
+        @variant="primary-light"
+        @hideLabel={{true}}
+        @steps={{this.steps}}
+        @texts={{hash
+          ariaLabel=(t "components.info-bar.progress.position" current=this.currentStepNumber total=this.maxStepsNumber)
+        }}
+      />
     {{else if this.isCertification}}
       <dl class="info-bar">
         <div>

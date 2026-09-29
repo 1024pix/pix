@@ -18,14 +18,17 @@
 
   &__header {
     display: flex;
+    justify-content: space-between;
     margin-bottom: var(--pix-spacing-8x);
   }
 
   &__title {
-    display: flex;
-    flex-grow: 2;
-    gap: var(--pix-spacing-3x);
-    align-items: center;
+    @media (min-width:769px) {
+      gap: var(--pix-spacing-3x);
+      align-items: center;
+      display: flex;
+    }
+
 
     & img {
       height: 24px;
@@ -34,23 +37,37 @@
 
   &__text {
     @extend %pix-body-m;
+
   }
 
   &__separator {
     width: 1px;
-    height: 16px;
+    height: 40px;
     background-color: var(--pix-neutral-0);
+    border-radius: 1px;
   }
 
   &__action {
     z-index: 1;
     display: flex;
     gap: var(--pix-spacing-4x);
-    align-items: center;
+    align-items: start;
 
-    & .pix-button {
+    @media (min-width:769px) {
+      align-items: center;
+    }
+
+    & .pix-button, .pix-icon-button {
       color: var(--pix-neutral-0) !important;
       text-decoration: none !important;
+
+      &:not(.pix-button):hover, &:not(.pix-button):focus {
+        background-color: var(--pix-primary-700) !important;
+      }
+
+      &:not(.pix-icon-button):hover, &:not(.pix-icon-button):focus {
+        outline: 1px solid var(--pix-neutral-0) !important;
+      }
     }
   }
 }
