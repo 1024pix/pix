@@ -101,6 +101,7 @@ describe('Unit | Domain | Models | TubeResultForKnowledgeElementSnapshots', func
         // mean level = user1 (level 1: ok, level 2: ko), user2: (level 1: ok)
         expect(tubeResult.meanLevel).equal(1);
         expect(tubeResult.competenceName).equal(competence.name);
+        expect(tubeResult.competenceIndex).equal(competence.index);
         expect(tubeResult.areaName).equal(area.name);
       });
     });
@@ -122,6 +123,7 @@ describe('Unit | Domain | Models | TubeResultForKnowledgeElementSnapshots', func
         expect(tubeResult.maxLevel).equal(2);
         expect(tubeResult.meanLevel).equal(0);
         expect(tubeResult.competenceName).equal(competence.name);
+        expect(tubeResult.competenceIndex).equal(competence.index);
         expect(tubeResult.areaName).equal(area.name);
       });
     });

@@ -88,6 +88,8 @@ class TubeCoverage {
    * @typedef {Object} TubeCoverageArgs
    * @property {string} id
    * @property {string} competenceId
+   * @property {string} competenceName
+   * @property {string} competenceIndex
    * @property {string} areaName
    * @property {string} title
    * @property {string} description
@@ -99,9 +101,21 @@ class TubeCoverage {
    * @param {TubeCoverageArgs} args
    */
 
-  constructor({ id, competenceId, areaName, title, description, maxLevel, reachedLevel }) {
+  constructor({
+    id,
+    competenceId,
+    competenceName,
+    competenceIndex,
+    areaName,
+    title,
+    description,
+    maxLevel,
+    reachedLevel,
+  }) {
     this.id = id;
     this.competenceId = competenceId;
+    this.competenceName = competenceName;
+    this.competenceIndex = competenceIndex;
     this.areaName = areaName;
     this.practicalTitle = title;
     this.practicalDescription = description;

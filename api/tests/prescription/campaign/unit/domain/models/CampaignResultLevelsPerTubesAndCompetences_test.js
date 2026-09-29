@@ -51,6 +51,7 @@ describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', 
         areaId: 'recArea1',
         tubes: [tube1],
         name: 'compétence 1',
+        index: '1.1',
         description: 'description compétence 1',
       });
       const competence2 = domainBuilder.buildCompetence({
@@ -58,6 +59,7 @@ describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', 
         areaId: 'recArea1',
         tubes: [tube2],
         name: 'compétence 2',
+        index: '1.2',
         description: 'description compétence 2',
       });
 
@@ -120,6 +122,7 @@ describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', 
           id: 'tube1',
           competenceId: 'competence1',
           competenceName: 'compétence 1',
+          competenceIndex: '1.1',
           areaName: 'domaine 1',
           title: 'tube 1',
           description: 'tube 1 description',
@@ -130,6 +133,7 @@ describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', 
           id: 'tube2',
           competenceId: 'competence2',
           competenceName: 'compétence 2',
+          competenceIndex: '1.2',
           areaName: 'domaine 1',
           title: 'tube 2',
           description: 'tube 2 description',
@@ -154,7 +158,7 @@ describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', 
       expect(campaignResult.levelsPerCompetence[0].meanLevel).to.deep.equal(0.5);
 
       expect(campaignResult.levelsPerCompetence[1].id).to.deep.equal('competence2');
-      expect(campaignResult.levelsPerCompetence[1].index).to.deep.equal('1.1');
+      expect(campaignResult.levelsPerCompetence[1].index).to.deep.equal('1.2');
       expect(campaignResult.levelsPerCompetence[1].name).to.deep.equal('compétence 2');
       expect(campaignResult.levelsPerCompetence[1].description).to.deep.equal('description compétence 2');
       expect(campaignResult.levelsPerCompetence[1].maxLevel).to.deep.equal(4);

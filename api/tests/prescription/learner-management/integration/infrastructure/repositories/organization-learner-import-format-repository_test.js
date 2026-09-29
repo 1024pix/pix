@@ -100,8 +100,10 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       // then
       expect(result).lengthOf(2);
       expect(result[0]).to.be.an.instanceOf(OrganizationLearnerImportFormat);
-      expect(result[0]).to.be.deep.equal(new OrganizationLearnerImportFormat(scoImportFormat));
-      expect(result[1]).to.be.deep.equal(new OrganizationLearnerImportFormat(supImportFormat));
+      expect(result).deep.equal([
+        new OrganizationLearnerImportFormat(scoImportFormat),
+        new OrganizationLearnerImportFormat(supImportFormat),
+      ]);
     });
 
     it('should return an empty array if nothing was found', async function () {

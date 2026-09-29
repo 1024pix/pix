@@ -34,14 +34,18 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
         const badge = databaseBuilder.factory.buildBadge({ targetProfileId });
         const frameworkId = databaseBuilder.factory.learningContent.buildFramework().id;
         const areaId = databaseBuilder.factory.learningContent.buildArea({ frameworkId }).id;
-        const competenceId = databaseBuilder.factory.learningContent.buildCompetence({ areaId }).id;
+        const competenceId = databaseBuilder.factory.learningContent.buildCompetence({
+          areaId,
+          name_i18n: { fr: 'Compétence 2.1' },
+          index: '2.1',
+        }).id;
         const tube = databaseBuilder.factory.learningContent.buildTube({ competenceId });
         const skillId = databaseBuilder.factory.learningContent.buildSkill({
           id: 'recSkillId1',
           tubeId: tube.id,
           status: 'actif',
           level: 1,
-          competenceId: competenceId,
+          competenceId,
         }).id;
         const skillId2 = databaseBuilder.factory.learningContent.buildSkill({
           id: 'recSkillId2',
@@ -142,6 +146,8 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
               domainBuilder.maddo.buildTubeCoverage({
                 id: tube.id,
                 competenceId,
+                competenceName: 'Compétence 2.1',
+                competenceIndex: '2.1',
                 areaName: 'name Domaine A',
                 maxLevel: 2,
                 reachedLevel: 1,
@@ -278,7 +284,11 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
 
         const frameworkId = databaseBuilder.factory.learningContent.buildFramework().id;
         const areaId = databaseBuilder.factory.learningContent.buildArea({ frameworkId }).id;
-        const competenceId = databaseBuilder.factory.learningContent.buildCompetence({ areaId }).id;
+        const competenceId = databaseBuilder.factory.learningContent.buildCompetence({
+          areaId,
+          index: '1.3',
+          name_i18n: { fr: 'Compétence 1.3' },
+        }).id;
         const tube = databaseBuilder.factory.learningContent.buildTube({ competenceId });
         const skillId = databaseBuilder.factory.learningContent.buildSkill({ tubeId: tube.id, status: 'actif' }).id;
 
@@ -359,6 +369,8 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
               domainBuilder.maddo.buildTubeCoverage({
                 id: tube.id,
                 competenceId,
+                competenceIndex: '1.3',
+                competenceName: 'Compétence 1.3',
                 areaName: 'name Domaine A',
                 maxLevel: 2,
                 reachedLevel: 2,
@@ -446,7 +458,11 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
 
         const frameworkId = databaseBuilder.factory.learningContent.buildFramework().id;
         const areaId = databaseBuilder.factory.learningContent.buildArea({ frameworkId }).id;
-        competenceId = databaseBuilder.factory.learningContent.buildCompetence({ areaId }).id;
+        competenceId = databaseBuilder.factory.learningContent.buildCompetence({
+          areaId,
+          index: '1.1',
+          name_i18n: { fr: 'Compétence 1' },
+        }).id;
         tube = databaseBuilder.factory.learningContent.buildTube({ competenceId });
         skillId = databaseBuilder.factory.learningContent.buildSkill({ tubeId: tube.id, status: 'actif' }).id;
 
@@ -552,6 +568,8 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
                 id: tube.id,
                 competenceId,
                 areaName: 'name Domaine A',
+                competenceName: 'Compétence 1',
+                competenceIndex: '1.1',
                 maxLevel: 2,
                 reachedLevel: 2,
                 practicalDescription: tube.practicalDescription_i18n['fr'],
