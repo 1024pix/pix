@@ -97,7 +97,7 @@
     "js-base64": "^3.7.8",
     "jwt-decode": "^4.0.0",
     "loader.js": "^4.7.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.18.1",
     "miragejs": "^0.1.48",
     "npm-run-all2": "^9.0.3",
     "p-queue": "^9.0.1",
