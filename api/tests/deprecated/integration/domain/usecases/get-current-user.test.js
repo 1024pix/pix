@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { usecases } from '../../../../../src/deprecated/domain/usecases/index.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Deprecated | Integration | Domain | UseCase | get-current-user', function () {
@@ -104,124 +103,63 @@ describe('Deprecated | Integration | Domain | UseCase | get-current-user', funct
   });
 
   context('pix-app TOS status', function () {
-    context('when the newPixAppLegalDocumentsVersioning feature toggle  is enabled', function () {
-      beforeEach(async function () {
-        await featureToggles.set('newPixAppLegalDocumentsVersioning', true);
-      });
+    context('when the user has accepted the current version', function () {
+      it('returns accepted status with document path', async function () {
+        // given
+        const versionAt = new Date('2024-06-01');
 
-      context('when the user has accepted the current version', function () {
-        it('returns accepted status with document path', async function () {
-          // given
-          const versionAt = new Date('2024-06-01');
+        // inconsistent data to highlight the fact that cgu and mustValidateTermsOfService are no longer the source of truth
+        const user = databaseBuilder.factory.buildUser({ cgu: false, mustValidateTermsOfService: true });
 
-          // inconsistent data to highlight the fact that cgu and mustValidateTermsOfService are no longer the source of truth
-          const user = databaseBuilder.factory.buildUser({ cgu: false, mustValidateTermsOfService: true });
-
-          const documentVersion = databaseBuilder.factory.buildLegalDocumentVersion({
-            service: 'pix-app',
-            type: 'TOS',
-            versionAt,
-          });
-          databaseBuilder.factory.buildLegalDocumentVersionUserAcceptance({
-            userId: user.id,
-            legalDocumentVersionId: documentVersion.id,
-            acceptedAt: new Date('2024-06-15'),
-          });
-          await databaseBuilder.commit();
-
-          // when
-          const currentUser = await usecases.getCurrentUser({ authenticatedUserId: user.id });
-
-          // then
-          expect(currentUser).to.deep.include({
-            cgu: true,
-            mustValidateTermsOfService: false,
-            pixAppTermsOfServiceStatus: 'accepted',
-            pixAppTermsOfServiceDocumentPath: 'pix-app-tos-2024-06-01',
-          });
+        const documentVersion = databaseBuilder.factory.buildLegalDocumentVersion({
+          service: 'pix-app',
+          type: 'TOS',
+          versionAt,
         });
-      });
+        databaseBuilder.factory.buildLegalDocumentVersionUserAcceptance({
+          userId: user.id,
+          legalDocumentVersionId: documentVersion.id,
+          acceptedAt: new Date('2024-06-15'),
+        });
+        await databaseBuilder.commit();
 
-      context('when the user has never accepted', function () {
-        it('returns requested status with document path', async function () {
-          // given
-          const versionAt = new Date('2024-06-01');
+        // when
+        const currentUser = await usecases.getCurrentUser({ authenticatedUserId: user.id });
 
-          // inconsistent data to highlight the fact that cgu and mustValidateTermsOfService are no longer the source of truth
-          const user = databaseBuilder.factory.buildUser({ cgu: true, mustValidateTermsOfService: false });
-
-          databaseBuilder.factory.buildLegalDocumentVersion({
-            service: 'pix-app',
-            type: 'TOS',
-            versionAt,
-          });
-          await databaseBuilder.commit();
-
-          // when
-          const currentUser = await usecases.getCurrentUser({ authenticatedUserId: user.id });
-
-          // then
-          expect(currentUser).to.deep.include({
-            cgu: false,
-            mustValidateTermsOfService: true,
-            pixAppTermsOfServiceStatus: 'requested',
-            pixAppTermsOfServiceDocumentPath: 'pix-app-tos-2024-06-01',
-          });
+        // then
+        expect(currentUser).to.deep.include({
+          cgu: true,
+          mustValidateTermsOfService: false,
+          pixAppTermsOfServiceStatus: 'accepted',
+          pixAppTermsOfServiceDocumentPath: 'pix-app-tos-2024-06-01',
         });
       });
     });
 
-    context('when the newPixAppLegalDocumentsVersioning feature toggle is not enabled', function () {
-      beforeEach(async function () {
-        await featureToggles.set('newPixAppLegalDocumentsVersioning', false);
-      });
+    context('when the user has never accepted', function () {
+      it('returns requested status with document path', async function () {
+        // given
+        const versionAt = new Date('2024-06-01');
 
-      context('when the user has already accepted the CGU', function () {
-        it('returns accepted status and cgu=true', async function () {
-          // given
-          const acceptedAt = new Date('2024-06-01');
-          const user = databaseBuilder.factory.buildUser({
-            cgu: true,
-            mustValidateTermsOfService: false,
-            lastTermsOfServiceValidatedAt: acceptedAt,
-          });
-          await databaseBuilder.commit();
+        // inconsistent data to highlight the fact that cgu and mustValidateTermsOfService are no longer the source of truth
+        const user = databaseBuilder.factory.buildUser({ cgu: true, mustValidateTermsOfService: false });
 
-          // when
-          const currentUser = await usecases.getCurrentUser({ authenticatedUserId: user.id });
-
-          // then
-          expect(currentUser).to.deep.include({
-            cgu: true,
-            mustValidateTermsOfService: false,
-            lastTermsOfServiceValidatedAt: acceptedAt,
-            pixAppTermsOfServiceStatus: 'accepted',
-            pixAppTermsOfServiceDocumentPath: null,
-          });
+        databaseBuilder.factory.buildLegalDocumentVersion({
+          service: 'pix-app',
+          type: 'TOS',
+          versionAt,
         });
-      });
+        await databaseBuilder.commit();
 
-      context('when the user must re-accept the CGU', function () {
-        it('returns update-requested status and cgu=true', async function () {
-          // given
-          const user = databaseBuilder.factory.buildUser({
-            cgu: true,
-            mustValidateTermsOfService: true,
-            lastTermsOfServiceValidatedAt: '2020-01-01',
-          });
-          await databaseBuilder.commit();
+        // when
+        const currentUser = await usecases.getCurrentUser({ authenticatedUserId: user.id });
 
-          // when
-          const currentUser = await usecases.getCurrentUser({ authenticatedUserId: user.id });
-
-          // then
-          expect(currentUser).to.deep.include({
-            cgu: true,
-            mustValidateTermsOfService: true,
-            lastTermsOfServiceValidatedAt: null,
-            pixAppTermsOfServiceStatus: 'update-requested',
-            pixAppTermsOfServiceDocumentPath: null,
-          });
+        // then
+        expect(currentUser).to.deep.include({
+          cgu: false,
+          mustValidateTermsOfService: true,
+          pixAppTermsOfServiceStatus: 'requested',
+          pixAppTermsOfServiceDocumentPath: 'pix-app-tos-2024-06-01',
         });
       });
     });

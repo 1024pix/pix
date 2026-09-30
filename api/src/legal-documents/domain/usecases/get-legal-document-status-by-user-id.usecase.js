@@ -17,7 +17,6 @@ import { LegalDocumentType } from '../models/LegalDocumentType.js';
 const { PIX_APP, PIX_CERTIF } = LegalDocumentService.VALUES;
 const { TOS } = LegalDocumentType.VALUES;
 
-const isNewPixAppLegalDocumentsVersioning = featureToggles.use('newPixAppLegalDocumentsVersioning');
 const isNewPixCertifLegalDocumentsVersioningEnabled = featureToggles.use('newPixCertifLegalDocumentsVersioning');
 
 export async function getLegalDocumentStatusByUserId({
@@ -33,12 +32,6 @@ export async function getLegalDocumentStatusByUserId({
   LegalDocumentService.assert(service);
   LegalDocumentType.assert(type);
 
-  const isPixAppTos = service === PIX_APP && type === TOS;
-  if (isPixAppTos && !isNewPixAppLegalDocumentsVersioning.value) {
-    const user = await userRepository.getPixAppLegacyCguByUserId(userId);
-    return LegalDocumentStatus.buildForLegacyPixAppCgu(user);
-  }
-
   const isPixCertifTos = service === PIX_CERTIF && type === TOS;
   if (isPixCertifTos && !isNewPixCertifLegalDocumentsVersioningEnabled.value) {
     const user = await userRepository.getPixCertifLegacyTosByUserId(userId);
@@ -53,6 +46,8 @@ export async function getLegalDocumentStatusByUserId({
 
   const lastUserAcceptance = await userAcceptanceRepository.findLastForLegalDocument({ userId, service, type });
   const legalDocumentStatus = LegalDocumentStatus.build(lastLegalDocument, lastUserAcceptance);
+
+  const isPixAppTos = service === PIX_APP && type === TOS;
 
   if (
     isPixAppTos &&

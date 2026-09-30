@@ -8,16 +8,6 @@ export async function isAnonymous(userId) {
   return user.isAnonymous;
 }
 
-export async function getPixAppLegacyCguByUserId(userId) {
-  const knexConnection = DomainTransaction.getConnection();
-  const user = await knexConnection('users')
-    .select('cgu', 'mustValidateTermsOfService', 'lastTermsOfServiceValidatedAt')
-    .where({ id: userId })
-    .first();
-  if (!user) throw new UserNotFoundError();
-  return user;
-}
-
 export async function getPixCertifLegacyTosByUserId(userId) {
   const knexConnection = DomainTransaction.getConnection();
   const user = await knexConnection('users')

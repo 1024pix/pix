@@ -18,6 +18,7 @@ const buildPixAppTos = function () {
   return buildLegalDocumentVersion({
     service: LegalDocumentService.VALUES.PIX_APP,
     type: LegalDocumentType.VALUES.TOS,
+    versionAt: new Date('2026-09-03'),
   });
 };
 

@@ -85,68 +85,6 @@ describe('Unit | Legal documents | Domain | Model | LegalDocumentStatus', functi
     });
   });
 
-  describe('#LegalDocumentStatus.buildForLegacyPixAppCgu', function () {
-    context('when the user is a SCO student (cgu=false)', function () {
-      it('returns a "not-applicable" legal document status', function () {
-        // given / when
-        const legalDocumentStatus = LegalDocumentStatus.buildForLegacyPixAppCgu({
-          cgu: false,
-          mustValidateTermsOfService: false,
-          lastTermsOfServiceValidatedAt: null,
-        });
-
-        // then
-        expect(legalDocumentStatus).to.be.instanceof(LegalDocumentStatus);
-        expect(legalDocumentStatus).to.deep.equal({
-          status: STATUS.NOT_APPLICABLE,
-          acceptedAt: null,
-          documentPath: null,
-        });
-      });
-    });
-
-    context('when the user has accepted CGU and must validate terms of service', function () {
-      it('returns an "update-requested" legal document status', function () {
-        // given / when
-        const legalDocumentStatus = LegalDocumentStatus.buildForLegacyPixAppCgu({
-          cgu: true,
-          mustValidateTermsOfService: true,
-          lastTermsOfServiceValidatedAt: new Date('2024-01-01'),
-        });
-
-        // then
-        expect(legalDocumentStatus).to.be.instanceof(LegalDocumentStatus);
-        expect(legalDocumentStatus).to.deep.equal({
-          status: STATUS.UPDATE_REQUESTED,
-          acceptedAt: null,
-          documentPath: null,
-        });
-      });
-    });
-
-    context('when the user has accepted CGU and does not need to revalidate', function () {
-      it('returns an "accepted" legal document status with lastTermsOfServiceValidatedAt as "acceptedAt"', function () {
-        // given
-        const lastTermsOfServiceValidatedAt = new Date('2024-06-15');
-
-        // when
-        const legalDocumentStatus = LegalDocumentStatus.buildForLegacyPixAppCgu({
-          cgu: true,
-          mustValidateTermsOfService: false,
-          lastTermsOfServiceValidatedAt,
-        });
-
-        // then
-        expect(legalDocumentStatus).to.be.instanceof(LegalDocumentStatus);
-        expect(legalDocumentStatus).to.deep.equal({
-          status: STATUS.ACCEPTED,
-          acceptedAt: lastTermsOfServiceValidatedAt,
-          documentPath: null,
-        });
-      });
-    });
-  });
-
   describe('#LegalDocumentStatus.notFound', function () {
     it('returns an legal document status as request when legal document is not found', function () {
       // given / when

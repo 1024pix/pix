@@ -48,6 +48,12 @@ describe('Acceptance | Deprecated | Application | Route | User admin', function 
         await databaseBuilder.commit();
 
         const user = databaseBuilder.factory.buildUser({ username: 'brice.glace0712', locale: 'fr-FR' });
+        const tosAcceptedAt = new Date('2026-09-30');
+        databaseBuilder.factory.buildLegalDocumentVersionUserAcceptance({
+          legalDocumentVersionId: databaseBuilder.factory.buildPixAppTos().id,
+          userId: user.id,
+          acceptedAt: tosAcceptedAt,
+        });
         const blockedAt = new Date('2022-12-07');
         const temporaryBlockedUntil = new Date('2022-12-06');
         const userLoginId = databaseBuilder.factory.buildUserLogin({
@@ -85,7 +91,7 @@ describe('Acceptance | Deprecated | Application | Route | User admin', function 
           'last-name': user.lastName,
           'last-pix-certif-terms-of-service-validated-at': null,
           'last-pix-orga-terms-of-service-validated-at': null,
-          'last-pix-app-terms-of-service-validated-at': null,
+          'last-pix-app-terms-of-service-validated-at': tosAcceptedAt,
           'pix-certif-terms-of-service-accepted': false,
           'pix-orga-terms-of-service-accepted': false,
           'pix-app-terms-of-service-accepted': true,

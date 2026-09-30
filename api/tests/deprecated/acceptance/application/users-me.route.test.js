@@ -17,9 +17,15 @@ describe('Deprecated | Acceptance | Application | Route | User', function () {
     let options;
     let user;
     let expectedCode;
+    let tosAcceptance;
 
     beforeEach(async function () {
       user = databaseBuilder.factory.buildUser();
+      tosAcceptance = databaseBuilder.factory.buildLegalDocumentVersionUserAcceptance({
+        legalDocumentVersionId: databaseBuilder.factory.buildPixAppTos().id,
+        userId: user.id,
+        acceptedAt: new Date('2026-09-30'),
+      });
       const campaign = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION', code: 'SOMECODE' });
       const assessmentCampaign = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT' });
       expectedCode = campaign.code;
@@ -69,7 +75,7 @@ describe('Deprecated | Acceptance | Application | Route | User', function () {
             cgu: user.cgu,
             lang: 'fr',
             'is-anonymous': false,
-            'last-terms-of-service-validated-at': user.lastTermsOfServiceValidatedAt,
+            'last-terms-of-service-validated-at': tosAcceptance.acceptedAt,
             'must-validate-terms-of-service': user.mustValidateTermsOfService,
             'has-seen-assessment-instructions': user.hasSeenAssessmentInstructions,
             'has-seen-new-dashboard-info': user.hasSeenNewDashboardInfo,
@@ -81,7 +87,7 @@ describe('Deprecated | Acceptance | Application | Route | User', function () {
             'should-see-data-protection-policy-information-banner': true,
             'last-data-protection-policy-seen-at': null,
             'pix-app-terms-of-service-status': 'accepted',
-            'pix-app-terms-of-service-document-path': null,
+            'pix-app-terms-of-service-document-path': 'pix-app-tos-2026-09-03',
           },
           relationships: {
             'account-info': {

@@ -90,13 +90,6 @@ export default {
     defaultValue: [],
     tags: ['team-acces', 'iam', 'backend'],
   },
-  newPixAppLegalDocumentsVersioning: {
-    type: 'boolean',
-    description: 'Enable new pix app legal documents versioning for pix',
-    defaultValue: false,
-    devDefaultValues: { test: false, reviewApp: false },
-    tags: ['team-acces', 'pix-api', 'backend'],
-  },
   areCombinedCoursesEnabled: {
     type: 'boolean',
     description: 'Enables combined courses',
