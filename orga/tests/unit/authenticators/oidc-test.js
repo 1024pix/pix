@@ -193,7 +193,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
 
           // when
           await authenticator.invalidate({
-            shouldCloseSession: true,
             identityProviderCode: 'OIDC_PARTNER',
             logoutUrlUuid: 'uuid',
           });
@@ -221,7 +220,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
 
           // when
           await authenticator.invalidate({
-            shouldCloseSession: true,
             identityProviderCode: 'OIDC_PARTNER',
             logoutUrlUuid: 'uuid',
           });
