@@ -73,9 +73,14 @@ class SnapshotHandler {
           threshold: 0.1,
           includeAA: false,
         });
-        const diffRatio = diffPixels / (width * height);
-        // data différente entre deux runs : code de vérification du certificat et date de délivrance
-        expect(diffRatio).toBeLessThan(0.0015); // < 0.15% pixels différents
+        if (i === 0) {
+          // page 0 : données dynamiques (code de vérification et date de délivrance)
+          const diffRatio = diffPixels / (width * height);
+          expect(diffRatio).toBeLessThan(0.0015); // < 0.15% pixels différents
+        } else {
+          // pages suivantes : contenu statique, correspondance exacte attendue
+          expect(diffPixels).toBe(0);
+        }
       }
     }
   }
