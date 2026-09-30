@@ -1,5 +1,6 @@
-import { getByText, getByTextWithHtml, queryByText, render } from '@1024pix/ember-testing-library';
+import { getByTextWithHtml, render } from '@1024pix/ember-testing-library';
 import { fillIn } from '@ember/test-helpers';
+import { within } from '@testing-library/dom';
 import List from 'pix-admin/components/certification-frameworks/attach-badges/badges/list';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
@@ -44,15 +45,15 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
 
       // then
       const [firstRow] = screen.getAllByRole('row');
-      assert.dom(getByText(firstRow, 'ID')).exists();
-      assert.dom(getByText(firstRow, 'Nom')).exists();
-      assert.dom(getByText(firstRow, 'Niveau')).exists();
-      assert.dom(getByText(firstRow, 'Nombre de pix minimum')).exists();
-      assert.dom(getByText(firstRow, 'Image svg certificat Pix App')).exists();
-      assert.dom(getByText(firstRow, 'Label du certificat')).exists();
-      assert.dom(getByText(firstRow, "Macaron de l'attestation PDF")).exists();
-      assert.dom(getByText(firstRow, 'Message du certificat')).exists();
-      assert.dom(getByText(firstRow, 'Message temporaire certificat')).exists();
+      assert.dom(within(firstRow).getByText('ID')).exists();
+      assert.dom(within(firstRow).getByText('Nom')).exists();
+      assert.dom(within(firstRow).getByText('Niveau')).exists();
+      assert.dom(within(firstRow).getByText('Nombre de pix minimum')).exists();
+      assert.dom(within(firstRow).getByText('Image svg certificat Pix App')).exists();
+      assert.dom(within(firstRow).getByText('Label du certificat')).exists();
+      assert.dom(within(firstRow).getByText("Macaron de l'attestation PDF")).exists();
+      assert.dom(within(firstRow).getByText('Message du certificat')).exists();
+      assert.dom(within(firstRow).getByText('Message temporaire certificat')).exists();
     });
 
     module('When there are badges', function () {

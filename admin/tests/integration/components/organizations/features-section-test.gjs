@@ -1,7 +1,8 @@
-import { fillByLabel, render, waitForElementToBeRemoved, within } from '@1024pix/ember-testing-library';
+import { fillByLabel, render, within } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
+import { waitForElementToBeRemoved } from '@testing-library/dom';
 import { t } from 'ember-intl/test-support';
 import FeaturesSection from 'pix-admin/components/organizations/features-section';
 import { module, test } from 'qunit';
