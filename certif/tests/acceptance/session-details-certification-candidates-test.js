@@ -1,5 +1,6 @@
-import { visit, waitFor, within } from '@1024pix/ember-testing-library';
+import { visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn, find, settled, triggerEvent } from '@ember/test-helpers';
+import { waitFor } from '@testing-library/dom';
 import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'pix-certif/tests/test-support/setup-mirage';
