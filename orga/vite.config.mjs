@@ -1,5 +1,3 @@
-import { fileURLToPath } from 'node:url';
-
 import { loadTranslations } from '@ember-intl/vite';
 import { classicEmberSupport, ember, extensions } from '@embroider/vite';
 import { babel } from '@rollup/plugin-babel';
@@ -7,14 +5,6 @@ import sassEmbedded from 'sass-embedded';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  resolve: {
-    alias: [
-      {
-        find: /^@1024pix\/ember-testing-library$/,
-        replacement: fileURLToPath(import.meta.resolve('@1024pix/ember-testing-library/addon/index.js')),
-      },
-    ],
-  },
   build: {
     sourcemap: true,
   },

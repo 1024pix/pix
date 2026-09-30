@@ -135,6 +135,7 @@ module('Acceptance | join and login', function (hooks) {
         await click(screen.getByRole('button', { name: t('components.locale-switcher.label') }));
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Français' }));
+        await waitLanguageChanged('fr');
 
         // then
         assert.ok(
