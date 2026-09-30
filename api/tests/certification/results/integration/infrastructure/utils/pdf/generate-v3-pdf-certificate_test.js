@@ -12,7 +12,7 @@ import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-b
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-describe.only('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', function () {
+describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', function () {
   let i18n, translate;
 
   beforeEach(function () {
@@ -216,7 +216,10 @@ describe.only('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf',
       const page2 = await parsedPdf.getPage(2);
       // pdfjs-dist extracts justified text word-by-word (no trailing spaces), join(' ') produces
       // double spaces — normalize to make substring assertions reliable
-      const content = (await page2.getTextContent()).items.map((item) => item.str).join(' ').replace(/\s+/g, ' ');
+      const content = (await page2.getTextContent()).items
+        .map((item) => item.str)
+        .join(' ')
+        .replace(/\s+/g, ' ');
 
       expect(content).to.include('Alain Cendy');
       expect(content).to.include('256');

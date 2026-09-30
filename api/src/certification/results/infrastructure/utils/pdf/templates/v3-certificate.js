@@ -6,9 +6,9 @@ import * as url from 'node:url';
 
 import dayjs from 'dayjs';
 
+import { FRENCH_SPOKEN } from '../../../../../../shared/domain/services/locale-service.js';
 import { ComplementaryCertificationKeys } from '../../../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { CERTIFICATE_LABEL_CONTEXTS } from '../../../../domain/models/v3/CertificateMeshLevel.js';
-import { FRENCH_SPOKEN } from '../../../../../../shared/domain/services/locale-service.js';
 import generateV3CompetencesTemplate from './v3-certificate-competences.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
