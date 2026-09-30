@@ -1,10 +1,10 @@
 # Migration TypeScript — ce qui bloque le typage
 
-État au 2026-09-08. **Ce fichier se périme.** Les fiches non : elles décrivent l'état cible, où tout
-est en TypeScript. Ce document porte ce qui empêche aujourd'hui ce typage de vérifier quoi que ce
-soit, et dans quel ordre migrer.
+État au 2026-09-08. **Ce fichier se périme**, contrairement aux `README.md` des dossiers. Il porte ce
+qui empêche aujourd'hui le typage de vérifier quoi que ce soit, et dans quel ordre migrer.
 
-Une fiche renvoie ici plutôt que de décrire un obstacle transitoire.
+Un dossier renvoie ici plutôt que de décrire un obstacle transitoire, en général depuis la section
+« Vérifier par le typage » de son `outillage.md`.
 
 ---
 
@@ -41,7 +41,7 @@ l'API, qui répond à d'autres critères.
 porteurs de code et `import x = require(…)`. Les `declare enum` et les namespaces de types restent
 autorisés.
 
-Toute forme de conformité retenue dans une fiche doit s'effacer intégralement au type stripping. C'est
+Toute forme de conformité retenue dans un dossier doit s'effacer intégralement au type stripping. C'est
 ce qui écarte l'assertion `satisfies` sur un module entier : sous `verbatimModuleSyntax`, l'import de
 namespace est un import de valeur, et l'instruction qui porte l'assertion survit.
 
@@ -66,7 +66,8 @@ partagé** peut porter deux choses :
 
 Ce que ça change pour le corpus : `M3` de `serialiseur/README.md` est aujourd'hui le seul invariant sans
 aucun moyen de vérification, parce que ses consommateurs sont hors du dépôt. Le paquet le ramène en
-grande partie dans le domaine du vérifiable, et le détail des trois niveaux est au § 7 de cette fiche.
+grande partie dans le domaine du vérifiable, et le détail des trois niveaux est sous
+« La piste qui changerait `M3` » dans `serialiseur/outillage.md`.
 
 Le bénéfice sur les constantes n'attend pas la migration pour exister : la duplication des littéraux
 entre l'API et les fronts est un défaut d'aujourd'hui.
@@ -76,4 +77,4 @@ entre l'API et les fronts est un défaut d'aujourd'hui.
 Ce document disparaît quand `declare module '*.js'` disparaît. Les sections « ordre de migration » et
 « ce qui est inerte » n'ont plus d'objet à ce moment-là. La section sur `erasableSyntaxOnly` reste
 valable tant que l'option est active : à ce moment-là, elle rejoint une convention TypeScript
-transverse, pas une fiche.
+transverse, pas un dossier.

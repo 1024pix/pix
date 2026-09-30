@@ -1,6 +1,6 @@
 # Sources — Clean Architecture et DDD
 
-Bibliographie commune aux fiches. Chaque fiche renvoie ici plutôt que de dupliquer les références.
+Bibliographie commune aux dossiers du corpus. Chaque dossier renvoie ici plutôt que de dupliquer les références.
 
 Principe de sélection : **privilégier ce qui est librement accessible**, puisque l'objectif est que
 les gens puissent vérifier eux-mêmes. Les livres sont cités par nom de chapitre plutôt que par
@@ -60,7 +60,7 @@ et 133 repositories à plat dans `api/lib`. La page Tech Days 2024 du 30 juillet
 
 C'est Evans lui-même qui condense ses patterns en définitions d'une demi-page chacune. Entity,
 Value Object, Aggregate, Repository, Specification, Bounded Context, Anticorruption Layer, Published
-Language : tout ce qu'on cite dans les fiches y est, sous forme vérifiable en quelques minutes.
+Language : tout ce que citent les dossiers y est, sous forme vérifiable en quelques minutes.
 C'est la source à donner à quelqu'un qui veut contrôler une de nos affirmations sans acheter un
 livre.
 
@@ -172,8 +172,8 @@ mot, et elles n'ont pas les mêmes invariants :
 | une forme produite pour une lecture, sans règle | un **read-model** | `domain/read-models/`, rien à faire. `read-model/README.md` |
 | le contrat publié vers un autre contexte | un **DTO de contrat** | `application/api/`, où le mot est trompeur |
 
-Le classement se fait fichier par fichier, par les quatre tests du § 1 de `objet-valeur/README.md`, qui
-les énonce pour les deux catégories. Migration opportuniste, conforme à l'ADR 20.
+Le classement se fait fichier par fichier, par les quatre tests du discriminant, sous
+« Le discriminant » dans `objet-valeur/README.md`, qui les énonce pour les deux catégories. Migration opportuniste, conforme à l'ADR 20.
 
 Ce qui est à tenir dans tous les cas : ne pas invoquer CQRS pour justifier une décision sur ces
 objets, l'architecture correspondante n'étant pas en place.
@@ -331,13 +331,13 @@ justifier un nom de dossier.
 
 ---
 
-## Comment vérifier une affirmation d'une fiche
+## Comment vérifier une affirmation du corpus
 
 1. Si l'affirmation porte un renvoi vers ce fichier, la source y est nommée avec son chapitre.
 2. Si elle figure dans le tableau ci-dessus, **c'est une convention Pix** : elle se discute sur ses
    mérites, pas par appel à une autorité.
 3. Si elle ne renvoie ni à l'un ni à l'autre, c'est un oubli — le signaler.
 
-Les affirmations sur le **code** se vérifient autrement : chaque fiche cite le chemin du fichier, et
-les mesures (nombres de fichiers, résultats d'exécution) portent leur date. Le code bouge, les fiches
-se périment.
+Les affirmations sur le **code** se vérifient autrement : chaque exemple a un permalien vers un
+commit fixe, et les mesures (nombres de fichiers, résultats d'exécution) portent leur date dans
+`outillage.md` ou `ecarts.md`. Le code bouge : un permalien reste lisible, une mesure se périme.

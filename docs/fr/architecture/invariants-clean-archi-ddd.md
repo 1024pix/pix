@@ -39,7 +39,8 @@ lorsqu'ils sont utilisés dans un seul contexte ; ceux utilisés dans plusieurs 
 dans lib ». **`api/lib` n'existe plus aujourd'hui** — son reliquat multi-contexte est donc allé
 ailleurs, et c'est précisément ce qu'est `src/shared/`.
 
-L'évaluation des moyens de vérification déterministe fait l'objet des fiches par type de fichier.
+L'évaluation des moyens de vérification déterministe fait l'objet des dossiers par type de fichier, dans leur
+`outillage.md`.
 
 ## Choix du contexte de référence
 

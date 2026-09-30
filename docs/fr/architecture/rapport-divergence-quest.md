@@ -4,21 +4,21 @@ Constats relevés dans `api/src/quest` sur `dev`, le 2026-09-07.
 
 ## Ce que mesure ce document
 
-Les fiches décrivent un **état cible** : celui où l'architecture est rentable. Elles sont génériques et
-ne parlent d'aucun contexte. Ce document mesure la **divergence** entre cette cible et le code réel :
+Les `README.md` des dossiers décrivent les règles : celles qui rendent l'architecture rentable. Leurs
+exemples viennent de plusieurs contextes. Ce document mesure la **divergence** entre cette cible et le code réel :
 chemin du fichier, invariant enfreint, mode de vérification, et ce qu'il faudrait faire.
 
 Trois conséquences de ce cadrage :
 
 - **Une divergence n'est pas une faute.** Elle peut être une convention assumée, une dérive, ou un
   vestige d'une architecture précédente jamais migrée. Les trois se traitent différemment.
-- **Ce document se périme, les fiches non.** Chaque constat porte sa date et son mode de vérification.
+- **Ce document se périme, les `README.md` non.** Chaque constat porte sa date et son mode de vérification.
   Avant de s'appuyer sur l'un d'eux, relire le code.
 - **La priorisation ne suit pas la gravité brute** mais la grille coût payé / bénéfice obtenu — voir
   `invariants-clean-archi-ddd.md`. Une cérémonie dont le bénéfice n'est pas obtenu passe avant une
   entorse dont le coût est nul.
 
-Fiches de référence pour les constats ci-dessous : `repository/README.md`, `specification/README.md`,
+Références pour les constats ci-dessous : `repository/README.md`, `specification/README.md`,
 `racine-agregat/README.md`, `service-domaine/README.md`.
 
 ---
@@ -192,8 +192,8 @@ projection, `false` par collection vide.
 `try/catch` qui journalise. Le `TypeError` est donc avalé : l'apprenant ne reçoit pas sa récompense,
 l'API répond normalement, et seul un log en garde la trace.
 
-**Ce qu'il faudrait faire.** Écrire le test de totalité de `specification/README.md` § 6 — il ne
-remonte qu'une violation, donc test et correctif tiennent dans la même PR. Puis donner à
+**Ce qu'il faudrait faire.** Écrire le test de totalité, sous « S1 — test de totalité » dans
+`specification/outillage.md`. Il ne remonte qu'une violation, donc test et correctif tiennent dans la même PR. Puis donner à
 `organization` la même garantie de forme qu'à `organizationLearner`.
 
 ---
@@ -479,7 +479,7 @@ Le contrat tient. Mais rien ne le garantit : l'étape « enregistrer dans `TYPES
 par Joi, l'étape « charger la donnée dans le repository » ne l'est par rien. Un type enregistré sans
 donnée derrière produit le constat 3 — `TypeError` ou `false` silencieux selon la propriété.
 
-**Ce qu'il faudrait faire.** Le test de correspondance de `specification/README.md` § 6, dix lignes.
+**Ce qu'il faudrait faire.** Le test de correspondance de `S7`, décrit dans `specification/outillage.md`, dix lignes.
 Il passe aujourd'hui : c'est un test de non-régression qui verrouille l'étape non protégée.
 
 Le chantier de lazy loading prévu en septembre — « la quest déclarera ce dont elle a besoin » — rend
