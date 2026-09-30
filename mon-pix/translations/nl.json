@@ -567,8 +567,8 @@
       "landing-page": {
         "actions": {
           "sign-in": "Ik heb al een account, ik log in",
-          "start-anonymously": "Ik begin zonder Pix-account",
-          "start-connected": "Ik begin"
+          "start-anonymously": "Starten zonder Pix-account",
+          "start-connected": "Starten"
         },
         "texts": {
           "first-course": "Is dit je eerste Pix-test?",
@@ -588,8 +588,8 @@
     },
     "campaign-landing": {
       "assessment": {
-        "action": "Ik begin",
-        "announcement": "Registreer of log in op het Pix-platform en start je test.",
+        "action": "Starten",
+        "announcement": "Registreer je of meld je aan op het Pix-platform en start je test.",
         "certify": {
           "description": "Afhankelijk van je situatie en onder bepaalde voorwaarden kun je toegang krijgen tot de Pix-certificering, die door de professionele wereld wordt erkend en waarmee je je digitale vaardigheden kunt verbeteren. Neem voor meer informatie contact op met de cursusorganisator.",
           "title": "De antwoorden die je in deze cursus valideert, dragen bij aan je persoonlijke digitale vaardigheidsprofiel op Pix."
@@ -603,9 +603,9 @@
           "description": "Je zult internetopzoekingen moeten doen, je digitale werkomgeving moeten gebruiken, je kennis moeten testen, enz.",
           "title": "Meet je digitale vaardigheden met leuke leeruitdagingen die zich aanpassen aan je vaardigheidsniveau (met behulp van een adaptief algoritme)."
         },
-        "exam-notice": "Tijdens dit test wordt je vaardigheidsprofiel niet in aanmerking genomen of gewijzigd. Je antwoorden hebben geen invloed op je huidige niveaus, noch op je globale Pix-score.",
-        "legal": "Door op \"Ik begin\" te klikken, wordt informatie over je voortgang tijdens de cursus naar de cursusorganisator gestuurd zodat zij je kunnen ondersteunen. Aan het einde van je test worden je resultaten automatisch gedeeld met je organisatie.",
-        "title": "Begin je Pix-reis",
+        "exam-notice": "Tijdens dit traject wordt je competentieprofiel niet in aanmerking genomen of gewijzigd. Je antwoorden hebben geen invloed op je huidige niveaus en je algemene Pix-score.",
+        "legal": "Door op \"Starten\" te klikken, wordt informatie over je voortgang tijdens de cursus naar de cursusorganisator gestuurd zodat zij je kunnen ondersteunen. Aan het einde van je test worden je resultaten automatisch gedeeld met je organisatie.",
+        "title": "Start je Pix-traject",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' ben je klaar om je vaardigheden te testen?"
       },
       "profiles-collection": {
@@ -2687,7 +2687,7 @@
       "recommended": "Aanbevolen",
       "recommended-empty": {
         "description": "Om tutorials aan te bevelen die geschikt zijn voor jouw niveau, moet je beginnen met een vaardigheidstest.",
-        "link": "Ik begin",
+        "link": "Starten",
         "title": "{firstName}, vind je favoriete tutorials hier"
       },
       "saved": "Geregistreerd",
