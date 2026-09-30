@@ -158,27 +158,29 @@ export default class AssessmentBanner extends Component {
       />
     </header>
 
-    <PixModal
-      @title={{t "pages.assessment-banner.modal.title"}}
-      @showModal={{this.showClosingModal}}
-      @onCloseButtonClick={{this.toggleClosingModal}}
-    >
-      <:content>
-        <p>{{t "pages.assessment-banner.modal.content"}}</p>
-      </:content>
-      <:footer>
-        <PixButton @variant="secondary" @triggerAction={{this.toggleClosingModal}}>
-          {{t "common.actions.stay"}}
-        </PixButton>
-        <ButtonLinkWithHistory
-          @redirectionUrl={{this.redirectionUrl}}
-          @defaultRoute="authenticated"
-          aria-label={{t "pages.assessment-banner.modal.actions.quit.extra-information"}}
-        >
-          {{t "common.actions.quit"}}
-        </ButtonLinkWithHistory>
-      </:footer>
-    </PixModal>
+    {{#if @displayHomeLink}}
+      <PixModal
+        @title={{t "pages.assessment-banner.modal.title"}}
+        @showModal={{this.showClosingModal}}
+        @onCloseButtonClick={{this.toggleClosingModal}}
+      >
+        <:content>
+          <p>{{t "pages.assessment-banner.modal.content"}}</p>
+        </:content>
+        <:footer>
+          <PixButton @variant="secondary" @triggerAction={{this.toggleClosingModal}}>
+            {{t "common.actions.stay"}}
+          </PixButton>
+          <ButtonLinkWithHistory
+            @redirectionUrl={{this.redirectionUrl}}
+            @defaultRoute="authenticated"
+            aria-label={{t "pages.assessment-banner.modal.actions.quit.extra-information"}}
+          >
+            {{t "common.actions.quit"}}
+          </ButtonLinkWithHistory>
+        </:footer>
+      </PixModal>
+    {{/if}}
   </template>
 }
 

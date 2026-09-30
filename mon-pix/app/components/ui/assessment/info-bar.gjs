@@ -13,12 +13,16 @@ export default class InfoBar extends Component {
     return this.args.assessment.isCertification;
   }
 
+  get displayInfoBar() {
+    return this.isCertification || this.args.assessment.isDemo || this.args.assessment.isPreview;
+  }
+
   get certificationNumber() {
     return new Intl.NumberFormat(this.locale.currentLocale).format(this.args.certificationNumber);
   }
 
   get showChallengeStepper() {
-    return !this.isCertification && this.args.assessment.showChallengeStepper;
+    return !this.displayInfoBar && this.args.assessment.showChallengeStepper;
   }
 
   get maxStepsNumber() {
@@ -58,13 +62,16 @@ export default class InfoBar extends Component {
           ariaLabel=(t "components.info-bar.progress.position" current=this.currentStepNumber total=this.maxStepsNumber)
         }}
       />
-    {{else if this.isCertification}}
+    {{else if this.displayInfoBar}}
       <dl class="info-bar">
         <div>
-          <dt class="info-bar__label">{{t "components.info-bar.certification-number"}}
-          </dt>
-          <dd class="info-bar__value">{{this.certificationNumber}}</dd>
+          {{#if this.isCertification}}
+            <dt class="info-bar__label">{{t "components.info-bar.certification-number"}}
+            </dt>
+            <dd class="info-bar__value">{{this.certificationNumber}}</dd>
+          {{/if}}
         </div>
+
         {{#unless @isEnded}}
           <div>
             <dt class="info-bar__label">{{t "components.info-bar.progress.label"}}</dt>

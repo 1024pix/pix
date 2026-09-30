@@ -7,12 +7,11 @@ import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
 <template>
   {{pageTitle (t "pages.assessment-results.title")}}
 
-  <div class="assessment-results">
-
+  <main class="challenge">
     <AssessmentBanner
       @assessment={{@model}}
-      @checkpoint={{false}}
       @displayHomeLink={{false}}
+      @isEnded={{true}}
       @displayTextToSpeechActivationButton={{false}}
     />
 
@@ -53,5 +52,5 @@ import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
       @showModal={{@controller.isShowingModal}}
     />
 
-  </div>
+  </main>
 </template>
