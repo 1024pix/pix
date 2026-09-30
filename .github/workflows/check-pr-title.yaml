@@ -11,4 +11,4 @@ jobs:
     permissions:
       pull-requests: read
     steps:
-      - uses: 1024pix/pix-actions/check-pr-title@ebfce29cc12796464c8858fd231578fb3e6160b5 # main
+      - uses: 1024pix/pix-actions/check-pr-title@b4d102041ba82f1304923ae5ea3d2fc2c477e8fe # main
