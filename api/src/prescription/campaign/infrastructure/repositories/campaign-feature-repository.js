@@ -1,5 +1,5 @@
-import { CAMPAIGN_FEATURES } from '../../../shared/constants.js';
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { CAMPAIGN_FEATURES } from '../../../../shared/constants.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 const getHighlightedTrainingsForCampaign = async function ({ campaignId }) {
   const knexConn = DomainTransaction.getConnection();

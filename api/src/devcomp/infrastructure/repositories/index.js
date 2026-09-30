@@ -1,6 +1,6 @@
+import * as campaignFeatureRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-feature-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
-import * as campaignFeatureRepository from './campaign-feature-repository.js';
 import * as elementAnswerRepository from './element-answer-repository.js';
 import * as elementRepository from './element-repository.js';
 import * as moduleMetadataRepository from './module-metadata-repository.js';
