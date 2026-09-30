@@ -806,7 +806,8 @@
         }
       },
       "name": {
-        "label": "Naam Campagne"
+        "label": "Naam Campagne",
+        "sub-label": "Dit veld zal uitsluitend zichtbaar zijn in Pix Orga om de campagne te identificeren."
       },
       "no": "Nee",
       "owner": {
