@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { AlgorithmEngineVersion } from '../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { FixNotNullScorePixCancelledOrRejectedV3AssessmentResultsScript } from '../../../../src/certification/scripts/fix-validated-v3-assessment-results-with-zero-score.js';
+import { AlgorithmEngineVersion } from '../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { AssessmentResult } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 
