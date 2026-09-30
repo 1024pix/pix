@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import { extractTransformAndLoadData } from '../../../../../src/maddo/domain/usecases/extract-transform-and-load-data.ts';
 import { datamartKnex, datawarehouseKnex } from '../../../../tooling/databases.js';
+import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-data', function () {
   const dropTables = async () => {
@@ -130,6 +131,83 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
       const [{ sqlNulls }] = await datamartKnex('replication').count({ sqlNulls: '*' }).whereNull('configuration');
       expect(jsonNulls).to.equal(1);
       expect(sqlNulls).to.equal(1);
+    });
+  });
+
+  describe('when the target has indexes', function () {
+    const replications = {
+      'my-replication': { source: 'to-replicate', target: 'replication', columns: ['id', 'firstName', 'lastName'] },
+    };
+    const targetIndexes = () =>
+      datamartKnex('pg_indexes')
+        .select('indexname', 'indexdef')
+        .where({ tablename: 'replication' })
+        .orderBy('indexname');
+
+    beforeEach(async function () {
+      await datawarehouseKnex.schema.createTable('to-replicate', (t) => {
+        t.integer('id');
+        t.string('firstName');
+        t.string('lastName');
+      });
+      await datamartKnex.schema.createTable('replication', (t) => {
+        t.integer('id').primary();
+        t.string('firstName').notNullable().index();
+        t.string('lastName');
+        t.index(['lastName', 'firstName']);
+      });
+      await datamartKnex('replication').insert([{ id: 1, firstName: 'oldfirst1', lastName: 'oldlast1' }]);
+    });
+
+    it('should leave the target with the same indexes, valid for the new rows', async function () {
+      // given
+      await datawarehouseKnex('to-replicate').insert([
+        { id: 10, firstName: 'first1', lastName: 'last1' },
+        { id: 20, firstName: 'first2', lastName: 'last2' },
+      ]);
+      const indexesBefore = await targetIndexes();
+
+      // when
+      const result = await extractTransformAndLoadData({
+        replicationName: 'my-replication',
+        replications,
+        datamartKnex,
+        datawarehouseKnex,
+      });
+
+      // then
+      expect(result).to.deep.equal({ count: 2 });
+      expect(indexesBefore).to.have.lengthOf(3);
+      expect(await targetIndexes()).to.deep.equal(indexesBefore);
+      const found = await datamartKnex.transaction(async (trx) => {
+        await trx.raw('SET LOCAL enable_seqscan = off');
+        return trx('replication').select('id').where({ firstName: 'first2' });
+      });
+      expect(found).to.deep.equal([{ id: 20 }]);
+    });
+
+    it('should keep the previous rows and indexes when the load fails', async function () {
+      // given: the second row violates the NOT NULL constraint of the target
+      await datawarehouseKnex('to-replicate').insert([
+        { id: 10, firstName: 'first1', lastName: 'last1' },
+        { id: 20, firstName: null, lastName: 'last2' },
+      ]);
+      const indexesBefore = await targetIndexes();
+
+      // when
+      const error = await catchErr(extractTransformAndLoadData)({
+        replicationName: 'my-replication',
+        replications,
+        datamartKnex,
+        datawarehouseKnex,
+      });
+
+      // then
+      expect(error.message).to.include('violates not-null constraint');
+      expect(await targetIndexes()).to.deep.equal(indexesBefore);
+      expect(await datamartKnex('replication').select()).to.deep.equal([
+        { id: 1, firstName: 'oldfirst1', lastName: 'oldlast1' },
+      ]);
     });
   });
 });

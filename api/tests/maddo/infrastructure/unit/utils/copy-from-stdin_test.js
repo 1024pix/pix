@@ -1,29 +1,13 @@
+import { EventEmitter } from 'node:events';
+import { setImmediate } from 'node:timers/promises';
+
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { copyFromStdin, encodeCsvLine } from '../../../../../src/maddo/infrastructure/utils/copy-from-stdin.ts';
+import { copyFromStdin } from '../../../../../src/maddo/infrastructure/utils/copy-from-stdin.ts';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Maddo | Infrastructure | Utils | Unit | copy-from-stdin', function () {
-  describe('#encodeCsvLine', function () {
-    it('should quote every non-null value and end the line with a newline', function () {
-      expect(encodeCsvLine(['Dupont', 42, 3.5, true])).to.equal('"Dupont","42","3.5","true"\n');
-    });
-
-    it('should encode null and undefined as an empty unquoted field (NULL for PostgreSQL)', function () {
-      expect(encodeCsvLine([null, undefined, ''])).to.equal(',,""\n');
-    });
-
-    it('should escape quotes, and keep separators and newlines inside quotes', function () {
-      expect(encodeCsvLine(['O"Neil', 'a,b', 'line1\nline2'])).to.equal('"O""Neil","a,b","line1\nline2"\n');
-    });
-
-    it('should encode dates as ISO 8601 and objects as JSON', function () {
-      const line = encodeCsvLine([new Date('2024-05-06T07:08:09Z'), { scoring: 'v3', levels: [1, 2] }]);
-      expect(line).to.equal('"2024-05-06T07:08:09.000Z","{""scoring"":""v3"",""levels"":[1,2]}"\n');
-    });
-  });
-
   describe('#copyFromStdin', function () {
     it('should submit a COPY FROM STDIN statement with quoted identifiers to the pg client', function () {
       // given
@@ -53,7 +37,7 @@ describe('Maddo | Infrastructure | Utils | Unit | copy-from-stdin', function () 
     });
   });
 
-  describe('buffering', function () {
+  describe('writing', function () {
     const columns = ['id', 'payload'];
     let connection;
     let pgClient;
@@ -73,54 +57,67 @@ describe('Maddo | Infrastructure | Utils | Unit | copy-from-stdin', function () 
       return copy;
     };
 
-    it('should push a chunk to the socket once 512 KiB of CSV are buffered, then the remainder on end', async function () {
+    it('should push each chunk to the socket as it is', async function () {
       // given
       const copy = wire();
-      const row = { id: 1, payload: 'x'.repeat(1000) }; // one line is a bit more than 1 KB
+      const chunk = Buffer.from('1,"a"\n2,"b"\n');
 
       // when
-      for (let i = 0; i < 1500; i++) await copy.writeRow(row);
-      expect(connection.sendCopyFromChunk).to.have.been.calledTwice; // 1500 KB -> 2 full chunks of ≥ 512 KiB
+      await copy.write(chunk);
+
+      // then
+      expect(connection.sendCopyFromChunk).to.have.been.calledOnce;
+      expect(connection.sendCopyFromChunk.firstCall.args[0]).to.equal(chunk);
+    });
+
+    it('should end the COPY after the last chunk and return the row count reported by the server', async function () {
+      // given
+      const copy = wire();
+      await copy.write(Buffer.from('1,"a"\n2,"b"\n'));
+
+      // when
       const ending = copy.end();
-      submitted.handleCommandComplete({ text: 'COPY 1500' });
+      submitted.handleCommandComplete({ text: 'COPY 2' });
       submitted.handleReadyForQuery();
       const { rowCount } = await ending;
 
       // then
-      expect(rowCount).to.equal(1500);
-      expect(connection.sendCopyFromChunk).to.have.been.calledThrice;
-      const sizes = connection.sendCopyFromChunk.args.map(([chunk]) => chunk.length);
-      expect(sizes[0]).to.be.at.least(512 * 1024);
-      expect(sizes[1]).to.be.at.least(512 * 1024);
-      expect(sizes.reduce((a, b) => a + b, 0)).to.equal(1500 * Buffer.byteLength('"1","' + 'x'.repeat(1000) + '"\n'));
+      expect(rowCount).to.equal(2);
       expect(connection.endCopyFrom).to.have.been.calledOnce;
       expect(connection.sendCopyFromChunk).to.have.been.calledBefore(connection.endCopyFrom);
     });
 
-    it('should count bytes, not characters, so accented text flushes at the right size', async function () {
+    it('should wait for the socket to drain before accepting more when it is saturated', async function () {
       // given
       const copy = wire();
-      const row = { id: 1, payload: 'é'.repeat(1000) }; // 1000 characters but 2000 UTF-8 bytes
+      connection.stream = new EventEmitter();
+      connection.stream.writableNeedDrain = true;
+      const settled = sinon.stub();
 
       // when
-      for (let i = 0; i < 300; i++) await copy.writeRow(row); // ~600 KB of bytes, ~300 K characters
+      const writing = copy.write(Buffer.from('1,"a"\n')).then(settled);
+      await setImmediate();
+      expect(settled).to.not.have.been.called;
+      connection.stream.emit('drain');
+      await writing;
 
       // then
-      expect(connection.sendCopyFromChunk).to.have.been.calledOnce;
+      expect(settled).to.have.been.calledOnce;
     });
 
-    it('should fail fast and skip CopyFail once the server reported an error', async function () {
+    it('should reject writes and skip CopyFail once the server reported an error', async function () {
       // given
       const copy = wire();
-      const serverError = new Error('invalid input syntax');
+      const serverError = new Error('invalid input syntax for type integer');
       submitted.handleError(serverError);
 
       // when
-      const error = await catchErr(() => copy.writeRow({ id: 1, payload: 'x' }))();
+      const error = await catchErr(copy.write)(Buffer.from('x\n'));
       await copy.abort('whatever');
 
       // then
       expect(error).to.equal(serverError);
+      expect(connection.sendCopyFromChunk).to.not.have.been.called;
       expect(connection.sendCopyFail).to.not.have.been.called;
     });
   });

@@ -26,19 +26,13 @@ type CopyInQuery = Submittable & {
   handleError(error: Error): void;
 };
 
-type Row = Record<string, unknown>;
-
-// Encoded CSV bytes buffered before being pushed to the socket. Throughput is flat from a few KB to a
-// few MB per write; this bounds memory whatever the row width.
-const FLUSH_BYTES = 512 * 1024;
-
 export type CopyFromStdin = {
   readonly text: string;
   /**
-   * Encodes a row (object keyed by column name) and buffers it; the buffer is pushed to the socket
-   * every FLUSH_BYTES, honouring backpressure.
+   * Pushes CSV bytes (e.g. a frame of `copyToStdout`) to the socket, honouring backpressure.
+   * A chunk does not have to end on a row boundary.
    */
-  writeRow(row: Row): Promise<void>;
+  write(chunk: Buffer): Promise<void>;
   /** Tells the server the data is complete and waits for it to commit the COPY. */
   end(): Promise<{ rowCount: number }>;
   /**
@@ -49,7 +43,7 @@ export type CopyFromStdin = {
 };
 
 /**
- * Bulk-loads rows into a PostgreSQL table with `COPY ... FROM STDIN`.
+ * Bulk-loads CSV bytes into a PostgreSQL table with `COPY ... FROM STDIN`.
  *
  * The `query` object below is the node-postgres hook. The copy-in data itself
  * goes through `pgClient.connection`, via its public `sendCopyFromChunk` / `endCopyFrom` / `sendCopyFail`.
@@ -65,7 +59,7 @@ export const copyFromStdin = ({
 }): CopyFromStdin => {
   if (!columns.length) throw new Error('COPY FROM STDIN requires at least one column.');
 
-  // Settled by the pg handlers below, awaited by writeRow()/end()/abort().
+  // Settled by the pg handlers below, awaited by write()/end()/abort().
   const copyInStarted = Promise.withResolvers<void>();
   const rowCount = Promise.withResolvers<number>();
   const finished = Promise.withResolvers<void>();
@@ -74,7 +68,7 @@ export const copyFromStdin = ({
   void rowCount.promise.catch(ignore);
   void finished.promise.catch(ignore);
 
-  // Set by handleError so that writeRow() fails fast and abort() knows the COPY is already over.
+  // Set by handleError so that write() fails fast and abort() knows the COPY is already over.
   let failure: Error | null = null;
 
   const query: CopyInQuery = {
@@ -98,36 +92,20 @@ export const copyFromStdin = ({
   // The copy-in methods are not in @types/pg: see PgConnection.
   const connection = pgClient.connection as PgConnection;
 
-  // CSV waiting to be sent, and its size in UTF-8 bytes (what goes on the wire).
-  let csv = '';
-  let csvBytes = 0;
-
-  const flush = async () => {
-    if (csvBytes === 0) return;
-    const payload = Buffer.from(csv, 'utf8');
-    csv = '';
-    csvBytes = 0;
-    connection.sendCopyFromChunk(payload);
-    if (connection.stream.writableNeedDrain) {
-      await Promise.race([once(connection.stream, 'drain'), finished.promise]);
-    }
-  };
-
   return {
     text: query.text,
 
-    writeRow: async (row) => {
+    write: async (chunk) => {
       if (failure) throw failure;
       await copyInStarted.promise;
-      const line = encodeCsvLine(columns.map((column) => row[column]));
-      csv += line;
-      csvBytes += Buffer.byteLength(line, 'utf8');
-      if (csvBytes >= FLUSH_BYTES) await flush();
+      connection.sendCopyFromChunk(chunk);
+      if (connection.stream.writableNeedDrain) {
+        await Promise.race([once(connection.stream, 'drain'), finished.promise]);
+      }
     },
 
     end: async () => {
       await copyInStarted.promise;
-      await flush();
       connection.endCopyFrom();
       await finished.promise;
       return { rowCount: await rowCount.promise };
@@ -145,33 +123,6 @@ export const copyFromStdin = ({
       }
     },
   };
-};
-
-/**
- * Encodes one row as a CSV line understood by `COPY ... WITH (FORMAT csv)`.
- * - `null`/`undefined` become an unquoted empty field, which PostgreSQL reads as NULL;
- * - every other value is quoted, so delimiters, quotes and newlines inside values are safe;
- * - Dates are sent as ISO 8601, plain objects as JSON (for json/jsonb columns).
- */
-export const encodeCsvLine = (values: unknown[]): string => values.map(encodeCsvField).join(',') + '\n';
-
-const encodeCsvField = (value: unknown): string =>
-  value === null || value === undefined ? '' : `"${toText(value).replaceAll('"', '""')}"`;
-
-const toText = (value: unknown): string => {
-  if (value instanceof Date) return value.toISOString();
-  if (Buffer.isBuffer(value)) return value.toString('utf8');
-  switch (typeof value) {
-    case 'string':
-      return value;
-    case 'number':
-    case 'bigint':
-    case 'boolean':
-      return String(value);
-    default:
-      // plain objects and arrays, for json/jsonb columns
-      return JSON.stringify(value);
-  }
 };
 
 const quoteIdentifier = (identifier: string): string => `"${identifier.replaceAll('"', '""')}"`;
