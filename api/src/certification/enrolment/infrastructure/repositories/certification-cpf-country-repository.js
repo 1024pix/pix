@@ -1,6 +1,9 @@
 // @ts-check
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { createLRUCache } from '../../../../shared/infrastructure/caches/lru-cache.js';
 import { CertificationCpfCountry } from '../../../shared/domain/models/CertificationCpfCountry.js';
+
+const COUNTRIES_BY_MATCHER_CACHE = createLRUCache({ max: 20 });
 
 /**
  * @function
@@ -9,6 +12,10 @@ import { CertificationCpfCountry } from '../../../shared/domain/models/Certifica
  * @returns {Promise<CertificationCpfCountry | null> }
  */
 export async function getByMatcher({ matcher }) {
+  const cachedCountry = COUNTRIES_BY_MATCHER_CACHE.get(matcher);
+  if (cachedCountry !== undefined) {
+    return cachedCountry;
+  }
   const knexConn = DomainTransaction.getConnection();
   const COLUMNS = ['id', 'code', 'commonName', 'originalName', 'matcher'];
 
@@ -18,5 +25,12 @@ export async function getByMatcher({ matcher }) {
     return null;
   }
 
-  return new CertificationCpfCountry(result);
+  const country = new CertificationCpfCountry(result);
+
+  COUNTRIES_BY_MATCHER_CACHE.set(matcher, country);
+  return country;
+}
+
+export function clearCache() {
+  COUNTRIES_BY_MATCHER_CACHE.clear();
 }
