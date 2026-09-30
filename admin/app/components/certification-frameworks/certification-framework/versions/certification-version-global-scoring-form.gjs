@@ -11,6 +11,8 @@ export default class GlobalScoringForm extends Component {
   @service pixToast;
   @service intl;
 
+  MIN_STEP = `0.${'0'.repeat(14)}1`;
+
   get globalScoringConfiguration() {
     const savedConfiguration = this.args.editVersion.globalScoringConfiguration;
     return savedConfiguration?.length
@@ -88,7 +90,7 @@ export default class GlobalScoringForm extends Component {
           <section>
             <PixInput
               type="number"
-              step="0.0000000001"
+              step={{this.MIN_STEP}}
               readonly={{this.isNotFirstRow mesh.meshLevel}}
               required="true"
               @requiredLabel={{t "common.forms.mandatory"}}
@@ -107,7 +109,7 @@ export default class GlobalScoringForm extends Component {
 
             <PixInput
               type="number"
-              step="0.0000000001"
+              step={{this.MIN_STEP}}
               required="true"
               @requiredLabel={{t "common.forms.mandatory"}}
               @errorMessage={{t
