@@ -18,6 +18,8 @@ async function register(server) {
             filter: Joi.object({
               sessionId: Joi.number(),
               status: Joi.string().valid(...Object.values(SESSION_STATUSES)),
+              startDate: Joi.date().allow(null).optional(),
+              endDate: Joi.date().allow(null).optional(),
             }).default({}),
             page: Joi.object({
               number: Joi.number().integer().empty('').allow(null).optional(),

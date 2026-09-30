@@ -256,6 +256,72 @@ describe('Integration | Repository | Session Summary', function () {
             });
           });
         });
+
+        context('with startDate filter', function () {
+          it('should return the expected session summary', async function () {
+            // given
+            databaseBuilder.factory.buildSession({
+              id: 1,
+              certificationCenterId,
+            });
+            databaseBuilder.factory.buildSession({
+              date: '2020-01-02',
+              certificationCenterId,
+            });
+            const recentSession = databaseBuilder.factory.buildSession({
+              date: '2026-01-02',
+              certificationCenterId,
+            });
+            await databaseBuilder.commit();
+
+            // when
+            const { models: sessionSummaries } =
+              await sessionSummaryRepository.findPaginatedFilteredByCertificationCenterId({
+                certificationCenterId,
+                filters: {
+                  startDate: '2026-01-02',
+                },
+                page,
+              });
+
+            // then
+            expect(sessionSummaries).to.have.lengthOf(1);
+            expect(sessionSummaries[0].id).to.equal(recentSession.id);
+          });
+        });
+
+        context('with endDate filter', function () {
+          it('should return the expected session summary', async function () {
+            // given
+            databaseBuilder.factory.buildSession({
+              id: 1,
+              certificationCenterId,
+            });
+            const oldSession = databaseBuilder.factory.buildSession({
+              date: '2020-01-02',
+              certificationCenterId,
+            });
+            databaseBuilder.factory.buildSession({
+              date: '2026-01-02',
+              certificationCenterId,
+            });
+            await databaseBuilder.commit();
+
+            // when
+            const { models: sessionSummaries } =
+              await sessionSummaryRepository.findPaginatedFilteredByCertificationCenterId({
+                certificationCenterId,
+                filters: {
+                  endDate: '2020-01-02',
+                },
+                page,
+              });
+
+            // then
+            expect(sessionSummaries).to.have.lengthOf(1);
+            expect(sessionSummaries[0].id).to.equal(oldSession.id);
+          });
+        });
       });
 
       it('should return "hasSessions" to true even when with setup filters no results show', async function () {

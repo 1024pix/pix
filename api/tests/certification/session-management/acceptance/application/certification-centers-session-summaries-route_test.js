@@ -144,5 +144,29 @@ describe('Certification | Session Management | Acceptance | Application | Route 
       expect(response.result.data).to.have.lengthOf(1);
       expect(response.result.data[0].attributes.status).to.equal('processed');
     });
+
+    it('should return 200 filtered by startDate and endDate', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+      const session = databaseBuilder.factory.buildSession({ certificationCenterId, date: '2026-01-01' });
+      databaseBuilder.factory.buildSession({ certificationCenterId, date: '2025-01-01' });
+      await databaseBuilder.commit();
+
+      const options = {
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+        method: 'GET',
+        url: `/api/certification-centers/${certificationCenterId}/session-summaries?filter[startDate]=${session.date}&filter[endDate]=${session.date}`,
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.have.lengthOf(1);
+      expect(response.result.data[0].id).to.equal(session.id.toString());
+    });
   });
 });
