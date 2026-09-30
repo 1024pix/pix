@@ -101,8 +101,8 @@ module('Integration | Component | complementary-certifications/attach-badges/bad
 
       // then
       const [firstRow] = screen.getAllByRole('row');
-      assert.dom(queryByText(firstRow, 'Message du certificat')).doesNotExist();
-      assert.dom(queryByText(firstRow, 'Message temporaire certificat')).doesNotExist();
+      assert.dom(within(firstRow).queryByText('Message du certificat')).doesNotExist();
+      assert.dom(within(firstRow).queryByText('Message temporaire certificat')).doesNotExist();
     });
 
     module('When there are badges', function () {
