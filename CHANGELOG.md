@@ -1,5 +1,26 @@
 # Pix Changelog
 
+# [5.511.0](https://github.com/1024pix/pix/compare/v5.510.0...v5.511.0) (2026-09-30)
+
+### :rocket: Amélioration
+
+- [#17623](https://github.com/1024pix/pix/pull/17623) Ajouter une modale de confirmation de suppression de candidat (PIX-24254).
+- [#17624](https://github.com/1024pix/pix/pull/17624) Configurer le bouton d'affichage des ids des elements d'un module (PIX-24375).
+- [#17631](https://github.com/1024pix/pix/pull/17631) Crée un composant et une page "tunnel" pour les parcours combinés (PIX-24239)
+- [#17597](https://github.com/1024pix/pix/pull/17597) Déplacer le formulaire de création de candidat dans une page (PIX-24382).
+- [#17588](https://github.com/1024pix/pix/pull/17588) Récupérer sur Pix Admin les CGU Pix Certif de l'utilisateur en passant par le nouveau modèle (PIX-22445)
+
+### :building_construction: Tech
+
+- [#17645](https://github.com/1024pix/pix/pull/17645) `db:reset` : Erreur si le cache Redis du contenu pédagogique est actif
+- [#17643](https://github.com/1024pix/pix/pull/17643) Répare un flaky lié aux listbox sur pix-admin (PIX-24490)
+- [#17610](https://github.com/1024pix/pix/pull/17610) Supprimer la race condition dans les tests de quit du RedisClient
+
+### :arrow_up: Montée de version
+
+- [#17652](https://github.com/1024pix/pix/pull/17652) Update dependency joi to ^18.2.6 (audit-logger) [SECURITY]
+- [#17642](https://github.com/1024pix/pix/pull/17642) Update dependency pako to ^3.0.2 (admin)
+
 # [5.510.0](https://github.com/1024pix/pix/compare/v5.509.0...v5.510.0) (2026-09-29)
 
 ### :rocket: Amélioration
