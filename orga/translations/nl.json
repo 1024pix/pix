@@ -1028,6 +1028,7 @@
       },
       "navigation": "Navigeren door het gedeelte campagnes",
       "no-campaign": "Geen campagne, klik om te beginnen op de knop 'Een campagne maken'.",
+      "no-combined-course": "Geen leertraject, klik op de knop 'Een campagne maken' om te beginnen.",
       "table": {
         "column": {
           "code": "Code",

@@ -1028,6 +1028,7 @@
       },
       "navigation": "Navigazione nella sezione Campagne",
       "no-campaign": "Nessuna campagna, per iniziare cliccare su \"Creare una campagna\".",
+      "no-combined-course": "Nessun percorso di apprendimento, per iniziare fare clic sul pulsante 'Crea una campagna'.",
       "table": {
         "column": {
           "code": "Codice",

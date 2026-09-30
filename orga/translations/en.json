@@ -1028,6 +1028,7 @@
       },
       "navigation": "Navigation in the Campaign section",
       "no-campaign": "No campaign. To start, click on 'Create a campaign'.",
+      "no-combined-course": "No learning course, to start click on the 'Create a campaign' button",
       "table": {
         "column": {
           "code": "Code",

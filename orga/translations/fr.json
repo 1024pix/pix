@@ -1028,6 +1028,7 @@
       },
       "navigation": "Navigation de la section Campagnes",
       "no-campaign": "Aucune campagne, pour commencer cliquez sur le bouton 'Créer une campagne'.",
+      "no-combined-course": "Aucun parcours apprenant, pour commencer cliquez sur le bouton 'Créer une campagne'.",
       "table": {
         "column": {
           "code": "Code",
