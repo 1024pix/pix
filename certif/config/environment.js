@@ -104,10 +104,6 @@ module.exports = function (environment) {
       APP_VERSION: process.env.SOURCE_VERSION || 'development',
     },
 
-    'ember-inputmask5': {
-      defaults: { showMaskOnHover: false },
-    },
-
     metricsAdapters: [
       {
         name: 'PlausibleAdapter',
