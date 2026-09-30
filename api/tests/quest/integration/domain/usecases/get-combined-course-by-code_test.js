@@ -133,6 +133,9 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
           duration: 5,
           image: 'https://assets.pix.org/modules/placeholder-details.svg',
           shortId: '6a68bf32',
+          description: 'Un module de test',
+          level: 'novice',
+          objectives: ['Découvrir le bac à sable'],
         },
         {
           id: moduleId2,
@@ -145,6 +148,9 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
           duration: 30,
           image: 'https://assets.pix.org/modules/1emarche-clavier1/picto-1eremarche_clavier1.svg',
           shortId: '740d5aa9',
+          description: 'Un module de test',
+          level: 'novice',
+          objectives: ['Repérer les touches de base du clavier'],
         },
       ]);
       expect(result.id).to.equal(combinedCourseId);
@@ -291,6 +297,9 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
           duration: 5,
           image: 'https://assets.pix.org/modules/placeholder-details.svg',
           shortId: '6a68bf32',
+          description: 'Un module de test',
+          level: 'novice',
+          objectives: ['Découvrir le bac à sable'],
         },
         {
           id: moduleId3,
@@ -303,6 +312,9 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
           duration: 10,
           image: 'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-details.svg',
           shortId: '9d4dcab8',
+          description: 'Un module sur les adresses mail',
+          level: 'novice',
+          objectives: ['Bien écrire une adresse mail'],
         },
       ]);
       expect(result).to.be.instanceOf(CombinedCourse);

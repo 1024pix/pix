@@ -1295,12 +1295,15 @@
         "aria-label-completed-campaign": "Dit element wordt aangevuld met een slagingspercentage van {value, number, ::percent}",
         "aria-label-completed-campaign-with-stages": "Je hebt {acquired, plural, =0 {gen ster} =1 {# ster} other {# strerren}} van de {total}",
         "aria-label-duration": "Geschatte duur: {duration} minuten",
+        "aria-label-level": "Niveau: {level}",
         "completed": "Voltooid!",
         "duration": "≈ {duration} min",
         "formation": {
           "description": "Voltooi uw diagnose om een moduleprogramma te ontgrendelen dat is afgestemd op uw resultaat!",
           "title": "Gepersonaliseerd programma met modules"
         },
+        "start-campaign": "Beginnen",
+        "start-module": "De module starten",
         "tagText": "U bent er nu!"
       },
       "process-custom-passages": {

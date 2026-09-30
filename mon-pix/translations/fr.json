@@ -1295,12 +1295,15 @@
         "aria-label-completed-campaign": "Cet élément est complété avec un taux de réussite de {value, number, ::percent}",
         "aria-label-completed-campaign-with-stages": "Vous avez obtenu {acquired, plural, =0 {aucune étoile} =1 {# étoile} other {# étoiles}} sur {total}",
         "aria-label-duration": "Durée estimée : {duration} minutes",
+        "aria-label-level": "Niveau : {level}",
         "completed": "Complété !",
         "duration": "≈ {duration} min",
         "formation": {
           "description": "Terminez votre diagnostic pour débloquer un programme de modules adapté à votre résultat !",
           "title": "Programme personnalisé de modules"
         },
+        "start-campaign": "Commencer",
+        "start-module": "Commencer le module",
         "tagText": "Vous en êtes là !"
       },
       "process-custom-passages": {

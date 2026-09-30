@@ -1295,12 +1295,15 @@
         "aria-label-completed-campaign": "Dieses Element wird mit einer Erfolgsquote von {value, number, ::percent} abgeschlossen.",
         "aria-label-completed-campaign-with-stages": "Du hast {acquired, plural, =0 {keinen Stern} =1 {# Stern} other {# Sterne}} von {total} erhalten.",
         "aria-label-duration": "Geschätzte Dauer: {duration} Minuten",
+        "aria-label-level": "Stufe: {level}",
         "completed": "Beendet!",
         "duration": "≈ {duration} min",
         "formation": {
           "description": "Schließe deine Diagnose ab, um ein auf dein Ergebnis abgestimmtes Modulprogramm freizuschalten!",
           "title": "Individuelles Programm von Modulen"
         },
+        "start-campaign": "Beginnen",
+        "start-module": "Das Modul starten",
         "tagText": "So weit bist du schon!"
       },
       "process-custom-passages": {

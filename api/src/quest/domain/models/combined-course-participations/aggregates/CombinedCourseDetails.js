@@ -143,6 +143,9 @@ export class CombinedCourseDetails extends CombinedCourse {
       duration: module?.duration,
       image: module.image,
       shortId: module.shortId,
+      level: module.level,
+      description: module.description,
+      objectives: module.objectives,
     });
   }
 
