@@ -1,5 +1,6 @@
-import { fireEvent, render, within } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import { fireEvent, within } from '@testing-library/dom';
 import { t } from 'ember-intl/test-support';
 import DetailsV3 from 'pix-admin/components/certifications/certification/details-v3';
 import { module, test } from 'qunit';

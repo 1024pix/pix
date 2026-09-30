@@ -1,4 +1,4 @@
-import { fillByLabel, screen, visit } from '@1024pix/ember-testing-library';
+import { fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
@@ -31,7 +31,7 @@ module('Acceptance | Networks | List', function (hooks) {
 
       test('it should redirect to network creation form on click "Nouveau réseau"', async function (assert) {
         // given
-        await visit('/networks/list');
+        const screen = await visit('/networks/list');
 
         // when
         const networkCreationLink = screen.getByRole('link', { name: t('pages.networks.list.new-button') });
@@ -69,7 +69,7 @@ module('Acceptance | Networks | List', function (hooks) {
         server.create('network', { id: 1, name: 'Réseau Bretagne' });
         server.create('network', { id: 2, name: 'Autre réseau' });
 
-        await visit('/networks/list');
+        const screen = await visit('/networks/list');
 
         // when
         await fillByLabel(t('components.networks.list.filters.name'), 'Bretagne');
@@ -98,7 +98,7 @@ module('Acceptance | Networks | List', function (hooks) {
         // given
         server.create('network', { id: 1, name: 'Réseau Alpha' });
 
-        await visit('/networks/list');
+        const screen = await visit('/networks/list');
 
         // when
         const networkIdLink = screen.getByRole('link', { name: 1 });
