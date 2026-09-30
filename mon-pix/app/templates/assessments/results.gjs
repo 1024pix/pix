@@ -7,7 +7,7 @@ import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
 <template>
   {{pageTitle (t "pages.assessment-results.title")}}
 
-  <main class="challenge">
+  <main>
     <AssessmentBanner
       @assessment={{@model}}
       @displayHomeLink={{false}}

@@ -33,7 +33,7 @@ import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
     </div>
   {{/if}}
 
-  <main class="challenge" role="main">
+  <main role="main">
     <AssessmentBanner
       @assessment={{@model.assessment}}
       @completionRate={{@model.assessment.globalProgression}}

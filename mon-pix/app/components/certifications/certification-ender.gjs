@@ -8,7 +8,7 @@ export default class CertificationEnder extends Component {
   @service currentUser;
 
   <template>
-    <main class="challenge">
+    <main>
       <AssessmentBanner @assessment={{@model.assessment}} @isEnded={{true}} />
 
       <PixBlock class="certification-ender">

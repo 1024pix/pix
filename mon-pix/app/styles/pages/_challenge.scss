@@ -3,8 +3,6 @@
 @use 'pix-design-tokens/colors';
 
 .challenge {
-  padding: var(--pix-spacing-6x);
-
   &__display {
     max-width: 990px;
     margin: 0 auto;

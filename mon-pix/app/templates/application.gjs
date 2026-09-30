@@ -41,7 +41,7 @@ export default class ApplicationTemplate extends Component {
       ].includes(this.router.currentRouteName);
 
     const isEvaluationPages =
-      !this.router.currentRouteName.startsWith('assessments.tutorial') ||
+      this.router.currentRouteName === 'campaigns.assessment.tutorial' ||
       this.router.currentRouteName.startsWith('organizations.');
 
     const isCertificationsPages = ['authenticated.certifications.information', 'companion'].includes(
@@ -50,7 +50,7 @@ export default class ApplicationTemplate extends Component {
 
     const isTunnelPages = this.router.currentRouteName === 'combined-courses.tunnel';
 
-    return isAccessPages || isEvaluationPages || isCertificationsPages || isTunnelPages;
+    return isAccessPages || isEvaluationPages || isCertificationsPages || isTunnelPages || this.isModulix;
   }
 
   get isModulix() {

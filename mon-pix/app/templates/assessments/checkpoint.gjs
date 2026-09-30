@@ -19,7 +19,7 @@ import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
     </InElement>
   {{/if}}
 
-  <main class="challenge">
+  <main>
     <AssessmentBanner
       @assessment={{@model}}
       @displayHomeLink={{@controller.displayHomeLink}}
