@@ -87,7 +87,7 @@ function writeHeader(pdf, certificate, translate) {
   const styledMaxScore = docWithStyleForMaxPixScore(pdf);
   pdf.x = 102.5 - styledMaxScore.widthOfString(String(MAX_SCORE)) / 2;
   pdf.y = 103;
-  styledMaxScore(pdf).text(MAX_SCORE);
+  styledMaxScore.text(MAX_SCORE);
 
   //Candidate Name
   const candidateName = certificate.firstName + ' ' + certificate.lastName;

@@ -233,6 +233,19 @@ describe.only('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf',
       );
     });
 
+    it('should not generate the competences page for a non-french locale', async function () {
+      // given
+      const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
+      const certificates = [domainBuilder.certification.results.buildCertificate({ resultCompetenceTree })];
+
+      // when
+      const pdfStream = await generate({ certificates, i18n: getI18n('en') });
+      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+
+      // then
+      expect(pdfBuffer.toString()).to.contain('/Type /Pages\n/Count 1');
+    });
+
     describe('when the candidate global level is pre beginner (pix score under 64)', function () {
       it('should display data content without global level information and no competence page', async function () {
         // given

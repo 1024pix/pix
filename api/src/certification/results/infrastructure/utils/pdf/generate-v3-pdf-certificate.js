@@ -54,6 +54,7 @@ export async function generate({ certificates, i18n }) {
         pdf: doc,
         data: certificate,
         translate: i18n.__,
+        locale: i18n.getLocale(),
       });
     } else {
       await generateV3PixPlusCertificateTemplate({
