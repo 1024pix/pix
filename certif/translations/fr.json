@@ -944,9 +944,15 @@
         },
         "filters": {
           "clear": "Effacer les filtres",
+          "end-date": {
+            "label": "Date de fin"
+          },
           "label": "Filtres sur la liste des sessions",
           "session-id": {
             "label": "ID de session"
+          },
+          "start-date": {
+            "label": "Date de début"
           },
           "status": {
             "label": "Statut"

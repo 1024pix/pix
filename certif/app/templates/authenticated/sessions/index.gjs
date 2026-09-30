@@ -5,5 +5,7 @@ import Sessions from 'pix-certif/components/sessions/index';
     @sessionSummaries={{@model.sessionSummaries}}
     @sessionId={{@controller.sessionId}}
     @status={{@controller.status}}
+    @startDate={{@controller.startDate}}
+    @endDate={{@controller.endDate}}
   />
 </template>
