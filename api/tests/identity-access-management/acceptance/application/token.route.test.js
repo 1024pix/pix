@@ -646,7 +646,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
       await revokedUserAccessTemporaryStorage.flushAll();
     });
 
-    it('returns 204 and revokes access token’s session', async function () {
+    it('revokes the user current session only and returns an HTTP status code 204', async function () {
       // given
       const { id: userId } = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
