@@ -42,7 +42,7 @@
   "devDependencies": {
     "@1024pix/ember-testing-library": "^4.0.1",
     "@1024pix/eslint-plugin": "^3.0.4",
-    "@1024pix/nebulix-ember": "^1.0.0",
+    "@1024pix/nebulix-ember": "^1.1.0",
     "@1024pix/pix-types": "file:../packages/pix-types",
     "@1024pix/stylelint-config": "^5.1.37",
     "@babel/eslint-parser": "^7.29.9",
