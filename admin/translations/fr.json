@@ -2015,8 +2015,8 @@
             "aria-label": "Filtrer les sessions avec le nom d'un centre de certification"
           },
           "endDate": {
-            "aria-label": "Masque les sessions après la date",
-            "label": "Masque les sessions après la date"
+            "aria-label": "Masquer les sessions après la date",
+            "label": "Date de fin"
           },
           "external-id": {
             "aria-label": "Filtrer les sessions avec un identifiant externe"
@@ -2027,7 +2027,7 @@
           },
           "startDate": {
             "aria-label": "Masquer les sessions avant la date",
-            "label": "Masquer les sessions avant la date"
+            "label": "Date de début"
           },
           "status": {
             "aria-label": "Filtrer les sessions en sélectionnant un statut"
