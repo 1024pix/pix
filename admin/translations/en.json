@@ -675,7 +675,7 @@
             "save-error": "An error occurred while saving the scoring.",
             "save-scoring-button": "Activate scoring",
             "save-scoring-modal": {
-              "content": "This action will save the scoring configuration to the active version and will trigger the scoring that has already been applied to that version. This action is irreversible, the scoring cannot be modified.",
+              "content": "This action will save the scoring configuration to the active version and will trigger the scoring of the certifications already completed on that version. This action is irreversible, the scoring cannot be modified.",
               "title": "Confirm scoring save"
             },
             "success-notification": "The scoring has been successfully activated. Certifications already completed for this version will be scored.",
