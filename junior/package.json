@@ -36,7 +36,7 @@
     "test:lint": "run-p --continue-on-error test lint"
   },
   "devDependencies": {
-    "@1024pix/ember-testing-library": "^3.0.44",
+    "@1024pix/ember-testing-library": "^4.0.1",
     "@1024pix/epreuves-components": "^4.26.5",
     "@1024pix/eslint-plugin": "^3.0.4",
     "@1024pix/nebulix-ember": "^1.0.0",
