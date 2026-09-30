@@ -184,6 +184,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
     });
   });
 
+  // TODO(PIX-24402): enlever cette méthode qui ne sera plus utilisée lorsque les cdc auront tous une structure (la vérif d'existence passera par la structure)
   describe('#exists', function () {
     describe('when a given certification center exists', function () {
       it('returns true', async function () {
