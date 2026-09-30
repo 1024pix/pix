@@ -1,4 +1,5 @@
-import { fillByLabel, render } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
+import { fillIn } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import CampaignName from 'pix-orga/components/campaign/create-form/campaign-name';
 import { module, test } from 'qunit';
@@ -33,10 +34,12 @@ module('Integration | Component | Campaign::CreateForm::CampaignName', function 
 
   test('it updates the campaign name on input', async function (assert) {
     // given
-    await render(<template><CampaignName @campaign={{data.campaign}} @errors={{data.errors}} /></template>);
+    const screen = await render(
+      <template><CampaignName @campaign={{data.campaign}} @errors={{data.errors}} /></template>,
+    );
 
     // when
-    await fillByLabel(`${t('pages.campaign-creation.name.label')} *`, 'Ma campagne');
+    await fillIn(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false }), 'Ma campagne');
 
     // then
     assert.strictEqual(data.campaign.name, 'Ma campagne');
@@ -53,5 +56,16 @@ module('Integration | Component | Campaign::CreateForm::CampaignName', function 
 
     // then
     assert.dom(screen.getByText(t('api-error-messages.campaign-creation.name-required'))).exists();
+  });
+
+  test('it displays a complementary information text', async function (assert) {
+    // given
+    // when
+    const screen = await render(
+      <template><CampaignName @campaign={{data.campaign}} @errors={{data.errors}} /></template>,
+    );
+
+    // then
+    assert.dom(screen.getByLabelText(t('pages.campaign-creation.name.sub-label'), { exact: false })).exists();
   });
 });

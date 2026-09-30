@@ -26,6 +26,7 @@ export default class CampaignName extends Component {
         @value={{@campaign.name}}
         required={{true}}
         aria-required={{true}}
+        @subLabel={{t "pages.campaign-creation.name.sub-label"}}
       >
         <:label>{{t "pages.campaign-creation.name.label"}}</:label>
       </PixInput>

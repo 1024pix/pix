@@ -806,7 +806,8 @@
         }
       },
       "name": {
-        "label": "Nom de la campagne"
+        "label": "Nom de la campagne",
+        "sub-label": "Ce champ sera visible uniquement dans Pix Orga pour identifier la campagne."
       },
       "no": "Non",
       "owner": {
