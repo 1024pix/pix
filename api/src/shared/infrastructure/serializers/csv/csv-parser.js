@@ -108,10 +108,8 @@ class CsvParser {
 
         return column ? column.property : trimmedValue;
       },
-      transform: (value, columnName) => {
-        if (typeof value === 'string') {
-          value = value.replace('  ', ' ').trim();
-        }
+      transform: (rawValue, columnName) => {
+        const value = typeof rawValue === 'string' ? rawValue.replace('  ', ' ').trim() : rawValue;
 
         if (value === '') {
           return null;

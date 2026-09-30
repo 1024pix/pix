@@ -65,9 +65,9 @@ class KeyValueStorage {
     const storage = this;
     return {
       async save({ key, ...args }) {
-        key = key ?? KeyValueStorage.generateKey();
-        await storage.save({ key: prefix + key, ...args });
-        return key;
+        const unprefixedKey = key ?? KeyValueStorage.generateKey();
+        await storage.save({ key: prefix + unprefixedKey, ...args });
+        return unprefixedKey;
       },
 
       update(key, value) {

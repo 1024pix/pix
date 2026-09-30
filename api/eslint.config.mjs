@@ -24,6 +24,7 @@ export default defineConfig([
     files: ['**/*.{js,mjs}'],
     rules: {
       'no-console': 'error',
+      'no-param-reassign': 'error',
       'no-empty-function': 'error',
       'knex/avoid-injections': 'error',
       'unicorn/no-empty-file': 'error',
@@ -47,6 +48,7 @@ export default defineConfig([
     },
     rules: {
       'no-console': 'error',
+      'no-param-reassign': 'error',
       'no-empty-function': 'off',
       '@typescript-eslint/no-empty-function': 'error',
       'knex/avoid-injections': 'error',
@@ -113,6 +115,11 @@ export default defineConfig([
   {
     files: ['db/migrations/**/*.{js,mjs}'],
     rules: { 'no-useless-assignment': 'off' },
+  },
+  // Overridden rules for builders, seeds and tests : parameter reassignment is allowed outside production code
+  {
+    files: ['db/database-builder/**/*.{js,mjs,ts}', 'db/seeds/**/*.{js,mjs,ts}', 'tests/**/*.{js,mjs,ts}'],
+    rules: { 'no-param-reassign': 'off' },
   },
   {
     files: ['src/certification/**/*.{js,mjs,ts}'],

@@ -98,7 +98,6 @@ export function getCapacityAndErrorRateHistory({
       answer,
       latestCapacity,
       likelihood,
-      normalizedPosteriori,
       variationPercent,
     }));
 
@@ -121,21 +120,24 @@ export function getCapacityAndErrorRateHistory({
  * @param {Answer} params.answer
  * @param {number} params.latestCapacity
  * @param {number[]} params.likelihood
- * @param {number[]} params.normalizedPosteriori
  * @param {number} params.variationPercent
  * @returns {{ latestCapacity: number, likelihood: number[], normalizedPosteriori: number[] }}
  */
-function _singleMeasure({ challenges, answer, latestCapacity, likelihood, normalizedPosteriori, variationPercent }) {
+function _singleMeasure({ challenges, answer, latestCapacity, likelihood, variationPercent }) {
   const answeredChallenge = _findChallengeForAnswer(challenges, answer);
 
   const normalizedPrior = _computeNormalizedPrior(latestCapacity);
 
-  likelihood = _computeLikelihood(answeredChallenge, answer, likelihood);
+  const updatedLikelihood = _computeLikelihood(answeredChallenge, answer, likelihood);
 
-  normalizedPosteriori = _computeNormalizedPosteriori(likelihood, normalizedPrior);
+  const updatedNormalizedPosteriori = _computeNormalizedPosteriori(updatedLikelihood, normalizedPrior);
 
-  latestCapacity = _computeCapacity(latestCapacity, variationPercent, normalizedPosteriori);
-  return { latestCapacity, likelihood, normalizedPosteriori };
+  const updatedCapacity = _computeCapacity(latestCapacity, variationPercent, updatedNormalizedPosteriori);
+  return {
+    latestCapacity: updatedCapacity,
+    likelihood: updatedLikelihood,
+    normalizedPosteriori: updatedNormalizedPosteriori,
+  };
 }
 
 /**

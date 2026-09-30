@@ -47,7 +47,7 @@ export const reconcileOidcUser = async function ({
   });
 
   const connectionMethodCode = oidcAuthenticationService.connectionMethodCode;
-  identityProvider = connectionMethodCode || identityProvider;
+  const connectionMethod = connectionMethodCode || identityProvider;
 
   const authenticationComplement = oidcAuthenticationService.createAuthenticationComplement({
     userInfo,
@@ -57,7 +57,7 @@ export const reconcileOidcUser = async function ({
   try {
     await authenticationMethodRepository.create({
       authenticationMethod: new AuthenticationMethod({
-        identityProvider,
+        identityProvider: connectionMethod,
         userId,
         externalIdentifier: externalIdentityId,
         authenticationComplement,
@@ -77,7 +77,7 @@ export const reconcileOidcUser = async function ({
   await _updateUserLastConnection({
     userId,
     requestedApplication,
-    identityProvider,
+    identityProvider: connectionMethod,
     authenticationMethodRepository,
     lastUserApplicationConnectionsRepository,
     userLoginRepository,

@@ -36,14 +36,22 @@ export function getPossibleSkillsForNextChallenge({
     return targetSkills.find((skill) => skill.id === ke.skillId);
   });
   const filteredChallenges = removeChallengesWithAnswer({ challenges, allAnswers });
-  targetSkills = getSkillsWithAddedInformations({ targetSkills, filteredChallenges, locale });
+  const targetSkillsWithAddedInformations = getSkillsWithAddedInformations({
+    targetSkills,
+    filteredChallenges,
+    locale,
+  });
 
   // First challenge has specific rules
   const { possibleSkillsForNextChallenge, levelEstimated } = isUserStartingTheTest
-    ? findFirstChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, tubes })
+    ? findFirstChallenge({
+        knowledgeElements: knowledgeElementsOfTargetSkills,
+        targetSkills: targetSkillsWithAddedInformations,
+        tubes,
+      })
     : findAnyChallenge({
         knowledgeElements: knowledgeElementsOfTargetSkills,
-        targetSkills,
+        targetSkills: targetSkillsWithAddedInformations,
         tubes,
         isLastChallengeTimed,
       });

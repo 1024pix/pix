@@ -9,22 +9,22 @@ import { PositionManager } from '../manager/position-manager.js';
 import * as thematicBuilder from './thematic-builder.js';
 
 const build = function (positionY, page, competence, areaColor, dryRun = false) {
-  positionY = positionY - FontManager.competenceFontHeight;
+  const competencePositionY = positionY - FontManager.competenceFontHeight;
   const competenceText = new CompetenceText({
     text: competence.fullName,
     areaColor,
-    positionY: positionY,
+    positionY: competencePositionY,
   });
   if (!dryRun) {
-    _drawCompetenceBackground(positionY, page, competenceText);
+    _drawCompetenceBackground(competencePositionY, page, competenceText);
   }
-  positionY = competenceText.draw(page, dryRun);
+  const firstThematicPositionY = competenceText.draw(page, dryRun);
 
-  for (const thematic of sortBy(competence.thematics, 'index')) {
-    positionY = thematicBuilder.build(positionY, page, thematic, dryRun);
-    positionY = positionY - FontManager.thematicFontHeight / 2;
-  }
-  return positionY;
+  return sortBy(competence.thematics, 'index').reduce(
+    (thematicPositionY, thematic) =>
+      thematicBuilder.build(thematicPositionY, page, thematic, dryRun) - FontManager.thematicFontHeight / 2,
+    firstThematicPositionY,
+  );
 };
 
 export { build };

@@ -14,8 +14,8 @@ const PARSING_OPTIONS = {
   skipEmptyLines: 'greedy',
   transform: (value) => {
     if (typeof value === 'string') {
-      value = value.trim();
-      return value.length ? value : undefined;
+      const trimmedValue = value.trim();
+      return trimmedValue.length ? trimmedValue : undefined;
     }
     return value;
   },

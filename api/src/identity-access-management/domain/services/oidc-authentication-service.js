@@ -80,13 +80,11 @@ export class OidcAuthenticationService {
     this.isVisible = isVisible;
     this.#openidClient = openidClient ?? client;
 
-    claimMapping = claimMapping || DEFAULT_CLAIM_MAPPING;
-
     const additionalClaims = !lodash.isEmpty(claimsToStore)
       ? claimsToStore.split(',').map((claim) => claim.trim())
       : [];
 
-    this.claimManager = new ClaimManager({ claimMapping, additionalClaims });
+    this.claimManager = new ClaimManager({ claimMapping: claimMapping || DEFAULT_CLAIM_MAPPING, additionalClaims });
 
     this.sessionDurationSeconds = this.accessTokenLifespanMs / 1000;
   }

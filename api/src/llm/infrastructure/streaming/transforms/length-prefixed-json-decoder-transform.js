@@ -13,12 +13,13 @@ export class LengthPrefixedJsonDecoderStream extends TransformStream {
 
 function findObjects(str) {
   const objects = [];
-  while (str.length > 0) {
-    const [numberAsStr, ...otherParts] = str.split(':');
+  let remainingStr = str;
+  while (remainingStr.length > 0) {
+    const [numberAsStr, ...otherParts] = remainingStr.split(':');
     const objectLength = parseInt(numberAsStr);
     const strLeft = otherParts.join(':');
     objects.push(strLeft.slice(0, objectLength));
-    str = strLeft.slice(objectLength);
+    remainingStr = strLeft.slice(objectLength);
   }
 
   return objects.map((obj) => JSON.parse(obj));
