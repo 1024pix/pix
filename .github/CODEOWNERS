@@ -36,10 +36,12 @@
 /api/src/legal-documents/ @1024pix/team-acces
 /api/src/communication/ @1024pix/team-acces
 /api/src/maddo/ @1024pix/team-acces
+/api/src/lti/ @1024pix/team-acces
 /api/src/school/ @1024pix/team-acces
 /api/tests/privacy/ @1024pix/team-acces
 /api/tests/identity-access-management/ @1024pix/team-acces
 /api/tests/legal-documents/ @1024pix/team-acces
+/api/tests/lti/ @1024pix/team-acces
 /api/tests/maddo/ @1024pix/team-acces
 /api/tests/communication/ @1024pix/team-acces
 /api/tests/school/ @1024pix/team-acces
