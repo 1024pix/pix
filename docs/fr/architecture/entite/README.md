@@ -190,11 +190,39 @@ champ : l'`id`.
 **Sans cette règle.** Chaque partie du code invente sa façon de reconnaître l'Entity. Un jour, deux
 parties du code ne reconnaissent pas la même Entity.
 
-**À savoir.** Une Entity pas encore enregistrée n'a pas encore d'`id`. Deux solutions :
+**À savoir.** La base de données crée l'`id` au moment de l'enregistrement. Une Entity neuve n'a donc
+pas encore d'`id`. Le type dit si l'Entity a un `id` : `Organization<null>` pour une Entity neuve,
+`Organization` pour une Entity enregistrée.
 
-- un `id` à `null`, et le code le sait ;
-- une autre classe pour l'objet à créer, par exemple `CombinedCourseBlueprintForCreation`, qui n'a pas
-  de champ `id`. Cette solution est plus sûre : la classe dit que l'objet n'a pas encore d'`id`.
+```ts
+class Organization<Id extends OrganizationId | null = OrganizationId> {
+  readonly id: Id;
+  …
+
+  // une Entity neuve : pas encore d'id
+  static create({ name, type, createdBy, now }: CreateProps): Organization<null> {
+    return new Organization({ id: null, name, type, createdBy, createdAt: now, updatedAt: now, credit: 0, archivedAt: null });
+  }
+}
+
+interface OrganizationRepository {
+  add(organization: Organization<null>): Promise<Organization>; // la base crée l'id
+  get(id: OrganizationId): Promise<Organization>;
+  update(organization: Organization): Promise<void>;
+}
+```
+
+Chaque usecase dit quel état il accepte :
+
+- `createOrganization` reçoit une `Organization<null>`, construite avec `create()`, et la passe à
+  `add()` ;
+- `archiveOrganization` reçoit un `OrganizationId`, charge une `Organization` avec `get()`, appelle
+  `archive()`, puis appelle `update()`.
+
+Le compilateur refuse `add()` avec une Entity déjà enregistrée, et `update()` avec une Entity neuve.
+Dans une `Organization`, `id` n'est jamais `null`.
+
+Inventé, d'après `Organization`.
 
 ### E2. L'égalité se fonde sur l'identité
 
