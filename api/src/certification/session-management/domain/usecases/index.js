@@ -1,5 +1,6 @@
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
+import * as eventJobPublisherService from '../../../../shared/infrastructure/jobs/event-job-publisher-service.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { certificationCenterMembershipRepository } from '../../../../team/infrastructure/repositories/certification-center-membership.repository.js';
 import * as versionApi from '../../../configuration/application/api/version-api.js';
@@ -155,7 +156,7 @@ const dependencies = {
   cpfExportRepository,
   placementProfileService,
   certificationCpfService,
-
+  eventJobPublisherService,
   mailService,
   certificationCenterRepository,
   certificationRepository,

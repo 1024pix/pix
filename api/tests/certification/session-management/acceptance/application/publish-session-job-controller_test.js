@@ -78,6 +78,12 @@ describe('Acceptance | Application | publish-session-job-controller', function (
       expect(cleaHandler.jobName).to.have.performed.withEventPayload(payload);
       const prescriberHandler = new PrescriberSessionPublishedEventHandler();
       expect(prescriberHandler.jobName).to.have.performed.withEventPayload(payload);
+
+      const prescriberSessionPublishedEventHandler = new PrescriberSessionPublishedEventHandler();
+      expect(prescriberSessionPublishedEventHandler.jobName).to.have.been.performed.withJobsCount(1);
+
+      const cleaSessionPublishedEventHandler = new CleaSessionPublishedEventHandler();
+      expect(cleaSessionPublishedEventHandler.jobName).to.have.been.performed.withJobsCount(1);
     });
   });
 });

@@ -15,6 +15,7 @@ describe('Unit | domain | usecases | publish session', function () {
   let sessionId,
     finalizedSession,
     sessionManagementRepository,
+    eventJobPublisherService,
     certificationRepository,
     finalizedSessionRepository,
     now;
@@ -34,6 +35,10 @@ describe('Unit | domain | usecases | publish session', function () {
     finalizedSessionRepository = {
       get: sinon.stub(),
       save: sinon.stub(),
+    };
+
+    eventJobPublisherService = {
+      publishEvent: sinon.stub(),
     };
 
     finalizedSession = new FinalizedSession();
@@ -60,6 +65,7 @@ describe('Unit | domain | usecases | publish session', function () {
         sessionManagementRepository,
         certificationRepository,
         finalizedSessionRepository,
+        eventJobPublisherService,
       });
 
       expect(sessionManagementRepository.get).to.have.been.calledWithExactly({ id: sessionId });
@@ -71,6 +77,7 @@ describe('Unit | domain | usecases | publish session', function () {
         sessionManagementRepository,
         certificationRepository,
         finalizedSessionRepository,
+        eventJobPublisherService,
       });
 
       expect(certificationRepository.getStatusesBySessionId).to.have.been.calledWithExactly(sessionId);
@@ -82,6 +89,7 @@ describe('Unit | domain | usecases | publish session', function () {
         sessionManagementRepository,
         certificationRepository,
         finalizedSessionRepository,
+        eventJobPublisherService,
       });
 
       expect(certificationRepository.publishCertificationCourses).to.have.been.calledWithExactly({
@@ -96,6 +104,7 @@ describe('Unit | domain | usecases | publish session', function () {
         sessionManagementRepository,
         certificationRepository,
         finalizedSessionRepository,
+        eventJobPublisherService,
       });
 
       sinon.assert.calledWith(sessionManagementRepository.updatePublishedAt, sinon.match({ id: sessionId }));
@@ -107,6 +116,7 @@ describe('Unit | domain | usecases | publish session', function () {
         sessionManagementRepository,
         certificationRepository,
         finalizedSessionRepository,
+        eventJobPublisherService,
       });
 
       expect(finalizedSessionRepository.get).to.have.been.calledWithExactly({ sessionId });
@@ -118,9 +128,21 @@ describe('Unit | domain | usecases | publish session', function () {
         sessionManagementRepository,
         certificationRepository,
         finalizedSessionRepository,
+        eventJobPublisherService,
       });
 
       expect(finalizedSessionRepository.save).to.have.been.calledWithExactly({ finalizedSession });
+    });
+
+    it('post a session-published event', async function () {
+      await publishSession({
+        sessionId,
+        sessionManagementRepository,
+        certificationRepository,
+        finalizedSessionRepository,
+        eventJobPublisherService,
+      });
+      expect(eventJobPublisherService.publishEvent).to.have.been.called;
     });
   });
 
@@ -131,6 +153,7 @@ describe('Unit | domain | usecases | publish session', function () {
         sessionManagementRepository,
         certificationRepository,
         finalizedSessionRepository,
+        eventJobPublisherService,
       });
 
       expect(error).to.be.an.instanceof(NotFoundError);
@@ -148,6 +171,7 @@ describe('Unit | domain | usecases | publish session', function () {
         sessionManagementRepository,
         certificationRepository,
         finalizedSessionRepository,
+        eventJobPublisherService,
       });
 
       expect(error).to.be.an.instanceof(SessionAlreadyPublishedError);
@@ -171,6 +195,7 @@ describe('Unit | domain | usecases | publish session', function () {
         sessionManagementRepository,
         certificationRepository,
         finalizedSessionRepository,
+        eventJobPublisherService,
       });
 
       expect(error).to.be.an.instanceof(CertificationCourseNotPublishableError);
@@ -190,6 +215,7 @@ describe('Unit | domain | usecases | publish session', function () {
         sessionManagementRepository,
         certificationRepository,
         finalizedSessionRepository,
+        eventJobPublisherService,
       });
 
       expect(error).to.be.an.instanceof(CertificationCourseNotPublishableError);
