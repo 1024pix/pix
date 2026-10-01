@@ -1,5 +1,53 @@
 # Pix Changelog
 
+# [5.512.0](https://github.com/1024pix/pix/compare/v5.511.0...v5.512.0) (2026-10-01)
+
+### :rocket: Amélioration
+
+- [#17661](https://github.com/1024pix/pix/pull/17661) Afficher l'onglet Parcours apprenants sans recharger la page après la création d'un premier parcours (PIX-24515).
+- [#17653](https://github.com/1024pix/pix/pull/17653) Ajout d'un texte d'information pour le champ "Nom de la campagne" (PIX-22761)
+- [#17665](https://github.com/1024pix/pix/pull/17665) Ajoute un script pour mettre à null les certifs v3 annulées et rejétées (PIX-23986)
+- [#17654](https://github.com/1024pix/pix/pull/17654) Permettre de filtrer par dates la liste de sessions de PixCertif (PIX-24510).
+
+### :bug: Correction
+
+- [#17543](https://github.com/1024pix/pix/pull/17543) Corrections mineures sur la création des versions (PIX-22983)
+- [#17678](https://github.com/1024pix/pix/pull/17678) Corriger les maj Renovate sur l'api
+
+### :building_construction: Tech
+
+- [#17663](https://github.com/1024pix/pix/pull/17663) Afficher le nom des serveurs web au lancement de Playwright.
+- [#17672](https://github.com/1024pix/pix/pull/17672) Interdire la réassignation des paramètres de fonction dans l'API
+- [#17662](https://github.com/1024pix/pix/pull/17662) Met à jour @1024pix/ember-testing-library en 4.0.1
+- [#17618](https://github.com/1024pix/pix/pull/17618) Pilote l'activation d'OpenTelemetry par un feature toggle
+- [#17668](https://github.com/1024pix/pix/pull/17668) Profile les allocations d'un conteneur à la demande en production
+- [#17598](https://github.com/1024pix/pix/pull/17598) Réduire le nombre d'appels SQL sur les routes d'inscription en certification en mettant en cache des données de ville et de pays à l'aide d'un cache LRU
+- [#17646](https://github.com/1024pix/pix/pull/17646) Supprime `ember-api-actions` de Pix Certif.
+
+### :arrow_up: Montée de version
+
+- [#17690](https://github.com/1024pix/pix/pull/17690) Update @formatjs/intl
+- [#17674](https://github.com/1024pix/pix/pull/17674) Update 1024pix/pix-actions digest to b4d1020 (workflows)
+- [#17666](https://github.com/1024pix/pix/pull/17666) Update dependency @1024pix/nebulix-ember to ^1.1.0 (admin)
+- [#17667](https://github.com/1024pix/pix/pull/17667) Update dependency @1024pix/nebulix-ember to ^1.1.0 (certif)
+- [#17669](https://github.com/1024pix/pix/pull/17669) Update dependency @1024pix/nebulix-ember to ^1.1.0 (junior)
+- [#17670](https://github.com/1024pix/pix/pull/17670) Update dependency @1024pix/nebulix-ember to ^1.1.0 (mon-pix)
+- [#17671](https://github.com/1024pix/pix/pull/17671) Update dependency @1024pix/nebulix-ember to ^1.1.0 (orga)
+- [#17675](https://github.com/1024pix/pix/pull/17675) Update dependency @glint/ember-tsc to ^1.11.6 (orga)
+- [#17676](https://github.com/1024pix/pix/pull/17676) Update dependency @glint/tsserver-plugin to ^2.7.9 (orga)
+- [#17650](https://github.com/1024pix/pix/pull/17650) Update dependency js-yaml to ^5.4.1 (mon-pix) [SECURITY]
+- [#17682](https://github.com/1024pix/pix/pull/17682) Update dependency js-yaml to ^5.4.2 (mon-pix)
+- [#17536](https://github.com/1024pix/pix/pull/17536) Update dependency jsdoc-to-markdown to ^9.1.3 (api)
+- [#17639](https://github.com/1024pix/pix/pull/17639) Update dependency nock to ^14.0.17
+- [#17641](https://github.com/1024pix/pix/pull/17641) Update dependency p-queue to ^9.3.3
+- [#17644](https://github.com/1024pix/pix/pull/17644) Update dependency sass-embedded to ^1.104.1 (orga)
+- [#17677](https://github.com/1024pix/pix/pull/17677) Update dependency tracked-built-ins to ^4.1.2 (admin)
+- [#17680](https://github.com/1024pix/pix/pull/17680) Update dependency typescript to ^5.9.3 (audit-logger)
+- [#17681](https://github.com/1024pix/pix/pull/17681) Update dependency typescript-eslint to ^8.70.1 (orga)
+- [#17683](https://github.com/1024pix/pix/pull/17683) Update dependency vitest to ^4.1.11 (audit-logger)
+- [#17684](https://github.com/1024pix/pix/pull/17684) Update embroider monorepo (admin)
+- [#17689](https://github.com/1024pix/pix/pull/17689) Update prettier
+
 # [5.511.0](https://github.com/1024pix/pix/compare/v5.510.0...v5.511.0) (2026-09-30)
 
 ### :rocket: Amélioration
