@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { Campaign } from '../../../../../src/quest/domain/models/combined-courses/value-objects/Campaign.ts';
+import { Module } from '../../../../../src/quest/domain/models/combined-courses/value-objects/Module.ts';
 
 describe('Quest | Unit | Domain | Models | Campaign ', function () {
   describe('#constructor', function () {
@@ -68,7 +69,19 @@ describe('Quest | Unit | Domain | Models | Campaign ', function () {
           { moduleId: '1', targetProfileIds: [] },
           { moduleId: '2', targetProfileIds: [] },
         ],
-        modules: [{ id: '3', title: '', slug: '', duration: 0, image: '', shortId: '' }],
+        modules: [
+          new Module({
+            id: '3',
+            title: '',
+            slug: '',
+            duration: 0,
+            image: '',
+            shortId: '',
+            level: '',
+            description: '',
+            objectives: [],
+          }),
+        ],
       });
 
       // then
@@ -98,7 +111,19 @@ describe('Quest | Unit | Domain | Models | Campaign ', function () {
           { moduleId: '1', targetProfileIds: [] },
           { moduleId: '2', targetProfileIds: [] },
         ],
-        modules: [{ id: '1', title: '', slug: '', duration: 0, image: '', shortId: '' }],
+        modules: [
+          new Module({
+            id: '1',
+            title: '',
+            slug: '',
+            duration: 0,
+            image: '',
+            shortId: '',
+            level: '',
+            description: '',
+            objectives: [],
+          }),
+        ],
       });
 
       // then

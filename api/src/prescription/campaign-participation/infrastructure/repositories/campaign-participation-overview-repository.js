@@ -105,8 +105,8 @@ function _getQueryBuilder(callback) {
         .where(callback);
     })
     .from('campaign-participation-overviews')
-    .orderByRaw(_computeCampaignParticipationOrder())
-    .orderByRaw(_sortEndedBySharedAt())
+    .orderByRaw(computeCampaignParticipationOrder)
+    .orderByRaw(sortEndedBySharedAt)
     .orderBy('createdAt', 'DESC');
 }
 
@@ -140,7 +140,7 @@ function _getCombinedCoursesParticipations({ userId }) {
         });
     })
     .from('combined_course_participation_overviews')
-    .orderByRaw(_computeCombinedCourseParticipationOrder());
+    .orderByRaw(computeCombinedCourseParticipationOrder);
 }
 
 function _computeCampaignParticipationState(knexConn) {
@@ -167,30 +167,24 @@ function _computeCombinedCourseParticipationState(knexConn) {
   );
 }
 
-function _computeCampaignParticipationOrder() {
-  return `
+const computeCampaignParticipationOrder = `
   CASE
     WHEN "participationState" = 'ONGOING'  THEN 1
     WHEN "participationState" = 'ENDED'    THEN 2
     WHEN "participationState" = 'DISABLED' THEN 3
   END`;
-}
 
-function _computeCombinedCourseParticipationOrder() {
-  return `
+const computeCombinedCourseParticipationOrder = `
   CASE
     WHEN "participationState" = 'ONGOING'  THEN 1
     WHEN "participationState" = 'ENDED'    THEN 2
   END`;
-}
 
-function _sortEndedBySharedAt() {
-  return `
+const sortEndedBySharedAt = `
   CASE
     WHEN "participationState" = 'ENDED' THEN "sharedAt"
     ELSE "createdAt"
   END DESC`;
-}
 
 function _filterByStates(queryBuilder, states) {
   queryBuilder.whereIn('participationState', states);
