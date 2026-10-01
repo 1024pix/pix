@@ -1,6 +1,6 @@
 services:
   jaeger:
-    image: jaegertracing/jaeger:2.21.0
+    image: jaegertracing/jaeger:2.21.0@sha256:3d0ac795ff98aa04d1be04311d2dac6c25b4bfc8322dc02e53bc5b170c5018c3
     container_name: pix-api-jaeger
     command: ['--config', 'file:/etc/jaeger/config.yaml']
     volumes:
