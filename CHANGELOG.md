@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## [5.512.1](https://github.com/1024pix/pix/compare/v5.512.0...v5.512.1) (2026-10-01)
+
+### :bug: Correction
+
+- [#17692](https://github.com/1024pix/pix/pull/17692) Conserver le `this` des job controllers instrumentés par OpenTelemetry.
+
+### :building_construction: Tech
+
+- [#17586](https://github.com/1024pix/pix/pull/17586) Rendre plus explicite la description du FT `IsEmbedLLMEnabled`
+
+### :arrow_up: Montée de version
+
+- [#17691](https://github.com/1024pix/pix/pull/17691) Pin jaegertracing/jaeger Docker tag to 3d0ac79 (dossier racine)
+- [#17693](https://github.com/1024pix/pix/pull/17693) Update adobe/s3mock Docker tag to v5.2.3 (.circleci)
+- [#17695](https://github.com/1024pix/pix/pull/17695) Update adobe/s3mock Docker tag to v5.2.3 (dossier racine)
+- [#17651](https://github.com/1024pix/pix/pull/17651) Update dependency joi to ^18.2.6 (api) [SECURITY]
+- [#17649](https://github.com/1024pix/pix/pull/17649) Update dependency js-yaml to ^5.4.1 (api) [SECURITY]
+- [#17694](https://github.com/1024pix/pix/pull/17694) Update dependency nodemailer to ^10.0.9 (api) [SECURITY]
+- [#17628](https://github.com/1024pix/pix/pull/17628) Update dependency nodemailer to v10 (api) [SECURITY]
+- [#17640](https://github.com/1024pix/pix/pull/17640) Update dependency nodemon to ^3.1.14 (api)
+- [#17685](https://github.com/1024pix/pix/pull/17685) Update embroider monorepo (orga)
+- [#17686](https://github.com/1024pix/pix/pull/17686) Update eslint (audit-logger)
+- [#17688](https://github.com/1024pix/pix/pull/17688) Update eslint (junior)
+
 # [5.512.0](https://github.com/1024pix/pix/compare/v5.511.0...v5.512.0) (2026-10-01)
 
 ### :rocket: Amélioration
