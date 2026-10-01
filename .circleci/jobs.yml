@@ -551,6 +551,10 @@ jobs:
           name: Check files format
           command: npm run lint:format
           when: always
+      - run:
+          name: Check typescript
+          command: npm run lint:types
+          when: always
 
   api_unit_test:
     executor:
