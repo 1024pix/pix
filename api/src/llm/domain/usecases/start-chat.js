@@ -31,9 +31,7 @@ export async function startChat({
   configurationRepository,
   randomUUID,
 }) {
-  if (!configuration) {
-    configuration = await configurationRepository.get(configurationId);
-  }
+  const chatConfiguration = configuration || (await configurationRepository.get(configurationId));
   const chatId = randomUUID();
   const newChat = new Chat({
     id: chatId,
@@ -43,7 +41,7 @@ export async function startChat({
     moduleId,
     passageId,
     configurationId,
-    configuration,
+    configuration: chatConfiguration,
     messages: [],
     totalInputTokens: 0,
     totalOutputTokens: 0,

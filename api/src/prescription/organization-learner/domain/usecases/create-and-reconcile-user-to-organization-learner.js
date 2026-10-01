@@ -110,10 +110,9 @@ function _createDomainUser(userAttributes) {
   });
 }
 
-function _manageEmailAvailabilityError(error) {
-  error = new AlreadyRegisteredEmailError();
+function _manageEmailAvailabilityError() {
   return _manageError(
-    error,
+    new AlreadyRegisteredEmailError(),
     AlreadyRegisteredEmailError,
     'email',
     'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
@@ -179,8 +178,8 @@ async function _validateData({
   } else {
     try {
       await userRepository.checkIfEmailIsAvailable(userAttributes.email);
-    } catch (err) {
-      validationErrors.push(_manageEmailAvailabilityError(err));
+    } catch {
+      validationErrors.push(_manageEmailAvailabilityError());
     }
   }
 

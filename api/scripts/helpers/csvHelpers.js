@@ -22,25 +22,23 @@ const optionsWithHeader = {
   skipEmptyLines: true,
   header: true,
   transform: (value, columnName) => {
-    if (typeof value === 'string') {
-      value = value.trim();
-    }
+    const trimmedValue = typeof value === 'string' ? value.trim() : value;
     if (columnName === 'uai') {
-      value = value.toUpperCase();
+      return trimmedValue.toUpperCase();
     }
     if (columnName === 'createdBy') {
-      value = !isEmpty(value) && parseInt(value, 10);
+      return !isEmpty(trimmedValue) && parseInt(trimmedValue, 10);
     }
-    if (columnName === 'credit' && isEmpty(value)) {
-      value = 0;
+    if (columnName === 'credit' && isEmpty(trimmedValue)) {
+      return 0;
     }
-    if (columnName === 'locale' && isEmpty(value)) {
-      value = 'fr-fr';
+    if (columnName === 'locale' && isEmpty(trimmedValue)) {
+      return 'fr-fr';
     }
-    if (columnName === 'email' && !isEmpty(value)) {
-      value = value.replaceAll(' ', '').toLowerCase();
+    if (columnName === 'email' && !isEmpty(trimmedValue)) {
+      return trimmedValue.replaceAll(' ', '').toLowerCase();
     }
-    return value;
+    return trimmedValue;
   },
 };
 

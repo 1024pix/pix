@@ -87,10 +87,12 @@ export class OidcAuthenticationServiceRegistry {
       return;
     }
 
-    if (!oidcProviderServices) {
+    if (oidcProviderServices) {
+      this.#allOidcProviderServices = oidcProviderServices;
+    } else {
       const oidcProviders = await this.oidcProviderRepository.findAllOidcProviders();
 
-      oidcProviderServices = await PromiseUtils.mapSeries(oidcProviders, async (oidcProvider) => {
+      this.#allOidcProviderServices = await PromiseUtils.mapSeries(oidcProviders, async (oidcProvider) => {
         await oidcProvider.decryptClientSecret(cryptoService);
         switch (oidcProvider.identityProvider) {
           case 'FWB':
@@ -102,8 +104,6 @@ export class OidcAuthenticationServiceRegistry {
         }
       });
     }
-
-    this.#allOidcProviderServices = oidcProviderServices;
 
     const enabledOidcProviderServices = this.#allOidcProviderServices.filter(
       (oidcProviderService) => oidcProviderService.isEnabled,

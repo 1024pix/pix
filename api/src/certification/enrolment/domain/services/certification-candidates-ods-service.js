@@ -160,11 +160,10 @@ function _filterOutEmptyCandidateData(certificationCandidatesData) {
 }
 
 function _handleBirthInformationValidationError(cpfBirthInformation, line) {
-  line = parseInt(line) + 1;
   const { birthCountry, birthINSEECode, birthPostalCode, birthCity, firstErrorCode } = cpfBirthInformation;
   throw new CertificationCandidatesError({
     code: firstErrorCode,
-    meta: { line, birthCountry, birthINSEECode, birthPostalCode, birthCity },
+    meta: { line: parseInt(line) + 1, birthCountry, birthINSEECode, birthPostalCode, birthCity },
   });
 }
 

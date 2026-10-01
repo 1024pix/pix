@@ -12,13 +12,8 @@ const optionsWithHeader = {
   skipEmptyLines: true,
   header: true,
   transform: (value, columnName) => {
-    if (typeof value === 'string') {
-      value = value.trim();
-    }
-    if (columnName === '* Sexe (M ou F)') {
-      value = value.toUpperCase();
-    }
-    return value;
+    const trimmedValue = typeof value === 'string' ? value.trim() : value;
+    return columnName === '* Sexe (M ou F)' ? trimmedValue.toUpperCase() : trimmedValue;
   },
 };
 

@@ -52,7 +52,7 @@ const focusOnDefaultLevel = (targetSkills) =>
     const accumulatorFirstSkillRemappedDifficulty = remapDifficulty(defaultLevelSkills[0].difficulty);
 
     if (currentSkillRemappedDifficulty < accumulatorFirstSkillRemappedDifficulty) {
-      defaultLevelSkills = [skill];
+      return [skill];
     }
 
     if (currentSkillRemappedDifficulty === accumulatorFirstSkillRemappedDifficulty) {
