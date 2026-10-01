@@ -7,31 +7,6 @@ même Entity. Les Entities sont dans le dossier `domain/models/`.
 En bas de la page, la partie [référence des règles](#référence-des-règles) explique chaque règle avec
 un bon exemple et un mauvais exemple.
 
-## Vocabulaire
-
-- **Domaine** : le code qui contient les règles du métier, dans le dossier `domain/`. Une **règle du
-  domaine** est une règle du métier écrite dans ce code, par exemple « un passage terminé ne peut pas
-  être terminé de nouveau ».
-- **Entity** : un objet du métier avec un identifiant, suivi dans le temps. Voir la page
-  [Entity](../entite/README.md).
-- **Value Object** : une valeur du métier, sans identifiant. Voir la page
-  [Value Object](../objet-valeur/README.md).
-- **read-model** : un objet construit seulement pour être envoyé au front.
-- **Repository** : le code qui lit et écrit les objets dans la base de données.
-- **Usecase** : le code qui réalise une action de l'utilisateur, par exemple « terminer un passage ».
-  Le usecase charge les objets avec les repositories, appelle les méthodes des objets, puis enregistre
-  les objets.
-- **Sérialiseur** : le code qui transforme un objet en réponse JSON pour le front.
-- **Infrastructure** : le code qui parle à l'extérieur : base de données, log, appel HTTP, fichiers.
-  Ce code est dans le dossier `infrastructure/`.
-- **Erreur du domaine** : une `DomainError`, ou une classe qui hérite de `DomainError`. `DomainError`
-  est dans le fichier `api/src/shared/domain/errors.js`. Une règle du domaine qui n'est pas respectée
-  lève une erreur du domaine.
-- **Double** : un faux objet utilisé dans un test à la place du vrai : stub, mock ou spy.
-- **Champ privé** : un champ dont le nom commence par `#`, comme `#status`. Seul le code de la classe
-  peut lire et modifier un champ privé. Un accesseur `get status()` permet au code extérieur de lire
-  le champ, sans pouvoir modifier le champ.
-
 ## Entity, Value Object ou Aggregate Root ?
 
 Pour savoir si un objet est une Entity, poser deux questions.
@@ -50,7 +25,7 @@ L'Aggregate Root est l'Entity par laquelle le code accède au groupe : ici, le m
 - Oui : l'Entity est une [Aggregate Root](../racine-agregat/README.md). Les règles de cette page
   s'appliquent, et les règles de la page Aggregate Root aussi.
 - Non : l'Entity est à l'intérieur d'un Aggregate, comme une section dans un module. Cette Entity n'a
-  pas de repository.
+  pas de [repository](../repository/README.md).
 
 ## Les règles
 
@@ -64,6 +39,9 @@ L'Aggregate Root est l'Entity par laquelle le code accède au groupe : ici, le m
 | [E6](#e6-aucun-mutateur-nu) | Pas de setter | chaque changement a une méthode avec un nom métier : `archive()`, pas `setStatus()` |
 | [E7](#e7-les-autres-aggregates-sont-référencés-par-identité) | Les autres Aggregates par identifiant | `organizationId`, pas `organization` |
 | [E8](#e8-nommage-et-emplacement) | Un nom du métier | un fichier par Entity, en PascalCase, avec un nom du métier |
+
+Une erreur du domaine est une `DomainError`, ou une classe qui hérite de `DomainError`. `DomainError`
+est dans le fichier `api/src/shared/domain/errors.js`.
 
 ## Exemple complet
 
@@ -280,7 +258,7 @@ terminate() {
 **Ce que ça apporte.** Le code qui reçoit une Entity n'a rien à vérifier : l'Entity est valide. La
 règle est écrite une seule fois, dans l'Entity.
 
-**Sans cette règle.** La règle est écrite dans un usecase. Un autre usecase appelle `terminate()`,
+**Sans cette règle.** La règle est écrite dans un [usecase](../usecase/README.md). Un autre usecase appelle `terminate()`,
 oublie la règle, et un passage est terminé deux fois.
 
 **À savoir.**
