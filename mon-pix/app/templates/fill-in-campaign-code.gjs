@@ -1,5 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
+import { PixButton, PixModal } from '@1024pix/nebulix-ember';
 import { LinkTo } from '@ember/routing';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';

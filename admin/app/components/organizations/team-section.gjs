@@ -1,7 +1,4 @@
-import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
+import { PixFilterBanner, PixInput, PixSelect, PixTable } from '@1024pix/nebulix-ember';
 import { fn, hash } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';

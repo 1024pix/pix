@@ -1,6 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { PixButton, PixModal, PixSelect } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';

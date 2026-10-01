@@ -1,0 +1,64 @@
+@use 'pix-design-tokens/typography';
+
+.new-candidate-form {
+  &__required-fields-mention {
+    @extend %pix-body-m;
+
+    margin-bottom: var(--pix-spacing-4x);
+  }
+
+  &__field {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    width: 100%;
+    margin: var(--pix-spacing-6x) 0;
+
+    label {
+      text-wrap: pretty;
+    }
+
+    .pix-input__container, button {
+      width: 248px;
+    }
+  }
+
+  &__tooltip {
+    display: flex;
+    flex-wrap: wrap;
+
+    .pix-tooltip {
+      padding-left: 5px;
+      cursor: help;
+    }
+
+    .pix-tooltip__content--wide {
+      width: 600px;
+    }
+
+    > input {
+      width: 248px;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--pix-spacing-6x);
+    align-items: flex-end;
+  }
+
+  .radio-button-container {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+
+    > div {
+      margin-top: 0;
+    }
+  }
+}
+
+.new-candidate-tooltip__icon {
+  width: 1rem;
+  height: 1rem;
+  fill: var(--pix-neutral-800);
+}

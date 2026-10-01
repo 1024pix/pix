@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
@@ -175,11 +175,6 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
       ].map((candidateData) => store.createRecord('certification-candidate', candidateData));
       const countries = [store.createRecord('country', { name: 'CANADA', code: 99401 })];
 
-      certificationCandidates[0].destroyRecord = sinon.stub();
-      certificationCandidates[1].destroyRecord = sinon.stub();
-      certificationCandidates[2].destroyRecord = sinon.stub();
-
-      // when
       const screen = await render(
         <template>
           <EnrolledCandidates
@@ -190,13 +185,13 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         </template>,
       );
 
+      // when
       await click(screen.getByRole('button', { name: 'Supprimer le candidat Eddy Taurial' }));
 
       // then
-      sinon.assert.calledOnce(certificationCandidates[0].destroyRecord);
-      sinon.assert.notCalled(certificationCandidates[1].destroyRecord);
-      sinon.assert.notCalled(certificationCandidates[2].destroyRecord);
-      assert.ok(true);
+      assert
+        .dom(screen.getByRole('heading', { name: t('pages.sessions.detail.candidates.deletion-modal.title') }))
+        .exists();
     });
   });
 
@@ -270,7 +265,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
       // then
       assert.strictEqual(
-        screen.getByRole('button', { name: 'Inscrire un candidat' }).getAttribute('aria-disabled'),
+        screen.getByRole('link', { name: 'Inscrire un candidat' }).getAttribute('aria-disabled'),
         'true',
       );
     });
@@ -407,7 +402,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
       // then
       assert.dom(screen.getByRole('link', { name: 'Inscrire des candidats' })).isVisible();
-      assert.dom(screen.queryByRole('button', { name: 'Inscrire un candidat' })).isNotVisible();
+      assert.dom(screen.queryByRole('link', { name: 'Inscrire un candidat' })).isNotVisible();
     });
 
     test('it hides externalId and email column', async function (assert) {
@@ -454,7 +449,7 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
 
       // then
       assert.dom(screen.queryByRole('link', { name: 'Inscrire des candidats' })).isNotVisible();
-      assert.dom(screen.getByRole('button', { name: 'Inscrire un candidat' })).isVisible();
+      assert.dom(screen.getByRole('link', { name: 'Inscrire un candidat' })).isVisible();
     });
 
     test('it shows email columns', async function (assert) {
@@ -586,6 +581,45 @@ module('Integration | Component | Sessions | SessionDetails | EnrolledCandidates
         assert.dom(screen.getByRole('button', { name: 'Editer le candidat Bob Taurial' })).exists();
         assert.dom(screen.getByRole('button', { name: 'Editer le candidat Lana Taurial' })).exists();
         assert.dom(screen.getByRole('button', { name: 'Editer le candidat Dummy Taurial' })).exists();
+      });
+    });
+
+    module('when the candidate update fails', function () {
+      test('it should close the edit modal and display an error notification', async function (assert) {
+        // given
+        const adapter = store.adapterFor('certification-candidate');
+        sinon.stub(adapter, 'updateRecord').rejects();
+
+        const pixToast = this.owner.lookup('service:pixToast');
+        sinon.stub(pixToast, 'sendErrorNotification');
+
+        const reloadCertificationCandidate = sinon.stub();
+
+        const localCertificationCandidates = certificationCandidates;
+        const localCountries = countries;
+
+        const screen = await render(
+          <template>
+            <EnrolledCandidates
+              @sessionId='1'
+              @certificationCandidates={{localCertificationCandidates}}
+              @countries={{localCountries}}
+              @reloadCertificationCandidate={{reloadCertificationCandidate}}
+            />
+          </template>,
+        );
+
+        // when
+        await click(screen.getByRole('button', { name: 'Editer le candidat Bob Taurial' }));
+        const editModal = await screen.findByRole('dialog', { name: "Modifier les informations d'un candidat" });
+        await click(within(editModal).getByRole('button', { name: 'Modifier' }));
+
+        // then
+        assert.dom(editModal).doesNotHaveAttribute('open');
+        sinon.assert.calledWith(pixToast.sendErrorNotification, {
+          message: t('pages.sessions.detail.candidates.edit-modal.notifications.error'),
+        });
+        sinon.assert.calledOnce(reloadCertificationCandidate);
       });
     });
   });

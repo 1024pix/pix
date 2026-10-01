@@ -1,7 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { PixButton, PixFilterBanner, PixInput, PixSelect } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -30,6 +27,8 @@ export default class Sessions extends Component {
   @tracked pageSize = SESSION_PAGE_SIZE;
   @tracked sessionIdFilter = this.args.sessionId ?? null;
   @tracked selectedStatusFilter = this.args.status ?? this.statusFilterOptions[0].value;
+  @tracked startDateFilter = this.args.startDate ?? null;
+  @tracked endDateFilter = this.args.endDate ?? null;
 
   get sessionSummaries() {
     return this.args.sessionSummaries;
@@ -45,7 +44,12 @@ export default class Sessions extends Component {
   }
 
   get displayClearFilters() {
-    return !!this.sessionIdFilter || this.selectedStatusFilter !== this.statusFilterOptions[0].value;
+    return (
+      !!this.sessionIdFilter ||
+      this.selectedStatusFilter !== this.statusFilterOptions[0].value ||
+      !!this.startDateFilter ||
+      !!this.endDateFilter
+    );
   }
 
   @action
@@ -70,6 +74,26 @@ export default class Sessions extends Component {
   }
 
   @action
+  handleStartDateFilterChange(event) {
+    this.startDateFilter = event.target.value;
+    debounceTask(this, '_transitionWithStartDateFilter', ENV.APP.DEBOUNCE_FILTER_DELAY);
+  }
+
+  _transitionWithStartDateFilter() {
+    this.router.transitionTo({ queryParams: { startDate: this.startDateFilter || null, pageNumber: 1 } });
+  }
+
+  @action
+  handleEndDateFilterChange(event) {
+    this.endDateFilter = event.target.value;
+    debounceTask(this, '_transitionWithEndDateFilter', ENV.APP.DEBOUNCE_FILTER_DELAY);
+  }
+
+  _transitionWithEndDateFilter() {
+    this.router.transitionTo({ queryParams: { endDate: this.endDateFilter || null, pageNumber: 1 } });
+  }
+
+  @action
   handleLoadFilters(e) {
     e.preventDefault();
   }
@@ -78,8 +102,12 @@ export default class Sessions extends Component {
   handleClearFilters() {
     this.sessionIdFilter = null;
     this.selectedStatusFilter = 'all';
+    this.startDateFilter = null;
+    this.endDateFilter = null;
 
-    this.router.transitionTo({ queryParams: { sessionId: null, status: null, pageNumber: null } });
+    this.router.transitionTo({
+      queryParams: { sessionId: null, status: null, startDate: null, endDate: null, pageNumber: null },
+    });
   }
 
   <template>
@@ -110,6 +138,22 @@ export default class Sessions extends Component {
           >
             <:label>{{t 'pages.sessions.list.filters.status.label'}}</:label>
           </PixSelect>
+          <PixInput
+            type='date'
+            @value={{this.startDateFilter}}
+            {{on 'change' this.handleStartDateFilterChange}}
+            @size='small'
+          >
+            <:label>{{t 'pages.sessions.list.filters.start-date.label'}}</:label>
+          </PixInput>
+          <PixInput
+            type='date'
+            @value={{this.endDateFilter}}
+            {{on 'change' this.handleEndDateFilterChange}}
+            @size='small'
+          >
+            <:label>{{t 'pages.sessions.list.filters.end-date.label'}}</:label>
+          </PixInput>
           {{#if this.displayClearFilters}}
             <PixButton
               class='session-list-page-filters__clear-button'

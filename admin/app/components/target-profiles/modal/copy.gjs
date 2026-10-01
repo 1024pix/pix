@@ -1,5 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
+import { PixButton, PixModal } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
 
 <template>

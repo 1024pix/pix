@@ -1,4 +1,7 @@
 @charset "utf-8";
+
+/* nebulix */
+@use 'nebulix-styles' as *;
 @use 'pix-design-tokens/breakpoints';
 
 /* globals */
@@ -45,7 +48,10 @@
 @use 'components/certifications/shareable-certificate/v2-certificate' as *;
 @use 'components/certifications/certification-ender' as *;
 @use 'components/combined-courses/combined-courses' as *;
+@use 'components/combined-courses/combined-course-item' as *;
+@use 'components/combined-courses/tunnel' as *;
 @use 'components/combined-courses/attestation' as *;
+@use 'components/combined-courses/step-details' as *;
 @use '../components/routes/combined-courses/process-custom-passages' as *;
 @use 'components/communication-banner' as *;
 @use 'components/companion/blocker' as *;

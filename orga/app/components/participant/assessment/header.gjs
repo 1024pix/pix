@@ -1,7 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixProgressBar from '@1024pix/pix-ui/components/pix-progress-bar';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { PixBlock, PixIcon, PixProgressBar, PixSelect } from '@1024pix/nebulix-ember';
 import { hash } from '@ember/helper';
 import { action } from '@ember/object';
 import { service } from '@ember/service';

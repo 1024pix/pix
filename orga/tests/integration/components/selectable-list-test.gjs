@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
+import { PixCheckbox } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { click } from '@ember/test-helpers';
 import { not } from 'ember-truth-helpers';

@@ -56,7 +56,11 @@ describe('Integration | Application | campaign-api', function () {
       const badge = databaseBuilder.factory.buildBadge({ targetProfileId });
       const frameworkId = databaseBuilder.factory.learningContent.buildFramework().id;
       const areaId = databaseBuilder.factory.learningContent.buildArea({ frameworkId }).id;
-      const competenceId = databaseBuilder.factory.learningContent.buildCompetence({ areaId }).id;
+      const competenceId = databaseBuilder.factory.learningContent.buildCompetence({
+        areaId,
+        name_i18n: { fr: 'competence 1' },
+        index: '1.1',
+      }).id;
       const tube = databaseBuilder.factory.learningContent.buildTube({ competenceId });
       const skillId = databaseBuilder.factory.learningContent.buildSkill({
         id: 'recSkillId1',
@@ -200,6 +204,8 @@ describe('Integration | Application | campaign-api', function () {
           tubes: [
             {
               competenceId: 'competenceIdA',
+              competenceName: 'competence 1',
+              competenceIndex: '1.1',
               areaName: 'name Domaine A',
               id: 'tubeIdA',
               maxLevel: 2,

@@ -1,6 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonUpload from '@1024pix/pix-ui/components/pix-button-upload';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
+import { PixButton, PixButtonUpload, PixIcon } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { htmlSafe } from '@ember/template';

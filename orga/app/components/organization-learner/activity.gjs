@@ -1,4 +1,4 @@
-import PixIndicatorCard from '@1024pix/pix-ui/components/pix-indicator-card';
+import { PixIndicatorCard } from '@1024pix/nebulix-ember';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';

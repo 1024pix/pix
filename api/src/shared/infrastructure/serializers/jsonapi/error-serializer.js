@@ -20,10 +20,10 @@ const { Error: JSONAPIError } = jsonapiSerializer;
  * @return {JSONAPIError}
  */
 const serialize = function (infrastructureError) {
-  if (!Array.isArray(infrastructureError)) infrastructureError = [infrastructureError];
+  const infrastructureErrors = Array.isArray(infrastructureError) ? infrastructureError : [infrastructureError];
 
   return JSONAPIError(
-    infrastructureError.map((error) => {
+    infrastructureErrors.map((error) => {
       return {
         id: error.id,
         status: `${error.status}`,

@@ -62,6 +62,9 @@ function buildCombinedCourseDetails({
           version: '',
           image: 'emile' + content.moduleId,
           shortId: 'short-' + content.moduleId,
+          level: 'novice',
+          description: 'description',
+          objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3'],
         }),
       );
     }

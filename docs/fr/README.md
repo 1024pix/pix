@@ -8,6 +8,7 @@ Pour toute contribution, il est essentiel de lire [Contributing](./CONTRIBUTING.
 * [Contributing](./CONTRIBUTING.md)
 * [CSS](./CSS.md)
 * [OpenTelemetry](./OpenTelemetry.md)
+* [Profilage mémoire de Node.js](./profiling-memoire-node.md)
 * [Responsive Design](./Responsive-Design.md)
 * [Tests](./test.md)
 * [Usecase](./Usecase.md)

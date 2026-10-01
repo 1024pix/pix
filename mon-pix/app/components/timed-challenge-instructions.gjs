@@ -1,5 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
+import { PixButton, PixIcon } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import { DurationFormat } from '@formatjs/intl-durationformat';
 import Component from '@glimmer/component';

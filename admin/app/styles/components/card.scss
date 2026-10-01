@@ -21,7 +21,7 @@
 
     @extend %pix-body-s;
 
-    // add to pix-ui possibility to change the layout to a component
+    // add to nebulix possibility to change the layout to a component
     & > .pix-input,
     .pix-select {
       display: flex;

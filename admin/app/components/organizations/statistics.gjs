@@ -1,8 +1,4 @@
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixIndicatorCard from '@1024pix/pix-ui/components/pix-indicator-card';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { PixIcon, PixIndicatorCard, PixTable, PixTableColumn, PixTooltip } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
 
 const shouldDisplayStatistics = (statistics) => {

@@ -16,12 +16,12 @@ export async function getFrameworkAreas({
   sharedThematicRepository,
   sharedTubeRepository,
 }) {
-  if (!frameworkId) {
-    const framework = await frameworkRepository.getByName(frameworkName);
-    frameworkId = framework.id;
-  }
+  const framework = frameworkId ? { id: frameworkId } : await frameworkRepository.getByName(frameworkName);
 
-  const areasWithCompetences = await sharedAreaRepository.findByFrameworkIdWithCompetences({ frameworkId, locale });
+  const areasWithCompetences = await sharedAreaRepository.findByFrameworkIdWithCompetences({
+    frameworkId: framework.id,
+    locale,
+  });
 
   const competences = areasWithCompetences.flatMap((area) => area.competences);
 

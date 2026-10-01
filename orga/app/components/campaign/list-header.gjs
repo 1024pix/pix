@@ -1,5 +1,4 @@
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixTabs from '@1024pix/pix-ui/components/pix-tabs';
+import { PixButtonLink, PixTabs } from '@1024pix/nebulix-ember';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -42,7 +41,7 @@ export default class List extends Component {
         <LinkTo @route="authenticated.campaigns.list.my-campaigns">
           {{t "pages.campaigns-list.tabs.my-campaigns"}}
         </LinkTo>
-        {{#if this.currentUser.hasCombinedCourses}}
+        {{#if this.currentUser.hasCombinedCourseBlueprints}}
           <LinkTo @route="authenticated.campaigns.combined-courses">
             {{t "pages.campaign.tab.combined-courses"}}
           </LinkTo>

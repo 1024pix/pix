@@ -5,7 +5,7 @@ import { DomainError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Module | ModuleMetadata', function () {
-  let id, isBeta, slug, title, duration, image, shortId, visibility;
+  let id, isBeta, slug, title, duration, image, shortId, visibility, level, objectives, description;
 
   beforeEach(function () {
     id = '12a3a2b4-e873-4789-ae1c-57f6f2b99890';
@@ -16,11 +16,26 @@ describe('Unit | Devcomp | Domain | Models | Module | ModuleMetadata', function 
     duration = 10;
     image = 'emile';
     visibility = Symbol('visibility');
+    level = 'Débutant';
+    objectives = ['<p>Objectif 1</p>', '<p>Objectif 2</p>', '<p>Objectif 3</p>'];
+    description = 'Description';
   });
 
   it('should init and keep attributes', function () {
     // when
-    const module = new ModuleMetadata({ id, shortId, slug, title, isBeta, duration, image, visibility });
+    const module = new ModuleMetadata({
+      id,
+      shortId,
+      slug,
+      title,
+      isBeta,
+      duration,
+      image,
+      visibility,
+      level,
+      objectives,
+      description,
+    });
 
     // then
     expect(module.id).to.equal(id);
@@ -45,6 +60,9 @@ describe('Unit | Devcomp | Domain | Models | Module | ModuleMetadata', function 
             isBeta,
             duration,
             image,
+            level,
+            objectives,
+            description,
           }),
       )();
 
@@ -66,6 +84,9 @@ describe('Unit | Devcomp | Domain | Models | Module | ModuleMetadata', function 
             isBeta,
             duration,
             image,
+            level,
+            objectives,
+            description,
           }),
       )();
 
@@ -87,6 +108,9 @@ describe('Unit | Devcomp | Domain | Models | Module | ModuleMetadata', function 
             duration,
             image,
             shortId,
+            level,
+            objectives,
+            description,
           }),
       )();
 
@@ -108,6 +132,9 @@ describe('Unit | Devcomp | Domain | Models | Module | ModuleMetadata', function 
             duration,
             image,
             shortId,
+            level,
+            objectives,
+            description,
           }),
       )();
 
@@ -129,6 +156,9 @@ describe('Unit | Devcomp | Domain | Models | Module | ModuleMetadata', function 
             duration,
             image,
             shortId,
+            level,
+            objectives,
+            description,
           }),
       )();
 
@@ -150,6 +180,9 @@ describe('Unit | Devcomp | Domain | Models | Module | ModuleMetadata', function 
             isBeta,
             image,
             shortId,
+            level,
+            objectives,
+            description,
           }),
       )();
 
@@ -176,6 +209,9 @@ describe('Unit | Devcomp | Domain | Models | Module | ModuleMetadata', function 
             image,
             shortId,
             visibility,
+            level,
+            objectives,
+            description,
           }),
       )();
 
@@ -202,6 +238,9 @@ describe('Unit | Devcomp | Domain | Models | Module | ModuleMetadata', function 
             image,
             shortId,
             visibility,
+            level,
+            objectives,
+            description,
           }),
       )();
 
@@ -223,6 +262,9 @@ describe('Unit | Devcomp | Domain | Models | Module | ModuleMetadata', function 
             slug,
             isBeta,
             shortId,
+            level,
+            objectives,
+            description,
           }),
       )();
 
@@ -245,6 +287,9 @@ describe('Unit | Devcomp | Domain | Models | Module | ModuleMetadata', function 
             isBeta,
             shortId,
             image,
+            level,
+            objectives,
+            description,
           }),
       )();
 

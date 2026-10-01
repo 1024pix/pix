@@ -1,6 +1,6 @@
-import onEnterAction from '@1024pix/pix-ui/addon/modifiers/on-enter-action';
-import onSpaceAction from '@1024pix/pix-ui/addon/modifiers/on-space-action';
-import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
+import { PixSearchInput } from '@1024pix/nebulix-ember';
+import onEnterAction from '@1024pix/nebulix-ember/modifiers/on-enter-action';
+import onSpaceAction from '@1024pix/nebulix-ember/modifiers/on-space-action';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';

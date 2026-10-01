@@ -117,9 +117,8 @@ function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertif
         tableFirstRow: CANDIDATE_TABLE_FIRST_ROW,
       });
   }
-  odsBuilder = _addSubscriptionColumns({ odsBuilder, certificationCenterHabilitations, translate });
 
-  return odsBuilder;
+  return _addSubscriptionColumns({ odsBuilder, certificationCenterHabilitations, translate });
 }
 
 function _addSubscriptionColumns({ odsBuilder, certificationCenterHabilitations, translate }) {

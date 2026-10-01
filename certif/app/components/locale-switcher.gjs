@@ -2,7 +2,7 @@
 // If you need a change, as much as possible modify the original file
 // and propagate the changes in the copies in all the fronts
 
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import { PixSelect } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';

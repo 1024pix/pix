@@ -1,4 +1,4 @@
-import PixToastContainer from '@1024pix/pix-ui/components/pix-toast-container';
+import { PixToastContainer } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
@@ -49,7 +49,9 @@ export default class ApplicationTemplate extends Component {
       this.router.currentRouteName,
     );
 
-    return isAccessPages || isEvaluationPages || isCertificationsPages;
+    const isTunnelPages = this.router.currentRouteName === 'combined-courses.tunnel';
+
+    return isAccessPages || isEvaluationPages || isCertificationsPages || isTunnelPages;
   }
 
   get isModulix() {

@@ -40,7 +40,7 @@ export async function findPaginatedFilteredByCertificationCenterId({ certificati
 }
 
 function _setupFilters(query, filters) {
-  const { sessionId, status } = filters;
+  const { sessionId, status, startDate, endDate } = filters;
 
   if (sessionId) {
     query.where('sessions.id', sessionId);
@@ -56,5 +56,13 @@ function _setupFilters(query, filters) {
   }
   if (status === SESSION_STATUSES.PROCESSED) {
     query.whereNotNull('publishedAt');
+  }
+
+  if (startDate) {
+    query.where('sessions.date', '>=', startDate);
+  }
+
+  if (endDate) {
+    query.where('sessions.date', '<=', endDate);
   }
 }

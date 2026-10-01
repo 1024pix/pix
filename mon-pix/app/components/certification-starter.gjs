@@ -1,11 +1,13 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
-import PixCode from '@1024pix/pix-ui/components/pix-code';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixLabel from '@1024pix/pix-ui/components/pix-label';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
+import {
+  PixBlock,
+  PixButton,
+  PixCheckbox,
+  PixCode,
+  PixIcon,
+  PixLabel,
+  PixNotificationAlert,
+  PixSelect,
+} from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';

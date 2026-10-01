@@ -76,6 +76,7 @@ function computeReportForChallengeCounts(version, calibration, reportLines) {
     new CalibrationReportLine({
       label: REPORT_LABELS.ENGLISH_CALIBRATED_CHALLENGE_COUNT,
       content: calibration.getChallengeCountForLocale(ENGLISH_SPOKEN),
+      alertLevel: calibration.getChallengeCountForLocale(ENGLISH_SPOKEN) > 0 ? null : ALERT_LEVELS.LOW,
     }),
   );
 }
@@ -91,7 +92,7 @@ function computeReportForLearningContentPerimeter(version, calibration, reportLi
         new CalibrationReportLine({
           label: REPORT_LABELS.TUBE_ONLY_IN_CALIBRATION_COUNT,
           content: tubeIdsInCalibrationButNotInVersion.size,
-          alertLevel: ALERT_LEVELS.HIGH,
+          alertLevel: ALERT_LEVELS.LOW,
           additionalContent: [...tubeIdsInCalibrationButNotInVersion.values()].join(', '),
         }),
       );
@@ -102,7 +103,7 @@ function computeReportForLearningContentPerimeter(version, calibration, reportLi
         new CalibrationReportLine({
           label: REPORT_LABELS.TUBE_ONLY_IN_VERSION_COUNT,
           content: tubeIdsInVersionButNotInCalibration.size,
-          alertLevel: ALERT_LEVELS.LOW,
+          alertLevel: ALERT_LEVELS.HIGH,
           additionalContent: [...tubeIdsInVersionButNotInCalibration.values()].join(', '),
         }),
       );

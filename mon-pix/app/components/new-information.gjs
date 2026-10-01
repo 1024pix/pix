@@ -1,6 +1,4 @@
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
+import { PixButtonLink, PixIcon, PixIconButton } from '@1024pix/nebulix-ember';
 import t from 'ember-intl/helpers/t';
 import media from 'ember-responsive/helpers/media';
 import eq from 'ember-truth-helpers/helpers/eq';

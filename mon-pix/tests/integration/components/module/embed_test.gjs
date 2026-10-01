@@ -2,6 +2,7 @@ import { clickByName, render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 // eslint-disable-next-line no-restricted-imports
 import { click, find } from '@ember/test-helpers';
+import { waitFor } from '@testing-library/dom';
 import { t } from 'ember-intl/test-support';
 import ModulixEmbed from 'mon-pix/components/module/element/embed';
 import ENV from 'mon-pix/config/environment';
@@ -588,8 +589,13 @@ module('Integration | Component | Module | Embed', function (hooks) {
       await clickByName(t('pages.modulix.buttons.embed.start.ariaLabel'));
       await clickByName(t('pages.modulix.buttons.interactive-element.reset.ariaLabel'));
 
-      // WORKAROUND: waiting for load event to finished
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      // Wait focus on iframe
+      await waitFor(
+        () => {
+          if (document.activeElement.tagName !== 'IFRAME') throw Error('iframe not active');
+        },
+        { timeout: 500 },
+      );
 
       // then
       const iframe = screen.getByTitle(embed.title);

@@ -1,6 +1,4 @@
-import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixSidePanel from '@1024pix/pix-ui/components/pix-side-panel';
+import { PixAccordions, PixButton, PixSidePanel } from '@1024pix/nebulix-ember';
 import { A } from '@ember/array';
 import { fn } from '@ember/helper';
 import { action } from '@ember/object';

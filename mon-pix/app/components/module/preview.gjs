@@ -1,9 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixSegmentedControl from '@1024pix/pix-ui/components/pix-segmented-control';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
-import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
+import { PixButton, PixButtonLink, PixSegmentedControl, PixSelect, PixTag, PixTextarea } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -237,7 +232,7 @@ export default class ModulixPreview extends Component {
         class="module-preview-panel__metadata-display-form"
         aria-label={{t "pages.modulix.preview.elements-display-panel-label"}}
       >
-        <PixSegmentedControl @onChange={{this.toggleElementIdButton}} @variant="primary" @toggled={{false}}>
+        <PixSegmentedControl @onChange={{this.toggleElementIdButton}} @variant="primary" @toggled={{true}}>
           <:label>{{t "pages.modulix.preview.elements-id-button.label"}}</:label>
           <:viewA>{{t "common.yes"}}</:viewA>
           <:viewB>{{t "common.no"}}</:viewB>

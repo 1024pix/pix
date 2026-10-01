@@ -109,6 +109,7 @@ class CampaignReport {
         id: tube.id,
         competenceId: tube.competenceId,
         competenceName: tube.competenceName,
+        competenceIndex: tube.competenceIndex,
         title: tube.title,
         description: tube.description,
         maxLevel: tube.maxLevel,

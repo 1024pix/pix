@@ -3,6 +3,8 @@ import { TubeCoverage } from '../../../../../src/maddo/domain/models/TubeCoverag
 export function buildTubeCoverage({
   id,
   competenceId,
+  competenceName,
+  competenceIndex,
   areaName,
   maxLevel,
   reachedLevel,
@@ -12,6 +14,8 @@ export function buildTubeCoverage({
   return new TubeCoverage({
     id,
     competenceId,
+    competenceName,
+    competenceIndex,
     areaName,
     maxLevel,
     reachedLevel,

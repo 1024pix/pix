@@ -1,8 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixSelect from '@1024pix/pix-ui/components/pix-select';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
+import { PixBlock, PixButton, PixSelect, PixTable, PixTableColumn } from '@1024pix/nebulix-ember';
 import { hash } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';

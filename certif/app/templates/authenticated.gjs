@@ -1,4 +1,4 @@
-import PixAppLayout from '@1024pix/pix-ui/components/pix-app-layout';
+import { PixAppLayout } from '@1024pix/nebulix-ember';
 import Banners from 'pix-certif/components/layout/banners';
 import Footer from 'pix-certif/components/layout/footer';
 import Sidebar from 'pix-certif/components/layout/sidebar';

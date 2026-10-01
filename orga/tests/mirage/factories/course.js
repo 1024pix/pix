@@ -12,7 +12,7 @@ export default Factory.extend({
     return `${this.type}-${this.sourceId}`;
   },
   sourceId() {
-    return faker.string.numeric();
+    return faker.string.numeric({ length: 5, allowLeadingZeros: false });
   },
   type() {
     return 'targetProfile';

@@ -1,4 +1,4 @@
-import PixBreadcrumb from '@1024pix/pix-ui/components/pix-breadcrumb';
+import { PixBreadcrumb } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import V2Certificate from 'mon-pix/components/certifications/candidate-certificate/v2-certificate';

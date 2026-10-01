@@ -1,4 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
+import { PixBlock } from '@1024pix/nebulix-ember';
 
 <template>
   <PixBlock class="action-cards-list-item" @variant="orga">

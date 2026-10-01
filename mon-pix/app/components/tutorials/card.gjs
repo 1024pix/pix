@@ -1,4 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
+import { PixBlock } from '@1024pix/nebulix-ember';
 import { concat } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';

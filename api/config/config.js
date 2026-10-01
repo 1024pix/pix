@@ -139,6 +139,7 @@ export const schema = Joi.object({
   LCMS_REDIS_CACHE_DATABASE: Joi.number().integer().valid(1, 2, 3, 4).optional(),
   LCMS_REDIS_CACHE_CLIENT_POOL_MINIMUM: Joi.number().integer().min(1).optional(),
   LCMS_REDIS_CACHE_CLIENT_POOL_MAXIMUM: Joi.number().integer().min(1).optional(),
+  LCMS_REDIS_CACHE_CLIENT_PING_INTERVAL: Joi.string().optional(),
   LLM_CHAT_TEMPORARY_STORAGE_EXP_DELAY_SECONDS: Joi.string().optional(),
   LLM_CONFIGURATION_EDITOR_API_FETCH_CONNECTION_TIMEOUT_MS: Joi.number().min(0).optional(),
   LLM_CONFIGURATION_EDITOR_API_GET_CONFIGURATION_URL: Joi.string().optional(),
@@ -167,6 +168,11 @@ export const schema = Joi.object({
   APIM_URL: Joi.string().optional(),
   PIX_ASSETS_MANAGER_URL: Joi.string().uri().optional(),
   HTTP_SERVER_RESPONSE_TIMEOUT_MS: Joi.number().integer().min(0).optional(),
+  HEAP_PROFILE_ENABLED: Joi.string().optional().valid('true', 'false'),
+  HEAP_PROFILE_SAMPLING_INTERVAL: Joi.number().integer().min(1024).optional(),
+  HEAP_PROFILE_DEFAULT_DURATION: Joi.string().optional(),
+  HEAP_PROFILE_MAX_DURATION: Joi.string().optional(),
+  HEAP_PROFILE_MAX_REQUEST_AGE: Joi.string().optional(),
   ROUTE_DOMAIN_TO_OWNER_TEAM_MAPPING: Joi.string().optional(),
 }).options({ allowUnknown: true });
 
@@ -348,6 +354,21 @@ export const config = {
   hapi: {
     options: {},
   },
+  heapProfile: {
+    enabled: toBoolean(process.env.HEAP_PROFILE_ENABLED),
+    // un échantillon par tranche de N octets alloués. Le défaut de V8 (32 Ko)
+    // coûte une vingtaine de pourcents de débit sur une charge très allocatrice,
+    // 512 Ko environ 4 %, pour la même lecture du profil
+    // (cf. docs/fr/profiling-memoire-node.md)
+    samplingInterval: _getNumber(process.env.HEAP_PROFILE_SAMPLING_INTERVAL, 512 * 1024),
+    // durée de la fenêtre de profilage quand la demande n'en porte pas
+    defaultDuration: ms(process.env.HEAP_PROFILE_DEFAULT_DURATION ?? '5m'),
+    // borne haute : le profileur ne reste pas armé indéfiniment sur une demande
+    // portant une durée fantaisiste
+    maxDuration: ms(process.env.HEAP_PROFILE_MAX_DURATION ?? '30m'),
+    // au-delà, une demande reçue est considérée comme périmée et ignorée
+    maxRequestAge: ms(process.env.HEAP_PROFILE_MAX_REQUEST_AGE ?? '30s'),
+  },
   infra: {
     appName: process.env.APP,
     containerName: process.env.CONTAINER,
@@ -378,6 +399,9 @@ export const config = {
       database: _getNumber(process.env.LCMS_REDIS_CACHE_DATABASE, 1),
       clientPoolMinimum: _getNumber(process.env.LCMS_REDIS_CACHE_CLIENT_POOL_MINIMUM, 1),
       clientPoolMaximum: _getNumber(process.env.LCMS_REDIS_CACHE_CLIENT_POOL_MAXIMUM, 5),
+      pingInterval: process.env.LCMS_REDIS_CACHE_CLIENT_PING_INTERVAL
+        ? ms(process.env.LCMS_REDIS_CACHE_CLIENT_PING_INTERVAL)
+        : undefined,
     },
   },
   llm: {

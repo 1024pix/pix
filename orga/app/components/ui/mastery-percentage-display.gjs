@@ -1,6 +1,4 @@
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixStars from '@1024pix/pix-ui/components/pix-stars';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { PixIcon, PixStars, PixTooltip } from '@1024pix/nebulix-ember';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 

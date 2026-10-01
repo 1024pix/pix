@@ -1,6 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixCheckbox from '@1024pix/pix-ui/components/pix-checkbox';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
+import { PixButton, PixCheckbox, PixModal } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';

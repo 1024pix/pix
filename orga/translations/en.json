@@ -806,7 +806,8 @@
         }
       },
       "name": {
-        "label": "Name of the campaign"
+        "label": "Name of the campaign",
+        "sub-label": "This field will only be visible in Pix Orga to identify the campaign"
       },
       "no": "No",
       "owner": {
@@ -1028,6 +1029,7 @@
       },
       "navigation": "Navigation in the Campaign section",
       "no-campaign": "No campaign. To start, click on 'Create a campaign'.",
+      "no-combined-course": "No learning course, to start click on the 'Create a campaign' button",
       "table": {
         "column": {
           "code": "Code",

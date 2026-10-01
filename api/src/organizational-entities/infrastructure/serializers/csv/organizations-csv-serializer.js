@@ -34,19 +34,17 @@ export async function deserializeForOrganizationsImport(file) {
     header: true,
     transformHeader: (header) => header?.trim(),
     transform: (value, columnName) => {
-      if (typeof value === 'string') {
-        value = value.trim();
-      }
+      const trimmedValue = typeof value === 'string' ? value.trim() : value;
       if (columnName === 'isManagingStudents') {
-        value = value?.toLowerCase() === 'true';
+        return trimmedValue?.toLowerCase() === 'true';
       }
-      if (!isEmpty(value)) {
+      if (!isEmpty(trimmedValue)) {
         if (
           columnName === 'type' ||
           columnName === 'organizationInvitationRole' ||
           columnName === 'identityProviderForCampaigns'
         ) {
-          value = value.toUpperCase();
+          return trimmedValue.toUpperCase();
         }
         if (
           columnName === 'createdBy' ||
@@ -57,10 +55,10 @@ export async function deserializeForOrganizationsImport(file) {
           columnName === 'categoryId' ||
           columnName === 'credit'
         ) {
-          value = parseInt(value, 10);
+          return parseInt(trimmedValue, 10);
         }
         if (columnName === 'emailInvitations' || columnName === 'emailForSCOActivation' || columnName === 'DPOEmail') {
-          value = value.replaceAll(' ', '').toLowerCase();
+          return trimmedValue.replaceAll(' ', '').toLowerCase();
         }
       } else {
         if (
@@ -78,13 +76,13 @@ export async function deserializeForOrganizationsImport(file) {
           columnName === 'credit' ||
           columnName === 'categoryId'
         ) {
-          value = null;
+          return null;
         }
         if (columnName === 'locale') {
-          value = 'fr-fr';
+          return 'fr-fr';
         }
       }
-      return value;
+      return trimmedValue;
     },
   };
 

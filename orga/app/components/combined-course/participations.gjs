@@ -1,10 +1,12 @@
-import PixFilterBanner from '@1024pix/pix-ui/components/pix-filter-banner';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixMultiSelect from '@1024pix/pix-ui/components/pix-multi-select';
-import PixSearchInput from '@1024pix/pix-ui/components/pix-search-input';
-import PixTable from '@1024pix/pix-ui/components/pix-table';
-import PixTableColumn from '@1024pix/pix-ui/components/pix-table-column';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import {
+  PixFilterBanner,
+  PixIcon,
+  PixMultiSelect,
+  PixSearchInput,
+  PixTable,
+  PixTableColumn,
+  PixTooltip,
+} from '@1024pix/nebulix-ember';
 import { hash, uniqueId } from '@ember/helper';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';

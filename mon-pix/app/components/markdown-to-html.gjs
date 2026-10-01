@@ -1,4 +1,4 @@
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import { PixButtonLink } from '@1024pix/nebulix-ember';
 import { renderComponent } from '@ember/renderer';
 import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';

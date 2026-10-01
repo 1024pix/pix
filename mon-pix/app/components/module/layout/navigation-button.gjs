@@ -1,6 +1,5 @@
-import onEscapeAction from '@1024pix/pix-ui/addon/modifiers/on-escape-action';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
+import { PixButton, PixIconButton } from '@1024pix/nebulix-ember';
+import onEscapeAction from '@1024pix/nebulix-ember/modifiers/on-escape-action';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';

@@ -55,6 +55,7 @@ describe('Unit | Domain | Models | CampaignReport', function () {
           areaName: undefined,
           competenceId: 'competence1',
           competenceName: 'compétence 1',
+          competenceIndex: '1.1',
           description: 'tube 1 description',
           id: 'tube1',
           maxLevel: 3,

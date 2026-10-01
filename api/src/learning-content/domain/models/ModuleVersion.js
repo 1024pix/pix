@@ -6,14 +6,12 @@ export class ModuleVersion {
   }
 
   isGreaterThan(version) {
-    if (!(version instanceof ModuleVersion)) {
-      version = new ModuleVersion({ version });
-    }
+    const otherVersion = version instanceof ModuleVersion ? version : new ModuleVersion({ version });
 
-    if (this.majorVersion > version.majorVersion) {
+    if (this.majorVersion > otherVersion.majorVersion) {
       return true;
     }
 
-    return this.majorVersion === version.majorVersion && this.minorVersion > version.minorVersion;
+    return this.majorVersion === otherVersion.majorVersion && this.minorVersion > otherVersion.minorVersion;
   }
 }

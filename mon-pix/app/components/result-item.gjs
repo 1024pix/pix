@@ -1,4 +1,4 @@
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
+import { PixIcon } from '@1024pix/nebulix-ember';
 import { concat, fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { service } from '@ember/service';

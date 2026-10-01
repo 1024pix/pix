@@ -1,6 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
+import { PixButton, PixButtonLink, PixIcon } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';

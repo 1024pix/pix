@@ -189,7 +189,7 @@ module('Integration | Component | Module | Preview', function (hooks) {
     assert.dom(screen.queryByRole('button', { name: t('pages.modulix.preview.grain-select.button') })).doesNotExist();
   });
 
-  test('should display a button display elements id', async function (assert) {
+  test('should display a button display elements id (false by default)', async function (assert) {
     // given
     //  when
     const screen = await render(<template><ModulixPreview /></template>);
@@ -198,7 +198,7 @@ module('Integration | Component | Module | Preview', function (hooks) {
     const radioGroup = screen.getByRole('radiogroup', { name: t('pages.modulix.preview.elements-id-button.label') });
     assert.dom(radioGroup).exists();
     assert.dom(within(radioGroup).getByRole('radio', { name: t('common.yes') })).exists();
-    assert.dom(within(radioGroup).getByRole('radio', { name: t('common.no') })).exists();
+    assert.dom(within(radioGroup).getByRole('radio', { name: t('common.no') })).isChecked();
   });
 
   module('grains title button', function () {

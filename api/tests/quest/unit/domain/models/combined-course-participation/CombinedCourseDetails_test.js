@@ -336,6 +336,9 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
             isLocked: false,
             duration: 10,
             shortId: 'short-abcdefgh1',
+            level: 'novice',
+            description: 'description',
+            objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3'],
           }),
         ]);
       });
@@ -436,6 +439,9 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
             isCompleted: false,
             isLocked: false,
             shortId: 'short-ebcde1',
+            level: 'novice',
+            description: 'description',
+            objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3'],
           }),
         ]);
       });
@@ -707,6 +713,9 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               isCompleted: false,
               isLocked: true,
               shortId: 'short-abcdef1',
+              level: 'novice',
+              description: 'description',
+              objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3'],
             }),
             new TrainingCombinedCourseItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 888,
@@ -781,6 +790,9 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: false,
           isLocked: true,
           shortId: 'short-abc2de',
+          level: 'novice',
+          description: 'description',
+          objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3'],
         }),
       ]);
     });
@@ -930,6 +942,9 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: true,
           isLocked: false,
           shortId: 'short-abcde3',
+          level: 'novice',
+          description: 'description',
+          objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3'],
         }),
         new ModuleCombinedCourseItem({
           id: 'abcde4',
@@ -942,6 +957,9 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: true,
           isLocked: false,
           shortId: 'short-abcde4',
+          level: 'novice',
+          description: 'description',
+          objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3'],
         }),
         new CampaignCombinedCourseItem({
           id: 2,
@@ -964,6 +982,9 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: false,
           isLocked: false,
           shortId: 'short-abcde1',
+          level: 'novice',
+          description: 'description',
+          objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3'],
         }),
         new ModuleCombinedCourseItem({
           id: 'abcde2',
@@ -976,6 +997,9 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           isCompleted: false,
           isLocked: true,
           shortId: 'short-abcde2',
+          level: 'novice',
+          description: 'description',
+          objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3'],
         }),
       ]);
     });

@@ -1,7 +1,4 @@
-import PixAccordions from '@1024pix/pix-ui/components/pix-accordions';
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
+import { PixAccordions, PixButton, PixIcon, PixNotificationAlert } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';

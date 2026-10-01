@@ -1,4 +1,3 @@
-import PixBackgroundHeader from '@1024pix/pix-ui/components/pix-background-header';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -31,7 +30,7 @@ export default class LLMPreviewComponent extends Component {
     {{pageTitle (t "pages.llm-preview.title")}}
 
     <main class="main" role="main">
-      <PixBackgroundHeader id="main" class="llm-preview__header">
+      <div id="main" class="llm-preview__header">
         <PageTitle>
           <:title>{{t "pages.llm-preview.title"}}</:title>
         </PageTitle>
@@ -45,7 +44,7 @@ export default class LLMPreviewComponent extends Component {
             {{modifierDidInsert this.listenForInitMessage}}
           ></iframe>
         </div>
-      </PixBackgroundHeader>
+      </div>
     </main>
   </template>
 }

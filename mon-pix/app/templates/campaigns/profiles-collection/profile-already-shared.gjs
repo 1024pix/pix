@@ -1,4 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
+import { PixBlock } from '@1024pix/nebulix-ember';
 import { LinkTo } from '@ember/routing';
 import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
 import t from 'ember-intl/helpers/t';

@@ -51,7 +51,7 @@ async function authenticateOidcUser({
   });
 
   const connectionMethodCode = oidcAuthenticationService.connectionMethodCode;
-  identityProviderCode = connectionMethodCode || identityProviderCode;
+  const connectionMethod = connectionMethodCode || identityProviderCode;
 
   const sessionContent = await oidcAuthenticationService.exchangeCodeForTokens({
     code,
@@ -66,7 +66,7 @@ async function authenticateOidcUser({
   });
   const user = await userRepository.findByExternalIdentifier({
     externalIdentityId: userInfo.externalIdentityId,
-    identityProvider: identityProviderCode,
+    identityProvider: connectionMethod,
   });
 
   if (!user) {
@@ -87,7 +87,7 @@ async function authenticateOidcUser({
     userInfo,
     userId: user.id,
     sessionContent,
-    identityProvider: identityProviderCode,
+    identityProvider: connectionMethod,
     oidcAuthenticationService,
     authenticationMethodRepository,
   });
@@ -95,7 +95,7 @@ async function authenticateOidcUser({
   await _updateUserLastConnection({
     user,
     requestedApplication,
-    identityProvider: identityProviderCode,
+    identityProvider: connectionMethod,
     authenticationMethodRepository,
     lastUserApplicationConnectionsRepository,
     userLoginRepository,

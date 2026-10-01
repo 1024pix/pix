@@ -1,5 +1,4 @@
-import PixFilterableAndSearchableSelect from '@1024pix/pix-ui/components/pix-filterable-and-searchable-select';
-import PixInput from '@1024pix/pix-ui/components/pix-input';
+import { PixFilterableAndSearchableSelect, PixInput } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { t } from 'ember-intl';

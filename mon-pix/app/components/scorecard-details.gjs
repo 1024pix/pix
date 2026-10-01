@@ -1,6 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
+import { PixButton, PixButtonLink, PixModal } from '@1024pix/nebulix-ember';
 import { A as EmberArray } from '@ember/array';
 import EmberObject, { action } from '@ember/object';
 import { service } from '@ember/service';

@@ -1,6 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixModal from '@1024pix/pix-ui/components/pix-modal';
+import { PixButton, PixButtonLink, PixModal } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
 import CompetencesScoringForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-competences-scoring-form';
 import GlobalScoringForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-global-scoring-form';

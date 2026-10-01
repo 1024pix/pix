@@ -1,4 +1,4 @@
-import PixAppLayout from '@1024pix/pix-ui/components/pix-app-layout';
+import { PixAppLayout } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 

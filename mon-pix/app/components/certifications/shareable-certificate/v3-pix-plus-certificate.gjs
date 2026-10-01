@@ -1,7 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixStepper from '@1024pix/pix-ui/components/pix-stepper';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixBlock, PixIcon, PixStepper, PixTag } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';

@@ -1,5 +1,4 @@
-import PixProgressBar from '@1024pix/pix-ui/components/pix-progress-bar';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixProgressBar, PixTag } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';

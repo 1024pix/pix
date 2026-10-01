@@ -1,7 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixStars from '@1024pix/pix-ui/components/pix-stars';
-import PixTag from '@1024pix/pix-ui/components/pix-tag';
+import { PixBlock, PixButtonLink, PixStars, PixTag } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';

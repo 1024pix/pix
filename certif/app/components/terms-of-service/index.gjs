@@ -1,5 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
+import { PixButton, PixButtonLink } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
 
 import PageEn from './page-en';

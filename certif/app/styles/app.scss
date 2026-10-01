@@ -1,4 +1,7 @@
 @charset "utf-8";
+
+// nebulix
+@use 'nebulix-styles' as *;
 @use 'pix-design-tokens/breakpoints';
 @use 'globals/forms' as *;
 @use 'globals/modals' as *;
@@ -38,7 +41,7 @@
 @use 'components/login-or-register' as *;
 @use 'components/login-session-invigilator' as *;
 @use 'components/finalize' as *;
-@use 'components/new-candidate-modal' as *;
+@use 'components/new-candidate-form' as *;
 @use 'components/members-list-item' as *;
 @use 'components/finalization-confirmation-modal' as *;
 @use 'components/register-form' as *;

@@ -1295,12 +1295,15 @@
         "aria-label-completed-campaign": "This element is completed with a success rate of {value, number, ::percent}",
         "aria-label-completed-campaign-with-stages": "You have acquired {acquired, plural, =0 {no star} =1 {# star} other {# stars}} out of {total}",
         "aria-label-duration": "Estimated duration: {duration} minutes",
+        "aria-label-level": "Level: {level}",
         "completed": "Completed!",
         "duration": "≈ {duration} min",
         "formation": {
           "description": "Complete your assessment to unlock a programme of modules tailored to your results!",
           "title": "Customised module programme"
         },
+        "start-campaign": "Start",
+        "start-module": "Start module",
         "tagText": "You're at that point!"
       },
       "process-custom-passages": {

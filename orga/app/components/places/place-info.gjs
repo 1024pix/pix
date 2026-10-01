@@ -1,5 +1,4 @@
-import PixBlock from '@1024pix/pix-ui/components/pix-block';
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
+import { PixBlock, PixIcon } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
 
 <template>

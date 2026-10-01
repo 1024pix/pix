@@ -1,4 +1,4 @@
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
+import { PixNotificationAlert } from '@1024pix/nebulix-ember';
 import SafeMarkdownToHtml from 'pix-orga/components/safe-markdown-to-html';
 
 <template>

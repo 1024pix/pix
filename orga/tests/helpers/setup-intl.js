@@ -1,4 +1,4 @@
-import { getContext, settled } from '@ember/test-helpers';
+import { getContext, settled, waitUntil } from '@ember/test-helpers';
 import { setupIntl as setupIntlFromEmberIntl } from 'ember-intl/test-support';
 import { formats } from 'pix-orga/ember-intl';
 import translationsForDe from 'virtual:ember-intl/translations/de';
@@ -28,6 +28,11 @@ export async function setCurrentLocale(locale) {
   intl.addTranslations(locale, appLocales[locale]);
 
   await settled();
+}
+
+export async function waitLanguageChanged(locale) {
+  const { owner } = getContext();
+  await waitUntil(() => owner.lookup('service:intl').primaryLocale === locale);
 }
 
 export default function setupIntl(hooks, locale = 'fr') {

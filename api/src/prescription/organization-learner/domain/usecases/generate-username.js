@@ -35,13 +35,13 @@ const generateUsername = async function ({
   );
   await checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService);
 
-  studentInformation = {
+  const user = {
     firstName: matchedOrganizationLearner.firstName,
     lastName: matchedOrganizationLearner.lastName,
     birthdate: matchedOrganizationLearner.birthdate,
   };
 
-  return userReconciliationService.createUsernameByUser({ user: studentInformation, userRepository });
+  return userReconciliationService.createUsernameByUser({ user, userRepository });
 };
 
 export { generateUsername };

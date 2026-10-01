@@ -20,6 +20,7 @@ class TubeResultForKnowledgeElementSnapshots {
     this.id = tube.id;
     this.competenceId = competence.id;
     this.competenceName = competence.name;
+    this.competenceIndex = competence.index;
     this.areaName = area?.name;
     this.title = tube.practicalTitle;
     this.description = tube.practicalDescription;

@@ -1,7 +1,4 @@
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixNavigation from '@1024pix/pix-ui/components/pix-navigation';
-import PixNavigationButton from '@1024pix/pix-ui/components/pix-navigation-button';
-import PixNavigationSeparator from '@1024pix/pix-ui/components/pix-navigation-separator';
+import { PixButtonLink, PixNavigation, PixNavigationButton, PixNavigationSeparator } from '@1024pix/nebulix-ember';
 import { hash } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';

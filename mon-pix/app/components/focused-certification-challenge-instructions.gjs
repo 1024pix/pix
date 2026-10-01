@@ -1,4 +1,4 @@
-import PixButton from '@1024pix/pix-ui/components/pix-button';
+import { PixButton } from '@1024pix/nebulix-ember';
 import t from 'ember-intl/helpers/t';
 <template>
   <div class="focused-certification-challenge-instructions">

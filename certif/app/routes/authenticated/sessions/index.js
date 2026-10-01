@@ -9,6 +9,8 @@ export default class ListRoute extends Route {
     pageSize: { refreshModel: true },
     status: { refreshModel: true },
     sessionId: { refreshModel: true },
+    startDate: { refreshModel: true },
+    endDate: { refreshModel: true },
   };
 
   @service currentUser;
@@ -29,6 +31,8 @@ export default class ListRoute extends Route {
         filter: {
           status: params.status || undefined,
           sessionId: params.sessionId || undefined,
+          startDate: params.startDate || undefined,
+          endDate: params.endDate || undefined,
         },
       },
       { reload: true },
@@ -45,6 +49,8 @@ export default class ListRoute extends Route {
       controller.pageSize = SESSION_PAGE_SIZE;
       controller.status = null;
       controller.sessionId = null;
+      controller.startDate = null;
+      controller.endDate = null;
     }
   }
 

@@ -1,6 +1,4 @@
-import PixButtonLink from '@1024pix/pix-ui/components/pix-button-link';
-import PixIconButton from '@1024pix/pix-ui/components/pix-icon-button';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { PixButtonLink, PixIconButton, PixTooltip } from '@1024pix/nebulix-ember';
 import isClipboardSupported from 'ember-cli-clipboard/helpers/is-clipboard-supported';
 import t from 'ember-intl/helpers/t';
 

@@ -62,6 +62,9 @@ describe('Integration | DevComp | Repositories | ModuleMetadataRepository', func
           duration: firstModule.details.duration,
           image: firstModule.details.image,
           visibility: firstModule.visibility,
+          level: firstModule.details.level,
+          description: firstModule.details.description,
+          objectives: firstModule.details.objectives,
         }),
         new ModuleMetadata({
           id: secondModule.id,
@@ -72,6 +75,9 @@ describe('Integration | DevComp | Repositories | ModuleMetadataRepository', func
           duration: secondModule.details.duration,
           image: secondModule.details.image,
           visibility: secondModule.visibility,
+          level: secondModule.details.level,
+          description: secondModule.details.description,
+          objectives: secondModule.details.objectives,
         }),
       ];
       expect(modules).to.have.lengthOf(2);
@@ -125,6 +131,9 @@ describe('Integration | DevComp | Repositories | ModuleMetadataRepository', func
           duration: firstModule.details.duration,
           image: firstModule.details.image,
           visibility: firstModule.visibility,
+          level: firstModule.details.level,
+          description: firstModule.details.description,
+          objectives: firstModule.details.objectives,
         }),
         new ModuleMetadata({
           id: secondModule.id,
@@ -135,6 +144,9 @@ describe('Integration | DevComp | Repositories | ModuleMetadataRepository', func
           duration: secondModule.details.duration,
           image: secondModule.details.image,
           visibility: secondModule.visibility,
+          level: secondModule.details.level,
+          description: secondModule.details.description,
+          objectives: secondModule.details.objectives,
         }),
       ];
       expect(modules).to.have.lengthOf(2);
@@ -176,6 +188,9 @@ describe('Integration | DevComp | Repositories | ModuleMetadataRepository', func
         duration: existingModule.details.duration,
         image: existingModule.details.image,
         visibility: existingModule.visibility,
+        level: existingModule.details.level,
+        description: existingModule.details.description,
+        objectives: existingModule.details.objectives,
       });
 
       expect(moduleMetadata).to.be.instanceOf(ModuleMetadata);
@@ -217,6 +232,9 @@ describe('Integration | DevComp | Repositories | ModuleMetadataRepository', func
         duration: existingModule.details.duration,
         image: existingModule.details.image,
         visibility: existingModule.visibility,
+        level: existingModule.details.level,
+        description: existingModule.details.description,
+        objectives: existingModule.details.objectives,
       });
 
       expect(moduleMetadata).to.be.instanceOf(ModuleMetadata);
@@ -266,6 +284,9 @@ describe('Integration | DevComp | Repositories | ModuleMetadataRepository', func
           duration: secondModule.details.duration,
           image: secondModule.details.image,
           visibility: secondModule.visibility,
+          level: secondModule.details.level,
+          description: secondModule.details.description,
+          objectives: secondModule.details.objectives,
         }),
         new ModuleMetadata({
           id: firstModule.id,
@@ -276,6 +297,9 @@ describe('Integration | DevComp | Repositories | ModuleMetadataRepository', func
           duration: firstModule.details.duration,
           image: firstModule.details.image,
           visibility: firstModule.visibility,
+          level: firstModule.details.level,
+          description: firstModule.details.description,
+          objectives: firstModule.details.objectives,
         }),
       ];
 
@@ -310,6 +334,9 @@ describe('Integration | DevComp | Repositories | ModuleMetadataRepository', func
           duration: publicModule.details.duration,
           image: publicModule.details.image,
           visibility: publicModule.visibility,
+          level: publicModule.details.level,
+          description: publicModule.details.description,
+          objectives: publicModule.details.objectives,
         }),
       ];
 

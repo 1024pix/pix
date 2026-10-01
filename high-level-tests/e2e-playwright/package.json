@@ -1,6 +1,6 @@
 {
   "name": "e2e-playwright",
-  "version": "1.394.0",
+  "version": "1.396.0",
   "type": "module",
   "private": true,
   "description": "Permet d'exécuter des tests de bout en bout sur la plateforme Pix",
@@ -39,7 +39,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.0.0",
     "@types/pngjs": "^6.0.5",
-    "baseline-browser-mapping": "^2.11.21",
+    "baseline-browser-mapping": "^2.11.25",
     "dotenv": "^17.0.0",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^10.1.8",

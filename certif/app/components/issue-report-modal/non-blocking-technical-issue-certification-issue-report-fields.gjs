@@ -1,7 +1,4 @@
-import PixIcon from '@1024pix/pix-ui/components/pix-icon';
-import PixNotificationAlert from '@1024pix/pix-ui/components/pix-notification-alert';
-import PixTextarea from '@1024pix/pix-ui/components/pix-textarea';
-import PixTooltip from '@1024pix/pix-ui/components/pix-tooltip';
+import { PixIcon, PixNotificationAlert, PixTextarea, PixTooltip } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import t from 'ember-intl/helpers/t';
