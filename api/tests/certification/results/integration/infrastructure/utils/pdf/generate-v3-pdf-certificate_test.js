@@ -180,8 +180,77 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
       expect(text).to.deep.equal(expectedText);
     });
 
+    it('should generate a second page with competences results', async function () {
+      // given
+      const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
+        competenceTree: domainBuilder.buildCompetenceTree({
+          areas: [
+            domainBuilder.buildArea({
+              code: '1',
+              color: '#1B4F9C',
+              competences: [
+                domainBuilder.buildCompetence({ id: 'comp1', index: '1.1' }),
+                domainBuilder.buildCompetence({ id: 'comp2', index: '1.2' }),
+              ],
+            }),
+          ],
+        }),
+        competenceMarks: [domainBuilder.buildCompetenceMark({ competence_code: '1.1', level: 3 })],
+      });
+      const certificates = [
+        domainBuilder.certification.results.buildCertificate({
+          firstName: 'Alain',
+          lastName: 'Cendy',
+          pixScore: 256,
+          resultCompetenceTree,
+        }),
+      ];
+
+      // when
+      const pdfStream = await generate({ certificates, i18n });
+      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+
+      // then
+      expect(pdfBuffer.toString()).to.contain('/Type /Pages\n/Count 2');
+      const parsedPdf = await getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
+      const page2 = await parsedPdf.getPage(2);
+      // pdfjs-dist extracts justified text word-by-word (no trailing spaces), join(' ') produces
+      // double spaces — normalize to make substring assertions reliable
+      const content = (await page2.getTextContent()).items
+        .map((item) => item.str)
+        .join(' ')
+        .replace(/\s+/g, ' ');
+
+      expect(content).to.include('Alain Cendy');
+      expect(content).to.include('256');
+      expect(content).to.include(translate('certification.certificate.v3.competence-results.areas.1.label'));
+
+      expect(content).to.include(translate('certification.certificate.v3.competence-results.level-tag') + '3');
+      expect(content).to.include(
+        translate('certification.certificate.v3.competence-results.areas.1.competences.1.levels.3'),
+      );
+
+      expect(content).to.include(translate('certification.certificate.v3.competence-results.level-not-obtained'));
+      expect(content).to.not.include(
+        translate('certification.certificate.v3.competence-results.areas.1.competences.2.levels.3'),
+      );
+    });
+
+    it('should not generate the competences page for a non-french locale', async function () {
+      // given
+      const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
+      const certificates = [domainBuilder.certification.results.buildCertificate({ resultCompetenceTree })];
+
+      // when
+      const pdfStream = await generate({ certificates, i18n: getI18n('en') });
+      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+
+      // then
+      expect(pdfBuffer.toString()).to.contain('/Type /Pages\n/Count 1');
+    });
+
     describe('when the candidate global level is pre beginner (pix score under 64)', function () {
-      it('should display data content without global level information', async function () {
+      it('should display data content without global level information and no competence page', async function () {
         // given
         const certificates = [
           domainBuilder.certification.results.buildCertificate({
@@ -210,6 +279,7 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
 
         // then
         const parsedPdf = await getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
+        expect(parsedPdf.numPages).to.equal(1);
 
         const page = await parsedPdf.getPage(1);
         const text = await page.getTextContent();

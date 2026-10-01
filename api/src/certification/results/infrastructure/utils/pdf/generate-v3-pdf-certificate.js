@@ -30,6 +30,10 @@ export async function generate({ certificates, i18n }) {
 
   doc.registerFont('Nunito-Bold', `${__dirname}/../../../../../shared/infrastructure/utils/pdf/fonts/Nunito-Bold.ttf`);
   doc.registerFont(
+    'OpenSans-SemiBold',
+    `${__dirname}/../../../../../shared/infrastructure/utils/pdf/fonts/OpenSans-SemiBold.ttf`,
+  );
+  doc.registerFont(
     'Roboto-Regular',
     `${__dirname}/../../../../../shared/infrastructure/utils/pdf/fonts/Roboto-Regular.ttf`,
   );
@@ -50,6 +54,7 @@ export async function generate({ certificates, i18n }) {
         pdf: doc,
         data: certificate,
         translate: i18n.__,
+        locale: i18n.getLocale(),
       });
     } else {
       await generateV3PixPlusCertificateTemplate({

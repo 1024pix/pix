@@ -6,8 +6,10 @@ import * as url from 'node:url';
 
 import dayjs from 'dayjs';
 
+import { FRENCH_SPOKEN } from '../../../../../../shared/domain/services/locale-service.js';
 import { ComplementaryCertificationKeys } from '../../../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { CERTIFICATE_LABEL_CONTEXTS } from '../../../../domain/models/v3/CertificateMeshLevel.js';
+import generateV3CompetencesTemplate from './v3-certificate-competences.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const __badgesDirname = url.fileURLToPath(new URL('../badges/', import.meta.url));
@@ -16,7 +18,7 @@ const __badgesDirname = url.fileURLToPath(new URL('../badges/', import.meta.url)
  * @param {object} params
  * @param {Certificate} params.data
  */
-export default function generateV3CertificateTemplate({ pdf, data, translate }) {
+export default function generateV3CertificateTemplate({ pdf, data, translate, locale }) {
   // Global
   pdf.image(path.resolve(__dirname, 'assets/v3-core-background.jpg'), 0, 0, {
     width: pdf.page.width,
@@ -177,6 +179,10 @@ export default function generateV3CertificateTemplate({ pdf, data, translate }) 
       width: 50,
       height: 50,
     });
+  }
+
+  if (data.resultCompetenceTree && locale === FRENCH_SPOKEN) {
+    generateV3CompetencesTemplate({ pdf, data, translate });
   }
 }
 
