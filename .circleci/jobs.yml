@@ -91,7 +91,7 @@ executors:
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_INITDB_ARGS: '--nosync'
       - image: redis:7.2.11-alpine
-      - image: adobe/s3mock:5.1.0@sha256:65cf60155a2e235fe7d5bf6c633747d6fc7ed93f9f5a6727d86470026b83c2a2
+      - image: adobe/s3mock:5.2.3@sha256:ab01a6946750f451ca215a47e91030695b260e4003b8a5a6201d25029b8fca92
         environment:
           COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: 'pix-import-test,pix-answers-history-export-test'
     resource_class: medium
@@ -150,7 +150,7 @@ executors:
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_INITDB_ARGS: '--nosync'
       - image: redis:7.2.11-alpine
-      - image: adobe/s3mock:5.1.0@sha256:65cf60155a2e235fe7d5bf6c633747d6fc7ed93f9f5a6727d86470026b83c2a2
+      - image: adobe/s3mock:5.2.3@sha256:ab01a6946750f451ca215a47e91030695b260e4003b8a5a6201d25029b8fca92
         environment:
           COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: 'pix-import-test,pix-answers-history-export-test'
     resource_class: medium
@@ -167,7 +167,7 @@ executors:
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_INITDB_ARGS: '--nosync'
       - image: redis:7.2.11-alpine
-      - image: adobe/s3mock:5.1.0@sha256:65cf60155a2e235fe7d5bf6c633747d6fc7ed93f9f5a6727d86470026b83c2a2
+      - image: adobe/s3mock:5.2.3@sha256:ab01a6946750f451ca215a47e91030695b260e4003b8a5a6201d25029b8fca92
         environment:
           COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: 'pix-import-test,pix-answers-history-export-test'
     resource_class: large
