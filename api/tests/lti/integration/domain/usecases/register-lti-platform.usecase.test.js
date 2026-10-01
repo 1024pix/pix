@@ -7,7 +7,7 @@ import { ltiPlatformRegistrationRepository } from '../../../../../src/lti/infras
 import { knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
-describe('Integration | lti | Domain | Usecases | register-lti-platform', function () {
+describe('Integration | LTI | Domain | Usecases | register-lti-platform', function () {
   it('discovers platform’s open ID configuration and register Pix configuration on the platform', async function () {
     // given
     const { platformOpenIdConfig, platformOpenIdConfigUrl, platformOrigin, toolConfig } =

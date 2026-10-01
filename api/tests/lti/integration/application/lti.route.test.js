@@ -3,11 +3,11 @@ import querystring from 'node:querystring';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { ltiRoutes } from '../../../../src/lti/application/lti.route.js';
 import { usecases } from '../../../../src/lti/domain/usecases/index.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
-import { ltiRoutes } from '../../../../src/lti/application/lti.route.js';
 
-describe('Integration | lti | Application | Route', function () {
+describe('Integration | LTI | Application | Route', function () {
   let httpTestServer;
 
   beforeEach(async function () {

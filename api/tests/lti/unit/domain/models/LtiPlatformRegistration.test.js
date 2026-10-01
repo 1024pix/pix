@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
-describe('Unit | lti | Domain | Model | LtiPlatformRegistration', function () {
+describe('Unit | LTI | Domain | Model | LtiPlatformRegistration', function () {
   describe('#fetchPlatformOpenIdConfig', function () {
     it('should fetch platform config using httpAgent', async function () {
       // given

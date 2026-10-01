@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { ltiRoutes } from '../../../../src/lti/application/lti.route.js';
 
-describe('Unit | lti | Application | Routes', function () {
+describe('Unit | LTI | Application | Routes', function () {
   let featureToggles, server;
 
   beforeEach(function () {
@@ -12,7 +12,7 @@ describe('Unit | lti | Application | Routes', function () {
   });
 
   context('when isLtiEnabled feature toggle is true', function () {
-    it('registers lti routes', async function () {
+    it('registers LTI routes', async function () {
       // given
       featureToggles.get.withArgs('isLtiEnabled').resolves(true);
       const dependencies = { featureToggles };
@@ -26,7 +26,7 @@ describe('Unit | lti | Application | Routes', function () {
   });
 
   context('when isLtiEnabled feature toggle is false', function () {
-    it('does not register lti routes', async function () {
+    it('does not register LTI routes', async function () {
       // given
       featureToggles.get.withArgs('isLtiEnabled').resolves(false);
       const dependencies = { featureToggles };

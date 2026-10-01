@@ -5,7 +5,7 @@ import { cryptoService } from '../../../../../src/shared/domain/services/crypto-
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
-describe('Integration | lti | Infrastructure | Repository | lti-platform-registration', function () {
+describe('Integration | LTI | Infrastructure | Repository | lti-platform-registration', function () {
   describe('#findByClientId', function () {
     it('returns LTI platform registration information', async function () {
       // given
