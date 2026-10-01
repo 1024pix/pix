@@ -5,6 +5,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
 import { and } from 'ember-truth-helpers';
+import startCase from 'lodash/startCase';
 import InfoBar from 'mon-pix/components/ui/assessment/info-bar';
 
 export default class AssessmentBanner extends Component {
@@ -30,6 +31,14 @@ export default class AssessmentBanner extends Component {
         });
       }
     });
+  }
+
+  get candidateFullName() {
+    if (!this.isCertification) return null;
+
+    const firstName = this.args.assessment.certificationCourse.get('firstName');
+    const lastName = this.args.assessment.certificationCourse.get('lastName');
+    return `${startCase(firstName)} ${lastName.toUpperCase()}`;
   }
 
   get isCertification() {
@@ -75,7 +84,7 @@ export default class AssessmentBanner extends Component {
   }
 
   get title() {
-    return this.isCertification ? null : this.args?.assessment?.title;
+    return this.isCertification ? this.candidateFullName : this.args?.assessment?.title;
   }
 
   get textToSpeechTooltipText() {
@@ -105,7 +114,9 @@ export default class AssessmentBanner extends Component {
           {{#if this.title}}
             <span class="assessment-banner__separator" />
             <h1 class="assessment-banner__text">
-              <span class="sr-only">{{t "pages.assessment-banner.title"}}</span>
+              {{#unless this.isCertification}}<span class="sr-only">{{t
+                    "pages.assessment-banner.title"
+                  }}</span>{{/unless}}
               {{this.title}}
             </h1>
           {{/if}}

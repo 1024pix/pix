@@ -25,9 +25,23 @@ module('Integration | Component | Ui | Assessment | Certification Banner', funct
       certificationNumber: 1234,
       certificationCourse: store.createRecord('certification-course', {
         nbChallenges,
+        firstName: 'Pouet-pouit flop',
+        lastName: 'miaou',
       }),
     });
   }
+
+  test('should render component with user fullName', async function (assert) {
+    //given
+    const store = this.owner.lookup('service:store');
+    const assessment = createCertificationAssessment(store);
+
+    // when
+    const screen = await render(<template><AssessmentBanner @assessment={{assessment}} /></template>);
+
+    // then
+    assert.dom(screen.getByRole('heading', { name: 'Pouet Pouit Flop MIAOU' })).exists();
+  });
 
   test('displays the certification number', async function (assert) {
     // given
