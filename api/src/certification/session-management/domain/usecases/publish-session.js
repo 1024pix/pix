@@ -1,3 +1,4 @@
+import { SessionPublishedEvent } from '../../../../../src/shared/domain/events/SessionPublishedEvent.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
 import { CertificationCourseNotPublishableError, SessionAlreadyPublishedError } from '../errors.js';
@@ -7,6 +8,7 @@ export async function publishSession({
   certificationRepository,
   finalizedSessionRepository,
   sessionManagementRepository,
+  eventJobPublisherService,
 }) {
   const session = await sessionManagementRepository.get({ id: sessionId });
   if (!session) {
@@ -29,6 +31,9 @@ export async function publishSession({
     publishedAt: finalizedSession.publishedAt,
   });
   await sessionManagementRepository.updatePublishedAt({ id: sessionId, publishedAt: finalizedSession.publishedAt });
+
+  const sessionPublishedEvent = new SessionPublishedEvent({ sessionId, publishedAt: finalizedSession.publishedAt });
+  await eventJobPublisherService.publishEvent(sessionPublishedEvent);
 }
 
 async function updateFinalizedSession(finalizedSessionRepository, sessionId) {

@@ -1,11 +1,5 @@
-/**
- * @typedef {import('../../../../../src/certification/session-management/domain/usecases/index.js').CertificationRepository} CertificationRepository
- * @typedef {import('../../../../../src/certification/session-management/domain/usecases/index.js').MailService} MailService
- * @typedef {import('../../../../../src/certification/session-management/domain/usecases/index.js').SessionManagementRepository} SessionManagementRepository
- */
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { SendingEmailToRefererError, SendingEmailToResultRecipientError } from '../errors.js';
-import { mailService } from '../services/mail-service.js';
 
 export async function sendCleaSessionResultsToReferers({
   sessionId,
@@ -42,21 +36,18 @@ export async function sendCleaSessionResultsToReferers({
   }
 }
 
-/**
- * @param {object} params
- * @param {certificationCenterRepository} params.certificationCenterRepository
- * @param {SessionManagementRepository} params.sessionManagementRepository
- * @param {Array<number>} params.startedCertificationCoursesUserIds
- * @param {object} params.dependencies
- * @param {mailService} params.dependencies.mailService
- */
-async function manageEmails({
-  session,
-  publishedAt,
+export async function sendSessionResultsToPrescribers({
+  sessionId,
+  certificationRepository,
   sessionManagementRepository,
-  startedCertificationCoursesUserIds,
-  dependencies = { mailService },
+  mailService,
 }) {
+  const session = await sessionManagementRepository.get({ id: sessionId });
+
+  const startedCertificationCoursesUserIds = (await certificationRepository.getStatusesBySessionId(sessionId)).map(
+    ({ userId }) => userId,
+  );
+
   const recipientEmails = _distinctCandidatesResultRecipientEmails(
     session.certificationCandidates,
     startedCertificationCoursesUserIds,
@@ -64,7 +55,7 @@ async function manageEmails({
 
   const emailingAttempts = [];
   for (const recipientEmail of recipientEmails) {
-    const emailingAttempt = await dependencies.mailService.sendCertificationResultEmail({
+    const emailingAttempt = await mailService.sendCertificationResultEmail({
       email: recipientEmail,
       sessionId: session.id,
       sessionDate: session.date,
@@ -75,15 +66,15 @@ async function manageEmails({
     emailingAttempts.push(emailingAttempt);
   }
 
-  if (_someHaveSucceeded(prescribersEmailingAttempts) && _noneHaveFailed(prescribersEmailingAttempts)) {
+  if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {
     await sessionManagementRepository.flagResultsAsSentToPrescriber({
       id: session.id,
-      resultsSentToPrescriberAt: publishedAt,
+      resultsSentToPrescriberAt: session.publishedAt,
     });
   }
 
-  if (_someHaveFailed(prescribersEmailingAttempts)) {
-    const failedEmailsRecipients = _failedAttemptsEmail(prescribersEmailingAttempts);
+  if (_someHaveFailed(emailingAttempts)) {
+    const failedEmailsRecipients = _failedAttemptsEmail(emailingAttempts);
     throw new SendingEmailToResultRecipientError(failedEmailsRecipients);
   }
 }
@@ -114,5 +105,3 @@ function _someHaveFailed(emailingAttempts) {
 function _failedAttemptsEmail(emailingAttempts) {
   return emailingAttempts.filter((emailAttempt) => emailAttempt.hasFailed()).map((emailAttempt) => emailAttempt.email);
 }
-
-export { manageEmails };
