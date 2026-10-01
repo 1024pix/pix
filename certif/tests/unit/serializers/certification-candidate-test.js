@@ -20,6 +20,7 @@ module('Unit | Serializer | certification-candidate', function (hooks) {
       birthInseeCode: 76255,
       birthPostalCode: 76260,
       sex: 'F',
+      hasStartedTest: true,
     });
     const snapshot = record._createSnapshot();
 
@@ -37,6 +38,7 @@ module('Unit | Serializer | certification-candidate', function (hooks) {
     assert.strictEqual(json.data.attributes['birth-insee-code'], '76255');
     assert.strictEqual(json.data.attributes['birth-postal-code'], '76260');
     assert.strictEqual(json.data.attributes.sex, 'F');
-    assert.notPropContains(json.data.attributes, { ['accessibility-adjustment-needed']: undefined });
+    assert.false('accessibility-adjustment-needed' in json.data.attributes);
+    assert.false('has-started-test' in json.data.attributes);
   });
 });
