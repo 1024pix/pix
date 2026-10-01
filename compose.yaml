@@ -14,7 +14,7 @@ services:
       - '${PIX_CACHE_PORT:-6379}:6379'
 
   s3:
-    image: adobe/s3mock:5.1.0@sha256:65cf60155a2e235fe7d5bf6c633747d6fc7ed93f9f5a6727d86470026b83c2a2
+    image: adobe/s3mock:5.2.3@sha256:ab01a6946750f451ca215a47e91030695b260e4003b8a5a6201d25029b8fca92
     container_name: pix-api-s3
     environment:
       - COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS=pix-import-dev, pix-import-test, pix-attestations-dev, pix-attestations-test, pix-answers-history-export-test
