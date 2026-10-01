@@ -1,7 +1,5 @@
-import { featureToggles } from '../../shared/infrastructure/feature-toggles/index.js';
 import { accountRecoveryRoutes } from './account-recovery/account-recovery.route.js';
 import { anonymizationAdminRoutes } from './anonymization/anonymization.admin.route.js';
-import { ltiRoutes } from './lti/lti.route.js';
 import { oidcProviderAdminRoutes } from './oidc-provider/oidc-provider.admin.route.js';
 import { oidcProviderRoutes } from './oidc-provider/oidc-provider.route.js';
 import { passwordRoutes } from './password/password.route.js';
@@ -22,9 +20,8 @@ const allRoutes = [
   ...userRoutes,
 ];
 
-async function register(server, { tags }, dependencies = { allRoutes, ltiRoutes, featureToggles }) {
-  const isLtiEnabled = await dependencies.featureToggles.get('isLtiEnabled');
-  const routes = isLtiEnabled ? [...dependencies.allRoutes, ...dependencies.ltiRoutes] : dependencies.allRoutes;
+async function register(server, { tags }, dependencies = { allRoutes }) {
+  const routes = dependencies.allRoutes;
 
   if (!tags) {
     server.route(routes);

@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
-import { ltiController } from '../../../lti/application/lti.controller.js';
+import { ltiController } from './lti.controller.js';
 
-export const ltiRoutes = [
+export const ltiRoute = [
   {
     method: 'GET',
     path: '/api/lti/keys',
@@ -11,7 +11,7 @@ export const ltiRoutes = [
       cache: false,
       handler: (request, h) => ltiController.listPublicKeys(request, h),
       notes: ['Cette route renvoie une liste contenant les public keys des plateformes actives'],
-      tags: ['identity-access-management', 'api', 'lti'],
+      tags: ['api', 'lti'],
     },
   },
   {
@@ -28,7 +28,7 @@ export const ltiRoutes = [
       },
       handler: (request, h) => ltiController.register(request, h),
       notes: ["Cette route réalise une demande d'enregistrement d'une plateforme."],
-      tags: ['identity-access-management', 'api', 'lti'],
+      tags: ['api', 'lti'],
     },
   },
   {
@@ -39,7 +39,7 @@ export const ltiRoutes = [
       cache: false,
       handler: (request, h) => ltiController.init(request, h),
       notes: ['Cette route initialise un workflow LTI'],
-      tags: ['identity-access-management', 'api', 'lti'],
+      tags: ['api', 'lti'],
     },
   },
   {
@@ -49,7 +49,7 @@ export const ltiRoutes = [
       auth: false,
       cache: false,
       handler: (request, h) => ltiController.launch(request, h),
-      tags: ['identity-access-management', 'api', 'lti'],
+      tags: ['api', 'lti'],
     },
   },
 ];

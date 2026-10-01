@@ -1,0 +1,5 @@
+{
+  "name": "lti",
+  "dependsOn": ["shared"],
+  "circular": "forbidden"
+}
