@@ -257,7 +257,7 @@ export default class AssociateSupStudentForm extends Component {
       firstName: this.firstName,
       lastName: this.lastName,
       birthdate: this.birthdate,
-      campaignCode: this.args.campaignCode,
+      organizationId: this.args.organizationId,
     });
 
     try {

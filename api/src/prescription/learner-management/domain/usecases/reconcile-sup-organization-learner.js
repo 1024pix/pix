@@ -1,21 +1,13 @@
-import { NotFoundError } from '../../../../shared/domain/errors.js';
-
 const reconcileSupOrganizationLearner = async function ({
-  campaignCode,
+  organizationId,
   reconciliationInfo: { userId, studentNumber, firstName, lastName, birthdate },
-  campaignRepository,
   supOrganizationLearnerRepository,
   organizationLearnerRepository,
   userReconciliationService,
 }) {
-  const campaign = await campaignRepository.getByCode(campaignCode);
-  if (!campaign) {
-    throw new NotFoundError();
-  }
-
   const matchedOrganizationLearner =
     await userReconciliationService.findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser({
-      organizationId: campaign.organizationId,
+      organizationId,
       reconciliationInfo: { studentNumber, firstName, lastName, birthdate },
       supOrganizationLearnerRepository,
     });

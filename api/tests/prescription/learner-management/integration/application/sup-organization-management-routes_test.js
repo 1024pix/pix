@@ -21,7 +21,7 @@ describe('Integration | Application | Route | sup-organization-learners', functi
     const method = 'POST';
     const url = '/api/sup-organization-learners/association';
 
-    context('User association with studentNumber, firstName, lastName, birthdate and campaignCode', function () {
+    context('User association with studentNumber, firstName, lastName, birthdate and organizationId', function () {
       it('should succeed', async function () {
         // given
         const payload = {
@@ -31,7 +31,7 @@ describe('Integration | Application | Route | sup-organization-learners', functi
               'first-name': 'Robert',
               'last-name': 'Smith',
               birthdate: '2012-12-12',
-              'campaign-code': 'RESTRICTD',
+              'organization-id': 123,
             },
           },
         };
@@ -52,7 +52,7 @@ describe('Integration | Application | Route | sup-organization-learners', functi
               'first-name': 'Robert ',
               'last-name': 'Smith ',
               birthdate: '2012-12-12',
-              'campaign-code': 'RESTRICTD',
+              'organization-id': 123,
             },
           },
         };
@@ -83,7 +83,7 @@ describe('Integration | Application | Route | sup-organization-learners', functi
               'first-name': 'Robert',
               'last-name': 'Smith',
               birthdate: '2012-12-12',
-              'campaign-code': 'RESTRICTD',
+              'organization-id': 123,
             },
           },
         };
@@ -105,7 +105,7 @@ describe('Integration | Application | Route | sup-organization-learners', functi
               'first-name': INVALID_FIRSTNAME,
               'last-name': 'Smith',
               birthdate: '2012-12-12',
-              'campaign-code': 'RESTRICTD',
+              'organization-id': 123,
             },
           },
         };
@@ -127,7 +127,7 @@ describe('Integration | Application | Route | sup-organization-learners', functi
               'first-name': 'Robert',
               'last-name': INVALID_LASTNAME,
               birthdate: '2012-12-12',
-              'campaign-code': 'RESTRICTD',
+              'organization-id': 123,
             },
           },
         };
@@ -151,7 +151,7 @@ describe('Integration | Application | Route | sup-organization-learners', functi
               'first-name': 'Robert',
               'last-name': 'Smith',
               birthdate: INVALID_BIRTHDATE,
-              'campaign-code': 'RESTRICTD',
+              'organization-id': 123,
             },
           },
         };
@@ -173,7 +173,7 @@ describe('Integration | Application | Route | sup-organization-learners', functi
               'first-name': 'Robert',
               'last-name': 'Smith',
               birthdate: INVALID_BIRTHDATE,
-              'campaign-code': 'RESTRICTD',
+              'organization-id': 123,
             },
           },
         };
@@ -195,29 +195,7 @@ describe('Integration | Application | Route | sup-organization-learners', functi
               'first-name': 'Robert',
               'last-name': 'Smith',
               birthdate: INVALID_BIRTHDATE,
-              'campaign-code': 'RESTRICTD',
-            },
-          },
-        };
-
-        // when
-        const response = await httpTestServer.request(method, url, payload);
-
-        // then
-        expect(response.statusCode).to.equal(422);
-      });
-
-      it('should return an error when there is an invalid campaign code attribute in the payload', async function () {
-        // given
-        const INVALID_CAMPAIGNCODE = '';
-        const payload = {
-          data: {
-            attributes: {
-              'student-number': 'F001',
-              'first-name': 'Robert',
-              'last-name': 'Smith',
-              birthdate: '2012-12-12',
-              'campaign-code': INVALID_CAMPAIGNCODE,
+              'organization-id': 123,
             },
           },
         };

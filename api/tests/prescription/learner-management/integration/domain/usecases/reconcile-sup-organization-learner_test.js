@@ -12,20 +12,6 @@ import { catchErr } from '../../../../../tooling/test-utils/error.js';
 describe('Integration | UseCases | reconcile-sup-organization-learner', function () {
   let userId;
   let organizationId;
-  let campaignCode;
-
-  context('When there is no campaign with the given code', function () {
-    it('should throw a campaign code error', async function () {
-      // when
-      const error = await catchErr(usecases.reconcileSupOrganizationLearner)({
-        campaignCode: 'NOTEXIST',
-        reconciliationInfo: {},
-      });
-
-      // then
-      expect(error).to.be.instanceof(NotFoundError);
-    });
-  });
 
   context('When there is a campaign with the given code', function () {
     beforeEach(async function () {
@@ -35,7 +21,6 @@ describe('Integration | UseCases | reconcile-sup-organization-learner', function
         birthdate: '2010-12-12',
       }).id;
       organizationId = databaseBuilder.factory.buildOrganization().id;
-      campaignCode = databaseBuilder.factory.buildCampaign({ organizationId }).code;
 
       await databaseBuilder.commit();
     });
@@ -57,7 +42,7 @@ describe('Integration | UseCases | reconcile-sup-organization-learner', function
 
           // when
           const error = await catchErr(usecases.reconcileSupOrganizationLearner)({
-            campaignCode,
+            organizationId,
             reconciliationInfo,
             userReconciliationService,
           });
@@ -89,7 +74,7 @@ describe('Integration | UseCases | reconcile-sup-organization-learner', function
 
           // when
           await usecases.reconcileSupOrganizationLearner({
-            campaignCode,
+            organizationId,
             reconciliationInfo,
             userReconciliationService,
           });
@@ -121,7 +106,7 @@ describe('Integration | UseCases | reconcile-sup-organization-learner', function
 
           // when
           const error = await catchErr(usecases.reconcileSupOrganizationLearner)({
-            campaignCode,
+            organizationId,
             reconciliationInfo,
             userReconciliationService,
           });

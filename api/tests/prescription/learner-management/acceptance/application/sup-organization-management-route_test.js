@@ -20,7 +20,6 @@ describe('Acceptance | Application | organization-controller-sup-organization-le
 
   describe('POST /api/sup-organization-learners/association', function () {
     let organization;
-    let campaign;
     let options;
     let user;
 
@@ -35,7 +34,6 @@ describe('Acceptance | Application | organization-controller-sup-organization-le
 
       user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization();
-      campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
       databaseBuilder.factory.buildOrganizationLearner({
         firstName: 'Jean',
         lastName: 'Michel',
@@ -48,7 +46,7 @@ describe('Acceptance | Application | organization-controller-sup-organization-le
       await databaseBuilder.commit();
     });
 
-    it('should return an 204 status after updating higher organization learner', async function () {
+    it('should return a 204 status after updating higher organization learner', async function () {
       // given
       options.headers = generateAuthenticatedUserRequestHeaders({ userId: user.id });
       options.payload.data = {
@@ -57,7 +55,7 @@ describe('Acceptance | Application | organization-controller-sup-organization-le
           'first-name': 'Jean',
           'last-name': 'Michel',
           birthdate: '2010-01-01',
-          'campaign-code': campaign.code,
+          'organization-id': organization.id,
         },
         type: 'sup-organization-learners',
       };

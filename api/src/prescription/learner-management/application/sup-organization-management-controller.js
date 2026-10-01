@@ -101,7 +101,7 @@ const reconcileSupOrganizationLearner = async function (request, h) {
   const userId = request.auth.credentials.userId;
   const payload = request.payload.data.attributes;
 
-  const campaignCode = payload['campaign-code'];
+  const organizationId = payload['organization-id'];
 
   const reconciliationInfo = {
     userId,
@@ -111,7 +111,7 @@ const reconcileSupOrganizationLearner = async function (request, h) {
     birthdate: payload['birthdate'],
   };
 
-  await usecases.reconcileSupOrganizationLearner({ campaignCode, reconciliationInfo });
+  await usecases.reconcileSupOrganizationLearner({ organizationId, reconciliationInfo });
 
   return h.response(null).code(204);
 };
