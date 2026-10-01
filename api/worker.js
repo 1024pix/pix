@@ -2,6 +2,7 @@ import { schema as configSchema } from './config/config.js';
 import { databaseConnectionRegistry } from './db/database-connection-registry.js';
 import { checkJobGroups, JobGroup } from './src/shared/application/jobs/job-controller.js';
 import { learningContentCache } from './src/shared/infrastructure/caches/learning-content-redis-cache.js';
+import { startHeapProfileListener } from './src/shared/infrastructure/heap-profile/heap-profile-listener.js';
 import { JobClient } from './src/shared/infrastructure/jobs/JobClient.js';
 import { releaseInfrastructure } from './src/shared/infrastructure/release-infrastructure.js';
 import { child } from './src/shared/infrastructure/utils/logger.js';
@@ -25,6 +26,8 @@ async function main() {
   await learningContentCache.connect();
 
   await JobClient.instance.initialize({ worker: true, jobGroups });
+
+  startHeapProfileListener();
 
   process.on('SIGTERM', async () => {
     await exitOnSignal('SIGTERM');
