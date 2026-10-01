@@ -2,8 +2,9 @@ import { createPublicKey } from 'node:crypto';
 
 import jsonwebtoken from 'jsonwebtoken';
 
-import { config } from '../../../config/config.js';
+import { BadRequestError } from '../../shared/application/errors/http-errors.js';
 import { cryptoService } from '../../shared/domain/services/crypto-service.js';
+import * as urlService from '../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../shared/infrastructure/http-agent.js';
 import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
 import { usecases } from '../domain/usecases/index.js';
@@ -43,7 +44,12 @@ async function register(request, h, dependencies = { registerLtiPlatform: usecas
 async function init(request, h, dependencies = { ltiPlatformRegistrationRepository, httpAgent }) {
   logger.info({ payload: request.payload }, 'Init');
 
-  const { client_id: clientId, login_hint: loginHint, lti_message_hint: ltiMessageHint } = request.payload;
+  const {
+    client_id: clientId,
+    login_hint: loginHint,
+    lti_message_hint: ltiMessageHint,
+    target_link_uri: targetLinkUri,
+  } = request.payload;
 
   const registration = await dependencies.ltiPlatformRegistrationRepository.findByClientId(clientId);
 
@@ -76,7 +82,7 @@ async function init(request, h, dependencies = { ltiPlatformRegistrationReposito
   return h
     .response(
       ltiInitializationSerializer.serialize({
-        baseUrl: config.baseUrl,
+        targetLinkUri,
         clientId,
         loginHint,
         ltiMessageHint,
@@ -88,7 +94,42 @@ async function init(request, h, dependencies = { ltiPlatformRegistrationReposito
     .header('Content-Type', 'text/html; charset=utf-8');
 }
 
-async function launch(request, h, dependencies = { ltiPlatformRegistrationRepository, httpAgent }) {
+async function deepLink(request, h) {
+  const { verifiedToken, registration } = await preLaunch(request);
+
+  const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
+
+  if (messageType === 'LtiDeepLinkingRequest') {
+    const deepLinkUrl =
+      verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'].deep_link_return_url;
+
+    const jwtResponse = await encodeDeepLinkingResponse(verifiedToken, deepLinkUrl, registration);
+
+    return h
+      .response(ltiDeepLinkingSerializer.serialize({ deepLinkUrl, jwtResponse }))
+      .header('Content-Type', 'text/html; charset=utf-8');
+  }
+}
+
+async function resourceLink(request, h, dependencies = { urlService }) {
+  const { verifiedToken, registration } = await preLaunch(request);
+
+  const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
+
+  if (messageType === 'LtiResourceLinkRequest') {
+    await sendScoring(verifiedToken, registration);
+
+    const campaignCode = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom'].campaign_code;
+
+    const campaignUrl = dependencies.urlService.getPixAppUrl('fr-FR', { pathname: `/campagnes/${campaignCode}` });
+
+    return h.redirect(campaignUrl);
+  }
+}
+
+export const ltiController = { listPublicKeys, register, init, deepLink, resourceLink };
+
+async function preLaunch(request, dependencies = { ltiPlatformRegistrationRepository, httpAgent }) {
   const encodedToken = request.payload.id_token;
 
   const decodedToken = jsonwebtoken.decode(encodedToken, { complete: true });
@@ -101,18 +142,12 @@ async function launch(request, h, dependencies = { ltiPlatformRegistrationReposi
 
   if (!registration) {
     logger.warn({ clientId }, 'unknown client id');
-    return h
-      .response(ltiErrorSerializer.serialize({ title: 'Launch error', message: 'Please contact your administrator' }))
-      .header('Content-Type', 'text/html; charset=utf-8')
-      .code(400);
+    throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
   }
 
   if (!registration.isActive) {
     logger.warn({ clientId }, 'registration is not active');
-    return h
-      .response(ltiErrorSerializer.serialize({ title: 'Launch error', message: 'Please contact your administrator' }))
-      .header('Content-Type', 'text/html; charset=utf-8')
-      .code(400);
+    throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
   }
 
   await registration.fetchPlatformOpenIdConfig({ httpAgent: dependencies.httpAgent });
@@ -126,26 +161,7 @@ async function launch(request, h, dependencies = { ltiPlatformRegistrationReposi
 
   const verifiedToken = jsonwebtoken.verify(encodedToken, createPublicKey({ key, format: 'jwk' }));
 
-  const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
-
-  if (messageType === 'LtiResourceLinkRequest') {
-    await sendScoring(verifiedToken, registration);
-
-    const targetLinkUri = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/target_link_uri'];
-
-    return h.redirect(targetLinkUri);
-  }
-
-  if (messageType === 'LtiDeepLinkingRequest') {
-    const deepLinkUrl =
-      verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'].deep_link_return_url;
-
-    const jwtResponse = await encodeDeepLinkingResponse(verifiedToken, deepLinkUrl, registration);
-
-    return h
-      .response(ltiDeepLinkingSerializer.serialize({ deepLinkUrl, jwtResponse }))
-      .header('Content-Type', 'text/html; charset=utf-8');
-  }
+  return { verifiedToken, registration };
 }
 
 async function encodeDeepLinkingResponse(request, deepLinkUrl, registration, dependencies = { cryptoService }) {
@@ -167,7 +183,7 @@ async function encodeDeepLinkingResponse(request, deepLinkUrl, registration, dep
           type: 'ltiResourceLink',
           title: 'Campagne Pix',
           text: 'Campagne PIX dont la note sera envoyée dans Moodle',
-          url: 'http://localhost:4200/campagnes/CONTEN123',
+          custom: { campaign_code: 'AUTOCOUR1' },
           lineItem: {
             scoreMaximum: 100,
           },
@@ -259,5 +275,3 @@ async function getAccessToken(scope, registration, dependencies = { cryptoServic
 
   return res.json();
 }
-
-export const ltiController = { listPublicKeys, register, init, launch };

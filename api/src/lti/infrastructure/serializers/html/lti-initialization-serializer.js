@@ -1,4 +1,4 @@
-function serialize({ baseUrl, clientId, loginHint, ltiMessageHint, authorizationEndpoint, nonce, state }) {
+function serialize({ targetLinkUri, clientId, loginHint, ltiMessageHint, authorizationEndpoint, nonce, state }) {
   return `<!DOCTYPE html>
 <html>
   <body>
@@ -6,7 +6,7 @@ function serialize({ baseUrl, clientId, loginHint, ltiMessageHint, authorization
       <input type="hidden" name="client_id" value="${clientId}">
       <input type="hidden" name="login_hint" value="${loginHint}">
       <input type="hidden" name="scope" value="openid">
-      <input type="hidden" name="redirect_uri" value="${new URL('/api/lti/launch', baseUrl)}">
+      <input type="hidden" name="redirect_uri" value="${targetLinkUri}">
       <input type="hidden" name="nonce" value="${nonce}">
       <input type="hidden" name="state" value="${state}">
       <input type="hidden" name="response_type" value="id_token">

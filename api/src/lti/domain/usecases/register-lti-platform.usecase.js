@@ -43,7 +43,7 @@ function createPixToolConfiguration(baseUrl) {
     jwks_uri: `${baseUrl}/api/lti/keys`,
     initiate_login_uri: `${baseUrl}/api/lti/init`,
     grant_types: ['client_credentials', 'implicit'],
-    redirect_uris: [`${baseUrl}/api/lti/launch`],
+    redirect_uris: [`${baseUrl}/api/lti/deep-linking`, `${baseUrl}/api/lti/resource-link`],
     application_type: 'web',
     token_endpoint_auth_method: 'private_key_jwt',
     client_name: 'Pix',
@@ -55,13 +55,13 @@ function createPixToolConfiguration(baseUrl) {
       'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly',
     ].join(' '),
     'https://purl.imsglobal.org/spec/lti-tool-configuration': {
-      target_link_uri: `${baseUrl}/api/lti`,
+      target_link_uri: `${baseUrl}/api/lti/resource-link`,
       domain: new URL(baseUrl).hostname,
       description: 'Intégration avec la plateforme Pix',
       messages: [
         {
           type: 'LtiDeepLinkingRequest',
-          target_link_uri: `${baseUrl}/api/lti/content-selection`,
+          target_link_uri: `${baseUrl}/api/lti/deep-linking`,
         },
       ],
       claims: ['sub', 'iss', 'name', 'family_name', 'given_name', 'email'],
