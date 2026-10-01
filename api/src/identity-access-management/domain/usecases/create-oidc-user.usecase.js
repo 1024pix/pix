@@ -47,11 +47,11 @@ async function createOidcUser({
   });
 
   const connectionMethodCode = oidcAuthenticationService.connectionMethodCode;
-  identityProvider = connectionMethodCode || identityProvider;
+  const connectionMethod = connectionMethodCode || identityProvider;
 
   const authenticationMethod = await authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider({
     externalIdentifier: userInfo.externalIdentityId,
-    identityProvider,
+    identityProvider: connectionMethod,
   });
 
   if (authenticationMethod) {
@@ -81,7 +81,7 @@ async function createOidcUser({
   await _updateUserLastConnection({
     userId,
     requestedApplication,
-    identityProvider,
+    identityProvider: connectionMethod,
     authenticationMethodRepository,
     lastUserApplicationConnectionsRepository,
     userLoginRepository,

@@ -1,6 +1,6 @@
 {
   "name": "pix-orga",
-  "version": "5.510.0",
+  "version": "5.511.0",
   "private": false,
   "description": "Plateforme en ligne de gestion de campagne d'évaluation",
   "license": "AGPL-3.0",
@@ -40,9 +40,9 @@
     "test:lint": "npm test && npm run lint"
   },
   "devDependencies": {
-    "@1024pix/ember-testing-library": "^3.0.44",
+    "@1024pix/ember-testing-library": "^4.0.1",
     "@1024pix/eslint-plugin": "^3.0.4",
-    "@1024pix/nebulix-ember": "^1.0.0",
+    "@1024pix/nebulix-ember": "^1.1.0",
     "@1024pix/pix-types": "file:../packages/pix-types",
     "@1024pix/stylelint-config": "^5.1.37",
     "@babel/eslint-parser": "^7.29.9",
@@ -63,9 +63,9 @@
     "@embroider/vite": "^1.7.11",
     "@faker-js/faker": "^10.6.0",
     "@glimmer/component": "^2.1.1",
-    "@glint/ember-tsc": "^1.11.4",
+    "@glint/ember-tsc": "^1.11.6",
     "@glint/template": "^1.9.0",
-    "@glint/tsserver-plugin": "^2.7.7",
+    "@glint/tsserver-plugin": "^2.7.9",
     "@rollup/plugin-babel": "^7.1.0",
     "@testing-library/dom": "^10.4.2",
     "@types/lodash": "^4.17.25",

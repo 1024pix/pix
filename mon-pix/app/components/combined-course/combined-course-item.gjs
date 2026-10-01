@@ -1,10 +1,11 @@
 import { PixIcon, PixStars, PixTag } from '@1024pix/nebulix-ember';
-import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
-import { LinkTo } from '@ember/routing';
 import { t } from 'ember-intl';
 import { and, eq, not } from 'ember-truth-helpers';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
+import autofocus from 'mon-pix/modifiers/autofocus.js';
+
+import Duration from './duration';
 
 const Content = <template>
   <div
@@ -13,6 +14,7 @@ const Content = <template>
       {{if @hasWhiteBackground 'combined-course-item--white'}}
       {{if @isCurrentItem 'combined-course-item--current'}}
       {{if @isCampaignType 'combined-course-item--isCampaignType'}}"
+    aria-details={{if @isCurrentItem "step-details"}}
     ...attributes
   >
     <div class="combined-course-item__content">
@@ -62,7 +64,7 @@ const Content = <template>
           <PixIcon
             @name="checkCircle"
             @plainIcon={{true}}
-            class="combined-course-item__icon {{if @hasYellowBorder 'combined-course-item__icon--yellow'}}"
+            class="combined-course-item__completion-icon {{if @hasYellowBorder 'combined-course-item__icon--yellow'}}"
             @ariaHidden={{true}}
           />
         </div>
@@ -94,14 +96,6 @@ const Content = <template>
   </div>
 </template>;
 
-const Duration = <template>
-  <PixIcon @name="acute" class="combined-course-item__duration__icon" @ariaHidden={{true}} />
-  <span aria-label={{t "pages.combined-courses.items.aria-label-duration" duration=@item.duration}}>{{t
-      "pages.combined-courses.items.duration"
-      duration=@item.duration
-    }}</span>
-</template>;
-
 function hasWhiteBackground(item) {
   return item.isCompleted || !item.isLocked;
 }
@@ -128,16 +122,17 @@ function hasWhiteBackground(item) {
         @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
       >
         <:duration>
-          {{#if @item.duration}}<Duration @item={{@item}} />{{/if}}
+          {{#if @item.duration}}<Duration @duration={{@item.duration}} />{{/if}}
         </:duration>
       </Content>
     {{else}}
-      <LinkTo
+      <button
+        class="combined-course-item--selectable"
+        type="button"
         {{on "click" @onClick}}
-        @route={{@item.route}}
-        @models={{@item.models}}
-        @query={{hash redirection=@item.redirection}}
-        disabled
+        data-testid="selectable-item-button"
+        aria-describedby={{if @isSelectedItem "step-details-description step-details-objectives"}}
+        {{autofocus @isSelectedItem}}
       >
         <Content
           @title={{@item.title}}
@@ -151,24 +146,25 @@ function hasWhiteBackground(item) {
           @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
           @hasWhiteBackground={{hasWhiteBackground @item}}
           @hasYellowBorder={{and (eq @item.type CombinedCourseItemTypes.MODULE) @isCombinedCourseCompleted}}
-          @isCurrentItem={{@isNextItemToComplete}}
+          @isCurrentItem={{@isSelectedItem}}
         >
           <:duration>
             {{#if @item.duration}}
-              <Duration @item={{@item}} />
+              <Duration @duration={{@item.duration}} />
             {{/if}}
           </:duration>
           <:blockEnd>
-            {{#if @isNextItemToComplete}}
-              <PixTag @color="purple-light" class="combined-course-item__tag">{{t
-                  "pages.combined-courses.items.tagText"
-                }}
-                <PixIcon @name="distance" @plainIcon={{true}} @ariaHidden={{true}} /></PixTag>
+            {{#if @isSelectedItem}}
+              {{#if @displayNextItemTag}}
+                <PixTag @color="purple-light" class="combined-course-item__tag">{{t
+                    "pages.combined-courses.items.tagText"
+                  }}
+                  <PixIcon @name="distance" @plainIcon={{true}} @ariaHidden={{true}} /></PixTag>
+              {{/if}}
             {{/if}}
           </:blockEnd>
         </Content>
-
-      </LinkTo>
+      </button>
     {{/if}}
   {{/if}}
 </template>

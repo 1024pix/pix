@@ -1,4 +1,4 @@
-import { clickByName, fillByLabel, screen, visit } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
@@ -103,7 +103,7 @@ module('Acceptance | Trainings | Training', function (hooks) {
       module('when type provided is not modulix', function () {
         test('should be redirected to training detail page after training creation', async function (assert) {
           //given
-          await visit(`/trainings/list`);
+          const screen = await visit(`/trainings/list`);
           await clickByName('Nouveau contenu formatif');
 
           await _fillTrainingForm({ screen, type: 'Webinaire' });
@@ -151,7 +151,7 @@ module('Acceptance | Trainings | Training', function (hooks) {
 
     test('triggers should be accessible for an authenticated user', async function (assert) {
       // when
-      await visit(`/trainings/${trainingId}/`);
+      const screen = await visit(`/trainings/${trainingId}/`);
       await click(
         screen.getByRole('link', {
           name: t('pages.trainings.training.triggers.tabName'),
@@ -170,7 +170,7 @@ module('Acceptance | Trainings | Training', function (hooks) {
 
     test('target profiles should be accessible for an authenticated user', async function (assert) {
       // when
-      await visit(`/trainings/${trainingId}/target-profiles`);
+      const screen = await visit(`/trainings/${trainingId}/target-profiles`);
 
       // then
       assert.strictEqual(currentURL(), `/trainings/${trainingId}/target-profiles`);
@@ -186,7 +186,7 @@ module('Acceptance | Trainings | Training', function (hooks) {
       test('should be possible to edit training details', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-        await visit(`/trainings/${trainingId}`);
+        const screen = await visit(`/trainings/${trainingId}`);
 
         // when
         await click(screen.getByRole('button', { name: 'Modifier' }));
@@ -201,7 +201,7 @@ module('Acceptance | Trainings | Training', function (hooks) {
       test('should be possible to duplicate displayed training', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-        await visit(`/trainings/${trainingId}`);
+        const screen = await visit(`/trainings/${trainingId}`);
 
         // when
         await clickByName('Dupliquer ce contenu formatif');
@@ -224,7 +224,7 @@ module('Acceptance | Trainings | Training', function (hooks) {
         await authenticateAdminMemberWithRole({ isSupport: true })(server);
 
         // when
-        await visit(`/trainings/${trainingId}`);
+        const screen = await visit(`/trainings/${trainingId}`);
 
         // then
         assert.notOk(screen.queryByRole('button', { name: 'Modifier' }));

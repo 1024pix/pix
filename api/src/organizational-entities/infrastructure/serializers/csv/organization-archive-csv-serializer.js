@@ -16,15 +16,13 @@ export async function deserializeForOrganizationBatchArchive(
     header: true,
     transformHeader: (header) => header?.trim(),
     transform: (value, columnName) => {
-      if (typeof value === 'string') {
-        value = value.trim();
-      }
-      if (!isEmpty(value)) {
+      const trimmedValue = typeof value === 'string' ? value.trim() : value;
+      if (!isEmpty(trimmedValue)) {
         if (columnName === columnName) {
-          value = Number(value);
+          return Number(trimmedValue);
         }
       }
-      return value;
+      return trimmedValue;
     },
   };
 

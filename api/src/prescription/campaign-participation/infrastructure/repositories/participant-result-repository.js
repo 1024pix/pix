@@ -40,22 +40,19 @@ const get = async function ({ userId, campaignId, badges, reachedStage, stages, 
     const skillIds = competences.flatMap(({ targetedSkillIds }) => targetedSkillIds);
     const skills = await skillRepository.findOperativeByIds(skillIds);
     convertLevelStagesIntoThresholds(stages, skills);
-    if (reachedStage) {
-      const stage = stages.find((stage) => stage.id == reachedStage.id);
-      // if the stage is a stage level, we need to add the converted threshold
-      reachedStage = {
-        ...reachedStage,
-        threshold: stage?.threshold,
-      };
-    }
   }
+  // if the stage is a stage level, we need to add the converted threshold
+  const reachedStageWithThreshold =
+    stages && stages.length && reachedStage
+      ? { ...reachedStage, threshold: stages.find((stage) => stage.id == reachedStage.id)?.threshold }
+      : reachedStage;
   const isTargetProfileResetAllowed = await _getTargetProfileResetAllowed(campaignId);
   return new AssessmentResult({
     participationResults,
     competences,
     badgeResultsDTO: badges,
     stages,
-    reachedStage,
+    reachedStage: reachedStageWithThreshold,
     isCampaignMultipleSendings,
     isOrganizationLearnerActive,
     isCampaignArchived,

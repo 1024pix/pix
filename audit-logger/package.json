@@ -1,6 +1,6 @@
 {
   "name": "pix-audit-logger",
-  "version": "5.510.0",
+  "version": "5.511.0",
   "description": "",
   "scripts": {
     "build": "tsc --project tsconfig.production.json",
@@ -70,7 +70,7 @@
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.0",
     "hapi-pino": "^13.0.0",
-    "joi": "^18.0.0",
+    "joi": "^18.2.6",
     "knex": "^3.1.0",
     "lodash": "^4.17.21",
     "pg": "^8.16.3",

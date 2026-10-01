@@ -23,6 +23,10 @@ export default class CombinedCourseItem extends Model {
   @attr('number') duration;
   @attr('string') image;
   @attr('string') shortId;
+  @attr('string') description;
+  @attr('array') objectives;
+  @attr('string') level;
+
   @belongsTo('combined-course', { async: false, inverse: 'items' }) combinedCourse;
 
   get route() {

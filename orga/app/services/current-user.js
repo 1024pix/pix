@@ -15,7 +15,7 @@ export default class CurrentUserService extends Service {
   @tracked isGarAuthenticationMethod;
   @tracked organizationPlaceStatistics;
   @tracked participationStatistics;
-  @tracked combinedCourses;
+  @tracked combinedCourseBlueprints;
 
   get canAccessImportPage() {
     return Boolean(this.hasImportFeature && this.isAdminInOrganization);
@@ -61,8 +61,8 @@ export default class CurrentUserService extends Service {
     return this.organizationPlaceStatistics;
   }
 
-  async loadCombinedCourses() {
-    this.combinedCourses = await this.organization.combinedCourses;
+  async loadCombinedCourseBlueprints() {
+    this.combinedCourseBlueprints = await this.organization.combinedCourseBlueprints;
   }
 
   async loadDivisions() {
@@ -73,8 +73,8 @@ export default class CurrentUserService extends Service {
     return null;
   }
 
-  get hasCombinedCourses() {
-    return Boolean(this.combinedCourses && this.combinedCourses.length > 0);
+  get hasCombinedCourseBlueprints() {
+    return Boolean(this.combinedCourseBlueprints && this.combinedCourseBlueprints.length > 0);
   }
 
   async loadPlaceStatistics() {
@@ -138,7 +138,7 @@ export default class CurrentUserService extends Service {
     this.isAgriculture = organization.isAgriculture;
     this.organization = organization;
     await this.loadPlaceStatistics();
-    await this.loadCombinedCourses();
+    await this.loadCombinedCourseBlueprints();
     await this.loadParticipationStatistics();
   }
 }

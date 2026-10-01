@@ -806,7 +806,8 @@
         }
       },
       "name": {
-        "label": "Nombre de la campaña"
+        "label": "Nombre de la campaña",
+        "sub-label": "Este campo solo será visible en Pix Orga para identificar la campaña."
       },
       "no": "No",
       "owner": {
@@ -1028,6 +1029,7 @@
       },
       "navigation": "Navegar por la sección Campañas",
       "no-campaign": "No hay campaña, para empezar haga clic en el botón \"Crear una campaña\".",
+      "no-combined-course": "Ningún itinerario de aprendizaje, para empezar haga clic en el botón 'Crear una campaña'.",
       "table": {
         "column": {
           "code": "Código",

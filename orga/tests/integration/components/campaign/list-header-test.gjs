@@ -13,7 +13,7 @@ module('Integration | Component | Campaign | ListHeader', function (hooks) {
     test('it displays combined courses tab when user has combined courses', async function (assert) {
       // given
       const currentUser = this.owner.lookup('service:current-user');
-      sinon.stub(currentUser, 'combinedCourses').value([{ id: 1 }]);
+      sinon.stub(currentUser, 'combinedCourseBlueprints').value([{ id: 1 }]);
 
       // when
       const screen = await render(<template><ListHeader /></template>);
@@ -25,7 +25,7 @@ module('Integration | Component | Campaign | ListHeader', function (hooks) {
     test('it does not display combined courses tab when user has no combined courses', async function (assert) {
       // given
       const currentUser = this.owner.lookup('service:current-user');
-      sinon.stub(currentUser, 'combinedCourses').value([]);
+      sinon.stub(currentUser, 'combinedCourseBlueprints').value([]);
 
       // when
       const screen = await render(<template><ListHeader /></template>);
@@ -37,7 +37,7 @@ module('Integration | Component | Campaign | ListHeader', function (hooks) {
     test('it does not display combined courses tab when combined courses is undefined', async function (assert) {
       // given
       const currentUser = this.owner.lookup('service:current-user');
-      sinon.stub(currentUser, 'combinedCourses').value(undefined);
+      sinon.stub(currentUser, 'combinedCourseBlueprints').value(undefined);
 
       // when
       const screen = await render(<template><ListHeader /></template>);

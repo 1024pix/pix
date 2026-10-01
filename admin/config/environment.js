@@ -89,11 +89,6 @@ module.exports = function (environment) {
       APP_VERSION: process.env.SOURCE_VERSION || 'development',
     },
 
-    'ember-cli-notifications': {
-      autoClear: true,
-      includeFontAwesome: true,
-    },
-
     fontawesome: {
       warnIfNoIconsIncluded: true,
     },
@@ -154,9 +149,6 @@ module.exports = function (environment) {
     ENV.APP.rootElement = '#ember-testing';
     ENV.APP.autoboot = false;
     ENV.APP.PIX_ASSETS_MANAGER_URL = 'https://example-assets.net';
-    ENV['ember-cli-notifications'] = {
-      clearDuration: 300,
-    };
 
     ENV.pagination.debounce = 0;
     ENV.searchTargetProfiles.debounce = 0;

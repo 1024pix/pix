@@ -1,6 +1,7 @@
-import { clickByName, fillByLabel, render, within } from '@1024pix/ember-testing-library';
+import { clickByName, render, within } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
+import { fillIn } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import CreateForm from 'pix-orga/components/campaign/create-form-catalogue';
 import { EVENT_NAME } from 'pix-orga/constants/metrics-event-name';
@@ -295,7 +296,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       .createRecord('course', { name: 'targetProfile1', id: '123', type: 'targetProfile' });
     const createCampaignSpy = sinon.stub();
 
-    await render(
+    const screen = await render(
       <template>
         <CreateForm
           @campaign={{data.campaign}}
@@ -308,7 +309,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       </template>,
     );
     await clickByName(t('pages.campaign-creation.purpose.assessment'));
-    await fillByLabel(`${t('pages.campaign-creation.name.label')} *`, 'Ma campagne');
+    await fillIn(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false }), 'Ma campagne');
 
     // when
     await clickByName(t('pages.campaign-creation.actions.create'));
@@ -328,7 +329,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       .createRecord('course', { name: 'targetProfile1', id: '123', type: 'targetProfile' });
     const createCampaignSpy = sinon.stub();
 
-    await render(
+    const screen = await render(
       <template>
         <CreateForm
           @campaign={{data.campaign}}
@@ -341,7 +342,7 @@ module('Integration | Component | Campaign::CreateForm (catalogue)', function (h
       </template>,
     );
     await clickByName(t('pages.campaign-creation.purpose.assessment'));
-    await fillByLabel(`${t('pages.campaign-creation.name.label')} *`, 'Ma campagne');
+    await fillIn(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false }), 'Ma campagne');
 
     // when
     await clickByName(t('pages.campaign-creation.actions.create'));

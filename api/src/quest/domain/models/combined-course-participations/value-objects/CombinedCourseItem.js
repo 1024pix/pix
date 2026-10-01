@@ -80,9 +80,25 @@ export class ModuleCombinedCourseItem extends CombinedCourseItem {
     duration,
     image,
     shortId,
+    level,
+    description,
+    objectives,
   }) {
-    super({ id, title, reference, redirection, participationStatus, isCompleted, isLocked, duration, image });
+    super({
+      id,
+      title,
+      reference,
+      redirection,
+      participationStatus,
+      isCompleted,
+      isLocked,
+      duration,
+      image,
+    });
     this.shortId = shortId;
+    this.level = level;
+    this.description = description;
+    this.objectives = objectives;
   }
   get type() {
     return COMBINED_COURSE_ITEM_TYPES.MODULE;

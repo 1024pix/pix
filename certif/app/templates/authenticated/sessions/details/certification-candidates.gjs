@@ -16,8 +16,6 @@ import EnrolledCandidates from 'pix-certif/components/sessions/session-details/e
         @sessionId={{@controller.currentSession.id}}
         @certificationCandidates={{@controller.certificationCandidates}}
         @reloadCertificationCandidate={{@controller.reloadCertificationCandidateInController}}
-        @countries={{@controller.countries}}
-        @complementaryCertifications={{@controller.currentUser.currentAllowedCertificationCenterAccess.habilitations}}
       />
     {{/if}}
   {{else}}
@@ -35,9 +33,6 @@ import EnrolledCandidates from 'pix-certif/components/sessions/session-details/e
       @sessionId={{@controller.currentSession.id}}
       @certificationCandidates={{@controller.certificationCandidates}}
       @reloadCertificationCandidate={{@controller.reloadCertificationCandidateInController}}
-      @countries={{@controller.countries}}
-      @shouldDisplayPaymentOptions={{@controller.shouldDisplayPaymentOptions}}
-      @complementaryCertifications={{@controller.currentUser.currentAllowedCertificationCenterAccess.habilitations}}
     />
   {{/if}}
 </template>

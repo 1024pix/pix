@@ -1,6 +1,6 @@
 {
   "name": "junior",
-  "version": "5.510.0",
+  "version": "5.511.0",
   "private": false,
   "description": "Version de Pix à destination des élèves du premier degré",
   "repository": {
@@ -36,10 +36,10 @@
     "test:lint": "run-p --continue-on-error test lint"
   },
   "devDependencies": {
-    "@1024pix/ember-testing-library": "^3.0.44",
+    "@1024pix/ember-testing-library": "^4.0.1",
     "@1024pix/epreuves-components": "^4.26.5",
     "@1024pix/eslint-plugin": "^3.0.4",
-    "@1024pix/nebulix-ember": "^1.0.0",
+    "@1024pix/nebulix-ember": "^1.1.0",
     "@1024pix/stylelint-config": "^5.1.37",
     "@babel/eslint-parser": "^7.28.6",
     "@babel/plugin-proposal-decorators": "^7.29.7",

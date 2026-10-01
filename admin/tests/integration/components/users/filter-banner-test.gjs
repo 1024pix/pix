@@ -1,5 +1,6 @@
-import { render, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
+import { waitForElementToBeRemoved } from '@testing-library/dom';
 import UsersFilterBanner from 'pix-admin/components/users/filter-banner';
 import { module, test } from 'qunit';
 import sinon from 'sinon';

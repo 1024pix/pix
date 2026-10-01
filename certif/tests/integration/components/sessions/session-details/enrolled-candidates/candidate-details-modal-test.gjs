@@ -1,4 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import CandidateDetailsModal from 'pix-certif/components/sessions/session-details/enrolled-candidates/candidate-details-modal';
 import { module, test } from 'qunit';
@@ -10,6 +11,18 @@ module(
   'Integration | Component | Sessions | SessionDetails | EnrolledCandidates | candidate-details-modal',
   function (hooks) {
     setupIntlRenderingTest(hooks);
+
+    hooks.beforeEach(function () {
+      const store = this.owner.lookup('service:store');
+
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+          type: 'SCO',
+        });
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+    });
 
     test('it shows candidate details with complementary certification', async function (assert) {
       // given
@@ -121,10 +134,11 @@ module(
       });
     });
 
-    module('when @shouldDisplayPaymentOptions is true', function () {
+    module('when the certification center is not SCO', function () {
       test('it shows candidate details with payement options', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
+        this.owner.lookup('service:current-user').currentAllowedCertificationCenterAccess.type = 'SUP';
         const candidate = store.createRecord('certification-candidate', {
           firstName: 'Jean-Paul',
           lastName: 'Candidat',
@@ -148,13 +162,7 @@ module(
 
         // when
         const screen = await render(
-          <template>
-            <CandidateDetailsModal
-              @closeModal={{closeModalStub}}
-              @candidate={{candidate}}
-              @shouldDisplayPaymentOptions={{true}}
-            />
-          </template>,
+          <template><CandidateDetailsModal @closeModal={{closeModalStub}} @candidate={{candidate}} /></template>,
         );
 
         // then
@@ -177,7 +185,7 @@ module(
       });
     });
 
-    module('when @shouldDisplayPaymentOptions is false', function () {
+    module('when the certification center is SCO', function () {
       test('it shows candidate details without payement options', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
@@ -203,13 +211,7 @@ module(
 
         // when
         const screen = await render(
-          <template>
-            <CandidateDetailsModal
-              @closeModal={{closeModalStub}}
-              @candidate={{candidate}}
-              @shouldDisplayPaymentOptions={{false}}
-            />
-          </template>,
+          <template><CandidateDetailsModal @closeModal={{closeModalStub}} @candidate={{candidate}} /></template>,
         );
 
         // then

@@ -522,7 +522,14 @@ export async function createCombinedCourseBlueprintInDB(name: string) {
       questId,
     })
     .returning('id');
-
+  const organizationIds = await knex('organizations').pluck('id');
+  const combinedCourseBlueprintSharesToInsert = organizationIds.map((organizationId) => ({
+    combinedCourseBlueprintId: id,
+    organizationId,
+  }));
+  if (combinedCourseBlueprintSharesToInsert.length > 0) {
+    await knex('combined_course_blueprint_shares').insert(combinedCourseBlueprintSharesToInsert);
+  }
   return id;
 }
 

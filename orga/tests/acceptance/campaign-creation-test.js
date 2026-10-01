@@ -1,5 +1,6 @@
 import { clickByName, fillByLabel, visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
+import { fillIn } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'pix-orga/tests/test-support/setup-mirage';
@@ -37,7 +38,10 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
       const screen = await visit('/campagnes/creation');
 
-      await fillByLabel('Nom de la campagne *', 'Mon parcours combiné');
+      await fillIn(
+        screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false }),
+        'Mon parcours combiné',
+      );
       await clickByName(t('pages.campaign-creation.purpose.combined-course'));
 
       await click(screen.getByLabelText(`${t('pages.campaign-creation.combined-course-blueprints-list-label')} *`));
@@ -81,7 +85,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
         const expectedTargetProfileName = availableTargetProfiles[1].name;
 
         const screen = await visit('/campagnes/creation');
-        await fillByLabel('Nom de la campagne *', 'Ma Campagne');
+        await fillIn(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false }), 'Ma Campagne');
         await clickByName('Évaluer les participants');
         await click(screen.getByLabelText(`${t('pages.campaign-creation.target-profiles-list-label')} *`));
         await click(await screen.findByRole('option', { description: expectedTargetProfileName }));
@@ -105,7 +109,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
       test('it should allow to create a campaign of type PROFILES_COLLECTION and redirect to the newly created campaign', async function (assert) {
         // given
         const screen = await visit('/campagnes/creation');
-        await fillByLabel('Nom de la campagne *', 'Ma Campagne');
+        await fillIn(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false }), 'Ma Campagne');
         await clickByName('Collecter les profils Pix des participants');
         const externalIdentifier = screen
           .getByText(t('pages.campaign-creation.external-id-label.question-label'))
@@ -126,7 +130,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
         const expectedTargetProfileName = availableTargetProfiles[1].name;
 
         const screen = await visit('/campagnes/creation');
-        await fillByLabel('Nom de la campagne *', 'Ma Campagne');
+        await fillIn(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false }), 'Ma Campagne');
         await clickByName('Évaluer les participants');
         await click(screen.getByLabelText(`${t('pages.campaign-creation.target-profiles-list-label')} *`));
         await click(await screen.findByRole('option', { description: expectedTargetProfileName }));
@@ -148,7 +152,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
         // given
         const targetProfileName = availableTargetProfiles[1].name;
         const screen = await visit('/campagnes/creation');
-        await fillByLabel('Nom de la campagne *', 'Ma Campagne');
+        await fillIn(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false }), 'Ma Campagne');
         await clickByName('Évaluer les participants');
         await click(screen.getByLabelText(`${t('pages.campaign-creation.target-profiles-list-label')} *`));
         await click(await screen.findByRole('option', { description: targetProfileName }));
@@ -168,7 +172,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
         server.post('/campaigns', {}, 500);
 
         // when
-        await fillByLabel('Nom de la campagne *', 'Ma Campagne');
+        await fillIn(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false }), 'Ma Campagne');
         await clickByName('Évaluer les participants');
         await click(screen.getByLabelText(`${t('pages.campaign-creation.target-profiles-list-label')} *`));
         await click(await screen.findByRole('option', { description: expectedTargetProfileName }));
@@ -238,7 +242,10 @@ module('Acceptance | Campaign Creation', function (hooks) {
       const dialog = await screen.findAllByRole('dialog');
 
       await click(within(dialog[1]).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
-      await fillByLabel('Nom de la campagne *', 'Mon parcours combiné');
+      await fillIn(
+        screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false }),
+        'Mon parcours combiné',
+      );
 
       // when
       await clickByName('Créer la campagne');
@@ -294,7 +301,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
         const dialog = await screen.findAllByRole('dialog');
         await click(within(dialog[1]).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
 
-        await fillByLabel('Nom de la campagne *', 'Ma Campagne');
+        await fillIn(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false }), 'Ma Campagne');
 
         const externalIdentifier = screen
           .getByText(t('pages.campaign-creation.external-id-label.question-label'))
@@ -316,7 +323,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
         // given
         const screen = await visit('/campagnes/creation');
         await clickByName('Collecter les profils Pix des participants');
-        await fillByLabel('Nom de la campagne *', 'Ma Campagne');
+        await fillIn(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false }), 'Ma Campagne');
         const externalIdentifier = screen
           .getByText(t('pages.campaign-creation.external-id-label.question-label'))
           .closest('fieldset');
@@ -353,7 +360,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
         const dialog = await screen.findAllByRole('dialog');
         await click(within(dialog[1]).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
 
-        await fillByLabel('Nom de la campagne *', 'Ma Campagne');
+        await fillIn(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false }), 'Ma Campagne');
 
         const title = `${t('pages.campaign-creation.course-title.label')} ${t('pages.campaign-creation.course-title.sublabel')}`;
 
@@ -389,7 +396,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
         const dialog = await screen.findAllByRole('dialog');
         await click(within(dialog[1]).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
 
-        await fillByLabel('Nom de la campagne *', 'Ma Campagne');
+        await fillIn(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false }), 'Ma Campagne');
 
         // when
         await clickByName('Créer la campagne');
@@ -423,7 +430,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
         const dialog = await screen.findAllByRole('dialog');
         await click(within(dialog[1]).getByRole('link', { name: t('pages.catalogue.modal.select-course') }));
 
-        await fillByLabel('Nom de la campagne *', 'Ma Campagne');
+        await fillIn(screen.getByLabelText(t('pages.campaign-creation.name.label'), { exact: false }), 'Ma Campagne');
         const externalIdentifier = screen
           .getByText(t('pages.campaign-creation.external-id-label.question-label'))
           .closest('fieldset');

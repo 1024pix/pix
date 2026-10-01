@@ -232,7 +232,7 @@ export default class ModulixPreview extends Component {
         class="module-preview-panel__metadata-display-form"
         aria-label={{t "pages.modulix.preview.elements-display-panel-label"}}
       >
-        <PixSegmentedControl @onChange={{this.toggleElementIdButton}} @variant="primary" @toggled={{false}}>
+        <PixSegmentedControl @onChange={{this.toggleElementIdButton}} @variant="primary" @toggled={{true}}>
           <:label>{{t "pages.modulix.preview.elements-id-button.label"}}</:label>
           <:viewA>{{t "common.yes"}}</:viewA>
           <:viewB>{{t "common.no"}}</:viewB>

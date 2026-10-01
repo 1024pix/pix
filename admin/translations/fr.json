@@ -683,7 +683,7 @@
             "save-error": "Une erreur s'est produite lors de l'enregistrement du scoring.",
             "save-scoring-button": "Activer le scoring",
             "save-scoring-modal": {
-              "content": "Cette action va enregistrer la configuration de scoring sur la version active et va déclencher le scoring déjà passée sur cette version. Cette action est irréversible, le scoring ne pourra pas être modifié.",
+              "content": "Cette action va enregistrer la configuration de scoring sur la version active et va déclencher le scoring des certifications déjà passées sur cette version. Cette action est irréversible, le scoring ne pourra pas être modifié.",
               "title": "Confirmation de l'enregistrement du scoring"
             },
             "success-notification": "Le scoring a bien été activé. Les certifications déjà passées sur la version seront scorées.",
@@ -2015,8 +2015,8 @@
             "aria-label": "Filtrer les sessions avec le nom d'un centre de certification"
           },
           "endDate": {
-            "aria-label": "Masque les sessions après la date",
-            "label": "Masque les sessions après la date"
+            "aria-label": "Masquer les sessions après la date",
+            "label": "Date de fin"
           },
           "external-id": {
             "aria-label": "Filtrer les sessions avec un identifiant externe"
@@ -2027,7 +2027,7 @@
           },
           "startDate": {
             "aria-label": "Masquer les sessions avant la date",
-            "label": "Masquer les sessions avant la date"
+            "label": "Date de début"
           },
           "status": {
             "aria-label": "Filtrer les sessions en sélectionnant un statut"

@@ -15,13 +15,12 @@ export const shareProfileReward = async function ({
     throw new ProfileRewardCantBeSharedError();
   }
 
-  if (campaignParticipationId) {
-    organizationId = (await campaignParticipationRepository.getCampaignByParticipationId({ campaignParticipationId }))
-      .organizationId;
-  }
+  const campaign = campaignParticipationId
+    ? await campaignParticipationRepository.getCampaignByParticipationId({ campaignParticipationId })
+    : { organizationId };
 
   await organizationProfileRewardRepository.save({
-    organizationId,
+    organizationId: campaign.organizationId,
     profileRewardId,
   });
 };

@@ -1,5 +1,6 @@
-import { render, waitFor } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import { waitFor } from '@testing-library/dom';
 import { t } from 'ember-intl/test-support';
 import SelectAttestation from 'pix-admin/components/combined-course-blueprints/select-attestation';
 import setupIntlRenderingTest from 'pix-admin/tests/helpers/setup-intl-rendering';

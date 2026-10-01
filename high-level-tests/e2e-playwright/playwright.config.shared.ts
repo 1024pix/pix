@@ -35,6 +35,7 @@ export enum App {
 }
 
 type WebServerConfig = {
+  name?: string;
   command: string;
   url: string;
   reuseExistingServer?: boolean;
@@ -51,6 +52,7 @@ export function setupWebServer(app: App, reuseExistingServer: boolean): WebServe
       throw new Error('Unhandled');
     } else {
       return {
+        name: 'PixApi',
         cwd: '../../api',
         command: 'npm run db:prepare && npm run cache:refresh && npm run start',
         url: `http://localhost:${process.env.PIX_API_PORT}`,
@@ -100,6 +102,7 @@ export function setupWebServer(app: App, reuseExistingServer: boolean): WebServe
   };
   if (reuseExistingServer) {
     return {
+      name: appConfig[app].label,
       command: `while true; do echo "Wait for ${appConfig[app].label} to start"; sleep 300; done`,
       url: appConfig[app].url,
       reuseExistingServer: true,
@@ -110,6 +113,7 @@ export function setupWebServer(app: App, reuseExistingServer: boolean): WebServe
       command = `npx vite preview`;
     }
     return {
+      name: appConfig[app].label,
       cwd: appConfig[app].cwd,
       timeout: 180 * 1000,
       command,

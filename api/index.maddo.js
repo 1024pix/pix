@@ -3,6 +3,7 @@ import { databaseConnectionRegistry } from './db/database-connection-registry.js
 import { createMaddoServer } from './server.maddo.js';
 import { JobGroup } from './src/shared/application/jobs/job-controller.js';
 import { learningContentCache } from './src/shared/infrastructure/caches/learning-content-redis-cache.js';
+import { startHeapProfileListener } from './src/shared/infrastructure/heap-profile/heap-profile-listener.js';
 import { JobClient } from './src/shared/infrastructure/jobs/JobClient.js';
 import { releaseInfrastructure } from './src/shared/infrastructure/release-infrastructure.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
@@ -51,6 +52,8 @@ process.on('SIGINT', async () => {
       worker: config.infra.startJobInWebProcess,
       jobGroups: [JobGroup.MADDO],
     });
+
+    startHeapProfileListener();
   } catch (error) {
     logger.error(error);
     throw error;
