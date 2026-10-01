@@ -82,18 +82,23 @@ export default class OidcAuthenticator extends BaseAuthenticator {
     const { access_token, shouldCloseSession, identityProviderCode, logoutUrlUuid } = data || {};
 
     if (this.featureToggles.featureToggles.isSessionLogoutEnabled) {
-      const response = await this.requestManager.request({
-        url: `${ENV.APP.API_HOST}/api/oidc/logout`,
-        method: 'POST',
-        body: JSON.stringify({
-          identity_provider: identityProviderCode,
-          logout_url_uuid: logoutUrlUuid,
-        }),
-      });
+      try {
+        const response = await this.requestManager.request({
+          url: `${ENV.APP.API_HOST}/api/oidc/logout`,
+          method: 'POST',
+          body: JSON.stringify({
+            identity_provider: identityProviderCode,
+            logout_url_uuid: logoutUrlUuid,
+          }),
+        });
 
-      const { redirectLogoutUrl } = response.content;
-      if (redirectLogoutUrl) {
-        this.session.alternativeRootURL = redirectLogoutUrl;
+        const { redirectLogoutUrl } = response.content;
+        if (redirectLogoutUrl) {
+          this.session.alternativeRootURL = redirectLogoutUrl;
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console -- for diagnostics
+        console.log('Pix API logout failed but ignoring error to clear authentication on client side:', err);
       }
     } else {
       // Old implementation

@@ -198,6 +198,24 @@ module('Unit | Authenticator | oidc', function (hooks) {
         this.owner.register('service:request-manager', this.requestManagerStub, { instantiate: false });
       });
 
+      module('when there is any error (API error, network error)', function () {
+        test('never fails so that the session-store is nevertheless always cleared', async function (assert) {
+          // given
+          this.requestManagerStub.request = sinon.stub().rejects(new Error('Some unknown network error'));
+
+          const authenticator = this.owner.lookup('authenticator:oidc');
+
+          // when
+          const promise = authenticator.invalidate();
+
+          // then
+          await promise.then(() => {
+            assert.step('no-reject');
+          });
+          assert.verifySteps(['no-reject']);
+        });
+      });
+
       module('when /api/oidc/logout returns redirectLogoutUrl', function () {
         test('sets alternativeRootURL to redirectLogoutUrl', async function (assert) {
           // given
