@@ -574,20 +574,20 @@ module('Unit | Service | current-user', function (hooks) {
       });
     });
 
-    module('#loadCombinedCourses', function () {
-      test('should load combined courses from organization', async function (assert) {
+    module('#loadCombinedCourseBlueprints', function () {
+      test('should load combined course blueprints from organization', async function (assert) {
         // given
-        const combinedCourse1 = Object.create({ id: 1 });
-        const combinedCourse2 = Object.create({ id: 2 });
-        const combinedCourses = [combinedCourse1, combinedCourse2];
+        const combinedCourseBlueprint1 = Object.create({ id: 1 });
+        const combinedCourseBlueprint2 = Object.create({ id: 2 });
+        const combinedCourseBlueprints = [combinedCourseBlueprint1, combinedCourseBlueprint2];
 
-        currentUserService.organization = Object.create({ combinedCourses });
+        currentUserService.organization = Object.create({ combinedCourseBlueprints });
 
         // when
-        await currentUserService.loadCombinedCourses();
+        await currentUserService.loadCombinedCourseBlueprints();
 
         // then
-        assert.deepEqual(currentUserService.combinedCourses, combinedCourses);
+        assert.deepEqual(currentUserService.combinedCourseBlueprints, combinedCourseBlueprints);
       });
     });
 
@@ -657,37 +657,37 @@ module('Unit | Service | current-user', function (hooks) {
       });
     });
 
-    module('#hasCombinedCourses', function () {
-      test('should return true when combined courses exist', function (assert) {
+    module('#hasCombinedCourseBlueprints', function () {
+      test('should return true when combined course blueprints exist', function (assert) {
         // given
-        currentUserService.combinedCourses = [Object.create({ id: 1 })];
+        currentUserService.combinedCourseBlueprints = [Object.create({ id: 1 })];
 
         // then
-        assert.true(currentUserService.hasCombinedCourses);
+        assert.true(currentUserService.hasCombinedCourseBlueprints);
       });
 
-      test('should return false when combined courses is empty array', function (assert) {
+      test('should return false when combined course blueprints is empty array', function (assert) {
         // given
-        currentUserService.combinedCourses = [];
+        currentUserService.combinedCourseBlueprints = [];
 
         // then
-        assert.false(currentUserService.hasCombinedCourses);
+        assert.false(currentUserService.hasCombinedCourseBlueprints);
       });
 
-      test('should return false when combined courses is null', function (assert) {
+      test('should return false when combined course blueprints is null', function (assert) {
         // given
-        currentUserService.combinedCourses = null;
+        currentUserService.combinedCourseBlueprints = null;
 
         // then
-        assert.false(currentUserService.hasCombinedCourses);
+        assert.false(currentUserService.hasCombinedCourseBlueprints);
       });
 
-      test('should return false when combined courses is undefined', function (assert) {
+      test('should return false when combined course blueprints is undefined', function (assert) {
         // given
-        currentUserService.combinedCourses = undefined;
+        currentUserService.combinedCourseBlueprints = undefined;
 
         // then
-        assert.false(currentUserService.hasCombinedCourses);
+        assert.false(currentUserService.hasCombinedCourseBlueprints);
       });
     });
   });
