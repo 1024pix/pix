@@ -5,7 +5,7 @@ import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { InvalidLtiPlatformRegistrationError } from '../errors.js';
 import { LtiPlatformRegistration } from '../models/LtiPlatformRegistration.js';
 
-const logger = child('iam:lti', { event: SCOPES.IAM });
+const logger = child('lti:register-lti-platform', { event: SCOPES.LTI });
 
 function ltiMessage(type) {
   return Joi.object({
