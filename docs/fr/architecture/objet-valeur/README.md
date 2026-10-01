@@ -1,20 +1,45 @@
 # Value Object
 
 Un Value Object est une valeur du métier : un statut, un seuil, une période. Un Value Object n'a pas
-d'identifiant. Deux Value Objects qui ont les mêmes valeurs sont la même chose, comme deux billets de
-10 €. Les Value Objects sont dans le dossier `domain/models/`.
+d'identifiant. Deux Value Objects qui ont les mêmes valeurs sont la même chose pour le métier, comme deux
+billets de 10 €. Les Value Objects sont dans le dossier `domain/models/`.
 
 En bas de la page, la partie [référence des règles](#référence-des-règles) explique chaque règle avec
 un bon exemple et un mauvais exemple.
+
+## Vocabulaire
+
+- **Domaine** : le code qui contient les règles du métier, dans le dossier `domain/`. Une **règle du
+  domaine** est une règle du métier écrite dans ce code, par exemple « un passage terminé ne peut pas
+  être terminé de nouveau ».
+- **Entity** : un objet du métier avec un identifiant, suivi dans le temps. Voir la page
+  [Entity](../entite/README.md).
+- **Value Object** : une valeur du métier, sans identifiant. Voir la page
+  [Value Object](../objet-valeur/README.md).
+- **read-model** : un objet construit seulement pour être envoyé au front.
+- **Repository** : le code qui lit et écrit les objets dans la base de données.
+- **Usecase** : le code qui réalise une action de l'utilisateur, par exemple « terminer un passage ».
+  Le usecase charge les objets avec les repositories, appelle les méthodes des objets, puis enregistre
+  les objets.
+- **Sérialiseur** : le code qui transforme un objet en réponse JSON pour le front.
+- **Infrastructure** : le code qui parle à l'extérieur : base de données, log, appel HTTP, fichiers.
+  Ce code est dans le dossier `infrastructure/`.
+- **Erreur du domaine** : une `DomainError`, ou une classe qui hérite de `DomainError`. `DomainError`
+  est dans le fichier `api/src/shared/domain/errors.js`. Une règle du domaine qui n'est pas respectée
+  lève une erreur du domaine.
+- **Double** : un faux objet utilisé dans un test à la place du vrai : stub, mock ou spy.
+- **Champ privé** : un champ dont le nom commence par `#`, comme `#status`. Seul le code de la classe
+  peut lire et modifier un champ privé. Un accesseur `get status()` permet au code extérieur de lire
+  le champ, sans pouvoir modifier le champ.
 
 ## Value Object ou read-model ?
 
 Pour savoir si un objet est un Value Object, poser une question : **une règle du domaine lit-elle cet
 objet pour décider ?**
 
-- Oui : l'objet est un Value Object. Une seule règle suffit, même si l'objet est aussi envoyé au front.
-- Non : l'objet est un [read-model](../read-model/README.md). Un read-model est un objet construit
-  seulement pour être envoyé au front. Un objet dont le nom finit par `…ForAdmin`, `…Details` ou
+- Oui : l'objet est un Value Object. Si une seule règle du domaine lit l'objet, l'objet est un Value
+  Object, même si l'objet est aussi envoyé au front.
+- Non : l'objet est un [read-model](../read-model/README.md). Un objet dont le nom finit par `…ForAdmin`, `…Details` ou
   `…ListItem` est presque toujours un read-model.
 
 Si la réponse n'est pas claire, [le discriminant](#le-discriminant) donne quatre tests.
@@ -31,9 +56,6 @@ Si la réponse n'est pas claire, [le discriminant](#le-discriminant) donne quatr
 | [V6](#v6-aucun-cycle-de-vie-propre) | Pas de repository | pas de repository, pas de table : le Value Object est enregistré avec l'objet qui le contient |
 | [V7](#v7-exposition-en-lecture-seule-tableaux-compris) | Lecture seule, tableaux compris | un accesseur renvoie une copie : `[...this.#items]`, jamais `this.#items` |
 | [V8](#v8-un-type-par-intention) | Une classe par forme | l'objet à créer, encore sans `id`, a sa propre classe : `…ForCreation` |
-
-Une erreur du domaine est une `DomainError`, ou une classe qui hérite de `DomainError`. `DomainError`
-est dans le fichier `shared/domain/errors.js`.
 
 ## Exemple complet
 
@@ -324,7 +346,7 @@ getDeletableOrganizationLearners(organizationLearnerIdsToDelete) {
 }
 ```
 
-Version corrigée du mauvais exemple.
+Version corrigée du mauvais exemple ci-dessous.
 
 **Mauvais exemple.**
 
@@ -368,7 +390,8 @@ class TrainingTrigger {
 ```
 
 [`TrainingTrigger.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/TrainingTrigger.js#L18-L29),
-simplifié. La règle du seuil est dans l'objet qui contient le seuil.
+simplifié. La règle du seuil est dans l'objet qui contient le seuil. Cet exemple est bon pour V5
+seulement : `threshold` est un champ public, et V1 interdit les champs publics.
 
 **Mauvais exemple.**
 
@@ -389,8 +412,9 @@ copie de la règle est différente des autres copies.
 **À savoir.** Un calcul pour l'affichage, comme un pourcentage arrondi, n'est pas une règle : le calcul ne
 décide rien.
 
-**Exceptions.** Un Value Object sans méthode est accepté si d'autres Value Objects de la même famille
-ont des méthodes : le nom de la classe suffit parfois à rendre une signature claire.
+**Exceptions.** Un Value Object sans méthode est accepté quand son seul rôle est de donner un nom
+clair à une valeur, par exemple pour rendre la signature d'une fonction plus claire qu'avec une
+simple chaîne.
 
 ### V6. Aucun cycle de vie propre
 
@@ -460,8 +484,9 @@ change pas.
 **Sans cette règle.** Le code qui appelle fait `levelsPerTube.push(…)`, et l'objet change sans appel
 à une méthode de l'objet.
 
-**À savoir.** `Object.freeze(this)` protège seulement les champs publics. `Object.freeze(this)` ne
-protège pas les champs privés `#`, et ne protège pas les tableaux.
+**À savoir.** Certains fichiers appellent `Object.freeze(this)` pour protéger l'objet. `Object.freeze(this)`
+empêche de modifier les champs publics. `Object.freeze(this)` ne protège pas les champs privés `#`, et
+ne protège pas le contenu des tableaux. Seule la copie protège un tableau.
 
 ### V8. Un type par intention
 
