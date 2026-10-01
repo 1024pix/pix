@@ -7,31 +7,6 @@ billets de 10 €. Les Value Objects sont dans le dossier `domain/models/`.
 En bas de la page, la partie [référence des règles](#référence-des-règles) explique chaque règle avec
 un bon exemple et un mauvais exemple.
 
-## Vocabulaire
-
-- **Domaine** : le code qui contient les règles du métier, dans le dossier `domain/`. Une **règle du
-  domaine** est une règle du métier écrite dans ce code, par exemple « un passage terminé ne peut pas
-  être terminé de nouveau ».
-- **Entity** : un objet du métier avec un identifiant, suivi dans le temps. Voir la page
-  [Entity](../entite/README.md).
-- **Value Object** : une valeur du métier, sans identifiant. Voir la page
-  [Value Object](../objet-valeur/README.md).
-- **read-model** : un objet construit seulement pour être envoyé au front.
-- **Repository** : le code qui lit et écrit les objets dans la base de données.
-- **Usecase** : le code qui réalise une action de l'utilisateur, par exemple « terminer un passage ».
-  Le usecase charge les objets avec les repositories, appelle les méthodes des objets, puis enregistre
-  les objets.
-- **Sérialiseur** : le code qui transforme un objet en réponse JSON pour le front.
-- **Infrastructure** : le code qui parle à l'extérieur : base de données, log, appel HTTP, fichiers.
-  Ce code est dans le dossier `infrastructure/`.
-- **Erreur du domaine** : une `DomainError`, ou une classe qui hérite de `DomainError`. `DomainError`
-  est dans le fichier `api/src/shared/domain/errors.js`. Une règle du domaine qui n'est pas respectée
-  lève une erreur du domaine.
-- **Double** : un faux objet utilisé dans un test à la place du vrai : stub, mock ou spy.
-- **Champ privé** : un champ dont le nom commence par `#`, comme `#status`. Seul le code de la classe
-  peut lire et modifier un champ privé. Un accesseur `get status()` permet au code extérieur de lire
-  le champ, sans pouvoir modifier le champ.
-
 ## Value Object ou read-model ?
 
 Pour savoir si un objet est un Value Object, poser une question : **une règle du domaine lit-elle cet
@@ -53,9 +28,12 @@ Si la réponse n'est pas claire, [le discriminant](#le-discriminant) donne quatr
 | [V3](#v3-validation-à-la-construction) | Valide dès la construction | le constructeur lève une erreur du domaine sur une valeur invalide |
 | [V4](#v4-aucune-io-aucune-dépendance-à-linfrastructure) | Aucune I/O | aucun import d'infrastructure ; la date du jour est passée en paramètre |
 | [V5](#v5-porte-le-comportement-lié-à-ses-données) | Contient ses règles | une règle sur les données de l'objet est une méthode de l'objet |
-| [V6](#v6-aucun-cycle-de-vie-propre) | Pas de repository | pas de repository, pas de table : le Value Object est enregistré avec l'objet qui le contient |
+| [V6](#v6-aucun-cycle-de-vie-propre) | Pas de [repository](../repository/README.md) | pas de repository, pas de table : le Value Object est enregistré avec l'objet qui le contient |
 | [V7](#v7-exposition-en-lecture-seule-tableaux-compris) | Lecture seule, tableaux compris | un accesseur renvoie une copie : `[...this.#items]`, jamais `this.#items` |
 | [V8](#v8-un-type-par-intention) | Une classe par forme | l'objet à créer, encore sans `id`, a sa propre classe : `…ForCreation` |
+
+Une erreur du domaine est une `DomainError`, ou une classe qui hérite de `DomainError`. `DomainError`
+est dans le fichier `api/src/shared/domain/errors.js`.
 
 ## Exemple complet
 
@@ -281,7 +259,7 @@ créer un repository pour l'objet. L'objet devient une Entity, sans que personne
 **Exceptions.** Le front a souvent besoin d'une clé unique pour ranger les objets dans son cache. La
 clé ne va pas toujours au même endroit :
 
-- le front ne renvoie jamais la clé au serveur : la clé est construite dans le **sérialiseur** ;
+- le front ne renvoie jamais la clé au serveur : la clé est construite dans le **[sérialiseur](../serialiseur/README.md)** ;
 - le front renvoie la clé, et le serveur découpe la clé pour retrouver ses parties : un Value Object
   construit la clé, découpe la clé et valide la clé ;
 - l'objet a une identité métier faite de plusieurs champs : l'objet est une
@@ -406,7 +384,7 @@ class CombinedCourseStatistics {
 
 **Ce que ça apporte.** La règle est écrite une seule fois, dans l'objet qui contient les données.
 
-**Sans cette règle.** La règle est copiée dans chaque usecase qui a besoin de la règle. Un jour, une
+**Sans cette règle.** La règle est copiée dans chaque [usecase](../usecase/README.md) qui a besoin de la règle. Un jour, une
 copie de la règle est différente des autres copies.
 
 **À savoir.** Un calcul pour l'affichage, comme un pourcentage arrondi, n'est pas une règle : le calcul ne
