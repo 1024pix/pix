@@ -159,6 +159,7 @@ export const SCOPES = {
   LEARNING_CONTENT: 'learningcontent',
   IAM: 'iam',
   LLM: 'llm',
+  LTI: 'lti',
   DEVCOMP: 'devcomp',
   CERTIFICATION: 'certification',
 };

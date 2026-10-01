@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 
-import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
+import { usecases } from '../../../../../src/lti/domain/usecases/index.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
-describe('Integration | Domain | Usecases | ListLtiPublicKeys', function () {
+describe('Integration | LTI | Domain | Usecases | ListLtiPublicKeys', function () {
   it('should return LTI public keys', async function () {
     const keyPair1 = await cryptoService.generateJSONWebKeyPair();
     databaseBuilder.factory.buildLtiPlatformRegistration({

@@ -3,16 +3,16 @@ import querystring from 'node:querystring';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { identityAccessManagementRoutes } from '../../../../src/identity-access-management/application/routes.js';
-import { usecases } from '../../../../src/identity-access-management/domain/usecases/index.js';
+import { ltiRoutes } from '../../../../src/lti/application/lti.route.js';
+import { usecases } from '../../../../src/lti/domain/usecases/index.js';
 import { HttpTestServer } from '../../../tooling/server/http-test-server.js';
 
-describe('Integration | Identity Access Management | Application | Route | lti', function () {
+describe('Integration | LTI | Application | Route', function () {
   let httpTestServer;
 
   beforeEach(async function () {
     httpTestServer = new HttpTestServer();
-    await httpTestServer.register(identityAccessManagementRoutes);
+    await httpTestServer.register(ltiRoutes);
   });
 
   describe('when query params are set and use case rejects', function () {

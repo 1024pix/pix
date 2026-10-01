@@ -1,4 +1,4 @@
-import { LtiPlatformRegistration } from '../../../../../src/identity-access-management/domain/models/LtiPlatformRegistration.js';
+import { LtiPlatformRegistration } from '../../../../../src/lti/domain/models/LtiPlatformRegistration.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
 
 const defaultKeyPair = await cryptoService.generateJSONWebKeyPair();

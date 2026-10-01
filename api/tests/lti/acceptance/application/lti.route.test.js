@@ -9,7 +9,7 @@ import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 
-describe('Acceptance | Identity Access Management | Route | Admin | lti', function () {
+describe('Acceptance | LTI | Route | Admin', function () {
   let server;
 
   beforeEach(async function () {
