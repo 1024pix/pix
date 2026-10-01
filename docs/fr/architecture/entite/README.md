@@ -1,403 +1,62 @@
 # Entity
 
-Une Entity est un objet du domaine défini par son identité, pas par ses attributs. Elle vit dans
-`domain/models/`.
+Une Entity est une chose que le métier suit dans le temps : un utilisateur, une campagne, un passage
+dans un module. Une Entity a un identifiant. Les valeurs d'une Entity changent, mais l'Entity reste la
+même Entity. Les Entities sont dans le dossier `domain/models/`.
 
-Cette page est la **référence** : les règles, les cas permis, les tests et la checklist. Dans le même
-dossier :
+En bas de la page, la partie [référence des règles](#référence-des-règles) explique chaque règle avec
+un bon exemple et un mauvais exemple.
 
-- [`explication.md`](explication.md) : pourquoi ces règles, ce qu'elles rapportent, la théorie et
-  l'histoire des décisions ;
-- [`outillage.md`](outillage.md) : mettre en place les vérifications automatiques ;
-- [`ecarts.md`](ecarts.md) : où le code s'écarte de la théorie, et ce qui est décidé.
+## Entity, Value Object ou Aggregate Root ?
 
-Les règles de cette page s'appliquent à toute Entity, y compris une Aggregate Root. La ligne
-**Vérification** de chaque invariant dit par quel moyen la règle se vérifie. Ce qui est en place dans
-la CI est dans [`outillage.md`](outillage.md).
+Pour savoir si un objet est une Entity, poser deux questions.
 
-## Sommaire
+**Deux objets qui ont les mêmes valeurs sont-ils la même chose pour le métier ?**
 
-[Rôle](#rôle) · [Invariants](#invariants) · [Exceptions légitimes](#exceptions-légitimes) ·
-[Exemple complet](#exemple-complet) · [Tests attendus](#tests-attendus) · [Checklist de revue](#checklist-de-revue) · [Sources](#sources)
+- Oui : l'objet est un [Value Object](../objet-valeur/README.md). Deux seuils de 50 % sont le même
+  seuil.
+- Non : l'objet est une Entity. Deux organisations qui ont le même nom sont deux organisations.
 
-| # | Invariant | Vérification |
+**Le code accède-t-il à l'Entity directement, sans passer par une autre Entity ?**
+
+Un Aggregate est un groupe d'objets qui changent ensemble, par exemple un module et ses sections.
+L'Aggregate Root est l'Entity par laquelle le code accède au groupe : ici, le module.
+
+- Oui : l'Entity est une [Aggregate Root](../racine-agregat/README.md). Les règles de cette page
+  s'appliquent, et les règles de la page Aggregate Root aussi.
+- Non : l'Entity est à l'intérieur d'un Aggregate, comme une section dans un module. Cette Entity n'a
+  pas de repository.
+
+## Les règles
+
+| # | Règle | En pratique |
 | --- | --- | --- |
-| [**E1**](#e1-lidentité-est-explicite-et-stable) | l'identité est explicite et stable | règle ESLint, faux positifs non mesurés |
-| [**E2**](#e2-légalité-se-fonde-sur-lidentité) | l'égalité se fonde sur l'identité | revue |
-| [**E3**](#e3-les-invariants-sont-tenus-à-tout-instant) | les invariants sont tenus à tout instant | règle ESLint, bruyante, et revue |
-| [**E4**](#e4-aucune-io-aucune-dépendance-à-linfrastructure) | aucune I/O, aucune dépendance à l'infrastructure | `dependency-cruiser`, partiel |
-| [**E5**](#e5-aucune-méthode-au-service-de-la-persistance) | aucune méthode au service de la persistance | revue |
-| [**E6**](#e6-aucun-mutateur-nu) | aucun mutateur nu | règle ESLint |
-| [**E7**](#e7-les-autres-aggregates-sont-référencés-par-identité) | les autres Aggregates sont référencés par identité | revue |
-| [**E8**](#e8-nommage-et-emplacement) | nommage et emplacement | script |
-
----
-
-## Rôle
-
-Une Entity est définie **par son identité**, pas par ses attributs. Ses valeurs changent au cours du
-temps, elle reste la même chose.
-
-Elle porte les règles qui contraignent son propre état. Elle les tient à tout instant, pas seulement
-à la construction.
-
-Termes employés dans cette page :
-
-- **Aggregate** : un groupe d'objets du domaine qui forme une frontière de cohérence.
-- **Aggregate Root** : l'Entity par laquelle passe tout accès à un Aggregate.
-- **Format publié** : une forme sérialisée écrite à la main, documentée et consommée hors du code.
-- **Mutateur nu** : un moyen de changer l'état sans nommer d'intention métier, comme un `set` public
-  ou une affectation externe.
-
-### Le test de discrimination
-
-> Si remplacer une instance par une autre portant exactement les mêmes valeurs change quelque chose
-> pour le métier, c'est une Entity. Sinon, c'est un Value Object.
-
-Deux exemples qui rendent le test concret. Deux organisations aux mêmes nom et type sont deux
-organisations différentes : Entity. Deux seuils de 50 % sont le même seuil : Value Object, et
-`../objet-valeur/README.md` s'applique.
-
-### Entity ou Aggregate Root
-
-Toute Aggregate Root est une Entity. Cette page s'applique intégralement à elle. L'inverse est faux :
-une Entity peut vivre **à l'intérieur** d'un Aggregate sans en être la racine. Elle n'est alors pas
-accessible directement et n'a pas de repository.
-
-La question qui décide : *cette Entity est-elle atteignable autrement qu'en passant par une autre ?*
-Si oui, c'est une racine, et `../racine-agregat/README.md` ajoute ses devoirs propres :
-
-- frontière de cohérence ;
-- point d'entrée unique ;
-- repository.
-
-Deux invariants de cette page, **E3** et **E7**, valent pour toute Entity. Ils sont énoncés ici, et
-`../racine-agregat/README.md` y renvoie plutôt que de les répéter.
-
-### Ce qu'une Entity n'est pas
-
-Table de décision. Si le code correspond à une ligne, ce n'est pas une Entity.
-
-| Le code… | Va dans | Fiche |
-| --- | --- | --- |
-| n'a pas d'identité propre, deux instances de mêmes valeurs sont interchangeables | un Value Object, dans `domain/models/` | `../objet-valeur/README.md` |
-| est assemblé pour une lecture, et aucune règle ne le lit | un read-model, dans `domain/read-models/` | `../read-model/README.md` |
-| garantit une règle portant sur plusieurs objets à la fois | une Aggregate Root | `../racine-agregat/README.md` |
-| charge ou écrit des données | un repository | `../repository/README.md` |
-| coordonne plusieurs Entities et repositories pour réaliser une intention | `domain/usecases/` | `../usecase/README.md` |
-| applique une règle qui ne relève d'aucune Entity, sans I/O | `domain/services/` | `../service-domaine/README.md` |
-| met en forme pour une réponse HTTP | `infrastructure/serializers/` | `../serialiseur/README.md` |
-| décrit ce qui est exposé à un autre contexte | `application/api/` | `../api-interne/README.md` |
-
----
-
-## Invariants
-
-### E1. L'identité est explicite et stable
-
-**Énoncé.** L'Entity porte son identifiant. Il ne change pas pendant sa vie.
-
-```js
-// conforme — l'identifiant est porté, et rien ne le réassigne ensuite
-class Passage {
-  constructor({ id, moduleId, userId, createdAt, updatedAt, terminatedAt }) {
-    this.id = id;
-    …
-  }
-}
-```
-
-**Code.** Conforme : [`Passage.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/Passage.js#L1-L9), simplifié.
-
-**Le cas de l'Entity non encore persistée.** Une Entity créée en mémoire n'a pas encore
-d'identifiant. Deux traitements existent, et le choix entre eux est explicite :
-
-- un identifiant `null`, assumé et documenté ;
-- un type distinct pour l'intention de création, `…ForCreation` : voir `V8` de
-  `../objet-valeur/README.md`.
-
-Le second est plus sûr : la signature dit qu'il n'y a pas encore d'identité. Voir
-[`X5` de `ecarts.md`](ecarts.md#x5-lentity-non-persistée-porte-un-identifiant-null).
-
-**Ce qui casse.** Sans identité explicite, l'égalité, la déduplication et les références n'ont pas de
-fondement. Chaque site d'appel improvise sa comparaison.
-
-**Vérification.** Une règle ESLint, dont les faux positifs ne sont pas mesurés. Le traitement du cas
-non persisté se vérifie en revue. Voir [`outillage.md`](outillage.md#e1--accesseur-didentité).
-
-### E2. L'égalité se fonde sur l'identité
-
-**Énoncé.** Deux instances de même identifiant sont la même Entity, quelles que soient leurs valeurs.
-Deux instances de mêmes valeurs et d'identifiants différents sont deux Entities.
-
-```js
-// conforme
-static areEqualById(oneSkill, otherSkill) {
-  return oneSkill.id === otherSkill.id;
-}
-
-// fautif — la comparaison porte sur un champ, pas sur l'identifiant
-static areEqual(oneSkill, otherSkill) {
-  return oneSkill.name === otherSkill.name;
-}
-```
-
-**Code.** Conforme : [`Skill.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/Skill.js#L46-L52). Fautif : [`Skill.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/Skill.js#L38-L44). Les deux extraits sont simplifiés : la garde sur `null` est retirée.
-
-**Ce qui casse.** Une comparaison par un champ autre que l'identifiant dépend de la fraîcheur des
-données chargées. Elle confond deux Entities distinctes qui partagent ce champ. Elle distingue deux
-instances de la même Entity chargées à des moments différents.
-
-**Vérification.** La revue. Voir [`outillage.md`](outillage.md#ce-qui-nest-pas-mécanisable).
-
-### E3. Les invariants sont tenus à tout instant
-
-**Énoncé.** Une Entity invalide ne s'instancie pas. Aucune opération ne la laisse dans un état
-invalide, y compris une opération qui échoue à mi-chemin.
-
-L'invariant vaut aussi pour une Aggregate Root, où il porte sur la frontière de cohérence entière.
-`../racine-agregat/README.md` y renvoie.
-
-**À la construction.** La validation lève un seul type d'erreur, commun à tout le domaine. Valider
-`this` après les affectations, contre un schéma déclaratif, est la forme documentée : voir les
-[exceptions légitimes](#exceptions-légitimes) et
-[`X3` de `ecarts.md`](ecarts.md#x3-la-validation-a-lieu-après-laffectation).
-
-**À chaque changement d'état.** Une méthode qui modifie l'Entity vérifie que le nouvel état reste
-valide.
-
-```js
-// fautif — rien ne vérifie qu'un passage déjà terminé ne se termine pas deux fois
-terminate() {
-  this.terminatedAt = new Date();
-}
-
-// conforme — la règle est vérifiée au moment où elle peut être violée
-terminate({ now }) {
-  if (this.terminatedAt) throw new PassageTerminatedError();
-  this.terminatedAt = now;
-}
-```
-
-**Code.** Fautif : [`Passage.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/Passage.js#L11-L13). La forme conforme est hypothétique.
-
-**À la sortie d'une opération partielle.** Une méthode qui modifie plusieurs champs, et lève entre
-deux affectations, laisse l'Entity incohérente. La validation précède l'affectation : la même règle
-qu'à la construction, pour la même raison.
-
-**Le piège du constructeur en sac de propriétés.** Un constructeur déstructuré avec une valeur par
-défaut `= {}` et tous les champs optionnels accepte l'objet vide. L'Entity s'instancie toujours, donc
-elle ne protège rien. Cette violation est discrète, parce qu'elle ressemble à du code correct. Voir
-[`X1` de `ecarts.md`](ecarts.md#x1-le-constructeur-en-sac-de-propriétés).
-
-**Ce qui casse.** Sans cet invariant, chaque code en aval doit se demander si l'état est cohérent. La
-vérification se duplique, et elle est oubliée quelque part.
-
-**Vérification.** Une règle ESLint signale le constructeur en `= {}` sans aucun appel de validation.
-Elle est bruyante sur l'existant. La validation de valeur et le refus des transitions invalides se
-vérifient en revue. Voir
-[`outillage.md`](outillage.md#e3--la-règle-la-plus-utile-et-la-plus-bruyante).
-
-### E4. Aucune I/O, aucune dépendance à l'infrastructure
-
-**Énoncé.** Une Entity n'importe rien de l'infrastructure et ne fait aucune I/O. Une violation se
-repère dans les imports.
-
-```js
-// dans un fichier de domain/models/ — fautif
-import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
-```
-
-**Code.** Fautif : [`UserLogin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/identity-access-management/domain/models/UserLogin.js#L2).
-
-**L'horloge.** Lire l'heure courante viole aussi E4, alors qu'aucun import ne le montre :
-
-```js
-// fautif — l'Entity lit l'heure courante, donc le test ne peut pas la fixer
-updateRole({ role, updatedByUserId }) {
-  this.role = role;
-  this.updatedAt = new Date();
-  if (updatedByUserId) this.updatedByUserId = updatedByUserId;
-}
-
-// conforme — la date entre en paramètre
-updateRole({ role, updatedByUserId, now }) {
-  this.role = role;
-  this.updatedAt = now;
-  if (updatedByUserId) this.updatedByUserId = updatedByUserId;
-}
-```
-
-**Code.** Fautif : [`CertificationCenterMembership.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/team/domain/models/CertificationCenterMembership.js#L35-L42), simplifié : le `if` y tient sur trois lignes. La forme conforme est hypothétique.
-
-Ces deux méthodes sont par ailleurs **conformes à E6** : elles nomment leur intention. Un même code
-peut satisfaire un invariant et en violer un autre.
-
-**Corollaire.** Une Entity ne charge jamais ce qui lui manque. Si une règle a besoin d'une donnée que
-l'Entity n'a pas, le usecase la fournit.
-
-**Ce qui casse.** Le test cesse d'être pur : il demande un double. Ce besoin n'est que le symptôme.
-La cause est la dépendance à l'infrastructure.
-
-**Vérification.** Une règle `dependency-cruiser` pour les imports. L'horloge, l'aléatoire et la
-configuration se vérifient en revue. Voir [`outillage.md`](outillage.md#e4--une-règle-de-chemin).
-
-### E5. Aucune méthode au service de la persistance
-
-**Énoncé.** La traduction vers la forme de stockage est la responsabilité du repository. L'Entity
-n'expose pas de méthode dont le repository est le seul consommateur.
-
-```js
-// fautif — le modèle porte une méthode dont seul le repository se sert
-class Quest {
-  toDTO() {
-    return { id: this.id, rewardType: this.rewardType, rewardId: this.rewardId, … };
-  }
-}
-
-// conforme — la traduction vit dans le repository, en fonction locale
-function _toDomain({ id, moduleId, userId, createdAt, updatedAt, terminatedAt }) {
-  return new Passage({ id, moduleId, userId, createdAt, updatedAt, terminatedAt });
-}
-```
-
-**Code.** Fautif : [`Quest.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/entities/Quest.js#L155-L165), simplifié. Conforme : [`passage-repository.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/infrastructure/repositories/passage-repository.js#L49-L51).
-
-L'exception est un **format publié**. C'est une forme sérialisée qui est :
-
-- écrite à la main ;
-- documentée ;
-- consommée hors du code.
-
-La méthode de sérialisation exprime alors un contrat, pas un schéma de base.
-
-Le test qui discrimine : *si le schéma de la base changeait, cette méthode devrait-elle changer ?* Si
-oui, elle est au service de la persistance. Si elle suit un format documenté indépendant, non.
-
-**Ce qui casse.** Une migration de schéma oblige à modifier le domaine.
-
-**Vérification.** La revue. knip ne suffit pas. Voir
-[`outillage.md`](outillage.md#e5--knip-ne-suffit-pas).
-
-### E6. Aucun mutateur nu
-
-**Énoncé.** Chaque changement d'état passe par une méthode qui **nomme l'intention métier**, par
-exemple `archive()`, `complete()`, `rename()`. Pas de mutateur générique, pas d'affectation externe.
-
-```js
-// fautif — l'appelant décide de l'état, et l'objet se protège pourtant en lecture
-class DataForQuest {
-  #success;
-  get success() { return Object.freeze(this.#success); }
-  set success(value) { this.#success = value; }
-}
-
-// conforme à E6 — l'intention est nommée (la lecture de l'heure viole E4, voir plus haut)
-complete() {
-  this.updatedAt = new Date();
-  this.status = CombinedCourseParticipationStatuses.COMPLETED;
-}
-```
-
-**Code.** Fautif : [`DataForQuest.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/aggregates/DataForQuest.js#L1-L20), simplifié. Conforme : [`CombinedCourseParticipation.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-course-participations/entities/CombinedCourseParticipation.js#L28-L31).
-
-Dans l'exemple fautif, l'objet gèle ce qu'il expose en lecture, puis offre un mutateur public sur le
-même champ. La protection donne l'apparence d'une garantie, qu'un seul `set` annule.
-
-**Le cas de la construction progressive.** Une Entity construite par une suite de mutateurs appelés
-de l'extérieur, `setX()` puis `setY()` puis `setZ()`, n'est pas une Entity. C'est un constructeur
-déguisé, et son état est invalide entre deux appels. Un assemblage réellement progressif porte un
-nom : un objet dédié à la construction, ou un read-model si l'objet ne porte aucune règle.
-
-**Ce qui casse.** Un mutateur nu annule E3 : l'invariant n'est plus garanti qu'à la construction.
-
-**Vérification.** Une règle ESLint. Voir [`outillage.md`](outillage.md#e6--mutateur-nu).
-
-### E7. Les autres Aggregates sont référencés par identité
-
-**Énoncé.** Une Entity ne tient pas l'instance complète d'une Entity appartenant à un **autre**
-Aggregate : elle en tient l'identifiant.
-
-```js
-// fautif — l'Entity tient l'instance d'une Entity d'un autre Aggregate, en plus de son identifiant
-this.organization = organization;
-this.organizationId = organization?.id ?? organizationId;
-this.user = user;
-this.userId = user?.id ?? userId;
-
-// conforme — seul l'identifiant est tenu
-this.organizationId = organizationId;
-this.userId = userId;
-```
-
-**Code.** Fautif : [`Membership.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/Membership.js#L23-L26). La forme conforme est hypothétique.
-
-À l'intérieur d'un même Aggregate, tenir les instances est normal : c'est la définition d'un
-Aggregate.
-
-L'invariant vaut aussi pour une racine, où il est constitutif de la frontière.
-`../racine-agregat/README.md` y renvoie.
-
-**Ce qui casse.** Tenir l'objet entier oblige le repository à le charger aussi, donc le coût d'un
-chargement dépend de la profondeur du graphe. La frontière cesse aussi d'être déplaçable : une Entity
-qui tient l'instance d'une Entity d'un autre contexte devient impossible à extraire le jour où ce
-contexte est découpé.
-
-**Vérification.** La revue. Voir [`outillage.md`](outillage.md#ce-qui-nest-pas-mécanisable).
-
-### E8. Nommage et emplacement
-
-**Énoncé.** Un fichier par Entity, nommé d'après le concept métier en PascalCase, dans
-`domain/models/`.
-
-Le nom est celui de l'Ubiquitous Language du contexte. Deux contextes peuvent avoir une Entity de même
-nom, désignant deux choses différentes. C'est attendu en DDD, pas une collision à résoudre. Ce qui
-doit être clair, c'est **de quel contexte** relève le nom au moment de l'import.
-
-**Ce qui casse.** Rien à l'exécution. Invariant d'hygiène : il rend le fichier trouvable et réduit le
-bruit de revue.
-
-**Vérification.** Un script de nommage. Voir [`outillage.md`](outillage.md#e8--script-de-nommage).
-
----
-
-## Exceptions légitimes
-
-Sans cette section, un relecteur signale du code correct. Chaque exception ne vaut que pour
-l'invariant de sa ligne. Elle n'excuse rien d'autre.
-
-| Invariant | Cas | Statut |
-| --- | --- | --- |
-| **E1** | Une Entity non persistée avec un identifiant `null` | autorisé si c'est assumé et documenté. Voir [`X5` de `ecarts.md`](ecarts.md#x5-lentity-non-persistée-porte-un-identifiant-null) |
-| **E3** | À la construction, `this` est validé après les affectations, contre un schéma déclaratif | autorisé : c'est la forme documentée. Voir [`X3` de `ecarts.md`](ecarts.md#x3-la-validation-a-lieu-après-laffectation) |
-| **E3** | Une Entity au constructeur permissif dans du code ancien | **pas une exception** : c'est [`X1` de `ecarts.md`](ecarts.md#x1-le-constructeur-en-sac-de-propriétés), un écart classé et corrigé, pas absous |
-| **E4** | Une Entity reçoit `now` ou un générateur en paramètre | autorisé : c'est la forme correcte |
-| **E5** | Une méthode de sérialisation vers un **format publié** | autorisé : c'est l'exception de l'énoncé |
-| **E6** | Une Entity n'a aucune méthode de changement d'état | autorisé : toutes les Entities ne mutent pas |
-| **E6** | Un accesseur calculé, comme `isArchived` ou `hasFeature`, plutôt qu'un champ | autorisé, et souvent préférable |
-| **E7** | Une Entity tient les instances d'Entities du **même** Aggregate | autorisé : c'est la définition d'un Aggregate |
-| **E8** | Deux contextes ont une Entity de même nom | autorisé : c'est l'Ubiquitous Language par contexte |
-| catégorie | L'objet n'a aucune règle propre, et personne ne le lit pour décider | **ce n'est pas une Entity** : le [test de discrimination](#le-test-de-discrimination) s'applique, puis `../read-model/README.md` |
-
----
+| [E1](#e1-lidentité-est-explicite-et-stable) | Un identifiant qui ne change pas | un `id` dans l'objet ; aucune méthode ne modifie l'`id` |
+| [E2](#e2-légalité-se-fonde-sur-lidentité) | Comparer par identifiant | comparer les `id`, pas les autres champs |
+| [E3](#e3-les-invariants-sont-tenus-à-tout-instant) | Toujours valide | le constructeur et chaque méthode refusent un état invalide |
+| [E4](#e4-aucune-io-aucune-dépendance-à-linfrastructure) | Aucune I/O | aucun import d'infrastructure ; la date du jour est passée en paramètre |
+| [E5](#e5-aucune-méthode-au-service-de-la-persistance) | Rien pour la base de données | pas de `toDTO()` que seul le repository appelle |
+| [E6](#e6-aucun-mutateur-nu) | Pas de setter | chaque changement a une méthode avec un nom métier : `archive()`, pas `setStatus()` |
+| [E7](#e7-les-autres-aggregates-sont-référencés-par-identité) | Les autres Aggregates par identifiant | `organizationId`, pas `organization` |
+| [E8](#e8-nommage-et-emplacement) | Un nom du métier | un fichier par Entity, en PascalCase, avec un nom du métier |
+
+Une erreur du domaine est une `DomainError`, ou une classe qui hérite de `DomainError`. `DomainError`
+est dans le fichier `shared/domain/errors.js`.
 
 ## Exemple complet
 
-Aucune Entity du code n'est entièrement conforme. L'exemple est la version corrigée de `Passage`, le
-passage d'un utilisateur dans un module. C'est l'Entity la plus proche du conforme : identité portée
-(E1), aucun import (E4), aucune méthode de persistance (E5), aucune instance d'un autre Aggregate
-(E7). Une Entity n'a pas d'enregistrement : elle s'importe directement.
+Version corrigée du fichier [`Passage.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/Passage.js#L1-L16).
+Un `Passage` est le passage d'un utilisateur dans un module.
 
 ```js
-// l'Entity, version corrigée
 import { PassageTerminatedError } from '../errors.js';
 
 class Passage {
-  #terminatedAt;
+  #terminatedAt; // E6 : champ privé, seule la méthode terminate() modifie le champ
 
   constructor({ id, moduleId, userId, createdAt, updatedAt, terminatedAt }) {
-    this.id = id;
-    this.moduleId = moduleId;
+    this.id = id; // E1 : l'identifiant
+    this.moduleId = moduleId; // E7 : l'identifiant du module, pas le module
     this.userId = userId;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
@@ -408,8 +67,9 @@ class Passage {
     return this.#terminatedAt;
   }
 
+  // E6 : un nom métier ; E4 : la date est passée en paramètre
   terminate({ now }) {
-    if (this.#terminatedAt) throw new PassageTerminatedError();
+    if (this.#terminatedAt) throw new PassageTerminatedError(); // E3 : refuser un passage déjà terminé
     this.#terminatedAt = now;
   }
 }
@@ -417,127 +77,367 @@ class Passage {
 export { Passage };
 ```
 
-**Code.** Version corrigée de [`Passage.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/Passage.js#L1-L16).
+Le constructeur ne vérifie rien, parce qu'aucune règle métier ne dit quels champs sont obligatoires.
+Avec une règle, le constructeur lèverait une erreur du domaine (E3).
 
-Corrections apportées :
-
-- **E3**, refus de la transition invalide : `terminate` lève `PassageTerminatedError` sur un passage
-  déjà terminé. Dans l'original, ce refus est dans le usecase
-  [`terminate-passage.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/usecases/terminate-passage.js#L6-L8).
-  Tout autre appelant de `terminate` y échappe. Le usecase n'a plus à le vérifier.
-- **E4**, date en paramètre : `terminate` reçoit `now` au lieu de lire `new Date()`. Le usecase la
-  fournit.
-- **E6**, pas d'affectation externe : `terminatedAt` porte la règle du refus, donc il devient privé,
-  lu par un accesseur. Sans cela, un appelant pourrait le réécrire et contourner `terminate`.
-
-Reste hors correction : la validation à la construction, que demande aussi E3. Aucune règle du code
-ne dit quels champs sont obligatoires, et un `userId` absent y est admis. La corriger supposerait une
-règle métier que l'exemple ne peut pas inventer.
+Le test vérifie le changement et le refus :
 
 ```js
-// le test — unitaire pur : aucune base, aucun double, la date est une valeur
-describe('#terminate', function () {
-  it('should terminate the passage at the given date', function () {
-    const now = new Date('2024-01-02');
-    const passage = new Passage({ id: 1, moduleId: 'module-id', userId: 123 });
+describe('Unit | Devcomp | Domain | Models | Passage', function () {
+  describe('#terminate', function () {
+    it('terminates the passage at the given date', function () {
+      const now = new Date('2024-01-02');
+      const passage = new Passage({ id: 1, moduleId: 'module-id', userId: 123 });
 
-    passage.terminate({ now });
+      passage.terminate({ now });
 
-    expect(passage.terminatedAt).to.deep.equal(now);
-  });
+      expect(passage.terminatedAt).to.deep.equal(now);
+    });
 
-  it('should refuse to terminate a passage already terminated', function () {
-    const terminatedAt = new Date('2024-01-01');
-    const passage = new Passage({ id: 1, moduleId: 'module-id', userId: 123, terminatedAt });
+    it('refuses to terminate a passage already terminated', function () {
+      const terminatedAt = new Date('2024-01-01');
+      const passage = new Passage({ id: 1, moduleId: 'module-id', userId: 123, terminatedAt });
 
-    expect(() => passage.terminate({ now: new Date('2024-01-02') })).to.throw(PassageTerminatedError);
-    expect(passage.terminatedAt).to.deep.equal(terminatedAt);
+      expect(() => passage.terminate({ now: new Date('2024-01-02') })).to.throw(PassageTerminatedError);
+      expect(passage.terminatedAt).to.deep.equal(terminatedAt); // le refus ne modifie rien
+    });
   });
 });
 ```
 
-**Code.** Version corrigée de [`Passage_test.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/devcomp/unit/domain/models/Passage_test.js#L29-L44).
+## Comment tester
 
-Le premier test est corrigé : l'original fige l'horloge avec `sinon.useFakeTimers`, un double qui
-signale la violation de E4. Le second est ajouté : c'est le test du refus, absent de l'original. Il
-vérifie aussi que l'échec laisse l'état intact.
+Une Entity se teste avec un test unitaire. Le test n'utilise pas de base de données. Le test n'utilise
+pas de **double** : pas de stub, pas de mock, pas de spy. La date est une valeur passée en paramètre.
+Le test vérifie :
 
----
+- le constructeur : une Entity invalide n'est pas créée, si une règle dit ce qui est valide ;
+- chaque méthode qui change l'Entity : le cas qui marche, **et** le refus quand la règle n'est pas
+  respectée. Après le refus, l'Entity n'a pas changé ;
+- chaque accesseur calculé, comme `isArchived` : les cas limites.
 
-## Tests attendus
+Deux signes d'un problème, pendant l'écriture du test :
 
-| Objet | Type de test | Ce qui est vérifié |
-| --- | --- | --- |
-| Entity | **unitaire pur**, aucune base, aucun double | la validation à la construction |
-| Chaque méthode de changement d'état | **unitaire** | le cas passant **et** le refus quand l'invariant serait violé |
-| Accesseurs calculés | **unitaire** | les cas limites, pas seulement le cas nominal |
+- **Le test du refus manque.** C'est l'oubli le plus fréquent. Tester que `terminate()` termine ne
+  suffit pas : c'est le test du refus qui prouve que la règle E3 est respectée.
+- **Le test a besoin d'un double**, ou de bloquer l'heure. L'Entity dépend de l'infrastructure :
+  l'Entity ne respecte pas [E4](#e4-aucune-io-aucune-dépendance-à-linfrastructure).
 
-En test, la comparaison de deux Entities porte sur les identifiants, et l'état pertinent se vérifie
-séparément : c'est E2.
+## Comment relire
 
-L'existence du fichier de test se vérifie par comparaison de noms. Voir
-[`outillage.md`](outillage.md#tests-attendus--existence-du-fichier).
-
-Deux indices de diagnostic :
-
-- Le test qui manque le plus souvent est celui du **refus**. Les tests vérifient que `terminate()`
-  termine, pas qu'il refuse de terminer deux fois. Or c'est le second qui prouve que E3 est tenu.
-  Exception : une Entity sans méthode de changement d'état n'a pas de refus à tester, ce qu'admettent
-  les [exceptions légitimes](#exceptions-légitimes).
-- Une Entity qui a besoin d'un double **viole E4**. Voir « Ce qui casse » de
-  [E4](#e4-aucune-io-aucune-dépendance-à-linfrastructure).
-
----
-
-## Checklist de revue
-
-Ordonnée par ROI décroissant. Le statut de chaque ligne vient du moyen de vérification décrit dans
-[`outillage.md`](outillage.md) :
-
-- `[auto]` : la ligne disparaît dès que la règle existe ;
-- `[partiel]` : la ligne reste, réduite à ce que la règle ne couvre pas ;
-- `[humain]` : la ligne reste en entier.
+La checklist suit l'ordre de relecture : les questions les plus utiles sont en premier. Dans un
+commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas la règle : « E6 :
+`set status()` permet de mettre n'importe quel statut, sans passer par `complete()` ».
 
 ```
-[ ] [partiel] E3  Refuse de s'instancier dans un état invalide, et refuse chaque transition invalide
-[ ] [auto]    E6  Aucun mutateur nu ; chaque changement d'état nomme son intention métier
-[ ] [humain]  E7  Les Entities d'un autre Aggregate sont référencées par identifiant, pas par instance
-[ ] [partiel] E4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
-[ ] [humain]  E5  Aucune méthode dont le repository est le seul consommateur   (sauf format publié)
-[ ] [partiel] E1  L'identité est explicite et ne change pas ; le cas non persisté est traité
-[ ] [humain]  E2  Les comparaisons se fondent sur l'identité, pas sur les champs
-[ ] [auto]    E8  Un fichier, PascalCase, nom de l'Ubiquitous Language du contexte
-[ ] [auto]    Un fichier de test existe, et son nom correspond à celui de l'Entity
-[ ] [humain]  Chaque règle a son test de refus, pas seulement son cas passant
-[ ] [humain]  Si l'objet n'a aucune règle propre, appliquer le test de discrimination : Entity, ou read-model ?
+Est-ce une Entity ?
+[ ] Deux objets qui ont les mêmes valeurs sont deux choses différentes pour le métier
+
+L'Entity peut-elle devenir invalide ?
+[ ] E3  Le constructeur et chaque méthode refusent un état invalide
+[ ] E6  Pas de setter ; chaque changement a une méthode avec un nom métier
+
+L'Entity contient-elle trop de choses ?
+[ ] E7  Un autre Aggregate est gardé par son identifiant, pas par l'objet entier
+[ ] E4  Aucun import d'infrastructure ; ni new Date(), ni Math.random(), ni configuration
+[ ] E5  Aucune méthode que seul le repository appelle
+
+L'identifiant est-il clair ?
+[ ] E1  Un id dans l'objet ; aucune méthode ne modifie l'id
+[ ] E2  Les comparaisons utilisent l'id
+[ ] E8  Un fichier, en PascalCase, avec un nom du métier
+
+Les tests
+[ ] Chaque méthode qui change l'Entity a un test du refus
 ```
 
-À terme, huit lignes restent, toutes de jugement :
+## Référence des règles
 
-- E7 ;
-- E5 ;
-- E2 ;
-- le test de refus ;
-- le rappel du test de discrimination ;
-- la part de E3 qu'aucune règle ne couvre : la validation de valeur, par opposition à la validation
-  de présence ;
-- la part de E1 qu'aucune règle ne couvre : le traitement du cas non persisté ;
-- la part de E4 qu'aucune règle ne couvre : l'horloge, l'aléatoire et la configuration.
+Les exemples viennent du code de Pix. Quand un exemple est corrigé ou inventé, c'est écrit sous
+l'exemple.
 
----
+### E1. L'identité est explicite et stable
 
-## Sources
+**La règle.** L'Entity contient son identifiant. L'identifiant ne change jamais.
 
-L'argumentation et la bibliographie sont dans [`explication.md`](explication.md#sources) et
-`../references-ddd.md`. Les ADR sont dans `docs/adr/`.
+**Bon exemple.**
 
-| Invariant | Origine |
-| --- | --- |
-| **E1**, **E2** identité, égalité par identité | Evans, *DDD*, Entity |
-| **E3** invariants tenus à tout instant | Evans, *DDD*, cycle de vie d'un objet du domaine |
-| **E4** pureté | Evans, *DDD* ; Martin, « The Clean Architecture » |
-| **E5** pas de méthode de persistance | Evans, *DDD*. L'exception du format publié : Published Language |
-| **E6** aucun mutateur nu | Fowler, « AnemicDomainModel » |
-| **E7** référence par identité | Vernon, « Effective Aggregate Design », règle 3 |
-| **E8** nommage et emplacement | l'emplacement : `docs/fr/Anatomy.md`, et ADR 51, « Arborescence API ». Le nommage : aucune source |
-| Le test de discrimination | Evans, *DDD*, Entity |
+```js
+class Passage {
+  constructor({ id, moduleId, userId, createdAt, updatedAt, terminatedAt }) {
+    this.id = id; // aucune méthode ne modifie l'id ensuite
+    …
+  }
+}
+```
+
+[`Passage.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/Passage.js#L1-L9), simplifié.
+
+**Mauvais exemple.**
+
+```js
+class Passage {
+  constructor({ moduleId, userId }) { … } // pas d'id : impossible de savoir de quel passage il s'agit
+}
+```
+
+Inventé.
+
+**Ce que ça apporte.** Pour comparer deux Entities ou retrouver une Entity, le code utilise un seul
+champ : l'`id`.
+
+**Sans cette règle.** Chaque partie du code invente sa façon de reconnaître l'Entity. Un jour, deux
+parties du code ne reconnaissent pas la même Entity.
+
+**À savoir.** Une Entity pas encore enregistrée n'a pas encore d'`id`. Deux solutions :
+
+- un `id` à `null`, et le code le sait ;
+- une autre classe pour l'objet à créer, par exemple `CombinedCourseBlueprintForCreation`, qui n'a pas
+  de champ `id`. Cette solution est plus sûre : la classe dit que l'objet n'a pas encore d'`id`.
+
+### E2. L'égalité se fonde sur l'identité
+
+**La règle.** Deux objets qui ont le même `id` sont la même Entity, même si les autres champs sont
+différents. Deux objets qui ont des `id` différents sont deux Entities, même si les autres champs sont
+égaux.
+
+**Bon exemple.**
+
+```js
+static areEqualById(oneSkill, otherSkill) {
+  return oneSkill.id === otherSkill.id;
+}
+```
+
+[`Skill.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/Skill.js#L46-L52), simplifié.
+
+**Mauvais exemple.**
+
+```js
+static areEqual(oneSkill, otherSkill) {
+  return oneSkill.name === otherSkill.name; // compare le nom, pas l'id
+}
+```
+
+[`Skill.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/Skill.js#L38-L44), simplifié.
+
+**Ce que ça apporte.** La même Entity, chargée deux fois à deux moments différents, est reconnue comme
+la même Entity.
+
+**Sans cette règle.** Deux Entities qui ont le même nom sont prises pour la même Entity. La même
+Entity, chargée avant et après un changement de nom, est prise pour deux Entities.
+
+### E3. Les invariants sont tenus à tout instant
+
+**La règle.** Une Entity invalide n'est pas créée. Ensuite, aucune méthode ne rend l'Entity invalide.
+Chaque méthode vérifie la règle avant de modifier l'Entity. Si la règle n'est pas respectée, la
+méthode lève une erreur du domaine et ne modifie rien.
+
+**Bon exemple.**
+
+```js
+terminate({ now }) {
+  if (this.#terminatedAt) throw new PassageTerminatedError(); // vérifier avant de modifier
+  this.#terminatedAt = now;
+}
+```
+
+Extrait de l'[exemple complet](#exemple-complet).
+
+**Mauvais exemple.**
+
+```js
+terminate() {
+  this.terminatedAt = new Date(); // rien n'empêche de terminer deux fois
+}
+```
+
+[`Passage.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/Passage.js#L11-L13), avant la correction.
+
+**Ce que ça apporte.** Le code qui reçoit une Entity n'a rien à vérifier : l'Entity est valide. La
+règle est écrite une seule fois, dans l'Entity.
+
+**Sans cette règle.** La règle est écrite dans un usecase. Un autre usecase appelle `terminate()`,
+oublie la règle, et un passage est terminé deux fois.
+
+**À savoir.**
+
+- Un constructeur avec `= {}` et des champs tous optionnels accepte un objet vide. L'Entity est
+  toujours créée, donc l'Entity ne protège rien. Ce code ressemble à du code correct : c'est pour
+  cela que le problème passe souvent inaperçu.
+- Une méthode qui modifie plusieurs champs vérifie tout avant de modifier le premier champ. Sinon,
+  une erreur au milieu laisse l'Entity à moitié modifiée.
+
+### E4. Aucune I/O, aucune dépendance à l'infrastructure
+
+**La règle.** Une Entity n'importe rien de l'infrastructure : pas de base de données, pas de log, pas
+d'appel HTTP. L'Entity n'appelle pas `new Date()`, pas `Math.random()`, et ne lit pas la
+configuration : ces valeurs sont passées en paramètre. Si une règle a besoin d'une donnée que
+l'Entity n'a pas, le usecase charge la donnée et passe la donnée à la méthode.
+
+**Bon exemple.**
+
+```js
+updateRole({ role, updatedByUserId, now }) {
+  this.role = role;
+  this.updatedAt = now; // la date est passée en paramètre
+  if (updatedByUserId) this.updatedByUserId = updatedByUserId;
+}
+```
+
+Version corrigée du mauvais exemple.
+
+**Mauvais exemple.**
+
+```js
+updateRole({ role, updatedByUserId }) {
+  this.role = role;
+  this.updatedAt = new Date(); // l'Entity lit l'heure
+  if (updatedByUserId) this.updatedByUserId = updatedByUserId;
+}
+```
+
+[`CertificationCenterMembership.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/team/domain/models/CertificationCenterMembership.js#L35-L42), simplifié.
+
+**Ce que ça apporte.** Le résultat dépend seulement des paramètres. Le test passe une date et vérifie
+le résultat.
+
+**Sans cette règle.** Le test doit bloquer l'heure ou simuler un module. Une Entity qui appelle
+`new Date()` donne un résultat différent à chaque exécution du test.
+
+**À savoir.** Un import peut aussi venir de l'infrastructure sans le dire. Par exemple,
+[`UserLogin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/identity-access-management/domain/models/UserLogin.js#L2)
+importe `anonymizeGeneralizeDate` depuis `shared/infrastructure/`.
+
+### E5. Aucune méthode au service de la persistance
+
+**La règle.** Transformer une Entity pour la base de données est le travail du repository. L'Entity
+n'a pas de méthode que seul le repository appelle.
+
+**Bon exemple.**
+
+```js
+// dans le repository : une fonction du repository transforme la ligne de la table en Entity
+function _toDomain({ id, moduleId, userId, createdAt, updatedAt, terminatedAt }) {
+  return new Passage({ id, moduleId, userId, createdAt, updatedAt, terminatedAt });
+}
+```
+
+[`passage-repository.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/infrastructure/repositories/passage-repository.js#L49-L51).
+
+**Mauvais exemple.**
+
+```js
+class Quest {
+  toDTO() {
+    // seul le repository appelle cette méthode
+    return { id: this.id, rewardType: this.rewardType, rewardId: this.rewardId, … };
+  }
+}
+```
+
+[`Quest.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/entities/Quest.js#L155-L165), simplifié.
+
+**Ce que ça apporte.** L'Entity ne connaît pas la base de données. Un changement dans la base de
+données modifie seulement le repository.
+
+**Sans cette règle.** Renommer une colonne de la table oblige à modifier l'Entity.
+
+**Exceptions.** Une méthode qui produit un format documenté pour l'extérieur est permise. Pour
+décider, poser la question : si une colonne de la table changeait de nom, la méthode devrait-elle
+changer ? Si oui, la méthode sert la base de données, et la méthode va dans le repository.
+
+### E6. Aucun mutateur nu
+
+**La règle.** Chaque changement de l'Entity passe par une méthode avec un nom métier : `archive()`,
+`complete()`, `rename()`. Pas de setter public. Le code extérieur ne modifie pas un champ
+directement.
+
+**Bon exemple.**
+
+```js
+complete({ now }) {
+  this.updatedAt = now;
+  this.#status = CombinedCourseParticipationStatuses.COMPLETED;
+}
+```
+
+Version corrigée de [`CombinedCourseParticipation.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-course-participations/entities/CombinedCourseParticipation.js#L28-L31) :
+le champ `status` devient privé, et la date est passée en paramètre.
+
+**Mauvais exemple.**
+
+```js
+class DataForQuest {
+  #success;
+  get success() { return Object.freeze(this.#success); }
+  set success(value) { this.#success = value; } // n'importe quel code peut changer la valeur
+}
+```
+
+[`DataForQuest.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/aggregates/DataForQuest.js#L1-L20), simplifié.
+Le champ est protégé en lecture, mais le setter permet de modifier le champ.
+
+**Ce que ça apporte.** Chaque changement passe par une seule méthode. La méthode vérifie la règle
+(E3). Le nom de la méthode dit ce qui se passe pour le métier.
+
+**Sans cette règle.** Un setter passe à côté de la règle. La règle E3 est vérifiée seulement dans le
+constructeur.
+
+**À savoir.** Une Entity remplie par une suite de setters, `setX()` puis `setY()`, est invalide entre
+deux appels. Toutes les valeurs de départ passent par le constructeur.
+
+**Exceptions.** Une Entity sans aucune méthode de changement est permise : certaines Entities ne
+changent pas.
+
+### E7. Les autres Aggregates sont référencés par identité
+
+**La règle.** Une Entity ne garde pas un objet d'un autre Aggregate : l'Entity garde l'identifiant de
+l'objet. Si une règle a besoin des données de l'autre objet, la méthode reçoit les données en
+paramètre.
+
+**Bon exemple.**
+
+```js
+this.organizationId = organizationId;
+this.userId = userId;
+```
+
+Version corrigée du mauvais exemple.
+
+**Mauvais exemple.**
+
+```js
+this.organization = organization; // l'objet entier d'un autre Aggregate
+this.organizationId = organization?.id ?? organizationId;
+this.user = user; // l'objet entier d'un autre Aggregate
+this.userId = user?.id ?? userId;
+```
+
+[`Membership.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/Membership.js#L23-L26).
+
+**Ce que ça apporte.** Charger une Entity charge seulement cette Entity. Chaque Aggregate est modifié
+et enregistré seul.
+
+**Sans cette règle.** Le repository doit charger l'organisation et l'utilisateur avec chaque
+`Membership`. Plus il y a d'objets liés, plus le chargement est lent. Et le code peut modifier
+l'organisation à travers le `Membership`.
+
+**Exceptions.** Une Entity garde les objets de son propre Aggregate : un module garde ses sections.
+
+### E8. Nommage et emplacement
+
+**La règle.** Un fichier par Entity, dans le dossier `domain/models/`. Le nom du fichier est le nom
+métier de l'Entity, en PascalCase.
+
+**Bon exemple.** `devcomp/domain/models/Passage.js`.
+
+**Mauvais exemple.** `devcomp/domain/models/passage-model.js`. Inventé.
+
+**Ce que ça apporte.** Le fichier est facile à trouver. Le nom du fichier est le mot du métier.
+
+**Sans cette règle.** Rien ne casse. Le fichier est plus long à trouver, et la revue perd du temps sur
+le nom.
+
+**Exceptions.** Deux contextes peuvent avoir chacun une Entity avec le même nom, pour deux choses
+différentes. C'est normal : l'import dit de quel contexte vient l'Entity.
