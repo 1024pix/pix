@@ -214,10 +214,34 @@ interface OrganizationRepository {
 
 Chaque usecase dit quel état il accepte :
 
-- `createOrganization` reçoit une `Organization<null>`, construite avec `create()`, et la passe à
-  `add()` ;
-- `archiveOrganization` reçoit un `OrganizationId`, charge une `Organization` avec `get()`, appelle
-  `archive()`, puis appelle `update()`.
+```ts
+// création : le usecase reçoit une Entity neuve
+const createOrganization = async ({
+  organization,
+  organizationRepository,
+}: {
+  organization: Organization<null>;
+  organizationRepository: OrganizationRepository;
+}): Promise<Organization> => {
+  return organizationRepository.add(organization);
+};
+
+// modification : le usecase reçoit l'id, charge l'Entity, appelle une méthode métier
+const archiveOrganization = async ({
+  organizationId,
+  organizationRepository,
+  clock,
+}: {
+  organizationId: OrganizationId;
+  organizationRepository: OrganizationRepository;
+  clock: Clock;
+}): Promise<Organization> => {
+  const organization = await organizationRepository.get(organizationId);
+  organization.archive(clock.now());
+  await organizationRepository.update(organization);
+  return organization;
+};
+```
 
 Le compilateur refuse `add()` avec une Entity déjà enregistrée, et `update()` avec une Entity neuve.
 Dans une `Organization`, `id` n'est jamais `null`.
