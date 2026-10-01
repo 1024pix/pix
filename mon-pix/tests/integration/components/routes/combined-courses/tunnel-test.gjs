@@ -3,6 +3,7 @@ import { t } from 'ember-intl/test-support';
 import CombinedCourseTunnel from 'mon-pix/components/routes/combined-courses/tunnel';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import { CombinedCourseStatuses } from '../../../../../models/combined-course.js';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering.js';
@@ -46,7 +47,6 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
   module('when participation is started', function () {
     test('should display completed status for finished items', async function (assert) {
       // given
-      // const store = this.owner.lookup('service:store');
       this.owner.lookup('service:router');
       const completedCombinedCourseItem = store.createRecord('combined-course-item', {
         id: 2,
@@ -248,6 +248,38 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
           screen.getByRole('button', { name: /mon module/, description: 'Ma description Objectif 1 Objectif 2' }),
         );
       });
+    });
+  });
+
+  module('when combined course has been completed', function () {
+    test('should redirect to combined course presentation page', async function (assert) {
+      // given
+      const router = this.owner.lookup('service:router');
+      sinon.stub(router, 'replaceWith');
+
+      const completedCombinedCourseItem = store.createRecord('combined-course-item', {
+        id: 2,
+        title: 'mon module',
+        reference: 'mon-module',
+        type: 'MODULE',
+        isCompleted: true,
+        isLocked: false,
+      });
+
+      const combinedCourse = store.createRecord('combined-course', {
+        id: 1,
+        status: CombinedCourseStatuses.COMPLETED,
+        code: 'COMBINIX9',
+      });
+
+      combinedCourse.items.push(completedCombinedCourseItem);
+
+      // when
+      await render(<template><CombinedCourseTunnel @combinedCourse={{combinedCourse}} /></template>);
+
+      // then
+      sinon.assert.calledWithExactly(router.replaceWith, 'combined-courses.presentation', 'COMBINIX9');
+      assert.ok(true);
     });
   });
 });

@@ -16,7 +16,7 @@ export default class CombinedCourseTunnel extends Component {
 
     const nextItem = this.args.combinedCourse.nextCombinedCourseItem;
     if (!nextItem) {
-      this.router.transitionTo('combined-courses.presentation', this.args.combinedCourse.code);
+      this.router.replaceWith('combined-courses.presentation', this.args.combinedCourse.code);
     }
     this.selectedItem = nextItem;
   }
