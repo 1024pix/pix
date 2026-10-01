@@ -78,6 +78,21 @@ describe('Unit | Infrastructure | Utils | otelProxy', function () {
       expect(spanStub.end).to.have.been.calledOnce;
     });
 
+    it('should preserve the receiver when the wrapped function is called as a method', async function () {
+      class JobController {
+        #logger = { warn: sinon.stub() };
+
+        async handle() {
+          this.#logger.warn('called');
+        }
+      }
+      JobController.prototype.handle = otelProxy(JobController.prototype.handle, 'handle');
+      const controller = new JobController();
+
+      await expect(controller.handle()).to.be.fulfilled;
+      expect(spanStub.end).to.have.been.calledOnce;
+    });
+
     it('should not wrap an already proxied function again', function () {
       const fn = sinon.stub().returns(1);
 

@@ -18,7 +18,9 @@ function wrapFunction(func, target, methodName, getSpanOptionsFn) {
 
     return tracer.startActiveSpan(methodName, spanOptions, (span) => {
       try {
-        const result = func.apply(target, args);
+        // A bare function (no target) may be installed as a method afterwards, e.g. on a
+        // class prototype by `instrumentJobController`: keep the receiver it is called with.
+        const result = func.apply(target ?? this, args);
         if (result instanceof Promise) {
           return result
             .then((result) => {
