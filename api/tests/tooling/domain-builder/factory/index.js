@@ -1,5 +1,6 @@
 import { buildNetwork } from './acquisition/build-network.js';
 import { buildOrganizationLearnerType } from './acquisition/build-organization-learner-type.js';
+import { buildStructure } from './acquisition/build-structure.js';
 import { buildEmptyInformationBanner, buildInformationBanner } from './banner/build-banner-information.js';
 import { buildAccountRecoveryDemand } from './build-account-recovery-demand.js';
 import { buildActivity } from './build-activity.js';
@@ -240,6 +241,7 @@ import { buildStageCollection as buildStageCollectionForTargetProfileManagement 
 import { buildStageCollection as buildStageCollectionForUserCampaignResults } from './user-campaign-results/build-stage-collection.js';
 
 const acquisition = {
+  buildStructure,
   buildNetwork,
   buildOrganizationLearnerType,
 };

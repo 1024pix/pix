@@ -7,25 +7,70 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Organizational Entities | Domain | UseCase | attach-certification-center-to-organization', function () {
   describe('success case', function () {
-    it('attaches certification center to organization', async function () {
-      // given
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+    context('when certification center has its own structure', function () {
+      it('deletes its structure and attaches it to the organization structure', async function () {
+        // given
+        const organizationCategoryId = databaseBuilder.factory.buildStructureCategory({ label: 'Orga category' }).id;
+        const certificationCenterCategoryId = databaseBuilder.factory.buildStructureCategory({
+          label: 'CDC category',
+        }).id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const certificationCenterStructureId = databaseBuilder.factory.buildStructure({
+          categoryId: certificationCenterCategoryId,
+        }).id;
+        databaseBuilder.factory.buildFactStructure({
+          structureId: certificationCenterStructureId,
+          certificationCenterId,
+        });
+        const { organization, structure: organizationStructure } =
+          databaseBuilder.factory.buildOrganizationWithStructure({ categoryId: organizationCategoryId });
 
-      await databaseBuilder.commit();
+        await databaseBuilder.commit();
 
-      // when
-      await usecases.attachCertificationCenterToOrganization({
-        organizationId: organization.id,
-        certificationCenterId,
+        // when
+        await usecases.attachCertificationCenterToOrganization({
+          organizationId: organization.id,
+          certificationCenterId,
+        });
+
+        // then
+        const certificationCenterFactStructures = await knex('fct_structures').where({
+          certification_center_id: certificationCenterId,
+        });
+        expect(certificationCenterFactStructures).to.have.lengthOf(1);
+        expect(certificationCenterFactStructures[0].organization_id).to.equal(organization.id);
+        expect(certificationCenterFactStructures[0].structure_id).to.equal(organizationStructure.id);
+
+        const deletedStructure = await knex('structures').where({ id: certificationCenterStructureId }).first();
+        expect(deletedStructure).to.be.undefined;
+
+        const keptStructure = await knex('structures').where({ id: organizationStructure.id }).first();
+        expect(keptStructure.category_id).to.equal(organizationCategoryId);
       });
+    });
 
-      // then
-      const organizationFactStructure = await knex('fct_structures')
-        .where({ organization_id: organization.id })
-        .first();
+    // TODO(PIX-24402): enlever ce test provisoire
+    context('when certification center does not have a structure', function () {
+      it('attaches it to the organization structure without deleting any structure', async function () {
+        // given
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure();
+        await databaseBuilder.commit();
 
-      expect(organizationFactStructure.certification_center_id).to.equal(certificationCenterId);
+        // when
+        await usecases.attachCertificationCenterToOrganization({
+          organizationId: organization.id,
+          certificationCenterId,
+        });
+
+        // then
+        const factStructures = await knex('fct_structures').where({ certification_center_id: certificationCenterId });
+        expect(factStructures).to.have.lengthOf(1);
+        expect(factStructures[0].structure_id).to.equal(structure.id);
+
+        const organizationStructure = await knex('structures').where({ id: structure.id }).first();
+        expect(organizationStructure).to.exist;
+      });
     });
   });
 
