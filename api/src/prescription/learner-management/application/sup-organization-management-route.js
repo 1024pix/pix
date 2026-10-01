@@ -33,7 +33,7 @@ const register = async function (server) {
                 'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 birthdate: Joi.date().format('YYYY-MM-DD').required(),
-                'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'organization-id': Joi.number().required(),
               },
               type: 'sup-organization-learners',
             },

@@ -14,6 +14,7 @@ import AssociateSupStudentForm from 'mon-pix/components/routes/organizations/inv
         <AssociateSupStudentForm
           @organizationName={{@model.organizationToJoin.name}}
           @campaignCode={{@model.verifiedCode.id}}
+          @organizationId={{@model.organizationToJoin.id}}
         />
       </div>
     </main>
