@@ -151,6 +151,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
           'birth-postal-code': certificationCandidateA.birthPostalCode,
           'has-seen-certification-instructions': false,
           'accessibility-adjustment-needed': false,
+          'has-started-test': false,
           subscription: certificationCandidateA.subscription,
         };
         expectedCertificationCandidateBAttributes = {
@@ -173,6 +174,7 @@ describe('Certification | Enrolment | Acceptance | Routes | session-route', func
           'birth-postal-code': certificationCandidateB.birthPostalCode,
           'has-seen-certification-instructions': false,
           'accessibility-adjustment-needed': false,
+          'has-started-test': false,
           subscription: certificationCandidateB.subscription,
         };
         userId = databaseBuilder.factory.buildUser().id;
