@@ -21,15 +21,19 @@ import { NodeSDK } from '@opentelemetry/sdk-node';
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
-import { config } from '../../../../config/config.js';
 import { logger } from '../utils/logger.js';
+import { withDataExportGate } from './gated-exporter.js';
 import { InheritedAttributesSpanProcessor } from './inherited-span-attributes.js';
 import { scalingoDetector } from './scalingo-detector.js';
+import { setDataExportEnabled, setOpenTelemetryInitialized } from './state.js';
+
+const OPEN_TELEMETRY_FEATURE_TOGGLE = 'isOpenTelemetryEnabled';
+
+const GatedOTLPLogExporter = withDataExportGate(OTLPLogExporter);
+const GatedOTLPTraceExporter = withDataExportGate(OTLPTraceExporter);
+const GatedOTLPMetricExporter = withDataExportGate(OTLPMetricExporter);
 
 export function initializeOpenTelemetry(serviceName) {
-  if (!config.logging.otelEnabled) {
-    return;
-  }
   diag.setLogger(
     {
       ...console,
@@ -39,9 +43,9 @@ export function initializeOpenTelemetry(serviceName) {
     DiagLogLevel.WARN,
   );
 
-  const logExporter = new OTLPLogExporter();
-  const traceExporter = new OTLPTraceExporter();
-  const metricExporter = new OTLPMetricExporter({
+  const logExporter = new GatedOTLPLogExporter();
+  const traceExporter = new GatedOTLPTraceExporter();
+  const metricExporter = new GatedOTLPMetricExporter({
     compression: 'gzip',
     temporalityPreference: 0 /* 'AggregationTemporality.DELTA' = 0 */,
   });
@@ -83,10 +87,13 @@ export function initializeOpenTelemetry(serviceName) {
 
   try {
     sdk.start();
+    setOpenTelemetryInitialized(true);
     logger.info('OpenTelemetry initialized');
   } catch (error) {
     logger.error('Error initializing OpenTelemetry', error);
   }
+
+  watchDataExportFeatureToggle();
 
   async function shutdown() {
     try {
@@ -99,4 +106,21 @@ export function initializeOpenTelemetry(serviceName) {
 
   process.on('SIGTERM', shutdown);
   process.on('SIGINT', shutdown);
+}
+
+function watchDataExportFeatureToggle() {
+  import('../feature-toggles/index.js')
+    .then(({ featureToggles }) => {
+      const featureToggleRef = featureToggles.use(OPEN_TELEMETRY_FEATURE_TOGGLE);
+      setDataExportEnabled(featureToggleRef.value);
+      logger.info(`OpenTelemetry data export is ${featureToggleRef.value ? 'enabled' : 'disabled'}`);
+
+      featureToggleRef.watch((value) => {
+        setDataExportEnabled(value);
+        logger.info(`OpenTelemetry data export is now ${value ? 'enabled' : 'disabled'}`);
+      });
+    })
+    .catch((error) => {
+      logger.error('Error watching the OpenTelemetry feature toggle, data export stays disabled', error);
+    });
 }

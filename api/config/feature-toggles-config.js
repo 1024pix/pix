@@ -123,6 +123,13 @@ export default {
     defaultValue: false,
     tags: ['backend', 'pix-api'],
   },
+  isOpenTelemetryEnabled: {
+    type: 'boolean',
+    description: 'Send the collected OpenTelemetry data (traces, metrics and logs) to the backend',
+    defaultValue: false,
+    devDefaultValues: { test: false, reviewApp: true },
+    tags: ['backend', 'pix-api', 'observability'],
+  },
   newPixCertifLegalDocumentsVersioning: {
     type: 'boolean',
     description: 'Enable new Pix Certif legal documents versioning for pix',

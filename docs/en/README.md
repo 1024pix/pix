@@ -7,6 +7,7 @@ For any contribution, it is essential to read [Contributing](./CONTRIBUTING.md).
 * [Bookshelf](./Bookshelf.md)
 * [Contributing](./CONTRIBUTING.md)
 * [CSS](./CSS.md)
+* [OpenTelemetry](./OpenTelemetry.md)
 * [Responsive Design](./Responsive-Design.md)
 * [Tests](./test.md)
 * [Usecase](./Usecase.md)

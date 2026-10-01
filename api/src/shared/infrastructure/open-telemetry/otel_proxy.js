@@ -1,7 +1,7 @@
 import { trace } from '@opentelemetry/api';
 
-import { config } from '../../../../config/config.js';
 import { DomainError } from '../../domain/errors.js';
+import { isOpenTelemetryInitialized } from './state.js';
 const otelProxySymbol = Symbol('otelProxy');
 export const preventTracingSymbol = Symbol('preventTracing');
 
@@ -110,7 +110,7 @@ function wrapObject(resource, name, getSpanOptionsFn) {
  * @returns {object|Function} A proxy (or wrapped function) that behaves like `resource` but emits spans.
  */
 export function otelProxy(resource, name, getSpanOptionsFn) {
-  if (!config.logging.otelEnabled || resource[preventTracingSymbol]) {
+  if (!isOpenTelemetryInitialized() || resource[preventTracingSymbol]) {
     return resource;
   }
   if (typeof resource === 'function') {

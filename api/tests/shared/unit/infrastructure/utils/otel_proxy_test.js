@@ -2,14 +2,17 @@ import { trace } from '@opentelemetry/api';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { config } from '../../../../../config/config.js';
 import { tracing } from '../../../../../src/shared/infrastructure/open-telemetry/helpers.js';
 import { otelProxy } from '../../../../../src/shared/infrastructure/open-telemetry/otel_proxy.js';
+import {
+  isOpenTelemetryInitialized,
+  setOpenTelemetryInitialized,
+} from '../../../../../src/shared/infrastructure/open-telemetry/state.js';
 
 describe('Unit | Infrastructure | Utils | otelProxy', function () {
   let spanStub;
   let tracerStub;
-  let otelEnabled;
+  let wasOpenTelemetryInitialized;
 
   beforeEach(function () {
     spanStub = {
@@ -21,12 +24,12 @@ describe('Unit | Infrastructure | Utils | otelProxy', function () {
       startActiveSpan: sinon.stub().callsFake((name, options, cb) => cb(spanStub)),
     };
     sinon.stub(trace, 'getTracer').returns(tracerStub);
-    otelEnabled = config.logging.otelEnabled;
-    config.logging.otelEnabled = true;
+    wasOpenTelemetryInitialized = isOpenTelemetryInitialized();
+    setOpenTelemetryInitialized(true);
   });
 
   afterEach(function () {
-    config.logging.otelEnabled = otelEnabled;
+    setOpenTelemetryInitialized(wasOpenTelemetryInitialized);
   });
 
   describe('when resource is a function', function () {
