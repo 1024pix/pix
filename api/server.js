@@ -24,7 +24,7 @@ import { identityAccessManagementRoutes } from './src/identity-access-management
 import * as serverAuthentication from './src/identity-access-management/infrastructure/server-authentication.js';
 import { learningContentRoutes } from './src/learning-content/routes.js';
 import { llmRoutes } from './src/llm/routes.js';
-import { ltiRoutes } from './src/lti/application/routes.js';
+import { ltiRoutes } from './src/lti/application/lti.route.js';
 import { organizationalEntitiesRoutes } from './src/organizational-entities/application/routes.js';
 import { campaignRoutes } from './src/prescription/campaign/routes.js';
 import { campaignParticipationsRoutes } from './src/prescription/campaign-participation/routes.js';

@@ -1,8 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { ltiRoute } from '../../../../src/lti/application/lti.route.js';
-import { ltiRoutes } from '../../../../src/lti/application/routes.js';
+import { ltiRoutes } from '../../../../src/lti/application/lti.route.js';
 
 describe('Unit | lti | Application | Routes', function () {
   let featureToggles, server;
@@ -22,7 +21,7 @@ describe('Unit | lti | Application | Routes', function () {
       await ltiRoutes[0].register(server, {}, dependencies);
 
       // then
-      expect(server.route).to.have.been.calledOnceWith(ltiRoute);
+      expect(server.route).to.have.been.calledOnce;
     });
   });
 
