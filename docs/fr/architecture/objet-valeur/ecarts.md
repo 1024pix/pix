@@ -118,7 +118,7 @@ relue par personne côté serveur.
 **Verdict.** À corriger. Le domaine connaît le framework de son client, et V2 devient invérifiable :
 tout `id` peut être légitime. Le seul bénéfice est une clé composée une fois pour tous ses lecteurs.
 L'équipe a décidé qu'une clé de présentation se compose dans le sérialiseur : c'est le premier cas du
-[cas de la clé de présentation](README.md#le-cas-de-la-clé-de-présentation), sous V2. La théorie est
+[cas de la clé de présentation](README.md#v2-aucune-identité-égalité-par-valeur), sous V2. La théorie est
 dans [`explication.md`](explication.md#x5-la-clé-de-présentation-est-fabriquée-dans-le-domaine).
 
 **Correction.** La réponse de l'API reste identique : le front ne doit rien voir changer. La
