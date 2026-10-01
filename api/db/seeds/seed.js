@@ -6,6 +6,7 @@ import { databaseConnection } from '../knex-database-connection.js';
 import { commonBuilder } from './data/common/common-builder.js';
 import { complementaryCertificationBuilder } from './data/common/complementary-certification-builder.js';
 import { featuresBuilder } from './data/common/feature-builder.js';
+import { knowledgeStateBuilder } from './data/common/knowledge-state-builder.js';
 import { learningContentBuilder } from './data/common/learningcontent-builder.js';
 import { organizationBuilder } from './data/common/organization-builder.js';
 import { organizationLearnerImportFormat } from './data/common/organization-learner-import-formats.js';
@@ -32,6 +33,7 @@ export async function seed() {
   // Common
   await commonBuilder({ databaseBuilder });
   await tagsBuilder({ databaseBuilder });
+  knowledgeStateBuilder({ databaseBuilder });
 
   // FEATURES
   // This is needed when you have to re-seed database that is fully migrated (ex: on Scalingo you can't drop database)
