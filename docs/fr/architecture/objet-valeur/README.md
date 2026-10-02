@@ -213,8 +213,8 @@ export class QcmSolution {
 }
 ```
 
-**Ce que ça apporte.** La différence avec une [Entity](../entite/README.md) est claire : une Entity a
-un identifiant, un Value Object n'a pas d'identifiant.
+**Ce que ça apporte.** Deux solutions se comparent par leurs valeurs. Le code peut remplacer une
+solution par une autre solution qui a les mêmes valeurs : rien ne change pour le métier.
 
 **Sans cette règle.** Avec un identifiant, le code finit par retrouver l'objet, modifier l'objet,
 créer un repository pour l'objet. L'objet devient une Entity, sans que personne l'ait décidé.
@@ -359,7 +359,8 @@ challenge.solution.isCorrect(answer.selectedChoiceIds);
 const solution = await qcmSolutionRepository.get(solutionId);
 ```
 
-**Ce que ça apporte.** La différence avec une Entity reste claire.
+**Ce que ça apporte.** La solution est toujours chargée avec sa question, en un seul appel au
+repository des questions. Une solution ne peut pas exister sans sa question.
 
 **Sans cette règle.** Un repository a besoin d'un identifiant pour retrouver l'objet. L'objet reçoit
 un identifiant, et l'objet devient une Entity sans que personne l'ait décidé.
