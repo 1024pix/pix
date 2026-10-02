@@ -17,7 +17,6 @@ const serialize = function (usersDetailsForAdmin) {
       'lastName',
       'email',
       'username',
-      'cgu',
       'pixAppTermsOfServiceAccepted',
       'pixOrgaTermsOfServiceAccepted',
       'pixCertifTermsOfServiceAccepted',

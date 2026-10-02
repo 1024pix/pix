@@ -66,7 +66,6 @@ describe('Unit | Deprecated | Infrastructure | Serializer | JSONAPI | user-detai
             email: userDetailsForAdmin.email,
             username: userDetailsForAdmin.username,
             'created-at': userDetailsForAdmin.createdAt,
-            cgu: userDetailsForAdmin.cgu,
             'pix-orga-terms-of-service-accepted': userDetailsForAdmin.pixOrgaTermsOfServiceAccepted,
             'pix-app-terms-of-service-accepted': userDetailsForAdmin.pixAppTermsOfServiceAccepted,
             'pix-certif-terms-of-service-accepted': userDetailsForAdmin.pixCertifTermsOfServiceAccepted,

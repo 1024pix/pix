@@ -80,7 +80,6 @@ describe('Acceptance | Deprecated | Application | Route | User admin', function 
         expect(response.result.data.type).to.deep.equal('users');
 
         expect(response.result.data.attributes).to.deep.equal({
-          cgu: true,
           'created-at': new Date(),
           email: user.email,
           'email-confirmed-at': null,
