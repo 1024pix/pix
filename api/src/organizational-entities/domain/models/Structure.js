@@ -6,11 +6,13 @@ class Structure {
    * @param {number} params.id
    * @param {number | null} params.organizationId
    * @param {number | null} params.certificationCenterId
+   * @param {number | null} params.categoryId
    */
-  constructor({ id, organizationId = null, certificationCenterId = null }) {
+  constructor({ id, organizationId = null, certificationCenterId = null, categoryId = null }) {
     this.id = id;
     this.organizationId = organizationId;
     this.certificationCenterId = certificationCenterId;
+    this.categoryId = categoryId;
   }
 
   /**
@@ -48,6 +50,23 @@ class Structure {
     }
 
     this.certificationCenterId = certificationCenterId;
+  }
+
+  /**
+   * Detaches the certification center from this structure.
+   *
+   * @returns {Structure|null} the new structure of the detached certification center, null if none was attached
+   */
+  detachCertificationCenter() {
+    if (!this.certificationCenterId) return null;
+
+    const certificationCenterStructure = new Structure({
+      certificationCenterId: this.certificationCenterId,
+      categoryId: this.categoryId,
+    });
+    this.certificationCenterId = null;
+
+    return certificationCenterStructure;
   }
 }
 
