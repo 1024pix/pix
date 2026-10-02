@@ -113,7 +113,8 @@
         "category": {
           "name": "Catégorie",
           "tags": {
-            "BACK_TO_SCHOOL": "Parcours de rentrée / 6e",
+            "ATTESTATION": "Attestations",
+            "BACK_TO_SCHOOL": "Parcours de rentrée",
             "COMPETENCES": "Les 16 compétences",
             "CUSTOM": "Parcours sur-mesure",
             "DISCIPLINE": "Disciplinaires",

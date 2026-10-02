@@ -69,4 +69,12 @@ module('Integration | Component | Category', function (hooks) {
     // then
     assert.dom(screen.getByText('Parcours de rentrée / 6e')).exists();
   });
+
+  test('it should display the tag for type ATTESTATION', async function (assert) {
+    // when
+    const screen = await render(<template><Category @category="ATTESTATION" /></template>);
+
+    // then
+    assert.dom(screen.getByText('Parcours de rentrée / 6e')).exists();
+  });
 });
