@@ -4,8 +4,8 @@ import { Area } from '../../domain/models/Area.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { child, SCOPES } from '../utils/logger.js';
 import * as competenceRepository from './competence-repository.js';
+import { LearningContentInMemoryRepository } from './learning-content-inmemory-repository.js';
 import { LearningContentRedisRepository } from './learning-content-redis-repository.js';
-import { LearningContentRepository } from './learning-content-repository.js';
 
 const TABLE_NAME = 'learningcontent.areas';
 
@@ -115,7 +115,7 @@ async function toDomainWithCompetences(areaDtos, locale) {
 /** @type {LearningContentRedisRepository} */
 let redisInstance;
 
-/** @type {LearningContentRepository} */
+/** @type {LearningContentInMemoryRepository} */
 let instance;
 
 function getInstance() {
@@ -126,7 +126,7 @@ function getInstance() {
     return redisInstance;
   }
   if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+    instance = new LearningContentInMemoryRepository({ tableName: TABLE_NAME });
   }
   return instance;
 }

@@ -1,7 +1,7 @@
 import { Course } from '../../../evaluation/domain/models/Course.js';
 import { NotFoundError } from '../../domain/errors.js';
+import { LearningContentInMemoryRepository } from './learning-content-inmemory-repository.js';
 import { LearningContentRedisRepository } from './learning-content-redis-repository.js';
-import { LearningContentRepository } from './learning-content-repository.js';
 
 const TABLE_NAME = 'learningcontent.courses';
 
@@ -31,7 +31,7 @@ function toDomain(courseDto) {
 /** @type {LearningContentRedisRepository} */
 let redisInstance;
 
-/** @type {LearningContentRepository} */
+/** @type {LearningContentInMemoryRepository} */
 let instance;
 
 function getInstance() {
@@ -42,7 +42,7 @@ function getInstance() {
     return redisInstance;
   }
   if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+    instance = new LearningContentInMemoryRepository({ tableName: TABLE_NAME });
   }
   return instance;
 }

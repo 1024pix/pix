@@ -1,18 +1,18 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { LearningContentRepository } from '../../../../../src/shared/infrastructure/repositories/learning-content-repository.js';
+import { LearningContentInMemoryRepository } from '../../../../../src/shared/infrastructure/repositories/learning-content-inmemory-repository.js';
 import { knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 const SCHEMA_NAME = 'learningcontent';
 const TABLE_NAME = 'entities';
 
-describe('Integration | Repository | learning-repository', function () {
+describe('Integration | Repository | LearningContentInMemory', function () {
   /** @type {string} */
   let tableName;
 
-  /** @type {LearningContentRepository} */
+  /** @type {LearningContentInMemoryRepository} */
   let repository;
 
   /** @type {sinon.SinonStub} */
@@ -20,7 +20,7 @@ describe('Integration | Repository | learning-repository', function () {
 
   before(function () {
     tableName = `${SCHEMA_NAME}.${TABLE_NAME}`;
-    repository = new LearningContentRepository({ tableName });
+    repository = new LearningContentInMemoryRepository({ tableName });
   });
 
   beforeEach(async function () {

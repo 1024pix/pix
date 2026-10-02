@@ -1,8 +1,8 @@
 import crypto from 'node:crypto';
 
 import { NotFoundError } from '../../../shared/domain/errors.js';
+import { LearningContentInMemoryRepository } from '../../../shared/infrastructure/repositories/learning-content-inmemory-repository.js';
 import { LearningContentRedisRepository } from '../../../shared/infrastructure/repositories/learning-content-redis-repository.js';
-import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 import { ModuleFactory } from '../factories/module-factory.js';
 
 async function getById({ id }) {
@@ -76,7 +76,7 @@ const TABLE_NAME = 'learningcontent.modules';
 /** @type {LearningContentRedisRepository} */
 let redisInstance;
 
-/** @type {LearningContentRepository} */
+/** @type {LearningContentInMemoryRepository} */
 let instance;
 
 export function getInstance() {
@@ -87,7 +87,7 @@ export function getInstance() {
     return redisInstance;
   }
   if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME, idType: 'uuid' });
+    instance = new LearningContentInMemoryRepository({ tableName: TABLE_NAME, idType: 'uuid' });
   }
   return instance;
 }
