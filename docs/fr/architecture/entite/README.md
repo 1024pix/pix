@@ -208,7 +208,8 @@ Deux signes d'un problème, pendant l'écriture du test :
 
 ## Comment relire
 
-La checklist suit l'ordre de relecture : les questions les plus utiles sont en premier. Dans un
+La checklist suit l'ordre de relecture : les règles qui évitent les bugs les plus graves sont en
+premier. Dans un
 commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas la règle : « E6 :
 `set name()` permet de changer le nom sans passer par `rename()`, donc sans vérifier le nom ».
 
@@ -373,8 +374,8 @@ renomme l'organisation, oublie la règle, et une organisation a un nom vide.
 **À savoir.**
 
 - Un constructeur avec `= {}` et sans aucune vérification accepte `new Organization()` : l'Entity est
-  créée vide. Ce code ressemble à du code correct : c'est pour cela que le problème passe souvent
-  inaperçu.
+  créée vide. Ce code compile, et les tests qui passent des valeurs valides passent : c'est pour
+  cela que le problème passe souvent inaperçu.
 - Une méthode qui modifie plusieurs champs vérifie tout avant de modifier le premier champ. Sinon,
   une erreur au milieu laisse l'Entity à moitié modifiée.
 
@@ -530,7 +531,8 @@ métier de l'Entity, en PascalCase.
 
 **Mauvais exemple.** `organizational-entities/domain/models/organization-model.ts`.
 
-**Ce que ça apporte.** Le fichier est facile à trouver. Le nom du fichier est le mot du métier.
+**Ce que ça apporte.** Une recherche avec le mot du métier, par exemple « Organization », trouve le
+fichier.
 
 **Sans cette règle.** Rien ne casse. Le fichier est plus long à trouver, et la revue perd du temps sur
 le nom.

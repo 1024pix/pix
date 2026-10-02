@@ -16,7 +16,7 @@ un bon exemple et un mauvais exemple.
 | [V3](#v3-validation-à-la-construction) | Valide dès la construction | le constructeur lève une erreur du domaine sur une valeur invalide |
 | [V4](#v4-aucune-io-aucune-dépendance-à-linfrastructure) | Aucune I/O | aucun import d'infrastructure ; la date du jour est passée en paramètre |
 | [V5](#v5-porte-le-comportement-lié-à-ses-données) | Contient ses règles | une règle sur les données de l'objet est une méthode de l'objet |
-| [V6](#v6-aucun-cycle-de-vie-propre) | Pas de [repository](../repository/README.md) | pas de repository, pas de table : le Value Object est enregistré avec l'objet qui le contient |
+| [V6](#v6-aucun-cycle-de-vie-à-lui) | Pas de [repository](../repository/README.md) | pas de repository, pas de table : le Value Object est enregistré avec l'objet qui le contient |
 | [V7](#v7-exposition-en-lecture-seule-tableaux-compris) | Lecture seule, tableaux compris | un accesseur renvoie une copie : `[...this.#items]`, jamais `this.#items` |
 
 Une erreur du domaine est une `DomainError`, ou une classe qui hérite de `DomainError`. `DomainError`
@@ -130,7 +130,8 @@ de l'infrastructure : l'objet ne respecte pas [V4](#v4-aucune-io-aucune-dépenda
 
 ## Comment relire
 
-La checklist suit l'ordre de relecture : les questions les plus utiles sont en premier. Dans un
+La checklist suit l'ordre de relecture : les règles qui évitent les bugs les plus graves sont en
+premier. Dans un
 commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas la règle : « V7 :
 `get correctChoiceIds()` renvoie le tableau interne, l'appelant peut modifier la solution ».
 
@@ -178,8 +179,8 @@ export class QcmSolution {
 }
 ```
 
-**Ce que ça apporte.** Plusieurs parties du code peuvent utiliser le même objet sans risque :
-personne ne peut modifier l'objet.
+**Ce que ça apporte.** Une même solution peut être passée à plusieurs fonctions, ou gardée en cache :
+aucune fonction ne peut modifier la solution qu'une autre fonction utilise.
 
 **Sans cette règle.** Une partie du code modifie la solution d'une question pendant qu'une autre
 partie du code corrige une réponse avec cette solution. La réponse est corrigée avec une mauvaise
@@ -308,7 +309,7 @@ n'a pas besoin de double.
 ### V5. Porte le comportement lié à ses données
 
 **La règle.** Une règle sur les données du Value Object est une méthode du Value Object. Un objet
-sans méthode n'apporte rien de plus qu'un objet simple `{ … }`.
+sans méthode laisse chaque appelant écrire la règle.
 
 **Bon exemple.**
 
@@ -334,11 +335,10 @@ dans un écran et fausse dans un autre.
 **À savoir.** Un calcul pour l'affichage, comme un pourcentage arrondi, n'est pas une règle : le calcul
 ne décide rien.
 
-**Exceptions.** Un Value Object sans méthode est accepté quand son seul rôle est de donner un nom
-clair à une valeur, par exemple pour rendre la signature d'une fonction plus claire qu'avec une
-simple chaîne.
+**Exceptions.** Un Value Object sans méthode est accepté quand son seul rôle est de typer une valeur :
+une fonction qui attend une `QcmSolution` refuse une simple liste de chaînes à la compilation.
 
-### V6. Aucun cycle de vie propre
+### V6. Aucun cycle de vie à lui
 
 **La règle.** Un Value Object n'a pas de repository. Un Value Object n'a pas de table à lui. Le Value
 Object est enregistré avec l'objet qui le contient. Un objet qu'il faut retrouver seul est une
@@ -387,8 +387,8 @@ get correctChoiceIds(): string[] {
 }
 ```
 
-**Ce que ça apporte.** V1 est vraiment respectée : l'objet ne change pas, le contenu de l'objet ne
-change pas.
+**Ce que ça apporte.** Une fois créée, la solution ne change plus, même quand un appelant modifie le
+tableau qu'il a reçu.
 
 **Sans cette règle.** Le code qui appelle fait `solution.correctChoiceIds.push('b')`, et la solution de
 la question change sans appel à une méthode de la solution.
