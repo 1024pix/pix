@@ -173,7 +173,7 @@ mot, et elles n'ont pas les mêmes invariants :
 | le contrat publié vers un autre contexte | un **DTO de contrat** | `application/api/`, où le mot est trompeur |
 
 Le classement se fait fichier par fichier, par les quatre tests du discriminant, sous
-« Le discriminant » dans `objet-valeur/README.md`, qui les énonce pour les deux catégories. Migration opportuniste, conforme à l'ADR 20.
+« Le discriminant » dans `objet-valeur/explication.md`, qui les énonce pour les deux catégories. Migration opportuniste, conforme à l'ADR 20.
 
 Ce qui est à tenir dans tous les cas : ne pas invoquer CQRS pour justifier une décision sur ces
 objets, l'architecture correspondante n'étant pas en place.

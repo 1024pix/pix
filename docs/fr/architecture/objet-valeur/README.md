@@ -7,18 +7,6 @@ billets de 10 €. Les Value Objects sont dans le dossier `domain/models/`.
 En bas de la page, la partie [référence des règles](#référence-des-règles) explique chaque règle avec
 un bon exemple et un mauvais exemple.
 
-## Value Object ou read-model ?
-
-Pour savoir si un objet est un Value Object, poser une question : **une règle du domaine lit-elle cet
-objet pour décider ?**
-
-- Oui : l'objet est un Value Object. Si une seule règle du domaine lit l'objet, l'objet est un Value
-  Object, même si l'objet est aussi envoyé au front.
-- Non : l'objet est un [read-model](../read-model/README.md). Un objet dont le nom finit par `…ForAdmin`, `…Details` ou
-  `…ListItem` est presque toujours un read-model.
-
-Si la réponse n'est pas claire, [le discriminant](#le-discriminant) donne quatre tests.
-
 ## Les règles
 
 | # | Règle | En pratique |
@@ -121,12 +109,8 @@ n'utilise pas de **double** : pas de stub, pas de mock, pas de spy. Le test vér
 - le comportement : chaque méthode qui porte une règle, cas limites compris ;
 - l'immuabilité : modifier un champ échoue, et modifier un tableau renvoyé ne modifie pas l'objet.
 
-Deux signes d'un problème, pendant l'écriture du test :
-
-- **Le test a besoin d'un double.** L'objet dépend de l'infrastructure : l'objet ne respecte pas
-  [V4](#v4-aucune-io-aucune-dépendance-à-linfrastructure).
-- **Le test n'a rien à vérifier** : pas de validation, pas de méthode. L'objet n'est sans doute pas un
-  Value Object : appliquer [le discriminant](#le-discriminant).
+Un signe d'un problème, pendant l'écriture du test : **le test a besoin d'un double**. L'objet dépend
+de l'infrastructure : l'objet ne respecte pas [V4](#v4-aucune-io-aucune-dépendance-à-linfrastructure).
 
 ## Comment relire
 
@@ -135,9 +119,6 @@ commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas 
 peut le modifier ».
 
 ```
-Est-ce un Value Object ?
-[ ] Une règle du domaine le lit pour décider ; sinon, c'est un read-model
-
 Porte-t-il ses règles ?
 [ ] V3  Le constructeur rejette toute valeur invalide, avec une erreur du domaine
 [ ] V5  La logique sur ses données est dans ses méthodes
@@ -159,22 +140,6 @@ Les tests
 
 Les exemples viennent du code de Pix. Quand un exemple est corrigé ou inventé, c'est écrit sous
 l'exemple.
-
-### Le discriminant
-
-Parfois, la question « une règle du domaine lit-elle cet objet pour décider ? » n'a pas de réponse
-claire. Les quatre tests ci-dessous aident à répondre. Les quatre tests donnent presque toujours la
-même réponse.
-
-| Test | Value Object | read-model |
-| --- | --- | --- |
-| **Existence** : si l'écran disparaissait, l'objet existerait-il encore ? | oui, le concept existe sans l'écran | non, l'objet disparaîtrait avec l'écran |
-| **Champs** : qui a choisi les champs ? | le métier ; en retirer un casse le concept | l'écran ; en retirer un allège la réponse |
-| **Portée** : qui le lit ? | beaucoup de code, pour peu de champs | un seul point d'entrée, pour beaucoup de champs |
-| **Nom** : que dit le nom ? | un mot du métier | le nom de son lecteur : `…ForAdmin`, `…Overview`, `…Details`, `…ListItem` |
-
-Le dossier ne décide pas. Un objet rangé dans le dossier `read-models/`, mais lu par une règle, est un
-Value Object rangé dans le mauvais dossier : toutes les règles de cette page s'appliquent à cet objet.
 
 ### V1. Immuable après construction
 

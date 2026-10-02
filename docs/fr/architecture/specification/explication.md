@@ -59,7 +59,7 @@ expliquent trois choix de la référence.
 
 ### Le candidat est un Value Object
 
-Le discriminant de `../objet-valeur/README.md` le montre : une règle du domaine lit les valeurs du
+Le discriminant de `../objet-valeur/explication.md` le montre : une règle du domaine lit les valeurs du
 candidat pour décider. Le domaine raisonne donc avec lui, et ce n'est pas un read-model. Ce classement
 n'a pas de source externe. Evans fournit la catégorie Value Object.
 

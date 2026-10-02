@@ -42,7 +42,7 @@ Les écarts se numérotent `X` dans tous les dossiers. `X` n'est le préfixe d'i
 dossier. Le read-model emploie `RM` pour ne pas entrer en collision avec `R` de la route.
 
 **Le discriminant Value Object / read-model est énoncé une seule fois**, sous « Le discriminant » dans
-`objet-valeur/README.md`. `read-model/README.md` y renvoie.
+`objet-valeur/explication.md`. `read-model/README.md` y renvoie.
 
 ## Les autres fichiers
 
@@ -160,7 +160,7 @@ décrit comme un **Value Object défectueux**, et c'est ce cadrage qui rendait l
 insaisissable. Deux dossiers obligent chaque catégorie à se tenir sur ses propres termes.
 
 Le discriminant reste : **le domaine raisonne-t-il avec cet objet ?**, avec quatre tests applicables
-en revue, énoncés sous « Le discriminant » dans `objet-valeur/README.md`.
+en revue, énoncés sous « Le discriminant » dans `objet-valeur/explication.md`.
 
 **Le mot `read-model` est conservé**, décision du 2026-09-08 qui renverse un verdict précédent. Il
 avait été classé « à corriger » au motif que le renommage débloquerait une vérification par règle de

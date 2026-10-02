@@ -13,6 +13,25 @@ source.
 Cette référence porte aussi le discriminant avec le read-model et les cinq invariants communs aux deux
 catégories : V1, V2, V4, V6 et V7. La référence du read-model y renvoie au lieu de les répéter.
 
+## Le discriminant
+
+Une question sépare le Value Object du read-model : **une règle du domaine lit-elle cet objet pour
+décider ?** Si oui, l'objet est un Value Object, même s'il est aussi envoyé au front. Si non, l'objet
+est un read-model.
+
+Quand la question n'a pas de réponse claire, quatre tests aident à répondre. Les quatre tests donnent
+presque toujours la même réponse.
+
+| Test | Value Object | read-model |
+| --- | --- | --- |
+| **Existence** : si l'écran disparaissait, l'objet existerait-il encore ? | oui, le concept existe sans l'écran | non, l'objet disparaîtrait avec l'écran |
+| **Champs** : qui a choisi les champs ? | le métier ; en retirer un casse le concept | l'écran ; en retirer un allège la réponse |
+| **Portée** : qui le lit ? | beaucoup de code, pour peu de champs | un seul point d'entrée, pour beaucoup de champs |
+| **Nom** : que dit le nom ? | un mot du métier | le nom de son lecteur : `…ForAdmin`, `…Overview`, `…Details`, `…ListItem` |
+
+Le dossier ne décide pas. Un objet rangé dans le dossier `read-models/`, mais lu par une règle, est un
+Value Object rangé dans le mauvais dossier.
+
 ## ROI des invariants
 
 | Invariant | Rentabilité | Ce qu'on gagne |
@@ -39,7 +58,7 @@ trop est un coût pur ; ne pas en extraire un qui portait une règle laisse la r
 jugement reste humain.
 
 Ils ne disent pas non plus **si** un concept mérite d'être un Value Object plutôt qu'un read-model.
-C'est le [discriminant](README.md#le-discriminant) qui répond ; il s'appuie sur des tests de jugement.
+C'est le [discriminant](#le-discriminant) qui répond ; il s'appuie sur des tests de jugement.
 
 ## Les décisions et leur histoire
 
