@@ -155,8 +155,7 @@ Les tests
 ## Référence des règles
 
 Les bons exemples sont des extraits de l'[exemple complet](#exemple-complet). Les mauvais exemples
-montrent la même `QcmSolution` mal écrite. Sous chaque mauvais exemple, un lien montre un fichier de
-Pix qui fait la même faute.
+montrent la même `QcmSolution` mal écrite.
 
 ### V1. Immuable après construction
 
@@ -178,8 +177,6 @@ export class QcmSolution {
   correctChoiceIds: string[]; // public : n'importe qui peut modifier le champ
 }
 ```
-
-Même faute dans [`CombinedCourseStatistics.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-courses/value-objects/CombinedCourseStatistics.js#L1-L7).
 
 **Ce que ça apporte.** Plusieurs parties du code peuvent utiliser le même objet sans risque :
 personne ne peut modifier l'objet.
@@ -215,8 +212,6 @@ export class QcmSolution {
   readonly id: number; // un identifiant à la solution, qu'aucune règle du domaine n'utilise
 }
 ```
-
-Même faute dans [`CombinedCourseStatistics.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-courses/value-objects/CombinedCourseStatistics.js#L2-L3).
 
 **Ce que ça apporte.** La différence avec une [Entity](../entite/README.md) est claire : une Entity a
 un identifiant, un Value Object n'a pas d'identifiant.
@@ -261,8 +256,6 @@ constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; corre
 }
 ```
 
-Même faute dans [`AnswerStatus.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/AnswerStatus.js#L11-L14).
-
 **Ce que ça apporte.** Un objet invalide n'existe pas. Le code qui utilise l'objet n'a pas besoin de
 vérifier l'objet.
 
@@ -306,8 +299,6 @@ isCorrect(selectedChoiceIds: string[]): boolean {
 }
 ```
 
-Même faute dans [`OrganizationLearnerList.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/learner-management/domain/models/OrganizationLearnerList.js#L1-L19).
-
 **Ce que ça apporte.** Le résultat dépend seulement des paramètres. Le test est rapide, et le test
 n'a pas besoin de double.
 
@@ -333,9 +324,6 @@ const isCorrect =
   answer.selectedChoiceIds.length === solution.correctChoiceIds.length &&
   answer.selectedChoiceIds.every((choiceId) => solution.correctChoiceIds.includes(choiceId));
 ```
-
-Même faute dans [`CombinedCourseStatistics.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-courses/value-objects/CombinedCourseStatistics.js#L1-L7) :
-un objet sans aucune méthode.
 
 **Ce que ça apporte.** La règle est écrite une seule fois, dans l'objet qui contient les données.
 
@@ -397,8 +385,6 @@ get correctChoiceIds(): string[] {
   return this.#correctChoiceIds; // le tableau interne lui-même
 }
 ```
-
-Même faute dans [`CampaignResultLevelsPerTubesAndCompetences.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/campaign/domain/models/CampaignResultLevelsPerTubesAndCompetences.js#L29-L31).
 
 **Ce que ça apporte.** V1 est vraiment respectée : l'objet ne change pas, le contenu de l'objet ne
 change pas.
