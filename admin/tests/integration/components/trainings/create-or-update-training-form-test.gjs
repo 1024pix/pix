@@ -18,11 +18,13 @@ module('Integration | Component | trainings | CreateOrUpdateTrainingForm', funct
     const store = this.owner.lookup('service:store');
     store.createRecord('module-metadata', {
       title: 'Faire un clic droit',
+      slug: 'faire-clic-droit',
       link: '/modules/r2d2droi/clic-droit',
       duration: 30,
     });
     store.createRecord('module-metadata', {
       title: 'Utiliser un LLM',
+      slug: 'utiliser-llm',
       link: '/modules/k2000tro/use-llm',
       duration: 10,
     });
@@ -317,7 +319,15 @@ module('Integration | Component | trainings | CreateOrUpdateTrainingForm', funct
 
       // then
       assert.dom(screen.queryByRole('textbox', { name: 'Lien' })).doesNotExist();
-      assert.dom(screen.getByRole('button', { name: 'Module' })).exists();
+      const moduleButton = screen.getByRole('button', { name: 'Module' });
+      assert.dom(moduleButton).exists();
+
+      // when
+      await click(moduleButton);
+      await screen.findByRole('listbox');
+
+      // then
+      assert.dom(await screen.findByRole('option', { name: 'Utiliser un LLM (utiliser-llm)' })).exists();
     });
 
     test('it should auto fill the editor logo url', async function (assert) {
@@ -420,7 +430,7 @@ module('Integration | Component | trainings | CreateOrUpdateTrainingForm', funct
       await click(screen.getByRole('option', { name: 'Module Pix' }));
       await click(screen.getByRole('button', { name: 'Module' }));
       await screen.findByRole('listbox');
-      await click(await screen.findByRole('option', { name: 'Utiliser un LLM' }));
+      await click(await screen.findByRole('option', { name: 'Utiliser un LLM (utiliser-llm)' }));
 
       // then
       assert.dom(screen.getByRole('spinbutton', { name: 'Minutes (MM)' })).hasValue('10');
@@ -450,7 +460,7 @@ module('Integration | Component | trainings | CreateOrUpdateTrainingForm', funct
 
         // then
         const moduleButton = await screen.findByRole('button', { name: 'Module' });
-        assert.dom(within(moduleButton).getByText('Utiliser un LLM')).exists();
+        assert.dom(within(moduleButton).getByText('Utiliser un LLM (utiliser-llm)')).exists();
       });
     });
   });
