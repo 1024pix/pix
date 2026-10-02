@@ -23,7 +23,7 @@ export default class CertificationEnder extends Component {
               <PixIcon @name="userCircle" @plainIcon={{true}} @ariaHidden={{true}} />
               {{this.currentUser.user.fullName}}
             </p>
-            <h1 class="certification-ender-candidate__title">{{t "pages.certification-ender.candidate.title"}}</h1>
+            <h2 class="certification-ender-candidate__title">{{t "pages.certification-ender.candidate.title"}}</h2>
             {{#if @isEndedByInvigilator}}
               <PixNotificationAlert @type="warning" @withIcon="true">
                 {{t "pages.certification-ender.candidate.ended-by-invigilator"}}

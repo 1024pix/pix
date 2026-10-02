@@ -35,7 +35,7 @@ export default class InfoBar extends Component {
 
   get steps() {
     return Array.from({ length: this.maxStepsNumber }, (_, index) => ({
-      title: index + 1,
+      title: `q${index + 1}`,
     }));
   }
 
