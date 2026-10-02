@@ -1,5 +1,30 @@
 # Pix Changelog
 
+# [5.513.0](https://github.com/1024pix/pix/compare/v5.512.1...v5.513.0) (2026-10-02)
+
+### :rocket: Amélioration
+
+- [#17603](https://github.com/1024pix/pix/pull/17603) Ajout des niveaux par compétence du candidat dans la 2e page du certificat (PIX-23993)
+- [#17706](https://github.com/1024pix/pix/pull/17706) Créer une API interne qui remonte les ids d'organisations depuis un id de réseau (PIX-24543)
+- [#17701](https://github.com/1024pix/pix/pull/17701) Empêcher la modification de session après démarrage d'une première certif (PIX-23438).
+- [#17660](https://github.com/1024pix/pix/pull/17660) improve Dutch translations
+- [#17648](https://github.com/1024pix/pix/pull/17648) Supprimer l'ancien code de création de campagne (PIX-22925).
+- [#17636](https://github.com/1024pix/pix/pull/17636) Supprimer la structure du centre de certification lors de son rattachement à une organisation (PIX-24393)
+
+### :bug: Correction
+
+- [#17702](https://github.com/1024pix/pix/pull/17702) Utilise l'organizationId au lieu du campaignCode pour la réconciliation d'un learner SUP dans un parcours combiné (PIX-24527)
+
+### :building_construction: Tech
+
+- [#17687](https://github.com/1024pix/pix/pull/17687) Créer un nouveau bounded context LTI (PIX-24418)
+- [#17664](https://github.com/1024pix/pix/pull/17664) Utiliser une API interne pour récupérer les CF mis en avant (PIX-24089)
+
+### :arrow_up: Montée de version
+
+- [#17698](https://github.com/1024pix/pix/pull/17698) Update dependency @ember-data/json-api to ^5.9.1 (mon-pix)
+- [#17705](https://github.com/1024pix/pix/pull/17705) Update dependency @ember-intl/v1-compat to ^1.3.1 (certif)
+
 ## [5.512.1](https://github.com/1024pix/pix/compare/v5.512.0...v5.512.1) (2026-10-01)
 
 ### :bug: Correction
