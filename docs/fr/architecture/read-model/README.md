@@ -28,12 +28,12 @@ invariant dit par quel moyen la règle se vérifie. Ce qui est en place dans la 
 | [**RM3**](#rm3-nentre-pas-dans-une-règle) | n'entre pas dans une règle | `dependency-cruiser` |
 | [**RM4**](#rm4-emplacement) | emplacement | script, partiel |
 
-[**Invariants communs**](#les-cinq-invariants-communs), énoncés dans `../objet-valeur/README.md` :
+[**Invariants communs**](#les-cinq-invariants-communs), énoncés dans `../objet-valeur/explication.md` :
 `V1` immuabilité, `V2` aucune identité, `V4` pureté, `V6` aucun cycle de vie propre, `V7` exposition
 en lecture seule.
 
 Hors numérotation : pour savoir si un objet est un read-model ou un Value Object, voir le
-discriminant et ses quatre tests dans `../objet-valeur/README.md`.
+discriminant et ses quatre tests dans `../objet-valeur/explication.md`.
 
 ---
 
@@ -105,7 +105,7 @@ Table de décision. Si le code correspond à une ligne, ce n'est pas un read-mod
 | assemble les données | un repository | [`../repository/README.md`](../repository/README.md) |
 
 La première ligne est le cas fréquent et le seul difficile. Pour la reconnaître, voir les quatre tests
-du discriminant dans `../objet-valeur/README.md`.
+du discriminant dans `../objet-valeur/explication.md`.
 
 Une dérivation de présentation n'est pas une règle métier. Un read-model peut donc porter des
 méthodes sans devenir un Value Object. La question n'est pas « a-t-il du comportement ? » mais « ce
@@ -118,7 +118,7 @@ comportement décide-t-il quelque chose ? »
 ### Les cinq invariants communs
 
 Un read-model est immuable, sans identité, pur, sans cycle de vie propre. Il n'expose rien en écriture.
-Ces cinq invariants sont énoncés dans `../objet-valeur/README.md` : `V1`, `V2`, `V4`, `V6`, `V7`, avec
+Ces cinq invariants sont énoncés dans `../objet-valeur/explication.md` : `V1`, `V2`, `V4`, `V6`, `V7`, avec
 leurs illustrations et ce qui casse. Ils s'appliquent tels quels et ne sont pas répétés ici. Leur
 autorité n'est pas la même que pour un Value Object : voir
 [`explication.md`](explication.md#limmuabilité-et-labsence-didentité-une-convention-pix).
@@ -440,7 +440,7 @@ Ordonnée par ROI décroissant. Le statut de chaque ligne vient du moyen de vér
 - `[partiel]` : la ligne reste, réduite à ce que la règle ne couvre pas ;
 - `[humain]` : la ligne reste en entier, aucun moyen déterministe n'est connu.
 
-Les cinq dernières lignes reprennent les invariants communs, énoncés dans `../objet-valeur/README.md`.
+Les cinq dernières lignes reprennent les invariants communs, énoncés dans `../objet-valeur/explication.md`.
 
 ```
 [ ] [humain]  RM1 Aucune règle métier ; les dérivations de présentation sont admises
@@ -475,4 +475,4 @@ L'argumentation et la bibliographie sont dans [`explication.md`](explication.md#
 | **RM2** aucune validation | convention d'équipe, sans source |
 | **RM3** n'entre pas dans une règle | déduction de la validation à la construction |
 | **RM4** emplacement | convention d'équipe, sans source |
-| Immuabilité et absence d'identité | convention Pix, pas Fowler. Énoncés de `V1` et `V2` dans `../objet-valeur/README.md` |
+| Immuabilité et absence d'identité | convention Pix, pas Fowler. Énoncés de `V1` et `V2` dans `../objet-valeur/explication.md` |

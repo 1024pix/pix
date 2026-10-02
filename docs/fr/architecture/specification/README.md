@@ -72,7 +72,7 @@ Chaque élément a un rôle distinct :
 | **`isSatisfiedBy(candidat)`** | l'unique point d'entrée | sur la specification | — |
 
 **Le candidat est un Value Object**, pas un read-model : une règle du domaine lit ses valeurs pour
-décider. Voir le discriminant de `../objet-valeur/README.md`, et
+décider. Voir le discriminant de `../objet-valeur/explication.md`, et
 [`explication.md`](explication.md#le-candidat-est-un-value-object).
 
 Conséquence directe : `V3` s'applique. Le candidat valide à la construction. C'est ce qui rend `S1`

@@ -7,26 +7,6 @@ même Entity. Les Entities sont dans le dossier `domain/models/`.
 En bas de la page, la partie [référence des règles](#référence-des-règles) explique chaque règle avec
 un bon exemple et un mauvais exemple.
 
-## Entity, Value Object ou Aggregate Root ?
-
-Pour savoir si un objet est une Entity, poser deux questions.
-
-**Deux objets qui ont les mêmes valeurs sont-ils la même chose pour le métier ?**
-
-- Oui : l'objet est un [Value Object](../objet-valeur/README.md). Deux seuils de 50 % sont le même
-  seuil.
-- Non : l'objet est une Entity. Deux organisations qui ont le même nom sont deux organisations.
-
-**Le code accède-t-il à l'Entity directement, sans passer par une autre Entity ?**
-
-Un Aggregate est un groupe d'objets qui changent ensemble, par exemple un module et ses sections.
-L'Aggregate Root est l'Entity par laquelle le code accède au groupe : ici, le module.
-
-- Oui : l'Entity est une [Aggregate Root](../racine-agregat/README.md). Les règles de cette page
-  s'appliquent, et les règles de la page Aggregate Root aussi.
-- Non : l'Entity est à l'intérieur d'un Aggregate, comme une section dans un module. Cette Entity n'a
-  pas de [repository](../repository/README.md).
-
 ## Les règles
 
 | # | Règle | En pratique |
@@ -131,9 +111,6 @@ commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas 
 `set status()` permet de mettre n'importe quel statut, sans passer par `complete()` ».
 
 ```
-Est-ce une Entity ?
-[ ] Deux objets qui ont les mêmes valeurs sont deux choses différentes pour le métier
-
 L'Entity peut-elle devenir invalide ?
 [ ] E3  Le constructeur et chaque méthode refusent un état invalide
 [ ] E6  Pas de setter ; chaque changement a une méthode avec un nom métier

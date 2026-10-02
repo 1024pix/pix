@@ -152,7 +152,7 @@ AdminCombinedCourseBlueprintDetails  → un autre sous-ensemble, nommé par son 
 
 **Code.** [Le dossier](https://github.com/1024pix/pix/tree/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-course-blueprints).
 
-Le quatrième porte deux signaux du [discriminant](README.md#le-discriminant) à lui seul : `Admin` et
+Le quatrième porte deux signaux du [discriminant](explication.md#le-discriminant) à lui seul : `Admin` et
 `Details` nomment un consommateur, pas un concept métier.
 
 **Verdict.** À corriger. Le motif habituel est une optimisation non mesurée : ne pas charger l'Entity
