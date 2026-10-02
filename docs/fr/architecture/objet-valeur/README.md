@@ -1,8 +1,8 @@
 # Value Object
 
 Un Value Object est une valeur du métier : un statut, un seuil, la bonne réponse d'une question. Un
-Value Object n'a pas d'identifiant. Deux Value Objects qui ont les mêmes valeurs sont la même chose
-pour le métier, comme deux billets de 10 €. Les Value Objects sont dans le dossier `domain/models/`.
+Value Object n'a pas d'identifiant. Deux Value Objects qui ont les mêmes valeurs sont interchangeables :
+le code peut utiliser l'un à la place de l'autre, comme deux billets de 10 €. Les Value Objects sont dans le dossier `domain/models/`.
 
 En bas de la page, la partie [référence des règles](#référence-des-règles) explique chaque règle avec
 un bon exemple et un mauvais exemple.
@@ -34,7 +34,7 @@ import { InvalidQcmSolutionError } from '../errors.js';
 
 export class QcmSolution {
   readonly challengeId: ChallengeId; // V2 : l'identifiant de la question, pas un identifiant à lui
-  #correctChoiceIds: string[]; // V1 : champ privé, personne ne peut modifier le champ
+  #correctChoiceIds: string[]; // V1 : champ privé, aucun code hors de la classe ne peut modifier le champ
 
   // V3 : une valeur invalide ne crée pas d'objet, le constructeur lève une erreur
   constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; correctChoiceIds: string[] }) {
@@ -130,20 +130,20 @@ de l'infrastructure : l'objet ne respecte pas [V4](#v4-aucune-io).
 
 ## Comment relire
 
-La checklist suit l'ordre de relecture : les règles qui évitent les bugs les plus graves sont en
-premier. Dans un commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas la
-règle : « V7 : `get correctChoiceIds()` renvoie le tableau interne, l'appelant peut modifier la solution ».
+La checklist suit cet ordre : d'abord les règles qui laissent entrer une valeur invalide, puis les
+règles qui permettent de modifier l'objet, puis les règles qui lient l'objet à autre chose. Dans un commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas la
+règle : « V7 : `get correctChoiceIds()` renvoie le tableau interne, le code qui appelle `get correctChoiceIds()` peut modifier la solution ».
 
 ```
 Le Value Object contient-il ses règles ?
 [ ] V3  Le constructeur rejette toute valeur invalide, avec une erreur du domaine
 [ ] V5  La logique sur ses données est dans ses méthodes
 
-Peut-on le modifier de l'extérieur ?
+Un code hors de la classe peut-il modifier l'objet ?
 [ ] V1  Aucun champ public modifiable, aucune méthode qui modifie un champ
 [ ] V7  Aucun tableau interne renvoyé tel quel
 
-Dépend-il de quelque chose ?
+Le Value Object dépend-il d'autre chose que de ses propres données ?
 [ ] V4  Aucun import d'infrastructure ; ni new Date(), ni Math.random(), ni configuration
 [ ] V2  Aucun id à lui ; aucune clé construite pour le front
 [ ] V6  Aucun repository
@@ -183,8 +183,8 @@ aucune fonction ne peut modifier la solution qu'une autre fonction utilise.
 
 **Sans cette règle.** Une partie du code modifie la solution d'une question pendant qu'une autre
 partie du code corrige une réponse avec cette solution. La réponse est corrigée avec une mauvaise
-solution. Le bug apparaît loin de sa cause, et seulement quand les deux parties du code s'exécutent
-dans cet ordre.
+solution. Le bug ne se voit pas à l'endroit de la modification : seule la correction de la réponse
+donne un résultat faux, et seulement quand les deux parties du code s'exécutent dans cet ordre.
 
 **À savoir.** La règle vaut aussi pour la classe parente : les champs de la classe parente sont
 privés, ou en lecture seule.
@@ -215,10 +215,12 @@ export class QcmSolution {
 ```
 
 **Ce que ça apporte.** Deux solutions se comparent par leurs valeurs. Le code peut remplacer une
-solution par une autre solution qui a les mêmes valeurs : rien ne change pour le métier.
+solution par une autre solution qui a les mêmes valeurs : le code qui reçoit l'une ou l'autre donne
+le même résultat.
 
-**Sans cette règle.** Avec un identifiant, le code finit par retrouver l'objet, modifier l'objet,
-créer un repository pour l'objet. L'objet devient une Entity, sans que personne l'ait décidé.
+**Sans cette règle.** Avec un identifiant, un développeur ajoute une méthode pour retrouver l'objet par
+son identifiant, puis un repository. L'objet devient une Entity, et aucune revue n'a décidé ce
+changement.
 
 **Exceptions.** Le front a souvent besoin d'une clé unique pour ranger les objets dans son cache. La
 clé ne va pas toujours au même endroit :
@@ -257,8 +259,8 @@ constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; corre
 }
 ```
 
-**Ce que ça apporte.** Un objet invalide n'existe pas. Le code qui utilise l'objet n'a pas besoin de
-vérifier l'objet.
+**Ce que ça apporte.** Aucun code ne peut créer un objet avec une valeur invalide : le constructeur
+lève une erreur avant. Le code qui utilise l'objet n'a pas besoin de vérifier l'objet.
 
 **Sans cette règle.** Une solution sans choix correct est créée. `isCorrect([])` répond `true`, et une
 réponse vide est comptée juste.
@@ -326,7 +328,8 @@ const isCorrect =
   answer.selectedChoiceIds.every((choiceId) => solution.correctChoiceIds.includes(choiceId));
 ```
 
-**Ce que ça apporte.** La règle est écrite une seule fois, dans l'objet qui contient les données.
+**Ce que ça apporte.** La règle est écrite une seule fois. Pour changer la règle de correction, un
+seul fichier change : `QcmSolution.ts`.
 
 **Sans cette règle.** La règle est copiée dans chaque [usecase](../usecase/README.md) qui corrige une
 réponse. Un jour, une copie de la règle est différente des autres copies, et la même réponse est juste
@@ -360,14 +363,15 @@ const solution = await qcmSolutionRepository.get(solutionId);
 ```
 
 **Ce que ça apporte.** La solution est toujours chargée avec sa question, en un seul appel au
-repository des questions. Une solution ne peut pas exister sans sa question.
+repository des questions. Aucun code ne crée ni n'enregistre une solution seule.
 
 **Sans cette règle.** Un repository a besoin d'un identifiant pour retrouver l'objet. L'objet reçoit
-un identifiant, et l'objet devient une Entity sans que personne l'ait décidé.
+un identifiant, et l'objet devient une Entity sans qu'aucune revue ait décidé ce changement.
 
 ### V7. Lecture seule, tableaux compris
 
-**La règle.** Le code extérieur ne peut rien modifier, même pas le contenu d'un tableau interne. Un
+**La règle.** Aucun code hors de la classe ne peut modifier un champ, ni le contenu d'un tableau
+interne. Un
 accesseur qui renvoie un tableau renvoie une copie du tableau. Le constructeur garde aussi une copie
 du tableau reçu.
 
@@ -394,5 +398,6 @@ tableau qu'il a reçu.
 la question change sans appel à une méthode de la solution.
 
 **À savoir.** Certains fichiers appellent `Object.freeze(this)` pour empêcher les modifications.
-`Object.freeze(this)` empêche de modifier les champs publics. `Object.freeze(this)` ne protège pas les
-champs privés `#`, et ne protège pas le contenu des tableaux. Seule la copie protège un tableau.
+`Object.freeze(this)` empêche de modifier les champs publics. `Object.freeze(this)` n'empêche pas de
+modifier les champs privés `#`, et n'empêche pas `solution.correctChoiceIds.push('b')`. Seule la copie
+empêche de modifier un tableau.
