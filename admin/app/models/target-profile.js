@@ -1,19 +1,8 @@
 import { service } from '@ember/service';
 import Model, { attr, belongsTo, hasMany } from '@warp-drive/legacy/model';
 
+import { categories } from '../helpers/target-profile-categories';
 import formatList from '../utils/format-select-options';
-
-export const categories = {
-  OTHER: 'Autres',
-  DISCIPLINE: 'Disciplinaires',
-  COMPETENCES: 'Les 16 compétences',
-  PREDEFINED: 'Parcours prédéfinis',
-  CUSTOM: 'Parcours sur-mesure',
-  PIX_PLUS: 'Pix+',
-  SUBJECT: 'Thématiques',
-  TARGETED: 'Parcours ciblés',
-  BACK_TO_SCHOOL: 'Parcours de rentrée / 6e',
-};
 
 export const optionsCategoryList = formatList(categories);
 
