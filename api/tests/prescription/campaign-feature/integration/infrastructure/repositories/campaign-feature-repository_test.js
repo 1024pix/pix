@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
-import * as campaignFeatureRepository from '../../../../../src/devcomp/infrastructure/repositories/campaign-feature-repository.js';
-import { CAMPAIGN_FEATURES } from '../../../../../src/shared/constants.js';
-import { databaseBuilder } from '../../../../tooling/databases.js';
+import * as campaignFeatureRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-feature-repository.js';
+import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/constants.js';
+import { databaseBuilder } from '../../../../../tooling/databases.js';
 
-describe('Integration | DevComp | Repositories | CampaignFeatureRepository', function () {
-  describe('when the campaign has no RECOMMENDATION_ENGINE featur', function () {
+describe('Integration | Prescription | Repositories | CampaignFeatureRepository', function () {
+  describe('when the campaign has no RECOMMENDATION_ENGINE feature', function () {
     it('should return an empty array', async function () {
       // given
       const campaignId = databaseBuilder.factory.buildCampaign().id;

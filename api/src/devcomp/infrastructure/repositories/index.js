@@ -1,3 +1,4 @@
+import * as campaignFeatureApi from '../../../prescription/campaign/application/api/campaign-feature-api.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as campaignFeatureRepository from './campaign-feature-repository.js';
@@ -32,6 +33,10 @@ const repositoriesWithoutInjectedDependencies = {
   tutorialEvaluationRepository,
 };
 
-const repositories = injectDependencies(repositoriesWithoutInjectedDependencies, {}, boundedContext);
+const dependencies = {
+  campaignFeatureApi,
+};
+
+const repositories = injectDependencies(repositoriesWithoutInjectedDependencies, dependencies, boundedContext);
 
 export { repositories };

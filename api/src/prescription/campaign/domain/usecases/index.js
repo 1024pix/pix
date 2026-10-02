@@ -23,10 +23,12 @@ import * as stageAcquisitionRepository from '../../../stages/infrastructure/repo
 import * as stageCollectionRepository from '../../../stages/infrastructure/repositories/stage-collection-repository.js';
 import * as stageRepository from '../../../stages/infrastructure/repositories/stage-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
+import { getHighlightedTrainingsForCampaign } from '../../domain/usecases/get-highlighted-trainings-for-campaign.js';
 import * as campaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
 import * as campaignAssessmentParticipationResultListRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
 import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
 import * as campaignCreatorRepository from '../../infrastructure/repositories/campaign-creator-repository.js';
+import * as campaignFeatureRepository from '../../infrastructure/repositories/campaign-feature-repository.js';
 // TODO : clean with campaign administration ( similar get with a lot difference)
 import * as campaignManagementRepository from '../../infrastructure/repositories/campaign-management-repository.js';
 import { campaignParticipantActivityRepository } from '../../infrastructure/repositories/campaign-participant-activity-repository.js';
@@ -41,50 +43,6 @@ import * as groupRepository from '../../infrastructure/repositories/group-reposi
 import * as knowledgeElementSnapshotRepository from '../../infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import * as organizationMembershipRepository from '../../infrastructure/repositories/organization-membership-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
-
-const dependencies = {
-  knowledgeElementForParticipationService,
-  assessmentRepository,
-  adminMemberRepository,
-  badgeForCalculationRepository,
-  badgeAcquisitionRepository,
-  badgeRepository,
-  campaignAdministrationRepository,
-  campaignAssessmentParticipationResultListRepository,
-  campaignCollectiveResultRepository,
-  campaignCreatorRepository,
-  campaignManagementRepository,
-  campaignParticipantActivityRepository,
-  campaignParticipationInfoRepository,
-  campaignParticipationRepository,
-  campaignParticipationsStatsRepository,
-  campaignProfilesCollectionParticipationSummaryRepository,
-  campaignReportRepository,
-  campaignRepository,
-  campaignToJoinRepository,
-  accessCodeGenerator,
-  competenceRepository,
-  improvementService,
-  divisionRepository,
-  auditLoggingJobRepository,
-  groupRepository,
-  knowledgeElementSnapshotRepository,
-  learningContentRepository,
-  membershipRepository,
-  organizationFeatureApi,
-  organizationLearnerImportFormatRepository,
-  organizationMembershipRepository,
-  organizationRepository,
-  placementProfileService,
-  stageRepository,
-  accessCodeRepository,
-  stageCollectionRepository,
-  stageAcquisitionRepository,
-  targetProfileRepository,
-  userRepository,
-  userRecommendedTrainingRepository,
-};
-
 import { archiveCampaign } from './archive-campaign.js';
 import { archiveCampaigns } from './archive-campaigns.js';
 import { computeCampaignCollectiveResult } from './compute-campaign-collective-result.js';
@@ -123,6 +81,50 @@ import { updateCampaign } from './update-campaign.js';
 import { updateCampaignCode } from './update-campaign-code.js';
 import { updateCampaignDetails } from './update-campaign-details.js';
 
+const dependencies = {
+  knowledgeElementForParticipationService,
+  assessmentRepository,
+  adminMemberRepository,
+  badgeForCalculationRepository,
+  badgeAcquisitionRepository,
+  badgeRepository,
+  campaignAdministrationRepository,
+  campaignAssessmentParticipationResultListRepository,
+  campaignCollectiveResultRepository,
+  campaignCreatorRepository,
+  campaignManagementRepository,
+  campaignParticipantActivityRepository,
+  campaignParticipationInfoRepository,
+  campaignParticipationRepository,
+  campaignParticipationsStatsRepository,
+  campaignProfilesCollectionParticipationSummaryRepository,
+  campaignReportRepository,
+  campaignRepository,
+  campaignToJoinRepository,
+  campaignFeatureRepository,
+  accessCodeGenerator,
+  competenceRepository,
+  improvementService,
+  divisionRepository,
+  auditLoggingJobRepository,
+  groupRepository,
+  knowledgeElementSnapshotRepository,
+  learningContentRepository,
+  membershipRepository,
+  organizationFeatureApi,
+  organizationLearnerImportFormatRepository,
+  organizationMembershipRepository,
+  organizationRepository,
+  placementProfileService,
+  stageRepository,
+  accessCodeRepository,
+  stageCollectionRepository,
+  stageAcquisitionRepository,
+  targetProfileRepository,
+  userRepository,
+  userRecommendedTrainingRepository,
+};
+
 const usecasesWithoutInjectedDependencies = {
   archiveCampaign,
   archiveCampaigns,
@@ -143,6 +145,7 @@ const usecasesWithoutInjectedDependencies = {
   getCampaignOfCampaignParticipation,
   getCampaignParticipations,
   getCampaign,
+  getHighlightedTrainingsForCampaign,
   getParticipantsDivision,
   getParticipantsGroup,
   getPresentationSteps,
