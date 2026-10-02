@@ -1,7 +1,7 @@
 # Entity
 
-Une Entity est une chose que le métier suit dans le temps : un utilisateur, une campagne, un passage
-dans un module. Une Entity a un identifiant. Les valeurs d'une Entity changent, mais l'Entity reste la
+Une Entity est une chose que le métier suit dans le temps : un utilisateur, une campagne, une
+organisation. Une Entity a un identifiant. Les valeurs d'une Entity changent, mais l'Entity reste la
 même Entity. Les Entities sont dans le dossier `domain/models/`.
 
 En bas de la page, la partie [référence des règles](#référence-des-règles) explique chaque règle avec
@@ -16,8 +16,8 @@ un bon exemple et un mauvais exemple.
 | [E3](#e3-les-invariants-sont-tenus-à-tout-instant) | Toujours valide | le constructeur et chaque méthode refusent un état invalide |
 | [E4](#e4-aucune-io-aucune-dépendance-à-linfrastructure) | Aucune I/O | aucun import d'infrastructure ; la date du jour est passée en paramètre |
 | [E5](#e5-aucune-méthode-au-service-de-la-persistance) | Rien pour la base de données | pas de `toDTO()` que seul le repository appelle |
-| [E6](#e6-aucun-mutateur-nu) | Pas de setter | chaque changement a une méthode avec un nom métier : `archive()`, pas `setStatus()` |
-| [E7](#e7-les-autres-aggregates-sont-référencés-par-identité) | Les autres Aggregates par identifiant | `organizationId`, pas `organization` |
+| [E6](#e6-aucun-mutateur-nu) | Pas de setter | chaque changement a une méthode avec un nom métier : `rename()`, pas `set name()` |
+| [E7](#e7-les-autres-aggregates-sont-référencés-par-identité) | Les autres Aggregates par identifiant | `createdBy: UserId`, pas `creator: User` |
 | [E8](#e8-nommage-et-emplacement) | Un nom du métier | un fichier par Entity, en PascalCase, avec un nom du métier |
 
 Une erreur du domaine est une `DomainError`, ou une classe qui hérite de `DomainError`. `DomainError`
@@ -25,62 +25,164 @@ est dans le fichier `api/src/shared/domain/errors.js`.
 
 ## Exemple complet
 
-Version corrigée du fichier [`Passage.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/Passage.js#L1-L16).
-Un `Passage` est le passage d'un utilisateur dans un module.
+Une organisation, simplifiée : un nom, un type, la personne qui a créé l'organisation, et une date
+d'archivage. Inventé, d'après
+[`Organization.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/Organization.js#L16-L61).
 
-```js
-import { PassageTerminatedError } from '../errors.js';
+```ts
+// organizational-entities/domain/models/Organization.ts — E8 : un fichier, un nom du métier
+import type { OrganizationId, UserId } from '../../../shared/domain/Id.js';
+import { ArchivedOrganizationError, InvalidOrganizationError } from '../errors.js';
 
-class Passage {
-  #terminatedAt; // E6 : champ privé, seule la méthode terminate() modifie le champ
+export const OrganizationTypes = ['SCO', 'SUP', 'PRO', 'SCO-1D'] as const;
+export type OrganizationType = (typeof OrganizationTypes)[number];
 
-  constructor({ id, moduleId, userId, createdAt, updatedAt, terminatedAt }) {
-    this.id = id; // E1 : l'identifiant
-    this.moduleId = moduleId; // E7 : l'identifiant du module, pas le module
-    this.userId = userId;
+type OrganizationProps<Id> = {
+  id: Id;
+  name: string;
+  type: OrganizationType;
+  createdBy: UserId;
+  createdAt: Date;
+  updatedAt: Date;
+  archivedAt: Date | null;
+};
+
+// Organization<null> : une organisation neuve, pas encore enregistrée
+// Organization : une organisation enregistrée, avec un id
+export class Organization<Id extends OrganizationId | null = OrganizationId> {
+  readonly id: Id; // E1 : l'identifiant, en lecture seule
+  readonly type: OrganizationType;
+  readonly createdBy: UserId; // E7 : l'identifiant de la personne, pas l'objet User
+  readonly createdAt: Date;
+  #name: string; // E6 : champ privé, seule la méthode rename() modifie le nom
+  #updatedAt: Date;
+  #archivedAt: Date | null;
+
+  // E3 : une organisation invalide n'est pas créée
+  constructor({ id, name, type, createdBy, createdAt, updatedAt, archivedAt }: OrganizationProps<Id>) {
+    assertValidName(name);
+    if (!OrganizationTypes.includes(type)) throw new InvalidOrganizationError(`Unknown type: ${type}`);
+    this.id = id;
+    this.type = type;
+    this.createdBy = createdBy;
     this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.#terminatedAt = terminatedAt;
+    this.#name = name;
+    this.#updatedAt = updatedAt;
+    this.#archivedAt = archivedAt;
   }
 
-  get terminatedAt() {
-    return this.#terminatedAt;
+  // une organisation neuve : pas encore d'id ; E4 : la date est passée en paramètre
+  static create({ name, type, createdBy, now }: { name: string; type: OrganizationType; createdBy: UserId; now: Date }): Organization<null> {
+    return new Organization({ id: null, name, type, createdBy, createdAt: now, updatedAt: now, archivedAt: null });
   }
 
-  // E6 : un nom métier ; E4 : la date est passée en paramètre
-  terminate({ now }) {
-    if (this.#terminatedAt) throw new PassageTerminatedError(); // E3 : refuser un passage déjà terminé
-    this.#terminatedAt = now;
+  get name(): string {
+    return this.#name;
   }
+
+  get updatedAt(): Date {
+    return this.#updatedAt;
+  }
+
+  get archivedAt(): Date | null {
+    return this.#archivedAt;
+  }
+
+  get isArchived(): boolean {
+    return this.#archivedAt !== null;
+  }
+
+  // E2 : la comparaison utilise l'id
+  isSameAs(other: Organization): boolean {
+    return this.id === other.id;
+  }
+
+  // E6 : un nom métier ; E3 : tout vérifier avant de modifier
+  rename(name: string, now: Date): void {
+    if (this.isArchived) throw new ArchivedOrganizationError();
+    assertValidName(name);
+    this.#name = name;
+    this.#updatedAt = now;
+  }
+
+  archive(now: Date): void {
+    if (this.isArchived) throw new ArchivedOrganizationError();
+    this.#archivedAt = now;
+    this.#updatedAt = now;
+  }
+
+  // E5 : pas de toDTO() ni de toRow() : le repository fait la traduction
 }
 
-export { Passage };
+function assertValidName(name: string): void {
+  if (name.trim() === '') throw new InvalidOrganizationError('The name is required');
+}
 ```
 
-Ici, le constructeur ne vérifie rien : aucune règle du domaine ne dit quels champs sont obligatoires
-pour un passage. Si une règle existait, le constructeur vérifierait la règle et lèverait une erreur du
-domaine (E3).
+Le test vérifie le constructeur, chaque changement, et chaque refus :
 
-Le test vérifie le changement et le refus :
+```ts
+// tests/organizational-entities/unit/domain/models/Organization_test.ts
+describe('Unit | Organizational Entities | Domain | Models | Organization', function () {
+  const now = new Date('2026-01-02');
 
-```js
-describe('Unit | Devcomp | Domain | Models | Passage', function () {
-  describe('#terminate', function () {
-    it('terminates the passage at the given date', function () {
-      const now = new Date('2024-01-02');
-      const passage = new Passage({ id: 1, moduleId: 'module-id', userId: 123 });
-
-      passage.terminate({ now });
-
-      expect(passage.terminatedAt).to.deep.equal(now);
+  const buildOrganization = (props: Partial<OrganizationProps<OrganizationId>> = {}) =>
+    new Organization({
+      id: 1 as OrganizationId,
+      name: 'Lycée Victor Hugo',
+      type: 'SCO',
+      createdBy: 2 as UserId,
+      createdAt: new Date('2026-01-01'),
+      updatedAt: new Date('2026-01-01'),
+      archivedAt: null,
+      ...props,
     });
 
-    it('refuses to terminate a passage already terminated', function () {
-      const terminatedAt = new Date('2024-01-01');
-      const passage = new Passage({ id: 1, moduleId: 'module-id', userId: 123, terminatedAt });
+  it('refuses an empty name', function () {
+    expect(() => buildOrganization({ name: ' ' })).to.throw(InvalidOrganizationError);
+  });
 
-      expect(() => passage.terminate({ now: new Date('2024-01-02') })).to.throw(PassageTerminatedError);
-      expect(passage.terminatedAt).to.deep.equal(terminatedAt); // le refus ne modifie rien
+  describe('.create', function () {
+    it('creates a new organization, without id', function () {
+      const organization = Organization.create({ name: 'Lycée Victor Hugo', type: 'SCO', createdBy: 2 as UserId, now });
+
+      expect(organization.id).to.be.null;
+      expect(organization.createdAt).to.deep.equal(now);
+    });
+  });
+
+  describe('#rename', function () {
+    it('renames the organization', function () {
+      const organization = buildOrganization();
+
+      organization.rename('Lycée Jean Moulin', now);
+
+      expect(organization.name).to.equal('Lycée Jean Moulin');
+      expect(organization.updatedAt).to.deep.equal(now);
+    });
+
+    it('refuses an empty name, and changes nothing', function () {
+      const organization = buildOrganization();
+
+      expect(() => organization.rename(' ', now)).to.throw(InvalidOrganizationError);
+      expect(organization.name).to.equal('Lycée Victor Hugo');
+    });
+  });
+
+  describe('#archive', function () {
+    it('archives the organization', function () {
+      const organization = buildOrganization();
+
+      organization.archive(now);
+
+      expect(organization.isArchived).to.be.true;
+    });
+
+    it('refuses to archive an organization already archived, and changes nothing', function () {
+      const organization = buildOrganization({ archivedAt: new Date('2026-01-01') });
+
+      expect(() => organization.archive(now)).to.throw(ArchivedOrganizationError);
+      expect(organization.updatedAt).to.deep.equal(new Date('2026-01-01'));
     });
   });
 });
@@ -92,15 +194,15 @@ Une Entity se teste avec un test unitaire. Le test n'utilise pas de base de donn
 pas de **double** : pas de stub, pas de mock, pas de spy. La date est une valeur passée en paramètre.
 Le test vérifie :
 
-- le constructeur : une Entity invalide n'est pas créée, si une règle dit ce qui est valide ;
+- le constructeur : une Entity invalide n'est pas créée ;
 - chaque méthode qui change l'Entity : le cas qui marche, **et** le refus quand la règle n'est pas
   respectée. Après le refus, l'Entity n'a pas changé ;
 - chaque accesseur calculé, comme `isArchived` : les cas limites.
 
 Deux signes d'un problème, pendant l'écriture du test :
 
-- **Le test du refus manque.** C'est l'oubli le plus fréquent. Tester que `terminate()` termine ne
-  suffit pas : c'est le test du refus qui prouve que la règle E3 est respectée.
+- **Le test du refus manque.** C'est l'oubli le plus fréquent. Tester que `archive()` archive ne suffit
+  pas : c'est le test du refus qui prouve que la règle E3 est respectée.
 - **Le test a besoin d'un double**, ou de bloquer l'heure. L'Entity dépend de l'infrastructure :
   l'Entity ne respecte pas [E4](#e4-aucune-io-aucune-dépendance-à-linfrastructure).
 
@@ -108,7 +210,7 @@ Deux signes d'un problème, pendant l'écriture du test :
 
 La checklist suit l'ordre de relecture : les questions les plus utiles sont en premier. Dans un
 commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas la règle : « E6 :
-`set status()` permet de mettre n'importe quel statut, sans passer par `complete()` ».
+`set name()` permet de changer le nom sans passer par `rename()`, donc sans vérifier le nom ».
 
 ```
 L'Entity peut-elle devenir invalide ?
@@ -131,8 +233,9 @@ Les tests
 
 ## Référence des règles
 
-Les exemples viennent du code de Pix. Quand un exemple est corrigé ou inventé, c'est écrit sous
-l'exemple.
+Les bons exemples sont des extraits de l'[exemple complet](#exemple-complet). Les mauvais exemples
+montrent la même `Organization` mal écrite. Sous chaque mauvais exemple, un lien montre un fichier de
+Pix qui fait la même faute.
 
 ### E1. L'identité est explicite et stable
 
@@ -140,48 +243,33 @@ l'exemple.
 
 **Bon exemple.**
 
-```js
-class Passage {
-  constructor({ id, moduleId, userId, createdAt, updatedAt, terminatedAt }) {
-    this.id = id; // aucune méthode ne modifie l'id ensuite
-    …
-  }
+```ts
+export class Organization<Id extends OrganizationId | null = OrganizationId> {
+  readonly id: Id; // en lecture seule : aucune méthode ne modifie l'id
 }
 ```
-
-[`Passage.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/Passage.js#L1-L9), simplifié.
 
 **Mauvais exemple.**
 
-```js
-class Passage {
-  constructor({ moduleId, userId }) { … } // pas d'id : impossible de savoir de quel passage il s'agit
+```ts
+export class Organization {
+  id: number; // public et modifiable : n'importe quel code peut changer l'id
 }
 ```
 
-Inventé.
+Même faute dans [`Organization.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/Organization.js#L40).
 
 **Ce que ça apporte.** Pour comparer deux Entities ou retrouver une Entity, le code utilise un seul
 champ : l'`id`.
 
-**Sans cette règle.** Chaque partie du code invente sa façon de reconnaître l'Entity. Un jour, deux
-parties du code ne reconnaissent pas la même Entity.
+**Sans cette règle.** Un code change l'`id` d'une organisation. Le repository enregistre alors les
+valeurs de cette organisation sur une autre organisation.
 
 **À savoir.** La base de données crée l'`id` au moment de l'enregistrement. Une Entity neuve n'a donc
 pas encore d'`id`. Le type dit si l'Entity a un `id` : `Organization<null>` pour une Entity neuve,
 `Organization` pour une Entity enregistrée.
 
 ```ts
-class Organization<Id extends OrganizationId | null = OrganizationId> {
-  readonly id: Id;
-  …
-
-  // une Entity neuve : pas encore d'id
-  static create({ name, type, createdBy, now }: CreateProps): Organization<null> {
-    return new Organization({ id: null, name, type, createdBy, createdAt: now, updatedAt: now, credit: 0, archivedAt: null });
-  }
-}
-
 interface OrganizationRepository {
   add(organization: Organization<null>): Promise<Organization>; // la base crée l'id
   get(id: OrganizationId): Promise<Organization>;
@@ -223,8 +311,6 @@ const archiveOrganization = async ({
 Le compilateur refuse `add()` avec une Entity déjà enregistrée, et `update()` avec une Entity neuve.
 Dans une `Organization`, `id` n'est jamais `null`.
 
-Inventé, d'après `Organization`.
-
 ### E2. L'égalité se fonde sur l'identité
 
 **La règle.** Deux objets qui ont le même `id` sont la même Entity, même si les autres champs sont
@@ -233,29 +319,27 @@ différents. Deux objets qui ont des `id` différents sont deux Entities, même 
 
 **Bon exemple.**
 
-```js
-static areEqualById(oneSkill, otherSkill) {
-  return oneSkill.id === otherSkill.id;
+```ts
+isSameAs(other: Organization): boolean {
+  return this.id === other.id;
 }
 ```
-
-[`Skill.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/Skill.js#L46-L52), simplifié.
 
 **Mauvais exemple.**
 
-```js
-static areEqual(oneSkill, otherSkill) {
-  return oneSkill.name === otherSkill.name; // compare le nom, pas l'id
+```ts
+isSameAs(other: Organization): boolean {
+  return this.name === other.name; // compare le nom, pas l'id
 }
 ```
 
-[`Skill.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/Skill.js#L38-L44), simplifié.
+Même faute dans [`Skill.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/Skill.js#L38-L44).
 
 **Ce que ça apporte.** La même Entity, chargée deux fois à deux moments différents, est reconnue comme
 la même Entity.
 
-**Sans cette règle.** Deux Entities qui ont le même nom sont prises pour la même Entity. La même
-Entity, chargée avant et après un changement de nom, est prise pour deux Entities.
+**Sans cette règle.** Deux organisations qui ont le même nom sont prises pour la même organisation. La
+même organisation, chargée avant et après `rename()`, est prise pour deux organisations.
 
 ### E3. Les invariants sont tenus à tout instant
 
@@ -265,36 +349,39 @@ méthode lève une erreur du domaine et ne modifie rien.
 
 **Bon exemple.**
 
-```js
-terminate({ now }) {
-  if (this.#terminatedAt) throw new PassageTerminatedError(); // vérifier avant de modifier
-  this.#terminatedAt = now;
+```ts
+rename(name: string, now: Date): void {
+  if (this.isArchived) throw new ArchivedOrganizationError(); // vérifier d'abord
+  assertValidName(name); // vérifier d'abord
+  this.#name = name; // modifier ensuite
+  this.#updatedAt = now;
 }
 ```
-
-Extrait de l'[exemple complet](#exemple-complet).
 
 **Mauvais exemple.**
 
-```js
-terminate() {
-  this.terminatedAt = new Date(); // rien n'empêche de terminer deux fois
+```ts
+constructor({ id, name, type, createdBy }: OrganizationProps = {}) {
+  this.id = id;
+  this.name = name; // aucune vérification : new Organization() crée une organisation vide
+  this.type = type;
+  this.createdBy = createdBy;
 }
 ```
 
-[`Passage.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/Passage.js#L11-L13), avant la correction.
+Même faute dans [`Organization.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/Organization.js#L17-L42).
 
 **Ce que ça apporte.** Le code qui reçoit une Entity n'a rien à vérifier : l'Entity est valide. La
 règle est écrite une seule fois, dans l'Entity.
 
-**Sans cette règle.** La règle est écrite dans un [usecase](../usecase/README.md). Un autre usecase appelle `terminate()`,
-oublie la règle, et un passage est terminé deux fois.
+**Sans cette règle.** La règle est écrite dans un [usecase](../usecase/README.md). Un autre usecase
+renomme l'organisation, oublie la règle, et une organisation a un nom vide.
 
 **À savoir.**
 
-- Un constructeur comme `constructor({ id, name } = {})`, sans aucune vérification, accepte
-  `new Campaign()` : l'Entity est créée vide. Ce code ressemble à du code correct : c'est pour cela
-  que le problème passe souvent inaperçu.
+- Un constructeur avec `= {}` et sans aucune vérification accepte `new Organization()` : l'Entity est
+  créée vide. Ce code ressemble à du code correct : c'est pour cela que le problème passe souvent
+  inaperçu.
 - Une méthode qui modifie plusieurs champs vérifie tout avant de modifier le premier champ. Sinon,
   une erreur au milieu laisse l'Entity à moitié modifiée.
 
@@ -307,27 +394,25 @@ l'Entity n'a pas, le usecase charge la donnée et passe la donnée à la méthod
 
 **Bon exemple.**
 
-```js
-updateRole({ role, updatedByUserId, now }) {
-  this.role = role;
-  this.updatedAt = now; // la date est passée en paramètre
-  if (updatedByUserId) this.updatedByUserId = updatedByUserId;
+```ts
+archive(now: Date): void {
+  if (this.isArchived) throw new ArchivedOrganizationError();
+  this.#archivedAt = now; // la date est passée en paramètre
+  this.#updatedAt = now;
 }
 ```
-
-Version corrigée du mauvais exemple ci-dessous.
 
 **Mauvais exemple.**
 
-```js
-updateRole({ role, updatedByUserId }) {
-  this.role = role;
-  this.updatedAt = new Date(); // l'Entity lit l'heure
-  if (updatedByUserId) this.updatedByUserId = updatedByUserId;
+```ts
+archive(): void {
+  if (this.isArchived) throw new ArchivedOrganizationError();
+  this.#archivedAt = new Date(); // l'Entity lit l'heure
+  this.#updatedAt = new Date();
 }
 ```
 
-[`CertificationCenterMembership.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/team/domain/models/CertificationCenterMembership.js#L35-L42), simplifié.
+Même faute dans [`CertificationCenterMembership.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/team/domain/models/CertificationCenterMembership.js#L35-L42).
 
 **Ce que ça apporte.** Le résultat dépend seulement des paramètres. Le test passe une date et vérifie
 le résultat.
@@ -346,27 +431,32 @@ n'a pas de méthode que seul le repository appelle.
 
 **Bon exemple.**
 
-```js
-// dans le repository : une fonction du repository transforme la ligne de la table en Entity
-function _toDomain({ id, moduleId, userId, createdAt, updatedAt, terminatedAt }) {
-  return new Passage({ id, moduleId, userId, createdAt, updatedAt, terminatedAt });
-}
+```ts
+// organizational-entities/infrastructure/repositories/organization-repository.ts
+const toRow = (organization: Organization<OrganizationId | null>) => ({
+  id: organization.id,
+  name: organization.name,
+  type: organization.type,
+  createdBy: organization.createdBy,
+  updatedAt: organization.updatedAt,
+  archivedAt: organization.archivedAt,
+});
 ```
 
-[`passage-repository.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/infrastructure/repositories/passage-repository.js#L49-L51).
+La traduction est une fonction du repository, pas une méthode de l'Entity.
 
 **Mauvais exemple.**
 
-```js
-class Quest {
+```ts
+export class Organization {
   toDTO() {
     // seul le repository appelle cette méthode
-    return { id: this.id, rewardType: this.rewardType, rewardId: this.rewardId, … };
+    return { id: this.id, name: this.name, type: this.type, created_by: this.createdBy };
   }
 }
 ```
 
-[`Quest.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/entities/Quest.js#L155-L165), simplifié.
+Même faute dans [`Quest.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/entities/Quest.js#L155-L165).
 
 **Ce que ça apporte.** L'Entity ne connaît pas la base de données. Un changement dans la base de
 données modifie seulement le repository.
@@ -374,40 +464,37 @@ données modifie seulement le repository.
 **Sans cette règle.** Renommer une colonne de la table oblige à modifier l'Entity.
 
 **Exceptions.** Une méthode qui produit un format décrit dans un document pour l'extérieur, par
-exemple un fichier envoyé à un partenaire, est permise. Pour
-décider, poser la question : si une colonne de la table changeait de nom, la méthode devrait-elle
-changer ? Si oui, la méthode sert la base de données, et la méthode va dans le repository.
+exemple un fichier envoyé à un partenaire, est permise. Pour décider, poser la question : si une
+colonne de la table changeait de nom, la méthode devrait-elle changer ? Si oui, la méthode sert la
+base de données, et la méthode va dans le repository.
 
 ### E6. Aucun mutateur nu
 
 **La règle.** Chaque changement de l'Entity passe par une méthode avec un nom métier : `archive()`,
-`complete()`, `rename()`. Pas de setter public. Le code extérieur ne modifie pas un champ
-directement : `campaign.status = 'ARCHIVED'` dans un usecase ne respecte pas la règle.
+`rename()`. Pas de setter public. Le code extérieur ne modifie pas un champ directement :
+`organization.name = 'Lycée Jean Moulin'` dans un usecase ne respecte pas la règle.
 
 **Bon exemple.**
 
-```js
-complete({ now }) {
-  this.updatedAt = now;
-  this.#status = CombinedCourseParticipationStatuses.COMPLETED;
+```ts
+#name: string; // privé
+
+rename(name: string, now: Date): void {
+  …
 }
 ```
-
-Version corrigée de [`CombinedCourseParticipation.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-course-participations/entities/CombinedCourseParticipation.js#L28-L31) :
-le champ `status` devient privé, et la date est passée en paramètre.
 
 **Mauvais exemple.**
 
-```js
-class DataForQuest {
-  #success;
-  get success() { return Object.freeze(this.#success); }
-  set success(value) { this.#success = value; } // n'importe quel code peut changer la valeur
+```ts
+#name: string;
+
+set name(value: string) {
+  this.#name = value; // n'importe quel code peut changer le nom, sans vérification
 }
 ```
 
-[`DataForQuest.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/aggregates/DataForQuest.js#L1-L20), simplifié.
-Le champ est protégé en lecture, mais le setter permet de modifier le champ.
+Même faute dans [`DataForQuest.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/aggregates/DataForQuest.js#L1-L20).
 
 **Ce que ça apporte.** Chaque changement passe par une seule méthode. La méthode vérifie la règle
 (E3). Le nom de la méthode dit ce qui se passe pour le métier.
@@ -429,30 +516,24 @@ paramètre.
 
 **Bon exemple.**
 
-```js
-this.organizationId = organizationId;
-this.userId = userId;
+```ts
+readonly createdBy: UserId; // l'identifiant de la personne
 ```
-
-Version corrigée du mauvais exemple ci-dessous.
 
 **Mauvais exemple.**
 
-```js
-this.organization = organization; // l'objet entier d'un autre Aggregate
-this.organizationId = organization?.id ?? organizationId;
-this.user = user; // l'objet entier d'un autre Aggregate
-this.userId = user?.id ?? userId;
+```ts
+readonly creator: User; // l'objet entier d'un autre Aggregate
 ```
 
-[`Membership.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/Membership.js#L23-L26).
+Même faute dans [`Membership.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/Membership.js#L23-L26).
 
 **Ce que ça apporte.** Charger une Entity charge seulement cette Entity. Chaque Aggregate est modifié
 et enregistré seul.
 
-**Sans cette règle.** Le repository doit charger l'organisation et l'utilisateur avec chaque
-`Membership`. Plus il y a d'objets liés, plus le chargement est lent. Et le code peut modifier
-l'organisation à travers le `Membership`.
+**Sans cette règle.** Le repository doit charger l'utilisateur avec chaque organisation. Plus il y a
+d'objets liés, plus le chargement est lent. Et le code peut modifier l'utilisateur à travers
+l'organisation.
 
 **Exceptions.** Une Entity garde les objets de son propre Aggregate : un module garde ses sections.
 
@@ -461,9 +542,9 @@ l'organisation à travers le `Membership`.
 **La règle.** Un fichier par Entity, dans le dossier `domain/models/`. Le nom du fichier est le nom
 métier de l'Entity, en PascalCase.
 
-**Bon exemple.** `devcomp/domain/models/Passage.js`.
+**Bon exemple.** `organizational-entities/domain/models/Organization.ts`.
 
-**Mauvais exemple.** `devcomp/domain/models/passage-model.js`. Inventé.
+**Mauvais exemple.** `organizational-entities/domain/models/organization-model.ts`.
 
 **Ce que ça apporte.** Le fichier est facile à trouver. Le nom du fichier est le mot du métier.
 
