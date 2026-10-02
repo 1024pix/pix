@@ -278,7 +278,7 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
       await render(<template><CombinedCourseTunnel @combinedCourse={{combinedCourse}} /></template>);
 
       // then
-      sinon.assert.calledWithExactly(router.replaceWith, 'combined-courses.presentation', 'COMBINIX9');
+      sinon.assert.calledWithExactly(router.replaceWith, 'combined-courses.combined-course.presentation', 'COMBINIX9');
       assert.ok(true);
     });
   });

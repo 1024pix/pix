@@ -52,7 +52,7 @@ module('Integration | Component | Combined Courses | Process custom passages', f
       await click(screen.getByRole('button', { name: t('common.actions.continue') }));
 
       // then
-      sinon.assert.calledWithExactly(routerService.transitionTo, 'combined-courses.tunnel', 'MyCode');
+      sinon.assert.calledWithExactly(routerService.transitionTo, 'combined-courses.combined-course.tunnel', 'MyCode');
       assert.ok(true);
     });
   });

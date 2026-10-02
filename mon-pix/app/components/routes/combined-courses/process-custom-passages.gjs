@@ -53,7 +53,7 @@ export default class ResultsLoader extends Component {
 
   @action
   onClick() {
-    this.router.transitionTo('combined-courses.tunnel', this.args.code);
+    this.router.transitionTo('combined-courses.combined-course.tunnel', this.args.code);
   }
 
   <template>
