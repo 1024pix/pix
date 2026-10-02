@@ -76,9 +76,12 @@ export class QcmSolution {
 Un Value Object se teste avec un test unitaire. Le test n'utilise pas de base de données. Le test
 ne remplace aucun module par un faux : pas de stub, pas de mock, pas de spy. Le test vérifie :
 
-- la validation : une valeur invalide lève une erreur du domaine ;
-- le comportement : chaque méthode qui porte une règle, cas limites compris ;
-- l'immuabilité : modifier un tableau renvoyé ne modifie pas l'objet.
+- la validation : une valeur invalide lève une erreur du domaine. Dans le test ci-dessous :
+  `refuses a solution without correct choice` ;
+- le comportement : chaque méthode qui porte une règle, cas limites compris. Dans le test ci-dessous :
+  les trois tests de `isCorrect` ;
+- l'immuabilité : modifier un tableau renvoyé ne modifie pas l'objet. Dans le test ci-dessous :
+  `cannot change the solution through the returned array`.
 
 Le test de l'[exemple complet](#exemple-complet) :
 
@@ -219,8 +222,8 @@ le même résultat.
 son identifiant, puis un repository. L'objet devient une Entity, et aucune revue n'a décidé ce
 changement.
 
-**Exceptions.** Le front a souvent besoin d'une clé unique pour ranger les objets dans son cache. La
-clé ne va pas toujours au même endroit :
+**Exceptions.** Le front a souvent besoin d'une clé unique pour ranger les solutions dans son cache.
+La clé ne va pas toujours au même endroit :
 
 - le front ne renvoie jamais la clé au serveur : la clé est construite dans le
   **[sérialiseur](../serialiseur/README.md)** ;
@@ -332,8 +335,8 @@ seul fichier change : `QcmSolution.ts`.
 réponse. Un jour, une copie de la règle est différente des autres copies, et la même réponse est juste
 dans un écran et fausse dans un autre.
 
-**À savoir.** Un calcul pour l'affichage, comme un pourcentage arrondi, n'est pas une règle : le calcul
-ne décide rien.
+**À savoir.** Un calcul pour l'affichage n'est pas une règle : le calcul ne décide rien. Par exemple,
+le pourcentage de bonnes réponses arrondi pour un écran n'a pas sa place dans `QcmSolution`.
 
 **Exceptions.** Un Value Object sans méthode est accepté quand son seul rôle est de typer une valeur :
 une fonction qui attend une `QcmSolution` refuse une simple liste de chaînes à la compilation.

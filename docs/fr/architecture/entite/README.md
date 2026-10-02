@@ -125,10 +125,13 @@ Une Entity se teste avec un test unitaire. Le test n'utilise pas de base de donn
 remplace aucun module par un faux : pas de stub, pas de mock, pas de spy. La date est une valeur passée en paramètre.
 Le test vérifie :
 
-- le constructeur : une Entity invalide n'est pas créée ;
+- le constructeur : une Entity invalide n'est pas créée. Dans le test ci-dessous :
+  `refuses an empty name` ;
 - chaque méthode qui change l'Entity : le cas qui marche, **et** le refus quand la règle n'est pas
-  respectée. Après le refus, l'Entity n'a pas changé ;
-- chaque accesseur calculé, comme `isArchived` : les cas limites.
+  respectée. Après le refus, l'Entity n'a pas changé. Dans le test ci-dessous :
+  `renames the organization`, puis `refuses an empty name, and changes nothing` ;
+- chaque accesseur calculé, comme `isArchived` : les cas limites. Dans le test ci-dessous :
+  `archives the organization`.
 
 Le test de l'[exemple complet](#exemple-complet) :
 
@@ -485,8 +488,9 @@ set name(value: string) {
 **Sans cette règle.** Un setter modifie le champ sans vérifier la règle. Après la création,
 `organization.name = ''` donne une organisation au nom vide, sans erreur.
 
-**À savoir.** Une Entity remplie par une suite de setters, `setX()` puis `setY()`, est invalide entre
-deux appels. Toutes les valeurs de départ passent par le constructeur.
+**À savoir.** Une organisation remplie par `organization.setName(…)` puis `organization.setType(…)` est
+invalide entre les deux appels : elle a un nom, mais pas encore de type. Toutes les valeurs de départ
+passent par le constructeur.
 
 **Exceptions.** Une Entity sans aucune méthode de changement est permise : certaines Entities ne
 changent pas.
