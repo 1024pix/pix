@@ -835,7 +835,8 @@
         "title": "Impostazioni"
       },
       "tags": {
-        "BACK_TO_SCHOOL": "Percorso di ritorno a scuola, prima media",
+        "ATTESTATION": "Certificati",
+        "BACK_TO_SCHOOL": "Percorso di ritorno a scuola",
         "COMPETENCES": "Le 16 competenze",
         "CUSTOM": "Percorsi su misura",
         "DISCIPLINE": "Disciplinare",

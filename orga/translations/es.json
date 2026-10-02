@@ -835,7 +835,8 @@
         "title": "Configuración"
       },
       "tags": {
-        "BACK_TO_SCHOOL": "Itinerario de inicio de curso / 6e",
+        "ATTESTATION": "Certificados",
+        "BACK_TO_SCHOOL": "Itinerario de inicio de curso",
         "COMPETENCES": "Las 16 competencias",
         "CUSTOM": "Itinerarios a medida",
         "DISCIPLINE": "Disciplinarios",
