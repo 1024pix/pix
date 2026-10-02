@@ -68,7 +68,7 @@ Consignées pour ne pas être rejouées.
 | Les deux règles hébergées dans Confluence sont **vraies** | Contrôles d'accès en pre-handler, et objets de contrat dans `application/api/models/` | `R2` et `P5` sont confirmés. Reste à les écrire dans un ADR |
 | Le mot `read-model` est **conservé** | C'est l'Ubiquitous Language de l'équipe, et le renommer n'apportait rien sur l'outillage | `X2` de `read-model/ecarts.md` classé *à surveiller*. Le travail est le classement, pas le renommage |
 | La **désérialisation** relève de `serialiseur/README.md` | Le sérialiseur traduit dans les deux sens, ce que `docs/fr/Anatomy.md` documente. 46 fichiers sur 235 ont une fonction de désérialisation | Invariant `M5` ajouté. `M1` limité au sens sortant, et sa règle dans `serialiseur/outillage.md` doit exclure le corps des désérialisations, sinon elle se déclenche sur du code correct |
-| Les modèles par **intention d'écriture** ne se multiplient pas sans mesure | `…ForCreation` exprime une différence de nature et reste. `…ForUpdate` portant un sous-ensemble de champs est un modèle partiellement rempli, et c'est le côté commande de CQRS sans CQRS | `V8` gagne son discriminant, et l'écart `X7` de `objet-valeur/ecarts.md` est créé. La règle générale est passée dans le gabarit : un bénéfice de performance non mesuré compte pour nul |
+| Les modèles par **intention d'écriture** ne se multiplient pas sans mesure | `…ForCreation` exprime une différence de nature et reste. `…ForUpdate` portant un sous-ensemble de champs est un modèle partiellement rempli, et c'est le côté commande de CQRS sans CQRS | L'écart `X7` de `objet-valeur/ecarts.md` est créé. La règle générale est passée dans le gabarit : un bénéfice de performance non mesuré compte pour nul. Révisé le 2026-10-02 : `V8` est retiré, voir les numéros retirés |
 | La transaction reste au grain du **usecase**, même sur plusieurs Aggregates | ADR 25, sur un motif mesuré : les événements dans les transactions ont causé des deadlocks en production | `A7` de `racine-agregat/README.md` devient une question de conception et non la règle appliquée. `X4` passe en *rien à faire*. `U7` gagne son critère |
 | Pas d'ADR sur la stabilité du format des réponses HTTP | Ce que font les applications front n'est pas le sujet de ce corpus. Et deux tiers de l'écart se règlent par un outil plutôt que par une procédure | `X3` de `serialiseur/ecarts.md` se réduit à une règle : ne jamais redéfinir le sens d'une valeur existante. Le reste attend le paquet partagé : voir `migration-typescript.md` |
 
@@ -107,6 +107,7 @@ Un numéro retiré n'est jamais réattribué.
 | `S3`, `S4`, `S9` de `specification/` | des réénoncés de `V4`, de `V1`, `V2`, `V6`, `V7`, et de `V3` | `objet-valeur/README.md` |
 | `D6` de `service-domaine/` | testable en unitaire pur, qui découle de `D1` | « Tests attendus » de `service-domaine/README.md` |
 | `X2` de `route/` | aucune liste des routes délibérément publiques | écarté : `auth: false` déclare une route publique |
+| `V8` de `objet-valeur/` | un type par intention, `…ForCreation` | retiré : une Entity neuve et une Entity enregistrée sont une seule classe, typée `Organization<null>` ou `Organization`. Voir « À savoir » de `E1` dans `entite/README.md` |
 
 ## Chantiers ouverts
 

@@ -30,7 +30,6 @@ Si la réponse n'est pas claire, [le discriminant](#le-discriminant) donne quatr
 | [V5](#v5-porte-le-comportement-lié-à-ses-données) | Contient ses règles | une règle sur les données de l'objet est une méthode de l'objet |
 | [V6](#v6-aucun-cycle-de-vie-propre) | Pas de [repository](../repository/README.md) | pas de repository, pas de table : le Value Object est enregistré avec l'objet qui le contient |
 | [V7](#v7-exposition-en-lecture-seule-tableaux-compris) | Lecture seule, tableaux compris | un accesseur renvoie une copie : `[...this.#items]`, jamais `this.#items` |
-| [V8](#v8-un-type-par-intention) | Une classe par forme | l'objet à créer, encore sans `id`, a sa propre classe : `…ForCreation` |
 
 Une erreur du domaine est une `DomainError`, ou une classe qui hérite de `DomainError`. `DomainError`
 est dans le fichier `api/src/shared/domain/errors.js`.
@@ -152,8 +151,7 @@ Dépend-il de quelque chose ?
 [ ] V2  Aucun id propre ; aucune clé construite pour le front
 [ ] V6  Aucun repository
 
-Et aussi
-[ ] V8  Une classe par forme, si le concept a plusieurs formes
+Les tests
 [ ] Un test unitaire, sans double
 ```
 
@@ -465,34 +463,3 @@ change pas.
 **À savoir.** Certains fichiers appellent `Object.freeze(this)` pour protéger l'objet. `Object.freeze(this)`
 empêche de modifier les champs publics. `Object.freeze(this)` ne protège pas les champs privés `#`, et
 ne protège pas le contenu des tableaux. Seule la copie protège un tableau.
-
-### V8. Un type par intention
-
-**La règle.** Quand un concept existe sous plusieurs formes, chaque forme a sa classe. L'objet à
-créer n'a pas encore d'identifiant : l'objet à créer est une autre forme que l'objet enregistré.
-
-**Bon exemple.**
-
-```
-CombinedCourseBlueprintForCreation   → sans identifiant, avant l'enregistrement
-CombinedCourseBlueprint              → avec identifiant, après
-```
-
-D'après [le dossier](https://github.com/1024pix/pix/tree/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-course-blueprints).
-
-**Mauvais exemple.**
-
-```js
-new CombinedCourseBlueprint({ id: undefined, name, content }); // une seule classe pour les deux formes
-```
-
-Inventé.
-
-**Ce que ça apporte.** La signature d'une fonction dit quelle forme la fonction attend.
-
-**Sans cette règle.** Une fonction reçoit l'objet à créer au lieu de l'objet enregistré. L'erreur
-apparaît seulement à l'exécution, quand le code lit un `id` absent.
-
-**À savoir.** Une classe de plus a besoin d'une raison. Deux raisons sont valables : l'objet n'a pas
-encore d'identifiant, ou les noms des champs sont différents. « Ne pas charger toute l'Entity » est une
-raison valable seulement avec une mesure du coût.
