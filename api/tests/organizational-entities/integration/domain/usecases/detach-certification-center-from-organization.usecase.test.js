@@ -28,6 +28,51 @@ describe('Integration | Organizational Entities | Domain | UseCase | detach-cert
 
       expect(organizationFactStructure.certification_center_id).to.equal(null);
     });
+
+    it('creates a dedicated structure for the certification center with the organization category', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const categoryId = databaseBuilder.factory.buildStructureCategory().id;
+      const { organization, structure: organizationStructure } =
+        databaseBuilder.factory.buildOrganizationWithStructure({ certificationCenterId, categoryId });
+
+      await databaseBuilder.commit();
+
+      // when
+      await usecases.detachCertificationCenterFromOrganization({
+        organizationId: organization.id,
+      });
+
+      // then
+      const certificationCenterFactStructure = await knex('fct_structures')
+        .where({ certification_center_id: certificationCenterId })
+        .first();
+      expect(certificationCenterFactStructure.organization_id).to.be.null;
+      expect(certificationCenterFactStructure.structure_id).to.not.equal(organizationStructure.id);
+
+      const certificationCenterStructure = await knex('structures')
+        .where({ id: certificationCenterFactStructure.structure_id })
+        .first();
+      expect(certificationCenterStructure.category_id).to.equal(categoryId);
+    });
+
+    context('when organization has no attached certification center', function () {
+      it('does not create any structure', async function () {
+        // given
+        const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+        await databaseBuilder.commit();
+        const { count: structuresCountBefore } = await knex('structures').count().first();
+
+        // when
+        await usecases.detachCertificationCenterFromOrganization({
+          organizationId: organization.id,
+        });
+
+        // then
+        const { count: structuresCountAfter } = await knex('structures').count().first();
+        expect(structuresCountAfter).to.equal(structuresCountBefore);
+      });
+    });
   });
 
   describe('error cases', function () {
