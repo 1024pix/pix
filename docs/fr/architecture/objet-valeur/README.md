@@ -4,28 +4,23 @@ Un Value Object est une valeur du métier : un statut, un seuil, la bonne répon
 Value Object n'a pas d'identifiant. Deux Value Objects qui ont les mêmes valeurs sont interchangeables :
 le code peut utiliser l'un à la place de l'autre, comme deux billets de 10 €. Les Value Objects sont dans le dossier `domain/models/`.
 
-En bas de la page, la partie [référence des règles](#référence-des-règles) explique chaque règle avec
-un bon exemple et un mauvais exemple.
-
 ## Les règles
+
+La partie [référence des règles](#référence-des-règles) explique chaque règle en détail.
 
 | # | Règle | En pratique |
 | --- | --- | --- |
 | [V1](#v1-immuable) | Immuable | champs privés `#` ; aucune méthode ne modifie un champ |
 | [V2](#v2-pas-didentifiant) | Pas d'identifiant | pas d'`id` à lui ; contenir l'`id` d'autre chose, comme un `challengeId`, est permis |
-| [V3](#v3-valide-dès-la-construction) | Valide dès la construction | le constructeur lève une erreur du domaine sur une valeur invalide |
+| [V3](#v3-valide-dès-la-construction) | Valide dès la construction | le constructeur lève une erreur du domaine (`DomainError`) sur une valeur invalide |
 | [V4](#v4-aucune-io) | Aucune I/O | aucun import d'infrastructure ; la date du jour est passée en paramètre |
 | [V5](#v5-contient-ses-règles) | Contient ses règles | une règle sur les données de l'objet est une méthode de l'objet |
 | [V6](#v6-pas-de-repository) | Pas de [repository](../repository/README.md) | pas de repository, pas de table : le Value Object est enregistré avec l'objet qui le contient |
 | [V7](#v7-lecture-seule-tableaux-compris) | Lecture seule, tableaux compris | un accesseur renvoie une copie : `[...this.#items]`, jamais `this.#items` |
 
-Une erreur du domaine est une `DomainError`, ou une classe qui hérite de `DomainError`. `DomainError`
-est dans le fichier `api/src/shared/domain/errors.js`.
-
 ## Exemple complet
 
-La bonne réponse d'une question à choix multiples (QCM) : la liste des choix corrects. Inventé,
-d'après [`Solution.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/Solution.js#L6-L35).
+La bonne réponse d'une question à choix multiples (QCM) : la liste des choix corrects. Inventé, d'après [`Solution.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/Solution.js#L6-L35).
 
 ```ts
 // devcomp/domain/models/QcmSolution.ts
@@ -73,14 +68,14 @@ export class QcmSolution {
 
 ## Comment tester
 
-Un Value Object se teste avec un test unitaire. Le test n'utilise pas de base de données. Le test
-ne remplace aucun module par un faux : pas de stub, pas de mock, pas de spy. Le test vérifie :
+Un Value Object se teste avec un test unitaire. Le test n'utilise aucun stub, mock ou spy. Le test
+vérifie :
 
-- la validation : une valeur invalide lève une erreur du domaine. Dans le test ci-dessous :
+- la validation : une valeur invalide lève une erreur du domaine. Exemple :
   `refuses a solution without correct choice` ;
-- le comportement : chaque méthode qui porte une règle, cas limites compris. Dans le test ci-dessous :
-  les trois tests de `isCorrect` ;
-- l'immuabilité : modifier un tableau renvoyé ne modifie pas l'objet. Dans le test ci-dessous :
+- le comportement : chaque méthode qui porte une règle, cas limites compris. Exemples : les trois tests
+  de `isCorrect` ;
+- l'immuabilité : modifier un tableau renvoyé ne modifie pas l'objet. Exemple :
   `cannot change the solution through the returned array`.
 
 Le test de l'[exemple complet](#exemple-complet) :
@@ -128,11 +123,7 @@ describe('Unit | Devcomp | Domain | Models | QcmSolution', function () {
 });
 ```
 
-## Comment relire
-
-La checklist suit cet ordre : d'abord les règles qui laissent entrer une valeur invalide, puis les
-règles qui permettent de modifier l'objet, puis les règles qui lient l'objet à autre chose. Dans un commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas la
-règle : « V7 : `get correctChoiceIds()` renvoie le tableau interne, le code qui appelle `get correctChoiceIds()` peut modifier la solution ».
+## Checklist de revue de code
 
 ```
 Le Value Object contient-il ses règles ?
@@ -153,9 +144,6 @@ Les tests
 ```
 
 ## Référence des règles
-
-Les bons exemples sont des extraits de l'[exemple complet](#exemple-complet). Les mauvais exemples
-montrent la même `QcmSolution` mal écrite.
 
 ### V1. Immuable
 
