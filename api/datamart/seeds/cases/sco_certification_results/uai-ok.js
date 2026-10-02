@@ -6,10 +6,12 @@ import {
   generateStatus,
   getCertificationDate,
   orgaUAIGenerator,
+  verificationCodeGenerator,
 } from '../tools.js';
 
 const generateCertifCourseId = certificationCourseIdGenerator({ startingFrom: 2100000 });
 const generateOrgaUai = orgaUAIGenerator();
+const generateVerificationCode = verificationCodeGenerator({ startingFrom: 2100000 });
 
 /**
  * A student that has a V3 certification and that can be found by UAI but not by INE
@@ -19,6 +21,7 @@ export default function () {
 
   const studentBase = {
     certification_courses_id: generateCertifCourseId(),
+    certification_code_verification: generateVerificationCode(),
     organization_uai: orgaUAI,
     national_student_id: null, // We do not want it to be accessible by INE
     last_name: 'Famille' + orgaUAI,

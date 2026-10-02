@@ -11,12 +11,14 @@ import {
   getFormattedBirthdate,
   nationalStudentIdGenerator,
   orgaUAIGenerator,
+  verificationCodeGenerator,
 } from '../tools.js';
 
 const generateCertifCourseIdStudentOne = certificationCourseIdGenerator({ startingFrom: 5100000 });
 const generateCertifCourseIdStudentTwo = certificationCourseIdGenerator({ startingFrom: 6100000 });
 const generateINE = nationalStudentIdGenerator({ ineSuffix: 'BB' });
 const generateOrgaUai = orgaUAIGenerator();
+const generateVerificationCode = verificationCodeGenerator({ startingFrom: 6100000 })
 
 /**
  * Some student have obtained a Pix certification, but with different birthdates
@@ -31,6 +33,7 @@ export default function () {
 
   const studentOneBase = {
     certification_courses_id: generateCertifCourseIdStudentOne(),
+    certification_code_verification: generateVerificationCode(),
     organization_uai: sameUAI,
     national_student_id: sameINE,
     last_name: sameLastName,
@@ -43,6 +46,7 @@ export default function () {
 
   const studentTwoBase = {
     certification_courses_id: generateCertifCourseIdStudentTwo(),
+    certification_code_verification: generateVerificationCode(),
     organization_uai: sameUAI,
     national_student_id: sameINE,
     last_name: sameLastName,
