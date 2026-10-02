@@ -4,29 +4,24 @@ Une Entity est un objet que le produit garde, retrouve avec son identifiant, et 
 utilisateur, une campagne, une organisation. Les valeurs d'une Entity changent, mais l'Entity reste la
 même Entity. Les Entities sont dans le dossier `domain/models/`.
 
-En bas de la page, la partie [référence des règles](#référence-des-règles) explique chaque règle avec
-un bon exemple et un mauvais exemple.
-
 ## Les règles
+
+La partie [référence des règles](#référence-des-règles) explique chaque règle en détail.
 
 | # | Règle | En pratique |
 | --- | --- | --- |
-| [E1](#e1-un-identifiant-qui-ne-change-pas) | Un identifiant qui ne change pas | un `id` dans l'objet ; aucune méthode ne modifie l'`id` |
+| [E1](#e1-un-identifiant-qui-ne-change-pas) | Un identifiant qui ne change pas | un identifiant dans l'objet, avec un type à lui ; aucune méthode ne modifie l'identifiant |
 | [E2](#e2-comparer-par-identifiant) | Comparer par identifiant | comparer les `id`, pas les autres champs |
-| [E3](#e3-toujours-valide) | Toujours valide | le constructeur et chaque méthode lèvent une erreur du domaine si une règle n'est pas respectée |
+| [E3](#e3-toujours-valide) | Toujours valide | le constructeur et chaque méthode lèvent une erreur du domaine (`DomainError`) si une règle n'est pas respectée |
 | [E4](#e4-aucune-io) | Aucune I/O | aucun import d'infrastructure ; la date du jour est passée en paramètre |
-| [E5](#e5-rien-pour-la-base-de-données) | Rien pour la base de données | pas de `toDTO()` que seul le repository appelle |
+| [E5](#e5-rien-pour-la-base-de-données) | Rien pour la base de données | pas de `toDTO()` ni de `fromDTO()` : c'est le travail du repository |
 | [E6](#e6-pas-de-setter) | Pas de setter | chaque changement a une méthode avec un nom métier : `rename()`, pas `set name()` |
 | [E7](#e7-les-autres-aggregates-par-identifiant) | Les autres Aggregates par identifiant | `createdBy: UserId`, pas `creator: User` |
 | [E8](#e8-un-nom-du-métier) | Un nom du métier | un fichier par Entity, en PascalCase, avec un nom du métier |
 
-Une erreur du domaine est une `DomainError`, ou une classe qui hérite de `DomainError`. `DomainError`
-est dans le fichier `api/src/shared/domain/errors.js`.
-
 ## Exemple complet
 
-Une organisation, simplifiée : un nom, un type, la personne qui a créé l'organisation, les
-fonctionnalités activées, et une date d'archivage. Inventé, d'après
+Une organisation, simplifiée : un nom, un type, la personne qui a créé l'organisation, les fonctionnalités activées, et une date d'archivage. Inventé, d'après
 [`Organization.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/Organization.js#L16-L61).
 
 ```ts
@@ -138,17 +133,13 @@ function assertValidName(name: string): void {
 
 ## Comment tester
 
-Une Entity se teste avec un test unitaire. Le test n'utilise pas de base de données. Le test ne
-remplace aucun module par un faux : pas de stub, pas de mock, pas de spy. La date est une valeur passée en paramètre.
-Le test vérifie :
+Une Entity se teste avec un test unitaire. Le test n'utilise aucun stub, mock ou spy. Le test vérifie :
 
-- le constructeur : une Entity invalide n'est pas créée. Dans le test ci-dessous :
-  `refuses an empty name` ;
-- chaque méthode qui change l'Entity : le cas qui marche, **et** le refus quand la règle n'est pas
-  respectée. Après le refus, l'Entity n'a pas changé. Dans le test ci-dessous :
-  `renames the organization`, puis `refuses an empty name, and changes nothing` ;
-- chaque accesseur calculé, comme `isArchived` : les cas limites. Dans le test ci-dessous :
-  `archives the organization`.
+- le constructeur : une Entity invalide n'est pas créée. Exemple : `refuses an empty name` ;
+- chaque méthode qui change l'Entity : le cas qui marche, **et** le cas d'erreur quand la règle n'est
+  pas respectée. Le test vérifie que l'Entity n'a pas changé après l'erreur. Exemples :
+  `renames the organization` et `refuses an empty name, and changes nothing` ;
+- chaque accesseur calculé, comme `isArchived` : les cas limites. Exemple : `archives the organization`.
 
 Le test de l'[exemple complet](#exemple-complet) :
 
@@ -238,15 +229,7 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
 });
 ```
 
-Sans test du refus, les tests passent même
-quand la vérification de E3 manque. Tester que `archive()` archive ne suffit pas : c'est le test du
-refus qui prouve que la règle E3 est respectée.
-
-## Comment relire
-
-La checklist suit cet ordre : d'abord les règles qui laissent l'Entity prendre un état invalide, puis
-les règles qui lient l'Entity à d'autres objets, puis les règles sur l'identifiant et le nom. Dans un commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas la
-règle : « E6 : `set name()` permet de changer le nom sans passer par `rename()`, donc sans vérifier le nom ».
+## Checklist de revue de code
 
 ```
 L'Entity peut-elle devenir invalide ?
@@ -269,12 +252,19 @@ Les tests
 
 ## Référence des règles
 
-Les bons exemples sont des extraits de l'[exemple complet](#exemple-complet). Les mauvais exemples
-montrent la même `Organization` mal écrite.
-
 ### E1. Un identifiant qui ne change pas
 
-**La règle.** L'Entity contient son identifiant. L'identifiant ne change jamais.
+**La règle.** L'Entity contient son identifiant. L'identifiant ne change jamais. L'identifiant a un
+type à lui, comme `OrganizationId`, pas `number`. L'identifiant prend plusieurs formes :
+
+- un entier créé par la base de données : le cas le plus courant, par exemple `Organization` ;
+- un texte qui vient d'un référentiel externe : `Skill`, `Challenge` ;
+- un UUID, créé par la base de données ou dans le domaine avant l'enregistrement : `Chat`, `Module` ;
+- une valeur du métier, quand le métier retrouve l'Entity par cette valeur : `RefreshToken` par sa
+  `value`.
+
+Une Entity peut aussi avoir un identifiant naturel en plus de son `id` : une `Campaign` se retrouve
+aussi par son `code`, un `Module` par son `slug`.
 
 **Bon exemple.**
 
@@ -292,8 +282,9 @@ export class Organization {
 }
 ```
 
-**Ce que ça apporte.** Pour comparer deux Entities ou retrouver une Entity, le code utilise un seul
-champ : l'`id`.
+**Ce que ça apporte.** Pour comparer deux Entities ou retrouver une Entity, le code utilise
+l'identifiant, et seulement l'identifiant. Le compilateur refuse un `UserId` là où un
+`OrganizationId` est attendu.
 
 **Sans cette règle.** Un code change l'`id` d'une organisation. Le repository enregistre alors les
 valeurs de cette organisation sur une autre organisation.
@@ -452,8 +443,9 @@ dossier `infrastructure/`, même pour formater une date, est un import d'infrast
 
 ### E5. Rien pour la base de données
 
-**La règle.** Transformer une Entity pour la base de données est le travail du repository. L'Entity
-n'a pas de méthode que seul le repository appelle.
+**La règle.** Transformer une Entity pour la base de données, dans un sens ou dans l'autre, est le
+travail du repository. L'Entity n'a pas de méthode que seul le repository appelle : ni `toDTO()`, ni
+`fromDTO()`.
 
 **Bon exemple.**
 
@@ -486,11 +478,6 @@ export class Organization {
 aucun nom de colonne. Un changement dans la base de données modifie seulement le repository.
 
 **Sans cette règle.** Renommer une colonne de la table oblige à modifier l'Entity.
-
-**Exceptions.** Une méthode qui produit un format décrit dans un document pour l'extérieur, par
-exemple un fichier envoyé à un partenaire, est permise. Pour décider, poser la question : si une
-colonne de la table changeait de nom, la méthode devrait-elle changer ? Si oui, la méthode sert la
-base de données, et la méthode va dans le repository.
 
 ### E6. Pas de setter
 
@@ -567,13 +554,12 @@ métier de l'Entity, en PascalCase.
 
 **Bon exemple.** `organizational-entities/domain/models/Organization.ts`.
 
-**Mauvais exemple.** `organizational-entities/domain/models/organization-model.ts`.
+**Mauvais exemple.** `organizational-entities/domain/models/orga-model.ts`.
 
 **Ce que ça apporte.** Une recherche avec le mot du métier, par exemple « Organization », trouve le
 fichier.
 
-**Sans cette règle.** Le programme s'exécute sans erreur. Mais une recherche avec le mot du métier ne
-trouve pas le fichier, et un relecteur doit ouvrir le fichier pour savoir quelle Entity il contient.
+**Sans cette règle.** Une recherche avec le mot du métier ne trouve pas le fichier, et un relecteur doit ouvrir le fichier pour savoir quelle Entity il contient.
 
 **Exceptions.** Deux contextes peuvent avoir chacun une Entity avec le même nom, pour deux choses
 différentes : chaque contexte a son vocabulaire. L'import dit de quel contexte vient l'Entity.
