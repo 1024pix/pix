@@ -102,6 +102,36 @@ describe('Integration | Organizational Entities | Domain | UseCase | create-cert
     expect(complementaryCertificationHabilitationsInDB).to.have.lengthOf(2);
   });
 
+  context('when no organizationId to attach is provided', function () {
+    it('creates a structure for the certification center', async function () {
+      // given
+      const certificationCenterDTO = domainBuilder.buildCenterForAdmin({
+        center: {
+          name: 'Centre de certif SCO',
+          type: 'SCO',
+          externalId: 'EXT123',
+          habilitations: [],
+        },
+      });
+
+      // when
+      const createdCertificationCenter = await usecases.createCertificationCenter({
+        certificationCenter: certificationCenterDTO,
+        complementaryCertificationIds: [],
+      });
+
+      // then
+      const certificationCenterFactStructure = await knex('fct_structures')
+        .where({ certification_center_id: createdCertificationCenter.id })
+        .first();
+      expect(certificationCenterFactStructure.organization_id).to.be.null;
+      const structureInDB = await knex('structures')
+        .where({ id: certificationCenterFactStructure.structure_id })
+        .first();
+      expect(structureInDB).to.exist;
+    });
+  });
+
   context('when an organizationId to attach is provided', function () {
     it('attaches the created certification center to the organization', async function () {
       // given
@@ -129,6 +159,37 @@ describe('Integration | Organizational Entities | Domain | UseCase | create-cert
         .where({ organization_id: organization.id })
         .first();
       expect(organizationFactStructure.certification_center_id).to.equal(createdCertificationCenter.id);
+    });
+
+    it('does not create a structure for the certification center', async function () {
+      // given
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+      await databaseBuilder.commit();
+      const { count: structuresCountBefore } = await knex('structures').count().first();
+
+      const certificationCenterDTO = domainBuilder.buildCenterForAdmin({
+        center: {
+          name: 'Centre de certif SCO',
+          type: 'SCO',
+          externalId: 'EXT123',
+          habilitations: [],
+          organizationId: organization.id,
+        },
+      });
+
+      // when
+      const createdCertificationCenter = await usecases.createCertificationCenter({
+        certificationCenter: certificationCenterDTO,
+        complementaryCertificationIds: [],
+      });
+
+      // then
+      const { count: structuresCountAfter } = await knex('structures').count().first();
+      expect(structuresCountAfter).to.equal(structuresCountBefore);
+      const certificationCenterFactStructures = await knex('fct_structures').where({
+        certification_center_id: createdCertificationCenter.id,
+      });
+      expect(certificationCenterFactStructures).to.have.lengthOf(1);
     });
 
     it('throws when the given organizationId does not match an existing organization', async function () {

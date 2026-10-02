@@ -1,6 +1,7 @@
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { UnableToAttachCertificationCenterToOrganization } from '../errors.js';
 import { ComplementaryCertificationHabilitation } from '../models/ComplementaryCertificationHabilitation.js';
+import { Structure } from '../models/Structure.js';
 import * as certificationCenterCreationValidator from '../validators/certification-center-creation.validator.js';
 
 /**
@@ -54,13 +55,9 @@ const createCertificationCenter = withTransaction(async function ({
 
   const createdCertificationCenter = await certificationCenterForAdminRepository.save(certificationCenter);
 
-  if (organizationStructure) {
-    organizationStructure.attachCertificationCenter({
-      certificationCenterId: createdCertificationCenter.id,
-    });
-
-    await structureRepository.save(organizationStructure);
-  }
+  const structure = organizationStructure ?? new Structure({});
+  structure.attachCertificationCenter({ certificationCenterId: createdCertificationCenter.id });
+  await structureRepository.save(structure);
 
   for (const complementaryCertificationId of complementaryCertificationIds) {
     const complementaryCertificationHabilitation = new ComplementaryCertificationHabilitation({
