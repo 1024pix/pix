@@ -9,6 +9,7 @@ export default class OAuth2 extends OAuth2PasswordGrant {
   refreshAccessTokensWithScope = true;
 
   @service featureToggles;
+  @service requestManager;
 
   authenticate({ login, password, token }) {
     if (token) {
@@ -32,11 +33,9 @@ export default class OAuth2 extends OAuth2PasswordGrant {
       return super.invalidate(data);
     }
 
-    await fetch(`${ENV.APP.API_HOST}/api/logout`, {
+    await this.requestManager.request({
+      url: `${ENV.APP.API_HOST}/api/logout`,
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${data.access_token}`,
-      },
     });
   }
 }
