@@ -46,16 +46,30 @@ const deleteStructure = async function ({ structureId }) {
 };
 
 /**
+ * Creates the structure when it has no id, updates it otherwise.
+ *
  * @type {function}
  * @param {Structure} structure
- * @returns {Promise<void>}
+ * @returns {Promise<Structure>}
  */
-const update = async function (structure) {
+const save = async function (structure) {
   const knexConn = DomainTransaction.getConnection();
-  await knexConn('fct_structures').where({ structure_id: structure.id }).update({
+  const factStructureAttributes = {
     organization_id: structure.organizationId,
     certification_center_id: structure.certificationCenterId,
-  });
+  };
+
+  if (structure.id) {
+    await knexConn('fct_structures').where({ structure_id: structure.id }).update(factStructureAttributes);
+    return structure;
+  }
+
+  const [{ id: structureId }] = await knexConn('structures').returning('id').insert({});
+  const [factStructure] = await knexConn('fct_structures')
+    .returning(['structure_id', 'organization_id', 'certification_center_id'])
+    .insert({ structure_id: structureId, ...factStructureAttributes });
+
+  return _toDomain(factStructure);
 };
 
 function _toDomain(structure) {
@@ -66,4 +80,4 @@ function _toDomain(structure) {
   });
 }
 
-export { deleteStructure, findByCertificationCenterId, findByOrganizationId, update };
+export { deleteStructure, findByCertificationCenterId, findByOrganizationId, save };
