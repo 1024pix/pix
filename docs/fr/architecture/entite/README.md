@@ -25,14 +25,15 @@ est dans le fichier `api/src/shared/domain/errors.js`.
 
 ## Exemple complet
 
-Une organisation, simplifiée : un nom, un type, la personne qui a créé l'organisation, et une date
-d'archivage. Inventé, d'après
+Une organisation, simplifiée : un nom, un type, la personne qui a créé l'organisation, les
+fonctionnalités activées, et une date d'archivage. Inventé, d'après
 [`Organization.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/Organization.js#L16-L61).
 
 ```ts
 // organizational-entities/domain/models/Organization.ts — E8 : un fichier, un nom du métier
 import type { OrganizationId, UserId } from '../../../shared/domain/Id.js';
-import { ArchivedOrganizationError, InvalidOrganizationError } from '../errors.js';
+import { ArchivedOrganizationError, FeatureAlreadyEnabledError, InvalidOrganizationError } from '../errors.js';
+import { type FeatureName, OrganizationFeature } from './OrganizationFeature.js';
 
 export const OrganizationTypes = ['SCO', 'SUP', 'PRO', 'SCO-1D'] as const;
 export type OrganizationType = (typeof OrganizationTypes)[number];
@@ -45,6 +46,7 @@ type OrganizationProps<Id> = {
   createdAt: Date;
   updatedAt: Date;
   archivedAt: Date | null;
+  features: OrganizationFeature[];
 };
 
 // Organization<null> : une organisation neuve, pas encore enregistrée
@@ -52,14 +54,15 @@ type OrganizationProps<Id> = {
 export class Organization<Id extends OrganizationId | null = OrganizationId> {
   readonly id: Id; // E1 : l'identifiant, en lecture seule
   readonly type: OrganizationType;
-  readonly createdBy: UserId; // E7 : l'identifiant de la personne, pas l'objet User
+  readonly createdBy: UserId; // E7 : un autre Aggregate, gardé par son identifiant
   readonly createdAt: Date;
   #name: string; // E6 : champ privé, seule la méthode rename() modifie le nom
   #updatedAt: Date;
   #archivedAt: Date | null;
+  #features: OrganizationFeature[]; // E7 : des objets du même Aggregate, gardés entiers
 
   // E3 : une organisation invalide n'est pas créée
-  constructor({ id, name, type, createdBy, createdAt, updatedAt, archivedAt }: OrganizationProps<Id>) {
+  constructor({ id, name, type, createdBy, createdAt, updatedAt, archivedAt, features }: OrganizationProps<Id>) {
     assertValidName(name);
     if (!OrganizationTypes.includes(type)) throw new InvalidOrganizationError(`Unknown type: ${type}`);
     this.id = id;
@@ -69,11 +72,12 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> {
     this.#name = name;
     this.#updatedAt = updatedAt;
     this.#archivedAt = archivedAt;
+    this.#features = [...features];
   }
 
   // une organisation neuve : pas encore d'id ; E4 : la date est passée en paramètre
   static create({ name, type, createdBy, now }: { name: string; type: OrganizationType; createdBy: UserId; now: Date }): Organization<null> {
-    return new Organization({ id: null, name, type, createdBy, createdAt: now, updatedAt: now, archivedAt: null });
+    return new Organization({ id: null, name, type, createdBy, createdAt: now, updatedAt: now, archivedAt: null, features: [] });
   }
 
   get name(): string {
@@ -92,6 +96,10 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> {
     return this.#archivedAt !== null;
   }
 
+  get features(): OrganizationFeature[] {
+    return [...this.#features];
+  }
+
   // E2 : la comparaison utilise l'id
   isSameAs(other: Organization): boolean {
     return this.id === other.id;
@@ -108,6 +116,15 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> {
   archive(now: Date): void {
     if (this.isArchived) throw new ArchivedOrganizationError();
     this.#archivedAt = now;
+    this.#updatedAt = now;
+  }
+
+  enableFeature(featureName: FeatureName, now: Date): void {
+    if (this.isArchived) throw new ArchivedOrganizationError();
+    if (this.#features.some((feature) => feature.featureName === featureName)) {
+      throw new FeatureAlreadyEnabledError();
+    }
+    this.#features = [...this.#features, new OrganizationFeature({ featureName, enabledAt: now })];
     this.#updatedAt = now;
   }
 
@@ -149,6 +166,7 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
       createdAt: new Date('2026-01-01'),
       updatedAt: new Date('2026-01-01'),
       archivedAt: null,
+      features: [],
       ...props,
     });
 
@@ -197,6 +215,24 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
 
       expect(() => organization.archive(now)).to.throw(ArchivedOrganizationError);
       expect(organization.updatedAt).to.deep.equal(new Date('2026-01-01'));
+    });
+  });
+
+  describe('#enableFeature', function () {
+    it('enables a feature', function () {
+      const organization = buildOrganization();
+
+      organization.enableFeature('MISSIONS_MANAGEMENT', now);
+
+      expect(organization.features.map((feature) => feature.featureName)).to.deep.equal(['MISSIONS_MANAGEMENT']);
+    });
+
+    it('refuses a feature already enabled, and changes nothing', function () {
+      const organization = buildOrganization();
+      organization.enableFeature('MISSIONS_MANAGEMENT', now);
+
+      expect(() => organization.enableFeature('MISSIONS_MANAGEMENT', now)).to.throw(FeatureAlreadyEnabledError);
+      expect(organization.features).to.have.lengthOf(1);
     });
   });
 });
@@ -520,7 +556,9 @@ et enregistré seul.
 ajoute une requête ou une jointure à chaque chargement d'une organisation. Et le code peut modifier l'utilisateur à travers
 l'organisation.
 
-**Exceptions.** Une Entity garde les objets de son propre Aggregate : un module garde ses sections.
+**Exceptions.** Une Entity garde entiers les objets de son propre Aggregate. Dans l'exemple complet,
+`Organization` garde ses `OrganizationFeature` entières, et garde `createdBy` par son identifiant,
+parce qu'un utilisateur est un autre Aggregate.
 
 ### E8. Un nom du métier
 
