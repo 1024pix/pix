@@ -1,0 +1,565 @@
+# Entity
+
+Une Entity est un objet que le produit garde, retrouve avec son identifiant, et modifie : un
+utilisateur, une campagne, une organisation. Les valeurs d'une Entity changent, mais l'Entity reste la
+même Entity. Les Entities sont dans le dossier `domain/models/`.
+
+## Les règles
+
+La partie [référence des règles](#référence-des-règles) explique chaque règle en détail.
+
+| # | Règle | En pratique |
+| --- | --- | --- |
+| [E1](#e1-un-identifiant-qui-ne-change-pas) | Un identifiant qui ne change pas | un identifiant dans l'objet, avec un type à lui ; aucune méthode ne modifie l'identifiant |
+| [E2](#e2-comparer-par-identifiant) | Comparer par identifiant | comparer les `id`, pas les autres champs |
+| [E3](#e3-toujours-valide) | Toujours valide | le constructeur et chaque méthode lèvent une erreur du domaine (`DomainError`) si une règle n'est pas respectée |
+| [E4](#e4-aucune-io) | Aucune I/O | aucun import d'infrastructure ; la date du jour est passée en paramètre |
+| [E5](#e5-rien-pour-la-base-de-données) | Rien pour la base de données | pas de `toDTO()` ni de `fromDTO()` : c'est le travail du repository |
+| [E6](#e6-pas-de-setter) | Pas de setter | chaque changement a une méthode avec un nom métier : `rename()`, pas `set name()` |
+| [E7](#e7-les-autres-aggregates-par-identifiant) | Les autres Aggregates par identifiant | `createdBy: UserId`, pas `creator: User` |
+| [E8](#e8-un-nom-du-métier) | Un nom du métier | un fichier par Entity, en PascalCase, avec un nom du métier |
+
+## Exemple complet
+
+Une organisation, simplifiée : un nom, un type, la personne qui a créé l'organisation, les fonctionnalités activées, et une date d'archivage. Inventé, d'après
+[`Organization.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/Organization.js#L16-L61).
+
+```ts
+// organizational-entities/domain/models/Organization.ts — E8 : un fichier, un nom du métier
+import type { OrganizationId, UserId } from '../../../shared/domain/Id.js';
+import { ArchivedOrganizationError, FeatureAlreadyEnabledError, InvalidOrganizationError } from '../errors.js';
+import { type FeatureName, OrganizationFeature } from './OrganizationFeature.js';
+
+export const OrganizationTypes = ['SCO', 'SUP', 'PRO', 'SCO-1D'] as const;
+export type OrganizationType = (typeof OrganizationTypes)[number];
+
+type OrganizationProps<Id> = {
+  id: Id;
+  name: string;
+  type: OrganizationType;
+  createdBy: UserId;
+  createdAt: Date;
+  updatedAt: Date;
+  archivedAt: Date | null;
+  features: OrganizationFeature[];
+};
+
+// Organization<null> : une organisation neuve, pas encore enregistrée
+// Organization : une organisation enregistrée, avec un id
+export class Organization<Id extends OrganizationId | null = OrganizationId> {
+  readonly id: Id; // E1 : l'identifiant, en lecture seule
+  readonly type: OrganizationType;
+  readonly createdBy: UserId; // E7 : un autre Aggregate, gardé par son identifiant
+  readonly createdAt: Date;
+  #name: string; // E6 : champ privé, seule la méthode rename() modifie le nom
+  #updatedAt: Date;
+  #archivedAt: Date | null;
+  #features: OrganizationFeature[]; // E7 : des objets du même Aggregate, gardés entiers
+
+  // E3 : une organisation invalide n'est pas créée
+  constructor({ id, name, type, createdBy, createdAt, updatedAt, archivedAt, features }: OrganizationProps<Id>) {
+    assertValidName(name);
+    if (!OrganizationTypes.includes(type)) throw new InvalidOrganizationError(`Unknown type: ${type}`);
+    this.id = id;
+    this.type = type;
+    this.createdBy = createdBy;
+    this.createdAt = createdAt;
+    this.#name = name;
+    this.#updatedAt = updatedAt;
+    this.#archivedAt = archivedAt;
+    this.#features = [...features];
+  }
+
+  // une organisation neuve : pas encore d'id ; E4 : la date est passée en paramètre
+  static create({ name, type, createdBy, now }: { name: string; type: OrganizationType; createdBy: UserId; now: Date }): Organization<null> {
+    return new Organization({ id: null, name, type, createdBy, createdAt: now, updatedAt: now, archivedAt: null, features: [] });
+  }
+
+  get name(): string {
+    return this.#name;
+  }
+
+  get updatedAt(): Date {
+    return this.#updatedAt;
+  }
+
+  get archivedAt(): Date | null {
+    return this.#archivedAt;
+  }
+
+  get isArchived(): boolean {
+    return this.#archivedAt !== null;
+  }
+
+  get features(): OrganizationFeature[] {
+    return [...this.#features];
+  }
+
+  // E2 : la comparaison utilise l'id
+  isSameAs(other: Organization): boolean {
+    return this.id === other.id;
+  }
+
+  // E6 : un nom métier ; E3 : tout vérifier avant de modifier
+  rename(name: string, now: Date): void {
+    if (this.isArchived) throw new ArchivedOrganizationError();
+    assertValidName(name);
+    this.#name = name;
+    this.#updatedAt = now;
+  }
+
+  archive(now: Date): void {
+    if (this.isArchived) throw new ArchivedOrganizationError();
+    this.#archivedAt = now;
+    this.#updatedAt = now;
+  }
+
+  enableFeature(featureName: FeatureName, now: Date): void {
+    if (this.isArchived) throw new ArchivedOrganizationError();
+    if (this.#features.some((feature) => feature.featureName === featureName)) {
+      throw new FeatureAlreadyEnabledError();
+    }
+    this.#features = [...this.#features, new OrganizationFeature({ featureName, enabledAt: now })];
+    this.#updatedAt = now;
+  }
+
+  // E5 : pas de toDTO() ni de toRow() : le repository fait la traduction
+}
+
+function assertValidName(name: string): void {
+  if (name.trim() === '') throw new InvalidOrganizationError('The name is required');
+}
+```
+
+## Comment tester
+
+Une Entity se teste avec un test unitaire. Le test n'utilise aucun stub, mock ou spy. Le test vérifie :
+
+- le constructeur : une Entity invalide n'est pas créée. Exemple : `refuses an empty name` ;
+- chaque méthode qui change l'Entity : le cas qui marche, **et** le cas d'erreur quand la règle n'est
+  pas respectée. Le test vérifie que l'Entity n'a pas changé après l'erreur. Exemples :
+  `renames the organization` et `refuses an empty name, and changes nothing` ;
+- chaque accesseur calculé, comme `isArchived` : les cas limites. Exemple : `archives the organization`.
+
+Le test de l'[exemple complet](#exemple-complet) :
+
+```ts
+// tests/organizational-entities/unit/domain/models/Organization_test.ts
+describe('Unit | Organizational Entities | Domain | Models | Organization', function () {
+  const now = new Date('2026-01-02');
+
+  const buildOrganization = (props: Partial<OrganizationProps<OrganizationId>> = {}) =>
+    new Organization({
+      id: 1 as OrganizationId,
+      name: 'Lycée Victor Hugo',
+      type: 'SCO',
+      createdBy: 2 as UserId,
+      createdAt: new Date('2026-01-01'),
+      updatedAt: new Date('2026-01-01'),
+      archivedAt: null,
+      features: [],
+      ...props,
+    });
+
+  it('refuses an empty name', function () {
+    expect(() => buildOrganization({ name: ' ' })).to.throw(InvalidOrganizationError);
+  });
+
+  describe('.create', function () {
+    it('creates a new organization, without id', function () {
+      const organization = Organization.create({ name: 'Lycée Victor Hugo', type: 'SCO', createdBy: 2 as UserId, now });
+
+      expect(organization.id).to.be.null;
+      expect(organization.createdAt).to.deep.equal(now);
+    });
+  });
+
+  describe('#rename', function () {
+    it('renames the organization', function () {
+      const organization = buildOrganization();
+
+      organization.rename('Lycée Jean Moulin', now);
+
+      expect(organization.name).to.equal('Lycée Jean Moulin');
+      expect(organization.updatedAt).to.deep.equal(now);
+    });
+
+    it('refuses an empty name, and changes nothing', function () {
+      const organization = buildOrganization();
+
+      expect(() => organization.rename(' ', now)).to.throw(InvalidOrganizationError);
+      expect(organization.name).to.equal('Lycée Victor Hugo');
+    });
+  });
+
+  describe('#archive', function () {
+    it('archives the organization', function () {
+      const organization = buildOrganization();
+
+      organization.archive(now);
+
+      expect(organization.isArchived).to.be.true;
+    });
+
+    it('refuses to archive an organization already archived, and changes nothing', function () {
+      const organization = buildOrganization({ archivedAt: new Date('2026-01-01') });
+
+      expect(() => organization.archive(now)).to.throw(ArchivedOrganizationError);
+      expect(organization.updatedAt).to.deep.equal(new Date('2026-01-01'));
+    });
+  });
+
+  describe('#enableFeature', function () {
+    it('enables a feature', function () {
+      const organization = buildOrganization();
+
+      organization.enableFeature('MISSIONS_MANAGEMENT', now);
+
+      expect(organization.features.map((feature) => feature.featureName)).to.deep.equal(['MISSIONS_MANAGEMENT']);
+    });
+
+    it('refuses a feature already enabled, and changes nothing', function () {
+      const organization = buildOrganization();
+      organization.enableFeature('MISSIONS_MANAGEMENT', now);
+
+      expect(() => organization.enableFeature('MISSIONS_MANAGEMENT', now)).to.throw(FeatureAlreadyEnabledError);
+      expect(organization.features).to.have.lengthOf(1);
+    });
+  });
+});
+```
+
+## Checklist de revue de code
+
+```
+L'Entity peut-elle devenir invalide ?
+[ ] E3  Le constructeur et chaque méthode refusent un état invalide
+[ ] E6  Pas de setter ; chaque changement a une méthode avec un nom métier
+
+L'Entity dépend-elle d'autre chose que de ses propres données ?
+[ ] E7  Un autre Aggregate est gardé par son identifiant, pas par l'objet entier
+[ ] E4  Aucun import d'infrastructure ; ni new Date(), ni Math.random(), ni configuration
+[ ] E5  Aucune méthode que seul le repository appelle
+
+L'Entity a-t-elle un identifiant stable et un nom du métier ?
+[ ] E1  Un id dans l'objet ; aucune méthode ne modifie l'id
+[ ] E2  Les comparaisons utilisent l'id
+[ ] E8  Un fichier, en PascalCase, avec un nom du métier
+
+Les tests
+[ ] Chaque méthode qui change l'Entity a un test du refus
+```
+
+## Référence des règles
+
+### E1. Un identifiant qui ne change pas
+
+**La règle.** L'Entity contient son identifiant. L'identifiant ne change jamais. L'identifiant a un
+type à lui, comme `OrganizationId`, pas `number`. L'identifiant prend plusieurs formes :
+
+- un entier créé par la base de données : le cas le plus courant, par exemple `Organization` ;
+- un texte qui vient d'un référentiel externe : `Skill`, `Challenge` ;
+- un UUID, créé par la base de données ou dans le domaine avant l'enregistrement : `Chat`, `Module` ;
+- une valeur du métier, quand le métier retrouve l'Entity par cette valeur : `RefreshToken` par sa
+  `value`.
+
+Une Entity peut aussi avoir un identifiant naturel en plus de son `id` : une `Campaign` se retrouve
+aussi par son `code`, un `Module` par son `slug`.
+
+**Bon exemple.**
+
+```ts
+export class Organization<Id extends OrganizationId | null = OrganizationId> {
+  readonly id: Id; // en lecture seule : aucune méthode ne modifie l'id
+}
+```
+
+**Mauvais exemple.**
+
+```ts
+export class Organization {
+  id: number; // public et modifiable : n'importe quel code peut changer l'id
+}
+```
+
+**Ce que ça apporte.** Pour comparer deux Entities ou retrouver une Entity, le code utilise
+l'identifiant, et seulement l'identifiant. Le compilateur refuse un `UserId` là où un
+`OrganizationId` est attendu.
+
+**Sans cette règle.** Un code change l'`id` d'une organisation. Le repository enregistre alors les
+valeurs de cette organisation sur une autre organisation.
+
+**À savoir.** La base de données crée l'`id` au moment de l'enregistrement. Une Entity neuve n'a donc
+pas encore d'`id`. Le type dit si l'Entity a un `id` : `Organization<null>` pour une Entity neuve,
+`Organization` pour une Entity enregistrée.
+
+```ts
+interface OrganizationRepository {
+  add(organization: Organization<null>): Promise<Organization>; // la base crée l'id
+  get(id: OrganizationId): Promise<Organization>;
+  update(organization: Organization): Promise<void>;
+}
+```
+
+Chaque usecase dit quel état il accepte :
+
+```ts
+// création : le usecase reçoit une Entity neuve
+const createOrganization = async ({
+  organization,
+  organizationRepository,
+}: {
+  organization: Organization<null>;
+  organizationRepository: OrganizationRepository;
+}): Promise<Organization> => {
+  return organizationRepository.add(organization);
+};
+
+// modification : le usecase reçoit l'id, charge l'Entity, appelle une méthode métier
+const archiveOrganization = async ({
+  organizationId,
+  organizationRepository,
+  clock,
+}: {
+  organizationId: OrganizationId;
+  organizationRepository: OrganizationRepository;
+  clock: Clock;
+}): Promise<Organization> => {
+  const organization = await organizationRepository.get(organizationId);
+  organization.archive(clock.now());
+  await organizationRepository.update(organization);
+  return organization;
+};
+```
+
+Le compilateur refuse `add()` avec une Entity déjà enregistrée, et `update()` avec une Entity neuve.
+Dans une `Organization`, `id` n'est jamais `null`.
+
+### E2. Comparer par identifiant
+
+**La règle.** Deux objets qui ont le même `id` sont la même Entity, même si les autres champs sont
+différents. Deux objets qui ont des `id` différents sont deux Entities, même si les autres champs sont
+égaux.
+
+**Bon exemple.**
+
+```ts
+isSameAs(other: Organization): boolean {
+  return this.id === other.id;
+}
+```
+
+**Mauvais exemple.**
+
+```ts
+isSameAs(other: Organization): boolean {
+  return this.name === other.name; // compare le nom, pas l'id
+}
+```
+
+**Ce que ça apporte.** La même Entity, chargée deux fois à deux moments différents, est reconnue comme
+la même Entity.
+
+**Sans cette règle.** Deux organisations qui ont le même nom sont prises pour la même organisation. La
+même organisation, chargée avant et après `rename()`, est prise pour deux organisations.
+
+### E3. Toujours valide
+
+**La règle.** Une Entity invalide n'est pas créée. Ensuite, aucune méthode ne rend l'Entity invalide.
+Chaque méthode vérifie la règle avant de modifier l'Entity. Si la règle n'est pas respectée, la
+méthode lève une erreur du domaine et ne modifie rien.
+
+**Bon exemple.**
+
+```ts
+rename(name: string, now: Date): void {
+  if (this.isArchived) throw new ArchivedOrganizationError(); // vérifier d'abord
+  assertValidName(name); // vérifier d'abord
+  this.#name = name; // modifier ensuite
+  this.#updatedAt = now;
+}
+```
+
+**Mauvais exemple.**
+
+```ts
+constructor({ id, name, type, createdBy }: OrganizationProps = {}) {
+  this.id = id;
+  this.name = name; // aucune vérification : new Organization() crée une organisation vide
+  this.type = type;
+  this.createdBy = createdBy;
+}
+```
+
+**Ce que ça apporte.** Le code qui reçoit une organisation sait que le nom n'est pas vide et que le
+type est connu : le code n'a rien à vérifier. La règle est écrite une seule fois, dans l'Entity.
+
+**Sans cette règle.** La règle est écrite dans un [usecase](../usecase/README.md). Un autre usecase
+renomme l'organisation, oublie la règle, et une organisation a un nom vide.
+
+**À savoir.**
+
+- Un constructeur avec `= {}` et sans aucune vérification accepte `new Organization()` : l'Entity est
+  créée vide. Ce code compile, et les tests qui passent des valeurs valides passent : rien ne
+  signale la vérification qui manque.
+- Une méthode qui modifie plusieurs champs vérifie tout avant de modifier le premier champ. Sinon,
+  une erreur au milieu laisse l'Entity à moitié modifiée.
+
+### E4. Aucune I/O
+
+**La règle.** Une Entity n'importe rien de l'infrastructure : pas de base de données, pas de log, pas
+d'appel HTTP. L'Entity n'appelle pas `new Date()`, pas `Math.random()`, et ne lit pas la
+configuration : ces valeurs sont passées en paramètre. Si une règle a besoin d'une donnée que
+l'Entity n'a pas, le usecase charge la donnée et passe la donnée à la méthode.
+
+**Bon exemple.**
+
+```ts
+archive(now: Date): void {
+  if (this.isArchived) throw new ArchivedOrganizationError();
+  this.#archivedAt = now; // la date est passée en paramètre
+  this.#updatedAt = now;
+}
+```
+
+**Mauvais exemple.**
+
+```ts
+archive(): void {
+  if (this.isArchived) throw new ArchivedOrganizationError();
+  this.#archivedAt = new Date(); // l'Entity lit l'heure
+  this.#updatedAt = new Date();
+}
+```
+
+**Ce que ça apporte.** Le résultat dépend seulement des paramètres. Le test passe une date et vérifie
+le résultat.
+
+**Sans cette règle.** Le test doit bloquer l'heure ou simuler un module. Une Entity qui appelle
+`new Date()` donne un résultat différent à chaque exécution du test.
+
+**À savoir.** Un import peut venir de l'infrastructure sans le dire. Un utilitaire importé depuis un
+dossier `infrastructure/`, même pour formater une date, est un import d'infrastructure.
+
+### E5. Rien pour la base de données
+
+**La règle.** Transformer une Entity pour la base de données, dans un sens ou dans l'autre, est le
+travail du repository. L'Entity n'a pas de méthode que seul le repository appelle : ni `toDTO()`, ni
+`fromDTO()`.
+
+**Bon exemple.**
+
+```ts
+// organizational-entities/infrastructure/repositories/organization-repository.ts
+const toRow = (organization: Organization<OrganizationId | null>) => ({
+  id: organization.id,
+  name: organization.name,
+  type: organization.type,
+  createdBy: organization.createdBy,
+  updatedAt: organization.updatedAt,
+  archivedAt: organization.archivedAt,
+});
+```
+
+La traduction est une fonction du repository, pas une méthode de l'Entity.
+
+**Mauvais exemple.**
+
+```ts
+export class Organization {
+  toDTO() {
+    // seul le repository appelle cette méthode
+    return { id: this.id, name: this.name, type: this.type, created_by: this.createdBy };
+  }
+}
+```
+
+**Ce que ça apporte.** Le fichier de l'Entity n'importe rien de la base de données et ne contient
+aucun nom de colonne. Un changement dans la base de données modifie seulement le repository.
+
+**Sans cette règle.** Renommer une colonne de la table oblige à modifier l'Entity.
+
+### E6. Pas de setter
+
+**La règle.** Chaque changement de l'Entity passe par une méthode avec un nom métier : `archive()`,
+`rename()`. Pas de setter public. Le code extérieur ne modifie pas un champ directement :
+`organization.name = 'Lycée Jean Moulin'` dans un usecase ne respecte pas la règle.
+
+**Bon exemple.**
+
+```ts
+#name: string; // privé
+
+rename(name: string, now: Date): void {
+  …
+}
+```
+
+**Mauvais exemple.**
+
+```ts
+#name: string;
+
+set name(value: string) {
+  this.#name = value; // n'importe quel code peut changer le nom, sans vérification
+}
+```
+
+**Ce que ça apporte.** Chaque changement passe par une seule méthode. La méthode vérifie la règle
+(E3). Le nom de la méthode dit ce qui se passe pour le métier.
+
+**Sans cette règle.** Un setter modifie le champ sans vérifier la règle. Après la création,
+`organization.name = ''` donne une organisation au nom vide, sans erreur.
+
+**À savoir.** Une organisation remplie par `organization.setName(…)` puis `organization.setType(…)` est
+invalide entre les deux appels : elle a un nom, mais pas encore de type. Toutes les valeurs de départ
+passent par le constructeur.
+
+**Exceptions.** Une Entity sans aucune méthode de changement est permise : certaines Entities ne
+changent pas.
+
+### E7. Les autres Aggregates par identifiant
+
+**La règle.** Une Entity ne garde pas un objet d'un autre Aggregate : l'Entity garde l'identifiant de
+l'objet. Si une règle a besoin des données de l'autre objet, la méthode reçoit les données en
+paramètre.
+
+**Bon exemple.**
+
+```ts
+readonly createdBy: UserId; // l'identifiant de la personne
+```
+
+**Mauvais exemple.**
+
+```ts
+readonly creator: User; // l'objet entier d'un autre Aggregate
+```
+
+**Ce que ça apporte.** Charger une Entity charge seulement cette Entity. Chaque Aggregate est modifié
+et enregistré seul.
+
+**Sans cette règle.** Le repository doit charger l'utilisateur avec chaque organisation. Chaque objet lié
+ajoute une requête ou une jointure à chaque chargement d'une organisation. Et le code peut modifier l'utilisateur à travers
+l'organisation.
+
+**Exceptions.** Une Entity garde entiers les objets de son propre Aggregate. Dans l'exemple complet,
+`Organization` garde ses `OrganizationFeature` entières, et garde `createdBy` par son identifiant,
+parce qu'un utilisateur est un autre Aggregate.
+
+### E8. Un nom du métier
+
+**La règle.** Un fichier par Entity, dans le dossier `domain/models/`. Le nom du fichier est le nom
+métier de l'Entity, en PascalCase.
+
+**Bon exemple.** `organizational-entities/domain/models/Organization.ts`.
+
+**Mauvais exemple.** `organizational-entities/domain/models/orga-model.ts`.
+
+**Ce que ça apporte.** Une recherche avec le mot du métier, par exemple « Organization », trouve le
+fichier.
+
+**Sans cette règle.** Une recherche avec le mot du métier ne trouve pas le fichier, et un relecteur doit ouvrir le fichier pour savoir quelle Entity il contient.
+
+**Exceptions.** Deux contextes peuvent avoir chacun une Entity avec le même nom, pour deux choses
+différentes : chaque contexte a son vocabulaire. L'import dit de quel contexte vient l'Entity.
