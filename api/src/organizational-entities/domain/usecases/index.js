@@ -115,6 +115,7 @@ import { findAllTags } from './find-all-tags.usecase.js';
 import { findAttachedCertificationCenterForAdmin } from './find-attached-certification-center-for-admin.usecase.js';
 import { findAttachedOrganizationsForAdmin } from './find-attached-organizations-for-admin.usecase.js';
 import { findChildrenOrganizations } from './find-children-organizations.usecase.js';
+import { findNetworkOrganizations } from './find-network-organizations.usecase.js';
 import { findOrganizationFeatures } from './find-organization-features.js';
 import { findPaginatedFilteredCertificationCenters } from './find-paginated-filtered-certification-centers.usecase.js';
 import { findPaginatedFilteredNetworks } from './find-paginated-filtered-networks.usecase.js';
@@ -153,6 +154,7 @@ const usecasesWithoutInjectedDependencies = {
   findAttachedCertificationCenterForAdmin,
   findAttachedOrganizationsForAdmin,
   findChildrenOrganizations,
+  findNetworkOrganizations,
   findOrganizationFeatures,
   findPaginatedFilteredCertificationCenters,
   findPaginatedFilteredOrganizations,
@@ -187,6 +189,7 @@ const usecasesWithoutInjectedDependencies = {
  * @property {getOrganizationDetails} getOrganizationDetails
  * @property {getOrganizationStatistics} getOrganizationStatistics
  * @property {getNetworkDetails} getNetworkDetails
+ * @property {findNetworkOrganizations} findNetworkOrganizations
  * @property {updateOrganizationsInBatch} updateOrganizationsInBatch
  * @property {updateOrganizationInformation} updateOrganizationInformation
  * @property {archiveOrganizationsInBatch} archiveOrganizationsInBatch

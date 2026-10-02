@@ -95,6 +95,21 @@ async function findByOrganizationId(organizationId) {
 
 /**
  * @param {object} params
+ * @param {number} params.networkId
+ * @returns {Promise<Array<number>>}
+ */
+async function findOrganizationIdsByNetworkId({ networkId }) {
+  const knexConn = DomainTransaction.getConnection();
+
+  return knexConn('fct_structures')
+    .pluck('organization_id')
+    .where({ network_id: networkId })
+    .whereNotNull('organization_id')
+    .orderBy('organization_id');
+}
+
+/**
+ * @param {object} params
  * @param {number} params.organizationId
  * @param {string} params.networkName
  * @returns {Promise<Network>}
@@ -182,4 +197,12 @@ function _toDomain(network) {
   return new Network(network);
 }
 
-export { attachOrganization, findByOrganizationId, findPaginatedFiltered, getById, save, update };
+export {
+  attachOrganization,
+  findByOrganizationId,
+  findOrganizationIdsByNetworkId,
+  findPaginatedFiltered,
+  getById,
+  save,
+  update,
+};
