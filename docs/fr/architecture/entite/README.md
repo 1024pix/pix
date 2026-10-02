@@ -119,7 +119,18 @@ function assertValidName(name: string): void {
 }
 ```
 
-Le test vérifie le constructeur, chaque changement, et chaque refus :
+## Comment tester
+
+Une Entity se teste avec un test unitaire. Le test n'utilise pas de base de données. Le test n'utilise
+pas de **double** : pas de stub, pas de mock, pas de spy. La date est une valeur passée en paramètre.
+Le test vérifie :
+
+- le constructeur : une Entity invalide n'est pas créée ;
+- chaque méthode qui change l'Entity : le cas qui marche, **et** le refus quand la règle n'est pas
+  respectée. Après le refus, l'Entity n'a pas changé ;
+- chaque accesseur calculé, comme `isArchived` : les cas limites.
+
+Le test de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/organizational-entities/unit/domain/models/Organization_test.ts
@@ -187,17 +198,6 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
   });
 });
 ```
-
-## Comment tester
-
-Une Entity se teste avec un test unitaire. Le test n'utilise pas de base de données. Le test n'utilise
-pas de **double** : pas de stub, pas de mock, pas de spy. La date est une valeur passée en paramètre.
-Le test vérifie :
-
-- le constructeur : une Entity invalide n'est pas créée ;
-- chaque méthode qui change l'Entity : le cas qui marche, **et** le refus quand la règle n'est pas
-  respectée. Après le refus, l'Entity n'a pas changé ;
-- chaque accesseur calculé, comme `isArchived` : les cas limites.
 
 Deux signes d'un problème, pendant l'écriture du test :
 
