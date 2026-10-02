@@ -11,13 +11,13 @@ un bon exemple et un mauvais exemple.
 
 | # | Règle | En pratique |
 | --- | --- | --- |
-| [V1](#v1-immuable-après-construction) | Immuable | champs privés `#` ; aucune méthode ne modifie un champ |
-| [V2](#v2-aucune-identité-égalité-par-valeur) | Pas d'identifiant | pas d'`id` à lui ; contenir l'`id` d'autre chose, comme un `challengeId`, est permis |
-| [V3](#v3-validation-à-la-construction) | Valide dès la construction | le constructeur lève une erreur du domaine sur une valeur invalide |
-| [V4](#v4-aucune-io-aucune-dépendance-à-linfrastructure) | Aucune I/O | aucun import d'infrastructure ; la date du jour est passée en paramètre |
-| [V5](#v5-porte-le-comportement-lié-à-ses-données) | Contient ses règles | une règle sur les données de l'objet est une méthode de l'objet |
-| [V6](#v6-aucun-cycle-de-vie-à-lui) | Pas de [repository](../repository/README.md) | pas de repository, pas de table : le Value Object est enregistré avec l'objet qui le contient |
-| [V7](#v7-exposition-en-lecture-seule-tableaux-compris) | Lecture seule, tableaux compris | un accesseur renvoie une copie : `[...this.#items]`, jamais `this.#items` |
+| [V1](#v1-immuable) | Immuable | champs privés `#` ; aucune méthode ne modifie un champ |
+| [V2](#v2-pas-didentifiant) | Pas d'identifiant | pas d'`id` à lui ; contenir l'`id` d'autre chose, comme un `challengeId`, est permis |
+| [V3](#v3-valide-dès-la-construction) | Valide dès la construction | le constructeur lève une erreur du domaine sur une valeur invalide |
+| [V4](#v4-aucune-io) | Aucune I/O | aucun import d'infrastructure ; la date du jour est passée en paramètre |
+| [V5](#v5-contient-ses-règles) | Contient ses règles | une règle sur les données de l'objet est une méthode de l'objet |
+| [V6](#v6-pas-de-repository) | Pas de [repository](../repository/README.md) | pas de repository, pas de table : le Value Object est enregistré avec l'objet qui le contient |
+| [V7](#v7-lecture-seule-tableaux-compris) | Lecture seule, tableaux compris | un accesseur renvoie une copie : `[...this.#items]`, jamais `this.#items` |
 
 Une erreur du domaine est une `DomainError`, ou une classe qui hérite de `DomainError`. `DomainError`
 est dans le fichier `api/src/shared/domain/errors.js`.
@@ -126,14 +126,13 @@ describe('Unit | Devcomp | Domain | Models | QcmSolution', function () {
 ```
 
 Un signe d'un problème, pendant l'écriture du test : **le test a besoin d'un double**. L'objet dépend
-de l'infrastructure : l'objet ne respecte pas [V4](#v4-aucune-io-aucune-dépendance-à-linfrastructure).
+de l'infrastructure : l'objet ne respecte pas [V4](#v4-aucune-io).
 
 ## Comment relire
 
 La checklist suit l'ordre de relecture : les règles qui évitent les bugs les plus graves sont en
-premier. Dans un
-commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas la règle : « V7 :
-`get correctChoiceIds()` renvoie le tableau interne, l'appelant peut modifier la solution ».
+premier. Dans un commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas la
+règle : « V7 : `get correctChoiceIds()` renvoie le tableau interne, l'appelant peut modifier la solution ».
 
 ```
 Le Value Object contient-il ses règles ?
@@ -158,7 +157,7 @@ Les tests
 Les bons exemples sont des extraits de l'[exemple complet](#exemple-complet). Les mauvais exemples
 montrent la même `QcmSolution` mal écrite.
 
-### V1. Immuable après construction
+### V1. Immuable
 
 **La règle.** Après le constructeur, rien ne modifie l'objet. Les champs sont privés, ou en lecture
 seule. Aucune méthode ne modifie un champ. Pour avoir une autre valeur, créer un autre objet.
@@ -184,12 +183,13 @@ aucune fonction ne peut modifier la solution qu'une autre fonction utilise.
 
 **Sans cette règle.** Une partie du code modifie la solution d'une question pendant qu'une autre
 partie du code corrige une réponse avec cette solution. La réponse est corrigée avec une mauvaise
-solution. Le bug apparaît loin de sa cause. Le bug est difficile à reproduire.
+solution. Le bug apparaît loin de sa cause, et seulement quand les deux parties du code s'exécutent
+dans cet ordre.
 
 **À savoir.** La règle vaut aussi pour la classe parente : les champs de la classe parente sont
 privés, ou en lecture seule.
 
-### V2. Aucune identité, égalité par valeur
+### V2. Pas d'identifiant
 
 **La règle.** Un Value Object n'a pas d'identifiant à lui. Deux Value Objects qui ont les mêmes
 valeurs sont la même chose. Un Value Object peut contenir l'identifiant d'autre chose, comme
@@ -230,7 +230,7 @@ clé ne va pas toujours au même endroit :
 - l'objet a une identité métier faite de plusieurs champs : l'objet est une
   [Entity](../entite/README.md).
 
-### V3. Validation à la construction
+### V3. Valide dès la construction
 
 **La règle.** Une valeur invalide ne crée pas d'objet. Le constructeur vérifie les valeurs reçues. Si
 une valeur est invalide, le constructeur lève une erreur du domaine. Le code qui reçoit l'objet n'a
@@ -269,7 +269,7 @@ réponse vide est comptée juste.
   attraper plusieurs types d'erreurs.
 - Un objet qui contient d'autres objets valide aussi les autres objets.
 
-### V4. Aucune I/O, aucune dépendance à l'infrastructure
+### V4. Aucune I/O
 
 **La règle.** Un Value Object n'importe rien de l'infrastructure : ni base de données, ni log, ni
 appel HTTP. Le Value Object n'appelle pas `new Date()`, pas `Math.random()`, et ne lit pas la
@@ -306,7 +306,7 @@ n'a pas besoin de double.
 **Sans cette règle.** Le test doit simuler le log, l'heure ou la base de données. Un objet qui appelle
 `new Date()` donne un résultat différent à chaque exécution du test.
 
-### V5. Porte le comportement lié à ses données
+### V5. Contient ses règles
 
 **La règle.** Une règle sur les données du Value Object est une méthode du Value Object. Un objet
 sans méthode laisse chaque appelant écrire la règle.
@@ -338,7 +338,7 @@ ne décide rien.
 **Exceptions.** Un Value Object sans méthode est accepté quand son seul rôle est de typer une valeur :
 une fonction qui attend une `QcmSolution` refuse une simple liste de chaînes à la compilation.
 
-### V6. Aucun cycle de vie à lui
+### V6. Pas de repository
 
 **La règle.** Un Value Object n'a pas de repository. Un Value Object n'a pas de table à lui. Le Value
 Object est enregistré avec l'objet qui le contient. Un objet qu'il faut retrouver seul est une
@@ -365,7 +365,7 @@ repository des questions. Une solution ne peut pas exister sans sa question.
 **Sans cette règle.** Un repository a besoin d'un identifiant pour retrouver l'objet. L'objet reçoit
 un identifiant, et l'objet devient une Entity sans que personne l'ait décidé.
 
-### V7. Exposition en lecture seule, tableaux compris
+### V7. Lecture seule, tableaux compris
 
 **La règle.** Le code extérieur ne peut rien modifier, même pas le contenu d'un tableau interne. Un
 accesseur qui renvoie un tableau renvoie une copie du tableau. Le constructeur garde aussi une copie
@@ -393,6 +393,6 @@ tableau qu'il a reçu.
 **Sans cette règle.** Le code qui appelle fait `solution.correctChoiceIds.push('b')`, et la solution de
 la question change sans appel à une méthode de la solution.
 
-**À savoir.** Certains fichiers appellent `Object.freeze(this)` pour protéger l'objet.
+**À savoir.** Certains fichiers appellent `Object.freeze(this)` pour empêcher les modifications.
 `Object.freeze(this)` empêche de modifier les champs publics. `Object.freeze(this)` ne protège pas les
 champs privés `#`, et ne protège pas le contenu des tableaux. Seule la copie protège un tableau.
