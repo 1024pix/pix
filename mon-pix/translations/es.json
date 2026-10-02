@@ -1369,7 +1369,7 @@
           "tooltip": "Prueba fallida"
         },
         "ko": {
-          "title": "La respuesta es correcta.",
+          "title": "La respuesta no es correcta.",
           "tooltip": "Respuesta incorrecta"
         },
         "koAutoReply": {
