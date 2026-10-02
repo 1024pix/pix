@@ -125,8 +125,10 @@ describe('Unit | Devcomp | Domain | Models | QcmSolution', function () {
 });
 ```
 
-Un signe d'un problème, pendant l'écriture du test : **le test a besoin d'un double**. L'objet dépend
-de l'infrastructure : l'objet ne respecte pas [V4](#v4-aucune-io).
+Si, pour écrire le test, il faut remplacer un module par un faux, par exemple
+`sinon.stub(logger, 'info')`, le Value Object importe un module de l'infrastructure : le Value Object ne
+respecte pas [V4](#v4-aucune-io). La correction : retirer l'import du Value Object. Le code qui
+appelle le Value Object écrit le log, si besoin.
 
 ## Comment relire
 

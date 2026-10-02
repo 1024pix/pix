@@ -204,8 +204,10 @@ Deux signes d'un problème, pendant l'écriture du test :
 - **Le test du refus manque.** Sans test du refus, les tests passent même quand la vérification de E3
   manque. Tester que `archive()` archive ne suffit pas : c'est le test du refus qui prouve que la
   règle E3 est respectée.
-- **Le test a besoin d'un double**, ou de bloquer l'heure. L'Entity dépend de l'infrastructure :
-  l'Entity ne respecte pas [E4](#e4-aucune-io).
+- **Le test remplace un module par un faux**, par exemple `sinon.stub(logger, 'info')`, ou bloque
+  l'heure avec `sinon.useFakeTimers()`. L'Entity importe un module de l'infrastructure, ou appelle
+  `new Date()` : l'Entity ne respecte pas [E4](#e4-aucune-io). La correction : passer la date en
+  paramètre, et retirer l'import de l'Entity.
 
 ## Comment relire
 
