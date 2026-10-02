@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { UserDetailsForAdmin } from '../../../../../src/deprecated/domain/models/UserDetailsForAdmin.js';
-import { STATUS } from '../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
+import { STATUS } from '../../../../../src/legal-documents/application/api/legal-documents-api.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | Models | UserDetailsForAdmin', function () {

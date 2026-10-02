@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { config } from '../../../../../config/config.js';
 import { UserWithActivity } from '../../../../../src/deprecated/domain/models/UserWithActivity.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
-import { STATUS } from '../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
+import { STATUS } from '../../../../../src/legal-documents/application/api/legal-documents-api.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Deprecated | Unit | Domain | Read-Models | UserWithActivity', function () {

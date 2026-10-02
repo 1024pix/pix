@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 
 import * as legalDocumentsApi from '../../../../../src/legal-documents/application/api/legal-documents-api.js';
+import { LegalDocumentStatusDTO } from '../../../../../src/legal-documents/application/api/models/LegalDocumentStatusDTO.js';
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
-import { LegalDocumentStatus, STATUS } from '../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
+import { STATUS } from '../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
@@ -56,7 +57,7 @@ describe('Integration | Privacy | Application | Api | legal documents', function
       });
 
       // then
-      expect(legalDocumentStatus).to.be.an.instanceOf(LegalDocumentStatus);
+      expect(legalDocumentStatus).to.be.an.instanceOf(LegalDocumentStatusDTO);
       expect(legalDocumentStatus).to.deep.equal({
         status: STATUS.ACCEPTED,
         acceptedAt: new Date('2024-03-01'),
