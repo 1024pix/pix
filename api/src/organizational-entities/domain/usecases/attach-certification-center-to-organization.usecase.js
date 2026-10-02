@@ -49,5 +49,5 @@ export const attachCertificationCenterToOrganization = withTransaction(async fun
     await structureRepository.deleteStructure({ structureId: certificationCenterStructure.id });
   }
 
-  await structureRepository.update(organizationStructure);
+  await structureRepository.save(organizationStructure);
 });
