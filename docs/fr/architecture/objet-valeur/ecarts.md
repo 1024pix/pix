@@ -72,7 +72,7 @@ class QrocmSolutions {
 **Code.** [`QrocmSolutions.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/QrocmSolutions.js#L4-L23), simplifié.
 
 **Verdict.** Rien à faire. Le coût est une validation et un type d'erreur par type ; le bénéfice est
-qu'aucun code en aval ne revérifie. C'est V3 de [`README.md`](README.md#v3-validation-à-la-construction),
+qu'aucun code en aval ne revérifie. C'est V3 de [`README.md`](README.md#v3-valide-dès-la-construction),
 classé en rentabilité forte. La théorie est dans
 [`explication.md`](explication.md#x3-validation-à-la-construction-de-chaque-value-object).
 
@@ -118,7 +118,7 @@ relue par personne côté serveur.
 **Verdict.** À corriger. Le domaine connaît le framework de son client, et V2 devient invérifiable :
 tout `id` peut être légitime. Le seul bénéfice est une clé composée une fois pour tous ses lecteurs.
 L'équipe a décidé qu'une clé de présentation se compose dans le sérialiseur : c'est le premier cas du
-[cas de la clé de présentation](README.md#v2-aucune-identité-égalité-par-valeur), sous V2. La théorie est
+[cas de la clé de présentation](README.md#v2-pas-didentifiant), sous V2. La théorie est
 dans [`explication.md`](explication.md#x5-la-clé-de-présentation-est-fabriquée-dans-le-domaine).
 
 **Correction.** La réponse de l'API reste identique : le front ne doit rien voir changer. La

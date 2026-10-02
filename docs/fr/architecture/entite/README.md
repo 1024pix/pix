@@ -11,14 +11,14 @@ un bon exemple et un mauvais exemple.
 
 | # | Règle | En pratique |
 | --- | --- | --- |
-| [E1](#e1-lidentité-est-explicite-et-stable) | Un identifiant qui ne change pas | un `id` dans l'objet ; aucune méthode ne modifie l'`id` |
-| [E2](#e2-légalité-se-fonde-sur-lidentité) | Comparer par identifiant | comparer les `id`, pas les autres champs |
-| [E3](#e3-les-invariants-sont-tenus-à-tout-instant) | Toujours valide | le constructeur et chaque méthode refusent un état invalide |
-| [E4](#e4-aucune-io-aucune-dépendance-à-linfrastructure) | Aucune I/O | aucun import d'infrastructure ; la date du jour est passée en paramètre |
-| [E5](#e5-aucune-méthode-au-service-de-la-persistance) | Rien pour la base de données | pas de `toDTO()` que seul le repository appelle |
-| [E6](#e6-aucun-mutateur-nu) | Pas de setter | chaque changement a une méthode avec un nom métier : `rename()`, pas `set name()` |
-| [E7](#e7-les-autres-aggregates-sont-référencés-par-identité) | Les autres Aggregates par identifiant | `createdBy: UserId`, pas `creator: User` |
-| [E8](#e8-nommage-et-emplacement) | Un nom du métier | un fichier par Entity, en PascalCase, avec un nom du métier |
+| [E1](#e1-un-identifiant-qui-ne-change-pas) | Un identifiant qui ne change pas | un `id` dans l'objet ; aucune méthode ne modifie l'`id` |
+| [E2](#e2-comparer-par-identifiant) | Comparer par identifiant | comparer les `id`, pas les autres champs |
+| [E3](#e3-toujours-valide) | Toujours valide | le constructeur et chaque méthode refusent un état invalide |
+| [E4](#e4-aucune-io) | Aucune I/O | aucun import d'infrastructure ; la date du jour est passée en paramètre |
+| [E5](#e5-rien-pour-la-base-de-données) | Rien pour la base de données | pas de `toDTO()` que seul le repository appelle |
+| [E6](#e6-pas-de-setter) | Pas de setter | chaque changement a une méthode avec un nom métier : `rename()`, pas `set name()` |
+| [E7](#e7-les-autres-aggregates-par-identifiant) | Les autres Aggregates par identifiant | `createdBy: UserId`, pas `creator: User` |
+| [E8](#e8-un-nom-du-métier) | Un nom du métier | un fichier par Entity, en PascalCase, avec un nom du métier |
 
 Une erreur du domaine est une `DomainError`, ou une classe qui hérite de `DomainError`. `DomainError`
 est dans le fichier `api/src/shared/domain/errors.js`.
@@ -204,14 +204,13 @@ Deux signes d'un problème, pendant l'écriture du test :
 - **Le test du refus manque.** C'est l'oubli le plus fréquent. Tester que `archive()` archive ne suffit
   pas : c'est le test du refus qui prouve que la règle E3 est respectée.
 - **Le test a besoin d'un double**, ou de bloquer l'heure. L'Entity dépend de l'infrastructure :
-  l'Entity ne respecte pas [E4](#e4-aucune-io-aucune-dépendance-à-linfrastructure).
+  l'Entity ne respecte pas [E4](#e4-aucune-io).
 
 ## Comment relire
 
 La checklist suit l'ordre de relecture : les règles qui évitent les bugs les plus graves sont en
-premier. Dans un
-commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas la règle : « E6 :
-`set name()` permet de changer le nom sans passer par `rename()`, donc sans vérifier le nom ».
+premier. Dans un commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas la
+règle : « E6 : `set name()` permet de changer le nom sans passer par `rename()`, donc sans vérifier le nom ».
 
 ```
 L'Entity peut-elle devenir invalide ?
@@ -237,7 +236,7 @@ Les tests
 Les bons exemples sont des extraits de l'[exemple complet](#exemple-complet). Les mauvais exemples
 montrent la même `Organization` mal écrite.
 
-### E1. L'identité est explicite et stable
+### E1. Un identifiant qui ne change pas
 
 **La règle.** L'Entity contient son identifiant. L'identifiant ne change jamais.
 
@@ -309,7 +308,7 @@ const archiveOrganization = async ({
 Le compilateur refuse `add()` avec une Entity déjà enregistrée, et `update()` avec une Entity neuve.
 Dans une `Organization`, `id` n'est jamais `null`.
 
-### E2. L'égalité se fonde sur l'identité
+### E2. Comparer par identifiant
 
 **La règle.** Deux objets qui ont le même `id` sont la même Entity, même si les autres champs sont
 différents. Deux objets qui ont des `id` différents sont deux Entities, même si les autres champs sont
@@ -337,7 +336,7 @@ la même Entity.
 **Sans cette règle.** Deux organisations qui ont le même nom sont prises pour la même organisation. La
 même organisation, chargée avant et après `rename()`, est prise pour deux organisations.
 
-### E3. Les invariants sont tenus à tout instant
+### E3. Toujours valide
 
 **La règle.** Une Entity invalide n'est pas créée. Ensuite, aucune méthode ne rend l'Entity invalide.
 Chaque méthode vérifie la règle avant de modifier l'Entity. Si la règle n'est pas respectée, la
@@ -379,7 +378,7 @@ renomme l'organisation, oublie la règle, et une organisation a un nom vide.
 - Une méthode qui modifie plusieurs champs vérifie tout avant de modifier le premier champ. Sinon,
   une erreur au milieu laisse l'Entity à moitié modifiée.
 
-### E4. Aucune I/O, aucune dépendance à l'infrastructure
+### E4. Aucune I/O
 
 **La règle.** Une Entity n'importe rien de l'infrastructure : pas de base de données, pas de log, pas
 d'appel HTTP. L'Entity n'appelle pas `new Date()`, pas `Math.random()`, et ne lit pas la
@@ -415,7 +414,7 @@ le résultat.
 **À savoir.** Un import peut venir de l'infrastructure sans le dire. Un utilitaire importé depuis un
 dossier `infrastructure/`, même pour formater une date, est un import d'infrastructure.
 
-### E5. Aucune méthode au service de la persistance
+### E5. Rien pour la base de données
 
 **La règle.** Transformer une Entity pour la base de données est le travail du repository. L'Entity
 n'a pas de méthode que seul le repository appelle.
@@ -457,7 +456,7 @@ exemple un fichier envoyé à un partenaire, est permise. Pour décider, poser l
 colonne de la table changeait de nom, la méthode devrait-elle changer ? Si oui, la méthode sert la
 base de données, et la méthode va dans le repository.
 
-### E6. Aucun mutateur nu
+### E6. Pas de setter
 
 **La règle.** Chaque changement de l'Entity passe par une méthode avec un nom métier : `archive()`,
 `rename()`. Pas de setter public. Le code extérieur ne modifie pas un champ directement :
@@ -486,8 +485,8 @@ set name(value: string) {
 **Ce que ça apporte.** Chaque changement passe par une seule méthode. La méthode vérifie la règle
 (E3). Le nom de la méthode dit ce qui se passe pour le métier.
 
-**Sans cette règle.** Un setter passe à côté de la règle. La règle E3 est vérifiée seulement dans le
-constructeur.
+**Sans cette règle.** Un setter modifie le champ sans vérifier la règle. La règle E3 est vérifiée
+seulement dans le constructeur.
 
 **À savoir.** Une Entity remplie par une suite de setters, `setX()` puis `setY()`, est invalide entre
 deux appels. Toutes les valeurs de départ passent par le constructeur.
@@ -495,7 +494,7 @@ deux appels. Toutes les valeurs de départ passent par le constructeur.
 **Exceptions.** Une Entity sans aucune méthode de changement est permise : certaines Entities ne
 changent pas.
 
-### E7. Les autres Aggregates sont référencés par identité
+### E7. Les autres Aggregates par identifiant
 
 **La règle.** Une Entity ne garde pas un objet d'un autre Aggregate : l'Entity garde l'identifiant de
 l'objet. Si une règle a besoin des données de l'autre objet, la méthode reçoit les données en
@@ -522,7 +521,7 @@ l'organisation.
 
 **Exceptions.** Une Entity garde les objets de son propre Aggregate : un module garde ses sections.
 
-### E8. Nommage et emplacement
+### E8. Un nom du métier
 
 **La règle.** Un fichier par Entity, dans le dossier `domain/models/`. Le nom du fichier est le nom
 métier de l'Entity, en PascalCase.
@@ -534,8 +533,8 @@ métier de l'Entity, en PascalCase.
 **Ce que ça apporte.** Une recherche avec le mot du métier, par exemple « Organization », trouve le
 fichier.
 
-**Sans cette règle.** Rien ne casse. Le fichier est plus long à trouver, et la revue perd du temps sur
-le nom.
+**Sans cette règle.** Le code fonctionne. Mais une recherche avec le mot du métier ne trouve pas le
+fichier, et la revue perd du temps sur le nom.
 
 **Exceptions.** Deux contextes peuvent avoir chacun une Entity avec le même nom, pour deux choses
-différentes. C'est normal : l'import dit de quel contexte vient l'Entity.
+différentes : chaque contexte a son vocabulaire. L'import dit de quel contexte vient l'Entity.
