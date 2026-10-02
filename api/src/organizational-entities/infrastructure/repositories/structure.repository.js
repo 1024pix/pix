@@ -1,6 +1,8 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { Structure } from '../../domain/models/Structure.js';
 
+const FACT_STRUCTURE_COLUMNS = ['structure_id', 'organization_id', 'certification_center_id'];
+
 /**
  * @param {object} params
  * @param {number} params.organizationId
@@ -9,7 +11,7 @@ import { Structure } from '../../domain/models/Structure.js';
 const findByOrganizationId = async function ({ organizationId }) {
   const knexConn = DomainTransaction.getConnection();
   const structure = await knexConn
-    .select('structure_id', 'organization_id', 'certification_center_id')
+    .select(FACT_STRUCTURE_COLUMNS)
     .from('fct_structures')
     .where({ organization_id: organizationId })
     .first();
@@ -25,7 +27,7 @@ const findByOrganizationId = async function ({ organizationId }) {
 const findByCertificationCenterId = async function ({ certificationCenterId }) {
   const knexConn = DomainTransaction.getConnection();
   const structure = await knexConn
-    .select('structure_id', 'organization_id', 'certification_center_id')
+    .select(FACT_STRUCTURE_COLUMNS)
     .from('fct_structures')
     .where({ certification_center_id: certificationCenterId })
     .first();
@@ -46,16 +48,33 @@ const deleteStructure = async function ({ structureId }) {
 };
 
 /**
+ * Creates the structure when it has no id, updates it otherwise.
+ *
  * @type {function}
  * @param {Structure} structure
- * @returns {Promise<void>}
+ * @returns {Promise<Structure>}
  */
-const update = async function (structure) {
+const save = async function (structure) {
   const knexConn = DomainTransaction.getConnection();
-  await knexConn('fct_structures').where({ structure_id: structure.id }).update({
+  const factStructureAttributes = {
     organization_id: structure.organizationId,
     certification_center_id: structure.certificationCenterId,
-  });
+  };
+
+  if (structure.id) {
+    const [updatedFactStructure] = await knexConn('fct_structures')
+      .where({ structure_id: structure.id })
+      .update(factStructureAttributes)
+      .returning(FACT_STRUCTURE_COLUMNS);
+    return _toDomain(updatedFactStructure);
+  }
+
+  const [{ id: structureId }] = await knexConn('structures').insert({}).returning('id');
+  const [createdFactStructure] = await knexConn('fct_structures')
+    .insert({ structure_id: structureId, ...factStructureAttributes })
+    .returning(FACT_STRUCTURE_COLUMNS);
+
+  return _toDomain(createdFactStructure);
 };
 
 function _toDomain(structure) {
@@ -66,4 +85,4 @@ function _toDomain(structure) {
   });
 }
 
-export { deleteStructure, findByCertificationCenterId, findByOrganizationId, update };
+export { deleteStructure, findByCertificationCenterId, findByOrganizationId, save };
