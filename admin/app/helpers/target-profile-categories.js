@@ -8,4 +8,5 @@ export const categories = {
   SUBJECT: 'common.fields.target-profile.category.tags.SUBJECT',
   TARGETED: 'common.fields.target-profile.category.tags.TARGETED',
   BACK_TO_SCHOOL: 'common.fields.target-profile.category.tags.BACK_TO_SCHOOL',
+  ATTESTATION: 'common.fields.target-profile.category.tags.ATTESTATION',
 };
