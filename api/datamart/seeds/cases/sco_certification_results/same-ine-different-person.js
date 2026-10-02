@@ -11,12 +11,14 @@ import {
   getFormattedBirthdate,
   nationalStudentIdGenerator,
   orgaUAIGenerator,
+  verificationCodeGenerator,
 } from '../tools.js';
 
 const generateCertifCourseIdStudentOne = certificationCourseIdGenerator({ startingFrom: 3100000 });
 const generateCertifCourseIdStudentTwo = certificationCourseIdGenerator({ startingFrom: 4100000 });
 const generateINE = nationalStudentIdGenerator({ ineSuffix: 'CC' });
 const generateOrgaUai = orgaUAIGenerator();
+const generateVerificationCode = verificationCodeGenerator({ startingFrom: 4100000 });
 
 /**
  * Two different students with the same INE
@@ -26,6 +28,7 @@ export default function () {
 
   const studentOneBase = {
     certification_courses_id: generateCertifCourseIdStudentOne(),
+    certification_code_verification: generateVerificationCode(),
     organization_uai: generateOrgaUai(),
     national_student_id: sameINE,
     last_name: faker.person.lastName(),
@@ -38,6 +41,7 @@ export default function () {
 
   const studentTwoBase = {
     certification_courses_id: generateCertifCourseIdStudentTwo(),
+    certification_code_verification: generateVerificationCode(),
     organization_uai: generateOrgaUai(),
     national_student_id: sameINE,
     last_name: faker.person.lastName(),

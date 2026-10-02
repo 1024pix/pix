@@ -5,9 +5,11 @@ import {
   generatePixScore,
   generateStatus,
   getCertificationDate,
+  verificationCodeGenerator,
 } from '../tools.js';
 
 const generateCertifCourseId = certificationCourseIdGenerator({ startingFrom: 8100000 });
+const generateVerificationCode = verificationCodeGenerator({ startingFrom: 8100000 });
 
 /**
  * A student that has multiple accents in its first name and last name
@@ -16,6 +18,7 @@ export default function () {
   const accentStudent = () => {
     const studentBase = {
       certification_courses_id: generateCertifCourseId(),
+      certification_code_verification: generateVerificationCode(),
       organization_uai: 'UAIACCENT',
       national_student_id: null,
       last_name: 'Aïme Trôp Lé Accents',
@@ -36,6 +39,7 @@ export default function () {
   const doubleDashStudent = () => {
     const studentBase = {
       certification_courses_id: generateCertifCourseId(),
+      certification_code_verification: generateVerificationCode(),
       organization_uai: 'UAIDOUBLE',
       national_student_id: null,
       last_name: 'Double Dash',
