@@ -46,10 +46,17 @@ export class PixOrgaPage {
     campaignName: string;
     targetProfileName: string;
   }) {
-    await this.page.getByLabel('Nom de la campagne *').fill(campaignName);
     await this.page.getByRole('radio', { name: 'Évaluer les participants' }).check();
-    await this.page.getByRole('button', { name: 'Que souhaitez-vous tester ? *' }).click();
-    await this.page.getByRole('option', { name: targetProfileName }).click();
+    await this.page.getByRole('link', { name: 'Sélectionner un parcours' }).click();
+    await this.page.getByRole('link', { name: `Voir le détail du parcours ${targetProfileName}` }).click();
+    await this.page.getByRole('link', { name: 'Sélectionner ce parcours' }).click();
+    await this.page.getByRole('textbox', { name: 'Nom de la campagne *' }).fill(campaignName);
+    await this.page.getByRole('button', { name: 'Créer la campagne' }).click();
+  }
+
+  async createProfileCollectionCampaign({ campaignName }: { campaignName: string }) {
+    await this.page.getByRole('radio', { name: 'Collecter les profils Pix des participants' }).check();
+    await this.page.getByRole('textbox', { name: 'Nom de la campagne *' }).fill(campaignName);
     await this.page.getByRole('button', { name: 'Créer la campagne' }).click();
   }
 }
