@@ -138,6 +138,13 @@ export default {
     devDefaultValues: { test: false, reviewApp: false },
     tags: ['team-acces', 'pix-api', 'backend'],
   },
+  isLearningContentCacheDisabled: {
+    type: 'string',
+    description: 'Disables using cache for learning content',
+    defaultValue: '0/1',
+    devDefaultValues: { test: '0/1', reviewApp: '0/1' },
+    tags: ['backend', 'pix-api', 'team-contenu'],
+  },
   isLearningContentCacheRedis: {
     type: 'string',
     description: 'Enables using Redis as cache for learning content',
