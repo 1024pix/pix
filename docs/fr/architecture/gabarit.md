@@ -157,6 +157,10 @@ D'après les guides de langage clair (ISO 24495-1) et Diátaxis :
   et chaque pronom désigne encore le bon nom.
 - Simplifier n'affaiblit pas une règle : « ne doit pas pouvoir » n'est pas « ne doit pas ».
 - Trois éléments ou plus dans une phrase deviennent une liste.
+- Pas de mot de jugement vague : propre, sale, clair, simple, robuste, maintenable, sans risque, bonne
+  pratique. Ces mots ne disent pas ce qui ne va pas. Dire le défaut précis : le code est couplé à la
+  base de données, la règle est copiée dans trois usecases, un appelant peut modifier le tableau. Un
+  défaut précis donne la correction ; un mot vague ne donne rien.
 - Les noms de patterns DDD restent en anglais, comme dans les ADR et les dossiers du code : Bounded
   Context, Entity, Value Object, Aggregate, Aggregate Root, Repository, Domain Service,
   Specification, Ubiquitous Language, Published Language, Anticorruption Layer. Le genre suit le mot
