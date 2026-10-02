@@ -44,7 +44,7 @@ export class LearningContentInMemoryRepository {
   /**
    * @param {{
    *   tableName: string
-   *   idType?: 'text' | 'integer' | 'uuid'
+   *   idType?: string
    * }} config
    */
   constructor({ tableName, idType = 'text' }) {

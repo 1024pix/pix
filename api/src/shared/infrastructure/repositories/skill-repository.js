@@ -3,8 +3,7 @@ import { NotFoundError } from '../../domain/errors.js';
 import { Skill } from '../../domain/models/Skill.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { child, SCOPES } from '../utils/logger.js';
-import { LearningContentInMemoryRepository } from './learning-content-inmemory-repository.js';
-import { LearningContentRedisRepository } from './learning-content-redis-repository.js';
+import { makeGetInstance } from './learning-content-repository.ts';
 
 const TABLE_NAME = 'learningcontent.skills';
 const ACTIVE_STATUS = 'actif';
@@ -12,6 +11,8 @@ const ARCHIVED_STATUS = 'archivé';
 const OPERATIVE_STATUSES = [ACTIVE_STATUS, ARCHIVED_STATUS];
 
 const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
+
+const getInstance = makeGetInstance({ tableName: TABLE_NAME });
 
 export async function get(id, { locale, useFallback } = { locale: null, useFallback: true }) {
   const skillDto = await getInstance().load(id);
@@ -103,23 +104,4 @@ function toDomain(skillDto, locale, useFallback) {
     hintStatus: skillDto.hintStatus,
     hint: translatedHint,
   });
-}
-
-/** @type {LearningContentRedisRepository} */
-let redisInstance;
-
-/** @type {LearningContentInMemoryRepository} */
-let instance;
-
-function getInstance() {
-  if (LearningContentRedisRepository.isEnabled) {
-    if (!redisInstance) {
-      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME });
-    }
-    return redisInstance;
-  }
-  if (!instance) {
-    instance = new LearningContentInMemoryRepository({ tableName: TABLE_NAME });
-  }
-  return instance;
 }

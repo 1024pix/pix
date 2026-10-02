@@ -3,8 +3,7 @@ import _ from 'lodash';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { FRENCH_SPOKEN, getBaseLocale } from '../../../shared/domain/services/locale-service.js';
 import * as knowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
-import { LearningContentInMemoryRepository } from '../../../shared/infrastructure/repositories/learning-content-inmemory-repository.js';
-import { LearningContentRedisRepository } from '../../../shared/infrastructure/repositories/learning-content-redis-repository.js';
+import { makeGetInstance } from '../../../shared/infrastructure/repositories/learning-content-repository.ts';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import * as paginateModule from '../../../shared/infrastructure/utils/paginate.js';
 import { Tutorial } from '../../domain/models/Tutorial.js';
@@ -13,6 +12,8 @@ import * as tutorialEvaluationRepository from './tutorial-evaluation-repository.
 import * as userSavedTutorialRepository from './user-saved-tutorial-repository.js';
 
 const TABLE_NAME = 'learningcontent.tutorials';
+
+const getInstance = makeGetInstance({ tableName: TABLE_NAME });
 
 export async function findByRecordIdsForCurrentUser({ ids, userId, locale }) {
   let tutorialDtos = await getInstance().getMany(ids);
@@ -164,23 +165,4 @@ function toTutorialsForUserForRecommandation({ tutorials, tutorialEvaluations, u
 
 export function clearCache(id) {
   return getInstance().clearCache?.(id);
-}
-
-/** @type {LearningContentRedisRepository} */
-let redisInstance;
-
-/** @type {LearningContentInMemoryRepository} */
-let instance;
-
-function getInstance() {
-  if (LearningContentRedisRepository.isEnabled) {
-    if (!redisInstance) {
-      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME });
-    }
-    return redisInstance;
-  }
-  if (!instance) {
-    instance = new LearningContentInMemoryRepository({ tableName: TABLE_NAME });
-  }
-  return instance;
 }
