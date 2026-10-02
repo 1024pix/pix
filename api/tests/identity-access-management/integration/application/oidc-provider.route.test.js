@@ -251,11 +251,10 @@ describe('Integration | Identity Access Management | Application | Route | oidc-
   });
 
   describe('POST /api/oidc/logout', function () {
-    context('when the url UUID is invalid', function () {
-      it(`returns an error and does not revoke tokens`, async function () {
+    context('when the logout_url_uuid is invalid', function () {
+      it(`returns an OIDC_GENERIC_ERROR error`, async function () {
         // given
         const headers = generateAuthenticatedUserRequestHeaders({ userId: 1234, audience: 'https://orga.pix.org' });
-        //const auth = { credentials: { userId: 1234 }, strategy: {} };
         const payload = {
           identity_provider: 'OIDC_LOGOUT_EXAMPLE_NET',
           logout_url_uuid: 'invalid',

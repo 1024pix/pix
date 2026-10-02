@@ -26,7 +26,8 @@ export async function convertFormDataToPayload(formData) {
  * @param {Object} [params.payload]
  * @param {string} [params.locale]
  * @param {string} [params.audience]
- * @param {Object} [params.authorizationData] - data to generate an AccessToken, for example: { userId: 1234 }
+ * @param {Object} [params.authorizationData] - payload of the AccessToken,
+ *   for example: { userId: 123, sessionId: '43141755-cb26-4db7-aee7-b6eba5907a07' }
  * @param {boolean} [params.urlEncodePayload]
  * @returns {Object} options
  */
@@ -65,16 +66,18 @@ export function generateInjectOptions({ url, method, payload, locale, audience, 
 /**
  * @param {Object} params
  * @param {number} params.userId
- * @param {string} params.source
+ * @param {string} params.sessionId
  * @param {string} params.audience - an origin URL, for example: https://app.pix.org
+ * @param {string} params.source
  * @returns {Object} headers
  */
 export function generateAuthenticatedUserRequestHeaders({
   userId = 1234,
-  source = 'pix',
+  sessionId = '43141755-cb26-4db7-aee7-b6eba5907a07',
   audience = 'https://app.pix.org',
+  source = 'pix',
 } = {}) {
-  const accessToken = UserAccessToken.generateUserToken({ userId, source, audience }).accessToken;
+  const accessToken = UserAccessToken.generateUserToken({ userId, sessionId, audience, source }).accessToken;
 
   return {
     ..._generateForwardedHeaders(audience),
@@ -91,7 +94,8 @@ function _generateForwardedHeaders(audience) {
 }
 
 /**
- * Generate Authorization header for Client Application (MADDO)
+ * Generates Authorization header for Client Application (MADDO)
+ *
  * @param {string} clientId
  * @param {string} source
  * @param {string} scope

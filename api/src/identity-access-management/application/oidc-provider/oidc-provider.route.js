@@ -18,6 +18,7 @@ export const oidcProviderRoutes = [
     },
   },
   {
+    // Old implementation. TODO: Remove when FT isSessionLogoutEnabled is removed.
     method: 'GET',
     path: '/api/oidc/redirect-logout-url',
     config: {
@@ -165,7 +166,10 @@ export const oidcProviderRoutes = [
         }).required(),
       },
       handler: (request, h) => oidcProviderController.logout(request, h),
-      notes: ['- Cette route permet de déconnecter un utilisateur OIDC et de supprimer/révoquer ses tokens'],
+      notes: [
+        '- Cette route permet de révoquer la session d’un utilisateur connecté par OIDC et renvoie une URI de déconnexion auprès du fournisseur d’identité renseigné.',
+        '- logout_url_uuid est uniquement pour les identityProvider ayant shouldCloseSession=true.',
+      ],
       tags: ['identity-access-management', 'api', 'token', 'oidc'],
     },
   },
