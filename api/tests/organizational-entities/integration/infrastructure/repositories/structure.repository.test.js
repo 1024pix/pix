@@ -44,6 +44,28 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
         expect(foundStructure).to.be.null;
       });
     });
+
+    describe('when organization structure has a category', function () {
+      it('returns the structure with its category', async function () {
+        // given
+        const categoryId = databaseBuilder.factory.buildStructureCategory().id;
+        const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure({ categoryId });
+        await databaseBuilder.commit();
+
+        // when
+        const foundStructure = await structureRepository.findByOrganizationId({ organizationId: organization.id });
+
+        // then
+        expect(foundStructure).to.deepEqualInstance(
+          domainBuilder.acquisition.buildStructure({
+            id: structure.id,
+            organizationId: organization.id,
+            certificationCenterId: null,
+            categoryId,
+          }),
+        );
+      });
+    });
   });
 
   describe('#findByCertificationCenterId', function () {
@@ -156,6 +178,26 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
         const { count: structuresCountAfter } = await knex('structures').count().first();
         expect(structuresCountAfter).to.equal(structuresCountBefore);
       });
+
+      it('does not update the category of the structure', async function () {
+        // given
+        const categoryId = databaseBuilder.factory.buildStructureCategory().id;
+        const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure({ categoryId });
+        await databaseBuilder.commit();
+
+        // when
+        await structureRepository.save(
+          domainBuilder.acquisition.buildStructure({
+            id: structure.id,
+            organizationId: organization.id,
+            categoryId: null,
+          }),
+        );
+
+        // then
+        const structureInDB = await knex('structures').where({ id: structure.id }).first();
+        expect(structureInDB.category_id).to.equal(categoryId);
+      });
     });
 
     context('when the structure has no id', function () {
@@ -178,6 +220,28 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
             id: savedStructure.id,
             organizationId: null,
             certificationCenterId,
+          }),
+        );
+      });
+
+      it('creates the structure with its category', async function () {
+        // given
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const categoryId = databaseBuilder.factory.buildStructureCategory().id;
+        await databaseBuilder.commit();
+
+        // when
+        const savedStructure = await structureRepository.save(new Structure({ certificationCenterId, categoryId }));
+
+        // then
+        const structureInDB = await knex('structures').where({ id: savedStructure.id }).first();
+        expect(structureInDB.category_id).to.equal(categoryId);
+        expect(savedStructure).to.deepEqualInstance(
+          domainBuilder.acquisition.buildStructure({
+            id: savedStructure.id,
+            organizationId: null,
+            certificationCenterId,
+            categoryId,
           }),
         );
       });
