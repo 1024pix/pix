@@ -2013,7 +2013,6 @@
       "total-score-helper": {
         "explanation": "'<p>'Dies ist die maximale Anzahl an Pix, die erreicht werden kann, wenn alle 8 Ebenen des Pix-Referenzsystems verfügbar sind.'</p><p>'Heute liegt '<span class=\"hexagon-score-information__text-strong\">'das Maximum bei {maxReachablePixScore} Pix'</span>', entsprechend der Ebene {maxReachableLevel}.'</p>'",
         "icon": "Informationen zu Pix",
-        "label": "Den Tooltip öffnen",
         "title": "Warum 1024 Pix?"
       }
     },

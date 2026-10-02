@@ -2013,7 +2013,6 @@
       "total-score-helper": {
         "explanation": "'<p>'Questo è il punteggio pix massimo che sarà possibile raggiungere quando tutti gli 8 livelli del repository pix saranno disponibili.'</p><p>'Oggi, '<span class=\"hexagon-score-information__text--strong\">'il massimo è {maxReachablePixScore} pix'</span>', corrispondente al livello {maxReachableLevel}.'</p>'",
         "icon": "Informazioni sui pix",
-        "label": "Apri il tooltip",
         "title": "Perché 1024 pix?"
       }
     },
