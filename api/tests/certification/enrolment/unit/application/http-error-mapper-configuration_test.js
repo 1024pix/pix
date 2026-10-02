@@ -5,6 +5,7 @@ import {
   CannotEnrollCandidateIndividuallyError,
   CannotEnrollScoCandidateError,
   CertificationCandidateForbiddenDeletionError,
+  SessionAlreadyStartedError,
   SessionExpiredError,
   SessionStartedDeletionError,
   UnknownCountryForStudentEnrolmentError,
@@ -123,6 +124,25 @@ describe('Unit | Certification | Enrolment | Application | HttpErrorMapperConfig
       expect(error).to.be.instanceOf(ConflictError);
       expect(error.message).to.equal('La session est terminée.');
       expect(error.code).to.equal('SESSION_EXPIRED_ERROR');
+    });
+  });
+
+  context('when mapping SessionAlreadyStartedError', function () {
+    it('returns a ConflictError Http Error', function () {
+      //given
+      const httpErrorMapper = enrolmentDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === SessionAlreadyStartedError.name,
+      );
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(new SessionAlreadyStartedError());
+
+      //then
+      expect(error).to.be.instanceOf(ConflictError);
+      expect(error.message).to.equal(
+        'Des certifications sont déjà démarrées dans cette session. Elle ne peut donc pas être modifiée.',
+      );
+      expect(error.code).to.equal('SESSION_ALREADY_STARTED_ERROR');
     });
   });
 });

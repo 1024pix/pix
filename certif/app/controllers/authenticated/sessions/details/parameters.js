@@ -15,8 +15,8 @@ export default class SessionParametersController extends Controller {
   @service currentUser;
   @service intl;
 
-  get sessionHasStarted() {
-    return this.certificationCandidates.some(({ isLinked }) => isLinked);
+  get sessionHasStartedCertification() {
+    return this.certificationCandidates.some(({ hasStartedTest }) => hasStartedTest);
   }
 
   @action

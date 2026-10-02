@@ -9,6 +9,7 @@ import {
   CannotEnrollScoCandidateError,
   CertificationCandidateForbiddenDeletionError,
   InvalidCertificationCandidate,
+  SessionAlreadyStartedError,
   SessionExpiredError,
   SessionStartedDeletionError,
   UnknownCountryForStudentEnrolmentError,
@@ -27,6 +28,10 @@ const enrolmentDomainErrorMappingConfiguration = [
   },
   {
     name: SessionExpiredError.name,
+    httpErrorFn: (error) => new ConflictError(error.message, error.code),
+  },
+  {
+    name: SessionAlreadyStartedError.name,
     httpErrorFn: (error) => new ConflictError(error.message, error.code),
   },
   {

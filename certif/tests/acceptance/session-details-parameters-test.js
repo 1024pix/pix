@@ -82,14 +82,14 @@ module('Acceptance | Session Details Parameters', function (hooks) {
 
       module('when the session is not finalized', function () {
         module('when the session is CREATED', function () {
-          test('it should not display the finalize button if no candidate has joined the session', async function (assert) {
+          test('it should display the update button and no finalize button if no candidate has started his certification test', async function (assert) {
             // given
             const sessionCreated = server.create('session-enrolment', {
               id: 123,
               status: CREATED,
               certificationCenterId: allowedCertificationCenterAccess.id,
             });
-            server.createList('certification-candidate', 2, { isLinked: false, sessionId: sessionCreated.id });
+            server.createList('certification-candidate', 2, { hasStartedTest: false, sessionId: sessionCreated.id });
             server.create('session-management', {
               id: sessionCreated.id,
               status: CREATED,
@@ -100,9 +100,39 @@ module('Acceptance | Session Details Parameters', function (hooks) {
 
             // then
             const updateButton = screen.getByRole('link', { name: 'Modifier les informations de la session 123' });
-            const finalizeButton = screen.queryByRole('button', { name: 'Finaliser la session' });
+            const finalizeButton = screen.queryByRole('link', { name: 'Finaliser la session' });
             assert.dom(updateButton).exists();
             assert.dom(finalizeButton).doesNotExist();
+          });
+
+          test('it should not display the update button if a candidate has started his certification test', async function (assert) {
+            // given
+            const sessionCreatedAndStarted = server.create('session-enrolment', {
+              id: 123,
+              status: CREATED,
+              certificationCenterId: allowedCertificationCenterAccess.id,
+            });
+            server.create('certification-candidate', {
+              hasStartedTest: true,
+              sessionId: sessionCreatedAndStarted.id,
+            });
+            server.create('certification-candidate', {
+              hasStartedTest: false,
+              sessionId: sessionCreatedAndStarted.id,
+            });
+            server.create('session-management', {
+              id: sessionCreatedAndStarted.id,
+              status: CREATED,
+            });
+
+            // when
+            const screen = await visit(`/sessions/${sessionCreatedAndStarted.id}`);
+
+            // then
+            const updateButton = screen.queryByRole('link', { name: 'Modifier les informations de la session 123' });
+            const finalizeButton = screen.getByRole('link', { name: 'Finaliser la session' });
+            assert.dom(updateButton).doesNotExist();
+            assert.dom(finalizeButton).exists();
           });
 
           test('it should display invigilator password', async function (assert) {
@@ -131,7 +161,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
                 certificationCenterId: allowedCertificationCenterAccess.id,
               });
               server.createList('certification-candidate', 2, {
-                isLinked: true,
+                hasStartedTest: true,
                 sessionId: sessionCreatedAndStarted.id,
               });
               server.create('session-management', {
@@ -157,7 +187,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
                   certificationCenterId: allowedCertificationCenterAccess.id,
                 });
                 server.createList('certification-candidate', 2, {
-                  isLinked: true,
+                  hasStartedTest: true,
                   sessionId: sessionCreatedAndStarted.id,
                 });
                 server.create('session-management', {
@@ -199,7 +229,10 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             id: sessionFinalized.id,
             status: FINALIZED,
           });
-          server.createList('certification-candidate', 3, { isLinked: true, sessionId: sessionFinalized.id });
+          server.createList('certification-candidate', 3, {
+            hasStartedTest: true,
+            sessionId: sessionFinalized.id,
+          });
         });
 
         test('it should show a "session already finalized" warning', async function (assert) {

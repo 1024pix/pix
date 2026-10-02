@@ -139,7 +139,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.payload).to.equal(
-        '{"data":[{"type":"certification-candidates","id":"1001","attributes":{"first-name":"first-name","last-name":"last-name","birthdate":"2000-01-04","birth-province-code":null,"birth-city":"PARIS 1","birth-country":"France","email":"somemail@example.net","result-recipient-email":"somerecipientmail@example.net","external-id":"externalId","extra-time-percentage":0.3,"is-linked":true,"organization-learner-id":null,"sex":"M","birth-insee-code":"75101","birth-postal-code":null,"subscription":"CORE","billing-mode":"PREPAID","prepayment-code":null,"has-seen-certification-instructions":false,"accessibility-adjustment-needed":false}}]}',
+        '{"data":[{"type":"certification-candidates","id":"1001","attributes":{"first-name":"first-name","last-name":"last-name","birthdate":"2000-01-04","birth-province-code":null,"birth-city":"PARIS 1","birth-country":"France","email":"somemail@example.net","result-recipient-email":"somerecipientmail@example.net","external-id":"externalId","extra-time-percentage":0.3,"is-linked":true,"organization-learner-id":null,"sex":"M","birth-insee-code":"75101","birth-postal-code":null,"subscription":"CORE","billing-mode":"PREPAID","prepayment-code":null,"has-seen-certification-instructions":false,"accessibility-adjustment-needed":false,"has-started-test":false}}]}',
       );
     });
   });

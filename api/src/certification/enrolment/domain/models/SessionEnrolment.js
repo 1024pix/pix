@@ -90,6 +90,10 @@ export class SessionEnrolment {
     return this.certificationCandidates.some((candidate) => candidate.isReconciledTo(userId));
   }
 
+  hasStartedCertifications() {
+    return this.certificationCandidates.some((candidate) => candidate.hasStartedTest);
+  }
+
   findCandidatesByPersonalInfo({ candidatePersonalInfo: { firstName, lastName, birthdate }, normalizeStringFnc }) {
     const normalizedInputNames = {
       lastName: normalizeStringFnc(lastName),

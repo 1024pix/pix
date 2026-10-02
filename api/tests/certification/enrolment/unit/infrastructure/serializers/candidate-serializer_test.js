@@ -202,6 +202,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
         subscription: Frameworks.PRO_SANTE,
         hasSeenCertificationInstructions: true,
         accessibilityAdjustmentNeeded: true,
+        hasStartedTest: true,
       });
       const expectedJsonApiData = {
         data: {
@@ -228,6 +229,7 @@ describe('Certification | Enrolment | Unit | Serializer | candidate', function (
             subscription: candidate.subscription,
             'has-seen-certification-instructions': true,
             'accessibility-adjustment-needed': true,
+            'has-started-test': true,
           },
         },
       };
