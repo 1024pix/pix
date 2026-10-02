@@ -42,7 +42,7 @@ export default class Ended extends Component {
           class="campaign-participation-overview-card-content__action"
           @route={{if
             (eq @model.campaignType "COMBINED_COURSE")
-            "combined-courses.presentation"
+            "combined-courses.combined-course.presentation"
             "campaigns.entry-point"
           }}
           @model={{@model.campaignCode}}
