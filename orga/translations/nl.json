@@ -835,7 +835,8 @@
         "title": "Instellingen"
       },
       "tags": {
-        "BACK_TO_SCHOOL": "Terug naar school cursus / 6e",
+        "ATTESTATION": "Attesten",
+        "BACK_TO_SCHOOL": "Terug naar school cursus",
         "COMPETENCES": "De 16 vaardigheden",
         "CUSTOM": "Cursus op maat",
         "DISCIPLINE": "Disciplines",
