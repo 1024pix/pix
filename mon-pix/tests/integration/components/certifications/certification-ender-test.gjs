@@ -7,9 +7,23 @@ import { stubCurrentUserService } from '../../../helpers/service-stubs';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Certifications | CertificationEnder', function (hooks) {
+  let model;
   setupIntlRenderingTest(hooks);
 
-  const model = { assessment: { isCertification: true, certificationNumber: 1234 } };
+  hooks.beforeEach(function () {
+    this.store = this.owner.lookup('service:store');
+    model = {
+      assessment: {
+        isCertification: true,
+        certificationNumber: 1234,
+        certificationCourse: this.store.createRecord('certification-course', {
+          id: 'cert123',
+          firstName: 'POuet',
+          lastName: 'Plip',
+        }),
+      },
+    };
+  });
 
   test('should display the translated labels', async function (assert) {
     // when

@@ -89,7 +89,7 @@ module('Integration | Component | Ui | Assessment | info-bar', function (hooks) 
 
       // then
       assert.dom('.pix-step').exists({ count: 5 });
-      assert.dom(screen.getByText('question 3').closest('.pix-step')).hasAttribute('aria-current', 'step');
+      assert.dom(screen.getByText('q3').closest('.pix-step')).hasAttribute('aria-current', 'step');
       assert.dom(screen.getByLabelText(t('components.info-bar.progress.position', { current: 3, total: 5 }))).exists();
     });
 
