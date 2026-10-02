@@ -22,7 +22,7 @@ module('Integration | Component | hexagon-score', function (hooks) {
       );
 
       // then
-      assert.ok(screen.getByText('–'));
+      assert.ok(screen.getByText('-'));
     });
 
     test('should display provided score in hexagon', async function (assert) {

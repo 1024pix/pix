@@ -67,7 +67,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
       const screen = await render(<template><ScorecardDetails @scorecard={{scorecard}} /></template>);
 
       // then
-      assert.strictEqual(screen.getAllByText('–').length, 2);
+      assert.strictEqual(screen.getAllByText('-').length, 2);
     });
 
     module('When the user has finished a competence', function (hooks) {

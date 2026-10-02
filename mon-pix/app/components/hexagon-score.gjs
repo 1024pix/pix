@@ -46,6 +46,6 @@ export default class HexagonScore extends Component {
   </template>
   get score() {
     const score = this.args.pixScore;
-    return isNone(score) || score === 0 ? '–' : Math.floor(score);
+    return isNone(score) || score === 0 ? '-' : Math.floor(score);
   }
 }
