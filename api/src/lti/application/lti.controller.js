@@ -5,6 +5,8 @@ import jsonwebtoken from 'jsonwebtoken';
 import { config } from '../../../config/config.js';
 import { BadRequestError } from '../../shared/application/errors/http-errors.js';
 import { cryptoService } from '../../shared/domain/services/crypto-service.js';
+import { FRENCH_FRANCE } from '../../shared/domain/services/locale-service.js';
+import * as urlService from '../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../shared/infrastructure/http-agent.js';
 import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
 import { usecases } from '../domain/usecases/index.js';
@@ -111,7 +113,7 @@ async function deepLink(request, h) {
   }
 }
 
-async function resourceLink(request, h) {
+async function resourceLink(request, h, dependencies = { urlService }) {
   const { verifiedToken, registration } = await preLaunch(request);
 
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
@@ -119,9 +121,11 @@ async function resourceLink(request, h) {
   if (messageType === 'LtiResourceLinkRequest') {
     await sendScoring(verifiedToken, registration);
 
-    const targetLinkUri = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/target_link_uri'];
+    const campaignCode = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom'].campaign_code;
 
-    return h.redirect(targetLinkUri);
+    const campaignUrl = dependencies.urlService.getPixAppUrl(FRENCH_FRANCE, { pathname: `/campagnes/${campaignCode}` });
+
+    return h.redirect(campaignUrl);
   }
 }
 
@@ -181,7 +185,7 @@ async function encodeDeepLinkingResponse(request, deepLinkUrl, registration, dep
           type: 'ltiResourceLink',
           title: 'Campagne Pix',
           text: 'Campagne PIX dont la note sera envoyée dans Moodle',
-          url: 'http://localhost:4200/campagnes/CONTEN123',
+          custom: { campaign_code: 'AUTOCOUR1' },
           lineItem: {
             scoreMaximum: 100,
           },
