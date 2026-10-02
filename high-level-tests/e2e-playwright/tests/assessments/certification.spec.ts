@@ -133,7 +133,7 @@ test(
           const challengePage = new ChallengePage(pixAppPage);
           const challengeImprint = await challengePage.getChallengeImprint();
           snapshotHandler.push('challenge imprint to have value', challengeImprint);
-          await expect(pixAppPage.getByLabel('Votre progression')).toContainText(`${challengeIndex + 1} / 32`);
+          await expect(pixAppPage.getByLabel(`${challengeIndex + 1} sur 32`)).toBeVisible();
           ++challengeIndex;
           await challengePage.setRightOrWrongAnswer(rightWrongAnswerCycleIter.next().value as boolean);
           await challengePage.validateAnswer();

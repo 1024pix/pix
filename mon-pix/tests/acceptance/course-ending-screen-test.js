@@ -11,6 +11,7 @@ module('Acceptance | Course ending screen', function (hooks) {
   let assessment;
   let firstChallenge;
   let secondChallenge;
+  let screen;
 
   hooks.beforeEach(async function () {
     assessment = server.create('assessment', 'ofDemoType');
@@ -28,7 +29,7 @@ module('Acceptance | Course ending screen', function (hooks) {
       challenge: secondChallenge,
       assessment,
     });
-    await visit(`/assessments/${assessment.id}/results`);
+    screen = await visit(`/assessments/${assessment.id}/results`);
   });
 
   test('should be available directly from the url', function (assert) {
@@ -49,23 +50,22 @@ module('Acceptance | Course ending screen', function (hooks) {
   });
 
   test('should not display the back button to return to the home page', function (assert) {
-    assert.dom('.assessment-banner__home-link').doesNotExist();
+    assert.dom(screen.queryByRole('button', { name: 'Quitter' })).doesNotExist();
   });
 
   test('should display a way to come back to the test list', function (assert) {
     assert.dom('.assessment-results__index-link-container').exists();
   });
 
-  test('should display the course banner', function (assert) {
-    assert.dom('.assessment-results__assessment-banner').exists();
+  test('should display the course banner', async function (assert) {
+    assert.dom(screen.getByRole('heading', { name: "Épreuve pour l'évaluation : Assessment title" })).exists();
   });
 
   test('should display a button that redirects to inscription page', async function (assert) {
-    assert.dom('.assessment-results__index-link__element').exists();
     assert.strictEqual(
       find('.assessment-results__index-a-link').attributes.href.value,
       'https://app.pix.org/inscription',
     );
-    assert.ok(find('.assessment-results__link-back').textContent.includes('Continuer mon expérience Pix'));
+    assert.ok(screen.getByRole('link', { name: 'Continuer mon expérience Pix' }));
   });
 });
