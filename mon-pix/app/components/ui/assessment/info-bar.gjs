@@ -34,13 +34,9 @@ export default class InfoBar extends Component {
   }
 
   get steps() {
-    return [
-      { title: 'question 1' },
-      { title: 'question 2' },
-      { title: 'question 3' },
-      { title: 'question 4' },
-      { title: 'question 5' },
-    ];
+    return Array.from({ length: this.maxStepsNumber }, (_, index) => ({
+      title: index + 1,
+    }));
   }
 
   <template>
