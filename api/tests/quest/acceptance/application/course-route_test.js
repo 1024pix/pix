@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import { COURSE_ITEM_TYPES } from '../../../../src/quest/domain/models/combined-courses/value-objects/CourseItem.js';
-import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
@@ -88,34 +87,6 @@ describe('Quest | Acceptance | Application | Course catalogue Route', function (
           (resource) => resource.type === 'competences' && resource.id === 'recComp1',
         );
         expect(competenceInIncluded.attributes).to.include({ name: 'Mener une recherche', index: '1.1' });
-      });
-    });
-
-    context('when displayCatalogue feature toggle is disabled', function () {
-      beforeEach(async function () {
-        await featureToggles.set('displayCatalogue', false);
-      });
-
-      afterEach(async function () {
-        await featureToggles.set('displayCatalogue', true);
-      });
-
-      it('returns 404', async function () {
-        // given
-        const userId = databaseBuilder.factory.buildUser().id;
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildMembership({ userId, organizationId });
-        await databaseBuilder.commit();
-
-        // when
-        const response = await server.inject({
-          method: 'GET',
-          url: `/api/organizations/${organizationId}/courses`,
-          headers: generateAuthenticatedUserRequestHeaders({ userId }),
-        });
-
-        // then
-        expect(response.statusCode).to.equal(404);
       });
     });
 

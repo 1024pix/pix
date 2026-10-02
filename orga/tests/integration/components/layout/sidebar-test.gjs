@@ -118,41 +118,23 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       assert.dom(screen.getByRole('link', { name: t('navigation.main.support') })).exists();
     });
     module('canAccessCataloguePage', function () {
-      test('displays Catalogue menu if canAccessCataloguePage is true and user can access campaign page ', async function (assert) {
+      test('displays Catalogue menu if user can access campaign page ', async function (assert) {
         class CurrentUserStub extends Service {
           organization = Object.create({ id: 5, type: 'PRO' });
           canAccessCampaignsPage = true;
         }
         this.owner.register('service:current-user', CurrentUserStub);
-        const featureToggleService = this.owner.lookup('service:feature-toggles');
-        sinon.stub(featureToggleService, 'featureToggles').value({ displayCatalogue: true });
         const screen = await render(<template><Sidebar /></template>);
 
         assert.ok(screen.queryByRole('link', { name: t('navigation.main.catalogue') }));
       });
 
-      test('hides Catalogue menu if canAccessCataloguePage is true and user can not access campaign page', async function (assert) {
+      test('hides Catalogue menu if user can not access campaign page', async function (assert) {
         class CurrentUserStub extends Service {
           organization = Object.create({ id: 5, type: 'PRO' });
           canAccessCampaignsPage = false;
         }
         this.owner.register('service:current-user', CurrentUserStub);
-        const featureToggleService = this.owner.lookup('service:feature-toggles');
-        sinon.stub(featureToggleService, 'featureToggles').value({ displayCatalogue: true });
-        const screen = await render(<template><Sidebar /></template>);
-
-        assert.dom(screen.queryByRole('link', { name: t('navigation.main.catalogue') })).doesNotExist();
-      });
-
-      test('hides Catalogue menu if canAccessCataloguePage is false', async function (assert) {
-        class CurrentUserStub extends Service {
-          organization = Object.create({ id: 5, type: 'PRO' });
-          canAccessCampaignsPage = true;
-        }
-        this.owner.register('service:current-user', CurrentUserStub);
-        const featureToggleService = this.owner.lookup('service:feature-toggles');
-        sinon.stub(featureToggleService, 'featureToggles').value({ displayCatalogue: false });
-
         const screen = await render(<template><Sidebar /></template>);
 
         assert.dom(screen.queryByRole('link', { name: t('navigation.main.catalogue') })).doesNotExist();

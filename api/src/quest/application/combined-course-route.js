@@ -11,7 +11,6 @@ import { MAX_FILE_SIZE_UPLOAD } from '../../shared/constants.js';
 import { identifiersType } from '../../shared/domain/types/identifiers-type.js';
 import { jwtOptionalUserAuthenticationStrategyName } from '../../shared/infrastructure/authentication-strategy-names.js';
 import { combinedCourseController } from './combined-course-controller.js';
-import { checkDisplayCatalogueIsEnabled } from './pre-handlers/display-catalogue.js';
 import questSecurityPreHandlers from './security-pre-handlers.js';
 
 const register = async function (server) {
@@ -41,10 +40,7 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/organizations/{organizationId}/courses',
       config: {
-        pre: [
-          { method: checkDisplayCatalogueIsEnabled },
-          { method: securityPreHandlers.checkUserBelongsToOrganization },
-        ],
+        pre: [{ method: securityPreHandlers.checkUserBelongsToOrganization }],
         handler: combinedCourseController.getCourseByOrganizationId,
         validate: {
           params: Joi.object({
