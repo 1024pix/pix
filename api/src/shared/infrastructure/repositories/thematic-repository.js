@@ -1,8 +1,8 @@
 import { Thematic } from '../../domain/models/Thematic.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { FRENCH_FRANCE } from '../../domain/services/locale-service.js';
+import { LearningContentInMemoryRepository } from './learning-content-inmemory-repository.js';
 import { LearningContentRedisRepository } from './learning-content-redis-repository.js';
-import { LearningContentRepository } from './learning-content-repository.js';
 
 const TABLE_NAME = 'learningcontent.thematics';
 
@@ -51,7 +51,7 @@ function toDomain(thematicDto, locale) {
 /** @type {LearningContentRedisRepository} */
 let redisInstance;
 
-/** @type {LearningContentRepository} */
+/** @type {LearningContentInMemoryRepository} */
 let instance;
 
 function getInstance() {
@@ -62,7 +62,7 @@ function getInstance() {
     return redisInstance;
   }
   if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+    instance = new LearningContentInMemoryRepository({ tableName: TABLE_NAME });
   }
   return instance;
 }
