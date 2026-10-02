@@ -161,7 +161,7 @@ partielle est un modèle qui ne garantit aucun invariant, et le nombre de fichie
 cesse de dire combien de concepts porte le contexte. La théorie est dans
 [`explication.md`](explication.md#x7-les-modèles-se-multiplient-par-intention-décriture-sans-mesure).
 
-**Correction.** Le test du motif de [V8](README.md#v8-un-type-par-intention) s'applique fichier par
+**Correction.** Le test du motif de V8, retirée de la fiche (voir les numéros retirés de `corpus-index.md`), s'applique fichier par
 fichier. Ce qui exprime une différence de nature reste, comme l'absence d'identité ou un vocabulaire
 d'entrée distinct. Ce qui n'exprime qu'un sous-ensemble de champs disparaît : l'Entity se charge
 entière, change par une méthode nommée, puis se sauve. C'est `E6` de `../entite/README.md`.
