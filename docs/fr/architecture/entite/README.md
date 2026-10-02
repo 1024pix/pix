@@ -121,8 +121,8 @@ function assertValidName(name: string): void {
 
 ## Comment tester
 
-Une Entity se teste avec un test unitaire. Le test n'utilise pas de base de données. Le test n'utilise
-pas de **double** : pas de stub, pas de mock, pas de spy. La date est une valeur passée en paramètre.
+Une Entity se teste avec un test unitaire. Le test n'utilise pas de base de données. Le test ne
+remplace aucun module par un faux : pas de stub, pas de mock, pas de spy. La date est une valeur passée en paramètre.
 Le test vérifie :
 
 - le constructeur : une Entity invalide n'est pas créée ;
@@ -199,15 +199,9 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
 });
 ```
 
-Deux signes d'un problème, pendant l'écriture du test :
-
-- **Le test du refus manque.** Sans test du refus, les tests passent même quand la vérification de E3
-  manque. Tester que `archive()` archive ne suffit pas : c'est le test du refus qui prouve que la
-  règle E3 est respectée.
-- **Le test remplace un module par un faux**, par exemple `sinon.stub(logger, 'info')`, ou bloque
-  l'heure avec `sinon.useFakeTimers()`. L'Entity importe un module de l'infrastructure, ou appelle
-  `new Date()` : l'Entity ne respecte pas [E4](#e4-aucune-io). La correction : passer la date en
-  paramètre, et retirer l'import de l'Entity.
+Sans test du refus, les tests passent même
+quand la vérification de E3 manque. Tester que `archive()` archive ne suffit pas : c'est le test du
+refus qui prouve que la règle E3 est respectée.
 
 ## Comment relire
 

@@ -74,7 +74,7 @@ export class QcmSolution {
 ## Comment tester
 
 Un Value Object se teste avec un test unitaire. Le test n'utilise pas de base de données. Le test
-n'utilise pas de **double** : pas de stub, pas de mock, pas de spy. Le test vérifie :
+ne remplace aucun module par un faux : pas de stub, pas de mock, pas de spy. Le test vérifie :
 
 - la validation : une valeur invalide lève une erreur du domaine ;
 - le comportement : chaque méthode qui porte une règle, cas limites compris ;
@@ -125,11 +125,6 @@ describe('Unit | Devcomp | Domain | Models | QcmSolution', function () {
 });
 ```
 
-Si, pour écrire le test, il faut remplacer un module par un faux, par exemple
-`sinon.stub(logger, 'info')`, le Value Object importe un module de l'infrastructure : le Value Object ne
-respecte pas [V4](#v4-aucune-io). La correction : retirer l'import du Value Object. Le code qui
-appelle le Value Object écrit le log, si besoin.
-
 ## Comment relire
 
 La checklist suit cet ordre : d'abord les règles qui laissent entrer une valeur invalide, puis les
@@ -151,7 +146,7 @@ Le Value Object dépend-il d'autre chose que de ses propres données ?
 [ ] V6  Aucun repository
 
 Les tests
-[ ] Un test unitaire, sans double
+[ ] Un test unitaire, sans stub, sans mock, sans spy
 ```
 
 ## Référence des règles
@@ -305,7 +300,7 @@ isCorrect(selectedChoiceIds: string[]): boolean {
 ```
 
 **Ce que ça apporte.** Le résultat dépend seulement des paramètres. Le test est rapide, et le test
-n'a pas besoin de double.
+n'a besoin d'aucun stub.
 
 **Sans cette règle.** Le test doit simuler le log, l'heure ou la base de données. Un objet qui appelle
 `new Date()` donne un résultat différent à chaque exécution du test.
