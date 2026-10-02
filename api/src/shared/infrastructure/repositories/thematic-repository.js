@@ -1,10 +1,11 @@
 import { Thematic } from '../../domain/models/Thematic.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { FRENCH_FRANCE } from '../../domain/services/locale-service.js';
-import { LearningContentInMemoryRepository } from './learning-content-inmemory-repository.js';
-import { LearningContentRedisRepository } from './learning-content-redis-repository.js';
+import { makeGetInstance } from './learning-content-repository.ts';
 
 const TABLE_NAME = 'learningcontent.thematics';
+
+const getInstance = makeGetInstance({ tableName: TABLE_NAME });
 
 export async function list({ locale = FRENCH_FRANCE } = {}) {
   const cacheKey = 'list()';
@@ -46,23 +47,4 @@ function toDomain(thematicDto, locale) {
     tubeIds: thematicDto.tubeIds ? [...thematicDto.tubeIds] : null,
     competenceId: thematicDto.competenceId,
   });
-}
-
-/** @type {LearningContentRedisRepository} */
-let redisInstance;
-
-/** @type {LearningContentInMemoryRepository} */
-let instance;
-
-function getInstance() {
-  if (LearningContentRedisRepository.isEnabled) {
-    if (!redisInstance) {
-      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME });
-    }
-    return redisInstance;
-  }
-  if (!instance) {
-    instance = new LearningContentInMemoryRepository({ tableName: TABLE_NAME });
-  }
-  return instance;
 }
