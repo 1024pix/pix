@@ -3,8 +3,8 @@ import { LearningContentResourceNotFound } from '../../domain/errors.js';
 import { Tube } from '../../domain/models/Tube.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { child, SCOPES } from '../utils/logger.js';
+import { LearningContentInMemoryRepository } from './learning-content-inmemory-repository.js';
 import { LearningContentRedisRepository } from './learning-content-redis-repository.js';
-import { LearningContentRepository } from './learning-content-repository.js';
 
 const TABLE_NAME = 'learningcontent.tubes';
 const ACTIVE_STATUS = 'actif';
@@ -91,7 +91,7 @@ function toDomain(tubeDto, locale) {
 /** @type {LearningContentRedisRepository} */
 let redisInstance;
 
-/** @type {LearningContentRepository} */
+/** @type {LearningContentInMemoryRepository} */
 let instance;
 
 function getInstance() {
@@ -102,7 +102,7 @@ function getInstance() {
     return redisInstance;
   }
   if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+    instance = new LearningContentInMemoryRepository({ tableName: TABLE_NAME });
   }
   return instance;
 }

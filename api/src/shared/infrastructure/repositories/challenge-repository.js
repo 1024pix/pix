@@ -5,8 +5,8 @@ import { Challenge } from '../../domain/models/Challenge.js';
 import * as solutionAdapter from '../../infrastructure/adapters/solution-adapter.js';
 import { httpAgent } from '../http-agent.js';
 import { child, SCOPES } from '../utils/logger.js';
+import { LearningContentInMemoryRepository } from './learning-content-inmemory-repository.js';
 import { LearningContentRedisRepository } from './learning-content-redis-repository.js';
-import { LearningContentRepository } from './learning-content-repository.js';
 import * as skillRepository from './skill-repository.js';
 
 const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
@@ -193,7 +193,7 @@ function toDomain({ challengeDto, webComponentTagName, webComponentProps, skill,
 /** @type {LearningContentRedisRepository} */
 let redisInstance;
 
-/** @type {LearningContentRepository} */
+/** @type {LearningContentInMemoryRepository} */
 let instance;
 
 export function getInstance() {
@@ -204,7 +204,7 @@ export function getInstance() {
     return redisInstance;
   }
   if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME });
+    instance = new LearningContentInMemoryRepository({ tableName: TABLE_NAME });
   }
   return instance;
 }

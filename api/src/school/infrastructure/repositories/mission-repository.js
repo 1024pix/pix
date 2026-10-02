@@ -1,8 +1,8 @@
 import { getTranslatedKey } from '../../../shared/domain/services/get-translated-text.js';
 import { FRENCH_SPOKEN } from '../../../shared/domain/services/locale-service.js';
 import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
+import { LearningContentInMemoryRepository } from '../../../shared/infrastructure/repositories/learning-content-inmemory-repository.js';
 import { LearningContentRedisRepository } from '../../../shared/infrastructure/repositories/learning-content-redis-repository.js';
-import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
 import { Mission, MissionContent, MissionStep } from '../../domain/models/Mission.js';
 import { MissionNotFoundError } from '../../domain/school-errors.js';
 
@@ -64,7 +64,7 @@ function toDomain(missionDto, locale) {
 /** @type {LearningContentRedisRepository} */
 let redisInstance;
 
-/** @type {LearningContentRepository} */
+/** @type {LearningContentInMemoryRepository} */
 let instance;
 
 function getInstance() {
@@ -75,7 +75,7 @@ function getInstance() {
     return redisInstance;
   }
   if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME, idType: 'integer' });
+    instance = new LearningContentInMemoryRepository({ tableName: TABLE_NAME, idType: 'integer' });
   }
   return instance;
 }
