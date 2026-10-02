@@ -14,7 +14,7 @@ import {
   CampaignCombinedCourseItem,
   ModuleCombinedCourseItem,
   TrainingCombinedCourseItem,
-} from '../value-objects/CombinedCourseItem.js';
+} from '../value-objects/CombinedCourseItem.ts';
 import { CombinedCourseParticipationDetails } from './CombinedCourseParticipationDetails.js';
 import { CombinedCourseReward } from './CombinedCourseReward.js';
 
