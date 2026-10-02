@@ -2013,7 +2013,6 @@
       "total-score-helper": {
         "explanation": "'<p>'Dit is het maximale aantal pix dat men kan bereiken wanneer alle 8 niveaus van het Pix-referentiesysteem beschikbaar zijn.'</p><p>'Momenteel is '<span class=\"hexagon-score-information__text--strong\">'het maximum {maxReachablePixScore} pix'</span>', wat overeenkomt met niveau {maxReachableLevel}.'</p>'",
         "icon": "Informatie over pix",
-        "label": "Tooltip openen",
         "title": "Waarom 1024 pix?"
       }
     },

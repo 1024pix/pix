@@ -68,12 +68,8 @@
 @use 'components/reset-campaign-participation-modal' as *;
 @use 'components/tabs' as *;
 @use 'components/markdown-to-html' as *;
-
-/* we need this to be before competence-card-default because of a mix
-of an adaptative/mobile-first approach — refactoring is welcome here */
 @use 'components/common/responsive-list-wide-wrap' as *;
-@use 'components/competence-card-mobile' as *;
-@use 'components/competence-card-default' as *;
+@use 'components/competence-card' as *;
 @use 'components/competence-card/list' as *;
 @use 'components/dashboard/content' as *;
 @use 'components/feedback-panel' as *;

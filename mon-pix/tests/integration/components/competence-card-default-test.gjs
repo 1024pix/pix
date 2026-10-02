@@ -78,6 +78,28 @@ module('Integration | Component | competence-card-default', function (hooks) {
       assert.strictEqual(find('.score-value').textContent, scorecard.level.toString());
     });
 
+    test('should display a dash for the level when it is zero', async function (assert) {
+      // given
+      const scorecard = { area, isNotStarted: false, level: 0 };
+
+      // when
+      await render(<template><CompetenceCardDefault @scorecard={{scorecard}} /></template>);
+
+      // then
+      assert.strictEqual(find('.score-value').textContent, '-');
+    });
+
+    test('should display a dash for the level when the competence is not started', async function (assert) {
+      // given
+      const scorecard = { area, isNotStarted: true, level: null };
+
+      // when
+      await render(<template><CompetenceCardDefault @scorecard={{scorecard}} /></template>);
+
+      // then
+      assert.strictEqual(find('.score-value').textContent, '-');
+    });
+
     module('when user can start the competence', function () {
       test('should show the button "Commencer"', async function (assert) {
         // given

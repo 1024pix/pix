@@ -2013,7 +2013,6 @@
       "total-score-helper": {
         "explanation": "'<p>'C’est le nombre maximum de pix qu’on pourra atteindre lorsque les 8 niveaux du référentiel Pix seront disponibles.'</p><p>'Aujourd’hui, '<span class=\"hexagon-score-information__text--strong\">'le maximum est de {maxReachablePixScore} pix'</span>', correspondant au niveau {maxReachableLevel}.'</p>'",
         "icon": "Information sur les pix",
-        "label": "Ouvrir l'infobulle",
         "title": "Pourquoi 1024 pix ?"
       }
     },

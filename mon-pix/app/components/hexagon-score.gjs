@@ -9,26 +9,25 @@ export default class HexagonScore extends Component {
       <div class="hexagon-score__content">
         <div class="hexagon-score-content__title">{{t "common.pix"}}</div>
         <div class="hexagon-score-content__pix-score">{{this.score}}</div>
-        <div class="hexagon-score-content__pix-total">
-          1024
-          <PixTooltip @isLight={{true}} @isWide={{true}} @position="left" @id="hexagon-score-tooltip">
+        <div class="hexagon-score-content__pix-total">1024</div>
+        <div class="hexagon-score-content__information">
+          <PixTooltip
+            @isLight={{true}}
+            @isWide={{true}}
+            @id="hexagon-score-tooltip"
+            @isTriggerElementFocusable={{true}}
+          >
             <:triggerElement>
-              <button
-                aria-label={{t "pages.profile.total-score-helper.label"}}
-                type="button"
-                class="hexagon-score-content-pix-total__icon"
+              <span
+                tabindex="0"
+                class="hexagon-score-content-information__icon"
                 aria-describedby="hexagon-score-tooltip"
               >
-                <PixIcon
-                  @name="info"
-                  @plainIcon={{true}}
-                  @ariaHidden={{true}}
-                  @title={{t "pages.profile.total-score-helper.icon"}}
-                />
-              </button>
+                <PixIcon @name="info" @plainIcon={{true}} @title={{t "pages.profile.total-score-helper.icon"}} />
+              </span>
             </:triggerElement>
             <:tooltip>
-              <p class="hexagon-score__information hexagon-score-information__text">
+              <p class="hexagon-score-information__text">
                 <span class="hexagon-score-information__text--strong">
                   {{t "pages.profile.total-score-helper.title"}}
                 </span>
@@ -47,6 +46,6 @@ export default class HexagonScore extends Component {
   </template>
   get score() {
     const score = this.args.pixScore;
-    return isNone(score) || score === 0 ? '–' : Math.floor(score);
+    return isNone(score) || score === 0 ? '-' : Math.floor(score);
   }
 }
