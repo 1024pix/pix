@@ -22,11 +22,11 @@ export async function getStatusesBySessionId(sessionId) {
     );
 }
 
-export async function publishCertificationCourses(certificationStatuses) {
-  const certificationDataToUpdate = certificationStatuses.map(({ certificationCourseId }) => ({
+export async function publishCertificationCourses({ certificationCourseIds, publishedAt }) {
+  const certificationDataToUpdate = certificationCourseIds.map(({ certificationCourseId }) => ({
     id: certificationCourseId,
     isPublished: true,
-    updatedAt: new Date(),
+    updatedAt: publishedAt,
     version: -1, // Version number used to meet requirements regarding the version column non-null constraint in the insert request below
   }));
 

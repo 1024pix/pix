@@ -11,14 +11,10 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Certification | Session-management | Unit | Application | Controller | Session Publication', function () {
   describe('#publish', function () {
-    it('should return the serialized session', async function () {
+    it('should return a 204 statuscode', async function () {
       // given
       const sessionId = 123;
-      const session = Symbol('session');
-      const serializedSession = Symbol('serializedSession');
-      const sessionManagementSerializer = { serialize: sinon.stub() };
-      sinon.stub(usecases, 'publishSession').withArgs({ sessionId }).resolves(session);
-      sessionManagementSerializer.serialize.withArgs({ session }).resolves(serializedSession);
+      sinon.stub(usecases, 'sessionPublicationRequest').withArgs({ sessionId });
 
       // when
       const response = await sessionPublicationController.publish(
@@ -31,11 +27,10 @@ describe('Certification | Session-management | Unit | Application | Controller |
           },
         },
         hFake,
-        { sessionManagementSerializer },
       );
 
       // then
-      expect(response).to.equal(serializedSession);
+      expect(response.statusCode).to.equal(204);
     });
   });
 
@@ -87,7 +82,7 @@ describe('Certification | Session-management | Unit | Application | Controller |
         },
       };
       sinon
-        .stub(usecases, 'publishSessionsInBatch')
+        .stub(usecases, 'sessionsPublicationRequest')
         .withArgs({ sessionIds: ['sessionId1', 'sessionId2'] })
         .resolves(new SessionPublicationBatchResult('batchId'));
 
@@ -113,7 +108,7 @@ describe('Certification | Session-management | Unit | Application | Controller |
           },
         },
       };
-      sinon.stub(usecases, 'publishSessionsInBatch').resolves(result);
+      sinon.stub(usecases, 'sessionsPublicationRequest').resolves(result);
       sinon.stub(logger, 'warn');
 
       // when
@@ -155,7 +150,7 @@ describe('Certification | Session-management | Unit | Application | Controller |
           },
         },
       };
-      sinon.stub(usecases, 'publishSessionsInBatch').resolves(result);
+      sinon.stub(usecases, 'sessionsPublicationRequest').resolves(result);
       sinon.stub(logger, 'warn');
 
       // when
