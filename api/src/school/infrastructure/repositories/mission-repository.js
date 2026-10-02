@@ -1,12 +1,13 @@
 import { getTranslatedKey } from '../../../shared/domain/services/get-translated-text.js';
 import { FRENCH_SPOKEN } from '../../../shared/domain/services/locale-service.js';
 import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
-import { LearningContentInMemoryRepository } from '../../../shared/infrastructure/repositories/learning-content-inmemory-repository.js';
-import { LearningContentRedisRepository } from '../../../shared/infrastructure/repositories/learning-content-redis-repository.js';
+import { makeGetInstance } from '../../../shared/infrastructure/repositories/learning-content-repository.ts';
 import { Mission, MissionContent, MissionStep } from '../../domain/models/Mission.js';
 import { MissionNotFoundError } from '../../domain/school-errors.js';
 
 const TABLE_NAME = 'learningcontent.missions';
+
+const getInstance = makeGetInstance({ tableName: TABLE_NAME, idType: 'integer' });
 
 export async function get(id, locale = FRENCH_SPOKEN) {
   const parsedIntId = parseInt(id, 10);
@@ -59,23 +60,4 @@ function toDomain(missionDto, locale) {
     documentationUrl: missionDto.documentationUrl,
     content: translatedContent,
   });
-}
-
-/** @type {LearningContentRedisRepository} */
-let redisInstance;
-
-/** @type {LearningContentInMemoryRepository} */
-let instance;
-
-function getInstance() {
-  if (LearningContentRedisRepository.isEnabled) {
-    if (!redisInstance) {
-      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME, idType: 'integer' });
-    }
-    return redisInstance;
-  }
-  if (!instance) {
-    instance = new LearningContentInMemoryRepository({ tableName: TABLE_NAME, idType: 'integer' });
-  }
-  return instance;
 }

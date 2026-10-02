@@ -1,9 +1,10 @@
 import { Course } from '../../../evaluation/domain/models/Course.js';
 import { NotFoundError } from '../../domain/errors.js';
-import { LearningContentInMemoryRepository } from './learning-content-inmemory-repository.js';
-import { LearningContentRedisRepository } from './learning-content-redis-repository.js';
+import { makeGetInstance } from './learning-content-repository.ts';
 
 const TABLE_NAME = 'learningcontent.courses';
+
+const getInstance = makeGetInstance({ tableName: TABLE_NAME });
 
 export async function get(id) {
   const courseDto = await getInstance().load(id);
@@ -26,23 +27,4 @@ function toDomain(courseDto) {
     challenges: courseDto.challenges ? [...courseDto.challenges] : null,
     competences: courseDto.competences ? [...courseDto.competences] : null,
   });
-}
-
-/** @type {LearningContentRedisRepository} */
-let redisInstance;
-
-/** @type {LearningContentInMemoryRepository} */
-let instance;
-
-function getInstance() {
-  if (LearningContentRedisRepository.isEnabled) {
-    if (!redisInstance) {
-      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME });
-    }
-    return redisInstance;
-  }
-  if (!instance) {
-    instance = new LearningContentInMemoryRepository({ tableName: TABLE_NAME });
-  }
-  return instance;
 }

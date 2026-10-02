@@ -4,12 +4,13 @@ import { NotFoundError } from '../../domain/errors.js';
 import { Competence } from '../../domain/models/Competence.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { child, SCOPES } from '../utils/logger.js';
-import { LearningContentInMemoryRepository } from './learning-content-inmemory-repository.js';
-import { LearningContentRedisRepository } from './learning-content-redis-repository.js';
+import { makeGetInstance } from './learning-content-repository.ts';
 
 const TABLE_NAME = 'learningcontent.competences';
 
 const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
+
+const getInstance = makeGetInstance({ tableName: TABLE_NAME });
 
 export async function list({ locale = FRENCH_FRANCE } = {}) {
   const cacheKey = 'list()';
@@ -69,23 +70,4 @@ function toDomain({ competenceDto, locale }) {
     thematicIds: competenceDto.thematicIds ? [...competenceDto.thematicIds] : null,
     areaId: competenceDto.areaId,
   });
-}
-
-/** @type {LearningContentRedisRepository} */
-let redisInstance;
-
-/** @type {LearningContentInMemoryRepository} */
-let instance;
-
-function getInstance() {
-  if (LearningContentRedisRepository.isEnabled) {
-    if (!redisInstance) {
-      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME });
-    }
-    return redisInstance;
-  }
-  if (!instance) {
-    instance = new LearningContentInMemoryRepository({ tableName: TABLE_NAME });
-  }
-  return instance;
 }

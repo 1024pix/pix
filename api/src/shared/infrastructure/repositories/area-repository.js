@@ -4,12 +4,13 @@ import { Area } from '../../domain/models/Area.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { child, SCOPES } from '../utils/logger.js';
 import * as competenceRepository from './competence-repository.js';
-import { LearningContentInMemoryRepository } from './learning-content-inmemory-repository.js';
-import { LearningContentRedisRepository } from './learning-content-redis-repository.js';
+import { makeGetInstance } from './learning-content-repository.ts';
 
 const TABLE_NAME = 'learningcontent.areas';
 
 const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
+
+const getInstance = makeGetInstance({ tableName: TABLE_NAME });
 
 export async function list({ locale } = {}) {
   const cacheKey = 'list()';
@@ -110,23 +111,4 @@ async function toDomainWithCompetences(areaDtos, locale) {
     areas.push(area);
   }
   return areas;
-}
-
-/** @type {LearningContentRedisRepository} */
-let redisInstance;
-
-/** @type {LearningContentInMemoryRepository} */
-let instance;
-
-function getInstance() {
-  if (LearningContentRedisRepository.isEnabled) {
-    if (!redisInstance) {
-      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME });
-    }
-    return redisInstance;
-  }
-  if (!instance) {
-    instance = new LearningContentInMemoryRepository({ tableName: TABLE_NAME });
-  }
-  return instance;
 }

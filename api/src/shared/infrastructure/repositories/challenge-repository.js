@@ -5,8 +5,7 @@ import { Challenge } from '../../domain/models/Challenge.js';
 import * as solutionAdapter from '../../infrastructure/adapters/solution-adapter.js';
 import { httpAgent } from '../http-agent.js';
 import { child, SCOPES } from '../utils/logger.js';
-import { LearningContentInMemoryRepository } from './learning-content-inmemory-repository.js';
-import { LearningContentRedisRepository } from './learning-content-redis-repository.js';
+import { makeGetInstance } from './learning-content-repository.ts';
 import * as skillRepository from './skill-repository.js';
 
 const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONTENT });
@@ -15,6 +14,8 @@ const TABLE_NAME = 'learningcontent.challenges';
 const VALIDATED_STATUS = 'validé';
 const ARCHIVED_STATUS = 'archivé';
 const OPERATIVE_STATUSES = [VALIDATED_STATUS, ARCHIVED_STATUS];
+
+export const getInstance = makeGetInstance({ tableName: TABLE_NAME });
 
 export async function get(id, { forCorrection = false } = {}) {
   const challengeDto = await getInstance().load(id);
@@ -188,23 +189,4 @@ function toDomain({ challengeDto, webComponentTagName, webComponentProps, skill,
     hasEmbedInternalValidation: challengeDto.hasEmbedInternalValidation,
     noValidationNeeded: challengeDto.noValidationNeeded,
   });
-}
-
-/** @type {LearningContentRedisRepository} */
-let redisInstance;
-
-/** @type {LearningContentInMemoryRepository} */
-let instance;
-
-export function getInstance() {
-  if (LearningContentRedisRepository.isEnabled) {
-    if (!redisInstance) {
-      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME });
-    }
-    return redisInstance;
-  }
-  if (!instance) {
-    instance = new LearningContentInMemoryRepository({ tableName: TABLE_NAME });
-  }
-  return instance;
 }
