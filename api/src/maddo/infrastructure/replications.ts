@@ -28,6 +28,7 @@ export const replications = Object.freeze({
       'area_name',
       'certification_courses_id',
       'configuration',
+      'certification_code_verification',
     ],
   },
   certification_results: {
