@@ -234,8 +234,7 @@ Les tests
 ## Référence des règles
 
 Les bons exemples sont des extraits de l'[exemple complet](#exemple-complet). Les mauvais exemples
-montrent la même `Organization` mal écrite. Sous chaque mauvais exemple, un lien montre un fichier de
-Pix qui fait la même faute.
+montrent la même `Organization` mal écrite.
 
 ### E1. L'identité est explicite et stable
 
@@ -256,8 +255,6 @@ export class Organization {
   id: number; // public et modifiable : n'importe quel code peut changer l'id
 }
 ```
-
-Même faute dans [`Organization.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/Organization.js#L40).
 
 **Ce que ça apporte.** Pour comparer deux Entities ou retrouver une Entity, le code utilise un seul
 champ : l'`id`.
@@ -333,8 +330,6 @@ isSameAs(other: Organization): boolean {
 }
 ```
 
-Même faute dans [`Skill.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/Skill.js#L38-L44).
-
 **Ce que ça apporte.** La même Entity, chargée deux fois à deux moments différents, est reconnue comme
 la même Entity.
 
@@ -368,8 +363,6 @@ constructor({ id, name, type, createdBy }: OrganizationProps = {}) {
   this.createdBy = createdBy;
 }
 ```
-
-Même faute dans [`Organization.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/Organization.js#L17-L42).
 
 **Ce que ça apporte.** Le code qui reçoit une Entity n'a rien à vérifier : l'Entity est valide. La
 règle est écrite une seule fois, dans l'Entity.
@@ -412,17 +405,14 @@ archive(): void {
 }
 ```
 
-Même faute dans [`CertificationCenterMembership.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/team/domain/models/CertificationCenterMembership.js#L35-L42).
-
 **Ce que ça apporte.** Le résultat dépend seulement des paramètres. Le test passe une date et vérifie
 le résultat.
 
 **Sans cette règle.** Le test doit bloquer l'heure ou simuler un module. Une Entity qui appelle
 `new Date()` donne un résultat différent à chaque exécution du test.
 
-**À savoir.** Un import peut aussi venir de l'infrastructure sans le dire. Par exemple,
-[`UserLogin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/identity-access-management/domain/models/UserLogin.js#L2)
-importe `anonymizeGeneralizeDate` depuis `shared/infrastructure/`.
+**À savoir.** Un import peut venir de l'infrastructure sans le dire. Un utilitaire importé depuis un
+dossier `infrastructure/`, même pour formater une date, est un import d'infrastructure.
 
 ### E5. Aucune méthode au service de la persistance
 
@@ -455,8 +445,6 @@ export class Organization {
   }
 }
 ```
-
-Même faute dans [`Quest.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/entities/Quest.js#L155-L165).
 
 **Ce que ça apporte.** L'Entity ne connaît pas la base de données. Un changement dans la base de
 données modifie seulement le repository.
@@ -494,8 +482,6 @@ set name(value: string) {
 }
 ```
 
-Même faute dans [`DataForQuest.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/aggregates/DataForQuest.js#L1-L20).
-
 **Ce que ça apporte.** Chaque changement passe par une seule méthode. La méthode vérifie la règle
 (E3). Le nom de la méthode dit ce qui se passe pour le métier.
 
@@ -525,8 +511,6 @@ readonly createdBy: UserId; // l'identifiant de la personne
 ```ts
 readonly creator: User; // l'objet entier d'un autre Aggregate
 ```
-
-Même faute dans [`Membership.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/Membership.js#L23-L26).
 
 **Ce que ça apporte.** Charger une Entity charge seulement cette Entity. Chaque Aggregate est modifié
 et enregistré seul.
