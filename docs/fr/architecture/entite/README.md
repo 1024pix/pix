@@ -1,7 +1,7 @@
 # Entity
 
-Une Entity est une chose que le métier suit dans le temps : un utilisateur, une campagne, une
-organisation. Une Entity a un identifiant. Les valeurs d'une Entity changent, mais l'Entity reste la
+Une Entity est un objet que le produit garde, retrouve avec son identifiant, et modifie : un
+utilisateur, une campagne, une organisation. Les valeurs d'une Entity changent, mais l'Entity reste la
 même Entity. Les Entities sont dans le dossier `domain/models/`.
 
 En bas de la page, la partie [référence des règles](#référence-des-règles) explique chaque règle avec
@@ -13,7 +13,7 @@ un bon exemple et un mauvais exemple.
 | --- | --- | --- |
 | [E1](#e1-un-identifiant-qui-ne-change-pas) | Un identifiant qui ne change pas | un `id` dans l'objet ; aucune méthode ne modifie l'`id` |
 | [E2](#e2-comparer-par-identifiant) | Comparer par identifiant | comparer les `id`, pas les autres champs |
-| [E3](#e3-toujours-valide) | Toujours valide | le constructeur et chaque méthode refusent un état invalide |
+| [E3](#e3-toujours-valide) | Toujours valide | le constructeur et chaque méthode lèvent une erreur du domaine si une règle n'est pas respectée |
 | [E4](#e4-aucune-io) | Aucune I/O | aucun import d'infrastructure ; la date du jour est passée en paramètre |
 | [E5](#e5-rien-pour-la-base-de-données) | Rien pour la base de données | pas de `toDTO()` que seul le repository appelle |
 | [E6](#e6-pas-de-setter) | Pas de setter | chaque changement a une méthode avec un nom métier : `rename()`, pas `set name()` |
@@ -201,15 +201,16 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
 
 Deux signes d'un problème, pendant l'écriture du test :
 
-- **Le test du refus manque.** C'est l'oubli le plus fréquent. Tester que `archive()` archive ne suffit
-  pas : c'est le test du refus qui prouve que la règle E3 est respectée.
+- **Le test du refus manque.** Sans test du refus, les tests passent même quand la vérification de E3
+  manque. Tester que `archive()` archive ne suffit pas : c'est le test du refus qui prouve que la
+  règle E3 est respectée.
 - **Le test a besoin d'un double**, ou de bloquer l'heure. L'Entity dépend de l'infrastructure :
   l'Entity ne respecte pas [E4](#e4-aucune-io).
 
 ## Comment relire
 
-La checklist suit l'ordre de relecture : les règles qui évitent les bugs les plus graves sont en
-premier. Dans un commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas la
+La checklist suit cet ordre : d'abord les règles qui laissent l'Entity prendre un état invalide, puis
+les règles qui lient l'Entity à d'autres objets, puis les règles sur l'identifiant et le nom. Dans un commentaire de revue, écrire le numéro de la règle et ce qui ne respecte pas la
 règle : « E6 : `set name()` permet de changer le nom sans passer par `rename()`, donc sans vérifier le nom ».
 
 ```
@@ -217,12 +218,12 @@ L'Entity peut-elle devenir invalide ?
 [ ] E3  Le constructeur et chaque méthode refusent un état invalide
 [ ] E6  Pas de setter ; chaque changement a une méthode avec un nom métier
 
-L'Entity contient-elle trop de choses ?
+L'Entity dépend-elle d'autre chose que de ses propres données ?
 [ ] E7  Un autre Aggregate est gardé par son identifiant, pas par l'objet entier
 [ ] E4  Aucun import d'infrastructure ; ni new Date(), ni Math.random(), ni configuration
 [ ] E5  Aucune méthode que seul le repository appelle
 
-L'identifiant est-il clair ?
+L'Entity a-t-elle un identifiant stable et un nom du métier ?
 [ ] E1  Un id dans l'objet ; aucune méthode ne modifie l'id
 [ ] E2  Les comparaisons utilisent l'id
 [ ] E8  Un fichier, en PascalCase, avec un nom du métier
@@ -364,8 +365,8 @@ constructor({ id, name, type, createdBy }: OrganizationProps = {}) {
 }
 ```
 
-**Ce que ça apporte.** Le code qui reçoit une Entity n'a rien à vérifier : l'Entity est valide. La
-règle est écrite une seule fois, dans l'Entity.
+**Ce que ça apporte.** Le code qui reçoit une organisation sait que le nom n'est pas vide et que le
+type est connu : le code n'a rien à vérifier. La règle est écrite une seule fois, dans l'Entity.
 
 **Sans cette règle.** La règle est écrite dans un [usecase](../usecase/README.md). Un autre usecase
 renomme l'organisation, oublie la règle, et une organisation a un nom vide.
@@ -373,8 +374,8 @@ renomme l'organisation, oublie la règle, et une organisation a un nom vide.
 **À savoir.**
 
 - Un constructeur avec `= {}` et sans aucune vérification accepte `new Organization()` : l'Entity est
-  créée vide. Ce code compile, et les tests qui passent des valeurs valides passent : c'est pour
-  cela que le problème passe souvent inaperçu.
+  créée vide. Ce code compile, et les tests qui passent des valeurs valides passent : rien ne
+  signale la vérification qui manque.
 - Une méthode qui modifie plusieurs champs vérifie tout avant de modifier le premier champ. Sinon,
   une erreur au milieu laisse l'Entity à moitié modifiée.
 
@@ -446,8 +447,8 @@ export class Organization {
 }
 ```
 
-**Ce que ça apporte.** L'Entity ne connaît pas la base de données. Un changement dans la base de
-données modifie seulement le repository.
+**Ce que ça apporte.** Le fichier de l'Entity n'importe rien de la base de données et ne contient
+aucun nom de colonne. Un changement dans la base de données modifie seulement le repository.
 
 **Sans cette règle.** Renommer une colonne de la table oblige à modifier l'Entity.
 
@@ -485,8 +486,8 @@ set name(value: string) {
 **Ce que ça apporte.** Chaque changement passe par une seule méthode. La méthode vérifie la règle
 (E3). Le nom de la méthode dit ce qui se passe pour le métier.
 
-**Sans cette règle.** Un setter modifie le champ sans vérifier la règle. La règle E3 est vérifiée
-seulement dans le constructeur.
+**Sans cette règle.** Un setter modifie le champ sans vérifier la règle. Après la création,
+`organization.name = ''` donne une organisation au nom vide, sans erreur.
 
 **À savoir.** Une Entity remplie par une suite de setters, `setX()` puis `setY()`, est invalide entre
 deux appels. Toutes les valeurs de départ passent par le constructeur.
@@ -515,8 +516,8 @@ readonly creator: User; // l'objet entier d'un autre Aggregate
 **Ce que ça apporte.** Charger une Entity charge seulement cette Entity. Chaque Aggregate est modifié
 et enregistré seul.
 
-**Sans cette règle.** Le repository doit charger l'utilisateur avec chaque organisation. Plus il y a
-d'objets liés, plus le chargement est lent. Et le code peut modifier l'utilisateur à travers
+**Sans cette règle.** Le repository doit charger l'utilisateur avec chaque organisation. Chaque objet lié
+ajoute une requête ou une jointure à chaque chargement d'une organisation. Et le code peut modifier l'utilisateur à travers
 l'organisation.
 
 **Exceptions.** Une Entity garde les objets de son propre Aggregate : un module garde ses sections.
@@ -533,8 +534,8 @@ métier de l'Entity, en PascalCase.
 **Ce que ça apporte.** Une recherche avec le mot du métier, par exemple « Organization », trouve le
 fichier.
 
-**Sans cette règle.** Le code fonctionne. Mais une recherche avec le mot du métier ne trouve pas le
-fichier, et la revue perd du temps sur le nom.
+**Sans cette règle.** Le programme s'exécute sans erreur. Mais une recherche avec le mot du métier ne
+trouve pas le fichier, et un relecteur doit ouvrir le fichier pour savoir quelle Entity il contient.
 
 **Exceptions.** Deux contextes peuvent avoir chacun une Entity avec le même nom, pour deux choses
 différentes : chaque contexte a son vocabulaire. L'import dit de quel contexte vient l'Entity.
