@@ -71,7 +71,16 @@ export class QcmSolution {
 }
 ```
 
-Le test vérifie la validation, le comportement et l'immuabilité :
+## Comment tester
+
+Un Value Object se teste avec un test unitaire. Le test n'utilise pas de base de données. Le test
+n'utilise pas de **double** : pas de stub, pas de mock, pas de spy. Le test vérifie :
+
+- la validation : une valeur invalide lève une erreur du domaine ;
+- le comportement : chaque méthode qui porte une règle, cas limites compris ;
+- l'immuabilité : modifier un tableau renvoyé ne modifie pas l'objet.
+
+Le test de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/devcomp/unit/domain/models/QcmSolution_test.ts
@@ -115,15 +124,6 @@ describe('Unit | Devcomp | Domain | Models | QcmSolution', function () {
   });
 });
 ```
-
-## Comment tester
-
-Un Value Object se teste avec un test unitaire. Le test n'utilise pas de base de données. Le test
-n'utilise pas de **double** : pas de stub, pas de mock, pas de spy. Le test vérifie :
-
-- la validation : une valeur invalide lève une erreur du domaine ;
-- le comportement : chaque méthode qui porte une règle, cas limites compris ;
-- l'immuabilité : modifier un tableau renvoyé ne modifie pas l'objet.
 
 Un signe d'un problème, pendant l'écriture du test : **le test a besoin d'un double**. L'objet dépend
 de l'infrastructure : l'objet ne respecte pas [V4](#v4-aucune-io-aucune-dépendance-à-linfrastructure).
