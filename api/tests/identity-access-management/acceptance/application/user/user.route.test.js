@@ -67,7 +67,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
           'last-name': user.lastName,
           email: user.email,
           username: user.username,
-          cgu: user.cgu,
         };
 
         // when
@@ -76,7 +75,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
         // then
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.type).to.equal('users');
-        expect(response.result.data.attributes['last-terms-of-service-validated-at']).to.be.instanceOf(Date);
         const userAttributes = pick(response.result.data.attributes, pickedUserAttributes);
         expect(userAttributes).to.deep.equal(expectedAttributes);
       });
@@ -185,7 +183,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       expect(attributes['first-name']).to.equal(firstName);
       expect(attributes['last-name']).to.equal(lastName);
       expect(attributes.email).to.equal(email);
-      expect(attributes.cgu).to.be.true;
       expect(attributes.locale).to.equal('fr');
       expect(attributes['is-anonymous']).to.be.false;
     });
