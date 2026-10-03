@@ -32,6 +32,8 @@ export default function () {
     pix_score: generatePixScore(),
     certification_date,
     certification_issued_at,
+    max_reachable_level: 7,
+    max_reachable_pix_score: 895,
   };
 
   return COMPETENCES.map((competence) => ({
