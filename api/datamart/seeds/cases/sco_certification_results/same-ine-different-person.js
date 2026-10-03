@@ -8,6 +8,7 @@ import {
   generatePixScore,
   generateStatus,
   getCertificationDate,
+  getCertificationIssuedAt,
   getFormattedBirthdate,
   nationalStudentIdGenerator,
   orgaUAIGenerator,
@@ -25,7 +26,8 @@ const generateVerificationCode = verificationCodeGenerator({ startingFrom: 41000
  */
 export default function () {
   const sameINE = generateINE();
-
+  let certification_date = getCertificationDate();
+  let certification_issued_at = getCertificationIssuedAt(certification_date);
   const studentOneBase = {
     certification_courses_id: generateCertifCourseIdStudentOne(),
     certification_code_verification: generateVerificationCode(),
@@ -36,9 +38,12 @@ export default function () {
     birthdate: getFormattedBirthdate(), // We want different birthdate
     status: generateStatus(),
     pix_score: generatePixScore(),
-    certification_date: getCertificationDate(),
+    certification_date,
+    certification_issued_at,
   };
 
+  certification_date = getCertificationDate();
+  certification_issued_at = getCertificationIssuedAt(certification_date);
   const studentTwoBase = {
     certification_courses_id: generateCertifCourseIdStudentTwo(),
     certification_code_verification: generateVerificationCode(),
@@ -49,7 +54,8 @@ export default function () {
     birthdate: getFormattedBirthdate(), // We want different birthdate
     status: generateStatus(),
     pix_score: generatePixScore(),
-    certification_date: getCertificationDate(),
+    certification_date,
+    certification_issued_at,
   };
 
   return [studentOneBase, studentTwoBase].flatMap((student) => {

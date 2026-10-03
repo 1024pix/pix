@@ -8,6 +8,7 @@ import {
   generatePixScore,
   generateStatus,
   getCertificationDate,
+  getCertificationIssuedAt,
   getFormattedBirthdate,
   nationalStudentIdGenerator,
   orgaUAIGenerator,
@@ -18,7 +19,7 @@ const generateCertifCourseIdStudentOne = certificationCourseIdGenerator({ starti
 const generateCertifCourseIdStudentTwo = certificationCourseIdGenerator({ startingFrom: 6100000 });
 const generateINE = nationalStudentIdGenerator({ ineSuffix: 'BB' });
 const generateOrgaUai = orgaUAIGenerator();
-const generateVerificationCode = verificationCodeGenerator({ startingFrom: 6100000 })
+const generateVerificationCode = verificationCodeGenerator({ startingFrom: 6100000 });
 
 /**
  * Some student have obtained a Pix certification, but with different birthdates
@@ -30,6 +31,8 @@ export default function () {
   const sameUAI = generateOrgaUai();
   const sameFirstName = generateFirstName();
   const sameLastName = faker.person.lastName();
+  let certification_date = getCertificationDate();
+  let certification_issued_at = getCertificationIssuedAt(certification_date);
 
   const studentOneBase = {
     certification_courses_id: generateCertifCourseIdStudentOne(),
@@ -41,9 +44,12 @@ export default function () {
     birthdate: getFormattedBirthdate(), // We want different birthdate
     status: generateStatus(),
     pix_score: generatePixScore(),
-    certification_date: getCertificationDate(),
+    certification_date,
+    certification_issued_at,
   };
 
+  certification_date = getCertificationDate();
+  certification_issued_at = getCertificationIssuedAt(certification_date);
   const studentTwoBase = {
     certification_courses_id: generateCertifCourseIdStudentTwo(),
     certification_code_verification: generateVerificationCode(),
@@ -54,7 +60,8 @@ export default function () {
     birthdate: getFormattedBirthdate(), // We want different birthdate
     status: generateStatus(),
     pix_score: generatePixScore(),
-    certification_date: getCertificationDate(),
+    certification_date,
+    certification_issued_at,
   };
 
   return [studentOneBase, studentTwoBase].flatMap((student) => {
