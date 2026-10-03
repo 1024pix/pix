@@ -5,6 +5,7 @@ import {
   generatePixScore,
   generateStatus,
   getCertificationDate,
+  getCertificationIssuedAt,
   verificationCodeGenerator,
 } from '../tools.js';
 
@@ -16,6 +17,8 @@ const generateVerificationCode = verificationCodeGenerator({ startingFrom: 81000
  */
 export default function () {
   const accentStudent = () => {
+    const certification_date = getCertificationDate();
+    const certification_issued_at = getCertificationIssuedAt(certification_date);
     const studentBase = {
       certification_courses_id: generateCertifCourseId(),
       certification_code_verification: generateVerificationCode(),
@@ -26,7 +29,8 @@ export default function () {
       birthdate: '2000-01-01',
       status: generateStatus(),
       pix_score: generatePixScore(),
-      certification_date: getCertificationDate(),
+      certification_date,
+      certification_issued_at,
     };
 
     return COMPETENCES.map((competence) => ({
@@ -37,6 +41,8 @@ export default function () {
   };
 
   const doubleDashStudent = () => {
+    const certification_date = getCertificationDate();
+    const certification_issued_at = getCertificationIssuedAt(certification_date);
     const studentBase = {
       certification_courses_id: generateCertifCourseId(),
       certification_code_verification: generateVerificationCode(),
@@ -47,7 +53,8 @@ export default function () {
       birthdate: '2000-01-01',
       status: generateStatus(),
       pix_score: generatePixScore(),
-      certification_date: getCertificationDate(),
+      certification_date,
+      certification_issued_at,
     };
 
     return COMPETENCES.map((competence) => ({

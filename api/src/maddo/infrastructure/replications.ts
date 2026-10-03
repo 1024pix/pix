@@ -29,6 +29,7 @@ export const replications = Object.freeze({
       'certification_courses_id',
       'configuration',
       'certification_code_verification',
+      'certification_issued_at',
     ],
   },
   certification_results: {
@@ -48,6 +49,7 @@ export const replications = Object.freeze({
       'area_name',
       'certification_courses_id',
       'configuration',
+      'certification_issued_at',
     ],
   },
   men_dashboard_participation_dataset: {
