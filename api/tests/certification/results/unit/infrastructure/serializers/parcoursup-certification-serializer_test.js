@@ -16,7 +16,12 @@ describe('Unit | Serializer | Json | parcoursup-certification-serializer', funct
         birthdate: '2000-01-01',
         status: 'validated',
         pixScore: 327,
+        certificationId: 777,
+        certificationCodeVerification: 'CODEVERIF1',
         certificationDate: new Date('2024-11-22T09:39:54Z'),
+        certificationIssuedAt: new Date('2024-11-24T12:02:11Z'),
+        maxReachableLevel: 7,
+        maxReachablePixScore: 895,
         competences: [
           domainBuilder.certification.results.parcoursup.buildCompetence({
             code: '1.1',
@@ -42,8 +47,33 @@ describe('Unit | Serializer | Json | parcoursup-certification-serializer', funct
 
       // then
       return expect(actualCertifiedProfileSerialized).to.deep.equal({
-        ...certificationResult,
-        globalLevel: certificationResult.globalLevel.getLevelLabel(translate),
+        ine: 'INE123',
+        organizationUai: 'UAI ETAB ELEVE',
+        lastName: 'NOM-ELEVE',
+        firstName: 'PRENOM-ELEVE',
+        birthdate: '2000-01-01',
+        status: 'validated',
+        pixScore: 327,
+        certificationId: 777,
+        certificationCodeVerification: 'CODEVERIF1',
+        certificationDate: new Date('2024-11-22T09:39:54Z'),
+        certificationIssuedAt: new Date('2024-11-24T12:02:11Z'),
+        maxReachablePixScore: 895,
+        competences: [
+          domainBuilder.certification.results.parcoursup.buildCompetence({
+            code: '1.1',
+            name: 'Mener une recherche et une veille d’information',
+            areaName: 'Informations et données',
+            level: 3,
+          }),
+          domainBuilder.certification.results.parcoursup.buildCompetence({
+            code: '1.2',
+            name: 'Gérer des données',
+            areaName: 'Informations et données',
+            level: 5,
+          }),
+        ],
+        globalLevel: 'Indépendant 1',
       });
     });
   });
