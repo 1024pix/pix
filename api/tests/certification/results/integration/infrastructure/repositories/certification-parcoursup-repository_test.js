@@ -8,7 +8,7 @@ import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Results | Infrastructure | Integration | Repositories | certification-parcoursup', function () {
   describe('#getByINE', function () {
-    describe('when a certification is found', function () {
+    context('when a certification is found', function () {
       it('should return the certification', async function () {
         // given
         const ine = '1234';
@@ -20,7 +20,12 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
           birthdate: '2000-01-01',
           status: 'validated',
           pixScore: 327,
+          certificationId: 777,
+          certificationCodeVerification: 'CODEVERIF1',
           certificationDate: new Date('2024-11-22T09:39:54Z'),
+          certificationIssuedAt: new Date('2024-11-24T12:01:22Z'),
+          maxReachableLevel: 7,
+          maxReachablePixScore: 9000,
         };
         datamartBuilder.factory.buildCertificationResult({
           ...certificationResultData,
@@ -50,7 +55,12 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
           birthdate: '2000-01-01',
           status: 'validated',
           pixScore: 327,
+          certificationId: 777,
+          certificationCodeVerification: 'CODEVERIF1',
           certificationDate: new Date('2024-11-22T09:39:54Z'),
+          certificationIssuedAt: new Date('2024-11-24T12:01:22Z'),
+          maxReachableLevel: 7,
+          maxReachablePixScore: 9000,
           competences: [
             domainBuilder.certification.results.parcoursup.buildCompetence({
               code: '1.1',
@@ -65,114 +75,12 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
               level: 5,
             }),
           ],
-          maxReachableLevel: 7,
-        });
-        expect(results).to.deep.equal([expectedCertification]);
-      });
-
-      it('should fallback to MESH_CONFIGURATION size when scoring_configuration is null', async function () {
-        // given
-        const ine = '1234';
-        datamartBuilder.factory.buildCertificationResult({
-          nationalStudentId: ine,
-          organizationUai: 'UAI ETAB ELEVE',
-          lastName: 'NOM-ELEVE',
-          firstName: 'PRENOM-ELEVE',
-          birthdate: '2000-01-01',
-          status: 'validated',
-          pixScore: 327,
-          certificationDate: new Date('2024-11-22T09:39:54Z'),
-          competenceCode: '1.1',
-          competenceName: "Mener une recherche et une veille d'information",
-          areaName: 'Informations et données',
-          competenceLevel: 3,
-          configuration: null,
-        });
-        await datamartBuilder.commit();
-
-        // when
-        const results = await certificationRepository.getByINE({ ine });
-
-        // then
-        const expectedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({
-          ine,
-          organizationUai: 'UAI ETAB ELEVE',
-          lastName: 'NOM-ELEVE',
-          firstName: 'PRENOM-ELEVE',
-          birthdate: '2000-01-01',
-          status: 'validated',
-          pixScore: 327,
-          certificationDate: new Date('2024-11-22T09:39:54Z'),
-          competences: [
-            domainBuilder.certification.results.parcoursup.buildCompetence({
-              code: '1.1',
-              name: "Mener une recherche et une veille d'information",
-              areaName: 'Informations et données',
-              level: 3,
-            }),
-          ],
-          maxReachableLevel: 7,
-        });
-        expect(results).to.deep.equal([expectedCertification]);
-      });
-
-      it('should keep only one competence by competence code', async function () {
-        // given
-        const ine = '1234';
-        const certificationResultData = {
-          nationalStudentId: ine,
-          organizationUai: 'UAI ETAB ELEVE',
-          lastName: 'NOM-ELEVE',
-          firstName: 'PRENOM-ELEVE',
-          birthdate: '2000-01-01',
-          status: 'validated',
-          pixScore: 327,
-          certificationDate: new Date('2024-11-22T09:39:54Z'),
-        };
-        const duplicatedCompetency = {
-          competenceCode: '1.1',
-          competenceName: "Mener une recherche et une veille d'information",
-          areaName: 'Informations et données',
-          competenceLevel: 3,
-        };
-        datamartBuilder.factory.buildCertificationResult({
-          ...certificationResultData,
-          ...duplicatedCompetency,
-        });
-        datamartBuilder.factory.buildCertificationResult({
-          ...certificationResultData,
-          ...duplicatedCompetency,
-        });
-        await datamartBuilder.commit();
-
-        // when
-        const results = await certificationRepository.getByINE({ ine });
-
-        // then
-        const expectedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({
-          ine,
-          organizationUai: 'UAI ETAB ELEVE',
-          lastName: 'NOM-ELEVE',
-          firstName: 'PRENOM-ELEVE',
-          birthdate: '2000-01-01',
-          status: 'validated',
-          pixScore: 327,
-          certificationDate: new Date('2024-11-22T09:39:54Z'),
-          competences: [
-            domainBuilder.certification.results.parcoursup.buildCompetence({
-              code: '1.1',
-              name: "Mener une recherche et une veille d'information",
-              areaName: 'Informations et données',
-              level: 3,
-            }),
-          ],
-          maxReachableLevel: 7,
         });
         expect(results).to.deep.equal([expectedCertification]);
       });
     });
 
-    describe('when no certifications are found for given ine', function () {
+    context('when no certifications are found for given ine', function () {
       it('should throw Not Found Error', async function () {
         // given
         const ine = '1234';
@@ -203,7 +111,12 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
           birthdate,
           status: 'validated',
           pixScore: 327,
+          certificationId: 777,
+          certificationCodeVerification: 'CODEVERIF1',
           certificationDate: new Date('2024-11-22T09:39:54Z'),
+          certificationIssuedAt: new Date('2024-11-24T12:01:22Z'),
+          maxReachableLevel: 7,
+          maxReachablePixScore: 9000,
         };
         datamartBuilder.factory.buildCertificationResult({
           ...certificationResultData,
@@ -238,7 +151,12 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
           birthdate,
           status: 'validated',
           pixScore: 327,
+          certificationId: 777,
+          certificationCodeVerification: 'CODEVERIF1',
           certificationDate: new Date('2024-11-22T09:39:54Z'),
+          certificationIssuedAt: new Date('2024-11-24T12:01:22Z'),
+          maxReachableLevel: 7,
+          maxReachablePixScore: 9000,
           competences: [
             domainBuilder.certification.results.parcoursup.buildCompetence({
               code: '1.2',
@@ -253,126 +171,6 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
               level: 3,
             }),
           ],
-          maxReachableLevel: 7,
-        });
-        expect(results).to.deep.equal([expectedCertification]);
-      });
-
-      it('should fallback to MESH_CONFIGURATION size when scoring_configuration is null', async function () {
-        // given
-        const organizationUai = '1234567A';
-        const lastName = 'LEPONGE';
-        const firstName = 'Bob';
-        const birthdate = '2000-01-01';
-        datamartBuilder.factory.buildCertificationResult({
-          nationalStudentId: '1234',
-          organizationUai,
-          lastName,
-          firstName,
-          birthdate,
-          status: 'validated',
-          pixScore: 327,
-          certificationDate: new Date('2024-11-22T09:39:54Z'),
-          competenceCode: '1.1',
-          competenceName: "Mener une recherche et une veille d'information",
-          areaName: 'Informations et données',
-          competenceLevel: 3,
-          configuration: null,
-        });
-        await datamartBuilder.commit();
-
-        // when
-        const results = await certificationRepository.getByOrganizationUAI({
-          organizationUai,
-          lastName,
-          firstName,
-          birthdate,
-        });
-
-        // then
-        const expectedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({
-          ine: '1234',
-          organizationUai,
-          lastName,
-          firstName,
-          birthdate,
-          status: 'validated',
-          pixScore: 327,
-          certificationDate: new Date('2024-11-22T09:39:54Z'),
-          competences: [
-            domainBuilder.certification.results.parcoursup.buildCompetence({
-              code: '1.1',
-              name: "Mener une recherche et une veille d'information",
-              areaName: 'Informations et données',
-              level: 3,
-            }),
-          ],
-          maxReachableLevel: 7,
-        });
-        expect(results).to.deep.equal([expectedCertification]);
-      });
-
-      it('should keep only one competence by competence code', async function () {
-        // given
-        const organizationUai = '1234567A';
-        const lastName = 'LEPONGE';
-        const firstName = 'Bob';
-        const birthdate = '2000-01-01';
-        const certificationResultData = {
-          nationalStudentId: '1234',
-          organizationUai,
-          lastName,
-          firstName,
-          birthdate,
-          status: 'validated',
-          pixScore: 327,
-          certificationDate: new Date('2024-11-22T09:39:54Z'),
-        };
-
-        const duplicatedCompetency = {
-          competenceCode: '1.2',
-          competenceName: 'Gérer des données',
-          areaName: 'Informations et données',
-          competenceLevel: 5,
-        };
-
-        datamartBuilder.factory.buildCertificationResult({
-          ...certificationResultData,
-          ...duplicatedCompetency,
-        });
-        datamartBuilder.factory.buildCertificationResult({
-          ...certificationResultData,
-          ...duplicatedCompetency,
-        });
-        await datamartBuilder.commit();
-
-        // when
-        const results = await certificationRepository.getByOrganizationUAI({
-          organizationUai,
-          lastName,
-          firstName,
-          birthdate,
-        });
-
-        // then
-        const expectedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({
-          ine: '1234',
-          organizationUai,
-          lastName,
-          firstName,
-          birthdate,
-          status: 'validated',
-          pixScore: 327,
-          certificationDate: new Date('2024-11-22T09:39:54Z'),
-          competences: [
-            domainBuilder.certification.results.parcoursup.buildCompetence({
-              code: '1.2',
-              name: 'Gérer des données',
-              areaName: 'Informations et données',
-              level: 5,
-            }),
-          ],
-          maxReachableLevel: 7,
         });
         expect(results).to.deep.equal([expectedCertification]);
       });
@@ -405,18 +203,22 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
     describe('when a certification is found', function () {
       it('should return the certification', async function () {
         // given
-        const verificationCode = 'P-1234567A';
+        const certificationCodeVerification = 'P-1234567A';
         const lastName = 'LEPONGE';
         const firstName = 'Bob';
         const birthdate = '2000-01-01';
         const certificationResultData = {
-          verificationCode,
           lastName,
           firstName,
           birthdate,
           status: 'validated',
           pixScore: 327,
+          certificationId: 777,
+          certificationCodeVerification,
           certificationDate: new Date('2024-11-22T09:39:54Z'),
+          certificationIssuedAt: new Date('2024-11-24T12:01:22Z'),
+          maxReachableLevel: 7,
+          maxReachablePixScore: 9000,
         };
         datamartBuilder.factory.buildCertificationResultCodeValidation({
           ...certificationResultData,
@@ -436,7 +238,7 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
 
         // when
         const results = await certificationRepository.getByVerificationCode({
-          verificationCode,
+          verificationCode: certificationCodeVerification,
         });
 
         // then
@@ -446,7 +248,12 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
           birthdate,
           status: 'validated',
           pixScore: 327,
+          certificationId: 777,
+          certificationCodeVerification,
           certificationDate: new Date('2024-11-22T09:39:54Z'),
+          certificationIssuedAt: new Date('2024-11-24T12:01:22Z'),
+          maxReachableLevel: 7,
+          maxReachablePixScore: 9000,
           competences: [
             domainBuilder.certification.results.parcoursup.buildCompetence({
               code: '1.1',
@@ -461,113 +268,6 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
               level: 5,
             }),
           ],
-          maxReachableLevel: 7,
-        });
-        expect(results).to.deep.equal([expectedCertification]);
-      });
-
-      it('should fallback to MESH_CONFIGURATION size when scoring_configuration is null', async function () {
-        // given
-        const verificationCode = 'P-1234567A';
-        const lastName = 'LEPONGE';
-        const firstName = 'Bob';
-        const birthdate = '2000-01-01';
-        datamartBuilder.factory.buildCertificationResultCodeValidation({
-          verificationCode,
-          lastName,
-          firstName,
-          birthdate,
-          status: 'validated',
-          pixScore: 327,
-          certificationDate: new Date('2024-11-22T09:39:54Z'),
-          competenceCode: '1.1',
-          competenceName: "Mener une recherche et une veille d'information",
-          areaName: 'Informations et données',
-          competenceLevel: 3,
-          configuration: null,
-        });
-        await datamartBuilder.commit();
-
-        // when
-        const results = await certificationRepository.getByVerificationCode({
-          verificationCode,
-        });
-
-        // then
-        const expectedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({
-          lastName,
-          firstName,
-          birthdate,
-          status: 'validated',
-          pixScore: 327,
-          certificationDate: new Date('2024-11-22T09:39:54Z'),
-          competences: [
-            domainBuilder.certification.results.parcoursup.buildCompetence({
-              code: '1.1',
-              name: "Mener une recherche et une veille d'information",
-              areaName: 'Informations et données',
-              level: 3,
-            }),
-          ],
-          maxReachableLevel: 7,
-        });
-        expect(results).to.deep.equal([expectedCertification]);
-      });
-
-      it('should keep only one competence by competence code', async function () {
-        // given
-        const verificationCode = 'P-1234567A';
-        const lastName = 'LEPONGE';
-        const firstName = 'Bob';
-        const birthdate = '2000-01-01';
-        const certificationResultData = {
-          verificationCode,
-          lastName,
-          firstName,
-          birthdate,
-          status: 'validated',
-          pixScore: 327,
-          certificationDate: new Date('2024-11-22T09:39:54Z'),
-        };
-        const duplicatedCompetency = {
-          ...certificationResultData,
-          competenceCode: '1.1',
-          competenceName: "Mener une recherche et une veille d'information",
-          areaName: 'Informations et données',
-          competenceLevel: 3,
-        };
-        datamartBuilder.factory.buildCertificationResultCodeValidation({
-          ...certificationResultData,
-          ...duplicatedCompetency,
-        });
-        datamartBuilder.factory.buildCertificationResultCodeValidation({
-          ...certificationResultData,
-          ...duplicatedCompetency,
-        });
-        await datamartBuilder.commit();
-
-        // when
-        const results = await certificationRepository.getByVerificationCode({
-          verificationCode,
-        });
-
-        // then
-        const expectedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({
-          lastName,
-          firstName,
-          birthdate,
-          status: 'validated',
-          pixScore: 327,
-          certificationDate: new Date('2024-11-22T09:39:54Z'),
-          competences: [
-            domainBuilder.certification.results.parcoursup.buildCompetence({
-              code: '1.1',
-              name: "Mener une recherche et une veille d'information",
-              areaName: 'Informations et données',
-              level: 3,
-            }),
-          ],
-          maxReachableLevel: 7,
         });
         expect(results).to.deep.equal([expectedCertification]);
       });

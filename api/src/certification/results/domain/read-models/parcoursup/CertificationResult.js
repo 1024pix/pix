@@ -10,8 +10,12 @@ export class CertificationResult {
    * @param {string} props.birthdate
    * @param {string} props.status
    * @param {string} props.pixScore
+   * @param {number} props.certificationId
+   * @param {string} props.certificationCodeVerification
    * @param {Date} props.certificationDate
-   * @param {CertificateMeshLevel} props.globalLevel
+   * @param {Date} props.certificationIssuedAt
+   * @param {CertificateMeshLevel} props.maxReachableLevel
+   * @param {number} props.maxReachablePixScore
    * @param {Array<Competence>} props.competences
    */
   constructor({
@@ -22,9 +26,13 @@ export class CertificationResult {
     birthdate,
     status,
     pixScore,
+    certificationId,
+    certificationCodeVerification,
     certificationDate,
-    competences,
+    certificationIssuedAt,
     maxReachableLevel,
+    maxReachablePixScore,
+    competences,
   }) {
     this.ine = ine;
     this.organizationUai = organizationUai;
@@ -33,7 +41,12 @@ export class CertificationResult {
     this.birthdate = birthdate;
     this.status = status;
     this.pixScore = pixScore;
+    this.certificationId = certificationId;
+    this.certificationCodeVerification = certificationCodeVerification;
     this.certificationDate = certificationDate;
+    this.certificationIssuedAt = certificationIssuedAt;
+    this.maxReachableLevel = maxReachableLevel; //todo  translate me into maxgloballevel
+    this.maxReachablePixScore = maxReachablePixScore;
     this.globalLevel = new ParcoursupCertificationLevel({ score: pixScore, maxReachableLevel });
     this.competences = competences;
   }
