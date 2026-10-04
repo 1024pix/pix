@@ -9,6 +9,7 @@ import {
   STANDARD_PIX_PLUS_LEVELS,
 } from '../../../../shared/domain/constants/mesh-configuration.js';
 import { Frameworks, hasCoreScope, isEduFramework } from '../../../../shared/domain/models/Frameworks.js';
+import { findMeshFromScore } from '../../../../shared/domain/services/mesh-service.js';
 
 export const CERTIFICATE_LABEL_CONTEXTS = {
   USER: 'user',
@@ -31,6 +32,17 @@ export class CertificateMeshLevel {
     this.certificationFramework = certificationFramework;
     this.meshLevel = this.#getLevelKey({ reachedMeshIndex, certificationFramework, eduV3ExternalJuryResult });
     this.#validate();
+  }
+
+  /**
+   * @param {object} props
+   * @param {number} props.score
+   * @param {number} props.maxReachableLevel
+   * @param {string} props.certificationFramework
+   */
+  static buildFromScore({ score, maxReachableLevel, certificationFramework }) {
+    const reachedMeshIndex = findMeshFromScore({ score, maxReachableLevel }).meshIndex;
+    return new CertificateMeshLevel({ reachedMeshIndex, certificationFramework });
   }
 
   getLevelLabel(translate) {
