@@ -4,36 +4,34 @@ import { CORE_MESH_CONFIGURATION } from '../constants/mesh-configuration.js';
  * @returns {{key: string, value: Mesh}}
  */
 export function findMeshFromScore({ score, maxReachableLevel }) {
-  const configuration = CORE_MESH_CONFIGURATION.entries();
-  let currentMesh = configuration.next();
-  let cumulativeSumOfWeights = currentMesh.value[1].weight;
-  let currentScoringInterval = 0;
+  let cumulativeWeight = 0;
+  let currentLevel = 0;
 
-  while (hasNextScoringInterval(score, cumulativeSumOfWeights, currentScoringInterval, maxReachableLevel)) {
-    currentScoringInterval++;
-    currentMesh = configuration.next();
-    cumulativeSumOfWeights += currentMesh.value[1].weight;
+  for (const [key, mesh] of CORE_MESH_CONFIGURATION) {
+    cumulativeWeight += mesh.weight;
+
+    if (score < cumulativeWeight || currentLevel === maxReachableLevel) {
+      return { key, value: mesh };
+    }
+
+    currentLevel++;
   }
 
-  return { key: currentMesh.value[0], value: currentMesh.value[1] };
+  throw new Error(`Cannot compute mesh for score ${score} and maxReachableLevel ${maxReachableLevel}`);
 }
 
 /**
  * @deprecated please use {@link MeshConfiguration#findMeshFromScore}
  */
 export function findIntervalIndexFromScore({ score, maxReachableLevel }) {
-  const configuration = CORE_MESH_CONFIGURATION.values();
-  let cumulativeSumOfWeights = configuration.next().value.weight;
-  let currentScoringInterval = 0;
-
-  while (hasNextScoringInterval(score, cumulativeSumOfWeights, currentScoringInterval, maxReachableLevel)) {
-    currentScoringInterval++;
-    cumulativeSumOfWeights += configuration.next().value.weight;
+  let cumulativeWeight = 0;
+  let currentLevel = 0;
+  for (const mesh of CORE_MESH_CONFIGURATION.values()) {
+    cumulativeWeight += mesh.weight;
+    if (score < cumulativeWeight || currentLevel === maxReachableLevel) {
+      return currentLevel;
+    }
+    currentLevel++;
   }
-
-  return currentScoringInterval;
-}
-
-function hasNextScoringInterval(score, nextIntervalMinimumScore, currentInterval, maxReachableLevel) {
-  return score >= nextIntervalMinimumScore && currentInterval < maxReachableLevel;
+  throw new Error(`Cannot compute interval for score ${score} and maxReachableLevel ${maxReachableLevel}`);
 }
