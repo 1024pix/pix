@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
-import * as certificationRepository from '../../../../../../src/certification/results/infrastructure/repositories/certification-parcoursup-repository.js';
+import * as parcoursupCertificationResultRepository from '../../../../../../src/certification/results/infrastructure/repositories/parcoursup-certification-result-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { datamartBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Certification | Results | Infrastructure | Integration | Repositories | certification-parcoursup', function () {
+describe('Certification | Results | Integration | Infrastructure | Repositories | parcoursup-certification-result-repository', function () {
   describe('#getByINE', function () {
     context('when a certification is found', function () {
       it('should return the certification', async function () {
@@ -27,14 +27,14 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
           maxReachableLevel: 7,
           maxReachablePixScore: 9000,
         };
-        datamartBuilder.factory.buildCertificationResult({
+        datamartBuilder.factory.buildScoCertificationResult({
           ...certificationResultData,
           competenceCode: '1.1',
           competenceName: "Mener une recherche et une veille d'information",
           areaName: 'Informations et données',
           competenceLevel: 3,
         });
-        datamartBuilder.factory.buildCertificationResult({
+        datamartBuilder.factory.buildScoCertificationResult({
           ...certificationResultData,
           competenceCode: '1.2',
           competenceName: 'Gérer des données',
@@ -44,7 +44,7 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
         await datamartBuilder.commit();
 
         // when
-        const results = await certificationRepository.getByINE({ ine });
+        const results = await parcoursupCertificationResultRepository.getByINE({ ine });
 
         // then
         const expectedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({
@@ -86,7 +86,7 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
         const ine = '1234';
 
         // when
-        const err = await catchErr(certificationRepository.getByINE)({ ine });
+        const err = await catchErr(parcoursupCertificationResultRepository.getByINE)({ ine });
 
         // then
         expect(err).to.be.instanceOf(NotFoundError);
@@ -118,14 +118,14 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
           maxReachableLevel: 7,
           maxReachablePixScore: 9000,
         };
-        datamartBuilder.factory.buildCertificationResult({
+        datamartBuilder.factory.buildScoCertificationResult({
           ...certificationResultData,
           competenceCode: '1.2',
           competenceName: 'Gérer des données',
           areaName: 'Informations et données',
           competenceLevel: 5,
         });
-        datamartBuilder.factory.buildCertificationResult({
+        datamartBuilder.factory.buildScoCertificationResult({
           ...certificationResultData,
           competenceCode: '1.1',
           competenceName: "Mener une recherche et une veille d'information",
@@ -135,7 +135,7 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
         await datamartBuilder.commit();
 
         // when
-        const results = await certificationRepository.getByOrganizationUAI({
+        const results = await parcoursupCertificationResultRepository.getByOrganizationUAI({
           organizationUai,
           lastName,
           firstName,
@@ -185,7 +185,7 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
         const birthdate = '2000-01-01';
 
         // when
-        const err = await catchErr(certificationRepository.getByOrganizationUAI)({
+        const err = await catchErr(parcoursupCertificationResultRepository.getByOrganizationUAI)({
           organizationUai,
           lastName,
           firstName,
@@ -220,14 +220,14 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
           maxReachableLevel: 7,
           maxReachablePixScore: 9000,
         };
-        datamartBuilder.factory.buildCertificationResultCodeValidation({
+        datamartBuilder.factory.buildCertificationResult({
           ...certificationResultData,
           competenceCode: '1.1',
           competenceName: "Mener une recherche et une veille d'information",
           areaName: 'Informations et données',
           competenceLevel: 3,
         });
-        datamartBuilder.factory.buildCertificationResultCodeValidation({
+        datamartBuilder.factory.buildCertificationResult({
           ...certificationResultData,
           competenceCode: '1.2',
           competenceName: 'Gérer des données',
@@ -237,7 +237,7 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
         await datamartBuilder.commit();
 
         // when
-        const results = await certificationRepository.getByVerificationCode({
+        const results = await parcoursupCertificationResultRepository.getByVerificationCode({
           verificationCode: certificationCodeVerification,
         });
 
@@ -279,7 +279,7 @@ describe('Certification | Results | Infrastructure | Integration | Repositories 
         const verificationCode = 'P-1234567B';
 
         // when
-        const err = await catchErr(certificationRepository.getByVerificationCode)({
+        const err = await catchErr(parcoursupCertificationResultRepository.getByVerificationCode)({
           verificationCode,
         });
 
