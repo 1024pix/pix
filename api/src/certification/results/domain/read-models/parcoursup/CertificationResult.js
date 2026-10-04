@@ -1,4 +1,5 @@
-import { ParcoursupCertificationLevel } from './ParcoursupCertificationLevel.js';
+import { Frameworks } from '../../../../shared/domain/models/Frameworks.js';
+import { CertificateMeshLevel } from '../../models/v3/CertificateMeshLevel.js';
 
 export class CertificationResult {
   /**
@@ -47,7 +48,11 @@ export class CertificationResult {
     this.certificationIssuedAt = certificationIssuedAt;
     this.maxReachableLevel = maxReachableLevel; //todo  translate me into maxgloballevel
     this.maxReachablePixScore = maxReachablePixScore;
-    this.globalLevel = new ParcoursupCertificationLevel({ score: pixScore, maxReachableLevel });
+    this.globalLevel = CertificateMeshLevel.buildFromScore({
+      score: pixScore,
+      maxReachableLevel,
+      certificationFramework: Frameworks.CORE,
+    });
     this.competences = competences;
   }
 }

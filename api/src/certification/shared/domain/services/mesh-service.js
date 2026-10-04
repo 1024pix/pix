@@ -1,20 +1,20 @@
 import { CORE_MESH_CONFIGURATION } from '../constants/mesh-configuration.js';
 
 /**
- * @returns {{key: string, value: Mesh}}
+ * @returns {{key: string, mesh: Mesh, meshIndex: number}}
  */
 export function findMeshFromScore({ score, maxReachableLevel }) {
   let cumulativeWeight = 0;
-  let currentLevel = 0;
+  let currentMeshIndex = 0;
 
   for (const [key, mesh] of CORE_MESH_CONFIGURATION) {
     cumulativeWeight += mesh.weight;
 
-    if (score < cumulativeWeight || currentLevel === maxReachableLevel) {
-      return { key, value: mesh };
+    if (score < cumulativeWeight || currentMeshIndex === maxReachableLevel) {
+      return { key, mesh, meshIndex: currentMeshIndex };
     }
 
-    currentLevel++;
+    currentMeshIndex++;
   }
 
   throw new Error(`Cannot compute mesh for score ${score} and maxReachableLevel ${maxReachableLevel}`);

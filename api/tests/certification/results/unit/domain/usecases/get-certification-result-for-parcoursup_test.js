@@ -15,8 +15,16 @@ describe('Certification | Results | Unit | Domain | UseCase | getCertificationRe
         getByINE: sinon.stub(),
       };
 
-      const oneCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({ ine });
-      const duplicatedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({ ine });
+      const oneCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({
+        ine,
+        score: 112,
+        maxReachableLevel: 7,
+      });
+      const duplicatedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({
+        ine,
+        score: 323,
+        maxReachableLevel: 7,
+      });
       parcoursupCertificationResultRepository.getByINE
         .withArgs({ ine })
         .resolves([oneCertification, duplicatedCertification]);
@@ -40,7 +48,11 @@ describe('Certification | Results | Unit | Domain | UseCase | getCertificationRe
           getByINE: sinon.stub(),
         };
 
-        const expectedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({ ine });
+        const expectedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({
+          ine,
+          score: 323,
+          maxReachableLevel: 7,
+        });
         parcoursupCertificationResultRepository.getByINE.withArgs({ ine }).resolves([expectedCertification]);
 
         // when
@@ -70,6 +82,8 @@ describe('Certification | Results | Unit | Domain | UseCase | getCertificationRe
           lastName,
           firstName,
           birthdate,
+          score: 323,
+          maxReachableLevel: 7,
         });
         parcoursupCertificationResultRepository.getByOrganizationUAI
           .withArgs({
@@ -105,6 +119,8 @@ describe('Certification | Results | Unit | Domain | UseCase | getCertificationRe
 
         const expectedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({
           verificationCode: upperCasedVerificationCode,
+          score: 323,
+          maxReachableLevel: 7,
         });
         parcoursupCertificationResultRepository.getByVerificationCode
           .withArgs({

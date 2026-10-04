@@ -33,6 +33,18 @@ describe('Unit | Domain | Models | CertificateMeshLevel', function () {
       // then
       expect(globalCertificationLevel.meshLevel).to.equal(CORE_LEVELS['2']);
     });
+
+    it('should return the corresponding mesh level from score', async function () {
+      // when
+      const globalCertificationLevel = CertificateMeshLevel.buildFromScore({
+        score: 78,
+        maxReachableLevel: 7,
+        certificationFramework: Frameworks.CORE,
+      });
+
+      // then
+      expect(globalCertificationLevel.meshLevel).to.equal(CORE_LEVELS['1']);
+    });
   });
 
   describe('when the scope is EDU', function () {
