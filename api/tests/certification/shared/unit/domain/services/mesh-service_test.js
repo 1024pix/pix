@@ -6,8 +6,6 @@ import {
   findMeshFromScore,
 } from '../../../../../../src/certification/shared/domain/services/mesh-service.js';
 
-const MAX_REACHABLE_LEVEL = 8;
-
 describe('Unit | Shared | Domain | Services | Mesh Service', function () {
   describe('#findMeshFromScore', function () {
     [
@@ -46,7 +44,52 @@ describe('Unit | Shared | Domain | Services | Mesh Service', function () {
         // when
         const result = findMeshFromScore({
           score,
-          maxReachableLevel: MAX_REACHABLE_LEVEL,
+          maxReachableLevel: 8,
+        });
+
+        // then
+        expect(result.key).to.equal(meshKey);
+        expect(result.value).to.equal(expectedInterval);
+      });
+    });
+
+    [
+      {
+        score: 0,
+        meshKey: 'LEVEL_PRE_BEGINNER',
+
+        expectedInterval: CORE_MESH_CONFIGURATION.get('LEVEL_PRE_BEGINNER'),
+      },
+      {
+        score: 64,
+        meshKey: 'LEVEL_BEGINNER_1',
+
+        expectedInterval: CORE_MESH_CONFIGURATION.get('LEVEL_BEGINNER_1'),
+      },
+      {
+        score: 200,
+        meshKey: 'LEVEL_BEGINNER_2',
+
+        expectedInterval: CORE_MESH_CONFIGURATION.get('LEVEL_BEGINNER_2'),
+      },
+      {
+        score: 895,
+        meshKey: 'LEVEL_EXPERT_7',
+
+        expectedInterval: CORE_MESH_CONFIGURATION.get('LEVEL_EXPERT_7'),
+      },
+      {
+        score: 1024,
+        meshKey: 'LEVEL_EXPERT_7',
+
+        expectedInterval: CORE_MESH_CONFIGURATION.get('LEVEL_EXPERT_7'),
+      },
+    ].forEach(({ score, meshKey, expectedInterval }) => {
+      it(`returns the interval ${JSON.stringify(expectedInterval)} of key ${meshKey} when score is ${score} and max level is ceiled`, function () {
+        // when
+        const result = findMeshFromScore({
+          score,
+          maxReachableLevel: 7,
         });
 
         // then
@@ -83,7 +126,7 @@ describe('Unit | Shared | Domain | Services | Mesh Service', function () {
         // when
         const result = findIntervalIndexFromScore({
           score,
-          maxReachableLevel: MAX_REACHABLE_LEVEL,
+          maxReachableLevel: 8,
         });
 
         // then
