@@ -1,8 +1,6 @@
 import { datamartBuffer } from '../datamart-buffer.js';
-// TODO rename me buildScoCertificationResult or buildParcourSupScoCertificationResult (renaming the tables in maddo would be amazing as well)
-const buildCertificationResult = function ({
-  nationalStudentId,
-  organizationUai,
+
+export function buildCertificationResult({
   lastName,
   firstName,
   birthdate,
@@ -18,19 +16,17 @@ const buildCertificationResult = function ({
   competenceName,
   competenceLevel,
   areaName,
-} = {}) {
+}) {
   const values = {
-    national_student_id: nationalStudentId,
-    organization_uai: organizationUai,
+    certification_code_verification: certificationCodeVerification,
     last_name: lastName,
     first_name: firstName,
     birthdate,
     status,
     pix_score: pixScore,
     certification_courses_id: certificationId,
-    certification_code_verification: certificationCodeVerification,
-    certification_issued_at: certificationIssuedAt,
     certification_date: certificationDate,
+    certification_issued_at: certificationIssuedAt,
     max_reachable_level: maxReachableLevel,
     max_reachable_pix_score: maxReachablePixScore,
     competence_code: competenceCode,
@@ -40,13 +36,7 @@ const buildCertificationResult = function ({
   };
 
   datamartBuffer.pushInsertable({
-    tableName: 'sco_certification_results',
+    tableName: 'certification_results',
     values,
   });
-
-  return {
-    nationalStudentId,
-  };
-};
-
-export { buildCertificationResult };
+}

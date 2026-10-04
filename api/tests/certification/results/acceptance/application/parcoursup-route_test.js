@@ -76,14 +76,14 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
       ],
     };
 
-    datamartBuilder.factory.buildCertificationResult({
+    datamartBuilder.factory.buildScoCertificationResult({
       ...certificationResultData,
       competenceCode: '1.1',
       competenceName: 'Mener une recherche et une veille d’information',
       areaName: 'Informations et données',
       competenceLevel: 3,
     });
-    datamartBuilder.factory.buildCertificationResult({
+    datamartBuilder.factory.buildScoCertificationResult({
       ...certificationResultData,
       competenceCode: '1.2',
       competenceName: 'Gérer des données',
@@ -167,14 +167,14 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
         maxReachableLevel: 7,
         maxReachablePixScore: 895,
       };
-      datamartBuilder.factory.buildCertificationResultCodeValidation({
+      datamartBuilder.factory.buildCertificationResult({
         ...certificationResultData,
         competenceCode: '1.1',
         competenceName: 'Mener une recherche et une veille d’information',
         areaName: 'Informations et données',
         competenceLevel: 3,
       });
-      datamartBuilder.factory.buildCertificationResultCodeValidation({
+      datamartBuilder.factory.buildCertificationResult({
         ...certificationResultData,
         competenceCode: '1.2',
         competenceName: 'Gérer des données',
