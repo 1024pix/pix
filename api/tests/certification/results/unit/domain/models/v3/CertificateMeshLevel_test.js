@@ -5,10 +5,12 @@ import { config } from '../../../../../../../config/config.js';
 import {
   CERTIFICATE_LABEL_CONTEXTS,
   CertificateMeshLevel,
+} from '../../../../../../../src/certification/results/domain/models/v3/CertificateMeshLevel.js';
+import {
   CORE_LEVELS,
   EDU_LEVELS,
-} from '../../../../../../../src/certification/results/domain/models/v3/CertificateMeshLevel.js';
-import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../../../../src/certification/shared/domain/constants/mesh-configuration.js';
+  PIX_PLUS_EDU_EXTERNAL_LEVELS,
+} from '../../../../../../../src/certification/shared/domain/constants/mesh-configuration.js';
 import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';

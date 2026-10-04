@@ -1,35 +1,14 @@
-/**
- * @typedef {import ('./MeshConfiguration.js').MeshConfiguration} MeshConfiguration
- */
 import Joi from 'joi';
 
 import { config } from '../../../../../../config/config.js';
 import { EntityValidationError } from '../../../../../shared/domain/errors.js';
-import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../shared/domain/constants/mesh-configuration.js';
+import {
+  CORE_LEVELS,
+  EDU_LEVELS,
+  PIX_PLUS_EDU_EXTERNAL_LEVELS,
+  STANDARD_PIX_PLUS_LEVELS,
+} from '../../../../shared/domain/constants/mesh-configuration.js';
 import { Frameworks, hasCoreScope, isEduFramework } from '../../../../shared/domain/models/Frameworks.js';
-
-export const CORE_LEVELS = {
-  0: 'LEVEL_PRE_BEGINNER',
-  1: 'LEVEL_BEGINNER_1',
-  2: 'LEVEL_BEGINNER_2',
-  3: 'LEVEL_INDEPENDENT_3',
-  4: 'LEVEL_INDEPENDENT_4',
-  5: 'LEVEL_ADVANCED_5',
-  6: 'LEVEL_ADVANCED_6',
-  7: 'LEVEL_EXPERT_7',
-  8: 'LEVEL_EXPERT_8',
-};
-
-export const EDU_LEVELS = {
-  0: 'LEVEL_ADMISSIBLE',
-};
-
-const STANDARD_PIX_PLUS_LEVELS = {
-  0: 'LEVEL_INDEPENDENT',
-  1: 'LEVEL_CONFIRMED',
-  2: 'LEVEL_ADVANCED',
-  3: 'LEVEL_EXPERT',
-};
 
 export const CERTIFICATE_LABEL_CONTEXTS = {
   USER: 'user',
