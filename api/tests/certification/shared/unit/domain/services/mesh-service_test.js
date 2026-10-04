@@ -97,6 +97,11 @@ describe('Unit | Shared | Domain | Services | Mesh Service', function () {
         expect(result.value).to.equal(expectedInterval);
       });
     });
+    it('throws when giving a score and maxReachableLevel out of range', function () {
+      expect(() => findMeshFromScore({ score: 9999, maxReachableLevel: 10 })).to.throw(
+        'Cannot compute mesh for score 9999 and maxReachableLevel 10',
+      );
+    });
   });
 
   describe('#findIntervalIndexFromScore', function () {
