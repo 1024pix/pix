@@ -74,6 +74,7 @@ describe('Unit | Serializer | Json | parcoursup-certification-serializer', funct
           }),
         ],
         globalLevel: 'Indépendant 1',
+        maxGlobalLevel: 'Expert 1',
       });
     });
   });
