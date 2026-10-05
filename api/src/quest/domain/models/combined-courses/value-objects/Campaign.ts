@@ -76,9 +76,9 @@ export class Campaign {
       hasRecommendableModulesInTargetProfile = matchingRecommendableModules.length > 0;
     }
 
-    let combinedCourseUrl = '/parcours/' + combinedCourseCode;
-
-    if (hasRecommendableModulesInTargetProfile) combinedCourseUrl += '/chargement';
+    const combinedCourseUrl = hasRecommendableModulesInTargetProfile
+      ? '/parcours/' + combinedCourseCode + '/chargement'
+      : '/parcours/' + combinedCourseCode + '/checkpoint';
 
     return new Campaign({
       organizationId: organizationId,
