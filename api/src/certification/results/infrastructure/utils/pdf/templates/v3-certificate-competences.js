@@ -34,8 +34,8 @@ export default function generateV3CompetencesTemplate({ pdf, data, translate }) 
 
   const columnWidth = (pdf.page.contentWidth - MARGIN - MARGIN - (NB_COLUMNS - 1) * COLUMN_GAP) / NB_COLUMNS;
   const initY = pdf.y;
-
-  for (const area of data.resultCompetenceTree.areas) {
+  const sortedAreas = data.resultCompetenceTree.areas.toSorted((a, b) => Number(a.code) - Number(b.code));
+  for (const area of sortedAreas) {
     const sortedCompetences = area.resultCompetences.toSorted((a, b) =>
       a.index.localeCompare(b.index, undefined, { numeric: true }),
     );
