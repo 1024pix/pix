@@ -64,7 +64,7 @@ export default class InfoBar extends Component {
           {{#if this.isCertification}}
             <dt class="info-bar__label">{{t "components.info-bar.certification-number"}}
             </dt>
-            <dd class="info-bar__value">{{this.certificationNumber}}</dd>
+            <dd data-testid="pw-certification-number" class="info-bar__value">{{this.certificationNumber}}</dd>
           {{/if}}
         </div>
 
@@ -72,6 +72,7 @@ export default class InfoBar extends Component {
           <div>
             <dt class="info-bar__label">{{t "components.info-bar.progress.label"}}</dt>
             <dd
+              data-testid="pw-certification-progression"
               class="info-bar__value"
               aria-label={{t
                 "components.info-bar.progress.position"

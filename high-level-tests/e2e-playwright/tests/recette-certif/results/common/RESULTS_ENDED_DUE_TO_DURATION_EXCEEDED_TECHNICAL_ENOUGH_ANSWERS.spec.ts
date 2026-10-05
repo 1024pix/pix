@@ -46,7 +46,7 @@ test(
     await invigilatorOverviewPage.close();
 
     await test.step('user stops at 25th challenge', async () => {
-      await expect(pixAppCertifiablePage.getByLabel('Votre progression')).toContainText('25 / 32');
+      await expect(pixAppCertifiablePage.getByTestId('pw-certification-progression')).toContainText('25 / 32');
     });
 
     await test.step('Alter candidate start time to exceed duration on certification test', async () => {

@@ -45,10 +45,13 @@ test(
     await invigilatorOverviewPage.close();
 
     await test.step(`reaches end of certification test`, async () => {
-      await expect(pixAppCertifiablePage.locator('h1')).toContainText('Test terminé !');
-      await expect(pixAppCertifiablePage.locator('h2')).toContainText(
-        'Vos résultats, en attente de validation par les équipes Pix, seront bientôt disponibles sur votre compte Pix',
-      );
+      await expect(pixAppCertifiablePage.getByRole('heading', { name: 'Test terminé !', level: 2 })).toBeVisible();
+      await expect(
+        pixAppCertifiablePage.getByRole('heading', {
+          name: 'Vos résultats, en attente de validation par les équipes Pix, seront bientôt disponibles sur votre compte Pix',
+          level: 2,
+        }),
+      ).toBeVisible();
       await waitForScoringJobToBeCompleted(certificationNumber);
     });
 
