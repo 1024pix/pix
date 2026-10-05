@@ -124,7 +124,7 @@ const _updateStateById = async function ({ id, state }) {
   const knexConn = DomainTransaction.getConnection();
   const [assessment] = await knexConn('assessments')
     .where({ id })
-    .update({ state, updatedAt: new Date() })
+    .update({ state, updatedAt: knexConn.fn.now() })
     .returning('*');
   return new Assessment({
     ...assessment,
@@ -132,42 +132,33 @@ const _updateStateById = async function ({ id, state }) {
   });
 };
 
-const updateLastQuestionDate = async function ({ id, lastQuestionDate }) {
+const updateLastQuestionDate = async function ({ id }) {
   const knexConn = DomainTransaction.getConnection();
-  const [assessmentUpdated] = await knexConn('assessments')
+  await knexConn('assessments')
     .where({ id })
-    .update({ lastQuestionDate, updatedAt: knexConn.fn.now() })
-    .returning('*');
-  if (!assessmentUpdated) return null;
+    .update({ lastQuestionDate: knexConn.fn.now(), updatedAt: knexConn.fn.now() });
 };
 
 const updateWhenNewChallengeIsAsked = async function ({ id, lastChallengeId }) {
   const knexConn = DomainTransaction.getConnection();
-  const [assessmentUpdated] = await knexConn('assessments')
-    .where({ id })
-    .update({ lastChallengeId, lastQuestionState: Assessment.statesOfLastQuestion.ASKED, updatedAt: new Date() })
-    .returning('*');
-  if (!assessmentUpdated) return null;
-  return new Assessment({
-    ...assessmentUpdated,
-    campaign: await _getAssociatedCampaign(assessmentUpdated.campaignParticipationId),
+  await knexConn('assessments').where({ id }).update({
+    lastChallengeId,
+    lastQuestionDate: knexConn.fn.now(),
+    lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
+    updatedAt: knexConn.fn.now(),
   });
 };
 
 const updateLastQuestionState = async function ({ id, lastQuestionState }) {
   const knexConn = DomainTransaction.getConnection();
-  const [assessmentUpdated] = await knexConn('assessments')
-    .where({ id })
-    .update({ lastQuestionState, updatedAt: new Date() })
-    .returning('*');
-  if (!assessmentUpdated) return null;
+  await knexConn('assessments').where({ id }).update({ lastQuestionState, updatedAt: knexConn.fn.now() });
 };
 
 const setAssessmentsAsStarted = async function ({ assessmentIds }) {
   const knexConn = DomainTransaction.getConnection();
   await knexConn('assessments')
     .whereIn('id', assessmentIds)
-    .update({ state: Assessment.states.STARTED, updatedAt: new Date() });
+    .update({ state: Assessment.states.STARTED, updatedAt: knexConn.fn.now() });
 };
 
 const getByCampaignParticipationIds = async function (campaignParticipationIds = []) {

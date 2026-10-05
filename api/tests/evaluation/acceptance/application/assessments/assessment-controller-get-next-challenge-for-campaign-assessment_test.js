@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -77,7 +76,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-campai
   });
 
   describe('GET /api/assessments/:assessment_id', function () {
-    const assessmentId = 1;
+    let assessment;
     const userId = 1234;
 
     context('When there still are challenges to answer', function () {
@@ -94,8 +93,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-campai
           skillId: skillWeb1Id,
         });
 
-        databaseBuilder.factory.buildAssessment({
-          id: assessmentId,
+        assessment = databaseBuilder.factory.buildAssessment({
           type: Assessment.types.CAMPAIGN,
           userId,
           campaignParticipationId: campaignParticipation.id,
@@ -103,30 +101,23 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-campai
           state: 'started',
         });
         await databaseBuilder.commit();
-
-        sinon.useFakeTimers({
-          now: Date.now(),
-          toFake: ['Date'],
-        });
       });
 
       it('should return an assessment', async function () {
         // given
         const options = {
           method: 'GET',
-          url: `/api/assessments/${assessmentId}`,
+          url: `/api/assessments/${assessment.id}`,
           headers: generateAuthenticatedUserRequestHeaders({ userId }),
         };
-
-        const lastQuestionDate = new Date();
 
         // when
         const response = await server.inject(options);
 
         // then
-        const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastQuestionDate');
-        expect(assessmentsInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
-        expect(response.result.data.id).to.equal(assessmentId.toString());
+        const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionDate');
+        expect(assessmentsInDb.lastQuestionDate).to.be.greaterThan(assessment.lastQuestionDate);
+        expect(response.result.data.id).to.equal(assessment.id.toString());
         expect(response.result.data.relationships['next-challenge'].data.id).to.be.oneOf([
           thirdChallengeId,
           otherChallengeId,
@@ -137,24 +128,21 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-campai
         it('should return german validated challenge', async function () {
           // given
           const options = generateInjectOptions({
-            url: `/api/assessments/${assessmentId}`,
+            url: `/api/assessments/${assessment.id}`,
             method: 'GET',
             locale: 'de-AT',
             audience: ' https://app.pix.org',
-            authorizationData: { userId: userId },
-            // headers: generateAuthenticatedUserRequestHeaders({ userId }),
+            authorizationData: { userId },
           });
-
-          const lastQuestionDate = new Date();
 
           // when
           const response = await server.inject(options);
 
           // then
 
-          const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastQuestionDate');
-          expect(assessmentsInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
-          expect(response.result.data.id).to.equal(assessmentId.toString());
+          const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionDate');
+          expect(assessmentsInDb.lastQuestionDate).to.be.greaterThan(assessment.lastQuestionDate);
+          expect(response.result.data.id).to.equal(assessment.id.toString());
           expect(response.result.data.relationships['next-challenge'].data.id).to.be.equal('germanChallengeId_web1');
         });
       });
