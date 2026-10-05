@@ -233,6 +233,21 @@ describe('Acceptance | Controller | Open Api', function () {
           expect(response.result.info.title).to.deep.equal('Pix Parcoursup Open Api');
           expect(response.result.servers[0].url).to.equal(config.apiManager.url);
         });
+
+        it('should expose the healthcheck route', async function () {
+          // given
+          const options = {
+            method: 'GET',
+            url: '/documentation/parcoursup/openapi.json',
+            headers: {},
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.result.paths).to.have.property('/api');
+        });
       });
 
       context('Documentation page', function () {
