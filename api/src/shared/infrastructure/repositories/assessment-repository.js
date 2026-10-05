@@ -55,6 +55,12 @@ const findLastCompletedAssessmentsForEachCompetenceByUser = async function (user
   );
 };
 
+const existsForUser = async function (assessmentId, userId) {
+  const knexConn = DomainTransaction.getConnection();
+  const assessment = await knexConn('assessments').select('id').where({ id: assessmentId, userId }).first();
+  return Boolean(assessment);
+};
+
 const getByAssessmentIdAndUserId = async function (assessmentId, userId) {
   const knexConn = DomainTransaction.getConnection();
   const assessment = await knexConn('assessments').where({ id: assessmentId, userId }).first();
@@ -185,6 +191,7 @@ export {
   abortByAssessmentId,
   batchRemoveParticipationId,
   completeByAssessmentId,
+  existsForUser,
   findLastCompletedAssessmentsForEachCompetenceByUser,
   findNotAbortedCampaignAssessmentsByUserId,
   get,
