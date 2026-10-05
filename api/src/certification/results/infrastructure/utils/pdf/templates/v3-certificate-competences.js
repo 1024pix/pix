@@ -45,7 +45,7 @@ export default function generateV3CompetencesTemplate({ pdf, data, translate }) 
     changeColumnIfNeeded(pdf, areaBlockHeight, columnWidth, COLUMN_GAP, initY);
 
     const areaColor = AREA_COLOR_HEX[area.color] ?? NOT_OBTAINED_COLOR;
-    const hasNoObtainedCompetence = sortedCompetences.every((competence) => competence.level < 0);
+    const hasNoObtainedCompetence = sortedCompetences.every((competence) => competence.level < 1);
     writeAreaTitle(pdf, areaTitle, areaColor, area.code, columnWidth, initY, hasNoObtainedCompetence);
 
     for (const competence of sortedCompetences) {
