@@ -18,7 +18,7 @@ const VALIDATION_ERRORS = {
   lastName: 'components.authentication.signup-form.fields.lastname.error',
   email: 'components.authentication.signup-form.fields.email.error',
   password: 'common.validation.password.error',
-  cgu: 'common.cgu.error',
+  cgu: 'common.legal-documents.error',
 };
 
 const EMAIL_API_ERRORS = {

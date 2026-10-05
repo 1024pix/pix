@@ -85,9 +85,9 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
             t('pages.oidc-signup-or-login.signup-form.last-name-label-and-value', { lastName: 'TITEGOUTTE' }),
           ),
         );
-        assert.ok(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
-        assert.ok(screen.getByRole('link', { name: t('common.cgu.cgu') }));
-        assert.ok(screen.getByRole('link', { name: t('common.cgu.data-protection-policy') }));
+        assert.ok(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
+        assert.ok(screen.getByRole('link', { name: t('common.legal-documents.terms-of-service') }));
+        assert.ok(screen.getByRole('link', { name: t('common.legal-documents.data-protection-policy') }));
       });
     });
 
@@ -120,9 +120,9 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
             t('pages.oidc-signup-or-login.signup-form.last-name-label-and-value', { lastName: 'TITEGOUTTE' }),
           ),
         );
-        assert.notOk(screen.queryByRole('checkbox', { name: t('common.cgu.label') }));
-        assert.notOk(screen.queryByRole('link', { name: t('common.cgu.cgu') }));
-        assert.notOk(screen.queryByRole('link', { name: t('common.cgu.data-protection-policy') }));
+        assert.notOk(screen.queryByRole('checkbox', { name: t('common.legal-documents.label') }));
+        assert.notOk(screen.queryByRole('link', { name: t('common.legal-documents.terms-of-service') }));
+        assert.notOk(screen.queryByRole('link', { name: t('common.legal-documents.data-protection-policy') }));
       });
     });
   });
@@ -165,7 +165,7 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
         );
 
         // when
-        await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+        await click(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
         await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.signup-form.button') }));
 
         // then
@@ -219,7 +219,7 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
         );
 
         // when
-        await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+        await click(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
         await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.signup-form.button') }));
 
         // then
@@ -246,7 +246,7 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
         );
 
         // when
-        await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+        await click(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
         await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.signup-form.button') }));
 
         // then
@@ -273,7 +273,7 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
         );
 
         // when
-        await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+        await click(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
         await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.signup-form.button') }));
 
         // then
@@ -298,7 +298,7 @@ module('Integration | Component | authentication | oidc-signup-or-login', functi
         );
 
         // when
-        await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+        await click(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
         await click(screen.getByRole('button', { name: t('pages.oidc-signup-or-login.signup-form.button') }));
 
         // then

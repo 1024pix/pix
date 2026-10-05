@@ -67,14 +67,6 @@
       "login-user-temporary-blocked-error": "Je hebt te veel inlogpogingen gedaan, je Pix-account is tijdelijk geblokkeerd voor {blockingDurationMinutes} minuten. Probeer het later nog eens of klik op '<'a href=\"{url}\"'>'wachtwoord vergeten'</a>' om het opnieuw in te stellen.",
       "login-user-temporary-blocked-with-username-error": "Je hebt te veel inlogpogingen gedaan, je Pix-account is tijdelijk geblokkeerd voor {blockingDurationMinutes} minuten.'<br>'Als je je wachtwoord bent vergeten, '<strong>'neem contact op met je docent'</strong>' om je wachtwoord opnieuw in te stellen en/of je aanmelding te herstellen."
     },
-    "cgu": {
-      "cgu": "gebruiksvoorwaarden",
-      "data-protection-policy": "privacybeleid",
-      "error": "Je moet de gebruiksvoorwaarden en het privacybeleid van Pix accepteren om een account aan te maken.",
-      "label": "Ik accepteer de gebruiksvoorwaarden en het privacybeleid van Pix",
-      "message": "Ik accepteer de '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'gebruiksvoorwaarden'</a>' en de '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'privacybeleid'</a>' van Pix.",
-      "read-message": "Lees de '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'gebruiksvoorwaarden'</a>' en de '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'privacybeleid'</a>'."
-    },
     "companion": {
       "check": {
         "detected": {
@@ -116,6 +108,14 @@
       "en": "Engels",
       "fr": "Frans",
       "nl": "Nederlands"
+    },
+    "legal-documents": {
+      "data-protection-policy": "privacybeleid",
+      "error": "Je moet de gebruiksvoorwaarden en het privacybeleid van Pix accepteren om een account aan te maken.",
+      "label": "Ik accepteer de gebruiksvoorwaarden en het privacybeleid van Pix",
+      "message": "Ik accepteer de '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'gebruiksvoorwaarden'</a>' en de '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'privacybeleid'</a>' van Pix.",
+      "read-message": "Lees de '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'gebruiksvoorwaarden'</a>' en de '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'privacybeleid'</a>'.",
+      "terms-of-service": "gebruiksvoorwaarden"
     },
     "level": "niveau",
     "loading": {
@@ -321,7 +321,10 @@
         "caption": "vooruitgang",
         "label": "Je hebt {completion, number, ::percent} van je test voltooid."
       },
-      "progress": {"label": "Vraag", "position": "{current} sur {total}" }
+      "progress": {
+        "label": "Vraag",
+        "position": "{current} sur {total}"
+      }
     },
     "invited": {
       "reconciliation": {

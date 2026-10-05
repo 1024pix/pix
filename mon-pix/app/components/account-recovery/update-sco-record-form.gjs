@@ -71,7 +71,7 @@ export default class UpdateScoRecordFormComponent extends Component {
           <PixCheckbox {{on "change" this.onChange}}>
             <:label>
               {{t
-                "common.cgu.message"
+                "common.legal-documents.message"
                 cguUrl=this.cguUrl
                 dataProtectionPolicyUrl=this.dataProtectionPolicyUrl
                 htmlSafe=true

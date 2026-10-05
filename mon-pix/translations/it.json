@@ -67,14 +67,6 @@
       "login-user-temporary-blocked-error": "Hai effettuato troppi tentativi di accesso, il tuo account Pix è temporaneamente bloccato per {blockingDurationMinutes} minuti. Riprova più tardi o clicca su '<'a href=\"{url}\"'>'password dimenticata'</a>' per resettarla.",
       "login-user-temporary-blocked-with-username-error": "Hai effettuato troppi tentativi di accesso, il tuo account Pix è temporaneamente bloccato per {blockingDurationMinutes} minuti.'<br>'In caso di dimenticanza, '<strong>'contatta il tuo insegnante'</strong>' per reimpostare la password e/o recuperare l'accesso."
     },
-    "cgu": {
-      "cgu": "condizioni di utilizzo",
-      "data-protection-policy": "Informativa sulla privacy",
-      "error": "Per creare un account è necessario accettare le condizioni d'uso e l'informativa sulla privacy di Pix.",
-      "label": "Accetto le condizioni d'uso e l'informativa sulla privacy di Pix",
-      "message": "Accetto le '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'condizioni di utilizzo'</a>' e le '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'norme sulla privacy'</a>' di Pix",
-      "read-message": "Leggere le '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'condizioni d'uso'</a>' e le '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'norme sulla privacy'</a>'."
-    },
     "companion": {
       "check": {
         "detected": {
@@ -116,6 +108,14 @@
       "en": "Inglese",
       "fr": "Francese",
       "nl": "Olandese"
+    },
+    "legal-documents": {
+      "data-protection-policy": "Informativa sulla privacy",
+      "error": "Per creare un account è necessario accettare le condizioni d'uso e l'informativa sulla privacy di Pix.",
+      "label": "Accetto le condizioni d'uso e l'informativa sulla privacy di Pix",
+      "message": "Accetto le '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'condizioni di utilizzo'</a>' e le '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'norme sulla privacy'</a>' di Pix",
+      "read-message": "Leggere le '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'condizioni d'uso'</a>' e le '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'norme sulla privacy'</a>'.",
+      "terms-of-service": "condizioni di utilizzo"
     },
     "level": "livello",
     "loading": {
@@ -321,7 +321,10 @@
         "caption": "progressi lungo il percorso",
         "label": "Hai completato {completion, number, ::percent} del tuo percorso."
       },
-      "progress": {"label": "Domanda", "position": "{current} sur {total}" }
+      "progress": {
+        "label": "Domanda",
+        "position": "{current} sur {total}"
+      }
     },
     "invited": {
       "reconciliation": {
