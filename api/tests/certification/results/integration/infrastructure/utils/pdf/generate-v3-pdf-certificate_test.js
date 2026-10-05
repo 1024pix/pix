@@ -181,16 +181,15 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
     });
 
     it('should generate a second page with competences results', async function () {
-      // given
       const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
         competenceTree: domainBuilder.buildCompetenceTree({
           areas: [
             domainBuilder.buildArea({
               code: '1',
-              color: '#1B4F9C',
+              color: 'jaffa',
               competences: [
-                domainBuilder.buildCompetence({ id: 'comp1', index: '1.1' }),
                 domainBuilder.buildCompetence({ id: 'comp2', index: '1.2' }),
+                domainBuilder.buildCompetence({ id: 'comp1', index: '1.1' }),
               ],
             }),
           ],
@@ -234,6 +233,14 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
       expect(content).to.not.include(
         translate('certification.certificate.v3.competence-results.areas.1.competences.2.levels.3'),
       );
+
+      const positionComp1 = content.indexOf(
+        translate('certification.certificate.v3.competence-results.areas.1.competences.1.levels.3'),
+      );
+      const positionComp2 = content.indexOf(
+        translate('certification.certificate.v3.competence-results.level-not-obtained'),
+      );
+      expect(positionComp1).to.be.lessThan(positionComp2);
     });
 
     it('should not generate the competences page for a non-french locale', async function () {
