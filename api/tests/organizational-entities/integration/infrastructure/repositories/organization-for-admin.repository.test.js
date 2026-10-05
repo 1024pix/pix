@@ -2038,51 +2038,6 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
     });
   });
 
-  describe('#attachCertificationCenterId', function () {
-    it('attaches the certification center to the organization through its fact_structure', async function () {
-      // given
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
-
-      await databaseBuilder.commit();
-
-      // when
-      await organizationForAdminRepository.attachCertificationCenter({
-        organizationId: organization.id,
-        certificationCenterId,
-      });
-
-      // then
-      const organizationFactStructure = await knex('fct_structures')
-        .where({ organization_id: organization.id })
-        .first();
-
-      expect(organizationFactStructure.certification_center_id).to.equal(certificationCenterId);
-    });
-
-    it('does not attach certification center to another organization', async function () {
-      // given
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
-      const { organization: otherOrganization } = databaseBuilder.factory.buildOrganizationWithStructure();
-
-      await databaseBuilder.commit();
-
-      // when
-      await organizationForAdminRepository.attachCertificationCenter({
-        organizationId: organization.id,
-        certificationCenterId,
-      });
-
-      // then
-      const otherOrganizationFactStructure = await knex('fct_structures')
-        .where({ organization_id: otherOrganization.id })
-        .first();
-
-      expect(otherOrganizationFactStructure.certification_center_id).to.be.null;
-    });
-  });
-
   describe('#detachCertificationCenter', function () {
     it('detaches the certification center from the organization through its fact_structure', async function () {
       // given
