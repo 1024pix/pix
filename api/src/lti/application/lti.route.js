@@ -52,11 +52,26 @@ async function register(server, options, dependencies = { featureToggles }) {
     },
     {
       method: 'POST',
-      path: '/api/lti/launch',
+      path: '/api/lti/deep-linking',
       options: {
         auth: false,
         cache: false,
-        handler: (request, h) => ltiController.launch(request, h),
+        handler: (request, h) => ltiController.deepLink(request, h),
+        notes: [
+          "Cette route reçoit une deep-linking request et renvoie une deep-linking response. On renvoie l'utilisateur vers moodle avec la deep-linking response" +
+            'via un formulaire auto-submit',
+        ],
+        tags: ['api', 'lti'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/lti/resource-link',
+      options: {
+        auth: false,
+        cache: false,
+        handler: (request, h) => ltiController.resourceLink(request, h),
+        notes: [`Cette route reçoit une resource link request et redirige l'utilisateur vers la ressource demandée`],
         tags: ['api', 'lti'],
       },
     },

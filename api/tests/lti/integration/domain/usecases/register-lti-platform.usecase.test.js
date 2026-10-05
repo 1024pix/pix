@@ -18,7 +18,7 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
       jwks_uri: 'https://api.test.pix.fr/api/lti/keys',
       initiate_login_uri: 'https://api.test.pix.fr/api/lti/init',
       grant_types: ['client_credentials', 'implicit'],
-      redirect_uris: ['https://api.test.pix.fr/api/lti/launch'],
+      redirect_uris: ['https://api.test.pix.fr/api/lti/deep-linking', 'https://api.test.pix.fr/api/lti/resource-link'],
       application_type: 'web',
       token_endpoint_auth_method: 'private_key_jwt',
       client_name: 'Pix',
@@ -30,13 +30,13 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
         'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly',
       ].join(' '),
       'https://purl.imsglobal.org/spec/lti-tool-configuration': {
-        target_link_uri: 'https://api.test.pix.fr/api/lti',
+        target_link_uri: 'https://api.test.pix.fr/api/lti/resource-link',
         domain: 'api.test.pix.fr',
         description: 'Intégration avec la plateforme Pix',
         messages: [
           {
             type: 'LtiDeepLinkingRequest',
-            target_link_uri: 'https://api.test.pix.fr/api/lti/content-selection',
+            target_link_uri: 'https://api.test.pix.fr/api/lti/deep-linking',
           },
         ],
         claims: ['sub', 'iss', 'name', 'family_name', 'given_name', 'email'],
@@ -208,7 +208,10 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
         jwks_uri: 'https://api.test.pix.fr/api/lti/keys',
         initiate_login_uri: 'https://api.test.pix.fr/api/lti/init',
         grant_types: ['client_credentials', 'implicit'],
-        redirect_uris: ['https://api.test.pix.fr/api/lti/launch'],
+        redirect_uris: [
+          'https://api.test.pix.fr/api/lti/deep-linking',
+          'https://api.test.pix.fr/api/lti/resource-link',
+        ],
         application_type: 'web',
         token_endpoint_auth_method: 'private_key_jwt',
         client_name: 'Pix',
@@ -220,13 +223,13 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
           'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly',
         ].join(' '),
         'https://purl.imsglobal.org/spec/lti-tool-configuration': {
-          target_link_uri: 'https://api.test.pix.fr/api/lti',
+          target_link_uri: 'https://api.test.pix.fr/api/lti/resource-link',
           domain: 'api.test.pix.fr',
           description: 'Intégration avec la plateforme Pix',
           messages: [
             {
               type: 'LtiDeepLinkingRequest',
-              target_link_uri: 'https://api.test.pix.fr/api/lti/content-selection',
+              target_link_uri: 'https://api.test.pix.fr/api/lti/deep-linking',
             },
           ],
           claims: ['sub', 'iss', 'name', 'family_name', 'given_name', 'email'],
