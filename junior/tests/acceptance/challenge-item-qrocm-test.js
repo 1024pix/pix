@@ -18,8 +18,10 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
     // when
     const screen = await visit(`/assessments/${assessment.id}/challenges`);
     // then
-    assert.dom('.challenge-content-proposals__response').exists({ count: 2 });
     assert.dom(screen.getByText('Trouve les bonnes réponses.')).exists();
+    assert.dom(screen.getByText('Le prénom est :')).exists();
+    assert.dom(screen.getByLabelText('livre')).exists();
+    assert.dom(screen.getByText('- Sélectionne -')).exists();
   });
 
   test('should display answer feedback bubble if user validates after writing the right answer in input and selecting the correct option', async function (assert) {

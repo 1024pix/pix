@@ -91,7 +91,7 @@ export default class Qrocm extends Component {
             class="challenge-content-proposals__response"
             @value={{get this.answerValues block.input}}
             @screenReaderOnly={{true}}
-            @text={{hash placeholder=block.placeholder}}
+            @texts={{hash placeholder=block.placeholder}}
             @hideDefaultOption={{true}}
             @options={{block.options}}
             @onChange={{fn this.onSelectChange block.input}}
