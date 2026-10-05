@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import get from 'lodash/get';
 
 export default class AuthenticatedRoute extends Route {
   @service currentUser;
@@ -18,11 +17,8 @@ export default class AuthenticatedRoute extends Route {
       this.router.replaceWith('login-session-invigilator');
     }
 
-    const pixCertifTermsOfServiceAccepted = get(
-      this.currentUser,
-      'certificationPointOfContact.pixCertifTermsOfServiceAccepted',
-    );
-    if (!pixCertifTermsOfServiceAccepted) {
+    const pixCertifTermsOfServiceStatus = this.currentUser.certificationPointOfContact?.pixCertifTermsOfServiceStatus;
+    if (pixCertifTermsOfServiceStatus !== 'accepted') {
       this.router.replaceWith('terms-of-service');
     }
   }

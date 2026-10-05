@@ -23,7 +23,7 @@ module('Acceptance | Session Update', function (hooks) {
     certificationPointOfContact = server.create('certification-point-of-contact', {
       firstName: 'Buffy',
       lastName: 'Summers',
-      pixCertifTermsOfServiceAccepted: true,
+      pixCertifTermsOfServiceStatus: 'accepted',
       allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
     });
     await authenticateSession(certificationPointOfContact.id);

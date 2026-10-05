@@ -28,7 +28,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
         firstName: 'Buffy',
         lastName: 'Summers',
         allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
-        pixCertifTermsOfServiceAccepted: true,
+        pixCertifTermsOfServiceStatus: 'accepted',
       });
       await authenticateSession(certificationPointOfContact.id);
     });

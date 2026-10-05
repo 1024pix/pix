@@ -5,7 +5,7 @@ export default class CertificationPointOfContact extends Model {
   @attr() lastName;
   @attr() email;
   @attr() lang;
-  @attr() pixCertifTermsOfServiceAccepted;
+  @attr() pixCertifTermsOfServiceStatus;
   @hasMany('allowed-certification-center-access', { async: false, inverse: null }) allowedCertificationCenterAccesses;
   @hasMany('certification-center-membership', { async: false, inverse: null }) certificationCenterMemberships;
 

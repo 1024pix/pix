@@ -16,7 +16,7 @@ module('Acceptance | Login session invigilator', function (hooks) {
       firstName: 'Lara',
       lastName: 'Pafromage',
       email: 'lara.pafromage@example.com',
-      pixCertifTermsOfServiceAccepted: true,
+      pixCertifTermsOfServiceStatus: 'accepted',
       allowedCertificationCenterAccesses: [],
     });
     await authenticateSession(certificationPointOfContact.id);

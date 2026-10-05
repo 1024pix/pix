@@ -40,7 +40,7 @@ module('Acceptance | terms-of-service', function (hooks) {
 
       test('it should send request for saving Pix-certif terms of service acceptation when submitting', async function (assert) {
         // given
-        const previousPixCertifTermsOfServiceVal = certificationPointOfContact.pixCertifTermsOfServiceAccepted;
+        const previousPixCertifTermsOfServiceVal = certificationPointOfContact.pixCertifTermsOfServiceStatus;
         const screen = await visit('/cgu');
 
         // when
@@ -48,9 +48,9 @@ module('Acceptance | terms-of-service', function (hooks) {
 
         // then
         certificationPointOfContact.reload();
-        const actualPixCertifTermsOfServiceVal = certificationPointOfContact.pixCertifTermsOfServiceAccepted;
-        assert.true(actualPixCertifTermsOfServiceVal);
-        assert.false(previousPixCertifTermsOfServiceVal);
+        const actualPixCertifTermsOfServiceVal = certificationPointOfContact.pixCertifTermsOfServiceStatus;
+        assert.strictEqual(previousPixCertifTermsOfServiceVal, 'requested');
+        assert.strictEqual(actualPixCertifTermsOfServiceVal, 'accepted');
       });
 
       test('it should redirect to session list after saving terms of service acceptation', async function (assert) {
