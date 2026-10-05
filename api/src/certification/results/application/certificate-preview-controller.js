@@ -1,62 +1,62 @@
-import { getI18n } from '../../../shared/infrastructure/i18n/i18n.js';
 import { Area } from '../../../shared/domain/models/Area.js';
-import { findIntervalIndexFromScore } from '../../shared/domain/services/mesh-service.js';
+import { getI18n } from '../../../shared/infrastructure/i18n/i18n.js';
 import { Frameworks } from '../../shared/domain/models/Frameworks.js';
-import { Certificate } from '../domain/models/v3/Certificate.js';
+import { findIntervalIndexFromScore } from '../../shared/domain/services/mesh-service.js';
 import { ResultCompetence } from '../domain/models/ResultCompetence.js';
 import { ResultCompetenceTree } from '../domain/models/ResultCompetenceTree.js';
+import { Certificate } from '../domain/models/v3/Certificate.js';
 import * as v3CertificationAttestationPdf from '../infrastructure/utils/pdf/generate-v3-pdf-certificate.js';
 
 const AREAS = [
   {
     code: '1',
     title: 'Informations et données',
-    color: '#053B5C',
+    color: 'jaffa',
     competences: [
       { code: '1.1', name: "Mener une recherche et une veille d'information" },
-      { code: '1.2', name: 'Gérer des données' },
       { code: '1.3', name: 'Traiter des données' },
+      { code: '1.2', name: 'Gérer des données' },
     ],
   },
   {
     code: '2',
     title: 'Communication et collaboration',
-    color: '#8B3B96',
+    color: 'emerald',
     competences: [
-      { code: '2.1', name: 'Interagir' },
       { code: '2.2', name: 'Partager et publier' },
-      { code: '2.3', name: 'Collaborer' },
+      { code: '2.1', name: 'Interagir' },
       { code: '2.4', name: "S'insérer dans le monde numérique" },
+      { code: '2.3', name: 'Collaborer' },
     ],
   },
   {
     code: '3',
     title: 'Création de contenu',
-    color: '#E6762B',
+    color: 'cerulean',
     competences: [
-      { code: '3.1', name: 'Développer des documents textuels' },
       { code: '3.2', name: 'Développer des documents multimédia' },
-      { code: '3.3', name: 'Adapter les documents à leur finalité' },
       { code: '3.4', name: 'Programmer' },
+      { code: '3.3', name: 'Adapter les documents à leur finalité' },
+      { code: '3.1', name: 'Développer des documents textuels' },
     ],
   },
   {
     code: '4',
     title: 'Protection et sécurité',
-    color: '#1C7B21',
+    color: 'wild-strawberry',
     competences: [
       { code: '4.1', name: "Sécuriser l'environnement numérique" },
-      { code: '4.2', name: 'Protéger les données personnelles et la vie privée' },
       { code: '4.3', name: 'Se protéger des risques' },
+      { code: '4.2', name: 'Protéger les données personnelles et la vie privée' },
     ],
   },
   {
     code: '5',
     title: 'Environnement numérique',
-    color: '#0062A3',
+    color: 'butterfly-bush',
     competences: [
-      { code: '5.1', name: 'Résoudre des problèmes techniques' },
       { code: '5.2', name: 'Construire un environnement numérique' },
+      { code: '5.1', name: 'Résoudre des problèmes techniques' },
     ],
   },
 ];
