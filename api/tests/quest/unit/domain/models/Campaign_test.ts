@@ -50,7 +50,7 @@ describe('Quest | Unit | Domain | Models | Campaign ', function () {
         ownerId: 3,
         name: 'internalName',
         title: 'name',
-        customResultPageButtonUrl: '/parcours/code',
+        customResultPageButtonUrl: '/parcours/code/checkpoint',
         customResultPageButtonText: 'Continuer',
       });
     });
@@ -92,7 +92,7 @@ describe('Quest | Unit | Domain | Models | Campaign ', function () {
         ownerId: 3,
         name: 'internalName',
         title: 'name',
-        customResultPageButtonUrl: '/parcours/code',
+        customResultPageButtonUrl: '/parcours/code/checkpoint',
         customResultPageButtonText: 'Continuer',
       });
     });
