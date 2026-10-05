@@ -315,6 +315,14 @@
         }
       }
     },
+    "info-bar": {
+      "certification-number": "Certificeringsnummer",
+      "completion-percentage": {
+        "caption": "vooruitgang",
+        "label": "Je hebt {completion, number, ::percent} van je test voltooid."
+      },
+      "progress": {"label": "Vraag", "position": "{current} sur {total}" }
+    },
     "invited": {
       "reconciliation": {
         "error-message": {
@@ -1024,9 +1032,6 @@
         "numbered-label": "Antwoord {number}"
       },
       "certification": {
-        "banner": {
-          "certification-number": "Certificeringsnummer"
-        },
         "title": "Certificering {certificationNumber}"
       },
       "certification-feedback-panel": {
@@ -1185,9 +1190,6 @@
         "progress": "Uw vooruitgang",
         "validation": "Valideer of slaag voor je test"
       },
-      "progress-bar": {
-        "label": "Vraag"
-      },
       "skip-error-message": {
         "qcm": "Selecteer ten minste twee antwoorden om te kunnen bevestigen. Of kies voor overslaan.",
         "qcu": "Selecteer een antwoord om te bevestigen. Sla anders over.",
@@ -1258,10 +1260,6 @@
           "info": "Je hebt al geantwoord!"
         },
         "header": "Uw antwoorden"
-      },
-      "completion-percentage": {
-        "caption": "vooruitgang",
-        "label": "Je hebt {completion, number, ::percent} van je test voltooid."
       },
       "sharing-results": {
         "information-banner": "Door op de knop \"Mijn resultaten bekijken\" te klikken, worden uw resultaten doorgestuurd naar de organisator."

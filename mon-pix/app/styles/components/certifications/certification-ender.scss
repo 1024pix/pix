@@ -8,7 +8,7 @@
   align-items: flex-start;
   justify-content: center;
   max-width: 990px;
-  margin: -150px auto;
+  margin: 0 auto;
   overflow: hidden;
 
   @include breakpoints.device-is('tablet') {

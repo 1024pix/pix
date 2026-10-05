@@ -7,8 +7,9 @@ export default class ResultsRoute extends Route {
 
   async model(params) {
     const certificationCourse = await this.store.findRecord('certification-course', params.certification_id);
-    await certificationCourse.assessment.reload();
-    return certificationCourse;
+    const assessment = await certificationCourse.assessment.reload();
+
+    return { certificationCourse, assessment };
   }
 
   afterModel() {

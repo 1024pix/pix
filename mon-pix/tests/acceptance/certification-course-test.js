@@ -378,7 +378,10 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
         test('should display "Votre surveillant a mis fin…"', async function (assert) {
           // given
           const user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
-          const certificationCourse = this.server.create('certification-course', {});
+          const certificationCourse = this.server.create('certification-course', {
+            firstName: 'Pouet',
+            lastName: 'Plip',
+          });
           this.server.create('assessment', {
             type: 'CERTIFICATION',
             certificationCourseId: certificationCourse.id,

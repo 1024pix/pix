@@ -315,6 +315,14 @@
         }
       }
     },
+    "info-bar": {
+      "certification-number": "N° de certification",
+      "completion-percentage": {
+        "caption": "avancement dans le parcours",
+        "label": "Vous avez effectué {completion, number, ::percent} de votre parcours."
+      },
+      "progress": {"label": "Question", "position": "{current} sur {total}" }
+    },
     "invited": {
       "reconciliation": {
         "error-message": {
@@ -1024,9 +1032,6 @@
         "numbered-label": "Réponse {number}"
       },
       "certification": {
-        "banner": {
-          "certification-number": "N° de certification"
-        },
         "title": "Certification {certificationNumber}"
       },
       "certification-feedback-panel": {
@@ -1185,9 +1190,6 @@
         "progress": "Votre progression",
         "validation": "Valider ou passer votre épreuve"
       },
-      "progress-bar": {
-        "label": "Question"
-      },
       "skip-error-message": {
         "qcm": "Pour valider, sélectionnez au moins deux réponses. Sinon, passez.",
         "qcu": "Pour valider, sélectionnez une réponse. Sinon, passez.",
@@ -1258,10 +1260,6 @@
           "info": "Vous avez déjà répondu !"
         },
         "header": "vos réponses"
-      },
-      "completion-percentage": {
-        "caption": "avancement dans le parcours",
-        "label": "Vous avez effectué {completion, number, ::percent} de votre parcours."
       },
       "sharing-results": {
         "information-banner": "En cliquant sur le bouton \"Voir mes résultats\", vos résultats seront transmis à l'organisateur."

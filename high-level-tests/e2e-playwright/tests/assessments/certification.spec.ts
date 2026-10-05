@@ -133,7 +133,7 @@ test(
           const challengePage = new ChallengePage(pixAppPage);
           const challengeImprint = await challengePage.getChallengeImprint();
           snapshotHandler.push('challenge imprint to have value', challengeImprint);
-          await expect(pixAppPage.getByLabel('Votre progression')).toContainText(`${challengeIndex + 1} / 32`);
+          await expect(pixAppPage.getByLabel(`${challengeIndex + 1} sur 32`)).toBeVisible();
           ++challengeIndex;
           await challengePage.setRightOrWrongAnswer(rightWrongAnswerCycleIter.next().value as boolean);
           await challengePage.validateAnswer();
@@ -141,10 +141,12 @@ test(
       });
 
       await test.step(`reaches end of certification test`, async () => {
-        await expect(pixAppPage.locator('h1')).toContainText('Test terminé !');
-        await expect(pixAppPage.locator('h2')).toContainText(
-          'Vos résultats, en attente de validation par les équipes Pix, seront bientôt disponibles sur votre compte Pix',
-        );
+        await expect(pixAppPage.getByRole('heading', { name: 'Test terminé !' })).toBeVisible();
+        await expect(
+          pixAppPage.getByRole('heading', {
+            name: 'Vos résultats, en attente de validation par les équipes Pix, seront bientôt disponibles sur votre compte Pix',
+          }),
+        ).toBeVisible();
       });
 
       await snapshotHandler.expectOrRecord('certification.json');

@@ -36,10 +36,10 @@ module('Acceptance | Checkpoint', function (hooks) {
 
     test('should display questions and links to solutions', async function (assert) {
       // when
-      await visit(`/assessments/${assessment.id}/checkpoint`);
+      const screen = await visit(`/assessments/${assessment.id}/checkpoint`);
 
       // then
-      assert.strictEqual(find('.checkpoint__progression-gauge progress').textContent.trim(), '20 %');
+      assert.dom(screen.getByText('Vous avez effectué 20 % de votre parcours.')).exists();
       assert.dom('.assessment-results__list').exists();
       assert.dom('.result-item').exists({ count: NB_ANSWERS });
       assert.strictEqual(find('.checkpoint__continue').textContent.trim(), 'Continuer');
@@ -93,10 +93,10 @@ module('Acceptance | Checkpoint', function (hooks) {
       await authenticate(user);
 
       // when
-      await visit(`/assessments/${assessment.id}/checkpoint?finalCheckpoint=true`);
+      const screen = await visit(`/assessments/${assessment.id}/checkpoint?finalCheckpoint=true`);
 
       // then
-      assert.dom('.assessment-banner__home-link').doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Quitter' })).doesNotExist();
     });
   });
 });
