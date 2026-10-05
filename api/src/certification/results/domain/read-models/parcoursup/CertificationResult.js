@@ -53,6 +53,10 @@ export class CertificationResult {
       maxReachableLevel,
       certificationFramework: Frameworks.CORE,
     });
+    this.maxGlobalLevel = CertificateMeshLevel.buildMaxLevel({
+      maxReachableLevel,
+      certificationFramework: Frameworks.CORE,
+    });
     this.competences = competences;
   }
 }

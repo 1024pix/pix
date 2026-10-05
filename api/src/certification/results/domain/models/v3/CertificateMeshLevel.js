@@ -41,8 +41,30 @@ export class CertificateMeshLevel {
    * @param {string} props.certificationFramework
    */
   static buildFromScore({ score, maxReachableLevel, certificationFramework }) {
+    if (!hasCoreScope(certificationFramework)) {
+      throw new Error('Score only exists in CORE scope certifications (CORE and CLEA)');
+    }
     const reachedMeshIndex = findMeshFromScore({ score, maxReachableLevel }).meshIndex;
     return new CertificateMeshLevel({ reachedMeshIndex, certificationFramework });
+  }
+
+  /**
+   * @param {object} props
+   * @param {number} props.maxReachableLevel
+   * @param {string} props.certificationFramework
+   */
+  static buildMaxLevel({ maxReachableLevel, certificationFramework }) {
+    let meshes;
+    if (hasCoreScope(certificationFramework)) {
+      meshes = CORE_LEVELS;
+    } else if (isEduFramework(certificationFramework)) {
+      meshes = EDU_LEVELS;
+    } else {
+      meshes = STANDARD_PIX_PLUS_LEVELS;
+    }
+    let maxMeshIndex = Number(Object.keys(meshes).at(-1));
+    maxMeshIndex = Math.min(maxMeshIndex, maxReachableLevel);
+    return new CertificateMeshLevel({ reachedMeshIndex: maxMeshIndex, certificationFramework });
   }
 
   getLevelLabel(translate) {

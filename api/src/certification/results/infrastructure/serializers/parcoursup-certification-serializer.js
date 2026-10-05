@@ -19,6 +19,7 @@ export function serialize({ certificationResult, translate }) {
     status: certificationResult.status,
     pixScore: certificationResult.pixScore,
     globalLevel: certificationResult.globalLevel.getLevelLabel(translate),
+    maxGlobalLevel: certificationResult.maxGlobalLevel.getLevelLabel(translate),
     certificationDate: certificationResult.certificationDate,
     certificationIssuedAt: certificationResult.certificationIssuedAt,
     maxReachablePixScore: certificationResult.maxReachablePixScore,

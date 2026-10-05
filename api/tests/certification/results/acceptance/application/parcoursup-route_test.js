@@ -60,6 +60,7 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
       certificationIssuedAt: new Date('2024-11-24T12:32:55Z'),
       maxReachablePixScore: 895,
       globalLevel: 'Indépendant 1',
+      maxGlobalLevel: 'Expert 1',
       competences: [
         {
           code: '1.1',
@@ -212,6 +213,7 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
         certificationIssuedAt: new Date('2024-11-24T12:32:55Z'),
         maxReachablePixScore: 895,
         globalLevel: 'Indépendant 1',
+        maxGlobalLevel: 'Expert 1',
         competences: [
           {
             code: '1.1',
