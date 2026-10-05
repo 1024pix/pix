@@ -181,21 +181,26 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
     });
 
     it('should generate a second page with competences results', async function () {
-      // given
+      // competences intentionally out of order to verify sorting (1.2, 1.3, 1.1)
       const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
         competenceTree: domainBuilder.buildCompetenceTree({
           areas: [
             domainBuilder.buildArea({
               code: '1',
-              color: '#1B4F9C',
+              color: 'jaffa',
               competences: [
-                domainBuilder.buildCompetence({ id: 'comp1', index: '1.1' }),
                 domainBuilder.buildCompetence({ id: 'comp2', index: '1.2' }),
+                domainBuilder.buildCompetence({ id: 'comp3', index: '1.3' }),
+                domainBuilder.buildCompetence({ id: 'comp1', index: '1.1' }),
               ],
             }),
           ],
         }),
-        competenceMarks: [domainBuilder.buildCompetenceMark({ competence_code: '1.1', level: 3 })],
+        competenceMarks: [
+          domainBuilder.buildCompetenceMark({ competence_code: '1.1', level: 3 }),
+          domainBuilder.buildCompetenceMark({ competence_code: '1.2', level: 0 }),
+          domainBuilder.buildCompetenceMark({ competence_code: '1.3', level: -1 }),
+        ],
       });
       const certificates = [
         domainBuilder.certification.results.buildCertificate({
@@ -225,15 +230,23 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
       expect(content).to.include('256');
       expect(content).to.include(translate('certification.certificate.v3.competence-results.areas.1.label'));
 
+      const comp1Title = translate('certification.certificate.v3.competence-results.areas.1.competences.1.title');
+      expect(content).to.include(comp1Title);
       expect(content).to.include(translate('certification.certificate.v3.competence-results.level-tag') + '3');
       expect(content).to.include(
         translate('certification.certificate.v3.competence-results.areas.1.competences.1.levels.3'),
       );
 
-      expect(content).to.include(translate('certification.certificate.v3.competence-results.level-not-obtained'));
-      expect(content).to.not.include(
-        translate('certification.certificate.v3.competence-results.areas.1.competences.2.levels.3'),
-      );
+      const comp2Title = translate('certification.certificate.v3.competence-results.areas.1.competences.2.title');
+      const comp3Title = translate('certification.certificate.v3.competence-results.areas.1.competences.3.title');
+      expect(content).to.include(comp2Title);
+      expect(content).to.include(comp3Title);
+      const levelNotObtained = translate('certification.certificate.v3.competence-results.level-not-obtained');
+      // split produces n+1 parts for n occurrences, so length - 1 = count
+      expect(content.split(levelNotObtained).length - 1).to.equal(2);
+
+      expect(content.indexOf(comp1Title)).to.be.lessThan(content.indexOf(comp2Title));
+      expect(content.indexOf(comp2Title)).to.be.lessThan(content.indexOf(comp3Title));
     });
 
     it('should not generate the competences page for a non-french locale', async function () {

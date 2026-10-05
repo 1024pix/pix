@@ -141,7 +141,7 @@ test(
       });
 
       await test.step(`reaches end of certification test`, async () => {
-        await expect(pixAppPage.getByRole('heading', { name: 'Test terminé !' })).toBeVisible();
+        await expect(pixAppPage.getByRole('heading', { name: 'Test terminé !', level: 2 })).toBeVisible();
         await expect(
           pixAppPage.getByRole('heading', {
             name: 'Vos résultats, en attente de validation par les équipes Pix, seront bientôt disponibles sur votre compte Pix',
