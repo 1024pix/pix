@@ -12,7 +12,7 @@ import { AuthenticationMethod } from './AuthenticationMethod.js';
 
 const { toLower } = lodash;
 
-class User {
+export class User {
   constructor({
     id,
     cgu,
@@ -22,6 +22,7 @@ class User {
     username,
     firstName,
     lastName,
+    hasAcceptedLegalDocuments,
     lastTermsOfServiceValidatedAt,
     pixCertifTermsOfServiceAccepted,
     lastPixCertifTermsOfServiceValidatedAt,
@@ -49,6 +50,7 @@ class User {
     this.emailConfirmed = !!emailConfirmedAt && dayjs(emailConfirmedAt).isValid();
     this.cgu = cgu;
     this.createdAt = createdAt;
+    this.hasAcceptedLegalDocuments = hasAcceptedLegalDocuments;
     this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
     this.lastPixCertifTermsOfServiceValidatedAt = lastPixCertifTermsOfServiceValidatedAt;
     this.lastDataProtectionPolicySeenAt = lastDataProtectionPolicySeenAt;
@@ -180,5 +182,3 @@ class User {
     };
   }
 }
-
-export { User };

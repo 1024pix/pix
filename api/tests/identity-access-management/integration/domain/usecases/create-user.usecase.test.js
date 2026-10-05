@@ -11,7 +11,15 @@ describe('Integration | Identity Access Management | Domain | UseCase | create-u
     const pixAppTos = databaseBuilder.factory.buildPixAppTos();
     await databaseBuilder.commit();
 
-    const userData = { firstName: 'First', lastName: 'Last', email: 'first.last@example.net', cgu: true };
+    const expectedUserData = {
+      firstName: 'First',
+      lastName: 'Last',
+      email: 'first.last@example.net',
+    };
+    const userData = {
+      ...expectedUserData,
+      hasAcceptedLegalDocuments: true,
+    };
     const user = new User(userData);
     const password = 'P@ssW0rd';
 
@@ -20,14 +28,12 @@ describe('Integration | Identity Access Management | Domain | UseCase | create-u
 
     // then
     expect(savedUser).to.be.instanceOf(User);
-    expect(savedUser).to.include(userData);
-    expect(savedUser.cgu).to.be.true;
-    expect(savedUser.lastTermsOfServiceValidatedAt).to.be.instanceOf(Date);
-    expect(savedUser.lastDataProtectionPolicySeenAt).to.be.instanceOf(Date);
+    expect(savedUser).to.include(expectedUserData);
+    expect(savedUser).to.have.property('lastDataProtectionPolicySeenAt').that.is.instanceOf(Date);
 
-    const legalDocumentAcceptation = await knex('legal-document-version-user-acceptances')
+    const legalDocumentAcceptance = await knex('legal-document-version-user-acceptances')
       .where({ userId: savedUser.id })
       .first();
-    expect(legalDocumentAcceptation.legalDocumentVersionId).to.equal(pixAppTos.id);
+    expect(legalDocumentAcceptance.legalDocumentVersionId).to.equal(pixAppTos.id);
   });
 });

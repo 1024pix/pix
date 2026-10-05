@@ -37,7 +37,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
           type: 'users',
           attributes: {
             password: 'Password123',
-            cgu: true,
+            'has-accepted-legal-documents': true,
             'pix-orga-terms-of-service-status': true, // sent by Pix Orga when creating a user upon invitation
           },
           relationships: {},
@@ -67,7 +67,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
           'last-name': user.lastName,
           email: user.email,
           username: user.username,
-          cgu: user.cgu,
+          cgu: true,
         };
 
         // when
@@ -76,7 +76,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
         // then
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.type).to.equal('users');
-        expect(response.result.data.attributes['last-terms-of-service-validated-at']).to.be.instanceOf(Date);
         const userAttributes = pick(response.result.data.attributes, pickedUserAttributes);
         expect(userAttributes).to.deep.equal(expectedAttributes);
       });
@@ -89,7 +88,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
           lastName: user.lastName,
           email: user.email,
           username: user.username,
-          cgu: user.cgu,
+          cgu: true,
         };
 
         // when
@@ -110,7 +109,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
           'first-name': 'John',
           'last-name': 'DoDoe',
           email: 'john.dodoe@example.net',
-          cgu: true,
+          'has-accepted-legal-documents': true,
           password: 'Password123',
         };
 
@@ -161,7 +160,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
             'last-name': lastName,
             email,
             password,
-            cgu: true,
+            'has-accepted-legal-documents': true,
           },
         },
       };
@@ -185,7 +184,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       expect(attributes['first-name']).to.equal(firstName);
       expect(attributes['last-name']).to.equal(lastName);
       expect(attributes.email).to.equal(email);
-      expect(attributes.cgu).to.be.true;
       expect(attributes.locale).to.equal('fr');
       expect(attributes['is-anonymous']).to.be.false;
     });

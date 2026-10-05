@@ -14,7 +14,7 @@ export default class User extends Model {
   @attr<StringTransform>('string') declare lastName: string | null;
   @attr<StringTransform>('string') declare password: string | null;
   @attr<StringTransform>('string') declare lang: string | null;
-  @attr<BooleanTransform>('boolean') declare cgu: boolean | null;
+  @attr<BooleanTransform>('boolean') declare hasAcceptedLegalDocuments: boolean | null;
   @attr<StringTransform>('string') declare pixOrgaTermsOfServiceStatus: LegalDocumentStatus | null;
 
   @hasMany<Membership>('membership', { async: true, inverse: 'user' }) declare memberships: AsyncHasMany<Membership>;

@@ -28,7 +28,7 @@ describe('Integration | Identity Access Management | Application | Route | User'
                 'last-name': 'Baker',
                 email: 'josephine.baker@example.net',
                 password: 'someValidPassword-12345678',
-                cgu: true,
+                'has-accepted-legal-documents': true,
               },
             },
           };
@@ -57,7 +57,7 @@ describe('Integration | Identity Access Management | Application | Route | User'
                 'last-name': 'Baker',
                 email: 'josephine.baker@example.net',
                 password: 'someValidPassword-12345678',
-                cgu: true,
+                'has-accepted-legal-documents': true,
               },
             },
           };
@@ -90,7 +90,7 @@ describe('Integration | Identity Access Management | Application | Route | User'
                 'last-name': 'Baker',
                 email: 'josephine.baker@example.net',
                 password: 'someValidPassword-12345678',
-                cgu: 'not_a_boolean',
+                'has-accepted-legal-documents': 'not_a_boolean',
               },
             },
           };
@@ -102,7 +102,9 @@ describe('Integration | Identity Access Management | Application | Route | User'
 
           // then
           expect(response.statusCode).to.equal(400);
-          expect(response.result.errors[0].detail).to.equal('"data.attributes.cgu" must be a boolean');
+          expect(response.result.errors[0].detail).to.equal(
+            '"data.attributes.has-accepted-legal-documents" must be a boolean',
+          );
         });
       });
     });
@@ -118,7 +120,7 @@ describe('Integration | Identity Access Management | Application | Route | User'
               email: 'test1@example.net',
               username: null,
               password: 'Password123',
-              cgu: true,
+              'has-accepted-legal-documents': true,
               'must-validate-terms-of-service': false,
               'has-seen-assessment-instructions': false,
               'has-seen-new-dashboard-info': false,
@@ -156,7 +158,7 @@ describe('Integration | Identity Access Management | Application | Route | User'
                 'last-name': 'Baker',
                 email: 'josephine.baker@example.net',
                 password: 'someValidPassword-12345678',
-                cgu: true,
+                'has-accepted-legal-documents': true,
               },
             },
           };
@@ -189,7 +191,7 @@ describe('Integration | Identity Access Management | Application | Route | User'
                 'last-name': 'Baker',
                 email: 'josephine.baker@example.net',
                 password: 'someValidPassword-12345678',
-                cgu: 'not_a_boolean',
+                'has-accepted-legal-documents': 'not_a_boolean',
               },
             },
           };
@@ -201,7 +203,9 @@ describe('Integration | Identity Access Management | Application | Route | User'
 
           // then
           expect(response.statusCode).to.equal(400);
-          expect(response.result.errors[0].detail).to.equal('"data.attributes.cgu" must be a boolean');
+          expect(response.result.errors[0].detail).to.equal(
+            '"data.attributes.has-accepted-legal-documents" must be a boolean',
+          );
         });
       });
     });
