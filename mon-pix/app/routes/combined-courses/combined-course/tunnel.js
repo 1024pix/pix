@@ -8,11 +8,7 @@ export default class CombinedCoursePresentationRoute extends Route {
   @service metrics;
 
   async beforeModel(transition) {
-    const { code } = transition.to.params;
-
-    if (!transition.from) {
-      return this.router.replaceWith('organizations.access', code, { queryParams: { from: 'parcours' } });
-    }
+    const { code } = this.modelFor('combined-courses.combined-course');
 
     const verifiedCode = await this.store.findRecord('verified-code', code);
     if (verifiedCode.type === 'campaign') {
@@ -24,8 +20,8 @@ export default class CombinedCoursePresentationRoute extends Route {
     });
   }
 
-  async model(params) {
-    const { code } = params;
+  async model() {
+    const { code } = this.modelFor('combined-courses.combined-course');
     try {
       await this.store.adapterFor('combined-course').reassessStatus(code);
       return this.store.queryRecord('combined-course', { filter: { code } });
@@ -39,15 +35,5 @@ export default class CombinedCoursePresentationRoute extends Route {
 
   afterModel(combinedCourse) {
     this.accessStorage.clear(combinedCourse.organizationId);
-  }
-
-  activate() {
-    this.metrics.context.code = this.paramsFor('combined-courses.presentation').code;
-    this.metrics.context.type = 'combined-course';
-  }
-
-  deactivate() {
-    delete this.metrics.context.code;
-    delete this.metrics.context.type;
   }
 }

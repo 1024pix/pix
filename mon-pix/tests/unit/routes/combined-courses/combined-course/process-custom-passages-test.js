@@ -8,7 +8,7 @@ module('Unit | Route | Combined Course | Process custom passages', function (hoo
   let route, replaceWithStub;
 
   hooks.beforeEach(function () {
-    route = this.owner.lookup('route:combined-courses.process-custom-passages');
+    route = this.owner.lookup('route:combined-courses.combined-course.process-custom-passages');
     replaceWithStub = sinon.stub(route.router, 'replaceWith');
   });
 
@@ -17,22 +17,23 @@ module('Unit | Route | Combined Course | Process custom passages', function (hoo
       // given
       const transition = {
         from: { name: 'some.other.route' },
-        to: { params: { code: 'test-code' } },
       };
+      sinon.stub(route, 'modelFor').returns({ code: 'test-code' });
 
       // when
       route.beforeModel(transition);
 
       // then
-      assert.ok(replaceWithStub.calledWithExactly('combined-courses.presentation', 'test-code'));
+      assert.ok(replaceWithStub.calledWithExactly('combined-courses.combined-course.presentation', 'test-code'));
     });
 
     test('should not call transition if user came from campaign result', function (assert) {
       // given
       const transition = {
         from: { name: 'campaigns.assessment.results' },
-        to: { params: { code: 'test-code' } },
       };
+
+      sinon.stub(route, 'modelFor').returns({ code: 'test-code' });
 
       // when
       route.beforeModel(transition);
