@@ -177,7 +177,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
         exact: false,
       });
       await fillIn(passwordInput, password);
-      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+      await click(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
 
       // when
       await clickByLabel(t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -214,7 +214,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       });
       await fillIn(passwordInput, newPassword);
 
-      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+      await click(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
 
       // when
       await clickByLabel(t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -255,7 +255,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
         exact: false,
       });
       await fillIn(passwordInput, newPassword);
-      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+      await click(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
 
       // when
       await clickByLabel(t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -294,7 +294,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
         exact: false,
       });
       await fillIn(passwordInput, newPassword);
-      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+      await click(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
 
       // when
       await clickByLabel(t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -334,7 +334,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
         exact: false,
       });
       await fillIn(passwordInput, newPassword);
-      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+      await click(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
 
       // when
       await clickByLabel(t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -373,7 +373,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
         exact: false,
       });
       await fillIn(passwordInput, newPassword);
-      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+      await click(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
 
       // when
       await clickByLabel(t('pages.account-recovery.update-sco-record.form.login-button'));

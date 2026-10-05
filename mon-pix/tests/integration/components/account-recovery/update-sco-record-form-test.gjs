@@ -62,9 +62,9 @@ module('Integration | Component | account-recovery | update-sco-record', functio
       assert.ok(submitButton);
       assert.dom(submitButton).hasAttribute('aria-disabled');
       assert.ok(screen.getByText(t('common.actions.quit')));
-      assert.dom(screen.getByRole('checkbox', { name: t('common.cgu.label') })).exists();
-      assert.ok(screen.getByRole('link', { name: t('common.cgu.cgu') }));
-      assert.ok(screen.getByRole('link', { name: t('common.cgu.data-protection-policy') }));
+      assert.dom(screen.getByRole('checkbox', { name: t('common.legal-documents.label') })).exists();
+      assert.ok(screen.getByRole('link', { name: t('common.legal-documents.terms-of-service') }));
+      assert.ok(screen.getByRole('link', { name: t('common.legal-documents.data-protection-policy') }));
     });
 
     test('displays no school connection removal warning when user has no school connections', async function (assert) {
@@ -228,7 +228,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
         screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label'), { exact: false }),
         'pix123A*',
       );
-      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+      await click(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
 
       // then
       const submitButton = screen.getByRole('button', {
@@ -246,7 +246,7 @@ module('Integration | Component | account-recovery | update-sco-record', functio
         screen.getByLabelText(t('pages.account-recovery.update-sco-record.form.password-label'), { exact: false }),
         'pix123A*',
       );
-      await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+      await click(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
 
       // then
       const submitButton = screen.getByRole('button', {

@@ -12,7 +12,7 @@ const I18N_KEYS = {
   lastNameInput: 'components.authentication.signup-form.fields.lastname.label',
   emailInput: 'components.authentication.signup-form.fields.email.label',
   passwordInput: 'common.password',
-  cguCheckbox: 'common.cgu.label',
+  cguCheckbox: 'common.legal-documents.label',
   submitButton: 'components.authentication.signup-form.actions.submit',
 };
 
@@ -117,7 +117,7 @@ module('Integration | Component | Authentication | SignupForm | index', function
       assert.dom(screen.getByText(t('components.authentication.signup-form.fields.lastname.error'))).exists();
       assert.dom(screen.getByText(t('components.authentication.signup-form.fields.email.error'))).exists();
       assert.dom(screen.getByText(t('common.validation.password.error'))).exists();
-      assert.dom(screen.getByText(t('common.cgu.error'))).exists();
+      assert.dom(screen.getByText(t('common.legal-documents.error'))).exists();
       assert.strictEqual(userModel.save.callCount, 0);
       assert.strictEqual(sessionService.authenticateUser.callCount, 0);
     });
@@ -143,7 +143,7 @@ module('Integration | Component | Authentication | SignupForm | index', function
       assert.dom(screen.getByText(t('components.authentication.signup-form.fields.lastname.error'))).exists();
       assert.dom(screen.getByText(t('components.authentication.signup-form.fields.email.error'))).exists();
       assert.dom(screen.getByText(t('common.validation.password.error'))).exists();
-      assert.dom(screen.getByText(t('common.cgu.error'))).exists();
+      assert.dom(screen.getByText(t('common.legal-documents.error'))).exists();
       assert.strictEqual(userModel.save.callCount, 0);
       assert.strictEqual(sessionService.authenticateUser.callCount, 0);
     });
