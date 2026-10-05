@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { EVENT_NAME } from 'pix-orga/constants/metrics-event-name';
 
 export const SIXTH_GRADE_ATTESTATION_KEY = 'SIXTH_GRADE';
 export const FILE_NAME = 'attestations';
@@ -23,6 +24,7 @@ export default class AuthenticatedAttestationsController extends Controller {
 
   @action
   async downloadAttestations(attestationKey, selectedDivisions) {
+    this.pixMetrics.trackEvent(EVENT_NAME.ATTESTATION.DOWNLOAD_CLICK);
     try {
       let url;
       const organizationId = this.currentUser.organization.id;
