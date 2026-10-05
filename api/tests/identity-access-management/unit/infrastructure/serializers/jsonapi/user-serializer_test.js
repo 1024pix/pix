@@ -96,6 +96,7 @@ describe('Unit | Shared | Infrastructure | Serializer | JSONAPI | user-serialize
             email: 'lskywalker@deathstar.empire',
             lang: 'en',
             password: '',
+            'has-accepted-legal-documents': true,
           },
           relationships: {},
         },
@@ -112,6 +113,7 @@ describe('Unit | Shared | Infrastructure | Serializer | JSONAPI | user-serialize
       expect(user.lastName).to.equal('Skywalker');
       expect(user.email).to.equal('lskywalker@deathstar.empire');
       expect(user.lang).to.equal('en');
+      expect(user.hasAcceptedLegalDocuments).to.equal(true);
     });
 
     it('should contain an ID attribute', function () {

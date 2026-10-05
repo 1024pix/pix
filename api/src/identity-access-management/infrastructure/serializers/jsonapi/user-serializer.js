@@ -67,7 +67,7 @@ const deserialize = function (json) {
     firstName: json.data.attributes['first-name'],
     lastName: json.data.attributes['last-name'],
     email: json.data.attributes.email,
-    cgu: json.data.attributes.cgu,
+    hasAcceptedLegalDocuments: json.data.attributes['has-accepted-legal-documents'],
     lang: json.data.attributes.lang,
     locale: json.data.attributes.locale,
     lastTermsOfServiceValidatedAt: json.data.attributes['lastTermsOfServiceValidatedAt'],

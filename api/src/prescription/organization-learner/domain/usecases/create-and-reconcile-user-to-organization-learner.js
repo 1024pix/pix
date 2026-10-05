@@ -162,7 +162,7 @@ async function _validateData({
   const validationErrors = [];
 
   try {
-    userValidator.validate({ user: userAttributes, cguRequired: false });
+    userValidator.validate({ user: userAttributes, legalDocumentsAcceptanceRequired: false });
   } catch (err) {
     validationErrors.push(err);
   }

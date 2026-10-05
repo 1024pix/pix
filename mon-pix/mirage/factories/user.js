@@ -274,9 +274,6 @@ export default Factory.extend({
   lastName() {
     return 'Osinski';
   },
-  cgu() {
-    return false;
-  },
   lang() {
     return 'fr';
   },
@@ -300,9 +297,6 @@ export default Factory.extend({
     email: null,
     username: null,
     password: 'Azerty123*',
-  }),
-  hasNotValidatedCgu: trait({
-    cgu: false,
   }),
   hasSeenNewDashboardInfo: trait({
     hasSeenNewDashboardInfo: true,

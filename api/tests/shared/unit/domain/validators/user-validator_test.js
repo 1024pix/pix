@@ -23,7 +23,7 @@ describe('Unit | Shared | Domain | Validator | user-validator', function () {
           firstName: 'John',
           lastName: 'Doe',
           email: 'john.doe@example.net',
-          cgu: true,
+          hasAcceptedLegalDocuments: true,
         });
       });
 
@@ -87,13 +87,13 @@ describe('Unit | Shared | Domain | Validator | user-validator', function () {
           }
         });
 
-        it('should reject with error on field "cgu" when cgu is false', function () {
+        it('should reject with error on field "hasAcceptedLegalDocuments" when hasAcceptedLegalDocuments is false', function () {
           // given
           const expectedError = {
-            attribute: 'cgu',
-            message: 'ACCEPT_CGU',
+            attribute: 'hasAcceptedLegalDocuments',
+            message: 'ACCEPT_LEGAL_DOCUMENTS',
           };
-          user.cgu = 'false';
+          user.hasAcceptedLegalDocuments = 'false';
 
           // when
           try {
@@ -192,7 +192,7 @@ describe('Unit | Shared | Domain | Validator | user-validator', function () {
             firstName: 'John'.repeat(70),
             lastName: 'Doe'.repeat(90),
             email: 'john.doe'.repeat(32) + '@example.net',
-            cgu: true,
+            hasAcceptedLegalDocuments: true,
           };
 
           // when
@@ -240,7 +240,7 @@ describe('Unit | Shared | Domain | Validator | user-validator', function () {
     });
 
     context('when validation is for student dependent user', function () {
-      const cguRequired = false;
+      const legalDocumentsAcceptanceRequired = false;
 
       beforeEach(function () {
         user = new User({
@@ -253,7 +253,7 @@ describe('Unit | Shared | Domain | Validator | user-validator', function () {
 
       context('when validation is successful', function () {
         it('should not throw any error', function () {
-          expect(() => userValidator.validate({ user, cguRequired })).to.not.throw();
+          expect(() => userValidator.validate({ user, legalDocumentsAcceptanceRequired })).to.not.throw();
         });
       });
 
@@ -267,7 +267,7 @@ describe('Unit | Shared | Domain | Validator | user-validator', function () {
 
           // when
           try {
-            userValidator.validate({ user: undefined, cguRequired });
+            userValidator.validate({ user: undefined, legalDocumentsAcceptanceRequired });
             expect.fail('should have thrown an error');
           } catch (errors) {
             // then
@@ -285,7 +285,7 @@ describe('Unit | Shared | Domain | Validator | user-validator', function () {
 
           // when
           try {
-            userValidator.validate({ user, cguRequired });
+            userValidator.validate({ user, legalDocumentsAcceptanceRequired });
             expect.fail('should have thrown an error');
           } catch (errors) {
             // then
@@ -303,7 +303,7 @@ describe('Unit | Shared | Domain | Validator | user-validator', function () {
 
           // when
           try {
-            userValidator.validate({ user, cguRequired });
+            userValidator.validate({ user, legalDocumentsAcceptanceRequired });
             expect.fail('should have thrown an error');
           } catch (errors) {
             // then
@@ -321,7 +321,7 @@ describe('Unit | Shared | Domain | Validator | user-validator', function () {
 
           // when
           try {
-            userValidator.validate({ user, cguRequired });
+            userValidator.validate({ user, legalDocumentsAcceptanceRequired });
             expect.fail('should have thrown an error');
           } catch (errors) {
             // then
@@ -338,7 +338,7 @@ describe('Unit | Shared | Domain | Validator | user-validator', function () {
           };
 
           // when
-          const error = await catchErr(userValidator.validate)({ user, cguRequired });
+          const error = await catchErr(userValidator.validate)({ user, legalDocumentsAcceptanceRequired });
 
           // then
           expect(error.invalidAttributes).to.have.lengthOf(3);

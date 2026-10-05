@@ -2,12 +2,12 @@ import _ from 'lodash';
 
 import { getNearestSupportedLocale } from '../../../shared/domain/services/locale-service.js';
 
-class UserToCreate {
+export class UserToCreate {
   constructor({
     firstName = '',
     lastName = '',
     email = null,
-    cgu = false,
+    hasAcceptedLegalDocuments = false,
     hasSeenAssessmentInstructions = false,
     username = null,
     mustValidateTermsOfService = false,
@@ -25,7 +25,7 @@ class UserToCreate {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
-    this.cgu = cgu;
+    this.cgu = hasAcceptedLegalDocuments;
     this.hasSeenAssessmentInstructions = hasSeenAssessmentInstructions;
     this.username = username;
     this.mustValidateTermsOfService = mustValidateTermsOfService;
@@ -55,7 +55,7 @@ class UserToCreate {
     const now = new Date();
     return new UserToCreate({
       ...user,
-      cgu: true,
+      hasAcceptedLegalDocuments: true,
       lastTermsOfServiceValidatedAt: now,
       lastDataProtectionPolicySeenAt: now,
       createdAt: now,
@@ -73,5 +73,3 @@ class UserToCreate {
     });
   }
 }
-
-export { UserToCreate };

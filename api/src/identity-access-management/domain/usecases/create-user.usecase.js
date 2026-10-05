@@ -47,12 +47,7 @@ const createUser = async function ({
       passwordValidator,
     });
 
-    const userHasCheckedLegalDocumentsAtSignup = user.cgu === true;
-    if (userHasCheckedLegalDocumentsAtSignup) {
-      const now = new Date();
-      user.lastTermsOfServiceValidatedAt = now;
-      user.lastDataProtectionPolicySeenAt = now;
-    }
+    user.lastDataProtectionPolicySeenAt = new Date();
 
     const hashedPassword = await cryptoService.hashPassword(password);
 

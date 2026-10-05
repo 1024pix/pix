@@ -18,7 +18,7 @@ const VALIDATION_ERRORS = {
   lastName: 'components.authentication.signup-form.fields.lastname.error',
   email: 'components.authentication.signup-form.fields.email.error',
   password: 'common.validation.password.error',
-  cgu: 'common.legal-documents.error',
+  hasAcceptedLegalDocuments: 'common.legal-documents.error',
 };
 
 const EMAIL_API_ERRORS = {
@@ -53,9 +53,9 @@ export default class SignupForm extends Component {
       validate: (value) => isPasswordValid(value),
       error: VALIDATION_ERRORS.password,
     },
-    cgu: {
+    hasAcceptedLegalDocuments: {
       validate: (value) => value === true,
-      error: VALIDATION_ERRORS.cgu,
+      error: VALIDATION_ERRORS.hasAcceptedLegalDocuments,
     },
   });
 
@@ -183,11 +183,11 @@ export default class SignupForm extends Component {
         </NewPasswordInput>
 
         <CguCheckbox
-          @id="cgu"
-          name="cgu"
+          @id="hasAcceptedLegalDocuments"
+          name="hasAcceptedLegalDocuments"
           {{on "change" this.handleInputChange}}
-          @validationStatus={{this.validation.cgu.status}}
-          @errorMessage={{t this.validation.cgu.error}}
+          @validationStatus={{this.validation.hasAcceptedLegalDocuments.status}}
+          @errorMessage={{t this.validation.hasAcceptedLegalDocuments.error}}
           aria-required="true"
         />
       </fieldset>
