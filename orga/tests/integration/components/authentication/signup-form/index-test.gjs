@@ -42,13 +42,13 @@ module('Integration | Component | Authentication | SignupForm | index', function
     assert.dom(screen.getByLabelText(t(I18N_KEYS.lastNameInput))).hasAttribute('aria-required');
     assert.dom(screen.getByLabelText(t(I18N_KEYS.emailInput))).hasAttribute('aria-required');
     assert.dom(screen.getByLabelText(t(I18N_KEYS.passwordInput))).hasAttribute('aria-required');
-    assert.dom(screen.getByLabelText(t(I18N_KEYS.cguCheckbox))).hasAttribute('aria-required');
+    assert.dom(screen.getByLabelText(t(I18N_KEYS.legalDocumentsCheckbox))).hasAttribute('aria-required');
   });
 
   test('it signs up successfully', async function (assert) {
     // given
     const onSubmitStub = sinon.stub();
-    const user = { firstName, lastName, email, password, cgu: true, lang: 'fr' };
+    const user = { firstName, lastName, email, password, hasAcceptedLegalDocuments: true, lang: 'fr' };
     sinon.stub(storeService, 'createRecord').returns(user);
 
     // when

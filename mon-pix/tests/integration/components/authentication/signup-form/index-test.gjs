@@ -12,7 +12,7 @@ const I18N_KEYS = {
   lastNameInput: 'components.authentication.signup-form.fields.lastname.label',
   emailInput: 'components.authentication.signup-form.fields.email.label',
   passwordInput: 'common.password',
-  cguCheckbox: 'common.legal-documents.label',
+  legalDocumentsCheckbox: 'common.legal-documents.label',
   submitButton: 'components.authentication.signup-form.actions.submit',
 };
 
@@ -43,7 +43,7 @@ module('Integration | Component | Authentication | SignupForm | index', function
     await fillByLabel(t(I18N_KEYS.lastNameInput), lastName);
     await fillByLabel(t(I18N_KEYS.emailInput), email);
     await fillByLabel(t(I18N_KEYS.passwordInput), password);
-    await clickByName(t(I18N_KEYS.cguCheckbox));
+    await clickByName(t(I18N_KEYS.legalDocumentsCheckbox));
     await clickByName(t(I18N_KEYS.submitButton));
 
     // then
@@ -52,7 +52,7 @@ module('Integration | Component | Authentication | SignupForm | index', function
     assert.strictEqual(userModel.email, email);
     assert.strictEqual(userModel.password, null);
     assert.strictEqual(userModel.lang, 'fr');
-    assert.true(userModel.cgu);
+    assert.true(userModel.hasAcceptedLegalDocuments);
 
     assert.ok(userModel.save.called);
     assert.ok(sessionService.authenticateUser.calledWith(email, password));
@@ -71,7 +71,7 @@ module('Integration | Component | Authentication | SignupForm | index', function
     assert.dom(screen.getByLabelText(t(I18N_KEYS.lastNameInput))).hasAttribute('aria-required');
     assert.dom(screen.getByLabelText(t(I18N_KEYS.emailInput))).hasAttribute('aria-required');
     assert.dom(screen.getByLabelText(t(I18N_KEYS.passwordInput))).hasAttribute('aria-required');
-    assert.dom(screen.getByLabelText(t(I18N_KEYS.cguCheckbox))).hasAttribute('aria-required');
+    assert.dom(screen.getByLabelText(t(I18N_KEYS.legalDocumentsCheckbox))).hasAttribute('aria-required');
   });
 
   module('When there are spaces in form inputs values', function () {
@@ -91,7 +91,7 @@ module('Integration | Component | Authentication | SignupForm | index', function
       await fillByLabel(t(I18N_KEYS.lastNameInput), lastName);
       await fillByLabel(t(I18N_KEYS.emailInput), email);
       await fillByLabel(t(I18N_KEYS.passwordInput), password);
-      await clickByName(t(I18N_KEYS.cguCheckbox));
+      await clickByName(t(I18N_KEYS.legalDocumentsCheckbox));
       await clickByName(t(I18N_KEYS.submitButton));
 
       // then
@@ -136,8 +136,8 @@ module('Integration | Component | Authentication | SignupForm | index', function
       await fillByLabel(t(I18N_KEYS.lastNameInput), '  ');
       await fillByLabel(t(I18N_KEYS.emailInput), invalidEmail);
       await fillByLabel(t(I18N_KEYS.passwordInput), invalidPassword);
-      await clickByName(t(I18N_KEYS.cguCheckbox));
-      await clickByName(t(I18N_KEYS.cguCheckbox)); // check twice to trigger validation
+      await clickByName(t(I18N_KEYS.legalDocumentsCheckbox));
+      await clickByName(t(I18N_KEYS.legalDocumentsCheckbox)); // check twice to trigger validation
       // then
       assert.dom(screen.getByText(t('components.authentication.signup-form.fields.firstname.error'))).exists();
       assert.dom(screen.getByText(t('components.authentication.signup-form.fields.lastname.error'))).exists();
@@ -167,7 +167,7 @@ module('Integration | Component | Authentication | SignupForm | index', function
       await fillByLabel(t(I18N_KEYS.lastNameInput), 'Doe');
       await fillByLabel(t(I18N_KEYS.emailInput), 'john.doe@email.com');
       await fillByLabel(t(I18N_KEYS.passwordInput), 'JeMeLoggue1024');
-      await clickByName(t(I18N_KEYS.cguCheckbox));
+      await clickByName(t(I18N_KEYS.legalDocumentsCheckbox));
       await clickByName(t(I18N_KEYS.submitButton));
 
       // then
@@ -186,7 +186,7 @@ module('Integration | Component | Authentication | SignupForm | index', function
       await fillByLabel(t(I18N_KEYS.lastNameInput), 'Doe');
       await fillByLabel(t(I18N_KEYS.emailInput), 'john.doe@email.com');
       await fillByLabel(t(I18N_KEYS.passwordInput), 'JeMeLoggue1024');
-      await clickByName(t(I18N_KEYS.cguCheckbox));
+      await clickByName(t(I18N_KEYS.legalDocumentsCheckbox));
     });
 
     test('it displays error message for 400 HTTP status code', async function (assert) {

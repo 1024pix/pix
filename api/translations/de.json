@@ -476,7 +476,7 @@
     "pix-orga": "Pix Orga - Nicht antworten"
   },
   "entity-validation-errors": {
-    "ACCEPT_CGU": "Sie müssen den Nutzungsbedingungen von Pix zustimmen, um ein Konto zu erstellen.",
+    "ACCEPT_LEGAL_DOCUMENTS": "Sie müssen den Nutzungsbedingungen von Pix zustimmen, um ein Konto zu erstellen.",
     "ALREADY_REGISTERED_EMAIL": "Diese E-Mail-Adresse ist bereits registriert. Melden Sie sich an.",
     "CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED": "Eine URL für die Schaltfläche wird eingegeben: Ein Text ist ebenfalls erforderlich.",
     "CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED": "Ein Text für die Schaltfläche wird eingegeben: Eine URL ist ebenfalls erforderlich.",

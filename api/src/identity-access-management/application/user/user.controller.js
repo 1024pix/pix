@@ -195,7 +195,7 @@ const upgradeToRealUser = async function (request, h, dependencies = { userSeria
     firstName: request.payload.data.attributes['first-name'],
     lastName: request.payload.data.attributes['last-name'],
     email: request.payload.data.attributes.email,
-    cgu: request.payload.data.attributes.cgu,
+    hasAcceptedLegalDocuments: request.payload.data.attributes['has-accepted-legal-documents'],
     locale,
   };
 

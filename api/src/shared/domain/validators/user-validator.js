@@ -25,16 +25,16 @@ const userValidationJoiSchema = Joi.object({
     'string.empty': 'EMPTY_USERNAME',
   }),
 
-  cgu: Joi.boolean()
-    .when('$cguRequired', {
+  hasAcceptedLegalDocuments: Joi.boolean()
+    .when('$legalDocumentsAcceptanceRequired', {
       is: Joi.boolean().required().valid(true),
       then: Joi.required(),
       otherwise: Joi.optional(),
     })
     .valid(true)
     .messages({
-      'boolean.base': 'ACCEPT_CGU',
-      'any.only': 'ACCEPT_CGU',
+      'boolean.base': 'ACCEPT_LEGAL_DOCUMENTS',
+      'any.only': 'ACCEPT_LEGAL_DOCUMENTS',
     }),
 
   mustValidateTermsOfService: Joi.boolean(),
@@ -49,17 +49,21 @@ const userValidationJoiSchema = Joi.object({
   });
 
 /**
- * @param user
- * @param cguRequired
+ * @param {object} args
+ * @param {object} args.user
+ * @param {boolean=} args.legalDocumentsAcceptanceRequired
  * @return {boolean}
  */
-const validate = function ({ user, cguRequired = true }) {
-  const { error } = userValidationJoiSchema.validate(user, { ...validationConfiguration, context: { cguRequired } });
+function validate({ user, legalDocumentsAcceptanceRequired = true }) {
+  const { error } = userValidationJoiSchema.validate(user, {
+    ...validationConfiguration,
+    context: { legalDocumentsAcceptanceRequired },
+  });
   if (error) {
     throw EntityValidationError.fromJoiErrors(error.details);
   }
   return true;
-};
+}
 
 /**
  * @typedef {Object} UserValidator
