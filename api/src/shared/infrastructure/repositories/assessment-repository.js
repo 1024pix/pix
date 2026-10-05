@@ -99,12 +99,8 @@ const findNotAbortedCampaignAssessmentsByUserId = async function (userId) {
 };
 
 async function _getAssociatedCampaign(campaignParticipationId) {
-  let campaign;
-  if (campaignParticipationId) {
-    const campaignId = await campaignRepository.getCampaignIdByCampaignParticipationId(campaignParticipationId);
-    campaign = await campaignRepository.get(campaignId);
-  }
-  return campaign;
+  if (!campaignParticipationId) return undefined;
+  return campaignRepository.getByCampaignParticipationId(campaignParticipationId);
 }
 
 const abortByAssessmentId = function (assessmentId) {
