@@ -1,5 +1,27 @@
 # Pix Changelog
 
+# [5.514.0](https://github.com/1024pix/pix/compare/v5.513.0...v5.514.0) (2026-10-05)
+
+### :rocket: Amélioration
+
+- [#17714](https://github.com/1024pix/pix/pull/17714) Ajoute les colonnes maxReachableLevel et maxReachablePixScore à la table certification_versions
+- [#17608](https://github.com/1024pix/pix/pull/17608) Mettre à jour le header evaluation/certif (PIX-24442).
+
+### :bug: Correction
+
+- [#17711](https://github.com/1024pix/pix/pull/17711) Afficher le texte placeholder dans les PixSelect sur Junior (PIX-24539).
+
+### :building_construction: Tech
+
+- [#17717](https://github.com/1024pix/pix/pull/17717) Correction de style dans PixApp (PIX-24554).
+- [#17723](https://github.com/1024pix/pix/pull/17723) LTI : Deux routes distinctes pour choix d’activité et passage de campagne (PIX-24538)
+
+### :arrow_up: Montée de version
+
+- [#17699](https://github.com/1024pix/pix/pull/17699) Update dependency @ember-data/model to ^5.9.1 (mon-pix)
+- [#17722](https://github.com/1024pix/pix/pull/17722) Update dependency @ember-intl/v1-compat to ^1.3.1 (junior)
+- [#17707](https://github.com/1024pix/pix/pull/17707) Update dependency baseline-browser-mapping to ^2.11.26 (e2e-playwright)
+
 # [5.513.0](https://github.com/1024pix/pix/compare/v5.512.1...v5.513.0) (2026-10-02)
 
 ### :rocket: Amélioration
