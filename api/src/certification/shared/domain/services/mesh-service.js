@@ -19,4 +19,3 @@ export function findMeshFromScore({ score, maxReachableLevel }) {
 
   throw new Error(`Cannot compute mesh for score ${score} and maxReachableLevel ${maxReachableLevel}`);
 }
-

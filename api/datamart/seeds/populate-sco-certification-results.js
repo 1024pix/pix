@@ -1,9 +1,9 @@
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
-import caseINEok from './cases/sco_certification_results/ine-ok.js';
-import caseSameINEDifferentPerson from './cases/sco_certification_results/same-ine-different-person.js';
-import caseSamePersonDifferentBirthdate from './cases/sco_certification_results/same-person-different-birthdate.js';
-import caseSpecialNames from './cases/sco_certification_results/special-names.js';
-import caseUAIok from './cases/sco_certification_results/uai-ok.js';
+import caseINEok from './cases/sco-certification-results/ine-ok.js';
+import caseSameINEDifferentPerson from './cases/sco-certification-results/same-ine-different-person.js';
+import caseSamePersonDifferentBirthdate from './cases/sco-certification-results/same-person-different-birthdate.js';
+import caseSpecialNames from './cases/sco-certification-results/special-names.js';
+import caseUAIok from './cases/sco-certification-results/uai-ok.js';
 import { chunkify } from './cases/tools.js';
 
 // eslint-disable-next-line n/no-process-env
