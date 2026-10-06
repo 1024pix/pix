@@ -1,5 +1,7 @@
 import { expect } from 'chai';
 
+import environments from '../../../../../datamart/knexfile.js';
+import { DatabaseConnection } from '../../../../../db/database-connection.js';
 import { extractTransformAndLoadData } from '../../../../../src/maddo/domain/usecases/extract-transform-and-load-data.ts';
 import { datamartKnex, datawarehouseKnex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
@@ -158,6 +160,84 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
     const tablesAfter = await listTables(datamartKnex);
     expect(result).to.deep.equal({ count: 2 });
     expect(tablesAfter).to.deep.equal(tablesBefore);
+  });
+  context('releasing connection to pool that was used for the low level COPY', function () {
+    // Thoses tests, by staying green, aim to demonstrate that connection is indeed released into the pool
+    // either after a success or a failure
+    // To do so, we instanciate a special knex client with only one connection available in the pool
+    // If the test timeouts, it means a regression has been introduced in the code, and the connection
+    // is not properly released.
+    // To check if those work correctly, please comment the connection release in the code : `await datamartKnex.context.client.releaseConnection(pgClient);`, the tests
+    // are supposed to fail.
+    it('releases connection when function succeedss', async function () {
+      const knexConfigWithOneMaxConnectionInPool = structuredClone(environments.test);
+      knexConfigWithOneMaxConnectionInPool.pool.max = 1;
+      const datamartWithOneConnectionKnex = new DatabaseConnection(knexConfigWithOneMaxConnectionInPool).knex;
+
+      const schema = (t) => {
+        t.string('firstName').notNullable();
+      };
+      await datawarehouseKnex.schema.createTable('to-replicate', (t) => {
+        schema(t);
+      });
+      await datamartWithOneConnectionKnex.schema.createTable('replication', schema);
+      await datamartWithOneConnectionKnex('replication').insert([
+        { firstName: 'oldfirst1' },
+        { firstName: 'oldfirst2' },
+      ]);
+      await datawarehouseKnex('to-replicate').insert([{ firstName: 'first1' }, { firstName: 'first2' }]);
+      const replications = {
+        'my-replication': { source: 'to-replicate', target: 'replication', columns: ['firstName'] },
+      };
+
+      // when
+      await extractTransformAndLoadData({
+        replicationName: 'my-replication',
+        replications,
+        datamartKnex: datamartWithOneConnectionKnex,
+        datawarehouseKnex,
+      });
+
+      // then
+      // If the next line succeeds, means connection is indeed available in the pool
+      const rows = await datamartWithOneConnectionKnex.pluck('firstName').from('replication').orderBy('firstName');
+      expect(rows).to.deep.equal(['first1', 'first2']);
+    });
+
+    it('releases connection when function fails', async function () {
+      const knexConfigWithOneMaxConnectionInPool = structuredClone(environments.test);
+      knexConfigWithOneMaxConnectionInPool.pool.max = 1;
+      const datamartWithOneConnectionKnex = new DatabaseConnection(knexConfigWithOneMaxConnectionInPool).knex;
+      await datawarehouseKnex.schema.createTable('to-replicate', (t) => {
+        t.string('id').notNullable();
+      });
+      await datamartWithOneConnectionKnex.schema.createTable('replication', (t) => {
+        t.integer('id').notNullable();
+      });
+      await datamartWithOneConnectionKnex('replication').insert([{ id: 123 }, { id: 456 }]);
+      await datawarehouseKnex('to-replicate').insert([{ id: 'not-an-integer' }]);
+
+      const replications = {
+        'my-replication': {
+          source: 'to-replicate',
+          target: 'replication',
+          columns: ['id'],
+        },
+      };
+
+      // when
+      await catchErr(extractTransformAndLoadData)({
+        replicationName: 'my-replication',
+        replications,
+        datamartKnex: datamartWithOneConnectionKnex,
+        datawarehouseKnex,
+      });
+
+      // then
+      // If the next line succeeds, means connection is indeed available in the pool
+      const rows = await datamartWithOneConnectionKnex.pluck('id').from('replication').orderBy('id');
+      expect(rows).to.deep.equal([123, 456]);
+    });
   });
 
   context('when the source is empty', function () {
