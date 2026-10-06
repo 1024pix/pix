@@ -1,0 +1,15 @@
+services:
+  moodle:
+    build:
+      args:
+        MOODLE_DOCKER_WWWROOT: ${MOODLE_DOCKER_WWWROOT:?error}
+        MOODLE_DOCKER_PHP_VERSION: ${MOODLE_DOCKER_PHP_VERSION:?error}
+        MOODLE_VERSION: ${MOODLE_VERSION:?error}
+    env_file:
+      - .env
+    ports:
+      - ${MOODLE_DOCKER_WEB_PORT}:80
+  db:
+    image: postgres:${MOODLE_DOCKER_DB_VERSION:?error}
+    env_file:
+      - .env
