@@ -63,6 +63,6 @@ export function createPixCertifTermsOfService(databaseBuilder) {
     id: LEGAL_DOCUMENT_PIX_CERTIF_TOS_ID_V2,
     type: 'TOS',
     service: 'pix-certif',
-    versionAt: '2021-01-01',
+    versionAt: '2021-12-03',
   });
 }
