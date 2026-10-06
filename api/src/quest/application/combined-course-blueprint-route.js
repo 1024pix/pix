@@ -158,7 +158,7 @@ const register = async function (server) {
         },
         pre: [
           {
-            method: securityPreHandlers.checkOrganizationAccess,
+            method: securityPreHandlers.checkUserBelongsToOrganization,
             assign: 'checkOrganizationAccess',
           },
         ],
