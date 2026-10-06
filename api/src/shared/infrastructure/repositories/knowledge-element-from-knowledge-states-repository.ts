@@ -86,6 +86,11 @@ const saveForUser = async ({
   skills: Skill[];
   at: Date;
 }) => {
+  // Two saves of the same user at once would read the same knowledge states
+  // and scores, and the last one would overwrite the first: they take turns.
+  await DomainTransaction.getConnection().raw("SELECT pg_advisory_xact_lock(hashtext('knowledge_states'), ?)", [
+    userId,
+  ]);
   const knowledgeStatesBefore = await knowledgeStateRepository.findByUserIds({ userIds: [userId] });
   const userCompetenceScores = await userCompetenceScoreRepository.findByUserIds([userId]);
 

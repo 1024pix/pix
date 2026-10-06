@@ -401,6 +401,41 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
       expect(saved[0].createdAt).to.be.instanceOf(Date);
     });
 
+    it('#batchSave should keep every answer and every pix when two saves of the same user run at once', async function () {
+      // given: two answers on two tubes of the same competence, saved at the same time
+      await migrate();
+      const fileKnowledgeElements = [
+        new KnowledgeElement({
+          userId: migratedUserId,
+          skillId: skillId('file', 3),
+          competenceId: 'competence_1',
+          status: VALIDATED,
+          source: DIRECT,
+          earnedPix: 3,
+        }),
+      ];
+
+      // when
+      await Promise.all([
+        knowledgeElementRepository.batchSave({ knowledgeElements: buildAnswerKnowledgeElements(migratedUserId) }),
+        knowledgeElementRepository.batchSave({ knowledgeElements: fileKnowledgeElements }),
+      ]);
+
+      // then: web went up to level 4, file to level 3, and the score counts both
+      const knowledgeStates = await knex('knowledge_states')
+        .select('tubeId', 'floor')
+        .where({ userId: migratedUserId })
+        .orderBy('tubeId');
+      const { pix } = await knex('user_competence_scores')
+        .where({ userId: migratedUserId, competenceId: 'competence_1' })
+        .first();
+      expect(knowledgeStates).to.deep.equal([
+        { tubeId: 'tube_file', floor: 3 },
+        { tubeId: 'tube_web', floor: 4 },
+      ]);
+      expect(pix).to.equal(16);
+    });
+
     it('#batchSave should leave a migrated user and another one with the same knowledge', async function () {
       // given
       await migrate();
