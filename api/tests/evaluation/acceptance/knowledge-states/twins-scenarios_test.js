@@ -211,6 +211,45 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
     });
   });
 
+  describe('campaign with capped tubes', function () {
+    it('should ask only the capped levels, give the same results, and forget whole tubes on a reset', async function () {
+      // given: twins who know the third battle, and a campaign capped under it
+      const twins = await buildTwins({ validated: ['batailles3'] });
+      const campaign = buildCampaign({ tubes: { batailles: 2, présidents: 3 }, multipleSendings: true });
+      await databaseBuilder.commit();
+
+      // when
+      const started = await both(twins, (twin) => act.startCampaignParticipation(twin, campaign));
+      const played = await playBoth(twins, started, knowledge({ defaultLevel: 3 }));
+      await both(twins, (twin) => act.computeCampaignResults(twin, started[twin.name].campaignParticipationId));
+
+      // then: nothing above the cap was asked, and both see the same results
+      expect(played.map(({ skill }) => skill)).to.not.include('batailles3');
+      expect(played.length).to.be.greaterThan(0);
+      await expectSameReadings(
+        twins,
+        read.profile,
+        (twin) => read.campaignAssessmentResult(twin, campaign.campaignId),
+        (twin) =>
+          read.prescriberParticipationResults(twin, {
+            ...campaign,
+            campaignParticipationId: started[twin.name].campaignParticipationId,
+          }),
+      );
+
+      // when: a new participation resets the campaign tubes
+      const reset = await both(twins, (twin) =>
+        act.startCampaignParticipation(twin, { campaignId: campaign.campaignId, isReset: true }),
+      );
+
+      // then: the whole tubes are forgotten, the third battle above the cap included
+      expect(reset.migrated.statusCode).to.equal(201);
+      await expectSameReadings(twins, read.profile, (twin) => read.scorecard(twin, histoire()));
+      const scorecard = await read.scorecard(twins.migrated, histoire());
+      expect(scorecard.body.data.attributes['earned-pix']).to.equal(0);
+    });
+  });
+
   describe('campaign with badges and stages', function () {
     it('should earn the same badges and reach the same stage', async function () {
       // given: a campaign on the battles and presidents, with two badges and three stages
