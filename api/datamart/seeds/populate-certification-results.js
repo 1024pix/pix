@@ -1,5 +1,5 @@
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
-import caseVerificationCodeOK from './cases/certification_results/verification-code-only.js';
+import caseVerificationCodeOK from './cases/certification-results/verification-code-only.js';
 import { chunkify } from './cases/tools.js';
 
 // eslint-disable-next-line n/no-process-env

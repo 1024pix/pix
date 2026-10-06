@@ -46,7 +46,7 @@ export class CertificationResult {
     this.certificationCodeVerification = certificationCodeVerification;
     this.certificationDate = certificationDate;
     this.certificationIssuedAt = certificationIssuedAt;
-    this.maxReachableLevel = maxReachableLevel; //todo  translate me into maxgloballevel
+    this.maxReachableLevel = maxReachableLevel;
     this.maxReachablePixScore = maxReachablePixScore;
     this.globalLevel = CertificateMeshLevel.buildFromScore({
       score: pixScore,
