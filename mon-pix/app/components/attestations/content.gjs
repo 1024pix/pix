@@ -5,6 +5,7 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import deburr from 'lodash/deburr';
 import kebabCase from 'lodash/kebabCase';
+import { ATTESTATION_DOWNLOAD_ORIGINS, EVENT_NAMES } from 'mon-pix/constants/metrics-events';
 
 import UiPageTitle from '../ui/page-title';
 import AttestationCard from './card';
@@ -18,19 +19,13 @@ export default class AttestationContent extends Component {
   @action
   async onClick(attestationDetail) {
     const { access_token: token, user_id: userId } = this.session.data.authenticated;
-    this.sendMetrics();
+    this.pixMetrics.trackEvent(EVENT_NAMES.ATTESTATION.DOWNLOAD_CLICK, {
+      origin: ATTESTATION_DOWNLOAD_ORIGINS.ATTESTATIONS_PAGE,
+    });
     const url = `/api/users/${userId}/attestations/${attestationDetail.key}`;
     const fileName = 'attestation-' + kebabCase(deburr(attestationDetail.label));
 
     await this.fileSaver.save({ url, token, fileName });
-  }
-
-  sendMetrics() {
-    this.pixMetrics.trackEvent('Clic sur le bouton Télécharger (attestation)', {
-      disabled: true,
-      category: 'Page Mes Attestations',
-      action: 'Cliquer sur le bouton Télécharger (attestation)',
-    });
   }
 
   <template>
