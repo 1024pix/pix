@@ -6,6 +6,7 @@ import { databaseBuilder } from '../../../tooling/databases.js';
 import {
   actions,
   buildCampaign,
+  buildExamCampaign,
   buildProfilesCollectionCampaign,
   buildTwins,
   competenceNamed,
@@ -207,6 +208,38 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
       expect(geographieScorecard.body.data.attributes['earned-pix']).to.be.greaterThan(0);
       const histoireScorecard = await read.scorecard(twins.migrated, histoire());
       expect(histoireScorecard.body.data.attributes['earned-pix']).to.equal(0);
+    });
+  });
+
+  describe('exam campaign', function () {
+    it('should ask the same challenges and give the same results, without touching the profile', async function () {
+      // given: twins who know the first battle, which an exam ignores
+      const twins = await buildTwins({ validated: ['batailles2'] });
+      const campaign = buildExamCampaign({ tubes: ['batailles', 'présidents'] });
+      await databaseBuilder.commit();
+      const profileBefore = await both(twins, read.profile);
+      expectSame(profileBefore);
+
+      // when
+      const started = await both(twins, (twin) => act.startCampaignParticipation(twin, campaign));
+      const played = await playBoth(twins, started, knowledge({ defaultLevel: 2 }));
+      await both(twins, (twin) => act.computeCampaignResults(twin, started[twin.name].campaignParticipationId));
+
+      // then: the exam asked the known battle again, and the profile did not move
+      expect(started.migrated.statusCode).to.equal(201);
+      expect(played.map(({ skill }) => skill)).to.include('batailles2');
+      await expectSameReadings(
+        twins,
+        read.profile,
+        (twin) => read.campaignAssessmentResult(twin, campaign.campaignId),
+        (twin) =>
+          read.prescriberParticipationResults(twin, {
+            ...campaign,
+            campaignParticipationId: started[twin.name].campaignParticipationId,
+          }),
+      );
+      const profileAfter = await both(twins, read.profile);
+      expect(profileAfter.migrated.body).to.deep.equal(profileBefore.migrated.body);
     });
   });
 

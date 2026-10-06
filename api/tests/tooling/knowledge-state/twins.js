@@ -105,6 +105,33 @@ export const buildCampaign = ({ tubes, multipleSendings = false }) => {
 };
 
 /**
+ * An exam campaign on the given tubes: the knowledge of a participation is
+ * kept in its snapshot only, not in the learner's knowledge elements.
+ * Call before `databaseBuilder.commit()`.
+ */
+export const buildExamCampaign = ({ tubes }) => {
+  const organizationId = databaseBuilder.factory.buildOrganization().id;
+  const prescriberId = databaseBuilder.factory.buildUser().id;
+  databaseBuilder.factory.buildMembership({
+    userId: prescriberId,
+    organizationId,
+    organizationRole: Membership.roles.MEMBER,
+  });
+  const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+  const campaignId = databaseBuilder.factory.buildCampaign({
+    organizationId,
+    targetProfileId,
+    type: CampaignTypes.EXAM,
+  }).id;
+  tubes.map(tubeNamed).forEach((tube) => {
+    databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: tube.id, level: 8 });
+    tube.skillIds.forEach((skillId) => databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId }));
+  });
+
+  return { campaignId, prescriberId };
+};
+
+/**
  * A profiles collection campaign, with a prescriber who can read its
  * participations. Call before `databaseBuilder.commit()`.
  */
