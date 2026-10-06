@@ -11,7 +11,7 @@ describe('Unit | UseCase | request-multiple-session-publication', function () {
 
   beforeEach(function () {
     sessionManagementRepository = {
-      get: sinon.stub(),
+      getSessionIdAndPublishedAt: sinon.stub(),
     };
     publishSessionJobRepository = {
       performAsync: sinon.stub(),
@@ -20,10 +20,8 @@ describe('Unit | UseCase | request-multiple-session-publication', function () {
 
   it('returns a NotFoundError when one of sessions does not exist', async function () {
     const sessionIds = [12, 23];
-    const existingSession = domainBuilder.certification.sessionManagement.buildSessionManagement({ id: 23 });
-
-    sessionManagementRepository.get.withArgs({ id: 12 }).resolves(undefined);
-    sessionManagementRepository.get.withArgs({ id: 23 }).resolves(existingSession);
+    domainBuilder.certification.sessionManagement.buildSessionManagement({ id: 23 });
+    sessionManagementRepository.getSessionIdAndPublishedAt.withArgs([12, 23]).resolves([{ id: 23, publishedAt: null }]);
 
     const result = await requestMultipleSessionPublication({
       sessionIds,
@@ -31,12 +29,10 @@ describe('Unit | UseCase | request-multiple-session-publication', function () {
       sessionManagementRepository,
     });
 
-    expect(result.hasPublicationErrors()).to.be.true;
-    expect(result.publicationErrors[12]).to.deep.equal(new NotFoundError('Session id 12 not found'));
+    expect(result[12]).to.deep.equal(new NotFoundError('Session id 12 not found'));
   });
 
   it('returns a SessionAlreadyPublishedError when one of sessions is already published', async function () {
-    const sessionIds = [12, 23];
     const existingSession = domainBuilder.certification.sessionManagement.buildSessionManagement({
       id: 12,
       publishedAt: null,
@@ -46,8 +42,11 @@ describe('Unit | UseCase | request-multiple-session-publication', function () {
       publishedAt: new Date(),
     });
 
-    sessionManagementRepository.get.withArgs({ id: 12 }).resolves(existingSession);
-    sessionManagementRepository.get.withArgs({ id: 23 }).resolves(alreadyPublishedSession);
+    sessionManagementRepository.getSessionIdAndPublishedAt.withArgs([12, 23]).resolves([
+      { id: alreadyPublishedSession.id, publishedAt: alreadyPublishedSession.publishedAt },
+      { id: existingSession.id, publishedAt: existingSession.publishedAt },
+    ]);
+    const sessionIds = [existingSession.id, alreadyPublishedSession.id];
 
     const result = await requestMultipleSessionPublication({
       sessionIds,
@@ -55,15 +54,13 @@ describe('Unit | UseCase | request-multiple-session-publication', function () {
       sessionManagementRepository,
     });
 
-    expect(result.hasPublicationErrors()).to.be.true;
-    expect(result.publicationErrors[23]).to.deep.equal(
-      new SessionAlreadyPublishedError('Session id 23 is already published'),
+    expect(result[alreadyPublishedSession.id]).to.deep.equal(
+      new SessionAlreadyPublishedError(`Session id ${alreadyPublishedSession.id} is already published`),
     );
   });
 
   it('calls `PublishSessionJob.performAsync` for the each of the two sessions', async function () {
     // given
-    const sessionIds = [12, 23];
     const firstSession = domainBuilder.certification.sessionManagement.buildSessionManagement({
       id: 12,
       publishedAt: null,
@@ -73,8 +70,11 @@ describe('Unit | UseCase | request-multiple-session-publication', function () {
       publishedAt: null,
     });
 
-    sessionManagementRepository.get.withArgs({ id: 12 }).resolves(firstSession);
-    sessionManagementRepository.get.withArgs({ id: 23 }).resolves(secondSession);
+    sessionManagementRepository.getSessionIdAndPublishedAt.withArgs([12, 23]).resolves([
+      { id: firstSession.id, publishedAt: firstSession.publishedAt },
+      { id: secondSession.id, publishedAt: secondSession.publishedAt },
+    ]);
+    const sessionIds = [firstSession.id, secondSession.id];
 
     // when
     await requestMultipleSessionPublication({

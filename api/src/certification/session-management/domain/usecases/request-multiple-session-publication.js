@@ -1,34 +1,26 @@
-import { randomUUID } from 'node:crypto';
-
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { SessionAlreadyPublishedError } from '../errors.js';
-import { SessionPublicationBatchResult } from '../models/SessionPublicationBatchResult.js';
 
 export async function requestMultipleSessionPublication({
   sessionIds,
-  batchId = randomUUID(),
   sessionManagementRepository,
   publishSessionJobRepository,
 }) {
-  const result = new SessionPublicationBatchResult(batchId);
+  const errors = {};
+  const foundedSessionIdWithPublishedAt = await sessionManagementRepository.getSessionIdAndPublishedAt(sessionIds);
 
-  for (const sessionId of sessionIds) {
-    const session = await sessionManagementRepository.get({ id: sessionId });
-
-    if (!session) {
-      result.addPublicationError(sessionId, new NotFoundError(`Session id ${sessionId} not found`));
-      continue;
-    }
-
-    if (session.isPublished()) {
-      result.addPublicationError(
-        sessionId,
-        new SessionAlreadyPublishedError(`Session id ${sessionId} is already published`),
-      );
-      continue;
-    }
-
-    await publishSessionJobRepository.performAsync({ sessionId });
+  const foundedSessionIdOnly = foundedSessionIdWithPublishedAt.map((f) => f.id);
+  const notFoundSessionIds = sessionIds.filter((sessionId) => !foundedSessionIdOnly.includes(sessionId));
+  for (const notFoundSessionId of notFoundSessionIds) {
+    errors[notFoundSessionId] = new NotFoundError(`Session id ${notFoundSessionId} not found`);
   }
-  return result;
+
+  for (const { id, publishedAt } of foundedSessionIdWithPublishedAt) {
+    if (publishedAt) {
+      errors[id] = new SessionAlreadyPublishedError(`Session id ${id} is already published`);
+      continue;
+    }
+    await publishSessionJobRepository.performAsync({ sessionId: id });
+  }
+  return errors;
 }

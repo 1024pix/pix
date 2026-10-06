@@ -6,7 +6,7 @@ import * as sessionManagementSerializer from '../infrastructure/serializers/sess
 async function publish(request, h) {
   const sessionId = request.params.id;
 
-  await usecases.sessionPublicationRequest({ sessionId });
+  await usecases.requestSessionPublication({ sessionId });
 
   return h.response().code(204);
 }
@@ -21,11 +21,16 @@ async function unpublish(request, h, dependencies = { sessionManagementSerialize
 
 async function publishInBatch(request, h) {
   const sessionIds = request.payload.data.attributes.ids;
-  const result = await usecases.sessionsPublicationRequest({ sessionIds });
+  const errors = await usecases.requestMultipleSessionPublication({ sessionIds });
 
-  if (result.hasPublicationErrors()) {
-    _logSessionBatchPublicationErrors(result);
-    throw new SessionPublicationBatchError(result.batchId);
+  const sessionIdsInError = Object.keys(errors);
+
+  if (sessionIdsInError.length > 0) {
+    logger.warn('One or more error occurred when publishing session in batch');
+    for (const sessionIdInError of Object.keys(errors)) {
+      logger.warn({ sessionId: sessionIdInError }, errors[sessionIdInError].message);
+    }
+    throw new SessionPublicationBatchError();
   }
   return h.response().code(204);
 }
@@ -35,18 +40,3 @@ export const sessionPublicationController = {
   unpublish,
   publishInBatch,
 };
-
-function _logSessionBatchPublicationErrors(result) {
-  logger.warn(`One or more error occurred when publishing session in batch ${result.batchId}`);
-
-  const sessionAndError = result.publicationErrors;
-  for (const sessionId in sessionAndError) {
-    logger.warn(
-      {
-        batchId: result.batchId,
-        sessionId,
-      },
-      sessionAndError[sessionId].message,
-    );
-  }
-}

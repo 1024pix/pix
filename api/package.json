@@ -72,7 +72,6 @@
     "start:watch": "npm run dev",
     "start:job": "node -r ./tracing.worker.js worker.js",
     "start:job:watch": "nodemon -r ./tracing.worker.js worker.js",
-    "start:job:dashboard": "DATABASE_URL='postgresql://postgres@localhost/pix' PORT=3001 pg-boss-dashboard",
     "test": "npm run test:db:reset && npm run test:api",
     "test:db:reset": "NODE_ENV=test run-p db:prepare datamart:prepare datawarehouse:prepare",
     "test:db:empty": "NODE_ENV=test run-p db:empty",
