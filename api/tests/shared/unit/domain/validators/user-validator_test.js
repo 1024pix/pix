@@ -24,6 +24,7 @@ describe('Unit | Shared | Domain | Validator | user-validator', function () {
           lastName: 'Doe',
           email: 'john.doe@example.net',
           hasAcceptedLegalDocuments: true,
+          username: null,
         });
       });
 
