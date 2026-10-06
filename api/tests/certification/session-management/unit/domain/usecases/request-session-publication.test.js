@@ -2,12 +2,12 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { SessionAlreadyPublishedError } from '../../../../../../src/certification/session-management/domain/errors.js';
-import { sessionPublicationRequest } from '../../../../../../src/certification/session-management/domain/usecases/session-publication-request.js';
+import { requestSessionPublication } from '../../../../../../src/certification/session-management/domain/usecases/request-session-publication.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Certification | Session-Management | Unit | Domain | Use Cases | Session-publication-request', function () {
+describe('Certification | Session-Management | Unit | Domain | Use Cases | Request-session-publication', function () {
   let sessionManagementRepository, publishSessionJobRepository;
 
   beforeEach(function () {
@@ -22,7 +22,7 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | Sessi
   it('throw a NotFoundError when session does not exist', async function () {
     const sessionId = Symbol('a session id');
 
-    const error = await catchErr(sessionPublicationRequest)({
+    const error = await catchErr(requestSessionPublication)({
       sessionId,
       publishSessionJobRepository,
       sessionManagementRepository,
@@ -39,7 +39,7 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | Sessi
 
     sessionManagementRepository.get.withArgs({ id: session.id }).resolves(session);
 
-    const error = await catchErr(sessionPublicationRequest)({
+    const error = await catchErr(requestSessionPublication)({
       sessionId: session.id,
       publishSessionJobRepository,
       sessionManagementRepository,
@@ -56,7 +56,7 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | Sessi
     sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(session);
 
     // when
-    await sessionPublicationRequest({
+    await requestSessionPublication({
       sessionId,
       publishSessionJobRepository,
       sessionManagementRepository,

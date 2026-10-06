@@ -2,11 +2,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { SessionAlreadyPublishedError } from '../../../../../../src/certification/session-management/domain/errors.js';
-import { sessionsPublicationRequest } from '../../../../../../src/certification/session-management/domain/usecases/sessions-publication-request.js';
+import { requestMultipleSessionPublication } from '../../../../../../src/certification/session-management/domain/usecases/request-multiple-session-publication.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
-describe('Unit | UseCase | sessions-publication-request', function () {
+describe('Unit | UseCase | request-multiple-session-publication', function () {
   let sessionManagementRepository, publishSessionJobRepository;
 
   beforeEach(function () {
@@ -25,7 +25,7 @@ describe('Unit | UseCase | sessions-publication-request', function () {
     sessionManagementRepository.get.withArgs({ id: 12 }).resolves(undefined);
     sessionManagementRepository.get.withArgs({ id: 23 }).resolves(existingSession);
 
-    const result = await sessionsPublicationRequest({
+    const result = await requestMultipleSessionPublication({
       sessionIds,
       publishSessionJobRepository,
       sessionManagementRepository,
@@ -49,7 +49,7 @@ describe('Unit | UseCase | sessions-publication-request', function () {
     sessionManagementRepository.get.withArgs({ id: 12 }).resolves(existingSession);
     sessionManagementRepository.get.withArgs({ id: 23 }).resolves(alreadyPublishedSession);
 
-    const result = await sessionsPublicationRequest({
+    const result = await requestMultipleSessionPublication({
       sessionIds,
       publishSessionJobRepository,
       sessionManagementRepository,
@@ -77,7 +77,7 @@ describe('Unit | UseCase | sessions-publication-request', function () {
     sessionManagementRepository.get.withArgs({ id: 23 }).resolves(secondSession);
 
     // when
-    await sessionsPublicationRequest({
+    await requestMultipleSessionPublication({
       sessionIds,
       publishSessionJobRepository,
       sessionManagementRepository,

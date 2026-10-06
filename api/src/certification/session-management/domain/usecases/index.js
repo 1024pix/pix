@@ -52,11 +52,11 @@ import { processAutoJury } from './process-auto-jury.js';
 import { publishSession } from './publish-session.js';
 import { registerPublishableSession } from './register-publishable-session.js';
 import { rejectCertificationCourse } from './reject-certification-course.js';
+import { requestMultipleSessionPublication } from './request-multiple-session-publication.js';
+import { requestSessionPublication } from './request-session-publication.js';
 import { saveCertificationIssueReport } from './save-certification-issue-report.js';
 import { saveJuryComplementaryCertificationCourseResult } from './save-jury-complementary-certification-course-result.js';
 import { sendCleaSessionResultsToReferers } from './send-session-results-to-referers.usecase.js';
-import { sessionPublicationRequest } from './session-publication-request.js';
-import { sessionsPublicationRequest } from './sessions-publication-request.js';
 import { superviseSession } from './supervise-session.js';
 import { uncancel } from './uncancel.js';
 import { unfinalizeSession } from './unfinalize-session.js';
@@ -195,8 +195,8 @@ const usecasesWithoutInjectedDependencies = {
   manuallyResolveCertificationIssueReport,
   processAutoJury,
   publishSession,
-  sessionPublicationRequest,
-  sessionsPublicationRequest,
+  requestSessionPublication,
+  requestMultipleSessionPublication,
   registerPublishableSession,
   rejectCertificationCourse,
   saveCertificationIssueReport,

@@ -1,7 +1,7 @@
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { SessionAlreadyPublishedError } from '../errors.js';
 
-export async function sessionPublicationRequest({
+export async function requestSessionPublication({
   sessionId,
   publishSessionJobRepository,
   sessionManagementRepository,

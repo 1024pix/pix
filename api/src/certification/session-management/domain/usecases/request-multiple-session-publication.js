@@ -4,13 +4,14 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { SessionAlreadyPublishedError } from '../errors.js';
 import { SessionPublicationBatchResult } from '../models/SessionPublicationBatchResult.js';
 
-export async function sessionsPublicationRequest({
+export async function requestMultipleSessionPublication({
   sessionIds,
   batchId = randomUUID(),
   sessionManagementRepository,
   publishSessionJobRepository,
 }) {
   const result = new SessionPublicationBatchResult(batchId);
+
   for (const sessionId of sessionIds) {
     const session = await sessionManagementRepository.get({ id: sessionId });
 
