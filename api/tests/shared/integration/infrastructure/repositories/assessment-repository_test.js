@@ -120,6 +120,63 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
+  describe('existsForUser', function () {
+    describe('when userId is provided', function () {
+      it('should returns true ', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser({}).id;
+        const assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId: 'courseId' }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const result = await assessmentRepository.existsForUser(assessmentId, userId);
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    describe('when userId is null in the assessment', function () {
+      it('should returns true', async function () {
+        // given
+        const assessmentId = databaseBuilder.factory.buildAssessment({ userId: null, courseId: 'courseId' }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const result = await assessmentRepository.existsForUser(assessmentId, null);
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    describe('when assessment does not exists', function () {
+      it('should returns false', async function () {
+        // when
+        const result = await assessmentRepository.existsForUser(123, null);
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+
+    describe('when assessment does not exists for the given user', function () {
+      it('should returns false', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser({}).id;
+        const otherUserId = databaseBuilder.factory.buildUser({}).id;
+        const assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId: 'courseId' }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const result = await assessmentRepository.existsForUser(assessmentId, otherUserId);
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
+
   describe('#getByAssessmentIdAndUserId', function () {
     describe('when userId is provided,', function () {
       let userId;
