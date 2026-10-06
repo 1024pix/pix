@@ -1,4 +1,4 @@
-export type ModuleType = {
+export type ModuleArgs = {
   id: string;
   title: string;
   slug: string;
@@ -21,7 +21,7 @@ export class Module {
   description: string;
   objectives: string[];
 
-  constructor({ id, title, slug, duration, image, shortId, level, description, objectives }: ModuleType) {
+  constructor({ id, title, slug, duration, image, shortId, level, description, objectives }: ModuleArgs) {
     this.id = id;
     this.title = title;
     this.slug = slug;
