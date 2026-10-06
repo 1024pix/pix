@@ -575,3 +575,8 @@ export async function createGARUser(id: string, firstName: string, lastName: str
 
   return userId;
 }
+
+export async function getLastPixOrgaInvitation() {
+  const { id: invitationId, code } = await knex('organization-invitations').orderBy('createdAt', 'desc').first();
+  return { invitationId, code };
+}
