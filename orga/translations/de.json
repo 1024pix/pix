@@ -835,7 +835,8 @@
         "title": "Einstellungen"
       },
       "tags": {
-        "BACK_TO_SCHOOL": "Parcours zum Schulanfang / 6. Klasse",
+        "ATTESTATION": "Bescheinigungen",
+        "BACK_TO_SCHOOL": "Parcours zum Schulanfang",
         "COMPETENCES": "Die 16 Kompetenzen",
         "CUSTOM": "Maßgeschneiderter Parcours",
         "DISCIPLINE": "Fachspezifisch",
