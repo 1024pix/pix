@@ -1,4 +1,4 @@
-import { AreaForCappedTubes } from '../../domain/models/combined-course-blueprints/value-objects/AreaForCappedTubes.js';
+import { AreaForCappedTubes } from '../../domain/models/combined-course-blueprints/value-objects/AreaForCappedTubes.ts';
 
 export const findAreasForTubeIds = async ({ tubesWithLevel, learningContentApi }) => {
   const levelByTubeId = new Map(tubesWithLevel);
