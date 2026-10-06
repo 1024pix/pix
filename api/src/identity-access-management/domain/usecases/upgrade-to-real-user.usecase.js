@@ -5,7 +5,7 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js'
 import { createAccountCreationEmail } from '../emails/create-account-creation.email.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
-const upgradeToRealUser = async function ({
+export async function upgradeToRealUser({
   userId,
   userAttributes,
   password,
@@ -17,17 +17,21 @@ const upgradeToRealUser = async function ({
   legalDocumentApiRepository,
   cryptoService,
 }) {
-  const user = await userRepository.get(userId);
-  if (!user.isAnonymous) {
-    throw new UnauthorizedError('User must be anonymous', 'NOT_ANONYMOUS_USER');
-  }
-
-  const existingUsersWithEmail = await userRepository.findAnotherUserByEmail(userId, userAttributes.email);
-  if (existingUsersWithEmail.length > 0) {
-    throw new AlreadyRegisteredEmailError();
-  }
-
   const { realUser, token } = await DomainTransaction.execute(async () => {
+    const user = await userRepository.get(userId);
+    if (!user.isAnonymous) {
+      throw new UnauthorizedError('User must be anonymous', 'NOT_ANONYMOUS_USER');
+    }
+
+    const existingUsersWithEmail = await userRepository.findAnotherUserByEmail(userId, userAttributes.email);
+    if (existingUsersWithEmail.length > 0) {
+      throw new AlreadyRegisteredEmailError();
+    }
+
+    // FIXME user.cgu/hasAcceptedLegalDocuments is not checked
+    // FIXME call user validator ?
+    // FIXME call password validator ?
+
     const realUser = user.convertAnonymousToRealUser(userAttributes);
     await userRepository.update(realUser.mapToDatabaseDto());
 
@@ -58,6 +62,4 @@ const upgradeToRealUser = async function ({
     }),
   );
   return realUser;
-};
-
-export { upgradeToRealUser };
+}
