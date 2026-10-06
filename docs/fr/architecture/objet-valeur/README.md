@@ -13,7 +13,7 @@ La partie [référence des règles](#référence-des-règles) explique chaque r�
 | [V1](#v1-immuable) | Immuable | champs privés `#` ; aucune méthode ne modifie un champ |
 | [V2](#v2-pas-didentifiant) | Pas d'identifiant | pas d'`id` à lui ; contenir l'`id` d'autre chose, comme un `challengeId`, est permis |
 | [V3](#v3-valide-dès-la-construction) | Valide dès la construction | le constructeur lève une erreur du domaine (`DomainError`) sur une valeur invalide |
-| [V4](#v4-aucune-io) | Aucune I/O | aucun import d'infrastructure ; la date du jour est passée en paramètre |
+| [V4](#v4-aucun-effet-de-bord-extérieur) | Aucun effet de bord extérieur | aucun import d'infrastructure, aucun effet de bord extérieur : la date du jour est passée en paramètre |
 | [V5](#v5-contient-ses-règles) | Contient ses règles | une règle sur les données de l'objet est une méthode de l'objet |
 | [V6](#v6-pas-de-repository) | Pas de [repository](../repository/README.md) | pas de repository, pas de table : le Value Object est enregistré avec l'objet qui le contient |
 | [V7](#v7-lecture-seule-tableaux-compris) | Lecture seule, tableaux compris | un accesseur renvoie une copie : `[...this.#items]`, jamais `this.#items` |
@@ -259,7 +259,7 @@ réponse vide est comptée juste.
   attraper plusieurs types d'erreurs.
 - Un objet qui contient d'autres objets valide aussi les autres objets.
 
-### V4. Aucune I/O
+### V4. Aucun effet de bord extérieur
 
 **La règle.** Un Value Object n'importe rien de l'infrastructure : ni base de données, ni log, ni
 appel HTTP. Le Value Object n'appelle pas `new Date()`, pas `Math.random()`, et ne lit pas la
