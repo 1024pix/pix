@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { CombinedCourseBlueprintForUpdate } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForUpdate.js';
+import { CombinedCourseBlueprintForUpdate } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForUpdate.ts';
 import { combinedCourseBlueprintForUpdateSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-blueprint-for-update-serializer.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | combined-course-for-update', function () {
