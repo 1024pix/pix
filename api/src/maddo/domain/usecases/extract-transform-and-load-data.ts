@@ -1,6 +1,7 @@
 import type { Knex } from 'knex';
 import type { Client as PgClient } from 'pg';
 
+import { getRequestId } from '../../../shared/infrastructure/execution-context-manager.js';
 import { type Replication, replications as defaultReplications } from '../../infrastructure/replications.ts';
 import { copyFromStdin as defaultCopyFromStdin } from '../../infrastructure/utils/copy-from-stdin.ts';
 
@@ -38,12 +39,43 @@ export const extractTransformAndLoadData = async ({
   const replication = replications[replicationName];
   if (!replication) throw new Error(`Unknown replication "${replicationName}".`);
   const { source, target, columns } = replication;
+  const tempTarget = `${target}_staging_${getRequestId()}`;
+
+  try {
+    const res = await fillTempTable(
+      source,
+      target,
+      columns,
+      tempTarget,
+      replicationName,
+      datamartKnex,
+      datawarehouseKnex,
+      copyFromStdin,
+    );
+    await datamartKnex.transaction(async (trx) => {
+      await trx.raw('DROP TABLE ??', [target]);
+      await trx.raw('ALTER TABLE ?? RENAME TO ??', [tempTarget, target]);
+    });
+    return res;
+  } finally {
+    await datamartKnex.raw('DROP TABLE IF EXISTS ??', [tempTarget]);
+  }
+};
+
+async function fillTempTable(
+  source,
+  target,
+  columns,
+  tempTarget,
+  replicationName,
+  datamartKnex,
+  datawarehouseKnex,
+  copyFromStdin,
+) {
+  await datamartKnex.raw('CREATE TABLE ?? (LIKE ?? INCLUDING ALL)', [tempTarget, target]);
   const targetColumns: readonly string[] = Array.isArray(columns) ? columns : Object.keys(columns);
-
-  await datamartKnex(target).truncate();
-
   const pgClient = await datamartKnex.context.client.acquireConnection();
-  const copy = copyFromStdin({ pgClient, table: target, columns: targetColumns });
+  const copy = copyFromStdin({ pgClient, table: tempTarget, columns: targetColumns });
   try {
     // knex streams rows as `any`; the CSV encoder only needs them keyed by column name.
     const rows: AsyncIterable<Record<string, unknown>> = datawarehouseKnex(source).select(columns).stream();
@@ -58,4 +90,4 @@ export const extractTransformAndLoadData = async ({
   } finally {
     await datamartKnex.context.client.releaseConnection(pgClient);
   }
-};
+}
