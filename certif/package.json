@@ -54,7 +54,7 @@
     "@ember/test-helpers": "^5.4.3",
     "@embroider/compat": "^3.9.4",
     "@embroider/core": "^3.5.10",
-    "@embroider/macros": "^1.20.7",
+    "@embroider/macros": "^1.21.1",
     "@embroider/webpack": "^4.1.2",
     "@glimmer/component": "^2.0.0",
     "@warp-drive/build-config": "^5.8.2",
