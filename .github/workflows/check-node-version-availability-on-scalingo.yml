@@ -6,7 +6,7 @@ on:
 
 jobs:
   check-node-compatibility:
-    if: github.head_ref == 'renovate/node' || (startsWith(github.head_ref, 'renovate/major-') && endsWith(github.head_ref, '-node'))
+    if: github.head_ref == 'renovate/node' || startsWith(github.head_ref, 'renovate/node-') || (startsWith(github.head_ref, 'renovate/major-') && endsWith(github.head_ref, '-node'))
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
