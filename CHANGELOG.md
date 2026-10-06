@@ -1,5 +1,41 @@
 # Pix Changelog
 
+# [5.515.0](https://github.com/1024pix/pix/compare/v5.514.0...v5.515.0) (2026-10-06)
+
+### :rocket: Amélioration
+
+- [#17720](https://github.com/1024pix/pix/pull/17720) Ajout de la catégorie "Attestations" pour les profils cibles + traduction "Parcours de rentrée" (PIX-24522)
+- [#17612](https://github.com/1024pix/pix/pull/17612) Au logout d’une session par connexion OIDC, révoquer la sessionId (PIX-24080)
+- [#17715](https://github.com/1024pix/pix/pull/17715) Deplacer l'onglet equipe dans le menu Pix Admin (PIX-24312)
+- [#17703](https://github.com/1024pix/pix/pull/17703) Migrations des tables nécessaires a la mise en place des `knowledge states` (PIX-24498)
+- [#17719](https://github.com/1024pix/pix/pull/17719) Préciser la nomenclature des clés de badge France Travail (PIX-24566)
+- [#17728](https://github.com/1024pix/pix/pull/17728) Tracker le clic de téléchargement des attestations dans Plausible (PIX-24067).
+
+### :bug: Correction
+
+- [#17726](https://github.com/1024pix/pix/pull/17726) Corrige 2 bugs sur la 2eme page du certificat (PIX-24570)
+- [#17716](https://github.com/1024pix/pix/pull/17716) Procéder par paquets pour la rectification des scores pix des résultats annulés ou rejetés via le script
+
+### :building_construction: Tech
+
+- [#17731](https://github.com/1024pix/pix/pull/17731) Ajouter la route de healthcheck dans le swagger Parcoursup (PIX-24546).
+- [#17733](https://github.com/1024pix/pix/pull/17733) Comparer les payloads de jobs comme un ensemble non ordonné.
+- [#17736](https://github.com/1024pix/pix/pull/17736) Corriger l'action de vérification de disponibilité de nodeJs
+- [#17709](https://github.com/1024pix/pix/pull/17709) Créer une structure à la création d'un CDC (PIX-24395)
+- [#17732](https://github.com/1024pix/pix/pull/17732) Diminuer les updates d'assessment dans getNextChallengeForCampaignAssessment
+- [#17730](https://github.com/1024pix/pix/pull/17730) OTEL dans les tests d'acceptance
+- [#17727](https://github.com/1024pix/pix/pull/17727) Réduire le nombre d'appels sur les routes d'assessment
+
+### :arrow_up: Montée de version
+
+- [#17724](https://github.com/1024pix/pix/pull/17724) Update dependency @ember-intl/v1-compat to ^1.3.1 (mon-pix)
+- [#17729](https://github.com/1024pix/pix/pull/17729) Update dependency @embroider/macros to ^1.21.1 (certif)
+- [#17742](https://github.com/1024pix/pix/pull/17742) Update dependency @embroider/macros to ^1.21.1 (junior)
+- [#17744](https://github.com/1024pix/pix/pull/17744) Update dependency @embroider/macros to ^1.21.1 (mon-pix)
+- [#17745](https://github.com/1024pix/pix/pull/17745) Update dependency @glimmer/component to ^2.1.1 (admin)
+- [#17738](https://github.com/1024pix/pix/pull/17738) Update dependency @opentelemetry/instrumentation-pg to ^0.73.0 (api) [SECURITY]
+- [#17737](https://github.com/1024pix/pix/pull/17737) Update dependency joi to ^18.2.9 (api) [SECURITY]
+
 # [5.514.0](https://github.com/1024pix/pix/compare/v5.513.0...v5.514.0) (2026-10-05)
 
 ### :rocket: Amélioration
