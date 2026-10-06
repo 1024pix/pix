@@ -6,6 +6,7 @@ import { databaseBuilder } from '../../../tooling/databases.js';
 import {
   actions,
   buildCampaign,
+  buildProfilesCollectionCampaign,
   buildTwins,
   competenceNamed,
   knowledge,
@@ -206,6 +207,52 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
       expect(geographieScorecard.body.data.attributes['earned-pix']).to.be.greaterThan(0);
       const histoireScorecard = await read.scorecard(twins.migrated, histoire());
       expect(histoireScorecard.body.data.attributes['earned-pix']).to.equal(0);
+    });
+  });
+
+  describe('profiles collection campaign', function () {
+    it('should share the same profile, and still read it the same once a tube moves after the share', async function () {
+      // given
+      const twins = await buildTwins({ validated: ['présidents2', 'mers3'] });
+      const campaign = buildProfilesCollectionCampaign();
+      await databaseBuilder.commit();
+      const prescriberReadings = [
+        (twin) => read.prescriberProfile(twin, { ...campaign, campaignParticipationId: twin.last }),
+      ];
+
+      // when
+      const started = await both(twins, (twin) => act.startCampaignParticipation(twin, campaign));
+      twins.migrated.last = started.migrated.campaignParticipationId;
+      twins.other.last = started.other.campaignParticipationId;
+      const shared = await both(twins, (twin) => act.shareCampaignParticipation(twin, twin.last));
+
+      // then
+      expect(started.migrated.statusCode).to.equal(201);
+      expectSame(shared);
+      expect(shared.migrated.statusCode).to.equal(204);
+      await expectSameReadings(twins, (twin) => read.sharedProfile(twin, campaign.campaignId), ...prescriberReadings);
+      const profiles = await read.prescriberProfiles([twins.migrated, twins.other], campaign);
+      expect(profiles.statusCode).to.equal(200);
+      expect(profiles.body.data).to.have.lengthOf(2);
+      expect(profiles.body.data[0]).to.deep.equal(profiles.body.data[1]);
+
+      // when: the learner plays the history competence after sharing
+      const evaluation = await both(twins, (twin) => act.startCompetenceEvaluation(twin, histoire()));
+      await playBoth(twins, evaluation, knowledge({ defaultLevel: 2 }));
+
+      // then: the prescriber reads the snapshot taken at the share, unchanged
+      await expectSameReadings(twins, ...prescriberReadings);
+
+      // and so does the learner: their shared profile is read from the same
+      // snapshot. A knowledge state has one date per tube, so a live read at
+      // the share date would lose the presidents tube, moved after the share.
+      const sharedProfiles = await both(twins, (twin) => read.sharedProfile(twin, campaign.campaignId));
+      expectSame(sharedProfiles);
+      const histoirePixOf = (profile) =>
+        profile.body.included.find(({ type, id }) => type === 'scorecards' && id.endsWith(histoire())).attributes[
+          'earned-pix'
+        ];
+      expect(histoirePixOf(sharedProfiles.migrated)).to.equal(4);
     });
   });
 

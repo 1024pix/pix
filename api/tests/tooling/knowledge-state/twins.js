@@ -13,6 +13,7 @@ import { FAILSAFE_SCHEMA, load } from 'js-yaml';
 
 import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/index.js';
 import { usecases as campaignParticipationUsecases } from '../../../src/prescription/campaign-participation/domain/usecases/index.js';
+import { CampaignTypes } from '../../../src/prescription/shared/domain/constants.ts';
 import { KnowledgeElement } from '../../../src/shared/domain/models/KnowledgeElement.js';
 import { Membership } from '../../../src/shared/domain/models/Membership.js';
 import { learningContentCache } from '../../../src/shared/infrastructure/caches/learning-content-redis-cache.js';
@@ -99,6 +100,28 @@ export const buildCampaign = ({ tubes, multipleSendings = false }) => {
     databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: tube.id, level: 8 });
     tube.skillIds.forEach((skillId) => databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId }));
   });
+
+  return { campaignId, prescriberId };
+};
+
+/**
+ * A profiles collection campaign, with a prescriber who can read its
+ * participations. Call before `databaseBuilder.commit()`.
+ */
+export const buildProfilesCollectionCampaign = ({ multipleSendings = false } = {}) => {
+  const organizationId = databaseBuilder.factory.buildOrganization().id;
+  const prescriberId = databaseBuilder.factory.buildUser().id;
+  databaseBuilder.factory.buildMembership({
+    userId: prescriberId,
+    organizationId,
+    organizationRole: Membership.roles.MEMBER,
+  });
+  const campaignId = databaseBuilder.factory.buildCampaign({
+    organizationId,
+    type: CampaignTypes.PROFILES_COLLECTION,
+    targetProfileId: null,
+    multipleSendings,
+  }).id;
 
   return { campaignId, prescriberId };
 };
@@ -247,7 +270,17 @@ export const actions = (server) => {
     });
     const campaignParticipationId = Number(response.result.data.id);
     const assessment = await knex('assessments').where({ campaignParticipationId }).orderBy('id', 'desc').first();
-    return { statusCode: response.statusCode, campaignParticipationId, assessmentId: assessment.id };
+    return { statusCode: response.statusCode, campaignParticipationId, assessmentId: assessment?.id ?? null };
+  };
+
+  // A profiles collection participation is shared by the learner, there is no assessment to complete.
+  const shareCampaignParticipation = async ({ userId }, campaignParticipationId) => {
+    const response = await inject(server, {
+      userId,
+      method: 'PATCH',
+      url: `/api/campaign-participations/${campaignParticipationId}`,
+    });
+    return { statusCode: response.statusCode };
   };
 
   // Completing a campaign assessment shares its results. The results are then
@@ -264,6 +297,7 @@ export const actions = (server) => {
     play,
     resetCompetence,
     startCampaignParticipation,
+    shareCampaignParticipation,
     computeCampaignResults,
   };
 };
@@ -350,7 +384,9 @@ const comparable = async (response, twins) => {
     (json, id) => json.replaceAll(new RegExp(`(?<![\\d.])${id}(?![\\d.])`, 'g'), '<id>'),
     JSON.stringify(response.result),
   );
-  return { statusCode: response.statusCode, body: JSON.parse(text.replace(ISO_DATE, '<date>')) };
+  // An id given as a bare number must stay valid JSON once masked.
+  const quoted = text.replace(/(?<=[:[,])<id>(?=[,\]}])/g, '"<id>"');
+  return { statusCode: response.statusCode, body: JSON.parse(quoted.replace(ISO_DATE, '<date>')) };
 };
 
 /**
@@ -372,6 +408,9 @@ export const readings = (server) => {
   const campaignParticipations = (twin, campaignId) =>
     read(twin, { method: 'GET', url: `/api/users/${twin.userId}/campaigns/${campaignId}/campaign-participations` });
 
+  const sharedProfile = (twin, campaignId) =>
+    read(twin, { method: 'GET', url: `/api/users/${twin.userId}/campaigns/${campaignId}/profile` });
+
   // Read by the prescriber about one twin or both: their ids are the ones to hide.
   const readAsPrescriber = async (twins, prescriberId, url) =>
     comparable(await inject(server, { userId: prescriberId, method: 'GET', url }), twins);
@@ -381,6 +420,16 @@ export const readings = (server) => {
 
   const prescriberCollectiveResults = (twins, { prescriberId, campaignId }) =>
     readAsPrescriber(twins, prescriberId, `/api/campaigns/${campaignId}/collective-results`);
+
+  const prescriberProfiles = (twins, { prescriberId, campaignId }) =>
+    readAsPrescriber(twins, prescriberId, `/api/campaigns/${campaignId}/profiles-collection-participations`);
+
+  const prescriberProfile = (twin, { prescriberId, campaignId, campaignParticipationId }) =>
+    readAsPrescriber(
+      twin,
+      prescriberId,
+      `/api/campaigns/${campaignId}/profiles-collection-participations/${campaignParticipationId}`,
+    );
 
   const prescriberParticipationResults = (twin, { prescriberId, campaignId, campaignParticipationId }) =>
     readAsPrescriber(
@@ -395,6 +444,9 @@ export const readings = (server) => {
     certifiability,
     campaignAssessmentResult,
     campaignParticipations,
+    sharedProfile,
+    prescriberProfiles,
+    prescriberProfile,
     prescriberAssessmentResults,
     prescriberCollectiveResults,
     prescriberParticipationResults,
