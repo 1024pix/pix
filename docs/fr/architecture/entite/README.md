@@ -10,14 +10,15 @@ La partie [référence des règles](#référence-des-règles) explique chaque r�
 
 | # | Règle | En pratique |
 | --- | --- | --- |
-| [E1](#e1-un-identifiant-qui-ne-change-pas) | Un identifiant qui ne change pas | un identifiant dans l'objet, avec un type à lui ; aucune méthode ne modifie l'identifiant |
+| [E1](#e1-un-identifiant-qui-ne-change-pas) | Un identifiant qui ne change pas | l'identifiant est une propriété ; aucune méthode ne modifie cette propriété |
 | [E2](#e2-comparer-par-identifiant) | Comparer par identifiant | comparer les `id`, pas les autres champs |
 | [E3](#e3-toujours-valide) | Toujours valide | le constructeur et chaque méthode lèvent une erreur du domaine (`DomainError`) si une règle n'est pas respectée |
-| [E4](#e4-aucune-io) | Aucune I/O | aucun import d'infrastructure ; la date du jour est passée en paramètre |
+| [E4](#e4-aucun-effet-de-bord-extérieur) | Aucun effet de bord extérieur | aucun import d'infrastructure, aucun effet de bord extérieur : la date du jour est passée en paramètre |
 | [E5](#e5-rien-pour-la-base-de-données) | Rien pour la base de données | pas de `toDTO()` ni de `fromDTO()` : c'est le travail du repository |
 | [E6](#e6-pas-de-setter) | Pas de setter | chaque changement a une méthode avec un nom métier : `rename()`, pas `set name()` |
 | [E7](#e7-les-autres-aggregates-par-identifiant) | Les autres Aggregates par identifiant | `createdBy: UserId`, pas `creator: User` |
 | [E8](#e8-un-nom-du-métier) | Un nom du métier | un fichier par Entity, en PascalCase, avec un nom du métier |
+| [E9](#e9-seule-une-aggregate-root-émet-des-événements) | Seule une Aggregate Root émet des événements | `emitDomainEvent()` est protégé, dans la classe `AggregateRoot` |
 
 ## Exemple complet
 
@@ -29,6 +30,8 @@ Une organisation, simplifiée : un nom, un type, la personne qui a créé l'orga
 import type { OrganizationId, UserId } from '../../../shared/domain/Id.js';
 import { ArchivedOrganizationError, FeatureAlreadyEnabledError, InvalidOrganizationError } from '../errors.js';
 import { type FeatureName, OrganizationFeature } from './OrganizationFeature.js';
+import { AggregateRoot } from '../../../shared/domain/models/AggregateRoot.js';
+import { OrganizationArchived } from '../events/OrganizationArchived.js';
 
 export const OrganizationTypes = ['SCO', 'SUP', 'PRO', 'SCO-1D'] as const;
 export type OrganizationType = (typeof OrganizationTypes)[number];
@@ -46,7 +49,8 @@ type OrganizationProps<Id> = {
 
 // Organization<null> : une organisation neuve, pas encore enregistrée
 // Organization : une organisation enregistrée, avec un id
-export class Organization<Id extends OrganizationId | null = OrganizationId> {
+// E9 : une Aggregate Root, qui peut émettre des événements du domaine
+export class Organization<Id extends OrganizationId | null = OrganizationId> extends AggregateRoot {
   readonly id: Id; // E1 : l'identifiant, en lecture seule
   readonly type: OrganizationType;
   readonly createdBy: UserId; // E7 : un autre Aggregate, gardé par son identifiant
@@ -58,6 +62,7 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> {
 
   // E3 : une organisation invalide n'est pas créée
   constructor({ id, name, type, createdBy, createdAt, updatedAt, archivedAt, features }: OrganizationProps<Id>) {
+    super();
     assertValidName(name);
     if (!OrganizationTypes.includes(type)) throw new InvalidOrganizationError(`Unknown type: ${type}`);
     this.id = id;
@@ -112,6 +117,7 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> {
     if (this.isArchived) throw new ArchivedOrganizationError();
     this.#archivedAt = now;
     this.#updatedAt = now;
+    this.emitDomainEvent(new OrganizationArchived({ organizationId: this.id, archivedAt: now })); // E9
   }
 
   enableFeature(featureName: FeatureName, now: Date): void {
@@ -201,6 +207,16 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
       expect(organization.isArchived).to.be.true;
     });
 
+    it('emits an OrganizationArchived event', function () {
+      const organization = buildOrganization();
+
+      organization.archive(now);
+
+      expect(organization.pullDomainEvents()).to.deep.equal([
+        new OrganizationArchived({ organizationId: 1 as OrganizationId, archivedAt: now }),
+      ]);
+    });
+
     it('refuses to archive an organization already archived, and changes nothing', function () {
       const organization = buildOrganization({ archivedAt: new Date('2026-01-01') });
 
@@ -239,10 +255,11 @@ L'Entity peut-elle devenir invalide ?
 L'Entity dépend-elle d'autre chose que de ses propres données ?
 [ ] E7  Un autre Aggregate est gardé par son identifiant, pas par l'objet entier
 [ ] E4  Aucun import d'infrastructure ; ni new Date(), ni Math.random(), ni configuration
+[ ] E9  Seule une Aggregate Root émet des événements du domaine
 [ ] E5  Aucune méthode que seul le repository appelle
 
 L'Entity a-t-elle un identifiant stable et un nom du métier ?
-[ ] E1  Un id dans l'objet ; aucune méthode ne modifie l'id
+[ ] E1  L'identifiant est une propriété qu'aucune méthode ne modifie
 [ ] E2  Les comparaisons utilisent l'id
 [ ] E8  Un fichier, en PascalCase, avec un nom du métier
 
@@ -254,17 +271,14 @@ Les tests
 
 ### E1. Un identifiant qui ne change pas
 
-**La règle.** L'Entity contient son identifiant. L'identifiant ne change jamais. L'identifiant a un
-type à lui, comme `OrganizationId`, pas `number`. L'identifiant prend plusieurs formes :
+**La règle.** L'identifiant est une propriété de l'Entity, souvent nommée `id`. Aucune méthode ne
+modifie cette propriété. Le type de l'identifiant est un type à lui, comme `OrganizationId`, ou un
+Value Object, pas `number`. L'identifiant prend plusieurs formes :
 
 - un entier créé par la base de données : le cas le plus courant, par exemple `Organization` ;
-- un texte qui vient d'un référentiel externe : `Skill`, `Challenge` ;
-- un UUID, créé par la base de données ou dans le domaine avant l'enregistrement : `Chat`, `Module` ;
-- une valeur du métier, quand le métier retrouve l'Entity par cette valeur : `RefreshToken` par sa
-  `value`.
-
-Une Entity peut aussi avoir un identifiant naturel en plus de son `id` : une `Campaign` se retrouve
-aussi par son `code`, un `Module` par son `slug`.
+- une chaîne qui vient du référentiel : `skillId`, `tubeId`, `challengeId` ;
+- un UUID : les modules, les chats ;
+- une valeur du métier : le `code` d'une campagne, le `slug` d'un module.
 
 **Bon exemple.**
 
@@ -405,7 +419,7 @@ renomme l'organisation, oublie la règle, et une organisation a un nom vide.
 - Une méthode qui modifie plusieurs champs vérifie tout avant de modifier le premier champ. Sinon,
   une erreur au milieu laisse l'Entity à moitié modifiée.
 
-### E4. Aucune I/O
+### E4. Aucun effet de bord extérieur
 
 **La règle.** Une Entity n'importe rien de l'infrastructure : pas de base de données, pas de log, pas
 d'appel HTTP. L'Entity n'appelle pas `new Date()`, pas `Math.random()`, et ne lit pas la
@@ -547,6 +561,10 @@ l'organisation.
 `Organization` garde ses `OrganizationFeature` entières, et garde `createdBy` par son identifiant,
 parce qu'un utilisateur est un autre Aggregate.
 
+**À savoir.** En cas de problème de performance mesuré en production sur le chargement d'un
+Aggregate, deux solutions : revoir la frontière, si aucune règle ne relie les objets ; ou créer un
+read-model pour la lecture concernée. Jamais une Entity chargée à moitié.
+
 ### E8. Un nom du métier
 
 **La règle.** Un fichier par Entity, dans le dossier `domain/models/`. Le nom du fichier est le nom
@@ -563,3 +581,59 @@ fichier.
 
 **Exceptions.** Deux contextes peuvent avoir chacun une Entity avec le même nom, pour deux choses
 différentes : chaque contexte a son vocabulaire. L'import dit de quel contexte vient l'Entity.
+
+### E9. Seule une Aggregate Root émet des événements
+
+**La règle.** Un événement du domaine dit qu'un changement a eu lieu, par exemple « l'organisation est
+archivée ». Seule une Aggregate Root émet des événements, depuis ses propres méthodes. La méthode
+`emitDomainEvent()` est protégée, dans la classe `AggregateRoot` : le code hors de la classe ne peut
+pas l'appeler. Une Entity qui n'est pas une Aggregate Root n'émet rien.
+
+**Bon exemple.**
+
+```ts
+// shared/domain/models/AggregateRoot.ts
+export abstract class AggregateRoot {
+  #domainEvents: DomainEvent[] = [];
+
+  protected emitDomainEvent(event: DomainEvent): void {
+    this.#domainEvents.push(event);
+  }
+
+  // renvoie les événements, puis vide la liste : le nom dit que la liste est vidée
+  pullDomainEvents(): DomainEvent[] {
+    const events = this.#domainEvents;
+    this.#domainEvents = [];
+    return events;
+  }
+}
+```
+
+```ts
+archive(now: Date): void {
+  if (this.isArchived) throw new ArchivedOrganizationError();
+  this.#archivedAt = now;
+  this.#updatedAt = now;
+  this.emitDomainEvent(new OrganizationArchived({ organizationId: this.id, archivedAt: now }));
+}
+```
+
+**Mauvais exemple.**
+
+```ts
+export class OrganizationFeature {
+  enable(now: Date): void {
+    …
+    domainEvents.emit(new FeatureEnabled({ featureName: this.featureName })); // une Entity interne émet
+  }
+}
+```
+
+**Ce que ça apporte.** Un événement part de l'objet qui garantit les règles du groupe. Quand
+`OrganizationArchived` existe, toutes les règles de l'archivage ont été vérifiées par `archive()`.
+
+**Sans cette règle.** Une Entity interne émet un événement sans que la racine ait vérifié les règles
+du groupe. Le code qui reçoit l'événement réagit à un changement que l'Aggregate peut encore refuser.
+
+**À savoir.** Les événements sont publiés après l'enregistrement, une fois la transaction validée,
+par le code qui enveloppe le usecase. Le usecase et le repository ne publient rien eux-mêmes.
