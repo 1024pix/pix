@@ -17,9 +17,9 @@ type KnexWithPool = Knex & {
 
 /**
  * Refreshes a datamart table from its datawarehouse source (see `infrastructure/replications.ts`):
- * truncate the target, then stream the selected columns of the source into it with a single
- * `COPY ... FROM STDIN`.
- *
+ * creates a temporary table to stream the selected columns of the source into it with a single
+ * `COPY ... FROM STDIN`
+ * then delete former table and rename temporary table in a single transaction *
  * Rows are never part of a SQL statement or of its parameters, so the datamart statement logs
  * (which are shipped to Datadog) cannot contain them.
  */
@@ -38,14 +38,12 @@ export const extractTransformAndLoadData = async ({
 }): Promise<{ count: number }> => {
   const replication = replications[replicationName];
   if (!replication) throw new Error(`Unknown replication "${replicationName}".`);
-  const { source, target, columns } = replication;
-  const tempTarget = `${target}_staging_${getRequestId()}`;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  const tempTarget = `${replication.target}_staging_${getRequestId()}`; // `getRequestId` is a JS function thus typescript considers it as unsafe to call it
 
   try {
     const res = await fillTempTable(
-      source,
-      target,
-      columns,
+      replication,
       tempTarget,
       replicationName,
       datamartKnex,
@@ -53,8 +51,8 @@ export const extractTransformAndLoadData = async ({
       copyFromStdin,
     );
     await datamartKnex.transaction(async (trx) => {
-      await trx.raw('DROP TABLE ??', [target]);
-      await trx.raw('ALTER TABLE ?? RENAME TO ??', [tempTarget, target]);
+      await trx.raw('DROP TABLE ??', [replication.target]);
+      await trx.raw('ALTER TABLE ?? RENAME TO ??', [tempTarget, replication.target]);
     });
     return res;
   } finally {
@@ -63,15 +61,14 @@ export const extractTransformAndLoadData = async ({
 };
 
 async function fillTempTable(
-  source,
-  target,
-  columns,
-  tempTarget,
-  replicationName,
-  datamartKnex,
-  datawarehouseKnex,
-  copyFromStdin,
+  replication: Replication,
+  tempTarget: string,
+  replicationName: string,
+  datamartKnex: KnexWithPool,
+  datawarehouseKnex: Knex,
+  copyFromStdin: typeof defaultCopyFromStdin,
 ) {
+  const { target, source, columns } = replication;
   await datamartKnex.raw('CREATE TABLE ?? (LIKE ?? INCLUDING ALL)', [tempTarget, target]);
   const targetColumns: readonly string[] = Array.isArray(columns) ? columns : Object.keys(columns);
   const pgClient = await datamartKnex.context.client.acquireConnection();
