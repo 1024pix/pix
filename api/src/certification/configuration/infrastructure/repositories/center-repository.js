@@ -19,10 +19,7 @@ export async function addToWhitelistByExternalIds({ externalIds }) {
       type: CenterTypes.SCO,
       archivedAt: null,
     })
-    .whereIn(
-      knexConn.raw('LOWER("externalId")'),
-      externalIds.map((id) => id.toLowerCase()),
-    )
+    .whereRaw('LOWER("externalId") = ANY(?)', [externalIds.map((id) => id.toLowerCase())])
     .returning('externalId');
 
   return updatedLines.map((line) => line.externalId);
