@@ -10,6 +10,7 @@ import PixLogo from '../pix-logo';
 export default class AppNavigation extends Component {
   @service currentDomain;
   @service currentUser;
+  @service featureToggles;
   @service media;
   @service store;
   @service url;
@@ -39,6 +40,10 @@ export default class AppNavigation extends Component {
     } catch {
       // silently fail — don't show the link
     }
+  }
+
+  get isNewCertificationPageEnabled() {
+    return this.featureToggles.featureToggles?.isNewCertificationPageEnabled;
   }
 
   get showAssessmentsNavItem() {
@@ -76,6 +81,12 @@ export default class AppNavigation extends Component {
           {{#if this.showAssessmentsNavItem}}
             <PixNavigationButton @route="authenticated.user-tests" @icon="conversionPath">
               {{t "navigation.user.tests"}}
+            </PixNavigationButton>
+          {{/if}}
+          {{#if this.isNewCertificationPageEnabled}}
+            <PixNavigationButton @route="authenticated.certifications-v2" @icon="star">
+              {{! template-lint-disable no-bare-strings }}
+              Certifications V2
             </PixNavigationButton>
           {{/if}}
           <PixNavigationButton @route="authenticated.certifications" @icon="newRealease">
