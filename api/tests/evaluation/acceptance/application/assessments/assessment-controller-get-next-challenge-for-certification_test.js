@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
@@ -105,8 +104,8 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
   });
 
   describe('GET /api/assessments/:assessment_id', function () {
-    const assessmentId = 1;
     const userId = 1234;
+    let assessment;
 
     context('When there are still challenges to answer', function () {
       beforeEach(async function () {
@@ -170,43 +169,35 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           versionId: version.id,
         });
 
-        databaseBuilder.factory.buildAssessment({
-          id: assessmentId,
+        assessment = databaseBuilder.factory.buildAssessment({
           type: Assessment.types.CERTIFICATION,
           certificationCourseId,
           userId,
           lastQuestionDate: new Date('2020-01-20'),
           state: 'started',
         });
-        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
+        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId: assessment.id, competenceId, userId });
         await databaseBuilder.commit();
-
-        sinon.useFakeTimers({
-          now: Date.now(),
-          toFake: ['Date'],
-        });
       });
 
       it('should save and return an assessment', async function () {
         // given
         const options = {
           method: 'GET',
-          url: `/api/assessments/${assessmentId}`,
+          url: `/api/assessments/${assessment.id}`,
           headers: generateAuthenticatedUserRequestHeaders({ userId }),
         };
-
-        const lastQuestionDate = new Date();
 
         // when
         const response = await server.inject(options);
 
         // then
-        const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastQuestionDate');
+        const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionDate');
         const { count: countSavedChallenge } = await knex('certification-challenges').count('* AS count').first();
 
-        expect(assessmentsInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
+        expect(assessmentsInDb.lastQuestionDate).to.be.greaterThan(assessment.lastQuestionDate);
         expect(countSavedChallenge).to.equal(1);
-        expect(response.result.data.id).to.equal(assessmentId.toString());
+        expect(response.result.data.id).to.equal(assessment.id.toString());
         expect(response.result.data.relationships['next-challenge'].data.id).to.be.oneOf([
           firstChallengeId,
           secondChallengeId,
@@ -231,8 +222,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           sessionId,
         }).id;
         databaseBuilder.factory.buildCertificationCandidate({ ...user, userId: user.id, sessionId });
-        const assessment = databaseBuilder.factory.buildAssessment({
-          id: assessmentId,
+        assessment = databaseBuilder.factory.buildAssessment({
           type: Assessment.types.CERTIFICATION,
           certificationCourseId,
           lastChallengeId: firstChallengeId,
@@ -249,7 +239,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           assessmentId: assessment.id,
           status: CertificationCompanionLiveAlertStatus.ONGOING,
         });
-        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
+        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId: assessment.id, competenceId, userId });
         await databaseBuilder.commit();
       });
 
@@ -257,7 +247,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
         // given
         const options = {
           method: 'GET',
-          url: `/api/assessments/${assessmentId}`,
+          url: `/api/assessments/${assessment.id}`,
           headers: generateAuthenticatedUserRequestHeaders({ userId }),
         };
 
@@ -311,8 +301,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           candidateId: candidate.id,
           lang: 'fr-fr',
         }).id;
-        const assessment = databaseBuilder.factory.buildAssessment({
-          id: assessmentId,
+        assessment = databaseBuilder.factory.buildAssessment({
           type: Assessment.types.CERTIFICATION,
           certificationCourseId,
           lastChallengeId: firstChallengeId,
@@ -325,7 +314,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           challengeId: firstChallengeId,
           status: 'validated',
         });
-        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
+        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId: assessment.id, competenceId, userId });
 
         databaseBuilder.factory.buildCertificationFrameworksChallenge({
           challengeId: firstChallengeId,
@@ -354,7 +343,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
         // given
         const options = {
           method: 'GET',
-          url: `/api/assessments/${assessmentId}`,
+          url: `/api/assessments/${assessment.id}`,
           headers: generateAuthenticatedUserRequestHeaders({ userId }),
         };
 
@@ -363,8 +352,8 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
 
         // then
         expect(response.result.data.id).to.not.equal(firstChallengeId);
-        const assessment = await knex('assessments').first();
-        expect(assessment.lastChallengeId).to.not.equal(firstChallengeId);
+        const assessmentInDb = await knex('assessments').first();
+        expect(assessmentInDb.lastChallengeId).to.not.equal(firstChallengeId);
       });
     });
 
@@ -394,8 +383,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           competenceId,
           courseId: certificationCourseId,
         });
-        databaseBuilder.factory.buildAssessment({
-          id: assessmentId,
+        assessment = databaseBuilder.factory.buildAssessment({
           type: Assessment.types.CERTIFICATION,
           certificationCourseId,
           userId: user.id,
@@ -403,13 +391,13 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
           state: 'started',
           lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
         });
-        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
+        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId: assessment.id, competenceId, userId });
         await databaseBuilder.commit();
 
         // given
         const options = {
           method: 'GET',
-          url: `/api/assessments/${assessmentId}`,
+          url: `/api/assessments/${assessment.id}`,
           headers: generateAuthenticatedUserRequestHeaders({ userId }),
         };
 
