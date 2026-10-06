@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { Success } from '../../../../../src/quest/domain/models/quests/aggregates/Success.js';
+import { Success } from '../../../../../src/quest/domain/models/quests/aggregates/Success.ts';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 
 describe('Quest | Unit | Domain | Models | Success ', function () {
@@ -8,18 +8,13 @@ describe('Quest | Unit | Domain | Models | Success ', function () {
     context('when no skill ids provided', function () {
       it('should return 0', function () {
         // given
-        const skillIdsEmpty = [];
+        const skillIdsEmpty: string[] = [];
         const brokenSkillIds = null;
         const success = new Success({
           knowledgeElements: [
             { status: KnowledgeElement.StatusType.VALIDATED, skillId: 'skillA' },
             { status: KnowledgeElement.StatusType.VALIDATED, skillId: 'skillB' },
             { status: KnowledgeElement.StatusType.INVALIDATED, skillId: 'skillC' },
-          ],
-          skills: [
-            { id: 'skillA', tubeId: 'tubeA', difficulty: 1 },
-            { id: 'skillB', tubeId: 'tubeB', difficulty: 1 },
-            { id: 'skillC', tubeId: 'tubeC', difficulty: 1 },
           ],
         });
 
@@ -43,12 +38,6 @@ describe('Quest | Unit | Domain | Models | Success ', function () {
             { status: KnowledgeElement.StatusType.VALIDATED, skillId: 'skillB' },
             { status: KnowledgeElement.StatusType.INVALIDATED, skillId: 'skillC' },
             { status: KnowledgeElement.StatusType.INVALIDATED, skillId: 'skillD' },
-          ],
-          skills: [
-            { id: 'skillA', tubeId: 'tubeA', difficulty: 1 },
-            { id: 'skillB', tubeId: 'tubeB', difficulty: 1 },
-            { id: 'skillC', tubeId: 'tubeC', difficulty: 1 },
-            { id: 'skillD', tubeId: 'tubeD', difficulty: 1 },
           ],
         });
 
@@ -130,7 +119,7 @@ describe('Quest | Unit | Domain | Models | Success ', function () {
     context('when no cappedTubes provided', function () {
       it('should return 0 when cappedTubes is empty', function () {
         // given
-        const cappedTubesEmpty = [];
+        const cappedTubesEmpty: { tubeId: string; level: number }[] = [];
         const success = new Success({
           knowledgeElements: [
             { status: KnowledgeElement.StatusType.VALIDATED, skillId: 'skillA' },
