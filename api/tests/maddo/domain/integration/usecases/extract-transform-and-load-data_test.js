@@ -52,6 +52,45 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
     ]);
   });
 
+  it('should preserve indexes', async function () {
+    // given
+    const schema = (t) => {
+      t.string('firstName').notNullable();
+      t.string('lastName').notNullable();
+      t.index('firstName');
+    };
+    await datawarehouseKnex.schema.createTable('to-replicate', (t) => {
+      schema(t);
+      t.string('ignored');
+    });
+    await datamartKnex.schema.createTable('replication', schema);
+    await datamartKnex('replication').insert([
+      { firstName: 'oldfirst1', lastName: 'oldlast1' },
+      { firstName: 'oldfirst2', lastName: 'oldlast2' },
+    ]);
+    await datawarehouseKnex('to-replicate').insert([
+      { firstName: 'first1', lastName: 'last1', ignored: 'x' },
+      { firstName: 'first2', lastName: 'last2', ignored: 'y' },
+    ]);
+    const replications = {
+      'my-replication': { source: 'to-replicate', target: 'replication', columns: ['firstName', 'lastName'] },
+    };
+    const indexesBefore = await listIndexDefinitions(datamartKnex, 'replication');
+
+    // when
+    const result = await extractTransformAndLoadData({
+      replicationName: 'my-replication',
+      replications,
+      datamartKnex,
+      datawarehouseKnex,
+    });
+
+    // then
+    const indexesAfter = await listIndexDefinitions(datamartKnex, 'replication');
+    expect(result).to.deep.equal({ count: 2 });
+    expect(indexesAfter).to.deep.equal(indexesBefore);
+  });
+
   it('should rename columns given a { target: source } mapping', async function () {
     // given
     await datawarehouseKnex.schema.createTable('to-replicate', (t) => {
@@ -285,4 +324,19 @@ async function listTables(knex) {
     .from('information_schema.tables')
     .where('table_schema', 'public')
     .orderBy('table_name');
+}
+
+async function listIndexDefinitions(knex, tableName) {
+  const { rows } = await knex.raw(
+    `SELECT
+       indexdef
+     FROM
+       pg_indexes
+     WHERE
+       schemaname = 'public' and tablename = ? 
+     ORDER BY
+       indexname;`,
+    [tableName],
+  );
+  return rows.map(({ indexdef }) => indexdef.split(' ON ')[1]);
 }
