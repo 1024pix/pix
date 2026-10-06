@@ -1,8 +1,7 @@
 import { setupTest } from 'ember-qunit';
+import ENV from 'pix-orga/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-
-import ENV from '../../../config/environment';
 
 module('Unit | Authenticator | oauth2', function (hooks) {
   setupTest(hooks);
