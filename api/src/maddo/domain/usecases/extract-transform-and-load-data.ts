@@ -1,7 +1,7 @@
 import type { Knex } from 'knex';
 import type { Client as PgClient } from 'pg';
 
-import { getRequestId } from '../../../shared/infrastructure/execution-context-manager.js';
+import { getInContext } from '../../../shared/infrastructure/execution-context-manager.js';
 import { type Replication, replications as defaultReplications } from '../../infrastructure/replications.ts';
 import { copyFromStdin as defaultCopyFromStdin } from '../../infrastructure/utils/copy-from-stdin.ts';
 
@@ -39,8 +39,7 @@ export const extractTransformAndLoadData = async ({
   const replication = replications[replicationName];
   if (!replication) throw new Error(`Unknown replication "${replicationName}".`);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-  const tempTarget = `${replication.target}_staging_${getRequestId()}`; // `getRequestId` is a JS function thus typescript considers it as unsafe to call it
-
+  const tempTarget = `${replication.target}_staging_${getInContext('request_id', crypto.randomUUID())}`; // `getInContext` is a JS function thus typescript considers it as unsafe to call it
   try {
     const res = await fillTempTable(
       replication,

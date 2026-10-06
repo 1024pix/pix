@@ -68,6 +68,7 @@
     "start": "node -r ./tracing.js index.js",
     "start:inspect": "node --inspect -r ./tracing.js index.js",
     "start:maddo": "MADDO=true node -r ./tracing.maddo.js index.maddo.js",
+    "start:maddo:job": "node -r ./tracing.worker.js worker.js MADDO",
     "start:watch": "npm run dev",
     "start:job": "node -r ./tracing.worker.js worker.js",
     "start:job:watch": "nodemon -r ./tracing.worker.js worker.js",
