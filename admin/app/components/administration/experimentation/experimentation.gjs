@@ -13,8 +13,8 @@ export default class Experimentation extends Component {
   triggerTask = async () => {
     try {
       const response = await this.requestManager.request({
-        url: `${ENV.APP.API_HOST}/api`,
-        method: 'GET',
+        url: `${ENV.APP.API_HOST}/api/admin/experiment/trigger`,
+        method: 'POST',
       });
       this.resultTrigger = JSON.stringify(response.content);
     } catch (error) {
@@ -25,7 +25,7 @@ export default class Experimentation extends Component {
   monitorTask = async () => {
     try {
       const response = await this.requestManager.request({
-        url: `${ENV.APP.API_HOST}/api`,
+        url: `${ENV.APP.API_HOST}/api/admin/experiment/monitor`,
         method: 'GET',
       });
       this.resultMonitor = JSON.stringify(response.content);
