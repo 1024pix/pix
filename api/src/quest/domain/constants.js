@@ -1,11 +1,12 @@
 import { CsvColumn } from '../../shared/infrastructure/serializers/csv/csv-column.js';
+import { COMBINED_COURSE_ITEM_TYPES as COMBINED_COURSE_ITEM_TYPES_TS } from './constants.ts';
 
 export const REWARD_TYPES = { ATTESTATION: 'attestations' };
 
 export const COMBINED_COURSE_ITEM_TYPES = {
-  MODULE: 'module',
-  CAMPAIGN: 'campaign',
-  FORMATION: 'formation',
+  MODULE: COMBINED_COURSE_ITEM_TYPES_TS.MODULE,
+  CAMPAIGN: COMBINED_COURSE_ITEM_TYPES_TS.CAMPAIGN,
+  FORMATION: COMBINED_COURSE_ITEM_TYPES_TS.FORMATION,
 };
 
 export const QUEST_HEADER = {

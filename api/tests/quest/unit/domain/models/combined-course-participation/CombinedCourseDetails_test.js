@@ -19,7 +19,7 @@ import {
   CampaignCombinedCourseItem,
   ModuleCombinedCourseItem,
   TrainingCombinedCourseItem,
-} from '../../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';
+} from '../../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.ts';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
