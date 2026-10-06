@@ -21,9 +21,11 @@ const userValidationJoiSchema = Joi.object({
     'string.email': 'WRONG_EMAIL_FORMAT',
   }),
 
-  username: Joi.string().messages({
-    'string.empty': 'EMPTY_USERNAME',
-  }),
+  username: Joi.string()
+    .messages({
+      'string.empty': 'EMPTY_USERNAME',
+    })
+    .empty(null),
 
   hasAcceptedLegalDocuments: Joi.boolean()
     .when('$legalDocumentsAcceptanceRequired', {
