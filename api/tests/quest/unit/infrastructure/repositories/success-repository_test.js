@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { Success } from '../../../../../src/quest/domain/models/quests/aggregates/Success.js';
+import { Success } from '../../../../../src/quest/domain/models/quests/aggregates/Success.ts';
 import * as successRepository from '../../../../../src/quest/infrastructure/repositories/success-repository.js';
 import { preventStubsToBeCalledUnexpectedly } from '../../../../tooling/test-utils/error.js';
 
