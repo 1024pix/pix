@@ -125,7 +125,9 @@ export async function validateUserWithPasswordForCreation({
 
   const validationErrors = [];
   if (user.email) {
-    validationErrors.push(await userRepository.checkIfEmailIsAvailable(user.email).catch(manageEmailAvailabilityError));
+    validationErrors.push(
+      await userRepository.checkIfEmailIsAvailable(user.email, user.id).catch(manageEmailAvailabilityError),
+    );
   }
   validationErrors.push(userValidatorError);
   validationErrors.push(passwordValidatorError);

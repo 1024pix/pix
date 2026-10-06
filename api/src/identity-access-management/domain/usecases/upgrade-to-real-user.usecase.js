@@ -1,4 +1,3 @@
-import { AlreadyRegisteredEmailError } from '../../../../src/shared/domain/errors.js';
 import { UnauthorizedError } from '../../../shared/application/errors/http-errors.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
@@ -16,6 +15,9 @@ export async function upgradeToRealUser({
   emailRepository,
   legalDocumentApiRepository,
   cryptoService,
+  userService,
+  userValidator,
+  passwordValidator,
 }) {
   const { realUser, token } = await DomainTransaction.execute(async () => {
     const user = await userRepository.get(userId);
@@ -23,16 +25,16 @@ export async function upgradeToRealUser({
       throw new UnauthorizedError('User must be anonymous', 'NOT_ANONYMOUS_USER');
     }
 
-    const existingUsersWithEmail = await userRepository.findAnotherUserByEmail(userId, userAttributes.email);
-    if (existingUsersWithEmail.length > 0) {
-      throw new AlreadyRegisteredEmailError();
-    }
-
-    // FIXME user.cgu/hasAcceptedLegalDocuments is not checked
-    // FIXME call user validator ?
-    // FIXME call password validator ?
-
     const realUser = user.convertAnonymousToRealUser(userAttributes);
+
+    await userService.validateUserWithPasswordForCreation({
+      user: realUser,
+      password,
+      userRepository,
+      userValidator,
+      passwordValidator,
+    });
+
     await userRepository.update(realUser.mapToDatabaseDto());
 
     const hashedPassword = await cryptoService.hashPassword(password);
