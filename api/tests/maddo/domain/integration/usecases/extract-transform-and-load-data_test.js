@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import { extractTransformAndLoadData } from '../../../../../src/maddo/domain/usecases/extract-transform-and-load-data.ts';
 import { datamartKnex, datawarehouseKnex } from '../../../../tooling/databases.js';
+import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-data', function () {
   const dropTables = async () => {
@@ -83,7 +84,151 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
     expect(await datamartKnex('replication').select()).to.deep.equal([{ schoolUai: '0751234A', firstDecileLevel: 3 }]);
   });
 
-  describe('when the source has json columns', function () {
+  it('leaves no artifacts behind in the target database', async function () {
+    // given
+    await datawarehouseKnex.schema.createTable('to-replicate', (t) => {
+      t.integer('id');
+      t.string('name');
+    });
+    await datamartKnex.schema.createTable('replication', (t) => {
+      t.integer('id');
+      t.string('name');
+    });
+    await datamartKnex('replication').insert([
+      { id: 1, name: 'old1' },
+      { id: 2, name: 'old2' },
+    ]);
+    await datawarehouseKnex('to-replicate').insert([
+      { id: 1, name: 'new1' },
+      { id: 2, name: 'new2' },
+    ]);
+    const replications = {
+      'my-replication': { source: 'to-replicate', target: 'replication', columns: ['id', 'name'] },
+    };
+    const tablesBefore = await listTables(datamartKnex);
+
+    // when
+    const result = await extractTransformAndLoadData({
+      replicationName: 'my-replication',
+      replications,
+      datamartKnex,
+      datawarehouseKnex,
+    });
+
+    // then
+    const tablesAfter = await listTables(datamartKnex);
+    expect(result).to.deep.equal({ count: 2 });
+    expect(tablesAfter).to.deep.equal(tablesBefore);
+  });
+
+  context('when the source is empty', function () {
+    it('should empty the target and return a zero count', async function () {
+      // given
+      await datawarehouseKnex.schema.createTable('to-replicate', (t) => {
+        t.integer('id');
+        t.string('name');
+      });
+      await datamartKnex.schema.createTable('replication', (t) => {
+        t.integer('id');
+        t.string('name');
+      });
+      await datamartKnex('replication').insert([
+        { id: 1, name: 'old1' },
+        { id: 2, name: 'old2' },
+      ]);
+      const replications = {
+        'my-replication': { source: 'to-replicate', target: 'replication', columns: ['id', 'name'] },
+      };
+      // when
+      const result = await extractTransformAndLoadData({
+        replicationName: 'my-replication',
+        replications,
+        datamartKnex,
+        datawarehouseKnex,
+      });
+
+      // then
+      expect(result).to.deep.equal({ count: 0 });
+      expect(await datamartKnex('replication').select()).to.deep.equal([]);
+    });
+  });
+
+  context('when replication is unknown', function () {
+    it('should throw without altering target database', async function () {
+      // given
+      const schema = (t) => {
+        t.string('firstName').notNullable();
+        t.string('lastName').notNullable();
+      };
+      await datawarehouseKnex.schema.createTable('to-replicate', (t) => {
+        schema(t);
+        t.string('ignored');
+      });
+      await datamartKnex.schema.createTable('replication', schema);
+      await datamartKnex('replication').insert([
+        { firstName: 'oldfirst1', lastName: 'oldlast1' },
+        { firstName: 'oldfirst2', lastName: 'oldlast2' },
+      ]);
+      await datawarehouseKnex('to-replicate').insert([
+        { firstName: 'first1', lastName: 'last1', ignored: 'x' },
+        { firstName: 'first2', lastName: 'last2', ignored: 'y' },
+      ]);
+      const replications = {
+        foo: { source: 'to-replicate', target: 'replication', columns: ['firstName', 'lastName'] },
+      };
+
+      // when
+      const err = await catchErr(extractTransformAndLoadData)({
+        replicationName: 'bar',
+        replications,
+        datamartKnex,
+        datawarehouseKnex,
+      });
+
+      // then
+      expect(err.message).to.equal('Unknown replication "bar".');
+      const replicatedData = await datamartKnex('replication').select().orderBy('firstName');
+      expect(replicatedData).to.deep.equal([
+        { firstName: 'oldfirst1', lastName: 'oldlast1' },
+        { firstName: 'oldfirst2', lastName: 'oldlast2' },
+      ]);
+    });
+  });
+
+  it('throws when an error occurrs during the COPY', async function () {
+    // given
+    await datawarehouseKnex.schema.createTable('to-replicate', (t) => {
+      t.string('id').notNullable();
+    });
+    await datamartKnex.schema.createTable('replication', (t) => {
+      t.integer('id').notNullable();
+    });
+    await datamartKnex('replication').insert([{ id: 123 }, { id: 456 }]);
+    await datawarehouseKnex('to-replicate').insert([{ id: 'not-an-integer' }]);
+
+    const replications = {
+      'my-replication': {
+        source: 'to-replicate',
+        target: 'replication',
+        columns: ['id'],
+      },
+    };
+
+    // when
+    const error = await catchErr(extractTransformAndLoadData)({
+      replicationName: 'my-replication',
+      replications,
+      datamartKnex,
+      datawarehouseKnex,
+    });
+
+    // then
+    expect(error.message).to.include('invalid input syntax for type integer: "not-an-integer"');
+    const rows = await datamartKnex.pluck('id').from('replication').orderBy('id');
+    expect(rows).to.deep.equal([123, 456]);
+  });
+
+  context('when the source has json columns', function () {
     it('should replicate json values unchanged, including JSON null vs SQL NULL', async function () {
       // given: the datawarehouse connection disables json parsing (raw text), the datamart parses it
       await datawarehouseKnex.schema.createTable('to-replicate', (t) => {
@@ -133,3 +278,11 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
     });
   });
 });
+
+async function listTables(knex) {
+  return knex
+    .pluck('table_name')
+    .from('information_schema.tables')
+    .where('table_schema', 'public')
+    .orderBy('table_name');
+}
