@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { pickChallengeService } from '../../../../src/evaluation/domain/services/pick-challenge-service.js';
-import { databaseBuilder } from '../../../tooling/databases.js';
+import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import {
   actions,
   buildCampaign,
@@ -208,6 +208,41 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
       expect(geographieScorecard.body.data.attributes['earned-pix']).to.be.greaterThan(0);
       const histoireScorecard = await read.scorecard(twins.migrated, histoire());
       expect(histoireScorecard.body.data.attributes['earned-pix']).to.equal(0);
+    });
+  });
+
+  describe('campaign with badges and stages', function () {
+    it('should earn the same badges and reach the same stage', async function () {
+      // given: a campaign on the battles and presidents, with two badges and three stages
+      const twins = await buildTwins({ validated: ['présidents2'] });
+      const campaign = buildCampaign({ tubes: ['batailles', 'présidents'], badges: [25, 90], stages: [0, 25, 75] });
+      await databaseBuilder.commit();
+
+      // when
+      const started = await both(twins, (twin) => act.startCampaignParticipation(twin, campaign));
+      await playBoth(twins, started, knowledge({ defaultLevel: 2 }));
+      await both(twins, (twin) => act.computeCampaignResults(twin, started[twin.name].campaignParticipationId));
+
+      // then
+      await expectSameReadings(
+        twins,
+        (twin) => read.campaignAssessmentResult(twin, campaign.campaignId),
+        (twin) =>
+          read.prescriberParticipationResults(twin, {
+            ...campaign,
+            campaignParticipationId: started[twin.name].campaignParticipationId,
+          }),
+      );
+      const acquisitions = await both(twins, async (twin) => {
+        const campaignParticipationId = started[twin.name].campaignParticipationId;
+        return {
+          badges: (await knex('badge-acquisitions').where({ campaignParticipationId })).length,
+          stages: (await knex('stage-acquisitions').where({ campaignParticipationId })).length,
+        };
+      });
+      expectSame(acquisitions);
+      expect(acquisitions.migrated.badges).to.equal(1);
+      expect(acquisitions.migrated.stages).to.be.greaterThan(0);
     });
   });
 

@@ -86,7 +86,7 @@ export const buildTwins = async ({ validated = [], invalidated = [] } = {}) => {
  * An assessment campaign on the given tubes, with a prescriber who can read
  * its results. Call before `databaseBuilder.commit()`.
  */
-export const buildCampaign = ({ tubes, multipleSendings = false }) => {
+export const buildCampaign = ({ tubes, multipleSendings = false, badges = [], stages = [] }) => {
   const organizationId = databaseBuilder.factory.buildOrganization().id;
   const prescriberId = databaseBuilder.factory.buildUser().id;
   databaseBuilder.factory.buildMembership({
@@ -96,10 +96,32 @@ export const buildCampaign = ({ tubes, multipleSendings = false }) => {
   });
   const targetProfileId = databaseBuilder.factory.buildTargetProfile({ areKnowledgeElementsResettable: true }).id;
   const campaignId = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId, multipleSendings }).id;
-  tubes.map(tubeNamed).forEach((tube) => {
-    databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: tube.id, level: 8 });
-    tube.skillIds.forEach((skillId) => databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId }));
+  // Tubes come as names, or as names with the level they are capped at.
+  const cappedTubes = Array.isArray(tubes) ? tubes.map((name) => [name, 8]) : Object.entries(tubes);
+  cappedTubes.forEach(([name, level]) => {
+    const tube = tubeNamed(name);
+    databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: tube.id, level });
+    tube.skillIds
+      .filter((skillId) => skillById.get(skillId).level <= level)
+      .forEach((skillId) => databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId }));
   });
+  // Badges are earned at a mastery threshold on the participation, stages reached at one.
+  badges.forEach((threshold, index) => {
+    const badgeId = databaseBuilder.factory.buildBadge({
+      targetProfileId,
+      key: `badge_${index}`,
+      isAlwaysVisible: true,
+    }).id;
+    databaseBuilder.factory.buildBadgeCriterion.scopeCampaignParticipation({ badgeId, threshold });
+  });
+  stages.forEach((threshold, index) =>
+    databaseBuilder.factory.buildStage({
+      targetProfileId,
+      threshold,
+      title: `Palier ${index}`,
+      message: `Message ${index}`,
+    }),
+  );
 
   return { campaignId, prescriberId };
 };
