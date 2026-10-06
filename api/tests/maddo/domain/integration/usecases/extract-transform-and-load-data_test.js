@@ -195,7 +195,7 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
     });
   });
 
-  it('throws when an error occurrs during the COPY', async function () {
+  it('throws when an error occurs during the COPY', async function () {
     // given
     await datawarehouseKnex.schema.createTable('to-replicate', (t) => {
       t.string('id').notNullable();
