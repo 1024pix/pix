@@ -20,4 +20,8 @@ export default Factory.extend({
   pixCertifTermsOfServiceStatus() {
     return 'requested';
   },
+
+  pixCertifTermsOfServiceDocumentPath() {
+    return 'pix-certif-tos-2025-01-01';
+  },
 });
