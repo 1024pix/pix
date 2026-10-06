@@ -22,7 +22,7 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/admin/experiment/monitor',
+      path: '/api/admin/experiment/monitor/{jobId}',
       config: {
         pre: [
           {
