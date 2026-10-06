@@ -10,6 +10,7 @@ export default class TermsOfServiceController extends Controller {
   @service intl;
   @service locale;
 
+  // TODO: supprimer avec le feature toggle newPixCertifLegalDocumentsVersioning (ancienne page CGU)
   @tracked isEnglishLocale = this.locale.currentLocale === 'en';
 
   @action

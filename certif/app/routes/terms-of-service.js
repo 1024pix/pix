@@ -19,4 +19,11 @@ export default class TermsOfServiceRoute extends Route {
       this.router.replaceWith('');
     }
   }
+
+  model() {
+    return {
+      legalDocumentStatus: this.currentUser.certificationPointOfContact?.pixCertifTermsOfServiceStatus,
+      legalDocumentPath: this.currentUser.certificationPointOfContact?.pixCertifTermsOfServiceDocumentPath,
+    };
+  }
 }
