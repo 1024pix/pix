@@ -7,7 +7,7 @@ import {
   CappedTubeRequirementWithoutTargetProfilesError,
 } from '../../../../../src/quest/domain/errors.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
-import { CappedTube } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CappedTube.js';
+import { CappedTube } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CappedTube.ts';
 import { CombinedCourseBlueprintForCreation } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintForCreation.js';
 import { QuestInput } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/QuestInput.js';
 import { Quest, REQUIREMENT_TYPES } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
