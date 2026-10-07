@@ -1,4 +1,5 @@
-import { COMBINED_COURSE_ITEM_TYPES, type CombinedCourseItemCategory } from '../../../constants.ts';
+import type { CombinedCourseItemCategory } from '../../../constant-types.d.ts';
+import { COMBINED_COURSE_ITEM_TYPES } from '../../../constants.js';
 
 type CombinedCourseBlueprintItemArgs = {
   id: number | string;
