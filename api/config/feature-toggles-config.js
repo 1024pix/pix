@@ -152,4 +152,11 @@ export default {
     devDefaultValues: { test: true, reviewApp: false },
     tags: ['team-acces', 'backend', 'pix-api'],
   },
+  isLlmAssistantEnabled: {
+    type: 'boolean',
+    description: 'Enables llm assistant for PixAdmin',
+    defaultValue: false,
+    devDefaultValues: { test: true, reviewApp: false },
+    tags: ['cross-team', 'frontend', 'pix-admin', 'backend', 'pix-api'],
+  },
 };
