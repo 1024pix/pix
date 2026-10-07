@@ -363,6 +363,60 @@ describe('Integration | Prescription | Shared | Service | KnowledgeElementForPar
 
     context('when campaign is of type PROFILES_COLLECTION', function () {
       context('when a limit date is provided', function () {
+        it('should return the knowledge elements of the snapshot when there is one', async function () {
+          // given
+          const limitDate = new Date('2025-01-01');
+          const userId = databaseBuilder.factory.buildUser().id;
+          const campaignId = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.PROFILES_COLLECTION }).id;
+          const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+            campaignId,
+            sharedAt: limitDate,
+          }).id;
+          const assessmentId = databaseBuilder.factory.buildAssessment({ campaignParticipationId }).id;
+          const answerId = databaseBuilder.factory.buildAnswer({ assessmentId }).id;
+          const knowledgeElementBeforeShare = domainBuilder.buildKnowledgeElement({
+            id: 1,
+            userId,
+            skillId: 'acquisABC123',
+            answerId,
+            assessmentId,
+            createdAt: new Date('2021-01-01'),
+          });
+          databaseBuilder.factory.buildKnowledgeElement(knowledgeElementBeforeShare);
+          databaseBuilder.factory.buildKnowledgeElement({
+            id: 2,
+            userId,
+            skillId: 'acquisDEF456',
+            answerId,
+            assessmentId,
+            createdAt: new Date('2022-01-01'),
+          });
+          databaseBuilder.factory.buildKnowledgeElementSnapshot({
+            userId,
+            campaignParticipationId,
+            snapshot: new KnowledgeElementCollection([knowledgeElementBeforeShare]).toSnapshot(),
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const res = await knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId({
+            userId,
+            campaignParticipationId,
+            limitDate,
+          });
+
+          // then
+          expect(res).to.deep.equal([
+            new KnowledgeElement({
+              ...knowledgeElementBeforeShare,
+              assessmentId: undefined,
+              answerId: undefined,
+              id: undefined,
+              userId: undefined,
+            }),
+          ]);
+        });
+
         it('should return the Knowledge Elements of the user before limit date', async function () {
           // given
           const limitDate = new Date('2025-01-01');
@@ -458,6 +512,60 @@ describe('Integration | Prescription | Shared | Service | KnowledgeElementForPar
 
     context('when campaign is of type ASSESSMENT', function () {
       context('when a limit date is provided', function () {
+        it('should return the knowledge elements of the snapshot when there is one', async function () {
+          // given
+          const limitDate = new Date('2025-01-01');
+          const userId = databaseBuilder.factory.buildUser().id;
+          const campaignId = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.ASSESSMENT }).id;
+          const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+            campaignId,
+            sharedAt: limitDate,
+          }).id;
+          const assessmentId = databaseBuilder.factory.buildAssessment({ campaignParticipationId }).id;
+          const answerId = databaseBuilder.factory.buildAnswer({ assessmentId }).id;
+          const knowledgeElementBeforeShare = domainBuilder.buildKnowledgeElement({
+            id: 1,
+            userId,
+            skillId: 'acquisABC123',
+            answerId,
+            assessmentId,
+            createdAt: new Date('2021-01-01'),
+          });
+          databaseBuilder.factory.buildKnowledgeElement(knowledgeElementBeforeShare);
+          databaseBuilder.factory.buildKnowledgeElement({
+            id: 2,
+            userId,
+            skillId: 'acquisDEF456',
+            answerId,
+            assessmentId,
+            createdAt: new Date('2022-01-01'),
+          });
+          databaseBuilder.factory.buildKnowledgeElementSnapshot({
+            userId,
+            campaignParticipationId,
+            snapshot: new KnowledgeElementCollection([knowledgeElementBeforeShare]).toSnapshot(),
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const res = await knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId({
+            userId,
+            campaignParticipationId,
+            limitDate,
+          });
+
+          // then
+          expect(res).to.deep.equal([
+            new KnowledgeElement({
+              ...knowledgeElementBeforeShare,
+              assessmentId: undefined,
+              answerId: undefined,
+              id: undefined,
+              userId: undefined,
+            }),
+          ]);
+        });
+
         it('should return the Knowledge Elements of the user before limitdate', async function () {
           // given
           const limitDate = new Date('2025-01-01');
