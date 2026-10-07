@@ -38,7 +38,7 @@ export const extractTransformAndLoadData = async ({
 }): Promise<{ count: number }> => {
   const replication = replications[replicationName];
   if (!replication) throw new Error(`Unknown replication "${replicationName}".`);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
   const tempTarget = `${replication.target}_staging_${getInContext('request_id', crypto.randomUUID())}`; // `getInContext` is a JS function thus typescript considers it as unsafe to call it
   try {
     const res = await fillTempTable(

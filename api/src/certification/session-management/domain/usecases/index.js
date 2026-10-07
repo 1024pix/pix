@@ -98,6 +98,7 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
  * @typedef {import('../../../../identity-access-management/infrastructure/repositories/user.repository.js')} UserRepository
  * @typedef {import('../../../../team/infrastructure/repositories/certification-center-membership.repository.js')} CertificationCenterMembershipRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterAccessRepository} CertificationCenterAccessRepository
  **/
 
 /**

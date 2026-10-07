@@ -11,8 +11,10 @@ import { CertificationStartedEvent } from '../../../../../../src/certification/e
 import { LastAnsweredEvent } from '../../../../../../src/certification/enrolment/domain/models/timeline/LastAnsweredEvent.js';
 import { UserCertificationEligibility } from '../../../../../../src/certification/enrolment/domain/read-models/UserCertificationEligibility.js';
 import { getCandidateTimeline } from '../../../../../../src/certification/enrolment/domain/usecases/get-candidate-timeline.js';
+import { CertificationCandidateNotFoundError } from '../../../../../../src/certification/shared/domain/errors.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-timeline', function () {
   let candidateRepository,
@@ -56,6 +58,23 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
       certificationAssessmentRepository,
       eligibilityService,
     };
+  });
+
+  context('when candidate does not exist', function () {
+    it('should throw a CertificationCandidateNotFoundError', async function () {
+      // given
+      candidateRepository.get.resolves(null);
+
+      // when
+      const error = await catchErr(getCandidateTimeline)({
+        sessionId: 1234,
+        certificationCandidateId: 4567,
+        ...deps,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(CertificationCandidateNotFoundError);
+    });
   });
 
   context('candidate creation', function () {

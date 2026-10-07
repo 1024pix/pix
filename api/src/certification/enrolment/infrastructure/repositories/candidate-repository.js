@@ -73,9 +73,8 @@ export async function update(candidate) {
 }
 
 /**
- * @function
- * @param {Candidate[]} candidates
- * @returns {Promise<Candidate[]>}
+ * @param {object} params
+ * @param {Candidate[]} params.candidates
  */
 export async function save({ candidates }) {
   const knexConn = DomainTransaction.getConnection();
@@ -217,6 +216,7 @@ function adaptModelToDb(candidate) {
  * @property {Date} reconciledAt
  * @property {Date} createdAt
  * @property {string} subscription
+ * @property {string | null} certificationCourseId
  */
 
 /**

@@ -14,6 +14,7 @@
  * @typedef {import ('../../../session-management/domain/models/CertificationAssessment.js').CertificationAssessment} CertificationAssessment
  */
 
+import { CertificationCandidateNotFoundError } from '../../../shared/domain/errors.js';
 import { CandidateCertifiableEvent } from '../models/timeline/CandidateCertifiableEvent.js';
 import { CandidateCreatedEvent } from '../models/timeline/CandidateCreatedEvent.js';
 import { CandidateDoubleCertificationEligibleEvent } from '../models/timeline/CandidateDoubleCertificationEligibleEvent.js';
@@ -48,9 +49,13 @@ export async function getCandidateTimeline({
   complementaryCertificationCourseRepository,
   complementaryCertificationBadgeWithOffsetVersionRepository,
 }) {
+  const candidate = await candidateRepository.get({ certificationCandidateId });
+  if (!candidate) {
+    throw new CertificationCandidateNotFoundError();
+  }
+
   const timeline = new CandidateTimeline({ certificationCandidateId });
 
-  const candidate = await candidateRepository.get({ certificationCandidateId });
   timeline.addEvent(new CandidateCreatedEvent({ when: candidate.createdAt }));
 
   if (!candidate.isReconciled()) {
