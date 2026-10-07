@@ -136,3 +136,8 @@ export async function hasNoStartedCertification({ id }) {
   const result = await knexConn.select(1).from('certification-courses').where('sessionId', id).first();
   return !result;
 }
+
+export async function getSessionIdAndPublishedAt(sessionIds) {
+  const knexConn = DomainTransaction.getConnection();
+  return await knexConn.select(['id', 'publishedAt']).from('sessions').where('sessions.id', 'IN', sessionIds);
+}

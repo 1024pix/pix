@@ -22,7 +22,7 @@ const SCO_ACCOUNT_RECOVERY_TAG = 'SCO_ACCOUNT_RECOVERY';
  * @param tags
  * @returns {Promise<EmailingAttempt>}
  */
-function sendOrganizationInvitationEmail({
+export function sendOrganizationInvitationEmail({
   email,
   organizationName,
   organizationInvitationId,
@@ -74,7 +74,7 @@ function sendOrganizationInvitationEmail({
  * @param tags
  * @returns {Promise<EmailingAttempt>}
  */
-function sendScoOrganizationInvitationEmail({
+export function sendScoOrganizationInvitationEmail({
   email,
   organizationName,
   firstName,
@@ -116,7 +116,7 @@ function sendScoOrganizationInvitationEmail({
  * @param locale
  * @returns {Promise<EmailingAttempt>}
  */
-function sendCertificationCenterInvitationEmail({
+export function sendCertificationCenterInvitationEmail({
   email,
   certificationCenterName,
   certificationCenterInvitationId,
@@ -160,7 +160,7 @@ function sendCertificationCenterInvitationEmail({
  * @param temporaryKey
  * @returns {Promise<EmailingAttempt>}
  */
-function sendAccountRecoveryEmail({ email, firstName, temporaryKey }) {
+export function sendAccountRecoveryEmail({ email, firstName, temporaryKey }) {
   const i18nFr = getI18n(FRENCH_FRANCE);
 
   return mailer.sendEmail({
@@ -186,7 +186,7 @@ function sendAccountRecoveryEmail({ email, firstName, temporaryKey }) {
   });
 }
 
-function sendCpfEmail({ email, generatedFiles }) {
+export function sendCpfEmail({ email, generatedFiles }) {
   const i18nFr = getI18n(FRENCH_FRANCE);
 
   return mailer.sendEmail({
@@ -198,28 +198,10 @@ function sendCpfEmail({ email, generatedFiles }) {
   });
 }
 
-const mailService = {
+export const mailService = {
   sendAccountRecoveryEmail,
   sendOrganizationInvitationEmail,
   sendScoOrganizationInvitationEmail,
   sendCertificationCenterInvitationEmail,
   sendCpfEmail,
-};
-
-/**
- * @typedef {Object} MailService
- * @property {function} sendAccountRecoveryEmail
- * @property {function} sendCertificationCenterInvitationEmail
- * @property {function} sendCpfEmail
- * @property {function} sendOrganizationInvitationEmail
- * @property {function} sendScoOrganizationInvitationEmail
- * @property {function} sendVerificationCodeEmail
- */
-export {
-  mailService,
-  sendAccountRecoveryEmail,
-  sendCertificationCenterInvitationEmail,
-  sendCpfEmail,
-  sendOrganizationInvitationEmail,
-  sendScoOrganizationInvitationEmail,
 };
