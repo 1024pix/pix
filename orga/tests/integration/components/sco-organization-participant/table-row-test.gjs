@@ -18,7 +18,7 @@ module('Integration | Component | ScoOrganizationParticipant::TableRow', functio
       const student = {
         firstName: 'Jean',
         lastName: 'Bon',
-        birthdate: '2020/01/01',
+        birthdate: '2020-01-01',
         division: '3A',
         authenticationMethods: [],
         participationCount: 1,
@@ -56,7 +56,7 @@ module('Integration | Component | ScoOrganizationParticipant::TableRow', functio
       const student = {
         firstName: 'Jean',
         lastName: 'Bon',
-        birthdate: '2020/01/01',
+        birthdate: '2020-01-01',
         division: '3A',
         authenticationMethods: [],
         participationCount: 1,
@@ -94,7 +94,7 @@ module('Integration | Component | ScoOrganizationParticipant::TableRow', functio
       const student = {
         firstName: 'Jean',
         lastName: 'Bon',
-        birthdate: '2020/01/01',
+        birthdate: '2020-01-01',
         division: '3A',
         authenticationMethods: [],
         participationCount: 1,
@@ -189,7 +189,7 @@ module('Integration | Component | ScoOrganizationParticipant::TableRow', functio
       const student = {
         firstName: 'Jean',
         lastName: 'Bon',
-        birthdate: '2020/01/01',
+        birthdate: '2020-01-01',
         division: '3A',
         authenticationMethods: ['none'],
         participationCount: 0,
@@ -222,5 +222,36 @@ module('Integration | Component | ScoOrganizationParticipant::TableRow', functio
         screen.getByText(t('pages.sco-organization-participants.connection-types.no-login-method-tooltip.content')),
       );
     });
+  });
+
+  test('it display birthdate in UTC timezone', async function (assert) {
+    // given
+    const noop = sinon.stub();
+    const student = {
+      firstName: 'Jean',
+      lastName: 'Bon',
+      birthdate: '2020-01-01',
+      division: '3A',
+      authenticationMethods: ['none'],
+      participationCount: 0,
+      isCertifiable: false,
+      isAssociated: false,
+    };
+
+    // when
+    const screen = await render(
+      <template>
+        <ScoOrganizationParticipantTableRow
+          @showCheckbox={{noop}}
+          @student={{student}}
+          @isStudentSelected={{noop}}
+          @openAuthenticationMethodModal={{noop}}
+          @onToggleStudent={{noop}}
+          @onClickLearner={{noop}}
+        />
+      </template>,
+    );
+    // then
+    assert.ok(screen.getByText('01/01/2020'));
   });
 });
