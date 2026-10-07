@@ -15,6 +15,9 @@ function serialize(userCertificationEligibility) {
         return {
           id: userCertificationEligibility.id,
           isCertifiable: userCertificationEligibility.isCertifiable,
+          certifiableCompetencesCount: userCertificationEligibility.certifiableCompetencesCount,
+          minimumCertifiableCompetencesForCertificability:
+            userCertificationEligibility.minimumCertifiableCompetencesForCertificability,
           doubleCertificationEligibility: {
             label: userCertificationEligibility.doubleCertificationEligibility.label,
             imageUrl: userCertificationEligibility.doubleCertificationEligibility.imageUrl,
@@ -27,9 +30,17 @@ function serialize(userCertificationEligibility) {
       return {
         id: userCertificationEligibility.id,
         isCertifiable: userCertificationEligibility.isCertifiable,
+        certifiableCompetencesCount: userCertificationEligibility.certifiableCompetencesCount,
+        minimumCertifiableCompetencesForCertificability:
+          userCertificationEligibility.minimumCertifiableCompetencesForCertificability,
       };
     },
-    attributes: ['isCertifiable', 'doubleCertificationEligibility'],
+    attributes: [
+      'isCertifiable',
+      'doubleCertificationEligibility',
+      'certifiableCompetencesCount',
+      'minimumCertifiableCompetencesForCertificability',
+    ],
   }).serialize(userCertificationEligibility);
 }
 
