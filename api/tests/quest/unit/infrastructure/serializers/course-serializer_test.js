@@ -1,9 +1,7 @@
 import { expect } from 'chai';
 
-import {
-  COURSE_ITEM_TYPES,
-  CourseItem,
-} from '../../../../../src/quest/domain/models/combined-courses/value-objects/CourseItem.js';
+import { COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/constants.js';
+import { CourseItem } from '../../../../../src/quest/domain/models/combined-courses/value-objects/CourseItem.ts';
 import { courseSerializer } from '../../../../../src/quest/infrastructure/serializers/course-serializer.js';
 
 describe('Quest | Unit | Infrastructure | Serializers | course', function () {
