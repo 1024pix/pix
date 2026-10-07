@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { stubOidcIdentityProvidersService } from '../../../../helpers/service-stubs';
 import setupIntl from '../../../../helpers/setup-intl';
 
-module('Unit | Route | Authentication | OIDC | flow', function (hooks) {
+module('Unit | Route | Authentication | OIDC | login flow', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks);
 
@@ -32,7 +32,7 @@ module('Unit | Route | Authentication | OIDC | flow', function (hooks) {
           authenticate: authenticateStub,
           data: {},
         });
-        const route = this.owner.lookup('route:authentication/oidc.flow');
+        const route = this.owner.lookup('route:authentication/oidc.login-flow');
         route.set('session', sessionStub);
         route.router = { transitionTo: sinon.stub() };
 
@@ -61,7 +61,7 @@ module('Unit | Route | Authentication | OIDC | flow', function (hooks) {
           authenticate: authenticateStub,
           data: {},
         });
-        const route = this.owner.lookup('route:authentication/oidc.flow');
+        const route = this.owner.lookup('route:authentication/oidc.login-flow');
         route.set('session', sessionStub);
         route.router = { transitionTo: sinon.stub() };
 
@@ -83,7 +83,7 @@ module('Unit | Route | Authentication | OIDC | flow', function (hooks) {
           authenticate: authenticateStub,
           data: {},
         });
-        const route = this.owner.lookup('route:authentication/oidc.flow');
+        const route = this.owner.lookup('route:authentication/oidc.login-flow');
         route.set('session', sessionStub);
         route.router = { transitionTo: sinon.stub() };
 
