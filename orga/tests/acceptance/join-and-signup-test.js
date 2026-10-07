@@ -46,7 +46,7 @@ module('Acceptance | join and signup', function (hooks) {
       await fillByLabel(t('pages.join.signup.fields.lastname.label'), 'pix');
       await fillByLabel(t('pages.join.signup.fields.email.label'), 'shi@fu.me');
       await fillByLabel(t('pages.join.signup.fields.password.label'), 'Password4register');
-      await clickByName(t('common.cgu.label'));
+      await clickByName(t('common.legal-documents.label'));
       await clickByName(t('pages.join.signup.submit'));
 
       // then
@@ -65,7 +65,7 @@ module('Acceptance | join and signup', function (hooks) {
         await fillByLabel(t('pages.join.signup.fields.lastname.label'), 'pix');
         await fillByLabel(t('pages.join.signup.fields.email.label'), 'shi@fu.me');
         await fillByLabel(t('pages.join.signup.fields.password.label'), 'Password4register');
-        await clickByName(t('common.cgu.label'));
+        await clickByName(t('common.legal-documents.label'));
 
         // when
         await click(screen.getByRole('button', { name: t('components.locale-switcher.label') }));
@@ -98,7 +98,7 @@ module('Acceptance | join and signup', function (hooks) {
         await fillByLabel(t('pages.join.signup.fields.lastname.label'), 'pix');
         await fillByLabel(t('pages.join.signup.fields.email.label'), 'shi@fu.me');
         await fillByLabel(t('pages.join.signup.fields.password.label'), 'Password4register');
-        await clickByName(t('common.cgu.label'));
+        await clickByName(t('common.legal-documents.label'));
         await clickByName(t('pages.join.signup.submit'));
 
         // then
