@@ -6,7 +6,7 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "strict": true,
-    "allowJs": false,
+    "allowJs": true,
     "checkJs": false,
     "allowImportingTsExtensions": true,
     "rewriteRelativeImportExtensions": true,
