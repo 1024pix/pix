@@ -766,6 +766,22 @@
         "tooltip": "Communiquez ce code pour permettre à un tiers de vérifier l'authenticité de votre certificat"
       }
     },
+    "certification-dashboard": {
+      "eligibility": {
+        "steps": {
+          "1": {
+            "description": "Obtenir au minimum un niveau 1 dans 5 compétences",
+            "link": "Voir mes compétences",
+            "progress": {
+              "counter": "{certifiableCompetencesCount}/{minimumCertifiableCompetencesForCertificability}",
+              "required": "requis",
+              "alt": "{certifiableCompetencesCount} compétences requises sur {minimumCertifiableCompetencesForCertificability}"
+            },
+            "title": "Préparer sa certification"
+          }
+        }
+      }
+    },
     "certification-ender": {
       "candidate": {
         "disconnect": "Déconnecter mon compte",
