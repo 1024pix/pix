@@ -8,11 +8,16 @@ describe('Certification | Enrolment | Unit | Serializer | user-certification-eli
     context('when there is no double certification eligibility', function () {
       it('should format certification eligibility model into into JSON API data without double certification information', function () {
         // given
-        const userCertificationEligibility = domainBuilder.certification.enrolment.buildUserCertificationEligibility({
-          id: 123,
-          isCertifiable: true,
-          doubleCertificationEligibility: null,
-        });
+        const userCertificationEligibility =
+          domainBuilder.certification.enrolment.buildUserCertificationEligibility(
+            {
+              id: 123,
+              isCertifiable: true,
+              doubleCertificationEligibility: null,
+              certifiableCompetencesCount: 2,
+              minimumCertifiableCompetencesForCertificability: 5,
+            },
+          );
 
         // when
         const json = userCertificationEligibilitySerializer.serialize(userCertificationEligibility);
@@ -24,6 +29,8 @@ describe('Certification | Enrolment | Unit | Serializer | user-certification-eli
             type: 'isCertifiables',
             attributes: {
               'is-certifiable': true,
+              'certifiable-competences-count': 2,
+              'minimum-certifiable-competences-for-certificability': 5
             },
           },
         });
@@ -33,16 +40,24 @@ describe('Certification | Enrolment | Unit | Serializer | user-certification-eli
     context('when there is double certification eligibility', function () {
       it('should format certification eligibility model into into JSON API data', function () {
         // given
-        const userCertificationEligibility = domainBuilder.certification.enrolment.buildUserCertificationEligibility({
-          id: 123,
-          isCertifiable: true,
-          doubleCertificationEligibility: domainBuilder.certification.enrolment.buildCertificationEligibility({
-            label: 'Un super label',
-            imageUrl: 'Une super image',
-            isBadgeValid: false,
-            validatedDoubleCertification: false,
-          }),
-        });
+        const userCertificationEligibility =
+          domainBuilder.certification.enrolment.buildUserCertificationEligibility(
+            {
+              id: 123,
+              isCertifiable: true,
+              certifiableCompetencesCount: 2,
+              minimumCertifiableCompetencesForCertificability: 5,
+              doubleCertificationEligibility:
+                domainBuilder.certification.enrolment.buildCertificationEligibility(
+                  {
+                    label: "Un super label",
+                    imageUrl: "Une super image",
+                    isBadgeValid: false,
+                    validatedDoubleCertification: false,
+                  },
+                ),
+            },
+          );
 
         // when
         const json = userCertificationEligibilitySerializer.serialize(userCertificationEligibility);
@@ -54,6 +69,8 @@ describe('Certification | Enrolment | Unit | Serializer | user-certification-eli
             type: 'isCertifiables',
             attributes: {
               'is-certifiable': true,
+              'certifiable-competences-count': 2,
+              'minimum-certifiable-competences-for-certificability': 5,
               'double-certification-eligibility': {
                 label: 'Un super label',
                 imageUrl: 'Une super image',

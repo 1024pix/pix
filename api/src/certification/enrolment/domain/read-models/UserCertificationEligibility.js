@@ -1,8 +1,12 @@
+import { MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY } from '../../../../shared/constants.js';
+
 class UserCertificationEligibility {
-  constructor({ id, isCertifiable, doubleCertificationEligibility }) {
+  constructor({ id, isCertifiable, doubleCertificationEligibility, certifiableCompetencesCount }) {
     this.id = id;
     this.isCertifiable = isCertifiable;
     this.doubleCertificationEligibility = doubleCertificationEligibility;
+    this.certifiableCompetencesCount = certifiableCompetencesCount;
+    this.minimumCertifiableCompetencesForCertificability = MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY;
   }
 
   isDoubleCertificationOk() {

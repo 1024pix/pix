@@ -268,15 +268,17 @@ describe('Certification | Enrolment | Acceptance | Routes | User', function () {
         const expectedResponse = {
           data: {
             id: `${user.id}`,
-            type: 'isCertifiables',
+            type: "isCertifiables",
             attributes: {
-              'is-certifiable': true,
-              'double-certification-eligibility': {
-                imageUrl: 'http://my-badge-image-url.com',
-                label: 'alt message',
+              "is-certifiable": true,
+              "certifiable-competences-count": 5,
+              "double-certification-eligibility": {
+                imageUrl: "http://my-badge-image-url.com",
+                label: "alt message",
                 isBadgeValid: true,
                 validatedDoubleCertification: false,
               },
+              "minimum-certifiable-competences-for-certificability": 5,
             },
           },
         };

@@ -55,6 +55,7 @@ describe('Certification | Enrolment | Unit | Services | eligibility-service', fu
             id: userId,
             isCertifiable: true,
             doubleCertificationEligibility: null,
+            certifiableCompetencesCount: 5,
           }),
         );
       });
@@ -77,6 +78,7 @@ describe('Certification | Enrolment | Unit | Services | eligibility-service', fu
             id: userId,
             isCertifiable: false,
             doubleCertificationEligibility: null,
+            certifiableCompetencesCount: 1,
           }),
         );
       });
@@ -121,6 +123,7 @@ describe('Certification | Enrolment | Unit | Services | eligibility-service', fu
               id: userId,
               isCertifiable,
               doubleCertificationEligibility: null,
+              certifiableCompetencesCount: 5,
             }),
           );
         });
@@ -196,6 +199,7 @@ describe('Certification | Enrolment | Unit | Services | eligibility-service', fu
                   id: userId,
                   isCertifiable: true,
                   doubleCertificationEligibility: null,
+                  certifiableCompetencesCount: 5,
                 }),
               );
             });
@@ -265,6 +269,7 @@ describe('Certification | Enrolment | Unit | Services | eligibility-service', fu
                     id: userId,
                     isCertifiable: true,
                     doubleCertificationEligibility: null,
+                    certifiableCompetencesCount: 5,
                   }),
                 );
               });
@@ -319,6 +324,7 @@ describe('Certification | Enrolment | Unit | Services | eligibility-service', fu
                   domainBuilder.certification.enrolment.buildUserCertificationEligibility({
                     id: userId,
                     isCertifiable: true,
+                    certifiableCompetencesCount: 5,
                     doubleCertificationEligibility: domainBuilder.certification.enrolment.buildCertificationEligibility(
                       {
                         label: 'monLabel',
@@ -388,6 +394,7 @@ describe('Certification | Enrolment | Unit | Services | eligibility-service', fu
               domainBuilder.certification.enrolment.buildUserCertificationEligibility({
                 id: userId,
                 isCertifiable: true,
+                certifiableCompetencesCount: 5,
                 doubleCertificationEligibility: domainBuilder.certification.enrolment.buildCertificationEligibility({
                   label: 'monLabel',
                   imageUrl: 'monImageUrl',

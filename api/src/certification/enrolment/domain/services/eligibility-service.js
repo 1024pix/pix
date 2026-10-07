@@ -1,3 +1,4 @@
+import { MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY } from '../../../../shared/constants.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { CertificationEligibility, UserCertificationEligibility } from '../read-models/UserCertificationEligibility.js';
 
@@ -13,11 +14,16 @@ export async function getUserCertificationEligibility({
   const isCertifiable = placementProfile.isCertifiable();
   let doubleCertificationEligibility = null;
 
+  const certifiableCompetencesCount = placementProfile.userCompetences.filter(
+    (userCompetence) => userCompetence.estimatedLevel >= MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY,
+  ).length;
+
   if (!isCertifiable) {
     return new UserCertificationEligibility({
       id: userId,
       isCertifiable,
       doubleCertificationEligibility,
+      certifiableCompetencesCount,
     });
   }
 
@@ -72,6 +78,7 @@ export async function getUserCertificationEligibility({
     id: userId,
     isCertifiable,
     doubleCertificationEligibility,
+    certifiableCompetencesCount,
   });
 }
 
