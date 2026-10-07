@@ -17,6 +17,17 @@ describe('Unit | Certification | Enrolment | Domain | Models | TimelineEvent', f
     expect(timeline).to.deep.equal({ code: data.code, when: data.when, metadata: data.metadata });
   });
 
+  it('should default metadata to an empty object', function () {
+    // given
+    const data = { code: 'test', when: new Date() };
+
+    // when
+    const timeline = new TimelineEvent(data);
+
+    // then
+    expect(timeline.metadata).to.deep.equal({});
+  });
+
   it('should throw an error when trying to construct an invalid timeline event', function () {
     // given
     const notAnEvent = { code: 'test', when: 'a bad date' };

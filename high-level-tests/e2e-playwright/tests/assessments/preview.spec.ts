@@ -27,7 +27,8 @@ test(
       const challengePage = new ChallengePage(page);
       const challengeImprint = await challengePage.getChallengeImprint();
       snapshotHandler.push('challenge imprint to have value', challengeImprint);
-      await expect(page.getByLabel('Votre progression')).toContainText('1 / 1');
+
+      await expect(page.getByLabel('1 sur 1')).toBeVisible();
       await challengePage.setRightOrWrongAnswer(true);
       await challengePage.validateAnswer();
     });

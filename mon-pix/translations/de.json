@@ -315,6 +315,14 @@
         }
       }
     },
+    "info-bar": {
+      "certification-number": "Zertifizierungs-Nr.",
+      "completion-percentage": {
+        "caption": "Fortschritt auf dem Pfad",
+        "label": "Du hast {completion, number, ::percent} deines Pfades absolviert."
+      },
+      "progress": {"label": "Frage", "position": "{current} sur {total}" }
+    },
     "invited": {
       "reconciliation": {
         "error-message": {
@@ -1024,9 +1032,6 @@
         "numbered-label": "Antwort {number}"
       },
       "certification": {
-        "banner": {
-          "certification-number": "Zertifizierungs-Nr."
-        },
         "title": "Zertifizierung {certificationNumber}."
       },
       "certification-feedback-panel": {
@@ -1185,9 +1190,6 @@
         "progress": "Dein Fortschritt",
         "validation": "Deine Prüfung bestätigen oder ablegen"
       },
-      "progress-bar": {
-        "label": "Frage"
-      },
       "skip-error-message": {
         "qcm": "Wähle zum Bestätigen mindestens zwei Antworten aus. Andernfalls überspringe sie.",
         "qcu": "Um zu bestätigen, wähle eine Antwort aus. Andernfalls überspringe sie.",
@@ -1258,10 +1260,6 @@
           "info": "Du hast bereits geantwortet!"
         },
         "header": "Deine Antworten"
-      },
-      "completion-percentage": {
-        "caption": "Fortschritt auf dem Pfad",
-        "label": "Du hast {completion, number, ::percent} deines Pfades absolviert."
       },
       "sharing-results": {
         "information-banner": "Wenn du auf die Schaltfläche \"Meine Ergebnisse anzeigen\" klickst, werden deine Ergebnisse an den Organisator übermittelt."
@@ -2013,7 +2011,6 @@
       "total-score-helper": {
         "explanation": "'<p>'Dies ist die maximale Anzahl an Pix, die erreicht werden kann, wenn alle 8 Ebenen des Pix-Referenzsystems verfügbar sind.'</p><p>'Heute liegt '<span class=\"hexagon-score-information__text-strong\">'das Maximum bei {maxReachablePixScore} Pix'</span>', entsprechend der Ebene {maxReachableLevel}.'</p>'",
         "icon": "Informationen zu Pix",
-        "label": "Den Tooltip öffnen",
         "title": "Warum 1024 Pix?"
       }
     },

@@ -6,6 +6,7 @@ import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import deburr from 'lodash/deburr';
 import kebabCase from 'lodash/kebabCase';
+import { ATTESTATION_DOWNLOAD_ORIGINS, EVENT_NAMES } from 'mon-pix/constants/metrics-events';
 
 export default class AttestationResult extends Component {
   @service session;
@@ -19,7 +20,9 @@ export default class AttestationResult extends Component {
 
   @action async onClick() {
     const { access_token: token, user_id: userId } = this.session.data.authenticated;
-    this.sendMetrics();
+    this.pixMetrics.trackEvent(EVENT_NAMES.ATTESTATION.DOWNLOAD_CLICK, {
+      origin: ATTESTATION_DOWNLOAD_ORIGINS.CAMPAIGN_RESULT_PAGE,
+    });
     const url = `/api/users/${userId}/attestations/${this.result.reward.key}`;
     const fileName = 'attestation-' + kebabCase(deburr(this.result.reward.label));
 
@@ -28,14 +31,6 @@ export default class AttestationResult extends Component {
     } catch {
       this.args.onError();
     }
-  }
-
-  sendMetrics() {
-    this.pixMetrics.trackEvent('Clic sur le bouton Télécharger (attestation)', {
-      disabled: true,
-      category: 'Fin de parcours',
-      action: 'Cliquer sur le bouton Télécharger (attestation)',
-    });
   }
 
   <template>

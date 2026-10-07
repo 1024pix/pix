@@ -3,6 +3,7 @@ import {
   ADMINISTRATION_TEAM_SOLO_ID,
   ORGANIZATION_LEARNER_TYPE_PROFESSIONAL_ID,
   ORGANIZATION_LEARNER_TYPE_STUDENT_ID,
+  STRUCTURE_CATEGORY_SCO_ID,
 } from './constants.js';
 
 function _buildProNetwork(databaseBuilder) {
@@ -198,6 +199,7 @@ function _buildScoNetwork(databaseBuilder) {
     databaseBuilder.factory.buildOrganizationInNetwork({
       networkId: network.id,
       parentStructureId: academieNantesStructure.id,
+      categoryId: STRUCTURE_CATEGORY_SCO_ID,
       organizationData: {
         name: "Collège 1 de l'Académie de Nantes",
         externalId: 'SCO_FOR_NETWORK',

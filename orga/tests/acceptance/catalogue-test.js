@@ -20,7 +20,7 @@ module('Acceptance | Catalogue page', function (hooks) {
     const user = createUserManagingStudents('ADMIN');
     createPrescriberByUser({ user });
     await authenticateSession(user.id);
-    server.create('feature-toggle', { id: '0', displayCatalogue: true });
+
     area1 = server.create('area', { id: 'area1', code: '1', title: 'Area 1', competenceIds: [] });
     course1 = server.create('course', {
       id: 'targetProfile-1',

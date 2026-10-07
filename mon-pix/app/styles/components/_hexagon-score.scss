@@ -3,6 +3,10 @@
 @use 'pix-design-tokens/typography';
 
 .hexagon-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 132px;
   height: 148px;
   background: url('/images/background/hexa-pix-blue.svg') no-repeat center center;
@@ -14,73 +18,53 @@
   }
 }
 
-@mixin hexagon-score-title {
+.hexagon-score-content__title {
+   @extend %pix-body-xs;
+
+  padding-top: 1em;
   color: var(--pix-neutral-900);
-  font-size: 0.875rem;
-  font-family: fonts.$font-roboto;
-  letter-spacing: 0.219rem;
+  letter-spacing: 0.075rem;
+  text-transform: uppercase;
 }
 
-@mixin hexagon-score-pix-score {
+.hexagon-score-content__pix-score {
   @extend %pix-title-l;
 
   color: var(--pix-neutral-900);
+  font-weight: 600;
+  font-size: 2.375rem;
+  line-height: 1.1;
 }
 
-@mixin hexagon-score-pix-total {
+.hexagon-score-content__pix-total {
+  @extend %pix-body-s;
+
+  margin-bottom: -0.125rem;
+  padding-top: 0.25em;
   color: var(--pix-neutral-500);
-  font-size: 0.813rem;
-  font-family: fonts.$font-roboto;
-  border-top: 1px solid var(--pix-neutral-100);
+  border-top: 1px solid var(--pix-neutral-500);
 }
 
-.hexagon-score-content {
-  &__title {
-    @include hexagon-score-title;
+.hexagon-score-content__information {
+  display: inline-block;
+}
 
-    position: absolute;
-    top: 26px;
-    left: 1px;
+.hexagon-score-content-information__icon {
+  display: block;
+  align-items: center;
+  width: 1rem;
+  height: 1rem;
+
+  svg {
+    display: block;
     width: 100%;
-    text-transform: uppercase;
-  }
-
-  &__pix-score {
-    @include hexagon-score-pix-score;
-
-    position: absolute;
-    top: 40px;
-    width: 100%;
-  }
-
-  &__pix-total {
-    @include hexagon-score-pix-total;
-
-    position: absolute;
-    top: 100px;
-    left: 31px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 70px;
-    padding: 0 var(--pix-spacing-2x);
-
-    .pix-tooltip__content {
-      max-width: 19rem;
-
-      @include breakpoints.device-is('tablet') {
-        max-width: 40rem;
-      }
-
-      @include breakpoints.device-is('desktop') {
-        max-width: 19rem;
-      }
-    }
+    height: 100%;
+    opacity: 0.75;
   }
 }
 
-.hexagon-score__information {
-  padding: 24px 16px;
+#hexagon-score-tooltip {
+  max-width: 90vw;
 }
 
 .hexagon-score-information__text {
@@ -95,37 +79,5 @@
 
   p {
     padding-top: 1rem;
-  }
-}
-
-.hexagon-score-information__close {
-  float: right;
-  margin-top: -10px;
-  padding: 10px;
-  font-size: 1.25rem;
-
-  @include breakpoints.device-is('desktop') {
-    display: none;
-  }
-}
-
-.hexagon-score-content-pix-total__icon {
-  margin-left: 4px;
-  padding: 0;
-  color: inherit;
-  line-height: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-
-  svg {
-    width: 1rem;
-    height: 1rem;
-    margin-top: 0.2rem;
-  }
-
-  &:hover,
-  &:focus {
-    color: var(--pix-neutral-800);
   }
 }

@@ -1,0 +1,247 @@
+import { PixButton, PixButtonLink, PixIconButton, PixModal, PixTooltip } from '@1024pix/nebulix-ember';
+import { action } from '@ember/object';
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import t from 'ember-intl/helpers/t';
+import { and } from 'ember-truth-helpers';
+import startCase from 'lodash/startCase';
+import InfoBar from 'mon-pix/components/ui/assessment/info-bar';
+
+export default class AssessmentBanner extends Component {
+  @service intl;
+  @service media;
+  @service featureToggles;
+  @service currentUser;
+  @service store;
+  @service router;
+
+  @tracked showClosingModal = false;
+  @tracked campaign = null;
+  @tracked campaignParticipation = null;
+
+  constructor(...args) {
+    super(...args);
+    this.args?.assessment?.campaign?.then(async (campaign) => {
+      this.campaign = campaign;
+      if (this.campaign?.customResultPageButtonUrl && !this.isRedirectionUrlInternal) {
+        this.campaignParticipation = await this.store.queryRecord('campaign-participation', {
+          campaignId: campaign.id,
+          userId: this.currentUser.user.id,
+        });
+      }
+    });
+  }
+
+  get candidateFullName() {
+    if (!this.isCertification) return null;
+
+    const firstName = this.args.assessment.certificationCourse.get('firstName');
+    const lastName = this.args.assessment.certificationCourse.get('lastName');
+    return `${startCase(firstName)} ${lastName.toUpperCase()}`;
+  }
+
+  get isCertification() {
+    return this.args.assessment.isCertification;
+  }
+
+  get cssClass() {
+    const cssClass = ['assessment-banner'];
+
+    if (this.isCertification) cssClass.push('assessment-banner--certification');
+
+    return cssClass.join(' ');
+  }
+
+  get isRedirectionUrlInternal() {
+    if (this.campaign.customResultPageButtonUrl.startsWith('http')) {
+      return false;
+    }
+    try {
+      this.router.recognize(this.campaign.customResultPageButtonUrl);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  get certificationNumber() {
+    return this.args.assessment.certificationNumber;
+  }
+
+  get redirectionUrl() {
+    if (!this.campaign || !this.campaign.customResultPageButtonUrl) return null;
+
+    if (this.isRedirectionUrlInternal) {
+      return this.campaign.customResultPageButtonUrl;
+    } else {
+      const params = {};
+
+      params.externalId = this.campaignParticipation?.participantExternalId ?? undefined;
+
+      return buildUrl(this.campaign.customResultPageButtonUrl, params);
+    }
+  }
+
+  get title() {
+    return this.isCertification ? this.candidateFullName : this.args?.assessment?.title;
+  }
+
+  get textToSpeechTooltipText() {
+    return this.args.isTextToSpeechActivated
+      ? this.intl.t('pages.challenge.statement.text-to-speech.deactivate')
+      : this.intl.t('pages.challenge.statement.text-to-speech.activate');
+  }
+
+  get showTextToSpeechActivationButton() {
+    return (
+      this.featureToggles.featureToggles?.isTextToSpeechButtonEnabled &&
+      this.args.displayTextToSpeechActivationButton &&
+      window.speechSynthesis
+    );
+  }
+
+  @action
+  toggleClosingModal() {
+    this.showClosingModal = !this.showClosingModal;
+  }
+
+  <template>
+    <header class={{this.cssClass}} role="banner">
+      <div class="assessment-banner__header">
+        <div class="assessment-banner__title">
+          <img src="/images/pix-logo-blanc.svg" alt="" />
+          {{#if this.title}}
+            <span class="assessment-banner__separator" />
+            <h1 class="assessment-banner__text">
+              {{#unless this.isCertification}}<span class="sr-only">{{t
+                    "pages.assessment-banner.title"
+                  }}</span>{{/unless}}
+              {{this.title}}
+            </h1>
+          {{/if}}
+        </div>
+
+        {{#unless this.isCertification}}
+          <div class="assessment-banner__action">
+            {{#if this.showTextToSpeechActivationButton}}
+              <PixTooltip @position="left" @isInline={{true}}>
+                <:triggerElement>
+                  <PixIconButton
+                    @ariaLabel={{this.textToSpeechTooltipText}}
+                    @iconName={{if @isTextToSpeechActivated "volumeOn" "volumeOff"}}
+                    @size="small"
+                    @triggerAction={{@toggleTextToSpeech}}
+                  />
+                </:triggerElement>
+                <:tooltip>
+                  {{this.textToSpeechTooltipText}}
+                </:tooltip>
+              </PixTooltip>
+            {{/if}}
+            {{#if (and this.showTextToSpeechActivationButton @displayHomeLink)}}
+              <span class="assessment-banner__separator" />
+            {{/if}}
+            {{#if @displayHomeLink}}
+              {{#if this.media.isDesktop}}
+                <PixButton @variant="tertiary" @iconAfter="close" @triggerAction={{this.toggleClosingModal}}>
+                  {{t "common.actions.quit"}}
+                </PixButton>
+              {{else}}
+                <PixIconButton
+                  @iconName="close"
+                  @size="small"
+                  @triggerAction={{this.toggleClosingModal}}
+                  @ariaLabel={{t "common.actions.quit"}}
+                />
+              {{/if}}
+            {{/if}}
+          </div>
+        {{/unless}}
+      </div>
+      <InfoBar
+        @completionRate={{@completionRate}}
+        @assessment={{@assessment}}
+        @currentChallengeNumber={{@currentChallengeNumber}}
+        @showGlobalProgression={{@showGlobalProgression}}
+        @certificationNumber={{this.certificationNumber}}
+        @isEnded={{@isEnded}}
+      />
+    </header>
+
+    {{#if @displayHomeLink}}
+      <PixModal
+        @title={{t "pages.assessment-banner.modal.title"}}
+        @showModal={{this.showClosingModal}}
+        @onCloseButtonClick={{this.toggleClosingModal}}
+      >
+        <:content>
+          <p>{{t "pages.assessment-banner.modal.content"}}</p>
+        </:content>
+        <:footer>
+          <PixButton @variant="secondary" @triggerAction={{this.toggleClosingModal}}>
+            {{t "common.actions.stay"}}
+          </PixButton>
+          <ButtonLinkWithHistory
+            @redirectionUrl={{this.redirectionUrl}}
+            @defaultRoute="authenticated"
+            aria-label={{t "pages.assessment-banner.modal.actions.quit.extra-information"}}
+          >
+            {{t "common.actions.quit"}}
+          </ButtonLinkWithHistory>
+        </:footer>
+      </PixModal>
+    {{/if}}
+  </template>
+}
+
+class ButtonLinkWithHistory extends Component {
+  @service router;
+
+  @action
+  transitionToRedirectionUrl() {
+    this.router.transitionTo(this.args.redirectionUrl);
+  }
+
+  get isRedirectionUrlInternal() {
+    if (this.args.redirectionUrl.startsWith('http')) {
+      return false;
+    }
+    try {
+      return Boolean(this.router.recognize(this.args.redirectionUrl));
+    } catch {
+      return false;
+    }
+  }
+
+  <template>
+    {{#if @redirectionUrl}}
+      {{#if this.isRedirectionUrlInternal}}
+        <PixButton @triggerAction={{this.transitionToRedirectionUrl}} ...attributes>
+          {{yield}}
+        </PixButton>
+      {{else}}
+        <PixButtonLink @href={{@redirectionUrl}} ...attributes>
+          {{yield}}
+        </PixButtonLink>
+      {{/if}}
+    {{else}}
+      <PixButtonLink @route={{@defaultRoute}} ...attributes>
+        {{yield}}
+      </PixButtonLink>
+    {{/if}}
+  </template>
+}
+
+function buildUrl(customUrl, params) {
+  const url = new URL(customUrl);
+  const urlParams = new URLSearchParams(url.search);
+
+  for (const key in params) {
+    if (params[key] !== undefined) {
+      urlParams.set(key, params[key]);
+    }
+  }
+  url.search = urlParams.toString();
+  return url.toString();
+}

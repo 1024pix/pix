@@ -1,6 +1,9 @@
-.update-campaign {
+@use 'pix-design-tokens/breakpoints';
 
-  &__select {
-    width: 100%;
+.form__field-with-info {
+  .pix-select {
+    @include breakpoints.device-is('desktop') {
+      width: 100%;
+    }
   }
 }

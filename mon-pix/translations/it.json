@@ -315,6 +315,14 @@
         }
       }
     },
+    "info-bar": {
+      "certification-number": "Numero di certificazione",
+      "completion-percentage": {
+        "caption": "progressi lungo il percorso",
+        "label": "Hai completato {completion, number, ::percent} del tuo percorso."
+      },
+      "progress": {"label": "Domanda", "position": "{current} sur {total}" }
+    },
     "invited": {
       "reconciliation": {
         "error-message": {
@@ -1024,9 +1032,6 @@
         "numbered-label": "Risposta {number}"
       },
       "certification": {
-        "banner": {
-          "certification-number": "Numero di certificazione"
-        },
         "title": "Certificazione {certificationNumber}"
       },
       "certification-feedback-panel": {
@@ -1185,9 +1190,6 @@
         "progress": "I tuoi progressi",
         "validation": "Confermare o saltare la prova"
       },
-      "progress-bar": {
-        "label": "Domanda"
-      },
       "skip-error-message": {
         "qcm": "Per convalidare, seleziona almeno due risposte. In caso contrario, saltare.",
         "qcu": "Per confermare, seleziona una risposta. Altrimenti, saltare.",
@@ -1258,10 +1260,6 @@
           "info": "Hai già risposto!"
         },
         "header": "le tue risposte"
-      },
-      "completion-percentage": {
-        "caption": "progressi lungo il percorso",
-        "label": "Hai completato {completion, number, ::percent} del tuo percorso."
       },
       "sharing-results": {
         "information-banner": "Cliccando sul pulsante \"Vedi i miei risultati\", i tuoi risultati saranno inviati all'organizzatore."
@@ -2013,7 +2011,6 @@
       "total-score-helper": {
         "explanation": "'<p>'Questo è il punteggio pix massimo che sarà possibile raggiungere quando tutti gli 8 livelli del repository pix saranno disponibili.'</p><p>'Oggi, '<span class=\"hexagon-score-information__text--strong\">'il massimo è {maxReachablePixScore} pix'</span>', corrispondente al livello {maxReachableLevel}.'</p>'",
         "icon": "Informazioni sui pix",
-        "label": "Apri il tooltip",
         "title": "Perché 1024 pix?"
       }
     },

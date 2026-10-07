@@ -106,6 +106,7 @@
         "category": {
           "name": "Category",
           "tags": {
+            "ATTESTATION": "Attestations",
             "BACK_TO_SCHOOL": "Back to school",
             "COMPETENCES": "Pix Competences",
             "CUSTOM": "Created for you",

@@ -1,0 +1,321 @@
+import path from 'node:path';
+import * as url from 'node:url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+const GAP = 4;
+const MARGIN = 25;
+const PADDING_TAG = 1;
+const NB_COLUMNS = 3;
+const COLUMN_GAP = 16;
+const xShiftCompetenceTitle = 50;
+const AREA_ICON_WIDTH = 25;
+const NOT_OBTAINED_COLOR = '#4F6384';
+const NOT_OBTAINED_TAG_COLOR = '#EDEFF3';
+const GLOBAL_LEVEL_TAG_COLOR = '#613FDD';
+const AREA_COLOR_HEX = {
+  jaffa: '#F24645',
+  emerald: '#1A8C89',
+  cerulean: '#3D68FF',
+  'wild-strawberry': '#AC008D',
+  'butterfly-bush': '#5E2563',
+};
+
+export default function generateV3CompetencesTemplate({ pdf, data, translate }) {
+  pdf.addPage({ margin: 0, size: 'A4', layout: 'landscape' });
+  pdf.image(path.resolve(__dirname, 'assets/v3_core_background_verso.png'), 0, 0, {
+    width: pdf.page.width,
+    height: pdf.page.height,
+  });
+  writeHeader(pdf, data, translate);
+
+  pdf.x = MARGIN;
+  pdf.y = 162;
+
+  const columnWidth = (pdf.page.contentWidth - MARGIN - MARGIN - (NB_COLUMNS - 1) * COLUMN_GAP) / NB_COLUMNS;
+  const initY = pdf.y;
+  const sortedAreas = data.resultCompetenceTree.areas.toSorted((a, b) => Number(a.code) - Number(b.code));
+  for (const area of sortedAreas) {
+    const sortedCompetences = area.resultCompetences.toSorted((a, b) =>
+      a.index.localeCompare(b.index, undefined, { numeric: true }),
+    );
+    const areaTitle = translate(`certification.certificate.v3.competence-results.areas.${area.code}.label`);
+    const firstCompetenceData = buildCompetenceRenderingData(sortedCompetences[0], area.code, translate);
+    const areaBlockHeight = measureAreaHeaderHeight(pdf, areaTitle, firstCompetenceData, columnWidth);
+    changeColumnIfNeeded(pdf, areaBlockHeight, columnWidth, COLUMN_GAP, initY);
+
+    const areaColor = AREA_COLOR_HEX[area.color] ?? NOT_OBTAINED_COLOR;
+    const hasNoObtainedCompetence = sortedCompetences.every((competence) => competence.level < 1);
+    writeAreaTitle(pdf, areaTitle, areaColor, area.code, columnWidth, initY, hasNoObtainedCompetence);
+
+    for (const competence of sortedCompetences) {
+      const { competenceTitle, isObtained, levelLabel, tradBaseKey } = buildCompetenceRenderingData(
+        competence,
+        area.code,
+        translate,
+      );
+
+      const competenceBlockHeight = measureCompetenceBlockHeight(
+        pdf,
+        levelLabel,
+        competenceTitle,
+        columnWidth,
+        isObtained,
+      );
+      changeColumnIfNeeded(pdf, competenceBlockHeight, columnWidth, COLUMN_GAP, initY);
+
+      writeCompetenceHeader(pdf, levelLabel, isObtained, competenceTitle, columnWidth, areaColor, initY);
+
+      if (isObtained) {
+        const content = translate(tradBaseKey + `.levels.${String(competence.level)}`);
+        writeParagraph(pdf, content, columnWidth, COLUMN_GAP, initY);
+      } else {
+        addGap(pdf, initY);
+      }
+    }
+    addGap(pdf, initY);
+  }
+}
+
+function writeHeader(pdf, certificate, translate) {
+  //Score
+  const styledScore = setTextStyleForPixScore(pdf);
+  pdf.x = 102.5 - styledScore.widthOfString(String(certificate.pixScore)) / 2;
+  pdf.y = 60;
+  styledScore.text(certificate.pixScore);
+
+  const MAX_SCORE = certificate.maxReachableScore;
+  const styledMaxScore = setTextStyleForMaxPixScore(pdf);
+  pdf.x = 102.5 - styledMaxScore.widthOfString(String(MAX_SCORE)) / 2;
+  pdf.y = 103;
+  styledMaxScore.text(MAX_SCORE);
+
+  //Candidate Name
+  const candidateName = certificate.firstName + ' ' + certificate.lastName;
+  const styledName = setTextStyleForCandidateName(pdf);
+  const twoLineHeight = styledName.heightOfString('A\nB', { lineGap: -4 });
+  const nameHeight = styledName.heightOfString(candidateName, { width: 300, lineGap: -4 });
+  const nameYOffset = Math.round(Math.max(0, twoLineHeight - nameHeight) / 2);
+  pdf.x = 170;
+  pdf.y = 45 + nameYOffset;
+  styledName.text(candidateName, { width: 300, lineGap: -4 });
+
+  //Global Level
+  pdf.x = 170;
+  pdf.y = 104;
+  setTextStyleForGlobalLevelTitle(pdf).text(translate('certification.certificate.v3.score-content.global-level'));
+
+  const styledGlobalLevelTag = setTextStyleForGlobalLevelTag(pdf);
+  const globalLevelTag = translate(`certification.meshlevel.CORE.${certificate.globalLevel.meshLevel}.label`);
+  pdf.x = 273;
+  pdf.y = 104;
+  const tagWidth = styledGlobalLevelTag.widthOfString(globalLevelTag) + PADDING_TAG * 24;
+  const tagHeight = styledGlobalLevelTag.heightOfString(globalLevelTag) + PADDING_TAG * 8;
+  pdf
+    .roundedRect(pdf.x - PADDING_TAG * 12, pdf.y - PADDING_TAG * 4, tagWidth, tagHeight, 50)
+    .fill(GLOBAL_LEVEL_TAG_COLOR);
+  setTextStyleForGlobalLevelTag(pdf).text(globalLevelTag);
+
+  //Introductory text
+  pdf.x = 503;
+  pdf.y = 30;
+  const infoText = translate('certification.certificate.v3.competence-results.competences-info').replace(/\. /g, '.\n');
+  setTextStyleForParagraphInfo(pdf).text(infoText, { width: 274, align: 'left', lineGap: 5 });
+
+  pdf.x = 503;
+  pdf.y = 104;
+  setTextStyleForCompetencesTitle(pdf).text(
+    translate('certification.certificate.v3.competence-results.competences-title'),
+  );
+}
+
+function writeParagraph(pdfDoc, text, columnWidth, columnGap, initY) {
+  const styledDoc = setTextStyleForParagraphText(pdfDoc);
+  const tokens = splitIntoTokens(text);
+
+  let confirmedFitCount = 0;
+  let upperBound = tokens.length;
+  while (confirmedFitCount < upperBound) {
+    const mid = Math.floor((confirmedFitCount + upperBound + 1) / 2);
+    if (wouldOverflowColumn(styledDoc, tokens.slice(0, mid).join(''), columnWidth)) {
+      upperBound = mid - 1;
+    } else {
+      confirmedFitCount = mid;
+    }
+  }
+
+  const textThatFits = tokens.slice(0, confirmedFitCount).join('');
+  const textThatOverflows = tokens.slice(confirmedFitCount).join('');
+
+  styledDoc.text(textThatFits, { width: columnWidth, align: 'justify' });
+  if (textThatOverflows.length > 0) {
+    changeColumn(styledDoc, columnWidth, columnGap, initY);
+    styledDoc.text(textThatOverflows, { width: columnWidth, align: 'justify' });
+  }
+  addGap(styledDoc, initY);
+  addGap(styledDoc, initY);
+}
+
+function splitIntoTokens(text) {
+  return text.split(/(?<=\s)/);
+}
+
+function wouldOverflowColumn(pdfDoc, text, columnWidth) {
+  const pageBottom = pdfDoc.page.contentHeight - MARGIN;
+  return pdfDoc.y + pdfDoc.heightOfString(text, { width: columnWidth }) > pageBottom;
+}
+
+function writeCompetenceHeader(doc, levelLabel, isObtained, labelCompetences, columnWidth, areaColor, initY) {
+  const startX = doc.x;
+  const startY = doc.y;
+  const tagColor = isObtained ? areaColor : NOT_OBTAINED_TAG_COLOR;
+
+  const { tagWidth, tagHeight, titleWidth, titleHeight } = measureCompetenceHeader(
+    doc,
+    levelLabel,
+    labelCompetences,
+    columnWidth,
+    isObtained,
+  );
+
+  doc.x = startX;
+  doc.y = startY + Math.max(0, (titleHeight - tagHeight) / 2);
+  writeLevelTag(doc, levelLabel, tagColor, tagWidth, tagHeight, isObtained);
+
+  doc.x = startX + xShiftCompetenceTitle;
+  doc.y = startY;
+  setTextStyleForCompetenceTitle(doc, areaColor, isObtained).text(labelCompetences, { width: titleWidth });
+
+  doc.x = startX;
+  addGap(doc, initY);
+}
+
+function measureCompetenceHeader(doc, levelLabel, labelCompetences, columnWidth, isObtained) {
+  const tagMeasureDoc = setTextStyleForTag(doc, isObtained);
+  const tagWidth = tagMeasureDoc.widthOfString(levelLabel);
+  const tagHeight = tagMeasureDoc.heightOfString(levelLabel);
+  const titleWidth = columnWidth - xShiftCompetenceTitle;
+  const titleHeight = setTextStyleForCompetenceTitle(doc).heightOfString(labelCompetences, { width: titleWidth });
+  const totalHeight = Math.max(tagHeight, titleHeight);
+  return { tagWidth, tagHeight, titleWidth, titleHeight, totalHeight };
+}
+
+function writeLevelTag(doc, levelLabel, tagColor, tagWidth, tagHeight, isObtained) {
+  doc.x += PADDING_TAG * 4;
+  doc.roundedRect(doc.x - PADDING_TAG * 4, doc.y - PADDING_TAG, tagWidth, tagHeight, 50).fill(tagColor);
+  setTextStyleForLevel(doc, isObtained).text(levelLabel);
+}
+
+function writeAreaTitle(pdfDoc, label, areaColor, areaCode, columnWidth, initY, hasNoObtainedCompetence) {
+  const startX = pdfDoc.x;
+  const startY = pdfDoc.y;
+  const color = hasNoObtainedCompetence ? NOT_OBTAINED_COLOR : areaColor;
+  const iconFileName = hasNoObtainedCompetence ? `${areaCode}-disable` : areaCode;
+
+  pdfDoc.image(path.resolve(__dirname, `assets/area-icon/area-${iconFileName}.png`), { fit: [16, 16] });
+
+  pdfDoc.x = startX + AREA_ICON_WIDTH + GAP;
+  pdfDoc.y = startY + 2;
+  setTextStyleForAreaTitle(pdfDoc, color).text(areaCode + '. ' + label, { width: columnWidth });
+
+  pdfDoc.x = startX;
+  pdfDoc.y += 2;
+  addGap(pdfDoc, initY);
+}
+
+function changeColumnIfNeeded(pdfDoc, blockHeight, columnWidth, columnGap, initY) {
+  if (pdfDoc.y + blockHeight > pdfDoc.page.contentHeight - MARGIN) {
+    changeColumn(pdfDoc, columnWidth, columnGap, initY);
+  }
+}
+
+function buildCompetenceRenderingData(competence, areaCode, translate) {
+  const competenceIndex = competence.index.split('.')[1];
+  const tradBaseKey = `certification.certificate.v3.competence-results.areas.${areaCode}.competences.${competenceIndex}`;
+  const competenceTitle = translate(tradBaseKey + '.index') + '. ' + translate(tradBaseKey + '.title');
+  const isObtained = competence.level > 0;
+  const levelLabel = isObtained
+    ? translate('certification.certificate.v3.competence-results.level-tag') + String(competence.level)
+    : translate('certification.certificate.v3.competence-results.level-not-obtained');
+  return { competenceTitle, isObtained, levelLabel, tradBaseKey };
+}
+
+function measureAreaHeaderHeight(pdfDoc, areaTitle, firstCompetenceData, columnWidth) {
+  const areaTitleHeight = setTextStyleForAreaTitle(pdfDoc).heightOfString(areaTitle, { width: columnWidth }) + GAP;
+  const { levelLabel, competenceTitle, isObtained } = firstCompetenceData;
+  return areaTitleHeight + measureCompetenceBlockHeight(pdfDoc, levelLabel, competenceTitle, columnWidth, isObtained);
+}
+
+function measureCompetenceBlockHeight(pdfDoc, levelLabel, competenceTitle, columnWidth, isObtained) {
+  const paragraphLineHeight = isObtained
+    ? setTextStyleForParagraphText(pdfDoc).heightOfString('A', { width: columnWidth })
+    : 0;
+  return (
+    measureCompetenceHeader(pdfDoc, levelLabel, competenceTitle, columnWidth, isObtained).totalHeight +
+    GAP +
+    paragraphLineHeight
+  );
+}
+
+function changeColumn(pdfDoc, columnWidth, columnGap, initY) {
+  pdfDoc.x = pdfDoc.x + columnWidth + columnGap;
+  pdfDoc.y = initY;
+}
+
+function addGap(pdfDoc, initY) {
+  if (pdfDoc.y === initY) return;
+  if (pdfDoc.y + GAP > pdfDoc.page.contentHeight - MARGIN) return;
+  pdfDoc.y += GAP;
+}
+
+function setTextStyleForPixScore(pdfDoc) {
+  return pdfDoc.font('Nunito-Bold').fillColor('#253858').fontSize(28);
+}
+
+function setTextStyleForMaxPixScore(pdfDoc) {
+  return pdfDoc.font('Roboto-Regular').fillColor('#5E6C84').fontSize(14);
+}
+
+function setTextStyleForCandidateName(pdfDoc) {
+  return pdfDoc.font('Nunito-Bold').fillColor('#000').fontSize(18);
+}
+
+function setTextStyleForGlobalLevelTitle(pdfDoc) {
+  return pdfDoc.font('OpenSans-SemiBold').fillColor('#6B778C').fontSize(12);
+}
+
+function setTextStyleForGlobalLevelTag(pdfDoc) {
+  return pdfDoc.font('OpenSans-SemiBold').fillColor('#FFF').fontSize(12);
+}
+
+function setTextStyleForParagraphInfo(pdfDoc) {
+  return pdfDoc.font('Roboto-Regular').fillColor('#000').fontSize(10);
+}
+
+function setTextStyleForCompetencesTitle(pdfDoc) {
+  return pdfDoc.font('OpenSans-SemiBold').fillColor('#000').fontSize(12);
+}
+
+function setTextStyleForAreaTitle(pdfDoc, areaColor) {
+  return pdfDoc.font('Nunito-Bold').fillColor(areaColor).fontSize(11);
+}
+
+function setTextStyleForTag(pdfDoc, isObtained) {
+  const fontSize = isObtained ? 9 : 7;
+  return pdfDoc.font('OpenSans-SemiBold').fontSize(fontSize);
+}
+
+function setTextStyleForLevel(pdfDoc, isObtained) {
+  const color = isObtained ? '#fff' : NOT_OBTAINED_COLOR;
+  const fontSize = isObtained ? 7 : 5.5;
+  return pdfDoc.font('OpenSans-SemiBold').fillColor(color).fontSize(fontSize);
+}
+
+function setTextStyleForCompetenceTitle(pdfDoc, areaColor = '#000000', isObtained) {
+  const color = isObtained ? areaColor : NOT_OBTAINED_COLOR;
+  return pdfDoc.font('OpenSans-SemiBold').fillColor(color).fontSize(9);
+}
+
+function setTextStyleForParagraphText(pdfDoc) {
+  return pdfDoc.font('Roboto-Regular').fillColor('#253858').fontSize(8);
+}

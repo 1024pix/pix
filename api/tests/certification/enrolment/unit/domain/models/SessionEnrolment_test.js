@@ -83,6 +83,62 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionEnrolment'
     });
   });
 
+  context('#hasStartedCertifications', function () {
+    context('when at least one enrolled candidate has started their test', function () {
+      it('should return true', function () {
+        // given
+        const session = domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .addCandidatesBuilders([
+            domainBuilder.certification.enrolment.candidateBuilder().withParameters({ id: 123 }),
+            domainBuilder.certification.enrolment
+              .candidateBuilder()
+              .withParameters({ id: 456 })
+              .withStartedTest({ certificationId: 789 }),
+          ])
+          .build();
+
+        // when
+        const hasStartedCertifications = session.hasStartedCertifications();
+
+        // then
+        expect(hasStartedCertifications).to.be.true;
+      });
+    });
+
+    context('when no enrolled candidate has started their test', function () {
+      it('should return false', function () {
+        // given
+        const session = domainBuilder.certification.enrolment
+          .sessionEnrolmentBuilder()
+          .addCandidatesBuilders([
+            domainBuilder.certification.enrolment.candidateBuilder().withParameters({ id: 123 }),
+            domainBuilder.certification.enrolment.candidateBuilder().withParameters({ id: 456 }),
+          ])
+          .build();
+
+        // when
+        const hasStartedCertifications = session.hasStartedCertifications();
+
+        // then
+        expect(hasStartedCertifications).to.be.false;
+      });
+    });
+
+    context('when no candidate is enrolled', function () {
+      it('should return false', function () {
+        // given
+        const session = domainBuilder.certification.enrolment.sessionEnrolmentBuilder().build();
+
+        // when
+        const hasStartedCertifications = session.hasStartedCertifications();
+
+        // then
+        expect(hasStartedCertifications).to.be.false;
+      });
+    });
+  });
+
   context('#isCandidateAlreadyEnrolled', function () {
     it('should return true when all personal info matches (case / diacritics insensitive) with an already enrolled candidate', function () {
       // given

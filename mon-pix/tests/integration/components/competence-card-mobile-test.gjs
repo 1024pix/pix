@@ -83,10 +83,10 @@ module('Integration | Component | competence-card-mobile', function (hooks) {
       await render(<template><CompetenceCardMobile @scorecard={{scorecard}} /></template>);
 
       // then
-      assert.strictEqual(find('.score-value').textContent, '–');
+      assert.strictEqual(find('.score-value').textContent, '-');
     });
 
-    test('should not display any level when the competence is not started', async function (assert) {
+    test('should display a dash for the level when the competence is not started', async function (assert) {
       // given
       const scorecard = { area, isNotStarted: true, level: null };
 
@@ -94,7 +94,7 @@ module('Integration | Component | competence-card-mobile', function (hooks) {
       await render(<template><CompetenceCardMobile @scorecard={{scorecard}} /></template>);
 
       // then
-      assert.strictEqual(find('.score-value').textContent, '');
+      assert.strictEqual(find('.score-value').textContent, '-');
     });
 
     module('when user can continue the competence', function () {

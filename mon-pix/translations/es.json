@@ -315,6 +315,14 @@
         }
       }
     },
+    "info-bar": {
+      "certification-number": "N.º de certificación",
+      "completion-percentage": {
+        "caption": "progreso del test",
+        "label": "Has completado el {completion, number, ::percent} del test."
+      },
+      "progress": {"label": "Pregunta", "position": "{current} sur {total}" }
+    },
     "invited": {
       "reconciliation": {
         "error-message": {
@@ -1024,9 +1032,6 @@
         "numbered-label": "Respuesta {number}"
       },
       "certification": {
-        "banner": {
-          "certification-number": "N.º de certificación"
-        },
         "title": "Certificación {certificationNumber}"
       },
       "certification-feedback-panel": {
@@ -1185,9 +1190,6 @@
         "progress": "Tu progreso",
         "validation": "Validar o saltar la prueba"
       },
-      "progress-bar": {
-        "label": "Pregunta"
-      },
       "skip-error-message": {
         "qcm": "Para validar, selecciona al menos dos respuestas. De lo contrario, puedes continuar.",
         "qcu": "Para validar, selecciona una respuesta. De lo contrario, puedes continuar.",
@@ -1258,10 +1260,6 @@
           "info": "¡Ya has contestado!"
         },
         "header": "tus respuestas"
-      },
-      "completion-percentage": {
-        "caption": "progreso del test",
-        "label": "Has completado el {completion, number, ::percent} del test."
       },
       "sharing-results": {
         "information-banner": "Al hacer clic en el botón «Ver mis resultados», sus resultados se enviarán al organizador."
@@ -1369,7 +1367,7 @@
           "tooltip": "Prueba fallida"
         },
         "ko": {
-          "title": "La respuesta es correcta.",
+          "title": "La respuesta no es correcta.",
           "tooltip": "Respuesta incorrecta"
         },
         "koAutoReply": {
@@ -2013,7 +2011,6 @@
       "total-score-helper": {
         "explanation": "'<p>'Este es el número máximo de pix que se podrá alcanzar cuando estén disponibles los 8 niveles del referencial Pix.'</p><p>'En la actualidad, '<span class=\"hexagon-score-information__text--strong\">'el máximo es de {maxReachablePixScore} pix'</span>', correspondiente al nivel {maxReachableLevel}.'</p>'",
         "icon": "Información sobre los pix",
-        "label": "Abrir la información emergente",
         "title": "¿Por qué 1024 pix?"
       }
     },

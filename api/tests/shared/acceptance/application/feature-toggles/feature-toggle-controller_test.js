@@ -24,7 +24,6 @@ describe('Acceptance | Shared | Application | Controller | feature-toggle', func
           attributes: {
             'dynamic-feature-toggle-system': false,
             'disabled-locales-in-frontend': [],
-            'display-catalogue': true,
             'is-survey-enabled-for-combined-courses': true,
             'is-quest-enabled': true,
             'is-self-account-deletion-enabled': true,
@@ -33,6 +32,7 @@ describe('Acceptance | Shared | Application | Controller | feature-toggle', func
             'are-module-short-id-urls-enabled': false,
             'are-combined-courses-enabled': true,
             'is-session-logout-enabled': false,
+            'is-new-certification-page-enabled': true,
           },
         },
       };

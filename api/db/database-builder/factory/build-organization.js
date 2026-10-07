@@ -78,6 +78,7 @@ const buildOrganization = function buildOrganization({
  * @param {number} [options.parentStructureId] - Id of the parent structure (null for a head organization)
  * @param {object} [options.organizationData] - Any parameter accepted by buildOrganization
  * @param {number} [options.certificationCenterId] - optional certification center id to link to the organization
+ * @param {number} [options.categoryId] - optional structure category id
  * @returns {{ organization: object, structure: object }}
  */
 const buildOrganizationInNetwork = function ({
@@ -85,9 +86,10 @@ const buildOrganizationInNetwork = function ({
   parentStructureId = null,
   organizationData = {},
   certificationCenterId = null,
+  categoryId = null,
 } = {}) {
   const organization = buildOrganization(organizationData);
-  const structure = buildStructure();
+  const structure = buildStructure({ categoryId });
   buildFactStructure({
     structureId: structure.id,
     networkId,

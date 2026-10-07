@@ -20,6 +20,7 @@ export async function getScoBlockedAccessDates() {
 }
 
 /**
+ * @param {string} scoOrganizationTagName
  * @returns {Promise<ScoBlockedAccessDate>}
  * @throws {NotFoundError} if ScoBlockedAccessDate does not exist
  */
@@ -37,8 +38,7 @@ export async function getScoBlockedAccessDateByKey(scoOrganizationTagName) {
 }
 
 /**
- * @param {object} params
- * @param {ScoBlockedAccessDate} params.scoBlockedAccessDate
+ * @param {ScoBlockedAccessDate} scoBlockedAccessDate
  */
 export async function updateScoBlockedAccessDate(scoBlockedAccessDate) {
   const knexConn = DomainTransaction.getConnection();
@@ -47,6 +47,11 @@ export async function updateScoBlockedAccessDate(scoBlockedAccessDate) {
     .where({ scoOrganizationTagName: scoBlockedAccessDate.scoOrganizationTagName });
 }
 
+/**
+ * @param {object} params
+ * @param {string} params.scoOrganizationTagName
+ * @param {Date} params.reopeningDate
+ */
 function _toDomain({ scoOrganizationTagName, reopeningDate }) {
   return new ScoBlockedAccessDate({ scoOrganizationTagName, reopeningDate });
 }

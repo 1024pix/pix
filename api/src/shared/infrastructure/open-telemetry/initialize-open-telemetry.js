@@ -33,7 +33,7 @@ const GatedOTLPLogExporter = withDataExportGate(OTLPLogExporter);
 const GatedOTLPTraceExporter = withDataExportGate(OTLPTraceExporter);
 const GatedOTLPMetricExporter = withDataExportGate(OTLPMetricExporter);
 
-export function initializeOpenTelemetry(serviceName) {
+export function initializeOpenTelemetry(serviceName, { forceDataExport = false } = {}) {
   diag.setLogger(
     {
       ...console,
@@ -93,7 +93,11 @@ export function initializeOpenTelemetry(serviceName) {
     logger.error('Error initializing OpenTelemetry', error);
   }
 
-  watchDataExportFeatureToggle();
+  if (forceDataExport) {
+    setDataExportEnabled(true);
+  } else {
+    watchDataExportFeatureToggle();
+  }
 
   async function shutdown() {
     try {

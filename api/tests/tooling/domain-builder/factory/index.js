@@ -1,5 +1,6 @@
 import { buildNetwork } from './acquisition/build-network.js';
 import { buildOrganizationLearnerType } from './acquisition/build-organization-learner-type.js';
+import { buildStructure } from './acquisition/build-structure.js';
 import { buildEmptyInformationBanner, buildInformationBanner } from './banner/build-banner-information.js';
 import { buildAccountRecoveryDemand } from './build-account-recovery-demand.js';
 import { buildActivity } from './build-activity.js';
@@ -217,10 +218,6 @@ import { buildJuryComment } from './certification/shared/build-jury-comment.js';
 import { buildV3CertificationScoring } from './certification/shared/build-v3-certification-scoring.js';
 import { buildPassage } from './devcomp/build-passage.js';
 import { builders as evaluationBuilders } from './evaluation/index.js';
-import {
-  buildLtiPlatformRegistration,
-  buildLtiPlatformRegistrationWithPlatformConfig,
-} from './identity-access-management/build-lti-platform-registration.js';
 import { buildUserLogin } from './identity-access-management/build-user-login.js';
 import { builders as learningContentBuilders } from './learning-content/index.js';
 import { buildLegalDocument } from './legal-documents/build-legal-document.js';
@@ -228,6 +225,10 @@ import { buildLegalDocumentStatus } from './legal-documents/build-legal-document
 import { buildChat } from './llm/build-chat.js';
 import { buildConfiguration } from './llm/build-configuration.js';
 import { buildAssistantMessage, buildUserMessage } from './llm/build-message.js';
+import {
+  buildLtiPlatformRegistration,
+  buildLtiPlatformRegistrationWithPlatformConfig,
+} from './lti/build-lti-platform-registration.js';
 import { buildCampaignParticipation as maddoBuildCampaignParticipation } from './maddo/build-campaign-participation.js';
 import { buildTubeCoverage } from './maddo/build-tube-coverage.js';
 import { buildOrganizationDto } from './organizational-entities/build-organization-dto.js';
@@ -240,6 +241,7 @@ import { buildStageCollection as buildStageCollectionForTargetProfileManagement 
 import { buildStageCollection as buildStageCollectionForUserCampaignResults } from './user-campaign-results/build-stage-collection.js';
 
 const acquisition = {
+  buildStructure,
   buildNetwork,
   buildOrganizationLearnerType,
 };

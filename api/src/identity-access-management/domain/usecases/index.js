@@ -18,7 +18,6 @@ import { clientApplicationRepository } from '../../infrastructure/repositories/c
 import { emailValidationDemandRepository } from '../../infrastructure/repositories/email-validation-demand.repository.js';
 import { lastUserApplicationConnectionsRepository } from '../../infrastructure/repositories/last-user-application-connections.repository.js';
 import { legalDocumentApiRepository } from '../../infrastructure/repositories/legal-document-api.repository.js';
-import { ltiPlatformRegistrationRepository } from '../../infrastructure/repositories/lti-platform-registration.repository.js';
 import { oidcProviderRepository } from '../../infrastructure/repositories/oidc-provider-repository.js';
 import { refreshTokenRepository } from '../../infrastructure/repositories/refresh-token.repository.js';
 import { resetPasswordDemandRepository } from '../../infrastructure/repositories/reset-password-demand.repository.js';
@@ -49,7 +48,6 @@ const repositories = {
   auditLoggingJobRepository,
   lastUserApplicationConnectionsRepository,
   legalDocumentApiRepository,
-  ltiPlatformRegistrationRepository,
   oidcAuthenticationServiceRegistry,
   oidcProviderRepository,
   organizationRepository,
@@ -114,14 +112,12 @@ import { getIdentityProvidersByRequestedApplication } from './get-identity-provi
 import { getRedirectLogoutUrl } from './get-redirect-logout-url.usecase.js';
 import { getSamlAuthenticationRedirectionUrl } from './get-saml-authentication-redirection-url.js';
 import { getUserByResetPasswordDemand } from './get-user-by-reset-password-demand.usecase.js';
-import { listLtiPublicKeys } from './list-lti-public-keys.usecase.js';
 import { logoutOidcUser } from './logout-oidc-user.usecase.js';
 import { markAssessmentInstructionsInfoAsSeen } from './mark-assessment-instructions-info-as-seen.usecase.js';
 import { markUserHasSeenNewDashboardInfo } from './mark-user-has-seen-new-dashboard-info.usecase.js';
 import { reassignAuthenticationMethodToAnotherUser } from './reassign-authentication-method-to-another-user.usecase.js';
 import { reconcileOidcUser } from './reconcile-oidc-user.usecase.js';
 import { reconcileOidcUserForAdmin } from './reconcile-oidc-user-for-admin.usecase.js';
-import { registerLtiPlatform } from './register-lti-platform.js';
 import { rememberUserHasSeenChallengeTooltip } from './remember-user-has-seen-challenge-tooltip.usecase.js';
 import { rememberUserHasSeenLastDataProtectionPolicyInformation } from './remember-user-has-seen-last-data-protection-policy-information.usecase.js';
 import { removeAuthenticationMethod } from './remove-authentication-method.usecase.js';
@@ -168,14 +164,12 @@ const usecasesWithoutInjectedDependencies = {
   getRedirectLogoutUrl,
   getSamlAuthenticationRedirectionUrl,
   getUserByResetPasswordDemand,
-  listLtiPublicKeys,
   logoutOidcUser,
   markAssessmentInstructionsInfoAsSeen,
   markUserHasSeenNewDashboardInfo,
   reassignAuthenticationMethodToAnotherUser,
   reconcileOidcUserForAdmin,
   reconcileOidcUser,
-  registerLtiPlatform,
   rememberUserHasSeenChallengeTooltip,
   rememberUserHasSeenLastDataProtectionPolicyInformation,
   removeAuthenticationMethod,

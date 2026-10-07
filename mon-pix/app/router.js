@@ -48,6 +48,8 @@ Router.map(function () {
       this.route('results', { path: '/:certification_id/results' });
     });
 
+    this.route('certifications-v2');
+
     this.route('user-certifications', { path: 'mes-certifications' }, function () {
       this.route('get', { path: '/:id' });
     });

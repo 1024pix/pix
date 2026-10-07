@@ -23,6 +23,7 @@ import * as organizationLearnerRepository from '../../infrastructure/repositorie
 import * as organizationLearnerTypeRepository from '../../infrastructure/repositories/organization-learner-type-repository.js';
 import * as organizationPlacesLotRepository from '../../infrastructure/repositories/organization-places-lot.repository.js';
 import * as organizationTagRepository from '../../infrastructure/repositories/organization-tag.repository.js';
+import * as structureRepository from '../../infrastructure/repositories/structure.repository.js';
 import * as structureCategoryRepository from '../../infrastructure/repositories/structure-category-repository.js';
 import { tagRepository } from '../../infrastructure/repositories/tag.repository.js';
 import * as targetProfileShareRepository from '../../infrastructure/repositories/target-profile-share-repository.js';
@@ -49,6 +50,7 @@ import * as organizationValidator from '../validators/organization-with-tags-and
  * @typedef {import ('../../infrastructure/repositories/tag.repository.js')} TagRepository
  * @typedef {import ('../../infrastructure/repositories/network.repository.js')} NetworkRepository
  * @typedef {import ('../../infrastructure/repositories/target-profile-share-repository.js')} TargetProfileShareRepository
+ * @typedef {import ('../../infrastructure/repositories/structure.repository.js')} StructureRepository
  * @typedef {import ('../../../shared/infrastructure/repositories/organization-repository.js')} OrganizationRepository
  * @typedef {import ('../../../school/infrastructure/repositories/school-repository.js')} SchoolRepository
  * @typedef {import ('../validators/organization-creation-validator.js')} OrganizationCreationValidator
@@ -82,6 +84,7 @@ const dependenciesToInject = {
   learnersApi,
   organizationRepository,
   organizationTagRepository,
+  structureRepository,
   structureCategoryRepository,
   tagRepository,
   targetProfileShareRepository,
@@ -112,6 +115,7 @@ import { findAllTags } from './find-all-tags.usecase.js';
 import { findAttachedCertificationCenterForAdmin } from './find-attached-certification-center-for-admin.usecase.js';
 import { findAttachedOrganizationsForAdmin } from './find-attached-organizations-for-admin.usecase.js';
 import { findChildrenOrganizations } from './find-children-organizations.usecase.js';
+import { findNetworkOrganizations } from './find-network-organizations.usecase.js';
 import { findOrganizationFeatures } from './find-organization-features.js';
 import { findPaginatedFilteredCertificationCenters } from './find-paginated-filtered-certification-centers.usecase.js';
 import { findPaginatedFilteredNetworks } from './find-paginated-filtered-networks.usecase.js';
@@ -150,6 +154,7 @@ const usecasesWithoutInjectedDependencies = {
   findAttachedCertificationCenterForAdmin,
   findAttachedOrganizationsForAdmin,
   findChildrenOrganizations,
+  findNetworkOrganizations,
   findOrganizationFeatures,
   findPaginatedFilteredCertificationCenters,
   findPaginatedFilteredOrganizations,
@@ -184,6 +189,7 @@ const usecasesWithoutInjectedDependencies = {
  * @property {getOrganizationDetails} getOrganizationDetails
  * @property {getOrganizationStatistics} getOrganizationStatistics
  * @property {getNetworkDetails} getNetworkDetails
+ * @property {findNetworkOrganizations} findNetworkOrganizations
  * @property {updateOrganizationsInBatch} updateOrganizationsInBatch
  * @property {updateOrganizationInformation} updateOrganizationInformation
  * @property {archiveOrganizationsInBatch} archiveOrganizationsInBatch

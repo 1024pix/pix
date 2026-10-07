@@ -1,10 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
 import Category from 'pix-admin/components/target-profiles/category';
 import { module, test } from 'qunit';
 
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | Category', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it should display the tag for type COMPETENCES', async function (assert) {
     // when
@@ -67,6 +68,14 @@ module('Integration | Component | Category', function (hooks) {
     const screen = await render(<template><Category @category="BACK_TO_SCHOOL" /></template>);
 
     // then
-    assert.dom(screen.getByText('Parcours de rentrée / 6e')).exists();
+    assert.dom(screen.getByText('Parcours de rentrée')).exists();
+  });
+
+  test('it should display the tag for type ATTESTATION', async function (assert) {
+    // when
+    const screen = await render(<template><Category @category="ATTESTATION" /></template>);
+
+    // then
+    assert.dom(screen.getByText('Attestations')).exists();
   });
 });

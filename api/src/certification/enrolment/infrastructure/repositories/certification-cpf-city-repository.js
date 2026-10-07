@@ -5,7 +5,10 @@ import { CertificationCpfCity } from '../../../shared/domain/models/Certificatio
 
 const COLUMNS = ['id', 'name', 'postalCode', 'INSEECode', 'isActualName'];
 
+/** @type {ReturnType<typeof createLRUCache<number, CertificationCpfCity[]>>} */
 const CITIES_BY_POSTALCODE = createLRUCache({ max: 1000 });
+
+/** @type {ReturnType<typeof createLRUCache<number, CertificationCpfCity[]>>} */
 const CITIES_BY_INSEECODE = createLRUCache({ max: 1000 });
 
 /**

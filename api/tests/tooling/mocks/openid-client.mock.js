@@ -75,6 +75,7 @@ export async function createMockedTestOidcProviders(mockedProviders) {
       organizationName = 'OIDC Example',
       slug = 'oidc-example-net',
       source = 'oidcexamplenet',
+      shouldCloseSession = true,
       postLogoutRedirectUri,
     } = mockedProvider;
 
@@ -100,7 +101,7 @@ export async function createMockedTestOidcProviders(mockedProviders) {
           connectionMethodCode,
           enabled: true,
           enabledForPixAdmin: true,
-          shouldCloseSession: true,
+          shouldCloseSession,
           identityProvider,
           openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
           organizationName,

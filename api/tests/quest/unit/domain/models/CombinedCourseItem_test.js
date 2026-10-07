@@ -5,7 +5,7 @@ import {
   CampaignCombinedCourseItem,
   ModuleCombinedCourseItem,
   TrainingCombinedCourseItem,
-} from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';
+} from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.ts';
 
 describe('Quest | Unit | Domain | Models | CombinedCourseItem', function () {
   describe('TrainingCombinedCourseItem', function () {

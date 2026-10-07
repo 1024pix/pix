@@ -148,6 +148,7 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | enrolm
                 subscription: Frameworks.CORE,
                 'has-seen-certification-instructions': false,
                 'accessibility-adjustment-needed': false,
+                'has-started-test': false,
               },
             },
           ],

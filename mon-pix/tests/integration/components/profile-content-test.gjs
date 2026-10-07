@@ -59,7 +59,7 @@ module('Integration | Component | Profile-content', function (hooks) {
 
         // then
         assert.dom('.competence-card').exists();
-        assert.dom('.score-label').exists();
+        assert.dom('.circle-chart--big').exists();
         assert.dom('.competence-card__interactions').exists();
       });
     });
@@ -72,7 +72,7 @@ module('Integration | Component | Profile-content', function (hooks) {
 
         // then
         assert.dom('.competence-card').exists();
-        assert.dom('.score-label').doesNotExist();
+        assert.dom('.circle-chart--small').exists();
         assert.dom('.competence-card__interactions').doesNotExist();
       });
     });

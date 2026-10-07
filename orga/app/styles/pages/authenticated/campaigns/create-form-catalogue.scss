@@ -1,0 +1,24 @@
+@use 'pix-design-tokens/breakpoints';
+
+.page-title.campaign-creation-form-title {
+  margin-bottom: var(--pix-spacing-2x);
+}
+
+.campaign-creation-form {
+  &__course-selection {
+    .pix-fieldset {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      &__label,
+      .course-card {
+        margin-bottom: var(--pix-spacing-4x);
+      }
+
+      .course-card {
+        width: 100%;
+      }
+    }
+  }
+}

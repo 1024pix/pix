@@ -3,24 +3,25 @@
  * @typedef {import ('./index.js').CertificationCenterForAdminRepository} CertificationCenterForAdminRepository
  */
 
+import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { UnableToAttachCertificationCenterToOrganization } from '../errors.js';
 
 /**
  * @param {object} params
  * @param {number} params.organizationId
  * @param {number} params.certificationCenterId
- * @param {OrganizationForAdminRepository} params.organizationForAdminRepository
+ * @param {StructureRepository} params.structureRepository
  * @param {CertificationCenterForAdminRepository} params.certificationCenterForAdminRepository
  * @returns {Promise<void>}
  */
-export const attachCertificationCenterToOrganization = async function ({
+export const attachCertificationCenterToOrganization = withTransaction(async function ({
   organizationId,
   certificationCenterId,
-  organizationForAdminRepository,
   certificationCenterForAdminRepository,
+  structureRepository,
 }) {
-  const existingOrganization = await organizationForAdminRepository.exist({ organizationId });
-  if (!existingOrganization) {
+  const organizationStructure = await structureRepository.findByOrganizationId({ organizationId });
+  if (!organizationStructure) {
     throw new UnableToAttachCertificationCenterToOrganization({
       code: 'ORGANIZATION_NOT_FOUND',
       message: 'Organization not found',
@@ -28,42 +29,25 @@ export const attachCertificationCenterToOrganization = async function ({
     });
   }
 
-  const existingCertificationCenter = await certificationCenterForAdminRepository.exists({ certificationCenterId });
+  const certificationCenterStructure = await structureRepository.findByCertificationCenterId({ certificationCenterId });
 
-  if (!existingCertificationCenter) {
-    throw new UnableToAttachCertificationCenterToOrganization({
-      code: 'NON_EXISTING_CERTIFICATION_CENTER',
-      message: 'Unable to attach a non existing certification center.',
-      meta: { organizationId, certificationCenterId },
-    });
+  if (!certificationCenterStructure) {
+    // TODO(PIX-24402): enlever cette vérif provisoire via le repo certificationCenterForAdmin afin de gérer les cas où les centres de certif n'ont pas encore de structure
+    const existingCertificationCenter = await certificationCenterForAdminRepository.exists({ certificationCenterId });
+    if (!existingCertificationCenter) {
+      throw new UnableToAttachCertificationCenterToOrganization({
+        code: 'NON_EXISTING_CERTIFICATION_CENTER',
+        message: 'Unable to attach a non existing certification center.',
+        meta: { organizationId, certificationCenterId },
+      });
+    }
   }
 
-  const alreadyAttachedCertificationCenter =
-    await certificationCenterForAdminRepository.findAttachedByOrganizationId(organizationId);
+  organizationStructure.attachCertificationCenter({ certificationCenterId, certificationCenterStructure });
 
-  if (alreadyAttachedCertificationCenter.length) {
-    throw new UnableToAttachCertificationCenterToOrganization({
-      code: 'ALREADY_ATTACHED_ORGANIZATION',
-      message: 'Organization already has an attached certification center',
-      meta: {
-        organizationId,
-        certificationCenterId,
-        alreadyAttachedCertificationCenterId: alreadyAttachedCertificationCenter[0].id,
-      },
-    });
+  if (certificationCenterStructure && !certificationCenterStructure.organizationId) {
+    await structureRepository.deleteStructure({ structureId: certificationCenterStructure.id });
   }
 
-  const alreadyAttachedOrganization = await organizationForAdminRepository.findAttachedByCertificationCenterId({
-    certificationCenterId,
-  });
-
-  if (alreadyAttachedOrganization.length) {
-    throw new UnableToAttachCertificationCenterToOrganization({
-      code: 'ALREADY_ATTACHED_CERTIFICATION_CENTER',
-      message: 'Unable to attach a certification center already attached to another organization.',
-      meta: { organizationId, certificationCenterId, alreadyAttachedOrganizationId: alreadyAttachedOrganization[0].id },
-    });
-  }
-
-  await organizationForAdminRepository.attachCertificationCenter({ organizationId, certificationCenterId });
-};
+  await structureRepository.save(organizationStructure);
+});

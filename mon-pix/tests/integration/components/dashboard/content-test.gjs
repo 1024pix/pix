@@ -581,7 +581,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
 
       // then
       assert.dom(screen.getByText(pixScore)).exists();
-      assert.dom(screen.getByRole('button', { name: t('pages.profile.total-score-helper.label') })).exists();
+      assert.dom(screen.getByRole('img', { name: t('pages.profile.total-score-helper.icon') })).exists();
     });
   });
 
