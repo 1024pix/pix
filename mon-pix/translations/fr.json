@@ -321,7 +321,10 @@
         "caption": "avancement dans le parcours",
         "label": "Vous avez effectué {completion, number, ::percent} de votre parcours."
       },
-      "progress": {"label": "Question", "position": "{current} sur {total}" }
+      "progress": {
+        "label": "Question",
+        "position": "{current} sur {total}"
+      }
     },
     "invited": {
       "reconciliation": {
@@ -773,11 +776,19 @@
             "description": "Obtenir au minimum un niveau 1 dans 5 compétences",
             "link": "Voir mes compétences",
             "progress": {
+              "alt": "{certifiableCompetencesCount} compétences requises sur {minimumCertifiableCompetencesForCertificability}",
               "counter": "{certifiableCompetencesCount}/{minimumCertifiableCompetencesForCertificability}",
-              "required": "requis",
-              "alt": "{certifiableCompetencesCount} compétences requises sur {minimumCertifiableCompetencesForCertificability}"
+              "required": "requis"
             },
             "title": "Préparer sa certification"
+          },
+          "2": {
+            "description": "Auprès d’un centre de formation ou établissement scolaire",
+            "title": "Passer sa certification"
+          },
+          "3": {
+            "description": "Une fois la clôture de la session par votre centre de formation, vos résultats sont disponibles sous 48h.",
+            "title": "Les résultats"
           }
         }
       }
