@@ -17,7 +17,7 @@ const VALIDATION_ERRORS = {
   lastName: 'pages.join.signup.fields.lastname.error',
   email: 'pages.join.signup.fields.email.error',
   password: 'common.validation.password.error',
-  cgu: 'common.cgu.error',
+  hasAcceptedLegalDocuments: 'common.legal-documents.error',
 };
 
 const EMAIL_API_ERRORS = {
@@ -53,7 +53,7 @@ export default class SignupForm extends Component {
     },
     cgu: {
       validate: (value) => value === true,
-      error: VALIDATION_ERRORS.cgu,
+      error: VALIDATION_ERRORS.hasAcceptedLegalDocuments,
     },
   });
 
