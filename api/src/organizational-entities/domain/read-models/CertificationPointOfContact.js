@@ -14,7 +14,6 @@ class CertificationPointOfContact {
     this.lastName = lastName;
     this.email = email;
     this.lang = lang;
-    this.pixCertifTermsOfServiceAccepted = pixCertifTosStatus.isAccepted;
     this.allowedCertificationCenterAccesses = allowedCertificationCenterAccesses;
     this.certificationCenterMemberships = certificationCenterMemberships;
     this.pixCertifTermsOfServiceStatus = pixCertifTosStatus.status;
