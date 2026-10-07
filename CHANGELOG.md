@@ -1,5 +1,26 @@
 # Pix Changelog
 
+# [5.516.0](https://github.com/1024pix/pix/compare/v5.515.0...v5.516.0) (2026-10-07)
+
+### :rocket: Amélioration
+
+- [#17749](https://github.com/1024pix/pix/pull/17749) Ajouter une nouvelle page de certification sous feature-toggle (PIX-24584).
+- [#17708](https://github.com/1024pix/pix/pull/17708) CF Pix Admin - Afficher le slug en plus titre à la sélection d'un module (PIX-24376)
+- [#17647](https://github.com/1024pix/pix/pull/17647) Faire fonctionner la révocation de session pour l’AccessToken avec Pix Orga, Pix Certif, Pix Admin (PIX-24505)
+
+### :bug: Correction
+
+- [#17743](https://github.com/1024pix/pix/pull/17743) Utiliser le bon prehandler sur la route de liste des modèles de parcours combinés d'une organisation (PIX-24578).
+
+### :building_construction: Tech
+
+- [#17679](https://github.com/1024pix/pix/pull/17679) Passe le model Combined Course Item et la constante COMBINED_COURSE_ITEM_TYPES en TS
+- [#17735](https://github.com/1024pix/pix/pull/17735) Supprime le temps d'indisponibilité des données de Maddo lors de réplications
+
+### :arrow_up: Montée de version
+
+- [#17746](https://github.com/1024pix/pix/pull/17746) Update dependency @glimmer/component to ^2.1.1 (certif)
+
 # [5.515.0](https://github.com/1024pix/pix/compare/v5.514.0...v5.515.0) (2026-10-06)
 
 ### :rocket: Amélioration
