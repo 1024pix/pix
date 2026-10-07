@@ -43,6 +43,7 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
 
   const histoire = () => competenceNamed('Histoire').id;
   const geographie = () => competenceNamed('Géographie').id;
+  const sciences = () => competenceNamed('Sciences').id;
 
   describe('competence evaluation', function () {
     it('should ask the same challenges and give the same scorecards', async function () {
@@ -231,6 +232,62 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
       await expectSameReadings(twins, read.profile, (twin) => read.scorecard(twin, histoire()));
       const scorecard = await read.scorecard(twins.migrated, histoire());
       expect(scorecard.body.data.attributes['earned-pix']).to.equal(0);
+    });
+  });
+
+  describe('campaign with capped tubes, predictions of the POC', function () {
+    it('should document the known difference when a failure at the cap of a campaign loses the levels above it', async function () {
+      // given: a campaign on the planets capped at level 3, and twins who know level 2
+      const twins = await buildTwins();
+      const campaign = buildCampaign({ tubes: { planètes: 3 } });
+      await databaseBuilder.commit();
+      const started = await both(twins, (twin) => act.startCampaignParticipation(twin, campaign));
+      const played = await playBoth(act, twins, started, knowledge({ defaultLevel: 2 }));
+      expect(skillsAsked({ played })).to.include('planètes3');
+      await both(twins, (twin) => act.computeCampaignResults(twin, started[twin.name].campaignParticipationId));
+      await expectSameReadings(twins, read.profile, (twin) => read.scorecard(twin, sciences()));
+
+      // when: the learner evaluates the sciences on their own, knowing every planet now
+      const evaluation = await both(twins, (twin) => act.startCompetenceEvaluation(twin, sciences()));
+      const games = await both(twins, (twin) =>
+        act.play(twin, evaluation[twin.name].assessmentId, knowledge({ defaultLevel: 7 })),
+      );
+
+      // then: this is a known difference, predicted by the POC. Today's
+      // inference stops at the skills of the campaign: the levels above the
+      // cap are untouched by the failure and still asked on their own. The
+      // ceiling of a knowledge state holds for the whole tube: the migrated
+      // twin lost them, and gets them asked again only when improving or
+      // after a reset.
+      expect(skillsAsked(games.other)).to.deep.equal(['éléments4', 'planètes5', 'planètes7']);
+      expect(skillsAsked(games.migrated)).to.deep.equal(['éléments4']);
+      const scorecards = await both(twins, (twin) => read.scorecard(twin, sciences()));
+      expect(scorecards.other.body.data.attributes['earned-pix']).to.be.greaterThan(
+        scorecards.migrated.body.data.attributes['earned-pix'],
+      );
+    });
+
+    it('should estimate the level from the campaign skills only, whatever was failed above the cap', async function () {
+      // given: twins who failed the sixth planet on their own, and a campaign on the planets capped at level 5
+      const twins = await buildTwins({ invalidated: ['planètes6'] });
+      const campaign = buildCampaign({ tubes: { planètes: 5 } });
+      await databaseBuilder.commit();
+
+      // when: the learner knows level 2
+      const started = await both(twins, (twin) => act.startCampaignParticipation(twin, campaign));
+      const games = await both(twins, (twin) =>
+        act.play(twin, started[twin.name].assessmentId, knowledge({ defaultLevel: 2 })),
+      );
+      await both(twins, (twin) => act.computeCampaignResults(twin, started[twin.name].campaignParticipationId));
+
+      // then
+      expect(skillsAsked(games.other)).to.deep.equal(skillsAsked(games.migrated));
+      await expectSameReadings(
+        twins,
+        read.profile,
+        (twin) => read.campaignAssessmentResult(twin, campaign.campaignId),
+        (twin) => read.scorecard(twin, sciences()),
+      );
     });
   });
 
