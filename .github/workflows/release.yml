@@ -2,7 +2,7 @@ name: release
 
 on:
   repository_dispatch:
-    types: [ 'deploy' ]
+    types: ['deploy']
   workflow_dispatch:
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
       - uses: 1024pix/pix-actions/release@b4d102041ba82f1304923ae5ea3d2fc2c477e8fe # main
         id: semantic
         with:
-          changelogTitle: "# Pix Changelog"
+          changelogTitle: '# Pix Changelog'
         env:
           GITHUB_TOKEN: ${{ secrets.PIX_SERVICE_RELEASE_ACTION_TOKEN }}
 
