@@ -997,6 +997,30 @@
       "title": "An einer Zertifizierungstestung teilnehmen"
     },
     "certifications-dashboard": {
+      "eligibility": {
+        "steps": {
+          "title": "Wie legen Sie die Pix-Zertifizierung ab?",
+          "1": {
+            "description": "Mindestens Stufe 1 in 5 Kompetenzen erreichen",
+            "link": "Meine Kompetenzen ansehen",
+            "progress": {
+              "alt": "{certifiableCompetencesCount} von {minimumCertifiableCompetencesForCertificability} erforderlichen Kompetenzen",
+              "competences": "Kompetenzen",
+              "counter": "{certifiableCompetencesCount}/{minimumCertifiableCompetencesForCertificability}"
+            },
+            "title": "Zertifizierung vorbereiten"
+          },
+          "2": {
+            "description": "Bei einer zugelassenen Zertifizierungsstelle oder einer Schule",
+            "link": "Eine Sitzung finden",
+            "title": "Zertifizierung ablegen"
+          },
+          "3": {
+            "description": "Ihre Ergebnisse sind frühestens 2 Tage nach Ihrem Zertifizierungstest verfügbar, sobald Ihre Zertifizierungsstelle die Sitzung abgeschlossen hat.",
+            "title": "Die Ergebnisse"
+          }
+        }
+      },
       "enrolment-banner": {
         "action": "Zertifizierung starten",
         "certifiable": {

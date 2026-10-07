@@ -997,6 +997,30 @@
       "title": "Join a certification session"
     },
     "certifications-dashboard": {
+      "eligibility": {
+        "steps": {
+          "title": "How to take the Pix certification?",
+          "1": {
+            "description": "Reach at least level 1 in 5 competences",
+            "link": "See my competences",
+            "progress": {
+              "alt": "{certifiableCompetencesCount} out of {minimumCertifiableCompetencesForCertificability} required competences",
+              "competences": "competences",
+              "counter": "{certifiableCompetencesCount}/{minimumCertifiableCompetencesForCertificability}"
+            },
+            "title": "Prepare for your certification"
+          },
+          "2": {
+            "description": "At an approved certification centre or school",
+            "link": "Find a session",
+            "title": "Take your certification"
+          },
+          "3": {
+            "description": "Your results will be available no earlier than 2 days after your certification test, once your centre has finalised the session.",
+            "title": "Results"
+          }
+        }
+      },
       "enrolment-banner": {
         "action": "Start certification",
         "certifiable": {

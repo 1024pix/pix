@@ -997,6 +997,30 @@
       "title": "Unirse a una sesión de certificación"
     },
     "certifications-dashboard": {
+      "eligibility": {
+        "steps": {
+          "title": "¿Cómo realizar la certificación Pix?",
+          "1": {
+            "description": "Obtener como mínimo un nivel 1 en 5 competencias",
+            "link": "Ver mis competencias",
+            "progress": {
+              "alt": "{certifiableCompetencesCount, plural, =1 {1 competencia requerida} other {# competencias requeridas}} de {minimumCertifiableCompetencesForCertificability}",
+              "competences": "competencias",
+              "counter": "{certifiableCompetencesCount}/{minimumCertifiableCompetencesForCertificability}"
+            },
+            "title": "Preparar su certificación"
+          },
+          "2": {
+            "description": "En un centro de certificación autorizado o en un centro escolar",
+            "link": "Encontrar una sesión",
+            "title": "Realizar su certificación"
+          },
+          "3": {
+            "description": "Sus resultados estarán disponibles como mínimo 2 días después de su prueba de certificación, una vez que su centro haya finalizado la sesión.",
+            "title": "Los resultados"
+          }
+        }
+      },
       "enrolment-banner": {
         "action": "Iniciar la certificación",
         "certifiable": {

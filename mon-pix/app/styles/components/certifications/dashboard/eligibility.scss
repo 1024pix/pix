@@ -1,0 +1,101 @@
+@use 'pix-design-tokens/breakpoints';
+@use 'pix-design-tokens/typography';
+
+.certification-dashboard-eligibility-steps {
+  margin-bottom: var(--pix-spacing-6x);
+  text-wrap: pretty;
+
+  @include breakpoints.device-is('mobile') {
+    width: calc(100% + var(--pix-spacing-4x));
+    margin-left: calc(var(--pix-spacing-2x) * -1);
+    overflow: hidden;
+  }
+}
+
+.certification-dashboard-eligibility-steps__title {
+  @extend %pix-title-xs;
+
+  margin-bottom: var(--pix-spacing-4x);
+}
+
+.certification-dashboard-eligibility-steps__scroll-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--pix-spacing-4x);
+  padding-bottom: var(--pix-spacing-1x);
+  overflow-x: scroll;
+  color: var(--pix-neutral-900);
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+
+  @include breakpoints.device-is('mobile') {
+    padding-inline: var(--pix-spacing-6x);
+  }
+}
+
+.certification-dashboard-eligibility-steps__step-item {
+  min-width: 14rem;
+  scroll-snap-align: center;
+
+  @include breakpoints.device-is('mobile') {
+    min-width: 66vw;
+  }
+
+  &--active {
+    background-color: var(--pix-certif-50);
+  }
+
+  &:not(.certification-dashboard-eligibility-steps__step-item--active) {
+    color: var(--pix-neutral-500);
+
+    .certification-dashboard-eligibility-step-item__image {
+      opacity: 0.6;
+      filter: grayscale(100%);
+    }
+  }
+}
+
+.certification-dashboard-eligibility-step-item__progress {
+  position: relative;
+  width: 8rem;
+
+  .count {
+    @extend %pix-body-s;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    line-height: 0.75;
+    text-align: center;
+    transform: translate(-50%, -40%);
+
+    b {
+      @extend %pix-title-xs;
+    }
+  }
+}
+
+.certification-dashboard-eligibility-step-item__image {
+  width: 84px;
+  height: 84px;
+  padding: 8px;
+  object-fit: contain;
+  object-position: center center;
+}
+
+.certification-dashboard-eligibility-step-item__title {
+  @extend %pix-body-m;
+
+  margin-block: var(--pix-spacing-3x) var(--pix-spacing-1x);
+  font-weight: bold;
+}
+
+
+.certification-dashboard-eligibility-step-item__text {
+  @extend %pix-body-s;
+}
+
+.certification-dashboard-eligibility-step-item__link {
+  display: inline-block;
+  margin-top: calc(var(--pix-spacing-1x) * -1);
+}
