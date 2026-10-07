@@ -1,8 +1,14 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 
-import { pickChallengeService } from '../../../../src/evaluation/domain/services/pick-challenge-service.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
+import {
+  both,
+  expectSame,
+  expectSameReadings,
+  givenTheSameChallengePicks,
+  playBoth,
+  skillsAsked,
+} from '../../../tooling/knowledge-state/twin-checks.js';
 import {
   actions,
   buildCampaign,
@@ -32,37 +38,8 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
     act = actions(server);
     read = readings(server);
     move = learningContentMoves();
-
-    // The challenge is picked from a seed that is the assessment id, which
-    // differs between twins by construction: both get the same seed here.
-    const pickChallenge = pickChallengeService.pickChallenge;
-    sinon
-      .stub(pickChallengeService, 'pickChallenge')
-      .callsFake((params) => pickChallenge({ ...params, randomSeed: 1 }));
+    givenTheSameChallengePicks();
   });
-
-  // Runs the same step on both twins, in the same order, and gives both results.
-  const both = async (twins, step) => ({ migrated: await step(twins.migrated), other: await step(twins.other) });
-
-  const expectSame = ({ migrated, other }) => expect(migrated).to.deep.equal(other);
-
-  const expectSameReadings = async (twins, ...reads) => {
-    for (const readOne of reads) {
-      const results = await both(twins, readOne);
-      expect(results.migrated.statusCode).to.equal(200);
-      expectSame(results);
-    }
-  };
-
-  // Plays a whole assessment on both twins and expects the same questions and answers.
-  const playBoth = async (twins, assessments, knows) => {
-    const games = await both(twins, (twin) => act.play(twin, assessments[twin.name].assessmentId, knows));
-    expectSame(games);
-    expect(games.migrated.completed).to.equal(204);
-    return games.migrated.played;
-  };
-
-  const skillsAsked = (game) => game.played.map(({ skill }) => skill);
 
   const histoire = () => competenceNamed('Histoire').id;
   const geographie = () => competenceNamed('Géographie').id;
@@ -75,7 +52,7 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
 
       // when
       const started = await both(twins, (twin) => act.startCompetenceEvaluation(twin, histoire()));
-      const played = await playBoth(twins, started, knowledge({ defaultLevel: 2, tubes: { présidents: 3 } }));
+      const played = await playBoth(act, twins, started, knowledge({ defaultLevel: 2, tubes: { présidents: 3 } }));
 
       // then
       expect(played.length).to.be.greaterThan(0);
@@ -86,7 +63,7 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
       // given: twins who failed the battles long ago, so that improving asks them again
       const twins = await buildTwins({ validated: ['présidents2'], invalidated: ['batailles2'] });
       const started = await both(twins, (twin) => act.startCompetenceEvaluation(twin, histoire()));
-      await playBoth(twins, started, knowledge({ defaultLevel: 2, tubes: { présidents: 3 } }));
+      await playBoth(act, twins, started, knowledge({ defaultLevel: 2, tubes: { présidents: 3 } }));
 
       // when: the learner improves and now knows the battles
       const improved = await both(twins, (twin) => act.improveCompetenceEvaluation(twin, histoire()));
@@ -119,7 +96,7 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
 
       // when: the competence is played again from scratch
       const started = await both(twins, (twin) => act.startCompetenceEvaluation(twin, geographie()));
-      const played = await playBoth(twins, started, knowledge({ defaultLevel: 2 }));
+      const played = await playBoth(act, twins, started, knowledge({ defaultLevel: 2 }));
 
       // then
       expect(played.length).to.be.greaterThan(0);
@@ -143,7 +120,7 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
       const started = await both(twins, (twin) => act.startCampaignParticipation(twin, campaign));
       twins.migrated.last = started.migrated.campaignParticipationId;
       twins.other.last = started.other.campaignParticipationId;
-      const played = await playBoth(twins, started, knowledge({ defaultLevel: 2 }));
+      const played = await playBoth(act, twins, started, knowledge({ defaultLevel: 2 }));
       await both(twins, (twin) => act.computeCampaignResults(twin, started[twin.name].campaignParticipationId));
 
       // then
@@ -157,7 +134,7 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
       );
       twins.migrated.last = retried.migrated.campaignParticipationId;
       twins.other.last = retried.other.campaignParticipationId;
-      const playedAgain = await playBoth(twins, retried, knowledge({ defaultLevel: 3 }));
+      const playedAgain = await playBoth(act, twins, retried, knowledge({ defaultLevel: 3 }));
       await both(twins, (twin) => act.computeCampaignResults(twin, retried[twin.name].campaignParticipationId));
 
       // then
@@ -174,7 +151,7 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
 
       // when
       const started = await both(twins, (twin) => act.startCampaignParticipation(twin, campaign));
-      await playBoth(twins, started, knowledge({ defaultLevel: 2 }));
+      await playBoth(act, twins, started, knowledge({ defaultLevel: 2 }));
       await both(twins, (twin) => act.computeCampaignResults(twin, started[twin.name].campaignParticipationId));
 
       // then: one row per participant, identical once their ids are hidden
@@ -193,7 +170,7 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
       const campaign = buildCampaign({ tubes: ['batailles'], multipleSendings: true });
       await databaseBuilder.commit();
       const first = await both(twins, (twin) => act.startCampaignParticipation(twin, campaign));
-      await playBoth(twins, first, knowledge({ defaultLevel: 3 }));
+      await playBoth(act, twins, first, knowledge({ defaultLevel: 3 }));
       await both(twins, (twin) => act.computeCampaignResults(twin, first[twin.name].campaignParticipationId));
 
       // when: a new participation resets the knowledge on the campaign tubes
@@ -220,7 +197,7 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
 
       // when
       const started = await both(twins, (twin) => act.startCampaignParticipation(twin, campaign));
-      const played = await playBoth(twins, started, knowledge({ defaultLevel: 3 }));
+      const played = await playBoth(act, twins, started, knowledge({ defaultLevel: 3 }));
       await both(twins, (twin) => act.computeCampaignResults(twin, started[twin.name].campaignParticipationId));
 
       // then: nothing above the cap was asked, and both see the same results
@@ -259,7 +236,7 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
 
       // when
       const started = await both(twins, (twin) => act.startCampaignParticipation(twin, campaign));
-      await playBoth(twins, started, knowledge({ defaultLevel: 2 }));
+      await playBoth(act, twins, started, knowledge({ defaultLevel: 2 }));
       await both(twins, (twin) => act.computeCampaignResults(twin, started[twin.name].campaignParticipationId));
 
       // then
@@ -296,7 +273,7 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
 
       // when
       const started = await both(twins, (twin) => act.startCampaignParticipation(twin, campaign));
-      const played = await playBoth(twins, started, knowledge({ defaultLevel: 2 }));
+      const played = await playBoth(act, twins, started, knowledge({ defaultLevel: 2 }));
       await both(twins, (twin) => act.computeCampaignResults(twin, started[twin.name].campaignParticipationId));
 
       // then: the exam asked the known battle again, and the profile did not move
@@ -345,7 +322,7 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
 
       // when: the learner plays the history competence after sharing
       const evaluation = await both(twins, (twin) => act.startCompetenceEvaluation(twin, histoire()));
-      await playBoth(twins, evaluation, knowledge({ defaultLevel: 2 }));
+      await playBoth(act, twins, evaluation, knowledge({ defaultLevel: 2 }));
 
       // then: the prescriber reads the snapshot taken at the share, unchanged
       await expectSameReadings(twins, ...prescriberReadings);
@@ -416,7 +393,7 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
       // when: every competence is played by a learner who knows level 2
       for (const name of ['Mathématiques', 'Géographie', 'Histoire', 'Français', 'Arts', 'Philosophie']) {
         const started = await both(twins, (twin) => act.startCompetenceEvaluation(twin, competenceNamed(name).id));
-        await playBoth(twins, started, knowledge({ defaultLevel: 2 }));
+        await playBoth(act, twins, started, knowledge({ defaultLevel: 2 }));
       }
 
       // then

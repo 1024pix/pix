@@ -2,8 +2,13 @@
  * A release of the learning content, as the LCMS gives it and as the seeds
  * load it: the minimal release of 2026-10-06, without its modules.
  * Kept as a module because the repository ignores json files.
+ *
+ * The twins play it with one synthetic competence more, the sciences, whose
+ * tubes have the depth the minimal release lacks.
  */
-export const release = {
+import { withSciencesCompetence } from './sciences-competence.ts';
+
+const minimalRelease = {
   frameworks: [
     {
       id: 'reczPnxGpYU7mKXKr',
@@ -1731,3 +1736,5 @@ export const release = {
     },
   ],
 };
+
+export const release = withSciencesCompetence(minimalRelease);
