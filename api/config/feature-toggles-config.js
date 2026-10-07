@@ -138,6 +138,13 @@ export default {
     devDefaultValues: { test: '1/1', reviewApp: '0/1' },
     tags: ['backend', 'pix-api', 'team-contenu'],
   },
+  isNewCertificationPageEnabled: {
+    type: 'boolean',
+    description: 'Enables pixApp new certification page',
+    defaultValue: false,
+    devDefaultValues: { test: true, reviewApp: true },
+    tags: ['team-certif', 'backend', 'pix-api', 'frontend', 'mon-pix'],
+  },
   isLtiEnabled: {
     type: 'boolean',
     description: 'Enables LTI endpoints',

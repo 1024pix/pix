@@ -32,6 +32,7 @@ describe('Acceptance | Shared | Application | Controller | feature-toggle', func
             'are-module-short-id-urls-enabled': false,
             'are-combined-courses-enabled': true,
             'is-session-logout-enabled': false,
+            'is-new-certification-page-enabled': true,
           },
         },
       };
