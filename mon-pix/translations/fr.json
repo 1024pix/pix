@@ -997,6 +997,30 @@
       "title": "Rejoindre une session de certification"
     },
     "certifications-dashboard": {
+      "eligibility": {
+        "steps": {
+          "title": "Comment passer sa certification Pix ?",
+          "1": {
+            "description": "Obtenir au minimum un niveau 1 dans 5 compétences.",
+            "link": "Voir mes compétences",
+            "progress": {
+              "alt": "{certifiableCompetencesCount, plural, =0 {0 compétence requise} =1 {1 compétence requise} other {# compétences requises}} sur {minimumCertifiableCompetencesForCertificability}",
+              "competences": "compétences",
+              "counter": "{certifiableCompetencesCount}/{minimumCertifiableCompetencesForCertificability}"
+            },
+            "title": "Préparer sa certification"
+          },
+          "2": {
+            "description": "Auprès d’un centre de certification agréé ou établissement scolaire.",
+            "link": "Trouver une session",
+            "title": "Passer sa certification"
+          },
+          "3": {
+            "description": "Vos résultats seront disponibles au plus tôt 2 jours après votre test de certification, une fois la session finalisée par votre centre.",
+            "title": "Les résultats"
+          }
+        }
+      },
       "enrolment-banner": {
         "action": "Entrer en certification",
         "certifiable": {

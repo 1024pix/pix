@@ -997,6 +997,30 @@
       "title": "Deelnemen aan een certificeringssessie"
     },
     "certifications-dashboard": {
+      "eligibility": {
+        "steps": {
+          "title": "Hoe leg je de Pix-certificering af?",
+          "1": {
+            "description": "Minimaal niveau 1 behalen in 5 vaardigheden.",
+            "link": "Bekijk mijn vaardigheden",
+            "progress": {
+              "alt": "{certifiableCompetencesCount} van de {minimumCertifiableCompetencesForCertificability} vereiste vaardigheden",
+              "competences": "vaardigheden",
+              "counter": "{certifiableCompetencesCount}/{minimumCertifiableCompetencesForCertificability}"
+            },
+            "title": "Je certificering voorbereiden"
+          },
+          "2": {
+            "description": "Bij een erkend certificeringscentrum of een school.",
+            "link": "Vind een sessie",
+            "title": "Je certificering afleggen"
+          },
+          "3": {
+            "description": "Je resultaten zijn ten vroegste 2 dagen na je certificeringstest beschikbaar, zodra je centrum de sessie heeft afgerond.",
+            "title": "De resultaten"
+          }
+        }
+      },
       "enrolment-banner": {
         "action": "Certificering starten",
         "certifiable": {
