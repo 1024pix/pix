@@ -6,7 +6,7 @@ import { CombinedCourseBlueprintForUpdate } from '../../../../../src/quest/domai
 import {
   CampaignCombinedCourseBlueprintItem,
   ModuleCombinedCourseBlueprintItem,
-} from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintItem.js';
+} from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintItem.ts';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
 import {
   CRITERION_COMPARISONS,
