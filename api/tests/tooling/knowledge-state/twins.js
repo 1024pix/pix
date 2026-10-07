@@ -216,7 +216,11 @@ const inject = (server, { userId, ...request }) =>
  * What a user does, each call taking the user it is done as.
  */
 export const actions = (server) => {
-  const assessmentIdOf = (response) => Number(response.result.data.relationships.assessment.data.id);
+  // Null when the request was refused.
+  const assessmentIdOf = (response) => {
+    const id = response.result.data?.relationships?.assessment?.data?.id;
+    return id === undefined ? null : Number(id);
+  };
 
   const startCompetenceEvaluation = async ({ userId }, competenceId) => {
     const response = await inject(server, {
@@ -272,16 +276,13 @@ export const actions = (server) => {
     return { statusCode: response.statusCode };
   };
 
-  /**
-   * Plays an assessment to its end as a learner does: asks the next
-   * challenge, answers it from what the learner knows, until none is left,
-   * then completes it. Gives back what was asked and answered.
-   */
-  const play = async (twin, assessmentId, knows) => {
+  // Asks the next challenges and answers them from what the learner knows,
+  // until none is left or the given count is reached. Gives back what was asked and answered.
+  const answerNext = async (twin, assessmentId, knows, count) => {
     const played = [];
     for (
       let next = await nextChallenge(twin, assessmentId);
-      next.challenge;
+      next.challenge && played.length < count;
       next = await nextChallenge(twin, assessmentId)
     ) {
       const skill = skillById.get(next.challenge.skillId);
@@ -290,9 +291,22 @@ export const actions = (server) => {
       played.push({ skill: skill.name, isOk, result: answered.result, statusCode: answered.statusCode });
       if (answered.statusCode !== 201) break;
     }
+    return played;
+  };
+
+  /**
+   * Plays an assessment to its end as a learner does: asks the next
+   * challenge, answers it from what the learner knows, until none is left,
+   * then completes it. Gives back what was asked and answered.
+   */
+  const play = async (twin, assessmentId, knows) => {
+    const played = await answerNext(twin, assessmentId, knows, Infinity);
     const completed = await completeAssessment(twin, assessmentId);
     return { played, completed: completed.statusCode };
   };
+
+  /** Plays the given number of answers and stops there, as a learner who leaves does. */
+  const playSome = (twin, assessmentId, knows, count) => answerNext(twin, assessmentId, knows, count);
 
   const resetCompetence = async ({ userId }, competenceId) => {
     const response = await inject(server, {
@@ -317,9 +331,23 @@ export const actions = (server) => {
         },
       },
     });
-    const campaignParticipationId = Number(response.result.data.id);
+    // Refused participations have no id: the errors say why.
+    const campaignParticipationId = response.result.data?.id ? Number(response.result.data.id) : null;
+    const assessment = campaignParticipationId
+      ? await knex('assessments').where({ campaignParticipationId }).orderBy('id', 'desc').first()
+      : null;
+    return {
+      statusCode: response.statusCode,
+      campaignParticipationId,
+      assessmentId: assessment?.id ?? null,
+      errors: response.result.errors ?? null,
+    };
+  };
+
+  // The assessment a participation goes on with: a competence reset restarts it.
+  const currentAssessment = async (_twin, campaignParticipationId) => {
     const assessment = await knex('assessments').where({ campaignParticipationId }).orderBy('id', 'desc').first();
-    return { statusCode: response.statusCode, campaignParticipationId, assessmentId: assessment?.id ?? null };
+    return { assessmentId: assessment.id, state: assessment.state };
   };
 
   // A profiles collection participation is shared by the learner, there is no assessment to complete.
@@ -344,11 +372,42 @@ export const actions = (server) => {
     answer,
     completeAssessment,
     play,
+    playSome,
     resetCompetence,
     startCampaignParticipation,
+    currentAssessment,
     shareCampaignParticipation,
     computeCampaignResults,
   };
+};
+
+/**
+ * Lets days pass for the twins: every date of theirs moves back, as today
+ * would move forward. The delays before improving or resetting a competence
+ * elapse, a share gets older, and what the twins did is dated the same.
+ */
+export const daysPass = async (twins, days) => {
+  const ago = (column) => knex.raw('?? - ?::interval', [column, `${days} days`]);
+  for (const { userId } of Object.values(twins)) {
+    await knex('knowledge-elements')
+      .where({ userId })
+      .update({ createdAt: ago('createdAt') });
+    await knex('knowledge_states')
+      .where({ userId })
+      .update({ updatedAt: ago('updatedAt'), ceilingAt: ago('ceilingAt') });
+    await knex('assessments')
+      .where({ userId })
+      .update({ createdAt: ago('createdAt'), updatedAt: ago('updatedAt'), lastQuestionDate: ago('lastQuestionDate') });
+    await knex('answers')
+      .whereIn('assessmentId', knex('assessments').select('id').where({ userId }))
+      .update({ createdAt: ago('createdAt'), updatedAt: ago('updatedAt') });
+    await knex('competence-evaluations')
+      .where({ userId })
+      .update({ createdAt: ago('createdAt'), updatedAt: ago('updatedAt') });
+    await knex('campaign-participations')
+      .where({ userId })
+      .update({ createdAt: ago('createdAt'), sharedAt: ago('sharedAt') });
+  }
 };
 
 /**
@@ -402,6 +461,10 @@ export const learningContentMoves = () => {
 };
 
 const ISO_DATE = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z/g;
+// A number that is a whole segment of a path or the start of a composite id, like `/api/users/12/`, `12_recA` or `12-recA`.
+// A number in a path, or at the start of a composite id. A bare number is not an id: an area code can be '1'.
+const ID_IN_STRING = /(?<=\/)\d+(?=[_-]|\/|$)|^\d+(?=[_-])/g;
+const isIdKey = (key) => key === 'id' || /-id$|Id$/.test(key);
 
 // Every id the API may show about a user: their own, and those of the rows hanging on them.
 const idsOf = async (userId) => {
@@ -425,17 +488,30 @@ const idsOf = async (userId) => {
 
 /**
  * The response as it can be compared between twins: the ids of the given
- * users and of their rows become `<id>`, the timestamps become `<date>`.
+ * users and of their rows become `<id>`, the timestamps become `<date>`. An
+ * id is masked where it stands as one, under an id key, in a path or at the
+ * start of a composite id, so that a score equal to an id stays a score.
  */
 const comparable = async (response, twins) => {
-  const ids = (await Promise.all([twins].flat().map(({ userId }) => idsOf(userId)))).flat();
-  const text = ids.reduce(
-    (json, id) => json.replaceAll(new RegExp(`(?<![\\d.])${id}(?![\\d.])`, 'g'), '<id>'),
-    JSON.stringify(response.result),
-  );
-  // An id given as a bare number must stay valid JSON once masked.
-  const quoted = text.replace(/(?<=[:[,])<id>(?=[,\]}])/g, '"<id>"');
-  return { statusCode: response.statusCode, body: JSON.parse(quoted.replace(ISO_DATE, '<date>')) };
+  const ids = new Set((await Promise.all([twins].flat().map(({ userId }) => idsOf(userId)))).flat());
+  const maskNumber = (number) => (ids.has(Number(number)) ? '<id>' : number);
+  const mask = (value, key = '') => {
+    if (Array.isArray(value)) {
+      return value.map((item) => mask(item, key));
+    }
+    if (value !== null && typeof value === 'object') {
+      return Object.fromEntries(Object.entries(value).map(([childKey, child]) => [childKey, mask(child, childKey)]));
+    }
+    if (typeof value === 'number') {
+      return isIdKey(key) ? maskNumber(value) : value;
+    }
+    if (typeof value === 'string') {
+      const dated = value.replace(ISO_DATE, '<date>');
+      return isIdKey(key) && /^\d+$/.test(dated) ? maskNumber(dated) : dated.replace(ID_IN_STRING, maskNumber);
+    }
+    return value;
+  };
+  return { statusCode: response.statusCode, body: mask(response.result) };
 };
 
 /**
