@@ -1,4 +1,5 @@
-import { COMBINED_COURSE_ITEM_TYPES, type CombinedCourseItemCategory } from '../../../constants.ts';
+import type { CombinedCourseItemCategory } from '../../../constant-types.d.ts';
+import { COMBINED_COURSE_ITEM_TYPES } from '../../../constants.js';
 
 type CombinedCourseBlueprintItemArgs = {
   id: number | string;
@@ -6,12 +7,12 @@ type CombinedCourseBlueprintItemArgs = {
 };
 
 export type CampaignCombinedCourseBlueprintItemArgs = {
-  id: number | string;
+  id: number;
   name: string;
 };
 
 export type ModuleCombinedCourseBlueprintItemArgs = {
-  id: number | string;
+  id: string;
   name: string;
   duration: number;
   image: string;

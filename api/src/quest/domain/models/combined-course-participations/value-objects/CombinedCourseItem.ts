@@ -1,6 +1,7 @@
-import { COMBINED_COURSE_ITEM_TYPES, type CombinedCourseItemCategory } from '../../../constants.ts';
+import type { CombinedCourseItemCategory } from '../../../constant-types.d.ts';
+import { COMBINED_COURSE_ITEM_TYPES } from '../../../constants.js';
 
-export type CombinedCourseItemParams = {
+type CombinedCourseItemParams = {
   id: number | string;
   title?: string;
   reference: string | number;
@@ -11,20 +12,16 @@ export type CombinedCourseItemParams = {
   isLocked?: boolean;
 };
 
-export type TrainingCombinedCourseItemParams = CombinedCourseItemParams & {
-  type: CombinedCourseItemCategory;
-};
+type TrainingCombinedCourseItemParams = CombinedCourseItemParams;
 
-export type CampaignCombinedCourseItemParams = CombinedCourseItemParams & {
-  type?: CombinedCourseItemCategory;
+type CampaignCombinedCourseItemParams = CombinedCourseItemParams & {
   isCompleted?: boolean;
   masteryRate?: number | null;
   totalStagesCount?: number | null;
   validatedStagesCount?: number | null;
 };
 
-export type ModuleCombinedCourseItemParams = CombinedCourseItemParams & {
-  type?: CombinedCourseItemCategory;
+type ModuleCombinedCourseItemParams = CombinedCourseItemParams & {
   isCompleted?: boolean;
   shortId: string;
   level: string;
@@ -73,7 +70,7 @@ export class TrainingCombinedCourseItem extends CombinedCourseItem {
     duration,
     image,
     isLocked = true,
-  }: CombinedCourseItemParams) {
+  }: TrainingCombinedCourseItemParams) {
     super({
       id,
       title,
@@ -85,7 +82,7 @@ export class TrainingCombinedCourseItem extends CombinedCourseItem {
       image,
     });
   }
-  get type() {
+  get type(): CombinedCourseItemCategory {
     return COMBINED_COURSE_ITEM_TYPES.FORMATION;
   }
 }
@@ -108,6 +105,7 @@ export class CampaignCombinedCourseItem extends CombinedCourseItem {
     masteryRate = null,
     totalStagesCount = null,
     validatedStagesCount = null,
+    isLocked = true,
   }: CampaignCombinedCourseItemParams) {
     super({
       id,
@@ -115,16 +113,16 @@ export class CampaignCombinedCourseItem extends CombinedCourseItem {
       reference,
       redirection,
       participationStatus,
-      isLocked: true,
       duration,
       image,
+      isLocked,
     });
     this.masteryRate = masteryRate;
     this.totalStagesCount = totalStagesCount;
     this.validatedStagesCount = validatedStagesCount;
     this.isCompleted = isCompleted;
   }
-  get type() {
+  get type(): CombinedCourseItemCategory {
     return COMBINED_COURSE_ITEM_TYPES.CAMPAIGN;
   }
 }
@@ -143,7 +141,7 @@ export class ModuleCombinedCourseItem extends CombinedCourseItem {
     redirection,
     participationStatus,
     isCompleted = false,
-    isLocked,
+    isLocked = true,
     duration,
     image,
     shortId,
@@ -167,7 +165,7 @@ export class ModuleCombinedCourseItem extends CombinedCourseItem {
     this.objectives = objectives;
     this.isCompleted = isCompleted;
   }
-  get type() {
+  get type(): CombinedCourseItemCategory {
     return COMBINED_COURSE_ITEM_TYPES.MODULE;
   }
 }

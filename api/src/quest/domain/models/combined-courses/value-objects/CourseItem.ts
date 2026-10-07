@@ -1,4 +1,4 @@
-import type { CourseItemType } from '../../../constants.ts';
+import type { CourseItemType } from '../../../constant-types.d.ts';
 
 type CourseItemCompetence = {
   id: string;
