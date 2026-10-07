@@ -1,25 +1,31 @@
 import { COMBINED_COURSE_ITEM_TYPES, type CombinedCourseItemCategory } from '../../../constants.ts';
 
-type CombinedCourseItemParams = {
+export type CombinedCourseItemParams = {
   id: number | string;
   title?: string;
   reference: string | number;
   redirection?: string;
   participationStatus?: string;
-  isCompleted?: boolean;
   duration?: number;
   image?: string;
   isLocked?: boolean;
+};
+
+export type TrainingCombinedCourseItemParams = CombinedCourseItemParams & {
   type: CombinedCourseItemCategory;
 };
 
-export type CampaignCombinedCourseItemParams = CombinedCourseItem & {
+export type CampaignCombinedCourseItemParams = CombinedCourseItemParams & {
+  type?: CombinedCourseItemCategory;
+  isCompleted?: boolean;
   masteryRate?: number | null;
   totalStagesCount?: number | null;
   validatedStagesCount?: number | null;
 };
 
-export type ModuleCombinedCourseItemParams = CombinedCourseItem & {
+export type ModuleCombinedCourseItemParams = CombinedCourseItemParams & {
+  type?: CombinedCourseItemCategory;
+  isCompleted?: boolean;
   shortId: string;
   level: string;
   description: string;
@@ -32,11 +38,9 @@ class CombinedCourseItem {
   reference: string | number;
   redirection?: string;
   participationStatus?: string;
-  isCompleted?: boolean;
   isLocked: boolean;
   duration?: number;
   image?: string;
-  type: CombinedCourseItemCategory;
 
   constructor({
     id,
@@ -44,22 +48,18 @@ class CombinedCourseItem {
     reference,
     redirection,
     participationStatus,
-    isCompleted,
     duration,
     image,
     isLocked = true,
-    type,
   }: CombinedCourseItemParams) {
     this.id = id;
     this.title = title;
     this.reference = reference;
     this.redirection = redirection;
     this.participationStatus = participationStatus;
-    this.isCompleted = isCompleted;
     this.isLocked = isLocked;
     this.duration = duration;
     this.image = image;
-    this.type = type;
   }
 }
 
@@ -70,7 +70,6 @@ export class TrainingCombinedCourseItem extends CombinedCourseItem {
     reference,
     redirection,
     participationStatus,
-    isCompleted,
     duration,
     image,
     isLocked = true,
@@ -81,12 +80,13 @@ export class TrainingCombinedCourseItem extends CombinedCourseItem {
       reference,
       redirection,
       participationStatus,
-      isCompleted,
       isLocked,
       duration,
       image,
-      type: COMBINED_COURSE_ITEM_TYPES.FORMATION,
     });
+  }
+  get type() {
+    return COMBINED_COURSE_ITEM_TYPES.FORMATION;
   }
 }
 
@@ -94,6 +94,7 @@ export class CampaignCombinedCourseItem extends CombinedCourseItem {
   masteryRate: number | null;
   totalStagesCount: number | null;
   validatedStagesCount: number | null;
+  isCompleted: boolean;
 
   constructor({
     id,
@@ -101,8 +102,7 @@ export class CampaignCombinedCourseItem extends CombinedCourseItem {
     reference,
     redirection,
     participationStatus,
-    isCompleted,
-    isLocked,
+    isCompleted = false,
     duration,
     image,
     masteryRate = null,
@@ -115,15 +115,17 @@ export class CampaignCombinedCourseItem extends CombinedCourseItem {
       reference,
       redirection,
       participationStatus,
-      isCompleted,
-      isLocked,
+      isLocked: true,
       duration,
       image,
-      type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
     });
     this.masteryRate = masteryRate;
     this.totalStagesCount = totalStagesCount;
     this.validatedStagesCount = validatedStagesCount;
+    this.isCompleted = isCompleted;
+  }
+  get type() {
+    return COMBINED_COURSE_ITEM_TYPES.CAMPAIGN;
   }
 }
 
@@ -132,6 +134,7 @@ export class ModuleCombinedCourseItem extends CombinedCourseItem {
   level: string;
   description: string;
   objectives: string[];
+  isCompleted: boolean;
 
   constructor({
     id,
@@ -139,7 +142,7 @@ export class ModuleCombinedCourseItem extends CombinedCourseItem {
     reference,
     redirection,
     participationStatus,
-    isCompleted,
+    isCompleted = false,
     isLocked,
     duration,
     image,
@@ -154,15 +157,17 @@ export class ModuleCombinedCourseItem extends CombinedCourseItem {
       reference,
       redirection,
       participationStatus,
-      isCompleted,
       isLocked,
       duration,
       image,
-      type: COMBINED_COURSE_ITEM_TYPES.MODULE,
     });
     this.shortId = shortId;
     this.level = level;
     this.description = description;
     this.objectives = objectives;
+    this.isCompleted = isCompleted;
+  }
+  get type() {
+    return COMBINED_COURSE_ITEM_TYPES.MODULE;
   }
 }

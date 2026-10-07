@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { COURSE_ITEM_TYPES } from '../../../../src/quest/domain/models/combined-courses/value-objects/CourseItem.js';
+import { COURSE_ITEM_TYPES } from '../../../../src/quest/domain/constants.js';
 import { databaseBuilder } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
