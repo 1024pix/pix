@@ -13,6 +13,7 @@ describe('Certification | Enrolment | Unit | Application | Controller | user-con
         domainBuilder.certification.enrolment.buildUserCertificationEligibility({
           id: 123,
           isCertifiable: true,
+          certifiableCompetencesCount: 3,
           doubleCertificationEligibility: domainBuilder.certification.enrolment.buildDoubleCertificationEligibility({
             label: 'Un super label',
             imageUrl: 'Une super image',
@@ -40,12 +41,14 @@ describe('Certification | Enrolment | Unit | Application | Controller | user-con
           type: 'isCertifiables',
           attributes: {
             'is-certifiable': true,
+            'certifiable-competences-count': 3,
             'double-certification-eligibility': {
               imageUrl: 'Une super image',
               isEligible: true,
               label: 'Un super label',
               certificationAlreadySucceeded: false,
             },
+            'minimum-certifiable-competences-for-certificability': 5,
           },
         },
       });
