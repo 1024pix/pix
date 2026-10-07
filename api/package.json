@@ -19,7 +19,7 @@
     "banner:remove": "node src/communication/banner/application/scripts/remove.js",
     "datamart:create": "node scripts/database/create-database --name datamart",
     "datamart:delete": "node scripts/database/drop-database --name datamart",
-    "datamart:new-migration": "npx knex --knexfile datamart/knexfile.js migrate:make --stub $PWD/db/template.js $migrationname",
+    "datamart:new-migration": "npx knex --knexfile datamart/knexfile.js migrate:make --stub $PWD/datamart/template.js $migrationname",
     "datamart:empty": "node scripts/database/empty-database --name datamart",
     "datamart:migrate": "knex --knexfile datamart/knexfile.js migrate:latest",
     "datamart:rollback:latest": "knex --knexfile datamart/knexfile.js migrate:down",
