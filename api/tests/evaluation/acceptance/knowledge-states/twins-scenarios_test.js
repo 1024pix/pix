@@ -173,6 +173,13 @@ describe('Acceptance | Knowledge states | twin scenarios', function () {
       await playBoth(act, twins, first, knowledge({ defaultLevel: 3 }));
       await both(twins, (twin) => act.computeCampaignResults(twin, first[twin.name].campaignParticipationId));
 
+      // then: every skill of the campaign is validated, so a retry is refused, and a reset is not
+      const retry = await both(twins, (twin) =>
+        act.startCampaignParticipation(twin, { campaignId: campaign.campaignId, isRetry: true }),
+      );
+      expectSame(retry);
+      expect(retry.migrated.statusCode).to.equal(403);
+
       // when: a new participation resets the knowledge on the campaign tubes
       const reset = await both(twins, (twin) =>
         act.startCampaignParticipation(twin, { campaignId: campaign.campaignId, isReset: true }),
