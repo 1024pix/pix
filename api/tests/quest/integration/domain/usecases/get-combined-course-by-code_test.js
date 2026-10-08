@@ -21,14 +21,13 @@ import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code', function () {
-  let combinedCourseUrl, code;
+  let code;
 
   beforeEach(function () {
     code = 'SOMETHING';
-    combinedCourseUrl = '/parcours/' + code;
 
     sinon.stub(cryptoService, 'encrypt');
-    cryptoService.encrypt.withArgs(combinedCourseUrl).resolves('encryptedUrl');
+    cryptoService.encrypt.resolves('encryptedUrl');
   });
 
   it('should throw an error if CombinedCourse does not exist', async function () {
