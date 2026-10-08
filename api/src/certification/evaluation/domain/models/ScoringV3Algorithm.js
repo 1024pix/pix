@@ -6,7 +6,6 @@
  * @typedef {import('../../../shared/domain/models/CompetenceMark.js').CompetenceMark} CompetenceMark
  */
 
-import { COMPETENCES_COUNT, PIX_COUNT_BY_LEVEL } from '../../../../shared/constants.js';
 import { CORE_MESH_CONFIGURATION } from '../../../shared/domain/constants/mesh-configuration.js';
 import { Intervals } from './Intervals.js';
 
@@ -69,8 +68,7 @@ export class ScoringV3Algorithm {
    */
   computePixScoreFromCapacity({ capacity }) {
     const certificationScoringIntervals = this.v3CertificationScoring.intervals;
-    const maxReachableLevel = this.v3CertificationScoring.maxReachableLevel;
-    const maximumReachableScore = maxReachableLevel * COMPETENCES_COUNT * PIX_COUNT_BY_LEVEL - 1;
+    const maximumReachableScore = this.v3CertificationScoring.maxReachablePixScore;
 
     const scoringIntervals = new Intervals({ intervals: certificationScoringIntervals });
 
