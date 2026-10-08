@@ -5,11 +5,15 @@ export class V3CertificationScoring {
     competencesForScoring,
     certificationScoringConfiguration,
     minimumAnswersRequiredToValidateACertification,
+    maxReachableLevel,
+    maxReachablePixScore,
     versionId,
   }) {
     this._competencesForScoring = competencesForScoring;
     this._certificationScoringConfiguration = certificationScoringConfiguration;
     this.minimumAnswersRequiredToValidateACertification = minimumAnswersRequiredToValidateACertification;
+    this.maxReachableLevel = maxReachableLevel;
+    this.maxReachablePixScore = maxReachablePixScore;
     this.versionId = versionId;
   }
 
@@ -19,10 +23,6 @@ export class V3CertificationScoring {
 
   get intervals() {
     return this._certificationScoringConfiguration;
-  }
-
-  get maxReachableLevel() {
-    return this._certificationScoringConfiguration.length - 1;
   }
 
   get competencesForScoring() {
@@ -35,6 +35,8 @@ export class V3CertificationScoring {
     allAreas,
     competenceList,
     minimumAnswersRequiredToValidateACertification,
+    maxReachableLevel,
+    maxReachablePixScore,
     versionId,
   }) {
     const competencesForScoring =
@@ -53,6 +55,8 @@ export class V3CertificationScoring {
       competencesForScoring,
       certificationScoringConfiguration,
       minimumAnswersRequiredToValidateACertification,
+      maxReachableLevel,
+      maxReachablePixScore,
       versionId,
     });
   }

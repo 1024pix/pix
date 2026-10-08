@@ -1,10 +1,9 @@
-import { COMPETENCES_COUNT, PIX_COUNT_BY_LEVEL } from '../../../../shared/constants.js';
 import { CORE_MESH_CONFIGURATION } from '../../../shared/domain/constants/mesh-configuration.js';
 import { Intervals } from './Intervals.js';
 import { ScoringAndCapacitySimulatorReport } from './ScoringAndCapacitySimulatorReport.js';
 
 export class ScoringSimulator {
-  static compute({ capacity, certificationScoringIntervals, competencesForScoring, maxReachableLevel }) {
+  static compute({ capacity, certificationScoringIntervals, competencesForScoring, maxReachablePixScore }) {
     const scoringIntervals = new Intervals({ intervals: certificationScoringIntervals });
 
     const intervalIndex = scoringIntervals.findIntervalIndexFromCapacity(capacity);
@@ -13,7 +12,7 @@ export class ScoringSimulator {
       certificationScoringIntervals: scoringIntervals,
       capacity,
       intervalIndex,
-      maxReachableLevel,
+      maxReachablePixScore,
     });
 
     const competences = _computeCompetences({ competencesForScoring, capacity });
@@ -26,13 +25,11 @@ export class ScoringSimulator {
   }
 }
 
-function _calculateScore({ certificationScoringIntervals, capacity, intervalIndex, maxReachableLevel }) {
-  const MAX_REACHABLE_LEVEL = maxReachableLevel;
+function _calculateScore({ certificationScoringIntervals, capacity, intervalIndex, maxReachablePixScore }) {
   const MIN_PIX_SCORE = 0;
-  const maximumReachableScore = MAX_REACHABLE_LEVEL * COMPETENCES_COUNT * PIX_COUNT_BY_LEVEL - 1;
 
   if (certificationScoringIntervals.isCapacityAboveMaximum(capacity)) {
-    return maximumReachableScore;
+    return maxReachablePixScore;
   }
 
   if (intervalIndex === null) {
@@ -47,7 +44,7 @@ function _calculateScore({ certificationScoringIntervals, capacity, intervalInde
   const progressionPercentage = 1 - (intervalMaximum - capacity) / (intervalMaximum - intervalMinimum);
   const score = Math.floor(intervalWeight * (intervalCoefficient + progressionPercentage));
 
-  return Math.min(maximumReachableScore, score);
+  return Math.min(maxReachablePixScore, score);
 }
 
 function _computeCompetences({ competencesForScoring, capacity }) {
