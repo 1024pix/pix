@@ -100,24 +100,6 @@ export async function updateComments({ id, comments }) {
   });
 }
 
-/**
- * @param {object} params
- * @param {number} params.id
- * @param {object} params.globalScoringConfiguration
- * @param {object | null} params.competencesScoringConfiguration
- */
-export async function updateScoring({ id, globalScoringConfiguration, competencesScoringConfiguration }) {
-  const knexConn = DomainTransaction.getConnection();
-  await knexConn('certification_versions')
-    .where({ id })
-    .update({
-      globalScoringConfiguration: JSON.stringify(globalScoringConfiguration),
-      competencesScoringConfiguration: competencesScoringConfiguration
-        ? JSON.stringify(competencesScoringConfiguration)
-        : null,
-    });
-}
-
 function buildBaseQuery() {
   const knexConn = DomainTransaction.getConnection();
 
@@ -143,6 +125,8 @@ function _adaptModelToDb(versionModel) {
     expirationDate: versionModel.expirationDate,
     assessmentDuration: versionModel.assessmentDuration,
     minimumAnswersRequiredToValidateACertification: versionModel.minimumAnswersRequiredToValidateACertification,
+    maxReachableLevel: versionModel.maxReachableLevel,
+    maxReachablePixScore: versionModel.maxReachablePixScore,
     comments: versionModel.comments,
     globalScoringConfiguration: versionModel.globalScoringConfiguration
       ? JSON.stringify(versionModel.globalScoringConfiguration)
@@ -171,6 +155,8 @@ function _toDomain({
   expirationDate,
   assessmentDuration,
   minimumAnswersRequiredToValidateACertification,
+  maxReachableLevel,
+  maxReachablePixScore,
   globalScoringConfiguration,
   competencesScoringConfiguration,
   challengesConfiguration,
@@ -185,6 +171,8 @@ function _toDomain({
     startDate,
     expirationDate,
     minimumAnswersRequiredToValidateACertification,
+    maxReachableLevel,
+    maxReachablePixScore,
     assessmentDuration,
     globalScoringConfiguration,
     competencesScoringConfiguration,

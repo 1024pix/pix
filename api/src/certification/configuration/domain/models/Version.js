@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { PIX_COUNT_BY_LEVEL } from '../../../../shared/constants.js';
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
 import {
   DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
@@ -26,6 +27,8 @@ export class Version {
     expirationDate: Joi.date().allow(null).optional(),
     assessmentDuration: Joi.number().required(),
     minimumAnswersRequiredToValidateACertification: Joi.number().required(),
+    maxReachableLevel: Joi.number().allow(null).optional(),
+    maxReachablePixScore: Joi.number().allow(null).optional(),
     globalScoringConfiguration: Joi.array()
       .items(
         Joi.object({
@@ -64,6 +67,8 @@ export class Version {
    * @param {VERSION_STATUSES.DRAFT | VERSION_STATUSES.ACTIVE | VERSION_STATUSES.ARCHIVED} params.status
    * @param {Array<object>} [params.globalScoringConfiguration] - Global scoring configuration
    * @param {Array<object>} [params.competencesScoringConfiguration] - Competences scoring configuration
+   * @param {number} params.maxReachableLevel
+   * @param {number} params.maxReachablePixScore
    * @param {FlashAssessmentAlgorithmConfiguration} params.challengesConfiguration - Challenges configuration
    */
   constructor({
@@ -73,6 +78,8 @@ export class Version {
     expirationDate,
     assessmentDuration,
     minimumAnswersRequiredToValidateACertification,
+    maxReachableLevel,
+    maxReachablePixScore,
     globalScoringConfiguration,
     competencesScoringConfiguration,
     challengesConfiguration,
@@ -86,6 +93,8 @@ export class Version {
     this.startDate = startDate;
     this.expirationDate = expirationDate;
     this.assessmentDuration = assessmentDuration;
+    this.maxReachableLevel = maxReachableLevel;
+    this.maxReachablePixScore = maxReachablePixScore;
     this.minimumAnswersRequiredToValidateACertification = minimumAnswersRequiredToValidateACertification;
     this.globalScoringConfiguration = globalScoringConfiguration;
     this.competencesScoringConfiguration = competencesScoringConfiguration;
@@ -115,8 +124,6 @@ export class Version {
     limitToOneQuestionPerTube,
     enablePassageByAllCompetences,
     externalCalibrationId,
-    globalScoringConfiguration,
-    competencesScoringConfiguration,
   }) {
     if (!this.isDraft) {
       throw new VersionNotDraftError();
@@ -124,7 +131,6 @@ export class Version {
     this.startDate = startDate;
     this.assessmentDuration = assessmentDuration;
     this.minimumAnswersRequiredToValidateACertification = minimumAnswersRequiredForValidation;
-    this.competencesScoringConfiguration = competencesScoringConfiguration ?? this.competencesScoringConfiguration;
     this.challengesConfiguration = new FlashAssessmentAlgorithmConfiguration({
       maximumAssessmentLength,
       challengesBetweenSameCompetence,
@@ -135,7 +141,6 @@ export class Version {
       enablePassageByAllCompetences,
     });
     this.externalCalibrationId = externalCalibrationId;
-    this.globalScoringConfiguration = globalScoringConfiguration;
     this.validate();
   }
 
@@ -185,6 +190,8 @@ export class Version {
       }),
       globalScoringConfiguration: [],
       competencesScoringConfiguration: [],
+      maxReachableLevel: null,
+      maxReachablePixScore: null,
       status: VERSION_STATUSES.DRAFT,
       externalCalibrationId: null,
       comments: null,
@@ -193,5 +200,15 @@ export class Version {
     draftVersion.validate();
 
     return draftVersion;
+  }
+
+  setScoringConfiguration(globalScoringConfiguration, competencesScoringConfiguration) {
+    this.globalScoringConfiguration = globalScoringConfiguration;
+    this.competencesScoringConfiguration = competencesScoringConfiguration;
+    this.maxReachableLevel = globalScoringConfiguration?.length ? globalScoringConfiguration.length - 1 : null;
+    this.maxReachablePixScore =
+      globalScoringConfiguration?.length && competencesScoringConfiguration?.length
+        ? (globalScoringConfiguration.length - 1) * competencesScoringConfiguration.length * PIX_COUNT_BY_LEVEL - 1
+        : null;
   }
 }
