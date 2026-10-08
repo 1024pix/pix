@@ -8,6 +8,7 @@ import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import CombinedCourseItemsList from 'mon-pix/components/combined-course/combined-course-items-list';
 import StepDetails from 'mon-pix/components/combined-course/tunnel/step-details';
+import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 
 export const ANIMATION_DURATION = 1600;
 export default class CombinedCourseTunnel extends Component {
@@ -43,7 +44,12 @@ export default class CombinedCourseTunnel extends Component {
 
   @action
   goToItem(item) {
-    this.router.transitionTo(item.route, ...item.models, {
+    let itemTunnelRoute = item.route;
+    if (item.type === CombinedCourseItemTypes.MODULE) {
+      itemTunnelRoute = itemTunnelRoute + '.passage';
+    }
+
+    this.router.transitionTo(itemTunnelRoute, ...item.models, {
       queryParams: { redirection: item.redirection },
     });
   }
