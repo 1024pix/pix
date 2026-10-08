@@ -3,10 +3,7 @@
   "useTabs": false,
   "overrides": [
     {
-      "files": [
-        ".circleci/config.yml",
-        ".github/**/*.yaml"
-      ],
+      "files": [".circleci/**/*.yml", ".github/**/*.yaml", ".github/**/*.yml"],
       "options": {
         "singleQuote": true
       }

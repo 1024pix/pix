@@ -468,24 +468,13 @@ jobs:
       - run:
           name: Remove .git folder
           command: rm -rf .git/
+      - run:
+          name: Lint yaml config files
+          command: npm run lint:yaml
       - persist_to_workspace:
           root: ~/pix
           paths:
             - .
-
-  root_lint_and_test:
-    executor:
-      name: node-docker
-    working_directory: ~/pix
-    steps:
-      - attach_workspace:
-          at: ~/pix
-      - run:
-          name: Lint scripts
-          command: npm run lint:scripts
-      - run:
-          name: Lint yaml
-          command: npm run lint:yaml
 
   # ---------------------------------------------------------------------------
   # Gate job — seul required status check configuré dans GitHub

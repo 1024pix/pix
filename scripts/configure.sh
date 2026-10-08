@@ -32,20 +32,20 @@ function display_header {
   echo "👋 Welcome to the Pix developer environment installation & configuration procedure."
   echo "The good news is that the procedure is fully automated and last less than 5 minutes!"
   echo "So, please take a ☕️ and enjoy this awesome moment."
-  echo "If you get bored, you can always visit our website https://pix.fr or follow us on Twitter https://twitter.com/pix_officiel 😉"
+  echo "If you get bored, you can always visit our website https://pix.fr 😉"
   echo ""
 }
 
 function assert_program_is_installed() {
   local program=$1
   if ! [ -x "$(command -v "${program}")" ]; then
-    echo "Error: program \"${program}\" is not installed." >&2
+    echo "💥 Error: program \"${program}\" is not installed." >&2
     exit 1
   fi
 }
 
 function verify_prerequesite_programs() {
-  echo "Verifying prerequesite programs…"
+  echo "🚀 Verifying prerequesite programs…"
 
   assert_program_is_installed "git"
   assert_program_is_installed "node"
@@ -57,7 +57,7 @@ function verify_prerequesite_programs() {
 }
 
 function generate_environment_config_file() {
-  echo "Generating environment config file for Pix API (api/.env)…"
+  echo "🚀 Generating environment config file for Pix API (api/.env)…"
 
   cp api/sample.env api/.env
 
@@ -66,38 +66,58 @@ function generate_environment_config_file() {
 }
 
 function install_apps_dependencies() {
-  echo "Installing Pix root dependencies…"
+  echo "🚀 Installing Pix root dependencies…"
 
-  npm ci
+  npm ci --loglevel error
 
   echo "✅ Root dependencies installed."
   echo ""
 
-  echo "Install all apps dependencies"
-  npm run ci:all
-  echo "✔ All dependencies were downloaded and installed"
+  echo "🚀 Install 'admin' dependencies"
+  npm ci --prefix admin --loglevel error
+
+  echo "🚀 Install 'api' dependencies"
+  npm ci --prefix api --loglevel error
+
+  echo "🚀 Install 'audit-logger' dependencies"
+  npm ci --prefix audit-logger --loglevel error
+
+  echo "🚀 Install 'certif' dependencies"
+  npm ci --prefix certif --loglevel error
+
+  echo "🚀 Install 'mon-pix' dependencies"
+  npm ci --prefix mon-pix --loglevel error
+
+  echo "🚀 Install 'junior' dependencies"
+  npm ci --prefix junior --loglevel error
+
+  echo "🚀 Install 'orga' dependencies"
+  npm ci --prefix orga --loglevel error
+
+  echo "✅ All dependencies were downloaded and installed"
   echo "-----------"
 }
 
 function setup_and_run_infrastructure() {
-  echo "Starting infrastructure building blocks…"
+  echo "🚀 Starting infrastructure building blocks…"
 
   docker compose up -d --force-recreate
 
   echo "✅ PostgreSQL and Redis servers started (using Docker Compose)."
   echo ""
 
-  echo "Waiting for PostgreSQL server to be ready…"
+  echo "🚀 Waiting for PostgreSQL server to be ready…"
 
   timeout 20s bash -c "until docker compose exec postgres pg_isready ; do sleep 1 ; done"
 
   echo "✅ PostgreSQL server is ready."
   echo ""
 
-  echo "Creating database"
+  echo "🚀 Creating database"
 
   # It drops and creates database then load the seed.
-  (cd api && npm run db:reset && npm run datamart:reset)
+  npm run db:reset --prefix api
+  npm run datamart:reset --prefix api
 
   echo "✅ Database created"
   echo ""
