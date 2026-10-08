@@ -1,3 +1,4 @@
+import { PIX_COUNT_BY_LEVEL } from '../../../src/shared/constants.js';
 import { databaseBuffer } from '../database-buffer.js';
 
 export const defaultChallengesConfiguration = {
@@ -72,7 +73,7 @@ export const defaultGlobalScoringConfiguration = [
 export const defaultCompetencesScoringConfiguration = [
   {
     competence: '1.1',
-    competenceId: 'competence1_1',
+    competenceId: 'recCompetence0',
     values: [
       {
         bounds: {
@@ -148,6 +149,12 @@ export function buildCertificationVersion({
   status,
   comments,
 } = {}) {
+  const maxReachableLevel = globalScoringConfiguration?.length ? globalScoringConfiguration.length - 1 : null;
+  const maxReachablePixScore =
+    maxReachableLevel !== null && competencesScoringConfiguration?.length
+      ? maxReachableLevel * competencesScoringConfiguration.length * PIX_COUNT_BY_LEVEL - 1
+      : null;
+
   return databaseBuffer.pushInsertable({
     tableName: 'certification_versions',
     values: {
@@ -163,6 +170,8 @@ export function buildCertificationVersion({
       externalCalibrationId,
       status,
       comments,
+      maxReachableLevel,
+      maxReachablePixScore,
     },
   });
 }
