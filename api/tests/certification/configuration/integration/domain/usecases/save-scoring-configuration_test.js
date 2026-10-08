@@ -37,6 +37,8 @@ describe('Certification | Configuration | Integration | Domain | UseCase | save-
     const updatedVersion = await versionRepository.getById({ id: 123 });
     expect(updatedVersion.globalScoringConfiguration).to.deep.equal(globalScoringConfiguration);
     expect(updatedVersion.competencesScoringConfiguration).to.be.null;
+    expect(updatedVersion.maxReachableLevel).to.equal(0);
+    expect(updatedVersion.maxReachablePixScore).to.be.null;
   });
 
   it('enqueues a ScoreCertificationJob for each certification course on a finalized session', async function () {
