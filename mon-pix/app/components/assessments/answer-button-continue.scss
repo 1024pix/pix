@@ -1,0 +1,11 @@
+@use 'pix-design-tokens/breakpoints';
+
+.answer-button-continue {
+  @include breakpoints.device-is('tablet') {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--pix-spacing-2x);
+    text-align: center;
+  }
+}

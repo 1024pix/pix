@@ -2,6 +2,16 @@
 @use 'pix-design-tokens/fonts';
 @use 'pix-design-tokens/typography';
 
+
+.answer-statuses {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-4x);
+  max-width: 990px;
+  margin: 0 auto;
+}
+
+
 .checkpoint__container {
   display: flex;
   flex-direction: column;
@@ -31,51 +41,6 @@
   @include breakpoints.device-is('tablet') {
     width: 800px;
     padding: 30px;
-  }
-}
-
-
-.checkpoint__continue-wrapper {
-  display: none;
-
-  @include breakpoints.device-is('tablet') {
-    display: flex;
-  }
-}
-
-.checkpoint__continue {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-
-  @include breakpoints.device-is('tablet') {
-    justify-content: flex-end;
-  }
-}
-
-.checkpoint__continue-button {
-  @include breakpoints.device-is('tablet') {
-    width: 230px;
-  }
-
-  & > svg {
-    position: relative;
-    left: 0;
-    margin-left: 0.5em;
-    transition: all 0.25s ease-in-out;
-
-    @include breakpoints.device-is('tablet') {
-      margin-left: 6px;
-    }
-  }
-
-  &:hover,
-  &:focus,
-  &:active {
-    & > svg {
-      left: 12px;
-    }
   }
 }
 
