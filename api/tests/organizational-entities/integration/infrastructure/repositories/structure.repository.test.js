@@ -10,8 +10,10 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
       it('returns the structure', async function () {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const categoryId = databaseBuilder.factory.buildStructureCategory().id;
         const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure({
           certificationCenterId,
+          categoryId,
         });
 
         await databaseBuilder.commit();
@@ -20,6 +22,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
           id: structure.id,
           organizationId: organization.id,
           certificationCenterId,
+          categoryId,
         });
 
         // when
@@ -163,28 +166,53 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
         const { count: structuresCountAfter } = await knex('structures').count().first();
         expect(structuresCountAfter).to.equal(structuresCountBefore);
       });
-    });
 
-    context('when the structure has no id', function () {
-      it('creates the structure and returns it', async function () {
+      it('does not update the category of the structure', async function () {
         // given
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const categoryId = databaseBuilder.factory.buildStructureCategory().id;
+        const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure({ categoryId });
         await databaseBuilder.commit();
 
         // when
         const savedStructure = await structureRepository.save(
-          domainBuilder.acquisition.buildStructure({ id: null, certificationCenterId }),
+          domainBuilder.acquisition.buildStructure({
+            id: structure.id,
+            organizationId: organization.id,
+            categoryId: null,
+          }),
+        );
+
+        // then
+        const structureInDB = await knex('structures').where({ id: structure.id }).first();
+        expect(structureInDB.category_id).to.equal(categoryId);
+        expect(savedStructure.categoryId).to.equal(categoryId);
+      });
+    });
+
+    context('when the structure has no id', function () {
+      it('creates the structure', async function () {
+        // given
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const categoryId = databaseBuilder.factory.buildStructureCategory().id;
+        await databaseBuilder.commit();
+
+        // when
+        const savedStructure = await structureRepository.save(
+          domainBuilder.acquisition.buildStructure({ id: null, certificationCenterId, categoryId }),
         );
 
         // then
         const factStructureInDB = await knex('fct_structures').where({ structure_id: savedStructure.id }).first();
         expect(factStructureInDB.certification_center_id).to.equal(certificationCenterId);
         expect(factStructureInDB.organization_id).to.be.null;
+        const structureInDB = await knex('structures').where({ id: savedStructure.id }).first();
+        expect(structureInDB.category_id).to.equal(categoryId);
         expect(savedStructure).to.deepEqualInstance(
           domainBuilder.acquisition.buildStructure({
             id: savedStructure.id,
             organizationId: null,
             certificationCenterId,
+            categoryId,
           }),
         );
       });
