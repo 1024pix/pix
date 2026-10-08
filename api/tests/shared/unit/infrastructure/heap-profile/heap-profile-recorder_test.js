@@ -41,6 +41,7 @@ describe('Shared | Unit | Infrastructure | HeapProfile | heap-profile-recorder',
       startSampling,
       getHeapStatistics: () => ({ used_heap_size: 1_000 }),
       getRss: () => 2_000,
+      getMemoryBreakdown: async () => ({ rss: 2_000 }),
       wait: (delay) => {
         waitCalls.push(delay);
         return Promise.resolve();
@@ -94,6 +95,25 @@ describe('Shared | Unit | Infrastructure | HeapProfile | heap-profile-recorder',
       rssBefore: 2_000,
       rssAfter: 9_000,
     });
+  });
+
+  it('reports what the RSS is made of on both sides of the window', async function () {
+    // given
+    const breakdowns = [
+      { rss: 2_000, nativeUnaccounted: 300 },
+      { rss: 9_000, nativeUnaccounted: 4_000 },
+    ];
+    const recordHeapProfile = createHeapProfileRecorder({
+      ...dependencies,
+      getMemoryBreakdown: async () => breakdowns.shift(),
+    });
+
+    // when
+    const result = await recordHeapProfile({ durationMs: 60_000 });
+
+    // then
+    expect(result.memoryBefore).to.deep.equal({ rss: 2_000, nativeUnaccounted: 300 });
+    expect(result.memoryAfter).to.deep.equal({ rss: 9_000, nativeUnaccounted: 4_000 });
   });
 
   it('falls back to the configured duration and sampling interval', async function () {
