@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 printf "This install script will add the following domains to your hosts file:\n\n"
-cat ./scripts/local-domains/hosts.txt
+cat ./docker/local-domains/hosts.txt
 printf "\n"
 
 read -p "Do you want to continue? (y/n) " -n 1 -r
@@ -15,4 +15,4 @@ if [ "$EUID" -ne 0 ]
   exit 1
 fi
 
-npx hostile load ./scripts/local-domains/hosts.txt
+npx hostile load ./docker/local-domains/hosts.txt
