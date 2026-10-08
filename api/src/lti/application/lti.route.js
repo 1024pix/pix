@@ -44,7 +44,6 @@ async function register(server, options, dependencies = { featureToggles }) {
       path: '/api/lti/init',
       options: {
         auth: false,
-        cache: false,
         handler: (request, h) => ltiController.init(request, h),
         notes: ['Cette route initialise un workflow LTI'],
         tags: ['api', 'lti'],
@@ -55,12 +54,21 @@ async function register(server, options, dependencies = { featureToggles }) {
       path: '/api/lti/deep-linking',
       options: {
         auth: false,
-        cache: false,
         handler: (request, h) => ltiController.deepLink(request, h),
         notes: [
-          "Cette route reçoit une deep-linking request et renvoie une deep-linking response. On renvoie l'utilisateur vers moodle avec la deep-linking response" +
-            'via un formulaire auto-submit',
+          'Cette route reçoit une deep-linking request, positionne un Cookie et redirige l’utilisateur vers un formulaire de sélection de campagne sur PixOrga.',
         ],
+        tags: ['api', 'lti'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/lti/select-campaign',
+      options: {
+        // FIXME utiliser une authentification par Cookie
+        auth: false,
+        handler: (request, h) => ltiController.selectCampaign(request, h),
+        notes: ['Cette route renvoie une deep-linking response prêt pour être renvoyée à Moodle.'],
         tags: ['api', 'lti'],
       },
     },
@@ -69,7 +77,6 @@ async function register(server, options, dependencies = { featureToggles }) {
       path: '/api/lti/resource-link',
       options: {
         auth: false,
-        cache: false,
         handler: (request, h) => ltiController.resourceLink(request, h),
         notes: [`Cette route reçoit une resource link request et redirige l'utilisateur vers la ressource demandée`],
         tags: ['api', 'lti'],
