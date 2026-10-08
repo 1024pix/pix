@@ -1,5 +1,18 @@
 {
   local_certs
+  pki {
+    ca local {
+      intermediate_lifetime 365d
+    }
+  }
+}
+
+(long_certs) {
+  tls {
+    issuer internal {
+      lifetime 365d
+    }
+  }
 }
 
 (pix_proxy) {
@@ -12,20 +25,25 @@
 
 app.dev.pix.fr, app.dev.pix.org {
   import pix_proxy 4200
+  import long_certs
 }
 
 orga.dev.pix.fr, orga.dev.pix.org {
   import pix_proxy 4201
+  import long_certs
 }
 
 admin.dev.pix.fr {
   import pix_proxy 4202
+  import long_certs
 }
 
 certif.dev.pix.fr, certif.dev.pix.org {
   import pix_proxy 4203
+  import long_certs
 }
 
 1d.dev.pix.fr, 1d.dev.pix.org {
   import pix_proxy 4205
+  import long_certs
 }
