@@ -28,7 +28,7 @@ export const COMBINED_COURSE_WITHOUT_MODULES = {
       name: 'Je teste mes compétences',
       code: 'CODEX1',
       customResultPageButtonText: 'Continuer',
-      customResultPageButtonUrl: '/parcours/CBNOMOD',
+      customResultPageButtonUrl: '/parcours/CBNOMOD/checkpoint',
       skills: [],
     },
   },
