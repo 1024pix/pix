@@ -1,4 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import CombinedCourseTunnel from 'mon-pix/components/routes/combined-courses/tunnel';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
@@ -280,6 +281,61 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
       // then
       sinon.assert.calledWithExactly(router.replaceWith, 'combined-courses.combined-course.presentation', 'COMBINIX9');
       assert.ok(true);
+    });
+  });
+
+  module('goToItem', function () {
+    test('should transition to campaigns page when starting a campaign', async function (assert) {
+      // given
+      const router = this.owner.lookup('service:router');
+      sinon.stub(router, 'transitionTo');
+
+      const combinedCourseCampaignItem = store.createRecord('combined-course-item', {
+        reference: 'ma-campagne',
+        type: CombinedCourseItemTypes.CAMPAIGN,
+        redirection: 'une+url+chiffree',
+      });
+
+      const combinedCourse = store.createRecord('combined-course');
+      combinedCourse.items.push(combinedCourseCampaignItem);
+
+      // when
+      const screen = await render(<template><CombinedCourseTunnel @combinedCourse={{combinedCourse}} /></template>);
+      await click(screen.getByRole('button', { name: t('pages.combined-courses.items.start-campaign') }));
+
+      // then
+      assert.ok(
+        router.transitionTo.calledWith('campaigns', 'ma-campagne', {
+          queryParams: { redirection: 'une+url+chiffree' },
+        }),
+      );
+    });
+
+    test('should transition to module passage page when starting a module', async function (assert) {
+      // given
+      const router = this.owner.lookup('service:router');
+      sinon.stub(router, 'transitionTo');
+
+      const combinedCourseModuleItem = store.createRecord('combined-course-item', {
+        reference: 'mon-module',
+        shortId: 'monmodule123',
+        type: CombinedCourseItemTypes.MODULE,
+        redirection: 'une+url+chiffree',
+      });
+
+      const combinedCourse = store.createRecord('combined-course');
+      combinedCourse.items.push(combinedCourseModuleItem);
+
+      // when
+      const screen = await render(<template><CombinedCourseTunnel @combinedCourse={{combinedCourse}} /></template>);
+      await click(screen.getByRole('button', { name: t('pages.combined-courses.items.start-module') }));
+
+      // then
+      assert.ok(
+        router.transitionTo.calledWith('module.passage', 'monmodule123', 'mon-module', {
+          queryParams: { redirection: 'une+url+chiffree' },
+        }),
+      );
     });
   });
 });
