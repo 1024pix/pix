@@ -78,11 +78,10 @@
     "test:mon-pix": "cd mon-pix && npm test",
     "test:orga": "cd orga && npm test",
     "test:junior": "cd junior && npm test",
-    "domains:install": "./scripts/local-domains/install",
-    "domains:start": "cd ./scripts/local-domains/ && docker compose up -d",
-    "domains:stop": "cd ./scripts/local-domains/ && docker compose down",
-    "domains:trust-self-signed-certificate:mac": "cd ./scripts/local-domains/ && docker compose cp caddy:/data/caddy/pki/authorities/local/root.crt /tmp/root.crt && sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /tmp/root.crt",
-    "domains:trust-self-signed-certificate:linux": "cd ./scripts/local-domains/ && sudo docker cp caddy:/data/caddy/pki/authorities/local/root.crt /usr/local/share/ca-certificates/root.crt && sudo update-ca-certificates --fresh",
+    "local-domains:start": "docker compose --project-directory ./docker/local-domains/ up -d",
+    "local-domains:stop": "docker compose --project-directory ./docker/local-domains/ down",
+    "local-domains:trust-self-signed-certificate:mac": "docker compose --project-directory ./docker/local-domains/ cp caddy:/data/caddy/pki/authorities/local/root.crt /tmp/root.crt && sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /tmp/root.crt",
+    "local-domains:trust-self-signed-certificate:linux": "sudo docker compose --project-directory ./docker/local-domains/ cp caddy:/data/caddy/pki/authorities/local/root.crt /usr/local/share/ca-certificates/root.crt && sudo update-ca-certificates --fresh",
     "demo-epreuves:update": "./scripts/update-demo-epreuves.sh"
   },
   "devDependencies": {
