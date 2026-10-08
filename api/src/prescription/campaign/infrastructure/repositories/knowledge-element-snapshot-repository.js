@@ -43,7 +43,7 @@ export async function findCampaignParticipationKnowledgeElementSnapshots(campaig
 /**
  *
  * @param {number[]} campaignParticipationIds
- * @returns {Object.<number, KnowledgeElement[]>}
+ * @returns {Promise<Object.<number, KnowledgeElement[]>>}
  */
 export async function findByCampaignParticipationIds(campaignParticipationIds) {
   const knexConn = DomainTransaction.getConnection();

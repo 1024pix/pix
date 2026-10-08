@@ -60,20 +60,27 @@ class KnowledgeElementForParticipationService {
     }
 
     if (campaign.isProfilesCollection || campaign.isAssessment) {
-      return this.knowledgeElementRepository.findUniqByUserId({ userId, limitDate });
+      const snapshotKnowledgeElements = limitDate ? await this.findSnapshot(campaignParticipationId) : null;
+      if (snapshotKnowledgeElements) {
+        return snapshotKnowledgeElements;
+      }
+      return await this.knowledgeElementRepository.findUniqByUserId({ userId, limitDate });
     }
 
     if (campaign.isExam) {
-      const currentSnapshot = await this.knowledgeElementSnapshotRepository.findByCampaignParticipationIds([
-        campaignParticipationId,
-      ]);
-
-      const currentKnowledgeElements = currentSnapshot[campaignParticipationId] ?? [];
+      const currentKnowledgeElements = (await this.findSnapshot(campaignParticipationId)) ?? [];
 
       return currentKnowledgeElements.map((ke) => new KnowledgeElement(ke));
     }
 
     throw new Error(`find knowledge-elements for campaign of type ${campaign.type} not implemented`);
+  }
+
+  async findSnapshot(campaignParticipationId) {
+    const snapshots = await this.knowledgeElementSnapshotRepository.findByCampaignParticipationIds([
+      campaignParticipationId,
+    ]);
+    return snapshots[campaignParticipationId] ?? null;
   }
 
   async findUniqByUsersOrCampaignParticipationIds({ participationInfos, fetchFromSnapshot, skillIds }) {
