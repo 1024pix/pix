@@ -431,6 +431,12 @@ export const config = {
       msBetweenChunks: _getNumber(process.env.LLM_DELETE_CHATS_JOB_MS_BETWEEN_CHUNKS, 10),
     },
   },
+  llmAssistant: {
+    baseUrl: process.env.LLM_ASSISTANT_BASE_URL,
+    apiKey: process.env.LLM_ASSISTANT_API_KEY,
+    model: process.env.LLM_ASSISTANT_MODEL,
+    maxRetries: _getNumber(process.env.LLM_ASSISTANT_MAX_RETRIES, 2),
+  },
   logging: {
     enabled: toBoolean(process.env.LOG_ENABLED),
     logLevel: process.env.LOG_LEVEL || 'info',
