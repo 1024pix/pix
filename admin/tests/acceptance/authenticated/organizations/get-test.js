@@ -277,6 +277,21 @@ module('Acceptance | Organizations | Get', function (hooks) {
         });
       });
 
+      module('Attached Certification Centers tab', function () {
+        test('it should display attached certification centers tab', async function (assert) {
+          // when
+          const screen = await visit(`/organizations/${ORGANIZATION_ID}`);
+
+          // then
+          const navigationTabs = screen.getByRole('navigation', { name: t('pages.organization.navbar.aria-label') });
+          assert.ok(
+            within(navigationTabs).getByRole('link', {
+              name: `${t('pages.organization.navbar.attached-certification-center')}`,
+            }),
+          );
+        });
+      });
+
       module('Places tab', function () {
         module('when PLACES_MANAGEMENT feature is enabled', function () {
           test('it should display places tab', async function (assert) {

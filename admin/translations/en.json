@@ -1897,6 +1897,7 @@
       },
       "navbar": {
         "aria-label": "Organization section navigation",
+        "attached-certification-center": "Link Certif",
         "campaigns": "Campaigns",
         "details": "Details",
         "features": "Features",
