@@ -1,5 +1,24 @@
 # Pix Changelog
 
+# [5.517.0](https://github.com/1024pix/pix/compare/v5.516.0...v5.517.0) (2026-10-08)
+
+### :rocket: Amélioration
+
+- [#17752](https://github.com/1024pix/pix/pull/17752) Pouvoir lancer Moodle en local
+
+### :bug: Correction
+
+- [#17758](https://github.com/1024pix/pix/pull/17758) Afficher la date de naissance des élèves sans décalage de fuseau horaire dans Pix Orga (PIX-24620).
+- [#17761](https://github.com/1024pix/pix/pull/17761) Ajout de style manquant dans les épreuves (PIX-24554).
+
+### :building_construction: Tech
+
+- [#17494](https://github.com/1024pix/pix/pull/17494) :recycle: Publication de session de certification en mode asynchrone (PIX-24581)
+- [#17747](https://github.com/1024pix/pix/pull/17747) Améliorer l'interopérabilité entre les fichiers TypeScript et JavaScript
+- [#17741](https://github.com/1024pix/pix/pull/17741) Créer une structure pour un centre de certification à son détachement d'une organisation (PIX-24396)
+- [#17762](https://github.com/1024pix/pix/pull/17762) Lire le profil partagé d'un participant depuis le snapshot de sa participation.
+- [#17763](https://github.com/1024pix/pix/pull/17763) Surcharger en local le .env.test
+
 # [5.516.0](https://github.com/1024pix/pix/compare/v5.515.0...v5.516.0) (2026-10-07)
 
 ### :rocket: Amélioration
