@@ -62,6 +62,8 @@ export async function buildCoreVersion(knex: Knex) {
         defaultCandidateCapacity: -3,
         defaultProbabilityToPickChallenge: 100,
       }),
+      maxReachableLevel: 7,
+      maxReachablePixScore: 895,
     })
     .returning('id');
   const challenges = await knex('learningcontent.challenges')
