@@ -121,7 +121,10 @@ async function findPaginatedLearnersByOrganizationId({ organizationId, page, fil
     }
   }
 
-  const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
+  const { results, pagination } = await fetchPage({
+    queryBuilder: query,
+    paginationParams: page,
+  });
 
   const learners = results.map((learner) => new OrganizationLearner(learner));
 
@@ -187,7 +190,10 @@ async function findPaginatedLearnersForAdmin({ page, filter, sort }) {
     }
   }
 
-  const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
+  const { results, pagination } = await fetchPage({
+    queryBuilder: query,
+    paginationParams: page,
+  });
 
   const learners = results.map((learner) => new OrganizationLearnerOverviewForAdmin(learner));
 
@@ -243,7 +249,12 @@ async function findPaginatedAttestationStatusForOrganizationLearnersAndKey({
     )
     .from('view-active-organization-learners')
     .join('users', 'users.id', 'view-active-organization-learners.userId')
-    .where({ isDisabled: false, organizationId, isAnonymous: false, hasBeenAnonymised: false })
+    .where({
+      isDisabled: false,
+      organizationId,
+      isAnonymous: false,
+      hasBeenAnonymised: false,
+    })
     .orderByRaw('LOWER("view-active-organization-learners"."lastName") ASC')
     .orderByRaw('LOWER("view-active-organization-learners"."firstName") ASC');
 
@@ -361,7 +372,10 @@ const findByOrganizationIdAndUpdatedAtOrderByDivision = async function ({ organi
     query.whereIn('division', filter.divisions);
   }
 
-  const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
+  const { results, pagination } = await fetchPage({
+    queryBuilder: query,
+    paginationParams: page,
+  });
 
   return {
     data: results.map((result) => new OrganizationLearnerToManage(result)),
@@ -571,6 +585,43 @@ const findAllLearnerWithAtLeastOneParticipationByOrganizationIds = async functio
   return resultByOrganization;
 };
 
+const findWithLastActivityDatePriorTo = async function ({ organizationId, lastActivityDate }) {
+  const knexConn = DomainTransaction.getConnection();
+
+  return await knexConn
+    .with('organizationLearnersWithLastParticipationDate', (qb) => {
+      qb.select('id')
+        .select(
+          knexConn('campaign-participations as cp')
+            .select('cp.createdAt')
+            .where('cp.organizationLearnerId', knexConn.ref('view-active-organization-learners.id'))
+            .orderBy('cp.createdAt', 'desc')
+            .limit(1)
+            .as('lastParticipationDate'),
+        )
+        .from('view-active-organization-learners')
+        .where('organizationId', organizationId)
+        .where('updatedAt', '<', lastActivityDate);
+    })
+    .select('*')
+    .from('organizationLearnersWithLastParticipationDate')
+    .where('lastParticipationDate', '<', lastActivityDate)
+    .orWhereNull('lastParticipationDate')
+    .orderBy('id', 'asc');
+};
+
+// recherche top-N (la plus parmi, la moins parmi)
+// Ministère des Armées
+// faire une page de journal sur cet explo
+// asymptote logarithmique
+// use index luke
+// possibilité 1 : orderBy createdAt desc + distinct
+// possibilité 2 : groupBy + max + having
+// possibilité 3 : requête + sous requête
+// possibilité 4 : rank over
+// possibilité 5 : cross join lateral
+// explain analyse buffer
+
 export {
   countByOrganizationsWhichNeedToComputeCertificability,
   findAllLearnerWithAtLeastOneParticipationByOrganizationId,
@@ -585,6 +636,7 @@ export {
   findPaginatedLearnersByOrganizationId,
   findPaginatedLearnersForAdmin,
   findUserIdsFromFilters,
+  findWithLastActivityDatePriorTo,
   get,
   getAttestationsForOrganizationLearnersAndKey,
   getLatestOrganizationLearner,
