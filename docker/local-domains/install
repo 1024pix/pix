@@ -4,7 +4,7 @@ printf "This install script will add the following domains to your hosts file:\n
 cat ./docker/local-domains/hosts.txt
 printf "\n"
 
-read -p "Do you want to continue? (y/n) " -n 1 -r
+read -p "Do you want to continue? (y/N) " -n 1 -r
 printf "\n"
 if [[ $REPLY != "y" ]]; then
   exit

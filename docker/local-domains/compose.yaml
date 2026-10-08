@@ -8,7 +8,7 @@ services:
       - 443:443
       - 443:443/udp
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
     extra_hosts:
@@ -17,6 +17,4 @@ services:
       - API_HOST=host.docker.internal
 volumes:
   caddy_data:
-    external: false
   caddy_config:
-    external: false
