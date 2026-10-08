@@ -19,13 +19,17 @@ module('Acceptance | Authenticated | Certification-V2', function (hooks) {
     this.url = this.owner.lookup('service:url');
   });
 
-  test('should display user-certification component', async function (assert) {
+  test('should display dashboard page', async function (assert) {
     await authenticateByEmail(user);
 
     const screen = await visit('/certifications-v2');
 
     assert
       .dom(screen.getByRole('heading', { name: t('pages.certifications-dashboard.user-certifications.title') }))
+      .exists();
+
+    assert
+      .dom(screen.getByRole('button', { name: t('pages.certifications-dashboard.enrolment-banner.action') }))
       .exists();
   });
 });
