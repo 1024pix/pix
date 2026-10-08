@@ -134,5 +134,13 @@ export default async function publishSessionWithValidatedCertification({
 
   await databaseBuilder.commit();
 
-  await sessionManagementUseCases.publishSession({ sessionId });
+  const publishedAt = new Date();
+  await knex('finalized-sessions').where('sessionId', sessionId).update({ publishedAt: publishedAt });
+
+  await knex('certification-courses')
+    .where('sessionId', sessionId)
+    .update({ isPublished: true, updatedAt: publishedAt });
+
+  await knex('sessions').where({ id: sessionId }).update({ publishedAt });
+  await databaseBuilder.commit();
 }
