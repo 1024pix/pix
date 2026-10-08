@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as dataFetcher from '../../../../../../src/evaluation/domain/services/algorithm-methods/data-fetcher.js';
+import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', function () {
@@ -46,10 +47,11 @@ describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', f
         userId: 5678899,
         isImproving: false,
       });
-      const answer = Symbol('answer');
-      const challenges = Symbol('challenge');
+      const skill = domainBuilder.buildSkill({ id: 'skill1' });
+      const skills = [skill];
+      const challenges = [domainBuilder.evaluation.buildSmartRandomChallenge({ id: 'challenge1', skillId: 'skill1' })];
+      const answer = domainBuilder.buildAnswer({ challengeId: 'challenge1', result: AnswerStatus.KO });
       const knowledgeElements = Symbol('knowledgeElements');
-      const skills = Symbol('skills');
       const isRetrying = false;
       const filteredKnowledgeElements = Symbol('filteredKnowledgeElements');
 
@@ -78,6 +80,8 @@ describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', f
           isImproving: true,
           createdAt: assessment.createdAt,
           isFromCampaign: true,
+          answeredSkills: [{ skill, isOk: false }],
+          targetSkills: skills,
         })
         .resolves(filteredKnowledgeElements);
 
@@ -114,10 +118,11 @@ describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', f
         userId: 5678899,
         isImproving: false,
       });
-      const answer = Symbol('answer');
-      const challenges = Symbol('challenge');
+      const skill = domainBuilder.buildSkill({ id: 'skill1' });
+      const skills = [skill];
+      const challenges = [domainBuilder.evaluation.buildSmartRandomChallenge({ id: 'challenge1', skillId: 'skill1' })];
+      const answer = domainBuilder.buildAnswer({ challengeId: 'challenge1', result: AnswerStatus.OK });
       const knowledgeElements = Symbol('knowledgeElements');
-      const skills = Symbol('skills');
       const isRetrying = true;
       const filteredKnowledgeElements = Symbol('filteredKnowledgeElements');
 
@@ -146,6 +151,8 @@ describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', f
           isRetrying,
           createdAt: assessment.createdAt,
           isImproving: true,
+          answeredSkills: [{ skill, isOk: true }],
+          targetSkills: skills,
         })
         .resolves(filteredKnowledgeElements);
 
@@ -201,10 +208,10 @@ describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', f
         filterKnowledgeElements: sinon.stub(),
       };
 
-      answer = domainBuilder.buildAnswer();
-      challenges = [domainBuilder.evaluation.buildSmartRandomChallenge()];
+      skills = [domainBuilder.buildSkill({ id: 'skill1' })];
+      challenges = [domainBuilder.evaluation.buildSmartRandomChallenge({ id: 'challenge1', skillId: 'skill1' })];
+      answer = domainBuilder.buildAnswer({ challengeId: 'challenge1', result: AnswerStatus.KO });
       knowledgeElements = [domainBuilder.buildKnowledgeElement()];
-      skills = [domainBuilder.buildSkill()];
       const assessment = domainBuilder.buildAssessment.ofTypeCompetenceEvaluation({
         isImproving: true,
       });
@@ -221,6 +228,8 @@ describe('Evaluation | Unit | Domain | services | smart-random | dataFetcher', f
           isFromCampaign: false,
           isImproving: assessment.isImproving,
           createdAt: assessment.createdAt,
+          answeredSkills: [{ skill: skills[0], isOk: false }],
+          targetSkills: skills,
         })
         .resolves(filteredKnowledgeElements);
 

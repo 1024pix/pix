@@ -115,6 +115,136 @@ describe('Unit | Service | ImprovementService', function () {
       });
     });
 
+    context('when the answers of the assessment are given', function () {
+      const tube = 'tube_batailles';
+      const level2 = domainBuilder.buildSkill({ id: 'batailles2', tubeId: tube, difficulty: 2 });
+      const level3 = domainBuilder.buildSkill({ id: 'batailles3', tubeId: tube, difficulty: 3 });
+      const level4 = domainBuilder.buildSkill({ id: 'batailles4', tubeId: tube, difficulty: 4 });
+      const otherTubeLevel3 = domainBuilder.buildSkill({ id: 'présidents3', tubeId: 'tube_présidents', difficulty: 3 });
+      const targetSkills = [level2, level3, level4, otherTubeLevel3];
+      const assessmentStart = new Date('2026-10-07T10:00:00Z');
+      const duringAssessment = new Date('2026-10-07T10:05:00Z');
+      const failure = (skill, createdAt) =>
+        domainBuilder.buildKnowledgeElement({
+          skillId: skill.id,
+          status: 'invalidated',
+          createdAt,
+          assessmentId: null,
+        });
+
+      it('should keep a failure made during the assessment only when its skill was answered, or failed below it', function () {
+        // given: every failure of the tube is dated during the assessment, as for a user stored as knowledge states
+        const knowledgeElements = [
+          failure(level2, duringAssessment),
+          failure(level3, duringAssessment),
+          failure(level4, duringAssessment),
+          failure(otherTubeLevel3, duringAssessment),
+        ];
+
+        // when: the assessment answered level 3 wrong, nothing else
+        const kept = improvementService.filterKnowledgeElements({
+          knowledgeElements,
+          isImproving: true,
+          createdAt: assessmentStart,
+          answeredSkills: [{ skill: level3, isOk: false }],
+          targetSkills,
+        });
+
+        // then: level 3 was answered, level 4 is invalidated by it; levels 2 and the other tube are not
+        expect(kept.map(({ skillId }) => skillId)).to.deep.equal(['batailles3', 'batailles4']);
+      });
+
+      it('should keep a failure made during the assessment by an answer, told by its assessment id', function () {
+        // given: a knowledge element created by today's code, not rebuilt from a knowledge state
+        const createdByAnAnswer = domainBuilder.buildKnowledgeElement({
+          skillId: level2.id,
+          status: 'invalidated',
+          createdAt: duringAssessment,
+          assessmentId: 456,
+        });
+
+        // when: whatever the answers say
+        const kept = improvementService.filterKnowledgeElements({
+          knowledgeElements: [createdByAnAnswer],
+          isImproving: true,
+          createdAt: assessmentStart,
+          answeredSkills: [],
+          targetSkills,
+        });
+
+        // then
+        expect(kept).to.deep.equal([createdByAnAnswer]);
+      });
+
+      it('should not keep a failure above a level the assessment validated', function () {
+        // when
+        const kept = improvementService.filterKnowledgeElements({
+          knowledgeElements: [failure(level2, duringAssessment), failure(level3, duringAssessment)],
+          isImproving: true,
+          createdAt: assessmentStart,
+          answeredSkills: [{ skill: level2, isOk: true }],
+          targetSkills,
+        });
+
+        // then
+        expect(kept.map(({ skillId }) => skillId)).to.deep.equal(['batailles2']);
+      });
+
+      it('should keep a failure made during the assessment on a skill outside the target skills', function () {
+        // when
+        const kept = improvementService.filterKnowledgeElements({
+          knowledgeElements: [failure({ id: 'outside' }, duringAssessment)],
+          isImproving: true,
+          createdAt: assessmentStart,
+          answeredSkills: [],
+          targetSkills,
+        });
+
+        // then
+        expect(kept.map(({ skillId }) => skillId)).to.deep.equal(['outside']);
+      });
+
+      it('should read the failures made before the assessment by their date, as without answers', function () {
+        // given
+        const knowledgeElements = [failure(level2, '2026-10-05'), failure(level3, '2020-01-01')];
+
+        // when
+        const kept = improvementService.filterKnowledgeElements({
+          knowledgeElements,
+          isImproving: true,
+          createdAt: assessmentStart,
+          minimumDelayInDaysBeforeImproving: 4,
+          answeredSkills: [
+            { skill: level2, isOk: true },
+            { skill: level3, isOk: false },
+          ],
+          targetSkills,
+        });
+
+        // then: two days old is too recent, 2020 is not, whatever the answers
+        expect(kept.map(({ skillId }) => skillId)).to.deep.equal(['batailles2']);
+      });
+
+      it('should apply the same reading on a campaign retry', function () {
+        // when
+        const kept = improvementService.filterKnowledgeElements({
+          knowledgeElements: [
+            failure(level2, '2026-10-05'),
+            failure(level3, duringAssessment),
+            failure(level4, duringAssessment),
+          ],
+          isRetrying: true,
+          isFromCampaign: true,
+          createdAt: assessmentStart,
+          answeredSkills: [{ skill: level4, isOk: false }],
+          targetSkills,
+        });
+
+        // then: before the start, nothing is kept; during, only the answered level
+        expect(kept.map(({ skillId }) => skillId)).to.deep.equal(['batailles4']);
+      });
+    });
+
     context('when knowledgeElements are calculated for campaign case', function () {
       it('should return all validated ke, and ke acquired since the assessment started, on retrying case', function () {
         // when
