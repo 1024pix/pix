@@ -159,6 +159,8 @@ export const schema = Joi.object({
   LOG_FOR_HUMANS: Joi.string().optional().valid('true', 'false'),
   LOG_LEVEL: Joi.string().optional().valid('silent', 'fatal', 'error', 'warn', 'info', 'debug', 'trace'),
   LOG_OPS_METRICS: Joi.string().optional().valid('true', 'false'),
+  LTI_AUTHORIZED_PLATFORMS: Joi.string().optional(),
+  LTI_PRESCRIBER_ACCESS_TOKEN_LIFESPAN: Joi.string().optional(),
   MAILING_ENABLED: Joi.string().optional().valid('true', 'false'),
   MAILING_PROVIDER: Joi.string().optional().valid('brevo', 'mailpit'),
   NODE_ENV: Joi.string().optional().valid('development', 'test', 'production'),
@@ -460,6 +462,7 @@ export const config = {
   lti: {
     authorizedPlatforms: process.env.LTI_AUTHORIZED_PLATFORMS?.split(',') ?? [],
     jwkModulusLength: _getNumber(process.env.LTI_JWK_MODULUS_LENGTH, 4096),
+    prescriberAccessTokenLifespan: process.env.LTI_PRESCRIBER_ACCESS_TOKEN_LIFESPAN ?? '10m',
   },
   mailing: {
     enabled: toBoolean(process.env.MAILING_ENABLED),

@@ -37,8 +37,9 @@ export class LtiPrescriberAccessToken {
 
   static generate({ organizationIds, scope, audience, sessionId }) {
     return tokenService.encodeToken(
-      { organizationIds, scope, aud:audience, sid: sessionId },
+      { organizationIds, scope, aud: audience, sid: sessionId },
       config.authentication.secret,
+      config.lti.prescriberAccessTokenLifespan,
     );
   }
 }
