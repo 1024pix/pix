@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { config } from '../../../../../../config/config.js';
 import {
   CampaignParticipationStatuses,
   CombinedCourseParticipationStatuses,
@@ -1308,6 +1309,26 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
       });
 
       expect(combinedCourseDetails.hasReward).to.be.false;
+    });
+  });
+
+  describe('#setEncryptedUrl', function () {
+    it('should correctly encrypt the combined course tunnel url', async function () {
+      // given
+      const combinedCourseDetails = domainBuilder.buildCombinedCourseDetails({
+        code,
+        combinedCourseItems: [],
+        cryptoService,
+      });
+
+      // when
+      await combinedCourseDetails.setEncryptedUrl();
+
+      // then
+      expect(cryptoService.encrypt).to.have.been.calledOnceWithExactly(
+        '/parcours/code/checkpoint',
+        config.module.secret,
+      );
     });
   });
 });
