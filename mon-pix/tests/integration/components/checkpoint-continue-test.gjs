@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import CheckpointContinue from 'mon-pix/components/checkpoint-continue';
+import AnswerButtonContinue from 'mon-pix/components/assessments/answer-button-continue';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -14,7 +14,7 @@ module('Integration | Component | checkpoint-continue', function (hooks) {
 
     // when
     const screen = await render(
-      <template><CheckpointContinue @assessmentId={{1}} @nextPageButtonText={{nextPageButtonText}} /></template>,
+      <template><AnswerButtonContinue @assessmentId={{1}} @nextPageButtonText={{nextPageButtonText}} /></template>,
     );
 
     // then

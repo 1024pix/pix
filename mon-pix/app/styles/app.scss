@@ -60,7 +60,6 @@
 @use 'components/challenge-illustration' as *;
 @use 'components/challenge-item' as *;
 @use 'components/challenge-statement' as *;
-@use 'components/checkpoint' as *;
 @use 'components/circle-chart' as *;
 @use 'components/comparison-window' as *;
 @use 'components/choice-chip' as *;
@@ -176,6 +175,8 @@
 @use 'authentication/sso-selection-form' as *;
 @use 'user-account/delete-account-section' as *;
 @use 'user-account/user-account-navigation' as *;
+@use 'assessments/answer-statuses' as *;
+@use 'assessments/answer-button-continue' as *;
 @use 'ui/assessment/banner' as *;
 @use 'ui/assessment/progress-bar' as *;
 
