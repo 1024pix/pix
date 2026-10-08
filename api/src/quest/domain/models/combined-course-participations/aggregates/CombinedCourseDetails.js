@@ -25,7 +25,7 @@ export class CombinedCourseDetails extends CombinedCourse {
   recommendedModuleIdsForUser = [];
   cryptoService = null;
   items = [];
-  #combinedCourseUrl = null;
+  #combinedCourseTunnelUrl = null;
   #participation = null;
   dataForQuest = null;
   reward = null;
@@ -40,7 +40,10 @@ export class CombinedCourseDetails extends CombinedCourse {
   }
 
   async setEncryptedUrl() {
-    this.#combinedCourseUrl = await this.cryptoService.encrypt('/parcours/' + this.code, config.module.secret);
+    this.#combinedCourseTunnelUrl = await this.cryptoService.encrypt(
+      '/parcours/' + this.code + '/checkpoint',
+      config.module.secret,
+    );
   }
 
   setRecommandableModuleIds(recommendableModuleIds) {
@@ -136,7 +139,7 @@ export class CombinedCourseDetails extends CombinedCourse {
       id: module.id,
       reference: module.slug,
       title: module.title,
-      redirection: this.#combinedCourseUrl,
+      redirection: this.#combinedCourseTunnelUrl,
       participationStatus,
       isCompleted,
       isLocked,
