@@ -78,7 +78,6 @@
     "test:mon-pix": "cd mon-pix && npm test",
     "test:orga": "cd orga && npm test",
     "test:junior": "cd junior && npm test",
-    "local-domains:install": "./docker/local-domains/install",
     "local-domains:start": "docker compose --project-directory ./docker/local-domains/ up -d",
     "local-domains:stop": "docker compose --project-directory ./docker/local-domains/ down",
     "local-domains:trust-self-signed-certificate:mac": "docker compose --project-directory ./docker/local-domains/ cp caddy:/data/caddy/pki/authorities/local/root.crt /tmp/root.crt && sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /tmp/root.crt",
