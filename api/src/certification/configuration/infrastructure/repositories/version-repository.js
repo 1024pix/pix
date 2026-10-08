@@ -1,6 +1,6 @@
 // @ts-check
 /**
- * @typedef {import("../../../shared/domain/models/Scopes.js").SCOPES} SCOPES
+ * @typedef {typeof import("../../../shared/domain/models/Scopes.js").SCOPES} SCOPES
  * @typedef {import("../../../../shared/domain/models/Challenge.js").Challenge} Challenge
  */
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';

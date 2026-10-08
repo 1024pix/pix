@@ -1,6 +1,6 @@
 // @ts-check
 /**
- * @typedef {import ('../../../shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
+ * @typedef {typeof import ('../../../shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
  */
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
