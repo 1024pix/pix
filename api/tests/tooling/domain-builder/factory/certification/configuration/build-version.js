@@ -10,6 +10,7 @@ import {
 } from '../../../../../../src/certification/shared/domain/constants.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
+import { PIX_COUNT_BY_LEVEL } from '../../../../../../src/shared/constants.js';
 
 /**
  * @typedef {import('../../../../../../src/certification/shared/domain/models/Scopes.js').SCOPES} SCOPES
@@ -37,6 +38,8 @@ class VersionBuilder {
     this.minimumAnswersRequiredToValidateACertification = DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION;
     this.globalScoringConfiguration = [];
     this.competencesScoringConfiguration = [];
+    this.maxReachableLevel = null;
+    this.maxReachablePixScore = null;
     this.challengesConfiguration = null;
     this.comments = null;
     this.externalCalibrationId = null;
@@ -128,6 +131,16 @@ class VersionBuilder {
     this.challengesConfiguration = challengesConfiguration ?? this.challengesConfiguration;
     this.comments = comments ?? this.comments;
     this.externalCalibrationId = externalCalibrationId ?? this.externalCalibrationId;
+    this.maxReachableLevel = this.globalScoringConfiguration?.length
+      ? this.globalScoringConfiguration.length - 1
+      : null;
+    this.maxReachablePixScore =
+      this.globalScoringConfiguration?.length && this.competencesScoringConfiguration?.length
+        ? (this.globalScoringConfiguration.length - 1) *
+            this.competencesScoringConfiguration.length *
+            PIX_COUNT_BY_LEVEL -
+          1
+        : null;
     return this;
   }
 
@@ -170,6 +183,8 @@ class VersionBuilder {
       externalCalibrationId: version.externalCalibrationId,
       status: version.status,
       comments: version.comments,
+      maxReachableLevel: version.maxReachableLevel,
+      maxReachablePixScore: version.maxReachablePixScore,
     });
 
     for (const tubeId of version.tubeIds) {
@@ -215,6 +230,14 @@ class VersionBuilder {
       comments: this.comments,
       status: this.status,
       tubeIds: this.tubeIds,
+      maxReachableLevel: this.globalScoringConfiguration?.length ? this.globalScoringConfiguration.length - 1 : null,
+      maxReachablePixScore:
+        this.globalScoringConfiguration?.length && this.competencesScoringConfiguration?.length
+          ? (this.globalScoringConfiguration.length - 1) *
+              this.competencesScoringConfiguration.length *
+              PIX_COUNT_BY_LEVEL -
+            1
+          : null,
     });
   }
 

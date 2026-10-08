@@ -317,6 +317,8 @@ class VersionDetailsBuilder {
       enablePassageByAllCompetences: this.enablePassageByAllCompetences,
       externalCalibrationId: this.externalCalibrationId,
       globalScoringConfiguration: this.globalScoringConfiguration,
+      maxReachableLevel: null,
+      maxReachablePixScore: null,
       comments: this.comments,
       status: this.status,
       areas: this.areas,
