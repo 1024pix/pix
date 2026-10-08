@@ -24,6 +24,7 @@ import { identityAccessManagementRoutes } from './src/identity-access-management
 import * as serverAuthentication from './src/identity-access-management/infrastructure/server-authentication.js';
 import { learningContentRoutes } from './src/learning-content/routes.js';
 import { llmRoutes } from './src/llm/routes.js';
+import { llmAssistantRoutes } from './src/llm-assistant/routes.js';
 import { ltiRoutes } from './src/lti/application/lti.route.js';
 import { organizationalEntitiesRoutes } from './src/organizational-entities/application/routes.js';
 import { campaignRoutes } from './src/prescription/campaign/routes.js';
@@ -210,6 +211,7 @@ const setupRoutesAndPlugins = async function (server) {
       bannerRoutes,
       announcementRoutes,
       llmRoutes,
+      llmAssistantRoutes,
       ltiRoutes,
       rootRoute,
     ].flat(),
