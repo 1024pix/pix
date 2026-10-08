@@ -3,6 +3,7 @@ import sinon from 'sinon';
 
 import { getAllIdentityProviders } from '../../../../../src/identity-access-management/domain/usecases/get-all-identity-providers.usecase.js';
 
+// TODO: Transform to integration test
 describe('Unit | Identity Access Management | Domain | UseCases | get-all-identity-providers', function () {
   it('returns oidc providers from oidcAuthenticationServiceRegistry', async function () {
     // given
