@@ -1,9 +1,11 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import EnrolmentBanner from 'mon-pix/components/certifications/dashboard/enrolment-banner';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import { waitForDialogClose } from '../../../../helpers/wait-for';
 
 module('Integration | Component | Certifications | Dashboard | Enrolment banner', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -17,6 +19,7 @@ module('Integration | Component | Certifications | Dashboard | Enrolment banner'
 
       // when
       const screen = await renderScreen(<template><EnrolmentBanner @userEligibility={{userEligibility}} /></template>);
+
       // then
       assert
         .dom(
@@ -44,6 +47,7 @@ module('Integration | Component | Certifications | Dashboard | Enrolment banner'
 
       // when
       const screen = await renderScreen(<template><EnrolmentBanner @userEligibility={{userEligibility}} /></template>);
+
       // then
       assert
         .dom(
@@ -56,12 +60,28 @@ module('Integration | Component | Certifications | Dashboard | Enrolment banner'
       assert
         .dom(screen.getByText(t('pages.certifications-dashboard.enrolment-banner.certifiable.description')))
         .exists();
-
       assert.notOk(
         screen
           .getByRole('button', { name: t('pages.certifications-dashboard.enrolment-banner.action') })
           .getAttribute('aria-disabled'),
       );
+    });
+
+    test('should display the modal when click on action button', async function (assert) {
+      // given
+      const userEligibility = {
+        isCertifiable: true,
+      };
+
+      // when
+      const screen = await renderScreen(<template><EnrolmentBanner @userEligibility={{userEligibility}} /></template>);
+      await click(screen.getByRole('button', { name: t('pages.certifications-dashboard.enrolment-banner.action') }));
+
+      // then
+      assert.dom(screen.getByRole('dialog', { name: t('pages.certifications-dashboard.modal.title') })).exists();
+      await click(screen.getByRole('button', { name: 'Fermer' }));
+      await waitForDialogClose();
+      assert.dom(screen.queryByRole('dialog')).doesNotExist();
     });
   });
 });

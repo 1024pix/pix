@@ -1009,6 +1009,10 @@
           "title": "Vous n’êtes pas encore certifiable"
         }
       },
+      "modal": {
+        "sub-title": "Tous les champs sont obligatoires.",
+        "title": "Rejoindre une session"
+      },
       "user-certifications": {
         "title": "Mes certifications",
         "with-certification-text": "Accédez à l’ensemble de vos certifications Pix. Consultez les détails et téléchargez vos certificats.",
