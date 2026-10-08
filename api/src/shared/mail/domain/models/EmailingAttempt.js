@@ -1,4 +1,4 @@
-class EmailingAttempt {
+export class EmailingAttempt {
   static errorCode = {
     PROVIDER_ERROR: 'PROVIDER_ERROR',
     INVALID_DOMAIN: 'INVALID_DOMAIN',
@@ -36,9 +36,6 @@ class EmailingAttempt {
     return new EmailingAttempt(email, AttemptStatus.FAILURE, errorCode, errorMessage);
   }
 }
-
-export { EmailingAttempt };
-
 const AttemptStatus = {
   SUCCESS: 'SUCCESS',
   FAILURE: 'FAILURE',

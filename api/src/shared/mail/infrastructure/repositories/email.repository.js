@@ -8,7 +8,7 @@ import { sendEmailJobRepository } from './jobs/send-email.job-repository.js';
  * @param {Email} email Email instance
  * @returns Promise<EmailingAttempt>
  */
-async function sendEmail(email, dependencies = { mailerService }) {
+export async function sendEmail(email, dependencies = { mailerService }) {
   if (!email || !(email instanceof Email)) {
     throw new Error('An instance of Email is required.');
   }
@@ -22,12 +22,10 @@ async function sendEmail(email, dependencies = { mailerService }) {
  * @param {Email} email Email instance
  * @returns Promise<void>
  */
-async function sendEmailAsync(email, dependencies = { sendEmailJobRepository }) {
+export async function sendEmailAsync(email, dependencies = { sendEmailJobRepository }) {
   if (!email || !(email instanceof Email)) {
     throw new Error('An instance of Email is required.');
   }
 
   return dependencies.sendEmailJobRepository.performAsync(email.payload);
 }
-
-export { sendEmail, sendEmailAsync };

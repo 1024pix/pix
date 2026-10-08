@@ -103,5 +103,8 @@ function _someHaveFailed(emailingAttempts) {
 }
 
 function _failedAttemptsEmail(emailingAttempts) {
-  return emailingAttempts.filter((emailAttempt) => emailAttempt.hasFailed()).map((emailAttempt) => emailAttempt.email);
+  const failedEmailAttempts = emailingAttempts.filter((emailAttempt) => emailAttempt.hasFailed());
+  return failedEmailAttempts.map((emailAttempt) => {
+    return { email: emailAttempt.email, code: emailAttempt.errorCode, message: emailAttempt.errorMessage };
+  });
 }

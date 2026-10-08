@@ -93,7 +93,7 @@ describe('Unit | domain | usecases | send-session-results-to-referers', function
         .withArgs({ id: session.certificationCenterId })
         .returns([{ email: 'BADEMAIL@example@com' }]);
 
-      const emailAttempt = EmailingAttempt.failure('BADEMAIL@example@com');
+      const emailAttempt = EmailingAttempt.failure('BADEMAIL@example@com', 'code34', 'test error');
       mailService.sendNotificationToCertificationCenterRefererForCleaResults.returns(emailAttempt);
 
       const error = await catchErr(sendCleaSessionResultsToReferers)({
@@ -105,7 +105,7 @@ describe('Unit | domain | usecases | send-session-results-to-referers', function
 
       expect(error).to.be.an.instanceof(SendingEmailToRefererError);
       expect(error.message).to.equal(
-        "Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : BADEMAIL@example@com",
+        "Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : BADEMAIL@example@com (code34: test error)",
       );
     });
   });
