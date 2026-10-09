@@ -61,7 +61,6 @@
 @use 'components/challenge-item' as *;
 @use 'components/challenge-statement' as *;
 @use 'components/circle-chart' as *;
-@use 'components/comparison-window' as *;
 @use 'components/choice-chip' as *;
 @use 'components/reset-campaign-participation-modal' as *;
 @use 'components/tabs' as *;
@@ -177,6 +176,7 @@
 @use 'user-account/user-account-navigation' as *;
 @use 'assessments/answer-statuses' as *;
 @use 'assessments/answer-button-continue' as *;
+@use 'assessments/comparison-window' as *;
 @use 'ui/assessment/banner' as *;
 @use 'ui/assessment/progress-bar' as *;
 

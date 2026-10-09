@@ -1,9 +1,8 @@
 import { PixBannerAlert } from '@1024pix/nebulix-ember';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
-import CheckpointContinue from 'mon-pix/components/assessments/answer-button-continue';
 import AnswerStatuses from 'mon-pix/components/assessments/answer-statuses';
-import ComparisonWindow from 'mon-pix/components/comparison-window';
+import ComparisonWindow from 'mon-pix/components/assessments/comparison-window';
 import InElement from 'mon-pix/components/in-element';
 import LevelupNotif from 'mon-pix/components/levelup-notif';
 import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
