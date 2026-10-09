@@ -2,10 +2,10 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
-import ResultItem from 'mon-pix/components/result-item';
+import ResultItem from 'mon-pix/components/assessments/result-item';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | result-item', function (hooks) {
   setupIntlRenderingTest(hooks);

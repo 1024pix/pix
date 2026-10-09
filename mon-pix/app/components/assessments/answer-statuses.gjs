@@ -2,7 +2,7 @@ import { PixBlock } from '@1024pix/nebulix-ember';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
 import CheckpointContinue from 'mon-pix/components/assessments/answer-button-continue';
-import ResultItem from 'mon-pix/components/result-item';
+import ResultItem from 'mon-pix/components/assessments/result-item';
 export default class AnswerStatuses extends Component {
   get title() {
     return this.args.shouldDisplayAnswers
