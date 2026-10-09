@@ -7,6 +7,27 @@
 .challenge-statement {
   /* XXX required to let "help tooltip" displaying well even if instruction section is short (1 line) */
   overflow: visible;
+
+  /* Following rules are required to display courses correctly */
+  p + p {
+    margin-top: var(--pix-spacing-1x);
+  }
+
+  h2 {
+    font-weight: bold;
+    font-size: 1.5em;
+  }
+
+  ol,
+  ul {
+    margin: 1em 0;
+    padding-inline-start: 40px;
+    list-style-type: decimal;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
 }
 
 .challenge-statement__instruction-section {

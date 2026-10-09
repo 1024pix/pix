@@ -1,6 +1,6 @@
 {
   "name": "e2e-playwright",
-  "version": "1.399.0",
+  "version": "1.403.0",
   "type": "module",
   "private": true,
   "description": "Permet d'exécuter des tests de bout en bout sur la plateforme Pix",
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@1024pix/eslint-plugin": "^3.0.4",
-    "@axe-core/playwright": "^4.10.1",
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "1.63.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.0.0",

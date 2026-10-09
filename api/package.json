@@ -1,6 +1,6 @@
 {
   "name": "pix-api",
-  "version": "5.514.0",
+  "version": "5.518.0",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques",
   "homepage": "https://github.com/1024pix/pix#readme",
@@ -26,8 +26,8 @@
     "datamart:prepare": "run-s datamart:delete datamart:create datamart:migrate",
     "datamart:seed": "NODE_OPTIONS=\"--max-old-space-size=380\" knex --knexfile datamart/knexfile.js seed:run",
     "datamart:seed:calibrations": "NODE_OPTIONS=\"--max-old-space-size=380\" knex --knexfile datamart/knexfile.js seed:run --specific=populate-calibrations.js",
-    "datamart:seed:sco": "NODE_OPTIONS=\"--max-old-space-size=380\" knex --knexfile datamart/knexfile.js seed:run --specific=populate-sco-datamart.js",
-    "datamart:seed:verification-code": "NODE_OPTIONS=\"--max-old-space-size=380\" knex --knexfile datamart/knexfile.js seed:run --specific=populate-verification-code-datamart.js",
+    "datamart:seed:sco-certification-results": "NODE_OPTIONS=\"--max-old-space-size=380\" knex --knexfile datamart/knexfile.js seed:run --specific=populate-sco-certification-results.js",
+    "datamart:seed:certification-results": "NODE_OPTIONS=\"--max-old-space-size=380\" knex --knexfile datamart/knexfile.js seed:run --specific=populate-certification-results.js",
     "datamart:reset": "npm run datamart:prepare && npm run datamart:seed",
     "datawarehouse:create": "node scripts/database/create-database --name datawarehouse",
     "datawarehouse:delete": "node scripts/database/drop-database --name datawarehouse",
@@ -68,6 +68,7 @@
     "start": "node -r ./tracing.js index.js",
     "start:inspect": "node --inspect -r ./tracing.js index.js",
     "start:maddo": "MADDO=true node -r ./tracing.maddo.js index.maddo.js",
+    "start:maddo:job": "node -r ./tracing.worker.js worker.js MADDO",
     "start:watch": "npm run dev",
     "start:job": "node -r ./tracing.worker.js worker.js",
     "start:job:watch": "nodemon -r ./tracing.worker.js worker.js",
@@ -179,6 +180,7 @@
     "@types/pg": "^8.23.1",
     "@types/sinon": "^22.0.0",
     "@types/sinon-chai": "^4.0.0",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "chai": "^6.2.2",
     "chai-as-promised": "^8.0.2",
     "dependency-cruiser": "^18.0.0",
@@ -200,7 +202,7 @@
     "schemalint": "^2.3.2",
     "sinon": "^22.0.0",
     "sinon-chai": "^4.0.0",
-    "typescript": "~6.0.3",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "typescript-eslint": "^8.69.0"
   },
   "overrides": {

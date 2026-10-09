@@ -434,17 +434,17 @@ describe('Certification | Enrolment | Acceptance | Application | Routes | certif
               {
                 code: CandidateCreatedEvent.name,
                 when: createdAt,
-                metadata: null,
+                metadata: {},
               },
               {
                 code: CandidateReconciledEvent.name,
                 when: reconciledAt,
-                metadata: null,
+                metadata: {},
               },
               {
                 code: CandidateNotCertifiableEvent.name,
                 when: reconciledAt,
-                metadata: null,
+                metadata: {},
               },
             ],
           },

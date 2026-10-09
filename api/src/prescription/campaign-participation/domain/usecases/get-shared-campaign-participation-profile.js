@@ -7,7 +7,7 @@ const getSharedCampaignParticipationProfile = async function ({
   campaignId,
   campaignParticipationRepository,
   campaignRepository,
-  knowledgeElementRepository,
+  knowledgeElementForParticipationService,
   competenceRepository,
   areaRepository,
   organizationLearnerRepository,
@@ -24,11 +24,14 @@ const getSharedCampaignParticipationProfile = async function ({
 
   const { multipleSendings: campaignAllowsRetry } = await campaignRepository.get(campaignId);
   const isOrganizationLearnerActive = await organizationLearnerRepository.isActive({ campaignId, userId });
-  const knowledgeElementsGroupedByCompetenceId = await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId(
-    {
-      userId,
-      limitDate: campaignParticipation.sharedAt,
-    },
+  const knowledgeElements = await knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId({
+    userId,
+    campaignParticipationId: campaignParticipation.id,
+    limitDate: campaignParticipation.sharedAt,
+  });
+  const knowledgeElementsGroupedByCompetenceId = Object.groupBy(
+    knowledgeElements,
+    (knowledgeElement) => knowledgeElement.competenceId,
   );
 
   const competences = await competenceRepository.listPixCompetencesOnly({ locale });

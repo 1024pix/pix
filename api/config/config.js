@@ -11,6 +11,11 @@ let isEnvLoaded = false;
 if (!isEnvLoaded) {
   try {
     if (process.env.NODE_ENV === 'test') {
+      try {
+        process.loadEnvFile(url.fileURLToPath(new URL('../tests/setup/.env.test.local', import.meta.url)));
+      } catch {
+        // no .env.test.local overrides
+      }
       process.loadEnvFile(url.fileURLToPath(new URL('../tests/setup/.env.test', import.meta.url)));
     } else {
       process.loadEnvFile(url.fileURLToPath(new URL('../.env', import.meta.url)));

@@ -3,29 +3,34 @@ import { databaseBuffer } from '../database-buffer.js';
 const TABLE_NAME = 'data-protection-officers';
 
 /**
- * @typedef {{
- *  id: number,
- *  firstName: string,
- *  lastName: string,
- *  email: string,
- *  certificationCenterId: number,
- *  createdAt: Date,
- *  updatedAt: Date,
- * }} CertificationCenter
+ * @typedef {Object} DataProtectionOfficerBase
+ * @property {number} id
+ * @property {string} firstName
+ * @property {string} lastName
+ * @property {string} email
+ * @property {Date} createdAt
+ * @property {Date} updatedAt
  */
 
 /**
- * @typedef {{
- *  id: number,
- *  firstName: string,
- *  lastName: string,
- *  email: string,
- *  certificationCenterId: number,
- *  createdAt: Date,
- *  updatedAt: Date,
- * }} Organization
+ * @typedef {DataProtectionOfficerBase & { certificationCenterId: number }} CertificationCenterDataProtectionOfficer
  */
 
+/**
+ * @typedef {DataProtectionOfficerBase & { organizationId: number }} OrganizationDataProtectionOfficer
+ */
+
+/**
+ * @param {Object} params
+ * @param {number} [params.id]
+ * @param {string} params.firstName
+ * @param {string} params.lastName
+ * @param {string} params.email
+ * @param {number} params.certificationCenterId
+ * @param {Date} [params.createdAt]
+ * @param {Date} [params.updatedAt]
+ * @returns {CertificationCenterDataProtectionOfficer}
+ */
 function buildCertificationCenterDataProtectionOfficer({
   id = databaseBuffer.getNextId(),
   firstName,
@@ -51,6 +56,17 @@ function buildCertificationCenterDataProtectionOfficer({
   });
 }
 
+/**
+ * @param {Object} params
+ * @param {number} [params.id]
+ * @param {string} params.firstName
+ * @param {string} params.lastName
+ * @param {string} params.email
+ * @param {number} params.organizationId
+ * @param {Date} [params.createdAt]
+ * @param {Date} [params.updatedAt]
+ * @returns {OrganizationDataProtectionOfficer}
+ */
 function buildOrganizationDataProtectionOfficer({
   id = databaseBuffer.getNextId(),
   firstName,
@@ -76,12 +92,6 @@ function buildOrganizationDataProtectionOfficer({
   });
 }
 
-/**
- * @typedef {{
- *    withCertificationCenterId: function(Partial<CertificationCenter>): CertificationCenter,
- *    withOrganizationId: function(Partial<Organization>): Organization,
- * }} BuildDataProtectionOfficerFactory
- */
 export {
   buildCertificationCenterDataProtectionOfficer as withCertificationCenterId,
   buildOrganizationDataProtectionOfficer as withOrganizationId,

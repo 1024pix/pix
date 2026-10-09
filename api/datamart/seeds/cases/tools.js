@@ -99,6 +99,10 @@ const getCertificationDate = () => {
   return faker.date.between({ from: '2024-11-04', to: new Date() });
 };
 
+const getCertificationIssuedAt = (after) => {
+  return faker.date.between({ from: after, to: new Date() });
+};
+
 const generateStatus = () => {
   return faker.helpers.arrayElement([
     AssessmentResult.status.CANCELLED,
@@ -138,6 +142,7 @@ export {
   generatePixScore,
   generateStatus,
   getCertificationDate,
+  getCertificationIssuedAt,
   getFormattedBirthdate,
   nationalStudentIdGenerator,
   orgaUAIGenerator,

@@ -36,17 +36,13 @@ describe('POST /api/admin/sessions/publish-in-batch', function () {
     });
 
     context('when all the sessions exists', function () {
-      let sessionId;
-
-      beforeEach(function () {
-        sessionId = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
+      it('should return a 204 status code', async function () {
+        const sessionId = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
         databaseBuilder.factory.buildFinalizedSession({ sessionId });
         options.payload = { data: { attributes: { ids: [sessionId] } } };
         databaseBuilder.factory.buildCertificationCourse({ sessionId, isPublished: false });
-        return databaseBuilder.commit();
-      });
+        await databaseBuilder.commit();
 
-      it('should return a 204 status code', async function () {
         // when
         const response = await server.inject(options);
 

@@ -1,12 +1,13 @@
 {
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "**/*.js"],
+  "exclude": ["node_modules/**"],
   "compilerOptions": {
     "types": ["node", "mocha", "sinon-chai", "chai-as-promised"],
     "target": "esnext",
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "strict": true,
-    "allowJs": false,
+    "allowJs": true,
     "checkJs": false,
     "allowImportingTsExtensions": true,
     "rewriteRelativeImportExtensions": true,

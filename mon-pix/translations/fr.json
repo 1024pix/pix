@@ -321,7 +321,10 @@
         "caption": "avancement dans le parcours",
         "label": "Vous avez effectué {completion, number, ::percent} de votre parcours."
       },
-      "progress": {"label": "Question", "position": "{current} sur {total}" }
+      "progress": {
+        "label": "Question",
+        "position": "{current} sur {total}"
+      }
     },
     "invited": {
       "reconciliation": {
@@ -993,6 +996,28 @@
       "link-to-user-certification": "Voir mes certifications",
       "non-eligible-subscription": "Vous n'êtes pas éligible à {subscriptionLabel}. Vous pouvez néanmoins passer votre certification Pix.",
       "title": "Rejoindre une session de certification"
+    },
+    "certifications-dashboard": {
+      "enrolment-banner": {
+        "action": "Entrer en certification",
+        "certifiable": {
+          "description": "Cliquer sur le bouton ci-dessous et démarrer votre certification",
+          "title": "Vous souhaitez passer une certification ?"
+        },
+        "not-certifiable": {
+          "description": "Un minimum de pré-requis est nécessaire pour passer la certification.",
+          "title": "Vous n’êtes pas encore certifiable"
+        }
+      },
+      "modal": {
+        "sub-title": "Tous les champs sont obligatoires.",
+        "title": "Rejoindre une session"
+      },
+      "user-certifications": {
+        "title": "Mes certifications",
+        "with-certification-text": "Accédez à l’ensemble de vos certifications Pix. Consultez les détails et téléchargez vos certificats.",
+        "without-certification-text": "Vous n’avez pas encore de certification Pix."
+      }
     },
     "certifications-list": {
       "buttons": {

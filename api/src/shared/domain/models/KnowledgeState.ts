@@ -15,6 +15,13 @@ export type KnowledgeStateType = {
   updatedAt?: Date;
 };
 
+const sortedUniqueLevels = (tubeId: string, levels: number[]): number[] => {
+  if (new Set(levels).size !== levels.length) {
+    throw new Error(`Knowledge state of tube ${tubeId} has duplicate direct levels: ${levels.join(', ')}`);
+  }
+  return levels.toSorted((a, b) => a - b);
+};
+
 export class KnowledgeState {
   userId: number;
   tubeId: string;
@@ -35,7 +42,7 @@ export class KnowledgeState {
     this.tubeId = tubeId;
     this.floor = floor;
     this.ceiling = ceiling;
-    this.directLevels = directLevels;
+    this.directLevels = sortedUniqueLevels(tubeId, directLevels);
     this.updatedAt = updatedAt;
   }
 }

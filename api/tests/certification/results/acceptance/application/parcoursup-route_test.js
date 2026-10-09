@@ -38,7 +38,12 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
       birthdate,
       status: 'validated',
       pixScore: 327,
-      certificationDate: '2024-11-22T09:39:54Z',
+      certificationId: 777,
+      certificationCodeVerification: 'CODEVERIF1',
+      certificationDate: new Date('2024-11-22T09:39:54Z'),
+      certificationIssuedAt: new Date('2024-11-24T12:32:55Z'),
+      maxReachableLevel: 7,
+      maxReachablePixScore: 895,
     };
 
     expectedCertification = {
@@ -49,8 +54,13 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
       birthdate,
       status: 'validated',
       pixScore: 327,
+      certificationId: 777,
+      certificationCodeVerification: 'CODEVERIF1',
       certificationDate: new Date('2024-11-22T09:39:54Z'),
+      certificationIssuedAt: new Date('2024-11-24T12:32:55Z'),
+      maxReachablePixScore: 895,
       globalLevel: 'Indépendant 1',
+      maxGlobalLevel: 'Expert 1',
       competences: [
         {
           code: '1.1',
@@ -67,14 +77,14 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
       ],
     };
 
-    datamartBuilder.factory.buildCertificationResult({
+    datamartBuilder.factory.buildScoCertificationResult({
       ...certificationResultData,
       competenceCode: '1.1',
       competenceName: 'Mener une recherche et une veille d’information',
       areaName: 'Informations et données',
       competenceLevel: 3,
     });
-    datamartBuilder.factory.buildCertificationResult({
+    datamartBuilder.factory.buildScoCertificationResult({
       ...certificationResultData,
       competenceCode: '1.2',
       competenceName: 'Gérer des données',
@@ -141,27 +151,31 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
 
     it('should return 200 HTTP status code and a certification for a given vérificationCode', async function () {
       // given
-      const verificationCode = 'P-1234567A';
+      const certificationCodeVerification = 'P-1234567A';
       const lastName = 'NOM-ELEVE';
       const firstName = 'PRENOM-ELEVE';
       const birthdate = '2000-01-01';
       const certificationResultData = {
-        verificationCode,
         lastName,
         firstName,
         birthdate,
         status: 'validated',
         pixScore: 327,
-        certificationDate: '2024-11-22T09:39:54Z',
+        certificationId: 777,
+        certificationCodeVerification,
+        certificationDate: new Date('2024-11-22T09:39:54Z'),
+        certificationIssuedAt: new Date('2024-11-24T12:32:55Z'),
+        maxReachableLevel: 7,
+        maxReachablePixScore: 895,
       };
-      datamartBuilder.factory.buildCertificationResultCodeValidation({
+      datamartBuilder.factory.buildCertificationResult({
         ...certificationResultData,
         competenceCode: '1.1',
         competenceName: 'Mener une recherche et une veille d’information',
         areaName: 'Informations et données',
         competenceLevel: 3,
       });
-      datamartBuilder.factory.buildCertificationResultCodeValidation({
+      datamartBuilder.factory.buildCertificationResult({
         ...certificationResultData,
         competenceCode: '1.2',
         competenceName: 'Gérer des données',
@@ -181,7 +195,7 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
           ),
         },
         payload: {
-          verificationCode,
+          verificationCode: certificationCodeVerification,
         },
       };
 
@@ -193,8 +207,13 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
         birthdate,
         status: 'validated',
         pixScore: 327,
+        certificationId: 777,
+        certificationCodeVerification,
         certificationDate: new Date('2024-11-22T09:39:54Z'),
+        certificationIssuedAt: new Date('2024-11-24T12:32:55Z'),
+        maxReachablePixScore: 895,
         globalLevel: 'Indépendant 1',
+        maxGlobalLevel: 'Expert 1',
         competences: [
           {
             code: '1.1',

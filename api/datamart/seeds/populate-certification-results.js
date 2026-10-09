@@ -1,0 +1,21 @@
+import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import caseVerificationCodeOK from './cases/certification-results/verification-code-only.js';
+import { chunkify } from './cases/tools.js';
+
+// eslint-disable-next-line n/no-process-env
+const NUMBER_OF_SEEDS = Number(process.env.DATAMART_NUMBER_OF_SEEDS) || 100;
+
+const insertCertificationResultsInDatamart = async (knex) => {
+  logger.info('Start Case 6 : Verification code OK');
+  const generalPublicDatamart = 'certification_results';
+  await chunkify({
+    numberOfSeeds: NUMBER_OF_SEEDS,
+    knex,
+    datamart: generalPublicDatamart,
+    generateFn: caseVerificationCodeOK,
+  });
+};
+
+export async function seed(knex) {
+  await insertCertificationResultsInDatamart(knex);
+}

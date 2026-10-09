@@ -96,7 +96,7 @@ export default class CreateOrUpdateTrainingForm extends Component {
   get formattedSortedModuleValues() {
     const selectValues = this.modules.map((modules) => ({
       value: modules.link,
-      label: modules.title,
+      label: `${modules.title} (${modules.slug})`,
     }));
 
     return selectValues.sort((moduleA, moduleB) => moduleA.label.localeCompare(moduleB.label));

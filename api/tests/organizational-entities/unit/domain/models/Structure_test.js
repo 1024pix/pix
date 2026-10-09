@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { UnableToAttachCertificationCenterToOrganization } from '../../../../../src/organizational-entities/domain/errors.js';
+import { Structure } from '../../../../../src/organizational-entities/domain/models/Structure.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErrSync } from '../../../../tooling/test-utils/error.js';
 
@@ -12,19 +13,21 @@ describe('Unit | Organizational Entities | Domain | Model | Structure', function
         id: 1,
         organizationId: 2,
         certificationCenterId: 3,
+        categoryId: 4,
       });
 
       // then
-      expect(structure).to.deep.equal({ id: 1, organizationId: 2, certificationCenterId: 3 });
+      expect(structure).to.deep.equal({ id: 1, organizationId: 2, certificationCenterId: 3, categoryId: 4 });
     });
 
-    it('should default organizationId and certificationCenterId to null', function () {
+    it('should default organizationId, certificationCenterId and categoryId to null', function () {
       // when
       const structure = domainBuilder.acquisition.buildStructure({ id: 1 });
 
       // then
       expect(structure.organizationId).to.be.null;
       expect(structure.certificationCenterId).to.be.null;
+      expect(structure.categoryId).to.be.null;
     });
   });
 
@@ -116,6 +119,58 @@ describe('Unit | Organizational Entities | Domain | Model | Structure', function
           alreadyAttachedCertificationCenterId: 4,
         });
         expect(structure.certificationCenterId).to.equal(4);
+      });
+    });
+  });
+
+  describe('#detachCertificationCenter', function () {
+    context('when a certification center is attached', function () {
+      it('removes the certification center from the structure', function () {
+        // given
+        const structure = domainBuilder.acquisition.buildStructure({
+          id: 1,
+          organizationId: 2,
+          certificationCenterId: 3,
+          categoryId: 4,
+        });
+
+        // when
+        structure.detachCertificationCenter();
+
+        // then
+        expect(structure.certificationCenterId).to.be.null;
+        expect(structure.organizationId).to.equal(2);
+      });
+
+      it('returns a new structure for the certification center with the same category', function () {
+        // given
+        const structure = domainBuilder.acquisition.buildStructure({
+          id: 1,
+          organizationId: 2,
+          certificationCenterId: 3,
+          categoryId: 4,
+        });
+
+        // when
+        const certificationCenterStructure = structure.detachCertificationCenter();
+
+        // then
+        expect(certificationCenterStructure).to.deepEqualInstance(
+          new Structure({ id: undefined, organizationId: null, certificationCenterId: 3, categoryId: 4 }),
+        );
+      });
+    });
+
+    context('when no certification center is attached', function () {
+      it('returns null', function () {
+        // given
+        const structure = domainBuilder.acquisition.buildStructure({ id: 1, organizationId: 2 });
+
+        // when
+        const certificationCenterStructure = structure.detachCertificationCenter();
+
+        // then
+        expect(certificationCenterStructure).to.be.null;
       });
     });
   });

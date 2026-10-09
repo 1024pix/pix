@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { CombinedCourseStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
-import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
+import { COMBINED_COURSE_ITEM_TYPES, REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CombinedCourseRewardStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
 import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
@@ -11,7 +11,7 @@ import {
   CampaignCombinedCourseItem,
   ModuleCombinedCourseItem,
   TrainingCombinedCourseItem,
-} from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';
+} from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.ts';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
 import combinedCourseDetailsService from '../../../../../src/quest/domain/services/combined-course-details-service.js';
 import { repositories } from '../../../../../src/quest/infrastructure/repositories/index.js';
@@ -161,6 +161,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
           image: undefined,
           totalStagesCount: null,
           validatedStagesCount: null,
+          type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
         },
         {
           id: moduleId1,
@@ -176,6 +177,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
           description: 'Un module de test',
           level: 'novice',
           objectives: ['Découvrir le bac à sable'],
+          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
         },
         {
           id: moduleId2,
@@ -191,6 +193,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
           description: 'Un module de test',
           level: 'novice',
           objectives: ['Repérer les touches de base du clavier'],
+          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
         },
       ]);
       expect(result.id).to.equal(combinedCourseId);
@@ -286,6 +289,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
           image: undefined,
           totalStagesCount: 1,
           validatedStagesCount: 1,
+          type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
         },
         {
           id: moduleId1,
@@ -301,6 +305,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
           description: 'Un module de test',
           level: 'novice',
           objectives: ['Découvrir le bac à sable'],
+          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
         },
         {
           id: moduleId3,
@@ -316,6 +321,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
           description: 'Un module sur les adresses mail',
           level: 'novice',
           objectives: ['Bien écrire une adresse mail'],
+          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
         },
       ]);
 

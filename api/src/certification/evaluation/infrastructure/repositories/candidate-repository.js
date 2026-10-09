@@ -99,9 +99,7 @@ export async function findByUserIdAndSessionId({ userId, sessionId }) {
 }
 
 /**
- * @function
- * @param {CandidateRecord}
- * @returns {Candidate}
+ * @param {CandidateRecord} data
  */
 function _toDomain(data) {
   return new Candidate({

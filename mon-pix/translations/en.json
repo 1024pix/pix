@@ -321,7 +321,10 @@
         "caption": "customised test progression",
         "label": "You have completed {completion, number, ::percent} of your customised test."
       },
-      "progress": {"label": "Question", "position": "{current} of {total}" }
+      "progress": {
+        "label": "Question",
+        "position": "{current} of {total}"
+      }
     },
     "invited": {
       "reconciliation": {
@@ -993,6 +996,28 @@
       "link-to-user-certification": "See my certificates",
       "non-eligible-subscription": "You are not eligible to {subscriptionLabel}. However, you can still take your Pix Certification.",
       "title": "Join a certification session"
+    },
+    "certifications-dashboard": {
+      "enrolment-banner": {
+        "action": "Start certification",
+        "certifiable": {
+          "description": "Click the button below to start your certification",
+          "title": "Would you like to take a certification?"
+        },
+        "not-certifiable": {
+          "description": "A minimum of prerequisites is required to take the certification.",
+          "title": "You are not yet eligible for certification"
+        }
+      },
+      "modal": {
+        "sub-title": "All fields are required.",
+        "title": "Join a session"
+      },
+      "user-certifications": {
+        "title": "My certifications",
+        "with-certification-text": "Access all your Pix certifications. View the details and download your certificates.",
+        "without-certification-text": "You don't have any Pix certification yet."
+      }
     },
     "certifications-list": {
       "buttons": {

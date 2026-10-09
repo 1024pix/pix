@@ -1,6 +1,6 @@
 {
   "name": "pix-certif",
-  "version": "5.514.0",
+  "version": "5.518.0",
   "private": false,
   "description": "Plateforme en ligne de gestion des sessions de certification",
   "license": "AGPL-3.0",
@@ -56,7 +56,7 @@
     "@embroider/core": "^3.5.10",
     "@embroider/macros": "^1.21.1",
     "@embroider/webpack": "^4.1.2",
-    "@glimmer/component": "^2.0.0",
+    "@glimmer/component": "^2.1.1",
     "@warp-drive/build-config": "^5.8.2",
     "@warp-drive/ember": "^5.8.2",
     "@warp-drive/json-api": "^5.8.2",
@@ -121,7 +121,7 @@
       "ember-source": "$ember-source"
     },
     "flatted": ">=3.4.2",
-    "handlebars": ">=4.7.9",
+    "handlebars": ">=4.7.10",
     "braces": ">=3.0.3"
   },
   "exports": {

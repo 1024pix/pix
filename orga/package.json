@@ -1,6 +1,6 @@
 {
   "name": "pix-orga",
-  "version": "5.514.0",
+  "version": "5.518.0",
   "private": false,
   "description": "Plateforme en ligne de gestion de campagne d'évaluation",
   "license": "AGPL-3.0",
@@ -144,7 +144,7 @@
     },
     "eslint": "$eslint",
     "flatted": ">=3.4.4",
-    "handlebars": ">=4.7.9"
+    "handlebars": ">=4.7.10"
   },
   "engines": {
     "node": "^24.20.0"

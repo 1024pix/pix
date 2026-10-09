@@ -406,20 +406,6 @@ const findAttachedByCertificationCenterId = async ({ certificationCenterId }) =>
   );
 };
 
-/**
- * @type {function}
- * @param {object} params
- * @param {number} params.organizationId
- * @returns {Promise<void>}
- */
-const detachCertificationCenter = async ({ organizationId }) => {
-  const knexConn = DomainTransaction.getConnection();
-
-  await knexConn('fct_structures').where({ organization_id: organizationId }).update({
-    certification_center_id: null,
-  });
-};
-
 async function _addOrUpdateDataProtectionOfficer(knexConn, dataProtectionOfficer) {
   await knexConn(DATA_PROTECTION_OFFICERS_TABLE_NAME)
     .insert(dataProtectionOfficer)
@@ -625,7 +611,6 @@ function _createOrganizationLearnerType(organizationLearnerTypeId, organizationL
 export const organizationForAdminRepository = {
   archive,
   createProOrganizationInvitation,
-  detachCertificationCenter,
   exist,
   findAttachedByCertificationCenterId,
   findExistingIds,

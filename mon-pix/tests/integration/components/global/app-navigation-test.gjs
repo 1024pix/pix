@@ -183,6 +183,39 @@ module('Integration | Component | Global | App Navigation', function (hooks) {
         assert.dom(within(nav).queryByRole('link', { name: t('navigation.main.trainings') })).doesNotExist();
       });
     });
+
+    module('new certification page', function () {
+      module('when featureToggle isNewCertificationPageEnabled is false', function () {
+        test('it should not display the new certification page link', async function (assert) {
+          // given
+          _stubCurrentUser(this.owner);
+
+          // when
+          const screen = await render(<template><AppNavigation /></template>);
+
+          // then
+          const nav = screen.getByLabelText('navigation principale');
+
+          assert.dom(within(nav).queryByRole('link', { name: 'Certifications V2' })).doesNotExist();
+        });
+      });
+
+      module('when featureToggle isNewCertificationPageEnabled is true', function () {
+        test('it should display the new certification page link', async function (assert) {
+          // given
+          const featureToggles = this.owner.lookup('service:featureToggles');
+          sinon.stub(featureToggles, 'featureToggles').value({ isNewCertificationPageEnabled: true });
+          _stubCurrentUser(this.owner);
+
+          // when
+          const screen = await render(<template><AppNavigation /></template>);
+
+          // then
+          const nav = screen.getByLabelText('navigation principale');
+          assert.dom(within(nav).queryByRole('link', { name: 'Certifications V2' })).exists();
+        });
+      });
+    });
   });
 
   module('footer', function () {
