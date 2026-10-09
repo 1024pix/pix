@@ -5,10 +5,13 @@ import { config } from '../../../../../../../config/config.js';
 import {
   CERTIFICATE_LABEL_CONTEXTS,
   CertificateMeshLevel,
+} from '../../../../../../../src/certification/results/domain/models/v3/CertificateMeshLevel.js';
+import {
   CORE_LEVELS,
   EDU_LEVELS,
-} from '../../../../../../../src/certification/results/domain/models/v3/CertificateMeshLevel.js';
-import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../../../../src/certification/shared/domain/constants/mesh-configuration.js';
+  PIX_PLUS_EDU_EXTERNAL_LEVELS,
+  STANDARD_PIX_PLUS_LEVELS,
+} from '../../../../../../../src/certification/shared/domain/constants/mesh-configuration.js';
 import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
@@ -30,6 +33,113 @@ describe('Unit | Domain | Models | CertificateMeshLevel', function () {
 
       // then
       expect(globalCertificationLevel.meshLevel).to.equal(CORE_LEVELS['2']);
+    });
+
+    it('should return the corresponding mesh level from score', async function () {
+      // when
+      const globalCertificationLevel = CertificateMeshLevel.buildFromScore({
+        score: 78,
+        maxReachableLevel: 7,
+        certificationFramework: Frameworks.CORE,
+      });
+
+      // then
+      expect(globalCertificationLevel.meshLevel).to.equal(CORE_LEVELS['1']);
+    });
+
+    it('should return the max mesh level', async function () {
+      // when
+      const globalCertificationLevel = CertificateMeshLevel.buildMaxLevel({
+        maxReachableLevel: 10,
+        certificationFramework: Frameworks.CORE,
+      });
+
+      // then
+      expect(globalCertificationLevel.meshLevel).to.equal(CORE_LEVELS['8']);
+    });
+
+    it('should return the ceiled max mesh level', async function () {
+      // when
+      const globalCertificationLevel = CertificateMeshLevel.buildMaxLevel({
+        maxReachableLevel: 5,
+        certificationFramework: Frameworks.CORE,
+      });
+
+      // then
+      expect(globalCertificationLevel.meshLevel).to.equal(CORE_LEVELS['5']);
+    });
+  });
+
+  describe('when the scope is CLEA', function () {
+    it('should return the corresponding mesh level', async function () {
+      // when
+      const globalCertificationLevel = new CertificateMeshLevel({
+        reachedMeshIndex: 2,
+        certificationFramework: Frameworks.CLEA,
+      });
+
+      // then
+      expect(globalCertificationLevel.meshLevel).to.equal(CORE_LEVELS['2']);
+    });
+
+    it('should return the corresponding mesh level from score', async function () {
+      // when
+      const globalCertificationLevel = CertificateMeshLevel.buildFromScore({
+        score: 78,
+        maxReachableLevel: 7,
+        certificationFramework: Frameworks.CLEA,
+      });
+
+      // then
+      expect(globalCertificationLevel.meshLevel).to.equal(CORE_LEVELS['1']);
+    });
+
+    it('should return the max mesh level', async function () {
+      // when
+      const globalCertificationLevel = CertificateMeshLevel.buildMaxLevel({
+        maxReachableLevel: 10,
+        certificationFramework: Frameworks.CLEA,
+      });
+
+      // then
+      expect(globalCertificationLevel.meshLevel).to.equal(CORE_LEVELS['8']);
+    });
+
+    it('should return the ceiled max mesh level', async function () {
+      // when
+      const globalCertificationLevel = CertificateMeshLevel.buildMaxLevel({
+        maxReachableLevel: 5,
+        certificationFramework: Frameworks.CLEA,
+      });
+
+      // then
+      expect(globalCertificationLevel.meshLevel).to.equal(CORE_LEVELS['5']);
+    });
+  });
+
+  describe('when the scope is DROIT or PRO_SANTE', function () {
+    ['DROIT', 'PRO_SANTE'].forEach((framework) => {
+      context(`for framework ${framework}`, function () {
+        it('throws when trying to compute a mesh level from a score', function () {
+          expect(() =>
+            CertificateMeshLevel.buildFromScore({
+              score: 1,
+              maxReachableLevel: 2,
+              certificationFramework: framework,
+            }),
+          ).to.throw('Score only exists in CORE scope certifications (CORE and CLEA)');
+        });
+        it('should return the max mesh level', async function () {
+          // when
+          const globalCertificationLevel = CertificateMeshLevel.buildMaxLevel({
+            maxReachableLevel: 10,
+            certificationFramework: framework,
+          });
+
+          // then
+          expect(globalCertificationLevel.meshLevel).to.equal(STANDARD_PIX_PLUS_LEVELS['3']);
+        });
+      });
     });
   });
 
@@ -90,6 +200,29 @@ describe('Unit | Domain | Models | CertificateMeshLevel', function () {
               expect(globalCertificationLevel.meshLevel).to.equal('LEVEL_ADMISSIBLE');
             });
           });
+        });
+      });
+    });
+    ['EDU_1ER_DEGRE', 'EDU_2ND_DEGRE', 'EDU_CPE'].forEach((eduFramework) => {
+      context(`for framework ${eduFramework}`, function () {
+        it('throws when trying to compute a mesh level from a score', function () {
+          expect(() =>
+            CertificateMeshLevel.buildFromScore({
+              score: 1,
+              maxReachableLevel: 2,
+              certificationFramework: eduFramework,
+            }),
+          ).to.throw('Score only exists in CORE scope certifications (CORE and CLEA)');
+        });
+        it('should return the max mesh level', async function () {
+          // when
+          const globalCertificationLevel = CertificateMeshLevel.buildMaxLevel({
+            maxReachableLevel: 10,
+            certificationFramework: eduFramework,
+          });
+
+          // then
+          expect(globalCertificationLevel.meshLevel).to.equal(EDU_LEVELS['0']);
         });
       });
     });

@@ -8,9 +8,13 @@ export function buildCertificationResult({
   birthdate,
   status,
   pixScore,
+  certificationId,
+  certificationCodeVerification,
   certificationDate,
-  competences,
+  certificationIssuedAt,
   maxReachableLevel,
+  maxReachablePixScore,
+  competences,
 }) {
   return new CertificationResult({
     ine,
@@ -20,8 +24,12 @@ export function buildCertificationResult({
     birthdate,
     status,
     pixScore,
+    certificationId,
+    certificationCodeVerification,
     certificationDate,
-    competences,
+    certificationIssuedAt,
     maxReachableLevel,
+    maxReachablePixScore,
+    competences,
   });
 }

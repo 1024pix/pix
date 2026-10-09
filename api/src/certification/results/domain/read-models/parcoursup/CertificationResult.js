@@ -1,4 +1,5 @@
-import { ParcoursupCertificationLevel } from './ParcoursupCertificationLevel.js';
+import { Frameworks } from '../../../../shared/domain/models/Frameworks.js';
+import { CertificateMeshLevel } from '../../models/v3/CertificateMeshLevel.js';
 
 export class CertificationResult {
   /**
@@ -10,8 +11,12 @@ export class CertificationResult {
    * @param {string} props.birthdate
    * @param {string} props.status
    * @param {string} props.pixScore
+   * @param {number} props.certificationId
+   * @param {string} props.certificationCodeVerification
    * @param {Date} props.certificationDate
-   * @param {CertificateMeshLevel} props.globalLevel
+   * @param {Date} props.certificationIssuedAt
+   * @param {CertificateMeshLevel} props.maxReachableLevel
+   * @param {number} props.maxReachablePixScore
    * @param {Array<Competence>} props.competences
    */
   constructor({
@@ -22,9 +27,13 @@ export class CertificationResult {
     birthdate,
     status,
     pixScore,
+    certificationId,
+    certificationCodeVerification,
     certificationDate,
-    competences,
+    certificationIssuedAt,
     maxReachableLevel,
+    maxReachablePixScore,
+    competences,
   }) {
     this.ine = ine;
     this.organizationUai = organizationUai;
@@ -33,8 +42,21 @@ export class CertificationResult {
     this.birthdate = birthdate;
     this.status = status;
     this.pixScore = pixScore;
+    this.certificationId = certificationId;
+    this.certificationCodeVerification = certificationCodeVerification;
     this.certificationDate = certificationDate;
-    this.globalLevel = new ParcoursupCertificationLevel({ score: pixScore, maxReachableLevel });
+    this.certificationIssuedAt = certificationIssuedAt;
+    this.maxReachableLevel = maxReachableLevel;
+    this.maxReachablePixScore = maxReachablePixScore;
+    this.globalLevel = CertificateMeshLevel.buildFromScore({
+      score: pixScore,
+      maxReachableLevel,
+      certificationFramework: Frameworks.CORE,
+    });
+    this.maxGlobalLevel = CertificateMeshLevel.buildMaxLevel({
+      maxReachableLevel,
+      certificationFramework: Frameworks.CORE,
+    });
     this.competences = competences;
   }
 }

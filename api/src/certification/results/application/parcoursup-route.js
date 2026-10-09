@@ -53,9 +53,12 @@ async function register(server) {
             '- Avec un code de vérification, récupère la certification correspondante',
         ],
         response: {
+          // TODO check what the log looks like and check if we have a Datadog watcher for it. Might even customize it a bit to find it faster
           failAction: 'log',
           status: {
             200: Joi.object({
+              certificationId: Joi.number().integer().positive().description('Identifiant unique de la certification'),
+              certificationCodeVerification: Joi.string().description('Code de vérification de la certification'),
               organizationUai: Joi.string().description(
                 'UAI/RNE (Unité Administrative Immatriculée anciennement Répertoire National des Établissements)',
               ),
@@ -69,6 +72,11 @@ async function register(server) {
                 'Niveau global de la certification, défini en fonction du score global Pix obtenu',
               ),
               certificationDate: Joi.date().description('Date de passage de la certification'),
+              certificationIssuedAt: Joi.date().description('Date de délivrance de la certification'),
+              maxReachablePixScore: Joi.number()
+                .integer()
+                .positive()
+                .description('Score en pix atteignable au maximum par le candidat lors du passage de certification'),
               competences: Joi.array()
                 .items(
                   Joi.object({

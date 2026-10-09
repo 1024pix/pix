@@ -1,7 +1,5 @@
 import { knex as datamartKnex } from '../../../../../datamart/knex-database-connection.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { logger } from '../../../../shared/infrastructure/utils/logger.js';
-import { CORE_MESH_CONFIGURATION } from '../../../shared/domain/constants/mesh-configuration.js';
 import { CertificationResult } from '../../domain/read-models/parcoursup/CertificationResult.js';
 import { Competence } from '../../domain/read-models/parcoursup/Competence.js';
 
@@ -23,14 +21,19 @@ export async function getByOrganizationUAI({ organizationUai, lastName, firstNam
 async function _getBySearchParams(searchParams) {
   const certificationResultDto = await datamartKnex('sco_certification_results')
     .select({
-      national_student_id: 'national_student_id',
-      organization_uai: 'organization_uai',
-      last_name: 'last_name',
-      first_name: 'first_name',
+      ine: 'national_student_id',
+      organizationUai: 'organization_uai',
+      lastName: 'last_name',
+      firstName: 'first_name',
       birthdate: 'birthdate',
       status: 'status',
-      pix_score: 'pix_score',
-      certification_date: 'certification_date',
+      pixScore: 'pix_score',
+      certificationDate: 'certification_date',
+      certificationId: 'certification_courses_id',
+      certificationCodeVerification: 'certification_code_verification',
+      certificationIssuedAt: 'certification_issued_at',
+      maxReachableLevel: 'max_reachable_level',
+      maxReachablePixScore: 'max_reachable_pix_score',
       competences: datamartKnex.raw(
         `json_agg(json_build_object(
           'competence_code', "competence_code",
@@ -39,7 +42,6 @@ async function _getBySearchParams(searchParams) {
           'competence_level', "competence_level"
         ))`,
       ),
-      scoring_configuration: 'configuration',
     })
     .where(searchParams)
     .groupBy(
@@ -51,25 +53,33 @@ async function _getBySearchParams(searchParams) {
       'status',
       'pix_score',
       'certification_date',
-      'configuration',
+      'certification_courses_id',
+      'certification_code_verification',
+      'certification_issued_at',
+      'max_reachable_level',
+      'max_reachable_pix_score',
     );
 
   if (!certificationResultDto.length) {
     throw new NotFoundError('No certifications found for given search parameters');
   }
-
-  return _toDomain(certificationResultDto);
+  return toDomain(certificationResultDto);
 }
 
 export async function getByVerificationCode({ verificationCode }) {
   const certificationResultDto = await datamartKnex('certification_results')
     .select({
-      last_name: 'last_name',
-      first_name: 'first_name',
+      lastName: 'last_name',
+      firstName: 'first_name',
       birthdate: 'birthdate',
       status: 'status',
-      pix_score: 'pix_score',
-      certification_date: 'certification_date',
+      pixScore: 'pix_score',
+      certificationDate: 'certification_date',
+      certificationId: 'certification_courses_id',
+      certificationCodeVerification: 'certification_code_verification',
+      certificationIssuedAt: 'certification_issued_at',
+      maxReachableLevel: 'max_reachable_level',
+      maxReachablePixScore: 'max_reachable_pix_score',
       competences: datamartKnex.raw(
         `json_agg(json_build_object(
           'competence_code', "competence_code",
@@ -78,24 +88,35 @@ export async function getByVerificationCode({ verificationCode }) {
           'competence_level', "competence_level"
         ))`,
       ),
-      scoring_configuration: 'configuration',
     })
     .where({
       certification_code_verification: verificationCode,
     })
-    .groupBy('last_name', 'first_name', 'birthdate', 'status', 'pix_score', 'certification_date', 'configuration');
+    .groupBy(
+      'last_name',
+      'first_name',
+      'birthdate',
+      'status',
+      'pix_score',
+      'certification_date',
+      'certification_courses_id',
+      'certification_code_verification',
+      'certification_issued_at',
+      'max_reachable_level',
+      'max_reachable_pix_score',
+    );
 
   if (!certificationResultDto.length) {
     throw new NotFoundError('No certifications found for given search parameters');
   }
 
-  return _toDomain(certificationResultDto);
+  return toDomain(certificationResultDto);
 }
 
 /**
  * @returns {Array<CertificationResult>}
  */
-function _toDomain(certificationResultDto) {
+function toDomain(certificationResultDto) {
   return certificationResultDto.map((certificationResult) => {
     const uniqCompetences = new Map();
     for (const competence of certificationResult.competences) {
@@ -111,31 +132,9 @@ function _toDomain(certificationResultDto) {
     }
 
     return new CertificationResult({
-      ine: certificationResult.national_student_id,
-      organizationUai: certificationResult.organization_uai,
-      lastName: certificationResult.last_name,
-      firstName: certificationResult.first_name,
-      birthdate: certificationResult.birthdate,
-      status: certificationResult.status,
-      pixScore: certificationResult.pix_score,
-      certificationDate: certificationResult.certification_date,
+      ...certificationResult,
+      certificationId: Number(certificationResult.certificationId),
       competences: Array.from(uniqCompetences.values()),
-      maxReachableLevel: _getMaxReachableLevel(
-        certificationResult.scoring_configuration,
-        certificationResult.national_student_id,
-      ),
     });
   });
-}
-
-function _getMaxReachableLevel(scoringConfiguration, ine) {
-  if (!scoringConfiguration) {
-    logger.trace(
-      { ine },
-      'Missing scoring_configuration in certification result, using MESH_CONFIGURATION as fallback',
-    );
-    const lastMesh = [...CORE_MESH_CONFIGURATION.values()].at(-1);
-    return lastMesh.coefficient;
-  }
-  return scoringConfiguration.length - 1;
 }
