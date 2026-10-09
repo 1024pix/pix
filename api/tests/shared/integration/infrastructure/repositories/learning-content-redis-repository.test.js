@@ -22,7 +22,7 @@ describe('Integration | Repository | LearningContentRedis', function () {
   /** @type {sinon.SinonStub} */
   let queryHook;
 
-  before(function () {
+  beforeAll(function () {
     tableName = `${SCHEMA_NAME}.${TABLE_NAME}`;
     repository = new LearningContentRedisRepository({ tableName });
   });
