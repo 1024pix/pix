@@ -33,7 +33,7 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
       const screen = await render(<template><Card @tutorial={{tutorial}} /></template>);
 
       // then
-      const link = screen.getByRole('link', { name: 'Mon super tutoriel' });
+      const link = screen.getByRole('link', { name: `Mon super tutoriel ${t('navigation.external-link-title')}` });
       assert.strictEqual(link.getAttribute('href'), 'https://exemple.net/');
       assert.ok(find('.tutorial-card-content__details').textContent.includes('mon-tuto'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('vidéo'));
@@ -163,7 +163,7 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
       const screen = await render(<template><Card @tutorial={{tutorial}} /></template>);
 
       // when
-      await click(screen.getByRole('link', { name: 'Mon super tutoriel' }));
+      await click(screen.getByRole('link', { name: `Mon super tutoriel ${t('navigation.external-link-title')}` }));
 
       // then
       sinon.assert.calledWithExactly(trackEventStub, 'Ouvre le tutoriel', {
@@ -195,7 +195,7 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
       const screen = await render(<template><Card @tutorial={{tutorial}} /></template>);
 
       // then
-      const link = screen.getByRole('link', { name: 'Mon super tutoriel' });
+      const link = screen.getByRole('link', { name: `Mon super tutoriel ${t('navigation.external-link-title')}` });
       assert.strictEqual(link.getAttribute('href'), 'https://exemple.net/');
       assert.ok(find('.tutorial-card-content__details').textContent.includes('mon-tuto'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('vidéo'));
@@ -222,7 +222,7 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
       const screen = await render(<template><Card @tutorial={{tutorial}} /></template>);
 
       // then
-      const link = screen.getByRole('link', { name: 'Mon super tutoriel' });
+      const link = screen.getByRole('link', { name: `Mon super tutoriel ${t('navigation.external-link-title')}` });
       assert.strictEqual(link.getAttribute('referrerpolicy'), 'strict-origin');
     });
 
@@ -243,7 +243,9 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
       const screen = await render(<template><Card @tutorial={{tutorial}} /></template>);
 
       // then
-      const tutorialLink = screen.getByRole('link', { name: 'Mon super tutoriel' });
+      const tutorialLink = screen.getByRole('link', {
+        name: `Mon super tutoriel ${t('navigation.external-link-title')}`,
+      });
       assert.strictEqual(tutorialLink.getAttribute('rel'), null);
     });
   });

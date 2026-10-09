@@ -1,4 +1,4 @@
-import { PixBlock } from '@1024pix/nebulix-ember';
+import { PixBlock, PixIcon } from '@1024pix/nebulix-ember';
 import { concat } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -25,6 +25,7 @@ export default class Card extends Component {
               {{on "click" this.trackAccess}}
             >
               {{@tutorial.title}}
+              <PixIcon @name="openNew" @title={{t "navigation.external-link-title"}} />
             </a>
           </h4>
           <p class="tutorial-card-content__details">
