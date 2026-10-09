@@ -16,6 +16,7 @@ const buildKnowledgeState = (overrides = {}) =>
     tubeId: 'tube_web',
     floor: 2,
     ceiling: 4,
+    ceilingAt: new Date('2026-01-05'),
     directLevels: [2, 4],
     updatedAt: new Date('2026-01-10'),
     ...overrides,
@@ -35,7 +36,7 @@ describe('Unit | Shared | Domain | Services | knowledge-state | rules', function
 
     it('should invalidate nothing when the tube has no ceiling', function () {
       // given
-      const knowledgeState = buildKnowledgeState({ ceiling: null });
+      const knowledgeState = buildKnowledgeState({ ceiling: null, ceilingAt: null });
 
       // then
       expect(isInvalidated(knowledgeState, 8)).to.equal(false);
@@ -76,20 +77,34 @@ describe('Unit | Shared | Domain | Services | knowledge-state | rules', function
       expect(knowledgeState.directLevels).to.deep.equal([2, 4]);
     });
 
-    it('should lower the ceiling on a failure', function () {
+    it('should leave the date of the ceiling alone on a success', function () {
       // when
-      const after = update(buildKnowledgeState(), { level: 3, isOk: false });
+      const after = update(buildKnowledgeState(), { level: 3, isOk: true, at: new Date('2026-02-01') });
 
       // then
-      expect(after).to.deep.include({ floor: 2, ceiling: 3 });
+      expect(after.ceilingAt).to.deep.equal(new Date('2026-01-05'));
+    });
+
+    it('should lower the ceiling on a failure, and date it from the failure', function () {
+      // given
+      const at = new Date('2026-02-01');
+
+      // when
+      const after = update(buildKnowledgeState(), { level: 3, isOk: false, at });
+
+      // then
+      expect(after).to.deep.include({ floor: 2, ceiling: 3, ceilingAt: at, updatedAt: at });
     });
 
     it('should set the ceiling on a failure when the tube had none', function () {
+      // given
+      const at = new Date('2026-02-01');
+
       // when
-      const after = update(buildKnowledgeState({ ceiling: null }), { level: 5, isOk: false });
+      const after = update(buildKnowledgeState({ ceiling: null, ceilingAt: null }), { level: 5, isOk: false, at });
 
       // then
-      expect(after.ceiling).to.equal(5);
+      expect(after).to.deep.include({ ceiling: 5, ceilingAt: at });
     });
 
     it('should ignore an answer on an already assessed level, as today creates no knowledge element', function () {
@@ -108,7 +123,7 @@ describe('Unit | Shared | Domain | Services | knowledge-state | rules', function
       const after = update(new KnowledgeState({ userId: 123, tubeId: 'tube_web' }), { level: 3, isOk: false });
 
       // then
-      expect(after).to.deep.include({ floor: 0, ceiling: 3, directLevels: [3] });
+      expect(after).to.deep.include({ floor: 0, ceiling: 3, ceilingAt: after.updatedAt, directLevels: [3] });
     });
   });
 });
