@@ -22,13 +22,13 @@ export default class CguCheckbox extends Component {
     <div class="signup-form__cgu">
       <PixCheckbox @id={{@id}} aria-describedby="signup-cgu-description" ...attributes>
         <:label>
-          {{t "common.cgu.label"}}
+          {{t "common.legal-documents.label"}}
         </:label>
       </PixCheckbox>
 
       <p id="signup-cgu-description" class="signup-form__cgu-read-message">
         {{t
-          "common.cgu.read-message"
+          "common.legal-documents.read-message"
           cguUrl=this.cguUrl
           dataProtectionPolicyUrl=this.dataProtectionPolicyUrl
           htmlSafe=true

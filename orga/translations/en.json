@@ -212,11 +212,6 @@
       "login-user-temporary-blocked-with-username-error": "You have made too many login attempts, your Pix account is temporarily blocked for {blockingDurationMinutes} minutes.'<br>'If you forget your password, '<strong>'contact your teacher'</strong>' to reset your password and/or recover your login."
     },
     "breadcrumb": "Breadcrumb",
-    "cgu": {
-      "error": "You must accept to the Pix terms of use and personal data protection policy to create an account.",
-      "label": "I accept the terms of use and personal data protection policy of Pix",
-      "read-message": "Read the '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Pix terms of use'</a>' and the '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'personal data protection policy'</a>'."
-    },
     "filters": {
       "actions": {
         "clear": "Clear filters"
@@ -257,6 +252,11 @@
         "division": "Class",
         "oralization": "Oralization"
       }
+    },
+    "legal-documents": {
+      "error": "You must accept to the Pix terms of use and personal data protection policy to create an account.",
+      "label": "I accept the terms of use and personal data protection policy of Pix",
+      "read-message": "Read the '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Pix terms of use'</a>' and the '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'personal data protection policy'</a>'."
     },
     "loading": "Loading",
     "no-content": "No content available",

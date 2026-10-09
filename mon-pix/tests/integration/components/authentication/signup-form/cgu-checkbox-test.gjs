@@ -8,7 +8,7 @@ import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 const I18N_KEYS = {
-  label: 'common.cgu.label',
+  label: 'common.legal-documents.label',
 };
 
 module('Integration | Component | Authentication | SignupForm | CguCheckbox', function (hooks) {

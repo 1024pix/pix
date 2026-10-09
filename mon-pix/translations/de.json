@@ -67,14 +67,6 @@
       "login-user-temporary-blocked-error": "Du hast zu viele Anmeldeversuche unternommen, dein Pix-Konto wird vorübergehend für {blockingDurationMinutes} Minuten gesperrt. Versuche es später noch einmal oder klicke auf '<'a href=\"{url}\"'>'Passwort vergessen'</a>', um es zurückzusetzen.",
       "login-user-temporary-blocked-with-username-error": "Du hast zu viele Anmeldeversuche unternommen, dein Pix-Konto wird vorübergehend für {blockingDurationMinutes} Minuten gesperrt.'<br>'Wenn du dein Passwort vergessen hast, '<strong>'wende dich an deine Lehrkraft'</strong>', um dein Passwort zurückzusetzen und/oder deinen Benutzernamen abzurufen."
     },
-    "cgu": {
-      "cgu": "Nutzungsbedingungen",
-      "data-protection-policy": "Datenschutzrichtlinie",
-      "error": "Du musst den Nutzungsbedingungen von Pix und der Datenschutzrichtlinie zustimmen, um ein Konto zu erstellen.",
-      "label": "Ich akzeptiere die Nutzungsbedingungen und die Datenschutzrichtlinie von Pix",
-      "message": "Ich akzeptiere die '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Nutzungsbedingungen'</a>' und die '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Datenschutzrichtlinie'</a>' von Pix",
-      "read-message": "Lies die '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Nutzungsbedingungen'</a>' und die '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Datenschutzrichtlinie'</a>'."
-    },
     "companion": {
       "check": {
         "detected": {
@@ -116,6 +108,14 @@
       "en": "Englisch",
       "fr": "Französisch",
       "nl": "Niederländisch"
+    },
+    "legal-documents": {
+      "data-protection-policy": "Datenschutzrichtlinie",
+      "error": "Du musst den Nutzungsbedingungen von Pix und der Datenschutzrichtlinie zustimmen, um ein Konto zu erstellen.",
+      "label": "Ich akzeptiere die Nutzungsbedingungen und die Datenschutzrichtlinie von Pix",
+      "message": "Ich akzeptiere die '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Nutzungsbedingungen'</a>' und die '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Datenschutzrichtlinie'</a>' von Pix",
+      "read-message": "Lies die '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Nutzungsbedingungen'</a>' und die '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Datenschutzrichtlinie'</a>'.",
+      "terms-of-service": "Nutzungsbedingungen"
     },
     "level": "Level",
     "loading": {
@@ -321,7 +321,10 @@
         "caption": "Fortschritt auf dem Pfad",
         "label": "Du hast {completion, number, ::percent} deines Pfades absolviert."
       },
-      "progress": {"label": "Frage", "position": "{current} sur {total}" }
+      "progress": {
+        "label": "Frage",
+        "position": "{current} sur {total}"
+      }
     },
     "invited": {
       "reconciliation": {

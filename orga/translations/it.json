@@ -212,11 +212,6 @@
       "login-user-temporary-blocked-with-username-error": "Sono stati effettuati troppi tentativi di accesso. L'account Pix è temporaneamente bloccato per {blockingDurationMinutes} minuti.'<br>'In caso di dimenticanza, '<strong>'contattare un insegnante'</strong>' per reimpostare la password e/o recuperare l'accesso."
     },
     "breadcrumb": "Percorso di navigazione",
-    "cgu": {
-      "error": "Per creare un account è necessario accettare le condizioni d'uso e l'informativa sulla privacy di Pix.",
-      "label": "Accetto le condizioni d'uso e l'informativa sulla privacy di Pix",
-      "read-message": "Leggere le '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'condizioni d'uso'</a>' e le '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'norme sulla privacy'</a>'."
-    },
     "filters": {
       "actions": {
         "clear": "Eliminare i filtri"
@@ -257,6 +252,11 @@
         "division": "Classe",
         "oralization": "Leggere le istruzioni"
       }
+    },
+    "legal-documents": {
+      "error": "Per creare un account è necessario accettare le condizioni d'uso e l'informativa sulla privacy di Pix.",
+      "label": "Accetto le condizioni d'uso e l'informativa sulla privacy di Pix",
+      "read-message": "Leggere le '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'condizioni d'uso'</a>' e le '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'norme sulla privacy'</a>'."
     },
     "loading": "Caricamento in corso",
     "no-content": "Nessun contenuto",

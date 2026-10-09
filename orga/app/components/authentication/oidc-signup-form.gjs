@@ -84,11 +84,11 @@ export default class OidcSignupForm extends Component {
 
     <div class="oidc-signup-form__cgu-container">
       <PixCheckbox {{on "change" this.onChange}}>
-        <:label>{{t "common.cgu.label"}}</:label>
+        <:label>{{t "common.legal-documents.label"}}</:label>
       </PixCheckbox>
       <p>
         {{t
-          "common.cgu.read-message"
+          "common.legal-documents.read-message"
           cguUrl=this.url.cguUrl
           dataProtectionPolicyUrl=this.url.dataProtectionPolicyUrl
           htmlSafe=true

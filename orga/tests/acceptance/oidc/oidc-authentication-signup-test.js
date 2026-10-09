@@ -63,7 +63,7 @@ module('Acceptance | OIDC | authentication signup', function (hooks) {
     assert.dom(foundLastNameLabelAndValue).exists();
 
     // when
-    await clickByName(t('common.cgu.label'));
+    await clickByName(t('common.legal-documents.label'));
     const signup = await screen.findByRole('button', { name: t('pages.oidc.signup.signup-button') });
     await click(signup);
     const acceptPixOrgaTermsOfService = await screen.findByRole('button', {

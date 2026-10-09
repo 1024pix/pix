@@ -212,11 +212,6 @@
       "login-user-temporary-blocked-with-username-error": "Has realizado demasiados intentos de inicio de sesión, tu cuenta Pix está bloqueada temporalmente durante {blockingDurationMinutes} minutos.'<br>'Si no recuerdas tus datos de acceso, '<strong>'ponte en contacto con tu profesor'</strong>' para restablecer tu contraseña y/o recuperar tu nombre de usuario."
     },
     "breadcrumb": "Rastro de migas de pan",
-    "cgu": {
-      "error": "Debes aceptar las condiciones de uso y la política de privacidad de Pix para crear una cuenta.",
-      "label": "Acepto las condiciones de uso y la política de privacidad de Pix",
-      "read-message": "Lea las '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'condiciones de uso'</a>' y la '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'política de privacidad'</a>'."
-    },
     "filters": {
       "actions": {
         "clear": "Eliminar filtros"
@@ -257,6 +252,11 @@
         "division": "Clase",
         "oralization": "Leer las instrucciones"
       }
+    },
+    "legal-documents": {
+      "error": "Debes aceptar las condiciones de uso y la política de privacidad de Pix para crear una cuenta.",
+      "label": "Acepto las condiciones de uso y la política de privacidad de Pix",
+      "read-message": "Lea las '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'condiciones de uso'</a>' y la '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'política de privacidad'</a>'."
     },
     "loading": "Carga en progreso",
     "no-content": "Sin contenido",

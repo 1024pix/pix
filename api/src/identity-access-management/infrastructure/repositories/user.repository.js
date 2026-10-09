@@ -101,10 +101,15 @@ const updateWithEmailConfirmed = function ({ id, userAttributes }) {
     .update({ ...userAttributes, updatedAt: new Date() });
 };
 
-const checkIfEmailIsAvailable = async function (email) {
+const checkIfEmailIsAvailable = async function (email, excludedUserId) {
   const knexConn = DomainTransaction.getConnection();
-  const existingUserEmail = await knexConn('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();
 
+  let query = knexConn.first().from('users').whereRaw('LOWER("email") = ?', email.toLowerCase());
+  if (excludedUserId !== undefined) {
+    query = query.whereNot('id', excludedUserId);
+  }
+
+  const existingUserEmail = await query;
   if (existingUserEmail) throw new InvalidOrAlreadyUsedEmailError();
 
   return email;

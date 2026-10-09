@@ -1,11 +1,10 @@
-import { AlreadyRegisteredEmailError } from '../../../../src/shared/domain/errors.js';
 import { UnauthorizedError } from '../../../shared/application/errors/http-errors.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { createAccountCreationEmail } from '../emails/create-account-creation.email.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
-const upgradeToRealUser = async function ({
+export async function upgradeToRealUser({
   userId,
   userAttributes,
   password,
@@ -16,19 +15,26 @@ const upgradeToRealUser = async function ({
   emailRepository,
   legalDocumentApiRepository,
   cryptoService,
+  userService,
+  userValidator,
+  passwordValidator,
 }) {
-  const user = await userRepository.get(userId);
-  if (!user.isAnonymous) {
-    throw new UnauthorizedError('User must be anonymous', 'NOT_ANONYMOUS_USER');
-  }
-
-  const existingUsersWithEmail = await userRepository.findAnotherUserByEmail(userId, userAttributes.email);
-  if (existingUsersWithEmail.length > 0) {
-    throw new AlreadyRegisteredEmailError();
-  }
-
   const { realUser, token } = await DomainTransaction.execute(async () => {
+    const user = await userRepository.get(userId);
+    if (!user.isAnonymous) {
+      throw new UnauthorizedError('User must be anonymous', 'NOT_ANONYMOUS_USER');
+    }
+
     const realUser = user.convertAnonymousToRealUser(userAttributes);
+
+    await userService.validateUserWithPasswordForCreation({
+      user: realUser,
+      password,
+      userRepository,
+      userValidator,
+      passwordValidator,
+    });
+
     await userRepository.update(realUser.mapToDatabaseDto());
 
     const hashedPassword = await cryptoService.hashPassword(password);
@@ -58,6 +64,4 @@ const upgradeToRealUser = async function ({
     }),
   );
   return realUser;
-};
-
-export { upgradeToRealUser };
+}

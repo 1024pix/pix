@@ -29,7 +29,7 @@ export default class InscriptionRoute extends Route {
       firstName: '',
       email: '',
       password: '',
-      cgu: false,
+      hasAcceptedLegalDocuments: false,
     });
   }
 }

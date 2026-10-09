@@ -67,14 +67,6 @@
       "login-user-temporary-blocked-error": "You have made too many login attempts, your Pix account is temporarily blocked for {blockingDurationMinutes} minutes. Try again later or click on '<'a href=\"{url}\"'>'forgotten password'</a>' to reset it.",
       "login-user-temporary-blocked-with-username-error": "You have made too many login attempts, your Pix account is temporarily blocked for {blockingDurationMinutes} minutes.'<br>'If you forget your password, '<strong>'contact your teacher'</strong>' to reset your password and/or recover your login."
     },
-    "cgu": {
-      "cgu": "Pix terms of use",
-      "data-protection-policy": "personal data protection policy",
-      "error": "You must accept to the Pix terms of use and personal data protection policy to create an account.",
-      "label": "I accept the terms of use and personal data protection policy of Pix",
-      "message": "I agree to the '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Pix terms of use'</a>' and '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'personal data protection policy'</a>'",
-      "read-message": "Read the '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Pix terms of use'</a>' and the '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'personal data protection policy'</a>'."
-    },
     "companion": {
       "check": {
         "detected": {
@@ -116,6 +108,14 @@
       "en": "English",
       "fr": "French",
       "nl": "Dutch"
+    },
+    "legal-documents": {
+      "data-protection-policy": "personal data protection policy",
+      "error": "You must accept to the Pix terms of use and personal data protection policy to create an account.",
+      "label": "I accept the terms of use and personal data protection policy of Pix",
+      "message": "I agree to the '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Pix terms of use'</a>' and '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'personal data protection policy'</a>'",
+      "read-message": "Read the '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Pix terms of use'</a>' and the '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'personal data protection policy'</a>'.",
+      "terms-of-service": "Pix terms of use"
     },
     "level": "level",
     "loading": {
@@ -321,7 +321,10 @@
         "caption": "customised test progression",
         "label": "You have completed {completion, number, ::percent} of your customised test."
       },
-      "progress": {"label": "Question", "position": "{current} of {total}" }
+      "progress": {
+        "label": "Question",
+        "position": "{current} of {total}"
+      }
     },
     "invited": {
       "reconciliation": {
