@@ -1642,7 +1642,7 @@
       "file-type-separator": " or ",
       "global-success": "Last file successfully imported on {date} by {firstName} {lastName}.",
       "sco": {
-        "title": "Import students"
+        "title": "Import participants"
       },
       "sup": {
         "title": "Import students"
