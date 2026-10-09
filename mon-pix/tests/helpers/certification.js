@@ -13,6 +13,7 @@ export async function fillCertificationJoiner({
   t,
 }) {
   const screen = await getScreen();
+  await click(screen.getByRole('button', { name: t('pages.certifications-dashboard.enrolment-banner.action') }));
 
   await fillIn(
     screen.getByRole('spinbutton', {

@@ -1,3 +1,4 @@
+import { PixButtonLink } from '@1024pix/nebulix-ember';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
 import ListItem from 'mon-pix/components/user-certifications/list-item';
@@ -12,7 +13,7 @@ export default class UserCertifications extends Component {
   <template>
     <section class="certification-dashboard-user-certifications">
       <h2 class="certification-dashboard-user-certifications__title">
-        <img src="/images/illustrations/fat-bee.svg" />
+        <img src="/images/illustrations/certification-hat.svg" />
         {{t "pages.certifications-dashboard.user-certifications.title"}}
       </h2>
       {{#if this.certificationsSummariesSortedByDate.length}}
@@ -33,6 +34,22 @@ export default class UserCertifications extends Component {
         <p class="certification-dashboard-user-certifications__text">
           {{t "pages.certifications-dashboard.user-certifications.without-certification-text"}}
         </p>
+        <div class="certification-dashboard-user-certifications__how-to-certificate">
+          <p class="certification-dashboard-user-certifications__how-to-certificate-text">
+            {{t "pages.certifications-dashboard.user-certifications.how-to-certificate.text"}}
+          </p>
+          <PixButtonLink
+            class="certification-dashboard-user-certifications__how-to-certificate-link"
+            @href="https://pix.fr/se-certifier"
+            @iconAfter="openNew"
+            @variant="tertiary"
+            target="_blank"
+            rel="noopener"
+          >
+            {{t "pages.certifications-dashboard.user-certifications.how-to-certificate.link"}}
+            <span class="sr-only">&nbsp;{{t "common.a11y.external-link"}}</span>
+          </PixButtonLink>
+        </div>
       {{/if}}
     </section>
   </template>

@@ -35,6 +35,9 @@
     "description": "Pix is een online platform voor het beoordelen en certificeren van de digitale vaardigheden van Franstalige burgers (scholieren, studenten, schoolverlaters, werkzoekenden, senioren)."
   },
   "common": {
+    "a11y": {
+      "external-link": "opent in een nieuw tabblad"
+    },
     "actions": {
       "back": "Terug",
       "cancel": "Annuleer",
@@ -385,13 +388,13 @@
     "homepage": "Startpagina Pix",
     "main": {
       "attestations": "Mijn getuigschriften",
+      "certifications": "Certificering",
       "code": "Ik heb een code",
       "dashboard": "Home",
       "help": "Help",
       "label": "Hoofdmenu",
       "link-help": "https://pix.org/nl-be/support",
       "skills": "Vaardigheden",
-      "start-certification": "Certificering",
       "trainings": "Mijn trainingen",
       "tutorials": "Mijn tutorials"
     },
@@ -1034,6 +1037,44 @@
         "title": "Deelnemen aan een sessie"
       },
       "user-certifications": {
+        "how-to-certificate": {
+          "link": "Hoe word je gecertificeerd",
+          "text": "Als je meer wilt weten over de Pix-certificering"
+        },
+        "meshes": {
+          "DROIT": {
+            "ADVANCED": "Gevorderd",
+            "BELOW_MINIMUM": "Niet verkregen",
+            "CONFIRMED": "Bevestigd",
+            "EXPERT": "Expert",
+            "INDEPENDENT": "Onafhankelijk"
+          },
+          "EDU_1ER_DEGRE": {
+            "ADMISSIBLE": "Toelaatbaar",
+            "ADVANCED": "Gevorderd",
+            "BELOW_MINIMUM": "Niet toelaatbaar",
+            "EXPERT": "Expert"
+          },
+          "EDU_2ND_DEGRE": {
+            "ADMISSIBLE": "Toelaatbaar",
+            "ADVANCED": "Gevorderd",
+            "BELOW_MINIMUM": "Niet toelaatbaar",
+            "EXPERT": "Expert"
+          },
+          "EDU_CPE": {
+            "ADMISSIBLE": "Toelaatbaar",
+            "ADVANCED": "Gevorderd",
+            "BELOW_MINIMUM": "Niet toelaatbaar",
+            "EXPERT": "Expert"
+          },
+          "PRO_SANTE": {
+            "ADVANCED": "Gevorderd",
+            "BELOW_MINIMUM": "Niet verkregen",
+            "CONFIRMED": "Bevestigd",
+            "EXPERT": "Expert",
+            "INDEPENDENT": "Onafhankelijk"
+          }
+        },
         "title": "Mijn certificeringen",
         "with-certification-text": "Bekijk al je Pix-certificeringen. Raadpleeg de details en download je certificaten.",
         "without-certification-text": "Je hebt nog geen Pix-certificering."
@@ -2636,42 +2677,6 @@
         "menu-link-title": "Mijn persoonlijke gegevens"
       },
       "title": "Mijn account"
-    },
-    "user-certifications": {
-      "meshes": {
-        "DROIT": {
-          "ADVANCED": "Gevorderd",
-          "BELOW_MINIMUM": "Niet verkregen",
-          "CONFIRMED": "Bevestigd",
-          "EXPERT": "Expert",
-          "INDEPENDENT": "Onafhankelijk"
-        },
-        "EDU_1ER_DEGRE": {
-          "ADMISSIBLE": "Toelaatbaar",
-          "ADVANCED": "Gevorderd",
-          "BELOW_MINIMUM": "Niet toelaatbaar",
-          "EXPERT": "Expert"
-        },
-        "EDU_2ND_DEGRE": {
-          "ADMISSIBLE": "Toelaatbaar",
-          "ADVANCED": "Gevorderd",
-          "BELOW_MINIMUM": "Niet toelaatbaar",
-          "EXPERT": "Expert"
-        },
-        "EDU_CPE": {
-          "ADMISSIBLE": "Toelaatbaar",
-          "ADVANCED": "Gevorderd",
-          "BELOW_MINIMUM": "Niet toelaatbaar",
-          "EXPERT": "Expert"
-        },
-        "PRO_SANTE": {
-          "ADVANCED": "Gevorderd",
-          "BELOW_MINIMUM": "Niet verkregen",
-          "CONFIRMED": "Bevestigd",
-          "EXPERT": "Expert",
-          "INDEPENDENT": "Onafhankelijk"
-        }
-      }
     },
     "user-tests": {
       "anonymised-participations": {

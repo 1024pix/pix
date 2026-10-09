@@ -35,6 +35,9 @@
     "description": "Pix è una piattaforma online per la valutazione e la certificazione delle competenze digitali."
   },
   "common": {
+    "a11y": {
+      "external-link": "si apre in una nuova scheda"
+    },
     "actions": {
       "back": "Indietro",
       "cancel": "Annulla",
@@ -385,13 +388,13 @@
     "homepage": "Pagina iniziale di Pix",
     "main": {
       "attestations": "I miei certificati",
+      "certifications": "Certificazione",
       "code": "Ho un codice",
       "dashboard": "Home",
       "help": "Hai bisogno di aiuto?",
       "label": "Menu principale",
       "link-help": "https://pix.fr/support",
       "skills": "Competenze",
-      "start-certification": "Certificazione",
       "trainings": "I miei corsi di formazione",
       "tutorials": "I miei tutorial"
     },
@@ -1034,6 +1037,44 @@
         "title": "Partecipa a una sessione"
       },
       "user-certifications": {
+        "how-to-certificate": {
+          "link": "Come certificarsi",
+          "text": "Se desideri saperne di più sulla certificazione Pix"
+        },
+        "meshes": {
+          "DROIT": {
+            "ADVANCED": "Avanzato",
+            "BELOW_MINIMUM": "Non ottenuto",
+            "CONFIRMED": "Confermato",
+            "EXPERT": "Esperto",
+            "INDEPENDENT": "Indipendente"
+          },
+          "EDU_1ER_DEGRE": {
+            "ADMISSIBLE": "Ammissibile",
+            "ADVANCED": "Avanzato",
+            "BELOW_MINIMUM": "Non ammissibile",
+            "EXPERT": "Esperto"
+          },
+          "EDU_2ND_DEGRE": {
+            "ADMISSIBLE": "Ammissibile",
+            "ADVANCED": "Avanzato",
+            "BELOW_MINIMUM": "Non ammissibile",
+            "EXPERT": "Esperto"
+          },
+          "EDU_CPE": {
+            "ADMISSIBLE": "Ammissibile",
+            "ADVANCED": "Avanzato",
+            "BELOW_MINIMUM": "Non ammissibile",
+            "EXPERT": "Esperto"
+          },
+          "PRO_SANTE": {
+            "ADVANCED": "Avanzato",
+            "BELOW_MINIMUM": "Non ottenuto",
+            "CONFIRMED": "Confermato",
+            "EXPERT": "Esperto",
+            "INDEPENDENT": "Indipendente"
+          }
+        },
         "title": "Le mie certificazioni",
         "with-certification-text": "Accedi a tutte le tue certificazioni Pix. Consulta i dettagli e scarica i tuoi certificati.",
         "without-certification-text": "Non hai ancora nessuna certificazione Pix."
@@ -2636,42 +2677,6 @@
         "menu-link-title": "I miei dati personali"
       },
       "title": "Il mio account"
-    },
-    "user-certifications": {
-      "meshes": {
-        "DROIT": {
-          "ADVANCED": "Avanzato",
-          "BELOW_MINIMUM": "Non ottenuto",
-          "CONFIRMED": "Confermato",
-          "EXPERT": "Esperto",
-          "INDEPENDENT": "Indipendente"
-        },
-        "EDU_1ER_DEGRE": {
-          "ADMISSIBLE": "Ammissibile",
-          "ADVANCED": "Avanzato",
-          "BELOW_MINIMUM": "Non ammissibile",
-          "EXPERT": "Esperto"
-        },
-        "EDU_2ND_DEGRE": {
-          "ADMISSIBLE": "Ammissibile",
-          "ADVANCED": "Avanzato",
-          "BELOW_MINIMUM": "Non ammissibile",
-          "EXPERT": "Esperto"
-        },
-        "EDU_CPE": {
-          "ADMISSIBLE": "Ammissibile",
-          "ADVANCED": "Avanzato",
-          "BELOW_MINIMUM": "Non ammissibile",
-          "EXPERT": "Esperto"
-        },
-        "PRO_SANTE": {
-          "ADVANCED": "Avanzato",
-          "BELOW_MINIMUM": "Non ottenuto",
-          "CONFIRMED": "Confermato",
-          "EXPERT": "Esperto",
-          "INDEPENDENT": "Indipendente"
-        }
-      }
     },
     "user-tests": {
       "anonymised-participations": {

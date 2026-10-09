@@ -35,6 +35,9 @@
     "description": "Pix ist eine Online-Plattform zur Bewertung und Zertifizierung der digitalen Kompetenzen von französischsprachigen Bürger:innen (Schüler:innen, Student:innenen, Schulabbrecher:innen, Arbeitssuchende, Senioren)."
   },
   "common": {
+    "a11y": {
+      "external-link": "wird in einem neuen Tab geöffnet"
+    },
     "actions": {
       "back": "Zurück",
       "cancel": "Abbrechen",
@@ -385,13 +388,13 @@
     "homepage": "Pix-Startseite",
     "main": {
       "attestations": "Meine Bescheinigungen",
+      "certifications": "Zertifizierung",
       "code": "Ich habe einen Code",
       "dashboard": "Startseite",
       "help": "Hilfe",
       "label": "Hauptmenü",
       "link-help": "https://pix.fr/support",
       "skills": "Kompetenzen",
-      "start-certification": "Zertifizierung",
       "trainings": "Meine Übungen",
       "tutorials": "Meine Tutorials"
     },
@@ -1034,6 +1037,44 @@
         "title": "An einer Sitzung teilnehmen"
       },
       "user-certifications": {
+        "how-to-certificate": {
+          "link": "Wie man sich zertifizieren lässt",
+          "text": "Wenn Sie mehr über die Pix-Zertifizierung erfahren möchten"
+        },
+        "meshes": {
+          "DROIT": {
+            "ADVANCED": "Fortgeschrittene",
+            "BELOW_MINIMUM": "Nicht erlangt",
+            "CONFIRMED": "Bestätigt",
+            "EXPERT": "Experte",
+            "INDEPENDENT": "Selbstständig"
+          },
+          "EDU_1ER_DEGRE": {
+            "ADMISSIBLE": "Zulässig",
+            "ADVANCED": "Fortgeschrittene",
+            "BELOW_MINIMUM": "Nicht zulässig",
+            "EXPERT": "Experte"
+          },
+          "EDU_2ND_DEGRE": {
+            "ADMISSIBLE": "Zulässig",
+            "ADVANCED": "Fortgeschrittene",
+            "BELOW_MINIMUM": "Nicht zulässig",
+            "EXPERT": "Experte"
+          },
+          "EDU_CPE": {
+            "ADMISSIBLE": "Zulässig",
+            "ADVANCED": "Fortgeschrittene",
+            "BELOW_MINIMUM": "Nicht zulässig",
+            "EXPERT": "Experte"
+          },
+          "PRO_SANTE": {
+            "ADVANCED": "Fortgeschrittene",
+            "BELOW_MINIMUM": "Nicht erlangt",
+            "CONFIRMED": "Bestätigt",
+            "EXPERT": "Experte",
+            "INDEPENDENT": "Selbstständig"
+          }
+        },
         "title": "Meine Zertifizierungen",
         "with-certification-text": "Greifen Sie auf alle Ihre Pix-Zertifizierungen zu. Sehen Sie sich die Details an und laden Sie Ihre Zertifikate herunter.",
         "without-certification-text": "Sie haben noch keine Pix-Zertifizierung."
@@ -2636,42 +2677,6 @@
         "menu-link-title": "Meine persönlichen Informationen"
       },
       "title": "Mein Konto"
-    },
-    "user-certifications": {
-      "meshes": {
-        "DROIT": {
-          "ADVANCED": "Fortgeschrittene",
-          "BELOW_MINIMUM": "Nicht erlangt",
-          "CONFIRMED": "Bestätigt",
-          "EXPERT": "Experte",
-          "INDEPENDENT": "Selbstständig"
-        },
-        "EDU_1ER_DEGRE": {
-          "ADMISSIBLE": "Zulässig",
-          "ADVANCED": "Fortgeschrittene",
-          "BELOW_MINIMUM": "Nicht zulässig",
-          "EXPERT": "Experte"
-        },
-        "EDU_2ND_DEGRE": {
-          "ADMISSIBLE": "Zulässig",
-          "ADVANCED": "Fortgeschrittene",
-          "BELOW_MINIMUM": "Nicht zulässig",
-          "EXPERT": "Experte"
-        },
-        "EDU_CPE": {
-          "ADMISSIBLE": "Zulässig",
-          "ADVANCED": "Fortgeschrittene",
-          "BELOW_MINIMUM": "Nicht zulässig",
-          "EXPERT": "Experte"
-        },
-        "PRO_SANTE": {
-          "ADVANCED": "Fortgeschrittene",
-          "BELOW_MINIMUM": "Nicht erlangt",
-          "CONFIRMED": "Bestätigt",
-          "EXPERT": "Experte",
-          "INDEPENDENT": "Selbstständig"
-        }
-      }
     },
     "user-tests": {
       "anonymised-participations": {

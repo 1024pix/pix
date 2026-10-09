@@ -35,6 +35,9 @@
     "description": "Pix is an online platform open to all (pupils, students, anyone working or in professional training, seniors) designed to assess, develop and certify digital skills"
   },
   "common": {
+    "a11y": {
+      "external-link": "opens in a new tab"
+    },
     "actions": {
       "back": "Back",
       "cancel": "Cancel",
@@ -385,13 +388,13 @@
     "homepage": "Pix's Homepage",
     "main": {
       "attestations": "My certifications",
+      "certifications": "Certification",
       "code": "I have a code",
       "dashboard": "Home",
       "help": "Help",
       "label": "Main navigation",
       "link-help": "https://pix.org/en/support",
       "skills": "Competences",
-      "start-certification": "Certification",
       "trainings": "My trainings",
       "tutorials": "My tutorials"
     },
@@ -1034,6 +1037,44 @@
         "title": "Join a session"
       },
       "user-certifications": {
+        "how-to-certificate": {
+          "link": "How to get certified",
+          "text": "If you want to learn more about Pix certification"
+        },
+        "meshes": {
+          "DROIT": {
+            "ADVANCED": "Advanced",
+            "BELOW_MINIMUM": "Not obtained",
+            "CONFIRMED": "Confirmed",
+            "EXPERT": "Expert",
+            "INDEPENDENT": "Independent"
+          },
+          "EDU_1ER_DEGRE": {
+            "ADMISSIBLE": "Eligible",
+            "ADVANCED": "Advanced",
+            "BELOW_MINIMUM": "Not eligible",
+            "EXPERT": "Expert"
+          },
+          "EDU_2ND_DEGRE": {
+            "ADMISSIBLE": "Eligible",
+            "ADVANCED": "Advanced",
+            "BELOW_MINIMUM": "Not eligible",
+            "EXPERT": "Expert"
+          },
+          "EDU_CPE": {
+            "ADMISSIBLE": "Eligible",
+            "ADVANCED": "Advanced",
+            "BELOW_MINIMUM": "Not eligible",
+            "EXPERT": "Expert"
+          },
+          "PRO_SANTE": {
+            "ADVANCED": "Advanced",
+            "BELOW_MINIMUM": "Not obtained",
+            "CONFIRMED": "Confirmed",
+            "EXPERT": "Expert",
+            "INDEPENDENT": "Independent"
+          }
+        },
         "title": "My certifications",
         "with-certification-text": "Access all your Pix certifications. View the details and download your certificates.",
         "without-certification-text": "You don't have any Pix certification yet."
@@ -2636,42 +2677,6 @@
         "menu-link-title": "Personal information"
       },
       "title": "My account"
-    },
-    "user-certifications": {
-      "meshes": {
-        "DROIT": {
-          "ADVANCED": "Advanced",
-          "BELOW_MINIMUM": "Not obtained",
-          "CONFIRMED": "Confirmed",
-          "EXPERT": "Expert",
-          "INDEPENDENT": "Independent"
-        },
-        "EDU_1ER_DEGRE": {
-          "ADMISSIBLE": "Eligible",
-          "ADVANCED": "Advanced",
-          "BELOW_MINIMUM": "Not eligible",
-          "EXPERT": "Expert"
-        },
-        "EDU_2ND_DEGRE": {
-          "ADMISSIBLE": "Eligible",
-          "ADVANCED": "Advanced",
-          "BELOW_MINIMUM": "Not eligible",
-          "EXPERT": "Expert"
-        },
-        "EDU_CPE": {
-          "ADMISSIBLE": "Eligible",
-          "ADVANCED": "Advanced",
-          "BELOW_MINIMUM": "Not eligible",
-          "EXPERT": "Expert"
-        },
-        "PRO_SANTE": {
-          "ADVANCED": "Advanced",
-          "BELOW_MINIMUM": "Not obtained",
-          "CONFIRMED": "Confirmed",
-          "EXPERT": "Expert",
-          "INDEPENDENT": "Independent"
-        }
-      }
     },
     "user-tests": {
       "anonymised-participations": {

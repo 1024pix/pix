@@ -206,7 +206,7 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
 
         // then
         const subTitle = t('pages.certificate.obtained-certification.candidate', {
-          globalLevelLabel: t('pages.user-certifications.meshes.EDU_1ER_DEGRE.EXPERT'),
+          globalLevelLabel: t('pages.certifications-dashboard.user-certifications.meshes.EDU_1ER_DEGRE.EXPERT'),
           frameworkLabel: t('pages.certification-frameworks.EDU_1ER_DEGRE'),
         }).replace(/ /g, ' ');
         assert
@@ -235,7 +235,11 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
         const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
         // then
-        assert.dom(screen.getByText(t('pages.user-certifications.meshes.EDU_1ER_DEGRE.ADMISSIBLE'))).exists();
+        assert
+          .dom(
+            screen.getByText(t('pages.certifications-dashboard.user-certifications.meshes.EDU_1ER_DEGRE.ADMISSIBLE')),
+          )
+          .exists();
       });
 
       test('it does not display the level tag and displays the badge when the level is not ADMISSIBLE', async function (assert) {
@@ -258,7 +262,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
         const screen = await render(<template><V3PixPlusCertificate @certificate={{certification}} /></template>);
 
         // then
-        assert.dom(screen.queryByText(t('pages.user-certifications.meshes.EDU_1ER_DEGRE.EXPERT'))).doesNotExist();
+        assert
+          .dom(screen.queryByText(t('pages.certifications-dashboard.user-certifications.meshes.EDU_1ER_DEGRE.EXPERT')))
+          .doesNotExist();
         assert.dom('.certification-result-badge').exists();
         assert.dom('.certification-result-hexagon').doesNotExist();
       });
@@ -342,7 +348,7 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
         .dom(
           screen.getByText(
             t('pages.certificate.obtained-certification.user', {
-              globalLevelLabel: t('pages.user-certifications.meshes.DROIT.EXPERT'),
+              globalLevelLabel: t('pages.certifications-dashboard.user-certifications.meshes.DROIT.EXPERT'),
               frameworkLabel: t('pages.certification-frameworks.DROIT'),
             }),
           ),
@@ -352,7 +358,7 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
         .dom(
           screen.queryByText(
             t('pages.certificate.obtained-certification.candidate', {
-              globalLevelLabel: t('pages.user-certifications.meshes.DROIT.EXPERT'),
+              globalLevelLabel: t('pages.certifications-dashboard.user-certifications.meshes.DROIT.EXPERT'),
               frameworkLabel: t('pages.certification-frameworks.DROIT'),
             }),
           ),
@@ -501,7 +507,7 @@ module('Integration | Component | Certifications | Shareable certificate | v3-pi
         .dom(
           screen.getByText(
             t('pages.certificate.obtained-certification.candidate', {
-              globalLevelLabel: t(`pages.user-certifications.meshes.DROIT.EXPERT`),
+              globalLevelLabel: t(`pages.certifications-dashboard.user-certifications.meshes.DROIT.EXPERT`),
               frameworkLabel: t('pages.certification-frameworks.DROIT'),
             }),
           ),

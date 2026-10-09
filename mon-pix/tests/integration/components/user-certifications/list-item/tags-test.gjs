@@ -123,7 +123,9 @@ module('Integration | Component | User certifications | List item | Tags', funct
       // then
       const mainTag = screen.getByTestId('pw-certification-card-main-status');
       assert.dom(mainTag).containsText(t('pages.certification-frameworks.EDU_2ND_DEGRE'));
-      assert.dom(mainTag).containsText(t('pages.user-certifications.meshes.EDU_2ND_DEGRE.ADMISSIBLE'));
+      assert
+        .dom(mainTag)
+        .containsText(t('pages.certifications-dashboard.user-certifications.meshes.EDU_2ND_DEGRE.ADMISSIBLE'));
     });
 
     test('displays mesh level for Pix+ v3 rejected certification below minimum', async function (assert) {
@@ -149,7 +151,9 @@ module('Integration | Component | User certifications | List item | Tags', funct
 
       // then
       const mainTag = screen.getByTestId('pw-certification-card-main-status');
-      assert.dom(mainTag).containsText(t('pages.user-certifications.meshes.EDU_2ND_DEGRE.BELOW_MINIMUM'));
+      assert
+        .dom(mainTag)
+        .containsText(t('pages.certifications-dashboard.user-certifications.meshes.EDU_2ND_DEGRE.BELOW_MINIMUM'));
     });
   });
 

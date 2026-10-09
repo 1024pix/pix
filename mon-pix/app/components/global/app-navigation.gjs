@@ -21,10 +21,6 @@ export default class AppNavigation extends Component {
     this.attestationVisibility.load(this.currentUser.user.id);
   }
 
-  get isNewCertificationPageEnabled() {
-    return this.featureToggles.featureToggles?.isNewCertificationPageEnabled;
-  }
-
   get showAssessmentsNavItem() {
     return this.currentUser.user.hasAssessmentParticipations;
   }
@@ -62,14 +58,8 @@ export default class AppNavigation extends Component {
               {{t "navigation.user.tests"}}
             </PixNavigationButton>
           {{/if}}
-          {{#if this.isNewCertificationPageEnabled}}
-            <PixNavigationButton @route="authenticated.certifications-v2" @icon="star">
-              {{! template-lint-disable no-bare-strings }}
-              Certifications V2
-            </PixNavigationButton>
-          {{/if}}
           <PixNavigationButton @route="authenticated.certifications" @icon="newRealease">
-            {{t "navigation.main.start-certification"}}
+            {{t "navigation.main.certifications"}}
           </PixNavigationButton>
           {{#if this.showAttestationNavItem}}
             <PixNavigationButton @route="authenticated.attestations" @icon="awards">
@@ -105,7 +95,7 @@ export default class AppNavigation extends Component {
           </PixButtonLink>
           <PixNavigationSeparator />
           <strong>{{this.currentUser.user.fullName}}</strong>
-          <PixButtonLink @route="authenticated.user-certifications" @variant="tertiary" @iconBefore="awards">
+          <PixButtonLink @route="authenticated.certifications" @variant="tertiary" @iconBefore="awards">
             {{t "navigation.user.certifications"}}
           </PixButtonLink>
           <PixButtonLink @route="authenticated.user-account" @iconBefore="shieldPerson">

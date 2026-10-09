@@ -21,7 +21,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     assert.dom(screen.getByRole('link', { name: t('navigation.main.dashboard') })).hasAttribute('href', '/accueil');
     assert.dom(screen.getByRole('link', { name: t('navigation.main.skills') })).hasAttribute('href', '/competences');
     assert
-      .dom(screen.getByRole('link', { name: t('navigation.main.start-certification') }))
+      .dom(screen.getByRole('link', { name: t('navigation.main.certifications') }))
       .hasAttribute('href', '/certifications');
     assert.dom(screen.getByRole('link', { name: t('navigation.main.tutorials') })).hasAttribute('href', '/mes-tutos');
     assert.dom(screen.getByRole('link', { name: t('navigation.main.code') })).hasAttribute('href', '/campagnes');

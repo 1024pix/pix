@@ -27,7 +27,7 @@ export default class Index extends Component {
           <PixIcon @name="openNew" @plainIcon={{true}} @title={{t "navigation.external-link-title"}} />
         </PixButtonLink>
         <PixButtonLink
-          @route="authenticated.user-certifications"
+          @route="authenticated.certifications"
           @variant="transparent-dark"
           class="congratulations-banner-links__link"
         >{{t "pages.certification-start.link-to-user-certification"}}

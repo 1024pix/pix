@@ -15,7 +15,7 @@ export default class UserCertificationPage extends Component {
   get links() {
     return [
       {
-        route: 'authenticated.user-certifications',
+        route: 'authenticated.certifications',
         label: this.intl.t('pages.certifications-list.title'),
       },
       {
