@@ -97,10 +97,10 @@ describe('Integration | Identity Access Management | Scripts | mass-create-user-
         updatedAt: now,
       });
 
-      const legalDocumentAcceptation = await knex('legal-document-version-user-acceptances')
+      const legalDocumentAcceptance = await knex('legal-document-version-user-acceptances')
         .where({ userId: firstUserFound.id })
         .first();
-      expect(legalDocumentAcceptation.legalDocumentVersionId).to.equal(pixAppTos.id);
+      expect(legalDocumentAcceptance.legalDocumentVersionId).to.equal(pixAppTos.id);
 
       const secondUserFound = await knex('users').where({ lastName: 'Desavoie' }).first();
       expect(secondUserFound).to.contains({

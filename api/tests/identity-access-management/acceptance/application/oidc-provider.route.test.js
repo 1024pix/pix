@@ -456,8 +456,8 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
       expect(lastUserApplicationConnection.application).to.equal('app');
       expect(lastUserApplicationConnection.lastLoggedAt).to.be.greaterThanOrEqual(start);
 
-      const legalDocumentAcceptation = await knex('legal-document-version-user-acceptances').first();
-      expect(legalDocumentAcceptation.legalDocumentVersionId).to.equal(pixAppTos.id);
+      const legalDocumentAcceptance = await knex('legal-document-version-user-acceptances').first();
+      expect(legalDocumentAcceptance.legalDocumentVersionId).to.equal(pixAppTos.id);
     });
 
     context('when authentication key has expired', function () {
