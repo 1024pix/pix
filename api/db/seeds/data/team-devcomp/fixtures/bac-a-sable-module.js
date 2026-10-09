@@ -1,0 +1,1754 @@
+export const bacASableModule = {
+  shortId: 'sandbox',
+  slug: 'bac-a-sable',
+  title: 'Bac à sable',
+  isBeta: true,
+  visibility: 'private',
+  image: 'https://assets.pix.org/modules/placeholder-details.svg',
+  description:
+    "<p>Ce module est dédié à des tests internes à Pix.</p><p>Il contient normalement, si tout va bien, l'intégralité des fonctionnalités disponibles à date.</p>",
+  duration: 5,
+  level: 'novice',
+  tabletSupport: 'inconvenient',
+  objectives: ['Non régression fonctionnelle'],
+  sections: [
+    {
+      id: 'cfaefec9-e185-43b8-8258-e8beff6dd56b',
+      type: 'question-yourself',
+      grains: [
+        {
+          id: '9de10c46-df0e-41f5-a709-81637f0d5cc3',
+          type: 'challenge',
+          title: 'Premier grain du bac-a-sable',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: 'd95aff0f-e120-4bd6-9566-7d72a11f4f40',
+                type: 'qcm-declarative',
+                feedback: {
+                  diagnosis: '<p>Ça va, tu as bon goût.</p>',
+                },
+                proposals: [
+                  {
+                    id: '1',
+                    content: 'The X-Files',
+                  },
+                  {
+                    id: '2',
+                    content: 'Friends',
+                  },
+                  {
+                    id: '3',
+                    content: 'The Wire',
+                  },
+                  {
+                    id: '4',
+                    content: 'Downton Abbey',
+                  },
+                ],
+                instruction: '<p>Quelles sont tes séries favorites ?</p>',
+                hasShortProposals: false,
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: 'd5e369ec-2a5e-4692-ac46-5be5a49f2acd',
+                tag: 'context',
+                type: 'text',
+                content: '<p>Ceci&nbsp;est un contenu avec le tag "Contexte".</p>',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: 'fd90e4e1-5836-448c-91b4-8577e42efd09',
+                tag: 'did-you-know',
+                type: 'text',
+                content: '<p>Ceci&nbsp;est un contenu avec le tag "Le saviez-vous ?".</p>',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: 'd199f893-42e4-40f9-b6db-70b7e6bb69b1',
+                tag: 'tip',
+                type: 'text',
+                content: '<p>Ceci&nbsp;est un contenu avec le tag "Astuce".</p>',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '6112afd2-db04-4172-964a-61239d451b38',
+                tag: 'further-information',
+                type: 'text',
+                content: '<p>Ceci&nbsp;est un contenu avec le tag "L’info en plus".</p>',
+              },
+            },
+          ],
+        },
+        {
+          id: '533c69b8-a836-41be-8ffc-8d4636e31224',
+          type: 'activity',
+          title: 'Voici un vrai-faux',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: 'd1ece1a1-aed8-4293-9042-40984a90a670',
+                url: 'https://assets.pix.org/test/ronron.mp3',
+                type: 'audio',
+                title: 'Audio de ronron de chat',
+                transcription: '<p>ron... ron...</p>',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '96e29215-3610-4bc6-b4a6-026bf13276b8',
+                url: 'https://assets.pix.org/modules/bac-a-sable/clic-droit.mp4',
+                type: 'short-video',
+                title: 'Exemple de vidéo courte',
+                transcription: 'Je clique avec le bouton droit de la souris.',
+              },
+            },
+            {
+              type: 'stepper',
+              steps: [
+                {
+                  elements: [
+                    {
+                      id: '0401cef4-871e-40a3-876b-5d7571f8b556',
+                      type: 'qcm-declarative',
+                      feedback: {
+                        diagnosis: "<p>C'est sûr, c'est un vrai kiff !</p>",
+                      },
+                      proposals: [
+                        {
+                          id: '1',
+                          content: 'Manger les cookies glacés de Clément',
+                        },
+                        {
+                          id: '2',
+                          content: 'Regarder un match de foot avec Eric',
+                        },
+                        {
+                          id: '3',
+                          content: 'Se faire coacher au marathon par Matthias',
+                        },
+                        {
+                          id: '4',
+                          content: 'Observer Andreia dessiner dans Slack',
+                        },
+                        {
+                          id: '5',
+                          content: 'Ecouter du reggae avec Nico',
+                        },
+                        {
+                          id: '6',
+                          content: 'Descendre une pente en ski de fond avec Julie',
+                        },
+                      ],
+                      instruction: '<p>Quels sont tes petits plaisirs de la vie ?</p>',
+                      hasShortProposals: false,
+                    },
+                  ],
+                },
+                {
+                  elements: [
+                    {
+                      id: '71de6394-ff88-4de3-8834-a40057a50ff4',
+                      type: 'qcu',
+                      solution: '1',
+                      proposals: [
+                        {
+                          id: '1',
+                          content: 'Vrai',
+                          feedback: {
+                            state: 'Correct&#8239;!',
+                            diagnosis: 'Ces 16 compétences sont rangées dans 5 domaines.',
+                          },
+                        },
+                        {
+                          id: '2',
+                          content: 'Faux',
+                          feedback: {
+                            state: 'Incorrect.',
+                            diagnosis:
+                              '<p> Retourner voir la vidéo si besoin&nbsp;<span aria-hidden="true">👆</span>!</p>',
+                          },
+                        },
+                      ],
+                      instruction: '<p>Pix évalue 16 compétences numériques différentes.</p>',
+                      hasShortProposals: false,
+                    },
+                  ],
+                },
+                {
+                  elements: [
+                    {
+                      id: '0f8eb663-be85-4cb1-9168-e5c39f4ec1bd',
+                      type: 'qrocm',
+                      feedbacks: {
+                        valid: {
+                          state: 'Correct !',
+                          diagnosis: '<p> vous nous connaissez bien &nbsp; <span aria-hidden="true">🎉</span></p>',
+                        },
+                        invalid: {
+                          state: 'Incorrect !',
+                          diagnosis: '<p> vous y arriverez la prochaine fois !</p>',
+                        },
+                      },
+                      proposals: [
+                        {
+                          type: 'text',
+                          content: '<h1>Pix est un</h1>',
+                        },
+                        {
+                          size: 10,
+                          type: 'input',
+                          input: 'pix-name',
+                          display: 'inline',
+                          ariaLabel: 'Mot à trouver',
+                          inputType: 'text',
+                          solutions: ['Groupement'],
+                          tolerances: ['t1', 't3'],
+                          placeholder: '',
+                        },
+                        {
+                          type: 'text',
+                          content: "<p>d'intérêt public qui a été créée en</p>",
+                        },
+                        {
+                          size: 10,
+                          type: 'input',
+                          input: 'pix-birth',
+                          display: 'inline',
+                          ariaLabel: 'Année à trouver',
+                          inputType: 'number',
+                          solutions: [2016],
+                          tolerances: [],
+                          placeholder: '',
+                        },
+                      ],
+                      instruction: '<p>Compléter le texte suivant :</p>',
+                    },
+                  ],
+                },
+                {
+                  elements: [
+                    {
+                      id: '79dc17f9-142b-4e19-bcbe-bfde4e170d3f',
+                      type: 'qcu-declarative',
+                      proposals: [
+                        {
+                          id: '1',
+                          content: 'Vrai',
+                          feedback: {
+                            diagnosis: '<p> Et non ! Il y a seulement 5 domaines sur Pix.</p>',
+                          },
+                        },
+                        {
+                          id: '2',
+                          content: 'Faux',
+                          feedback: {
+                            diagnosis: '<p> Bien vu !</p>',
+                          },
+                        },
+                      ],
+                      instruction: '<p>Pix est découpé en 6 domaines.</p>',
+                      hasShortProposals: false,
+                    },
+                  ],
+                },
+                {
+                  elements: [
+                    {
+                      id: 'ef18ed04-9551-4cee-9648-9f14a28aab1b',
+                      type: 'qcm',
+                      feedbacks: {
+                        valid: {
+                          state: 'Correct !',
+                          diagnosis: '<p>Vous nous avez bien cernés&nbsp;:)</p>',
+                        },
+                        invalid: {
+                          state: 'Et non !',
+                          diagnosis: '<p> Pix sert à évaluer, certifier et développer ses compétences numériques.</p>',
+                        },
+                      },
+                      proposals: [
+                        {
+                          id: '1',
+                          content: 'Evaluer ses connaissances et savoir-faire sur 16 compétences du numérique',
+                        },
+                        {
+                          id: '2',
+                          content: 'Développer son savoir-faire sur les jeux de type TPS',
+                        },
+                        {
+                          id: '3',
+                          content: 'Développer ses compétences numériques',
+                        },
+                        {
+                          id: '4',
+                          content: 'Certifier ses compétences Pix',
+                        },
+                        {
+                          id: '5',
+                          content: 'Evaluer ses compétences de logique et compréhension mathématique',
+                        },
+                      ],
+                      solutions: ['1', '3', '4'],
+                      instruction: '<p>Quels sont les 3 piliers de Pix ?</p>',
+                      hasShortProposals: false,
+                    },
+                  ],
+                },
+                {
+                  elements: [
+                    {
+                      id: '7fb4c1c6-46f8-49a4-9547-f9febf545447',
+                      tag: ' ',
+                      type: 'text',
+                      content: '<p>Voici des photographies de chiens et de bagels.</p>',
+                    },
+                    {
+                      id: '5c25213f-14ec-4107-a1cf-ab1b97271476',
+                      alt: 'Une photo comportant des chiens et des bagels',
+                      url: 'https://assets.pix.org/modules/bac-a-sable/des-chiens-et-des-bagels.jpg',
+                      type: 'image',
+                      legend: '',
+                      licence: '',
+                      alternativeText: '',
+                    },
+                  ],
+                },
+                {
+                  elements: [
+                    {
+                      id: 'b1ef75c8-714b-4b2d-8e88-e279c5737095',
+                      type: 'qcu-discovery',
+                      solution: '1',
+                      proposals: [
+                        {
+                          id: '1',
+                          content: '<p>8</p>',
+                          feedback: {
+                            diagnosis: '<p>Bien joué !</p>',
+                          },
+                        },
+                        {
+                          id: '2',
+                          content: '<p>9</p>',
+                          feedback: {
+                            diagnosis: "<p>Eh non ! Y'a un bagel dans votre calcul 🥯</p>",
+                          },
+                        },
+                      ],
+                      instruction: "<p>Selon vous, combien y'a t-il de chiens dans la photo ?<br></p>",
+                      hasShortProposals: false,
+                    },
+                  ],
+                },
+              ],
+              instruction: "<p>Ce texte s'affiche uniquement pour ce stepper car il est horizontal.</p>",
+            },
+          ],
+        },
+        {
+          id: '1dc50ca6-355c-4d7f-941b-608788faa4db',
+          type: 'short-lesson',
+          title: 'Exemple de stepper leçon',
+          components: [
+            {
+              type: 'stepper',
+              steps: [
+                {
+                  elements: [
+                    {
+                      id: '868a2c39-d70b-45ba-847d-76d11a83a6fd',
+                      tag: ' ',
+                      type: 'text',
+                      content:
+                        '<p>Pour apprendre à une IA générative à produire du texte, on lui fait analyser des milliards de textes variés. 📚</p>',
+                    },
+                  ],
+                },
+                {
+                  elements: [
+                    {
+                      id: '3875f579-e152-4309-a630-cd91196381f5',
+                      tag: ' ',
+                      type: 'text',
+                      content:
+                        "<p>L’IA générative s’entraîne à masquer puis&nbsp;deviner&nbsp;des mots au hasard parmi tous ces textes. 🙈</p><p>Petit à petit elle s'améliore&nbsp;: elle apprend quels mots apparaissent&nbsp;souvent&nbsp;ensemble. 🐈 🐁</p>",
+                    },
+                  ],
+                },
+                {
+                  elements: [
+                    {
+                      id: '7b58e24b-b751-4000-b3b6-554e548b9dd9',
+                      tag: ' ',
+                      type: 'text',
+                      content:
+                        "<p>Ainsi à partir d'un début de phrase, l'IA générative&nbsp;prédit le mot suivant&nbsp;📝.<br>Puis elle recommence depuis le début de la phrase pour trouver le mot qui suit.<br>Et ... elle recommence encore et encore ! 🔁</p>",
+                    },
+                  ],
+                },
+                {
+                  elements: [
+                    {
+                      id: '1687e720-8346-4821-b60a-79937bdda1cb',
+                      tag: ' ',
+                      type: 'text',
+                      content:
+                        "<p>À la fin de cette étape, l'IA générative est capable de prolonger ou compléter des débuts de texte. 😮</p>",
+                    },
+                  ],
+                },
+              ],
+              instruction: '<p>😎COOL GANG 😎. Cette instruction ne sera pas visible dans le module.</p>',
+            },
+          ],
+        },
+        {
+          id: '06f9478a-36c4-41a7-9165-b2da38f9c3b5',
+          type: 'short-lesson',
+          title: 'Exemple de short-lesson avec une transition après',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: 'b2363470-626f-4f59-9961-184e847687a4',
+                tag: ' ',
+                type: 'text',
+                content: 'Exemple de short-lesson avec une transition après, pour afficher le bouton continuer',
+              },
+            },
+          ],
+        },
+        {
+          id: '1122aced-5885-4a5d-afed-99c7a9dff009',
+          type: 'transition',
+          title: '',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '488e3984-6ed6-4245-8c94-da188a2fd13c',
+                tag: ' ',
+                type: 'text',
+                content: '<p>Section <strong>Réponses Courtes</strong> (QCM, QCU (+ découverte et déclaratif))</p>',
+              },
+            },
+          ],
+        },
+        {
+          id: 'cef7d350-008b-410b-8a6a-39b56efdbe8d',
+          type: 'discovery',
+          title: 'test qcu-discovery',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '0c397035-a940-441f-8936-050db7f997af',
+                type: 'qcu-discovery',
+                solution: '1',
+                proposals: [
+                  {
+                    id: '1',
+                    content: 'Des cookies maison tout chauds',
+                    feedback: {
+                      diagnosis:
+                        '<p>Il n’y a rien de plus réconfortant que des cookies tout juste sortis du four !</p>',
+                    },
+                  },
+                  {
+                    id: '2',
+                    content: 'Des mini-éclairs au chocolat',
+                    feedback: {
+                      diagnosis:
+                        '<p>Les éclairs, c’est un peu l’élégance à l’état pur. Légers, crémeux, et surtout irrésistibles.</p>',
+                    },
+                  },
+                  {
+                    id: '3',
+                    content: 'Un plateau de fruits frais et de fromage',
+                    feedback: {
+                      diagnosis:
+                        '<p>Parfait pour ceux qui préfèrent un goûter plus léger, mais tout aussi délicieux.</p>',
+                    },
+                  },
+                  {
+                    id: '4',
+                    content: 'Une part de gâteau marbré au chocolat et à la vanille',
+                    feedback: {
+                      diagnosis:
+                        '<p>Un gâteau moelleux et gourmand qui se marie parfaitement avec une tasse de thé ou de café.</p>',
+                    },
+                  },
+                ],
+                instruction: '<p>Quel est le dessert classique idéal lors d’un goûter&nbsp;?</p>',
+                hasShortProposals: false,
+              },
+            },
+          ],
+        },
+        {
+          id: 'd8678f8a-902e-43c2-8c41-2c09e32905e1',
+          type: 'discovery',
+          title: 'qcu-discovery short proposals (4 et 3)',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: 'c3bc4466-2825-488e-ad5f-275ace4b19a8',
+                type: 'qcu-discovery',
+                solution: '1',
+                proposals: [
+                  {
+                    id: '1',
+                    content: 'Nutella 🍫',
+                    feedback: {
+                      diagnosis: "<p>Les meilleures c'est clair !</p>",
+                    },
+                  },
+                  {
+                    id: '2',
+                    content: 'Nature 🌱',
+                    feedback: {
+                      diagnosis: '<p>Si la pâte est bien faite, pas besoin de plus parfois !</p>',
+                    },
+                  },
+                  {
+                    id: '3',
+                    content: 'Citron/sucre 🍋',
+                    feedback: {
+                      diagnosis: '<p>Pardon ?</p>',
+                    },
+                  },
+                  {
+                    id: '4',
+                    content: 'Complète avec poulet',
+                    feedback: {
+                      diagnosis: '<p>Galette, pas crêpe ! Avec la sauce biggy 🤤</p>',
+                    },
+                  },
+                ],
+                instruction: '<p>Quelle est la meilleure crêpe 🥞 ?</p>',
+                hasShortProposals: true,
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '81eaa0ab-6b2d-4748-94dc-9504732eabc5',
+                type: 'qcu-discovery',
+                solution: '2',
+                proposals: [
+                  {
+                    id: '1',
+                    content: '3🐶/3😺',
+                    feedback: {
+                      diagnosis: '<p>Non 😔</p>',
+                    },
+                  },
+                  {
+                    id: '2',
+                    content: '2🐶/2😺',
+                    feedback: {
+                      diagnosis: '<p>Ouiiii ! 🐶😺</p>',
+                    },
+                  },
+                  {
+                    id: '3',
+                    content: '2🐶/3😺',
+                    feedback: {
+                      diagnosis: "<p>Non, un certain E.LLM n'a pas adopté de chat encore 😛</p>",
+                    },
+                  },
+                ],
+                instruction: "<p>Combien de chiens/chats dans l'équipe ?</p>",
+                hasShortProposals: true,
+              },
+            },
+          ],
+        },
+        {
+          id: '12be4923-0130-45bf-9171-fcb38bb5d065',
+          type: 'challenge',
+          title: 'qcu-declarative short proposals (2 et 3)',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: 'dddddd7c-0bdd-447a-8958-84b50e0e2558',
+                type: 'qcu-declarative',
+                proposals: [
+                  {
+                    id: '1',
+                    content: 'Le lait 🥛',
+                    feedback: {
+                      diagnosis: '<p>...Intéressant. Tu chauffes ton lait aussi ? 👀</p>',
+                    },
+                  },
+                  {
+                    id: '2',
+                    content: 'Les céréales 🌾',
+                    feedback: {
+                      diagnosis: '<p>Meilleure stratégie ! Ça fait plus de céréales dans le bol 🥣</p>',
+                    },
+                  },
+                ],
+                instruction: '<p>Qui arrive en premier dans le bol : le lait ou les céréales ?</p>',
+                hasShortProposals: true,
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '82eaf7ce-02f7-44e8-8c51-3d07ba29e400',
+                type: 'qcu-declarative',
+                proposals: [
+                  {
+                    id: '1',
+                    content: 'Toto',
+                    feedback: {
+                      diagnosis: '<p>Ah bon ?</p>',
+                    },
+                  },
+                  {
+                    id: '2',
+                    content: 'Tata',
+                    feedback: {
+                      diagnosis: '<p>Tu est sûr ?</p>',
+                    },
+                  },
+                  {
+                    id: '3',
+                    content: 'Toto et Tata',
+                    feedback: {
+                      diagnosis: '<p>Pas facile de tenir sur un bâton oui 😏</p>',
+                    },
+                  },
+                ],
+                instruction: "<p>Toto et Tata sont sur un bâton 🛶, qui tombe à l'eau?</p>",
+                hasShortProposals: true,
+              },
+            },
+          ],
+        },
+        {
+          id: 'e2b88606-c4aa-4ac2-9505-1ac691df3d67',
+          type: 'challenge',
+          title: 'qcu short proposals (3 et 4)',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '19525c84-e8e7-4852-868b-e1857f21daae',
+                type: 'qcu',
+                solution: '3',
+                proposals: [
+                  {
+                    id: '1',
+                    content: '🔥',
+                    feedback: {
+                      state: '🔥🔥🔥',
+                      diagnosis: "<p> Non, cet émoji n'est pas disponible en autocollant sur le huddle de travail.</p>",
+                    },
+                  },
+                  {
+                    id: '2',
+                    content: '☕️',
+                    feedback: {
+                      state: 'What else ? ☕️',
+                      diagnosis:
+                        "<p>Non, mais cet émoji est bien présent comme autocollant sur le huddle.<br> Il nous permet d'indiquer que l'on s'absente un moment.</p>",
+                    },
+                  },
+                  {
+                    id: '3',
+                    content: '👎',
+                    feedback: {
+                      state: '👍 !',
+                      diagnosis:
+                        "<p>Tout à fait ! Cet émoji, présent comme autocollant sur le huddle, nous permet d'indiquer cette information au reste de l'équipe.</p>",
+                    },
+                  },
+                ],
+                instruction: '<p>Quel émoji utilise-t-on chez devcomp quand on ne participe pas au mob ?</p>',
+                hasShortProposals: true,
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: 'b671a789-1aff-4941-b49b-ac8a1634e9eb',
+                type: 'qcu',
+                solution: '2',
+                proposals: [
+                  {
+                    id: '1',
+                    content: '🦀',
+                    feedback: {
+                      state: 'Alors non...',
+                      diagnosis:
+                        "<p>Cet émoji fait partie de la DA de l'équipe, mais rien à voir avec nos standards de commit.</p>",
+                    },
+                  },
+                  {
+                    id: '2',
+                    content: '⚡️',
+                    feedback: {
+                      state: 'Oui !',
+                      diagnosis:
+                        "<p>Pure décision de l'équipe, <strong>Gitmoji</strong> le recommandant normalement pour les améliorations de performance. <br> C'est juste qu'il est COOL 😎</p>",
+                    },
+                  },
+                  {
+                    id: '3',
+                    content: '✨',
+                    feedback: {
+                      state: '🤖INCORRECT🤖',
+                      diagnosis:
+                        "<p>Il s'agit effectivement de l'émoji recommandé par <strong>Gitmoji</strong> mais nous avons changé depuis peu car il est devenu le symbole non officiel de l’IA.</p>",
+                    },
+                  },
+                  {
+                    id: '4',
+                    content: '🔥',
+                    feedback: {
+                      state: '🔥🔥🔥',
+                      diagnosis:
+                        "<p>Celui-ci indique que l'on supprime du code ! il nous vient du guide <strong>Gitmoji</strong>.</p>",
+                    },
+                  },
+                ],
+                instruction: '<p>Quel émoji utilise-t-on chez devcomp quand on commit une feature ?</p>',
+                hasShortProposals: true,
+              },
+            },
+          ],
+        },
+        {
+          id: 'aa40e5bb-fe1e-41df-9318-a00aaca6dbe8',
+          type: 'challenge',
+          title: 'qcm short proposals (3 et 4)',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: 'e48f8ce7-cd94-40d3-bb62-bbee4116951c',
+                type: 'qcm',
+                feedbacks: {
+                  valid: {
+                    state: 'Correct !',
+                    diagnosis:
+                      '<p>On trouve ici un palindrome classique par lecture des lettres, un palindrome de forme numérique et un palindrome syllabique.</p>',
+                  },
+                  invalid: {
+                    state: 'Et non !',
+                    diagnosis: '<p>Essayez encore 🦀</p>',
+                  },
+                },
+                proposals: [
+                  {
+                    id: '1',
+                    content: 'De la salade',
+                  },
+                  {
+                    id: '2',
+                    content: 'KEYAK',
+                  },
+                  {
+                    id: '3',
+                    content: '10/02/2001',
+                  },
+                  {
+                    id: '4',
+                    content: 'Réifier',
+                  },
+                ],
+                solutions: ['1', '3', '4'],
+                instruction: '<p>Dans ces propositions, lesquels sont des palindromes?</p>',
+                hasShortProposals: true,
+              },
+            },
+          ],
+        },
+        {
+          id: 'f1738f85-e272-43d3-aee2-f4190be54c34',
+          type: 'summary',
+          title: 'test table',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '774c4c4e-f170-4e2c-ba7a-d2fe40d053c3',
+                tag: ' ',
+                type: 'text',
+                content:
+                  '<p>Voici un tableau :</p> <table>\n  <tbody>\n <tr>\n    <th scope="col">Player</th>\n    <th scope="col">Gloobles</th>\n    <th scope="col">Za\'taak</th>\n  </tr>\n  <tr>\n    <th scope="row">TR-7</th>\n    <td>7</td>\n    <td>4,569</td>\n  </tr>\n  <tr>\n    <th scope="row">Khiresh Odo</th>\n    <td>7</td>\n    <td>7,223</td>\n  </tr>\n  <tr>\n    <th scope="row">Mia Oolong</th>\n    <td>9</td>\n    <td>6,219</td>\n  </tr>\n </tbody>\n </table>\n',
+              },
+            },
+          ],
+        },
+        {
+          id: 'cf436761-f56d-4b01-83f9-942afe9ce72c',
+          type: 'activity',
+          title: 'test qab',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: 'ed795d29-5f04-499c-a9c8-4019125c5cb1',
+                type: 'qab',
+                cards: [
+                  {
+                    id: 'e222b060-7c18-4ee2-afe2-2ae27c28946a',
+                    text: 'Les boules de pétanques sont creuses ?',
+                    image: {
+                      url: 'https://assets.pix.org/modules/bac-a-sable/boules-de-petanque.jpg',
+                      altText: '',
+                    },
+                    solution: 'A',
+                    proposalA: 'Vrai',
+                    proposalB: 'Faux',
+                  },
+                  {
+                    id: '57056894-8e1b-4da9-96b6-0bd4187412b8',
+                    text: 'Les chiens ne transpirent pas.',
+                    solution: 'B',
+                    proposalA: 'Vrai',
+                    proposalB: 'Faux',
+                  },
+                  {
+                    id: '04bab312-160d-41b1-a5c9-017d563aef3a',
+                    text: "Quel est l'organe qui rougit ?",
+                    solution: 'A',
+                    proposalA: "L'estomac",
+                    proposalB: 'Le coeur',
+                  },
+                  {
+                    id: '1d1c33e3-e27d-4161-bfcc-529ea1aa573f',
+                    text: 'Les dauphins sont des poissons.',
+                    image: {
+                      url: 'https://assets.pix.org/modules/bac-a-sable/boules-de-petanque.jpg',
+                      altText: '',
+                    },
+                    solution: 'B',
+                    proposalA: 'Vrai',
+                    proposalB: 'Faux',
+                  },
+                  {
+                    id: '4420c9f6-ae21-4401-a16c-41296d898a66',
+                    text: 'La Terre est plus proche du Soleil que Mars.',
+                    solution: 'B',
+                    proposalA: 'Vrai',
+                    proposalB: 'Faux',
+                  },
+                  {
+                    id: '52d99648-5904-4a66-9fb8-476ba4da9465',
+                    text: 'L’eau bout à 100°C au niveau de la mer.',
+                    solution: 'A',
+                    proposalA: 'Vrai',
+                    proposalB: 'Faux',
+                  },
+                ],
+                feedback: {
+                  diagnosis: '<p>Continuez comme ça !</p>',
+                },
+                instruction:
+                  '<p><strong>Maintenant, entraînez-vous sur des exemples concrets !</strong> </p> <p> Pour chaque exemple, choisissez si l’affirmation est <strong>vraie</strong> ou <strong>fausse</strong>.</p>',
+              },
+            },
+          ],
+        },
+        {
+          id: 'a39ce6eb-f3db-447f-808f-aa6a06b940c9',
+          type: 'activity',
+          title: 'test qcu-declarative',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '6a6944be-a8a3-4138-b5dc-af664cf40b07',
+                type: 'qcu-declarative',
+                proposals: [
+                  {
+                    id: '1',
+                    content: 'Avant de mettre le dentifrice',
+                    feedback: {
+                      diagnosis: "<p>C'est l'approche de la plupart des gens.</p>",
+                    },
+                  },
+                  {
+                    id: '2',
+                    content: 'Après avoir mis le dentifrice',
+                    feedback: {
+                      diagnosis: '<p>Possible, mais attention à ne pas faire tomber le dentifrice !</p>',
+                    },
+                  },
+                  {
+                    id: '3',
+                    content:
+                      "Pendant que le dentifrice est mis, parce que j'aime les défis et que je suis multitâche et que j'aime les phrases interminables.",
+                    feedback: {
+                      diagnosis: '<p>Digne des plus grands acrobates !</p>',
+                    },
+                  },
+                ],
+                instruction: '<p>Quand faut-il mouiller sa brosse à dents&nbsp;?</p>',
+                hasShortProposals: false,
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'b0d428ab-a4ae-45e0-83fd-786fbd9c03dc',
+      type: 'practise',
+      grains: [
+        {
+          id: 'b14df125-82d5-4d55-a660-7b34cd9ea1ab',
+          type: 'challenge',
+          title: 'Un fichier à télécharger',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '901ccbaa-f4e6-4322-b863-8e8eab08a33a',
+                type: 'download',
+                files: [
+                  {
+                    url: 'https://dl.pix.fr/1641899675462/Pix_velos.xlsx',
+                    format: '.xlsx',
+                  },
+                  {
+                    url: 'https://dl.pix.fr/1641899675463/Pix_velos.ods',
+                    format: '.ods',
+                  },
+                ],
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '31106aeb-8346-44a6-8ed4-ebaa2106a373',
+                type: 'qcu',
+                solution: '3',
+                proposals: [
+                  {
+                    id: '1',
+                    content: 'Des recettes de lasagne',
+                    feedback: {
+                      state: 'Incorrect.',
+                      diagnosis: '<p>Erreur, ce ne sont pas des lasagnes</p>',
+                    },
+                  },
+                  {
+                    id: '2',
+                    content: 'Des recettes de pâté en croûte',
+                    feedback: {
+                      state: 'Incorrect.',
+                      diagnosis: '<p>Non, ce ne sont pas des recettes de pâté en croûte</p>',
+                    },
+                  },
+                  {
+                    id: '3',
+                    content: 'Des recettes végétariennes',
+                    feedback: {
+                      state: 'Correct !',
+                      diagnosis: '<p>Bonne réponse ! Ce sont bien des recettes végétariennes</p>',
+                    },
+                  },
+                ],
+                instruction: "<p>Quelle type de recette souhaite obtenir l'utilisateur dans l'image&nbsp;?</p>",
+                hasShortProposals: false,
+              },
+            },
+          ],
+        },
+        {
+          id: '8147aced-4150-4a5d-afed-54c7a9dff056',
+          type: 'transition',
+          title: '',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '5da6a142-c66b-42d4-9afd-86d369ebd2b5',
+                tag: ' ',
+                type: 'text',
+                content:
+                  '<p>Chaque leçon a un objectif pédagogique précis.</p><p>Dans la prochaine leçon, nous vous proposons de découvrir Pix avec une courte vidéo&nbsp;<span aria-hidden="true">📺</span></p>',
+              },
+            },
+          ],
+        },
+        {
+          id: '73ac3644-7637-4cee-86d4-1a75f53f0b9c',
+          type: 'lesson',
+          title: 'Vidéo de présentation de Pix',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '342183f7-af51-4e4e-ab4c-ebed1e195063',
+                tag: ' ',
+                type: 'text',
+                content: '<p>À la fin de cette vidéo, une question sera posée sur les compétences Pix.</p>',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '3a9f2269-99ba-4631-b6fd-6802c88d5c26',
+                url: 'https://assets.pix.org/modules/bac-a-sable/presentation.mp4',
+                type: 'video',
+                title: 'Vidéo de présentation de Pix',
+                poster: 'https://assets.pix.org/modules/bac-a-sable/ordi-spatial.svg',
+                subtitles: '',
+                transcription:
+                  '<p>Le numérique évolue en permanence, vos compétences aussi, pour travailler, communiquer et s\'informer, se déplacer, réaliser des démarches, un enjeu tout au long de la vie.</p><p>Sur <a href="https://pix.fr" target="blank">pix.fr</a>, testez-vous et cultivez vos compétences numériques.</p><p>Les tests Pix sont personnalisés, les questions s\'adaptent à votre niveau, réponse après réponse.</p><p>Évaluez vos connaissances et savoir-faire sur 16 compétences, dans 5 domaines, sur 5 niveaux de débutants à confirmer, avec des mises en situation ludiques, recherches en ligne, manipulation de fichiers et de données, culture numérique...</p><p>Allez à votre rythme, vous pouvez arrêter et reprendre quand vous le voulez.</p><p>Toutes les 5 questions, découvrez vos résultats et progressez grâce aux astuces et aux tutos.</p><p>En relevant les défis Pix, vous apprendrez de nouvelles choses et aurez envie d\'aller plus loin.</p><p>Vous pensez pouvoir faire mieux ?</p><p>Retentez les tests et améliorez votre score.</p><p>Faites reconnaître officiellement votre niveau en passant la certification Pix, reconnue par l\'État et le monde professionnel.</p><p>Pix&nbsp;: le service public en ligne pour évaluer, développer et certifier ses compétences numériques.</p>',
+              },
+            },
+          ],
+        },
+        {
+          id: '6566cc3a-9d74-4bd9-bda0-3dcb37129a26',
+          type: 'transition',
+          title: '',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '1df5f2eb-f8f9-4a07-ab56-2c001541306b',
+                tag: ' ',
+                type: 'text',
+                content:
+                  '<p>Vous allez faire votre première activité. Les activités servent à vérifier que vous avez compris l\'essentiel des leçons.<br>Dans les activités Modulix, vous avez votre résultat immédiatement. À vous de jouer&nbsp;<span aria-hidden="true">🚀</span></p>',
+              },
+            },
+          ],
+        },
+        {
+          id: '358e6d74-4adf-463a-9bf4-69ddca521d87',
+          type: 'transition',
+          title: '',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '41186193-1c38-4827-84b7-e70848367d42',
+                tag: ' ',
+                type: 'text',
+                content:
+                  '<p>Vous l’aurez compris, on aime varier les plaisirs et proposer différents types d’activité, après le questionnaire à choix unique on vous laisse découvrir le QCM !</p>',
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: '2cb5a4fa-a54f-4d94-9b1f-5f504821846a',
+      type: 'explore-to-understand',
+      grains: [
+        {
+          id: '628bd37d-e5da-411f-9b06-1035b073411b',
+          type: 'lesson',
+          title: 'test flashcards',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '47823e8f-a4af-44d6-96f7-5b6fc7bc6b51',
+                type: 'flashcards',
+                cards: [
+                  {
+                    id: 'e1de6394-ff88-4de3-8834-a40057a50ff4',
+                    recto: {
+                      text: 'Qui a écrit « Le Dormeur du Val ? »',
+                      image: {
+                        url: 'https://assets.pix.org/modules/bac-a-sable/icon.svg',
+                      },
+                    },
+                    verso: {
+                      text: '<p>Arthur Rimbaud</p>',
+                      image: {
+                        url: '',
+                      },
+                    },
+                  },
+                  {
+                    id: '48d0cd29-1e08-4b18-b15a-411ab83e5d3c',
+                    recto: {
+                      text: "Comment s'appelait la fille de Victor Hugo, évoquée dans le poème « Demain dès l'aube » ?",
+                    },
+                    verso: {
+                      text: '<p>Léopoldine</p>',
+                    },
+                  },
+                  {
+                    id: '2611784c-cf3f-4445-998d-d02fa568da0c',
+                    recto: {
+                      text: "Quel animal a des yeux « mêlés de métal et d'agathe » selon Charles Baudelaire ?",
+                      image: {
+                        url: 'https://assets.pix.org/modules/bac-a-sable/icon.svg',
+                      },
+                    },
+                    verso: {
+                      text: '<p>Le chat</p>',
+                      image: {
+                        url: 'https://assets.pix.org/modules/bac-a-sable/chaton.jpg',
+                      },
+                    },
+                  },
+                ],
+                title: 'Introduction à la poésie',
+                introImage: {
+                  url: 'https://assets.pix.org/modules/bac-a-sable/intro-flashcards.png',
+                },
+                instruction:
+                  '<p><strong>Pour chaque carte</strong>&nbsp;:&nbsp;</p><ol><li>Lisez la question. <span aria-hidden="true">👀</span></li><li>Essayez de trouver la réponse dans votre tête. <span aria-hidden="true">🤔</span></li><li>Retournez la carte en cliquant sur Voir la réponse. <span aria-hidden="true">↪️</span></li></ol><p>Cela permet de <strong>tester votre mémoire</strong>.<span aria-hidden="true">🎯</span></p>',
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'ea5ebe5d-f29f-4b03-8e9f-7c77606a014f',
+      type: 'retain-the-essentials',
+      grains: [
+        {
+          id: 'df111992-ff3a-4c3f-ae5a-78bc359af23c',
+          type: 'lesson',
+          title: 'test POI',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '52af6cab-07df-4962-abc5-20cf95d5eb5a',
+                tag: ' ',
+                type: 'text',
+                content: '<p>Voici un Petit Objet Interactif expérimental :</p>',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: 'f00133f5-0653-425b-a25f-3c9604820529',
+                url: 'https://1024pix.github.io/atelier-contenus/RPE/cartes2.html',
+                type: 'custom-draft',
+                title: 'Retourner les cartes',
+                height: 400,
+                instruction: '<p>Retournez les cartes.</p>',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: 'e32c01a8-7ae1-4c6d-9a16-6487c7c504d2',
+                tag: ' ',
+                type: 'text',
+                content: "<p>Ils ne sont autorisés qu'en béta.</p>",
+              },
+            },
+          ],
+        },
+        {
+          id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+          type: 'discovery',
+          title: 'Voici un grain de découverte',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '5c468891-6b50-41c6-bb30-8639b52c5bca',
+                type: 'expand',
+                title: 'Voici un indice pour répondre à la magnifique flashcard',
+                content:
+                  '<p> Souvent, pour s’amuser, les hommes d’équipage<br>Prennent des albatros, vastes oiseaux des mers,<br>Qui suivent, indolents compagnons de voyage,<br>Le navire glissant sur les gouffres amers.<br>À peine les ont-ils déposés sur les planches,<br>Que ces rois de l’azur, maladroits et honteux,<br>Laissent piteusement leurs grandes ailes blanches<br>Comme des avirons traîner à côté d’eux.<br>Ce voyageur ailé, comme il est gauche et veule !<br>Lui, naguère si beau, qu’il est comique et laid !<br>L’un agace son bec avec un brûle-gueule,<br>L’autre mime, en boitant, l’infirme qui volait !<br>Le Poète est semblable au prince des nuées<br>Qui hante la tempête et se rit de l’archer ;<br>Exilé sur le sol au milieu des huées,<br>Ses ailes de géant l’empêchent de marcher. </p>',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: 'e9aef60c-f18a-471e-85c7-e50b4731b86b',
+                tag: ' ',
+                type: 'text',
+                content:
+                  '<h4>Pour afficher mon texte sur plusieurs colonnes, je peux utiliser la classe <em>modulix-two-columns</em>.</h4><p>Des noms d\'artistes de musique très sympas:</p><ol class="modulix-two-columns"> <li>Dylan</li> <li>The Beatles</li> <li>The Who</li><li>Blondie</li><li>Joan Baez</li><li>Supertramp</li><li>Kraftwerk</li> <li>Queen</li><li>David Bowie</li><li>Céline Dion</li></ol>',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                tag: ' ',
+                type: 'text',
+                content:
+                  '<h4>On commence avec les leçons.<br>Les leçons sont des textes, des images ou des vidéos. Les leçons sont là pour vous expliquer des concepts ou des méthodes.</h4>',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '048e5319-5e81-44cc-ad71-c6c0d3be611f',
+                type: 'separator',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: 'a2372bf4-86a4-4ecc-a188-b51f4f98bca2',
+                tag: ' ',
+                type: 'text',
+                content:
+                  '<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture&nbsp;<span aria-hidden="true">📚</span>.</p>',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '4cfd27d5-0947-47af-bfb6-52467143c38b',
+                tag: ' ',
+                type: 'text',
+                content: '<p>Et là, voici une image !</p>',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '8d7687c8-4a02-4d7e-bf6c-693a6d481c78',
+                alt: 'Image de flamant rose',
+                url: 'https://assets.pix.org/draft/flamingo.jpg',
+                type: 'image',
+                legend: 'Faite avant le séminaire de juin 2023',
+                licence: '©Pix Corporation & Fun, 2025, Challenge Accepted Inc. ',
+                alternativeText: 'Image de flamant rose.',
+              },
+            },
+          ],
+        },
+        {
+          id: '0d4ef09a-ebb8-4514-a037-8fb22e540d7d',
+          type: 'lesson',
+          title: 'test web component',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '96e2457d-54d3-461a-97e4-69180a30bfb7',
+                tag: ' ',
+                type: 'text',
+                content: '<p>Voici un web component :</p>',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: 'cfec5a0e-2ed5-462f-8974-e5ca25faae39',
+                type: 'custom',
+                props: {
+                  messages: [
+                    {
+                      type: 'Texte',
+                      content: "Ouais c'est qui là ?",
+                      userName: 'Mel',
+                      direction: 'outgoing',
+                    },
+                    {
+                      type: 'Texte',
+                      content: "Mel, c'est Vi ouvre moi.",
+                      userName: 'Vita',
+                      direction: 'incoming',
+                    },
+                    {
+                      type: 'Texte',
+                      content: 'Ça va Vi ?',
+                      userName: 'Mel',
+                      direction: 'outgoing',
+                    },
+                    {
+                      type: 'Texte',
+                      content: "T'as l'air bizarre. Qu'est ce qu'il y a ?",
+                      userName: 'Mel',
+                      direction: 'outgoing',
+                    },
+                    {
+                      type: 'Texte',
+                      content: 'Non, ça va pas non.',
+                      userName: 'Vita',
+                      direction: 'incoming',
+                    },
+                    {
+                      type: 'Texte',
+                      content: "Ben dis-moi, qu'est qu'il y a ?",
+                      userName: 'Mel',
+                      direction: 'outgoing',
+                    },
+                    {
+                      type: 'Texte',
+                      content: 'Mel, assieds-toi faut que je te parle...',
+                      userName: 'Vita',
+                      direction: 'incoming',
+                    },
+                    {
+                      type: 'Texte',
+                      content: "J'ai passé ma journée dans le noir.",
+                      userName: 'Vita',
+                      direction: 'incoming',
+                    },
+                    {
+                      type: 'Texte',
+                      content: 'Mel, je le sens, je le sais, je le suis, il se fout de moi...',
+                      userName: 'Vita',
+                      direction: 'incoming',
+                    },
+                  ],
+                  conversationTitle: 'Confessions nocturnes',
+                },
+                title: '',
+                tagName: 'message-conversation',
+                instruction: 'Extrait de conversation',
+                functionalInstruction: '',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '5e77afeb-78a8-4733-a451-fbe5fa2f360c',
+                tag: ' ',
+                type: 'text',
+                content:
+                  "<p>Comme vous pouvez le voir l'expérience utilisateur n'est pas du tout la même.</p><p><em>Notamment pour les utilisateurs de lecteur d'écran</em></p>",
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '298518dc-9ad0-4709-92c0-c0a1fb1a1a2a',
+                tag: ' ',
+                type: 'text',
+                content:
+                  '<p>Un avantage est que la configuration peut être précisée directement dans le contenu du module et pas côté pix-epreuves</p>',
+              },
+            },
+          ],
+        },
+        {
+          id: '0d4ef09a-ebb8-4514-a037-8fb22e540d7c',
+          type: 'discovery',
+          title: 'Voici un grain qui contient un webcomponent',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '5415e701-d81a-4f5e-b0e4-a0db67d83e18',
+                tag: ' ',
+                type: 'text',
+                content: '<p>Voici un autre exemple de web component, le Quiz Image :</p>',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: 'cfec5a0e-2ed5-462f-8974-e5ca25faae38',
+                type: 'custom',
+                props: {
+                  name: "Liste d'applications",
+                  choices: [
+                    {
+                      name: 'Google',
+                      image: {
+                        src: 'https://epreuves.pix.fr/_astro/Google.B1bcY5Go_1BynY8.svg',
+                        width: 534,
+                        height: 544,
+                        loading: 'lazy',
+                        decoding: 'async',
+                      },
+                    },
+                    {
+                      name: 'LibreOffice Writer',
+                      image: {
+                        src: 'https://epreuves.pix.fr/_astro/writer.3bR8N2DK_Z1iWuJ9.webp',
+                        width: 205,
+                        height: 246,
+                        loading: 'lazy',
+                        decoding: 'async',
+                      },
+                    },
+                    {
+                      name: 'Explorateur',
+                      image: {
+                        src: 'https://epreuves.pix.fr/_astro/windows-file-explorer.CnF8MYwI_23driA.webp',
+                        width: 128,
+                        height: 128,
+                        loading: 'lazy',
+                        decoding: 'async',
+                      },
+                    },
+                    {
+                      name: 'Geogebra',
+                      image: {
+                        src: 'https://epreuves.pix.fr/_astro/geogebra.CZH9VYqc_19v4nj.webp',
+                        width: 640,
+                        height: 640,
+                        loading: 'lazy',
+                        decoding: 'async',
+                      },
+                    },
+                  ],
+                  imageChoicesSize: 'icon',
+                  maxChoicesPerLine: 3,
+                },
+                title: '✨ Images Quiz ✨',
+                tagName: 'image-quiz',
+                instruction: "Sélectionner l'image qui possède un dossier jaune.",
+                functionalInstruction: "Cliquer sur l'image qui répond à la consigne.",
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '73e4676d-fcc9-4ef2-b6de-b33e71922c04',
+                tag: ' ',
+                type: 'text',
+                content: '<p>Pour comparer du comparable voici la même chose en version embed :</p>',
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '9c8a0dc3-4e8e-4cf9-ab37-3280931cbab7',
+                url: 'https://epreuves.pix.fr/fr/qcu_image/1d_iconewriter.html',
+                type: 'embed',
+                title: 'QCU Image',
+                height: 600,
+                instruction: '<p>Instruction</p>',
+                isCompletionRequired: false,
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: '4a3c5230-3c60-4c1a-9395-7b65537dda25',
+      type: 'go-further',
+      grains: [
+        {
+          id: '0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c',
+          type: 'summary',
+          title: 'Les 3 piliers de Pix',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '30701e93-1b4d-4da4-b018-fa756c07d53f',
+                type: 'qcm',
+                feedbacks: {
+                  valid: {
+                    state: 'Correct&#8239;!',
+                    diagnosis: '<p>Vous nous avez bien cernés&nbsp;:)</p>',
+                  },
+                  invalid: {
+                    state: 'Et non&#8239;!',
+                    diagnosis: '<p> Pix sert à évaluer, certifier et développer ses compétences numériques.</p>',
+                  },
+                },
+                proposals: [
+                  {
+                    id: '1',
+                    content: 'Evaluer ses connaissances et savoir-faire sur 16 compétences du numérique',
+                  },
+                  {
+                    id: '2',
+                    content: 'Développer son savoir-faire sur les jeux de type TPS',
+                  },
+                  {
+                    id: '3',
+                    content: 'Développer ses compétences numériques',
+                  },
+                  {
+                    id: '4',
+                    content: 'Certifier ses compétences Pix',
+                  },
+                  {
+                    id: '5',
+                    content: 'Evaluer ses compétences de logique et compréhension mathématique',
+                  },
+                ],
+                solutions: ['1', '3', '4'],
+                instruction: '<p>Quels sont les 3 piliers de Pix&#8239;?</p>',
+                hasShortProposals: false,
+              },
+            },
+          ],
+        },
+        {
+          id: 'f589dd19-ac78-425f-8f0d-83246e5e68f4',
+          type: 'transition',
+          title: '',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '35ae00c5-9d46-4f53-83f1-3724ce39b53d',
+                tag: ' ',
+                type: 'text',
+                content:
+                  '<p>Vous l\'avez peut-être remarqué&nbsp;: dans un module, vous pouvez voir tous les contenus en remontant la page&nbsp;<span aria-hidden="true">👆</span></p>',
+              },
+            },
+          ],
+        },
+        {
+          id: '2a77a10f-19a3-4544-80f9-8012dad6506a',
+          type: 'activity',
+          title: 'Activité remonter dans la page',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '0a5e77e8-1c8e-4cb6-a41d-cf6ad7935447',
+                type: 'qcu',
+                solution: '2',
+                proposals: [
+                  {
+                    id: '1',
+                    content: 'Bienvenue',
+                    feedback: {
+                      state: 'Incorrect.',
+                      diagnosis: '<p> Remonter la page pour retrouver le premier mot !</p>',
+                    },
+                  },
+                  {
+                    id: '2',
+                    content: 'Bonjour',
+                    feedback: {
+                      state: 'Correct !',
+                      diagnosis: '<p> Vous avez bien remonté la page</p>',
+                    },
+                  },
+                  {
+                    id: '3',
+                    content: 'Nous',
+                    feedback: {
+                      state: 'Incorrect.',
+                      diagnosis: '<p> Remonter la page pour retrouver le premier mot !</p>',
+                    },
+                  },
+                ],
+                instruction: '<p>Remontez la page pour trouver le premier mot de ce module.<br>Quel est ce mot ?</p>',
+                hasShortProposals: false,
+              },
+            },
+          ],
+        },
+        {
+          id: '4ce2a31a-6584-4dae-87c6-d08b58d0f3b9',
+          type: 'activity',
+          title: 'Connaissez-vous bien Pix',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: 'c23436d4-6261-49f1-b50d-13a547529c29',
+                type: 'qrocm',
+                feedbacks: {
+                  valid: {
+                    state: 'Correct !',
+                    diagnosis: '<p> vous nous connaissez bien &nbsp; <span aria-hidden="true">🎉</span></p>',
+                  },
+                  invalid: {
+                    state: 'Incorrect !',
+                    diagnosis: '<p> vous y arriverez la prochaine fois !</p>',
+                  },
+                },
+                proposals: [
+                  {
+                    type: 'text',
+                    content: '<span>Pix est un</span>',
+                  },
+                  {
+                    size: 10,
+                    type: 'input',
+                    input: 'pix-name',
+                    display: 'inline',
+                    ariaLabel: 'Mot à trouver',
+                    inputType: 'text',
+                    solutions: ['Groupement'],
+                    tolerances: ['t1', 't3'],
+                    placeholder: '',
+                  },
+                  {
+                    type: 'text',
+                    content: "<span>d'intérêt public qui a été créée en</span>",
+                  },
+                  {
+                    size: 10,
+                    type: 'input',
+                    input: 'pix-birth',
+                    display: 'inline',
+                    ariaLabel: 'Année à trouver',
+                    inputType: 'number',
+                    solutions: [2016],
+                    tolerances: [],
+                    placeholder: '',
+                  },
+                ],
+                instruction: '<p>Compléter le texte suivant :</p>',
+              },
+            },
+          ],
+        },
+        {
+          id: '46577fb1-aadb-49ba-b3fd-721a11da8eb4',
+          type: 'activity',
+          title: 'Embed non-auto',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '0e3315fd-98ad-492f-9046-4aa867495d84',
+                url: 'https://epreuves.pix.fr/visio.html?mode=visio3',
+                type: 'embed',
+                title: 'Simulateur de visioconférence',
+                height: 600,
+                instruction: '<p>Vous participez à la visioconférence ci-dessous.</p>',
+                isCompletionRequired: false,
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '7fe0bc5f-1988-4da6-8231-a987335f2ae5',
+                type: 'qrocm',
+                feedbacks: {
+                  valid: {
+                    state: 'Correct !',
+                    diagnosis: '',
+                  },
+                  invalid: {
+                    state: 'Incorrect !',
+                    diagnosis: '',
+                  },
+                },
+                proposals: [
+                  {
+                    type: 'text',
+                    content: '<span>Prénom de la personne qui est en train de parler : </span>',
+                  },
+                  {
+                    size: 10,
+                    type: 'input',
+                    input: 'qui-parle',
+                    display: 'inline',
+                    ariaLabel: 'Remplir le prénom de la personne qui est en train de parler dans la visioconférence',
+                    inputType: 'text',
+                    solutions: ['Katie'],
+                    tolerances: ['t1', 't2', 't3'],
+                    placeholder: '',
+                  },
+                ],
+                instruction: '<p>Répondez à la question suivante</p>',
+              },
+            },
+          ],
+        },
+        {
+          id: 'e8db3f90-4259-4d54-9113-1c56da726d8d',
+          type: 'activity',
+          title: 'Embed auto',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '0559b68c-68a5-4816-a06e-f1c743c391e3',
+                url: 'https://epreuves.pix.fr/visio/visio.html?mode=modulix-didacticiel',
+                type: 'embed',
+                title: 'Simulateur de visioconférence - micro ouvert',
+                height: 600,
+                solution: 'toto',
+                instruction:
+                  '<p>Vous participez à la visioconférence ci-dessous.</p><p>Il y a du bruit à côté de vous.</p><p>Coupez le son de votre micro pour ne pas déranger vos interlocuteurs.</p>',
+                isCompletionRequired: true,
+              },
+            },
+          ],
+        },
+        {
+          id: '5d70a05e-bfac-40b0-9588-e359db862d76',
+          type: 'transition',
+          title: '',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '72fee40a-7279-4372-acf5-aaf508b1c145',
+                tag: ' ',
+                type: 'text',
+                content:
+                  '<p>Vous arrivez à la fin de ce module. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez !<span aria-hidden="true">🌟</span> </p>',
+              },
+            },
+          ],
+        },
+        {
+          id: '7cf75e70-8749-4392-8081-f2c02badb0fb',
+          type: 'activity',
+          title: 'Le nom de ce produit',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '98c51fa7-03b7-49b1-8c5e-49341d35909c',
+                type: 'qrocm',
+                feedbacks: {
+                  valid: {
+                    state: 'Correct !',
+                    diagnosis: '<p>Vous êtes prêt à explorer &nbsp; <span aria-hidden="true">🎉</span></p>',
+                  },
+                  invalid: {
+                    state: 'Incorrect !',
+                    diagnosis: '<p> Vous y arriverez la prochaine fois !</p>',
+                  },
+                },
+                proposals: [
+                  {
+                    size: 10,
+                    type: 'input',
+                    input: 'nom-produit',
+                    display: 'block',
+                    ariaLabel: 'Nom de ce produit',
+                    inputType: 'text',
+                    solutions: ['Modulix'],
+                    tolerances: ['t1'],
+                    placeholder: '',
+                  },
+                ],
+                instruction: '<p>Quel est le nom de ce nouveau produit Pix ?</p>',
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  glossary: [
+    {
+      word: 'chat',
+      definition:
+        '<p>Le chat, plus spécifiquement désigné sous le nom de chat domestique, est une espèce de mammifères de l’Ordre des Carnivores, de la famille des félins (Félidés).</p>',
+    },
+  ],
+};
