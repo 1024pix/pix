@@ -1,6 +1,7 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { settled } from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl/test-support';
 import AppNavigation from 'mon-pix/components/global/app-navigation';
 import { module, test } from 'qunit';
@@ -159,6 +160,42 @@ module('Integration | Component | Global | App Navigation', function (hooks) {
             const nav = screen.getByLabelText('navigation principale');
             assert.dom(within(nav).queryByRole('link', { name: t('navigation.main.attestations') })).doesNotExist();
             assert.strictEqual(localStorage.getItem(cacheKey), null);
+          });
+
+          test('does not fetch attestations again when navigation is rendered again and user has no attestations', async function (assert) {
+            // given
+            const findAllStub = sinon.stub().resolves([]);
+            class StoreStub extends Service {
+              findAll = findAllStub;
+            }
+            this.owner.register('service:store', StoreStub);
+            stubCurrentUserService(
+              this.owner,
+              { id: userId, firstName: 'Banana', lastName: 'Split', email: 'banana.split@example.net' },
+              { withStoreStubbed: true },
+            );
+            class Layout {
+              @tracked isNavigationDisplayed = true;
+            }
+            const layout = new Layout();
+            await render(
+              <template>
+                {{#if layout.isNavigationDisplayed}}
+                  <AppNavigation />
+                {{/if}}
+              </template>,
+            );
+            await settled();
+
+            // when
+            layout.isNavigationDisplayed = false;
+            await settled();
+            layout.isNavigationDisplayed = true;
+            await settled();
+
+            // then
+            sinon.assert.calledOnce(findAllStub);
+            assert.ok(true);
           });
         });
       });
