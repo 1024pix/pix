@@ -9,7 +9,6 @@ import { httpAgent } from '../../shared/infrastructure/http-agent.js';
 import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
 import { usecases } from '../domain/usecases/index.js';
 import { ltiPlatformRegistrationRepository } from '../infrastructure/repositories/lti-platform-registration.repository.js';
-import { ltiDeepLinkingSerializer } from '../infrastructure/serializers/html/lti-deep-linking-serializer.js';
 import { ltiErrorSerializer } from '../infrastructure/serializers/html/lti-error-serializer.js';
 import { ltiInitializationSerializer } from '../infrastructure/serializers/html/lti-initialization-serializer.js';
 import { ltiRegistrationSerializer } from '../infrastructure/serializers/html/lti-registration-serializer.js';
@@ -95,19 +94,24 @@ async function init(request, h, dependencies = { ltiPlatformRegistrationReposito
 }
 
 async function deepLink(request, h) {
-  const { verifiedToken, registration } = await preLaunch(request);
+  const { verifiedToken } = await preLaunch(request);
 
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
 
   if (messageType === 'LtiDeepLinkingRequest') {
-    const deepLinkUrl =
-      verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'].deep_link_return_url;
+    /* const deepLinkUrl =
+      verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'].deep_link_return_url;*/
 
-    const jwtResponse = await encodeDeepLinkingResponse(verifiedToken, deepLinkUrl, registration);
+    //const jwtResponse = await encodeDeepLinkingResponse(verifiedToken, deepLinkUrl, registration);
+    const organizationExternalIds = ['12345', '7890'];
+    const ltiPrescriberAccessToken = usecases.authenticateLtiPrescriber({ organizationExternalIds });
 
-    return h
-      .response(ltiDeepLinkingSerializer.serialize({ deepLinkUrl, jwtResponse }))
-      .header('Content-Type', 'text/html; charset=utf-8');
+    request.yar.set('jwtLtiPrescriber', ltiPrescriberAccessToken);
+    await request.yar.commit(h);
+
+    const locale = 'fr-FR'; // TODO: Generate this dynamically
+    const pixOrgaUrl = urlService.getPixOrgaUrl(locale);
+    return h.redirect(new URL('/selection-campagne-lti', pixOrgaUrl));
   }
 }
 
@@ -164,7 +168,7 @@ async function preLaunch(request, dependencies = { ltiPlatformRegistrationReposi
   return { verifiedToken, registration };
 }
 
-async function encodeDeepLinkingResponse(request, deepLinkUrl, registration, dependencies = { cryptoService }) {
+/*async function encodeDeepLinkingResponse(request, deepLinkUrl, registration, dependencies = { cryptoService }) {
   const privateKey = {
     format: 'jwk',
     key: JSON.parse(await dependencies.cryptoService.decrypt(registration.encryptedPrivateKey)),
@@ -197,7 +201,7 @@ async function encodeDeepLinkingResponse(request, deepLinkUrl, registration, dep
       keyid: registration.publicKey.kid,
     },
   );
-}
+}*/
 
 async function sendScoring(request, registration) {
   const scoringServiceAccessToken = await getAccessToken(
