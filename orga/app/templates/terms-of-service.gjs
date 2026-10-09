@@ -1,11 +1,11 @@
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
-import Acceptation from 'pix-orga/components/terms-of-service/acceptation';
+import Acceptance from 'pix-orga/components/terms-of-service/acceptance';
 <template>
   {{pageTitle (t "pages.terms-of-service.title")}}
 
   <main class="terms-of-service-page">
-    <Acceptation
+    <Acceptance
       @legalDocumentStatus={{@model.legalDocumentStatus}}
       @legalDocumentPath={{@model.legalDocumentPath}}
       @onSubmit={{@controller.submit}}
