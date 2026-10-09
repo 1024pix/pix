@@ -56,7 +56,7 @@ export class QcmSolution {
     );
   }
 
-  // V2 : deux solutions sont égales si leurs valeurs sont égales
+  // V2 : égales si mêmes valeurs ; isCorrect compare les listes sans tenir compte de l'ordre
   equals(other: QcmSolution): boolean {
     return other.challengeId === this.challengeId && other.isCorrect(this.#correctChoiceIds);
   }
@@ -163,12 +163,12 @@ export class QcmSolution {
 }
 ```
 
-**Ce que ça apporte.** On peut passer la même solution à plusieurs fonctions, ou la garder en cache.
-Aucune ne peut la modifier dans le dos des autres.
+**Ce que ça apporte.** On peut passer la même solution à plusieurs fonctions ou la garder en cache :
+aucune fonction ne peut la modifier.
 
 **Sans cette règle.** Un bout de code modifie la solution pendant qu'un autre s'en sert pour corriger
 une réponse. La réponse est mal corrigée. Le bug apparaît loin de la modification, et seulement dans
-un certain ordre d'exécution : il est difficile à trouver.
+certains ordres d'exécution : on le cherche longtemps.
 
 **À savoir.** La règle vaut aussi pour les champs hérités d'une classe parente.
 
@@ -236,8 +236,7 @@ constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; corre
 }
 ```
 
-**Ce que ça apporte.** Un objet invalide ne peut pas exister. Le code qui reçoit l'objet n'a donc rien
-à revérifier.
+**Ce que ça apporte.** Si on a l'objet, il est valide. Le code qui le reçoit n'a rien à revérifier.
 
 **Sans cette règle.** On peut créer une solution sans choix correct. `isCorrect([])` répond alors
 `true`, et une réponse vide compte comme juste.
@@ -339,7 +338,7 @@ const solution = await qcmSolutionRepository.get(solutionId);
 jamais créée ni enregistrée seule.
 
 **Sans cette règle.** Pour retrouver l'objet, le repository a besoin d'un identifiant. L'objet en
-reçoit un, et devient une Entity sans que personne l'ait décidé.
+reçoit un, et on se retrouve avec une Entity déguisée.
 
 ### V7. Lecture seule, tableaux compris
 
@@ -368,5 +367,6 @@ tableau qu'il a reçu.
 **Sans cette règle.** Un appel à `solution.correctChoiceIds.push('b')` change la solution, sans passer
 par aucune de ses méthodes.
 
-**À savoir.** `Object.freeze(this)` ne suffit pas. Il bloque les champs publics, mais pas les champs
-privés `#`, ni le contenu des tableaux. Pour un tableau, seule la copie protège.
+**À savoir.** `Object.freeze(this)` ne suffit pas, car il ne fige que le premier niveau. Il bloque les
+champs publics, mais ne touche ni aux champs privés `#`, ni au contenu des tableaux. Pour un tableau,
+seule la copie protège.
