@@ -1,5 +1,5 @@
 import { UserDetailsForAdmin } from '../../../../src/deprecated/domain/models/UserDetailsForAdmin.js';
-import { STATUS } from '../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
+import { STATUS } from '../../../../src/legal-documents/application/api/legal-documents-api.js';
 
 const buildUserDetailsForAdmin = function ({
   id = 123,
