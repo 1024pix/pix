@@ -1,15 +1,15 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
-import Acceptation from 'pix-certif/components/terms-of-service/acceptation';
+import Acceptance from 'pix-certif/components/terms-of-service/acceptance';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | terms-of-service | acceptation', function (hooks) {
+module('Integration | Component | terms-of-service | acceptance', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it displays terms of service acceptation', async function (assert) {
+  test('it displays terms of service acceptance', async function (assert) {
     // given
     const legalDocumentStatus = 'requested';
     const legalDocumentPath = 'pix-certif-tos-2025-01-01';
@@ -17,7 +17,7 @@ module('Integration | Component | terms-of-service | acceptation', function (hoo
     // when
     const screen = await render(
       <template>
-        <Acceptation @legalDocumentStatus={{legalDocumentStatus}} @legalDocumentPath={{legalDocumentPath}} />
+        <Acceptance @legalDocumentStatus={{legalDocumentStatus}} @legalDocumentPath={{legalDocumentPath}} />
       </template>,
     );
 
@@ -31,7 +31,7 @@ module('Integration | Component | terms-of-service | acceptation', function (hoo
     assert.dom(screen.getByRole('button', { name: t('components.terms-of-service.actions.accept') })).exists();
   });
 
-  test('it displays updated terms of service acceptation', async function (assert) {
+  test('it displays updated terms of service acceptance', async function (assert) {
     // given
     const legalDocumentStatus = 'update-requested';
     const legalDocumentPath = 'pix-certif-tos-2025-01-01';
@@ -39,7 +39,7 @@ module('Integration | Component | terms-of-service | acceptation', function (hoo
     // when
     const screen = await render(
       <template>
-        <Acceptation @legalDocumentStatus={{legalDocumentStatus}} @legalDocumentPath={{legalDocumentPath}} />
+        <Acceptance @legalDocumentStatus={{legalDocumentStatus}} @legalDocumentPath={{legalDocumentPath}} />
       </template>,
     );
 
@@ -49,7 +49,7 @@ module('Integration | Component | terms-of-service | acceptation', function (hoo
   });
 
   module('when user accepts terms of service', function () {
-    test('it triggers the acceptation', async function (assert) {
+    test('it triggers the acceptance', async function (assert) {
       // given
       const legalDocumentStatus = 'requested';
       const legalDocumentPath = 'pix-certif-tos-2025-01-01';
@@ -57,7 +57,7 @@ module('Integration | Component | terms-of-service | acceptation', function (hoo
 
       await render(
         <template>
-          <Acceptation
+          <Acceptance
             @legalDocumentStatus={{legalDocumentStatus}}
             @legalDocumentPath={{legalDocumentPath}}
             @onSubmit={{onSubmit}}

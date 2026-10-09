@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 
-export default class Acceptation extends Component {
+export default class Acceptance extends Component {
   @service url;
 
   get legalDocumentUrl() {
@@ -16,7 +16,7 @@ export default class Acceptation extends Component {
   }
 
   <template>
-    <PixBlock class='terms-of-service-acceptation' @variant='certif'>
+    <PixBlock class='terms-of-service-acceptance' @variant='certif'>
       {{#if this.isUpdateRequested}}
         <h1 class='pix-title-m'>{{t 'components.terms-of-service.title.update-requested'}}</h1>
         <p class='pix-body-m'>{{t 'components.terms-of-service.message.update-requested'}}</p>
@@ -25,20 +25,20 @@ export default class Acceptation extends Component {
         <p class='pix-body-m'>{{t 'components.terms-of-service.message.requested'}}</p>
       {{/if}}
 
-      <div class='terms-of-service-acceptation__illustration'>
+      <div class='terms-of-service-acceptance__illustration'>
         <img src='/images/terms-of-service.svg' alt='' role='none' />
         <a
           href={{this.legalDocumentUrl}}
           target='_blank'
           rel='noopener noreferrer'
-          class='terms-of-service-acceptation__link'
+          class='terms-of-service-acceptance__link'
         >
           {{t 'components.terms-of-service.actions.document-link'}}
           <PixIcon @name='openNew' />
         </a>
       </div>
 
-      <div class='terms-of-service-acceptation__actions'>
+      <div class='terms-of-service-acceptance__actions'>
         <PixButtonLink @route='logout' @variant='secondary' @size='large'>
           {{t 'components.terms-of-service.actions.reject'}}
         </PixButtonLink>
@@ -46,7 +46,7 @@ export default class Acceptation extends Component {
           @type='submit'
           @triggerAction={{@onSubmit}}
           @size='large'
-          class='terms-of-service-acceptation__accept-action'
+          class='terms-of-service-acceptance__accept-action'
         >
           {{t 'components.terms-of-service.actions.accept'}}
         </PixButton>

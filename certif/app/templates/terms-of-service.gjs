@@ -1,6 +1,6 @@
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
-import Acceptation from 'pix-certif/components/terms-of-service/acceptation';
+import Acceptance from 'pix-certif/components/terms-of-service/acceptance';
 import TermsOfService from 'pix-certif/components/terms-of-service/index';
 
 <template>
@@ -8,8 +8,8 @@ import TermsOfService from 'pix-certif/components/terms-of-service/index';
 
   {{! TODO: supprimer la branche else avec le feature toggle newPixCertifLegalDocumentsVersioning }}
   {{#if @model.legalDocumentPath}}
-    <main class='terms-of-service-acceptation-page'>
-      <Acceptation
+    <main class='terms-of-service-acceptance-page'>
+      <Acceptance
         @legalDocumentStatus={{@model.legalDocumentStatus}}
         @legalDocumentPath={{@model.legalDocumentPath}}
         @onSubmit={{@controller.submit}}
