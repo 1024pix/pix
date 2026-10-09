@@ -8,7 +8,7 @@ module('Unit | Route | Authenticated | Certifications V2', function (hooks) {
   let route;
 
   hooks.beforeEach(function () {
-    route = this.owner.lookup('route:authenticated/certifications-v2');
+    route = this.owner.lookup('route:authenticated/certifications');
     route.router.transitionTo = sinon.stub();
   });
 
@@ -19,7 +19,7 @@ module('Unit | Route | Authenticated | Certifications V2', function (hooks) {
         route.beforeModel();
 
         // then
-        assert.true(route.router.transitionTo.calledOnceWithExactly('authenticated.certifications.join'));
+        assert.true(route.router.transitionTo.calledOnceWithExactly('authenticated.certifications'));
       });
     });
 
@@ -33,7 +33,7 @@ module('Unit | Route | Authenticated | Certifications V2', function (hooks) {
         route.beforeModel();
 
         // then
-        assert.true(route.router.transitionTo.calledOnceWithExactly('authenticated.certifications.join'));
+        assert.true(route.router.transitionTo.calledOnceWithExactly('authenticated.certifications'));
       });
     });
 

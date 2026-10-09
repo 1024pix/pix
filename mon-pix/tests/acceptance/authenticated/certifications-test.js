@@ -24,7 +24,7 @@ module('Acceptance | Authenticated | Certification-V2', function (hooks) {
     await authenticateByEmail(user);
 
     // when
-    const screen = await visit('/certifications-v2');
+    const screen = await visit('/certifications');
 
     // then
     assert

@@ -83,12 +83,6 @@ export default class AppNavigation extends Component {
               {{t "navigation.user.tests"}}
             </PixNavigationButton>
           {{/if}}
-          {{#if this.isNewCertificationPageEnabled}}
-            <PixNavigationButton @route="authenticated.certifications-v2" @icon="star">
-              {{! template-lint-disable no-bare-strings }}
-              Certifications V2
-            </PixNavigationButton>
-          {{/if}}
           <PixNavigationButton @route="authenticated.certifications" @icon="newRealease">
             {{t "navigation.main.start-certification"}}
           </PixNavigationButton>

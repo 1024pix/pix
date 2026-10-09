@@ -7,12 +7,6 @@ export default class CertificationsV2Route extends Route {
   @service store;
   @service currentUser;
 
-  beforeModel() {
-    if (!this.featureToggles.featureToggles?.isNewCertificationPageEnabled) {
-      this.router.transitionTo('authenticated.certifications.join');
-    }
-  }
-
   async model() {
     return {
       certificationsSummaries: await this.store.findAll('certificate-summary'),
