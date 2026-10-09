@@ -1,3 +1,4 @@
 export function buildLtiPlatformRegistrations(databaseBuilder) {
-  databaseBuilder.factory.buildLtiPlatformRegistration();
+  const platform = databaseBuilder.factory.buildLtiPlatform();
+  databaseBuilder.factory.buildLtiPlatformRegistration({ platformId: platform.id });
 }

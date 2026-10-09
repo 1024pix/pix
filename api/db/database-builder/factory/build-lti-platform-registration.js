@@ -6,9 +6,9 @@ defaultKeyPair.encryptedPrivateKey = await cryptoService.encrypt(JSON.stringify(
 
 export function buildLtiPlatformRegistration({
   clientId = 'AbCD1234',
+  platformId,
   encryptedPrivateKey = defaultKeyPair.encryptedPrivateKey,
   platformOpenIdConfigUrl = 'https://moodle.example.net/mod/lti/openid-configuration.php',
-  platformOrigin = 'https://moodle.example.net',
   publicKey = defaultKeyPair.publicKey,
   status = 'active',
   toolConfig = {
@@ -44,9 +44,9 @@ export function buildLtiPlatformRegistration({
     tableName: 'lti_platform_registrations',
     values: {
       clientId,
+      platformId,
       encryptedPrivateKey,
       platformOpenIdConfigUrl,
-      platformOrigin,
       publicKey,
       status,
       toolConfig,
