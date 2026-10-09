@@ -138,9 +138,9 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
 
     test('should show the result of previous challenge in checkpoint', async function (assert) {
       // then
-      assert.dom('.result-item__title').includesText('Réponse incorrecte');
-      assert.strictEqual(find('.result-item__instruction').textContent.trim(), qcuChallenge.instruction);
       const screen = await getScreen();
+      assert.dom(screen.getByRole('heading', { level: 3 })).includesText('Réponse incorrecte');
+      assert.dom(screen.getByText(qcuChallenge.instruction)).exists();
       assert.dom(screen.getByRole('button', { name: 'Réponses et tutos' })).exists();
     });
 

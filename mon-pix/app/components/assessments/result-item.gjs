@@ -20,7 +20,7 @@ export default class ResultItemComponent extends Component {
   }
 
   get textLength() {
-    return window.innerWidth <= 767 ? 60 : 110;
+    return 110;
   }
 
   resultIcons = {
@@ -55,7 +55,7 @@ export default class ResultItemComponent extends Component {
   }
 
   <template>
-    <PixBlock class="result-item">
+    <PixBlock class="result-item" @condensed={{true}}>
       {{#if this.result}}
         <h3 class="result-item__title">
           {{t "pages.result-item.question-number" number=this.answerNumber}}
@@ -66,7 +66,7 @@ export default class ResultItemComponent extends Component {
         </h3>
 
         <div class="result-item__content">
-          <div class="result-item__instruction">
+          <div class="pix-body-s">
             {{stripInstruction (convertToHtml @answer.challenge.instruction) this.textLength}}
           </div>
 

@@ -1,19 +1,27 @@
-.result-item__title {
-  display: flex;
-  gap: var(--pix-spacing-3x);
-  align-items: center;
-  margin-bottom: var(--pix-spacing-1x);
-  font-weight: var(--pix-font-bold);
-}
+@use 'pix-design-tokens/breakpoints';
 
-.result-item__content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+.result-item {
+  padding: var(--pix-spacing-3x);
 
-.result-item__instruction {
-  width: 82%;
-  overflow: hidden;
-  font-size: 1rem;
+  &__title {
+    display: flex;
+    gap: var(--pix-spacing-3x);
+    align-items: center;
+    margin-bottom: var(--pix-spacing-1x);
+    font-weight: var(--pix-font-bold);
+  }
+
+  &__content {
+    display: flex;
+    align-items:flex-start;
+    gap: var(--pix-spacing-4x);
+    flex-direction: column;
+
+
+    @include breakpoints.device-is('tablet') {
+      align-items:center;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
 }

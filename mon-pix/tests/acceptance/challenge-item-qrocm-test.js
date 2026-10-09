@@ -8,6 +8,9 @@ import { module, test } from 'qunit';
 
 import setupIntl from '../helpers/setup-intl';
 
+const normalizeWhitespaces = (text) => text.replace(/\s+/g, ' ').trim();
+const textMatcher = (expectedText) => (content) => normalizeWhitespaces(content) === normalizeWhitespaces(expectedText);
+
 module('Acceptance | Displaying a QROCM challenge', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -260,21 +263,19 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
     test('should show the result of previous challenges in checkpoint', async function (assert) {
       // then
-      assert.dom(findAll('.result-item__title')[0]).includesText('Réponse incorrecte');
-      const instructionStripped = qrocmDepChallenge.instruction.slice(0, 102);
-      assert.strictEqual(findAll('.result-item__instruction')[0].textContent.trim(), `${instructionStripped}...`);
       const screen = await getScreen();
+      const titles = screen.getAllByRole('heading', { level: 3 });
+      assert.strictEqual(titles.length, 3);
+      titles.forEach((title) => assert.dom(title).includesText('Réponse incorrecte'));
+
       const buttons = screen.getAllByRole('button', { name: 'Réponses et tutos' });
       assert.strictEqual(buttons.length, 3);
-      assert.dom(findAll('.result-item__title')[1]).includesText('Réponse incorrecte');
+
+      const instructionStripped = qrocmDepChallenge.instruction.slice(0, 102);
+      assert.dom(screen.getByText(textMatcher(`${instructionStripped}...`))).exists();
+      // the QROCM-ind challenge and the QROCM-ind with select one share the same instruction
       const instructionStrippedInd = qrocmIndChallenge.instruction.slice(0, 104);
-      assert.strictEqual(findAll('.result-item__instruction')[1].textContent.trim(), `${instructionStrippedInd}....`);
-      assert.dom(findAll('.result-item__title')[2]).includesText('Réponse incorrecte');
-      const instructionStrippedSelect = qrocmIndSelectChallenge.instruction.slice(0, 104);
-      assert.strictEqual(
-        findAll('.result-item__instruction')[2].textContent.trim(),
-        `${instructionStrippedSelect}....`,
-      );
+      assert.strictEqual(screen.getAllByText(textMatcher(`${instructionStrippedInd}....`)).length, 2);
     });
 
     test('should show details of QROCM-dep challenge result in pop-in, with tutorials and feedbacks', async function (assert) {

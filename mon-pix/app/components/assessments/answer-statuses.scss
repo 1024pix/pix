@@ -1,8 +1,3 @@
-@use 'pix-design-tokens/breakpoints';
-@use 'pix-design-tokens/fonts';
-@use 'pix-design-tokens/typography';
-
-
 .answer-statuses {
   display: flex;
   flex-direction: column;
@@ -10,41 +5,8 @@
   max-width: 990px;
   margin: 0 auto;
 
- &__no-answer {
+  &__no-answer {
     color: var(--pix-neutral-500);
     white-space: pre-line;
-  }
-}
-
-
-.checkpoint__container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.checkpoint__header {
-  width: 100%;
-  margin: var(--pix-spacing-6x) 0 var(--pix-spacing-4x);
-  padding-inline: var(--pix-spacing-2x);
-
-  @include breakpoints.device-is('tablet') {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    max-width: 832px;
-    margin: var(--pix-spacing-8x) 0 var(--pix-spacing-2x);
-    padding: 0 var(--pix-spacing-4x);
-  }
-}
-
-.checkpoint__content {
-  max-width: 800px;
-  margin: 0;
-  padding: 22px 5px;
-
-  @include breakpoints.device-is('tablet') {
-    width: 800px;
-    padding: 30px;
   }
 }

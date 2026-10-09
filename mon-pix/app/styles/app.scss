@@ -184,7 +184,6 @@
 @use 'ui/assessment/progress-bar' as *;
 
 /* pages */
-@use 'pages/assessment-results' as *;
 @use 'pages/campaign-landing-page' as *;
 @use 'pages/inaccessible-content' as *;
 @use 'pages/campaign-tutorial' as *;
@@ -248,7 +247,6 @@
     }
   }
 
-  .pix-app-layout__footer,
   .pix-app-layout__navigation {
     padding: 0;
   }

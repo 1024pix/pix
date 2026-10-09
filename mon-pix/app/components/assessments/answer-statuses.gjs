@@ -1,4 +1,4 @@
-import { PixBlock } from '@1024pix/nebulix-ember';
+import { PixBlock, PixButtonLink } from '@1024pix/nebulix-ember';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
 import CheckpointContinue from 'mon-pix/components/assessments/answer-button-continue';
@@ -29,7 +29,21 @@ export default class AnswerStatuses extends Component {
         </PixBlock>
       {{/if}}
 
-      <CheckpointContinue @assessmentId={{@assessmentId}} @nextPageButtonText={{@nextPageButtonText}} />
+      {{#unless @isStaticCourse}}
+        <CheckpointContinue @assessmentId={{@assessmentId}} @nextPageButtonText={{@nextPageButtonText}} />
+      {{else}}
+        <div class="answer-button-continue">
+          {{#if @isDemo}}
+            <PixButtonLink @href="https://app.pix.org/inscription">
+              {{t "pages.assessment-results.actions.continue-pix-experience"}}
+            </PixButtonLink>
+          {{else}}
+            <PixButtonLink @route="authenticated">
+              {{t "pages.assessment-results.actions.return-to-homepage"}}
+            </PixButtonLink>
+          {{/if}}
+        </div>
+      {{/unless}}
     </div>
   </template>
 }
