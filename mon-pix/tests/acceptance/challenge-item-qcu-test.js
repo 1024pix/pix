@@ -1,4 +1,4 @@
-import { visit } from '@1024pix/ember-testing-library';
+import { clickByName, getScreen, visit } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, currentURL, find, findAll } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -138,14 +138,15 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
 
     test('should show the result of previous challenge in checkpoint', async function (assert) {
       // then
-      assert.strictEqual(find('.result-item__icon').title, 'Réponse incorrecte');
+      assert.dom('.result-item__title').includesText('Réponse incorrecte');
       assert.strictEqual(find('.result-item__instruction').textContent.trim(), qcuChallenge.instruction);
-      assert.strictEqual(find('.result-item__correction-button').textContent.trim(), 'Réponses et tutos');
+      const screen = await getScreen();
+      assert.dom(screen.getByRole('button', { name: 'Réponses et tutos' })).exists();
     });
 
     test('should show details of challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
-      await click('.result-item__correction-button');
+      await clickByName('Réponses et tutos');
 
       // then
       assert.strictEqual(find('.challenge-statement-instruction__text').textContent.trim(), qcuChallenge.instruction);

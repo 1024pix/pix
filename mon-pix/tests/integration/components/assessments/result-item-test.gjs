@@ -26,13 +26,13 @@ module('Integration | Component | Assessments | result-item', function (hooks) {
 
         // then
         assert.dom(screen.queryByRole('button')).doesNotExist();
-        assert.dom(screen.queryByTitle(t('pages.comparison-window.results.ok.tooltip'))).doesNotExist();
+        assert.dom(screen.queryByText(t('pages.comparison-window.results.ok.tooltip'))).doesNotExist();
       });
     });
   });
 
   module('when the answer has a displayable result', function () {
-    ['ok', 'ko', 'timedout', 'aband'].forEach((result) => {
+    ['ok', 'ko', 'focusedOut', 'timedout', 'aband'].forEach((result) => {
       test(`should display the result status when result is ${result}`, async function (assert) {
         // given
         const answer = EmberObject.create({ result });
@@ -42,9 +42,19 @@ module('Integration | Component | Assessments | result-item', function (hooks) {
         const screen = await render(<template><ResultItem @answer={{answer}} /></template>);
 
         // then
-        assert.dom(screen.getByTitle(expectedTooltip)).exists();
         assert.dom(screen.getByText(expectedTooltip)).exists();
       });
+    });
+
+    test('should display the question number based on the answer index', async function (assert) {
+      // given
+      const answer = EmberObject.create({ result: 'ok', challenge: EmberObject.create({ type: 'QCM' }) });
+
+      // when
+      const screen = await render(<template><ResultItem @answer={{answer}} @answerIndex={{2}} /></template>);
+
+      // then
+      assert.dom(screen.getByRole('heading', { level: 3, name: /^Question 3/ })).exists();
     });
 
     test('should display the challenge instruction without its markdown', async function (assert) {

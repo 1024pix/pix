@@ -139,7 +139,7 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
 
     test('should show the result of previous challenge in checkpoint', async function (assert) {
       // then
-      assert.dom(screen.getByTitle('Réponse incorrecte')).exists();
+      assert.dom(screen.getByText('Réponse incorrecte')).exists();
 
       assert.dom(screen.getByText("Un QCM propose plusieurs choix, l'utilisateur peut en choisir plusieurs")).exists();
 

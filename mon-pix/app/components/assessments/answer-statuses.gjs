@@ -15,10 +15,8 @@ export default class AnswerStatuses extends Component {
       <h2 class="pix-title-xxs">{{t this.title}}</h2>
 
       {{#if @shouldDisplayAnswers}}
-        {{#each @answers as |answer|}}
-          <PixBlock>
-            <ResultItem @answer={{answer}} @openAnswerDetails={{@openAnswerDetails}} />
-          </PixBlock>
+        {{#each @answers as |answer index|}}
+          <ResultItem @answer={{answer}} @answerIndex={{index}} @openAnswerDetails={{@openAnswerDetails}} />
         {{/each}}
       {{else}}
         <PixBlock>
