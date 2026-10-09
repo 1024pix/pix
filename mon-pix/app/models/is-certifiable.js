@@ -4,4 +4,8 @@ export default class IsCertifiable extends Model {
   @attr('boolean') isCertifiable;
   // eslint-disable-next-line ember/no-empty-attrs
   @attr doubleCertificationEligibility;
+
+  get isCleaEligible() {
+    return !!this.doubleCertificationEligibility?.validatedDoubleCertification;
+  }
 }

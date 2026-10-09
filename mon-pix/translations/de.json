@@ -1004,6 +1004,10 @@
           "description": "Klicken Sie auf die Schaltfläche unten und starten Sie Ihre Zertifizierung",
           "title": "Möchten Sie eine Zertifizierung ablegen?"
         },
+        "clea": {
+          "text": "Sie sind für CléA Numérique berechtigt",
+          "title": "Ihr Pix-Profil ist zertifizierbar"
+        },
         "not-certifiable": {
           "description": "Für die Zertifizierung sind Mindestvoraussetzungen erforderlich.",
           "title": "Sie sind noch nicht zertifizierbar"

@@ -1,4 +1,4 @@
-import { PixButton, PixModal } from '@1024pix/nebulix-ember';
+import { PixBlock, PixButton, PixModal } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -17,6 +17,10 @@ export default class UserCertifications extends Component {
     }
 
     return cssClasses;
+  }
+
+  get cleaImageUrl() {
+    return this.args.userEligibility.doubleCertificationEligibility?.imageUrl;
   }
 
   @action
@@ -63,5 +67,16 @@ export default class UserCertifications extends Component {
         </:content>
       </PixModal>
     </section>
+    {{#if @userEligibility.isCleaEligible}}
+      <PixBlock class="certification-dashboard-enrolment-clea" @variant="certif">
+        <h2 class="certification-dashboard-enrolment-clea--title">
+          {{t "pages.certifications-dashboard.enrolment-banner.clea.title"}}
+        </h2>
+        <p class="certification-dashboard-enrolment-clea--text">
+          {{t "pages.certifications-dashboard.enrolment-banner.clea.text"}}
+        </p>
+        <img class="certification-dashboard-enrolment-clea--image" src={{this.cleaImageUrl}} alt="" />
+      </PixBlock>
+    {{/if}}
   </template>
 }

@@ -1004,6 +1004,10 @@
           "description": "Click the button below to start your certification",
           "title": "Would you like to take a certification?"
         },
+        "clea": {
+          "text": "You are eligible for the CléA Numérique",
+          "title": "Your Pix profile is eligible for certification"
+        },
         "not-certifiable": {
           "description": "A minimum of prerequisites is required to take the certification.",
           "title": "You are not yet eligible for certification"

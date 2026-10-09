@@ -81,3 +81,33 @@
     }
   }
 }
+
+.certification-dashboard-enrolment-clea {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  margin-bottom: var(--pix-spacing-6x);
+  padding: var(--pix-spacing-4x) 5vw var(--pix-spacing-4x)  var(--pix-spacing-4x) ;
+  column-gap: var(--pix-spacing-2x);
+
+  &--title {
+    @extend %pix-title-xs;
+
+    align-self: end;
+    font-weight: bold;
+  }
+
+  &--text {
+    @extend %pix-body-m;
+
+    grid-row: 2
+  }
+
+  &--image {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    align-self: center;
+    max-width: 120px;
+    max-height: 120px;
+    margin-right: 5%;
+  }
+}

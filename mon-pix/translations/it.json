@@ -1004,6 +1004,10 @@
           "description": "Clicca sul pulsante qui sotto e inizia la tua certificazione",
           "title": "Vuoi sostenere una certificazione?"
         },
+        "clea": {
+          "text": "Sei idoneo al CléA Numérique",
+          "title": "Il tuo profilo Pix è certificabile"
+        },
         "not-certifiable": {
           "description": "Per sostenere la certificazione è necessario un minimo di prerequisiti.",
           "title": "Non sei ancora certificabile"

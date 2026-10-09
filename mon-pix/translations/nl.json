@@ -1004,6 +1004,10 @@
           "description": "Klik op de knop hieronder en start je certificering",
           "title": "Wil je een certificering afleggen?"
         },
+        "clea": {
+          "text": "Je komt in aanmerking voor CléA Numérique",
+          "title": "Je Pix-profiel is certificeerbaar"
+        },
         "not-certifiable": {
           "description": "Er is een minimum aan voorwaarden vereist om de certificering af te leggen.",
           "title": "Je bent nog niet certificeerbaar"

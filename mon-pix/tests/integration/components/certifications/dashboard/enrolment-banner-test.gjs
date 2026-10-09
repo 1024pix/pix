@@ -83,5 +83,51 @@ module('Integration | Component | Certifications | Dashboard | Enrolment banner'
       await waitForDialogClose();
       assert.dom(screen.queryByRole('dialog')).doesNotExist();
     });
+
+    test("should hide Clea information when user isn't aligible to clea", async function (assert) {
+      const userEligibility = {
+        isCertifiable: true,
+      };
+
+      // when
+      const screen = await renderScreen(<template><EnrolmentBanner @userEligibility={{userEligibility}} /></template>);
+
+      // then
+      assert
+        .dom(
+          await screen.queryByRole('heading', {
+            name: t('pages.certifications-dashboard.enrolment-banner.clea.title'),
+            level: 2,
+          }),
+        )
+        .doesNotExist();
+      assert
+        .dom(await screen.queryByText(t('pages.certifications-dashboard.enrolment-banner.clea.text')))
+        .doesNotExist();
+    });
+  });
+
+  module('when user is clea certifiable', function () {
+    test('should display clea informations', async function (assert) {
+      const store = this.owner.lookup('service:store');
+      const userEligibility = store.createRecord('is-certifiable', {
+        isCertifiable: true,
+        doubleCertificationEligibility: { validatedDoubleCertification: true, imageUrl: 'something' },
+      });
+
+      // when
+      const screen = await renderScreen(<template><EnrolmentBanner @userEligibility={{userEligibility}} /></template>);
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('heading', {
+            name: t('pages.certifications-dashboard.enrolment-banner.clea.title'),
+            level: 2,
+          }),
+        )
+        .exists();
+      assert.dom(screen.getByText(t('pages.certifications-dashboard.enrolment-banner.clea.text'))).exists();
+    });
   });
 });

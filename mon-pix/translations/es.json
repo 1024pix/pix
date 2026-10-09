@@ -1004,6 +1004,10 @@
           "description": "Haga clic en el botón de abajo y comience su certificación",
           "title": "¿Desea realizar una certificación?"
         },
+        "clea": {
+          "text": "Puede optar al CléA Numérique",
+          "title": "Su perfil Pix es certificable"
+        },
         "not-certifiable": {
           "description": "Se requiere un mínimo de requisitos previos para realizar la certificación.",
           "title": "Todavía no puede certificarse"
