@@ -1,11 +1,10 @@
 /**
- * @typedef {function} getAllIdentityProviders
  * @param {Object} params
- * @param {OidcAuthenticationServiceRegistry} params.oidcAuthenticationServiceRegistry
- * @return {Promise<OidcAuthenticationService[]|null>}
+ * @param {OidcProviderRepository} params.oidcProviderRepository
+ * @return {Promise<Array<OidcProvider>>}
  */
-const getAllIdentityProviders = async function ({ oidcAuthenticationServiceRegistry }) {
-  return oidcAuthenticationServiceRegistry.getAllOidcProviderServices();
+const getAllIdentityProviders = async function ({ oidcProviderRepository }) {
+  return oidcProviderRepository.findAllOidcProviders();
 };
 
 export { getAllIdentityProviders };

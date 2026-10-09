@@ -52,7 +52,7 @@ export class OidcAuthenticationService {
       slug,
       source,
       isVisible = true,
-      claimMapping,
+      claimMapping = DEFAULT_CLAIM_MAPPING,
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage, openidClient = client } = {},
   ) {
@@ -84,7 +84,7 @@ export class OidcAuthenticationService {
       ? claimsToStore.split(',').map((claim) => claim.trim())
       : [];
 
-    this.claimManager = new ClaimManager({ claimMapping: claimMapping || DEFAULT_CLAIM_MAPPING, additionalClaims });
+    this.claimManager = new ClaimManager({ claimMapping, additionalClaims });
 
     this.sessionDurationSeconds = this.accessTokenLifespanMs / 1000;
   }
