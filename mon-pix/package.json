@@ -139,7 +139,7 @@
       "ember-source": "$ember-source"
     },
     "flatted": ">=3.4.2",
-    "handlebars": ">=4.7.9",
+    "handlebars": ">=4.7.10",
     "braces": ">=3.0.3"
   },
   "engines": {
