@@ -1,12 +1,12 @@
-import {
-  defaultChallengesConfiguration,
-  defaultCompetencesScoringConfiguration,
-  defaultGlobalScoringConfiguration,
-} from '../../../../../../db/database-builder/factory/build-certification-version.js';
 import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { FrameworkInfo } from '../../../../../../src/certification/configuration/domain/read-models/FrameworkInfo.js';
 import { VersionSummary } from '../../../../../../src/certification/configuration/domain/read-models/VersionSummary.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
+import {
+  defaultChallengesConfiguration,
+  defaultCompetencesScoringConfiguration,
+  defaultGlobalScoringConfiguration,
+} from './build-version.js';
 
 /**
  * @typedef {import('../../../../../../src/certification/shared/domain/models/Scopes.js').SCOPES} SCOPES
