@@ -3,10 +3,10 @@ import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import ComparisonWindow from 'mon-pix/components/comparison-window';
+import ComparisonWindow from 'mon-pix/components/assessments/comparison-window';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | comparison-window', function (hooks) {
   setupIntlRenderingTest(hooks);
