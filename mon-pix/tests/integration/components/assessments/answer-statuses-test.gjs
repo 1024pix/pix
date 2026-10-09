@@ -68,6 +68,10 @@ module('Integration | Component | Assessments | answer-statuses', function (hook
       );
 
       // then
+      const titles = screen.getAllByRole('heading', { level: 3 });
+      assert.strictEqual(titles.length, 2);
+      assert.dom(titles[0]).includesText('Question 1');
+      assert.dom(titles[1]).includesText('Question 2');
       assert.dom(screen.getByText('Première question')).exists();
       assert.dom(screen.getByText('Deuxième question')).exists();
       assert.strictEqual(

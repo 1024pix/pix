@@ -2045,6 +2045,7 @@
       },
       "ko": "Onjuist antwoord",
       "ok": "Juist antwoord",
+      "question-number": "Vraag { number }",
       "timedout": "Time-out"
     },
     "sco-signup-or-login": {

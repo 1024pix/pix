@@ -2055,6 +2055,7 @@
       },
       "ko": "Réponse incorrecte",
       "ok": "Réponse correcte",
+      "question-number": "Question { number }",
       "timedout": "Temps dépassé"
     },
     "sco-signup-or-login": {

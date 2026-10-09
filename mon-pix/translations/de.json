@@ -2045,6 +2045,7 @@
       },
       "ko": "Falsche Antwort",
       "ok": "Richtige Antwort",
+      "question-number": "Frage { number }",
       "timedout": "Zeit überschritten"
     },
     "sco-signup-or-login": {

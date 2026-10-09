@@ -1,6 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
-// eslint-disable-next-line no-restricted-imports
-import { click, find } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
@@ -40,10 +39,12 @@ module('Acceptance | Checkpoint', function (hooks) {
 
       // then
       assert.dom(screen.getByText('Vous avez effectué 20 % de votre parcours.')).exists();
-      assert.dom('.assessment-results__list').exists();
-      assert.dom('.result-item').exists({ count: NB_ANSWERS });
-      assert.strictEqual(find('.checkpoint__continue').textContent.trim(), 'Continuer');
-      assert.dom('.checkpoint-no-answer').doesNotExist();
+      assert.dom(screen.getByRole('heading', { name: t('pages.checkpoint.answers.header') })).exists();
+      assert.strictEqual(screen.getAllByRole('button', { name: 'Réponses et tutos' }).length, NB_ANSWERS);
+      assert.dom(screen.getByRole('link', { name: 'Continuer' })).exists();
+      assert
+        .dom(screen.queryByText(t('pages.checkpoint.answers.already-finished.explanation.sentence1')))
+        .doesNotExist();
     });
 
     test('should not call /assessments/:id/next when leaving checkpoint', async function (assert) {
@@ -71,16 +72,12 @@ module('Acceptance | Checkpoint', function (hooks) {
       const screen = await visit(`/assessments/${assessment.id}/checkpoint?finalCheckpoint=true`);
 
       // then
-      assert.dom('.checkpoint__progression-gauge').doesNotExist();
-      assert.dom('.assessment-results__list').doesNotExist();
-      assert.dom('.checkpoint-no-answer').exists();
+      assert.dom('.result-item').doesNotExist();
+      assert.dom(screen.getByRole('heading', { name: t('pages.checkpoint.answers.already-finished.info') })).exists();
+      assert.dom(screen.getByText(t('pages.checkpoint.answers.already-finished.explanation.sentence1'))).exists();
+      assert.dom(screen.getByText(t('pages.checkpoint.answers.already-finished.explanation.sentence2'))).exists();
 
       assert.ok(screen.getByRole('link', { name: t('pages.checkpoint.actions.next-page.results') }));
-      assert.ok(
-        find('.checkpoint-no-answer__info').textContent.includes(
-          'Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.\n\nVous souhaitez améliorer votre score ? En cliquant sur  “Voir mes résultats”, vous aurez la possibilité de retenter le parcours.',
-        ),
-      );
     });
   });
 

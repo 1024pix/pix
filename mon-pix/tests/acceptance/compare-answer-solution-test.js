@@ -69,6 +69,20 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
     });
   });
 
+  module('Question titles on the results page', function () {
+    test('should number each question', async function (assert) {
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/results`);
+
+      // then
+      const titles = screen.getAllByRole('heading', { level: 3 });
+      assert.strictEqual(titles.length, 5);
+      titles.forEach((title, index) => {
+        assert.dom(title).includesText(`Question ${index + 1}`);
+      });
+    });
+  });
+
   module('Content of the correction modal', function () {
     test('should be able to open the correction modal', async function (assert) {
       // given
@@ -86,8 +100,8 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
 
     test('should be able to send a feedback', async function (assert) {
       // given
-      await visit(`/assessments/${assessment.id}/results`);
-      await click('.result-item__correction-button');
+      const screen = await visit(`/assessments/${assessment.id}/results`);
+      await click(screen.getAllByRole('button', { name: 'Réponses et tutos' })[0]);
 
       // when
       await clickByText(t('pages.challenge.feedback-panel.actions.open-close'));
@@ -110,8 +124,8 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
 
   module('Content of the correction modal: results and instructions', function () {
     test('should check the presence of instruction, text and image', async function (assert) {
-      await visit(`/assessments/${assessment.id}/results`);
-      await click('.result-item__correction-button');
+      const screen = await visit(`/assessments/${assessment.id}/results`);
+      await click(screen.getAllByRole('button', { name: 'Réponses et tutos' })[0]);
 
       assert.dom('.comparison-window-content__body .challenge-statement-instruction__text').exists();
       assert.dom('.comparison-window-content__body .challenge-statement__illustration-section').exists();

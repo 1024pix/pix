@@ -2045,6 +2045,7 @@
       },
       "ko": "Risposta errata",
       "ok": "Risposta corretta",
+      "question-number": "Domanda { number }",
       "timedout": "Tempo scaduto"
     },
     "sco-signup-or-login": {

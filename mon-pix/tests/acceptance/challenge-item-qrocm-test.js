@@ -1,4 +1,4 @@
-import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { clickByName, getScreen, visit } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, currentURL, fillIn, find, findAll, triggerEvent } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -260,26 +260,27 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
     test('should show the result of previous challenges in checkpoint', async function (assert) {
       // then
-      assert.strictEqual(findAll('.result-item__icon')[0].title, 'Réponse incorrecte');
+      assert.dom(findAll('.result-item__title')[0]).includesText('Réponse incorrecte');
       const instructionStripped = qrocmDepChallenge.instruction.slice(0, 102);
       assert.strictEqual(findAll('.result-item__instruction')[0].textContent.trim(), `${instructionStripped}...`);
-      assert.strictEqual(findAll('.result-item__correction-button')[0].textContent.trim(), 'Réponses et tutos');
-      assert.strictEqual(findAll('.result-item__icon')[1].title, 'Réponse incorrecte');
+      const screen = await getScreen();
+      const buttons = screen.getAllByRole('button', { name: 'Réponses et tutos' });
+      assert.strictEqual(buttons.length, 3);
+      assert.dom(findAll('.result-item__title')[1]).includesText('Réponse incorrecte');
       const instructionStrippedInd = qrocmIndChallenge.instruction.slice(0, 104);
       assert.strictEqual(findAll('.result-item__instruction')[1].textContent.trim(), `${instructionStrippedInd}....`);
-      assert.strictEqual(findAll('.result-item__correction-button')[1].textContent.trim(), 'Réponses et tutos');
-      assert.strictEqual(findAll('.result-item__icon')[2].title, 'Réponse incorrecte');
+      assert.dom(findAll('.result-item__title')[2]).includesText('Réponse incorrecte');
       const instructionStrippedSelect = qrocmIndSelectChallenge.instruction.slice(0, 104);
       assert.strictEqual(
         findAll('.result-item__instruction')[2].textContent.trim(),
         `${instructionStrippedSelect}....`,
       );
-      assert.strictEqual(findAll('.result-item__correction-button')[2].textContent.trim(), 'Réponses et tutos');
     });
 
     test('should show details of QROCM-dep challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
-      await click(findAll('.result-item__correction-button')[0]);
+      const screen = await getScreen();
+      await click(screen.getAllByRole('button', { name: 'Réponses et tutos' })[0]);
 
       // then
       assert.strictEqual(
@@ -307,7 +308,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
     test('should show details of QROCM-ind challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
-      await click(findAll('.result-item__correction-button')[1]);
+      const screen = await getScreen();
+      await click(screen.getAllByRole('button', { name: 'Réponses et tutos' })[1]);
 
       // then
       assert.strictEqual(
@@ -336,7 +338,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
     test('should show details of QROCM-ind challenge (with select) result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
-      await click(findAll('.result-item__correction-button')[2]);
+      const screen = await getScreen();
+      await click(screen.getAllByRole('button', { name: 'Réponses et tutos' })[2]);
 
       // then
       assert.strictEqual(

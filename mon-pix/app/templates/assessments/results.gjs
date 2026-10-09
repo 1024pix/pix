@@ -21,8 +21,12 @@ import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
       </p>
 
       <div class="assessment-results__list">
-        {{#each @model.answers as |answer|}}
-          <ResultItem @answer={{answer}} @openAnswerDetails={{@controller.openComparisonWindow}} />
+        {{#each @model.answers as |answer index|}}
+          <ResultItem
+            @answer={{answer}}
+            @answerIndex={{index}}
+            @openAnswerDetails={{@controller.openComparisonWindow}}
+          />
         {{/each}}
       </div>
 
