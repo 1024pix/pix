@@ -22,8 +22,11 @@ export default class AnswerStatuses extends Component {
         {{/each}}
       {{else}}
         <PixBlock>
-          <p class="checkpoint-no-answer__info">
-            {{t "pages.checkpoint.answers.already-finished.explanation"}}
+          <p class="answer-statuses__no-answer">
+            {{t "pages.checkpoint.answers.already-finished.explanation.sentence1"}}
+          </p>
+          <p class="answer-statuses__no-answer">
+            {{t "pages.checkpoint.answers.already-finished.explanation.sentence2"}}
           </p>
         </PixBlock>
       {{/if}}

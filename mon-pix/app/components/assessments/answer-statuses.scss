@@ -9,6 +9,11 @@
   gap: var(--pix-spacing-4x);
   max-width: 990px;
   margin: 0 auto;
+
+ &__no-answer {
+    color: var(--pix-neutral-500);
+    white-space: pre-line;
+  }
 }
 
 
@@ -41,25 +46,5 @@
   @include breakpoints.device-is('tablet') {
     width: 800px;
     padding: 30px;
-  }
-}
-
-.checkpoint-no-answer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-
-  &__header {
-    @extend %pix-title-m;
-
-    line-height: 3rem;
-  }
-
-  &__info {
-    max-width: 100%;
-    margin-bottom: 40px;
-    color: var(--pix-neutral-500);
-    white-space: pre-line;
   }
 }
