@@ -28,6 +28,9 @@
     -webkit-box-orient: vertical;
 
     a {
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
       color: var(--pix-neutral-900);
 
       &:hover,
