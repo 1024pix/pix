@@ -1,26 +1,26 @@
 # Value Object
 
-Un Value Object est une valeur du métier : un statut, un seuil, la bonne réponse d'une question. Un
-Value Object n'a pas d'identifiant. Deux Value Objects qui ont les mêmes valeurs sont interchangeables :
-le code peut utiliser l'un à la place de l'autre, comme deux billets de 10 €. Les Value Objects sont dans le dossier `domain/models/`.
+Un Value Object représente une valeur du métier : un statut, un seuil, la bonne réponse d'une
+question. Il n'a pas d'identifiant. Deux Value Objects avec les mêmes valeurs sont égaux, comme deux
+billets de 10 €. Les Value Objects se rangent dans `domain/models/`.
 
 ## Les règles
 
-La partie [référence des règles](#référence-des-règles) explique chaque règle en détail.
+Chaque règle est détaillée plus bas, dans la [référence des règles](#référence-des-règles).
 
 | # | Règle | En pratique |
 | --- | --- | --- |
-| [V1](#v1-immuable) | Immuable | champs privés `#` ; aucune méthode ne modifie un champ |
-| [V2](#v2-pas-didentifiant) | Pas d'identifiant | pas d'`id` à lui ; contenir l'`id` d'autre chose, comme un `challengeId`, est permis |
-| [V3](#v3-valide-dès-la-construction) | Valide dès la construction | le constructeur lève une erreur du domaine (`DomainError`) sur une valeur invalide |
-| [V4](#v4-aucun-effet-de-bord-extérieur) | Aucun effet de bord extérieur | aucun import d'infrastructure, aucun effet de bord extérieur : la date du jour est passée en paramètre |
-| [V5](#v5-contient-ses-règles) | Contient ses règles | une règle sur les données de l'objet est une méthode de l'objet |
-| [V6](#v6-pas-de-repository) | Pas de [repository](../repository/README.md) | pas de repository, pas de table : le Value Object est enregistré avec l'objet qui le contient |
-| [V7](#v7-lecture-seule-tableaux-compris) | Lecture seule, tableaux compris | un accesseur renvoie une copie : `[...this.#items]`, jamais `this.#items` |
+| [V1](#v1-immuable) | Immuable | les champs sont privés, et aucune méthode ne les modifie |
+| [V2](#v2-pas-didentifiant) | Pas d'identifiant | pas d'`id` propre ; garder l'`id` d'autre chose, comme `challengeId`, est permis |
+| [V3](#v3-valide-dès-la-construction) | Valide dès la construction | le constructeur lève une `DomainError` si une valeur est invalide |
+| [V4](#v4-aucun-effet-de-bord-extérieur) | Aucun effet de bord extérieur | pas d'import d'infrastructure ; la date du jour est passée en paramètre |
+| [V5](#v5-contient-ses-règles) | Contient ses règles | une règle sur ses données est une de ses méthodes |
+| [V6](#v6-pas-de-repository) | Pas de [repository](../repository/README.md) | il est enregistré avec l'objet qui le contient |
+| [V7](#v7-lecture-seule-tableaux-compris) | Lecture seule, tableaux compris | un getter renvoie une copie : `[...this.#items]`, pas `this.#items` |
 
 ## Exemple complet
 
-La bonne réponse d'une question à choix multiples (QCM) : la liste des choix corrects. Inventé, d'après [`Solution.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/Solution.js#L6-L35).
+La bonne réponse d'une question à choix multiples (QCM), c'est-à-dire la liste des choix corrects. Exemple inventé, d'après [`Solution.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/models/Solution.js#L6-L35).
 
 ```ts
 // devcomp/domain/models/QcmSolution.ts
@@ -28,10 +28,10 @@ import type { ChallengeId } from '../../../shared/domain/Id.js';
 import { InvalidQcmSolutionError } from '../errors.js';
 
 export class QcmSolution {
-  readonly challengeId: ChallengeId; // V2 : l'identifiant de la question, pas un identifiant à lui
-  #correctChoiceIds: string[]; // V1 : champ privé, aucun code hors de la classe ne peut modifier le champ
+  readonly challengeId: ChallengeId; // V2 : l'identifiant de la question, pas celui de la solution
+  #correctChoiceIds: string[]; // V1 : privé, personne ne peut le modifier hors de la classe
 
-  // V3 : une valeur invalide ne crée pas d'objet, le constructeur lève une erreur
+  // V3 : refuse une valeur invalide
   constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; correctChoiceIds: string[] }) {
     if (correctChoiceIds.length === 0) {
       throw new InvalidQcmSolutionError('A QCM needs at least one correct choice');
@@ -40,15 +40,15 @@ export class QcmSolution {
       throw new InvalidQcmSolutionError('A correct choice appears twice');
     }
     this.challengeId = challengeId;
-    this.#correctChoiceIds = [...correctChoiceIds]; // V7 : une copie du tableau reçu
+    this.#correctChoiceIds = [...correctChoiceIds]; // V7 : garde une copie du tableau reçu
   }
 
-  // V7 : l'accesseur renvoie une copie du tableau
+  // V7 : renvoie une copie du tableau
   get correctChoiceIds(): string[] {
     return [...this.#correctChoiceIds];
   }
 
-  // V5 : la règle de correction est une méthode de la solution
+  // V5 : la règle de correction est dans la solution
   isCorrect(selectedChoiceIds: string[]): boolean {
     return (
       selectedChoiceIds.length === this.#correctChoiceIds.length &&
@@ -56,26 +56,23 @@ export class QcmSolution {
     );
   }
 
-  // V2 : deux solutions sont égales quand leurs valeurs sont égales
+  // V2 : deux solutions sont égales si leurs valeurs sont égales
   equals(other: QcmSolution): boolean {
     return other.challengeId === this.challengeId && other.isCorrect(this.#correctChoiceIds);
   }
 
-  // V4 : aucun import d'infrastructure, aucun new Date()
-  // V6 : aucun repository : la solution est enregistrée avec la question
+  // V4 : pas d'import d'infrastructure, pas de new Date()
+  // V6 : pas de repository, la solution est enregistrée avec la question
 }
 ```
 
 ## Comment tester
 
-Un Value Object se teste avec un test unitaire. Le test n'utilise aucun stub, mock ou spy. Le test
-vérifie :
+Un Value Object se teste avec un test unitaire, sans stub, mock ni spy. Le test couvre :
 
-- la validation : une valeur invalide lève une erreur du domaine. Exemple :
-  `refuses a solution without correct choice` ;
-- le comportement : chaque méthode qui porte une règle, cas limites compris. Exemples : les trois tests
-  de `isCorrect` ;
-- l'immuabilité : modifier un tableau renvoyé ne modifie pas l'objet. Exemple :
+- la validation : une valeur invalide lève une erreur. Exemple : `refuses a solution without correct choice` ;
+- les règles : chaque méthode, cas limites compris. Exemples : les trois tests de `isCorrect` ;
+- l'immuabilité : modifier un tableau renvoyé ne change pas l'objet. Exemple :
   `cannot change the solution through the returned array`.
 
 Le test de l'[exemple complet](#exemple-complet) :
@@ -126,29 +123,29 @@ describe('Unit | Devcomp | Domain | Models | QcmSolution', function () {
 ## Checklist de revue de code
 
 ```
-Le Value Object contient-il ses règles ?
-[ ] V3  Le constructeur rejette toute valeur invalide, avec une erreur du domaine
-[ ] V5  La logique sur ses données est dans ses méthodes
+Ses règles sont-elles dedans ?
+[ ] V3  Le constructeur refuse une valeur invalide
+[ ] V5  Les règles sur ses données sont des méthodes
 
-Un code hors de la classe peut-il modifier l'objet ?
-[ ] V1  Aucun champ public modifiable, aucune méthode qui modifie un champ
-[ ] V7  Aucun tableau interne renvoyé tel quel
+Peut-on le modifier de l'extérieur ?
+[ ] V1  Pas de champ public, pas de méthode qui modifie un champ
+[ ] V7  Pas de tableau interne renvoyé tel quel
 
-Le Value Object dépend-il d'autre chose que de ses propres données ?
-[ ] V4  Aucun import d'infrastructure ; ni new Date(), ni Math.random(), ni configuration
-[ ] V2  Aucun id à lui ; aucune clé construite pour le front
-[ ] V6  Aucun repository
+Dépend-il d'autre chose ?
+[ ] V4  Pas d'import d'infrastructure, pas de new Date(), Math.random() ni config
+[ ] V2  Pas d'id propre, pas de clé construite pour le front
+[ ] V6  Pas de repository
 
-Les tests
-[ ] Un test unitaire, sans stub, sans mock, sans spy
+Tests
+[ ] Un test unitaire, sans stub, mock ni spy
 ```
 
 ## Référence des règles
 
 ### V1. Immuable
 
-**La règle.** Après le constructeur, rien ne modifie l'objet. Les champs sont privés, ou en lecture
-seule. Aucune méthode ne modifie un champ. Pour avoir une autre valeur, créer un autre objet.
+**La règle.** Une fois créé, l'objet ne change plus. Ses champs sont privés ou en lecture seule, et
+aucune méthode ne les modifie. Pour une autre valeur, on crée un autre objet.
 
 **Bon exemple.**
 
@@ -161,27 +158,25 @@ readonly challengeId: ChallengeId; // en lecture seule
 
 ```ts
 export class QcmSolution {
-  challengeId: ChallengeId; // public : n'importe qui peut modifier le champ
-  correctChoiceIds: string[]; // public : n'importe qui peut modifier le champ
+  challengeId: ChallengeId; // public : modifiable de partout
+  correctChoiceIds: string[]; // public : modifiable de partout
 }
 ```
 
-**Ce que ça apporte.** Une même solution peut être passée à plusieurs fonctions, ou gardée en cache :
-aucune fonction ne peut modifier la solution qu'une autre fonction utilise.
+**Ce que ça apporte.** On peut passer la même solution à plusieurs fonctions, ou la garder en cache.
+Aucune ne peut la modifier dans le dos des autres.
 
-**Sans cette règle.** Une partie du code modifie la solution d'une question pendant qu'une autre
-partie du code corrige une réponse avec cette solution. La réponse est corrigée avec une mauvaise
-solution. Le bug ne se voit pas à l'endroit de la modification : seule la correction de la réponse
-donne un résultat faux, et seulement quand les deux parties du code s'exécutent dans cet ordre.
+**Sans cette règle.** Un bout de code modifie la solution pendant qu'un autre s'en sert pour corriger
+une réponse. La réponse est mal corrigée. Le bug apparaît loin de la modification, et seulement dans
+un certain ordre d'exécution : il est difficile à trouver.
 
-**À savoir.** La règle vaut aussi pour la classe parente : les champs de la classe parente sont
-privés, ou en lecture seule.
+**À savoir.** La règle vaut aussi pour les champs hérités d'une classe parente.
 
 ### V2. Pas d'identifiant
 
-**La règle.** Un Value Object n'a pas d'identifiant à lui. Deux Value Objects qui ont les mêmes
-valeurs sont la même chose. Un Value Object peut contenir l'identifiant d'autre chose, comme
-`challengeId` : cet identifiant est une donnée comme les autres.
+**La règle.** Un Value Object n'a pas d'identifiant propre. Deux Value Objects avec les mêmes valeurs
+sont égaux. Il peut garder l'identifiant d'autre chose, comme `challengeId` : c'est une donnée comme
+une autre.
 
 **Bon exemple.**
 
@@ -191,40 +186,34 @@ equals(other: QcmSolution): boolean {
 }
 ```
 
-La comparaison utilise les valeurs. `challengeId` est l'identifiant de la question, pas un
-identifiant de la solution.
+La comparaison porte sur les valeurs. `challengeId` identifie la question, pas la solution.
 
 **Mauvais exemple.**
 
 ```ts
 export class QcmSolution {
-  readonly id: number; // un identifiant à la solution, qu'aucune règle du domaine n'utilise
+  readonly id: number; // un identifiant propre, qu'aucune règle n'utilise
 }
 ```
 
-**Ce que ça apporte.** Deux solutions se comparent par leurs valeurs. Le code peut remplacer une
-solution par une autre solution qui a les mêmes valeurs : le code qui reçoit l'une ou l'autre donne
-le même résultat.
+**Ce que ça apporte.** On peut remplacer une solution par une autre qui a les mêmes valeurs, sans
+rien changer au résultat.
 
-**Sans cette règle.** Avec un identifiant, un développeur ajoute une méthode pour retrouver l'objet par
-son identifiant, puis un repository. L'objet devient une Entity, et aucune revue n'a décidé ce
-changement.
+**Sans cette règle.** Avec un identifiant, quelqu'un finit par ajouter une méthode pour retrouver
+l'objet, puis un repository. L'objet devient une Entity sans que personne l'ait décidé.
 
-**Exceptions.** Le front a souvent besoin d'une clé unique pour ranger les solutions dans son cache.
-La clé ne va pas toujours au même endroit :
+**Exceptions.** Le front a souvent besoin d'une clé unique pour son cache. Où la construire ?
 
-- le front ne renvoie jamais la clé au serveur : la clé est construite dans le
-  **[sérialiseur](../serialiseur/README.md)** ;
-- le front renvoie la clé, et le serveur découpe la clé pour retrouver ses parties : un Value Object
-  construit la clé, découpe la clé et valide la clé ;
-- l'objet a une identité métier faite de plusieurs champs : l'objet est une
+- si le front ne renvoie jamais la clé au serveur : dans le [sérialiseur](../serialiseur/README.md) ;
+- si le front la renvoie et que le serveur la découpe : dans un Value Object, qui la construit, la
+  découpe et la valide ;
+- si l'objet a une vraie identité métier faite de plusieurs champs : c'est une
   [Entity](../entite/README.md).
 
 ### V3. Valide dès la construction
 
-**La règle.** Une valeur invalide ne crée pas d'objet. Le constructeur vérifie les valeurs reçues. Si
-une valeur est invalide, le constructeur lève une erreur du domaine. Le code qui reçoit l'objet n'a
-plus rien à vérifier.
+**La règle.** Le constructeur vérifie les valeurs reçues. Si une valeur est invalide, il lève une
+erreur du domaine et l'objet n'est pas créé.
 
 **Bon exemple.**
 
@@ -242,41 +231,39 @@ constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; corre
 ```ts
 constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; correctChoiceIds: string[] }) {
   // TODO: throw an error if the solution is invalid
-  this.challengeId = challengeId; // n'importe quelle valeur est acceptée
+  this.challengeId = challengeId; // tout est accepté
   this.#correctChoiceIds = correctChoiceIds;
 }
 ```
 
-**Ce que ça apporte.** Aucun code ne peut créer un objet avec une valeur invalide : le constructeur
-lève une erreur avant. Le code qui utilise l'objet n'a pas besoin de vérifier l'objet.
+**Ce que ça apporte.** Un objet invalide ne peut pas exister. Le code qui reçoit l'objet n'a donc rien
+à revérifier.
 
-**Sans cette règle.** Une solution sans choix correct est créée. `isCorrect([])` répond `true`, et une
-réponse vide est comptée juste.
+**Sans cette règle.** On peut créer une solution sans choix correct. `isCorrect([])` répond alors
+`true`, et une réponse vide compte comme juste.
 
-**À savoir.**
-
-- Toutes les validations du domaine lèvent une erreur du domaine. Sinon, le code qui appelle doit
-  attraper plusieurs types d'erreurs.
-- Un objet qui contient d'autres objets valide aussi les autres objets.
+**À savoir.** Si le Value Object contient d'autres objets, il les valide aussi.
 
 ### V4. Aucun effet de bord extérieur
 
-**La règle.** Un Value Object n'importe rien de l'infrastructure : ni base de données, ni log, ni
-appel HTTP. Le Value Object n'appelle pas `new Date()`, pas `Math.random()`, et ne lit pas la
-configuration : ces valeurs sont passées en paramètre.
+**La règle.** Un Value Object n'importe rien de l'infrastructure : pas de base de données, pas de log,
+pas d'appel HTTP. Il n'appelle pas `new Date()` ni `Math.random()`, et ne lit pas la configuration. Si
+ces valeurs sont nécessaires, elles arrivent en paramètre.
 
 **Bon exemple.**
 
 ```ts
+// la solution calcule, sans écrire de log
 isCorrect(selectedChoiceIds: string[]): boolean {
-  return (
-    selectedChoiceIds.length === this.#correctChoiceIds.length &&
-    selectedChoiceIds.every((choiceId) => this.#correctChoiceIds.includes(choiceId))
-  );
+  return …;
 }
+
+// le usecase écrit le log, s'il en a besoin
+const isCorrect = solution.isCorrect(answer.selectedChoiceIds);
+logger.info(`Answer checked for challenge ${solution.challengeId}`);
 ```
 
-Le résultat dépend seulement du paramètre et des champs de l'objet.
+C'est le même log que dans le mauvais exemple, mais écrit par le usecase.
 
 **Mauvais exemple.**
 
@@ -285,21 +272,21 @@ import { logger } from '../../../shared/infrastructure/utils/logger.js';
 
 isCorrect(selectedChoiceIds: string[]): boolean {
   const isCorrect = …;
-  logger.info(`Answer checked for challenge ${this.challengeId}`); // l'objet écrit un log
+  logger.info(`Answer checked for challenge ${this.challengeId}`); // la solution écrit un log
   return isCorrect;
 }
 ```
 
-**Ce que ça apporte.** Le résultat dépend seulement des paramètres. Le test est rapide, et le test
-n'a besoin d'aucun stub.
+**Ce que ça apporte.** Le résultat ne dépend que des paramètres. Le test est rapide et n'a besoin
+d'aucun stub.
 
-**Sans cette règle.** Le test doit simuler le log, l'heure ou la base de données. Un objet qui appelle
-`new Date()` donne un résultat différent à chaque exécution du test.
+**Sans cette règle.** Le test doit simuler le log, l'heure ou la base de données. Et un objet qui
+appelle `new Date()` ne donne pas le même résultat d'un lancement à l'autre.
 
 ### V5. Contient ses règles
 
-**La règle.** Une règle sur les données du Value Object est une méthode du Value Object. Un objet
-sans méthode laisse chaque appelant écrire la règle.
+**La règle.** Une règle qui porte sur les données du Value Object est une de ses méthodes. Sinon,
+chaque appelant réécrit la règle.
 
 **Bon exemple.**
 
@@ -310,35 +297,33 @@ solution.isCorrect(answer.selectedChoiceIds); // la règle de correction est dan
 **Mauvais exemple.**
 
 ```ts
-// dans un usecase : la règle de correction est écrite hors de la solution
+// dans un usecase : la règle de correction est réécrite à la main
 const isCorrect =
   answer.selectedChoiceIds.length === solution.correctChoiceIds.length &&
   answer.selectedChoiceIds.every((choiceId) => solution.correctChoiceIds.includes(choiceId));
 ```
 
-**Ce que ça apporte.** La règle est écrite une seule fois. Pour changer la règle de correction, un
-seul fichier change : `QcmSolution.ts`.
+**Ce que ça apporte.** La règle existe à un seul endroit. Pour la changer, on modifie seulement
+`QcmSolution.ts`.
 
 **Sans cette règle.** La règle est copiée dans chaque [usecase](../usecase/README.md) qui corrige une
-réponse. Un jour, une copie de la règle est différente des autres copies, et la même réponse est juste
-dans un écran et fausse dans un autre.
+réponse. Un jour, une copie diverge, et la même réponse est juste sur un écran et fausse sur un autre.
 
-**À savoir.** Un calcul pour l'affichage n'est pas une règle : le calcul ne décide rien. Par exemple,
-le pourcentage de bonnes réponses arrondi pour un écran n'a pas sa place dans `QcmSolution`.
+**À savoir.** Un calcul pour l'affichage n'est pas une règle, car il ne décide rien. Le pourcentage de
+bonnes réponses arrondi pour un écran n'a pas sa place dans `QcmSolution`.
 
-**Exceptions.** Un Value Object sans méthode est accepté quand son seul rôle est de typer une valeur :
-une fonction qui attend une `QcmSolution` refuse une simple liste de chaînes à la compilation.
+**Exceptions.** Un Value Object sans méthode est accepté s'il sert seulement à typer une valeur. Une
+fonction qui attend une `QcmSolution` refuse alors une simple liste de chaînes.
 
 ### V6. Pas de repository
 
-**La règle.** Un Value Object n'a pas de repository. Un Value Object n'a pas de table à lui. Le Value
-Object est enregistré avec l'objet qui le contient. Un objet qu'il faut retrouver seul est une
-[Entity](../entite/README.md).
+**La règle.** Un Value Object n'a ni repository ni table à lui. Il est enregistré avec l'objet qui le
+contient. Un objet qu'il faut retrouver seul est une [Entity](../entite/README.md).
 
 **Bon exemple.**
 
 ```ts
-// la solution est chargée avec la question, par le repository des questions
+// la solution arrive avec la question, par le repository des questions
 const challenge = await challengeRepository.get(challengeId);
 challenge.solution.isCorrect(answer.selectedChoiceIds);
 ```
@@ -346,22 +331,20 @@ challenge.solution.isCorrect(answer.selectedChoiceIds);
 **Mauvais exemple.**
 
 ```ts
-// un repository pour retrouver une solution seule
+// un repository rien que pour les solutions
 const solution = await qcmSolutionRepository.get(solutionId);
 ```
 
-**Ce que ça apporte.** La solution est toujours chargée avec sa question, en un seul appel au
-repository des questions. Aucun code ne crée ni n'enregistre une solution seule.
+**Ce que ça apporte.** La solution arrive toujours avec sa question, en un seul appel. Elle n'est
+jamais créée ni enregistrée seule.
 
-**Sans cette règle.** Un repository a besoin d'un identifiant pour retrouver l'objet. L'objet reçoit
-un identifiant, et l'objet devient une Entity sans qu'aucune revue ait décidé ce changement.
+**Sans cette règle.** Pour retrouver l'objet, le repository a besoin d'un identifiant. L'objet en
+reçoit un, et devient une Entity sans que personne l'ait décidé.
 
 ### V7. Lecture seule, tableaux compris
 
-**La règle.** Aucun code hors de la classe ne peut modifier un champ, ni le contenu d'un tableau
-interne. Un
-accesseur qui renvoie un tableau renvoie une copie du tableau. Le constructeur garde aussi une copie
-du tableau reçu.
+**La règle.** On ne peut rien modifier depuis l'extérieur, pas même le contenu d'un tableau. Un getter
+qui renvoie un tableau renvoie une copie, et le constructeur garde une copie du tableau reçu.
 
 **Bon exemple.**
 
@@ -375,17 +358,15 @@ get correctChoiceIds(): string[] {
 
 ```ts
 get correctChoiceIds(): string[] {
-  return this.#correctChoiceIds; // le tableau interne lui-même
+  return this.#correctChoiceIds; // le tableau interne, modifiable par l'appelant
 }
 ```
 
-**Ce que ça apporte.** Une fois créée, la solution ne change plus, même quand un appelant modifie le
+**Ce que ça apporte.** La solution ne change plus après sa création, même si l'appelant modifie le
 tableau qu'il a reçu.
 
-**Sans cette règle.** Le code qui appelle fait `solution.correctChoiceIds.push('b')`, et la solution de
-la question change sans appel à une méthode de la solution.
+**Sans cette règle.** Un appel à `solution.correctChoiceIds.push('b')` change la solution, sans passer
+par aucune de ses méthodes.
 
-**À savoir.** Certains fichiers appellent `Object.freeze(this)` pour empêcher les modifications.
-`Object.freeze(this)` empêche de modifier les champs publics. `Object.freeze(this)` n'empêche pas de
-modifier les champs privés `#`, et n'empêche pas `solution.correctChoiceIds.push('b')`. Seule la copie
-empêche de modifier un tableau.
+**À savoir.** `Object.freeze(this)` ne suffit pas. Il bloque les champs publics, mais pas les champs
+privés `#`, ni le contenu des tableaux. Pour un tableau, seule la copie protège.
