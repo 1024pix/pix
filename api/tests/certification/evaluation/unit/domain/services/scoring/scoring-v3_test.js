@@ -58,6 +58,7 @@ describe('Unit | Certification | Evaluation | Domain | Services | Scoring V3', f
 
         const v3CertificationScoring = domainBuilder.buildV3CertificationScoring({
           competencesForScoring: [domainBuilder.buildCompetenceForScoring()],
+          maxReachablePixScore: 895,
         });
         const challenges = generateChallengeList({
           length: maximumAssessmentLength,

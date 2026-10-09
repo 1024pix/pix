@@ -8,9 +8,10 @@ describe('Certification | Evaluation | Unit | Domain | Models | ScoringV3Algorit
   let algorithm, allAnswers, allChallenges, askedChallenges, flashAssessmentAlgorithmConfiguration;
   let v3CertificationScoring, downgradeCapacityStub;
   let scoringV3Algorithm;
+  const MAX_REACHABLE_SCORE = 1000;
 
   beforeEach(function () {
-    v3CertificationScoring = domainBuilder.buildV3CertificationScoring();
+    v3CertificationScoring = domainBuilder.buildV3CertificationScoring({ maxReachablePixScore: MAX_REACHABLE_SCORE });
     allAnswers = Symbol('allAnswers');
     allChallenges = Symbol('allChallenges');
     askedChallenges = Symbol('askedChallenges');
@@ -90,7 +91,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | ScoringV3Algorit
       it('the score should be the maximum score reachable at the moment', function () {
         const pixScore = scoringV3Algorithm.computePixScoreFromCapacity({ capacity: 8 });
 
-        expect(pixScore).to.equal(895);
+        expect(pixScore).to.equal(1000);
       });
     });
   });

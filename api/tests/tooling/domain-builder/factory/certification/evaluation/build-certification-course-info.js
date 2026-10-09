@@ -1,13 +1,13 @@
-import {
-  defaultChallengesConfiguration,
-  defaultCompetencesScoringConfiguration,
-  defaultGlobalScoringConfiguration,
-} from '../../../../../../db/database-builder/factory/build-certification-version.js';
 import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { CertificationCourseInfo } from '../../../../../../src/certification/evaluation/domain/read-models/CertificationCourseInfo.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import {
+  defaultChallengesConfiguration,
+  defaultCompetencesScoringConfiguration,
+  defaultGlobalScoringConfiguration,
+} from '../configuration/build-version.js';
 
 /**
  * @typedef {import('../../../../../../db/database-builder/database-builder.js').databaseBuilder} DatabaseBuilder

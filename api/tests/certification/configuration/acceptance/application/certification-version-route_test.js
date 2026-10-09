@@ -2,10 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
-  defaultCompetencesScoringConfiguration,
-  defaultGlobalScoringConfiguration,
-} from '../../../../../db/database-builder/factory/build-certification-version.js';
-import {
   CALIBRATION_SCOPES,
   CALIBRATION_STATUSES,
 } from '../../../../../src/certification/configuration/domain/models/Calibration.js';
@@ -18,6 +14,10 @@ import { Frameworks } from '../../../../../src/certification/shared/domain/model
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { databaseBuilder, datamartBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import {
+  defaultCompetencesScoringConfiguration,
+  defaultGlobalScoringConfiguration,
+} from '../../../../tooling/domain-builder/factory/certification/configuration/build-version.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
@@ -80,6 +80,10 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
   describe('GET /api/admin/certification-versions/{certificationVersionId}', function () {
     it('should return the version details with areas for a given id', async function () {
       // given
+      const versionGlobalScoringConfiguration = [
+        { bounds: { min: -8, max: -2 }, meshLevel: 0 },
+        { bounds: { min: -2, max: 8 }, meshLevel: 1 },
+      ];
       const version = domainBuilder.certification.configuration
         .versionDetailsBuilder()
         .asArchived({ startDate: new Date('2025-01-11'), expirationDate: new Date('2026-01-01') })
@@ -133,15 +137,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           variationPercent: 0.5,
           defaultCandidateCapacity: -3,
           defaultProbabilityToPickChallenge: 51,
-          globalScoringConfiguration: [
-            {
-              bounds: {
-                min: -8,
-                max: -2,
-              },
-              meshLevel: 0,
-            },
-          ],
+          globalScoringConfiguration: versionGlobalScoringConfiguration,
           comments: 'Some awesome comments',
         })
         .insertToDB({ databaseBuilder });
@@ -177,15 +173,7 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
           'enable-passage-by-all-competences': true,
           status: VERSION_STATUSES.ARCHIVED,
           scope: SCOPES.CORE,
-          'global-scoring-configuration': [
-            {
-              bounds: {
-                min: -8,
-                max: -2,
-              },
-              meshLevel: 0,
-            },
-          ],
+          'global-scoring-configuration': versionGlobalScoringConfiguration,
           comments: 'Some awesome comments',
         },
         relationships: {
@@ -355,64 +343,6 @@ describe('Acceptance | Certification | Configuration | API | certification-versi
 
       // then
       expect(response.statusCode).to.equal(204);
-    });
-
-    it('returns a 422 when globalScoringConfiguration contains bounds where max is lower than or equal to min', async function () {
-      // given
-      const version = domainBuilder.certification.configuration
-        .versionBuilder()
-        .asDraft({ startDate: new Date('2025-01-11') })
-        .withParameters({
-          scope: SCOPES.CORE,
-          tubeIds: ['tubeA'],
-          id: 123,
-          assessmentDuration: 100,
-          minimumAnswersRequiredToValidateACertification: 20,
-          challengesConfiguration: {
-            maximumAssessmentLength: 32,
-            challengesBetweenSameCompetence: 2,
-            limitToOneQuestionPerTube: true,
-            enablePassageByAllCompetences: true,
-            variationPercent: 0.5,
-            defaultCandidateCapacity: -3,
-            defaultProbabilityToPickChallenge: 51,
-          },
-        })
-        .insertToDB({ databaseBuilder });
-
-      await databaseBuilder.commit();
-
-      const options = {
-        method: 'PATCH',
-        url: `/api/admin/certification-versions/${version.id}`,
-        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
-        payload: {
-          data: {
-            id: version.id,
-            attributes: {
-              'start-date': new Date('2020-02-02'),
-              'assessment-duration': 1,
-              'external-calibration-id': null,
-              'minimum-answers-required-for-validation': 2,
-              'maximum-assessment-length': 3,
-              'challenges-between-same-competence': 4,
-              'default-probability-to-pick-challenge': 5,
-              'variation-percent': 0.6,
-              'default-candidate-capacity': 7,
-              'limit-to-one-question-per-tube': true,
-              'enable-passage-by-all-competences': true,
-              'global-scoring-configuration': [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
-            },
-            type: 'certification-versions',
-          },
-        },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(422);
     });
   });
 

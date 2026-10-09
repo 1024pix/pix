@@ -33,6 +33,8 @@ export async function getLatestByDateAndLocale({ locale, date }) {
     allAreas,
     competenceList,
     minimumAnswersRequiredToValidateACertification: certificationVersion.minimumAnswersRequiredToValidateACertification,
+    maxReachableLevel: certificationVersion.maxReachableLevel,
+    maxReachablePixScore: certificationVersion.maxReachablePixScore,
     versionId: certificationVersion.id,
   });
 }
@@ -47,6 +49,8 @@ export async function getLatestByVersion({ version }) {
     allAreas,
     competenceList,
     minimumAnswersRequiredToValidateACertification: version.minimumAnswersRequiredToValidateACertification,
+    maxReachableLevel: version.maxReachableLevel,
+    maxReachablePixScore: version.maxReachablePixScore,
     versionId: version.id,
   });
 }

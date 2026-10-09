@@ -5,6 +5,7 @@ import * as versionRepository from '../../../../../../src/certification/configur
 import { DEFAULT_SESSION_DURATION_MINUTES } from '../../../../../../src/certification/shared/domain/constants.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { PIX_COUNT_BY_LEVEL } from '../../../../../../src/shared/constants.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -242,6 +243,8 @@ describe('Certification | Configuration | Integration | Repository | Version', f
         defaultCandidateCapacity: 1,
         defaultProbabilityToPickChallenge: 51,
       };
+      const globalScoringConfiguration = [{ config: 'test' }];
+      const competencesScoringConfiguration = [{ config: 'test' }];
       const version = domainBuilder.certification.configuration
         .versionBuilder()
         .asArchived({ startDate: new Date('2025-06-01'), expirationDate: new Date('2025-12-31') })
@@ -249,8 +252,8 @@ describe('Certification | Configuration | Integration | Repository | Version', f
           scope,
           tubeIds: ['rec123', 'rec5678'],
           assessmentDuration: 120,
-          globalScoringConfiguration: [{ config: 'test' }],
-          competencesScoringConfiguration: [{ config: 'test' }],
+          globalScoringConfiguration,
+          competencesScoringConfiguration,
           challengesConfiguration: expectedConfig,
         })
         .insertToDB({ databaseBuilder });
@@ -261,16 +264,21 @@ describe('Certification | Configuration | Integration | Repository | Version', f
       const result = await versionRepository.getById({ id: version.id });
 
       // then
+      const expectedMaxReachableLevel = globalScoringConfiguration.length - 1;
+      const expectedMaxReachablePixScore =
+        expectedMaxReachableLevel * competencesScoringConfiguration.length * PIX_COUNT_BY_LEVEL - 1;
       expect(result).to.be.instanceOf(Version);
       expect(result.id).to.equal(version.id);
       expect(result.scope).to.equal(scope);
       expect(result.startDate).to.deep.equal(new Date('2025-06-01'));
       expect(result.expirationDate).to.deep.equal(new Date('2025-12-31'));
       expect(result.assessmentDuration).to.equal(120);
-      expect(result.globalScoringConfiguration).to.deep.equal([{ config: 'test' }]);
-      expect(result.competencesScoringConfiguration).to.deep.equal([{ config: 'test' }]);
+      expect(result.globalScoringConfiguration).to.deep.equal(globalScoringConfiguration);
+      expect(result.competencesScoringConfiguration).to.deep.equal(competencesScoringConfiguration);
       expect(result.challengesConfiguration).to.deep.equal(expectedConfig);
       expect(result.tubeIds).to.deep.equal(['rec123', 'rec5678']);
+      expect(result.maxReachableLevel).to.equal(expectedMaxReachableLevel);
+      expect(result.maxReachablePixScore).to.equal(expectedMaxReachablePixScore);
     });
 
     context('when the version does not exist', function () {
@@ -436,37 +444,6 @@ describe('Certification | Configuration | Integration | Repository | Version', f
 
       // then
       expect(result).to.be.null;
-    });
-  });
-
-  describe('#updateScoring', function () {
-    it('updates only the scoring fields of the version', async function () {
-      // given
-      domainBuilder.certification.configuration
-        .versionBuilder()
-        .asActive()
-        .withParameters({
-          id: 77,
-          globalScoringConfiguration: [],
-          competencesScoringConfiguration: null,
-          tubeIds: ['rec1'],
-        })
-        .insertToDB({ databaseBuilder });
-      await databaseBuilder.commit();
-
-      const globalScoringConfiguration = [{ meshLevel: 1, bounds: { min: -2, max: 3 } }];
-
-      // when
-      await versionRepository.updateScoring({
-        id: 77,
-        globalScoringConfiguration,
-        competencesScoringConfiguration: null,
-      });
-
-      // then
-      const updatedVersion = await versionRepository.getById({ id: 77 });
-      expect(updatedVersion.globalScoringConfiguration).to.deep.equal(globalScoringConfiguration);
-      expect(updatedVersion.competencesScoringConfiguration).to.be.null;
     });
   });
 });

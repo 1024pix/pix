@@ -69,6 +69,7 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
         const currentVersion = domainBuilder.certification.configuration
           .versionBuilder()
           .asActive({ startDate: new Date('2010-02-01') })
+          .withRealisticScoringConfigurations()
           .withParameters({
             scope: SCOPES.CORE,
             tubeIds: ['tubeA'],
@@ -82,19 +83,6 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
               defaultCandidateCapacity: -3,
               defaultProbabilityToPickChallenge: 51,
             },
-            globalScoringConfiguration: [
-              { bounds: { max: -4, min: -8 }, meshLevel: 0 },
-              { bounds: { max: 8, min: -4 }, meshLevel: 1 },
-            ],
-            competencesScoringConfiguration: [
-              {
-                competence: '1.1',
-                competenceId: 'recCompetence0',
-                values: [
-                  { bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 },
-                ],
-              },
-            ],
           })
           .insertToDB({ databaseBuilder });
 
@@ -165,9 +153,9 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
         const descOrderedAssessmentResults = await knex('assessment-results').orderBy('createdAt', 'DESC');
         expect(descOrderedAssessmentResults).to.have.length(2);
         const [lastAssessmentResult] = descOrderedAssessmentResults;
-        expect(lastAssessmentResult.pixScore).to.be.equal(69);
+        expect(lastAssessmentResult.pixScore).to.be.equal(31);
         expect(lastAssessmentResult.capacity).to.be.equal(-3);
-        expect(lastAssessmentResult.reachedMeshIndex).to.be.equal(1);
+        expect(lastAssessmentResult.reachedMeshIndex).to.be.equal(0);
         expect(lastAssessmentResult.juryId).to.be.equal(user.id);
         expect(lastAssessmentResult.versionId).to.be.equal(currentVersion.id);
       });
@@ -214,6 +202,7 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
         const archivedVersion = domainBuilder.certification.configuration
           .versionBuilder()
           .asArchived({ startDate: new Date('2010-02-01'), expirationDate: new Date('2024-02-01') })
+          .withRealisticScoringConfigurations()
           .withParameters({
             scope: SCOPES.CORE,
             tubeIds: ['tubeA'],
@@ -222,19 +211,6 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
               maximumAssessmentLength: 1,
               defaultCandidateCapacity: -3,
             }),
-            globalScoringConfiguration: [
-              { bounds: { max: -4, min: -8 }, meshLevel: 0 },
-              { bounds: { max: 8, min: -4 }, meshLevel: 1 },
-            ],
-            competencesScoringConfiguration: [
-              {
-                competence: '1.1',
-                competenceId: 'recCompetence0',
-                values: [
-                  { bounds: { max: Number.MAX_SAFE_INTEGER, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 },
-                ],
-              },
-            ],
           })
           .insertToDB({ databaseBuilder });
 
@@ -243,6 +219,7 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
           .asActive({
             startDate: new Date('2024-02-01'),
           })
+          .withRealisticScoringConfigurations()
           .withParameters({
             scope: SCOPES.CORE,
             tubeIds: ['tubeA'],
@@ -257,7 +234,6 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
               defaultProbabilityToPickChallenge: 51,
             },
           })
-          .withRealisticScoringConfigurations()
           .insertToDB({ databaseBuilder });
 
         const candidate = databaseBuilder.factory.buildUser();
@@ -329,9 +305,9 @@ describe('Certification | Evaluation | Acceptance | Application |  certification
         const descOrderedAssessmentResults = await knex('assessment-results').orderBy('createdAt', 'DESC');
         expect(descOrderedAssessmentResults).to.have.length(2);
         const [lastAssessmentResult] = descOrderedAssessmentResults;
-        expect(lastAssessmentResult.pixScore).to.be.equal(69);
+        expect(lastAssessmentResult.pixScore).to.be.equal(31);
         expect(lastAssessmentResult.capacity).to.be.equal(-3);
-        expect(lastAssessmentResult.reachedMeshIndex).to.be.equal(1);
+        expect(lastAssessmentResult.reachedMeshIndex).to.be.equal(0);
         expect(lastAssessmentResult.juryId).to.be.equal(user.id);
         expect(lastAssessmentResult.versionId).to.be.equal(archivedVersion.id);
       });
