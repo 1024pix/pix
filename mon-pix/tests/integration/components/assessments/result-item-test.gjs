@@ -6,60 +6,64 @@ import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | result-item', function (hooks) {
+const CORRECTION_BUTTON_LABEL = 'pages.result-item.actions.see-answers-and-tutorials.label';
+
+module('Integration | Component | Assessments | result-item', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('when the answer has no displayable result', function () {
     [
-      { name: 'undefined answer result', answer: EmberObject.create({ result: undefined }) },
-      { name: 'empty answer result', answer: EmberObject.create({ result: '' }) },
-      { name: 'null answer result', answer: EmberObject.create({ result: null }) },
-    ].forEach(({ name, answer }) => {
-      test(`should not render any icon or correction when ${name}`, async function (assert) {
+      { name: 'undefined answer result', result: undefined },
+      { name: 'empty answer result', result: '' },
+      { name: 'null answer result', result: null },
+    ].forEach(({ name, result }) => {
+      test(`should render nothing when ${name}`, async function (assert) {
+        // given
+        const answer = EmberObject.create({ result, challenge: EmberObject.create({ type: 'QCM' }) });
+
         // when
         const screen = await render(<template><ResultItem @answer={{answer}} /></template>);
 
         // then
         assert.dom(screen.queryByRole('button')).doesNotExist();
-        assert.dom('.result-item__icon').doesNotExist();
+        assert.dom(screen.queryByTitle(t('pages.comparison-window.results.ok.tooltip'))).doesNotExist();
       });
     });
   });
 
   module('when the answer has a displayable result', function () {
-    [
-      { result: 'ok', expectedColor: 'green', expectedTooltip: 'Réponse correcte' },
-      { result: 'ko', expectedColor: 'red', expectedTooltip: 'Réponse incorrecte' },
-      { result: 'timedout', expectedColor: 'red', expectedTooltip: 'Temps dépassé' },
-      { result: 'aband', expectedColor: 'grey', expectedTooltip: 'Sans réponse' },
-    ].forEach(({ result, expectedColor, expectedTooltip }) => {
-      test(`should render a ${expectedColor} icon when result is ${result}`, async function (assert) {
+    ['ok', 'ko', 'timedout', 'aband'].forEach((result) => {
+      test(`should display the result status when result is ${result}`, async function (assert) {
         // given
         const answer = EmberObject.create({ result });
-
-        // when
-        await render(<template><ResultItem @answer={{answer}} /></template>);
-
-        // then
-        assert.dom('.result-item__icon').exists();
-        assert.dom(`.result-item__icon--${expectedColor}`).exists();
-      });
-
-      test(`should render the tooltip "${expectedTooltip}" when result is ${result}`, async function (assert) {
-        // given
-        const answer = EmberObject.create({ result });
+        const expectedTooltip = t(`pages.comparison-window.results.${result}.tooltip`);
 
         // when
         const screen = await render(<template><ResultItem @answer={{answer}} /></template>);
 
         // then
-        assert.dom('.result-item__icon').hasAttribute('title', expectedTooltip);
+        assert.dom(screen.getByTitle(expectedTooltip)).exists();
         assert.dom(screen.getByText(expectedTooltip)).exists();
       });
     });
+
+    test('should display the challenge instruction without its markdown', async function (assert) {
+      // given
+      const challenge = EmberObject.create({
+        type: 'QCM',
+        instruction: "Un QCM propose plusieurs choix, l'utilisateur peut en choisir [plusieurs](http://link.url)",
+      });
+      const answer = EmberObject.create({ result: 'ko', challenge });
+
+      // when
+      const screen = await render(<template><ResultItem @answer={{answer}} /></template>);
+
+      // then
+      assert.dom(screen.getByText("Un QCM propose plusieurs choix, l'utilisateur peut en choisir plusieurs")).exists();
+    });
   });
 
-  module('correction button visibility per challenge type', function () {
+  module('correction button', function () {
     [
       { challengeType: 'QCM', shouldDisplay: true },
       { challengeType: 'QROC', shouldDisplay: true },
@@ -77,9 +81,7 @@ module('Integration | Component | result-item', function (hooks) {
         const screen = await render(<template><ResultItem @answer={{answer}} /></template>);
 
         // then
-        const button = screen.queryByRole('button', {
-          name: t('pages.result-item.actions.see-answers-and-tutorials.label'),
-        });
+        const button = screen.queryByRole('button', { name: t(CORRECTION_BUTTON_LABEL) });
         if (shouldDisplay) {
           assert.dom(button).exists();
         } else {
@@ -102,53 +104,55 @@ module('Integration | Component | result-item', function (hooks) {
       );
 
       // when
-      await screen
-        .getByRole('button', { name: t('pages.result-item.actions.see-answers-and-tutorials.label') })
-        .click();
+      await screen.getByRole('button', { name: t(CORRECTION_BUTTON_LABEL) }).click();
 
       // then
       assert.strictEqual(openedAnswer, answer);
     });
   });
 
-  module('instruction truncation depending on viewport width', function () {
+  module('instruction truncation depending on viewport width', function (hooks) {
     const longInstruction =
       'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam';
+    const startsWithInstruction = (content) => content.trim().startsWith('Lorem ipsum dolor');
+    let initialWidth;
+
+    hooks.beforeEach(function () {
+      initialWidth = window.innerWidth;
+    });
+
+    hooks.afterEach(function () {
+      window.innerWidth = initialWidth;
+    });
 
     test('should truncate the instruction to 60 characters on mobile', async function (assert) {
       // given
-      const initialWidth = window.innerWidth;
       window.innerWidth = 600;
       const challenge = EmberObject.create({ type: 'QCM', instruction: longInstruction });
       const answer = EmberObject.create({ result: 'ok', challenge });
 
       // when
-      await render(<template><ResultItem @answer={{answer}} /></template>);
+      const screen = await render(<template><ResultItem @answer={{answer}} /></template>);
 
       // then
-      const renderedText = document.querySelector('.result-item__instruction').textContent.trim();
+      const renderedText = screen.getByText(startsWithInstruction).textContent.trim();
       assert.true(renderedText.length <= 60);
       assert.true(renderedText.endsWith('...'));
-
-      window.innerWidth = initialWidth;
     });
 
     test('should truncate the instruction to 110 characters on tablet/desktop', async function (assert) {
       // given
-      const initialWidth = window.innerWidth;
       window.innerWidth = 1200;
       const challenge = EmberObject.create({ type: 'QCM', instruction: longInstruction });
       const answer = EmberObject.create({ result: 'ok', challenge });
 
       // when
-      await render(<template><ResultItem @answer={{answer}} /></template>);
+      const screen = await render(<template><ResultItem @answer={{answer}} /></template>);
 
       // then
-      const renderedText = document.querySelector('.result-item__instruction').textContent.trim();
+      const renderedText = screen.getByText(startsWithInstruction).textContent.trim();
       assert.true(renderedText.length > 60);
       assert.true(renderedText.length <= 110);
-
-      window.innerWidth = initialWidth;
     });
   });
 });
