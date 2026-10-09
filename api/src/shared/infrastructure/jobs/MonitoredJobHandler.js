@@ -52,6 +52,12 @@ class MonitoredJobHandler {
   }
 
   logJobFailed(name, job, error) {
+    const createdOn = dayjs(job.createdOn);
+    const startedOn = dayjs(job.startedOn);
+    const endedOn = dayjs();
+    const totalTime = endedOn.diff(createdOn, 'second', true);
+    const executionTime = endedOn.diff(startedOn, 'second', true);
+
     this.logger.error(
       {
         type: 'JOB_LOG_ERROR',
@@ -61,6 +67,8 @@ class MonitoredJobHandler {
         handlerName: name,
         error: error?.message,
         stack: error?.stack,
+        executionTime,
+        totalTime,
       },
       'PGBOSS ERROR IN JOB',
     );
