@@ -273,8 +273,9 @@ Tests
 
 ### E1. Un identifiant qui ne change pas
 
-**La règle.** L'identifiant est une propriété de l'Entity, souvent nommée `id`. Aucune méthode ne la
-modifie. Son type est un type dédié, comme `OrganizationId`, ou un Value Object, mais pas `number`.
+**La règle.** L'identifiant est un champ de l'Entity, souvent nommé `id`. Aucune méthode ne le
+modifie. Il a un type dédié, comme `OrganizationId`, ou un Value Object : même quand la valeur est un
+entier, on ne le type pas en simple `number`.
 Dans le code de Pix, l'identifiant prend plusieurs formes :
 
 - un entier créé par la base de données, le cas le plus courant : `Organization` ;
@@ -298,11 +299,11 @@ export class Organization {
 }
 ```
 
-**Ce que ça apporte.** Pour comparer ou retrouver une Entity, on n'utilise que son identifiant. Et le
-compilateur refuse un `UserId` là où il attend un `OrganizationId`.
+**Ce que ça apporte.** Une Entity se compare et se retrouve par son seul identifiant. Et grâce au type
+dédié, le compilateur refuse un `UserId` à la place d'un `OrganizationId`.
 
-**Sans cette règle.** Si un bout de code change l'`id` d'une organisation, le repository enregistre ses
-valeurs sur une autre organisation.
+**Sans cette règle.** Si du code change l'`id` d'une organisation, le repository écrase les données
+d'une autre organisation avec les siennes.
 
 **À savoir.** La base de données crée l'`id` à l'enregistrement, donc une Entity neuve n'en a pas
 encore. Le type le dit : `Organization<null>` pour une Entity neuve, `Organization` pour une Entity
@@ -347,8 +348,8 @@ const archiveOrganization = async ({
 };
 ```
 
-Le compilateur refuse `add()` avec une Entity déjà enregistrée, et `update()` avec une Entity neuve.
-Dans une `Organization`, `id` n'est jamais `null`.
+Le compilateur vérifie que `add()` ne reçoit pas une Entity déjà enregistrée, et que `update()` ne
+reçoit pas une Entity neuve. Une `Organization`, sans `<null>`, a toujours un `id`.
 
 ### E2. Comparer par identifiant
 
@@ -414,7 +415,8 @@ renomme l'organisation sans la vérifier, et on se retrouve avec un nom vide.
 **À savoir.**
 
 - Un constructeur avec `= {}` et sans vérification accepte `new Organization()`, et crée une
-  organisation vide. Ce code compile et les tests passent : rien ne signale le problème.
+  organisation vide. Ça compile, et un test qui ne vérifie pas ce cas
+  ne voit rien.
 - Si une méthode modifie plusieurs champs, elle vérifie tout avant de modifier le premier. Sinon, une
   erreur en cours de route laisse l'Entity à moitié modifiée.
 
@@ -422,8 +424,8 @@ renomme l'organisation sans la vérifier, et on se retrouve avec un nom vide.
 
 **La règle.** Une Entity n'importe rien de l'infrastructure : pas de base de données, pas de log, pas
 d'appel HTTP. Elle n'appelle pas `new Date()` ni `Math.random()`, et ne lit pas la configuration. Ces
-valeurs arrivent en paramètre. Si une règle a besoin d'une donnée que l'Entity n'a pas, c'est le
-usecase qui la charge et la passe à la méthode.
+valeurs arrivent en paramètre. Si une règle a besoin d'une donnée que l'Entity n'a pas, le usecase la
+charge et la passe en paramètre.
 
 **Bon exemple.**
 
@@ -547,8 +549,8 @@ readonly createdBy: UserId; // l'identifiant de la personne
 readonly creator: User; // l'objet entier d'un autre Aggregate
 ```
 
-**Ce que ça apporte.** Charger une Entity ne charge qu'elle. Chaque Aggregate se modifie et
-s'enregistre seul.
+**Ce que ça apporte.** Quand on charge une organisation, on ne charge pas l'utilisateur avec. On peut
+modifier et enregistrer l'un sans toucher à l'autre.
 
 **Sans cette règle.** Le repository doit charger l'utilisateur avec chaque organisation. Chaque objet
 lié ajoute une requête ou une jointure. Et on peut modifier l'utilisateur en passant par
@@ -558,9 +560,9 @@ l'organisation.
 `Organization` garde ses `OrganizationFeature`, mais seulement l'identifiant de `createdBy`, car un
 utilisateur est un autre Aggregate.
 
-**À savoir.** Si un problème de performance est mesuré en production au chargement d'un Aggregate, il
-y a deux solutions : revoir la frontière, si aucune règle ne relie les objets, ou créer un read-model
-pour cette lecture. On ne charge jamais une Entity à moitié.
+**À savoir.** Si le chargement d'un Aggregate est trop lent en production, et que c'est mesuré, il y a
+deux options. Soit on découpe l'Aggregate, si aucune règle ne relie ses objets. Soit on écrit une
+requête dédiée à cette lecture, un read-model. Mais on ne charge jamais une Entity à moitié.
 
 ### E8. Un nom du métier
 
@@ -574,11 +576,11 @@ en PascalCase.
 **Ce que ça apporte.** En cherchant le mot du métier, par exemple « Organization », on trouve le
 fichier.
 
-**Sans cette règle.** La recherche ne trouve pas le fichier, et le relecteur doit l'ouvrir pour savoir
-quelle Entity il contient.
+**Sans cette règle.** On ne retrouve pas le fichier en cherchant le mot du métier, et il faut l'ouvrir
+pour savoir ce qu'il contient.
 
-**Exceptions.** Deux contextes peuvent avoir chacun une Entity du même nom, pour deux choses
-différentes, car chaque contexte a son vocabulaire. L'import dit de quel contexte elle vient.
+**Exceptions.** Deux contextes, comme `prescription` et `team` dans `src/`, peuvent avoir chacun une
+Entity du même nom, avec un sens différent. Le chemin de l'import montre de quel contexte elle vient.
 
 ### E9. Seule une Aggregate Root émet des événements
 
@@ -627,11 +629,13 @@ export class OrganizationFeature {
 }
 ```
 
-**Ce que ça apporte.** L'événement vient de l'objet qui garantit les règles du groupe. Quand
+**Ce que ça apporte.** L'événement est émis par la racine, celle qui vérifie les règles de tout
+l'Aggregate. Quand
 `OrganizationArchived` est émis, `archive()` a déjà vérifié toutes les règles de l'archivage.
 
 **Sans cette règle.** Une Entity interne émet un événement sans que la racine ait vérifié les règles.
-Ceux qui reçoivent l'événement réagissent à un changement que l'Aggregate aurait pu refuser.
+Le code qui réagit à l'événement traite un changement que la racine n'a pas validé.
 
-**À savoir.** Les événements sont publiés après l'enregistrement, une fois la transaction validée, par
-le code qui enveloppe le usecase. Ni le usecase ni le repository ne publient eux-mêmes.
+**À savoir.** Les événements sont publiés après l'enregistrement, quand la transaction est validée.
+C'est un code placé autour du usecase qui s'en charge, comme `runInTransaction`. Le usecase et le
+repository ne publient rien eux-mêmes.
