@@ -1004,6 +1004,10 @@
           "description": "Cliquer sur le bouton ci-dessous et démarrer votre certification",
           "title": "Vous souhaitez passer une certification ?"
         },
+        "clea": {
+          "text": "Vous êtes éligible au CléA numérique",
+          "title": "Votre profil Pix est certifiable"
+        },
         "not-certifiable": {
           "description": "Un minimum de pré-requis est nécessaire pour passer la certification.",
           "title": "Vous n’êtes pas encore certifiable"
