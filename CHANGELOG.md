@@ -1,5 +1,29 @@
 # Pix Changelog
 
+# [5.518.0](https://github.com/1024pix/pix/compare/v5.517.0...v5.518.0) (2026-10-09)
+
+### :rocket: Amélioration
+
+- [#17782](https://github.com/1024pix/pix/pull/17782) Ajout d'une bannière pour rentrer en session (PIX-24635).
+- [#17770](https://github.com/1024pix/pix/pull/17770) Ajout du block liste certifications dans la nouvelle page des certifications (PIX-24636))
+- [#17774](https://github.com/1024pix/pix/pull/17774) Ajouter la traduction manquante pour les Centres Certificate
+- [#17718](https://github.com/1024pix/pix/pull/17718) Intègre les ajouts et modifications de données pour la préparation à la rentrée 2027 ParcourSup dans la réplication MADDO (PIX-24563)
+- [#17740](https://github.com/1024pix/pix/pull/17740) Mettre en place le système de traduction en knowledge `state` et `element`  (PIX-24499)
+
+### :building_construction: Tech
+
+- [#17775](https://github.com/1024pix/pix/pull/17775) :recycle: Arrête d'utiliser le cas d'utilisation pour construire des sessions publiées (PIX-24647)
+- [#17771](https://github.com/1024pix/pix/pull/17771) Déplacer `local-domains` dans le dossier `/docker`
+- [#17756](https://github.com/1024pix/pix/pull/17756) Nettoyer la racine du monorepo et son package.json
+- [#17776](https://github.com/1024pix/pix/pull/17776) Utiliser typescript 7 pour le lint des types
+
+### :arrow_up: Montée de version
+
+- [#17696](https://github.com/1024pix/pix/pull/17696) Update dependency @axe-core/playwright to ^4.13.0 (e2e-playwright)
+- [#17779](https://github.com/1024pix/pix/pull/17779) Update dependency handlebars to >=4.7.10 (certif) [SECURITY]
+- [#17780](https://github.com/1024pix/pix/pull/17780) Update dependency handlebars to >=4.7.10 (mon-pix) [SECURITY]
+- [#17781](https://github.com/1024pix/pix/pull/17781) Update dependency handlebars to >=4.7.10 (orga) [SECURITY]
+
 # [5.517.0](https://github.com/1024pix/pix/compare/v5.516.0...v5.517.0) (2026-10-08)
 
 ### :rocket: Amélioration
