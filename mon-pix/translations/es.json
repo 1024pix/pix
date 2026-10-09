@@ -1256,7 +1256,10 @@
       },
       "answers": {
         "already-finished": {
-          "explanation": "Si ya has respondido a estas preguntas en pruebas anteriores, puedes acceder directamente a tus resultados. ¿Quieres mejorar tu puntuación? Haz clic en «Ver mis resultados» para volver a realizar el test.",
+          "explanation": {
+            "sentence1": "Si ya has respondido a estas preguntas en pruebas anteriores, puedes acceder directamente a tus resultados.",
+            "sentence2": "¿Quieres mejorar tu puntuación? Haz clic en «Ver mis resultados» para volver a realizar el test."
+          },
           "info": "¡Ya has contestado!"
         },
         "header": "tus respuestas"

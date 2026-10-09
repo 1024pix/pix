@@ -1256,7 +1256,10 @@
       },
       "answers": {
         "already-finished": {
-          "explanation": "You have already answered these questions in previous test. You can jump straight to your results.\n \n Want to improve your score? Click on \"See my results\" and you will be able to retake the test.",
+          "explanation": {
+            "sentence1": "You have already answered these questions in previous test. You can jump straight to your results.",
+            "sentence2": "Want to improve your score? Click on \"See my results\" and you will be able to retake the test."
+          },
           "info": "You have already answered !"
         },
         "header": "your answers"

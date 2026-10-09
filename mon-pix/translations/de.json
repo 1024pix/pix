@@ -1256,7 +1256,10 @@
       },
       "answers": {
         "already-finished": {
-          "explanation": "Du hast diese Fragen bereits in früheren Tests beantwortet: Du kannst direkt auf deine Ergebnisse zugreifen.\n\nMöchtest du dein Ergebnis verbessern? Wenn du auf \"Meine Ergebnisse anzeigen\" klickst, hast du die Möglichkeit, den Lernpfad erneut zu versuchen.",
+          "explanation": {
+            "sentence1": "Du hast diese Fragen bereits in früheren Tests beantwortet:Du kannst direkt auf deine Ergebnisse zugreifen.",
+            "sentence2": "Möchtest du dein Ergebnis verbessern? Wenn du auf \"Meine Ergebnisse anzeigen\" klickst, hast du die Möglichkeit, den Lernpfad erneut zu versuchen."
+          },
           "info": "Du hast bereits geantwortet!"
         },
         "header": "Deine Antworten"
