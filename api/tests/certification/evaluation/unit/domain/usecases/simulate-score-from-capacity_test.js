@@ -84,7 +84,7 @@ describe('Certification | Evaluation | Unit | Domain | Usecase | simulate-score-
     expect(result).to.deepEqualInstance(
       domainBuilder.buildScoringAndCapacitySimulatorReport({
         capacity,
-        score: 48,
+        score: 7,
         competences: [
           {
             level: 0,

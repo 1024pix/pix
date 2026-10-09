@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {
-  defaultCompetencesScoringConfiguration,
-  defaultGlobalScoringConfiguration,
-} from '../../../../../../db/database-builder/factory/build-certification-version.js';
 import { ScoreCertificationJob } from '../../../../../../src/certification/configuration/domain/models/ScoreCertificationJob.js';
 import { saveScoringConfiguration } from '../../../../../../src/certification/configuration/domain/usecases/save-scoring-configuration.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import {
+  defaultCompetencesScoringConfiguration,
+  defaultGlobalScoringConfiguration,
+} from '../../../../../tooling/domain-builder/factory/certification/configuration/build-version.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Configuration | Unit | UseCase | save-scoring-configuration', function () {

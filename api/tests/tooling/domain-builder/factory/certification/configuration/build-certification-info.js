@@ -1,10 +1,7 @@
-import {
-  defaultCompetencesScoringConfiguration,
-  defaultGlobalScoringConfiguration,
-} from '../../../../../../db/database-builder/factory/build-certification-version.js';
 import { VERSION_STATUSES } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { CertificationInfo } from '../../../../../../src/certification/configuration/domain/read-models/CertificationInfo.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
+import { defaultCompetencesScoringConfiguration, defaultGlobalScoringConfiguration } from './build-version.js';
 
 /**
  * @typedef {import('../../../../../../src/certification/shared/domain/models/Scopes.js').SCOPES} SCOPES

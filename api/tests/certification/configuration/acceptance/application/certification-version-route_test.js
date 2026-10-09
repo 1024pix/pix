@@ -2,10 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
-  defaultCompetencesScoringConfiguration,
-  defaultGlobalScoringConfiguration,
-} from '../../../../../db/database-builder/factory/build-certification-version.js';
-import {
   CALIBRATION_SCOPES,
   CALIBRATION_STATUSES,
 } from '../../../../../src/certification/configuration/domain/models/Calibration.js';
@@ -18,6 +14,10 @@ import { Frameworks } from '../../../../../src/certification/shared/domain/model
 import { SCOPES } from '../../../../../src/certification/shared/domain/models/Scopes.js';
 import { databaseBuilder, datamartBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import {
+  defaultCompetencesScoringConfiguration,
+  defaultGlobalScoringConfiguration,
+} from '../../../../tooling/domain-builder/factory/certification/configuration/build-version.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
