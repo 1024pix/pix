@@ -1,32 +1,33 @@
 # Entity
 
-Une Entity est un objet que le produit garde, retrouve avec son identifiant, et modifie : un
-utilisateur, une campagne, une organisation. Les valeurs d'une Entity changent, mais l'Entity reste la
-même Entity. Les Entities sont dans le dossier `domain/models/`.
+Une Entity est un objet que le produit suit dans le temps : un utilisateur, une campagne, une
+organisation. Elle a un identifiant. Ses valeurs changent, mais elle reste la même Entity. Les Entities
+se rangent dans `domain/models/`.
 
 ## Les règles
 
-La partie [référence des règles](#référence-des-règles) explique chaque règle en détail.
+Chaque règle est détaillée plus bas, dans la [référence des règles](#référence-des-règles).
 
 | # | Règle | En pratique |
 | --- | --- | --- |
-| [E1](#e1-un-identifiant-qui-ne-change-pas) | Un identifiant qui ne change pas | l'identifiant est une propriété ; aucune méthode ne modifie cette propriété |
-| [E2](#e2-comparer-par-identifiant) | Comparer par identifiant | comparer les `id`, pas les autres champs |
-| [E3](#e3-toujours-valide) | Toujours valide | le constructeur et chaque méthode lèvent une erreur du domaine (`DomainError`) si une règle n'est pas respectée |
-| [E4](#e4-aucun-effet-de-bord-extérieur) | Aucun effet de bord extérieur | aucun import d'infrastructure, aucun effet de bord extérieur : la date du jour est passée en paramètre |
-| [E5](#e5-rien-pour-la-base-de-données) | Rien pour la base de données | pas de `toDTO()` ni de `fromDTO()` : c'est le travail du repository |
-| [E6](#e6-pas-de-setter) | Pas de setter | chaque changement a une méthode avec un nom métier : `rename()`, pas `set name()` |
+| [E1](#e1-un-identifiant-qui-ne-change-pas) | Un identifiant qui ne change pas | aucune méthode ne modifie l'identifiant |
+| [E2](#e2-comparer-par-identifiant) | Comparer par identifiant | on compare les `id`, pas les autres champs |
+| [E3](#e3-toujours-valide) | Toujours valide | le constructeur et chaque méthode lèvent une `DomainError` si une règle n'est pas respectée |
+| [E4](#e4-aucun-effet-de-bord-extérieur) | Aucun effet de bord extérieur | pas d'import d'infrastructure ; la date du jour est passée en paramètre |
+| [E5](#e5-rien-pour-la-base-de-données) | Rien pour la base de données | pas de `toDTO()` ni de `fromDTO()`, c'est le travail du repository |
+| [E6](#e6-pas-de-setter) | Pas de setter | chaque changement a sa méthode métier : `rename()`, pas `set name()` |
 | [E7](#e7-les-autres-aggregates-par-identifiant) | Les autres Aggregates par identifiant | `createdBy: UserId`, pas `creator: User` |
-| [E8](#e8-un-nom-du-métier) | Un nom du métier | un fichier par Entity, en PascalCase, avec un nom du métier |
-| [E9](#e9-seule-une-aggregate-root-émet-des-événements) | Seule une Aggregate Root émet des événements | `emitDomainEvent()` est protégé, dans la classe `AggregateRoot` |
+| [E8](#e8-un-nom-du-métier) | Un nom du métier | un fichier par Entity, en PascalCase, nommé avec le mot du métier |
+| [E9](#e9-seule-une-aggregate-root-émet-des-événements) | Seule une Aggregate Root émet des événements | `emitDomainEvent()` est protégé dans `AggregateRoot` |
 
 ## Exemple complet
 
-Une organisation, simplifiée : un nom, un type, la personne qui a créé l'organisation, les fonctionnalités activées, et une date d'archivage. Inventé, d'après
+Une organisation simplifiée : un nom, un type, la personne qui l'a créée, les fonctionnalités activées
+et une date d'archivage. Exemple inventé, d'après
 [`Organization.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/Organization.js#L16-L61).
 
 ```ts
-// organizational-entities/domain/models/Organization.ts — E8 : un fichier, un nom du métier
+// organizational-entities/domain/models/Organization.ts — E8 : un fichier, nommé avec le mot du métier
 import type { OrganizationId, UserId } from '../../../shared/domain/Id.js';
 import { ArchivedOrganizationError, FeatureAlreadyEnabledError, InvalidOrganizationError } from '../errors.js';
 import { type FeatureName, OrganizationFeature } from './OrganizationFeature.js';
@@ -49,18 +50,18 @@ type OrganizationProps<Id> = {
 
 // Organization<null> : une organisation neuve, pas encore enregistrée
 // Organization : une organisation enregistrée, avec un id
-// E9 : une Aggregate Root, qui peut émettre des événements du domaine
+// E9 : une Aggregate Root, qui peut émettre des événements
 export class Organization<Id extends OrganizationId | null = OrganizationId> extends AggregateRoot {
-  readonly id: Id; // E1 : l'identifiant, en lecture seule
+  readonly id: Id; // E1 : en lecture seule
   readonly type: OrganizationType;
-  readonly createdBy: UserId; // E7 : un autre Aggregate, gardé par son identifiant
+  readonly createdBy: UserId; // E7 : un autre Aggregate, gardé par son id
   readonly createdAt: Date;
-  #name: string; // E6 : champ privé, seule la méthode rename() modifie le nom
+  #name: string; // E6 : privé, seul rename() le modifie
   #updatedAt: Date;
   #archivedAt: Date | null;
   #features: OrganizationFeature[]; // E7 : des objets du même Aggregate, gardés entiers
 
-  // E3 : une organisation invalide n'est pas créée
+  // E3 : refuse une organisation invalide
   constructor({ id, name, type, createdBy, createdAt, updatedAt, archivedAt, features }: OrganizationProps<Id>) {
     super();
     assertValidName(name);
@@ -75,7 +76,7 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> ext
     this.#features = [...features];
   }
 
-  // une organisation neuve : pas encore d'id ; E4 : la date est passée en paramètre
+  // une organisation neuve, sans id ; E4 : la date arrive en paramètre
   static create({ name, type, createdBy, now }: { name: string; type: OrganizationType; createdBy: UserId; now: Date }): Organization<null> {
     return new Organization({ id: null, name, type, createdBy, createdAt: now, updatedAt: now, archivedAt: null, features: [] });
   }
@@ -100,7 +101,7 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> ext
     return [...this.#features];
   }
 
-  // E2 : la comparaison utilise l'id
+  // E2 : on compare les id
   isSameAs(other: Organization): boolean {
     return this.id === other.id;
   }
@@ -129,7 +130,7 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> ext
     this.#updatedAt = now;
   }
 
-  // E5 : pas de toDTO() ni de toRow() : le repository fait la traduction
+  // E5 : pas de toDTO() : la traduction est dans le repository
 }
 
 function assertValidName(name: string): void {
@@ -139,13 +140,14 @@ function assertValidName(name: string): void {
 
 ## Comment tester
 
-Une Entity se teste avec un test unitaire. Le test n'utilise aucun stub, mock ou spy. Le test vérifie :
+Une Entity se teste avec un test unitaire, sans stub, mock ni spy. Le test couvre :
 
 - le constructeur : une Entity invalide n'est pas créée. Exemple : `refuses an empty name` ;
-- chaque méthode qui change l'Entity : le cas qui marche, **et** le cas d'erreur quand la règle n'est
-  pas respectée. Le test vérifie que l'Entity n'a pas changé après l'erreur. Exemples :
-  `renames the organization` et `refuses an empty name, and changes nothing` ;
-- chaque accesseur calculé, comme `isArchived` : les cas limites. Exemple : `archives the organization`.
+- chaque méthode qui modifie l'Entity : le cas qui marche, et le cas d'erreur. Après une erreur,
+  l'Entity n'a pas changé. Exemples : `renames the organization` et
+  `refuses an empty name, and changes nothing` ;
+- les getters calculés, comme `isArchived`, avec leurs cas limites. Exemple :
+  `archives the organization`.
 
 Le test de l'[exemple complet](#exemple-complet) :
 
@@ -248,35 +250,35 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
 ## Checklist de revue de code
 
 ```
-L'Entity peut-elle devenir invalide ?
+Peut-elle devenir invalide ?
 [ ] E3  Le constructeur et chaque méthode refusent un état invalide
-[ ] E6  Pas de setter ; chaque changement a une méthode avec un nom métier
+[ ] E6  Pas de setter ; chaque changement a sa méthode métier
 
-L'Entity dépend-elle d'autre chose que de ses propres données ?
-[ ] E7  Un autre Aggregate est gardé par son identifiant, pas par l'objet entier
-[ ] E4  Aucun import d'infrastructure ; ni new Date(), ni Math.random(), ni configuration
-[ ] E9  Seule une Aggregate Root émet des événements du domaine
-[ ] E5  Aucune méthode que seul le repository appelle
+Dépend-elle d'autre chose ?
+[ ] E7  Un autre Aggregate est gardé par son id, pas en entier
+[ ] E4  Pas d'import d'infrastructure, pas de new Date(), Math.random() ni config
+[ ] E9  Seule une Aggregate Root émet des événements
+[ ] E5  Pas de méthode utilisée seulement par le repository
 
-L'Entity a-t-elle un identifiant stable et un nom du métier ?
-[ ] E1  L'identifiant est une propriété qu'aucune méthode ne modifie
-[ ] E2  Les comparaisons utilisent l'id
-[ ] E8  Un fichier, en PascalCase, avec un nom du métier
+Son identité est-elle nette ?
+[ ] E1  Aucune méthode ne modifie l'identifiant
+[ ] E2  Les comparaisons se font sur l'id
+[ ] E8  Un fichier en PascalCase, nommé avec le mot du métier
 
-Les tests
-[ ] Chaque méthode qui change l'Entity a un test du refus
+Tests
+[ ] Chaque méthode qui modifie l'Entity a un test du cas d'erreur
 ```
 
 ## Référence des règles
 
 ### E1. Un identifiant qui ne change pas
 
-**La règle.** L'identifiant est une propriété de l'Entity, souvent nommée `id`. Aucune méthode ne
-modifie cette propriété. Le type de l'identifiant est un type à lui, comme `OrganizationId`, ou un
-Value Object, pas `number`. L'identifiant prend plusieurs formes :
+**La règle.** L'identifiant est une propriété de l'Entity, souvent nommée `id`. Aucune méthode ne la
+modifie. Son type est un type dédié, comme `OrganizationId`, ou un Value Object, mais pas `number`.
+Dans le code de Pix, l'identifiant prend plusieurs formes :
 
-- un entier créé par la base de données : le cas le plus courant, par exemple `Organization` ;
-- une chaîne qui vient du référentiel : `skillId`, `tubeId`, `challengeId` ;
+- un entier créé par la base de données, le cas le plus courant : `Organization` ;
+- une chaîne venue du référentiel : `skillId`, `tubeId`, `challengeId` ;
 - un UUID : les modules, les chats ;
 - une valeur du métier : le `code` d'une campagne, le `slug` d'un module.
 
@@ -284,7 +286,7 @@ Value Object, pas `number`. L'identifiant prend plusieurs formes :
 
 ```ts
 export class Organization<Id extends OrganizationId | null = OrganizationId> {
-  readonly id: Id; // en lecture seule : aucune méthode ne modifie l'id
+  readonly id: Id; // en lecture seule : personne ne peut le modifier
 }
 ```
 
@@ -292,20 +294,19 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> {
 
 ```ts
 export class Organization {
-  id: number; // public et modifiable : n'importe quel code peut changer l'id
+  id: number; // public : modifiable de partout
 }
 ```
 
-**Ce que ça apporte.** Pour comparer deux Entities ou retrouver une Entity, le code utilise
-l'identifiant, et seulement l'identifiant. Le compilateur refuse un `UserId` là où un
-`OrganizationId` est attendu.
+**Ce que ça apporte.** Pour comparer ou retrouver une Entity, on n'utilise que son identifiant. Et le
+compilateur refuse un `UserId` là où il attend un `OrganizationId`.
 
-**Sans cette règle.** Un code change l'`id` d'une organisation. Le repository enregistre alors les
-valeurs de cette organisation sur une autre organisation.
+**Sans cette règle.** Si un bout de code change l'`id` d'une organisation, le repository enregistre ses
+valeurs sur une autre organisation.
 
-**À savoir.** La base de données crée l'`id` au moment de l'enregistrement. Une Entity neuve n'a donc
-pas encore d'`id`. Le type dit si l'Entity a un `id` : `Organization<null>` pour une Entity neuve,
-`Organization` pour une Entity enregistrée.
+**À savoir.** La base de données crée l'`id` à l'enregistrement, donc une Entity neuve n'en a pas
+encore. Le type le dit : `Organization<null>` pour une Entity neuve, `Organization` pour une Entity
+enregistrée.
 
 ```ts
 interface OrganizationRepository {
@@ -315,7 +316,7 @@ interface OrganizationRepository {
 }
 ```
 
-Chaque usecase dit quel état il accepte :
+Chaque usecase dit quelle forme il attend :
 
 ```ts
 // création : le usecase reçoit une Entity neuve
@@ -329,7 +330,7 @@ const createOrganization = async ({
   return organizationRepository.add(organization);
 };
 
-// modification : le usecase reçoit l'id, charge l'Entity, appelle une méthode métier
+// modification : le usecase reçoit l'id, charge l'Entity puis appelle sa méthode
 const archiveOrganization = async ({
   organizationId,
   organizationRepository,
@@ -351,9 +352,8 @@ Dans une `Organization`, `id` n'est jamais `null`.
 
 ### E2. Comparer par identifiant
 
-**La règle.** Deux objets qui ont le même `id` sont la même Entity, même si les autres champs sont
-différents. Deux objets qui ont des `id` différents sont deux Entities, même si les autres champs sont
-égaux.
+**La règle.** Deux objets avec le même `id` sont la même Entity, même si leurs autres champs
+diffèrent. Deux objets avec des `id` différents sont deux Entities, même si tout le reste est égal.
 
 **Bon exemple.**
 
@@ -371,17 +371,17 @@ isSameAs(other: Organization): boolean {
 }
 ```
 
-**Ce que ça apporte.** La même Entity, chargée deux fois à deux moments différents, est reconnue comme
-la même Entity.
+**Ce que ça apporte.** La même Entity, chargée à deux moments différents, est bien reconnue comme la
+même.
 
-**Sans cette règle.** Deux organisations qui ont le même nom sont prises pour la même organisation. La
-même organisation, chargée avant et après `rename()`, est prise pour deux organisations.
+**Sans cette règle.** Deux organisations qui portent le même nom sont confondues. Et la même
+organisation, chargée avant puis après `rename()`, passe pour deux organisations.
 
 ### E3. Toujours valide
 
-**La règle.** Une Entity invalide n'est pas créée. Ensuite, aucune méthode ne rend l'Entity invalide.
-Chaque méthode vérifie la règle avant de modifier l'Entity. Si la règle n'est pas respectée, la
-méthode lève une erreur du domaine et ne modifie rien.
+**La règle.** Une Entity invalide n'est jamais créée, et aucune méthode ne peut la rendre invalide.
+Chaque méthode vérifie d'abord la règle. Si la règle n'est pas respectée, elle lève une erreur du
+domaine et ne modifie rien.
 
 **Bon exemple.**
 
@@ -405,26 +405,25 @@ constructor({ id, name, type, createdBy }: OrganizationProps = {}) {
 }
 ```
 
-**Ce que ça apporte.** Le code qui reçoit une organisation sait que le nom n'est pas vide et que le
-type est connu : le code n'a rien à vérifier. La règle est écrite une seule fois, dans l'Entity.
+**Ce que ça apporte.** Quand on reçoit une organisation, on sait que son nom n'est pas vide et que son
+type existe. Il n'y a rien à revérifier, et la règle n'est écrite qu'une fois, dans l'Entity.
 
 **Sans cette règle.** La règle est écrite dans un [usecase](../usecase/README.md). Un autre usecase
-renomme l'organisation, oublie la règle, et une organisation a un nom vide.
+renomme l'organisation sans la vérifier, et on se retrouve avec un nom vide.
 
 **À savoir.**
 
-- Un constructeur avec `= {}` et sans aucune vérification accepte `new Organization()` : l'Entity est
-  créée vide. Ce code compile, et les tests qui passent des valeurs valides passent : rien ne
-  signale la vérification qui manque.
-- Une méthode qui modifie plusieurs champs vérifie tout avant de modifier le premier champ. Sinon,
-  une erreur au milieu laisse l'Entity à moitié modifiée.
+- Un constructeur avec `= {}` et sans vérification accepte `new Organization()`, et crée une
+  organisation vide. Ce code compile et les tests passent : rien ne signale le problème.
+- Si une méthode modifie plusieurs champs, elle vérifie tout avant de modifier le premier. Sinon, une
+  erreur en cours de route laisse l'Entity à moitié modifiée.
 
 ### E4. Aucun effet de bord extérieur
 
 **La règle.** Une Entity n'importe rien de l'infrastructure : pas de base de données, pas de log, pas
-d'appel HTTP. L'Entity n'appelle pas `new Date()`, pas `Math.random()`, et ne lit pas la
-configuration : ces valeurs sont passées en paramètre. Si une règle a besoin d'une donnée que
-l'Entity n'a pas, le usecase charge la donnée et passe la donnée à la méthode.
+d'appel HTTP. Elle n'appelle pas `new Date()` ni `Math.random()`, et ne lit pas la configuration. Ces
+valeurs arrivent en paramètre. Si une règle a besoin d'une donnée que l'Entity n'a pas, c'est le
+usecase qui la charge et la passe à la méthode.
 
 **Bon exemple.**
 
@@ -446,19 +445,19 @@ archive(): void {
 }
 ```
 
-**Ce que ça apporte.** Le résultat dépend seulement des paramètres. Le test passe une date et vérifie
-le résultat.
+**Ce que ça apporte.** Le résultat ne dépend que des paramètres. Le test passe une date et vérifie le
+résultat.
 
-**Sans cette règle.** Le test doit bloquer l'heure ou simuler un module. Une Entity qui appelle
-`new Date()` donne un résultat différent à chaque exécution du test.
+**Sans cette règle.** Le test doit figer l'heure ou simuler un module. Et une Entity qui appelle
+`new Date()` ne donne pas le même résultat d'un lancement à l'autre.
 
-**À savoir.** Un import peut venir de l'infrastructure sans le dire. Un utilitaire importé depuis un
-dossier `infrastructure/`, même pour formater une date, est un import d'infrastructure.
+**À savoir.** Un import d'infrastructure ne se voit pas toujours. Un utilitaire importé depuis un
+dossier `infrastructure/`, même pour formater une date, en est un.
 
 ### E5. Rien pour la base de données
 
-**La règle.** Transformer une Entity pour la base de données, dans un sens ou dans l'autre, est le
-travail du repository. L'Entity n'a pas de méthode que seul le repository appelle : ni `toDTO()`, ni
+**La règle.** Traduire une Entity vers la base de données, ou l'inverse, c'est le travail du
+repository. L'Entity n'a pas de méthode que seul le repository utilise, comme `toDTO()` ou
 `fromDTO()`.
 
 **Bon exemple.**
@@ -488,16 +487,16 @@ export class Organization {
 }
 ```
 
-**Ce que ça apporte.** Le fichier de l'Entity n'importe rien de la base de données et ne contient
-aucun nom de colonne. Un changement dans la base de données modifie seulement le repository.
+**Ce que ça apporte.** L'Entity ne contient aucun nom de colonne. Un changement dans la base de
+données ne touche que le repository.
 
-**Sans cette règle.** Renommer une colonne de la table oblige à modifier l'Entity.
+**Sans cette règle.** Renommer une colonne oblige à modifier l'Entity.
 
 ### E6. Pas de setter
 
-**La règle.** Chaque changement de l'Entity passe par une méthode avec un nom métier : `archive()`,
-`rename()`. Pas de setter public. Le code extérieur ne modifie pas un champ directement :
-`organization.name = 'Lycée Jean Moulin'` dans un usecase ne respecte pas la règle.
+**La règle.** Chaque changement passe par une méthode au nom métier, comme `archive()` ou `rename()`.
+Pas de setter public, et pas de champ modifié depuis l'extérieur : `organization.name = 'Lycée Jean
+Moulin'` dans un usecase ne respecte pas la règle.
 
 **Bon exemple.**
 
@@ -515,28 +514,26 @@ rename(name: string, now: Date): void {
 #name: string;
 
 set name(value: string) {
-  this.#name = value; // n'importe quel code peut changer le nom, sans vérification
+  this.#name = value; // tout le monde peut changer le nom, sans vérification
 }
 ```
 
-**Ce que ça apporte.** Chaque changement passe par une seule méthode. La méthode vérifie la règle
-(E3). Le nom de la méthode dit ce qui se passe pour le métier.
+**Ce que ça apporte.** Chaque changement passe par une seule méthode, qui vérifie la règle (E3). Et le
+nom de la méthode dit ce qui se passe côté métier.
 
-**Sans cette règle.** Un setter modifie le champ sans vérifier la règle. Après la création,
-`organization.name = ''` donne une organisation au nom vide, sans erreur.
+**Sans cette règle.** Un setter modifie le champ sans rien vérifier. `organization.name = ''` donne une
+organisation sans nom, sans aucune erreur.
 
-**À savoir.** Une organisation remplie par `organization.setName(…)` puis `organization.setType(…)` est
-invalide entre les deux appels : elle a un nom, mais pas encore de type. Toutes les valeurs de départ
-passent par le constructeur.
+**À savoir.** Une organisation remplie par `setName(…)` puis `setType(…)` est invalide entre les deux
+appels : elle a un nom, mais pas de type. Les valeurs de départ passent toutes par le constructeur.
 
-**Exceptions.** Une Entity sans aucune méthode de changement est permise : certaines Entities ne
-changent pas.
+**Exceptions.** Une Entity sans méthode de modification est permise : certaines Entities ne changent
+jamais.
 
 ### E7. Les autres Aggregates par identifiant
 
-**La règle.** Une Entity ne garde pas un objet d'un autre Aggregate : l'Entity garde l'identifiant de
-l'objet. Si une règle a besoin des données de l'autre objet, la méthode reçoit les données en
-paramètre.
+**La règle.** Une Entity ne garde pas un objet d'un autre Aggregate, seulement son identifiant. Si une
+règle a besoin des données de cet objet, la méthode les reçoit en paramètre.
 
 **Bon exemple.**
 
@@ -550,44 +547,45 @@ readonly createdBy: UserId; // l'identifiant de la personne
 readonly creator: User; // l'objet entier d'un autre Aggregate
 ```
 
-**Ce que ça apporte.** Charger une Entity charge seulement cette Entity. Chaque Aggregate est modifié
-et enregistré seul.
+**Ce que ça apporte.** Charger une Entity ne charge qu'elle. Chaque Aggregate se modifie et
+s'enregistre seul.
 
-**Sans cette règle.** Le repository doit charger l'utilisateur avec chaque organisation. Chaque objet lié
-ajoute une requête ou une jointure à chaque chargement d'une organisation. Et le code peut modifier l'utilisateur à travers
+**Sans cette règle.** Le repository doit charger l'utilisateur avec chaque organisation. Chaque objet
+lié ajoute une requête ou une jointure. Et on peut modifier l'utilisateur en passant par
 l'organisation.
 
 **Exceptions.** Une Entity garde entiers les objets de son propre Aggregate. Dans l'exemple complet,
-`Organization` garde ses `OrganizationFeature` entières, et garde `createdBy` par son identifiant,
-parce qu'un utilisateur est un autre Aggregate.
+`Organization` garde ses `OrganizationFeature`, mais seulement l'identifiant de `createdBy`, car un
+utilisateur est un autre Aggregate.
 
-**À savoir.** En cas de problème de performance mesuré en production sur le chargement d'un
-Aggregate, deux solutions : revoir la frontière, si aucune règle ne relie les objets ; ou créer un
-read-model pour la lecture concernée. Jamais une Entity chargée à moitié.
+**À savoir.** Si un problème de performance est mesuré en production au chargement d'un Aggregate, il
+y a deux solutions : revoir la frontière, si aucune règle ne relie les objets, ou créer un read-model
+pour cette lecture. On ne charge jamais une Entity à moitié.
 
 ### E8. Un nom du métier
 
-**La règle.** Un fichier par Entity, dans le dossier `domain/models/`. Le nom du fichier est le nom
-métier de l'Entity, en PascalCase.
+**La règle.** Un fichier par Entity, dans `domain/models/`. Le fichier porte le nom métier de l'Entity,
+en PascalCase.
 
 **Bon exemple.** `organizational-entities/domain/models/Organization.ts`.
 
 **Mauvais exemple.** `organizational-entities/domain/models/orga-model.ts`.
 
-**Ce que ça apporte.** Une recherche avec le mot du métier, par exemple « Organization », trouve le
+**Ce que ça apporte.** En cherchant le mot du métier, par exemple « Organization », on trouve le
 fichier.
 
-**Sans cette règle.** Une recherche avec le mot du métier ne trouve pas le fichier, et un relecteur doit ouvrir le fichier pour savoir quelle Entity il contient.
+**Sans cette règle.** La recherche ne trouve pas le fichier, et le relecteur doit l'ouvrir pour savoir
+quelle Entity il contient.
 
-**Exceptions.** Deux contextes peuvent avoir chacun une Entity avec le même nom, pour deux choses
-différentes : chaque contexte a son vocabulaire. L'import dit de quel contexte vient l'Entity.
+**Exceptions.** Deux contextes peuvent avoir chacun une Entity du même nom, pour deux choses
+différentes, car chaque contexte a son vocabulaire. L'import dit de quel contexte elle vient.
 
 ### E9. Seule une Aggregate Root émet des événements
 
-**La règle.** Un événement du domaine dit qu'un changement a eu lieu, par exemple « l'organisation est
-archivée ». Seule une Aggregate Root émet des événements, depuis ses propres méthodes. La méthode
-`emitDomainEvent()` est protégée, dans la classe `AggregateRoot` : le code hors de la classe ne peut
-pas l'appeler. Une Entity qui n'est pas une Aggregate Root n'émet rien.
+**La règle.** Un événement du domaine annonce qu'un changement a eu lieu, par exemple « l'organisation
+est archivée ». Seule une Aggregate Root émet des événements, depuis ses propres méthodes. Pour
+l'imposer, `emitDomainEvent()` est protégée dans la classe `AggregateRoot` : on ne peut pas l'appeler
+de l'extérieur.
 
 **Bon exemple.**
 
@@ -600,7 +598,7 @@ export abstract class AggregateRoot {
     this.#domainEvents.push(event);
   }
 
-  // renvoie les événements, puis vide la liste : le nom dit que la liste est vidée
+  // renvoie les événements et vide la liste, d'où le nom « pull »
   pullDomainEvents(): DomainEvent[] {
     const events = this.#domainEvents;
     this.#domainEvents = [];
@@ -624,16 +622,16 @@ archive(now: Date): void {
 export class OrganizationFeature {
   enable(now: Date): void {
     …
-    domainEvents.emit(new FeatureEnabled({ featureName: this.featureName })); // une Entity interne émet
+    domainEvents.emit(new FeatureEnabled({ featureName: this.featureName })); // une Entity interne émet elle-même
   }
 }
 ```
 
-**Ce que ça apporte.** Un événement part de l'objet qui garantit les règles du groupe. Quand
-`OrganizationArchived` existe, toutes les règles de l'archivage ont été vérifiées par `archive()`.
+**Ce que ça apporte.** L'événement vient de l'objet qui garantit les règles du groupe. Quand
+`OrganizationArchived` est émis, `archive()` a déjà vérifié toutes les règles de l'archivage.
 
-**Sans cette règle.** Une Entity interne émet un événement sans que la racine ait vérifié les règles
-du groupe. Le code qui reçoit l'événement réagit à un changement que l'Aggregate peut encore refuser.
+**Sans cette règle.** Une Entity interne émet un événement sans que la racine ait vérifié les règles.
+Ceux qui reçoivent l'événement réagissent à un changement que l'Aggregate aurait pu refuser.
 
-**À savoir.** Les événements sont publiés après l'enregistrement, une fois la transaction validée,
-par le code qui enveloppe le usecase. Le usecase et le repository ne publient rien eux-mêmes.
+**À savoir.** Les événements sont publiés après l'enregistrement, une fois la transaction validée, par
+le code qui enveloppe le usecase. Ni le usecase ni le repository ne publient eux-mêmes.

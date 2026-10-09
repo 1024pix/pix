@@ -168,8 +168,11 @@ D'après les guides de langage clair (ISO 24495-1) et Diátaxis :
 
 Dans une fiche, en plus :
 
-- Le ton est neutre et factuel. La fiche énonce une règle. Elle ne suppose rien de ce que l'équipe
-  voudra, n'emploie ni « on » ni la première personne.
+- Le ton est factuel, sans première personne. « On » est permis : il rend la phrase plus naturelle
+  qu'une tournure impersonnelle.
+- Écrire comme un développeur l'expliquerait à un collègue : phrases courtes, mots courants, verbes
+  plutôt que noms. Éviter les deux-points en cascade, les tournures savantes et les mots que personne
+  ne dit à l'oral (« accesseur » : écrire « getter »).
 - Les consignes, à l'infinitif, vivent dans « Comment tester » et « Comment relire ». Dans les
   documents de travail, dans les rubriques **Correction** et **Ordre de mise en œuvre**.
 - Aucune phrase ne commente le document lui-même, ni ne prête une intention à l'auteur du code.
