@@ -1642,7 +1642,7 @@
       "file-type-separator": ",",
       "global-success": "Laatste bestand succesvol geïmporteerd op {date} door {firstName} {lastName}.",
       "sco": {
-        "title": "Leerlingen importeren"
+        "title": "Deelnemerslijst importeren"
       },
       "sup": {
         "title": "Studenten importeren"
