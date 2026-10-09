@@ -2,7 +2,7 @@ import { PixButtonLink } from '@1024pix/nebulix-ember';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
 import ComparisonWindow from 'mon-pix/components/assessments/comparison-window';
-import ResultItem from 'mon-pix/components/result-item';
+import ResultItem from 'mon-pix/components/assessments/result-item';
 import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
 <template>
   {{pageTitle (t "pages.assessment-results.title")}}
