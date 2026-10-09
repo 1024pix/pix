@@ -71,7 +71,6 @@ async function setupNodeEvents(cypressOn, config) {
 module.exports = defineConfig({
   env: {
     APP_URL: "http://localhost:4200",
-    ORGA_URL: "http://localhost:4201",
   },
   video: false,
   blockHosts: ["*stats.pix.fr*", "*analytics.pix.fr*"],

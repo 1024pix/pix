@@ -9,6 +9,10 @@ export class PixOrgaPage {
     await this.page.getByRole('button', { name: 'Je me connecte' }).click();
   }
 
+  async acceptInvitation(invitationId: string, code: string) {
+    await this.page.goto(`${process.env.PIX_ORGA_URL}/rejoindre?invitationId=${invitationId}&code=${code}`);
+  }
+
   async acceptCGU() {
     await this.page.getByRole('button', { name: 'Accepter et continuer' }).click();
   }
