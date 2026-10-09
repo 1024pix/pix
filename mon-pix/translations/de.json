@@ -321,7 +321,10 @@
         "caption": "Fortschritt auf dem Pfad",
         "label": "Du hast {completion, number, ::percent} deines Pfades absolviert."
       },
-      "progress": {"label": "Frage", "position": "{current} sur {total}" }
+      "progress": {
+        "label": "Frage",
+        "position": "{current} von {total}"
+      }
     },
     "invited": {
       "reconciliation": {
@@ -993,6 +996,28 @@
       "link-to-user-certification": "Meine Zertifizierungen ansehen",
       "non-eligible-subscription": "Du bist nicht für {subscriptionLabel} qualifiziert. Du aknnst dennoch deine Pix-Zertifizierung ablegen.",
       "title": "An einer Zertifizierungstestung teilnehmen"
+    },
+    "certifications-dashboard": {
+      "enrolment-banner": {
+        "action": "Zertifizierung starten",
+        "certifiable": {
+          "description": "Klicken Sie auf die Schaltfläche unten und starten Sie Ihre Zertifizierung",
+          "title": "Möchten Sie eine Zertifizierung ablegen?"
+        },
+        "not-certifiable": {
+          "description": "Für die Zertifizierung sind Mindestvoraussetzungen erforderlich.",
+          "title": "Sie sind noch nicht zertifizierbar"
+        }
+      },
+      "modal": {
+        "sub-title": "Alle Felder sind Pflichtfelder.",
+        "title": "An einer Sitzung teilnehmen"
+      },
+      "user-certifications": {
+        "title": "Meine Zertifizierungen",
+        "with-certification-text": "Greifen Sie auf alle Ihre Pix-Zertifizierungen zu. Sehen Sie sich die Details an und laden Sie Ihre Zertifikate herunter.",
+        "without-certification-text": "Sie haben noch keine Pix-Zertifizierung."
+      }
     },
     "certifications-list": {
       "buttons": {

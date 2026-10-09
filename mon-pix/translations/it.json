@@ -321,7 +321,10 @@
         "caption": "progressi lungo il percorso",
         "label": "Hai completato {completion, number, ::percent} del tuo percorso."
       },
-      "progress": {"label": "Domanda", "position": "{current} sur {total}" }
+      "progress": {
+        "label": "Domanda",
+        "position": "{current} su {total}"
+      }
     },
     "invited": {
       "reconciliation": {
@@ -993,6 +996,28 @@
       "link-to-user-certification": "Vedi le mie certificazioni",
       "non-eligible-subscription": "Non si ha diritto a {subscriptionLabel}. È tuttavia possibile ottenere la certificazione Pix.",
       "title": "Partecipa a una sessione di certificazione"
+    },
+    "certifications-dashboard": {
+      "enrolment-banner": {
+        "action": "Inizia la certificazione",
+        "certifiable": {
+          "description": "Clicca sul pulsante qui sotto e inizia la tua certificazione",
+          "title": "Vuoi sostenere una certificazione?"
+        },
+        "not-certifiable": {
+          "description": "Per sostenere la certificazione è necessario un minimo di prerequisiti.",
+          "title": "Non sei ancora certificabile"
+        }
+      },
+      "modal": {
+        "sub-title": "Tutti i campi sono obbligatori.",
+        "title": "Partecipa a una sessione"
+      },
+      "user-certifications": {
+        "title": "Le mie certificazioni",
+        "with-certification-text": "Accedi a tutte le tue certificazioni Pix. Consulta i dettagli e scarica i tuoi certificati.",
+        "without-certification-text": "Non hai ancora nessuna certificazione Pix."
+      }
     },
     "certifications-list": {
       "buttons": {

@@ -321,7 +321,10 @@
         "caption": "vooruitgang",
         "label": "Je hebt {completion, number, ::percent} van je test voltooid."
       },
-      "progress": {"label": "Vraag", "position": "{current} sur {total}" }
+      "progress": {
+        "label": "Vraag",
+        "position": "{current} op de {total}"
+      }
     },
     "invited": {
       "reconciliation": {
@@ -993,6 +996,28 @@
       "link-to-user-certification": "Bekijk mijn certificaten",
       "non-eligible-subscription": "Je komt niet in aanmerking voor {subscriptionLabel}. Je kunt echter wel je Pix-certificering behalen.",
       "title": "Doe mee aan een certificeringssessie"
+    },
+    "certifications-dashboard": {
+      "enrolment-banner": {
+        "action": "Certificering starten",
+        "certifiable": {
+          "description": "Klik op de knop hieronder en start je certificering",
+          "title": "Wil je een certificering afleggen?"
+        },
+        "not-certifiable": {
+          "description": "Er is een minimum aan voorwaarden vereist om de certificering af te leggen.",
+          "title": "Je bent nog niet certificeerbaar"
+        }
+      },
+      "modal": {
+        "sub-title": "Alle velden zijn verplicht.",
+        "title": "Deelnemen aan een sessie"
+      },
+      "user-certifications": {
+        "title": "Mijn certificeringen",
+        "with-certification-text": "Bekijk al je Pix-certificeringen. Raadpleeg de details en download je certificaten.",
+        "without-certification-text": "Je hebt nog geen Pix-certificering."
+      }
     },
     "certifications-list": {
       "buttons": {

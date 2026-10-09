@@ -11,18 +11,25 @@ module('Acceptance | Authenticated | Certification-V2', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);
+
   let user;
 
   hooks.beforeEach(function () {
     server.create('feature-toggle', { id: 0, isNewCertificationPageEnabled: true });
     user = server.create('user', 'withEmail');
-    this.url = this.owner.lookup('service:url');
   });
 
-  test('should display user-certification component', async function (assert) {
+  test('should display dashboard page', async function (assert) {
+    // given
     await authenticateByEmail(user);
 
+    // when
     const screen = await visit('/certifications-v2');
+
+    // then
+    assert
+      .dom(screen.getByRole('button', { name: t('pages.certifications-dashboard.enrolment-banner.action') }))
+      .exists();
 
     assert
       .dom(screen.getByRole('heading', { name: t('pages.certifications-dashboard.user-certifications.title') }))
