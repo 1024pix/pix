@@ -662,6 +662,7 @@ function getAttributesComponents() {
           width: 400,
           height: 200,
         },
+        maxWidth: undefined,
       },
     },
     {
