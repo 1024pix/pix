@@ -1,4 +1,3 @@
-//@ts-check
 /**
  * @typedef {import('../index.js').ChallengeCalibrationRepository} ChallengeCalibrationRepository
  * @typedef {import('../index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
