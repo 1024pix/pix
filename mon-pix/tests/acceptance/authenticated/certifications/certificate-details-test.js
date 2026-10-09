@@ -7,7 +7,7 @@ import { module, test } from 'qunit';
 
 import { authenticate } from '../../../helpers/authentication';
 
-module('Acceptance | Authenticated | User certifications | get', function (hooks) {
+module('Acceptance | Authenticated | Certifications | Certificate Details', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   let user;
@@ -19,7 +19,7 @@ module('Acceptance | Authenticated | User certifications | get', function (hooks
   module('when user is not connected', function () {
     test('should the candidate certificate page not be accessible', async function (assert) {
       // when
-      await visit('/mes-certifications/1');
+      await visit('/certifications/certificat/1');
 
       // then
       assert.strictEqual(currentURL(), '/connexion');
@@ -35,8 +35,10 @@ module('Acceptance | Authenticated | User certifications | get', function (hooks
       test('displays v3 candidate certificate page', async function (assert) {
         // given
         const certificate = _getV3Certificate({ user, server });
+
         // when
-        const screen = await visit(`/mes-certifications/${certificate.id}`);
+        const screen = await visit(`/certifications/certificat/${certificate.id}`);
+
         // then
         assert.dom(screen.getByRole('heading', { name: t('pages.certificate.title') })).exists();
         const globalLevelLabels = screen.getAllByText('Expert 1');
@@ -47,13 +49,13 @@ module('Acceptance | Authenticated | User certifications | get', function (hooks
         test('should returns to certificates list page', async function (assert) {
           // given
           const certificate = _getV3Certificate({ user, server });
-          const screen = await visit(`/mes-certifications/${certificate.id}`);
+          const screen = await visit(`/certifications/certificat/${certificate.id}`);
 
           // when
           await click(screen.getByRole('link', { name: t('pages.certifications-list.title') }));
 
           // then
-          assert.strictEqual(currentURL(), '/mes-certifications');
+          assert.strictEqual(currentURL(), '/certifications');
         });
       });
     });
@@ -64,7 +66,7 @@ module('Acceptance | Authenticated | User certifications | get', function (hooks
         const certificate = _getV3Certificate({ user, server, certificationFramework: 'EDU_1ER_DEGRE' });
 
         // when
-        const screen = await visit(`/mes-certifications/${certificate.id}`);
+        const screen = await visit(`/certifications/certificat/${certificate.id}`);
 
         // then
         assert
@@ -79,7 +81,7 @@ module('Acceptance | Authenticated | User certifications | get', function (hooks
         const certificate = _getV2Certificate({ user, server });
 
         // when
-        const screen = await visit(`/mes-certifications/${certificate.id}`);
+        const screen = await visit(`/certifications/certificat/${certificate.id}`);
 
         // then
         assert.dom(screen.getByRole('link', { name: t('pages.certificate.back-link') })).exists();

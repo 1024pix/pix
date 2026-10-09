@@ -26,7 +26,7 @@ module('Integration | Component | Certifications | Dashboard | User certificatio
   });
 
   module('when user has no certification', function () {
-    test('should display a specific text', async function (assert) {
+    test('should display specific informations', async function (assert) {
       // given
       const certificationsSummaries = [];
 
@@ -39,6 +39,16 @@ module('Integration | Component | Certifications | Dashboard | User certificatio
       assert
         .dom(screen.getByText(t('pages.certifications-dashboard.user-certifications.without-certification-text')))
         .exists();
+      assert
+        .dom(screen.getByText(t('pages.certifications-dashboard.user-certifications.how-to-certificate.text')))
+        .exists();
+
+      const link = screen.getByRole('link', {
+        name: new RegExp(t('pages.certifications-dashboard.user-certifications.how-to-certificate.link')),
+      });
+      assert.dom(link).hasAttribute('target', '_blank');
+      assert.dom(link).hasAttribute('rel', 'noopener');
+      assert.dom(link).hasAttribute('href', 'https://pix.org/fr/se-certifier');
     });
   });
 
@@ -68,7 +78,18 @@ module('Integration | Component | Certifications | Dashboard | User certificatio
       assert
         .dom(screen.getByText(t('pages.certifications-dashboard.user-certifications.with-certification-text')))
         .exists();
+      assert
+        .dom(screen.queryByText(t('pages.certifications-dashboard.user-certifications.how-to-certificate.text')))
+        .doesNotExist();
+      assert
+        .dom(
+          screen.queryByRole('link', {
+            name: new RegExp(t('pages.certifications-dashboard.user-certifications.how-to-certificate.link')),
+          }),
+        )
+        .doesNotExist();
     });
+
     test('should display a list of card', async function (assert) {
       const store = this.owner.lookup('service:store');
       const certificationsSummaries = [
@@ -104,7 +125,6 @@ module('Integration | Component | Certifications | Dashboard | User certificatio
 
       // then
       assert.dom(screen.getByTestId('pw-certification-card-2')).exists();
-
       assert.dom(screen.getByTestId('pw-certification-card-32')).exists();
     });
   });

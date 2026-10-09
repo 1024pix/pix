@@ -3,20 +3,24 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | user certifications/get', function (hooks) {
+module('Unit | Route | certifications/certificate-details', function (hooks) {
   setupTest(hooks);
 
   let route;
   let findRecordStub;
+  let findAllStub;
   const certificationId = 'certification_id';
 
   hooks.beforeEach(function () {
     findRecordStub = sinon.stub();
+    findAllStub = sinon.stub();
+
     const storeStub = Service.create({
       findRecord: findRecordStub,
+      findAll: findAllStub,
     });
 
-    route = this.owner.lookup('route:authenticated/user-certifications/get');
+    route = this.owner.lookup('route:authenticated/certifications/certificate-details');
     route.set('store', storeStub);
     route.router.transitionTo = sinon.stub().resolves();
   });
@@ -38,65 +42,61 @@ module('Unit | Route | user certifications/get', function (hooks) {
   });
 
   module('#beforeModel', function () {
-    test('should not redirect when the certificate summary is validated', function (assert) {
+    test('should not redirect when the certificate summary is validated', async function (assert) {
       // given
-      const certificateSummaries = [{ id: '2', isValidated: true }];
-      sinon.stub(route, 'modelFor').withArgs('authenticated.user-certifications').returns(certificateSummaries);
+      findAllStub.withArgs('certificate-summary').resolves([{ id: '2', isValidated: true }]);
       const transition = { to: { params: { id: '2' } }, abort: sinon.stub() };
 
       // when
-      route.beforeModel(transition);
+      await route.beforeModel(transition);
 
       // then
       assert.true(transition.abort.notCalled);
       assert.true(route.router.transitionTo.notCalled);
     });
 
-    test('should return to /mes-certifications when the certification is not published', function (assert) {
+    test('should return to /mes-certifications when the certification is not published', async function (assert) {
       // given
-      const certificateSummaries = [{ id: '2', isValidated: false }];
-      sinon.stub(route, 'modelFor').withArgs('authenticated.user-certifications').returns(certificateSummaries);
+      findAllStub.withArgs('certificate-summary').resolves([{ id: '2', isValidated: false }]);
       const transition = { to: { params: { id: '2' } }, abort: sinon.stub() };
 
       // when
-      route.beforeModel(transition);
+      await route.beforeModel(transition);
 
       // then
       sinon.assert.calledOnce(transition.abort);
       sinon.assert.calledOnce(route.router.transitionTo);
-      sinon.assert.calledWith(route.router.transitionTo, 'authenticated.user-certifications');
+      sinon.assert.calledWith(route.router.transitionTo, 'authenticated.certifications');
       assert.ok(true);
     });
 
-    test('should return to /mes-certifications when the certification is not validated', function (assert) {
+    test('should return to /mes-certifications when the certification is not validated', async function (assert) {
       // given
-      const certificateSummaries = [{ id: '3', isValidated: false }];
-      sinon.stub(route, 'modelFor').withArgs('authenticated.user-certifications').returns(certificateSummaries);
+      findAllStub.withArgs('certificate-summary').resolves([{ id: '3', isValidated: false }]);
       const transition = { to: { params: { id: '3' } }, abort: sinon.stub() };
 
       // when
-      route.beforeModel(transition);
+      await route.beforeModel(transition);
 
       // then
       sinon.assert.calledOnce(transition.abort);
       sinon.assert.calledOnce(route.router.transitionTo);
-      sinon.assert.calledWith(route.router.transitionTo, 'authenticated.user-certifications');
+      sinon.assert.calledWith(route.router.transitionTo, 'authenticated.certifications');
       assert.ok(true);
     });
 
-    test('should return to /mes-certifications when the certificate summary is not found', function (assert) {
+    test('should return to /mes-certifications when the certificate summary is not found', async function (assert) {
       // given
-      const certificateSummaries = [{ id: '2', isValidated: true }];
-      sinon.stub(route, 'modelFor').withArgs('authenticated.user-certifications').returns(certificateSummaries);
+      findAllStub.withArgs('certificate-summary').resolves([{ id: '2', isValidated: true }]);
       const transition = { to: { params: { id: '999' } }, abort: sinon.stub() };
 
       // when
-      route.beforeModel(transition);
+      await route.beforeModel(transition);
 
       // then
       sinon.assert.calledOnce(transition.abort);
       sinon.assert.calledOnce(route.router.transitionTo);
-      sinon.assert.calledWith(route.router.transitionTo, 'authenticated.user-certifications');
+      sinon.assert.calledWith(route.router.transitionTo, 'authenticated.certifications');
       assert.ok(true);
     });
   });

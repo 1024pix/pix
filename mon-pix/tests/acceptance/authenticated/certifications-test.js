@@ -7,7 +7,7 @@ import { module, test } from 'qunit';
 import { authenticateByEmail } from '../../helpers/authentication';
 import setupIntl from '../../helpers/setup-intl';
 
-module('Acceptance | Authenticated | Certification-V2', function (hooks) {
+module('Acceptance | Authenticated | Certification', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);
@@ -15,7 +15,6 @@ module('Acceptance | Authenticated | Certification-V2', function (hooks) {
   let user;
 
   hooks.beforeEach(function () {
-    server.create('feature-toggle', { id: 0, isNewCertificationPageEnabled: true });
     user = server.create('user', 'withEmail');
   });
 
@@ -24,7 +23,7 @@ module('Acceptance | Authenticated | Certification-V2', function (hooks) {
     await authenticateByEmail(user);
 
     // when
-    const screen = await visit('/certifications-v2');
+    const screen = await visit('/certifications');
 
     // then
     assert

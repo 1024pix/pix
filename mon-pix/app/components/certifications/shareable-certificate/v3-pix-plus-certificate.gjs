@@ -38,7 +38,7 @@ export default class PixPlusCertificate extends Component {
 
   get reachedMeshLabel() {
     return this.intl.t(
-      `pages.user-certifications.meshes.${this.args.certificate.certificationFramework}.${this.args.certificate.level}`,
+      `pages.certifications-dashboard.user-certifications.meshes.${this.args.certificate.certificationFramework}.${this.args.certificate.level}`,
     );
   }
 

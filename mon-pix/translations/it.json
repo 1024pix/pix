@@ -35,6 +35,9 @@
     "description": "Pix è una piattaforma online per la valutazione e la certificazione delle competenze digitali."
   },
   "common": {
+    "a11y": {
+      "external-link": "si apre in una nuova scheda"
+    },
     "actions": {
       "back": "Indietro",
       "cancel": "Annulla",
@@ -385,13 +388,13 @@
     "homepage": "Pagina iniziale di Pix",
     "main": {
       "attestations": "I miei certificati",
+      "certifications": "Certificazione",
       "code": "Ho un codice",
       "dashboard": "Home",
       "help": "Hai bisogno di aiuto?",
       "label": "Menu principale",
       "link-help": "https://pix.fr/support",
       "skills": "Competenze",
-      "start-certification": "Certificazione",
       "trainings": "I miei corsi di formazione",
       "tutorials": "I miei tutorial"
     },
@@ -409,7 +412,6 @@
     "showcase-homepage": "Pix home page { tld }",
     "user": {
       "account": "Il mio account",
-      "certifications": "Le mie certificazioni",
       "sign-out": "Esci",
       "tests": "I miei percorsi"
     },
@@ -896,16 +898,6 @@
       "vocal-step-identifier": "Pagina {pageId} su {pageCount}."
     },
     "certification-joiner": {
-      "congratulation-banner": {
-        "double-certification": {
-          "eligible": "È inoltre possibile ottenere una certificazione complementare:",
-          "outdated": "<strong>Non sei più eleggibile per la certificazione {doubleCertificationName} in seguito alla sua evoluzione.</strong><br />Contatta la tua scuola o l'organizzazione che ti ha offerto il percorso per riprendere una campagna e tornare così eleggibile. I tuoi progressi sono stati conservati e non devi fare altro che giocare ai nuovi eventi, che dovrebbero essere veloci."
-        },
-        "link": {
-          "text": "Come si ottiene la certificazione?"
-        },
-        "message": "Congratulazioni {fullName}, il tuo profilo Pix è certificabile."
-      },
       "error-messages": {
         "account-already-linked-to-another-candidate": "L'account con cui hai effettuato l'accesso è già collegato a un altro candidato di questa sessione. Verifica di aver effettuato l'accesso con il tuo account Pix o chiedi aiuto al tuo sorvegliante.",
         "generic": {
@@ -925,7 +917,6 @@
         },
         "wrong-domain-for-pix-plus": "Poiché al momento le certificazioni Pix+ sono disponibili solo in francese, non sono disponibili su https://pix.org.<br/>Si prega di effettuare il logout e di accedere nuovamente tramite '<a href=\"https://app.pix.fr/connexion\">questo link.</a>'."
       },
-      "first-title": "Partecipa a una sessione",
       "form": {
         "actions": {
           "submit": "Continua"
@@ -953,13 +944,6 @@
         }
       },
       "title": "Partecipa a una sessione di certificazione"
-    },
-    "certification-not-certifiable": {
-      "action": {
-        "back": "Torna alla pagina iniziale"
-      },
-      "text": "Per ottenere la certificazione del proprio profilo, è necessario aver raggiunto un livello superiore a 0 in almeno 5 competenze.",
-      "title": "Il tuo profilo non è ancora certificabile."
     },
     "certification-results": {
       "action": {
@@ -1009,7 +993,6 @@
         },
         "pix-plus-explanation": "Test disponibile solo in francese."
       },
-      "link-to-user-certification": "Vedi le mie certificazioni",
       "non-eligible-subscription": "Non si ha diritto a {subscriptionLabel}. È tuttavia possibile ottenere la certificazione Pix.",
       "title": "Partecipa a una sessione di certificazione"
     },
@@ -1033,7 +1016,46 @@
         "sub-title": "Tutti i campi sono obbligatori.",
         "title": "Partecipa a una sessione"
       },
+      "title": "Certificazioni",
       "user-certifications": {
+        "how-to-certificate": {
+          "link": "Come certificarsi",
+          "text": "Se desideri saperne di più sulla certificazione Pix"
+        },
+        "meshes": {
+          "DROIT": {
+            "ADVANCED": "Avanzato",
+            "BELOW_MINIMUM": "Non ottenuto",
+            "CONFIRMED": "Confermato",
+            "EXPERT": "Esperto",
+            "INDEPENDENT": "Indipendente"
+          },
+          "EDU_1ER_DEGRE": {
+            "ADMISSIBLE": "Ammissibile",
+            "ADVANCED": "Avanzato",
+            "BELOW_MINIMUM": "Non ammissibile",
+            "EXPERT": "Esperto"
+          },
+          "EDU_2ND_DEGRE": {
+            "ADMISSIBLE": "Ammissibile",
+            "ADVANCED": "Avanzato",
+            "BELOW_MINIMUM": "Non ammissibile",
+            "EXPERT": "Esperto"
+          },
+          "EDU_CPE": {
+            "ADMISSIBLE": "Ammissibile",
+            "ADVANCED": "Avanzato",
+            "BELOW_MINIMUM": "Non ammissibile",
+            "EXPERT": "Esperto"
+          },
+          "PRO_SANTE": {
+            "ADVANCED": "Avanzato",
+            "BELOW_MINIMUM": "Non ottenuto",
+            "CONFIRMED": "Confermato",
+            "EXPERT": "Esperto",
+            "INDEPENDENT": "Indipendente"
+          }
+        },
         "title": "Le mie certificazioni",
         "with-certification-text": "Accedi a tutte le tue certificazioni Pix. Consulta i dettagli e scarica i tuoi certificati.",
         "without-certification-text": "Non hai ancora nessuna certificazione Pix."
@@ -1046,13 +1068,9 @@
         "download-certificate": "Scarica il certificato"
       },
       "comment": "Commento:",
-      "description": "Accedi a tutte le tue certificazioni Pix. Visualizza i dettagli e scarica i tuoi certificati.",
       "information": {
         "certification-center": "Centro di certificazione:",
         "date": "Data della visita:"
-      },
-      "no-certification": {
-        "text": "Non hai ancora ottenuto la certificazione Pix"
       },
       "statuses": {
         "cancelled": "Annullato",
@@ -2638,42 +2656,6 @@
         "menu-link-title": "I miei dati personali"
       },
       "title": "Il mio account"
-    },
-    "user-certifications": {
-      "meshes": {
-        "DROIT": {
-          "ADVANCED": "Avanzato",
-          "BELOW_MINIMUM": "Non ottenuto",
-          "CONFIRMED": "Confermato",
-          "EXPERT": "Esperto",
-          "INDEPENDENT": "Indipendente"
-        },
-        "EDU_1ER_DEGRE": {
-          "ADMISSIBLE": "Ammissibile",
-          "ADVANCED": "Avanzato",
-          "BELOW_MINIMUM": "Non ammissibile",
-          "EXPERT": "Esperto"
-        },
-        "EDU_2ND_DEGRE": {
-          "ADMISSIBLE": "Ammissibile",
-          "ADVANCED": "Avanzato",
-          "BELOW_MINIMUM": "Non ammissibile",
-          "EXPERT": "Esperto"
-        },
-        "EDU_CPE": {
-          "ADMISSIBLE": "Ammissibile",
-          "ADVANCED": "Avanzato",
-          "BELOW_MINIMUM": "Non ammissibile",
-          "EXPERT": "Esperto"
-        },
-        "PRO_SANTE": {
-          "ADVANCED": "Avanzato",
-          "BELOW_MINIMUM": "Non ottenuto",
-          "CONFIRMED": "Confermato",
-          "EXPERT": "Esperto",
-          "INDEPENDENT": "Indipendente"
-        }
-      }
     },
     "user-tests": {
       "anonymised-participations": {

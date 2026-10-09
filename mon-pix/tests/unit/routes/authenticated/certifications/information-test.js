@@ -48,7 +48,7 @@ module('Unit | Route | Certifications | Information', function (hooks) {
         await route.model({ certification_candidate_id: 1234 });
 
         // then
-        sinon.assert.calledWith(route.router.replaceWith, 'authenticated.certifications.join');
+        sinon.assert.calledWith(route.router.replaceWith, 'authenticated.certifications');
         assert.ok(true);
       });
     });

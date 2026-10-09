@@ -13,7 +13,7 @@ export default class InformationRoute extends Route {
         params.certification_candidate_id,
       );
     } catch {
-      return this.router.replaceWith('authenticated.certifications.join');
+      return this.router.replaceWith('authenticated.certifications');
     }
 
     const certificationInfo = await this.store.findRecord('certification-info', certificationCandidate.subscription);
