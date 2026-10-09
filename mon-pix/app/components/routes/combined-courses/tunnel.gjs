@@ -5,11 +5,16 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import { modifier } from 'ember-modifier';
 import { eq } from 'ember-truth-helpers';
 import CombinedCourseItemsList from 'mon-pix/components/combined-course/combined-course-items-list';
 import StepDetails from 'mon-pix/components/combined-course/tunnel/step-details';
 import { CombinedCourseStatuses } from 'mon-pix/models/combined-course';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
+
+const onStart = modifier((el) => {
+  console.log(el);
+})
 
 export default class CombinedCourseTunnel extends Component {
   constructor() {
@@ -56,7 +61,7 @@ export default class CombinedCourseTunnel extends Component {
   }
 
   <template>
-    <main class="combined-course-tunnel">
+    <main class="combined-course-tunnel" {{onStart}}>
       <nav class="combined-course-tunnel__exit">
         <PixButtonLink @variant="tertiary" @route="authenticated" @iconAfter="close">
           {{t "common.actions.quit"}}

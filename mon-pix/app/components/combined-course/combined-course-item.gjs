@@ -1,11 +1,10 @@
 import { PixIcon, PixStars, PixTag } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
+import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { and, eq, not } from 'ember-truth-helpers';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 import autofocus from 'mon-pix/modifiers/autofocus.js';
-
-import Duration from './duration';
 
 const Content = <template>
   <div
@@ -15,6 +14,7 @@ const Content = <template>
       {{if @isCurrentItem 'combined-course-item--current'}}
       {{if @isCampaignType 'combined-course-item--isCampaignType'}}"
     aria-details={{if @isCurrentItem "step-details"}}
+    id={{@itemId}}
     ...attributes
   >
     <div class="combined-course-item__content">
@@ -100,71 +100,84 @@ function hasWhiteBackground(item) {
   return item.isCompleted || !item.isLocked;
 }
 
-<template>
-  {{#if (eq @item.type CombinedCourseItemTypes.FORMATION)}}
-    <Content
-      @title={{t "pages.combined-courses.items.formation.title"}}
-      @isLocked={{true}}
-      @iconUrl={{@item.iconUrl}}
-      class="combined-course-item--formation"
-      @displayDuration={{false}}
-    >
-      <:description>
-        <p>{{t "pages.combined-courses.items.formation.description"}}</p>
-      </:description>
-    </Content>
-  {{else}}
-    {{#if (and @isLocked (not @item.isCompleted))}}
+export default class CombinedCourseItem extends Component {
+  get combinedCourseItemId() {
+    if (this.args.isCurrentItem) {
+      return 'current-item';
+    } else if (this.args.isPreviousItem) {
+      return 'previous-item';
+    } else {
+      return null;
+    }
+  }
+
+  <template>
+    {{#if (eq @item.type CombinedCourseItemTypes.FORMATION)}}
       <Content
-        @title={{@item.title}}
+        @title={{t "pages.combined-courses.items.formation.title"}}
         @isLocked={{true}}
         @iconUrl={{@item.iconUrl}}
-        @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
+        class="combined-course-item--formation"
+        @displayDuration={{false}}
       >
-        <:duration>
-          {{#if @item.duration}}<Duration @duration={{@item.duration}} />{{/if}}
-        </:duration>
+        <:description>
+          <p>{{t "pages.combined-courses.items.formation.description"}}</p>
+        </:description>
       </Content>
     {{else}}
-      <button
-        class="combined-course-item--selectable"
-        type="button"
-        {{on "click" @onClick}}
-        data-testid="selectable-item-button"
-        aria-describedby={{if @isSelectedItem "step-details-description step-details-objectives"}}
-        {{autofocus @isSelectedItem}}
-      >
+      {{#if (and @isLocked (not @item.isCompleted))}}
         <Content
           @title={{@item.title}}
-          @isCompleted={{@item.isCompleted}}
-          @masteryRate={{@item.masteryRate}}
-          @hasStagesStars={{@item.hasStagesStars}}
-          @validatedStagesCount={{@item.validatedStages}}
-          @totalStagesCount={{@item.totalStages}}
+          @isLocked={{true}}
           @iconUrl={{@item.iconUrl}}
-          @isCampaignType={{eq @item.type CombinedCourseItemTypes.CAMPAIGN}}
           @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
-          @hasWhiteBackground={{hasWhiteBackground @item}}
-          @hasYellowBorder={{and (eq @item.type CombinedCourseItemTypes.MODULE) @isCombinedCourseCompleted}}
-          @isCurrentItem={{@isSelectedItem}}
         >
           <:duration>
-            {{#if @item.duration}}
-              <Duration @duration={{@item.duration}} />
-            {{/if}}
+            {{#if @item.duration}}<Duration @duration={{@item.duration}} />{{/if}}
           </:duration>
-          <:blockEnd>
-            {{#if @isSelectedItem}}
-              {{#if @displayNextItemTag}}
-                <PixTag @color="purple-light" class="combined-course-item__tag">{{t
-                    "pages.combined-courses.items.tagText"
-                  }}
-                  <PixIcon @name="distance" @plainIcon={{true}} @ariaHidden={{true}} /></PixTag>
-              {{/if}}
-            {{/if}}
-          </:blockEnd>
         </Content>
-      </button>
+      {{else}}
+        <button
+          class="combined-course-item--selectable"
+          type="button"
+          {{on "click" @onClick}}
+          data-testid="selectable-item-button"
+          aria-describedby={{if @isSelectedItem "step-details-description step-details-objectives"}}
+          {{autofocus @isSelectedItem}}
+        >
+          <Content
+            @title={{@item.title}}
+            @isCompleted={{@item.isCompleted}}
+            @masteryRate={{@item.masteryRate}}
+            @hasStagesStars={{@item.hasStagesStars}}
+            @validatedStagesCount={{@item.validatedStages}}
+            @totalStagesCount={{@item.totalStages}}
+            @iconUrl={{@item.iconUrl}}
+            @isCampaignType={{eq @item.type CombinedCourseItemTypes.CAMPAIGN}}
+            @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
+            @hasWhiteBackground={{hasWhiteBackground @item}}
+            @hasYellowBorder={{and (eq @item.type CombinedCourseItemTypes.MODULE) @isCombinedCourseCompleted}}
+            @isCurrentItem={{@isSelectedItem}}
+            @itemId={{getCombinedCourseItemId}}
+          >
+            <:duration>
+              {{#if @item.duration}}
+                <Duration @duration={{@item.duration}} />
+              {{/if}}
+            </:duration>
+            <:blockEnd>
+              {{#if @isSelectedItem}}
+                {{#if @displayNextItemTag}}
+                  <PixTag @color="purple-light" class="combined-course-item__tag">{{t
+                      "pages.combined-courses.items.tagText"
+                    }}
+                    <PixIcon @name="distance" @plainIcon={{true}} @ariaHidden={{true}} /></PixTag>
+                {{/if}}
+              {{/if}}
+            </:blockEnd>
+          </Content>
+        </button>
+      {{/if}}
     {{/if}}
-  {{/if}}
-</template>
+  </template>
+}

@@ -27,6 +27,18 @@ export default class CombinedCourse extends Model {
       .find((item) => !item.isCompleted);
   }
 
+  get previousCombinedCourseItem() {
+    const currentItemIndex = this.hasMany('items')
+      .value()
+      .findIndex((item) => !item.isCompleted);
+
+    if (currentItemIndex === 0) {
+      return this.nextCombinedCourseItem;
+    }
+
+    return this.hasMany('items').value()[currentItemIndex - 1];
+  }
+
   @action
   isPreviousItemDifferent(index) {
     if (index === 0) {

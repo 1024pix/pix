@@ -42,6 +42,39 @@ module('Unit | Model | Combined Course', function (hooks) {
       assert.strictEqual(combinedCourse.nextCombinedCourseItem, secondCombinedCourseItem);
     });
   });
+
+  module('#previousCombinedCourseItem', function () {
+    test('when next item is the first element', function (assert) {
+      //given
+      const combinedCourseItem = store.createRecord('combined-course-item', {
+        isCompleted: false,
+        redirection: '/campagnes/CODE123',
+      });
+      const combinedCourse = store.createRecord('combined-course');
+      combinedCourse.items = [combinedCourseItem];
+
+      //then
+      assert.strictEqual(combinedCourse.nextCombinedCourseItem, combinedCourse.previousCombinedCourseItem);
+    });
+
+    test('when there are several items in CombinedCourse', function (assert) {
+      //given
+      const combinedCourseItem0 = store.createRecord('combined-course-item', {
+        isCompleted: true,
+        redirection: '/campagnes/CODE123',
+      });
+      const combinedCourseItem1 = store.createRecord('combined-course-item', {
+        isCompleted: false,
+        redirection: '/campagnes/CODE123',
+      });
+      const combinedCourse = store.createRecord('combined-course');
+      combinedCourse.items = [combinedCourseItem0, combinedCourseItem1];
+
+      //then
+      assert.strictEqual(combinedCourse.previousCombinedCourseItem, combinedCourseItem0);
+    });
+  });
+
   module('#hasItemOfTypeModule', function () {
     test('returns true when there is an item of type module', function (assert) {
       const combinedCourseItem = store.createRecord('combined-course-item', {
