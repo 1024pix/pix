@@ -17,9 +17,10 @@ type KnexWithPool = Knex & {
 
 /**
  * Refreshes a datamart table from its datawarehouse source (see `infrastructure/replications.ts`):
- * creates a temporary table to stream the selected columns of the source into it with a single
+ * creates a temporary table without indexes to stream the selected columns of the source into it with a single
  * `COPY ... FROM STDIN`
- * then delete former table and rename temporary table in a single transaction *
+ * then add indexes
+ * then delete former table and rename temporary table in a single transaction
  * Rows are never part of a SQL statement or of its parameters, so the datamart statement logs
  * (which are shipped to Datadog) cannot contain them.
  */
@@ -39,39 +40,48 @@ export const extractTransformAndLoadData = async ({
   const replication = replications[replicationName];
   if (!replication) throw new Error(`Unknown replication "${replicationName}".`);
 
-  const tempTarget = `${replication.target}_staging_${getInContext('request_id', crypto.randomUUID())}`; // `getInContext` is a JS function thus typescript considers it as unsafe to call it
+  const stagingTarget = `${replication.target}_staging_${getInContext('request_id', crypto.randomUUID())}`; // `getInContext` is a JS function thus typescript considers it as unsafe to call it
   try {
-    const res = await fillTempTable(
+    const createIndexQueries = await initStagingTable(replication, stagingTarget, datamartKnex);
+    const res = await fillStagingTable(
       replication,
-      tempTarget,
+      stagingTarget,
       replicationName,
       datamartKnex,
       datawarehouseKnex,
       copyFromStdin,
     );
+    for (const createIndexQuery of createIndexQueries) {
+      await datamartKnex.raw(createIndexQuery);
+    }
     await datamartKnex.transaction(async (trx) => {
       await trx.raw('DROP TABLE ??', [replication.target]);
-      await trx.raw('ALTER TABLE ?? RENAME TO ??', [tempTarget, replication.target]);
+      await trx.raw('ALTER TABLE ?? RENAME TO ??', [stagingTarget, replication.target]);
     });
     return res;
   } finally {
-    await datamartKnex.raw('DROP TABLE IF EXISTS ??', [tempTarget]);
+    await datamartKnex.raw('DROP TABLE IF EXISTS ??', [stagingTarget]);
   }
 };
 
-async function fillTempTable(
+async function initStagingTable(replication: Replication, stagingTarget: string, datamartKnex: KnexWithPool) {
+  const { target } = replication;
+  await datamartKnex.raw('CREATE TABLE ?? (LIKE ?? INCLUDING ALL)', [stagingTarget, target]);
+  return dropIndexes(stagingTarget, datamartKnex);
+}
+
+async function fillStagingTable(
   replication: Replication,
-  tempTarget: string,
+  stagingTarget: string,
   replicationName: string,
   datamartKnex: KnexWithPool,
   datawarehouseKnex: Knex,
   copyFromStdin: typeof defaultCopyFromStdin,
 ) {
-  const { target, source, columns } = replication;
-  await datamartKnex.raw('CREATE TABLE ?? (LIKE ?? INCLUDING ALL)', [tempTarget, target]);
+  const { source, columns } = replication;
   const targetColumns: readonly string[] = Array.isArray(columns) ? columns : Object.keys(columns);
   const pgClient = await datamartKnex.context.client.acquireConnection();
-  const copy = copyFromStdin({ pgClient, table: tempTarget, columns: targetColumns });
+  const copy = copyFromStdin({ pgClient, table: stagingTarget, columns: targetColumns });
   try {
     // knex streams rows as `any`; the CSV encoder only needs them keyed by column name.
     const rows: AsyncIterable<Record<string, unknown>> = datawarehouseKnex(source).select(columns).stream();
@@ -86,4 +96,18 @@ async function fillTempTable(
   } finally {
     await datamartKnex.context.client.releaseConnection(pgClient);
   }
+}
+
+async function dropIndexes(tableName: string, knexConn: Knex): Promise<string[]> {
+  const indexDetails = await knexConn
+    .select({ indexName: 'indexname', indexDef: 'indexdef' })
+    .from('pg_indexes')
+    .where({ tablename: tableName })
+    .orderBy('indexdef');
+  const createIndexQueries = [];
+  for (const { indexName, indexDef } of indexDetails) {
+    await knexConn.raw('DROP INDEX ??', [indexName]);
+    createIndexQueries.push(indexDef as string);
+  }
+  return createIndexQueries;
 }

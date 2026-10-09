@@ -34,7 +34,11 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
       { firstName: 'first2', lastName: 'last2', ignored: 'y' },
     ]);
     const replications = {
-      'my-replication': { source: 'to-replicate', target: 'replication', columns: ['firstName', 'lastName'] },
+      'my-replication': {
+        source: 'to-replicate',
+        target: 'replication',
+        columns: ['firstName', 'lastName'],
+      },
     };
 
     // when
@@ -54,12 +58,14 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
     ]);
   });
 
-  it('should preserve indexes', async function () {
+  it('should keep indexes in between replications', async function () {
     // given
     const schema = (t) => {
       t.string('firstName').notNullable();
       t.string('lastName').notNullable();
       t.index('firstName');
+      t.index('lastName');
+      t.index(['firstName', 'lastName']);
     };
     await datawarehouseKnex.schema.createTable('to-replicate', (t) => {
       schema(t);
@@ -75,7 +81,11 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
       { firstName: 'first2', lastName: 'last2', ignored: 'y' },
     ]);
     const replications = {
-      'my-replication': { source: 'to-replicate', target: 'replication', columns: ['firstName', 'lastName'] },
+      'my-replication': {
+        source: 'to-replicate',
+        target: 'replication',
+        columns: ['firstName', 'lastName'],
+      },
     };
     const indexesBefore = await listIndexDefinitions(datamartKnex, 'replication');
 
@@ -90,7 +100,7 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
     // then
     const indexesAfter = await listIndexDefinitions(datamartKnex, 'replication');
     expect(result).to.deep.equal({ count: 2 });
-    expect(indexesAfter).to.deep.equal(indexesBefore);
+    expect(indexesAfter.toSorted()).to.deep.equal(indexesBefore.toSorted());
   });
 
   it('should rename columns given a { target: source } mapping', async function () {
@@ -366,7 +376,11 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
         (5, 'null'),
         (6, NULL)`);
       const replications = {
-        'json-replication': { source: 'to-replicate', target: 'replication', columns: ['id', 'configuration'] },
+        'json-replication': {
+          source: 'to-replicate',
+          target: 'replication',
+          columns: ['id', 'configuration'],
+        },
       };
 
       // when
