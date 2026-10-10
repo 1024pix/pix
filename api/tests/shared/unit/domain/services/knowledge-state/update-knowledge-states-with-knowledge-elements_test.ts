@@ -116,9 +116,61 @@ describe('Unit | Shared | Domain | Services | knowledge-state | update-knowledge
         at,
       });
 
+      // then: the failure on level 5 is the old one, the direct failure on level 2 is overridden
+      expect(result.knowledgeStates).to.deep.equal([
+        buildKnowledgeState({
+          floor: 4,
+          ceiling: 5,
+          ceilingAt: new Date('2026-01-10'),
+          directLevels: [4],
+          updatedAt: at,
+        }),
+      ]);
+    });
+
+    it('should keep the date of a ceiling that a success below it does not move', function () {
+      // given
+      const knowledgeStates = [buildKnowledgeState({ ceiling: 4, ceilingAt: new Date('2026-01-05') })];
+      const knowledgeElements = [buildKnowledgeElement(web[2])];
+
+      // when
+      const result = updateKnowledgeStatesWithKnowledgeElements({
+        userId: USER_ID,
+        knowledgeStates,
+        knowledgeElements,
+        skills,
+        at,
+      });
+
       // then
       expect(result.knowledgeStates).to.deep.equal([
-        buildKnowledgeState({ floor: 4, ceiling: 5, directLevels: [4], updatedAt: at }),
+        buildKnowledgeState({
+          floor: 3,
+          ceiling: 4,
+          ceilingAt: new Date('2026-01-05'),
+          directLevels: [2, 3],
+          updatedAt: at,
+        }),
+      ]);
+    });
+
+    it('should date the ceiling from a fresh failure above it, so that improving does not assess it again at once', function () {
+      // given: the old failure on level 4 was assessed again, and the CAT asked level 5 first
+      const knowledgeStates = [buildKnowledgeState({ ceiling: 4, ceilingAt: new Date('2026-01-05') })];
+      const knowledgeElements = [buildKnowledgeElement(web[4], 'invalidated')];
+
+      // when
+      const result = updateKnowledgeStatesWithKnowledgeElements({
+        userId: USER_ID,
+        knowledgeStates,
+        knowledgeElements,
+        skills,
+        at,
+      });
+
+      // then
+      expect(result.knowledgeStates).to.deep.equal([
+        buildKnowledgeState({ floor: 2, ceiling: 4, ceilingAt: at, directLevels: [2, 5], updatedAt: at }),
       ]);
     });
 
@@ -141,8 +193,55 @@ describe('Unit | Shared | Domain | Services | knowledge-state | update-knowledge
 
       // then
       expect(result.knowledgeStates).to.deep.equal([
-        buildKnowledgeState({ ceiling: 4, directLevels: [2, 4], updatedAt: at }),
+        buildKnowledgeState({ ceiling: 4, ceilingAt: at, directLevels: [2, 4], updatedAt: at }),
       ]);
+    });
+
+    describe('when an assessment improves on a failure the knowledge state already holds', function () {
+      // Today's code only knows the knowledge elements of the current assessment when it answers,
+      // so it creates knowledge elements for the level asked again, as for any level.
+      const createdByAnsweringAgain = (isOk: boolean) =>
+        KnowledgeElement.createKnowledgeElementsForAnswer({
+          answer: { id: 1, assessmentId: 1, isOk: () => isOk },
+          challenge: { skill: web[4] },
+          previouslyFailedSkills: [],
+          previouslyValidatedSkills: [],
+          targetSkills: skills,
+          userId: USER_ID,
+        });
+      const oldFailure = buildKnowledgeState({ floor: 2, ceiling: 5, ceilingAt: new Date('2025-06-01') });
+
+      it('should lift the ceiling when the level is validated this time', function () {
+        // when
+        const result = updateKnowledgeStatesWithKnowledgeElements({
+          userId: USER_ID,
+          knowledgeStates: [oldFailure],
+          knowledgeElements: createdByAnsweringAgain(true),
+          skills,
+          at,
+        });
+
+        // then
+        expect(result.knowledgeStates).to.deep.equal([
+          buildKnowledgeState({ floor: 5, ceiling: null, ceilingAt: null, directLevels: [2, 5], updatedAt: at }),
+        ]);
+      });
+
+      it('should date the ceiling from today when the level is failed again', function () {
+        // when
+        const result = updateKnowledgeStatesWithKnowledgeElements({
+          userId: USER_ID,
+          knowledgeStates: [oldFailure],
+          knowledgeElements: createdByAnsweringAgain(false),
+          skills,
+          at,
+        });
+
+        // then
+        expect(result.knowledgeStates).to.deep.equal([
+          buildKnowledgeState({ floor: 2, ceiling: 5, ceilingAt: at, directLevels: [2, 5], updatedAt: at }),
+        ]);
+      });
     });
 
     it('should return only the knowledge states of the impacted tubes', function () {

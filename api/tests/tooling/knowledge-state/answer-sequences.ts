@@ -26,6 +26,7 @@ export const buildSkill = (tube: string, level: number): Skill =>
     difficulty: level,
     competenceId: `competence_${tube}`,
     pixValue: level / 2,
+    status: 'actif',
   });
 
 // Levels with gaps, as the learning content has.

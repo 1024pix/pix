@@ -14,9 +14,9 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 describe('Evaluation | Integration | Usecase | Save and correct answer for competence evaluation', function () {
   const skillIds = ['monAcquisA_Id', 'monAcquisB_Id', 'monAcquisC_Id'];
 
-  it('should correct answer and save both answer and knowledge-elements', async function () {
-    // given
-    const locale = 'fr';
+  const locale = 'fr';
+
+  const buildUserAnsweringTheHighestSkill = async function () {
     const competenceId = 'maCompetenceId';
     const userId = databaseBuilder.factory.buildUser().id;
     const assessmentDB = databaseBuilder.factory.buildAssessment({
@@ -76,6 +76,13 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for compe
     });
     await databaseBuilder.commit();
 
+    return { userId, assessmentDB };
+  };
+
+  it('should correct answer and save both answer and knowledge-elements', async function () {
+    // given
+    const { userId, assessmentDB } = await buildUserAnsweringTheHighestSkill();
+
     // when
     const assessment = domainBuilder.buildAssessment(assessmentDB);
     const answer = new Answer({
@@ -127,5 +134,50 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for compe
       },
     });
     expect(savedAnswer).to.be.instanceOf(Answer);
+  });
+
+  context('when the knowledge of the user is stored as knowledge states', function () {
+    it('should correct answer and update the knowledge states instead of saving knowledge-elements', async function () {
+      // given
+      const { userId, assessmentDB } = await buildUserAnsweringTheHighestSkill();
+      await evaluationUsecases.migrateUserToKnowledgeStates({ userId });
+
+      // when
+      const assessment = domainBuilder.buildAssessment(assessmentDB);
+      const answer = new Answer({
+        value: 'correct',
+        challengeId: 'monEpreuveId',
+        assessmentId: assessment.id,
+      });
+      const savedAnswer = await evaluationUsecases.saveAndCorrectAnswerForCompetenceEvaluation({
+        answer,
+        userId,
+        assessment,
+        locale,
+        forceOKAnswer: false,
+      });
+
+      // then
+      const keData = await knex('knowledge-elements').where({ userId });
+      const knowledgeStates = await knex('knowledge_states')
+        .select(['tubeId', 'floor', 'ceiling', 'directLevels'])
+        .where({ userId });
+      const userCompetenceScores = await knex('user_competence_scores')
+        .select(['competenceId', 'pix'])
+        .where({ userId });
+
+      expect(keData.length).to.equal(1);
+      expect(knowledgeStates).to.deep.equal([{ tubeId: 'monTubeId', floor: 3, ceiling: null, directLevels: [1, 3] }]);
+      expect(userCompetenceScores).to.deep.equal([{ competenceId: 'maCompetenceId', pix: 3 * PIX_COUNT_BY_LEVEL }]);
+      sinon.assert.match(savedAnswer, {
+        id: sinon.match.number,
+        result: AnswerStatus.OK,
+        levelup: {
+          id: savedAnswer.id,
+          competenceName: 'nom de la compétence',
+          level: 3,
+        },
+      });
+    });
   });
 });

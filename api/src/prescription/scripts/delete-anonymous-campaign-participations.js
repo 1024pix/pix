@@ -30,6 +30,9 @@ const DELETION_PLAN = [
   { table: 'certification-challenge-capacities', column: 'answerId', scope: 'assessmentIds', through: 'answers' },
   { table: 'flash-assessment-results', column: 'assessmentId', scope: 'assessmentIds' },
   { table: 'knowledge-elements', column: 'userId', scope: 'userIds' },
+  { table: 'knowledge_states', column: 'userId', scope: 'userIds' },
+  { table: 'user_competence_scores', column: 'userId', scope: 'userIds' },
+  { table: 'knowledge_state_migrations', column: 'userId', scope: 'userIds' },
   { table: 'answers', column: 'assessmentId', scope: 'assessmentIds' },
 
   // ── assessments ──────────────────────────────────────────────────────────────────────────────
