@@ -40,6 +40,7 @@ type Answer = {
 
 /**
  * Update a knowledge state with a new answer, returning a new state.
+ * A failure dates the ceiling; a success leaves the ceiling and its date alone.
  */
 export const update = (knowledgeState: KnowledgeState, { level, isOk, at = new Date() }: Answer): KnowledgeState => {
   if (isAssessed(knowledgeState, level)) {
@@ -51,6 +52,7 @@ export const update = (knowledgeState: KnowledgeState, { level, isOk, at = new D
     tubeId: knowledgeState.tubeId,
     floor: isOk ? level : knowledgeState.floor,
     ceiling: isOk ? knowledgeState.ceiling : level,
+    ceilingAt: isOk ? knowledgeState.ceilingAt : at,
     directLevels: [...knowledgeState.directLevels, level],
     updatedAt: at,
   });
