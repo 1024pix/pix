@@ -43,10 +43,10 @@ describe('Integration | Identity Access Management | Domain | UseCase | upgradeT
     const authenticationMethod = await knex('authentication-methods').where({ userId: realUser.id }).first();
     expect(authenticationMethod.identityProvider).to.equal(NON_OIDC_IDENTITY_PROVIDERS.PIX.code);
 
-    const legalDocumentAcceptation = await knex('legal-document-version-user-acceptances')
+    const legalDocumentAcceptance = await knex('legal-document-version-user-acceptances')
       .where({ userId: realUser.id })
       .first();
-    expect(legalDocumentAcceptation.legalDocumentVersionId).to.equal(pixAppTos.id);
+    expect(legalDocumentAcceptance.legalDocumentVersionId).to.equal(pixAppTos.id);
 
     await expect('SendEmailJob').to.have.been.performed.withJobsCount(1);
   });

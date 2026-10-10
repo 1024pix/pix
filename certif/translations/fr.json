@@ -210,6 +210,21 @@
   "components": {
     "locale-switcher": {
       "label": "Sélectionnez une langue"
+    },
+    "terms-of-service": {
+      "actions": {
+        "accept": "Accepter et continuer",
+        "document-link": "Lire les conditions d’utilisation",
+        "reject": "Refuser et quitter"
+      },
+      "message": {
+        "requested": "Pour continuer à utiliser Pix, nous vous invitons à lire et accepter nos Conditions Générales d'Utilisation.",
+        "update-requested": "Nous avons actualisé nos CGU. Consultez les changements et acceptez-les pour continuer."
+      },
+      "title": {
+        "requested": "Veuillez accepter nos Conditions Générales d'Utilisation (CGU)",
+        "update-requested": "Mise à jour importante des Conditions Générales d'Utilisation (CGU)"
+      }
     }
   },
   "navigation": {

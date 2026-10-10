@@ -4,6 +4,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { setupMirage } from 'pix-certif/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import {
   authenticateSession,
@@ -17,7 +18,7 @@ module('Acceptance | terms-of-service', function (hooks) {
 
   let certificationPointOfContact;
 
-  test('it should redirect certificationPointOfContact to login page if not logged in', async function (assert) {
+  test('it redirects certificationPointOfContact to login page if not logged in', async function (assert) {
     // when
     await visit('/cgu');
 
@@ -38,27 +39,92 @@ module('Acceptance | terms-of-service', function (hooks) {
         await authenticateSession(certificationPointOfContact.id);
       });
 
-      test('it should send request for saving Pix-certif terms of service acceptation when submitting', async function (assert) {
+      module('When terms of service model has pixCertifTermsOfServiceDocumentPath property ', function () {
+        module('When certificationPointOfContact has never accepted the terms of service', function () {
+          test('it displays the new tos page', async function (assert) {
+            // given
+            const domainService = this.owner.lookup('service:currentDomain');
+            sinon.stub(domainService, 'getExtension').returns('org');
+            certificationPointOfContact.update({ pixCertifTermsOfServiceDocumentPath: 'pix-certif-tos-2027-01-01' });
+
+            // when
+            const screen = await visit('/cgu');
+
+            // then
+            assert
+              .dom(
+                screen.getByRole('heading', { name: "Veuillez accepter nos Conditions Générales d'Utilisation (CGU)" }),
+              )
+              .exists();
+            assert.dom(screen.getByRole('button', { name: 'Accepter et continuer' })).exists();
+            assert
+              .dom(screen.getByRole('link', { name: 'Lire les conditions d’utilisation' }))
+              .hasAttribute('href', 'https://pix.org/fr/pix-certif-tos-2027-01-01');
+          });
+        });
+        module('When certificationPointOfContact has to accept an update of the terms of service', function (hooks) {
+          hooks.beforeEach(async () => {
+            certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceNotAccepted();
+            certificationPointOfContact.update({ pixCertifTermsOfServiceStatus: 'update-requested' });
+
+            await authenticateSession(certificationPointOfContact.id);
+          });
+
+          test('it should display the update version of the terms of service page', async function (assert) {
+            // when
+            const screen = await visit('/cgu');
+
+            // then
+            assert
+              .dom(
+                screen.getByRole('heading', {
+                  name: "Mise à jour importante des Conditions Générales d'Utilisation (CGU)",
+                }),
+              )
+              .exists();
+          });
+        });
+      });
+      module('When there is no document path', function () {
+        test('it displays the deprecated tos page', async function (assert) {
+          // given
+          certificationPointOfContact.update({ pixCertifTermsOfServiceDocumentPath: null });
+
+          // when
+          const screen = await visit('/cgu');
+
+          // then
+          assert
+            .dom(
+              screen.getByRole('heading', { name: "Conditions générales d'utilisation de la plateforme Pix Certif" }),
+            )
+            .exists();
+          assert.dom(screen.getByRole('heading', { name: 'Article 1. Préambule' })).exists();
+          assert.dom(screen.getByRole('button', { name: 'J’accepte les conditions d’utilisation' })).exists();
+        });
+      });
+
+      test('it should send request for saving Pix-certif terms of service acceptance when submitting', async function (assert) {
         // given
-        const previousPixCertifTermsOfServiceVal = certificationPointOfContact.pixCertifTermsOfServiceAccepted;
+        const previousPixCertifTermsOfServiceVal = certificationPointOfContact.pixCertifTermsOfServiceStatus;
         const screen = await visit('/cgu');
 
         // when
-        await click(screen.getByRole('button', { name: 'J’accepte les conditions d’utilisation' }));
+        await click(screen.getByRole('button', { name: 'Accepter et continuer' }));
 
         // then
         certificationPointOfContact.reload();
-        const actualPixCertifTermsOfServiceVal = certificationPointOfContact.pixCertifTermsOfServiceAccepted;
-        assert.true(actualPixCertifTermsOfServiceVal);
-        assert.false(previousPixCertifTermsOfServiceVal);
+        const actualPixCertifTermsOfServiceVal = certificationPointOfContact.pixCertifTermsOfServiceStatus;
+        assert.strictEqual(previousPixCertifTermsOfServiceVal, 'requested');
+        assert.strictEqual(actualPixCertifTermsOfServiceVal, 'accepted');
       });
 
-      test('it should redirect to session list after saving terms of service acceptation', async function (assert) {
+      test('it should redirect to session list after saving terms of service acceptance', async function (assert) {
         // given
         const screen = await visit('/cgu');
 
         // when
-        await click(screen.getByRole('button', { name: 'J’accepte les conditions d’utilisation' }));
+        await click(screen.getByRole('button', { name: 'Accepter et continuer' }));
 
         // then
         assert.strictEqual(currentURL(), '/sessions');
@@ -81,7 +147,7 @@ module('Acceptance | terms-of-service', function (hooks) {
           });
 
           // when
-          await click(screen.getByRole('button', { name: 'J’accepte les conditions d’utilisation' }));
+          await click(screen.getByRole('button', { name: 'Accepter et continuer' }));
 
           // then
           assert

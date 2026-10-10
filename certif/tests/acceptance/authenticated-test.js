@@ -70,7 +70,7 @@ module('Acceptance | authenticated', function (hooks) {
         const certificationPointOfContact = server.create('certification-point-of-contact', {
           firstName: 'Buffy',
           lastName: 'Summers',
-          pixCertifTermsOfServiceAccepted: true,
+          pixCertifTermsOfServiceStatus: 'accepted',
           allowedCertificationCenterAccesses: [currentAllowedCertificationCenterAccess],
         });
         await authenticateSession(certificationPointOfContact.id);
@@ -110,7 +110,7 @@ module('Acceptance | authenticated', function (hooks) {
         const certificationPointOfContact = server.create('certification-point-of-contact', {
           firstName: 'Buffy',
           lastName: 'Summers',
-          pixCertifTermsOfServiceAccepted: true,
+          pixCertifTermsOfServiceStatus: 'accepted',
           allowedCertificationCenterAccesses: [currentCertificationCenter, anotherCertificationCenter],
           certificationCenterMemberships: [currentCertificationCenterMembership, anotherCertificationCenterMembership],
         });
@@ -148,7 +148,7 @@ module('Acceptance | authenticated', function (hooks) {
         const certificationPointOfContact = server.create('certification-point-of-contact', {
           firstName: 'Buffy',
           lastName: 'Summers',
-          pixCertifTermsOfServiceAccepted: true,
+          pixCertifTermsOfServiceStatus: 'accepted',
           allowedCertificationCenterAccesses: [
             currentAllowedCertificationCenterAccess,
             anotherAllowedCertificationCenterAccess,
@@ -190,7 +190,7 @@ module('Acceptance | authenticated', function (hooks) {
           const certificationPointOfContact = server.create('certification-point-of-contact', {
             firstName: 'Buffy',
             lastName: 'Summers',
-            pixCertifTermsOfServiceAccepted: true,
+            pixCertifTermsOfServiceStatus: 'accepted',
             allowedCertificationCenterAccesses: [
               currentAllowedCertificationCenterAccess,
               anotherAllowedCertificationCenterAccess,
@@ -233,7 +233,7 @@ module('Acceptance | authenticated', function (hooks) {
           const certificationPointOfContact = server.create('certification-point-of-contact', {
             firstName: 'Buffy',
             lastName: 'Summers',
-            pixCertifTermsOfServiceAccepted: true,
+            pixCertifTermsOfServiceStatus: 'accepted',
             allowedCertificationCenterAccesses: [
               currentAllowedCertificationCenterAccess,
               anotherAllowedCertificationCenterAccess,

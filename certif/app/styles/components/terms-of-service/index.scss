@@ -1,0 +1,77 @@
+// TODO: supprimer avec le feature toggle newPixCertifLegalDocumentsVersioning (ancienne page CGU)
+@use 'pix-design-tokens/breakpoints';
+
+.terms-of-service-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--pix-certif-500);
+}
+
+.terms-of-service-form {
+  justify-content: center;
+  max-width: 800px;
+  margin: auto;
+  padding: 35px 0;
+  background-color: var(--pix-neutral-0);
+  border-radius: 10px;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+
+    &--logo {
+      margin: auto;
+      padding-bottom: 20px;
+    }
+
+    &--title {
+      margin: 0 10px 30px;
+      color: var(--pix-neutral-800);
+      text-align: center;
+    }
+  }
+
+  &__line {
+    width: 100%;
+    height: 1px;
+    margin-bottom: 30px;
+    background-color: var(--pix-neutral-20);
+    border: none;
+  }
+
+  &__text {
+    height: 400px;
+    margin: 0 60px 20px;
+    padding: 0 35px;
+    overflow: hidden scroll;
+
+    p,
+    li {
+      margin-bottom: var(--pix-spacing-4x);
+    }
+
+    ul {
+      list-style: inside;
+    }
+
+    h2,
+    h3 {
+      margin-bottom: var(--pix-spacing-6x);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 100px;
+
+    @include breakpoints.device-is('tablet') {
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+  }
+}

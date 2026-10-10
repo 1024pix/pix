@@ -15,7 +15,7 @@ module('Acceptance | Session supervising error', function (hooks) {
     const certificationPointOfContact = server.create('certification-point-of-contact', {
       firstName: 'Aude',
       lastName: 'Hébussavabien',
-      pixCertifTermsOfServiceAccepted: true,
+      pixCertifTermsOfServiceStatus: 'accepted',
       allowedCertificationCenterAccesses: [],
     });
     await authenticateSession(certificationPointOfContact.id);
