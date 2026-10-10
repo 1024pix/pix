@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { AreaForCappedTubes } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/AreaForCappedTubes.js';
+import { AreaForCappedTubes } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/AreaForCappedTubes.ts';
 import * as learningContentRepository from '../../../../../src/quest/infrastructure/repositories/learning-content-repository.js';
 
 describe('Unit | Repositories | Learning Content Repository', function () {

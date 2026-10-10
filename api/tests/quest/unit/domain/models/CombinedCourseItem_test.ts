@@ -17,7 +17,6 @@ describe('Quest | Unit | Domain | Models | CombinedCourseItem', function () {
         reference: 'reference',
         redirection: 'redirection',
         participationStatus: 'STARTED',
-        isCompleted: true,
         duration: 10,
         image: 'image',
         isLocked: false,
@@ -30,10 +29,9 @@ describe('Quest | Unit | Domain | Models | CombinedCourseItem', function () {
       expect(item.type).to.equal(COMBINED_COURSE_ITEM_TYPES.FORMATION);
       expect(item.redirection).to.equal('redirection');
       expect(item.participationStatus).to.equal('STARTED');
-      expect(item.isCompleted).to.be.true;
       expect(item.duration).to.equal(10);
       expect(item.image).to.equal('image');
-      expect(item.isLocked).to.be.false;
+      expect(item.isLocked).to.equal(false);
     });
   });
 
@@ -42,13 +40,14 @@ describe('Quest | Unit | Domain | Models | CombinedCourseItem', function () {
       // when
       const item = new CampaignCombinedCourseItem({
         id: 1,
+        reference: 1,
       });
 
       // then
-      expect(item.isLocked).to.be.true;
-      expect(item.masteryRate).to.be.null;
-      expect(item.totalStagesCount).to.be.null;
-      expect(item.validatedStagesCount).to.be.null;
+      expect(item.isLocked).to.equal(true);
+      expect(item.masteryRate).to.equal(null);
+      expect(item.totalStagesCount).to.equal(null);
+      expect(item.validatedStagesCount).to.equal(null);
       expect(item.type).to.equal(COMBINED_COURSE_ITEM_TYPES.CAMPAIGN);
     });
   });
@@ -57,7 +56,11 @@ describe('Quest | Unit | Domain | Models | CombinedCourseItem', function () {
       // when
       const item = new ModuleCombinedCourseItem({
         id: 1,
+        reference: 'module-id-1',
         shortId: 'short-1',
+        level: 'novice',
+        description: 'description',
+        objectives: ['objective1'],
       });
 
       // then

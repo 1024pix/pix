@@ -1,4 +1,4 @@
-export type TargetProfileType = {
+export type TargetProfileArgs = {
   id: number;
   name: string;
   internalName: string;
@@ -9,7 +9,7 @@ export class TargetProfile {
   name: string;
   internalName: string;
 
-  constructor({ id, name, internalName }: TargetProfileType) {
+  constructor({ id, name, internalName }: TargetProfileArgs) {
     this.id = id;
     this.name = name;
     this.internalName = internalName;

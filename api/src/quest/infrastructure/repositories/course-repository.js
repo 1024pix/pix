@@ -2,7 +2,8 @@ import * as targetProfileRepository from '../../../prescription/target-profile/i
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import * as tubeRepository from '../../../shared/infrastructure/repositories/tube-repository.js';
-import { COURSE_ITEM_TYPES, CourseItem } from '../../domain/models/combined-courses/value-objects/CourseItem.js';
+import { COURSE_ITEM_TYPES } from '../../domain/constants.js';
+import { CourseItem } from '../../domain/models/combined-courses/value-objects/CourseItem.ts';
 import * as combinedCourseBlueprintRepository from './combined-course-blueprints/combined-course-blueprint-repository.js';
 
 export const findByOrganizationId = async ({ organizationId, locale }) => {

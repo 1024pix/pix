@@ -15,7 +15,7 @@ import {
   ModuleCombinedCourseItem,
   TrainingCombinedCourseItem,
 } from '../value-objects/CombinedCourseItem.ts';
-import { CombinedCourseParticipationDetails } from './CombinedCourseParticipationDetails.js';
+import { CombinedCourseParticipationDetails } from './CombinedCourseParticipationDetails.ts';
 import { CombinedCourseReward } from './CombinedCourseReward.js';
 
 export class CombinedCourseDetails extends CombinedCourse {

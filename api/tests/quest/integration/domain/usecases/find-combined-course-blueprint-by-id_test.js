@@ -4,7 +4,7 @@ import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/
 import {
   CampaignCombinedCourseBlueprintItem,
   ModuleCombinedCourseBlueprintItem,
-} from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintItem.js';
+} from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CombinedCourseBlueprintItem.ts';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 

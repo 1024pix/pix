@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { CappedTube } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CappedTube.js';
+import { CappedTube } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/CappedTube.ts';
 import * as cappedTubeRepository from '../../../../../src/quest/infrastructure/repositories/combined-course-blueprints/capped-tube-repository.js';
 
 describe('Quest | Unit | Infrastructure | Repositories | capped-tube', function () {

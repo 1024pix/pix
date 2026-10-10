@@ -1,10 +1,8 @@
 import { expect } from 'chai';
 
+import { COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
-import {
-  COURSE_ITEM_TYPES,
-  CourseItem,
-} from '../../../../../src/quest/domain/models/combined-courses/value-objects/CourseItem.js';
+import { CourseItem } from '../../../../../src/quest/domain/models/combined-courses/value-objects/CourseItem.ts';
 import * as courseRepository from '../../../../../src/quest/infrastructure/repositories/course-repository.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 

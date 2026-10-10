@@ -1,4 +1,4 @@
-import { CappedTube } from '../../../domain/models/combined-course-blueprints/value-objects/CappedTube.js';
+import { CappedTube } from '../../../domain/models/combined-course-blueprints/value-objects/CappedTube.ts';
 
 export const findCappedTubesForTargetProfileIds = async ({ targetProfileIds, targetProfilesApi }) => {
   const cappedTubes = await targetProfilesApi.findCappedTubesForTargetProfileIds(targetProfileIds);
