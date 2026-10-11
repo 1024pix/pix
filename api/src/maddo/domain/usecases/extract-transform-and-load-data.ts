@@ -2,6 +2,7 @@ import type { Knex } from 'knex';
 import type { Client as PgClient } from 'pg';
 
 import { getInContext } from '../../../shared/infrastructure/execution-context-manager.js';
+import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
 import { type Replication, replications as defaultReplications } from '../../infrastructure/replications.ts';
 import { copyFromStdin as defaultCopyFromStdin } from '../../infrastructure/utils/copy-from-stdin.ts';
 
@@ -66,7 +67,13 @@ export const extractTransformAndLoadData = async ({
 
 async function initStagingTable(replication: Replication, stagingTarget: string, datamartKnex: KnexWithPool) {
   const { target } = replication;
-  await datamartKnex.raw('CREATE TABLE ?? (LIKE ?? INCLUDING ALL)', [stagingTarget, target]);
+  const isUnloggedTableEnabled: boolean = await featureToggles.get('isMaddoReplicationOnUnloggedTablesEnabled');
+  const whitelist: string[] = await featureToggles.get('maddoUnloggedTablesWhitelist');
+  const shouldBeUnlogged = isUnloggedTableEnabled && whitelist.includes(target);
+  await datamartKnex.raw(`CREATE ${shouldBeUnlogged ? 'UNLOGGED' : ''} TABLE ?? (LIKE ?? INCLUDING ALL)`, [
+    stagingTarget,
+    target,
+  ]);
   return dropIndexes(stagingTarget, datamartKnex);
 }
 

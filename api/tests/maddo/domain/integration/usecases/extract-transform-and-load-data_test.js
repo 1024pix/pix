@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import environments from '../../../../../datamart/knexfile.js';
 import { DatabaseConnection } from '../../../../../db/database-connection.js';
 import { extractTransformAndLoadData } from '../../../../../src/maddo/domain/usecases/extract-transform-and-load-data.ts';
+import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { datamartKnex, datawarehouseKnex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
@@ -410,6 +411,140 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
       expect(sqlNulls).to.equal(1);
     });
   });
+
+  context('FT regarding UNLOGGED tables', function () {
+    let replications;
+    beforeEach(async function () {
+      const schema = (t) => {
+        t.string('firstName').notNullable();
+      };
+      await datawarehouseKnex.schema.createTable('to-replicate', schema);
+      await datamartKnex.schema.createTable('replication', schema);
+      await datamartKnex('replication').insert([{ firstName: 'oldfirst1' }, { firstName: 'oldfirst2' }]);
+      await datawarehouseKnex('to-replicate').insert([{ firstName: 'first1' }, { firstName: 'first2' }]);
+      replications = {
+        'my-replication': { source: 'to-replicate', target: 'replication', columns: ['firstName'] },
+      };
+    });
+
+    context('when FT to enable create UNLOGGED tables is OFF', function () {
+      beforeEach(function () {
+        return featureToggles.set('isMaddoReplicationOnUnloggedTablesEnabled', false);
+      });
+
+      context('when table to replicate is not in the UNLOGGED whitelist', function () {
+        beforeEach(function () {
+          return featureToggles.set('maddoUnloggedTablesWhitelist', ['some_other_table']);
+        });
+
+        it('replicates without transforming it into an UNLOGGED table', async function () {
+          await extractTransformAndLoadData({
+            replicationName: 'my-replication',
+            replications,
+            datamartKnex,
+            datawarehouseKnex,
+          });
+
+          const rows = await datamartKnex.pluck('firstName').from('replication').orderBy('firstName');
+          expect(rows).to.deep.equal(['first1', 'first2']);
+          expect(await isTableUnlogged(datamartKnex, 'replication')).to.be.false;
+        });
+      });
+
+      context('when table to replicate is in the UNLOGGED whitelist', function () {
+        beforeEach(function () {
+          return featureToggles.set('maddoUnloggedTablesWhitelist', ['replication']);
+        });
+        it('replicates without transforming it into an UNLOGGED table', async function () {
+          await extractTransformAndLoadData({
+            replicationName: 'my-replication',
+            replications,
+            datamartKnex,
+            datawarehouseKnex,
+          });
+
+          const rows = await datamartKnex.pluck('firstName').from('replication').orderBy('firstName');
+          expect(rows).to.deep.equal(['first1', 'first2']);
+          expect(await isTableUnlogged(datamartKnex, 'replication')).to.be.false;
+        });
+      });
+
+      context('when table to replicate used to be an UNLOGGED table but FT has been disabled in between', function () {
+        beforeEach(function () {
+          return featureToggles.set('maddoUnloggedTablesWhitelist', ['replication']);
+        });
+        it('replicates turning it back into a permanent table', async function () {
+          // First, replicate it into an UNLOGGED table
+          await featureToggles.set('isMaddoReplicationOnUnloggedTablesEnabled', true);
+          await extractTransformAndLoadData({
+            replicationName: 'my-replication',
+            replications,
+            datamartKnex,
+            datawarehouseKnex,
+          });
+          let rows = await datamartKnex.pluck('firstName').from('replication').orderBy('firstName');
+          expect(rows).to.deep.equal(['first1', 'first2']);
+          expect(await isTableUnlogged(datamartKnex, 'replication')).to.be.true;
+
+          // Then, disable the FT and replicate again
+          await datawarehouseKnex('to-replicate').insert({ firstName: 'first3' });
+          await featureToggles.set('isMaddoReplicationOnUnloggedTablesEnabled', false);
+          await extractTransformAndLoadData({
+            replicationName: 'my-replication',
+            replications,
+            datamartKnex,
+            datawarehouseKnex,
+          });
+          rows = await datamartKnex.pluck('firstName').from('replication').orderBy('firstName');
+          expect(rows).to.deep.equal(['first1', 'first2', 'first3']);
+          expect(await isTableUnlogged(datamartKnex, 'replication')).to.be.false;
+        });
+      });
+    });
+
+    context('when FT to enable create UNLOGGED tables is ON', function () {
+      beforeEach(function () {
+        return featureToggles.set('isMaddoReplicationOnUnloggedTablesEnabled', true);
+      });
+
+      context('when table to replicate is not in the UNLOGGED whitelist', function () {
+        beforeEach(function () {
+          return featureToggles.set('maddoUnloggedTablesWhitelist', ['some_other_table']);
+        });
+
+        it('replicates without transforming it into an UNLOGGED table', async function () {
+          await extractTransformAndLoadData({
+            replicationName: 'my-replication',
+            replications,
+            datamartKnex,
+            datawarehouseKnex,
+          });
+
+          const rows = await datamartKnex.pluck('firstName').from('replication').orderBy('firstName');
+          expect(rows).to.deep.equal(['first1', 'first2']);
+          expect(await isTableUnlogged(datamartKnex, 'replication')).to.be.false;
+        });
+      });
+
+      context('when table to replicate is in the UNLOGGED whitelist', function () {
+        beforeEach(function () {
+          return featureToggles.set('maddoUnloggedTablesWhitelist', ['replication']);
+        });
+        it('replicates as an UNLOGGED table', async function () {
+          await extractTransformAndLoadData({
+            replicationName: 'my-replication',
+            replications,
+            datamartKnex,
+            datawarehouseKnex,
+          });
+
+          const rows = await datamartKnex.pluck('firstName').from('replication').orderBy('firstName');
+          expect(rows).to.deep.equal(['first1', 'first2']);
+          expect(await isTableUnlogged(datamartKnex, 'replication')).to.be.true;
+        });
+      });
+    });
+  });
 });
 
 async function listTables(knex) {
@@ -433,4 +568,12 @@ async function listIndexDefinitions(knex, tableName) {
     [tableName],
   );
   return rows.map(({ indexdef }) => indexdef.split(' ON ')[1]);
+}
+
+async function isTableUnlogged(knex, tableName) {
+  const [table_type] = await knex
+    .pluck('relpersistence')
+    .from('pg_class')
+    .whereRaw('oid = ?::regclass', [`public.${tableName}`]);
+  return table_type === 'u';
 }
