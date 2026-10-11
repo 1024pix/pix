@@ -152,4 +152,22 @@ export default {
     devDefaultValues: { test: true, reviewApp: false },
     tags: ['team-acces', 'backend', 'pix-api'],
   },
+  isMaddoReplicationOnUnloggedTablesEnabled: {
+    type: 'boolean',
+    description:
+      'Enables Maddo replication endpoints to create UNLOGGED tables in datamart, for COPY performance gain (risk is mainly unrecoverable crash)',
+    defaultValue: false,
+    devDefaultValues: { test: true, reviewApp: true },
+    tags: ['maddo', 'backend'],
+  },
+  maddoUnloggedTablesWhitelist: {
+    type: 'array',
+    description: 'Tables whitelisted for the isMaddoReplicationOnUnloggedTablesEnabled FT',
+    defaultValue: [],
+    devDefaultValues: {
+      test: ['sco_certification_results', 'certification_results'],
+      reviewApp: ['sco_certification_results', 'certification_results'],
+    },
+    tags: ['maddo', 'backend'],
+  },
 };
