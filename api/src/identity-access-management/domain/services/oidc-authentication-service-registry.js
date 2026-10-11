@@ -16,17 +16,6 @@ export class OidcAuthenticationServiceRegistry {
   }
 
   /**
-   * Returns all the OidcAuthenticationServices, enabled or not.
-   *
-   * @returns {OidcAuthenticationService[]|null}
-   */
-  async getAllOidcProviderServices() {
-    await this.#loadAllOidcProviderServices();
-
-    return this.#allOidcProviderServices;
-  }
-
-  /**
    * Returns the enabled OidcAuthenticationServices for the given requestedApplication.
    *
    * @returns {OidcAuthenticationService[]|null}
