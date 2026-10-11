@@ -102,30 +102,46 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
   describe('GET /api/admin/oidc/identity-providers', function () {
     it('returns the list of all oidc providers with an HTTP status code 200', async function () {
       // given
-      await createMockedTestOidcProviders([
-        {
-          identityProvider: 'IDP',
-          application: 'app',
-          applicationTld: '.fr',
-          organizationName: 'Idp',
-          slug: 'idp',
-          source: 'idp',
-        },
-        {
-          identityProvider: 'IDP_ORGA',
-          application: 'orga',
-          applicationTld: '.fr',
-          organizationName: 'Idp',
-          slug: 'idp',
-          connectionMethodCode: 'IDP_1',
-          source: 'idp',
-        },
-      ]);
-      server = await getServer();
+      const oidcProvider1Properties = {
+        application: 'app',
+        applicationTld: '.fr',
+        enabled: true,
+        accessTokenLifespan: '7d',
+        clientId: 'client',
+        clientSecret: 'plainTextSecret',
+        shouldCloseSession: true,
+        identityProvider: 'IDP',
+        openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
+        organizationName: 'Idp',
+        redirectUri: 'https://app.dev.pix.fr/connexion/idp',
+        scope: 'openid profile',
+        slug: 'idp',
+        source: 'idp',
+      };
+      await databaseBuilder.factory.buildOidcProvider(oidcProvider1Properties);
+
+      const oidcProvider2Properties = {
+        application: 'orga',
+        applicationTld: '.fr',
+        enabled: true,
+        accessTokenLifespan: '7d',
+        clientId: 'client',
+        clientSecret: 'plainTextSecret',
+        shouldCloseSession: true,
+        identityProvider: 'IDP_ORGA',
+        openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
+        organizationName: 'Idp',
+        redirectUri: 'https://orga.dev.pix.fr/connexion/idp',
+        scope: 'openid profile',
+        slug: 'idp',
+        source: 'idp',
+      };
+      await databaseBuilder.factory.buildOidcProvider(oidcProvider2Properties);
 
       const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       await databaseBuilder.commit();
 
+      server = await getServer();
       const options = {
         method: 'GET',
         url: '/api/admin/oidc/identity-providers',
@@ -137,8 +153,8 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data.length).to.equal(2);
-      expect(response.result.data.at(0)).to.deep.equal({
+      expect(response.result.data).to.have.length(2);
+      expect(response.result.data).to.deep.include({
         type: 'oidc-identity-providers',
         id: 'IDP',
         attributes: {
@@ -152,7 +168,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
           'is-visible': true,
         },
       });
-      expect(response.result.data.at(1)).to.deep.equal({
+      expect(response.result.data).to.deep.include({
         type: 'oidc-identity-providers',
         id: 'IDP_ORGA',
         attributes: {
