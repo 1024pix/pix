@@ -11,14 +11,14 @@
 
   &__content {
     display: flex;
-    align-items:flex-start;
-    gap: var(--pix-spacing-4x);
     flex-direction: column;
+    gap: var(--pix-spacing-4x);
+    align-items:flex-start;
 
 
     @include breakpoints.device-is('tablet') {
-      align-items:center;
       flex-direction: row;
+      align-items:center;
       justify-content: space-between;
     }
   }

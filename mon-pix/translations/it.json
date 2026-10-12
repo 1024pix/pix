@@ -1397,7 +1397,7 @@
         },
         "aband": {
           "title": "Non hai dato una risposta",
-          "tooltip": "Nessuna risposta"
+          "tooltip": "Domanda saltata"
         },
         "abandAutoReply": {
           "title": "Hai superato il test",

@@ -1397,7 +1397,7 @@
         },
         "aband": {
           "title": "Vous n’avez pas donné de réponse",
-          "tooltip": "Sans réponse"
+          "tooltip": "Question passée"
         },
         "abandAutoReply": {
           "title": "Vous avez passé l’épreuve",
@@ -1417,7 +1417,7 @@
         },
         "ko": {
           "title": "Vous n’avez pas la bonne réponse",
-          "tooltip": "Réponse incorrecte"
+          "tooltip": "Mauvaise réponse"
         },
         "koAutoReply": {
           "title": "Vous n’avez pas réussi l’épreuve",
@@ -1425,7 +1425,7 @@
         },
         "ok": {
           "title": "Vous avez la bonne réponse !",
-          "tooltip": "Réponse correcte"
+          "tooltip": "Bonne réponse"
         },
         "okAutoReply": {
           "title": "Vous avez réussi l’épreuve",

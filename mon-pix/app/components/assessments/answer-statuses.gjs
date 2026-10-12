@@ -29,9 +29,7 @@ export default class AnswerStatuses extends Component {
         </PixBlock>
       {{/if}}
 
-      {{#unless @isStaticCourse}}
-        <CheckpointContinue @assessmentId={{@assessmentId}} @nextPageButtonText={{@nextPageButtonText}} />
-      {{else}}
+      {{#if @isStaticCourse}}
         <div class="answer-button-continue">
           {{#if @isDemo}}
             <PixButtonLink @href="https://app.pix.org/inscription">
@@ -43,7 +41,9 @@ export default class AnswerStatuses extends Component {
             </PixButtonLink>
           {{/if}}
         </div>
-      {{/unless}}
+      {{else}}
+        <CheckpointContinue @assessmentId={{@assessmentId}} @nextPageButtonText={{@nextPageButtonText}} />
+      {{/if}}
     </div>
   </template>
 }

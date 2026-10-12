@@ -266,7 +266,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       const screen = await getScreen();
       const titles = screen.getAllByRole('heading', { level: 3 });
       assert.strictEqual(titles.length, 3);
-      titles.forEach((title) => assert.dom(title).includesText('Réponse incorrecte'));
+      titles.forEach((title) => assert.dom(title).includesText('Mauvaise réponse'));
 
       const buttons = screen.getAllByRole('button', { name: 'Réponses et tutos' });
       assert.strictEqual(buttons.length, 3);

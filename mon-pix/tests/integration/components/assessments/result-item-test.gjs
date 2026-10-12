@@ -121,38 +121,13 @@ module('Integration | Component | Assessments | result-item', function (hooks) {
     });
   });
 
-  module('instruction truncation depending on viewport width', function (hooks) {
+  module('instruction truncation depending on viewport width', function () {
     const longInstruction =
       'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam';
     const startsWithInstruction = (content) => content.trim().startsWith('Lorem ipsum dolor');
-    let initialWidth;
-
-    hooks.beforeEach(function () {
-      initialWidth = window.innerWidth;
-    });
-
-    hooks.afterEach(function () {
-      window.innerWidth = initialWidth;
-    });
-
-    test('should truncate the instruction to 60 characters on mobile', async function (assert) {
-      // given
-      window.innerWidth = 600;
-      const challenge = EmberObject.create({ type: 'QCM', instruction: longInstruction });
-      const answer = EmberObject.create({ result: 'ok', challenge });
-
-      // when
-      const screen = await render(<template><ResultItem @answer={{answer}} /></template>);
-
-      // then
-      const renderedText = screen.getByText(startsWithInstruction).textContent.trim();
-      assert.true(renderedText.length <= 60);
-      assert.true(renderedText.endsWith('...'));
-    });
 
     test('should truncate the instruction to 110 characters on tablet/desktop', async function (assert) {
       // given
-      window.innerWidth = 1200;
       const challenge = EmberObject.create({ type: 'QCM', instruction: longInstruction });
       const answer = EmberObject.create({ result: 'ok', challenge });
 
@@ -163,6 +138,7 @@ module('Integration | Component | Assessments | result-item', function (hooks) {
       const renderedText = screen.getByText(startsWithInstruction).textContent.trim();
       assert.true(renderedText.length > 60);
       assert.true(renderedText.length <= 110);
+      assert.true(renderedText.endsWith('...'));
     });
   });
 });

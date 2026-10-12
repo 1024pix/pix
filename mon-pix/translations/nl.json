@@ -1397,7 +1397,7 @@
         },
         "aband": {
           "title": "Je hebt geen antwoord gegeven",
-          "tooltip": "Geen antwoord"
+          "tooltip": "Overgeslagen vraag"
         },
         "abandAutoReply": {
           "title": "Je bent geslaagd voor de test",
@@ -1417,7 +1417,7 @@
         },
         "ko": {
           "title": "Fout antwoord !",
-          "tooltip": "Onjuist fout"
+          "tooltip": "Fout antwoord"
         },
         "koAutoReply": {
           "title": "Je bent niet geslaagd voor de test",

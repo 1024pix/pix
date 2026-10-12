@@ -1397,7 +1397,7 @@
         },
         "aband": {
           "title": "Du hast keine Antwort gegeben",
-          "tooltip": "Ohne Antwort"
+          "tooltip": "Übersprungene Frage"
         },
         "abandAutoReply": {
           "title": "Du hast die Prüfung bestanden",

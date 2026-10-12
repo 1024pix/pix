@@ -1,4 +1,4 @@
-import { PixBlock, PixButton, PixIcon, PixTag } from '@1024pix/nebulix-ember';
+import { PixBlock, PixButton, PixTag } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
