@@ -1,9 +1,8 @@
 # Aggregate Root
 
 Un Aggregate est un groupe d'objets qu'une règle du métier relie : on les modifie et on les enregistre
-ensemble. L'Aggregate Root est l'objet par lequel on passe pour toucher au groupe. C'est une
-[Entity](../entite/README.md), avec des devoirs en plus : toutes les règles de la fiche Entity
-s'appliquent à elle.
+ensemble. L'Aggregate Root est l'objet qu'on appelle pour lire ou modifier le groupe. C'est une
+[Entity](../entite/README.md) : les règles de la fiche Entity s'appliquent, plus celles de cette fiche.
 
 ## Les règles
 
@@ -12,7 +11,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | # | Règle | En pratique |
 | --- | --- | --- |
 | [A1](#a1-une-règle-relie-les-objets) | Une règle relie les objets | on peut écrire la règle qui oblige ces objets à changer ensemble |
-| [A2](#a2-la-racine-est-la-seule-porte-dentrée) | La racine est la seule porte d'entrée | les objets internes sont privés ; hors du dossier, seul `index.ts` s'importe |
+| [A2](#a2-la-racine-est-la-seule-porte-dentrée) | La racine est la seule porte d'entrée | le champ qui contient les objets internes est privé ; hors du dossier, seul `index.ts` s'importe |
 | [A3](#a3-un-repository-par-aggregate) | Un repository par Aggregate | `get()` charge tout le groupe, `update()` enregistre tout le groupe |
 | [A6](#a6-petit-aggregate) | Petit Aggregate | seulement les objets qu'une règle relie ; les autres sont gardés par leur id |
 | [A7](#a7-une-transaction-un-aggregate) | Une transaction, un Aggregate | les autres Aggregates sont modifiés dans leur propre transaction |
@@ -20,8 +19,8 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 ## Exemple complet
 
 L'Aggregate `Organization` : une organisation et ses fonctionnalités activées. Une règle du métier les
-relie : quand la fonctionnalité `LEARNER_IMPORT` est activée, l'organisation ne gère plus ses élèves
-elle-même, donc `isManagingStudents` passe à `false`. Exemple inventé, d'après
+relie : si `LEARNER_IMPORT` est activée, `isManagingStudents` est toujours `false`. Le constructeur
+refuse l'état inverse, et `enableFeature()` met le champ à `false`. Exemple inventé, d'après
 [`OrganizationForAdmin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/OrganizationForAdmin.js#L240-L247).
 
 Le dossier de l'Aggregate :
@@ -58,29 +57,33 @@ export class OrganizationFeature {
 ```
 
 ```ts
-// organization/Organization.ts — la racine, simplifiée : nom, type et createdBy sont dans la fiche Entity
+// organization/Organization.ts — la racine, raccourcie : on a retiré le nom et le type (voir la fiche Entity)
 import { ArchivedOrganizationError, FeatureAlreadyEnabledError, InvalidOrganizationError } from '../../errors.js';
 import { type FeatureName, type FeatureParams, OrganizationFeature } from './OrganizationFeature.js';
 
 type OrganizationProps<Id> = {
   id: Id;
+  createdBy: UserId;
   isManagingStudents: boolean;
   features: OrganizationFeature[];
   archivedAt: Date | null;
 };
 
+// Organization<null> : une organisation pas encore enregistrée (voir E1 de la fiche Entity)
 export class Organization<Id extends OrganizationId | null = OrganizationId> {
   readonly id: Id;
+  readonly createdBy: UserId; // A6 : un autre Aggregate, gardé par son id
   #isManagingStudents: boolean;
   #features: OrganizationFeature[]; // A2 : privé
   #archivedAt: Date | null;
 
-  // A1 : la règle est vraie à tout moment, donc aussi quand on charge l'organisation depuis la base
-  constructor({ id, isManagingStudents, features, archivedAt }: OrganizationProps<Id>) {
+  // A1 : le constructeur est aussi appelé au chargement depuis la base, la règle y est donc vérifiée
+  constructor({ id, createdBy, isManagingStudents, features, archivedAt }: OrganizationProps<Id>) {
     if (isManagingStudents && features.some((feature) => feature.featureName === 'LEARNER_IMPORT')) {
       throw new InvalidOrganizationError('An organization that imports its learners does not manage students');
     }
     this.id = id;
+    this.createdBy = createdBy;
     this.#isManagingStudents = isManagingStudents;
     this.#features = [...features];
     this.#archivedAt = archivedAt;
@@ -140,8 +143,9 @@ couvre :
 - chaque règle qui relie la racine et ses objets internes, à la création comme à chaque méthode.
   Exemples : `refuses an organization that imports its learners and manages students`,
   `stops managing students when LEARNER_IMPORT is enabled` ;
-- le cas d'erreur de chaque méthode, et le fait que rien n'a changé après l'erreur. Exemple :
-  `refuses a feature on an archived organization, and changes nothing` ;
+- chaque cas d'erreur, et le fait que rien n'a changé après l'erreur. Exemples :
+  `refuses a feature on an archived organization, and changes nothing`,
+  `refuses a feature that is already enabled` ;
 - qu'on ne peut pas modifier un objet interne depuis l'extérieur. Exemple :
   `cannot change the features through the returned list`.
 
@@ -159,6 +163,7 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
   const buildOrganization = (props: Partial<OrganizationProps<OrganizationId>> = {}) =>
     new Organization({
       id: 1 as OrganizationId,
+      createdBy: 2 as UserId,
       isManagingStudents: false,
       features: [],
       archivedAt: null,
@@ -191,14 +196,21 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
       expect(organization.features).to.be.empty;
       expect(organization.isManagingStudents).to.be.true;
     });
+
+    it('refuses a feature that is already enabled', function () {
+      const organization = buildOrganization({ features: [learnerImport] });
+
+      expect(() => organization.enableFeature('LEARNER_IMPORT', null, now)).to.throw(FeatureAlreadyEnabledError);
+      expect(organization.features).to.have.lengthOf(1);
+    });
   });
 
   describe('#features', function () {
     it('cannot change the features through the returned list', function () {
       const organization = buildOrganization();
 
-      // ReadonlyArray interdit push à la compilation : on force le type pour vérifier qu'à l'exécution,
-      // la liste reçue est bien une copie
+      // ReadonlyArray interdit push à la compilation. On force le type pour vérifier qu'à l'exécution,
+      // on reçoit bien une copie
       (organization.features as OrganizationFeature[]).push(learnerImport);
 
       expect(organization.features).to.be.empty;
@@ -230,9 +242,8 @@ Tests
 
 ### A1. Une règle relie les objets
 
-**La règle.** Un Aggregate existe parce qu'une règle du métier relie plusieurs objets. On doit pouvoir
-écrire cette règle sous la forme « à tout moment, … est vrai ». Si on n'y arrive pas, il n'y a pas
-d'Aggregate.
+**La règle.** Un Aggregate existe parce qu'une règle du métier relie plusieurs objets. Test simple :
+on doit pouvoir finir la phrase « à tout moment, … ». Sinon, ce n'est pas un Aggregate.
 
 **Bon exemple.**
 
@@ -260,27 +271,28 @@ export class OrganizationDetails {
 Un groupe d'objets lus ensemble pour un écran est un [read-model](../read-model/README.md), pas un
 Aggregate.
 
-**Ce que ça apporte.** On sait ce que l'Aggregate protège, donc ce qu'une transaction doit couvrir et
-ce qui peut attendre.
+**Ce que ça apporte.** On connaît la règle à garantir. Les objets qu'elle relie sont enregistrés dans
+la même transaction, et le reste peut être mis à jour après.
 
-**Sans cette règle.** On regroupe des objets « parce qu'ils vont ensemble ». L'Aggregate grossit, et
-chaque écriture charge et bloque des objets qu'elle n'utilise pas.
+**Sans cette règle.** On regroupe des objets « parce qu'ils vont ensemble ». L'Aggregate grossit :
+chaque écriture charge des objets inutiles, et verrouille des lignes en base pour rien.
 
-**Exceptions.** Un Aggregate peut se réduire à sa racine, sans objet interne. C'est fréquent : la règle
-porte alors sur les seuls champs de la racine.
+**Exceptions.** Un Aggregate peut n'avoir que sa racine, quand la règle ne concerne que ses propres
+champs.
 
 ### A2. La racine est la seule porte d'entrée
 
-**La règle.** Pour lire ou modifier un objet interne, on passe par la racine. Les objets internes sont
-des champs privés. Les getters renvoient des copies en lecture seule. Hors du dossier de l'Aggregate,
-on n'importe que son `index.ts`, qui n'exporte que la racine.
+**La règle.** Pour lire ou modifier un objet interne, on passe par la racine. Le champ qui contient les
+objets internes est privé, et les getters renvoient des copies en lecture seule. Hors du dossier de
+l'Aggregate, on n'importe que son `index.ts`, qui exporte la racine et seulement le type des objets
+internes.
 
 **Bon exemple.**
 
 ```ts
 // organization/index.ts
 export { Organization } from './Organization.js';
-export type { OrganizationFeature } from './OrganizationFeature.js'; // le type pour lire, pas la classe pour créer
+export type { OrganizationFeature, FeatureName } from './OrganizationFeature.js';
 ```
 
 ```ts
@@ -288,6 +300,9 @@ get features(): ReadonlyArray<OrganizationFeature> {
   return [...this.#features];
 }
 ```
+
+On exporte seulement le type : on peut s'en servir dans une signature, mais pas écrire
+`new OrganizationFeature(…)` depuis l'extérieur.
 
 **Mauvais exemple.**
 
@@ -298,13 +313,14 @@ import { OrganizationFeature } from '../models/organization/OrganizationFeature.
 organization.features.push(new OrganizationFeature({ featureName: 'LEARNER_IMPORT', params: null, enabledAt: now }));
 ```
 
-**Ce que ça apporte.** La règle qui relie les objets ne peut pas être contournée : pour ajouter une
-fonctionnalité, il faut passer par `enableFeature()`, qui met à jour `isManagingStudents`.
+**Ce que ça apporte.** Pour ajouter une fonctionnalité, tout le monde passe par `enableFeature()`, qui
+met à jour `isManagingStudents`.
 
 **Sans cette règle.** Un import CSV ajoute `LEARNER_IMPORT` directement à la liste. L'organisation a la
 fonctionnalité, mais `isManagingStudents` reste à `true`, et la règle du métier est fausse en base.
 
-**À savoir.** Une règle `dependency-cruiser` fait respecter le point d'entrée :
+**À savoir.** `dependency-cruiser`, l'outil qui vérifie les imports dans la CI, peut faire respecter le
+point d'entrée :
 
 ```js
 {
@@ -332,8 +348,8 @@ export interface OrganizationRepository {
 }
 ```
 
-Le repository écrit dans deux tables, `organizations` et `organization-features`. Le domaine ne le sait
-pas : il appelle seulement `update()`.
+Le repository écrit dans deux tables, `organizations` et `organization-features`. Le domaine ne voit
+pas ces tables : il appelle seulement `update()`.
 
 **Mauvais exemple.**
 
@@ -344,8 +360,8 @@ export interface OrganizationFeatureRepository {
 }
 ```
 
-**Ce que ça apporte.** Il n'y a qu'une façon d'enregistrer le groupe, et elle passe par un Aggregate
-qui a vérifié ses règles. En comptant les repositories d'un contexte, on compte ses Aggregates.
+**Ce que ça apporte.** On enregistre le groupe d'une seule façon, après que l'Aggregate a vérifié ses
+règles.
 
 **Sans cette règle.** Un second repository écrit les fonctionnalités sans charger l'organisation. Les
 règles de la racine ne sont jamais vérifiées pour ces écritures.
@@ -378,18 +394,18 @@ export class Organization {
 }
 ```
 
-**Ce que ça apporte.** L'Aggregate se charge vite. Deux personnes peuvent modifier en même temps
-l'organisation et ses membres sans se bloquer.
+**Ce que ça apporte.** Le chargement reste court. Deux personnes peuvent écrire en même temps, l'une
+sur l'organisation et l'autre sur un membre, sans conflit.
 
-**Sans cette règle.** Activer une fonctionnalité charge tous les membres de l'organisation. Et deux
-écritures sans rapport, comme renommer l'organisation et inviter un membre, se bloquent l'une l'autre.
+**Sans cette règle.** Activer une fonctionnalité charge tous les membres de l'organisation. Deux
+écritures sans rapport, comme renommer l'organisation et inviter un membre, se retrouvent en conflit.
 
 **À savoir.**
 
-- Avant d'ajouter un objet, se poser la question : doit-il être cohérent avec le reste à tout moment,
-  ou peut-il l'être un peu plus tard ? S'il peut attendre, c'est un autre Aggregate.
+- Avant d'ajouter un objet, se poser la question : doit-il toujours respecter la règle avec le reste,
+  ou peut-il être mis à jour après coup ? S'il peut attendre, c'est un autre Aggregate.
 - Si le chargement est trop lent en production, et que c'est mesuré : on découpe l'Aggregate, ou on
-  fait un read-model pour la lecture concernée. On ne charge jamais un Aggregate à moitié.
+  fait un read-model pour la lecture concernée. Un Aggregate se charge toujours en entier.
 
 ### A7. Une transaction, un Aggregate
 
@@ -416,10 +432,10 @@ await membershipRepository.disableAll({ organizationId });
 await invitationRepository.deleteAll({ organizationId });
 ```
 
-**Ce que ça apporte.** Les transactions restent courtes et ne bloquent que l'Aggregate modifié.
+**Ce que ça apporte.** Chaque transaction ne verrouille que les lignes de l'Aggregate modifié.
 
 **Sans cette règle.** La transaction verrouille l'organisation, ses membres et ses invitations. Si la
 suppression des invitations échoue, l'archivage est annulé aussi, alors qu'il était valide.
 
 **À savoir.** Si deux Aggregates doivent toujours changer ensemble, dans la même transaction, c'est
-souvent qu'ils n'en font qu'un : il faut les réunir dans un seul Aggregate.
+un signe qu'ils forment un seul Aggregate. À vérifier : une règle les relie-t-elle vraiment ?
