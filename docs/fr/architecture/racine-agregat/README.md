@@ -1,505 +1,471 @@
 # Aggregate Root
 
-Un Aggregate est un groupe d'objets traité comme une unité de cohérence. Son Aggregate Root, la
-racine, est l'Entity par laquelle passe tout accès. Elle vit dans `domain/models/`.
+Un Aggregate est un groupe d'objets qu'une règle du métier relie : on les modifie et on les enregistre
+ensemble. L'Aggregate Root est l'objet par lequel on passe pour toucher au groupe. C'est une
+[Entity](../entite/README.md), avec des devoirs en plus : toutes les règles de la fiche Entity
+s'appliquent à elle.
 
-Cette page est la **référence** : les règles, les cas permis, les tests et la checklist. Dans le même
-dossier :
+## Les règles
 
-- [`explication.md`](explication.md) : pourquoi ces règles, ce qu'elles rapportent, la théorie et
-  l'histoire des décisions ;
-- [`outillage.md`](outillage.md) : mettre en place les vérifications automatiques ;
-- [`ecarts.md`](ecarts.md) : où le code s'écarte de la théorie, et ce qui est décidé.
+Chaque règle est détaillée plus bas, dans la [référence des règles](#référence-des-règles).
 
-Les règles de cette page s'appliquent à toute Aggregate Root. La ligne **Vérification** de chaque
-invariant dit par quel moyen la règle se vérifie. Ce qui est en place dans la CI est dans
-[`outillage.md`](outillage.md).
-
-## Sommaire
-
-[Rôle](#rôle) · [Invariants](#invariants) · [Exceptions légitimes](#exceptions-légitimes) ·
-[Exemple complet](#exemple-complet) · [Tests attendus](#tests-attendus) ·
-[Checklist de revue](#checklist-de-revue) · [Sources](#sources)
-
-**Invariants propres.**
-
-| # | Invariant | Vérification |
+| # | Règle | En pratique |
 | --- | --- | --- |
-| [**A1**](#a1-la-frontière-de-cohérence-est-explicite) | la frontière de cohérence est explicite | revue |
-| [**A2**](#a2-la-racine-est-le-seul-point-dentrée) | la racine est le seul point d'entrée | règle ESLint |
-| [**A3**](#a3-un-repository-par-racine-et-seulement-pour-les-racines) | un repository par racine | indicateur, par script |
-| [**A6**](#a6-petit-aggregate) | petit Aggregate | revue |
-| [**A7**](#a7-une-transaction-un-aggregate) | une transaction, un Aggregate | revue |
-
-[**Invariants hérités de l'Entity**](#les-invariants-hérités-de-lentity) : toute racine est une
-Entity, donc E1 à E8 de `../entite/README.md` s'appliquent intégralement. Quatre sont repris dans
-cette page : E3 et E7 jouent un rôle particulier pour une racine, E4 et E6 reviennent dans la
-checklist.
-
-| # | Invariant | Vérification |
-| --- | --- | --- |
-| **E3** | les invariants sont tenus à tout instant | règle ESLint |
-| **E4** | aucune I/O, aucune dépendance à l'infrastructure | `dependency-cruiser`, partielle |
-| **E6** | aucun mutateur nu | règle ESLint |
-| **E7** | les autres Aggregates sont référencés par identité | revue |
-
-Les énoncés de E3, E4, E6 et E7 sont dans `../entite/README.md`.
-
----
-
-## Rôle
-
-Un **Aggregate** est un groupe d'objets traité comme une unité de cohérence. Sa **racine** est
-l'Entity par laquelle passe tout accès : rien de ce qu'il contient n'est atteignable autrement.
-
-Sa raison d'être tient en une phrase : il existe une règle qui porte sur plusieurs objets à la fois,
-et quelqu'un doit garantir qu'elle est vraie en permanence. C'est la racine.
-
-Termes employés dans cette page :
-
-- **Frontière de cohérence** : l'ensemble des objets que cette règle engage.
-- **Invariant de frontière** : la règle elle-même, écrite sous la forme « à tout instant, dans cet
-  Aggregate, … doit être vrai ».
-- **Read-model** : un objet assemblé pour une lecture, sans règle commune à tenir.
-
-S'il n'y a pas de telle règle, il n'y a pas d'Aggregate. Il reste une Entity, et des objets à côté.
-Poser le mot sur un dossier sans cette règle promet une garantie qui n'existe pas. Cela coûte plus
-cher que de ne pas ranger du tout.
-
-### Le test de discrimination
-
-Ce test, hors numérotation, dit en trois questions s'il y a un Aggregate ou non. Dans cet ordre :
-
-1. *Existe-t-il une règle qui porte sur plusieurs de ces objets simultanément ?* Si non, ce n'est pas
-   un Aggregate.
-2. *Cette règle doit-elle être vraie en permanence, ou peut-elle se réconcilier plus tard ?* Si elle
-   peut attendre, la frontière est ailleurs.
-3. *Y a-t-il un objet par lequel tout accès doit passer ?* C'est la racine.
-
-Contre-exemple courant, qui échoue à la première question : « ces objets sont toujours affichés
-ensemble » n'est pas une règle de cohérence, c'est un besoin de lecture. Il appelle un read-model.
-
-### Aggregate Root ou Entity
-
-Toute Aggregate Root est une Entity, et `../entite/README.md` s'applique intégralement. Cette page
-ajoute ce qui est propre à la racine : la frontière, le point d'entrée unique, le repository.
-
-Une Entity qui vit **à l'intérieur** d'un Aggregate n'est pas une racine : elle n'a ni repository, ni
-accès direct.
-
-### Ce qu'une Aggregate Root n'est pas
-
-Table de décision. Si le code correspond à une ligne, ce n'est pas une Aggregate Root.
-
-| Le code… | Va dans | Fiche |
-| --- | --- | --- |
-| n'a pas de règle commune à plusieurs objets à tenir en permanence | une Entity, dans `domain/models/` | `../entite/README.md` |
-| regroupe des objets pour une lecture, sans règle commune | un read-model, dans `domain/read-models/` | `../read-model/README.md` |
-| n'a pas d'identité | un Value Object | `../objet-valeur/README.md` |
-| est construit par une suite de mutateurs appelés de l'extérieur | un constructeur dédié, ou un read-model | `../read-model/README.md` |
-| coordonne plusieurs Aggregates | `domain/usecases/` | `../usecase/README.md` |
-| applique une règle qui ne relève d'aucun Aggregate, sans I/O | `domain/services/` | `../service-domaine/README.md` |
-| compose des règles évaluables et pilotées par des données | une Specification | `../specification/README.md` |
-
----
-
-## Invariants
-
-### Les invariants hérités de l'Entity
-
-Toute racine est une Entity. E1 à E8 de `../entite/README.md` s'appliquent intégralement, et ne sont
-pas redétaillés ici. Deux d'entre eux jouent un rôle particulier pour une racine.
-
-**E3**, *les invariants sont tenus à tout instant*. Pour une Entity simple, l'invariant porte sur ses
-propres champs. Pour une racine, il porte sur la frontière entière : après chaque opération, y compris
-celle qui échoue à mi-chemin, tout ce que contient l'Aggregate reste cohérent. C'est la formulation
-forte de A1.
-
-**E7**, *les autres Aggregates sont référencés par identité*. Pour une Entity simple, c'est une bonne
-pratique qui limite le coût d'un chargement. Pour une racine, c'est constitutif : cela définit où
-s'arrête la frontière. Une racine qui tient l'instance d'une autre racine n'a pas une frontière. Elle
-en a deux confondues.
-
-Le corollaire : à l'intérieur d'un même Aggregate, tenir les instances est normal. C'est la
-définition d'un Aggregate, et c'est l'exception que E7 nomme.
-
-### A1. La frontière de cohérence est explicite
-
-**Énoncé.** L'Aggregate existe parce qu'une règle porte sur plusieurs de ses objets à la fois. Cette
-règle doit être **nommable**.
-
-Le test consiste à formuler la phrase « à tout instant, dans cet Aggregate, … doit être vrai ». Si la
-phrase ne vient pas, il n'y a pas de frontière à protéger.
-
-```
-// nommable : il y a un Aggregate, et le code le vérifie
-« à tout instant, toute participation portée par un parcours combiné est
-  une participation de ce contexte, et non une forme quelconque »
-
-    participations: Joi.array().items(Joi.object().instance(CombinedCourseParticipation)),
-
-// non nommable : il n'y en a pas
-« ces objets sont toujours chargés ensemble »
-```
-
-**Code.** Nommable : [`CombinedCourse.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-courses/entities/CombinedCourse.js#L13). La phrase non nommable est hypothétique.
-
-Le second énoncé n'est pas un invariant mais une observation sur les habitudes de chargement. Pour un
-objet assemblé pour un écran, c'est le seul énoncé disponible. C'est pourquoi ces objets ne sont pas
-des Aggregates.
-
-**Ce qui casse.** Sans frontière nommable, chaque écriture portant sur plusieurs objets est une
-décision improvisée : personne ne sait ce qu'une transaction doit couvrir, ni ce qui peut se
-réconcilier plus tard.
-
-**Vérification.** La revue, sur la phrase écrite. L'invariant n'est contrôlable que si la phrase est
-écrite quelque part. Voir [`outillage.md`](outillage.md#ce-qui-nest-pas-mécanisable-et-pourquoi).
-
-### A2. La racine est le seul point d'entrée
-
-**Énoncé.** Rien de ce que contient l'Aggregate n'est atteignable sans passer par la racine :
-
-- ni par import direct ;
-- ni par un repository dédié ;
-- ni par un accesseur qui rend la référence interne modifiable.
-
-```js
-// fautif : le champ est public. L'appelant obtient la collection interne,
-// peut la modifier, et peut même la remplacer entièrement
-class CombinedCourse {
-  constructor({ participations = [] } = {}) {
-    this.participations = participations;
-  }
-}
-
-// conforme : la racine ne rend que des résultats, jamais la collection
-get participationsCount() {
-  return this.participations.length;
-}
-
-get completedParticipationsCount() {
-  return this.participations.filter((participation) => participation.isCompleted()).length;
-}
-```
-
-**Code.** Fautif : [`CombinedCourse.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-courses/entities/CombinedCourse.js#L20-L46), simplifié. Conforme : [`CombinedCourse.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-courses/entities/CombinedCourse.js#L62-L68).
-
-Les deux formes viennent du même fichier : le champ est public, et la racine expose deux comptages
-dérivés. Ces comptages sont la forme qu'Evans autorise pour traverser la frontière : un scalaire
-calculé, pas la collection. Voir [Sources](#sources).
-
-**Conséquence sur les objets internes.** Ils n'ont pas de repository, et leur identité n'a de sens que
-dans l'Aggregate. S'ils ont besoin d'être retrouvés indépendamment, ils ne sont pas internes.
-
-**Ce qui casse.** La règle de frontière devient contournable, donc ce n'est plus une garantie mais une
-convention.
-
-**Vérification.** Une règle ESLint, commune avec `V7` de `../objet-valeur/README.md`. Voir
-[`outillage.md`](outillage.md#a2--la-seule-règle-nette).
-
-### A3. Un repository par racine, et seulement pour les racines
-
-**Énoncé.** Chaque racine a un repository, et seules les racines en ont un. Le nombre de repositories
-d'un contexte dit alors combien d'unités de cohérence il a.
-
-Une lecture dont une mesure montre que charger l'Aggregate entier est trop cher passe par un
-read-model, pas par un repository d'Aggregate de plus.
-
-```
-// fautif : cinq repositories pour une seule frontière de cohérence
-infrastructure/repositories/
-  combined-courses/
-    combined-course-repository.js               getById, save
-  combined-course-details-repository.js         findByOrganizationId, avec tout ce qu'un écran affiche
-  combined-course-participations/
-    combined-course-participation-repository.js une Entity interne à la frontière
-    organization-learner-participation-repository.js
-  prescription/
-    combined-course-participant-repository.js   la même frontière, vue d'un autre besoin
-
-// conforme : un seul repository pour la racine
-infrastructure/repositories/
-  combined-courses/
-    combined-course-repository.js               getById, save
-```
-
-**Code.** Fautif : [le dossier](https://github.com/1024pix/pix/tree/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/infrastructure/repositories), simplifié : seuls les fichiers de cette frontière sont montrés. La forme conforme est hypothétique. Le détail est en `X4` de [`../repository/ecarts.md`](../repository/ecarts.md#x4-plusieurs-repositories-pour-un-même-aggregate).
-
-**Ce qui casse.** Compter les repositories cesse d'être une information. C'est un invariant
-d'hygiène : il ne prévient aucun défaut, il préserve la valeur d'un indicateur.
-
-**Vérification.** Un script d'indicateur, qui compare le nombre de repositories au nombre de racines
-déclarées. Voir [`outillage.md`](outillage.md#a3--un-indicateur-pas-une-règle).
-
-### A6. Petit Aggregate
-
-**Énoncé.** Un Aggregate ne contient que les objets que son invariant de frontière engage. Les autres
-objets forment des Aggregates distincts, reliés par identité.
-
-```js
-// fautif : le constructeur porte douze champs, alors que la seule chose que la
-// frontière garantit porte sur un seul d'entre eux, « participations »
-constructor(
-  {
-    id, code, organizationId, name, description, illustration,
-    participations = [], questId, blueprintId = null,
-    deletedAt = null, deletedBy = null, baseSurveyUrl = null,
-  } = {},
-  quest,
-) { … }
-
-// conforme, forme corrigée : l'Aggregate ne porte que ce que l'invariant engage.
-// Le reste (nom, description, illustration…) se charge à part, pour qui en a besoin
-constructor({ id, participations = [] } = {}) { … }
-```
-
-**Code.** Fautif : [`CombinedCourse.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-courses/entities/CombinedCourse.js#L23-L39), simplifié : un champ par ligne dans le code. La forme corrigée est hypothétique.
-
-Deux questions se posent à chaque ajout dans un Aggregate :
-
-- *cette donnée doit-elle être cohérente avec le reste à tout instant, ou seulement à terme ?*
-- *combien de lignes cet ajout fait-il charger pour une opération qui ne s'en sert pas ?*
-
-La réponse au coût de chargement est de réduire l'Aggregate plutôt que de le charger partiellement.
-Le modèle partiellement rempli est écarté, pour la raison exposée dans `X4` de
-[`../repository/ecarts.md`](../repository/ecarts.md#x4-plusieurs-repositories-pour-un-même-aggregate).
-
-**Ce qui casse.** Un gros Aggregate se charge entier pour chaque opération, y compris celles qui ne
-touchent qu'un champ. Il concentre aussi les écritures concurrentes, donc la contention.
-
-**Vérification.** La revue. Voir
-[`outillage.md`](outillage.md#ce-qui-nest-pas-mécanisable-et-pourquoi).
-
-### A7. Une transaction, un Aggregate
-
-**Énoncé.** Une opération modifie **un** Aggregate. Si elle doit en modifier deux, deux voies :
-
-- la frontière est mal placée, et les deux n'en font qu'un ;
-- ou ils sont bien distincts, et la cohérence entre eux se règle à terme : un événement, un job, une
-  réconciliation.
-
-**Exception décidée.** L'ADR 25 retient la transaction qui couvre plusieurs Aggregates quand les
-écritures doivent échouer ou réussir ensemble. Ces écritures sont alors orchestrées dans le usecase,
-sans événements. Dans ce cas, A7 garde sa valeur comme question de conception : si deux Aggregates
-doivent toujours changer ensemble, la frontière est peut-être mal placée.
-
-```js
-// conforme : une seule écriture, un seul Aggregate modifié
-export const changeUserLocale = async function ({ userId, locale, userRepository }) {
-  const lang = getBaseLocale(locale);
-
-  await userRepository.update({ id: userId, lang, locale });
-  return userRepository.get(userId);
-};
-```
-
-**Code.** Conforme : [`change-user-locale.usecase.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/identity-access-management/domain/usecases/change-user-locale.usecase.js#L11-L16). La forme qui modifie deux Aggregates dans une même transaction est en `X4` de [`ecarts.md`](ecarts.md#x4-une-opération-modifie-plusieurs-aggregates-dans-la-même-transaction) : elle relève de l'exception décidée.
-
-**Ce qui casse.** Une transaction qui couvre plusieurs Aggregates verrouille plus de lignes que
-nécessaire, et fait échouer des opérations sans rapport entre elles. Elle masque aussi une frontière
-mal placée : personne ne se pose la question tant que la transaction absorbe le problème.
-
-**Vérification.** La revue. Voir
-[`outillage.md`](outillage.md#ce-qui-nest-pas-mécanisable-et-pourquoi).
-
----
-
-## Exceptions légitimes
-
-Une exception ne vaut que pour l'invariant de sa ligne. Elle n'excuse rien d'autre.
-
-| Invariant | Cas | Statut |
-| --- | --- | --- |
-| **A1** | Un Aggregate réduit à sa seule racine, sans objet interne | **autorisé** et fréquent : l'invariant porte alors sur les seuls champs de la racine |
-| **A1** | Un dossier `aggregates/` contenant des read-models | **pas une exception** : sans règle commune nommable, ce n'est pas un Aggregate |
-| **A2** | Une racine expose une collection en lecture par copie | **autorisé**, c'est la forme correcte de A2 |
-| **A3** | Une lecture qui traverse plusieurs Aggregates | **autorisé** via un read-model : A3 ne contraint que l'écriture |
-| **A3** | Plusieurs repositories pour une même frontière | **pas une exception**. Seul un read-model justifié par une mesure de charge reste séparé |
-| **A7** | Une opération qui touche deux Aggregates via un événement ou un job | **autorisé**, c'est la seconde voie de A7 |
-| **A7** | Une transaction qui couvre plusieurs Aggregates dont les écritures doivent échouer ou réussir ensemble | **autorisé**, c'est la décision de l'ADR 25 : orchestration dans le usecase, sans événements |
-| **E7** | Un identifiant d'un autre contexte porté comme donnée | **autorisé**, c'est E7 bien appliqué |
-| **E7** | La racine tient les instances de ses objets internes | **autorisé**, c'est la définition d'un Aggregate |
-
----
+| [A1](#a1-une-règle-relie-les-objets) | Une règle relie les objets | on peut écrire la règle qui oblige ces objets à changer ensemble |
+| [A2](#a2-la-racine-est-la-seule-porte-dentrée) | La racine est la seule porte d'entrée | les objets internes sont privés ; hors du dossier, seul `index.ts` s'importe |
+| [A3](#a3-un-repository-par-aggregate) | Un repository par Aggregate | `get()` charge tout le groupe, `update()` enregistre tout le groupe |
+| [A6](#a6-petit-aggregate) | Petit Aggregate | seulement les objets qu'une règle relie ; les autres sont gardés par leur id |
+| [A7](#a7-une-transaction-un-aggregate) | Une transaction, un Aggregate | les autres Aggregates suivent par événement, après le commit |
+| [A8](#a8-les-événements-partent-avec-lenregistrement) | Les événements partent avec l'enregistrement | ils sont écrits dans l'outbox dans la même transaction, puis publiés après le commit |
 
 ## Exemple complet
 
-Aucune Aggregate Root du code n'est entièrement conforme. L'exemple est la version corrigée de
-`CombinedCourse`, la racine la plus proche : son invariant de frontière est nommable et vérifié par
-le schéma. Les mêmes noms et les mêmes champs sont gardés. Les extraits sont simplifiés : les liens
-sous les blocs mènent au code d'origine.
+L'Aggregate `Organization` : une organisation et ses fonctionnalités activées. Une règle du métier les
+relie : quand la fonctionnalité `LEARNER_IMPORT` est activée, l'organisation ne gère plus ses élèves
+elle-même, donc `isManagingStudents` passe à `false`. Exemple inventé, d'après
+[`OrganizationForAdmin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/OrganizationForAdmin.js#L240-L247).
 
-L'invariant de frontière, celui de A1 : « à tout instant, toute participation portée par un parcours
-combiné est une `CombinedCourseParticipation` ».
+Le dossier de l'Aggregate :
 
-```js
-// la racine, version corrigée
-export class CombinedCourse {
-  #participations;
+```
+organizational-entities/domain/models/organization/
+├── index.ts                 ← A2 : la seule porte du dossier
+├── Organization.ts          ← la racine
+└── OrganizationFeature.ts   ← un objet interne
+```
 
-  constructor({
-    id, code, organizationId, name, description, illustration,
-    participations = [], questId,
-    blueprintId = null, deletedAt = null, deletedBy = null, baseSurveyUrl = null,
-  } = {}) {
-    this.id = id;
-    // … code, organizationId, name, description, illustration, questId, blueprintId,
-    //   deletedAt, deletedBy, baseSurveyUrl : affectés comme dans l'original
-    this.#participations = [...participations];
+```ts
+// organization/index.ts — A2 : on exporte la racine, et seulement le type des objets internes
+export { Organization } from './Organization.js';
+export type { OrganizationFeature, FeatureName } from './OrganizationFeature.js';
+```
 
-    this.#validate();
-  }
+```ts
+// organization/OrganizationFeature.ts — un objet interne, créé seulement par la racine
+export class OrganizationFeature {
+  readonly featureName: FeatureName; // identifie la fonctionnalité dans son organisation
+  readonly params: FeatureParams;
+  readonly enabledAt: Date;
 
-  get participations() {
-    return [...this.#participations];
-  }
-
-  get participationsCount() {
-    return this.#participations.length;
-  }
-
-  get completedParticipationsCount() {
-    return this.#participations.filter((participation) => participation.isCompleted()).length;
-  }
-
-  #validate() {
-    const { error } = schema.validate({ ...this, participations: this.#participations });
-    if (error) {
-      throw EntityValidationError.fromJoiErrors(error.details, undefined, { data: this });
+  constructor({ featureName, params, enabledAt }: OrganizationFeatureProps) {
+    if (featureName === 'ATTESTATIONS_MANAGEMENT' && !params) {
+      throw new InvalidOrganizationFeatureError('ATTESTATIONS_MANAGEMENT needs params');
     }
+    this.featureName = featureName;
+    this.params = params;
+    this.enabledAt = enabledAt;
   }
 }
 ```
 
-**Code.** Version corrigée de [`CombinedCourse.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-courses/entities/CombinedCourse.js#L20-L76). Le schéma Joi est inchangé : [`CombinedCourse.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-courses/entities/CombinedCourse.js#L6-L19).
+```ts
+// organization/Organization.ts — la racine
+import { AggregateRoot } from '../../../../shared/domain/models/AggregateRoot.js';
+import { OrganizationFeatureEnabled } from '../../events/OrganizationFeatureEnabled.js';
+import { OrganizationFeature } from './OrganizationFeature.js';
 
-Corrections apportées :
+export class Organization<Id extends OrganizationId | null = OrganizationId> extends AggregateRoot {
+  readonly id: Id;
+  #isManagingStudents: boolean;
+  #features: OrganizationFeature[]; // A2 : privé
+  #archivedAt: Date | null;
+  // … nom, type, createdBy : voir la fiche Entity
 
-- **A2**, collection privée : `participations` devient le champ privé `#participations`. L'appelant
-  ne peut plus remplacer la collection, ni la modifier par la référence qu'il a passée au
-  constructeur, puisque celui-ci en garde une copie.
-- **A2**, lecture par copie : l'accesseur `participations` rend une copie, forme autorisée par les
-  [exceptions légitimes](#exceptions-légitimes). Les deux comptages restent la voie principale.
-- **A1** et **E3**, invariant de frontière vérifié à tout instant : dans l'original, un appelant peut
-  réaffecter `participations` après la construction, sans aucune validation. Le champ privé rend
-  cette affectation impossible, donc la validation du constructeur tient pour toute la vie de
-  l'objet. Le schéma reçoit la collection privée explicitement, parce que `{ ...this }` ne copie pas
-  les champs privés.
-- **E7**, référence par identité : l'original reçoit l'instance de `Quest` en second paramètre et
-  l'expose par l'accesseur `quest`. `Quest` a son propre repository, donc c'est une autre racine
-  (A3). La version corrigée ne garde que `questId`. Le usecase qui a besoin de la quête la charge
-  par son repository.
-  Conséquence : [`CombinedCourseDetails`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js#L38),
-  qui étend `CombinedCourse` pour un écran et lit `this.quest`, porte alors la quête lui-même. C'est
-  un objet assemblé pour une lecture, rangé à tort avec les Aggregates : voir `X1` de
-  [`ecarts.md`](ecarts.md#x1-le-mot--aggregate--est-posé-sur-des-dossiers-sans-frontière-nommable).
+  get isManagingStudents(): boolean {
+    return this.#isManagingStudents;
+  }
 
-Choix sur **A6** : l'Aggregate garde ses douze champs. L'invariant de frontière n'engage que
-`participations`, et A6 décrit la forme réduite. Mais A6 fait de la réduction la réponse à un coût
-de chargement, et aucune mesure de ce coût n'est citée. La réduction déplace aussi les autres champs
-vers un objet distinct, donc hors de ce fichier. Elle reste l'écart décrit en A6.
+  // A2 : on lit une copie, en lecture seule
+  get features(): ReadonlyArray<OrganizationFeature> {
+    return [...this.#features];
+  }
 
-A3 et A7 ne se voient pas dans ce fichier. A3 porte sur le dossier des repositories, voir `X4` de
-[`../repository/ecarts.md`](../repository/ecarts.md#x4-plusieurs-repositories-pour-un-même-aggregate).
-A7 porte sur les usecases.
+  // A1 : la seule façon d'ajouter une fonctionnalité, et c'est ici que la règle est vérifiée
+  enableFeature(featureName: FeatureName, params: FeatureParams, now: Date): void {
+    if (this.#archivedAt) throw new ArchivedOrganizationError();
+    if (this.#features.some((feature) => feature.featureName === featureName)) throw new FeatureAlreadyEnabledError();
 
-```js
-// le test, version corrigée : les participations passent par le constructeur
-it('should return the number of participations', function () {
-  const combinedCourse = new CombinedCourse({
-    id: 1, organizationId: 1, name: 'name', code: 'code',
-    participations: [
-      new CombinedCourseParticipation({ id: 1, questId: 1, organizationLearnerId: 1, status: CombinedCourseParticipationStatuses.STARTED }),
-      new CombinedCourseParticipation({ id: 2, questId: 1, organizationLearnerId: 2, status: CombinedCourseParticipationStatuses.STARTED }),
-    ],
+    this.#features = [...this.#features, new OrganizationFeature({ featureName, params, enabledAt: now })];
+    if (featureName === 'LEARNER_IMPORT') {
+      this.#isManagingStudents = false; // A1 : la règle qui relie la racine et ses fonctionnalités
+    }
+    this.emitDomainEvent(new OrganizationFeatureEnabled({ organizationId: this.id, featureName })); // A8
+  }
+}
+```
+
+```ts
+// domain/repositories/OrganizationRepository.ts — A3 : un seul repository pour tout le groupe
+export interface OrganizationRepository {
+  get(id: OrganizationId): Promise<Organization>; // charge l'organisation et ses fonctionnalités
+  add(organization: Organization<null>): Promise<Organization>;
+  update(organization: Organization): Promise<void>; // enregistre l'organisation et ses fonctionnalités
+}
+```
+
+```ts
+// domain/usecases/enable-organization-feature.ts — A7 : un seul Aggregate modifié
+export const enableOrganizationFeature = async ({
+  organizationId,
+  featureName,
+  params,
+  organizationRepository,
+  clock,
+}: EnableOrganizationFeatureInput): Promise<void> => {
+  const organization = await organizationRepository.get(organizationId);
+  organization.enableFeature(featureName, params, clock.now());
+  await organizationRepository.update(organization);
+};
+```
+
+Le usecase ne publie rien : l'événement part avec l'enregistrement (A8).
+
+## Comment tester
+
+On teste l'Aggregate en passant par la racine, avec un test unitaire sans stub, mock ni spy. Le test
+couvre :
+
+- chaque règle qui relie la racine et ses objets internes. Exemple :
+  `stops managing students when LEARNER_IMPORT is enabled` ;
+- le cas d'erreur de chaque méthode, et le fait que rien n'a changé après l'erreur. Exemple :
+  `refuses a feature on an archived organization, and changes nothing` ;
+- qu'on ne peut pas modifier un objet interne depuis l'extérieur. Exemple :
+  `cannot change the features through the returned list` ;
+- les événements émis. Exemple : `emits an OrganizationFeatureEnabled event`.
+
+Le repository se teste à part, avec un test d'intégration sur la base : on enregistre l'Aggregate, on
+le recharge, et on vérifie que tout le groupe est revenu. Exemple :
+`saves and reloads the organization with its features`.
+
+Le test unitaire de l'[exemple complet](#exemple-complet) :
+
+```ts
+// tests/organizational-entities/unit/domain/models/organization/Organization_test.ts
+describe('Unit | Organizational Entities | Domain | Models | Organization', function () {
+  const now = new Date('2026-01-02');
+
+  describe('#enableFeature', function () {
+    it('stops managing students when LEARNER_IMPORT is enabled', function () {
+      const organization = buildOrganization({ isManagingStudents: true });
+
+      organization.enableFeature('LEARNER_IMPORT', null, now);
+
+      expect(organization.isManagingStudents).to.be.false;
+    });
+
+    it('refuses a feature on an archived organization, and changes nothing', function () {
+      const organization = buildOrganization({ archivedAt: new Date('2026-01-01'), isManagingStudents: true });
+
+      expect(() => organization.enableFeature('LEARNER_IMPORT', null, now)).to.throw(ArchivedOrganizationError);
+      expect(organization.features).to.be.empty;
+      expect(organization.isManagingStudents).to.be.true;
+    });
+
+    it('emits an OrganizationFeatureEnabled event', function () {
+      const organization = buildOrganization();
+
+      organization.enableFeature('MISSIONS_MANAGEMENT', null, now);
+
+      expect(organization.pullDomainEvents()).to.deep.equal([
+        new OrganizationFeatureEnabled({ organizationId: organization.id, featureName: 'MISSIONS_MANAGEMENT' }),
+      ]);
+    });
   });
 
-  expect(combinedCourse.participationsCount).to.equal(2);
-});
+  describe('#features', function () {
+    it('cannot change the features through the returned list', function () {
+      const organization = buildOrganization();
 
-// le test caractéristique, ajouté : une participation d'une autre forme est refusée
-it('should refuse a participation that is not a CombinedCourseParticipation', function () {
-  expect(() => {
-    new CombinedCourse({ id: 1, organizationId: 1, name: 'name', code: 'code', participations: [{ id: 1 }] });
-  }).to.throw(EntityValidationError);
-});
+      (organization.features as OrganizationFeature[]).push(
+        new OrganizationFeature({ featureName: 'LEARNER_IMPORT', params: null, enabledAt: now }),
+      );
 
-// ajouté : la collection ne se remplace pas de l'extérieur
-it('should not let the caller replace the participations', function () {
-  const combinedCourse = new CombinedCourse({ id: 1, organizationId: 1, name: 'name', code: 'code' });
-
-  expect(() => {
-    combinedCourse.participations = [{ id: 1 }];
-  }).to.throw(TypeError);
+      expect(organization.features).to.be.empty;
+    });
+  });
 });
 ```
 
-**Code.** Version corrigée de [`CombinedCourse_test.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/quest/unit/domain/models/combined-course/CombinedCourse_test.js#L52-L81). Les deux autres tests sont ajoutés : l'original n'en a pas d'équivalent.
-
-Dans l'original, le test de comptage réaffecte `participations` après la construction. Il s'appuie
-donc sur la violation de A2. Le seul test de refus porte sur `code`, un champ simple, et pas sur
-l'invariant de frontière. Le test de réaffectation attend une `TypeError` parce qu'un module ES
-s'exécute en mode strict : affecter une propriété qui n'a qu'un accesseur y lève une erreur.
-
----
-
-## Tests attendus
-
-| Objet | Type de test | Ce qui est vérifié |
-| --- | --- | --- |
-| La racine | **unitaire pur**, aucun double | l'invariant de frontière, sur le cas passant **et** sur le refus |
-| Chaque opération modifiant l'Aggregate | **unitaire** | que l'invariant tient après l'opération, y compris en cas d'échec partiel |
-| Le repository de la racine | **intégration** | que l'Aggregate est chargé et sauvegardé **entier** |
-
-**Le test caractéristique** prouve qu'une opération qui violerait l'invariant de frontière est
-refusée. C'est le seul qui distingue un Aggregate d'une Entity avec des objets à côté.
-
-Ce test ne peut s'écrire que si l'invariant de frontière est formulé. Un Aggregate dont personne ne
-sait énoncer la règle n'a pas ce test, parce qu'il n'a pas cette règle. C'est A1 qui est en défaut,
-pas la couverture.
-
----
-
-## Checklist de revue
-
-Ordonnée par ROI décroissant pour les invariants propres, puis les invariants hérités. Le statut de
-chaque ligne vient du moyen de vérification décrit dans [`outillage.md`](outillage.md) :
-
-- `[auto]` : la ligne disparaît dès que la règle existe ;
-- `[partiel]` : la ligne reste, réduite à ce que la règle ne couvre pas ;
-- `[humain]` : la ligne reste en entier.
-
-Les quatre dernières lignes reprennent des invariants hérités de `../entite/README.md`. E3 et E7
-portent différemment sur une racine, E4 et E6 s'y appliquent comme sur toute Entity.
+## Checklist de revue de code
 
 ```
-[ ] [humain]  A1  L'invariant de frontière est nommable : « à tout instant, … doit être vrai »
-[ ] [auto]    A2  Aucun accès à un objet interne sans passer par la racine, accesseurs compris
-[ ] [humain]  A6  L'ajout ne fait pas charger des données inutiles à la plupart des opérations
-[ ] [humain]  A7  L'opération ne modifie qu'un Aggregate, ou la cohérence différée est explicite, ou les écritures doivent échouer ensemble (ADR 25)
-[ ] [partiel] A3  Un seul repository pour cette frontière ; une lecture séparée passe par un read-model justifié par une mesure
-[ ] [humain]  Un test prouve le refus d'une opération qui violerait l'invariant de frontière
-[ ] [humain]  Si aucun invariant de frontière n'est nommable, ce n'est pas un Aggregate : le ranger ailleurs
-[ ] [partiel] E3  L'invariant tient après chaque opération, échec à mi-chemin compris
-[ ] [auto]    E6  Aucun assemblage par mutateurs successifs appelés de l'extérieur
-[ ] [humain]  E7  Les autres Aggregates sont référencés par identifiant, jamais par instance
-[ ] [partiel] E4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
+Le groupe a-t-il une raison d'exister ?
+[ ] A1  On peut écrire la règle qui relie ces objets
+[ ] A6  Chaque objet du groupe est concerné par une règle ; le reste est gardé par son id
+
+Peut-on passer à côté de la racine ?
+[ ] A2  Objets internes privés ; getters en copie ; seul index.ts s'importe hors du dossier
+[ ] A3  Un seul repository ; aucun repository pour un objet interne
+
+Que se passe-t-il à l'écriture ?
+[ ] A7  Le usecase ne modifie qu'un Aggregate
+[ ] A8  Le usecase et le repository ne publient pas d'événement eux-mêmes
+
+Tests
+[ ] Chaque règle du groupe a son test, passé par la racine
+[ ] Le repository a un test qui enregistre puis recharge tout le groupe
 ```
 
-À terme, neuf lignes restent : trois `[partiel]` (A3, E3, E4) et six `[humain]`.
+## Référence des règles
 
----
+### A1. Une règle relie les objets
 
-## Sources
+**La règle.** Un Aggregate existe parce qu'une règle du métier relie plusieurs objets. On doit pouvoir
+écrire cette règle sous la forme « à tout moment, … est vrai ». Si on n'y arrive pas, il n'y a pas
+d'Aggregate.
 
-L'argumentation et la bibliographie sont dans [`explication.md`](explication.md#sources) et
-`../references-ddd.md`. Les ADR sont dans `docs/adr/`.
+**Bon exemple.**
 
-| Invariant | Origine |
-| --- | --- |
-| **A1** frontière de cohérence | Evans, *DDD*, ch. « The Life Cycle of a Domain Object ». Vernon, « Effective Aggregate Design », règle 1 |
-| **A2** point d'entrée unique | Evans, même ch. : c'est la définition de la racine |
-| **A3** un repository par racine | Evans, même ch. : le Repository porte sur les Aggregates, pas sur les Entities internes |
-| **A6** petit Aggregate | Vernon, règle 2 |
-| **A7** une transaction, un Aggregate | Vernon, règle 4. Exception : ADR 25, « Précision sur les transactions et les événements métier », qui remplace l'ADR 9, « Transactions métier », et l'ADR 10, « Propager les Domain Events via un Event Dispatcher » |
-| Le test de discrimination | Evans, même ch. |
+```ts
+// à tout moment : si LEARNER_IMPORT est activée, isManagingStudents est false
+enableFeature(featureName: FeatureName, params: FeatureParams, now: Date): void {
+  …
+  if (featureName === 'LEARNER_IMPORT') {
+    this.#isManagingStudents = false;
+  }
+}
+```
+
+**Mauvais exemple.**
+
+```ts
+// « ces objets sont affichés ensemble sur l'écran de détail » : ce n'est pas une règle
+export class OrganizationDetails {
+  readonly organization: Organization;
+  readonly members: Membership[];
+  readonly campaigns: Campaign[];
+}
+```
+
+Un groupe d'objets lus ensemble pour un écran est un [read-model](../read-model/README.md), pas un
+Aggregate.
+
+**Ce que ça apporte.** On sait ce que l'Aggregate protège, donc ce qu'une transaction doit couvrir et
+ce qui peut attendre.
+
+**Sans cette règle.** On regroupe des objets « parce qu'ils vont ensemble ». L'Aggregate grossit, et
+chaque écriture charge et bloque des objets qu'elle n'utilise pas.
+
+**Exceptions.** Un Aggregate peut se réduire à sa racine, sans objet interne. C'est fréquent : la règle
+porte alors sur les seuls champs de la racine.
+
+### A2. La racine est la seule porte d'entrée
+
+**La règle.** Pour lire ou modifier un objet interne, on passe par la racine. Les objets internes sont
+des champs privés. Les getters renvoient des copies en lecture seule. Hors du dossier de l'Aggregate,
+on n'importe que son `index.ts`, qui n'exporte que la racine.
+
+**Bon exemple.**
+
+```ts
+// organization/index.ts
+export { Organization } from './Organization.js';
+export type { OrganizationFeature } from './OrganizationFeature.js'; // le type pour lire, pas la classe pour créer
+```
+
+```ts
+get features(): ReadonlyArray<OrganizationFeature> {
+  return [...this.#features];
+}
+```
+
+**Mauvais exemple.**
+
+```ts
+// dans un usecase : on crée l'objet interne et on l'ajoute sans passer par la racine
+import { OrganizationFeature } from '../models/organization/OrganizationFeature.js';
+
+organization.features.push(new OrganizationFeature({ featureName: 'LEARNER_IMPORT', params: null, enabledAt: now }));
+```
+
+**Ce que ça apporte.** La règle qui relie les objets ne peut pas être contournée : pour ajouter une
+fonctionnalité, il faut passer par `enableFeature()`, qui met à jour `isManagingStudents`.
+
+**Sans cette règle.** Un import CSV ajoute `LEARNER_IMPORT` directement à la liste. L'organisation a la
+fonctionnalité, mais `isManagingStudents` reste à `true`, et la règle du métier est fausse en base.
+
+**À savoir.** Une règle `dependency-cruiser` fait respecter le point d'entrée :
+
+```js
+{
+  name: 'aggregate-entry-point',
+  severity: 'error',
+  from: { pathNot: '^src/organizational-entities/domain/models/organization/' },
+  to: { path: '^src/organizational-entities/domain/models/organization/', pathNot: 'index\\.js$' },
+}
+```
+
+**Exceptions.** Lire les objets internes est permis, tant qu'on reçoit une copie.
+
+### A3. Un repository par Aggregate
+
+**La règle.** Chaque Aggregate a un seul repository, celui de la racine. `get()` charge tout le groupe,
+`update()` enregistre tout le groupe. Un objet interne n'a pas de repository à lui.
+
+**Bon exemple.**
+
+```ts
+export interface OrganizationRepository {
+  get(id: OrganizationId): Promise<Organization>; // l'organisation et ses fonctionnalités
+  add(organization: Organization<null>): Promise<Organization>;
+  update(organization: Organization): Promise<void>; // l'organisation et ses fonctionnalités
+}
+```
+
+Le repository écrit dans plusieurs tables, `organizations` et `organization-features` : c'est un détail
+de l'infrastructure, que le domaine ne voit pas.
+
+**Mauvais exemple.**
+
+```ts
+// un repository rien que pour les fonctionnalités : une porte qui évite la racine
+export interface OrganizationFeatureRepository {
+  saveInBatch(features: OrganizationFeature[]): Promise<void>;
+}
+```
+
+**Ce que ça apporte.** Il n'y a qu'une façon d'enregistrer le groupe, et elle passe par un Aggregate
+qui a vérifié ses règles. En comptant les repositories d'un contexte, on compte ses Aggregates.
+
+**Sans cette règle.** Un second repository écrit les fonctionnalités sans charger l'organisation. Les
+règles de la racine ne sont jamais vérifiées pour ces écritures.
+
+**Exceptions.** Une lecture qui a besoin de plusieurs Aggregates, par exemple pour un écran, passe par
+un read-model. Cette règle ne vise que l'écriture.
+
+### A6. Petit Aggregate
+
+**La règle.** L'Aggregate ne contient que les objets qu'une règle relie. Les autres forment leurs
+propres Aggregates, et sont gardés par leur identifiant.
+
+**Bon exemple.**
+
+```ts
+export class Organization extends AggregateRoot {
+  #features: OrganizationFeature[]; // une règle relie les fonctionnalités et isManagingStudents
+  readonly createdBy: UserId; // un utilisateur est un autre Aggregate
+  // pas de membres, pas d'invitations, pas de campagnes : aucune règle ne les relie à l'organisation
+}
+```
+
+**Mauvais exemple.**
+
+```ts
+export class Organization extends AggregateRoot {
+  #features: OrganizationFeature[];
+  #memberships: Membership[]; // des milliers de lignes, chargées à chaque modification
+  #invitations: OrganizationInvitation[];
+}
+```
+
+**Ce que ça apporte.** L'Aggregate se charge vite. Deux personnes peuvent modifier en même temps
+l'organisation et ses membres sans se bloquer.
+
+**Sans cette règle.** Activer une fonctionnalité charge tous les membres de l'organisation. Et deux
+écritures sans rapport, comme renommer l'organisation et inviter un membre, se bloquent l'une l'autre.
+
+**À savoir.**
+
+- Avant d'ajouter un objet, se poser la question : doit-il être cohérent avec le reste à tout moment,
+  ou peut-il l'être un peu plus tard ? S'il peut attendre, c'est un autre Aggregate.
+- Si le chargement est trop lent en production, et que c'est mesuré : on découpe l'Aggregate, ou on
+  fait un read-model pour la lecture concernée. On ne charge jamais un Aggregate à moitié.
+
+### A7. Une transaction, un Aggregate
+
+**La règle.** Un usecase ne modifie qu'un Aggregate par transaction. Les autres Aggregates qui doivent
+réagir le font après le commit, en recevant un événement.
+
+**Bon exemple.**
+
+```ts
+// organizational-entities : on archive l'organisation, et c'est tout
+const organization = await organizationRepository.get(organizationId);
+organization.archive(clock.now()); // émet OrganizationArchived
+await organizationRepository.update(organization);
+```
+
+```ts
+// team : après le commit, on réagit à l'événement
+export const onOrganizationArchived = async ({ organizationId }) => {
+  await usecases.disableOrganizationMemberships({ organizationId });
+};
+```
+
+**Mauvais exemple.**
+
+```ts
+// un seul usecase modifie trois Aggregates, de deux contextes, dans la même transaction
+organization.archive(clock.now());
+await organizationRepository.update(organization);
+await membershipRepository.disableAll({ organizationId });
+await invitationRepository.deleteAll({ organizationId });
+```
+
+**Ce que ça apporte.** Les transactions restent courtes et ne bloquent que l'Aggregate modifié. Le
+usecase d'organizational-entities ne connaît pas les contextes qui réagissent.
+
+**Sans cette règle.** La transaction verrouille l'organisation, ses membres et ses invitations. Si la
+suppression des invitations échoue, l'archivage est annulé aussi, alors qu'il était valide.
+
+**À savoir.** Si deux Aggregates doivent toujours changer ensemble, dans la même transaction, c'est
+souvent qu'ils n'en font qu'un : la frontière est mal placée.
+
+### A8. Les événements partent avec l'enregistrement
+
+**La règle.** La racine enregistre ses événements pendant ses méthodes (E9 de la fiche Entity). Ils
+sont écrits dans une table `outbox`, dans la même transaction que l'Aggregate. Après le commit, un
+relais lit l'outbox et publie les événements. Ni le usecase ni le repository ne publient eux-mêmes.
+
+**Bon exemple.**
+
+```ts
+// le repository signale l'Aggregate enregistré à la transaction
+const update = async (organization: Organization): Promise<void> => {
+  const connection = DomainTransaction.getConnection();
+  await connection('organizations').where({ id: organization.id }).update(toRow(organization));
+  await saveFeatures(connection, organization);
+  DomainTransaction.trackSaved(organization);
+};
+```
+
+```ts
+// le code autour du usecase écrit les événements dans l'outbox, avant le commit
+export const runInTransaction = async (usecase) => {
+  return DomainTransaction.execute(async (transaction) => {
+    const result = await usecase();
+    for (const aggregate of transaction.savedAggregates()) {
+      for (const event of aggregate.pullDomainEvents()) {
+        await transaction.connection('outbox').insert({ eventName: event.name, payload: event.payload });
+      }
+    }
+    return result;
+  });
+};
+```
+
+Un relais, par exemple un job planifié, lit les lignes de `outbox` après le commit, publie chaque
+événement, puis marque la ligne comme envoyée.
+
+**Mauvais exemple.**
+
+```ts
+// le usecase publie lui-même, avant le commit
+organization.archive(clock.now());
+await organizationRepository.update(organization);
+await publishEvent(new OrganizationArchived({ organizationId })); // la transaction n'est pas encore validée
+```
+
+**Ce que ça apporte.** Un événement n'est jamais perdu : il est en base dès que l'Aggregate l'est. Et
+jamais un événement n'est publié pour un changement annulé.
+
+**Sans cette règle.** Si le serveur s'arrête juste après le commit, l'événement est perdu, et les
+membres d'une organisation archivée ne sont jamais désactivés. Si la transaction échoue après la
+publication, team désactive les membres d'une organisation qui n'est pas archivée.
+
+**À savoir.**
+
+- Le relais peut publier un événement deux fois, par exemple s'il s'arrête avant de marquer la ligne
+  comme envoyée. Chaque handler doit donc donner le même résultat s'il est appelé deux fois.
+- Tout usecase qui modifie un Aggregate doit passer par `runInTransaction`. Hors transaction, les
+  événements ne sont jamais écrits.

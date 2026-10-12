@@ -48,7 +48,7 @@ appliquée. En réalité, ces objets n'avaient rien à faire là.
 **Verdict.** À corriger : le dossier promet une garantie que rien ne tient, et le seul bénéfice est un
 rangement. Théorie : [`explication.md`](explication.md#x1-le-mot-sans-la-frontière).
 
-**Correction.** Appliquer le [test de discrimination](README.md#le-test-de-discrimination), fichier
+**Correction.** Appliquer le [test de discrimination](README.md#a1-une-règle-relie-les-objets), fichier
 par fichier, et renommer le dossier selon le résultat.
 
 1. Aucune règle commune, assemblé pour une lecture → c'est un **read-model**, il va dans

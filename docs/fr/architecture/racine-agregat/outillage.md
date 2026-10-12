@@ -59,7 +59,7 @@ L'existence du fichier de test d'une racine se vérifie en comparant les noms. M
 - L'indicateur de A3 calculé avant X2 : le rapport compare alors un nombre de repositories à zéro
   racine déclarée, ce qui ne produit rien de lisible.
 - Le codemod de X1 lancé avant le classement de chaque fichier par le
-  [test de discrimination](README.md#le-test-de-discrimination) : il applique une décision qui n'a
+  [test de discrimination](README.md#a1-une-règle-relie-les-objets) : il applique une décision qui n'a
   pas encore été prise, et déplace au hasard.
 - La règle ESLint de A2 écrite sans mutualisation avec `V7` de `../objet-valeur/README.md` : la même
   vérification finit dupliquée dans deux dossiers.
