@@ -33,7 +33,7 @@
     "tsc": "tsc -b"
   },
   "devDependencies": {
-    "@1024pix/eslint-plugin": "3.0.4",
+    "@1024pix/eslint-plugin": "3.0.5",
     "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "1.63.0",
     "@types/jsonwebtoken": "^9.0.10",
@@ -54,7 +54,7 @@
     "pngjs": "^7.0.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
-    "typescript-eslint": "8.53.1",
+    "typescript-eslint": "8.71.0",
     "zod": "^4.3.6"
   },
   "dependencies": {
