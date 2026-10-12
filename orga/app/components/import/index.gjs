@@ -81,14 +81,10 @@ export default class Import extends Component {
     if (this.currentUser.isSCOManagingStudents) {
       return {
         title: 'pages.organization-participants-import.sco.title',
-        'error-wrapper': 'pages.organization-participants-import.sco.error-wrapper',
-        'global-error': 'pages.organization-participants-import.sco.title.global-error',
       };
     } else if (this.currentUser.isSUPManagingStudents) {
       return {
         title: 'pages.organization-participants-import.sup.title',
-        'error-wrapper': 'pages.organization-participants-import.sup.error-wrapper',
-        'global-error': 'pages.organization-participants-import.sup.title.global-error',
       };
     } else if (this.currentUser.hasLearnerImportFeature) {
       // ici aussi on gére les traductions en dur pour les imports à format
@@ -96,8 +92,6 @@ export default class Import extends Component {
       // à modifier pour avoir des traduction spécifiques
       return {
         title: 'pages.organization-participants-import.sco.title',
-        'error-wrapper': 'pages.organization-participants-import.sco.error-wrapper',
-        'global-error': 'pages.organization-participants-import.sco.title.global-error',
       };
     } else {
       return {};

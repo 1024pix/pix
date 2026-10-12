@@ -1635,8 +1635,6 @@
         "warning-banner": "Sommige waarden zijn niet herkend. Ze zijn vervangen door \"Niet herkend\". Als je van mening bent dat er waarden ontbreken in de lijst, neem dan contact met ons op via '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'."
       },
       "error-panel": {
-        "error-wrapper": "Er zijn geen deelnemers geïmporteerd. Wijzig het bestand en importeer het opnieuw.",
-        "global-error": "Er zijn geen deelnemers geïmporteerd. Probeer het opnieuw of neem contact met ons op via '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'het supportformulier'</a>'.",
         "title": "Fouten in het laatst geïmporteerde bestand:"
       },
       "file-type-separator": ",",
