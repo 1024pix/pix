@@ -49,6 +49,6 @@
     "jsonwebtoken": "9.0.3"
   },
   "overrides": {
-    "flatted": "3.4.2"
+    "flatted": "3.4.4"
   }
 }
