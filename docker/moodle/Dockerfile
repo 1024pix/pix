@@ -1,7 +1,7 @@
 ARG MOODLE_DOCKER_PHP_VERSION=latest
 
 # Build image to clone Moodle version
-FROM alpine/git:latest
+FROM alpine/git:latest@sha256:a4bb51f1a3553df194ce679fc1db721d8bfba2046fa1a88fe9d4ac551ffbce25
 
 ARG MOODLE_DOCKER_WWWROOT
 ARG MOODLE_VERSION
