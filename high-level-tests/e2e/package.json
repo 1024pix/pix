@@ -41,8 +41,8 @@
     "cypress-axe": "^1.7.0",
     "cypress-on-fix": "^1.1.0",
     "cypress-split": "^1.25.0",
-    "eslint": "^10.9.0",
-    "eslint-plugin-cypress": "^6.4.4",
+    "eslint": "10.9.1",
+    "eslint-plugin-cypress": "6.4.4",
     "npm-run-all2": "9.0.3"
   },
   "dependencies": {
