@@ -26,23 +26,23 @@ export default class ResultItemComponent extends Component {
   resultIcons = {
     ok: {
       icon: 'checkCircle',
-      color: 'green',
+      color: 'success-light',
     },
     ko: {
       icon: 'cancel',
-      color: 'error',
+      color: 'error-light',
     },
     focusedOut: {
       icon: 'cancel',
-      color: 'error',
+      color: 'error-light',
     },
     aband: {
       icon: 'help',
-      color: 'grey',
+      color: 'neutral-light',
     },
     timedout: {
       icon: 'cancel',
-      color: 'error',
+      color: 'error-light',
     },
   };
 
@@ -55,12 +55,18 @@ export default class ResultItemComponent extends Component {
   }
 
   <template>
-    <PixBlock class="result-item" @condensed={{true}}>
+    <PixBlock class="result-item" @condensed={{true}} @variant="primary">
       {{#if this.result}}
-        <h3 class="result-item__title">
+        <h3 class="result-item__title pix-body-s">
           {{t "pages.result-item.question-number" number=this.answerNumber}}
-          <PixTag @color={{this.result.color}}>
-            <PixIcon @name={{this.result.icon}} @plainIcon={{true}} />
+          <PixTag
+            @variant={{this.result.color}}
+            @iconBefore={{this.result.icon}}
+            @type="squircle"
+            @size="small"
+            @plainIcon={{true}}
+            @textTransform="uppercase"
+          >
             {{this.resultTooltip}}
           </PixTag>
         </h3>
@@ -70,13 +76,11 @@ export default class ResultItemComponent extends Component {
             {{stripInstruction (convertToHtml @answer.challenge.instruction) this.textLength}}
           </div>
 
-          <div class="pix-body-xs">
-            {{#if this.validationImplementedForChallengeType}}
-              <PixButton @variant="tertiary" @triggerAction={{fn @openAnswerDetails @answer}}>
-                {{t "pages.result-item.actions.see-answers-and-tutorials.label"}}
-              </PixButton>
-            {{/if}}
-          </div>
+          {{#if this.validationImplementedForChallengeType}}
+            <PixButton @variant="tertiary" @triggerAction={{fn @openAnswerDetails @answer}}>
+              {{t "pages.result-item.actions.see-answers-and-tutorials.label"}}
+            </PixButton>
+          {{/if}}
         </div>
       {{/if}}
     </PixBlock>

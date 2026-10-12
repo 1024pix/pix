@@ -1,8 +1,6 @@
 @use 'pix-design-tokens/breakpoints';
 
 .result-item {
-  padding: var(--pix-spacing-3x);
-
   &__title {
     display: flex;
     gap: var(--pix-spacing-3x);
