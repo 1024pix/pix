@@ -97,7 +97,7 @@
     "@faker-js/faker": "10.6.0",
     "@getbrevo/brevo": "6.0.3",
     "@graphql-yoga/redis-event-target": "3.0.4",
-    "@graphql-yoga/subscription": "5.0.5",
+    "@graphql-yoga/subscription": "5.1.1",
     "@hapi/boom": "10.0.1",
     "@hapi/hapi": "21.4.10",
     "@hapi/inert": "7.1.2",
