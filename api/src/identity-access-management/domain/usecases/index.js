@@ -85,7 +85,7 @@ const dependencies = Object.assign({ config }, repositories, services, validator
 import { acceptPixAppTermsOfService } from './accept-pix-app-terms-of-service.usecase.js';
 import { acceptPixCertifTermsOfService } from './accept-pix-certif-terms-of-service.usecase.js';
 import { acceptPixOrgaTermsOfService } from './accept-pix-orga-terms-of-service.usecase.js';
-import { addOidcProvider } from './add-oidc-provider.js';
+import { addOidcProvider } from './add-oidc-provider.usecase.js';
 import { addPixAuthenticationMethod } from './add-pix-authentication-method.usecase.js';
 import { addUserEmailWithValidation } from './add-user-email-with-validation.usecase.js';
 import { anonymizeGarAuthenticationMethods } from './anonymize-gar-authentication-methods.usecase.js';
