@@ -91,7 +91,7 @@ export default class Import extends Component {
       // en se basant sur les besoins de l'import onde.
       // à modifier pour avoir des traduction spécifiques
       return {
-        title: 'pages.organization-participants-import.sco.title',
+        title: 'pages.organization-participants-import.pro.title',
       };
     } else {
       return {};

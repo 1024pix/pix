@@ -1639,6 +1639,9 @@
       },
       "file-type-separator": ",",
       "global-success": "Laatste bestand succesvol geïmporteerd op {date} door {firstName} {lastName}.",
+      "pro": {
+        "title": "Deelnemers importeren"
+      },
       "sco": {
         "title": "Leerlingen importeren"
       },

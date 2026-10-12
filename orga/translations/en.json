@@ -1639,6 +1639,9 @@
       },
       "file-type-separator": " or ",
       "global-success": "Last file successfully imported on {date} by {firstName} {lastName}.",
+      "pro": {
+        "title": "Import participants"
+      },
       "sco": {
         "title": "Import students"
       },
