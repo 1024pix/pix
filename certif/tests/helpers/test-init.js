@@ -2,7 +2,7 @@ import { authenticateSession as emberAuthenticateSession } from 'ember-simple-au
 import times from 'lodash/times';
 
 export function createCertificationPointOfContact(
-  pixCertifTermsOfServiceAccepted = false,
+  pixCertifTermsOfServiceStatus = 'requested',
   certificationCenterType,
   certificationCenterName = 'Centre de certification du pix',
   isRelatedOrganizationManagingStudents = false,
@@ -27,7 +27,7 @@ export function createCertificationPointOfContact(
   });
 
   const certificationPointOfContact = createCertificationPointOfContactWithCustomCenters({
-    pixCertifTermsOfServiceAccepted,
+    pixCertifTermsOfServiceStatus,
     allowedCertificationCenterAccesses,
     certificationCenterRole,
     certificationCenterMemberships,
@@ -45,7 +45,7 @@ export function createCertificationPointOfContact(
 }
 
 export function createCertificationPointOfContactWithCustomCenters({
-  pixCertifTermsOfServiceAccepted = false,
+  pixCertifTermsOfServiceStatus = 'requested',
   allowedCertificationCenterAccesses = [],
   certificationCenterMemberships = [],
 }) {
@@ -54,7 +54,7 @@ export function createCertificationPointOfContactWithCustomCenters({
     lastName: 'Cover',
     email: 'harry@cover.com',
     lang: 'fr',
-    pixCertifTermsOfServiceAccepted,
+    pixCertifTermsOfServiceStatus,
     allowedCertificationCenterAccesses,
     certificationCenterMemberships,
   });
@@ -126,7 +126,7 @@ export function createCertificationPointOfContactWithTermsOfServiceAccepted(
   isCertificationPointOfContactReferer = false,
 ) {
   return createCertificationPointOfContact(
-    true,
+    'accepted',
     certificationCenterType,
     certificationCenterName,
     isRelatedOrganizationManagingStudents,
@@ -137,7 +137,7 @@ export function createCertificationPointOfContactWithTermsOfServiceAccepted(
 }
 
 export function createCertificationPointOfContactWithTermsOfServiceNotAccepted() {
-  return createCertificationPointOfContact(false);
+  return createCertificationPointOfContact('requested');
 }
 
 export function authenticateSession(userId) {

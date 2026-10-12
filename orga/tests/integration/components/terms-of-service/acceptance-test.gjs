@@ -1,16 +1,16 @@
 import { render } from '@1024pix/ember-testing-library';
 import { clickByName } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
-import Acceptation from 'pix-orga/components/terms-of-service/acceptation';
+import Acceptance from 'pix-orga/components/terms-of-service/acceptance';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | terms of service | Acceptation', function (hooks) {
+module('Integration | Component | terms of service | Acceptance', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it displays terms of service acceptation', async function (assert) {
+  test('it displays terms of service acceptance', async function (assert) {
     // given
     const legalDocumentStatus = 'requested';
     const legalDocumentPath = 'legal-document.pdf';
@@ -18,7 +18,7 @@ module('Integration | Component | terms of service | Acceptation', function (hoo
     // when
     const screen = await render(
       <template>
-        <Acceptation @legalDocumentStatus={{legalDocumentStatus}} @legalDocumentPath={{legalDocumentPath}} />
+        <Acceptance @legalDocumentStatus={{legalDocumentStatus}} @legalDocumentPath={{legalDocumentPath}} />
       </template>,
     );
 
@@ -32,7 +32,7 @@ module('Integration | Component | terms of service | Acceptation', function (hoo
     assert.ok(screen.getByRole('button', { name: t('components.terms-of-service.actions.accept') }));
   });
 
-  test('it displays updated terms of service acceptation', async function (assert) {
+  test('it displays updated terms of service acceptance', async function (assert) {
     // given
     const legalDocumentStatus = 'update-requested';
     const legalDocumentPath = 'legal-document.pdf';
@@ -40,7 +40,7 @@ module('Integration | Component | terms of service | Acceptation', function (hoo
     // when
     const screen = await render(
       <template>
-        <Acceptation @legalDocumentStatus={{legalDocumentStatus}} @legalDocumentPath={{legalDocumentPath}} />
+        <Acceptance @legalDocumentStatus={{legalDocumentStatus}} @legalDocumentPath={{legalDocumentPath}} />
       </template>,
     );
 
@@ -50,7 +50,7 @@ module('Integration | Component | terms of service | Acceptation', function (hoo
   });
 
   module('when user accepts terms of service', function () {
-    test('it triggers the acceptation', async function (assert) {
+    test('it triggers the acceptance', async function (assert) {
       // given
       const legalDocumentStatus = 'requested';
       const legalDocumentPath = 'legal-document.pdf';
@@ -59,7 +59,7 @@ module('Integration | Component | terms of service | Acceptation', function (hoo
       // when
       await render(
         <template>
-          <Acceptation
+          <Acceptance
             @legalDocumentStatus={{legalDocumentStatus}}
             @legalDocumentPath={{legalDocumentPath}}
             @onSubmit={{onSubmit}}

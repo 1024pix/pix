@@ -15,7 +15,7 @@ module('Acceptance | Invigilator Portal', function (hooks) {
     const certificationPointOfContact = server.create('certification-point-of-contact', {
       firstName: 'Buffy',
       lastName: 'Summers',
-      pixCertifTermsOfServiceAccepted: true,
+      pixCertifTermsOfServiceStatus: 'accepted',
       allowedCertificationCenterAccesses: [],
     });
     await authenticateSession(certificationPointOfContact.id);

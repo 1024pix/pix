@@ -77,4 +77,8 @@ export default class Url extends UrlBaseService {
 
     return 'https://cloud.pix.fr/s/Mfd2ggwGHwmprA4';
   }
+
+  getLegalDocumentUrl(path) {
+    return this.getPixWebsiteUrl(path);
+  }
 }

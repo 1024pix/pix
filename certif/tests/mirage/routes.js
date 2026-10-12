@@ -237,7 +237,7 @@ export default function routes() {
   this.patch('/users/:id/pix-certif-terms-of-service-acceptance', (schema, request) => {
     const certificationPointOfContactId = request.params.id;
     const certificationPointOfContact = schema.certificationPointOfContacts.find(certificationPointOfContactId);
-    certificationPointOfContact.update({ pixCertifTermsOfServiceAccepted: true });
+    certificationPointOfContact.update({ pixCertifTermsOfServiceStatus: 'accepted' });
 
     return new Response(204);
   });

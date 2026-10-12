@@ -17,7 +17,11 @@ export default Factory.extend({
     return 'fr';
   },
 
-  pixCertifTermsOfServiceAccepted() {
-    return false;
+  pixCertifTermsOfServiceStatus() {
+    return 'requested';
+  },
+
+  pixCertifTermsOfServiceDocumentPath() {
+    return 'pix-certif-tos-2025-01-01';
   },
 });

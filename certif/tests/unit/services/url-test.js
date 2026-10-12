@@ -1,5 +1,6 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntl, { setCurrentLocale } from '../../helpers/setup-intl';
 
@@ -54,6 +55,44 @@ module('Unit | Service | url', function (hooks) {
 
       // then
       assert.strictEqual(cguUrl, 'https://pix.org/en/terms-and-conditions');
+    });
+  });
+
+  module('#getLegalDocumentUrl', function () {
+    test('returns the Pix legal document URL on the France domain', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const currentDomainService = this.owner.lookup('service:currentDomain');
+      sinon.stub(currentDomainService, 'getExtension').returns('fr');
+
+      // when
+      const legalDocumentUrl = service.getLegalDocumentUrl('pix-certif-tos-2025-01-01');
+
+      // then
+      assert.strictEqual(legalDocumentUrl, 'https://pix.fr/pix-certif-tos-2025-01-01');
+    });
+
+    test('returns the Pix legal document URL on the international domain', function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+
+      // when
+      const legalDocumentUrl = service.getLegalDocumentUrl('pix-certif-tos-2025-01-01');
+
+      // then
+      assert.strictEqual(legalDocumentUrl, 'https://pix.org/fr/pix-certif-tos-2025-01-01');
+    });
+
+    test('returns the Pix legal document URL on the international domain for a locale', async function (assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      await setCurrentLocale('en');
+
+      // when
+      const legalDocumentUrl = service.getLegalDocumentUrl('pix-certif-tos-2025-01-01');
+
+      // then
+      assert.strictEqual(legalDocumentUrl, 'https://pix.org/en/pix-certif-tos-2025-01-01');
     });
   });
 

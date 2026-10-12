@@ -210,6 +210,21 @@
   "components": {
     "locale-switcher": {
       "label": "Select a language"
+    },
+    "terms-of-service": {
+      "actions": {
+        "accept": "Accept and continue",
+        "document-link": "Read terms of service",
+        "reject": "Decline and quit"
+      },
+      "message": {
+        "requested": "To continue using Pix, please read and accept our Terms of service.",
+        "update-requested": "We have updated our Terms of service. Please review the changes and accept them to continue."
+      },
+      "title": {
+        "requested": "Please accept our Terms of service",
+        "update-requested": "Important update to the Terms of service"
+      }
     }
   },
   "navigation": {

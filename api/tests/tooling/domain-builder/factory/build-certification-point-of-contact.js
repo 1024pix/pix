@@ -47,7 +47,7 @@ function _buildCertificationCenterMembership({
  * /!\ We can not use standard entity builders because legalDocumentStatus is another bounded context
  */
 const _buildLegalDocumentStatus = function () {
-  return { status: STATUS.ACCEPTED, acceptedAt: null, documentPath: null, isAccepted: true };
+  return { status: STATUS.ACCEPTED, acceptedAt: null, documentPath: null };
 };
 
 export { buildCertificationPointOfContact, CERTIFICATION_POINT_OF_CONTACT_BUILDER_MEMBERSHIP_DEFAULT_ID };
