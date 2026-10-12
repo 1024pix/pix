@@ -30,43 +30,45 @@ l'architecture et de l'outillage. La fiche n'y renvoie pas.
 
 Dans cet ordre :
 
-1. **Titre** : le nom du concept. Une à deux phrases de définition, et le dossier du code concerné.
-   Une phrase dit que la première partie se consulte et que la référence des règles explique.
-2. **La question de tri** : une question qui dit si le fichier relève bien de cette fiche, avec la
-   réponse pour chaque cas et un lien vers la fiche voisine.
-3. **Les règles** : une table numéro / règle / en pratique. Le numéro renvoie à la règle dans la
-   référence. La colonne « En pratique » dit, en une ligne, ce que la règle donne dans le code,
-   avec l'exception la plus fréquente.
-4. **Exemple complet** : un fichier réel conforme, ou à défaut la version corrigée du fichier réel le
-   plus proche, avec un permalien vers l'original. Des commentaires dans le code rattachent chaque
-   endroit à sa règle. Puis son test.
-5. **Comment tester** : le type de test, ce qu'il vérifie, et les signaux qu'un test révèle sur le
-   code.
-6. **Comment relire** : quatre questions dans l'ordre où les poser, la forme d'un commentaire de
-   revue, puis la checklist copiable.
+1. **Titre et définition** : le nom du concept, puis deux ou trois phrases simples qui disent ce que
+   c'est, avec un exemple du métier, et le dossier où ces fichiers se rangent.
+2. **Les règles** : la phrase « Chaque règle est détaillée plus bas, dans la référence des règles »,
+   puis une table numéro / règle / en pratique. Le numéro renvoie à la règle dans la référence. La
+   colonne « En pratique » dit en une ligne ce que la règle donne dans le code.
+3. **Exemple complet** : une phrase qui présente l'exemple, puis son code. L'exemple couvre toutes les
+   règles de la fiche, et un commentaire dans le code rattache chaque endroit à sa règle (« V3 : … »).
+   Voir [les exemples](#les-exemples).
+4. **Comment tester** : le type de test, puis une liste de ce que le test couvre. Chaque point donne le
+   nom du test qui l'illustre (« Exemple : `refuses an empty name` »). Puis le code du test de
+   l'exemple complet.
+5. **Checklist de revue de code** : la checklist seule, copiable, dans un bloc de code. Les lignes sont
+   groupées sous des questions courtes (« Peut-on le modifier de l'extérieur ? »), et chaque ligne
+   commence par le numéro de sa règle.
 
-Cette partie ne dit rien de l'état du code, de l'outillage, ni de l'histoire des règles.
+Pas de section de vocabulaire, ni de question de tri entre deux concepts. Un terme expliqué par une
+autre fiche renvoie à cette fiche, à sa première apparition.
 
 ### La référence des règles
 
-Une phrase rappelle la forme commune. Puis une règle par titre `### In. …`, dans l'ordre des numéros.
-Chacune porte, dans cet ordre :
+Une règle par titre `### V1. …`. Le titre reprend le nom court du tableau des règles. Chaque règle
+porte, dans cet ordre :
 
-- **La règle.** Ce qu'il faut faire, en deux ou trois phrases, avec les verbes d'obligation : voir
-  [les règles de langue](#règles-de-langue).
-- **Bon exemple.** Du code, puis son permalien : voir [les exemples](#les-exemples).
-- **Mauvais exemple.** Du code, puis son permalien. Un commentaire dans le code montre la faute.
-- **Ce que ça apporte.** Une à deux phrases : le bénéfice.
-- **Sans cette règle.** Une à deux phrases : un bug concret, pas l'inverse du bénéfice.
-- **À savoir.** Facultatif : un piège, une précision qui évite une erreur fréquente.
+- **La règle.** Ce qu'il faut faire, en deux ou trois phrases.
+- **Bon exemple.** Un extrait de l'exemple complet.
+- **Mauvais exemple.** Le même code, mal écrit. Un commentaire dans le code montre la faute.
+- **Ce que ça apporte.** Une ou deux phrases : le bénéfice concret, sur l'exemple de la fiche.
+- **Sans cette règle.** Une ou deux phrases : un bug concret, sur l'exemple de la fiche. Pas l'inverse
+  du bénéfice.
+- **À savoir.** Facultatif : un piège ou une précision qui évite une erreur fréquente.
 - **Exceptions.** Facultatif : les cas permis qu'un relecteur signalerait à tort.
 
-Un discriminant partagé avec une fiche voisine, comme celui du Value Object et du read-model, a son
-propre titre au début de la référence.
+### Ce qu'une fiche ne contient pas
 
-La fiche est **intemporelle**. Elle ne contient ni date, ni « aujourd'hui », ni historique, ni renvoi
-aux écarts du code, ni moyen de vérification. Un mauvais exemple vient du vrai code, mais il illustre
-la règle : il ne raconte pas son histoire.
+- Ni date, ni « aujourd'hui », ni historique, ni état du code : la fiche décrit l'idéal visé.
+- Aucune citation d'ADR : un ADR peut être remplacé, la fiche vise l'idéal.
+- Aucun renvoi aux documents de travail (`explication.md`, `outillage.md`, `ecarts.md`).
+- Aucun lien vers un fichier de Pix qui fait la faute montrée : c'est pointer du doigt une équipe.
+- Aucune question ouverte : elle va dans `corpus-index.md`.
 
 ## `explication.md` — l'explication
 
@@ -127,21 +129,23 @@ cette règle.
 
 ## Les exemples
 
-- **Un mauvais exemple** est un extrait du code réel, simplifié au besoin, sans champ ni signature
-  inventés. Si aucune violation n'existe, la forme mauvaise est dérivée du code réel et dite
-  hypothétique.
-- **Un bon exemple** est un extrait réel quand il en existe un. Sinon, c'est la version corrigée
-  du même mauvais extrait : mêmes classes, mêmes champs. Aucune classe n'est inventée pour l'occasion.
-- **Un bon exemple pour une règle qui en enfreint une autre** le dit sous son bloc de code :
-  « bon pour V3 seulement ».
-- **Chaque extrait réel a un permalien.** Sous le bloc de code, une ligne donne un lien
-  GitHub vers un commit fixe de `dev`, avec les lignes exactes : `…/blob/<sha>/api/…#L7-L11`. Un lien
-  vers une branche est interdit, parce que le code change et que l'exemple doit rester retrouvable. Le
-  chemin n'est pas répété dans le commentaire du bloc. Un extrait hypothétique n'a pas de lien, et la
-  ligne le dit. Un extrait raccourci est dit « simplifié ».
-- **Tous les permaliens d'un dossier pointent vers le même commit**, pour que ses exemples décrivent
-  un seul état du code. Pour mettre un exemple à jour, les extraits du dossier et le commit changent
-  ensemble.
+- **Un seul fil par fiche.** Toute la fiche suit la même classe : l'exemple complet, puis les bons et
+  les mauvais exemples de chaque règle. Un junior suit ainsi une seule classe du début à la fin.
+- **Un fil partagé entre fiches voisines,** quand le concept le permet : `Organization` sert à la fois
+  pour Entity et pour Aggregate Root.
+- **En TypeScript**, même si le code de Pix est encore en JavaScript : la fiche décrit la cible.
+- **Inventé, mais d'après le vrai code.** L'exemple s'inspire d'un fichier réel, nommé avec un
+  permalien sous la phrase de présentation : « Exemple inventé, d'après `Organization.js` ». Les
+  règles du métier de l'exemple sont de vraies règles du code de Pix, vérifiées dans le code.
+- **Chaque permalien pointe vers un commit fixe de `dev`**, avec les lignes exactes :
+  `…/blob/<sha>/api/…#L7-L11`. Un lien vers une branche est interdit : le code change, et l'exemple doit
+  rester retrouvable.
+- **Le bon exemple est un extrait de l'exemple complet**, copié à l'identique. Si les deux divergent,
+  c'est l'exemple complet qui fait foi.
+- **Le mauvais exemple montre la même chose, mal écrite.** Il porte sur le même code que le bon
+  exemple, pour que le lecteur voie la différence d'un coup d'œil.
+- **Le test de l'exemple complet se lit seul** : il définit ses données de test (`buildOrganization`)
+  au lieu de les supposer.
 
 ## Règles de langue
 
@@ -173,7 +177,7 @@ Dans une fiche, en plus :
 - Écrire comme un développeur l'expliquerait à un collègue : phrases courtes, mots courants, verbes
   plutôt que noms. Éviter les deux-points en cascade, les tournures savantes et les mots que personne
   ne dit à l'oral (« accesseur » : écrire « getter »).
-- Les consignes, à l'infinitif, vivent dans « Comment tester » et « Comment relire ». Dans les
+- Les consignes, à l'infinitif, vivent dans « Comment tester » et dans la checklist. Dans les
   documents de travail, dans les rubriques **Correction** et **Ordre de mise en œuvre**.
 - Aucune phrase ne commente le document lui-même, ni ne prête une intention à l'auteur du code.
 - Aucune question ouverte ni encadré « À instruire » : les questions vont dans `corpus-index.md`.
@@ -183,10 +187,70 @@ Dans une fiche, en plus :
 ## Le ROI
 
 Chaque règle énonce son bénéfice dans la rubrique « Ce que ça apporte » de la fiche. Le classement
-en rentabilité forte, moyenne ou hygiène reste dans `explication.md`. Une règle dont le bénéfice n'est pas énonçable n'a pas sa place, ou est classé en hygiène.
+en rentabilité forte, moyenne ou hygiène reste dans `explication.md`. Une règle dont le bénéfice n'est
+pas énonçable n'a pas sa place, ou est classée en hygiène.
 
 Un invariant à fort ROI et sans aucune source, ni externe ni ADR, est un signal : la pratique existe,
 mais le raisonnement n'est écrit nulle part. Il se discute sur ses mérites.
+
+## Produire une fiche
+
+Les étapes, dans l'ordre. Chaque étape a été apprise sur les premières fiches : en sauter une, c'est
+retrouver le défaut qu'elle évite.
+
+### 1. Le fond
+
+- Partir de l'ancienne fiche et de ses documents de travail : ils contiennent la recherche, les règles
+  et les décisions.
+- Garder les numéros des règles. Un numéro retiré n'est jamais réattribué, et il est noté dans
+  `corpus-index.md`.
+- Choisir le fil d'exemple. Chercher dans le code la vraie règle du métier qui le justifie, et lister
+  les usecases qui touchent ce concept, dans tous les contextes : une règle mal choisie fausse toute la
+  fiche.
+
+### 2. L'écriture
+
+- Écrire la fiche au format de ce gabarit, dans le français décrit par [les règles de
+  langue](#règles-de-langue).
+- Vérifier le code des exemples : les types, les noms, la cohérence entre l'exemple complet, ses tests
+  et les extraits de la référence.
+- Vérifier chaque permalien : le fichier et les lignes existent au commit cité.
+
+### 3. Les relectures
+
+- **Ligne par ligne** : chaque ligne apprend quelque chose. Retirer ce qui répète une autre ligne, et
+  ce qui ne sert pas au lecteur.
+- **Les mots vagues** : chercher propre, clair, simple, sans risque, protéger, frontière, et les
+  images. Les remplacer par le défaut précis ou le bénéfice concret.
+- **Un lecteur junior** : un relecteur sans contexte lit la seule fiche et répond à cinq ou six
+  questions concrètes (écrire une méthode, rédiger un commentaire de revue). Une réponse fausse montre
+  le passage à reprendre.
+- **Un chasseur de « ton IA »** : un relecteur relève les phrases trop longues, symétriques, savantes
+  ou jargonneuses. On applique ce qui est fondé, et on note ce qui est écarté.
+
+### 4. La vérification mécanique
+
+- Tous les liens et toutes les ancres du corpus mènent au bon endroit, y compris depuis les documents
+  de travail quand un titre de règle a changé.
+- Les blocs de code sont bien fermés.
+
+### 5. La PR de la semaine
+
+- Créer une branche depuis `dev`, avec un nom en anglais : `tech-architecture-guides-<sujet>`.
+- N'y mettre que le ou les `README.md` de la semaine.
+- Un lien vers une fiche qui n'existe pas encore sur `dev` devient du texte simple.
+- La description de la PR suit le format de l'équipe. Le problème et la proposition reprennent le
+  texte présenté au weekly.
+
+### 6. Pendant la semaine
+
+- Répondre aux commentaires de la PR, et appliquer ce qui est accepté dans la branche de travail puis
+  dans la branche de la semaine.
+- Une contre-proposition à un commentaire s'écrit dans le fil, par la personne qui porte la fiche.
+- Un point de désaccord sort de la PR le vendredi, et rejoint les chantiers ouverts de
+  `corpus-index.md`.
+- Si un changement de format vaut pour toutes les fiches, le reporter dans les fiches déjà écrites et
+  dans ce gabarit.
 
 ## Ce qui ne va pas dans un dossier
 
