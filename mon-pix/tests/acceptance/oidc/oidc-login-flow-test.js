@@ -9,7 +9,7 @@ import sinon from 'sinon';
 
 import setupIntl from '../../helpers/setup-intl';
 
-module('Acceptance | OIDC | authentication flow', function (hooks) {
+module('Acceptance | OIDC | login flow', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);
