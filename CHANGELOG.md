@@ -1,5 +1,26 @@
 # Pix Changelog
 
+# [5.519.0](https://github.com/1024pix/pix/compare/v5.518.0...v5.519.0) (2026-10-12)
+
+### :rocket: Amélioration
+
+- [#17768](https://github.com/1024pix/pix/pull/17768) :recycle: Ajoute le code et message d'erreur provenant du `MailService` dans les erreurs lié à l'envoie de résultat de publication de certif (PIX-24559)
+- [#17790](https://github.com/1024pix/pix/pull/17790) Ajout d'un bloc informatif pour la certification Clea Numérique (PIX-24663)
+- [#17759](https://github.com/1024pix/pix/pull/17759) Modifier la page de validation / revalidation des CGU de Pix Certif en se basant sur les nouvelles valeurs (PIX-22447) 
+- [#17767](https://github.com/1024pix/pix/pull/17767) Persister et utiliser maxReachableLevel et maxReachablePixScore (PIX-24580)
+
+### :bug: Correction
+
+- [#17791](https://github.com/1024pix/pix/pull/17791) Corrige la boucle de requêtes sur les attestations quand le profil ne se charge pas
+
+### :building_construction: Tech
+
+- [#17786](https://github.com/1024pix/pix/pull/17786) Ajouter des informations dans les logs de jobs pour du meilleur suivi Datadog (PIX-24660)
+
+### :arrow_up: Montée de version
+
+- [#17792](https://github.com/1024pix/pix/pull/17792) Update dependency baseline-browser-mapping to ^2.11.27 (e2e-playwright)
+
 # [5.518.0](https://github.com/1024pix/pix/compare/v5.517.0...v5.518.0) (2026-10-09)
 
 ### :rocket: Amélioration
