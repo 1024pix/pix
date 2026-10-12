@@ -109,10 +109,12 @@ Export de l'historique en fichiers Parquet partitionnés (par date ou par cohort
 
 - Le moins coûteux à l'échelle, découplé de toute base de données à faire grossir.
 - Interrogeable directement par des moteurs sans serveur dédié (DuckDB, Trino, Athena), sans engagement fort envers un éditeur.
+- C'est déjà un processus existant et opérationnel chez Pix.
 
 #### Inconvénients
 
 - Pas de mise à jour ligne par ligne : une correction demande de réécrire le fichier concerné.
+  - Certaines solutions récentes permettent de contourner ce problème [DuckLAke](https://ducklake.select/docs/stable/)
 - Demande un minimum d'outillage (job d'export, catalogue de schéma), même réduit.
 
 ### Solution 6 : event sourcing — un log d'évènements comme source de vérité
@@ -126,8 +128,6 @@ d'agrégation, deviennent des projections reconstruites à partir de ce log — 
 
 - Rejouable à volonté : toute nouvelle projection peut être reconstruite depuis zéro sans dépendre d'un calcul déjà
   fait ailleurs.
-- Les docs de travail local `docs/fr/poc-eda/` (précédemment produites par l'équipe) portaient déjà sur une
-  architecture évènementielle pour ce produit.
 
 #### Inconvénients
 
