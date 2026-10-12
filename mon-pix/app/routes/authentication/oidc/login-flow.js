@@ -5,8 +5,8 @@ import ENV from 'mon-pix/config/environment';
 import { createTranslatedApplicationError } from 'mon-pix/errors/factories/create-application-error';
 import JSONApiError from 'mon-pix/errors/json-api-error';
 
-import Location from '../../utils/location';
-import { SessionStorageEntry } from '../../utils/session-storage-entry';
+import Location from '../../../utils/location';
+import { SessionStorageEntry } from '../../../utils/session-storage-entry';
 
 const oidcUserAuthenticationStorage = new SessionStorageEntry('oidcUserAuthentication');
 
