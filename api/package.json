@@ -176,7 +176,7 @@
     "@types/chai": "5.2.3",
     "@types/chai-as-promised": "8.0.2",
     "@types/mocha": "10.0.10",
-    "@types/node": "26.4.1",
+    "@types/node": "26.6.4",
     "@types/pg": "8.23.1",
     "@types/sinon": "22.0.0",
     "@types/sinon-chai": "4.0.0",
