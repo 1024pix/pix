@@ -4,9 +4,9 @@ import EnrolmentBanner from 'mon-pix/components/certifications/dashboard/enrolme
 import UserCertifications from 'mon-pix/components/certifications/dashboard/user-certifications';
 
 <template>
-  {{pageTitle (t "pages.certification-start.title")}}
-  <h1 class="sr-only">{{t "pages.certification-start.title"}}</h1>
-  <EnrolmentBanner @userEligibility={{@model.userEligibility}} />
+  {{pageTitle (t "pages.certifications-dashboard.title")}}
+  <h1 class="sr-only">{{t "pages.certifications-dashboard.title"}}</h1>
 
+  <EnrolmentBanner @userEligibility={{@model.userEligibility}} />
   <UserCertifications @certificationsSummaries={{@model.certificationsSummaries}} />
 </template>

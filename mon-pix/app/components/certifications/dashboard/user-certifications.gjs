@@ -13,7 +13,7 @@ export default class UserCertifications extends Component {
   <template>
     <section class="certification-dashboard-user-certifications">
       <h2 class="certification-dashboard-user-certifications__title">
-        <img src="/images/illustrations/certification-hat.svg" />
+        <img src="/images/illustrations/certification-hat.svg" alt="" />
         {{t "pages.certifications-dashboard.user-certifications.title"}}
       </h2>
       {{#if this.certificationsSummariesSortedByDate.length}}

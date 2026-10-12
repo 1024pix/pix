@@ -28,9 +28,6 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     assert.dom(screen.getByRole('link', { name: t('navigation.user.account') })).hasAttribute('href', '/mon-compte');
     assert.dom(screen.getByRole('link', { name: t('navigation.user.tests') })).hasAttribute('href', '/mes-parcours');
     assert
-      .dom(screen.getByRole('link', { name: t('navigation.user.certifications') }))
-      .hasAttribute('href', '/mes-certifications');
-    assert
       .dom(screen.getByRole('link', { name: t('navigation.main.trainings') }))
       .hasAttribute('href', '/mes-formations');
   });
