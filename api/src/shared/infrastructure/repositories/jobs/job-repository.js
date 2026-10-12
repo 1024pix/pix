@@ -59,13 +59,11 @@ export class JobRepository {
     };
   }
 
-  async performAsync(...payloads) {
+  async performAsync(payload) {
     const correlationContext = getCorrelationInfo();
     const openTelemetryContext = trace.getActiveSpan()?.spanContext?.();
+    const augmentedPayload = { ...payload, correlationContext, openTelemetryContext }
 
-    for (const payload of payloads) {
-      await JobClient.instance.send(this.name, { ...payload, correlationContext, openTelemetryContext }, this.options);
-    }
-    return { rowCount: payloads.length };
+    return JobClient.instance.send(this.name, augmentedPayload, this.options);
   }
 }

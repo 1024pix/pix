@@ -40,24 +40,6 @@ describe('Integration | Infrastructure | Repositories | Jobs | job-repository', 
     });
   });
 
-  it('create jobs db with given config', async function () {
-    // given
-    const name = 'JobTest';
-    const expectedParams = [
-      { jobParam: 1, correlationContext: EMPTY_CORRELATION_INFO },
-      { jobParam: 2, correlationContext: EMPTY_CORRELATION_INFO },
-    ];
-    const priority = JobPriority.HIGH;
-
-    const job = new JobRepository({ name, priority });
-
-    // when
-    await job.performAsync(...expectedParams);
-
-    // then
-    await expect(name).to.have.been.performed.withJobPayloads(expectedParams);
-  });
-
   it('creates one job and attach current correlation context', async function () {
     // given
     const context = {
@@ -106,10 +88,10 @@ describe('Integration | Infrastructure | Repositories | Jobs | job-repository', 
     });
   });
 
-  it('return inserted count jobs', async function () {
+  it('return job Id', async function () {
     // given
     const name = 'JobTest';
-    const expectedParams = [{ jobParam: 1 }, { jobParam: 2 }];
+    const expectedParams = { jobParam: 1 };
     const retry = JobRetry.STANDARD_RETRY;
     const expireIn = JobExpireIn.INFINITE;
     const priority = JobPriority.HIGH;
@@ -117,10 +99,10 @@ describe('Integration | Infrastructure | Repositories | Jobs | job-repository', 
     const job = new JobRepository({ name, retry, expireIn, priority });
 
     // when
-    const jobsInserted = await job.performAsync(...expectedParams);
+    const jobIdInserted = await job.performAsync(expectedParams);
 
     // then
-    expect(jobsInserted.rowCount).to.equal(2);
+    expect(jobIdInserted).to.match(new RegExp('^[0-z]{8}-[0-z]{4}-[0-z]{4}-[0-z]{4}-[0-z]{12}$'));
   });
 
   describe('JobExpireIn', function () {

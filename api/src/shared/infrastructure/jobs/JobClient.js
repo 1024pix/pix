@@ -280,7 +280,7 @@ export class JobClient {
   async send(name, payload, options) {
     this.#assertIsInitialized();
     logger.info({ type: 'JOB_LOG', handlerName: name }, 'PGBOSS JOB CREATED');
-    await this.#pgBoss.send(name, payload, options);
+    return this.#pgBoss.send(name, payload, options);
   }
 
   async fetch(name, options) {
