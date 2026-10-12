@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { ScoringSimulator } from '../../../../../../src/certification/evaluation/domain/models/ScoringSimulator.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
-const MAX_REACHABLE_LEVEL = 7;
+const MAX_REACHABLE_PIX_SCORE = 1000;
 
 describe('Certification | Evaluation | Unit | Domain | Models | ScoringSimulator', function () {
   describe('#compute', function () {
@@ -175,7 +175,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | ScoringSimulator
       },
       {
         capacity: 10,
-        expectedScore: 895,
+        expectedScore: 1000,
         expectedCompetences: [
           { competenceCode: '1.1', level: 7 },
           { competenceCode: '1.2', level: 7 },
@@ -271,7 +271,7 @@ describe('Certification | Evaluation | Unit | Domain | Models | ScoringSimulator
           capacity,
           certificationScoringIntervals,
           competencesForScoring,
-          maxReachableLevel: MAX_REACHABLE_LEVEL,
+          maxReachablePixScore: MAX_REACHABLE_PIX_SCORE,
         });
 
         // then

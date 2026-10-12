@@ -37,6 +37,14 @@ export class Version {
     return structuredClone(this.#baseVersion.competencesScoringConfiguration);
   }
 
+  get maxReachableLevel() {
+    return this.#baseVersion.maxReachableLevel;
+  }
+
+  get maxReachablePixScore() {
+    return this.#baseVersion.maxReachablePixScore;
+  }
+
   /**
    * @returns {FlashAssessmentAlgorithmConfiguration}
    */

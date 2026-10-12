@@ -157,22 +157,6 @@ describe('Certification | Evaluation | Integration | Domain | Usecases | Score v
           defaultCandidateCapacity: -3,
           defaultProbabilityToPickChallenge: 51,
         },
-        competencesScoringConfiguration: [
-          {
-            competence: '1.1',
-            competenceId: 'recCompetence0',
-            values: [
-              { bounds: { max: -2, min: Number.MIN_SAFE_INTEGER }, competenceLevel: 0 },
-              { bounds: { max: -1, min: -2 }, competenceLevel: 1 },
-              { bounds: { max: 0.5, min: -1 }, competenceLevel: 2 },
-              { bounds: { max: 1, min: 0.5 }, competenceLevel: 3 },
-              { bounds: { max: 2, min: 1 }, competenceLevel: 4 },
-              { bounds: { max: 3, min: 2 }, competenceLevel: 5 },
-              { bounds: { max: 4, min: 3 }, competenceLevel: 6 },
-              { bounds: { max: Number.MAX_SAFE_INTEGER, min: 4 }, competenceLevel: 7 },
-            ],
-          },
-        ],
       })
       .insertToDB({ databaseBuilder }).id;
 

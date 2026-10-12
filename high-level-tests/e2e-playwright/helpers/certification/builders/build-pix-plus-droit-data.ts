@@ -28,6 +28,7 @@ export async function buildPixPlusDroitData(knex: Knex) {
         challengesBetweenSameCompetence: 2,
         defaultProbabilityToPickChallenge: 100,
       }),
+      maxReachableLevel: 3,
     })
     .returning('id');
 
