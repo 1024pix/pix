@@ -186,6 +186,7 @@ Router.map(function () {
       this.route('certification');
       this.route('deployment');
       this.route('access');
+      this.route('experimentation');
     });
 
     this.route('tools', function () {

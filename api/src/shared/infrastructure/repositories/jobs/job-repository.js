@@ -63,9 +63,19 @@ export class JobRepository {
     const correlationContext = getCorrelationInfo();
     const openTelemetryContext = trace.getActiveSpan()?.spanContext?.();
 
+    const jobs = [];
     for (const payload of payloads) {
-      await JobClient.instance.send(this.name, { ...payload, correlationContext, openTelemetryContext }, this.options);
+      const job = await JobClient.instance.send(
+        this.name,
+        { ...payload, correlationContext, openTelemetryContext },
+        this.options,
+      );
+      jobs.push(job);
     }
-    return { rowCount: payloads.length };
+    return { rowCount: payloads.length, jobs };
+  }
+
+  async monitor(jobId) {
+    return JobClient.instance.findJobById(this.name, jobId);
   }
 }
