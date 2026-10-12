@@ -53,6 +53,12 @@
       "stay": "Stay",
       "validate": "Validate"
     },
+    "answer-state": {
+      "aband": "No answer",
+      "ko": "Incorrect answer",
+      "ok": "Correct answer",
+      "timedout": "Out of time"
+    },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
       "gateway-timeout-error": "The service is being slow. Please try again later.",
@@ -157,6 +163,16 @@
     "yes": "Yes"
   },
   "components": {
+    "assessments": {
+      "result-item": {
+        "actions": {
+          "see-answers-and-tutorials": {
+            "label": "Answers and tutorials"
+          }
+        },
+        "question-number": "Question { number }"
+      }
+    },
     "attestations": {
       "obtainedAt": "Date of issue : {date}",
       "title": {
@@ -2065,18 +2081,6 @@
       },
       "first-title": "Resetting the password",
       "title": "Change my password"
-    },
-    "result-item": {
-      "aband": "No answer",
-      "actions": {
-        "see-answers-and-tutorials": {
-          "label": "Answers and tutorials"
-        }
-      },
-      "ko": "Incorrect answer",
-      "ok": "Correct answer",
-      "question-number": "Question { number }",
-      "timedout": "Out of time"
     },
     "sco-signup-or-login": {
       "invitation": "{ organizationName }",

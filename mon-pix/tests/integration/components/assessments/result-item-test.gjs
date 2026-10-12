@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-const CORRECTION_BUTTON_LABEL = 'pages.result-item.actions.see-answers-and-tutorials.label';
+const CORRECTION_BUTTON_LABEL = 'components.assessments.result-item.actions.see-answers-and-tutorials.label';
 
 module('Integration | Component | Assessments | result-item', function (hooks) {
   setupIntlRenderingTest(hooks);

@@ -53,6 +53,12 @@
       "stay": "Bleiben",
       "validate": "Bestätigen"
     },
+    "answer-state": {
+      "aband": "Keine Antwort",
+      "ko": "Falsche Antwort",
+      "ok": "Richtige Antwort",
+      "timedout": "Zeit überschritten"
+    },
     "api-error-messages": {
       "bad-request-error": "Die von dir eingereichten Daten haben nicht das richtige Format.",
       "gateway-timeout-error": "Der Dienst unterliegt einer Verlangsamung. Bitte versuche es zu einem späteren Zeitpunkt erneut.",
@@ -157,6 +163,16 @@
     "yes": "Ja"
   },
   "components": {
+    "assessments": {
+      "result-item": {
+        "actions": {
+          "see-answers-and-tutorials": {
+            "label": "Antworten und Tutorials"
+          }
+        },
+        "question-number": "Frage { number }"
+      }
+    },
     "attestations": {
       "obtainedAt": "Ausstellungsdatum: {date}.",
       "title": {
@@ -2065,18 +2081,6 @@
       },
       "first-title": "Zurücksetzen des Passworts",
       "title": "Mein Passwort ändern"
-    },
-    "result-item": {
-      "aband": "Keine Antwort",
-      "actions": {
-        "see-answers-and-tutorials": {
-          "label": "Antworten und Tutorials"
-        }
-      },
-      "ko": "Falsche Antwort",
-      "ok": "Richtige Antwort",
-      "question-number": "Frage { number }",
-      "timedout": "Zeit überschritten"
     },
     "sco-signup-or-login": {
       "invitation": "{ organizationName } lädt dich ein, bei Pix mitzumachen",

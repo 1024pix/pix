@@ -58,7 +58,7 @@ export default class ResultItemComponent extends Component {
     <PixBlock class="result-item" @condensed={{true}} @variant="primary">
       {{#if this.result}}
         <h3 class="result-item__title pix-body-s">
-          {{t "pages.result-item.question-number" number=this.answerNumber}}
+          {{t "components.assessments.result-item.question-number" number=this.answerNumber}}
           <PixTag
             @variant={{this.result.color}}
             @iconBefore={{this.result.icon}}
@@ -78,7 +78,7 @@ export default class ResultItemComponent extends Component {
 
           {{#if this.validationImplementedForChallengeType}}
             <PixButton @variant="tertiary" @triggerAction={{fn @openAnswerDetails @answer}}>
-              {{t "pages.result-item.actions.see-answers-and-tutorials.label"}}
+              {{t "components.assessments.result-item.actions.see-answers-and-tutorials.label"}}
             </PixButton>
           {{/if}}
         </div>

@@ -75,7 +75,9 @@ module('Integration | Component | Assessments | answer-statuses', function (hook
       assert.dom(screen.getByText('Première question')).exists();
       assert.dom(screen.getByText('Deuxième question')).exists();
       assert.strictEqual(
-        screen.getAllByRole('button', { name: t('pages.result-item.actions.see-answers-and-tutorials.label') }).length,
+        screen.getAllByRole('button', {
+          name: t('components.assessments.result-item.actions.see-answers-and-tutorials.label'),
+        }).length,
         2,
       );
     });
@@ -107,7 +109,7 @@ module('Integration | Component | Assessments | answer-statuses', function (hook
 
       // when
       await screen
-        .getByRole('button', { name: t('pages.result-item.actions.see-answers-and-tutorials.label') })
+        .getByRole('button', { name: t('components.assessments.result-item.actions.see-answers-and-tutorials.label') })
         .click();
 
       // then

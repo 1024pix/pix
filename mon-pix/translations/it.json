@@ -53,6 +53,12 @@
       "stay": "Rimani",
       "validate": "Conferma"
     },
+    "answer-state": {
+      "aband": "Nessuna risposta",
+      "ko": "Risposta errata",
+      "ok": "Risposta corretta",
+      "timedout": "Tempo scaduto"
+    },
     "api-error-messages": {
       "bad-request-error": "I dati inviati non sono nel formato corretto.",
       "gateway-timeout-error": "Il servizio sta subendo dei rallentamenti. Si prega di riprovare più tardi.",
@@ -157,6 +163,16 @@
     "yes": "Sì"
   },
   "components": {
+    "assessments": {
+      "result-item": {
+        "actions": {
+          "see-answers-and-tutorials": {
+            "label": "Risposte e tutorial"
+          }
+        },
+        "question-number": "Domanda { number }"
+      }
+    },
     "attestations": {
       "obtainedAt": "Data di emissione: {date}",
       "title": {
@@ -2065,18 +2081,6 @@
       },
       "first-title": "Reimposta la password",
       "title": "Cambia la password"
-    },
-    "result-item": {
-      "aband": "Nessuna risposta",
-      "actions": {
-        "see-answers-and-tutorials": {
-          "label": "Risposte e tutorial"
-        }
-      },
-      "ko": "Risposta errata",
-      "ok": "Risposta corretta",
-      "question-number": "Domanda { number }",
-      "timedout": "Tempo scaduto"
     },
     "sco-signup-or-login": {
       "invitation": "{ organizationName } ti invita ad unirvi a Pix",
