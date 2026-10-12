@@ -28,7 +28,7 @@ Le dossier de l'Aggregate :
 
 ```
 organizational-entities/domain/models/organization/
-├── index.ts                 ← A2 : la seule porte du dossier
+├── index.ts                 ← A2 : le seul fichier importable hors du dossier
 ├── Organization.ts          ← la racine
 └── OrganizationFeature.ts   ← un objet interne
 ```
@@ -58,15 +58,33 @@ export class OrganizationFeature {
 ```
 
 ```ts
-// organization/Organization.ts — la racine
-import { OrganizationFeature } from './OrganizationFeature.js';
+// organization/Organization.ts — la racine, simplifiée : nom, type et createdBy sont dans la fiche Entity
+import { ArchivedOrganizationError, FeatureAlreadyEnabledError, InvalidOrganizationError } from '../../errors.js';
+import { type FeatureName, type FeatureParams, OrganizationFeature } from './OrganizationFeature.js';
+
+type OrganizationProps<Id> = {
+  id: Id;
+  isManagingStudents: boolean;
+  features: OrganizationFeature[];
+  archivedAt: Date | null;
+};
 
 export class Organization<Id extends OrganizationId | null = OrganizationId> {
   readonly id: Id;
   #isManagingStudents: boolean;
   #features: OrganizationFeature[]; // A2 : privé
   #archivedAt: Date | null;
-  // … nom, type, createdBy : voir la fiche Entity
+
+  // A1 : la règle est vraie à tout moment, donc aussi quand on charge l'organisation depuis la base
+  constructor({ id, isManagingStudents, features, archivedAt }: OrganizationProps<Id>) {
+    if (isManagingStudents && features.some((feature) => feature.featureName === 'LEARNER_IMPORT')) {
+      throw new InvalidOrganizationError('An organization that imports its learners does not manage students');
+    }
+    this.id = id;
+    this.#isManagingStudents = isManagingStudents;
+    this.#features = [...features];
+    this.#archivedAt = archivedAt;
+  }
 
   get isManagingStudents(): boolean {
     return this.#isManagingStudents;
@@ -119,7 +137,8 @@ export const enableOrganizationFeature = async ({
 On teste l'Aggregate en passant par la racine, avec un test unitaire sans stub, mock ni spy. Le test
 couvre :
 
-- chaque règle qui relie la racine et ses objets internes. Exemple :
+- chaque règle qui relie la racine et ses objets internes, à la création comme à chaque méthode.
+  Exemples : `refuses an organization that imports its learners and manages students`,
   `stops managing students when LEARNER_IMPORT is enabled` ;
 - le cas d'erreur de chaque méthode, et le fait que rien n'a changé après l'erreur. Exemple :
   `refuses a feature on an archived organization, and changes nothing` ;
@@ -136,6 +155,25 @@ Le test unitaire de l'[exemple complet](#exemple-complet) :
 // tests/organizational-entities/unit/domain/models/organization/Organization_test.ts
 describe('Unit | Organizational Entities | Domain | Models | Organization', function () {
   const now = new Date('2026-01-02');
+
+  const buildOrganization = (props: Partial<OrganizationProps<OrganizationId>> = {}) =>
+    new Organization({
+      id: 1 as OrganizationId,
+      isManagingStudents: false,
+      features: [],
+      archivedAt: null,
+      ...props,
+    });
+
+  const learnerImport = new OrganizationFeature({ featureName: 'LEARNER_IMPORT', params: null, enabledAt: now });
+
+  describe('constructor', function () {
+    it('refuses an organization that imports its learners and manages students', function () {
+      expect(() => buildOrganization({ isManagingStudents: true, features: [learnerImport] })).to.throw(
+        InvalidOrganizationError,
+      );
+    });
+  });
 
   describe('#enableFeature', function () {
     it('stops managing students when LEARNER_IMPORT is enabled', function () {
@@ -159,9 +197,9 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
     it('cannot change the features through the returned list', function () {
       const organization = buildOrganization();
 
-      (organization.features as OrganizationFeature[]).push(
-        new OrganizationFeature({ featureName: 'LEARNER_IMPORT', params: null, enabledAt: now }),
-      );
+      // ReadonlyArray interdit push à la compilation : on force le type pour vérifier qu'à l'exécution,
+      // la liste reçue est bien une copie
+      (organization.features as OrganizationFeature[]).push(learnerImport);
 
       expect(organization.features).to.be.empty;
     });
@@ -294,13 +332,13 @@ export interface OrganizationRepository {
 }
 ```
 
-Le repository écrit dans plusieurs tables, `organizations` et `organization-features` : c'est un détail
-de l'infrastructure, que le domaine ne voit pas.
+Le repository écrit dans deux tables, `organizations` et `organization-features`. Le domaine ne le sait
+pas : il appelle seulement `update()`.
 
 **Mauvais exemple.**
 
 ```ts
-// un repository rien que pour les fonctionnalités : une porte qui évite la racine
+// un repository rien que pour les fonctionnalités : il écrit sans passer par la racine
 export interface OrganizationFeatureRepository {
   saveInBatch(features: OrganizationFeature[]): Promise<void>;
 }
@@ -335,7 +373,7 @@ export class Organization {
 ```ts
 export class Organization {
   #features: OrganizationFeature[];
-  #memberships: Membership[]; // des milliers de lignes, chargées à chaque modification
+  #memberships: Membership[]; // toutes les adhésions, chargées à chaque modification
   #invitations: OrganizationInvitation[];
 }
 ```
@@ -384,4 +422,4 @@ await invitationRepository.deleteAll({ organizationId });
 suppression des invitations échoue, l'archivage est annulé aussi, alors qu'il était valide.
 
 **À savoir.** Si deux Aggregates doivent toujours changer ensemble, dans la même transaction, c'est
-souvent qu'ils n'en font qu'un : la frontière est mal placée.
+souvent qu'ils n'en font qu'un : il faut les réunir dans un seul Aggregate.
