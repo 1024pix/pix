@@ -40,7 +40,7 @@ export const extractTransformAndLoadData = async ({
   const replication = replications[replicationName];
   if (!replication) throw new Error(`Unknown replication "${replicationName}".`);
 
-  const stagingTarget = `${replication.target}_staging_${getInContext('request_id', crypto.randomUUID())}`; // `getInContext` is a JS function thus typescript considers it as unsafe to call it
+  const stagingTarget = `${replication.target}_staging_${getInContext('request_id', crypto.randomUUID())}`;
   try {
     const createIndexQueries = await initStagingTable(replication, stagingTarget, datamartKnex);
     const res = await fillStagingTable(
