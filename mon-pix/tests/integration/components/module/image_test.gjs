@@ -70,6 +70,97 @@ module('Integration | Component | Module | Image', function (hooks) {
     });
   });
 
+  module('when image has a maxWidth', function () {
+    test('should extend width to the given maxWidth and apply it as max-width style', async function (assert) {
+      // given
+      const url =
+        'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg';
+
+      const imageElement = {
+        url,
+        alt: 'alt text',
+        alternativeText: 'alternative instruction',
+        infos: { width: 1920, height: 1280, type: 'vector' },
+        maxWidth: 400,
+      };
+
+      //  when
+      const screen = await render(<template><ModulixImageElement @image={{imageElement}} /></template>);
+
+      // then
+      const imgElement = screen.getByRole('img', { name: 'alt text' });
+      assert.dom(imgElement).hasAttribute('width', '400');
+      const expectedHeight = Math.round((imageElement.maxWidth * imageElement.infos.height) / imageElement.infos.width);
+      assert.dom(imgElement).hasAttribute('height', `${expectedHeight}`);
+      assert.dom(imgElement).hasStyle({ 'max-width': 'min(400px, 100%)' });
+    });
+
+    test('should cap the maxWidth to 700px when the given maxWidth is greater than 700', async function (assert) {
+      // given
+      const url =
+        'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg';
+
+      const imageElement = {
+        url,
+        alt: 'alt text',
+        alternativeText: 'alternative instruction',
+        infos: { width: 1920, height: 1280, type: 'vector' },
+        maxWidth: 900,
+      };
+
+      //  when
+      const screen = await render(<template><ModulixImageElement @image={{imageElement}} /></template>);
+
+      // then
+      const imgElement = screen.getByRole('img', { name: 'alt text' });
+      assert.dom(imgElement).hasAttribute('width', '700');
+      assert.dom(imgElement).hasStyle({ 'max-width': 'min(700px, 100%)' });
+    });
+
+    test('should fallback to 700px when maxWidth is zero', async function (assert) {
+      // given
+      const url =
+        'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg';
+
+      const imageElement = {
+        url,
+        alt: 'alt text',
+        alternativeText: 'alternative instruction',
+        infos: { width: 1920, height: 1280, type: 'vector' },
+        maxWidth: 0,
+      };
+
+      //  when
+      const screen = await render(<template><ModulixImageElement @image={{imageElement}} /></template>);
+
+      // then
+      const imgElement = screen.getByRole('img', { name: 'alt text' });
+      assert.dom(imgElement).hasAttribute('width', '700');
+      assert.dom(imgElement).hasStyle({ 'max-width': 'min(700px, 100%)' });
+    });
+
+    test('should still shrink to its container width even when maxWidth is set', async function (assert) {
+      // given
+      const url =
+        'https://assets.pix.org/modules/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg';
+
+      const imageElement = {
+        url,
+        alt: 'alt text',
+        alternativeText: 'alternative instruction',
+        infos: { width: 1920, height: 1280, type: 'vector' },
+        maxWidth: 400,
+      };
+
+      //  when
+      const screen = await render(<template><ModulixImageElement @image={{imageElement}} /></template>);
+
+      // then
+      const imgElement = screen.getByRole('img', { name: 'alt text' });
+      assert.dom(imgElement).hasAttribute('style', 'max-width: min(400px, 100%)');
+    });
+  });
+
   test('should be able to open and close the modal for alternative instruction', async function (assert) {
     // given
     const alternativeText = 'alternative instruction';
