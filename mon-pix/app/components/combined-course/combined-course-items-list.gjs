@@ -35,9 +35,11 @@ export default class CombinedCourseItemsList extends Component {
         @item={{item}}
         @isLocked={{item.isLocked}}
         @isSelectedItem={{this.isSelectedItem item}}
+        @isPreviousItem={{eq @combinedCourse.previousCombinedCourseItem item}}
         @onClick={{fn @onClick item}}
         @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
         @displayNextItemTag={{@displayNextItemTag}}
+        @isLoading={{@isLoading}}
       />
     {{/each}}
   </template>

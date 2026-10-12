@@ -45,50 +45,52 @@ const Content = <template>
       </div>
     {{/if}}
     {{#if @isCompleted}}
-      <div
-        class="combined-course-item__indicator"
-        aria-label={{if
-          @isCampaignType
-          (t "pages.combined-courses.items.aria-label-completed-campaign" value=@masteryRate)
-        }}
-      >
-        <div>
-        </div>
+      {{#unless (and @isCurrentItem @isLoading)}}
         <div
-          class="combined-course-item__indicator--completed
-            {{if @hasYellowBorder 'combined-course-item__indicator--yellow'}}"
+          class="combined-course-item__indicator"
+          aria-label={{if
+            @isCampaignType
+            (t "pages.combined-courses.items.aria-label-completed-campaign" value=@masteryRate)
+          }}
         >
-          {{#unless @isCampaignType}}
-            <span class="combined-course-item__completion-field">{{t "pages.combined-courses.items.completed"}}</span>
-          {{/unless}}
-          <PixIcon
-            @name="checkCircle"
-            @plainIcon={{true}}
-            class="combined-course-item__completion-icon {{if @hasYellowBorder 'combined-course-item__icon--yellow'}}"
-            @ariaHidden={{true}}
-          />
+          <div>
+          </div>
+          <div
+            class="combined-course-item__indicator--completed
+              {{if @hasYellowBorder 'combined-course-item__indicator--yellow'}}"
+          >
+            {{#unless @isCampaignType}}
+              <span class="combined-course-item__completion-field">{{t "pages.combined-courses.items.completed"}}</span>
+            {{/unless}}
+            <PixIcon
+              @name="checkCircle"
+              @plainIcon={{true}}
+              class="combined-course-item__completion-icon {{if @hasYellowBorder 'combined-course-item__icon--yellow'}}"
+              @ariaHidden={{true}}
+            />
+          </div>
         </div>
-      </div>
-      {{#if @isCampaignType}}
-        <div class="combined-course-item__campaign-indicators">
+        {{#if @isCampaignType}}
+          <div class="combined-course-item__campaign-indicators">
 
-          <span class="combined-course-item--campaign">{{t "common.display.percentage" value=@masteryRate}}
-            {{#if @hasStagesStars}}
-              <PixStars
-                @count={{@validatedStagesCount}}
-                @total={{@totalStagesCount}}
-                @alt={{t
-                  "pages.combined-courses.items.aria-label-completed-campaign-with-stages"
-                  acquired=@validatedStagesCount
-                  total=@totalStagesCount
-                }}
-                class="combined-course-item__stars"
-              />
-            {{/if}}
+            <span class="combined-course-item--campaign">{{t "common.display.percentage" value=@masteryRate}}
+              {{#if @hasStagesStars}}
+                <PixStars
+                  @count={{@validatedStagesCount}}
+                  @total={{@totalStagesCount}}
+                  @alt={{t
+                    "pages.combined-courses.items.aria-label-completed-campaign-with-stages"
+                    acquired=@validatedStagesCount
+                    total=@totalStagesCount
+                  }}
+                  class="combined-course-item__stars"
+                />
+              {{/if}}
 
-          </span>
-        </div>
-      {{/if}}
+            </span>
+          </div>
+        {{/if}}
+      {{/unless}}
     {{/if}}
     {{#if (has-block "blockEnd")}}
       {{yield to="blockEnd"}}
@@ -147,6 +149,7 @@ function hasWhiteBackground(item) {
           @hasWhiteBackground={{hasWhiteBackground @item}}
           @hasYellowBorder={{and (eq @item.type CombinedCourseItemTypes.MODULE) @isCombinedCourseCompleted}}
           @isCurrentItem={{@isSelectedItem}}
+          @isLoading={{@isLoading}}
         >
           <:duration>
             {{#if @item.duration}}
