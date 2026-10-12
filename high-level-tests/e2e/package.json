@@ -33,22 +33,22 @@
     "test:ci:orga": "npx wait-on http://localhost:3000/api http://localhost:4201 && npm run cy:run:ci:orga"
   },
   "devDependencies": {
-    "@badeball/cypress-cucumber-preprocessor": "^23.0.0",
-    "@cypress/browserify-preprocessor": "^3.0.2",
+    "@badeball/cypress-cucumber-preprocessor": "23.0.0",
+    "@cypress/browserify-preprocessor": "3.0.2",
     "@testing-library/cypress": "^10.0.1",
-    "axe-core": "^4.4.3",
-    "cypress": "^13.17.0",
-    "cypress-axe": "^1.7.0",
-    "cypress-on-fix": "^1.1.0",
-    "cypress-split": "^1.25.0",
+    "axe-core": "4.9.1",
+    "cypress": "13.17.0",
+    "cypress-axe": "1.7.0",
+    "cypress-on-fix": "1.1.0",
+    "cypress-split": "1.25.0",
     "eslint": "10.9.1",
     "eslint-plugin-cypress": "6.4.4",
     "npm-run-all2": "9.0.3"
   },
   "dependencies": {
-    "jsonwebtoken": "^9.0.3"
+    "jsonwebtoken": "9.0.3"
   },
   "overrides": {
-    "flatted": ">=3.4.2"
+    "flatted": "3.4.2"
   }
 }
