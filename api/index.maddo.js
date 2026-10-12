@@ -5,6 +5,7 @@ import { JobGroup } from './src/shared/application/jobs/job-controller.js';
 import { learningContentCache } from './src/shared/infrastructure/caches/learning-content-redis-cache.js';
 import { startHeapProfileListener } from './src/shared/infrastructure/heap-profile/heap-profile-listener.js';
 import { JobClient } from './src/shared/infrastructure/jobs/JobClient.js';
+import { registerProcessErrorHandlers } from './src/shared/infrastructure/process-error-handlers.js';
 import { releaseInfrastructure } from './src/shared/infrastructure/release-infrastructure.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
 import { validateEnvironmentVariables } from './src/shared/infrastructure/validate-environment-variables.js';
@@ -54,6 +55,8 @@ process.on('SIGINT', async () => {
     });
 
     startHeapProfileListener();
+
+    registerProcessErrorHandlers();
   } catch (error) {
     logger.error(error);
     throw error;
