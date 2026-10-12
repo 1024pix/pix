@@ -119,7 +119,7 @@
     "npm-run-all2": "9.0.3",
     "p-queue": "9.3.3",
     "patternomaly": "1.3.2",
-    "postcss": "8.5.28",
+    "postcss": "8.5.29",
     "postcss-url": "10.1.4",
     "prettier": "3.9.9",
     "prettier-plugin-ember-template-tag": "2.1.8",
