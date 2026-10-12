@@ -128,7 +128,7 @@
     "bcrypt": "6.0.0",
     "cron-parser": "5.10.0",
     "dataloader": "2.2.3",
-    "dayjs": "1.11.21",
+    "dayjs": "1.11.23",
     "debug": "4.4.3",
     "fast-levenshtein": "3.0.0",
     "file-type": "22.0.0",
