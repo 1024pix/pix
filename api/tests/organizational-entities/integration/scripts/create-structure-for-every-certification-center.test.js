@@ -1,24 +1,27 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { CreateStructureForEveryOrganizationScript } from '../../../../src/organizational-entities/scripts/create-structure-for-every-organization.js';
+import { CreateStructureForEveryCertificationCenterScript } from '../../../../src/organizational-entities/scripts/create-structure-for-every-certification-center.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 
-describe('Integration | Organizational Entities | Scripts | Create structure for every organization', function () {
+describe('Integration | Organizational Entities | Scripts | Create structure for every certification center', function () {
   let logger, script;
 
   beforeEach(async function () {
     logger = { info: sinon.stub(), error: sinon.stub() };
-    script = new CreateStructureForEveryOrganizationScript();
+    script = new CreateStructureForEveryCertificationCenterScript();
+  });
+
+  afterEach(async function () {
     await knex('fct_structures').delete();
     await knex('structures').delete();
   });
 
-  describe('when no organizations have a structure', function () {
-    it('should create fct_structures matching existing organization ids and with no duplicates of organizations ids', async function () {
+  describe('when no certification centers have a structure', function () {
+    it('should create fct_structures matching existing certification center ids and with no duplicates of certification center ids', async function () {
       // given
-      const organization2 = await databaseBuilder.factory.buildOrganization();
-      const organization1 = await databaseBuilder.factory.buildOrganization();
+      const certificationCenter2 = await databaseBuilder.factory.buildCertificationCenter();
+      const certificationCenter1 = await databaseBuilder.factory.buildCertificationCenter();
 
       await databaseBuilder.commit();
 
@@ -29,19 +32,21 @@ describe('Integration | Organizational Entities | Scripts | Create structure for
       const structures = await knex('structures');
       const factStructures = await knex('fct_structures');
 
-      const organizationIdsFromFactStructures = factStructures.map((fct) => fct.organization_id);
+      const certificationCenterIdsFromFactStructures = factStructures.map((fct) => fct.certification_center_id);
 
-      const expectedOrganizationIdsFromFactStructures = [organization1.id, organization2.id];
+      const expectedCertificationCenterIdsFromFactStructures = [certificationCenter1.id, certificationCenter2.id];
 
       expect(structures.length).to.deep.equal(2);
       expect(factStructures.length).to.deep.equal(2);
-      expect(organizationIdsFromFactStructures).to.have.members(expectedOrganizationIdsFromFactStructures);
+      expect(certificationCenterIdsFromFactStructures).to.have.members(
+        expectedCertificationCenterIdsFromFactStructures,
+      );
     });
 
     it('should create fct_structures with no duplicates of structures ids', async function () {
       // given
-      await databaseBuilder.factory.buildOrganization();
-      await databaseBuilder.factory.buildOrganization();
+      await databaseBuilder.factory.buildCertificationCenter();
+      await databaseBuilder.factory.buildCertificationCenter();
 
       await databaseBuilder.commit();
 
@@ -59,23 +64,11 @@ describe('Integration | Organizational Entities | Scripts | Create structure for
     });
   });
 
-  describe('when all organizations already have a structure', function () {
+  describe('when all certification centers already have a structure', function () {
     it('should not create structures and fct_structures.', async function () {
       // given
-      const organization1 = await databaseBuilder.factory.buildOrganization();
-      const organization2 = await databaseBuilder.factory.buildOrganization();
-
-      const structure1 = await databaseBuilder.factory.buildStructure();
-      const structure2 = await databaseBuilder.factory.buildStructure();
-
-      await databaseBuilder.factory.buildFactStructure({
-        structureId: structure1.id,
-        organizationId: organization1.id,
-      });
-      await databaseBuilder.factory.buildFactStructure({
-        structureId: structure2.id,
-        organizationId: organization2.id,
-      });
+      await databaseBuilder.factory.buildCertificationCenterWithStructure();
+      await databaseBuilder.factory.buildCertificationCenterWithStructure();
 
       await databaseBuilder.commit();
 
@@ -91,19 +84,12 @@ describe('Integration | Organizational Entities | Scripts | Create structure for
     });
   });
 
-  describe("when some organizations have a structure but others don't", function () {
-    it('should create structures and fct_structures only for organizations without structures', async function () {
+  describe("when some certification centers have a structure but others don't", function () {
+    it('should create structures and fct_structures only for certification centers without structures', async function () {
       // given
-      const organization1 = await databaseBuilder.factory.buildOrganization();
-      await databaseBuilder.factory.buildOrganization();
-      await databaseBuilder.factory.buildOrganization();
-
-      const structure1 = await databaseBuilder.factory.buildStructure();
-
-      await databaseBuilder.factory.buildFactStructure({
-        structureId: structure1.id,
-        organizationId: organization1.id,
-      });
+      await databaseBuilder.factory.buildCertificationCenterWithStructure();
+      await databaseBuilder.factory.buildCertificationCenter();
+      await databaseBuilder.factory.buildCertificationCenter();
 
       await databaseBuilder.commit();
 
@@ -122,8 +108,8 @@ describe('Integration | Organizational Entities | Scripts | Create structure for
   describe('when dryRun option is true', function () {
     it('should not commit', async function () {
       // given
-      await databaseBuilder.factory.buildOrganization();
-      await databaseBuilder.factory.buildOrganization();
+      await databaseBuilder.factory.buildCertificationCenter();
+      await databaseBuilder.factory.buildCertificationCenter();
 
       await databaseBuilder.commit();
 
