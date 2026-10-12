@@ -20,18 +20,48 @@ describe('Integration | Infrastructure | Repositories | Jobs | job-repository', 
   it('create one job db with given config', async function () {
     // given
     const name = 'JobTest';
-    const expectedParams = { jobParam: 1, correlationContext: EMPTY_CORRELATION_INFO };
     const retry = JobRetry.STANDARD_RETRY;
     const priority = JobPriority.HIGH;
 
     const job = new JobRepository({ name, retry, priority });
 
     // when
-    await job.performAsync(expectedParams);
+    await job.performAsync({ jobParam: 1 });
+    const expectedPayload = { jobParam: 1, correlationContext: EMPTY_CORRELATION_INFO };
 
     await expect(name).to.have.been.performed.withJob({
       name,
-      data: expectedParams,
+      data: expectedPayload,
+      expireIn: 20 * 3600,
+      priority,
+      retryDelay: 30,
+      retryLimit: 10,
+      retryBackoff: true,
+    });
+  });
+
+  it('create one job even without payload', async function () {
+    // given
+    const name = 'JobTest';
+    const retry = JobRetry.STANDARD_RETRY;
+    const priority = JobPriority.HIGH;
+
+    const job = new JobRepository({ name, retry, priority });
+
+    // when
+    await job.performAsync();
+
+    await expect(name).to.have.been.performed.withJob({
+      name,
+      data: {
+        correlationContext: {
+          jobId: null,
+          'pix-metadata': null,
+          request_id: null,
+          scriptId: null,
+          user_id: null,
+        },
+      },
       expireIn: 20 * 3600,
       priority,
       retryDelay: 30,

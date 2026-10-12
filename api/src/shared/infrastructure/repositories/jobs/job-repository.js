@@ -62,7 +62,7 @@ export class JobRepository {
   async performAsync(payload) {
     const correlationContext = getCorrelationInfo();
     const openTelemetryContext = trace.getActiveSpan()?.spanContext?.();
-    const augmentedPayload = { ...payload, correlationContext, openTelemetryContext }
+    const augmentedPayload = { ...payload, correlationContext, openTelemetryContext };
 
     return JobClient.instance.send(this.name, augmentedPayload, this.options);
   }
