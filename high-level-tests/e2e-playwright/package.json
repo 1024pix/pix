@@ -58,7 +58,7 @@
     "zod": "4.3.6"
   },
   "dependencies": {
-    "csv-parse": "7.0.2"
+    "csv-parse": "7.0.3"
   },
   "overrides": {
     "eslint": "$eslint",
