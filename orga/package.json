@@ -62,7 +62,7 @@
     "@embroider/macros": "1.21.1",
     "@embroider/vite": "1.7.13",
     "@faker-js/faker": "10.6.0",
-    "@glimmer/component": "^2.1.1",
+    "@glimmer/component": "2.1.1",
     "@glint/ember-tsc": "1.11.6",
     "@glint/template": "1.9.0",
     "@glint/tsserver-plugin": "2.7.9",
