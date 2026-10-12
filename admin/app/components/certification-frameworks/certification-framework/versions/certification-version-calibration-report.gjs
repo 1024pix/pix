@@ -63,6 +63,9 @@ export default class CertificationVersionCalibrationReport extends Component {
       };
       ++i;
       translatedReportLine.content = reportLine.content;
+      if (reportLine.label === 'CALIBRATION_STARTED_AT') {
+        translatedReportLine.content = this.intl.formatDate(reportLine.content, { format: 'long' });
+      }
       if (reportLine.label === 'CALIBRATION_SCOPE') {
         translatedReportLine.content = this.intl.t(
           'components.certification-frameworks.certification-framework.versions.calibration.scopes.' +
