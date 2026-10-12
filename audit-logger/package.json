@@ -38,9 +38,9 @@
   },
   "type": "module",
   "devDependencies": {
-    "@1024pix/eslint-plugin": "3.0.4",
+    "@1024pix/eslint-plugin": "3.0.5",
     "@babel/eslint-parser": "8.0.6",
-    "@eslint/compat": "2.0.3",
+    "@eslint/compat": "2.1.1",
     "@tsconfig/node24": "^24.0.5",
     "@types/bcrypt": "^6.0.0",
     "@types/lodash": "^4.17.25",
@@ -51,9 +51,9 @@
     "eslint-plugin-chai-expect": "4.1.0",
     "eslint-plugin-i18n-json": "4.0.1",
     "eslint-plugin-import-x": "4.17.1",
-    "eslint-plugin-knex": "0.2.2",
+    "eslint-plugin-knex": "0.3.0",
     "eslint-plugin-mocha": "11.3.0",
-    "eslint-plugin-n": "18.3.0",
+    "eslint-plugin-n": "18.4.1",
     "eslint-plugin-prettier": "5.5.6",
     "eslint-plugin-unicorn": "65.0.1",
     "globals": "^17.12.0",
@@ -61,7 +61,7 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.20.3",
     "typescript": "^5.9.3",
-    "typescript-eslint": "8.70.1",
+    "typescript-eslint": "8.71.0",
     "vitest": "^4.1.11"
   },
   "dependencies": {
