@@ -91,9 +91,9 @@
   "dependencies": {
     "@1024pix/oppsy": "1.0.2",
     "@1024pix/pix-types": "file:../packages/pix-types",
-    "@aws-sdk/client-s3": "3.1008.0",
-    "@aws-sdk/lib-storage": "3.1008.0",
-    "@aws-sdk/s3-request-presigner": "3.1008.0",
+    "@aws-sdk/client-s3": "3.1146.0",
+    "@aws-sdk/lib-storage": "3.1146.0",
+    "@aws-sdk/s3-request-presigner": "3.1146.0",
     "@faker-js/faker": "10.5.0",
     "@getbrevo/brevo": "6.0.3",
     "@graphql-yoga/redis-event-target": "3.0.4",
