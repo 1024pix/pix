@@ -118,15 +118,13 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         });
 
         // then
-        expect(computeCertificabilityJobRepository.performAsync.getCall(0).args[0]).to.be.deep.equal(
-          {
-            organizationLearnerId: 1,
-          },
-          {
-            organizationLearnerId: 2,
-          },
-        );
+        expect(computeCertificabilityJobRepository.performAsync.getCall(0).args[0]).to.be.deep.equal({
+          organizationLearnerId: 1,
+        });
         expect(computeCertificabilityJobRepository.performAsync.getCall(1).args[0]).to.be.deep.equal({
+          organizationLearnerId: 2,
+        });
+        expect(computeCertificabilityJobRepository.performAsync.getCall(2).args[0]).to.be.deep.equal({
           organizationLearnerId: 3,
         });
       });
@@ -186,11 +184,13 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         });
 
         // then
-        expect(computeCertificabilityJobRepository.performAsync.getCall(0).args[0]).to.be.deep.equal(
-          { organizationLearnerId: 1 },
-          { organizationLearnerId: 2 },
-        );
+        expect(computeCertificabilityJobRepository.performAsync.getCall(0).args[0]).to.be.deep.equal({
+          organizationLearnerId: 1,
+        });
         expect(computeCertificabilityJobRepository.performAsync.getCall(1).args[0]).to.be.deep.equal({
+          organizationLearnerId: 2,
+        });
+        expect(computeCertificabilityJobRepository.performAsync.getCall(2).args[0]).to.be.deep.equal({
           organizationLearnerId: 3,
         });
       });
@@ -240,20 +240,18 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
           },
         });
 
-        // then
+        const jobCalls = computeCertificabilityJobRepository.performAsync.getCalls();
+        expect(jobCalls.length).to.equal(chunkCount * limit);
+
+        const expectedArgs = [];
         for (let index = 0; index < chunkCount; index++) {
-          expect(computeCertificabilityJobRepository.performAsync.getCall(index).args[0]).to.be.deep.equal(
-            {
-              organizationLearnerId: index * limit + 1,
-            },
-            {
-              organizationLearnerId: index * limit + 2,
-            },
-            {
-              organizationLearnerId: index * limit + 3,
-            },
+          expectedArgs.push(
+            { organizationLearnerId: index * limit + 1 },
+            { organizationLearnerId: index * limit + 2 },
+            { organizationLearnerId: index * limit + 3 },
           );
         }
+        expect(jobCalls.map((t) => t.firstArg)).to.deep.equal(expectedArgs);
       });
     });
 
