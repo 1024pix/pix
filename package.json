@@ -33,6 +33,6 @@
   },
   "devDependencies": {
     "@cyclonedx/cyclonedx-npm": "6.0.1",
-    "prettier": "^3.9.9"
+    "prettier": "3.9.9"
   }
 }
