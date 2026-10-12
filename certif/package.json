@@ -120,7 +120,7 @@
     "ember-dayjs": {
       "ember-source": "$ember-source"
     },
-    "flatted": "3.4.2",
+    "flatted": "3.4.4",
     "handlebars": "4.7.10",
     "braces": "3.0.3"
   },
