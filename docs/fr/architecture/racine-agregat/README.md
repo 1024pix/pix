@@ -15,8 +15,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | [A2](#a2-la-racine-est-la-seule-porte-dentrée) | La racine est la seule porte d'entrée | les objets internes sont privés ; hors du dossier, seul `index.ts` s'importe |
 | [A3](#a3-un-repository-par-aggregate) | Un repository par Aggregate | `get()` charge tout le groupe, `update()` enregistre tout le groupe |
 | [A6](#a6-petit-aggregate) | Petit Aggregate | seulement les objets qu'une règle relie ; les autres sont gardés par leur id |
-| [A7](#a7-une-transaction-un-aggregate) | Une transaction, un Aggregate | les autres Aggregates suivent par événement, après le commit |
-| [A8](#a8-les-événements-partent-avec-lenregistrement) | Les événements partent avec l'enregistrement | ils sont écrits dans l'outbox dans la même transaction, puis publiés après le commit |
+| [A7](#a7-une-transaction-un-aggregate) | Une transaction, un Aggregate | les autres Aggregates sont modifiés dans leur propre transaction |
 
 ## Exemple complet
 
@@ -60,11 +59,9 @@ export class OrganizationFeature {
 
 ```ts
 // organization/Organization.ts — la racine
-import { AggregateRoot } from '../../../../shared/domain/models/AggregateRoot.js';
-import { OrganizationFeatureEnabled } from '../../events/OrganizationFeatureEnabled.js';
 import { OrganizationFeature } from './OrganizationFeature.js';
 
-export class Organization<Id extends OrganizationId | null = OrganizationId> extends AggregateRoot {
+export class Organization<Id extends OrganizationId | null = OrganizationId> {
   readonly id: Id;
   #isManagingStudents: boolean;
   #features: OrganizationFeature[]; // A2 : privé
@@ -89,7 +86,6 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> ext
     if (featureName === 'LEARNER_IMPORT') {
       this.#isManagingStudents = false; // A1 : la règle qui relie la racine et ses fonctionnalités
     }
-    this.emitDomainEvent(new OrganizationFeatureEnabled({ organizationId: this.id, featureName })); // A8
   }
 }
 ```
@@ -118,8 +114,6 @@ export const enableOrganizationFeature = async ({
 };
 ```
 
-Le usecase ne publie rien : l'événement part avec l'enregistrement (A8).
-
 ## Comment tester
 
 On teste l'Aggregate en passant par la racine, avec un test unitaire sans stub, mock ni spy. Le test
@@ -130,8 +124,7 @@ couvre :
 - le cas d'erreur de chaque méthode, et le fait que rien n'a changé après l'erreur. Exemple :
   `refuses a feature on an archived organization, and changes nothing` ;
 - qu'on ne peut pas modifier un objet interne depuis l'extérieur. Exemple :
-  `cannot change the features through the returned list` ;
-- les événements émis. Exemple : `emits an OrganizationFeatureEnabled event`.
+  `cannot change the features through the returned list`.
 
 Le repository se teste à part, avec un test d'intégration sur la base : on enregistre l'Aggregate, on
 le recharge, et on vérifie que tout le groupe est revenu. Exemple :
@@ -159,16 +152,6 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
       expect(() => organization.enableFeature('LEARNER_IMPORT', null, now)).to.throw(ArchivedOrganizationError);
       expect(organization.features).to.be.empty;
       expect(organization.isManagingStudents).to.be.true;
-    });
-
-    it('emits an OrganizationFeatureEnabled event', function () {
-      const organization = buildOrganization();
-
-      organization.enableFeature('MISSIONS_MANAGEMENT', null, now);
-
-      expect(organization.pullDomainEvents()).to.deep.equal([
-        new OrganizationFeatureEnabled({ organizationId: organization.id, featureName: 'MISSIONS_MANAGEMENT' }),
-      ]);
     });
   });
 
@@ -199,7 +182,6 @@ Peut-on passer à côté de la racine ?
 
 Que se passe-t-il à l'écriture ?
 [ ] A7  Le usecase ne modifie qu'un Aggregate
-[ ] A8  Le usecase et le repository ne publient pas d'événement eux-mêmes
 
 Tests
 [ ] Chaque règle du groupe a son test, passé par la racine
@@ -341,7 +323,7 @@ propres Aggregates, et sont gardés par leur identifiant.
 **Bon exemple.**
 
 ```ts
-export class Organization extends AggregateRoot {
+export class Organization {
   #features: OrganizationFeature[]; // une règle relie les fonctionnalités et isManagingStudents
   readonly createdBy: UserId; // un utilisateur est un autre Aggregate
   // pas de membres, pas d'invitations, pas de campagnes : aucune règle ne les relie à l'organisation
@@ -351,7 +333,7 @@ export class Organization extends AggregateRoot {
 **Mauvais exemple.**
 
 ```ts
-export class Organization extends AggregateRoot {
+export class Organization {
   #features: OrganizationFeature[];
   #memberships: Membership[]; // des milliers de lignes, chargées à chaque modification
   #invitations: OrganizationInvitation[];
@@ -373,23 +355,17 @@ l'organisation et ses membres sans se bloquer.
 
 ### A7. Une transaction, un Aggregate
 
-**La règle.** Un usecase ne modifie qu'un Aggregate par transaction. Les autres Aggregates qui doivent
-réagir le font après le commit, en recevant un événement.
+**La règle.** Un usecase ne modifie qu'un Aggregate par transaction. Si d'autres Aggregates doivent
+suivre, ils sont modifiés ensuite, chacun dans sa propre transaction.
 
 **Bon exemple.**
 
 ```ts
 // organizational-entities : on archive l'organisation, et c'est tout
 const organization = await organizationRepository.get(organizationId);
-organization.archive(clock.now()); // émet OrganizationArchived
+organization.archive(clock.now());
 await organizationRepository.update(organization);
-```
-
-```ts
-// team : après le commit, on réagit à l'événement
-export const onOrganizationArchived = async ({ organizationId }) => {
-  await usecases.disableOrganizationMemberships({ organizationId });
-};
+// team désactive ensuite les membres, dans sa propre transaction
 ```
 
 **Mauvais exemple.**
@@ -402,70 +378,10 @@ await membershipRepository.disableAll({ organizationId });
 await invitationRepository.deleteAll({ organizationId });
 ```
 
-**Ce que ça apporte.** Les transactions restent courtes et ne bloquent que l'Aggregate modifié. Le
-usecase d'organizational-entities ne connaît pas les contextes qui réagissent.
+**Ce que ça apporte.** Les transactions restent courtes et ne bloquent que l'Aggregate modifié.
 
 **Sans cette règle.** La transaction verrouille l'organisation, ses membres et ses invitations. Si la
 suppression des invitations échoue, l'archivage est annulé aussi, alors qu'il était valide.
 
 **À savoir.** Si deux Aggregates doivent toujours changer ensemble, dans la même transaction, c'est
 souvent qu'ils n'en font qu'un : la frontière est mal placée.
-
-### A8. Les événements partent avec l'enregistrement
-
-**La règle.** La racine enregistre ses événements pendant ses méthodes (E9 de la fiche Entity). Ils
-sont écrits dans une table `outbox`, dans la même transaction que l'Aggregate. Après le commit, un
-relais lit l'outbox et publie les événements. Ni le usecase ni le repository ne publient eux-mêmes.
-
-**Bon exemple.**
-
-```ts
-// le repository signale l'Aggregate enregistré à la transaction
-const update = async (organization: Organization): Promise<void> => {
-  const connection = DomainTransaction.getConnection();
-  await connection('organizations').where({ id: organization.id }).update(toRow(organization));
-  await saveFeatures(connection, organization);
-  DomainTransaction.trackSaved(organization);
-};
-```
-
-```ts
-// le code autour du usecase écrit les événements dans l'outbox, avant le commit
-export const runInTransaction = async (usecase) => {
-  return DomainTransaction.execute(async (transaction) => {
-    const result = await usecase();
-    for (const aggregate of transaction.savedAggregates()) {
-      for (const event of aggregate.pullDomainEvents()) {
-        await transaction.connection('outbox').insert({ eventName: event.name, payload: event.payload });
-      }
-    }
-    return result;
-  });
-};
-```
-
-Un relais, par exemple un job planifié, lit les lignes de `outbox` après le commit, publie chaque
-événement, puis marque la ligne comme envoyée.
-
-**Mauvais exemple.**
-
-```ts
-// le usecase publie lui-même, avant le commit
-organization.archive(clock.now());
-await organizationRepository.update(organization);
-await publishEvent(new OrganizationArchived({ organizationId })); // la transaction n'est pas encore validée
-```
-
-**Ce que ça apporte.** Un événement n'est jamais perdu : il est en base dès que l'Aggregate l'est. Et
-jamais un événement n'est publié pour un changement annulé.
-
-**Sans cette règle.** Si le serveur s'arrête juste après le commit, l'événement est perdu, et les
-membres d'une organisation archivée ne sont jamais désactivés. Si la transaction échoue après la
-publication, team désactive les membres d'une organisation qui n'est pas archivée.
-
-**À savoir.**
-
-- Le relais peut publier un événement deux fois, par exemple s'il s'arrête avant de marquer la ligne
-  comme envoyée. Chaque handler doit donc donner le même résultat s'il est appelé deux fois.
-- Tout usecase qui modifie un Aggregate doit passer par `runInTransaction`. Hors transaction, les
-  événements ne sont jamais écrits.

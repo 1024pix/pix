@@ -111,6 +111,11 @@ Un numéro retiré n'est jamais réattribué.
 
 ## Chantiers ouverts
 
+- **Les événements du domaine.** La publication des événements (outbox dans la transaction, relais
+  après le commit) est mise de côté en attendant une discussion avec les staffs. Une version existe
+  dans le commit `23a5cd7096` (règle A8 de `racine-agregat/README.md`), retirée ensuite. Points à
+  éclaircir : la base des jobs est-elle déjà séparée, et comment le job lancé avant le commit est-il
+  évité depuis #15451.
 - **Des Aggregates manquants.** Certains usecases portent des règles sur plusieurs objets à la fois,
   faute d'une racine pour les porter. Aucun inventaire de ces règles n'existe. C'est le préalable pour
   les décrire en écart dans `racine-agregat/ecarts.md`, avec de vrais exemples.
