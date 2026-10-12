@@ -139,7 +139,7 @@
     "ioredis": "5.8.0",
     "joi": "18.2.9",
     "jose": "6.2.12",
-    "js-yaml": "5.4.1",
+    "js-yaml": "5.4.2",
     "json-autotranslate": "1.16.2",
     "jsonapi-serializer": "3.6.9",
     "jsonwebtoken": "9.0.3",
