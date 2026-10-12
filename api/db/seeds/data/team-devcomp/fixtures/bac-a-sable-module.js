@@ -17,6 +17,34 @@ export const bacASableModule = {
       type: 'question-yourself',
       grains: [
         {
+          id: 'grain-maxwidth-test',
+          type: 'lesson',
+          title: 'Test maxWidth',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: 'image-maxwidth-test-with',
+                type: 'image',
+                url: 'https://assets.pix.org/draft/flamingo.jpg',
+                alt: 'Image avec une largeur maximale de 300px',
+                alternativeText: 'Cette image a une propriété maxWidth de 300px',
+                maxWidth: 300,
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: 'image-maxwidth-test-without',
+                type: 'image',
+                url: 'https://assets.pix.org/draft/escargots.jpg',
+                alt: 'Image sans largeur maximale',
+                alternativeText: "Cette image n'a pas de propriété maxWidth",
+              },
+            },
+          ],
+        },
+        {
           id: '9de10c46-df0e-41f5-a709-81637f0d5cc3',
           type: 'challenge',
           title: 'Premier grain du bac-a-sable',
