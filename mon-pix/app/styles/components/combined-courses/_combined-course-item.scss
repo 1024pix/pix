@@ -79,6 +79,8 @@
 
   &__title {
     @extend %pix-title-xxs;
+
+    text-align: start;
   }
 
   &__description {
