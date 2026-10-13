@@ -77,7 +77,7 @@ export default class ResultItemComponent extends Component {
           </div>
 
           {{#if this.validationImplementedForChallengeType}}
-            <PixButton @variant="tertiary" @triggerAction={{fn @openAnswerDetails @answer}}>
+            <PixButton class="result-item__button" @variant="tertiary" @triggerAction={{fn @openAnswerDetails @answer}}>
               {{t "components.assessments.result-item.actions.see-answers-and-tutorials.label"}}
             </PixButton>
           {{/if}}
