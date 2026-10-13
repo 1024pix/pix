@@ -193,6 +193,54 @@ pas énonçable n'a pas sa place, ou est classée en hygiène.
 Un invariant à fort ROI et sans aucune source, ni externe ni ADR, est un signal : la pratique existe,
 mais le raisonnement n'est écrit nulle part. Il se discute sur ses mérites.
 
+## Critères de qualité d'une fiche
+
+Une fiche est prête quand chaque critère est vrai. Chaque critère vient d'un défaut trouvé sur les
+premières fiches.
+
+**Le fond**
+
+1. Chaque règle a un « Ce que ça apporte » concret et un « Sans cette règle » qui décrit un bug
+   concret, tous les deux sur l'exemple de la fiche.
+2. La règle du métier qui porte l'exemple existe dans le code de Pix, avec un permalien vers les
+   lignes qui la contiennent.
+3. Les décisions de l'équipe listées dans `corpus-index.md` sont respectées.
+4. La fiche ne contredit aucune autre fiche : même fil, mêmes noms, mêmes signatures, mêmes règles.
+5. La fiche décrit l'idéal : aucun état du code, aucune date, aucune citation d'ADR.
+
+**Les exemples**
+
+6. L'exemple complet couvre toutes les règles, avec un commentaire par règle.
+7. L'exemple complet et son test se lisent seuls : chaque type, chaque constante et chaque fonction
+   d'aide utilisés sont définis ou importés.
+8. Chaque bon exemple est un extrait identique de l'exemple complet. Chaque mauvais exemple montre le
+   même code, mal écrit.
+9. Le code est en TypeScript. Chaque permalien pointe vers un commit fixe, et ses lignes existent.
+10. Aucun lien ne pointe vers un fichier de Pix qui fait la faute montrée.
+
+**La structure**
+
+11. Les sections suivent l'ordre du gabarit. Le titre de chaque règle reprend son nom court du
+    tableau. La checklist est groupée par questions.
+12. Ni section de vocabulaire, ni question de tri, ni renvoi aux documents de travail, ni question
+    ouverte.
+
+**La langue**
+
+13. Aucun mot de jugement vague (propre, clair, simple, sans risque, protéger, frontière, robuste) ni
+    image.
+14. Aucune paire de phrases symétriques, aucun slogan, aucun deux-points en cascade.
+15. Chaque terme qu'un junior ne connaît pas est expliqué en une phrase ou renvoie à sa fiche, à sa
+    première apparition.
+
+**Les vérifications**
+
+16. Un lecteur junior, sans contexte, répond juste à toutes ses questions.
+17. Les constats du chasseur de « ton IA » sont appliqués, ou écartés pour une raison notée.
+18. Tous les liens et toutes les ancres du corpus mènent au bon endroit, et les blocs de code sont
+    fermés.
+19. Une personne de l'équipe a relu la fiche avant l'ouverture de la PR.
+
 ## Produire une fiche
 
 Les étapes, dans l'ordre. Chaque étape a été apprise sur les premières fiches : en sauter une, c'est
@@ -228,11 +276,12 @@ retrouver le défaut qu'elle évite.
 - **Un chasseur de « ton IA »** : un relecteur relève les phrases trop longues, symétriques, savantes
   ou jargonneuses. On applique ce qui est fondé, et on note ce qui est écarté.
 
-### 4. La vérification mécanique
+### 4. La vérification
 
 - Tous les liens et toutes les ancres du corpus mènent au bon endroit, y compris depuis les documents
   de travail quand un titre de règle a changé.
 - Les blocs de code sont bien fermés.
+- Passer la fiche aux [critères de qualité](#critères-de-qualité-dune-fiche) : tous doivent être vrais.
 
 ### 5. La PR de la semaine
 
