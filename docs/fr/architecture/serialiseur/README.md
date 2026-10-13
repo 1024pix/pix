@@ -15,13 +15,20 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | [M2](#m2-nexpose-que-des-champs-présents-sur-lobjet-reçu) | N'expose que des champs présents sur l'objet reçu | chaque champ déclaré existe sur l'objet ; une clé pour le cache du front se compose ici |
 | [M3](#m3-le-format-de-réponse-est-un-contrat-externe) | Le format de réponse est un contrat externe | on ajoute un champ sans casser l'existant ; une valeur existante ne change jamais de sens |
 | [M4](#m4-un-sérialiseur-par-ressource-exposée) | Un sérialiseur par ressource exposée | un fichier par ressource, nommé d'après elle, quel que soit l'appelant |
-| [M5](#m5-la-désérialisation-ne-laisse-pas-entrer-la-forme-du-transport) | La désérialisation ne laisse pas entrer la forme du transport | `deserialize()` rend un objet du domaine, sans vérifier la forme du payload |
+| [M5](#m5-la-désérialisation-ne-laisse-pas-entrer-la-forme-du-transport) | La désérialisation ne laisse pas entrer la forme du transport | `deserialize()` rend un objet du domaine, et ne vérifie rien |
 
 ## Exemple complet
 
-Le sérialiseur de l'organisation, pour `POST /api/admin/organizations`. Le contrôleur lui demande de
-désérialiser le payload en `Organization<null>`, puis de sérialiser l'organisation créée. Exemple
-inventé, d'après
+Le sérialiseur de l'[`Organization`](../racine-agregat/README.md), pour
+`POST /api/admin/organizations`. Le [contrôleur](../controleur/README.md) lui demande de désérialiser
+le payload (le corps de la requête) en `Organization<null>`, une organisation pas encore enregistrée,
+sans id. Puis il lui demande de sérialiser l'organisation créée.
+
+À la création, trois couches se partagent le travail. La [route](../route/README.md) vérifie la forme du
+payload : `name` et `type` sont des chaînes présentes. Le sérialiseur traduit, sans rien vérifier.
+`Organization` vérifie les règles du métier : le nom n'est pas vide, le type est connu.
+
+Exemple inventé, d'après
 [`organization-serializer.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/infrastructure/serializers/jsonapi/organization-serializer.js#L8-L73).
 
 ```ts
@@ -44,7 +51,7 @@ type OrganizationPayload = {
 
 const serialize = (organization: Organization) =>
   new Serializer('organizations', {
-    // M1 : on recopie des champs, sans condition ni calcul
+    // transform prépare chaque objet avant sa mise au format ; M1 : on recopie des champs, sans condition ni calcul
     transform: (organization: Organization) => ({
       id: organization.id,
       name: organization.name,
@@ -55,21 +62,18 @@ const serialize = (organization: Organization) =>
       features: organization.features.map((feature) => ({
         id: `${organization.id}_${feature.featureName}`, // M2 : une clé pour le cache du front, faite de champs reçus
         featureName: feature.featureName,
-        enabledAt: feature.enabledAt,
+        params: feature.params,
       })),
     }),
     // M2 : chaque champ existe sur Organization ; M3 : ces noms forment le contrat avec Pix Admin
     attributes: ['name', 'type', 'isManagingStudents', 'createdBy', 'archivedAt', 'features'],
-    features: { ref: 'id', included: true, attributes: ['featureName', 'enabledAt'] },
+    features: { ref: 'id', included: true, attributes: ['featureName', 'params'] },
   }).serialize(organization);
 
 // M5 : rend un objet du domaine ; les règles du métier restent dans Organization.create
-const deserialize = (
-  payload: OrganizationPayload,
-  { createdBy, now }: { createdBy: UserId; now: Date },
-): Organization<null> => {
+const deserialize = (payload: OrganizationPayload, { createdBy }: { createdBy: UserId }): Organization<null> => {
   const { name, type } = payload.data.attributes;
-  return Organization.create({ name, type, createdBy, now });
+  return Organization.create({ name, type, createdBy });
 };
 
 export const organizationSerializer = { serialize, deserialize };
@@ -80,8 +84,8 @@ export const organizationSerializer = { serialize, deserialize };
 Un sérialiseur se teste avec un test unitaire, sans stub, mock ni spy. Le test couvre :
 
 - la sortie, champ par champ. Exemple : `serializes the organization with its features` ;
-- une valeur absente, pas seulement l'objet complet. C'est là qu'on voit un champ que l'objet ne porte
-  pas. Exemple : `serializes an organization that is not archived` ;
+- une valeur absente, pas seulement l'objet complet : le front doit recevoir `null`, pas un champ
+  manquant. Exemple : `serializes an organization that is not archived` ;
 - la clé construite pour le front. Exemple :
   `gives each feature a key made of the organization id and the feature name` ;
 - l'objet du domaine rendu par la désérialisation. Exemple :
@@ -93,8 +97,13 @@ Le test de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/organizational-entities/unit/infrastructure/serializers/jsonapi/organization-serializer_test.ts
+import type { OrganizationId, UserId } from '../../../../../../src/shared/domain/Id.js';
+import { InvalidOrganizationError } from '../../../../../../src/organizational-entities/domain/errors.js';
+import { Organization, type OrganizationProps } from '../../../../../../src/organizational-entities/domain/models/organization/index.js';
+import { organizationSerializer } from '../../../../../../src/organizational-entities/infrastructure/serializers/jsonapi/organization-serializer.js';
+
 describe('Unit | Organizational Entities | Infrastructure | Serializers | JSON:API | organization', function () {
-  const now = new Date('2026-01-02');
+  const archivedAt = new Date('2026-01-02');
 
   const buildOrganization = (props: Partial<OrganizationProps<OrganizationId>> = {}) =>
     new Organization({
@@ -103,18 +112,16 @@ describe('Unit | Organizational Entities | Infrastructure | Serializers | JSON:A
       type: 'SCO',
       createdBy: 2 as UserId,
       isManagingStudents: false,
-      createdAt: new Date('2026-01-01'),
-      updatedAt: new Date('2026-01-01'),
-      archivedAt: null,
       features: [],
+      archivedAt: null,
       ...props,
     });
 
-  const learnerImport = new OrganizationFeature({ featureName: 'LEARNER_IMPORT', params: null, enabledAt: now });
+  const learnerImport = { featureName: 'LEARNER_IMPORT', params: null } as const;
 
   describe('#serialize', function () {
     it('serializes the organization with its features', function () {
-      const organization = buildOrganization({ archivedAt: now, features: [learnerImport] });
+      const organization = buildOrganization({ archivedAt, features: [learnerImport] });
 
       const json = organizationSerializer.serialize(organization);
 
@@ -127,7 +134,7 @@ describe('Unit | Organizational Entities | Infrastructure | Serializers | JSON:A
             type: 'SCO',
             'is-managing-students': false,
             'created-by': 2,
-            'archived-at': now,
+            'archived-at': archivedAt,
           },
           relationships: {
             features: { data: [{ type: 'features', id: '1_LEARNER_IMPORT' }] },
@@ -137,7 +144,7 @@ describe('Unit | Organizational Entities | Infrastructure | Serializers | JSON:A
           {
             type: 'features',
             id: '1_LEARNER_IMPORT',
-            attributes: { 'feature-name': 'LEARNER_IMPORT', 'enabled-at': now },
+            attributes: { 'feature-name': 'LEARNER_IMPORT', params: null },
           },
         ],
       });
@@ -157,22 +164,23 @@ describe('Unit | Organizational Entities | Infrastructure | Serializers | JSON:A
   });
 
   describe('#deserialize', function () {
-    const buildPayload = (attributes: Partial<OrganizationPayload['data']['attributes']> = {}) => ({
-      data: { type: 'organizations' as const, attributes: { name: 'Lycée Victor Hugo', type: 'SCO' as const, ...attributes } },
+    const buildPayload = (name = 'Lycée Victor Hugo') => ({
+      data: { type: 'organizations' as const, attributes: { name, type: 'SCO' as const } },
     });
 
     it('deserializes the payload into a new organization', function () {
-      const organization = organizationSerializer.deserialize(buildPayload(), { createdBy: 2 as UserId, now });
+      const organization = organizationSerializer.deserialize(buildPayload(), { createdBy: 2 as UserId });
 
       expect(organization).to.be.instanceOf(Organization);
       expect(organization.id).to.be.null;
       expect(organization.name).to.equal('Lycée Victor Hugo');
+      expect(organization.type).to.equal('SCO');
       expect(organization.createdBy).to.equal(2);
-      expect(organization.createdAt).to.deep.equal(now);
     });
 
     it('lets the domain refuse an empty name', function () {
-      expect(() => organizationSerializer.deserialize(buildPayload({ name: ' ' }), { createdBy: 2 as UserId, now })).to.throw(
+      // ' ' passe la route, qui vérifie seulement que name est une chaîne
+      expect(() => organizationSerializer.deserialize(buildPayload(' '), { createdBy: 2 as UserId })).to.throw(
         InvalidOrganizationError,
       );
     });
@@ -196,7 +204,7 @@ Où le trouver ?
 
 Que rend la désérialisation ?
 [ ] M5  Un objet du domaine, jamais data.attributes ni un {...payload}
-[ ] M5  Aucune vérification de forme ni règle métier : la forme est validée par la route, les règles par le domaine
+[ ] M5  Aucune vérification : la route vérifie la forme, Organization vérifie les règles du métier
 
 Tests
 [ ] Un test unitaire, sans stub, mock ni spy
@@ -214,6 +222,7 @@ calcul, ni filtre sur l'objet reçu. Une règle du métier se calcule avant, dan
 **Bon exemple.**
 
 ```ts
+// organizationSerializer.serialize
 transform: (organization: Organization) => ({
   id: organization.id,
   name: organization.name,
@@ -226,6 +235,7 @@ transform: (organization: Organization) => ({
 **Mauvais exemple.**
 
 ```ts
+// organizationSerializer.serialize
 transform: (organization: Organization) => ({
   …
   // une règle du métier, recalculée dans la mise en forme
@@ -268,32 +278,31 @@ sur l'objet reçu. Si un écran a besoin d'un champ que l'objet ne porte pas, c'
 **Bon exemple.**
 
 ```ts
+// organizationSerializer.serialize
 attributes: ['name', 'type', 'isManagingStudents', 'createdBy', 'archivedAt', 'features'],
 ```
 
 **Mauvais exemple.**
 
 ```ts
-// Organization ne porte que createdBy : creatorFullName sort toujours à null
+// Organization ne porte que createdBy : creatorFullName n'est jamais rempli
 attributes: ['name', 'type', 'isManagingStudents', 'createdBy', 'creatorFullName', 'archivedAt', 'features'],
 ```
 
-**Ce que ça apporte.** Ce que la réponse contient se lit sur l'objet reçu. Un champ manquant se voit
-à la relecture, et à la compilation quand la liste est typée contre l'objet.
+**Ce que ça apporte.** Ce que la réponse contient se lit sur l'objet reçu. Un champ déclaré que
+l'objet ne porte pas se voit à la relecture.
 
-**Sans cette règle.** `creatorFullName` sort à `null` pour toutes les organisations. Pix Admin
-affiche un créateur vide, alors que la donnée n'a jamais été chargée. Le test du sérialiseur
-passe, parce qu'il construit un objet de test qui porte le champ.
-
-**À savoir.** Une valeur absente se teste à part. Un test écrit seulement avec un objet complet ne
-voit pas un champ que l'objet réel ne porte pas.
+**Sans cette règle.** `creatorFullName` n'est jamais rempli : la réponse ne contient pas
+`creator-full-name`. Pix Admin affiche un créateur vide pour toutes les organisations, alors que
+personne n'a chargé la donnée. La compilation ne le signale pas, parce que `attributes` est une
+liste de chaînes, sans lien avec le type `Organization`.
 
 **Exceptions.**
 
-- Une clé pour le cache du front se construit dans le sérialiseur, à partir de champs reçus.
-  `OrganizationFeature` n'a pas d'id, et le front en demande un pour chaque ressource incluse :
-  `${organization.id}_${feature.featureName}`. Le domaine ne connaît pas cette clé, et la réponse de
-  l'API garde les mêmes champs. Si le front renvoie la clé au serveur, elle devient un Value Object :
+- Une clé pour le cache du front se construit dans le sérialiseur, à partir de champs reçus. JSON:API
+  demande un id pour chaque ressource incluse, et le front range chaque ressource dans son cache par
+  cet id. `OrganizationFeature` n'a pas d'id, donc le sérialiseur compose
+  `${organization.id}_${feature.featureName}`. Le domaine ne connaît pas cette clé. Si le front renvoie la clé au serveur, elle devient un Value Object :
   voir V2 de la fiche [Value Object](../objet-valeur/README.md).
 - Composer un libellé à partir de plusieurs champs reçus est permis. Ce n'est pas un champ fabriqué.
 - Recevoir un read-model plutôt qu'une [Entity](../entite/README.md) est permis. C'est même la façon
@@ -308,7 +317,8 @@ une valeur existante ne change jamais de sens : un nouveau sens prend une nouvel
 **Bon exemple.**
 
 ```ts
-type: organization.type, // 'SCO', 'SUP', 'PRO', 'SCO-1D' gardent toujours leur sens
+// organizationSerializer.serialize
+type: organization.type, // M3 : 'SCO', 'SUP', 'PRO', 'SCO-1D' gardent toujours leur sens
 ```
 
 Les écoles primaires ont leur valeur à elles, `SCO-1D`. `SCO` garde son sens, et le code du front qui
@@ -361,18 +371,16 @@ l'organisation avec ou sans ce champ.
 
 **La règle.** `deserialize()` rend un objet du domaine. Elle ne rend jamais la structure du format,
 comme `data.attributes`. Elle traduit : renommer un champ, convertir un type, appeler
-`Organization.create`. Elle ne décide rien et ne valide pas la forme du payload : la forme est validée
-par la [route](../route/README.md), et les règles du métier par le domaine.
+`Organization.create`. Elle ne vérifie rien. La route vérifie la forme du payload, et `Organization`
+vérifie les règles du métier.
 
 **Bon exemple.**
 
 ```ts
-const deserialize = (
-  payload: OrganizationPayload,
-  { createdBy, now }: { createdBy: UserId; now: Date },
-): Organization<null> => {
+// organizationSerializer.deserialize
+const deserialize = (payload: OrganizationPayload, { createdBy }: { createdBy: UserId }): Organization<null> => {
   const { name, type } = payload.data.attributes;
-  return Organization.create({ name, type, createdBy, now });
+  return Organization.create({ name, type, createdBy });
 };
 ```
 

@@ -33,7 +33,7 @@ correspond à /(Repository|Api|Storage)$/.
 La règle n'a besoin que de la signature.
 
 Elle se déclenchera sur le code existant, et c'est voulu : chaque fichier signalé contient un
-usecase. Il se classe avec le [test de discrimination](README.md#le-test-de-discrimination), puis se
+usecase. Il se classe avec le [test de discrimination](README.md#d4-un-service-seulement-si-aucun-objet-ne-porte-la-règle), puis se
 déplace ou se découpe. La règle reste en avertissement pendant ce classement, puis passe en erreur.
 
 La même analyse de la signature sert au discriminant de `../usecase/outillage.md`. Elle sert aussi à
@@ -83,7 +83,7 @@ Cet ordre suit le coût, pas le ROI : voir [`explication.md`](explication.md#roi
 1. **D1 imports** : configuration `dependency-cruiser`, avec contre-épreuve. Introduire une
    violation, vérifier que l'outil la signale, puis la retirer.
 2. **D1 signature** en avertissement, pour produire la liste des fichiers à classer.
-3. **X1** : classer les fichiers avec le [test de discrimination](README.md#le-test-de-discrimination),
+3. **X1** : classer les fichiers avec le [test de discrimination](README.md#d4-un-service-seulement-si-aucun-objet-ne-porte-la-règle),
    puis déplacer ou découper ceux qui contiennent un usecase. Voir `X1` de [`ecarts.md`](ecarts.md).
 4. **D1 signature** en erreur.
 5. **D3** : règle sur les champs de classe.
@@ -120,7 +120,7 @@ export function filterKnowledgeElements(params: {
 }): readonly KnowledgeElement[] { … }
 ```
 
-**Code.** Forme hypothétique, tirée de la signature de D1 dans [`README.md`](README.md#d1-aucune-io-aucune-dépendance-injectée).
+**Code.** Forme hypothétique, tirée de la signature de D1 dans [`README.md`](README.md#d1-aucune-io).
 
 Le typage rend D1 en partie visible dans la structure. Un paramètre typé `ModuleMetadataRepository`
 apparaît dans la signature : la violation se lit sans exécuter le fichier. Avec la règle ESLint de

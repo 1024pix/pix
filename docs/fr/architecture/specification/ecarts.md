@@ -83,7 +83,7 @@ return false;
 ```
 
 **Code.** [`CriterionProperty.check`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/value-objects/CriterionProperty.js#L127-L130), déjà montré sous
-[`S2`](README.md#s2--non-satisfait--et--non-évaluable--sont-distincts).
+[`S2`](README.md#s2--non-rempli--et--impossible-à-évaluer--sont-distincts).
 
 Le signe : un `return false` précédé d'une journalisation. Le code traite un incident comme une
 réponse.

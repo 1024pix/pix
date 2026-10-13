@@ -59,7 +59,7 @@ des fichiers à classer. Elle passe en `error` après X1.
 
 Syntaxique et local au fichier. Un read-model ne valide pas, donc il ne lève pas d'erreur de
 validation. Même pour une source externe, la validation revient au repository (`I1` de
-[`../repository/README.md`](../repository/README.md#i1-ne-jamais-renvoyer-une-structure-de-persistance)),
+[`../repository/README.md`](../repository/README.md#i1-renvoie-des-objets-du-domaine)),
 pas au read-model.
 
 La règle ne prouve pas la violation : elle désigne où regarder.

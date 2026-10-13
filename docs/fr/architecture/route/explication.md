@@ -17,7 +17,7 @@ deux propriétés existent, que rien d'autre ne donne :
   visible.
 
 Savoir si cette absence est un oubli reste en revue : c'est la limite de `R2`, énoncée dans
-[`README.md`](README.md#r2-les-contrôles-daccès-sont-déclarés-en-pre-handler).
+[`README.md`](README.md#r2-contrôles-daccès-en-pre-handler).
 
 ## ROI des invariants
 

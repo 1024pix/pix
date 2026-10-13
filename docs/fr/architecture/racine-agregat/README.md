@@ -21,7 +21,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 L'Aggregate `Organization` : une organisation et ses fonctionnalités activées. Une règle du métier les
 relie : si `LEARNER_IMPORT` est activée, `isManagingStudents` est toujours `false`. Le constructeur
 refuse l'état inverse, et `enableFeature()` met le champ à `false`. Exemple inventé, d'après
-[`OrganizationForAdmin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/OrganizationForAdmin.js#L240-L247).
+[`OrganizationForAdmin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/OrganizationForAdmin.js#L241-L248).
 
 Le dossier de l'Aggregate :
 

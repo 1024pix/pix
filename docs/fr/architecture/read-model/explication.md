@@ -35,7 +35,7 @@ ce classement.
 ### Ce que ces invariants n'apportent pas
 
 Ces invariants ne disent pas si un read-model méritait d'exister plutôt que de rester un objet littéral.
-La question se pose dans les [tests attendus](README.md#tests-attendus). Elle reste de jugement.
+La question se pose dans les [tests attendus](README.md#comment-tester). Elle reste de jugement.
 
 Ils ne disent pas non plus **quelle** forme un écran devrait recevoir. Un read-model trop large fait
 transiter des champs que personne n'affiche. Trop étroit, il oblige à un second aller-retour. Ce
@@ -128,7 +128,7 @@ Bibliographie et liens dans `../references-ddd.md`. Sources primaires des conven
 | **RM3** n'entre pas dans une règle | Déduction de la validation à la construction : une règle qui décide à partir d'une forme non validée décide à partir de n'importe quoi | — |
 | **RM4** emplacement | **aucune source**. Convention Pix en place | — |
 | Immuabilité et absence d'identité | Convention Pix, pas Fowler : le DTO de *PoEAA* n'exige ni l'une ni l'autre. Les énoncés sont ceux de `V1` et `V2` dans `../objet-valeur/README.md`. Leur autorité, chez Evans, porte sur le Value Object, qu'un read-model n'est pas. Voir `X3` de [`ecarts.md`](ecarts.md) | *PoEAA* ; *DDD Reference* |
-| Un repository peut renvoyer un calcul de synthèse | Vérifié. Cela ne concerne pas ce dossier : Evans, ch. 6, autorise un repository à renvoyer un décompte ou une somme, des scalaires, pas un objet assemblé. Le passage appuie les exceptions légitimes de [`../repository/README.md`](../repository/README.md#exceptions-légitimes) | *Final Manuscript* 2003, p. 109 |
+| Un repository peut renvoyer un calcul de synthèse | Vérifié. Cela ne concerne pas ce dossier : Evans, ch. 6, autorise un repository à renvoyer un décompte ou une somme, des scalaires, pas un objet assemblé. Le passage appuie les exceptions légitimes de [`../repository/README.md`](../repository/README.md#référence-des-règles) | *Final Manuscript* 2003, p. 109 |
 
 Aucun des quatre invariants propres n'a de source directe : RM2 et RM4 n'ont aucune source, RM1 et
 RM3 sont des déductions explicites. La catégorie n'existe pas dans la littérature DDD, donc c'est

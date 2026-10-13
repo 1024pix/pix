@@ -37,7 +37,7 @@ une API pénible.
 Le ROI de cette couche est négatif, et il a donc une limite. Appliquer les cinq invariants ne rend
 pas le contrôleur bon : cela le rend **absent du raisonnement**, ce qui est le but de la couche.
 
-La checklist de [`README.md`](README.md#checklist-de-revue) en porte la trace. Deux invariants sur
+La checklist de [`README.md`](README.md#checklist-de-revue-de-code) en porte la trace. Deux invariants sur
 cinq, `C4` et `C5`, se vérifient sans revue, et `C1` et `C2` en partie. C'est la contrepartie d'une
 couche dont le rôle est de ne rien contenir : ce qui ne doit pas y être se détecte mieux que ce qui
 doit y être.

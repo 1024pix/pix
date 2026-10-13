@@ -15,13 +15,15 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | [D1](#d1-aucune-io) | Aucune I/O | aucun repository ni API en paramètre ; la date du jour arrive en paramètre |
 | [D2](#d2-des-objets-du-domaine-en-entrée-et-en-sortie) | Des objets du domaine en entrée et en sortie | des Entities, des Value Objects ou des scalaires ; jamais une ligne de base ni un DTO |
 | [D3](#d3-sans-état-sans-effet-sur-ses-entrées) | Sans état, sans effet sur ses entrées | une fonction exportée, qui ne modifie pas ce qu'elle reçoit |
-| [D4](#d4-un-dernier-recours) | Un dernier recours | une règle sur les données d'un seul objet est une méthode de cet objet |
+| [D4](#d4-un-service-seulement-si-aucun-objet-ne-porte-la-règle) | Un service seulement si aucun objet ne porte la règle | une règle sur les données d'un seul objet est une méthode de cet objet |
 | [D5](#d5-nommé-par-la-règle) | Nommé par la règle | `get-new-acquired-stages.ts`, pas `stage-service.ts` |
 
 ## Exemple complet
 
-Les paliers qu'une participation vient d'atteindre. Les paliers appartiennent au profil cible, et les
-paliers déjà acquis à la participation. La règle croise les deux avec le résultat de la participation :
+Les paliers qu'une participation vient d'atteindre. Un palier est une étape de progression d'un profil
+cible. Il est défini par un seuil, en pourcentage de maîtrise, ou par un niveau. Les paliers
+appartiennent au profil cible, et les paliers déjà acquis à la participation. La règle croise les deux
+avec le résultat de la participation :
 
 - un palier déjà acquis ne se gagne pas une seconde fois ;
 - le palier zéro est toujours atteint ;
@@ -33,6 +35,15 @@ et [`Stage.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece603
 
 ```ts
 // prescription/stages/domain/models/Stage.ts — raccourcie : on a retiré les titres et les messages
+import type { StageId } from '../../../../shared/domain/Id.js';
+
+export type StageProps = {
+  id: StageId;
+  threshold: number | null;
+  level: number | null;
+  isFirstSkill: boolean;
+};
+
 export class Stage {
   readonly id: StageId;
   readonly threshold: number | null;
@@ -86,18 +97,21 @@ export function getNewAcquiredStages({
 ```
 
 ```ts
-// prescription/stages/domain/usecases/handle-stage-acquisition.ts — le usecase charge, appelle, enregistre
-const alreadyAcquiredStageIds = await stageAcquisitionRepository.getStageIdsByCampaignParticipation(campaignParticipation.id);
+// prescription/stages/domain/usecases/handle-stage-acquisition.ts — raccourci : le usecase a déjà
+// chargé stages, et calculé validatedSkillCount et masteryPercentage
+const alreadyAcquiredStageIds = await stageAcquisitionRepository.getStageIdsByCampaignParticipation({
+  campaignParticipationId: campaignParticipation.id,
+});
 
 const stagesToStore = getNewAcquiredStages({ stages, validatedSkillCount, masteryPercentage, alreadyAcquiredStageIds });
 
-await stageAcquisitionRepository.saveStages(stagesToStore, campaignParticipation.id);
+await stageAcquisitionRepository.saveStages({ stages: stagesToStore, campaignParticipationId: campaignParticipation.id });
 ```
 
 ## Comment tester
 
 Un Domain Service se teste avec un test unitaire, sans stub, mock ni spy. Si le test a besoin d'un
-stub, le service fait des I/O : c'est un [usecase](../usecase/README.md). Le test couvre :
+stub, le service fait des I/O, et c'est en fait un [usecase](../usecase/README.md). Le test couvre :
 
 - chaque cas de la règle. Exemples : `gives the zero stage, even without any validated skill`,
   `gives the first-skill stage once a skill is validated` ;
@@ -109,6 +123,12 @@ Le test de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/prescription/stages/unit/domain/services/get-new-acquired-stages_test.ts
+import { expect } from 'chai';
+
+import type { StageId } from '../../../../../../src/shared/domain/Id.js';
+import { Stage, type StageProps } from '../../../../../../src/prescription/stages/domain/models/Stage.js';
+import { getNewAcquiredStages } from '../../../../../../src/prescription/stages/domain/services/get-new-acquired-stages.js';
+
 describe('Unit | Prescription | Stages | Domain | Services | get new acquired stages', function () {
   const buildStage = (props: Partial<StageProps> = {}) =>
     new Stage({ id: 1 as StageId, threshold: null, level: null, isFirstSkill: false, ...props });
@@ -159,7 +179,7 @@ describe('Unit | Prescription | Stages | Domain | Services | get new acquired st
   it('does not change the stages it receives', function () {
     const stages = [stage40, zeroStage, stage20];
 
-    getNewAcquiredStages({ ...noResult, stages, masteryPercentage: 50 });
+    getNewAcquiredStages({ ...noResult, stages, masteryPercentage: 50, alreadyAcquiredStageIds: [zeroStage.id] });
 
     expect(stages).to.deep.equal([stage40, zeroStage, stage20]);
   });
@@ -175,14 +195,14 @@ Fait-il des I/O ?
 
 Que reçoit-il, que renvoie-t-il ?
 [ ] D2  Des objets du domaine du contexte ou des scalaires ; ni ligne de base, ni DTO, ni read-model
-[ ] D3  Aucun champ ; aucun objet reçu n'est modifié (sort, push, setter)
+[ ] D3  Aucun champ ni variable du module ; aucun objet reçu n'est modifié (sort, splice, push, setter)
 
 Avait-il sa place ici ?
 [ ] D4  La règle ne pouvait aller ni sur un Value Object, ni sur une Entity, ni sur une Aggregate Root
 [ ] D4  Un seul objet en entrée : la règle appartient-elle à cet objet ?
 [ ] D5  Le nom du fichier dit la règle ; pas de nom de ressource suffixé -service
 
-Tests
+Comment est-il testé ?
 [ ] Un test unitaire, sans stub, mock ni spy, cas limites compris
 [ ] Un test vérifie que les objets reçus n'ont pas changé
 ```
@@ -199,8 +219,10 @@ même s'il est appelé par plusieurs usecases.
 **Bon exemple.**
 
 ```ts
-// le usecase charge les paliers déjà acquis, puis les passe au service
-const alreadyAcquiredStageIds = await stageAcquisitionRepository.getStageIdsByCampaignParticipation(campaignParticipation.id);
+// handle-stage-acquisition.ts : le usecase charge les paliers déjà acquis, puis les passe au service
+const alreadyAcquiredStageIds = await stageAcquisitionRepository.getStageIdsByCampaignParticipation({
+  campaignParticipationId: campaignParticipation.id,
+});
 
 const stagesToStore = getNewAcquiredStages({ stages, validatedSkillCount, masteryPercentage, alreadyAcquiredStageIds });
 ```
@@ -208,7 +230,7 @@ const stagesToStore = getNewAcquiredStages({ stages, validatedSkillCount, master
 **Mauvais exemple.**
 
 ```ts
-// le service reçoit un repository et charge lui-même les paliers déjà acquis
+// get-new-acquired-stages.ts : le service reçoit un repository et charge lui-même les paliers déjà acquis
 export async function getNewAcquiredStages({
   stages,
   campaignParticipationId,
@@ -216,21 +238,32 @@ export async function getNewAcquiredStages({
   masteryPercentage,
   stageAcquisitionRepository,
 }: GetNewAcquiredStagesWithRepositoryInput): Promise<Stage[]> {
-  const alreadyAcquiredStageIds = await stageAcquisitionRepository.getStageIdsByCampaignParticipation(campaignParticipationId);
+  const alreadyAcquiredStageIds = await stageAcquisitionRepository.getStageIdsByCampaignParticipation({
+    campaignParticipationId,
+  });
   // …
 }
 ```
 
 **Ce que ça apporte.** La règle des paliers se teste avec quelques `Stage` construits dans le test.
-Le test n'a besoin ni de base ni de stub.
+Le test n'a besoin ni de base ni de stub. Le usecase choisit comment charger les données : une
+participation à la fois, ou toute une campagne en une requête.
 
-**Sans cette règle.** Le test remplace `stageAcquisitionRepository` par un stub. Si la méthode du
-repository change de nom, le stub garde l'ancien : le test passe, et l'acquisition des paliers plante
-en production.
+**Sans cette règle.** Un second usecase recalcule les paliers de toutes les participations d'une
+campagne, après un changement de seuils. Il appelle le service dans une boucle, et le service lance une
+requête SQL à chaque appel. Pour une campagne de 10 000 participants, cela fait 10 000 requêtes. Avec
+D1, le usecase charge les paliers déjà acquis de toute la campagne en une requête, puis appelle le
+service en mémoire.
 
-**À savoir.** La règle vise aussi ce qu'on oublie : le log, l'heure (`new Date()`), l'aléatoire
-(`Math.random()`) et la configuration. Si le service en a besoin, la valeur arrive en paramètre, comme
-`now` dans une Entity. Une bibliothèque de calcul, comme `dayjs`, est permise : elle ne fait pas d'I/O.
+**À savoir.** La règle vise aussi ce qu'on oublie, et chaque cas a son problème :
+
+- l'heure (`new Date()`) : le résultat dépend du jour où le test tourne ;
+- l'aléatoire (`Math.random()`) : deux appels avec les mêmes paliers ne donnent pas le même résultat ;
+- la configuration lue dans l'environnement : le test dépend de la machine qui le lance ;
+- le log : le service importe le logger de l'infrastructure, et le test écrit dans la sortie.
+
+Si le service a besoin d'une de ces valeurs, le usecase la lui passe en paramètre, comme `now` dans
+une Entity. Une bibliothèque de calcul, comme `dayjs`, est permise : elle ne fait pas d'I/O.
 
 **Exceptions.**
 
@@ -247,6 +280,7 @@ objet préparé pour l'affichage.
 **Bon exemple.**
 
 ```ts
+// get-new-acquired-stages.ts
 type GetNewAcquiredStagesInput = {
   stages: Stage[];
   validatedSkillCount: number;
@@ -255,12 +289,12 @@ type GetNewAcquiredStagesInput = {
 };
 ```
 
-Le service lit `stage.isZeroStage` : la règle du palier zéro reste dans `Stage`.
+Le service reçoit des `Stage`, et peut donc lire `stage.isZeroStage`.
 
 **Mauvais exemple.**
 
 ```ts
-// le service reçoit les lignes de la table stages, telles que la base les renvoie
+// get-new-acquired-stages.ts : le service reçoit les lignes de la table stages, telles que la base les renvoie
 export function getNewAcquiredStages({ stageRows, … }: { stageRows: StageRow[]; … }): StageRow[] {
   return stageRows.filter((row) => {
     if (row.level === 0 || row.threshold === 0) return true; // la règle de Stage.isZeroStage, réécrite
@@ -273,22 +307,31 @@ export function getNewAcquiredStages({ stageRows, … }: { stageRows: StageRow[]
 **Ce que ça apporte.** La règle ne dépend que du modèle du contexte. On peut changer une table, ou le
 contrat d'un autre contexte, sans toucher au service.
 
-**Sans cette règle.** Le service réécrit la règle du palier zéro sur les colonnes de la table. Le jour
-où `Stage.isZeroStage` change, la copie du service ne suit pas. Une participation reçoit alors le
-palier zéro dans un écran et pas dans l'autre.
+**Sans cette règle.** Chaque cas interdit a son problème :
+
+- une ligne de base : le service n'a pas les getters de `Stage`, et réécrit la règle du palier zéro
+  sur les colonnes. Le jour où `Stage.isZeroStage` change, la copie du service ne suit pas, et le
+  service donne un palier zéro que `Stage` ne reconnaît plus comme tel ;
+- le DTO d'un autre contexte : quand cet autre contexte renomme un champ de son DTO, il faut modifier
+  le service des paliers, alors que la règle des paliers n'a pas changé ;
+- un objet préparé pour l'affichage, en sortie : le service mêle la règle et la mise en forme d'un écran, et un
+  changement d'écran oblige à modifier la règle.
 
 **À savoir.** Un objet assemblé pour un écran est un [read-model](../read-model/README.md). Le
-construire n'est pas une règle du métier, et ce n'est pas le travail d'un Domain Service.
+construire n'est pas une règle du métier, et ce n'est pas le travail d'un Domain Service. D2 porte sur
+le type de ce que le service reçoit. D4 porte sur l'objet qui contient la règle.
 
 ### D3. Sans état, sans effet sur ses entrées
 
-**La règle.** Le service est une fonction exportée. Il ne garde rien d'un appel à l'autre. Il ne
-modifie pas les objets qu'il reçoit : ni tri sur place, ni `push`, ni appel d'une méthode qui modifie.
-Il peut construire et modifier ses propres objets, puis les renvoyer.
+**La règle.** Le service est une fonction exportée. Il ne garde rien d'un appel à l'autre, ni dans un
+champ, ni dans une variable du module. Il ne modifie pas les objets qu'il reçoit : ni tri sur place,
+ni `splice`, ni `push`, ni appel d'une méthode qui modifie. Il peut construire et modifier ses propres
+objets, puis les renvoyer.
 
 **Bon exemple.**
 
 ```ts
+// get-new-acquired-stages.ts
 export function getNewAcquiredStages({ … }: GetNewAcquiredStagesInput): Stage[] {
   return stages.filter((stage) => { … }); // filter renvoie un nouveau tableau
 }
@@ -297,18 +340,26 @@ export function getNewAcquiredStages({ … }: GetNewAcquiredStagesInput): Stage[
 **Mauvais exemple.**
 
 ```ts
+// get-new-acquired-stages.ts
 export function getNewAcquiredStages({ … }: GetNewAcquiredStagesInput): Stage[] {
-  stages.sort((a, b) => (a.threshold ?? 0) - (b.threshold ?? 0)); // sort trie le tableau de l'appelant
+  for (let i = stages.length - 1; i >= 0; i--) {
+    if (alreadyAcquiredStageIds.includes(stages[i].id)) stages.splice(i, 1); // retire les paliers du tableau de l'appelant
+  }
   return stages.filter((stage) => { … });
 }
 ```
 
-**Ce que ça apporte.** L'appelant retrouve ses paliers tels qu'il les a passés. On peut appeler le
-service deux fois, dans n'importe quel ordre, et obtenir le même résultat.
+**Ce que ça apporte.** L'appelant retrouve ses paliers tels qu'il les a passés, et peut s'en servir
+après l'appel. Deux appels avec les mêmes paramètres donnent le même résultat.
 
-**Sans cette règle.** Un usecase passe les paliers du profil cible au service, puis les renvoie à
-l'écran du prescripteur. Les paliers s'affichent dans un autre ordre que dans Pix Admin, et rien dans
-le usecase n'explique pourquoi.
+**Sans cette règle.** Chaque cas a son problème :
+
+- le service modifie ses entrées : un usecase passe les 5 paliers du profil cible au service, puis
+  affiche « palier 2 sur 5 » avec `stages.length`. Après l'appel, le tableau ne contient plus que les
+  paliers non acquis, et l'écran affiche « palier 2 sur 3 » ;
+- le service garde un état : une variable du module garde les paliers d'un appel. Le serveur traite
+  les requêtes de tous les utilisateurs dans le même processus, et la participation suivante reçoit un
+  résultat calculé avec les paliers de la précédente.
 
 **À savoir.** Un test le vérifie : on garde une copie des objets passés, et on compare après l'appel.
 Voir `does not change the stages it receives`.
@@ -316,13 +367,13 @@ Voir `does not change the stages it receives`.
 **Exceptions.** Une classe sans champ est permise. La fonction exportée reste la forme attendue : une
 classe permet d'ajouter un champ plus tard.
 
-### D4. Un dernier recours
+### D4. Un service seulement si aucun objet ne porte la règle
 
-**La règle.** Avant de créer un Domain Service, on essaie de placer la règle sur un objet :
+**La règle.** Avant de créer un Domain Service, le développeur cherche un objet où placer la règle :
 
 - une règle sur les données d'un seul objet va sur ce Value Object ou cette Entity ;
 - une règle qui relie les objets d'un même Aggregate va sur l'[Aggregate Root](../racine-agregat/README.md) ;
-- une règle qui a besoin de charger ou d'enregistrer va dans un usecase.
+- une règle qui a besoin de charger ou d'enregistrer va dans un usecase (voir [D1](#d1-aucune-io)).
 
 Le service ne reçoit que la règle qui reste : elle croise plusieurs objets, et aucun n'en est
 propriétaire.
@@ -330,7 +381,7 @@ propriétaire.
 **Bon exemple.**
 
 ```ts
-// D4 : une règle sur les données d'un seul palier est une méthode du palier
+// Stage.ts — D4 : une règle sur les données d'un seul palier est une méthode du palier
 get isZeroStage(): boolean {
   return this.level === 0 || this.threshold === 0;
 }
@@ -351,17 +402,25 @@ export function isZeroStage(stage: Stage): boolean {
 **Ce que ça apporte.** La règle du palier zéro se trouve dans `Stage.ts`. Qui lit la classe y trouve
 ce que fait un palier.
 
-**Sans cette règle.** Chaque règle du palier part dans une fonction à côté. `Stage` ne contient plus
-que des champs, et un développeur qui ne connaît pas `is-zero-stage.ts` réécrit le test
-`threshold === 0` dans un usecase, sans le `level === 0`.
+**Sans cette règle.** Chaque cas a son problème :
 
-**À savoir.** Un service qui ne reçoit qu'un objet, ou qu'une liste d'objets du même type, est un
-signal. Sa règle appartient presque toujours à cet objet, ou à l'objet qu'il produit.
+- une règle d'un seul objet dans un service : `Stage` ne contient plus que des champs. Un développeur
+  qui ne connaît pas `is-zero-stage.ts` réécrit le test `threshold === 0` dans un usecase, sans le
+  `level === 0`. Un palier zéro défini par un niveau n'est plus reconnu, et la participation ne le
+  reçoit pas ;
+- une règle d'Aggregate dans un service : par exemple « un profil cible a au plus un palier premier
+  acquis ». Un usecase qui ajoute un palier sans appeler le service enregistre un second palier
+  premier acquis. Sur l'Aggregate Root, la règle est vérifiée à chaque ajout, parce que l'ajout passe
+  par elle ;
+- une règle qui charge ou enregistre : c'est le problème décrit dans D1.
+
+**À savoir.** Un service qui ne reçoit qu'un objet, ou qu'une liste d'objets du même type, est à
+regarder de près. Sa règle appartient presque toujours à cet objet, ou à l'objet qu'il produit.
 
 ### D5. Nommé par la règle
 
 **La règle.** Le nom du fichier dit ce que le service calcule ou décide : `get-new-acquired-stages.ts`.
-Ce n'est pas le nom d'une ressource suffixé `-service`. Un fichier porte une règle.
+Ce n'est pas le nom d'une ressource suffixé `-service`. Chaque fichier contient un seul service.
 
 **Bon exemple.**
 

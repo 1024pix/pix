@@ -45,7 +45,7 @@ for (const name of Object.values(TYPES.OBJECT)) {
 
 `Object.getOwnPropertyNames(Candidate.prototype)` ne voit que les méthodes et les accesseurs déclarés
 sur le prototype. Un candidat qui expose ses propriétés par **champs assignés au constructeur** (la
-forme montrée sous `S1` de [`README.md`](README.md#s1-la-specification-est-totale)) n'a rien sur son
+forme montrée sous `S1` de [`README.md`](README.md#s1-la-specification-répond-toujours)) n'a rien sur son
 prototype. Le test échoue donc sur du code correct. Et il ne dit rien du cas inverse.
 
 La forme juste interroge une instance :
@@ -85,7 +85,7 @@ for (const name of Object.values(TYPES.OBJECT)) {
 propriété est absente à tour de rôle.
 
 Le test **ne couvre pas** les parties du candidat volontairement chargées en deux temps. Voir les
-[exceptions légitimes](README.md#exceptions-légitimes).
+[exceptions légitimes](README.md#référence-des-règles).
 
 ### S6 — ce qui manque avant de pouvoir le tester
 

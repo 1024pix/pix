@@ -142,7 +142,7 @@ Le typage n'apporte pas `M1` et `M3` **dans ce dépôt seul**. Une condition res
 fichier typé. La stabilité du contrat n'est pas vérifiable tant que le type ne franchit pas la
 frontière.
 
-Avec le typage, la checklist de [`README.md`](README.md#checklist-de-revue) perd deux lignes de plus :
+Avec le typage, la checklist de [`README.md`](README.md#checklist-de-revue-de-code) perd deux lignes de plus :
 `M2`, et la première ligne de `M5`. Il reste alors sept lignes :
 
 - `M1` conditions, pour les conditions sur un paramètre de `serialize` ;

@@ -16,7 +16,7 @@ est déjà dans le code, sous trois formes reconnaissables.
 
 | Invariant | Moyen | Coût | Faux positifs |
 | --- | --- | --- | --- |
-| **R2** contrôles d'accès | script `tests/tooling/` : classe chaque route par pre-handler de sécurité, `auth: false` ou stratégie explicite, et liste celles qui n'ont aucune des trois | ~40 lignes | aucun : les routes authentifiées sans restriction sont listées, pas signalées. Voir la limite de `R2` dans [`README.md`](README.md#r2-les-contrôles-daccès-sont-déclarés-en-pre-handler) |
+| **R2** contrôles d'accès | script `tests/tooling/` : classe chaque route par pre-handler de sécurité, `auth: false` ou stratégie explicite, et liste celles qui n'ont aucune des trois | ~40 lignes | aucun : les routes authentifiées sans restriction sont listées, pas signalées. Voir la limite de `R2` dans [`README.md`](README.md#r2-contrôles-daccès-en-pre-handler) |
 | **R3** documentation | script : toute route déclare étiquettes et description | ~30 lignes | aucun |
 | **R1** validation déclarée | script : toute route ayant des paramètres d'adresse déclare leur validation | ~30 lignes | faibles : un paramètre validé par un type partagé plutôt que par un schéma explicite |
 | **R4** aucune logique | règle ESLint : déclaration de fonction dans un objet de route, hors champ de traitement d'échec | ~30 lignes | **à mesurer** : voir `X4` de [`ecarts.md`](ecarts.md#x4-des-fonctions-sont-écrites-en-ligne-dans-la-déclaration) |

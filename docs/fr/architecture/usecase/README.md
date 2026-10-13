@@ -1,9 +1,11 @@
 # Usecase
 
 Un usecase réalise une intention du métier : créer une organisation, l'archiver, lui activer une
-fonctionnalité. Il charge les objets du domaine par un [repository](../repository/README.md), appelle
-leurs méthodes, puis enregistre le résultat. Les règles du métier vivent dans ces objets, pas dans le
-usecase. Les usecases se rangent dans `domain/usecases/`, un fichier par usecase.
+fonctionnalité. Il charge un [Aggregate](../racine-agregat/README.md) par son
+[repository](../repository/README.md), appelle ses méthodes, puis enregistre le résultat. Les règles du
+métier vivent dans l'Aggregate, pas dans le usecase. Chaque contexte du code, comme
+`organizational-entities` ou `quest`, range ses usecases dans `domain/usecases/`, un fichier par
+usecase.
 
 ## Les règles
 
@@ -23,10 +25,11 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 
 ## Exemple complet
 
-Les trois usecases de l'[Aggregate](../racine-agregat/README.md) `Organization`, leur index, puis un
-usecase d'un autre contexte qui lit une organisation. La règle du métier vient de la fiche Aggregate
-Root : si `LEARNER_IMPORT` est activée, `isManagingStudents` est toujours `false`. Elle vit dans
-`enableFeature()`, et aucun usecase ne la réécrit. Exemple inventé, d'après
+Les trois usecases de l'Aggregate `Organization`, leur index, puis un usecase du contexte `quest` qui
+lit une organisation par l'[API interne](../api-interne/README.md) d'`organizational-entities`. La
+règle du métier vient de la fiche Aggregate Root : si `LEARNER_IMPORT` est activée,
+`isManagingStudents` est toujours `false`. Elle vit dans `enableFeature()`, et aucun usecase ne la
+réécrit. Exemple inventé, d'après
 [`update-network.usecase.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/usecases/update-network.usecase.js#L8-L12)
 pour la forme, et
 [`OrganizationForAdmin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/OrganizationForAdmin.js#L241-L248)
@@ -46,15 +49,16 @@ type CreateOrganizationInput = {
 // U7 : l'écriture est dans une transaction
 export const createOrganization = withTransaction(
   async ({ organization, organizationRepository }: CreateOrganizationInput): Promise<Organization> => {
-    return organizationRepository.add(organization); // U6 : l'organisation enregistrée, avec son id
+    return organizationRepository.add({ organization }); // U6 : l'organisation enregistrée, avec son id
   },
 );
 ```
 
 ```ts
 // organizational-entities/domain/usecases/archive-organization.ts
+// U3 : des imports du domaine seulement, aucun de infrastructure/
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
-import type { Clock } from '../../../shared/domain/Clock.js';
+import type { Clock } from '../../../shared/domain/Clock.js'; // { now(): Date }
 import type { OrganizationId } from '../../../shared/domain/Id.js';
 import type { Organization } from '../models/organization/index.js';
 import type { OrganizationRepository } from '../repositories/OrganizationRepository.js';
@@ -67,9 +71,9 @@ type ArchiveOrganizationInput = {
 
 export const archiveOrganization = withTransaction(
   async ({ organizationId, organizationRepository, clock }: ArchiveOrganizationInput): Promise<Organization> => {
-    const organization = await organizationRepository.get(organizationId);
+    const organization = await organizationRepository.get({ id: organizationId });
     organization.archive(clock.now()); // U1 : archive() refuse une organisation déjà archivée
-    await organizationRepository.update(organization); // U7 : un seul Aggregate modifié
+    await organizationRepository.update({ organization }); // U7 : un seul Aggregate modifié
     return organization; // U6
   },
 );
@@ -78,26 +82,24 @@ export const archiveOrganization = withTransaction(
 ```ts
 // organizational-entities/domain/usecases/enable-organization-feature.ts
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
-import type { Clock } from '../../../shared/domain/Clock.js';
 import type { OrganizationId } from '../../../shared/domain/Id.js';
-import type { FeatureName, OrganizationFeature } from '../models/organization/index.js';
+import type { FeatureName, FeatureParams } from '../models/organization/index.js';
 import type { OrganizationRepository } from '../repositories/OrganizationRepository.js';
 
 type EnableOrganizationFeatureInput = {
   organizationId: OrganizationId;
   featureName: FeatureName;
-  params: OrganizationFeature['params'];
+  params: FeatureParams;
   organizationRepository: OrganizationRepository;
-  clock: Clock;
 };
 
 // U7 : update() écrit dans organizations et dans organization-features, dans la même transaction
 export const enableOrganizationFeature = withTransaction(
-  async ({ organizationId, featureName, params, organizationRepository, clock }: EnableOrganizationFeatureInput): Promise<void> => {
-    const organization = await organizationRepository.get(organizationId);
-    // U1 : le usecase ne teste ni « déjà activée » ni LEARNER_IMPORT, enableFeature() le fait
-    organization.enableFeature(featureName, params, clock.now());
-    await organizationRepository.update(organization);
+  async ({ organizationId, featureName, params, organizationRepository }: EnableOrganizationFeatureInput): Promise<void> => {
+    const organization = await organizationRepository.get({ id: organizationId });
+    // U1 : le usecase ne teste ni l'archivage, ni « déjà activée », ni LEARNER_IMPORT : enableFeature() le fait
+    organization.enableFeature(featureName, params);
+    await organizationRepository.update({ organization });
   },
 );
 ```
@@ -127,6 +129,11 @@ export const usecases = injectDependencies(usecasesWithoutInjectedDependencies, 
 
 ```ts
 // quest/domain/usecases/has-access-to-combined-course.ts — un autre contexte lit une organisation
+import type { UserId } from '../../../shared/domain/Id.js';
+import type { CombinedCourseRepository } from '../repositories/CombinedCourseRepository.js';
+import type { OrganizationLearnerRepository } from '../repositories/OrganizationLearnerRepository.js';
+import type { OrganizationRepository } from '../repositories/OrganizationRepository.js';
+
 type HasAccessToCombinedCourseInput = {
   userId: UserId;
   code: string;
@@ -135,6 +142,7 @@ type HasAccessToCombinedCourseInput = {
   organizationLearnerRepository: OrganizationLearnerRepository;
 };
 
+// une lecture : pas de withTransaction
 export const hasAccessToCombinedCourse = async ({
   userId,
   code,
@@ -142,8 +150,9 @@ export const hasAccessToCombinedCourse = async ({
   organizationRepository,
   organizationLearnerRepository,
 }: HasAccessToCombinedCourseInput): Promise<boolean> => {
-  const { organizationId } = await combinedCourseRepository.getByCode(code);
-  const organization = await organizationRepository.get(organizationId); // U9 : l'Organization de quest
+  const { organizationId } = await combinedCourseRepository.getByCode({ code });
+  // U9 : une Organization de quest, un modèle à part qui ne garde que ce dont quest a besoin
+  const organization = await organizationRepository.get({ id: organizationId });
   const isLearner = await organizationLearnerRepository.isLearnerOf({ userId, organizationId });
   return organization.acceptsParticipant({ isLearner }); // U1 : la règle est dans le modèle de quest
 };
@@ -152,9 +161,9 @@ export const hasAccessToCombinedCourse = async ({
 ## Comment tester
 
 Un usecase se teste avec un test d'intégration, sur une vraie base de données. On l'appelle par
-l'index du contexte, comme le fait le contrôleur. On ne teste pas un usecase en unitaire avec des
-stubs : le test vérifierait seulement l'ordre des appels, c'est-à-dire qu'il recopierait le code. Le
-test couvre :
+l'index du contexte, comme le fait le [contrôleur](../controleur/README.md). On ne teste pas un
+usecase en unitaire avec des stubs : le test vérifierait seulement l'ordre des appels, c'est-à-dire
+qu'il recopierait le code. Le test couvre :
 
 - le cas qui marche, avec ce qui est enregistré en base, relu par une requête. Exemple :
   `archives the organization` ;
@@ -163,16 +172,23 @@ test couvre :
 - une heure fixe, passée en paramètre à la place de l'horloge du câblage. Exemple : le `clock` des deux
   tests.
 
-Les règles elles-mêmes se testent dans le test unitaire de l'Aggregate, pas ici. Un usecase partagé
-entre plusieurs usecases, qui fait des I/O, se teste aussi en intégration.
+Les règles elles-mêmes se testent dans le test unitaire de l'Aggregate, pas ici. Un usecase appelé
+par d'autres usecases, qui lit ou écrit en base, se teste aussi en intégration.
 
 Le test de `archiveOrganization` :
 
 ```ts
 // tests/organizational-entities/integration/domain/usecases/archive-organization_test.ts
+import { expect } from 'chai';
+
+import { ArchivedOrganizationError } from '../../../../../src/organizational-entities/domain/errors.js';
+import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
+import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { catchErr } from '../../../../tooling/test-utils/error.js';
+
 describe('Integration | Organizational Entities | Domain | UseCases | archive-organization', function () {
   const now = new Date('2026-01-02');
-  const clock = { now: () => now };
+  const clock = { now: () => now }; // remplace l'horloge du câblage
 
   it('archives the organization', async function () {
     // given
@@ -223,6 +239,7 @@ Comment est-il appelé, et que renvoie-t-il ?
 
 Que se passe-t-il à l'écriture ?
 [ ] U7  withTransaction autour des écritures ; un seul Aggregate modifié
+[ ] U7  Un autre Aggregate est modifié par un autre usecase, hors de cette transaction
 
 Le retrouve-t-on ?
 [ ] U4  Un fichier, nommé avec le verbe de l'intention
@@ -236,36 +253,39 @@ Tests
 
 ### U1. Aucune règle métier dans le usecase
 
-**La règle.** Le usecase décide de l'ordre des appels. Il ne décide pas selon une propriété métier
-d'un objet. Une condition sur l'état d'un objet est une règle : elle devient une méthode de cet objet,
-et le usecase appelle la méthode.
+**La règle.** Le usecase enchaîne les appels : charger, appeler une méthode, enregistrer. Une
+condition sur l'état d'un objet est une règle du métier : elle devient une méthode de cet objet, et le
+usecase appelle la méthode.
 
 **Bon exemple.**
 
 ```ts
-const organization = await organizationRepository.get(organizationId);
-// U1 : le usecase ne teste ni « déjà activée » ni LEARNER_IMPORT, enableFeature() le fait
-organization.enableFeature(featureName, params, clock.now());
-await organizationRepository.update(organization);
+// enableOrganizationFeature
+const organization = await organizationRepository.get({ id: organizationId });
+// U1 : le usecase ne teste ni l'archivage, ni « déjà activée », ni LEARNER_IMPORT : enableFeature() le fait
+organization.enableFeature(featureName, params);
+await organizationRepository.update({ organization });
 ```
 
 **Mauvais exemple.**
 
 ```ts
-const organization = await organizationRepository.get(organizationId);
-// la règle « une fonctionnalité ne s'active qu'une fois » est écrite dans le usecase
-if (organization.features.some((feature) => feature.featureName === featureName)) {
-  throw new FeatureAlreadyEnabledError();
+// enableOrganizationFeature, avec un enableFeature() qui ne vérifie pas l'archivage
+const organization = await organizationRepository.get({ id: organizationId });
+// la règle « on n'active rien sur une organisation archivée » est écrite dans le usecase
+if (organization.isArchived) {
+  throw new ArchivedOrganizationError();
 }
-organization.enableFeature(featureName, params, clock.now());
-await organizationRepository.update(organization);
+organization.enableFeature(featureName, params);
+await organizationRepository.update({ organization });
 ```
 
 **Ce que ça apporte.** La règle est écrite une fois, dans `enableFeature()`. Tout usecase qui active
-une fonctionnalité passe par elle, et son test unitaire la couvre.
+une fonctionnalité passe par elle, et le test unitaire de l'Aggregate la couvre.
 
 **Sans cette règle.** La condition est recopiée dans chaque usecase qui active une fonctionnalité. Un
-usecase d'import en lot l'oublie, et une organisation se retrouve avec `LEARNER_IMPORT` deux fois.
+usecase d'activation en lot l'oublie, et des organisations archivées reçoivent de nouvelles
+fonctionnalités.
 
 **À savoir.**
 
@@ -277,7 +297,7 @@ usecase d'import en lot l'oublie, et une organisation se retrouve avec `LEARNER_
 ```ts
 try {
   organization.archive(clock.now());
-  await organizationRepository.update(organization);
+  await organizationRepository.update({ organization });
 } catch (error) {
   logger.error(error); // l'archivage a échoué, mais l'appelant reçoit une réponse normale
 }
@@ -299,6 +319,7 @@ paramètres. L'index du contexte les fournit, et un test peut en passer d'autres
 **Bon exemple.**
 
 ```ts
+// archiveOrganization
 type ArchiveOrganizationInput = {
   organizationId: OrganizationId; // U5 : une valeur typée
   organizationRepository: OrganizationRepository; // U2
@@ -312,9 +333,9 @@ type ArchiveOrganizationInput = {
 import { organizationRepository } from '../../infrastructure/repositories/organization-repository.js';
 
 export const archiveOrganization = withTransaction(async ({ organizationId }: { organizationId: OrganizationId }) => {
-  const organization = await organizationRepository.get(organizationId); // importé : on ne peut pas le remplacer
+  const organization = await organizationRepository.get({ id: organizationId }); // importé : on ne peut pas le remplacer
   organization.archive(new Date()); // l'heure est lue ici : le test ne peut pas la choisir
-  await organizationRepository.update(organization);
+  await organizationRepository.update({ organization });
   return organization;
 });
 ```
@@ -323,8 +344,8 @@ export const archiveOrganization = withTransaction(async ({ organizationId }: { 
 exactement `now`.
 
 **Sans cette règle.** Le test de `archiveOrganization` doit remplacer la date de tout le processus,
-avec de faux timers, pour savoir quelle valeur attendre. Et sous ESM, un module importé ne peut pas
-être remplacé dans un test.
+avec de faux timers, pour savoir quelle valeur attendre. Et avec les modules ES (`import` et
+`export`), un module importé ne peut pas être remplacé dans un test.
 
 **Exceptions.** Un journal reçu en paramètre est permis : il est injecté, pas importé.
 
@@ -337,8 +358,10 @@ de valeur.
 **Bon exemple.**
 
 ```ts
+// archive-organization.ts
+// U3 : des imports du domaine seulement, aucun de infrastructure/
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
-import type { Clock } from '../../../shared/domain/Clock.js';
+import type { Clock } from '../../../shared/domain/Clock.js'; // { now(): Date }
 import type { OrganizationId } from '../../../shared/domain/Id.js';
 import type { Organization } from '../models/organization/index.js';
 import type { OrganizationRepository } from '../repositories/OrganizationRepository.js';
@@ -347,7 +370,7 @@ import type { OrganizationRepository } from '../repositories/OrganizationReposit
 **Mauvais exemple.**
 
 ```ts
-// un drapeau lu depuis l'infrastructure, au milieu du usecase
+// enable-organization-feature.ts : un drapeau lu depuis l'infrastructure, au milieu du usecase
 import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
 
 if (!(await featureToggles.get('isLearnerImportEnabled'))) {
@@ -370,7 +393,8 @@ travail de câbler les dépendances. Il ne sert pas de précédent pour un useca
 ### U4. Une intention métier, un fichier, un nom de verbe
 
 **La règle.** Un fichier par usecase, nommé avec le verbe de l'intention, en kebab-case. Le verbe vient
-de l'Ubiquitous Language du contexte. Pas de nom de ressource, pas de nom de couche.
+de l'Ubiquitous Language du contexte, c'est-à-dire des mots que le métier et le code partagent. Pas de
+nom de ressource, pas de nom de couche.
 
 **Bon exemple.**
 
@@ -402,12 +426,12 @@ l'import montre de quel contexte il vient.
 
 **La règle.** Un usecase ne sait pas comment il est appelé. Il ne reçoit ni `request`, ni `h`, ni le
 payload JSON, et ne choisit pas de code HTTP. Il reçoit des objets du domaine ou des valeurs typées. Le
-[contrôleur](../controleur/README.md) et le [sérialiseur](../serialiseur/README.md) traduisent la
-requête avant l'appel.
+contrôleur et le [sérialiseur](../serialiseur/README.md) traduisent la requête avant l'appel.
 
 **Bon exemple.**
 
 ```ts
+// createOrganization
 type CreateOrganizationInput = {
   organization: Organization<null>; // U5 : un objet du domaine, créé par le sérialiseur, pas le JSON reçu
   organizationRepository: OrganizationRepository; // U2 : reçu en paramètre
@@ -415,7 +439,7 @@ type CreateOrganizationInput = {
 ```
 
 Le contrôleur appelle `usecases.createOrganization({ organization })`, avec l'`Organization<null>` que
-le sérialiseur a construite.
+le sérialiseur a construite. `Organization<null>` est une organisation pas encore enregistrée, sans id.
 
 **Mauvais exemple.**
 
@@ -424,7 +448,6 @@ type CreateOrganizationInput = {
   attributes: Record<string, string>; // les attributs JSON:API, tels que le front les envoie
   userId: number;
   organizationRepository: OrganizationRepository;
-  clock: Clock;
 };
 
 // dans le usecase
@@ -432,7 +455,6 @@ const organization = Organization.create({
   name: attributes['name'],
   type: attributes['type'] as OrganizationType,
   createdBy: userId as UserId,
-  now: clock.now(),
 });
 ```
 
@@ -453,16 +475,17 @@ pour la réponse HTTP, ni le DTO d'un autre contexte. La mise en forme est le tr
 **Bon exemple.**
 
 ```ts
-const organization = await organizationRepository.get(organizationId);
+// archiveOrganization
+const organization = await organizationRepository.get({ id: organizationId });
 organization.archive(clock.now()); // U1 : archive() refuse une organisation déjà archivée
-await organizationRepository.update(organization); // U7 : un seul Aggregate modifié
+await organizationRepository.update({ organization }); // U7 : un seul Aggregate modifié
 return organization; // U6
 ```
 
 **Mauvais exemple.**
 
 ```ts
-// un objet construit pour l'écran de Pix Admin
+// archiveOrganization : un objet construit pour l'écran de Pix Admin
 return {
   id: organization.id,
   'is-archived': true,
@@ -484,44 +507,72 @@ effets.
 
 ### U7. Le périmètre transactionnel est explicite
 
-**La règle.** Un usecase qui écrit est enveloppé dans `withTransaction`. La transaction couvre un seul
-Aggregate. Si un autre Aggregate doit suivre, il est modifié ensuite, dans sa propre transaction (voir
-`A7` de la fiche [Aggregate Root](../racine-agregat/README.md)).
+**La règle.** Un usecase qui écrit est enveloppé dans `withTransaction`. La transaction ne modifie
+qu'un seul Aggregate. Si un autre Aggregate doit suivre, un autre usecase le modifie, dans sa propre
+transaction. La règle [A7](../racine-agregat/README.md#a7-une-transaction-un-aggregate) de la fiche
+Aggregate Root dit comment découper les Aggregates. U7 dit où le usecase pose la transaction.
 
 **Bon exemple.**
 
 ```ts
 // U7 : update() écrit dans organizations et dans organization-features, dans la même transaction
 export const enableOrganizationFeature = withTransaction(
-  async ({ organizationId, featureName, params, organizationRepository, clock }: EnableOrganizationFeatureInput): Promise<void> => {
-    const organization = await organizationRepository.get(organizationId);
+  async ({ organizationId, featureName, params, organizationRepository }: EnableOrganizationFeatureInput): Promise<void> => {
+    const organization = await organizationRepository.get({ id: organizationId });
     …
-    await organizationRepository.update(organization);
+    await organizationRepository.update({ organization });
   },
 );
 ```
 
-**Mauvais exemple.**
+**Mauvais exemple.** Deux cas.
 
 ```ts
-// sans withTransaction : chaque requête de update() est validée seule
+// 1. sans withTransaction : chaque requête SQL de update() est validée seule
 export const enableOrganizationFeature = async ({ … }: EnableOrganizationFeatureInput): Promise<void> => {
-  const organization = await organizationRepository.get(organizationId);
-  organization.enableFeature(featureName, params, clock.now());
-  await organizationRepository.update(organization);
+  const organization = await organizationRepository.get({ id: organizationId });
+  organization.enableFeature(featureName, params);
+  await organizationRepository.update({ organization });
 };
 ```
 
-**Ce que ça apporte.** La mise à jour de l'organisation et l'ajout de la fonctionnalité réussissent ou
-échouent ensemble.
+```ts
+// 2. archiveOrganization modifie aussi les adhésions, un autre Aggregate, dans la même transaction.
+// membershipRepository est un repository local qui appelle l'API interne de team : U9 est respecté, pas U7
+const organization = await organizationRepository.get({ id: organizationId });
+organization.archive(clock.now());
+await organizationRepository.update({ organization });
+await membershipRepository.disableAll({ organizationId });
+```
 
-**Sans cette règle.** L'activation de `LEARNER_IMPORT` passe `isManagingStudents` à `false` dans
-`organizations`, puis l'insertion dans `organization-features` échoue. L'organisation ne gère plus ses
-élèves, et n'a pas l'import non plus.
+**Ce que ça apporte.**
 
-**À savoir.** Le repository obtient sa connexion par `DomainTransaction.getConnection()` : c'est ainsi
-qu'il écrit dans la transaction ouverte par `withTransaction`. Sans transaction ouverte, chaque requête
-est validée seule.
+- La mise à jour de l'organisation et l'ajout de la fonctionnalité réussissent ou échouent ensemble.
+- La transaction ne verrouille que les lignes de l'organisation.
+
+**Sans cette règle.**
+
+- Sans `withTransaction` : l'activation de `LEARNER_IMPORT` passe `isManagingStudents` à `false` dans
+  `organizations`, puis l'insertion dans `organization-features` échoue. L'organisation ne gère plus
+  ses élèves, et n'a pas l'import non plus.
+- Avec deux Aggregates : la transaction verrouille l'organisation et toutes ses adhésions. Si la
+  désactivation d'une adhésion échoue, l'archivage est annulé aussi, alors qu'il était valide.
+
+**À savoir.**
+
+- Une requête HTTP n'est pas une requête SQL. Un seul appel à `update()` lance déjà plusieurs requêtes
+  SQL : une sur `organizations`, une ou plusieurs sur `organization-features`. Sans `withTransaction`,
+  chacune est validée seule, et une erreur au milieu laisse la base à moitié écrite.
+- Le repository obtient sa connexion par `DomainTransaction.getConnection()` : c'est ainsi qu'il écrit
+  dans la transaction ouverte par `withTransaction`.
+- Pour modifier un autre Aggregate, on écrit un autre usecase, avec son propre `withTransaction`. Il
+  est appelé après la fin de la transaction du premier, jamais depuis l'intérieur. Un `withTransaction`
+  appelé dans une transaction déjà ouverte n'en ouvre pas de nouvelle : il rejoint celle qui existe
+  ([`DomainTransaction.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/DomainTransaction.js#L29-L33)).
+  Les deux usecases se retrouveraient dans la même transaction.
+- Si le second usecase échoue, le premier reste enregistré. Le second doit donc pouvoir être relancé :
+  il ne charge que les adhésions encore actives, et une relance reprend là où la première s'est
+  arrêtée.
 
 ### U8. Enregistré dans l'index des usecases
 
@@ -532,6 +583,7 @@ par un import direct du fichier.
 **Bon exemple.**
 
 ```ts
+// domain/usecases/index.ts
 // U8 : chaque usecase du dossier est importé, puis listé ici
 const usecasesWithoutInjectedDependencies = {
   archiveOrganization,
@@ -559,15 +611,16 @@ connaître les usecases du contexte ne voit pas l'archivage.
 
 **La règle.** Un usecase n'importe rien d'un autre contexte : ni son domaine, ni son infrastructure,
 ni ses usecases. Pour lire un autre contexte, il reçoit un repository de son propre contexte. Ce
-repository appelle l'[API interne](../api-interne/README.md) du voisin, et traduit sa réponse en un
-objet du domaine local : c'est l'Anticorruption Layer. Un usecase ne reçoit jamais l'API interne
-elle-même.
+repository appelle l'API interne du voisin, et traduit sa réponse en un objet du domaine local : c'est
+l'Anticorruption Layer, la couche de traduction entre deux contextes. Un usecase ne reçoit jamais
+l'API interne elle-même.
 
 **Bon exemple.**
 
 ```ts
-// quest : organizationRepository appelle organizationApi.getOrganization() et renvoie l'Organization de quest
-const organization = await organizationRepository.get(organizationId); // U9 : l'Organization de quest
+// hasAccessToCombinedCourse, dans quest
+// U9 : une Organization de quest, un modèle à part qui ne garde que ce dont quest a besoin
+const organization = await organizationRepository.get({ id: organizationId });
 const isLearner = await organizationLearnerRepository.isLearnerOf({ userId, organizationId });
 return organization.acceptsParticipant({ isLearner }); // U1 : la règle est dans le modèle de quest
 ```
@@ -575,8 +628,8 @@ return organization.acceptsParticipant({ isLearner }); // U1 : la règle est dan
 **Mauvais exemple.**
 
 ```ts
-// quest : l'API interne d'organizational-entities arrive telle quelle dans le usecase
-const organization = await organizationApi.getOrganization(organizationId); // un OrganizationDTO
+// hasAccessToCombinedCourse, dans quest : l'API interne d'organizational-entities arrive telle quelle
+const organization = await organizationApi.getOrganization({ id: organizationId }); // un OrganizationDTO
 const isLearner = await organizationLearnerRepository.isLearnerOf({ userId, organizationId });
 return !organization.isRestricted || isLearner;
 ```

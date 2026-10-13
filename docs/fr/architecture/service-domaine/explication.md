@@ -51,7 +51,7 @@ Le sens du dossier `services/` n'avait jamais été décidé. Aucun ADR ne le fi
   usecase obligatoire sans traiter le service.
 
 Il l'est maintenant : `domain/services/` est réservé aux vrais Domain Services. Les fichiers qui font
-des I/O vont dans `usecases/`. C'est la règle de [`README.md`](README.md#le-test-de-discrimination),
+des I/O vont dans `usecases/`. C'est la règle de [`README.md`](README.md#d4-un-service-seulement-si-aucun-objet-ne-porte-la-règle),
 et la correction de `X1` dans [`ecarts.md`](ecarts.md). Aucun ADR ne consigne encore cette décision,
 et un ADR doit l'écrire.
 

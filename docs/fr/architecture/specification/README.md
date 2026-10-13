@@ -8,7 +8,8 @@ est une. Elle décide par exemple si un élève a droit à l'attestation de sixi
 Une Specification a quatre éléments :
 
 - **la specification**, l'arbre des critères. Ici, la quête : une [Entity](../entite/README.md) ;
-- **les critères**, les feuilles et les combinateurs de l'arbre. Ce sont des
+- **les critères**, les feuilles et les combinateurs de l'arbre. Un combinateur regroupe d'autres
+  critères, avec `all` (tous remplis) ou `one-of` (au moins un rempli). Ce sont des
   [Value Objects](../objet-valeur/README.md) ;
 - **le candidat**, l'objet évalué, assemblé pour l'occasion. C'est aussi un Value Object ;
 - **la méthode d'évaluation**, ici `isEligible(candidat)`, le seul point d'entrée.
@@ -24,10 +25,10 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | --- | --- | --- |
 | [S1](#s1-la-specification-répond-toujours) | La specification répond toujours | une donnée absente du candidat rend `false`, sans lever d'erreur |
 | [S2](#s2--non-rempli--et--impossible-à-évaluer--sont-distincts) | « Non rempli » et « impossible à évaluer » sont distincts | une donnée présente mais inexploitable lève une erreur du domaine, elle ne rend pas `false` |
-| [S5](#s5-la-composition-est-fermée) | La composition est fermée | un combinateur accepte n'importe quel critère, et passe le candidat sans le modifier |
+| [S5](#s5-un-combinateur-accepte-tout-critère) | Un combinateur accepte tout critère | un combinateur accepte n'importe quel critère, et passe le candidat sans le modifier |
 | [S6](#s6-le-format-est-un-contrat-publié) | Le format est un contrat publié | aucune clé du JSON n'est renommée ; une nouvelle valeur est documentée avant d'être utilisée |
 | [S7](#s7-tout-critère-déclaré-est-branché-sur-le-candidat) | Tout critère déclaré est branché sur le candidat | chaque nom de critère est une propriété du candidat, vérifiée par le typage et par un test |
-| [S8](#s8-un-consommateur-ne-redéfinit-pas-la-specification) | Un consommateur ne redéfinit pas la specification | le usecase appelle `isEligible()`, sans filtrer ni reconstruire les critères |
+| [S8](#s8-un-consommateur-ne-redéfinit-pas-la-specification) | Un consommateur ne redéfinit pas la specification | le [usecase](../usecase/README.md) appelle `isEligible()`, sans filtrer ni reconstruire les critères |
 
 ## Exemple complet
 
@@ -35,8 +36,8 @@ L'éligibilité à l'attestation de sixième. L'élève y a droit si son organis
 elle gère des élèves ou porte le tag `AEFE`, et s'il a participé à une campagne d'un profil cible
 donné. Le candidat reprend trois champs de l'organisation, dont `isManagingStudents`, lu sur
 l'[Aggregate Root](../racine-agregat/README.md) `Organization`. Exemple inventé, d'après
-[`Requirement.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/value-objects/Requirement.js#L63-L191),
-[`CriterionProperty.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/value-objects/CriterionProperty.js#L83-L131)
+[`Requirement.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/value-objects/Requirement.js#L63-L123),
+[`CriterionProperty.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/value-objects/CriterionProperty.js#L83-L93)
 et la quête de sixième des seeds,
 [`build-quests.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/db/seeds/data/team-prescription/build-quests.js#L183-L251).
 
@@ -72,17 +73,26 @@ type CampaignParticipationData = { id: number; targetProfileId: number };
 export type EligibilityProps = { organization?: OrganizationData; campaignParticipations?: CampaignParticipationData[] };
 
 export class Eligibility {
-  readonly organization: OrganizationData;
-  readonly campaignParticipations: ReadonlyArray<CampaignParticipationData>;
+  readonly #organization: OrganizationData;
+  readonly #campaignParticipations: CampaignParticipationData[];
 
   // S1 : chaque propriété a toujours la même forme ; un champ manquant vaut undefined, une liste manquante est vide
   constructor({ organization = {}, campaignParticipations = [] }: EligibilityProps) {
-    this.organization = {
+    this.#organization = {
       type: organization.type,
       isManagingStudents: organization.isManagingStudents,
       tags: [...(organization.tags ?? [])],
     };
-    this.campaignParticipations = [...campaignParticipations];
+    this.#campaignParticipations = campaignParticipations.map((participation) => ({ ...participation }));
+  }
+
+  // V1 et V7 de la fiche Value Object : les champs sont privés, et un getter renvoie une copie
+  get organization(): OrganizationData {
+    return { ...this.#organization, tags: [...(this.#organization.tags ?? [])] };
+  }
+
+  get campaignParticipations(): CampaignParticipationData[] {
+    return this.#campaignParticipations.map((participation) => ({ ...participation }));
   }
 }
 ```
@@ -92,6 +102,7 @@ export class Eligibility {
 import { InvalidComparisonError, InvalidRequirementError } from '../../errors.js';
 
 // S6 : les valeurs du format publié, documentées avec le format
+// as const plutôt qu'un enum : la configuration TypeScript de Pix (erasableSyntaxOnly) interdit les enum
 export const CRITERION_COMPARISONS = { EQUAL: 'equal', ONE_OF: 'one-of', ALL: 'all' } as const;
 type CriterionComparison = (typeof CRITERION_COMPARISONS)[keyof typeof CRITERION_COMPARISONS];
 type Scalar = string | number | boolean;
@@ -138,7 +149,7 @@ import { InvalidRequirementError } from '../../errors.js';
 import { type CriterionJson, CriterionProperty } from './CriterionProperty.js';
 import type { Eligibility } from './Eligibility.js';
 
-// S6 : les valeurs du format publié, documentées avec le format
+// S6 : les valeurs du format publié, documentées avec le format ; as const pour la même raison que dans CriterionProperty.ts
 export const REQUIREMENT_TYPES = {
   COMPOSE: 'compose',
   // S7 : chaque nom est une propriété du candidat, sinon la compilation échoue
@@ -218,6 +229,7 @@ export function buildRequirement(json: RequirementJson): Requirement {
 
 ```ts
 // quest/domain/models/quests/Quest.ts — la specification, raccourcie à l'éligibilité
+import type { QuestId } from '../../../../shared/domain/Id.js';
 import type { Eligibility } from './Eligibility.js';
 import { ComposedRequirement, REQUIREMENT_COMPARISONS, type RequirementJson, buildRequirement } from './Requirement.js';
 
@@ -242,11 +254,26 @@ export class Quest {
 
 ```ts
 // quest/domain/usecases/reward-user.ts — raccourci : seule l'éligibilité est montrée
-const quests = await questRepository.findAllWithReward();
-const eligibilities = await eligibilityRepository.find({ userId });
+import type { UserId } from '../../../shared/domain/Id.js';
+import type { EligibilityRepository } from '../repositories/EligibilityRepository.js';
+import type { QuestRepository } from '../repositories/QuestRepository.js';
 
-// S8 : le usecase évalue chaque quête entière, il ne choisit pas quels critères comptent
-const eligibleQuests = quests.filter((quest) => eligibilities.some((eligibility) => quest.isEligible(eligibility)));
+export const rewardUser = async ({
+  userId,
+  questRepository,
+  eligibilityRepository,
+}: {
+  userId: UserId;
+  questRepository: QuestRepository;
+  eligibilityRepository: EligibilityRepository;
+}): Promise<void> => {
+  const quests = await questRepository.findAllWithReward();
+  const eligibilities = await eligibilityRepository.find({ userId });
+
+  // S8 : le usecase évalue chaque quête entière, il ne choisit pas quels critères comptent
+  const eligibleQuests = quests.filter((quest) => eligibilities.some((eligibility) => quest.isEligible(eligibility)));
+  // … la suite vérifie la réussite de chaque quête de eligibleQuests, puis donne l'attestation
+};
 ```
 
 ## Comment tester
@@ -268,13 +295,19 @@ méthode d'évaluation, et couvre :
 Le format publié se teste à part : un test compare les valeurs des énumérations à la documentation du
 format, versionnée dans le dépôt. Exemple : `documents every value of the format`.
 
-Le repository qui assemble le candidat se teste avec un test d'intégration : chaque propriété du
+Le [repository](../repository/README.md) qui assemble le candidat se teste avec un test d'intégration : chaque propriété du
 candidat est renseignée. Exemple : `loads the organization type, isManagingStudents and tags`.
 
 Le test unitaire de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/quest/unit/domain/models/quests/Quest_test.ts
+import type { QuestId } from '../../../../../../src/shared/domain/Id.js';
+import { InvalidComparisonError, InvalidRequirementError } from '../../../../../../src/quest/domain/errors.js';
+import { Eligibility, type EligibilityProps } from '../../../../../../src/quest/domain/models/quests/Eligibility.js';
+import { Quest } from '../../../../../../src/quest/domain/models/quests/Quest.js';
+import { REQUIREMENT_TYPES, type RequirementJson } from '../../../../../../src/quest/domain/models/quests/Requirement.js';
+
 describe('Unit | Quest | Domain | Models | Quest', function () {
   const sixthGradeEligibility: RequirementJson[] = [
     { requirement_type: 'organization', comparison: 'all', data: { type: { data: 'SCO', comparison: 'equal' } } },
@@ -346,6 +379,8 @@ describe('Unit | Quest | Domain | Models | Quest', function () {
 
   describe('constructor', function () {
     it('refuses an unknown requirement type', function () {
+      // le typage refuse ce type inconnu. On force le type pour vérifier le refus à l'exécution, car le JSON
+      // vient de la base
       const unknownType = { requirement_type: 'certifications', comparison: 'all', data: {} } as unknown as RequirementJson;
 
       expect(() => buildQuest([unknownType])).to.throw(InvalidRequirementError);
@@ -392,7 +427,8 @@ Tests
 
 **La règle.** La méthode d'évaluation rend un booléen pour tout candidat valide, même incomplet. Une
 donnée absente du candidat rend `false`. Le candidat y aide : son constructeur donne toujours la même
-forme à chaque propriété.
+forme à chaque propriété. Une donnée présente mais inexploitable ne relève pas de cette règle, mais de
+`S2`.
 
 **Bon exemple.**
 
@@ -454,14 +490,15 @@ return expected.every((expectedValue) => value.includes(expectedValue));
 
 ```ts
 if (!Array.isArray(value)) {
-  logger.error({ event: 'quest-reward' }, 'Error on quests criterion property');
+  logger.error('Cannot compare the value');
   return false; // même réponse qu'un candidat qui ne remplit pas le critère
 }
 return expected.every((expectedValue) => value.includes(expectedValue));
 ```
 
 **Ce que ça apporte.** Un critère mal écrit ou une donnée mal chargée se voit. L'erreur remonte au
-usecase, qui décide quoi en faire.
+usecase, qui décide quoi en faire. Elle ne vient pas d'un candidat normal, comme la `TypeError` de
+`S1` : elle signale une donnée à corriger.
 
 **Sans cette règle.** Le repository charge les tags sous forme de chaîne, `'AEFE'` au lieu de
 `['AEFE']`. Le critère rend `false`, et un élève d'une organisation `AEFE` n'a pas son attestation. On
@@ -471,14 +508,14 @@ le traite comme un élève qui n'y a pas droit, et personne ne le sait.
 
 - une donnée du candidat est absente : `false`, c'est `S1` ;
 - un critère est mal écrit, par exemple un type inconnu : l'arbre ne se construit pas, c'est la règle
-  V3 de la fiche Value Object ;
+  [V3 de la fiche Value Object](../objet-valeur/README.md#v3-valide-dès-la-construction) ;
 - une donnée du candidat est présente mais inexploitable : une erreur, c'est `S2`.
 
 Trois façons de signaler le troisième cas existent : une erreur du domaine, un résultat à trois états,
-ou un booléen avec une liste de diagnostics. Le défaut n'est pas d'en choisir une plutôt qu'une autre.
-C'est d'en mélanger plusieurs selon le critère.
+ou un booléen avec une liste de diagnostics. Le moteur en choisit une pour tous ses critères. Le
+défaut est d'en mélanger plusieurs selon le critère : le usecase doit alors traiter chaque façon.
 
-### S5. La composition est fermée
+### S5. Un combinateur accepte tout critère
 
 **La règle.** Un combinateur accepte n'importe quel critère comme enfant, y compris un autre
 combinateur. Il ne connaît que la méthode `isFulfilled()` de ses enfants, et leur passe le candidat sans
@@ -520,8 +557,7 @@ une quête sans aucun critère d'éligibilité rend alors tous les élèves éli
 
 **La règle.** Le JSON des critères est écrit à la main et enregistré en base, hors du code. Ses clés
 ne se renomment pas, même quand elles ne suivent pas les conventions du code. Toute valeur ajoutée à
-une énumération est documentée avec le format avant d'être utilisée. Le format s'étend, il ne casse
-pas.
+une énumération est documentée avec le format avant d'être utilisée.
 
 **Bon exemple.**
 
@@ -584,7 +620,7 @@ candidat. La compilation échoue sinon.
 
 **Sans cette règle.** Une quête utilise le critère `certifications`. Il passe la validation, puisque le
 nom est dans l'énumération. Mais le candidat n'a pas cette propriété : le critère rend toujours `false`
-par `S1`, et la quête ne donne jamais son attestation. Le critère a l'air actif, sans l'être.
+par `S1`, et la quête ne donne jamais son attestation. Aucune erreur ne le signale.
 
 **À savoir.** Le typage et le test ne vérifient pas que le repository charge la donnée. Un test
 d'intégration du repository le fait.
@@ -609,7 +645,7 @@ const eligibleQuests = quests.filter((quest) => eligibilities.some((eligibility)
 **Mauvais exemple.**
 
 ```ts
-// suppose un getter eligibilityRequirements sur la quête
+// suppose un getter eligibilityRequirements, qui rend le JSON des critères de la quête
 const requirements = quest.eligibilityRequirements.filter(
   (requirement) => requirement.requirement_type === REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS,
 );
@@ -622,11 +658,12 @@ return questWithoutOrganization.isEligible(eligibility);
 façon dont le moteur les évalue sans relire ses consommateurs.
 
 **Sans cette règle.** Le usecase ignore les critères sur l'organisation : un élève d'une organisation
-`PRO` reçoit l'attestation de sixième. Et le moteur ne peut pas devenir un Bounded Context à part, car
-aucune [API interne](../api-interne/README.md) ne peut proposer « reconstruis ma quête avec d'autres critères ».
+`PRO` reçoit l'attestation de sixième. Et le moteur ne peut pas devenir un Bounded Context à part,
+c'est-à-dire un module avec son propre modèle, que les autres appellent par son API. Aucune
+[API interne](../api-interne/README.md) ne peut proposer « reconstruis ma quête avec d'autres critères ».
 
 **À savoir.** Sans getter sur les critères, comme dans l'exemple complet, un consommateur ne peut pas
-les filtrer.
+les filtrer à partir de la quête.
 
 **Exceptions.** Le besoin derrière un filtrage est souvent réel : un critère ne doit pas bloquer dans
 certains cas. Il devient alors une propriété du modèle du consommateur, que la specification reçoit.

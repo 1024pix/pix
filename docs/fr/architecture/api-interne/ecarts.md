@@ -51,7 +51,7 @@ travail de contrat, pas une transformation.
 Ne jamais envelopper le modèle dans un DTO aux mêmes champs sans avoir choisi ces champs. Le lint
 passe au vert, la forme interne reste le contrat, et la dette devient invisible. Voir
 [`outillage.md`](outillage.md#p1--détecter-le-modèle-du-domaine-qui-fuit) pour ce que la règle ne
-voit pas, et `P9` de [`README.md`](README.md#p9-le-dto-nexpose-que-ce-que-ses-consommateurs-utilisent)
+voit pas, et `P9` de [`README.md`](README.md#p9-seulement-les-champs-lus)
 pour le choix des champs.
 
 ### X2. L'API appelle un repository sans passer par un usecase
@@ -98,7 +98,7 @@ décrit `X1` de `../read-model/ecarts.md`.
 L'écart précis par contexte est mesuré dans les rapports de divergence, pas ici.
 
 **Verdict.** À corriger. La règle est `P5` de
-[`README.md`](README.md#p5-un-seul-emplacement-pour-lobjet-de-contrat). Aucun arbitrage n'est
+[`README.md`](README.md#p5-le-dto-dans-models). Aucun arbitrage n'est
 nécessaire, donc l'écart est peu coûteux à corriger. La théorie est dans
 [`explication.md`](explication.md#x3-lobjet-de-contrat-nest-pas-dans-le-dossier-décidé).
 
@@ -204,7 +204,7 @@ dessus.
 
 **Verdict.** À corriger. L'équipe a décidé qu'un DTO n'expose que les champs que ses consommateurs
 lisent : c'est `P9` de
-[`README.md`](README.md#p9-le-dto-nexpose-que-ce-que-ses-consommateurs-utilisent). La théorie est
+[`README.md`](README.md#p9-seulement-les-champs-lus). La théorie est
 dans [`explication.md`](explication.md#x5-le-dto-expose-exactement-les-champs-de-lentity).
 
 **Correction.** Pour chaque DTO, relever les champs que lisent les contextes consommateurs, qui sont

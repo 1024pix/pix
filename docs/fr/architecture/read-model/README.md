@@ -2,13 +2,15 @@
 
 Un read-model est un objet assemblé pour un écran ou une réponse : une ligne de la liste des
 organisations de Pix Admin, le détail d'une campagne. Un [repository](../repository/README.md) le
-construit avec une requête, souvent sur plusieurs tables. Il traverse le [usecase](../usecase/README.md),
-puis sort par le [sérialiseur](../serialiseur/README.md). Aucune règle du métier ne le lit. Les
-read-models se rangent dans `domain/read-models/`.
+construit avec une requête, souvent sur plusieurs tables. Le [usecase](../usecase/README.md) le
+renvoie sans le lire, et le [sérialiseur](../serialiseur/README.md) le met au format de la réponse.
+Aucune règle du métier ne le lit. Les read-models se rangent dans `domain/read-models/`.
 
-Comme un [Value Object](../objet-valeur/README.md), il ne change pas après sa création (V1) et ne
-dépend d'aucune infrastructure (V4). Malgré son nom, ce n'est pas le read model de CQRS : il est lu
-dans la même base, dans la même transaction.
+Comme un [Value Object](../objet-valeur/README.md), il ne change pas après sa création
+([V1](../objet-valeur/README.md#v1-immuable)) et ne dépend d'aucune infrastructure
+([V4](../objet-valeur/README.md#v4-aucun-effet-de-bord-extérieur)). Ce n'est pas le read model de
+CQRS, qui est une copie des données tenue dans une base à part et mise à jour après chaque écriture.
+Le read-model de Pix est lu dans les tables où l'Aggregate écrit.
 
 ## Les règles
 
@@ -19,7 +21,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | [RM1](#rm1-aucune-règle-métier) | Aucune règle métier | seulement des mises en forme pour l'écran : un total, un libellé, `isArchived` |
 | [RM2](#rm2-aucune-validation) | Aucune validation | pas de `throw` : les données viennent de notre propre base |
 | [RM3](#rm3-nentre-pas-dans-une-règle) | N'entre pas dans une règle | un usecase le renvoie sans le lire ; pour décider, il charge l'[Aggregate](../racine-agregat/README.md) |
-| [RM4](#rm4-emplacement) | Emplacement | le fichier est dans `domain/read-models/`, à côté de `domain/models/` |
+| [RM4](#rm4-rangé-à-part-des-modèles-du-domaine) | Rangé à part des modèles du domaine | le fichier est dans `domain/read-models/`, à côté de `domain/models/` |
 
 ## Exemple complet
 
@@ -31,12 +33,14 @@ Exemple inventé, d'après
 ```ts
 // organizational-entities/domain/read-models/OrganizationListItem.ts — RM4 : rangé dans read-models/
 import type { OrganizationId } from '../../../shared/domain/Id.js';
+import type { OrganizationType } from '../models/organization/index.js';
 
-// RM2 : un type, sans constructeur, donc sans validation
+// RM2 : un type plutôt qu'une classe. Sans constructeur, il n'y a pas d'endroit où valider, et
+// le repository renvoie un objet littéral. La mise en forme est donc une fonction à part, plus bas
 export type OrganizationListItem = {
   readonly id: OrganizationId; // V1 : en lecture seule ; l'id de l'organisation affichée
   readonly name: string;
-  readonly type: string;
+  readonly type: OrganizationType;
   readonly externalId: string | null;
   readonly archivedAt: Date | null;
   readonly administrationTeamName: string | null; // vient d'un autre Aggregate, par la jointure
@@ -48,8 +52,18 @@ export const isArchived = (item: OrganizationListItem): boolean => item.archived
 
 ```ts
 // organizational-entities/domain/repositories/OrganizationListRepository.ts
+import type { OrganizationId } from '../../../shared/domain/Id.js';
+import type { OrganizationListItem } from '../read-models/OrganizationListItem.js';
+
+export type OrganizationListFilter = { id?: OrganizationId; name?: string; hideArchived?: boolean };
+export type PageParams = { number: number; size: number };
+export type Pagination = { page: number; pageSize: number; rowCount: number; pageCount: number };
+
 export interface OrganizationListRepository {
-  findPaginatedFiltered(params: {
+  findPaginatedFiltered({
+    filter,
+    page,
+  }: {
     filter: OrganizationListFilter;
     page: PageParams;
   }): Promise<{ models: OrganizationListItem[]; pagination: Pagination }>;
@@ -58,7 +72,24 @@ export interface OrganizationListRepository {
 
 ```ts
 // organizational-entities/infrastructure/repositories/organization-list-repository.ts
-export const findPaginatedFiltered = async ({ filter, page }: FindPaginatedFilteredParams) => {
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import type { OrganizationId } from '../../../shared/domain/Id.js';
+import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
+import type { OrganizationType } from '../../domain/models/organization/index.js';
+import type { OrganizationListItem } from '../../domain/read-models/OrganizationListItem.js';
+import type { OrganizationListFilter, PageParams } from '../../domain/repositories/OrganizationListRepository.js';
+
+// knex ne type pas ses résultats : on déclare la forme de la ligne renvoyée par la requête
+type OrganizationListRow = {
+  id: number;
+  name: string;
+  type: string;
+  externalId: string | null;
+  archivedAt: Date | null;
+  administrationTeamName: string | null;
+};
+
+export const findPaginatedFiltered = async ({ filter, page }: { filter: OrganizationListFilter; page: PageParams }) => {
   const knexConn = DomainTransaction.getConnection();
   const query = knexConn('organizations')
     .select({
@@ -70,7 +101,11 @@ export const findPaginatedFiltered = async ({ filter, page }: FindPaginatedFilte
       administrationTeamName: 'administration_teams.name',
     })
     .leftJoin('administration_teams', 'administration_teams.id', 'organizations.administrationTeamId')
-    .modify(applySearchFilters, filter, knexConn)
+    .modify((queryBuilder) => {
+      if (filter.id) queryBuilder.where('organizations.id', filter.id);
+      if (filter.name) queryBuilder.whereILike('organizations.name', `%${filter.name}%`);
+      if (filter.hideArchived) queryBuilder.whereNull('organizations.archivedAt');
+    })
     .orderBy('organizations.name', 'ASC');
 
   const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
@@ -80,9 +115,9 @@ export const findPaginatedFiltered = async ({ filter, page }: FindPaginatedFilte
 // RM2 : on recopie les colonnes, sans rien vérifier
 function toListItem(row: OrganizationListRow): OrganizationListItem {
   return {
-    id: row.id,
+    id: row.id as OrganizationId,
     name: row.name,
-    type: row.type,
+    type: row.type as OrganizationType, // la valeur de la base est reprise telle quelle
     externalId: row.externalId,
     archivedAt: row.archivedAt,
     administrationTeamName: row.administrationTeamName,
@@ -92,21 +127,39 @@ function toListItem(row: OrganizationListRow): OrganizationListItem {
 
 ```ts
 // organizational-entities/domain/usecases/find-paginated-filtered-organizations.ts
+import type {
+  OrganizationListFilter,
+  OrganizationListRepository,
+  PageParams,
+} from '../repositories/OrganizationListRepository.js';
+
 // RM3 : le usecase renvoie les lignes sans les lire
 export const findPaginatedFilteredOrganizations = ({
   filter,
   page,
   organizationListRepository,
-}: FindPaginatedFilteredOrganizationsInput) => {
+}: {
+  filter: OrganizationListFilter;
+  page: PageParams;
+  organizationListRepository: OrganizationListRepository;
+}) => {
   return organizationListRepository.findPaginatedFiltered({ filter, page });
 };
 ```
 
 ```ts
 // organizational-entities/infrastructure/serializers/jsonapi/organization-list-serializer.ts
+import jsonapiSerializer from 'jsonapi-serializer';
+
+import { isArchived, type OrganizationListItem } from '../../../domain/read-models/OrganizationListItem.js';
+import type { Pagination } from '../../../domain/repositories/OrganizationListRepository.js';
+
+const { Serializer } = jsonapiSerializer;
+
 export const serialize = (items: OrganizationListItem[], pagination: Pagination) =>
   new Serializer('organizations', {
     attributes: ['name', 'type', 'externalId', 'administrationTeamName', 'isArchived'],
+    // isArchived est fourni par le read-model : le sérialiseur appelle sa fonction, sans refaire le calcul
     transform: (item: OrganizationListItem) => ({ ...item, isArchived: isArchived(item) }),
     meta: pagination,
   }).serialize(items);
@@ -114,9 +167,10 @@ export const serialize = (items: OrganizationListItem[], pagination: Pagination)
 
 ## Comment tester
 
-Un read-model se teste avec un test unitaire, sans stub, mock ni spy. Le test couvre chaque mise en
-forme, cas limites compris. Exemples : `is archived when the organization has an archive date` et
-`is not archived without archive date`.
+Un read-model se teste avec un test unitaire, sans stub, mock ni spy. Le test couvre :
+
+- chaque mise en forme, cas limites compris. Exemples : `is archived when the organization has an
+  archive date`, `is not archived without archive date`.
 
 Un read-model sans mise en forme n'a pas de test unitaire : il n'a rien à vérifier.
 
@@ -127,6 +181,12 @@ Le test unitaire de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/organizational-entities/unit/domain/read-models/OrganizationListItem_test.ts
+import {
+  isArchived,
+  type OrganizationListItem,
+} from '../../../../../src/organizational-entities/domain/read-models/OrganizationListItem.js';
+import type { OrganizationId } from '../../../../../src/shared/domain/Id.js';
+
 describe('Unit | Organizational Entities | Domain | ReadModels | OrganizationListItem', function () {
   const buildItem = (props: Partial<OrganizationListItem> = {}): OrganizationListItem => ({
     id: 1 as OrganizationId,
@@ -163,7 +223,7 @@ Vérifie-t-il ses données ?
 Est-il au bon endroit ?
 [ ] RM4  Le fichier est dans domain/read-models/
 
-Comme un Value Object
+Respecte-t-il les règles du Value Object ?
 [ ] V1  Champs en readonly, aucune écriture après la création
 [ ] V4  Pas d'import d'infrastructure, pas de new Date(), Math.random() ni config
 
@@ -183,6 +243,7 @@ l'applique avant d'enregistrer.
 **Bon exemple.**
 
 ```ts
+// OrganizationListItem.ts
 export const isArchived = (item: OrganizationListItem): boolean => item.archivedAt !== null;
 ```
 
@@ -191,6 +252,7 @@ export const isArchived = (item: OrganizationListItem): boolean => item.archived
 **Mauvais exemple.**
 
 ```ts
+// OrganizationListItem.ts
 export type OrganizationListItem = {
   …
   readonly isManagingStudents: boolean;
@@ -203,8 +265,8 @@ export const managesStudents = (item: OrganizationListItem): boolean =>
 ```
 
 La règle « si `LEARNER_IMPORT` est activée, l'organisation ne gère pas d'élèves » appartient à
-l'Aggregate `Organization`. Pour l'afficher, le read-model lit la
-colonne `isManagingStudents`, que l'Aggregate a déjà mise à jour.
+l'Aggregate `Organization`. Pour l'afficher, le read-model lit la colonne `isManagingStudents`, que
+l'Aggregate a déjà mise à jour.
 
 **Ce que ça apporte.** La règle existe à un seul endroit, dans `Organization`. La liste affiche ce que
 l'Aggregate a enregistré.
@@ -224,12 +286,15 @@ requête suffit à justifier le fichier.
 ### RM2. Aucune validation
 
 **La règle.** Un read-model ne vérifie pas ses données. Elles viennent d'une requête sur notre propre
-base, et l'Aggregate les a déjà vérifiées à l'écriture. Le read-model ne lève donc jamais d'erreur.
+base, où l'Aggregate les a écrites après les avoir vérifiées. Une donnée ancienne peut ne pas suivre
+les règles d'aujourd'hui : le read-model l'accepte quand même. Il ne lève jamais d'erreur.
 
 **Bon exemple.**
 
 ```ts
-// un type, sans constructeur, donc sans validation
+// OrganizationListItem.ts
+// RM2 : un type plutôt qu'une classe. Sans constructeur, il n'y a pas d'endroit où valider, et
+// le repository renvoie un objet littéral. La mise en forme est donc une fonction à part, plus bas
 export type OrganizationListItem = {
   readonly id: OrganizationId;
   readonly name: string;
@@ -238,10 +303,12 @@ export type OrganizationListItem = {
 ```
 
 ```ts
+// organization-list-repository.ts
 function toListItem(row: OrganizationListRow): OrganizationListItem {
   return {
-    id: row.id,
+    id: row.id as OrganizationId,
     name: row.name,
+    type: row.type as OrganizationType, // la valeur de la base est reprise telle quelle
     …
   };
 }
@@ -250,6 +317,7 @@ function toListItem(row: OrganizationListRow): OrganizationListItem {
 **Mauvais exemple.**
 
 ```ts
+// OrganizationListItem.ts
 export class OrganizationListItem {
   constructor(props: OrganizationListItemProps) {
     if (props.name.trim() === '') {
@@ -279,11 +347,16 @@ décide à partir de lui. Pour décider, un usecase charge l'Aggregate et appell
 **Bon exemple.**
 
 ```ts
+// find-paginated-filtered-organizations.ts
 export const findPaginatedFilteredOrganizations = ({
   filter,
   page,
   organizationListRepository,
-}: FindPaginatedFilteredOrganizationsInput) => {
+}: {
+  filter: OrganizationListFilter;
+  page: PageParams;
+  organizationListRepository: OrganizationListRepository;
+}) => {
   return organizationListRepository.findPaginatedFiltered({ filter, page });
 };
 ```
@@ -292,9 +365,10 @@ Le usecase renvoie les lignes sans les lire. Quand il faut décider, le usecase 
 comme `enableOrganizationFeature` dans la fiche Aggregate Root :
 
 ```ts
-const organization = await organizationRepository.get(organizationId);
-organization.enableFeature(featureName, params, clock.now());
-await organizationRepository.update(organization);
+// enable-organization-feature.ts
+const organization = await organizationRepository.get({ id: organizationId });
+organization.enableFeature(featureName, params);
+await organizationRepository.update({ organization });
 ```
 
 **Mauvais exemple.**
@@ -303,26 +377,32 @@ await organizationRepository.update(organization);
 // enable-organization-feature.ts : la décision lit une ligne de la liste
 const {
   models: [item],
-} = await organizationListRepository.findPaginatedFiltered({ filter: { id: organizationId }, page: { number: 1, size: 1 } });
+} = await organizationListRepository.findPaginatedFiltered({
+  filter: { id: organizationId },
+  page: { number: 1, size: 1 },
+});
 if (isArchived(item)) throw new ArchivedOrganizationError(); // une règle lit le read-model
-await organizationFeatureRepository.add({ organizationId, featureName, params });
+await organizationFeatureRepository.add({ organizationId, featureName, params }); // sans passer par l'Aggregate
 ```
 
 **Ce que ça apporte.** On peut changer la liste pour l'écran, ajouter ou retirer une colonne, sans
 toucher à aucune règle du métier.
 
-**Sans cette règle.** Le usecase vérifie l'archivage, mais la ligne de liste ne porte pas les
-fonctionnalités. La même fonctionnalité est activée deux fois. Et après `LEARNER_IMPORT`,
-`isManagingStudents` reste à `true`, parce que `enableFeature()` n'a pas été appelée.
+**Sans cette règle.** Le usecase vérifie l'archivage sur la ligne de liste. Mais la ligne ne porte
+pas les fonctionnalités, donc rien ne refuse une fonctionnalité déjà activée : elle est enregistrée
+deux fois. Après `LEARNER_IMPORT`, `isManagingStudents` reste à `true`, parce que `enableFeature()`
+n'a pas été appelée.
 
 **À savoir.**
 
 - Si une règle a vraiment besoin de lire l'objet, ce n'est pas un read-model. C'est un Value Object,
-  rangé dans `domain/models/` : il valide ses valeurs à la construction (V3) et porte ses règles (V5).
+  rangé dans `domain/models/` : il valide ses valeurs à la construction
+  ([V3](../objet-valeur/README.md#v3-valide-dès-la-construction)) et porte ses règles
+  ([V5](../objet-valeur/README.md#v5-contient-ses-règles)).
 - L'autre sens est interdit aussi : un modèle du domaine ne fabrique pas de read-model. `Organization`
-  n'a pas de méthode `toListItem()` : c'est le repository qui construit la ligne.
+  n'a pas de méthode `toListItem()`. C'est le repository qui construit la ligne.
 
-### RM4. Emplacement
+### RM4. Rangé à part des modèles du domaine
 
 **La règle.** Un read-model vit dans `domain/read-models/`, à côté de `domain/models/`. Il ne se range
 ni dans `domain/models/`, ni dans un dossier `aggregates/`.
@@ -332,7 +412,8 @@ ni dans `domain/models/`, ni dans un dossier `aggregates/`.
 ```
 organizational-entities/domain/
 ├── models/
-│   └── Organization.ts
+│   └── organization/
+│       └── Organization.ts
 └── read-models/
     └── OrganizationListItem.ts
 ```
@@ -342,12 +423,15 @@ organizational-entities/domain/
 ```
 organizational-entities/domain/
 └── models/
-    ├── Organization.ts
+    ├── organization/
+    │   └── Organization.ts
     └── OrganizationListItem.ts   ← rangé comme un modèle du domaine
 ```
 
-**Ce que ça apporte.** Le dossier dit au relecteur qu'aucune règle ne lit ce fichier. Et une règle
-d'outil peut interdire à `domain/models/` d'importer `domain/read-models/`, ce qui vérifie RM3.
+**Ce que ça apporte.** Le dossier dit au relecteur qu'aucune règle ne lit ce fichier. Une règle
+d'outil peut aussi interdire à `domain/models/` et `domain/services/` d'importer
+`domain/read-models/`. Elle vérifie une partie de RM3 : aucun modèle du domaine ne lit un read-model.
+Qu'un usecase ne décide pas à partir d'un read-model reste à vérifier en revue.
 
 **Sans cette règle.** Un développeur trouve `OrganizationListItem` à côté d'`Organization`, et y ajoute
 une fonction `canBeArchived()`. La ligne de liste devient une règle du métier. Aucun outil ne le

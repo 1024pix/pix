@@ -3,8 +3,8 @@
 Un repository charge et enregistre les objets du domaine. Le domaine déclare ce dont il a besoin dans
 une interface, le port : `OrganizationRepository` sait charger, ajouter et mettre à jour une
 organisation. L'infrastructure implémente ce port avec la base de données, un fichier, un service HTTP
-ou l'API interne d'un autre Bounded Context. Le port se range dans `domain/repositories/`,
-l'implémentation dans `infrastructure/repositories/`.
+ou l'API interne d'un autre contexte (un autre dossier de `src/`, comme `team`). Le port se range dans
+`domain/repositories/`, l'implémentation dans `infrastructure/repositories/`.
 
 ## Les règles
 
@@ -12,10 +12,10 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 
 | # | Règle | En pratique |
 | --- | --- | --- |
-| [I1](#i1-renvoie-des-objets-du-domaine) | Renvoie des objets du domaine | `get()` renvoie une `Organization`, jamais la ligne de la table |
-| [I2](#i2-reçoit-des-objets-du-domaine) | Reçoit des objets du domaine | `update()` reçoit une `Organization`, jamais un objet littéral aux noms de colonnes |
-| [I3](#i3-get-lève-find-renvoie-null) | `get*` lève, `find*` renvoie `null` | `get()` lève `OrganizationNotFound` ; un `find*` renverrait `null` ou une liste vide |
-| [I4](#i4-des-erreurs-du-domaine) | Des erreurs du domaine | on lève une erreur de `domain/errors.js`, jamais une `Error` nue ni l'erreur de la base |
+| [I1](#i1-renvoie-des-objets-du-domaine) | Renvoie des objets du domaine | `get({ id })` renvoie une `Organization`, jamais la ligne de la table |
+| [I2](#i2-reçoit-des-objets-du-domaine) | Reçoit des objets du domaine | `update({ organization })` reçoit l'Aggregate entier, jamais un objet aux noms de colonnes |
+| [I3](#i3-get-lève-find-renvoie-null) | `get*` lève, `find*` renvoie `null` | `get()` lève `OrganizationNotFound` ; un `find*` renvoie `null` ou une liste vide |
+| [I4](#i4-des-erreurs-du-domaine) | Des erreurs du domaine | le repository lève une erreur de `domain/errors.js`, jamais une `Error` nue ni l'erreur de la base |
 | [I5](#i5-les-dépendances-arrivent-en-paramètre) | Les dépendances arrivent en paramètre | pas d'import d'API interne ni de client ; l'index les injecte |
 | [I6](#i6-enregistré-dans-lindex-du-contexte) | Enregistré dans l'index du contexte | tout repository figure dans `infrastructure/repositories/index.ts` |
 | [I9](#i9-un-nom-de-fichier-cohérent) | Un nom de fichier cohérent | même convention que les autres repositories du contexte |
@@ -27,9 +27,13 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 
 Le repository de l'[Aggregate Root](../racine-agregat/README.md) `Organization` : il charge et
 enregistre l'organisation et ses fonctionnalités, dans les tables `organizations` et
-`organization-features`. On reprend l'organisation complète des fiches [Entity](../entite/README.md)
-et Aggregate Root. Exemple inventé, d'après
-[`organization-for-admin.repository.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js#L97-L225).
+`organization-features`. On reprend l'Aggregate `Organization` de la fiche Aggregate Root, et sa règle :
+si `LEARNER_IMPORT` est activée, `isManagingStudents` est toujours `false`. Exemple inventé, d'après
+[`OrganizationForAdmin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/OrganizationForAdmin.js#L241-L248).
+
+Chaque fonction du repository reçoit un objet de paramètres nommés, `get({ id })` plutôt que
+`get(id)` : l'injection de dépendances de Pix ajoute ses entrées à cet objet (voir
+[I5](#i5-les-dépendances-arrivent-en-paramètre)).
 
 Le port, déclaré par le domaine :
 
@@ -39,9 +43,10 @@ import type { OrganizationId } from '../../../shared/domain/Id.js';
 import type { Organization } from '../models/organization/index.js';
 
 export interface OrganizationRepository {
-  get(id: OrganizationId): Promise<Organization>; // I3 : lève OrganizationNotFound
-  add(organization: Organization<null>): Promise<Organization>; // I1, I2 : un objet du domaine en entrée et en sortie
-  update(organization: Organization): Promise<void>;
+  get({ id }: { id: OrganizationId }): Promise<Organization>; // I3 : lève OrganizationNotFound
+  // I1, I2 : un objet du domaine en entrée et en sortie ; Organization<null> est une organisation pas encore enregistrée
+  add({ organization }: { organization: Organization<null> }): Promise<Organization>;
+  update({ organization }: { organization: Organization }): Promise<void>; // I2 : l'Aggregate entier
 }
 ```
 
@@ -54,26 +59,32 @@ L'implémentation :
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import type { OrganizationId, UserId } from '../../../shared/domain/Id.js';
 import { FeatureNotFound, OrganizationNotFound } from '../../domain/errors.js';
-import { type FeatureName, Organization, type OrganizationType } from '../../domain/models/organization/index.js';
-import { OrganizationFeature } from '../../domain/models/organization/OrganizationFeature.js';
+import {
+  type FeatureName,
+  type FeatureParams,
+  Organization,
+  type OrganizationFeature,
+  type OrganizationType,
+} from '../../domain/models/organization/index.js';
 import type { OrganizationRepository } from '../../domain/repositories/OrganizationRepository.js';
 
+// les colonnes que le domaine utilise ; createdAt et updatedAt n'en font pas partie, la base les fixe
 type OrganizationRow = {
   id: OrganizationId;
   name: string;
   type: OrganizationType;
   createdBy: UserId;
   isManagingStudents: boolean;
-  createdAt: Date;
-  updatedAt: Date;
   archivedAt: Date | null;
 };
 
-type FeatureRow = { key: FeatureName; params: OrganizationFeature['params']; enabledAt: Date };
+type FeatureRow = { key: FeatureName; params: FeatureParams };
 
-const get = async (id: OrganizationId): Promise<Organization> => {
+const get = async ({ id }: { id: OrganizationId }): Promise<Organization> => {
   const knexConn = DomainTransaction.getConnection(); // I12
-  const row: OrganizationRow | undefined = await knexConn('organizations').where({ id }).first();
+  const row: OrganizationRow | undefined = await knexConn('organizations')
+    .where({ id })
+    .first('id', 'name', 'type', 'createdBy', 'isManagingStudents', 'archivedAt');
   if (!row) {
     throw new OrganizationNotFound({ meta: { organizationId: id } }); // I3 : get lève ; I4 : une erreur du domaine
   }
@@ -81,36 +92,41 @@ const get = async (id: OrganizationId): Promise<Organization> => {
   const featureRows: FeatureRow[] = await knexConn('organization-features')
     .join('features', 'features.id', 'organization-features.featureId')
     .where({ organizationId: id })
-    .select('features.key', 'organization-features.params', 'organization-features.enabledAt');
+    .select('features.key', 'organization-features.params');
 
   return toDomain(row, featureRows); // I1 : on renvoie une Organization, pas la ligne
 };
 
 // I2 : on reçoit une Organization neuve, sans id
-const add = async (organization: Organization<null>): Promise<Organization> => {
+const add = async ({ organization }: { organization: Organization<null> }): Promise<Organization> => {
   const knexConn = DomainTransaction.getConnection();
+  // la base crée l'id, createdAt et updatedAt
   const [{ id }] = await knexConn('organizations').insert(toRow(organization)).returning('id');
   await insertFeatures(id, organization.features);
-  return get(id);
+  return get({ id });
 };
 
-const update = async (organization: Organization): Promise<void> => {
+// I2 : on reçoit l'Aggregate entier, et on enregistre tout le groupe
+const update = async ({ organization }: { organization: Organization }): Promise<void> => {
   const knexConn = DomainTransaction.getConnection();
-  // I10 : on écrit ce que l'Aggregate a décidé, sans rien recalculer
-  const updatedCount = await knexConn('organizations').where({ id: organization.id }).update(toRow(organization));
+  // I10 : on écrit ce que l'Aggregate a décidé, sans rien recalculer ; la base fixe updatedAt avec now()
+  const updatedCount = await knexConn('organizations')
+    .where({ id: organization.id })
+    .update({ ...toRow(organization), updatedAt: knexConn.fn.now() });
   if (updatedCount === 0) {
     throw new OrganizationNotFound({ meta: { organizationId: organization.id } }); // I10 : un if sur l'existence d'une ligne
   }
 
+  // le repository ne sait pas quelles fonctionnalités ont changé : il les remplace toutes
   await knexConn('organization-features').where({ organizationId: organization.id }).delete();
   await insertFeatures(organization.id, organization.features);
 };
 
-async function insertFeatures(organizationId: OrganizationId, features: ReadonlyArray<OrganizationFeature>) {
+async function insertFeatures(organizationId: OrganizationId, features: ReadonlyArray<OrganizationFeature>): Promise<void> {
   if (features.length === 0) return;
 
   const knexConn = DomainTransaction.getConnection();
-  const featureIds = await knexConn('features')
+  const featureIds: { id: number; key: FeatureName }[] = await knexConn('features')
     .whereIn('key', features.map((feature) => feature.featureName))
     .select('id', 'key');
 
@@ -119,13 +135,14 @@ async function insertFeatures(organizationId: OrganizationId, features: Readonly
     if (!featureId) {
       throw new FeatureNotFound({ meta: { featureName: feature.featureName } }); // I4
     }
-    return { organizationId, featureId, params: feature.params, enabledAt: feature.enabledAt };
+    return { organizationId, featureId, params: feature.params };
   });
 
   await knexConn('organization-features').insert(rows);
 }
 
-// I1 : la ligne est traduite en objet du domaine, et le constructeur vérifie les règles de l'Aggregate
+// I1 : la ligne est traduite en objet du domaine, et le constructeur vérifie les règles de l'Aggregate.
+// Les fonctionnalités sont passées comme des données : c'est la racine qui crée ses objets internes.
 function toDomain(row: OrganizationRow, featureRows: FeatureRow[]): Organization {
   return new Organization({
     id: row.id,
@@ -133,12 +150,8 @@ function toDomain(row: OrganizationRow, featureRows: FeatureRow[]): Organization
     type: row.type,
     createdBy: row.createdBy,
     isManagingStudents: row.isManagingStudents,
-    createdAt: row.createdAt,
-    updatedAt: row.updatedAt,
+    features: featureRows.map(({ key, params }) => ({ featureName: key, params })),
     archivedAt: row.archivedAt,
-    features: featureRows.map(
-      ({ key, params, enabledAt }) => new OrganizationFeature({ featureName: key, params, enabledAt }),
-    ),
   });
 }
 
@@ -149,8 +162,6 @@ function toRow(organization: Organization<OrganizationId | null>): Omit<Organiza
     type: organization.type,
     createdBy: organization.createdBy,
     isManagingStudents: organization.isManagingStudents,
-    createdAt: organization.createdAt,
-    updatedAt: organization.updatedAt,
     archivedAt: organization.archivedAt,
   };
 }
@@ -195,14 +206,24 @@ Les autres sources se testent autrement :
 - un repository qui lit l'API interne d'un autre contexte : un test unitaire, l'API remplacée par un
   stub. Seule la traduction en objet du domaine est testée ;
 - un repository qui appelle un service HTTP externe : un test d'intégration, le service intercepté par
-  `nock`. On vérifie la requête envoyée et la traduction de la réponse.
+  `nock`, une bibliothèque qui répond à la place du vrai service. On vérifie la requête envoyée et la
+  traduction de la réponse.
 
 Le test de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/organizational-entities/integration/infrastructure/repositories/organization-repository_test.ts
+import { expect } from 'chai';
+
+import { OrganizationNotFound } from '../../../../../src/organizational-entities/domain/errors.js';
+import { Organization } from '../../../../../src/organizational-entities/domain/models/organization/index.js';
+import { organizationRepository } from '../../../../../src/organizational-entities/infrastructure/repositories/organization-repository.js';
+import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
+import type { OrganizationId, UserId } from '../../../../../src/shared/domain/Id.js';
+import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { catchErr } from '../../../../tooling/test-utils/error.js';
+
 describe('Integration | Organizational Entities | Infrastructure | Repositories | organization-repository', function () {
-  const now = new Date('2026-01-02');
   let createdBy: UserId;
 
   beforeEach(async function () {
@@ -211,11 +232,11 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
     await databaseBuilder.commit();
   });
 
-  const buildNewOrganization = () => Organization.create({ name: 'Lycée Victor Hugo', type: 'SCO', createdBy, now });
+  const buildNewOrganization = () => Organization.create({ name: 'Lycée Victor Hugo', type: 'SCO', createdBy });
 
   describe('#add', function () {
     it('saves a new organization and returns it with its id', async function () {
-      const organization = await organizationRepository.add(buildNewOrganization());
+      const organization = await organizationRepository.add({ organization: buildNewOrganization() });
 
       expect(organization).to.be.an.instanceOf(Organization);
       expect(organization.id).to.be.a('number');
@@ -225,7 +246,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
 
   describe('#get', function () {
     it('throws OrganizationNotFound when the organization does not exist', async function () {
-      const error = await catchErr(organizationRepository.get)(999 as OrganizationId);
+      const error = await catchErr(organizationRepository.get)({ id: 999 as OrganizationId });
 
       expect(error).to.be.an.instanceOf(OrganizationNotFound);
     });
@@ -233,21 +254,22 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
 
   describe('#update', function () {
     it('saves and reloads the organization with its features', async function () {
-      const organization = await organizationRepository.add(buildNewOrganization());
-      organization.enableFeature('LEARNER_IMPORT', null, now);
+      const organization = await organizationRepository.add({ organization: buildNewOrganization() });
+      organization.rename('Lycée Jean Moulin');
+      organization.enableFeature('LEARNER_IMPORT', null);
 
-      await organizationRepository.update(organization);
+      await organizationRepository.update({ organization });
 
-      const reloaded = await organizationRepository.get(organization.id);
+      const reloaded = await organizationRepository.get({ id: organization.id });
+      expect(reloaded.name).to.equal('Lycée Jean Moulin');
       expect(reloaded.features.map((feature) => feature.featureName)).to.deep.equal(['LEARNER_IMPORT']);
-      expect(reloaded.isManagingStudents).to.be.false;
     });
   });
 
   describe('in a transaction', function () {
     it('does not keep the organization when the transaction fails', async function () {
       await catchErr(DomainTransaction.execute)(async () => {
-        await organizationRepository.add(buildNewOrganization());
+        await organizationRepository.add({ organization: buildNewOrganization() });
         throw new Error('the usecase fails after add()');
       });
 
@@ -264,6 +286,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
 Qu'est-ce qui entre et qui sort ?
 [ ] I1  Chaque fonction renvoie un objet du domaine, une liste d'objets du domaine, ou rien
 [ ] I2  Chaque paramètre est un objet du domaine ou un identifiant, jamais une ligne ou un DTO
+[ ] I2  update() reçoit l'Aggregate entier, pas la liste des champs modifiés
 [ ] I3  Les get* lèvent ; les find* renvoient null ou une liste vide
 [ ] I4  Chaque erreur levée vient de domain/errors.js ; aucun catch ne relâche l'erreur de la base
 
@@ -294,10 +317,11 @@ autre contexte sont traduits avant de sortir.
 **Bon exemple.**
 
 ```ts
+// organization-repository.ts, dans get()
 const featureRows: FeatureRow[] = await knexConn('organization-features')
   .join('features', 'features.id', 'organization-features.featureId')
   .where({ organizationId: id })
-  .select('features.key', 'organization-features.params', 'organization-features.enabledAt');
+  .select('features.key', 'organization-features.params');
 
 return toDomain(row, featureRows);
 ```
@@ -305,10 +329,11 @@ return toDomain(row, featureRows);
 **Mauvais exemple.**
 
 ```ts
+// organization-repository.ts, dans get()
 const featureRows = await knexConn('organization-features')
   .join('features', 'features.id', 'organization-features.featureId')
   .where({ organizationId: id })
-  .select('features.key', 'organization-features.params', 'organization-features.enabledAt');
+  .select('features.key', 'organization-features.params');
 
 return { ...row, features: featureRows }; // la ligne sort telle quelle, avec les noms de colonnes
 ```
@@ -334,12 +359,13 @@ travaille sur une organisation qui viole la règle de l'Aggregate.
 
 **La règle.** Chaque paramètre d'une fonction du repository est un objet du domaine ou un
 identifiant. Jamais une ligne de la base, jamais un objet littéral aux noms de colonnes, jamais le DTO
-d'un autre contexte.
+d'un autre contexte. `update()` reçoit l'Aggregate entier.
 
 **Bon exemple.**
 
 ```ts
-const update = async (organization: Organization): Promise<void> => {
+// organization-repository.ts
+const update = async ({ organization }: { organization: Organization }): Promise<void> => {
   …
 };
 ```
@@ -347,10 +373,12 @@ const update = async (organization: Organization): Promise<void> => {
 **Mauvais exemple.**
 
 ```ts
-// le usecase fabrique la ligne lui-même
-await organizationRepository.update({ id: organizationId, isManagingStudents: false });
+// dans un usecase : on écrit la colonne voulue, sans charger l'organisation
+await organizationRepository.update({ id: organizationId, isManagingStudents: true });
 
+// organization-repository.ts : update() reçoit une ligne
 const update = async (row: Partial<OrganizationRow>): Promise<void> => {
+  const knexConn = DomainTransaction.getConnection();
   await knexConn('organizations').where({ id: row.id }).update(row);
 };
 ```
@@ -358,9 +386,19 @@ const update = async (row: Partial<OrganizationRow>): Promise<void> => {
 **Ce que ça apporte.** Pour enregistrer une organisation, il faut d'abord la charger et la modifier
 par ses méthodes. Les règles de l'Aggregate sont vérifiées avant chaque écriture.
 
-**Sans cette règle.** Un usecase passe `{ isManagingStudents: true }` à une organisation qui importe
-ses élèves. `enableFeature()` n'est jamais appelée, et la base contient un état que le constructeur
-aurait refusé.
+**Sans cette règle.** Un usecase passe `{ isManagingStudents: true }` pour une organisation qui
+importe ses élèves. Aucune méthode de `Organization` n'est appelée, et la base contient un état que le
+constructeur aurait refusé.
+
+**À savoir.**
+
+- Une requête HTTP ne devient pas une requête SQL. Une route qui change seulement le nom d'une
+  organisation passe quand même par l'Aggregate : le usecase charge l'organisation avec `get()`,
+  appelle `rename()`, puis l'enregistre avec `update()`. C'est ce chargement qui permet à l'Aggregate
+  de vérifier ses règles avant l'écriture.
+- `update()` reçoit toujours l'Aggregate entier, jamais la liste des champs modifiés. Le repository
+  peut n'écrire que les colonnes qui ont changé, pour écrire moins. C'est une optimisation interne au
+  repository : le port, le usecase et l'Aggregate ne changent pas.
 
 ### I3. `get*` lève, `find*` renvoie `null`
 
@@ -371,9 +409,12 @@ liste.
 **Bon exemple.**
 
 ```ts
-const get = async (id: OrganizationId): Promise<Organization> => {
+// organization-repository.ts
+const get = async ({ id }: { id: OrganizationId }): Promise<Organization> => {
   const knexConn = DomainTransaction.getConnection();
-  const row: OrganizationRow | undefined = await knexConn('organizations').where({ id }).first();
+  const row: OrganizationRow | undefined = await knexConn('organizations')
+    .where({ id })
+    .first('id', 'name', 'type', 'createdBy', 'isManagingStudents', 'archivedAt');
   if (!row) {
     throw new OrganizationNotFound({ meta: { organizationId: id } });
   }
@@ -384,17 +425,20 @@ const get = async (id: OrganizationId): Promise<Organization> => {
 **Mauvais exemple.**
 
 ```ts
-const get = async (id: OrganizationId): Promise<Organization | null> => {
+// organization-repository.ts
+const get = async ({ id }: { id: OrganizationId }): Promise<Organization | null> => {
+  const knexConn = DomainTransaction.getConnection();
   const row = await knexConn('organizations').where({ id }).first();
   if (!row) return null; // le nom annonce une erreur, la fonction renvoie null
   …
 };
 ```
 
-**Ce que ça apporte.** Le usecase qui appelle `get()` n'écrit pas de `if (!organization)`. Il sait que
-l'organisation existe, ou qu'une erreur du domaine est déjà partie vers le client.
+**Ce que ça apporte.** Le usecase qui appelle `get()` n'écrit pas de `if (!organization)`. Si
+l'organisation n'existe pas, `get()` lève `OrganizationNotFound`, et l'API renvoie le code
+`ORGANIZATION_NOT_FOUND` au client.
 
-**Sans cette règle.** `archiveOrganization` appelle `get()` puis `organization.archive()`. Pour un id
+**Sans cette règle.** `archiveOrganization` appelle `get()` puis `organization.archive(…)`. Pour un id
 inconnu, `get()` renvoie `null`, et le usecase plante sur `Cannot read properties of null`. Le client
 reçoit une 500 au lieu de l'erreur `ORGANIZATION_NOT_FOUND`.
 
@@ -407,6 +451,7 @@ un `catch` traduit chaque erreur qu'il attrape.
 **Bon exemple.**
 
 ```ts
+// organization-repository.ts, dans insertFeatures()
 const featureId = featureIds.find(({ key }) => key === feature.featureName)?.id;
 if (!featureId) {
   throw new FeatureNotFound({ meta: { featureName: feature.featureName } });
@@ -419,6 +464,7 @@ porte un code, `FEATURE_NOT_FOUND`, que le front sait traiter.
 **Mauvais exemple.**
 
 ```ts
+// organization-repository.ts, dans insertFeatures()
 const featureId = featureIds.find(({ key }) => key === feature.featureName)?.id;
 if (!featureId) {
   throw new Error(`Unknown feature ${feature.featureName}`); // une Error nue, sans code
@@ -426,6 +472,7 @@ if (!featureId) {
 ```
 
 ```ts
+// organization-repository.ts, dans insertFeatures()
 try {
   await knexConn('organization-features').insert(rows);
 } catch (error) {
@@ -448,15 +495,24 @@ contraintes de la base portent donc un nom qui dit l'intention métier.
 ### I5. Les dépendances arrivent en paramètre
 
 **La règle.** Un repository n'importe ni l'API interne d'un autre contexte, ni un client de stockage,
-ni un client HTTP. Il les reçoit en paramètres nommés, remplis par l'index du contexte. Seul
-`DomainTransaction` est importé, parce que c'est la forme que demande I12.
+ni un client HTTP. Il les reçoit en paramètres nommés, remplis par l'index du contexte. Hors du
+domaine de son contexte, il n'importe que `DomainTransaction`, comme le demande I12.
 
 **Bon exemple.**
 
 ```ts
 // organization-repository.ts : rien d'autre que DomainTransaction et le domaine
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import type { OrganizationId, UserId } from '../../../shared/domain/Id.js';
 import { FeatureNotFound, OrganizationNotFound } from '../../domain/errors.js';
+import {
+  type FeatureName,
+  type FeatureParams,
+  Organization,
+  type OrganizationFeature,
+  type OrganizationType,
+} from '../../domain/models/organization/index.js';
+import type { OrganizationRepository } from '../../domain/repositories/OrganizationRepository.js';
 ```
 
 ```ts
@@ -470,10 +526,10 @@ const dependencies = {};
 // organization-repository.ts
 import * as organizationApi from '../../../team/application/api/organization.js'; // l'API d'un autre contexte
 
-const add = async (organization: Organization<null>): Promise<Organization> => {
+const add = async ({ organization }: { organization: Organization<null> }): Promise<Organization> => {
   …
   await organizationApi.createProOrganizationInvitation({ organizationId: id, … });
-  return get(id);
+  return get({ id });
 };
 ```
 
@@ -498,6 +554,7 @@ index, et seulement depuis lui. Il n'y a qu'une façon de brancher un repository
 **Bon exemple.**
 
 ```ts
+// infrastructure/repositories/index.ts
 const repositoriesWithoutInjectedDependencies = {
   organizationRepository,
   // … et tous les autres repositories du dossier
@@ -561,19 +618,24 @@ d'une ligne est permis.
 **Bon exemple.**
 
 ```ts
-const updatedCount = await knexConn('organizations').where({ id: organization.id }).update(toRow(organization));
+// organization-repository.ts, dans update()
+const updatedCount = await knexConn('organizations')
+  .where({ id: organization.id })
+  .update({ ...toRow(organization), updatedAt: knexConn.fn.now() });
 if (updatedCount === 0) {
   throw new OrganizationNotFound({ meta: { organizationId: organization.id } });
 }
 ```
 
 ```ts
+// organization-repository.ts, dans toRow()
 isManagingStudents: organization.isManagingStudents,
 ```
 
 **Mauvais exemple.**
 
 ```ts
+// organization-repository.ts
 function toRow(organization: Organization<OrganizationId | null>): Omit<OrganizationRow, 'id'> {
   const importsLearners = organization.features.some((feature) => feature.featureName === 'LEARNER_IMPORT');
   return {
@@ -584,7 +646,8 @@ function toRow(organization: Organization<OrganizationId | null>): Omit<Organiza
 ```
 
 ```ts
-const update = async (organization: Organization): Promise<void> => {
+// organization-repository.ts
+const update = async ({ organization }: { organization: Organization }): Promise<void> => {
   …
   if (organization.isArchived) {
     // une décision métier : archiver supprime les invitations et désactive les membres
@@ -613,6 +676,7 @@ Composer deux repositories, c'est le travail du usecase.
 **Bon exemple.**
 
 ```ts
+// organization-repository.ts, dans update()
 await knexConn('organization-features').where({ organizationId: organization.id }).delete();
 await insertFeatures(organization.id, organization.features);
 ```
@@ -622,9 +686,10 @@ Le repository de l'Aggregate écrit lui-même dans les deux tables du groupe.
 **Mauvais exemple.**
 
 ```ts
+// organization-repository.ts
 import * as organizationFeatureRepository from './organization-feature-repository.js';
 
-const update = async (organization: Organization): Promise<void> => {
+const update = async ({ organization }: { organization: Organization }): Promise<void> => {
   …
   await organizationFeatureRepository.saveInBatch(organization.features); // un repository en appelle un autre
 };
@@ -641,16 +706,18 @@ usecase, et `update()` change de comportement sans que personne relise ce fichie
 
 **La règle.** Un repository prend sa connexion à la base avec `DomainTransaction.getConnection()`. Il
 n'importe jamais la connexion `knex`. `getConnection()` rend la transaction en cours s'il y en a une,
-la connexion ordinaire sinon : le repository n'a pas à savoir s'il tourne dans une transaction. Voir
+la connexion ordinaire sinon. Le repository n'a donc pas à savoir s'il tourne dans une transaction. Voir
 [`DomainTransaction.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/DomainTransaction.js#L82-L90).
 
 **Bon exemple.**
 
 ```ts
+// organization-repository.ts
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 
-const add = async (organization: Organization<null>): Promise<Organization> => {
+const add = async ({ organization }: { organization: Organization<null> }): Promise<Organization> => {
   const knexConn = DomainTransaction.getConnection();
+  // la base crée l'id, createdAt et updatedAt
   const [{ id }] = await knexConn('organizations').insert(toRow(organization)).returning('id');
   …
 };
@@ -659,16 +726,17 @@ const add = async (organization: Organization<null>): Promise<Organization> => {
 **Mauvais exemple.**
 
 ```ts
+// organization-repository.ts
 import { knex } from '../../../../db/knex-database-connection.js';
 
-const add = async (organization: Organization<null>): Promise<Organization> => {
+const add = async ({ organization }: { organization: Organization<null> }): Promise<Organization> => {
   const [{ id }] = await knex('organizations').insert(toRow(organization)).returning('id'); // hors de la transaction
   …
 };
 ```
 
 **Ce que ça apporte.** Toutes les requêtes d'un usecase lancé dans une transaction passent par cette
-transaction. Si le usecase échoue, tout est annulé.
+transaction. Si le usecase échoue, toutes ses écritures sont annulées.
 
 **Sans cette règle.** Le usecase de création ajoute l'organisation, puis échoue à l'étape suivante. La
 transaction est annulée, mais l'organisation, écrite sur la connexion importée, reste en base. Rien ne
@@ -684,7 +752,7 @@ le signale.
   lui passe une connexion hors transaction :
 
   ```ts
-  const saveImportState = async (importState: ImportState, knexConn = DomainTransaction.getConnection()) => { … };
+  const saveImportState = async ({ importState, knexConn = DomainTransaction.getConnection() }) => { … };
   ```
 
   Importer `knex` dans le repository reste interdit, même dans ce cas : rien n'y dirait que l'écriture

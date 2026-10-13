@@ -40,11 +40,11 @@ importe et appelle le journal : il enfreint lui aussi D1, par l'infrastructure i
 
 Le dossier ne distingue pas ces natures. Un relecteur ne sait donc pas quels invariants appliquer, et
 la règle ESLint de D1 ne peut pas passer en erreur. Le troisième fichier est une exception légitime de
-[`README.md`](README.md#exceptions-légitimes), symétrique de `domain/usecases/index.js`. Voir `X3` de
+[`README.md`](README.md#référence-des-règles), symétrique de `domain/usecases/index.js`. Voir `X3` de
 `../usecase/ecarts.md`.
 
 **Verdict.** Le mélange a une cause connue : le sens du dossier `services/` n'avait jamais été décidé.
-Il l'est maintenant, et c'est la règle de [`README.md`](README.md#le-test-de-discrimination). X1
+Il l'est maintenant, et c'est la règle de [`README.md`](README.md#d4-un-service-seulement-si-aucun-objet-ne-porte-la-règle). X1
 relève donc d'une correction, pas d'un choix entre options. L'histoire de la décision et les
 positions écartées sont dans [`explication.md`](explication.md#le-sens-du-dossier-services).
 
@@ -52,7 +52,7 @@ positions écartées sont dans [`explication.md`](explication.md#le-sens-du-doss
 des I/O vont dans `usecases/`.
 
 Le déplacement suppose d'abord le classement des fichiers existants avec le
-[test de discrimination](README.md#le-test-de-discrimination). La règle ESLint de D1, en
+[test de discrimination](README.md#d4-un-service-seulement-si-aucun-objet-ne-porte-la-règle). La règle ESLint de D1, en
 avertissement, fournit la liste : voir [`outillage.md`](outillage.md#d1--la-règle-qui-force-la-décision).
 
 ### X2. La règle est placée dans un service plutôt que sur un objet

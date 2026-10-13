@@ -2,8 +2,10 @@
 
 Une API interne est ce qu'un Bounded Context publie pour les autres contextes : des fonctions qui
 renvoient des DTO. Un DTO est l'objet du contrat, distinct du modèle du domaine. Par exemple,
-organizational-entities publie `getOrganization(id)`, que prescription appelle pour connaître une
-organisation. Les APIs internes se rangent dans `application/api/`.
+organizational-entities publie `getOrganization({ id })`, que prescription appelle pour connaître une
+organisation. Un Bounded Context, ou contexte, est un dossier de `src/` qui a son propre modèle, comme
+organizational-entities ou prescription. Les APIs internes se rangent dans `application/api/`, et
+lisent les données par un [usecase](../usecase/README.md) de leur contexte.
 
 Le contexte qui appelle l'API ne la lit jamais depuis son domaine. Il la lit par un
 [repository](../repository/README.md) à lui, qui traduit le DTO dans son propre vocabulaire : c'est
@@ -16,7 +18,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | # | Règle | En pratique |
 | --- | --- | --- |
 | [P1](#p1-un-dto-jamais-un-modèle-du-domaine) | Un DTO, jamais un modèle du domaine | `return new OrganizationDTO(…)`, jamais `return organization` |
-| [P2](#p2-passer-par-un-usecase) | Passer par un usecase | `usecases.getOrganizationById(…)`, importé depuis l'index des usecases ; aucun repository |
+| [P2](#p2-passer-par-un-usecase) | Passer par un usecase | `usecases.getOrganizationById({ organizationId })`, importé depuis l'index des usecases ; aucun repository |
 | [P3](#p3-un-contrat-documenté) | Un contrat documenté | chaque fonction dit ce qu'elle prend, ce qu'elle renvoie et ce qu'elle lève |
 | [P4](#p4-aucune-règle-dans-le-dto) | Aucune règle dans le DTO | le DTO recopie des valeurs ; `isRestricted` est calculé par le domaine |
 | [P5](#p5-le-dto-dans-models) | Le DTO dans `models/` | `application/api/models/OrganizationDTO.ts` |
@@ -30,7 +32,13 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 L'API d'organizational-entities renvoie une organisation, sous la forme d'un `OrganizationDTO` à cinq
 champs. Le champ `isRestricted` vaut `true` si l'organisation gère ses élèves ou si `LEARNER_IMPORT`
 est activée. Exemple inventé, d'après
-[`organization-api.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/application/api/organization-api.js#L25-L35).
+[`organization-api.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/application/api/organization-api.js#L25-L35)
+pour l'API, et d'après
+[`CampaignToJoin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/campaign/domain/read-models/CampaignToJoin.js#L31)
+pour la règle de `isRestricted`.
+
+`Organization` est celle de la fiche [Aggregate Root](../racine-agregat/README.md), avec un getter de
+plus, `isRestricted`. Le repository de prescription et `CampaignOrganization` sont inventés.
 
 ```ts
 // organizational-entities/application/api/models/OrganizationDTO.ts — P5 : dans models/
@@ -81,7 +89,7 @@ import { OrganizationDTO } from './models/OrganizationDTO.js';
  * @throws {NotFoundError} if the organization does not exist
  */
 // P7 : un seul paramètre, l'id ; la réponse ne dépend pas de l'appelant
-export const getOrganization = async (id: OrganizationId): Promise<OrganizationDTO> => {
+export const getOrganization = async ({ id }: { id: OrganizationId }): Promise<OrganizationDTO> => {
   const organization = await usecases.getOrganizationById({ organizationId: id }); // P2
 
   // P1 : on construit le DTO, on ne renvoie pas le modèle
@@ -96,7 +104,7 @@ export const getOrganization = async (id: OrganizationId): Promise<OrganizationD
 ```
 
 ```ts
-// organizational-entities/domain/models/organization/Organization.ts — extrait : la règle de isRestricted
+// organizational-entities/domain/models/organization/Organization.ts — extrait, dans la classe Organization
 // P4 : la règle vit dans le domaine, le DTO en reçoit seulement le résultat
 get isRestricted(): boolean {
   return this.#isManagingStudents || this.#features.some((feature) => feature.featureName === 'LEARNER_IMPORT');
@@ -110,8 +118,8 @@ import * as organizationApi from '../../../../organizational-entities/applicatio
 import { CampaignOrganization } from '../../domain/models/CampaignOrganization.js';
 
 // l'Anticorruption Layer : le DTO s'arrête ici, le domaine de prescription reçoit son propre objet
-export const get = async (organizationId: OrganizationId): Promise<CampaignOrganization> => {
-  const organization = await organizationApi.getOrganization(organizationId);
+export const get = async ({ organizationId }: { organizationId: OrganizationId }): Promise<CampaignOrganization> => {
+  const organization = await organizationApi.getOrganization({ id: organizationId });
 
   return new CampaignOrganization({
     id: organization.id,
@@ -143,6 +151,15 @@ Le test unitaire de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/organizational-entities/unit/application/api/organization-api_test.ts
+import { expect } from 'chai';
+import sinon from 'sinon';
+
+import * as organizationApi from '../../../../../src/organizational-entities/application/api/organization-api.js';
+import { OrganizationDTO } from '../../../../../src/organizational-entities/application/api/models/OrganizationDTO.js';
+import { Organization, type OrganizationProps } from '../../../../../src/organizational-entities/domain/models/organization/index.js';
+import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
+import type { OrganizationId, UserId } from '../../../../../src/shared/domain/Id.js';
+
 describe('Unit | Organizational Entities | Application | API | organization-api', function () {
   const buildOrganization = (props: Partial<OrganizationProps<OrganizationId>> = {}) =>
     new Organization({
@@ -150,11 +167,9 @@ describe('Unit | Organizational Entities | Application | API | organization-api'
       name: 'Lycée Victor Hugo',
       type: 'SCO',
       createdBy: 2 as UserId,
-      createdAt: new Date('2026-01-01'),
-      updatedAt: new Date('2026-01-01'),
-      archivedAt: null,
       isManagingStudents: false,
       features: [],
+      archivedAt: null,
       ...props,
     });
 
@@ -165,7 +180,7 @@ describe('Unit | Organizational Entities | Application | API | organization-api'
     it('returns only the contract fields', async function () {
       stubUsecase(buildOrganization());
 
-      const organization = await organizationApi.getOrganization(1 as OrganizationId);
+      const organization = await organizationApi.getOrganization({ id: 1 as OrganizationId });
 
       expect(organization).to.be.instanceOf(OrganizationDTO);
       expect({ ...organization }).to.deep.equal({
@@ -178,14 +193,10 @@ describe('Unit | Organizational Entities | Application | API | organization-api'
     });
 
     it('marks an organization that imports its learners as restricted', async function () {
-      const learnerImport = new OrganizationFeature({
-        featureName: 'LEARNER_IMPORT',
-        params: null,
-        enabledAt: new Date('2026-01-01'),
-      });
+      const learnerImport = { featureName: 'LEARNER_IMPORT', params: null } as const;
       stubUsecase(buildOrganization({ features: [learnerImport] }));
 
-      const organization = await organizationApi.getOrganization(1 as OrganizationId);
+      const organization = await organizationApi.getOrganization({ id: 1 as OrganizationId });
 
       expect(organization.isRestricted).to.be.true;
     });
@@ -193,7 +204,7 @@ describe('Unit | Organizational Entities | Application | API | organization-api'
     it('marks an archived organization', async function () {
       stubUsecase(buildOrganization({ archivedAt: new Date('2026-01-02') }));
 
-      const organization = await organizationApi.getOrganization(1 as OrganizationId);
+      const organization = await organizationApi.getOrganization({ id: 1 as OrganizationId });
 
       expect(organization.isArchived).to.be.true;
     });
@@ -219,7 +230,7 @@ Le contrat tient-il ?
 [ ] P6  Aucun renommage ni retrait sans la liste des consommateurs
 [ ] P7  Aucun paramètre ni branche selon l'appelant
 
-Chez le consommateur
+Comment le consommateur la lit-il ?
 [ ] Le consommateur lit l'API par un repository à lui, qui traduit le DTO
 
 Tests
@@ -252,7 +263,7 @@ return new OrganizationDTO({
 **Mauvais exemple.**
 
 ```ts
-export const getOrganization = async (id: OrganizationId): Promise<Organization> => {
+export const getOrganization = async ({ id }: { id: OrganizationId }): Promise<Organization> => {
   return usecases.getOrganizationById({ organizationId: id }); // le modèle du domaine sort tel quel
 };
 ```
@@ -266,8 +277,8 @@ changement interne à organizational-entities.
 
 **À savoir.**
 
-- Envelopper le modèle dans un DTO qui reprend tous ses champs respecte la lettre de P1, mais pas son
-  but : la forme du modèle reste le contrat. [P9](#p9-seulement-les-champs-lus) dit quels champs
+- Un DTO qui reprend tous les champs du modèle a le même défaut que le modèle renvoyé tel quel :
+  chaque changement du modèle change le contrat. [P9](#p9-seulement-les-champs-lus) dit quels champs
   garder.
 - Un type du domaine dans le DTO, comme `OrganizationType`, fait passer chaque changement de ce type
   dans le contrat. Le DTO déclare donc `OrganizationTypeDTO`.
@@ -299,7 +310,7 @@ const organization = await usecases.getOrganizationById({ organizationId: id });
 // l'API lit le repository : elle passe à côté du usecase
 import { organizationRepository } from '../../infrastructure/repositories/organization-repository.js';
 
-const organization = await organizationRepository.get(id);
+const organization = await organizationRepository.get({ id });
 ```
 
 ```ts
@@ -313,14 +324,15 @@ const organization = await getOrganizationById({ organizationId: id, organizatio
 **Ce que ça apporte.** Une règle de lecture ajoutée au usecase vaut pour tous les appelants : la route
 HTTP comme les autres contextes.
 
-**Sans cette règle.** Un jour, `getOrganizationById` lève `NotFoundError` pour une organisation
-supprimée. L'API qui lit le repository continue de renvoyer l'organisation supprimée aux autres
+**Sans cette règle.** On ajoute une règle au usecase `getOrganizationById` : il lève `NotFoundError`
+pour une organisation supprimée. L'API qui lit le repository continue de renvoyer l'organisation supprimée aux autres
 contextes.
 
-**À savoir.** Importer le fichier du usecase pour casser un import cyclique ne justifie pas l'écart :
-l'API passe toujours par l'index.
+**À savoir.**
 
-**Exceptions.** Aucune pour les repositories de `shared` : l'API ne les appelle pas non plus.
+- Importer le fichier du usecase pour casser un import cyclique ne justifie pas l'écart : l'API passe
+  toujours par l'index.
+- Les repositories de `shared` ne font pas exception. L'API ne les appelle pas non plus.
 
 ### P3. Un contrat documenté
 
@@ -337,14 +349,14 @@ erreurs levées.
  *
  * @throws {NotFoundError} if the organization does not exist
  */
-export const getOrganization = async (id: OrganizationId): Promise<OrganizationDTO> => {
+export const getOrganization = async ({ id }: { id: OrganizationId }): Promise<OrganizationDTO> => {
 ```
 
 **Mauvais exemple.**
 
 ```ts
 // rien ne dit ce que veut dire isRestricted, ni ce qui se passe si l'organisation n'existe pas
-export const getOrganization = async (id) => {
+export const getOrganization = async ({ id }) => {
 ```
 
 **Ce que ça apporte.** Le consommateur sait quoi appeler et quoi attendre sans lire le code
@@ -353,26 +365,28 @@ d'organizational-entities.
 **Sans cette règle.** Le consommateur ne sait pas que `getOrganization` lève `NotFoundError`. Il écrit
 `if (!organization)`, qui ne s'exécute jamais, et l'erreur remonte jusqu'à l'utilisateur.
 
-**À savoir.** La documentation de toutes les fonctions d'un contexte se génère dans un fichier `API.md`
-à la racine du contexte, avec `scripts/generate-api-documentation.js`. Le fichier généré est committé.
+**À savoir.** Le script `scripts/generate-api-documentation.js` lit ces commentaires et génère la
+documentation de toutes les APIs d'un contexte, dans un fichier `API.md` à la racine du contexte. On
+le lance avec `npm run doc:api:<contexte>`, et on committe le fichier généré.
 
 **Exceptions.** Renvoyer `null` quand rien n'est trouvé est permis, si le commentaire le dit.
 
 ### P4. Aucune règle dans le DTO
 
 **La règle.** Le DTO recopie des valeurs et peut les mettre en forme. Il ne décide rien : une règle du
-métier vit dans le domaine, et le DTO en reçoit le résultat. Le DTO est un
-[Value Object](../objet-valeur/README.md) sans règle : il ne change plus après sa création.
+métier vit dans le domaine, et le DTO en reçoit le résultat. Le DTO n'a aucun comportement, et il ne
+change plus après sa création. Ce n'est donc pas un [Value Object](../objet-valeur/README.md), qui
+vérifie ses valeurs et porte des règles.
 
 **Bon exemple.**
 
 ```ts
-// dans le domaine
+// dans la classe Organization, côté domaine
 get isRestricted(): boolean {
   return this.#isManagingStudents || this.#features.some((feature) => feature.featureName === 'LEARNER_IMPORT');
 }
 
-// dans l'API
+// dans getOrganization, côté API
 isRestricted: organization.isRestricted,
 ```
 
@@ -462,11 +476,13 @@ export class OrganizationDTO {
 casser le code des autres équipes.
 
 **Sans cette règle.** On renomme `isArchived` en `archived`. La CI de prescription casse sur un
-changement fait dans organizational-entities. Pire : si on change le sens de `isRestricted`, rien ne
-casse, et prescription prend de mauvaises décisions sans erreur.
+changement fait dans organizational-entities. Si on change le sens de `isRestricted`, rien ne casse
+du tout, et prescription prend de mauvaises décisions sans erreur.
 
-**À savoir.** La liste des consommateurs se connaît : ce sont les contextes qui déclarent dépendre de
-celui-ci. Un renommage commence par cette liste.
+**À savoir.** Chaque contexte liste les contextes dont il dépend dans le champ `dependsOn` de son
+`dependencies.json`, et dependency-cruiser refuse un import vers un contexte absent de cette liste.
+Les consommateurs d'une API sont donc les contextes qui citent le sien. Un renommage commence par
+cette liste.
 
 ### P7. Même réponse pour tous les appelants
 
@@ -477,14 +493,14 @@ réponses différentes, on écrit deux fonctions, chacune avec son nom et son DT
 **Bon exemple.**
 
 ```ts
-export const getOrganization = async (id: OrganizationId): Promise<OrganizationDTO> => {
+export const getOrganization = async ({ id }: { id: OrganizationId }): Promise<OrganizationDTO> => {
 ```
 
 **Mauvais exemple.**
 
 ```ts
 // la réponse dépend de l'appelant
-export const getOrganization = async (id: OrganizationId, { forAdmin }: { forAdmin: boolean }) => {
+export const getOrganization = async ({ id, forAdmin }: { id: OrganizationId; forAdmin: boolean }) => {
   const organization = await usecases.getOrganizationById({ organizationId: id });
   return forAdmin ? toOrganizationForAdminDTO(organization) : toOrganizationDTO(organization);
 };
@@ -519,11 +535,14 @@ import { OrganizationDTO } from './models/OrganizationDTO.js';
 import { membershipRepository } from '../../../team/infrastructure/repositories/membership-repository.js';
 ```
 
-**Ce que ça apporte.** Les dépendances déclarées entre contextes sont les vraies. Prescription, qui
-déclare dépendre d'organizational-entities, ne dépend de rien d'autre par cette API.
+**Ce que ça apporte.** Prescription dépend d'organizational-entities, et de rien d'autre à travers
+cette API. Le `dependencies.json` de prescription dit la vérité.
 
 **Sans cette règle.** team change son repository des membres. `getOrganization` casse, et prescription
-avec elle. Rien dans les dépendances de prescription ne disait qu'elle dépendait de team.
+avec elle. Le `dependencies.json` de prescription ne cite pas team.
+
+**À savoir.** Le mauvais exemple enfreint aussi [P2](#p2-passer-par-un-usecase), qui interdit les
+repositories. P8 vise en plus les APIs et les usecases d'un autre contexte, que P2 ne cite pas.
 
 ### P9. Seulement les champs lus
 

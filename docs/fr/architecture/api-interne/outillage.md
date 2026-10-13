@@ -67,7 +67,7 @@ croissant de faux positifs.
 
 Ce sous-cas a déjà un faux positif : si le usecase renvoie un scalaire ou rien, la fonction n'expose
 aucun modèle. C'est la limite de l'indice de diagnostic des tests attendus de
-[`README.md`](README.md#tests-attendus).
+[`README.md`](README.md#comment-tester).
 
 **Limite.** La règle ne voit pas une API qui construit un objet recopiant exactement le modèle. Ce cas
 respecte `P1` à la lettre et viole `P9`. C'est `X5` de [`ecarts.md`](ecarts.md), et seule la revue le

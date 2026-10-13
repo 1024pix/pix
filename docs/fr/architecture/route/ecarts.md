@@ -53,7 +53,7 @@ forme.
 
 **Verdict.** À corriger. Le contrôle sort de la route : un oubli devient invisible, et auditer les
 accès demande de lire tous les contrôleurs. Le seul bénéfice est d'éviter un pre-handler dédié. La
-règle est `R2` de [`README.md`](README.md#r2-les-contrôles-daccès-sont-déclarés-en-pre-handler), la
+règle est `R2` de [`README.md`](README.md#r2-contrôles-daccès-en-pre-handler), la
 théorie dans
 [`explication.md`](explication.md#x1-le-contrôle-des-droits-est-écrit-dans-le-contrôleur).
 
@@ -68,7 +68,7 @@ est l'intention. C'est une décision, pas un déplacement.
 
 ### X3. Une validation de route exprime une règle métier
 
-**Exemple concret.** Le troisième schéma du [test forme / règle](README.md#distinguer-forme-et-règle)
+**Exemple concret.** Le troisième schéma du [test forme / règle](README.md#r1-la-route-valide-la-forme-des-entrées)
 de `R1` :
 
 ```js

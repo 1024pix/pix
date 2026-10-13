@@ -75,7 +75,7 @@ dossiers frères, donc la règle de chemin de RM3 peut déjà s'écrire. Ce qui 
 classement, pas le nom.
 
 La référence précise ce que le mot désigne et ce qu'il ne désigne pas : voir
-[`README.md`](README.md#ce-que-le-mot-désigne-et-ce-quil-ne-désigne-pas).
+[`README.md`](README.md).
 
 **Correction.** Aucune sur le mot.
 
