@@ -1,7 +1,12 @@
+@use 'pix-design-tokens/breakpoints';
 @use 'pix-design-tokens/typography';
 
 .certification-dashboard-user-certifications {
   padding-top: var(--pix-spacing-3x);
+
+  @include breakpoints.device-is('mobile') {
+    margin-inline: var(--pix-spacing-6x) ;
+  }
 
   &__title {
     @extend %pix-title-m;
@@ -18,7 +23,18 @@
   &__text {
     @extend %pix-body-m;
 
-    margin-block: var(--pix-spacing-1x) var(--pix-spacing-6x);
+    margin-top: var(--pix-spacing-1x);
+  }
+
+  &__list {
+    margin-block: var(--pix-spacing-6x);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--pix-spacing-6x);
+
+    @include breakpoints.device-is('large-screen') {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 
   &__how-to-certificate {

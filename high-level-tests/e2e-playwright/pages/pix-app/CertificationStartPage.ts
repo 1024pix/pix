@@ -23,7 +23,7 @@ export class CertificationStartPage {
     await this.page.getByLabel('Numéro de session').fill(sessionNumber);
     await this.page.getByLabel('Prénom').fill(firstName);
     await this.page.getByLabel('Nom de naissance').fill(lastName);
-    await this.page.getByRole('spinbutton', { name: 'Date de naissance jour de' }).fill(birthDay);
+    await this.page.getByRole('spinbutton', { name: 'jour de naissance (JJ)' }).fill(birthDay);
     await this.page.getByRole('spinbutton', { name: 'mois de naissance (MM)' }).fill(birthMonth);
     await this.page.getByRole('spinbutton', { name: 'année de naissance (AAAA)' }).fill(birthYear);
     await this.page.getByRole('button', { name: 'Continuer' }).click();

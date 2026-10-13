@@ -1000,12 +1000,11 @@
       "enrolment-banner": {
         "action": "Iniciar la certificación",
         "certifiable": {
-          "description": "Haga clic en el botón de abajo y comience su certificación",
-          "title": "¿Desea realizar una certificación?"
+          "description": "El día de su certificación, haga clic en el botón de abajo para comenzar.",
+          "title": "¿Desea realizar la certificación Pix?"
         },
         "clea": {
-          "text": "Puede optar al CléA Numérique",
-          "title": "Su perfil Pix es certificable"
+          "title": "También puede optar al CléA Numérique"
         },
         "not-certifiable": {
           "description": "Se requiere un mínimo de requisitos previos para realizar la certificación.",

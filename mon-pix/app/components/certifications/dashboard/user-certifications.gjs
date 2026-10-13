@@ -23,7 +23,7 @@ export default class UserCertifications extends Component {
         <p class="certification-dashboard-user-certifications__text">
           {{t "pages.certifications-dashboard.user-certifications.with-certification-text"}}
         </p>
-        <ol class="user-certifications-list">
+        <ol class="certification-dashboard-user-certifications__list">
           {{#each this.certificationsSummariesSortedByDate as |certificateSummary|}}
             <li>
               <ListItem

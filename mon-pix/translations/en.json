@@ -1000,12 +1000,11 @@
       "enrolment-banner": {
         "action": "Start certification",
         "certifiable": {
-          "description": "Click the button below to start your certification",
-          "title": "Would you like to take a certification?"
+          "description": "On the day of your certification, click the button below to start.",
+          "title": "Would you like to take the Pix certification?"
         },
         "clea": {
-          "text": "You are eligible for the CléA Numérique",
-          "title": "Your Pix profile is eligible for certification"
+          "title": "You are also eligible for the CléA Numérique"
         },
         "not-certifiable": {
           "description": "A minimum of prerequisites is required to take the certification.",

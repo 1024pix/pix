@@ -10,6 +10,10 @@
   text-wrap: pretty;
   border-radius: var(--pix-spacing-4x);
 
+  @include breakpoints.device-is('mobile') {
+    margin-inline: var(--pix-spacing-4x) ;
+  }
+
   &::before {
     position: absolute;
     z-index: -1;
@@ -83,28 +87,24 @@
 }
 
 .certification-dashboard-enrolment-clea {
-  display: grid;
-  grid-template-columns: 1fr auto;
+  display: flex;
   gap: var(--pix-spacing-1x) var(--pix-spacing-2x);
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: var(--pix-spacing-6x);
   padding: var(--pix-spacing-4x) 5vw var(--pix-spacing-4x)  var(--pix-spacing-4x) ;
+
+  @include breakpoints.device-is('mobile') {
+    margin-inline: var(--pix-spacing-4x) ;
+  }
 
   &--title {
     @extend %pix-title-xs;
 
-    align-self: end;
-    font-weight: bold;
-  }
-
-  &--text {
-    @extend %pix-body-m;
-
-    grid-row: 2
+    flex-grow: 1;
   }
 
   &--image {
-    grid-row: 1 / span 2;
-    grid-column: 2;
     align-self: center;
     max-width: 120px;
     max-height: 120px;
