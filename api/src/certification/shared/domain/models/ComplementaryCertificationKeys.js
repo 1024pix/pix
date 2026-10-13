@@ -11,3 +11,7 @@ export const ComplementaryCertificationKeys = Object.freeze({
   PIX_PLUS_EDU_CPE: 'EDU_CPE',
   PIX_PLUS_PRO_SANTE: 'PRO_SANTE',
 });
+
+/**
+ * @typedef {typeof ComplementaryCertificationKeys[keyof typeof ComplementaryCertificationKeys]} ComplementaryCertificationKey
+ */
