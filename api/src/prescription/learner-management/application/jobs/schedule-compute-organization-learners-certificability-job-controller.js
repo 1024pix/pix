@@ -105,15 +105,15 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobController extends Jo
             continue;
           }
 
-          const jobsToInsert = organizationLearnerIds.map(
-            (organizationLearnerId) => new ComputeCertificabilityJob({ organizationLearnerId }),
-          );
-
-          const jobsInserted = await dependencies.computeCertificabilityJobRepository.performAsync(...jobsToInsert);
-          totalJobsInserted += jobsInserted.rowCount;
+          for (const organizationLearnerId of organizationLearnerIds) {
+            await dependencies.computeCertificabilityJobRepository.performAsync(
+              new ComputeCertificabilityJob({ organizationLearnerId }),
+            );
+            totalJobsInserted += 1;
+          }
 
           dependencies.logger.info(
-            `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Jobs inserted count  : ${jobsInserted.rowCount}`,
+            `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Jobs inserted count  : ${totalJobsInserted}`,
           );
         }
 

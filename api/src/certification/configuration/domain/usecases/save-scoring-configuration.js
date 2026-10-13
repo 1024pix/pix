@@ -28,7 +28,8 @@ export async function saveScoringConfiguration({
   await versionRepository.update(version);
 
   const certificationCourseIds = await certificationCoursesToScoreRepository.findIdsByVersionId({ versionId: id });
-  await scoreCertificationJobRepository.performAsync(
-    ...certificationCourseIds.map((certificationCourseId) => new ScoreCertificationJob({ certificationCourseId })),
-  );
+
+  for (const certificationCourseId of certificationCourseIds) {
+    await scoreCertificationJobRepository.performAsync(new ScoreCertificationJob({ certificationCourseId }));
+  }
 }

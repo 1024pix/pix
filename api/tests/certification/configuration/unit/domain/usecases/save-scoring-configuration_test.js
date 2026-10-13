@@ -105,10 +105,13 @@ describe('Certification | Configuration | Unit | UseCase | save-scoring-configur
 
       // then
       sinon.assert.calledWithExactly(certificationCoursesToScoreRepository.findIdsByVersionId, { versionId: 42 });
-      sinon.assert.calledWithExactly(
-        scoreCertificationJobRepository.performAsync,
+      expect(scoreCertificationJobRepository.performAsync.getCall(0).firstArg).to.deep.equal(
         new ScoreCertificationJob({ certificationCourseId: 10 }),
+      );
+      expect(scoreCertificationJobRepository.performAsync.getCall(1).firstArg).to.deep.equal(
         new ScoreCertificationJob({ certificationCourseId: 20 }),
+      );
+      expect(scoreCertificationJobRepository.performAsync.getCall(2).firstArg).to.deep.equal(
         new ScoreCertificationJob({ certificationCourseId: 30 }),
       );
     });
@@ -128,7 +131,7 @@ describe('Certification | Configuration | Unit | UseCase | save-scoring-configur
       });
 
       // then
-      sinon.assert.calledWithExactly(scoreCertificationJobRepository.performAsync);
+      sinon.assert.notCalled(scoreCertificationJobRepository.performAsync);
     });
   });
 });
