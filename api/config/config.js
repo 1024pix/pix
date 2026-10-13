@@ -473,7 +473,7 @@ export const config = {
   },
   logOpsMetrics: toBoolean(process.env.LOG_OPS_METRICS),
   lti: {
-    authorizedPlatforms: process.env.LTI_AUTHORIZED_PLATFORMS?.split(',') ?? [],
+    authorizedPlatforms: process.env.LTI_AUTHORIZED_PLATFORMS?.split(',') ?? ['http://localhost:8000'],
     jwkModulusLength: _getNumber(process.env.LTI_JWK_MODULUS_LENGTH, 4096),
     prescriberAccessTokenLifespan: process.env.LTI_PRESCRIBER_ACCESS_TOKEN_LIFESPAN ?? '10m',
   },
