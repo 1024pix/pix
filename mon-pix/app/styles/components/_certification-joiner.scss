@@ -32,6 +32,12 @@
     flex-direction: column;
     gap: var(--pix-spacing-6x);
     padding-inline: var(--pix-spacing-2x);
+
+    legend {
+      color: var(--pix-neutral-900);
+      font-weight: var(--pix-font-medium);
+      font-size: 1rem
+    }
   }
 
   &__birthdate {

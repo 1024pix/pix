@@ -5,8 +5,10 @@ import UserCertifications from 'mon-pix/components/certifications/dashboard/user
 
 <template>
   {{pageTitle (t "pages.certifications-dashboard.title")}}
-  <h1 class="sr-only">{{t "pages.certifications-dashboard.title"}}</h1>
+  <main id="main" role="main">
+    <h1 class="sr-only">{{t "pages.certifications-dashboard.title"}}</h1>
 
-  <EnrolmentBanner @userEligibility={{@model.userEligibility}} />
-  <UserCertifications @certificationsSummaries={{@model.certificationsSummaries}} />
+    <EnrolmentBanner @userEligibility={{@model.userEligibility}} />
+    <UserCertifications @certificationsSummaries={{@model.certificationsSummaries}} />
+  </main>
 </template>

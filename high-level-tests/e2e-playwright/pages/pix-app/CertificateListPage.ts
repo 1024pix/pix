@@ -9,7 +9,7 @@ export class CertificateListPage {
   async goToCertificateDetails(certificationNumber: string) {
     const card = this.page.getByTestId(`pw-certification-card-${certificationNumber}`);
     await Promise.all([
-      this.page.waitForURL(/\/mes-certifications\/\d+$/),
+      this.page.waitForURL(/\/certifications\/certificat\/\d+$/),
       card.getByRole('link', { name: 'Voir le détail' }).click(),
     ]);
     return new CertificationResultPage(this.page);

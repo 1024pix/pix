@@ -145,7 +145,7 @@ export const certifSetupFixtures = baseCertifTest.extend<{
             const homePage = new HomePage(pixAppPage);
             const certificationStartPage = await homePage.goToStartCertification();
             if (certificationKey === CERTIFICATIONS_DATA.CLEA) {
-              await expect(pixAppPage.getByText('Prêt pour le CléA numérique')).toBeVisible();
+              await expect(pixAppPage.getByText('Vous êtes également éligible au CléA numérique')).toBeVisible();
             }
             return certificationStartPage.fillSessionInfoAndNavigateIntro({
               sessionNumber,
@@ -202,7 +202,9 @@ export const certifSetupFixtures = baseCertifTest.extend<{
               const homePage = new HomePage(examData.pixAppPage);
               const certificationStartPage = await homePage.goToStartCertification();
               if (examData.certificationKey === CERTIFICATIONS_DATA.CLEA) {
-                await expect(examData.pixAppPage.getByText('Prêt pour le CléA numérique')).toBeVisible();
+                await expect(
+                  examData.pixAppPage.getByText('Vous êtes également éligible au CléA numérique'),
+                ).toBeVisible();
               }
               const accessCodePage = await certificationStartPage.fillSessionInfoAndNavigateIntro({
                 sessionNumber,

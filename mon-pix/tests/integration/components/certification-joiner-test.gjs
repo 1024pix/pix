@@ -403,9 +403,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
     assert
       .dom(
         screen.getByRole('spinbutton', {
-          name: `${t('pages.certification-joiner.form.fields.birth-date')} ${t(
-            'pages.certification-joiner.form.fields.birth-day',
-          )}`,
+          name: t('pages.certification-joiner.form.fields.birth-day'),
         }),
       )
       .isRequired();
@@ -431,9 +429,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
         // given
         const screen = await render(<template><CertificationJoiner /></template>);
         const birthDayInput = screen.getByRole('spinbutton', {
-          name: `${t('pages.certification-joiner.form.fields.birth-date')} ${t(
-            'pages.certification-joiner.form.fields.birth-day',
-          )}`,
+          name: t('pages.certification-joiner.form.fields.birth-day'),
         });
 
         // when
@@ -490,9 +486,7 @@ module('Integration | Component | certification-joiner', function (hooks) {
     );
     await fillIn(
       screen.getByRole('spinbutton', {
-        name: `${t('pages.certification-joiner.form.fields.birth-date')} ${t(
-          'pages.certification-joiner.form.fields.birth-day',
-        )}`,
+        name: t('pages.certification-joiner.form.fields.birth-day'),
       }),
       '02',
     );

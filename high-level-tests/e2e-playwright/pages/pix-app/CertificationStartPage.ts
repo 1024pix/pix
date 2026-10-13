@@ -19,6 +19,7 @@ export class CertificationStartPage {
     birthMonth: string;
     birthYear: string;
   }) {
+    await this.page.getByRole('button', { name: 'Entrer en certification' }).click();
     await this.page.getByLabel('Numéro de session').fill(sessionNumber);
     await this.page.getByLabel('Prénom').fill(firstName);
     await this.page.getByLabel('Nom de naissance').fill(lastName);
