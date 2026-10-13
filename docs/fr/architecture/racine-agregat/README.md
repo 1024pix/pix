@@ -13,7 +13,8 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | [A1](#a1-une-règle-relie-les-objets) | Une règle relie les objets | on peut écrire la règle qui oblige ces objets à changer ensemble |
 | [A2](#a2-la-racine-est-la-seule-porte-dentrée) | La racine est la seule porte d'entrée | le champ qui contient les objets internes est privé ; hors du dossier, seul `index.ts` s'importe |
 | [A3](#a3-un-repository-par-aggregate) | Un repository par Aggregate | `get()` charge tout le groupe, `update()` enregistre tout le groupe |
-| [A6](#a6-petit-aggregate) | Petit Aggregate | seulement les objets qu'une règle relie ; les autres sont gardés par leur id |
+| [A4](#a4-pas-dobjet-dun-autre-aggregate) | Pas d'objet d'un autre Aggregate | `createdBy: UserId`, pas `createdBy: User` |
+| [A6](#a6-petit-aggregate) | Petit Aggregate | seulement les objets qu'une règle relie |
 | [A7](#a7-une-transaction-un-aggregate) | Une transaction, un Aggregate | les autres Aggregates sont modifiés dans leur propre transaction |
 
 ## Exemple complet
@@ -83,7 +84,7 @@ export type OrganizationProps<Id> = {
 export class Organization<Id extends OrganizationId | null = OrganizationId> {
   readonly id: Id;
   readonly type: OrganizationType;
-  readonly createdBy: UserId; // A6 : un autre Aggregate, gardé par son id
+  readonly createdBy: UserId; // A4 : un autre Aggregate, gardé par son id
   #name: string;
   #isManagingStudents: boolean;
   #features: OrganizationFeature[]; // A2 : privé
@@ -288,7 +289,8 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
 ```
 Le groupe a-t-il une raison d'exister ?
 [ ] A1  On peut écrire la règle qui relie ces objets
-[ ] A6  Chaque objet du groupe est concerné par une règle ; le reste est gardé par son id
+[ ] A6  Chaque objet du groupe est concerné par une règle
+[ ] A4  Un autre Aggregate est gardé par son id, pas en entier
 
 Peut-on passer à côté de la racine ?
 [ ] A2  Champ des objets internes privé ; getters en copie ; seul index.ts s'importe hors du dossier
@@ -435,6 +437,35 @@ règles de la racine ne sont jamais vérifiées pour ces écritures.
 
 **Exceptions.** Une lecture qui a besoin de plusieurs Aggregates, par exemple pour un écran, passe par
 un read-model. Cette règle ne vise que l'écriture.
+
+### A4. Pas d'objet d'un autre Aggregate
+
+**La règle.** Un Aggregate ne garde pas un objet d'un autre Aggregate, seulement son identifiant. Si
+une règle a besoin des données de cet objet, la méthode les reçoit en paramètre.
+
+**Bon exemple.**
+
+```ts
+// Organization
+  readonly createdBy: UserId; // A4 : un autre Aggregate, gardé par son id
+```
+
+**Mauvais exemple.**
+
+```ts
+// Organization
+  readonly createdBy: User; // l'objet entier d'un autre Aggregate
+```
+
+**Ce que ça apporte.** Quand on charge une organisation, on ne charge pas l'utilisateur qui l'a
+créée. On peut modifier et enregistrer un utilisateur sans toucher aux organisations.
+
+**Sans cette règle.** Le repository doit charger l'utilisateur avec chaque organisation : une requête
+ou une jointure de plus. Et on peut modifier l'utilisateur en passant par l'organisation, sans passer
+par sa propre racine.
+
+**Exceptions.** Les objets du même Aggregate sont gardés entiers : l'organisation garde ses
+fonctionnalités entières, pas leurs id (voir [A6](#a6-petit-aggregate)).
 
 ### A6. Petit Aggregate
 

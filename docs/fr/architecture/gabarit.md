@@ -131,8 +131,12 @@ cette règle.
 
 - **Un seul fil par fiche.** Toute la fiche suit la même classe : l'exemple complet, puis les bons et
   les mauvais exemples de chaque règle. Un junior suit ainsi une seule classe du début à la fin.
-- **Un fil partagé entre fiches voisines,** quand le concept le permet : `Organization` sert à la fois
-  pour Entity et pour Aggregate Root.
+- **Un fil différent d'une fiche à l'autre, c'est permis.** Chaque fiche choisit l'exemple qui montre
+  le mieux son concept, et se lit sans connaître l'exemple d'une autre fiche. Des exemples variés parlent à plus de
+  monde : la fiche Entity prend une certification, la fiche Aggregate Root une organisation.
+- **Une fiche ne mélange pas les concepts.** La fiche Entity ne parle pas d'Aggregate : les règles
+  d'Aggregate sont dans la fiche Aggregate Root. Une règle qui appartient à un autre concept va dans
+  sa fiche.
 - **En TypeScript**, même si le code de Pix est encore en JavaScript : la fiche décrit la cible.
 - **Inventé, mais d'après le vrai code.** L'exemple s'inspire d'un fichier réel, nommé avec un
   permalien sous la phrase de présentation : « Exemple inventé, d'après `Organization.js` ». Les
@@ -205,7 +209,7 @@ premières fiches.
 2. La règle du métier qui porte l'exemple existe dans le code de Pix, avec un permalien vers les
    lignes qui la contiennent.
 3. Les décisions de l'équipe listées dans `corpus-index.md` sont respectées.
-4. La fiche ne contredit aucune autre fiche : même fil, mêmes noms, mêmes signatures, mêmes règles.
+4. La fiche ne contredit aucune autre fiche, et ne porte pas une règle qui appartient à une autre fiche.
 5. La fiche décrit l'idéal : aucun état du code, aucune date, aucune citation d'ADR.
 6. Le nom court d'une règle se comprend sans lire la règle : il dit ce qu'il faut faire ou ne pas
    faire.
