@@ -84,7 +84,7 @@
     "dayjs": "1.11.23",
     "decorator-transforms": "2.4.0",
     "ember-auto-import": "2.13.1",
-    "ember-cli": "7.2.0",
+    "ember-cli": "7.3.0",
     "ember-cli-babel": "8.3.2",
     "ember-cli-deprecation-workflow": "4.0.1",
     "ember-cli-htmlbars": "7.0.1",
