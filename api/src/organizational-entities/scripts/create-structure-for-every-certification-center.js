@@ -7,10 +7,10 @@ import { ScriptRunner } from '../../shared/application/scripts/script-runner.js'
 const DEFAULT_CHUNK_SIZE = 1000;
 const DEFAULT_THROTTLE_DELAY = 1000;
 
-export class CreateStructureForEveryOrganizationScript extends Script {
+export class CreateStructureForEveryCertificationCenterScript extends Script {
   constructor() {
     super({
-      description: "This script creates a structure for every organization that doesn't have one.",
+      description: "This script creates a structure for every certification center that doesn't have one.",
       permanent: false,
       options: {
         dryRun: {
@@ -21,7 +21,7 @@ export class CreateStructureForEveryOrganizationScript extends Script {
         chunkSize: {
           type: 'number',
           describe:
-            'Define the number of organizations processed in a chunk (defines how many structures and fct_structures are created and committed at the same time)',
+            'Define the number of certification centers processed in a chunk (defines how many structures and fct_structures are created and committed at the same time)',
           default: DEFAULT_CHUNK_SIZE,
         },
         throttleDelay: {
@@ -38,18 +38,18 @@ export class CreateStructureForEveryOrganizationScript extends Script {
 
     logger.info(`>>>> Begin initialization.`);
 
-    const organizationsLackingStructures = await _findOrganizationsLackingStructure();
-    logger.info(`Numbers of organizations lacking structure: ${organizationsLackingStructures.length}`);
+    const certificationCentersLackingStructures = await _findCertificationCentersLackingStructure();
+    logger.info(`Numbers of certification centers lacking structure: ${certificationCentersLackingStructures.length}`);
 
-    if (!organizationsLackingStructures.length) {
-      logger.info(`>>>> All organizations already have a structure. Nothing to process. Exiting execution.`);
+    if (!certificationCentersLackingStructures.length) {
+      logger.info(`>>>> All certification centers already have a structure. Nothing to process. Exiting execution.`);
       return;
     }
 
     logger.info(`>>>> Begin processing.`);
 
     let chunkToProcess;
-    chunkToProcess = organizationsLackingStructures.splice(0, chunkSize);
+    chunkToProcess = certificationCentersLackingStructures.splice(0, chunkSize);
 
     let chunkCount = 1;
     let createdStructuresTotalCount = 0;
@@ -60,12 +60,15 @@ export class CreateStructureForEveryOrganizationScript extends Script {
       try {
         let createdStructuresInChunkCount = 0;
         logger.info(
-          `Processing chunk n. ${chunkCount}: ${chunkToProcess.length} orgas. From ID ${chunkToProcess[0].id} to ${chunkToProcess[chunkToProcess.length - 1].id}`,
+          `Processing chunk n. ${chunkCount}: ${chunkToProcess.length} certification centers. From ID ${chunkToProcess[0].id} to ${chunkToProcess[chunkToProcess.length - 1].id}`,
         );
 
-        for (const organization of chunkToProcess) {
+        for (const certificationCenter of chunkToProcess) {
           const [structure] = await trx('structures').returning('id').insert({});
-          await trx('fct_structures').insert({ structure_id: structure.id, organization_id: organization.id });
+          await trx('fct_structures').insert({
+            structure_id: structure.id,
+            certification_center_id: certificationCenter.id,
+          });
 
           createdStructuresInChunkCount++;
           createdStructuresTotalCount++;
@@ -81,7 +84,7 @@ export class CreateStructureForEveryOrganizationScript extends Script {
           await trx.commit();
         }
 
-        chunkToProcess = organizationsLackingStructures.splice(0, chunkSize);
+        chunkToProcess = certificationCentersLackingStructures.splice(0, chunkSize);
         chunkCount++;
 
         await setTimeout(throttleDelay);
@@ -101,14 +104,14 @@ export class CreateStructureForEveryOrganizationScript extends Script {
   }
 }
 
-async function _findOrganizationsLackingStructure() {
-  const organizationsLackingStructures = await knex
-    .select('id', 'fct_structures.organization_id')
-    .from('organizations')
-    .leftJoin('fct_structures', 'fct_structures.organization_id', 'organizations.id')
-    .where('fct_structures.organization_id', null)
+async function _findCertificationCentersLackingStructure() {
+  const certificationCentersLackingStructures = await knex
+    .select('id', 'fct_structures.certification_center_id')
+    .from('certification-centers')
+    .leftJoin('fct_structures', 'fct_structures.certification_center_id', 'certification-centers.id')
+    .where('fct_structures.certification_center_id', null)
     .orderBy('id');
-  return organizationsLackingStructures;
+  return certificationCentersLackingStructures;
 }
 
-await ScriptRunner.execute(import.meta.url, CreateStructureForEveryOrganizationScript);
+await ScriptRunner.execute(import.meta.url, CreateStructureForEveryCertificationCenterScript);
