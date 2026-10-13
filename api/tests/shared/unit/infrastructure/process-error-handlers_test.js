@@ -11,7 +11,7 @@ describe('Shared | Unit | Infrastructure | process-error-handlers', function () 
   beforeEach(function () {
     fakeProcess = new EventEmitter();
     fakeProcess.exit = sinon.stub();
-    logger = { fatal: sinon.stub() };
+    logger = { error: sinon.stub() };
   });
 
   context('when handlers are registered', function () {
@@ -19,7 +19,7 @@ describe('Shared | Unit | Infrastructure | process-error-handlers', function () 
       registerProcessErrorHandlers({ processRef: fakeProcess, logger });
     });
 
-    it('logs an unhandled rejection as fatal without exiting', function () {
+    it('logs an unhandled rejection as error without exiting', function () {
       // given
       const reason = new Error('rejected');
 
@@ -27,7 +27,7 @@ describe('Shared | Unit | Infrastructure | process-error-handlers', function () 
       fakeProcess.emit('unhandledRejection', reason, Promise.resolve());
 
       // then
-      expect(logger.fatal).to.have.been.calledOnceWithExactly({
+      expect(logger.error).to.have.been.calledOnceWithExactly({
         error: reason,
         unhandled: true,
         origin: 'Unhandled promise rejection',
@@ -35,7 +35,7 @@ describe('Shared | Unit | Infrastructure | process-error-handlers', function () 
       expect(fakeProcess.exit).not.to.have.been.called;
     });
 
-    it('logs an uncaught exception as fatal without exiting', function () {
+    it('logs an uncaught exception as error without exiting', function () {
       // given
       const error = new Error('uncaught');
 
@@ -43,7 +43,7 @@ describe('Shared | Unit | Infrastructure | process-error-handlers', function () 
       fakeProcess.emit('uncaughtException', error, 'uncaughtException');
 
       // then
-      expect(logger.fatal).to.have.been.calledOnceWithExactly({ error, unhandled: true, origin: 'Uncaught exception' });
+      expect(logger.error).to.have.been.calledOnceWithExactly({ error, unhandled: true, origin: 'Uncaught exception' });
       expect(fakeProcess.exit).not.to.have.been.called;
     });
   });
