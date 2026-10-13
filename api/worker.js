@@ -4,6 +4,7 @@ import { checkJobGroups, JobGroup } from './src/shared/application/jobs/job-cont
 import { learningContentCache } from './src/shared/infrastructure/caches/learning-content-redis-cache.js';
 import { startHeapProfileListener } from './src/shared/infrastructure/heap-profile/heap-profile-listener.js';
 import { JobClient } from './src/shared/infrastructure/jobs/JobClient.js';
+import { registerProcessErrorHandlers } from './src/shared/infrastructure/process-error-handlers.js';
 import { releaseInfrastructure } from './src/shared/infrastructure/release-infrastructure.js';
 import { child } from './src/shared/infrastructure/utils/logger.js';
 import { validateEnvironmentVariables } from './src/shared/infrastructure/validate-environment-variables.js';
@@ -28,6 +29,8 @@ async function main() {
   await JobClient.instance.initialize({ worker: true, jobGroups });
 
   startHeapProfileListener();
+
+  registerProcessErrorHandlers({ logger });
 
   process.on('SIGTERM', async () => {
     await exitOnSignal('SIGTERM');
