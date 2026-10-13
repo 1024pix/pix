@@ -4,6 +4,7 @@ import { t } from 'ember-intl';
 import { and, eq, not } from 'ember-truth-helpers';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 import autofocus from 'mon-pix/modifiers/autofocus.js';
+import scrollIntoView from 'mon-pix/modifiers/scroll-into-view.js';
 
 import Duration from './duration';
 
@@ -135,6 +136,7 @@ function hasWhiteBackground(item) {
         data-testid="selectable-item-button"
         aria-describedby={{if @isSelectedItem "step-details-description step-details-objectives"}}
         {{autofocus @isSelectedItem}}
+        {{scrollIntoView @isSelectedItem}}
       >
         <Content
           @title={{@item.title}}

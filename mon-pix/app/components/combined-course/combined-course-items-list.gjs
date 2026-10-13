@@ -5,7 +5,6 @@ import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 
 import CombinedCourseItem from './combined-course-item';
-
 export default class CombinedCourseItemsList extends Component {
   step = 1;
 
@@ -31,11 +30,11 @@ export default class CombinedCourseItemsList extends Component {
           </h2>
         {{/if}}
       {{/unless}}
+
       <CombinedCourseItem
         @item={{item}}
         @isLocked={{item.isLocked}}
         @isSelectedItem={{this.isSelectedItem item}}
-        @isPreviousItem={{eq @combinedCourse.previousCombinedCourseItem item}}
         @onClick={{fn @onClick item}}
         @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
         @displayNextItemTag={{@displayNextItemTag}}
