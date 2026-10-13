@@ -40,7 +40,7 @@ module('Acceptance | Checkpoint', function (hooks) {
       // then
       assert.dom(screen.getByText('Vous avez effectué 20 % de votre parcours.')).exists();
       assert.dom(screen.getByRole('heading', { name: t('pages.checkpoint.answers.header') })).exists();
-      assert.strictEqual(screen.getAllByRole('button', { name: 'Réponses et tutos' }).length, NB_ANSWERS);
+      assert.strictEqual(screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' }).length, NB_ANSWERS);
       assert.dom(screen.getByRole('link', { name: 'Continuer' })).exists();
       assert
         .dom(screen.queryByText(t('pages.checkpoint.answers.already-finished.explanation.sentence1')))

@@ -167,7 +167,7 @@
       "result-item": {
         "actions": {
           "see-answers-and-tutorials": {
-            "label": "Respuestas y consejos"
+            "label": "Ver las respuestas y los consejos"
           }
         },
         "question-number": "Pregunta { number }"

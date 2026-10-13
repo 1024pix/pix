@@ -115,7 +115,7 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
     });
     test('should not display the feedback form', async function (assert) {
       // when
-      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
+      await click(screen.getByRole('button', { name: 'Voir les réponses et les tutos' }));
       await screen.findByRole('dialog');
 
       // then
@@ -129,7 +129,7 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
 
     test('should be able to give feedback', async function (assert) {
       // when
-      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
+      await click(screen.getByRole('button', { name: 'Voir les réponses et les tutos' }));
       await screen.findByRole('dialog');
 
       await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));

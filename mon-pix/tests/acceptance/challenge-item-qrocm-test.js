@@ -268,7 +268,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       assert.strictEqual(titles.length, 3);
       titles.forEach((title) => assert.dom(title).includesText('Mauvaise réponse'));
 
-      const buttons = screen.getAllByRole('button', { name: 'Réponses et tutos' });
+      const buttons = screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' });
       assert.strictEqual(buttons.length, 3);
 
       const instructionStripped = qrocmDepChallenge.instruction.slice(0, 102);
@@ -281,7 +281,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
     test('should show details of QROCM-dep challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
       const screen = await getScreen();
-      await click(screen.getAllByRole('button', { name: 'Réponses et tutos' })[0]);
+      await click(screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' })[0]);
 
       // then
       assert.strictEqual(
@@ -310,7 +310,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
     test('should show details of QROCM-ind challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
       const screen = await getScreen();
-      await click(screen.getAllByRole('button', { name: 'Réponses et tutos' })[1]);
+      await click(screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' })[1]);
 
       // then
       assert.strictEqual(
@@ -340,7 +340,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
     test('should show details of QROCM-ind challenge (with select) result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
       const screen = await getScreen();
-      await click(screen.getAllByRole('button', { name: 'Réponses et tutos' })[2]);
+      await click(screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' })[2]);
 
       // then
       assert.strictEqual(

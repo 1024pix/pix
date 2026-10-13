@@ -219,12 +219,12 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         const screen = await getScreen();
         assert.dom(screen.getByRole('heading', { level: 3 })).includesText('Mauvaise réponse');
         assert.dom(screen.getByText(qrocChallenge.instruction)).exists();
-        assert.dom(screen.getByRole('button', { name: 'Réponses et tutos' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Voir les réponses et les tutos' })).exists();
       });
 
       test('should show details of challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
         // when
-        await clickByName('Réponses et tutos');
+        await clickByName('Voir les réponses et les tutos');
 
         // then
         assert.strictEqual(
@@ -374,12 +374,12 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         const screen = await getScreen();
         assert.dom(screen.getByRole('heading', { level: 3 })).includesText('Mauvaise réponse');
         assert.dom(screen.getByText(qrocChallenge.instruction)).exists();
-        assert.dom(screen.getByRole('button', { name: 'Réponses et tutos' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Voir les réponses et les tutos' })).exists();
       });
 
       test('should show details of challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
         // when
-        await clickByName('Réponses et tutos');
+        await clickByName('Voir les réponses et les tutos');
 
         // then
         assert.strictEqual(
@@ -497,12 +497,12 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         const screen = await getScreen();
         assert.dom(screen.getByRole('heading', { level: 3 })).includesText('Mauvaise réponse');
         assert.dom(screen.getByText(qrocChallenge.instruction)).exists();
-        assert.dom(screen.getByRole('button', { name: 'Réponses et tutos' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Voir les réponses et les tutos' })).exists();
       });
 
       test('should show details of challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
         // when
-        await clickByName('Réponses et tutos');
+        await clickByName('Voir les réponses et les tutos');
 
         // then
         assert.strictEqual(
