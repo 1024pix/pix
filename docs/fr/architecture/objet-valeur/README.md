@@ -79,6 +79,12 @@ Le test de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/devcomp/unit/domain/models/QcmSolution_test.ts
+import { expect } from 'chai';
+
+import { InvalidQcmSolutionError } from '../../../../../src/devcomp/domain/errors.js';
+import { QcmSolution } from '../../../../../src/devcomp/domain/models/QcmSolution.js';
+import type { ChallengeId } from '../../../../../src/shared/domain/Id.js';
+
 describe('Unit | Devcomp | Domain | Models | QcmSolution', function () {
   const challengeId = 'challenge-1' as ChallengeId;
 

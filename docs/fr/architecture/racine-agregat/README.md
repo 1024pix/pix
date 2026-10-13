@@ -211,7 +211,15 @@ Le test unitaire de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/organizational-entities/unit/domain/models/organization/Organization_test.ts
+import { expect } from 'chai';
+
+import {
+  ArchivedOrganizationError,
+  FeatureAlreadyEnabledError,
+  InvalidOrganizationError,
+} from '../../../../../../src/organizational-entities/domain/errors.js';
 import { Organization, type OrganizationProps } from '../../../../../../src/organizational-entities/domain/models/organization/index.js';
+import type { OrganizationId, UserId } from '../../../../../../src/shared/domain/Id.js';
 
 describe('Unit | Organizational Entities | Domain | Models | Organization', function () {
   const buildOrganization = (props: Partial<OrganizationProps<OrganizationId>> = {}) =>

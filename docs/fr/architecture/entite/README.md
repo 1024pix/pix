@@ -37,7 +37,7 @@ import { MembershipDisabled } from '../events/MembershipDisabled.js';
 export const MembershipRoles = ['ADMIN', 'MEMBER'] as const;
 export type MembershipRole = (typeof MembershipRoles)[number];
 
-type MembershipProps<Id> = {
+export type MembershipProps<Id> = {
   id: Id;
   organizationId: OrganizationId;
   userId: UserId;
@@ -125,6 +125,13 @@ Le test de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/team/unit/domain/models/Membership_test.ts
+import { expect } from 'chai';
+
+import type { MembershipId, OrganizationId, UserId } from '../../../../../src/shared/domain/Id.js';
+import { InvalidMembershipRoleError, MembershipAlreadyDisabledError } from '../../../../../src/team/domain/errors.js';
+import { MembershipDisabled } from '../../../../../src/team/domain/events/MembershipDisabled.js';
+import { Membership, type MembershipProps, type MembershipRole } from '../../../../../src/team/domain/models/Membership.js';
+
 describe('Unit | Team | Domain | Models | Membership', function () {
   const now = new Date('2026-01-02');
 
