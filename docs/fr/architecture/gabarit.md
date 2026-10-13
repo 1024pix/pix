@@ -229,8 +229,8 @@ premières fiches.
     n'est pas évident.
 16. Chaque choix de code qui surprend (une date en paramètre, `as const` plutôt qu'un `enum`) est
     justifié dans un commentaire, ou retiré de l'exemple.
-17. La fiche prend position sur les débats connus de l'équipe, en justifiant, ou ses exemples évitent
-    d'avoir à trancher. Les débats eux-mêmes vont dans `corpus-index.md`.
+17. La fiche ne tranche pas un débat en cours dans l'équipe. Ses exemples évitent d'avoir à trancher, et
+    le débat va dans `corpus-index.md`. La fiche ne change qu'une fois le débat clos.
 
 **La structure**
 

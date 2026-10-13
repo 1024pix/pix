@@ -111,8 +111,8 @@ Un numéro retiré n'est jamais réattribué.
 
 ## Chantiers ouverts
 
-- **Débats ouverts par la revue de la PR Entity / Value Object** (#17799). Les fiches prennent
-  position, mais ces points restent à discuter en équipe :
+- **Débats ouverts par la revue de la PR Entity / Value Object** (#17799). Ces points restent
+  à discuter en équipe. Les fiches n'ajoutent aucun argument sur ces points tant qu'ils sont ouverts :
   - valider au constructeur ou seulement dans les méthodes : les fiches valident aux deux, parce que
     le constructeur sert aussi pour les objets créés depuis un formulaire ;
   - lever une erreur dans le modèle ou renvoyer un `Result` : les fiches lèvent une erreur du domaine,

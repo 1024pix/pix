@@ -378,13 +378,6 @@ enregistre une adhésion avec le rôle `OWNER`, que le reste du code ne connaît
   vide. Ça compile, et un test qui ne vérifie pas ce cas ne voit rien.
 - Si une méthode modifie plusieurs champs, elle vérifie tout avant de modifier le premier. Sinon, une
   erreur en cours de route laisse l'Entity à moitié modifiée.
-- Pourquoi vérifier aussi au constructeur, et pas seulement dans les méthodes : le constructeur sert
-  pour une adhésion créée depuis un formulaire, via le sérialiseur, et pour une adhésion relue en
-  base. Une donnée invalide en base lève alors une erreur au chargement, au lieu de circuler sans
-  bruit.
-- Pourquoi lever une erreur dans l'Entity, et pas laisser le usecase décider : la règle appartient à
-  l'Entity, et plusieurs usecases l'utilisent. Si chaque usecase vérifiait, l'un d'eux finirait par
-  oublier. Un usecase peut toujours attraper une erreur du domaine nommée pour décider quoi faire.
 
 ### E4. Aucun effet de bord extérieur
 
