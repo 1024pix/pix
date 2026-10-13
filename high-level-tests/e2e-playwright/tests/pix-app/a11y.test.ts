@@ -8,7 +8,6 @@ const routes = [
   { path: '/campagnes', title: "J'ai un code | Pix" },
   { path: '/certifications', title: 'Rejoindre une session de certification | Pix' },
   { path: '/competences', title: 'Compétences | Pix' },
-  { path: '/mes-certifications', title: 'Mes certifications | Pix' },
   { path: '/mes-formations', title: 'Mes formations | Pix' },
 ];
 

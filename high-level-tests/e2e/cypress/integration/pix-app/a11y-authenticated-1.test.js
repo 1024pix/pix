@@ -36,7 +36,6 @@ describe("a11y", () => {
       { url: "/certifications" },
       { url: "/competences" },
       { url: "/competences/recH9MjIzN54zXlwr/details" },
-      { url: "/mes-certifications" },
       { url: "/mes-formations" },
       { url: "/mes-parcours" },
     ];

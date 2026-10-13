@@ -35,7 +35,7 @@ export async function fillCertificationJoiner({
   );
   await fillIn(
     screen.getByRole('spinbutton', {
-      name: `${t('pages.certification-joiner.form.fields.birth-date')} ${t('pages.certification-joiner.form.fields.birth-day')}`,
+      name: `${t('pages.certification-joiner.form.fields.birth-day')}`,
     }),
     dayOfBirth,
   );
