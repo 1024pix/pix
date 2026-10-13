@@ -2,7 +2,6 @@ import { createPublicKey } from 'node:crypto';
 
 import jsonwebtoken from 'jsonwebtoken';
 
-import { config } from '../../../config/config.js';
 import { BadRequestError } from '../../shared/application/errors/http-errors.js';
 import { cryptoService } from '../../shared/domain/services/crypto-service.js';
 import * as urlService from '../../shared/domain/services/url-service.js';
@@ -114,9 +113,8 @@ async function deepLink(request, h) {
     // request.yar.set('jwtLtiPrescriber', ltiPrescriberAccessToken);
     // await request.yar.commit(h);
 
-    // const locale = 'fr-FR'; // TODO: Generate this dynamically
-    // const campaignSelectionPageUrl = urlService.getPixOrgaUrl(locale, { pathname: '/lti-campaign-selection' });
-    const campaignSelectionPageUrl = new URL('/lti-campaign-selection', config.baseUrl);
+    const locale = 'fr-FR'; // TODO: Generate this dynamically
+    const campaignSelectionPageUrl = urlService.getPixOrgaUrl(locale, { pathname: '/lti-campaign-selection' });
     return (
       h
         .redirect(campaignSelectionPageUrl)
