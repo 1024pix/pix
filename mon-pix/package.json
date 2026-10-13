@@ -86,7 +86,7 @@
     "ember-dayjs": "0.12.4",
     "ember-element-helper": "0.8.8",
     "ember-exam": "10.2.0",
-    "ember-intl": "8.2.4",
+    "ember-intl": "8.4.0",
     "ember-keyboard": "9.0.4",
     "ember-lifeline": "7.0.0",
     "ember-load-initializers": "3.0.1",
