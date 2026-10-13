@@ -66,6 +66,7 @@ export const extractTransformAndLoadData = async ({
 
 async function initStagingTable(replication: Replication, stagingTarget: string, datamartKnex: KnexWithPool) {
   const { target } = replication;
+  await datamartKnex.raw('DROP TABLE IF EXISTS ??', [stagingTarget]);
   await datamartKnex.raw('CREATE TABLE ?? (LIKE ?? INCLUDING ALL)', [stagingTarget, target]);
   return dropIndexes(stagingTarget, datamartKnex);
 }
