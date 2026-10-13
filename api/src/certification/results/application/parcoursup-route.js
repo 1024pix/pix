@@ -53,7 +53,6 @@ async function register(server) {
             '- Avec un code de vérification, récupère la certification correspondante',
         ],
         response: {
-          // TODO check what the log looks like and check if we have a Datadog watcher for it. Might even customize it a bit to find it faster
           failAction: 'log',
           status: {
             200: Joi.object({
@@ -90,6 +89,9 @@ async function register(server) {
                 .positive()
                 .description('Score en pix atteignable au maximum par le candidat lors du passage de certification')
                 .example(895),
+              maxGlobalLevel: Joi.string()
+                .description('Niveau global atteignable au maximum par le candidat lors du passage de certification')
+                .example('Expert 1'),
               competences: Joi.array()
                 .items(
                   Joi.object({
