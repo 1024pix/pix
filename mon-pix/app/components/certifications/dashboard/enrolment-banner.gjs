@@ -72,9 +72,6 @@ export default class UserCertifications extends Component {
         <h2 class="certification-dashboard-enrolment-clea--title">
           {{t "pages.certifications-dashboard.enrolment-banner.clea.title"}}
         </h2>
-        <p class="certification-dashboard-enrolment-clea--text">
-          {{t "pages.certifications-dashboard.enrolment-banner.clea.text"}}
-        </p>
         <img class="certification-dashboard-enrolment-clea--image" src={{this.cleaImageUrl}} alt="" />
       </PixBlock>
     {{/if}}

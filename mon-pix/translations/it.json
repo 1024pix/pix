@@ -1021,11 +1021,10 @@
         "action": "Inizia la certificazione",
         "certifiable": {
           "description": "Clicca sul pulsante qui sotto e inizia la tua certificazione",
-          "title": "Vuoi sostenere una certificazione?"
+          "title": "Vuoi sostenere la certificazione Pix?"
         },
         "clea": {
-          "text": "Sei idoneo al CléA Numérique",
-          "title": "Il tuo profilo Pix è certificabile"
+          "title": "Sei anche idoneo al CléA Numérique"
         },
         "not-certifiable": {
           "description": "Per sostenere la certificazione è necessario un minimo di prerequisiti.",

@@ -1021,11 +1021,10 @@
         "action": "Entrer en certification",
         "certifiable": {
           "description": "Cliquer sur le bouton ci-dessous et démarrer votre certification",
-          "title": "Vous souhaitez passer une certification ?"
+          "title": "Vous souhaitez passer la certification Pix ?"
         },
         "clea": {
-          "text": "Vous êtes éligible au CléA numérique",
-          "title": "Votre profil Pix est certifiable"
+          "title": "Vous êtes également éligible au CléA numérique"
         },
         "not-certifiable": {
           "description": "Un minimum de pré-requis est nécessaire pour passer la certification.",

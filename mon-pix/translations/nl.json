@@ -1021,11 +1021,10 @@
         "action": "Certificering starten",
         "certifiable": {
           "description": "Klik op de knop hieronder en start je certificering",
-          "title": "Wil je een certificering afleggen?"
+          "title": "Wil je de Pix-certificering afleggen?"
         },
         "clea": {
-          "text": "Je komt in aanmerking voor CléA Numérique",
-          "title": "Je Pix-profiel is certificeerbaar"
+          "title": "Je komt ook in aanmerking voor CléA Numérique"
         },
         "not-certifiable": {
           "description": "Er is een minimum aan voorwaarden vereist om de certificering af te leggen.",
