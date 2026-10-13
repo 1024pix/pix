@@ -101,7 +101,9 @@ Un numéro retiré n'est jamais réattribué.
 | `I8` de `repository/` | le nom du fichier dit la source du repository | écarté : la couche est uniforme, voir `repository/explication.md` |
 | `X5` de `repository/` | `domain/usecases/index.js` importe l'infrastructure | `X3` de `usecase/ecarts.md` |
 | `X3` de `racine-agregat/` | plusieurs repositories pour une même frontière | `X4` de `repository/ecarts.md` |
-| `A4`, `A5` de `racine-agregat/` | les doublons de `E7` et `E3` | `E7` et `E3` de `entite/README.md` |
+| `A5` de `racine-agregat/` | le doublon de `E3` | `E3` de `entite/README.md` |
+| ancien `E7` de `entite/` | pas d'objet d'un autre Aggregate | `A4` de `racine-agregat/README.md` : une règle d'Aggregate, sortie de la fiche Entity ; `A4`, retiré quand il doublait l'ancien `E7`, revient pour la porter. Exception à la règle de non-réattribution : l'ancien `E8` (un nom du métier) devient `E7`, pour garder une suite sans trou, et `E8` porte maintenant « pas d'autre Entity dedans » |
+| `E9` de `entite/` | seule une Aggregate Root émet des événements | mis de côté avec les événements du domaine, voir les chantiers ouverts |
 | `X2` de `entite/` | les règles vivent dans les usecases | `X1` de `usecase/ecarts.md` |
 | `X1`, `X6` de `objet-valeur/` | des écarts du read-model | `read-model/ecarts.md` |
 | `S3`, `S4`, `S9` de `specification/` | des réénoncés de `V4`, de `V1`, `V2`, `V6`, `V7`, et de `V3` | `objet-valeur/README.md` |
@@ -120,7 +122,14 @@ Un numéro retiré n'est jamais réattribué.
   - E7 (pas d'objet d'un autre Aggregate) : garder une référence, charger l'objet et le modifier sont
     trois questions distinctes ;
   - `updatedAt` : les fiches traitent les dates techniques comme des données de persistance, fixées par
-    la base, et seules les dates du métier passent par le domaine.
+    la base, et seules les dates du métier passent par le domaine ;
+  - le typage des identifiants, retiré de E1 parce qu'il ajoutait une seconde règle à « un identifiant
+    qui ne change pas ». La proposition à discuter : un type dédié par identifiant
+    (`Id<'OrganizationId'>`), pour que le compilateur refuse un `UserId` à la place d'un
+    `OrganizationId`, même quand la valeur est un entier. Écartés : `id: number | null`, qui laisse
+    passer une Entity sans id là où il en faut un, et le passage aux UUID, un chantier trop gros. Le
+    type `Organization<null>` pour une Entity neuve reste dans la fiche, parce qu'il dit quand une
+    Entity a un id.
 - **Les événements du domaine.** La publication des événements (outbox dans la transaction, relais
   après le commit) est mise de côté en attendant une discussion avec les staffs. Une version existe
   dans le commit `23a5cd7096` (règle A8 de `racine-agregat/README.md`), retirée ensuite. Points à

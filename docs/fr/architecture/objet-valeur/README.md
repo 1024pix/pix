@@ -68,7 +68,7 @@ export class QcmSolution {
 
 ## Comment tester
 
-Un Value Object se teste avec un test unitaire, sans stub, mock ni spy. Le test couvre :
+Un Value Object se teste avec un test unitaire, sans stub, sans mock ni spy. Le test couvre :
 
 - la validation : une valeur invalide lève une erreur. Exemple : `refuses a solution without correct choice` ;
 - les règles : chaque méthode, cas limites compris. Exemples : les trois tests de `isCorrect` ;
@@ -143,7 +143,7 @@ Dépend-il d'autre chose ?
 [ ] V6  Pas de repository
 
 Tests
-[ ] Un test unitaire, sans stub, mock ni spy
+[ ] Un test unitaire, sans stub, sans mock ni spy
 ```
 
 ## Référence des règles
@@ -153,14 +153,14 @@ Tests
 **La règle.** Une fois créé, l'objet ne change plus. Ses champs sont privés ou en lecture seule, et
 aucune méthode ne les modifie. Pour une autre valeur, on crée un autre objet.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 readonly challengeId: ChallengeId; // en lecture seule
 #correctChoiceIds: string[]; // privé
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 export class QcmSolution {
@@ -184,7 +184,7 @@ certains ordres d'exécution : on le cherche longtemps.
 sont égaux. Il peut garder l'identifiant d'autre chose, comme `challengeId` : c'est une donnée comme
 une autre.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 // QcmSolution
@@ -195,7 +195,7 @@ equals(other: QcmSolution): boolean {
 
 La comparaison porte sur les valeurs. `challengeId` identifie la question, pas la solution.
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 export class QcmSolution {
@@ -222,7 +222,7 @@ l'objet, puis un repository. L'objet devient une Entity sans que personne l'ait 
 **La règle.** Le constructeur vérifie les valeurs reçues. Si une valeur est invalide, il lève une
 erreur du domaine et l'objet n'est pas créé.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 // QcmSolution
@@ -234,7 +234,7 @@ constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; corre
 }
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 // QcmSolution
@@ -258,7 +258,7 @@ constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; corre
 pas d'appel HTTP. Il n'appelle pas `new Date()` ni `Math.random()`, et ne lit pas la configuration. Si
 ces valeurs sont nécessaires, elles arrivent en paramètre.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 // la solution calcule, sans écrire de log
@@ -273,7 +273,7 @@ logger.info(`Answer checked for challenge ${solution.challengeId}`);
 
 C'est au usecase d'écrire le log, pas au Value Object.
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
@@ -296,13 +296,13 @@ appelle `new Date()` ne donne pas le même résultat d'un lancement à l'autre.
 **La règle.** Une règle qui porte sur les données du Value Object est une de ses méthodes. Sinon,
 chaque appelant réécrit la règle.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 solution.isCorrect(answer.selectedChoiceIds); // la règle de correction est dans la solution
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 // dans un usecase : la règle de correction est réécrite à la main
@@ -328,7 +328,7 @@ fonction qui attend une `QcmSolution` refuse alors une simple liste de chaînes.
 **La règle.** Un Value Object n'a ni repository ni table à lui. Il est enregistré avec l'objet qui le
 contient. Un objet qu'il faut retrouver seul est une [Entity](../entite/README.md).
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 // la solution arrive avec la question, par le repository des questions
@@ -336,7 +336,7 @@ const challenge = await challengeRepository.get(challengeId);
 challenge.solution.isCorrect(answer.selectedChoiceIds);
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 // un repository rien que pour les solutions
@@ -356,7 +356,7 @@ tableau reçu. La copie ne copie que le tableau, pas ses éléments : les élém
 eux-mêmes immuables, des chaînes, des nombres ou des Value Objects. C'est le cas des identifiants de
 choix de `QcmSolution`.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 // QcmSolution
@@ -365,7 +365,7 @@ get correctChoiceIds(): string[] {
 }
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 // QcmSolution

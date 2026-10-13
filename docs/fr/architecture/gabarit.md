@@ -10,7 +10,7 @@ celui que GitHub affiche à l'ouverture du dossier. Il se lit de haut en bas :
 
 - la première partie se **consulte** : qui cherche une info la trouve en quelques secondes ;
 - la seconde partie, la référence des règles, **explique** : qui découvre le sujet, en particulier un
-  junior, y apprend chaque règle avec un bon et un mauvais exemple.
+  junior, y apprend chaque règle avec un exemple de code correct et un exemple de code incorrect.
 
 Les trois autres fichiers du dossier sont des **documents de travail**, pour l'équipe qui décide de
 l'architecture et de l'outillage. La fiche n'y renvoie pas.
@@ -54,8 +54,8 @@ Une règle par titre `### V1. …`. Le titre reprend le nom court du tableau des
 porte, dans cet ordre :
 
 - **La règle.** Ce qu'il faut faire, en deux ou trois phrases.
-- **Bon exemple.** Un extrait de l'exemple complet.
-- **Mauvais exemple.** Le même code, mal écrit. Un commentaire dans le code montre la faute.
+- **Exemple de code correct.** Un extrait de l'exemple complet.
+- **Exemple de code incorrect.** Le même code, mal écrit. Un commentaire dans le code montre la faute.
 - **Ce que ça apporte.** Une ou deux phrases : le bénéfice concret, sur l'exemple de la fiche.
 - **Sans cette règle.** Une ou deux phrases : un bug concret, sur l'exemple de la fiche. Pas l'inverse
   du bénéfice.
@@ -129,10 +129,14 @@ cette règle.
 
 ## Les exemples
 
-- **Un seul fil par fiche.** Toute la fiche suit la même classe : l'exemple complet, puis les bons et
-  les mauvais exemples de chaque règle. Un junior suit ainsi une seule classe du début à la fin.
-- **Un fil partagé entre fiches voisines,** quand le concept le permet : `Organization` sert à la fois
-  pour Entity et pour Aggregate Root.
+- **Un seul fil par fiche.** Toute la fiche suit la même classe : l'exemple complet, puis les exemples
+  de code correct et incorrect de chaque règle. Un junior suit ainsi une seule classe du début à la fin.
+- **Un fil différent d'une fiche à l'autre, c'est permis.** Chaque fiche choisit l'exemple qui montre
+  le mieux son concept, et se lit sans connaître l'exemple d'une autre fiche. Des exemples variés parlent à plus de
+  monde : la fiche Entity prend une certification, la fiche Aggregate Root une organisation.
+- **Une fiche ne mélange pas les concepts.** La fiche Entity ne parle pas d'Aggregate : les règles
+  d'Aggregate sont dans la fiche Aggregate Root. Une règle qui appartient à un autre concept va dans
+  sa fiche.
 - **En TypeScript**, même si le code de Pix est encore en JavaScript : la fiche décrit la cible.
 - **Inventé, mais d'après le vrai code.** L'exemple s'inspire d'un fichier réel, nommé avec un
   permalien sous la phrase de présentation : « Exemple inventé, d'après `Organization.js` ». Les
@@ -140,10 +144,10 @@ cette règle.
 - **Chaque permalien pointe vers un commit fixe de `dev`**, avec les lignes exactes :
   `…/blob/<sha>/api/…#L7-L11`. Un lien vers une branche est interdit : le code change, et l'exemple doit
   rester retrouvable.
-- **Le bon exemple est un extrait de l'exemple complet**, copié à l'identique. Si les deux divergent,
+- **L'exemple de code correct est un extrait de l'exemple complet**, copié à l'identique. Si les deux divergent,
   c'est l'exemple complet qui fait foi.
-- **Le mauvais exemple montre la même chose, mal écrite.** Il porte sur le même code que le bon
-  exemple, pour que le lecteur voie la différence d'un coup d'œil.
+- **L'exemple de code incorrect montre la même chose, mal écrite.** Il porte sur le même code que
+  l'exemple de code correct, pour que le lecteur voie la différence d'un coup d'œil.
 - **Le test de l'exemple complet se lit seul** : il définit ses données de test (`buildOrganization`)
   au lieu de les supposer.
 
@@ -205,7 +209,7 @@ premières fiches.
 2. La règle du métier qui porte l'exemple existe dans le code de Pix, avec un permalien vers les
    lignes qui la contiennent.
 3. Les décisions de l'équipe listées dans `corpus-index.md` sont respectées.
-4. La fiche ne contredit aucune autre fiche : même fil, mêmes noms, mêmes signatures, mêmes règles.
+4. La fiche ne contredit aucune autre fiche, et ne porte pas une règle qui appartient à une autre fiche.
 5. La fiche décrit l'idéal : aucun état du code, aucune date, aucune citation d'ADR.
 6. Le nom court d'une règle se comprend sans lire la règle : il dit ce qu'il faut faire ou ne pas
    faire.
@@ -219,8 +223,8 @@ premières fiches.
 9. L'exemple complet couvre toutes les règles, avec un commentaire par règle.
 10. L'exemple complet et son test se lisent seuls : chaque type, chaque constante et chaque fonction
     d'aide utilisés sont définis ou importés.
-11. Chaque bon exemple est un extrait identique de l'exemple complet. Chaque mauvais exemple montre le
-    même code, mal écrit.
+11. Chaque exemple de code correct est un extrait identique de l'exemple complet. Chaque exemple de
+    code incorrect montre le même code, mal écrit.
 12. Le code est en TypeScript. Chaque permalien pointe vers un commit fixe, et ses lignes existent.
 13. Aucun lien ne pointe vers un fichier de Pix qui fait la faute montrée.
 14. L'exemple illustre le concept de la fiche, et rien de plus. Il ne s'appuie pas sur un concept

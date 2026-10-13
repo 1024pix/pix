@@ -1,7 +1,7 @@
 # Entity
 
-Une Entity est un objet que le produit suit dans le temps : un utilisateur, une campagne, l'adhésion
-d'un utilisateur à une organisation. Elle a un identifiant. Ses valeurs changent, mais elle reste la
+Une Entity est un objet que le produit suit dans le temps : un utilisateur, une campagne, la
+certification passée par un candidat. Elle a un identifiant. Ses valeurs changent, mais elle reste la
 même Entity. Les Entities se rangent dans `domain/models/`.
 
 ## Les règles
@@ -13,192 +13,219 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | [E1](#e1-un-identifiant-qui-ne-change-pas) | Un identifiant qui ne change pas | aucune méthode ne modifie l'identifiant |
 | [E2](#e2-comparer-par-identifiant) | Comparer par identifiant | on compare les `id`, pas les autres champs |
 | [E3](#e3-toujours-valide) | Toujours valide | le constructeur et chaque méthode lèvent une `DomainError` si une règle n'est pas respectée |
-| [E4](#e4-aucun-effet-de-bord-extérieur) | Aucun effet de bord extérieur | pas d'import d'infrastructure ; la date du jour est passée en paramètre |
+| [E4](#e4-aucun-effet-de-bord-extérieur) | Aucun effet de bord extérieur | pas d'import d'infrastructure, pas de log ; la date du jour arrive en paramètre |
 | [E5](#e5-rien-pour-la-base-de-données) | Rien pour la base de données | pas de `toDTO()` ni de `fromDTO()`, c'est le travail du repository |
-| [E6](#e6-pas-de-setter) | Pas de setter | chaque changement a sa méthode métier : `changeRole()`, pas `set role()` |
-| [E7](#e7-pas-dobjet-dun-autre-aggregate) | Pas d'objet d'un autre Aggregate | `organizationId: OrganizationId`, pas `organization: Organization` |
-| [E8](#e8-un-nom-du-métier) | Un nom du métier | un fichier par Entity, en PascalCase, nommé avec le mot du métier |
-| [E9](#e9-seule-une-aggregate-root-émet-des-événements) | Seule une Aggregate Root émet des événements | `emitDomainEvent()` est protégé dans `AggregateRoot` |
+| [E6](#e6-pas-de-setter) | Pas de setter | chaque changement a sa méthode métier : `endDueToFinalization()`, pas `set state()` |
+| [E7](#e7-un-nom-du-métier) | Un nom du métier | un fichier par Entity, en PascalCase, nommé avec le mot du métier |
+| [E8](#e8-pas-dautre-entity-dedans) | Pas d'autre Entity dedans | des id et des valeurs ; une Entity qui en contient d'autres est une [Aggregate Root](../racine-agregat/README.md) |
 
 ## Exemple complet
 
-Une adhésion : un utilisateur, une organisation, un rôle (`ADMIN` ou `MEMBER`) et une date de
-désactivation. Exemple inventé, d'après
-[`Membership.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/models/Membership.js#L8-L41).
+Une certification passée par un candidat, dans une session d'examen. Elle a un état (l'épreuve est
+commencée, terminée, arrêtée…) et parfois un motif d'abandon. Exemple inventé, d'après
+[`CertificationCourse.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/certification/session-management/domain/models/CertificationCourse.js#L5-L48).
 
 ```ts
-// team/domain/models/Membership.ts — E8 : un fichier, nommé avec le mot du métier
-import type { MembershipId, OrganizationId, UserId } from '../../../shared/domain/Id.js';
-import { AggregateRoot } from '../../../shared/domain/models/AggregateRoot.js';
-import { InvalidMembershipRoleError, MembershipAlreadyDisabledError } from '../errors.js';
-import { MembershipDisabled } from '../events/MembershipDisabled.js';
+// certification/session-management/domain/models/CertificationCourse.ts — E7 : un fichier, nommé avec le mot du métier
+// E4 : aucun import d'infrastructure
+import type { CertificationCourseId, UserId } from '../../../../shared/domain/Id.js';
+import {
+  CertificationCourseNotInProgressError,
+  InvalidAbortReasonError,
+  InvalidCertificationCourseStateError,
+} from '../errors.js';
 
 // as const plutôt qu'un enum : la configuration TypeScript de Pix (erasableSyntaxOnly) interdit les enum
-export const MembershipRoles = ['ADMIN', 'MEMBER'] as const;
-export type MembershipRole = (typeof MembershipRoles)[number];
+export const CertificationCourseStates = [
+  'started',
+  'completed',
+  'endedByInvigilator',
+  'endedDueToFinalization',
+  'endedDueToDurationExceeded',
+] as const;
+export type CertificationCourseState = (typeof CertificationCourseStates)[number];
 
-export type MembershipProps<Id> = {
+export const AbortReasons = ['candidate', 'technical'] as const;
+export type AbortReason = (typeof AbortReasons)[number];
+
+export type CertificationCourseProps<Id> = {
   id: Id;
-  organizationId: OrganizationId;
   userId: UserId;
-  role: MembershipRole;
-  disabledAt: Date | null;
+  state: CertificationCourseState;
+  abortReason: AbortReason | null;
 };
 
-// Membership<null> : une adhésion neuve, pas encore enregistrée
-// Membership : une adhésion enregistrée, avec un id
-// E9 : seule dans son Aggregate, l'adhésion en est la racine, et peut émettre des événements
-export class Membership<Id extends MembershipId | null = MembershipId> extends AggregateRoot {
+// CertificationCourse<null> : une certification neuve, pas encore enregistrée
+// CertificationCourse : une certification enregistrée, avec un id
+export class CertificationCourse<Id extends CertificationCourseId | null = CertificationCourseId> {
   readonly id: Id; // E1 : en lecture seule
-  readonly organizationId: OrganizationId; // E7 : un autre Aggregate, gardé par son id
-  readonly userId: UserId; // E7 : un autre Aggregate, gardé par son id
-  #role: MembershipRole; // E6 : privé, seul changeRole() le modifie
-  #disabledAt: Date | null; // une date du métier : la date de désactivation
+  readonly userId: UserId; // E8 : le candidat, gardé par son id
+  #state: CertificationCourseState; // E6 : privé, seules les méthodes métier le modifient
+  #abortReason: AbortReason | null; // E6 : privé
 
-  // E3 : refuse une adhésion invalide
-  constructor({ id, organizationId, userId, role, disabledAt }: MembershipProps<Id>) {
-    super();
-    assertValidRole(role);
+  // E3 : refuse une certification invalide
+  constructor({ id, userId, state, abortReason }: CertificationCourseProps<Id>) {
+    assertValidState(state);
+    assertValidAbortReason(abortReason);
     this.id = id;
-    this.organizationId = organizationId;
     this.userId = userId;
-    this.#role = role;
-    this.#disabledAt = disabledAt;
+    this.#state = state;
+    this.#abortReason = abortReason;
   }
 
-  // une adhésion neuve, sans id
-  static create({ organizationId, userId, role }: { organizationId: OrganizationId; userId: UserId; role: MembershipRole }): Membership<null> {
-    return new Membership({ id: null, organizationId, userId, role, disabledAt: null });
+  // le candidat démarre son épreuve : une certification neuve, sans id
+  static start({ userId }: { userId: UserId }): CertificationCourse<null> {
+    return new CertificationCourse({ id: null, userId, state: 'started', abortReason: null });
   }
 
-  get role(): MembershipRole {
-    return this.#role;
+  get state(): CertificationCourseState {
+    return this.#state;
   }
 
-  get disabledAt(): Date | null {
-    return this.#disabledAt;
+  get abortReason(): AbortReason | null {
+    return this.#abortReason;
   }
 
-  get isDisabled(): boolean {
-    return this.#disabledAt !== null;
+  get isInProgress(): boolean {
+    return this.#state === 'started';
+  }
+
+  get isCompleted(): boolean {
+    return this.#state === 'completed';
   }
 
   // E2 : on compare les id
-  isSameAs(other: Membership): boolean {
+  isSameAs(other: CertificationCourse): boolean {
     return this.id === other.id;
   }
 
-  // E6 : un nom métier ; E3 : tout vérifier avant de modifier
-  changeRole(role: MembershipRole): void {
-    if (this.isDisabled) throw new MembershipAlreadyDisabledError();
-    assertValidRole(role);
-    this.#role = role;
+  // E6 : un nom métier ; E3 : vérifier avant de modifier
+  // le rapport donne un motif d'abandon, mais le candidat a terminé son épreuve : le motif est retiré
+  finalize({ abortReason }: { abortReason: AbortReason | null }): void {
+    assertValidAbortReason(abortReason);
+    if (abortReason !== null && this.isCompleted) this.#abortReason = null;
   }
 
-  // E4 : la date de désactivation arrive en paramètre
-  disable(now: Date): void {
-    if (this.isDisabled) throw new MembershipAlreadyDisabledError();
-    this.#disabledAt = now;
-    this.emitDomainEvent(new MembershipDisabled({ membershipId: this.id, disabledAt: now })); // E9
+  // E6 : un nom métier ; E3 : seule une épreuve en cours peut être arrêtée
+  // l'appelant vérifie isInProgress avant d'appeler cette méthode
+  endDueToFinalization(): void {
+    if (!this.isInProgress) throw new CertificationCourseNotInProgressError();
+    this.#state = 'endedDueToFinalization'; // E4 : pas de log ici, le usecase l'écrit
   }
 
-  // E5 : pas de toDTO() : la traduction est dans le repository
+  // E5 : pas de toDTO(), la traduction vers la base est dans le repository
 }
 
-function assertValidRole(role: string): void {
-  if (!MembershipRoles.includes(role as MembershipRole)) throw new InvalidMembershipRoleError(`Unknown role: ${role}`);
+function assertValidState(state: string): void {
+  if (!CertificationCourseStates.includes(state as CertificationCourseState)) {
+    throw new InvalidCertificationCourseStateError(`Unknown state: ${state}`);
+  }
+}
+
+function assertValidAbortReason(abortReason: string | null): void {
+  if (abortReason !== null && !AbortReasons.includes(abortReason as AbortReason)) {
+    throw new InvalidAbortReasonError(`Unknown abort reason: ${abortReason}`);
+  }
 }
 ```
 
 ## Comment tester
 
-Une Entity se teste avec un test unitaire, sans stub, mock ni spy. Le test couvre :
+Une Entity se teste avec un test unitaire, sans stub, sans mock ni spy. Le test couvre :
 
-- le constructeur : une Entity invalide n'est pas créée. Exemple : `refuses an unknown role` ;
+- le constructeur : une Entity invalide n'est pas créée. Exemple : `refuses an unknown state` ;
+- la création : une Entity neuve n'a pas d'`id`. Exemple : `starts a new certification, without id` ;
 - chaque méthode qui modifie l'Entity : le cas qui marche, et le cas d'erreur. Après une erreur,
-  l'Entity n'a pas changé. Exemples : `changes the role` et
-  `refuses an unknown role, and changes nothing` ;
-- les getters calculés, comme `isDisabled`, avec leurs cas limites. Exemple :
-  `disables the membership`.
+  l'Entity n'a pas changé. Exemples : `ends a started certification` et
+  `refuses to end a certification not in progress, and changes nothing` ;
+- les règles dans les méthodes, avec leurs cas limites. Exemple :
+  `removes the abort reason when the candidate completed the exam`.
 
 Le test de l'[exemple complet](#exemple-complet) :
 
 ```ts
-// tests/team/unit/domain/models/Membership_test.ts
+// tests/certification/session-management/unit/domain/models/CertificationCourse_test.ts
 import { expect } from 'chai';
 
-import type { MembershipId, OrganizationId, UserId } from '../../../../../src/shared/domain/Id.js';
-import { InvalidMembershipRoleError, MembershipAlreadyDisabledError } from '../../../../../src/team/domain/errors.js';
-import { MembershipDisabled } from '../../../../../src/team/domain/events/MembershipDisabled.js';
-import { Membership, type MembershipProps, type MembershipRole } from '../../../../../src/team/domain/models/Membership.js';
+import type { CertificationCourseId, UserId } from '../../../../../../src/shared/domain/Id.js';
+import {
+  CertificationCourseNotInProgressError,
+  InvalidAbortReasonError,
+  InvalidCertificationCourseStateError,
+} from '../../../../../../src/certification/session-management/domain/errors.js';
+import {
+  type AbortReason,
+  CertificationCourse,
+  type CertificationCourseProps,
+  type CertificationCourseState,
+} from '../../../../../../src/certification/session-management/domain/models/CertificationCourse.js';
 
-describe('Unit | Team | Domain | Models | Membership', function () {
-  const now = new Date('2026-01-02');
-
-  const buildMembership = (props: Partial<MembershipProps<MembershipId>> = {}) =>
-    new Membership({
-      id: 1 as MembershipId,
-      organizationId: 2 as OrganizationId,
-      userId: 3 as UserId,
-      role: 'MEMBER',
-      disabledAt: null,
+describe('Unit | Certification | Session Management | Domain | Models | CertificationCourse', function () {
+  const buildCertificationCourse = (props: Partial<CertificationCourseProps<CertificationCourseId>> = {}) =>
+    new CertificationCourse({
+      id: 1 as CertificationCourseId,
+      userId: 2 as UserId,
+      state: 'started',
+      abortReason: null,
       ...props,
     });
 
-  it('refuses an unknown role', function () {
-    expect(() => buildMembership({ role: 'OWNER' as MembershipRole })).to.throw(InvalidMembershipRoleError);
+  it('refuses an unknown state', function () {
+    expect(() => buildCertificationCourse({ state: 'ended' as string as CertificationCourseState })).to.throw(
+      InvalidCertificationCourseStateError,
+    );
   });
 
-  describe('.create', function () {
-    it('creates a new membership, without id', function () {
-      const membership = Membership.create({ organizationId: 2 as OrganizationId, userId: 3 as UserId, role: 'ADMIN' });
+  describe('.start', function () {
+    it('starts a new certification, without id', function () {
+      const certificationCourse = CertificationCourse.start({ userId: 2 as UserId });
 
-      expect(membership.id).to.be.null;
-      expect(membership.role).to.equal('ADMIN');
-    });
-  });
-
-  describe('#changeRole', function () {
-    it('changes the role', function () {
-      const membership = buildMembership();
-
-      membership.changeRole('ADMIN');
-
-      expect(membership.role).to.equal('ADMIN');
-    });
-
-    it('refuses an unknown role, and changes nothing', function () {
-      const membership = buildMembership();
-
-      expect(() => membership.changeRole('OWNER' as MembershipRole)).to.throw(InvalidMembershipRoleError);
-      expect(membership.role).to.equal('MEMBER');
+      expect(certificationCourse.id).to.be.null;
+      expect(certificationCourse.state).to.equal('started');
     });
   });
 
-  describe('#disable', function () {
-    it('disables the membership', function () {
-      const membership = buildMembership();
+  describe('#finalize', function () {
+    it('keeps the abort reason when the candidate did not complete the exam', function () {
+      const certificationCourse = buildCertificationCourse({ state: 'started', abortReason: 'technical' });
 
-      membership.disable(now);
+      certificationCourse.finalize({ abortReason: 'technical' });
 
-      expect(membership.isDisabled).to.be.true;
+      expect(certificationCourse.abortReason).to.equal('technical');
     });
 
-    it('refuses to disable a membership already disabled, and changes nothing', function () {
-      const membership = buildMembership({ disabledAt: new Date('2026-01-01') });
+    it('removes the abort reason when the candidate completed the exam', function () {
+      const certificationCourse = buildCertificationCourse({ state: 'completed', abortReason: 'candidate' });
 
-      expect(() => membership.disable(now)).to.throw(MembershipAlreadyDisabledError);
-      expect(membership.isDisabled).to.be.true;
+      certificationCourse.finalize({ abortReason: 'candidate' });
+
+      expect(certificationCourse.abortReason).to.be.null;
     });
 
-    it('emits a MembershipDisabled event', function () {
-      const membership = buildMembership();
+    it('refuses an unknown abort reason, and changes nothing', function () {
+      const certificationCourse = buildCertificationCourse({ abortReason: 'technical' });
 
-      membership.disable(now);
+      expect(() => certificationCourse.finalize({ abortReason: 'tired' as string as AbortReason })).to.throw(
+        InvalidAbortReasonError,
+      );
+      expect(certificationCourse.abortReason).to.equal('technical');
+    });
+  });
 
-      expect(membership.pullDomainEvents()).to.deep.equal([
-        new MembershipDisabled({ membershipId: 1 as MembershipId, disabledAt: now }),
-      ]);
+  describe('#endDueToFinalization', function () {
+    it('ends a started certification', function () {
+      const certificationCourse = buildCertificationCourse({ state: 'started' });
+
+      certificationCourse.endDueToFinalization();
+
+      expect(certificationCourse.state).to.equal('endedDueToFinalization');
+    });
+
+    it('refuses to end a certification not in progress, and changes nothing', function () {
+      const certificationCourse = buildCertificationCourse({ state: 'completed' });
+
+      expect(() => certificationCourse.endDueToFinalization()).to.throw(CertificationCourseNotInProgressError);
+      expect(certificationCourse.state).to.equal('completed');
     });
   });
 });
@@ -212,15 +239,14 @@ Peut-elle devenir invalide ?
 [ ] E6  Pas de setter ; chaque changement a sa méthode métier
 
 Dépend-elle d'autre chose ?
-[ ] E7  Un autre Aggregate est gardé par son id, pas en entier
 [ ] E4  Pas d'import d'infrastructure, pas de new Date(), Math.random() ni config
-[ ] E9  Seule une Aggregate Root émet des événements
 [ ] E5  Pas de méthode utilisée seulement par le repository
+[ ] E8  Aucune autre Entity dedans, seulement des id et des valeurs
 
-Son identité est-elle nette ?
+Son identité est-elle fixe ?
 [ ] E1  Aucune méthode ne modifie l'identifiant
 [ ] E2  Les comparaisons se font sur l'id
-[ ] E8  Un fichier en PascalCase, nommé avec le mot du métier
+[ ] E7  Un fichier en PascalCase, nommé avec le mot du métier
 
 Tests
 [ ] Chaque méthode qui modifie l'Entity a un test du cas d'erreur
@@ -231,46 +257,46 @@ Tests
 ### E1. Un identifiant qui ne change pas
 
 **La règle.** L'identifiant est un champ de l'Entity, souvent nommé `id`. Aucune méthode ne le
-modifie. Il a un type dédié, comme `MembershipId`, ou un Value Object : même quand la valeur est un
-entier, on ne le type pas en simple `number`.
-Dans le code de Pix, l'identifiant prend plusieurs formes :
+modifie.
 
-- un entier créé par la base de données, le cas le plus courant : `Membership` ;
+L'identifiant n'est pas forcément un nombre. En DDD, il vient de la façon dont le métier reconnaît
+l'objet. Dans Pix, il prend plusieurs formes :
+
+- un entier créé par la base de données, le cas le plus courant : `CertificationCourse` ;
 - une chaîne venue du référentiel : `skillId`, `tubeId`, `challengeId` ;
 - un UUID : les modules, les chats ;
 - une valeur du métier : le `code` d'une campagne, le `slug` d'un module.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
-export class Membership<Id extends MembershipId | null = MembershipId> extends AggregateRoot {
-  readonly id: Id; // en lecture seule : personne ne peut le modifier
+export class CertificationCourse<Id extends CertificationCourseId | null = CertificationCourseId> {
+  readonly id: Id; // E1 : en lecture seule
 }
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
-export class Membership {
+export class CertificationCourse {
   id: number; // public : modifiable de partout
 }
 ```
 
-**Ce que ça apporte.** Une Entity se compare et se retrouve par son seul identifiant. Et grâce au type
-dédié, le compilateur refuse un `UserId` à la place d'un `MembershipId`.
+**Ce que ça apporte.** Une Entity se compare et se retrouve par son seul identifiant.
 
-**Sans cette règle.** Si du code change l'`id` d'une adhésion, le repository écrase les données d'une
-autre adhésion avec les siennes.
+**Sans cette règle.** Si du code change l'`id` d'une certification, le repository écrase les données
+d'une autre certification avec les siennes.
 
 **À savoir.** La base de données crée l'`id` à l'enregistrement, donc une Entity neuve n'en a pas
-encore. Le type le dit : `Membership<null>` pour une Entity neuve, `Membership` pour une Entity
-enregistrée.
+encore. Le type le dit : `CertificationCourse<null>` pour une certification neuve,
+`CertificationCourse` pour une certification enregistrée.
 
 ```ts
-interface MembershipRepository {
-  add({ membership }: { membership: Membership<null> }): Promise<Membership>; // la base crée l'id
-  get({ id }: { id: MembershipId }): Promise<Membership>;
-  update({ membership }: { membership: Membership }): Promise<void>;
+interface CertificationCourseRepository {
+  add({ certificationCourse }: { certificationCourse: CertificationCourse<null> }): Promise<CertificationCourse>; // la base crée l'id
+  get({ id }: { id: CertificationCourseId }): Promise<CertificationCourse>;
+  update({ certificationCourse }: { certificationCourse: CertificationCourse }): Promise<void>;
 }
 ```
 
@@ -279,63 +305,64 @@ Chaque usecase dit quelle forme il attend :
 ```ts
 // usecases raccourcis : la transaction est montrée dans la fiche usecase
 
-// création : le usecase reçoit une Entity neuve
-const createMembership = async ({
-  membership,
-  membershipRepository,
+// création : le usecase crée une certification neuve
+const startCertification = async ({
+  userId,
+  certificationCourseRepository,
 }: {
-  membership: Membership<null>;
-  membershipRepository: MembershipRepository;
-}): Promise<Membership> => {
-  return membershipRepository.add({ membership });
+  userId: UserId;
+  certificationCourseRepository: CertificationCourseRepository;
+}): Promise<CertificationCourse> => {
+  const certificationCourse = CertificationCourse.start({ userId });
+  return certificationCourseRepository.add({ certificationCourse });
 };
 
 // modification : le usecase reçoit l'id, charge l'Entity puis appelle sa méthode
-const disableMembership = async ({
-  membershipId,
-  membershipRepository,
-  clock,
+const endCertificationDueToFinalization = async ({
+  certificationCourseId,
+  certificationCourseRepository,
 }: {
-  membershipId: MembershipId;
-  membershipRepository: MembershipRepository;
-  clock: Clock;
-}): Promise<Membership> => {
-  const membership = await membershipRepository.get({ id: membershipId });
-  membership.disable(clock.now());
-  await membershipRepository.update({ membership });
-  return membership;
+  certificationCourseId: CertificationCourseId;
+  certificationCourseRepository: CertificationCourseRepository;
+}): Promise<CertificationCourse> => {
+  const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
+  if (certificationCourse.isInProgress) certificationCourse.endDueToFinalization();
+  await certificationCourseRepository.update({ certificationCourse });
+  return certificationCourse;
 };
 ```
 
-Le compilateur vérifie que `add()` ne reçoit pas une Entity déjà enregistrée, et que `update()` ne
-reçoit pas une Entity neuve. Une `Membership`, sans `<null>`, a toujours un `id`.
+Le compilateur vérifie que `add()` ne reçoit pas une certification déjà enregistrée, et que `update()`
+ne reçoit pas une certification neuve. Une `CertificationCourse`, sans `<null>`, a toujours un `id`.
 
 ### E2. Comparer par identifiant
 
 **La règle.** Deux objets avec le même `id` sont la même Entity, même si leurs autres champs
 diffèrent. Deux objets avec des `id` différents sont deux Entities, même si tout le reste est égal.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
-isSameAs(other: Membership): boolean {
+// CertificationCourse
+isSameAs(other: CertificationCourse): boolean {
   return this.id === other.id;
 }
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
-isSameAs(other: Membership): boolean {
-  return this.userId === other.userId; // compare l'utilisateur, pas l'id
+// CertificationCourse
+isSameAs(other: CertificationCourse): boolean {
+  return this.userId === other.userId; // compare le candidat, pas l'id
 }
 ```
 
 **Ce que ça apporte.** La même Entity, chargée à deux moments différents, est bien reconnue comme la
-même.
+même, même si son état a changé entre-temps.
 
-**Sans cette règle.** Les adhésions d'un même utilisateur à deux organisations différentes sont
-confondues. On désactive alors la mauvaise.
+**Sans cette règle.** Un candidat qui passe deux certifications a deux certifications avec le même
+`userId`. La comparaison les confond, et on finalise la mauvaise.
 
 ### E3. Toujours valide
 
@@ -343,41 +370,37 @@ confondues. On désactive alors la mauvaise.
 Chaque méthode vérifie d'abord la règle. Si la règle n'est pas respectée, elle lève une erreur du
 domaine et ne modifie rien.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
-// Membership
-changeRole(role: MembershipRole): void {
-  if (this.isDisabled) throw new MembershipAlreadyDisabledError(); // vérifier d'abord
-  assertValidRole(role); // vérifier d'abord
-  this.#role = role; // modifier ensuite
+// CertificationCourse
+endDueToFinalization(): void {
+  if (!this.isInProgress) throw new CertificationCourseNotInProgressError(); // vérifier d'abord
+  this.#state = 'endedDueToFinalization'; // modifier ensuite
 }
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
-constructor({ id, organizationRole, organizationId, userId }: MembershipProps = {}) {
+// CertificationCourse
+constructor({ id, userId, state, abortReason }: CertificationCourseProps<Id>) {
   this.id = id;
-  this.organizationRole = organizationRole; // aucune vérification au constructeur
+  this.#state = state; // aucune vérification au constructeur
   …
 }
 
-validateRole(): void { … } // une méthode à part, que l'appelant doit penser à appeler
+validate(): void { … } // une méthode à part, que l'appelant doit penser à appeler
 ```
 
-**Ce que ça apporte.** Quand on reçoit une adhésion, on sait que son rôle existe. Il n'y a rien à
+**Ce que ça apporte.** Quand on reçoit une certification, on sait que son état existe. Il n'y a rien à
 revérifier, et la règle n'est écrite qu'une fois, dans l'Entity.
 
-**Sans cette règle.** Le rôle est vérifié par une méthode à part. Un usecase oublie de l'appeler, et on
-enregistre une adhésion avec le rôle `OWNER`, que le reste du code ne connaît pas.
+**Sans cette règle.** L'état est vérifié par une méthode à part. Un usecase oublie de l'appeler, et on
+enregistre une certification avec l'état `ended`, que le reste du code ne connaît pas.
 
-**À savoir.**
-
-- Un constructeur avec `= {}` et sans vérification accepte `new Membership()`, et crée une adhésion
-  vide. Ça compile, et un test qui ne vérifie pas ce cas ne voit rien.
-- Si une méthode modifie plusieurs champs, elle vérifie tout avant de modifier le premier. Sinon, une
-  erreur en cours de route laisse l'Entity à moitié modifiée.
+**À savoir.** Si une méthode modifie plusieurs champs, elle vérifie tout avant de modifier le premier.
+Sinon, une erreur en cours de route laisse l'Entity à moitié modifiée.
 
 ### E4. Aucun effet de bord extérieur
 
@@ -386,30 +409,35 @@ d'appel HTTP. Elle n'appelle pas `new Date()` ni `Math.random()`, et ne lit pas 
 valeurs arrivent en paramètre. Si une règle a besoin d'une donnée que l'Entity n'a pas, le usecase la
 charge et la passe en paramètre.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
-// Membership
-disable(now: Date): void {
-  if (this.isDisabled) throw new MembershipAlreadyDisabledError();
-  this.#disabledAt = now; // la date arrive en paramètre
+// CertificationCourse
+endDueToFinalization(): void {
+  if (!this.isInProgress) throw new CertificationCourseNotInProgressError();
+  this.#state = 'endedDueToFinalization'; // E4 : pas de log ici, le usecase l'écrit
 }
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
-disable(): void {
-  if (this.isDisabled) throw new MembershipAlreadyDisabledError();
-  this.#disabledAt = new Date(); // l'Entity lit l'heure
+// CertificationCourse
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+
+endDueToFinalization(): void {
+  if (!this.isInProgress) throw new CertificationCourseNotInProgressError();
+  this.#state = 'endedDueToFinalization';
+  logger.info({ certificationCourseId: this.id }, 'certification ended'); // l'Entity écrit un log
 }
 ```
 
-**Ce que ça apporte.** Le résultat ne dépend que des paramètres. Le test passe une date et vérifie le
-résultat.
+**Ce que ça apporte.** Le résultat ne dépend que des champs de l'Entity et des paramètres. Le test
+appelle la méthode et vérifie le résultat, sans rien simuler.
 
-**Sans cette règle.** Le test doit figer l'heure ou simuler un module. Et une Entity qui appelle
-`new Date()` ne donne pas le même résultat d'un lancement à l'autre.
+**Sans cette règle.** Le test de l'Entity charge le logger de l'infrastructure, et doit le simuler
+pour vérifier le log. Pour une date, c'est pareil : une Entity qui appelle `new Date()` ne donne pas
+le même résultat d'un lancement à l'autre, et le test doit figer l'heure.
 
 **À savoir.** Un import d'infrastructure ne se voit pas toujours. Un utilitaire importé depuis un
 dossier `infrastructure/`, même pour formater une date, en est un.
@@ -420,184 +448,125 @@ dossier `infrastructure/`, même pour formater une date, en est un.
 repository. L'Entity n'a pas de méthode que seul le repository utilise, comme `toDTO()` ou
 `fromDTO()`.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
-// team/infrastructure/repositories/membership-repository.ts
-const toRow = (membership: Membership<MembershipId | null>) => ({
-  id: membership.id,
-  organizationId: membership.organizationId,
-  userId: membership.userId,
-  organizationRole: membership.role,
-  disabledAt: membership.disabledAt,
+// certification/session-management/infrastructure/repositories/certification-course-repository.ts
+const toCertificationCourseRow = (certificationCourse: CertificationCourse) => ({
+  id: certificationCourse.id,
+  abortReason: certificationCourse.abortReason,
+});
+
+const toAssessmentRow = (certificationCourse: CertificationCourse) => ({
+  certificationCourseId: certificationCourse.id,
+  state: certificationCourse.state,
 });
 ```
 
-La traduction est une fonction du repository, pas une méthode de l'Entity.
+La certification est écrite dans deux tables, `certification-courses` et `assessments`. Les deux
+traductions sont des fonctions du repository, pas des méthodes de l'Entity.
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
-export class Membership {
+export class CertificationCourse {
   toDTO() {
     // seul le repository appelle cette méthode
-    return { id: this.id, organizationRole: this.role, organization_id: this.organizationId };
+    return { id: this.id, abortReason: this.abortReason, 'assessments.state': this.state };
   }
 }
 ```
 
-**Ce que ça apporte.** L'Entity ne contient aucun nom de colonne. Un changement dans la base de
-données ne touche que le repository.
+**Ce que ça apporte.** L'Entity ne contient aucun nom de table ni de colonne. Un changement dans la
+base de données ne touche que le repository.
 
-**Sans cette règle.** Renommer la colonne `organizationRole` oblige à modifier l'Entity.
+**Sans cette règle.** Déplacer l'état de l'épreuve de la table `assessments` vers la table
+`certification-courses` oblige à modifier l'Entity.
 
 ### E6. Pas de setter
 
-**La règle.** Chaque changement passe par une méthode au nom métier, comme `changeRole()` ou
-`disable()`. Pas de setter public, et pas de champ modifié depuis l'extérieur : un usecase qui écrit
-`membership.disabledAt = new Date()` ne respecte pas la règle.
+**La règle.** Chaque changement passe par une méthode au nom métier, comme `finalize()` ou
+`endDueToFinalization()`. Pas de setter public, et pas de champ modifié depuis l'extérieur : un usecase
+qui écrit `certificationCourse.state = 'endedDueToFinalization'` ne respecte pas la règle.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
-#role: MembershipRole; // privé
+// CertificationCourse
+#state: CertificationCourseState; // E6 : privé, seules les méthodes métier le modifient
 
-changeRole(role: MembershipRole): void {
+endDueToFinalization(): void {
   …
 }
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
-#role: MembershipRole;
+// CertificationCourse
+#state: CertificationCourseState;
 
-set role(value: MembershipRole) {
-  this.#role = value; // tout le monde peut changer le rôle, sans vérification
+set state(value: CertificationCourseState) {
+  this.#state = value; // tout le monde peut changer l'état, sans vérification
 }
 ```
 
 **Ce que ça apporte.** Chaque changement passe par une seule méthode, qui vérifie la règle (E3). Et le
 nom de la méthode dit ce qui se passe côté métier.
 
-**Sans cette règle.** Un setter modifie le champ sans rien vérifier. `membership.role = 'OWNER'` donne
-une adhésion au rôle inconnu, sans aucune erreur.
+**Sans cette règle.** Un setter modifie le champ sans rien vérifier. `certificationCourse.state =
+'endedDueToFinalization'` sur une épreuve terminée la fait repasser à l'état arrêté, sans erreur.
 
-**À savoir.** Une adhésion remplie par `setUserId(…)` puis `setRole(…)` est invalide entre les deux
-appels : elle a un utilisateur, mais pas de rôle. Les valeurs de départ passent toutes par le
+**À savoir.** Une certification remplie par `setUserId(…)` puis `setState(…)` est invalide entre les
+deux appels : elle a un candidat, mais pas d'état. Les valeurs de départ passent toutes par le
 constructeur.
 
 **Exceptions.** Une Entity sans méthode de modification est permise : certaines Entities ne changent
 jamais.
 
-### E7. Pas d'objet d'un autre Aggregate
-
-**La règle.** Une Entity ne garde pas un objet d'un autre Aggregate, seulement son identifiant. Si une
-règle a besoin des données de cet objet, la méthode les reçoit en paramètre.
-
-**Bon exemple.**
-
-```ts
-readonly organizationId: OrganizationId;
-readonly userId: UserId;
-```
-
-**Mauvais exemple.**
-
-```ts
-readonly organization: Organization; // l'objet entier d'un autre Aggregate
-readonly user: User; // l'objet entier d'un autre Aggregate
-```
-
-**Ce que ça apporte.** Quand on charge une adhésion, on ne charge ni l'organisation ni l'utilisateur
-avec. On peut modifier et enregistrer l'un sans toucher aux autres.
-
-**Sans cette règle.** Le repository doit charger l'organisation et l'utilisateur avec chaque adhésion.
-Chaque objet lié ajoute une requête ou une jointure. Et on peut modifier l'organisation en passant par
-l'adhésion.
-
-**Exceptions.** Une Entity garde entiers les objets de son propre Aggregate. Une adhésion n'en a pas,
-mais une organisation garde ses fonctionnalités : voir la fiche
-[Aggregate Root](../racine-agregat/README.md).
-
-### E8. Un nom du métier
+### E7. Un nom du métier
 
 **La règle.** Un fichier par Entity, dans `domain/models/`. Le fichier porte le nom métier de l'Entity,
 en PascalCase.
 
-**Bon exemple.** `team/domain/models/Membership.ts`.
+**Exemple de code correct.** `certification/session-management/domain/models/CertificationCourse.ts`.
 
-**Mauvais exemple.** `team/domain/models/member-model.ts`.
+**Exemple de code incorrect.** `certification/session-management/domain/models/course-model.ts`.
 
-**Ce que ça apporte.** En cherchant le mot du métier, par exemple « Membership », on trouve le
+**Ce que ça apporte.** En cherchant le mot du métier, par exemple « CertificationCourse », on trouve le
 fichier.
 
 **Sans cette règle.** On ne retrouve pas le fichier en cherchant le mot du métier, et il faut l'ouvrir
 pour savoir ce qu'il contient.
 
-**Exceptions.** Deux contextes, comme `prescription` et `team` dans `src/`, peuvent avoir chacun une
-Entity du même nom, avec un sens différent. Le chemin de l'import montre de quel contexte elle vient.
+**Exceptions.** Deux dossiers de `src/`, comme `certification/shared` et
+`certification/session-management`, peuvent avoir chacun une Entity du même nom, ici
+`CertificationCourse`, avec un sens différent. Le chemin de l'import montre de quel dossier elle
+vient.
 
-### E9. Seule une Aggregate Root émet des événements
+### E8. Pas d'autre Entity dedans
 
-**La règle.** Un événement du domaine annonce qu'un changement a eu lieu, par exemple « l'adhésion est
-désactivée ». Seule une Aggregate Root émet des événements, depuis ses propres méthodes. Pour
-l'imposer, `emitDomainEvent()` est protégée dans la classe `AggregateRoot` : on ne peut pas l'appeler
-de l'extérieur.
+**La règle.** Une Entity ne contient pas d'autre Entity. Elle contient des identifiants et des
+valeurs, comme un état ou un Value Object. Une Entity qui contient d'autres Entities et les modifie
+est une Aggregate Root : voir la fiche [Aggregate Root](../racine-agregat/README.md).
 
-Une Aggregate Root est l'Entity par laquelle on modifie un groupe d'objets, expliquée dans la fiche
-[Aggregate Root](../racine-agregat/README.md). Une adhésion est seule dans son groupe : elle en est
-donc la racine. Cette règle ne recoupe pas E4 : un événement est un objet du domaine, gardé dans
-l'Entity, pas un appel vers l'extérieur.
-
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
-// shared/domain/models/AggregateRoot.ts
-export abstract class AggregateRoot {
-  #domainEvents: DomainEvent[] = [];
-
-  protected emitDomainEvent(event: DomainEvent): void {
-    this.#domainEvents.push(event);
-  }
-
-  // renvoie les événements et vide la liste, d'où le nom « pull »
-  pullDomainEvents(): DomainEvent[] {
-    const events = this.#domainEvents;
-    this.#domainEvents = [];
-    return events;
-  }
-}
+// CertificationCourse
+  readonly userId: UserId; // E8 : le candidat, gardé par son id
 ```
+
+**Exemple de code incorrect.**
 
 ```ts
-// Membership extends AggregateRoot
-disable(now: Date): void {
-  if (this.isDisabled) throw new MembershipAlreadyDisabledError();
-  this.#disabledAt = now;
-  this.emitDomainEvent(new MembershipDisabled({ membershipId: this.id, disabledAt: now }));
-}
+// CertificationCourse
+  readonly candidate: Candidate; // une autre Entity, gardée entière
 ```
 
-**Mauvais exemple.**
+**Ce que ça apporte.** En lisant une Entity, on sait qu'elle ne modifie qu'elle-même. Quand un objet
+doit en modifier d'autres, on le voit tout de suite : c'est une Aggregate Root, avec ses propres
+règles.
 
-```ts
-// une Entity interne à l'Aggregate Organization émet elle-même
-export class OrganizationFeature {
-  enable(now: Date): void {
-    …
-    domainEvents.emit(new FeatureEnabled({ featureName: this.featureName }));
-  }
-}
-```
-
-**Ce que ça apporte.** L'événement est émis par la racine, celle qui vérifie les règles de tout
-l'Aggregate. Quand `MembershipDisabled` est émis, `disable()` a déjà vérifié que l'adhésion n'était pas
-désactivée.
-
-**Sans cette règle.** Une Entity interne émet un événement sans que la racine ait vérifié les règles.
-Le code qui réagit à l'événement traite un changement que la racine n'a pas validé.
-
-**À savoir.** Les événements sont publiés après l'enregistrement, quand la transaction est validée.
-C'est un code placé autour du usecase qui s'en charge, comme `runInTransaction`. Le usecase et le
-repository ne publient rien eux-mêmes.
+**Sans cette règle.** La certification garde le candidat entier. Le repository charge le candidat
+avec chaque certification, et on peut modifier le candidat en passant par la certification.
