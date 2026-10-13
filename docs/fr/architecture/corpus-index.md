@@ -111,6 +111,16 @@ Un numéro retiré n'est jamais réattribué.
 
 ## Chantiers ouverts
 
+- **Débats ouverts par la revue de la PR Entity / Value Object** (#17799). Les fiches prennent
+  position, mais ces points restent à discuter en équipe :
+  - valider au constructeur ou seulement dans les méthodes : les fiches valident aux deux, parce que
+    le constructeur sert aussi pour les objets créés depuis un formulaire ;
+  - lever une erreur dans le modèle ou renvoyer un `Result` : les fiches lèvent une erreur du domaine,
+    et documenter les erreurs avec `@throws` reste à décider ;
+  - E7 (pas d'objet d'un autre Aggregate) : garder une référence, charger l'objet et le modifier sont
+    trois questions distinctes ;
+  - `updatedAt` : les fiches traitent les dates techniques comme des données de persistance, fixées par
+    la base, et seules les dates du métier passent par le domaine.
 - **Les événements du domaine.** La publication des événements (outbox dans la transaction, relais
   après le commit) est mise de côté en attendant une discussion avec les staffs. Une version existe
   dans le commit `23a5cd7096` (règle A8 de `racine-agregat/README.md`), retirée ensuite. Points à

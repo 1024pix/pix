@@ -1,467 +1,414 @@
 # Contrôleur
 
-Un contrôleur traduit une requête HTTP en un appel de usecase, et le résultat en réponse. Il vit dans
-`application/`.
+Un contrôleur reçoit une requête HTTP, appelle un [usecase](../usecase/README.md), et renvoie le
+résultat en réponse. Il fait trois choses, dans cet ordre : extraire les données de la requête,
+appeler le usecase, rendre la réponse. Par exemple, le contrôleur de `POST /api/admin/organizations`
+lit le formulaire de création d'une organisation et appelle le usecase `createOrganization`. Les
+contrôleurs se rangent dans `application/`, à côté de leur [route](../route/README.md).
 
-Cette page est la **référence** : les règles, les cas permis, les tests et la checklist. Dans le même
-dossier :
+## Les règles
 
-- [`explication.md`](explication.md) : pourquoi ces règles, ce qu'elles rapportent, la théorie et
-  l'histoire des décisions ;
-- [`outillage.md`](outillage.md) : mettre en place les vérifications automatiques ;
-- [`ecarts.md`](ecarts.md) : où le code s'écarte de la théorie, et ce qui est décidé.
+Chaque règle est détaillée plus bas, dans la [référence des règles](#référence-des-règles).
 
-Les règles de cette page s'appliquent à tout contrôleur. La ligne **Vérification** de chaque
-invariant dit par quel moyen la règle se vérifie. Ce qui est en place dans la CI est dans
-[`outillage.md`](outillage.md).
-
-## Sommaire
-
-[Rôle](#rôle) · [Invariants](#invariants) · [Exceptions légitimes](#exceptions-légitimes) ·
-[Exemple complet](#exemple-complet) · [Tests attendus](#tests-attendus) · [Checklist de revue](#checklist-de-revue) · [Sources](#sources)
-
-| # | Invariant | Vérification |
+| # | Règle | En pratique |
 | --- | --- | --- |
-| [**C1**](#c1-un-seul-usecase-par-point-dentrée) | un seul usecase par point d'entrée | règle ESLint |
-| [**C2**](#c2-aucune-décision) | aucune décision | règle ESLint pour le code d'erreur, revue pour le reste |
-| [**C3**](#c3-les-dépendances-arrivent-en-paramètre) | les dépendances arrivent en paramètre | revue |
-| [**C4**](#c4-aucun-accès-direct-aux-données) | aucun accès direct aux données | `dependency-cruiser` |
-| [**C5**](#c5-un-contrôleur-par-ressource-une-fonction-par-action) | un contrôleur par ressource, une fonction par action | script |
-
-Hors numérotation : la [table de décision](#ce-quun-contrôleur-nest-pas) du rôle.
-
----
-
-## Rôle
-
-Un contrôleur fait trois étapes, dans cet ordre, et rien entre : **extraire**, **appeler**,
-**rendre**.
-
-```js
-const getQuestResults = async function (request, h, dependencies = { questResultSerializer }) {
-  const { campaignParticipationId } = request.params;
-  const userId = extractUserIdFromRequest(request);
-
-  const questResults = await usecases.getQuestResultsForCampaignParticipation({ userId, campaignParticipationId });
-
-  const serializedQuestResults = dependencies.questResultSerializer.serialize(questResults);
-
-  return h.response(serializedQuestResults);
-};
-```
-
-**Code.** [`quest-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/application/quest-controller.js#L7-L16).
-
-Terme employé dans cette page :
-
-- **Humble object** : au sens de Martin, un objet assez simple pour que son test soit trivial, afin
-  que tout ce qui mérite un vrai test soit testé ailleurs. Le contrôleur en est un.
-
-### Ce qu'un contrôleur n'est pas
-
-Table de décision. Si le code correspond à une ligne, ce n'est pas un contrôleur.
-
-| Le code… | Va dans | Fiche |
-| --- | --- | --- |
-| réalise l'intention métier | un usecase | `../usecase/README.md` |
-| valide la forme des entrées | la route | `../route/README.md` |
-| contrôle les droits | un pre-handler déclaré sur la route | `../route/README.md` |
-| met en forme la réponse | un sérialiseur | `../serialiseur/README.md` |
-| choisit un code d'erreur à partir d'une erreur métier | le mappeur d'erreurs du contexte | — |
-| accède aux données | un repository, appelé par un usecase | `../repository/README.md` |
-| expose une capacité à un autre contexte | `application/api/` | `../api-interne/README.md` |
-
----
-
-## Invariants
-
-### C1. Un seul usecase par point d'entrée
-
-**Énoncé.** Une fonction de contrôleur appelle un usecase, et un seul.
-
-```js
-// fautif — quelle est l'intention métier de cette séquence ?
-const passage = await usecases.createPassage({ moduleId, userId });
-
-const passageStartedData = {
-  contentHash: moduleVersion,
-  occurredAt: new Date(occurredAt),
-  passageId: passage.id,
-  sequenceNumber,
-  type: 'PASSAGE_STARTED',
-};
-
-await usecases.recordPassageEvents({ events: [passageStartedData] });
-
-// conforme — version corrigée : l'intention composée a un nom, un fichier et un test d'intégration
-const passage = await usecases.startPassage({ moduleId, moduleVersion, userId, occurredAt, sequenceNumber });
-```
-
-**Code.** Fautif : [`passage-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/application/passages/passage-controller.js#L12-L25), simplifié. La forme corrigée est hypothétique.
-
-Entre les deux appels, le contrôleur **fabrique la charge de l'événement** :
-
-- il fixe le type `PASSAGE_STARTED` ;
-- il convertit la date ;
-- il relie l'événement au passage créé et à la version du module.
-
-Ce sont des décisions du domaine, prises dans un fichier testé en unitaire avec des doublures. Aucune
-n'est donc vraiment testée.
-
-**Faux ami légitime.** Un usecase d'écriture suivi d'un usecase de lecture pour construire la
-réponse. Il s'examine au cas par cas : il est parfois justifié, parfois le signe que le premier
-usecase ne renvoie pas ce que la réponse demande. Voir les
-[exceptions légitimes](#exceptions-légitimes).
-
-**Ce qui casse.** La composition vit dans un contrôleur, où seul le test d'acceptance la vérifie :
-c'est le test le plus lent et le plus tardif du dépôt. L'intention n'a pas de nom, donc elle est
-introuvable : personne ne peut savoir qu'elle existe sans lire le contrôleur.
-
-**Vérification.** Une règle ESLint, avec une liste d'exclusion nominative. Voir
-[`outillage.md`](outillage.md#c1--compter-les-appels-de-usecase).
-
-### C2. Aucune décision
-
-**Énoncé.** Pas de règle métier. Pas de code d'erreur choisi ici. Pas de transformation au-delà de
-l'extraction.
-
-Le code de **succès** est une propriété constante de la route : 200, 201 ou 204 selon la nature de
-l'opération. Les codes d'erreur viennent du mappeur d'erreurs : le contrôleur laisse remonter
-l'erreur du domaine.
-
-```js
-// fautif — la décision de statut est prise ici
-const replication = replicationRepository.getByName(replicationName);
-
-if (!replication) {
-  return h.response().code(404);
-}
-
-// conforme — le usecase lève, le mappeur traduit
-const questResults = await usecases.getQuestResultsForCampaignParticipation({ userId, campaignParticipationId });
-const serializedQuestResults = dependencies.questResultSerializer.serialize(questResults);
-return h.response(serializedQuestResults);
-```
-
-**Code.** Fautif : [`replications-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/maddo/application/replications-controller.js#L16-L20). Conforme : [`quest-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/application/quest-controller.js#L11-L15).
-
-La forme fautive cumule deux violations : elle choisit le statut, **et** elle lit un repository, ce
-qui enfreint `C4`.
-
-**Le cas de la transaction.** Ouvrir une transaction dans un contrôleur, avec
-`DomainTransaction.execute` autour de l'appel, est une décision. La transaction appartient au
-usecase, selon `U7` de `../usecase/README.md` : c'est le usecase qui sait ce qui doit être atomique.
-`C2` l'exclut donc du contrôleur.
-
-```js
-// fautif — la transaction enveloppe un seul appel de usecase
-const createdOrUpdatedTrainingTrigger = await DomainTransaction.execute(async () => {
-  return usecases.createOrUpdateTrainingTrigger({ trainingId, threshold, tubes, type });
-});
-
-// conforme — version corrigée : la transaction est ouverte dans le usecase, le contrôleur l'appelle seulement
-const createdOrUpdatedTrainingTrigger = await usecases.createOrUpdateTrainingTrigger({ trainingId, threshold, tubes, type });
-```
-
-**Code.** Fautif : [`training-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/application/trainings/training-controller.js#L60-L67), simplifié. La forme corrigée est hypothétique.
-
-L'extrait fautif ne contient **qu'un** appel de usecase : le contrôleur ne compose rien. L'histoire
-de cette règle est dans
-[`explication.md`](explication.md#la-transaction-hors-du-contrôleur).
-
-**Ce qui casse.** Le même cas d'absence produit deux réponses différentes selon le point d'entrée
-emprunté. Le front ne reçoit pas le code d'erreur exploitable que le mappeur aurait produit. C'est le
-pendant applicatif de `I4` de `../repository/README.md` : le repository lève une erreur du domaine,
-le mappeur lui associe un statut, et personne au milieu ne décide.
-
-**Vérification.** Une règle ESLint pour le code d'erreur choisi ici. La règle métier et la
-transaction se vérifient en revue. Voir [`outillage.md`](outillage.md#c2--les-codes-derreur).
-
-### C3. Les dépendances arrivent en paramètre
-
-**Énoncé.** Les dépendances du contrôleur, sérialiseurs et usecases, arrivent en paramètre. Aucune
-n'est importée puis appelée directement. Deux formes sont admises :
-
-- **la forme par défaut**, pour tout contrôleur neuf : une enveloppe posée sur la route passe au
-  contrôleur un objet de dépendances qui contient ses usecases et ses sérialiseurs ;
-- **la forme admise** : une valeur par défaut sur le troisième paramètre fournit le sérialiseur.
-
-```js
-// par défaut — l'enveloppe de la route injecte usecases et sérialiseur
-handler: handlerWithDependencies(passageController.create),
-
-const create = async function (request, h, { usecases, passageSerializer }) { … };
-
-// admise — la valeur par défaut du troisième paramètre fournit le sérialiseur
-const getQuestResults = async function (request, h, dependencies = { questResultSerializer }) { … };
-
-// fautif — le sérialiseur importé est appelé directement
-async function getAllModulesMetadata() {
-  const modulesMetadata = await usecases.getModuleMetadataList();
-
-  return moduleMetadataSerializer.serialize(modulesMetadata);
-}
-```
-
-**Code.** Par défaut : [`passage-route.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/application/passages/passage-route.js#L17) et [`passage-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/application/passages/passage-controller.js#L4). Admise : [`quest-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/application/quest-controller.js#L7). Fautif : [`module-metadata-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/application/modules-metadata/module-metadata-controller.js#L4-L8).
-
-La forme par défaut est la seule qui injecte aussi les usecases. Un contrôleur qui l'emploie n'aura
-rien à changer quand l'équipe choisira une forme unique.
-
-**Ce qui casse.** Sous ESM, les exports sont immuables. Une dépendance importée ne peut pas être
-substituée en test, donc le contrôleur n'est pas testable en unitaire. C'est la même contrainte
-technique que celle qui motive l'injection ailleurs, décidée par l'ADR 46.
-
-**Vérification.** La revue. Voir [`outillage.md`](outillage.md#vérifications).
-
-### C4. Aucun accès direct aux données
-
-**Énoncé.** Ni repository, ni client de stockage, ni API interne, ni usecase d'un autre contexte. Le
-contrôleur ne connaît que les usecases de **son** contexte.
-
-```js
-// fautif — un repository lu directement
-import * as challengeToPlayRepository from '../../infrastructure/repositories/challenge-to-play-repository.js';
-
-// fautif — la frontière franchie hors API interne
-import { usecases as questUsecases } from '../../../quest/domain/usecases/index.js';
-
-// conforme — les usecases du contexte courant, et eux seuls, reçus par l'enveloppe (C3)
-const create = async function (request, h, { usecases, passageSerializer }) { … };
-```
-
-**Code.** Fautif, le repository : [`challenge-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/application/challenges/challenge-controller.js#L1). Fautif, la frontière : [`assessment-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/application/assessments/assessment-controller.js#L6). Conforme : [`passage-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/application/passages/passage-controller.js#L4).
-
-**Les usecases du contexte courant** sont les seuls que le contrôleur reçoit. Aucune forme ne
-s'étend aux usecases d'un autre contexte : franchir une frontière passe par l'API interne, selon `U9`
-de `../usecase/README.md`.
-
-**Ce qui casse.** Une lecture « juste pour afficher » contourne les règles du domaine. La même question
-reçoit alors deux réponses selon le chemin emprunté. Une règle peut ainsi cesser d'être appliquée sans
-que personne l'ait décidé.
-
-**Vérification.** Deux règles `dependency-cruiser`. Voir
-[`outillage.md`](outillage.md#c4--règles-de-chemin).
-
-### C5. Un contrôleur par ressource, une fonction par action
-
-**Énoncé.** Le fichier porte le nom de la ressource. Chaque fonction exportée porte le nom de
-l'action. Les fonctions sont regroupées dans un objet exporté que la route référence.
-
-```js
-// fautif — la fonction est exportée seule, et la route l'importe par son nom
-export async function replicate(request, h, dependencies = { … }) { … }
-
-// conforme — un objet exporté regroupe les actions de la ressource
-const questController = {
-  checkUserQuest,
-  getQuestResults,
-  createOrUpdateQuestsInBatch,
-  getTemplateForCreateOrUpdateQuestsInBatch,
-};
-
-export { questController };
-```
-
-**Code.** Fautif : [`replications-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/maddo/application/replications-controller.js#L5-L12), simplifié. Conforme : [`quest-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/application/quest-controller.js#L45-L52).
-
-**Ce qui casse.** Rien à l'exécution. Invariant d'hygiène : il rend le fichier prévisible et réduit
-le bruit de revue. Il rend aussi `C1` plus facile à vérifier, parce qu'il donne à sa règle une unité
-claire à parcourir.
-
-**Vérification.** Un script de nommage. Voir [`outillage.md`](outillage.md#vérifications).
-
----
-
-## Exceptions légitimes
-
-Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'autre.
-
-| Cas | Statut |
-| --- | --- |
-| Les usecases du contexte importés, avec le sérialiseur en valeur par défaut | **admis** : c'est la seconde forme de `C3`. `C4` |
-| L'utilisateur extrait de la requête via un utilitaire partagé | **autorisé**, c'est de l'extraction |
-| Un code de succès non standard : 201, 204 | **autorisé**, propriété constante de la route. `C2` |
-| Un `if` sur la présence d'un paramètre optionnel | **autorisé** |
-| Un flux ou un fichier renvoyé plutôt qu'un objet sérialisé, avec ses en-têtes | **autorisé** |
-| Un usecase d'écriture suivi d'un usecase de lecture | **examiné au cas par cas** : parfois justifié, parfois le signe que le premier usecase ne renvoie pas ce que la réponse demande. `C1` |
-| Un `DomainTransaction.execute` autour de l'appel | **pas une exception** : la transaction appartient au usecase, selon `U7` de `../usecase/README.md`. `C2` |
-| Deux usecases métier enchaînés | **pas une exception** : intention sans nom. `C1` |
-| Le contrôle des droits écrit ici | **pas une exception** : voir `R2` de `../route/README.md` |
-
----
+| [C1](#c1-un-seul-usecase-par-point-dentrée) | Un seul usecase par point d'entrée | un seul `await usecases.…` par fonction |
+| [C2](#c2-aucune-décision) | Aucune décision | pas de règle métier, pas de `.code(4xx)`, pas de transaction ; une erreur du domaine remonte au mappeur d'erreurs |
+| [C3](#c3-les-dépendances-arrivent-en-paramètre) | Les dépendances arrivent en paramètre | usecases et sérialiseurs arrivent en troisième paramètre, passés par `handlerWithDependencies` sur la route |
+| [C4](#c4-aucun-accès-direct-aux-données) | Aucun accès direct aux données | ni repository, ni API interne, ni usecase d'un autre contexte |
+| [C5](#c5-un-contrôleur-par-ressource-une-fonction-par-action) | Un contrôleur par ressource, une fonction par action | `organization.admin.controller.ts` exporte `organizationAdminController = { create, archive }` |
 
 ## Exemple complet
 
-Le contrôleur des passages, dans la forme par défaut de `C3` : le fichier, son enregistrement sur la
-route, son test. Ce fichier n'est pas entièrement conforme : le bloc ci-dessous est sa version
-corrigée. Les fonctions déjà conformes et sans rapport avec les corrections
-sont abrégées.
+Le contrôleur des organisations dans Pix Admin. `create` lit l'utilisateur connecté : il devient le
+`createdBy` de l'organisation, car Pix garde qui a créé chaque organisation. Exemple inventé, d'après
+[`organization.admin.controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/application/organization/organization.admin.controller.js#L83-L91)
+et
+[`handlerWithDependencies.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/infrastructure/utils/handlerWithDependencies.js#L7-L19).
 
-```js
-// le contrôleur — version corrigée
-import { extractUserIdFromRequest } from '../../../shared/infrastructure/utils/request-response-utils.js';
+```ts
+// organizational-entities/application/organization/organization.admin.controller.ts
+// C5 : un fichier pour la ressource organization
+import type { Request, ResponseToolkit } from '@hapi/hapi';
+import type { OrganizationId, UserId } from '../../../shared/domain/Id.js';
+import type { ControllerDependencies } from '../../infrastructure/utils/handlerWithDependencies.js';
 
-const create = async function (request, h, { usecases, passageSerializer }) {
-  const {
-    'module-id': moduleId,
-    'module-version': moduleVersion,
-    'occurred-at': occurredAt,
-    'sequence-number': sequenceNumber,
-  } = request.payload.data.attributes;
-  const userId = extractUserIdFromRequest(request);
+// C3 : usecases, sérialiseur et horloge arrivent en troisième paramètre
+const create = async function (
+  request: Request,
+  h: ResponseToolkit,
+  { usecases, organizationSerializer, clock }: ControllerDependencies,
+) {
+  // extraire : la forme du payload est déjà validée par la route
+  const createdBy = request.auth.credentials.userId as UserId;
+  const organization = organizationSerializer.deserialize(request.payload, { createdBy, now: clock.now() });
 
-  const passage = await usecases.startPassage({ moduleId, moduleVersion, userId, occurredAt, sequenceNumber });
+  // C1 : un seul usecase ; C4 : un usecase du contexte, pas un repository
+  const createdOrganization = await usecases.createOrganization({ organization });
 
-  const serializedPassage = passageSerializer.serialize(passage);
-  return h.response(serializedPassage).created();
+  // C2 : 201, toujours le même code pour une création ; une erreur du domaine remonte au mappeur
+  return h.response(organizationSerializer.serialize(createdOrganization)).created();
 };
 
-const verifyAndSaveAnswer = async function (request, h, { usecases, elementAnswerSerializer }) {
-  const { passageId } = request.params;
-  const { 'element-id': elementId, 'user-response': userResponse } = request.payload.data.attributes;
-  const elementAnswer = await usecases.verifyAndSaveAnswer({ passageId, elementId, userResponse });
-  const serializedElementAnswer = elementAnswerSerializer.serialize(elementAnswer);
-  return h.response(serializedElementAnswer).created();
+const archive = async function (
+  request: Request,
+  h: ResponseToolkit,
+  { usecases, organizationSerializer }: ControllerDependencies,
+) {
+  const organizationId = request.params.organizationId as OrganizationId;
+
+  const archivedOrganization = await usecases.archiveOrganization({ organizationId });
+
+  return h.response(organizationSerializer.serialize(archivedOrganization));
 };
 
-const terminate = async function (request, h, { usecases, passageSerializer }) { … };
-
-const startEmbedLlmChat = async function (request, h, { usecases, llmChatSerializer }) {
-  const { configId } = request.payload;
-  const userId = request.auth.credentials.userId;
-  const passageId = request.params.passageId;
-  const startedChatDTO = await usecases.startEmbedLlmChat({ configId, userId, passageId });
-
-  return h.response(llmChatSerializer.serialize(startedChatDTO)).code(201);
-};
-
-const promptToLLMChat = async function (request, h, { usecases }) { … };
-
-const passageController = { create, verifyAndSaveAnswer, terminate, startEmbedLlmChat, promptToLLMChat };
-
-export { passageController };
+// C5 : une fonction par action, regroupées dans un objet exporté
+export const organizationAdminController = { create, archive };
 ```
 
-**Code.** Version corrigée de [`passage-controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/application/passages/passage-controller.js#L1-L67).
+L'enveloppe passe les dépendances au contrôleur. Elle vit dans le contexte, et chaque route du
+contexte s'en sert :
 
-Corrections apportées :
+```ts
+// organizational-entities/infrastructure/utils/handlerWithDependencies.ts — C3
+import type { Request, ResponseObject, ResponseToolkit } from '@hapi/hapi';
+import { usecases } from '../../domain/usecases/index.js';
+import { organizationSerializer } from '../serializers/jsonapi/organization-serializer.js';
 
-- `create` appelle un seul usecase, `startPassage`, au lieu de `createPassage` puis
-  `recordPassageEvents`. La charge de l'événement `PASSAGE_STARTED` est fabriquée dans ce usecase.
-  Ce usecase est hypothétique. `C1`, et `C2` pour la charge de l'événement.
-- `startEmbedLlmChat` reçoit `llmChatSerializer` en paramètre au lieu de l'importer. Le sérialiseur
-  s'ajoute à l'objet de dépendances de `handlerWithDependencies`, et l'import disparaît du fichier.
-  `C3`.
+const dependencies = {
+  usecases, // C4 : les usecases de ce contexte, et eux seuls
+  organizationSerializer,
+  clock: { now: () => new Date() },
+};
 
-`promptToLLMChat` renvoie un flux sans sérialiseur : c'est une exception légitime.
+export type ControllerDependencies = typeof dependencies;
 
-```js
-// l'enregistrement — la route enveloppe la fonction, qui reçoit usecases et sérialiseurs (C3)
+type Handler = (request: Request, h: ResponseToolkit, dependencies: ControllerDependencies) => Promise<ResponseObject>;
+
+export const handlerWithDependencies = (handler: Handler) => (request: Request, h: ResponseToolkit) =>
+  handler(request, h, dependencies);
+```
+
+```ts
+// organizational-entities/application/organization/organization.admin.route.ts
 {
   method: 'POST',
-  path: '/api/passages/{passageId}/answers',
+  path: '/api/admin/organizations',
   config: {
-    auth: false,
-    validate: { params: …, payload: … },
-    handler: handlerWithDependencies(passageController.verifyAndSaveAnswer),
-    notes: ["- Permet de vérifier la réponse d'un élément et de la stocker"],
-    tags: ['api', 'passages', 'element', 'réponse'],
+    pre: [{ method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin, assign: 'hasAuthorizationToAccessAdminScope' }],
+    validate: { payload: … }, // la forme du payload, validée par Joi
+    handler: handlerWithDependencies(organizationAdminController.create), // C3 : la route pose l'enveloppe
+    tags: ['api', 'admin', 'organizations'],
   },
 },
 ```
 
-**Code.** [`passage-route.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/application/passages/passage-route.js#L37-L62), simplifié : la validation est abrégée.
+## Comment tester
 
-```js
-// le test — unitaire, usecase et sérialiseur substitués, sans fixture métier
-it('should call verifyAndSave use-case and return serialized element-answer', async function () {
-  const passageId = Symbol('passage-id');
-  const elementId = Symbol('element-id');
-  const userResponse = Symbol('user-response');
-  const createdElementAnswer = Symbol('created element-answer');
-  const serializedElementAnswer = Symbol('serialized element-answer');
+On teste un contrôleur avec un test unitaire. Le usecase et le sérialiseur sont des stubs, passés en
+troisième argument. Le test couvre :
 
-  const usecases = { verifyAndSaveAnswer: sinon.stub() };
-  usecases.verifyAndSaveAnswer.withArgs({ passageId, elementId, userResponse }).resolves(createdElementAnswer);
-  const elementAnswerSerializer = { serialize: sinon.stub() };
-  elementAnswerSerializer.serialize.withArgs(createdElementAnswer).returns(serializedElementAnswer);
-  const hStub = { response: sinon.stub() };
-  hStub.response.withArgs(serializedElementAnswer).returns({ created: sinon.stub().returns(serializedElementAnswer) });
+- le bon usecase, appelé avec les bons paramètres. Exemple :
+  `creates the organization with the connected user as creator` ;
+- la réponse : le résultat sérialisé, avec le code de succès. Exemple :
+  `returns the serialized organization with a 201 status`.
 
-  const result = await passageController.verifyAndSaveAnswer(
-    { params: { passageId }, payload: { data: { attributes: { 'element-id': elementId, 'user-response': userResponse } } } },
-    hStub,
-    { usecases, elementAnswerSerializer },
-  );
+Rien d'autre. Les codes d'erreur et les droits d'accès se testent sur la route, avec un test
+d'acceptance. Un test de contrôleur qui a besoin de données du métier, comme une vraie
+[Entity](../entite/README.md) `Organization`, est un signe que le contrôleur décide quelque chose
+(C1 ou C2).
 
-  expect(result).to.equal(serializedElementAnswer);
+Le test de l'[exemple complet](#exemple-complet). `hFake` est la fausse boîte à outils `h` de hapi,
+partagée par les tests de Pix : `created()` y met le code à 201.
+
+```ts
+// tests/organizational-entities/unit/application/organization/organization.admin.controller_test.ts
+describe('Unit | Organizational Entities | Application | Controller | Admin | organization', function () {
+  describe('#create', function () {
+    const now = new Date('2026-01-02');
+    const createdBy = 2 as UserId;
+    const payload = { data: { attributes: { name: 'Lycée Victor Hugo', type: 'SCO' } } };
+    const request = { auth: { credentials: { userId: createdBy } }, payload };
+
+    const newOrganization = Symbol('new organization');
+    const createdOrganization = Symbol('created organization');
+    const serializedOrganization = Symbol('serialized organization');
+
+    const buildDependencies = () => {
+      const usecases = { createOrganization: sinon.stub() };
+      usecases.createOrganization.withArgs({ organization: newOrganization }).resolves(createdOrganization);
+      const organizationSerializer = { deserialize: sinon.stub(), serialize: sinon.stub() };
+      organizationSerializer.deserialize.withArgs(payload, { createdBy, now }).returns(newOrganization);
+      organizationSerializer.serialize.withArgs(createdOrganization).returns(serializedOrganization);
+      const clock = { now: () => now };
+      return { usecases, organizationSerializer, clock };
+    };
+
+    it('creates the organization with the connected user as creator', async function () {
+      const dependencies = buildDependencies();
+
+      await organizationAdminController.create(request, hFake, dependencies);
+
+      expect(dependencies.usecases.createOrganization).to.have.been.calledOnceWithExactly({
+        organization: newOrganization,
+      });
+    });
+
+    it('returns the serialized organization with a 201 status', async function () {
+      const response = await organizationAdminController.create(request, hFake, buildDependencies());
+
+      expect(response.source).to.equal(serializedOrganization);
+      expect(response.statusCode).to.equal(201);
+    });
+  });
 });
 ```
 
-**Code.** [`passage-controller_test.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/devcomp/unit/application/passages/passage-controller_test.js#L72-L115), simplifié : les commentaires et un champ inutile de la charge sont retirés.
-
-La forme par défaut rend le test direct : les doublures passent en troisième argument, sans
-substitution de module.
-
----
-
-## Tests attendus
-
-| Objet | Type de test | Ce qu'on vérifie |
-| --- | --- | --- |
-| Contrôleur | **unitaire**, usecase et sérialiseur substitués | que le bon usecase est appelé avec les bons paramètres, et que la réponse est sérialisée |
-
-Rien d'autre. Les statuts et la sécurité se vérifient au niveau de la route, en acceptance. Voir
-`../route/README.md`.
-
-L'existence du fichier de test se vérifie par comparaison de noms. Moyens et limites dans
-[`../repository/outillage.md`](../repository/outillage.md#tests-attendus--par-le-même-script).
-
-Un indice de diagnostic, avec sa limite :
-
-- Un test de contrôleur qui demande des **fixtures métier** est le signe que `C1` ou `C2` est violé :
-  le contrôleur décide de quelque chose qui dépend de l'état.
-- Limite : un contrôleur qui renvoie un fichier peut demander un montage sans rien décider.
-
----
-
-## Checklist de revue
-
-Ordonnée par ROI décroissant. Le statut de chaque ligne vient du moyen de vérification décrit dans
-[`outillage.md`](outillage.md) :
-
-- `[auto]` : la ligne disparaît dès que la règle existe ;
-- `[partiel]` : la ligne reste, réduite à ce que la règle ne couvre pas ;
-- `[humain]` : la ligne reste en entier.
+## Checklist de revue de code
 
 ```
-[ ] [auto]    C4  Aucun accès aux repositories ; aucun usecase d'un autre contexte
-[ ] [partiel] C1  Un seul usecase appelé
-[ ] [partiel] C2  Aucune décision : ni règle métier, ni code d'erreur choisi ici
-[ ] [humain]  C2  Aucune transaction ouverte ici : elle appartient au usecase
-[ ] [humain]  C3  Les dépendances arrivent en paramètre ; l'enveloppe de la route pour un contrôleur neuf
-[ ] [auto]    C5  Nom de fichier = ressource, nom de fonction = action, objet exporté
-[ ] [auto]    Un fichier de test existe, et son nom correspond à celui du contrôleur
-[ ] [humain]  Test unitaire avec usecase et sérialiseur substitués, sans fixture métier
-[ ] [humain]  Aucun contrôle de droit ici : voir R2 de ../route/README.md
+Fait-il une seule chose ?
+[ ] C1  Un seul usecase appelé
+[ ] C2  Aucune règle métier, aucun code d'erreur choisi ici, aucune transaction ouverte
+[ ] C2  Ni validation de forme ni contrôle des droits : c'est la route
+
+D'où viennent ses dépendances ?
+[ ] C3  Usecases et sérialiseurs reçus en troisième paramètre ; handlerWithDependencies pour un contrôleur neuf
+[ ] C4  Aucun repository, aucune API interne, aucun usecase d'un autre contexte
+
+Le retrouve-t-on ?
+[ ] C5  Fichier nommé avec la ressource ; une fonction par action ; un objet exporté
+
+Tests
+[ ] Un test unitaire, usecase et sérialiseur passés en troisième argument
+[ ] Aucune donnée du métier dans le test
 ```
 
-À terme, six lignes restent : deux `[partiel]` et quatre `[humain]`.
+## Référence des règles
 
----
+### C1. Un seul usecase par point d'entrée
 
-## Sources
+**La règle.** Une fonction de contrôleur appelle un usecase, et un seul. Si une action a besoin de
+plusieurs étapes, c'est une seule intention du métier : elle a son propre usecase, avec un nom.
 
-L'argumentation et la bibliographie sont dans [`explication.md`](explication.md#sources) et
-`../references-ddd.md`. Les ADR sont dans `docs/adr/`.
+**Bon exemple.**
 
-| Invariant | Origine |
-| --- | --- |
-| La couche, et **C2** aucune décision | Martin, *Clean Architecture*, ch. « Presenters and Humble Objects » |
-| **C1** un usecase par point d'entrée | ADR 20, « Est-il obligatoire d'implémenter un use-case dans toutes les situations ? » |
-| **C2** la transaction hors du contrôleur | ADR 25, « Précision sur les transactions et les événements métier », qui remplace l'ADR 9, « Transactions métier » |
-| **C2** le mappeur d'erreurs | ADR 44, « Gestion des erreurs de l'API dans les clients (applications tierces, IHM, etc.) et références ». L'ADR 13 éclaire le raisonnement sans faire autorité : voir [`explication.md`](explication.md#le-contrat-du-front) |
-| **C3** dépendances en paramètre | ADR 46, « Injecter les dépendances dans l'API » |
-| **C4** aucun accès aux données | Martin, « The Clean Architecture », la règle de dépendance. ADR 55, « Communication "séquentielle" entre les contextes fonctionnels », pour la frontière entre contextes |
-| **C5** nommage | convention de rangement, sans source |
+```ts
+const createdOrganization = await usecases.createOrganization({ organization });
+```
+
+**Mauvais exemple.**
+
+```ts
+const createdOrganization = await usecases.createOrganization({ organization });
+// un second usecase : « créer puis activer l'import des élèves » n'a ni nom ni test
+await usecases.enableOrganizationFeature({
+  organizationId: createdOrganization.id,
+  featureName: 'LEARNER_IMPORT',
+  params: null,
+});
+```
+
+**Ce que ça apporte.** Chaque intention a un nom, un fichier et son test d'intégration. On la trouve
+en cherchant son nom dans `domain/usecases/`.
+
+**Sans cette règle.** L'enchaînement n'est vérifié que par le test d'acceptance de la route. Et la
+création d'organisations par import CSV, qui passe par un autre contrôleur, n'active pas
+`LEARNER_IMPORT` : la même création donne deux organisations différentes selon l'écran.
+
+**Exceptions.** Un usecase d'écriture suivi d'un usecase de lecture, pour construire la réponse, se
+juge en revue. Souvent, c'est le signe que le premier usecase ne renvoie pas ce que la réponse demande.
+Ici, `createOrganization` renvoie l'organisation créée : une lecture de plus n'a pas lieu d'être.
+
+### C2. Aucune décision
+
+**La règle.** Le contrôleur ne décide rien :
+
+- pas de règle métier ;
+- pas de code d'erreur choisi ici : l'erreur du domaine remonte, et le mappeur d'erreurs du contexte
+  la traduit ;
+- pas de transaction : elle appartient au usecase ;
+- pas de transformation au-delà de l'extraction.
+
+Le code de succès ne dépend que de l'action : 201 pour une création, 204 sans contenu, 200 sinon.
+
+**Bon exemple.**
+
+```ts
+const createdOrganization = await usecases.createOrganization({ organization });
+return h.response(organizationSerializer.serialize(createdOrganization)).created();
+```
+
+Si le nom est vide, `Organization.create` lève une `InvalidOrganizationError`. Le contrôleur la laisse
+remonter. Le mappeur d'erreurs, dans `application/http-error-mapper-configuration.js`, la traduit :
+
+```ts
+{
+  name: InvalidOrganizationError.name,
+  httpErrorFn: (error) => new UnprocessableEntityError(error.message, error.code, error.meta),
+},
+```
+
+**Mauvais exemple.**
+
+```ts
+try {
+  const organization = organizationSerializer.deserialize(request.payload, { createdBy, now: clock.now() });
+  const createdOrganization = await usecases.createOrganization({ organization });
+  return h.response(organizationSerializer.serialize(createdOrganization)).created();
+} catch (error) {
+  if (error instanceof InvalidOrganizationError) {
+    return h.response().code(400); // le contrôleur choisit le code d'erreur
+  }
+  throw error;
+}
+```
+
+**Ce que ça apporte.** Une erreur du domaine donne toujours la même réponse, quelle que soit la route.
+Le contrôleur reste assez court pour que son test se réduise à « le bon usecase, la bonne réponse ».
+
+**Sans cette règle.** Un nom vide renvoie un 400 sans `code` ni `meta` à la création, et un 422 avec
+son `code` à la modification. Pix Admin ne reconnaît pas l'erreur à la création, et affiche son
+message générique.
+
+**À savoir.**
+
+- Ouvrir une transaction autour de l'appel, avec `DomainTransaction.execute`, est une décision. C'est
+  le usecase qui sait ce qui doit être enregistré ensemble (voir la fiche [usecase](../usecase/README.md)).
+- Certaines choses ont leur place ailleurs que dans le contrôleur :
+  - la forme du payload : la validation Joi de la route ;
+  - les droits d'accès : un pre-handler sur la route ;
+  - la traduction de l'objet en JSON:API : le [sérialiseur](../serialiseur/README.md) ;
+  - une donnée exposée à un autre contexte : l'[API interne](../api-interne/README.md).
+
+**Exceptions.**
+
+- Un `if` sur la présence d'un paramètre optionnel est de l'extraction.
+- Un fichier ou un flux renvoyé avec ses en-têtes, comme un modèle CSV, est permis.
+
+### C3. Les dépendances arrivent en paramètre
+
+**La règle.** Les usecases et les sérialiseurs arrivent en troisième paramètre du contrôleur. Aucun
+n'est importé puis appelé directement. La forme par défaut, pour tout contrôleur neuf : la route pose
+l'enveloppe `handlerWithDependencies`, qui passe au contrôleur un objet avec ses usecases et ses
+sérialiseurs. Une seconde forme est admise, décrite dans les exceptions.
+
+**Bon exemple.**
+
+```ts
+// la route
+handler: handlerWithDependencies(organizationAdminController.create),
+
+// le contrôleur
+const create = async function (
+  request: Request,
+  h: ResponseToolkit,
+  { usecases, organizationSerializer, clock }: ControllerDependencies,
+) {
+  …
+};
+```
+
+**Mauvais exemple.**
+
+```ts
+import { usecases } from '../../domain/usecases/index.js';
+import { organizationSerializer } from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
+
+const create = async function (request: Request, h: ResponseToolkit) {
+  …
+  const createdOrganization = await usecases.createOrganization({ organization }); // importé
+  return h.response(organizationSerializer.serialize(createdOrganization)).created(); // importé
+};
+```
+
+**Ce que ça apporte.** Le test passe ses stubs en troisième argument, sans toucher aux modules. Le
+type `ControllerDependencies` dit ce que le contrôleur utilise, et le compilateur refuse un usecase
+qui n'existe pas.
+
+**Sans cette règle.** Avec les modules ES, un export importé ne peut pas être remplacé. Le test
+exécute le vrai `organizationSerializer`, et casse dès que le format JSON:API d'une organisation
+change, alors que le contrôleur n'a pas changé.
+
+**À savoir.** L'enveloppe est la seule forme qui fournit aussi les usecases. C'est pour ça qu'elle
+est la forme par défaut.
+
+**Exceptions.** La seconde forme admise : les usecases du contexte sont importés, et le sérialiseur
+arrive par la valeur par défaut du troisième paramètre.
+
+```ts
+import { usecases } from '../../domain/usecases/index.js';
+
+const create = async function (request: Request, h: ResponseToolkit, dependencies = { organizationSerializer }) {
+  …
+  const createdOrganization = await usecases.createOrganization({ organization });
+  return h.response(dependencies.organizationSerializer.serialize(createdOrganization)).created();
+};
+```
+
+Le test remplace alors la méthode sur l'objet `usecases` importé :
+`sinon.stub(usecases, 'createOrganization')`.
+
+### C4. Aucun accès direct aux données
+
+**La règle.** Le contrôleur ne connaît que les usecases de son contexte. Il n'appelle ni repository, ni
+client de stockage, ni [API interne](../api-interne/README.md), ni usecase d'un autre contexte. Pour
+une donnée d'un autre contexte, c'est le usecase qui la demande, par un
+[repository](../repository/README.md) qui appelle l'API interne de ce contexte.
+
+**Bon exemple.**
+
+```ts
+const createdOrganization = await usecases.createOrganization({ organization });
+```
+
+**Mauvais exemple.**
+
+```ts
+import { organizationRepository } from '../../infrastructure/repositories/index.js';
+
+// le contrôleur enregistre lui-même, sans passer par le usecase
+const createdOrganization = await organizationRepository.add(organization);
+```
+
+**Ce que ça apporte.** Toute création d'organisation passe par `createOrganization`. Une règle ajoutée
+dans ce usecase vaut pour toutes les routes qui créent une organisation.
+
+**Sans cette règle.** `createOrganization` vérifie que l'organisation mère appartient à un réseau. Le
+contrôleur qui appelle le repository ne fait pas cette vérification : il crée une organisation fille
+rattachée à une organisation hors réseau.
+
+**À savoir.** La règle vaut aussi pour la lecture. Une lecture « juste pour afficher » passe par un
+usecase, qui peut renvoyer un [read-model](../read-model/README.md).
+
+### C5. Un contrôleur par ressource, une fonction par action
+
+**La règle.** Le fichier porte le nom de la ressource. Chaque fonction porte le nom de son action. Les
+fonctions sont regroupées dans un objet exporté, et la route référence une fonction de cet objet.
+
+**Bon exemple.**
+
+```ts
+// organization.admin.controller.ts
+export const organizationAdminController = { create, archive };
+
+// la route
+handler: handlerWithDependencies(organizationAdminController.create),
+```
+
+**Mauvais exemple.**
+
+```ts
+// create-organization-controller.ts : un fichier pour une action, une fonction exportée seule
+export async function createOrganizationHandler(request: Request, h: ResponseToolkit, dependencies: ControllerDependencies) {
+  …
+}
+```
+
+**Ce que ça apporte.** Toutes les actions sur les organisations sont dans un seul fichier, qu'on trouve
+en cherchant le nom de la ressource. Dans la route, `organizationAdminController.create` dit la
+ressource et l'action.
+
+**Sans cette règle.** Les actions sur les organisations se dispersent dans des fichiers aux noms
+variés. Pour savoir ce que fait `POST /api/admin/organizations`, il faut suivre l'import de la route
+jusqu'à un fichier qu'on ne pouvait pas deviner.

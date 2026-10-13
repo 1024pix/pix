@@ -1,399 +1,386 @@
 # Domain Service
 
-Un Domain Service porte une règle métier qui n'appartient à aucun objet. Il vit dans
-`domain/services/`.
+Un Domain Service porte une règle du métier qui ne relève d'aucune [Entity](../entite/README.md) ni
+d'aucun [Value Object](../objet-valeur/README.md). Il calcule à partir des objets qu'on lui donne, sans
+rien charger ni enregistrer. Par exemple : trouver les paliers qu'une participation à une campagne
+vient d'atteindre. Les Domain Services se rangent dans `domain/services/`, et ce dossier ne contient
+qu'eux.
 
-Cette page est la **référence** : les règles, les cas permis, les tests et la checklist. Dans le même
-dossier :
+## Les règles
 
-- [`explication.md`](explication.md) : pourquoi ces règles, ce qu'elles rapportent, la théorie et
-  l'histoire des décisions ;
-- [`outillage.md`](outillage.md) : mettre en place les vérifications automatiques ;
-- [`ecarts.md`](ecarts.md) : où le code s'écarte de la théorie, et ce qui est décidé.
+Chaque règle est détaillée plus bas, dans la [référence des règles](#référence-des-règles).
 
-Les règles de cette page s'appliquent à tout fichier de `domain/services/`, sauf le fichier de câblage
-`index.js`. La ligne **Vérification** de chaque invariant dit par quel moyen la règle se vérifie. Ce
-qui est en place dans la CI est dans [`outillage.md`](outillage.md).
-
-## Sommaire
-
-[Rôle](#rôle) · [Invariants](#invariants) · [Exceptions légitimes](#exceptions-légitimes) ·
-[Exemple complet](#exemple-complet) · [Tests attendus](#tests-attendus) ·
-[Checklist de revue](#checklist-de-revue) · [Sources](#sources)
-
-| # | Invariant | Vérification |
+| # | Règle | En pratique |
 | --- | --- | --- |
-| [**D1**](#d1-aucune-io-aucune-dépendance-injectée) | aucune I/O, aucune dépendance injectée | règle ESLint, sans faux positif |
-| [**D2**](#d2-prend-des-objets-du-domaine-en-renvoie) | prend des objets du domaine, en renvoie | revue |
-| [**D3**](#d3-sans-état-et-sans-effet-sur-ses-entrées) | sans état, et sans effet sur ses entrées | règle ESLint, partielle |
-| [**D4**](#d4-cest-un-dernier-recours) | c'est un dernier recours | aucun outil, signal faible |
-| [**D5**](#d5-nommé-par-la-règle-pas-par-la-ressource) | nommé par la règle, pas par la ressource | script, faux positifs non mesurés |
-
-Hors numérotation : le [test de discrimination](#le-test-de-discrimination). En quatre questions, il
-départage objet, Aggregate, usecase et service.
-
----
-
-## Rôle
-
-Un Domain Service porte une règle métier qui n'appartient à aucun objet. Soit elle traverse
-plusieurs Aggregates, soit aucun objet n'en est le propriétaire naturel.
-
-Il reçoit des objets du domaine et en renvoie. Il ne charge rien, n'écrit rien et ne garde aucun état.
-
-C'est une catégorie de **dernier recours**. Un service ne se crée qu'après une tentative de placer la
-règle sur un Value Object, une Entity ou une Aggregate Root. Créer un service par facilité retire la
-logique des modèles, qui deviennent anémiques.
-
-### Le test de discrimination
-
-Les questions se posent dans cet ordre.
-
-1. *La règle porte-t-elle sur les données d'un seul objet ?* → elle va sur ce **Value Object** ou
-   cette **Entity**.
-2. *Porte-t-elle sur plusieurs objets d'une même frontière de cohérence ?* → elle va sur l'**Aggregate
-   Root**.
-3. *A-t-elle besoin de charger ou d'écrire quoi que ce soit ?* → c'est un **usecase**, pas un service.
-4. *Reste-t-il une règle sans propriétaire naturel, qui se calcule sur des objets déjà fournis ?*
-   → **Domain Service**.
-
-En pratique, la question 3 décide le plus souvent. C'est aussi la plus facile à vérifier : le fichier
-reçoit-il un paramètre dont le nom correspond à `/(Repository|Api|Storage)$/` ?
-
-Le dossier ne suffit pas à répondre. `domain/services/` est réservé aux vrais Domain Services. Un
-fichier de `domain/services/` qui fait des I/O est un usecase : il va dans `domain/usecases/`, et
-`../usecase/README.md` s'applique à lui en entier. Voir `X1` de [`ecarts.md`](ecarts.md).
-
-### Ce qu'un Domain Service n'est pas
-
-Si le code correspond à une ligne, ce n'est pas un Domain Service.
-
-| Le code… | Va dans | Référence |
-| --- | --- | --- |
-| charge ou écrit des données, même une seule fois | `domain/usecases/` | `../usecase/README.md` |
-| est réutilisé par plusieurs usecases **et** fait des I/O | `domain/usecases/` : c'est un sous-usecase | `../usecase/README.md` |
-| applique une règle sur un seul objet | le Value Object ou l'Entity concernée | `../objet-valeur/README.md`, `../entite/README.md` |
-| applique une règle dans une frontière de cohérence | l'Aggregate Root | `../racine-agregat/README.md` |
-| évalue un prédicat composable configuré par des données | une Specification | `../specification/README.md` |
-| met en forme pour une lecture | un read-model | `../read-model/README.md` |
-| garde un état entre deux appels | rien : un Domain Service est sans état | — |
-
----
-
-## Invariants
-
-### D1. Aucune I/O, aucune dépendance injectée
-
-**Énoncé.** Un Domain Service ne reçoit ni repository, ni API interne, ni client de stockage.
-C'est l'invariant qui définit la catégorie.
-
-```js
-// conforme — tout ce dont il a besoin lui est donné, la date comprise
-export function filterKnowledgeElements({
-  knowledgeElements,
-  createdAt,
-  isRetrying = false,
-  isImproving = false,
-  isFromCampaign = false,
-  minimumDelayInDaysBeforeImproving = MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
-}) { … }
-
-// fautif — reçoit un repository, donc fait des I/O : c'est un usecase
-const getModuleByLink = async function ({ link, moduleMetadataRepository }) { … };
-```
-
-**Code.** Conforme : [`improvement-service.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/domain/services/improvement-service.js#L20-L27). Fautif : [`module-service.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/services/module-service.js#L6-L12).
-
-Le premier service importe `dayjs` et une constante partagée. C'est conforme : D1 interdit
-l'infrastructure, pas les bibliothèques de calcul. Le point important est que la date de référence
-arrive en paramètre. Le service ne lit pas l'heure, donc son test peut la fixer.
-
-L'interdiction couvre aussi l'infrastructure implicite :
-
-- le journal ;
-- l'horloge ;
-- l'aléatoire ;
-- la configuration.
-
-Une date ou un générateur arrive en paramètre, comme pour une Entity.
-
-**Ce qui casse.** Le service n'est plus testable en unitaire pur : il demande une base ou une doublure.
-Il devient aussi un usecase sans que personne l'ait décidé, dans un dossier qui annonce le contraire.
-
-**Vérification.** Une règle ESLint sur la signature : un paramètre dont le nom finit par `Repository`,
-`Api` ou `Storage`. Une règle `dependency-cruiser` pour les imports d'infrastructure. Voir
-[`outillage.md`](outillage.md#d1--la-règle-qui-force-la-décision).
-
-### D2. Prend des objets du domaine, en renvoie
-
-**Énoncé.** Les entrées et les sorties sont :
-
-- des objets du domaine local ;
-- des Value Objects ;
-- des scalaires.
-
-Jamais :
-
-- une ligne de base ;
-- le DTO d'un autre contexte ;
-- un objet préparé pour une réponse HTTP.
-
-```js
-// conforme — des objets du domaine et des scalaires, un nombre en sortie
-export const getMasteryPercentage = (knowledgeElements, skillIds, round = true) => { … };
-```
-
-**Code.** [`get-mastery-percentage-service.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/domain/services/get-mastery-percentage-service.js#L11).
-
-Une ligne de ce service réel est un signal :
-
-```js
-skillIds.some((id) => String(id) === String(knowledgeElement.skillId))
-```
-
-**Code.** [`get-mastery-percentage-service.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/domain/services/get-mastery-percentage-service.js#L17).
-
-La double conversion en chaîne montre que les deux identifiants n'arrivent pas dans le même type. Le
-service se protège d'entrées non normalisées. D2 vise justement à rendre cette protection inutile :
-avec des objets du domaine validés en entrée, la comparaison serait directe.
-
-**Conséquence.** Un Domain Service ne renvoie pas de read-model. Produire une projection pour
-l'affichage, c'est de la mise en forme, pas une règle métier.
-
-**Ce qui casse.** La règle dépend d'une forme décidée ailleurs, comme un schéma de base ou le contrat
-d'un voisin. Un changement de cette forme casse la règle.
-
-**Vérification.** La revue. Voir [`outillage.md`](outillage.md#vérifications).
-
-### D3. Sans état, et sans effet sur ses entrées
-
-**Énoncé.** Pas de champ, pas de mémoire entre deux appels. Le service est un module de fonctions
-exportées, ou une classe sans état. Il ne modifie pas ce qu'il reçoit.
-
-```js
-// conforme, malgré les apparences — les objets modifiés sont ceux que le service vient de créer
-function computeTubesFromSkills(skills) {
-  const tubes = [];
-
-  skills.forEach((skill) => {
-    const tubeNameOfSkill = skill.tubeNameWithoutPrefix;
-    const existingTube = tubes.find((tube) => tube.name === tubeNameOfSkill);
-    if (existingTube) {
-      existingTube.addSkill(skill);                       // un tube local
-    } else {
-      tubes.push(new Tube({ skills: [skill], name: tubeNameOfSkill }));
-    }
-  });
-  tubes.forEach((tube) => {
-    tube.skills = _.sortBy(tube.skills, ['difficulty']);  // idem
-  });
-
-  return tubes;
-}
-
-// fautif — le tableau reçu est trié sur place : Array#sort le modifie
-export function getNextActivityInfo({ activities, stepCount }) {
-  const byDescendingCreatedAt = (a, b) => b.createdAt - a.createdAt;
-  const sortedActivities = activities.sort(byDescendingCreatedAt);
-  // …
-}
-```
-
-**Code.** Conforme : [`tube-service.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/domain/services/tube-service.js#L5-L22). Fautif : [`get-next-activity-info.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/school/domain/services/get-next-activity-info.js#L9-L11).
-
-L'exemple conforme ressemble à une violation : deux modifications et une affectation de propriété.
-Mais D3 porte sur les entrées, pas sur les objets créés dans la fonction. Un service qui construit sa
-réponse par étapes reste sans état.
-
-**Ce qui casse.** La signature annonce une fonction pure, et la fonction ne l'est pas. L'appelant voit
-un objet changer sans qu'aucune affectation n'apparaisse dans son code. C'est le défaut le plus long à
-diagnostiquer parmi ceux de ce dossier.
-
-L'objet modifié a aussi une faille : il aurait dû refuser la modification (`V1` de
-`../objet-valeur/README.md`, `E6` de `../entite/README.md`).
-
-**Vérification.** Une règle ESLint signale un champ de classe dans un fichier de `domain/services/`.
-L'absence d'effet sur les entrées se vérifie en revue et par un test. Voir
-[`outillage.md`](outillage.md#vérifications).
-
-### D4. C'est un dernier recours
-
-**Énoncé.** Un service ne se crée qu'après une réponse négative aux trois premières questions du
-[test de discrimination](#le-test-de-discrimination). Le service accueille la règle qui n'a pas de
-propriétaire naturel.
-
-```js
-// fautif — dans domain/services/, une seule collection d'objets en entrée
-function computeTubesFromSkills(skills) { … }
-
-// conforme, forme corrigée — la règle vit sur l'objet, sous une fabrique nommée
-Tube.groupFromSkills(skills);
-```
-
-**Code.** Fautif : [`tube-service.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/domain/services/tube-service.js#L5). La forme corrigée est hypothétique.
-
-**Signal.** Un service qui prend un seul objet du domaine, ou une seule collection d'objets, et
-rien d'autre. Sa règle appartient presque toujours à cet objet, ou à l'objet qu'il produit.
-
-**Ce qui casse.** Avec le temps, les modèles ne contiennent plus que des champs, et toute la logique
-vit dans des fonctions à côté. C'est un modèle anémique que personne n'a choisi. Voir `X2` de
-[`ecarts.md`](ecarts.md).
-
-**Vérification.** Aucun outil. Le signal justifie une revue, pas un verdict. Voir
-[`outillage.md`](outillage.md#ce-qui-nest-pas-mécanisable).
-
-### D5. Nommé par la règle, pas par la ressource
-
-**Énoncé.** Le nom du fichier dit ce qu'il calcule ou décide. Ce n'est pas le nom d'une Entity.
-
-```
-get-competence-level.js         — dit ce que le fichier calcule
-get-campaign-progression.js     — idem
-scorecard-service.js            — ne dit rien, et attire tout ce qui touche à la carte de score
-```
-
-**Code.** [Le dossier](https://github.com/1024pix/pix/tree/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/domain/services).
-Les deux premiers noms illustrent D5 seulement : les deux fichiers reçoivent ou importent un
-repository, et violent donc D1.
-
-**Ce qui casse.** Un fichier nommé d'après une ressource et suffixé `-service` accepte n'importe
-quelle fonction : rien ne permet de refuser un ajout. Un nom de règle donne un critère de refus. Voir
-`X3` de [`ecarts.md`](ecarts.md).
-
-**Vérification.** Un script signale un nom de fichier terminant par `-service`. Voir
-[`outillage.md`](outillage.md#vérifications).
-
----
-
-## Exceptions légitimes
-
-Une exception ne vaut que pour l'invariant qu'elle nomme. Elle n'excuse rien d'autre.
-
-| Invariant | Cas | Statut |
-| --- | --- | --- |
-| **D1** | Un service reçoit `now` ou un générateur en paramètre | **autorisé**, c'est la forme correcte de D1 |
-| **D1** | Un service reçoit une constante de configuration en paramètre | **autorisé** : c'est une donnée, pas une dépendance |
-| **D1** | Un service asynchrone sans I/O, qui découpe un calcul long | **autorisé** si aucun `await` ne porte sur une I/O, mais rare |
-| **D2** | Un service prend plusieurs objets du domaine et renvoie un Value Object | **autorisé**, c'est le cas nominal de D2 |
-| **D3** | Un service exporté sous forme de classe sans état | **autorisé**, mais le module de fonctions est la forme préférée : voir [`explication.md`](explication.md#le-module-de-fonctions-plutôt-que-la-classe) |
-| **D1** | Un service partagé entre plusieurs usecases | **autorisé** si D1 tient. Le partage n'est pas le critère |
-| **D1** | Le fichier de câblage `index.js` importe l'infrastructure | **autorisé**, exclu des règles de D1 : il câble, il ne porte aucune règle. Voir `X3` de `../usecase/ecarts.md` |
-| **D1** | Un service qui reçoit un repository | **pas une exception** : c'est un usecase, quel que soit son dossier |
-| **D4** | Un service qui prend un seul objet du domaine | **pas une exception**, mais un signal : la règle appartient probablement à cet objet, ou à celui qu'il produit |
-
----
+| [D1](#d1-aucune-io) | Aucune I/O | aucun repository ni API en paramètre ; la date du jour arrive en paramètre |
+| [D2](#d2-des-objets-du-domaine-en-entrée-et-en-sortie) | Des objets du domaine en entrée et en sortie | des Entities, des Value Objects ou des scalaires ; jamais une ligne de base ni un DTO |
+| [D3](#d3-sans-état-sans-effet-sur-ses-entrées) | Sans état, sans effet sur ses entrées | une fonction exportée, qui ne modifie pas ce qu'elle reçoit |
+| [D4](#d4-un-dernier-recours) | Un dernier recours | une règle sur les données d'un seul objet est une méthode de cet objet |
+| [D5](#d5-nommé-par-la-règle) | Nommé par la règle | `get-new-acquired-stages.ts`, pas `stage-service.ts` |
 
 ## Exemple complet
 
-Un service réel conforme et son test. Il n'a pas d'enregistrement : il ne reçoit aucune dépendance à
-injecter, ce qu'exige D1.
+Les paliers qu'une participation vient d'atteindre. Les paliers appartiennent au profil cible, et les
+paliers déjà acquis à la participation. La règle croise les deux avec le résultat de la participation :
 
-```js
-// le service — deux entrées, un scalaire en sortie, aucune I/O, nommé par la règle
-export function computeGlobalResult(stepResults, dareResult) {
-  if (dareResult === REACHED) {
-    return EXCEEDED;
+- un palier déjà acquis ne se gagne pas une seconde fois ;
+- le palier zéro est toujours atteint ;
+- le palier « premier acquis » est atteint dès qu'un acquis est validé ;
+- les autres paliers sont atteints quand le pourcentage de maîtrise atteint leur seuil.
+
+Exemple inventé, d'après [`get-new-acquired-stages-service.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/stages/domain/services/get-new-acquired-stages-service.js#L12-L19)
+et [`Stage.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/stages/domain/models/Stage.js#L38-L40).
+
+```ts
+// prescription/stages/domain/models/Stage.ts — raccourcie : on a retiré les titres et les messages
+export class Stage {
+  readonly id: StageId;
+  readonly threshold: number | null;
+  readonly level: number | null;
+  readonly isFirstSkill: boolean;
+
+  constructor({ id, threshold, level, isFirstSkill }: StageProps) {
+    this.id = id;
+    this.threshold = threshold;
+    this.level = level;
+    this.isFirstSkill = isFirstSkill;
   }
 
-  const lastStepResult = stepResults.at(-1);
-  if (dareResult === NOT_REACHED || lastStepResult === REACHED) {
-    return REACHED;
+  // D4 : une règle sur les données d'un seul palier est une méthode du palier
+  get isZeroStage(): boolean {
+    return this.level === 0 || this.threshold === 0;
   }
-
-  if (stepResults.length > 1) {
-    return PARTIALLY_REACHED;
-  }
-
-  return NOT_REACHED;
 }
 ```
 
-```js
-// le test — unitaire pur : aucune base, aucune doublure
-describe('Unit | Domain | Pix Junior | compute global result', function () {
-  context('When the dare is successful', function () {
-    it(`should return ${Assessment.results.EXCEEDED}`, function () {
-      const stepResults = [Assessment.results.REACHED];
-      const dareResult = Assessment.results.REACHED;
+```ts
+// prescription/stages/domain/services/get-new-acquired-stages.ts — D5 : le nom dit la règle
+import type { StageId } from '../../../../shared/domain/Id.js';
+import type { Stage } from '../models/Stage.js';
 
-      const result = computeGlobalResult(stepResults, dareResult);
+type GetNewAcquiredStagesInput = {
+  stages: Stage[];
+  validatedSkillCount: number;
+  masteryPercentage: number;
+  alreadyAcquiredStageIds: StageId[];
+};
 
-      expect(result).to.equal(Assessment.results.EXCEEDED);
-    });
+// D1 : aucun repository ; tout arrive en paramètre, déjà chargé par le usecase
+// D2 : des Stages et des scalaires en entrée, des Stages en sortie
+// D3 : une fonction exportée, sans état ; filter renvoie un nouveau tableau
+// D4 : la règle croise les paliers du profil cible et le résultat de la participation
+export function getNewAcquiredStages({
+  stages,
+  validatedSkillCount,
+  masteryPercentage,
+  alreadyAcquiredStageIds,
+}: GetNewAcquiredStagesInput): Stage[] {
+  return stages.filter((stage) => {
+    if (alreadyAcquiredStageIds.includes(stage.id)) return false;
+    if (stage.isZeroStage) return true;
+    if (stage.isFirstSkill) return validatedSkillCount >= 1;
+
+    return stage.threshold !== null && stage.threshold <= masteryPercentage;
+  });
+}
+```
+
+```ts
+// prescription/stages/domain/usecases/handle-stage-acquisition.ts — le usecase charge, appelle, enregistre
+const alreadyAcquiredStageIds = await stageAcquisitionRepository.getStageIdsByCampaignParticipation(campaignParticipation.id);
+
+const stagesToStore = getNewAcquiredStages({ stages, validatedSkillCount, masteryPercentage, alreadyAcquiredStageIds });
+
+await stageAcquisitionRepository.saveStages(stagesToStore, campaignParticipation.id);
+```
+
+## Comment tester
+
+Un Domain Service se teste avec un test unitaire, sans stub, mock ni spy. Si le test a besoin d'un
+stub, le service fait des I/O : c'est un [usecase](../usecase/README.md). Le test couvre :
+
+- chaque cas de la règle. Exemples : `gives the zero stage, even without any validated skill`,
+  `gives the first-skill stage once a skill is validated` ;
+- les cas limites. Exemples : `gives the stages whose threshold is reached, limit included`,
+  `does not give a stage already acquired` ;
+- le fait que les objets reçus n'ont pas changé. Exemple : `does not change the stages it receives`.
+
+Le test de l'[exemple complet](#exemple-complet) :
+
+```ts
+// tests/prescription/stages/unit/domain/services/get-new-acquired-stages_test.ts
+describe('Unit | Prescription | Stages | Domain | Services | get new acquired stages', function () {
+  const buildStage = (props: Partial<StageProps> = {}) =>
+    new Stage({ id: 1 as StageId, threshold: null, level: null, isFirstSkill: false, ...props });
+
+  const zeroStage = buildStage({ id: 1 as StageId, threshold: 0 });
+  const firstSkillStage = buildStage({ id: 2 as StageId, isFirstSkill: true });
+  const stage20 = buildStage({ id: 3 as StageId, threshold: 20 });
+  const stage34 = buildStage({ id: 4 as StageId, threshold: 34 });
+  const stage40 = buildStage({ id: 5 as StageId, threshold: 40 });
+
+  const noResult = { validatedSkillCount: 0, masteryPercentage: 0, alreadyAcquiredStageIds: [] };
+
+  it('gives the zero stage, even without any validated skill', function () {
+    const stages = getNewAcquiredStages({ ...noResult, stages: [zeroStage, stage20] });
+
+    expect(stages).to.deep.equal([zeroStage]);
   });
 
-  context('When the dare is unsuccessful', function () {
-    it(`should return ${Assessment.results.REACHED}`, function () {
-      const stepResults = [Assessment.results.REACHED];
-      const dareResult = Assessment.results.NOT_REACHED;
+  it('gives the first-skill stage once a skill is validated', function () {
+    const stages = getNewAcquiredStages({ ...noResult, stages: [firstSkillStage], validatedSkillCount: 1 });
 
-      const result = computeGlobalResult(stepResults, dareResult);
-
-      expect(result).to.equal(Assessment.results.REACHED);
-    });
+    expect(stages).to.deep.equal([firstSkillStage]);
   });
-  // …
+
+  it('does not give the first-skill stage without a validated skill', function () {
+    const stages = getNewAcquiredStages({ ...noResult, stages: [firstSkillStage] });
+
+    expect(stages).to.be.empty;
+  });
+
+  it('gives the stages whose threshold is reached, limit included', function () {
+    const stages = getNewAcquiredStages({ ...noResult, stages: [stage20, stage34, stage40], masteryPercentage: 34 });
+
+    expect(stages).to.deep.equal([stage20, stage34]);
+  });
+
+  it('does not give a stage already acquired', function () {
+    const stages = getNewAcquiredStages({
+      ...noResult,
+      stages: [zeroStage, stage20],
+      masteryPercentage: 50,
+      alreadyAcquiredStageIds: [zeroStage.id],
+    });
+
+    expect(stages).to.deep.equal([stage20]);
+  });
+
+  it('does not change the stages it receives', function () {
+    const stages = [stage40, zeroStage, stage20];
+
+    getNewAcquiredStages({ ...noResult, stages, masteryPercentage: 50 });
+
+    expect(stages).to.deep.equal([stage40, zeroStage, stage20]);
+  });
 });
 ```
 
-**Code.** Le service : [`compute-global-result.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/school/domain/services/compute-global-result.js#L5-L20). Le test : [`compute-global-result_test.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/school/unit/domain/services/compute-global-result_test.js#L6-L27), tronqué.
-
----
-
-## Tests attendus
-
-| Objet | Type de test | Ce qu'on vérifie |
-| --- | --- | --- |
-| Domain Service | **unitaire pur** : aucune base, aucune doublure | la règle, sur le cas nominal **et** les cas limites |
-| Absence d'effet sur les entrées | **unitaire** | que les objets passés ne sont pas modifiés |
-
-L'existence du fichier de test se vérifie en comparant les noms. Voir
-[`outillage.md`](outillage.md#lexistence-du-test-unitaire-comme-indicateur).
-
-Deux indices de diagnostic, avec leurs limites :
-
-- Un service qui a besoin d'une **doublure** viole D1. La doublure n'est pas une contrainte du test,
-  c'est le diagnostic. Cet indice n'a pas de limite : un vrai Domain Service n'en demande jamais.
-- Le **test d'absence d'effet** est celui qui manque le plus souvent. C'est le seul qui prouve D3.
-  Limite : un service qui ne reçoit que des scalaires n'a rien à modifier.
-
----
-
-## Checklist de revue
-
-Ordonnée par ROI décroissant. Le statut de chaque ligne vient du moyen de vérification décrit dans
-[`outillage.md`](outillage.md) :
-
-- `[auto]` : la ligne disparaît dès que la règle existe ;
-- `[partiel]` : la ligne reste, réduite à ce que la règle ne couvre pas ;
-- `[humain]` : la ligne reste en entier.
+## Checklist de revue de code
 
 ```
-[ ] [auto]    D1  Aucun paramètre en *Repository, *Api, *Storage ; aucun import d'infrastructure
-[ ] [humain]  D1  Ni journal, ni horloge, ni aléatoire, ni configuration lue directement : tout entre en paramètre
-[ ] [humain]  D4  La règle ne pouvait pas vivre sur un Value Object, une Entity ou une Aggregate Root
-[ ] [partiel] D3  Aucun état ; les objets reçus ne sont pas modifiés
-[ ] [humain]  D2  Entrées et sorties sont des objets du domaine local ou des scalaires
-[ ] [partiel] D5  Le fichier est nommé par la règle, pas par une ressource suffixée -service
-[ ] [auto]    Un fichier de test unitaire existe, et son nom correspond à celui du service
-[ ] [humain]  Test unitaire pur, sans doublure, avec les cas limites
-[ ] [humain]  Un test prouve que les entrées ne sont pas modifiées
-[ ] [humain]  Si le service prend un seul objet ou une seule collection, vérifier que la règle ne lui appartient pas
+Fait-il des I/O ?
+[ ] D1  Aucun paramètre *Repository, *Api ou *Storage ; aucun import d'infrastructure
+[ ] D1  Pas de log, pas de new Date(), Math.random() ni config lue : tout arrive en paramètre
+
+Que reçoit-il, que renvoie-t-il ?
+[ ] D2  Des objets du domaine du contexte ou des scalaires ; ni ligne de base, ni DTO, ni read-model
+[ ] D3  Aucun champ ; aucun objet reçu n'est modifié (sort, push, setter)
+
+Avait-il sa place ici ?
+[ ] D4  La règle ne pouvait aller ni sur un Value Object, ni sur une Entity, ni sur une Aggregate Root
+[ ] D4  Un seul objet en entrée : la règle appartient-elle à cet objet ?
+[ ] D5  Le nom du fichier dit la règle ; pas de nom de ressource suffixé -service
+
+Tests
+[ ] Un test unitaire, sans stub, mock ni spy, cas limites compris
+[ ] Un test vérifie que les objets reçus n'ont pas changé
 ```
 
-À terme, huit lignes restent : deux `[partiel]` et six `[humain]`.
+## Référence des règles
 
----
+### D1. Aucune I/O
 
-## Sources
+**La règle.** Un Domain Service ne lit et n'écrit rien : pas de base de données, pas d'appel HTTP, pas
+de fichier. Il ne reçoit ni repository, ni API interne, ni client de stockage. Un fichier qui charge
+ou enregistre des données est un [usecase](../usecase/README.md), et il va dans `domain/usecases/`,
+même s'il est appelé par plusieurs usecases.
 
-L'argumentation et la bibliographie sont dans [`explication.md`](explication.md#sources) et
-`../references-ddd.md`. Les ADR sont dans `docs/adr/`.
+**Bon exemple.**
 
-| Invariant | Origine |
-| --- | --- |
-| La catégorie, et **D1**, **D2**, **D3** | Evans, *DDD*, définition du Service |
-| **D4** dernier recours | Evans, même chapitre. Fowler, « AnemicDomainModel », pour le symptôme |
-| **D5** nommé par la règle | convention propre à ce dossier, sans source |
-| La distinction service / usecase | Martin, *Clean Architecture* |
-| Le sens du dossier `services/` | décision d'équipe, sans ADR. L'ADR 51, « Arborescence API », et l'ADR 20, « Est-il obligatoire d'implémenter un use-case dans toutes les situations ? », ne le fixent pas : voir [`explication.md`](explication.md#le-sens-du-dossier-services) |
+```ts
+// le usecase charge les paliers déjà acquis, puis les passe au service
+const alreadyAcquiredStageIds = await stageAcquisitionRepository.getStageIdsByCampaignParticipation(campaignParticipation.id);
+
+const stagesToStore = getNewAcquiredStages({ stages, validatedSkillCount, masteryPercentage, alreadyAcquiredStageIds });
+```
+
+**Mauvais exemple.**
+
+```ts
+// le service reçoit un repository et charge lui-même les paliers déjà acquis
+export async function getNewAcquiredStages({
+  stages,
+  campaignParticipationId,
+  validatedSkillCount,
+  masteryPercentage,
+  stageAcquisitionRepository,
+}: GetNewAcquiredStagesWithRepositoryInput): Promise<Stage[]> {
+  const alreadyAcquiredStageIds = await stageAcquisitionRepository.getStageIdsByCampaignParticipation(campaignParticipationId);
+  // …
+}
+```
+
+**Ce que ça apporte.** La règle des paliers se teste avec quelques `Stage` construits dans le test.
+Le test n'a besoin ni de base ni de stub.
+
+**Sans cette règle.** Le test remplace `stageAcquisitionRepository` par un stub. Si la méthode du
+repository change de nom, le stub garde l'ancien : le test passe, et l'acquisition des paliers plante
+en production.
+
+**À savoir.** La règle vise aussi ce qu'on oublie : le log, l'heure (`new Date()`), l'aléatoire
+(`Math.random()`) et la configuration. Si le service en a besoin, la valeur arrive en paramètre, comme
+`now` dans une Entity. Une bibliothèque de calcul, comme `dayjs`, est permise : elle ne fait pas d'I/O.
+
+**Exceptions.**
+
+- Le fichier `index.js` de `domain/services/`, s'il existe, importe l'infrastructure pour câbler les
+  dépendances. Il ne porte aucune règle, et D1 ne s'applique pas à lui.
+- Une constante de configuration passée en paramètre est permise : c'est une donnée.
+
+### D2. Des objets du domaine en entrée et en sortie
+
+**La règle.** Le service reçoit et renvoie des Entities, des Value Objects ou des scalaires du
+contexte. Il ne reçoit jamais une ligne de base, ni le DTO d'un autre contexte, et ne renvoie pas un
+objet préparé pour l'affichage.
+
+**Bon exemple.**
+
+```ts
+type GetNewAcquiredStagesInput = {
+  stages: Stage[];
+  validatedSkillCount: number;
+  masteryPercentage: number;
+  alreadyAcquiredStageIds: StageId[];
+};
+```
+
+Le service lit `stage.isZeroStage` : la règle du palier zéro reste dans `Stage`.
+
+**Mauvais exemple.**
+
+```ts
+// le service reçoit les lignes de la table stages, telles que la base les renvoie
+export function getNewAcquiredStages({ stageRows, … }: { stageRows: StageRow[]; … }): StageRow[] {
+  return stageRows.filter((row) => {
+    if (row.level === 0 || row.threshold === 0) return true; // la règle de Stage.isZeroStage, réécrite
+    if (row.is_first_skill) return validatedSkillCount >= 1;
+    // …
+  });
+}
+```
+
+**Ce que ça apporte.** La règle ne dépend que du modèle du contexte. On peut changer une table, ou le
+contrat d'un autre contexte, sans toucher au service.
+
+**Sans cette règle.** Le service réécrit la règle du palier zéro sur les colonnes de la table. Le jour
+où `Stage.isZeroStage` change, la copie du service ne suit pas. Une participation reçoit alors le
+palier zéro dans un écran et pas dans l'autre.
+
+**À savoir.** Un objet assemblé pour un écran est un [read-model](../read-model/README.md). Le
+construire n'est pas une règle du métier, et ce n'est pas le travail d'un Domain Service.
+
+### D3. Sans état, sans effet sur ses entrées
+
+**La règle.** Le service est une fonction exportée. Il ne garde rien d'un appel à l'autre. Il ne
+modifie pas les objets qu'il reçoit : ni tri sur place, ni `push`, ni appel d'une méthode qui modifie.
+Il peut construire et modifier ses propres objets, puis les renvoyer.
+
+**Bon exemple.**
+
+```ts
+export function getNewAcquiredStages({ … }: GetNewAcquiredStagesInput): Stage[] {
+  return stages.filter((stage) => { … }); // filter renvoie un nouveau tableau
+}
+```
+
+**Mauvais exemple.**
+
+```ts
+export function getNewAcquiredStages({ … }: GetNewAcquiredStagesInput): Stage[] {
+  stages.sort((a, b) => (a.threshold ?? 0) - (b.threshold ?? 0)); // sort trie le tableau de l'appelant
+  return stages.filter((stage) => { … });
+}
+```
+
+**Ce que ça apporte.** L'appelant retrouve ses paliers tels qu'il les a passés. On peut appeler le
+service deux fois, dans n'importe quel ordre, et obtenir le même résultat.
+
+**Sans cette règle.** Un usecase passe les paliers du profil cible au service, puis les renvoie à
+l'écran du prescripteur. Les paliers s'affichent dans un autre ordre que dans Pix Admin, et rien dans
+le usecase n'explique pourquoi.
+
+**À savoir.** Un test le vérifie : on garde une copie des objets passés, et on compare après l'appel.
+Voir `does not change the stages it receives`.
+
+**Exceptions.** Une classe sans champ est permise. La fonction exportée reste la forme attendue : une
+classe permet d'ajouter un champ plus tard.
+
+### D4. Un dernier recours
+
+**La règle.** Avant de créer un Domain Service, on essaie de placer la règle sur un objet :
+
+- une règle sur les données d'un seul objet va sur ce Value Object ou cette Entity ;
+- une règle qui relie les objets d'un même Aggregate va sur l'[Aggregate Root](../racine-agregat/README.md) ;
+- une règle qui a besoin de charger ou d'enregistrer va dans un usecase.
+
+Le service ne reçoit que la règle qui reste : elle croise plusieurs objets, et aucun n'en est
+propriétaire.
+
+**Bon exemple.**
+
+```ts
+// D4 : une règle sur les données d'un seul palier est une méthode du palier
+get isZeroStage(): boolean {
+  return this.level === 0 || this.threshold === 0;
+}
+```
+
+Le service garde seulement ce qui croise les paliers du profil cible et le résultat de la
+participation.
+
+**Mauvais exemple.**
+
+```ts
+// prescription/stages/domain/services/is-zero-stage.ts — un seul palier en entrée
+export function isZeroStage(stage: Stage): boolean {
+  return stage.level === 0 || stage.threshold === 0;
+}
+```
+
+**Ce que ça apporte.** La règle du palier zéro se trouve dans `Stage.ts`. Qui lit la classe y trouve
+ce que fait un palier.
+
+**Sans cette règle.** Chaque règle du palier part dans une fonction à côté. `Stage` ne contient plus
+que des champs, et un développeur qui ne connaît pas `is-zero-stage.ts` réécrit le test
+`threshold === 0` dans un usecase, sans le `level === 0`.
+
+**À savoir.** Un service qui ne reçoit qu'un objet, ou qu'une liste d'objets du même type, est un
+signal. Sa règle appartient presque toujours à cet objet, ou à l'objet qu'il produit.
+
+### D5. Nommé par la règle
+
+**La règle.** Le nom du fichier dit ce que le service calcule ou décide : `get-new-acquired-stages.ts`.
+Ce n'est pas le nom d'une ressource suffixé `-service`. Un fichier porte une règle.
+
+**Bon exemple.**
+
+```ts
+// prescription/stages/domain/services/get-new-acquired-stages.ts — D5 : le nom dit la règle
+```
+
+**Mauvais exemple.**
+
+```ts
+// prescription/stages/domain/services/stage-service.ts — le nom dit seulement « ça parle de paliers »
+export function getNewAcquiredStages(…) { … }
+export function convertLevelStagesIntoThresholds(…) { … }
+export function compareStagesAndAcquisitions(…) { … }
+```
+
+**Ce que ça apporte.** La liste des fichiers de `domain/services/` donne la liste des règles du
+contexte. Un ajout qui ne correspond pas au nom du fichier se repère à la relecture.
+
+**Sans cette règle.** `stage-service.ts` accepte toute fonction qui touche aux paliers. Un jour, on y
+ajoute `saveAcquiredStages`, avec un repository, et le fichier devient un usecase dans le dossier des
+services.

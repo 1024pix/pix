@@ -1,577 +1,591 @@
 # Usecase
 
-Un usecase réalise une intention métier de bout en bout, en orchestrant repositories et objets du
-domaine. Il vit dans `domain/usecases/`.
+Un usecase réalise une intention du métier : créer une organisation, l'archiver, lui activer une
+fonctionnalité. Il charge les objets du domaine par un [repository](../repository/README.md), appelle
+leurs méthodes, puis enregistre le résultat. Les règles du métier vivent dans ces objets, pas dans le
+usecase. Les usecases se rangent dans `domain/usecases/`, un fichier par usecase.
 
-Cette page est la **référence** : les règles, les cas permis, les tests et la checklist. Dans le même
-dossier :
+## Les règles
 
-- [`explication.md`](explication.md) : pourquoi ces règles, ce qu'elles rapportent, la théorie et
-  l'histoire des décisions ;
-- [`outillage.md`](outillage.md) : mettre en place les vérifications automatiques ;
-- [`ecarts.md`](ecarts.md) : où le code s'écarte de la théorie, et ce qui est décidé.
+Chaque règle est détaillée plus bas, dans la [référence des règles](#référence-des-règles).
 
-Les règles de cette page s'appliquent à tout usecase, y compris à un fichier de `domain/services/` qui
-reçoit une I/O. La ligne **Vérification** de chaque invariant dit par quel moyen la règle se vérifie.
-Ce qui est en place dans la CI est dans [`outillage.md`](outillage.md).
-
-## Sommaire
-
-[Rôle](#rôle) · [Invariants](#invariants) · [Exceptions légitimes](#exceptions-légitimes) ·
-[Exemple complet](#exemple-complet) · [Tests attendus](#tests-attendus) ·
-[Checklist de revue](#checklist-de-revue) · [Sources](#sources)
-
-| # | Invariant | Vérification |
+| # | Règle | En pratique |
 | --- | --- | --- |
-| [**U1**](#u1-aucune-règle-métier-dans-le-usecase) | aucune règle métier | revue, aucun moyen fiable |
-| [**U2**](#u2-les-dépendances-arrivent-en-paramètres-jamais-par-import) | les dépendances arrivent en paramètres | revue |
-| [**U3**](#u3-aucun-import-dinfrastructure) | aucun import d'infrastructure | `dependency-cruiser` |
-| [**U4**](#u4-une-intention-métier-un-fichier-un-nom-de-verbe) | une intention, un fichier, un nom de verbe | script |
-| [**U5**](#u5-aucune-notion-de-transport) | aucune notion de transport | règle ESLint, partielle |
-| [**U6**](#u6-renvoie-des-objets-du-domaine) | renvoie des objets du domaine | revue |
-| [**U7**](#u7-le-périmètre-transactionnel-est-explicite) | le périmètre transactionnel est explicite | revue |
-| [**U8**](#u8-enregistré-dans-lindex-des-usecases) | enregistré dans l'index des usecases | script |
-| [**U9**](#u9-aucun-accès-direct-au-domaine-dun-autre-contexte) | aucun accès direct au domaine d'un autre contexte | `dependency-cruiser` |
-
-Hors numérotation : le test de discrimination entre usecase et Domain Service n'est pas dans cette
-page. Il est énoncé une fois pour les deux dans [`../service-domaine/README.md`](../service-domaine/README.md).
-Le raccourci est dans [Usecase ou Domain Service](#usecase-ou-domain-service).
-
----
-
-## Rôle
-
-Un usecase réalise **une intention métier** de bout en bout. Il orchestre : il appelle des
-repositories, construit ou fait évoluer des objets du domaine, et décide de l'ordre des opérations.
-
-Il ne calcule aucune règle lui-même. Les règles vivent sur les Entities, les Value Objects et les
-Aggregate Roots. Le usecase les fait jouer dans le bon ordre, avec les bonnes données.
-
-Le usecase est la couche la plus lue du contexte : il se lit pour comprendre ce que le système fait.
-Sa lisibilité compte donc autant que sa correction.
-
-Termes employés dans cette page :
-
-- **Orchestration** : l'ordre des appels et les conditions sur leur résultat, sans décision métier.
-- **API interne** : le contrat qu'un Bounded Context publie pour les autres, dans son dossier
-  `application/api/`.
-- **Fichier de câblage** : `domain/usecases/index.js`, qui injecte les dépendances dans les usecases
-  du contexte.
-
-### Le repère pratique
-
-> Un usecase ne contient **aucun calcul métier**. Un `if` sur « l'objet a-t-il été trouvé » est
-> légitime ; un `if` sur une condition métier signifie qu'une règle a fui hors du modèle.
-
-### Usecase ou Domain Service
-
-Le test de discrimination est énoncé une seule fois, dans
-[`../service-domaine/README.md`](../service-domaine/README.md), parce qu'il n'appartient à aucune des
-deux catégories. Il se lit dans la signature.
-
-Un fichier de `domain/services/` qui reçoit un paramètre dont le nom correspond à
-`/(Repository|Api|Storage)$/` fait des I/O. C'est donc **un usecase**, quel que soit son dossier, et
-sa place est dans `domain/usecases/`. `domain/services/` est réservé aux vrais Domain Services : voir
-`X1` de [`../service-domaine/ecarts.md`](../service-domaine/ecarts.md). Tous les invariants de cette
-page s'appliquent à ce fichier sans exception.
-
-Le partage entre plusieurs usecases est une raison légitime de factoriser un fichier. Il n'en fait pas
-un Domain Service.
-
-### Ce qu'un usecase n'est pas
-
-Table de décision. Si le code correspond à une ligne, ce n'est pas un usecase.
-
-| Le code… | Va dans | Fiche |
-| --- | --- | --- |
-| applique une règle sur des objets d'une même frontière de cohérence | l'Aggregate Root | `../racine-agregat/README.md` |
-| applique une règle sur un seul objet | l'Entity ou le Value Object | `../entite/README.md`, `../objet-valeur/README.md` |
-| applique une règle sans aucune I/O dans sa signature | un Domain Service, dans `domain/services/` | `../service-domaine/README.md` |
-| compose des règles évaluables et pilotées par des données | une Specification | `../specification/README.md` |
-| accède à une source de données | un repository | `../repository/README.md` |
-| lit une requête HTTP, choisit un code de retour, sérialise | `application/` | `../controleur/README.md`, `../route/README.md`, `../serialiseur/README.md` |
-| expose une capacité à un autre contexte | `application/api/` | `../api-interne/README.md` |
-| met en forme des données pour une lecture | un read-model, construit par un repository | `../read-model/README.md` |
-
----
-
-## Invariants
-
-### U1. Aucune règle métier dans le usecase
-
-**Énoncé.** Le usecase ordonne des opérations. Il ne décide pas selon une propriété métier.
-
-Dans l'extrait suivant, les deux formes sont côte à côte :
-
-```js
-const combinedCourseBlueprint = await combinedCourseBlueprintRepository.findById({
-  id: combinedCourseForCreation.blueprintId,
-});
-
-// conforme : orchestration, le chargement n'a rien rendu
-if (!combinedCourseBlueprint) {
-  throw new NotFoundError();
-}
-
-// fautif : règle métier, « un parcours ne se crée que depuis un modèle partagé à son organisation »
-if (!combinedCourseBlueprint.organizationIds.includes(combinedCourseForCreation.organizationId)) {
-  throw new ForbiddenAccess();
-}
-```
-
-**Code.** [`create-combined-course.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/usecases/create-combined-course.js#L17-L25), commentaires ajoutés.
-
-Le second `if` lit une propriété du modèle chargé pour décider. La règle appartient donc à ce modèle,
-qui la porterait sous un nom :
-
-```js
-// conforme : version corrigée du même extrait, la règle est sur l'objet qui la porte
-if (!combinedCourseBlueprint.isSharedWith({ organizationId: combinedCourseForCreation.organizationId })) {
-  throw new ForbiddenAccess();
-}
-```
-
-**Code.** La forme corrigée est hypothétique.
-
-**Comment discriminer.** Un `if` qui teste l'existence d'un résultat de chargement est de
-l'orchestration. Un `if` qui teste une propriété métier d'un objet du domaine est une règle : elle
-appartient à cet objet.
-
-**Ce qui casse.** La même condition finit écrite dans plusieurs usecases, différemment. Quand le
-métier change, une seule est mise à jour.
-
-**Indice de lecture.** Un usecase sans règle se comprend en lisant sa suite d'appels. S'il faut
-dérouler mentalement des conditions pour savoir ce qu'il fait, U1 est probablement violé.
-
-**Vérification.** La revue. Aucun moyen fiable n'est identifié. Voir
-[`outillage.md`](outillage.md#ce-qui-nest-pas-mécanisable).
-
-### U2. Les dépendances arrivent en paramètres, jamais par import
-
-**Énoncé.** Un usecase n'importe pas de repository, ni de client, ni d'API interne. Il les reçoit, et
-le câblage a lieu dans l'index du contexte.
-
-```js
-// conforme : neuf dépendances reçues, aucune importée
-export const createCombinedCourse = async ({
-  combinedCourseForCreation,
-  creatorId,
-  campaignRepository,
-  targetProfileRepository,
-  accessCodeGenerator,
-  accessCodeRepository,
-  combinedCourseRepository,
-  combinedCourseBlueprintRepository,
-  …
-}) => { … };
-
-// fautif : un repository importé, à côté de deux repositories reçus
-import { AnswersHistoryRepository } from '../../infrastructure/repositories/answers-history-repository.js';
-
-export async function historizeAnswers({
-  answersRepository,
-  assessmentsRepository,
-  targetDate,
-  …
-}) { … }
-```
-
-**Code.** Conforme : [`create-combined-course.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/usecases/create-combined-course.js#L4-L16). Fautif : [`historize-answers.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/db-history/domain/usecases/historize-answers.js#L7-L15), simplifié.
-
-**Ce qui casse.** Sous ESM, les exports sont immuables : un module importé ne peut pas être substitué
-par une doublure de test. Sans injection, le usecase ne se teste plus isolément.
-
-**Limite de la forme.** Dépendances et entrées métier sont mélangées dans un seul objet déstructuré,
-donc rien ne les distingue dans la signature. Voir `X4` de [`ecarts.md`](ecarts.md).
-
-**Vérification.** La revue. Voir [`outillage.md`](outillage.md#vérifications).
-
-### U3. Aucun import d'infrastructure
-
-**Énoncé.** Corollaire de U2 côté fichier : un usecase n'importe rien de `infrastructure/`, ni du sien
-ni de celui d'un autre contexte.
-
-```js
-// fautif : cette forme n'a pas l'air d'un accès à une base de données
-import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
-
-const areCombinedCoursesEnabled = await featureToggles.get('areCombinedCoursesEnabled');
-if (!areCombinedCoursesEnabled) {
-  throw new CombinedCoursesDisabledError();
-}
-```
-
-**Code.** [`get-verified-code.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/usecases/get-verified-code.js#L15-L18), import à la ligne 2.
-
-Le mot `infrastructure/` est dans le chemin, et c'est le seul indice. Le drapeau se lit à distance.
-Le usecase ne peut donc plus être exercé sans le mécanisme de drapeaux. Un paramètre
-`areCombinedCoursesEnabled` reçu de l'appelant rendrait pourtant le même service :
-
-```js
-// conforme : version corrigée du même extrait, le drapeau arrive en paramètre
-export const getVerifiedCode = async ({
-  code,
-  areCombinedCoursesEnabled,
-  campaignRepository,
-  combinedCourseRepository,
-}) => {
-  …
-  if (!areCombinedCoursesEnabled) {
-    throw new CombinedCoursesDisabledError();
-  }
-  …
-};
-```
-
-**Code.** La forme corrigée est hypothétique.
-
-**Ce qui casse.** La couche métier devient dépendante de la façon dont les données sont stockées ou
-atteintes. Un changement d'infrastructure remonte donc jusqu'au domaine.
-
-**L'exception apparente** est le fichier de câblage, `domain/usecases/index.js`, qui importe par
-définition ce qu'il injecte. Sa présence dans `domain/` est un écart en soi : voir `X3` de
-[`ecarts.md`](ecarts.md). Ce fichier est exempté dans la règle de vérification, et il ne sert pas de
-précédent.
-
-**Vérification.** Une règle `dependency-cruiser` de chemin, avec l'exemption du câblage. Voir
-[`outillage.md`](outillage.md#u3-et-u9--deux-règles-de-chemin).
-
-### U4. Une intention métier, un fichier, un nom de verbe
-
-**Énoncé.** Un fichier par usecase, nommé par le **verbe de l'intention**. Pas par la ressource, pas
-par la couche.
-
-```
-start-combined-course.js                          conforme : le verbe de l'intention
-archive-organization.usecase.js                   conforme
-remember-user-has-seen-assessment-instructions.js conforme
-candidate-has-seen-certification-instructions.js  fautif : le nom décrit un état, pas l'intention
-```
-
-**Code.** [`start-combined-course.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/usecases/start-combined-course.js), [`archive-organization.usecase.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/usecases/archive-organization.usecase.js), [`remember-user-has-seen-assessment-instructions.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/domain/usecases/remember-user-has-seen-assessment-instructions.js), [`candidate-has-seen-certification-instructions.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/certification/enrolment/domain/usecases/candidate-has-seen-certification-instructions.js).
-
-Le nom est celui de l'Ubiquitous Language du contexte. Deux contextes peuvent avoir un usecase du même
-nom qui désigne deux choses différentes. C'est attendu, mais cela a un coût à la lecture d'un import.
-
-**Ce qui casse.** La liste des fichiers de `usecases/` cesse d'être la liste de ce que le contexte
-sait faire. Cette liste sert de documentation fonctionnelle sans coût d'écriture, et un nom de
-ressource la rend muette.
-
-**Vérification.** Un script sur le nom de fichier. Voir [`outillage.md`](outillage.md#vérifications).
-
-### U5. Aucune notion de transport
-
-**Énoncé.** Pas de `request`, pas de `h`, pas de code HTTP, pas de sérialisation, pas d'en-tête. Un
-usecase ne sait pas comment il est appelé.
-
-```js
-// conforme pour U5 : le code arrive comme une donnée ; le contrôleur a lu request.params.
-// Signature seule : le corps de ce fichier est l'exemple fautif de U3
-export const getVerifiedCode = async ({ code, campaignRepository, combinedCourseRepository }) => { … };
-
-// fautif, hypothétique : le usecase lit la requête HTTP
-export const getVerifiedCode = async ({ request, campaignRepository, combinedCourseRepository }) => {
-  const { code } = request.params;
-  …
-};
-```
-
-**Code.** Conforme : [`get-verified-code.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/usecases/get-verified-code.js#L6). La forme fautive est hypothétique.
-
-**Test.** *Ce usecase fonctionnerait-il tel quel, appelé depuis un script ou un job ?* Si non, une
-préoccupation de transport a fui.
-
-**Ce qui casse.** Le usecase cesse d'être réutilisable hors HTTP. Le même besoin depuis un job oblige
-alors à dupliquer l'orchestration.
-
-**Vérification.** Une règle ESLint, qui ne couvre qu'une partie de l'énoncé. Le reste se vérifie en
-revue. Voir [`outillage.md`](outillage.md#u5--règle-eslint).
-
-### U6. Renvoie des objets du domaine
-
-**Énoncé.** Un usecase renvoie des objets du domaine local, des read-models du contexte, ou des
-scalaires. Jamais un objet façonné pour une réponse HTTP, jamais le DTO d'un autre contexte.
-
-```js
-// conforme : un Value Object du contexte
-return new VerifiedCode({ code: combinedCourse.code, type: 'combined-course' });
-
-// fautif : un objet assemblé pour la réponse, sans type du domaine
-return {
-  fullNameFromPix,
-  fullNameFromExternalIdentityProvider,
-  email: foundUser.email,
-  username: foundUser.username,
-  authenticationMethods,
-};
-```
-
-**Code.** Conforme : [`get-verified-code.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/usecases/get-verified-code.js#L20). Fautif : [`find-user-for-oidc-reconciliation.usecase.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/identity-access-management/domain/usecases/find-user-for-oidc-reconciliation.usecase.js#L73-L79).
-
-**Ce qui casse.** Un objet de réponse renvoyé par le usecase fait entrer la forme de l'API dans le
-domaine : changer la réponse oblige à changer le usecase.
-
-Le second cas, le DTO d'un autre contexte, est le plus discret. Il vient presque toujours d'une
-violation en amont, dans un repository qui n'a pas traduit. Voir `I1` de
-[`../repository/README.md`](../repository/README.md#i1-ne-jamais-renvoyer-une-structure-de-persistance).
-
-**Vérification.** La revue. Voir [`outillage.md`](outillage.md#vérifications).
-
-### U7. Le périmètre transactionnel est explicite
-
-**Énoncé.** Un usecase qui écrit à plusieurs endroits dit ce qui doit être atomique.
-
-L'ADR 25 donne le critère :
-
-| La situation | La forme attendue |
-| --- | --- |
-| Les écritures doivent **échouer ou réussir ensemble** | une transaction, orchestrée dans le usecase, **sans événements** |
-| Elles peuvent échouer **indépendamment** | pas de transaction |
-
-Une transaction posée « au cas où » sur des écritures indépendantes est un défaut, pas une précaution.
-
-```js
-// conforme : withTransaction enveloppe les deux écritures, et le dit à la lecture
-const updateOrganizationInformation = withTransaction(async function ({
-  userId,
-  organization,
-  organizationForAdminRepository,
-  …
-  learnersApi,
-}) {
-  …
-  if (existingOrganization.shouldDeletePreviousLearners) {
-    await learnersApi.deleteOrganizationLearnerBeforeImportFeature({ userId, organizationId: organization.id });
-  }
-
-  await organizationForAdminRepository.update({
-    organization: existingOrganization,
-  });
-  …
-});
-
-// fautif, hypothétique : les mêmes écritures sans withTransaction.
-// Rien ne dit si la suppression doit être annulée quand la mise à jour échoue.
-const updateOrganizationInformation = async function ({ … }) { … };
-```
-
-**Code.** Conforme : [`update-organization-information.usecase.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/usecases/update-organization-information.usecase.js#L3-L63), simplifié. La forme fautive est hypothétique.
-
-`learnersApi` y est injectée directement dans le usecase, ce qui est fautif pour U9 : voir `X6` de
-[`ecarts.md`](ecarts.md). L'exemple ne vaut ici que pour la transaction.
-
-**Aucun événement dans une transaction.** C'est la décision de l'ADR 25. Un enchaînement qui doit
-échouer ensemble se fait donc par **orchestration** dans le usecase, jamais par chorégraphie
-d'événements. Le motif de la décision est dans
-[`explication.md`](explication.md#le-périmètre-transactionnel).
-
-**Ce qui casse.** Sans cette réponse, chaque écriture multiple est un pari : personne ne sait ce qui
-sera annulé si la seconde échoue.
-
-**La transaction de l'appelant.** La transaction n'apparaît pas dans la signature : le repository
-obtient sa connexion par `DomainTransaction`, voir `I12` de
-[`../repository/README.md`](../repository/README.md#i12-la-connexion-à-la-base-vient-de-domaintransaction).
-Sans `withTransaction` dans sa déclaration, rien ne dit si le usecase s'exécute dans la transaction
-d'un appelant. La contrepartie est de **documenter le périmètre** quand il n'est pas évident. Voir
-`X3` de [`../repository/ecarts.md`](../repository/ecarts.md).
-
-**Sur plusieurs Aggregates.** L'ADR 25 retient la transaction qui en couvre plusieurs quand les
-écritures doivent échouer ensemble. Voir `A7` de [`../racine-agregat/README.md`](../racine-agregat/README.md).
-
-**Vérification.** La revue. Voir [`outillage.md`](outillage.md#vérifications).
-
-### U8. Enregistré dans l'index des usecases
-
-**Énoncé.** Tout fichier de `domain/usecases/` figure dans l'objet des usecases de l'index du
-contexte.
-
-```js
-// conforme : domain/usecases/index.js, l'import, puis la clé dans l'objet des usecases
-import getCombinedCourseById from './get-combined-course-by-id.js';
-…
-  getCombinedCourseById,
-
-// fautif : duplicate-module.js est absent de l'index ; un script l'importe directement
-import { duplicateModule } from '../domain/usecases/duplicate-module.js';
-```
-
-**Code.** Conforme : [`index.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/usecases/index.js#L77), clé à la ligne 105. Fautif : [`duplicate-module.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/scripts/duplicate-module.js#L7), absent de [l'index du contexte](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/domain/usecases/index.js#L71-L108).
-
-**Ce qui casse.** Rien à l'exécution, parce qu'un usecase peut être importé directement. Mais l'index
-cesse d'être la liste exhaustive de ce que le contexte sait faire. Toute lecture d'ensemble devient
-donc fausse, pour un humain comme pour un agent.
-
-C'est l'équivalent de `I6` de
-[`../repository/README.md`](../repository/README.md#i6-le-repository-est-enregistré-dans-infrastructurerepositoriesindexjs),
-où la conséquence est plus grave : là-bas, l'injection ne s'applique pas et le repository échoue au
-premier appel.
-
-**Vérification.** Un script de complétude. Voir [`outillage.md`](outillage.md#vérifications).
-
-### U9. Aucun accès direct au domaine d'un autre contexte
-
-**Énoncé.** Un usecase n'importe ni le domaine, ni l'infrastructure, ni les usecases d'un autre
-contexte. Il passe par l'**API interne** de ce contexte, et jamais directement : l'API est enveloppée
-dans un repository du contexte consommateur, que le usecase reçoit.
-
-Ce repository est l'Anticorruption Layer : il traduit la réponse du voisin dans le langage du domaine
-local. C'est la décision de l'ADR 55, et `X6` de [`../repository/ecarts.md`](../repository/ecarts.md).
-Un usecase qui reçoit l'API interne elle-même contourne cette traduction : voir `X6` de
-[`ecarts.md`](ecarts.md).
-
-```js
-// fautif : le domaine d'un voisin, atteint directement
-import { Scorecard } from '../../../evaluation/domain/models/Scorecard.js';
-
-// conforme pour U9 : campaignRepository enveloppe campaignsApi, l'API interne du voisin.
-// Signature seule : le corps de ce fichier est l'exemple fautif de U3
-export const getVerifiedCode = async ({ code, campaignRepository, combinedCourseRepository }) => { … };
-```
-
-**Code.** Fautif : [`get-user-profile.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/profile/domain/usecases/get-user-profile.js#L3). Conforme : [`get-verified-code.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/usecases/get-verified-code.js#L6), et le repository qui enveloppe l'API : [`campaign-repository.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/infrastructure/repositories/combined-courses/campaign-repository.js#L4-L7).
-
-**Ce qui casse.** Les deux contextes cessent d'être découplés : un changement interne chez le voisin
-casse le contexte consommateur, sans qu'aucun contrat n'ait été rompu.
-
-**Vérification.** Une règle `dependency-cruiser` au grain de la couche : une dépendance vers un autre
-contexte doit cibler `application/api/`. Voir
-[`outillage.md`](outillage.md#u3-et-u9--deux-règles-de-chemin).
-
----
-
-## Exceptions légitimes
-
-Une exception ne vaut que pour l'invariant de sa ligne. Elle n'excuse rien d'autre.
-
-| Invariant | Cas | Statut |
-| --- | --- | --- |
-| rôle | Un usecase réduit à un seul appel de repository | **autorisé**, décidé en ADR 20. Voir `X5` de [`ecarts.md`](ecarts.md) |
-| **U1** | Un `if` sur l'absence d'un résultat de chargement | **autorisé**, c'est de l'orchestration |
-| **U6** | Un usecase qui ne renvoie rien | **autorisé** : une intention peut n'avoir que des effets |
-| **U3** | Le fichier de câblage `usecases/index.js` importe l'infrastructure | **autorisé**, exempté dans la règle. Voir `X3` de [`ecarts.md`](ecarts.md) |
-| **U2** | Un usecase reçoit un journal en dépendance injectée | **autorisé** : injecté, pas importé. À distinguer d'un modèle qui importe l'infrastructure |
-| rôle | Un fichier de `services/` sans I/O, testé en unitaire pur | **autorisé**, c'est un vrai Domain Service |
-| rôle | Un fichier de `services/` qui reçoit un repository | **pas une exception** : c'est un usecase, à traiter comme tel. Sa place est dans `usecases/` |
-| rôle | Un `catch` qui attrape une erreur du domaine **nommée** pour décider de la suite | **autorisé** : c'est de l'orchestration. La journalisation passe par une dépendance injectée, selon `U2` |
-| rôle | Un `catch` sans filtre qui journalise puis continue | **pas une exception** : il avale les erreurs de programmation et les rend invisibles. Voir `X7` de [`ecarts.md`](ecarts.md) |
-
----
+| [U1](#u1-aucune-règle-métier-dans-le-usecase) | Aucune règle métier dans le usecase | les `if` sur une propriété métier sont des méthodes du modèle ; aucun `catch` sans filtre |
+| [U2](#u2-les-dépendances-arrivent-en-paramètres-jamais-par-import) | Les dépendances arrivent en paramètres, jamais par import | `organizationRepository` et `clock` sont des paramètres, pas des imports |
+| [U3](#u3-aucun-import-dinfrastructure) | Aucun import d'infrastructure | aucun chemin `infrastructure/` dans les imports du usecase |
+| [U4](#u4-une-intention-métier-un-fichier-un-nom-de-verbe) | Une intention métier, un fichier, un nom de verbe | `archive-organization.ts`, pas `organization.ts` |
+| [U5](#u5-aucune-notion-de-transport) | Aucune notion de transport | ni `request`, ni `h`, ni JSON reçu : une `Organization<null>` ou des valeurs typées |
+| [U6](#u6-renvoie-des-objets-du-domaine) | Renvoie des objets du domaine | renvoie une `Organization`, rien, ou une valeur ; jamais du JSON |
+| [U7](#u7-le-périmètre-transactionnel-est-explicite) | Le périmètre transactionnel est explicite | un usecase qui écrit est enveloppé dans `withTransaction`, et ne modifie qu'un Aggregate |
+| [U8](#u8-enregistré-dans-lindex-des-usecases) | Enregistré dans l'index des usecases | chaque usecase est importé et listé dans `domain/usecases/index.ts` |
+| [U9](#u9-aucun-accès-direct-au-domaine-dun-autre-contexte) | Aucun accès direct au domaine d'un autre contexte | un autre contexte se lit par un repository local, qui appelle son API interne |
 
 ## Exemple complet
 
-Un usecase tiré du code : la fonction, son enregistrement dans l'index, son test d'intégration. Les
-extraits sont simplifiés : les liens sous le bloc mènent au code complet.
+Les trois usecases de l'[Aggregate](../racine-agregat/README.md) `Organization`, leur index, puis un
+usecase d'un autre contexte qui lit une organisation. La règle du métier vient de la fiche Aggregate
+Root : si `LEARNER_IMPORT` est activée, `isManagingStudents` est toujours `false`. Elle vit dans
+`enableFeature()`, et aucun usecase ne la réécrit. Exemple inventé, d'après
+[`update-network.usecase.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/usecases/update-network.usecase.js#L8-L12)
+pour la forme, et
+[`OrganizationForAdmin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/OrganizationForAdmin.js#L241-L248)
+pour la règle.
 
-```js
-// le usecase : deux dépendances reçues (U2), aucune règle (U1), un objet du domaine renvoyé (U6)
-const getCombinedCourseById = async ({ combinedCourseId, combinedCourseRepository, questRepository }) => {
-  const combinedCourse = await combinedCourseRepository.getById({ id: combinedCourseId });
-  const quest = await questRepository.findById({ questId: combinedCourse.questId });
+```ts
+// organizational-entities/domain/usecases/create-organization.ts — U4 : le verbe de l'intention
+import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
+import type { Organization } from '../models/organization/index.js';
+import type { OrganizationRepository } from '../repositories/OrganizationRepository.js';
 
-  return new CombinedCourseDetails(combinedCourse, quest);
+type CreateOrganizationInput = {
+  organization: Organization<null>; // U5 : un objet du domaine, créé par le sérialiseur, pas le JSON reçu
+  organizationRepository: OrganizationRepository; // U2 : reçu en paramètre
 };
+
+// U7 : l'écriture est dans une transaction
+export const createOrganization = withTransaction(
+  async ({ organization, organizationRepository }: CreateOrganizationInput): Promise<Organization> => {
+    return organizationRepository.add(organization); // U6 : l'organisation enregistrée, avec son id
+  },
+);
 ```
 
-```js
-// l'index du contexte : U8, l'import puis la clé
-import getCombinedCourseById from './get-combined-course-by-id.js';
-…
+```ts
+// organizational-entities/domain/usecases/archive-organization.ts
+import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
+import type { Clock } from '../../../shared/domain/Clock.js';
+import type { OrganizationId } from '../../../shared/domain/Id.js';
+import type { Organization } from '../models/organization/index.js';
+import type { OrganizationRepository } from '../repositories/OrganizationRepository.js';
+
+type ArchiveOrganizationInput = {
+  organizationId: OrganizationId; // U5 : une valeur typée
+  organizationRepository: OrganizationRepository; // U2
+  clock: Clock; // U2 : l'heure aussi est une dépendance
+};
+
+export const archiveOrganization = withTransaction(
+  async ({ organizationId, organizationRepository, clock }: ArchiveOrganizationInput): Promise<Organization> => {
+    const organization = await organizationRepository.get(organizationId);
+    organization.archive(clock.now()); // U1 : archive() refuse une organisation déjà archivée
+    await organizationRepository.update(organization); // U7 : un seul Aggregate modifié
+    return organization; // U6
+  },
+);
+```
+
+```ts
+// organizational-entities/domain/usecases/enable-organization-feature.ts
+import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
+import type { Clock } from '../../../shared/domain/Clock.js';
+import type { OrganizationId } from '../../../shared/domain/Id.js';
+import type { FeatureName, OrganizationFeature } from '../models/organization/index.js';
+import type { OrganizationRepository } from '../repositories/OrganizationRepository.js';
+
+type EnableOrganizationFeatureInput = {
+  organizationId: OrganizationId;
+  featureName: FeatureName;
+  params: OrganizationFeature['params'];
+  organizationRepository: OrganizationRepository;
+  clock: Clock;
+};
+
+// U7 : update() écrit dans organizations et dans organization-features, dans la même transaction
+export const enableOrganizationFeature = withTransaction(
+  async ({ organizationId, featureName, params, organizationRepository, clock }: EnableOrganizationFeatureInput): Promise<void> => {
+    const organization = await organizationRepository.get(organizationId);
+    // U1 : le usecase ne teste ni « déjà activée » ni LEARNER_IMPORT, enableFeature() le fait
+    organization.enableFeature(featureName, params, clock.now());
+    await organizationRepository.update(organization);
+  },
+);
+```
+
+```ts
+// organizational-entities/domain/usecases/index.ts — le câblage du contexte
+import { clock } from '../../../shared/infrastructure/clock.js';
+import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
+import boundedContext from '../../dependencies.json' with { type: 'json' };
+import { organizationRepository } from '../../infrastructure/repositories/organization-repository.js';
+import { archiveOrganization } from './archive-organization.js';
+import { createOrganization } from './create-organization.js';
+import { enableOrganizationFeature } from './enable-organization-feature.js';
+
+// U2 : le câblage fournit les dépendances de chaque usecase
+const dependencies = { organizationRepository, clock };
+
+// U8 : chaque usecase du dossier est importé, puis listé ici
 const usecasesWithoutInjectedDependencies = {
-  …
-  getCombinedCourseById,
-  …
+  archiveOrganization,
+  createOrganization,
+  enableOrganizationFeature,
 };
 
-const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
+export const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
 ```
 
-```js
-// le test : intégration, base réelle, appel par l'index
-it('should return a CombinedCourseDetails instance with quest and combined course data', async function () {
-  // given
-  const organizationId = databaseBuilder.factory.buildOrganization().id;
-  const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({ successRequirements: [ … ] });
-  const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({ …, organizationId, questId }).id;
-  await databaseBuilder.commit();
+```ts
+// quest/domain/usecases/has-access-to-combined-course.ts — un autre contexte lit une organisation
+type HasAccessToCombinedCourseInput = {
+  userId: UserId;
+  code: string;
+  combinedCourseRepository: CombinedCourseRepository;
+  organizationRepository: OrganizationRepository; // U9 : le repository de quest, qui appelle organizationApi
+  organizationLearnerRepository: OrganizationLearnerRepository;
+};
 
-  // when
-  const result = await usecases.getCombinedCourseById({ combinedCourseId });
+export const hasAccessToCombinedCourse = async ({
+  userId,
+  code,
+  combinedCourseRepository,
+  organizationRepository,
+  organizationLearnerRepository,
+}: HasAccessToCombinedCourseInput): Promise<boolean> => {
+  const { organizationId } = await combinedCourseRepository.getByCode(code);
+  const organization = await organizationRepository.get(organizationId); // U9 : l'Organization de quest
+  const isLearner = await organizationLearnerRepository.isLearnerOf({ userId, organizationId });
+  return organization.acceptsParticipant({ isLearner }); // U1 : la règle est dans le modèle de quest
+};
+```
 
-  // then
-  expect(result).to.be.instanceOf(CombinedCourseDetails);
-  expect(result.id).to.equal(combinedCourseId);
-  …
+## Comment tester
+
+Un usecase se teste avec un test d'intégration, sur une vraie base de données. On l'appelle par
+l'index du contexte, comme le fait le contrôleur. On ne teste pas un usecase en unitaire avec des
+stubs : le test vérifierait seulement l'ordre des appels, c'est-à-dire qu'il recopierait le code. Le
+test couvre :
+
+- le cas qui marche, avec ce qui est enregistré en base, relu par une requête. Exemple :
+  `archives the organization` ;
+- chaque erreur du domaine qui traverse le usecase, et le fait que rien n'a été enregistré. Exemple :
+  `refuses to archive an organization already archived, and changes nothing` ;
+- une heure fixe, passée en paramètre à la place de l'horloge du câblage. Exemple : le `clock` des deux
+  tests.
+
+Les règles elles-mêmes se testent dans le test unitaire de l'Aggregate, pas ici. Un usecase partagé
+entre plusieurs usecases, qui fait des I/O, se teste aussi en intégration.
+
+Le test de `archiveOrganization` :
+
+```ts
+// tests/organizational-entities/integration/domain/usecases/archive-organization_test.ts
+describe('Integration | Organizational Entities | Domain | UseCases | archive-organization', function () {
+  const now = new Date('2026-01-02');
+  const clock = { now: () => now };
+
+  it('archives the organization', async function () {
+    // given
+    const organizationId = databaseBuilder.factory.buildOrganization({ archivedAt: null }).id;
+    await databaseBuilder.commit();
+
+    // when
+    const organization = await usecases.archiveOrganization({ organizationId, clock });
+
+    // then
+    expect(organization.archivedAt).to.deep.equal(now);
+    const row = await knex('organizations').where({ id: organizationId }).first();
+    expect(row.archivedAt).to.deep.equal(now);
+  });
+
+  it('refuses to archive an organization already archived, and changes nothing', async function () {
+    // given
+    const archivedAt = new Date('2026-01-01');
+    const organizationId = databaseBuilder.factory.buildOrganization({ archivedAt }).id;
+    await databaseBuilder.commit();
+
+    // when
+    const error = await catchErr(usecases.archiveOrganization)({ organizationId, clock });
+
+    // then
+    expect(error).to.be.instanceOf(ArchivedOrganizationError);
+    const row = await knex('organizations').where({ id: organizationId }).first();
+    expect(row.archivedAt).to.deep.equal(archivedAt);
+  });
 });
 ```
 
-**Code.** Le usecase : [`get-combined-course-by-id.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/usecases/get-combined-course-by-id.js#L3-L8). L'index : [`index.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/usecases/index.js#L77-L132). Le test : [`get-combined-course-by-id_test.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/quest/integration/domain/usecases/get-combined-course-by-id_test.js#L11-L47).
-
----
-
-## Tests attendus
-
-| Objet | Type de test | Ce qui est vérifié |
-| --- | --- | --- |
-| Usecase | **intégration uniquement** : base réelle, fixtures | l'orchestration de bout en bout et le résultat |
-| Sous-usecase partagé, avec I/O | **intégration**, comme un usecase | idem |
-
-Tester les usecases en intégration seulement est une convention d'équipe. Elle évite des tests
-unitaires qui ne feraient que vérifier l'ordre des appels à des doublures, ce qui reproduit
-l'implémentation au lieu de la contraindre.
-
-L'existence du fichier de test se vérifie en comparant les noms. Moyens et limites dans
-[`../repository/outillage.md`](../repository/outillage.md#tests-attendus--par-le-même-script).
-
-Un indice de diagnostic, avec sa limite. Si un usecase demande beaucoup de fixtures pour un cas
-simple, son Aggregate est souvent trop gros : voir `A6` de
-[`../racine-agregat/README.md`](../racine-agregat/README.md). Limite : un usecase qui traverse
-légitimement plusieurs Aggregates en demandera beaucoup sans qu'aucun soit trop gros.
-
----
-
-## Checklist de revue
-
-Ordonnée par ROI décroissant. Le statut de chaque ligne vient du moyen de vérification décrit dans
-[`outillage.md`](outillage.md) :
-
-- `[auto]` : la ligne disparaît dès que la règle existe ;
-- `[partiel]` : la ligne reste, réduite à ce que la règle ne couvre pas ;
-- `[humain]` : la ligne reste en entier, aucun moyen déterministe n'est identifié.
+## Checklist de revue de code
 
 ```
-[ ] [humain]  U1  Aucun calcul métier ; les if portent sur l'existence, pas sur des propriétés métier
-[ ] [auto]    U9  Aucun accès au domaine ni à l'infrastructure d'un autre contexte ; API interne, via un repository
-[ ] [auto]    U3  Aucun import d'infrastructure
-[ ] [humain]  U2  Toutes les dépendances arrivent en paramètres
-[ ] [partiel] U5  Aucune notion de transport : ni request, ni code HTTP, ni sérialisation
-[ ] [humain]  U6  Renvoie des objets du domaine local, jamais un DTO étranger ni un objet de réponse
-[ ] [humain]  U7  Le périmètre atomique est explicite quand plusieurs écritures ont lieu
-[ ] [humain]      Aucun catch sans filtre qui journalise puis continue ; seule une erreur du domaine nommée s'attrape
-[ ] [partiel] U4  Un fichier, un nom de verbe en kebab-case, Ubiquitous Language du contexte
-[ ] [auto]    U8  Enregistré dans l'index des usecases
-[ ] [auto]    Un fichier de test existe, et son nom correspond à celui du usecase
-[ ] [humain]  Test d'intégration ; un fichier de services/ sans I/O est testé en unitaire pur
-[ ] [auto]    Si le fichier est dans services/ et reçoit une I/O, c'est un usecase
+Où sont les règles ?
+[ ] U1  Aucun if sur une propriété métier ; la règle est une méthode du modèle
+[ ] U1  Aucun catch sans filtre ; seule une erreur du domaine nommée s'attrape
+
+D'où viennent ses dépendances ?
+[ ] U2  Repositories, horloge, journal : tout arrive en paramètre
+[ ] U3  Aucun import depuis un dossier infrastructure/
+[ ] U9  Aucun import d'un autre contexte ; aucune API interne reçue en paramètre
+
+Comment est-il appelé, et que renvoie-t-il ?
+[ ] U5  Ni request, ni h, ni payload JSON ; des objets du domaine ou des valeurs typées
+[ ] U6  Renvoie un objet du domaine, une valeur ou rien ; jamais du JSON
+
+Que se passe-t-il à l'écriture ?
+[ ] U7  withTransaction autour des écritures ; un seul Aggregate modifié
+
+Le retrouve-t-on ?
+[ ] U4  Un fichier, nommé avec le verbe de l'intention
+[ ] U8  Importé et listé dans l'index des usecases
+
+Tests
+[ ] Un test d'intégration, appelé par l'index, qui relit la base
 ```
 
-À terme, huit lignes restent : deux `[partiel]`, U5 et U4, et six `[humain]`, U1, U2, U6, U7, le
-`catch` sans filtre et le type de test. U1 a, avec U9, le ROI le plus fort de ce dossier, et sa ligne reste humaine : aucun
-moyen fiable ne le vérifie.
+## Référence des règles
 
----
+### U1. Aucune règle métier dans le usecase
 
-## Sources
+**La règle.** Le usecase décide de l'ordre des appels. Il ne décide pas selon une propriété métier
+d'un objet. Une condition sur l'état d'un objet est une règle : elle devient une méthode de cet objet,
+et le usecase appelle la méthode.
 
-L'argumentation et la bibliographie sont dans [`explication.md`](explication.md#sources) et
-`../references-ddd.md`. Les ADR sont dans `docs/adr/`.
+**Bon exemple.**
 
-| Invariant | Origine |
-| --- | --- |
-| **U1** aucune règle métier | Martin, *Clean Architecture*, ch. « Business Rules » |
-| **U2** dépendances injectées | ADR 46, « Injecter les dépendances dans l'API » |
-| **U3** aucun import d'infrastructure | Martin, « The Clean Architecture » : la règle de dépendance |
-| **U4** une intention, un fichier | ADR 20, « Est-il obligatoire d'implémenter un use-case dans toutes les situations ? », et ADR 51, « Arborescence API ». Le nommage par verbe est sans source |
-| **U5** aucune notion de transport, **U6** renvoie des objets du domaine | Martin, *Clean Architecture*, ch. « Presenters and Humble Objects » |
-| **U7** périmètre transactionnel | ADR 25, « Précision sur les transactions et les événements métier », qui remplace l'ADR 9, « Transactions métier » |
-| **U8** enregistré dans l'index | convention d'outillage, sans source |
-| **U9** API interne, via un repository | ADR 55, « Communication "séquentielle" entre les contextes fonctionnels » |
+```ts
+const organization = await organizationRepository.get(organizationId);
+// U1 : le usecase ne teste ni « déjà activée » ni LEARNER_IMPORT, enableFeature() le fait
+organization.enableFeature(featureName, params, clock.now());
+await organizationRepository.update(organization);
+```
+
+**Mauvais exemple.**
+
+```ts
+const organization = await organizationRepository.get(organizationId);
+// la règle « une fonctionnalité ne s'active qu'une fois » est écrite dans le usecase
+if (organization.features.some((feature) => feature.featureName === featureName)) {
+  throw new FeatureAlreadyEnabledError();
+}
+organization.enableFeature(featureName, params, clock.now());
+await organizationRepository.update(organization);
+```
+
+**Ce que ça apporte.** La règle est écrite une fois, dans `enableFeature()`. Tout usecase qui active
+une fonctionnalité passe par elle, et son test unitaire la couvre.
+
+**Sans cette règle.** La condition est recopiée dans chaque usecase qui active une fonctionnalité. Un
+usecase d'import en lot l'oublie, et une organisation se retrouve avec `LEARNER_IMPORT` deux fois.
+
+**À savoir.**
+
+- Un usecase sans règle se lit comme une suite d'appels. S'il faut dérouler des conditions pour
+  comprendre ce qu'il fait, une règle est sortie du modèle.
+- Un `catch` sans filtre qui journalise puis continue est interdit. Il attrape aussi un bug ou une
+  base de données en panne, et le usecase répond comme si tout s'était bien passé :
+
+```ts
+try {
+  organization.archive(clock.now());
+  await organizationRepository.update(organization);
+} catch (error) {
+  logger.error(error); // l'archivage a échoué, mais l'appelant reçoit une réponse normale
+}
+```
+
+**Exceptions.**
+
+- Un `if` sur l'absence d'un résultat de chargement est de l'orchestration, pas une règle.
+- Un `catch` qui attrape une erreur du domaine nommée, pour décider de la suite, est de
+  l'orchestration. Les autres erreurs remontent.
+- Un usecase qui ne fait qu'appeler le repository est permis : c'est le cas de `createOrganization`.
+  Le point d'entrée existe déjà le jour où une étape s'ajoute.
+
+### U2. Les dépendances arrivent en paramètres, jamais par import
+
+**La règle.** Un usecase n'importe ni repository, ni client, ni horloge, ni journal. Il les reçoit en
+paramètres. L'index du contexte les fournit, et un test peut en passer d'autres.
+
+**Bon exemple.**
+
+```ts
+type ArchiveOrganizationInput = {
+  organizationId: OrganizationId; // U5 : une valeur typée
+  organizationRepository: OrganizationRepository; // U2
+  clock: Clock; // U2 : l'heure aussi est une dépendance
+};
+```
+
+**Mauvais exemple.**
+
+```ts
+import { organizationRepository } from '../../infrastructure/repositories/organization-repository.js';
+
+export const archiveOrganization = withTransaction(async ({ organizationId }: { organizationId: OrganizationId }) => {
+  const organization = await organizationRepository.get(organizationId); // importé : on ne peut pas le remplacer
+  organization.archive(new Date()); // l'heure est lue ici : le test ne peut pas la choisir
+  await organizationRepository.update(organization);
+  return organization;
+});
+```
+
+**Ce que ça apporte.** Le test passe `clock: { now: () => now }` et vérifie que `archivedAt` vaut
+exactement `now`.
+
+**Sans cette règle.** Le test de `archiveOrganization` doit remplacer la date de tout le processus,
+avec de faux timers, pour savoir quelle valeur attendre. Et sous ESM, un module importé ne peut pas
+être remplacé dans un test.
+
+**Exceptions.** Un journal reçu en paramètre est permis : il est injecté, pas importé.
+
+### U3. Aucun import d'infrastructure
+
+**La règle.** Un usecase n'importe rien d'un dossier `infrastructure/`, ni du sien, ni de celui d'un
+autre contexte. Ce dont il a besoin dans l'infrastructure lui arrive en paramètre (U2), ou sous forme
+de valeur.
+
+**Bon exemple.**
+
+```ts
+import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
+import type { Clock } from '../../../shared/domain/Clock.js';
+import type { OrganizationId } from '../../../shared/domain/Id.js';
+import type { Organization } from '../models/organization/index.js';
+import type { OrganizationRepository } from '../repositories/OrganizationRepository.js';
+```
+
+**Mauvais exemple.**
+
+```ts
+// un drapeau lu depuis l'infrastructure, au milieu du usecase
+import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
+
+if (!(await featureToggles.get('isLearnerImportEnabled'))) {
+  throw new FeatureDisabledError();
+}
+```
+
+**Ce que ça apporte.** Le usecase ne dépend que du domaine. Changer la façon dont les drapeaux ou les
+données sont stockés ne touche pas aux usecases.
+
+**Sans cette règle.** Le test de `enableOrganizationFeature` doit modifier le drapeau dans le stockage
+partagé, puis le remettre. S'il l'oublie, les tests suivants s'exécutent avec le drapeau modifié.
+
+**À savoir.** Un import d'infrastructure ne se voit pas toujours. Un utilitaire de date ou un journal
+importé depuis `shared/infrastructure/` en est un.
+
+**Exceptions.** L'index des usecases, `domain/usecases/index.ts`, importe l'infrastructure : c'est son
+travail de câbler les dépendances. Il ne sert pas de précédent pour un usecase.
+
+### U4. Une intention métier, un fichier, un nom de verbe
+
+**La règle.** Un fichier par usecase, nommé avec le verbe de l'intention, en kebab-case. Le verbe vient
+de l'Ubiquitous Language du contexte. Pas de nom de ressource, pas de nom de couche.
+
+**Bon exemple.**
+
+```
+organizational-entities/domain/usecases/
+├── archive-organization.ts
+├── create-organization.ts
+└── enable-organization-feature.ts
+```
+
+**Mauvais exemple.**
+
+```
+organizational-entities/domain/usecases/
+├── organization.ts             ← une ressource : quelles intentions ?
+└── organization-archived.ts    ← un état, pas une intention
+```
+
+**Ce que ça apporte.** La liste des fichiers du dossier dit ce que le contexte sait faire, sans ouvrir
+un seul fichier.
+
+**Sans cette règle.** `organization.ts` regroupe la création, l'archivage et l'activation. Pour savoir
+si l'archivage existe, il faut lire le fichier.
+
+**À savoir.** Deux contextes peuvent avoir un usecase du même nom, avec un sens différent. Le chemin de
+l'import montre de quel contexte il vient.
+
+### U5. Aucune notion de transport
+
+**La règle.** Un usecase ne sait pas comment il est appelé. Il ne reçoit ni `request`, ni `h`, ni le
+payload JSON, et ne choisit pas de code HTTP. Il reçoit des objets du domaine ou des valeurs typées. Le
+[contrôleur](../controleur/README.md) et le [sérialiseur](../serialiseur/README.md) traduisent la
+requête avant l'appel.
+
+**Bon exemple.**
+
+```ts
+type CreateOrganizationInput = {
+  organization: Organization<null>; // U5 : un objet du domaine, créé par le sérialiseur, pas le JSON reçu
+  organizationRepository: OrganizationRepository; // U2 : reçu en paramètre
+};
+```
+
+Le contrôleur appelle `usecases.createOrganization({ organization })`, avec l'`Organization<null>` que
+le sérialiseur a construite.
+
+**Mauvais exemple.**
+
+```ts
+type CreateOrganizationInput = {
+  attributes: Record<string, string>; // les attributs JSON:API, tels que le front les envoie
+  userId: number;
+  organizationRepository: OrganizationRepository;
+  clock: Clock;
+};
+
+// dans le usecase
+const organization = Organization.create({
+  name: attributes['name'],
+  type: attributes['type'] as OrganizationType,
+  createdBy: userId as UserId,
+  now: clock.now(),
+});
+```
+
+**Ce que ça apporte.** Le même usecase sert la route de Pix Admin, un script ou un job. Chacun lui
+passe une `Organization<null>`.
+
+**Sans cette règle.** Un script qui crée des organisations depuis un CSV doit fabriquer un faux
+payload JSON:API. Et si le front renomme un attribut, le usecase casse.
+
+**À savoir.** Pour vérifier, une question : ce usecase marcherait-il tel quel, appelé depuis un script ?
+
+### U6. Renvoie des objets du domaine
+
+**La règle.** Un usecase renvoie un objet du domaine de son contexte, un
+[read-model](../read-model/README.md), une valeur, ou rien. Il ne renvoie jamais un objet construit
+pour la réponse HTTP, ni le DTO d'un autre contexte. La mise en forme est le travail du sérialiseur.
+
+**Bon exemple.**
+
+```ts
+const organization = await organizationRepository.get(organizationId);
+organization.archive(clock.now()); // U1 : archive() refuse une organisation déjà archivée
+await organizationRepository.update(organization); // U7 : un seul Aggregate modifié
+return organization; // U6
+```
+
+**Mauvais exemple.**
+
+```ts
+// un objet construit pour l'écran de Pix Admin
+return {
+  id: organization.id,
+  'is-archived': true,
+  'archived-at': dayjs(organization.archivedAt).format('DD/MM/YYYY'),
+};
+```
+
+**Ce que ça apporte.** Le sérialiseur choisit la forme de la réponse. Changer cette forme ne touche
+pas au usecase.
+
+**Sans cette règle.** Pix Admin veut une date au format ISO : il faut modifier le usecase. Et un
+script qui archive des organisations reçoit des clés JSON:API au lieu d'une `Organization`.
+
+**À savoir.** Un DTO d'un autre contexte renvoyé par un usecase vient presque toujours d'un repository
+qui n'a pas traduit la réponse de l'API interne (voir U9).
+
+**Exceptions.** Un usecase qui ne renvoie rien est permis : `enableOrganizationFeature` n'a que des
+effets.
+
+### U7. Le périmètre transactionnel est explicite
+
+**La règle.** Un usecase qui écrit est enveloppé dans `withTransaction`. La transaction couvre un seul
+Aggregate. Si un autre Aggregate doit suivre, il est modifié ensuite, dans sa propre transaction (voir
+`A7` de la fiche [Aggregate Root](../racine-agregat/README.md)).
+
+**Bon exemple.**
+
+```ts
+// U7 : update() écrit dans organizations et dans organization-features, dans la même transaction
+export const enableOrganizationFeature = withTransaction(
+  async ({ organizationId, featureName, params, organizationRepository, clock }: EnableOrganizationFeatureInput): Promise<void> => {
+    const organization = await organizationRepository.get(organizationId);
+    …
+    await organizationRepository.update(organization);
+  },
+);
+```
+
+**Mauvais exemple.**
+
+```ts
+// sans withTransaction : chaque requête de update() est validée seule
+export const enableOrganizationFeature = async ({ … }: EnableOrganizationFeatureInput): Promise<void> => {
+  const organization = await organizationRepository.get(organizationId);
+  organization.enableFeature(featureName, params, clock.now());
+  await organizationRepository.update(organization);
+};
+```
+
+**Ce que ça apporte.** La mise à jour de l'organisation et l'ajout de la fonctionnalité réussissent ou
+échouent ensemble.
+
+**Sans cette règle.** L'activation de `LEARNER_IMPORT` passe `isManagingStudents` à `false` dans
+`organizations`, puis l'insertion dans `organization-features` échoue. L'organisation ne gère plus ses
+élèves, et n'a pas l'import non plus.
+
+**À savoir.** Le repository obtient sa connexion par `DomainTransaction.getConnection()` : c'est ainsi
+qu'il écrit dans la transaction ouverte par `withTransaction`. Sans transaction ouverte, chaque requête
+est validée seule.
+
+### U8. Enregistré dans l'index des usecases
+
+**La règle.** Chaque fichier de `domain/usecases/` est importé dans `domain/usecases/index.ts`, et
+listé dans l'objet des usecases. Les appelants passent par `usecases.archiveOrganization(…)`, jamais
+par un import direct du fichier.
+
+**Bon exemple.**
+
+```ts
+// U8 : chaque usecase du dossier est importé, puis listé ici
+const usecasesWithoutInjectedDependencies = {
+  archiveOrganization,
+  createOrganization,
+  enableOrganizationFeature,
+};
+```
+
+**Mauvais exemple.**
+
+```ts
+// dans un script : le usecase n'est pas dans l'index, on l'importe directement
+import { archiveOrganization } from '../domain/usecases/archive-organization.js';
+
+await archiveOrganization({ organizationId, organizationRepository, clock });
+```
+
+**Ce que ça apporte.** L'index liste tout ce que le contexte sait faire. Et chaque appelant reçoit les
+mêmes dépendances, fournies par le câblage.
+
+**Sans cette règle.** Le script choisit lui-même son repository et son horloge. Et qui lit l'index pour
+connaître les usecases du contexte ne voit pas l'archivage.
+
+### U9. Aucun accès direct au domaine d'un autre contexte
+
+**La règle.** Un usecase n'importe rien d'un autre contexte : ni son domaine, ni son infrastructure,
+ni ses usecases. Pour lire un autre contexte, il reçoit un repository de son propre contexte. Ce
+repository appelle l'[API interne](../api-interne/README.md) du voisin, et traduit sa réponse en un
+objet du domaine local : c'est l'Anticorruption Layer. Un usecase ne reçoit jamais l'API interne
+elle-même.
+
+**Bon exemple.**
+
+```ts
+// quest : organizationRepository appelle organizationApi.getOrganization() et renvoie l'Organization de quest
+const organization = await organizationRepository.get(organizationId); // U9 : l'Organization de quest
+const isLearner = await organizationLearnerRepository.isLearnerOf({ userId, organizationId });
+return organization.acceptsParticipant({ isLearner }); // U1 : la règle est dans le modèle de quest
+```
+
+**Mauvais exemple.**
+
+```ts
+// quest : l'API interne d'organizational-entities arrive telle quelle dans le usecase
+const organization = await organizationApi.getOrganization(organizationId); // un OrganizationDTO
+const isLearner = await organizationLearnerRepository.isLearnerOf({ userId, organizationId });
+return !organization.isRestricted || isLearner;
+```
+
+**Ce que ça apporte.** Seul le repository de quest connaît `OrganizationDTO`. Si l'API interne change
+sa réponse, on modifie ce repository, et les usecases de quest ne bougent pas.
+
+**Sans cette règle.** `organizational-entities` renomme `isRestricted` dans son DTO. Chaque usecase de
+quest qui lit ce champ casse, et la règle d'accès est recopiée dans chacun d'eux.
+
+**À savoir.** Le même principe vaut pour écrire dans un autre contexte : un repository local appelle
+l'API interne du voisin.

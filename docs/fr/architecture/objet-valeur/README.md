@@ -16,7 +16,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | [V4](#v4-aucun-effet-de-bord-extérieur) | Aucun effet de bord extérieur | pas d'import d'infrastructure ; la date du jour est passée en paramètre |
 | [V5](#v5-contient-ses-règles) | Contient ses règles | une règle sur ses données est une de ses méthodes |
 | [V6](#v6-pas-de-repository) | Pas de [repository](../repository/README.md) | il est enregistré avec l'objet qui le contient |
-| [V7](#v7-lecture-seule-tableaux-compris) | Lecture seule, tableaux compris | un getter renvoie une copie : `[...this.#items]`, pas `this.#items` |
+| [V7](#v7-aucun-tableau-interne-exposé) | Aucun tableau interne exposé | un getter renvoie une copie : `[...this.#items]`, pas `this.#items` |
 
 ## Exemple complet
 
@@ -181,6 +181,7 @@ une autre.
 **Bon exemple.**
 
 ```ts
+// QcmSolution
 equals(other: QcmSolution): boolean {
   return other.challengeId === this.challengeId && other.isCorrect(this.#correctChoiceIds);
 }
@@ -218,6 +219,7 @@ erreur du domaine et l'objet n'est pas créé.
 **Bon exemple.**
 
 ```ts
+// QcmSolution
 constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; correctChoiceIds: string[] }) {
   if (correctChoiceIds.length === 0) {
     throw new InvalidQcmSolutionError('A QCM needs at least one correct choice');
@@ -229,6 +231,7 @@ constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; corre
 **Mauvais exemple.**
 
 ```ts
+// QcmSolution
 constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; correctChoiceIds: string[] }) {
   // TODO: throw an error if the solution is invalid
   this.challengeId = challengeId; // tout est accepté
@@ -262,7 +265,7 @@ const isCorrect = solution.isCorrect(answer.selectedChoiceIds);
 logger.info(`Answer checked for challenge ${solution.challengeId}`);
 ```
 
-C'est le même log que dans le mauvais exemple, mais écrit par le usecase.
+C'est au usecase d'écrire le log, pas au Value Object.
 
 **Mauvais exemple.**
 
@@ -340,14 +343,17 @@ jamais créée ni enregistrée seule.
 **Sans cette règle.** Pour retrouver l'objet, le repository a besoin d'un identifiant. L'objet en
 reçoit un, et on se retrouve avec une Entity déguisée.
 
-### V7. Lecture seule, tableaux compris
+### V7. Aucun tableau interne exposé
 
-**La règle.** On ne peut rien modifier depuis l'extérieur, pas même le contenu d'un tableau. Un getter
-qui renvoie un tableau renvoie une copie, et le constructeur garde une copie du tableau reçu.
+**La règle.** Un getter qui renvoie un tableau renvoie une copie, et le constructeur garde une copie du
+tableau reçu. La copie ne copie que le tableau, pas ses éléments : les éléments doivent donc être
+eux-mêmes immuables, des chaînes, des nombres ou des Value Objects. C'est le cas des identifiants de
+choix de `QcmSolution`.
 
 **Bon exemple.**
 
 ```ts
+// QcmSolution
 get correctChoiceIds(): string[] {
   return [...this.#correctChoiceIds]; // une copie
 }
@@ -356,13 +362,14 @@ get correctChoiceIds(): string[] {
 **Mauvais exemple.**
 
 ```ts
+// QcmSolution
 get correctChoiceIds(): string[] {
   return this.#correctChoiceIds; // le tableau interne, modifiable par l'appelant
 }
 ```
 
-**Ce que ça apporte.** La solution ne change plus après sa création, même si l'appelant modifie le
-tableau qu'il a reçu.
+**Ce que ça apporte.** L'appelant peut modifier le tableau qu'il a reçu : la solution, elle, ne change
+pas.
 
 **Sans cette règle.** Un appel à `solution.correctChoiceIds.push('b')` change la solution, sans passer
 par aucune de ses méthodes.

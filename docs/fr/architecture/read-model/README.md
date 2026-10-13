@@ -1,478 +1,372 @@
 # Read-model
 
-Un read-model est la forme assemblée pour répondre à un besoin de lecture précis. Il vit dans
-`domain/read-models/`.
+Un read-model est un objet assemblé pour un écran ou une réponse : une ligne de la liste des
+organisations de Pix Admin, le détail d'une campagne. Un [repository](../repository/README.md) le
+construit avec une requête, souvent sur plusieurs tables. Il traverse le [usecase](../usecase/README.md),
+puis sort par le [sérialiseur](../serialiseur/README.md). Aucune règle du métier ne le lit. Les
+read-models se rangent dans `domain/read-models/`.
 
-Cette page est la **référence** : les règles, les cas permis, les tests et la checklist. Dans le même
-dossier :
+Comme un [Value Object](../objet-valeur/README.md), il ne change pas après sa création (V1) et ne
+dépend d'aucune infrastructure (V4). Malgré son nom, ce n'est pas le read model de CQRS : il est lu
+dans la même base, dans la même transaction.
 
-- [`explication.md`](explication.md) : pourquoi ces règles, ce qu'elles rapportent, la théorie et
-  l'histoire des décisions ;
-- [`outillage.md`](outillage.md) : mettre en place les vérifications automatiques ;
-- [`ecarts.md`](ecarts.md) : où le code s'écarte de la théorie, et ce qui est décidé.
+## Les règles
 
-Les règles de cette page s'appliquent à tout read-model. La ligne **Vérification** de chaque
-invariant dit par quel moyen la règle se vérifie. Ce qui est en place dans la CI est dans
-[`outillage.md`](outillage.md).
+Chaque règle est détaillée plus bas, dans la [référence des règles](#référence-des-règles).
 
-## Sommaire
-
-[Rôle](#rôle) · [Invariants](#invariants) · [Exceptions légitimes](#exceptions-légitimes) ·
-[Exemple complet](#exemple-complet) · [Tests attendus](#tests-attendus) ·
-[Checklist de revue](#checklist-de-revue) · [Sources](#sources)
-
-| # | Invariant | Vérification |
+| # | Règle | En pratique |
 | --- | --- | --- |
-| [**RM1**](#rm1-aucune-règle-métier) | aucune règle métier | aucun moyen : indécidable, revue seule |
-| [**RM2**](#rm2-aucune-validation) | aucune validation | règle ESLint pour le signal, revue pour le reste |
-| [**RM3**](#rm3-nentre-pas-dans-une-règle) | n'entre pas dans une règle | `dependency-cruiser` |
-| [**RM4**](#rm4-emplacement) | emplacement | script, partiel |
+| [RM1](#rm1-aucune-règle-métier) | Aucune règle métier | seulement des mises en forme pour l'écran : un total, un libellé, `isArchived` |
+| [RM2](#rm2-aucune-validation) | Aucune validation | pas de `throw` : les données viennent de notre propre base |
+| [RM3](#rm3-nentre-pas-dans-une-règle) | N'entre pas dans une règle | un usecase le renvoie sans le lire ; pour décider, il charge l'[Aggregate](../racine-agregat/README.md) |
+| [RM4](#rm4-emplacement) | Emplacement | le fichier est dans `domain/read-models/`, à côté de `domain/models/` |
 
-[**Invariants communs**](#les-cinq-invariants-communs), énoncés dans `../objet-valeur/explication.md` :
-`V1` immuabilité, `V2` aucune identité, `V4` pureté, `V6` aucun cycle de vie propre, `V7` exposition
-en lecture seule.
+## Exemple complet
 
-Hors numérotation : pour savoir si un objet est un read-model ou un Value Object, voir le
-discriminant et ses quatre tests dans `../objet-valeur/explication.md`.
+Une ligne de la liste des organisations de Pix Admin. La requête joint deux Aggregates,
+l'organisation et son équipe d'administration, et ne lit que les colonnes que la liste affiche.
+Exemple inventé, d'après
+[`organization-for-admin.repository.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js#L335-L347).
 
----
+```ts
+// organizational-entities/domain/read-models/OrganizationListItem.ts — RM4 : rangé dans read-models/
+import type { OrganizationId } from '../../../shared/domain/Id.js';
 
-## Rôle
+// RM2 : un type, sans constructeur, donc sans validation
+export type OrganizationListItem = {
+  readonly id: OrganizationId; // V1 : en lecture seule ; l'id de l'organisation affichée
+  readonly name: string;
+  readonly type: string;
+  readonly externalId: string | null;
+  readonly archivedAt: Date | null;
+  readonly administrationTeamName: string | null; // vient d'un autre Aggregate, par la jointure
+};
 
-Un read-model est la forme assemblée pour répondre à un besoin de lecture précis. Un repository le
-construit, souvent en joignant plusieurs tables ou plusieurs sources. Il traverse le usecase et le
-contrôleur, puis sort. Le besoin d'affichage dicte sa forme, pas un concept du métier. Aucune règle du
-domaine ne le lit.
+// RM1 : une mise en forme pour l'écran, elle ne décide rien
+export const isArchived = (item: OrganizationListItem): boolean => item.archivedAt !== null;
+```
 
-```js
-// la forme d'un écran, pas un concept du domaine
-class PlacesStatistics {
-  #placesLots;
-  #placeRepartition;
-
-  constructor({ placesLots = [], placeRepartition, organizationId } = {}) {
-    // clé de présentation : elle se compose dans le sérialiseur, voir V2
-    this.id = `${organizationId}_place_statistics`;
-    this.#placesLots = placesLots;
-    this.#placeRepartition = placeRepartition;
-  }
-
-  get total()    { return _.sumBy(this.#activePlacesLots, 'count'); }
-  get occupied() { return this.#placeRepartition.totalRegisteredParticipant + …; }
-  get available() {
-    const available = this.total - this.occupied;
-    if (available < 0) return 0;
-    return available;
-  }
+```ts
+// organizational-entities/domain/repositories/OrganizationListRepository.ts
+export interface OrganizationListRepository {
+  findPaginatedFiltered(params: {
+    filter: OrganizationListFilter;
+    page: PageParams;
+  }): Promise<{ models: OrganizationListItem[]; pagination: Pagination }>;
 }
 ```
 
-**Code.** [`PlacesStatistics.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/read-models/PlacesStatistics.js#L5-L43), simplifié.
+```ts
+// organizational-entities/infrastructure/repositories/organization-list-repository.ts
+export const findPaginatedFiltered = async ({ filter, page }: FindPaginatedFilteredParams) => {
+  const knexConn = DomainTransaction.getConnection();
+  const query = knexConn('organizations')
+    .select({
+      id: 'organizations.id',
+      name: 'organizations.name',
+      type: 'organizations.type',
+      externalId: 'organizations.externalId',
+      archivedAt: 'organizations.archivedAt',
+      administrationTeamName: 'administration_teams.name',
+    })
+    .leftJoin('administration_teams', 'administration_teams.id', 'organizations.administrationTeamId')
+    .modify(applySearchFilters, filter, knexConn)
+    .orderBy('organizations.name', 'ASC');
 
-Termes employés dans cette page :
+  const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
+  return { models: results.map(toListItem), pagination };
+};
 
-- **Dérivation de présentation** : un calcul qui met en forme des données déjà chargées, comme un
-  total, un pourcentage ou un libellé composé. Elle ne décide rien.
-- **Clé de présentation** : un identifiant fabriqué pour satisfaire le store du front, qui exige une
-  clé. Il n'identifie rien.
+// RM2 : on recopie les colonnes, sans rien vérifier
+function toListItem(row: OrganizationListRow): OrganizationListItem {
+  return {
+    id: row.id,
+    name: row.name,
+    type: row.type,
+    externalId: row.externalId,
+    archivedAt: row.archivedAt,
+    administrationTeamName: row.administrationTeamName,
+  };
+}
+```
 
-Aucun concept du métier ne s'appelle « statistiques de places » : c'est le contenu d'un écran. Les
-trois accesseurs sont des dérivations de présentation : des soustractions et des sommes sur des
-données déjà chargées. Ils ne décident rien, ils mettent en forme. L'`id` concaténé est une clé de
-présentation.
+```ts
+// organizational-entities/domain/usecases/find-paginated-filtered-organizations.ts
+// RM3 : le usecase renvoie les lignes sans les lire
+export const findPaginatedFilteredOrganizations = ({
+  filter,
+  page,
+  organizationListRepository,
+}: FindPaginatedFilteredOrganizationsInput) => {
+  return organizationListRepository.findPaginatedFiltered({ filter, page });
+};
+```
 
-### Ce que le mot désigne, et ce qu'il ne désigne pas
+```ts
+// organizational-entities/infrastructure/serializers/jsonapi/organization-list-serializer.ts
+export const serialize = (items: OrganizationListItem[], pagination: Pagination) =>
+  new Serializer('organizations', {
+    attributes: ['name', 'type', 'externalId', 'administrationTeamName', 'isArchived'],
+    transform: (item: OrganizationListItem) => ({ ...item, isArchived: isArchived(item) }),
+    meta: pagination,
+  }).serialize(items);
+```
 
-`read-model` est le mot de l'équipe et reste en usage pour cette raison. Il désigne ici ce que Fowler
-appelle un **Data Transfer Object**. DDD n'a aucun nom pour cet objet, voir
-[`explication.md`](explication.md#ce-que-le-read-model-apporte).
+## Comment tester
 
-Il ne désigne **pas** le read model de CQRS. CQRS suppose un store séparé, alimenté par des événements,
-avec une cohérence à terme. Rien de tel ici : même base, même transaction. Le test pour décider :
-existe-t-il un store distinct alimenté par des événements ? Détail dans `../references-ddd.md`, section
-« Read model ».
+Un read-model se teste avec un test unitaire, sans stub, mock ni spy. Le test couvre chaque mise en
+forme, cas limites compris. Exemples : `is archived when the organization has an archive date` et
+`is not archived without archive date`.
 
-### Ce qu'un read-model n'est pas
+Un read-model sans mise en forme n'a pas de test unitaire : il n'a rien à vérifier.
 
-Table de décision. Si le code correspond à une ligne, ce n'est pas un read-model.
+La forme renvoyée par la requête se teste avec le test d'intégration du repository, sur la base.
+Exemple : `returns the organizations of the page, with the name of their administration team`.
 
-| Le code… | Va dans | Fiche |
-| --- | --- | --- |
-| porte une règle qu'une décision du domaine lit | un Value Object, dans `domain/models/` | `../objet-valeur/README.md` |
-| a besoin d'être retrouvé, suivi, mis à jour dans le temps | une Entity | `../entite/README.md` |
-| décrit le contrat d'échange avec un autre contexte | `application/api/` | `../api-interne/README.md` |
-| met en forme pour une réponse HTTP, clé de présentation comprise | `infrastructure/serializers/` | `../serialiseur/README.md` |
-| assemble les données | un repository | [`../repository/README.md`](../repository/README.md) |
+Le test unitaire de l'[exemple complet](#exemple-complet) :
 
-La première ligne est le cas fréquent et le seul difficile. Pour la reconnaître, voir les quatre tests
-du discriminant dans `../objet-valeur/explication.md`.
+```ts
+// tests/organizational-entities/unit/domain/read-models/OrganizationListItem_test.ts
+describe('Unit | Organizational Entities | Domain | ReadModels | OrganizationListItem', function () {
+  const buildItem = (props: Partial<OrganizationListItem> = {}): OrganizationListItem => ({
+    id: 1 as OrganizationId,
+    name: 'Lycée Victor Hugo',
+    type: 'SCO',
+    externalId: '0750001A',
+    archivedAt: null,
+    administrationTeamName: 'Équipe SCO',
+    ...props,
+  });
 
-Une dérivation de présentation n'est pas une règle métier. Un read-model peut donc porter des
-méthodes sans devenir un Value Object. La question n'est pas « a-t-il du comportement ? » mais « ce
-comportement décide-t-il quelque chose ? »
+  describe('isArchived', function () {
+    it('is archived when the organization has an archive date', function () {
+      expect(isArchived(buildItem({ archivedAt: new Date('2026-01-01') }))).to.be.true;
+    });
 
----
+    it('is not archived without archive date', function () {
+      expect(isArchived(buildItem({ archivedAt: null }))).to.be.false;
+    });
+  });
+});
+```
 
-## Invariants
+## Checklist de revue de code
 
-### Les cinq invariants communs
+```
+Porte-t-il une règle ?
+[ ] RM1  Aucune règle du métier ; seulement des mises en forme pour l'écran
+[ ] RM3  Aucun usecase ne décide à partir de lui ; aucun modèle du domaine ne l'importe
 
-Un read-model est immuable, sans identité, pur, sans cycle de vie propre. Il n'expose rien en écriture.
-Ces cinq invariants sont énoncés dans `../objet-valeur/explication.md` : `V1`, `V2`, `V4`, `V6`, `V7`, avec
-leurs illustrations et ce qui casse. Ils s'appliquent tels quels et ne sont pas répétés ici. Leur
-autorité n'est pas la même que pour un Value Object : voir
-[`explication.md`](explication.md#limmuabilité-et-labsence-didentité-une-convention-pix).
+Vérifie-t-il ses données ?
+[ ] RM2  Pas de validation, pas de throw ; une source externe se vérifie dans le repository
 
-Le cas de la clé de présentation, qui se rencontre surtout ici, est traité sous `V2` dans
-`../objet-valeur/README.md`. Une clé de présentation se compose dans le sérialiseur, pas dans le
-read-model.
+Est-il au bon endroit ?
+[ ] RM4  Le fichier est dans domain/read-models/
+
+Comme un Value Object
+[ ] V1  Champs en readonly, aucune écriture après la création
+[ ] V4  Pas d'import d'infrastructure, pas de new Date(), Math.random() ni config
+
+Tests
+[ ] Chaque mise en forme a son test unitaire, sans stub, mock ni spy
+[ ] Le test d'intégration du repository vérifie la forme renvoyée
+```
+
+## Référence des règles
 
 ### RM1. Aucune règle métier
 
-**Énoncé.** Un read-model ne porte aucune règle métier. Sa valeur est sa forme. Une règle métier placée
-dans un read-model devient invisible depuis le domaine.
+**La règle.** Un read-model ne porte aucune règle du métier. Il peut mettre en forme des données déjà
+chargées : un total, un pourcentage, un libellé. Une règle du métier vit dans l'Aggregate, qui
+l'applique avant d'enregistrer.
 
-```js
-// conforme — dérivation de présentation : une soustraction, plancher à zéro
-get available() {
-  const available = this.total - this.occupied;
-  if (available < 0) return 0;
-  return available;
-}
+**Bon exemple.**
 
-// fautif — une décision métier, invisible depuis le domaine
-get hasReachedMaximumPlacesLimit() {
-  if (!this.#isMaximumPlacesLimitEnabled || this.occupied === 0) return false;
-
-  const thresholdLock = config.features.organizationPlacesManagementThreshold;
-  const maximumPlaces = this.total + this.total * thresholdLock;
-  return this.occupied >= maximumPlaces;
-}
+```ts
+export const isArchived = (item: OrganizationListItem): boolean => item.archivedAt !== null;
 ```
 
-**Code.** Conforme : [`PlacesStatistics.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/read-models/PlacesStatistics.js#L39-L43). Fautif : [`PlacesStatistics.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/read-models/PlacesStatistics.js#L49-L55).
+`isArchived` dit seulement si la colonne est remplie. L'écran s'en sert pour afficher un badge.
 
-Les deux accesseurs vivent dans le même fichier et tiennent en quelques lignes. Le premier n'utilise
-que des données déjà chargées. Le second est fautif pour trois raisons cumulées :
+**Mauvais exemple.**
 
-- un seuil fixé par le métier ;
-- un drapeau qui ouvre ou ferme la règle ;
-- une lecture de la configuration, qui viole aussi `V4`.
+```ts
+export type OrganizationListItem = {
+  …
+  readonly isManagingStudents: boolean;
+  readonly featureNames: ReadonlyArray<FeatureName>;
+};
 
-Cette limite de places décide vraiment : une inscription est refusée quelque part quand elle est
-atteinte. La décision se prend donc à deux endroits, et le domaine ne voit pas l'un des deux.
+// la règle de l'Aggregate, recopiée pour l'écran
+export const managesStudents = (item: OrganizationListItem): boolean =>
+  item.isManagingStudents && !item.featureNames.includes('LEARNER_IMPORT');
+```
 
-**Ce qui casse.** La règle sera réécrite dans le domaine, différemment. Les deux divergeront sans que
-rien ne le signale.
+La règle « si `LEARNER_IMPORT` est activée, l'organisation ne gère pas d'élèves » appartient à
+l'Aggregate `Organization`. Pour l'afficher, le read-model lit la
+colonne `isManagingStudents`, que l'Aggregate a déjà mise à jour.
 
-**Vérification.** Aucun moyen : distinguer une dérivation de présentation d'une règle métier n'est pas
-décidable. La règle se vérifie en revue. Voir [`outillage.md`](outillage.md#vérifications).
+**Ce que ça apporte.** La règle existe à un seul endroit, dans `Organization`. La liste affiche ce que
+l'Aggregate a enregistré.
+
+**Sans cette règle.** La règle vit dans `Organization` et dans la liste. Le jour où elle change dans
+l'Aggregate, la liste de Pix Admin garde l'ancien calcul. Elle affiche « gère des élèves » pour une
+organisation qui ne les gère plus.
+
+**À savoir.** Pour savoir si un calcul est une mise en forme, se demander : décide-t-il quelque chose ?
+`Organization` a aussi un getter `isArchived`, et `rename()` le lit pour refuser de renommer une
+organisation archivée. Dans l'Aggregate, le calcul décide. Dans le read-model, le même calcul sert
+seulement à l'affichage.
+
+**Exceptions.** Un read-model sans aucune mise en forme est permis. Nommer la forme que renvoie une
+requête suffit à justifier le fichier.
 
 ### RM2. Aucune validation
 
-**Énoncé.** Un read-model ne valide pas ses données. C'est une projection de données déjà lues par
-une requête du contexte : les valider est redondant. L'échec n'aurait pas de traitement sensé :
-l'application ne refuse pas une donnée qu'elle vient de lire dans sa propre base.
+**La règle.** Un read-model ne vérifie pas ses données. Elles viennent d'une requête sur notre propre
+base, et l'Aggregate les a déjà vérifiées à l'écriture. Le read-model ne lève donc jamais d'erreur.
 
-```js
-// conforme — une projection sans validation
-class Country {
-  constructor({ code, name, matcher }) {
-    this.code = code;
-    this.name = name;
-    this.matcher = matcher;
-  }
+**Bon exemple.**
+
+```ts
+// un type, sans constructeur, donc sans validation
+export type OrganizationListItem = {
+  readonly id: OrganizationId;
+  readonly name: string;
+  …
+};
+```
+
+```ts
+function toListItem(row: OrganizationListRow): OrganizationListItem {
+  return {
+    id: row.id,
+    name: row.name,
+    …
+  };
 }
+```
 
-// fautif — un read-model qui valide ce que la requête du contexte vient de lire
-const validationSchema = Joi.object({
-  id: Joi.number().required(),
-  count: Joi.number().required().allow(null),
-  activationDate: Joi.date().required(),
-});
+**Mauvais exemple.**
 
-class PlacesLot {
-  constructor(params = {}) {
-    validateEntity(validationSchema, params);
+```ts
+export class OrganizationListItem {
+  constructor(props: OrganizationListItemProps) {
+    if (props.name.trim() === '') {
+      throw new InvalidOrganizationError('The name is required'); // vérifie ce que la base vient de renvoyer
+    }
     …
   }
 }
 ```
 
-**Code.** Conforme pour RM2 seulement : [`Country.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/read-models/Country.js#L1-L7), dont les champs publics enfreignent `V1`. Fautif : [`PlacesLot.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/read-models/PlacesLot.js#L6-L27), simplifié : le schéma réel porte six champs.
+**Ce que ça apporte.** La liste s'affiche avec les données telles qu'elles sont en base. Une donnée
+ancienne ou incomplète apparaît à l'écran, où quelqu'un peut la corriger.
 
-La fonction s'appelle `validateEntity`. C'est le bon indice : le schéma décrit **ce que la table
-garantit déjà** (une date d'activation obligatoire, un identifiant numérique). Si la lecture ramenait
-autre chose, lever ici ne changerait rien au problème. Cela casserait seulement l'affichage.
+**Sans cette règle.** Une ancienne organisation a un nom vide en base. Le constructeur lève, et toute
+la page de la liste répond une erreur 500. Plus personne ne peut chercher cette organisation dans Pix
+Admin, même pour corriger son nom.
 
-**L'exception.** Un objet construit à partir d'une source externe (l'API d'un autre contexte, un
-service tiers) n'est plus une projection de données de confiance. Traduire redevient nécessaire. C'est
-le travail du repository, invariant `I1` de
-[`../repository/README.md`](../repository/README.md#i1-ne-jamais-renvoyer-une-structure-de-persistance).
-
-**Ce qui casse.** Une validation ici double celle du domaine sans la remplacer. Elle lève sur un
-chemin de lecture où personne ne sait quoi en faire.
-
-**Vérification.** Une règle ESLint signale un `throw` dans un read-model. Le signal désigne l'endroit
-à relire, il ne prouve pas la violation. Le reste de l'invariant se vérifie en revue. Voir
-[`outillage.md`](outillage.md#rm2-signal--un-throw-dans-un-read-model).
+**Exceptions.** Si les données viennent d'une source externe, comme l'API d'un autre contexte ou un
+service tiers, il faut les vérifier. C'est le repository qui le fait, quand il traduit la source. Le
+read-model reste sans validation.
 
 ### RM3. N'entre pas dans une règle
 
-**Énoncé.** Un read-model sort du domaine. Il n'y rentre pas comme paramètre d'une décision.
+**La règle.** Un read-model sort du domaine, il n'y entre pas. Aucune règle ni aucun usecase ne
+décide à partir de lui. Pour décider, un usecase charge l'Aggregate et appelle sa méthode.
 
-Cet invariant est un **test de classement**, pas une interdiction. Si une règle lit ses valeurs pour
-décider, l'objet n'est pas un read-model. C'est un Value Object : `V3` et `V5` de
-`../objet-valeur/README.md` s'appliquent à lui. Le cas se rencontre avec le candidat évalué par une
-Specification, voir `../specification/README.md`.
+**Bon exemple.**
 
-Le cas symétrique, plus fréquent, est un **modèle du domaine qui fabrique le read-model** :
-
-```js
-// fautif — dans domain/models/, le modèle importe et construit une forme de sortie
-import { OrganizationLearnerDTO } from '../read-models/OrganizationLearnerDTO.js';
-
-get organizationLearners() {
-  return this.#redactPrivateData();
-}
-
-#redactPrivateData() {
-  return this.#organizationLearners.map((learner) => {
-    const lastNamePostfix = this.#getDistinctiveLastNamePostfix(learner);
-    const displayName = `${learner.firstName}${lastNamePostfix}`;
-    return new OrganizationLearnerDTO({ ...learner, displayName });
-  });
-}
-
-// conforme — le même calcul, sans emballer la sortie ; le repository ou le usecase compose le
-// read-model à partir des valeurs renvoyées
-get organizationLearners() {
-  return this.#organizationLearners.map((learner) => ({
-    ...learner,
-    displayName: `${learner.firstName}${this.#getDistinctiveLastNamePostfix(learner)}`,
-  }));
-}
-```
-
-**Code.** Fautif : [`School.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/school/domain/models/School.js#L13-L23), import à la ligne 1. La forme corrigée est hypothétique.
-
-Le calcul lui-même est du domaine. Distinguer deux élèves homonymes, en gardant le minimum de lettres
-du nom de famille, est une règle, et une bonne. Ce qui est fautif est **le type de retour** : le modèle
-décide de la forme que verra le front. Le même calcul, renvoyant les valeurs sans les emballer,
-laisserait le repository ou le usecase composer la sortie.
-
-**Ce qui casse.** Une règle qui décide à partir d'une forme non validée décide à partir de n'importe
-quoi. C'est la conséquence directe de RM2 : sans validation, aucune garantie n'accompagne les valeurs.
-
-**Vérification.** Une règle `dependency-cruiser` de chemin. Voir
-[`outillage.md`](outillage.md#rm3--une-règle-de-chemin).
-
-### RM4. Emplacement
-
-**Énoncé.** Un read-model vit dans `domain/read-models/`, frère de `domain/models/`.
-
-```
-// conforme — les deux dossiers sont frères
-domain/models/
-domain/read-models/
-
-// fautif — un read-model rangé comme un modèle du domaine : aucune règle ne le lit, sa forme est
-// assemblée pour un écran d'administration
-domain/models/TargetProfileSummaryForAdmin.js
-```
-
-**Code.** Fautif : [`TargetProfileSummaryForAdmin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/target-profile/domain/models/TargetProfileSummaryForAdmin.js#L1-L14). L'arborescence conforme est générique.
-
-Un read-model ne se range pas dans un dossier qui promet autre chose, `aggregates/` en particulier. Le
-mot annonce une frontière de cohérence et des invariants tenus. Un read-model n'a ni l'une ni les
-autres : voir `A1` de `../racine-agregat/README.md`.
-
-Le rangement sous `domain/` suit la direction des dépendances, pas une catégorie DDD : voir
-[`explication.md`](explication.md#pourquoi-sous-domain).
-
-**Ce qui casse.** Deux dossiers frères rendent RM3 vérifiable par une règle de chemin. Un read-model
-rangé ailleurs sort de la portée de cette règle sans que rien ne le dise.
-
-**Vérification.** Un script repère les homonymes d'un read-model hors de `read-models/`. Un read-model
-rangé ailleurs sous un nom unique se vérifie en revue. Voir
-[`outillage.md`](outillage.md#rm4-et-lexistence-des-tests--un-script).
-
----
-
-## Exceptions légitimes
-
-Une exception ne vaut que pour l'invariant de sa ligne. Elle n'excuse rien d'autre.
-
-| Invariant | Cas | Statut |
-| --- | --- | --- |
-| **RM1** | Le read-model est anémique | **autorisé** : c'est RM1, et non une dérive du modèle anémique |
-| **RM1** | Il porte un total, un pourcentage, un libellé composé | **autorisé** : dérivation de présentation |
-| **RM2** | Le read-model ne valide pas | **autorisé** : c'est RM2 |
-| **RM2** | Il est construit depuis une source externe | **autorisé** : le repository traduit et valide la source, pas le read-model. C'est l'exception de RM2 |
-| **V2** | Il porte l'identifiant d'autre chose | **autorisé** : c'est une donnée, pas son identité. Voir `V2` de `../objet-valeur/README.md` |
-| forme du fichier | Il n'a aucune dérivation et se réduit à une forme | **toléré** : ne se signale pas seul, car nommer le contrat d'une requête peut suffire. Voir [Tests attendus](#tests-attendus) |
-
----
-
-## Exemple complet
-
-Aucun read-model du code n'est entièrement conforme. `Country` est le plus proche : il ne viole que
-`V1`. Voici sa version corrigée, le repository qui le construit, le sérialiseur qui compose sa clé de
-présentation, et son test.
-
-```js
-// le read-model, version corrigée — des champs privés, exposés en lecture seule
-class Country {
-  #code;
-  #name;
-  #matcher;
-
-  constructor({ code, name, matcher }) {
-    this.#code = code;
-    this.#name = name;
-    this.#matcher = matcher;
-  }
-
-  get code()    { return this.#code; }
-  get name()    { return this.#name; }
-  get matcher() { return this.#matcher; }
-}
-```
-
-**Code.** Version corrigée de [`Country.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/domain/read-models/Country.js#L1-L7).
-
-Corrections apportées :
-
-- `V1` : les trois champs publics deviennent privés, exposés par des accesseurs sans mutateur.
-
-Le reste est déjà conforme. Aucune validation (`RM2`), aucun import (`V4`), aucune clé composée dans
-le read-model (`V2`), et le fichier est dans `domain/read-models/` (`RM4`).
-
-```js
-// le repository — une requête, puis une traduction en read-model
-function _toDomain(row) {
-  return new Country({
-    ...row,
-    name: row.commonName,
-  });
-}
-```
-
-**Code.** [`country-repository.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/infrastructure/repositories/country-repository.js#L49-L54), inchangé.
-
-```js
-// le sérialiseur, version corrigée — la clé de présentation se compose ici (V2)
-const serialize = function (country) {
-  return new Serializer('country', {
-    attributes: ['code', 'name'],
-    transform(country) {
-      return { id: `${country.code}_${country.matcher}`, code: country.code, name: country.name };
-    },
-  }).serialize(country);
+```ts
+export const findPaginatedFilteredOrganizations = ({
+  filter,
+  page,
+  organizationListRepository,
+}: FindPaginatedFilteredOrganizationsInput) => {
+  return organizationListRepository.findPaginatedFiltered({ filter, page });
 };
 ```
 
-**Code.** Version corrigée de [`country-serializer.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/infrastructure/serializers/jsonapi/country-serializer.js#L5-L12).
+Le usecase renvoie les lignes sans les lire. Quand il faut décider, le usecase charge l'Aggregate,
+comme `enableOrganizationFeature` dans la fiche Aggregate Root :
 
-Corrections apportées :
-
-- conséquence de `V1` : l'original copie le read-model par `{ ...country }`. Une décomposition ne
-  copie pas les accesseurs, qui vivent sur le prototype. La transformation nomme donc les champs. La
-  réponse de l'API reste identique : le [test du sérialiseur](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/shared/unit/infrastructure/serializers/jsonapi/country-serializer_test.js#L8-L45)
-  passe sans changement.
-
-```js
-// le test — unitaire pur, aucun double : la forme produite, et l'absence d'écriture
-describe('Unit | Shared | Domain | ReadModels | Country', function () {
-  it('exposes the code, the name and the matcher', function () {
-    const country = new Country({ code: '99345', name: 'TOGO', matcher: 'GOOT' });
-
-    expect(country.code).to.equal('99345');
-    expect(country.name).to.equal('TOGO');
-    expect(country.matcher).to.equal('GOOT');
-  });
-
-  it('cannot be written after construction', function () {
-    const country = new Country({ code: '99345', name: 'TOGO', matcher: 'GOOT' });
-
-    expect(() => { country.code = '99100'; }).to.throw(TypeError);
-  });
-});
+```ts
+const organization = await organizationRepository.get(organizationId);
+organization.enableFeature(featureName, params, clock.now());
+await organizationRepository.update(organization);
 ```
 
-**Code.** Test ajouté : `Country` n'a pas de test unitaire. Sa place, par comparaison de noms, est
-`api/tests/shared/unit/domain/read-models/Country_test.js`.
+**Mauvais exemple.**
 
-Le second cas vérifie `V1`. Un module ES s'exécute en mode strict : écrire sur un accesseur sans
-mutateur y lève une `TypeError`.
-
----
-
-## Tests attendus
-
-| Objet | Type de test | Ce qu'on vérifie |
-| --- | --- | --- |
-| Read-model | **unitaire pur**, aucun double | la forme produite, et les dérivations de présentation s'il y en a |
-
-L'existence du fichier de test se vérifie par comparaison de noms. Moyens et limites dans
-[`outillage.md`](outillage.md#rm4-et-lexistence-des-tests--un-script).
-
-Deux indices de diagnostic :
-
-- Un read-model qui a besoin d'un double **viole `V4`** : il touche à l'infrastructure. Voir `V4` dans
-  `../objet-valeur/README.md`.
-- Un read-model dont le test unitaire n'a rien à vérifier n'a ni forme propre ni dérivation : il
-  aurait pu rester un objet littéral. Ce n'est pas une faute, c'est une question ouverte. Limite :
-  nommer le contrat d'une requête est une raison suffisante d'exister, même sans dérivation.
-
-Ce que le test unitaire ne couvre pas : que la requête produise bien cette forme. C'est le test
-d'intégration du repository qui le vérifie. Voir
-[« Tests attendus » de `../repository/README.md`](../repository/README.md#tests-attendus).
-
----
-
-## Checklist de revue
-
-Ordonnée par ROI décroissant. Le statut de chaque ligne vient du moyen de vérification décrit dans
-[`outillage.md`](outillage.md) :
-
-- `[auto]` : la ligne disparaît dès que la règle existe ;
-- `[partiel]` : la ligne reste, réduite à ce que la règle ne couvre pas ;
-- `[humain]` : la ligne reste en entier, aucun moyen déterministe n'est connu.
-
-Les cinq dernières lignes reprennent les invariants communs, énoncés dans `../objet-valeur/explication.md`.
-
-```
-[ ] [humain]  RM1 Aucune règle métier ; les dérivations de présentation sont admises
-[ ] [partiel] RM3 N'entre pas dans le domaine comme paramètre d'une règle
-[ ] [partiel] RM4 Le fichier est dans read-models/, pas dans un dossier qui promet autre chose
-[ ] [partiel] RM2 Aucune validation ; une source externe se valide dans le repository
-[ ] [auto]    Un fichier de test existe, et son nom correspond à celui du read-model
-[ ] [humain]  Test unitaire pur, sans double
-[ ] [humain]  Avant de signaler RM1, vérifier : ce comportement décide-t-il quelque chose ?
-[ ] [auto]    V1  Aucun champ public ; aucune écriture après le constructeur
-[ ] [partiel] V4  Aucun import d'infrastructure, ni horloge, ni aléatoire, ni configuration
-[ ] [partiel] V2  Aucune clé composée ici : une clé de présentation se compose dans le sérialiseur
-[ ] [partiel] V6  Aucun repository, aucune persistance propre
-[ ] [partiel] V7  Aucune collection interne rendue telle quelle ; aucun gel inopérant
+```ts
+// enable-organization-feature.ts : la décision lit une ligne de la liste
+const {
+  models: [item],
+} = await organizationListRepository.findPaginatedFiltered({ filter: { id: organizationId }, page: { number: 1, size: 1 } });
+if (isArchived(item)) throw new ArchivedOrganizationError(); // une règle lit le read-model
+await organizationFeatureRepository.add({ organizationId, featureName, params });
 ```
 
-À terme, dix lignes restent : sept `[partiel]` et trois `[humain]`. Les trois lignes `[humain]` sont
-RM1, la pureté du test et le rappel sur la dérivation.
+**Ce que ça apporte.** On peut changer la liste pour l'écran, ajouter ou retirer une colonne, sans
+toucher à aucune règle du métier.
 
----
+**Sans cette règle.** Le usecase vérifie l'archivage, mais la ligne de liste ne porte pas les
+fonctionnalités. La même fonctionnalité est activée deux fois. Et après `LEARNER_IMPORT`,
+`isManagingStudents` reste à `true`, parce que `enableFeature()` n'a pas été appelée.
 
-## Sources
+**À savoir.**
 
-L'argumentation et la bibliographie sont dans [`explication.md`](explication.md#sources) et
-`../references-ddd.md`. Aucun ADR ne fonde un invariant de cette page.
+- Si une règle a vraiment besoin de lire l'objet, ce n'est pas un read-model. C'est un Value Object,
+  rangé dans `domain/models/` : il valide ses valeurs à la construction (V3) et porte ses règles (V5).
+- L'autre sens est interdit aussi : un modèle du domaine ne fabrique pas de read-model. `Organization`
+  n'a pas de méthode `toListItem()` : c'est le repository qui construit la ligne.
 
-| Invariant | Origine |
-| --- | --- |
-| La catégorie elle-même | DDD n'a pas de nom pour cet objet. Fowler, *PoEAA*, Data Transfer Object ; Vernon, *IDDD*, *use case optimal query* |
-| Le mot `read-model` | emprunté à CQRS, où il désigne autre chose. Conservé comme mot de l'équipe, voir `X2` de [`ecarts.md`](ecarts.md) |
-| **RM1** aucune règle métier | déduction : la critique du modèle anémique, chez Fowler, ne s'applique pas à un objet de transport |
-| **RM2** aucune validation | convention d'équipe, sans source |
-| **RM3** n'entre pas dans une règle | déduction de la validation à la construction |
-| **RM4** emplacement | convention d'équipe, sans source |
-| Immuabilité et absence d'identité | convention Pix, pas Fowler. Énoncés de `V1` et `V2` dans `../objet-valeur/explication.md` |
+### RM4. Emplacement
+
+**La règle.** Un read-model vit dans `domain/read-models/`, à côté de `domain/models/`. Il ne se range
+ni dans `domain/models/`, ni dans un dossier `aggregates/`.
+
+**Bon exemple.**
+
+```
+organizational-entities/domain/
+├── models/
+│   └── Organization.ts
+└── read-models/
+    └── OrganizationListItem.ts
+```
+
+**Mauvais exemple.**
+
+```
+organizational-entities/domain/
+└── models/
+    ├── Organization.ts
+    └── OrganizationListItem.ts   ← rangé comme un modèle du domaine
+```
+
+**Ce que ça apporte.** Le dossier dit au relecteur qu'aucune règle ne lit ce fichier. Et une règle
+d'outil peut interdire à `domain/models/` d'importer `domain/read-models/`, ce qui vérifie RM3.
+
+**Sans cette règle.** Un développeur trouve `OrganizationListItem` à côté d'`Organization`, et y ajoute
+une fonction `canBeArchived()`. La ligne de liste devient une règle du métier. Aucun outil ne le
+signale : pour lui, le fichier est un modèle du domaine comme un autre.
+
+**À savoir.**
+
+- La règle d'outil s'écrit avec `dependency-cruiser`, l'outil qui vérifie les imports dans la CI :
+
+  ```js
+  {
+    name: 'domain-rule-must-not-import-read-model',
+    severity: 'error',
+    from: { path: 'src/.+/domain/(models|services)/' },
+    to: { path: 'src/.+/domain/read-models/' },
+  }
+  ```
+
+  Le chemin s'écrit `src/.+/` et pas `src/[^/]+/`. Sinon, la règle n'atteint pas les contextes qui ont
+  des sous-dossiers, et ne s'y déclenche jamais, sans aucun message.
+- Le read-model est sous `domain/` parce qu'un repository de `infrastructure/` le construit. Rangé sous
+  `application/`, il ferait dépendre l'infrastructure de l'application.

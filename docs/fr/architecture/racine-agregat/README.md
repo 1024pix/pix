@@ -33,105 +33,159 @@ organizational-entities/domain/models/organization/
 ```
 
 ```ts
-// organization/index.ts — A2 : on exporte la racine, et seulement le type des objets internes
+// organization/index.ts — A2 : on exporte la racine, et seulement des types pour le reste
 export { Organization } from './Organization.js';
-export type { OrganizationFeature, FeatureName } from './OrganizationFeature.js';
+export type { OrganizationProps, OrganizationType } from './Organization.js';
+export type { FeatureName, FeatureParams, OrganizationFeature, OrganizationFeatureProps } from './OrganizationFeature.js';
 ```
 
 ```ts
 // organization/OrganizationFeature.ts — un objet interne, créé seulement par la racine
+export type FeatureName = 'LEARNER_IMPORT' | 'MISSIONS_MANAGEMENT' | 'ATTESTATIONS_MANAGEMENT';
+export type FeatureParams = Record<string, unknown> | null;
+export type OrganizationFeatureProps = { featureName: FeatureName; params: FeatureParams };
+
 export class OrganizationFeature {
   readonly featureName: FeatureName; // identifie la fonctionnalité dans son organisation
   readonly params: FeatureParams;
-  readonly enabledAt: Date;
 
-  constructor({ featureName, params, enabledAt }: OrganizationFeatureProps) {
+  constructor({ featureName, params }: OrganizationFeatureProps) {
     if (featureName === 'ATTESTATIONS_MANAGEMENT' && !params) {
-      throw new InvalidOrganizationFeatureError('ATTESTATIONS_MANAGEMENT needs params');
+      throw new InvalidOrganizationError('ATTESTATIONS_MANAGEMENT needs params');
     }
     this.featureName = featureName;
     this.params = params;
-    this.enabledAt = enabledAt;
   }
 }
 ```
 
 ```ts
-// organization/Organization.ts — la racine, raccourcie : on a retiré le nom et le type (voir la fiche Entity)
+// organization/Organization.ts — la racine
+import type { OrganizationId, UserId } from '../../../../shared/domain/Id.js';
 import { ArchivedOrganizationError, FeatureAlreadyEnabledError, InvalidOrganizationError } from '../../errors.js';
-import { type FeatureName, type FeatureParams, OrganizationFeature } from './OrganizationFeature.js';
+import { type FeatureName, type FeatureParams, OrganizationFeature, type OrganizationFeatureProps } from './OrganizationFeature.js';
 
-type OrganizationProps<Id> = {
+// as const plutôt qu'un enum : la configuration TypeScript de Pix (erasableSyntaxOnly) interdit les enum
+export const OrganizationTypes = ['SCO', 'SUP', 'PRO', 'SCO-1D'] as const;
+export type OrganizationType = (typeof OrganizationTypes)[number];
+
+export type OrganizationProps<Id> = {
   id: Id;
+  name: string;
+  type: OrganizationType;
   createdBy: UserId;
   isManagingStudents: boolean;
-  features: OrganizationFeature[];
+  features: OrganizationFeatureProps[]; // des données : c'est la racine qui crée ses objets internes
   archivedAt: Date | null;
 };
 
 // Organization<null> : une organisation pas encore enregistrée (voir E1 de la fiche Entity)
 export class Organization<Id extends OrganizationId | null = OrganizationId> {
   readonly id: Id;
+  readonly type: OrganizationType;
   readonly createdBy: UserId; // A6 : un autre Aggregate, gardé par son id
+  #name: string;
   #isManagingStudents: boolean;
   #features: OrganizationFeature[]; // A2 : privé
-  #archivedAt: Date | null;
+  #archivedAt: Date | null; // une date du métier : la date d'archivage
 
-  // A1 : le constructeur est aussi appelé au chargement depuis la base, la règle y est donc vérifiée
-  constructor({ id, createdBy, isManagingStudents, features, archivedAt }: OrganizationProps<Id>) {
+  // A1 : le constructeur sert à la création comme au chargement depuis la base, la règle y est vérifiée
+  constructor({ id, name, type, createdBy, isManagingStudents, features, archivedAt }: OrganizationProps<Id>) {
+    assertValidName(name);
+    if (!OrganizationTypes.includes(type)) throw new InvalidOrganizationError(`Unknown type: ${type}`);
     if (isManagingStudents && features.some((feature) => feature.featureName === 'LEARNER_IMPORT')) {
       throw new InvalidOrganizationError('An organization that imports its learners does not manage students');
     }
     this.id = id;
+    this.type = type;
     this.createdBy = createdBy;
+    this.#name = name;
     this.#isManagingStudents = isManagingStudents;
-    this.#features = [...features];
+    this.#features = features.map((feature) => new OrganizationFeature(feature));
     this.#archivedAt = archivedAt;
+  }
+
+  // une organisation neuve, sans id
+  static create({ name, type, createdBy }: { name: string; type: OrganizationType; createdBy: UserId }): Organization<null> {
+    return new Organization({ id: null, name, type, createdBy, isManagingStudents: false, features: [], archivedAt: null });
+  }
+
+  get name(): string {
+    return this.#name;
   }
 
   get isManagingStudents(): boolean {
     return this.#isManagingStudents;
   }
 
-  // A2 : on lit une copie, en lecture seule
+  get archivedAt(): Date | null {
+    return this.#archivedAt;
+  }
+
+  get isArchived(): boolean {
+    return this.#archivedAt !== null;
+  }
+
+  // A2 : on lit une copie, qui ne permet de modifier ni la liste ni ses éléments (ils sont immuables)
   get features(): ReadonlyArray<OrganizationFeature> {
     return [...this.#features];
   }
 
+  rename(name: string): void {
+    if (this.isArchived) throw new ArchivedOrganizationError();
+    assertValidName(name);
+    this.#name = name;
+  }
+
+  // la date d'archivage arrive en paramètre : l'Entity ne lit pas l'horloge
+  archive(now: Date): void {
+    if (this.isArchived) throw new ArchivedOrganizationError();
+    this.#archivedAt = now;
+  }
+
   // A1 : la seule façon d'ajouter une fonctionnalité, et c'est ici que la règle est vérifiée
-  enableFeature(featureName: FeatureName, params: FeatureParams, now: Date): void {
-    if (this.#archivedAt) throw new ArchivedOrganizationError();
+  enableFeature(featureName: FeatureName, params: FeatureParams): void {
+    if (this.isArchived) throw new ArchivedOrganizationError();
     if (this.#features.some((feature) => feature.featureName === featureName)) throw new FeatureAlreadyEnabledError();
 
-    this.#features = [...this.#features, new OrganizationFeature({ featureName, params, enabledAt: now })];
+    this.#features = [...this.#features, new OrganizationFeature({ featureName, params })];
     if (featureName === 'LEARNER_IMPORT') {
       this.#isManagingStudents = false; // A1 : la règle qui relie la racine et ses fonctionnalités
     }
   }
+}
+
+function assertValidName(name: string): void {
+  if (name.trim() === '') throw new InvalidOrganizationError('The name is required');
 }
 ```
 
 ```ts
 // domain/repositories/OrganizationRepository.ts — A3 : un seul repository pour tout le groupe
 export interface OrganizationRepository {
-  get(id: OrganizationId): Promise<Organization>; // charge l'organisation et ses fonctionnalités
-  add(organization: Organization<null>): Promise<Organization>;
-  update(organization: Organization): Promise<void>; // enregistre l'organisation et ses fonctionnalités
+  get({ id }: { id: OrganizationId }): Promise<Organization>; // l'organisation et ses fonctionnalités
+  add({ organization }: { organization: Organization<null> }): Promise<Organization>;
+  update({ organization }: { organization: Organization }): Promise<void>; // l'organisation et ses fonctionnalités
 }
 ```
 
 ```ts
 // domain/usecases/enable-organization-feature.ts — A7 : un seul Aggregate modifié
+// raccourci : la transaction est montrée dans la fiche usecase
 export const enableOrganizationFeature = async ({
   organizationId,
   featureName,
   params,
   organizationRepository,
-  clock,
-}: EnableOrganizationFeatureInput): Promise<void> => {
-  const organization = await organizationRepository.get(organizationId);
-  organization.enableFeature(featureName, params, clock.now());
-  await organizationRepository.update(organization);
+}: {
+  organizationId: OrganizationId;
+  featureName: FeatureName;
+  params: FeatureParams;
+  organizationRepository: OrganizationRepository;
+}): Promise<void> => {
+  const organization = await organizationRepository.get({ id: organizationId });
+  organization.enableFeature(featureName, params);
+  await organizationRepository.update({ organization });
 };
 ```
 
@@ -157,12 +211,14 @@ Le test unitaire de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/organizational-entities/unit/domain/models/organization/Organization_test.ts
-describe('Unit | Organizational Entities | Domain | Models | Organization', function () {
-  const now = new Date('2026-01-02');
+import { Organization, type OrganizationProps } from '../../../../../../src/organizational-entities/domain/models/organization/index.js';
 
+describe('Unit | Organizational Entities | Domain | Models | Organization', function () {
   const buildOrganization = (props: Partial<OrganizationProps<OrganizationId>> = {}) =>
     new Organization({
       id: 1 as OrganizationId,
+      name: 'Lycée Victor Hugo',
+      type: 'SCO',
       createdBy: 2 as UserId,
       isManagingStudents: false,
       features: [],
@@ -170,7 +226,7 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
       ...props,
     });
 
-  const learnerImport = new OrganizationFeature({ featureName: 'LEARNER_IMPORT', params: null, enabledAt: now });
+  const learnerImport = { featureName: 'LEARNER_IMPORT', params: null } as const;
 
   describe('constructor', function () {
     it('refuses an organization that imports its learners and manages students', function () {
@@ -184,7 +240,7 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
     it('stops managing students when LEARNER_IMPORT is enabled', function () {
       const organization = buildOrganization({ isManagingStudents: true });
 
-      organization.enableFeature('LEARNER_IMPORT', null, now);
+      organization.enableFeature('LEARNER_IMPORT', null);
 
       expect(organization.isManagingStudents).to.be.false;
     });
@@ -192,7 +248,7 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
     it('refuses a feature on an archived organization, and changes nothing', function () {
       const organization = buildOrganization({ archivedAt: new Date('2026-01-01'), isManagingStudents: true });
 
-      expect(() => organization.enableFeature('LEARNER_IMPORT', null, now)).to.throw(ArchivedOrganizationError);
+      expect(() => organization.enableFeature('LEARNER_IMPORT', null)).to.throw(ArchivedOrganizationError);
       expect(organization.features).to.be.empty;
       expect(organization.isManagingStudents).to.be.true;
     });
@@ -200,7 +256,7 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
     it('refuses a feature that is already enabled', function () {
       const organization = buildOrganization({ features: [learnerImport] });
 
-      expect(() => organization.enableFeature('LEARNER_IMPORT', null, now)).to.throw(FeatureAlreadyEnabledError);
+      expect(() => organization.enableFeature('LEARNER_IMPORT', null)).to.throw(FeatureAlreadyEnabledError);
       expect(organization.features).to.have.lengthOf(1);
     });
   });
@@ -211,7 +267,7 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
 
       // ReadonlyArray interdit push à la compilation. On force le type pour vérifier qu'à l'exécution,
       // on reçoit bien une copie
-      (organization.features as OrganizationFeature[]).push(learnerImport);
+      (organization.features as unknown[]).push(learnerImport);
 
       expect(organization.features).to.be.empty;
     });
@@ -227,7 +283,7 @@ Le groupe a-t-il une raison d'exister ?
 [ ] A6  Chaque objet du groupe est concerné par une règle ; le reste est gardé par son id
 
 Peut-on passer à côté de la racine ?
-[ ] A2  Objets internes privés ; getters en copie ; seul index.ts s'importe hors du dossier
+[ ] A2  Champ des objets internes privé ; getters en copie ; seul index.ts s'importe hors du dossier
 [ ] A3  Un seul repository ; aucun repository pour un objet interne
 
 Que se passe-t-il à l'écriture ?
@@ -248,8 +304,8 @@ on doit pouvoir finir la phrase « à tout moment, … ». Sinon, ce n'est pas u
 **Bon exemple.**
 
 ```ts
-// à tout moment : si LEARNER_IMPORT est activée, isManagingStudents est false
-enableFeature(featureName: FeatureName, params: FeatureParams, now: Date): void {
+// Organization — à tout moment : si LEARNER_IMPORT est activée, isManagingStudents est false
+enableFeature(featureName: FeatureName, params: FeatureParams): void {
   …
   if (featureName === 'LEARNER_IMPORT') {
     this.#isManagingStudents = false;
@@ -283,7 +339,8 @@ champs.
 ### A2. La racine est la seule porte d'entrée
 
 **La règle.** Pour lire ou modifier un objet interne, on passe par la racine. Le champ qui contient les
-objets internes est privé, et les getters renvoient des copies en lecture seule. Hors du dossier de
+objets internes est privé, et les getters renvoient des copies. Les objets internes n'ont aucune
+méthode qui les modifie : la copie de la liste suffit donc à les mettre hors d'atteinte. Hors du dossier de
 l'Aggregate, on n'importe que son `index.ts`, qui exporte la racine et seulement le type des objets
 internes.
 
@@ -292,10 +349,12 @@ internes.
 ```ts
 // organization/index.ts
 export { Organization } from './Organization.js';
-export type { OrganizationFeature, FeatureName } from './OrganizationFeature.js';
+export type { OrganizationProps, OrganizationType } from './Organization.js';
+export type { FeatureName, FeatureParams, OrganizationFeature, OrganizationFeatureProps } from './OrganizationFeature.js';
 ```
 
 ```ts
+// Organization
 get features(): ReadonlyArray<OrganizationFeature> {
   return [...this.#features];
 }
@@ -310,7 +369,7 @@ On exporte seulement le type : on peut s'en servir dans une signature, mais pas 
 // dans un usecase : on crée l'objet interne et on l'ajoute sans passer par la racine
 import { OrganizationFeature } from '../models/organization/OrganizationFeature.js';
 
-organization.features.push(new OrganizationFeature({ featureName: 'LEARNER_IMPORT', params: null, enabledAt: now }));
+organization.features.push(new OrganizationFeature({ featureName: 'LEARNER_IMPORT', params: null }));
 ```
 
 **Ce que ça apporte.** Pour ajouter une fonctionnalité, tout le monde passe par `enableFeature()`, qui
@@ -342,9 +401,9 @@ point d'entrée :
 
 ```ts
 export interface OrganizationRepository {
-  get(id: OrganizationId): Promise<Organization>; // l'organisation et ses fonctionnalités
-  add(organization: Organization<null>): Promise<Organization>;
-  update(organization: Organization): Promise<void>; // l'organisation et ses fonctionnalités
+  get({ id }: { id: OrganizationId }): Promise<Organization>; // l'organisation et ses fonctionnalités
+  add({ organization }: { organization: Organization<null> }): Promise<Organization>;
+  update({ organization }: { organization: Organization }): Promise<void>; // l'organisation et ses fonctionnalités
 }
 ```
 
@@ -416,9 +475,9 @@ suivre, ils sont modifiés ensuite, chacun dans sa propre transaction.
 
 ```ts
 // organizational-entities : on archive l'organisation, et c'est tout
-const organization = await organizationRepository.get(organizationId);
+const organization = await organizationRepository.get({ id: organizationId });
 organization.archive(clock.now());
-await organizationRepository.update(organization);
+await organizationRepository.update({ organization });
 // team désactive ensuite les membres, dans sa propre transaction
 ```
 
@@ -427,7 +486,7 @@ await organizationRepository.update(organization);
 ```ts
 // un seul usecase modifie trois Aggregates, de deux contextes, dans la même transaction
 organization.archive(clock.now());
-await organizationRepository.update(organization);
+await organizationRepository.update({ organization });
 await membershipRepository.disableAll({ organizationId });
 await invitationRepository.deleteAll({ organizationId });
 ```

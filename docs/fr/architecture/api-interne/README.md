@@ -1,574 +1,569 @@
 # API interne
 
-Une API interne est le contrat publié d'un Bounded Context. Elle vit dans `application/api/`.
+Une API interne est ce qu'un Bounded Context publie pour les autres contextes : des fonctions qui
+renvoient des DTO. Un DTO est l'objet du contrat, distinct du modèle du domaine. Par exemple,
+organizational-entities publie `getOrganization(id)`, que prescription appelle pour connaître une
+organisation. Les APIs internes se rangent dans `application/api/`.
 
-Cette page est la **référence** : les règles, les cas permis, les tests et la checklist. Dans le même
-dossier :
+Le contexte qui appelle l'API ne la lit jamais depuis son domaine. Il la lit par un
+[repository](../repository/README.md) à lui, qui traduit le DTO dans son propre vocabulaire : c'est
+l'Anticorruption Layer.
 
-- [`explication.md`](explication.md) : pourquoi ces règles, ce qu'elles rapportent, la théorie et
-  l'histoire des décisions ;
-- [`outillage.md`](outillage.md) : mettre en place les vérifications automatiques ;
-- [`ecarts.md`](ecarts.md) : où le code s'écarte de la théorie, et ce qui est décidé.
+## Les règles
 
-Les règles de cette page s'appliquent à toute API interne et à tout objet de contrat. La ligne
-**Vérification** de chaque invariant dit par quel moyen la règle se vérifie. Ce qui est en place dans
-la CI est dans [`outillage.md`](outillage.md).
+Chaque règle est détaillée plus bas, dans la [référence des règles](#référence-des-règles).
 
-## Sommaire
-
-[Rôle](#rôle) · [Invariants](#invariants) · [Exceptions légitimes](#exceptions-légitimes) ·
-[Exemple complet](#exemple-complet) · [Tests attendus](#tests-attendus) ·
-[Checklist de revue](#checklist-de-revue) · [Sources](#sources)
-
-| # | Invariant | Vérification |
+| # | Règle | En pratique |
 | --- | --- | --- |
-| [**P1**](#p1-lapi-expose-un-dto-jamais-un-modèle-du-domaine) | l'API expose un DTO, jamais un modèle du domaine | règle ESLint, partielle, puis typage |
-| [**P2**](#p2-lapi-passe-par-un-usecase) | l'API passe par un usecase | `dependency-cruiser` |
-| [**P3**](#p3-le-contrat-est-documenté) | le contrat est documenté | script, partiel, sans faux positif |
-| [**P4**](#p4-le-dto-ne-porte-aucun-comportement-métier) | le DTO ne porte aucun comportement métier | voir `../objet-valeur/outillage.md` |
-| [**P5**](#p5-un-seul-emplacement-pour-lobjet-de-contrat) | un seul emplacement pour l'objet de contrat | script |
-| [**P6**](#p6-le-contrat-est-stable) | le contrat est stable | revue |
-| [**P7**](#p7-le-comportement-ne-dépend-pas-de-lappelant) | le comportement ne dépend pas de l'appelant | revue |
-| [**P8**](#p8-lapi-ne-transite-pas-vers-un-autre-contexte) | l'API ne transite pas vers un autre contexte | `dependency-cruiser` |
-| [**P9**](#p9-le-dto-nexpose-que-ce-que-ses-consommateurs-utilisent) | le DTO n'expose que ce que ses consommateurs utilisent | revue |
-
-Hors numérotation : le [sens de lecture](#le-sens-de-lecture-souvent-inversé), qui relie cette page à
-`I1` de `../repository/README.md`. La distinction entre objet de contrat et read-model est dans `X1`
-de `../read-model/ecarts.md`, pas ici.
-
----
-
-## Rôle
-
-Une API interne est le **contrat publié** d'un Bounded Context : ce qu'il accepte de faire pour les
-autres, et sous quelle forme il leur répond.
-
-Un contexte voisin passe par ce seul point. Le reste du contexte lui est inaccessible : modèles,
-usecases, repositories.
-
-Deux propriétés en découlent. Elles sont la raison d'être de la couche :
-
-- le contexte fournisseur reste libre de changer son modèle, sa base et ses usecases, tant que le
-  contrat tient ;
-- le contexte consommateur reste autonome, sans avoir à connaître le fonctionnement interne du
-  voisin.
-
-Termes employés dans cette page :
-
-- **DTO**, ou **objet de contrat** : l'objet que l'API construit pour sa réponse, distinct du modèle
-  du domaine.
-- **Contexte fournisseur** : le contexte qui écrit et publie l'API.
-- **Contexte consommateur** : le contexte qui l'appelle.
-
-### Le sens de lecture, souvent inversé
-
-L'API interne est écrite par le contexte **fournisseur**. Le contexte **consommateur** ne l'appelle pas
-directement depuis son domaine. Il la reçoit injectée dans un de ses repositories, qui traduit vers
-son propre vocabulaire.
-
-Cette page et `../repository/README.md` se lisent donc ensemble. `P1` décrit ce qui sort de l'API.
-`I1` de `../repository/README.md` décrit ce que le voisin doit en faire : le traduire, et non le
-laisser entrer intact dans son domaine.
-
-### Ce qu'une API interne n'est pas
-
-Si le code correspond à une ligne, ce n'est pas une API interne.
-
-| Le code… | Va dans | Fiche |
-| --- | --- | --- |
-| est appelé par une requête HTTP | un contrôleur, dans `application/` | `../controleur/README.md` |
-| réalise l'intention métier | un usecase | `../usecase/README.md` |
-| accède aux données | un repository | `../repository/README.md` |
-| consomme l'API d'un voisin | un repository du contexte consommateur | `../repository/README.md` |
-| met en forme pour une réponse HTTP | un sérialiseur | `../serialiseur/README.md` |
-| réagit à un événement d'un autre contexte | le mécanisme événementiel | hors périmètre du corpus |
-
----
-
-## Invariants
-
-### P1. L'API expose un DTO, jamais un modèle du domaine
-
-**Énoncé.** Le modèle interne ne franchit pas la frontière. L'API construit un objet dédié au contrat.
-
-```js
-// conforme — l'API construit le DTO à partir du résultat du usecase
-export const getActiveByUserIds = async ({ userIds }) => {
-  const users = await usecases.getActiveByUserIds({ userIds });
-
-  return users.map((user) => new UserDTO(user));
-};
-
-// fautif — le modèle du domaine devient le contrat
-export const getByUserId = async (userId) => {
-  return usecases.getProfileRewardsByUserId({ userId });
-};
-```
-
-**Code.** Conforme : [`users-api.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/identity-access-management/application/api/users-api.js#L39-L43). Fautif : [`profile-reward-api.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/profile/application/api/profile-reward-api.js#L7-L9).
-
-La forme fautive se reconnaît à sa longueur : une seule ligne, sans `new`. Seule exception : un
-usecase qui renvoie un scalaire ou rien, voir les [exceptions légitimes](#exceptions-légitimes). Un
-fichier d'API dont toutes les fonctions ont cette forme n'a pas de contrat. Il n'est qu'une liste de
-raccourcis vers les usecases du contexte.
-
-**Forme interdite.** Envelopper le modèle dans un DTO aux mêmes champs respecte `P1` à la lettre et le
-viole dans son esprit. Le lint passe au vert, et la forme interne reste le contrat. `P9` dit quels
-champs le DTO porte.
-
-**Ce qui casse.** Chaque champ du modèle devient une promesse implicite. Un renommage interne casse
-les voisins à l'exécution, sans qu'aucune règle de dépendance ne bouge. `dependency-cruiser` reste
-vert, parce que la dépendance de module n'a pas changé.
-
-**Vérification.** Une règle ESLint pour le sous-cas le plus simple, et le typage pour la forme du
-contrat. Voir [`outillage.md`](outillage.md#p1--détecter-le-modèle-du-domaine-qui-fuit).
-
-### P2. L'API passe par un usecase
-
-**Énoncé.** L'API interne est une porte d'entrée applicative, au même titre qu'un contrôleur. Elle
-appelle un usecase, jamais un repository directement.
-
-```js
-// conforme à P2 — l'API appelle un usecase, puis construit le DTO
-export const getById = async (id) => {
-  const targetProfile = await usecases.getTargetProfile({ targetProfileId: id });
-
-  return new TargetProfile(targetProfile);
-};
-
-// fautif — court-circuite les règles métier
-import * as challengeToPlayRepository from '../../infrastructure/repositories/challenge-to-play-repository.js';
-
-export function get(challengeId) {
-  return challengeToPlayRepository.get(challengeId);
-}
-```
-
-**Code.** Conforme : [`target-profile-api.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/target-profile/application/api/target-profile-api.js#L42-L46). Fautif : [`challenge-to-play-api.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/application/api/challenge-to-play-api.js#L11-L13), import à la ligne 1.
-
-Le même fichier fautif expose aussi la configuration de sérialisation du contexte :
-
-```js
-import { challengeToPlaySerializer } from '../../infrastructure/serializers/jsonapi/challenge-to-play-serializer.js';
-
-export function getSerializationConfig() {
-  return challengeToPlaySerializer.config;
-}
-```
-
-**Code.** [`challenge-to-play-api.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/evaluation/application/api/challenge-to-play-api.js#L21-L23), import à la ligne 2.
-
-Ici, le contrat publié n'expose pas seulement un modèle du domaine. Il expose aussi la configuration
-de sérialisation du contexte. Le voisin reçoit de quoi produire lui-même la réponse HTTP, donc le
-format de sortie d'un contexte devient une dépendance de l'autre. `P1` n'interdit pas ce cas
-explicitement. La règle de `P2` le signale, parce que le sérialiseur est importé depuis
-`infrastructure/`.
-
-**Ce qui casse.** Une lecture porte aussi des règles : filtrage des éléments supprimés, droits,
-périmètre. Les court-circuiter pour les seuls voisins crée deux comportements pour la même question,
-selon qu'elle est posée de l'intérieur ou de l'extérieur du contexte.
-
-**Vérification.** Une règle `dependency-cruiser`. Voir
-[`outillage.md`](outillage.md#p2-et-p8--deux-règles-de-chemin).
-
-### P3. Le contrat est documenté
-
-**Énoncé.** Chaque fonction exposée porte sa documentation : ce qu'elle prend, ce qu'elle rend, ce
-qu'elle lève. Les types du contrat sont décrits, pas seulement nommés.
-
-Cette documentation est le contrat lui-même. Elle se génère dans un fichier `API.md` à la racine du
-contexte. Le consommateur la lit sans ouvrir le code du fournisseur, ce qui est le but de la couche.
-
-```js
-// conforme — ce que la fonction prend et ce qu'elle rend sont décrits
-/**
- * @function
- * @name getActiveByUserIds
- *
- * @param {Object} params
- * @param {Array<Number>} params.userIds
- * @returns {Promise<Array<UserDTO>>}
- */
-export const getActiveByUserIds = async ({ userIds }) => { … };
-
-// fautif — aucune documentation : le contrat n'est écrit nulle part
-export const getByUserId = async (userId) => {
-  return usecases.getProfileRewardsByUserId({ userId });
-};
-```
-
-**Code.** Conforme : [`users-api.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/identity-access-management/application/api/users-api.js#L31-L39). Fautif : [`profile-reward-api.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/profile/application/api/profile-reward-api.js#L7-L9).
-
-La commande de génération :
-
-```
-node scripts/generate-api-documentation.js src/<contexte> > src/<contexte>/API.md
-```
-
-Le fichier produit est committé.
-
-**Ce qui casse.** Une fonction exposée sans documentation est une fonction dont le contrat n'existe
-pas. Le consommateur doit lire le code du fournisseur : la couche a coûté son prix sans rendre son
-service.
-
-**Vérification.** Un script régénère `API.md` et le compare au fichier du dépôt. Il ne voit pas tout.
-Voir [`outillage.md`](outillage.md#p3--le-générateur-est-déjà-loracle).
-
-### P4. Le DTO ne porte aucun comportement métier
-
-**Énoncé.** Le DTO est un Value Object : immuable, sans identité, sans règle. `V1`, `V2`, `V6` et `V7`
-de `../objet-valeur/README.md` s'appliquent et ne sont pas répétés ici.
-
-Une mise en forme sans décision reste autorisée :
-
-- composer un libellé ;
-- aplatir une structure ;
-- renommer un champ pour le vocabulaire du contrat.
-
-Un accesseur comme `get isShared() { return Boolean(this.sharedAt); }` est une mise en forme sans
-décision. Une règle qui décide de quelque chose est interdite.
-
-```js
-// fautif — le DTO se modifie après sa construction, ce que V1 interdit
-export class Campaign {
-  constructor({ id, code, name, …, targetProfileId }) { … }
-
-  setOrganizationId(id) {
-    this.organizationId = id;
-  }
-}
-
-// conforme — version corrigée de l'extrait ci-dessus : organizationId arrive à la construction
-export class Campaign {
-  constructor({ id, code, name, …, targetProfileId, organizationId }) {
-    …
-    this.organizationId = organizationId;
-  }
-}
-```
-
-**Code.** Fautif : [`Campaign.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/campaign/application/api/models/Campaign.js#L1-L31), simplifié. La forme corrigée est hypothétique.
-
-Cet extrait illustre `V1`, que `P4` inclut.
-
-Le DTO est l'endroit où renommer. Un champ dont le nom interne est technique ou historique y prend le
-nom du contrat, à condition que le nouveau nom reste stable ensuite (`P6`).
-
-**Ce qui casse.** Une règle placée dans le DTO vit en deux exemplaires, dans le modèle et dans le
-DTO, et les deux exemplaires divergeront.
-
-**Vérification.** Celle des invariants de Value Object. Voir `../objet-valeur/outillage.md`.
-
-### P5. Un seul emplacement pour l'objet de contrat
-
-**Énoncé.** Le DTO est dans `application/api/models/`. La documentation liée à l'ADR 55 pose deux
-règles :
-
-- les APIs internes vivent dans un dossier `api` de la couche application ;
-- **les classes qui définissent le contrat sont dans un sous-dossier `models`**.
-
-```
-application/api/models/UserDTO.js                                     → conforme
-application/api/read-models/OrganizationLearnerWithOrganization.js   → fautif : un autre sous-dossier
-application/api/TargetProfile.js                                      → fautif : à la racine de api/
-```
-
-**Code.** Conforme : [`UserDTO.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/identity-access-management/application/api/models/UserDTO.js). Fautifs : [`OrganizationLearnerWithOrganization.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/organization-learner/application/api/read-models/OrganizationLearnerWithOrganization.js) et [`TargetProfile.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/target-profile/application/api/TargetProfile.js).
-
-**Distinguer du read-model.** `domain/read-models/` contient une forme assemblée pour une lecture
-interne. L'objet de contrat est un format publié vers un autre contexte. Le même mot recouvre parfois
-les deux, ce qui les brouille. Voir `X1` de `../read-model/ecarts.md`, qui traite ce mélange.
-
-**Ce qui casse.** Le lecteur cherche le contrat avant de le trouver. Dès qu'un second emplacement
-existe, la vérification de l'emplacement devient impossible.
-
-**Vérification.** Un script d'emplacement. Voir [`outillage.md`](outillage.md#vérifications).
-
-### P6. Le contrat est stable
-
-**Énoncé.** Un contrat s'étend, il ne se casse pas. Trois règles concrètes :
-
-- **ajouter** un champ ou une fonction est sans risque ;
-- **renommer ou retirer** demande de connaître les consommateurs et de coordonner ;
-- **changer le sens** d'un champ existant est le pire cas, parce que rien ne le signale : ni la
-  compilation, ni les tests des voisins.
-
-```js
-// conforme — le contrat en vigueur ; un champ peut s'y ajouter sans risque
-export class UserDTO {
-  constructor(user) {
-    this.firstName = user.firstName;
-    this.lastName = user.lastName;
-    this.id = user.id;
-  }
-}
-
-// fautif — hypothétique : un champ existant est renommé, chaque consommateur qui le lit casse
-export class UserDTO {
-  constructor(user) {
-    this.givenName = user.firstName;
-    this.lastName = user.lastName;
-    this.id = user.id;
-  }
-}
-```
-
-**Code.** Conforme : [`UserDTO.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/identity-access-management/application/api/models/UserDTO.js#L1-L7). La forme fautive est hypothétique.
-
-La liste des consommateurs est connaissable : ce sont les contextes qui déclarent dépendre de
-celui-ci. Un changement cassant commence par cette liste. Pour le cas où la liste des consommateurs
-n'est pas connaissable, voir `M3` de `../serialiseur/README.md`.
-
-**Ce qui casse.** Un changement chez le fournisseur casse la CI de plusieurs équipes. Le diagnostic
-remonte lentement, puisque rien ne pointe vers la cause.
-
-**Vérification.** La revue. Le typage rend visible un changement de contrat. Voir
-[`outillage.md`](outillage.md#vérifier-par-le-typage).
-
-### P7. Le comportement ne dépend pas de l'appelant
-
-**Énoncé.** Une même fonction rend la même chose quel que soit le contexte qui l'appelle. Pas de
-paramètre « pour qui », pas de branche selon le consommateur. Un besoin divergent entre deux
-consommateurs appelle deux fonctions nommées différemment, chacune avec son contrat.
-
-```js
-// conforme à P7 — forme limite : une fonction par appelant, dont le contrat ne dépend de rien
-export const getByIdForAdmin = async (id) => {
-  const targetProfileForAdmin = await usecases.getTargetProfileForAdmin({ targetProfileId: id });
-
-  return new TargetProfile(targetProfileForAdmin);
-};
-
-// fautif — hypothétique : getById et getByIdForAdmin fusionnées, le contrat dépend de qui le lit
-export const getById = async ({ id, callerContext }) => {
-  const targetProfile =
-    callerContext === 'admin'
-      ? await usecases.getTargetProfileForAdmin({ targetProfileId: id })
-      : await usecases.getTargetProfile({ targetProfileId: id });
-
-  return new TargetProfile(targetProfile);
-};
-```
-
-**Code.** Conforme : [`target-profile-api.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/target-profile/application/api/target-profile-api.js#L29-L33). La forme fautive est hypothétique.
-
-Le nom de `getByIdForAdmin` porte l'appelant, mais son contrat ne dépend de rien : une fonction, un
-DTO, un comportement. Quand deux consommateurs ont vraiment besoin de deux projections, deux
-fonctions nommées respectent `P7`. Une fonction qui teste son appelant ne le respecte pas.
-
-**Ce qui casse.** Une fonction qui se comporte selon son appelant recrée le couplage que la couche
-existe pour supprimer. Le fournisseur connaît ses consommateurs, donc il ne peut plus évoluer sans
-les considérer un par un.
-
-**Vérification.** La revue. Voir [`outillage.md`](outillage.md#vérifications).
-
-### P8. L'API ne transite pas vers un autre contexte
-
-**Énoncé.** Une API interne sert **son** contexte. Elle n'importe ni repository, ni API d'un contexte
-tiers pour composer sa réponse.
-
-```js
-// conforme — l'API n'importe que son propre contexte
-import { usecases } from '../../domain/usecases/index.js';
-import { UserDTO } from './models/UserDTO.js';
-
-// fautif — l'API importe le repository d'un autre contexte pour composer sa réponse
-import { tagRepository } from '../../../../organizational-entities/infrastructure/repositories/tag.repository.js';
-```
-
-**Code.** Conforme : [`users-api.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/identity-access-management/application/api/users-api.js#L1-L2). Fautif : [`organization-learners-api.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/organization-learner/application/api/organization-learners-api.js#L1).
-
-Quand la composition est vraiment nécessaire, c'est au **consommateur** de l'assembler, en appelant
-les deux APIs. Cette composition est de l'orchestration, donc elle relève d'un usecase chez le
-consommateur.
-
-**Ce qui casse.** Le fournisseur devient un intermédiaire : le consommateur dépend, sans le savoir,
-d'un troisième contexte. Le graphe déclaré ne décrit plus le graphe réel, et une règle de dépendance
-passe au vert sur un couplage qu'elle devrait interdire.
-
-**Vérification.** Une règle `dependency-cruiser`. Voir
-[`outillage.md`](outillage.md#p2-et-p8--deux-règles-de-chemin).
-
-### P9. Le DTO n'expose que ce que ses consommateurs utilisent
-
-**Énoncé.** Un champ figure dans le DTO parce qu'au moins un contexte consommateur le lit. Un champ
-qu'aucun consommateur ne lit n'y figure pas, même s'il existe sur le modèle.
-
-```js
-// conforme — une projection : trois champs choisis dans le modèle User
-export class UserDTO {
-  constructor(user) {
-    this.firstName = user.firstName;
-    this.lastName = user.lastName;
-    this.id = user.id;
-  }
-}
-
-// fautif — le DTO recopie le read-model du même nom
-export class CampaignParticipation {
-  constructor({
-    participantFirstName, participantLastName, participantExternalId = null,
-    userId, campaignParticipationId, createdAt, sharedAt, status,
-  } = {}) { … }
-}
-```
-
-**Code.** Conforme : [`UserDTO.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/identity-access-management/application/api/models/UserDTO.js#L1-L7). Fautif : [`CampaignParticipation.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/campaign/application/api/models/CampaignParticipation.js#L1-L35), simplifié.
-
-Le DTO est alors la liste exacte de ce que l'équipe du fournisseur s'engage à maintenir. Tout le
-reste du modèle peut changer sans prévenir personne.
-
-**Ce qui casse.** Un champ exposé sans consommateur est une promesse que personne n'a demandée.
-L'équipe du fournisseur ne peut plus distinguer le contrat du reste : avant chaque refactoring
-interne, elle doit vérifier chez tous les consommateurs si le champ touché est lu. `P6` devient
-coûteux à tenir, et le bénéfice de `P1` disparaît.
-
-**Vérification.** La revue seule : ni la règle de `P1` ni le typage ne voient un DTO qui recopie le
-modèle. Voir [`outillage.md`](outillage.md#vérifications).
-
----
-
-## Exceptions légitimes
-
-Une exception ne vaut que pour l'invariant de sa ligne. Elle n'excuse rien d'autre.
-
-| Invariant | Cas | Statut |
-| --- | --- | --- |
-| **P1** | La fonction rend directement le résultat d'un usecase qui renvoie un scalaire ou rien | autorisé : aucun modèle n'est exposé |
-| **P1** | L'API lève une erreur définie dans `application/api/errors.js` | autorisé : l'erreur fait partie du contrat |
-| **P1** | Une enveloppe de pagination autour de DTO | autorisé |
-| **P7** | Une fonction utilisée par un seul consommateur | autorisé : un contrat commence souvent ainsi. Le nom dit le besoin, pas l'écran du consommateur |
-| **P2** | L'API accède à un repository de `shared` | **pas une exception** : c'est une violation de `P2`, même si `shared` est commode |
-| **P2** | L'API importe le fichier d'un usecase plutôt que l'index des usecases | **pas une exception** : elle reçoit la fonction sans ses dépendances, et doit alors importer et passer elle-même les repositories, contre `P2`. Même pour casser un import cyclique |
-| **P3** | L'API renvoie `null` quand rien n'est trouvé | autorisé si documenté ; le contrat doit dire lequel des deux comportements s'applique |
-| **P4** | Le DTO renomme un champ par rapport au modèle interne | autorisé : c'est un bon usage de la couche |
-| **P4** | Le DTO aplatit une structure imbriquée | autorisé : mise en forme sans décision |
-| **P4** | Le DTO compose un libellé à partir de plusieurs champs | autorisé : mise en forme, pas décision |
-| — | Un consommateur importe le domaine du fournisseur | **pas une exception** : c'est `U9` de `../usecase/README.md`, la violation que cette couche existe pour empêcher |
-
----
+| [P1](#p1-un-dto-jamais-un-modèle-du-domaine) | Un DTO, jamais un modèle du domaine | `return new OrganizationDTO(…)`, jamais `return organization` |
+| [P2](#p2-passer-par-un-usecase) | Passer par un usecase | `usecases.getOrganizationById(…)`, importé depuis l'index des usecases ; aucun repository |
+| [P3](#p3-un-contrat-documenté) | Un contrat documenté | chaque fonction dit ce qu'elle prend, ce qu'elle renvoie et ce qu'elle lève |
+| [P4](#p4-aucune-règle-dans-le-dto) | Aucune règle dans le DTO | le DTO recopie des valeurs ; `isRestricted` est calculé par le domaine |
+| [P5](#p5-le-dto-dans-models) | Le DTO dans `models/` | `application/api/models/OrganizationDTO.ts` |
+| [P6](#p6-un-contrat-stable) | Un contrat stable | ajouter un champ est permis ; renommer ou retirer se prévoit avec les consommateurs |
+| [P7](#p7-même-réponse-pour-tous-les-appelants) | Même réponse pour tous les appelants | pas de paramètre ni de branche selon le contexte qui appelle |
+| [P8](#p8-rien-dun-autre-contexte) | Rien d'un autre contexte | l'API n'importe que des fichiers de son propre contexte |
+| [P9](#p9-seulement-les-champs-lus) | Seulement les champs lus | chaque champ du DTO est lu par au moins un consommateur |
 
 ## Exemple complet
 
-Une fonction d'API, son DTO et son test, tirés du code.
+L'API d'organizational-entities renvoie une organisation, sous la forme d'un `OrganizationDTO` à cinq
+champs. Le champ `isRestricted` vaut `true` si l'organisation gère ses élèves ou si `LEARNER_IMPORT`
+est activée. Exemple inventé, d'après
+[`organization-api.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/application/api/organization-api.js#L25-L35).
 
-```js
-// l'API — P2 : un usecase ; P1 : un DTO construit ; P3 : la documentation
-import { usecases } from '../../domain/usecases/index.js';
-import { UserDTO } from './models/UserDTO.js';
+```ts
+// organizational-entities/application/api/models/OrganizationDTO.ts — P5 : dans models/
+import type { OrganizationId } from '../../../../shared/domain/Id.js';
 
-/**
- * @function
- * @name getActiveByUserIds
- *
- * @param {Object} params
- * @param {Array<Number>} params.userIds
- * @returns {Promise<Array<UserDTO>>}
- */
-export const getActiveByUserIds = async ({ userIds }) => {
-  const users = await usecases.getActiveByUserIds({ userIds });
+// P1 : le contrat a ses propres types, il n'importe pas ceux du domaine
+export type OrganizationTypeDTO = 'SCO' | 'SUP' | 'PRO' | 'SCO-1D';
 
-  return users.map((user) => new UserDTO(user));
+type OrganizationDTOProps = {
+  id: OrganizationId;
+  name: string;
+  type: OrganizationTypeDTO;
+  isRestricted: boolean;
+  isArchived: boolean;
 };
-```
 
-```js
-// le DTO — P5 : dans models/ ; P9 : trois champs choisis
-export class UserDTO {
-  constructor(user) {
-    this.firstName = user.firstName;
-    this.lastName = user.lastName;
-    this.id = user.id;
+export class OrganizationDTO {
+  // P9 : cinq champs, chacun lu par au moins un consommateur
+  readonly id: OrganizationId;
+  readonly name: string;
+  readonly type: OrganizationTypeDTO;
+  readonly isRestricted: boolean;
+  readonly isArchived: boolean;
+
+  // P4 : le constructeur recopie les valeurs, il ne décide rien
+  constructor({ id, name, type, isRestricted, isArchived }: OrganizationDTOProps) {
+    this.id = id;
+    this.name = name;
+    this.type = type;
+    this.isRestricted = isRestricted;
+    this.isArchived = isArchived;
   }
 }
 ```
 
-```js
-// le test — unitaire, le usecase substitué : seul le mapping est testé
-it('should return users', async function () {
-  const firstUser = domainBuilder.buildUser({ id: 1, firstName: 'Théo', lastName: 'Courant' });
-  const secondUser = domainBuilder.buildUser({ id: 2, firstName: 'Alex', lastName: 'Térieur' });
+```ts
+// organizational-entities/application/api/organization-api.ts
+import type { OrganizationId } from '../../../shared/domain/Id.js';
+// P2 : l'index des usecases ; P8 : aucun import d'un autre contexte
+import { usecases } from '../../domain/usecases/index.js';
+import { OrganizationDTO } from './models/OrganizationDTO.js';
 
-  sinon.stub(usecases, 'getActiveByUserIds');
-  usecases.getActiveByUserIds.withArgs({ userIds: [1, 2] }).resolves([firstUser, secondUser]);
-  const expectedUsers = [new UserDTO(firstUser), new UserDTO(secondUser)];
+/**
+ * P3 : le contrat, lu par les autres contextes sans ouvrir ce fichier
+ * Returns the organization with the given id.
+ * isRestricted: the organization manages its students, or imports its learners.
+ *
+ * @throws {NotFoundError} if the organization does not exist
+ */
+// P7 : un seul paramètre, l'id ; la réponse ne dépend pas de l'appelant
+export const getOrganization = async (id: OrganizationId): Promise<OrganizationDTO> => {
+  const organization = await usecases.getOrganizationById({ organizationId: id }); // P2
 
-  const users = await getActiveByUserIds({ userIds: [1, 2] });
+  // P1 : on construit le DTO, on ne renvoie pas le modèle
+  return new OrganizationDTO({
+    id: organization.id,
+    name: organization.name,
+    type: organization.type,
+    isRestricted: organization.isRestricted, // P4 : calculé par le domaine
+    isArchived: organization.isArchived,
+  });
+};
+```
 
-  expect(users).to.deep.equal(expectedUsers);
+```ts
+// organizational-entities/domain/models/organization/Organization.ts — extrait : la règle de isRestricted
+// P4 : la règle vit dans le domaine, le DTO en reçoit seulement le résultat
+get isRestricted(): boolean {
+  return this.#isManagingStudents || this.#features.some((feature) => feature.featureName === 'LEARNER_IMPORT');
+}
+```
+
+```ts
+// prescription/campaign/infrastructure/repositories/organization-repository.ts — chez le consommateur
+import type { OrganizationId } from '../../../../shared/domain/Id.js';
+import * as organizationApi from '../../../../organizational-entities/application/api/organization-api.js';
+import { CampaignOrganization } from '../../domain/models/CampaignOrganization.js';
+
+// l'Anticorruption Layer : le DTO s'arrête ici, le domaine de prescription reçoit son propre objet
+export const get = async (organizationId: OrganizationId): Promise<CampaignOrganization> => {
+  const organization = await organizationApi.getOrganization(organizationId);
+
+  return new CampaignOrganization({
+    id: organization.id,
+    name: organization.name,
+    type: organization.type,
+    isRestricted: organization.isRestricted,
+    isArchived: organization.isArchived,
+  });
+};
+```
+
+## Comment tester
+
+On teste l'API avec un test unitaire. Le usecase est substitué par un stub : le test ne vérifie que la
+traduction du modèle vers le DTO. Le test couvre :
+
+- la forme du DTO : seulement les champs du contrat, avec les bonnes valeurs. Exemple :
+  `returns only the contract fields` ;
+- chaque champ calculé par le domaine, recopié dans le DTO. Exemples :
+  `marks an organization that imports its learners as restricted`, `marks an archived organization`.
+
+Le test ne rejoue pas la règle du domaine. S'il faut beaucoup de données métier pour le faire passer,
+l'API fait plus que traduire.
+
+Le repository du consommateur se teste à part, chez le consommateur, avec l'API substituée. Exemple :
+`translates the organization into a campaign organization`.
+
+Le test unitaire de l'[exemple complet](#exemple-complet) :
+
+```ts
+// tests/organizational-entities/unit/application/api/organization-api_test.ts
+describe('Unit | Organizational Entities | Application | API | organization-api', function () {
+  const buildOrganization = (props: Partial<OrganizationProps<OrganizationId>> = {}) =>
+    new Organization({
+      id: 1 as OrganizationId,
+      name: 'Lycée Victor Hugo',
+      type: 'SCO',
+      createdBy: 2 as UserId,
+      createdAt: new Date('2026-01-01'),
+      updatedAt: new Date('2026-01-01'),
+      archivedAt: null,
+      isManagingStudents: false,
+      features: [],
+      ...props,
+    });
+
+  const stubUsecase = (organization: Organization) =>
+    sinon.stub(usecases, 'getOrganizationById').withArgs({ organizationId: 1 }).resolves(organization);
+
+  describe('#getOrganization', function () {
+    it('returns only the contract fields', async function () {
+      stubUsecase(buildOrganization());
+
+      const organization = await organizationApi.getOrganization(1 as OrganizationId);
+
+      expect(organization).to.be.instanceOf(OrganizationDTO);
+      expect({ ...organization }).to.deep.equal({
+        id: 1,
+        name: 'Lycée Victor Hugo',
+        type: 'SCO',
+        isRestricted: false,
+        isArchived: false,
+      });
+    });
+
+    it('marks an organization that imports its learners as restricted', async function () {
+      const learnerImport = new OrganizationFeature({
+        featureName: 'LEARNER_IMPORT',
+        params: null,
+        enabledAt: new Date('2026-01-01'),
+      });
+      stubUsecase(buildOrganization({ features: [learnerImport] }));
+
+      const organization = await organizationApi.getOrganization(1 as OrganizationId);
+
+      expect(organization.isRestricted).to.be.true;
+    });
+
+    it('marks an archived organization', async function () {
+      stubUsecase(buildOrganization({ archivedAt: new Date('2026-01-02') }));
+
+      const organization = await organizationApi.getOrganization(1 as OrganizationId);
+
+      expect(organization.isArchived).to.be.true;
+    });
+  });
 });
 ```
 
-**Code.** L'API : [`users-api.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/identity-access-management/application/api/users-api.js#L31-L43), imports aux lignes 1 et 2. Le DTO : [`UserDTO.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/identity-access-management/application/api/models/UserDTO.js#L1-L7). Le test : [`users-api.test.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/identity-access-management/unit/application/api/users-api.test.js#L10-L24), sans les commentaires `given` / `when` / `then`.
-
-Côté consommateur, l'API est injectée dans un repository du contexte, qui la traduit : voir l'exemple
-complet de `../repository/README.md`.
-
----
-
-## Tests attendus
-
-| Objet | Type de test | Ce qu'on vérifie |
-| --- | --- | --- |
-| Fonction d'API interne | **unitaire**, usecase substitué | uniquement le mapping du modèle vers le DTO |
-| DTO | **unitaire pur** | la forme produite, les renommages, les mises en forme |
-| Contrat vu du consommateur | **unitaire** côté consommateur, API substituée | le mapping du DTO vers son vocabulaire local. Voir `../repository/README.md` |
-
-L'existence du fichier de test se vérifie en comparant les noms. Moyens et limites dans
-[`../repository/outillage.md`](../repository/outillage.md#tests-attendus--par-le-même-script).
-
-Le test d'une API interne ne doit **pas** rejouer la logique du usecase. Il vérifie la traduction, et
-rien d'autre. S'il faut des fixtures métier pour faire passer ce test, `P1` ou `P2` est violé.
-
-Un indice de diagnostic, avec sa limite. Une API dont le test unitaire n'a rien à vérifier ne traduit
-rien, donc elle expose probablement le modèle du domaine. Limite : une fonction qui renvoie un
-scalaire ou rien n'a pas de traduction à tester, comme dans les
-[exceptions légitimes](#exceptions-légitimes).
-
----
-
-## Checklist de revue
-
-Ordonnée par ROI décroissant. Le statut de chaque ligne vient du moyen de vérification décrit dans
-[`outillage.md`](outillage.md) :
-
-- `[auto]` : la ligne disparaît dès que la règle ou le script correspondant existe ;
-- `[partiel]` : la ligne reste, réduite à ce que la règle ne couvre pas ;
-- `[humain]` : la ligne reste en entier, aucun moyen déterministe n'est connu.
+## Checklist de revue de code
 
 ```
-[ ] [partiel] P1  Aucun return ne rend directement un modèle du domaine
-[ ] [auto]    P2  Chaque fonction passe par un usecase, jamais par un repository
-[ ] [humain]  P6  Aucun renommage ni retrait sans avoir listé les contextes consommateurs
-[ ] [humain]  P9  Chaque champ du DTO est lu par au moins un contexte consommateur
-[ ] [partiel] P3  Chaque fonction exportée est documentée ; le fichier API.md régénéré est identique à celui du dépôt
-[ ] [auto]    P8  Aucun import d'un autre contexte : ni repository, ni API tierce
-[ ] [humain]  P7  Aucun paramètre ni branche qui dépend de l'identité de l'appelant
-[ ] [humain]  P4  Le DTO ne porte aucune règle métier, seulement de la mise en forme
-[ ] [auto]    P5  Le DTO est dans application/api/models/
-[ ] [auto]    Un fichier de test existe, et son nom correspond à celui de l'API
-[ ] [humain]  Test unitaire avec usecase substitué, portant sur le mapping seul
+Que renvoie l'API ?
+[ ] P1  Chaque fonction renvoie un DTO construit, jamais un modèle du domaine
+[ ] P9  Chaque champ du DTO est lu par au moins un consommateur
+[ ] P4  Le DTO recopie ou met en forme ; il ne décide rien
+[ ] P5  Le DTO est dans application/api/models/
+
+Par où passe-t-elle ?
+[ ] P2  Chaque fonction appelle un usecase par l'index des usecases ; aucun repository
+[ ] P8  Aucun import d'un autre contexte : ni repository, ni API
+
+Le contrat tient-il ?
+[ ] P3  Chaque fonction exportée dit ce qu'elle prend, renvoie et lève
+[ ] P6  Aucun renommage ni retrait sans la liste des consommateurs
+[ ] P7  Aucun paramètre ni branche selon l'appelant
+
+Chez le consommateur
+[ ] Le consommateur lit l'API par un repository à lui, qui traduit le DTO
+
+Tests
+[ ] Un test unitaire de l'API, usecase substitué, qui vérifie seulement la traduction
+[ ] Le repository du consommateur a son test, API substituée
 ```
 
-À terme, sept lignes restent : deux `[partiel]` et cinq `[humain]`. La ligne de `P9` est la plus
-importante : aucun outil ne voit un DTO qui recopie le modèle.
+## Référence des règles
 
----
+### P1. Un DTO, jamais un modèle du domaine
 
-## Sources
+**La règle.** Chaque fonction de l'API construit un DTO et le renvoie. Elle ne renvoie jamais le
+modèle du domaine que lui donne le usecase. Le DTO n'importe pas non plus les types du domaine : il a
+les siens.
 
-L'argumentation et la bibliographie sont dans [`explication.md`](explication.md#sources) et
-`../references-ddd.md`. Les ADR sont dans `docs/adr/`.
+**Bon exemple.**
 
-| Invariant | Origine |
-| --- | --- |
-| La couche elle-même | ADR 55, « Communication "séquentielle" entre les contextes fonctionnels » |
-| **P1** un DTO, jamais le modèle | Evans, *DDD* : Published Language et Open Host Service. ADR 55, qui accepte la duplication des modèles |
-| **P2** passe par un usecase | ADR 20, « Est-il obligatoire d'implémenter un use-case dans toutes les situations ? ». Martin, *Clean Architecture* |
-| **P3** contrat documenté | Evans, *DDD* : Published Language. La documentation liée à l'ADR 55, hors du dépôt |
-| **P4** DTO sans comportement | Evans, *DDD* : Value Object. Énoncés dans `../objet-valeur/README.md` |
-| **P5** emplacement du DTO | la documentation liée à l'ADR 55, hors du dépôt |
-| **P6** stabilité du contrat | Evans, *DDD*. Vernon, *IDDD* |
-| **P7** indépendance de l'appelant | aucune source : déduction de l'Open Host Service |
-| **P8** pas de transit | aucune source : déduction de la Context Map d'Evans |
-| **P9** seulement ce qui est utilisé | Robinson, « Consumer-Driven Contracts ». Décision d'équipe, sans ADR |
+```ts
+const organization = await usecases.getOrganizationById({ organizationId: id });
+
+return new OrganizationDTO({
+  id: organization.id,
+  name: organization.name,
+  type: organization.type,
+  isRestricted: organization.isRestricted,
+  isArchived: organization.isArchived,
+});
+```
+
+**Mauvais exemple.**
+
+```ts
+export const getOrganization = async (id: OrganizationId): Promise<Organization> => {
+  return usecases.getOrganizationById({ organizationId: id }); // le modèle du domaine sort tel quel
+};
+```
+
+**Ce que ça apporte.** organizational-entities peut changer `Organization` sans prévenir personne,
+tant que l'API sait encore remplir les cinq champs du DTO.
+
+**Sans cette règle.** On renomme le getter `isArchived` de `Organization`. Le repository de
+prescription lisait ce getter : il ne compile plus, et une autre équipe doit modifier son code pour un
+changement interne à organizational-entities.
+
+**À savoir.**
+
+- Envelopper le modèle dans un DTO qui reprend tous ses champs respecte la lettre de P1, mais pas son
+  but : la forme du modèle reste le contrat. [P9](#p9-seulement-les-champs-lus) dit quels champs
+  garder.
+- Un type du domaine dans le DTO, comme `OrganizationType`, fait passer chaque changement de ce type
+  dans le contrat. Le DTO déclare donc `OrganizationTypeDTO`.
+
+**Exceptions.**
+
+- Une fonction dont le usecase renvoie un nombre, un booléen ou rien peut renvoyer ce résultat tel
+  quel : aucun modèle ne sort.
+- Une erreur définie dans `application/api/errors.ts` fait partie du contrat, et peut être levée.
+- Une enveloppe de pagination autour d'une liste de DTO est permise.
+
+### P2. Passer par un usecase
+
+**La règle.** L'API est une porte d'entrée, comme un contrôleur. Chaque fonction appelle un usecase,
+jamais un repository. Elle appelle le usecase par l'index des usecases, `domain/usecases/index.js`,
+qui lui injecte ses dépendances.
+
+**Bon exemple.**
+
+```ts
+import { usecases } from '../../domain/usecases/index.js';
+
+const organization = await usecases.getOrganizationById({ organizationId: id });
+```
+
+**Mauvais exemple.**
+
+```ts
+// l'API lit le repository : elle passe à côté du usecase
+import { organizationRepository } from '../../infrastructure/repositories/organization-repository.js';
+
+const organization = await organizationRepository.get(id);
+```
+
+```ts
+// l'API importe le fichier du usecase : elle doit lui passer elle-même le repository
+import { getOrganizationById } from '../../domain/usecases/get-organization-by-id.js';
+import { organizationRepository } from '../../infrastructure/repositories/organization-repository.js';
+
+const organization = await getOrganizationById({ organizationId: id, organizationRepository });
+```
+
+**Ce que ça apporte.** Une règle de lecture ajoutée au usecase vaut pour tous les appelants : la route
+HTTP comme les autres contextes.
+
+**Sans cette règle.** Un jour, `getOrganizationById` lève `NotFoundError` pour une organisation
+supprimée. L'API qui lit le repository continue de renvoyer l'organisation supprimée aux autres
+contextes.
+
+**À savoir.** Importer le fichier du usecase pour casser un import cyclique ne justifie pas l'écart :
+l'API passe toujours par l'index.
+
+**Exceptions.** Aucune pour les repositories de `shared` : l'API ne les appelle pas non plus.
+
+### P3. Un contrat documenté
+
+**La règle.** Chaque fonction exportée dit ce qu'elle prend, ce qu'elle renvoie et ce qu'elle lève.
+Les types TypeScript disent la forme. Le commentaire dit le reste : le sens d'un champ calculé et les
+erreurs levées.
+
+**Bon exemple.**
+
+```ts
+/**
+ * Returns the organization with the given id.
+ * isRestricted: the organization manages its students, or imports its learners.
+ *
+ * @throws {NotFoundError} if the organization does not exist
+ */
+export const getOrganization = async (id: OrganizationId): Promise<OrganizationDTO> => {
+```
+
+**Mauvais exemple.**
+
+```ts
+// rien ne dit ce que veut dire isRestricted, ni ce qui se passe si l'organisation n'existe pas
+export const getOrganization = async (id) => {
+```
+
+**Ce que ça apporte.** Le consommateur sait quoi appeler et quoi attendre sans lire le code
+d'organizational-entities.
+
+**Sans cette règle.** Le consommateur ne sait pas que `getOrganization` lève `NotFoundError`. Il écrit
+`if (!organization)`, qui ne s'exécute jamais, et l'erreur remonte jusqu'à l'utilisateur.
+
+**À savoir.** La documentation de toutes les fonctions d'un contexte se génère dans un fichier `API.md`
+à la racine du contexte, avec `scripts/generate-api-documentation.js`. Le fichier généré est committé.
+
+**Exceptions.** Renvoyer `null` quand rien n'est trouvé est permis, si le commentaire le dit.
+
+### P4. Aucune règle dans le DTO
+
+**La règle.** Le DTO recopie des valeurs et peut les mettre en forme. Il ne décide rien : une règle du
+métier vit dans le domaine, et le DTO en reçoit le résultat. Le DTO est un
+[Value Object](../objet-valeur/README.md) sans règle : il ne change plus après sa création.
+
+**Bon exemple.**
+
+```ts
+// dans le domaine
+get isRestricted(): boolean {
+  return this.#isManagingStudents || this.#features.some((feature) => feature.featureName === 'LEARNER_IMPORT');
+}
+
+// dans l'API
+isRestricted: organization.isRestricted,
+```
+
+**Mauvais exemple.**
+
+```ts
+export class OrganizationDTO {
+  constructor(organization: Organization) {
+    // la règle du métier est réécrite dans le DTO
+    this.isRestricted =
+      organization.isManagingStudents ||
+      organization.features.some((feature) => feature.featureName === 'LEARNER_IMPORT');
+  }
+}
+```
+
+**Ce que ça apporte.** La règle de `isRestricted` existe à un seul endroit, dans `Organization`.
+
+**Sans cette règle.** Une nouvelle fonctionnalité rend aussi une organisation restreinte. On met à
+jour `Organization`, et on oublie le DTO. La route HTTP et prescription ne voient plus la même
+organisation.
+
+**Exceptions.** Une mise en forme ne décide rien, elle est permise :
+
+- renommer un champ pour le vocabulaire du contrat ;
+- aplatir une structure ;
+- composer un libellé à partir de plusieurs champs.
+
+### P5. Le DTO dans `models/`
+
+**La règle.** Le DTO d'une API interne se range dans `application/api/models/`. Pas à la racine de
+`application/api/`, ni dans un autre sous-dossier.
+
+**Bon exemple.**
+
+```
+organizational-entities/application/api/
+├── organization-api.ts
+└── models/
+    └── OrganizationDTO.ts
+```
+
+**Mauvais exemple.**
+
+```
+organizational-entities/application/api/
+├── organization-api.ts
+├── OrganizationDTO.ts                  ← à la racine de api/
+└── read-models/
+    └── OrganizationForCampaign.ts      ← un DTO rangé sous un autre nom
+```
+
+**Ce que ça apporte.** On trouve le contrat d'un contexte au même endroit dans tous les contextes, et
+un script peut vérifier l'emplacement.
+
+**Sans cette règle.** Un DTO rangé dans `read-models/` se confond avec un
+[read-model](../read-model/README.md) du domaine. On le modifie pour un écran interne, et on change le
+contrat sans le savoir.
+
+### P6. Un contrat stable
+
+**La règle.** Un contrat s'étend, il ne se casse pas. Ajouter un champ ou une fonction est permis.
+Renommer ou retirer demande de lister les consommateurs et de prévoir le changement avec eux. Changer
+le sens d'un champ existant est interdit : on ajoute un autre champ.
+
+**Bon exemple.**
+
+```ts
+export class OrganizationDTO {
+  readonly id: OrganizationId;
+  readonly name: string;
+  readonly type: OrganizationTypeDTO;
+  readonly isRestricted: boolean;
+  readonly isArchived: boolean;
+}
+```
+
+**Mauvais exemple.**
+
+```ts
+export class OrganizationDTO {
+  readonly archived: boolean; // isArchived renommé : chaque consommateur qui le lit casse
+}
+```
+
+**Ce que ça apporte.** organizational-entities peut publier une nouvelle version de son API sans
+casser le code des autres équipes.
+
+**Sans cette règle.** On renomme `isArchived` en `archived`. La CI de prescription casse sur un
+changement fait dans organizational-entities. Pire : si on change le sens de `isRestricted`, rien ne
+casse, et prescription prend de mauvaises décisions sans erreur.
+
+**À savoir.** La liste des consommateurs se connaît : ce sont les contextes qui déclarent dépendre de
+celui-ci. Un renommage commence par cette liste.
+
+### P7. Même réponse pour tous les appelants
+
+**La règle.** Une fonction renvoie la même chose quel que soit le contexte qui l'appelle. Pas de
+paramètre « pour qui », pas de branche selon l'appelant. Si deux consommateurs ont besoin de deux
+réponses différentes, on écrit deux fonctions, chacune avec son nom et son DTO.
+
+**Bon exemple.**
+
+```ts
+export const getOrganization = async (id: OrganizationId): Promise<OrganizationDTO> => {
+```
+
+**Mauvais exemple.**
+
+```ts
+// la réponse dépend de l'appelant
+export const getOrganization = async (id: OrganizationId, { forAdmin }: { forAdmin: boolean }) => {
+  const organization = await usecases.getOrganizationById({ organizationId: id });
+  return forAdmin ? toOrganizationForAdminDTO(organization) : toOrganizationDTO(organization);
+};
+```
+
+**Ce que ça apporte.** Chaque fonction a un seul contrat. organizational-entities la change sans
+vérifier qui l'appelle avec quel paramètre.
+
+**Sans cette règle.** Pour ajouter un champ à la réponse admin, on modifie la branche `forAdmin`. Un
+autre contexte passait `forAdmin: true` par erreur, et reçoit soudain une autre réponse.
+
+**Exceptions.** Une fonction utilisée par un seul consommateur est permise : un contrat commence
+souvent ainsi. Son nom dit le besoin, pas l'écran du consommateur.
+
+### P8. Rien d'un autre contexte
+
+**La règle.** Une API interne sert son propre contexte. Elle n'importe ni repository, ni API, ni
+usecase d'un autre contexte pour composer sa réponse. Si un consommateur a besoin de données de deux
+contextes, il appelle les deux APIs, et assemble les réponses dans un de ses usecases.
+
+**Bon exemple.**
+
+```ts
+import { usecases } from '../../domain/usecases/index.js';
+import { OrganizationDTO } from './models/OrganizationDTO.js';
+```
+
+**Mauvais exemple.**
+
+```ts
+// l'API lit les membres dans team pour ajouter memberCount au DTO
+import { membershipRepository } from '../../../team/infrastructure/repositories/membership-repository.js';
+```
+
+**Ce que ça apporte.** Les dépendances déclarées entre contextes sont les vraies. Prescription, qui
+déclare dépendre d'organizational-entities, ne dépend de rien d'autre par cette API.
+
+**Sans cette règle.** team change son repository des membres. `getOrganization` casse, et prescription
+avec elle. Rien dans les dépendances de prescription ne disait qu'elle dépendait de team.
+
+### P9. Seulement les champs lus
+
+**La règle.** Un champ figure dans le DTO parce qu'au moins un consommateur le lit. Un champ qu'aucun
+consommateur ne lit n'y figure pas, même s'il existe sur le modèle.
+
+**Bon exemple.**
+
+```ts
+export class OrganizationDTO {
+  readonly id: OrganizationId;
+  readonly name: string;
+  readonly type: OrganizationTypeDTO;
+  readonly isRestricted: boolean;
+  readonly isArchived: boolean;
+}
+```
+
+**Mauvais exemple.**
+
+```ts
+export class OrganizationDTO {
+  readonly id: OrganizationId;
+  readonly name: string;
+  readonly type: OrganizationTypeDTO;
+  readonly isRestricted: boolean;
+  readonly isArchived: boolean;
+  // repris parce qu'ils sont sur le modèle, aucun consommateur ne les lit
+  readonly logoUrl: string;
+  readonly isManagingStudents: boolean;
+  readonly createdBy: UserId;
+}
+```
+
+**Ce que ça apporte.** Le DTO est la liste exacte de ce qu'organizational-entities s'engage à
+maintenir. Tout le reste de `Organization` change sans coordination.
+
+**Sans cette règle.** Le DTO expose aussi `isManagingStudents`. Un nouveau consommateur le lit pour
+savoir si l'organisation est restreinte, et oublie `LEARNER_IMPORT`. Une organisation qui importe ses
+élèves passe pour non restreinte.
+
+**À savoir.** Aucun outil ne voit un DTO qui recopie le modèle : ni le typage, ni une règle de lint.
+C'est la ligne de la checklist à relire avec le plus de soin.

@@ -16,7 +16,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | [E4](#e4-aucun-effet-de-bord-extérieur) | Aucun effet de bord extérieur | pas d'import d'infrastructure ; la date du jour est passée en paramètre |
 | [E5](#e5-rien-pour-la-base-de-données) | Rien pour la base de données | pas de `toDTO()` ni de `fromDTO()`, c'est le travail du repository |
 | [E6](#e6-pas-de-setter) | Pas de setter | chaque changement a sa méthode métier : `changeRole()`, pas `set role()` |
-| [E7](#e7-les-autres-aggregates-par-identifiant) | Les autres Aggregates par identifiant | `organizationId: OrganizationId`, pas `organization: Organization` |
+| [E7](#e7-pas-dobjet-dun-autre-aggregate) | Pas d'objet d'un autre Aggregate | `organizationId: OrganizationId`, pas `organization: Organization` |
 | [E8](#e8-un-nom-du-métier) | Un nom du métier | un fichier par Entity, en PascalCase, nommé avec le mot du métier |
 | [E9](#e9-seule-une-aggregate-root-émet-des-événements) | Seule une Aggregate Root émet des événements | `emitDomainEvent()` est protégé dans `AggregateRoot` |
 
@@ -33,6 +33,7 @@ import { AggregateRoot } from '../../../shared/domain/models/AggregateRoot.js';
 import { InvalidMembershipRoleError, MembershipAlreadyDisabledError } from '../errors.js';
 import { MembershipDisabled } from '../events/MembershipDisabled.js';
 
+// as const plutôt qu'un enum : la configuration TypeScript de Pix (erasableSyntaxOnly) interdit les enum
 export const MembershipRoles = ['ADMIN', 'MEMBER'] as const;
 export type MembershipRole = (typeof MembershipRoles)[number];
 
@@ -41,7 +42,6 @@ type MembershipProps<Id> = {
   organizationId: OrganizationId;
   userId: UserId;
   role: MembershipRole;
-  updatedAt: Date;
   disabledAt: Date | null;
 };
 
@@ -53,32 +53,30 @@ export class Membership<Id extends MembershipId | null = MembershipId> extends A
   readonly organizationId: OrganizationId; // E7 : un autre Aggregate, gardé par son id
   readonly userId: UserId; // E7 : un autre Aggregate, gardé par son id
   #role: MembershipRole; // E6 : privé, seul changeRole() le modifie
-  #updatedAt: Date;
-  #disabledAt: Date | null;
+  #disabledAt: Date | null; // une date du métier : la date de désactivation
 
   // E3 : refuse une adhésion invalide
-  constructor({ id, organizationId, userId, role, updatedAt, disabledAt }: MembershipProps<Id>) {
+  constructor({ id, organizationId, userId, role, disabledAt }: MembershipProps<Id>) {
     super();
     assertValidRole(role);
     this.id = id;
     this.organizationId = organizationId;
     this.userId = userId;
     this.#role = role;
-    this.#updatedAt = updatedAt;
     this.#disabledAt = disabledAt;
   }
 
-  // une adhésion neuve, sans id ; E4 : la date arrive en paramètre
-  static create({ organizationId, userId, role, now }: { organizationId: OrganizationId; userId: UserId; role: MembershipRole; now: Date }): Membership<null> {
-    return new Membership({ id: null, organizationId, userId, role, updatedAt: now, disabledAt: null });
+  // une adhésion neuve, sans id
+  static create({ organizationId, userId, role }: { organizationId: OrganizationId; userId: UserId; role: MembershipRole }): Membership<null> {
+    return new Membership({ id: null, organizationId, userId, role, disabledAt: null });
   }
 
   get role(): MembershipRole {
     return this.#role;
   }
 
-  get updatedAt(): Date {
-    return this.#updatedAt;
+  get disabledAt(): Date | null {
+    return this.#disabledAt;
   }
 
   get isDisabled(): boolean {
@@ -91,17 +89,16 @@ export class Membership<Id extends MembershipId | null = MembershipId> extends A
   }
 
   // E6 : un nom métier ; E3 : tout vérifier avant de modifier
-  changeRole(role: MembershipRole, now: Date): void {
+  changeRole(role: MembershipRole): void {
     if (this.isDisabled) throw new MembershipAlreadyDisabledError();
     assertValidRole(role);
     this.#role = role;
-    this.#updatedAt = now;
   }
 
+  // E4 : la date de désactivation arrive en paramètre
   disable(now: Date): void {
     if (this.isDisabled) throw new MembershipAlreadyDisabledError();
     this.#disabledAt = now;
-    this.#updatedAt = now;
     this.emitDomainEvent(new MembershipDisabled({ membershipId: this.id, disabledAt: now })); // E9
   }
 
@@ -137,7 +134,6 @@ describe('Unit | Team | Domain | Models | Membership', function () {
       organizationId: 2 as OrganizationId,
       userId: 3 as UserId,
       role: 'MEMBER',
-      updatedAt: new Date('2026-01-01'),
       disabledAt: null,
       ...props,
     });
@@ -148,7 +144,7 @@ describe('Unit | Team | Domain | Models | Membership', function () {
 
   describe('.create', function () {
     it('creates a new membership, without id', function () {
-      const membership = Membership.create({ organizationId: 2 as OrganizationId, userId: 3 as UserId, role: 'ADMIN', now });
+      const membership = Membership.create({ organizationId: 2 as OrganizationId, userId: 3 as UserId, role: 'ADMIN' });
 
       expect(membership.id).to.be.null;
       expect(membership.role).to.equal('ADMIN');
@@ -159,16 +155,15 @@ describe('Unit | Team | Domain | Models | Membership', function () {
     it('changes the role', function () {
       const membership = buildMembership();
 
-      membership.changeRole('ADMIN', now);
+      membership.changeRole('ADMIN');
 
       expect(membership.role).to.equal('ADMIN');
-      expect(membership.updatedAt).to.deep.equal(now);
     });
 
     it('refuses an unknown role, and changes nothing', function () {
       const membership = buildMembership();
 
-      expect(() => membership.changeRole('OWNER' as MembershipRole, now)).to.throw(InvalidMembershipRoleError);
+      expect(() => membership.changeRole('OWNER' as MembershipRole)).to.throw(InvalidMembershipRoleError);
       expect(membership.role).to.equal('MEMBER');
     });
   });
@@ -186,7 +181,7 @@ describe('Unit | Team | Domain | Models | Membership', function () {
       const membership = buildMembership({ disabledAt: new Date('2026-01-01') });
 
       expect(() => membership.disable(now)).to.throw(MembershipAlreadyDisabledError);
-      expect(membership.updatedAt).to.deep.equal(new Date('2026-01-01'));
+      expect(membership.isDisabled).to.be.true;
     });
 
     it('emits a MembershipDisabled event', function () {
@@ -266,15 +261,17 @@ enregistrée.
 
 ```ts
 interface MembershipRepository {
-  add(membership: Membership<null>): Promise<Membership>; // la base crée l'id
-  get(id: MembershipId): Promise<Membership>;
-  update(membership: Membership): Promise<void>;
+  add({ membership }: { membership: Membership<null> }): Promise<Membership>; // la base crée l'id
+  get({ id }: { id: MembershipId }): Promise<Membership>;
+  update({ membership }: { membership: Membership }): Promise<void>;
 }
 ```
 
 Chaque usecase dit quelle forme il attend :
 
 ```ts
+// usecases raccourcis : la transaction est montrée dans la fiche usecase
+
 // création : le usecase reçoit une Entity neuve
 const createMembership = async ({
   membership,
@@ -283,7 +280,7 @@ const createMembership = async ({
   membership: Membership<null>;
   membershipRepository: MembershipRepository;
 }): Promise<Membership> => {
-  return membershipRepository.add(membership);
+  return membershipRepository.add({ membership });
 };
 
 // modification : le usecase reçoit l'id, charge l'Entity puis appelle sa méthode
@@ -296,9 +293,9 @@ const disableMembership = async ({
   membershipRepository: MembershipRepository;
   clock: Clock;
 }): Promise<Membership> => {
-  const membership = await membershipRepository.get(membershipId);
+  const membership = await membershipRepository.get({ id: membershipId });
   membership.disable(clock.now());
-  await membershipRepository.update(membership);
+  await membershipRepository.update({ membership });
   return membership;
 };
 ```
@@ -342,11 +339,11 @@ domaine et ne modifie rien.
 **Bon exemple.**
 
 ```ts
-changeRole(role: MembershipRole, now: Date): void {
+// Membership
+changeRole(role: MembershipRole): void {
   if (this.isDisabled) throw new MembershipAlreadyDisabledError(); // vérifier d'abord
   assertValidRole(role); // vérifier d'abord
   this.#role = role; // modifier ensuite
-  this.#updatedAt = now;
 }
 ```
 
@@ -374,6 +371,13 @@ enregistre une adhésion avec le rôle `OWNER`, que le reste du code ne connaît
   vide. Ça compile, et un test qui ne vérifie pas ce cas ne voit rien.
 - Si une méthode modifie plusieurs champs, elle vérifie tout avant de modifier le premier. Sinon, une
   erreur en cours de route laisse l'Entity à moitié modifiée.
+- Pourquoi vérifier aussi au constructeur, et pas seulement dans les méthodes : le constructeur sert
+  pour une adhésion créée depuis un formulaire, via le sérialiseur, et pour une adhésion relue en
+  base. Une donnée invalide en base lève alors une erreur au chargement, au lieu de circuler sans
+  bruit.
+- Pourquoi lever une erreur dans l'Entity, et pas laisser le usecase décider : la règle appartient à
+  l'Entity, et plusieurs usecases l'utilisent. Si chaque usecase vérifiait, l'un d'eux finirait par
+  oublier. Un usecase peut toujours attraper une erreur du domaine nommée pour décider quoi faire.
 
 ### E4. Aucun effet de bord extérieur
 
@@ -385,10 +389,10 @@ charge et la passe en paramètre.
 **Bon exemple.**
 
 ```ts
+// Membership
 disable(now: Date): void {
   if (this.isDisabled) throw new MembershipAlreadyDisabledError();
   this.#disabledAt = now; // la date arrive en paramètre
-  this.#updatedAt = now;
 }
 ```
 
@@ -398,7 +402,6 @@ disable(now: Date): void {
 disable(): void {
   if (this.isDisabled) throw new MembershipAlreadyDisabledError();
   this.#disabledAt = new Date(); // l'Entity lit l'heure
-  this.#updatedAt = new Date();
 }
 ```
 
@@ -426,7 +429,7 @@ const toRow = (membership: Membership<MembershipId | null>) => ({
   organizationId: membership.organizationId,
   userId: membership.userId,
   organizationRole: membership.role,
-  updatedAt: membership.updatedAt,
+  disabledAt: membership.disabledAt,
 });
 ```
 
@@ -459,7 +462,7 @@ données ne touche que le repository.
 ```ts
 #role: MembershipRole; // privé
 
-changeRole(role: MembershipRole, now: Date): void {
+changeRole(role: MembershipRole): void {
   …
 }
 ```
@@ -487,7 +490,7 @@ constructeur.
 **Exceptions.** Une Entity sans méthode de modification est permise : certaines Entities ne changent
 jamais.
 
-### E7. Les autres Aggregates par identifiant
+### E7. Pas d'objet d'un autre Aggregate
 
 **La règle.** Une Entity ne garde pas un objet d'un autre Aggregate, seulement son identifiant. Si une
 règle a besoin des données de cet objet, la méthode les reçoit en paramètre.
@@ -540,7 +543,12 @@ Entity du même nom, avec un sens différent. Le chemin de l'import montre de qu
 **La règle.** Un événement du domaine annonce qu'un changement a eu lieu, par exemple « l'adhésion est
 désactivée ». Seule une Aggregate Root émet des événements, depuis ses propres méthodes. Pour
 l'imposer, `emitDomainEvent()` est protégée dans la classe `AggregateRoot` : on ne peut pas l'appeler
-de l'extérieur. Une adhésion est seule dans son Aggregate : elle en est donc la racine.
+de l'extérieur.
+
+Une Aggregate Root est l'Entity par laquelle on modifie un groupe d'objets, expliquée dans la fiche
+[Aggregate Root](../racine-agregat/README.md). Une adhésion est seule dans son groupe : elle en est
+donc la racine. Cette règle ne recoupe pas E4 : un événement est un objet du domaine, gardé dans
+l'Entity, pas un appel vers l'extérieur.
 
 **Bon exemple.**
 
@@ -563,10 +571,10 @@ export abstract class AggregateRoot {
 ```
 
 ```ts
+// Membership extends AggregateRoot
 disable(now: Date): void {
   if (this.isDisabled) throw new MembershipAlreadyDisabledError();
   this.#disabledAt = now;
-  this.#updatedAt = now;
   this.emitDomainEvent(new MembershipDisabled({ membershipId: this.id, disabledAt: now }));
 }
 ```

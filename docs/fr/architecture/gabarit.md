@@ -207,39 +207,57 @@ premières fiches.
 3. Les décisions de l'équipe listées dans `corpus-index.md` sont respectées.
 4. La fiche ne contredit aucune autre fiche : même fil, mêmes noms, mêmes signatures, mêmes règles.
 5. La fiche décrit l'idéal : aucun état du code, aucune date, aucune citation d'ADR.
+6. Le nom court d'une règle se comprend sans lire la règle : il dit ce qu'il faut faire ou ne pas
+   faire.
+7. Deux règles ne se recouvrent pas. Si deux règles se ressemblent, chacune dit en quoi elle diffère
+   de l'autre.
+8. Une règle qui interdit explique le problème qu'elle évite, cas par cas. Si elle couvre plusieurs
+   situations, la fiche les distingue.
 
 **Les exemples**
 
-6. L'exemple complet couvre toutes les règles, avec un commentaire par règle.
-7. L'exemple complet et son test se lisent seuls : chaque type, chaque constante et chaque fonction
-   d'aide utilisés sont définis ou importés.
-8. Chaque bon exemple est un extrait identique de l'exemple complet. Chaque mauvais exemple montre le
-   même code, mal écrit.
-9. Le code est en TypeScript. Chaque permalien pointe vers un commit fixe, et ses lignes existent.
-10. Aucun lien ne pointe vers un fichier de Pix qui fait la faute montrée.
+9. L'exemple complet couvre toutes les règles, avec un commentaire par règle.
+10. L'exemple complet et son test se lisent seuls : chaque type, chaque constante et chaque fonction
+    d'aide utilisés sont définis ou importés.
+11. Chaque bon exemple est un extrait identique de l'exemple complet. Chaque mauvais exemple montre le
+    même code, mal écrit.
+12. Le code est en TypeScript. Chaque permalien pointe vers un commit fixe, et ses lignes existent.
+13. Aucun lien ne pointe vers un fichier de Pix qui fait la faute montrée.
+14. L'exemple illustre le concept de la fiche, et rien de plus. Il ne s'appuie pas sur un concept
+    d'une fiche suivante, ou il l'explique en une phrase.
+15. Chaque extrait de la référence se comprend seul : il rappelle la classe où il se trouve quand ce
+    n'est pas évident.
+16. Chaque choix de code qui surprend (une date en paramètre, `as const` plutôt qu'un `enum`) est
+    justifié dans un commentaire, ou retiré de l'exemple.
+17. La fiche prend position sur les débats connus de l'équipe, en justifiant, ou ses exemples évitent
+    d'avoir à trancher. Les débats eux-mêmes vont dans `corpus-index.md`.
 
 **La structure**
 
-11. Les sections suivent l'ordre du gabarit. Le titre de chaque règle reprend son nom court du
+18. Les sections suivent l'ordre du gabarit. Le titre de chaque règle reprend son nom court du
     tableau. La checklist est groupée par questions.
-12. Ni section de vocabulaire, ni question de tri, ni renvoi aux documents de travail, ni question
+19. Ni section de vocabulaire, ni question de tri, ni renvoi aux documents de travail, ni question
     ouverte.
 
 **La langue**
 
-13. Aucun mot de jugement vague (propre, clair, simple, sans risque, protéger, frontière, robuste) ni
+20. Aucun mot de jugement vague (propre, clair, simple, sans risque, protéger, frontière, robuste) ni
     image.
-14. Aucune paire de phrases symétriques, aucun slogan, aucun deux-points en cascade.
-15. Chaque terme qu'un junior ne connaît pas est expliqué en une phrase ou renvoie à sa fiche, à sa
+21. Aucune paire de phrases symétriques, aucun slogan, aucun deux-points en cascade.
+22. Chaque terme qu'un junior ne connaît pas est expliqué en une phrase ou renvoie à sa fiche, à sa
     première apparition.
+23. Le texte ne promet pas plus que ce que le code garantit : un titre ou une phrase n'affirme pas une
+    protection plus forte que celle du code.
+24. Chaque consigne dit qui fait quoi : le sujet de la phrase est la couche ou l'objet responsable
+    (« le usecase écrit le log »).
 
 **Les vérifications**
 
-16. Un lecteur junior, sans contexte, répond juste à toutes ses questions.
-17. Les constats du chasseur de « ton IA » sont appliqués, ou écartés pour une raison notée.
-18. Tous les liens et toutes les ancres du corpus mènent au bon endroit, et les blocs de code sont
+25. Un lecteur junior, sans contexte, répond juste à toutes ses questions.
+26. Les constats du chasseur de « ton IA » sont appliqués, ou écartés pour une raison notée.
+27. Tous les liens et toutes les ancres du corpus mènent au bon endroit, et les blocs de code sont
     fermés.
-19. Une personne de l'équipe a relu la fiche avant l'ouverture de la PR.
+28. Une personne de l'équipe a relu la fiche avant l'ouverture de la PR.
 
 ## Produire une fiche
 
