@@ -1,5 +1,7 @@
 # Pix Changelog
 
+## [5.520.1](https://github.com/1024pix/pix/compare/v5.520.0...v5.520.1) (2026-10-13)
+
 # [5.520.0](https://github.com/1024pix/pix/compare/v5.519.0...v5.520.0) (2026-10-13)
 
 ### :rocket: Amélioration
