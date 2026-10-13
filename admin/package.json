@@ -60,7 +60,7 @@
     "@warp-drive/json-api": "5.8.2",
     "@warp-drive/legacy": "5.8.2",
     "@warp-drive/utilities": "5.8.2",
-    "ember-auto-import": "2.12.0",
+    "ember-auto-import": "2.13.1",
     "ember-cli": "7.1.0",
     "ember-cli-app-version": "7.0.0",
     "ember-cli-babel": "8.2.0",
