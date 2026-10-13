@@ -165,14 +165,7 @@ export default class CertificationJoiner extends Component {
 
   <template>
     <section class="certification-joiner">
-      {{#unless @hideTitle}}
-        <h1 class="certification-joiner__title">{{t "pages.certification-joiner.first-title"}}</h1>
-      {{/unless}}
       <form {{on "submit" this.handleSubmit}}>
-        {{#unless @hideTitle}}
-          <p class="certification-joiner__mandatory">{{t "common.form.mandatory-all-fields"}}</p>
-        {{/unless}}
-
         <PixInput
           @id="certificationJoinerSessionId"
           @errorMessage={{this.sessionIdIsNotANumberMessage}}

@@ -63,7 +63,7 @@ export default class UserCertifications extends Component {
         @variant="certif"
       >
         <:content>
-          <CertificationJoiner @hideTitle={{true}} />
+          <CertificationJoiner />
         </:content>
       </PixModal>
     </section>

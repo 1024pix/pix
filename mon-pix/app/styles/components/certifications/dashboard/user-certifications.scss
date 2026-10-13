@@ -1,12 +1,14 @@
 @use 'pix-design-tokens/typography';
 
 .certification-dashboard-user-certifications {
+  padding-top: var(--pix-spacing-3x);
+
   &__title {
     @extend %pix-title-m;
 
     display: flex;
-    gap:var(--pix-spacing-2x);
-    align-items: center;
+    gap: var(--pix-spacing-2x);
+    align-items: end;
 
     img {
       width: 40px;

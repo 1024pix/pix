@@ -85,9 +85,9 @@
 .certification-dashboard-enrolment-clea {
   display: grid;
   grid-template-columns: 1fr auto;
+  gap: var(--pix-spacing-1x) var(--pix-spacing-2x);
   margin-bottom: var(--pix-spacing-6x);
   padding: var(--pix-spacing-4x) 5vw var(--pix-spacing-4x)  var(--pix-spacing-4x) ;
-  column-gap: var(--pix-spacing-2x);
 
   &--title {
     @extend %pix-title-xs;
@@ -109,5 +109,11 @@
     max-width: 120px;
     max-height: 120px;
     margin-right: 5%;
+
+    @include breakpoints.device-is('mobile') {
+      max-width: 100px;
+      max-height: 100px;
+      margin-right: 0;
+    }
   }
 }
