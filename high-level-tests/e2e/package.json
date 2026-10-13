@@ -17,7 +17,7 @@
     "cy:open": "npm run db:initialize && cypress open",
     "cy:open:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:open",
     "cy:run": "npm run db:initialize && cypress run --browser=chrome && exit",
-    "cy:run:ci:app": "SPEC=\"cypress/integration/pix-app/**/*.test.js,cypress/integration/pix-app/**/*.feature\" SPLIT_FILE=timings.json npx cypress run --browser=chrome --reporter junit --reporter-options 'mochaFile=/home/circleci/test-results/cypress.xml' --env split=true && exit",
+    "cy:run:ci:app": "SPEC=\"cypress/integration/pix-app/**/*.test.js,cypress/integration/pix-app/**/*.feature\" SPLIT_FILE=timings.json npx cypress run --browser=chrome --reporter junit --reporter-options 'mochaFile=/home/circleci/test-results/cypress-[hash].xml' --env split=true && exit",
     "cy:run:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:run",
     "cy:test": "run-p start:api start:mon-pix cy:run",
     "cy:test:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test run-p start:api start:mon-pix cy:run",
