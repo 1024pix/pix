@@ -103,7 +103,7 @@ function computeReportForLearningContentPerimeter(version, calibration, reportLi
         new CalibrationReportLine({
           label: REPORT_LABELS.TUBE_ONLY_IN_VERSION_COUNT,
           content: tubeIdsInVersionButNotInCalibration.size,
-          alertLevel: ALERT_LEVELS.HIGH,
+          alertLevel: ALERT_LEVELS.LOW,
           additionalContent: [...tubeIdsInVersionButNotInCalibration.values()].join(', '),
         }),
       );
