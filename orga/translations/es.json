@@ -1635,12 +1635,13 @@
         "warning-banner": "Algunos valores no han sido reconocidos. Se han sustituido por \"No reconocido\". Si consideras que falta algún valor en la lista restrictiva, ponte en contacto con nosotros en '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'"
       },
       "error-panel": {
-        "error-wrapper": "No se ha importado ningún participante. Por favor, edita tu archivo e impórtalo de nuevo.",
-        "global-error": "No se ha importado ningún participante. Inténtalo nuevamente o ponte en contacto con nosotros a través de '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'el formulario del centro de ayuda'</a>'.",
         "title": "Errores en el último archivo importado:"
       },
       "file-type-separator": ",",
       "global-success": "Último archivo importado con éxito en {date} por {firstName} {lastName}.",
+      "pro": {
+        "title": "Importar participantes"
+      },
       "sco": {
         "title": "Importar alumnos"
       },
