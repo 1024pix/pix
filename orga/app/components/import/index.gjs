@@ -78,7 +78,7 @@ export default class Import extends Component {
   }
 
   get textsByOrganizationType() {
-    if (this.currentUser.isSCOManagingStudents) {
+    if (this.currentUser.isSCOManagingStudents || this.currentUser.canAccessMissionsPage) {
       return {
         title: 'pages.organization-participants-import.sco.title',
       };
