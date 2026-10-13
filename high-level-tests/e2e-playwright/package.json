@@ -33,7 +33,7 @@
     "tsc": "tsc -b"
   },
   "devDependencies": {
-    "@1024pix/eslint-plugin": "3.0.5",
+    "@1024pix/eslint-plugin": "3.0.6",
     "@axe-core/playwright": "4.13.0",
     "@playwright/test": "1.63.0",
     "@types/jsonwebtoken": "9.0.10",
