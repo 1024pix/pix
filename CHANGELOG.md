@@ -1,6 +1,12 @@
 # Pix Changelog
 
+## [5.520.2](https://github.com/1024pix/pix/compare/v5.520.1...v5.520.2) (2026-10-13)
+
 ## [5.520.1](https://github.com/1024pix/pix/compare/v5.520.0...v5.520.1) (2026-10-13)
+
+### :bug: Correction
+
+- [#24711](https://github.com/1024pix/pix/pull/24711) Éviter le crash du conteneur lorsque l'export CSV des résultats de campagne échoue (PIX-24711).
 
 # [5.520.0](https://github.com/1024pix/pix/compare/v5.519.0...v5.520.0) (2026-10-13)
 
