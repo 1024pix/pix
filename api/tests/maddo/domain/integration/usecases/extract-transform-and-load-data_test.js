@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import environments from '../../../../../datamart/knexfile.js';
 import { DatabaseConnection } from '../../../../../db/database-connection.js';
 import { extractTransformAndLoadData } from '../../../../../src/maddo/domain/usecases/extract-transform-and-load-data.ts';
+import { executeInContext, EXECUTORS } from '../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { datamartKnex, datawarehouseKnex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
@@ -10,6 +11,7 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
   const dropTables = async () => {
     await datawarehouseKnex.schema.dropTableIfExists('to-replicate');
     await datamartKnex.schema.dropTableIfExists('replication');
+    await datamartKnex.schema.dropTableIfExists('replication_staging_foo-request-id');
   };
   beforeEach(dropTables);
   afterEach(dropTables);
@@ -171,6 +173,56 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
     expect(result).to.deep.equal({ count: 2 });
     expect(tablesAfter).to.deep.equal(tablesBefore);
   });
+
+  it('starts the replication properly even if artifacts were left behind because of a non graceful shutdown', async function () {
+    // given
+    const request_id = 'foo-request-id';
+    await datawarehouseKnex.schema.createTable('to-replicate', (t) => {
+      t.integer('id');
+      t.string('name');
+    });
+    await datamartKnex.schema.createTable('replication', (t) => {
+      t.integer('id');
+      t.string('name');
+    });
+    await datamartKnex.schema.createTable('replication_staging_foo-request-id', (t) => {
+      t.integer('id');
+      t.string('name');
+    });
+    await datamartKnex('replication').insert([
+      { id: 1, name: 'old1' },
+      { id: 2, name: 'old2' },
+    ]);
+    await datawarehouseKnex('to-replicate').insert([
+      { id: 1, name: 'new1' },
+      { id: 2, name: 'new2' },
+    ]);
+    const replications = {
+      'my-replication': { source: 'to-replicate', target: 'replication', columns: ['id', 'name'] },
+    };
+    const tablesBefore = await listTables(datamartKnex);
+
+    // when
+    const result = await executeInContext(
+      { request_id },
+      () =>
+        extractTransformAndLoadData({
+          replicationName: 'my-replication',
+          replications,
+          datamartKnex,
+          datawarehouseKnex,
+        }),
+      EXECUTORS.JOB,
+    );
+
+    // then
+    const tablesAfter = await listTables(datamartKnex);
+    expect(result).to.deep.equal({ count: 2 });
+    expect(tablesAfter).to.deep.equal(
+      tablesBefore.filter((tableName) => tableName !== 'replication_staging_foo-request-id'),
+    );
+  });
+
   context('releasing connection to pool that was used for the low level COPY', function () {
     // Thoses tests, by staying green, aim to demonstrate that connection is indeed released into the pool
     // either after a success or a failure
