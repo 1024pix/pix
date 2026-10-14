@@ -120,7 +120,7 @@ async function deepLink(request, h) {
         // FIXME set cookie expiration
         .header(
           'Set-Cookie',
-          `jwtLtiPrescriber=${ltiPrescriberAccessToken}; Secure; HttpOnly; SameSite=None; Path=/api`,
+          `jwtLtiPrescriber=${ltiPrescriberAccessToken}; Secure; HttpOnly; SameSite=None; Partitioned; Path=/api`,
         )
     );
   }
