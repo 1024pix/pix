@@ -1,8 +1,7 @@
-import { visit } from '@1024pix/ember-testing-library';
+import { clickByName, getScreen, visit } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, currentURL, fillIn, find, findAll, triggerEvent } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -28,7 +27,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
         // when
         screen = await visit(`/assessments/${assessment.id}/challenges/0`);
-        await click(screen.getByLabelText(t('pages.challenge.actions.skip-go-to-next')));
+        await click(screen.getByLabelText('Je passe et je vais à la prochaine question'));
       });
 
       test('should render challenge information and question', function (assert) {
@@ -39,7 +38,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       test('should display the alert box when user validates without successfully finishing the embed', async function (assert) {
         // when
         assert.dom('.challenge-response__alert').doesNotExist();
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // then
         assert.dom('.challenge-response__alert[role="alert"]').exists();
@@ -58,7 +57,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         find('.embed__iframe').dispatchEvent(event);
 
         // then
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
         assert.strictEqual(currentURL(), `/assessments/${assessment.id}/challenges/2`);
       });
 
@@ -72,7 +71,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
         // when
         assert.dom('.challenge-response__alert').doesNotExist();
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // then
         assert.dom('.challenge-response__alert[role="alert"]').exists();
@@ -92,7 +91,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
         // when
         screen = await visit(`/assessments/${assessment.id}/challenges/0`);
-        await click(screen.getByLabelText(t('pages.challenge.actions.skip-go-to-next')));
+        await click(screen.getByLabelText('Je passe et je vais à la prochaine question'));
       });
 
       test('should display the alert box when user validates without successfully answering', async function (assert) {
@@ -104,7 +103,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         find('.embed__iframe').dispatchEvent(event);
 
         // then
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
         assert.strictEqual(
           find('.challenge-response__alert').textContent.trim(),
           'Pour valider, veuillez remplir le champ texte. Sinon, passez.',
@@ -132,7 +131,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         // when
         await fillIn('input[data-uid="qroc-proposal-uid"]', '');
         assert.dom('.challenge-response__alert').doesNotExist();
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // then
         assert.dom('.challenge-response__alert[role="alert"]').exists();
@@ -144,7 +143,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
       test('should hide the alert error after the user interact with input text', async function (assert) {
         // given
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // when
         await triggerEvent('input', 'keyup');
@@ -157,7 +156,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       test('should go to checkpoint when user validated', async function (assert) {
         // when
         await fillIn('input[data-uid="qroc-proposal-uid"]', 'Test');
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // then
         assert.ok(currentURL().includes(`/assessments/${assessment.id}/checkpoint`));
@@ -184,9 +183,9 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         // then
         assert.strictEqual(find('.challenge-response__proposal').value, 'Reponse');
 
-        assert.ok(screen.queryByRole('button', { name: t('pages.challenge.actions.continue') }));
-        assert.dom(screen.queryByLabelText(t('pages.challenge.actions.skip-go-to-next'))).doesNotExist();
-        assert.dom(screen.queryByLabelText(t('pages.challenge.actions.validate-go-to-next'))).doesNotExist();
+        assert.ok(screen.queryByRole('button', { name: 'Poursuivre' }));
+        assert.dom(screen.queryByLabelText('Je passe et je vais à la prochaine question')).doesNotExist();
+        assert.dom(screen.queryByLabelText('Je valide et je vais à la prochaine question')).doesNotExist();
       });
     });
 
@@ -216,14 +215,15 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
       test('should show the result of previous challenge in checkpoint', async function (assert) {
         // then
-        assert.strictEqual(find('.result-item__icon').title, 'Réponse incorrecte');
-        assert.strictEqual(find('.result-item__instruction').textContent.trim(), qrocChallenge.instruction);
-        assert.strictEqual(find('.result-item__correction-button').textContent.trim(), 'Réponses et tutos');
+        const screen = await getScreen();
+        assert.dom(screen.getByRole('heading', { level: 3 })).includesText('Mauvaise réponse');
+        assert.dom(screen.getByText(qrocChallenge.instruction)).exists();
+        assert.dom(screen.getByRole('button', { name: 'Voir les réponses et les tutos' })).exists();
       });
 
       test('should show details of challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
         // when
-        await click('.result-item__correction-button');
+        await clickByName('Voir les réponses et les tutos');
 
         // then
         assert.strictEqual(
@@ -312,7 +312,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         // when
         await fillIn('textarea[data-uid="qroc-proposal-uid"]', '');
         assert.dom('.challenge-response__alert').doesNotExist();
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // then
         assert.dom('.challenge-response__alert[role="alert"]').exists();
@@ -324,7 +324,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
       test('should hide the alert error after the user interact with input text', async function (assert) {
         // given
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // when
         await triggerEvent('textarea', 'keyup');
@@ -337,7 +337,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       test('should go to checkpoint when user validated', async function (assert) {
         // when
         await fillIn('textarea[data-uid="qroc-proposal-uid"]', 'Test');
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // then
         assert.ok(currentURL().includes(`/assessments/${assessment.id}/checkpoint`));
@@ -370,14 +370,15 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
       test('should show the result of previous challenge in checkpoint', async function (assert) {
         // then
-        assert.strictEqual(find('.result-item__icon').title, 'Réponse incorrecte');
-        assert.strictEqual(find('.result-item__instruction').textContent.trim(), qrocChallenge.instruction);
-        assert.strictEqual(find('.result-item__correction-button').textContent.trim(), 'Réponses et tutos');
+        const screen = await getScreen();
+        assert.dom(screen.getByRole('heading', { level: 3 })).includesText('Mauvaise réponse');
+        assert.dom(screen.getByText(qrocChallenge.instruction)).exists();
+        assert.dom(screen.getByRole('button', { name: 'Voir les réponses et les tutos' })).exists();
       });
 
       test('should show details of challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
         // when
-        await click('.result-item__correction-button');
+        await clickByName('Voir les réponses et les tutos');
 
         // then
         assert.strictEqual(
@@ -424,7 +425,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       test('should allow selecting a value', async function (assert) {
         // given
         const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // when
         await click(screen.getByRole('button', { name: /Select:/ }));
@@ -438,7 +439,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       test('should hide the alert error after the user interact with input text', async function (assert) {
         // given
         const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
         assert.dom('.challenge-response__alert[role="alert"]').exists();
 
         // when
@@ -459,7 +460,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'mango' }));
 
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // then
         assert.ok(currentURL().includes(`/assessments/${assessment.id}/checkpoint`));
@@ -492,14 +493,15 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
       test('should show the result of previous challenge in checkpoint', async function (assert) {
         // then
-        assert.strictEqual(find('.result-item__icon').title, 'Réponse incorrecte');
-        assert.strictEqual(find('.result-item__instruction').textContent.trim(), qrocChallenge.instruction);
-        assert.strictEqual(find('.result-item__correction-button').textContent.trim(), 'Réponses et tutos');
+        const screen = await getScreen();
+        assert.dom(screen.getByRole('heading', { level: 3 })).includesText('Mauvaise réponse');
+        assert.dom(screen.getByText(qrocChallenge.instruction)).exists();
+        assert.dom(screen.getByRole('button', { name: 'Voir les réponses et les tutos' })).exists();
       });
 
       test('should show details of challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
         // when
-        await click('.result-item__correction-button');
+        await clickByName('Voir les réponses et les tutos');
 
         // then
         assert.strictEqual(

@@ -1,7 +1,6 @@
-import { clickByText, visit } from '@1024pix/ember-testing-library';
-import { click, findAll } from '@ember/test-helpers';
+import { clickByText, visit, within } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -60,12 +59,30 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
 
   module('From the results page', function () {
     test('should display the REPONSE link from the results screen for all known types of question', async function (assert) {
-      await visit(`/assessments/${assessment.id}/results`);
-      assert.ok(findAll('.result-item')[0].textContent.includes('Réponses et tutos')); //QCU
-      assert.ok(findAll('.result-item')[1].textContent.includes('Réponses et tutos')); //QCM
-      assert.ok(findAll('.result-item')[2].textContent.includes('Réponses et tutos')); //QROC
-      assert.notOk(findAll('.result-item')[3].textContent.includes('Réponses et tutos')); //QROCM
-      assert.ok(findAll('.result-item')[4].textContent.includes('Réponses et tutos')); //QROCMind
+      const screen = await visit(`/assessments/${assessment.id}/results`);
+
+      assert.ok(screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' }).length, 4);
+      assert
+        .dom(
+          within(screen.getByText(/^Question 4/).closest('div')).queryByRole('button', {
+            name: 'Voir les réponses et les tutos',
+          }),
+        )
+        .doesNotExist(); //QROCM
+    });
+  });
+
+  module('Question titles on the results page', function () {
+    test('should number each question', async function (assert) {
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/results`);
+
+      // then
+      const titles = screen.getAllByRole('heading', { level: 3 });
+      assert.strictEqual(titles.length, 5);
+      titles.forEach((title, index) => {
+        assert.dom(title).includesText(`Question ${index + 1}`);
+      });
     });
   });
 
@@ -74,7 +91,7 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
       // given
       const screen = await visit(`/assessments/${assessment.id}/results`);
       assert.notOk(screen.queryByRole('dialog', { name: 'Vous n’avez pas la bonne réponse' }));
-      const buttons = screen.getAllByRole('button', { name: 'Réponses et tutos' });
+      const buttons = screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' });
 
       // when
       await click(buttons[0]);
@@ -86,22 +103,20 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
 
     test('should be able to send a feedback', async function (assert) {
       // given
-      await visit(`/assessments/${assessment.id}/results`);
-      await click('.result-item__correction-button');
+      const screen = await visit(`/assessments/${assessment.id}/results`);
+      await click(screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' })[0]);
 
       // when
-      await clickByText(t('pages.challenge.feedback-panel.actions.open-close'));
+      await clickByText('Signaler un problème avec la question');
 
-      await clickByLabel(t('pages.challenge.feedback-panel.form.fields.detail-selection.aria-first'));
-      await clickByText(t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'));
+      await clickByLabel("J'ai un problème avec");
+      await clickByText('La question');
 
-      await clickByLabel(t('pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary'));
-      await clickByText(
-        t('pages.challenge.feedback-panel.form.fields.detail-selection.options.question-not-understood'),
-      );
+      await clickByLabel('Sélectionner une option pour préciser votre problème');
+      await clickByText('Je ne comprends pas la question');
 
-      await clickByText(t('pages.challenge.feedback-panel.form.actions.submit'));
-      await clickByText(t('common.actions.validate'));
+      await clickByText('Envoyer');
+      await clickByText('Valider');
 
       // then
       assert.dom('.feedback-panel__view--mercix').exists();
@@ -110,8 +125,8 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
 
   module('Content of the correction modal: results and instructions', function () {
     test('should check the presence of instruction, text and image', async function (assert) {
-      await visit(`/assessments/${assessment.id}/results`);
-      await click('.result-item__correction-button');
+      const screen = await visit(`/assessments/${assessment.id}/results`);
+      await click(screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' })[0]);
 
       assert.dom('.comparison-window-content__body .challenge-statement-instruction__text').exists();
       assert.dom('.comparison-window-content__body .challenge-statement__illustration-section').exists();

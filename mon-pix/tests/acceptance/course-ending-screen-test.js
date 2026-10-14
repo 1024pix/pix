@@ -1,6 +1,6 @@
 import { visit } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
-import { currentURL, find, findAll } from '@ember/test-helpers';
+import { currentURL, find } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -37,12 +37,12 @@ module('Acceptance | Course ending screen', function (hooks) {
   });
 
   test('should display a summary of all the answers', function (assert) {
-    assert.dom('.assessment-results__list').exists();
+    assert.strictEqual(screen.getAllByRole('heading', { level: 3 }).length, 2);
   });
 
   test('should display the matching instructions', function (assert) {
-    assert.ok(findAll('.result-item')[0].textContent.trim().includes(firstChallenge.instruction));
-    assert.ok(findAll('.result-item')[1].textContent.trim().includes(secondChallenge.instruction));
+    assert.dom(screen.getByText(firstChallenge.instruction)).exists();
+    assert.dom(screen.getByText(secondChallenge.instruction)).exists();
   });
 
   test('should display the course name', function (assert) {
@@ -54,7 +54,7 @@ module('Acceptance | Course ending screen', function (hooks) {
   });
 
   test('should display a way to come back to the test list', function (assert) {
-    assert.dom('.assessment-results__index-link-container').exists();
+    assert.dom(screen.getByRole('link', { name: 'Continuer mon expérience Pix' })).exists();
   });
 
   test('should display the course banner', async function (assert) {
@@ -62,10 +62,8 @@ module('Acceptance | Course ending screen', function (hooks) {
   });
 
   test('should display a button that redirects to inscription page', async function (assert) {
-    assert.strictEqual(
-      find('.assessment-results__index-a-link').attributes.href.value,
-      'https://app.pix.org/inscription',
-    );
-    assert.ok(screen.getByRole('link', { name: 'Continuer mon expérience Pix' }));
+    assert
+      .dom(screen.getByRole('link', { name: 'Continuer mon expérience Pix' }))
+      .hasAttribute('href', 'https://app.pix.org/inscription');
   });
 });

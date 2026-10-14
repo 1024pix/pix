@@ -28,7 +28,7 @@ module('Acceptance | Compare answers and solutions for QROC questions', function
       const screen = await visit(`/assessments/${assessment.id}/results`);
 
       // then
-      assert.ok(screen.getByRole('button', { name: 'Réponses et tutos' }));
+      assert.ok(screen.getByRole('button', { name: 'Voir les réponses et les tutos' }));
     });
 
     test('should not yet display the modal nor its content', async function (assert) {
@@ -48,7 +48,7 @@ module('Acceptance | Compare answers and solutions for QROC questions', function
       const screen = await visit(`/assessments/${assessment.id}/results`);
 
       // when
-      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
+      await click(screen.getByRole('button', { name: 'Voir les réponses et les tutos' }));
 
       // then
       await waitForDialog();
@@ -60,7 +60,7 @@ module('Acceptance | Compare answers and solutions for QROC questions', function
       const screen = await visit(`/assessments/${assessment.id}/results`);
 
       // when
-      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
+      await click(screen.getByRole('button', { name: 'Voir les réponses et les tutos' }));
 
       // then
       assert.dom('.comparison-window-content__body .challenge-statement-instruction__text').exists();
@@ -71,7 +71,7 @@ module('Acceptance | Compare answers and solutions for QROC questions', function
       const screen = await visit(`/assessments/${assessment.id}/results`);
 
       // when
-      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
+      await click(screen.getByRole('button', { name: 'Voir les réponses et les tutos' }));
 
       // then
       assert.dom('div[data-test-id="comparison-window__corrected-answers--qroc"]').exists();
@@ -82,7 +82,7 @@ module('Acceptance | Compare answers and solutions for QROC questions', function
       const screen = await visit(`/assessments/${assessment.id}/results`);
 
       // when
-      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
+      await click(screen.getByRole('button', { name: 'Voir les réponses et les tutos' }));
 
       // then
       assert.dom('.feedback-panel__open-button').exists();

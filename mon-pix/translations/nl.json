@@ -53,6 +53,12 @@
       "stay": "Blijf",
       "validate": "Valideer"
     },
+    "answer-state": {
+      "aband": "Geen antwoord",
+      "ko": "Onjuist antwoord",
+      "ok": "Juist antwoord",
+      "timedout": "Time-out"
+    },
     "api-error-messages": {
       "bad-request-error": "De gegevens die u hebt opgegeven, hebben niet het juiste formaat.",
       "gateway-timeout-error": "De service ondervindt vertragingen. Probeer het later nog eens.",
@@ -157,6 +163,16 @@
     "yes": "Ja"
   },
   "components": {
+    "assessments": {
+      "result-item": {
+        "actions": {
+          "see-answers-and-tutorials": {
+            "label": "Bekijk de antwoorden en tutorials"
+          }
+        },
+        "question-number": "Vraag { number }"
+      }
+    },
     "attestations": {
       "obtainedAt": "Datum van uitgave: {date}",
       "title": {
@@ -1285,7 +1301,10 @@
       },
       "answers": {
         "already-finished": {
-          "explanation": "Als je deze vragen al in eerdere tests hebt beantwoord, kun je direct naar je resultaten gaan.\n\nWil je je score verbeteren? Klik op \"Mijn resultaten bekijken\" om de test opnieuw te maken.",
+          "explanation": {
+            "sentence1": "Als je deze vragen al in eerdere tests hebt beantwoord, kun je direct naar je resultaten gaan.",
+            "sentence2": "Wil je je score verbeteren? Klik op \"Mijn resultaten bekijken\" om de test opnieuw te maken."
+          },
           "info": "Je hebt al geantwoord!"
         },
         "header": "Uw antwoorden"
@@ -1378,7 +1397,7 @@
         },
         "aband": {
           "title": "Je hebt geen antwoord gegeven",
-          "tooltip": "Geen antwoord"
+          "tooltip": "Overgeslagen vraag"
         },
         "abandAutoReply": {
           "title": "Je bent geslaagd voor de test",
@@ -1398,7 +1417,7 @@
         },
         "ko": {
           "title": "Fout antwoord !",
-          "tooltip": "Onjuist fout"
+          "tooltip": "Fout antwoord"
         },
         "koAutoReply": {
           "title": "Je bent niet geslaagd voor de test",
@@ -2062,17 +2081,6 @@
       },
       "first-title": "Wachtwoord opnieuw instellen",
       "title": "Mijn wachtwoord wijzigen"
-    },
-    "result-item": {
-      "aband": "Geen antwoord",
-      "actions": {
-        "see-answers-and-tutorials": {
-          "label": "Antwoorden en tutorials"
-        }
-      },
-      "ko": "Onjuist antwoord",
-      "ok": "Juist antwoord",
-      "timedout": "Time-out"
     },
     "sco-signup-or-login": {
       "invitation": "{ organizationName } nodigt je uit om je aan te sluiten bij Pix",

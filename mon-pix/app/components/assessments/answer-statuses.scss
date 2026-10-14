@@ -1,0 +1,12 @@
+.answer-statuses {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-4x);
+  max-width: 990px;
+  margin: 0 auto;
+
+  &__no-answer {
+    color: var(--pix-neutral-500);
+    white-space: pre-line;
+  }
+}

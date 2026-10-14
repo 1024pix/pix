@@ -53,6 +53,12 @@
       "stay": "Rester",
       "validate": "Valider"
     },
+    "answer-state": {
+      "aband": "Pas de réponse",
+      "ko": "Réponse incorrecte",
+      "ok": "Réponse correcte",
+      "timedout": "Temps dépassé"
+    },
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
       "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement.",
@@ -157,6 +163,16 @@
     "yes": "Oui"
   },
   "components": {
+    "assessments": {
+      "result-item": {
+        "actions": {
+          "see-answers-and-tutorials": {
+            "label": "Voir les réponses et les tutos"
+          }
+        },
+        "question-number": "Question { number }"
+      }
+    },
     "attestations": {
       "obtainedAt": "Date de délivrance: {date}",
       "title": {
@@ -1285,10 +1301,13 @@
       },
       "answers": {
         "already-finished": {
-          "explanation": "Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.\n\nVous souhaitez améliorer votre score ? En cliquant sur  “Voir mes résultats”, vous aurez la possibilité de retenter le parcours.",
+          "explanation": {
+            "sentence1": "Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.",
+            "sentence2": "Vous souhaitez améliorer votre score ? En cliquant sur “Voir mes résultats”, vous aurez la possibilité de retenter le parcours."
+          },
           "info": "Vous avez déjà répondu !"
         },
-        "header": "vos réponses"
+        "header": "Vos réponses aux dernières questions"
       },
       "sharing-results": {
         "information-banner": "En cliquant sur le bouton \"Voir mes résultats\", vos résultats seront transmis à l'organisateur."
@@ -1378,7 +1397,7 @@
         },
         "aband": {
           "title": "Vous n’avez pas donné de réponse",
-          "tooltip": "Sans réponse"
+          "tooltip": "Question passée"
         },
         "abandAutoReply": {
           "title": "Vous avez passé l’épreuve",
@@ -1398,7 +1417,7 @@
         },
         "ko": {
           "title": "Vous n’avez pas la bonne réponse",
-          "tooltip": "Réponse incorrecte"
+          "tooltip": "Mauvaise réponse"
         },
         "koAutoReply": {
           "title": "Vous n’avez pas réussi l’épreuve",
@@ -1406,7 +1425,7 @@
         },
         "ok": {
           "title": "Vous avez la bonne réponse !",
-          "tooltip": "Réponse correcte"
+          "tooltip": "Bonne réponse"
         },
         "okAutoReply": {
           "title": "Vous avez réussi l’épreuve",
@@ -2062,17 +2081,6 @@
       },
       "first-title": "Réinitialisation du mot de passe",
       "title": "Changer mon mot de passe"
-    },
-    "result-item": {
-      "aband": "Pas de réponse",
-      "actions": {
-        "see-answers-and-tutorials": {
-          "label": "Réponses et tutos"
-        }
-      },
-      "ko": "Réponse incorrecte",
-      "ok": "Réponse correcte",
-      "timedout": "Temps dépassé"
     },
     "sco-signup-or-login": {
       "invitation": "{ organizationName } vous invite à rejoindre Pix",

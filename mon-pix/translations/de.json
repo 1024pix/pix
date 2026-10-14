@@ -53,6 +53,12 @@
       "stay": "Bleiben",
       "validate": "Bestätigen"
     },
+    "answer-state": {
+      "aband": "Keine Antwort",
+      "ko": "Falsche Antwort",
+      "ok": "Richtige Antwort",
+      "timedout": "Zeit überschritten"
+    },
     "api-error-messages": {
       "bad-request-error": "Die von dir eingereichten Daten haben nicht das richtige Format.",
       "gateway-timeout-error": "Der Dienst unterliegt einer Verlangsamung. Bitte versuche es zu einem späteren Zeitpunkt erneut.",
@@ -157,6 +163,16 @@
     "yes": "Ja"
   },
   "components": {
+    "assessments": {
+      "result-item": {
+        "actions": {
+          "see-answers-and-tutorials": {
+            "label": "Antworten und Tutorials ansehen"
+          }
+        },
+        "question-number": "Frage { number }"
+      }
+    },
     "attestations": {
       "obtainedAt": "Ausstellungsdatum: {date}.",
       "title": {
@@ -1285,7 +1301,10 @@
       },
       "answers": {
         "already-finished": {
-          "explanation": "Du hast diese Fragen bereits in früheren Tests beantwortet: Du kannst direkt auf deine Ergebnisse zugreifen.\n\nMöchtest du dein Ergebnis verbessern? Wenn du auf \"Meine Ergebnisse anzeigen\" klickst, hast du die Möglichkeit, den Lernpfad erneut zu versuchen.",
+          "explanation": {
+            "sentence1": "Du hast diese Fragen bereits in früheren Tests beantwortet:Du kannst direkt auf deine Ergebnisse zugreifen.",
+            "sentence2": "Möchtest du dein Ergebnis verbessern? Wenn du auf \"Meine Ergebnisse anzeigen\" klickst, hast du die Möglichkeit, den Lernpfad erneut zu versuchen."
+          },
           "info": "Du hast bereits geantwortet!"
         },
         "header": "Deine Antworten"
@@ -1378,7 +1397,7 @@
         },
         "aband": {
           "title": "Du hast keine Antwort gegeben",
-          "tooltip": "Ohne Antwort"
+          "tooltip": "Übersprungene Frage"
         },
         "abandAutoReply": {
           "title": "Du hast die Prüfung bestanden",
@@ -2062,17 +2081,6 @@
       },
       "first-title": "Zurücksetzen des Passworts",
       "title": "Mein Passwort ändern"
-    },
-    "result-item": {
-      "aband": "Keine Antwort",
-      "actions": {
-        "see-answers-and-tutorials": {
-          "label": "Antworten und Tutorials"
-        }
-      },
-      "ko": "Falsche Antwort",
-      "ok": "Richtige Antwort",
-      "timedout": "Zeit überschritten"
     },
     "sco-signup-or-login": {
       "invitation": "{ organizationName } lädt dich ein, bei Pix mitzumachen",

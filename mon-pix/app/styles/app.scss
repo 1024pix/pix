@@ -61,9 +61,7 @@
 @use 'components/challenge-illustration' as *;
 @use 'components/challenge-item' as *;
 @use 'components/challenge-statement' as *;
-@use 'components/checkpoint' as *;
 @use 'components/circle-chart' as *;
-@use 'components/comparison-window' as *;
 @use 'components/choice-chip' as *;
 @use 'components/reset-campaign-participation-modal' as *;
 @use 'components/tabs' as *;
@@ -139,7 +137,6 @@
 @use 'components/account-recovery/confirmation-step' as *;
 @use 'components/account-recovery/update-sco-record-form' as *;
 @use 'components/sco-signup-form' as *;
-@use 'components/result-item' as *;
 @use 'components/rounded-panel' as *;
 @use 'components/scorecard-details' as *;
 @use 'components/show-more-text' as *;
@@ -177,11 +174,16 @@
 @use 'authentication/sso-selection-form' as *;
 @use 'user-account/delete-account-section' as *;
 @use 'user-account/user-account-navigation' as *;
+
+/* assessments */
+@use 'assessments/answer-statuses' as *;
+@use 'assessments/answer-button-continue' as *;
+@use 'assessments/comparison-window' as *;
+@use 'assessments/result-item' as *;
 @use 'ui/assessment/banner' as *;
 @use 'ui/assessment/progress-bar' as *;
 
 /* pages */
-@use 'pages/assessment-results' as *;
 @use 'pages/campaign-landing-page' as *;
 @use 'pages/inaccessible-content' as *;
 @use 'pages/campaign-tutorial' as *;
@@ -245,7 +247,6 @@
     }
   }
 
-  .pix-app-layout__footer,
   .pix-app-layout__navigation {
     padding: 0;
   }

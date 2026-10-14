@@ -50,12 +50,12 @@ export default class QrocSolutionPanel extends Component {
 
   get answerToDisplay() {
     if (this.args.answer.timeout === -1) {
-      return this.intl.t('pages.result-item.timedout');
+      return this.intl.t('common.answer-state.timedout');
     }
 
     const answer = this.args.answer.value;
     if (answer === '#ABAND#') {
-      return this.intl.t('pages.result-item.aband');
+      return this.intl.t('common.answer-state.aband');
     }
 
     return answer;

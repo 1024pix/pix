@@ -134,7 +134,7 @@ export default class QrocmIndSolutionPanel extends Component {
         const inputClass = this._computeInputClass(answerOutcome);
         const ariaLabel = this._computeAriaLabel(answerOutcome);
         if (answers[block.input] == undefined || answers[block.input] === '') {
-          answers[block.input] = this.intl.t('pages.result-item.aband');
+          answers[block.input] = this.intl.t('common.answer-state.aband');
         }
         block.ariaLabel = ariaLabel;
         block.inputClass = inputClass;

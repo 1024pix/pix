@@ -113,7 +113,7 @@ export default class QrocmDepSolutionPanel extends Component {
         return block;
       }
       const answerEvaluation = answersEvaluations.shift();
-      block.answer = this.isSkipped ? this.intl.t('pages.result-item.aband') : this.answersAsObject[block.input];
+      block.answer = this.isSkipped ? this.intl.t('common.answer-state.aband') : this.answersAsObject[block.input];
       block.inputClass = this.getInputClass(this.isSkipped, answerEvaluation);
       block.ariaLabel = this.getAriaLabel(this.isSkipped, answerEvaluation);
       if (this.shouldDisplayAnswersUnderInputs && !answerEvaluation) {

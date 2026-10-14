@@ -1,12 +1,14 @@
-import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { clickByName, getScreen, visit } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, currentURL, fillIn, find, findAll, triggerEvent } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 import setupIntl from '../helpers/setup-intl';
+
+const normalizeWhitespaces = (text) => text.replace(/\s+/g, ' ').trim();
+const textMatcher = (expectedText) => (content) => normalizeWhitespaces(content) === normalizeWhitespaces(expectedText);
 
 module('Acceptance | Displaying a QROCM challenge', function (hooks) {
   setupApplicationTest(hooks);
@@ -47,7 +49,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         await fillIn(findAll('input')[0], 'ANSWER');
         await fillIn(findAll('input')[1], '');
 
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         assert.dom('.challenge-response__alert[role="alert"]').exists();
         assert.strictEqual(
@@ -58,7 +60,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
       test('should hide the alert error after the user interact with input text', async function (assert) {
         // given
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // when
         await triggerEvent('input', 'keydown');
@@ -73,7 +75,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         // when
         await fillIn(findAll('input')[0], 'ANSWER');
         await fillIn(findAll('input')[1], 'ANSWER');
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // then
         assert.ok(currentURL().includes(`/assessments/${assessment.id}/checkpoint`));
@@ -92,7 +94,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
 
         // when
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // then
         assert.dom('.challenge-response__alert[role="alert"]').exists();
@@ -106,7 +108,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         // when
         await clickByName('saladAriaLabel');
         await screen.findByRole('listbox');
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // then
         assert.dom('.challenge-response__alert[role="alert"]').exists();
@@ -121,7 +123,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         await clickByName('saladAriaLabel');
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'potato' }));
-        await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // then
         assert.ok(currentURL().includes(`/assessments/${assessment.id}/checkpoint`));
@@ -158,9 +160,9 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         assert.strictEqual(input2.value, 'Chatelet');
         assert.true(input2.disabled);
 
-        assert.ok(screen.getByRole('button', { name: t('pages.challenge.actions.continue') }));
-        assert.dom(screen.queryByLabelText(t('pages.challenge.actions.validate-go-to-next'))).doesNotExist();
-        assert.dom(screen.queryByLabelText(t('pages.challenge.actions.skip-go-to-next'))).doesNotExist();
+        assert.ok(screen.getByRole('button', { name: 'Poursuivre' }));
+        assert.dom(screen.queryByLabelText('Je valide et je vais à la prochaine question')).doesNotExist();
+        assert.dom(screen.queryByLabelText('Je passe et je vais à la prochaine question')).doesNotExist();
       });
     });
 
@@ -184,8 +186,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         assert.strictEqual(screen.getByLabelText('saladAriaLabel').innerText, 'mango');
 
         assert.dom('.challenge-actions__action-continue').exists();
-        assert.dom(screen.queryByLabelText(t('pages.challenge.actions.validate-go-to-next'))).doesNotExist();
-        assert.dom(screen.queryByLabelText(t('pages.challenge.actions.skip-go-to-next'))).doesNotExist();
+        assert.dom(screen.queryByLabelText('Je valide et je vais à la prochaine question')).doesNotExist();
+        assert.dom(screen.queryByLabelText('Je passe et je vais à la prochaine question')).doesNotExist();
       });
     });
   });
@@ -260,26 +262,25 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
     test('should show the result of previous challenges in checkpoint', async function (assert) {
       // then
-      assert.strictEqual(findAll('.result-item__icon')[0].title, 'Réponse incorrecte');
+      const screen = await getScreen();
+      const titles = screen.getAllByRole('heading', { level: 3 });
+      assert.strictEqual(titles.length, 3);
+      titles.forEach((title) => assert.dom(title).includesText('Mauvaise réponse'));
+
+      const buttons = screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' });
+      assert.strictEqual(buttons.length, 3);
+
       const instructionStripped = qrocmDepChallenge.instruction.slice(0, 102);
-      assert.strictEqual(findAll('.result-item__instruction')[0].textContent.trim(), `${instructionStripped}...`);
-      assert.strictEqual(findAll('.result-item__correction-button')[0].textContent.trim(), 'Réponses et tutos');
-      assert.strictEqual(findAll('.result-item__icon')[1].title, 'Réponse incorrecte');
+      assert.dom(screen.getByText(textMatcher(`${instructionStripped}...`))).exists();
+      // the QROCM-ind challenge and the QROCM-ind with select one share the same instruction
       const instructionStrippedInd = qrocmIndChallenge.instruction.slice(0, 104);
-      assert.strictEqual(findAll('.result-item__instruction')[1].textContent.trim(), `${instructionStrippedInd}....`);
-      assert.strictEqual(findAll('.result-item__correction-button')[1].textContent.trim(), 'Réponses et tutos');
-      assert.strictEqual(findAll('.result-item__icon')[2].title, 'Réponse incorrecte');
-      const instructionStrippedSelect = qrocmIndSelectChallenge.instruction.slice(0, 104);
-      assert.strictEqual(
-        findAll('.result-item__instruction')[2].textContent.trim(),
-        `${instructionStrippedSelect}....`,
-      );
-      assert.strictEqual(findAll('.result-item__correction-button')[2].textContent.trim(), 'Réponses et tutos');
+      assert.strictEqual(screen.getAllByText(textMatcher(`${instructionStrippedInd}....`)).length, 2);
     });
 
     test('should show details of QROCM-dep challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
-      await click(findAll('.result-item__correction-button')[0]);
+      const screen = await getScreen();
+      await click(screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' })[0]);
 
       // then
       assert.strictEqual(
@@ -307,7 +308,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
     test('should show details of QROCM-ind challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
-      await click(findAll('.result-item__correction-button')[1]);
+      const screen = await getScreen();
+      await click(screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' })[1]);
 
       // then
       assert.strictEqual(
@@ -336,7 +338,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
     test('should show details of QROCM-ind challenge (with select) result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
-      await click(findAll('.result-item__correction-button')[2]);
+      const screen = await getScreen();
+      await click(screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' })[2]);
 
       // then
       assert.strictEqual(

@@ -1,18 +1,17 @@
-import { PixButtonLink, PixIcon } from '@1024pix/nebulix-ember';
+import { PixButtonLink } from '@1024pix/nebulix-ember';
 import Component from '@glimmer/component';
 
-export default class CheckpointContinue extends Component {
+export default class AnswerButtonContinue extends Component {
   <template>
-    <div class="checkpoint__continue">
+    <div class="answer-button-continue">
       <PixButtonLink
         @route="assessments.resume"
         @model={{@assessmentId}}
         @query={{this.query}}
-        @variant="primary-bis"
-        class="checkpoint__continue-button"
+        @variant="primary"
+        @iconAfter="arrowRight"
       >
         {{@nextPageButtonText}}
-        <PixIcon @name="arrowRight" @ariaHidden={{true}} />
       </PixButtonLink>
     </div>
   </template>

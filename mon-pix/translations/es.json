@@ -53,6 +53,12 @@
       "stay": "Quedarse",
       "validate": "Validar"
     },
+    "answer-state": {
+      "aband": "Sin respuesta",
+      "ko": "Respuesta incorrecta",
+      "ok": "Respuesta correcta",
+      "timedout": "Se ha agotado el tiempo"
+    },
     "api-error-messages": {
       "bad-request-error": "Los datos que has enviado no están en el formato correcto.",
       "gateway-timeout-error": "El servicio puede tardar más de lo normal en responder. Vuelve a intentarlo más tarde.",
@@ -157,6 +163,16 @@
     "yes": "Si"
   },
   "components": {
+    "assessments": {
+      "result-item": {
+        "actions": {
+          "see-answers-and-tutorials": {
+            "label": "Ver las respuestas y los consejos"
+          }
+        },
+        "question-number": "Pregunta { number }"
+      }
+    },
     "attestations": {
       "obtainedAt": "Fecha de emisión: {date}",
       "title": {
@@ -1285,7 +1301,10 @@
       },
       "answers": {
         "already-finished": {
-          "explanation": "Si ya has respondido a estas preguntas en pruebas anteriores, puedes acceder directamente a tus resultados. ¿Quieres mejorar tu puntuación? Haz clic en «Ver mis resultados» para volver a realizar el test.",
+          "explanation": {
+            "sentence1": "Si ya has respondido a estas preguntas en pruebas anteriores, puedes acceder directamente a tus resultados.",
+            "sentence2": "¿Quieres mejorar tu puntuación? Haz clic en «Ver mis resultados» para volver a realizar el test."
+          },
           "info": "¡Ya has contestado!"
         },
         "header": "tus respuestas"
@@ -1378,7 +1397,7 @@
         },
         "aband": {
           "title": "No has respondido",
-          "tooltip": "Sin respuesta"
+          "tooltip": "Pregunta saltada"
         },
         "abandAutoReply": {
           "title": "Has saltado la prueba",
@@ -2062,17 +2081,6 @@
       },
       "first-title": "Restablecer contraseña",
       "title": "Cambiar mi contraseña"
-    },
-    "result-item": {
-      "aband": "Sin respuesta",
-      "actions": {
-        "see-answers-and-tutorials": {
-          "label": "Respuestas y consejos"
-        }
-      },
-      "ko": "Respuesta incorrecta",
-      "ok": "Respuesta correcta",
-      "timedout": "Se ha agotado el tiempo"
     },
     "sco-signup-or-login": {
       "invitation": "{ organizationName } te invita a unirte a Pix",
