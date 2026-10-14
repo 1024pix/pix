@@ -122,7 +122,7 @@ module('Integration | Component | users | user-detail-personal-information | aut
         });
 
         module('when user has a last login date', function () {
-          test('it displays the last login date for PIX authentication method', async function (assert) {
+          test('it displays the last login date for PIX authentication methods', async function (assert) {
             // given
             const user = {
               authenticationMethods: [
@@ -142,17 +142,12 @@ module('Integration | Component | users | user-detail-personal-information | aut
               'components.users.user-detail-personal-information.authentication-method.last-logged-at',
               { date: '01/07/2022' },
             );
-            const expectedValue = '01/07/2022';
-            assert
-              .dom(
-                screen.getAllByRole('listitem').find((listItem) => {
-                  const childrenText = listItem.textContent.trim().split('\n');
-                  return childrenText[0]?.trim() === expectedLabel && childrenText[1]?.trim() === expectedValue;
-                }),
-              )
-              .exists();
+
+            const items = await screen.findAllByText(expectedLabel);
+            assert.strictEqual(items.length, 2);
           });
         });
+
         module('when user has no last login date', function () {
           test('it displays last login default date for PIX authentication method', async function (assert) {
             // given
