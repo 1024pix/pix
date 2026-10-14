@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import dayjs from 'dayjs';
 import _ from 'lodash';
 
 import * as sessionSummaryRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/session-summary-repository.js';
@@ -219,6 +220,21 @@ describe('Integration | Repository | Session Summary', function () {
               publishedAt: null,
               assignedCertificationOfficerId: null,
               certificationCenterId,
+              date: dayjs().format('YYYY-MM-DD'),
+              time: dayjs().subtract(1, 'hour').format('HH:mm'),
+            });
+            const sessionToFinalize = databaseBuilder.factory.buildSession({
+              address: 'to_finalize',
+              finalizedAt: null,
+              publishedAt: null,
+              assignedCertificationOfficerId: null,
+              certificationCenterId,
+              date: '2026-01-01',
+              time: '16:00:00',
+            });
+            databaseBuilder.factory.buildCertificationCourse({
+              sessionId: sessionToFinalize.id,
+              createdAt: new Date('2026-01-01'),
             });
             databaseBuilder.factory.buildSession({
               address: 'finalized',
@@ -238,6 +254,7 @@ describe('Integration | Repository | Session Summary', function () {
 
           [
             { status: SESSION_STATUSES.CREATED, expectedAddress: 'created' },
+            { status: SESSION_STATUSES.TO_FINALIZE, expectedAddress: 'to_finalize' },
             { status: SESSION_STATUSES.FINALIZED, expectedAddress: 'finalized' },
             { status: SESSION_STATUSES.PROCESSED, expectedAddress: 'processed' },
           ].forEach(({ status, expectedAddress }) => {

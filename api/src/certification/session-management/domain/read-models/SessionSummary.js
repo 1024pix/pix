@@ -35,7 +35,7 @@ class SessionSummary {
     finalizedAt,
     publishedAt,
   }) {
-    const isExpired = _computeExpireState({ date, time });
+    const isExpired = _computeExpireState({ date, time, effectiveCandidatesCount });
     const status = _computeStatus({
       finalizedAt,
       publishedAt,
@@ -56,11 +56,11 @@ class SessionSummary {
   }
 }
 
-function _computeExpireState({ date, time }) {
+function _computeExpireState({ date, time, effectiveCandidatesCount }) {
   const startedSessionTime = new Date(`${date}T${time}Z`);
   const expirationSessionTime = startedSessionTime.setDate(startedSessionTime.getDate() + 1);
 
-  return Date.now() > expirationSessionTime;
+  return Date.now() > expirationSessionTime && effectiveCandidatesCount > 0;
 }
 
 function _computeStatus({ finalizedAt, publishedAt, isExpired }) {

@@ -49,6 +49,15 @@ function _setupFilters(query, filters) {
   if (status === SESSION_STATUSES.CREATED) {
     query.whereNull('finalizedAt');
     query.whereNull('publishedAt');
+    query.whereRaw(`LOCALTIMESTAMP < ("date" + "time") + INTERVAL '1 day'`);
+  }
+  if (status === SESSION_STATUSES.TO_FINALIZE) {
+    query.whereNull('finalizedAt');
+    query.whereNull('publishedAt');
+    query.whereExists(function () {
+      this.select(1).from('certification-courses').whereColumn('certification-courses.sessionId', 'sessions.id');
+    });
+    query.whereRaw(`LOCALTIMESTAMP >= ("date" + "time") + INTERVAL '1 day'`);
   }
   if (status === SESSION_STATUSES.FINALIZED) {
     query.whereNotNull('finalizedAt');
