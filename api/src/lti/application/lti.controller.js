@@ -99,18 +99,15 @@ async function deepLink(request, h) {
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
 
   if (messageType === 'LtiDeepLinkingRequest') {
-    const deepLinkingResponseEndpoint =
-      verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'].deep_link_return_url;
+    const deepLinkingSettings = verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'];
 
+    // FIXME take from custom claims
     const organizationExternalIds = ['12345', '7890'];
     const ltiPrescriberAccessToken = await usecases.authenticateLtiPrescriber({
       organizationExternalIds,
       registration,
-      deepLinkingResponseEndpoint,
+      deepLinkingSettings,
     });
-
-    // request.yar.set('jwtLtiPrescriber', ltiPrescriberAccessToken);
-    // await request.yar.commit(h);
 
     const locale = 'fr-FR'; // TODO: Generate this dynamically
     const campaignSelectionPageUrl = urlService.getPixOrgaUrl(locale, { pathname: '/lti-campaign-selection' });
@@ -130,7 +127,7 @@ async function selectCampaign(request, h, dependencies = { cryptoService, ltiPla
   const {
     // FIXME check selected campaignCode belongs to one of the organizations
     // credentials: { organizationIds },
-    artifacts: { registration, deepLinkingResponseEndpoint },
+    artifacts: { registration, deepLinkingSettings },
   } = request.auth;
 
   const privateKey = {
@@ -140,7 +137,7 @@ async function selectCampaign(request, h, dependencies = { cryptoService, ltiPla
   const deepLinkingResponse = jsonwebtoken.sign(
     {
       iss: registration.clientId,
-      aud: deepLinkingResponseEndpoint,
+      aud: deepLinkingSettings.deep_link_return_url,
       'https://purl.imsglobal.org/spec/lti/claim/deployment_id':
         request['https://purl.imsglobal.org/spec/lti/claim/deployment_id'],
       'https://purl.imsglobal.org/spec/lti/claim/message_type': 'LtiDeepLinkingResponse',
@@ -165,7 +162,9 @@ async function selectCampaign(request, h, dependencies = { cryptoService, ltiPla
     },
   );
 
-  return { deepLinkingResponse, deepLinkingResponseEndpoint };
+  // FIXME revoke access token's session
+
+  return { deepLinkingResponse, deepLinkingResponseEndpoint: deepLinkingSettings.deep_link_return_url };
 }
 
 async function resourceLink(request, h, dependencies = { urlService }) {

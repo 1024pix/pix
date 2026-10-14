@@ -6,10 +6,10 @@ import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { validateEntity } from '../../../shared/domain/validators/entity-validator.js';
 
 export class LtiPrescriberAccessToken {
-  constructor({ organizationIds, clientId, deepLinkingResponseEndpoint, scope, audience, sessionId }) {
+  constructor({ organizationIds, clientId, deepLinkingSettings, scope, audience, sessionId }) {
     this.organizationIds = organizationIds;
     this.clientId = clientId;
-    this.deepLinkingResponseEndpoint = deepLinkingResponseEndpoint;
+    this.deepLinkingSettings = deepLinkingSettings;
     this.scope = scope;
     this.audience = audience;
     this.sessionId = sessionId;
@@ -18,7 +18,7 @@ export class LtiPrescriberAccessToken {
       Joi.object({
         organizationIds: Joi.array().items(Joi.number()).required(),
         clientId: Joi.string().required(),
-        deepLinkingResponseEndpoint: Joi.string().uri().required(),
+        deepLinkingSettings: Joi.object().required(),
         scope: Joi.string().required(),
         audience: Joi.string().required(),
         sessionId: Joi.string().required(),
@@ -35,16 +35,23 @@ export class LtiPrescriberAccessToken {
     return new LtiPrescriberAccessToken({
       organizationIds: decoded.organizationIds,
       clientId: decoded.clientId,
-      deepLinkingResponseEndpoint: decoded.deepLinkingResponseEndpoint,
+      deepLinkingSettings: decoded['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'],
       scope: decoded.scope,
       audience: decoded.aud,
       sessionId: decoded.sid,
     });
   }
 
-  static generate({ organizationIds, clientId, deepLinkingResponseEndpoint, scope, audience, sessionId }) {
+  static generate({ organizationIds, clientId, deepLinkingSettings, scope, audience, sessionId }) {
     return tokenService.encodeToken(
-      { organizationIds, clientId, deepLinkingResponseEndpoint, scope, aud: audience, sid: sessionId },
+      {
+        organizationIds, // FIXME rename
+        clientId, // FIXME rename to client_id? see https://www.rfc-editor.org/info/rfc8693/#section-4.3
+        ['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings']: deepLinkingSettings,
+        scope,
+        aud: audience,
+        sid: sessionId,
+      },
       config.authentication.secret,
       config.lti.prescriberAccessTokenLifespan,
     );

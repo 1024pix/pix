@@ -26,6 +26,8 @@ function makeAuthenticateJwtCookie({ cookieName, decode, authenticatePayload }) 
 
     const payload = decode(cookies[cookieName]);
 
+    // FIXME check token's session isn't revoked
+
     return authenticatePayload(payload, h);
   };
 }
@@ -43,7 +45,7 @@ export const ltiPrescriberStrategyConfiguration = {
  * @param {import('@hapi/hapi').ResponseToolkit} h
  */
 async function authenticateLtiPrescriberPayload(payload, h) {
-  const { clientId, organizationIds, deepLinkingResponseEndpoint } = payload;
+  const { clientId, organizationIds, deepLinkingSettings } = payload;
 
   const registration = await ltiPlatformRegistrationRepository.findByClientId(clientId);
 
@@ -63,7 +65,7 @@ async function authenticateLtiPrescriberPayload(payload, h) {
     },
     artifacts: {
       registration,
-      deepLinkingResponseEndpoint,
+      deepLinkingSettings,
     },
   });
 }

@@ -11,13 +11,13 @@ import { LtiPrescriberAccessToken } from '../models/LtiPrescriberAccessToken.js'
  * @param {object} args
  * @param {Array<string>} args.organizationExternalIds
  * @param {import('../models/LtiPlatformRegistration.js').LtiPlatformRegistration} args.registration
- * @param {string} args.deepLinkingResponseEndpoint
+ * @param {object} args.deepLinkingSettings
  * @returns {string}
  */
 export async function authenticateLtiPrescriber({
   organizationExternalIds,
   registration,
-  deepLinkingResponseEndpoint,
+  deepLinkingSettings,
   organizationRepository,
   urlService,
 }) {
@@ -34,7 +34,7 @@ export async function authenticateLtiPrescriber({
   const accessToken = LtiPrescriberAccessToken.generate({
     organizationIds,
     clientId: registration.clientId,
-    deepLinkingResponseEndpoint,
+    deepLinkingSettings,
     scope,
     audience,
     sessionId,
