@@ -1,5 +1,92 @@
 # Pix Changelog
 
+# [5.521.0](https://github.com/1024pix/pix/compare/v5.520.2...v5.521.0) (2026-10-14)
+
+### :rocket: Amélioration
+
+- [#17798](https://github.com/1024pix/pix/pull/17798) Permettre de définir une largeur maximale pour les images des modules (PIX-24388) (PIX-24389)
+
+### :bug: Correction
+
+- [#17962](https://github.com/1024pix/pix/pull/17962) Corriger le test unitaire de process-error-handlers
+- [#17966](https://github.com/1024pix/pix/pull/17966) Réparer le test unitaire de process-error-handlers
+- [#17965](https://github.com/1024pix/pix/pull/17965) S'assurer qu'un job de réplication peut recommencer même après une exécution précédente échouée de façon non grâcieuse (PIX-24732)
+
+### :building_construction: Tech
+
+- [#17915](https://github.com/1024pix/pix/pull/17915) :label: Corrige un problème de type dans `ComplementaryCertificationKeys`
+- [#17796](https://github.com/1024pix/pix/pull/17796) :recycle: rendre visible l'empilage de multiple demandes de travaux asynchrone
+- [#17957](https://github.com/1024pix/pix/pull/17957) Ajout d'une contrainte d'unicité sur la colonne certification_center_id dans la table fct_structures (PIX-24721)
+- [#17952](https://github.com/1024pix/pix/pull/17952) Ajout d'une contrainte d'unicité sur la colonne organization_id dans la table fct_structures (PIX-24720)
+- [#17830](https://github.com/1024pix/pix/pull/17830) Ajouter un script pour créer une structure aux centres de certification qui n'en ont pas (PIX-24397)
+- [#17978](https://github.com/1024pix/pix/pull/17978) Merge les rapports de tests e2e cypress pour la CI.
+
+### :arrow_up: Montée de version
+
+- [#17980](https://github.com/1024pix/pix/pull/17980) Update aws-sdk-js-v3 monorepo to v3.1147.0 (api)
+- [#17927](https://github.com/1024pix/pix/pull/17927) Update dependency axe-core to v4.14.0 (e2e)
+- [#17928](https://github.com/1024pix/pix/pull/17928) Update dependency dependency-cruiser to v18.5.0 (api)
+- [#17929](https://github.com/1024pix/pix/pull/17929) Update dependency dotenv to v17.4.2 (audit-logger)
+- [#17930](https://github.com/1024pix/pix/pull/17930) Update dependency dotenv to v17.4.2 (e2e-playwright)
+- [#17931](https://github.com/1024pix/pix/pull/17931) Update dependency ember-auto-import to v2.13.1 (admin)
+- [#17932](https://github.com/1024pix/pix/pull/17932) Update dependency ember-cli to v7.3.0 (admin)
+- [#17933](https://github.com/1024pix/pix/pull/17933) Update dependency ember-cli to v7.3.0 (certif)
+- [#17934](https://github.com/1024pix/pix/pull/17934) Update dependency ember-cli to v7.3.0 (junior)
+- [#17935](https://github.com/1024pix/pix/pull/17935) Update dependency ember-cli to v7.3.0 (mon-pix)
+- [#17936](https://github.com/1024pix/pix/pull/17936) Update dependency ember-cli to v7.3.0 (orga)
+- [#17937](https://github.com/1024pix/pix/pull/17937) Update dependency ember-cli-babel to v8.3.2 (admin)
+- [#17938](https://github.com/1024pix/pix/pull/17938) Update dependency ember-intl to v8.4.0 (certif)
+- [#17939](https://github.com/1024pix/pix/pull/17939) Update dependency ember-intl to v8.4.0 (junior)
+- [#17940](https://github.com/1024pix/pix/pull/17940) Update dependency ember-intl to v8.4.0 (mon-pix)
+- [#17941](https://github.com/1024pix/pix/pull/17941) Update dependency ember-lifeline to v7.1.0 (admin)
+- [#17942](https://github.com/1024pix/pix/pull/17942) Update dependency ember-lifeline to v7.1.0 (certif)
+- [#17943](https://github.com/1024pix/pix/pull/17943) Update dependency ember-lifeline to v7.1.0 (mon-pix)
+- [#17944](https://github.com/1024pix/pix/pull/17944) Update dependency ember-resolver to v13.2.0 (admin)
+- [#17945](https://github.com/1024pix/pix/pull/17945) Update dependency ember-simple-auth to v8.4.1 (admin)
+- [#17946](https://github.com/1024pix/pix/pull/17946) Update dependency ember-simple-auth to v8.4.1 (certif)
+- [#17947](https://github.com/1024pix/pix/pull/17947) Update dependency ember-simple-auth to v8.4.1 (mon-pix)
+- [#17948](https://github.com/1024pix/pix/pull/17948) Update dependency ember-simple-auth to v8.4.1 (orga)
+- [#17949](https://github.com/1024pix/pix/pull/17949) Update dependency ember-source to v7.3.0 (orga)
+- [#17950](https://github.com/1024pix/pix/pull/17950) Update dependency eslint to v10.12.0 (e2e)
+- [#17953](https://github.com/1024pix/pix/pull/17953) Update dependency file-type to v22.1.1 (api)
+- [#17954](https://github.com/1024pix/pix/pull/17954) Update dependency globals to v17.13.0 (admin)
+- [#17955](https://github.com/1024pix/pix/pull/17955) Update dependency globals to v17.13.0 (audit-logger)
+- [#17956](https://github.com/1024pix/pix/pull/17956) Update dependency globals to v17.13.0 (certif)
+- [#17958](https://github.com/1024pix/pix/pull/17958) Update dependency globals to v17.13.0 (e2e-playwright)
+- [#17959](https://github.com/1024pix/pix/pull/17959) Update dependency globals to v17.13.0 (junior)
+- [#17960](https://github.com/1024pix/pix/pull/17960) Update dependency globals to v17.13.0 (mon-pix)
+- [#17961](https://github.com/1024pix/pix/pull/17961) Update dependency globals to v17.13.0 (orga)
+- [#17998](https://github.com/1024pix/pix/pull/17998) Update dependency hyparquet to v1.31.2 (api)
+- [#17963](https://github.com/1024pix/pix/pull/17963) Update dependency hyparquet-writer to v0.16.10 (api)
+- [#17964](https://github.com/1024pix/pix/pull/17964) Update dependency ioredis to v5.11.1 (api)
+- [#17967](https://github.com/1024pix/pix/pull/17967) Update dependency js-base64 to v3.9.4 (admin)
+- [#17968](https://github.com/1024pix/pix/pull/17968) Update dependency knex to v3.3.0 (api)
+- [#17970](https://github.com/1024pix/pix/pull/17970) Update dependency knex to v3.3.0 (audit-logger)
+- [#17971](https://github.com/1024pix/pix/pull/17971) Update dependency knex to v3.3.0 (e2e-playwright)
+- [#17972](https://github.com/1024pix/pix/pull/17972) Update dependency knip to v6.39.0 (api)
+- [#17974](https://github.com/1024pix/pix/pull/17974) Update dependency knip to v6.40.0 (api)
+- [#17973](https://github.com/1024pix/pix/pull/17973) Update dependency node-stream-zip to v1.16.0 (api)
+- [#17975](https://github.com/1024pix/pix/pull/17975) Update dependency oxfmt to v0.72.0 (api)
+- [#17977](https://github.com/1024pix/pix/pull/17977) Update dependency papaparse to v5.7.0 (api)
+- [#17979](https://github.com/1024pix/pix/pull/17979) Update dependency pdfkit to v0.20.2 (api)
+- [#17981](https://github.com/1024pix/pix/pull/17981) Update dependency pg to v8.23.1 (audit-logger)
+- [#17982](https://github.com/1024pix/pix/pull/17982) Update dependency pg to v8.23.1 (e2e-playwright)
+- [#17983](https://github.com/1024pix/pix/pull/17983) Update dependency pg-boss to v12.37.0 (api)
+- [#17984](https://github.com/1024pix/pix/pull/17984) Update dependency pg-query-stream to v4.17.1 (api)
+- [#17985](https://github.com/1024pix/pix/pull/17985) Update dependency pino to v10.4.0 (api)
+- [#17986](https://github.com/1024pix/pix/pull/17986) Update dependency pino to v10.4.0 (audit-logger)
+- [#17988](https://github.com/1024pix/pix/pull/17988) Update dependency pino-pretty to v13.2.0 (api)
+- [#17989](https://github.com/1024pix/pix/pull/17989) Update dependency pino-pretty to v13.2.0 (audit-logger)
+- [#17990](https://github.com/1024pix/pix/pull/17990) Update dependency pixelmatch to v7.2.0 (e2e-playwright)
+- [#17991](https://github.com/1024pix/pix/pull/17991) Update dependency sass to v1.105.1 (admin)
+- [#17992](https://github.com/1024pix/pix/pull/17992) Update dependency sass to v1.105.1 (certif)
+- [#17993](https://github.com/1024pix/pix/pull/17993) Update dependency sass to v1.105.1 (junior)
+- [#17995](https://github.com/1024pix/pix/pull/17995) Update dependency sass-embedded to v1.105.1 (orga)
+- [#17996](https://github.com/1024pix/pix/pull/17996) Update dependency sax to v1.6.1 (api)
+- [#17997](https://github.com/1024pix/pix/pull/17997) Update dependency tsx to v4.23.15 (audit-logger)
+- [#17999](https://github.com/1024pix/pix/pull/17999) Update dependency tsx to v4.23.15 (e2e-playwright)
+- [#18001](https://github.com/1024pix/pix/pull/18001) Update dependency vite to v8.3.3 (orga)
+
 ## [5.520.2](https://github.com/1024pix/pix/compare/v5.520.1...v5.520.2) (2026-10-13)
 
 ## [5.520.1](https://github.com/1024pix/pix/compare/v5.520.0...v5.520.1) (2026-10-13)
