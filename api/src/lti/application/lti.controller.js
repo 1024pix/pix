@@ -7,6 +7,7 @@ import { cryptoService } from '../../shared/domain/services/crypto-service.js';
 import * as urlService from '../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../shared/infrastructure/http-agent.js';
 import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
+import { deepLinkingService } from '../domain/services/deep-linking.service.js';
 import { usecases } from '../domain/usecases/index.js';
 import { ltiPlatformRegistrationRepository } from '../infrastructure/repositories/lti-platform-registration.repository.js';
 import { ltiErrorSerializer } from '../infrastructure/serializers/html/lti-error-serializer.js';
@@ -98,6 +99,7 @@ async function deepLink(request, h) {
 
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
 
+  // FIXME return 400 bad request if !=
   if (messageType === 'LtiDeepLinkingRequest') {
     const deepLinkingSettings = verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'];
 
@@ -123,44 +125,30 @@ async function deepLink(request, h) {
   }
 }
 
-async function selectCampaign(request, h, dependencies = { cryptoService, ltiPlatformRegistrationRepository }) {
+async function selectCampaign(request, h, dependencies = { deepLinkingService }) {
   const {
     // FIXME check selected campaignCode belongs to one of the organizations
     // credentials: { organizationIds },
     artifacts: { registration, deepLinkingSettings },
   } = request.auth;
 
-  const privateKey = {
-    format: 'jwk',
-    key: JSON.parse(await dependencies.cryptoService.decrypt(registration.encryptedPrivateKey)),
+  const { campaignCode } = request.payload;
+
+  const contentItem = {
+    type: 'ltiResourceLink',
+    title: `Campagne Pix ${campaignCode}`,
+    text: 'Campagne PIX dont la note sera envoyée dans Moodle',
+    custom: { campaign_code: campaignCode },
+    lineItem: {
+      scoreMaximum: 100,
+    },
   };
-  const deepLinkingResponse = jsonwebtoken.sign(
-    {
-      iss: registration.clientId,
-      aud: deepLinkingSettings.deep_link_return_url,
-      'https://purl.imsglobal.org/spec/lti/claim/deployment_id': registration.deploymentId,
-      'https://purl.imsglobal.org/spec/lti/claim/message_type': 'LtiDeepLinkingResponse',
-      'https://purl.imsglobal.org/spec/lti/claim/version': '1.3.0',
-      'https://purl.imsglobal.org/spec/lti-dl/claim/data': deepLinkingSettings.data,
-      'https://purl.imsglobal.org/spec/lti-dl/claim/content_items': [
-        {
-          type: 'ltiResourceLink',
-          title: `Campagne Pix ${request.payload.campaignCode}`,
-          text: 'Campagne PIX dont la note sera envoyée dans Moodle',
-          custom: { campaign_code: request.payload.campaignCode },
-          lineItem: {
-            scoreMaximum: 100,
-          },
-        },
-      ],
-    },
-    privateKey,
-    {
-      expiresIn: 3600,
-      algorithm: 'RS256',
-      keyid: registration.publicKey.kid,
-    },
-  );
+
+  const deepLinkingResponse = await dependencies.deepLinkingService.encodeResponse({
+    contentItems: [contentItem],
+    registration,
+    deepLinkingSettings,
+  });
 
   // FIXME revoke access token's session
 
@@ -172,6 +160,7 @@ async function resourceLink(request, h, dependencies = { urlService }) {
 
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
 
+  // FIXME return 400 bad request if !=
   if (messageType === 'LtiResourceLinkRequest') {
     await sendScoring(verifiedToken, registration);
 
