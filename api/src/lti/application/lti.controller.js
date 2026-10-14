@@ -141,6 +141,7 @@ async function selectCampaign(request, h, dependencies = { cryptoService, ltiPla
       'https://purl.imsglobal.org/spec/lti/claim/deployment_id': registration.deploymentId,
       'https://purl.imsglobal.org/spec/lti/claim/message_type': 'LtiDeepLinkingResponse',
       'https://purl.imsglobal.org/spec/lti/claim/version': '1.3.0',
+      'https://purl.imsglobal.org/spec/lti-dl/claim/data': deepLinkingSettings.data,
       'https://purl.imsglobal.org/spec/lti-dl/claim/content_items': [
         {
           type: 'ltiResourceLink',
