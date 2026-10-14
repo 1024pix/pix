@@ -10,6 +10,7 @@ import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
 import { deepLinkingService } from '../domain/services/deep-linking.service.js';
 import { usecases } from '../domain/usecases/index.js';
 import { ltiPlatformRegistrationRepository } from '../infrastructure/repositories/lti-platform-registration.repository.js';
+import { ltiDeepLinkingSerializer } from '../infrastructure/serializers/html/lti-deep-linking-serializer.js';
 import { ltiErrorSerializer } from '../infrastructure/serializers/html/lti-error-serializer.js';
 import { ltiInitializationSerializer } from '../infrastructure/serializers/html/lti-initialization-serializer.js';
 import { ltiRegistrationSerializer } from '../infrastructure/serializers/html/lti-registration-serializer.js';
@@ -152,7 +153,14 @@ async function selectCampaign(request, h, dependencies = { deepLinkingService })
 
   // FIXME revoke access token's session
 
-  return { deepLinkingResponse, deepLinkingResponseEndpoint: deepLinkingSettings.deep_link_return_url };
+  return h
+    .response(
+      ltiDeepLinkingSerializer.serialize({
+        deepLinkingResponse,
+        deepLinkingReturnUrl: deepLinkingSettings.deep_link_return_url,
+      }),
+    )
+    .header('Content-Type', 'text/html; charset=utf-8');
 }
 
 async function resourceLink(request, h, dependencies = { urlService }) {
