@@ -13,6 +13,10 @@
   .evaluation-results__header {
     margin-bottom: 0;
   }
+
+  &.evaluation-results-recommendation-engine--drawer-expanded {
+    padding-bottom: 300px;
+  }
 }
 
 .reco-mobile-link {
