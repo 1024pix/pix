@@ -3,6 +3,7 @@ import sinon from 'sinon';
 
 import { config } from '../../../../config/config.js';
 import { DeleteOrganizationLearnersFromNetworkScript } from '../../../../src/prescription/scripts/delete-organization-learners-from-network.js';
+import { OrganizationLearnerParticipationStatuses } from '../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { catchErr } from '../../../tooling/test-utils/error.js';
 
@@ -126,6 +127,51 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
       expect(deletedLearnersInDatabase[1].id).to.equal(inactiveLearner2.id);
       expect(participationsInDatabase).lengthOf(4);
       expect(deletedParticipationsInDatabase).lengthOf(2);
+    });
+
+    it('does not delete learners with combined course activity', async function () {
+      // given
+      const lastActivityDate = new Date('2021-01-01');
+
+      databaseBuilder.factory.buildUser({ id: config.infra.engineeringUserId });
+      const { network, organization } = await databaseBuilder.factory.buildNetworkAndHeadOrganization();
+      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
+        organizationId: organization.id,
+      });
+
+      const oldLearner = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organization.id,
+        updatedAt: new Date('2020-01-01'),
+      });
+
+      const learnerWithCombinedCourseParticipation = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organization.id,
+        updatedAt: new Date('2020-01-01'),
+      });
+      databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
+        combinedCourseId,
+        organizationLearnerId: learnerWithCombinedCourseParticipation.id,
+        status: OrganizationLearnerParticipationStatuses.STARTED,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const options = { networkId: network.id, lastActivityDate };
+      await script.handle({ options, logger });
+
+      // then
+      const learnersInDatabase = await knex('organization-learners');
+      const deletedLearnersInDatabase = await knex('organization-learners').whereNotNull('deletedAt');
+
+      expect(
+        logger.info.calledWithExactly(
+          `Delete learners from network ${options.networkId} with last activity prior to ${options.lastActivityDate}`,
+        ),
+      ).true;
+      expect(learnersInDatabase).lengthOf(2);
+      expect(deletedLearnersInDatabase).lengthOf(1);
+      expect(deletedLearnersInDatabase[0].id).equal(oldLearner.id);
     });
   });
 

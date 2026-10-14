@@ -29,6 +29,8 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
   }
 
   async handle({ options, logger, jobClient }) {
+    // TODO : Rajouter des logs et un fonctionnement dryrun
+
     const engineeringUserId = config.infra.engineeringUserId;
     const lastActivityDate = new Date(options.lastActivityDate);
     const networkId = options.networkId;
@@ -41,11 +43,6 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
 
     logger.info(`Delete learners from network ${networkId} with last activity prior to ${options.lastActivityDate}`);
 
-    // plan :
-    // - Récupérer les prescrits des orgas
-    // - Exclure les prescrit ayant participer à a des parcours combiné
-    // - supprimer les prescrits dont la date de derniere activité est antérieure à la date donnée
-
     for (const { organizationId } of organizations) {
       await DomainTransaction.execute(async () => {
         const organizationLearnerIds = await organizationLearnerApi.findIdWithLastActivityDatePriorTo({
@@ -53,8 +50,23 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
           lastActivityDate,
         });
 
+        const knexConn = DomainTransaction.getConnection();
+
+        const combinedCourseOrganizationLearners = await knexConn('organization_learner_participations')
+          .join(
+            'view-active-organization-learners',
+            'organization_learner_participations.organizationLearnerId',
+            'view-active-organization-learners.id',
+          )
+          .where('type', 'COMBINED_COURSE')
+          .where('organizationId', organizationId)
+          .pluck('organizationLearnerId');
+
+        const organizationLearnerIdsToDelete = organizationLearnerIds.filter(
+          (id) => !combinedCourseOrganizationLearners.includes(id),
+        );
         await usecases.deleteOrganizationLearners({
-          organizationLearnerIds,
+          organizationLearnerIds: organizationLearnerIdsToDelete,
           userId: engineeringUserId,
           organizationId,
           userRole: 'SUPER_ADMIN',
