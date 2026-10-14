@@ -3,6 +3,7 @@
 // nebulix
 @use 'nebulix-styles' as *;
 @use 'pix-design-tokens/breakpoints';
+@use 'globals/a11y' as *;
 @use 'globals/forms' as *;
 @use 'globals/modals' as *;
 @use 'globals/pages' as *;

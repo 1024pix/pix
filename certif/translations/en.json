@@ -3,6 +3,9 @@
     "description": "The platform dedicated to the organisation of Pix Certification sessions. Pix Certif allows you to create and manage certification sessions."
   },
   "common": {
+    "a11y": {
+      "external-link": " This link opens in a new tab."
+    },
     "actions": {
       "add": "Add",
       "back": "Back",
@@ -233,7 +236,8 @@
       "a11y": "Accessibility",
       "aria-label": "Footer navigation",
       "current-year": "© {currentYear} Pix",
-      "legal-notice": "Legal notice"
+      "legal-notice": "Legal notice",
+      "status": "Service status"
     },
     "sidebar": {
       "change-center": {
