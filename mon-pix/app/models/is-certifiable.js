@@ -6,6 +6,6 @@ export default class IsCertifiable extends Model {
   @attr doubleCertificationEligibility;
 
   get isCleaEligible() {
-    return !!this.doubleCertificationEligibility?.validatedDoubleCertification;
+    return !!this.doubleCertificationEligibility?.isEligible;
   }
 }

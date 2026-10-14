@@ -234,7 +234,7 @@ function _determineUserEligibilityStatus({ userEligibility, atDate, candidate })
  * @returns {boolean}
  */
 function isRegisteredAndEligibleToDoubleCertification(candidate, userEligibility) {
-  return candidate.isRegisteredToDoubleCertification() && userEligibility.isDoubleCertificationOk();
+  return candidate.isRegisteredToDoubleCertification() && userEligibility.isEligibleForDoubleCertification();
 }
 
 /**
@@ -243,7 +243,7 @@ function isRegisteredAndEligibleToDoubleCertification(candidate, userEligibility
  * @returns {boolean}
  */
 function isRegisteredButNotEligibleToDoubleCertification(candidate, userEligibility) {
-  return candidate.isRegisteredToDoubleCertification() && !userEligibility.isDoubleCertificationOk();
+  return candidate.isRegisteredToDoubleCertification() && !userEligibility.isEligibleForDoubleCertification();
 }
 
 /**
@@ -252,5 +252,5 @@ function isRegisteredButNotEligibleToDoubleCertification(candidate, userEligibil
  * @returns {boolean}
  */
 function isEligibleButNotRegisteredToDoubleCertification(candidate, userEligibility) {
-  return !candidate.isRegisteredToDoubleCertification() && userEligibility.isDoubleCertificationOk();
+  return !candidate.isRegisteredToDoubleCertification() && userEligibility.isEligibleForDoubleCertification();
 }

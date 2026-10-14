@@ -112,7 +112,7 @@ module('Integration | Component | Certifications | Dashboard | Enrolment banner'
       const store = this.owner.lookup('service:store');
       const userEligibility = store.createRecord('is-certifiable', {
         isCertifiable: true,
-        doubleCertificationEligibility: { validatedDoubleCertification: true, imageUrl: 'something' },
+        doubleCertificationEligibility: { isEligible: true, imageUrl: 'something' },
       });
 
       // when

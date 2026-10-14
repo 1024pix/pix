@@ -1,5 +1,8 @@
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
-import { CertificationEligibility, UserCertificationEligibility } from '../read-models/UserCertificationEligibility.js';
+import {
+  DoubleCertificationEligibility,
+  UserCertificationEligibility,
+} from '../read-models/UserCertificationEligibility.js';
 
 export async function getUserCertificationEligibility({
   userId,
@@ -45,13 +48,13 @@ export async function getUserCertificationEligibility({
       userId,
     });
 
-    const hasValidatedDoubleCertification = _hasValidatedDoubleCertification(
+    const hasSucceededDoubleCertification = _hasSucceededDoubleCertification(
       userComplementaryCertifications,
       acquiredComplementaryCertificationBadge,
     );
 
     const badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt =
-      acquiredComplementaryCertificationBadge?.offsetVersion === 1 && !hasValidatedDoubleCertification;
+      acquiredComplementaryCertificationBadge?.offsetVersion === 1 && !hasSucceededDoubleCertification;
 
     if (
       _isEligible({
@@ -59,11 +62,11 @@ export async function getUserCertificationEligibility({
         badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt,
       })
     ) {
-      doubleCertificationEligibility = new CertificationEligibility({
+      doubleCertificationEligibility = new DoubleCertificationEligibility({
         label: doubleCertificationBadge.complementaryCertificationBadgeLabel,
         imageUrl: doubleCertificationBadge.complementaryCertificationBadgeImageUrl,
-        isBadgeValid: !doubleCertificationBadge.isOutdated,
-        validatedDoubleCertification: hasValidatedDoubleCertification,
+        isEligible: !doubleCertificationBadge.isOutdated && !hasSucceededDoubleCertification,
+        certificationAlreadySucceeded: hasSucceededDoubleCertification,
       });
     }
   }
@@ -79,7 +82,7 @@ function _isEligible({ badgeIsOutdated, badgeIsOutdatedByOneVersionAndUserHasNoC
   return !badgeIsOutdated || badgeIsOutdatedByOneVersionAndUserHasNoComplementaryCertificationForIt;
 }
 
-function _hasValidatedDoubleCertification(userComplementaryCertifications, acquiredComplementaryCertificationBadge) {
+function _hasSucceededDoubleCertification(userComplementaryCertifications, acquiredComplementaryCertificationBadge) {
   return userComplementaryCertifications.some(
     (userComplementaryCertification) =>
       userComplementaryCertification.isAcquiredExpectedLevelByPixSource() &&

@@ -5,18 +5,18 @@ class UserCertificationEligibility {
     this.doubleCertificationEligibility = doubleCertificationEligibility;
   }
 
-  isDoubleCertificationOk() {
-    return !!this.doubleCertificationEligibility && this.doubleCertificationEligibility.isBadgeValid;
+  isEligibleForDoubleCertification() {
+    return !!this.doubleCertificationEligibility?.isEligible;
   }
 }
 
-class CertificationEligibility {
-  constructor({ label, imageUrl, isBadgeValid, validatedDoubleCertification }) {
+class DoubleCertificationEligibility {
+  constructor({ label, imageUrl, isEligible, certificationAlreadySucceeded }) {
     this.label = label;
     this.imageUrl = imageUrl;
-    this.isBadgeValid = isBadgeValid;
-    this.validatedDoubleCertification = validatedDoubleCertification;
+    this.isEligible = isEligible;
+    this.certificationAlreadySucceeded = certificationAlreadySucceeded;
   }
 }
 
-export { CertificationEligibility, UserCertificationEligibility };
+export { DoubleCertificationEligibility, UserCertificationEligibility };
