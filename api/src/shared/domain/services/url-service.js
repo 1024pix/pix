@@ -110,7 +110,7 @@ export function getPixAppConnexionUrl(locale) {
 export function getPixApiUrl(pathname) {
   const pixApiDomain = 'https://api.dev.pix';
   const rootUrl = `${pixApiDomain}${config.domain.tldFr}`;
-  return _buildUrlWithLocale({ rootUrl, pathname });
+  return _buildUrlWithLocale({ rootUrl, pathname, locale: 'fr-FR' });
 }
 
 /**
