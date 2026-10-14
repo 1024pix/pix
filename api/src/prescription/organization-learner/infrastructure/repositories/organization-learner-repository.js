@@ -585,7 +585,14 @@ const findAllLearnerWithAtLeastOneParticipationByOrganizationIds = async functio
   return resultByOrganization;
 };
 
-const findWithLastActivityDatePriorTo = async function ({ organizationId, lastActivityDate }) {
+/**
+ *
+ * @param param0
+ * @param param0.organizationId
+ * @param param0.lastActivityDate
+ * @returns {Promise<Array<Number>>}
+ */
+const findIdWithLastActivityDatePriorTo = async function ({ organizationId, lastActivityDate }) {
   const knexConn = DomainTransaction.getConnection();
 
   return await knexConn
@@ -607,7 +614,8 @@ const findWithLastActivityDatePriorTo = async function ({ organizationId, lastAc
     .from('organizationLearnersWithLastParticipationDate')
     .where('lastParticipationDate', '<', lastActivityDate)
     .orWhereNull('lastParticipationDate')
-    .orderBy('id', 'asc');
+    .orderBy('id', 'asc')
+    .pluck('id');
 };
 
 // recherche top-N (la plus parmi, la moins parmi)
@@ -632,11 +640,11 @@ export {
   findByOrganizationsWhichNeedToComputeCertificability,
   findByUserId,
   findIdByUserIdAndOrganizationId,
+  findIdWithLastActivityDatePriorTo,
   findPaginatedAttestationStatusForOrganizationLearnersAndKey,
   findPaginatedLearnersByOrganizationId,
   findPaginatedLearnersForAdmin,
   findUserIdsFromFilters,
-  findWithLastActivityDatePriorTo,
   get,
   getAttestationsForOrganizationLearnersAndKey,
   getLatestOrganizationLearner,

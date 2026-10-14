@@ -1650,10 +1650,10 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
     });
   });
 
-  describe.only('#findWithLastActivityDatePriorTo', function () {
+  describe('#findIdWithLastActivityDatePriorTo', function () {
     context('when learners have old participations', function () {
       context('when learners are old (updatedAt prior to lastActivityDate)', function () {
-        it('returns learners', async function () {
+        it('returns learner ids', async function () {
           // given
           const updatedAt = new Date('2020-01-01');
           const lastActivityDate = new Date('2021-01-01');
@@ -1688,15 +1688,15 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
           await databaseBuilder.commit();
 
           // when
-          const learners = await organizationLearnerRepository.findWithLastActivityDatePriorTo({
+          const learners = await organizationLearnerRepository.findIdWithLastActivityDatePriorTo({
             organizationId,
             lastActivityDate,
           });
 
           // then
           expect(learners).lengthOf(2);
-          expect(learners[0].id).equal(learnerWithOldParticipation.id);
-          expect(learners[1].id).equal(learnerWithParticipationJustBeforeLastActivityDate.id);
+          expect(learners[0]).equal(learnerWithOldParticipation.id);
+          expect(learners[1]).equal(learnerWithParticipationJustBeforeLastActivityDate.id);
         });
       });
       context('when learners are recent (updatedAt equal or later than lastActivityDate)', function () {
@@ -1720,7 +1720,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
           await databaseBuilder.commit();
 
           // when
-          const learners = await organizationLearnerRepository.findWithLastActivityDatePriorTo({
+          const learners = await organizationLearnerRepository.findIdWithLastActivityDatePriorTo({
             organizationId,
             lastActivityDate,
           });
@@ -1766,7 +1766,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         await databaseBuilder.commit();
 
         // when
-        const learners = await organizationLearnerRepository.findWithLastActivityDatePriorTo({
+        const learners = await organizationLearnerRepository.findIdWithLastActivityDatePriorTo({
           organizationId,
           lastActivityDate,
         });
@@ -1796,15 +1796,15 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
           await databaseBuilder.commit();
 
           // when
-          const learners = await organizationLearnerRepository.findWithLastActivityDatePriorTo({
+          const learners = await organizationLearnerRepository.findIdWithLastActivityDatePriorTo({
             organizationId,
             lastActivityDate,
           });
 
           // then
           expect(learners).lengthOf(2);
-          expect(learners[0].id).equal(oldLearner.id);
-          expect(learners[1].id).equal(oldLearner2.id);
+          expect(learners[0]).equal(oldLearner.id);
+          expect(learners[1]).equal(oldLearner2.id);
         });
       });
       context('when learners are recent (updatedAt equal or later than lastActivityDate)', function () {
@@ -1826,7 +1826,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
           await databaseBuilder.commit();
 
           // when
-          const learners = await organizationLearnerRepository.findWithLastActivityDatePriorTo({
+          const learners = await organizationLearnerRepository.findIdWithLastActivityDatePriorTo({
             organizationId,
             lastActivityDate,
           });
