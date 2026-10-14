@@ -43,8 +43,22 @@ export default class ModulixImageElement extends Component {
     return this.args.image.legend?.length > 0 || this.args.image.licence?.length > 0;
   }
 
+  get effectiveMaxWidth() {
+    const { maxWidth } = this.args.image;
+
+    if (!maxWidth || maxWidth > ModulixImageElement.MAX_WIDTH) {
+      return ModulixImageElement.MAX_WIDTH;
+    }
+
+    return maxWidth;
+  }
+
   get dimensions() {
-    return resizeImage(this.args.image.infos, { MAX_WIDTH: ModulixImageElement.MAX_WIDTH });
+    return resizeImage(this.args.image.infos, { MAX_WIDTH: this.effectiveMaxWidth });
+  }
+
+  get maxWidthStyle() {
+    return htmlUnsafe(`max-width: min(${this.effectiveMaxWidth}px, 100%)`);
   }
 
   <template>
@@ -64,6 +78,7 @@ export default class ModulixImageElement extends Component {
             src={{@image.url}}
             width={{this.dimensions.width}}
             height={{this.dimensions.height}}
+            style={{this.maxWidthStyle}}
             {{on "error" this.onImageError}}
           />
           {{#if this.hasCaption}}

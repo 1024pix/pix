@@ -236,6 +236,7 @@ export class ModuleFactory {
       legend: element.legend,
       licence: element.licence,
       infos: await ModuleFactory.getAssetMetadata(element.url),
+      maxWidth: element.maxWidth,
     });
   }
 

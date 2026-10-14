@@ -17,6 +17,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Image', function () {
         legend: 'legend',
         licence: 'licence',
         infos: new PixAssetImageInfos({ width: 400, height: 200 }),
+        maxWidth: 300,
       });
 
       // then
@@ -28,6 +29,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Image', function () {
       expect(image.licence).to.equal('licence');
       expect(image.type).to.equal('image');
       expect(image.infos).to.deep.equal({ width: 400, height: 200 });
+      expect(image.maxWidth).to.equal(300);
     });
 
     describe('without infos', function () {
