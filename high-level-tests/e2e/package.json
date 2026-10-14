@@ -30,7 +30,7 @@
     "test:ci:app": "npx wait-on http://localhost:3000/api http://localhost:4200 && npm run cy:run:ci:app"
   },
   "devDependencies": {
-    "@badeball/cypress-cucumber-preprocessor": "23.2.1",
+    "@badeball/cypress-cucumber-preprocessor": "27.0.0",
     "@cypress/browserify-preprocessor": "3.0.2",
     "@testing-library/cypress": "10.0.1",
     "axe-core": "4.14.0",
