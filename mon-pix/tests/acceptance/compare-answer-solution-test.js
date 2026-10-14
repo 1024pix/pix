@@ -1,7 +1,6 @@
-import { clickByText, visit } from '@1024pix/ember-testing-library';
-import { click, findAll } from '@ember/test-helpers';
+import { clickByText, visit, within } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -60,12 +59,16 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
 
   module('From the results page', function () {
     test('should display the REPONSE link from the results screen for all known types of question', async function (assert) {
-      await visit(`/assessments/${assessment.id}/results`);
-      assert.ok(findAll('.result-item')[0].textContent.includes('Voir les réponses et les tutos')); //QCU
-      assert.ok(findAll('.result-item')[1].textContent.includes('Voir les réponses et les tutos')); //QCM
-      assert.ok(findAll('.result-item')[2].textContent.includes('Voir les réponses et les tutos')); //QROC
-      assert.notOk(findAll('.result-item')[3].textContent.includes('Voir les réponses et les tutos')); //QROCM
-      assert.ok(findAll('.result-item')[4].textContent.includes('Voir les réponses et les tutos')); //QROCMind
+      const screen = await visit(`/assessments/${assessment.id}/results`);
+
+      assert.ok(screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' }).length, 4);
+      assert
+        .dom(
+          within(screen.getByText(/^Question 4/).closest('div')).queryByRole('button', {
+            name: 'Voir les réponses et les tutos',
+          }),
+        )
+        .doesNotExist(); //QROCM
     });
   });
 
@@ -104,18 +107,16 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
       await click(screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' })[0]);
 
       // when
-      await clickByText(t('pages.challenge.feedback-panel.actions.open-close'));
+      await clickByText('Signaler un problème avec la question');
 
-      await clickByLabel(t('pages.challenge.feedback-panel.form.fields.detail-selection.aria-first'));
-      await clickByText(t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'));
+      await clickByLabel("J'ai un problème avec");
+      await clickByText('La question');
 
-      await clickByLabel(t('pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary'));
-      await clickByText(
-        t('pages.challenge.feedback-panel.form.fields.detail-selection.options.question-not-understood'),
-      );
+      await clickByLabel('Sélectionner une option pour préciser votre problème');
+      await clickByText('Je ne comprends pas la question');
 
-      await clickByText(t('pages.challenge.feedback-panel.form.actions.submit'));
-      await clickByText(t('common.actions.validate'));
+      await clickByText('Envoyer');
+      await clickByText('Valider');
 
       // then
       assert.dom('.feedback-panel__view--mercix').exists();

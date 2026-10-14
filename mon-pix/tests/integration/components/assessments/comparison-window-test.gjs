@@ -2,7 +2,6 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import ComparisonWindow from 'mon-pix/components/assessments/comparison-window';
 import { module, test } from 'qunit';
 
@@ -295,12 +294,12 @@ module('Integration | Component | comparison-window', function (hooks) {
 
     module('result title', function () {
       [
-        { result: '', expectedTitleKey: 'pages.comparison-window.results.default.title' },
-        { result: 'xxx', expectedTitleKey: 'pages.comparison-window.results.default.title' },
-        { result: 'ok', expectedTitleKey: 'pages.comparison-window.results.ok.title' },
-        { result: 'ko', expectedTitleKey: 'pages.comparison-window.results.ko.title' },
-        { result: 'aband', expectedTitleKey: 'pages.comparison-window.results.aband.title' },
-        { result: 'timedout', expectedTitleKey: 'pages.comparison-window.results.timedout.title' },
+        { result: '', expectedTitle: 'Réponse' },
+        { result: 'xxx', expectedTitle: 'Réponse' },
+        { result: 'ok', expectedTitle: 'Vous avez la bonne réponse !' },
+        { result: 'ko', expectedTitle: 'Vous n’avez pas la bonne réponse' },
+        { result: 'aband', expectedTitle: 'Vous n’avez pas donné de réponse' },
+        { result: 'timedout', expectedTitle: 'Vous avez dépassé le temps imparti' },
       ].forEach((data) => {
         test(`should display the expected title when validation is "${data.result}"`, async function (assert) {
           // given
@@ -320,14 +319,14 @@ module('Integration | Component | comparison-window', function (hooks) {
           );
 
           // then
-          assert.dom(screen.getByRole('heading', { name: t(data.expectedTitleKey) })).exists();
+          assert.dom(screen.getByRole('heading', { name: data.expectedTitle })).exists();
         });
       });
 
       [
-        { result: 'ok', expectedTitleKey: 'pages.comparison-window.results.okAutoReply.title' },
-        { result: 'ko', expectedTitleKey: 'pages.comparison-window.results.koAutoReply.title' },
-        { result: 'aband', expectedTitleKey: 'pages.comparison-window.results.abandAutoReply.title' },
+        { result: 'ok', expectedTitle: 'Vous avez réussi l’épreuve' },
+        { result: 'ko', expectedTitle: 'Vous n’avez pas réussi l’épreuve' },
+        { result: 'aband', expectedTitle: 'Vous avez passé l’épreuve' },
       ].forEach((data) => {
         test(`should display the expected title when challenge is auto validated and validation is "${data.result}"`, async function (assert) {
           // given
@@ -347,7 +346,7 @@ module('Integration | Component | comparison-window', function (hooks) {
           );
 
           // then
-          assert.dom(screen.getByRole('heading', { name: t(data.expectedTitleKey) })).exists();
+          assert.dom(screen.getByRole('heading', { name: data.expectedTitle })).exists();
         });
       });
     });

@@ -1,12 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
-import { t } from 'ember-intl/test-support';
 import ResultItem from 'mon-pix/components/assessments/result-item';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-const CORRECTION_BUTTON_LABEL = 'components.assessments.result-item.actions.see-answers-and-tutorials.label';
+const CORRECTION_BUTTON_LABEL = 'Voir les réponses et les tutos';
 
 module('Integration | Component | Assessments | result-item', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -26,17 +25,22 @@ module('Integration | Component | Assessments | result-item', function (hooks) {
 
         // then
         assert.dom(screen.queryByRole('button')).doesNotExist();
-        assert.dom(screen.queryByText(t('pages.comparison-window.results.ok.tooltip'))).doesNotExist();
+        assert.dom(screen.queryByText('Bonne réponse')).doesNotExist();
       });
     });
   });
 
   module('when the answer has a displayable result', function () {
-    ['ok', 'ko', 'focusedOut', 'timedout', 'aband'].forEach((result) => {
+    [
+      { result: 'ok', expectedTooltip: 'Bonne réponse' },
+      { result: 'ko', expectedTooltip: 'Mauvaise réponse' },
+      { result: 'focusedOut', expectedTooltip: 'Épreuve échouée' },
+      { result: 'timedout', expectedTooltip: 'Temps dépassé' },
+      { result: 'aband', expectedTooltip: 'Question passée' },
+    ].forEach(({ result, expectedTooltip }) => {
       test(`should display the result status when result is ${result}`, async function (assert) {
         // given
         const answer = EmberObject.create({ result });
-        const expectedTooltip = t(`pages.comparison-window.results.${result}.tooltip`);
 
         // when
         const screen = await render(<template><ResultItem @answer={{answer}} /></template>);
@@ -91,7 +95,7 @@ module('Integration | Component | Assessments | result-item', function (hooks) {
         const screen = await render(<template><ResultItem @answer={{answer}} /></template>);
 
         // then
-        const button = screen.queryByRole('button', { name: t(CORRECTION_BUTTON_LABEL) });
+        const button = screen.queryByRole('button', { name: CORRECTION_BUTTON_LABEL });
         if (shouldDisplay) {
           assert.dom(button).exists();
         } else {
@@ -114,7 +118,7 @@ module('Integration | Component | Assessments | result-item', function (hooks) {
       );
 
       // when
-      await screen.getByRole('button', { name: t(CORRECTION_BUTTON_LABEL) }).click();
+      await screen.getByRole('button', { name: CORRECTION_BUTTON_LABEL }).click();
 
       // then
       assert.strictEqual(openedAnswer, answer);

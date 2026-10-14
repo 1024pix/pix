@@ -1,6 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
-import { t } from 'ember-intl/test-support';
 import AnswerStatuses from 'mon-pix/components/assessments/answer-statuses';
 import { module, test } from 'qunit';
 
@@ -31,12 +30,20 @@ module('Integration | Component | Assessments | answer-statuses', function (hook
       );
 
       // then
-      assert.dom(screen.getByRole('heading', { name: t('pages.checkpoint.answers.header'), level: 2 })).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Vos réponses aux dernières questions', level: 2 })).exists();
       assert
-        .dom(screen.queryByText(t('pages.checkpoint.answers.already-finished.explanation.sentence1')))
+        .dom(
+          screen.queryByText(
+            'Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.',
+          ),
+        )
         .doesNotExist();
       assert
-        .dom(screen.queryByText(t('pages.checkpoint.answers.already-finished.explanation.sentence2')))
+        .dom(
+          screen.queryByText(
+            'Vous souhaitez améliorer votre score ? En cliquant sur “Voir mes résultats”, vous aurez la possibilité de retenter le parcours.',
+          ),
+        )
         .doesNotExist();
     });
 
@@ -76,7 +83,7 @@ module('Integration | Component | Assessments | answer-statuses', function (hook
       assert.dom(screen.getByText('Deuxième question')).exists();
       assert.strictEqual(
         screen.getAllByRole('button', {
-          name: t('components.assessments.result-item.actions.see-answers-and-tutorials.label'),
+          name: 'Voir les réponses et les tutos',
         }).length,
         2,
       );
@@ -108,9 +115,7 @@ module('Integration | Component | Assessments | answer-statuses', function (hook
       );
 
       // when
-      await screen
-        .getByRole('button', { name: t('components.assessments.result-item.actions.see-answers-and-tutorials.label') })
-        .click();
+      await screen.getByRole('button', { name: 'Voir les réponses et les tutos' }).click();
 
       // then
       assert.strictEqual(openedAnswer, answer);
@@ -141,11 +146,21 @@ module('Integration | Component | Assessments | answer-statuses', function (hook
       );
 
       // then
+      assert.dom(screen.getByRole('heading', { name: 'Vous avez déjà répondu !', level: 2 })).exists();
       assert
-        .dom(screen.getByRole('heading', { name: t('pages.checkpoint.answers.already-finished.info'), level: 2 }))
+        .dom(
+          screen.queryByText(
+            'Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.',
+          ),
+        )
         .exists();
-      assert.dom(screen.queryByText(t('pages.checkpoint.answers.already-finished.explanation.sentence1'))).exists();
-      assert.dom(screen.queryByText(t('pages.checkpoint.answers.already-finished.explanation.sentence2'))).exists();
+      assert
+        .dom(
+          screen.queryByText(
+            'Vous souhaitez améliorer votre score ? En cliquant sur “Voir mes résultats”, vous aurez la possibilité de retenter le parcours.',
+          ),
+        )
+        .exists();
       assert.dom(screen.queryByText('Première question')).doesNotExist();
     });
   });
