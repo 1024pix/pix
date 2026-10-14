@@ -678,6 +678,7 @@
               "no-configuration": "Aucune configuration disponible pour cette compétence.",
               "title": "Bornes de capacités par compétences"
             },
+            "edit":"Éditer le scoring",
             "level": "Niveau {index}",
             "previous-version-capacity": "Valeur dans la version précédente : {previousVersionCapacity}",
             "required-error": "Ce champ est obligatoire.",

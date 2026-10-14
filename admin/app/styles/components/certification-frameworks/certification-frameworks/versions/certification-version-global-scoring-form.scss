@@ -1,7 +1,21 @@
+
 .versions-scoring {
   &__form {
     display: flex;
     flex-direction: column;
+
+    .pix-button {
+      display: inline-flex;
+      inline-size: fit-content;
+      align-self: end;
+      padding: var(--pix-spacing-2x) var(--pix-spacing-4x);
+      font-size: 0.8rem;
+
+      &__icon {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
 
     h3 {
       font-weight: 700;

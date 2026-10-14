@@ -670,6 +670,7 @@
               "no-configuration": "No scoring configuration for this competence.",
               "title": "Bounds of capacities by competence"
             },
+            "edit":"Edit scoring",
             "level": "Level {index}",
             "previous-version-capacity": "Value in previous version: {previousVersionCapacity}",
             "required-error": "This field is required.",

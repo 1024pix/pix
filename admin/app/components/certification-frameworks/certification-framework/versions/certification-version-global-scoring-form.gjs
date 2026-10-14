@@ -1,4 +1,4 @@
-import { PixInput } from '@1024pix/nebulix-ember';
+import { PixButton, PixInput } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -6,10 +6,13 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import Card from 'pix-admin/components/card';
+import { tracked } from '@glimmer/tracking';
+import { not } from 'ember-truth-helpers';
 
 export default class GlobalScoringForm extends Component {
   @service pixToast;
   @service intl;
+  @tracked editable = false;
 
   MIN_STEP = `0.${'0'.repeat(14)}1`;
 
@@ -35,6 +38,11 @@ export default class GlobalScoringForm extends Component {
       newArray.at(index + 1).bounds.min = value;
     }
     this.args.editVersion.globalScoringConfiguration = newArray;
+  }
+
+  @action
+  isMinFieldReadonly(index) {
+    return this.isNotFirstRow(index) || !this.editable
   }
 
   @action
@@ -74,12 +82,22 @@ export default class GlobalScoringForm extends Component {
     return bounds ? bounds[name] : '—';
   }
 
+  @action
+  toggleEditable() {
+    this.editable = !this.editable;
+  }
+
   <template>
     <Card
       class="versions-scoring"
       @title={{t "components.certification-frameworks.certification-framework.versions.scoring.title"}}
     >
       <form id="version-scoring-form" class="versions-scoring__form">
+        <PixButton @iconBefore='edit' @variant='secondary' @triggerAction={{this.toggleEditable}}>
+          {{t
+          "components.certification-frameworks.certification-framework.versions.scoring.edit"
+        }}
+        </PixButton>
         {{#each this.globalScoringConfiguration as |mesh|}}
           <h3>
 
@@ -91,7 +109,7 @@ export default class GlobalScoringForm extends Component {
             <PixInput
               type="number"
               step={{this.MIN_STEP}}
-              readonly={{this.isNotFirstRow mesh.meshLevel}}
+              readonly={{this.isMinFieldReadonly mesh.meshLevel}}
               required="true"
               @requiredLabel={{t "common.forms.mandatory"}}
               @errorMessage={{t
@@ -111,6 +129,7 @@ export default class GlobalScoringForm extends Component {
               type="number"
               step={{this.MIN_STEP}}
               required="true"
+              readonly={{not this.editable}}
               @requiredLabel={{t "common.forms.mandatory"}}
               @errorMessage={{t
                 "components.certification-frameworks.certification-framework.versions.scoring.cannot-be-lower-error"
