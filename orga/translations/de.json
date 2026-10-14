@@ -1618,6 +1618,14 @@
           "details": "Ermöglicht das Importieren einer neuen Liste von Schüler:innen anstelle der bestehenden.",
           "label": "Eine neue Liste importieren",
           "title": "Ersetzen"
+        },
+        "sco": {
+          "details": "Diese Aktion ermöglicht dir:",
+          "details-add": "neue Schüler:innen hinzuzufügen",
+          "details-disable": "ehemalige Schüler:innen zu deaktivieren",
+          "details-update": "bereits importierte Schüler:innen zu bearbeiten",
+          "label": "Liste importieren",
+          "title": "Liste der Schüler:innen importieren"
         }
       },
       "banner": {

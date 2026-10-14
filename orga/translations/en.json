@@ -1618,6 +1618,14 @@
           "details": "Import a new list of students in replacement of the existing one.",
           "label": "Overwrite list",
           "title": "Overwrite"
+        },
+        "sco": {
+          "details": "This action allows you to:",
+          "details-add": "add new students",
+          "details-disable": "deactivate former students",
+          "details-update": "edit previously imported students",
+          "label": "Import list",
+          "title": "Import list of students"
         }
       },
       "banner": {
