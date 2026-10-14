@@ -58,6 +58,13 @@ export default class CertificateCompetencesDetails extends Component {
     return this.args.certificate.isV3 && (this.currentDomain.isFranceDomain || this.isUserFrenchReader);
   }
 
+  @action
+  sortedResultCompetences(competences) {
+    return [...competences].sort((competenceA, competenceB) => {
+      return competenceA.index < competenceB.index ? -1 : 1;
+    });
+  }
+
   <template>
     <section class="certificate-competences-details">
       <h2 id="competences-list-title" class="certificate-competences-details__title">
@@ -93,7 +100,7 @@ export default class CertificateCompetencesDetails extends Component {
               {{on "click" (fn this.handleTabChange index)}}
               {{on "keydown" this.handleTabNavigation}}
             >
-              <span class="focus">{{area.title}}</span>
+              <span class="focus">{{area.code}}. {{area.title}}</span>
             </button>
           {{/each}}
         </div>
@@ -110,9 +117,9 @@ export default class CertificateCompetencesDetails extends Component {
                 <div role="presentation">{{t "common.level"}}</div>
               </div>
               <ol class="certificate-competences-details-tablist__competences-list">
-                {{#each area.resultCompetences as |resultCompetence|}}
+                {{#each (this.sortedResultCompetences area.resultCompetences) as |resultCompetence|}}
                   <li data-competence-index={{resultCompetence.index}}>
-                    <span>{{resultCompetence.name}}</span>
+                    <span>{{resultCompetence.index}} {{resultCompetence.name}}</span>
                     {{#if (gte resultCompetence.level 0)}}
                       <span><small class="sr-only">{{t "common.level"}}</small>{{resultCompetence.level}}</span>
                     {{else}}
