@@ -14,16 +14,26 @@ const schema = Joi.object({
   }),
 });
 
+type CombinedCourseForCreationArgs = {
+  name: string;
+  organizationId: number;
+  blueprintId: number;
+};
+
 export class CombinedCourseForCreation {
-  constructor({ name, organizationId, blueprintId } = {}) {
+  name: string;
+  organizationId: number;
+  blueprintId: number;
+
+  constructor({ name, organizationId, blueprintId }: CombinedCourseForCreationArgs) {
+    this.#validate({ name, organizationId, blueprintId });
+
     this.name = name;
     this.organizationId = organizationId;
     this.blueprintId = blueprintId;
-
-    this.#validate({ name, organizationId, blueprintId });
   }
 
-  #validate(combinedCourse) {
+  #validate(combinedCourse: CombinedCourseForCreationArgs) {
     const { error } = schema.validate(combinedCourse);
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details, undefined, { data: combinedCourse });

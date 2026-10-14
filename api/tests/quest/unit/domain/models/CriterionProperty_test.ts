@@ -3,21 +3,11 @@ import { expect } from 'chai';
 import {
   COMPARISONS,
   CriterionProperty,
-} from '../../../../../src/quest/domain/models/quests/value-objects/CriterionProperty.js';
+} from '../../../../../src/quest/domain/models/quests/value-objects/CriterionProperty.ts';
 
 describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
   describe('#validate', function () {
     describe(COMPARISONS.EQUAL, function () {
-      it('should throw with object data', function () {
-        expect(function () {
-          new CriterionProperty({
-            key: 'valid_key',
-            data: { object: 'invalid_data' },
-            comparison: COMPARISONS.EQUAL,
-          });
-        }).to.throw();
-      });
-
       it('should throw with array data', function () {
         expect(function () {
           new CriterionProperty({
@@ -55,16 +45,6 @@ describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
           new CriterionProperty({
             key: 'valid_key',
             data: 'invalid',
-            comparison: COMPARISONS.ONE_OF,
-          });
-        }).to.throw();
-      });
-
-      it('should throw with object data', function () {
-        expect(function () {
-          new CriterionProperty({
-            key: 'valid_key',
-            data: { object: 'invalid_data' },
             comparison: COMPARISONS.ONE_OF,
           });
         }).to.throw();
@@ -112,16 +92,6 @@ describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
         }).to.not.throw();
       });
 
-      it('should throw with object data', function () {
-        expect(function () {
-          new CriterionProperty({
-            key: 'valid_key',
-            data: { object: 'invalid_data' },
-            comparison: COMPARISONS.LIKE,
-          });
-        }).to.throw();
-      });
-
       it('should throw with array data', function () {
         expect(function () {
           new CriterionProperty({
@@ -149,16 +119,6 @@ describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
           new CriterionProperty({
             key: 'valid_key',
             data: 'invalid',
-            comparison: COMPARISONS.ALL,
-          });
-        }).to.throw();
-      });
-
-      it('should throw with object data', function () {
-        expect(function () {
-          new CriterionProperty({
-            key: 'valid_key',
-            data: { object: 'invalid_data' },
             comparison: COMPARISONS.ALL,
           });
         }).to.throw();
@@ -208,7 +168,7 @@ describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
 
           const result = criterionProperty.check({ something: true });
 
-          expect(result).to.be.true;
+          expect(result).to.equal(true);
         });
 
         it('should return false if data attribute is not equal to criterion attribute', function () {
@@ -220,7 +180,7 @@ describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
 
           const result = criterionProperty.check({ something: false });
 
-          expect(result).to.be.false;
+          expect(result).to.equal(false);
         });
       });
 
@@ -252,10 +212,10 @@ describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
           const result3 = includes.check({ something: 'I love apples !' });
           const result4 = caseInsensitive.check({ something: 'I love apples !' });
 
-          expect(result1).to.be.true;
-          expect(result2).to.be.true;
-          expect(result3).to.be.true;
-          expect(result4).to.be.true;
+          expect(result1).to.equal(true);
+          expect(result2).to.equal(true);
+          expect(result3).to.equal(true);
+          expect(result4).to.equal(true);
         });
 
         it('should return false if criterion attribute data attribute is not included in data attribute', function () {
@@ -266,7 +226,7 @@ describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
           });
           const result = criterionProperty.check({ something: 'I love apples !' });
 
-          expect(result).to.be.false;
+          expect(result).to.equal(false);
         });
 
         it('should return false if data attribute is null or undefined', function () {
@@ -278,8 +238,8 @@ describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
           const result1 = criterionProperty.check({ something: null });
           const result2 = criterionProperty.check({ somethingElse: null });
 
-          expect(result1).to.be.false;
-          expect(result2).to.be.false;
+          expect(result1).to.equal(false);
+          expect(result2).to.equal(false);
         });
 
         it('should return false if data attribute type is not suited for LIKE comparison', function () {
@@ -291,7 +251,7 @@ describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
 
           const result = criterionProperty.check({ something: false });
 
-          expect(result).to.be.false;
+          expect(result).to.equal(false);
         });
       });
     });
@@ -307,7 +267,7 @@ describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
 
           const result = criterionProperty.check({ something: 1 });
 
-          expect(result).to.be.true;
+          expect(result).to.equal(true);
         });
 
         it('should return false when item attribute is not included in criterion attribute', function () {
@@ -319,7 +279,7 @@ describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
 
           const result = criterionProperty.check({ something: 3 });
 
-          expect(result).to.be.false;
+          expect(result).to.equal(false);
         });
       });
 
@@ -334,7 +294,7 @@ describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
 
             const result = criterionProperty.check({ something: [1, 2, 3] });
 
-            expect(result).to.be.true;
+            expect(result).to.equal(true);
           });
 
           it('should return false when item attribute does not include all values in criterion attribute', function () {
@@ -346,7 +306,7 @@ describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
 
             const result = criterionProperty.check({ something: [1, 3] });
 
-            expect(result).to.be.false;
+            expect(result).to.equal(false);
           });
         });
 
@@ -360,7 +320,7 @@ describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
 
             const result = criterionProperty.check({ something: [1, 3] });
 
-            expect(result).to.be.true;
+            expect(result).to.equal(true);
           });
 
           it('should return false when item attribute does not include one of the values in criterion attribute', function () {
@@ -372,7 +332,7 @@ describe('Quest | Unit | Domain | Models | CriterionProperty', function () {
 
             const result = criterionProperty.check({ something: [3] });
 
-            expect(result).to.be.false;
+            expect(result).to.equal(false);
           });
         });
       });

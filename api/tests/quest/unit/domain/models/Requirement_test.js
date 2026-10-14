@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { Eligibility } from '../../../../../src/quest/domain/models/quests/aggregates/Eligibility.js';
 import { Success } from '../../../../../src/quest/domain/models/quests/aggregates/Success.ts';
-import { COMPARISONS as CRITERION_PROPERTY_COMPARISONS } from '../../../../../src/quest/domain/models/quests/value-objects/CriterionProperty.js';
+import { COMPARISONS as CRITERION_PROPERTY_COMPARISONS } from '../../../../../src/quest/domain/models/quests/value-objects/CriterionProperty.ts';
 import {
   buildRequirement,
   CappedTubesRequirement,

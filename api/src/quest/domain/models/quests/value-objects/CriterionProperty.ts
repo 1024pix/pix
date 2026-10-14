@@ -39,19 +39,44 @@ const schema = Joi.object({
     .required(),
 });
 
+type CriterionPropertyErrorArgs = {
+  message: string;
+  details: Joi.ValidationErrorItem[];
+};
+
 export class CriterionPropertyError extends Error {
-  constructor({ message, details }) {
+  details: Joi.ValidationErrorItem[];
+
+  constructor({ message, details }: CriterionPropertyErrorArgs) {
     super(message);
     this.details = details;
   }
 }
 
-export class CriterionProperty {
-  #key;
-  #data;
-  #comparison;
+type ComparisonValue = (typeof COMPARISONS)[keyof typeof COMPARISONS];
 
-  constructor(args) {
+type OneOfComparisonDataValue = readonly (string | number | boolean)[];
+
+type AllComparisonDataValue = readonly (string | number | boolean)[];
+
+type EqualComparisonDataValue = string | number | boolean;
+
+type LikeComparisonDataValue = string;
+
+type DataValue = OneOfComparisonDataValue | AllComparisonDataValue | LikeComparisonDataValue | EqualComparisonDataValue;
+
+type CriterionPropertyArgs = {
+  key: string;
+  data: DataValue;
+  comparison: ComparisonValue;
+};
+
+export class CriterionProperty {
+  #key: string;
+  #data: DataValue;
+  #comparison: string;
+
+  constructor(args: CriterionPropertyArgs) {
     const { key, data, comparison } = args;
 
     this.#key = key;
@@ -61,7 +86,7 @@ export class CriterionProperty {
     this.#validate(args);
   }
 
-  #validate(args) {
+  #validate(args: CriterionPropertyArgs) {
     const { error } = schema.validate(args);
     if (error) {
       throw new CriterionPropertyError({ message: 'arguments are invalid', details: error.details });
@@ -80,7 +105,7 @@ export class CriterionProperty {
     return this.#comparison;
   }
 
-  check(item) {
+  check(item: Record<string, DataValue | null | undefined>) {
     let error;
     const criterionAttr = this.#data;
     const dataAttr = item[this.#key];
@@ -124,8 +149,11 @@ export class CriterionProperty {
       });
     }
 
-    if (error) {
-      logger.error({ event: 'quest-reward', err: error }, 'Error on quests criterion property');
+    if (error && 'error' in logger && typeof logger.error === 'function') {
+      Reflect.apply(logger.error, logger, [
+        { event: 'quest-reward', err: error },
+        'Error on quests criterion property',
+      ]);
     }
     return false;
   }

@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import { EntityValidationError } from '../../../../../shared/domain/errors.js';
 import { logger } from '../../../../../shared/infrastructure/utils/logger.js';
-import { COMPARISONS as _CRITERION_COMPARISONS } from '../value-objects/CriterionProperty.js';
+import { COMPARISONS as _CRITERION_COMPARISONS } from '../value-objects/CriterionProperty.ts';
 import {
   COMPARISONS as _REQUIREMENT_COMPARISONS,
   ComposedRequirement,
