@@ -163,5 +163,5 @@ export const findWithOrganizationByIds = async ({ organizationLearnerIds, organi
 };
 
 export const findIdWithLastActivityDatePriorTo = async ({ organizationId, lastActivityDate }) => {
-  return [];
+  return await usecases.findIdWithLastActivityDatePriorTo({ organizationId, lastActivityDate });
 };

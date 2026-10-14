@@ -61,41 +61,41 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
 
       // Inactive learners
 
-      const learner1 = databaseBuilder.factory.buildOrganizationLearner({
+      const inactiveLearner1 = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         updatedAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
-        organizationLearnerId: learner1.id,
-        user: learner1.userId,
+        organizationLearnerId: inactiveLearner1.id,
+        user: inactiveLearner1.userId,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
-        organizationLearnerId: learner1.id,
-        user: learner1.userId,
-        createdAt: lastActivityDate,
+        organizationLearnerId: inactiveLearner1.id,
+        user: inactiveLearner1.userId,
+        createdAt: new Date('2020-12-31'),
       });
 
-      databaseBuilder.factory.buildOrganizationLearner({
+      const inactiveLearner2 = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         updatedAt: new Date('2020-01-01'),
       });
 
       // Active learners
 
-      const learner2 = databaseBuilder.factory.buildOrganizationLearner({
+      const activeLearner1 = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         updatedAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
-        organizationLearnerId: learner2.id,
-        user: learner2.userId,
+        organizationLearnerId: activeLearner1.id,
+        user: activeLearner1.userId,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
-        organizationLearnerId: learner2.id,
-        user: learner2.userId,
-        createdAt: new Date('2025-01-01'),
+        organizationLearnerId: activeLearner1.id,
+        user: activeLearner1.userId,
+        createdAt: lastActivityDate,
       });
 
       databaseBuilder.factory.buildOrganizationLearner({
@@ -122,6 +122,8 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
       ).true;
       expect(learnersInDatabase).lengthOf(4);
       expect(deletedLearnersInDatabase).lengthOf(2);
+      expect(deletedLearnersInDatabase[0].id).to.equal(inactiveLearner1.id);
+      expect(deletedLearnersInDatabase[1].id).to.equal(inactiveLearner2.id);
       expect(participationsInDatabase).lengthOf(4);
       expect(deletedParticipationsInDatabase).lengthOf(2);
     });

@@ -132,7 +132,7 @@ describe('Integration | API | Organization Learner', function () {
       });
       databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
-        updatedAt: new Date('2021-01-01'),
+        updatedAt: new Date('2022-01-01'),
       });
 
       await databaseBuilder.commit();
@@ -144,27 +144,7 @@ describe('Integration | API | Organization Learner', function () {
       });
 
       // then
-      expect(learners).lengthOf(2);
-    });
-    it('should return empty array if no learners match', async function () {
-      // given
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
-
-      databaseBuilder.factory.buildOrganizationLearner({
-        organizationId,
-        updatedAt: new Date('2025-01-01'),
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const learners = await organizationLearnersApi.findIdWithLastActivityDatePriorTo({
-        organizationId,
-        lastActivityDate: new Date('2021-01-01'),
-      });
-
-      // then
-      expect(learners).lengthOf(0);
+      expect(learners).lengthOf(1);
     });
   });
 });

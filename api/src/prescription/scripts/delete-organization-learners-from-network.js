@@ -48,14 +48,13 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
 
     for (const { organizationId } of organizations) {
       await DomainTransaction.execute(async () => {
-        const { organizationLearners } = await organizationLearnerApi.findIdWithLastActivityDatePriorTo({
+        const organizationLearnerIds = await organizationLearnerApi.findIdWithLastActivityDatePriorTo({
           organizationId,
           lastActivityDate,
         });
 
-        const organizationLearnerToDeleteIds = organizationLearners.map(({ id }) => id);
         await usecases.deleteOrganizationLearners({
-          organizationLearnerIds: organizationLearnerToDeleteIds,
+          organizationLearnerIds,
           userId: engineeringUserId,
           organizationId,
           userRole: 'SUPER_ADMIN',
