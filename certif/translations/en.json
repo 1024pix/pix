@@ -233,7 +233,8 @@
       "a11y": "Accessibility",
       "aria-label": "Footer navigation",
       "current-year": "© {currentYear} Pix",
-      "legal-notice": "Legal notice"
+      "legal-notice": "Legal notice",
+      "status": "Service status"
     },
     "sidebar": {
       "change-center": {
