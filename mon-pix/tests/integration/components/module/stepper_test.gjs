@@ -2,6 +2,7 @@ import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 // eslint-disable-next-line no-restricted-imports
 import { click, find } from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl/test-support';
 import { VERIFY_RESPONSE_DELAY } from 'mon-pix/components/module/component/element';
 import ModulixStepper, { NEXT_STEP_BUTTON_DELAY } from 'mon-pix/components/module/component/stepper';
@@ -2640,6 +2641,82 @@ module('Integration | Component | Module | Stepper', function (hooks) {
 
         // then
         assert.dom(screen.getByText(instruction)).exists();
+      });
+    });
+
+    module('when stepper is displayed on mobile', function () {
+      test('should not display dots into stepper bar', async function (assert) {
+        // given
+        const steps = [
+          {
+            elements: [
+              {
+                id: '342183f7-af51-4e4e-ab4c-ebed1e195063',
+                type: 'text',
+                content: '<p>Text 1</p>',
+                tag: ' ',
+              },
+            ],
+          },
+          {
+            elements: [
+              {
+                id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                type: 'text',
+                content: '<p>Text 2</p>',
+                tag: ' ',
+              },
+            ],
+          },
+        ];
+        class MediaServiceStub extends Service {
+          @tracked isMobile = true;
+        }
+        this.owner.register('service:media', MediaServiceStub);
+
+        // when
+        await render(<template><ModulixStepper @steps={{steps}} @direction="horizontal" /></template>);
+
+        // then
+        assert.dom('.stepper-controls__step-bars').doesNotExist();
+      });
+    });
+
+    module('when stepper is not displayed on mobile', function () {
+      test('should display dots into stepper bar', async function (assert) {
+        // given
+        const steps = [
+          {
+            elements: [
+              {
+                id: '342183f7-af51-4e4e-ab4c-ebed1e195063',
+                type: 'text',
+                content: '<p>Text 1</p>',
+                tag: ' ',
+              },
+            ],
+          },
+          {
+            elements: [
+              {
+                id: '768441a5-a7d6-4987-ada9-7253adafd842',
+                type: 'text',
+                content: '<p>Text 2</p>',
+                tag: ' ',
+              },
+            ],
+          },
+        ];
+        class MediaServiceStub extends Service {
+          @tracked isMobile = false;
+        }
+        this.owner.register('service:media', MediaServiceStub);
+
+        // when
+        await render(<template><ModulixStepper @steps={{steps}} @direction="horizontal" /></template>);
+
+        // then
+        assert.dom('.stepper-controls__step-bars').exists();
       });
     });
   });
