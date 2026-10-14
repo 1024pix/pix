@@ -11,7 +11,9 @@ export default class CombinedCourseRoute extends Route {
     const { code } = this.paramsFor(this.routeName);
 
     if (!transition.from) {
-      return this.router.replaceWith('organizations.access', code, { queryParams: { from: 'parcours' } });
+      if (transition.to.name !== 'combined-courses.combined-course.tunnel') {
+        return this.router.replaceWith('organizations.access', code, { queryParams: { from: 'parcours' } });
+      }
     }
 
     const verifiedCode = await this.store.findRecord('verified-code', code);
