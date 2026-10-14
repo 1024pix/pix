@@ -135,8 +135,8 @@ function hasWhiteBackground(item) {
         {{on "click" @onClick}}
         data-testid="selectable-item-button"
         aria-describedby={{if @isSelectedItem "step-details-description step-details-objectives"}}
-        {{autofocus @isSelectedItem}}
-        {{scrollIntoView @isSelectedItem}}
+        {{autofocus @focusItem}}
+        {{scrollIntoView @focusItem}}
       >
         <Content
           @title={{@item.title}}

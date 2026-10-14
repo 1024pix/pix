@@ -2,7 +2,7 @@ import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
-import { eq } from 'ember-truth-helpers';
+import { and, eq } from 'ember-truth-helpers';
 
 import CombinedCourseItem from './combined-course-item';
 export default class CombinedCourseItemsList extends Component {
@@ -39,6 +39,7 @@ export default class CombinedCourseItemsList extends Component {
         @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
         @displayNextItemTag={{@displayNextItemTag}}
         @isLoading={{@isLoading}}
+        @focusItem={{and (this.isSelectedItem item) @shouldFocusSelectedItem}}
       />
     {{/each}}
   </template>
