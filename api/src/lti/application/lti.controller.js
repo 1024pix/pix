@@ -159,9 +159,9 @@ async function selectCampaign(request, h, dependencies = { cryptoService, ltiPla
       'https://purl.imsglobal.org/spec/lti-dl/claim/content_items': [
         {
           type: 'ltiResourceLink',
-          title: 'Campagne Pix',
+          title: `Campagne Pix ${request.payload.campaignCode}`,
           text: 'Campagne PIX dont la note sera envoyée dans Moodle',
-          custom: { campaign_code: 'AUTOCOUR1' },
+          custom: { campaign_code: request.payload.campaignCode },
           lineItem: {
             scoreMaximum: 100,
           },
