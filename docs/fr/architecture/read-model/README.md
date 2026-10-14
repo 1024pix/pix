@@ -8,9 +8,8 @@ Aucune règle du métier ne le lit. Les read-models se rangent dans `domain/read
 
 Comme un [Value Object](../objet-valeur/README.md), il ne change pas après sa création
 ([V1](../objet-valeur/README.md#v1-immuable)) et ne dépend d'aucune infrastructure
-([V4](../objet-valeur/README.md#v4-aucun-effet-de-bord-extérieur)). Ce n'est pas le read model de
-CQRS, qui est une copie des données tenue dans une base à part et mise à jour après chaque écriture.
-Le read-model de Pix est lu dans les tables où l'Aggregate écrit.
+([V4](../objet-valeur/README.md#v4-aucun-effet-de-bord-extérieur)). Il est lu dans les tables où
+l'[Aggregate](../racine-agregat/README.md) écrit.
 
 ## Les règles
 
@@ -19,8 +18,8 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | # | Règle | En pratique |
 | --- | --- | --- |
 | [RM1](#rm1-aucune-règle-métier) | Aucune règle métier | seulement des mises en forme pour l'écran : un total, un libellé, `isArchived` |
-| [RM2](#rm2-aucune-validation) | Aucune validation | pas de `throw` : les données viennent de notre propre base |
-| [RM3](#rm3-nentre-pas-dans-une-règle) | N'entre pas dans une règle | un usecase le renvoie sans le lire ; pour décider, il charge l'[Aggregate](../racine-agregat/README.md) |
+| [RM2](#rm2-aucune-validation) | Aucune validation | pas de `throw` : les données viennent de la base de Pix |
+| [RM3](#rm3-nentre-pas-dans-une-règle) | N'entre pas dans une règle | un usecase le renvoie sans le lire ; pour décider, il charge l'Aggregate |
 | [RM4](#rm4-rangé-à-part-des-modèles-du-domaine) | Rangé à part des modèles du domaine | le fichier est dans `domain/read-models/`, à côté de `domain/models/` |
 
 ## Exemple complet
@@ -181,6 +180,8 @@ Le test unitaire de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/organizational-entities/unit/domain/read-models/OrganizationListItem_test.ts
+import { expect } from 'chai';
+
 import {
   isArchived,
   type OrganizationListItem,
@@ -244,6 +245,7 @@ l'applique avant d'enregistrer.
 
 ```ts
 // OrganizationListItem.ts
+// RM1 : une mise en forme pour l'écran, elle ne décide rien
 export const isArchived = (item: OrganizationListItem): boolean => item.archivedAt !== null;
 ```
 
@@ -276,17 +278,16 @@ l'Aggregate, la liste de Pix Admin garde l'ancien calcul. Elle affiche « gère 
 organisation qui ne les gère plus.
 
 **À savoir.** Pour savoir si un calcul est une mise en forme, se demander : décide-t-il quelque chose ?
-`Organization` a aussi un getter `isArchived`, et `rename()` le lit pour refuser de renommer une
-organisation archivée. Dans l'Aggregate, le calcul décide. Dans le read-model, le même calcul sert
-seulement à l'affichage.
+Ici, `isArchived` sert seulement à afficher un badge. Si un usecase s'en servait pour refuser une
+action, le calcul déciderait : il irait dans l'Aggregate (voir [RM3](#rm3-nentre-pas-dans-une-règle)).
 
 **Exceptions.** Un read-model sans aucune mise en forme est permis. Nommer la forme que renvoie une
 requête suffit à justifier le fichier.
 
 ### RM2. Aucune validation
 
-**La règle.** Un read-model ne vérifie pas ses données. Elles viennent d'une requête sur notre propre
-base, où l'Aggregate les a écrites après les avoir vérifiées. Une donnée ancienne peut ne pas suivre
+**La règle.** Un read-model ne vérifie pas ses données. Elles viennent d'une requête sur la base de
+Pix, où l'Aggregate les a écrites après les avoir vérifiées. Une donnée ancienne peut ne pas suivre
 les règles d'aujourd'hui : le read-model l'accepte quand même. Il ne lève jamais d'erreur.
 
 **Bon exemple.**
@@ -296,7 +297,7 @@ les règles d'aujourd'hui : le read-model l'accepte quand même. Il ne lève jam
 // RM2 : un type plutôt qu'une classe. Sans constructeur, il n'y a pas d'endroit où valider, et
 // le repository renvoie un objet littéral. La mise en forme est donc une fonction à part, plus bas
 export type OrganizationListItem = {
-  readonly id: OrganizationId;
+  readonly id: OrganizationId; // V1 : en lecture seule ; l'id de l'organisation affichée
   readonly name: string;
   …
 };
@@ -304,6 +305,7 @@ export type OrganizationListItem = {
 
 ```ts
 // organization-list-repository.ts
+// RM2 : on recopie les colonnes, sans rien vérifier
 function toListItem(row: OrganizationListRow): OrganizationListItem {
   return {
     id: row.id as OrganizationId,
@@ -341,13 +343,15 @@ read-model reste sans validation.
 
 ### RM3. N'entre pas dans une règle
 
-**La règle.** Un read-model sort du domaine, il n'y entre pas. Aucune règle ni aucun usecase ne
-décide à partir de lui. Pour décider, un usecase charge l'Aggregate et appelle sa méthode.
+**La règle.** Aucune règle du métier et aucun usecase ne décide à partir d'un read-model. Le
+read-model sert seulement à construire la réponse. Pour décider, un usecase charge l'Aggregate et
+appelle sa méthode.
 
 **Bon exemple.**
 
 ```ts
 // find-paginated-filtered-organizations.ts
+// RM3 : le usecase renvoie les lignes sans les lire
 export const findPaginatedFilteredOrganizations = ({
   filter,
   page,
@@ -361,8 +365,8 @@ export const findPaginatedFilteredOrganizations = ({
 };
 ```
 
-Le usecase renvoie les lignes sans les lire. Quand il faut décider, le usecase charge l'Aggregate,
-comme `enableOrganizationFeature` dans la fiche Aggregate Root :
+Quand il faut décider, le usecase charge l'Aggregate,
+comme `enableOrganizationFeature` dans la [fiche Aggregate Root](../racine-agregat/README.md#exemple-complet) :
 
 ```ts
 // enable-organization-feature.ts
@@ -388,10 +392,10 @@ await organizationFeatureRepository.add({ organizationId, featureName, params })
 **Ce que ça apporte.** On peut changer la liste pour l'écran, ajouter ou retirer une colonne, sans
 toucher à aucune règle du métier.
 
-**Sans cette règle.** Le usecase vérifie l'archivage sur la ligne de liste. Mais la ligne ne porte
-pas les fonctionnalités, donc rien ne refuse une fonctionnalité déjà activée : elle est enregistrée
-deux fois. Après `LEARNER_IMPORT`, `isManagingStudents` reste à `true`, parce que `enableFeature()`
-n'a pas été appelée.
+**Sans cette règle.** Le usecase lit la ligne de liste, puis enregistre la fonctionnalité sans passer
+par l'Aggregate. `enableFeature()` n'est pas appelée, donc après `LEARNER_IMPORT`,
+`isManagingStudents` reste à `true`. L'organisation importe ses élèves et gère aussi des élèves, ce
+que la règle de l'Aggregate interdit.
 
 **À savoir.**
 
