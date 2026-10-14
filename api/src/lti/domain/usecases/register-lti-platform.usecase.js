@@ -146,7 +146,7 @@ export async function registerLtiPlatform({
     encryptedPrivateKey,
     toolConfig: pixToolRegistration,
     publicKey,
-    status: LtiPlatformRegistration.status.PENDING,
+    status: LtiPlatformRegistration.status.ACTIVE,
   });
 
   logger.info(
