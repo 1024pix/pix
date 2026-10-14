@@ -9,6 +9,8 @@ services:
       - .env
     ports:
       - ${MOODLE_DOCKER_WEB_PORT}:80
+    extra_hosts:
+      - api.dev.pix.fr:host-gateway
   db:
     image: postgres:${MOODLE_DOCKER_DB_VERSION:?error}
     env_file:

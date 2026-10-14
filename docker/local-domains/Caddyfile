@@ -47,3 +47,8 @@ certif.dev.pix.fr, certif.dev.pix.org {
   import pix_proxy 4205
   import long_certs
 }
+
+api.dev.pix.fr {
+  import pix_proxy 3000
+  import long_certs
+}
