@@ -1348,6 +1348,7 @@
           "description": "Completate la tua diagnosi per sbloccare un programma di moduli su misura per i tuoi risultati!",
           "title": "Programma di moduli personalizzato"
         },
+        "restart-campaign": "Ricominciare",
         "restart-module": "Ripetere il modulo",
         "start-campaign": "Inizia",
         "start-module": "Inizia il modulo",

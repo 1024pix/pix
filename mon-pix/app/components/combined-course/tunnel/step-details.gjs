@@ -44,7 +44,9 @@ import Level from '../level';
   </div>
 
   <PixButton class="step-details__cta" @triggerAction={{fn @onClick @item}} @isLoading={{@isLoading}}>
-    {{#if (eq @item.type CombinedCourseItemTypes.CAMPAIGN)}}
+    {{#if (and (eq @item.type CombinedCourseItemTypes.CAMPAIGN) @item.isCompleted)}}
+      {{t "pages.combined-courses.items.restart-campaign"}}
+    {{else if (eq @item.type CombinedCourseItemTypes.CAMPAIGN)}}
       {{t "pages.combined-courses.items.start-campaign"}}
     {{else if @item.isCompleted}}
       {{t "pages.combined-courses.items.restart-module"}}
