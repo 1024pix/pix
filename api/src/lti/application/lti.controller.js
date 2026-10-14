@@ -117,7 +117,7 @@ async function deepLink(request, h) {
     return (
       h
         .redirect(campaignSelectionPageUrl)
-        // FIXME set cookie expiration
+        // FIXME set cookie expiration using Max-Age
         .header(
           'Set-Cookie',
           `jwtLtiPrescriber=${ltiPrescriberAccessToken}; Secure; HttpOnly; SameSite=None; Partitioned; Path=/api`,
@@ -160,7 +160,8 @@ async function selectCampaign(request, h, dependencies = { deepLinkingService })
         deepLinkingReturnUrl: deepLinkingSettings.deep_link_return_url,
       }),
     )
-    .header('Content-Type', 'text/html; charset=utf-8');
+    .header('Content-Type', 'text/html; charset=utf-8')
+    .header('Set-Cookie', `jwtLtiPrescriber=; Secure; HttpOnly; SameSite=None; Partitioned; Path=/api; Max-Age=-1`);
 }
 
 async function resourceLink(request, h, dependencies = { urlService }) {
