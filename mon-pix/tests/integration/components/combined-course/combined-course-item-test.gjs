@@ -1,4 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
+import { triggerEvent } from '@ember/test-helpers';
+import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl/test-support';
 import CombinedCourseItem from 'mon-pix/components/combined-course/combined-course-item';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
@@ -281,7 +283,7 @@ module('Integration | Component | combined course item', function (hooks) {
       assert.notOk(await screen.queryByTestId('selectable-item-button'));
     });
 
-    test('should focus button when item is selected', async function (assert) {
+    test('should focus selected item', async function (assert) {
       // given
       const onClickStub = sinon.stub();
       const store = this.owner.lookup('service:store');
@@ -295,6 +297,7 @@ module('Integration | Component | combined course item', function (hooks) {
             @isLocked={{false}}
             @isSelectedItem={{true}}
             @onClick={{onClickStub}}
+            @focusItem={{true}}
           />
         </template>,
       );
@@ -303,7 +306,7 @@ module('Integration | Component | combined course item', function (hooks) {
       assert.dom(screen.getByTestId('selectable-item-button')).isFocused();
     });
 
-    test('should not focus button when item is not selected', async function (assert) {
+    test('should not focus item if it is not selected', async function (assert) {
       // given
       const onClickStub = sinon.stub();
       const store = this.owner.lookup('service:store');
@@ -317,12 +320,49 @@ module('Integration | Component | combined course item', function (hooks) {
             @isLocked={{false}}
             @isSelectedItem={{false}}
             @onClick={{onClickStub}}
+            @focusItem={{false}}
           />
         </template>,
       );
 
       // then
       assert.dom(screen.getByTestId('selectable-item-button')).isNotFocused();
+    });
+
+    test('should focus item when selecting it', async function (assert) {
+      // given
+      class ParentState {
+        @tracked isSelectedItem = false;
+        @tracked focusItem = false;
+      }
+      const state = new ParentState();
+      const onClickStub = sinon.stub().callsFake(() => {
+        state.isSelectedItem = true;
+        state.focusItem = true;
+      });
+
+      const store = this.owner.lookup('service:store');
+      const combinedCourseItem = store.createRecord('combined-course-item', { id: 1 });
+
+      // when
+      const screen = await render(
+        <template>
+          <CombinedCourseItem
+            @item={{combinedCourseItem}}
+            @isLocked={{false}}
+            @isSelectedItem={{state.isSelectedItem}}
+            @onClick={{onClickStub}}
+            @focusItem={{state.focusItem}}
+          />
+        </template>,
+      );
+
+      const item = screen.getByTestId('selectable-item-button');
+      assert.dom(item).isNotFocused();
+      await triggerEvent(item, 'click');
+
+      // then
+      assert.dom(item).isFocused();
     });
 
     test('should be described by step details when item is selected', async function (assert) {

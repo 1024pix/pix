@@ -2,10 +2,9 @@ import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
-import { eq } from 'ember-truth-helpers';
+import { and, eq } from 'ember-truth-helpers';
 
 import CombinedCourseItem from './combined-course-item';
-
 export default class CombinedCourseItemsList extends Component {
   step = 1;
 
@@ -31,6 +30,7 @@ export default class CombinedCourseItemsList extends Component {
           </h2>
         {{/if}}
       {{/unless}}
+
       <CombinedCourseItem
         @item={{item}}
         @isLocked={{item.isLocked}}
@@ -38,6 +38,8 @@ export default class CombinedCourseItemsList extends Component {
         @onClick={{fn @onClick item}}
         @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
         @displayNextItemTag={{@displayNextItemTag}}
+        @isLoading={{@isLoading}}
+        @focusItem={{and (this.isSelectedItem item) @shouldFocusSelectedItem}}
       />
     {{/each}}
   </template>

@@ -42,6 +42,60 @@ module('Unit | Model | Combined Course', function (hooks) {
       assert.strictEqual(combinedCourse.nextCombinedCourseItem, secondCombinedCourseItem);
     });
   });
+
+  module('#previousCombinedCourseItem', function () {
+    test('should return null when there is only one item', function (assert) {
+      //given
+      const nextCombinedCourseItem = store.createRecord('combined-course-item', {
+        isCompleted: false,
+        redirection: '/campagnes/CODE123',
+      });
+      const combinedCourse = store.createRecord('combined-course');
+      combinedCourse.items = [nextCombinedCourseItem];
+
+      //then
+      assert.strictEqual(combinedCourse.previousCombinedCourseItem, null);
+    });
+
+    test('should return null when there is no previous element', function (assert) {
+      //given
+      const nextCombinedCourseItem = store.createRecord('combined-course-item', {
+        isCompleted: false,
+        redirection: '/campagnes/CODE123',
+      });
+      const followingCombinedCourseItem = store.createRecord('combined-course-item', {
+        isCompleted: false,
+        redirection: '/campagnes/CODE123',
+      });
+      const combinedCourse = store.createRecord('combined-course');
+      combinedCourse.items = [nextCombinedCourseItem, followingCombinedCourseItem];
+
+      //then
+      assert.strictEqual(combinedCourse.previousCombinedCourseItem, null);
+    });
+
+    test('should return last completed item when there are several items in CombinedCourse', function (assert) {
+      //given
+      const previousCombinedCourseItem = store.createRecord('combined-course-item', {
+        isCompleted: true,
+        redirection: '/campagnes/CODE123',
+      });
+      const nextCombinedCourseItem = store.createRecord('combined-course-item', {
+        isCompleted: false,
+        redirection: '/campagnes/CODE123',
+      });
+      const followingCombinedCourseITem = store.createRecord('combined-course-item', {
+        isCompleted: false,
+        redirection: '/campagnes/CODE123',
+      });
+      const combinedCourse = store.createRecord('combined-course');
+      combinedCourse.items = [previousCombinedCourseItem, nextCombinedCourseItem, followingCombinedCourseITem];
+
+      //then
+      assert.strictEqual(combinedCourse.previousCombinedCourseItem, previousCombinedCourseItem);
+    });
+  });
+
   module('#hasItemOfTypeModule', function () {
     test('returns true when there is an item of type module', function (assert) {
       const combinedCourseItem = store.createRecord('combined-course-item', {

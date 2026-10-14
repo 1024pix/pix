@@ -2,7 +2,7 @@ import { PixButton, PixIcon } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { htmlSafe } from '@ember/template';
 import t from 'ember-intl/helpers/t';
-import { eq, or } from 'ember-truth-helpers';
+import { and, eq, not, or } from 'ember-truth-helpers';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item.js';
 
 import Duration from '../duration';
@@ -16,7 +16,7 @@ import Level from '../level';
           <img role="presentation" src={{@item.iconUrl}} alt="" />
         </div>
       {{/if}}
-      {{#if @item.isCompleted}}
+      {{#if (and @item.isCompleted (not @isLoading))}}
         <div class="step-details__indicator--completed">
           <span class="step-details__completion-field">{{t "pages.combined-courses.items.completed"}}</span>
           <PixIcon @name="checkCircle" @plainIcon={{true}} class="step-details__icon" @ariaHidden={{true}} />
@@ -43,7 +43,7 @@ import Level from '../level';
     {{/if}}
   </div>
 
-  <PixButton class="step-details__cta" @triggerAction={{fn @onClick @item}}>
+  <PixButton class="step-details__cta" @triggerAction={{fn @onClick @item}} @isLoading={{@isLoading}}>
     {{#if (eq @item.type CombinedCourseItemTypes.CAMPAIGN)}}
       {{t "pages.combined-courses.items.start-campaign"}}
     {{else if @item.isCompleted}}
