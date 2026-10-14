@@ -112,7 +112,7 @@
     "sass": "1.105.1",
     "sinon": "^22.0.0",
     "stylelint": "17.16.0",
-    "webpack": "5.105.4"
+    "webpack": "5.111.1"
   },
   "overrides": {
     "eslint": "$eslint",
