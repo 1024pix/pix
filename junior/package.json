@@ -59,7 +59,7 @@
     "@warp-drive/json-api": "5.9.1",
     "@warp-drive/legacy": "5.9.1",
     "@warp-drive/utilities": "5.9.1",
-    "babel-plugin-ember-template-compilation": "4.0.0",
+    "babel-plugin-ember-template-compilation": "4.0.1",
     "dotenv": "17.4.2",
     "ember-auto-import": "2.13.1",
     "ember-cli": "7.3.0",
