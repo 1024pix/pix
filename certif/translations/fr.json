@@ -577,7 +577,7 @@
       "candidate-list": {
         "active-candidates": "{activeCandidates}/{totalCandidates} {activeCandidates, plural,one {candidat présent} other {candidats présents}}{activeCandidates, plural,=0 {} other { (dont {startedCandidates} en cours de test)}}",
         "clear-field": "Vider le champ",
-        "indicate-candidates-attendance": "Confirmez la présence de chaque candidat pour l'autoriser à commencer son test de certification.",
+        "indicate-candidates-attendance": "Confirmez la présence de chaque candidat pour l'autoriser à commencer son test de certification. La confirmation de présence est valable 15 minutes. Passé ce délai, elle devra être renouvelée si le candidat n’a pas commencé son test.",
         "no-candidate": "Aucun candidat inscrit à cette session",
         "search-candidate": "Rechercher un candidat"
       },
