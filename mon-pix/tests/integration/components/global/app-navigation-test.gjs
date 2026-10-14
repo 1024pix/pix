@@ -256,7 +256,6 @@ module('Integration | Component | Global | App Navigation', function (hooks) {
       assert.dom(within(footer).getByRole('link', { name: t('navigation.main.code') })).exists();
       assert.dom(within(footer).getByText('Banana Split')).exists();
       assert.dom(within(footer).getByRole('link', { name: t('navigation.user.account') })).exists();
-      assert.dom(within(footer).getByRole('link', { name: t('navigation.user.certifications') })).exists();
       assert.dom(within(footer).getByRole('link', { name: t('navigation.user.sign-out') })).exists();
       assert.dom(within(footer).getByRole('link', { name: t('navigation.footer.help-center') })).exists();
     });

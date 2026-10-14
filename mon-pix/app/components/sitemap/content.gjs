@@ -84,14 +84,6 @@ export default class Content extends Component {
 
           <li class="sitemap-content-items__link">
             <h2>
-              <LinkTo @route="authenticated.certifications">
-                {{t "navigation.user.certifications"}}
-              </LinkTo>
-            </h2>
-          </li>
-
-          <li class="sitemap-content-items__link">
-            <h2>
               <a href="{{this.supportHomeUrl}}" target="_blank" rel="noopener noreferrer">
                 {{t "navigation.main.help"}}
                 <PixIcon @name="openNew" @ariaHidden={{true}} />

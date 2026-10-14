@@ -95,9 +95,6 @@ export default class AppNavigation extends Component {
           </PixButtonLink>
           <PixNavigationSeparator />
           <strong>{{this.currentUser.user.fullName}}</strong>
-          <PixButtonLink @route="authenticated.certifications" @variant="tertiary" @iconBefore="awards">
-            {{t "navigation.user.certifications"}}
-          </PixButtonLink>
           <PixButtonLink @route="authenticated.user-account" @iconBefore="shieldPerson">
             {{t "navigation.user.account"}}
           </PixButtonLink>
