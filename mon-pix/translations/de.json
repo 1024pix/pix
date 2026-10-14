@@ -1019,7 +1019,7 @@
       "enrolment-banner": {
         "action": "Zertifizierung starten",
         "certifiable": {
-          "description": "Klicken Sie auf die Schaltfläche unten und starten Sie Ihre Zertifizierung",
+          "description": "Klicken Sie am Tag Ihrer Zertifizierung auf die Schaltfläche unten, um zu beginnen.",
           "title": "Möchten Sie die Pix-Zertifizierung ablegen?"
         },
         "clea": {

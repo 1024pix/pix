@@ -1019,7 +1019,7 @@
       "enrolment-banner": {
         "action": "Iniciar la certificación",
         "certifiable": {
-          "description": "Haga clic en el botón de abajo y comience su certificación",
+          "description": "El día de su certificación, haga clic en el botón de abajo para comenzar.",
           "title": "¿Desea realizar la certificación Pix?"
         },
         "clea": {

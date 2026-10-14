@@ -1019,7 +1019,7 @@
       "enrolment-banner": {
         "action": "Certificering starten",
         "certifiable": {
-          "description": "Klik op de knop hieronder en start je certificering",
+          "description": "Klik op de dag van je certificering op de knop hieronder om te beginnen.",
           "title": "Wil je de Pix-certificering afleggen?"
         },
         "clea": {

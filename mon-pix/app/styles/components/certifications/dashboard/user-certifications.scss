@@ -1,7 +1,12 @@
+@use 'pix-design-tokens/breakpoints';
 @use 'pix-design-tokens/typography';
 
 .certification-dashboard-user-certifications {
   padding-top: var(--pix-spacing-3x);
+
+  @include breakpoints.device-is('mobile') {
+    margin-inline: var(--pix-spacing-6x) ;
+  }
 
   &__title {
     @extend %pix-title-m;
