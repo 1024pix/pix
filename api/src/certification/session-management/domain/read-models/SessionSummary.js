@@ -35,9 +35,11 @@ class SessionSummary {
     finalizedAt,
     publishedAt,
   }) {
+    const isExpired = _computeExpireState({ date, time });
     const status = _computeStatus({
       finalizedAt,
       publishedAt,
+      isExpired,
     });
 
     return new SessionSummary({
@@ -54,18 +56,29 @@ class SessionSummary {
   }
 }
 
-function _computeStatus({ finalizedAt, publishedAt }) {
+function _computeExpireState({ date, time }) {
+  const startedSessionTime = new Date(`${date}T${time}Z`);
+  const expirationSessionTime = startedSessionTime.setDate(startedSessionTime.getDate() + 1);
+
+  return Date.now() > expirationSessionTime;
+}
+
+function _computeStatus({ finalizedAt, publishedAt, isExpired }) {
   if (publishedAt) {
     return SESSION_STATUSES.PROCESSED;
   }
   if (finalizedAt) {
     return SESSION_STATUSES.FINALIZED;
   }
+  if (isExpired) {
+    return SESSION_STATUSES.TO_FINALIZE;
+  }
   return SESSION_STATUSES.CREATED;
 }
 
 SessionSummary.statuses = {
   CREATED: SESSION_STATUSES.CREATED,
+  TO_FINALIZE: SESSION_STATUSES.TO_FINALIZE,
   FINALIZED: SESSION_STATUSES.FINALIZED,
   PROCESSED: SESSION_STATUSES.PROCESSED,
 };
