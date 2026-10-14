@@ -33,7 +33,7 @@ orga.dev.pix.fr, orga.dev.pix.org {
   import long_certs
 }
 
-admin.dev.pix.fr {
+admin.dev.pix.fr, admin.dev.pix.org {
   import pix_proxy 4202
   import long_certs
 }
@@ -48,7 +48,7 @@ certif.dev.pix.fr, certif.dev.pix.org {
   import long_certs
 }
 
-api.dev.pix.fr {
+api.dev.pix.fr, api.dev.pix.org {
   import pix_proxy 3000
   import long_certs
 }
