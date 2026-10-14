@@ -3,7 +3,6 @@ import nock from 'nock';
 import sinon from 'sinon';
 
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
-import { COMBINED_COURSE_ITEM_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CombinedCourseDetails } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js';
 import { CombinedCourseReward } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
@@ -108,7 +107,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
       const result = await usecases.getCombinedCourseByCode({ code, userId });
 
       expect(result).to.be.instanceOf(CombinedCourse);
-      expect(result.items).to.be.deep.equal([
+      expect(result.items).to.deep.equal([
         {
           id: campaign.id,
           reference: campaign.code,
@@ -122,7 +121,6 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
           masteryRate: null,
           totalStagesCount: null,
           validatedStagesCount: null,
-          type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
         },
         {
           id: moduleId1,
@@ -138,7 +136,6 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
           description: 'Un module de test',
           level: 'novice',
           objectives: ['Découvrir le bac à sable'],
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
         },
         {
           id: moduleId2,
@@ -154,7 +151,6 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
           description: 'Un module de test',
           level: 'novice',
           objectives: ['Repérer les touches de base du clavier'],
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
         },
       ]);
       expect(result.id).to.equal(combinedCourseId);
@@ -275,7 +271,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
 
       const result = await usecases.getCombinedCourseByCode({ code, userId });
 
-      expect(result.items).to.be.deep.equal([
+      expect(result.items).to.deep.equal([
         {
           id: campaign.id,
           reference: campaign.code,
@@ -289,7 +285,6 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
           isLocked: false,
           duration: undefined,
           image: undefined,
-          type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
         },
         {
           id: moduleId1,
@@ -305,7 +300,6 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
           description: 'Un module de test',
           level: 'novice',
           objectives: ['Découvrir le bac à sable'],
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
         },
         {
           id: moduleId3,
@@ -321,7 +315,6 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
           description: 'Un module sur les adresses mail',
           level: 'novice',
           objectives: ['Bien écrire une adresse mail'],
-          type: COMBINED_COURSE_ITEM_TYPES.MODULE,
         },
       ]);
       expect(result).to.be.instanceOf(CombinedCourse);

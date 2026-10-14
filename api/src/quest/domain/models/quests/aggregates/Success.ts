@@ -1,46 +1,67 @@
-import uniqBy from 'lodash/uniqBy.js';
-
 import { KnowledgeElement } from '../../../../../shared/domain/models/KnowledgeElement.js';
 
+type SuccessKnowledgeElement = {
+  status: string;
+  skillId: string;
+  createdAt?: Date;
+};
+
+type SuccessSkill = {
+  id: string;
+  tubeId: string;
+  difficulty: number;
+};
+
+type CappedTube = {
+  tubeId: string;
+  level: number;
+};
+
+export type SuccessArgs = {
+  knowledgeElements: SuccessKnowledgeElement[];
+  campaignSkills?: SuccessSkill[];
+  targetProfileSkills?: SuccessSkill[];
+};
+
 export class Success {
-  constructor({ knowledgeElements, campaignSkills = [], targetProfileSkills = [] }) {
+  knowledgeElements: SuccessKnowledgeElement[];
+  campaignSkills: SuccessSkill[];
+  targetProfileSkills: SuccessSkill[];
+
+  constructor({ knowledgeElements, campaignSkills = [], targetProfileSkills = [] }: SuccessArgs) {
     this.knowledgeElements = knowledgeElements;
     this.campaignSkills = campaignSkills;
     this.targetProfileSkills = targetProfileSkills;
   }
 
-  get skills() {
-    return uniqBy([...this.campaignSkills, ...this.targetProfileSkills], 'id');
+  get skills(): SuccessSkill[] {
+    const all = [...this.campaignSkills, ...this.targetProfileSkills];
+    const seen = new Set<string>();
+    return all.filter((skill) => {
+      if (seen.has(skill.id)) return false;
+      seen.add(skill.id);
+      return true;
+    });
   }
 
-  /**
-   *
-   * @param {Array<string>} skillIds
-   * @returns {number}
-   */
-  getMasteryPercentageForSkills(skillIds) {
-    // genre de doublon avec api/src/prescription/campaign-participation/domain/models/CampaignParticipationResult.js:64
-    const totalSkillsCount = skillIds?.length;
-    if (!totalSkillsCount) {
+  getMasteryPercentageForSkills(skillIds: string[] | null): number {
+    if (!skillIds?.length) {
       return 0;
     }
     const validatedSkillsCount = this.knowledgeElements.filter(
       (ke) => ke.status === KnowledgeElement.StatusType.VALIDATED && skillIds.includes(ke.skillId),
     ).length;
-    return Math.round((validatedSkillsCount * 100) / totalSkillsCount);
+    return Math.round((validatedSkillsCount * 100) / skillIds.length);
   }
 
-  /**
-   *
-   * @param {Array<{tubeId: string, level: number}>} cappedTubes
-   * @returns {number}
-   */
-  getMasteryPercentageForCappedTubes(cappedTubes) {
+  getMasteryPercentageForCappedTubes(cappedTubes: CappedTube[] | null): number {
     if (!Array.isArray(cappedTubes)) {
       return 0;
     }
     const uniqCampaignSkills = this.skills;
-    const sortedKEByDateDesc = this.knowledgeElements.toSorted((keA, keB) => keB.createdAt - keA.createdAt);
+    const sortedKEByDateDesc = this.knowledgeElements.toSorted(
+      (keA, keB) => Number(keB.createdAt) - Number(keA.createdAt),
+    );
     let total = 0;
     let validated = 0;
     for (const cappedTube of cappedTubes) {
@@ -49,6 +70,7 @@ export class Success {
       );
       const skillsByDifficulty = Object.groupBy(skillsInTubeWithinMaxDifficulty, ({ difficulty }) => difficulty);
       for (const skills of Object.values(skillsByDifficulty)) {
+        if (!skills) continue;
         ++total;
         const skillIds = skills.map(({ id }) => id);
         const ke = sortedKEByDateDesc.find(({ skillId }) => skillIds.includes(skillId));
