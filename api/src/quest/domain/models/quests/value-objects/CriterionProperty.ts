@@ -53,7 +53,7 @@ export class CriterionPropertyError extends Error {
   }
 }
 
-type ComparisonValue = (typeof COMPARISONS)[keyof typeof COMPARISONS];
+export type ComparisonValue = (typeof COMPARISONS)[keyof typeof COMPARISONS];
 
 type OneOfComparisonDataValue = readonly (string | number | boolean)[];
 
@@ -63,12 +63,21 @@ type EqualComparisonDataValue = string | number | boolean;
 
 type LikeComparisonDataValue = string;
 
-type DataValue = OneOfComparisonDataValue | AllComparisonDataValue | LikeComparisonDataValue | EqualComparisonDataValue;
+export type DataValue =
+  | OneOfComparisonDataValue
+  | AllComparisonDataValue
+  | LikeComparisonDataValue
+  | EqualComparisonDataValue;
 
-type CriterionPropertyArgs = {
-  key: string;
+export type CheckableItem = Record<string, DataValue | null | undefined>;
+
+export type CriterionPropertyData = {
   data: DataValue;
   comparison: ComparisonValue;
+};
+
+export type CriterionPropertyArgs = CriterionPropertyData & {
+  key: string;
 };
 
 export class CriterionProperty {
@@ -105,7 +114,7 @@ export class CriterionProperty {
     return this.#comparison;
   }
 
-  check(item: Record<string, DataValue | null | undefined>) {
+  check(item: CheckableItem) {
     let error;
     const criterionAttr = this.#data;
     const dataAttr = item[this.#key];

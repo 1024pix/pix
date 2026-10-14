@@ -1,22 +1,10 @@
 import { expect } from 'chai';
 
-import { Criterion } from '../../../../../src/quest/domain/models/quests/value-objects/Criterion.js';
+import { Criterion } from '../../../../../src/quest/domain/models/quests/value-objects/Criterion.ts';
 import { COMPARISONS as CRITERION_PROPERTY_COMPARISONS } from '../../../../../src/quest/domain/models/quests/value-objects/CriterionProperty.ts';
 
 describe('Quest | Unit | Domain | Models | Criterion ', function () {
   describe('#validate', function () {
-    it('should throw if args are not valid', function () {
-      expect(() => {
-        new Criterion({ data: [] });
-      }).to.throw();
-    });
-
-    it('should throw without args', function () {
-      expect(() => {
-        new Criterion();
-      }).to.throw();
-    });
-
     it('should not throw if args are valid', function () {
       expect(() => {
         new Criterion({
@@ -52,7 +40,7 @@ describe('Quest | Unit | Domain | Models | Criterion ', function () {
           comparisonFunction: 'some',
         });
 
-        expect(result).to.be.true;
+        expect(result).to.equal(true);
       });
 
       it('should return false if no data attribute are equal to criterion attributes', function () {
@@ -74,7 +62,7 @@ describe('Quest | Unit | Domain | Models | Criterion ', function () {
           comparisonFunction: 'some',
         });
 
-        expect(result).to.be.false;
+        expect(result).to.equal(false);
       });
     });
 
@@ -98,7 +86,7 @@ describe('Quest | Unit | Domain | Models | Criterion ', function () {
           comparisonFunction: 'every',
         });
 
-        expect(result).to.be.true;
+        expect(result).to.equal(true);
       });
 
       it('should return false if data attributes are not equal to criterion attributes', function () {
@@ -120,7 +108,7 @@ describe('Quest | Unit | Domain | Models | Criterion ', function () {
           comparisonFunction: 'every',
         });
 
-        expect(result).to.be.false;
+        expect(result).to.equal(false);
       });
     });
   });

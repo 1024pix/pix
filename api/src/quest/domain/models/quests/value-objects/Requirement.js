@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import { EntityValidationError } from '../../../../../shared/domain/errors.js';
 import { logger } from '../../../../../shared/infrastructure/utils/logger.js';
-import { Criterion } from './Criterion.js';
+import { Criterion } from './Criterion.ts';
 
 export const COMPARISONS = {
   ALL: 'all',

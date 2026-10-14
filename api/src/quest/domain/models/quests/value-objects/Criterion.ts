@@ -1,14 +1,33 @@
 import Joi from 'joi';
 
 import { EntityValidationError } from '../../../../../shared/domain/errors.js';
-import { CriterionProperty, CriterionPropertyError } from '../value-objects/CriterionProperty.ts';
+import {
+  type CheckableItem,
+  CriterionProperty,
+  type CriterionPropertyData,
+  CriterionPropertyError,
+  type DataValue,
+} from '../value-objects/CriterionProperty.ts';
 
 const schema = Joi.object({ data: Joi.object().pattern(Joi.string(), Joi.object()).required() });
 
-export class Criterion {
-  #properties;
+type CriterionData = Record<string, CriterionPropertyData>;
 
-  constructor(args) {
+export type CriterionArgs = {
+  data: CriterionData;
+};
+
+type CriterionDTO = Record<string, { data: Readonly<DataValue>; comparison: string }>;
+
+type CheckArgs = {
+  item: CheckableItem;
+  comparisonFunction: 'some' | 'every';
+};
+
+export class Criterion {
+  #properties: CriterionProperty[];
+
+  constructor(args: CriterionArgs) {
     const { data } = args;
 
     try {
@@ -29,7 +48,7 @@ export class Criterion {
     this.#validate(args);
   }
 
-  #validate(args) {
+  #validate(args: CriterionArgs) {
     const { error } = schema.validate(args);
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details, undefined, { data: this.toDTO() });
@@ -37,7 +56,7 @@ export class Criterion {
   }
 
   get data() {
-    return this.#properties.reduce((acc, next) => {
+    return this.#properties.reduce((acc: CriterionDTO, next) => {
       acc[next.key] = {
         data: next.data,
         comparison: next.comparison,
@@ -50,7 +69,7 @@ export class Criterion {
     return this.data;
   }
 
-  check({ item, comparisonFunction }) {
+  check({ item, comparisonFunction }: CheckArgs) {
     return this.#properties[comparisonFunction]((property) => {
       return property.check(item);
     });
