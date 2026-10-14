@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import {
   T2,
   T3,
-} from '../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
+} from '../../../../src/organizational-entities/domain/organization-places/constants/organization-places-categories.js';
 import { REAL_PIX_SUPER_ADMIN_ID } from '../common/constants.js';
 import { PRO_ORGANIZATION_ID } from '../common/constants.js';
 

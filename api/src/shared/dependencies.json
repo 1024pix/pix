@@ -6,7 +6,6 @@
     "organizational-entities",
     "prescription/campaign",
     "prescription/learner-management",
-    "prescription/organization-place",
     "team"
   ],
   "circular": "forbidden"

@@ -1,5 +1,0 @@
-{
-  "name": "prescription/organization-place",
-  "dependsOn": ["organizational-entities", "prescription/organization-learner", "shared"],
-  "circular": "forbidden"
-}
