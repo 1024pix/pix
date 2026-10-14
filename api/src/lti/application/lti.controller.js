@@ -7,7 +7,6 @@ import { cryptoService } from '../../shared/domain/services/crypto-service.js';
 import * as urlService from '../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../shared/infrastructure/http-agent.js';
 import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
-import { LtiPrescriberAccessToken } from '../domain/models/LtiPrescriberAccessToken.js';
 import { usecases } from '../domain/usecases/index.js';
 import { ltiPlatformRegistrationRepository } from '../infrastructure/repositories/lti-platform-registration.repository.js';
 import { ltiErrorSerializer } from '../infrastructure/serializers/html/lti-error-serializer.js';
@@ -128,21 +127,11 @@ async function deepLink(request, h) {
 }
 
 async function selectCampaign(request, h, dependencies = { cryptoService, ltiPlatformRegistrationRepository }) {
-  // const encodedJwtToken = request.yar.get('jwtLtiPrescriber');
-  const cookies = Object.fromEntries(request.headers.cookie?.split('; ').map((cookie) => cookie.split('=')) ?? []);
-
-  const { clientId, deepLinkingResponseEndpoint } = LtiPrescriberAccessToken.decode(cookies.jwtLtiPrescriber);
-
-  const registration = await dependencies.ltiPlatformRegistrationRepository.findByClientId(clientId);
-  if (!registration.isActive) {
-    logger.warn({ clientId }, 'registration is not active');
-    return h
-      .response(
-        ltiErrorSerializer.serialize({ title: 'Initialization error', message: 'Please contact your administrator' }),
-      )
-      .header('Content-Type', 'text/html; charset=utf-8')
-      .code(400);
-  }
+  const {
+    // FIXME check selected campaignCode belongs to one of the organizations
+    // credentials: { organizationIds },
+    artifacts: { registration, deepLinkingResponseEndpoint },
+  } = request.auth;
 
   const privateKey = {
     format: 'jwk',
@@ -150,7 +139,7 @@ async function selectCampaign(request, h, dependencies = { cryptoService, ltiPla
   };
   const deepLinkingResponse = jsonwebtoken.sign(
     {
-      iss: clientId,
+      iss: registration.clientId,
       aud: deepLinkingResponseEndpoint,
       'https://purl.imsglobal.org/spec/lti/claim/deployment_id':
         request['https://purl.imsglobal.org/spec/lti/claim/deployment_id'],

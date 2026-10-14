@@ -1,6 +1,7 @@
 import Joi from 'joi';
 
 import { featureToggles } from '../../shared/infrastructure/feature-toggles/index.js';
+import { ltiPrescriberStrategyName } from '../infrastructure/lti-authentication.js';
 import { ltiController } from './lti.controller.js';
 
 async function register(server, options, dependencies = { featureToggles }) {
@@ -65,8 +66,7 @@ async function register(server, options, dependencies = { featureToggles }) {
       method: 'POST',
       path: '/api/lti/select-campaign',
       options: {
-        // FIXME utiliser une authentification par Cookie
-        auth: false,
+        auth: { strategy: ltiPrescriberStrategyName },
         handler: (request, h) => ltiController.selectCampaign(request, h),
         notes: ['Cette route renvoie une deep-linking response prêt pour être renvoyée à Moodle.'],
         tags: ['api', 'lti'],
