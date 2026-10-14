@@ -4,6 +4,7 @@ import url from 'node:url';
 import { expect } from 'chai';
 import dayjs from 'dayjs';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { toBytes } from 'pdfkit/output';
 
 import { generate } from '../../../../../../../src/certification/results/infrastructure/utils/pdf/generate-v2-pdf-attestation.js';
 import { AlgorithmEngineVersion } from '../../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
@@ -40,13 +41,11 @@ describe('Integration | Infrastructure | Utils | Pdf | V2 Attestation Pdf', func
     const certificates = [certificate];
 
     // when
-    const pdfStream = await generate({ certificates, i18n });
-
-    const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+    const pdfBytes = await _generatePdfBytes({ certificates, i18n });
 
     // then
-    expect(pdfBuffer.toString().substring(1, 4)).to.equal('PDF');
-    expect(pdfBuffer.toString()).to.contain('/Type /Pages\n/Count 1');
+    expect(Buffer.from(pdfBytes).toString().substring(1, 4)).to.equal('PDF');
+    expect(Buffer.from(pdfBytes).toString()).to.contain('/Type /Pages\n/Count 1');
   });
 
   it('should generate a page for each certificate', async function () {
@@ -63,15 +62,10 @@ describe('Integration | Infrastructure | Utils | Pdf | V2 Attestation Pdf', func
     ];
 
     // when
-    const pdfStream = await generate({
-      certificates,
-      i18n,
-    });
-
-    const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+    const pdfBytes = await _generatePdfBytes({ certificates, i18n });
 
     // then
-    expect(pdfBuffer.toString()).to.contain('/Type /Pages\n/Count 2');
+    expect(Buffer.from(pdfBytes).toString()).to.contain('/Type /Pages\n/Count 2');
   });
 
   it('snapshot', async function () {
@@ -86,14 +80,13 @@ describe('Integration | Infrastructure | Utils | Pdf | V2 Attestation Pdf', func
       }),
     ];
     const referencePdfPath = 'v2-certificate-test.pdf';
-    const pdfStream = await generate({ certificates, i18n });
-    const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+    const pdfBytes = await _generatePdfBytes({ certificates, i18n });
     // Method used to generate a new PDF certification attestation
     // Please check this method if you want to do so in case of snapshot upgrade
-    await _writeFile(pdfBuffer, referencePdfPath);
+    await _writeFile(pdfBytes, referencePdfPath);
 
     // when
-    const parsedPdf = await getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
+    const parsedPdf = await getDocument({ data: pdfBytes }).promise;
     const page = await parsedPdf.getPage(1);
     const text = await page.getTextContent();
 
@@ -134,11 +127,10 @@ describe('Integration | Infrastructure | Utils | Pdf | V2 Attestation Pdf', func
     const certificates = [certificate];
 
     // when
-    const pdfStream = await generate({ certificates, i18n, isFrenchDomainExtension: true });
-    const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+    const pdfBytes = await _generatePdfBytes({ certificates, i18n, options: { isFrenchDomainExtension: true } });
 
     // then
-    const content = await _getPDFContent(pdfBuffer);
+    const content = await _getPDFContent(pdfBytes);
 
     expect(content).to.include(translate('certification.certificate.v2.title'));
     expect(content).to.include(translate('certification.certificate.v2.description'));
@@ -178,11 +170,10 @@ describe('Integration | Infrastructure | Utils | Pdf | V2 Attestation Pdf', func
         const certificates = [certificate];
 
         // when
-        const pdfStream = await generate({ certificates, i18n, isFrenchDomainExtension: true });
-        const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+        const pdfBytes = await _generatePdfBytes({ certificates, i18n, options: { isFrenchDomainExtension: true } });
 
         // then
-        const content = await _getPDFContent(pdfBuffer);
+        const content = await _getPDFContent(pdfBytes);
         expect(content).to.not.include('Le certificat Pix est reconnu comme professionnalisant par France compétences');
       });
     });
@@ -201,11 +192,10 @@ describe('Integration | Infrastructure | Utils | Pdf | V2 Attestation Pdf', func
         const certificates = [certificate];
 
         // when
-        const pdfStream = await generate({ certificates, i18n, isFrenchDomainExtension: false });
-        const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+        const pdfBytes = await _generatePdfBytes({ certificates, i18n, options: { isFrenchDomainExtension: false } });
 
         // then
-        const content = await _getPDFContent(pdfBuffer);
+        const content = await _getPDFContent(pdfBytes);
         expect(content).to.not.include('Le certificat Pix est reconnu comme professionnalisant par France compétences');
       });
     });
@@ -223,11 +213,10 @@ describe('Integration | Infrastructure | Utils | Pdf | V2 Attestation Pdf', func
       const certificates = [certificate];
 
       // when
-      const pdfStream = await generate({ certificates, i18n, isFrenchDomainExtension: true });
-      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+      const pdfBytes = await _generatePdfBytes({ certificates, i18n, options: { isFrenchDomainExtension: true } });
 
       // then
-      const content = await _getPDFContent(pdfBuffer);
+      const content = await _getPDFContent(pdfBytes);
       expect(content).to.include('Le certificat Pix est reconnu comme professionnalisant par France compétences');
     });
   });
@@ -247,11 +236,10 @@ describe('Integration | Infrastructure | Utils | Pdf | V2 Attestation Pdf', func
       const certificates = [certificate];
 
       // when
-      const pdfStream = await generate({ certificates, i18n, isFrenchDomainExtension: true });
-      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+      const pdfBytes = await _generatePdfBytes({ certificates, i18n, options: { isFrenchDomainExtension: true } });
 
       // then
-      const content = await _getPDFContent(pdfBuffer);
+      const content = await _getPDFContent(pdfBytes);
       expect(content).to.include(translate('certification.certificate.v2.score-content.absolute-max-level-indication'));
     });
   });
@@ -271,11 +259,10 @@ describe('Integration | Infrastructure | Utils | Pdf | V2 Attestation Pdf', func
       const certificates = [certificate];
 
       // when
-      const pdfStream = await generate({ certificates, i18n, isFrenchDomainExtension: true });
-      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+      const pdfBytes = await _generatePdfBytes({ certificates, i18n, options: { isFrenchDomainExtension: true } });
 
       // then
-      const content = await _getPDFContent(pdfBuffer);
+      const content = await _getPDFContent(pdfBytes);
       expect(content).to.not.include(
         translate('certification.certificate.v2.score-content.absolute-max-level-indication'),
       );
@@ -304,11 +291,10 @@ describe('Integration | Infrastructure | Utils | Pdf | V2 Attestation Pdf', func
       const certificates = [certificate];
 
       // when
-      const pdfStream = await generate({ certificates, i18n, isFrenchDomainExtension: true });
-      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+      const pdfBytes = await _generatePdfBytes({ certificates, i18n, options: { isFrenchDomainExtension: true } });
 
       // then
-      const content = await _getPDFContent(pdfBuffer);
+      const content = await _getPDFContent(pdfBytes);
       expect(content).to.include(translate('certification.certificate.v2.complementary-certification-title'));
       expect(content).to.include(translate('Vous avez réussi !'));
     });
@@ -332,14 +318,13 @@ describe('Integration | Infrastructure | Utils | Pdf | V2 Attestation Pdf', func
         ],
       });
       const referencePdfPath = 'v2-certificate-with-complementary-certification-test.pdf';
-      const pdfStream = await generate({ certificates: [certificate], i18n });
-      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+      const pdfBytes = await _generatePdfBytes({ certificates: [certificate], i18n });
       // Method used to generate a new PDF certification attestation
       // Please check this method if you want to do so in case of snapshot upgrade
-      await _writeFile(pdfBuffer, referencePdfPath);
+      await _writeFile(pdfBytes, referencePdfPath);
 
       // when
-      const parsedPdf = await getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
+      const parsedPdf = await getDocument({ data: pdfBytes }).promise;
       const page = await parsedPdf.getPage(1);
       const text = await page.getTextContent();
 
@@ -417,34 +402,27 @@ function _buildResultCompetenceTree() {
   });
 }
 
-function _convertStreamToBuffer(streamData) {
-  return new Promise(function (resolve) {
-    const chunks = [];
-
-    streamData.on('readable', () => {
-      let chunk;
-      while (null !== (chunk = streamData.read())) {
-        chunks.push(chunk);
-      }
-    });
-
-    streamData.on('end', () => {
-      resolve(Buffer.concat(chunks));
-    });
-  });
-}
-
-async function _writeFile(buffer, outputFilename, dryRun = true) {
+async function _writeFile(bytes, outputFilename, dryRun = true) {
   // Note: to update or create the reference pdf, set dryRun to false.
   if (!dryRun) {
-    await writeFile(`${__dirname}/${outputFilename}`, buffer);
+    await writeFile(`${__dirname}/${outputFilename}`, bytes);
   }
 }
 
-async function _getPDFContent(pdfBuffer) {
-  const parsedPdf = await getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
+async function _getPDFContent(pdfBytes) {
+  const parsedPdf = await getDocument({ data: pdfBytes }).promise;
 
   const page = await parsedPdf.getPage(1);
   const text = await page.getTextContent();
   return text.items.map((item) => item.str).join(' ');
+}
+
+async function _generatePdfBytes({ certificates, i18n, options = {} }) {
+  const pdfDocument = await generate({
+    certificates,
+    i18n,
+    ...options,
+  });
+
+  return toBytes(pdfDocument);
 }
