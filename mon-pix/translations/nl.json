@@ -2639,8 +2639,10 @@
           "other-authentication-label": "Andere inlogmethode"
         },
         "edit-button": "Wijzigen",
+        "edit-password-button": "Wachtwoord wijzigen",
         "email": "E-mailadres",
         "menu-link-title": "Mijn huidige inlogmethoden",
+        "password": "Wachtwoord",
         "username": "Gebruikersnaam"
       },
       "delete-account": {
@@ -2693,7 +2695,25 @@
         "last-name": "Naam",
         "menu-link-title": "Mijn persoonsgegevens"
       },
-      "title": "Mijn account"
+      "title": "Mijn account",
+      "update-password": {
+        "fields": {
+          "current-password": {
+            "label": "Huidig wachtwoord"
+          },
+          "errors": {
+            "empty-current-password": "Voer uw huidige wachtwoord in.",
+            "invalid-current-password": "Uw huidige wachtwoord is onjuist.",
+            "unknown-error": "Er is een fout opgetreden. Probeer het opnieuw of neem contact op met de klantenservice."
+          },
+          "new-password": {
+            "label": "Nieuw wachtwoord"
+          }
+        },
+        "save-button": "Mijn wachtwoord wijzigen",
+        "title": "Mijn wachtwoord wijzigen",
+        "update-successful": "Uw wachtwoord is gewijzigd!"
+      }
     },
     "user-tests": {
       "anonymised-participations": {

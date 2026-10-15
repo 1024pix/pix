@@ -276,4 +276,77 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       assert.ok(screen.getByText(newEmail));
     });
   });
+
+  module('password editing', function () {
+    test('resets password editing process when changing page', async function (assert) {
+      // given
+      const user = server.create('user', 'withEmail');
+      server.create('authentication-method', 'withPixIdentityProvider', { user });
+      await authenticate(user);
+      const screen = await visit('/mon-compte/methodes-de-connexion');
+      await click(screen.getByRole('button', { name: t('pages.user-account.connexion-methods.edit-password-button') }));
+
+      // when
+      await visit('/mon-compte/informations-personnelles');
+      await visit('/mon-compte/methodes-de-connexion');
+
+      // then
+      assert.ok(screen.getByText(t('pages.user-account.connexion-methods.password')));
+      assert
+        .dom(
+          screen.getByRole('button', {
+            name: t('pages.user-account.connexion-methods.edit-password-button'),
+          }),
+        )
+        .exists();
+    });
+
+    test('is able to change the password', async function (assert) {
+      // given
+      const user = server.create('user', 'withEmail');
+      server.create('authentication-method', 'withPixIdentityProvider', { user });
+      await authenticate(user);
+      const newPassword = 'NewPassword456';
+      const screen = await visit('/mon-compte/methodes-de-connexion');
+
+      // when
+      await click(screen.getByRole('button', { name: t('pages.user-account.connexion-methods.edit-password-button') }));
+      await fillIn(
+        screen.getByLabelText(t('pages.user-account.update-password.fields.current-password.label')),
+        user.password,
+      );
+      await fillIn(
+        screen.getByLabelText(t('pages.user-account.update-password.fields.new-password.label')),
+        newPassword,
+      );
+      await click(screen.getByRole('button', { name: t('pages.user-account.update-password.save-button') }));
+
+      // then
+      assert.ok(screen.getByText(t('pages.user-account.connexion-methods.password')));
+      assert.ok(screen.getByText(t('pages.user-account.update-password.update-successful')));
+    });
+
+    test('displays an error message when the current password is invalid', async function (assert) {
+      // given
+      const user = server.create('user', 'withEmail');
+      server.create('authentication-method', 'withPixIdentityProvider', { user });
+      await authenticate(user);
+      const screen = await visit('/mon-compte/methodes-de-connexion');
+
+      // when
+      await click(screen.getByRole('button', { name: t('pages.user-account.connexion-methods.edit-password-button') }));
+      await fillIn(
+        screen.getByLabelText(t('pages.user-account.update-password.fields.current-password.label')),
+        'WrongPassword123',
+      );
+      await fillIn(
+        screen.getByLabelText(t('pages.user-account.update-password.fields.new-password.label')),
+        'NewPassword456',
+      );
+      await click(screen.getByRole('button', { name: t('pages.user-account.update-password.save-button') }));
+
+      // then
+      assert.ok(screen.getByText(t('pages.user-account.update-password.fields.errors.invalid-current-password')));
+    });
+  });
 });
