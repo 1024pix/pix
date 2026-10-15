@@ -6,6 +6,7 @@ import { gzip } from 'node:zlib';
 import { config } from '../../../../config/config.js';
 import { child } from '../utils/logger.js';
 import { summarizeAllocationSites } from './heap-profile-summary.js';
+import { getMemoryBreakdown } from './memory-breakdown.js';
 import { startSampling } from './sampling-heap-profiler.js';
 
 export const PROFILE_STATUS = {
@@ -33,6 +34,7 @@ const defaultDependencies = {
   startSampling,
   getHeapStatistics,
   getRss: process.memoryUsage.rss,
+  getMemoryBreakdown,
   compress: gzipAsync,
   wait,
   now: Date.now,
@@ -66,6 +68,7 @@ export function createHeapProfileRecorder(dependencies = {}) {
     startSampling,
     getHeapStatistics,
     getRss,
+    getMemoryBreakdown,
     compress,
     wait,
     now,
@@ -100,6 +103,7 @@ export function createHeapProfileRecorder(dependencies = {}) {
     const startedAt = now();
     const heapUsedBefore = getHeapStatistics().used_heap_size;
     const rssBefore = getRss();
+    const memoryBefore = await getMemoryBreakdown();
 
     // gardé hors du `try` pour que le `finally` puisse désarmer le profileur si
     // la fenêtre s'interrompt avant son terme
@@ -136,6 +140,7 @@ export function createHeapProfileRecorder(dependencies = {}) {
 
       const heapUsedAfter = getHeapStatistics().used_heap_size;
       const rssAfter = getRss();
+      const memoryAfter = await getMemoryBreakdown();
       const serializedProfile = JSON.stringify(profile);
       const compressedProfile = await compress(serializedProfile);
       const topAllocationSites = summarizeAllocationSites(profile, {
@@ -166,6 +171,9 @@ export function createHeapProfileRecorder(dependencies = {}) {
         heapUsedAfter,
         rssBefore,
         rssAfter,
+        // le profil ne voit que le tas : la décomposition dit à quoi tient le reste du RSS
+        memoryBefore,
+        memoryAfter,
       };
 
       // les sites d'allocation sont aussi journalisés : c'est le seul endroit où
