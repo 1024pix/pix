@@ -1,4 +1,5 @@
 import { KnowledgeElement } from '../../../../../shared/domain/models/KnowledgeElement.js';
+import type { CappedTube } from '../../../constant-types.d.ts';
 
 type SuccessKnowledgeElement = {
   status: string;
@@ -10,11 +11,6 @@ type SuccessSkill = {
   id: string;
   tubeId: string;
   difficulty: number;
-};
-
-type CappedTube = {
-  tubeId: string;
-  level: number;
 };
 
 export type SuccessArgs = {
