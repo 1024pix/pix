@@ -97,6 +97,7 @@ import { authenticateForSaml } from './authenticate-for-saml.usecase.js';
 import { authenticateOidcUser } from './authenticate-oidc-user.usecase.js';
 import { authenticateUser } from './authenticate-user.usecase.js';
 import { changeUserLocale } from './change-user-locale.usecase.js';
+import { changeUserPassword } from './change-user-password.usecase.js';
 import { createAccessTokenFromRefreshToken } from './create-access-token-from-refresh-token.usecase.js';
 import { createOidcUser } from './create-oidc-user.usecase.js';
 import { createResetPasswordDemand } from './create-reset-password-demand.usecase.js';
@@ -149,6 +150,7 @@ const usecasesWithoutInjectedDependencies = {
   authenticateOidcUser,
   authenticateUser,
   changeUserLocale,
+  changeUserPassword,
   createAccessTokenFromRefreshToken,
   createOidcUser,
   createResetPasswordDemand,

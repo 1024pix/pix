@@ -8,7 +8,9 @@ export default class ConnectionMethodsController extends Controller {
   @service oidcIdentityProviders;
 
   @tracked isEmailEditionMode = false;
+  @tracked isPasswordEditionMode = false;
   @tracked showEmailUpdatedMessage = false;
+  @tracked showPasswordUpdatedMessage = false;
 
   get shouldShowEmailConfirmedBanner() {
     return !!this.model.user.emailConfirmed;
@@ -55,5 +57,20 @@ export default class ConnectionMethodsController extends Controller {
   @action
   displayEmailUpdateMessage() {
     this.showEmailUpdatedMessage = true;
+  }
+
+  @action
+  enablePasswordEditionMode() {
+    this.isPasswordEditionMode = true;
+  }
+
+  @action
+  disablePasswordEditionMode() {
+    this.isPasswordEditionMode = false;
+  }
+
+  @action
+  displayPasswordUpdatedMessage() {
+    this.showPasswordUpdatedMessage = true;
   }
 }

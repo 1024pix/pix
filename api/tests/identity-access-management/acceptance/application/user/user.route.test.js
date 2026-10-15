@@ -9,6 +9,7 @@ import * as userRepository from '../../../../../src/identity-access-management/i
 import { userEmailRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/user-email.repository.js';
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
+import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
@@ -865,6 +866,221 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
         identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
       });
       expect(pixAuthenticationMethod.authenticationComplement.password).to.deep.equal('ABCDEF1234');
+    });
+  });
+
+  describe('POST /api/users/{id}/update-password', function () {
+    const currentPassword = 'Password123';
+    const newPassword = 'NewPassword456';
+
+    it('returns 204 HTTP status code and updates the password', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser.withRawPassword({
+        email: 'judy.howl@example.net',
+        rawPassword: currentPassword,
+      });
+      await databaseBuilder.commit();
+
+      const payload = {
+        data: {
+          type: 'password-updates',
+          attributes: {
+            'current-password': currentPassword,
+            'new-password': newPassword,
+          },
+        },
+      };
+
+      const options = {
+        method: 'POST',
+        url: `/api/users/${user.id}/update-password`,
+        payload,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+      const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+        userId: user.id,
+        identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
+      });
+      expect(
+        await cryptoService.matchPassword({
+          password: newPassword,
+          passwordHash: authenticationMethod.authenticationComplement.password,
+        }),
+      ).to.be.true;
+      expect(
+        await cryptoService.matchPassword({
+          password: currentPassword,
+          passwordHash: authenticationMethod.authenticationComplement.password,
+        }),
+      ).to.be.false;
+    });
+
+    it('returns 400 HTTP status code when current password is invalid', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser.withRawPassword({
+        email: 'judy.howl@example.net',
+        rawPassword: currentPassword,
+      });
+      await databaseBuilder.commit();
+
+      const payload = {
+        data: {
+          type: 'password-updates',
+          attributes: {
+            'current-password': 'WrongPassword123',
+            'new-password': newPassword,
+          },
+        },
+      };
+
+      const options = {
+        method: 'POST',
+        url: `/api/users/${user.id}/update-password`,
+        payload,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+      expect(response.result.errors[0].detail).to.equal('Le mot de passe que vous avez saisi est invalide.');
+    });
+
+    it('returns 422 HTTP status code when new password does not match password policy', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser.withRawPassword({
+        email: 'judy.howl@example.net',
+        rawPassword: currentPassword,
+      });
+      await databaseBuilder.commit();
+
+      const payload = {
+        data: {
+          type: 'password-updates',
+          attributes: {
+            'current-password': currentPassword,
+            'new-password': 'weak',
+          },
+        },
+      };
+
+      const options = {
+        method: 'POST',
+        url: `/api/users/${user.id}/update-password`,
+        payload,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(422);
+    });
+
+    it('returns 403 HTTP status code when requested user is not the authenticated user', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser.withRawPassword({
+        email: 'judy.howl@example.net',
+        rawPassword: currentPassword,
+      });
+      await databaseBuilder.commit();
+
+      const payload = {
+        data: {
+          type: 'password-updates',
+          attributes: {
+            'current-password': currentPassword,
+            'new-password': newPassword,
+          },
+        },
+      };
+
+      const options = {
+        method: 'POST',
+        url: '/api/users/999/update-password',
+        payload,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      expect(response.result.errors[0].detail).to.equal('Missing or insufficient permissions.');
+    });
+
+    it('returns 403 HTTP status code when user has no Pix authentication method', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser({ email: 'judy.howl@example.net' });
+      databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
+        userId: user.id,
+        identityProvider: 'OIDC_PROVIDER_EXAMPLE',
+      });
+      await databaseBuilder.commit();
+
+      const payload = {
+        data: {
+          type: 'password-updates',
+          attributes: {
+            'current-password': currentPassword,
+            'new-password': newPassword,
+          },
+        },
+      };
+
+      const options = {
+        method: 'POST',
+        url: `/api/users/${user.id}/update-password`,
+        payload,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+
+    it('returns 401 HTTP status code when user is not authenticated', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser.withRawPassword({
+        email: 'judy.howl@example.net',
+        rawPassword: currentPassword,
+      });
+      await databaseBuilder.commit();
+
+      const payload = {
+        data: {
+          type: 'password-updates',
+          attributes: {
+            'current-password': currentPassword,
+            'new-password': newPassword,
+          },
+        },
+      };
+
+      const options = {
+        method: 'POST',
+        url: `/api/users/${user.id}/update-password`,
+        payload,
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(401);
     });
   });
 });

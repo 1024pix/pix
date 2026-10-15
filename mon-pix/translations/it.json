@@ -2581,8 +2581,10 @@
           "other-authentication-label": "Altro metodo di connessione"
         },
         "edit-button": "Modificare",
+        "edit-password-button": "Modificare la password",
         "email": "Indirizzo e-mail",
         "menu-link-title": "I miei metodi di accesso",
+        "password": "Password",
         "username": "Identificatore"
       },
       "delete-account": {
@@ -2635,7 +2637,25 @@
         "last-name": "Cognome",
         "menu-link-title": "I miei dati personali"
       },
-      "title": "Il mio account"
+      "title": "Il mio account",
+      "update-password": {
+        "fields": {
+          "current-password": {
+            "label": "Password attuale"
+          },
+          "errors": {
+            "empty-current-password": "Inserire la password attuale.",
+            "invalid-current-password": "La password attuale non è corretta.",
+            "unknown-error": "Si è verificato un errore. Riprovare o contattare l'assistenza."
+          },
+          "new-password": {
+            "label": "Nuova password"
+          }
+        },
+        "save-button": "Modificare la mia password",
+        "title": "Modificare la mia password",
+        "update-successful": "La tua password è stata modificata!"
+      }
     },
     "user-certifications": {
       "meshes": {
