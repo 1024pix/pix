@@ -40,7 +40,7 @@
     "@types/node": "24.19.1",
     "@types/pngjs": "6.0.5",
     "baseline-browser-mapping": "2.11.27",
-    "dotenv": "17.4.2",
+    "dotenv": "18.0.6",
     "eslint": "9.39.5",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.6",
