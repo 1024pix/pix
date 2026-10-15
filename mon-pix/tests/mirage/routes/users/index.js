@@ -13,6 +13,7 @@ import getUserCampaignParticipations from './get-user-campaign-participations';
 import getUserSharedProfileForCampaign from './get-user-shared-profile-for-campaign';
 import isCertifiable from './is-certifiable';
 import patchTermsOfServiceAcceptance from './patch-terms-of-service-acceptance';
+import postUpdatePassword from './post-update-password';
 import putUpdateEmail from './put-update-email';
 import putVerificationCode from './put-verification-code';
 import resetScorecard from './reset-scorecard';
@@ -36,6 +37,7 @@ export default function index(config) {
   config.post('/users/:id/competences/:competenceId/reset', resetScorecard);
   config.post('/users/:id/update-email', putUpdateEmail);
   config.post('/users/:id/add-email-connection-method', addEmailConnectionMethod);
+  config.post('/users/:id/update-password', postUpdatePassword);
 
   config.patch('/users/:id/pix-terms-of-service-acceptance', patchTermsOfServiceAcceptance);
 

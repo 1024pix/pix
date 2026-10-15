@@ -2,6 +2,7 @@ import { PixButton, PixNotificationAlert } from '@1024pix/nebulix-ember';
 import t from 'ember-intl/helpers/t';
 
 import AddOrUpdateEmailWithValidation from '../../../components/user-account/add-or-update-email-with-validation';
+import UpdatePasswordForm from '../../../components/user-account/update-password-form';
 
 <template>
   <div class="user-account__connection-methods">
@@ -10,6 +11,11 @@ import AddOrUpdateEmailWithValidation from '../../../components/user-account/add
         @disableEmailEditionMode={{@controller.disableEmailEditionMode}}
         @displayEmailUpdateMessage={{@controller.displayEmailUpdateMessage}}
         @canAddEmailConnectionMethod={{@controller.canAddEmailConnectionMethod}}
+      />
+    {{else if @controller.isPasswordEditionMode}}
+      <UpdatePasswordForm
+        @disablePasswordEditionMode={{@controller.disablePasswordEditionMode}}
+        @displayPasswordUpdatedMessage={{@controller.displayPasswordUpdatedMessage}}
       />
     {{else}}
       {{#if @controller.shouldShowPixAuthenticationMethod}}
@@ -54,6 +60,30 @@ import AddOrUpdateEmailWithValidation from '../../../components/user-account/add
               <p class="user-account-panel-item__value" data-test-username>{{@model.user.username}}</p>
             </div>
           </div>
+        {{/if}}
+
+        <div class="user-account-panel__item">
+          <div class="user-account-panel-item__text">
+            <p class="form-textfield__label user-account-panel-item__label">
+              {{t "pages.user-account.connexion-methods.password"}}
+            </p>
+          </div>
+          <div>
+            <PixButton
+              class="user-account-panel-item__button"
+              @triggerAction={{@controller.enablePasswordEditionMode}}
+              @size="small"
+              aria-label={{t "pages.user-account.connexion-methods.edit-password-button"}}
+            >
+              {{t "pages.user-account.connexion-methods.edit-button"}}
+            </PixButton>
+          </div>
+        </div>
+
+        {{#if @controller.showPasswordUpdatedMessage}}
+          <PixNotificationAlert @type="success" @withIcon={{true}} class="user-account-panel__success-message">
+            {{t "pages.user-account.update-password.update-successful"}}
+          </PixNotificationAlert>
         {{/if}}
       {{/if}}
 

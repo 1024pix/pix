@@ -48,6 +48,48 @@ module('Unit | Controller | user-account | connection-methods', function (hooks)
     });
   });
 
+  module('#enablePasswordEditionMode', function () {
+    test('should show password edition form', async function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
+      controller.set('isPasswordEditionMode', false);
+
+      // when
+      await controller.enablePasswordEditionMode();
+
+      // then
+      assert.true(controller.isPasswordEditionMode);
+    });
+  });
+
+  module('#disablePasswordEditionMode', function () {
+    test('should hide password edition form when cancelling process', async function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
+      controller.set('isPasswordEditionMode', true);
+
+      // when
+      await controller.disablePasswordEditionMode();
+
+      // then
+      assert.false(controller.isPasswordEditionMode);
+    });
+  });
+
+  module('#displayPasswordUpdatedMessage', function () {
+    test('should display password update message', function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
+      controller.set('showPasswordUpdatedMessage', false);
+
+      // when
+      controller.displayPasswordUpdatedMessage();
+
+      // then
+      assert.true(controller.showPasswordUpdatedMessage);
+    });
+  });
+
   module('#shouldShowPixAuthenticationMethod', function () {
     test('should display pix authentication method', function (assert) {
       // given & when
