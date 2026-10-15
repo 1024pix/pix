@@ -156,7 +156,7 @@
     "pdf-lib": "1.17.1",
     "pdfkit": "0.20.2",
     "pg": "8.23.1",
-    "pg-boss": "12.37.0",
+    "pg-boss": "12.37.1",
     "pg-query-stream": "4.17.1",
     "pino": "10.4.0",
     "pino-pretty": "13.2.0",
