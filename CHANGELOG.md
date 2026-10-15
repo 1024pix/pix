@@ -1,5 +1,63 @@
 # Pix Changelog
 
+# [5.522.0](https://github.com/1024pix/pix/compare/v5.521.0...v5.522.0) (2026-10-15)
+
+### :rocket: Amélioration
+
+- [#18011](https://github.com/1024pix/pix/pull/18011) Afficher les compétences triées sur la page de résultats de certification (PIX-24611)
+- [#17969](https://github.com/1024pix/pix/pull/17969) Ajoute une animation sur la page tunnel du parcours combiné (PIX-24188)
+- [#17828](https://github.com/1024pix/pix/pull/17828) Mis à jour des états d'une réponse dans PixApp (PIX-24439)
+
+### :building_construction: Tech
+
+- [#17760](https://github.com/1024pix/pix/pull/17760) Ajoute la décomposition du RSS au profilage des allocations
+- [#17976](https://github.com/1024pix/pix/pull/17976) Améliore la documentation de l'OpenAPI pour ParcourSup (PIX-24733)
+- [#17831](https://github.com/1024pix/pix/pull/17831) Deplacer la gestion des places dans le contexte organizational-entities (PIX-24235)
+- [#17754](https://github.com/1024pix/pix/pull/17754) Passer des models back du BC /quest en Typescript
+- [#18027](https://github.com/1024pix/pix/pull/18027) Supprime la GitHub action "Check API config changed".
+
+### :arrow_up: Montée de version
+
+- [#18003](https://github.com/1024pix/pix/pull/18003) Update dependency @babel/eslint-parser to v8.0.7 (audit-logger)
+- [#18052](https://github.com/1024pix/pix/pull/18052) Update dependency @ember/app-tsconfig to v2 (orga)
+- [#18054](https://github.com/1024pix/pix/pull/18054) Update dependency @formatjs/intl to v6 (mon-pix)
+- [#18055](https://github.com/1024pix/pix/pull/18055) Update dependency babel-plugin-ember-template-compilation to v4.0.1 (junior)
+- [#18056](https://github.com/1024pix/pix/pull/18056) Update dependency babel-plugin-ember-template-compilation to v4.0.1 (orga)
+- [#18063](https://github.com/1024pix/pix/pull/18063) Update dependency dotenv to v18 (audit-logger)
+- [#18057](https://github.com/1024pix/pix/pull/18057) Update dependency eslint-plugin-ember to v13.6.1 (admin)
+- [#18058](https://github.com/1024pix/pix/pull/18058) Update dependency eslint-plugin-ember to v13.6.1 (certif)
+- [#18059](https://github.com/1024pix/pix/pull/18059) Update dependency eslint-plugin-ember to v13.6.1 (junior)
+- [#18060](https://github.com/1024pix/pix/pull/18060) Update dependency eslint-plugin-ember to v13.6.1 (mon-pix)
+- [#18061](https://github.com/1024pix/pix/pull/18061) Update dependency eslint-plugin-ember to v13.6.1 (orga)
+- [#18019](https://github.com/1024pix/pix/pull/18019) Update dependency eslint-plugin-unicorn to v77 (api)
+- [#18024](https://github.com/1024pix/pix/pull/18024) Update dependency eslint-plugin-unicorn to v77 (audit-logger)
+- [#18025](https://github.com/1024pix/pix/pull/18025) Update dependency eslint-plugin-unicorn to v77 (certif)
+- [#18064](https://github.com/1024pix/pix/pull/18064) Update dependency hyparquet to v1.31.3 (api)
+- [#18028](https://github.com/1024pix/pix/pull/18028) Update dependency nodemailer to v10.0.16 (api)
+- [#17994](https://github.com/1024pix/pix/pull/17994) Update dependency sass to v1.105.1 (mon-pix)
+- [#18000](https://github.com/1024pix/pix/pull/18000) Update dependency undici to v8.11.2 (api)
+- [#18002](https://github.com/1024pix/pix/pull/18002) Update dependency webpack to v5.111.1 (admin)
+- [#18004](https://github.com/1024pix/pix/pull/18004) Update dependency webpack to v5.111.1 (certif)
+- [#18005](https://github.com/1024pix/pix/pull/18005) Update dependency webpack to v5.111.1 (junior)
+- [#18006](https://github.com/1024pix/pix/pull/18006) Update dependency webpack to v5.111.1 (mon-pix)
+- [#18007](https://github.com/1024pix/pix/pull/18007) Update dependency yargs to v18.2.0 (api)
+- [#18008](https://github.com/1024pix/pix/pull/18008) Update dependency zod to v4.6.5 (e2e-playwright)
+- [#18009](https://github.com/1024pix/pix/pull/18009) Update ember-intl (admin)
+- [#18014](https://github.com/1024pix/pix/pull/18014) Update jaegertracing/jaeger Docker tag to v2.22.0 (dossier racine)
+- [#18016](https://github.com/1024pix/pix/pull/18016) Update JS test packages (admin)
+- [#18017](https://github.com/1024pix/pix/pull/18017) Update JS test packages (api)
+- [#18033](https://github.com/1024pix/pix/pull/18033) Update JS test packages (certif)
+- [#18018](https://github.com/1024pix/pix/pull/18018) Update JS test packages (certif)
+- [#18034](https://github.com/1024pix/pix/pull/18034) Update JS test packages (junior)
+- [#18020](https://github.com/1024pix/pix/pull/18020) Update JS test packages (junior)
+- [#18021](https://github.com/1024pix/pix/pull/18021) Update node
+- [#18022](https://github.com/1024pix/pix/pull/18022) Update opentelemetry-js monorepo (api)
+- [#18026](https://github.com/1024pix/pix/pull/18026) Update opentelemetry-js-contrib monorepo (api)
+- [#18030](https://github.com/1024pix/pix/pull/18030) Update warp-drive to v5.9.1 (admin)
+- [#18031](https://github.com/1024pix/pix/pull/18031) Update warp-drive to v5.9.1 (certif)
+- [#18036](https://github.com/1024pix/pix/pull/18036) Update warp-drive to v5.9.1 (junior)
+- [#18037](https://github.com/1024pix/pix/pull/18037) Update warp-drive to v5.9.1 (mon-pix)
+
 # [5.521.0](https://github.com/1024pix/pix/compare/v5.520.2...v5.521.0) (2026-10-14)
 
 ### :rocket: Amélioration
