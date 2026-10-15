@@ -4,7 +4,7 @@ import { CombinedCourse } from '../../../../src/quest/domain/models/combined-cou
 import { Campaign } from '../../../../src/quest/domain/models/combined-courses/value-objects/Campaign.ts';
 import { Module } from '../../../../src/quest/domain/models/combined-courses/value-objects/Module.ts';
 import { DataForQuest } from '../../../../src/quest/domain/models/quests/aggregates/DataForQuest.js';
-import { Eligibility } from '../../../../src/quest/domain/models/quests/aggregates/Eligibility.js';
+import { Eligibility } from '../../../../src/quest/domain/models/quests/aggregates/Eligibility.ts';
 import { Quest } from '../../../../src/quest/domain/models/quests/entities/Quest.js';
 
 function buildCombinedCourse({ name, code, organizationId, questId, baseSurveyUrl } = {}) {

@@ -7,7 +7,7 @@ import { cryptoService as injectedCryptoService } from '../../../../../shared/do
 import { COMBINED_COURSE_ITEM_TYPES } from '../../../constants.js';
 import { CombinedCourse } from '../../combined-courses/entities/CombinedCourse.js';
 import { DataForQuest } from '../../quests/aggregates/DataForQuest.js';
-import { Eligibility } from '../../quests/aggregates/Eligibility.js';
+import { Eligibility } from '../../quests/aggregates/Eligibility.ts';
 import { Quest, REQUIREMENT_TYPES } from '../../quests/entities/Quest.js';
 import { TYPES } from '../../quests/value-objects/Requirement.js';
 import {

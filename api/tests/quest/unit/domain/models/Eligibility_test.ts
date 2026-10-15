@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
-import { Eligibility } from '../../../../../src/quest/domain/models/quests/aggregates/Eligibility.js';
+import { Eligibility } from '../../../../../src/quest/domain/models/quests/aggregates/Eligibility.ts';
 
 describe('Quest | Unit | Domain | Models | Eligibility ', function () {
   describe('#constructor', function () {
@@ -38,7 +38,7 @@ describe('Quest | Unit | Domain | Models | Eligibility ', function () {
       const result = eligibility.hasCampaignParticipation(1);
 
       // then
-      expect(result).to.be.true;
+      expect(result).to.equal(true);
     });
 
     it('Should return false if campaign participation does not exist', function () {
@@ -50,15 +50,15 @@ describe('Quest | Unit | Domain | Models | Eligibility ', function () {
       const result = eligibility.hasCampaignParticipation(1);
 
       // then
-      expect(result).to.be.false;
+      expect(result).to.equal(false);
     });
   });
 
   describe('#buildEligibilityScopedByCampaignParticipationId', function () {
     it('return new instance of Eligibility scoped on given CampaignParticipation', function () {
       // given
-      const organization = Symbol('orga');
-      const organizationLearner = Symbol('orgaLearner');
+      const organization = { type: 'SCO' };
+      const organizationLearner = { id: 99 };
       const campaignParticipations = [{ id: 1 }, { id: 2 }];
       const eligibility = new Eligibility({
         organization,

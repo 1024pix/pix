@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { Eligibility } from '../../../../../src/quest/domain/models/quests/aggregates/Eligibility.js';
+import { Eligibility } from '../../../../../src/quest/domain/models/quests/aggregates/Eligibility.ts';
 import {
   CRITERION_COMPARISONS,
   Quest,
