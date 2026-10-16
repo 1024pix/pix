@@ -319,14 +319,13 @@ describe('Certification | Enrolment | Unit | Services | eligibility-service', fu
                   domainBuilder.certification.enrolment.buildUserCertificationEligibility({
                     id: userId,
                     isCertifiable: true,
-                    doubleCertificationEligibility: domainBuilder.certification.enrolment.buildCertificationEligibility(
-                      {
+                    doubleCertificationEligibility:
+                      domainBuilder.certification.enrolment.buildDoubleCertificationEligibility({
                         label: 'monLabel',
                         imageUrl: 'monImageUrl',
-                        validatedDoubleCertification: false,
-                        isBadgeValid: false,
-                      },
-                    ),
+                        certificationAlreadySucceeded: false,
+                        isEligible: false,
+                      }),
                   }),
                 );
               });
@@ -337,65 +336,121 @@ describe('Certification | Enrolment | Unit | Services | eligibility-service', fu
         context('when acquired badge is not outdated', function () {
           const isOutdated = false;
 
-          it('returns a UserCertificationEligibility model with the corresponding eligibility', async function () {
-            // given
-            complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([
-              domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
-                id: complementaryCertificationBadgeId,
-                requiredPixScore,
-                offsetVersion: 0,
-              }),
-            ]);
-            placementProfileService.getPlacementProfile.withArgs({ userId, limitDate }).resolves(
-              domainBuilder.buildPlacementProfile.buildCertifiable({
-                profileDate: limitDate,
-                userId,
-              }),
-            );
-            complementaryCertificationCourseRepository.findByUserId.withArgs({ userId }).resolves([
-              domainBuilder.certification.enrolment.buildComplementaryCertificationCourseWithResults({
-                complementaryCertificationBadgeId,
-                results: [
-                  {
-                    source: ComplementaryCertificationCourseResult.sources.PIX,
-                    acquired: true,
-                    complementaryCertificationBadgeId,
-                  },
-                ],
-              }),
-            ]);
-
-            certificationBadgesService.findLatestBadgeAcquisitions
-              .withArgs({
-                userId,
-                limitDate,
-              })
-              .resolves([
-                domainBuilder.buildCertifiableBadgeAcquisition({
+          context('when user has already succeeded the double certification', function () {
+            it('returns a UserCertificationEligibility model with a non eligible double certification', async function () {
+              // given
+              complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([
+                domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                  id: complementaryCertificationBadgeId,
+                  requiredPixScore,
+                  offsetVersion: 0,
+                }),
+              ]);
+              placementProfileService.getPlacementProfile.withArgs({ userId, limitDate }).resolves(
+                domainBuilder.buildPlacementProfile.buildCertifiable({
+                  profileDate: limitDate,
+                  userId,
+                }),
+              );
+              complementaryCertificationCourseRepository.findByUserId.withArgs({ userId }).resolves([
+                domainBuilder.certification.enrolment.buildComplementaryCertificationCourseWithResults({
                   complementaryCertificationBadgeId,
-                  complementaryCertificationKey,
-                  complementaryCertificationBadgeImageUrl: 'monImageUrl',
-                  complementaryCertificationBadgeLabel: 'monLabel',
-                  isOutdated,
+                  results: [
+                    {
+                      source: ComplementaryCertificationCourseResult.sources.PIX,
+                      acquired: true,
+                      complementaryCertificationBadgeId,
+                    },
+                  ],
                 }),
               ]);
 
-            // when
-            const userCertificationEligibility = await getUserCertificationEligibility(dependencies);
+              certificationBadgesService.findLatestBadgeAcquisitions
+                .withArgs({
+                  userId,
+                  limitDate,
+                })
+                .resolves([
+                  domainBuilder.buildCertifiableBadgeAcquisition({
+                    complementaryCertificationBadgeId,
+                    complementaryCertificationKey,
+                    complementaryCertificationBadgeImageUrl: 'monImageUrl',
+                    complementaryCertificationBadgeLabel: 'monLabel',
+                    isOutdated,
+                  }),
+                ]);
 
-            // then
-            expect(userCertificationEligibility).to.deep.equal(
-              domainBuilder.certification.enrolment.buildUserCertificationEligibility({
-                id: userId,
-                isCertifiable: true,
-                doubleCertificationEligibility: domainBuilder.certification.enrolment.buildCertificationEligibility({
-                  label: 'monLabel',
-                  imageUrl: 'monImageUrl',
-                  validatedDoubleCertification: true,
-                  isBadgeValid: true,
+              // when
+              const userCertificationEligibility = await getUserCertificationEligibility(dependencies);
+
+              // then
+              expect(userCertificationEligibility).to.deep.equal(
+                domainBuilder.certification.enrolment.buildUserCertificationEligibility({
+                  id: userId,
+                  isCertifiable: true,
+                  doubleCertificationEligibility:
+                    domainBuilder.certification.enrolment.buildDoubleCertificationEligibility({
+                      label: 'monLabel',
+                      imageUrl: 'monImageUrl',
+                      certificationAlreadySucceeded: true,
+                      isEligible: false,
+                    }),
                 }),
-              }),
-            );
+              );
+            });
+          });
+
+          context('when user has not succeeded the double certification yet', function () {
+            it('returns a UserCertificationEligibility model with an eligible double certification', async function () {
+              // given
+              complementaryCertificationBadgeWithOffsetVersionRepository.getAllWithSameTargetProfile.resolves([
+                domainBuilder.certification.enrolment.buildComplementaryCertificationBadge({
+                  id: complementaryCertificationBadgeId,
+                  requiredPixScore,
+                  offsetVersion: 0,
+                }),
+              ]);
+              placementProfileService.getPlacementProfile.withArgs({ userId, limitDate }).resolves(
+                domainBuilder.buildPlacementProfile.buildCertifiable({
+                  profileDate: limitDate,
+                  userId,
+                }),
+              );
+              complementaryCertificationCourseRepository.findByUserId.withArgs({ userId }).resolves([]);
+
+              certificationBadgesService.findLatestBadgeAcquisitions
+                .withArgs({
+                  userId,
+                  limitDate,
+                })
+                .resolves([
+                  domainBuilder.buildCertifiableBadgeAcquisition({
+                    complementaryCertificationBadgeId,
+                    complementaryCertificationKey,
+                    complementaryCertificationBadgeImageUrl: 'monImageUrl',
+                    complementaryCertificationBadgeLabel: 'monLabel',
+                    isOutdated,
+                  }),
+                ]);
+
+              // when
+              const userCertificationEligibility = await getUserCertificationEligibility(dependencies);
+
+              // then
+              expect(userCertificationEligibility).to.deep.equal(
+                domainBuilder.certification.enrolment.buildUserCertificationEligibility({
+                  id: userId,
+                  isCertifiable: true,
+                  doubleCertificationEligibility:
+                    domainBuilder.certification.enrolment.buildDoubleCertificationEligibility({
+                      label: 'monLabel',
+                      imageUrl: 'monImageUrl',
+                      certificationAlreadySucceeded: false,
+                      isEligible: true,
+                    }),
+                }),
+              );
+            });
           });
         });
       });

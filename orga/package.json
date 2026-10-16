@@ -91,7 +91,7 @@
     "ember-click-outside": "6.1.1",
     "ember-cookies": "1.4.1",
     "ember-exam": "10.2.0",
-    "ember-inflector": "6.0.0",
+    "ember-inflector": "7.0.0",
     "ember-intl": "8.4.0",
     "ember-lifeline": "7.1.0",
     "ember-load-initializers": "3.0.1",
@@ -101,7 +101,7 @@
     "ember-resolver": "13.2.0",
     "ember-simple-auth": "8.4.1",
     "ember-source": "7.3.0",
-    "ember-template-lint": "7.9.3",
+    "ember-template-lint": "7.9.4",
     "ember-template-lint-plugin-prettier": "5.0.0",
     "ember-truth-helpers": "5.0.0",
     "eslint": "9.39.5",
@@ -132,7 +132,7 @@
     "stylelint": "17.16.0",
     "typescript": "6.0.3",
     "typescript-eslint": "8.71.1",
-    "vite": "8.3.3",
+    "vite": "8.3.4",
     "xss": "1.0.15"
   },
   "overrides": {

@@ -325,8 +325,8 @@ export default Factory.extend({
         isCertifiable: server.create('is-certifiable', {
           'is-certifiable': true,
           doubleCertificationEligibility: {
-            isBadgeValid: true,
-            validatedDoubleCertification: true,
+            isEligible: true,
+            certificationAlreadySucceeded: false,
           },
         }),
       });

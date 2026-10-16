@@ -13,11 +13,11 @@ describe('Certification | Enrolment | Unit | Application | Controller | user-con
         domainBuilder.certification.enrolment.buildUserCertificationEligibility({
           id: 123,
           isCertifiable: true,
-          certificationEligibility: domainBuilder.certification.enrolment.buildCertificationEligibility({
+          doubleCertificationEligibility: domainBuilder.certification.enrolment.buildDoubleCertificationEligibility({
             label: 'Un super label',
             imageUrl: 'Une super image',
-            isBadgeValid: true,
-            validatedDoubleCertification: true,
+            isEligible: true,
+            certificationAlreadySucceeded: false,
           }),
         }),
       );
@@ -41,10 +41,10 @@ describe('Certification | Enrolment | Unit | Application | Controller | user-con
           attributes: {
             'is-certifiable': true,
             'double-certification-eligibility': {
-              imageUrl: "url d'image",
-              isBadgeValid: true,
-              label: "Label d'éligibilité",
-              validatedDoubleCertification: true,
+              imageUrl: 'Une super image',
+              isEligible: true,
+              label: 'Un super label',
+              certificationAlreadySucceeded: false,
             },
           },
         },

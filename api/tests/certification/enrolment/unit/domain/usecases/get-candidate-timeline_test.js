@@ -113,7 +113,7 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
       candidateRepository.get.resolves(candidate);
       placementProfileService.getPlacementProfile.resolves(domainBuilder.buildPlacementProfile());
       eligibilityService.getUserCertificationEligibility.resolves(
-        domainBuilder.certification.enrolment.buildCertificationEligibility(),
+        domainBuilder.certification.enrolment.buildDoubleCertificationEligibility(),
       );
 
       // when
@@ -262,9 +262,11 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
             // Utilisation de la classe à cause de la valeur par défaut dans le builder qui empêche d'avoir une valeur nulle
             new UserCertificationEligibility({
               isCertifiable: true,
-              doubleCertificationEligibility: domainBuilder.certification.enrolment.buildCertificationEligibility({
-                isBadgeValid: true,
-              }),
+              doubleCertificationEligibility: domainBuilder.certification.enrolment.buildDoubleCertificationEligibility(
+                {
+                  isEligible: true,
+                },
+              ),
             }),
           );
 
@@ -302,9 +304,11 @@ describe('Certification | Enrolment | Unit | Domain | UseCase | get-candidate-ti
           eligibilityService.getUserCertificationEligibility.resolves(
             new UserCertificationEligibility({
               isCertifiable: true,
-              doubleCertificationEligibility: domainBuilder.certification.enrolment.buildCertificationEligibility({
-                isBadgeValid: true,
-              }),
+              doubleCertificationEligibility: domainBuilder.certification.enrolment.buildDoubleCertificationEligibility(
+                {
+                  isEligible: true,
+                },
+              ),
             }),
           );
 

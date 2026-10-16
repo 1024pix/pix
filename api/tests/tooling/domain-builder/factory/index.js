@@ -174,9 +174,9 @@ import {
 import { versionBuilder } from './certification/configuration/build-version.js';
 import { versionDetailsBuilder } from './certification/configuration/build-version-details.js';
 import { candidateBuilder } from './certification/enrolment/build-candidate.js';
-import { buildCertificationEligibility } from './certification/enrolment/build-certification-eligibility.js';
 import { buildComplementaryCertificationBadgeWithOffsetVersion as buildComplementaryCertificationBadgeForEnrolment } from './certification/enrolment/build-complementary-certification-badge.js';
 import { buildComplementaryCertificationCourseWithResultsEnrolment } from './certification/enrolment/build-complementary-certification-course-with-results.js';
+import { buildDoubleCertificationEligibility } from './certification/enrolment/build-double-certification-eligibility.js';
 import { buildEditedCandidate } from './certification/enrolment/build-edited-candidate.js';
 import { buildPixCertification } from './certification/enrolment/build-pix-certification.js';
 import { sessionEnrolmentBuilder } from './certification/enrolment/build-session.js';
@@ -275,7 +275,7 @@ const certification = {
     buildUser: buildUserEnrolment,
     buildComplementaryCertificationCourseWithResults: buildComplementaryCertificationCourseWithResultsEnrolment,
     buildUserCertificationEligibility,
-    buildCertificationEligibility,
+    buildDoubleCertificationEligibility,
     buildPixCertification,
     buildComplementaryCertificationBadge: buildComplementaryCertificationBadgeForEnrolment,
     sessionAuthorizationBuilder,

@@ -15,8 +15,8 @@ module('Integration | Component | Certification Banners | index.js', function (h
         doubleCertificationEligibility: {
           label: 'CléA Numérique',
           imageUrl: 'http://www.image-clea.com',
-          isBadgeValid: true,
-          validatedDoubleCertification: false,
+          isEligible: true,
+          certificationAlreadySucceeded: false,
         },
       });
       const fullName = 'Fifi Brindacier';
@@ -49,8 +49,8 @@ module('Integration | Component | Certification Banners | index.js', function (h
           doubleCertificationEligibility: {
             label: 'CléA Numérique',
             imageUrl: 'http://www.image-clea.com',
-            isBadgeValid: false,
-            validatedDoubleCertification: true,
+            isEligible: false,
+            certificationAlreadySucceeded: true,
           },
         });
         const fullName = 'Fifi Brindacier';
@@ -89,8 +89,8 @@ module('Integration | Component | Certification Banners | index.js', function (h
           doubleCertificationEligibility: {
             label: 'CléA Numérique',
             imageUrl: 'http://www.image-clea.com',
-            isBadgeValid: false,
-            validatedDoubleCertification: false,
+            isEligible: false,
+            certificationAlreadySucceeded: false,
           },
         });
         const fullName = 'Fifi Brindacier';

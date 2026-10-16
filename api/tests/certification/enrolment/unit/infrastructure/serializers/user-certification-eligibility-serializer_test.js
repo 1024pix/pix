@@ -36,11 +36,11 @@ describe('Certification | Enrolment | Unit | Serializer | user-certification-eli
         const userCertificationEligibility = domainBuilder.certification.enrolment.buildUserCertificationEligibility({
           id: 123,
           isCertifiable: true,
-          doubleCertificationEligibility: domainBuilder.certification.enrolment.buildCertificationEligibility({
+          doubleCertificationEligibility: domainBuilder.certification.enrolment.buildDoubleCertificationEligibility({
             label: 'Un super label',
             imageUrl: 'Une super image',
-            isBadgeValid: false,
-            validatedDoubleCertification: false,
+            isEligible: false,
+            certificationAlreadySucceeded: false,
           }),
         });
 
@@ -57,8 +57,8 @@ describe('Certification | Enrolment | Unit | Serializer | user-certification-eli
               'double-certification-eligibility': {
                 label: 'Un super label',
                 imageUrl: 'Une super image',
-                isBadgeValid: false,
-                validatedDoubleCertification: false,
+                isEligible: false,
+                certificationAlreadySucceeded: false,
               },
             },
           },

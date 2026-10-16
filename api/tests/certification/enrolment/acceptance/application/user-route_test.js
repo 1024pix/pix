@@ -274,8 +274,8 @@ describe('Certification | Enrolment | Acceptance | Routes | User', function () {
               'double-certification-eligibility': {
                 imageUrl: 'http://my-badge-image-url.com',
                 label: 'alt message',
-                isBadgeValid: true,
-                validatedDoubleCertification: false,
+                isEligible: true,
+                certificationAlreadySucceeded: false,
               },
             },
           },
