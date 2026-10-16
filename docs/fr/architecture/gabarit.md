@@ -123,8 +123,11 @@ cette règle.
 
 - Les invariants se numérotent avec le préfixe du dossier (`I` pour le repository). Les écarts se
   numérotent `X1`, `X2`, … dans chaque dossier.
-- Un numéro retiré n'est jamais réattribué. La liste des numéros retirés vit dans l'index du corpus,
-  `corpus-index.md`, pas dans les dossiers.
+- Tant qu'une fiche n'est pas mergée, on ne renumérote pas à chaque changement : une règle retirée
+  peut laisser un trou. Au merge, on renumérote la fiche à la suite, sans trou, et on met à jour les
+  renvois des autres fiches en une seule fois. Ensuite, les numéros sont figés : un numéro retiré
+  n'est plus réattribué. La liste des numéros retirés vit dans l'index du corpus, `corpus-index.md`,
+  pas dans les dossiers.
 - Un renvoi vers un autre dossier nomme le fichier : « `X4` de `repository/ecarts.md` ».
 
 ## Les exemples
@@ -272,8 +275,8 @@ retrouver le défaut qu'elle évite.
 
 - Partir de l'ancienne fiche et de ses documents de travail : ils contiennent la recherche, les règles
   et les décisions.
-- Garder les numéros des règles. Un numéro retiré n'est jamais réattribué, et il est noté dans
-  `corpus-index.md`.
+- Pour une fiche déjà mergée, garder les numéros des règles. Un numéro retiré n'est plus réattribué,
+  et il est noté dans `corpus-index.md`.
 - Choisir le fil d'exemple. Chercher dans le code la vraie règle du métier qui le justifie, et lister
   les usecases qui touchent ce concept, dans tous les contextes : une règle mal choisie fausse toute la
   fiche.

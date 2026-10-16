@@ -93,7 +93,10 @@ endroit du dépôt qui fasse autorité : chacune reste à y écrire.
 
 ## Numéros retirés
 
-Un numéro retiré n'est jamais réattribué.
+Tant qu'une fiche n'est pas mergée, une règle retirée peut laisser un trou. Au merge, la fiche est
+renumérotée à la suite et les renvois des autres fiches sont mis à jour en une fois. Ensuite, un
+numéro retiré n'est plus réattribué. Les documents de travail (`explication.md`,
+`outillage.md`, `ecarts.md`) peuvent garder les anciens numéros : cette table donne la correspondance.
 
 | Numéro | Portait | Où c'est traité |
 | --- | --- | --- |
