@@ -69,14 +69,14 @@ describe('Profile | Integration | Infrastructure | Repository | Attestation', fu
       await databaseBuilder.commit();
 
       const fakeData = Symbol('fakeData');
-      const attestationStorage = { readFile: sinon.stub().resolves({ Body: fakeData }) };
+      const attestationStorage = { readFile: sinon.stub().resolves({ Body: fakeData, templateName }) };
 
       // when
       const result = await getDataByKey({ key: attestation.key, attestationStorage });
 
       // then
 
-      expect(result).to.equal(fakeData);
+      expect(result).to.deep.equal({ Body: fakeData, templateName: templateName + '.pdf' });
     });
 
     it('should return null if no attestation exist for given key', async function () {

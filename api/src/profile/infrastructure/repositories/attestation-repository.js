@@ -23,5 +23,5 @@ export const getDataByKey = async ({ key, attestationStorage }) => {
 
   const templateName = attestation.templateName + '.pdf';
   const { Body } = await attestationStorage.readFile({ key: templateName });
-  return Body;
+  return { Body, templateName };
 };
