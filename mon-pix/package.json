@@ -103,7 +103,7 @@
     "ember-template-lint-plugin-prettier": "5.0.0",
     "ember-test-selectors": "7.1.0",
     "ember-truth-helpers": "5.0.0",
-    "eslint": "9.39.5",
+    "eslint": "10.12.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-ember": "13.6.1",
     "eslint-plugin-i18n-json": "4.0.1",
