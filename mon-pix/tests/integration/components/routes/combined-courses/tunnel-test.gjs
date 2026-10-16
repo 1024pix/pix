@@ -1,7 +1,7 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { settled } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import CombinedCourseTunnel from 'mon-pix/components/routes/combined-courses/tunnel';
+import CombinedCourseTunnel, { ANIMATION_DURATION } from 'mon-pix/components/routes/combined-courses/tunnel';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -226,7 +226,7 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
       assert.notOk(await screen.queryByRole('button', { name: t('pages.combined-courses.items.start-campaign') }));
       const aside = screen.getByRole('complementary');
       assert.ok(within(aside).getByText('ma campagne'));
-      await clock.tickAsync(2000);
+      await clock.tickAsync(ANIMATION_DURATION);
       await settled();
 
       assert.ok(within(aside).getByText('mon module'));

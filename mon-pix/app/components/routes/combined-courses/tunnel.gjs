@@ -9,6 +9,7 @@ import { eq } from 'ember-truth-helpers';
 import CombinedCourseItemsList from 'mon-pix/components/combined-course/combined-course-items-list';
 import StepDetails from 'mon-pix/components/combined-course/tunnel/step-details';
 
+export const ANIMATION_DURATION = 1600;
 export default class CombinedCourseTunnel extends Component {
   constructor() {
     super(...arguments);
@@ -24,7 +25,7 @@ export default class CombinedCourseTunnel extends Component {
       this.isAnimationInProgress = true;
       setTimeout(() => {
         this.endLoadingAnimation();
-      }, 800);
+      }, ANIMATION_DURATION);
     } else {
       this.selectedItem = nextItem;
     }
