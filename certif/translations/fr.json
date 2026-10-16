@@ -233,7 +233,8 @@
       "a11y": "Accessibilité : partiellement conforme",
       "aria-label": "Navigation de pied de page",
       "current-year": "© {currentYear} Pix",
-      "legal-notice": "Mentions légales"
+      "legal-notice": "Mentions légales",
+      "status": "Statut des services"
     },
     "sidebar": {
       "change-center": {

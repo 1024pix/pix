@@ -19,6 +19,10 @@ export default class Footer extends Component {
     return this.url.accessibilityUrl;
   }
 
+  get serverStatusUrl() {
+    return this.url.serverStatusUrl;
+  }
+
   <template>
     <footer class='footer'>
       <nav class='footer__navigation' aria-label={{t 'navigation.footer.aria-label'}}>
@@ -32,6 +36,13 @@ export default class Footer extends Component {
           <li>
             <a href={{this.accessibilityUrl}} target='_blank' class='footer-navigation__item' rel='noopener noreferrer'>
               {{t 'navigation.footer.a11y'}}
+            </a>
+          </li>
+
+          <li>
+            <a href={{this.serverStatusUrl}} target='_blank' class='footer-navigation__item' rel='noopener noreferrer'>
+              {{t 'navigation.footer.status'}}
+              <span class='sr-only'>, s'ouvre dans un nouvel onglet </span>
             </a>
           </li>
         </ul>
