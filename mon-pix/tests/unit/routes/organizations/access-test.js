@@ -87,7 +87,7 @@ module('Unit | Route | Access', function (hooks) {
             await route.beforeModel();
 
             // then
-            sinon.assert.calledWith(route.router.replaceWith, 'authentication.login-oidc', 'oidc-partner');
+            sinon.assert.calledWith(route.router.replaceWith, 'authentication.oidc.login-flow', 'oidc-partner');
             assert.ok(true);
           });
         });
@@ -101,7 +101,7 @@ module('Unit | Route | Access', function (hooks) {
             await route.beforeModel();
 
             // then
-            sinon.assert.neverCalledWith(route.router.replaceWith, 'authentication.login-oidc', 'oidc-partner');
+            sinon.assert.neverCalledWith(route.router.replaceWith, 'authentication.oidc.login-flow', 'oidc-partner');
             assert.ok(true);
           });
         });

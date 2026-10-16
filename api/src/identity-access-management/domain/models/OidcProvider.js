@@ -49,6 +49,10 @@ export class OidcProvider {
     this.isVisible = isVisible;
   }
 
+  get code() {
+    return this.identityProvider;
+  }
+
   /**
    * @param {CryptoService} cryptoService
    * @return {Promise<string | null}>}

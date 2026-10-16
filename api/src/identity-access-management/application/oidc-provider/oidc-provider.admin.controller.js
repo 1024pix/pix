@@ -35,8 +35,8 @@ async function createInBatch(request, h) {
  * @return {Promise<*>}
  */
 async function getAllIdentityProvidersForAdmin(request, h) {
-  const identityProviders = await usecases.getAllIdentityProviders();
-  return h.response(oidcIdentityProvidersSerializer.serialize(identityProviders)).code(200);
+  const oidcProviders = await usecases.getAllIdentityProviders();
+  return h.response(oidcIdentityProvidersSerializer.serialize(oidcProviders)).code(200);
 }
 
 /**
