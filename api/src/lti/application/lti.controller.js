@@ -126,6 +126,28 @@ async function deepLink(request, h) {
   }
 }
 
+async function findAvailableCampaigns(request, h) {
+  const { organizationIds } = request.auth.credentials;
+  logger.info({ organizationIds }, 'available campaigns');
+
+  const campaigns = [
+    {
+      name: 'Auto Cours 1',
+      code: 'AUTOCOUR1',
+    },
+    {
+      name: 'Auto Cours 3',
+      code: 'AUTOCOUR3',
+    },
+    {
+      name: 'Auto Cours 5',
+      code: 'AUTOCOUR5',
+    },
+  ];
+
+  return h.response(campaigns);
+}
+
 async function selectCampaign(request, h, dependencies = { deepLinkingService }) {
   const {
     // FIXME check selected campaignCode belongs to one of the organizations
@@ -181,7 +203,15 @@ async function resourceLink(request, h, dependencies = { urlService }) {
   }
 }
 
-export const ltiController = { listPublicKeys, register, init, deepLink, selectCampaign, resourceLink };
+export const ltiController = {
+  listPublicKeys,
+  register,
+  init,
+  deepLink,
+  findAvailableCampaigns,
+  selectCampaign,
+  resourceLink,
+};
 
 async function preLaunch(request, dependencies = { ltiPlatformRegistrationRepository, httpAgent }) {
   const encodedToken = request.payload.id_token;
