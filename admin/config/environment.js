@@ -12,7 +12,6 @@ function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue
 }
 
 module.exports = function (environment) {
-  const analyticsEnabled = process.env.ANALYTICS_ENABLED === 'true';
   const ENV = {
     modulePrefix: 'pix-admin',
     environment,
@@ -109,16 +108,11 @@ module.exports = function (environment) {
       }),
     },
 
-    metricsAdapters: [
-      {
-        name: 'PlausibleAdapter',
-        environments: analyticsEnabled ? ['all'] : [],
-        config: {
-          siteId: process.env.ANALYTICS_SITE_ID,
-          scriptUrl: process.env.ANALYTICS_SCRIPT_URL,
-        },
-      },
-    ],
+    ANALYTICS: {
+      ENABLED: process.env.ANALYTICS_ENABLED === 'true',
+      SITE_ID: process.env.ANALYTICS_SITE_ID,
+      SCRIPT_URL: process.env.ANALYTICS_SCRIPT_URL,
+    },
   };
 
   if (environment === 'development') {
