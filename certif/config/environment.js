@@ -11,10 +11,6 @@ function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue
   );
 }
 
-function _isFeatureEnabled(environmentVariable) {
-  return environmentVariable === 'true';
-}
-
 module.exports = function (environment) {
   const ENV = {
     modulePrefix: 'pix-certif',
@@ -104,16 +100,11 @@ module.exports = function (environment) {
       APP_VERSION: process.env.SOURCE_VERSION || 'development',
     },
 
-    metricsAdapters: [
-      {
-        name: 'PlausibleAdapter',
-        environments: _isFeatureEnabled(process.env.ANALYTICS_ENABLED) ? ['all'] : [],
-        config: {
-          siteId: process.env.ANALYTICS_SITE_ID,
-          scriptUrl: process.env.ANALYTICS_SCRIPT_URL,
-        },
-      },
-    ],
+    ANALYTICS: {
+      ENABLED: process.env.ANALYTICS_ENABLED === 'true',
+      SITE_ID: process.env.ANALYTICS_SITE_ID,
+      SCRIPT_URL: process.env.ANALYTICS_SCRIPT_URL,
+    },
   };
 
   if (environment === 'test') {

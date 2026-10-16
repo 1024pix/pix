@@ -3,6 +3,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import ENV from 'pix-certif/config/environment';
 import { formats } from 'pix-certif/ember-intl';
+import PlausibleAdapter from 'pix-certif/metrics-adapters/plausible-adapter';
 
 export default class ApplicationRoute extends Route {
   @service featureToggles;
@@ -12,6 +13,23 @@ export default class ApplicationRoute extends Route {
   @service session;
   @service store;
   @service intl;
+  @service metrics;
+
+  constructor() {
+    super(...arguments);
+
+    this.metrics.activateAdapters([
+      {
+        name: 'PlausibleAdapter',
+        adapter: PlausibleAdapter,
+        environments: ENV.ANALYTICS.ENABLED ? ['all'] : [],
+        config: {
+          siteId: ENV.ANALYTICS.SITE_ID,
+          scriptUrl: ENV.ANALYTICS.SCRIPT_URL,
+        },
+      },
+    ]);
+  }
 
   async beforeModel(transition) {
     await this.featureToggles.load();
