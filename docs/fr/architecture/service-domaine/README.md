@@ -30,6 +30,7 @@ avec le résultat de la participation :
 - le palier « premier acquis » est atteint dès qu'un acquis est validé ;
 - les autres paliers sont atteints quand le pourcentage de maîtrise atteint leur seuil.
 
+Avant d'appeler le service, le usecase donne un seuil aux paliers définis par un niveau.
 Exemple inventé, d'après [`get-new-acquired-stages-service.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/stages/domain/services/get-new-acquired-stages-service.js#L12-L19)
 et [`Stage.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/stages/domain/models/Stage.js#L38-L40).
 
@@ -91,6 +92,7 @@ export function getNewAcquiredStages({
     if (stage.isZeroStage) return true;
     if (stage.isFirstSkill) return validatedSkillCount >= 1;
 
+    // le usecase a déjà donné un seuil aux paliers par niveau : un palier sans seuil n'est pas atteint
     return stage.threshold !== null && stage.threshold <= masteryPercentage;
   });
 }
@@ -98,7 +100,7 @@ export function getNewAcquiredStages({
 
 ```ts
 // prescription/stages/domain/usecases/handle-stage-acquisition.ts — raccourci : le usecase a déjà
-// chargé stages, et calculé validatedSkillCount et masteryPercentage
+// chargé stages, donné un seuil aux paliers par niveau, et calculé validatedSkillCount et masteryPercentage
 const alreadyAcquiredStageIds = await stageAcquisitionRepository.getStageIdsByCampaignParticipation({
   campaignParticipationId: campaignParticipation.id,
 });
@@ -211,9 +213,9 @@ Comment est-il testé ?
 
 ### D1. Aucune I/O
 
-**La règle.** Un Domain Service ne lit et n'écrit rien : pas de base de données, pas d'appel HTTP, pas
-de fichier. Il ne reçoit ni repository, ni API interne, ni client de stockage. Un fichier qui charge
-ou enregistre des données est un [usecase](../usecase/README.md), et il va dans `domain/usecases/`,
+**La règle.** Un Domain Service ne fait aucune I/O (entrée/sortie) : il ne lit et n'écrit rien. Pas
+de base de données, pas d'appel HTTP, pas de fichier. Il ne reçoit ni repository, ni API interne, ni
+client de stockage. Un fichier qui charge ou enregistre des données est un [usecase](../usecase/README.md), et il va dans `domain/usecases/`,
 même s'il est appelé par plusieurs usecases.
 
 **Bon exemple.**
@@ -263,19 +265,19 @@ service en mémoire.
 - le log : le service importe le logger de l'infrastructure, et le test écrit dans la sortie.
 
 Si le service a besoin d'une de ces valeurs, le usecase la lui passe en paramètre, comme `now` dans
-une Entity. Une bibliothèque de calcul, comme `dayjs`, est permise : elle ne fait pas d'I/O.
+une [Entity](../entite/README.md#e4-aucun-effet-de-bord-extérieur). Une bibliothèque de calcul, comme `dayjs`, est permise : elle ne fait pas d'I/O.
 
 **Exceptions.**
 
-- Le fichier `index.js` de `domain/services/`, s'il existe, importe l'infrastructure pour câbler les
+- Le fichier `index.ts` de `domain/services/`, s'il existe, importe l'infrastructure pour câbler les
   dépendances. Il ne porte aucune règle, et D1 ne s'applique pas à lui.
 - Une constante de configuration passée en paramètre est permise : c'est une donnée.
 
 ### D2. Des objets du domaine en entrée et en sortie
 
-**La règle.** Le service reçoit et renvoie des Entities, des Value Objects ou des scalaires du
-contexte. Il ne reçoit jamais une ligne de base, ni le DTO d'un autre contexte, et ne renvoie pas un
-objet préparé pour l'affichage.
+**La règle.** Le service reçoit et renvoie des Entities, des Value Objects ou des scalaires (nombre,
+texte, booléen) du contexte. Il ne reçoit jamais une ligne de base, ni le DTO d'un autre contexte
+(l'objet que renvoie son API interne), et ne renvoie pas un objet préparé pour l'affichage.
 
 **Bon exemple.**
 
@@ -410,8 +412,7 @@ ce que fait un palier.
   reçoit pas ;
 - une règle d'Aggregate dans un service : par exemple « un profil cible a au plus un palier premier
   acquis ». Un usecase qui ajoute un palier sans appeler le service enregistre un second palier
-  premier acquis. Sur l'Aggregate Root, la règle est vérifiée à chaque ajout, parce que l'ajout passe
-  par elle ;
+  premier acquis ;
 - une règle qui charge ou enregistre : c'est le problème décrit dans D1.
 
 **À savoir.** Un service qui ne reçoit qu'un objet, ou qu'une liste d'objets du même type, est à
