@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import dayjs from 'dayjs';
 import _ from 'lodash';
 
 import * as sessionSummaryRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/session-summary-repository.js';
@@ -214,14 +213,18 @@ describe('Integration | Repository | Session Summary', function () {
         context('with status filter', function () {
           beforeEach(async function () {
             // given
+            const now = new Date(Date.now());
+            now.setHours(now.getHours() - 1);
+            const [, date, time] = now.toISOString().match(/(\d+-\d+-\d+)T(\d+:\d+:\d+)/);
+
             databaseBuilder.factory.buildSession({
               address: 'created',
               finalizedAt: null,
               publishedAt: null,
               assignedCertificationOfficerId: null,
               certificationCenterId,
-              date: dayjs().format('YYYY-MM-DD'),
-              time: dayjs().subtract(1, 'hour').format('HH:mm'),
+              date,
+              time,
             });
             const sessionToFinalize = databaseBuilder.factory.buildSession({
               address: 'to_finalize',
