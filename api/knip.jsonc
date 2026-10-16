@@ -9,7 +9,6 @@
     "tests/**/*.{cjs,js,ts}",
   ],
   "ignoreDependencies": [
-    "pg-query-stream", // https://knexjs.org/guide/interfaces.html#streams
     "json-autotranslate", // used by api/scripts/translate-language-files.js
   ],
   "ignoreFiles": [

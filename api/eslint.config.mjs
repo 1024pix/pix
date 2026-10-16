@@ -8,6 +8,17 @@ import nRecommendedConfig from 'eslint-plugin-n';
 import unicorn from 'eslint-plugin-unicorn';
 import tseslint from 'typescript-eslint';
 
+// eslint-plugin-i18n-json is unmaintained and still calls context.getFilename(), removed in ESLint 10
+const i18nJsonPluginCompat = {
+  ...i18nJsonPlugin,
+  rules: Object.fromEntries(
+    Object.entries(i18nJsonPlugin.rules).map(([name, rule]) => [
+      name,
+      { ...rule, create: (context) => rule.create({ ...context, getFilename: () => context.filename }) },
+    ]),
+  ),
+};
+
 export default defineConfig([
   // Linter setup
   { linterOptions: { reportUnusedDisableDirectives: 'error' } },
@@ -102,7 +113,7 @@ export default defineConfig([
   // Overridden rules for "translations" files
   {
     files: ['translations/*.json'],
-    plugins: { 'i18n-json': i18nJsonPlugin },
+    plugins: { 'i18n-json': i18nJsonPluginCompat },
     processor: {
       meta: { name: '.json' },
       ...i18nJsonPlugin.processors['.json'],
