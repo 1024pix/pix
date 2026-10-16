@@ -20,5 +20,5 @@ export default config as {
   podModulePrefix?: string;
   locationType: string;
   rootURL: string;
-  APP: { API_HOST: string } & Record<string, unknown>;
+  APP: { API_HOST: string; APP_VERSION: string } & Record<string, unknown>;
 } & Record<string, unknown>;
