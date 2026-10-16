@@ -1348,6 +1348,7 @@
           "description": "Voltooi uw diagnose om een moduleprogramma te ontgrendelen dat is afgestemd op uw resultaat!",
           "title": "Gepersonaliseerd programma met modules"
         },
+        "restart-campaign": "Opnieuw beginnen",
         "restart-module": "De module opnieuw starten",
         "start-campaign": "Beginnen",
         "start-module": "De module starten",

@@ -108,11 +108,13 @@ Router.map(function () {
     this.route('existing-participation', { path: '/participation-existante' });
   });
   this.route('combined-courses', { path: '/parcours' }, function () {
-    this.route('presentation', { path: '/:code' });
-    this.route('tunnel', { path: 'in-progress/:code' });
     this.route('generic-error', { path: '/oups' });
     this.route('disabled-feature-error', { path: '/erreur' });
-    this.route('process-custom-passages', { path: '/:code/chargement' });
+    this.route('combined-course', { path: '/:code' }, function () {
+      this.route('presentation', { path: '/' });
+      this.route('process-custom-passages', { path: '/chargement' });
+      this.route('tunnel', { path: '/checkpoint' });
+    });
   });
 
   // eslint-disable-next-line ember/routes-segments-snake-case

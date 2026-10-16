@@ -21,7 +21,11 @@ import { eq } from 'ember-truth-helpers';
     <section class="campaign-participation-overview-card-content">
       <PixButtonLink
         class="campaign-participation-overview-card-content__action"
-        @route={{if (eq @model.campaignType "COMBINED_COURSE") "combined-courses.presentation" "campaigns.entry-point"}}
+        @route={{if
+          (eq @model.campaignType "COMBINED_COURSE")
+          "combined-courses.combined-course.presentation"
+          "campaigns.entry-point"
+        }}
         @model={{@model.campaignCode}}
         @variant="success"
         aria-label={{t
