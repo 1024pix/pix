@@ -10,6 +10,11 @@ import Rewards from '../../../campaigns/assessment/results/evaluation-results-ta
 import QuitResults from '../../../campaigns/assessment/results/quit-results';
 import Drawer from '../../../campaigns/assessment/results-recommendation-engine/drawer';
 import EvaluationResultsHeroRecommendationEngine from '../../../campaigns/assessment/results-recommendation-engine/evaluation-results-hero-recommendation-engine';
+import MobileBadges from '../../../campaigns/assessment/results-recommendation-engine/mobile/badges';
+import MobileHero from '../../../campaigns/assessment/results-recommendation-engine/mobile/hero';
+import MobileHighlightedBlock from '../../../campaigns/assessment/results-recommendation-engine/mobile/highlighted-block';
+import MobileResultsDetails from '../../../campaigns/assessment/results-recommendation-engine/mobile/results-details';
+import MobileTrainings from '../../../campaigns/assessment/results-recommendation-engine/mobile/trainings';
 import Trainings, { TRAININGS_LIST_ID } from '../../../campaigns/assessment/results-recommendation-engine/trainings';
 
 export default class EvaluationResultsRecommendationEngine extends Component {
@@ -136,6 +141,7 @@ export default class EvaluationResultsRecommendationEngine extends Component {
   <template>
     <main
       class="evaluation-results-recommendation-engine
+        {{if this.media.isMobile 'evaluation-results-recommendation-engine--mobile'}}
         {{if this.shouldExpandDrawer 'evaluation-results-recommendation-engine--drawer-expanded'}}"
     >
       <header class="evaluation-results__header">
@@ -148,34 +154,67 @@ export default class EvaluationResultsRecommendationEngine extends Component {
         </h1>
         <QuitResults />
       </header>
-      <EvaluationResultsHeroRecommendationEngine
-        @campaign={{@model.campaign}}
-        @campaignParticipationResult={{@model.campaignParticipationResult}}
-        @highlightedTraining={{this.highlightedTraining}}
-        @hasTrainings={{this.hasTrainings}}
-        @onHighlightedCardButtonClick={{this.onHighlightedCardButtonClick}}
-        @onSeeRecommendationsButtonClicked={{this.onSeeRecommendationsButtonClicked}}
-        @questResults={{@model.questResults}}
-      />
+      {{#if this.media.isMobile}}
+        <MobileHero @campaignParticipationResult={{@model.campaignParticipationResult}} />
 
-      {{#if this.hasTrainings}}
-        <Trainings
-          @trainings={{this.trainings}}
-          @onCardClick={{this.onCardClick}}
-          @onModalButtonClick={{this.onModalButtonClick}}
-          @onModalAccordionClick={{this.onModalAccordionClick}}
-          @onNavigationButtonClick={{this.onNavigationButtonClick}}
-          @onFullyVisible={{this.revealDrawer}}
+        {{#if this.highlightedTraining}}
+          <MobileHighlightedBlock
+            @training={{this.highlightedTraining}}
+            @campaignParticipationResult={{@model.campaignParticipationResult}}
+            @onHighlightedCardButtonClick={{this.onHighlightedCardButtonClick}}
+            @onModalButtonClick={{this.onModalButtonClick}}
+            @onModalAccordionClick={{this.onModalAccordionClick}}
+          />
+        {{/if}}
+
+        {{#if this.hasTrainings}}
+          <MobileTrainings
+            @trainings={{this.trainings}}
+            @onCardClick={{this.onCardClick}}
+            @onModalButtonClick={{this.onModalButtonClick}}
+            @onModalAccordionClick={{this.onModalAccordionClick}}
+            @onFullyVisible={{this.revealDrawer}}
+          />
+        {{/if}}
+
+        <MobileResultsDetails
+          @competenceResults={{@model.campaignParticipationResult.competenceResults}}
+          @totalStage={{@model.campaignParticipationResult.reachedStage.totalStage}}
         />
-      {{/if}}
 
-      <ResultsDetails
-        @competenceResults={{@model.campaignParticipationResult.competenceResults}}
-        @totalStage={{@model.campaignParticipationResult.reachedStage.totalStage}}
-      />
+        {{#if this.showBadges}}
+          <MobileBadges @badges={{@model.campaignParticipationResult.campaignParticipationBadges}} />
+        {{/if}}
+      {{else}}
+        <EvaluationResultsHeroRecommendationEngine
+          @campaign={{@model.campaign}}
+          @campaignParticipationResult={{@model.campaignParticipationResult}}
+          @highlightedTraining={{this.highlightedTraining}}
+          @hasTrainings={{this.hasTrainings}}
+          @onHighlightedCardButtonClick={{this.onHighlightedCardButtonClick}}
+          @onSeeRecommendationsButtonClicked={{this.onSeeRecommendationsButtonClicked}}
+          @questResults={{@model.questResults}}
+        />
 
-      {{#if this.showBadges}}
-        <Rewards @badges={{@model.campaignParticipationResult.campaignParticipationBadges}} />
+        {{#if this.hasTrainings}}
+          <Trainings
+            @trainings={{this.trainings}}
+            @onCardClick={{this.onCardClick}}
+            @onModalButtonClick={{this.onModalButtonClick}}
+            @onModalAccordionClick={{this.onModalAccordionClick}}
+            @onNavigationButtonClick={{this.onNavigationButtonClick}}
+            @onFullyVisible={{this.revealDrawer}}
+          />
+        {{/if}}
+
+        <ResultsDetails
+          @competenceResults={{@model.campaignParticipationResult.competenceResults}}
+          @totalStage={{@model.campaignParticipationResult.reachedStage.totalStage}}
+        />
+
+        {{#if this.showBadges}}
+          <Rewards @badges={{@model.campaignParticipationResult.campaignParticipationBadges}} />
+        {{/if}}
       {{/if}}
 
       {{#if this.shouldShowDrawer}}
