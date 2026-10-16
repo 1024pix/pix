@@ -2,6 +2,9 @@
  * Types of the Skill model, which is JavaScript.
  * To delete when Skill.js is converted to TypeScript.
  */
+/** The statuses of a skill in the learning content: the first three are published. */
+export type SkillStatus = 'actif' | 'archivé' | 'périmé' | 'en construction';
+
 export type SkillFields = {
   id: string;
   name: string;
@@ -12,7 +15,7 @@ export type SkillFields = {
   tubeId: string;
   version: number;
   difficulty: number;
-  status: string;
+  status: SkillStatus;
   hintStatus: string;
   hint: string | null;
 };
@@ -27,7 +30,7 @@ export class Skill {
   tubeId: string;
   version: number;
   difficulty: number;
-  status: string;
+  status: SkillStatus;
   hintStatus: string;
   hint: string | null;
 
