@@ -1,4 +1,4 @@
-import { PixButton, PixIcon, PixInput, PixLabel, PixNotificationAlert } from '@1024pix/nebulix-ember';
+import { PixButton, PixIcon, PixInput, PixNotificationAlert } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -165,14 +165,7 @@ export default class CertificationJoiner extends Component {
 
   <template>
     <section class="certification-joiner">
-      {{#unless @hideTitle}}
-        <h1 class="certification-joiner__title">{{t "pages.certification-joiner.first-title"}}</h1>
-      {{/unless}}
       <form {{on "submit" this.handleSubmit}}>
-        {{#unless @hideTitle}}
-          <p class="certification-joiner__mandatory">{{t "common.form.mandatory-all-fields"}}</p>
-        {{/unless}}
-
         <PixInput
           @id="certificationJoinerSessionId"
           @errorMessage={{this.sessionIdIsNotANumberMessage}}
@@ -210,10 +203,10 @@ export default class CertificationJoiner extends Component {
         >
           <:label>{{t "pages.certification-joiner.form.fields.birth-name"}}</:label>
         </PixInput>
-        <div>
-          <PixLabel class="certification-joiner__label" for="certificationJoinerDayOfBirth">{{t
+        <fieldset>
+          <legend class="certification-joiner__label" for="certificationJoinerDayOfBirth">{{t
               "pages.certification-joiner.form.fields.birth-date"
-            }}</PixLabel>
+            }}</legend>
           <div class="certification-joiner__birthdate" id="certificationJoinerBirthDate">
             <PixInput
               @id="certificationJoinerDayOfBirth"
@@ -260,7 +253,7 @@ export default class CertificationJoiner extends Component {
               <:label>{{t "pages.certification-joiner.form.fields.birth-year"}}</:label>
             </PixInput>
           </div>
-        </div>
+        </fieldset>
 
         {{#if this.errorMessage}}
           <div class="certification-course-page__errors">

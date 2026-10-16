@@ -5,18 +5,20 @@ export class HomePage {
   constructor(public readonly page: Page) {}
 
   async goToStartCertification() {
-    await this.page.getByRole('link', { name: 'Certification' }).click();
-    await this.page.waitForURL(/\/certifications$/);
+    await this.goToCertificationsPage();
 
     return new CertificationStartPage(this.page);
   }
 
   async goToMyCertificates() {
-    await this.page.getByRole('button', { name: /Consulter mes informations/ }).click();
-    await this.page.getByRole('link', { name: 'Mes certifications' }).click();
-    await this.page.waitForURL(/\/mes-certifications$/);
+    await this.goToCertificationsPage();
 
     return new CertificateListPage(this.page);
+  }
+
+  private async goToCertificationsPage() {
+    await this.page.getByRole('link', { name: 'Certifications', exact: true }).click();
+    await this.page.waitForURL(/\/certifications$/);
   }
 
   async logout(baseUrl?: RegExp) {

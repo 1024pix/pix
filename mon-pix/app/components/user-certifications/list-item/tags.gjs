@@ -30,7 +30,7 @@ export default class CertificationTags extends Component {
         color: 'green',
         content: this.isPixPlusV3Certification
           ? this.intl.t(
-              `pages.user-certifications.meshes.${this.args.framework}.${this.args.reachedMeshLevel ?? 'BELOW_MINIMUM'}`,
+              `pages.certifications-dashboard.user-certifications.meshes.${this.args.framework}.${this.args.reachedMeshLevel ?? 'BELOW_MINIMUM'}`,
             )
           : this.intl.t('pages.certifications-list.statuses.validated'),
         displayFramework: true,
@@ -39,7 +39,7 @@ export default class CertificationTags extends Component {
         color: 'error',
         content: this.isPixPlusV3Certification
           ? this.intl.t(
-              `pages.user-certifications.meshes.${this.args.framework}.${this.args.reachedMeshLevel ?? 'BELOW_MINIMUM'}`,
+              `pages.certifications-dashboard.user-certifications.meshes.${this.args.framework}.${this.args.reachedMeshLevel ?? 'BELOW_MINIMUM'}`,
             )
           : this.intl.t('pages.certifications-list.statuses.rejected'),
         displayFramework: true,

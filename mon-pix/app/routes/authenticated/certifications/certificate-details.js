@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
-export default class GetRoute extends Route {
+export default class CertificateDetails extends Route {
   @service store;
   @service router;
 
@@ -10,13 +10,13 @@ export default class GetRoute extends Route {
    */
   beforeModel(transition) {
     const certificateId = transition.to.params.id;
-    const certificateSummaries = this.modelFor('authenticated.user-certifications');
-    const certificateSummary = certificateSummaries.find(
+    const { certificationsSummaries } = this.modelFor('authenticated.certifications');
+    const certificateSummary = certificationsSummaries.find(
       (certificateSummary) => certificateSummary.id === certificateId,
     );
     if (!certificateSummary || !certificateSummary.isValidated) {
       transition.abort();
-      this.router.transitionTo('authenticated.user-certifications');
+      this.router.transitionTo('authenticated.certifications');
     }
   }
 

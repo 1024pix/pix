@@ -101,9 +101,6 @@ module('Integration | Component | Certifications | Dashboard | Enrolment banner'
           }),
         )
         .doesNotExist();
-      assert
-        .dom(await screen.queryByText(t('pages.certifications-dashboard.enrolment-banner.clea.text')))
-        .doesNotExist();
     });
   });
 
@@ -127,7 +124,6 @@ module('Integration | Component | Certifications | Dashboard | Enrolment banner'
           }),
         )
         .exists();
-      assert.dom(screen.getByText(t('pages.certifications-dashboard.enrolment-banner.clea.text'))).exists();
     });
   });
 });

@@ -21,10 +21,10 @@ module('Acceptance | Error page', function (hooks) {
     this.server.get('/certificate-summaries', { errors: [{ code: 500 }] }, 500);
 
     // when
-    await visit('/mes-certifications');
+    await visit('/certifications');
 
     // then
-    assert.strictEqual(currentURL(), '/mes-certifications');
+    assert.strictEqual(currentURL(), '/certifications');
     assert.dom('.error-page').exists();
   });
 });

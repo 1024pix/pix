@@ -35,6 +35,9 @@
     "description": "Pix is een online platform voor het beoordelen en certificeren van de digitale vaardigheden van Franstalige burgers (scholieren, studenten, schoolverlaters, werkzoekenden, senioren)."
   },
   "common": {
+    "a11y": {
+      "external-link": "opent in een nieuw tabblad"
+    },
     "actions": {
       "back": "Terug",
       "cancel": "Annuleer",
@@ -385,13 +388,13 @@
     "homepage": "Startpagina Pix",
     "main": {
       "attestations": "Mijn getuigschriften",
+      "certifications": "Certificering",
       "code": "Ik heb een code",
       "dashboard": "Home",
       "help": "Help",
       "label": "Hoofdmenu",
       "link-help": "https://pix.org/nl-be/support",
       "skills": "Vaardigheden",
-      "start-certification": "Certificering",
       "trainings": "Mijn trainingen",
       "tutorials": "Mijn tutorials"
     },
@@ -409,7 +412,6 @@
     "showcase-homepage": "Startpagina Pix.{ tld }",
     "user": {
       "account": "Mijn account",
-      "certifications": "Mijn certificaten",
       "sign-out": "Uitloggen",
       "tests": "Mijn tests"
     },
@@ -1017,12 +1019,11 @@
       "enrolment-banner": {
         "action": "Certificering starten",
         "certifiable": {
-          "description": "Klik op de knop hieronder en start je certificering",
-          "title": "Wil je een certificering afleggen?"
+          "description": "Klik op de dag van je certificering op de knop hieronder om te beginnen.",
+          "title": "Wil je de Pix-certificering afleggen?"
         },
         "clea": {
-          "text": "Je komt in aanmerking voor CléA Numérique",
-          "title": "Je Pix-profiel is certificeerbaar"
+          "title": "Je komt ook in aanmerking voor CléA Numérique"
         },
         "not-certifiable": {
           "description": "Er is een minimum aan voorwaarden vereist om de certificering af te leggen.",
@@ -1033,7 +1034,46 @@
         "sub-title": "Alle velden zijn verplicht.",
         "title": "Deelnemen aan een sessie"
       },
+      "title": "Certificeringen",
       "user-certifications": {
+        "how-to-certificate": {
+          "link": "Hoe word je gecertificeerd",
+          "text": "Als je meer wilt weten over de Pix-certificering"
+        },
+        "meshes": {
+          "DROIT": {
+            "ADVANCED": "Gevorderd",
+            "BELOW_MINIMUM": "Niet verkregen",
+            "CONFIRMED": "Bevestigd",
+            "EXPERT": "Expert",
+            "INDEPENDENT": "Onafhankelijk"
+          },
+          "EDU_1ER_DEGRE": {
+            "ADMISSIBLE": "Toelaatbaar",
+            "ADVANCED": "Gevorderd",
+            "BELOW_MINIMUM": "Niet toelaatbaar",
+            "EXPERT": "Expert"
+          },
+          "EDU_2ND_DEGRE": {
+            "ADMISSIBLE": "Toelaatbaar",
+            "ADVANCED": "Gevorderd",
+            "BELOW_MINIMUM": "Niet toelaatbaar",
+            "EXPERT": "Expert"
+          },
+          "EDU_CPE": {
+            "ADMISSIBLE": "Toelaatbaar",
+            "ADVANCED": "Gevorderd",
+            "BELOW_MINIMUM": "Niet toelaatbaar",
+            "EXPERT": "Expert"
+          },
+          "PRO_SANTE": {
+            "ADVANCED": "Gevorderd",
+            "BELOW_MINIMUM": "Niet verkregen",
+            "CONFIRMED": "Bevestigd",
+            "EXPERT": "Expert",
+            "INDEPENDENT": "Onafhankelijk"
+          }
+        },
         "title": "Mijn certificeringen",
         "with-certification-text": "Bekijk al je Pix-certificeringen. Raadpleeg de details en download je certificaten.",
         "without-certification-text": "Je hebt nog geen Pix-certificering."
@@ -2636,42 +2676,6 @@
         "menu-link-title": "Mijn persoonlijke gegevens"
       },
       "title": "Mijn account"
-    },
-    "user-certifications": {
-      "meshes": {
-        "DROIT": {
-          "ADVANCED": "Gevorderd",
-          "BELOW_MINIMUM": "Niet verkregen",
-          "CONFIRMED": "Bevestigd",
-          "EXPERT": "Expert",
-          "INDEPENDENT": "Onafhankelijk"
-        },
-        "EDU_1ER_DEGRE": {
-          "ADMISSIBLE": "Toelaatbaar",
-          "ADVANCED": "Gevorderd",
-          "BELOW_MINIMUM": "Niet toelaatbaar",
-          "EXPERT": "Expert"
-        },
-        "EDU_2ND_DEGRE": {
-          "ADMISSIBLE": "Toelaatbaar",
-          "ADVANCED": "Gevorderd",
-          "BELOW_MINIMUM": "Niet toelaatbaar",
-          "EXPERT": "Expert"
-        },
-        "EDU_CPE": {
-          "ADMISSIBLE": "Toelaatbaar",
-          "ADVANCED": "Gevorderd",
-          "BELOW_MINIMUM": "Niet toelaatbaar",
-          "EXPERT": "Expert"
-        },
-        "PRO_SANTE": {
-          "ADVANCED": "Gevorderd",
-          "BELOW_MINIMUM": "Niet verkregen",
-          "CONFIRMED": "Bevestigd",
-          "EXPERT": "Expert",
-          "INDEPENDENT": "Onafhankelijk"
-        }
-      }
     },
     "user-tests": {
       "anonymised-participations": {

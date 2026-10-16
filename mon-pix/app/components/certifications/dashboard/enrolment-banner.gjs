@@ -1,4 +1,4 @@
-import { PixBlock, PixButton, PixModal } from '@1024pix/nebulix-ember';
+import { PixButton, PixModal } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -16,6 +16,10 @@ export default class UserCertifications extends Component {
       cssClasses += ' certification-dashboard-enrolment--not-certifiable';
     }
 
+    if (this.args.userEligibility.isCleaEligible) {
+      cssClasses += ' certification-dashboard-enrolment--clea-eligible';
+    }
+
     return cssClasses;
   }
 
@@ -31,26 +35,38 @@ export default class UserCertifications extends Component {
   <template>
     <section class={{this.containerClasses}}>
       <span class="certification-dashboard-enrolment__triangle" />
-      {{#if @userEligibility.isCertifiable}}
-        <h2 class="certification-dashboard-enrolment__title">
-          {{t "pages.certifications-dashboard.enrolment-banner.certifiable.title"}}
-        </h2>
-        <p class="certification-dashboard-enrolment__description">
-          {{t "pages.certifications-dashboard.enrolment-banner.certifiable.description"}}
-        </p>
-      {{else}}
-        <h2 class="certification-dashboard-enrolment__title">
-          {{t "pages.certifications-dashboard.enrolment-banner.not-certifiable.title"}}
-        </h2>
-        <p class="certification-dashboard-enrolment__description">
-          {{t "pages.certifications-dashboard.enrolment-banner.not-certifiable.description"}}
-        </p>
+      <div class="certification-dashboard-enrolment__text">
+        {{#if @userEligibility.isCertifiable}}
+          <h2 class="certification-dashboard-enrolment__text__title">
+            {{t "pages.certifications-dashboard.enrolment-banner.certifiable.title"}}
+          </h2>
+          <p class="certification-dashboard-enrolment__text__description">
+            {{t "pages.certifications-dashboard.enrolment-banner.certifiable.description"}}
+          </p>
+        {{else}}
+          <h2 class="certification-dashboard-enrolment__text__title">
+            {{t "pages.certifications-dashboard.enrolment-banner.not-certifiable.title"}}
+          </h2>
+          <p class="certification-dashboard-enrolment__text__description">
+            {{t "pages.certifications-dashboard.enrolment-banner.not-certifiable.description"}}
+          </p>
+        {{/if}}
+      </div>
+
+      {{#if @userEligibility.isCleaEligible}}
+        <div class="certification-dashboard-enrolment-clea">
+          <img class="certification-dashboard-enrolment-clea--image" src={{this.cleaImageUrl}} alt="" />
+          <h2 class="certification-dashboard-enrolment-clea--title">
+            {{t "pages.certifications-dashboard.enrolment-banner.clea.title"}}
+          </h2>
+        </div>
       {{/if}}
 
       <PixButton
         @isDisabled={{not @userEligibility.isCertifiable}}
         @variant="primary-bis"
         @triggerAction={{this.toggleModalVisibility}}
+        class="certification-dashboard-enrolment__action"
       >
         {{t "pages.certifications-dashboard.enrolment-banner.action"}}
       </PixButton>
@@ -63,20 +79,9 @@ export default class UserCertifications extends Component {
         @variant="certif"
       >
         <:content>
-          <CertificationJoiner @hideTitle={{true}} />
+          <CertificationJoiner />
         </:content>
       </PixModal>
     </section>
-    {{#if @userEligibility.isCleaEligible}}
-      <PixBlock class="certification-dashboard-enrolment-clea" @variant="certif">
-        <h2 class="certification-dashboard-enrolment-clea--title">
-          {{t "pages.certifications-dashboard.enrolment-banner.clea.title"}}
-        </h2>
-        <p class="certification-dashboard-enrolment-clea--text">
-          {{t "pages.certifications-dashboard.enrolment-banner.clea.text"}}
-        </p>
-        <img class="certification-dashboard-enrolment-clea--image" src={{this.cleaImageUrl}} alt="" />
-      </PixBlock>
-    {{/if}}
   </template>
 }

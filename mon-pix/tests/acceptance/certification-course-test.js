@@ -47,7 +47,13 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           const screen = await visit('/certifications');
 
           // then
-          assert.dom(screen.getByRole('heading', { name: "Votre profil n'est pas encore certifiable." })).exists();
+          assert
+            .dom(
+              screen.getByRole('heading', {
+                name: t('pages.certifications-dashboard.enrolment-banner.not-certifiable.title'),
+              }),
+            )
+            .exists();
         });
       });
 
@@ -55,14 +61,6 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
         hooks.beforeEach(async function () {
           user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
           await authenticate(user);
-        });
-
-        test("should display a link to user's certifications", async function (assert) {
-          // when
-          const screen = await visit('/certifications');
-
-          // then
-          assert.dom(screen.getByRole('link', { name: 'Certification' })).exists();
         });
 
         module('when no candidate with given info has been registered in the given session', function () {

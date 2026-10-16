@@ -48,13 +48,15 @@ export class CleaV3Seed {
     const { organization, organizationMember } = await this.#addOrganization();
     const { certificationCenter, certificationCenterMember } = await this.#addCertifCenter({ organizationMember });
 
-    const certifiableUsers = await this.#addCertifiableUsers();
+    const { certifiableUsers, cleaEligibleUser } = await this.#addCertifiableUsersAndCleaEligible();
 
     await obtainCleaBadgeForUser({
       databaseBuilder: this.databaseBuilder,
       organizationId: organization.id,
       organizationMemberId: organizationMember.id,
-      certifiableUsersIds: certifiableUsers.map((user) => user.id),
+      certifiableUsersIds: [...certifiableUsers, cleaEligibleUser].map((user) => {
+        return user.id;
+      }),
     });
 
     /**
@@ -142,11 +144,11 @@ export class CleaV3Seed {
     return { certificationCenter, certificationCenterMember };
   }
 
-  async #addCertifiableUsers() {
-    const { certifiableUsers } = await CommonCertifiableUser.getInstance({
+  async #addCertifiableUsersAndCleaEligible() {
+    const { certifiableUsers, cleaEligibleUser } = await CommonCertifiableUser.getInstance({
       databaseBuilder: this.databaseBuilder,
     });
-    return certifiableUsers;
+    return { certifiableUsers, cleaEligibleUser };
   }
 
   async #addReadyToStartSession({ certificationCenterMember, certificationCenter }) {
