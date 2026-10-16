@@ -28,6 +28,21 @@ const buildKnowledgeStateOfTube = (
 
   const ceiling = invalidatedLevelsAboveFloor.length > 0 ? Math.min(...invalidatedLevelsAboveFloor) : null;
 
+  const latestDate = (dated: KnowledgeElementWithSkill[]): Date =>
+    new Date(Math.max(...dated.map(({ knowledgeElement }) => new Date(knowledgeElement.createdAt as Date).getTime())));
+
+  // The ceiling is dated by the latest failure above the floor, whatever its level: a tube
+  // keeps one date for its failures, and a fresh failure must not be hidden by an older
+  // one at the ceiling level, or improving would assess it again at once.
+  const ceilingAt =
+    ceiling === null
+      ? null
+      : latestDate(
+          knowledgeElementsWithSkill.filter(
+            ({ knowledgeElement, skill }) => knowledgeElement.status === 'invalidated' && skill.difficulty > floor,
+          ),
+        );
+
   // A failed level under the floor is now validated by inference: a higher
   // direct success contradicted the direct answer, so the level is no longer direct.
   // Several skills of a tube can share a level (versions), so a level is kept once.
@@ -40,15 +55,9 @@ const buildKnowledgeStateOfTube = (
   };
   const directLevels = knowledgeElementsWithSkill.reduce(addDirectLevel, []);
 
-  const updatedAt = new Date(
-    Math.max(
-      ...knowledgeElementsWithSkill.map(({ knowledgeElement }) =>
-        new Date(knowledgeElement.createdAt as Date).getTime(),
-      ),
-    ),
-  );
+  const updatedAt = latestDate(knowledgeElementsWithSkill);
 
-  return new KnowledgeState({ userId, tubeId, floor, ceiling, directLevels, updatedAt });
+  return new KnowledgeState({ userId, tubeId, floor, ceiling, ceilingAt, directLevels, updatedAt });
 };
 
 /**

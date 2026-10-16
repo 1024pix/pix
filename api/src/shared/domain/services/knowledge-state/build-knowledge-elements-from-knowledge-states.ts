@@ -7,8 +7,10 @@
  *
  * What a knowledge state cannot give back:
  *   - the answer and the assessment behind each knowledge element: they are null;
- *   - the date of each knowledge element: all those of a tube carry the date
- *     of the tube's last move;
+ *   - the date of each knowledge element: the validated ones of a tube carry
+ *     the date of the tube's last move, the invalidated ones the date of the
+ *     latest failure of the tube, which is what improving reads to decide
+ *     whether a failure is old enough to be assessed again;
  *   - the pix earned at the time of the answer: it is the skill's current value.
  */
 import { KnowledgeElement } from '../../models/KnowledgeElement.js';
@@ -26,7 +28,7 @@ const buildKnowledgeElementOfSkill = (
 
   return new KnowledgeElement({
     id: null,
-    createdAt: knowledgeState.updatedAt,
+    createdAt: validated ? knowledgeState.updatedAt : (knowledgeState.ceilingAt as Date),
     source: isDirect(knowledgeState, skill.difficulty) ? 'direct' : 'inferred',
     status: validated ? 'validated' : 'invalidated',
     earnedPix: validated ? skill.pixValue : 0,

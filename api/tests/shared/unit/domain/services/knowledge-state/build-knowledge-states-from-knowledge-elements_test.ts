@@ -69,10 +69,90 @@ describe('Unit | Shared | Domain | Services | knowledge-state | build-knowledge-
           tubeId: 'tube_web',
           floor: 2,
           ceiling: 4,
+          ceilingAt: new Date('2026-01-12'),
           directLevels: [2, 4],
           updatedAt: new Date('2026-01-12'),
         }),
       ]);
+    });
+
+    it('should date the ceiling from the failure that set it, not from the last move of the tube', function () {
+      // given
+      const knowledgeElements = [
+        buildKnowledgeElement({ skill: web[3], status: 'invalidated', createdAt: new Date('2026-01-12') }),
+        buildKnowledgeElement({ skill: web[1], createdAt: new Date('2026-01-20') }),
+      ];
+
+      // when
+      const [knowledgeState] = buildKnowledgeStatesFromKnowledgeElements({
+        userId: USER_ID,
+        knowledgeElements,
+        skills,
+      });
+
+      // then
+      expect(knowledgeState).to.deep.include({
+        ceiling: 4,
+        ceilingAt: new Date('2026-01-12'),
+        updatedAt: new Date('2026-01-20'),
+      });
+    });
+
+    it('should date the ceiling from the latest failure of the tube, even above the ceiling level', function () {
+      // given
+      const knowledgeElements = [
+        buildKnowledgeElement({ skill: web[2], status: 'invalidated', createdAt: new Date('2026-01-12') }),
+        buildKnowledgeElement({ skill: web[4], status: 'invalidated', createdAt: new Date('2026-01-20') }),
+      ];
+
+      // when
+      const [knowledgeState] = buildKnowledgeStatesFromKnowledgeElements({
+        userId: USER_ID,
+        knowledgeElements,
+        skills,
+      });
+
+      // then
+      expect(knowledgeState).to.deep.include({ ceiling: 3, ceilingAt: new Date('2026-01-20') });
+    });
+
+    it('should ignore the date of a failure under the floor, overridden by a validation', function () {
+      // given
+      const knowledgeElements = [
+        buildKnowledgeElement({ skill: web[1], status: 'invalidated', createdAt: new Date('2026-01-20') }),
+        buildKnowledgeElement({ skill: web[2], createdAt: new Date('2026-01-25') }),
+        buildKnowledgeElement({ skill: web[4], status: 'invalidated', createdAt: new Date('2026-01-12') }),
+      ];
+
+      // when
+      const [knowledgeState] = buildKnowledgeStatesFromKnowledgeElements({
+        userId: USER_ID,
+        knowledgeElements,
+        skills,
+      });
+
+      // then
+      expect(knowledgeState).to.deep.include({ floor: 3, ceiling: 5, ceilingAt: new Date('2026-01-12') });
+    });
+
+    it('should date the ceiling from the latest failure when several skills share its level', function () {
+      // given
+      const otherVersionOfWeb4 = buildSkill('web', 4);
+      otherVersionOfWeb4.id = 'skill_web_4_v2';
+      const knowledgeElements = [
+        buildKnowledgeElement({ skill: web[3], status: 'invalidated', createdAt: new Date('2026-01-12') }),
+        buildKnowledgeElement({ skill: otherVersionOfWeb4, status: 'invalidated', createdAt: new Date('2026-01-15') }),
+      ];
+
+      // when
+      const [knowledgeState] = buildKnowledgeStatesFromKnowledgeElements({
+        userId: USER_ID,
+        knowledgeElements,
+        skills: [...skills, otherVersionOfWeb4],
+      });
+
+      // then
+      expect(knowledgeState).to.deep.include({ ceiling: 4, ceilingAt: new Date('2026-01-15') });
     });
 
     it('should keep the most recent knowledge element of a skill', function () {
