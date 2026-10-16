@@ -25,11 +25,10 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 
 Les routes qui créent des organisations dans Pix Admin. La première crée une organisation, la seconde
 en crée plusieurs depuis un fichier CSV. Le [contrôleur](../controleur/README.md) `create` reçoit la
-requête, le [sérialiseur](../serialiseur/README.md) traduit le corps en
-[`Organization`](../racine-agregat/README.md), et le [usecase](../usecase/README.md)
-`createOrganization` l'enregistre. `handlerWithDependencies` est l'enveloppe qui passe au contrôleur
-ses usecases et son sérialiseur (règle [C3](../controleur/README.md#c3-les-dépendances-arrivent-en-paramètre) de la fiche contrôleur). Exemple inventé, d'après le
-test
+requête et appelle le [usecase](../usecase/README.md) `createOrganization`. `handlerWithDependencies`
+est l'enveloppe qui passe au contrôleur ses dépendances (règle
+[C3](../controleur/README.md#c3-les-dépendances-arrivent-en-paramètre) de la fiche contrôleur).
+Exemple inventé, d'après le test
 [`organization.admin.route.test.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/organizational-entities/acceptance/application/organization/organization.admin.route.test.js#L424-L622)
 et l'utilitaire
 [`hasAtLeastOneAccessOf`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/shared/application/security-pre-handlers.js#L440-L446).
@@ -63,7 +62,7 @@ const register = async function (server: Server) {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
-        // R1 : la forme du corps ; la liste des types d'organisation est vérifiée par Organization
+        // R1 : la forme du corps ; la liste des types d'organisation est vérifiée dans le domaine
         validate: {
           payload: Joi.object({
             data: Joi.object({
@@ -71,6 +70,9 @@ const register = async function (server: Server) {
               attributes: Joi.object({
                 name: Joi.string().required(),
                 type: Joi.string().required(),
+                'administration-team-id': Joi.number().integer().required(),
+                'country-code': Joi.number().integer().required(),
+                'organization-learner-type-id': Joi.number().integer().required(),
               }).required(),
             }).required(),
           }),
@@ -123,8 +125,8 @@ données. Le test couvre :
   `refuses an admin member with role CERTIF`, `refuses a user who is not an admin member` ;
 - une entrée de mauvaise forme : la réponse 400. Exemple : `refuses a payload without name`.
 
-Un type d'organisation inconnu ne se teste pas ici. Il a la bonne forme, et c'est `Organization` qui le
-refuse : son test unitaire le couvre.
+Un type d'organisation inconnu ne se teste pas ici. Il a la bonne forme, et c'est le domaine qui le
+refuse : ses tests le couvrent.
 
 Pas de test unitaire : une route n'a pas de logique à tester. Si un test unitaire de route a du sens,
 c'est que la route contient de la logique, et elle ne respecte pas R4.
@@ -146,7 +148,15 @@ const { ROLES } = PIX_ADMIN;
 
 describe('Acceptance | Organizational Entities | Application | Route | Admin | Organization', function () {
   describe('POST /api/admin/organizations', function () {
-    const buildPayload = (attributes: Record<string, unknown> = { name: 'Lycée Victor Hugo', type: 'SCO' }) => ({
+    const validAttributes = {
+      name: 'Cabinet Martin',
+      type: 'PRO',
+      'administration-team-id': 1234,
+      'country-code': 99100,
+      'organization-learner-type-id': 123,
+    };
+
+    const buildPayload = (attributes: Record<string, unknown> = validAttributes) => ({
       data: { type: 'organizations', attributes },
     });
 
@@ -162,13 +172,16 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
 
     it('creates the organization for an admin member with role SUPPORT', async function () {
       const userId = databaseBuilder.factory.buildUser.withRole({ role: ROLES.SUPPORT }).id;
+      databaseBuilder.factory.buildAdministrationTeam({ id: 1234 });
+      databaseBuilder.factory.buildCertificationCpfCountry({ code: 99100, commonName: 'France', originalName: 'France' });
+      databaseBuilder.factory.buildOrganizationLearnerType({ id: 123 });
       await databaseBuilder.commit();
 
       const response = await createOrganization(userId);
 
       const body = JSON.parse(response.payload);
       expect(response.statusCode).to.equal(201);
-      expect(body.data.attributes.name).to.equal('Lycée Victor Hugo');
+      expect(body.data.attributes.name).to.equal('Cabinet Martin');
       expect(body.data.attributes['created-by']).to.equal(userId);
     });
 
@@ -194,7 +207,8 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       const userId = databaseBuilder.factory.buildUser.withRole({ role: ROLES.SUPPORT }).id;
       await databaseBuilder.commit();
 
-      const response = await createOrganization(userId, buildPayload({ type: 'SCO' }));
+      const { name, ...attributesWithoutName } = validAttributes;
+      const response = await createOrganization(userId, buildPayload(attributesWithoutName));
 
       expect(response.statusCode).to.equal(400);
     });
@@ -222,8 +236,8 @@ Est-elle documentée ?
 [ ] R3  notes et tags présents
 
 Est-elle testée ?
-[ ] Un test d'acceptance du refus, pour un utilisateur connecté qui n'a pas le droit
-[ ] Un test d'acceptance d'une entrée de mauvaise forme
+[ ] R2  Un test d'acceptance du refus, pour un utilisateur connecté qui n'a pas le droit
+[ ] R1  Un test d'acceptance d'une entrée de mauvaise forme
 ```
 
 ## Référence des règles
@@ -246,20 +260,22 @@ validate: {
       attributes: Joi.object({
         name: Joi.string().required(),
         type: Joi.string().required(),
+        'administration-team-id': Joi.number().integer().required(),
+        'country-code': Joi.number().integer().required(),
+        'organization-learner-type-id': Joi.number().integer().required(),
       }).required(),
     }).required(),
   }),
 },
 ```
 
-Le schéma dit que le nom et le type sont des chaînes, et qu'ils sont présents. Le corps suit le format
-JSON:API : les champs sont rangés dans `data.attributes`.
+Le schéma dit que le nom et le type sont des chaînes, que l'équipe, le pays et le public prescrit
+sont donnés par des nombres entiers, et que tous sont présents. Le corps suit le format JSON:API : les champs sont rangés dans
+`data.attributes`.
 
-À la création, chaque couche vérifie une seule chose. La route vérifie la forme du corps et répond 400
-si elle est fausse, le sérialiseur traduit le corps en `Organization.create({ name, type, createdBy })`
-sans rien vérifier, et le constructeur d'`Organization` vérifie la règle du métier : un type hors de
-`SCO`, `SUP`, `PRO` et `SCO-1D` lève une `InvalidOrganizationError`. Cette liste vient de
-[`organization-creation-validator.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/validators/organization-creation-validator.js#L12-L15).
+La liste des types d'organisation est une règle du métier, et le schéma ne la recopie pas. À la
+création, le domaine refuse un type hors de `SCO`, `SUP`, `PRO` et `SCO-1D`
+([`organization-creation-validator.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/validators/organization-creation-validator.js#L12-L15)).
 
 **Mauvais exemple.**
 
@@ -288,7 +304,7 @@ ouvrir le contrôleur.
 
 **Sans cette règle.** Sans schéma, un corps sans `attributes` arrive jusqu'au sérialiseur, qui plante :
 l'appelant reçoit une erreur 500 au lieu d'une 400. Si la liste des types est recopiée sur la route, la
-route refuse un type qu'`Organization` accepte, comme `SCO-1D`. Et si une règle n'existe que sur la
+route refuse un type que le domaine accepte, comme `SCO-1D`. Et si une règle n'existe que sur la
 route, un script qui appelle le même usecase ne passe pas par elle : il crée une organisation que la
 route aurait refusée.
 
@@ -296,7 +312,8 @@ route aurait refusée.
 
 - Pour savoir si une contrainte est une forme ou une règle, on se pose la question : « dit-elle ce
   qu'est la valeur, ou ce qu'elle a le droit d'être pour le métier ? ». « Le nom est une chaîne » est
-  une forme. « Le type est SCO, SUP, PRO ou SCO-1D » est une règle.
+  une forme. « Le type est SCO, SUP, PRO ou SCO-1D » est une règle. De même, « le code pays est un
+  nombre entier » est une forme, et « le code pays est compris entre 99000 et 99999 » est une règle.
 - Un identifiant dans l'adresse utilise le type partagé `identifiersType` (dans
   `shared/domain/types/identifiers-type.js`), plutôt qu'un schéma écrit à chaque route. Un identifiant de mauvaise forme donne alors partout la même erreur :
 
@@ -369,8 +386,8 @@ utilisateur connecté, par exemple un enseignant de Pix Orga, peut alors créer 
 - Pour accepter plusieurs rôles, la route utilise `hasAtLeastOneAccessOf`. Pour les exiger tous, elle
   utilise `validateAllAccess`. La combinaison ne s'écrit pas à la main.
 - Si le droit dépend d'une donnée à charger, par exemple « l'utilisateur est membre de cette
-  organisation », le pre-handler charge cette donnée. S'il ne peut pas, le contrôle va dans un usecase
-  dont c'est le rôle, qui lève une erreur dédiée, et jamais dans le contrôleur.
+  organisation », le pre-handler charge cette donnée. S'il ne peut pas, le contrôle va dans le
+  usecase, et jamais dans le contrôleur.
 - Une route sans `pre` et sans `auth: false` accepte tout utilisateur connecté. C'est souvent voulu,
   mais la route ne permet pas de le distinguer d'un oubli. Le relecteur pose la question.
 
