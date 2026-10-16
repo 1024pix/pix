@@ -13,13 +13,8 @@ function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue
   );
 }
 
-function _isFeatureEnabled(environmentVariable) {
-  return environmentVariable === 'true';
-}
-
 /* eslint max-statements: off */
 module.exports = function (environment) {
-  const analyticsEnabled = _isFeatureEnabled(process.env.ANALYTICS_ENABLED);
   const ENV = {
     modulePrefix: 'mon-pix',
     environment: environment,
@@ -157,16 +152,11 @@ module.exports = function (environment) {
       disabled: false,
     },
 
-    metricsAdapters: [
-      {
-        name: 'PlausibleAdapter',
-        environments: analyticsEnabled ? ['all'] : [],
-        config: {
-          siteId: process.env.ANALYTICS_SITE_ID,
-          scriptUrl: process.env.ANALYTICS_SCRIPT_URL,
-        },
-      },
-    ],
+    ANALYTICS: {
+      ENABLED: process.env.ANALYTICS_ENABLED === 'true',
+      SITE_ID: process.env.ANALYTICS_SITE_ID,
+      SCRIPT_URL: process.env.ANALYTICS_SCRIPT_URL,
+    },
 
     'ember-cli-mirage': {
       enabled: false,

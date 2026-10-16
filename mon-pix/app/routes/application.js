@@ -3,6 +3,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import ENV from 'mon-pix/config/environment';
 import { formats } from 'mon-pix/ember-intl';
+import PlausibleAdapter from 'mon-pix/metrics-adapters/plausible-adapter';
 
 export default class ApplicationRoute extends Route {
   @service authentication;
@@ -16,6 +17,23 @@ export default class ApplicationRoute extends Route {
   @service router;
   @service currentUser;
   @service locale;
+  @service metrics;
+
+  constructor() {
+    super(...arguments);
+
+    this.metrics.activateAdapters([
+      {
+        name: 'PlausibleAdapter',
+        adapter: PlausibleAdapter,
+        environments: ENV.ANALYTICS.ENABLED ? ['all'] : [],
+        config: {
+          siteId: ENV.ANALYTICS.SITE_ID,
+          scriptUrl: ENV.ANALYTICS.SCRIPT_URL,
+        },
+      },
+    ]);
+  }
 
   activate() {
     this.splash.hide();
