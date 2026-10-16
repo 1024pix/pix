@@ -71,7 +71,7 @@
     "ember-cli-sass": "11.0.1",
     "ember-cookies": "1.4.1",
     "ember-exam": "10.2.0",
-    "ember-intl": "8.4.0",
+    "ember-intl": "9.3.0",
     "ember-lifeline": "7.1.0",
     "ember-load-initializers": "3.0.1",
     "ember-metrics": "2.0.0",
