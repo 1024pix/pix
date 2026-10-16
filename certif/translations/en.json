@@ -577,7 +577,7 @@
       "candidate-list": {
         "active-candidates": "{activeCandidates}/{totalCandidates} {activeCandidates, plural,one {candidate} other {candidates}} attending{activeCandidates, plural,=0 {} other { ({startedCandidates} of whom are currently doing the test)}}",
         "clear-field": "Clear the field",
-        "indicate-candidates-attendance": "Please confirm the attendance of each candidate to allow them to start their certification exam.",
+        "indicate-candidates-attendance": "Please confirm the attendance of each candidate to allow them to start their certification exam. Confirmation is valid for 15 minutes. If the test hasn't started within this time, attendance must be re-confirmed. ",
         "no-candidate": "No candidate enrolled in this session",
         "search-candidate": "Search for a candidate"
       },
