@@ -837,6 +837,13 @@ export const bacASableModule = {
                 type: 'qab',
                 cards: [
                   {
+                    id: '5c3bcc9e-1937-4f34-ab2d-c7e80773acf4',
+                    text: 'Est-ce que hippopotomonstrosesquippedaliophobie est le mot le plus long du français ?',
+                    solution: 'A',
+                    proposalA: 'Vrai',
+                    proposalB: 'Faux',
+                  },
+                  {
                     id: 'e222b060-7c18-4ee2-afe2-2ae27c28946a',
                     text: 'Les boules de pétanques sont creuses ?',
                     image: {
@@ -868,13 +875,6 @@ export const bacASableModule = {
                       url: 'https://assets.pix.org/modules/bac-a-sable/boules-de-petanque.jpg',
                       altText: '',
                     },
-                    solution: 'B',
-                    proposalA: 'Vrai',
-                    proposalB: 'Faux',
-                  },
-                  {
-                    id: '4420c9f6-ae21-4401-a16c-41296d898a66',
-                    text: 'La Terre est plus proche du Soleil que Mars.',
                     solution: 'B',
                     proposalA: 'Vrai',
                     proposalB: 'Faux',
