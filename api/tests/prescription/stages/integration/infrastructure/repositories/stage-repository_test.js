@@ -56,8 +56,10 @@ describe('Integration | Repository | Stage Acquisition', function () {
       campaigns = [databaseBuilder.factory.buildCampaign(), databaseBuilder.factory.buildCampaign()];
       stages = [
         databaseBuilder.factory.buildStage({ targetProfileId: campaigns[0].targetProfileId }),
+        databaseBuilder.factory.buildStage({ targetProfileId: campaigns[0].targetProfileId, threshold: 0 }),
         databaseBuilder.factory.buildStage({ targetProfileId: campaigns[1].targetProfileId, threshold: 20 }),
         databaseBuilder.factory.buildStage({ targetProfileId: campaigns[1].targetProfileId, threshold: 10 }),
+        databaseBuilder.factory.buildStage({ targetProfileId: campaigns[1].targetProfileId, threshold: 0 }),
       ];
 
       await databaseBuilder.commit();
@@ -70,27 +72,39 @@ describe('Integration | Repository | Stage Acquisition', function () {
 
     it('should return the expected stages', async function () {
       const result = await getByCampaignIds(campaigns.map((campaign) => campaign.id));
-      expect(result.length).to.deep.equal(3);
+      expect(result.length).to.deep.equal(5);
     });
 
     it('should sort stages by threshold', async function () {
       const result = await getByCampaignIds(campaigns.map((campaign) => campaign.id));
-      expect(result[1].id).to.deep.equal(stages[2].id);
+      expect(result[4].id).to.deep.equal(stages[2].id);
+    });
+    it('should sort stages by threshold ordered as zero stage, first skill stage, then others', async function () {
+      const firstSkillStage = databaseBuilder.factory.buildStage.firstSkill({
+        targetProfileId: campaigns[1].targetProfileId,
+      });
+      await databaseBuilder.commit();
+      const result = await getByCampaignIds(campaigns.map((campaign) => campaign.id));
+      expect(result[0].id).to.deep.equal(stages[1].id);
+      expect(result[1].id).to.deep.equal(stages[4].id);
+      expect(result[2].id).to.deep.equal(firstSkillStage.id);
+      expect(result[3].id).to.deep.equal(stages[0].id);
+      expect(result[4].id).to.deep.equal(stages[3].id);
+      expect(result[5].id).to.deep.equal(stages[2].id);
     });
   });
 
   describe('getByCampaignId', function () {
     let campaign;
-    let stages;
+
+    let zeroStage, firstSkillStage, level1Stage, level2Stage;
 
     beforeEach(async function () {
       campaign = databaseBuilder.factory.buildCampaign();
-      stages = [
-        databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 40 }),
-        databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 20 }),
-        databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 10 }),
-      ];
 
+      level1Stage = databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, level: 1 });
+      level2Stage = databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, level: 2 });
+      zeroStage = databaseBuilder.factory.buildStage.withLevel.zero({ targetProfileId: campaign.targetProfileId });
       await databaseBuilder.commit();
     });
 
@@ -104,9 +118,15 @@ describe('Integration | Repository | Stage Acquisition', function () {
       expect(result.length).to.deep.equal(3);
     });
 
-    it('should sort stages by threshold', async function () {
+    it('should sort stages by level ordered as zero stage, first skill stage, then others', async function () {
+      firstSkillStage = databaseBuilder.factory.buildStage.firstSkill({ targetProfileId: campaign.targetProfileId });
+      await databaseBuilder.commit();
+
       const result = await getByCampaignId(campaign.id);
-      expect(result[0].id).to.deep.equal(stages[2].id);
+      expect(result[0].id).to.deep.equal(zeroStage.id);
+      expect(result[1].id).to.deep.equal(firstSkillStage.id);
+      expect(result[2].id).to.deep.equal(level1Stage.id);
+      expect(result[3].id).to.deep.equal(level2Stage.id);
     });
   });
 
@@ -119,7 +139,7 @@ describe('Integration | Repository | Stage Acquisition', function () {
       campaign = databaseBuilder.factory.buildCampaign();
       stages = [
         databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 40 }),
-        databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 10 }),
+        databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 0 }),
         databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 20 }),
       ];
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
@@ -141,6 +161,18 @@ describe('Integration | Repository | Stage Acquisition', function () {
       const result = await getByCampaignParticipationId(campaignParticipation.id);
       expect(result[0].id).to.equal(stages[1].id);
     });
+
+    it('should sort stages by threshold ordered as zero stage, first skill stage, then others', async function () {
+      const firstSkillStage = databaseBuilder.factory.buildStage.firstSkill({
+        targetProfileId: campaign.targetProfileId,
+      });
+      await databaseBuilder.commit();
+      const result = await getByCampaignParticipationId(campaignParticipation.id);
+      expect(result[0].id).to.deep.equal(stages[1].id);
+      expect(result[1].id).to.deep.equal(firstSkillStage.id);
+      expect(result[2].id).to.deep.equal(stages[2].id);
+      expect(result[3].id).to.deep.equal(stages[0].id);
+    });
   });
 
   describe('getByTargetProfileIds', function () {
@@ -154,9 +186,9 @@ describe('Integration | Repository | Stage Acquisition', function () {
 
       stages = [
         databaseBuilder.factory.buildStage({ targetProfileId: targetProfile1.id, threshold: 40 }),
-        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile1.id, threshold: 10 }),
+        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile1.id, threshold: 0 }),
 
-        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile2.id, threshold: 10 }),
+        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile2.id, threshold: 0 }),
         databaseBuilder.factory.buildStage({ targetProfileId: targetProfile2.id, threshold: 30 }),
         databaseBuilder.factory.buildStage({ targetProfileId: targetProfile2.id, threshold: 40 }),
       ];
