@@ -660,9 +660,9 @@
           "deletion-modal": {
             "actions": {
               "close-extra-information": "Fermer la modale de suppression de candidat",
-              "submit": "Supprimer le/la candidat(e)"
+              "submit": "Supprimer"
             },
-            "body": "Êtes-vous sûr(e) de vouloir supprimer le/la candidat(e) <strong>{firstName}&nbsp;{lastName}</strong> (né(e) le {birthdate})&nbsp;?",
+            "body": "Êtes-vous sûr(e) de vouloir supprimer <strong>{firstName}&nbsp;{lastName}</strong> de la session&nbsp;? Cette action est irréversible.",
             "notifications": {
               "error-remove-already-in": "Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.",
               "error-remove-unknown": "Une erreur s'est produite lors de la suppression du candidat.",
