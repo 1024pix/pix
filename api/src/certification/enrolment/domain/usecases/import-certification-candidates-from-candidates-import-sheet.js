@@ -1,5 +1,5 @@
 /**
- * @typedef {import('./index.js').CandidateRepository} CandidateRepository
+ * @typedef {import('../../infrastructure/repositories/candidate-repository.js').CandidateRepository} CandidateRepository
  * @typedef {import('./index.js').SessionRepository} SessionRepository
  * @typedef {import('./index.js').EventAdapter} EventAdapter
  */
