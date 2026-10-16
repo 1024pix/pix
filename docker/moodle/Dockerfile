@@ -10,7 +10,9 @@ ARG MOODLE_VERSION
 RUN git clone --revision ${MOODLE_VERSION} --depth=1 git://git.moodle.org/moodle.git ${MOODLE_DOCKER_WWWROOT} && rm -rf ${MOODLE_DOCKER_WWWROOT}/.git*
 
 # Copy config file into clone Moodle version
-COPY config.php ${MOODLE_DOCKER_WWWROOT}
+COPY config.php insecure.patch ${MOODLE_DOCKER_WWWROOT}
+
+RUN cd ${MOODLE_DOCKER_WWWROOT} && git apply insecure.patch && rm insecure.patch
 
 # Start from https://github.com/moodlehq/moodle-php-apache (Apache + PHP preconfigured with all extensions required for Moodle)
 FROM moodlehq/moodle-php-apache:${MOODLE_DOCKER_PHP_VERSION}

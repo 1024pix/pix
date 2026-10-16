@@ -92,7 +92,7 @@ describe('Acceptance | LTI | Route | Admin', function () {
         .select('clientId', 'platformOrigin', 'status')
         .from('lti_platform_registrations');
       expect(registrations).to.deep.equal([
-        { clientId, platformOrigin: platformOpenIdConfig.issuer, status: 'pending' },
+        { clientId, platformOrigin: platformOpenIdConfig.issuer, status: 'active' },
       ]);
 
       expect(platformConfigScope.isDone()).to.be.true;

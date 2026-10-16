@@ -115,6 +115,8 @@ Router.map(function () {
     });
   });
 
+  this.route('lti-campaign-selection');
+
   this.route('logout');
 
   this.route('not-found', { path: '/*path' });

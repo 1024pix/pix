@@ -25,6 +25,12 @@ import * as serverAuthentication from './src/identity-access-management/infrastr
 import { learningContentRoutes } from './src/learning-content/routes.js';
 import { llmRoutes } from './src/llm/routes.js';
 import { ltiRoutes } from './src/lti/application/lti.route.js';
+import {
+  jwtCookieScheme,
+  jwtCookieSchemeName,
+  ltiPrescriberStrategyConfiguration,
+  ltiPrescriberStrategyName,
+} from './src/lti/infrastructure/lti-authentication.js';
 import { organizationalEntitiesRoutes } from './src/organizational-entities/application/routes.js';
 import { campaignRoutes } from './src/prescription/campaign/routes.js';
 import { campaignParticipationsRoutes } from './src/prescription/campaign-participation/routes.js';
@@ -38,6 +44,7 @@ import { profileRoutes } from './src/profile/routes.js';
 import { questRoutes } from './src/quest/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
 import { installHapiHook } from './src/shared/infrastructure/execution-context-manager.js';
+import { featureToggles } from './src/shared/infrastructure/feature-toggles/index.js';
 import { instrumentHapiServer } from './src/shared/infrastructure/open-telemetry/hapi-tracing.js';
 import { isOpenTelemetryInitialized } from './src/shared/infrastructure/open-telemetry/state.js';
 import { plugins } from './src/shared/infrastructure/plugins/index.js';
@@ -82,7 +89,7 @@ export const createServer = async () => {
 
   setupErrorHandling(server);
 
-  setupAuthentication(server);
+  await setupAuthentication(server);
 
   await setupRoutesAndPlugins(server);
 
@@ -160,7 +167,7 @@ const setupDeserialization = function (server) {
   });
 };
 
-const setupAuthentication = function (server) {
+async function setupAuthentication(server) {
   Object.values(serverAuthentication.schemes).forEach((scheme) => {
     server.auth.scheme(scheme.name, scheme.scheme);
   });
@@ -168,7 +175,13 @@ const setupAuthentication = function (server) {
     server.auth.strategy(strategy.name, strategy.schemeName, strategy.configuration);
   });
   server.auth.default(serverAuthentication.strategies.jwtUser.name);
-};
+  const isLtiEnabled = await featureToggles.get('isLtiEnabled');
+  if (!isLtiEnabled) {
+    return;
+  }
+  server.auth.scheme(jwtCookieSchemeName, jwtCookieScheme);
+  server.auth.strategy(ltiPrescriberStrategyName, jwtCookieSchemeName, ltiPrescriberStrategyConfiguration);
+}
 
 const rootRoute = {
   name: 'root',

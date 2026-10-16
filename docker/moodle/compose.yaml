@@ -9,7 +9,18 @@ services:
       - .env
     ports:
       - ${MOODLE_DOCKER_WEB_PORT}:80
+    # bind to both local default network and pix_local external network
+    networks:
+      - default
+      - pix_local
   db:
     image: postgres:${MOODLE_DOCKER_DB_VERSION:?error}
     env_file:
       - .env
+
+networks:
+  default:
+  # define pix_local as external network (it is defined in ../local-domains/compose.yaml)
+  pix_local:
+    name: pix_local
+    external: true
