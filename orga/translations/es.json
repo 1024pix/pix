@@ -1618,6 +1618,14 @@
           "details": "Permite importar una nueva lista de alumnos en lugar de la existente.",
           "label": "Importar una nueva lista",
           "title": "Reemplazar"
+        },
+        "sco": {
+          "details": "Esta acción permite:",
+          "details-add": "añadir nuevos alumnos",
+          "details-disable": "desactivar antiguos alumnos",
+          "details-update": "editar los alumnos ya importados",
+          "label": "Importar lista",
+          "title": "Importar la lista de alumnos"
         }
       },
       "banner": {

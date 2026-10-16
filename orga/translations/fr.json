@@ -1618,6 +1618,14 @@
           "details": "Permet d’importer une nouvelle liste d'étudiants à la place de l’existante.",
           "label": "Importer une nouvelle liste",
           "title": "Remplacer"
+        },
+        "sco": {
+          "details": "Cette action vous permet de :",
+          "details-add": "ajouter de nouveaux élèves",
+          "details-disable": "désactiver les anciens élèves",
+          "details-update": "modifier les élèves déjà importés",
+          "label": "Importer la liste",
+          "title": "Importer la liste des élèves"
         }
       },
       "banner": {
@@ -1639,7 +1647,6 @@
       },
       "file-type-separator": ", ",
       "global-success": "Dernier fichier importé avec succès le {date} par {firstName} {lastName}.",
-
       "pro": {
         "title": "Importer des participants"
       },
