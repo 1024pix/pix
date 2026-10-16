@@ -6,6 +6,7 @@ import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import { REWARD_STATUSES } from 'mon-pix/models/combined-course-reward';
 
+export const ATTESTATIONS_PIC_PATH = 'https://assets.pix.org/combined-courses/attestation.svg';
 export default class Attestation extends Component {
   @service session;
   @service fileSaver;
@@ -55,11 +56,7 @@ export default class Attestation extends Component {
 
   <template>
     <article class="attestation">
-      <img
-        src="https://assets.pix.org/combined-courses/attestation-image.svg"
-        class={{this.imageDetails.class}}
-        alt={{this.imageDetails.alt}}
-      />
+      <img src={{ATTESTATIONS_PIC_PATH}} class={{this.imageDetails.class}} alt={{this.imageDetails.alt}} />
       <div>
         <AttestationDetails
           class="attestation__details"
