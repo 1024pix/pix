@@ -212,11 +212,6 @@
       "login-user-temporary-blocked-with-username-error": "Du hast zu viele Anmeldeversuche unternommen, dein Pix-Konto wird vorübergehend für {blockingDurationMinutes} Minuten gesperrt.'<br>'Wenn du dein Passwort vergessen hast, '<strong>'wende dich an deine Lehrkraft'</strong>', um dein Passwort zurückzusetzen und/oder deinen Benutzernamen abzurufen."
     },
     "breadcrumb": "Brotkrümelnavigation",
-    "cgu": {
-      "error": "Sie müssen den Nutzungsbedingungen von Pix und der Datenschutzrichtlinie zustimmen, um ein Konto zu erstellen.",
-      "label": "Du musst den Nutzungsbedingungen von Pix und der Datenschutzrichtlinie zustimmen, um ein Konto zu erstellen.",
-      "read-message": "Lies die '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Nutzungsbedingungen'</a>' und die '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Datenschutzrichtlinie'</a>'."
-    },
     "filters": {
       "actions": {
         "clear": "Filter löschen"
@@ -257,6 +252,11 @@
         "division": "Klasse",
         "oralization": "Lesen der Aufgabenstellung"
       }
+    },
+    "legal-documents": {
+      "error": "Sie müssen den Nutzungsbedingungen von Pix und der Datenschutzrichtlinie zustimmen, um ein Konto zu erstellen.",
+      "label": "Du musst den Nutzungsbedingungen von Pix und der Datenschutzrichtlinie zustimmen, um ein Konto zu erstellen.",
+      "read-message": "Lies die '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Nutzungsbedingungen'</a>' und die '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'Datenschutzrichtlinie'</a>'."
     },
     "loading": "Ladevorgang läuft",
     "no-content": "Keine Inhalte",

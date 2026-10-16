@@ -12,7 +12,7 @@ const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'common.form-errors.firstname.mandatory';
 const EMPTY_LASTNAME_ERROR_MESSAGE = 'common.form-errors.lastname.mandatory';
 const EMPTY_EMAIL_ERROR_MESSAGE = 'common.form-errors.email.format';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'common.form-errors.password.format';
-const CGU_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.cgu.error';
+const LEGAL_DOCUMENTS_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.legal-documents.error';
 
 module('Integration | Component | Auth::RegisterForm', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -21,14 +21,14 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
   let lastNameInputLabel;
   let emailInputLabel;
   let passwordInputLabel;
-  let cguAriaLabel;
+  let legalDocumentsAriaLabel;
 
   hooks.beforeEach(function () {
     firstNameInputLabel = t('common.labels.candidate.firstname');
     lastNameInputLabel = t('common.labels.candidate.lastname');
     emailInputLabel = t('common.forms.login.email');
     passwordInputLabel = t('common.forms.login.password');
-    cguAriaLabel = "J'accepte les conditions d'utilisation de Pix et la politique de confidentialité";
+    legalDocumentsAriaLabel = "J'accepte les conditions d'utilisation de Pix et la politique de confidentialité";
   });
 
   test('[a11y] it should display a message that all inputs are required', async function (assert) {
@@ -40,7 +40,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     assert.dom(screen.getByRole('textbox', { name: firstNameInputLabel })).hasAttribute('required');
     assert.dom(screen.getByRole('textbox', { name: lastNameInputLabel })).hasAttribute('required');
     assert.dom(screen.getByRole('textbox', { name: emailInputLabel })).hasAttribute('required');
-    assert.dom(screen.getByRole('checkbox', { name: cguAriaLabel })).hasAttribute('required');
+    assert.dom(screen.getByRole('checkbox', { name: legalDocumentsAriaLabel })).hasAttribute('required');
     assert.dom(screen.getByLabelText(passwordInputLabel)).hasAttribute('required');
   });
 
@@ -54,12 +54,18 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
     // then
     assert
-      .dom(screen.getByText(t('pages.login-or-register.register-form.fields.cgu.accept'), { exact: false }))
+      .dom(screen.getByText(t('pages.login-or-register.register-form.fields.legal-documents.accept'), { exact: false }))
       .exists();
-    assert.dom(screen.getByText(`${t('pages.login-or-register.register-form.fields.cgu.terms-of-use')}`)).exists();
-    assert.dom(screen.getByText(t('pages.login-or-register.register-form.fields.cgu.and'), { exact: false })).exists();
     assert
-      .dom(screen.getByText(`${t('pages.login-or-register.register-form.fields.cgu.data-protection-policy')}`))
+      .dom(screen.getByText(`${t('pages.login-or-register.register-form.fields.legal-documents.terms-of-use')}`))
+      .exists();
+    assert
+      .dom(screen.getByText(t('pages.login-or-register.register-form.fields.legal-documents.and'), { exact: false }))
+      .exists();
+    assert
+      .dom(
+        screen.getByText(`${t('pages.login-or-register.register-form.fields.legal-documents.data-protection-policy')}`),
+      )
       .exists();
     assert
       .dom(screen.getByRole('link', { name: "conditions d'utilisation de Pix" }))
@@ -130,19 +136,19 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
       });
     });
 
-    module('when cgu have not been accepted', () => {
+    module('when legal documents have not been accepted', () => {
       test('it should display error message', async function (assert) {
         // given
         const screen = await render(hbs`<Auth::RegisterForm />`);
 
         // when
-        await clickByName(cguAriaLabel);
-        await clickByName(cguAriaLabel);
-        const cguCheckbox = screen.getByRole('checkbox', { name: cguAriaLabel });
-        await triggerEvent(cguCheckbox, 'focusout');
+        await clickByName(legalDocumentsAriaLabel);
+        await clickByName(legalDocumentsAriaLabel);
+        const legalDocumentsCheckbox = screen.getByRole('checkbox', { name: legalDocumentsAriaLabel });
+        await triggerEvent(legalDocumentsCheckbox, 'focusout');
 
         // then
-        assert.dom(screen.getByText(t(CGU_ERROR_MESSAGE))).exists();
+        assert.dom(screen.getByText(t(LEGAL_DOCUMENTS_ERROR_MESSAGE))).exists();
       });
     });
   });
@@ -165,7 +171,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
       await fillByLabel(lastNameInputLabel, 'Ternational');
       await fillByLabel(emailInputLabel, 'alainternational@example.net');
       await fillByLabel(passwordInputLabel, 'Password123');
-      await clickByName(cguAriaLabel);
+      await clickByName(legalDocumentsAriaLabel);
     }
 
     test('when the form is invalid, it does not create any record', async function (assert) {
@@ -178,7 +184,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
       await fillByLabel(lastNameInputLabel, 'Ternational');
       await fillByLabel(emailInputLabel, 'invalid-email');
       await fillByLabel(passwordInputLabel, 'Password123');
-      await clickByName(cguAriaLabel);
+      await clickByName(legalDocumentsAriaLabel);
       await clickByName(submitButtonLabel);
 
       // then
@@ -223,7 +229,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
         firstName: 'Alain',
         lastName: 'Ternational',
         password: 'Password123',
-        cgu: true,
+        hasAcceptedLegalDocuments: true,
       });
       sinon.assert.calledWithMatch(createRecord, 'certification-center-invitation-response', {
         id: invitationId,

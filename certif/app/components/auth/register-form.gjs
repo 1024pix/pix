@@ -56,8 +56,8 @@ export default class RegisterForm extends Component {
   @tracked lastName = null;
   @tracked email = null;
   @tracked password = null;
-  @tracked isTermsOfServiceValidated = false;
-  @tracked cguValidationMessage = null;
+  @tracked hasAcceptedLegalDocuments = false;
+  @tracked legalDocumentsValidationMessage = null;
   @tracked errorMessage = null;
   @tracked validation = new SignupFormValidation();
 
@@ -86,7 +86,7 @@ export default class RegisterForm extends Component {
       email: this.email,
       lang: this.locale.currentLanguage,
       password: this.password,
-      cgu: true,
+      hasAcceptedLegalDocuments: true,
     });
 
     try {
@@ -189,11 +189,13 @@ export default class RegisterForm extends Component {
 
   @action
   validateCgu(event) {
-    this.isTermsOfServiceValidated = !!event.target.checked;
-    this.cguValidationMessage = null;
+    this.hasAcceptedLegalDocuments = !!event.target.checked;
+    this.legalDocumentsValidationMessage = null;
 
-    if (!this.isTermsOfServiceValidated) {
-      this.cguValidationMessage = this.intl.t('pages.login-or-register.register-form.fields.cgu.error');
+    if (!this.hasAcceptedLegalDocuments) {
+      this.legalDocumentsValidationMessage = this.intl.t(
+        'pages.login-or-register.register-form.fields.legal-documents.error',
+      );
     }
   }
 
@@ -203,7 +205,7 @@ export default class RegisterForm extends Component {
       !isEmpty(this.firstName) &&
       isEmailValid(this.email) &&
       isPasswordValid(this.password) &&
-      Boolean(this.isTermsOfServiceValidated)
+      Boolean(this.hasAcceptedLegalDocuments)
     );
   }
 
@@ -271,19 +273,19 @@ export default class RegisterForm extends Component {
       <PixCheckbox @size='small' required={{true}} aria-required={{true}} {{on 'click' this.validateCgu}}>
         <:label>
           <p class='register-form__cgu-label'>
-            {{t 'pages.login-or-register.register-form.fields.cgu.accept'}}
+            {{t 'pages.login-or-register.register-form.fields.legal-documents.accept'}}
             <a href={{this.cguUrl}} class='link' target='_blank' rel='noopener noreferrer'>
-              {{t 'pages.login-or-register.register-form.fields.cgu.terms-of-use'}}
+              {{t 'pages.login-or-register.register-form.fields.legal-documents.terms-of-use'}}
             </a>
-            {{t 'pages.login-or-register.register-form.fields.cgu.and'}}
+            {{t 'pages.login-or-register.register-form.fields.legal-documents.and'}}
             <a href={{this.dataProtectionPolicyUrl}} class='link' target='_blank' rel='noopener noreferrer'>
-              {{t 'pages.login-or-register.register-form.fields.cgu.data-protection-policy'}}
+              {{t 'pages.login-or-register.register-form.fields.legal-documents.data-protection-policy'}}
             </a>
           </p>
         </:label>
       </PixCheckbox>
-      {{#if this.cguValidationMessage}}
-        <p class='register-form__cgu-error' role='alert'>{{this.cguValidationMessage}}</p>
+      {{#if this.legalDocumentsValidationMessage}}
+        <p class='register-form__cgu-error' role='alert'>{{this.legalDocumentsValidationMessage}}</p>
       {{/if}}
 
       {{#if this.errorMessage}}

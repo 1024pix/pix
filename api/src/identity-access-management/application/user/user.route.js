@@ -59,7 +59,7 @@ export const userRoutes = [
               email: Joi.string().allow(null),
               username: Joi.string().allow(null),
               password: Joi.string().allow(null),
-              cgu: Joi.boolean().allow(null),
+              'has-accepted-legal-documents': Joi.boolean().allow(null),
               'anonymous-user-token': Joi.string().optional(), // TODO: Remove 2 weeks after the fronts have been updated in production
               'is-anonymous': Joi.boolean().allow(null),
               'must-validate-terms-of-service': Joi.boolean().allow(null),
@@ -132,7 +132,7 @@ export const userRoutes = [
               'last-name': Joi.string().required(),
               email: Joi.string().required(),
               password: Joi.string().required(),
-              cgu: Joi.boolean().required(),
+              'has-accepted-legal-documents': Joi.boolean().required(),
               'anonymous-user-token': Joi.string().optional(), // TODO: Remove 2 weeks after the fronts have been updated in production
               // TODO: attributes bellow should not be sent, they are not used.
               username: Joi.string().allow(null),

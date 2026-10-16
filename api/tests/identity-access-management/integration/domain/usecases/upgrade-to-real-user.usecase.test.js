@@ -4,7 +4,7 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { UnauthorizedError } from '../../../../../src/shared/application/errors/http-errors.js';
-import { AlreadyRegisteredEmailError } from '../../../../../src/shared/domain/errors.js';
+import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | upgradeToRealUser', function () {
@@ -20,7 +20,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | upgradeT
       firstName: 'First',
       lastName: 'Last',
       email: 'first.last@example.net',
-      cgu: true,
+      hasAcceptedLegalDocuments: true,
       locale: 'fr-FR',
     };
 
@@ -77,7 +77,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | upgradeT
   });
 
   context('when the email already exists', function () {
-    it('throws an AlreadyRegisteredEmailError', async function () {
+    it('throws an EntityValidationError', async function () {
       // given
       const existingEmail = 'first.last@example.net';
       databaseBuilder.factory.buildUser({ email: existingEmail });
@@ -91,7 +91,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | upgradeT
           firstName: 'First',
           lastName: 'Last',
           email: existingEmail,
-          cgu: true,
+          hasAcceptedLegalDocuments: true,
           locale: 'fr-FR',
         },
         password: 'P@ssW0rd',
@@ -99,7 +99,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | upgradeT
       });
 
       // then
-      await expect(promise).to.be.rejectedWith(AlreadyRegisteredEmailError);
+      await expect(promise).to.be.rejectedWith(EntityValidationError);
     });
   });
 });

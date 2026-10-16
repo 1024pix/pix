@@ -119,7 +119,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               await fillIn(screen.getByRole('textbox', { name: 'Nom' }), prescritUser.lastName);
               await fillIn(screen.getByRole('textbox', { name: /Adresse e-mail/ }), prescritUser.email);
               await fillIn(screen.getByLabelText(/Mot de passe/), prescritUser.password);
-              await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+              await click(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
 
               // when
               await click(screen.getByRole('button', { name: t('pages.signup.actions.submit') }));

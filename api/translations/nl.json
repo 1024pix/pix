@@ -472,7 +472,7 @@
     "pix-orga": "Pix Orga - Niet reageren"
   },
   "entity-validation-errors": {
-    "ACCEPT_CGU": "Je moet de gebruiksvoorwaarden van Pix accepteren om een account aan te maken.",
+    "ACCEPT_LEGAL_DOCUMENTS": "Je moet de gebruiksvoorwaarden van Pix accepteren om een account aan te maken.",
     "ALREADY_REGISTERED_EMAIL": "Dit e-mailadres is al geregistreerd, log in.",
     "CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED": "Er wordt een URL voor de knop ingevoerd: er is ook een tekst nodig.",
     "CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED": "Een tekst voor de knop wordt ingevoerd: een URL is ook vereist.",
