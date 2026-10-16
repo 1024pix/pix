@@ -16,6 +16,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | [A4](#a4-pas-dobjet-dun-autre-aggregate) | Pas d'objet d'un autre Aggregate | `createdBy: UserId`, pas `createdBy: User` |
 | [A6](#a6-petit-aggregate) | Petit Aggregate | seulement les objets qu'une règle relie |
 | [A7](#a7-une-transaction-un-aggregate) | Une transaction, un Aggregate | les autres Aggregates sont modifiés dans leur propre transaction |
+| [A8](#a8-la-racine-enregistre-ses-événements) | La racine enregistre ses événements | `archive()` enregistre `OrganizationArchivedEvent`, après avoir vérifié ses règles |
 
 ## Exemple complet
 
@@ -31,6 +32,45 @@ organizational-entities/domain/models/organization/
 ├── index.ts                 ← A2 : le seul fichier importable hors du dossier
 ├── Organization.ts          ← la racine
 └── OrganizationFeature.ts   ← un objet interne
+
+organizational-entities/domain/events/
+└── OrganizationArchivedEvent.ts   ← A8 : un événement de la racine
+```
+
+```ts
+// shared/domain/models/AggregateRoot.ts — A8 : la liste des événements de la racine
+export type DomainEvent = { readonly eventName: string; readonly payload: Record<string, unknown> };
+
+export abstract class AggregateRoot {
+  #domainEvents: DomainEvent[] = [];
+
+  // protected : seule une méthode de la racine enregistre un événement
+  protected recordDomainEvent(event: DomainEvent): void {
+    this.#domainEvents.push(event);
+  }
+
+  // rend les événements et vide la liste, d'où le nom « pull »
+  pullDomainEvents(): DomainEvent[] {
+    const events = this.#domainEvents;
+    this.#domainEvents = [];
+    return events;
+  }
+}
+```
+
+```ts
+// organizational-entities/domain/events/OrganizationArchivedEvent.ts — A8 : un fait, nommé au passé
+import type { OrganizationId } from '../../../shared/domain/Id.js';
+
+export class OrganizationArchivedEvent {
+  static readonly eventName = 'organization.archived';
+  readonly eventName = OrganizationArchivedEvent.eventName;
+  readonly payload: { organizationId: OrganizationId; archivedAt: Date }; // des id et des valeurs
+
+  constructor(payload: { organizationId: OrganizationId; archivedAt: Date }) {
+    this.payload = payload;
+  }
+}
 ```
 
 ```ts
@@ -63,7 +103,9 @@ export class OrganizationFeature {
 ```ts
 // organization/Organization.ts — la racine
 import type { OrganizationId, UserId } from '../../../../shared/domain/Id.js';
+import { AggregateRoot } from '../../../../shared/domain/models/AggregateRoot.js';
 import { ArchivedOrganizationError, FeatureAlreadyEnabledError, InvalidOrganizationError } from '../../errors.js';
+import { OrganizationArchivedEvent } from '../../events/OrganizationArchivedEvent.js';
 import { type FeatureName, type FeatureParams, OrganizationFeature, type OrganizationFeatureProps } from './OrganizationFeature.js';
 
 // as const plutôt qu'un enum : la configuration TypeScript de Pix (erasableSyntaxOnly) interdit les enum
@@ -81,7 +123,7 @@ export type OrganizationProps<Id> = {
 };
 
 // Organization<null> : une organisation pas encore enregistrée (voir E1 de la fiche Entity)
-export class Organization<Id extends OrganizationId | null = OrganizationId> {
+export class Organization<Id extends OrganizationId | null = OrganizationId> extends AggregateRoot {
   readonly id: Id;
   readonly type: OrganizationType;
   readonly createdBy: UserId; // A4 : un autre Aggregate, gardé par son id
@@ -92,6 +134,7 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> {
 
   // A1 : le constructeur sert à la création comme au chargement depuis la base, la règle y est vérifiée
   constructor({ id, name, type, createdBy, isManagingStudents, features, archivedAt }: OrganizationProps<Id>) {
+    super();
     assertValidName(name);
     if (!OrganizationTypes.includes(type)) throw new InvalidOrganizationError(`Unknown type: ${type}`);
     if (isManagingStudents && features.some((feature) => feature.featureName === 'LEARNER_IMPORT')) {
@@ -139,9 +182,11 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> {
   }
 
   // la date d'archivage arrive en paramètre : l'Entity ne lit pas l'horloge
-  archive(now: Date): void {
+  // this: Organization : seule une organisation enregistrée, qui a un id, peut être archivée
+  archive(this: Organization, now: Date): void {
     if (this.isArchived) throw new ArchivedOrganizationError();
     this.#archivedAt = now;
+    this.recordDomainEvent(new OrganizationArchivedEvent({ organizationId: this.id, archivedAt: now })); // A8
   }
 
   // A1 : la seule façon d'ajouter une fonctionnalité, et c'est ici que la règle est vérifiée
@@ -202,7 +247,9 @@ couvre :
   `refuses a feature on an archived organization, and changes nothing`,
   `refuses a feature that is already enabled` ;
 - qu'on ne peut pas modifier un objet interne depuis l'extérieur. Exemple :
-  `cannot change the features through the returned list`.
+  `cannot change the features through the returned list` ;
+- chaque événement enregistré, et l'absence d'événement quand la méthode refuse. Exemples :
+  `records an OrganizationArchivedEvent`, `records no event when the archiving is refused`.
 
 Le repository se teste à part, avec un test d'intégration sur la base : on enregistre l'Aggregate, on
 le recharge, et on vérifie que tout le groupe est revenu. Exemple :
@@ -219,6 +266,7 @@ import {
   FeatureAlreadyEnabledError,
   InvalidOrganizationError,
 } from '../../../../../../src/organizational-entities/domain/errors.js';
+import { OrganizationArchivedEvent } from '../../../../../../src/organizational-entities/domain/events/OrganizationArchivedEvent.js';
 import { Organization, type OrganizationProps } from '../../../../../../src/organizational-entities/domain/models/organization/index.js';
 import type { OrganizationId, UserId } from '../../../../../../src/shared/domain/Id.js';
 
@@ -270,6 +318,27 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
     });
   });
 
+  describe('#archive', function () {
+    const now = new Date('2026-01-02');
+
+    it('records an OrganizationArchivedEvent', function () {
+      const organization = buildOrganization();
+
+      organization.archive(now);
+
+      expect(organization.pullDomainEvents()).to.deep.equal([
+        new OrganizationArchivedEvent({ organizationId: 1 as OrganizationId, archivedAt: now }),
+      ]);
+    });
+
+    it('records no event when the archiving is refused', function () {
+      const organization = buildOrganization({ archivedAt: new Date('2026-01-01') });
+
+      expect(() => organization.archive(now)).to.throw(ArchivedOrganizationError);
+      expect(organization.pullDomainEvents()).to.be.empty;
+    });
+  });
+
   describe('#features', function () {
     it('cannot change the features through the returned list', function () {
       const organization = buildOrganization();
@@ -298,6 +367,7 @@ Peut-on passer à côté de la racine ?
 
 Que se passe-t-il à l'écriture ?
 [ ] A7  Le usecase ne modifie qu'un Aggregate
+[ ] A8  Chaque événement est enregistré par une méthode de la racine, après ses vérifications, et nommé au passé
 
 Tests
 [ ] Chaque règle du groupe a son test, passé par la racine
@@ -517,7 +587,7 @@ suivre, ils sont modifiés ensuite, chacun dans sa propre transaction.
 const organization = await organizationRepository.get({ id: organizationId });
 organization.archive(clock.now());
 await organizationRepository.update({ organization });
-// team désactive ensuite les membres, dans sa propre transaction
+// team réagit à OrganizationArchivedEvent et désactive les membres, dans sa propre transaction
 ```
 
 **Mauvais exemple.**
@@ -537,3 +607,46 @@ suppression des invitations échoue, l'archivage est annulé aussi, alors qu'il 
 
 **À savoir.** Si deux Aggregates doivent toujours changer ensemble, dans la même transaction, c'est
 un signe qu'ils forment un seul Aggregate. À vérifier : une règle les relie-t-elle vraiment ?
+
+### A8. La racine enregistre ses événements
+
+**La règle.** Un événement du domaine dit qu'un changement a eu lieu, par exemple « l'organisation est
+archivée ». Il est nommé au passé. C'est la méthode de la racine qui fait le changement qui enregistre
+l'événement, après avoir vérifié ses règles. L'événement ne contient que des identifiants et des
+valeurs, jamais un objet du domaine.
+
+**Bon exemple.**
+
+```ts
+// Organization
+  archive(this: Organization, now: Date): void {
+    if (this.isArchived) throw new ArchivedOrganizationError();
+    this.#archivedAt = now;
+    this.recordDomainEvent(new OrganizationArchivedEvent({ organizationId: this.id, archivedAt: now })); // A8
+  }
+```
+
+**Mauvais exemple.**
+
+```ts
+// le usecase crée l'événement lui-même
+organization.archive(clock.now());
+await organizationRepository.update({ organization });
+await eventPublisher.publish(new OrganizationArchivedEvent({ organizationId, archivedAt: clock.now() }));
+```
+
+**Ce que ça apporte.** Un événement n'existe que si la racine a accepté le changement. Le code qui
+réagit à `OrganizationArchivedEvent` sait que l'organisation est vraiment archivée, et à quelle date.
+
+**Sans cette règle.** Le usecase crée l'événement. Un autre usecase qui archive oublie de le créer, et
+les autres contextes ne sont jamais prévenus. Ou bien le usecase crée l'événement avec une autre
+date que celle enregistrée par la racine.
+
+**À savoir.**
+
+- `recordDomainEvent()` est `protected` dans `AggregateRoot` : on ne peut pas l'appeler depuis l'extérieur
+  de la racine.
+- Seule la racine enregistre des événements. Un objet interne, comme `OrganizationFeature`, n'en
+  enregistre pas : c'est la racine qui vérifie les règles du groupe.
+- Enregistrer n'est pas publier. Le usecase publie les événements de la racine après l'enregistrement :
+  voir la fiche [usecase](../usecase/README.md).
