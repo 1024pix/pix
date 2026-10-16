@@ -11,37 +11,49 @@ import { KnowledgeElement } from '../../../../../src/shared/domain/models/Knowle
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
+const {
+  buildAnswer,
+  buildAssessment,
+  buildCompetenceEvaluation,
+  buildKnowledgeElement,
+  buildKnowledgeState,
+  buildKnowledgeStateMigration,
+  buildUser,
+  buildUserCompetenceScore,
+  learningContent,
+} = databaseBuilder.factory;
+
 describe('Evaluation | Integration | Usecase | Save and correct answer for competence evaluation', function () {
   const skillIds = ['monAcquisA_Id', 'monAcquisB_Id', 'monAcquisC_Id'];
 
-  it('should correct answer and save both answer and knowledge-elements', async function () {
-    // given
-    const locale = 'fr';
+  const locale = 'fr';
+
+  const buildUserAnsweringTheHighestSkill = async function () {
     const competenceId = 'maCompetenceId';
-    const userId = databaseBuilder.factory.buildUser().id;
-    const assessmentDB = databaseBuilder.factory.buildAssessment({
+    const userId = buildUser().id;
+    const assessmentDB = buildAssessment({
       userId,
       competenceId,
       type: Assessment.types.COMPETENCE_EVALUATION,
       state: Assessment.states.STARTED,
     });
-    databaseBuilder.factory.buildCompetenceEvaluation({
+    buildCompetenceEvaluation({
       userId,
       assessmentId: assessmentDB.id,
       competenceId,
       status: CompetenceEvaluation.statuses.STARTED,
     });
-    databaseBuilder.factory.learningContent.buildArea({
+    learningContent.buildArea({
       id: 'monAreaId',
     });
-    databaseBuilder.factory.learningContent.buildCompetence({
+    learningContent.buildCompetence({
       id: 'maCompetenceId',
       areaId: 'monAreaId',
       name_i18n: {
         fr: 'nom de la compétence',
       },
     });
-    databaseBuilder.factory.learningContent.buildChallenge({
+    learningContent.buildChallenge({
       id: 'monEpreuveId',
       skillId: skillIds[2],
       competenceId: 'maCompetenceId',
@@ -52,7 +64,7 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for compe
       type: 'QROC',
     });
     skillIds.map((id, index) =>
-      databaseBuilder.factory.learningContent.buildSkill({
+      learningContent.buildSkill({
         id,
         competenceId: 'maCompetenceId',
         pixValue: PIX_COUNT_BY_LEVEL,
@@ -61,9 +73,9 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for compe
         level: index + 1,
       }),
     );
-    const someAnswerId = databaseBuilder.factory.buildAnswer().id;
-    const someOtherAssessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
-    databaseBuilder.factory.buildKnowledgeElement({
+    const someAnswerId = buildAnswer().id;
+    const someOtherAssessmentId = buildAssessment({ userId }).id;
+    buildKnowledgeElement({
       skillId: skillIds[0],
       earnedPix: PIX_COUNT_BY_LEVEL,
       userId,
@@ -75,6 +87,13 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for compe
       createdAt: new Date('2020-01-01'),
     });
     await databaseBuilder.commit();
+
+    return { userId, assessmentDB };
+  };
+
+  it('should correct answer and save both answer and knowledge-elements', async function () {
+    // given
+    const { userId, assessmentDB } = await buildUserAnsweringTheHighestSkill();
 
     // when
     const assessment = domainBuilder.buildAssessment(assessmentDB);
@@ -127,5 +146,57 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for compe
       },
     });
     expect(savedAnswer).to.be.instanceOf(Answer);
+  });
+
+  context('when the knowledge of the user is stored as knowledge states', function () {
+    it('should correct answer and update the knowledge states instead of saving knowledge-elements', async function () {
+      // given
+      const { userId, assessmentDB } = await buildUserAnsweringTheHighestSkill();
+      buildKnowledgeState({ userId, tubeId: 'monTubeId', floor: 1, directLevels: [1] });
+      buildUserCompetenceScore({
+        userId,
+        competenceId: 'maCompetenceId',
+        pix: PIX_COUNT_BY_LEVEL,
+      });
+      buildKnowledgeStateMigration({ userId });
+      await databaseBuilder.commit();
+
+      // when
+      const assessment = domainBuilder.buildAssessment(assessmentDB);
+      const answer = new Answer({
+        value: 'correct',
+        challengeId: 'monEpreuveId',
+        assessmentId: assessment.id,
+      });
+      const savedAnswer = await evaluationUsecases.saveAndCorrectAnswerForCompetenceEvaluation({
+        answer,
+        userId,
+        assessment,
+        locale,
+        forceOKAnswer: false,
+      });
+
+      // then
+      const keData = await knex('knowledge-elements').where({ userId });
+      const knowledgeStates = await knex('knowledge_states')
+        .select(['tubeId', 'floor', 'ceiling', 'directLevels'])
+        .where({ userId });
+      const userCompetenceScores = await knex('user_competence_scores')
+        .select(['competenceId', 'pix'])
+        .where({ userId });
+
+      expect(keData.length).to.equal(1);
+      expect(knowledgeStates).to.deep.equal([{ tubeId: 'monTubeId', floor: 3, ceiling: null, directLevels: [1, 3] }]);
+      expect(userCompetenceScores).to.deep.equal([{ competenceId: 'maCompetenceId', pix: 3 * PIX_COUNT_BY_LEVEL }]);
+      sinon.assert.match(savedAnswer, {
+        id: sinon.match.number,
+        result: AnswerStatus.OK,
+        levelup: {
+          id: savedAnswer.id,
+          competenceName: 'nom de la compétence',
+          level: 3,
+        },
+      });
+    });
   });
 });
