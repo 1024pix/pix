@@ -25,7 +25,8 @@ outils de hapi (le framework HTTP de l'API) qui construit la réponse. `create` 
 connecté : il devient le `createdBy` de l'organisation, car Pix garde qui a créé chaque organisation
 ([`OrganizationForAdmin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/OrganizationForAdmin.js#L76)).
 Exemple inventé, d'après
-[`organization.admin.controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/application/organization/organization.admin.controller.js#L40-L45)
+[`organization.admin.controller.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/application/organization/organization.admin.controller.js#L83-L91)
+(`create`, et `archiveOrganization` [plus haut](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/application/organization/organization.admin.controller.js#L40-L45))
 et
 [`handlerWithDependencies.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/devcomp/infrastructure/utils/handlerWithDependencies.js#L7-L19).
 
@@ -59,9 +60,9 @@ const archive = async function (
   { usecases, organizationSerializer }: ControllerDependencies,
 ) {
   const organizationId = request.params.organizationId as OrganizationId;
+  const userId = request.auth.credentials.userId as UserId;
 
-  // l'horloge dont archiveOrganization a besoin lui est passée par l'index des usecases, pas par le contrôleur
-  const archivedOrganization = await usecases.archiveOrganization({ organizationId });
+  const archivedOrganization = await usecases.archiveOrganization({ organizationId, userId });
 
   return h.response(organizationSerializer.serialize(archivedOrganization));
 };
@@ -117,19 +118,20 @@ troisième argument. Le test couvre :
   `returns the serialized organization with a 201 status`.
 
 Rien d'autre. Les codes d'erreur et les droits d'accès se testent sur la route, avec un test
-d'acceptance. Un test de contrôleur qui a besoin de données du métier, comme une vraie
-`Organization` (voir la fiche [Aggregate Root](../racine-agregat/README.md)), est un signe que le
-contrôleur décide quelque chose (C1 ou C2).
+d'acceptance. Un test de contrôleur qui a besoin de données du métier, comme une vraie organisation,
+est un signe que le contrôleur décide quelque chose (C1 ou C2).
 
 Le test de l'[exemple complet](#exemple-complet). `hFake` est la fausse boîte à outils `h` de hapi,
 partagée par les tests de Pix : `created()` y met le code à 201.
 
 ```ts
 // tests/organizational-entities/unit/application/organization/organization.admin.controller_test.ts
+import type { Request } from '@hapi/hapi';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { organizationAdminController } from '../../../../../src/organizational-entities/application/organization/organization.admin.controller.js';
+import type { ControllerDependencies } from '../../../../../src/organizational-entities/infrastructure/utils/handlerWithDependencies.js';
 import type { UserId } from '../../../../../src/shared/domain/Id.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
@@ -137,7 +139,8 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | or
   describe('#create', function () {
     const createdBy = 2 as UserId;
     const payload = { data: { attributes: { name: 'Lycée Victor Hugo', type: 'SCO' } } };
-    const request = { auth: { credentials: { userId: createdBy } }, payload };
+    // as unknown as : le test ne remplit que les champs que le contrôleur lit
+    const request = { auth: { credentials: { userId: createdBy } }, payload } as unknown as Request;
 
     const newOrganization = Symbol('new organization');
     const createdOrganization = Symbol('created organization');
@@ -149,7 +152,7 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | or
       const organizationSerializer = { deserialize: sinon.stub(), serialize: sinon.stub() };
       organizationSerializer.deserialize.withArgs(payload, { createdBy }).returns(newOrganization);
       organizationSerializer.serialize.withArgs(createdOrganization).returns(serializedOrganization);
-      return { usecases, organizationSerializer };
+      return { usecases, organizationSerializer } as unknown as ControllerDependencies;
     };
 
     it('creates the organization with the connected user as creator', async function () {
@@ -221,7 +224,7 @@ await usecases.enableOrganizationFeature({
 en cherchant son nom dans `domain/usecases/`.
 
 **Sans cette règle.** L'enchaînement n'est vérifié que par le test d'acceptance de la route. Et la
-création d'organisations par import CSV, qui passe par un autre contrôleur, n'active pas
+création d'organisations par import CSV, qui passe par une autre route, n'active pas
 `LEARNER_IMPORT` : la même création donne deux organisations différentes selon l'écran.
 
 **Exceptions.** Un usecase d'écriture suivi d'un usecase de lecture, pour construire la réponse, se
@@ -248,17 +251,18 @@ const createdOrganization = await usecases.createOrganization({ organization });
 return h.response(organizationSerializer.serialize(createdOrganization)).created();
 ```
 
-Si le nom est vide, `Organization.create`, appelée par `deserialize()`, lève une
-`InvalidOrganizationError`. Le contrôleur la laisse remonter, et le mappeur d'erreurs la traduit en
-422. Le 422 dit que la requête a la bonne forme mais que le métier refuse son contenu. Le 400 reste
-pour une forme fausse, rejetée par la validation Joi de la route. Exemple inventé, d'après [la
-traduction de
-`FeatureParamsNotProcessable`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/application/http-error-mapper-configuration.js#L49-L52).
+Si l'organisation mère choisie n'appartient à aucun réseau, le usecase `createOrganization` lève une
+`ParentOrganizationNotInNetworkError`
+([`create-organization.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/usecases/create-organization.js#L16-L22)).
+Le contrôleur la laisse remonter, et le mappeur d'erreurs la traduit en 422. Le 422 dit que la
+requête a la bonne forme mais que le métier refuse son contenu. Le 400 reste pour une forme fausse,
+rejetée par la validation Joi de la route. D'après [la traduction de
+`ParentOrganizationNotInNetworkError`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/application/http-error-mapper-configuration.js#L77-L80).
 
 ```ts
 // organizational-entities/application/http-error-mapper-configuration.ts — le mappeur d'erreurs
 {
-  name: InvalidOrganizationError.name,
+  name: ParentOrganizationNotInNetworkError.name,
   httpErrorFn: (error) => new UnprocessableEntityError(error.message, error.code, error.meta),
 },
 ```
@@ -271,7 +275,7 @@ try {
   const createdOrganization = await usecases.createOrganization({ organization });
   return h.response(organizationSerializer.serialize(createdOrganization)).created();
 } catch (error) {
-  if (error instanceof InvalidOrganizationError) {
+  if (error instanceof ParentOrganizationNotInNetworkError) {
     return h.response().code(400); // le contrôleur choisit le code d'erreur
   }
   throw error;
@@ -281,16 +285,15 @@ try {
 **Ce que ça apporte.** Une erreur du domaine donne toujours la même réponse, quelle que soit la route.
 Le contrôleur reste assez court pour que son test se réduise à « le bon usecase, la bonne réponse ».
 
-**Sans cette règle.** Un nom vide renvoie un 400 sans `code` ni `meta` à la création, et un 422 avec
-son `code` sur les routes qui laissent remonter l'erreur, comme le renommage. Un client qui lit le
-`code` pour afficher le bon message ne le trouve pas à la création, et Pix Admin affiche son message
-générique.
+**Sans cette règle.** La même erreur donne deux réponses. À la création d'une organisation, le
+contrôleur renvoie un 400 sans `code` ni `meta`. À l'import CSV, qui lève la même erreur et la laisse
+remonter, le mappeur renvoie un 422 avec le code `PARENT_ORGANIZATION_NOT_IN_NETWORK`. Un client qui
+lit le `code` pour afficher le bon message ne le trouve pas à la création.
 
 **À savoir.**
 
-- Ouvrir une transaction autour de l'appel est une décision. Le usecase l'ouvre, avec
-  `withTransaction`, car c'est lui qui sait ce qui doit être enregistré ensemble (U7 de la fiche
-  [usecase](../usecase/README.md)).
+- Ouvrir une transaction autour de l'appel est une décision. C'est le usecase qui l'ouvre
+  ([U7 de la fiche usecase](../usecase/README.md#u7-le-périmètre-transactionnel-est-explicite)).
 - Certaines choses ont leur place ailleurs que dans le contrôleur :
   - la forme du payload : la validation Joi de la route ;
   - les droits d'accès : un pre-handler sur la route ;
@@ -394,8 +397,8 @@ dans ce usecase vaut pour toutes les routes qui créent une organisation.
 
 **Sans cette règle.** Pix donne un code d'accès à chaque école créée, de type `SCO-1D`
 ([`create-organization.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/usecases/create-organization.js#L49-L54)).
-Le jour où `createOrganization` génère ce code, le contrôleur qui appelle le repository ne le fait
-pas : l'école créée par cette route n'a pas de code d'accès.
+`createOrganization` génère ce code. Le contrôleur qui appelle le repository ne le génère pas :
+l'école créée par cette route n'a pas de code d'accès.
 
 **À savoir.** La règle vaut aussi pour la lecture. Une lecture « juste pour afficher » passe par un
 usecase, qui peut renvoyer un [read-model](../read-model/README.md).
