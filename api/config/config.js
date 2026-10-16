@@ -179,8 +179,8 @@ export const schema = Joi.object({
   HEAP_PROFILE_MAX_DURATION: Joi.string().optional(),
   HEAP_PROFILE_MAX_REQUEST_AGE: Joi.string().optional(),
   EVENT_LOOP_WATCHDOG_ENABLED: Joi.string().optional().valid('true', 'false'),
-  EVENT_LOOP_WATCHDOG_CHECK_INTERVAL: Joi.string().optional(),
-  EVENT_LOOP_WATCHDOG_THRESHOLD: Joi.string().optional(),
+  EVENT_LOOP_WATCHDOG_CHECK_INTERVAL: Joi.string().duration().optional(),
+  EVENT_LOOP_WATCHDOG_THRESHOLD: Joi.string().duration().optional(),
   EVENT_LOOP_WATCHDOG_MAX_REPORTED_REQUESTS: Joi.number().integer().min(1).optional(),
   ROUTE_DOMAIN_TO_OWNER_TEAM_MAPPING: Joi.string().optional(),
 }).options({ allowUnknown: true });
