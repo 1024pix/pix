@@ -178,6 +178,10 @@ export const schema = Joi.object({
   HEAP_PROFILE_DEFAULT_DURATION: Joi.string().optional(),
   HEAP_PROFILE_MAX_DURATION: Joi.string().optional(),
   HEAP_PROFILE_MAX_REQUEST_AGE: Joi.string().optional(),
+  EVENT_LOOP_WATCHDOG_ENABLED: Joi.string().optional().valid('true', 'false'),
+  EVENT_LOOP_WATCHDOG_CHECK_INTERVAL: Joi.string().duration().optional(),
+  EVENT_LOOP_WATCHDOG_THRESHOLD: Joi.string().duration().optional(),
+  EVENT_LOOP_WATCHDOG_MAX_REPORTED_REQUESTS: Joi.number().integer().min(1).optional(),
   ROUTE_DOMAIN_TO_OWNER_TEAM_MAPPING: Joi.string().optional(),
 }).options({ allowUnknown: true });
 
@@ -355,6 +359,15 @@ export const config = {
     isAlwaysOkValidateNextChallengeEndpointEnabled: toBoolean(
       process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT,
     ),
+  },
+  eventLoopWatchdog: {
+    enabled: toBoolean(process.env.EVENT_LOOP_WATCHDOG_ENABLED),
+    // période du timer qui mesure le retard de la boucle d'événements
+    checkInterval: ms(process.env.EVENT_LOOP_WATCHDOG_CHECK_INTERVAL ?? '100ms'),
+    // retard au-delà duquel le blocage est journalisé avec les requêtes en cours
+    threshold: ms(process.env.EVENT_LOOP_WATCHDOG_THRESHOLD ?? '500ms'),
+    // borne la taille du log quand le conteneur traite beaucoup de requêtes
+    maxReportedRequests: _getNumber(process.env.EVENT_LOOP_WATCHDOG_MAX_REPORTED_REQUESTS, 50),
   },
   hapi: {
     options: {},
