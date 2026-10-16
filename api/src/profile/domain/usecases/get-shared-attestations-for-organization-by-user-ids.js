@@ -57,6 +57,6 @@ export async function getSharedAttestationsForOrganizationByUserIds({
 
   return {
     data,
-    template: attestationData,
+    template: attestationData.Body,
   };
 }

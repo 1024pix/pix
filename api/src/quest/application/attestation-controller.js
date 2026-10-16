@@ -13,6 +13,7 @@ const save = async (request, h) => {
     throw new BadRequestError('The file is not a pdf.', WRONG_FILE_FORMAT);
   }
   const templateFile = Readable.from(attestation.templateFile.payload);
+  //todo: implement cache
   await usecases.createAttestation({
     templateFile,
     templateKey: attestation.templateKey,
