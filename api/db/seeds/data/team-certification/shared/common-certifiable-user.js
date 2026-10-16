@@ -7,6 +7,7 @@ import { CERTIFIABLE_SUCCESS_USER_ID } from './constants.js';
  */
 export class CommonCertifiableUser {
   certifiableUsers = [];
+  cleaEligibleUser;
 
   constructor({ databaseBuilder }) {
     this.databaseBuilder = databaseBuilder;
@@ -39,6 +40,20 @@ export class CommonCertifiableUser {
 
       this.certifiableUsers = [...this.certifiableUsers, user];
     }
+    this.cleaEligibleUser = this.databaseBuilder.factory.buildUser.withRawPassword({
+      id: CERTIFIABLE_SUCCESS_USER_ID + 24,
+      firstName: 'Jean',
+      lastName: 'Lagagne',
+      email: `certif-success-4@example.net`,
+      cgu: true,
+      lang: 'fr',
+      lastTermsOfServiceValidatedAt: new Date(),
+    });
+
+    await createCertifiableProfile({
+      databaseBuilder: this.databaseBuilder,
+      userId: this.cleaEligibleUser.id,
+    });
 
     return this;
   }
