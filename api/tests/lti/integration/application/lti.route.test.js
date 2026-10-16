@@ -12,6 +12,7 @@ describe('Integration | LTI | Application | Route', function () {
 
   beforeEach(async function () {
     httpTestServer = new HttpTestServer();
+    httpTestServer.setupLtiAuthentication();
     await httpTestServer.register(ltiRoutes);
   });
 
