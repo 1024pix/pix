@@ -33,7 +33,7 @@ const metrics = {
  * Datasource for learning content repositories.
  * This datasource uses a {@link Dataloader} to load and cache entities.
  */
-export class LearningContentRepository {
+export class LearningContentInMemoryRepository {
   #tableName;
   #idType;
   #dataloader;
@@ -44,7 +44,7 @@ export class LearningContentRepository {
   /**
    * @param {{
    *   tableName: string
-   *   idType?: 'text' | 'integer' | 'uuid'
+   *   idType?: string
    * }} config
    */
   constructor({ tableName, idType = 'text' }) {

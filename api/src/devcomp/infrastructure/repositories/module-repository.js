@@ -1,9 +1,12 @@
 import crypto from 'node:crypto';
 
 import { NotFoundError } from '../../../shared/domain/errors.js';
-import { LearningContentRedisRepository } from '../../../shared/infrastructure/repositories/learning-content-redis-repository.js';
-import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
+import { makeGetInstance } from '../../../shared/infrastructure/repositories/learning-content-repository.ts';
 import { ModuleFactory } from '../factories/module-factory.js';
+
+const TABLE_NAME = 'learningcontent.modules';
+
+export const getInstance = makeGetInstance({ tableName: TABLE_NAME, idType: 'uuid' });
 
 async function getById({ id }) {
   const module = await getInstance().load(id);
@@ -69,25 +72,4 @@ async function toDomain(moduleData) {
 
 export function clearCache(id) {
   return getInstance().clearCache?.(id);
-}
-
-const TABLE_NAME = 'learningcontent.modules';
-
-/** @type {LearningContentRedisRepository} */
-let redisInstance;
-
-/** @type {LearningContentRepository} */
-let instance;
-
-export function getInstance() {
-  if (LearningContentRedisRepository.isEnabled) {
-    if (!redisInstance) {
-      redisInstance = new LearningContentRedisRepository({ tableName: TABLE_NAME, idType: 'uuid' });
-    }
-    return redisInstance;
-  }
-  if (!instance) {
-    instance = new LearningContentRepository({ tableName: TABLE_NAME, idType: 'uuid' });
-  }
-  return instance;
 }
