@@ -55,6 +55,7 @@ type OrganizationDTOProps = {
   isArchived: boolean;
 };
 
+// P6 : ajouter un champ est permis ; renommer ou retirer un champ se prévoit avec les consommateurs
 export class OrganizationDTO {
   // P9 : cinq champs, chacun lu par au moins un consommateur
   readonly id: OrganizationId;
@@ -81,8 +82,8 @@ import type { OrganizationId } from '../../../shared/domain/Id.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { OrganizationDTO } from './models/OrganizationDTO.js';
 
+// P3 : le contrat, lu par les autres contextes sans ouvrir ce fichier
 /**
- * P3 : le contrat, lu par les autres contextes sans ouvrir ce fichier
  * Returns the organization with the given id.
  * isRestricted: the organization manages its students, or imports its learners.
  *
@@ -113,12 +114,19 @@ get isRestricted(): boolean {
 
 ```ts
 // prescription/campaign/infrastructure/repositories/organization-repository.ts — chez le consommateur
+import type * as OrganizationApi from '../../../../organizational-entities/application/api/organization-api.js';
 import type { OrganizationId } from '../../../../shared/domain/Id.js';
-import * as organizationApi from '../../../../organizational-entities/application/api/organization-api.js';
 import { CampaignOrganization } from '../../domain/models/CampaignOrganization.js';
 
 // l'Anticorruption Layer : le DTO s'arrête ici, le domaine de prescription reçoit son propre objet
-export const get = async ({ organizationId }: { organizationId: OrganizationId }): Promise<CampaignOrganization> => {
+// l'API arrive en paramètre, injectée par l'index des repositories (I5 de la fiche Repository)
+export const get = async ({
+  organizationId,
+  organizationApi,
+}: {
+  organizationId: OrganizationId;
+  organizationApi: typeof OrganizationApi;
+}): Promise<CampaignOrganization> => {
   const organization = await organizationApi.getOrganization({ id: organizationId });
 
   return new CampaignOrganization({
@@ -133,7 +141,7 @@ export const get = async ({ organizationId }: { organizationId: OrganizationId }
 
 ## Comment tester
 
-On teste l'API avec un test unitaire. Le usecase est substitué par un stub : le test ne vérifie que la
+On teste l'API avec un test unitaire. Le usecase est remplacé par un stub : le test ne vérifie que la
 traduction du modèle vers le DTO. Le test couvre :
 
 - la forme du DTO : seulement les champs du contrat, avec les bonnes valeurs. Exemple :
@@ -144,7 +152,8 @@ traduction du modèle vers le DTO. Le test couvre :
 Le test ne rejoue pas la règle du domaine. S'il faut beaucoup de données métier pour le faire passer,
 l'API fait plus que traduire.
 
-Le repository du consommateur se teste à part, chez le consommateur, avec l'API substituée. Exemple :
+Le repository du consommateur se teste à part, chez le consommateur, avec l'API remplacée par un stub.
+Exemple :
 `translates the organization into a campaign organization`.
 
 Le test unitaire de l'[exemple complet](#exemple-complet) :
@@ -174,7 +183,7 @@ describe('Unit | Organizational Entities | Application | API | organization-api'
     });
 
   const stubUsecase = (organization: Organization) =>
-    sinon.stub(usecases, 'getOrganizationById').withArgs({ organizationId: 1 }).resolves(organization);
+    sinon.stub(usecases, 'getOrganizationById').withArgs({ organizationId: 1 as OrganizationId }).resolves(organization);
 
   describe('#getOrganization', function () {
     it('returns only the contract fields', async function () {
@@ -234,8 +243,8 @@ Comment le consommateur la lit-il ?
 [ ] Le consommateur lit l'API par un repository à lui, qui traduit le DTO
 
 Tests
-[ ] Un test unitaire de l'API, usecase substitué, qui vérifie seulement la traduction
-[ ] Le repository du consommateur a son test, API substituée
+[ ] Un test unitaire de l'API, usecase remplacé par un stub, qui vérifie seulement la traduction
+[ ] Le repository du consommateur a son test, API remplacée par un stub
 ```
 
 ## Référence des règles
@@ -249,13 +258,15 @@ les siens.
 **Bon exemple.**
 
 ```ts
-const organization = await usecases.getOrganizationById({ organizationId: id });
+// dans getOrganization
+const organization = await usecases.getOrganizationById({ organizationId: id }); // P2
 
+// P1 : on construit le DTO, on ne renvoie pas le modèle
 return new OrganizationDTO({
   id: organization.id,
   name: organization.name,
   type: organization.type,
-  isRestricted: organization.isRestricted,
+  isRestricted: organization.isRestricted, // P4 : calculé par le domaine
   isArchived: organization.isArchived,
 });
 ```
@@ -292,16 +303,20 @@ changement interne à organizational-entities.
 
 ### P2. Passer par un usecase
 
-**La règle.** L'API est une porte d'entrée, comme un contrôleur. Chaque fonction appelle un usecase,
+**La règle.** L'API reçoit les appels des autres contextes, comme un
+[contrôleur](../controleur/README.md) reçoit les requêtes HTTP. Chaque fonction appelle un usecase,
 jamais un repository. Elle appelle le usecase par l'index des usecases, `domain/usecases/index.js`,
 qui lui injecte ses dépendances.
 
 **Bon exemple.**
 
 ```ts
+// dans organization-api.ts
+// P2 : l'index des usecases ; P8 : aucun import d'un autre contexte
 import { usecases } from '../../domain/usecases/index.js';
 
-const organization = await usecases.getOrganizationById({ organizationId: id });
+// dans getOrganization
+const organization = await usecases.getOrganizationById({ organizationId: id }); // P2
 ```
 
 **Mauvais exemple.**
@@ -325,13 +340,13 @@ const organization = await getOrganizationById({ organizationId: id, organizatio
 HTTP comme les autres contextes.
 
 **Sans cette règle.** On ajoute une règle au usecase `getOrganizationById` : il lève `NotFoundError`
-pour une organisation supprimée. L'API qui lit le repository continue de renvoyer l'organisation supprimée aux autres
-contextes.
+pour une organisation supprimée. L'API qui lit le repository continue de renvoyer l'organisation
+supprimée aux autres contextes.
 
 **À savoir.**
 
-- Importer le fichier du usecase pour casser un import cyclique ne justifie pas l'écart : l'API passe
-  toujours par l'index.
+- Un import cyclique n'autorise pas à importer le fichier du usecase : même dans ce cas, l'API passe
+  par l'index.
 - Les repositories de `shared` ne font pas exception. L'API ne les appelle pas non plus.
 
 ### P3. Un contrat documenté
@@ -343,12 +358,14 @@ erreurs levées.
 **Bon exemple.**
 
 ```ts
+// P3 : le contrat, lu par les autres contextes sans ouvrir ce fichier
 /**
  * Returns the organization with the given id.
  * isRestricted: the organization manages its students, or imports its learners.
  *
  * @throws {NotFoundError} if the organization does not exist
  */
+// P7 : un seul paramètre, l'id ; la réponse ne dépend pas de l'appelant
 export const getOrganization = async ({ id }: { id: OrganizationId }): Promise<OrganizationDTO> => {
 ```
 
@@ -382,18 +399,21 @@ vérifie ses valeurs et porte des règles.
 
 ```ts
 // dans la classe Organization, côté domaine
+// P4 : la règle vit dans le domaine, le DTO en reçoit seulement le résultat
 get isRestricted(): boolean {
   return this.#isManagingStudents || this.#features.some((feature) => feature.featureName === 'LEARNER_IMPORT');
 }
 
 // dans getOrganization, côté API
-isRestricted: organization.isRestricted,
+isRestricted: organization.isRestricted, // P4 : calculé par le domaine
 ```
 
 **Mauvais exemple.**
 
 ```ts
 export class OrganizationDTO {
+  readonly isRestricted: boolean;
+
   constructor(organization: Organization) {
     // la règle du métier est réécrite dans le DTO
     this.isRestricted =
@@ -455,12 +475,15 @@ le sens d'un champ existant est interdit : on ajoute un autre champ.
 **Bon exemple.**
 
 ```ts
+// P6 : ajouter un champ est permis ; renommer ou retirer un champ se prévoit avec les consommateurs
 export class OrganizationDTO {
+  // P9 : cinq champs, chacun lu par au moins un consommateur
   readonly id: OrganizationId;
   readonly name: string;
   readonly type: OrganizationTypeDTO;
   readonly isRestricted: boolean;
   readonly isArchived: boolean;
+  // … le constructeur
 }
 ```
 
@@ -468,7 +491,12 @@ export class OrganizationDTO {
 
 ```ts
 export class OrganizationDTO {
-  readonly archived: boolean; // isArchived renommé : chaque consommateur qui le lit casse
+  readonly id: OrganizationId;
+  readonly name: string;
+  readonly type: OrganizationTypeDTO;
+  readonly isRestricted: boolean;
+  readonly archived: boolean; // isArchived renommé sans prévenir : chaque consommateur qui le lit casse
+  // … le constructeur
 }
 ```
 
@@ -524,6 +552,9 @@ contextes, il appelle les deux APIs, et assemble les réponses dans un de ses us
 **Bon exemple.**
 
 ```ts
+// dans organization-api.ts
+import type { OrganizationId } from '../../../shared/domain/Id.js';
+// P2 : l'index des usecases ; P8 : aucun import d'un autre contexte
 import { usecases } from '../../domain/usecases/index.js';
 import { OrganizationDTO } from './models/OrganizationDTO.js';
 ```
@@ -535,11 +566,11 @@ import { OrganizationDTO } from './models/OrganizationDTO.js';
 import { membershipRepository } from '../../../team/infrastructure/repositories/membership-repository.js';
 ```
 
-**Ce que ça apporte.** Prescription dépend d'organizational-entities, et de rien d'autre à travers
-cette API. Le `dependencies.json` de prescription dit la vérité.
+**Ce que ça apporte.** Un contexte qui appelle `getOrganization` dépend d'organizational-entities, et
+de rien d'autre à travers cette API. Son `dependencies.json` liste toutes ses vraies dépendances.
 
-**Sans cette règle.** team change son repository des membres. `getOrganization` casse, et prescription
-avec elle. Le `dependencies.json` de prescription ne cite pas team.
+**Sans cette règle.** team change son repository des membres. `getOrganization` casse, et chaque
+contexte qui l'appelle casse avec elle, même un contexte dont le `dependencies.json` ne cite pas team.
 
 **À savoir.** Le mauvais exemple enfreint aussi [P2](#p2-passer-par-un-usecase), qui interdit les
 repositories. P8 vise en plus les APIs et les usecases d'un autre contexte, que P2 ne cite pas.
@@ -552,29 +583,28 @@ consommateur ne lit n'y figure pas, même s'il existe sur le modèle.
 **Bon exemple.**
 
 ```ts
-export class OrganizationDTO {
-  readonly id: OrganizationId;
-  readonly name: string;
-  readonly type: OrganizationTypeDTO;
-  readonly isRestricted: boolean;
-  readonly isArchived: boolean;
-}
+// dans la classe OrganizationDTO
+// P9 : cinq champs, chacun lu par au moins un consommateur
+readonly id: OrganizationId;
+readonly name: string;
+readonly type: OrganizationTypeDTO;
+readonly isRestricted: boolean;
+readonly isArchived: boolean;
 ```
 
 **Mauvais exemple.**
 
 ```ts
-export class OrganizationDTO {
-  readonly id: OrganizationId;
-  readonly name: string;
-  readonly type: OrganizationTypeDTO;
-  readonly isRestricted: boolean;
-  readonly isArchived: boolean;
-  // repris parce qu'ils sont sur le modèle, aucun consommateur ne les lit
-  readonly logoUrl: string;
-  readonly isManagingStudents: boolean;
-  readonly createdBy: UserId;
-}
+// dans la classe OrganizationDTO
+readonly id: OrganizationId;
+readonly name: string;
+readonly type: OrganizationTypeDTO;
+readonly isRestricted: boolean;
+readonly isArchived: boolean;
+// repris parce qu'ils sont sur le modèle, aucun consommateur ne les lit
+readonly archivedAt: Date | null;
+readonly isManagingStudents: boolean;
+readonly createdBy: UserId;
 ```
 
 **Ce que ça apporte.** Le DTO est la liste exacte de ce qu'organizational-entities s'engage à
