@@ -136,7 +136,7 @@
     "hyparquet-writer": "0.16.11",
     "i18n": "0.15.4",
     "iconv-lite": "0.7.3",
-    "ioredis": "5.11.1",
+    "ioredis": "6.0.0",
     "joi": "18.2.9",
     "jose": "6.2.12",
     "js-yaml": "5.4.3",
