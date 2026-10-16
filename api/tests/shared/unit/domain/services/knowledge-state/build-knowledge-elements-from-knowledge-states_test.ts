@@ -22,6 +22,7 @@ describe('Unit | Shared | Domain | Services | knowledge-state | build-knowledge-
       tubeId: 'tube_web',
       floor: 2,
       ceiling: 4,
+      ceilingAt: new Date('2026-01-05'),
       directLevels: [2, 4],
       updatedAt: new Date('2026-01-12'),
       ...overrides,
@@ -55,9 +56,9 @@ describe('Unit | Shared | Domain | Services | knowledge-state | build-knowledge-
       expect(knowledgeElements.map(({ earnedPix }) => earnedPix)).to.deep.equal([0.5, 1, 0, 0]);
     });
 
-    it('should date every knowledge element of a tube from its last move, with no answer nor assessment', function () {
+    it('should date a validated knowledge element from the last move of its tube, with no answer nor assessment', function () {
       // given
-      const knowledgeStates = [buildKnowledgeState({ floor: 1, ceiling: null, directLevels: [1] })];
+      const knowledgeStates = [buildKnowledgeState({ floor: 1, ceiling: null, ceilingAt: null, directLevels: [1] })];
 
       // when
       const knowledgeElements = buildKnowledgeElementsFromKnowledgeStates({ knowledgeStates, skills });
@@ -77,6 +78,22 @@ describe('Unit | Shared | Domain | Services | knowledge-state | build-knowledge-
       });
     });
 
+    it('should date an invalidated knowledge element from the failure that set the ceiling', function () {
+      // given
+      const knowledgeStates = [buildKnowledgeState()];
+
+      // when
+      const knowledgeElements = buildKnowledgeElementsFromKnowledgeStates({ knowledgeStates, skills });
+
+      // then
+      expect(knowledgeElements.map(({ skillId, createdAt }) => ({ skillId, createdAt }))).to.deep.equal([
+        { skillId: 'skill_web_1', createdAt: new Date('2026-01-12') },
+        { skillId: 'skill_web_2', createdAt: new Date('2026-01-12') },
+        { skillId: 'skill_web_4', createdAt: new Date('2026-01-05') },
+        { skillId: 'skill_web_5', createdAt: new Date('2026-01-05') },
+      ]);
+    });
+
     it('should give nothing for a tube without knowledge state, nor for a knowledge state without skill', function () {
       // given
       const knowledgeStates = [buildKnowledgeState({ tubeId: 'tube_gone' })];
@@ -91,7 +108,7 @@ describe('Unit | Shared | Domain | Services | knowledge-state | build-knowledge-
     it('should build the knowledge elements of several users at once', function () {
       // given
       const knowledgeStates = [
-        buildKnowledgeState({ userId: 1, floor: 1, ceiling: null }),
+        buildKnowledgeState({ userId: 1, floor: 1, ceiling: null, ceilingAt: null }),
         buildKnowledgeState({ userId: 2, tubeId: 'tube_mail', floor: 0, ceiling: 3 }),
       ];
 

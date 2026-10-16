@@ -13,7 +13,10 @@ import * as challengeRepository from '../../../shared/infrastructure/repositorie
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import * as courseRepository from '../../../shared/infrastructure/repositories/course-repository.js';
 import * as knowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
+import * as knowledgeStateMigrationRepository from '../../../shared/infrastructure/repositories/knowledge-state-migration-repository.ts';
+import * as knowledgeStateRepository from '../../../shared/infrastructure/repositories/knowledge-state-repository.ts';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
+import * as userCompetenceScoreRepository from '../../../shared/infrastructure/repositories/user-competence-score-repository.ts';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
@@ -49,6 +52,7 @@ import { getProgression } from './get-progression.js';
 import { getScorecard } from './get-scorecard.js';
 import { handleBadgeAcquisition } from './handle-badge-acquisition.js';
 import { improveCompetenceEvaluation } from './improve-competence-evaluation.js';
+import { migrateUserToKnowledgeStates } from './migrate-user-to-knowledge-states.ts';
 import { promptToLLMChat } from './prompt-to-llm-chat.js';
 import { rememberUserHasSeenAssessmentInstructions } from './remember-user-has-seen-assessment-instructions.js';
 import { rememberUserHasSeenNewDashboardInfo } from './remember-user-has-seen-new-dashboard-info.js';
@@ -94,6 +98,8 @@ const dependencies = {
   getNextChallengeForDemo: evaluationServices.getNextChallengeForDemo,
   improvementService,
   knowledgeElementRepository,
+  knowledgeStateMigrationRepository,
+  knowledgeStateRepository,
   llmApi,
   pickChallengeService,
   scorecardService,
@@ -101,6 +107,7 @@ const dependencies = {
   smartRandomService,
   targetProfileAdministrationRepository,
   targetProfileRepository,
+  userCompetenceScoreRepository,
   userRepository: repositories.userRepository,
   knowledgeElementForParticipationService,
   challengeToPlayRepository,
@@ -126,6 +133,7 @@ const usecasesWithoutInjectedDependencies = {
   getScorecard,
   handleBadgeAcquisition,
   improveCompetenceEvaluation,
+  migrateUserToKnowledgeStates,
   promptToLLMChat,
   rememberUserHasSeenAssessmentInstructions,
   rememberUserHasSeenNewDashboardInfo,
