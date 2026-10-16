@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { DomainTransaction, withTransaction } from '../../../../src/shared/domain/DomainTransaction.js';
-import { featureToggles } from '../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { catchErr } from '../../../../tests/tooling/test-utils/error.js';
 import { knex } from '../../../tooling/databases.js';
 
@@ -368,27 +367,6 @@ describe('Shared | Integration | Domain | DomainTransaction', function () {
         expect(firstCallSuccessHandler.calledAfter(secondCallProcess)).to.be.true;
         expect(secondCallSuccessHandler.calledAfter(secondCallProcess)).to.be.true;
         expect(secondCallSuccessHandler.calledAfter(firstCallSuccessHandler)).to.be.true;
-      });
-    });
-
-    context('when successHandlersForDomainTransaction feature toggle is disabled', function () {
-      it('executes onSuccess handlers immediately', async function () {
-        await featureToggles.set('successHandlersForDomainTransaction', false);
-
-        const inTransactionFunction = sinon.stub().resolves();
-        const successHandler1 = sinon.stub().resolves();
-        const successHandler2 = sinon.stub().resolves();
-
-        const result = await DomainTransaction.execute(async () => {
-          await DomainTransaction.addSuccessHandler(successHandler1);
-          await inTransactionFunction();
-          await DomainTransaction.addSuccessHandler(successHandler2);
-          return 'result';
-        });
-
-        expect(successHandler1.calledBefore(inTransactionFunction)).to.be.true;
-        expect(inTransactionFunction.calledBefore(successHandler2)).to.be.true;
-        expect(result).to.equal('result');
       });
     });
   });

@@ -62,13 +62,6 @@ export default {
     defaultValue: [],
     tags: ['team-acces', 'i18n', 'frontend'],
   },
-  successHandlersForDomainTransaction: {
-    type: 'boolean',
-    description: 'Enable success handlers for DomainTransaction',
-    defaultValue: true,
-    devDefaultValues: { test: true, reviewApp: true },
-    tags: ['captain', 'backend', 'transactions'],
-  },
   isAuditLoggingEnabled: {
     type: 'boolean',
     description: 'Enable sending audit logs to audit logger application',
