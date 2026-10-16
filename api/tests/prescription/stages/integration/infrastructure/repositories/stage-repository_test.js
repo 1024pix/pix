@@ -17,7 +17,7 @@ import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Repository | Stage Acquisition', function () {
   describe('get', function () {
-    it('should return a stage for a given id', async function () {
+    it('returns a stage for a given id', async function () {
       // given
       const stage1 = databaseBuilder.factory.buildStage({ id: 1 });
       databaseBuilder.factory.buildStage({ id: 2 });
@@ -32,7 +32,7 @@ describe('Integration | Repository | Stage Acquisition', function () {
     });
 
     context('when the stage does not exist', function () {
-      it('should throw a not found message error', async function () {
+      it('throws a not found message error', async function () {
         // given
         databaseBuilder.factory.buildStage({ id: 1 });
         await databaseBuilder.commit();
@@ -65,26 +65,31 @@ describe('Integration | Repository | Stage Acquisition', function () {
       await databaseBuilder.commit();
     });
 
-    it('should return Stage instances', async function () {
+    it('returns Stage instances', async function () {
       const result = await getByCampaignIds(campaigns.map((campaign) => campaign.id));
       expect(result[0]).to.be.instanceof(Stage);
     });
 
-    it('should return the expected stages', async function () {
+    it('returns the expected stages', async function () {
       const result = await getByCampaignIds(campaigns.map((campaign) => campaign.id));
       expect(result.length).to.deep.equal(5);
     });
 
-    it('should sort stages by threshold', async function () {
+    it('sorts stages by threshold', async function () {
       const result = await getByCampaignIds(campaigns.map((campaign) => campaign.id));
       expect(result[4].id).to.deep.equal(stages[2].id);
     });
-    it('should sort stages by threshold ordered as zero stage, first skill stage, then others', async function () {
+    it('sorts stages by threshold ordered as zero stage, first skill stage, then others', async function () {
+      // given
       const firstSkillStage = databaseBuilder.factory.buildStage.firstSkill({
         targetProfileId: campaigns[1].targetProfileId,
       });
       await databaseBuilder.commit();
+
+      // when
       const result = await getByCampaignIds(campaigns.map((campaign) => campaign.id));
+
+      // then
       expect(result[0].id).to.deep.equal(stages[1].id);
       expect(result[1].id).to.deep.equal(stages[4].id);
       expect(result[2].id).to.deep.equal(firstSkillStage.id);
@@ -96,7 +101,6 @@ describe('Integration | Repository | Stage Acquisition', function () {
 
   describe('getByCampaignId', function () {
     let campaign;
-
     let zeroStage, firstSkillStage, level1Stage, level2Stage;
 
     beforeEach(async function () {
@@ -108,21 +112,25 @@ describe('Integration | Repository | Stage Acquisition', function () {
       await databaseBuilder.commit();
     });
 
-    it('should return Stage instances', async function () {
+    it('returns Stage instances', async function () {
       const result = await getByCampaignId(campaign.id);
       expect(result[0]).to.be.instanceof(Stage);
     });
 
-    it('should return the expected stages', async function () {
+    it('returns the expected stages', async function () {
       const result = await getByCampaignId(campaign.id);
       expect(result.length).to.deep.equal(3);
     });
 
-    it('should sort stages by level ordered as zero stage, first skill stage, then others', async function () {
+    it('sorts stages by level ordered as zero stage, first skill stage, then others', async function () {
+      // given
       firstSkillStage = databaseBuilder.factory.buildStage.firstSkill({ targetProfileId: campaign.targetProfileId });
       await databaseBuilder.commit();
 
+      // when
       const result = await getByCampaignId(campaign.id);
+
+      // then
       expect(result[0].id).to.deep.equal(zeroStage.id);
       expect(result[1].id).to.deep.equal(firstSkillStage.id);
       expect(result[2].id).to.deep.equal(level1Stage.id);
@@ -147,27 +155,32 @@ describe('Integration | Repository | Stage Acquisition', function () {
       await databaseBuilder.commit();
     });
 
-    it('should return Stage instances', async function () {
+    it('returns Stage instances', async function () {
       const result = await getByCampaignParticipationId(campaignParticipation.id);
       expect(result[0]).to.be.instanceof(Stage);
     });
 
-    it('should return the expected stages', async function () {
+    it('returns the expected stages', async function () {
       const result = await getByCampaignParticipationId(campaignParticipation.id);
       expect(result).to.have.deep.members(stages);
     });
 
-    it('should sort stages by threshold', async function () {
+    it('sorts stages by threshold', async function () {
       const result = await getByCampaignParticipationId(campaignParticipation.id);
       expect(result[0].id).to.equal(stages[1].id);
     });
 
-    it('should sort stages by threshold ordered as zero stage, first skill stage, then others', async function () {
+    it('sorts stages by threshold ordered as zero stage, first skill stage, then others', async function () {
+      // given
       const firstSkillStage = databaseBuilder.factory.buildStage.firstSkill({
         targetProfileId: campaign.targetProfileId,
       });
       await databaseBuilder.commit();
+
+      // when
       const result = await getByCampaignParticipationId(campaignParticipation.id);
+
+      // then
       expect(result[0].id).to.deep.equal(stages[1].id);
       expect(result[1].id).to.deep.equal(firstSkillStage.id);
       expect(result[2].id).to.deep.equal(stages[2].id);
@@ -196,19 +209,19 @@ describe('Integration | Repository | Stage Acquisition', function () {
       await databaseBuilder.commit();
     });
 
-    it('should return Stage instances', async function () {
+    it('returns Stage instances', async function () {
       const result = await getByTargetProfileIds([targetProfile1.id, targetProfile2.id]);
       expect(result[0]).to.be.instanceof(Stage);
     });
 
-    it('should return the expected stages', async function () {
+    it('returns the expected stages', async function () {
       const result = await getByTargetProfileIds([targetProfile1.id, targetProfile2.id]);
       expect(result).to.have.deep.members(stages);
     });
   });
 
   describe('update', function () {
-    it('should update the stage', async function () {
+    it('updates the stage', async function () {
       // given
       const stage = databaseBuilder.factory.buildStage({
         level: 1,
@@ -247,7 +260,7 @@ describe('Integration | Repository | Stage Acquisition', function () {
   });
 
   describe('saveAll', function () {
-    it('should save all stages', async function () {
+    it('saves all stages', async function () {
       // given
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
       const { id: secondTargetProfileId } = databaseBuilder.factory.buildTargetProfile();
