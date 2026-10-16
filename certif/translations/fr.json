@@ -308,7 +308,7 @@
           "login-button": "Je m'inscris"
         },
         "fields": {
-          "cgu": {
+          "legal-documents": {
             "accept": "J'accepte les",
             "and": "et la",
             "data-protection-policy": "politique de confidentialité",

@@ -12,7 +12,7 @@ const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'common.form-errors.firstname.mandatory';
 const EMPTY_LASTNAME_ERROR_MESSAGE = 'common.form-errors.lastname.mandatory';
 const EMPTY_EMAIL_ERROR_MESSAGE = 'common.form-errors.email.format';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'common.form-errors.password.format';
-const CGU_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.cgu.error';
+const CGU_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.legal-documents.error';
 
 module('Integration | Component | Auth::RegisterForm', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -54,12 +54,18 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
     // then
     assert
-      .dom(screen.getByText(t('pages.login-or-register.register-form.fields.cgu.accept'), { exact: false }))
+      .dom(screen.getByText(t('pages.login-or-register.register-form.fields.legal-documents.accept'), { exact: false }))
       .exists();
-    assert.dom(screen.getByText(`${t('pages.login-or-register.register-form.fields.cgu.terms-of-use')}`)).exists();
-    assert.dom(screen.getByText(t('pages.login-or-register.register-form.fields.cgu.and'), { exact: false })).exists();
     assert
-      .dom(screen.getByText(`${t('pages.login-or-register.register-form.fields.cgu.data-protection-policy')}`))
+      .dom(screen.getByText(`${t('pages.login-or-register.register-form.fields.legal-documents.terms-of-use')}`))
+      .exists();
+    assert
+      .dom(screen.getByText(t('pages.login-or-register.register-form.fields.legal-documents.and'), { exact: false }))
+      .exists();
+    assert
+      .dom(
+        screen.getByText(`${t('pages.login-or-register.register-form.fields.legal-documents.data-protection-policy')}`),
+      )
       .exists();
     assert
       .dom(screen.getByRole('link', { name: "conditions d'utilisation de Pix" }))
