@@ -13,6 +13,11 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
         'Deletes organization-learners and their participations for a given networkId and older than a given date',
       permanent: true,
       options: {
+        dryRun: {
+          type: 'boolean',
+          describe: 'Run the script without making any database changes',
+          default: true,
+        },
         networkId: {
           type: 'number',
           describe: 'an id from a single network',
@@ -29,7 +34,7 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
   }
 
   async handle({ options, logger, jobClient }) {
-    // TODO : Rajouter des logs et un fonctionnement dryrun
+    // TODO : Rajouter des logs
 
     const engineeringUserId = config.infra.engineeringUserId;
     const lastActivityDate = new Date(options.lastActivityDate);
@@ -65,6 +70,9 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
         const organizationLearnerIdsToDelete = organizationLearnerIds.filter(
           (id) => !combinedCourseOrganizationLearners.includes(id),
         );
+
+        logger.info(`Deleting ${organizationLearnerIdsToDelete.length} learners from organization ${organizationId}`);
+
         await usecases.deleteOrganizationLearners({
           organizationLearnerIds: organizationLearnerIdsToDelete,
           userId: engineeringUserId,
@@ -72,6 +80,13 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
           userRole: 'SUPER_ADMIN',
           client: 'SCRIPT',
         });
+
+        if (options.dryRun) {
+          await knexConn.rollback();
+          logger.info('ROLLBACK: no changes were persisted (dry run)');
+          logger.info('remove --dryRun to persist changes');
+          return;
+        }
       });
     }
   }
