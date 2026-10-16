@@ -265,12 +265,6 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
         const deletedLearnersInDatabase = await knex('organization-learners').whereNotNull('deletedAt');
         const deletedParticipationsInDatabase = await knex('campaign-participations').whereNotNull('deletedAt');
 
-        console.log('deletedLearnersInDatabase[0].deletedAt', typeof deletedLearnersInDatabase[0].deletedAt);
-        console.log(
-          'deletedLearnerWithDeletedParticipation.deletedAt',
-          typeof deletedLearnerWithDeletedParticipation.deletedAt,
-        );
-
         expect(deletedLearnersInDatabase[0].id).to.equal(deletedLearnerWithDeletedParticipation.id);
         expect(new Date(deletedLearnersInDatabase[0].deletedAt)).to.equal(
           new Date(deletedLearnerWithDeletedParticipation.deletedAt),
@@ -282,6 +276,37 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
 
         expect(deletedLearnersInDatabase[1].id).to.equal(inactiveLearnerWithParticipation.id);
         expect(deletedParticipationsInDatabase[1].id).to.equal(inactiveParticipation.id);
+      });
+
+      it('anonymizes organization learners personal info even if learner is already deleted', async function () {
+        // given
+        const lastActivityDate = new Date('2021-01-01');
+
+        databaseBuilder.factory.buildUser({ id: config.infra.engineeringUserId });
+        const { network, organization } = await databaseBuilder.factory.buildNetworkAndHeadOrganization();
+
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          updatedAt: new Date('2020-01-01'),
+          deletedAt: new Date('2022-01-01'),
+          firstName: 'Michel',
+          lastName: 'Jacquesson',
+          birthdate: '2010-06-25',
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const options = { networkId: network.id, lastActivityDate };
+        await script.handle({ options, logger });
+
+        // then
+        const learnersInDatabase = await knex('organization-learners');
+
+        expect(learnersInDatabase).lengthOf(1);
+        expect(learnersInDatabase[0].firstName).to.equal('(anonymized)');
+        expect(learnersInDatabase[0].lastName).to.equal('(anonymized)');
+        expect(learnersInDatabase[0].birthdate).to.equal('2010-01-01');
       });
     });
 
@@ -327,9 +352,5 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
         expect(deletedParticipationsInDatabase).lengthOf(0);
       });
     });
-  });
-
-  it('anonymize organization learners personal info even if learner is already deleted', async function () {
-    expect(true).true;
   });
 });
