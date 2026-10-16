@@ -66,6 +66,9 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
         const inactiveLearner1 = databaseBuilder.factory.buildOrganizationLearner({
           organizationId: organization.id,
           updatedAt: new Date('2020-01-01'),
+          firstName: 'Jean-Mi',
+          lastName: 'Handriquesse',
+          birthdate: new Date('1942-11-27'),
         });
         databaseBuilder.factory.buildCampaignParticipation({
           organizationLearnerId: inactiveLearner1.id,
@@ -126,6 +129,9 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
         expect(learnersInDatabase).lengthOf(4);
         expect(deletedLearnersInDatabase).lengthOf(2);
         expect(deletedLearnersInDatabase[0].id).to.equal(inactiveLearner1.id);
+        expect(deletedLearnersInDatabase[0].firstName).to.equal('(anonymized)');
+        expect(deletedLearnersInDatabase[0].lastName).to.equal('(anonymized)');
+        expect(deletedLearnersInDatabase[0].birthdate).to.equal('1942-01-01');
         expect(deletedLearnersInDatabase[1].id).to.equal(inactiveLearner2.id);
         expect(participationsInDatabase).lengthOf(4);
         expect(deletedParticipationsInDatabase).lengthOf(2);
@@ -144,7 +150,6 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
           organizationId: organization1.id,
           updatedAt: new Date('2020-01-01'),
         });
-
         const participationNetwork1 = databaseBuilder.factory.buildCampaignParticipation({
           organizationLearnerId: inactiveLearnerNetwork1.id,
           user: inactiveLearnerNetwork1.userId,
@@ -220,6 +225,64 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
         expect(deletedLearnersInDatabase).lengthOf(1);
         expect(deletedLearnersInDatabase[0].id).equal(oldLearnerWithoutCombinedCourseParticipation.id);
       });
+
+      it('does not update deletedAt of already deleted learners and participations', async function () {
+        // given
+        const lastActivityDate = new Date('2021-01-01');
+
+        databaseBuilder.factory.buildUser({ id: config.infra.engineeringUserId });
+        const { network, organization } = await databaseBuilder.factory.buildNetworkAndHeadOrganization();
+
+        const deletedLearnerWithDeletedParticipation = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          updatedAt: new Date('2020-01-01'),
+          deletedAt: new Date('2022-01-01'),
+        });
+        const deletedParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId: deletedLearnerWithDeletedParticipation.id,
+          user: deletedLearnerWithDeletedParticipation.userId,
+          createdAt: new Date('2020-01-01'),
+          deletedAt: new Date('2022-01-01'),
+        });
+
+        const inactiveLearnerWithParticipation = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          updatedAt: new Date('2020-01-01'),
+        });
+        const inactiveParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId: inactiveLearnerWithParticipation.id,
+          user: inactiveLearnerWithParticipation.userId,
+          createdAt: new Date('2020-01-01'),
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const options = { networkId: network.id, lastActivityDate };
+        await script.handle({ options, logger });
+
+        // then
+        const deletedLearnersInDatabase = await knex('organization-learners').whereNotNull('deletedAt');
+        const deletedParticipationsInDatabase = await knex('campaign-participations').whereNotNull('deletedAt');
+
+        console.log('deletedLearnersInDatabase[0].deletedAt', typeof deletedLearnersInDatabase[0].deletedAt);
+        console.log(
+          'deletedLearnerWithDeletedParticipation.deletedAt',
+          typeof deletedLearnerWithDeletedParticipation.deletedAt,
+        );
+
+        expect(deletedLearnersInDatabase[0].id).to.equal(deletedLearnerWithDeletedParticipation.id);
+        expect(new Date(deletedLearnersInDatabase[0].deletedAt)).to.equal(
+          new Date(deletedLearnerWithDeletedParticipation.deletedAt),
+        );
+        expect(deletedParticipationsInDatabase[0].id).to.equal(deletedParticipation.id);
+        expect(new Date(deletedParticipationsInDatabase[0].deletedAt)).to.equal(
+          new Date(deletedParticipation.deletedAt),
+        );
+
+        expect(deletedLearnersInDatabase[1].id).to.equal(inactiveLearnerWithParticipation.id);
+        expect(deletedParticipationsInDatabase[1].id).to.equal(inactiveParticipation.id);
+      });
     });
 
     describe('when dryRun is true', function () {
@@ -264,10 +327,6 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
         expect(deletedParticipationsInDatabase).lengthOf(0);
       });
     });
-  });
-
-  it('does not update deletedAt of already deleted learners and participations', async function () {
-    expect(true).true;
   });
 
   it('anonymize organization learners personal info even if learner is already deleted', async function () {
