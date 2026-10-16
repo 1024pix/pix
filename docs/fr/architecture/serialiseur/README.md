@@ -1,7 +1,7 @@
 # Sérialiseur
 
 Un sérialiseur traduit entre les objets du domaine et un format d'échange, dans les deux sens. En
-sortie, il met une organisation au format JSON:API pour Pix Admin. En entrée, il transforme le JSON
+sortie, il met une organisation au format JSON:API, le format des réponses que lit Pix Admin. En entrée, il transforme le JSON
 reçu en objet du domaine. Un export CSV est aussi un sérialiseur. Les sérialiseurs se rangent dans
 `infrastructure/serializers/`.
 
@@ -97,6 +97,8 @@ Le test de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/organizational-entities/unit/infrastructure/serializers/jsonapi/organization-serializer_test.ts
+import { expect } from 'chai';
+
 import type { OrganizationId, UserId } from '../../../../../../src/shared/domain/Id.js';
 import { InvalidOrganizationError } from '../../../../../../src/organizational-entities/domain/errors.js';
 import { Organization, type OrganizationProps } from '../../../../../../src/organizational-entities/domain/models/organization/index.js';
@@ -206,7 +208,7 @@ Que rend la désérialisation ?
 [ ] M5  Un objet du domaine, jamais data.attributes ni un {...payload}
 [ ] M5  Aucune vérification : la route vérifie la forme, Organization vérifie les règles du métier
 
-Tests
+Le test couvre-t-il les cas utiles ?
 [ ] Un test unitaire, sans stub, mock ni spy
 [ ] Une valeur absente est testée, pas seulement l'objet complet
 ```
@@ -223,10 +225,11 @@ calcul, ni filtre sur l'objet reçu. Une règle du métier se calcule avant, dan
 
 ```ts
 // organizationSerializer.serialize
+// transform prépare chaque objet avant sa mise au format ; M1 : on recopie des champs, sans condition ni calcul
 transform: (organization: Organization) => ({
   id: organization.id,
   name: organization.name,
-  type: organization.type,
+  type: organization.type, // M3 : 'SCO', 'SUP', 'PRO', 'SCO-1D' gardent toujours leur sens
   isManagingStudents: organization.isManagingStudents,
   …
 }),
@@ -239,19 +242,19 @@ transform: (organization: Organization) => ({
 transform: (organization: Organization) => ({
   …
   // une règle du métier, recalculée dans la mise en forme
-  isRestricted:
-    organization.isManagingStudents ||
-    organization.features.some((feature) => feature.featureName === 'LEARNER_IMPORT'),
+  isManagingStudents:
+    organization.isManagingStudents &&
+    !organization.features.some((feature) => feature.featureName === 'LEARNER_IMPORT'),
 }),
 ```
 
 **Ce que ça apporte.** Une règle du métier se trouve dans le domaine, et nulle part ailleurs. Le
 test du sérialiseur n'a besoin que d'une organisation, sans scénario métier.
 
-**Sans cette règle.** `isRestricted` est aussi calculé par organizational-entities pour l'[API
-interne](../api-interne/README.md). Le jour où la règle change, on modifie le domaine. Le sérialiseur
-garde l'ancienne version, et Pix Admin affiche une organisation « restreinte » que les autres
-contextes ne voient pas comme telle.
+**Sans cette règle.** La règle « une organisation qui importe ses élèves (`LEARNER_IMPORT`) ne gère
+pas d'élèves » est déjà dans `Organization`. Le jour où elle change, on modifie `Organization`. Le
+sérialiseur garde l'ancienne version, et Pix Admin affiche pour `isManagingStudents` une autre valeur
+que celle enregistrée.
 
 **À savoir.**
 
@@ -279,6 +282,7 @@ sur l'objet reçu. Si un écran a besoin d'un champ que l'objet ne porte pas, c'
 
 ```ts
 // organizationSerializer.serialize
+// M2 : chaque champ existe sur Organization ; M3 : ces noms forment le contrat avec Pix Admin
 attributes: ['name', 'type', 'isManagingStudents', 'createdBy', 'archivedAt', 'features'],
 ```
 
@@ -293,7 +297,7 @@ attributes: ['name', 'type', 'isManagingStudents', 'createdBy', 'creatorFullName
 l'objet ne porte pas se voit à la relecture.
 
 **Sans cette règle.** `creatorFullName` n'est jamais rempli : la réponse ne contient pas
-`creator-full-name`. Pix Admin affiche un créateur vide pour toutes les organisations, alors que
+`creator-full-name`. Pix Admin affiche un créateur vide pour toutes les organisations, parce que
 personne n'a chargé la donnée. La compilation ne le signale pas, parce que `attributes` est une
 liste de chaînes, sans lien avec le type `Organization`.
 
@@ -302,8 +306,8 @@ liste de chaînes, sans lien avec le type `Organization`.
 - Une clé pour le cache du front se construit dans le sérialiseur, à partir de champs reçus. JSON:API
   demande un id pour chaque ressource incluse, et le front range chaque ressource dans son cache par
   cet id. `OrganizationFeature` n'a pas d'id, donc le sérialiseur compose
-  `${organization.id}_${feature.featureName}`. Le domaine ne connaît pas cette clé. Si le front renvoie la clé au serveur, elle devient un Value Object :
-  voir V2 de la fiche [Value Object](../objet-valeur/README.md).
+  `${organization.id}_${feature.featureName}`. Le domaine ne connaît pas cette clé. Si le front renvoie la clé au serveur, elle devient un
+  Value Object : voir V2 de la fiche [Value Object](../objet-valeur/README.md).
 - Composer un libellé à partir de plusieurs champs reçus est permis. Ce n'est pas un champ fabriqué.
 - Recevoir un read-model plutôt qu'une [Entity](../entite/README.md) est permis. C'est même la façon
   d'exposer un champ que l'Entity ne porte pas.
@@ -336,7 +340,7 @@ attributes: ['name', 'type', 'managesStudents', 'createdBy', 'archivedAt', 'feat
 **Sans cette règle.** Pix Admin lit `is-managing-students`, reçoit `undefined`, et traite chaque
 organisation comme si elle ne gérait pas d'élèves. Rien ne le signale côté API : ni la compilation, ni les tests.
 
-**À savoir.** Le changement de sens est le cas le plus dangereux, parce qu'il ne laisse aucune trace
+**À savoir.** Le changement de sens est le cas le plus difficile à repérer, parce qu'il ne laisse aucune trace
 dans le code. Si `SCO` désignait demain aussi les écoles primaires, la chaîne ne changerait pas. Le
 front continuerait de l'afficher, avec un sens faux.
 
@@ -378,6 +382,7 @@ vérifie les règles du métier.
 
 ```ts
 // organizationSerializer.deserialize
+// M5 : rend un objet du domaine ; les règles du métier restent dans Organization.create
 const deserialize = (payload: OrganizationPayload, { createdBy }: { createdBy: UserId }): Organization<null> => {
   const { name, type } = payload.data.attributes;
   return Organization.create({ name, type, createdBy });
@@ -387,7 +392,8 @@ const deserialize = (payload: OrganizationPayload, { createdBy }: { createdBy: U
 **Mauvais exemple.**
 
 ```ts
-const deserialize = (payload, { createdBy }) => {
+// organizationSerializer.deserialize
+const deserialize = (payload: OrganizationPayload, { createdBy }: { createdBy: UserId }) => {
   if (!payload.data.attributes.name) {
     throw new BadRequestError('name is required'); // la route vérifie déjà la forme
   }
