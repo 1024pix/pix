@@ -5,6 +5,8 @@ import ENV from 'mon-pix/config/environment';
 import { decodeToken } from 'mon-pix/helpers/jwt';
 
 export default class OidcAuthenticator extends BaseAuthenticator {
+  static id = 'oidc';
+
   @service featureToggles;
   @service oidcIdentityProviders;
   @service session;

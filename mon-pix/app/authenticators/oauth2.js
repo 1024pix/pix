@@ -4,6 +4,8 @@ import ENV from 'mon-pix/config/environment';
 import { decodeToken } from 'mon-pix/helpers/jwt';
 
 export default class OAuth2 extends OAuth2PasswordGrant {
+  static id = 'oauth2';
+
   serverTokenEndpoint = `${ENV.APP.API_HOST}/api/token`;
   serverTokenRevocationEndpoint = `${ENV.APP.API_HOST}/api/revoke`;
   refreshAccessTokensWithScope = true;
