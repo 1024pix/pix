@@ -1,6 +1,3 @@
-import lodash from 'lodash';
-
-import { databaseConnectionRegistry } from '../../../db/database-connection-registry.js';
 import { knex } from '../../../db/knex-database-connection.js';
 /**
  * Usage: node scripts/certification/import-certification-cpf-cities.js path/file.csv
@@ -11,9 +8,8 @@ import { knex } from '../../../db/knex-database-connection.js';
  * File downloaded from https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/ (Export au format CSV)
  **/
 import { checkCsvHeader, parseCsv } from '../../../scripts/helpers/csvHelpers.js';
-import { logger } from '../../shared/infrastructure/utils/logger.js';
-const { uniqBy, values } = lodash;
-import * as url from 'node:url';
+import { Script } from '../../shared/application/scripts/script.js';
+import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
 
 const wordsToReplace = [
   {
@@ -324,10 +320,6 @@ const headers = {
   cityAlternateName: 'ligne_5',
 };
 
-function getCitiesWithDistricts() {
-  return districtCities;
-}
-
 function buildCities({ csvData }) {
   const citiesWithAlternates = csvData.flatMap((data) => {
     const result = [];
@@ -372,7 +364,19 @@ function buildCities({ csvData }) {
     return result;
   });
 
-  return uniqBy(citiesWithAlternates, (city) => `${city.INSEECode}${city.postalCode}${city.name}`);
+  return uniqByINSEEPostalAndCity(citiesWithAlternates);
+}
+
+function uniqByINSEEPostalAndCity(cities) {
+  return uniqWith(cities, (a, b) => buildIndex(a) === buildIndex(b));
+}
+
+function uniqWith(arr, fn) {
+  return arr.filter((element, index) => arr.findIndex((step) => fn(element, step)) === index);
+}
+
+function buildIndex(city) {
+  return `${city.INSEECode}${city.postalCode}${city.name}`;
 }
 
 function _getInsertedLineNumber(batchInfo) {
@@ -388,55 +392,62 @@ function _buildCityNameWithWordReplaced(cityName) {
   return cityName.replace(entry.regex, ` ${entry.value} `).trim();
 }
 
-const modulePath = url.fileURLToPath(import.meta.url);
-const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+export class ImportCertificationCpfCities extends Script {
+  constructor() {
+    super({
+      description:
+        'This script import CPF citites from CSV file. \
+      \
+ Usage: node scripts/certification/import-certification-cpf-cities.js path/file.csv \
+ File is semi-colon separated values, headers being: code_commune_insee;nom_de_la_commune;code_postal;ligne_5 ligne_5 is used for potential alternative city name \
+ \
+ File downloaded from https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/ (Export au format CSV)',
+      permanent: true,
+      options: {
+        data: {
+          type: 'string',
+          describe: 'A filepath to cities csv file',
+          demandOption: true,
+          coerce: (data) => JSON.parse(data),
+        },
+      },
+    });
+  }
 
-async function main(filePath) {
-  logger.info('Starting script import-certification-cpf-cities');
+  async handle({ options, logger }) {
+    const { filePath } = options;
+    logger.info('Starting script import-certification-cpf-cities');
 
-  let trx;
-  try {
-    logger.info(`Checking ${filePath} data file...`);
-    await checkCsvHeader({ filePath, requiredFieldNames: values(headers) });
-    logger.info('✅ ');
+    let trx;
+    try {
+      logger.info(`Checking ${filePath} data file...`);
+      await checkCsvHeader({ filePath, requiredFieldNames: Object.values(headers) });
+      logger.info('✅ ');
 
-    logger.info('Reading and parsing csv data file... ');
-    const csvData = await parseCsv(filePath, { header: true, delimiter: ';', skipEmptyLines: true });
-    logger.info('✅ ');
+      logger.info('Reading and parsing csv data file... ');
+      const csvData = await parseCsv(filePath, { header: true, delimiter: ';', skipEmptyLines: true });
+      logger.info('✅ ');
 
-    logger.info('Retrieving postal code, INSEE code and city name... ');
-    const cities = buildCities({ csvData }).concat(getCitiesWithDistricts());
-    logger.info('✅ ');
+      logger.info('Retrieving postal code, INSEE code and city name... ');
+      const cities = buildCities({ csvData }).concat(districtCities);
+      logger.info('✅ ');
 
-    logger.info('Inserting cities in database... ');
-    trx = await knex.transaction();
-    await trx('certification-cpf-cities').del();
-    const batchInfo = await knex.batchInsert('certification-cpf-cities', cities).transacting(trx);
-    const insertedLines = _getInsertedLineNumber(batchInfo);
-    logger.info('✅ ');
-    await trx.commit();
-    logger.info(`Added lines: ${insertedLines} (${districtCities.length} exception cases)`);
-    logger.info('Done.');
-  } catch (error) {
-    if (trx) {
-      await trx.rollback();
+      logger.info('Inserting cities in database... ');
+      trx = await knex.transaction();
+      await trx('certification-cpf-cities').del();
+      const batchInfo = await knex.batchInsert('certification-cpf-cities', cities).transacting(trx);
+      const insertedLines = _getInsertedLineNumber(batchInfo);
+      logger.info('✅ ');
+      await trx.commit();
+      logger.info(`Added lines: ${insertedLines} (${districtCities.length} exception cases)`);
+      logger.info('Done.');
+    } catch (error) {
+      if (trx) {
+        await trx.rollback();
+      }
+      throw error;
     }
-    throw error;
   }
 }
 
-(async () => {
-  if (isLaunchedFromCommandLine) {
-    try {
-      const filePath = process.argv[2];
-      await main(filePath);
-    } catch (error) {
-      logger.error(error);
-      process.exitCode = 1;
-    } finally {
-      await databaseConnectionRegistry.disconnect();
-    }
-  }
-})();
-
-export { buildCities, getCitiesWithDistricts };
+await ScriptRunner.execute(import.meta.url, ImportCertificationCpfCities);
