@@ -13,7 +13,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | # | Règle | En pratique |
 | --- | --- | --- |
 | [I1](#i1-renvoie-des-objets-du-domaine) | Renvoie des objets du domaine | `get({ id })` renvoie une `Organization`, jamais la ligne de la table |
-| [I2](#i2-reçoit-des-objets-du-domaine) | Reçoit des objets du domaine | `update({ organization })` reçoit l'Aggregate entier, jamais un objet aux noms de colonnes |
+| [I2](#i2-reçoit-des-objets-du-domaine) | Reçoit des objets du domaine | `update({ organization })` reçoit l'[Aggregate](../racine-agregat/README.md) entier, jamais un objet aux noms de colonnes |
 | [I3](#i3-get-lève-find-renvoie-null) | `get*` lève, `find*` renvoie `null` | `get()` lève `OrganizationNotFound` ; un `find*` renvoie `null` ou une liste vide |
 | [I4](#i4-des-erreurs-du-domaine) | Des erreurs du domaine | le repository lève une erreur de `domain/errors.js`, jamais une `Error` nue ni l'erreur de la base |
 | [I5](#i5-les-dépendances-arrivent-en-paramètre) | Les dépendances arrivent en paramètre | pas d'import d'API interne ni de client ; l'index les injecte |
@@ -27,8 +27,8 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 
 Le repository de l'[Aggregate Root](../racine-agregat/README.md) `Organization` : il charge et
 enregistre l'organisation et ses fonctionnalités, dans les tables `organizations` et
-`organization-features`. On reprend l'Aggregate `Organization` de la fiche Aggregate Root, et sa règle :
-si `LEARNER_IMPORT` est activée, `isManagingStudents` est toujours `false`. Exemple inventé, d'après
+`organization-features`. La règle du métier : si `LEARNER_IMPORT` est activée, `isManagingStudents` est
+toujours `false`. La méthode `enableFeature()` de `Organization` applique cette règle. Exemple inventé, d'après
 [`OrganizationForAdmin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/OrganizationForAdmin.js#L241-L248).
 
 Chaque fonction du repository reçoit un objet de paramètres nommés, `get({ id })` plutôt que
@@ -68,7 +68,7 @@ import {
 } from '../../domain/models/organization/index.js';
 import type { OrganizationRepository } from '../../domain/repositories/OrganizationRepository.js';
 
-// les colonnes que le domaine utilise ; createdAt et updatedAt n'en font pas partie, la base les fixe
+// les colonnes que le domaine utilise
 type OrganizationRow = {
   id: OrganizationId;
   name: string;
@@ -100,7 +100,7 @@ const get = async ({ id }: { id: OrganizationId }): Promise<Organization> => {
 // I2 : on reçoit une Organization neuve, sans id
 const add = async ({ organization }: { organization: Organization<null> }): Promise<Organization> => {
   const knexConn = DomainTransaction.getConnection();
-  // la base crée l'id, createdAt et updatedAt
+  // la base crée l'id
   const [{ id }] = await knexConn('organizations').insert(toRow(organization)).returning('id');
   await insertFeatures(id, organization.features);
   return get({ id });
@@ -109,10 +109,8 @@ const add = async ({ organization }: { organization: Organization<null> }): Prom
 // I2 : on reçoit l'Aggregate entier, et on enregistre tout le groupe
 const update = async ({ organization }: { organization: Organization }): Promise<void> => {
   const knexConn = DomainTransaction.getConnection();
-  // I10 : on écrit ce que l'Aggregate a décidé, sans rien recalculer ; la base fixe updatedAt avec now()
-  const updatedCount = await knexConn('organizations')
-    .where({ id: organization.id })
-    .update({ ...toRow(organization), updatedAt: knexConn.fn.now() });
+  // I10 : on écrit ce que l'Aggregate a décidé, sans rien recalculer
+  const updatedCount = await knexConn('organizations').where({ id: organization.id }).update(toRow(organization));
   if (updatedCount === 0) {
     throw new OrganizationNotFound({ meta: { organizationId: organization.id } }); // I10 : un if sur l'existence d'une ligne
   }
@@ -141,8 +139,7 @@ async function insertFeatures(organizationId: OrganizationId, features: Readonly
   await knexConn('organization-features').insert(rows);
 }
 
-// I1 : la ligne est traduite en objet du domaine, et le constructeur vérifie les règles de l'Aggregate.
-// Les fonctionnalités sont passées comme des données : c'est la racine qui crée ses objets internes.
+// I1 : la ligne est traduite en objet du domaine
 function toDomain(row: OrganizationRow, featureRows: FeatureRow[]): Organization {
   return new Organization({
     id: row.id,
@@ -300,7 +297,7 @@ Comment est-il branché ?
 [ ] I6  Le repository figure dans infrastructure/repositories/index.ts
 [ ] I9  Le nom du fichier suit la convention des autres repositories du contexte
 
-Tests
+Comment est-il testé ?
 [ ] Base de données : un test d'intégration qui enregistre puis recharge l'objet
 [ ] API interne d'un autre contexte : un test unitaire de la traduction, l'API remplacée par un stub
 ```
@@ -323,7 +320,7 @@ const featureRows: FeatureRow[] = await knexConn('organization-features')
   .where({ organizationId: id })
   .select('features.key', 'organization-features.params');
 
-return toDomain(row, featureRows);
+return toDomain(row, featureRows); // I1 : on renvoie une Organization, pas la ligne
 ```
 
 **Mauvais exemple.**
@@ -338,17 +335,17 @@ const featureRows = await knexConn('organization-features')
 return { ...row, features: featureRows }; // la ligne sort telle quelle, avec les noms de colonnes
 ```
 
-**Ce que ça apporte.** L'objet renvoyé passe par le constructeur de `Organization`, qui vérifie les
-règles de l'Aggregate. Le usecase reçoit une organisation valide, avec ses méthodes.
+**Ce que ça apporte.** Le usecase reçoit une `Organization`, avec ses méthodes. Il la modifie par
+`enableFeature()` ou `rename()`, et ne connaît pas les noms des colonnes.
 
-**Sans cette règle.** Une ligne de la base garde `isManagingStudents` à `true` alors que
-`LEARNER_IMPORT` est activée. Le repository la renvoie sans passer par le constructeur, et le usecase
-travaille sur une organisation qui viole la règle de l'Aggregate.
+**Sans cette règle.** `get()` renvoie la ligne, sans méthode `enableFeature()`. Le usecase ajoute
+`LEARNER_IMPORT` lui-même et laisse `isManagingStudents` à `true`. La base enregistre une
+organisation qui importe ses élèves et qui les gère aussi.
 
 **À savoir.**
 
-- Envelopper la ligne dans une classe aux mêmes champs ne suffit pas. La forme de la table reste dans
-  le domaine. La traduction produit les champs dont le domaine a besoin.
+- Envelopper la ligne dans une classe aux mêmes champs ne suffit pas : la forme de la table entre
+  alors dans le domaine. La traduction ne garde que les champs dont le domaine a besoin.
 - Le DTO de l'API interne d'un autre contexte n'est pas un objet du domaine local, même s'il a déjà la
   forme d'un objet. Le repository qui lit cette API le traduit dans un modèle du contexte. C'est
   l'Anticorruption Layer : voir la fiche [API interne](../api-interne/README.md).
@@ -387,13 +384,12 @@ const update = async (row: Partial<OrganizationRow>): Promise<void> => {
 par ses méthodes. Les règles de l'Aggregate sont vérifiées avant chaque écriture.
 
 **Sans cette règle.** Un usecase passe `{ isManagingStudents: true }` pour une organisation qui
-importe ses élèves. Aucune méthode de `Organization` n'est appelée, et la base contient un état que le
-constructeur aurait refusé.
+importe ses élèves. Aucune méthode de `Organization` n'est appelée, et la base enregistre une
+organisation qui importe ses élèves et qui les gère aussi.
 
 **À savoir.**
 
-- Une requête HTTP ne devient pas une requête SQL. Une route qui change seulement le nom d'une
-  organisation passe quand même par l'Aggregate : le usecase charge l'organisation avec `get()`,
+- Une route qui change seulement le nom d'une organisation passe quand même par l'Aggregate : le usecase charge l'organisation avec `get()`,
   appelle `rename()`, puis l'enregistre avec `update()`. C'est ce chargement qui permet à l'Aggregate
   de vérifier ses règles avant l'écriture.
 - `update()` reçoit toujours l'Aggregate entier, jamais la liste des champs modifiés. Le repository
@@ -411,12 +407,12 @@ liste.
 ```ts
 // organization-repository.ts
 const get = async ({ id }: { id: OrganizationId }): Promise<Organization> => {
-  const knexConn = DomainTransaction.getConnection();
+  const knexConn = DomainTransaction.getConnection(); // I12
   const row: OrganizationRow | undefined = await knexConn('organizations')
     .where({ id })
     .first('id', 'name', 'type', 'createdBy', 'isManagingStudents', 'archivedAt');
   if (!row) {
-    throw new OrganizationNotFound({ meta: { organizationId: id } });
+    throw new OrganizationNotFound({ meta: { organizationId: id } }); // I3 : get lève ; I4 : une erreur du domaine
   }
   …
 };
@@ -454,7 +450,7 @@ un `catch` traduit chaque erreur qu'il attrape.
 // organization-repository.ts, dans insertFeatures()
 const featureId = featureIds.find(({ key }) => key === feature.featureName)?.id;
 if (!featureId) {
-  throw new FeatureNotFound({ meta: { featureName: feature.featureName } });
+  throw new FeatureNotFound({ meta: { featureName: feature.featureName } }); // I4
 }
 ```
 
@@ -516,7 +512,8 @@ import type { OrganizationRepository } from '../../domain/repositories/Organizat
 ```
 
 ```ts
-// index.ts : c'est ici qu'on importerait une API ou un client
+// index.ts
+// I5 : les API internes et les clients sont importés ici, jamais dans un repository
 const dependencies = {};
 ```
 
@@ -606,8 +603,8 @@ infrastructure/repositories/
 
 **Ce que ça apporte.** On trouve le fichier en tapant son nom, sans essayer les deux formes.
 
-**Sans cette règle.** Pas de bug. On cherche `organization.repository`, on ne trouve rien, et on crée
-un second repository pour l'organisation.
+**Sans cette règle.** On cherche `organization.repository`, on ne trouve rien, et on crée un second
+repository pour l'organisation. Deux fichiers écrivent alors dans la table `organizations`.
 
 ### I10. Aucune règle métier
 
@@ -619,11 +616,10 @@ d'une ligne est permis.
 
 ```ts
 // organization-repository.ts, dans update()
-const updatedCount = await knexConn('organizations')
-  .where({ id: organization.id })
-  .update({ ...toRow(organization), updatedAt: knexConn.fn.now() });
+// I10 : on écrit ce que l'Aggregate a décidé, sans rien recalculer
+const updatedCount = await knexConn('organizations').where({ id: organization.id }).update(toRow(organization));
 if (updatedCount === 0) {
-  throw new OrganizationNotFound({ meta: { organizationId: organization.id } });
+  throw new OrganizationNotFound({ meta: { organizationId: organization.id } }); // I10 : un if sur l'existence d'une ligne
 }
 ```
 
@@ -717,7 +713,7 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 
 const add = async ({ organization }: { organization: Organization<null> }): Promise<Organization> => {
   const knexConn = DomainTransaction.getConnection();
-  // la base crée l'id, createdAt et updatedAt
+  // la base crée l'id
   const [{ id }] = await knexConn('organizations').insert(toRow(organization)).returning('id');
   …
 };
