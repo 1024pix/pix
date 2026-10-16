@@ -141,9 +141,11 @@ cette règle.
   d'Aggregate sont dans la fiche Aggregate Root. Une règle qui appartient à un autre concept va dans
   sa fiche.
 - **En TypeScript**, même si le code de Pix est encore en JavaScript : la fiche décrit la cible.
-- **Inventé, mais d'après le vrai code.** L'exemple s'inspire d'un fichier réel, nommé avec un
-  permalien sous la phrase de présentation : « Exemple inventé, d'après `Organization.js` ». Les
-  règles du métier de l'exemple sont de vraies règles du code de Pix, vérifiées dans le code.
+- **Inventé, mais d'après un concept du métier qui existe.** L'exemple part d'un concept réel de Pix,
+  comme une organisation et ses lots de places. Le fichier qui le porte est nommé avec un permalien
+  sous la phrase de présentation : « Exemple inventé, d'après `Organization.js` ». Le code ne respecte
+  pas toujours les invariants du métier : l'exemple peut ajouter un invariant qui manque, s'il a un
+  sens pour le métier. Il ne contredit jamais une règle que le code applique.
 - **Chaque permalien pointe vers un commit fixe de `dev`**, avec les lignes exactes :
   `…/blob/<sha>/api/…#L7-L11`. Un lien vers une branche est interdit : le code change, et l'exemple doit
   rester retrouvable.
@@ -209,8 +211,9 @@ premières fiches.
 
 1. Chaque règle a un « Ce que ça apporte » concret et un « Sans cette règle » qui décrit un bug
    concret, tous les deux sur l'exemple de la fiche.
-2. La règle du métier qui porte l'exemple existe dans le code de Pix, avec un permalien vers les
-   lignes qui la contiennent.
+2. L'exemple part d'un concept du métier qui existe dans Pix, avec un permalien vers le code qui le
+   porte. Ses invariants ont un sens pour le métier, et aucun ne contredit une règle que le code
+   applique.
 3. Les décisions de l'équipe listées dans `corpus-index.md` sont respectées.
 4. La fiche ne contredit aucune autre fiche, et ne porte pas une règle qui appartient à une autre fiche.
 5. La fiche décrit l'idéal : aucun état du code, aucune date, aucune citation d'ADR.
@@ -277,8 +280,9 @@ retrouver le défaut qu'elle évite.
   et les décisions.
 - Pour une fiche déjà mergée, garder les numéros des règles. Un numéro retiré n'est plus réattribué,
   et il est noté dans `corpus-index.md`.
-- Choisir le fil d'exemple. Chercher dans le code la vraie règle du métier qui le justifie, et lister
-  les usecases qui touchent ce concept, dans tous les contextes : une règle mal choisie fausse toute la
+- Choisir le fil d'exemple. Partir d'un concept du métier qui existe, chercher dans le code où il vit,
+  et lister les usecases qui le touchent, dans tous les contextes. Un invariant absent du code n'est
+  pas forcément voulu : le code oublie souvent des invariants. Un concept mal choisi fausse toute la
   fiche.
 
 ### 2. L'écriture
