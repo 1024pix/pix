@@ -7,7 +7,7 @@ import * as poleEmploiSendingRepository from '../../../../../../src/prescription
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
-describe('Integration | UseCase | get-campaign-participations-counts-by-stage', function () {
+describe('Integration | UseCase | get-pole-emploi-sendings', function () {
   let originalEnv;
   let sending1;
   let sending2;
