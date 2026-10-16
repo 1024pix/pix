@@ -291,7 +291,7 @@ module(
         assert.dom(maxInputs[1]).hasAttribute('readonly');
       });
 
-      test('clicking the edit button makes min[0] and max inputs editable', async function (assert) {
+      test('clicking the edit button makes min[0] and max inputs editable and button label switches', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const draftVersion = store.createRecord('certification-version', {
@@ -326,6 +326,13 @@ module(
         assert.dom(minInputs[1]).hasAttribute('readonly');
         assert.dom(maxInputs[0]).doesNotHaveAttribute('readonly');
         assert.dom(maxInputs[1]).doesNotHaveAttribute('readonly');
+        assert
+          .dom(
+            screen.getByRole('button', {
+              name: t('components.certification-frameworks.certification-framework.versions.scoring.no-edit'),
+            }),
+          )
+          .exists();
       });
     });
 

@@ -4,10 +4,10 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
-import { t } from 'ember-intl';
-import Card from 'pix-admin/components/card';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import { not } from 'ember-truth-helpers';
+import Card from 'pix-admin/components/card';
 
 export default class GlobalScoringForm extends Component {
   @service pixToast;
@@ -27,6 +27,12 @@ export default class GlobalScoringForm extends Component {
     return this.args.previousVersion?.globalScoringConfiguration ?? [];
   }
 
+  get editButtonLabel() {
+    return this.editable
+      ? this.intl.t('components.certification-frameworks.certification-framework.versions.scoring.no-edit')
+      : this.intl.t('components.certification-frameworks.certification-framework.versions.scoring.edit');
+  }
+
   @action
   updateValue(name, index, event) {
     const isMax = name === 'max';
@@ -42,7 +48,7 @@ export default class GlobalScoringForm extends Component {
 
   @action
   isMinFieldReadonly(index) {
-    return this.isNotFirstRow(index) || !this.editable
+    return this.isNotFirstRow(index) || !this.editable;
   }
 
   @action
@@ -93,10 +99,8 @@ export default class GlobalScoringForm extends Component {
       @title={{t "components.certification-frameworks.certification-framework.versions.scoring.title"}}
     >
       <form id="version-scoring-form" class="versions-scoring__form">
-        <PixButton @iconBefore='edit' @variant='secondary' @triggerAction={{this.toggleEditable}}>
-          {{t
-          "components.certification-frameworks.certification-framework.versions.scoring.edit"
-        }}
+        <PixButton @iconBefore="edit" @variant="secondary" @triggerAction={{this.toggleEditable}}>
+          {{this.editButtonLabel}}
         </PixButton>
         {{#each this.globalScoringConfiguration as |mesh|}}
           <h3>

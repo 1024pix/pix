@@ -672,6 +672,7 @@
             },
             "edit":"Edit scoring",
             "level": "Level {index}",
+            "no-edit":"Stop editing scoring",
             "previous-version-capacity": "Value in previous version: {previousVersionCapacity}",
             "required-error": "This field is required.",
             "save-error": "An error occurred while saving the scoring.",
