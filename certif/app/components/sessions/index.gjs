@@ -8,13 +8,13 @@ import { t } from 'ember-intl';
 import { debounceTask } from 'ember-lifeline';
 import ENV from 'pix-certif/config/environment';
 
-import { CREATED, FINALIZED, PROCESSED } from '../../models/session-management';
+import { CREATED, FINALIZED, PROCESSED, TO_FINALIZE } from '../../models/session-management';
 import { SESSION_PAGE_SIZE } from '../../utils/pagination';
 import NoSessionPanel from './no-session-panel';
 import SessionList from './session-list';
 import SessionListHeader from './session-list-header';
 
-const SESSION_STATUSES = [CREATED, FINALIZED, PROCESSED];
+const SESSION_STATUSES = [CREATED, TO_FINALIZE, FINALIZED, PROCESSED];
 
 const DEFAULT_PAGE_NUMBER = 1;
 
