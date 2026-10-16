@@ -19,8 +19,8 @@ export default class Index extends Component {
   get badgeOutdatedAndDoubleCertificationAlreadyValidated() {
     return (
       this.args.certificationEligibility.doubleCertificationEligibility &&
-      !this.args.certificationEligibility.doubleCertificationEligibility?.isBadgeValid &&
-      !this.args.certificationEligibility.doubleCertificationEligibility?.validatedDoubleCertification
+      !this.args.certificationEligibility.doubleCertificationEligibility?.isEligible &&
+      !this.args.certificationEligibility.doubleCertificationEligibility?.certificationAlreadySucceeded
     );
   }
 }

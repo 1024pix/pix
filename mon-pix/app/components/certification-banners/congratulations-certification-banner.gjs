@@ -12,7 +12,7 @@ export default class Index extends Component {
       <p class="congratulations-banner__message">
         {{t "pages.certification-joiner.congratulation-banner.message" fullName=@fullName htmlSafe=true}}
       </p>
-      {{#if @doubleCertification.isBadgeValid}}
+      {{#if @doubleCertification.isEligible}}
         <EligibleDoubleCertificationBanner @doubleCertification={{@doubleCertification}} />
       {{/if}}
       <div class="congratulations-banner__links">

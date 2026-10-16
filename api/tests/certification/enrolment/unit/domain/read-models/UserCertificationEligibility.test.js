@@ -1,22 +1,22 @@
 import { expect } from 'chai';
 
 import {
-  CertificationEligibility,
+  DoubleCertificationEligibility,
   UserCertificationEligibility,
 } from '../../../../../../src/certification/enrolment/domain/read-models/UserCertificationEligibility.js';
 
 describe('Certification | Enrolment | Unit | Domain | ReadModels | UserCertificationEligibility', function () {
-  describe('#isEligibleToDoubleCertification', function () {
+  describe('isEligibleForDoubleCertification', function () {
     it('returns true when candidate is eligible to double certification', function () {
       const userCertificationEligibility = new UserCertificationEligibility({
         id: 12,
         isCertifiable: false,
-        doubleCertificationEligibility: new CertificationEligibility({
-          validateDoubleCertificaiton: true,
-          isBadgeValid: true,
+        doubleCertificationEligibility: new DoubleCertificationEligibility({
+          certificationAlreadySucceeded: false,
+          isEligible: true,
         }),
       });
-      expect(userCertificationEligibility.isDoubleCertificationOk()).to.be.true;
+      expect(userCertificationEligibility.isEligibleForDoubleCertification()).to.be.true;
     });
 
     it('returns false when candidate has no doubleCertificationEligibility', function () {
@@ -25,19 +25,19 @@ describe('Certification | Enrolment | Unit | Domain | ReadModels | UserCertifica
         isCertifiable: false,
         doubleCertificationEligibility: null,
       });
-      expect(userCertificationEligibility.isDoubleCertificationOk()).to.be.false;
+      expect(userCertificationEligibility.isEligibleForDoubleCertification()).to.be.false;
     });
 
     it('returns false when candidates has doubleCertificationEligibility with an invalid badge', function () {
       const userCertificationEligibility = new UserCertificationEligibility({
         id: 12,
         isCertifiable: false,
-        doubleCertificationEligibility: new CertificationEligibility({
-          validateDoubleCertificaiton: true,
-          isBadgeValid: false,
+        doubleCertificationEligibility: new DoubleCertificationEligibility({
+          certificationAlreadySucceeded: true,
+          isEligible: false,
         }),
       });
-      expect(userCertificationEligibility.isDoubleCertificationOk()).to.be.false;
+      expect(userCertificationEligibility.isEligibleForDoubleCertification()).to.be.false;
     });
   });
 });

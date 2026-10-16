@@ -11,10 +11,10 @@ module('Unit | Model | is-certifiable', function (hooks) {
   });
 
   module('#isCleaEligible', function () {
-    test('should be truthy when validatedDoubleCertification is true', function (assert) {
+    test('should be truthy when isEligible is true', function (assert) {
       // given
       const model = store.createRecord('is-certifiable', {
-        doubleCertificationEligibility: { validatedDoubleCertification: true },
+        doubleCertificationEligibility: { isEligible: true },
       });
 
       // when
@@ -24,10 +24,10 @@ module('Unit | Model | is-certifiable', function (hooks) {
       assert.ok(result);
     });
 
-    test('should be falsy when validatedDoubleCertification is false', function (assert) {
+    test('should be falsy when isEligible is false', function (assert) {
       // given
       const model = store.createRecord('is-certifiable', {
-        doubleCertificationEligibility: { validatedDoubleCertification: false },
+        doubleCertificationEligibility: { isEligible: false },
       });
 
       // when
