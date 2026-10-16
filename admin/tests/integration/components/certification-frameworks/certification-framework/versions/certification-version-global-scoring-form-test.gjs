@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { fillIn } from '@ember/test-helpers';
+import { click, fillIn } from '@ember/test-helpers';
 import GlobalScoringForm from 'pix-admin/components/certification-frameworks/certification-framework/versions/certification-version-global-scoring-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -259,6 +259,83 @@ module(
       });
     });
 
+    module('readonly / editable state', function () {
+      test('all inputs are readonly by default', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const draftVersion = store.createRecord('certification-version', {
+          id: '1',
+          status: 'draft',
+          globalScoringConfiguration: [
+            { bounds: { min: 1, max: 8 }, meshLevel: 0 },
+            { bounds: { min: 8, max: 15 }, meshLevel: 1 },
+          ],
+        });
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
+
+        // when
+        const screen = await render(
+          <template>
+            <GlobalScoringForm
+              @editVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
+        );
+
+        // then
+        const { min: minInputs, max: maxInputs } = getBoundsInputs(screen);
+        assert.dom(minInputs[0]).hasAttribute('readonly');
+        assert.dom(minInputs[1]).hasAttribute('readonly');
+        assert.dom(maxInputs[0]).hasAttribute('readonly');
+        assert.dom(maxInputs[1]).hasAttribute('readonly');
+      });
+
+      test('clicking the edit button makes min[0] and max inputs editable and button label switches', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const draftVersion = store.createRecord('certification-version', {
+          id: '1',
+          status: 'draft',
+          globalScoringConfiguration: [
+            { bounds: { min: 1, max: 8 }, meshLevel: 0 },
+            { bounds: { min: 8, max: 15 }, meshLevel: 1 },
+          ],
+        });
+        const calibrationScoringConfiguration = createCalibrationProposal(store);
+
+        const screen = await render(
+          <template>
+            <GlobalScoringForm
+              @editVersion={{draftVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
+        );
+
+        // when
+        await click(
+          screen.getByRole('button', {
+            name: t('components.certification-frameworks.certification-framework.versions.scoring.edit'),
+          }),
+        );
+
+        // then
+        const { min: minInputs, max: maxInputs } = getBoundsInputs(screen);
+        assert.dom(minInputs[0]).doesNotHaveAttribute('readonly');
+        assert.dom(minInputs[1]).hasAttribute('readonly');
+        assert.dom(maxInputs[0]).doesNotHaveAttribute('readonly');
+        assert.dom(maxInputs[1]).doesNotHaveAttribute('readonly');
+        assert
+          .dom(
+            screen.getByRole('button', {
+              name: t('components.certification-frameworks.certification-framework.versions.scoring.no-edit'),
+            }),
+          )
+          .exists();
+      });
+    });
+
     module('cascade update', function () {
       test('it updates the min of the next level when the max of a level changes', async function (assert) {
         // given
@@ -283,6 +360,11 @@ module(
         );
 
         // when
+        await click(
+          screen.getByRole('button', {
+            name: t('components.certification-frameworks.certification-framework.versions.scoring.edit'),
+          }),
+        );
         await fillIn(getBoundsInputs(screen).max[0], '10');
 
         // then
