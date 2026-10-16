@@ -21,6 +21,7 @@ module('Acceptance | Application', function (hooks) {
     hooks.beforeEach(async function () {
       class MetricServiceStub extends Service {
         trackPage = sinon.stub();
+        activateAdapters = sinon.stub();
         context = {};
       }
 
