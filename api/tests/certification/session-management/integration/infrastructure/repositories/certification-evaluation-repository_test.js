@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
-import { repositories } from '../../../../../../src/certification/session-management/infrastructure/repositories/index.js';
+import * as certificationEvaluationApi from '../../../../../../src/certification/evaluation/application/api/certification-evaluation-api.js';
+import * as certificationEvaluationRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/certification-evaluation-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import CertificationCancelled from '../../../../../../src/shared/domain/events/deprecated/CertificationCancelled.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
@@ -13,8 +14,9 @@ describe('Integration | Repository | certification-evaluation-repository', funct
       const certificationCancelledEvent = new CertificationCancelled({ certificationCourseId, juryId: 555 });
 
       // when
-      const error = await catchErr(repositories.certificationEvaluationRepository.rescoreV2Certification)({
+      const error = await catchErr(certificationEvaluationRepository.rescoreV2Certification)({
         event: certificationCancelledEvent,
+        certificationEvaluationApi,
       });
 
       // then
@@ -30,8 +32,9 @@ describe('Integration | Repository | certification-evaluation-repository', funct
       const certificationCancelledEvent = new CertificationCancelled({ certificationCourseId: 444, juryId: 555 });
 
       // when
-      const error = await catchErr(repositories.certificationEvaluationRepository.rescoreV3Certification)({
+      const error = await catchErr(certificationEvaluationRepository.rescoreV3Certification)({
         event: certificationCancelledEvent,
+        certificationEvaluationApi,
       });
 
       // then

@@ -35,6 +35,10 @@ describe('Certification | Session-management | Unit | Domain | UseCases | cancel
         const courseAssessmentResultRepository = {
           getLatestAssessmentResult: sinon.stub(),
         };
+        const certificationEvaluationApi = {
+          rescoreV2Certification: sinon.stub(),
+          rescoreV3Certification: sinon.stub(),
+        };
         certificationCourseRepository.get.withArgs({ id: 123 }).resolves(certificationCourse);
         certificationEvaluationRepository.rescoreV2Certification.resolves();
         sessionManagementRepository.isFinalized.withArgs({ id: certificationCourse.getSessionId() }).resolves(true);
@@ -48,6 +52,7 @@ describe('Certification | Session-management | Unit | Domain | UseCases | cancel
           sessionManagementRepository,
           certificationEvaluationRepository,
           courseAssessmentResultRepository,
+          certificationEvaluationApi,
         });
 
         // then
@@ -56,6 +61,7 @@ describe('Certification | Session-management | Unit | Domain | UseCases | cancel
             certificationCourseId: certificationCourse.getId(),
             juryId,
           }),
+          certificationEvaluationApi,
         });
       });
     });
@@ -82,6 +88,10 @@ describe('Certification | Session-management | Unit | Domain | UseCases | cancel
         const courseAssessmentResultRepository = {
           getLatestAssessmentResult: sinon.stub(),
         };
+        const certificationEvaluationApi = {
+          rescoreV2Certification: sinon.stub(),
+          rescoreV3Certification: sinon.stub(),
+        };
         certificationCourseRepository.get.withArgs({ id: 123 }).resolves(certificationCourse);
         sessionManagementRepository.isFinalized.withArgs({ id: certificationCourse.getSessionId() }).resolves(false);
         courseAssessmentResultRepository.getLatestAssessmentResult.resolves(domainBuilder.buildAssessmentResult());
@@ -93,6 +103,7 @@ describe('Certification | Session-management | Unit | Domain | UseCases | cancel
           sessionManagementRepository,
           juryId,
           courseAssessmentResultRepository,
+          certificationEvaluationApi,
         });
 
         // then
@@ -124,6 +135,10 @@ describe('Certification | Session-management | Unit | Domain | UseCases | cancel
         const courseAssessmentResultRepository = {
           getLatestAssessmentResult: sinon.stub(),
         };
+        const certificationEvaluationApi = {
+          rescoreV2Certification: sinon.stub(),
+          rescoreV3Certification: sinon.stub(),
+        };
         certificationCourseRepository.get.withArgs({ id: 123 }).resolves(certificationCourse);
         certificationEvaluationRepository.rescoreV2Certification.resolves();
         sessionManagementRepository.isFinalized.withArgs({ id: certificationCourse.getSessionId() }).resolves(true);
@@ -136,6 +151,7 @@ describe('Certification | Session-management | Unit | Domain | UseCases | cancel
           sessionManagementRepository,
           juryId,
           courseAssessmentResultRepository,
+          certificationEvaluationApi,
         });
 
         // then
@@ -170,6 +186,10 @@ describe('Certification | Session-management | Unit | Domain | UseCases | cancel
         const courseAssessmentResultRepository = {
           getLatestAssessmentResult: sinon.stub(),
         };
+        const certificationEvaluationApi = {
+          rescoreV2Certification: sinon.stub(),
+          rescoreV3Certification: sinon.stub(),
+        };
         certificationCourseRepository.get.withArgs({ id: 123 }).resolves(certificationCourse);
         certificationEvaluationRepository.rescoreV3Certification.resolves();
         sessionManagementRepository.isFinalized.withArgs({ id: certificationCourse.getSessionId() }).resolves(true);
@@ -183,6 +203,7 @@ describe('Certification | Session-management | Unit | Domain | UseCases | cancel
           sessionManagementRepository,
           certificationEvaluationRepository,
           courseAssessmentResultRepository,
+          certificationEvaluationApi,
         });
 
         // then
@@ -191,6 +212,7 @@ describe('Certification | Session-management | Unit | Domain | UseCases | cancel
             certificationCourseId: certificationCourse.getId(),
             juryId,
           }),
+          certificationEvaluationApi,
         });
       });
     });
@@ -217,6 +239,10 @@ describe('Certification | Session-management | Unit | Domain | UseCases | cancel
         const courseAssessmentResultRepository = {
           getLatestAssessmentResult: sinon.stub(),
         };
+        const certificationEvaluationApi = {
+          rescoreV2Certification: sinon.stub(),
+          rescoreV3Certification: sinon.stub(),
+        };
         certificationCourseRepository.get.withArgs({ id: 123 }).resolves(certificationCourse);
         sessionManagementRepository.isFinalized.withArgs({ id: certificationCourse.getSessionId() }).resolves(false);
         courseAssessmentResultRepository.getLatestAssessmentResult.resolves(null);
@@ -228,6 +254,7 @@ describe('Certification | Session-management | Unit | Domain | UseCases | cancel
           sessionManagementRepository,
           juryId,
           courseAssessmentResultRepository,
+          certificationEvaluationApi,
         });
 
         // then
@@ -260,6 +287,10 @@ describe('Certification | Session-management | Unit | Domain | UseCases | cancel
       const courseAssessmentResultRepository = {
         getLatestAssessmentResult: sinon.stub(),
       };
+      const certificationEvaluationApi = {
+        rescoreV2Certification: sinon.stub(),
+        rescoreV3Certification: sinon.stub(),
+      };
       certificationCourseRepository.get.withArgs({ id: 123 }).resolves(certificationCourse);
       certificationEvaluationRepository.rescoreV3Certification.resolves();
       sessionManagementRepository.isFinalized.withArgs({ id: certificationCourse.getSessionId() }).resolves(true);
@@ -273,6 +304,8 @@ describe('Certification | Session-management | Unit | Domain | UseCases | cancel
         sessionManagementRepository,
         certificationEvaluationRepository,
         courseAssessmentResultRepository,
+
+        certificationEvaluationApi,
       });
 
       // then

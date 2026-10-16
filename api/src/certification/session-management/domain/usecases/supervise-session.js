@@ -4,6 +4,7 @@
  * @typedef {import('./index.js').InvigilatorAccessRepository} InvigilatorAccessRepository
  * @typedef {import('./index.js').CertificationCenterRepository} CertificationCenterRepository
  * @typedef {import('./index.js').CertificationCenterAccessRepository} CertificationCenterAccessRepository
+ * @typedef {import('./index.js').CertificationCenterAccessApi} CertificationCenterAccessApi
  */
 
 import { NotFoundError } from '../../../../shared/domain/errors.js';
@@ -22,6 +23,7 @@ import {
  * @param {SessionAuthorizationInfoRepository} params.sessionAuthorizationInfoRepository
  * @param {InvigilatorAccessRepository} params.invigilatorAccessRepository
  * @param {CertificationCenterAccessRepository} params.certificationCenterAccessRepository
+ * @param {CertificationCenterAccessApi} params.certificationCenterAccessApi
  */
 export async function superviseSession({
   sessionId,
@@ -30,6 +32,7 @@ export async function superviseSession({
   invigilatorAccessRepository,
   certificationCenterAccessRepository,
   sessionAuthorizationInfoRepository,
+  certificationCenterAccessApi,
 }) {
   const sessionAuthorizationInfo = await sessionAuthorizationInfoRepository.findBySessionId({
     sessionId,
@@ -47,6 +50,7 @@ export async function superviseSession({
 
   const certificationCenterAccess = await certificationCenterAccessRepository.getCertificationCenterAccess({
     certificationCenterId: sessionAuthorizationInfo.certificationCenterId,
+    certificationCenterAccessApi,
   });
 
   if (certificationCenterAccess.isAccessBlockedCollege) {

@@ -25,6 +25,7 @@ export async function cancel({
   sessionManagementRepository,
   certificationEvaluationRepository,
   courseAssessmentResultRepository,
+  certificationEvaluationApi,
 }) {
   const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
   const isSessionFinalized = await sessionManagementRepository.isFinalized({ id: certificationCourse.getSessionId() });
@@ -45,10 +46,10 @@ export async function cancel({
   });
 
   if (AlgorithmEngineVersion.isV3(certificationCourse.getVersion())) {
-    await certificationEvaluationRepository.rescoreV3Certification({ event });
+    await certificationEvaluationRepository.rescoreV3Certification({ event, certificationEvaluationApi });
   }
 
   if (AlgorithmEngineVersion.isV2(certificationCourse.getVersion())) {
-    await certificationEvaluationRepository.rescoreV2Certification({ event });
+    await certificationEvaluationRepository.rescoreV2Certification({ event, certificationEvaluationApi });
   }
 }

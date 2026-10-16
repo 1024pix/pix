@@ -5,11 +5,11 @@
  * @typedef {import ('./index.js').PlacementProfileService} PlacementProfileService
  * @typedef {import ('./index.js').EligibilityService} EligibilityService
  * @typedef {import ('./index.js').CertificationBadgesService} CertificationBadgesService
- * @typedef {import ('../../infrastructure/repositories/index.js').ComplementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
- * @typedef {import ('../../infrastructure/repositories/index.js').ComplementaryCertificationBadgeWithOffsetVersionRepository} ComplementaryCertificationBadgeWithOffsetVersionRepository
  * @typedef {import ('../models/timeline/TimelineEvent.js').TimelineEvent} TimelineEvent
  * @typedef {import ('../models/Candidate.js').Candidate} Candidate
  * @typedef {import ('../read-models/UserCertificationEligibility.js').UserCertificationEligibility} UserCertificationEligibility
+ * @typedef {import ('./index.js').ComplementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
+ * @typedef {import ('./index.js').ComplementaryCertificationBadgeWithOffsetVersionRepository} ComplementaryCertificationBadgeWithOffsetVersionRepository
  * @typedef {import ('../../../shared/domain/models/CertificationCourse.js').CertificationCourse} CertificationCourse
  * @typedef {import ('../../../session-management/domain/models/CertificationAssessment.js').CertificationAssessment} CertificationAssessment
  */
