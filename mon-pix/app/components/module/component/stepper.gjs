@@ -22,6 +22,7 @@ export const NEXT_STEP_BUTTON_DELAY = VERIFY_RESPONSE_DELAY;
 export default class ModulixStepper extends Component {
   @tracked locallyAnsweredElements = trackedSet();
 
+  @service media;
   @service modulixAutoScroll;
   @service modulixPreviewMode;
 
@@ -238,16 +239,18 @@ export default class ModulixStepper extends Component {
             @triggerAction={{this.goBackToNextStep}}
             aria-controls={{this.id}}
           />
-          <div class="stepper-controls__step-bars" aria-hidden="true">
-            {{#each this.displayableSteps as |_ index|}}
-              <div
-                class="stepper-controls__step-bar
-                  {{if (this.stepIsActive index) 'active'}}
-                  {{if (this.stepBarIsDisabled index) 'disable'}}"
-              >
-              </div>
-            {{/each}}
-          </div>
+          {{#unless this.media.isMobile}}
+            <div class="stepper-controls__step-bars" aria-hidden="true">
+              {{#each this.displayableSteps as |_ index|}}
+                <div
+                  class="stepper-controls__step-bar
+                    {{if (this.stepIsActive index) 'active'}}
+                    {{if (this.stepBarIsDisabled index) 'disable'}}"
+                >
+                </div>
+              {{/each}}
+            </div>
+          {{/unless}}
         </div>
         {{#if @instruction}}
           <div class="stepper__instruction">
