@@ -15,7 +15,8 @@ Une Specification a quatre éléments :
 - **la méthode d'évaluation**, ici `isEligible(candidat)`, le seul point d'entrée.
 
 Les critères et le candidat sont des Value Objects : les règles de la fiche Value Object
-s'appliquent, plus celles de cette fiche.
+s'appliquent, plus celles de cette fiche. Le moteur est le code qui évalue les critères : ici
+`Requirement.ts` et `CriterionProperty.ts`.
 
 ## Les règles
 
@@ -24,7 +25,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | # | Règle | En pratique |
 | --- | --- | --- |
 | [S1](#s1-la-specification-répond-toujours) | La specification répond toujours | une donnée absente du candidat rend `false`, sans lever d'erreur |
-| [S2](#s2--non-rempli--et--impossible-à-évaluer--sont-distincts) | « Non rempli » et « impossible à évaluer » sont distincts | une donnée présente mais inexploitable lève une erreur du domaine, elle ne rend pas `false` |
+| [S2](#s2--non-rempli--et--impossible-à-évaluer--sont-distincts) | « Non rempli » et « impossible à évaluer » sont distincts | une donnée présente mais inexploitable est signalée, ici par une erreur du domaine ; elle ne rend pas `false` |
 | [S5](#s5-un-combinateur-accepte-tout-critère) | Un combinateur accepte tout critère | un combinateur accepte n'importe quel critère, et passe le candidat sans le modifier |
 | [S6](#s6-le-format-est-un-contrat-publié) | Le format est un contrat publié | aucune clé du JSON n'est renommée ; une nouvelle valeur est documentée avant d'être utilisée |
 | [S7](#s7-tout-critère-déclaré-est-branché-sur-le-candidat) | Tout critère déclaré est branché sur le candidat | chaque nom de critère est une propriété du candidat, vérifiée par le typage et par un test |
@@ -34,8 +35,8 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 
 L'éligibilité à l'attestation de sixième. L'élève y a droit si son organisation est de type `SCO`, si
 elle gère des élèves ou porte le tag `AEFE`, et s'il a participé à une campagne d'un profil cible
-donné. Le candidat reprend trois champs de l'organisation, dont `isManagingStudents`, lu sur
-l'[Aggregate Root](../racine-agregat/README.md) `Organization`. Exemple inventé, d'après
+donné. Le candidat reprend trois champs de l'organisation et les participations de l'élève aux
+campagnes. Exemple inventé, d'après
 [`Requirement.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/value-objects/Requirement.js#L63-L123),
 [`CriterionProperty.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/quest/domain/models/quests/value-objects/CriterionProperty.js#L83-L93)
 et la quête de sixième des seeds,
@@ -295,13 +296,12 @@ méthode d'évaluation, et couvre :
 Le format publié se teste à part : un test compare les valeurs des énumérations à la documentation du
 format, versionnée dans le dépôt. Exemple : `documents every value of the format`.
 
-Le [repository](../repository/README.md) qui assemble le candidat se teste avec un test d'intégration : chaque propriété du
-candidat est renseignée. Exemple : `loads the organization type, isManagingStudents and tags`.
-
 Le test unitaire de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/quest/unit/domain/models/quests/Quest_test.ts
+import { expect } from 'chai';
+
 import type { QuestId } from '../../../../../../src/shared/domain/Id.js';
 import { InvalidComparisonError, InvalidRequirementError } from '../../../../../../src/quest/domain/errors.js';
 import { Eligibility, type EligibilityProps } from '../../../../../../src/quest/domain/models/quests/Eligibility.js';
@@ -404,7 +404,7 @@ describe('Unit | Quest | Domain | Models | Quest', function () {
 ```
 Répond-elle toujours ?
 [ ] S1  Une donnée absente du candidat rend false, sans lever d'erreur
-[ ] S2  Une donnée présente mais inexploitable lève une erreur du domaine, elle ne rend pas false
+[ ] S2  Une donnée présente mais inexploitable est signalée, elle ne rend pas false
 
 Peut-on ajouter un critère sans toucher au moteur ?
 [ ] S5  Un combinateur accepte tout critère, et passe le candidat sans le modifier
@@ -433,29 +433,40 @@ forme à chaque propriété. Une donnée présente mais inexploitable ne relève
 **Bon exemple.**
 
 ```ts
-isFulfilled(candidate: Eligibility): boolean {
-  const value = candidate[this.requirement_type];
-  if (value === undefined) return false; // S1 : le nom vient de la base, on ne suppose pas la propriété
-  const items = Array.isArray(value) ? value : [value];
-  return items.some((item) => this.#matches(item));
+export class ObjectRequirement implements Requirement {
+  …
+  isFulfilled(candidate: Eligibility): boolean {
+    const value = candidate[this.requirement_type];
+    if (value === undefined) return false; // S1 : le nom vient de la base, on ne suppose pas la propriété
+    const items = Array.isArray(value) ? value : [value];
+    return items.some((item) => this.#matches(item));
+  }
+  …
 }
 ```
 
 ```ts
-check(item: Record<string, unknown>): boolean {
-  const value = item[this.#key];
-  if (value === undefined || value === null) return false; // S1 : une donnée absente rend false
+export class CriterionProperty {
   …
+  check(item: Record<string, unknown>): boolean {
+    const value = item[this.#key];
+    if (value === undefined || value === null) return false; // S1 : une donnée absente rend false
+    …
+  }
 }
 ```
 
 **Mauvais exemple.**
 
 ```ts
-isFulfilled(candidate: Eligibility): boolean {
-  const value = candidate[this.requirement_type]; // undefined si le candidat n'a pas cette propriété
-  const items = Array.isArray(value) ? value : [value];
-  return items.some((item) => this.#matches(item)); // check() lit undefined[key] et lève une TypeError
+export class ObjectRequirement implements Requirement {
+  …
+  isFulfilled(candidate: Eligibility): boolean {
+    const value = candidate[this.requirement_type]; // undefined si le candidat n'a pas cette propriété
+    const items = Array.isArray(value) ? value : [value];
+    return items.some((item) => this.#matches(item)); // check() lit undefined[key] et lève une TypeError
+  }
+  …
 }
 ```
 
@@ -479,28 +490,40 @@ critères : ici, une erreur du domaine.
 **Bon exemple.**
 
 ```ts
-if (!Array.isArray(value)) {
-  // S2 : la donnée est là, mais on ne peut pas conclure ; on le dit au lieu de rendre false
-  throw new InvalidComparisonError({ comparisonOperator: 'all', typeofCriterion: 'array', typeofData: typeof value });
+export class CriterionProperty {
+  …
+  check(item: Record<string, unknown>): boolean {
+    …
+    if (!Array.isArray(value)) {
+      // S2 : la donnée est là, mais on ne peut pas conclure ; on le dit au lieu de rendre false
+      throw new InvalidComparisonError({ comparisonOperator: 'all', typeofCriterion: 'array', typeofData: typeof value });
+    }
+    return expected.every((expectedValue) => value.includes(expectedValue));
+  }
 }
-return expected.every((expectedValue) => value.includes(expectedValue));
 ```
 
 **Mauvais exemple.**
 
 ```ts
-if (!Array.isArray(value)) {
-  logger.error('Cannot compare the value');
-  return false; // même réponse qu'un candidat qui ne remplit pas le critère
+export class CriterionProperty {
+  …
+  check(item: Record<string, unknown>): boolean {
+    …
+    if (!Array.isArray(value)) {
+      logger.error('Cannot compare the value');
+      return false; // même réponse qu'un candidat qui ne remplit pas le critère
+    }
+    return expected.every((expectedValue) => value.includes(expectedValue));
+  }
 }
-return expected.every((expectedValue) => value.includes(expectedValue));
 ```
 
 **Ce que ça apporte.** Un critère mal écrit ou une donnée mal chargée se voit. L'erreur remonte au
 usecase, qui décide quoi en faire. Elle ne vient pas d'un candidat normal, comme la `TypeError` de
 `S1` : elle signale une donnée à corriger.
 
-**Sans cette règle.** Le repository charge les tags sous forme de chaîne, `'AEFE'` au lieu de
+**Sans cette règle.** Le [repository](../repository/README.md) charge les tags sous forme de chaîne, `'AEFE'` au lieu de
 `['AEFE']`. Le critère rend `false`, et un élève d'une organisation `AEFE` n'a pas son attestation. On
 le traite comme un élève qui n'y a pas droit, et personne ne le sait.
 
@@ -509,7 +532,7 @@ le traite comme un élève qui n'y a pas droit, et personne ne le sait.
 - une donnée du candidat est absente : `false`, c'est `S1` ;
 - un critère est mal écrit, par exemple un type inconnu : l'arbre ne se construit pas, c'est la règle
   [V3 de la fiche Value Object](../objet-valeur/README.md#v3-valide-dès-la-construction) ;
-- une donnée du candidat est présente mais inexploitable : une erreur, c'est `S2`.
+- une donnée du candidat est présente mais inexploitable : le moteur le signale, c'est `S2`.
 
 Trois façons de signaler le troisième cas existent : une erreur du domaine, un résultat à trois états,
 ou un booléen avec une liste de diagnostics. Le moteur en choisit une pour tous ses critères. Le
@@ -524,23 +547,30 @@ le modifier.
 **Bon exemple.**
 
 ```ts
-isFulfilled(candidate: Eligibility): boolean {
-  return this.#comparison === REQUIREMENT_COMPARISONS.ONE_OF
-    ? this.#children.some((child) => child.isFulfilled(candidate))
-    : this.#children.every((child) => child.isFulfilled(candidate));
+export class ComposedRequirement implements Requirement {
+  …
+  // S5 : un enfant est un critère ou un autre combinateur ; le candidat passe tel quel
+  isFulfilled(candidate: Eligibility): boolean {
+    return this.#comparison === REQUIREMENT_COMPARISONS.ONE_OF
+      ? this.#children.some((child) => child.isFulfilled(candidate))
+      : this.#children.every((child) => child.isFulfilled(candidate));
+  }
 }
 ```
 
 **Mauvais exemple.**
 
 ```ts
-isFulfilled(candidate: Eligibility): boolean {
-  return this.#children.every((child) =>
-    // le combinateur regarde le type de l'enfant, et lui passe une autre donnée
-    child instanceof ObjectRequirement && child.requirement_type === 'organization'
-      ? child.isFulfilled(new Eligibility({ organization: candidate.organization }))
-      : child.isFulfilled(candidate),
-  );
+export class ComposedRequirement implements Requirement {
+  …
+  isFulfilled(candidate: Eligibility): boolean {
+    return this.#children.every((child) =>
+      // le combinateur regarde le type de l'enfant, et lui passe une autre donnée
+      child instanceof ObjectRequirement && child.requirement_type === 'organization'
+        ? child.isFulfilled(new Eligibility({ organization: candidate.organization }))
+        : child.isFulfilled(candidate),
+    );
+  }
 }
 ```
 
@@ -599,20 +629,27 @@ Le typage le vérifie, et un test le vérifie à l'exécution.
 **Bon exemple.**
 
 ```ts
-OBJECT: {
-  ORGANIZATION: 'organization',
-  CAMPAIGN_PARTICIPATIONS: 'campaignParticipations',
-} satisfies Record<string, keyof Eligibility>,
+export const REQUIREMENT_TYPES = {
+  COMPOSE: 'compose',
+  // S7 : chaque nom est une propriété du candidat, sinon la compilation échoue
+  OBJECT: {
+    ORGANIZATION: 'organization',
+    CAMPAIGN_PARTICIPATIONS: 'campaignParticipations',
+  } satisfies Record<string, keyof Eligibility>,
+} as const;
 ```
 
 **Mauvais exemple.**
 
 ```ts
-OBJECT: {
-  ORGANIZATION: 'organization',
-  CAMPAIGN_PARTICIPATIONS: 'campaignParticipations',
-  CERTIFICATIONS: 'certifications', // aucune propriété du candidat ne porte ce nom
-},
+export const REQUIREMENT_TYPES = {
+  COMPOSE: 'compose',
+  OBJECT: {
+    ORGANIZATION: 'organization',
+    CAMPAIGN_PARTICIPATIONS: 'campaignParticipations',
+    CERTIFICATIONS: 'certifications', // aucune propriété du candidat ne porte ce nom
+  },
+} as const;
 ```
 
 **Ce que ça apporte.** On ne peut pas ajouter un nom à l'énumération sans ajouter la propriété au
@@ -658,9 +695,7 @@ return questWithoutOrganization.isEligible(eligibility);
 façon dont le moteur les évalue sans relire ses consommateurs.
 
 **Sans cette règle.** Le usecase ignore les critères sur l'organisation : un élève d'une organisation
-`PRO` reçoit l'attestation de sixième. Et le moteur ne peut pas devenir un Bounded Context à part,
-c'est-à-dire un module avec son propre modèle, que les autres appellent par son API. Aucune
-[API interne](../api-interne/README.md) ne peut proposer « reconstruis ma quête avec d'autres critères ».
+`PRO` reçoit l'attestation de sixième.
 
 **À savoir.** Sans getter sur les critères, comme dans l'exemple complet, un consommateur ne peut pas
 les filtrer à partir de la quête.
