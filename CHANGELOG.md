@@ -1,5 +1,54 @@
 # Pix Changelog
 
+# [5.523.0](https://github.com/1024pix/pix/compare/v5.522.0...v5.523.0) (2026-10-16)
+
+### :rocket: Amélioration
+
+- [#18032](https://github.com/1024pix/pix/pull/18032) :dizzy: Ajoute des précisions à propos des candidats et des sessions dans l'interface surveillant
+- [#18029](https://github.com/1024pix/pix/pull/18029) :dizzy: modification des textes en français de la suppression de candidats d'une session (PIX-24713)
+- [#17788](https://github.com/1024pix/pix/pull/17788) Ajouter `ceilingAt` a la table `knowledge_states`
+- [#18013](https://github.com/1024pix/pix/pull/18013) Enlever les points du stepper horizontal dans le cas d'un affichage mobile (PIX-24613)
+
+### :bug: Correction
+
+- [#17924](https://github.com/1024pix/pix/pull/17924) QAB : couper le mot s'il est trop long (PIX-24614)
+
+### :rewind: Retour en arrière
+
+- [#18099](https://github.com/1024pix/pix/pull/18099) Revert "[BUMP] Update dependency ember-metrics to v3 (admin)"
+- [#18100](https://github.com/1024pix/pix/pull/18100) Revert "[BUMP] Update dependency ember-metrics to v3 (certif)"
+- [#18101](https://github.com/1024pix/pix/pull/18101) Revert "[BUMP] Update dependency ember-metrics to v3 (mon-pix)"
+
+### :building_construction: Tech
+
+- [#18070](https://github.com/1024pix/pix/pull/18070) Journalise les blocages de la boucle d'événements avec les requêtes en cours
+- [#17987](https://github.com/1024pix/pix/pull/17987) Renommer des propriétés liées à l'éligibilité à Cléa (PIX-24709).
+- [#18093](https://github.com/1024pix/pix/pull/18093) Supprimer le FT des DomainTransaction success handler
+
+### :arrow_up: Montée de version
+
+- [#18085](https://github.com/1024pix/pix/pull/18085) Update aws-sdk-js-v3 monorepo to v3.1148.0 (api)
+- [#18066](https://github.com/1024pix/pix/pull/18066) Update dependency @playwright/test to v1.64.0 (e2e-playwright)
+- [#18078](https://github.com/1024pix/pix/pull/18078) Update dependency baseline-browser-mapping to v2.11.28 (e2e-playwright)
+- [#18097](https://github.com/1024pix/pix/pull/18097) Update dependency cron-parser to v5.10.2 (api)
+- [#18067](https://github.com/1024pix/pix/pull/18067) Update dependency dotenv to v18 (e2e-playwright)
+- [#18068](https://github.com/1024pix/pix/pull/18068) Update dependency dotenv to v18 (junior)
+- [#18069](https://github.com/1024pix/pix/pull/18069) Update dependency dotenv to v18 (mon-pix)
+- [#18074](https://github.com/1024pix/pix/pull/18074) Update dependency ember-inflector to v7 (orga)
+- [#18089](https://github.com/1024pix/pix/pull/18089) Update dependency ember-metrics to v3 (admin)
+- [#18091](https://github.com/1024pix/pix/pull/18091) Update dependency ember-metrics to v3 (certif)
+- [#18092](https://github.com/1024pix/pix/pull/18092) Update dependency ember-metrics to v3 (mon-pix)
+- [#18079](https://github.com/1024pix/pix/pull/18079) Update dependency ember-template-lint to v7.9.4 (admin)
+- [#18080](https://github.com/1024pix/pix/pull/18080) Update dependency ember-template-lint to v7.9.4 (certif)
+- [#18081](https://github.com/1024pix/pix/pull/18081) Update dependency ember-template-lint to v7.9.4 (junior)
+- [#18082](https://github.com/1024pix/pix/pull/18082) Update dependency ember-template-lint to v7.9.4 (mon-pix)
+- [#18083](https://github.com/1024pix/pix/pull/18083) Update dependency ember-template-lint to v7.9.4 (orga)
+- [#18098](https://github.com/1024pix/pix/pull/18098) Update dependency eslint to v10 (audit-logger)
+- [#18065](https://github.com/1024pix/pix/pull/18065) Update dependency hyparquet-writer to v0.16.11 (api)
+- [#18090](https://github.com/1024pix/pix/pull/18090) Update dependency knip to v6.41.0 (api)
+- [#18072](https://github.com/1024pix/pix/pull/18072) Update dependency pg-boss to v12.37.1 (api)
+- [#18073](https://github.com/1024pix/pix/pull/18073) Update dependency vite to v8.3.4 (orga)
+
 # [5.522.0](https://github.com/1024pix/pix/compare/v5.521.0...v5.522.0) (2026-10-15)
 
 ### :rocket: Amélioration
