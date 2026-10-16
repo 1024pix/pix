@@ -19,5 +19,7 @@ export default class ConnectionMethodsRoute extends Route {
     super.setupController(controller, model);
     controller.isEmailEditionMode = false;
     controller.showEmailUpdatedMessage = false;
+    controller.isPasswordEditionMode = false;
+    controller.showPasswordUpdatedMessage = false;
   }
 }

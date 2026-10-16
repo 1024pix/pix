@@ -130,6 +130,20 @@ const addUserEmailWithValidation = async function (request, h, dependencies = { 
   return dependencies.updateEmailSerializer.serialize(updatedUserAttributes);
 };
 
+const changeUserPassword = async function (request, h) {
+  const userId = request.params.id;
+  const currentPassword = request.payload.data.attributes['current-password'];
+  const newPassword = request.payload.data.attributes['new-password'];
+
+  await usecases.changeUserPassword({
+    userId,
+    currentPassword,
+    newPassword,
+  });
+
+  return h.response().code(204);
+};
+
 /**
  * @param request
  * @param h
@@ -222,6 +236,7 @@ export const userController = {
   sendVerificationCode,
   updateUserEmailWithValidation,
   addUserEmailWithValidation,
+  changeUserPassword,
   upgradeToRealUser,
   validateUserAccountEmail,
 };
