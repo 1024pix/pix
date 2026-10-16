@@ -22,8 +22,13 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 
 L'Aggregate `Organization` : une organisation et ses fonctionnalités activées. Une règle du métier les
 relie : si `LEARNER_IMPORT` est activée, `isManagingStudents` est toujours `false`. Le constructeur
-refuse l'état inverse, et `enableFeature()` met le champ à `false`. Exemple inventé, d'après
-[`OrganizationForAdmin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/OrganizationForAdmin.js#L241-L248).
+refuse l'état inverse, et `enableFeature()` met le champ à `false`. L'organisation garde aussi ses
+lots de places, des places achetées pour une période. Une seconde règle les relie : on n'archive pas
+une organisation qui a encore des places actives ou en attente, et on n'ajoute pas de places à une
+organisation archivée. Exemple inventé, d'après
+[`OrganizationForAdmin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/OrganizationForAdmin.js#L241-L248)
+et
+[`archive-organization.usecase.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/usecases/archive-organization.usecase.js#L17-L21).
 
 Le dossier de l'Aggregate :
 
@@ -31,7 +36,8 @@ Le dossier de l'Aggregate :
 organizational-entities/domain/models/organization/
 ├── index.ts                 ← A2 : le seul fichier importable hors du dossier
 ├── Organization.ts          ← la racine
-└── OrganizationFeature.ts   ← un objet interne
+├── OrganizationFeature.ts   ← un objet interne
+└── PlacesLot.ts             ← un objet interne
 
 organizational-entities/domain/events/
 └── OrganizationArchivedEvent.ts   ← A8 : un événement de la racine
@@ -78,6 +84,7 @@ export class OrganizationArchivedEvent {
 export { Organization } from './Organization.js';
 export type { OrganizationProps, OrganizationType } from './Organization.js';
 export type { FeatureName, FeatureParams, OrganizationFeature, OrganizationFeatureProps } from './OrganizationFeature.js';
+export type { PlacesLot, PlacesLotProps } from './PlacesLot.js';
 ```
 
 ```ts
@@ -101,12 +108,40 @@ export class OrganizationFeature {
 ```
 
 ```ts
+// organization/PlacesLot.ts — un objet interne : des places achetées pour une période
+export type PlacesLotProps = { count: number; activationDate: Date; expirationDate: Date | null };
+
+export class PlacesLot {
+  readonly count: number;
+  readonly activationDate: Date;
+  readonly expirationDate: Date | null; // null : le lot n'expire pas
+
+  constructor({ count, activationDate, expirationDate }: PlacesLotProps) {
+    this.count = count;
+    this.activationDate = activationDate;
+    this.expirationDate = expirationDate;
+  }
+
+  // un lot pas encore expiré est actif ou en attente ; la date du jour arrive en paramètre
+  isExpiredAt(now: Date): boolean {
+    return this.expirationDate !== null && this.expirationDate < now;
+  }
+}
+```
+
+```ts
 // organization/Organization.ts — la racine
 import type { OrganizationId, UserId } from '../../../../shared/domain/Id.js';
 import { AggregateRoot } from '../../../../shared/domain/models/AggregateRoot.js';
-import { ArchivedOrganizationError, FeatureAlreadyEnabledError, InvalidOrganizationError } from '../../errors.js';
+import {
+  ArchivedOrganizationError,
+  ArchiveOrganizationError,
+  FeatureAlreadyEnabledError,
+  InvalidOrganizationError,
+} from '../../errors.js';
 import { OrganizationArchivedEvent } from '../../events/OrganizationArchivedEvent.js';
 import { type FeatureName, type FeatureParams, OrganizationFeature, type OrganizationFeatureProps } from './OrganizationFeature.js';
+import { PlacesLot, type PlacesLotProps } from './PlacesLot.js';
 
 // as const plutôt qu'un enum : la configuration TypeScript de Pix (erasableSyntaxOnly) interdit les enum
 export const OrganizationTypes = ['SCO', 'SUP', 'PRO', 'SCO-1D'] as const;
@@ -119,6 +154,7 @@ export type OrganizationProps<Id> = {
   createdBy: UserId;
   isManagingStudents: boolean;
   features: OrganizationFeatureProps[]; // des données : c'est la racine qui crée ses objets internes
+  placesLots: PlacesLotProps[];
   archivedAt: Date | null;
 };
 
@@ -130,10 +166,11 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> ext
   #name: string;
   #isManagingStudents: boolean;
   #features: OrganizationFeature[]; // A2 : privé
+  #placesLots: PlacesLot[]; // A2 : privé
   #archivedAt: Date | null; // une date du métier : la date d'archivage
 
   // A1 : le constructeur sert à la création comme au chargement depuis la base, la règle y est vérifiée
-  constructor({ id, name, type, createdBy, isManagingStudents, features, archivedAt }: OrganizationProps<Id>) {
+  constructor({ id, name, type, createdBy, isManagingStudents, features, placesLots, archivedAt }: OrganizationProps<Id>) {
     super();
     assertValidName(name);
     if (!OrganizationTypes.includes(type)) throw new InvalidOrganizationError(`Unknown type: ${type}`);
@@ -146,12 +183,13 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> ext
     this.#name = name;
     this.#isManagingStudents = isManagingStudents;
     this.#features = features.map((feature) => new OrganizationFeature(feature));
+    this.#placesLots = placesLots.map((placesLot) => new PlacesLot(placesLot));
     this.#archivedAt = archivedAt;
   }
 
   // une organisation neuve, sans id
   static create({ name, type, createdBy }: { name: string; type: OrganizationType; createdBy: UserId }): Organization<null> {
-    return new Organization({ id: null, name, type, createdBy, isManagingStudents: false, features: [], archivedAt: null });
+    return new Organization({ id: null, name, type, createdBy, isManagingStudents: false, features: [], placesLots: [], archivedAt: null });
   }
 
   get name(): string {
@@ -175,6 +213,11 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> ext
     return [...this.#features];
   }
 
+  // A2 : une copie, comme pour les fonctionnalités
+  get placesLots(): ReadonlyArray<PlacesLot> {
+    return [...this.#placesLots];
+  }
+
   rename(name: string): void {
     if (this.isArchived) throw new ArchivedOrganizationError();
     assertValidName(name);
@@ -183,10 +226,18 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> ext
 
   // la date d'archivage arrive en paramètre : l'Entity ne lit pas l'horloge
   // this: Organization : seule une organisation enregistrée, qui a un id, peut être archivée
+  // A1 : une organisation qui a encore des places actives ou en attente n'est pas archivée
   archive(this: Organization, now: Date): void {
     if (this.isArchived) throw new ArchivedOrganizationError();
+    if (this.#placesLots.some((placesLot) => !placesLot.isExpiredAt(now))) throw new ArchiveOrganizationError();
     this.#archivedAt = now;
     this.recordDomainEvent(new OrganizationArchivedEvent({ organizationId: this.id, archivedAt: now })); // A8
+  }
+
+  // A1 : la règle inverse : on n'ajoute pas de places à une organisation archivée
+  addPlacesLot(placesLot: PlacesLotProps): void {
+    if (this.isArchived) throw new ArchivedOrganizationError();
+    this.#placesLots = [...this.#placesLots, new PlacesLot(placesLot)];
   }
 
   // A1 : la seule façon d'ajouter une fonctionnalité, et c'est ici que la règle est vérifiée
@@ -242,14 +293,16 @@ couvre :
 
 - chaque règle qui relie la racine et ses objets internes, à la création comme à chaque méthode.
   Exemples : `refuses an organization that imports its learners and manages students`,
-  `stops managing students when LEARNER_IMPORT is enabled` ;
+  `stops managing students when LEARNER_IMPORT is enabled`,
+  `refuses places on an archived organization, and changes nothing` ;
 - chaque cas d'erreur, et le fait que rien n'a changé après l'erreur. Exemples :
   `refuses a feature on an archived organization, and changes nothing`,
   `refuses a feature that is already enabled` ;
 - qu'on ne peut pas modifier un objet interne depuis l'extérieur. Exemple :
   `cannot change the features through the returned list` ;
 - chaque événement enregistré, et l'absence d'événement quand la méthode refuse. Exemples :
-  `records an OrganizationArchivedEvent`, `records no event when the archiving is refused`.
+  `records an OrganizationArchivedEvent`,
+  `refuses an organization that still has active or pending places, and records no event`.
 
 Le repository se teste à part, avec un test d'intégration sur la base : on enregistre l'Aggregate, on
 le recharge, et on vérifie que tout le groupe est revenu. Exemple :
@@ -263,6 +316,7 @@ import { expect } from 'chai';
 
 import {
   ArchivedOrganizationError,
+  ArchiveOrganizationError,
   FeatureAlreadyEnabledError,
   InvalidOrganizationError,
 } from '../../../../../../src/organizational-entities/domain/errors.js';
@@ -279,6 +333,7 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
       createdBy: 2 as UserId,
       isManagingStudents: false,
       features: [],
+      placesLots: [],
       archivedAt: null,
       ...props,
     });
@@ -331,11 +386,33 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
       ]);
     });
 
-    it('records no event when the archiving is refused', function () {
+    it('refuses an organization that still has active or pending places, and records no event', function () {
+      const placesLot = { count: 30, activationDate: new Date('2026-01-01'), expirationDate: new Date('2026-12-31') };
+      const organization = buildOrganization({ placesLots: [placesLot] });
+
+      expect(() => organization.archive(now)).to.throw(ArchiveOrganizationError);
+      expect(organization.isArchived).to.be.false;
+      expect(organization.pullDomainEvents()).to.be.empty;
+    });
+
+    it('archives an organization whose places have all expired', function () {
+      const placesLot = { count: 30, activationDate: new Date('2025-01-01'), expirationDate: new Date('2025-12-31') };
+      const organization = buildOrganization({ placesLots: [placesLot] });
+
+      organization.archive(now);
+
+      expect(organization.isArchived).to.be.true;
+    });
+  });
+
+  describe('#addPlacesLot', function () {
+    it('refuses places on an archived organization, and changes nothing', function () {
       const organization = buildOrganization({ archivedAt: new Date('2026-01-01') });
 
-      expect(() => organization.archive(now)).to.throw(ArchivedOrganizationError);
-      expect(organization.pullDomainEvents()).to.be.empty;
+      expect(() =>
+        organization.addPlacesLot({ count: 30, activationDate: new Date('2026-02-01'), expirationDate: null }),
+      ).to.throw(ArchivedOrganizationError);
+      expect(organization.placesLots).to.be.empty;
     });
   });
 
@@ -431,6 +508,7 @@ internes.
 export { Organization } from './Organization.js';
 export type { OrganizationProps, OrganizationType } from './Organization.js';
 export type { FeatureName, FeatureParams, OrganizationFeature, OrganizationFeatureProps } from './OrganizationFeature.js';
+export type { PlacesLot, PlacesLotProps } from './PlacesLot.js';
 ```
 
 ```ts
@@ -547,6 +625,7 @@ propres Aggregates, et sont gardés par leur identifiant.
 ```ts
 export class Organization {
   #features: OrganizationFeature[]; // une règle relie les fonctionnalités et isManagingStudents
+  #placesLots: PlacesLot[]; // une règle relie les places et l'archivage
   readonly createdBy: UserId; // un utilisateur est un autre Aggregate
   // pas de membres, pas d'invitations, pas de campagnes : aucune règle ne les relie à l'organisation
 }
@@ -621,6 +700,7 @@ valeurs, jamais un objet du domaine.
 // Organization
   archive(this: Organization, now: Date): void {
     if (this.isArchived) throw new ArchivedOrganizationError();
+    if (this.#placesLots.some((placesLot) => !placesLot.isExpiredAt(now))) throw new ArchiveOrganizationError();
     this.#archivedAt = now;
     this.recordDomainEvent(new OrganizationArchivedEvent({ organizationId: this.id, archivedAt: now })); // A8
   }
