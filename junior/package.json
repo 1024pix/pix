@@ -94,7 +94,7 @@
     "npm-run-all2": "9.0.3",
     "prettier": "3.9.10",
     "prettier-plugin-ember-template-tag": "2.1.8",
-    "qunit": "2.26.0",
+    "qunit": "3.0.0",
     "qunit-dom": "3.6.0",
     "sass": "1.105.1",
     "showdown": "2.1.0",
