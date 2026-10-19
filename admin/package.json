@@ -103,7 +103,7 @@
     "npm-run-all2": "9.0.3",
     "p-queue": "9.3.5",
     "pako": "3.0.2",
-    "prettier": "3.9.9",
+    "prettier": "3.9.10",
     "prettier-plugin-ember-template-tag": "2.1.8",
     "qunit": "3.0.0",
     "qunit-dom": "3.6.0",
