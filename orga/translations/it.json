@@ -1618,6 +1618,14 @@
           "details": "Si usa per importare un nuovo elenco di studenti al posto di quello esistente.",
           "label": "Importare un nuovo elenco",
           "title": "Sostituire"
+        },
+        "sco": {
+          "details": "Questa azione consente di:",
+          "details-add": "aggiungere nuovi studenti",
+          "details-disable": "disattivare gli ex studenti",
+          "details-update": "modificare gli studenti già importati",
+          "label": "Importare l'elenco",
+          "title": "Importare l'elenco degli studenti"
         }
       },
       "banner": {

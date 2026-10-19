@@ -1618,6 +1618,14 @@
           "details": "Hiermee kun je een nieuwe lijst met studenten importeren in plaats van de bestaande.",
           "label": "Een nieuwe lijst importeren",
           "title": "Vervangen"
+        },
+        "sco": {
+          "details": "Met deze actie kun je:",
+          "details-add": "nieuwe leerlingen toevoegen",
+          "details-disable": "voormalige leerlingen deactiveren",
+          "details-update": "reeds geïmporteerde leerlingen wijzigen",
+          "label": "De lijst importeren",
+          "title": "De lijst met leerlingen importeren"
         }
       },
       "banner": {
