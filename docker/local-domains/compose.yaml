@@ -15,6 +15,28 @@ services:
       - 'host.docker.internal:host-gateway'
     environment:
       - API_HOST=host.docker.internal
+    networks:
+      pix_local:
+        # creates aliases for other containers connected to pix_local
+        aliases:
+          - app.dev.pix.fr
+          - app.dev.pix.org
+          - orga.dev.pix.fr
+          - orga.dev.pix.org
+          - admin.dev.pix.fr
+          - admin.dev.pix.org
+          - certif.dev.pix.fr
+          - certif.dev.pix.org
+          - 1d.dev.pix.fr
+          - 1d.dev.pix.org
+          - api.dev.pix.fr
+          - api.dev.pix.org
+
 volumes:
   caddy_data:
   caddy_config:
+
+networks:
+  pix_local:
+    # makes this network available to other compose files under the name pix_local
+    name: pix_local
