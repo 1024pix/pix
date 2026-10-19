@@ -3,6 +3,9 @@
     "description": "La plateforme dédiée à l'organisation de sessions de Certification Pix. Votre espace Pix Certif vous permet de créer et administrer des sessions de certification."
   },
   "common": {
+    "a11y": {
+      "external-link": " Ce lien s'ouvre dans un nouvel onglet."
+    },
     "actions": {
       "add": "Ajouter",
       "back": "Retour",
@@ -233,7 +236,8 @@
       "a11y": "Accessibilité : partiellement conforme",
       "aria-label": "Navigation de pied de page",
       "current-year": "© {currentYear} Pix",
-      "legal-notice": "Mentions légales"
+      "legal-notice": "Mentions légales",
+      "status": "Statut des services"
     },
     "sidebar": {
       "change-center": {
