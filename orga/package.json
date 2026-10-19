@@ -68,7 +68,7 @@
     "@glint/tsserver-plugin": "2.7.9",
     "@rollup/plugin-babel": "7.1.0",
     "@testing-library/dom": "10.4.2",
-    "@types/lodash": "4.17.25",
+    "@types/lodash": "4.17.26",
     "@types/qunit": "2.19.14",
     "@types/rsvp": "4.0.9",
     "@types/sinon": "22.0.0",
