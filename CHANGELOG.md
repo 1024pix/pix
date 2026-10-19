@@ -1,5 +1,75 @@
 # Pix Changelog
 
+# [5.524.0](https://github.com/1024pix/pix/compare/v5.523.0...v5.524.0) (2026-10-19)
+
+### :rocket: Amélioration
+
+- [#18023](https://github.com/1024pix/pix/pull/18023) Ajoute un bouton d'édition sur la page Scoring du formulaire de création d'une version (PIX-24729)
+- [#18010](https://github.com/1024pix/pix/pull/18010) Ajouter des textes adaptés aux publics scolaires sur le composant d'ajout de participants (PIX-24718).
+- [#18105](https://github.com/1024pix/pix/pull/18105) Changer le pictogramme des attestations dans pix-assets
+- [#17783](https://github.com/1024pix/pix/pull/17783) Creer le service pour stocker le score Pix dans la table competence_scores
+- [#18084](https://github.com/1024pix/pix/pull/18084) Mise en place mécanisme pour choisir une campagne depuis Moodle (PIX-24517)
+- [#17773](https://github.com/1024pix/pix/pull/17773) Redirections front vers la page tunnel (PIX-24187)
+
+### :bug: Correction
+
+- [#18107](https://github.com/1024pix/pix/pull/18107) Corriger l'ordre de tri des paliers dans le récapitulatif de campagne (PIX-24579).
+- [#18102](https://github.com/1024pix/pix/pull/18102) Ralentit l'animation dans la page tunnel des parcours combinés
+
+### :building_construction: Tech
+
+- [#18071](https://github.com/1024pix/pix/pull/18071) :recycle: Supprime les dernières utilisations de  `lodash`
+- [#18148](https://github.com/1024pix/pix/pull/18148) Enlever les stacktraces knex dans l'output des tests
+- [#18143](https://github.com/1024pix/pix/pull/18143) Remplacer `prom-client` par `@prometheus-io/client`
+- [#18154](https://github.com/1024pix/pix/pull/18154) Supprime dotenv des applications front.
+
+### :arrow_up: Montée de version
+
+- [#18155](https://github.com/1024pix/pix/pull/18155) Pin dependency @prometheus-io/client to 0.16.1 (api)
+- [#18149](https://github.com/1024pix/pix/pull/18149) Update aws-sdk-js-v3 monorepo to v3.1149.0 (api)
+- [#18125](https://github.com/1024pix/pix/pull/18125) Update dependency @types/lodash to v4.17.26 (audit-logger)
+- [#18126](https://github.com/1024pix/pix/pull/18126) Update dependency @types/lodash to v4.17.26 (orga)
+- [#18127](https://github.com/1024pix/pix/pull/18127) Update dependency @types/node to v24.19.2 (audit-logger)
+- [#18128](https://github.com/1024pix/pix/pull/18128) Update dependency @types/node to v24.19.2 (e2e-playwright)
+- [#18129](https://github.com/1024pix/pix/pull/18129) Update dependency @types/node to v26.6.5 (api)
+- [#18150](https://github.com/1024pix/pix/pull/18150) Update dependency dependency-cruiser to v18.6.0 (api)
+- [#18130](https://github.com/1024pix/pix/pull/18130) Update dependency dotenv to v18.0.7 (audit-logger)
+- [#18131](https://github.com/1024pix/pix/pull/18131) Update dependency dotenv to v18.0.7 (e2e-playwright)
+- [#18132](https://github.com/1024pix/pix/pull/18132) Update dependency dotenv to v18.0.7 (junior)
+- [#18133](https://github.com/1024pix/pix/pull/18133) Update dependency dotenv to v18.0.7 (mon-pix)
+- [#18152](https://github.com/1024pix/pix/pull/18152) Update dependency ember-keyboard to v10 (certif)
+- [#18156](https://github.com/1024pix/pix/pull/18156) Update dependency ember-keyboard to v10 (mon-pix)
+- [#18103](https://github.com/1024pix/pix/pull/18103) Update dependency ember-metrics to v3 (admin)
+- [#18104](https://github.com/1024pix/pix/pull/18104) Update dependency ember-metrics to v3 (certif)
+- [#18106](https://github.com/1024pix/pix/pull/18106) Update dependency ember-metrics to v3 (mon-pix)
+- [#18096](https://github.com/1024pix/pix/pull/18096) Update dependency eslint to v10 (api)
+- [#18110](https://github.com/1024pix/pix/pull/18110) Update dependency eslint to v10 (e2e-playwright)
+- [#18113](https://github.com/1024pix/pix/pull/18113) Update dependency eslint-plugin-chai-expect to v4.1.1 (api)
+- [#18114](https://github.com/1024pix/pix/pull/18114) Update dependency eslint-plugin-chai-expect to v4.1.1 (audit-logger)
+- [#18115](https://github.com/1024pix/pix/pull/18115) Update dependency eslint-plugin-chai-expect to v4.1.1 (certif)
+- [#18117](https://github.com/1024pix/pix/pull/18117) Update dependency eslint-plugin-cypress to v7 (e2e)
+- [#18118](https://github.com/1024pix/pix/pull/18118) Update dependency eslint-plugin-mocha to v12 (audit-logger)
+- [#18120](https://github.com/1024pix/pix/pull/18120) Update dependency mocha to v12 (api)
+- [#18151](https://github.com/1024pix/pix/pull/18151) Update dependency nodemailer to v10.1.0 (api)
+- [#18134](https://github.com/1024pix/pix/pull/18134) Update dependency p-queue to v9.3.5 (admin)
+- [#18135](https://github.com/1024pix/pix/pull/18135) Update dependency p-queue to v9.3.5 (certif)
+- [#18136](https://github.com/1024pix/pix/pull/18136) Update dependency p-queue to v9.3.5 (mon-pix)
+- [#18137](https://github.com/1024pix/pix/pull/18137) Update dependency p-queue to v9.3.5 (orga)
+- [#18138](https://github.com/1024pix/pix/pull/18138) Update dependency prettier to v3.9.10 (admin)
+- [#18139](https://github.com/1024pix/pix/pull/18139) Update dependency prettier to v3.9.10 (audit-logger)
+- [#18140](https://github.com/1024pix/pix/pull/18140) Update dependency prettier to v3.9.10 (certif)
+- [#18141](https://github.com/1024pix/pix/pull/18141) Update dependency prettier to v3.9.10 (dossier racine)
+- [#18142](https://github.com/1024pix/pix/pull/18142) Update dependency prettier to v3.9.10 (orga)
+- [#18144](https://github.com/1024pix/pix/pull/18144) Update dependency protobufjs to v8.8.1 (api)
+- [#18123](https://github.com/1024pix/pix/pull/18123) Update dependency qunit to v3 (admin)
+- [#18124](https://github.com/1024pix/pix/pull/18124) Update dependency qunit to v3 (certif)
+- [#18157](https://github.com/1024pix/pix/pull/18157) Update dependency qunit to v3 (junior)
+- [#18158](https://github.com/1024pix/pix/pull/18158) Update dependency qunit to v3 (mon-pix)
+- [#18160](https://github.com/1024pix/pix/pull/18160) Update dependency qunit to v3 (orga)
+- [#18145](https://github.com/1024pix/pix/pull/18145) Update dependency zod to v4.6.6 (e2e-playwright)
+- [#18146](https://github.com/1024pix/pix/pull/18146) Update linters (junior)
+- [#18147](https://github.com/1024pix/pix/pull/18147) Update linters (mon-pix)
+
 # [5.523.0](https://github.com/1024pix/pix/compare/v5.522.0...v5.523.0) (2026-10-16)
 
 ### :rocket: Amélioration
