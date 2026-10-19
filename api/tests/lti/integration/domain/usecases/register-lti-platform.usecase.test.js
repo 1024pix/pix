@@ -2,15 +2,23 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { InvalidLtiPlatformRegistrationError } from '../../../../../src/lti/domain/errors.js';
+import { LtiPlatformRegistration } from '../../../../../src/lti/domain/models/LtiPlatformRegistration.js';
 import { usecases } from '../../../../../src/lti/domain/usecases/index.js';
 import { ltiPlatformRegistrationRepository } from '../../../../../src/lti/infrastructure/repositories/lti-platform-registration.repository.js';
-import { knex } from '../../../../tooling/databases.js';
+import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Integration | LTI | Domain | Usecases | register-lti-platform', function () {
+  let platformId;
+
+  beforeEach(async function () {
+    platformId = databaseBuilder.factory.buildLtiPlatform().id;
+    await databaseBuilder.commit();
+  });
+
   it('discovers platform’s open ID configuration and register Pix configuration on the platform', async function () {
     // given
-    const { platformOpenIdConfig, platformOpenIdConfigUrl, platformOrigin, toolConfig } =
+    const { platformOpenIdConfig, platformOpenIdConfigUrl, toolConfig } =
       domainBuilder.identityAccessManagement.buildLtiPlatformRegistrationWithPlatformConfig();
 
     const expectedPixConfig = {
@@ -48,7 +56,8 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
     const encryptedPrivateKey = 'encryptedPrivateKey';
     const expectedLtiPlatformRegistration = {
       clientId: toolConfig.client_id,
-      platformOrigin,
+      status: LtiPlatformRegistration.status.ACTIVE,
+      platformId,
       toolConfig,
       platformOpenIdConfigUrl,
       publicKey,
@@ -68,13 +77,23 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
     const dependencies = { httpAgent, ltiPlatformRegistrationRepository, cryptoService };
 
     // when
-    await usecases.registerLtiPlatform({
+    const savedRegistration = await usecases.registerLtiPlatform({
       platformConfigurationUrl: platformOpenIdConfigUrl,
       registrationToken: 'token1234',
       ...dependencies,
     });
 
     // then
+    expect(savedRegistration).to.be.instanceOf(LtiPlatformRegistration);
+    expect(savedRegistration).to.deep.contain({
+      clientId: toolConfig.client_id,
+      status: LtiPlatformRegistration.status.ACTIVE,
+      toolConfig,
+      platformOpenIdConfigUrl,
+      publicKey,
+      encryptedPrivateKey,
+    });
+
     expect(httpAgent.get).to.have.been.calledWith({
       url: platformOpenIdConfigUrl,
       headers: { Accept: 'application/json' },
@@ -90,7 +109,7 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
     expect(cryptoService.generateJSONWebKeyPair).to.have.been.calledOnce;
     expect(cryptoService.encrypt).to.have.been.calledWith(JSON.stringify(privateKey));
 
-    const savedPlatformRegistrations = await knex('lti_platform_registrations').select('*');
+    const savedPlatformRegistrations = await knex.select('*').from('lti_platform_registrations');
     expect(savedPlatformRegistrations).to.have.lengthOf(1);
     expect(savedPlatformRegistrations[0]).to.deep.contain(expectedLtiPlatformRegistration);
   });
@@ -126,9 +145,7 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
     it('throws InvalidLtiPlatformRegistrationError', async function () {
       // given
       const { platformOpenIdConfigUrl } =
-        domainBuilder.identityAccessManagement.buildLtiPlatformRegistrationWithPlatformConfig({
-          platformOrigin: 'https://moodle.unauthorized.net',
-        });
+        domainBuilder.identityAccessManagement.buildLtiPlatformRegistrationWithPlatformConfig();
 
       const httpAgent = {
         get: sinon.stub().resolves({ code: 200, isSuccessful: true, data: { name: 'invalid configuration' } }),
