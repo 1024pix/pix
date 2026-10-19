@@ -20,6 +20,11 @@
 
   &--selectable {
     min-width: 100%;
+    margin-bottom: var(--pix-spacing-4x);
+
+    > .combined-course-item {
+      margin-bottom: 0;
+    }
   }
 
   &--isCampaignType {
