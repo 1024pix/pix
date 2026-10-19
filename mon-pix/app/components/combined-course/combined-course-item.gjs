@@ -11,7 +11,6 @@ import Duration from './duration';
 const Content = <template>
   <div
     class="combined-course-item
-      {{if @hasYellowBorder 'combined-course-item--yellow-border'}}
       {{if @hasWhiteBackground 'combined-course-item--white'}}
       {{if @isCurrentItem 'combined-course-item--current'}}
       {{if @isCampaignType 'combined-course-item--isCampaignType'}}"
@@ -56,17 +55,14 @@ const Content = <template>
         >
           <div>
           </div>
-          <div
-            class="combined-course-item__indicator--completed
-              {{if @hasYellowBorder 'combined-course-item__indicator--yellow'}}"
-          >
+          <div class="combined-course-item__indicator--completed">
             {{#unless @isCampaignType}}
               <span class="combined-course-item__completion-field">{{t "pages.combined-courses.items.completed"}}</span>
             {{/unless}}
             <PixIcon
               @name="checkCircle"
               @plainIcon={{true}}
-              class="combined-course-item__completion-icon {{if @hasYellowBorder 'combined-course-item__icon--yellow'}}"
+              class="combined-course-item__completion-icon"
               @ariaHidden={{true}}
             />
           </div>
@@ -149,7 +145,6 @@ function hasWhiteBackground(item) {
           @isCampaignType={{eq @item.type CombinedCourseItemTypes.CAMPAIGN}}
           @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
           @hasWhiteBackground={{hasWhiteBackground @item}}
-          @hasYellowBorder={{and (eq @item.type CombinedCourseItemTypes.MODULE) @isCombinedCourseCompleted}}
           @isCurrentItem={{@isSelectedItem}}
           @isLoading={{@isLoading}}
         >

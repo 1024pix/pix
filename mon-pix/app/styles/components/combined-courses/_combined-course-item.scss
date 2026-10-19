@@ -39,10 +39,6 @@
     background: color-mix(in srgb, var(--pix-primary-100) 20%, transparent);
   }
 
-  &--yellow-border {
-    border: 6px solid var(--pix-secondary-500);
-  }
-
   &--white {
     background: var(--pix-neutral-0);
   }
@@ -73,10 +69,6 @@
     svg {
       width: 100%;
       height: 100%;
-    }
-
-    &--yellow {
-      color: var(--pix-secondary-500);
     }
   }
 
