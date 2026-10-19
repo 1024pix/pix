@@ -27,7 +27,7 @@ export class OidcAuthenticationServiceRegistry {
       requestedApplication.applicationName,
       requestedApplication.applicationTld,
     );
-    return this.#oidcProviderServicesByRequestedApplication[key] || [];
+    return this.#oidcProviderServicesByRequestedApplication[key] ?? [];
   }
 
   /**
