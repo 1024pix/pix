@@ -5,6 +5,7 @@ import { Pushgateway } from '@prometheus-io/client';
 
 import { config } from '../../../../config/config.js';
 import { child } from '../utils/logger.js';
+import { registerMemoryMetrics } from './memory-metrics.js';
 import { register } from './register.js';
 
 const logger = child('metrics:pushgateway', { event: 'metrics' });
@@ -53,6 +54,7 @@ export function startPushingMetrics() {
   logger.info('Start pushing metrics to Prometheus pushgateway');
 
   if (pushMetricsInterval !== undefined) return;
+  registerMemoryMetrics();
   pushMetricsInterval = setInterval(() => {
     pushMetrics().catch((err) => logger.error({ err }, 'error while pushing metrics'));
   }, config.metrics.prometheus.pushgateway.pushInterval);
