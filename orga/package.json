@@ -130,7 +130,7 @@
     "sinon": "22.1.0",
     "striptags": "3.2.0",
     "stylelint": "17.16.0",
-    "typescript": "6.0.3",
+    "typescript": "7.0.2",
     "typescript-eslint": "8.71.1",
     "vite": "8.3.4",
     "xss": "1.0.15"
