@@ -1347,8 +1347,10 @@
           "description": "¡Completa tu diagnóstico para desbloquear un programa de módulos adaptado a tu resultado!",
           "title": "Programa personalizado de módulos"
         },
+        "module-objectives-completed": "En este módulo has visto:",
         "restart-campaign": "Volver a empezar",
         "restart-module": "Volver a empezar el módulo",
+        "retry-module": "Volver a reproducir este módulo",
         "start-campaign": "Empezar",
         "start-module": "Empezar el módulo",
         "tagText": "¡Ya estás ahí!"

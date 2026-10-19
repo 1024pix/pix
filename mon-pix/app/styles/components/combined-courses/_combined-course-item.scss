@@ -35,12 +35,83 @@
     }
   }
 
+  &--replayable {
+    align-items: stretch;
+
+    @include breakpoints.device-is('mobile') {
+      flex-wrap: wrap;
+
+      .combined-course-item__main,
+      .combined-course-item__indicator {
+        display: contents;
+      }
+
+      .combined-course-item__content {
+        flex: 1;
+        order: 1;
+      }
+
+      .combined-course-item__indicator--completed {
+        align-self: center;
+        order: 2;
+      }
+
+      .combined-course-item__objectives {
+        flex-basis: 100%;
+        order: 3;
+      }
+
+      .combined-course-item__replay {
+        flex-basis: 100%;
+        order: 4;
+      }
+    }
+  }
+
   &--formation {
     background: color-mix(in srgb, var(--pix-primary-100) 20%, transparent);
   }
 
   &--white {
     background: var(--pix-neutral-0);
+  }
+
+  &__main {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--pix-spacing-4x);
+  }
+
+  &__objectives {
+    @extend %pix-body-s;
+  }
+
+  &__objectives-title {
+    margin-bottom: var(--pix-spacing-2x);
+    font-weight: var(--pix-font-bold);
+  }
+
+  &__objectives-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-1x);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__objectives-item {
+    display: flex;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+  }
+
+  &__objectives-icon {
+    flex-shrink: 0;
+    width: var(--pix-spacing-4x);
+    height: var(--pix-spacing-4x);
+    fill: var(--pix-primary-500);
   }
 
   &__content {
@@ -126,6 +197,11 @@
   }
 
   &__indicator {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-4x);
+    align-items: flex-end;
+    justify-content: space-between;
     order: 2;
 
     &--locked {

@@ -1347,8 +1347,10 @@
           "description": "Terminez votre diagnostic pour débloquer un programme de modules adapté à votre résultat !",
           "title": "Programme personnalisé de modules"
         },
+        "module-objectives-completed": "Dans ce module, vous avez vu :",
         "restart-campaign": "Recommencer",
         "restart-module": "Recommencer le module",
+        "retry-module": "Rejouer ce module",
         "start-campaign": "Commencer",
         "start-module": "Commencer le module",
         "tagText": "Vous en êtes là !"

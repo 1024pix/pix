@@ -1347,8 +1347,10 @@
           "description": "Complete your assessment to unlock a programme of modules tailored to your results!",
           "title": "Customised module programme"
         },
+        "module-objectives-completed": "In this module, you have learnt:",
         "restart-campaign": "Restart",
         "restart-module": "Restart module",
+        "retry-module": "Play this module again",
         "start-campaign": "Start",
         "start-module": "Start module",
         "tagText": "You're at that point!"
