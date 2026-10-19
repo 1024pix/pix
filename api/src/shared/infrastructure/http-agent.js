@@ -5,10 +5,15 @@ const { performance } = perf_hooks;
 import { logger } from './utils/logger.js';
 
 class HttpResponse {
-  constructor({ code, data, isSuccessful }) {
+  constructor({ code, data, error, isSuccessful }) {
     this.code = code;
     this.data = data;
     this.isSuccessful = isSuccessful;
+    if (error) {
+      this.data = error.message;
+      this.cause = error.cause;
+      this.isSuccessful = false;
+    }
   }
 }
 
@@ -88,8 +93,7 @@ async function _doRequest({ url, body, headers, method }) {
 
     return new HttpResponse({
       code: null,
-      data: httpErr.message,
-      isSuccessful: false,
+      error: httpErr,
     });
   }
 }
