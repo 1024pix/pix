@@ -68,7 +68,7 @@
     "@hapi/basic": "7.0.2",
     "@hapi/hapi": "21.4.10",
     "bcrypt": "6.0.0",
-    "dotenv": "18.0.6",
+    "dotenv": "18.0.7",
     "hapi-pino": "13.0.0",
     "joi": "18.2.9",
     "knex": "3.3.0",
