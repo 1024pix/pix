@@ -4,8 +4,6 @@
 
 import * as url from 'node:url';
 
-import _ from 'lodash';
-
 import { databaseConnectionRegistry } from '../../../db/database-connection-registry.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { parseCsv } from '../../../scripts/helpers/csvHelpers.js';
@@ -61,11 +59,11 @@ function buildCountries({ csvData }) {
 }
 
 function checkTransformUnicity(countries, logger) {
-  const grouped = _.groupBy(countries, 'matcher');
+  const grouped = Object.groupBy(countries, ({ matcher }) => matcher);
   let hasError = false;
   for (const code in grouped) {
     const group = grouped[code];
-    const uniq = _.uniq(_.map(group, 'code'));
+    const uniq = [...new Set(group.map((g) => g.code))];
     if (uniq.length > 1) {
       const conflictNames = group.map((country) => country.originalName);
       logger.error(`CONFLICT: ${uniq.join()} ${conflictNames.join()}`);
