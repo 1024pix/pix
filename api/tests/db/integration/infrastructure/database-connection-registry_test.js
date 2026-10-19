@@ -26,6 +26,11 @@ function buildUnreachableConnection() {
     },
     acquireConnectionTimeout: 1000,
     pool: { min: 0, max: 1 },
+    log: {
+      warn: () => {
+        // hide knex stacktraces noise from test output for rejection tests.
+      },
+    },
   });
 }
 
@@ -89,6 +94,7 @@ describe('Integration | Infrastructure | database-connection-registry', function
     it('should reject when a required connection is not configured', async function () {
       // given
       const registry = buildRegistry({ api: buildApiConnection(), datawarehouse: buildNotConfiguredConnection() });
+      await registry.get('api').knex.raw('SELECT 1');
 
       // when / then
       await expect(registry.initialize(['api', 'datawarehouse'])).to.be.rejectedWith(
@@ -112,6 +118,7 @@ describe('Integration | Infrastructure | database-connection-registry', function
         api: buildApiConnection(),
         unreachable: buildUnreachableConnection(),
       });
+      await registry.get('api').knex.raw('SELECT 1');
 
       // when / then
       await expect(registry.checkStatuses()).to.be.rejectedWith('Connection to database unreachable not available.');
