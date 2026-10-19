@@ -10,6 +10,7 @@ export const allTestData = [
     appCertificationListInfo: {
       mainStatus: 'Certification Pix : Obtenue',
       extraStatus: 'CLéA Numérique : Obtenue',
+      note: "Ce test doit être lancé APRÈS celui d'échec, car un candidat Cléa ayant déjà réussi la certif n'y est ensuite plus éligible.",
     },
   },
   {

@@ -10,6 +10,7 @@ export const allTestData = [
     appCertificationListInfo: {
       mainStatus: 'Certification Pix : Non obtenue',
       extraStatus: 'CLéA Numérique : Non obtenue',
+      note: "Ce test doit être lancé AVANT celui de réussite, car un candidat Cléa ayant déjà réussi la certif n'y est ensuite plus éligible.",
       comment:
         "Commentaire : Les résultats obtenus ne permettent pas encore la délivrance de la certification Pix. Vous avez besoin de progresser pour être plus à l'aise avec votre environnement numérique et pouvoir valoriser vos compétences.",
     },
