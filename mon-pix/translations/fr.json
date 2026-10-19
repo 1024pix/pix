@@ -1348,6 +1348,7 @@
           "description": "Terminez votre diagnostic pour débloquer un programme de modules adapté à votre résultat !",
           "title": "Programme personnalisé de modules"
         },
+        "restart-campaign": "Recommencer",
         "restart-module": "Recommencer le module",
         "start-campaign": "Commencer",
         "start-module": "Commencer le module",

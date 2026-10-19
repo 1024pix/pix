@@ -1348,6 +1348,7 @@
           "description": "Schließe deine Diagnose ab, um ein auf dein Ergebnis abgestimmtes Modulprogramm freizuschalten!",
           "title": "Individuelles Programm von Modulen"
         },
+        "restart-campaign": "Neu beginnen",
         "restart-module": "Das Modul erneut starten",
         "start-campaign": "Beginnen",
         "start-module": "Das Modul starten",

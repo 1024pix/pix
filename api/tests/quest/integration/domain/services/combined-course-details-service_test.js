@@ -36,13 +36,12 @@ const { combinedCourseDetailsService: CombinedCourseDetailsService } = injectDep
 );
 
 describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService', function () {
-  let code, combinedCourseUrl;
+  let code;
   beforeEach(function () {
     code = 'SOMETHING';
-    combinedCourseUrl = '/parcours/' + code;
 
     sinon.stub(cryptoService, 'encrypt');
-    cryptoService.encrypt.withArgs(combinedCourseUrl).resolves('encryptedUrl');
+    cryptoService.encrypt.resolves('encryptedUrl');
   });
 
   it('should throw an error if CombinedCourse does not exist', async function () {

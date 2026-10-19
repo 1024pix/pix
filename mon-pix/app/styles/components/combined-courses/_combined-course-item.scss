@@ -1,6 +1,7 @@
 @use 'pix-design-tokens/typography';
 @use 'pix-design-tokens/breakpoints';
 @use '../../globals/a11y' as *;
+@use 'pix-design-tokens/shadows';
 
 .combined-course-item {
   display: flex;
@@ -14,6 +15,8 @@
   background: rgb(var(--pix-primary-100-inline), 0.2);
   border: 1px solid var(--pix-primary-100);
   border-radius: var(--pix-spacing-4x);
+
+  @extend %pix-shadow-default;
 
   &--selectable {
     min-width: 100%;

@@ -31,7 +31,7 @@ module('Integration | Component | Combined Courses | Process custom passages', f
     assert.ok(screen.getByText(t('pages.combined-courses.process-custom-passages.list.generate-personalize-course')));
   });
 
-  test('redirects to combined course presentation page on click on continue', async function (assert) {
+  test('redirects to combined course tunnel page on click on continue', async function (assert) {
     // given
     const routerService = this.owner.lookup('service:router');
     sinon.stub(routerService, 'transitionTo');
@@ -52,7 +52,7 @@ module('Integration | Component | Combined Courses | Process custom passages', f
       await click(screen.getByRole('button', { name: t('common.actions.continue') }));
 
       // then
-      sinon.assert.calledWithExactly(routerService.transitionTo, 'combined-courses.presentation', 'MyCode');
+      sinon.assert.calledWithExactly(routerService.transitionTo, 'combined-courses.combined-course.tunnel', 'MyCode');
       assert.ok(true);
     });
   });

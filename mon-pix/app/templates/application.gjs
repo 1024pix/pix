@@ -48,7 +48,7 @@ export default class ApplicationTemplate extends Component {
       this.router.currentRouteName,
     );
 
-    const isTunnelPages = this.router.currentRouteName === 'combined-courses.tunnel';
+    const isTunnelPages = this.router.currentRouteName === 'combined-courses.combined-course.tunnel';
 
     return isAccessPages || isEvaluationPages || isCertificationsPages || isTunnelPages || this.isModulix;
   }
