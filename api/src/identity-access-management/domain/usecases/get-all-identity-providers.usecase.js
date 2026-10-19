@@ -1,7 +1,7 @@
 /**
  * @param {Object} params
- * @param {OidcProviderRepository} params.oidcProviderRepository
- * @return {Promise<Array<OidcProvider>>}
+ * @param {typeof import("../../infrastructure/repositories/oidc-provider-repository.js").oidcProviderRepository} params.oidcProviderRepository
+ * @return {Promise<Array<import("../models/OidcProvider.js").OidcProvider>>}
  */
 export async function getAllIdentityProviders({ oidcProviderRepository }) {
   return oidcProviderRepository.findAllOidcProviders();
