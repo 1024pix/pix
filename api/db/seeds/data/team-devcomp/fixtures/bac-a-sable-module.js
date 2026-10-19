@@ -6,11 +6,11 @@ export const bacASableModule = {
   visibility: 'private',
   image: 'https://assets.pix.org/modules/placeholder-details.svg',
   description:
-    "<p>Ce module est dédié à des tests internes à Pix.</p><p>Il contient normalement, si tout va bien, l'intégralité des fonctionnalités disponibles à date.</p>",
+    "<p>Chat lu ! Ce module est dédié à des tests internes à Pix.</p><p>Il contient normalement, si tout va bien, l'intégralité des fonctionnalités disponibles à date.</p>",
   duration: 5,
   level: 'novice',
   tabletSupport: 'inconvenient',
-  objectives: ['Non régression fonctionnelle'],
+  objectives: ['Non régression fonctionnelle', 'chat 🐱'],
   sections: [
     {
       id: 'cfaefec9-e185-43b8-8258-e8beff6dd56b',
@@ -28,7 +28,7 @@ export const bacASableModule = {
                 type: 'image',
                 url: 'https://assets.pix.org/draft/flamingo.jpg',
                 alt: 'Image avec une largeur maximale de 300px',
-                alternativeText: 'Cette image a une propriété maxWidth de 300px',
+                alternativeText: "Cette image a une propriété maxWidth de 300px. Chat c'est bien.",
                 maxWidth: 300,
               },
             },
@@ -64,7 +64,7 @@ export const bacASableModule = {
                   },
                   {
                     id: '2',
-                    content: 'Friends',
+                    content: 'Chat',
                   },
                   {
                     id: '3',
@@ -103,7 +103,7 @@ export const bacASableModule = {
                 id: 'd199f893-42e4-40f9-b6db-70b7e6bb69b1',
                 tag: 'tip',
                 type: 'text',
-                content: '<p>Ceci&nbsp;est un contenu avec le tag "Astuce".</p>',
+                content: '<p>Ceci&nbsp;est un contenu avec le tag "Astuce" et un chat 🐱.</p>',
               },
             },
             {
@@ -129,7 +129,7 @@ export const bacASableModule = {
                 url: 'https://assets.pix.org/test/ronron.mp3',
                 type: 'audio',
                 title: 'Audio de ronron de chat',
-                transcription: '<p>ron... ron...</p>',
+                transcription: '<p>ron... ron... Fait le chat.</p>',
               },
             },
             {
@@ -156,7 +156,7 @@ export const bacASableModule = {
                       proposals: [
                         {
                           id: '1',
-                          content: 'Manger les cookies glacés de Clément',
+                          content: 'Manger les cookies glacés de Chat ment',
                         },
                         {
                           id: '2',
@@ -179,7 +179,7 @@ export const bacASableModule = {
                           content: 'Descendre une pente en ski de fond avec Julie',
                         },
                       ],
-                      instruction: '<p>Quels sont tes petits plaisirs de la vie ?</p>',
+                      instruction: "<p>Quels sont tes petits plaisirs de la vie ? Chat c'est intéressant.</p>",
                       hasShortProposals: false,
                     },
                   ],
@@ -553,7 +553,7 @@ export const bacASableModule = {
                   },
                   {
                     id: '3',
-                    content: 'Citron/sucre 🍋',
+                    content: 'chat/sucre 🍋',
                     feedback: {
                       diagnosis: '<p>Pardon ?</p>',
                     },
