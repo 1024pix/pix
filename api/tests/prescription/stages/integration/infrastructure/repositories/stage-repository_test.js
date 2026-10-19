@@ -17,7 +17,7 @@ import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Repository | Stage Acquisition', function () {
   describe('get', function () {
-    it('should return a stage for a given id', async function () {
+    it('returns a stage for a given id', async function () {
       // given
       const stage1 = databaseBuilder.factory.buildStage({ id: 1 });
       databaseBuilder.factory.buildStage({ id: 2 });
@@ -32,7 +32,7 @@ describe('Integration | Repository | Stage Acquisition', function () {
     });
 
     context('when the stage does not exist', function () {
-      it('should throw a not found message error', async function () {
+      it('throws a not found message error', async function () {
         // given
         databaseBuilder.factory.buildStage({ id: 1 });
         await databaseBuilder.commit();
@@ -55,58 +55,86 @@ describe('Integration | Repository | Stage Acquisition', function () {
     beforeEach(async function () {
       campaigns = [databaseBuilder.factory.buildCampaign(), databaseBuilder.factory.buildCampaign()];
       stages = [
-        databaseBuilder.factory.buildStage({ targetProfileId: campaigns[0].targetProfileId }),
+        databaseBuilder.factory.buildStage({ targetProfileId: campaigns[0].targetProfileId, threshold: 10 }),
+        databaseBuilder.factory.buildStage({ targetProfileId: campaigns[0].targetProfileId, threshold: 0 }),
         databaseBuilder.factory.buildStage({ targetProfileId: campaigns[1].targetProfileId, threshold: 20 }),
         databaseBuilder.factory.buildStage({ targetProfileId: campaigns[1].targetProfileId, threshold: 10 }),
+        databaseBuilder.factory.buildStage({ targetProfileId: campaigns[1].targetProfileId, threshold: 0 }),
       ];
 
       await databaseBuilder.commit();
     });
 
-    it('should return Stage instances', async function () {
+    it('returns Stage instances', async function () {
       const result = await getByCampaignIds(campaigns.map((campaign) => campaign.id));
       expect(result[0]).to.be.instanceof(Stage);
     });
 
-    it('should return the expected stages', async function () {
+    it('returns the expected stages', async function () {
       const result = await getByCampaignIds(campaigns.map((campaign) => campaign.id));
-      expect(result.length).to.deep.equal(3);
+      expect(result.length).to.deep.equal(5);
     });
 
-    it('should sort stages by threshold', async function () {
+    it('sorts stages by threshold', async function () {
       const result = await getByCampaignIds(campaigns.map((campaign) => campaign.id));
-      expect(result[1].id).to.deep.equal(stages[2].id);
+      expect(result[4].id).to.deep.equal(stages[2].id);
+    });
+    it('sorts stages by threshold ordered as zero stage, first skill stage, then others', async function () {
+      // given
+      const firstSkillStage = databaseBuilder.factory.buildStage.firstSkill({
+        targetProfileId: campaigns[1].targetProfileId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await getByCampaignIds(campaigns.map((campaign) => campaign.id));
+
+      // then
+      expect(result[0].id).to.deep.equal(stages[1].id);
+      expect(result[1].id).to.deep.equal(stages[4].id);
+      expect(result[2].id).to.deep.equal(firstSkillStage.id);
+      expect(result[3].id).to.deep.equal(stages[0].id);
+      expect(result[4].id).to.deep.equal(stages[3].id);
+      expect(result[5].id).to.deep.equal(stages[2].id);
     });
   });
 
   describe('getByCampaignId', function () {
     let campaign;
-    let stages;
+    let zeroStage, firstSkillStage, level1Stage, level2Stage;
 
     beforeEach(async function () {
       campaign = databaseBuilder.factory.buildCampaign();
-      stages = [
-        databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 40 }),
-        databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 20 }),
-        databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 10 }),
-      ];
 
+      level1Stage = databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, level: 1 });
+      level2Stage = databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, level: 2 });
+      zeroStage = databaseBuilder.factory.buildStage.withLevel.zero({ targetProfileId: campaign.targetProfileId });
       await databaseBuilder.commit();
     });
 
-    it('should return Stage instances', async function () {
+    it('returns Stage instances', async function () {
       const result = await getByCampaignId(campaign.id);
       expect(result[0]).to.be.instanceof(Stage);
     });
 
-    it('should return the expected stages', async function () {
+    it('returns the expected stages', async function () {
       const result = await getByCampaignId(campaign.id);
       expect(result.length).to.deep.equal(3);
     });
 
-    it('should sort stages by threshold', async function () {
+    it('sorts stages by level ordered as zero stage, first skill stage, then others', async function () {
+      // given
+      firstSkillStage = databaseBuilder.factory.buildStage.firstSkill({ targetProfileId: campaign.targetProfileId });
+      await databaseBuilder.commit();
+
+      // when
       const result = await getByCampaignId(campaign.id);
-      expect(result[0].id).to.deep.equal(stages[2].id);
+
+      // then
+      expect(result[0].id).to.deep.equal(zeroStage.id);
+      expect(result[1].id).to.deep.equal(firstSkillStage.id);
+      expect(result[2].id).to.deep.equal(level1Stage.id);
+      expect(result[3].id).to.deep.equal(level2Stage.id);
     });
   });
 
@@ -119,7 +147,7 @@ describe('Integration | Repository | Stage Acquisition', function () {
       campaign = databaseBuilder.factory.buildCampaign();
       stages = [
         databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 40 }),
-        databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 10 }),
+        databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 0 }),
         databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 20 }),
       ];
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
@@ -127,19 +155,36 @@ describe('Integration | Repository | Stage Acquisition', function () {
       await databaseBuilder.commit();
     });
 
-    it('should return Stage instances', async function () {
+    it('returns Stage instances', async function () {
       const result = await getByCampaignParticipationId(campaignParticipation.id);
       expect(result[0]).to.be.instanceof(Stage);
     });
 
-    it('should return the expected stages', async function () {
+    it('returns the expected stages', async function () {
       const result = await getByCampaignParticipationId(campaignParticipation.id);
       expect(result).to.have.deep.members(stages);
     });
 
-    it('should sort stages by threshold', async function () {
+    it('sorts stages by threshold', async function () {
       const result = await getByCampaignParticipationId(campaignParticipation.id);
       expect(result[0].id).to.equal(stages[1].id);
+    });
+
+    it('sorts stages by threshold ordered as zero stage, first skill stage, then others', async function () {
+      // given
+      const firstSkillStage = databaseBuilder.factory.buildStage.firstSkill({
+        targetProfileId: campaign.targetProfileId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await getByCampaignParticipationId(campaignParticipation.id);
+
+      // then
+      expect(result[0].id).to.deep.equal(stages[1].id);
+      expect(result[1].id).to.deep.equal(firstSkillStage.id);
+      expect(result[2].id).to.deep.equal(stages[2].id);
+      expect(result[3].id).to.deep.equal(stages[0].id);
     });
   });
 
@@ -154,9 +199,9 @@ describe('Integration | Repository | Stage Acquisition', function () {
 
       stages = [
         databaseBuilder.factory.buildStage({ targetProfileId: targetProfile1.id, threshold: 40 }),
-        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile1.id, threshold: 10 }),
+        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile1.id, threshold: 0 }),
 
-        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile2.id, threshold: 10 }),
+        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile2.id, threshold: 0 }),
         databaseBuilder.factory.buildStage({ targetProfileId: targetProfile2.id, threshold: 30 }),
         databaseBuilder.factory.buildStage({ targetProfileId: targetProfile2.id, threshold: 40 }),
       ];
@@ -164,19 +209,19 @@ describe('Integration | Repository | Stage Acquisition', function () {
       await databaseBuilder.commit();
     });
 
-    it('should return Stage instances', async function () {
+    it('returns Stage instances', async function () {
       const result = await getByTargetProfileIds([targetProfile1.id, targetProfile2.id]);
       expect(result[0]).to.be.instanceof(Stage);
     });
 
-    it('should return the expected stages', async function () {
+    it('returns the expected stages', async function () {
       const result = await getByTargetProfileIds([targetProfile1.id, targetProfile2.id]);
       expect(result).to.have.deep.members(stages);
     });
   });
 
   describe('update', function () {
-    it('should update the stage', async function () {
+    it('updates the stage', async function () {
       // given
       const stage = databaseBuilder.factory.buildStage({
         level: 1,
@@ -215,7 +260,7 @@ describe('Integration | Repository | Stage Acquisition', function () {
   });
 
   describe('saveAll', function () {
-    it('should save all stages', async function () {
+    it('saves all stages', async function () {
       // given
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
       const { id: secondTargetProfileId } = databaseBuilder.factory.buildTargetProfile();
