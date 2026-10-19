@@ -37,7 +37,7 @@
     "@axe-core/playwright": "4.13.0",
     "@playwright/test": "1.64.0",
     "@types/jsonwebtoken": "9.0.10",
-    "@types/node": "24.19.1",
+    "@types/node": "24.19.2",
     "@types/pngjs": "6.0.5",
     "baseline-browser-mapping": "2.11.28",
     "dotenv": "18.0.6",
