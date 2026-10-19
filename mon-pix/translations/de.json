@@ -1320,7 +1320,6 @@
     "combined-courses": {
       "completed": {
         "description": "Gut gemacht! Du hast einen wichtigen Schritt getan, um in der digitalen Welt zu navigieren.",
-        "retry-text": "Lust auf eine Wiederholung? Du kannst alle Tests frei wiederholen!",
         "survey-button": "Beantwortung des Fragebogens",
         "survey-button-description": "Beantworte den Fragebogen, um deine Meinung über den Pfad zu äußern.",
         "title": "Herzlichen Glückwunsch! Du bist fertig!"

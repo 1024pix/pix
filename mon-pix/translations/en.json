@@ -1320,7 +1320,6 @@
     "combined-courses": {
       "completed": {
         "description": "Well done! You have taken an important step toward navigating the digital world.",
-        "retry-text": "Want to review? You can replay all the modules freely!",
         "survey-button": "Answer the survey",
         "survey-button-description": "Complete the survey to give your opinion on the course.",
         "title": "Congratulations! You're done!"
