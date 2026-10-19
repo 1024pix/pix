@@ -698,7 +698,11 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
               size: 1,
               number: 1,
             },
-            filter: { 'Libellé classe': ['Witch', 'Rogue'], name: 'Zoé', divisions: ['6ème'] },
+            filter: {
+              'Libellé classe': ['Witch', 'Rogue'],
+              name: 'Zoé',
+              divisions: ['6ème'],
+            },
           });
 
           expect(result.pagination).to.deep.equal({
@@ -746,7 +750,9 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
       await databaseBuilder.commit();
 
-      const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({ page: {} });
+      const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
+        page: {},
+      });
 
       expect(result.learners).lengthOf(2);
       expect(result.learners[0]).instanceOf(OrganizationLearnerOverviewForAdmin);
@@ -801,7 +807,9 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
       await databaseBuilder.commit();
 
-      const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({ page: {} });
+      const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
+        page: {},
+      });
 
       expect(result.learners).lengthOf(0);
     });
@@ -883,7 +891,10 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
           size: 1,
           number: 1,
         },
-        filter: { organizationExternalId: 'AbC123', fullName: 'Zoé De Ségazan' },
+        filter: {
+          organizationExternalId: 'AbC123',
+          fullName: 'Zoé De Ségazan',
+        },
       });
 
       expect(result.pagination).to.deep.equal({
@@ -922,7 +933,9 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
         await databaseBuilder.commit();
 
-        const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({ page: {} });
+        const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
+          page: {},
+        });
 
         expect(result.learners).lengthOf(3);
         expect(result.learners[0].id).to.equal(secondLearner.id);
@@ -945,7 +958,9 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
         await databaseBuilder.commit();
 
-        const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({ page: {} });
+        const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
+          page: {},
+        });
 
         expect(result.learners).lengthOf(3);
         expect(result.learners[0].id).to.equal(thirdLearner.id);
@@ -1142,8 +1157,14 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
       it('should return an empty array', async function () {
         // given
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId, division: '6eme A' });
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId, division: '6eme B' });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          division: '6eme A',
+        });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          division: '6eme B',
+        });
 
         await databaseBuilder.commit();
 
@@ -1161,8 +1182,14 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
     context('when there is no organizationLearners with these divisions', function () {
       it('should return an empty array', async function () {
         // given
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId, division: '6eme A' });
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId, division: '6eme B' });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          division: '6eme A',
+        });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          division: '6eme B',
+        });
         const notExistingDivisions = ['6eme C', '6eme D'];
 
         await databaseBuilder.commit();
@@ -1181,8 +1208,14 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
     context('when divisions is an empty array', function () {
       it('should return all learners', async function () {
         // given
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId, division: '6eme A' });
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId, division: '6eme B' });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          division: '6eme A',
+        });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          division: '6eme B',
+        });
 
         await databaseBuilder.commit();
 
@@ -1205,8 +1238,18 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
       attestation = databaseBuilder.factory.buildAttestation();
       mockAttestationStorage(attestation);
       organizationId = databaseBuilder.factory.buildOrganization().id;
-      firstUser = new User(databaseBuilder.factory.buildUser({ firstName: 'alex', lastName: 'Terieur' }));
-      secondUser = new User(databaseBuilder.factory.buildUser({ firstName: 'theo', lastName: 'Courant' }));
+      firstUser = new User(
+        databaseBuilder.factory.buildUser({
+          firstName: 'alex',
+          lastName: 'Terieur',
+        }),
+      );
+      secondUser = new User(
+        databaseBuilder.factory.buildUser({
+          firstName: 'theo',
+          lastName: 'Courant',
+        }),
+      );
       organizationLearner1 = databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
         firstName: 'xandri',
@@ -1283,7 +1326,9 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
     it('should not return learner linked to anonymous user', async function () {
       // given
-      const anonymousUser = databaseBuilder.factory.buildUser({ isAnonymous: true });
+      const anonymousUser = databaseBuilder.factory.buildUser({
+        isAnonymous: true,
+      });
       databaseBuilder.factory.buildOrganizationLearner({
         userId: anonymousUser.id,
         organizationId,
@@ -1304,7 +1349,9 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
     it('should not return learner linked to anonymised user', async function () {
       // given
-      const anonymisedUser = databaseBuilder.factory.buildUser({ hasBeenAnonymised: true });
+      const anonymisedUser = databaseBuilder.factory.buildUser({
+        hasBeenAnonymised: true,
+      });
       databaseBuilder.factory.buildOrganizationLearner({
         userId: anonymisedUser.id,
         organizationId,
@@ -1326,7 +1373,9 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
     context('when no organization learner has obtained his attestation', function () {
       it('should return attestation participants status with obtainedAt at null', async function () {
         // given
-        const attestation = databaseBuilder.factory.buildAttestation({ key: 'ANOTHER_GRADE' });
+        const attestation = databaseBuilder.factory.buildAttestation({
+          key: 'ANOTHER_GRADE',
+        });
         await databaseBuilder.commit();
 
         // when
@@ -1597,6 +1646,194 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
 
         // then
         expect(error).to.be.instanceof(OrganizationLearnerNotFound);
+      });
+    });
+  });
+
+  describe('#findIdWithLastActivityDatePriorTo', function () {
+    context('when learners have old participations', function () {
+      context('when learners are old (updatedAt prior to lastActivityDate)', function () {
+        it('returns learner ids', async function () {
+          // given
+          const updatedAt = new Date('2020-01-01');
+          const lastActivityDate = new Date('2021-01-01');
+
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+          const learnerWithOldParticipation = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            updatedAt,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            organizationLearnerId: learnerWithOldParticipation.id,
+            userId: learnerWithOldParticipation.userId,
+            createdAt: new Date('2020-01-01'),
+          });
+
+          const learnerWithParticipationJustBeforeLastActivityDate = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            updatedAt,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            organizationLearnerId: learnerWithParticipationJustBeforeLastActivityDate.id,
+            userId: learnerWithParticipationJustBeforeLastActivityDate.userId,
+            createdAt: new Date('2020-01-01'),
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            organizationLearnerId: learnerWithParticipationJustBeforeLastActivityDate.id,
+            userId: learnerWithParticipationJustBeforeLastActivityDate.userId,
+            createdAt: new Date('2020-12-31T23:59:59Z'),
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const learners = await organizationLearnerRepository.findIdWithLastActivityDatePriorTo({
+            organizationId,
+            lastActivityDate,
+          });
+
+          // then
+          expect(learners).lengthOf(2);
+          expect(learners[0]).equal(learnerWithOldParticipation.id);
+          expect(learners[1]).equal(learnerWithParticipationJustBeforeLastActivityDate.id);
+        });
+      });
+      context('when learners are recent (updatedAt equal or later than lastActivityDate)', function () {
+        it('returns no learners', async function () {
+          // given
+          const updatedAt = new Date('2026-01-01');
+          const lastActivityDate = new Date('2021-01-01');
+
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+          const learnerWithOldParticipation = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            updatedAt,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            organizationLearnerId: learnerWithOldParticipation.id,
+            userId: learnerWithOldParticipation.userId,
+            createdAt: new Date('2020-01-01'),
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const learners = await organizationLearnerRepository.findIdWithLastActivityDatePriorTo({
+            organizationId,
+            lastActivityDate,
+          });
+
+          // then
+          expect(learners).lengthOf(0);
+        });
+      });
+    });
+
+    context('when learners have recent participations', function () {
+      it('returns no learners', async function () {
+        // given
+        const lastActivityDate = new Date('2021-01-01');
+
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+        const oldLearner = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          updatedAt: new Date('2020-01-01'),
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId: oldLearner.id,
+          userId: oldLearner.userId,
+          createdAt: new Date('2025-01-01'),
+        });
+
+        const recentLearner = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          updatedAt: new Date('2025-01-01'),
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId: recentLearner.id,
+          userId: recentLearner.userId,
+          createdAt: new Date('2020-01-01'),
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId: recentLearner.id,
+          userId: recentLearner.userId,
+          createdAt: new Date('2025-01-01'),
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const learners = await organizationLearnerRepository.findIdWithLastActivityDatePriorTo({
+          organizationId,
+          lastActivityDate,
+        });
+
+        // then
+        expect(learners).lengthOf(0);
+      });
+    });
+
+    context('when learners have no participation', function () {
+      context('when learners are old (updatedAt prior to lastActivityDate)', function () {
+        it('returns learners', async function () {
+          // given
+          const lastActivityDate = new Date('2021-01-01');
+
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+          const oldLearner = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            updatedAt: new Date('2020-01-01'),
+          });
+          const oldLearner2 = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            updatedAt: new Date('2020-12-31T23:59:59Z'),
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const learners = await organizationLearnerRepository.findIdWithLastActivityDatePriorTo({
+            organizationId,
+            lastActivityDate,
+          });
+
+          // then
+          expect(learners).lengthOf(2);
+          expect(learners[0]).equal(oldLearner.id);
+          expect(learners[1]).equal(oldLearner2.id);
+        });
+      });
+      context('when learners are recent (updatedAt equal or later than lastActivityDate)', function () {
+        it('returns no learners', async function () {
+          // given
+          const lastActivityDate = new Date('2021-01-01');
+
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+          databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            updatedAt: lastActivityDate,
+          });
+          databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            updatedAt: new Date('2025-01-01'),
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const learners = await organizationLearnerRepository.findIdWithLastActivityDatePriorTo({
+            organizationId,
+            lastActivityDate,
+          });
+
+          // then
+          expect(learners).lengthOf(0);
+        });
       });
     });
   });

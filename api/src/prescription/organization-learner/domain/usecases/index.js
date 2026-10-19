@@ -12,7 +12,6 @@ import * as userLoginRepository from '../../../../identity-access-management/inf
 import { userToCreateRepository } from '../../../../identity-access-management/infrastructure/repositories/user-to-create.repository.js';
 import * as organizationFeaturesAPI from '../../../../organizational-entities/application/api/organization-features-api.js';
 import { tagRepository } from '../../../../organizational-entities/infrastructure/repositories/tag.repository.js';
-import * as libOrganizationLearnerRepository from '../../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import * as combinedCourseRepository from '../../../../quest/infrastructure/repositories/combined-courses/combined-course-repository.js';
 import { cryptoService } from '../../../../shared/domain/services/crypto-service.js';
 import { mailService } from '../../../../shared/domain/services/mail-service.js';
@@ -42,6 +41,7 @@ import * as analysisRepository from '../../infrastructure/repositories/analysis-
 import { repositories } from '../../infrastructure/repositories/index.js';
 import * as organizationLearnerActivityRepository from '../../infrastructure/repositories/organization-learner-activity-repository.js';
 import * as organizationLearnerFeatureRepository from '../../infrastructure/repositories/organization-learner-feature-repository.js';
+import * as libOrganizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import * as organizationParticipantRepository from '../../infrastructure/repositories/organization-participant-repository.js';
 import * as registrationOrganizationLearnerRepository from '../../infrastructure/repositories/registration-organization-learner-repository.js';
 import * as scoOrganizationParticipantRepository from '../../infrastructure/repositories/sco-organization-participant-repository.js';
@@ -99,6 +99,7 @@ import { createUserAndReconcileToOrganizationLearnerFromExternalUser } from './c
 import { findAssociationBetweenUserAndOrganizationLearner } from './find-association-between-user-and-organization-learner.js';
 import { findDivisionsByOrganization } from './find-divisions-by-organization.js';
 import { findGroupsByOrganization } from './find-groups-by-organization.js';
+import { findIdWithLastActivityDatePriorTo } from './find-id-with-last-activity-date-prior-to.js';
 import { findOrganizationLearnersByUserId } from './find-organization-learners-by-user-id.js';
 import { findOrganizationLearnersForAdmin } from './find-organization-learners-for-admin.js';
 import { findOrganizationLearnersWithOrganizationByUserId } from './find-organization-learners-with-organization.js';
@@ -127,6 +128,7 @@ const usecasesWithoutInjectedDependencies = {
   findAssociationBetweenUserAndOrganizationLearner,
   findDivisionsByOrganization,
   findGroupsByOrganization,
+  findIdWithLastActivityDatePriorTo,
   findOrganizationLearnersByUserId,
   findOrganizationLearnersWithOrganizationByUserId,
   findPaginatedFilteredAttestationParticipantsStatus,
