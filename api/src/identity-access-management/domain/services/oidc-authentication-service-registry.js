@@ -7,8 +7,11 @@ import { OidcAuthenticationService } from './oidc-authentication-service.js';
 import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authentication-service.js';
 
 export class OidcAuthenticationServiceRegistry {
+  /** @type {OidcAuthenticationService[] | null} */
   #allOidcProviderServices = null;
+  /** @type {Record<string, OidcAuthenticationService[]>} */
   #oidcProviderServicesByRequestedApplication = {};
+  /** @type {Record<string, OidcAuthenticationService>} */
   #readyOidcProviderServicesByIdentityProviderCode = {};
 
   constructor(dependencies = {}) {
