@@ -22,20 +22,12 @@ export const ltiPlatformRegistrationRepository = {
     return knexConn.select('publicKey').from('lti_platform_registrations').where('status', 'active').pluck('publicKey');
   },
 
-  async save({
-    clientId,
-    platformOrigin,
-    status,
-    toolConfig,
-    encryptedPrivateKey,
-    publicKey,
-    platformOpenIdConfigUrl,
-  }) {
+  async save({ clientId, platformId, status, toolConfig, encryptedPrivateKey, publicKey, platformOpenIdConfigUrl }) {
     const knexConn = DomainTransaction.getConnection();
     const [ltiPlatformRegistrationDTO] = await knexConn('lti_platform_registrations')
       .insert({
         clientId,
-        platformOrigin,
+        platformId,
         status,
         toolConfig,
         encryptedPrivateKey,
