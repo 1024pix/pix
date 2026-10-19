@@ -1,4 +1,4 @@
-import { collectDefaultMetrics, Counter, Gauge, Histogram, Summary } from 'prom-client';
+import { collectDefaultMetrics, Counter, Gauge, Histogram, Summary } from '@prometheus-io/client';
 
 import { config } from '../../../../config/config.js';
 import { register } from './register.js';

@@ -1,1 +1,1 @@
-export { register } from 'prom-client';
+export { register } from '@prometheus-io/client';
