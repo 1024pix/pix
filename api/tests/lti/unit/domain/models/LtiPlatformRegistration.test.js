@@ -7,7 +7,7 @@ describe('Unit | LTI | Domain | Model | LtiPlatformRegistration', function () {
   describe('#fetchPlatformOpenIdConfig', function () {
     it('should fetch platform config using httpAgent', async function () {
       // given
-      const ltiPlatformRegistration = domainBuilder.identityAccessManagement.buildLtiPlatformRegistration();
+      const ltiPlatformRegistration = domainBuilder.lti.buildLtiPlatformRegistration();
       const platformOpenIdConfig = Symbol('platformOpenIdConfig');
       const httpAgent = {
         get: sinon.stub().resolves({ data: platformOpenIdConfig }),

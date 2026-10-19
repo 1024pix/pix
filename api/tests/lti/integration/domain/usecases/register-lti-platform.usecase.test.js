@@ -19,7 +19,7 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
   it('discovers platform’s open ID configuration and register Pix configuration on the platform', async function () {
     // given
     const { platformOpenIdConfig, platformOpenIdConfigUrl, toolConfig } =
-      domainBuilder.identityAccessManagement.buildLtiPlatformRegistrationWithPlatformConfig();
+      domainBuilder.lti.buildLtiPlatformRegistrationWithPlatformConfig();
 
     const expectedPixConfig = {
       response_types: ['id_token'],
@@ -117,10 +117,9 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
   describe('when fetching platform configuration fails', function () {
     it('throws InvalidLtiPlatformRegistrationError', async function () {
       // given
-      const { platformOpenIdConfigUrl } =
-        domainBuilder.identityAccessManagement.buildLtiPlatformRegistrationWithPlatformConfig({
-          platformOrigin: 'https://moodle.unknown.net',
-        });
+      const { platformOpenIdConfigUrl } = domainBuilder.lti.buildLtiPlatformRegistrationWithPlatformConfig({
+        platformOrigin: 'https://moodle.unknown.net',
+      });
 
       const httpAgent = {
         get: sinon.stub().resolves({ code: 404, isSuccessful: false }),
@@ -144,8 +143,7 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
   describe('when platform configuration is invalid', function () {
     it('throws InvalidLtiPlatformRegistrationError', async function () {
       // given
-      const { platformOpenIdConfigUrl } =
-        domainBuilder.identityAccessManagement.buildLtiPlatformRegistrationWithPlatformConfig();
+      const { platformOpenIdConfigUrl } = domainBuilder.lti.buildLtiPlatformRegistrationWithPlatformConfig();
 
       const httpAgent = {
         get: sinon.stub().resolves({ code: 200, isSuccessful: true, data: { name: 'invalid configuration' } }),
@@ -170,7 +168,7 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
     it('throws InvalidLtiPlatformRegistrationError', async function () {
       // given
       const { platformOpenIdConfig, platformOpenIdConfigUrl } =
-        domainBuilder.identityAccessManagement.buildLtiPlatformRegistrationWithPlatformConfig({
+        domainBuilder.lti.buildLtiPlatformRegistrationWithPlatformConfig({
           platformOrigin: 'https://moodle.unauthorized.net',
         });
 
@@ -192,7 +190,7 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
     it('throws InvalidLtiPlatformRegistrationError', async function () {
       // given
       const { platformOpenIdConfig, platformOpenIdConfigUrl } =
-        domainBuilder.identityAccessManagement.buildLtiPlatformRegistrationWithPlatformConfig();
+        domainBuilder.lti.buildLtiPlatformRegistrationWithPlatformConfig();
 
       const httpAgent = { get: sinon.stub().resolves({ code: 200, isSuccessful: true, data: platformOpenIdConfig }) };
       const dependencies = { httpAgent };
@@ -218,7 +216,7 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
     it('throws InvalidLtiPlatformRegistrationError', async function () {
       // given
       const { platformOpenIdConfig, platformOpenIdConfigUrl } =
-        domainBuilder.identityAccessManagement.buildLtiPlatformRegistrationWithPlatformConfig();
+        domainBuilder.lti.buildLtiPlatformRegistrationWithPlatformConfig();
 
       const expectedPixConfig = {
         response_types: ['id_token'],

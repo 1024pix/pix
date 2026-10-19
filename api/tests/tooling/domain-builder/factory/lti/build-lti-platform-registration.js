@@ -1,5 +1,6 @@
 import { LtiPlatformRegistration } from '../../../../../src/lti/domain/models/LtiPlatformRegistration.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
+import { buildLtiPlatform } from './build-lti-platform.js';
 
 const defaultKeyPair = await cryptoService.generateJSONWebKeyPair();
 defaultKeyPair.encryptedPrivateKey = await cryptoService.encrypt(JSON.stringify(defaultKeyPair.privateKey));
@@ -38,8 +39,8 @@ function getDefaultToolConfig(clientId) {
 export function buildLtiPlatformRegistration({
   clientId = 'AbCD1234',
   encryptedPrivateKey = defaultKeyPair.encryptedPrivateKey,
-  platformOrigin = 'https://moodle.example.net',
-  platformOpenIdConfigUrl = `${platformOrigin}/mod/lti/openid-configuration.php`,
+  platform = buildLtiPlatform(),
+  platformOpenIdConfigUrl = `${platform.origin}/mod/lti/openid-configuration.php`,
   publicKey = defaultKeyPair.publicKey,
   status = 'active',
   toolConfig = getDefaultToolConfig(clientId),
@@ -48,7 +49,7 @@ export function buildLtiPlatformRegistration({
     clientId,
     encryptedPrivateKey,
     platformOpenIdConfigUrl,
-    platformOrigin,
+    platform,
     publicKey,
     status,
     toolConfig,

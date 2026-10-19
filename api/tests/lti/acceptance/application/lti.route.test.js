@@ -45,7 +45,7 @@ describe('Acceptance | LTI | Route | Admin', function () {
     it('returns an html page acknowledging platform registration with an HTTP status code 200', async function () {
       //given
       const { clientId, platformOpenIdConfig, platformOpenIdConfigUrl, toolConfig } =
-        domainBuilder.identityAccessManagement.buildLtiPlatformRegistrationWithPlatformConfig();
+        domainBuilder.lti.buildLtiPlatformRegistrationWithPlatformConfig();
 
       const platformJwt = new jose.UnsecuredJWT({
         sub: clientId,
