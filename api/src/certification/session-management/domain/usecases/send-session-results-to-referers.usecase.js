@@ -43,16 +43,13 @@ export async function sendSessionResultsToPrescribers({
   mailService,
 }) {
   const session = await sessionManagementRepository.get({ id: sessionId });
-
-  const startedCertificationCoursesUserIds = (await certificationRepository.getStatusesBySessionId(sessionId)).map(
-    ({ userId }) => userId,
-  );
+  const certificationCourses = await certificationRepository.getStatusesBySessionId(sessionId);
+  const startedCertificationCoursesUserIds = certificationCourses.map(({ userId }) => userId);
 
   const recipientEmails = _distinctCandidatesResultRecipientEmails(
     session.certificationCandidates,
     startedCertificationCoursesUserIds,
   );
-
   const emailingAttempts = [];
   for (const recipientEmail of recipientEmails) {
     const emailingAttempt = await mailService.sendCertificationResultEmail({

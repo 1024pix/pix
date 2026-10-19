@@ -56,7 +56,10 @@ import { requestMultipleSessionPublication } from './request-multiple-session-pu
 import { requestSessionPublication } from './request-session-publication.js';
 import { saveCertificationIssueReport } from './save-certification-issue-report.js';
 import { saveJuryComplementaryCertificationCourseResult } from './save-jury-complementary-certification-course-result.js';
-import { sendCleaSessionResultsToReferers } from './send-session-results-to-referers.usecase.js';
+import {
+  sendCleaSessionResultsToReferers,
+  sendSessionResultsToPrescribers,
+} from './send-session-results-to-referers.usecase.js';
 import { superviseSession } from './supervise-session.js';
 import { uncancel } from './uncancel.js';
 import { unfinalizeSession } from './unfinalize-session.js';
@@ -202,6 +205,7 @@ const usecasesWithoutInjectedDependencies = {
   saveCertificationIssueReport,
   saveJuryComplementaryCertificationCourseResult,
   sendCleaSessionResultsToReferers,
+  sendSessionResultsToPrescribers,
   superviseSession,
   uncancel,
   unfinalizeSession,
