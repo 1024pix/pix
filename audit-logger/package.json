@@ -62,7 +62,7 @@
     "tsx": "4.23.15",
     "typescript": "5.9.3",
     "typescript-eslint": "8.71.1",
-    "vitest": "4.1.11"
+    "vitest": "5.0.4"
   },
   "dependencies": {
     "@hapi/basic": "7.0.2",
