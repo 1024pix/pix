@@ -74,7 +74,8 @@ describe('Shared | Integration | Infrastructure | http-agent', function () {
           expect(actualResponse).to.deep.equal({
             isSuccessful: false,
             code: null,
-            data: 'some network error occurred',
+            data: 'fetch failed',
+            cause: new Error('some network error occurred'),
           });
           expect(requestScope.isDone()).to.be.true;
         });
@@ -147,7 +148,8 @@ describe('Shared | Integration | Infrastructure | http-agent', function () {
           expect(actualResponse).to.deep.equal({
             isSuccessful: false,
             code: null,
-            data: 'some network error occurred',
+            data: 'fetch failed',
+            cause: new Error('some network error occurred'),
           });
           expect(requestScope.isDone()).to.be.true;
         });
