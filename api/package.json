@@ -212,7 +212,7 @@
     "hapi-swagger": {
       "joi": "$joi"
     },
-    "protobufjs": "8.8.0"
+    "protobufjs": "8.8.1"
   },
   "engines": {
     "node": "^24.20.0"
