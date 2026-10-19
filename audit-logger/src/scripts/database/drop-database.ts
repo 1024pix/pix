@@ -1,10 +1,11 @@
-import * as dotenv from 'dotenv';
-
+import { config } from '../../lib/config.js';
 import { PGSQL_NON_EXISTENT_DATABASE_ERROR } from '../../lib/domain/errors.js';
 import { logger } from '../../lib/infrastructure/logger.js';
 import PgClient from '../../lib/infrastructure/pg-client.js';
 
-dotenv.config({ quiet: true });
+function _isPlatformScalingo(): boolean {
+  return Boolean(process.env.CONTAINER);
+}
 
 function preventDatabaseDropOnScalingoPlatform(): void {
   if (_isPlatformScalingo()) {
@@ -16,8 +17,7 @@ function preventDatabaseDropOnScalingoPlatform(): void {
 async function main(): Promise<void> {
   preventDatabaseDropOnScalingoPlatform();
 
-  const dbUrl = (process.env.NODE_ENV === 'test' ? process.env.TEST_DATABASE_URL : process.env.DATABASE_URL) as string;
-  const url = new URL(dbUrl);
+  const url = new URL(config.database.url);
   const dbNameToDelete = url.pathname.slice(1);
   let client: PgClient;
 
@@ -43,10 +43,6 @@ async function main(): Promise<void> {
 }
 
 await main();
-
-function _isPlatformScalingo(): boolean {
-  return Boolean(process.env.CONTAINER);
-}
 
 function _withForceOption(): string {
   return process.env.FORCE_DROP_DATABASE === 'true' ? ' WITH (FORCE)' : '';
