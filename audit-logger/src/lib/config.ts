@@ -67,15 +67,6 @@ export const config: Configuration = {
   },
 };
 
-switch (config.environment) {
-  case 'development':
-    config.logging.enabled = true;
-    break;
-  case 'test':
-    config.logging.enabled = _isBooleanFeatureEnabledElseDefault(process.env.TEST_LOG_ENABLED as BooleanType, false);
-    break;
-}
-
 if (config.pixApiClientSecret === undefined) {
   throw new Error('Environment variable PIX_API_CLIENT_SECRET must be defined');
 }
@@ -89,8 +80,4 @@ function _getLogForHumans(): boolean {
 
 function _isFeatureEnabled(environmentVariable: BooleanType): boolean {
   return environmentVariable === 'true';
-}
-
-function _isBooleanFeatureEnabledElseDefault(environmentVariable: BooleanType, defaultValue: boolean): boolean {
-  return environmentVariable === 'true' ? true : defaultValue;
 }
