@@ -2,8 +2,7 @@
 // ! If the target table is large, and the migration take more than 20 minutes, the deployment will fail !
 
 // You can design and test your migration to avoid this by following this guide
-// https://1024pix.atlassian.net/wiki/spaces/EDTDT/pages/3849323922/Cr+er+une+migration
-
+// https://1024pix.atlassian.net/wiki/spaces/EDTDT/pages/3849323922/Comment+cr+er+une+bonne+migration#Une-migration-pens%C3%A9e-pour-le-datamart-(MADDO)
 // Make sure the column types match exactly with the source table from `pix-datawarehouse-production`
 // or the replication will fail.
 
