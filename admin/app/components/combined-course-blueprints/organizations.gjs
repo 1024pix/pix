@@ -88,7 +88,7 @@ export default class Organizations extends Component {
         @triggerFiltering={{@triggerFiltering}}
         @onResetFilter={{@onResetFilter}}
         @goToOrganizationPage={{@goToOrganizationPage}}
-        @entityName={{@blueprint.internalName}}
+        @entityName={{@combinedCourseBlueprint.internalName}}
         @id={{@id}}
         @name={{@name}}
         @hideArchived={{@hideArchived}}
