@@ -63,7 +63,7 @@ export const updateCompetenceScores = (
   const pixBefore = computePixByCompetenceId(knowledgeStatesBefore, skills);
   const pixAfter = computePixByCompetenceId(knowledgeStatesAfter, skills);
 
-  // A reset competence is impacted, whether or not the caller listed it as such.
+  // A reset competence is impacted, whether the caller listed it as such.
   const competenceIds = [...new Set([...impactedCompetenceIds, ...resetCompetenceIds])];
 
   return new Map(
