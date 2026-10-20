@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { CleaSessionPublishedEventHandler } from '../../../../../src/certification/session-management/application/clea-session-published.event-handler.js';
-import { mailService } from '../../../../../src/certification/session-management/domain/services/mail-service.js';
-import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { databaseBuilder } from '../../../../tooling/databases.js';
+import { CleaSessionPublishedEventHandler } from '../../../../../../src/certification/session-management/application/clea-session-published.event-handler.js';
+import { mailService } from '../../../../../../src/certification/session-management/domain/services/mail-service.js';
+import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { databaseBuilder } from '../../../../../tooling/databases.js';
 
-describe('Acceptance | Application | Clea Session Published Event Handler ', function () {
+describe('Integration | Application | Clea Session Published Event Handler ', function () {
   describe('#handle', function () {
     it('should send email', async function () {
       // given
