@@ -5,6 +5,8 @@ import { jwtDecode } from 'jwt-decode';
 import ENV from 'pix-admin/config/environment';
 
 export default class OidcAuthenticator extends BaseAuthenticator {
+  static id = 'oidc';
+
   @service featureToggles;
   @service oidcIdentityProviders;
   @service session;
