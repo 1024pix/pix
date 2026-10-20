@@ -1,5 +1,52 @@
 # Pix Changelog
 
+# [5.526.0](https://github.com/1024pix/pix/compare/v5.525.0...v5.526.0) (2026-10-20)
+
+### :rocket: Amélioration
+
+- [#18174](https://github.com/1024pix/pix/pull/18174) Refonte du style et des modules pour un parcours combiné terminé (PIX-24483 / PIX-24484)
+- [#18191](https://github.com/1024pix/pix/pull/18191) Transition plus douce entre les items du tunnel
+
+### :arrow_up: Montée de version
+
+- [#18183](https://github.com/1024pix/pix/pull/18183) Update dependency zod to v4.6.7 (e2e-playwright)
+- [#18184](https://github.com/1024pix/pix/pull/18184) Update linters (api)
+
+# [5.525.0](https://github.com/1024pix/pix/compare/v5.524.0...v5.525.0) (2026-10-20)
+
+### :rocket: Amélioration
+
+- [#18043](https://github.com/1024pix/pix/pull/18043) Ajoute un lien vers la page de statuts des serveurs  pix (PIX-12166)
+- [#18167](https://github.com/1024pix/pix/pull/18167) Ajouter un script de suppression des organization-learners inactifs par réseau (PIX-24529)
+
+### :bug: Correction
+
+- [#18173](https://github.com/1024pix/pix/pull/18173) Réparer l'envoi de résultat de certification par mail (PIX-24770).
+
+### :building_construction: Tech
+
+- [#18164](https://github.com/1024pix/pix/pull/18164) Retirer une contrainte de clé primaire sur la table `target_profiles_course_duration` dans le datamart
+- [#18165](https://github.com/1024pix/pix/pull/18165) Supprime dotenv de audit-logger
+- [#18159](https://github.com/1024pix/pix/pull/18159) Supprimer un script pour créer une structure aux centres de certification qui n'en ont pas (PIX-24401)
+
+### :arrow_up: Montée de version
+
+- [#18176](https://github.com/1024pix/pix/pull/18176) Update dependency @1024pix/eslint-plugin to v3.0.8 (admin)
+- [#18177](https://github.com/1024pix/pix/pull/18177) Update dependency @1024pix/eslint-plugin to v3.0.8 (certif)
+- [#18178](https://github.com/1024pix/pix/pull/18178) Update dependency @1024pix/eslint-plugin to v3.0.8 (junior)
+- [#18179](https://github.com/1024pix/pix/pull/18179) Update dependency @1024pix/eslint-plugin to v3.0.8 (mon-pix)
+- [#18169](https://github.com/1024pix/pix/pull/18169) Update dependency @1024pix/oppsy to v1.1.0 (api)
+- [#18170](https://github.com/1024pix/pix/pull/18170) Update dependency @ember/string to v4 (junior)
+- [#18180](https://github.com/1024pix/pix/pull/18180) Update dependency @testing-library/user-event to v14.6.8 (mon-pix)
+- [#18181](https://github.com/1024pix/pix/pull/18181) Update dependency baseline-browser-mapping to v2.11.30 (e2e-playwright)
+- [#18171](https://github.com/1024pix/pix/pull/18171) Update dependency nock to v15 (api)
+- [#18122](https://github.com/1024pix/pix/pull/18122) Update dependency pixelmatch to v8 (e2e-playwright)
+- [#18166](https://github.com/1024pix/pix/pull/18166) Update dependency typescript to v6 (audit-logger)
+- [#18162](https://github.com/1024pix/pix/pull/18162) Update dependency vitest to v5 (audit-logger)
+- [#18185](https://github.com/1024pix/pix/pull/18185) Update linters (audit-logger)
+- [#18186](https://github.com/1024pix/pix/pull/18186) Update linters (e2e-playwright)
+- [#18187](https://github.com/1024pix/pix/pull/18187) Update linters (orga)
+
 # [5.524.0](https://github.com/1024pix/pix/compare/v5.523.0...v5.524.0) (2026-10-19)
 
 ### :rocket: Amélioration

@@ -12,6 +12,6 @@ export class PrescriberSessionPublishedEventHandler extends EventHandler {
     const event = new SessionPublishedEvent(data);
     const sessionId = event.payload.sessionId;
     addCorrelationInfo('sessionId', sessionId);
-    await usecases.sendCleaSessionResultsToReferers({ sessionId });
+    await usecases.sendSessionResultsToPrescribers({ sessionId });
   }
 }

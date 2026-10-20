@@ -7,7 +7,6 @@ import { and, eq } from 'ember-truth-helpers';
 import Attestation from 'mon-pix/components/combined-course/attestation';
 import CombinedCourseItemsList from 'mon-pix/components/combined-course/combined-course-items-list';
 import MarkdownToHtml from 'mon-pix/components/markdown-to-html';
-import { CombinedCourseStatuses } from 'mon-pix/models/combined-course';
 
 const CompletedText = <template>
   <div class="completed-text">
@@ -103,13 +102,6 @@ export default class CombinedCoursePresentation extends Component {
     return this.featureToggles.featureToggles?.isSurveyEnabledForCombinedCourses && this.args.combinedCourse.surveyUrl;
   }
 
-  get shouldDisplayRetryModulesText() {
-    return (
-      this.args.combinedCourse.hasItemOfTypeModule &&
-      this.args.combinedCourse.status === CombinedCourseStatuses.COMPLETED
-    );
-  }
-
   <template>
     <main class="combined-course">
       <nav class="combined-course__exit">
@@ -128,9 +120,6 @@ export default class CombinedCoursePresentation extends Component {
           <Attestation @attestation={{@combinedCourse.reward}} />
         {{/if}}
         <hr class="combined-course__divider" />
-        {{#if this.shouldDisplayRetryModulesText}}
-          <p class="combined-course__retry-text">{{t "pages.combined-courses.completed.retry-text"}}</p>
-        {{/if}}
         <article class="combined-course__content">
           <CombinedCourseItemsList
             @combinedCourse={{@combinedCourse}}

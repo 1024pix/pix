@@ -1,6 +1,7 @@
 import { PixButton, PixButtonLink } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { action } from '@ember/object';
+import { renderSettled } from '@ember/renderer';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -54,15 +55,36 @@ export default class CombinedCourseTunnel extends Component {
     });
   }
 
+  #withViewTransition(update) {
+    const canAnimate =
+      typeof document.startViewTransition === 'function' &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!canAnimate) {
+      update();
+      return;
+    }
+
+    document.startViewTransition(async () => {
+      update();
+      await renderSettled();
+    });
+  }
+
   @action
   endLoadingAnimation() {
-    this.selectedItem = this.args.combinedCourse.nextCombinedCourseItem;
-    this.isAnimationInProgress = false;
+    this.#withViewTransition(() => {
+      this.selectedItem = this.args.combinedCourse.nextCombinedCourseItem;
+      this.isAnimationInProgress = false;
+    });
   }
 
   @action
   setSelectedItem(item) {
-    this.selectedItem = item;
+    if (item === this.selectedItem) return;
+    this.#withViewTransition(() => {
+      this.selectedItem = item;
+    });
   }
 
   <template>

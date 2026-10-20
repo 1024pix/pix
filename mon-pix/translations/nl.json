@@ -1323,11 +1323,11 @@
     },
     "combined-courses": {
       "completed": {
-        "description": "Goed gedaan! Je hebt een belangrijke stap gezet om je weg te vinden in de digitale wereld",
-        "retry-text": "Zin om te oefenene? Je kunt alle modules zo vaak als je wilt opnieuw doen!",
-        "survey-button": "Een vragenlijst invullen",
-        "survey-button-description": "Een vragenlijst invullen om feedback te geven op het traject",
-        "title": "Gefeliciteerd! Je hebt de test voltooid!"
+        "description": "Goed gedaan! Je hebt een belangrijke stap gezet om je weg te vinden in de digitale wereld.",
+        "retry-text": "Zin om te oefenen? Je kunt alle modules zo vaak als je wilt opnieuw doen!",
+        "survey-button": "De tevredenheidsenquête invullen",
+        "survey-button-description": "Beantwoord de vragenlijst om je mening te geven over het traject",
+        "title": "Gefeliciteerd! Je bent klaar!"
       },
       "content": {
         "resume-button": "Mijn traject vervolgen",
@@ -1352,8 +1352,10 @@
           "description": "Rond je diagnose af om een programma met modules te deblokkeren dat is afgestemd op je resultaat!",
           "title": "Programma met modules op maat"
         },
+        "module-objectives-completed": "In deze module hebt u het volgende geleerd:",
         "restart-campaign": "Opnieuw beginnen",
         "restart-module": "De module opnieuw starten",
+        "retry-module": "Deze module opnieuw afspelen",
         "start-campaign": "Beginnen",
         "start-module": "De Module beginnen",
         "tagText": "Zover ben je nu!"

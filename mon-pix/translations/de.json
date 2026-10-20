@@ -1320,7 +1320,6 @@
     "combined-courses": {
       "completed": {
         "description": "Gut gemacht! Du hast einen wichtigen Schritt getan, um in der digitalen Welt zu navigieren.",
-        "retry-text": "Lust auf eine Wiederholung? Du kannst alle Tests frei wiederholen!",
         "survey-button": "Beantwortung des Fragebogens",
         "survey-button-description": "Beantworte den Fragebogen, um deine Meinung über den Pfad zu äußern.",
         "title": "Herzlichen Glückwunsch! Du bist fertig!"
@@ -1348,8 +1347,10 @@
           "description": "Schließe deine Diagnose ab, um ein auf dein Ergebnis abgestimmtes Modulprogramm freizuschalten!",
           "title": "Individuelles Programm von Modulen"
         },
+        "module-objectives-completed": "In diesem Modul haben Sie Folgendes gelernt:",
         "restart-campaign": "Neu beginnen",
         "restart-module": "Das Modul erneut starten",
+        "retry-module": "Dieses Modul erneut abspielen",
         "start-campaign": "Beginnen",
         "start-module": "Das Modul starten",
         "tagText": "So weit bist du schon!"

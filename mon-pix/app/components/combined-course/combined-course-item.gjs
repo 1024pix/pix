@@ -1,5 +1,6 @@
-import { PixIcon, PixStars, PixTag } from '@1024pix/nebulix-ember';
+import { PixButton, PixIcon, PixStars, PixTag } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
+import { htmlSafe } from '@ember/template';
 import { t } from 'ember-intl';
 import { and, eq, not } from 'ember-truth-helpers';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
@@ -11,33 +12,39 @@ import Duration from './duration';
 const Content = <template>
   <div
     class="combined-course-item
-      {{if @hasYellowBorder 'combined-course-item--yellow-border'}}
       {{if @hasWhiteBackground 'combined-course-item--white'}}
       {{if @isCurrentItem 'combined-course-item--current'}}
-      {{if @isCampaignType 'combined-course-item--isCampaignType'}}"
+      {{if @isCampaignType 'combined-course-item--isCampaignType'}}
+      {{if @canReplay 'combined-course-item--replayable'}}"
     aria-details={{if @isCurrentItem "step-details"}}
     ...attributes
   >
-    <div class="combined-course-item__content">
-      <div class="combined-course-item__icon">
-        {{#if @iconUrl}}
-          <img role="presentation" src={{@iconUrl}} alt="" />
-        {{/if}}
-      </div>
-      <div class="combined-course-item__text">
-        <div class="combined-course-item__title">{{@title}}
-        </div>
-
-        <div class="combined-course-item__description">
-          <span>{{yield to="description"}}</span>
-
-          {{#if @displayDuration}}
-            <span class="combined-course-item__duration">
-              {{yield to="duration"}}
-            </span>
+    <div class="combined-course-item__main">
+      <div class="combined-course-item__content">
+        <div class="combined-course-item__icon">
+          {{#if @iconUrl}}
+            <img role="presentation" src={{@iconUrl}} alt="" />
           {{/if}}
         </div>
+        <div class="combined-course-item__text">
+          <div class="combined-course-item__title">{{@title}}
+          </div>
+
+          <div class="combined-course-item__description">
+            <span>{{yield to="description"}}</span>
+
+            {{#if @displayDuration}}
+              <span class="combined-course-item__duration">
+                {{yield to="duration"}}
+              </span>
+            {{/if}}
+          </div>
+        </div>
       </div>
+
+      {{#if (has-block "objectives")}}
+        <div class="combined-course-item__objectives">{{yield to="objectives"}}</div>
+      {{/if}}
     </div>
 
     {{#if @isLocked}}
@@ -54,22 +61,25 @@ const Content = <template>
             (t "pages.combined-courses.items.aria-label-completed-campaign" value=@masteryRate)
           }}
         >
-          <div>
-          </div>
-          <div
-            class="combined-course-item__indicator--completed
-              {{if @hasYellowBorder 'combined-course-item__indicator--yellow'}}"
-          >
+          <div class="combined-course-item__indicator--completed">
             {{#unless @isCampaignType}}
               <span class="combined-course-item__completion-field">{{t "pages.combined-courses.items.completed"}}</span>
             {{/unless}}
             <PixIcon
               @name="checkCircle"
               @plainIcon={{true}}
-              class="combined-course-item__completion-icon {{if @hasYellowBorder 'combined-course-item__icon--yellow'}}"
+              class="combined-course-item__completion-icon"
               @ariaHidden={{true}}
             />
           </div>
+
+          {{#if @canReplay}}
+            <div class="combined-course-item__replay">
+              <PixButton @triggerAction={{@onClick}} @variant="secondary">
+                {{t "pages.combined-courses.items.retry-module"}}
+              </PixButton>
+            </div>
+          {{/if}}
         </div>
         {{#if @isCampaignType}}
           <div class="combined-course-item__campaign-indicators">
@@ -87,7 +97,6 @@ const Content = <template>
                   class="combined-course-item__stars"
                 />
               {{/if}}
-
             </span>
           </div>
         {{/if}}
@@ -128,6 +137,41 @@ function hasWhiteBackground(item) {
           {{#if @item.duration}}<Duration @duration={{@item.duration}} />{{/if}}
         </:duration>
       </Content>
+    {{else if (and @isCombinedCourseCompleted (eq @item.type CombinedCourseItemTypes.MODULE))}}
+      <Content
+        @title={{@item.title}}
+        @isCompleted={{@item.isCompleted}}
+        @masteryRate={{@item.masteryRate}}
+        @hasStagesStars={{@item.hasStagesStars}}
+        @validatedStagesCount={{@item.validatedStages}}
+        @totalStagesCount={{@item.totalStages}}
+        @iconUrl={{@item.iconUrl}}
+        @displayDuration={{false}}
+        @hasWhiteBackground={{hasWhiteBackground @item}}
+        @canReplay={{true}}
+        @onClick={{@onClick}}
+      >
+        <:objectives>
+          {{#if @item.objectives.length}}
+            <p class="combined-course-item__objectives-title">{{t
+                "pages.combined-courses.items.module-objectives-completed"
+              }}</p>
+            <ul class="combined-course-item__objectives-list">
+              {{#each @item.objectives as |objective|}}
+                <li class="combined-course-item__objectives-item">
+                  <PixIcon
+                    @name="checkCircle"
+                    @plainIcon={{true}}
+                    class="combined-course-item__objectives-icon"
+                    @ariaHidden={{true}}
+                  />
+                  {{htmlSafe objective}}
+                </li>
+              {{/each}}
+            </ul>
+          {{/if}}
+        </:objectives>
+      </Content>
     {{else}}
       <button
         class="combined-course-item--selectable"
@@ -149,7 +193,6 @@ function hasWhiteBackground(item) {
           @isCampaignType={{eq @item.type CombinedCourseItemTypes.CAMPAIGN}}
           @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
           @hasWhiteBackground={{hasWhiteBackground @item}}
-          @hasYellowBorder={{and (eq @item.type CombinedCourseItemTypes.MODULE) @isCombinedCourseCompleted}}
           @isCurrentItem={{@isSelectedItem}}
           @isLoading={{@isLoading}}
         >

@@ -29,6 +29,7 @@
     flex-direction: column;
     gap: var(--pix-spacing-4x);
     width: 100%;
+    view-transition-name: step-details-main;
   }
 
   &__summary {
@@ -128,4 +129,10 @@
       }
     }
   }
+}
+
+::view-transition-old(step-details-main),
+::view-transition-new(step-details-main) {
+  animation-duration: 800ms;
+  animation-timing-function: linear;
 }

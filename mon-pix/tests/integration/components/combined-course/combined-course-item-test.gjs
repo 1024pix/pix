@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { triggerEvent } from '@ember/test-helpers';
+import { click, triggerEvent } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl/test-support';
 import CombinedCourseItem from 'mon-pix/components/combined-course/combined-course-item';
@@ -409,6 +409,211 @@ module('Integration | Component | combined course item', function (hooks) {
 
       // then
       assert.dom(screen.getByTestId('selectable-item-button')).doesNotHaveAttribute('aria-describedby');
+    });
+  });
+
+  module('when combined course is completed', function () {
+    module('when item is a module', function () {
+      test('should display replay button', async function (assert) {
+        // given
+        const onClickStub = sinon.stub();
+        const store = this.owner.lookup('service:store');
+        const combinedCourseItem = store.createRecord('combined-course-item', {
+          id: 1,
+          title: 'mon module',
+          type: CombinedCourseItemTypes.MODULE,
+          isCompleted: true,
+        });
+
+        // when
+        const screen = await render(
+          <template>
+            <CombinedCourseItem
+              @item={{combinedCourseItem}}
+              @isCombinedCourseCompleted={{true}}
+              @onClick={{onClickStub}}
+            />
+          </template>,
+        );
+
+        // then
+        assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.items.retry-module') }));
+      });
+
+      test('should call onClick when clicking on replay button', async function (assert) {
+        // given
+        const onClickStub = sinon.stub();
+        const store = this.owner.lookup('service:store');
+        const combinedCourseItem = store.createRecord('combined-course-item', {
+          id: 1,
+          title: 'mon module',
+          type: CombinedCourseItemTypes.MODULE,
+          isCompleted: true,
+        });
+        const screen = await render(
+          <template>
+            <CombinedCourseItem
+              @item={{combinedCourseItem}}
+              @isCombinedCourseCompleted={{true}}
+              @onClick={{onClickStub}}
+            />
+          </template>,
+        );
+
+        // when
+        await click(screen.getByRole('button', { name: t('pages.combined-courses.items.retry-module') }));
+
+        // then
+        sinon.assert.calledOnce(onClickStub);
+        assert.ok(true);
+      });
+
+      test('should not be selectable', async function (assert) {
+        // given
+        const onClickStub = sinon.stub();
+        const store = this.owner.lookup('service:store');
+        const combinedCourseItem = store.createRecord('combined-course-item', {
+          id: 1,
+          title: 'mon module',
+          type: CombinedCourseItemTypes.MODULE,
+          isCompleted: true,
+        });
+
+        // when
+        const screen = await render(
+          <template>
+            <CombinedCourseItem
+              @item={{combinedCourseItem}}
+              @isCombinedCourseCompleted={{true}}
+              @onClick={{onClickStub}}
+            />
+          </template>,
+        );
+
+        // then
+        assert.notOk(screen.queryByTestId('selectable-item-button'));
+      });
+
+      test('should display objectives if there are any', async function (assert) {
+        // given
+        const onClickStub = sinon.stub();
+        const store = this.owner.lookup('service:store');
+        const combinedCourseItem = store.createRecord('combined-course-item', {
+          id: 1,
+          title: 'mon module',
+          type: CombinedCourseItemTypes.MODULE,
+          isCompleted: true,
+          objectives: ['Premier objectif', 'Second objectif'],
+        });
+
+        // when
+        const screen = await render(
+          <template>
+            <CombinedCourseItem
+              @item={{combinedCourseItem}}
+              @isCombinedCourseCompleted={{true}}
+              @onClick={{onClickStub}}
+            />
+          </template>,
+        );
+
+        // then
+        assert.ok(screen.getByText(t('pages.combined-courses.items.module-objectives-completed')));
+        const objectives = screen.getAllByRole('listitem');
+        assert.strictEqual(objectives.length, 2);
+        assert.dom(objectives[0]).hasText('Premier objectif');
+        assert.dom(objectives[1]).hasText('Second objectif');
+      });
+
+      test('should not display objectives if there are none', async function (assert) {
+        // given
+        const onClickStub = sinon.stub();
+        const store = this.owner.lookup('service:store');
+        const combinedCourseItem = store.createRecord('combined-course-item', {
+          id: 1,
+          title: 'mon module',
+          type: CombinedCourseItemTypes.MODULE,
+          isCompleted: true,
+          objectives: [],
+        });
+
+        // when
+        const screen = await render(
+          <template>
+            <CombinedCourseItem
+              @item={{combinedCourseItem}}
+              @isCombinedCourseCompleted={{true}}
+              @onClick={{onClickStub}}
+            />
+          </template>,
+        );
+
+        // then
+        assert.notOk(await screen.queryByText(t('pages.combined-courses.items.module-objectives-completed')));
+        assert.notOk(
+          await screen.queryByRole('paragraph', {
+            name: t('pages.combined-courses.items.module-objectives-completed'),
+          }),
+        );
+      });
+    });
+
+    module('when item is a campaign', function () {
+      test('should not display replay button and should stay selectable', async function (assert) {
+        // given
+        const onClickStub = sinon.stub();
+        const store = this.owner.lookup('service:store');
+        const combinedCourseItem = store.createRecord('combined-course-item', {
+          id: 1,
+          title: 'ma campagne',
+          type: CombinedCourseItemTypes.CAMPAIGN,
+          isCompleted: true,
+        });
+
+        // when
+        const screen = await render(
+          <template>
+            <CombinedCourseItem
+              @item={{combinedCourseItem}}
+              @isCombinedCourseCompleted={{true}}
+              @onClick={{onClickStub}}
+            />
+          </template>,
+        );
+
+        // then
+        assert.notOk(screen.queryByRole('button', { name: t('pages.combined-courses.items.retry-module') }));
+        assert.ok(screen.getByTestId('selectable-item-button'));
+      });
+    });
+  });
+
+  module('when combined course is not completed', function () {
+    test('completed module should not display replay button and should stay selectable', async function (assert) {
+      // given
+      const onClickStub = sinon.stub();
+      const store = this.owner.lookup('service:store');
+      const combinedCourseItem = store.createRecord('combined-course-item', {
+        id: 1,
+        title: 'mon module',
+        type: CombinedCourseItemTypes.MODULE,
+        isCompleted: true,
+      });
+
+      // when
+      const screen = await render(
+        <template>
+          <CombinedCourseItem
+            @item={{combinedCourseItem}}
+            @isCombinedCourseCompleted={{false}}
+            @onClick={{onClickStub}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.notOk(screen.queryByRole('button', { name: t('pages.combined-courses.items.retry-module') }));
+      assert.ok(screen.getByTestId('selectable-item-button'));
     });
   });
 });

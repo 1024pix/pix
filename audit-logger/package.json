@@ -1,6 +1,6 @@
 {
   "name": "pix-audit-logger",
-  "version": "5.524.0",
+  "version": "5.526.0",
   "description": "",
   "scripts": {
     "build": "tsc --project tsconfig.production.json",
@@ -38,7 +38,7 @@
   },
   "type": "module",
   "devDependencies": {
-    "@1024pix/eslint-plugin": "3.0.6",
+    "@1024pix/eslint-plugin": "3.0.8",
     "@babel/eslint-parser": "8.0.7",
     "@eslint/compat": "2.1.1",
     "@tsconfig/node24": "24.0.5",
@@ -61,7 +61,7 @@
     "ts-node": "10.9.2",
     "tsx": "4.23.15",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.71.1",
+    "typescript-eslint": "8.71.2",
     "vitest": "5.0.4"
   },
   "dependencies": {

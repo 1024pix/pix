@@ -1,6 +1,6 @@
 {
   "name": "pix-api",
-  "version": "5.524.0",
+  "version": "5.526.0",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques",
   "homepage": "https://github.com/1024pix/pix#readme",
@@ -171,7 +171,7 @@
     "yargs": "18.2.0"
   },
   "devDependencies": {
-    "@1024pix/eslint-plugin": "3.0.6",
+    "@1024pix/eslint-plugin": "3.0.8",
     "@ls-lint/ls-lint": "2.3.1",
     "@types/chai": "5.2.3",
     "@types/chai-as-promised": "8.0.2",
@@ -204,7 +204,7 @@
     "sinon": "22.1.0",
     "sinon-chai": "4.0.1",
     "typescript": "npm:@typescript/typescript6@6.0.2",
-    "typescript-eslint": "8.71.1"
+    "typescript-eslint": "8.71.2"
   },
   "overrides": {
     "eslint": "$eslint",
