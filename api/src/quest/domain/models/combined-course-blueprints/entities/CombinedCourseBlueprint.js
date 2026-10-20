@@ -163,6 +163,10 @@ export class CombinedCourseBlueprint {
     return { duplicatedOrganizationIds, attachedOrganizationIds };
   }
 
+  detachOrganizations({ organizationIds }) {
+    this.organizationIds = this.organizationIds.filter((id) => !organizationIds.includes(id));
+  }
+
   update({ combinedCourseBlueprintForUpdate }) {
     this.name = combinedCourseBlueprintForUpdate.name;
     this.internalName = combinedCourseBlueprintForUpdate.internalName;

@@ -359,6 +359,23 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
     });
   });
 
+  describe('#detachOrganizations', function () {
+    it('should remove specified organizations ids from model instance', async function () {
+      //given
+      values.organizationIds = [123, 456, 789, 901];
+      const combinedCourseBlueprint = new CombinedCourseBlueprint(values);
+      const organizationIdNotAttachedToBlueprint = 888;
+
+      //when
+      combinedCourseBlueprint.detachOrganizations({
+        organizationIds: [123, 789, organizationIdNotAttachedToBlueprint],
+      });
+
+      //then
+      expect(combinedCourseBlueprint.organizationIds).to.deep.equal([456, 901]);
+    });
+  });
+
   describe('#update', function () {
     it('should update with the modified data', async function () {
       //given
