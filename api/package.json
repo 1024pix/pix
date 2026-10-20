@@ -198,7 +198,7 @@
     "nock": "15.0.1",
     "nodemon": "3.1.14",
     "npm-run-all2": "9.0.3",
-    "oxfmt": "0.72.0",
+    "oxfmt": "0.73.0",
     "pdfjs-dist": "6.4.299",
     "schemalint": "2.3.2",
     "sinon": "22.1.0",
