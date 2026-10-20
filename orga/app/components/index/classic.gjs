@@ -26,7 +26,7 @@ export default class IndexClassic extends Component {
 
   get scoBannerContent() {
     const content = this.store.peekRecord('announcement', 'SCO')?.content;
-    return content?.[this.locale.currentLanguage] ?? null;
+    return content?.[this.locale.currentLocale] ?? null;
   }
 
   @action

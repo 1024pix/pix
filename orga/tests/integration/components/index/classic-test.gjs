@@ -47,21 +47,33 @@ module('Integration | Component | Index::Classic', function (hooks) {
 
   module('when organisation is SCO and managingStudents', function () {
     test('should display sco banner with markdown content', async function (assert) {
+      // given
       class CurrentUserStub extends Service {
         isSCOManagingStudents = true;
         prescriber = {
           firstName: 'Jean',
         };
       }
+      const locale = this.owner.lookup('service:locale');
+      locale.setCurrentLocale('fr-BE');
+
       this.owner.register('service:current-user', CurrentUserStub);
 
       const store = this.owner.lookup('service:store');
-      store.createRecord('announcement', { id: 'SCO', content: { fr: 'Contenu de la bannière SCO' } });
+      store.createRecord('announcement', {
+        id: 'SCO',
+        content: {
+          fr: 'Contenu de la bannière SCO fr',
+          'fr-BE': 'Contenu de la bannière SCO fr-BE',
+          'fr-FR': 'Contenu de la bannière SCO fr-FR',
+        },
+      });
 
+      // when
       const screen = await render(<template><IndexClassic /></template>);
 
       // then
-      assert.ok(screen.getByText('Contenu de la bannière SCO'));
+      assert.ok(screen.getByText('Contenu de la bannière SCO fr-BE'));
     });
   });
 
