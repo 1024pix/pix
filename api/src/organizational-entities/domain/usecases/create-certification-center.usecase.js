@@ -28,14 +28,20 @@ const createCertificationCenter = withTransaction(async function ({
 
   const { organizationId } = certificationCenter;
 
-  const structure = organizationId
+  const organizationStructure = organizationId
     ? await _getOrganizationStructure({ organizationId, structureRepository })
-    : new Structure({});
+    : null;
 
   const createdCertificationCenter = await certificationCenterForAdminRepository.save(certificationCenter);
 
-  structure.attachCertificationCenter({ certificationCenterId: createdCertificationCenter.id });
-  await structureRepository.save(structure);
+  const certificationCenterStructure = new Structure({ certificationCenterId: createdCertificationCenter.id });
+
+  if (organizationStructure) {
+    organizationStructure.attachCertificationCenter({ certificationCenterStructure });
+    await structureRepository.save(organizationStructure);
+  } else {
+    await structureRepository.save(certificationCenterStructure);
+  }
 
   for (const complementaryCertificationId of complementaryCertificationIds) {
     const complementaryCertificationHabilitation = new ComplementaryCertificationHabilitation({

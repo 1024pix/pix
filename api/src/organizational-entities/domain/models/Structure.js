@@ -19,11 +19,9 @@ class Structure {
    * Attaches certification center to this structure.
    *
    * @param {object} params
-   * @param {number} params.certificationCenterId
-   * @param {Structure|null} [params.certificationCenterStructure] - TODO(PIX-24402): retirer null quand tous les cdc auront une structure
+   * @param {Structure} params.certificationCenterStructure
    */
-  attachCertificationCenter({ certificationCenterId, certificationCenterStructure = null }) {
-    // TODO(PIX-24402): retirer le param certificationCenterId lorsque certificationCenterStructure ne pourra plus être null
+  attachCertificationCenter({ certificationCenterStructure }) {
     const organizationId = this.organizationId;
 
     if (this.certificationCenterId) {
@@ -37,19 +35,19 @@ class Structure {
       });
     }
 
-    if (certificationCenterStructure?.organizationId) {
+    if (certificationCenterStructure.organizationId) {
       throw new UnableToAttachCertificationCenterToOrganization({
         code: 'ALREADY_ATTACHED_CERTIFICATION_CENTER',
         message: 'Unable to attach a certification center already attached to another organization.',
         meta: {
           organizationId,
-          certificationCenterId,
+          certificationCenterId: certificationCenterStructure.certificationCenterId,
           alreadyAttachedOrganizationId: certificationCenterStructure.organizationId,
         },
       });
     }
 
-    this.certificationCenterId = certificationCenterId;
+    this.certificationCenterId = certificationCenterStructure.certificationCenterId;
   }
 
   /**

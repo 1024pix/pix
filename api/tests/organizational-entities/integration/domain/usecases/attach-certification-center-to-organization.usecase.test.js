@@ -48,30 +48,6 @@ describe('Integration | Organizational Entities | Domain | UseCase | attach-cert
         expect(keptStructure.category_id).to.equal(organizationCategoryId);
       });
     });
-
-    // TODO(PIX-24402): enlever ce test provisoire
-    context('when certification center does not have a structure', function () {
-      it('attaches it to the organization structure without deleting any structure', async function () {
-        // given
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-        const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure();
-        await databaseBuilder.commit();
-
-        // when
-        await usecases.attachCertificationCenterToOrganization({
-          organizationId: organization.id,
-          certificationCenterId,
-        });
-
-        // then
-        const factStructures = await knex('fct_structures').where({ certification_center_id: certificationCenterId });
-        expect(factStructures).to.have.lengthOf(1);
-        expect(factStructures[0].structure_id).to.equal(structure.id);
-
-        const organizationStructure = await knex('structures').where({ id: structure.id }).first();
-        expect(organizationStructure).to.exist;
-      });
-    });
   });
 
   describe('error cases', function () {
