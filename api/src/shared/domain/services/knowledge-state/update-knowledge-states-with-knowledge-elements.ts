@@ -8,6 +8,9 @@ import { statusOf } from './rules.ts';
 
 type SkillOf = (knowledgeElement: KnowledgeElement) => Skill;
 
+/** What a save of knowledge elements changes: the knowledge states to store and the tubes to forget. */
+export type KnowledgeStatesUpdate = { knowledgeStates: KnowledgeState[]; forgottenTubeIds: string[] };
+
 const assertSkillsExist = (knowledgeElements: KnowledgeElement[], skillById: Map<string, Skill>): void => {
   const addUnknownSkillId = (skillIds: string[], { skillId }: KnowledgeElement): string[] =>
     skillById.has(skillId) || skillIds.includes(skillId) ? skillIds : [...skillIds, skillId];
@@ -129,7 +132,7 @@ export const updateKnowledgeStatesWithKnowledgeElements = ({
   knowledgeElements: KnowledgeElement[];
   skills: Skill[];
   at?: Date;
-}): { knowledgeStates: KnowledgeState[]; forgottenTubeIds: string[] } => {
+}): KnowledgeStatesUpdate => {
   const skillById = new Map(skills.map((skill) => [skill.id, skill]));
   assertSkillsExist(knowledgeElements, skillById);
   const skillOf: SkillOf = ({ skillId }) => skillById.get(skillId) as Skill;
