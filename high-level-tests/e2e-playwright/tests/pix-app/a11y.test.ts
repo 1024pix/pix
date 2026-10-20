@@ -6,9 +6,8 @@ import { expect, test } from '../../fixtures/index.ts';
 const routes = [
   // { path: '/accueil', title: 'Accueil | Pix' }, -> TODO FAILING
   { path: '/campagnes', title: "J'ai un code | Pix" },
-  { path: '/certifications', title: 'Rejoindre une session de certification | Pix' },
+  { path: '/certifications', title: 'Certifications | Pix' },
   { path: '/competences', title: 'Compétences | Pix' },
-  { path: '/mes-certifications', title: 'Mes certifications | Pix' },
   { path: '/mes-formations', title: 'Mes formations | Pix' },
 ];
 

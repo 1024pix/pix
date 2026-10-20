@@ -37,7 +37,7 @@ export default class Content extends Component {
           <li class="sitemap-content-items__link">
             <h2>
               <LinkTo @route="authenticated.certifications">
-                {{t "navigation.main.start-certification"}}
+                {{t "navigation.main.certifications"}}
               </LinkTo>
             </h2>
           </li>
@@ -78,14 +78,6 @@ export default class Content extends Component {
             <h2>
               <LinkTo @route="authenticated.user-tests">
                 {{t "navigation.user.tests"}}
-              </LinkTo>
-            </h2>
-          </li>
-
-          <li class="sitemap-content-items__link">
-            <h2>
-              <LinkTo @route="authenticated.user-certifications">
-                {{t "navigation.user.certifications"}}
               </LinkTo>
             </h2>
           </li>

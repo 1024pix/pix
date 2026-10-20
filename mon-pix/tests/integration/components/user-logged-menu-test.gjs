@@ -44,7 +44,6 @@ module('Integration | Component | user logged menu', function (hooks) {
         )
         .exists();
       assert.dom(screen.queryByRole('link', { name: t('navigation.user.account') })).doesNotExist();
-      assert.dom(screen.queryByRole('link', { name: t('navigation.user.certifications') })).doesNotExist();
       assert.dom(screen.queryByRole('link', { name: t('navigation.main.help') })).doesNotExist();
       assert.dom(screen.queryByRole('link', { name: t('navigation.user.sign-out') })).doesNotExist();
     });
@@ -68,19 +67,6 @@ module('Integration | Component | user logged menu', function (hooks) {
         )
         .exists();
       assert.ok(screen.getByText('Hermione Granger'));
-    });
-
-    test('should display link to user certifications', async function (assert) {
-      // when
-      const screen = await render(<template><UserLoggedMenu /></template>);
-      await click(
-        screen.getByRole('button', {
-          name: `Hermione ${t('navigation.user-logged-menu.details')}`,
-        }),
-      );
-
-      // then
-      assert.ok(screen.getByRole('link', { name: t('navigation.user.certifications') }));
     });
 
     test('should display link to help center', async function (assert) {

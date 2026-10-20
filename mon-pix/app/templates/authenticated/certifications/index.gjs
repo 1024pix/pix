@@ -1,0 +1,14 @@
+import t from 'ember-intl/helpers/t';
+import pageTitle from 'ember-page-title/helpers/page-title';
+import EnrolmentBanner from 'mon-pix/components/certifications/dashboard/enrolment-banner';
+import UserCertifications from 'mon-pix/components/certifications/dashboard/user-certifications';
+
+<template>
+  {{pageTitle (t "pages.certifications-dashboard.title")}}
+  <main id="main" role="main">
+    <h1 class="sr-only">{{t "pages.certifications-dashboard.title"}}</h1>
+
+    <EnrolmentBanner @userEligibility={{@model.userEligibility}} />
+    <UserCertifications @certificationsSummaries={{@model.certificationsSummaries}} />
+  </main>
+</template>

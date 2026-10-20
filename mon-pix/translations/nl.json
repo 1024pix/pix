@@ -35,6 +35,9 @@
     "description": "Pix is een online platform voor het beoordelen en certificeren van de digitale vaardigheden van Franstalige burgers (scholieren, studenten, schoolverlaters, werkzoekenden, senioren)."
   },
   "common": {
+    "a11y": {
+      "external-link": "opent in een nieuw tabblad"
+    },
     "actions": {
       "back": "Terug",
       "cancel": "Annuleer",
@@ -385,13 +388,13 @@
     "homepage": "Startpagina Pix",
     "main": {
       "attestations": "Mijn getuigschriften",
+      "certifications": "Certificering",
       "code": "Ik heb een code",
       "dashboard": "Home",
       "help": "Help",
       "label": "Hoofdmenu",
       "link-help": "https://pix.org/nl-be/support",
       "skills": "Vaardigheden",
-      "start-certification": "Certificering",
       "trainings": "Mijn trainingen",
       "tutorials": "Mijn tutorials"
     },
@@ -409,7 +412,6 @@
     "showcase-homepage": "Startpagina Pix.{ tld }",
     "user": {
       "account": "Mijn account",
-      "certifications": "Mijn certificaten",
       "sign-out": "Uitloggen",
       "tests": "Mijn tests"
     },
@@ -896,16 +898,6 @@
       "vocal-step-identifier": "{pageId} Pagina op {pageCount}"
     },
     "certification-joiner": {
-      "congratulation-banner": {
-        "double-certification": {
-          "eligible": "Je komt ook in aanmerking voor de aanvullende certificering :",
-          "outdated": "<strong>Je komt niet langer in aanmerking voor de {doubleCertificationName}-certificering na de evolutie ervan.</strong><br />Neem contact op met je school of de organisatie die je de cursus heeft aangeboden om opnieuw een campagne te doen en zo weer in aanmerking te komen. Je voortgang is bewaard gebleven en je hoeft alleen nog maar de nieuwe evenementen te spelen, wat snel zou moeten gaan."
-        },
-        "link": {
-          "text": "Hoe word ik gecertificeerd?"
-        },
-        "message": "Gefeliciteerd {fullName}, je Pix-profiel is certificeerbaar."
-      },
       "error-messages": {
         "account-already-linked-to-another-candidate": "Het account waarmee u bent ingelogd, is al gekoppeld aan een andere kandidaat van deze sessie. Controleer of u bent ingelogd met uw eigen Pix-account of vraag de toezichthouder om hulp.",
         "generic": {
@@ -925,7 +917,6 @@
         },
         "wrong-domain-for-pix-plus": "Pix+ certificeringen zijn momenteel alleen beschikbaar in het Frans, dus ze zijn niet beschikbaar op <b>https://pix.org</b>.<br/>Gelieve uit te loggen en opnieuw in te loggen via '<a href=\"https://app.pix.fr/connexion\">deze link.</a>'"
       },
-      "first-title": "Deelnemen aan een sessie",
       "form": {
         "actions": {
           "submit": "Ga verder"
@@ -953,13 +944,6 @@
         }
       },
       "title": "Doe mee aan een certificeringssessie"
-    },
-    "certification-not-certifiable": {
-      "action": {
-        "back": "Terug naar de homepage"
-      },
-      "text": "Om je profiel te laten certificeren, moet je voor minstens 5 vaardigheden een niveau hoger dan 0 hebben bereikt.",
-      "title": "Je profiel is nog niet certificeerbaar."
     },
     "certification-results": {
       "action": {
@@ -1009,7 +993,6 @@
         },
         "pix-plus-explanation": "Test alleen beschikbaar in het Frans."
       },
-      "link-to-user-certification": "Bekijk mijn certificaten",
       "non-eligible-subscription": "Je komt niet in aanmerking voor {subscriptionLabel}. Je kunt echter wel je Pix-certificering behalen.",
       "title": "Doe mee aan een certificeringssessie"
     },
@@ -1017,12 +1000,11 @@
       "enrolment-banner": {
         "action": "Certificering starten",
         "certifiable": {
-          "description": "Klik op de knop hieronder en start je certificering",
-          "title": "Wil je een certificering afleggen?"
+          "description": "Klik op de dag van je certificering op de knop hieronder om te beginnen.",
+          "title": "Wil je de Pix-certificering afleggen?"
         },
         "clea": {
-          "text": "Je komt in aanmerking voor CléA Numérique",
-          "title": "Je Pix-profiel is certificeerbaar"
+          "title": "Je komt ook in aanmerking voor CléA Numérique"
         },
         "not-certifiable": {
           "description": "Er is een minimum aan voorwaarden vereist om de certificering af te leggen.",
@@ -1033,7 +1015,46 @@
         "sub-title": "Alle velden zijn verplicht.",
         "title": "Deelnemen aan een sessie"
       },
+      "title": "Certificeringen",
       "user-certifications": {
+        "how-to-certificate": {
+          "link": "Hoe word je gecertificeerd",
+          "text": "Als je meer wilt weten over de Pix-certificering"
+        },
+        "meshes": {
+          "DROIT": {
+            "ADVANCED": "Gevorderd",
+            "BELOW_MINIMUM": "Niet verkregen",
+            "CONFIRMED": "Bevestigd",
+            "EXPERT": "Expert",
+            "INDEPENDENT": "Onafhankelijk"
+          },
+          "EDU_1ER_DEGRE": {
+            "ADMISSIBLE": "Toelaatbaar",
+            "ADVANCED": "Gevorderd",
+            "BELOW_MINIMUM": "Niet toelaatbaar",
+            "EXPERT": "Expert"
+          },
+          "EDU_2ND_DEGRE": {
+            "ADMISSIBLE": "Toelaatbaar",
+            "ADVANCED": "Gevorderd",
+            "BELOW_MINIMUM": "Niet toelaatbaar",
+            "EXPERT": "Expert"
+          },
+          "EDU_CPE": {
+            "ADMISSIBLE": "Toelaatbaar",
+            "ADVANCED": "Gevorderd",
+            "BELOW_MINIMUM": "Niet toelaatbaar",
+            "EXPERT": "Expert"
+          },
+          "PRO_SANTE": {
+            "ADVANCED": "Gevorderd",
+            "BELOW_MINIMUM": "Niet verkregen",
+            "CONFIRMED": "Bevestigd",
+            "EXPERT": "Expert",
+            "INDEPENDENT": "Onafhankelijk"
+          }
+        },
         "title": "Mijn certificeringen",
         "with-certification-text": "Bekijk al je Pix-certificeringen. Raadpleeg de details en download je certificaten.",
         "without-certification-text": "Je hebt nog geen Pix-certificering."
@@ -1046,13 +1067,9 @@
         "download-certificate": "Het certificaat downloaden"
       },
       "comment": "Opmerking :",
-      "description": "Krijg toegang tot al je Pix-certificaten. Bekijk details en download je certificaten.",
       "information": {
         "certification-center": "Certificeringscentrum :",
         "date": "Datum bezoek :"
-      },
-      "no-certification": {
-        "text": "Je hebt nog geen Pix-certificering"
       },
       "statuses": {
         "cancelled": "Geannuleerd",
@@ -2638,42 +2655,6 @@
         "menu-link-title": "Mijn persoonlijke gegevens"
       },
       "title": "Mijn account"
-    },
-    "user-certifications": {
-      "meshes": {
-        "DROIT": {
-          "ADVANCED": "Gevorderd",
-          "BELOW_MINIMUM": "Niet verkregen",
-          "CONFIRMED": "Bevestigd",
-          "EXPERT": "Expert",
-          "INDEPENDENT": "Onafhankelijk"
-        },
-        "EDU_1ER_DEGRE": {
-          "ADMISSIBLE": "Toelaatbaar",
-          "ADVANCED": "Gevorderd",
-          "BELOW_MINIMUM": "Niet toelaatbaar",
-          "EXPERT": "Expert"
-        },
-        "EDU_2ND_DEGRE": {
-          "ADMISSIBLE": "Toelaatbaar",
-          "ADVANCED": "Gevorderd",
-          "BELOW_MINIMUM": "Niet toelaatbaar",
-          "EXPERT": "Expert"
-        },
-        "EDU_CPE": {
-          "ADMISSIBLE": "Toelaatbaar",
-          "ADVANCED": "Gevorderd",
-          "BELOW_MINIMUM": "Niet toelaatbaar",
-          "EXPERT": "Expert"
-        },
-        "PRO_SANTE": {
-          "ADVANCED": "Gevorderd",
-          "BELOW_MINIMUM": "Niet verkregen",
-          "CONFIRMED": "Bevestigd",
-          "EXPERT": "Expert",
-          "INDEPENDENT": "Onafhankelijk"
-        }
-      }
     },
     "user-tests": {
       "anonymised-participations": {

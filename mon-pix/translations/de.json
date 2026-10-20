@@ -35,6 +35,9 @@
     "description": "Pix ist eine Online-Plattform zur Bewertung und Zertifizierung der digitalen Kompetenzen von französischsprachigen Bürger:innen (Schüler:innen, Student:innenen, Schulabbrecher:innen, Arbeitssuchende, Senioren)."
   },
   "common": {
+    "a11y": {
+      "external-link": "wird in einem neuen Tab geöffnet"
+    },
     "actions": {
       "back": "Zurück",
       "cancel": "Abbrechen",
@@ -385,13 +388,13 @@
     "homepage": "Pix-Startseite",
     "main": {
       "attestations": "Meine Bescheinigungen",
+      "certifications": "Zertifizierung",
       "code": "Ich habe einen Code",
       "dashboard": "Startseite",
       "help": "Hilfe",
       "label": "Hauptmenü",
       "link-help": "https://pix.fr/support",
       "skills": "Kompetenzen",
-      "start-certification": "Zertifizierung",
       "trainings": "Meine Übungen",
       "tutorials": "Meine Tutorials"
     },
@@ -409,7 +412,6 @@
     "showcase-homepage": "Pix.{ tld } Startseite",
     "user": {
       "account": "Mein Konto",
-      "certifications": "Meine Zertifizierungen",
       "sign-out": "Abmelden",
       "tests": "Meine Pfade"
     },
@@ -896,16 +898,6 @@
       "vocal-step-identifier": "Seite {pageId} von {pageCount}."
     },
     "certification-joiner": {
-      "congratulation-banner": {
-        "double-certification": {
-          "eligible": "Du bist auch für die Zusatzqualifikation geeignet  :",
-          "outdated": "<strong>Du bist aufgrund der Weiterentwicklung nicht mehr für die Zertifizierung {doubleCertificationName} berechtigt.</strong><br />Wende dich an deine Schule oder die Organisation, die dir den Lernpfad angeboten hat, um ihn zu wiederholen und damit wieder berechtigt zu sein. Dein Fortschritt wurde beibehalten und du musst nur die neuen Prüfungen ablegen, das sollte schnell gehen."
-        },
-        "link": {
-          "text": "Wie kann man sich zertifizieren lassen?"
-        },
-        "message": "Bravo {fullName}, dein Pix-Profil kann zertifiziert werden."
-      },
       "error-messages": {
         "account-already-linked-to-another-candidate": "Das Konto, mit dem du angemeldet bist, ist bereits mit einem/einer anderen Kandidaten/Kandidatin dieser Testung verknüpft. Vergewissere dich, dass du mit deinem eigenen Pix-Konto angemeldet bist, oder bitte die Aufsichtsperson um Hilfe.",
         "generic": {
@@ -925,7 +917,6 @@
         },
         "wrong-domain-for-pix-plus": "Da die Pix+ Zertifizierungen derzeit nur auf Französisch verfügbar sind, sind sie nicht auf https://pix.org verfügbar.<br/>Bitte logge dich aus und dann wieder ein über '<a href=\"https://app.pix.fr/connexion\">diesen Link.</a>'."
       },
-      "first-title": "An einer Testung teilnehmen",
       "form": {
         "actions": {
           "submit": "Weiter"
@@ -953,13 +944,6 @@
         }
       },
       "title": "An einer Zertifizierungstestung teilnehmen"
-    },
-    "certification-not-certifiable": {
-      "action": {
-        "back": "Zurück zur Startseite"
-      },
-      "text": "Damit dein Profil zertifiziert werden kann, musst du in mindestens fünf Kompetenzen ein Level über 0 erreicht haben.",
-      "title": "Du kannst dein Profil noch nicht zertifizieren."
     },
     "certification-results": {
       "action": {
@@ -1009,7 +993,6 @@
         },
         "pix-plus-explanation": "Test nur auf Französisch verfügbar."
       },
-      "link-to-user-certification": "Meine Zertifizierungen ansehen",
       "non-eligible-subscription": "Du bist nicht für {subscriptionLabel} qualifiziert. Du aknnst dennoch deine Pix-Zertifizierung ablegen.",
       "title": "An einer Zertifizierungstestung teilnehmen"
     },
@@ -1017,12 +1000,11 @@
       "enrolment-banner": {
         "action": "Zertifizierung starten",
         "certifiable": {
-          "description": "Klicken Sie auf die Schaltfläche unten und starten Sie Ihre Zertifizierung",
-          "title": "Möchten Sie eine Zertifizierung ablegen?"
+          "description": "Klicken Sie am Tag Ihrer Zertifizierung auf die Schaltfläche unten, um zu beginnen.",
+          "title": "Möchten Sie die Pix-Zertifizierung ablegen?"
         },
         "clea": {
-          "text": "Sie sind für CléA Numérique berechtigt",
-          "title": "Ihr Pix-Profil ist zertifizierbar"
+          "title": "Sie sind außerdem für CléA Numérique berechtigt"
         },
         "not-certifiable": {
           "description": "Für die Zertifizierung sind Mindestvoraussetzungen erforderlich.",
@@ -1033,7 +1015,46 @@
         "sub-title": "Alle Felder sind Pflichtfelder.",
         "title": "An einer Sitzung teilnehmen"
       },
+      "title": "Zertifizierungen",
       "user-certifications": {
+        "how-to-certificate": {
+          "link": "Wie man sich zertifizieren lässt",
+          "text": "Wenn Sie mehr über die Pix-Zertifizierung erfahren möchten"
+        },
+        "meshes": {
+          "DROIT": {
+            "ADVANCED": "Fortgeschrittene",
+            "BELOW_MINIMUM": "Nicht erlangt",
+            "CONFIRMED": "Bestätigt",
+            "EXPERT": "Experte",
+            "INDEPENDENT": "Selbstständig"
+          },
+          "EDU_1ER_DEGRE": {
+            "ADMISSIBLE": "Zulässig",
+            "ADVANCED": "Fortgeschrittene",
+            "BELOW_MINIMUM": "Nicht zulässig",
+            "EXPERT": "Experte"
+          },
+          "EDU_2ND_DEGRE": {
+            "ADMISSIBLE": "Zulässig",
+            "ADVANCED": "Fortgeschrittene",
+            "BELOW_MINIMUM": "Nicht zulässig",
+            "EXPERT": "Experte"
+          },
+          "EDU_CPE": {
+            "ADMISSIBLE": "Zulässig",
+            "ADVANCED": "Fortgeschrittene",
+            "BELOW_MINIMUM": "Nicht zulässig",
+            "EXPERT": "Experte"
+          },
+          "PRO_SANTE": {
+            "ADVANCED": "Fortgeschrittene",
+            "BELOW_MINIMUM": "Nicht erlangt",
+            "CONFIRMED": "Bestätigt",
+            "EXPERT": "Experte",
+            "INDEPENDENT": "Selbstständig"
+          }
+        },
         "title": "Meine Zertifizierungen",
         "with-certification-text": "Greifen Sie auf alle Ihre Pix-Zertifizierungen zu. Sehen Sie sich die Details an und laden Sie Ihre Zertifikate herunter.",
         "without-certification-text": "Sie haben noch keine Pix-Zertifizierung."
@@ -1046,13 +1067,9 @@
         "download-certificate": "Zertifikat herunterladen"
       },
       "comment": "Kommentar :",
-      "description": "Greife auf alle deine Pix-Zertifizierungen zu. Sieh dir die Details an und lade dein Zertifikate herunter.",
       "information": {
         "certification-center": "Zertifizierungsstelle :",
         "date": "Datum der Zertifizierung :"
-      },
-      "no-certification": {
-        "text": "Du hast noch keine Pix-Zertifizierung"
       },
       "statuses": {
         "cancelled": "Abgebrochen",
@@ -2638,42 +2655,6 @@
         "menu-link-title": "Meine persönlichen Informationen"
       },
       "title": "Mein Konto"
-    },
-    "user-certifications": {
-      "meshes": {
-        "DROIT": {
-          "ADVANCED": "Fortgeschrittene",
-          "BELOW_MINIMUM": "Nicht erlangt",
-          "CONFIRMED": "Bestätigt",
-          "EXPERT": "Experte",
-          "INDEPENDENT": "Selbstständig"
-        },
-        "EDU_1ER_DEGRE": {
-          "ADMISSIBLE": "Zulässig",
-          "ADVANCED": "Fortgeschrittene",
-          "BELOW_MINIMUM": "Nicht zulässig",
-          "EXPERT": "Experte"
-        },
-        "EDU_2ND_DEGRE": {
-          "ADMISSIBLE": "Zulässig",
-          "ADVANCED": "Fortgeschrittene",
-          "BELOW_MINIMUM": "Nicht zulässig",
-          "EXPERT": "Experte"
-        },
-        "EDU_CPE": {
-          "ADMISSIBLE": "Zulässig",
-          "ADVANCED": "Fortgeschrittene",
-          "BELOW_MINIMUM": "Nicht zulässig",
-          "EXPERT": "Experte"
-        },
-        "PRO_SANTE": {
-          "ADVANCED": "Fortgeschrittene",
-          "BELOW_MINIMUM": "Nicht erlangt",
-          "CONFIRMED": "Bestätigt",
-          "EXPERT": "Experte",
-          "INDEPENDENT": "Selbstständig"
-        }
-      }
     },
     "user-tests": {
       "anonymised-participations": {

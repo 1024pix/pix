@@ -15,7 +15,7 @@ export default class v2Certificate extends Component {
 
   <template>
     <PixButtonLink
-      @route="authenticated.user-certifications"
+      @route="authenticated.certifications"
       @variant="tertiary"
       @iconBefore="arrowLeft"
       class="v2-candidate-certificate__previous-button"

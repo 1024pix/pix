@@ -4,16 +4,6 @@
 
 $small-media-width: 500px;
 
-.user-certifications-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--pix-spacing-6x);
-
-  @include breakpoints.device-is('large-screen') {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
 .certification-item {
   @extend %pix-body-s;
 

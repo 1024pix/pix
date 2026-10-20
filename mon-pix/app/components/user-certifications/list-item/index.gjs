@@ -129,7 +129,7 @@ export default class ListItem extends Component {
           <li>
             <PixButtonLink
               @variant="secondary"
-              @route="authenticated.user-certifications.get"
+              @route="authenticated.certifications.certificate-details"
               @model={{@certificateSummary.id}}
               @iconBefore="eye"
             >

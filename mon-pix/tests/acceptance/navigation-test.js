@@ -27,7 +27,7 @@ module('Acceptance | Navbar', function (hooks) {
     [
       {
         initialRoute: '/certifications',
-        initialLabel: 'navigation.main.start-certification',
+        initialLabel: 'navigation.main.certifications',
         expectedRoute: '/accueil',
         targetLabel: 'navigation.main.dashboard',
       },
@@ -35,7 +35,7 @@ module('Acceptance | Navbar', function (hooks) {
         initialRoute: '/accueil',
         initialLabel: 'navigation.main.dashboard',
         expectedRoute: '/certifications',
-        targetLabel: 'navigation.main.start-certification',
+        targetLabel: 'navigation.main.certifications',
       },
     ].forEach((userNavigation) => {
       test(`should redirect from "${userNavigation.initialRoute}" to "${userNavigation.expectedRoute}"`, async function (assert) {

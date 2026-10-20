@@ -41,7 +41,7 @@ module('Integration | Component | Global | App Navigation', function (hooks) {
 
         assert.dom(within(nav).getByRole('link', { name: t('navigation.main.dashboard') })).exists();
         assert.dom(within(nav).getByRole('link', { name: t('navigation.main.skills') })).exists();
-        assert.dom(within(nav).getByRole('link', { name: t('navigation.main.start-certification') })).exists();
+        assert.dom(within(nav).getByRole('link', { name: t('navigation.main.certifications') })).exists();
         assert.dom(within(nav).getByRole('link', { name: t('navigation.main.tutorials') })).exists();
 
         assert.dom(within(nav).queryByRole('link', { name: t('navigation.user.tests') })).doesNotExist();
@@ -214,43 +214,10 @@ module('Integration | Component | Global | App Navigation', function (hooks) {
 
         assert.dom(within(nav).queryByRole('link', { name: t('navigation.main.dashboard') })).doesNotExist();
         assert.dom(within(nav).queryByRole('link', { name: t('navigation.main.skills') })).doesNotExist();
-        assert.dom(within(nav).queryByRole('link', { name: t('navigation.main.start-certification') })).doesNotExist();
+        assert.dom(within(nav).queryByRole('link', { name: t('navigation.main.certifications') })).doesNotExist();
         assert.dom(within(nav).queryByRole('link', { name: t('navigation.main.tutorials') })).doesNotExist();
         assert.dom(within(nav).queryByRole('link', { name: t('navigation.user.tests') })).doesNotExist();
         assert.dom(within(nav).queryByRole('link', { name: t('navigation.main.trainings') })).doesNotExist();
-      });
-    });
-
-    module('new certification page', function () {
-      module('when featureToggle isNewCertificationPageEnabled is false', function () {
-        test('it should not display the new certification page link', async function (assert) {
-          // given
-          _stubCurrentUser(this.owner);
-
-          // when
-          const screen = await render(<template><AppNavigation /></template>);
-
-          // then
-          const nav = screen.getByLabelText('navigation principale');
-
-          assert.dom(within(nav).queryByRole('link', { name: 'Certifications V2' })).doesNotExist();
-        });
-      });
-
-      module('when featureToggle isNewCertificationPageEnabled is true', function () {
-        test('it should display the new certification page link', async function (assert) {
-          // given
-          const featureToggles = this.owner.lookup('service:featureToggles');
-          sinon.stub(featureToggles, 'featureToggles').value({ isNewCertificationPageEnabled: true });
-          _stubCurrentUser(this.owner);
-
-          // when
-          const screen = await render(<template><AppNavigation /></template>);
-
-          // then
-          const nav = screen.getByLabelText('navigation principale');
-          assert.dom(within(nav).queryByRole('link', { name: 'Certifications V2' })).exists();
-        });
       });
     });
   });
@@ -289,7 +256,6 @@ module('Integration | Component | Global | App Navigation', function (hooks) {
       assert.dom(within(footer).getByRole('link', { name: t('navigation.main.code') })).exists();
       assert.dom(within(footer).getByText('Banana Split')).exists();
       assert.dom(within(footer).getByRole('link', { name: t('navigation.user.account') })).exists();
-      assert.dom(within(footer).getByRole('link', { name: t('navigation.user.certifications') })).exists();
       assert.dom(within(footer).getByRole('link', { name: t('navigation.user.sign-out') })).exists();
       assert.dom(within(footer).getByRole('link', { name: t('navigation.footer.help-center') })).exists();
     });

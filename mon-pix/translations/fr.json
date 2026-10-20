@@ -35,6 +35,9 @@
     "description": "Pix est une plateforme en ligne d'évaluation et de certification des compétences numériques des citoyens francophones (élèves, étudiant•e•s, décrocheur•se•s, demandeur•se•s d'emploi, sénior•e•s)"
   },
   "common": {
+    "a11y": {
+      "external-link": "s'ouvre dans un nouvel onglet"
+    },
     "actions": {
       "back": "Retour",
       "cancel": "Annuler",
@@ -385,13 +388,13 @@
     "homepage": "Page d'accueil de Pix",
     "main": {
       "attestations": "Mes attestations",
+      "certifications": "Certifications",
       "code": "J'ai un code",
       "dashboard": "Accueil",
       "help": "Aide",
       "label": "Menu principal",
       "link-help": "https://pix.fr/support",
       "skills": "Compétences",
-      "start-certification": "Certification",
       "trainings": "Mes formations",
       "tutorials": "Mes tutoriels"
     },
@@ -409,7 +412,6 @@
     "showcase-homepage": "Page d'accueil de Pix.{ tld }",
     "user": {
       "account": "Mon compte",
-      "certifications": "Mes certifications",
       "sign-out": "Se déconnecter",
       "tests": "Mes parcours"
     },
@@ -896,16 +898,6 @@
       "vocal-step-identifier": "Page {pageId} sur {pageCount}"
     },
     "certification-joiner": {
-      "congratulation-banner": {
-        "double-certification": {
-          "eligible": "Vous êtes également éligible à la certification complémentaire :",
-          "outdated": "<strong>Vous n'êtes plus éligible à la certification {doubleCertificationName} suite à son évolution.</strong><br />Recontactez votre établissement ou l’organisation vous ayant proposé le parcours afin de repasser une campagne et ainsi redevenir éligible. Votre progression a été conservée et vous n'aurez qu'à jouer les nouvelles épreuves, cela devrait être rapide."
-        },
-        "link": {
-          "text": "Comment se certifier ?"
-        },
-        "message": "Bravo {fullName}, votre profil Pix est certifiable."
-      },
       "error-messages": {
         "account-already-linked-to-another-candidate": "Le compte avec lequel vous êtes connecté(e) est déjà rattaché à un(e) autre candidat(e) de cette session. Vérifiez que vous êtes connecté(e) à votre propre compte Pix ou demandez de l'aide au surveillant.",
         "generic": {
@@ -925,7 +917,6 @@
         },
         "wrong-domain-for-pix-plus": "Les certifications Pix+ n'étant disponibles qu'en français pour le moment, elles ne sont pas disponibles sur https://pix.org.<br/>Merci de vous déconnecter puis de vous reconnecter via '<a href=\"https://app.pix.fr/connexion\">ce lien.</a>'"
       },
-      "first-title": "Rejoindre une session",
       "form": {
         "actions": {
           "submit": "Continuer"
@@ -953,13 +944,6 @@
         }
       },
       "title": "Rejoindre une session de certification"
-    },
-    "certification-not-certifiable": {
-      "action": {
-        "back": "Retour à l'accueil"
-      },
-      "text": "Pour faire certifier votre profil, vous devez avoir obtenu un niveau supérieur à 0 dans 5 compétences minimum.",
-      "title": "Votre profil n'est pas encore certifiable."
     },
     "certification-results": {
       "action": {
@@ -1009,7 +993,6 @@
         },
         "pix-plus-explanation": "Test disponible uniquement en français."
       },
-      "link-to-user-certification": "Voir mes certifications",
       "non-eligible-subscription": "Vous n'êtes pas éligible à {subscriptionLabel}. Vous pouvez néanmoins passer votre certification Pix.",
       "title": "Rejoindre une session de certification"
     },
@@ -1017,12 +1000,11 @@
       "enrolment-banner": {
         "action": "Entrer en certification",
         "certifiable": {
-          "description": "Cliquer sur le bouton ci-dessous et démarrer votre certification",
-          "title": "Vous souhaitez passer une certification ?"
+          "description": "Le jour de votre certification, cliquer sur le bouton ci-dessous pour démarrer.",
+          "title": "Vous souhaitez passer la certification Pix ?"
         },
         "clea": {
-          "text": "Vous êtes éligible au CléA numérique",
-          "title": "Votre profil Pix est certifiable"
+          "title": "Vous êtes également éligible au CléA numérique"
         },
         "not-certifiable": {
           "description": "Un minimum de pré-requis est nécessaire pour passer la certification.",
@@ -1033,7 +1015,46 @@
         "sub-title": "Tous les champs sont obligatoires.",
         "title": "Rejoindre une session"
       },
+      "title": "Certifications",
       "user-certifications": {
+        "how-to-certificate": {
+          "link": "Comment se certifier",
+          "text": "Si vous souhaitez en savoir plus sur la certification Pix"
+        },
+        "meshes": {
+          "DROIT": {
+            "ADVANCED": "Avancé",
+            "BELOW_MINIMUM": "Non obtenue",
+            "CONFIRMED": "Confirmé",
+            "EXPERT": "Expert",
+            "INDEPENDENT": "Indépendant"
+          },
+          "EDU_1ER_DEGRE": {
+            "ADMISSIBLE": "Admissible",
+            "ADVANCED": "Avancé",
+            "BELOW_MINIMUM": "Non admissible",
+            "EXPERT": "Expert"
+          },
+          "EDU_2ND_DEGRE": {
+            "ADMISSIBLE": "Admissible",
+            "ADVANCED": "Avancé",
+            "BELOW_MINIMUM": "Non admissible",
+            "EXPERT": "Expert"
+          },
+          "EDU_CPE": {
+            "ADMISSIBLE": "Admissible",
+            "ADVANCED": "Avancé",
+            "BELOW_MINIMUM": "Non admissible",
+            "EXPERT": "Expert"
+          },
+          "PRO_SANTE": {
+            "ADVANCED": "Avancé",
+            "BELOW_MINIMUM": "Non obtenue",
+            "CONFIRMED": "Confirmé",
+            "EXPERT": "Expert",
+            "INDEPENDENT": "Indépendant"
+          }
+        },
         "title": "Mes certifications",
         "with-certification-text": "Accédez à l’ensemble de vos certifications Pix. Consultez les détails et téléchargez vos certificats.",
         "without-certification-text": "Vous n’avez pas encore de certification Pix."
@@ -1046,13 +1067,9 @@
         "download-certificate": "Télécharger le certificat"
       },
       "comment": "Commentaire :",
-      "description": "Accédez à l’ensemble de vos certifications Pix. Consultez les détails et téléchargez vos certificats.",
       "information": {
         "certification-center": "Centre de certification :",
         "date": "Date de passage :"
-      },
-      "no-certification": {
-        "text": "Vous n'avez pas encore de certification Pix"
       },
       "statuses": {
         "cancelled": "Annulée",
@@ -2638,42 +2655,6 @@
         "menu-link-title": "Mes informations personnelles"
       },
       "title": "Mon compte"
-    },
-    "user-certifications": {
-      "meshes": {
-        "DROIT": {
-          "ADVANCED": "Avancé",
-          "BELOW_MINIMUM": "Non obtenue",
-          "CONFIRMED": "Confirmé",
-          "EXPERT": "Expert",
-          "INDEPENDENT": "Indépendant"
-        },
-        "EDU_1ER_DEGRE": {
-          "ADMISSIBLE": "Admissible",
-          "ADVANCED": "Avancé",
-          "BELOW_MINIMUM": "Non admissible",
-          "EXPERT": "Expert"
-        },
-        "EDU_2ND_DEGRE": {
-          "ADMISSIBLE": "Admissible",
-          "ADVANCED": "Avancé",
-          "BELOW_MINIMUM": "Non admissible",
-          "EXPERT": "Expert"
-        },
-        "EDU_CPE": {
-          "ADMISSIBLE": "Admissible",
-          "ADVANCED": "Avancé",
-          "BELOW_MINIMUM": "Non admissible",
-          "EXPERT": "Expert"
-        },
-        "PRO_SANTE": {
-          "ADVANCED": "Avancé",
-          "BELOW_MINIMUM": "Non obtenue",
-          "CONFIRMED": "Confirmé",
-          "EXPERT": "Expert",
-          "INDEPENDENT": "Indépendant"
-        }
-      }
     },
     "user-tests": {
       "anonymised-participations": {

@@ -84,11 +84,6 @@ export default class UserLoggedMenu extends Component {
                 </li>
               {{/if}}
               <li>
-                <LinkTo @route="authenticated.user-certifications" class="logged-user-menu__link">
-                  {{t "navigation.user.certifications"}}
-                </LinkTo>
-              </li>
-              <li>
                 <a
                   href="{{t 'navigation.main.link-help'}}"
                   target="_blank"
