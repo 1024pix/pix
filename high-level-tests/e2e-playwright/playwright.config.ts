@@ -38,7 +38,7 @@ export default defineConfig({
     : [
         setupWebServer(App.PIX_API, false),
         setupWebServer(App.PIX_APP, reuseExistingApps),
-        setupWebServer(App.PIX_ORGA, reuseExistingApps),
-        setupWebServer(App.PIX_CERTIF, reuseExistingApps),
+        // setupWebServer(App.PIX_ORGA, reuseExistingApps),
+        // setupWebServer(App.PIX_CERTIF, reuseExistingApps),
       ],
 });

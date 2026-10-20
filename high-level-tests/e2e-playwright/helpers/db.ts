@@ -6,17 +6,17 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../api/src/identity-access-ma
 import { AuthenticationMethod } from '../../../api/src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { buildCoreVersion, buildCpfData, buildPixCertifUser } from './certification/builders/index.ts';
 import {
-  PIX_ADMIN_SUPPORT_DATA,
-  PIX_APP_USER_DATA,
-  PIX_CERTIF_PRO_DATA,
-  PIX_ORGA_ADMIN_DATA,
-  PIX_ORGA_MEMBER_DATA,
+    PIX_ADMIN_SUPPORT_DATA,
+    PIX_APP_USER_DATA,
+    PIX_CERTIF_PRO_DATA,
+    PIX_ORGA_ADMIN_DATA,
+    PIX_ORGA_MEMBER_DATA,
 } from './db-data.js';
 import {
-  createCertificationCenterInDB,
-  createCertificationCenterMembershipInDB,
-  createOrganizationLearnerInDB,
-  createUserInDB,
+    createCertificationCenterInDB,
+    createCertificationCenterMembershipInDB,
+    createOrganizationLearnerInDB,
+    createUserInDB,
 } from './db-utils.ts';
 
 export const knex = Knex({ client: 'postgresql', connection: process.env.DATABASE_URL });
@@ -86,7 +86,7 @@ export async function buildExistingOrganizationLearner({
     knex,
   );
 
-  return await createOrganizationLearnerInDB(
+  const organizationLearnerId = await createOrganizationLearnerInDB(
     {
       firstName,
       lastName,
@@ -98,6 +98,7 @@ export async function buildExistingOrganizationLearner({
     },
     knex,
   );
+  return { userId, organizationLearnerId };
 }
 
 export async function buildFreshPixCertifUser(firstName: string, lastName: string, email: string, rawPassword: string) {
@@ -579,4 +580,57 @@ export async function createGARUser(id: string, firstName: string, lastName: str
 export async function getLastPixOrgaInvitation() {
   const { id: invitationId, code } = await knex('organization-invitations').orderBy('createdAt', 'desc').first();
   return { invitationId, code };
+}
+
+type CampaignData = {
+  name: string;
+  title: string;
+  code: string;
+  type?: string;
+  organizationId: number;
+  ownerId?: number;
+  creatorId?: number;
+};
+export async function createCampaignInDB({
+  name,
+  title,
+  code,
+  organizationId,
+  type = 'ASSESSMENT',
+  creatorId = PIX_ORGA_ADMIN_DATA.id,
+  ownerId = PIX_ORGA_ADMIN_DATA.id,
+}: CampaignData): Promise<number> {
+  const targetProfile = await knex('target-profiles').select('id').where({ name: 'petit Profile Cible' }).first();
+  const [{ id: campaignId }] = await knex('campaigns')
+    .insert({
+      name,
+      title,
+      code,
+      type,
+      organizationId,
+      ownerId,
+      creatorId,
+      targetProfileId: targetProfile,
+      createdAt: new Date(),
+    })
+    .returning('*');
+  return campaignId;
+}
+
+type campaignParticipationData = {
+  campaignId: number;
+  organizationLearnerId: number;
+  userId: number;
+};
+
+export async function createCampaignParticipationInDB({
+  campaignId,
+  organizationLearnerId,
+  userId,
+}: campaignParticipationData): Promise<number> {
+  const [{ id: campaignParticipationId }] = await knex('campaigns-participations')
+    .insert({ campaignId, organizationLearnerId, userId, status: 'STARTED', isImproved: false })
+    .returning('*');
+
+  return campaignParticipationId;
 }
