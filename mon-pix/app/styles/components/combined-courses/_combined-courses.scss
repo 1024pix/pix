@@ -32,7 +32,7 @@
           background: linear-gradient(179deg, var(--pix-primary-10) 39.48%, rgb(255 255 255 / 0%) 98.91%);
           content: '';
         }
-        
+
         &::after {
           position: fixed;
           bottom: 0;
@@ -58,14 +58,6 @@
   &__divider {
     margin: var(--pix-spacing-6x) 0;
     border-top: 1px solid var(--pix-neutral-100);
-  }
-
-  &__retry-text {
-    @extend %pix-body-m;
-
-    margin-bottom: var(--pix-spacing-6x);
-    font-weight: var(--pix-font-bold);
-    text-align: right;
   }
 
   &__step-title {

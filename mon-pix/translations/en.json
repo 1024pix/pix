@@ -1320,7 +1320,6 @@
     "combined-courses": {
       "completed": {
         "description": "Well done! You have taken an important step toward navigating the digital world.",
-        "retry-text": "Want to review? You can replay all the modules freely!",
         "survey-button": "Answer the survey",
         "survey-button-description": "Complete the survey to give your opinion on the course.",
         "title": "Congratulations! You're done!"
@@ -1348,8 +1347,10 @@
           "description": "Complete your assessment to unlock a programme of modules tailored to your results!",
           "title": "Customised module programme"
         },
+        "module-objectives-completed": "In this module, you have learnt:",
         "restart-campaign": "Restart",
         "restart-module": "Restart module",
+        "retry-module": "Play this module again",
         "start-campaign": "Start",
         "start-module": "Start module",
         "tagText": "You're at that point!"

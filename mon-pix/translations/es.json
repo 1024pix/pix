@@ -1320,7 +1320,6 @@
     "combined-courses": {
       "completed": {
         "description": "¡Bien hecho! Ha dado un paso importante para navegar por el mundo digital.",
-        "retry-text": "¿Quieres repasar? ¡Puedes volver a reproducir todos los módulos tranquilamente!",
         "survey-button": "Responder a la encuesta de satisfacción",
         "survey-button-description": "Responde al cuestionario para dar tu opinión sobre el recorrido.",
         "title": "¡Enhorabuena! ¡Ya has terminado!"
@@ -1348,8 +1347,10 @@
           "description": "¡Completa tu diagnóstico para desbloquear un programa de módulos adaptado a tu resultado!",
           "title": "Programa personalizado de módulos"
         },
+        "module-objectives-completed": "En este módulo has visto:",
         "restart-campaign": "Volver a empezar",
         "restart-module": "Volver a empezar el módulo",
+        "retry-module": "Volver a reproducir este módulo",
         "start-campaign": "Empezar",
         "start-module": "Empezar el módulo",
         "tagText": "¡Ya estás ahí!"

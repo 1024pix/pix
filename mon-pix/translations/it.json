@@ -1320,7 +1320,6 @@
     "combined-courses": {
       "completed": {
         "description": "Ben fatto! Hai compiuto un passo importante nella navigazione del mondo digitale.",
-        "retry-text": "Volete ripassare? Sei liberi di rivedere tutti i moduli!",
         "survey-button": "Rispondere al questionario",
         "survey-button-description": "Compila il questionario per dare la tua opinione sul percorso",
         "title": "Congratulazioni! Hai finito!"
@@ -1348,8 +1347,10 @@
           "description": "Completate la tua diagnosi per sbloccare un programma di moduli su misura per i tuoi risultati!",
           "title": "Programma di moduli personalizzato"
         },
+        "module-objectives-completed": "In questo modulo avete visto:",
         "restart-campaign": "Ricominciare",
         "restart-module": "Ripetere il modulo",
+        "retry-module": "Rigiocare questo modulo",
         "start-campaign": "Inizia",
         "start-module": "Inizia il modulo",
         "tagText": "Ecco dove sei!"
