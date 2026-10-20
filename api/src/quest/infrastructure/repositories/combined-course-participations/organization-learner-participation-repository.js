@@ -1,7 +1,6 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
-import { CombinedCourseParticipation } from '../../../domain/models/combined-course-participations/entities/CombinedCourseParticipation.js';
 import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,
@@ -157,7 +156,7 @@ export const findCombinedCourseParticipationById = async function ({ participati
     .whereNull('organization_learner_participations.deletedAt')
     .first();
   if (!combinedCourseParticipation) return null;
-  return new CombinedCourseParticipation(combinedCourseParticipation);
+  return new OrganizationLearnerParticipation(combinedCourseParticipation);
 };
 
 /**
@@ -283,5 +282,5 @@ export const findByCombinedCourseIds = async ({ combinedCourseIds }) => {
     .where('organization_learner_participations.type', OrganizationLearnerParticipationTypes.COMBINED_COURSE)
     .whereNull('organization_learner_participations.deletedAt');
 
-  return results.map((participation) => new CombinedCourseParticipation(participation));
+  return results.map((participation) => new OrganizationLearnerParticipation(participation));
 };

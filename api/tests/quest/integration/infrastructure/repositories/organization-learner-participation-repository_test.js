@@ -4,7 +4,6 @@ import sinon from 'sinon';
 
 import { StatusesEnumValues } from '../../../../../src/devcomp/domain/models/module/UserModuleStatus.js';
 import { CombinedCourseParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
-import { CombinedCourseParticipation } from '../../../../../src/quest/domain/models/combined-course-participations/entities/CombinedCourseParticipation.js';
 import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,
@@ -553,7 +552,10 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
       await databaseBuilder.commit();
 
       // when
-      await organizationLearnerParticipationRepository.saveCombinedCourseParticipation({ organizationLearnerId, combinedCourseId });
+      await organizationLearnerParticipationRepository.saveCombinedCourseParticipation({
+        organizationLearnerId,
+        combinedCourseId,
+      });
 
       // then
       const participations = await knex('organization_learner_participations').where({
@@ -579,7 +581,9 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerParticipationRepository.findCombinedCourseParticipationById({ participationId });
+      const result = await organizationLearnerParticipationRepository.findCombinedCourseParticipationById({
+        participationId,
+      });
 
       // then
       expect(result.id).equal(participationId);
@@ -597,7 +601,9 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerParticipationRepository.findCombinedCourseParticipationById({ participationId });
+      const result = await organizationLearnerParticipationRepository.findCombinedCourseParticipationById({
+        participationId,
+      });
 
       // then
       expect(result).null;
@@ -618,7 +624,9 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerParticipationRepository.findCombinedCourseParticipationById({ participationId });
+      const result = await organizationLearnerParticipationRepository.findCombinedCourseParticipationById({
+        participationId,
+      });
 
       // then
       expect(result).null;
@@ -637,7 +645,9 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
       });
 
       // when
-      const result = await organizationLearnerParticipationRepository.findCombinedCourseParticipationById({ participationId });
+      const result = await organizationLearnerParticipationRepository.findCombinedCourseParticipationById({
+        participationId,
+      });
 
       // then
       expect(result).null;
@@ -645,7 +655,9 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
 
     it('should return null when participation does not exist', async function () {
       // when
-      const result = await organizationLearnerParticipationRepository.findCombinedCourseParticipationById({ participationId: 12 });
+      const result = await organizationLearnerParticipationRepository.findCombinedCourseParticipationById({
+        participationId: 12,
+      });
 
       // then
       expect(result).null;
@@ -962,7 +974,9 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
 
     it('should not return deleted participations to combined course', async function () {
       const { organizationLearners } =
-        await organizationLearnerParticipationRepository.findPaginatedCombinedCourseParticipationById({ combinedCourseId });
+        await organizationLearnerParticipationRepository.findPaginatedCombinedCourseParticipationById({
+          combinedCourseId,
+        });
       expect(organizationLearners).to.not.include({ id: organizationLearner4.id, userId: organizationLearner4.userId });
     });
 
@@ -1210,8 +1224,8 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
 
       // then
       expect(combinedCourseParticipations).lengthOf(2);
-      expect(combinedCourseParticipations[0]).instanceOf(CombinedCourseParticipation);
-      expect(combinedCourseParticipations[1]).instanceOf(CombinedCourseParticipation);
+      expect(combinedCourseParticipations[0]).instanceOf(OrganizationLearnerParticipation);
+      expect(combinedCourseParticipations[1]).instanceOf(OrganizationLearnerParticipation);
       expect(combinedCourseParticipations[0].status).to.deep.equal(OrganizationLearnerParticipationStatuses.COMPLETED);
       expect(combinedCourseParticipations[1].status).to.deep.equal(OrganizationLearnerParticipationStatuses.STARTED);
     });

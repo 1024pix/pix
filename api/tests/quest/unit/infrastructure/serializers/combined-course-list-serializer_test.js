@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { CombinedCourseParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
-import { CombinedCourseParticipation } from '../../../../../src/quest/domain/models/combined-course-participations/entities/CombinedCourseParticipation.js';
+import { OrganizationLearnerParticipation } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
 import { combinedCourseListSerializer } from '../../../../../src/quest/infrastructure/serializers/combined-course-list-serializer.js';
 
@@ -18,10 +18,10 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-list', f
         illustration: '/illustrations/image1.svg',
       });
       combinedCourse1.participations = [
-        new CombinedCourseParticipation({
+        new OrganizationLearnerParticipation({
           status: CombinedCourseParticipationStatuses.COMPLETED,
         }),
-        new CombinedCourseParticipation({
+        new OrganizationLearnerParticipation({
           status: CombinedCourseParticipationStatuses.STARTED,
         }),
       ];

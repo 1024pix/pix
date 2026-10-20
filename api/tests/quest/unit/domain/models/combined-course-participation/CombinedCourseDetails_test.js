@@ -10,7 +10,6 @@ import {
 import { COMBINED_COURSE_ITEM_TYPES, REWARD_TYPES } from '../../../../../../src/quest/domain/constants.js';
 import { CombinedCourseDetails } from '../../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js';
 import { CombinedCourseReward } from '../../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
-import { CombinedCourseParticipation } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/CombinedCourseParticipation.js';
 import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,
@@ -127,7 +126,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
         group: 'Groupe A',
         division: '4eme B',
       });
-      const participation = new CombinedCourseParticipation({
+      const participation = new OrganizationLearnerParticipation({
         id: 123,
         status: CombinedCourseParticipationStatuses.STARTED,
         updatedAt: new Date('2024-12-10'),
@@ -189,7 +188,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
         group: 'Groupe A',
         division: '6eme B',
       });
-      const participation = new CombinedCourseParticipation({
+      const participation = new OrganizationLearnerParticipation({
         id: 123,
         status: CombinedCourseParticipationStatuses.STARTED,
         updatedAt: new Date('2024-12-10'),
