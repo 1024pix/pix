@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import { CombinedCourseParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
 import { CombinedCourseParticipation } from '../../../../../src/quest/domain/models/combined-course-participations/entities/CombinedCourseParticipation.js';
 import {
+  OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
 } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
@@ -228,12 +229,7 @@ describe('Quest | Integration | Infrastructure | repositories | Combined-Course-
   describe('#findByLearnerId', function () {
     it('should return combinedCourse participation for given learnerId and combinedCourse ids', async function () {
       // given
-      const {
-        firstName,
-        lastName,
-        id: organizationLearnerId,
-        organizationId,
-      } = databaseBuilder.factory.buildOrganizationLearner();
+      const { id: organizationLearnerId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
       const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({ organizationId });
       const expectedCombinedCourseParticipation = databaseBuilder.factory.buildOrganizationLearnerParticipation({
         organizationLearnerId,
@@ -257,12 +253,10 @@ describe('Quest | Integration | Infrastructure | repositories | Combined-Course-
       });
 
       // then
-      expect(result).instanceOf(CombinedCourseParticipation);
+      expect(result).instanceOf(OrganizationLearnerParticipation);
       expect(result.id).equal(expectedCombinedCourseParticipation.id);
-      expect(result.combinedCourseId).equal(combinedCourseId);
+      expect(result.referenceId).equal(combinedCourseId.toString());
       expect(result.organizationLearnerId).equal(organizationLearnerId);
-      expect(result.firstName).equal(firstName);
-      expect(result.lastName).equal(lastName);
       expect(result.status).equal(OrganizationLearnerParticipationStatuses.COMPLETED);
     });
 
@@ -328,16 +322,12 @@ describe('Quest | Integration | Infrastructure | repositories | Combined-Course-
         (participation) => participation.organizationLearnerId === firstLearner.id,
       );
 
-      expect(combinedCourseParticipationForFirstLearner).instanceOf(CombinedCourseParticipation);
+      expect(combinedCourseParticipationForFirstLearner).instanceOf(OrganizationLearnerParticipation);
 
-      expect(combinedCourseParticipationForFirstLearner).to.deep.equal({
+      expect(combinedCourseParticipationForFirstLearner).to.deep.include({
         id: expectedCombinedCourseParticipation.id,
-        combinedCourseId,
+        referenceId: combinedCourseId.toString(),
         organizationLearnerId: firstLearner.id,
-        division: firstLearner.division,
-        group: firstLearner.group,
-        firstName: firstLearner.firstName,
-        lastName: firstLearner.lastName,
         status: OrganizationLearnerParticipationStatuses.COMPLETED,
         createdAt: expectedCombinedCourseParticipation.createdAt,
         updatedAt: expectedCombinedCourseParticipation.updatedAt,
@@ -347,15 +337,11 @@ describe('Quest | Integration | Infrastructure | repositories | Combined-Course-
         (participation) => participation.organizationLearnerId === secondLearner.id,
       );
 
-      expect(combinedCourseParticipationForSecondLearner).instanceOf(CombinedCourseParticipation);
-      expect(combinedCourseParticipationForSecondLearner).to.deep.equal({
+      expect(combinedCourseParticipationForSecondLearner).instanceOf(OrganizationLearnerParticipation);
+      expect(combinedCourseParticipationForSecondLearner).to.deep.include({
         id: secondCombinedCourseParticipation.id,
-        combinedCourseId,
+        referenceId: combinedCourseId.toString(),
         organizationLearnerId: secondLearner.id,
-        division: secondLearner.division,
-        group: secondLearner.group,
-        firstName: secondLearner.firstName,
-        lastName: secondLearner.lastName,
         status: OrganizationLearnerParticipationStatuses.COMPLETED,
         createdAt: secondCombinedCourseParticipation.createdAt,
         updatedAt: secondCombinedCourseParticipation.updatedAt,

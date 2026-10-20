@@ -87,10 +87,6 @@ export const findByLearnerIds = async function ({ organizationLearnerIds, combin
     .select(
       'organization_learner_participations.id',
       'organizationLearnerId',
-      'view-active-organization-learners.firstName',
-      'view-active-organization-learners.lastName',
-      'view-active-organization-learners.division',
-      'view-active-organization-learners.group',
       'organization_learner_participations.status',
       'organization_learner_participations.createdAt',
       'organization_learner_participations.updatedAt',
@@ -110,7 +106,7 @@ export const findByLearnerIds = async function ({ organizationLearnerIds, combin
     .whereNull('organization_learner_participations.deletedAt')
     .orderBy([{ column: 'organization_learner_participations.createdAt', order: 'desc' }]);
 
-  return results.map((row) => new CombinedCourseParticipation(row));
+  return results.map((row) => new OrganizationLearnerParticipation(row));
 };
 
 export const findPaginatedCombinedCourseParticipationById = async function ({ combinedCourseId, page, filters }) {

@@ -36,8 +36,15 @@ export class OrganizationLearnerParticipation {
     this.referenceId = referenceId;
   }
 
-  get isTerminated() {
+  get isCompleted() {
     return this.status === OrganizationLearnerParticipationStatuses.COMPLETED;
+  }
+
+  complete() {
+    const now = new Date();
+    this.updatedAt = now;
+    this.completedAt = now;
+    this.status = OrganizationLearnerParticipationStatuses.COMPLETED;
   }
 
   get fieldsForUpdate() {

@@ -8,7 +8,7 @@ export class Eligibility {
     this.passages = passages.map((passage) => ({
       status: passage.status,
       moduleId: passage.referenceId,
-      isTerminated: passage.isTerminated,
+      isTerminated: passage.isCompleted,
     }));
   }
 

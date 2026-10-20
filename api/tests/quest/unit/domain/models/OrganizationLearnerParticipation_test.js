@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { StatusesEnumValues } from '../../../../../src/devcomp/domain/models/module/UserModuleStatus.js';
 import {
@@ -142,7 +143,42 @@ describe('Quest | Unit | Domain | Models | OrganizationLearnerParticipation', fu
     });
   });
 
-  describe('isTerminated', function () {
+  describe('#complete', function () {
+    let clock;
+    const now = new Date('2025-06-01');
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('should set status to COMPLETED and update completedAt and updatedAt', function () {
+      // given
+      const organizationLearnerParticipation = new OrganizationLearnerParticipation({
+        id: 12,
+        organizationLearnerId: 15,
+        status: OrganizationLearnerParticipationStatuses.STARTED,
+        type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,
+        referenceId: '666',
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2025-01-01'),
+        completedAt: null,
+      });
+
+      // when
+      organizationLearnerParticipation.complete();
+
+      // then
+      expect(organizationLearnerParticipation.status).to.equal(OrganizationLearnerParticipationStatuses.COMPLETED);
+      expect(organizationLearnerParticipation.updatedAt).to.deep.equal(now);
+      expect(organizationLearnerParticipation.completedAt).to.deep.equal(now);
+    });
+  });
+
+  describe('isCompleted', function () {
     [
       { status: OrganizationLearnerParticipationStatuses.COMPLETED, expected: true },
       { status: OrganizationLearnerParticipationStatuses.NOT_STARTED, expected: false },
@@ -162,7 +198,7 @@ describe('Quest | Unit | Domain | Models | OrganizationLearnerParticipation', fu
         });
 
         // then
-        expect(organizationLearnerParticipation.isTerminated).equal(expected);
+        expect(organizationLearnerParticipation.isCompleted).equal(expected);
       });
     });
   });

@@ -25,6 +25,7 @@ const { combinedCourseDetailsService: CombinedCourseDetailsService } = injectDep
   { combinedCourseDetailsService },
   {
     combinedCourseParticipationRepository: repositories.combinedCourseParticipationRepository,
+    combinedCourseParticipantRepository: repositories.combinedCourseParticipantRepository,
     combinedCourseRepository: repositories.combinedCourseRepository,
     campaignRepository: repositories.campaignRepository,
     questRepository: repositories.questRepository,

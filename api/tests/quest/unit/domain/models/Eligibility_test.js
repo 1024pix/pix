@@ -11,7 +11,7 @@ describe('Quest | Unit | Domain | Models | Eligibility ', function () {
         {
           status: OrganizationLearnerParticipationStatuses.STARTED,
           referenceId: 1,
-          isTerminated: false,
+          isCompleted: false,
         },
       ];
 

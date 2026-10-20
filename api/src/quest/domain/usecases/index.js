@@ -14,6 +14,7 @@ const { combinedCourseDetailsService: injectedCombinedCourseDetailsService } = i
   { combinedCourseDetailsService },
   {
     combinedCourseParticipationRepository: repositories.combinedCourseParticipationRepository,
+    combinedCourseParticipantRepository: repositories.combinedCourseParticipantRepository,
     combinedCourseRepository: repositories.combinedCourseRepository,
     campaignRepository: repositories.campaignRepository,
     questRepository: repositories.questRepository,
