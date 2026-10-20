@@ -93,18 +93,18 @@ module('Acceptance | administration | common ', function (hooks) {
     // then
     assert.dom(screen.getByRole('navigation', { name: 'Navigation de la section administration' })).exists();
     assert.dom(screen.getByRole('link', { name: 'Commun' })).exists();
-    assert.dom(screen.getByRole('link', { name: 'Certification' })).exists();
+    assert.dom(screen.getByRole('link', { name: 'Déploiement SCO' })).exists();
     assert.dom(screen.getByRole('link', { name: 'Accès' })).exists();
     assert.dom(screen.getByRole('link', { name: 'Déploiement' })).exists();
   });
 
-  module('when certification tab is clicked', function () {
-    test('displays certification sections', async function (assert) {
+  module('when SCO deployment tab is clicked', function () {
+    test('displays SCO deployment sections', async function (assert) {
       // given
       const screen = await visit('/administration/common');
 
       // when
-      await click(screen.getByRole('link', { name: 'Certification' }));
+      await click(screen.getByRole('link', { name: 'Déploiement SCO' }));
 
       // then
       assert

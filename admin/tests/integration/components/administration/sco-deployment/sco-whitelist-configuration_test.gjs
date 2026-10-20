@@ -3,7 +3,7 @@ import { PixToastContainer } from '@1024pix/nebulix-ember';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import ScoWhitelistConfiguration from 'pix-admin/components/administration/certification/sco-whitelist-configuration';
+import ScoWhitelistConfiguration from 'pix-admin/components/administration/sco-deployment/sco-whitelist-configuration';
 import ENV from 'pix-admin/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -14,7 +14,7 @@ const accessToken = 'An access token';
 const fileContent = 'foo';
 const file = new Blob([fileContent], { type: `valid-file` });
 
-module('Integration | Component | administration/certification/sco-whitelist-configuration', function (hooks) {
+module('Integration | Component | administration/sco-deployment/sco-whitelist-configuration', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let fetchStub, fileSaverStub;
@@ -48,12 +48,12 @@ module('Integration | Component | administration/certification/sco-whitelist-con
         const screen = await render(
           <template><ScoWhitelistConfiguration /><PixToastContainer @closeButtonAriaLabel="Close" /></template>,
         );
-        const input = await screen.findByText(t('pages.administration.certification.sco-whitelist.export.button'));
+        const input = await screen.findByText(t('pages.administration.sco-deployment.sco-whitelist.export.button'));
         await triggerEvent(input, 'click');
 
         // then
         assert
-          .dom(await screen.queryByText(t('pages.administration.certification.sco-whitelist.export.error')))
+          .dom(await screen.queryByText(t('pages.administration.sco-deployment.sco-whitelist.export.error')))
           .doesNotExist();
       });
     });
@@ -66,11 +66,13 @@ module('Integration | Component | administration/certification/sco-whitelist-con
         const screen = await render(
           <template><ScoWhitelistConfiguration /><PixToastContainer @closeButtonAriaLabel="Close" /></template>,
         );
-        const input = await screen.findByText(t('pages.administration.certification.sco-whitelist.export.button'));
+        const input = await screen.findByText(t('pages.administration.sco-deployment.sco-whitelist.export.button'));
         await triggerEvent(input, 'click');
 
         // then
-        assert.dom(await screen.getByText(t('pages.administration.certification.sco-whitelist.export.error'))).exists();
+        assert
+          .dom(await screen.getByText(t('pages.administration.sco-deployment.sco-whitelist.export.error')))
+          .exists();
       });
     });
   });
@@ -96,12 +98,12 @@ module('Integration | Component | administration/certification/sco-whitelist-con
         const screen = await render(
           <template><ScoWhitelistConfiguration /><PixToastContainer @closeButtonAriaLabel="Close" /></template>,
         );
-        const input = await screen.getByLabelText(t('pages.administration.certification.sco-whitelist.import.button'));
+        const input = await screen.getByLabelText(t('pages.administration.sco-deployment.sco-whitelist.import.button'));
         await triggerEvent(input, 'change', { files: [file] });
 
         // then
         assert
-          .dom(await screen.getByText(t('pages.administration.certification.sco-whitelist.import.success')))
+          .dom(await screen.getByText(t('pages.administration.sco-deployment.sco-whitelist.import.success')))
           .exists();
       });
     });
@@ -126,13 +128,13 @@ module('Integration | Component | administration/certification/sco-whitelist-con
             <template><ScoWhitelistConfiguration /><PixToastContainer @closeButtonAriaLabel="Close" /></template>,
           );
           const input = await screen.findByLabelText(
-            t('pages.administration.certification.sco-whitelist.import.button'),
+            t('pages.administration.sco-deployment.sco-whitelist.import.button'),
           );
           await triggerEvent(input, 'change', { files: [file] });
 
           // then
           assert
-            .dom(await screen.getByText(t('pages.administration.certification.sco-whitelist.import.error')))
+            .dom(await screen.getByText(t('pages.administration.sco-deployment.sco-whitelist.import.error')))
             .exists();
         });
       });
@@ -168,7 +170,7 @@ module('Integration | Component | administration/certification/sco-whitelist-con
             <template><ScoWhitelistConfiguration /><PixToastContainer @closeButtonAriaLabel="Close" /></template>,
           );
           const input = await screen.findByLabelText(
-            t('pages.administration.certification.sco-whitelist.import.button'),
+            t('pages.administration.sco-deployment.sco-whitelist.import.button'),
           );
           await triggerEvent(input, 'change', { files: [file] });
 
@@ -176,7 +178,7 @@ module('Integration | Component | administration/certification/sco-whitelist-con
           assert
             .dom(
               await screen.getByText(
-                t('pages.administration.certification.sco-whitelist.import.error-csv', {
+                t('pages.administration.sco-deployment.sco-whitelist.import.error-csv', {
                   errorLines: errorLines.join(', '),
                 }),
               ),

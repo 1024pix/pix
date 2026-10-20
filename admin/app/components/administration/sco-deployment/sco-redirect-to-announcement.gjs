@@ -5,12 +5,12 @@ import AdministrationBlockLayout from '../block-layout';
 
 <template>
   <AdministrationBlockLayout
-    @title={{t "pages.administration.certification.sco-redirect-to-announcement.title"}}
-    @description={{t "pages.administration.certification.sco-redirect-to-announcement.description"}}
+    @title={{t "pages.administration.sco-deployment.sco-redirect-to-announcement.title"}}
+    @description={{t "pages.administration.sco-deployment.sco-redirect-to-announcement.description"}}
   >
     <div>
       <PixButtonLink @route="authenticated.announcements">
-        {{t "pages.administration.certification.sco-redirect-to-announcement.action"}}
+        {{t "pages.administration.sco-deployment.sco-redirect-to-announcement.action"}}
       </PixButtonLink>
     </div>
   </AdministrationBlockLayout>

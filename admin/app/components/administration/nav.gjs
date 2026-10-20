@@ -16,8 +16,8 @@ import { t } from 'ember-intl';
       {{t "pages.administration.navigation.organizations.label"}}
     </LinkTo>
 
-    <LinkTo @route="authenticated.administration.certification">
-      {{t "pages.administration.navigation.certification.label"}}
+    <LinkTo @route="authenticated.administration.sco-deployment">
+      {{t "pages.administration.navigation.sco-deployment.label"}}
     </LinkTo>
 
     <LinkTo @route="authenticated.administration.deployment">

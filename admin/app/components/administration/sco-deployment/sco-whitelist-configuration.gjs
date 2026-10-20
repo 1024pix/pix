@@ -33,21 +33,21 @@ export default class ScoWhitelistConfiguration extends Component {
       });
       if (response.ok) {
         this.pixToast.sendSuccessNotification({
-          message: this.intl.t('pages.administration.certification.sco-whitelist.import.success'),
+          message: this.intl.t('pages.administration.sco-deployment.sco-whitelist.import.success'),
         });
       } else {
         const responseJson = await response.json();
         const errorLines = responseJson?.errors[0]?.meta.lineNumbersWithError;
 
         this.pixToast.sendErrorNotification({
-          message: `${this.intl.t(`pages.administration.certification.sco-whitelist.import.error-csv`, {
+          message: `${this.intl.t(`pages.administration.sco-deployment.sco-whitelist.import.error-csv`, {
             errorLines: errorLines.join(', '),
           })}`,
         });
       }
     } catch {
       this.pixToast.sendErrorNotification({
-        message: this.intl.t('pages.administration.certification.sco-whitelist.import.error'),
+        message: this.intl.t('pages.administration.sco-deployment.sco-whitelist.import.error'),
       });
     }
   }
@@ -62,7 +62,7 @@ export default class ScoWhitelistConfiguration extends Component {
       await this.fileSaver.save({ url, fileName, token });
     } catch {
       this.pixToast.sendErrorNotification({
-        message: this.intl.t('pages.administration.certification.sco-whitelist.export.error'),
+        message: this.intl.t('pages.administration.sco-deployment.sco-whitelist.export.error'),
       });
     } finally {
       this.isExportLoading = false;
@@ -71,16 +71,16 @@ export default class ScoWhitelistConfiguration extends Component {
 
   <template>
     <AdministrationBlockLayout
-      @title={{t "pages.administration.certification.sco-whitelist.title"}}
+      @title={{t "pages.administration.sco-deployment.sco-whitelist.title"}}
       class="sco-whitelist-configuration"
     >
       <PixNotificationAlert @type="info">{{t
-          "pages.administration.certification.sco-whitelist.instructions"
+          "pages.administration.sco-deployment.sco-whitelist.instructions"
         }}</PixNotificationAlert>
 
       <div class="sco-whitelist-configuration__actions">
         <PixButton @triggerAction={{this.exportWhitelist}} @isLoading={{this.isExportLoading}}>
-          {{t "pages.administration.certification.sco-whitelist.export.button"}}
+          {{t "pages.administration.sco-deployment.sco-whitelist.export.button"}}
         </PixButton>
         <PixButtonUpload
           @id="sco-whitelist-file-upload"
@@ -88,7 +88,7 @@ export default class ScoWhitelistConfiguration extends Component {
           @variant="secondary"
           accept=".csv"
         >
-          {{t "pages.administration.certification.sco-whitelist.import.button"}}
+          {{t "pages.administration.sco-deployment.sco-whitelist.import.button"}}
         </PixButtonUpload>
       </div>
     </AdministrationBlockLayout>

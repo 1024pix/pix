@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import isEmpty from 'lodash/isEmpty';
 
-export default class CertificationRoute extends Route {
+export default class ScoDeploymentRoute extends Route {
   @service store;
   @service pixToast;
   @service intl;
@@ -17,7 +17,7 @@ export default class CertificationRoute extends Route {
         const isNotFoundError = errorResponse.errors.some((error) => error.status === '404');
         if (isNotFoundError) {
           this.pixToast.sendWarningNotification({
-            message: this.intl.t('pages.administration.certification.sco-blocked-access-date.not-found'),
+            message: this.intl.t('pages.administration.sco-deployment.sco-blocked-access-date.not-found'),
           });
         } else {
           errorResponse.errors.forEach((error) =>

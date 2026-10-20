@@ -183,7 +183,7 @@ Router.map(function () {
       this.route('common');
       this.route('campaigns');
       this.route('organizations');
-      this.route('certification');
+      this.route('sco-deployment');
       this.route('deployment');
       this.route('access');
     });

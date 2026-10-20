@@ -1538,38 +1538,6 @@
           },
           "title": "Configuration des seuils par compétence"
         },
-        "sco-blocked-access-date": {
-          "cancel-button": "Annuler",
-          "error": "Erreur lors de la mise à jour de la date",
-          "high-school-date": "Date de réouverture pour les lycées :",
-          "hour": "(00h00, heure France métropolitaine)",
-          "middle-school-date": "Date de réouverture pour les collèges :",
-          "modify-button": "Modifier",
-          "not-configured": "Non renseigné",
-          "not-found": "Les dates de réouverture n'ont pas été trouvées",
-          "save-button": "Enregistrer",
-          "success": "Date mise à jour avec succès",
-          "title": "Configuration des dates de réouverture des espaces Pix Certif SCO"
-        },
-        "sco-redirect-to-announcement": {
-          "action": "Éditer les bandeaux",
-          "description": "Mettre à jour les informations communiquées aux établissements scolaires MENJ et MASA sur l'accueil de leur espace Pix Orga.",
-          "title": "Mise à jour des infos sur l'accueil Pix Orga"
-        },
-        "sco-whitelist": {
-          "export": {
-            "button": "Exporter la liste blanche (format CSV)",
-            "error": "Échec de la récupération de la liste blanche."
-          },
-          "import": {
-            "button": "Importer une nouvelle liste blanche (format CSV)",
-            "error": "Échec de l'enregistrement de la liste blanche",
-            "error-csv": "Une erreur est survenue. Veuillez vérifier les externalId renseignés aux lignes suivantes du CSV : {errorLines}",
-            "success": "Liste blanche enregistrée."
-          },
-          "instructions": "Recommandation: exporter la liste, modifier l'export, et envoyer la version modifiée.",
-          "title": "Liste blanche centres SCO"
-        },
         "scoring-simulator": {
           "actions": {
             "submit": "Générer un profil"
@@ -1620,6 +1588,43 @@
         },
         "organizations": {
           "label": "Organisations"
+        },
+        "sco-deployment": {
+          "label": "Déploiement SCO"
+        }
+      },
+      "sco-deployment": {
+        "sco-blocked-access-date": {
+          "cancel-button": "Annuler",
+          "error": "Erreur lors de la mise à jour de la date",
+          "high-school-date": "Date de réouverture pour les lycées :",
+          "hour": "(00h00, heure France métropolitaine)",
+          "middle-school-date": "Date de réouverture pour les collèges :",
+          "modify-button": "Modifier",
+          "not-configured": "Non renseigné",
+          "not-found": "Les dates de réouverture n'ont pas été trouvées",
+          "save-button": "Enregistrer",
+          "success": "Date mise à jour avec succès",
+          "title": "Configuration des dates de réouverture des espaces Pix Certif SCO"
+        },
+        "sco-redirect-to-announcement": {
+          "action": "Éditer les bandeaux",
+          "description": "Mettre à jour les informations communiquées aux établissements scolaires MENJ et MASA sur l'accueil de leur espace Pix Orga.",
+          "title": "Mise à jour des infos sur l'accueil Pix Orga"
+        },
+        "sco-whitelist": {
+          "export": {
+            "button": "Exporter la liste blanche (format CSV)",
+            "error": "Échec de la récupération de la liste blanche."
+          },
+          "import": {
+            "button": "Importer une nouvelle liste blanche (format CSV)",
+            "error": "Échec de l'enregistrement de la liste blanche",
+            "error-csv": "Une erreur est survenue. Veuillez vérifier les externalId renseignés aux lignes suivantes du CSV : {errorLines}",
+            "success": "Liste blanche enregistrée."
+          },
+          "instructions": "Recommandation: exporter la liste, modifier l'export, et envoyer la version modifiée.",
+          "title": "Liste blanche centres SCO"
         }
       }
     },
