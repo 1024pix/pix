@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { ATTESTATIONS } from '../../../../src/profile/domain/constants.js';
-import { databaseBuilder } from '../../../tooling/databases.js';
+import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
@@ -242,6 +242,58 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
           'attached-ids': [organizationNotYetAttached.id, otherOrganizationNotYetAttached.id],
           'duplicated-ids': [alreadyAttachedOrganization.id],
         });
+      });
+    });
+  });
+
+  describe('DELETE /api/admin/combined-course-blueprints/:blueprintId/organizations', function () {
+    context('when user is admin ', function () {
+      it('should detach a combined course blueprint from the specified organizations', async function () {
+        // given
+        const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+        const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint();
+        const combinedCourseBlueprintId = combinedCourseBlueprint.id;
+        const attachedOrganizationToKeep = databaseBuilder.factory.buildOrganization();
+        const organizationToDetach = databaseBuilder.factory.buildOrganization();
+        const otherOrganizationToDetach = databaseBuilder.factory.buildOrganization();
+
+        databaseBuilder.factory.buildCombinedCourseBlueprintShare({
+          combinedCourseBlueprintId,
+          organizationId: attachedOrganizationToKeep.id,
+        });
+        databaseBuilder.factory.buildCombinedCourseBlueprintShare({
+          combinedCourseBlueprintId,
+          organizationId: organizationToDetach.id,
+        });
+        databaseBuilder.factory.buildCombinedCourseBlueprintShare({
+          combinedCourseBlueprintId,
+          organizationId: otherOrganizationToDetach.id,
+        });
+
+        await databaseBuilder.commit();
+
+        const payload = {
+          'organization-ids': [organizationToDetach.id, otherOrganizationToDetach.id],
+        };
+
+        const options = {
+          method: 'DELETE',
+          url: `/api/admin/combined-course-blueprints/${combinedCourseBlueprintId}/organizations`,
+          headers: generateAuthenticatedUserRequestHeaders({
+            userId: superAdmin.id,
+          }),
+          payload,
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+        const remainingOrganizationIds = await knex('combined_course_blueprint_shares')
+          .where({ combinedCourseBlueprintId })
+          .pluck('organizationId');
+        expect(remainingOrganizationIds).to.deep.equal([attachedOrganizationToKeep.id]);
       });
     });
   });
