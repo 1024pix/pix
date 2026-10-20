@@ -2075,7 +2075,7 @@
       "actions": {
         "continue": "Mijn Pix-ervaring voortzetten"
       },
-      "explanation": "Je hebt het onderstaande profiel al op {date} om {hour,time,hhmm} naar de organisatie {organization} gestuurd:<br>",
+      "explanation": "Je hebt het onderstaande profiel al op {date} om {hour,time,hhmm} naar de organisatie {organization} gestuurd:'<br>'",
       "first-title": "Niet alles verloopt zoals gepland",
       "retry": {
         "button": "Mijn profiel opnieuw opsturen",
