@@ -19,9 +19,11 @@ describe('Acceptance | LTI | Route | Admin', function () {
   describe('GET /api/lti/keys', function () {
     it('returns the list of all active public keys with an HTTP status code 200', async function () {
       // given
-      const { publicKey } = databaseBuilder.factory.buildLtiPlatformRegistration();
+      const { id: platformId } = databaseBuilder.factory.buildLtiPlatform();
+      const { publicKey } = databaseBuilder.factory.buildLtiPlatformRegistration({ platformId });
       const keyPair2 = await cryptoService.generateJSONWebKeyPair();
       databaseBuilder.factory.buildLtiPlatformRegistration({
+        platformId,
         clientId: 'pending_client',
         status: 'pending',
         publicKey: keyPair2.publicKey,
@@ -44,6 +46,9 @@ describe('Acceptance | LTI | Route | Admin', function () {
   describe('GET /api/lti/registration', function () {
     it('returns an html page acknowledging platform registration with an HTTP status code 200', async function () {
       //given
+      const { id: platformId } = databaseBuilder.factory.buildLtiPlatform();
+      await databaseBuilder.commit();
+
       const { clientId, platformOpenIdConfig, platformOpenIdConfigUrl, toolConfig } =
         domainBuilder.lti.buildLtiPlatformRegistrationWithPlatformConfig();
 
@@ -88,12 +93,8 @@ describe('Acceptance | LTI | Route | Admin', function () {
 `,
       );
 
-      const registrations = await knex
-        .select('clientId', 'platformOrigin', 'status')
-        .from('lti_platform_registrations');
-      expect(registrations).to.deep.equal([
-        { clientId, platformOrigin: platformOpenIdConfig.issuer, status: 'active' },
-      ]);
+      const registrations = await knex.select('clientId', 'platformId', 'status').from('lti_platform_registrations');
+      expect(registrations).to.deep.equal([{ clientId, platformId, status: 'active' }]);
 
       expect(platformConfigScope.isDone()).to.be.true;
       expect(registrationScope.isDone()).to.be.true;
