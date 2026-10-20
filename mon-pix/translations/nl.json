@@ -101,7 +101,7 @@
     },
     "data-protection-policy-information-banner": {
       "title": "Ons privacybeleid is gewijzigd. Wij nodigen je uit om hier kennis van te nemen: ",
-      "url-label": "Gegevensbeschermingsbeleid"
+      "url-label": "Gegevensbeschermingsbeleid."
     },
     "display": {
       "percentage": "{value, number, ::percent}"

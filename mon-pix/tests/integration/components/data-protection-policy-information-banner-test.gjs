@@ -148,7 +148,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
                 .hasAttribute('href', 'https://pix.org/nl-be/beleid-inzake-de-bescherming-van-persoonsgegevens');
 
               const content = screen.getByText((content) =>
-                content.startsWith('Ons privacybeleid is gewijzigd. Lees het hier:'),
+                content.startsWith('Ons privacybeleid is gewijzigd. Wij nodigen je uit om hier kennis van te nemen:'),
               );
               assert.dom(content).exists();
             });
