@@ -1,5 +1,17 @@
 # Pix Changelog
 
+# [5.526.0](https://github.com/1024pix/pix/compare/v5.525.0...v5.526.0) (2026-10-20)
+
+### :rocket: Amélioration
+
+- [#18174](https://github.com/1024pix/pix/pull/18174) Refonte du style et des modules pour un parcours combiné terminé (PIX-24483 / PIX-24484)
+- [#18191](https://github.com/1024pix/pix/pull/18191) Transition plus douce entre les items du tunnel
+
+### :arrow_up: Montée de version
+
+- [#18183](https://github.com/1024pix/pix/pull/18183) Update dependency zod to v4.6.7 (e2e-playwright)
+- [#18184](https://github.com/1024pix/pix/pull/18184) Update linters (api)
+
 # [5.525.0](https://github.com/1024pix/pix/compare/v5.524.0...v5.525.0) (2026-10-20)
 
 ### :rocket: Amélioration
