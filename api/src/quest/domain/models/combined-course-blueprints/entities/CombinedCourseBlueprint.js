@@ -144,10 +144,6 @@ export class CombinedCourseBlueprint {
     }
   }
 
-  detachOrganization({ organizationId }) {
-    this.organizationIds = this.organizationIds.filter((id) => id !== organizationId);
-  }
-
   attachOrganizations({ organizationIds }) {
     const duplicatedOrganizationIds = [];
     const attachedOrganizationIds = [];

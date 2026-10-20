@@ -172,32 +172,6 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
     });
   });
 
-  describe('DELETE /api/admin/combined-course-blueprints/:blueprintId/organizations/:organizationId', function () {
-    context('when user is admin ', function () {
-      it('should detach a combined course blueprint from organization', async function () {
-        // given
-        const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
-        const { combinedCourseBlueprintId, organizationId } =
-          databaseBuilder.factory.buildCombinedCourseBlueprintShare();
-        await databaseBuilder.commit();
-
-        const options = {
-          method: 'DELETE',
-          url: `/api/admin/combined-course-blueprints/${combinedCourseBlueprintId}/organizations/${organizationId}`,
-          headers: generateAuthenticatedUserRequestHeaders({
-            userId: superAdmin.id,
-          }),
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(204);
-      });
-    });
-  });
-
   describe('POST /api/admin/combined-course-blueprints/:blueprintId/organizations', function () {
     context('when user is admin ', function () {
       it('should attach a combined course blueprint to one or several organizations', async function () {

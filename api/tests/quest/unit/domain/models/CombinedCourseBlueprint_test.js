@@ -316,20 +316,6 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
     });
   });
 
-  describe('#detachOrganization', function () {
-    it('should retrieve organization id from model instance', async function () {
-      //given
-      values.organizationIds = [1];
-      const combinedCourseBlueprint = new CombinedCourseBlueprint(values);
-
-      //when
-      combinedCourseBlueprint.detachOrganization({ organizationId: 1 });
-
-      //then
-      expect(combinedCourseBlueprint.organizationIds).empty;
-    });
-  });
-
   describe('#attachOrganizations', function () {
     it('should add organization ids to the model instance', async function () {
       //given

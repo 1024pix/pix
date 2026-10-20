@@ -38,14 +38,6 @@ const getById = async (request, _, dependencies = { adminCombinedCourseBlueprint
   return dependencies.adminCombinedCourseBlueprintDetailsSerializer.serialize(combinedCourseBlueprint);
 };
 
-const detachOrganization = async (request, h) => {
-  await usecases.detachOrganizationFromCombinedCourseBlueprint({
-    combinedCourseBlueprintId: request.params.blueprintId,
-    organizationId: request.params.organizationId,
-  });
-  return h.response().code(204);
-};
-
 const attachOrganizations = async (request, h, dependencies = { combinedCourseBlueprintOrganizationSerializer }) => {
   const combinedCourseBlueprintId = request.params.blueprintId;
   const results = await usecases.attachOrganizationsToCombinedCourseBlueprint({
@@ -60,9 +52,8 @@ const attachOrganizations = async (request, h, dependencies = { combinedCourseBl
 };
 
 const detachOrganizations = async (request, h) => {
-  const combinedCourseBlueprintId = request.params.blueprintId;
   await usecases.detachOrganizationsFromCombinedCourseBlueprint({
-    combinedCourseBlueprintId,
+    combinedCourseBlueprintId: request.params.blueprintId,
     organizationIds: request.payload['organization-ids'],
   });
   return h.response().code(204);
@@ -87,7 +78,6 @@ const combinedCourseBlueprintController = {
   save,
   update,
   getById,
-  detachOrganization,
   attachOrganizations,
   detachOrganizations,
   findByOrganizationId,

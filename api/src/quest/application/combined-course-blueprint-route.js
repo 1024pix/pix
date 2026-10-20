@@ -96,31 +96,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'DELETE',
-      path: '/api/admin/combined-course-blueprints/{blueprintId}/organizations/{organizationId}',
-      config: {
-        validate: {
-          params: Joi.object({
-            blueprintId: identifiersType.combinedCourseBlueprintId,
-            organizationId: identifiersType.organizationId,
-          }),
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: combinedCourseBlueprintController.detachOrganization,
-        notes: ["- Retire l'accès à un schéma de parcours combinés pour une organisation donnée"],
-        tags: ['api', 'combined-course'],
-      },
-    },
-    {
       method: 'POST',
       path: '/api/admin/combined-course-blueprints/{blueprintId}/organizations',
       config: {
