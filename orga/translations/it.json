@@ -835,7 +835,8 @@
         "title": "Impostazioni"
       },
       "tags": {
-        "BACK_TO_SCHOOL": "Percorso di ritorno a scuola, prima media",
+        "ATTESTATION": "Certificati",
+        "BACK_TO_SCHOOL": "Percorso di ritorno a scuola",
         "COMPETENCES": "Le 16 competenze",
         "CUSTOM": "Percorsi su misura",
         "DISCIPLINE": "Disciplinare",
@@ -1617,6 +1618,14 @@
           "details": "Si usa per importare un nuovo elenco di studenti al posto di quello esistente.",
           "label": "Importare un nuovo elenco",
           "title": "Sostituire"
+        },
+        "sco": {
+          "details": "Questa azione consente di:",
+          "details-add": "aggiungere nuovi studenti",
+          "details-disable": "disattivare gli ex studenti",
+          "details-update": "modificare gli studenti già importati",
+          "label": "Importare l'elenco",
+          "title": "Importare l'elenco degli studenti"
         }
       },
       "banner": {
@@ -1634,12 +1643,13 @@
         "warning-banner": "Alcuni valori non sono stati riconosciuti. Sono stati sostituiti da \"Non riconosciuto\". Se si ritiene che manchino dei valori nell'elenco restrittivo, contattare Pix all'indirizzo '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'."
       },
       "error-panel": {
-        "error-wrapper": "Non è stato importato alcun partecipante. Modificare il file e importarlo nuovamente.",
-        "global-error": "Non sono stati importati partecipanti. Si prega di riprovare o di contattarci tramite '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'il modulo del centro assistenza'</a>'.",
         "title": "Errori nell'ultimo file importato :"
       },
       "file-type-separator": ",",
       "global-success": "Ultimo file importato con successo su {date} da {firstName} {lastName}.",
+      "pro": {
+        "title": "Importare i partecipanti"
+      },
       "sco": {
         "title": "Importare degli studenti"
       },

@@ -1,6 +1,6 @@
 // @ts-check
 /**
- * @typedef {import ('../../../shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
+ * @typedef {import('../../../shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKey} ComplementaryCertificationKey
  */
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
@@ -20,7 +20,7 @@ export async function findAll() {
  * @param {object} row
  * @param {number} row.id
  * @param {string} row.label
- * @param {ComplementaryCertificationKeys} row.key
+ * @param {ComplementaryCertificationKey} row.key
  * @returns {ComplementaryCertification}
  */
 function _toDomain(row) {

@@ -58,6 +58,6 @@ export class ChallengePage {
   }
 
   async getCertificationNumber() {
-    return await this.page.locator('.certification-number__value').innerText();
+    return await this.page.getByTestId(`pw-certification-number`).innerText();
   }
 }

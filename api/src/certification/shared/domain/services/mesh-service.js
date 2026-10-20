@@ -1,39 +1,21 @@
 import { CORE_MESH_CONFIGURATION } from '../constants/mesh-configuration.js';
 
 /**
- * @returns {{key: string, value: Mesh}}
+ * @returns {{key: string, mesh: Mesh, meshIndex: number}}
  */
 export function findMeshFromScore({ score, maxReachableLevel }) {
-  const configuration = CORE_MESH_CONFIGURATION.entries();
-  let currentMesh = configuration.next();
-  let cumulativeSumOfWeights = currentMesh.value[1].weight;
-  let currentScoringInterval = 0;
+  let cumulativeWeight = 0;
+  let currentMeshIndex = 0;
 
-  while (hasNextScoringInterval(score, cumulativeSumOfWeights, currentScoringInterval, maxReachableLevel)) {
-    currentScoringInterval++;
-    currentMesh = configuration.next();
-    cumulativeSumOfWeights += currentMesh.value[1].weight;
+  for (const [key, mesh] of CORE_MESH_CONFIGURATION) {
+    cumulativeWeight += mesh.weight;
+
+    if (score < cumulativeWeight || currentMeshIndex === maxReachableLevel) {
+      return { key, mesh, meshIndex: currentMeshIndex };
+    }
+
+    currentMeshIndex++;
   }
 
-  return { key: currentMesh.value[0], value: currentMesh.value[1] };
-}
-
-/**
- * @deprecated please use {@link MeshConfiguration#findMeshFromScore}
- */
-export function findIntervalIndexFromScore({ score, maxReachableLevel }) {
-  const configuration = CORE_MESH_CONFIGURATION.values();
-  let cumulativeSumOfWeights = configuration.next().value.weight;
-  let currentScoringInterval = 0;
-
-  while (hasNextScoringInterval(score, cumulativeSumOfWeights, currentScoringInterval, maxReachableLevel)) {
-    currentScoringInterval++;
-    cumulativeSumOfWeights += configuration.next().value.weight;
-  }
-
-  return currentScoringInterval;
-}
-
-function hasNextScoringInterval(score, nextIntervalMinimumScore, currentInterval, maxReachableLevel) {
-  return score >= nextIntervalMinimumScore && currentInterval < maxReachableLevel;
+  throw new Error(`Cannot compute mesh for score ${score} and maxReachableLevel ${maxReachableLevel}`);
 }

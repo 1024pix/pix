@@ -1,0 +1,35 @@
+diff --git a/public/lib/filelib.php b/public/lib/filelib.php
+index 679e4bcb4..21ec969af 100644
+--- a/public/lib/filelib.php
++++ b/public/lib/filelib.php
+@@ -1551,7 +1551,7 @@ function download_file_content($url, $headers=null, $postdata=null, $fullrespons
+         $bitrate = $CFG->curltimeoutkbitrate;
+     }
+     if ($calctimeout and !isset($postdata)) {
+-        $curl = new curl();
++        $curl = new curl(array("ignoresecurity"=>true));
+         $curl->setHeader($headers2);
+ 
+         $curl->head($url, $postdata, $options);
+@@ -1564,7 +1564,7 @@ function download_file_content($url, $headers=null, $postdata=null, $fullrespons
+         }
+     }
+ 
+-    $curl = new curl();
++    $curl = new curl(array("ignoresecurity"=>true));
+     $curl->setHeader($headers2);
+ 
+     $options['CURLOPT_RETURNTRANSFER'] = true;
+diff --git a/public/mod/lti/locallib.php b/public/mod/lti/locallib.php
+index 84c379e7d..a8b5fcf9f 100644
+--- a/public/mod/lti/locallib.php
++++ b/public/mod/lti/locallib.php
+@@ -1327,7 +1327,7 @@ function lti_verify_with_keyset($jwtparam, $keyseturl, $clientid) {
+         $jwt = JWT::decode($jwtparam, $keys);
+     } catch (Exception $e) {
+         // Something went wrong, so attempt to update cached keyset and then try again.
+-        $keyset = download_file_content($keyseturl);
++        $keyset = download_file_content(url: $keyseturl, skipcertverify: true);
+         $keysetarr = json_decode($keyset, true);
+ 
+         // Fix for firebase/php-jwt's dependency on the optional 'alg' property in the JWK.

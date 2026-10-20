@@ -1,7 +1,7 @@
 /**
  * @typedef {import ('../../read-models/CertifiedBadge.js').CertifiedBadge} CertifiedBadge
  */
-import { CORE_CERTIFICATE_LEVELS } from '../../../../shared/domain/constants/mesh-configuration.js';
+import { CORE_LEVELS } from '../../../../shared/domain/constants/mesh-configuration.js';
 import { MAX_REACHABLE_SCORE } from '../../constants.js';
 import { CertificateMeshLevel } from './CertificateMeshLevel.js';
 
@@ -69,6 +69,6 @@ export class Certificate {
       eduV3ExternalJuryResult,
     });
 
-    return globalCertificationLevel.meshLevel === CORE_CERTIFICATE_LEVELS.preBeginner ? null : globalCertificationLevel;
+    return globalCertificationLevel.meshLevel === CORE_LEVELS[0] ? null : globalCertificationLevel;
   }
 }

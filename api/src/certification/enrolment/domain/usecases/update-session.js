@@ -3,6 +3,7 @@
  */
 
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { SessionAlreadyStartedError } from '../errors.js';
 
 /**
  * @param {object} params
@@ -29,6 +30,10 @@ export async function updateSession({
 
   if (!session) {
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
+
+  if (session.hasStartedCertifications()) {
+    throw new SessionAlreadyStartedError();
   }
 
   session.updateInfo({ address, room, date, time, examiner, description });

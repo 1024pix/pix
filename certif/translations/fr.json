@@ -3,6 +3,9 @@
     "description": "La plateforme dédiée à l'organisation de sessions de Certification Pix. Votre espace Pix Certif vous permet de créer et administrer des sessions de certification."
   },
   "common": {
+    "a11y": {
+      "external-link": " Ce lien s'ouvre dans un nouvel onglet."
+    },
     "actions": {
       "add": "Ajouter",
       "back": "Retour",
@@ -210,6 +213,21 @@
   "components": {
     "locale-switcher": {
       "label": "Sélectionnez une langue"
+    },
+    "terms-of-service": {
+      "actions": {
+        "accept": "Accepter et continuer",
+        "document-link": "Lire les conditions d’utilisation",
+        "reject": "Refuser et quitter"
+      },
+      "message": {
+        "requested": "Pour continuer à utiliser Pix, nous vous invitons à lire et accepter nos Conditions Générales d'Utilisation.",
+        "update-requested": "Nous avons actualisé nos CGU. Consultez les changements et acceptez-les pour continuer."
+      },
+      "title": {
+        "requested": "Veuillez accepter nos Conditions Générales d'Utilisation (CGU)",
+        "update-requested": "Mise à jour importante des Conditions Générales d'Utilisation (CGU)"
+      }
     }
   },
   "navigation": {
@@ -218,7 +236,8 @@
       "a11y": "Accessibilité : partiellement conforme",
       "aria-label": "Navigation de pied de page",
       "current-year": "© {currentYear} Pix",
-      "legal-notice": "Mentions légales"
+      "legal-notice": "Mentions légales",
+      "status": "Statut des services"
     },
     "sidebar": {
       "change-center": {
@@ -562,7 +581,7 @@
       "candidate-list": {
         "active-candidates": "{activeCandidates}/{totalCandidates} {activeCandidates, plural,one {candidat présent} other {candidats présents}}{activeCandidates, plural,=0 {} other { (dont {startedCandidates} en cours de test)}}",
         "clear-field": "Vider le champ",
-        "indicate-candidates-attendance": "Confirmez la présence de chaque candidat pour l'autoriser à commencer son test de certification.",
+        "indicate-candidates-attendance": "Confirmez la présence de chaque candidat pour l'autoriser à commencer son test de certification. La confirmation de présence est valable 15 minutes. Passé ce délai, elle devra être renouvelée si le candidat n’a pas commencé son test.",
         "no-candidate": "Aucun candidat inscrit à cette session",
         "search-candidate": "Rechercher un candidat"
       },
@@ -645,9 +664,9 @@
           "deletion-modal": {
             "actions": {
               "close-extra-information": "Fermer la modale de suppression de candidat",
-              "submit": "Supprimer le/la candidat(e)"
+              "submit": "Supprimer"
             },
-            "body": "Êtes-vous sûr(e) de vouloir supprimer le/la candidat(e) <strong>{firstName}&nbsp;{lastName}</strong> (né(e) le {birthdate})&nbsp;?",
+            "body": "Êtes-vous sûr(e) de vouloir supprimer <strong>{firstName}&nbsp;{lastName}</strong> de la session&nbsp;? Cette action est irréversible.",
             "notifications": {
               "error-remove-already-in": "Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.",
               "error-remove-unknown": "Une erreur s'est produite lors de la suppression du candidat.",

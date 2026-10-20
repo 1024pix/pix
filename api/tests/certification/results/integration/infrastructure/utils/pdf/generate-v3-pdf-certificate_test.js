@@ -4,6 +4,7 @@ import url from 'node:url';
 import { expect } from 'chai';
 import dayjs from 'dayjs';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { toBytes } from 'pdfkit/output';
 
 import { generate } from '../../../../../../../src/certification/results/infrastructure/utils/pdf/generate-v3-pdf-certificate.js';
 import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -26,13 +27,11 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
       const certificates = [domainBuilder.certification.results.buildCertificate()];
 
       // when
-      const pdfStream = await generate({ certificates, i18n });
-
-      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+      const pdfBytes = await _generatePdfBytes({ certificates, i18n });
 
       // then
-      expect(pdfBuffer.toString().substring(1, 4)).to.equal('PDF');
-      expect(pdfBuffer.toString()).to.contain('/Type /Pages\n/Count 1');
+      expect(Buffer.from(pdfBytes).toString().substring(1, 4)).to.equal('PDF');
+      expect(Buffer.from(pdfBytes).toString()).to.contain('/Type /Pages\n/Count 1');
     });
 
     it('should generate a page for each certificate', async function () {
@@ -44,15 +43,13 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
       ];
 
       // when
-      const pdfStream = await generate({
+      const pdfBytes = await _generatePdfBytes({
         certificates,
         i18n,
       });
 
-      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
-
       // then
-      expect(pdfBuffer.toString()).to.contain('/Type /Pages\n/Count 3');
+      expect(Buffer.from(pdfBytes).toString()).to.contain('/Type /Pages\n/Count 3');
     });
 
     it('should display data content', async function () {
@@ -94,12 +91,10 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
       ];
 
       // when
-      const pdfStream = await generate({ certificates, i18n });
-
-      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+      const pdfBytes = await _generatePdfBytes({ certificates, i18n });
 
       // then
-      const parsedPdf = await getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
+      const parsedPdf = await getDocument({ data: pdfBytes }).promise;
 
       const pagesContent = [];
       for (let i = 1; i <= parsedPdf.numPages; i++) {
@@ -150,14 +145,13 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
         }),
       ];
       const referencePdfPath = 'certificate-test.pdf';
-      const pdfStream = await generate({ certificates, i18n });
-      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+      const pdfBytes = await _generatePdfBytes({ certificates, i18n });
       // To update the reference PDF (snapshot), pass `dryRun = false` to `_writeFile`,
       // run this test once to regenerate the file, then revert `dryRun` to `true`.
-      await _writeFile(pdfBuffer, referencePdfPath);
+      await _writeFile(pdfBytes, referencePdfPath);
 
       // when
-      const parsedPdf = await getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
+      const parsedPdf = await getDocument({ data: pdfBytes }).promise;
       const page = await parsedPdf.getPage(1);
       const text = await page.getTextContent();
 
@@ -181,21 +175,26 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
     });
 
     it('should generate a second page with competences results', async function () {
-      // given
+      // competences intentionally out of order to verify sorting (1.2, 1.3, 1.1)
       const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
         competenceTree: domainBuilder.buildCompetenceTree({
           areas: [
             domainBuilder.buildArea({
               code: '1',
-              color: '#1B4F9C',
+              color: 'jaffa',
               competences: [
-                domainBuilder.buildCompetence({ id: 'comp1', index: '1.1' }),
                 domainBuilder.buildCompetence({ id: 'comp2', index: '1.2' }),
+                domainBuilder.buildCompetence({ id: 'comp3', index: '1.3' }),
+                domainBuilder.buildCompetence({ id: 'comp1', index: '1.1' }),
               ],
             }),
           ],
         }),
-        competenceMarks: [domainBuilder.buildCompetenceMark({ competence_code: '1.1', level: 3 })],
+        competenceMarks: [
+          domainBuilder.buildCompetenceMark({ competence_code: '1.1', level: 3 }),
+          domainBuilder.buildCompetenceMark({ competence_code: '1.2', level: 0 }),
+          domainBuilder.buildCompetenceMark({ competence_code: '1.3', level: -1 }),
+        ],
       });
       const certificates = [
         domainBuilder.certification.results.buildCertificate({
@@ -207,12 +206,11 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
       ];
 
       // when
-      const pdfStream = await generate({ certificates, i18n });
-      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+      const pdfBytes = await _generatePdfBytes({ certificates, i18n });
 
       // then
-      expect(pdfBuffer.toString()).to.contain('/Type /Pages\n/Count 2');
-      const parsedPdf = await getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
+      expect(Buffer.from(pdfBytes).toString()).to.contain('/Type /Pages\n/Count 2');
+      const parsedPdf = await getDocument({ data: pdfBytes }).promise;
       const page2 = await parsedPdf.getPage(2);
       // pdfjs-dist extracts justified text word-by-word (no trailing spaces), join(' ') produces
       // double spaces — normalize to make substring assertions reliable
@@ -225,15 +223,23 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
       expect(content).to.include('256');
       expect(content).to.include(translate('certification.certificate.v3.competence-results.areas.1.label'));
 
+      const comp1Title = translate('certification.certificate.v3.competence-results.areas.1.competences.1.title');
+      expect(content).to.include(comp1Title);
       expect(content).to.include(translate('certification.certificate.v3.competence-results.level-tag') + '3');
       expect(content).to.include(
         translate('certification.certificate.v3.competence-results.areas.1.competences.1.levels.3'),
       );
 
-      expect(content).to.include(translate('certification.certificate.v3.competence-results.level-not-obtained'));
-      expect(content).to.not.include(
-        translate('certification.certificate.v3.competence-results.areas.1.competences.2.levels.3'),
-      );
+      const comp2Title = translate('certification.certificate.v3.competence-results.areas.1.competences.2.title');
+      const comp3Title = translate('certification.certificate.v3.competence-results.areas.1.competences.3.title');
+      expect(content).to.include(comp2Title);
+      expect(content).to.include(comp3Title);
+      const levelNotObtained = translate('certification.certificate.v3.competence-results.level-not-obtained');
+      // split produces n+1 parts for n occurrences, so length - 1 = count
+      expect(content.split(levelNotObtained).length - 1).to.equal(2);
+
+      expect(content.indexOf(comp1Title)).to.be.lessThan(content.indexOf(comp2Title));
+      expect(content.indexOf(comp2Title)).to.be.lessThan(content.indexOf(comp3Title));
     });
 
     it('should not generate the competences page for a non-french locale', async function () {
@@ -242,11 +248,10 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
       const certificates = [domainBuilder.certification.results.buildCertificate({ resultCompetenceTree })];
 
       // when
-      const pdfStream = await generate({ certificates, i18n: getI18n('en') });
-      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+      const pdfBytes = await _generatePdfBytes({ certificates, i18n: getI18n('en') });
 
       // then
-      expect(pdfBuffer.toString()).to.contain('/Type /Pages\n/Count 1');
+      expect(Buffer.from(pdfBytes).toString()).to.contain('/Type /Pages\n/Count 1');
     });
 
     describe('when the candidate global level is pre beginner (pix score under 64)', function () {
@@ -273,12 +278,10 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
         ];
 
         // when
-        const pdfStream = await generate({ certificates, i18n });
-
-        const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+        const pdfBytes = await _generatePdfBytes({ certificates, i18n });
 
         // then
-        const parsedPdf = await getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
+        const parsedPdf = await getDocument({ data: pdfBytes }).promise;
         expect(parsedPdf.numPages).to.equal(1);
 
         const page = await parsedPdf.getPage(1);
@@ -323,12 +326,10 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
         ];
 
         // when
-        const pdfStream = await generate({ certificates, i18n });
-
-        const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+        const pdfBytes = await _generatePdfBytes({ certificates, i18n });
 
         // then
-        const parsedPdf = await getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
+        const parsedPdf = await getDocument({ data: pdfBytes }).promise;
 
         const page = await parsedPdf.getPage(1);
         const text = await page.getTextContent();
@@ -362,11 +363,10 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
         ];
 
         // when
-        const pdfStream = await generate({ certificates, i18n });
-        const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+        const pdfBytes = await _generatePdfBytes({ certificates, i18n });
 
         // then
-        const parsedPdf = await getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
+        const parsedPdf = await getDocument({ data: pdfBytes }).promise;
         const page = await parsedPdf.getPage(1);
         const text = await page.getTextContent();
         const content = text.items.map((item) => item.str).join(' ');
@@ -408,11 +408,10 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
         ];
 
         // when
-        const pdfStream = await generate({ certificates, i18n });
-        const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+        const pdfBytes = await _generatePdfBytes({ certificates, i18n });
 
         // then
-        const parsedPdf = await getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
+        const parsedPdf = await getDocument({ data: pdfBytes }).promise;
         const page = await parsedPdf.getPage(1);
         const text = await page.getTextContent();
         const content = text.items.map((item) => item.str).join(' ');
@@ -445,14 +444,13 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
         }),
       ];
       const referencePdfPath = 'pix-plus-certificate-test.pdf';
-      const pdfStream = await generate({ certificates, i18n });
-      const pdfBuffer = await _convertStreamToBuffer(pdfStream);
+      const pdfBytes = await _generatePdfBytes({ certificates, i18n });
       // To update the reference PDF (snapshot), pass `dryRun = false` to `_writeFile`,
       // run this test once to regenerate the file, then revert `dryRun` to `true`.
-      await _writeFile(pdfBuffer, referencePdfPath);
+      await _writeFile(pdfBytes, referencePdfPath);
 
       // when
-      const parsedPdf = await getDocument({ data: new Uint8Array(pdfBuffer) }).promise;
+      const parsedPdf = await getDocument({ data: pdfBytes }).promise;
       const page = await parsedPdf.getPage(1);
       const text = await page.getTextContent();
 
@@ -477,26 +475,19 @@ describe('Integration | Infrastructure | Utils | Pdf | V3 Certificate Pdf', func
   });
 });
 
-function _convertStreamToBuffer(streamData) {
-  return new Promise(function (resolve) {
-    const chunks = [];
-
-    streamData.on('readable', () => {
-      let chunk;
-      while (null !== (chunk = streamData.read())) {
-        chunks.push(chunk);
-      }
-    });
-
-    streamData.on('end', () => {
-      resolve(Buffer.concat(chunks));
-    });
-  });
-}
-
-async function _writeFile(buffer, outputFilename, dryRun = true) {
+async function _writeFile(bytes, outputFilename, dryRun = true) {
   // Note: to update or create the reference pdf, set dryRun to false.
   if (!dryRun) {
-    await writeFile(`${__dirname}/${outputFilename}`, buffer);
+    await writeFile(`${__dirname}/${outputFilename}`, bytes);
   }
+}
+
+async function _generatePdfBytes({ certificates, i18n, options = {} }) {
+  const pdfDocument = await generate({
+    certificates,
+    i18n,
+    ...options,
+  });
+
+  return toBytes(pdfDocument);
 }

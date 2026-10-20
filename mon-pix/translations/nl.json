@@ -53,6 +53,12 @@
       "stay": "Blijven",
       "validate": "Bevestigen"
     },
+    "answer-state": {
+      "aband": "Geen antwoord",
+      "ko": "Onjuist antwoord",
+      "ok": "Juist antwoord",
+      "timedout": "Time-out"
+    },
     "api-error-messages": {
       "bad-request-error": "De gegevens die je hebt ingevoerd, hebben niet het juiste formaat.",
       "gateway-timeout-error": "De service ondervindt vertraging. Probeer het later nog eens.",
@@ -157,6 +163,16 @@
     "yes": "Ja"
   },
   "components": {
+    "assessments": {
+      "result-item": {
+        "actions": {
+          "see-answers-and-tutorials": {
+            "label": "Bekijk de antwoorden en tutorials"
+          }
+        },
+        "question-number": "Vraag { number }"
+      }
+    },
     "attestations": {
       "obtainedAt": "Afgiftedatum: {date}",
       "title": {
@@ -313,6 +329,17 @@
             "title": "Gaat vooruit"
           }
         }
+      }
+    },
+    "info-bar": {
+      "certification-number": "Certificeringsnummer",
+      "completion-percentage": {
+        "caption": "vooruitgang",
+        "label": "Je hebt {completion, number, ::percent} van je test voltooid."
+      },
+      "progress": {
+        "label": "Vraag",
+        "position": "{current} op de {total}"
       }
     },
     "invited": {
@@ -986,6 +1013,32 @@
       "non-eligible-subscription": "Je komt niet in aanmerking voor {subscriptionLabel}. Je kunt echter wel je Pix-certificering afleggen.",
       "title": "Deelnemen aan een certificeringssessie"
     },
+    "certifications-dashboard": {
+      "enrolment-banner": {
+        "action": "Certificering starten",
+        "certifiable": {
+          "description": "Klik op de knop hieronder en start je certificering",
+          "title": "Wil je een certificering afleggen?"
+        },
+        "clea": {
+          "text": "Je komt in aanmerking voor CléA Numérique",
+          "title": "Je Pix-profiel is certificeerbaar"
+        },
+        "not-certifiable": {
+          "description": "Er is een minimum aan voorwaarden vereist om de certificering af te leggen.",
+          "title": "Je bent nog niet certificeerbaar"
+        }
+      },
+      "modal": {
+        "sub-title": "Alle velden zijn verplicht.",
+        "title": "Deelnemen aan een sessie"
+      },
+      "user-certifications": {
+        "title": "Mijn certificeringen",
+        "with-certification-text": "Bekijk al je Pix-certificeringen. Raadpleeg de details en download je certificaten.",
+        "without-certification-text": "Je hebt nog geen Pix-certificering."
+      }
+    },
     "certifications-list": {
       "buttons": {
         "details": "Details bekijken",
@@ -1024,9 +1077,6 @@
         "numbered-label": "Antwoord {number}"
       },
       "certification": {
-        "banner": {
-          "certification-number": "Certificeringsnummer"
-        },
         "title": "Certificering {certificationNumber}"
       },
       "certification-feedback-panel": {
@@ -1185,9 +1235,6 @@
         "progress": "Je voortgang",
         "validation": "Je opdracht afleggen of goedkeuren"
       },
-      "progress-bar": {
-        "label": "Vraag"
-      },
       "skip-error-message": {
         "qcm": "Selecteer ten minste twee antwoorden om te bevestigen. Anders sla je deze over.",
         "qcu": "Selecteer een antwoord om te bevestigen. Anders sla je deze over.",
@@ -1254,7 +1301,10 @@
       },
       "answers": {
         "already-finished": {
-          "explanation": "Je hebt deze vragen al beantwoord tijdens je eerdere testen: je kunt direct je resultaten bekijken.\n\nWil je je score verbeteren? Als je op “Mijn resultaten bekijken” klikt, krijg je de mogelijkheid om het traject opnieuw te doen.",
+          "explanation": {
+            "sentence1": "Je hebt deze vragen al beantwoord tijdens je eerdere testen: je kunt direct je resultaten bekijken.",
+            "sentence2": "Wil je je score verbeteren? Klik op \"Mijn resultaten bekijken\" om het traject opnieuw te doen."
+          },
           "info": "Je hebt deze vraag al beantwoord"
         },
         "header": "jouw antwoorden"
@@ -1302,6 +1352,8 @@
           "description": "Rond je diagnose af om een programma met modules te deblokkeren dat is afgestemd op je resultaat!",
           "title": "Programma met modules op maat"
         },
+        "restart-campaign": "Opnieuw beginnen",
+        "restart-module": "De module opnieuw starten",
         "start-campaign": "Beginnen",
         "start-module": "De Module beginnen",
         "tagText": "Zover ben je nu!"
@@ -1350,7 +1402,7 @@
         },
         "aband": {
           "title": "Je hebt geen antwoord gegeven",
-          "tooltip": "Geen antwoord"
+          "tooltip": "Overgeslagen vraag"
         },
         "abandAutoReply": {
           "title": "Je hebt de opdracht voltooid",
@@ -2011,7 +2063,7 @@
       },
       "title": "Competenties",
       "total-score-helper": {
-        "explanation": "'<p>'Dit is het maximale aantal pix dat we kunnen behalen zodra alle 8 niveaus van het Pix-referentiekader beschikbaar zijn.'</p><p>'Op dit moment,'<span class=\"hexagon-score-information__text--strong\">'is het maximum {maxReachablePixScore} pix'</span>', wat overeenkomt met niveau {maxReachableLevel}.'</p>'",
+        "explanation": "'<p>'Dit is het maximale aantal pix dat we kunnen behalen zodra alle 8 niveaus van het Pix-referentiekader beschikbaar zijn.'</p><p>'Momenteel is '<span class=\"hexagon-score-information__text--strong\">'het maximum {maxReachablePixScore} pix'</span>', wat overeenkomt met niveau {maxReachableLevel}.'</p>'",
         "icon": "Informatie over Pix",
         "label": "De infobubbel openen",
         "title": "Waarom 1024 pix?"

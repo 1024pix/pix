@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * @typedef {import ('../../../certification/shared/domain/models/ComplementaryCertificationKeys.js').ComplementaryCertificationKeys} ComplementaryCertificationKeys
  */
@@ -76,10 +75,8 @@ export async function findActiveScoOrganizationId({ certificationCenterId }) {
 
   const [activeOrganizationId] = await knexConn('organizations')
     .pluck('organizations.id')
-    .innerJoin(
-      'certification-centers',
-      knexConn.raw('LOWER("certification-centers"."externalId")'),
-      knexConn.raw('LOWER("organizations"."externalId")'),
+    .joinRaw(
+      'INNER JOIN "certification-centers" ON LOWER("certification-centers"."externalId") = LOWER("organizations"."externalId")',
     )
     .where({
       'certification-centers.id': certificationCenterId,
@@ -95,7 +92,7 @@ export async function findActiveScoOrganizationId({ certificationCenterId }) {
  * @typedef {object} CenterDTO
  * @property {number} id
  * @property {string} name
- * @property {string} type
+ * @property {keyof typeof CERTIFICATION_CENTER_TYPES} type
  * @property {string} externalId
  * @property {Array<HabilitationDTO>} habilitations
  * @property {Date} createdAt

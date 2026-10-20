@@ -2,10 +2,12 @@ import { createPublicKey } from 'node:crypto';
 
 import jsonwebtoken from 'jsonwebtoken';
 
-import { config } from '../../../config/config.js';
+import { BadRequestError } from '../../shared/application/errors/http-errors.js';
 import { cryptoService } from '../../shared/domain/services/crypto-service.js';
+import * as urlService from '../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../shared/infrastructure/http-agent.js';
 import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
+import { deepLinkingService } from '../domain/services/deep-linking.service.js';
 import { usecases } from '../domain/usecases/index.js';
 import { ltiPlatformRegistrationRepository } from '../infrastructure/repositories/lti-platform-registration.repository.js';
 import { ltiDeepLinkingSerializer } from '../infrastructure/serializers/html/lti-deep-linking-serializer.js';
@@ -43,7 +45,12 @@ async function register(request, h, dependencies = { registerLtiPlatform: usecas
 async function init(request, h, dependencies = { ltiPlatformRegistrationRepository, httpAgent }) {
   logger.info({ payload: request.payload }, 'Init');
 
-  const { client_id: clientId, login_hint: loginHint, lti_message_hint: ltiMessageHint } = request.payload;
+  const {
+    client_id: clientId,
+    login_hint: loginHint,
+    lti_message_hint: ltiMessageHint,
+    target_link_uri: targetLinkUri,
+  } = request.payload;
 
   const registration = await dependencies.ltiPlatformRegistrationRepository.findByClientId(clientId);
 
@@ -76,7 +83,7 @@ async function init(request, h, dependencies = { ltiPlatformRegistrationReposito
   return h
     .response(
       ltiInitializationSerializer.serialize({
-        baseUrl: config.baseUrl,
+        targetLinkUri,
         clientId,
         loginHint,
         ltiMessageHint,
@@ -88,7 +95,125 @@ async function init(request, h, dependencies = { ltiPlatformRegistrationReposito
     .header('Content-Type', 'text/html; charset=utf-8');
 }
 
-async function launch(request, h, dependencies = { ltiPlatformRegistrationRepository, httpAgent }) {
+async function deepLink(request, h) {
+  const { verifiedToken, registration } = await preLaunch(request);
+
+  const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
+
+  // FIXME return 400 bad request if !=
+  if (messageType === 'LtiDeepLinkingRequest') {
+    const deepLinkingSettings = verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'];
+
+    // FIXME take from custom claims
+    const organizationExternalIds = ['12345', '7890'];
+    const ltiPrescriberAccessToken = await usecases.authenticateLtiPrescriber({
+      organizationExternalIds,
+      registration,
+      deepLinkingSettings,
+    });
+
+    const locale = 'fr-FR'; // TODO: Generate this dynamically
+    const campaignSelectionPageUrl = urlService.getPixOrgaUrl(locale, { pathname: '/lti-campaign-selection' });
+    return (
+      h
+        .redirect(campaignSelectionPageUrl)
+        // FIXME set cookie expiration using Max-Age
+        .header(
+          'Set-Cookie',
+          `jwtLtiPrescriber=${ltiPrescriberAccessToken}; Secure; HttpOnly; SameSite=None; Partitioned; Path=/api`,
+        )
+    );
+  }
+}
+
+async function findAvailableCampaigns(request, h) {
+  const { organizationIds } = request.auth.credentials;
+  logger.info({ organizationIds }, 'available campaigns');
+
+  const campaigns = [
+    {
+      name: 'Auto Cours 1',
+      code: 'AUTOCOUR1',
+    },
+    {
+      name: 'Auto Cours 3',
+      code: 'AUTOCOUR3',
+    },
+    {
+      name: 'Auto Cours 5',
+      code: 'AUTOCOUR5',
+    },
+  ];
+
+  return h.response(campaigns);
+}
+
+async function selectCampaign(request, h, dependencies = { deepLinkingService }) {
+  const {
+    // FIXME check selected campaignCode belongs to one of the organizations
+    // credentials: { organizationIds },
+    artifacts: { registration, deepLinkingSettings },
+  } = request.auth;
+
+  const { campaignCode } = request.payload;
+
+  const contentItem = {
+    type: 'ltiResourceLink',
+    title: `Campagne Pix ${campaignCode}`,
+    text: 'Campagne PIX dont la note sera envoyée dans Moodle',
+    custom: { campaign_code: campaignCode },
+    lineItem: {
+      scoreMaximum: 100,
+    },
+  };
+
+  const deepLinkingResponse = await dependencies.deepLinkingService.encodeResponse({
+    contentItems: [contentItem],
+    registration,
+    deepLinkingSettings,
+  });
+
+  // FIXME revoke access token's session
+
+  return h
+    .response(
+      ltiDeepLinkingSerializer.serialize({
+        deepLinkingResponse,
+        deepLinkingReturnUrl: deepLinkingSettings.deep_link_return_url,
+      }),
+    )
+    .header('Content-Type', 'text/html; charset=utf-8')
+    .header('Set-Cookie', `jwtLtiPrescriber=; Secure; HttpOnly; SameSite=None; Partitioned; Path=/api; Max-Age=-1`);
+}
+
+async function resourceLink(request, h, dependencies = { urlService }) {
+  const { verifiedToken, registration } = await preLaunch(request);
+
+  const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
+
+  // FIXME return 400 bad request if !=
+  if (messageType === 'LtiResourceLinkRequest') {
+    await sendScoring(verifiedToken, registration);
+
+    const campaignCode = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom'].campaign_code;
+
+    const campaignUrl = dependencies.urlService.getPixAppUrl('fr-FR', { pathname: `/campagnes/${campaignCode}` });
+
+    return h.redirect(campaignUrl);
+  }
+}
+
+export const ltiController = {
+  listPublicKeys,
+  register,
+  init,
+  deepLink,
+  findAvailableCampaigns,
+  selectCampaign,
+  resourceLink,
+};
+
+async function preLaunch(request, dependencies = { ltiPlatformRegistrationRepository, httpAgent }) {
   const encodedToken = request.payload.id_token;
 
   const decodedToken = jsonwebtoken.decode(encodedToken, { complete: true });
@@ -101,18 +226,12 @@ async function launch(request, h, dependencies = { ltiPlatformRegistrationReposi
 
   if (!registration) {
     logger.warn({ clientId }, 'unknown client id');
-    return h
-      .response(ltiErrorSerializer.serialize({ title: 'Launch error', message: 'Please contact your administrator' }))
-      .header('Content-Type', 'text/html; charset=utf-8')
-      .code(400);
+    throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
   }
 
   if (!registration.isActive) {
     logger.warn({ clientId }, 'registration is not active');
-    return h
-      .response(ltiErrorSerializer.serialize({ title: 'Launch error', message: 'Please contact your administrator' }))
-      .header('Content-Type', 'text/html; charset=utf-8')
-      .code(400);
+    throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
   }
 
   await registration.fetchPlatformOpenIdConfig({ httpAgent: dependencies.httpAgent });
@@ -126,61 +245,7 @@ async function launch(request, h, dependencies = { ltiPlatformRegistrationReposi
 
   const verifiedToken = jsonwebtoken.verify(encodedToken, createPublicKey({ key, format: 'jwk' }));
 
-  const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
-
-  if (messageType === 'LtiResourceLinkRequest') {
-    await sendScoring(verifiedToken, registration);
-
-    const targetLinkUri = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/target_link_uri'];
-
-    return h.redirect(targetLinkUri);
-  }
-
-  if (messageType === 'LtiDeepLinkingRequest') {
-    const deepLinkUrl =
-      verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'].deep_link_return_url;
-
-    const jwtResponse = await encodeDeepLinkingResponse(verifiedToken, deepLinkUrl, registration);
-
-    return h
-      .response(ltiDeepLinkingSerializer.serialize({ deepLinkUrl, jwtResponse }))
-      .header('Content-Type', 'text/html; charset=utf-8');
-  }
-}
-
-async function encodeDeepLinkingResponse(request, deepLinkUrl, registration, dependencies = { cryptoService }) {
-  const privateKey = {
-    format: 'jwk',
-    key: JSON.parse(await dependencies.cryptoService.decrypt(registration.encryptedPrivateKey)),
-  };
-
-  return jsonwebtoken.sign(
-    {
-      iss: registration.clientId,
-      aud: deepLinkUrl,
-      'https://purl.imsglobal.org/spec/lti/claim/deployment_id':
-        request['https://purl.imsglobal.org/spec/lti/claim/deployment_id'],
-      'https://purl.imsglobal.org/spec/lti/claim/message_type': 'LtiDeepLinkingResponse',
-      'https://purl.imsglobal.org/spec/lti/claim/version': '1.3.0',
-      'https://purl.imsglobal.org/spec/lti-dl/claim/content_items': [
-        {
-          type: 'ltiResourceLink',
-          title: 'Campagne Pix',
-          text: 'Campagne PIX dont la note sera envoyée dans Moodle',
-          url: 'http://localhost:4200/campagnes/CONTEN123',
-          lineItem: {
-            scoreMaximum: 100,
-          },
-        },
-      ],
-    },
-    privateKey,
-    {
-      expiresIn: 3600,
-      algorithm: 'RS256',
-      keyid: registration.publicKey.kid,
-    },
-  );
+  return { verifiedToken, registration };
 }
 
 async function sendScoring(request, registration) {
@@ -259,5 +324,3 @@ async function getAccessToken(scope, registration, dependencies = { cryptoServic
 
   return res.json();
 }
-
-export const ltiController = { listPublicKeys, register, init, launch };

@@ -6,7 +6,7 @@ import formatDate from 'ember-intl/helpers/format-date';
 
 export default class Timeline extends Component {
   transformMetaToJSON(metadata) {
-    if (!metadata) return '-';
+    if (!metadata || Object.keys(metadata).length === 0) return '-';
     return JSON.stringify(metadata, undefined, 2);
   }
 

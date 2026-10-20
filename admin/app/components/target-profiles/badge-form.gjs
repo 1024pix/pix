@@ -168,6 +168,7 @@ export default class BadgeForm extends Component {
               maxlength="255"
               @value={{this.badge.key}}
               @requiredLabel={{t "common.forms.mandatory"}}
+              @subLabel="Tout badge ajouté sur un profil cible exploité dans une organisation France Travail doit respecter la nomenclature PIX_EMPLOI-THEME-IDXXXX (le thème du badge fait 5 caractères et est décidé en concertation avec France Travail, l'ID est croissant)."
               {{on "change" (fn this.updateFormValue "key")}}
             >
               <:label>Clé (texte unique , vérifier qu'il n'existe pas) :</:label>

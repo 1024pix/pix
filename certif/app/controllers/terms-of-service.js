@@ -10,6 +10,7 @@ export default class TermsOfServiceController extends Controller {
   @service intl;
   @service locale;
 
+  // TODO: supprimer avec le feature toggle newPixCertifLegalDocumentsVersioning (ancienne page CGU)
   @tracked isEnglishLocale = this.locale.currentLocale === 'en';
 
   @action
@@ -18,7 +19,7 @@ export default class TermsOfServiceController extends Controller {
       await this.currentUser.certificationPointOfContact.save({
         adapterOptions: { acceptPixCertifTermsOfService: true },
       });
-      this.currentUser.certificationPointOfContact.pixCertifTermsOfServiceAccepted = true;
+      this.currentUser.certificationPointOfContact.pixCertifTermsOfServiceStatus = 'accepted';
       this.router.transitionTo('authenticated.sessions');
     } catch {
       this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });

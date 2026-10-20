@@ -1,0 +1,14 @@
+.assessment-progress {
+  margin: 12px 0 10px;
+  color: var(--pix-neutral-0);
+  text-align: right;
+
+  &__label {
+    text-transform: uppercase;
+  }
+
+  &__value {
+    font-weight: bold;
+    font-size: 1.875rem;
+  }
+}

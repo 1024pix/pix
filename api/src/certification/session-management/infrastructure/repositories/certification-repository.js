@@ -1,4 +1,5 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { batchUpdate } from '../../../../shared/infrastructure/utils/knex-utils.js';
 
 export async function getStatusesBySessionId(sessionId) {
   const knexConn = DomainTransaction.getConnection();
@@ -22,19 +23,16 @@ export async function getStatusesBySessionId(sessionId) {
     );
 }
 
-export async function publishCertificationCourses(certificationStatuses) {
-  const certificationDataToUpdate = certificationStatuses.map(({ certificationCourseId }) => ({
-    id: certificationCourseId,
-    isPublished: true,
-    updatedAt: new Date(),
-    version: -1, // Version number used to meet requirements regarding the version column non-null constraint in the insert request below
-  }));
-
-  const knexConn = DomainTransaction.getConnection();
-  await knexConn('certification-courses')
-    .insert(certificationDataToUpdate)
-    .onConflict('id')
-    .merge(['isPublished', 'updatedAt']);
+export async function publishCertificationCourses({ certificationCourseIds, publishedAt }) {
+  await batchUpdate({
+    tableName: 'certification-courses',
+    primaryKeyName: 'id',
+    rows: certificationCourseIds.map(({ certificationCourseId }) => ({
+      id: certificationCourseId,
+      isPublished: true,
+      updatedAt: publishedAt,
+    })),
+  });
 }
 
 export async function unpublishCertificationCoursesBySessionId({ sessionId }) {

@@ -38,7 +38,7 @@ export async function updateLastQuestionState({
     }
   }
 
-  return assessmentRepository.updateLastQuestionState({
+  await assessmentRepository.updateLastQuestionState({
     id: assessmentId,
     lastQuestionState,
   });

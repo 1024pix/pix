@@ -24,10 +24,12 @@ export async function saveScoringConfiguration({
     throw new NotFoundError(`No certification version found for id: ${id}`);
   }
 
-  await versionRepository.updateScoring({ id, globalScoringConfiguration, competencesScoringConfiguration });
+  version.setScoringConfiguration(globalScoringConfiguration, competencesScoringConfiguration);
+  await versionRepository.update(version);
 
   const certificationCourseIds = await certificationCoursesToScoreRepository.findIdsByVersionId({ versionId: id });
-  await scoreCertificationJobRepository.performAsync(
-    ...certificationCourseIds.map((certificationCourseId) => new ScoreCertificationJob({ certificationCourseId })),
-  );
+
+  for (const certificationCourseId of certificationCourseIds) {
+    await scoreCertificationJobRepository.performAsync(new ScoreCertificationJob({ certificationCourseId }));
+  }
 }

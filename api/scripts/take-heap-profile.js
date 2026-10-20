@@ -120,6 +120,7 @@ export class TakeHeapProfile extends Script {
         `${result.container} : profil reçu (${summary.samples} échantillons, ` +
           `tas ${formatBytes(summary.heapUsedBefore)} → ${formatBytes(summary.heapUsedAfter)}), écrit dans ${path}`,
       );
+      this.#printMemoryBreakdown({ memoryAfter: summary.memoryAfter, logger });
       this.#printAllocationSites({ profile, logger });
       this.#printEncodedProfile({
         container: result.container,
@@ -150,6 +151,30 @@ export class TakeHeapProfile extends Script {
         "aucun profil reçu : vérifier HEAP_PROFILE_ENABLED, le sélecteur, et que les conteneurs visés tournent bien avec cette version de l'API",
       );
     }
+  }
+
+  /**
+   * Ce qui occupe le RSS en fin de fenêtre. Absent des conteneurs qui tournent
+   * sur une version antérieure de l'API.
+   */
+  #printMemoryBreakdown({ memoryAfter, logger }) {
+    if (!memoryAfter) return;
+
+    const parts = [
+      ['RSS', memoryAfter.rss],
+      ['fichiers', memoryAfter.RssFile],
+      ['tas réservé', memoryAfter.heapPhysicalTotal],
+      ['tas vivant', memoryAfter.heapUsed],
+      ['external', memoryAfter.external],
+      ['natif non attribué', memoryAfter.nativeUnaccounted],
+      ['swap', memoryAfter.VmSwap],
+    ];
+    logger.info(
+      `  mémoire : ${parts
+        .filter(([, bytes]) => bytes !== undefined)
+        .map(([label, bytes]) => `${label} ${formatBytes(bytes)}`)
+        .join(' · ')}`,
+    );
   }
 
   /** Les gros sites d'allocation, pour avoir la réponse sans quitter le terminal. */

@@ -63,7 +63,7 @@ import LastParticipationDateTooltip from '../ui/last-participation-date-tooltip'
   </PixTableColumn>
   <PixTableColumn @context={{@context}}>
     <:header>{{t "pages.sup-organization-participants.table.column.date-of-birth"}}</:header>
-    <:cell>{{formatDate @student.birthdate}}</:cell>
+    <:cell>{{formatDate @student.birthdate timeZone="UTC"}}</:cell>
   </PixTableColumn>
   <PixTableColumn @context={{@context}}>
     <:header>{{t "pages.sup-organization-participants.table.column.group"}}</:header>

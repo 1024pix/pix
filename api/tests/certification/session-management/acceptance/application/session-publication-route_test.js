@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { PublishSessionJobController } from '../../../../../src/certification/session-management/application/publish-session-job-controller.js';
 import { status } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
@@ -11,9 +12,11 @@ describe('Certification | Session-Management | Acceptance | Application | Routes
     let server;
     const options = { method: 'PATCH' };
     let userId;
+    const now = new Date('2024-04-05T03:04:05Z');
 
     beforeEach(async function () {
       server = await getServer();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     context('when user does not have the role Super Admin', function () {
@@ -56,115 +59,66 @@ describe('Certification | Session-Management | Acceptance | Application | Routes
         });
       });
 
-      context('when the session id is a number', function () {
-        context('when the session does not exist', function () {
-          it('should return a 404 error code', async function () {
-            // given
-            options.url = '/api/admin/sessions/1/publish';
+      context('when the session does not exist', function () {
+        it('should return a 404 error code', async function () {
+          // given
+          options.url = '/api/admin/sessions/1/publish';
 
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(404);
+        });
+      });
+
+      context('when the session exists', function () {
+        context('when the certification course contains challenges', function () {
+          it('should return a 204 status code and post publishSession job', async function () {
+            const sessionId = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
+            databaseBuilder.factory.buildFinalizedSession({ sessionId });
+            options.url = `/api/admin/sessions/${sessionId}/publish`;
+            const certificationId = databaseBuilder.factory.buildCertificationCourse({
+              sessionId,
+              isPublished: false,
+            }).id;
+            databaseBuilder.factory.buildAssessmentResult.last({
+              certificationCourseId: certificationId,
+              status: status.VALIDATED,
+            });
+
+            await databaseBuilder.commit();
             // when
             const response = await server.inject(options);
 
             // then
-            expect(response.statusCode).to.equal(404);
+            expect(response.statusCode).to.equal(204);
+
+            const handler = new PublishSessionJobController();
+            expect(handler.jobName).to.have.performed.withJobsCount(1);
           });
         });
 
-        context('when the session exists', function () {
-          let sessionId;
-          let certificationId;
-          const now = new Date('2000-01-01T10:00:00Z');
-
-          context('when the certification course contains challenges', function () {
-            beforeEach(function () {
-              sinon.useFakeTimers({
-                now,
-                toFake: ['Date'],
-              });
-              sessionId = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
-              databaseBuilder.factory.buildFinalizedSession({ sessionId });
-              options.url = `/api/admin/sessions/${sessionId}/publish`;
-              certificationId = databaseBuilder.factory.buildCertificationCourse({ sessionId, isPublished: false }).id;
-              databaseBuilder.factory.buildAssessmentResult.last({
-                certificationCourseId: certificationId,
-                status: status.VALIDATED,
-              });
-
-              return databaseBuilder.commit();
+        context('when the certification course does not contain challenges', function () {
+          it('should return a 204 status code', async function () {
+            const sessionId = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
+            databaseBuilder.factory.buildFinalizedSession({ sessionId });
+            options.url = `/api/admin/sessions/${sessionId}/publish`;
+            const certificationId = databaseBuilder.factory.buildCertificationCourse({
+              sessionId,
+              isPublished: false,
+            }).id;
+            databaseBuilder.factory.buildAssessmentResult.last({
+              certificationCourseId: certificationId,
+              status: status.REJECTED,
             });
 
-            it('should return a 200 status code', async function () {
-              // when
-              const response = await server.inject(options);
+            await databaseBuilder.commit();
+            // when
+            const response = await server.inject(options);
 
-              // then
-              expect(response.statusCode).to.equal(200);
-            });
-
-            it('should return the serialized session with an updated publishedAt date', async function () {
-              // when
-              const response = await server.inject(options);
-
-              // then
-              expect(response.result.data.attributes['published-at']).to.deep.equal(now);
-            });
-
-            it('should update the published information', async function () {
-              // when
-              await server.inject(options);
-
-              // then
-              const [certificationCourse] = await knex('certification-courses').where({ id: certificationId });
-              const [session] = await knex('sessions').where({ id: sessionId });
-              expect(certificationCourse.isPublished).to.be.true;
-              expect(session.publishedAt).to.deep.equal(now);
-            });
-          });
-
-          context('when the certification course does not contain challenges', function () {
-            beforeEach(function () {
-              sinon.useFakeTimers({
-                now,
-                toFake: ['Date'],
-              });
-              sessionId = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
-              databaseBuilder.factory.buildFinalizedSession({ sessionId });
-              options.url = `/api/admin/sessions/${sessionId}/publish`;
-              certificationId = databaseBuilder.factory.buildCertificationCourse({ sessionId, isPublished: false }).id;
-              databaseBuilder.factory.buildAssessmentResult.last({
-                certificationCourseId: certificationId,
-                status: status.REJECTED,
-              });
-
-              return databaseBuilder.commit();
-            });
-
-            it('should return a 200 status code', async function () {
-              // when
-              const response = await server.inject(options);
-
-              // then
-              expect(response.statusCode).to.equal(200);
-            });
-
-            it('should return the serialized session with an updated publishedAt date', async function () {
-              // when
-              const response = await server.inject(options);
-
-              // then
-              expect(response.result.data.attributes['published-at']).to.deep.equal(now);
-            });
-
-            it('should update the published information', async function () {
-              // when
-              await server.inject(options);
-
-              // then
-              const certificationCourse = await knex('certification-courses').where({ id: certificationId }).first();
-              const session = await knex('sessions').where({ id: sessionId }).first();
-              expect(certificationCourse.isPublished).to.be.true;
-              expect(session.publishedAt).to.deep.equal(now);
-            });
+            // then
+            expect(response.statusCode).to.equal(204);
           });
         });
       });

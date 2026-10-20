@@ -359,11 +359,11 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               const assessment2 = server.create('assessment', 'ofCompetenceEvaluationType', {
                 nextChallenge: focusedChallenge2,
               });
-              await visit(`/assessments/${assessment1.id}/challenges/0`);
+              const screen = await visit(`/assessments/${assessment1.id}/challenges/0`);
 
               // when
               await triggerEvent(document, 'focusedout');
-              await click('.assessment-banner__home-link');
+              await click(screen.queryByRole('button', { name: 'Quitter' }));
               await visit(`/assessments/${assessment2.id}/challenges/0`);
 
               // then
@@ -383,11 +383,11 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               const assessment = server.create('assessment', 'ofCompetenceEvaluationType', {
                 nextChallenge: challenge,
               });
-              await visit(`/assessments/${assessment.id}/challenges/0`);
+              const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
 
               // when
               await triggerEvent(document, 'focusedout');
-              await click('.assessment-banner__home-link');
+              await click(screen.queryByRole('button', { name: 'Quitter' }));
               await visit(`/assessments/${assessment.id}/challenges/0`);
 
               // then

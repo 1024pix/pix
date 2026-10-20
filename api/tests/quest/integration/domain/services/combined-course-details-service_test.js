@@ -11,7 +11,7 @@ import {
   CampaignCombinedCourseItem,
   ModuleCombinedCourseItem,
   TrainingCombinedCourseItem,
-} from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';
+} from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.ts';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
 import combinedCourseDetailsService from '../../../../../src/quest/domain/services/combined-course-details-service.js';
 import { repositories } from '../../../../../src/quest/infrastructure/repositories/index.js';
@@ -36,13 +36,12 @@ const { combinedCourseDetailsService: CombinedCourseDetailsService } = injectDep
 );
 
 describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService', function () {
-  let code, combinedCourseUrl;
+  let code;
   beforeEach(function () {
     code = 'SOMETHING';
-    combinedCourseUrl = '/parcours/' + code;
 
     sinon.stub(cryptoService, 'encrypt');
-    cryptoService.encrypt.withArgs(combinedCourseUrl).resolves('encryptedUrl');
+    cryptoService.encrypt.resolves('encryptedUrl');
   });
 
   it('should throw an error if CombinedCourse does not exist', async function () {

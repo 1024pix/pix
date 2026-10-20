@@ -53,6 +53,12 @@
       "stay": "Stay",
       "validate": "Validate"
     },
+    "answer-state": {
+      "aband": "No answer",
+      "ko": "Incorrect answer",
+      "ok": "Correct answer",
+      "timedout": "Out of time"
+    },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
       "gateway-timeout-error": "The service is being slow. Please try again later.",
@@ -157,6 +163,16 @@
     "yes": "Yes"
   },
   "components": {
+    "assessments": {
+      "result-item": {
+        "actions": {
+          "see-answers-and-tutorials": {
+            "label": "See answers and tutorials"
+          }
+        },
+        "question-number": "Question { number }"
+      }
+    },
     "attestations": {
       "obtainedAt": "Date of issue : {date}",
       "title": {
@@ -313,6 +329,17 @@
             "title": "Make progress"
           }
         }
+      }
+    },
+    "info-bar": {
+      "certification-number": "Certification no.",
+      "completion-percentage": {
+        "caption": "customised test progression",
+        "label": "You have completed {completion, number, ::percent} of your customised test."
+      },
+      "progress": {
+        "label": "Question",
+        "position": "{current} of {total}"
       }
     },
     "invited": {
@@ -986,6 +1013,32 @@
       "non-eligible-subscription": "You are not eligible to {subscriptionLabel}. However, you can still take your Pix Certification.",
       "title": "Join a certification session"
     },
+    "certifications-dashboard": {
+      "enrolment-banner": {
+        "action": "Start certification",
+        "certifiable": {
+          "description": "Click the button below to start your certification",
+          "title": "Would you like to take a certification?"
+        },
+        "clea": {
+          "text": "You are eligible for the CléA Numérique",
+          "title": "Your Pix profile is eligible for certification"
+        },
+        "not-certifiable": {
+          "description": "A minimum of prerequisites is required to take the certification.",
+          "title": "You are not yet eligible for certification"
+        }
+      },
+      "modal": {
+        "sub-title": "All fields are required.",
+        "title": "Join a session"
+      },
+      "user-certifications": {
+        "title": "My certifications",
+        "with-certification-text": "Access all your Pix certifications. View the details and download your certificates.",
+        "without-certification-text": "You don't have any Pix certification yet."
+      }
+    },
     "certifications-list": {
       "buttons": {
         "details": "See details",
@@ -1024,9 +1077,6 @@
         "numbered-label": "Answer {number}"
       },
       "certification": {
-        "banner": {
-          "certification-number": "Certification no."
-        },
         "title": "Certification {certificationNumber}"
       },
       "certification-feedback-panel": {
@@ -1185,9 +1235,6 @@
         "progress": "Your progression",
         "validation": "Validate or skip this question"
       },
-      "progress-bar": {
-        "label": "Question"
-      },
       "skip-error-message": {
         "qcm": "To validate, select at least two answers. Otherwise, click Skip.",
         "qcu": "To validate, select an answer. Otherwise, click Skip.",
@@ -1254,14 +1301,13 @@
       },
       "answers": {
         "already-finished": {
-          "explanation": "You have already answered these questions in previous test. You can jump straight to your results.\n \n Want to improve your score? Click on \"See my results\" and you will be able to retake the test.",
+          "explanation": {
+            "sentence1": "You have already answered these questions in previous test. You can jump straight to your results.",
+            "sentence2": "Want to improve your score? Click on \"See my results\" and you will be able to retake the test."
+          },
           "info": "You have already answered !"
         },
         "header": "your answers"
-      },
-      "completion-percentage": {
-        "caption": "customised test progression",
-        "label": "You have completed {completion, number, ::percent} of your customised test."
       },
       "sharing-results": {
         "information-banner": "By clicking on the ‘View my results’ button, your results will be sent to the organiser."
@@ -1302,6 +1348,8 @@
           "description": "Complete your assessment to unlock a programme of modules tailored to your results!",
           "title": "Customised module programme"
         },
+        "restart-campaign": "Restart",
+        "restart-module": "Restart module",
         "start-campaign": "Start",
         "start-module": "Start module",
         "tagText": "You're at that point!"
@@ -1350,7 +1398,7 @@
         },
         "aband": {
           "title": "You did not answer",
-          "tooltip": "No answer"
+          "tooltip": "Question skipped"
         },
         "abandAutoReply": {
           "title": "You have skipped the question",
@@ -2013,7 +2061,6 @@
       "total-score-helper": {
         "explanation": "'<p>'That’s the maximum number of pix you can get when the 8 levels of the Pix framework will be available.'</p><p>'Today, '<span class=\"hexagon-score-information__text--strong\">'the maximum number available is {maxReachablePixScore} pix'</span>', corresponding to level {maxReachableLevel}.'</p>'",
         "icon": "Pix information",
-        "label": "Open tooltip",
         "title": "Why 1024 pix?"
       }
     },
@@ -2035,17 +2082,6 @@
       },
       "first-title": "Resetting the password",
       "title": "Change my password"
-    },
-    "result-item": {
-      "aband": "No answer",
-      "actions": {
-        "see-answers-and-tutorials": {
-          "label": "Answers and tutorials"
-        }
-      },
-      "ko": "Incorrect answer",
-      "ok": "Correct answer",
-      "timedout": "Out of time"
     },
     "sco-signup-or-login": {
       "invitation": "{ organizationName }",

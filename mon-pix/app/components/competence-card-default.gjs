@@ -5,7 +5,6 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
 import CircleChart from 'mon-pix/components/circle-chart';
-import replaceZeroByDash from 'mon-pix/helpers/replace-zero-by-dash';
 import scorecardAriaLabel from 'mon-pix/helpers/scorecard-aria-label';
 
 export default class CompetenceCardDefault extends Component {
@@ -40,9 +39,7 @@ export default class CompetenceCardDefault extends Component {
               >
                 <div class="competence-card__level">
                   <span class="score-label">{{t "common.level"}}</span>
-                  <span class="score-value competence-card__score-value">{{replaceZeroByDash
-                      this.displayedLevel
-                    }}</span>
+                  <span class="score-value competence-card__score-value">{{this.displayedLevel}}</span>
                   <span class="competence-card__score-details">{{t "pages.profile.competence-card.details"}}</span>
                 </div>
               </CircleChart>
@@ -114,10 +111,11 @@ export default class CompetenceCardDefault extends Component {
   @service intl;
 
   get displayedLevel() {
-    if (this.args.scorecard.isNotStarted) {
-      return null;
+    const { isNotStarted, level } = this.args.scorecard;
+    if (isNotStarted || level === 0) {
+      return '-';
     }
-    return this.args.scorecard.level;
+    return level;
   }
 
   get shouldWaitBeforeImproving() {

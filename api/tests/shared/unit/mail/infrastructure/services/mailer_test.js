@@ -125,7 +125,7 @@ describe('Unit | Infrastructure | Mailers | mailer', function () {
             "Email is not valid 'test@example.net'",
           );
           expect(result).to.deep.equal(
-            EmailingAttempt.failure('test@example.net', EmailingAttempt.errorCode.INVALID_DOMAIN),
+            EmailingAttempt.failure('test@example.net', EmailingAttempt.errorCode.INVALID_DOMAIN, 'fail'),
           );
         });
       });

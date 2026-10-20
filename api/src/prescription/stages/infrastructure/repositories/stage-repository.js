@@ -27,9 +27,12 @@ const toDomain = (stageData) =>
 
 const buildBaseQuery = (knexConnection) => {
   return knexConnection('stages')
-    .select('stages.*')
+    .select('stages.*', knexConnection.raw('COALESCE(stages.level, stages.threshold) AS "levelOrThreshold"'))
     .join('campaigns', 'campaigns.targetProfileId', 'stages.targetProfileId')
-    .orderBy(['stages.threshold', 'stages.level']);
+    .orderByRaw(
+      'CASE WHEN COALESCE(stages.level, stages.threshold) = 0 THEN 0 WHEN stages."isFirstSkill" THEN 1 ELSE 2 END',
+    )
+    .orderBy('levelOrThreshold', 'stages.targetProfileId');
 };
 
 /**

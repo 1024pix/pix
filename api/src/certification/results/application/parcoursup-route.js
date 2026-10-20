@@ -56,26 +56,49 @@ async function register(server) {
           failAction: 'log',
           status: {
             200: Joi.object({
-              organizationUai: Joi.string().description(
-                'UAI/RNE (Unité Administrative Immatriculée anciennement Répertoire National des Établissements)',
-              ),
-              ine: Joi.string().description('INE (identifiant national élève, étudiant ou apprenti)'),
-              lastName: Joi.string().description('Nom de famille de l‘élève'),
-              firstName: Joi.string().description('Prénom de l‘élève'),
-              birthdate: Joi.date().description('Date de naissance au format AAAA-MM-JJ'),
-              status: Joi.string().description('Statut de la certification'),
-              pixScore: Joi.number().min(0).max(1024).description('Score global en nombre de pix'),
-              globalLevel: Joi.string().description(
-                'Niveau global de la certification, défini en fonction du score global Pix obtenu',
-              ),
-              certificationDate: Joi.date().description('Date de passage de la certification'),
+              certificationId: Joi.number()
+                .integer()
+                .positive()
+                .description('Identifiant unique de la certification')
+                .example(123456),
+              certificationCodeVerification: Joi.string()
+                .description('Code de vérification de la certification')
+                .example('P-XYZXYZ'),
+              organizationUai: Joi.string()
+                .description(
+                  'UAI/RNE (Unité Administrative Immatriculée anciennement Répertoire National des Établissements)',
+                )
+                .example('SOMEGREATSCHOOL123'),
+              ine: Joi.string()
+                .description('INE (identifiant national élève, étudiant ou apprenti)')
+                .example('SOMEGREATSTUDENT456'),
+              lastName: Joi.string().description('Nom de famille de l‘élève').example('Doe'),
+              firstName: Joi.string().description('Prénom de l‘élève').example('Jane'),
+              birthdate: Joi.date().description('Date de naissance au format AAAA-MM-JJ').example('2008-01-01'),
+              status: Joi.string().description('Statut de la certification').example('validated'),
+              pixScore: Joi.number().min(0).max(1024).description('Score global en nombre de pix').example('255'),
+              globalLevel: Joi.string()
+                .description('Niveau global de la certification, défini en fonction du score global Pix obtenu')
+                .example('Intermédiaire 1'),
+              certificationDate: Joi.date().description('Date de passage de la certification').example('2026-01-01'),
+              certificationIssuedAt: Joi.date()
+                .description('Date de délivrance de la certification')
+                .example('2026-01-15'),
+              maxReachablePixScore: Joi.number()
+                .integer()
+                .positive()
+                .description('Score en pix atteignable au maximum par le candidat lors du passage de certification')
+                .example(895),
+              maxGlobalLevel: Joi.string()
+                .description('Niveau global atteignable au maximum par le candidat lors du passage de certification')
+                .example('Expert 1'),
               competences: Joi.array()
                 .items(
                   Joi.object({
-                    code: Joi.string().description('Code de la compétence'),
-                    name: Joi.string().description('Nom de la compétence'),
-                    level: Joi.number().min(0).max(8).description('Niveau obtenu sur la compétence'),
-                    areaName: Joi.string().description('Domaine de la compétence'),
+                    code: Joi.string().description('Code de la compétence').example('1.1'),
+                    name: Joi.string().description('Nom de la compétence').example('Lacer ses chaussures'),
+                    level: Joi.number().min(0).max(8).description('Niveau obtenu sur la compétence').example(3),
+                    areaName: Joi.string().description('Domaine de la compétence').example("S'habiller"),
                   }).label('Competence-Result-Object'),
                 )
                 .description('Résultats par compétence')

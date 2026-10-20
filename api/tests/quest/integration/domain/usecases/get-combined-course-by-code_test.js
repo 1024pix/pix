@@ -11,7 +11,7 @@ import {
   CampaignCombinedCourseItem,
   ModuleCombinedCourseItem,
   TrainingCombinedCourseItem,
-} from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.js';
+} from '../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.ts';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
 import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
@@ -20,14 +20,13 @@ import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code', function () {
-  let combinedCourseUrl, code;
+  let code;
 
   beforeEach(function () {
     code = 'SOMETHING';
-    combinedCourseUrl = '/parcours/' + code;
 
     sinon.stub(cryptoService, 'encrypt');
-    cryptoService.encrypt.withArgs(combinedCourseUrl).resolves('encryptedUrl');
+    cryptoService.encrypt.resolves('encryptedUrl');
   });
 
   it('should throw an error if CombinedCourse does not exist', async function () {
@@ -107,7 +106,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
       const result = await usecases.getCombinedCourseByCode({ code, userId });
 
       expect(result).to.be.instanceOf(CombinedCourse);
-      expect(result.items).to.be.deep.equal([
+      expect(result.items).to.deep.equal([
         {
           id: campaign.id,
           reference: campaign.code,
@@ -271,7 +270,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
 
       const result = await usecases.getCombinedCourseByCode({ code, userId });
 
-      expect(result.items).to.be.deep.equal([
+      expect(result.items).to.deep.equal([
         {
           id: campaign.id,
           reference: campaign.code,

@@ -8,7 +8,6 @@ import t from 'ember-intl/helpers/t';
 import CircleChart from 'mon-pix/components/circle-chart';
 import Card from 'mon-pix/components/tutorials/card';
 import inc from 'mon-pix/helpers/inc';
-import replaceZeroByDash from 'mon-pix/helpers/replace-zero-by-dash';
 import scorecardAriaLabel from 'mon-pix/helpers/scorecard-aria-label';
 
 export default class ScorecardDetails extends Component {
@@ -58,14 +57,14 @@ export default class ScorecardDetails extends Component {
                 >
                   <div class="competence-card__level">
                     <span class="score-label">{{t "common.level"}}</span>
-                    <span class="score-value">{{replaceZeroByDash @scorecard.level}}</span>
+                    <span class="score-value">{{this.displayedLevel}}</span>
                   </div>
                 </CircleChart>
               {{/if}}
 
               <div class="pix-earned">
                 <div class="score-label">{{t "common.pix"}}</div>
-                <div class="score-value">{{replaceZeroByDash @scorecard.earnedPix}}</div>
+                <div class="score-value">{{this.displayedEarnedPix}}</div>
               </div>
             </div>
 
@@ -128,13 +127,13 @@ export default class ScorecardDetails extends Component {
               >
                 <div class="competence-card__level">
                   <span class="score-label">{{t "common.level"}}</span>
-                  <span class="score-value">{{replaceZeroByDash @scorecard.level}}</span>
+                  <span class="score-value">{{this.displayedLevel}}</span>
                 </div>
               </CircleChart>
 
               <div class="pix-earned">
                 <div class="score-label">{{t "common.pix"}}</div>
-                <div class="score-value">{{replaceZeroByDash @scorecard.earnedPix}}</div>
+                <div class="score-value">{{this.displayedEarnedPix}}</div>
               </div>
             </div>
 
@@ -268,6 +267,16 @@ export default class ScorecardDetails extends Component {
   @service pixMetrics;
 
   @tracked showResetModal = false;
+
+  get displayedLevel() {
+    const level = this.args.scorecard.level;
+    return level === 0 ? '-' : level;
+  }
+
+  get displayedEarnedPix() {
+    const earnedPix = this.args.scorecard.earnedPix;
+    return earnedPix === 0 ? '-' : earnedPix;
+  }
 
   get displayImprovingWaitSentence() {
     return !this.args.scorecard.isImprovable && !this.args.scorecard.isFinishedWithMaxLevel;

@@ -49,7 +49,7 @@ module('Acceptance | terms-of-service', function (hooks) {
       });
     });
 
-    test('redirects to campaign list after saving terms of service acceptation', async function (assert) {
+    test('redirects to campaign list after saving terms of service acceptance', async function (assert) {
       // given
       await visit('/cgu');
 

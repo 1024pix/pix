@@ -7,10 +7,10 @@ import * as certificateRepository from '../../infrastructure/repositories/certif
 import * as certificateSummaryRepository from '../../infrastructure/repositories/certificate-summary-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 import * as certificationLivretScolaireRepository from '../../infrastructure/repositories/certification-livret-scolaire-repository.js';
-import * as certificationParcoursupRepository from '../../infrastructure/repositories/certification-parcoursup-repository.js';
 import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
 import * as cleaCertifiedCandidateRepository from '../../infrastructure/repositories/clea-certified-candidate-repository.js';
 import * as competenceTreeRepository from '../../infrastructure/repositories/competence-tree-repository.js';
+import * as parcoursupCertificationResultRepository from '../../infrastructure/repositories/parcoursup-certification-result-repository.js';
 import * as resultRecipientRepository from '../../infrastructure/repositories/result-recipient-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
 import * as sessionForResultsSharingRepository from '../../infrastructure/repositories/session-for-results-sharing-repository.js';
@@ -42,7 +42,7 @@ import { getShareableCertificate } from './get-shareable-certificate.js';
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {sharedCertificationCourseRepository} SharedCertificationCourseRepository
  * @typedef {certificateRepository} CertificateRepository
- * @typedef {certificationParcoursupRepository} CertificationParcoursupRepository
+ * @typedef {parcoursupCertificationResultRepository} ParcoursupCertificationResultRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
  * @typedef {cleaCertifiedCandidateRepository} CleaCertifiedCandidateRepository
  * @typedef {sessionEnrolmentRepository} SessionEnrolmentRepository
@@ -59,7 +59,7 @@ const dependencies = {
   certificationResultRepository,
   scoCertificationCandidateRepository,
   certificateRepository,
-  certificationParcoursupRepository,
+  parcoursupCertificationResultRepository,
   certificationReportRepository,
   cleaCertifiedCandidateRepository,
   sessionEnrolmentRepository,

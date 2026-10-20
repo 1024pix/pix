@@ -2,6 +2,7 @@ import { PixButton, PixCheckbox, PixInput, PixNotificationAlert, PixSelect, PixT
 import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
@@ -11,12 +12,15 @@ import Card from '../card';
 import TubesSelection from '../common/tubes-selection';
 
 export default class EditTargetProfileForm extends Component {
+  @service intl;
+
   @tracked submitting = false;
   selectedTubes = [];
 
   constructor() {
     super(...arguments);
-    this.optionsList = optionsCategoryList;
+
+    this.translatedOptionsList = optionsCategoryList.map(({ value, label }) => ({ value, label: this.intl.t(label) }));
   }
 
   @action
@@ -87,7 +91,7 @@ export default class EditTargetProfileForm extends Component {
           <PixSelect
             @onChange={{fn this.handleSelectChange "category"}}
             @value={{@targetProfile.category}}
-            @options={{this.optionsList}}
+            @options={{this.translatedOptionsList}}
             @texts={{hash placeholder="-" requiredLabel=(t "common.forms.mandatory")}}
             @hideDefaultOption={{true}}
             required={{true}}

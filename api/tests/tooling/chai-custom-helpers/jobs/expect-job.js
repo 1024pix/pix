@@ -106,11 +106,25 @@ async function _checkPayloads(payloads) {
     expectedPayloadsWithoutCorrelactionContext,
     `Payload expectedPayloadWithoutCorreslationContext is undefined`,
   );
-  try {
-    sinon.assert.match(actualPayloadsWithoutCorrelactionContext, expectedPayloadsWithoutCorrelactionContext);
-  } catch {
-    this.assert(false, `Job '${jobName}' was performed with a different payload`, undefined, payloads, actualPayloads);
-  }
+
+  const remainingActualPayloads = [...actualPayloadsWithoutCorrelactionContext];
+  const unmatchedPayloads = expectedPayloadsWithoutCorrelactionContext.filter((expectedPayload) => {
+    const matchIndex = remainingActualPayloads.findIndex((actualPayload) =>
+      sinon.match(expectedPayload).test(actualPayload),
+    );
+    if (matchIndex === -1) return true;
+
+    remainingActualPayloads.splice(matchIndex, 1);
+    return false;
+  });
+
+  this.assert(
+    unmatchedPayloads.length === 0,
+    `Job '${jobName}' was performed with a different payload`,
+    undefined,
+    payloads,
+    actualPayloads,
+  );
 }
 
 function _withoutCorrelactionContext(payloads) {

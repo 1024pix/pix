@@ -46,7 +46,7 @@ module('Acceptance | Session Details', function (hooks) {
         firstName: 'Buffy',
         lastName: 'Summers',
         allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
-        pixCertifTermsOfServiceAccepted: true,
+        pixCertifTermsOfServiceStatus: 'accepted',
       });
       sessionEnrolment = server.create('session-enrolment', {
         certificationCenterId: allowedCertificationCenterAccess.id,

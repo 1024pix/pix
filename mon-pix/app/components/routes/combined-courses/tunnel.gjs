@@ -8,17 +8,28 @@ import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import CombinedCourseItemsList from 'mon-pix/components/combined-course/combined-course-items-list';
 import StepDetails from 'mon-pix/components/combined-course/tunnel/step-details';
-import { CombinedCourseStatuses } from 'mon-pix/models/combined-course';
+import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 
+export const ANIMATION_DURATION = 1600;
 export default class CombinedCourseTunnel extends Component {
   constructor() {
     super(...arguments);
 
     const nextItem = this.args.combinedCourse.nextCombinedCourseItem;
     if (!nextItem) {
-      this.router.transitionTo('combined-courses.presentation', this.args.combinedCourse.code);
+      this.router.replaceWith('combined-courses.combined-course.presentation', this.args.combinedCourse.code);
     }
-    this.selectedItem = nextItem;
+
+    const previousItem = this.args.combinedCourse.previousCombinedCourseItem;
+    if (previousItem) {
+      this.selectedItem = previousItem;
+      this.isAnimationInProgress = true;
+      setTimeout(() => {
+        this.endLoadingAnimation();
+      }, ANIMATION_DURATION);
+    } else {
+      this.selectedItem = nextItem;
+    }
   }
 
   @service currentUser;
@@ -29,19 +40,24 @@ export default class CombinedCourseTunnel extends Component {
   @service router;
 
   @tracked selectedItem;
+  @tracked isAnimationInProgress = false;
 
   @action
   goToItem(item) {
-    this.router.transitionTo(item.route, ...item.models, {
+    let itemTunnelRoute = item.route;
+    if (item.type === CombinedCourseItemTypes.MODULE) {
+      itemTunnelRoute = itemTunnelRoute + '.passage';
+    }
+
+    this.router.transitionTo(itemTunnelRoute, ...item.models, {
       queryParams: { redirection: item.redirection },
     });
   }
 
-  get shouldDisplayRetryModulesText() {
-    return (
-      this.args.combinedCourse.hasItemOfTypeModule &&
-      this.args.combinedCourse.status === CombinedCourseStatuses.COMPLETED
-    );
+  @action
+  endLoadingAnimation() {
+    this.selectedItem = this.args.combinedCourse.nextCombinedCourseItem;
+    this.isAnimationInProgress = false;
   }
 
   @action
@@ -61,12 +77,15 @@ export default class CombinedCourseTunnel extends Component {
           @combinedCourse={{@combinedCourse}}
           @onClick={{this.setSelectedItem}}
           @selectedItem={{this.selectedItem}}
+          @isLoading={{this.isAnimationInProgress}}
+          @shouldFocusSelectedItem={{true}}
         />
       </article>
       <aside class="step-details" id="step-details">
         <StepDetails
           @item={{this.selectedItem}}
           @isNextItemToComplete={{eq @combinedCourse.nextCombinedCourseItem this.selectedItem}}
+          @isLoading={{this.isAnimationInProgress}}
           @onClick={{this.goToItem}}
         />
       </aside>

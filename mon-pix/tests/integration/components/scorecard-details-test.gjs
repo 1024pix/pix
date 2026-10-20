@@ -67,7 +67,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
       const screen = await render(<template><ScorecardDetails @scorecard={{scorecard}} /></template>);
 
       // then
-      assert.strictEqual(screen.getAllByText('–').length, 2);
+      assert.strictEqual(screen.getAllByText('-').length, 2);
     });
 
     module('When the user has finished a competence', function (hooks) {
@@ -344,8 +344,12 @@ module('Integration | Component | scorecard-details', function (hooks) {
           assert.dom(screen.getByRole('heading', { name: 'Cultivez vos compétences', level: 2 })).exists();
           assert.dom(screen.getByRole('heading', { name: 'Practical Title', level: 3 })).exists();
           assert.dom(screen.getByRole('heading', { name: 'Practical Title 1', level: 3 })).exists();
-          assert.dom(screen.getByRole('heading', { name: 'Tuto 2.1', level: 4 })).exists();
-          assert.dom(screen.getByRole('heading', { name: 'Tuto 2.2', level: 4 })).exists();
+          assert
+            .dom(screen.getByRole('heading', { name: `Tuto 2.1 ${t('navigation.external-link-title')}`, level: 4 }))
+            .exists();
+          assert
+            .dom(screen.getByRole('heading', { name: `Tuto 2.2 ${t('navigation.external-link-title')}`, level: 4 }))
+            .exists();
           assert
             .dom(screen.getByText('Voici une sélection de tutos qui pourront vous aider à gagner des Pix.'))
             .exists();

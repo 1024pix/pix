@@ -1,4 +1,4 @@
-import { PixIcon, PixTooltip } from '@1024pix/nebulix-ember';
+import { PixIconButton, PixTooltip } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
@@ -44,17 +44,16 @@ export default class CopyPasteButton extends Component {
         class="copy-paste-button__tooltip hide-on-mobile"
       >
         <:triggerElement>
-          <button
-            type="button"
-            {{on "click" this.copyToClipboard}}
-            {{on "mouseLeave" this.onClipboardOut}}
-            aria-label={{@defaultMessage}}
+          <PixIconButton
+            @ariaLabel={{@defaultMessage}}
+            @iconName="copy"
+            @size="small"
+            @triggerAction={{this.copyToClipboard}}
+            {{on "mouseleave" this.onClipboardOut}}
             aria-describedby={{this.tooltipId}}
-            class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey copy-paste-button__clipboard"
+            class="copy-paste-button__clipboard"
             ...attributes
-          >
-            <PixIcon @name="copy" />
-          </button>
+          />
         </:triggerElement>
         <:tooltip>
           {{this.tooltipText}}

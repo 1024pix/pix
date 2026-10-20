@@ -62,7 +62,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 24.20.0
+        default: 24.21.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
@@ -71,7 +71,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 24.20.0
+        default: 24.21.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
@@ -80,7 +80,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 24.20.0
+        default: 24.21.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
@@ -99,7 +99,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 24.20.0
+        default: 24.21.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers
@@ -110,7 +110,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 24.20.0
+        default: 24.21.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers
@@ -126,7 +126,7 @@ executors:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 24.20.0
+        default: 24.21.0
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
@@ -139,7 +139,7 @@ executors:
     resource_class: medium
   playwright-executor-medium:
     docker:
-      - image: mcr.microsoft.com/playwright:v1.63.0-noble
+      - image: mcr.microsoft.com/playwright:v1.64.0-noble
         environment:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
@@ -156,7 +156,7 @@ executors:
     resource_class: medium
   playwright-executor-large:
     docker:
-      - image: mcr.microsoft.com/playwright:v1.63.0-noble
+      - image: mcr.microsoft.com/playwright:v1.64.0-noble
         environment:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
@@ -336,10 +336,6 @@ workflows:
       - orga_test:
           requires:
             - orga_install
-      - e2e_test_orga:
-          context: pix-cypress-secrets
-          requires:
-            - orga_install
 
       # --- Certif ---
       - certif_install:
@@ -468,24 +464,13 @@ jobs:
       - run:
           name: Remove .git folder
           command: rm -rf .git/
+      - run:
+          name: Lint yaml config files
+          command: npm run lint:yaml
       - persist_to_workspace:
           root: ~/pix
           paths:
             - .
-
-  root_lint_and_test:
-    executor:
-      name: node-docker
-    working_directory: ~/pix
-    steps:
-      - attach_workspace:
-          at: ~/pix
-      - run:
-          name: Lint scripts
-          command: npm run lint:scripts
-      - run:
-          name: Lint yaml
-          command: npm run lint:yaml
 
   # ---------------------------------------------------------------------------
   # Gate job — seul required status check configuré dans GitHub
@@ -736,7 +721,7 @@ jobs:
           command: npm run test
           environment:
             PIX_API_CLIENT_SECRET: $2a$04$vkPRiypzeVQVG92/dCll7.5brjDQZVZc750VwKBc01icXjVIQqRVq
-            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
+            DATABASE_URL: postgres://circleci@localhost:5432/circleci
       - store_test_results:
           path: ./test-results
       - store_artifacts:
@@ -1048,97 +1033,6 @@ jobs:
             JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             AUTH_SECRET: 'the-password-must-be-at-least-32-characters-long'
           command: npm run test:ci:app
-      - store_test_results:
-          path: /home/circleci/test-results
-
-  e2e_test_orga:
-    executor:
-      name: node-browsers-redis-postgres-docker
-    working_directory: ~/pix/high-level-tests/e2e
-    steps:
-      - run:
-          name: Skip if not needed
-          command: |
-            if [[ "$CIRCLE_BRANCH" != "dev" ]] && [[ "<< pipeline.parameters.run-orga >>" == "false" ]] && [[ "<< pipeline.parameters.run-api >>" == "false" ]] && [[ "<< pipeline.parameters.run-e2e-cypress >>" == "false" ]]; then
-              circleci step halt
-            fi
-      - browser-tools/install_browser_tools:
-          install_firefox: false
-          install_geckodriver: false
-      - run:
-          name: Manual safety start of X11 server
-          command: |
-            set +e
-            Xvfb :99 -screen 0 1280x1024x24 2>/dev/null
-            if [ $? -eq 0 ]; then
-              echo "Xvfb started successfully"
-            else
-              echo "Xvfb is already running"
-            fi
-          background: true
-      - attach_workspace:
-          at: ~/pix
-      - npm_install_cypress_with_cache:
-          cache_key: e2e
-      - run:
-          name: Lint
-          command: npm run lint
-      - run:
-          working_directory: ~/pix/api
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v8-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          command: npm ci
-      - run:
-          name: Prepare database
-          working_directory: ~/pix/api
-          environment:
-            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: npm run db:prepare
-      - run:
-          name: Refresh cache
-          environment:
-            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          working_directory: ~/pix/api
-          command: npm run cache:refresh
-      - run:
-          name: Prepare datamart
-          command: npm run datamart:prepare
-          working_directory: ~/pix/api
-          environment:
-            DATAMART_DATABASE_URL: postgres://circleci@localhost:5432/circleci_datamart
-      - run:
-          name: Start Pix API
-          working_directory: ~/pix/api
-          environment:
-            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            DATAMART_DATABASE_URL: postgres://circleci@localhost:5432/circleci_datamart
-            REDIS_URL: 'redis://localhost:6379'
-            START_JOB_IN_WEB_PROCESS: 'true'
-            AUTH_SECRET: 'the-password-must-be-at-least-32-characters-long'
-            AUTONOMOUS_COURSES_ORGANIZATION_ID: '777'
-            LOG_ENABLED: 'true'
-            LOG_LEVEL: 'trace'
-            REDIRECTION_URL_SECRET: 'secret'
-          background: true
-          command: npm start
-      - run:
-          name: Start Pix Orga
-          working_directory: ~/pix/orga
-          command: npx vite preview
-          background: true
-      - run:
-          name: Run tests
-          environment:
-            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: npm run test:ci:orga
       - store_test_results:
           path: /home/circleci/test-results
 

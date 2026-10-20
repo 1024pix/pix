@@ -14,7 +14,7 @@ import { MoreThanOneMatchingCertificationError } from '../errors.js';
  * @param {string} params.firstName
  * @param {string} params.birthdate - Format YYYY-MM-DD
  * @param {string} params.verificationCode
- * @param {CertificationParcoursupRepository} params.certificationParcoursupRepository
+ * @param {ParcoursupCertificationResultRepository} params.parcoursupCertificationResultRepository
  *
  * @returns {CertificationResult} matching candidate certification result
  * @throws {MoreThanOneMatchingCertificationError} in some cases (INE for example) there might be duplicates
@@ -27,14 +27,14 @@ export async function getCertificationResultForParcoursup({
   firstName,
   birthdate,
   verificationCode,
-  certificationParcoursupRepository,
+  parcoursupCertificationResultRepository,
 }) {
   let certifications = [];
 
   if (ine) {
-    certifications = await certificationParcoursupRepository.getByINE({ ine });
+    certifications = await parcoursupCertificationResultRepository.getByINE({ ine });
   } else if (organizationUai) {
-    certifications = await certificationParcoursupRepository.getByOrganizationUAI({
+    certifications = await parcoursupCertificationResultRepository.getByOrganizationUAI({
       organizationUai,
       lastName,
       firstName,
@@ -42,7 +42,7 @@ export async function getCertificationResultForParcoursup({
     });
   } else if (verificationCode) {
     const upperCasedVerificationCode = verificationCode.toUpperCase();
-    certifications = await certificationParcoursupRepository.getByVerificationCode({
+    certifications = await parcoursupCertificationResultRepository.getByVerificationCode({
       verificationCode: upperCasedVerificationCode,
     });
   }

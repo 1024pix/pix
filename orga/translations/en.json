@@ -835,6 +835,7 @@
         "title": "Settings"
       },
       "tags": {
+        "ATTESTATION": "Attestations",
         "BACK_TO_SCHOOL": "Back to school",
         "COMPETENCES": "Pix Competences",
         "CUSTOM": "Created for you",
@@ -1617,6 +1618,14 @@
           "details": "Import a new list of students in replacement of the existing one.",
           "label": "Overwrite list",
           "title": "Overwrite"
+        },
+        "sco": {
+          "details": "This action allows you to:",
+          "details-add": "add new students",
+          "details-disable": "deactivate former students",
+          "details-update": "edit previously imported students",
+          "label": "Import list",
+          "title": "Import list of students"
         }
       },
       "banner": {
@@ -1634,12 +1643,13 @@
         "warning-banner": "However some values were not recognised. They have been replaced by \"Not recognised\". If you need other values, please contact us at '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'"
       },
       "error-panel": {
-        "error-wrapper": "Import has failed. Please check or edit your file and try to import it again.",
-        "global-error": "Import has failed. Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en/contact-form\">'the help form'</a>'.",
         "title": "Errors in the last file imported :"
       },
       "file-type-separator": " or ",
       "global-success": "Last file successfully imported on {date} by {firstName} {lastName}.",
+      "pro": {
+        "title": "Import participants"
+      },
       "sco": {
         "title": "Import students"
       },

@@ -44,7 +44,7 @@ export default class ChallengeContent extends Component {
       />
 
       {{#unless @assessment.hasOngoingCompanionLiveAlert}}
-        <div class="challenge__feedback" role="complementary">
+        <div role="complementary">
           {{#if @assessment.isCertification}}
             <CertificationFeedbackPanel
               @submitLiveAlert={{@submitLiveAlert}}

@@ -12,7 +12,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
   it('#serialize', async function () {
     // given
     sinon.stub(cryptoService, 'encrypt');
-    cryptoService.encrypt.withArgs('/parcours/COMBINIX1').resolves('encryptedCombinedCourseUrl');
+    cryptoService.encrypt.resolves('encryptedCombinedCourseUrl');
     const combinedCourseDetails = domainBuilder.buildCombinedCourseDetails({
       combinedCourseItems: [{ campaignId: 1 }, { moduleId: 7 }],
       rewardId: 456,

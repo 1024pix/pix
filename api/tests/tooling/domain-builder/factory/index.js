@@ -174,9 +174,9 @@ import {
 import { versionBuilder } from './certification/configuration/build-version.js';
 import { versionDetailsBuilder } from './certification/configuration/build-version-details.js';
 import { candidateBuilder } from './certification/enrolment/build-candidate.js';
-import { buildCertificationEligibility } from './certification/enrolment/build-certification-eligibility.js';
 import { buildComplementaryCertificationBadgeWithOffsetVersion as buildComplementaryCertificationBadgeForEnrolment } from './certification/enrolment/build-complementary-certification-badge.js';
 import { buildComplementaryCertificationCourseWithResultsEnrolment } from './certification/enrolment/build-complementary-certification-course-with-results.js';
+import { buildDoubleCertificationEligibility } from './certification/enrolment/build-double-certification-eligibility.js';
 import { buildEditedCandidate } from './certification/enrolment/build-edited-candidate.js';
 import { buildPixCertification } from './certification/enrolment/build-pix-certification.js';
 import { sessionEnrolmentBuilder } from './certification/enrolment/build-session.js';
@@ -207,7 +207,6 @@ import { buildSessionForResultsSharing } from './certification/results/build-ses
 import { buildCertificate } from './certification/results/build-v3-certification-attestation.js';
 import { buildCertificationResult as parcoursupCertificationResult } from './certification/results/parcoursup/build-certification-result.js';
 import { buildCompetence as parcoursupCompetence } from './certification/results/parcoursup/build-competence.js';
-import { buildParcoursupCertificationLevel } from './certification/results/parcoursup/build-parcoursup-certification-level.js';
 import { buildCertificationDetails } from './certification/session-management/build-certification-details.js';
 import { buildJuryCertification } from './certification/session-management/build-jury-certification.js';
 import { builders as sessionManagementBuilders } from './certification/session-management/index.js';
@@ -276,7 +275,7 @@ const certification = {
     buildUser: buildUserEnrolment,
     buildComplementaryCertificationCourseWithResults: buildComplementaryCertificationCourseWithResultsEnrolment,
     buildUserCertificationEligibility,
-    buildCertificationEligibility,
+    buildDoubleCertificationEligibility,
     buildPixCertification,
     buildComplementaryCertificationBadge: buildComplementaryCertificationBadgeForEnrolment,
     sessionAuthorizationBuilder,
@@ -316,7 +315,6 @@ const certification = {
     parcoursup: {
       buildCertificationResult: parcoursupCertificationResult,
       buildCompetence: parcoursupCompetence,
-      buildParcoursupCertificationLevel,
     },
   },
 };

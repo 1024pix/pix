@@ -1,7 +1,6 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -54,12 +53,12 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
           await screen.findByRole('listbox');
           await click(
             screen.getByRole('option', {
-              name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+              name: 'L’accessibilité de l’épreuve',
             }),
           );
           await click(
             screen.getByRole('button', {
-              name: t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
+              name: 'Ajouter un commentaire',
             }),
           );
           const contentValue = 'Prêtes-moi ta plume, pour écrire un mot';
@@ -88,12 +87,12 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
             await screen.findByRole('listbox');
             await click(
               screen.getByRole('option', {
-                name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+                name: 'L’accessibilité de l’épreuve',
               }),
             );
             await click(
               screen.getByRole('button', {
-                name: t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
+                name: 'Ajouter un commentaire',
               }),
             );
 
@@ -115,7 +114,7 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
     });
     test('should not display the feedback form', async function (assert) {
       // when
-      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
+      await click(screen.getByRole('button', { name: 'Voir les réponses et les tutos' }));
       await screen.findByRole('dialog');
 
       // then
@@ -129,7 +128,7 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
 
     test('should be able to give feedback', async function (assert) {
       // when
-      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
+      await click(screen.getByRole('button', { name: 'Voir les réponses et les tutos' }));
       await screen.findByRole('dialog');
 
       await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));

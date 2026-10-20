@@ -30,7 +30,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
       firstName: 'Buffy',
       lastName: 'Summers',
       allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
-      pixCertifTermsOfServiceAccepted: true,
+      pixCertifTermsOfServiceStatus: 'accepted',
     });
     session = server.create('session-enrolment', { certificationCenterId: allowedCertificationCenterAccess.id });
     server.create('session-management', {

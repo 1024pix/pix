@@ -42,8 +42,8 @@ class FinalizedSession {
     });
   }
 
-  publish(now) {
-    this.publishedAt = now;
+  publish() {
+    this.publishedAt = new Date();
   }
 
   unpublish() {

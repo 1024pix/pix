@@ -1,8 +1,7 @@
-import { visit } from '@1024pix/ember-testing-library';
+import { clickByName, getScreen, visit } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, currentURL, find, findAll } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -48,7 +47,7 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
 
     test('should display the alert box if user validates without checking a radio button', async function (assert) {
       // when
-      await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+      await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
       // then
       assert.dom('.challenge-response__alert[role="alert"]').exists();
@@ -60,7 +59,7 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
 
     test('should hide the alert error after the user interact with radio button', async function (assert) {
       // given
-      await click(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+      await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
       // when
       await click(screen.getByRole('radio', { name: '2eme possibilite' }));
@@ -72,7 +71,7 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
     test('should go to checkpoint when user selects an answer and validates', async function (assert) {
       // when
       await click(screen.getByRole('radio', { name: '2eme possibilite' }));
-      await click(screen.getByRole('button', { name: t('pages.challenge.actions.validate-go-to-next') }));
+      await click(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }));
 
       // then
       assert.ok(currentURL().includes(`/assessments/${assessment.id}/checkpoint`));
@@ -106,9 +105,9 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
       assert.false(radioButtons[3].checked);
       assert.true(radioButtons[3].disabled);
 
-      assert.ok(screen.getByRole('button', { name: t('pages.challenge.actions.continue') }));
-      assert.notOk(screen.queryByLabelText(t('pages.challenge.actions.skip-go-to-next')));
-      assert.notOk(screen.queryByLabelText(t('pages.challenge.actions.validate-go-to-next')));
+      assert.ok(screen.getByRole('button', { name: 'Poursuivre' }));
+      assert.notOk(screen.queryByLabelText('Je passe et je vais à la prochaine question'));
+      assert.notOk(screen.queryByLabelText('Je valide et je vais à la prochaine question'));
     });
   });
 
@@ -138,14 +137,15 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
 
     test('should show the result of previous challenge in checkpoint', async function (assert) {
       // then
-      assert.strictEqual(find('.result-item__icon').title, 'Réponse incorrecte');
-      assert.strictEqual(find('.result-item__instruction').textContent.trim(), qcuChallenge.instruction);
-      assert.strictEqual(find('.result-item__correction-button').textContent.trim(), 'Réponses et tutos');
+      const screen = await getScreen();
+      assert.dom(screen.getByRole('heading', { level: 3 })).includesText('Mauvaise réponse');
+      assert.dom(screen.getByText(qcuChallenge.instruction)).exists();
+      assert.dom(screen.getByRole('button', { name: 'Voir les réponses et les tutos' })).exists();
     });
 
     test('should show details of challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
-      await click('.result-item__correction-button');
+      await clickByName('Voir les réponses et les tutos');
 
       // then
       assert.strictEqual(find('.challenge-statement-instruction__text').textContent.trim(), qcuChallenge.instruction);

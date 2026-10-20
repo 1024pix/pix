@@ -1,7 +1,7 @@
 import { LinkTo } from '@ember/routing';
 import Component from '@glimmer/component';
+import t from 'ember-intl/helpers/t';
 import CircleChart from 'mon-pix/components/circle-chart';
-import replaceZeroByDash from 'mon-pix/helpers/replace-zero-by-dash';
 import scorecardAriaLabel from 'mon-pix/helpers/scorecard-aria-label';
 
 export default class CompetenceCardMobile extends Component {
@@ -20,6 +20,9 @@ export default class CompetenceCardMobile extends Component {
         <div class="competence-card__body" role="img" aria-label="{{scorecardAriaLabel @scorecard}}">
           {{#if @scorecard.isFinishedWithMaxLevel}}
             <div class="competence-card__congrats competence-card__congrats--small">
+              <span class="score-label competence-card__score-label competence-card__score-label--congrats">{{t
+                  "common.level"
+                }}</span>
               <span
                 class="score-value competence-card__score-value competence-card__score-value--congrats"
               >{{this.displayedLevel}}</span>
@@ -34,9 +37,8 @@ export default class CompetenceCardMobile extends Component {
                 role="presentation"
               >
                 <div class="competence-card__level">
-                  <span class="score-value competence-card__score-value">{{replaceZeroByDash
-                      this.displayedLevel
-                    }}</span>
+                  <span class="score-label competence-card__score-label">{{t "common.level"}}</span>
+                  <span class="score-value competence-card__score-value">{{this.displayedLevel}}</span>
                 </div>
               </CircleChart>
             </div>
@@ -46,9 +48,10 @@ export default class CompetenceCardMobile extends Component {
     </article>
   </template>
   get displayedLevel() {
-    if (this.args.scorecard.isNotStarted) {
-      return null;
+    const { isNotStarted, level } = this.args.scorecard;
+    if (isNotStarted || level === 0) {
+      return '-';
     }
-    return this.args.scorecard.level;
+    return level;
   }
 }

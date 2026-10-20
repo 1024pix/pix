@@ -249,7 +249,7 @@ module('Acceptance | Trainings | Training', function (hooks) {
     if (type === 'Module Pix') {
       await click(screen.getByRole('button', { name: 'Module' }));
       await screen.findByRole('listbox');
-      await click(screen.getByText('Bac à sable'));
+      await click(screen.getByText('Bac à sable (bac-a-sable)'));
     } else {
       await fillByLabel('Lien', 'http://www.example.net');
     }

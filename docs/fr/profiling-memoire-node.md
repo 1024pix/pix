@@ -39,6 +39,7 @@ Les pièces :
 | [`heap-profile-recorder.js`](../../api/src/shared/infrastructure/heap-profile/heap-profile-recorder.js) | fenêtre de profilage, compression, verrou |
 | [`sampling-heap-profiler.js`](../../api/src/shared/infrastructure/heap-profile/sampling-heap-profiler.js) | dialogue avec le profileur de V8 via `node:inspector` |
 | [`heap-profile-summary.js`](../../api/src/shared/infrastructure/heap-profile/heap-profile-summary.js) | agrégation de l'arbre de piles par site d'allocation |
+| [`memory-breakdown.js`](../../api/src/shared/infrastructure/heap-profile/memory-breakdown.js) | décomposition du RSS avant et après la fenêtre |
 | [`container-selector.js`](../../api/src/shared/infrastructure/utils/container-selector.js) | grammaire de sélection des conteneurs visés |
 | [`take-heap-profile.js`](../../api/scripts/take-heap-profile.js) | script de déclenchement, à lancer dans un conteneur one-off |
 
@@ -171,6 +172,23 @@ D'où les deux usages :
 - **comprendre une pression sur le GC** (beaucoup de CPU en `scavenge`, des
   pauses fréquentes) : `--include-collected`, qui rend visible le débit
   d'allocation, survivants ou pas.
+
+### Quand le RSS ne suit pas le tas
+
+Le profil ne voit que le tas JS. Le résultat porte donc aussi `memoryBefore` et
+`memoryAfter`, une décomposition du RSS que le script résume sur une ligne :
+
+| Champ | Ce que c'est | S'il pèse lourd |
+| --- | --- | --- |
+| `RssFile` | binaire node, bibliothèques, fichiers mappés | rien à faire, c'est fixe |
+| `heapPhysicalTotal` (détail par espace dans `heapPhysical`) | pages réservées par V8, à comparer à `heapUsed` | V8 garde le tas au niveau du dernier pic ; regarder `new_space` et `large_object_space` |
+| `external`, `arrayBuffers` | Buffers hors tas : sockets, PDF, gzip | snapshot du tas, chercher les `ArrayBuffer` retenus |
+| `nativeUnaccounted` | `RssAnon` moins le tas réservé et `external` : malloc natif, fragmentation, piles de threads | essayer `MALLOC_ARENA_MAX=2`, puis jemalloc |
+| `VmSwap` | mémoire passée en swap | le conteneur est à l'étroit dans sa taille |
+
+`nativeUnaccounted` est une estimation, plus parlante comparée d'un conteneur à
+l'autre qu'en valeur absolue. Les champs issus de `/proc/self/status` manquent
+hors Linux.
 
 ## Coût
 

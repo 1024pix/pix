@@ -14,7 +14,7 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
   const locale = 'fr';
 
   let campaignParticipationRepository;
-  let knowledgeElementRepository;
+  let knowledgeElementForParticipationService;
   let competenceRepository;
   let areaRepository;
   let campaignRepository;
@@ -34,7 +34,7 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
       userId = Symbol('user id');
       campaignId = Symbol('campaign id');
       campaignParticipationRepository = { findOneByCampaignIdAndUserId: sinon.stub() };
-      knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
+      knowledgeElementForParticipationService = { findUniqByUserOrCampaignParticipationId: sinon.stub() };
       competenceRepository = { listPixCompetencesOnly: sinon.stub() };
       areaRepository = { list: sinon.stub() };
       campaignRepository = { get: sinon.stub() };
@@ -43,7 +43,9 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
     });
 
     it('should return the shared profile for campaign', async function () {
-      const knowledgeElements = { competence1: [], competence2: [] };
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({ competenceId: 'competence1' });
+      const knowledgeElement2 = domainBuilder.buildKnowledgeElement({ competenceId: 'competence2' });
+      const knowledgeElements = { competence1: [knowledgeElement1], competence2: [knowledgeElement2] };
       const competences = [
         { id: 'competence1', areaId: 'area' },
         { id: 'competence2', areaId: 'area' },
@@ -54,9 +56,9 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
       campaignParticipationRepository.findOneByCampaignIdAndUserId
         .withArgs({ userId, campaignId })
         .resolves(expectedCampaignParticipation);
-      knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId
-        .withArgs({ userId, limitDate: sharedAt })
-        .resolves(knowledgeElements);
+      knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId
+        .withArgs({ userId, campaignParticipationId: '1', limitDate: sharedAt })
+        .resolves([knowledgeElement1, knowledgeElement2]);
       competenceRepository.listPixCompetencesOnly.withArgs({ locale: 'fr' }).resolves(competences);
       areaRepository.list.withArgs({ locale: 'fr' }).resolves([area]);
       campaignRepository.get.withArgs(campaignId).resolves(campaign);
@@ -73,7 +75,7 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
         userId,
         campaignId,
         campaignParticipationRepository,
-        knowledgeElementRepository,
+        knowledgeElementForParticipationService,
         competenceRepository,
         areaRepository,
         campaignRepository,
@@ -108,7 +110,7 @@ describe('Unit | UseCase | get-shared-campaign-participation-profile', function 
         userId,
         campaignId,
         campaignParticipationRepository,
-        knowledgeElementRepository,
+        knowledgeElementForParticipationService,
         competenceRepository,
         campaignRepository,
         organizationLearnerRepository,

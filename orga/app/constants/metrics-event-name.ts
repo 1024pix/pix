@@ -1,4 +1,7 @@
 export const EVENT_NAME = {
+  ATTESTATION: {
+    DOWNLOAD_CLICK: 'orgaAttestationDownloadClick',
+  },
   HOMEPAGE: {
     CREATE_CAMPAIGN_CLICK: 'homepageCreateCampaignClick',
     LIST_CAMPAIGNS_CLICK: 'homepageListCampaignsClick',

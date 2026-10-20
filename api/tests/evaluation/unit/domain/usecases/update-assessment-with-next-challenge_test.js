@@ -502,13 +502,14 @@ describe('Evaluation | Unit | Domain | Use Cases | update-assessment-with-next-c
             type: Assessment.types.DEMO,
             answers: [],
             courseId: 'recCourseId',
+            lastChallengeId: 'currentChallengeId',
           });
           assessmentRepository_getWithAnswersStub.withArgs(assessmentId).resolves(assessment);
           courseRepository_getStub
             .withArgs('recCourseId')
             .resolves(domainBuilder.buildCourse({ isActive: true, name: 'Mon super course', id: 'recCourseId' }));
-          getNextChallengeForDemoStub.withArgs({ assessment }).resolves('someChallengeId');
-          challengeToPlayRepository_getStub.withArgs('someChallengeId').resolves(nextChallenge);
+          getNextChallengeForDemoStub.withArgs({ assessment }).resolves('currentChallengeId');
+          challengeToPlayRepository_getStub.withArgs('currentChallengeId').resolves(nextChallenge);
           assessmentRepository_updateWhenNewChallengeIsAskedStub.resolves();
         });
 
@@ -519,7 +520,6 @@ describe('Evaluation | Unit | Domain | Use Cases | update-assessment-with-next-c
 
           expect(assessmentRepository_updateLastQuestionDateStub).to.have.been.calledWithExactly({
             id: assessmentId,
-            lastQuestionDate: new Date('2023-10-05'),
           });
         });
       });

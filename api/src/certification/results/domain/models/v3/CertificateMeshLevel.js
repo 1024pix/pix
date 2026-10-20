@@ -1,35 +1,15 @@
-/**
- * @typedef {import ('./MeshConfiguration.js').MeshConfiguration} MeshConfiguration
- */
 import Joi from 'joi';
 
 import { config } from '../../../../../../config/config.js';
 import { EntityValidationError } from '../../../../../shared/domain/errors.js';
-import { PIX_PLUS_EDU_EXTERNAL_LEVELS } from '../../../../shared/domain/constants/mesh-configuration.js';
+import {
+  CORE_LEVELS,
+  EDU_LEVELS,
+  PIX_PLUS_EDU_EXTERNAL_LEVELS,
+  STANDARD_PIX_PLUS_LEVELS,
+} from '../../../../shared/domain/constants/mesh-configuration.js';
 import { Frameworks, hasCoreScope, isEduFramework } from '../../../../shared/domain/models/Frameworks.js';
-
-export const CORE_LEVELS = {
-  0: 'LEVEL_PRE_BEGINNER',
-  1: 'LEVEL_BEGINNER_1',
-  2: 'LEVEL_BEGINNER_2',
-  3: 'LEVEL_INDEPENDENT_3',
-  4: 'LEVEL_INDEPENDENT_4',
-  5: 'LEVEL_ADVANCED_5',
-  6: 'LEVEL_ADVANCED_6',
-  7: 'LEVEL_EXPERT_7',
-  8: 'LEVEL_EXPERT_8',
-};
-
-export const EDU_LEVELS = {
-  0: 'LEVEL_ADMISSIBLE',
-};
-
-const STANDARD_PIX_PLUS_LEVELS = {
-  0: 'LEVEL_INDEPENDENT',
-  1: 'LEVEL_CONFIRMED',
-  2: 'LEVEL_ADVANCED',
-  3: 'LEVEL_EXPERT',
-};
+import { findMeshFromScore } from '../../../../shared/domain/services/mesh-service.js';
 
 export const CERTIFICATE_LABEL_CONTEXTS = {
   USER: 'user',
@@ -52,6 +32,39 @@ export class CertificateMeshLevel {
     this.certificationFramework = certificationFramework;
     this.meshLevel = this.#getLevelKey({ reachedMeshIndex, certificationFramework, eduV3ExternalJuryResult });
     this.#validate();
+  }
+
+  /**
+   * @param {object} props
+   * @param {number} props.score
+   * @param {number} props.maxReachableLevel
+   * @param {string} props.certificationFramework
+   */
+  static buildFromScore({ score, maxReachableLevel, certificationFramework }) {
+    if (!hasCoreScope(certificationFramework)) {
+      throw new Error('Score only exists in CORE scope certifications (CORE and CLEA)');
+    }
+    const reachedMeshIndex = findMeshFromScore({ score, maxReachableLevel }).meshIndex;
+    return new CertificateMeshLevel({ reachedMeshIndex, certificationFramework });
+  }
+
+  /**
+   * @param {object} props
+   * @param {number} props.maxReachableLevel
+   * @param {string} props.certificationFramework
+   */
+  static buildMaxLevel({ maxReachableLevel, certificationFramework }) {
+    let meshes;
+    if (hasCoreScope(certificationFramework)) {
+      meshes = CORE_LEVELS;
+    } else if (isEduFramework(certificationFramework)) {
+      meshes = EDU_LEVELS;
+    } else {
+      meshes = STANDARD_PIX_PLUS_LEVELS;
+    }
+    let maxMeshIndex = Number(Object.keys(meshes).at(-1));
+    maxMeshIndex = Math.min(maxMeshIndex, maxReachableLevel);
+    return new CertificateMeshLevel({ reachedMeshIndex: maxMeshIndex, certificationFramework });
   }
 
   getLevelLabel(translate) {

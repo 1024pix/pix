@@ -22,9 +22,14 @@ class SessionWithoutStartedCertificationError extends DomainError {
 }
 
 class SendingEmailToRefererError extends DomainError {
-  constructor(failedEmailReferers) {
+  constructor(failedEmailRefererInfos) {
+    const buildEmailAndErrorCodeString = failedEmailRefererInfos
+      .map(
+        (failedRefererInfo) => `${failedRefererInfo.email} (${failedRefererInfo.code}: ${failedRefererInfo.message})`,
+      )
+      .join(', ');
     super(
-      `Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : ${failedEmailReferers.join(', ')}`,
+      `Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : ${buildEmailAndErrorCodeString}`,
     );
   }
 }

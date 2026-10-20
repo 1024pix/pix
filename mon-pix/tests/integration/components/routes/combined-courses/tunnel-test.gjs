@@ -1,15 +1,17 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
+import { click, settled } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import CombinedCourseTunnel from 'mon-pix/components/routes/combined-courses/tunnel';
+import CombinedCourseTunnel, { ANIMATION_DURATION } from 'mon-pix/components/routes/combined-courses/tunnel';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import { CombinedCourseStatuses } from '../../../../../models/combined-course.js';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering.js';
 
 module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
   setupIntlRenderingTest(hooks);
-  let combinedCourseItems, store;
+  let combinedCourseItems, store, clock;
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
 
@@ -18,6 +20,12 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
       type: CombinedCourseItemTypes.CAMPAIGN,
       title: 'Ma campagne',
     });
+
+    clock = sinon.useFakeTimers();
+  });
+
+  hooks.afterEach(function () {
+    clock.restore();
   });
 
   module('in all cases', function () {
@@ -46,7 +54,6 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
   module('when participation is started', function () {
     test('should display completed status for finished items', async function (assert) {
       // given
-      // const store = this.owner.lookup('service:store');
       this.owner.lookup('service:router');
       const completedCombinedCourseItem = store.createRecord('combined-course-item', {
         id: 2,
@@ -78,6 +85,10 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
       const screen = await render(<template><CombinedCourseTunnel @combinedCourse={{combinedCourse}} /></template>);
 
       // then
+      // wait for animation to end
+      await clock.tickAsync(2000);
+      await settled();
+
       assert.ok(screen.getByText(t('pages.combined-courses.items.completed')));
     });
   });
@@ -158,7 +169,7 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
   });
 
   module('setSelectedItem', function () {
-    test('should mount component with current item', async function (assert) {
+    test('when there is no previous item, it should mount component with current item', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const combinedCourseItem = store.createRecord('combined-course-item', {
@@ -179,6 +190,45 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
       // when
       const screen = await render(<template><CombinedCourseTunnel @combinedCourse={{combinedCourse}} /></template>);
 
+      assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.items.start-module') }));
+    });
+    test('when there is a previous item, it should select previous and then current item', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const combinedCourseItem1 = store.createRecord('combined-course-item', {
+        id: 1,
+        title: 'ma campagne',
+        reference: 'ma-campagne',
+        type: CombinedCourseItemTypes.CAMPAIGN,
+        isLocked: false,
+        isCompleted: true,
+      });
+
+      const combinedCourseItem2 = store.createRecord('combined-course-item', {
+        id: 2,
+        title: 'mon module',
+        reference: 'mon-module',
+        type: CombinedCourseItemTypes.MODULE,
+        isLocked: false,
+        isCompleted: false,
+        duration: 10,
+      });
+
+      const combinedCourse = store.createRecord('combined-course', {
+        id: 3,
+        items: [combinedCourseItem1, combinedCourseItem2],
+      });
+
+      // when
+      const screen = await render(<template><CombinedCourseTunnel @combinedCourse={{combinedCourse}} /></template>);
+
+      assert.notOk(await screen.queryByRole('button', { name: t('pages.combined-courses.items.start-campaign') }));
+      const aside = screen.getByRole('complementary');
+      assert.ok(within(aside).getByText('ma campagne'));
+      await clock.tickAsync(ANIMATION_DURATION);
+      await settled();
+
+      assert.ok(within(aside).getByText('mon module'));
       assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.items.start-module') }));
     });
     test('should set selected item when clicking on it', async function (assert) {
@@ -248,6 +298,93 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
           screen.getByRole('button', { name: /mon module/, description: 'Ma description Objectif 1 Objectif 2' }),
         );
       });
+    });
+  });
+
+  module('when combined course has been completed', function () {
+    test('should redirect to combined course presentation page', async function (assert) {
+      // given
+      const router = this.owner.lookup('service:router');
+      sinon.stub(router, 'replaceWith');
+
+      const completedCombinedCourseItem = store.createRecord('combined-course-item', {
+        id: 2,
+        title: 'mon module',
+        reference: 'mon-module',
+        type: 'MODULE',
+        isCompleted: true,
+        isLocked: false,
+      });
+
+      const combinedCourse = store.createRecord('combined-course', {
+        id: 1,
+        status: CombinedCourseStatuses.COMPLETED,
+        code: 'COMBINIX9',
+      });
+
+      combinedCourse.items.push(completedCombinedCourseItem);
+
+      // when
+      await render(<template><CombinedCourseTunnel @combinedCourse={{combinedCourse}} /></template>);
+
+      // then
+      sinon.assert.calledWithExactly(router.replaceWith, 'combined-courses.combined-course.presentation', 'COMBINIX9');
+      assert.ok(true);
+    });
+  });
+
+  module('goToItem', function () {
+    test('should transition to campaigns page when starting a campaign', async function (assert) {
+      // given
+      const router = this.owner.lookup('service:router');
+      sinon.stub(router, 'transitionTo');
+
+      const combinedCourseCampaignItem = store.createRecord('combined-course-item', {
+        reference: 'ma-campagne',
+        type: CombinedCourseItemTypes.CAMPAIGN,
+        redirection: 'une+url+chiffree',
+      });
+
+      const combinedCourse = store.createRecord('combined-course');
+      combinedCourse.items.push(combinedCourseCampaignItem);
+
+      // when
+      const screen = await render(<template><CombinedCourseTunnel @combinedCourse={{combinedCourse}} /></template>);
+      await click(screen.getByRole('button', { name: t('pages.combined-courses.items.start-campaign') }));
+
+      // then
+      assert.ok(
+        router.transitionTo.calledWith('campaigns', 'ma-campagne', {
+          queryParams: { redirection: 'une+url+chiffree' },
+        }),
+      );
+    });
+
+    test('should transition to module passage page when starting a module', async function (assert) {
+      // given
+      const router = this.owner.lookup('service:router');
+      sinon.stub(router, 'transitionTo');
+
+      const combinedCourseModuleItem = store.createRecord('combined-course-item', {
+        reference: 'mon-module',
+        shortId: 'monmodule123',
+        type: CombinedCourseItemTypes.MODULE,
+        redirection: 'une+url+chiffree',
+      });
+
+      const combinedCourse = store.createRecord('combined-course');
+      combinedCourse.items.push(combinedCourseModuleItem);
+
+      // when
+      const screen = await render(<template><CombinedCourseTunnel @combinedCourse={{combinedCourse}} /></template>);
+      await click(screen.getByRole('button', { name: t('pages.combined-courses.items.start-module') }));
+
+      // then
+      assert.ok(
+        router.transitionTo.calledWith('module.passage', 'monmodule123', 'mon-module', {
+          queryParams: { redirection: 'une+url+chiffree' },
+        }),
+      );
     });
   });
 });

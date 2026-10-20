@@ -36,13 +36,6 @@ export default {
     defaultValue: false,
     tags: ['modulix', 'team-contenu', 'llm', 'embed', 'pix-app'],
   },
-  displayCatalogue: {
-    type: 'boolean',
-    description: 'Enable course catalogue page for organizations',
-    defaultValue: false,
-    devDefaultValues: { test: true, reviewApp: true },
-    tags: ['frontend', 'team-prescription', 'pix-orga'],
-  },
   isSurveyEnabledForCombinedCourses: {
     type: 'boolean',
     description: 'Enables survey button at the end of the combined courses',
@@ -68,13 +61,6 @@ export default {
     description: 'Disable the specified locales',
     defaultValue: [],
     tags: ['team-acces', 'i18n', 'frontend'],
-  },
-  successHandlersForDomainTransaction: {
-    type: 'boolean',
-    description: 'Enable success handlers for DomainTransaction',
-    defaultValue: true,
-    devDefaultValues: { test: true, reviewApp: true },
-    tags: ['captain', 'backend', 'transactions'],
   },
   isAuditLoggingEnabled: {
     type: 'boolean',
@@ -144,6 +130,13 @@ export default {
     defaultValue: '0/1',
     devDefaultValues: { test: '1/1', reviewApp: '0/1' },
     tags: ['backend', 'pix-api', 'team-contenu'],
+  },
+  isNewCertificationPageEnabled: {
+    type: 'boolean',
+    description: 'Enables pixApp new certification page',
+    defaultValue: false,
+    devDefaultValues: { test: true, reviewApp: true },
+    tags: ['team-certif', 'backend', 'pix-api', 'frontend', 'mon-pix'],
   },
   isLtiEnabled: {
     type: 'boolean',

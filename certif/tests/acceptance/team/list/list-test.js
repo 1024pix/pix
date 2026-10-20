@@ -328,7 +328,7 @@ module('Acceptance | authenticated | team', function (hooks) {
             isRelatedOrganizationManagingStudents: true,
           });
           createCertificationPointOfContactWithCustomCenters({
-            pixCertifTermsOfServiceAccepted: true,
+            pixCertifTermsOfServiceStatus: 'accepted',
             allowedCertificationCenterAccesses: [certificationPointOfContact, certificationPointOfContact2],
           });
           server.create('member', { firstName: 'Lili', lastName: 'Dupont' });
@@ -567,7 +567,7 @@ module('Acceptance | authenticated | team', function (hooks) {
             isRelatedOrganizationManagingStudents: true,
           });
           createCertificationPointOfContactWithCustomCenters({
-            pixCertifTermsOfServiceAccepted: true,
+            pixCertifTermsOfServiceStatus: 'accepted',
             allowedCertificationCenterAccesses: [certificationPointOfContact, certificationPointOfContact2],
           });
           server.create('member', { firstName: 'Lili', lastName: 'Dupont' });

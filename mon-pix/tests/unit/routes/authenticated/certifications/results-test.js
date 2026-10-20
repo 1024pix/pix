@@ -10,7 +10,8 @@ module('Unit | Route | Certifications | Results', function (hooks) {
   module('model', function () {
     test('should retrieve certification course', async function (assert) {
       // given
-      const reloadStub = sinon.stub().resolves();
+      const reloadedAssessment = { id: 1 };
+      const reloadStub = sinon.stub().resolves(reloadedAssessment);
       const assessment = EmberObject.create({ reload: reloadStub });
       const certificationCourse = EmberObject.create({
         id: '1',
@@ -25,7 +26,7 @@ module('Unit | Route | Certifications | Results', function (hooks) {
       const model = await route.model({ certification_id: 1 });
 
       // then
-      assert.deepEqual(model, certificationCourse);
+      assert.deepEqual(model, { certificationCourse, assessment: reloadedAssessment });
     });
   });
 

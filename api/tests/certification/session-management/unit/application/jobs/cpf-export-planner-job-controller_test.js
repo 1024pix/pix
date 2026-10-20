@@ -98,9 +98,13 @@ describe('Unit | Application | Certification | Sessions Management | jobs | cpf-
       expect(
         cpfCertificationResultRepository.countExportableCertificationCoursesByTimeRange,
       ).to.have.been.calledWithExactly({ startDate, endDate });
-      expect(cpfExportBuilderJobRepository.performAsync).to.have.been.calledOnceWith(
+      expect(cpfExportBuilderJobRepository.performAsync.getCall(0).firstArg).to.deep.equal(
         new CpfExportBuilderJob({ batchId: '237584-7648#0' }),
+      );
+      expect(cpfExportBuilderJobRepository.performAsync.getCall(1).firstArg).to.deep.equal(
         new CpfExportBuilderJob({ batchId: '237584-7648#1' }),
+      );
+      expect(cpfExportBuilderJobRepository.performAsync.getCall(2).firstArg).to.deep.equal(
         new CpfExportBuilderJob({ batchId: '237584-7648#2' }),
       );
     });

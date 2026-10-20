@@ -106,6 +106,7 @@
         "category": {
           "name": "Category",
           "tags": {
+            "ATTESTATION": "Attestations",
             "BACK_TO_SCHOOL": "Back to school",
             "COMPETENCES": "Pix Competences",
             "CUSTOM": "Created for you",
@@ -669,7 +670,9 @@
               "no-configuration": "No scoring configuration for this competence.",
               "title": "Bounds of capacities by competence"
             },
+            "edit":"Edit scoring",
             "level": "Level {index}",
+            "no-edit":"Stop editing scoring",
             "previous-version-capacity": "Value in previous version: {previousVersionCapacity}",
             "required-error": "This field is required.",
             "save-error": "An error occurred while saving the scoring.",
@@ -1896,6 +1899,7 @@
       },
       "navbar": {
         "aria-label": "Organization section navigation",
+        "attached-certification-center": "Link Certif",
         "campaigns": "Campaigns",
         "details": "Details",
         "features": "Features",

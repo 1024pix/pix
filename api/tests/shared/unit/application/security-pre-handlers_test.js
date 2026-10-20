@@ -1496,44 +1496,44 @@ describe('Shared | Unit | Application | SecurityPreHandlers', function () {
     let validationErrorSerializer;
 
     beforeEach(function () {
-      assessmentRepository = { getByAssessmentIdAndUserId: sinon.stub() };
+      assessmentRepository = { existsForUser: sinon.stub() };
       validationErrorSerializer = { serialize: sinon.stub() };
     });
 
     describe('when user is the owner of the assessment', function () {
-      it('should return the assessment', async function () {
+      it('should allow to access the ressource', async function () {
         const request = { headers: generateAuthenticatedUserRequestHeaders({ userId: 100 }), params: { id: 8 } };
-        assessmentRepository.getByAssessmentIdAndUserId.resolves({});
+        assessmentRepository.existsForUser.resolves(true);
 
         const response = await securityPreHandlers.checkUserOwnsAssessment(request, hFake, {
           assessmentRepository,
           validationErrorSerializer,
         });
 
-        sinon.assert.calledWith(assessmentRepository.getByAssessmentIdAndUserId, 8, 100);
-        expect(response).to.deep.equal({});
+        sinon.assert.calledWith(assessmentRepository.existsForUser, 8, 100);
+        expect(response.statusCode).to.equal(200);
       });
     });
 
     describe('when the assessment has no owner', function () {
-      it('should return the assessment', async function () {
+      it('should allow to access the ressource', async function () {
         const request = { params: { id: 8 } };
-        assessmentRepository.getByAssessmentIdAndUserId.resolves({});
+        assessmentRepository.existsForUser.resolves(true);
 
         const response = await securityPreHandlers.checkUserOwnsAssessment(request, hFake, {
           assessmentRepository,
           validationErrorSerializer,
         });
 
-        sinon.assert.calledWith(assessmentRepository.getByAssessmentIdAndUserId, 8, null);
-        expect(response).to.deep.equal({});
+        sinon.assert.calledWith(assessmentRepository.existsForUser, 8, null);
+        expect(response.statusCode).to.equal(200);
       });
     });
 
     describe('when user is not the owner of the assessment', function () {
       it('should return a status 401', async function () {
         const request = { headers: generateAuthenticatedUserRequestHeaders({ userId: 101 }), params: { id: 8 } };
-        assessmentRepository.getByAssessmentIdAndUserId.rejects();
+        assessmentRepository.existsForUser.resolves(false);
 
         const response = await securityPreHandlers.checkUserOwnsAssessment(request, hFake, {
           assessmentRepository,

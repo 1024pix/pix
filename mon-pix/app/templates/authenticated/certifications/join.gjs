@@ -15,7 +15,7 @@ import CertificationNotCertifiable from 'mon-pix/components/certification-not-ce
           @certificationEligibility={{@controller.model}}
           @fullName={{@controller.currentUser.user.fullName}}
         />
-        <CertificationJoiner @onStepChange={{@controller.changeStep}} />
+        <CertificationJoiner />
       </PixBlock>
     {{else}}
       <CertificationNotCertifiable />

@@ -27,7 +27,10 @@ export const replications = Object.freeze({
       'competence_code',
       'area_name',
       'certification_courses_id',
-      'configuration',
+      'max_reachable_level',
+      'max_reachable_pix_score',
+      'certification_code_verification',
+      'certification_issued_at',
     ],
   },
   certification_results: {
@@ -46,7 +49,9 @@ export const replications = Object.freeze({
       'competence_code',
       'area_name',
       'certification_courses_id',
-      'configuration',
+      'max_reachable_level',
+      'max_reachable_pix_score',
+      'certification_issued_at',
     ],
   },
   men_dashboard_participation_dataset: {

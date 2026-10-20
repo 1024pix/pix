@@ -1,3 +1,4 @@
+import { addCorrelationInfo } from '../../shared/infrastructure/execution-context-manager.js';
 import { ReplicationJob } from '../domain/models/ReplicationJob.js';
 import { replications } from '../infrastructure/replications.ts';
 import { replicationJobRepository } from '../infrastructure/repositories/jobs/replication-job-repository.js';
@@ -9,7 +10,7 @@ export const replicate = async (request, h, dependencies = { replications, repli
   if (!Object.hasOwn(replications, replicationName)) {
     return h.response().code(404);
   }
-
+  addCorrelationInfo('replicationName', replicationName);
   await replicationJobRepository.performAsync(new ReplicationJob({ replicationName }));
 
   return h.response().code(204);

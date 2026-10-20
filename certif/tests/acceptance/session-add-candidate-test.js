@@ -142,7 +142,7 @@ module('Acceptance | Session Add Candidate', function (hooks) {
       firstName: 'Eddy',
       lastName: 'Taurial',
       allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
-      pixCertifTermsOfServiceAccepted: true,
+      pixCertifTermsOfServiceStatus: 'accepted',
     });
     server.create('session-enrolment', {
       id: sessionId,

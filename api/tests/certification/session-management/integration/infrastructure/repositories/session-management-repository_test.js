@@ -482,4 +482,29 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
       });
     });
   });
+
+  describe('#checkExistingOrAlreadyPublished', function () {
+    it('return empty array when sessionId is not found', async function () {
+      const result = await sessionManagementRepository.getSessionIdAndPublishedAt([123]);
+      expect(result).to.deep.equal([]);
+    });
+
+    it('return object array with id and publishedAt existing sessions ', async function () {
+      const session = databaseBuilder.factory.buildSession();
+      const alreadyPublishedSession = databaseBuilder.factory.buildSession({
+        publishedAt: new Date('2025-03-23'),
+      });
+      await databaseBuilder.commit();
+
+      const result = await sessionManagementRepository.getSessionIdAndPublishedAt([
+        alreadyPublishedSession.id,
+        session.id,
+      ]);
+
+      expect(result).to.deep.equal([
+        { id: session.id, publishedAt: null },
+        { id: alreadyPublishedSession.id, publishedAt: alreadyPublishedSession.publishedAt },
+      ]);
+    });
+  });
 });

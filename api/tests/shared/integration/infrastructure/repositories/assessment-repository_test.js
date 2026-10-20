@@ -120,6 +120,63 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
+  describe('existsForUser', function () {
+    describe('when userId is provided', function () {
+      it('should returns true ', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser({}).id;
+        const assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId: 'courseId' }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const result = await assessmentRepository.existsForUser(assessmentId, userId);
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    describe('when userId is null in the assessment', function () {
+      it('should returns true', async function () {
+        // given
+        const assessmentId = databaseBuilder.factory.buildAssessment({ userId: null, courseId: 'courseId' }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const result = await assessmentRepository.existsForUser(assessmentId, null);
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    describe('when assessment does not exists', function () {
+      it('should returns false', async function () {
+        // when
+        const result = await assessmentRepository.existsForUser(123, null);
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+
+    describe('when assessment does not exists for the given user', function () {
+      it('should returns false', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser({}).id;
+        const otherUserId = databaseBuilder.factory.buildUser({}).id;
+        const assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId: 'courseId' }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const result = await assessmentRepository.existsForUser(assessmentId, otherUserId);
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
+
   describe('#getByAssessmentIdAndUserId', function () {
     describe('when userId is provided,', function () {
       let userId;
@@ -662,7 +719,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
   describe('#updateLastQuestionDate', function () {
     it('should update lastQuestionDate', async function () {
       // given
-      const lastQuestionDate = new Date();
       const assessment = databaseBuilder.factory.buildAssessment({
         lastQuestionDate: new Date('2020-01-10'),
         createdAt: new Date('2020-01-01'),
@@ -671,30 +727,14 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
 
       // when
-      await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate });
+      await assessmentRepository.updateLastQuestionDate({ id: assessment.id });
 
       // then
       const assessmentInDb = await knex('assessments')
         .where('id', assessment.id)
         .first('lastQuestionDate', 'updatedAt', 'createdAt');
-      expect(assessmentInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
-      expect(assessmentInDb.updatedAt).not.to.deep.equal(assessmentInDb.createdAt);
-    });
-
-    context('when assessment does not exist', function () {
-      it('should return null', async function () {
-        const lastQuestionDate = new Date();
-        const notExistingAssessmentId = 1;
-
-        // when
-        const result = await assessmentRepository.updateLastQuestionDate({
-          id: notExistingAssessmentId,
-          lastQuestionDate,
-        });
-
-        // then
-        expect(result).to.equal(null);
-      });
+      expect(assessmentInDb.lastQuestionDate).to.be.greaterThan(assessment.lastQuestionDate);
+      expect(assessmentInDb.updatedAt).to.be.greaterThan(assessmentInDb.createdAt);
     });
   });
 
@@ -705,6 +745,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const assessment = databaseBuilder.factory.buildAssessment({
         lastChallengeId: 'recPreviousChallenge',
         lastQuestionState: 'focusedout',
+        lastQuestionDate: new Date('2020-01-01'),
         createdAt: new Date('2020-01-01'),
         updatedAt: new Date('2020-01-01'),
       });
@@ -717,22 +758,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const assessmentInDb = await knex('assessments').where('id', assessment.id).first();
       expect(assessmentInDb.lastChallengeId).to.deep.equal(lastChallengeId);
       expect(assessmentInDb.lastQuestionState).to.deep.equal(Assessment.statesOfLastQuestion.ASKED);
+      expect(assessmentInDb.lastQuestionDate).to.be.greaterThan(assessment.lastQuestionDate);
       expect(assessmentInDb.updatedAt).not.to.deep.equal(assessmentInDb.createdAt);
-    });
-
-    context('when assessment does not exist', function () {
-      it('should return null', async function () {
-        const notExistingAssessmentId = 1;
-
-        // when
-        const result = await assessmentRepository.updateWhenNewChallengeIsAsked({
-          id: notExistingAssessmentId,
-          lastChallengeId: 'test',
-        });
-
-        // then
-        expect(result).to.equal(null);
-      });
     });
   });
 
@@ -759,24 +786,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         .first('lastQuestionState', 'updatedAt', 'createdAt');
       expect(assessmentInDb.lastQuestionState).to.equal(lastQuestionState);
       expect(assessmentInDb.updatedAt).not.to.deep.equal(assessmentInDb.createdAt);
-    });
-
-    context('when assessment does not exist', function () {
-      it('should return null', async function () {
-        const notExistingAssessmentId = 1;
-        let result;
-
-        // when
-        await DomainTransaction.execute(async () => {
-          result = await assessmentRepository.updateLastQuestionState({
-            id: notExistingAssessmentId,
-            lastQuestionState: 'timeout',
-          });
-        });
-
-        // then
-        expect(result).to.equal(null);
-      });
     });
   });
 

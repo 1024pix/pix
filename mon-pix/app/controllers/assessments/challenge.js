@@ -82,10 +82,6 @@ export default class ChallengeController extends Controller {
     return this.isFocusedCertificationChallengeWithoutAnswer && !this.hasConfirmedFocusChallengeWarningScreen;
   }
 
-  get shouldBlurBanner() {
-    return !this.model.answer && this.model.challenge.focused && !this.hasConfirmedFocusChallengeWarningScreen;
-  }
-
   get isFocusedChallenge() {
     return this.model.challenge.focused;
   }

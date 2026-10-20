@@ -62,17 +62,27 @@ describe('Unit | Share | Infrastructure | Jobs | MonitoringJobHandler', function
       await expect(monitorJobHandler.handle('MyJob', jobData)).to.be.rejectedWith('error in handler');
 
       // then
-      const message = loggerMock.error.getCalls()[0].lastArg;
-      const payload = loggerMock.error.getCalls()[0].firstArg;
-
-      expect(message).to.equal('PGBOSS ERROR IN JOB');
-      expect(payload.type).to.equal('JOB_LOG_ERROR');
-      expect(payload.message).to.equal('Job failed');
-      expect(payload.jobId).to.equal(jobData.id);
-      expect(payload.data).to.equal(jobData.data);
-      expect(payload.handlerName).to.equal('MyJob');
-      expect(payload.error).to.equal('error in handler');
-      expect(payload.stack).to.contains('Error: error in handler\n');
+      expect(loggerMock.info).to.have.been.calledWith(
+        {
+          type: 'JOB_LOG',
+          jobId: jobData.id,
+          data: jobData.data,
+          handlerName: 'MyJob',
+        },
+        'PGBOSS JOB STARTING',
+      );
+      expect(handlerMock.handle).to.have.been.calledWith({ data: jobData.data, jobId: jobData.id });
+      expect(loggerMock.error).to.have.been.calledWith({
+        type: 'JOB_LOG_ERROR',
+        message: 'Job failed',
+        jobId: '123',
+        data: { foo: 'bar' },
+        handlerName: 'MyJob',
+        error: 'error in handler',
+        stack: sinon.match('Error: error in handler\n'),
+        executionTime: 3600,
+        totalTime: 7200,
+      });
     });
   });
 });

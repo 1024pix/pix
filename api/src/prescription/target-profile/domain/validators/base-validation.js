@@ -12,6 +12,7 @@ const schema = Joi.object({
   }),
   category: Joi.string()
     .valid(
+      categories.ATTESTATION,
       categories.COMPETENCES,
       categories.CUSTOM,
       categories.DISCIPLINE,

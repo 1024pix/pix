@@ -14,7 +14,7 @@ dayjs.extend(timezone);
 
 const { plannerJob } = config.cpf;
 
-class CpfExportPlannerJobController extends JobScheduleController {
+export class CpfExportPlannerJobController extends JobScheduleController {
   constructor() {
     super('CpfExportPlannerJob', { jobCron: config.cpf.plannerJob.cron });
   }
@@ -42,7 +42,6 @@ class CpfExportPlannerJobController extends JobScheduleController {
       `Start from ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}, plan ${cpfCertificationResultChunksCount} job(s) for ${cpfCertificationResultCount} certifications`,
     );
 
-    const newJobs = [];
     for (let index = 0; index < cpfCertificationResultChunksCount; index++) {
       const batchId = `${jobId}#${index}`;
       await dependencies.cpfCertificationResultRepository.markCertificationToExport({
@@ -53,14 +52,8 @@ class CpfExportPlannerJobController extends JobScheduleController {
         batchId,
       });
 
-      newJobs.push(batchId);
       dependencies.logger.info(`${batchId} created for (${index + 1}/${cpfCertificationResultChunksCount})`);
+      await dependencies.cpfExportBuilderJobRepository.performAsync(new CpfExportBuilderJob({ batchId }));
     }
-
-    await dependencies.cpfExportBuilderJobRepository.performAsync(
-      ...newJobs.map((batchId) => new CpfExportBuilderJob({ batchId })),
-    );
   }
 }
-
-export { CpfExportPlannerJobController };

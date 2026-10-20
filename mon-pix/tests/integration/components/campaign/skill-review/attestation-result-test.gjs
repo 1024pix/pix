@@ -3,6 +3,7 @@ import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import AttestationResult from 'mon-pix/components/campaigns/assessment/results/evaluation-results-hero/attestation-result';
+import { ATTESTATION_DOWNLOAD_ORIGINS, EVENT_NAMES } from 'mon-pix/constants/metrics-events';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -41,7 +42,7 @@ module('Integration | Component | Campaign | Skill Review | attestation-result',
       assert.dom(screen.getByRole('button', { name: downloadButtonTitle })).exists();
     });
 
-    test('it should download the attestation on download button click and send metrics', async function (assert) {
+    test('it should download the attestation on download button click', async function (assert) {
       // given
       const result = [
         {
@@ -55,19 +56,12 @@ module('Integration | Component | Campaign | Skill Review | attestation-result',
       class FileSaverStub extends Service {
         save = fileSaverSaveStub;
       }
-
       this.owner.register('service:fileSaver', FileSaverStub);
-
-      class MetricsStub extends Service {
-        trackEvent = metricsAddStub;
-      }
-      const metricsAddStub = sinon.stub().resolves();
-
-      this.owner.register('service:pix-metrics', MetricsStub);
 
       // when
       const screen = await render(<template><AttestationResult @results={{result}} /></template>);
       await click(screen.getByRole('button', { name: t('common.actions.download') }));
+
       // then
       assert.ok(
         fileSaverSaveStub.calledWithExactly({
@@ -76,12 +70,34 @@ module('Integration | Component | Campaign | Skill Review | attestation-result',
           token: 'access_token!',
         }),
       );
+    });
 
+    test('clicking download sends metrics', async function (assert) {
+      // given
+      stubSessionService(this.owner, { isAuthenticated: true });
+      const metrics = this.owner.lookup('service:pixMetrics');
+      const trackEventStub = sinon.stub(metrics, 'trackEvent');
+
+      class FileSaverStub extends Service {
+        save = sinon.stub();
+      }
+      this.owner.register('service:fileSaver', FileSaverStub);
+
+      const result = [
+        {
+          reward: { key: 'SIXTH_GRADE', label: 'Sensibilisation au numérique' },
+          obtained: true,
+        },
+      ];
+
+      // when
+      const screen = await render(<template><AttestationResult @results={{result}} /></template>);
+      await click(screen.getByRole('button', { name: t('common.actions.download') }));
+
+      // then
       assert.ok(
-        metricsAddStub.calledWithExactly('Clic sur le bouton Télécharger (attestation)', {
-          category: 'Fin de parcours',
-          disabled: true,
-          action: 'Cliquer sur le bouton Télécharger (attestation)',
+        trackEventStub.calledOnceWithExactly(EVENT_NAMES.ATTESTATION.DOWNLOAD_CLICK, {
+          origin: ATTESTATION_DOWNLOAD_ORIGINS.CAMPAIGN_RESULT_PAGE,
         }),
       );
     });

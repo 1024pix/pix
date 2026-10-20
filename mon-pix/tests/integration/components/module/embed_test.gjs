@@ -275,9 +275,11 @@ module('Integration | Component | Module | Embed', function (hooks) {
                 },
                 { instantiate: false },
               );
+
               class PreviewModeServiceStub extends Service {
                 isEnabled = true;
               }
+
               this.owner.register('service:modulixPreviewMode', PreviewModeServiceStub);
               const screen = await render(
                 <template><ModulixEmbed @embed={{embed}} @passageId={{passageId}} /></template>,

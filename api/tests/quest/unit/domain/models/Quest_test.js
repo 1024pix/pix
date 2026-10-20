@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { DataForQuest } from '../../../../../src/quest/domain/models/quests/aggregates/DataForQuest.js';
 import { Eligibility } from '../../../../../src/quest/domain/models/quests/aggregates/Eligibility.js';
-import { Success } from '../../../../../src/quest/domain/models/quests/aggregates/Success.js';
+import { Success } from '../../../../../src/quest/domain/models/quests/aggregates/Success.ts';
 import {
   CRITERION_COMPARISONS,
   Quest,

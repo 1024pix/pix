@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { VersionNotDraftError } from '../../../../../../src/certification/configuration/domain/errors.js';
 import { Version } from '../../../../../../src/certification/configuration/domain/models/Version.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
+import { PIX_COUNT_BY_LEVEL } from '../../../../../../src/shared/constants.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -258,6 +259,76 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
     });
   });
 
+  describe('#setScoringConfiguration', function () {
+    context('when both configurations are non-empty', function () {
+      it('sets the configs and computes maxReachableLevel and maxReachablePixScore', function () {
+        // given
+        const globalScoringConfiguration = [{ meshLevel: 0 }, { meshLevel: 1 }, { meshLevel: 2 }];
+        const competencesScoringConfiguration = [
+          { competenceId: '1' },
+          { competenceId: '2' },
+          { competenceId: '3' },
+          { competenceId: '4' },
+        ];
+        const expectedMaxReachableLevel = globalScoringConfiguration.length - 1;
+        const expectedMaxReachablePixScore =
+          expectedMaxReachableLevel * competencesScoringConfiguration.length * PIX_COUNT_BY_LEVEL - 1;
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec1'] })
+          .build();
+
+        // when
+        version.setScoringConfiguration(globalScoringConfiguration, competencesScoringConfiguration);
+
+        // then
+        expect(version.globalScoringConfiguration).to.equal(globalScoringConfiguration);
+        expect(version.competencesScoringConfiguration).to.equal(competencesScoringConfiguration);
+        expect(version.maxReachableLevel).to.equal(expectedMaxReachableLevel);
+        expect(version.maxReachablePixScore).to.equal(expectedMaxReachablePixScore);
+      });
+    });
+
+    context('when globalScoringConfiguration is empty', function () {
+      it('sets both computed fields to null', function () {
+        // given
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec1'] })
+          .build();
+
+        // when
+        version.setScoringConfiguration([], [{ competenceId: '1' }]);
+
+        // then
+        expect(version.maxReachableLevel).to.be.null;
+        expect(version.maxReachablePixScore).to.be.null;
+      });
+    });
+
+    context('when competencesScoringConfiguration is null', function () {
+      it('computes maxReachableLevel but sets maxReachablePixScore to null', function () {
+        // given
+        const globalScoringConfiguration = [{ meshLevel: 0 }, { meshLevel: 1 }];
+        const expectedMaxReachableLevel = globalScoringConfiguration.length - 1;
+        const version = domainBuilder.certification.configuration
+          .versionBuilder()
+          .asActive()
+          .withParameters({ scope: SCOPES.CORE, tubeIds: ['rec1'] })
+          .build();
+
+        // when
+        version.setScoringConfiguration(globalScoringConfiguration, null);
+
+        // then
+        expect(version.maxReachableLevel).to.equal(expectedMaxReachableLevel);
+        expect(version.maxReachablePixScore).to.be.null;
+      });
+    });
+  });
+
   describe('#archive', function () {
     it('changes the status to archived and sets the expirationDate', function () {
       // given
@@ -311,15 +382,6 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
         limitToOneQuestionPerTube: false,
         enablePassageByAllCompetences: false,
         externalCalibrationId: null,
-        globalScoringConfiguration: [
-          {
-            bounds: {
-              min: 1,
-              max: 8,
-            },
-            meshLevel: 0,
-          },
-        ],
       };
     });
 
@@ -349,15 +411,6 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
               limitToOneQuestionPerTube: validUpdateData.limitToOneQuestionPerTube,
               enablePassageByAllCompetences: validUpdateData.enablePassageByAllCompetences,
             },
-            globalScoringConfiguration: [
-              {
-                bounds: {
-                  min: 1,
-                  max: 8,
-                },
-                meshLevel: 0,
-              },
-            ],
           })
           .build();
         expect(version).to.deepEqualInstance(expectedVersion);
@@ -370,38 +423,6 @@ describe('Certification | Configuration | Unit | Domain | Models | Version', fun
         expect(() => version.update(validUpdateData)).to.throw(VersionNotDraftError);
         version = domainBuilder.certification.configuration.versionBuilder().asArchived().build();
         expect(() => version.update(validUpdateData)).to.throw(VersionNotDraftError);
-      });
-    });
-
-    context('when globalScoringConfiguration contains invalid bounds', function () {
-      it('throws an EntityValidationError when max is lower than min', function () {
-        const version = domainBuilder.certification.configuration
-          .versionBuilder()
-          .asDraft({ startDate: new Date('2025-05-05') })
-          .withParameters(baseVersionData)
-          .build();
-
-        expect(() =>
-          version.update({
-            ...validUpdateData,
-            globalScoringConfiguration: [{ bounds: { min: 5, max: 2 }, meshLevel: 0 }],
-          }),
-        ).to.throw(EntityValidationError);
-      });
-
-      it('throws an EntityValidationError when max equals min', function () {
-        const version = domainBuilder.certification.configuration
-          .versionBuilder()
-          .asDraft({ startDate: new Date('2025-05-05') })
-          .withParameters(baseVersionData)
-          .build();
-
-        expect(() =>
-          version.update({
-            ...validUpdateData,
-            globalScoringConfiguration: [{ bounds: { min: 3, max: 3 }, meshLevel: 0 }],
-          }),
-        ).to.throw(EntityValidationError);
       });
     });
   });

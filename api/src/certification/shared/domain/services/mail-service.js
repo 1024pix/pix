@@ -3,7 +3,10 @@ import { mailer } from '../../../../shared/mail/infrastructure/services/mailer.j
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 const PIX_NAME_FR = 'PIX - Ne pas répondre';
 
-function sendNotificationToOrganizationMembersForTargetProfileDetached({ email, complementaryCertificationName }) {
+export function sendNotificationToOrganizationMembersForTargetProfileDetached({
+  email,
+  complementaryCertificationName,
+}) {
   const options = {
     from: EMAIL_ADDRESS_NO_RESPONSE,
     fromName: PIX_NAME_FR,
@@ -15,7 +18,6 @@ function sendNotificationToOrganizationMembersForTargetProfileDetached({ email, 
   return mailer.sendEmail(options);
 }
 
-const mailService = {
+export const mailService = {
   sendNotificationToOrganizationMembersForTargetProfileDetached,
 };
-export { mailService, sendNotificationToOrganizationMembersForTargetProfileDetached };

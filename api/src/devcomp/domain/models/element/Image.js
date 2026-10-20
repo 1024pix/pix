@@ -14,8 +14,9 @@ class Image extends Element {
    * @param{string} [params.legend]
    * @param{string} [params.licence]
    * @param{import('../../../../shared/domain/models/PixAssetImageInfos.js').PixAssetImageInfos} [params.infos]
+   * @param{number} [params.maxWidth]
    */
-  constructor({ id, url, alt, alternativeText, legend, licence, infos }) {
+  constructor({ id, url, alt, alternativeText, legend, licence, infos, maxWidth }) {
     super({ id, type: 'image' });
 
     assertNotNullOrUndefined(url, 'The URL is required for an image');
@@ -32,6 +33,7 @@ class Image extends Element {
     this.legend = legend;
     this.licence = licence;
     this.infos = infos;
+    this.maxWidth = maxWidth;
 
     if (URL.parse(url).hostname !== Image.#VALID_HOSTNAME) {
       throw new DomainError('The image URL must be from "assets.pix.org"');

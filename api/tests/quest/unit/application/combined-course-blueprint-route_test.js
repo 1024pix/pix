@@ -167,7 +167,7 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
   describe('GET /api/organizations/{organizationId}/combined-course-blueprints', function () {
     it('should call prehandler', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkOrganizationAccess').returns(() => true);
+      sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization').returns(() => true);
       sinon.stub(combinedCourseBlueprintController, 'findByOrganizationId').callsFake((_, h) => h.response());
 
       const httpTestServer = new HttpTestServer();
@@ -184,7 +184,7 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
       );
 
       // then
-      expect(securityPreHandlers.checkOrganizationAccess).to.have.been.called;
+      expect(securityPreHandlers.checkUserBelongsToOrganization).to.have.been.called;
     });
   });
 

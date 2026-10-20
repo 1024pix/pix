@@ -573,14 +573,17 @@ function checkOrganizationDoesNotHaveFeature(featureKey) {
   };
 }
 
-function checkUserOwnsAssessment(request, h, dependencies = { assessmentRepository, validationErrorSerializer }) {
+async function checkUserOwnsAssessment(request, h, dependencies = { assessmentRepository, validationErrorSerializer }) {
   const userId = extractUserIdFromRequest(request);
   const assessmentId = parseInt(request.params.id) || parseInt(request.params.assessmentId);
 
-  return dependencies.assessmentRepository.getByAssessmentIdAndUserId(assessmentId, userId).catch(() => {
+  const ownedByUser = await dependencies.assessmentRepository.existsForUser(assessmentId, userId);
+
+  if (!ownedByUser) {
     const buildError = { data: { authorization: ["Vous n'êtes pas autorisé à accéder à cette évaluation"] } };
     return h.response(dependencies.validationErrorSerializer.serialize(buildError)).code(401).takeover();
-  });
+  }
+  return h.response(true);
 }
 
 export const securityPreHandlers = {

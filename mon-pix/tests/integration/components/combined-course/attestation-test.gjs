@@ -2,7 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import Attestation from 'mon-pix/components/combined-course/attestation';
+import Attestation, { ATTESTATIONS_PIC_PATH } from 'mon-pix/components/combined-course/attestation';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -81,7 +81,7 @@ module('Integration | Component | Combined Courses | Attestation', function (hoo
       assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.rewards.obtained.link') }));
       assert
         .dom(screen.getByRole('img', { name: 'attestation-image-obtained' }))
-        .hasAttribute('src', 'https://assets.pix.org/combined-courses/attestation-image.svg')
+        .hasAttribute('src', ATTESTATIONS_PIC_PATH)
         .hasAttribute('class', 'attestation__picto--obtained');
     });
   });
@@ -118,7 +118,7 @@ module('Integration | Component | Combined Courses | Attestation', function (hoo
       assert.ok(screen.getByText('Description des conditions'));
       assert
         .dom(screen.getByRole('img', { name: 'attestation-image-not-obtained' }))
-        .hasAttribute('src', 'https://assets.pix.org/combined-courses/attestation-image.svg')
+        .hasAttribute('src', ATTESTATIONS_PIC_PATH)
         .hasAttribute('class', 'attestation__picto--not-obtained');
     });
 
@@ -152,7 +152,7 @@ module('Integration | Component | Combined Courses | Attestation', function (hoo
       assert.notOk(await screen.queryByText('Description des conditions'));
       assert
         .dom(screen.getByRole('img', { name: 'attestation-image-not-obtained' }))
-        .hasAttribute('src', 'https://assets.pix.org/combined-courses/attestation-image.svg')
+        .hasAttribute('src', ATTESTATIONS_PIC_PATH)
         .hasAttribute('class', 'attestation__picto--not-obtained');
     });
   });
@@ -191,7 +191,7 @@ module('Integration | Component | Combined Courses | Attestation', function (hoo
         assert.ok(screen.getByText('Description des conditions'));
         assert
           .dom(screen.getByRole('img', { name: 'attestation-image-in-progress' }))
-          .hasAttribute('src', 'https://assets.pix.org/combined-courses/attestation-image.svg')
+          .hasAttribute('src', ATTESTATIONS_PIC_PATH)
           .hasAttribute('class', 'attestation__picto--in-progress');
       });
 
@@ -226,7 +226,7 @@ module('Integration | Component | Combined Courses | Attestation', function (hoo
         assert.notOk(await screen.queryByText('Description des conditions'));
         assert
           .dom(screen.getByRole('img', { name: 'attestation-image-in-progress' }))
-          .hasAttribute('src', 'https://assets.pix.org/combined-courses/attestation-image.svg')
+          .hasAttribute('src', ATTESTATIONS_PIC_PATH)
           .hasAttribute('class', 'attestation__picto--in-progress');
       });
     });

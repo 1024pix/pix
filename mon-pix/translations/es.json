@@ -53,6 +53,12 @@
       "stay": "Quedarse",
       "validate": "Validar"
     },
+    "answer-state": {
+      "aband": "Sin respuesta",
+      "ko": "Respuesta incorrecta",
+      "ok": "Respuesta correcta",
+      "timedout": "Se ha agotado el tiempo"
+    },
     "api-error-messages": {
       "bad-request-error": "Los datos que has enviado no están en el formato correcto.",
       "gateway-timeout-error": "El servicio puede tardar más de lo normal en responder. Vuelve a intentarlo más tarde.",
@@ -157,6 +163,16 @@
     "yes": "Si"
   },
   "components": {
+    "assessments": {
+      "result-item": {
+        "actions": {
+          "see-answers-and-tutorials": {
+            "label": "Ver las respuestas y los consejos"
+          }
+        },
+        "question-number": "Pregunta { number }"
+      }
+    },
     "attestations": {
       "obtainedAt": "Fecha de emisión: {date}",
       "title": {
@@ -313,6 +329,17 @@
             "title": "Mejora"
           }
         }
+      }
+    },
+    "info-bar": {
+      "certification-number": "N.º de certificación",
+      "completion-percentage": {
+        "caption": "progreso del test",
+        "label": "Has completado el {completion, number, ::percent} del test."
+      },
+      "progress": {
+        "label": "Pregunta",
+        "position": "{current} de cada {total}"
       }
     },
     "invited": {
@@ -986,6 +1013,32 @@
       "non-eligible-subscription": "No eres elegible para {subscriptionLabel}. Sin embargo, puedes presentarte a la certificación Pix.",
       "title": "Unirse a una sesión de certificación"
     },
+    "certifications-dashboard": {
+      "enrolment-banner": {
+        "action": "Iniciar la certificación",
+        "certifiable": {
+          "description": "Haga clic en el botón de abajo y comience su certificación",
+          "title": "¿Desea realizar una certificación?"
+        },
+        "clea": {
+          "text": "Puede optar al CléA Numérique",
+          "title": "Su perfil Pix es certificable"
+        },
+        "not-certifiable": {
+          "description": "Se requiere un mínimo de requisitos previos para realizar la certificación.",
+          "title": "Todavía no puede certificarse"
+        }
+      },
+      "modal": {
+        "sub-title": "Todos los campos son obligatorios.",
+        "title": "Unirse a una sesión"
+      },
+      "user-certifications": {
+        "title": "Mis certificaciones",
+        "with-certification-text": "Acceda a todas sus certificaciones Pix. Consulte los detalles y descargue sus certificados.",
+        "without-certification-text": "Todavía no tiene ninguna certificación Pix."
+      }
+    },
     "certifications-list": {
       "buttons": {
         "details": "Ver detalles",
@@ -1024,9 +1077,6 @@
         "numbered-label": "Respuesta {number}"
       },
       "certification": {
-        "banner": {
-          "certification-number": "N.º de certificación"
-        },
         "title": "Certificación {certificationNumber}"
       },
       "certification-feedback-panel": {
@@ -1185,9 +1235,6 @@
         "progress": "Tu progreso",
         "validation": "Validar o saltar la prueba"
       },
-      "progress-bar": {
-        "label": "Pregunta"
-      },
       "skip-error-message": {
         "qcm": "Para validar, selecciona al menos dos respuestas. De lo contrario, puedes continuar.",
         "qcu": "Para validar, selecciona una respuesta. De lo contrario, puedes continuar.",
@@ -1254,14 +1301,13 @@
       },
       "answers": {
         "already-finished": {
-          "explanation": "Si ya has respondido a estas preguntas en pruebas anteriores, puedes acceder directamente a tus resultados. ¿Quieres mejorar tu puntuación? Haz clic en «Ver mis resultados» para volver a realizar el test.",
+          "explanation": {
+            "sentence1": "Si ya has respondido a estas preguntas en pruebas anteriores, puedes acceder directamente a tus resultados.",
+            "sentence2": "¿Quieres mejorar tu puntuación? Haz clic en «Ver mis resultados» para volver a realizar el test."
+          },
           "info": "¡Ya has contestado!"
         },
         "header": "tus respuestas"
-      },
-      "completion-percentage": {
-        "caption": "progreso del test",
-        "label": "Has completado el {completion, number, ::percent} del test."
       },
       "sharing-results": {
         "information-banner": "Al hacer clic en el botón «Ver mis resultados», sus resultados se enviarán al organizador."
@@ -1302,6 +1348,8 @@
           "description": "¡Completa tu diagnóstico para desbloquear un programa de módulos adaptado a tu resultado!",
           "title": "Programa personalizado de módulos"
         },
+        "restart-campaign": "Volver a empezar",
+        "restart-module": "Volver a empezar el módulo",
         "start-campaign": "Empezar",
         "start-module": "Empezar el módulo",
         "tagText": "¡Ya estás ahí!"
@@ -1350,7 +1398,7 @@
         },
         "aband": {
           "title": "No has respondido",
-          "tooltip": "Sin respuesta"
+          "tooltip": "Pregunta saltada"
         },
         "abandAutoReply": {
           "title": "Has saltado la prueba",
@@ -1369,7 +1417,7 @@
           "tooltip": "Prueba fallida"
         },
         "ko": {
-          "title": "La respuesta es correcta.",
+          "title": "La respuesta no es correcta.",
           "tooltip": "Respuesta incorrecta"
         },
         "koAutoReply": {
@@ -2013,7 +2061,6 @@
       "total-score-helper": {
         "explanation": "'<p>'Este es el número máximo de pix que se podrá alcanzar cuando estén disponibles los 8 niveles del referencial Pix.'</p><p>'En la actualidad, '<span class=\"hexagon-score-information__text--strong\">'el máximo es de {maxReachablePixScore} pix'</span>', correspondiente al nivel {maxReachableLevel}.'</p>'",
         "icon": "Información sobre los pix",
-        "label": "Abrir la información emergente",
         "title": "¿Por qué 1024 pix?"
       }
     },
@@ -2035,17 +2082,6 @@
       },
       "first-title": "Restablecer contraseña",
       "title": "Cambiar mi contraseña"
-    },
-    "result-item": {
-      "aband": "Sin respuesta",
-      "actions": {
-        "see-answers-and-tutorials": {
-          "label": "Respuestas y consejos"
-        }
-      },
-      "ko": "Respuesta incorrecta",
-      "ok": "Respuesta correcta",
-      "timedout": "Se ha agotado el tiempo"
     },
     "sco-signup-or-login": {
       "invitation": "{ organizationName } te invita a unirte a Pix",

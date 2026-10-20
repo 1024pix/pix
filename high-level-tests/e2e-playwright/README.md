@@ -18,7 +18,7 @@ npx playwright install --with-deps chromium
 - Démarrer les conteneurs Docker Pix au préalable : `docker compose up` (à la racine du monorepo)
 - Copier le fichier `sample.env.e2e` dans le dossier `e2e-playwright` sous le nom `.env.e2e`
 - Renseigner les variables d'environnement `LCMS_API_KEY` et `LCMS_API_URL` (NINA)
-- Installer les dépendances de l'API et des front : `npm run ci:all` (à la racine du monorepo)
+- Installer les dépendances de l'API et des front
 
 ## Exécuter en mode Headless
 
@@ -46,6 +46,7 @@ npx playwright codegen
 
 Les tests de cette suite sont exécutés sans nettoyage post-exécution de la base de données.
 Pour chaque test, il faut adopter alors une des approches suivantes :
+
 - Le test comprend la réalisation de l'ensemble des actions permettant de créer les données suffisantes pour ce qu'on souhaite tester
   sans reposer sur les données d'autres tests.
 - Si ça rend le test trop lent, envisager des écritures directement en BDD, mais alors interdiction de fixer les IDs des entités insérées !
@@ -66,21 +67,23 @@ npx playwright test --grep-invert @runSerially --shard=1/3
 #cmd2, exécution séquentielle
 npx playwright test --grep @runSerially --workers=1
 ```
+
 Si vous souhaitez que votre test soit exécuté séquentiellement, ajoutez le tag `@runSerially` dans le nom de votre test comme ceci :
 
 ```js
-test('[@runSerially] this test needs to be run serially', async () => { /* test code */ });
+test('[@runSerially] this test needs to be run serially', async () => {
+  /* test code */
+});
 ```
+
 On invite également à documenter la raison pour laquelle le tag a été apposé. Pour ce faire :
 
 ```js
 test('[@runSerially] this test needs to be run serially', async ({}, testInfo) => {
-  testInfo.annotations.push(
-    {
-      type: 'tag',
-      description: `@snapshot - <insert explanation on why tag in necessary>`,
-    },
-  );
+  testInfo.annotations.push({
+    type: 'tag',
+    description: `@snapshot - <insert explanation on why tag in necessary>`,
+  });
   /* test code */
 });
 ```
@@ -92,17 +95,17 @@ et font des assertions.
 Dans notre cas, ces tests doivent donc pouvoir ou bien jouer le scénario pour écrire le snapshot, ou bien jouer le scénario avec des assertions sur le contenu du snapshot.
 
 Si vous souhaitez faire un test de snapshot :
+
 - Utilisez le SnapshotHandler (intégré aux fixtures) pour gérer la construction, la sauvegarde et/ou l'évaluation du snapshot
 - Ajoutez le tag `@snapshot` avec une annotation pour documenter. On peut notamment documenter les raisons valides pour lesquelles un snapshot
   produirait tout à coup un test rouge
+
 ```js
 test('[@snapshot] this is a snapshot test', async ({ snapshotHandler }, testInfo) => {
-  testInfo.annotations.push(
-    {
-      type: 'tag',
-      description: `@snapshot - <insert explanation on why snapshot could produce a red test>`,
-    },
-  );
+  testInfo.annotations.push({
+    type: 'tag',
+    description: `@snapshot - <insert explanation on why snapshot could produce a red test>`,
+  });
   /* some code */
   snapshotHandler.push('a label to explain the value i am expecting', 123);
   /* some more code */
@@ -111,6 +114,7 @@ test('[@snapshot] this is a snapshot test', async ({ snapshotHandler }, testInfo
 ```
 
 Ainsi, le test est exécuté dans un mode ou l'autre en fonction d'une variable d'env :
+
 ```shell
 # enregistrement de snapshot
 npm run test:snapshot
@@ -120,6 +124,7 @@ npx playwright test --grep @snapshot
 ```
 
 _Remarques :_
+
 - Les snapshots doivent être générés en local, la CI ne doit faire que de la vérification de snapshot
 - Pensez à forcer l'ajout du snapshot via git si votre snapshot est un .json (cette extension de fichier est dans le .gitignore du dépôt).
   Utilisez `git add -f mon.json`
@@ -127,7 +132,7 @@ _Remarques :_
 ### Enregistrement de fichiers .har
 
 Pour faire un dump des fichiers .har sur la base de l'exécution des tests, ajoutez la variable d'env. :
+
 ```shell
 RECORD_HAR=true npx playwright test
 ```
-

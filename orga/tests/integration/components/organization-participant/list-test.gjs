@@ -320,6 +320,43 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
         // then
         assert.notOk(screen.queryByText('drawing'));
       });
+
+      test('should display custom row and format as date when custom header has "date" type', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          hasLearnerImportFeature = true;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+        const participants = [
+          {
+            lastName: 'La Terreur',
+            firstName: 'Gigi',
+            extraColumns: {
+              'awesome.column': '2020-01-01',
+            },
+            id: 34,
+          },
+        ];
+
+        participants.meta = {
+          headingCustomColumns: [{ name: 'awesome.column', type: 'date', format: 'YYYY-MM-DD' }],
+        };
+
+        // when
+        const screen = await render(
+          <template>
+            <List
+              @participants={{participants}}
+              @triggerFiltering={{noop}}
+              @onClickLearner={{noop}}
+              @fullName={{fullNameFilter}}
+              @certificabilityFilter={{certificabilityFilter}}
+            />
+          </template>,
+        );
+        // then
+        assert.ok(screen.getByRole('cell', { name: '01/01/2020' }));
+      });
     });
   });
 

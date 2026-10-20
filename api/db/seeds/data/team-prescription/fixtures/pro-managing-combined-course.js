@@ -25,7 +25,7 @@ export const PRO_MANAGING_COMBINED_COURSE = {
       name: 'Je teste mes compétences',
       code: 'CODE999',
       customResultPageButtonText: 'Continuer',
-      customResultPageButtonUrl: '/parcours/MANAGING1',
+      customResultPageButtonUrl: '/parcours/MANAGING1/checkpoint',
       skills: [],
     },
     trainings: [],

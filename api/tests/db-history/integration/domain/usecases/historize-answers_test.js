@@ -1,5 +1,6 @@
 import { CreateBucketCommand, S3Client } from '@aws-sdk/client-s3';
 import { expect } from 'chai';
+import { parquetReadObjects } from 'hyparquet';
 import sinon from 'sinon';
 
 import { config } from '../../../../../config/config.js';
@@ -436,6 +437,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       const assessmentRangeSize = 1000;
 
       await databaseBuilder.commit();
+      sinon.useFakeTimers({ now: new Date('2026-10-14T10:00:00Z'), toFake: ['Date'] });
 
       const { partitionFile, fileContent } = createParquetArrayBuffer(
         rangeStart,
@@ -447,14 +449,43 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
         .to.be.a('string')
         .and.to.include(`answers/0_${assessmentRangeSize - 1}/`);
 
-      const buffer = Buffer.from(fileContent);
-      const expectedBufferLength = 1642;
-      expect(buffer).to.have.length(expectedBufferLength);
-
       // Presence of both Parquet Magic Bytes indicates that the resulting parquet file is both complete and not truncated
+      const buffer = Buffer.from(fileContent);
       const parquetMagicBytes = 'PAR1';
       expect(buffer.slice(0, 4).toString()).to.equal(parquetMagicBytes);
       expect(buffer.slice(-4).toString()).to.equal(parquetMagicBytes);
+
+      const rows = await parquetReadObjects({ file: fileContent });
+      expect(rows).to.deep.equal([
+        {
+          id: BigInt(firstAnswer.id),
+          value: 'value for first answer',
+          result: 'result for first answer',
+          assessmentId,
+          challengeId: 'rec123ABC',
+          createdAt: new Date('2020-01-01'),
+          updatedAt: new Date('2020-01-02'),
+          timeout: null,
+          resultDetails: 'result details for first answer.',
+          timeSpent: 30,
+          isFocusedOut: false,
+          extractedAt: '2026-10-14',
+        },
+        {
+          id: BigInt(secondAnswer.id),
+          value: 'value for second answer',
+          result: 'result for second answer',
+          assessmentId,
+          challengeId: 'rec123DEF',
+          createdAt: new Date('2020-01-03'),
+          updatedAt: new Date('2020-01-04'),
+          timeout: 10,
+          resultDetails: 'result details for second answer.',
+          timeSpent: 50,
+          isFocusedOut: true,
+          extractedAt: '2026-10-14',
+        },
+      ]);
     });
 
     it('fails to create an  array buffer for parquet file', async function () {

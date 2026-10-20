@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { sessionPublicationController } from '../../../../../src/certification/session-management/application/session-publication-controller.js';
-import { SessionPublicationBatchResult } from '../../../../../src/certification/session-management/domain/models/SessionPublicationBatchResult.js';
 import { usecases } from '../../../../../src/certification/session-management/domain/usecases/index.js';
 import { SessionPublicationBatchError } from '../../../../../src/shared/application/errors/http-errors.js';
 import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
@@ -11,14 +10,10 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Certification | Session-management | Unit | Application | Controller | Session Publication', function () {
   describe('#publish', function () {
-    it('should return the serialized session', async function () {
+    it('should return a 204 statuscode', async function () {
       // given
       const sessionId = 123;
-      const session = Symbol('session');
-      const serializedSession = Symbol('serializedSession');
-      const sessionManagementSerializer = { serialize: sinon.stub() };
-      sinon.stub(usecases, 'publishSession').withArgs({ sessionId }).resolves(session);
-      sessionManagementSerializer.serialize.withArgs({ session }).resolves(serializedSession);
+      sinon.stub(usecases, 'requestSessionPublication').withArgs({ sessionId });
 
       // when
       const response = await sessionPublicationController.publish(
@@ -31,11 +26,10 @@ describe('Certification | Session-management | Unit | Application | Controller |
           },
         },
         hFake,
-        { sessionManagementSerializer },
       );
 
       // then
-      expect(response).to.equal(serializedSession);
+      expect(response.statusCode).to.equal(204);
     });
   });
 
@@ -87,9 +81,9 @@ describe('Certification | Session-management | Unit | Application | Controller |
         },
       };
       sinon
-        .stub(usecases, 'publishSessionsInBatch')
+        .stub(usecases, 'requestMultipleSessionPublication')
         .withArgs({ sessionIds: ['sessionId1', 'sessionId2'] })
-        .resolves(new SessionPublicationBatchResult('batchId'));
+        .resolves({});
 
       // when
       const response = await sessionPublicationController.publishInBatch(request, hFake);
@@ -100,9 +94,9 @@ describe('Certification | Session-management | Unit | Application | Controller |
 
     it('logs errors when errors occur', async function () {
       // given
-      const result = new SessionPublicationBatchResult('batchId');
-      result.addPublicationError('sessionId1', new Error('an error'));
-      result.addPublicationError('sessionId2', new Error('another error'));
+      const errors = {};
+      errors['sessionId1'] = new Error('an error');
+      errors['sessionId2'] = new Error('another error');
 
       const request = {
         payload: {
@@ -113,20 +107,17 @@ describe('Certification | Session-management | Unit | Application | Controller |
           },
         },
       };
-      sinon.stub(usecases, 'publishSessionsInBatch').resolves(result);
+      sinon.stub(usecases, 'requestMultipleSessionPublication').resolves(errors);
       sinon.stub(logger, 'warn');
 
       // when
       await catchErr(sessionPublicationController.publishInBatch)(request, hFake);
 
       // then
-      expect(logger.warn).to.have.been.calledWithExactly(
-        'One or more error occurred when publishing session in batch batchId',
-      );
+      expect(logger.warn).to.have.been.calledWithExactly('One or more error occurred when publishing session in batch');
 
       expect(logger.warn).to.have.been.calledWithExactly(
         {
-          batchId: 'batchId',
           sessionId: 'sessionId1',
         },
         'an error',
@@ -134,7 +125,6 @@ describe('Certification | Session-management | Unit | Application | Controller |
 
       expect(logger.warn).to.have.been.calledWithExactly(
         {
-          batchId: 'batchId',
           sessionId: 'sessionId2',
         },
         'another error',
@@ -143,8 +133,8 @@ describe('Certification | Session-management | Unit | Application | Controller |
 
     it('returns the serialized batch id', async function () {
       // given
-      const result = new SessionPublicationBatchResult('batchId');
-      result.addPublicationError('sessionId1', new Error('an error'));
+      const errors = {};
+      errors['sessionId1'] = new Error('an error');
 
       const request = {
         payload: {
@@ -155,7 +145,7 @@ describe('Certification | Session-management | Unit | Application | Controller |
           },
         },
       };
-      sinon.stub(usecases, 'publishSessionsInBatch').resolves(result);
+      sinon.stub(usecases, 'requestMultipleSessionPublication').resolves(errors);
       sinon.stub(logger, 'warn');
 
       // when

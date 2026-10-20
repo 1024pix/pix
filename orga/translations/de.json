@@ -835,7 +835,8 @@
         "title": "Einstellungen"
       },
       "tags": {
-        "BACK_TO_SCHOOL": "Parcours zum Schulanfang / 6. Klasse",
+        "ATTESTATION": "Bescheinigungen",
+        "BACK_TO_SCHOOL": "Parcours zum Schulanfang",
         "COMPETENCES": "Die 16 Kompetenzen",
         "CUSTOM": "Maßgeschneiderter Parcours",
         "DISCIPLINE": "Fachspezifisch",
@@ -1617,6 +1618,14 @@
           "details": "Ermöglicht das Importieren einer neuen Liste von Schüler:innen anstelle der bestehenden.",
           "label": "Eine neue Liste importieren",
           "title": "Ersetzen"
+        },
+        "sco": {
+          "details": "Diese Aktion ermöglicht dir:",
+          "details-add": "neue Schüler:innen hinzuzufügen",
+          "details-disable": "ehemalige Schüler:innen zu deaktivieren",
+          "details-update": "bereits importierte Schüler:innen zu bearbeiten",
+          "label": "Liste importieren",
+          "title": "Liste der Schüler:innen importieren"
         }
       },
       "banner": {
@@ -1634,12 +1643,13 @@
         "warning-banner": "Einige Werte wurden nicht erkannt. Sie wurden durch „Nicht erkannt“ ersetzt. Wenn du der Meinung bist, dass Werte in der vorgegebenen Liste fehlen, kontaktiere uns bitte unter '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'."
       },
       "error-panel": {
-        "error-wrapper": "Es wurden keine Teilnehmer:innen importiert. Bitte passe deine Datei an und importiere sie erneut.",
-        "global-error": "Es wurden keine Teilnehmer:innen importiert. Bitte versuche es erneut oder kontaktiere uns über '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'das Formular im Hilfe-Center'</a>'.",
         "title": "Fehler in der zuletzt importierten Datei:"
       },
       "file-type-separator": ",",
       "global-success": "Zuletzt erfolgreich importierte Datei am {date} von {firstName} {lastName}.",
+      "pro": {
+        "title": "Teilnehmer:innen importieren"
+      },
       "sco": {
         "title": "Schüler:innen importieren"
       },

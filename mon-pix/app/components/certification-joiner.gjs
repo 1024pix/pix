@@ -7,8 +7,9 @@ import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
 
 export default class CertificationJoiner extends Component {
-  @service store;
   @service intl;
+  @service router;
+  @service store;
 
   SESSION_ID_VALIDATION_PATTERN = '^[0-9]*$';
 
@@ -130,7 +131,7 @@ export default class CertificationJoiner extends Component {
         lastName: this.lastName?.trim() ?? null,
       });
       await currentCertificationCandidate.save({ adapterOptions: { joinSession: true, sessionId: this.sessionId } });
-      this.args.onStepChange(currentCertificationCandidate.id);
+      this.router.transitionTo('authenticated.certifications.start', currentCertificationCandidate.id);
     } catch (error) {
       currentCertificationCandidate?.deleteRecord();
       this._handleSaveError(error);
@@ -164,9 +165,13 @@ export default class CertificationJoiner extends Component {
 
   <template>
     <section class="certification-joiner">
-      <h1 class="certification-joiner__title">{{t "pages.certification-joiner.first-title"}}</h1>
+      {{#unless @hideTitle}}
+        <h1 class="certification-joiner__title">{{t "pages.certification-joiner.first-title"}}</h1>
+      {{/unless}}
       <form {{on "submit" this.handleSubmit}}>
-        <p class="certification-joiner__mandatory">{{t "common.form.mandatory-all-fields"}}</p>
+        {{#unless @hideTitle}}
+          <p class="certification-joiner__mandatory">{{t "common.form.mandatory-all-fields"}}</p>
+        {{/unless}}
 
         <PixInput
           @id="certificationJoinerSessionId"

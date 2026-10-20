@@ -1,7 +1,5 @@
 'use strict';
 
-require('dotenv').config({ quiet: true });
-
 module.exports = function (environment) {
   const ENV = {
     modulePrefix: 'junior',

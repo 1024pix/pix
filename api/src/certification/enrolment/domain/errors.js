@@ -20,6 +20,15 @@ export class SessionExpiredError extends DomainError {
   }
 }
 
+export class SessionAlreadyStartedError extends DomainError {
+  constructor(
+    message = 'Des certifications sont déjà démarrées dans cette session. Elle ne peut donc pas être modifiée.',
+  ) {
+    super(message);
+    this.code = 'SESSION_ALREADY_STARTED_ERROR';
+  }
+}
+
 export class UnknownCountryForStudentEnrolmentError extends DomainError {
   constructor(
     { firstName, lastName },

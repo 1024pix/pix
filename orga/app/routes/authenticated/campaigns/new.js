@@ -7,7 +7,6 @@ export default class NewRoute extends Route {
   @service intl;
   @service router;
   @service store;
-  @service featureToggles;
 
   queryParams = {
     source: { refreshModel: true },
@@ -23,19 +22,13 @@ export default class NewRoute extends Route {
 
   async model(params) {
     const organization = this.currentUser.organization;
-    let combinedCourseBlueprints;
-
-    const targetProfiles = (await organization.targetProfiles) ?? undefined;
-
-    if (!this.featureToggles.featureToggles.displayCatalogue) {
-      combinedCourseBlueprints = (await organization.combinedCourseBlueprints) ?? undefined;
-    }
 
     const membersSortedByFullName = await this.store.findAll('member-identity', {
       adapterOptions: { organizationId: organization.id },
     });
 
     let campaignAttributes;
+
     if (params?.source) {
       try {
         const from = await this.store.findRecord('campaign', params.source);
@@ -52,6 +45,9 @@ export default class NewRoute extends Route {
         ]);
         campaignAttributes.name = `${this.intl.t('pages.campaign-creation.copy-of')} ${from.name}`;
         if (campaignAttributes.targetProfileId) {
+          // TODO probably remove organization target profiles relationship
+          // TODO remove target profile content peek here, as we refer only to its id for the course now + update tests
+          await organization.targetProfiles;
           campaignAttributes.targetProfile = await this.store.peekRecord(
             'target-profile',
             campaignAttributes.targetProfileId,
@@ -68,34 +64,31 @@ export default class NewRoute extends Route {
       ...(campaignAttributes ?? campaignAttributes),
     });
 
-    if (this.featureToggles.featureToggles?.displayCatalogue) {
-      const courses = await this.store.findAll('course', {
-        backgroundReload: false,
-        adapterOptions: { organizationId: organization.id },
-      });
-      if (params?.courseId || params?.source) {
-        if (params?.courseId) {
-          campaign.course = courses.find(({ id }) => id === params.courseId);
-        } else {
-          campaign.course = courses
-            .filter(({ type }) => type === 'targetProfile')
-            .find((course) => course.sourceId.toString() === campaign.targetProfileId);
-        }
+    const courses = await this.store.findAll('course', {
+      backgroundReload: false,
+      adapterOptions: { organizationId: organization.id },
+    });
 
-        if (!campaign.type && campaign.course?.type === 'targetProfile') {
-          campaign.setType('ASSESSMENT');
-        }
-        if (campaign.course?.type === 'blueprint') {
-          campaign.setType('COMBINED_COURSE');
-        }
+    if (params?.courseId || params?.source) {
+      if (params?.courseId) {
+        campaign.course = courses.find(({ id }) => id === params.courseId);
+      } else {
+        campaign.course = courses
+          .filter(({ type }) => type === 'targetProfile')
+          .find((course) => course.sourceId.toString() === campaign.targetProfileId);
       }
 
-      const hasBlueprints = courses.some((course) => course.type === 'blueprint');
-
-      return { campaign, membersSortedByFullName, hasBlueprints };
+      if (!campaign.type && campaign.course?.type === 'targetProfile') {
+        campaign.setType('ASSESSMENT');
+      }
+      if (campaign.course?.type === 'blueprint') {
+        campaign.setType('COMBINED_COURSE');
+      }
     }
 
-    return { campaign, membersSortedByFullName, targetProfiles, combinedCourseBlueprints };
+    const hasBlueprints = courses.some((course) => course.type === 'blueprint');
+
+    return { campaign, membersSortedByFullName, hasBlueprints };
   }
 
   resetController(controller, isExiting) {

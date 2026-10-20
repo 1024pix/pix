@@ -11,7 +11,7 @@ export class Center {
    * @param {number} props.id
    * @param {string} props.name
    * @param {string} props.externalId
-   * @param {CERTIFICATION_CENTER_TYPES} props.type
+   * @param {keyof typeof CERTIFICATION_CENTER_TYPES} props.type
    * @param {Array<Habilitation>} props.habilitations center habilitations
    * @param {MatchingOrganization | null} props.matchingOrganization
    * @param {Date} createdAt

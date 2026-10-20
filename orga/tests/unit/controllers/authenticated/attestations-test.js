@@ -1,4 +1,5 @@
 import Service from '@ember/service';
+import { EVENT_NAME } from 'pix-orga/constants/metrics-event-name';
 import { FILE_NAME, SIXTH_GRADE_ATTESTATION_KEY } from 'pix-orga/controllers/authenticated/attestations';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -8,11 +9,7 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Unit | Controller | authenticated/attestations', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  module('#downloadAttestations', function (hooks) {
-    hooks.beforeEach(function () {
-      const metrics = this.owner.lookup('service:pix-metrics');
-      sinon.stub(metrics, 'trackEvent');
-    });
+  module('#downloadAttestations', function () {
     module('when there are selected divisions', function () {
       test('should call the file-saver service with the right parameters', async function (assert) {
         // given
@@ -141,6 +138,48 @@ module('Unit | Controller | authenticated/attestations', function (hooks) {
       // then
       sinon.assert.calledWith(errorMock, errorMessage, { autoClear: false });
       assert.ok(true);
+    });
+
+    test('it should send a download attestation button click event', async function (assert) {
+      // given
+      const metrics = this.owner.lookup('service:pix-metrics');
+      const trackEventStub = sinon.stub(metrics, 'trackEvent');
+
+      this.intl = this.owner.lookup('service:intl');
+      const controller = this.owner.lookup('controller:authenticated/attestations');
+
+      const token = 'a token';
+      const organizationId = 12345;
+      const selectedDivision = ['3èmea'];
+
+      controller.session = {
+        isAuthenticated: true,
+        data: {
+          authenticated: {
+            access_token: token,
+          },
+        },
+      };
+
+      controller.currentUser = {
+        organization: {
+          id: organizationId,
+        },
+      };
+
+      controller.fileSaver = {
+        save: sinon.stub(),
+      };
+
+      controller.model = {
+        options: [{ label: '3èmeA', value: '3èmeA' }],
+      };
+
+      // when
+      await controller.downloadAttestations(SIXTH_GRADE_ATTESTATION_KEY, selectedDivision);
+
+      // then
+      assert.ok(trackEventStub.calledOnceWithExactly(EVENT_NAME.ATTESTATION.DOWNLOAD_CLICK));
     });
   });
 });

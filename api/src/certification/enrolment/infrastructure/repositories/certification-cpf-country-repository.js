@@ -3,6 +3,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { createLRUCache } from '../../../../shared/infrastructure/caches/lru-cache.js';
 import { CertificationCpfCountry } from '../../../shared/domain/models/CertificationCpfCountry.js';
 
+/** @type {ReturnType<typeof createLRUCache<string, CertificationCpfCountry>>} */
 const COUNTRIES_BY_MATCHER_CACHE = createLRUCache({ max: 20 });
 
 /**

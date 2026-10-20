@@ -37,7 +37,7 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
           isRelatedOrganizationManagingStudents: true,
         });
         const certificationPointOfContact = createCertificationPointOfContactWithCustomCenters({
-          pixCertifTermsOfServiceAccepted: true,
+          pixCertifTermsOfServiceStatus: 'accepted',
           allowedCertificationCenterAccesses: [certificationCenter],
         });
         await authenticateSession(certificationPointOfContact.id);
@@ -61,7 +61,7 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
           certificationCenterType: 'SUP',
         });
         certificationPointOfContact = createCertificationPointOfContactWithCustomCenters({
-          pixCertifTermsOfServiceAccepted: true,
+          pixCertifTermsOfServiceStatus: 'accepted',
           allowedCertificationCenterAccesses: [certificationCenter],
         });
 

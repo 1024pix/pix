@@ -8,6 +8,11 @@ export const COMBINED_COURSE_ITEM_TYPES = {
   FORMATION: 'formation',
 };
 
+export const COURSE_ITEM_TYPES = {
+  TARGET_PROFILE: 'targetProfile',
+  BLUEPRINT: 'blueprint',
+};
+
 export const QUEST_HEADER = {
   columns: [
     new CsvColumn({

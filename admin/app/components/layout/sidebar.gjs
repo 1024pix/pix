@@ -91,12 +91,6 @@ export default class Sidebar extends Component {
           </PixNavigationButton>
         {{/if}}
 
-        {{#if this.currentUser.adminMember.isSuperAdmin}}
-          <PixNavigationButton class="sidebar__link" @route="authenticated.team" @icon="users">
-            {{t "components.layout.sidebar.team"}}
-          </PixNavigationButton>
-        {{/if}}
-
         {{#if this.accessControl.hasAccessToTrainings}}
 
           <PixNavigationButton class="sidebar__link" @route="authenticated.trainings" @icon="book">
@@ -117,6 +111,12 @@ export default class Sidebar extends Component {
             {{t "components.layout.sidebar.administration"}}
           </PixNavigationButton>
 
+        {{/if}}
+
+        {{#if this.currentUser.adminMember.isSuperAdmin}}
+          <PixNavigationButton class="sidebar__link" @route="authenticated.team" @icon="users">
+            {{t "components.layout.sidebar.team"}}
+          </PixNavigationButton>
         {{/if}}
       </:navElements>
       <:footer>

@@ -835,10 +835,11 @@
         "title": "Instellingen"
       },
       "tags": {
+        "ATTESTATION": "Attesten",
         "BACK_TO_SCHOOL": "Traject begin van het jaar /6e",
         "COMPETENCES": "De 16 competenties",
         "CUSTOM": "Traject op maat",
-        "DISCIPLINE": "Tuchtmaatregelen",
+        "DISCIPLINE": "Vakken",
         "OTHER": "Overige",
         "PIX_PLUS": "Pix+",
         "PREDEFINED": "Vooraf ingesteld traject",
@@ -1617,6 +1618,14 @@
           "details": "Hiermee kun je een nieuwe lijst met studenten importeren ter vervanging van de bestaande lijst.",
           "label": "Een nieuwe lijst importeren",
           "title": "Vervangen"
+        },
+        "sco": {
+          "details": "Met deze actie kun je:",
+          "details-add": "nieuwe leerlingen toevoegen",
+          "details-disable": "voormalige leerlingen deactiveren",
+          "details-update": "reeds geïmporteerde leerlingen wijzigen",
+          "label": "De lijst importeren",
+          "title": "De lijst met leerlingen importeren"
         }
       },
       "banner": {
@@ -1640,6 +1649,9 @@
       },
       "file-type-separator": ", ",
       "global-success": "Het laatste bestand is succesvol geïmporteerd op {date} door {firstName} {lastName}.",
+      "pro": {
+        "title": "Deelnemers importeren"
+      },
       "sco": {
         "title": "Leerlingen importeren"
       },

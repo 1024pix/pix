@@ -32,7 +32,7 @@ export class LtiPlatformRegistration {
 
   async fetchJwks({ httpAgent }) {
     const { data } = await httpAgent.get({
-      url: this.JwksUri,
+      url: this.jwksUri,
     });
     return data;
   }
@@ -45,7 +45,15 @@ export class LtiPlatformRegistration {
     return this.platformOpenIdConfig.authorization_endpoint;
   }
 
-  get JwksUri() {
+  get jwksUri() {
     return this.platformOpenIdConfig.jwks_uri;
+  }
+
+  get ltiToolConfiguration() {
+    return this.toolConfig['https://purl.imsglobal.org/spec/lti-tool-configuration'];
+  }
+
+  get deploymentId() {
+    return this.ltiToolConfiguration.deployment_id;
   }
 }

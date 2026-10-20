@@ -47,6 +47,10 @@ export default Factory.extend({
     return false;
   },
 
+  hasStartedTest() {
+    return false;
+  },
+
   sessionId() {
     return 123456;
   },

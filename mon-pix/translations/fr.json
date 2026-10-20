@@ -53,6 +53,12 @@
       "stay": "Rester",
       "validate": "Valider"
     },
+    "answer-state": {
+      "aband": "Pas de réponse",
+      "ko": "Réponse incorrecte",
+      "ok": "Réponse correcte",
+      "timedout": "Temps dépassé"
+    },
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
       "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement.",
@@ -157,6 +163,16 @@
     "yes": "Oui"
   },
   "components": {
+    "assessments": {
+      "result-item": {
+        "actions": {
+          "see-answers-and-tutorials": {
+            "label": "Voir les réponses et les tutos"
+          }
+        },
+        "question-number": "Question { number }"
+      }
+    },
     "attestations": {
       "obtainedAt": "Date de délivrance: {date}",
       "title": {
@@ -313,6 +329,17 @@
             "title": "Progressez"
           }
         }
+      }
+    },
+    "info-bar": {
+      "certification-number": "N° de certification",
+      "completion-percentage": {
+        "caption": "avancement dans le parcours",
+        "label": "Vous avez effectué {completion, number, ::percent} de votre parcours."
+      },
+      "progress": {
+        "label": "Question",
+        "position": "{current} sur {total}"
       }
     },
     "invited": {
@@ -986,6 +1013,32 @@
       "non-eligible-subscription": "Vous n'êtes pas éligible à {subscriptionLabel}. Vous pouvez néanmoins passer votre certification Pix.",
       "title": "Rejoindre une session de certification"
     },
+    "certifications-dashboard": {
+      "enrolment-banner": {
+        "action": "Entrer en certification",
+        "certifiable": {
+          "description": "Cliquer sur le bouton ci-dessous et démarrer votre certification",
+          "title": "Vous souhaitez passer une certification ?"
+        },
+        "clea": {
+          "text": "Vous êtes éligible au CléA numérique",
+          "title": "Votre profil Pix est certifiable"
+        },
+        "not-certifiable": {
+          "description": "Un minimum de pré-requis est nécessaire pour passer la certification.",
+          "title": "Vous n’êtes pas encore certifiable"
+        }
+      },
+      "modal": {
+        "sub-title": "Tous les champs sont obligatoires.",
+        "title": "Rejoindre une session"
+      },
+      "user-certifications": {
+        "title": "Mes certifications",
+        "with-certification-text": "Accédez à l’ensemble de vos certifications Pix. Consultez les détails et téléchargez vos certificats.",
+        "without-certification-text": "Vous n’avez pas encore de certification Pix."
+      }
+    },
     "certifications-list": {
       "buttons": {
         "details": "Voir le détail",
@@ -1024,9 +1077,6 @@
         "numbered-label": "Réponse {number}"
       },
       "certification": {
-        "banner": {
-          "certification-number": "N° de certification"
-        },
         "title": "Certification {certificationNumber}"
       },
       "certification-feedback-panel": {
@@ -1185,9 +1235,6 @@
         "progress": "Votre progression",
         "validation": "Valider ou passer votre épreuve"
       },
-      "progress-bar": {
-        "label": "Question"
-      },
       "skip-error-message": {
         "qcm": "Pour valider, sélectionnez au moins deux réponses. Sinon, passez.",
         "qcu": "Pour valider, sélectionnez une réponse. Sinon, passez.",
@@ -1254,14 +1301,13 @@
       },
       "answers": {
         "already-finished": {
-          "explanation": "Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.\n\nVous souhaitez améliorer votre score ? En cliquant sur  “Voir mes résultats”, vous aurez la possibilité de retenter le parcours.",
+          "explanation": {
+            "sentence1": "Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.",
+            "sentence2": "Vous souhaitez améliorer votre score ? En cliquant sur “Voir mes résultats”, vous aurez la possibilité de retenter le parcours."
+          },
           "info": "Vous avez déjà répondu !"
         },
-        "header": "vos réponses"
-      },
-      "completion-percentage": {
-        "caption": "avancement dans le parcours",
-        "label": "Vous avez effectué {completion, number, ::percent} de votre parcours."
+        "header": "Vos réponses aux dernières questions"
       },
       "sharing-results": {
         "information-banner": "En cliquant sur le bouton \"Voir mes résultats\", vos résultats seront transmis à l'organisateur."
@@ -1302,6 +1348,8 @@
           "description": "Terminez votre diagnostic pour débloquer un programme de modules adapté à votre résultat !",
           "title": "Programme personnalisé de modules"
         },
+        "restart-campaign": "Recommencer",
+        "restart-module": "Recommencer le module",
         "start-campaign": "Commencer",
         "start-module": "Commencer le module",
         "tagText": "Vous en êtes là !"
@@ -1350,7 +1398,7 @@
         },
         "aband": {
           "title": "Vous n’avez pas donné de réponse",
-          "tooltip": "Sans réponse"
+          "tooltip": "Question passée"
         },
         "abandAutoReply": {
           "title": "Vous avez passé l’épreuve",
@@ -1370,7 +1418,7 @@
         },
         "ko": {
           "title": "Vous n’avez pas la bonne réponse",
-          "tooltip": "Réponse incorrecte"
+          "tooltip": "Mauvaise réponse"
         },
         "koAutoReply": {
           "title": "Vous n’avez pas réussi l’épreuve",
@@ -1378,7 +1426,7 @@
         },
         "ok": {
           "title": "Vous avez la bonne réponse !",
-          "tooltip": "Réponse correcte"
+          "tooltip": "Bonne réponse"
         },
         "okAutoReply": {
           "title": "Vous avez réussi l’épreuve",
@@ -2013,7 +2061,6 @@
       "total-score-helper": {
         "explanation": "'<p>'C’est le nombre maximum de pix qu’on pourra atteindre lorsque les 8 niveaux du référentiel Pix seront disponibles.'</p><p>'Aujourd’hui, '<span class=\"hexagon-score-information__text--strong\">'le maximum est de {maxReachablePixScore} pix'</span>', correspondant au niveau {maxReachableLevel}.'</p>'",
         "icon": "Information sur les pix",
-        "label": "Ouvrir l'infobulle",
         "title": "Pourquoi 1024 pix ?"
       }
     },
@@ -2035,17 +2082,6 @@
       },
       "first-title": "Réinitialisation du mot de passe",
       "title": "Changer mon mot de passe"
-    },
-    "result-item": {
-      "aband": "Pas de réponse",
-      "actions": {
-        "see-answers-and-tutorials": {
-          "label": "Réponses et tutos"
-        }
-      },
-      "ko": "Réponse incorrecte",
-      "ok": "Réponse correcte",
-      "timedout": "Temps dépassé"
     },
     "sco-signup-or-login": {
       "invitation": "{ organizationName } vous invite à rejoindre Pix",

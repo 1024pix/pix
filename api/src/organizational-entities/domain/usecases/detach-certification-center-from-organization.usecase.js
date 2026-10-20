@@ -1,21 +1,22 @@
 /**
- * @typedef {import ('./index.js').OrganizationForAdminRepository} OrganizationForAdminRepository
+ * @typedef {import ('./index.js').StructureRepository} StructureRepository
  */
 
+import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { OrganizationNotFound } from '../errors.js';
 
 /**
  * @param {object} params
  * @param {number} params.organizationId
- * @param {OrganizationForAdminRepository} params.organizationForAdminRepository
+ * @param {StructureRepository} params.structureRepository
  * @returns {Promise<void>}
  */
-export const detachCertificationCenterFromOrganization = async function ({
+export const detachCertificationCenterFromOrganization = withTransaction(async function ({
   organizationId,
-  organizationForAdminRepository,
+  structureRepository,
 }) {
-  const existingOrganization = await organizationForAdminRepository.exist({ organizationId });
-  if (!existingOrganization) {
+  const organizationStructure = await structureRepository.findByOrganizationId({ organizationId });
+  if (!organizationStructure) {
     throw new OrganizationNotFound({
       code: 'ORGANIZATION_NOT_FOUND',
       message: 'Organization does not exist',
@@ -23,5 +24,9 @@ export const detachCertificationCenterFromOrganization = async function ({
     });
   }
 
-  await organizationForAdminRepository.detachCertificationCenter({ organizationId });
-};
+  const certificationCenterStructure = organizationStructure.detachCertificationCenter();
+  if (!certificationCenterStructure) return;
+
+  await structureRepository.save(organizationStructure);
+  await structureRepository.save(certificationCenterStructure);
+});

@@ -18,9 +18,9 @@ function serialize(userCertificationEligibility) {
           doubleCertificationEligibility: {
             label: userCertificationEligibility.doubleCertificationEligibility.label,
             imageUrl: userCertificationEligibility.doubleCertificationEligibility.imageUrl,
-            isBadgeValid: userCertificationEligibility.doubleCertificationEligibility.isBadgeValid,
-            validatedDoubleCertification:
-              userCertificationEligibility.doubleCertificationEligibility.validatedDoubleCertification,
+            isEligible: userCertificationEligibility.doubleCertificationEligibility.isEligible,
+            certificationAlreadySucceeded:
+              userCertificationEligibility.doubleCertificationEligibility.certificationAlreadySucceeded,
           },
         };
       }

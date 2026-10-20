@@ -101,8 +101,9 @@ export async function updateAssessmentWithNextChallenge({
       globalProgression,
     };
   }
-  await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
-  if (nextChallengeId !== assessment.lastChallengeId) {
+  if (nextChallengeId === assessment.lastChallengeId) {
+    await assessmentRepository.updateLastQuestionDate({ id: assessment.id });
+  } else {
     await assessmentRepository.updateWhenNewChallengeIsAsked({
       id: assessment.id,
       lastChallengeId: nextChallengeId,

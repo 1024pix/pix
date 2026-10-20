@@ -170,7 +170,7 @@ export const certifSetupFixtures = baseCertifTest.extend<{
           for (const [i, shouldAnswerCorrectly] of rightWrongAnswersSequence.entries()) {
             const challengeImprint = await challengePage.getChallengeImprint();
             snapshotHandler.push('challenge imprint to have value', challengeImprint);
-            await expect(pixAppPage.getByLabel('Votre progression')).toContainText(`${i + 1} / 32`);
+            await expect(pixAppPage.getByTestId('pw-certification-progression')).toContainText(`${i + 1} / 32`);
             await challengePage.setRightOrWrongAnswer(shouldAnswerCorrectly);
             await challengePage.validateAnswer();
           }
@@ -244,7 +244,9 @@ export const certifSetupFixtures = baseCertifTest.extend<{
               const certificationNumber = await challengePage.getCertificationNumber();
               certificationNumbers.push(certificationNumber);
               for (const [i, shouldAnswerCorrectly] of examData.rightWrongAnswersSequence.entries()) {
-                await expect(examData.pixAppPage.getByLabel('Votre progression')).toContainText(`${i + 1} / 32`);
+                await expect(examData.pixAppPage.getByTestId('pw-certification-progression')).toContainText(
+                  `${i + 1} / 32`,
+                );
                 await challengePage.setRightOrWrongAnswer(shouldAnswerCorrectly);
                 await challengePage.validateAnswer();
               }

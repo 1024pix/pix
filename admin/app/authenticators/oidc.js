@@ -5,8 +5,10 @@ import { jwtDecode } from 'jwt-decode';
 import ENV from 'pix-admin/config/environment';
 
 export default class OidcAuthenticator extends BaseAuthenticator {
-  @service session;
+  @service featureToggles;
   @service oidcIdentityProviders;
+  @service session;
+  @service requestManager;
 
   async authenticate({ code, state, iss, authenticationKey, email, identityProviderSlug }) {
     const identityProvider = this.oidcIdentityProviders.findBySlug(identityProviderSlug);
@@ -54,7 +56,9 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       access_token: data.access_token,
       user_id: decodedAccessToken.user_id,
       expiresAt: decodedAccessToken.exp * 1000,
+      logoutUrlUuid: data.logout_url_uuid,
       source: identityProvider.source,
+      shouldCloseSession: identityProvider.shouldCloseSession,
       identityProviderCode: identityProvider.code,
     };
   }
@@ -70,5 +74,51 @@ export default class OidcAuthenticator extends BaseAuthenticator {
 
       resolve(data);
     });
+  }
+
+  /**
+   * @param {Object} data - The current authenticated session data
+   */
+  async invalidate(data) {
+    const { access_token, shouldCloseSession, identityProviderCode, logoutUrlUuid } = data || {};
+
+    if (this.featureToggles.featureToggles.isSessionLogoutEnabled) {
+      try {
+        const response = await this.requestManager.request({
+          url: `${ENV.APP.API_HOST}/api/oidc/logout`,
+          method: 'POST',
+          body: JSON.stringify({
+            identity_provider: identityProviderCode,
+            logout_url_uuid: logoutUrlUuid,
+          }),
+        });
+
+        const { redirectLogoutUrl } = response.content;
+        if (redirectLogoutUrl) {
+          this.session.alternativeRootURL = redirectLogoutUrl;
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console -- for diagnostics
+        console.log('Pix API logout failed but ignoring error to clear authentication on client side:', err);
+      }
+    } else {
+      // Old implementation
+
+      if (!shouldCloseSession) {
+        return;
+      }
+
+      const response = await fetch(
+        `${ENV.APP.API_HOST}/api/oidc/redirect-logout-url?identity_provider=${identityProviderCode}&logout_url_uuid=${logoutUrlUuid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        },
+      );
+      const { redirectLogoutUrl } = await response.json();
+
+      this.session.alternativeRootURL = redirectLogoutUrl;
+    }
   }
 }

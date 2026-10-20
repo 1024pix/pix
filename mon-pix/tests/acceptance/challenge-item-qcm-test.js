@@ -139,16 +139,16 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
 
     test('should show the result of previous challenge in checkpoint', async function (assert) {
       // then
-      assert.dom(screen.getByTitle('Réponse incorrecte')).exists();
+      assert.dom(screen.getByText('Mauvaise réponse')).exists();
 
       assert.dom(screen.getByText("Un QCM propose plusieurs choix, l'utilisateur peut en choisir plusieurs")).exists();
 
-      assert.dom(screen.getByRole('button', { name: 'Réponses et tutos' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Voir les réponses et les tutos' })).exists();
     });
 
     test('should show details of challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
       // when
-      await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
+      await click(screen.getByRole('button', { name: 'Voir les réponses et les tutos' }));
 
       // then
       assert

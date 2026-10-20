@@ -30,7 +30,6 @@ module('Acceptance | Challenge page banner', function (hooks) {
       await click(screen.getByRole('button', { name: 'Ignorer' }));
 
       // then
-      assert.dom(screen.getByRole('img', { name: 'pix' })).exists();
       assert.dom(screen.getByRole('button', { name: 'Quitter' })).exists();
     });
 

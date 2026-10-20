@@ -835,7 +835,8 @@
         "title": "Paramétrage"
       },
       "tags": {
-        "BACK_TO_SCHOOL": "Parcours de rentrée / 6e",
+        "ATTESTATION": "Attestations",
+        "BACK_TO_SCHOOL": "Parcours de rentrée",
         "COMPETENCES": "Les 16 compétences",
         "CUSTOM": "Parcours sur-mesure",
         "DISCIPLINE": "Disciplinaires",
@@ -1617,6 +1618,14 @@
           "details": "Permet d’importer une nouvelle liste d'étudiants à la place de l’existante.",
           "label": "Importer une nouvelle liste",
           "title": "Remplacer"
+        },
+        "sco": {
+          "details": "Cette action vous permet de :",
+          "details-add": "ajouter de nouveaux élèves",
+          "details-disable": "désactiver les anciens élèves",
+          "details-update": "modifier les élèves déjà importés",
+          "label": "Importer la liste",
+          "title": "Importer la liste des élèves"
         }
       },
       "banner": {
@@ -1634,12 +1643,13 @@
         "warning-banner": "Certaines valeurs n’ont pas été reconnues. Elles ont été remplacées par “Non reconnu”. Si vous considérez qu’il manque des valeurs dans la liste limitative, veuillez nous contacter à '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'"
       },
       "error-panel": {
-        "error-wrapper": "Aucun participant n’a été importé. Veuillez modifier votre fichier et l’importer à nouveau.",
-        "global-error": "Aucun participant n’a été importé. Veuillez réessayer ou nous contacter via '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'le formulaire du centre d’aide'</a>'.",
         "title": "Erreurs dans le dernier fichier importé :"
       },
       "file-type-separator": ", ",
       "global-success": "Dernier fichier importé avec succès le {date} par {firstName} {lastName}.",
+      "pro": {
+        "title": "Importer des participants"
+      },
       "sco": {
         "title": "Importer des élèves"
       },

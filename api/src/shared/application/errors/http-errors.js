@@ -145,8 +145,8 @@ export class PayloadTooLargeError extends BaseHttpError {
 }
 
 export class SessionPublicationBatchError extends BaseHttpError {
-  constructor(batchId) {
-    super(`${batchId}`);
+  constructor() {
+    super();
     this.title = 'One or more error occurred while publishing session in batch';
     this.code = 'SESSION_PUBLICATION_BATCH_PARTIALLY_FAILED';
     this.status = 207;

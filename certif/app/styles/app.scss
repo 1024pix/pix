@@ -3,6 +3,7 @@
 // nebulix
 @use 'nebulix-styles' as *;
 @use 'pix-design-tokens/breakpoints';
+@use 'globals/a11y' as *;
 @use 'globals/forms' as *;
 @use 'globals/modals' as *;
 @use 'globals/pages' as *;
@@ -31,6 +32,7 @@
 @use 'components/add-issue-report-modal' as *;
 @use 'components/certification-candidate-details-modal/index' as *;
 @use 'components/certification-candidate-details-modal/row' as *;
+@use 'components/terms-of-service/index' as *; // TODO: supprimer avec le feature toggle newPixCertifLegalDocumentsVersioning
 @use 'components/edit-candidate-modal' as *;
 @use 'components/issue-report-modal' as *;
 @use 'components/layout/footer' as *;

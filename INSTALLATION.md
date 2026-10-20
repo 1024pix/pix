@@ -145,37 +145,7 @@ LCMS_API_URL=<SOME_URL>
 
 #### Configurer les domaines locaux
 
-Il est possible d'accéder aux applications Pix avec des domaines `*.dev.pix.<tld>`
-plutôt que `localhost:port` :
-
-- Mon Pix
-  - http://app.dev.pix.fr/
-  - http://app.dev.pix.org/
-- Orga
-  - http://orga.dev.pix.fr/
-  - http://orga.dev.pix.org/
-- Admin
-  - http://admin.dev.pix.fr/
-- Certif
-  - http://certif.dev.pix.fr/
-
-Pour configurer les domaines locaux, exécuter le script :
-
-```bash
-sudo npm run domains:install
-```
-
-Démarrer le conteneur docker :
-
-```bash
-npm run domains:start
-```
-
-Arrêter le conteneur :
-
-```bash
-npm run domains:stop
-```
+Voir [la documentation dédiée](./docker/local-domains/README.md).
 
 #### Charger des SSO OIDC lors du chargement des seeds
 

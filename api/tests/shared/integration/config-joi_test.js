@@ -134,4 +134,65 @@ describe('Shared | Integration | Config joi', function () {
       });
     });
   });
+
+  describe('#duration', function () {
+    beforeEach(function () {
+      schema = Joi.object({
+        MADDO: Joi.boolean().optional().default(false),
+        TEST: Joi.string().duration().requiredForApi(),
+      });
+    });
+
+    ['100ms', '5m', '1 h', '100', '0'].forEach((value) => {
+      describe(`when value is "${value}"`, function () {
+        it('should not return an error', function () {
+          // given
+          const config = { TEST: value };
+
+          // when
+          const { error } = schema.validate(config);
+
+          // then
+          expect(error).to.be.undefined;
+        });
+      });
+    });
+
+    ['abc', '10x', '-1s', ''].forEach((value) => {
+      describe(`when value is "${value}"`, function () {
+        it('should return an error', function () {
+          // given
+          const config = { TEST: value };
+
+          // when
+          const { error } = schema.validate(config);
+
+          // then
+          expect(error).not.to.be.undefined;
+        });
+      });
+    });
+
+    it('should explain the expected format', function () {
+      // given
+      const config = { TEST: 'abc' };
+
+      // when
+      const { error } = schema.validate(config);
+
+      // then
+      expect(error.message).to.equal('"TEST" must be a duration readable by ms, such as "100ms" or "5m"');
+    });
+
+    it('should keep the other rules of the extension', function () {
+      // given
+      const config = { MADDO: 'false' };
+
+      // when
+      const { error } = schema.validate(config);
+
+      // then
+      expect(error.message).to.equal('"TEST" is required');
+    });
+  });
 });

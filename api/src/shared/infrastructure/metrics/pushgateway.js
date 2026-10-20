@@ -1,7 +1,7 @@
 import http from 'node:http';
 import https from 'node:https';
 
-import { Pushgateway } from 'prom-client';
+import { Pushgateway } from '@prometheus-io/client';
 
 import { config } from '../../../../config/config.js';
 import { child } from '../utils/logger.js';

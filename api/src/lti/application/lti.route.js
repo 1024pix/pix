@@ -1,6 +1,7 @@
 import Joi from 'joi';
 
 import { featureToggles } from '../../shared/infrastructure/feature-toggles/index.js';
+import { ltiPrescriberStrategyName } from '../infrastructure/lti-authentication.js';
 import { ltiController } from './lti.controller.js';
 
 async function register(server, options, dependencies = { featureToggles }) {
@@ -44,7 +45,6 @@ async function register(server, options, dependencies = { featureToggles }) {
       path: '/api/lti/init',
       options: {
         auth: false,
-        cache: false,
         handler: (request, h) => ltiController.init(request, h),
         notes: ['Cette route initialise un workflow LTI'],
         tags: ['api', 'lti'],
@@ -52,11 +52,45 @@ async function register(server, options, dependencies = { featureToggles }) {
     },
     {
       method: 'POST',
-      path: '/api/lti/launch',
+      path: '/api/lti/deep-linking',
       options: {
         auth: false,
-        cache: false,
-        handler: (request, h) => ltiController.launch(request, h),
+        handler: (request, h) => ltiController.deepLink(request, h),
+        notes: [
+          'Cette route reçoit une deep-linking request, positionne un Cookie et redirige l’utilisateur vers un formulaire de sélection de campagne sur PixOrga.',
+        ],
+        tags: ['api', 'lti'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/lti/campaigns',
+      options: {
+        auth: { strategy: ltiPrescriberStrategyName },
+        handler: (request, h) => ltiController.findAvailableCampaigns(request, h),
+        notes: [
+          'Cette route permet de recupérer la liste des campagnes disponibles pour les organisations corespondantes.',
+        ],
+        tags: ['api', 'lti'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/lti/select-campaign',
+      options: {
+        auth: { strategy: ltiPrescriberStrategyName },
+        handler: (request, h) => ltiController.selectCampaign(request, h),
+        notes: ['Cette route renvoie une deep-linking response prêt pour être renvoyée à Moodle.'],
+        tags: ['api', 'lti'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/lti/resource-link',
+      options: {
+        auth: false,
+        handler: (request, h) => ltiController.resourceLink(request, h),
+        notes: [`Cette route reçoit une resource link request et redirige l'utilisateur vers la ressource demandée`],
         tags: ['api', 'lti'],
       },
     },

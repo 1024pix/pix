@@ -1,4 +1,5 @@
 import { V3CertificationScoring } from '../../../../../../src/certification/evaluation/domain/models/V3CertificationScoring.js';
+import { PIX_COUNT_BY_LEVEL } from '../../../../../../src/shared/constants.js';
 
 export const buildV3CertificationScoring = ({
   competencesForScoring = [],
@@ -13,12 +14,25 @@ export const buildV3CertificationScoring = ({
     { bounds: { max: 6.56789, min: 4.90123 }, meshLevel: 7 },
   ],
   minimumAnswersRequiredToValidateACertification = 20,
+  maxReachableLevel,
+  maxReachablePixScore,
   versionId = 1,
 } = {}) => {
+  const resolvedMaxReachableLevel =
+    maxReachableLevel ??
+    (certificationScoringConfiguration?.length ? certificationScoringConfiguration.length - 1 : null);
+  const resolvedMaxReachablePixScore =
+    maxReachablePixScore ??
+    (resolvedMaxReachableLevel !== null && competencesForScoring.length
+      ? resolvedMaxReachableLevel * competencesForScoring.length * PIX_COUNT_BY_LEVEL - 1
+      : null);
+
   return new V3CertificationScoring({
     competencesForScoring,
     certificationScoringConfiguration,
     minimumAnswersRequiredToValidateACertification,
+    maxReachableLevel: resolvedMaxReachableLevel,
+    maxReachablePixScore: resolvedMaxReachablePixScore,
     versionId,
   });
 };

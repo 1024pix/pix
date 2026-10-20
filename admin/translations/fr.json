@@ -113,7 +113,8 @@
         "category": {
           "name": "Catégorie",
           "tags": {
-            "BACK_TO_SCHOOL": "Parcours de rentrée / 6e",
+            "ATTESTATION": "Attestations",
+            "BACK_TO_SCHOOL": "Parcours de rentrée",
             "COMPETENCES": "Les 16 compétences",
             "CUSTOM": "Parcours sur-mesure",
             "DISCIPLINE": "Disciplinaires",
@@ -677,7 +678,9 @@
               "no-configuration": "Aucune configuration disponible pour cette compétence.",
               "title": "Bornes de capacités par compétences"
             },
+            "edit":"Éditer le scoring",
             "level": "Niveau {index}",
+            "no-edit":"Ne plus éditer le scoring",
             "previous-version-capacity": "Valeur dans la version précédente : {previousVersionCapacity}",
             "required-error": "Ce champ est obligatoire.",
             "save-error": "Une erreur s'est produite lors de l'enregistrement du scoring.",

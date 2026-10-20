@@ -9,7 +9,6 @@
   gap: var(--pix-spacing-4x);
   align-items: flex-start;
   justify-content: space-between;
-  padding-block: var(--pix-spacing-12x) var(--pix-spacing-6x);
   color: var(--pix-neutral-500);
 
   @include breakpoints.device-is('mobile') {

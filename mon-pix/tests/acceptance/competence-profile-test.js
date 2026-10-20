@@ -7,7 +7,7 @@ import { module, test } from 'qunit';
 
 import { authenticate } from '../helpers/authentication';
 
-module('Acceptance | Profile | Start competence', function (hooks) {
+module('Acceptance | Profile | Start competence', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   let user;
@@ -28,7 +28,7 @@ module('Acceptance | Profile | Start competence', function (hooks) {
       const splitIndex = firstScorecard.index.split('.');
       const competenceNumber = splitIndex[splitIndex.length - 1];
       const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-      server.create('challenge', 'forCompetenceEvaluation', 'QCM');
+      const challenge = server.create('challenge', 'forCompetenceEvaluation', 'QCM');
       server.create('competence-evaluation', { user, competenceId, assessment });
 
       // when
@@ -42,7 +42,7 @@ module('Acceptance | Profile | Start competence', function (hooks) {
 
       // then
       assert.ok(currentURL().includes('/assessments/'));
-      assert.dom('.challenge__content').exists();
+      assert.dom(screen.getByText(challenge.instruction)).exists();
     });
   });
 });

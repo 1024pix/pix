@@ -1,6 +1,6 @@
 // @ts-check
 /**
- * @typedef {import("../../../shared/domain/models/Scopes.js").SCOPES} SCOPES
+ * @typedef {typeof import("../../../shared/domain/models/Scopes.js").SCOPES} SCOPES
  * @typedef {import("../../../../shared/domain/models/Challenge.js").Challenge} Challenge
  */
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
@@ -66,9 +66,7 @@ export async function create(version) {
 
   const versionLinkedTubeIds = version.tubeIds.map((tubeId) => ({ tube_id: tubeId, version_id: id }));
 
-  await knexConn
-    .batchInsert('certification_versions_tubes', versionLinkedTubeIds)
-    .transacting(knexConn.isTransaction ? knexConn : null);
+  await knexConn.batchInsert('certification_versions_tubes', versionLinkedTubeIds);
 
   return id;
 }
@@ -83,29 +81,23 @@ export async function update(version) {
   await knexConn('certification_versions').update(dataToInsert).where({ id: version.id });
 }
 
+/** @param {number} id */
 export async function remove(id) {
   const knexConn = DomainTransaction.getConnection();
   await knexConn('certification_versions_tubes').where({ version_id: id }).delete();
   await knexConn('certification_versions').where({ id }).del();
 }
 
+/**
+ * @param {object} params
+ * @param {number} params.id
+ * @param {string} params.comments
+ */
 export async function updateComments({ id, comments }) {
   const knexConn = DomainTransaction.getConnection();
   await knexConn('certification_versions').where({ id }).update({
     comments,
   });
-}
-
-export async function updateScoring({ id, globalScoringConfiguration, competencesScoringConfiguration }) {
-  const knexConn = DomainTransaction.getConnection();
-  await knexConn('certification_versions')
-    .where({ id })
-    .update({
-      globalScoringConfiguration: JSON.stringify(globalScoringConfiguration),
-      competencesScoringConfiguration: competencesScoringConfiguration
-        ? JSON.stringify(competencesScoringConfiguration)
-        : null,
-    });
 }
 
 function buildBaseQuery() {
@@ -120,6 +112,12 @@ function buildBaseQuery() {
     .orderBy('certification_versions.id');
 }
 
+/**
+ * @typedef {object} VersionDTO
+ * @type {string} scope
+ */
+
+/** @param {Version} versionModel */
 function _adaptModelToDb(versionModel) {
   return {
     scope: versionModel.scope,
@@ -127,6 +125,8 @@ function _adaptModelToDb(versionModel) {
     expirationDate: versionModel.expirationDate,
     assessmentDuration: versionModel.assessmentDuration,
     minimumAnswersRequiredToValidateACertification: versionModel.minimumAnswersRequiredToValidateACertification,
+    maxReachableLevel: versionModel.maxReachableLevel,
+    maxReachablePixScore: versionModel.maxReachablePixScore,
     comments: versionModel.comments,
     globalScoringConfiguration: versionModel.globalScoringConfiguration
       ? JSON.stringify(versionModel.globalScoringConfiguration)
@@ -140,6 +140,14 @@ function _adaptModelToDb(versionModel) {
   };
 }
 
+/**
+ * @typedef {ConstructorParameters<typeof Version>[0]} VersionParams
+ * @typedef {ConstructorParameters<typeof FlashAssessmentAlgorithmConfiguration>[0]} FlashParams
+ */
+
+/**
+ * @param {VersionParams & { challengesConfiguration: FlashParams }} versionData
+ */
 function _toDomain({
   id,
   scope,
@@ -147,6 +155,8 @@ function _toDomain({
   expirationDate,
   assessmentDuration,
   minimumAnswersRequiredToValidateACertification,
+  maxReachableLevel,
+  maxReachablePixScore,
   globalScoringConfiguration,
   competencesScoringConfiguration,
   challengesConfiguration,
@@ -161,6 +171,8 @@ function _toDomain({
     startDate,
     expirationDate,
     minimumAnswersRequiredToValidateACertification,
+    maxReachableLevel,
+    maxReachablePixScore,
     assessmentDuration,
     globalScoringConfiguration,
     competencesScoringConfiguration,

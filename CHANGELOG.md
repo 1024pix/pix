@@ -1,5 +1,579 @@
 # Pix Changelog
 
+# [5.524.0](https://github.com/1024pix/pix/compare/v5.523.0...v5.524.0) (2026-10-19)
+
+### :rocket: Amélioration
+
+- [#18023](https://github.com/1024pix/pix/pull/18023) Ajoute un bouton d'édition sur la page Scoring du formulaire de création d'une version (PIX-24729)
+- [#18010](https://github.com/1024pix/pix/pull/18010) Ajouter des textes adaptés aux publics scolaires sur le composant d'ajout de participants (PIX-24718).
+- [#18105](https://github.com/1024pix/pix/pull/18105) Changer le pictogramme des attestations dans pix-assets
+- [#17783](https://github.com/1024pix/pix/pull/17783) Creer le service pour stocker le score Pix dans la table competence_scores
+- [#18084](https://github.com/1024pix/pix/pull/18084) Mise en place mécanisme pour choisir une campagne depuis Moodle (PIX-24517)
+- [#17773](https://github.com/1024pix/pix/pull/17773) Redirections front vers la page tunnel (PIX-24187)
+
+### :bug: Correction
+
+- [#18107](https://github.com/1024pix/pix/pull/18107) Corriger l'ordre de tri des paliers dans le récapitulatif de campagne (PIX-24579).
+- [#18102](https://github.com/1024pix/pix/pull/18102) Ralentit l'animation dans la page tunnel des parcours combinés
+
+### :building_construction: Tech
+
+- [#18071](https://github.com/1024pix/pix/pull/18071) :recycle: Supprime les dernières utilisations de  `lodash`
+- [#18148](https://github.com/1024pix/pix/pull/18148) Enlever les stacktraces knex dans l'output des tests
+- [#18143](https://github.com/1024pix/pix/pull/18143) Remplacer `prom-client` par `@prometheus-io/client`
+- [#18154](https://github.com/1024pix/pix/pull/18154) Supprime dotenv des applications front.
+
+### :arrow_up: Montée de version
+
+- [#18155](https://github.com/1024pix/pix/pull/18155) Pin dependency @prometheus-io/client to 0.16.1 (api)
+- [#18149](https://github.com/1024pix/pix/pull/18149) Update aws-sdk-js-v3 monorepo to v3.1149.0 (api)
+- [#18125](https://github.com/1024pix/pix/pull/18125) Update dependency @types/lodash to v4.17.26 (audit-logger)
+- [#18126](https://github.com/1024pix/pix/pull/18126) Update dependency @types/lodash to v4.17.26 (orga)
+- [#18127](https://github.com/1024pix/pix/pull/18127) Update dependency @types/node to v24.19.2 (audit-logger)
+- [#18128](https://github.com/1024pix/pix/pull/18128) Update dependency @types/node to v24.19.2 (e2e-playwright)
+- [#18129](https://github.com/1024pix/pix/pull/18129) Update dependency @types/node to v26.6.5 (api)
+- [#18150](https://github.com/1024pix/pix/pull/18150) Update dependency dependency-cruiser to v18.6.0 (api)
+- [#18130](https://github.com/1024pix/pix/pull/18130) Update dependency dotenv to v18.0.7 (audit-logger)
+- [#18131](https://github.com/1024pix/pix/pull/18131) Update dependency dotenv to v18.0.7 (e2e-playwright)
+- [#18132](https://github.com/1024pix/pix/pull/18132) Update dependency dotenv to v18.0.7 (junior)
+- [#18133](https://github.com/1024pix/pix/pull/18133) Update dependency dotenv to v18.0.7 (mon-pix)
+- [#18152](https://github.com/1024pix/pix/pull/18152) Update dependency ember-keyboard to v10 (certif)
+- [#18156](https://github.com/1024pix/pix/pull/18156) Update dependency ember-keyboard to v10 (mon-pix)
+- [#18103](https://github.com/1024pix/pix/pull/18103) Update dependency ember-metrics to v3 (admin)
+- [#18104](https://github.com/1024pix/pix/pull/18104) Update dependency ember-metrics to v3 (certif)
+- [#18106](https://github.com/1024pix/pix/pull/18106) Update dependency ember-metrics to v3 (mon-pix)
+- [#18096](https://github.com/1024pix/pix/pull/18096) Update dependency eslint to v10 (api)
+- [#18110](https://github.com/1024pix/pix/pull/18110) Update dependency eslint to v10 (e2e-playwright)
+- [#18113](https://github.com/1024pix/pix/pull/18113) Update dependency eslint-plugin-chai-expect to v4.1.1 (api)
+- [#18114](https://github.com/1024pix/pix/pull/18114) Update dependency eslint-plugin-chai-expect to v4.1.1 (audit-logger)
+- [#18115](https://github.com/1024pix/pix/pull/18115) Update dependency eslint-plugin-chai-expect to v4.1.1 (certif)
+- [#18117](https://github.com/1024pix/pix/pull/18117) Update dependency eslint-plugin-cypress to v7 (e2e)
+- [#18118](https://github.com/1024pix/pix/pull/18118) Update dependency eslint-plugin-mocha to v12 (audit-logger)
+- [#18120](https://github.com/1024pix/pix/pull/18120) Update dependency mocha to v12 (api)
+- [#18151](https://github.com/1024pix/pix/pull/18151) Update dependency nodemailer to v10.1.0 (api)
+- [#18134](https://github.com/1024pix/pix/pull/18134) Update dependency p-queue to v9.3.5 (admin)
+- [#18135](https://github.com/1024pix/pix/pull/18135) Update dependency p-queue to v9.3.5 (certif)
+- [#18136](https://github.com/1024pix/pix/pull/18136) Update dependency p-queue to v9.3.5 (mon-pix)
+- [#18137](https://github.com/1024pix/pix/pull/18137) Update dependency p-queue to v9.3.5 (orga)
+- [#18138](https://github.com/1024pix/pix/pull/18138) Update dependency prettier to v3.9.10 (admin)
+- [#18139](https://github.com/1024pix/pix/pull/18139) Update dependency prettier to v3.9.10 (audit-logger)
+- [#18140](https://github.com/1024pix/pix/pull/18140) Update dependency prettier to v3.9.10 (certif)
+- [#18141](https://github.com/1024pix/pix/pull/18141) Update dependency prettier to v3.9.10 (dossier racine)
+- [#18142](https://github.com/1024pix/pix/pull/18142) Update dependency prettier to v3.9.10 (orga)
+- [#18144](https://github.com/1024pix/pix/pull/18144) Update dependency protobufjs to v8.8.1 (api)
+- [#18123](https://github.com/1024pix/pix/pull/18123) Update dependency qunit to v3 (admin)
+- [#18124](https://github.com/1024pix/pix/pull/18124) Update dependency qunit to v3 (certif)
+- [#18157](https://github.com/1024pix/pix/pull/18157) Update dependency qunit to v3 (junior)
+- [#18158](https://github.com/1024pix/pix/pull/18158) Update dependency qunit to v3 (mon-pix)
+- [#18160](https://github.com/1024pix/pix/pull/18160) Update dependency qunit to v3 (orga)
+- [#18145](https://github.com/1024pix/pix/pull/18145) Update dependency zod to v4.6.6 (e2e-playwright)
+- [#18146](https://github.com/1024pix/pix/pull/18146) Update linters (junior)
+- [#18147](https://github.com/1024pix/pix/pull/18147) Update linters (mon-pix)
+
+# [5.523.0](https://github.com/1024pix/pix/compare/v5.522.0...v5.523.0) (2026-10-16)
+
+### :rocket: Amélioration
+
+- [#18032](https://github.com/1024pix/pix/pull/18032) :dizzy: Ajoute des précisions à propos des candidats et des sessions dans l'interface surveillant
+- [#18029](https://github.com/1024pix/pix/pull/18029) :dizzy: modification des textes en français de la suppression de candidats d'une session (PIX-24713)
+- [#17788](https://github.com/1024pix/pix/pull/17788) Ajouter `ceilingAt` a la table `knowledge_states`
+- [#18013](https://github.com/1024pix/pix/pull/18013) Enlever les points du stepper horizontal dans le cas d'un affichage mobile (PIX-24613)
+
+### :bug: Correction
+
+- [#17924](https://github.com/1024pix/pix/pull/17924) QAB : couper le mot s'il est trop long (PIX-24614)
+
+### :rewind: Retour en arrière
+
+- [#18099](https://github.com/1024pix/pix/pull/18099) Revert "[BUMP] Update dependency ember-metrics to v3 (admin)"
+- [#18100](https://github.com/1024pix/pix/pull/18100) Revert "[BUMP] Update dependency ember-metrics to v3 (certif)"
+- [#18101](https://github.com/1024pix/pix/pull/18101) Revert "[BUMP] Update dependency ember-metrics to v3 (mon-pix)"
+
+### :building_construction: Tech
+
+- [#18070](https://github.com/1024pix/pix/pull/18070) Journalise les blocages de la boucle d'événements avec les requêtes en cours
+- [#17987](https://github.com/1024pix/pix/pull/17987) Renommer des propriétés liées à l'éligibilité à Cléa (PIX-24709).
+- [#18093](https://github.com/1024pix/pix/pull/18093) Supprimer le FT des DomainTransaction success handler
+
+### :arrow_up: Montée de version
+
+- [#18085](https://github.com/1024pix/pix/pull/18085) Update aws-sdk-js-v3 monorepo to v3.1148.0 (api)
+- [#18066](https://github.com/1024pix/pix/pull/18066) Update dependency @playwright/test to v1.64.0 (e2e-playwright)
+- [#18078](https://github.com/1024pix/pix/pull/18078) Update dependency baseline-browser-mapping to v2.11.28 (e2e-playwright)
+- [#18097](https://github.com/1024pix/pix/pull/18097) Update dependency cron-parser to v5.10.2 (api)
+- [#18067](https://github.com/1024pix/pix/pull/18067) Update dependency dotenv to v18 (e2e-playwright)
+- [#18068](https://github.com/1024pix/pix/pull/18068) Update dependency dotenv to v18 (junior)
+- [#18069](https://github.com/1024pix/pix/pull/18069) Update dependency dotenv to v18 (mon-pix)
+- [#18074](https://github.com/1024pix/pix/pull/18074) Update dependency ember-inflector to v7 (orga)
+- [#18089](https://github.com/1024pix/pix/pull/18089) Update dependency ember-metrics to v3 (admin)
+- [#18091](https://github.com/1024pix/pix/pull/18091) Update dependency ember-metrics to v3 (certif)
+- [#18092](https://github.com/1024pix/pix/pull/18092) Update dependency ember-metrics to v3 (mon-pix)
+- [#18079](https://github.com/1024pix/pix/pull/18079) Update dependency ember-template-lint to v7.9.4 (admin)
+- [#18080](https://github.com/1024pix/pix/pull/18080) Update dependency ember-template-lint to v7.9.4 (certif)
+- [#18081](https://github.com/1024pix/pix/pull/18081) Update dependency ember-template-lint to v7.9.4 (junior)
+- [#18082](https://github.com/1024pix/pix/pull/18082) Update dependency ember-template-lint to v7.9.4 (mon-pix)
+- [#18083](https://github.com/1024pix/pix/pull/18083) Update dependency ember-template-lint to v7.9.4 (orga)
+- [#18098](https://github.com/1024pix/pix/pull/18098) Update dependency eslint to v10 (audit-logger)
+- [#18065](https://github.com/1024pix/pix/pull/18065) Update dependency hyparquet-writer to v0.16.11 (api)
+- [#18090](https://github.com/1024pix/pix/pull/18090) Update dependency knip to v6.41.0 (api)
+- [#18072](https://github.com/1024pix/pix/pull/18072) Update dependency pg-boss to v12.37.1 (api)
+- [#18073](https://github.com/1024pix/pix/pull/18073) Update dependency vite to v8.3.4 (orga)
+
+# [5.522.0](https://github.com/1024pix/pix/compare/v5.521.0...v5.522.0) (2026-10-15)
+
+### :rocket: Amélioration
+
+- [#18011](https://github.com/1024pix/pix/pull/18011) Afficher les compétences triées sur la page de résultats de certification (PIX-24611)
+- [#17969](https://github.com/1024pix/pix/pull/17969) Ajoute une animation sur la page tunnel du parcours combiné (PIX-24188)
+- [#17828](https://github.com/1024pix/pix/pull/17828) Mis à jour des états d'une réponse dans PixApp (PIX-24439)
+
+### :building_construction: Tech
+
+- [#17760](https://github.com/1024pix/pix/pull/17760) Ajoute la décomposition du RSS au profilage des allocations
+- [#17976](https://github.com/1024pix/pix/pull/17976) Améliore la documentation de l'OpenAPI pour ParcourSup (PIX-24733)
+- [#17831](https://github.com/1024pix/pix/pull/17831) Deplacer la gestion des places dans le contexte organizational-entities (PIX-24235)
+- [#17754](https://github.com/1024pix/pix/pull/17754) Passer des models back du BC /quest en Typescript
+- [#18027](https://github.com/1024pix/pix/pull/18027) Supprime la GitHub action "Check API config changed".
+
+### :arrow_up: Montée de version
+
+- [#18003](https://github.com/1024pix/pix/pull/18003) Update dependency @babel/eslint-parser to v8.0.7 (audit-logger)
+- [#18052](https://github.com/1024pix/pix/pull/18052) Update dependency @ember/app-tsconfig to v2 (orga)
+- [#18054](https://github.com/1024pix/pix/pull/18054) Update dependency @formatjs/intl to v6 (mon-pix)
+- [#18055](https://github.com/1024pix/pix/pull/18055) Update dependency babel-plugin-ember-template-compilation to v4.0.1 (junior)
+- [#18056](https://github.com/1024pix/pix/pull/18056) Update dependency babel-plugin-ember-template-compilation to v4.0.1 (orga)
+- [#18063](https://github.com/1024pix/pix/pull/18063) Update dependency dotenv to v18 (audit-logger)
+- [#18057](https://github.com/1024pix/pix/pull/18057) Update dependency eslint-plugin-ember to v13.6.1 (admin)
+- [#18058](https://github.com/1024pix/pix/pull/18058) Update dependency eslint-plugin-ember to v13.6.1 (certif)
+- [#18059](https://github.com/1024pix/pix/pull/18059) Update dependency eslint-plugin-ember to v13.6.1 (junior)
+- [#18060](https://github.com/1024pix/pix/pull/18060) Update dependency eslint-plugin-ember to v13.6.1 (mon-pix)
+- [#18061](https://github.com/1024pix/pix/pull/18061) Update dependency eslint-plugin-ember to v13.6.1 (orga)
+- [#18019](https://github.com/1024pix/pix/pull/18019) Update dependency eslint-plugin-unicorn to v77 (api)
+- [#18024](https://github.com/1024pix/pix/pull/18024) Update dependency eslint-plugin-unicorn to v77 (audit-logger)
+- [#18025](https://github.com/1024pix/pix/pull/18025) Update dependency eslint-plugin-unicorn to v77 (certif)
+- [#18064](https://github.com/1024pix/pix/pull/18064) Update dependency hyparquet to v1.31.3 (api)
+- [#18028](https://github.com/1024pix/pix/pull/18028) Update dependency nodemailer to v10.0.16 (api)
+- [#17994](https://github.com/1024pix/pix/pull/17994) Update dependency sass to v1.105.1 (mon-pix)
+- [#18000](https://github.com/1024pix/pix/pull/18000) Update dependency undici to v8.11.2 (api)
+- [#18002](https://github.com/1024pix/pix/pull/18002) Update dependency webpack to v5.111.1 (admin)
+- [#18004](https://github.com/1024pix/pix/pull/18004) Update dependency webpack to v5.111.1 (certif)
+- [#18005](https://github.com/1024pix/pix/pull/18005) Update dependency webpack to v5.111.1 (junior)
+- [#18006](https://github.com/1024pix/pix/pull/18006) Update dependency webpack to v5.111.1 (mon-pix)
+- [#18007](https://github.com/1024pix/pix/pull/18007) Update dependency yargs to v18.2.0 (api)
+- [#18008](https://github.com/1024pix/pix/pull/18008) Update dependency zod to v4.6.5 (e2e-playwright)
+- [#18009](https://github.com/1024pix/pix/pull/18009) Update ember-intl (admin)
+- [#18014](https://github.com/1024pix/pix/pull/18014) Update jaegertracing/jaeger Docker tag to v2.22.0 (dossier racine)
+- [#18016](https://github.com/1024pix/pix/pull/18016) Update JS test packages (admin)
+- [#18017](https://github.com/1024pix/pix/pull/18017) Update JS test packages (api)
+- [#18033](https://github.com/1024pix/pix/pull/18033) Update JS test packages (certif)
+- [#18018](https://github.com/1024pix/pix/pull/18018) Update JS test packages (certif)
+- [#18034](https://github.com/1024pix/pix/pull/18034) Update JS test packages (junior)
+- [#18020](https://github.com/1024pix/pix/pull/18020) Update JS test packages (junior)
+- [#18021](https://github.com/1024pix/pix/pull/18021) Update node
+- [#18022](https://github.com/1024pix/pix/pull/18022) Update opentelemetry-js monorepo (api)
+- [#18026](https://github.com/1024pix/pix/pull/18026) Update opentelemetry-js-contrib monorepo (api)
+- [#18030](https://github.com/1024pix/pix/pull/18030) Update warp-drive to v5.9.1 (admin)
+- [#18031](https://github.com/1024pix/pix/pull/18031) Update warp-drive to v5.9.1 (certif)
+- [#18036](https://github.com/1024pix/pix/pull/18036) Update warp-drive to v5.9.1 (junior)
+- [#18037](https://github.com/1024pix/pix/pull/18037) Update warp-drive to v5.9.1 (mon-pix)
+
+# [5.521.0](https://github.com/1024pix/pix/compare/v5.520.2...v5.521.0) (2026-10-14)
+
+### :rocket: Amélioration
+
+- [#17798](https://github.com/1024pix/pix/pull/17798) Permettre de définir une largeur maximale pour les images des modules (PIX-24388) (PIX-24389)
+
+### :bug: Correction
+
+- [#17962](https://github.com/1024pix/pix/pull/17962) Corriger le test unitaire de process-error-handlers
+- [#17966](https://github.com/1024pix/pix/pull/17966) Réparer le test unitaire de process-error-handlers
+- [#17965](https://github.com/1024pix/pix/pull/17965) S'assurer qu'un job de réplication peut recommencer même après une exécution précédente échouée de façon non grâcieuse (PIX-24732)
+
+### :building_construction: Tech
+
+- [#17915](https://github.com/1024pix/pix/pull/17915) :label: Corrige un problème de type dans `ComplementaryCertificationKeys`
+- [#17796](https://github.com/1024pix/pix/pull/17796) :recycle: rendre visible l'empilage de multiple demandes de travaux asynchrone
+- [#17957](https://github.com/1024pix/pix/pull/17957) Ajout d'une contrainte d'unicité sur la colonne certification_center_id dans la table fct_structures (PIX-24721)
+- [#17952](https://github.com/1024pix/pix/pull/17952) Ajout d'une contrainte d'unicité sur la colonne organization_id dans la table fct_structures (PIX-24720)
+- [#17830](https://github.com/1024pix/pix/pull/17830) Ajouter un script pour créer une structure aux centres de certification qui n'en ont pas (PIX-24397)
+- [#17978](https://github.com/1024pix/pix/pull/17978) Merge les rapports de tests e2e cypress pour la CI.
+
+### :arrow_up: Montée de version
+
+- [#17980](https://github.com/1024pix/pix/pull/17980) Update aws-sdk-js-v3 monorepo to v3.1147.0 (api)
+- [#17927](https://github.com/1024pix/pix/pull/17927) Update dependency axe-core to v4.14.0 (e2e)
+- [#17928](https://github.com/1024pix/pix/pull/17928) Update dependency dependency-cruiser to v18.5.0 (api)
+- [#17929](https://github.com/1024pix/pix/pull/17929) Update dependency dotenv to v17.4.2 (audit-logger)
+- [#17930](https://github.com/1024pix/pix/pull/17930) Update dependency dotenv to v17.4.2 (e2e-playwright)
+- [#17931](https://github.com/1024pix/pix/pull/17931) Update dependency ember-auto-import to v2.13.1 (admin)
+- [#17932](https://github.com/1024pix/pix/pull/17932) Update dependency ember-cli to v7.3.0 (admin)
+- [#17933](https://github.com/1024pix/pix/pull/17933) Update dependency ember-cli to v7.3.0 (certif)
+- [#17934](https://github.com/1024pix/pix/pull/17934) Update dependency ember-cli to v7.3.0 (junior)
+- [#17935](https://github.com/1024pix/pix/pull/17935) Update dependency ember-cli to v7.3.0 (mon-pix)
+- [#17936](https://github.com/1024pix/pix/pull/17936) Update dependency ember-cli to v7.3.0 (orga)
+- [#17937](https://github.com/1024pix/pix/pull/17937) Update dependency ember-cli-babel to v8.3.2 (admin)
+- [#17938](https://github.com/1024pix/pix/pull/17938) Update dependency ember-intl to v8.4.0 (certif)
+- [#17939](https://github.com/1024pix/pix/pull/17939) Update dependency ember-intl to v8.4.0 (junior)
+- [#17940](https://github.com/1024pix/pix/pull/17940) Update dependency ember-intl to v8.4.0 (mon-pix)
+- [#17941](https://github.com/1024pix/pix/pull/17941) Update dependency ember-lifeline to v7.1.0 (admin)
+- [#17942](https://github.com/1024pix/pix/pull/17942) Update dependency ember-lifeline to v7.1.0 (certif)
+- [#17943](https://github.com/1024pix/pix/pull/17943) Update dependency ember-lifeline to v7.1.0 (mon-pix)
+- [#17944](https://github.com/1024pix/pix/pull/17944) Update dependency ember-resolver to v13.2.0 (admin)
+- [#17945](https://github.com/1024pix/pix/pull/17945) Update dependency ember-simple-auth to v8.4.1 (admin)
+- [#17946](https://github.com/1024pix/pix/pull/17946) Update dependency ember-simple-auth to v8.4.1 (certif)
+- [#17947](https://github.com/1024pix/pix/pull/17947) Update dependency ember-simple-auth to v8.4.1 (mon-pix)
+- [#17948](https://github.com/1024pix/pix/pull/17948) Update dependency ember-simple-auth to v8.4.1 (orga)
+- [#17949](https://github.com/1024pix/pix/pull/17949) Update dependency ember-source to v7.3.0 (orga)
+- [#17950](https://github.com/1024pix/pix/pull/17950) Update dependency eslint to v10.12.0 (e2e)
+- [#17953](https://github.com/1024pix/pix/pull/17953) Update dependency file-type to v22.1.1 (api)
+- [#17954](https://github.com/1024pix/pix/pull/17954) Update dependency globals to v17.13.0 (admin)
+- [#17955](https://github.com/1024pix/pix/pull/17955) Update dependency globals to v17.13.0 (audit-logger)
+- [#17956](https://github.com/1024pix/pix/pull/17956) Update dependency globals to v17.13.0 (certif)
+- [#17958](https://github.com/1024pix/pix/pull/17958) Update dependency globals to v17.13.0 (e2e-playwright)
+- [#17959](https://github.com/1024pix/pix/pull/17959) Update dependency globals to v17.13.0 (junior)
+- [#17960](https://github.com/1024pix/pix/pull/17960) Update dependency globals to v17.13.0 (mon-pix)
+- [#17961](https://github.com/1024pix/pix/pull/17961) Update dependency globals to v17.13.0 (orga)
+- [#17998](https://github.com/1024pix/pix/pull/17998) Update dependency hyparquet to v1.31.2 (api)
+- [#17963](https://github.com/1024pix/pix/pull/17963) Update dependency hyparquet-writer to v0.16.10 (api)
+- [#17964](https://github.com/1024pix/pix/pull/17964) Update dependency ioredis to v5.11.1 (api)
+- [#17967](https://github.com/1024pix/pix/pull/17967) Update dependency js-base64 to v3.9.4 (admin)
+- [#17968](https://github.com/1024pix/pix/pull/17968) Update dependency knex to v3.3.0 (api)
+- [#17970](https://github.com/1024pix/pix/pull/17970) Update dependency knex to v3.3.0 (audit-logger)
+- [#17971](https://github.com/1024pix/pix/pull/17971) Update dependency knex to v3.3.0 (e2e-playwright)
+- [#17972](https://github.com/1024pix/pix/pull/17972) Update dependency knip to v6.39.0 (api)
+- [#17974](https://github.com/1024pix/pix/pull/17974) Update dependency knip to v6.40.0 (api)
+- [#17973](https://github.com/1024pix/pix/pull/17973) Update dependency node-stream-zip to v1.16.0 (api)
+- [#17975](https://github.com/1024pix/pix/pull/17975) Update dependency oxfmt to v0.72.0 (api)
+- [#17977](https://github.com/1024pix/pix/pull/17977) Update dependency papaparse to v5.7.0 (api)
+- [#17979](https://github.com/1024pix/pix/pull/17979) Update dependency pdfkit to v0.20.2 (api)
+- [#17981](https://github.com/1024pix/pix/pull/17981) Update dependency pg to v8.23.1 (audit-logger)
+- [#17982](https://github.com/1024pix/pix/pull/17982) Update dependency pg to v8.23.1 (e2e-playwright)
+- [#17983](https://github.com/1024pix/pix/pull/17983) Update dependency pg-boss to v12.37.0 (api)
+- [#17984](https://github.com/1024pix/pix/pull/17984) Update dependency pg-query-stream to v4.17.1 (api)
+- [#17985](https://github.com/1024pix/pix/pull/17985) Update dependency pino to v10.4.0 (api)
+- [#17986](https://github.com/1024pix/pix/pull/17986) Update dependency pino to v10.4.0 (audit-logger)
+- [#17988](https://github.com/1024pix/pix/pull/17988) Update dependency pino-pretty to v13.2.0 (api)
+- [#17989](https://github.com/1024pix/pix/pull/17989) Update dependency pino-pretty to v13.2.0 (audit-logger)
+- [#17990](https://github.com/1024pix/pix/pull/17990) Update dependency pixelmatch to v7.2.0 (e2e-playwright)
+- [#17991](https://github.com/1024pix/pix/pull/17991) Update dependency sass to v1.105.1 (admin)
+- [#17992](https://github.com/1024pix/pix/pull/17992) Update dependency sass to v1.105.1 (certif)
+- [#17993](https://github.com/1024pix/pix/pull/17993) Update dependency sass to v1.105.1 (junior)
+- [#17995](https://github.com/1024pix/pix/pull/17995) Update dependency sass-embedded to v1.105.1 (orga)
+- [#17996](https://github.com/1024pix/pix/pull/17996) Update dependency sax to v1.6.1 (api)
+- [#17997](https://github.com/1024pix/pix/pull/17997) Update dependency tsx to v4.23.15 (audit-logger)
+- [#17999](https://github.com/1024pix/pix/pull/17999) Update dependency tsx to v4.23.15 (e2e-playwright)
+- [#18001](https://github.com/1024pix/pix/pull/18001) Update dependency vite to v8.3.3 (orga)
+
+## [5.520.2](https://github.com/1024pix/pix/compare/v5.520.1...v5.520.2) (2026-10-13)
+
+## [5.520.1](https://github.com/1024pix/pix/compare/v5.520.0...v5.520.1) (2026-10-13)
+
+### :bug: Correction
+
+- [#24711](https://github.com/1024pix/pix/pull/24711) Éviter le crash du conteneur lorsque l'export CSV des résultats de campagne échoue (PIX-24711).
+
+# [5.520.0](https://github.com/1024pix/pix/compare/v5.519.0...v5.520.0) (2026-10-13)
+
+### :rocket: Amélioration
+
+- [#17826](https://github.com/1024pix/pix/pull/17826) :art: Format la date du rapport d'import de calibration (PIX-24698)
+- [#17925](https://github.com/1024pix/pix/pull/17925) :recycle: Réduit le niveau d'alerte en cas d'épreuve non calibrés (PIX-24717)
+- [#17789](https://github.com/1024pix/pix/pull/17789) Annoncer les liens externes comme tels au niveau des tutos (a11y) (PIX-24104)
+- [#17787](https://github.com/1024pix/pix/pull/17787) Remplacer le terme Elèves par Participants sur la page d'import des participants (PIX-24662).
+
+### :bug: Correction
+
+- [#17803](https://github.com/1024pix/pix/pull/17803) Ajustements sur la page tunnel
+
+### :building_construction: Tech
+
+- [#17804](https://github.com/1024pix/pix/pull/17804) Change extends from 'locale' to 'local' in renovate.json
+- [#17764](https://github.com/1024pix/pix/pull/17764) Indexer la table répliquée après la copie entière des données pendant la réplication Maddo pour l'accélérer (PIX-24659)
+- [#17753](https://github.com/1024pix/pix/pull/17753) Migrer le dernier test Cypress de Pix Orga vers Playwright.
+- [#17801](https://github.com/1024pix/pix/pull/17801) Mise à jour de la config Renovate
+
+### :arrow_up: Montée de version
+
+- [#17784](https://github.com/1024pix/pix/pull/17784) Pin alpine/git Docker tag to a4bb51f (moodle)
+- [#17833](https://github.com/1024pix/pix/pull/17833) Pin dependencies (admin)
+- [#17805](https://github.com/1024pix/pix/pull/17805) Pin dependencies (admin)
+- [#17806](https://github.com/1024pix/pix/pull/17806) Pin dependencies (admin)
+- [#17847](https://github.com/1024pix/pix/pull/17847) Pin dependencies (api)
+- [#17841](https://github.com/1024pix/pix/pull/17841) Pin dependencies (api)
+- [#17807](https://github.com/1024pix/pix/pull/17807) Pin dependencies (api)
+- [#17808](https://github.com/1024pix/pix/pull/17808) Pin dependencies (api)
+- [#17842](https://github.com/1024pix/pix/pull/17842) Pin dependencies (audit-logger)
+- [#17809](https://github.com/1024pix/pix/pull/17809) Pin dependencies (audit-logger)
+- [#17810](https://github.com/1024pix/pix/pull/17810) Pin dependencies (certif)
+- [#17811](https://github.com/1024pix/pix/pull/17811) Pin dependencies (certif)
+- [#17843](https://github.com/1024pix/pix/pull/17843) Pin dependencies (e2e-playwright)
+- [#17812](https://github.com/1024pix/pix/pull/17812) Pin dependencies (e2e-playwright)
+- [#17844](https://github.com/1024pix/pix/pull/17844) Pin dependencies (e2e)
+- [#17845](https://github.com/1024pix/pix/pull/17845) Pin dependencies (e2e)
+- [#17846](https://github.com/1024pix/pix/pull/17846) Pin dependencies (junior)
+- [#17813](https://github.com/1024pix/pix/pull/17813) Pin dependencies (junior)
+- [#17814](https://github.com/1024pix/pix/pull/17814) Pin dependencies (junior)
+- [#17848](https://github.com/1024pix/pix/pull/17848) Pin dependencies (mon-pix)
+- [#17815](https://github.com/1024pix/pix/pull/17815) Pin dependencies (mon-pix)
+- [#17816](https://github.com/1024pix/pix/pull/17816) Pin dependencies (mon-pix)
+- [#17849](https://github.com/1024pix/pix/pull/17849) Pin dependencies (orga)
+- [#17821](https://github.com/1024pix/pix/pull/17821) Pin dependencies (orga)
+- [#17817](https://github.com/1024pix/pix/pull/17817) Pin dependencies (orga)
+- [#17818](https://github.com/1024pix/pix/pull/17818) Pin dependencies (orga)
+- [#17850](https://github.com/1024pix/pix/pull/17850) Pin dependencies (workflows)
+- [#17825](https://github.com/1024pix/pix/pull/17825) Pin dependency @1024pix/nebulix-ember to 1.3.0 (mon-pix)
+- [#17851](https://github.com/1024pix/pix/pull/17851) Pin dependency @cyclonedx/cyclonedx-npm to 6.0.1 (dossier racine)
+- [#17852](https://github.com/1024pix/pix/pull/17852) Pin dependency @glimmer/component to 2.1.1 (admin)
+- [#17853](https://github.com/1024pix/pix/pull/17853) Pin dependency @glimmer/component to 2.1.1 (certif)
+- [#17856](https://github.com/1024pix/pix/pull/17856) Pin dependency @glimmer/component to 2.1.1 (mon-pix)
+- [#17857](https://github.com/1024pix/pix/pull/17857) Pin dependency @glimmer/component to 2.1.1 (orga)
+- [#17858](https://github.com/1024pix/pix/pull/17858) Pin dependency @testing-library/cypress to v10.0.1 (e2e)
+- [#17859](https://github.com/1024pix/pix/pull/17859) Pin dependency prettier to v3.9.9 (dossier racine)
+- [#17860](https://github.com/1024pix/pix/pull/17860) Pin dependency vitest to 4.1.11 (audit-logger)
+- [#17893](https://github.com/1024pix/pix/pull/17893) Update aws-sdk-js-v3 monorepo to v3.1146.0 (api)
+- [#17916](https://github.com/1024pix/pix/pull/17916) Update dependency @1024pix/eslint-plugin to v3.0.6 (admin)
+- [#17917](https://github.com/1024pix/pix/pull/17917) Update dependency @1024pix/eslint-plugin to v3.0.6 (api)
+- [#17918](https://github.com/1024pix/pix/pull/17918) Update dependency @1024pix/eslint-plugin to v3.0.6 (audit-logger)
+- [#17919](https://github.com/1024pix/pix/pull/17919) Update dependency @1024pix/eslint-plugin to v3.0.6 (certif)
+- [#17920](https://github.com/1024pix/pix/pull/17920) Update dependency @1024pix/eslint-plugin to v3.0.6 (e2e-playwright)
+- [#17921](https://github.com/1024pix/pix/pull/17921) Update dependency @1024pix/eslint-plugin to v3.0.6 (junior)
+- [#17922](https://github.com/1024pix/pix/pull/17922) Update dependency @1024pix/eslint-plugin to v3.0.6 (mon-pix)
+- [#17923](https://github.com/1024pix/pix/pull/17923) Update dependency @1024pix/eslint-plugin to v3.0.6 (orga)
+- [#17824](https://github.com/1024pix/pix/pull/17824) Update dependency @1024pix/nebulix-ember to v1.3.0 (admin)
+- [#17827](https://github.com/1024pix/pix/pull/17827) Update dependency @1024pix/nebulix-ember to v1.3.0 (certif)
+- [#17822](https://github.com/1024pix/pix/pull/17822) Update dependency @1024pix/nebulix-ember to v1.3.0 (junior)
+- [#17820](https://github.com/1024pix/pix/pull/17820) Update dependency @1024pix/nebulix-ember to v1.3.0 (mon-pix)
+- [#17823](https://github.com/1024pix/pix/pull/17823) Update dependency @1024pix/nebulix-ember to v1.3.0 (orga)
+- [#17894](https://github.com/1024pix/pix/pull/17894) Update dependency @badeball/cypress-cucumber-preprocessor to v23.2.1 (e2e)
+- [#17896](https://github.com/1024pix/pix/pull/17896) Update dependency @ember/test-helpers to v5.7.0 (admin)
+- [#17897](https://github.com/1024pix/pix/pull/17897) Update dependency @ember/test-helpers to v5.7.0 (certif)
+- [#17900](https://github.com/1024pix/pix/pull/17900) Update dependency @ember/test-helpers to v5.7.0 (junior)
+- [#17901](https://github.com/1024pix/pix/pull/17901) Update dependency @ember/test-helpers to v5.7.0 (mon-pix)
+- [#17861](https://github.com/1024pix/pix/pull/17861) Update dependency @embroider/macros to v1.21.2 (certif)
+- [#17862](https://github.com/1024pix/pix/pull/17862) Update dependency @embroider/macros to v1.21.2 (junior)
+- [#17863](https://github.com/1024pix/pix/pull/17863) Update dependency @embroider/macros to v1.21.2 (mon-pix)
+- [#17903](https://github.com/1024pix/pix/pull/17903) Update dependency @faker-js/faker to v10.6.0 (api)
+- [#17864](https://github.com/1024pix/pix/pull/17864) Update dependency @getbrevo/brevo to v6.0.3 (api)
+- [#17865](https://github.com/1024pix/pix/pull/17865) Update dependency @graphql-yoga/redis-event-target to v3.0.4 (api)
+- [#17904](https://github.com/1024pix/pix/pull/17904) Update dependency @graphql-yoga/subscription to v5.1.1 (api)
+- [#17866](https://github.com/1024pix/pix/pull/17866) Update dependency @hapi/hapi to v21.4.10 (audit-logger)
+- [#17867](https://github.com/1024pix/pix/pull/17867) Update dependency @json2csv/node to v7.0.8 (api)
+- [#17905](https://github.com/1024pix/pix/pull/17905) Update dependency @redis/client to v6.3.0 (api)
+- [#17795](https://github.com/1024pix/pix/pull/17795) Update dependency @types/node to ^24.19.1 (audit-logger)
+- [#17797](https://github.com/1024pix/pix/pull/17797) Update dependency @types/node to ^24.19.1 (e2e-playwright)
+- [#17907](https://github.com/1024pix/pix/pull/17907) Update dependency @types/node to v26.6.4 (api)
+- [#17908](https://github.com/1024pix/pix/pull/17908) Update dependency @warp-drive/build-config to v5.9.1 (admin)
+- [#17909](https://github.com/1024pix/pix/pull/17909) Update dependency @warp-drive/build-config to v5.9.1 (certif)
+- [#17910](https://github.com/1024pix/pix/pull/17910) Update dependency @warp-drive/build-config to v5.9.1 (junior)
+- [#17911](https://github.com/1024pix/pix/pull/17911) Update dependency @warp-drive/build-config to v5.9.1 (mon-pix)
+- [#17868](https://github.com/1024pix/pix/pull/17868) Update dependency cron-parser to v5.10.1 (api)
+- [#17869](https://github.com/1024pix/pix/pull/17869) Update dependency csv-parse to v7.0.3 (e2e-playwright)
+- [#17870](https://github.com/1024pix/pix/pull/17870) Update dependency dayjs to v1.11.23 (api)
+- [#17871](https://github.com/1024pix/pix/pull/17871) Update dependency flatted to v3.4.4 (admin)
+- [#17872](https://github.com/1024pix/pix/pull/17872) Update dependency flatted to v3.4.4 (certif)
+- [#17873](https://github.com/1024pix/pix/pull/17873) Update dependency flatted to v3.4.4 (e2e-playwright)
+- [#17874](https://github.com/1024pix/pix/pull/17874) Update dependency flatted to v3.4.4 (e2e)
+- [#17875](https://github.com/1024pix/pix/pull/17875) Update dependency flatted to v3.4.4 (junior)
+- [#17876](https://github.com/1024pix/pix/pull/17876) Update dependency flatted to v3.4.4 (mon-pix)
+- [#17778](https://github.com/1024pix/pix/pull/17778) Update dependency handlebars to >=4.7.10 (api) [SECURITY]
+- [#17877](https://github.com/1024pix/pix/pull/17877) Update dependency i18n to v0.15.4 (api)
+- [#17878](https://github.com/1024pix/pix/pull/17878) Update dependency iconv-lite to v0.7.3 (api)
+- [#17879](https://github.com/1024pix/pix/pull/17879) Update dependency jose to v6.2.12 (api)
+- [#17880](https://github.com/1024pix/pix/pull/17880) Update dependency js-yaml to v5.4.2 (api)
+- [#17898](https://github.com/1024pix/pix/pull/17898) Update dependency js-yaml to v5.4.3 (api)
+- [#17899](https://github.com/1024pix/pix/pull/17899) Update dependency js-yaml to v5.4.3 (mon-pix)
+- [#17881](https://github.com/1024pix/pix/pull/17881) Update dependency jszip to v3.10.2 (api)
+- [#17882](https://github.com/1024pix/pix/pull/17882) Update dependency nodemailer to v10.0.15 (api)
+- [#17883](https://github.com/1024pix/pix/pull/17883) Update dependency openid-client to v6.8.8 (api)
+- [#17832](https://github.com/1024pix/pix/pull/17832) Update dependency pdfjs-dist to ^6.2.108 (api) [SECURITY]
+- [#17884](https://github.com/1024pix/pix/pull/17884) Update dependency pg to v8.23.1 (api)
+- [#17885](https://github.com/1024pix/pix/pull/17885) Update dependency postcss to v8.5.29 (orga)
+- [#17886](https://github.com/1024pix/pix/pull/17886) Update dependency samlify to v2.13.1 (api)
+- [#17887](https://github.com/1024pix/pix/pull/17887) Update dependency typescript-eslint to v8.71.1 (api)
+- [#17888](https://github.com/1024pix/pix/pull/17888) Update dependency typescript-eslint to v8.71.1 (audit-logger)
+- [#17889](https://github.com/1024pix/pix/pull/17889) Update dependency typescript-eslint to v8.71.1 (e2e-playwright)
+- [#17890](https://github.com/1024pix/pix/pull/17890) Update dependency typescript-eslint to v8.71.1 (orga)
+- [#17891](https://github.com/1024pix/pix/pull/17891) Update embroider monorepo (orga)
+- [#17892](https://github.com/1024pix/pix/pull/17892) Update hapijs monorepo (api)
+- [#17854](https://github.com/1024pix/pix/pull/17854) Update JS test packages (mon-pix)
+- [#17855](https://github.com/1024pix/pix/pull/17855) Update JS test packages (orga)
+- [#17834](https://github.com/1024pix/pix/pull/17834) Update linters (admin)
+- [#17835](https://github.com/1024pix/pix/pull/17835) Update linters (api)
+- [#17836](https://github.com/1024pix/pix/pull/17836) Update linters (audit-logger)
+- [#17819](https://github.com/1024pix/pix/pull/17819) Update linters (certif)
+- [#17837](https://github.com/1024pix/pix/pull/17837) Update linters (e2e-playwright)
+- [#17838](https://github.com/1024pix/pix/pull/17838) Update linters (junior)
+- [#17839](https://github.com/1024pix/pix/pull/17839) Update linters (mon-pix)
+- [#17840](https://github.com/1024pix/pix/pull/17840) Update linters (orga)
+
+# [5.519.0](https://github.com/1024pix/pix/compare/v5.518.0...v5.519.0) (2026-10-12)
+
+### :rocket: Amélioration
+
+- [#17768](https://github.com/1024pix/pix/pull/17768) :recycle: Ajoute le code et message d'erreur provenant du `MailService` dans les erreurs lié à l'envoie de résultat de publication de certif (PIX-24559)
+- [#17790](https://github.com/1024pix/pix/pull/17790) Ajout d'un bloc informatif pour la certification Clea Numérique (PIX-24663)
+- [#17759](https://github.com/1024pix/pix/pull/17759) Modifier la page de validation / revalidation des CGU de Pix Certif en se basant sur les nouvelles valeurs (PIX-22447) 
+- [#17767](https://github.com/1024pix/pix/pull/17767) Persister et utiliser maxReachableLevel et maxReachablePixScore (PIX-24580)
+
+### :bug: Correction
+
+- [#17791](https://github.com/1024pix/pix/pull/17791) Corrige la boucle de requêtes sur les attestations quand le profil ne se charge pas
+
+### :building_construction: Tech
+
+- [#17786](https://github.com/1024pix/pix/pull/17786) Ajouter des informations dans les logs de jobs pour du meilleur suivi Datadog (PIX-24660)
+
+### :arrow_up: Montée de version
+
+- [#17792](https://github.com/1024pix/pix/pull/17792) Update dependency baseline-browser-mapping to ^2.11.27 (e2e-playwright)
+
+# [5.518.0](https://github.com/1024pix/pix/compare/v5.517.0...v5.518.0) (2026-10-09)
+
+### :rocket: Amélioration
+
+- [#17782](https://github.com/1024pix/pix/pull/17782) Ajout d'une bannière pour rentrer en session (PIX-24635).
+- [#17770](https://github.com/1024pix/pix/pull/17770) Ajout du block liste certifications dans la nouvelle page des certifications (PIX-24636))
+- [#17774](https://github.com/1024pix/pix/pull/17774) Ajouter la traduction manquante pour les Centres Certificate
+- [#17718](https://github.com/1024pix/pix/pull/17718) Intègre les ajouts et modifications de données pour la préparation à la rentrée 2027 ParcourSup dans la réplication MADDO (PIX-24563)
+- [#17740](https://github.com/1024pix/pix/pull/17740) Mettre en place le système de traduction en knowledge `state` et `element`  (PIX-24499)
+
+### :building_construction: Tech
+
+- [#17775](https://github.com/1024pix/pix/pull/17775) :recycle: Arrête d'utiliser le cas d'utilisation pour construire des sessions publiées (PIX-24647)
+- [#17771](https://github.com/1024pix/pix/pull/17771) Déplacer `local-domains` dans le dossier `/docker`
+- [#17756](https://github.com/1024pix/pix/pull/17756) Nettoyer la racine du monorepo et son package.json
+- [#17776](https://github.com/1024pix/pix/pull/17776) Utiliser typescript 7 pour le lint des types
+
+### :arrow_up: Montée de version
+
+- [#17696](https://github.com/1024pix/pix/pull/17696) Update dependency @axe-core/playwright to ^4.13.0 (e2e-playwright)
+- [#17779](https://github.com/1024pix/pix/pull/17779) Update dependency handlebars to >=4.7.10 (certif) [SECURITY]
+- [#17780](https://github.com/1024pix/pix/pull/17780) Update dependency handlebars to >=4.7.10 (mon-pix) [SECURITY]
+- [#17781](https://github.com/1024pix/pix/pull/17781) Update dependency handlebars to >=4.7.10 (orga) [SECURITY]
+
+# [5.517.0](https://github.com/1024pix/pix/compare/v5.516.0...v5.517.0) (2026-10-08)
+
+### :rocket: Amélioration
+
+- [#17752](https://github.com/1024pix/pix/pull/17752) Pouvoir lancer Moodle en local
+
+### :bug: Correction
+
+- [#17758](https://github.com/1024pix/pix/pull/17758) Afficher la date de naissance des élèves sans décalage de fuseau horaire dans Pix Orga (PIX-24620).
+- [#17761](https://github.com/1024pix/pix/pull/17761) Ajout de style manquant dans les épreuves (PIX-24554).
+
+### :building_construction: Tech
+
+- [#17494](https://github.com/1024pix/pix/pull/17494) :recycle: Publication de session de certification en mode asynchrone (PIX-24581)
+- [#17747](https://github.com/1024pix/pix/pull/17747) Améliorer l'interopérabilité entre les fichiers TypeScript et JavaScript
+- [#17741](https://github.com/1024pix/pix/pull/17741) Créer une structure pour un centre de certification à son détachement d'une organisation (PIX-24396)
+- [#17762](https://github.com/1024pix/pix/pull/17762) Lire le profil partagé d'un participant depuis le snapshot de sa participation.
+- [#17763](https://github.com/1024pix/pix/pull/17763) Surcharger en local le .env.test
+
+# [5.516.0](https://github.com/1024pix/pix/compare/v5.515.0...v5.516.0) (2026-10-07)
+
+### :rocket: Amélioration
+
+- [#17749](https://github.com/1024pix/pix/pull/17749) Ajouter une nouvelle page de certification sous feature-toggle (PIX-24584).
+- [#17708](https://github.com/1024pix/pix/pull/17708) CF Pix Admin - Afficher le slug en plus titre à la sélection d'un module (PIX-24376)
+- [#17647](https://github.com/1024pix/pix/pull/17647) Faire fonctionner la révocation de session pour l’AccessToken avec Pix Orga, Pix Certif, Pix Admin (PIX-24505)
+
+### :bug: Correction
+
+- [#17743](https://github.com/1024pix/pix/pull/17743) Utiliser le bon prehandler sur la route de liste des modèles de parcours combinés d'une organisation (PIX-24578).
+
+### :building_construction: Tech
+
+- [#17679](https://github.com/1024pix/pix/pull/17679) Passe le model Combined Course Item et la constante COMBINED_COURSE_ITEM_TYPES en TS
+- [#17735](https://github.com/1024pix/pix/pull/17735) Supprime le temps d'indisponibilité des données de Maddo lors de réplications
+
+### :arrow_up: Montée de version
+
+- [#17746](https://github.com/1024pix/pix/pull/17746) Update dependency @glimmer/component to ^2.1.1 (certif)
+
+# [5.515.0](https://github.com/1024pix/pix/compare/v5.514.0...v5.515.0) (2026-10-06)
+
+### :rocket: Amélioration
+
+- [#17720](https://github.com/1024pix/pix/pull/17720) Ajout de la catégorie "Attestations" pour les profils cibles + traduction "Parcours de rentrée" (PIX-24522)
+- [#17612](https://github.com/1024pix/pix/pull/17612) Au logout d’une session par connexion OIDC, révoquer la sessionId (PIX-24080)
+- [#17715](https://github.com/1024pix/pix/pull/17715) Deplacer l'onglet equipe dans le menu Pix Admin (PIX-24312)
+- [#17703](https://github.com/1024pix/pix/pull/17703) Migrations des tables nécessaires a la mise en place des `knowledge states` (PIX-24498)
+- [#17719](https://github.com/1024pix/pix/pull/17719) Préciser la nomenclature des clés de badge France Travail (PIX-24566)
+- [#17728](https://github.com/1024pix/pix/pull/17728) Tracker le clic de téléchargement des attestations dans Plausible (PIX-24067).
+
+### :bug: Correction
+
+- [#17726](https://github.com/1024pix/pix/pull/17726) Corrige 2 bugs sur la 2eme page du certificat (PIX-24570)
+- [#17716](https://github.com/1024pix/pix/pull/17716) Procéder par paquets pour la rectification des scores pix des résultats annulés ou rejetés via le script
+
+### :building_construction: Tech
+
+- [#17731](https://github.com/1024pix/pix/pull/17731) Ajouter la route de healthcheck dans le swagger Parcoursup (PIX-24546).
+- [#17733](https://github.com/1024pix/pix/pull/17733) Comparer les payloads de jobs comme un ensemble non ordonné.
+- [#17736](https://github.com/1024pix/pix/pull/17736) Corriger l'action de vérification de disponibilité de nodeJs
+- [#17709](https://github.com/1024pix/pix/pull/17709) Créer une structure à la création d'un CDC (PIX-24395)
+- [#17732](https://github.com/1024pix/pix/pull/17732) Diminuer les updates d'assessment dans getNextChallengeForCampaignAssessment
+- [#17730](https://github.com/1024pix/pix/pull/17730) OTEL dans les tests d'acceptance
+- [#17727](https://github.com/1024pix/pix/pull/17727) Réduire le nombre d'appels sur les routes d'assessment
+
+### :arrow_up: Montée de version
+
+- [#17724](https://github.com/1024pix/pix/pull/17724) Update dependency @ember-intl/v1-compat to ^1.3.1 (mon-pix)
+- [#17729](https://github.com/1024pix/pix/pull/17729) Update dependency @embroider/macros to ^1.21.1 (certif)
+- [#17742](https://github.com/1024pix/pix/pull/17742) Update dependency @embroider/macros to ^1.21.1 (junior)
+- [#17744](https://github.com/1024pix/pix/pull/17744) Update dependency @embroider/macros to ^1.21.1 (mon-pix)
+- [#17745](https://github.com/1024pix/pix/pull/17745) Update dependency @glimmer/component to ^2.1.1 (admin)
+- [#17738](https://github.com/1024pix/pix/pull/17738) Update dependency @opentelemetry/instrumentation-pg to ^0.73.0 (api) [SECURITY]
+- [#17737](https://github.com/1024pix/pix/pull/17737) Update dependency joi to ^18.2.9 (api) [SECURITY]
+
+# [5.514.0](https://github.com/1024pix/pix/compare/v5.513.0...v5.514.0) (2026-10-05)
+
+### :rocket: Amélioration
+
+- [#17714](https://github.com/1024pix/pix/pull/17714) Ajoute les colonnes maxReachableLevel et maxReachablePixScore à la table certification_versions
+- [#17608](https://github.com/1024pix/pix/pull/17608) Mettre à jour le header evaluation/certif (PIX-24442).
+
+### :bug: Correction
+
+- [#17711](https://github.com/1024pix/pix/pull/17711) Afficher le texte placeholder dans les PixSelect sur Junior (PIX-24539).
+
+### :building_construction: Tech
+
+- [#17717](https://github.com/1024pix/pix/pull/17717) Correction de style dans PixApp (PIX-24554).
+- [#17723](https://github.com/1024pix/pix/pull/17723) LTI : Deux routes distinctes pour choix d’activité et passage de campagne (PIX-24538)
+
+### :arrow_up: Montée de version
+
+- [#17699](https://github.com/1024pix/pix/pull/17699) Update dependency @ember-data/model to ^5.9.1 (mon-pix)
+- [#17722](https://github.com/1024pix/pix/pull/17722) Update dependency @ember-intl/v1-compat to ^1.3.1 (junior)
+- [#17707](https://github.com/1024pix/pix/pull/17707) Update dependency baseline-browser-mapping to ^2.11.26 (e2e-playwright)
+
+# [5.513.0](https://github.com/1024pix/pix/compare/v5.512.1...v5.513.0) (2026-10-02)
+
+### :rocket: Amélioration
+
+- [#17603](https://github.com/1024pix/pix/pull/17603) Ajout des niveaux par compétence du candidat dans la 2e page du certificat (PIX-23993)
+- [#17706](https://github.com/1024pix/pix/pull/17706) Créer une API interne qui remonte les ids d'organisations depuis un id de réseau (PIX-24543)
+- [#17701](https://github.com/1024pix/pix/pull/17701) Empêcher la modification de session après démarrage d'une première certif (PIX-23438).
+- [#17660](https://github.com/1024pix/pix/pull/17660) improve Dutch translations
+- [#17648](https://github.com/1024pix/pix/pull/17648) Supprimer l'ancien code de création de campagne (PIX-22925).
+- [#17636](https://github.com/1024pix/pix/pull/17636) Supprimer la structure du centre de certification lors de son rattachement à une organisation (PIX-24393)
+
+### :bug: Correction
+
+- [#17702](https://github.com/1024pix/pix/pull/17702) Utilise l'organizationId au lieu du campaignCode pour la réconciliation d'un learner SUP dans un parcours combiné (PIX-24527)
+
+### :building_construction: Tech
+
+- [#17687](https://github.com/1024pix/pix/pull/17687) Créer un nouveau bounded context LTI (PIX-24418)
+- [#17664](https://github.com/1024pix/pix/pull/17664) Utiliser une API interne pour récupérer les CF mis en avant (PIX-24089)
+
+### :arrow_up: Montée de version
+
+- [#17698](https://github.com/1024pix/pix/pull/17698) Update dependency @ember-data/json-api to ^5.9.1 (mon-pix)
+- [#17705](https://github.com/1024pix/pix/pull/17705) Update dependency @ember-intl/v1-compat to ^1.3.1 (certif)
+
 ## [5.512.1](https://github.com/1024pix/pix/compare/v5.512.0...v5.512.1) (2026-10-01)
 
 ### :bug: Correction

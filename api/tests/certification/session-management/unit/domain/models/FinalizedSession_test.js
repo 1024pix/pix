@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { FinalizedSession } from '../../../../../../src/certification/session-management/domain/models/FinalizedSession.js';
 import { JuryCertificationSummary } from '../../../../../../src/certification/session-management/domain/read-models/JuryCertificationSummary.js';
@@ -165,7 +166,8 @@ describe('Unit | Certification | Session-Management | Domain | Models | Finalize
   context('#publish', function () {
     it('publishes the session', function () {
       // given
-      const now = new Date();
+      const now = new Date('2026-03-23');
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
       const session = new FinalizedSession({
         sessionId: 1234,
         certificationCenterName: 'a certification center',
@@ -180,10 +182,10 @@ describe('Unit | Certification | Session-Management | Domain | Models | Finalize
       });
 
       // when
-      session.publish(now);
+      session.publish();
 
       // then
-      expect(session.publishedAt).to.equal(now);
+      expect(session.publishedAt).to.deep.equal(now);
     });
   });
 

@@ -3,6 +3,7 @@ import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import AttestationContent from 'mon-pix/components/attestations/content';
+import { ATTESTATION_DOWNLOAD_ORIGINS, EVENT_NAMES } from 'mon-pix/constants/metrics-events';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -20,13 +21,8 @@ module('Integration | Component | Attestations | content', function (hooks) {
       save = sinon.stub().resolves();
     }
 
-    class PixMetricsStub extends Service {
-      trackEvent = sinon.stub();
-    }
-
     this.owner.register('service:session', SessionStub);
     this.owner.register('service:fileSaver', FileSaverStub);
-    this.owner.register('service:pixMetrics', PixMetricsStub);
   });
 
   test('it renders attestation cards for each attestation detail', async function (assert) {
@@ -87,11 +83,8 @@ module('Integration | Component | Attestations | content', function (hooks) {
 
   test('clicking download sends metrics', async function (assert) {
     // given
-    const trackEventStub = sinon.stub();
-    class PixMetricsStub extends Service {
-      trackEvent = trackEventStub;
-    }
-    this.owner.register('service:pixMetrics', PixMetricsStub);
+    const metrics = this.owner.lookup('service:pixMetrics');
+    const trackEventStub = sinon.stub(metrics, 'trackEvent');
 
     const attestationsDetails = [{ key: 'SIXTH_GRADE', obtainedAt: new Date('2025-01-15') }];
 
@@ -103,12 +96,10 @@ module('Integration | Component | Attestations | content', function (hooks) {
     await click(screen.getByRole('button', { name: t('pages.certificate.actions.download-attestation') }));
 
     // then
-    sinon.assert.calledOnce(trackEventStub);
-    sinon.assert.calledWith(trackEventStub, 'Clic sur le bouton Télécharger (attestation)', {
-      disabled: true,
-      category: 'Page Mes Attestations',
-      action: 'Cliquer sur le bouton Télécharger (attestation)',
-    });
-    assert.ok(true);
+    assert.ok(
+      trackEventStub.calledOnceWithExactly(EVENT_NAMES.ATTESTATION.DOWNLOAD_CLICK, {
+        origin: ATTESTATION_DOWNLOAD_ORIGINS.ATTESTATIONS_PAGE,
+      }),
+    );
   });
 });

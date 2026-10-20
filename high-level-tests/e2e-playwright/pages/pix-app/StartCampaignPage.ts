@@ -8,4 +8,11 @@ export class StartCampaignPage {
     await this.page.getByRole('button', { name: 'Je commence' }).click();
     await this.page.getByRole('button', { name: 'Ignorer' }).click();
   }
+
+  async completeProfileCollectionCampaign(campaignCode: string) {
+    await this.page.getByLabel('Saisir votre code pour').fill(campaignCode);
+    await this.page.getByRole('button', { name: 'Accéder au parcours' }).click();
+    await this.page.getByRole('button', { name: "C'est parti !" }).click();
+    await this.page.getByRole('button', { name: "J'envoie mon profil" }).first().click();
+  }
 }

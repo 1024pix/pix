@@ -130,14 +130,7 @@ import t from 'ember-intl/helpers/t';
     </div>
 
     <div class='session-details-buttons'>
-      <PixButtonLink
-        @route='authenticated.sessions.update'
-        @model={{@controller.session.id}}
-        aria-label={{t 'pages.sessions.detail.parameters.actions.update' sessionId=@controller.session.id}}
-      >
-        {{t 'common.actions.update'}}
-      </PixButtonLink>
-      {{#if @controller.sessionHasStarted}}
+      {{#if @controller.sessionHasStartedCertification}}
         {{#if @controller.sessionManagement.isFinalized}}
           <p class='session-details-row__session-finalized-warning'>
             {{t 'pages.sessions.detail.parameters.finalization-info'}}
@@ -147,8 +140,15 @@ import t from 'ember-intl/helpers/t';
             {{t 'pages.sessions.detail.parameters.actions.finalizing'}}
           </PixButtonLink>
         {{/if}}
+      {{else}}
+        <PixButtonLink
+          @route='authenticated.sessions.update'
+          @model={{@controller.session.id}}
+          aria-label={{t 'pages.sessions.detail.parameters.actions.update' sessionId=@controller.session.id}}
+        >
+          {{t 'common.actions.update'}}
+        </PixButtonLink>
       {{/if}}
     </div>
-
   </div>
 </template>

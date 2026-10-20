@@ -13,8 +13,8 @@ module('Integration | Component | Certification Banners | Outdated Double Certif
       const outdatedDoubleCertification = {
         label: 'CléA Numérique',
         imageUrl: 'http://www.image-clea.com',
-        isBadgeValid: false,
-        validatedDoubleCertification: false,
+        isEligible: false,
+        certificationAlreadySucceeded: false,
       };
 
       // when

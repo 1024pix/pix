@@ -3,6 +3,9 @@
     "description": "The platform dedicated to the organisation of Pix Certification sessions. Pix Certif allows you to create and manage certification sessions."
   },
   "common": {
+    "a11y": {
+      "external-link": " This link opens in a new tab."
+    },
     "actions": {
       "add": "Add",
       "back": "Back",
@@ -210,6 +213,21 @@
   "components": {
     "locale-switcher": {
       "label": "Select a language"
+    },
+    "terms-of-service": {
+      "actions": {
+        "accept": "Accept and continue",
+        "document-link": "Read terms of service",
+        "reject": "Decline and quit"
+      },
+      "message": {
+        "requested": "To continue using Pix, please read and accept our Terms of service.",
+        "update-requested": "We have updated our Terms of service. Please review the changes and accept them to continue."
+      },
+      "title": {
+        "requested": "Please accept our Terms of service",
+        "update-requested": "Important update to the Terms of service"
+      }
     }
   },
   "navigation": {
@@ -218,7 +236,8 @@
       "a11y": "Accessibility",
       "aria-label": "Footer navigation",
       "current-year": "© {currentYear} Pix",
-      "legal-notice": "Legal notice"
+      "legal-notice": "Legal notice",
+      "status": "Service status"
     },
     "sidebar": {
       "change-center": {
@@ -562,7 +581,7 @@
       "candidate-list": {
         "active-candidates": "{activeCandidates}/{totalCandidates} {activeCandidates, plural,one {candidate} other {candidates}} attending{activeCandidates, plural,=0 {} other { ({startedCandidates} of whom are currently doing the test)}}",
         "clear-field": "Clear the field",
-        "indicate-candidates-attendance": "Please confirm the attendance of each candidate to allow them to start their certification exam.",
+        "indicate-candidates-attendance": "Please confirm the attendance of each candidate to allow them to start their certification exam. Confirmation is valid for 15 minutes. If the test hasn't started within this time, attendance must be re-confirmed. ",
         "no-candidate": "No candidate enrolled in this session",
         "search-candidate": "Search for a candidate"
       },

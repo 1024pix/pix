@@ -10,7 +10,7 @@ export default class AppMainHeader extends Component {
   @service currentUser;
 
   get userPixScore() {
-    return this.currentUser.user.profile.get('pixScore');
+    return this.currentUser.user.profile?.get('pixScore');
   }
 
   <template>

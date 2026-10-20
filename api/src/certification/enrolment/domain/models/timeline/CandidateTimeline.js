@@ -20,6 +20,7 @@ export class CandidateTimeline {
    */
   constructor({ certificationCandidateId }) {
     this.certificationCandidateId = certificationCandidateId;
+    /** @type {TimelineEvent[]} */
     this.events = [];
     this.#validate();
   }

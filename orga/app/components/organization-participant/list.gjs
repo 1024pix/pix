@@ -50,8 +50,8 @@ export default class List extends Component {
     }
     if (!extraColumnValue) return '';
 
-    if (extraColumn.format === 'date') {
-      return this.intl.formatDate(extraColumnValue);
+    if (extraColumn.type === 'date') {
+      return this.intl.formatDate(extraColumnValue, { timeZone: 'UTC' });
     }
 
     return extraColumnValue;

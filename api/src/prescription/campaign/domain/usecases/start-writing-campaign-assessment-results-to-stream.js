@@ -57,6 +57,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   organizationLearnerImportFormatRepository,
   stageAcquisitionRepository,
   improvementService,
+  logger,
 }) {
   let additionalHeaders = [];
   const campaign = await campaignRepository.get(campaignId);
@@ -109,8 +110,8 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
       writableStream.end();
     })
     .catch((error) => {
+      logger.error(error, `Error while generating csv campaign results.`);
       writableStream.emit('error', error);
-      throw error;
     });
 
   const i18n = getI18n(locale);

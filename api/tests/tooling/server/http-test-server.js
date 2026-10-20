@@ -3,6 +3,12 @@ import { parse } from 'neoqs';
 
 import { setupErrorHandling } from '../../../config/server-setup-error-handling.js';
 import * as serverAuthentication from '../../../src/identity-access-management/infrastructure/server-authentication.js';
+import {
+  jwtCookieScheme,
+  jwtCookieSchemeName,
+  ltiPrescriberStrategyConfiguration,
+  ltiPrescriberStrategyName,
+} from '../../../src/lti/infrastructure/lti-authentication.js';
 import { deserializer } from '../../../src/shared/infrastructure/serializers/jsonapi/deserializer.js';
 import { handleFailAction } from '../../../src/shared/validate.js';
 
@@ -62,6 +68,11 @@ class HttpTestServer {
       this.hapiServer.auth.strategy(strategy.name, strategy.schemeName, strategy.configuration),
     );
     this.hapiServer.auth.default(serverAuthentication.strategies.jwtUser.name);
+  }
+
+  setupLtiAuthentication() {
+    this.hapiServer.auth.scheme(jwtCookieSchemeName, jwtCookieScheme);
+    this.hapiServer.auth.strategy(ltiPrescriberStrategyName, jwtCookieSchemeName, ltiPrescriberStrategyConfiguration);
   }
 
   setupDeserialization() {

@@ -73,13 +73,6 @@ async function reconcileUserForAdmin(
   return h.response({ access_token: accessToken }).code(200);
 }
 
-/**
- * @typedef {{
- * reconcileUserForAdmin: (function(*, *, {oidcAuthenticationServiceRegistry: OidcAuthenticationServiceRegistry}=): Promise<*>),
- * createInBatch: (function(*, *): Promise<*>),
- * getAllIdentityProvidersForAdmin: (function(*, *): Promise<*>)
- * }} oidcProviderAdminController
- */
 export const oidcProviderAdminController = {
   getImportTemplate,
   createInBatch,

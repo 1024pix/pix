@@ -11,6 +11,11 @@ let isEnvLoaded = false;
 if (!isEnvLoaded) {
   try {
     if (process.env.NODE_ENV === 'test') {
+      try {
+        process.loadEnvFile(url.fileURLToPath(new URL('../tests/setup/.env.test.local', import.meta.url)));
+      } catch {
+        // no .env.test.local overrides
+      }
       process.loadEnvFile(url.fileURLToPath(new URL('../tests/setup/.env.test', import.meta.url)));
     } else {
       process.loadEnvFile(url.fileURLToPath(new URL('../.env', import.meta.url)));
@@ -154,6 +159,8 @@ export const schema = Joi.object({
   LOG_FOR_HUMANS: Joi.string().optional().valid('true', 'false'),
   LOG_LEVEL: Joi.string().optional().valid('silent', 'fatal', 'error', 'warn', 'info', 'debug', 'trace'),
   LOG_OPS_METRICS: Joi.string().optional().valid('true', 'false'),
+  LTI_AUTHORIZED_PLATFORMS: Joi.string().optional(),
+  LTI_PRESCRIBER_ACCESS_TOKEN_LIFESPAN: Joi.string().optional(),
   MAILING_ENABLED: Joi.string().optional().valid('true', 'false'),
   MAILING_PROVIDER: Joi.string().optional().valid('brevo', 'mailpit'),
   NODE_ENV: Joi.string().optional().valid('development', 'test', 'production'),
@@ -173,6 +180,10 @@ export const schema = Joi.object({
   HEAP_PROFILE_DEFAULT_DURATION: Joi.string().optional(),
   HEAP_PROFILE_MAX_DURATION: Joi.string().optional(),
   HEAP_PROFILE_MAX_REQUEST_AGE: Joi.string().optional(),
+  EVENT_LOOP_WATCHDOG_ENABLED: Joi.string().optional().valid('true', 'false'),
+  EVENT_LOOP_WATCHDOG_CHECK_INTERVAL: Joi.string().duration().optional(),
+  EVENT_LOOP_WATCHDOG_THRESHOLD: Joi.string().duration().optional(),
+  EVENT_LOOP_WATCHDOG_MAX_REPORTED_REQUESTS: Joi.number().integer().min(1).optional(),
   ROUTE_DOMAIN_TO_OWNER_TEAM_MAPPING: Joi.string().optional(),
 }).options({ allowUnknown: true });
 
@@ -351,6 +362,15 @@ export const config = {
       process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT,
     ),
   },
+  eventLoopWatchdog: {
+    enabled: toBoolean(process.env.EVENT_LOOP_WATCHDOG_ENABLED),
+    // période du timer qui mesure le retard de la boucle d'événements
+    checkInterval: ms(process.env.EVENT_LOOP_WATCHDOG_CHECK_INTERVAL ?? '100ms'),
+    // retard au-delà duquel le blocage est journalisé avec les requêtes en cours
+    threshold: ms(process.env.EVENT_LOOP_WATCHDOG_THRESHOLD ?? '500ms'),
+    // borne la taille du log quand le conteneur traite beaucoup de requêtes
+    maxReportedRequests: _getNumber(process.env.EVENT_LOOP_WATCHDOG_MAX_REPORTED_REQUESTS, 50),
+  },
   hapi: {
     options: {},
   },
@@ -453,8 +473,9 @@ export const config = {
   },
   logOpsMetrics: toBoolean(process.env.LOG_OPS_METRICS),
   lti: {
-    authorizedPlatforms: process.env.LTI_AUTHORIZED_PLATFORMS?.split(',') ?? [],
+    authorizedPlatforms: process.env.LTI_AUTHORIZED_PLATFORMS?.split(',') ?? ['http://localhost:8000'],
     jwkModulusLength: _getNumber(process.env.LTI_JWK_MODULUS_LENGTH, 4096),
+    prescriberAccessTokenLifespan: process.env.LTI_PRESCRIBER_ACCESS_TOKEN_LIFESPAN ?? '10m',
   },
   mailing: {
     enabled: toBoolean(process.env.MAILING_ENABLED),

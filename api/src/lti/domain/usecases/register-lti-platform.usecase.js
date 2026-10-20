@@ -37,13 +37,18 @@ const platformOpenIdConfigurationSchema = Joi.object({
   'https://purl.imsglobal.org/spec/lti-platform-configuration': platformLtiConfigurationSchema.required(),
 }).unknown(true);
 
-function createPixToolConfiguration(baseUrl) {
+function createPixToolConfiguration({ urlService }) {
+  const locale = 'fr-FR'; // TODO: Generate this dynamically
+  const jwksUrl = urlService.getPixApiUrl('/api/lti/keys');
+  const initiateLoginUrl = urlService.getPixApiUrl('/api/lti/init');
+  const deepLinkingUrl = urlService.getPixOrgaUrl(locale, { pathname: '/api/lti/deep-linking' });
+  const resourceLinkUrl = urlService.getPixAppUrl(locale, { pathname: '/api/lti/resource-link' });
   return {
     response_types: ['id_token'],
-    jwks_uri: `${baseUrl}/api/lti/keys`,
-    initiate_login_uri: `${baseUrl}/api/lti/init`,
+    jwks_uri: jwksUrl, // TODO: Should be on gateway.pix.fr?
+    initiate_login_uri: initiateLoginUrl,
     grant_types: ['client_credentials', 'implicit'],
-    redirect_uris: [`${baseUrl}/api/lti/launch`],
+    redirect_uris: [deepLinkingUrl, resourceLinkUrl],
     application_type: 'web',
     token_endpoint_auth_method: 'private_key_jwt',
     client_name: 'Pix',
@@ -55,13 +60,13 @@ function createPixToolConfiguration(baseUrl) {
       'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly',
     ].join(' '),
     'https://purl.imsglobal.org/spec/lti-tool-configuration': {
-      target_link_uri: `${baseUrl}/api/lti`,
-      domain: new URL(baseUrl).hostname,
+      target_link_uri: resourceLinkUrl,
+      domain: new URL(resourceLinkUrl).hostname,
       description: 'Intégration avec la plateforme Pix',
       messages: [
         {
           type: 'LtiDeepLinkingRequest',
-          target_link_uri: `${baseUrl}/api/lti/content-selection`,
+          target_link_uri: deepLinkingUrl,
         },
       ],
       claims: ['sub', 'iss', 'name', 'family_name', 'given_name', 'email'],
@@ -84,6 +89,7 @@ export async function registerLtiPlatform({
   httpAgent,
   ltiPlatformRegistrationRepository,
   cryptoService,
+  urlService,
 }) {
   const { data: platformConfiguration, ...getConfigurationResponse } = await httpAgent.get({
     url: platformConfigurationUrl,
@@ -116,7 +122,7 @@ export async function registerLtiPlatform({
     throw new InvalidLtiPlatformRegistrationError('Inconsistent LTI platform configuration URL');
   }
 
-  const pixToolConfiguration = createPixToolConfiguration(config.baseUrl);
+  const pixToolConfiguration = createPixToolConfiguration({ urlService });
 
   const { data: pixToolRegistration, ...registrationResponse } = await httpAgent.post({
     url: platformConfiguration.registration_endpoint,
@@ -140,7 +146,7 @@ export async function registerLtiPlatform({
     encryptedPrivateKey,
     toolConfig: pixToolRegistration,
     publicKey,
-    status: LtiPlatformRegistration.status.PENDING,
+    status: LtiPlatformRegistration.status.ACTIVE,
   });
 
   logger.info(

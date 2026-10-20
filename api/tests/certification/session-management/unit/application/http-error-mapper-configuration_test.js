@@ -137,12 +137,17 @@ describe('Unit | Certification | Session | Application | HttpErrorMapperConfigur
       );
 
       // when
-      const error = httpErrorMapper.httpErrorFn(new SendingEmailToRefererError(['test1@email.com', 'test2@email.com']));
+      const error = httpErrorMapper.httpErrorFn(
+        new SendingEmailToRefererError([
+          { email: 'test1@email.com', code: '12', message: 'error' },
+          { email: 'test2@email.com', code: '23', message: 'error23' },
+        ]),
+      );
 
       // then
       expect(error).to.be.instanceOf(ServiceUnavailableError);
       expect(error.message).to.equal(
-        "Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : test1@email.com, test2@email.com",
+        "Échec lors de l'envoi du mail au(x) référent(s) du centre de certification : test1@email.com (12: error), test2@email.com (23: error23)",
       );
     });
   });

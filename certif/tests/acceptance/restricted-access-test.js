@@ -27,7 +27,7 @@ module('Acceptance | Restricted access', function (hooks) {
       certificationPointOfContact = server.create('certification-point-of-contact', {
         firstName: 'Buffy',
         lastName: 'Summers',
-        pixCertifTermsOfServiceAccepted: true,
+        pixCertifTermsOfServiceStatus: 'accepted',
       });
       await authenticateSession(certificationPointOfContact.id);
     });

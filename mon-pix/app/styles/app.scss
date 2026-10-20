@@ -25,13 +25,11 @@
 @use 'components/authentication/oidc-reconciliation' as *;
 @use 'components/autonomous-course/landing-page-start-block' as *;
 @use 'components/assessments/live-alert' as *;
-@use 'components/assessment-banner' as *;
 @use 'components/background-banner' as *;
 @use 'components/campaign-participation-overview/card' as *;
 @use 'components/campaign-participation-overview/grid' as *;
 @use 'components/certification-starter' as *;
 @use 'components/certification-joiner' as *;
-@use 'components/certification-banner' as *;
 @use 'components/certification-not-certifiable' as *;
 @use 'components/user-certifications/list-item' as *;
 @use 'components/user-certifications/hexagon' as *;
@@ -47,6 +45,8 @@
 @use 'components/certifications/shareable-certificate/v3-certificate' as *;
 @use 'components/certifications/shareable-certificate/v2-certificate' as *;
 @use 'components/certifications/certification-ender' as *;
+@use 'components/certifications/dashboard/enrolment-banner' as *;
+@use 'components/certifications/dashboard/user-certifications' as *;
 @use 'components/combined-courses/combined-courses' as *;
 @use 'components/combined-courses/combined-course-item' as *;
 @use 'components/combined-courses/tunnel' as *;
@@ -61,19 +61,13 @@
 @use 'components/challenge-illustration' as *;
 @use 'components/challenge-item' as *;
 @use 'components/challenge-statement' as *;
-@use 'components/checkpoint' as *;
 @use 'components/circle-chart' as *;
-@use 'components/comparison-window' as *;
 @use 'components/choice-chip' as *;
 @use 'components/reset-campaign-participation-modal' as *;
 @use 'components/tabs' as *;
 @use 'components/markdown-to-html' as *;
-
-/* we need this to be before competence-card-default because of a mix
-of an adaptative/mobile-first approach — refactoring is welcome here */
 @use 'components/common/responsive-list-wide-wrap' as *;
-@use 'components/competence-card-mobile' as *;
-@use 'components/competence-card-default' as *;
+@use 'components/competence-card' as *;
 @use 'components/competence-card/list' as *;
 @use 'components/dashboard/content' as *;
 @use 'components/feedback-panel' as *;
@@ -132,7 +126,6 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @use 'components/panel' as *;
 @use 'components/action-chip' as *;
 @use 'components/pix-logo' as *;
-@use 'components/progress-bar' as *;
 @use 'components/qcm-solution-panel' as *;
 @use 'components/qcm-proposals' as *;
 @use 'components/qcu-proposals' as *;
@@ -144,7 +137,6 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @use 'components/account-recovery/confirmation-step' as *;
 @use 'components/account-recovery/update-sco-record-form' as *;
 @use 'components/sco-signup-form' as *;
-@use 'components/result-item' as *;
 @use 'components/rounded-panel' as *;
 @use 'components/scorecard-details' as *;
 @use 'components/show-more-text' as *;
@@ -183,8 +175,15 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @use 'user-account/delete-account-section' as *;
 @use 'user-account/user-account-navigation' as *;
 
+/* assessments */
+@use 'assessments/answer-statuses' as *;
+@use 'assessments/answer-button-continue' as *;
+@use 'assessments/comparison-window' as *;
+@use 'assessments/result-item' as *;
+@use 'ui/assessment/banner' as *;
+@use 'ui/assessment/progress-bar' as *;
+
 /* pages */
-@use 'pages/assessment-results' as *;
 @use 'pages/campaign-landing-page' as *;
 @use 'pages/inaccessible-content' as *;
 @use 'pages/campaign-tutorial' as *;
@@ -244,11 +243,10 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
   &--force-max-width {
     & > .pix-app-layout__main {
       max-width: 100%;
+      padding: 0;
     }
   }
 
-  & > .pix-app-layout__main,
-  .pix-app-layout__footer,
   .pix-app-layout__navigation {
     padding: 0;
   }

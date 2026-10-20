@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
@@ -73,14 +72,13 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
   });
 
   describe('GET /api/assessments/:assessment_id', function () {
-    const assessmentId = 1;
     const userId = 1234;
+    let assessment;
 
     context('When there is still challenges to answer', function () {
       beforeEach(async function () {
         databaseBuilder.factory.buildUser({ id: userId });
-        databaseBuilder.factory.buildAssessment({
-          id: assessmentId,
+        assessment = databaseBuilder.factory.buildAssessment({
           type: Assessment.types.COMPETENCE_EVALUATION,
           userId,
           competenceId,
@@ -89,32 +87,27 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         });
         const { id: answerId } = databaseBuilder.factory.buildAnswer({
           challengeId: firstChallengeId,
-          assessmentId,
+          assessmentId: assessment.id,
           value: 'any good answer',
           result: 'ok',
         });
-        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
+        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId: assessment.id, competenceId, userId });
         databaseBuilder.factory.buildKnowledgeElement({
           status: KnowledgeElement.StatusType.VALIDATED,
           skillId: skillWeb2Id,
-          assessmentId,
+          assessmentId: assessment.id,
           answerId,
           userId,
           competenceId,
         });
         await databaseBuilder.commit();
-
-        sinon.useFakeTimers({
-          now: Date.now(),
-          toFake: ['Date'],
-        });
       });
 
       it('should return assessment with title', async function () {
         // given
         const options = {
           method: 'GET',
-          url: `/api/assessments/${assessmentId}`,
+          url: `/api/assessments/${assessment.id}`,
           headers: generateAuthenticatedUserRequestHeaders({ userId }),
         };
 
@@ -122,7 +115,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         const response = await server.inject(options);
 
         // then
-        expect(response.result.data.id).to.equal(assessmentId.toString());
+        expect(response.result.data.id).to.equal(assessment.id.toString());
         expect(response.result.data.attributes.title).to.equal('Mener une recherche et une veille d’information');
       });
 
@@ -130,19 +123,17 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         // given
         const options = {
           method: 'GET',
-          url: `/api/assessments/${assessmentId}`,
+          url: `/api/assessments/${assessment.id}`,
           headers: generateAuthenticatedUserRequestHeaders({ userId }),
         };
-
-        const lastQuestionDate = new Date();
 
         // when
         const response = await server.inject(options);
 
         // then
-        const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastQuestionDate');
-        expect(assessmentsInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
-        expect(response.result.data.id).to.equal(assessmentId.toString());
+        const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionDate');
+        expect(assessmentsInDb.lastQuestionDate).to.be.greaterThan(assessment.lastQuestionDate);
+        expect(response.result.data.id).to.equal(assessment.id.toString());
         expect(response.result.data.relationships['next-challenge'].data.id).to.equal(secondChallengeId);
       });
 
@@ -150,7 +141,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         // given
         const options = {
           method: 'GET',
-          url: `/api/assessments/${assessmentId}`,
+          url: `/api/assessments/${assessment.id}`,
           headers: generateAuthenticatedUserRequestHeaders({ userId }),
         };
 
@@ -158,9 +149,9 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         const response = await server.inject(options);
 
         // then
-        const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastChallengeId');
+        const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastChallengeId');
         expect(assessmentsInDb.lastChallengeId).to.deep.equal(secondChallengeId);
-        expect(response.result.data.id).to.equal(assessmentId.toString());
+        expect(response.result.data.id).to.equal(assessment.id.toString());
         expect(response.result.data.relationships['next-challenge'].data.id).to.equal(secondChallengeId);
       });
     });
@@ -170,8 +161,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
 
       beforeEach(async function () {
         databaseBuilder.factory.buildUser({ id: userId });
-        databaseBuilder.factory.buildAssessment({
-          id: assessmentId,
+        assessment = databaseBuilder.factory.buildAssessment({
           type: Assessment.types.COMPETENCE_EVALUATION,
           userId,
           competenceId,
@@ -179,21 +169,21 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         });
         const { id: answerId1 } = databaseBuilder.factory.buildAnswer({
           challengeId: firstChallengeId,
-          assessmentId,
+          assessmentId: assessment.id,
           value: 'any good answer',
           result: 'ok',
         });
         const { id: answerId2 } = databaseBuilder.factory.buildAnswer({
           challengeId: secondChallengeId,
-          assessmentId,
+          assessmentId: assessment.id,
           value: 'any bad answer',
           result: 'ko',
         });
-        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
+        databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId: assessment.id, competenceId, userId });
         databaseBuilder.factory.buildKnowledgeElement({
           status: KnowledgeElement.StatusType.VALIDATED,
           skillId: skillWeb2Id,
-          assessmentId,
+          assessmentId: assessment.id,
           answerId1,
           userId,
           competenceId,
@@ -202,7 +192,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
           source: KnowledgeElement.SourceType.INFERRED,
           status: KnowledgeElement.StatusType.VALIDATED,
           skillId: skillWeb1Id,
-          assessmentId,
+          assessmentId: assessment.id,
           answerId1,
           userId,
           competenceId,
@@ -210,7 +200,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         databaseBuilder.factory.buildKnowledgeElement({
           status: KnowledgeElement.StatusType.INVALIDATED,
           skillId: skillWeb3Id,
-          assessmentId,
+          assessmentId: assessment.id,
           answerId2,
           userId,
           competenceId,
@@ -222,7 +212,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         // given
         const options = {
           method: 'GET',
-          url: `/api/assessments/${assessmentId}`,
+          url: `/api/assessments/${assessment.id}`,
           headers: generateAuthenticatedUserRequestHeaders({ userId }),
         };
 
@@ -231,7 +221,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data.id).to.equal(assessmentId.toString());
+        expect(response.result.data.id).to.equal(assessment.id.toString());
         expect(response.result.data.relationships['next-challenge'].data).to.be.null;
       });
 
@@ -239,7 +229,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         // given
         const options = {
           method: 'GET',
-          url: `/api/assessments/${assessmentId}`,
+          url: `/api/assessments/${assessment.id}`,
           headers: generateAuthenticatedUserRequestHeaders({ userId }),
         };
 
@@ -247,7 +237,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         await server.inject(options);
 
         // then
-        const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastChallengeId');
+        const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastChallengeId');
         expect(assessmentsInDb.lastChallengeId).to.deep.equal(lastChallengeId);
       });
     });

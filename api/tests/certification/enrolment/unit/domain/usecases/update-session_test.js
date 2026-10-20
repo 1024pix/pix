@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { SessionAlreadyStartedError } from '../../../../../../src/certification/enrolment/domain/errors.js';
 import { updateSession } from '../../../../../../src/certification/enrolment/domain/usecases/update-session.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -15,18 +16,35 @@ describe('Certification | Enrolment | Unit | UseCase | update-session', function
       sessionRepository.get.withArgs({ id: sessionId }).resolves(null);
 
       // when
-      const error = await catchErr(updateSession)({
-        address: '1 rue des lauriers',
-        room: '2B',
-        date: '2021-01-01',
-        time: '14:00',
-        examiner: 'Louise',
-        description: 'coucou',
-        sessionId,
-        sessionRepository,
-      });
+      const error = await catchErr(updateSession)({ sessionId, sessionRepository });
 
       expect(error).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
+    });
+  });
+
+  describe('when session already have some certification started', function () {
+    it('throws a SessionAlreadyStartedError and does not update the session', async function () {
+      // given
+      const sessionId = 345;
+      const sessionRepository = { get: sinon.stub(), updateInfo: sinon.fake.resolves() };
+      const startedSession = domainBuilder.certification.enrolment
+        .sessionEnrolmentBuilder()
+        .withParameters({ id: sessionId })
+        .addCandidatesBuilders([
+          domainBuilder.certification.enrolment
+            .candidateBuilder()
+            .withParameters({ id: 456 })
+            .withStartedTest({ certificationId: 789 }),
+        ])
+        .build();
+      sessionRepository.get.withArgs({ id: sessionId }).resolves(startedSession);
+
+      // when
+      const error = await catchErr(updateSession)({ sessionId, sessionRepository });
+
+      // then
+      expect(error).to.deepEqualInstance(new SessionAlreadyStartedError());
+      expect(sessionRepository.updateInfo).to.not.have.been.called;
     });
   });
 

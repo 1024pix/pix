@@ -22,7 +22,7 @@ module('Integration | Component | hexagon-score', function (hooks) {
       );
 
       // then
-      assert.ok(screen.getByText('–'));
+      assert.ok(screen.getByText('-'));
     });
 
     test('should display provided score in hexagon', async function (assert) {
@@ -36,7 +36,7 @@ module('Integration | Component | hexagon-score', function (hooks) {
       assert.ok(screen.getByText(pixScore));
     });
 
-    test('should display an information tooltip', async function (assert) {
+    test('should display an information tooltip reachable by keyboard', async function (assert) {
       // given
       const maxReachablePixScore = 100;
       const maxReachableLevel = 5;
@@ -49,7 +49,15 @@ module('Integration | Component | hexagon-score', function (hooks) {
       );
 
       // then
-      assert.ok(screen.getByRole('button', { name: t('pages.profile.total-score-helper.label') }));
+      const triggerElement = screen.getByRole('img', {
+        name: t('pages.profile.total-score-helper.icon'),
+      }).parentElement;
+      assert.dom(triggerElement).hasAttribute('tabindex', '0');
+      assert.dom(triggerElement).hasAttribute('aria-describedby', 'hexagon-score-tooltip');
+
+      const tooltip = screen.getByRole('tooltip', { hidden: true });
+      assert.dom(tooltip).hasAttribute('id', 'hexagon-score-tooltip');
+      assert.dom(tooltip).containsText(t('pages.profile.total-score-helper.title'));
     });
   });
 });

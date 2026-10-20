@@ -38,7 +38,7 @@ test(
     });
 
     await test.step('user stops at 25th challenge', async () => {
-      await expect(pixAppCertifiablePage.getByLabel('Votre progression')).toContainText('25 / 32');
+      await expect(pixAppCertifiablePage.getByTestId('pw-certification-progression')).toContainText('25 / 32');
     });
 
     await test.step('Finalization by marking a technical issue and check scoring', async () => {
@@ -52,7 +52,7 @@ test(
 
     await test.step('user reloads the page and reaches expected end of certification page', async () => {
       await pixAppCertifiablePage.reload();
-      await expect(pixAppCertifiablePage.locator('h1')).toContainText('Test terminé !');
+      await expect(pixAppCertifiablePage.getByRole('heading', { name: 'Test terminé !', level: 2 })).toBeVisible();
       await expect(
         pixAppCertifiablePage.getByText(
           'La session a été finalisée par votre centre de certification. Vous ne pouvez plus continuer de répondre aux questions.',

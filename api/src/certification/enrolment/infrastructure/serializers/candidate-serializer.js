@@ -78,6 +78,7 @@ function serialize(candidates) {
       'prepaymentCode',
       'hasSeenCertificationInstructions',
       'accessibilityAdjustmentNeeded',
+      'hasStartedTest',
     ],
   }).serialize(candidates);
 }

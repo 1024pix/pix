@@ -9,6 +9,22 @@ import * as learningContent from './learning-content/index.js';
 import * as llm from './llm/index.js';
 import * as poleEmploiSendingFactory from './pole-emploi-sending-factory.js';
 
+/**
+ * Travail à continuer en scout-rule : ajouter ici les builders au fur et à mesure.
+ * @see https://github.com/1024pix/pix/pull/8212
+ *
+ * @typedef {{
+ *   buildTraining: typeof import('./build-training.js').buildTraining,
+ *   buildUser: typeof import('./build-user.js').buildUser,
+ * } & Record<string, (...args: any[]) => any>} DatabaseBuilders
+ */
+
+/**
+ * @typedef {{
+ *   buildOrganizationLearner: typeof import('./prescription/organization-learners/build-organization-learner.js').buildOrganizationLearner,
+ * } & Record<string, (...args: any[]) => any>} OrganizationLearnersBuilders
+ */
+
 const path = dirname(fileURLToPath(import.meta.url));
 const unwantedFiles = [
   'index.js',
@@ -18,28 +34,20 @@ const unwantedFiles = [
   'build-data-protection-officer.js',
 ];
 
-const databaseBuilders = await importNamedExportsFromDirectory({
-  path: join(path, './'),
-  ignoredFileNames: unwantedFiles,
-});
+const databaseBuilders = /** @type {DatabaseBuilders} */ (
+  await importNamedExportsFromDirectory({
+    path: join(path, './'),
+    ignoredFileNames: unwantedFiles,
+  })
+);
 
-const organizationLearners = await importNamedExportsFromDirectory({
-  path: join(path, './prescription/organization-learners'),
-  ignoredFileNames: unwantedFiles,
-});
+const organizationLearners = /** @type {OrganizationLearnersBuilders} */ (
+  await importNamedExportsFromDirectory({
+    path: join(path, './prescription/organization-learners'),
+    ignoredFileNames: unwantedFiles,
+  })
+);
 
-/**
- * Travail à continuer en scout-rule
- * @see https://github.com/1024pix/pix/pull/8212
- * @typedef {
- *    {
- *      buildTraining: BuildTraining,
- *      buildDataProtectionOfficer: BuildDataProtectionOfficerFactory,
- *      buildUser: BuildUser,
- *      buildOrganizationLearner: BuildOrganizationLearner,
- *    }
- *  } Factory
- */
 export const factory = {
   ...databaseBuilders,
   prescription: {

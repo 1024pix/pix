@@ -473,6 +473,7 @@ describe('Integration | Devcomp | Infrastructure | Factories | Module ', functio
                         alternativeText: 'Alternative textuelle',
                         legend: 'legend',
                         licence: 'licence',
+                        maxWidth: 600,
                       },
                     },
                   ],
@@ -488,6 +489,7 @@ describe('Integration | Devcomp | Infrastructure | Factories | Module ', functio
 
         // then
         expect(module.sections[0].grains[0].components[0].element).to.be.an.instanceOf(Image);
+        expect(module.sections[0].grains[0].components[0].element.maxWidth).to.equal(600);
       });
 
       it('should instantiate a Module with a ComponentElement which contains a Separator Element', async function () {

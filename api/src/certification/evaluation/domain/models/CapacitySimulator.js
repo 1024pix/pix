@@ -1,6 +1,6 @@
 // TODO: bounded context violation
 import { CORE_MESH_CONFIGURATION } from '../../../shared/domain/constants/mesh-configuration.js';
-import { findIntervalIndexFromScore } from '../../../shared/domain/services/mesh-service.js';
+import { findMeshFromScore } from '../../../shared/domain/services/mesh-service.js';
 import { Intervals } from './Intervals.js';
 import { ScoringAndCapacitySimulatorReport } from './ScoringAndCapacitySimulatorReport.js';
 
@@ -10,7 +10,7 @@ export class CapacitySimulator {
     const scoringIntervals = new Intervals({ intervals: certificationScoringIntervals });
 
     const meshes = Array.from(CORE_MESH_CONFIGURATION.values());
-    const intervalIndex = findIntervalIndexFromScore({ score, maxReachableLevel });
+    const intervalIndex = findMeshFromScore({ score, maxReachableLevel }).meshIndex;
 
     const intervalMaxValue = scoringIntervals.max(intervalIndex);
     const intervalMinValue = scoringIntervals.min(intervalIndex);

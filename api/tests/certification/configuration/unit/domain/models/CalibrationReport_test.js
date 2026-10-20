@@ -72,7 +72,7 @@ describe('Unit | Certification | Configuration | Domain | Models | Calibration R
             ...commonReportLines,
             {
               additionalContent: 'tubeC, tubeE',
-              alertLevel: ALERT_LEVELS.HIGH,
+              alertLevel: ALERT_LEVELS.LOW,
               label: REPORT_LABELS.TUBE_ONLY_IN_VERSION_COUNT,
               content: 2,
             },

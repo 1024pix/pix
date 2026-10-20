@@ -23,6 +23,16 @@ export async function find({ searchTerm } = {}) {
   return _toDomain(targetProfiles);
 }
 
+/**
+ * @typedef {import('knex').Knex.QueryBuilder} QueryBuilder
+ */
+
+/**
+ * @param {object} params
+ * @param {QueryBuilder} params.builder
+ * @param {string} [params.searchTerm]
+ * @returns {QueryBuilder}
+ */
 function _searchByCriteria({ builder, searchTerm }) {
   if (searchTerm !== undefined && searchTerm.trim().length !== 0) {
     const filteredBuilder = _searchByTargetProfileName({ builder, searchTerm });
@@ -36,18 +46,34 @@ function _searchByCriteria({ builder, searchTerm }) {
   return builder;
 }
 
+/**
+ * @param {object} params
+ * @param {QueryBuilder} params.builder
+ * @param {string} params.searchTerm
+ */
 function _searchByTargetProfileName({ builder, searchTerm }) {
   return builder.whereILike('target-profiles.name', `%${searchTerm}%`);
 }
 
+/**
+ * @param {object} params
+ * @param {QueryBuilder} params.builder
+ * @param {string} params.searchTerm
+ */
 function _searchOnId({ builder, searchTerm }) {
   return builder.whereRaw('CAST("target-profiles"."id" AS TEXT) LIKE ?', [`%${searchTerm}%`]);
 }
 
+/**
+ * @param {QueryBuilder} builder
+ */
 function _allowOnlyNeverAttachedTargetProfiles(builder) {
   return builder.whereNull('complementary-certification-badges.badgeId');
 }
 
+/**
+ * @param {object[]} targetProfiles
+ */
 function _toDomain(targetProfiles) {
   return targetProfiles.map((targetProfile) => new AttachableTargetProfile(targetProfile));
 }

@@ -11,18 +11,29 @@ describe('Certification | Results | Unit | Domain | UseCase | getCertificationRe
     it('should not allow more than one result', async function () {
       // given
       const ine = '1234';
-      const certificationParcoursupRepository = {
+      const parcoursupCertificationResultRepository = {
         getByINE: sinon.stub(),
       };
 
-      const oneCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({ ine });
-      const duplicatedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({ ine });
-      certificationParcoursupRepository.getByINE
+      const oneCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({
+        ine,
+        score: 112,
+        maxReachableLevel: 7,
+      });
+      const duplicatedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({
+        ine,
+        score: 323,
+        maxReachableLevel: 7,
+      });
+      parcoursupCertificationResultRepository.getByINE
         .withArgs({ ine })
         .resolves([oneCertification, duplicatedCertification]);
 
       // when
-      const error = await catchErr(getCertificationResultForParcoursup)({ ine, certificationParcoursupRepository });
+      const error = await catchErr(getCertificationResultForParcoursup)({
+        ine,
+        parcoursupCertificationResultRepository,
+      });
 
       // then
       expect(error).to.be.instanceOf(MoreThanOneMatchingCertificationError);
@@ -33,15 +44,22 @@ describe('Certification | Results | Unit | Domain | UseCase | getCertificationRe
       it('returns matching certification', async function () {
         // given
         const ine = '1234';
-        const certificationParcoursupRepository = {
+        const parcoursupCertificationResultRepository = {
           getByINE: sinon.stub(),
         };
 
-        const expectedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({ ine });
-        certificationParcoursupRepository.getByINE.withArgs({ ine }).resolves([expectedCertification]);
+        const expectedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({
+          ine,
+          score: 323,
+          maxReachableLevel: 7,
+        });
+        parcoursupCertificationResultRepository.getByINE.withArgs({ ine }).resolves([expectedCertification]);
 
         // when
-        const certification = await getCertificationResultForParcoursup({ ine, certificationParcoursupRepository });
+        const certification = await getCertificationResultForParcoursup({
+          ine,
+          parcoursupCertificationResultRepository,
+        });
 
         // then
         expect(certification).to.deep.equal(expectedCertification);
@@ -55,7 +73,7 @@ describe('Certification | Results | Unit | Domain | UseCase | getCertificationRe
         const lastName = 'LEPONGE';
         const firstName = 'Bob';
         const birthdate = '2000-01-01';
-        const certificationParcoursupRepository = {
+        const parcoursupCertificationResultRepository = {
           getByOrganizationUAI: sinon.stub(),
         };
 
@@ -64,8 +82,10 @@ describe('Certification | Results | Unit | Domain | UseCase | getCertificationRe
           lastName,
           firstName,
           birthdate,
+          score: 323,
+          maxReachableLevel: 7,
         });
-        certificationParcoursupRepository.getByOrganizationUAI
+        parcoursupCertificationResultRepository.getByOrganizationUAI
           .withArgs({
             organizationUai,
             lastName,
@@ -80,7 +100,7 @@ describe('Certification | Results | Unit | Domain | UseCase | getCertificationRe
           lastName,
           firstName,
           birthdate,
-          certificationParcoursupRepository,
+          parcoursupCertificationResultRepository,
         });
 
         // then
@@ -93,14 +113,16 @@ describe('Certification | Results | Unit | Domain | UseCase | getCertificationRe
         // given
         const verificationCode = 'P-123b5c7a';
         const upperCasedVerificationCode = 'P-123B5C7A';
-        const certificationParcoursupRepository = {
+        const parcoursupCertificationResultRepository = {
           getByVerificationCode: sinon.stub(),
         };
 
         const expectedCertification = domainBuilder.certification.results.parcoursup.buildCertificationResult({
           verificationCode: upperCasedVerificationCode,
+          score: 323,
+          maxReachableLevel: 7,
         });
-        certificationParcoursupRepository.getByVerificationCode
+        parcoursupCertificationResultRepository.getByVerificationCode
           .withArgs({
             verificationCode: upperCasedVerificationCode,
           })
@@ -109,7 +131,7 @@ describe('Certification | Results | Unit | Domain | UseCase | getCertificationRe
         // when
         const certification = await getCertificationResultForParcoursup({
           verificationCode,
-          certificationParcoursupRepository,
+          parcoursupCertificationResultRepository,
         });
 
         // then

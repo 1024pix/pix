@@ -835,7 +835,8 @@
         "title": "Configuración"
       },
       "tags": {
-        "BACK_TO_SCHOOL": "Itinerario de inicio de curso / 6e",
+        "ATTESTATION": "Certificados",
+        "BACK_TO_SCHOOL": "Itinerario de inicio de curso",
         "COMPETENCES": "Las 16 competencias",
         "CUSTOM": "Itinerarios a medida",
         "DISCIPLINE": "Disciplinarios",
@@ -1617,6 +1618,14 @@
           "details": "Permite importar una nueva lista de alumnos en lugar de la existente.",
           "label": "Importar una nueva lista",
           "title": "Reemplazar"
+        },
+        "sco": {
+          "details": "Esta acción permite:",
+          "details-add": "añadir nuevos alumnos",
+          "details-disable": "desactivar antiguos alumnos",
+          "details-update": "editar los alumnos ya importados",
+          "label": "Importar lista",
+          "title": "Importar la lista de alumnos"
         }
       },
       "banner": {
@@ -1634,12 +1643,13 @@
         "warning-banner": "Algunos valores no han sido reconocidos. Se han sustituido por \"No reconocido\". Si consideras que falta algún valor en la lista restrictiva, ponte en contacto con nosotros en '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'"
       },
       "error-panel": {
-        "error-wrapper": "No se ha importado ningún participante. Por favor, edita tu archivo e impórtalo de nuevo.",
-        "global-error": "No se ha importado ningún participante. Inténtalo nuevamente o ponte en contacto con nosotros a través de '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'el formulario del centro de ayuda'</a>'.",
         "title": "Errores en el último archivo importado:"
       },
       "file-type-separator": ",",
       "global-success": "Último archivo importado con éxito en {date} por {firstName} {lastName}.",
+      "pro": {
+        "title": "Importar participantes"
+      },
       "sco": {
         "title": "Importar alumnos"
       },

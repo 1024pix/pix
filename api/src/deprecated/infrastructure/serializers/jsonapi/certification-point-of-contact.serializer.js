@@ -16,7 +16,6 @@ const serialize = function (certificationPointOfContact) {
       'lastName',
       'email',
       'lang',
-      'pixCertifTermsOfServiceAccepted',
       'pixCertifTermsOfServiceStatus',
       'pixCertifTermsOfServiceDocumentPath',
       'lastPixCertifTermsOfServiceValidatedAt',

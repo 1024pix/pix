@@ -43,7 +43,7 @@ test(
       });
 
     await test.step('user stops at second challenge', async () => {
-      await expect(pixAppCertifiablePage.getByLabel('Votre progression')).toContainText('2 / 32');
+      await expect(pixAppCertifiablePage.getByTestId('pw-certification-progression')).toContainText('2 / 32');
     });
 
     await test.step('invigilator ends the certification test', async () => {

@@ -1,0 +1,88 @@
+@use 'pix-design-tokens/typography';
+
+.assessment-banner {
+  margin-bottom: var(--pix-spacing-4x);
+  padding: var(--pix-spacing-4x);
+  color: var(--pix-neutral-0);
+  background: linear-gradient(90deg, rgb(var(--pix-primary-700-inline), 80%) 0%, rgb(var(--pix-primary-700-inline), 0%) 60%), var(--pix-primary-300);
+  border-radius: 16px;
+
+  @media (min-width: 769px) {
+    margin-bottom: var(--pix-spacing-10x);
+    padding: var(--pix-spacing-6x) var(--pix-spacing-8x);
+  }
+
+  &--certification {
+    background: linear-gradient(90deg, rgb(var(--pix-certif-700-inline), 0.80) 0%, rgb(var(--pix-certif-700-inline), 0.00) 60%), var(--pix-certif-300);
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--pix-spacing-8x);
+  }
+
+  &__title {
+    @media (min-width:769px) {
+      display: flex;
+      gap: var(--pix-spacing-3x);
+      align-items: center;
+    }
+
+
+    & img {
+      height: 24px;
+    }
+  }
+
+  &__text {
+    @extend %pix-body-m;
+
+  }
+
+  &__separator {
+    width: 1px;
+    height: 20px;
+    margin:6px 0;
+    background-color: var(--pix-neutral-0);
+    border-radius: 1px;
+  }
+
+  &__action {
+    z-index: 1;
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    align-items: start;
+
+    @media (min-width:769px) {
+      align-items: center;
+    }
+
+    & .pix-button, .pix-icon-button {
+      color: var(--pix-neutral-0) !important;
+      text-decoration: none !important;
+
+      &:not(.pix-button):hover, &:not(.pix-button):focus {
+        background-color: var(--pix-primary-700) !important;
+      }
+
+      &:not(.pix-icon-button):hover, &:not(.pix-icon-button):focus {
+        outline: 1px solid var(--pix-neutral-0) !important;
+      }
+    }
+  }
+}
+
+.info-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__label {
+    @extend %pix-body-m;
+  }
+
+  &__value {
+    @extend %pix-title-xxs;
+  }
+}

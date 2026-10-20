@@ -1,9 +1,9 @@
-function serialize({ deepLinkUrl, jwtResponse }) {
+function serialize({ deepLinkingReturnUrl, deepLinkingResponse }) {
   return `<!DOCTYPE html>
 <html>
   <body>
-    <form id="ltiAuthForm" name="ltiAuthForm" action="${deepLinkUrl}" method="POST" enctype="application/x-www-form-urlencoded">
-      <input type="hidden" name="JWT" value="${jwtResponse}">
+    <form id="ltiAuthForm" name="ltiAuthForm" action="${deepLinkingReturnUrl}" method="POST" enctype="application/x-www-form-urlencoded">
+      <input type="hidden" name="JWT" value="${deepLinkingResponse}">
     </form>
     <script type="text/javascript">
       document.ltiAuthForm.submit();

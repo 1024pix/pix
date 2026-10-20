@@ -63,6 +63,7 @@ $small-media-width: 500px;
 
   position: relative;
   display: inline-flex;
+  gap: var(--pix-spacing-1x);
   align-items: center;
   margin-bottom: var(--pix-spacing-4x);
   padding: var(--pix-spacing-1x) var(--pix-spacing-2x) var(--pix-spacing-1x) var(--pix-spacing-3x);

@@ -51,7 +51,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         firstName: 'Lena',
         lastName: 'Rine',
         allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
-        pixCertifTermsOfServiceAccepted: true,
+        pixCertifTermsOfServiceStatus: 'accepted',
       });
       session = server.create('session-enrolment', { certificationCenterId: allowedCertificationCenterAccess.id });
       server.create('session-management', {
@@ -184,7 +184,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             firstName: 'Lena',
             lastName: 'Rine',
             allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
-            pixCertifTermsOfServiceAccepted: true,
+            pixCertifTermsOfServiceStatus: 'accepted',
           });
           session = server.create('session-enrolment', {
             certificationCenterId: allowedCertificationCenterAccess.id,

@@ -27,6 +27,6 @@ module('Integration | Component | CopyPasteButton', function (hooks) {
       </template>,
     );
 
-    assert.dom(screen.getByText(defaultMessage)).exists();
+    assert.dom(screen.getByRole('tooltip', { hidden: true })).hasText(defaultMessage);
   });
 });

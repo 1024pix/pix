@@ -1,45 +1,37 @@
+import { config } from '../../../../config/config.js';
+
 /**
- * @typedef {function} logoutOidcUser
  * @param {Object} params
- * @param {string} params.userId
+ * @param {number} params.userId
+ * @param {string} params.sessionId
  * @param {string} params.identityProvider
+ * @param {string} params.logoutUrlUUID
  * @param {string} params.requestedApplication
  * @param {OidcAuthenticationServiceRegistry} params.oidcAuthenticationServiceRegistry
- * @param {refreshTokenRepository} params.refreshTokenRepository
- * @return {Promise<string>}
+ * @return {Promise<string|undefined>}
  */
 async function logoutOidcUser({
   userId,
+  sessionId,
   identityProvider,
-  requestedApplication,
   logoutUrlUUID,
+  requestedApplication,
   oidcAuthenticationServiceRegistry,
+  revokedUserAccessRepository,
 }) {
-  // Revoke user AccessToken
-  //temporarily pause revoke user access token to fix SSO bugs
-  /*await revokedUserAccessRepository.revokeAll({
-    userId,
-    revokeUntil: new Date(),
-  });*/
-
-  // Revoke user RefreshToken
-  //temporarily pause revoke user refresh token to fix SSO bugs
-  /*
-  await refreshTokenRepository.revokeAllByUserId({ userId });
-*/
+  const revokeUntil = new Date(Date.now() + config.authentication.revokedUserAccessLifespanMs);
+  await revokedUserAccessRepository.revokeSession({ userId, sessionId, revokeUntil });
 
   const oidcAuthenticationService = await oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
     requestedApplication,
   });
 
-  if (!oidcAuthenticationService.shouldCloseSession) return;
+  if (!oidcAuthenticationService.shouldCloseSession) {
+    return;
+  }
 
-  const redirectLogoutUrl = await oidcAuthenticationService.getRedirectLogoutUrl({
-    logoutUrlUUID,
-    userId,
-  });
-
+  const redirectLogoutUrl = await oidcAuthenticationService.getRedirectLogoutUrl({ userId, logoutUrlUUID });
   return redirectLogoutUrl;
 }
 

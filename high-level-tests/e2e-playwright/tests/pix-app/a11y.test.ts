@@ -1,4 +1,4 @@
-import AxeBuilder from '@axe-core/playwright';
+import { AxeBuilder } from '@axe-core/playwright';
 import type { BrowserContext } from '@playwright/test';
 
 import { expect, test } from '../../fixtures/index.ts';

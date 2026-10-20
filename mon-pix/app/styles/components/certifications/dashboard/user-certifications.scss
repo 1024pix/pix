@@ -1,0 +1,18 @@
+@use 'pix-design-tokens/typography';
+
+.certification-dashboard-user-certifications {
+  &__title {
+    @extend %pix-title-m;
+
+    img {
+      width: 45px;
+    }
+  }
+
+  &__text {
+    @extend %pix-body-m;
+
+    margin-block: var(--pix-spacing-1x) var(--pix-spacing-6x);
+  }
+
+}
