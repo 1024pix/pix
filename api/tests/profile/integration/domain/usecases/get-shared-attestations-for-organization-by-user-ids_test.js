@@ -1,3 +1,5 @@
+import { Readable } from 'node:stream';
+
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -197,7 +199,7 @@ describe('Profile | Integration | Domain | get-shared-attestations-for-organizat
 
       await databaseBuilder.commit();
 
-      const template = Symbol('fake-data');
+      const template = Readable.from(Buffer.from('fake-data'));
 
       //when
       const error = await catchErr(usecases.getSharedAttestationsForOrganizationByUserIds)({
