@@ -4,9 +4,8 @@ export async function updateCombinedCourseProgress({
   userId,
   code,
   combinedCourseRepository,
-  combinedCourseParticipationRepository,
-  organizationLearnerPrescriptionRepository,
   organizationLearnerParticipationRepository,
+  organizationLearnerPrescriptionRepository,
   combinedCourseDetailsService,
   profileRewardRepository,
   successRepository,
@@ -56,7 +55,7 @@ export async function updateCombinedCourseProgress({
     });
     updatedCombinedCourseDetails.dataForQuest.success = success;
     updatedCombinedCourseDetails.participation.complete();
-    await combinedCourseParticipationRepository.update(updatedCombinedCourseDetails.participation.fieldsForUpdate);
+    await organizationLearnerParticipationRepository.update(updatedCombinedCourseDetails.participation.fieldsForUpdate);
 
     if (updatedCombinedCourseDetails.isSuccessful() && combinedCourse.quest.rewardId) {
       await profileRewardRepository.reward({

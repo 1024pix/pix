@@ -20,7 +20,6 @@ import * as combinedCourseBlueprintShareRepository from './combined-course-bluep
 import * as cappedTubeRepository from './combined-course-blueprints/capped-tube-repository.js';
 import * as targetProfileRepository from './combined-course-blueprints/target-profile-repository.js';
 import * as combinedCourseDetailsRepository from './combined-course-details-repository.js';
-import * as combinedCourseParticipationRepository from './combined-course-participations/combined-course-participation-repository.js';
 import * as organizationLearnerParticipationRepository from './combined-course-participations/organization-learner-participation-repository.js';
 import * as campaignRepository from './combined-courses/campaign-repository.js';
 import * as combinedCourseRepository from './combined-courses/combined-course-repository.js';
@@ -49,7 +48,6 @@ const repositoriesWithoutInjectedDependencies = {
   combinedCourseBlueprintShareRepository,
   combinedCourseDetailsRepository,
   combinedCourseParticipantRepository,
-  combinedCourseParticipationRepository,
   userRepository,
   recommendedModuleRepository,
   targetProfileRepository,

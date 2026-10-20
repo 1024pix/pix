@@ -1,9 +1,9 @@
 export async function isParticipationOnCombinedCourse({
   combinedCourseId,
   participationId,
-  combinedCourseParticipationRepository,
+  organizationLearnerParticipationRepository,
 }) {
-  return await combinedCourseParticipationRepository.isParticipationOnCombinedCourse({
+  return await organizationLearnerParticipationRepository.isParticipationOnCombinedCourse({
     combinedCourseId,
     participationId,
   });

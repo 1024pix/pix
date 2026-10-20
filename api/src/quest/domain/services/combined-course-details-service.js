@@ -40,12 +40,12 @@ async function instantiateCombinedCourseDetails({
 async function getCombinedCourseDetails({
   combinedCourseDetails,
   organizationLearnerId,
-  combinedCourseParticipationRepository,
+  organizationLearnerParticipationRepository,
   eligibilityRepository,
   recommendedModuleRepository,
   reward,
 }) {
-  const participation = await combinedCourseParticipationRepository.findByLearnerId({
+  const participation = await organizationLearnerParticipationRepository.findByLearnerId({
     organizationLearnerId,
     combinedCourseId: combinedCourseDetails.id,
   });
@@ -85,7 +85,7 @@ async function getCombinedCourseDetails({
 async function getCombinedCourseDetailsForMultipleLearners({
   combinedCourseDetails,
   organizationLearners,
-  combinedCourseParticipationRepository,
+  organizationLearnerParticipationRepository,
   eligibilityRepository,
   recommendedModuleRepository,
   profileRewardRepository,
@@ -94,7 +94,7 @@ async function getCombinedCourseDetailsForMultipleLearners({
   const organizationLearnerIds = organizationLearners.map((organizationLearner) => organizationLearner.id);
   const userIds = organizationLearners.map((organizationLearner) => organizationLearner.userId);
 
-  const participations = await combinedCourseParticipationRepository.findByLearnerIds({
+  const participations = await organizationLearnerParticipationRepository.findByLearnerIds({
     organizationLearnerIds,
     combinedCourseId: combinedCourseDetails.id,
   });
