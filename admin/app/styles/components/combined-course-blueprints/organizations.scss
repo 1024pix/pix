@@ -5,6 +5,12 @@
     font-size: 1.125rem;
   }
 
+  .combined-course-blueprint-organization__manage-shares {
+    display: flex;
+    gap: var(--pix-spacing-8x);;
+    justify-content: center;
+  }
+
   .organization__form {
     display: flex;
     flex-direction: column;

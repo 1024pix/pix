@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import AttachOrganizationsForm from 'pix-admin/components/organizations/attach-organizations-form';
+import DetachOrganizationsForm from 'pix-admin/components/organizations/detach-organizations-form';
 import ListItems from 'pix-admin/components/organizations/list-items';
 
 export default class Organizations extends Component {
@@ -51,16 +52,35 @@ export default class Organizations extends Component {
     }
   }
 
+  @action
+  async detachOrganizations(organizationsToDetach) {
+    const adapter = this.store.adapterFor('combined-course-blueprint');
+    try {
+      await adapter.detachOrganizations(this.args.combinedCourseBlueprint.id, organizationsToDetach);
+      return true;
+    } catch (responseError) {
+      this._handleResponseError(responseError);
+      return false;
+    }
+  }
+
   <template>
     <section class="page-section combined-course-blueprint-organizations organizations-list">
       <header class="page-section__header">
         <h2 class="page-section__title">Organisations</h2>
       </header>
 
-      <AttachOrganizationsForm
-        @attachOrganizations={{this.attachOrganizations}}
-        @reloadAfterSuccess={{this.reloadCurrentPage}}
-      />
+      <div class="combined-course-blueprint-organization__manage-shares">
+        <AttachOrganizationsForm
+          @attachOrganizations={{this.attachOrganizations}}
+          @reloadAfterSuccess={{this.reloadCurrentPage}}
+        />
+
+        <DetachOrganizationsForm
+          @detachOrganizations={{this.detachOrganizations}}
+          @reloadAfterSuccess={{this.reloadCurrentPage}}
+        />
+      </div>
 
       <ListItems
         @organizations={{@organizations}}

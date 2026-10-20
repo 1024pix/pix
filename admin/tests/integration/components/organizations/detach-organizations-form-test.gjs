@@ -31,7 +31,7 @@ module('Integration | Component | Organizations | DetachOrganizationsForm', func
     );
 
     // then
-    assert.dom(screen.getByRole('button', { name: 'Valider le détachement' })).isDisabled();
+    assert.dom(screen.getByRole('button', { name: 'Valider le détachement' })).hasAttribute('aria-disabled', 'true');
   });
 
   module('when detach succeeds', function () {
