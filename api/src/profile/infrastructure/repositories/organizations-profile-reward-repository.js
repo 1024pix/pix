@@ -37,6 +37,7 @@ export const getByOrganizationId = async ({ attestationKey, organizationId }) =>
       'organizations-profile-rewards.organizationId',
       'organizations-profile-rewards.profileRewardId',
       'profile-rewards.userId',
+      'profile-rewards.createdAt as obtainedAt',
     )
     .join('profile-rewards', 'organizations-profile-rewards.profileRewardId', '=', 'profile-rewards.id')
     .where({ organizationId });
