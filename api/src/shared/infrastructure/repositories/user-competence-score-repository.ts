@@ -3,6 +3,13 @@ import { UserCompetenceScore, type UserCompetenceScoreType } from '../../domain/
 
 const TABLE_NAME = 'user_competence_scores';
 
+export const findByUserId = async (userId: number): Promise<UserCompetenceScore[]> => {
+  const knexConn = DomainTransaction.getConnection();
+  const rows = await knexConn<UserCompetenceScoreType>(TABLE_NAME).where({ userId });
+
+  return rows.map((row) => new UserCompetenceScore(row));
+};
+
 export const findByUserIds = async (userIds: number[]): Promise<UserCompetenceScore[]> => {
   if (userIds.length === 0) return [];
 
@@ -11,10 +18,11 @@ export const findByUserIds = async (userIds: number[]): Promise<UserCompetenceSc
   return rows.map((row) => new UserCompetenceScore(row));
 };
 
-export const save = async (userCompetenceScores: UserCompetenceScore[]): Promise<void> => {
+export const upsert = async (userCompetenceScores: UserCompetenceScore[]): Promise<void> => {
   if (userCompetenceScores.length === 0) return;
 
-  await DomainTransaction.getConnection()(TABLE_NAME)
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn(TABLE_NAME)
     .insert(userCompetenceScores.map((userCompetenceScore) => ({ ...userCompetenceScore })))
     .onConflict(['userId', 'competenceId'])
     .merge(['pix', 'updatedAt']);
