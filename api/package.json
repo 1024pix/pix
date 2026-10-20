@@ -134,7 +134,7 @@
     "fast-levenshtein": "3.0.0",
     "file-type": "22.1.1",
     "hapi-swagger": "17.3.2",
-    "hyparquet-writer": "0.16.11",
+    "hyparquet-writer": "0.16.12",
     "i18n": "0.15.4",
     "iconv-lite": "0.7.3",
     "ioredis": "5.11.1",
