@@ -233,25 +233,39 @@ async function findPaginatedAttestationStatusForOrganizationLearnersAndKey({
   organizationId,
   filter,
   page,
-  attestationsApi,
 }) {
   const knexConn = DomainTransaction.getConnection();
 
   const query = knexConn
     .select(
       'view-active-organization-learners.id',
-      'userId',
+      'view-active-organization-learners.userId',
       'view-active-organization-learners.firstName',
       'view-active-organization-learners.lastName',
-      'organizationId',
+      'view-active-organization-learners.organizationId',
       'division',
       'attributes',
+      knexConn.raw(
+        'CASE WHEN "organizations-profile-rewards"."id" IS NOT NULL THEN "profile-rewards"."createdAt" END as "obtainedAt"',
+      ),
     )
     .from('view-active-organization-learners')
     .join('users', 'users.id', 'view-active-organization-learners.userId')
+    .leftJoin('profile-rewards', function () {
+      this.on('profile-rewards.userId', 'view-active-organization-learners.userId').andOn(
+        'profile-rewards.rewardId',
+        knexConn.raw('(select "id" from "attestations" where "key" = ?)', [attestationKey]),
+      );
+    })
+    .leftJoin('organizations-profile-rewards', function () {
+      this.on('organizations-profile-rewards.profileRewardId', 'profile-rewards.id').andOn(
+        'organizations-profile-rewards.organizationId',
+        'view-active-organization-learners.organizationId',
+      );
+    })
     .where({
       isDisabled: false,
-      organizationId,
+      'view-active-organization-learners.organizationId': organizationId,
       isAnonymous: false,
       hasBeenAnonymised: false,
     })
@@ -259,7 +273,7 @@ async function findPaginatedAttestationStatusForOrganizationLearnersAndKey({
     .orderByRaw('LOWER("view-active-organization-learners"."firstName") ASC');
 
   if (filter) {
-    const { name, divisions } = filter;
+    const { name, divisions, statuses } = filter;
     if (name) {
       filterByFullName(
         query,
@@ -271,61 +285,30 @@ async function findPaginatedAttestationStatusForOrganizationLearnersAndKey({
     if (divisions?.length > 0) {
       query.whereIn('division', divisions);
     }
+    if (statuses?.length > 0) {
+      if (statuses.includes('OBTAINED') && !statuses.includes('NOT_OBTAINED')) {
+        query.whereNotNull('organizations-profile-rewards.id');
+      }
+      if (statuses.includes('NOT_OBTAINED') && !statuses.includes('OBTAINED')) {
+        query.whereNull('organizations-profile-rewards.id');
+      }
+    }
   }
 
-  const organizationLearners = await query;
-  const attestations = await attestationsApi.getAttestationsUserDetail({
-    attestationKey,
-    organizationId,
+  const { results, pagination } = await fetchPage({
+    queryBuilder: query,
+    paginationParams: page,
   });
 
-  let attestationParticipantsStatus = organizationLearners.map((organizationLearner) =>
-    _toAttestationParticipantStatus(organizationLearner, attestationKey, attestations),
-  );
-
-  if (filter?.statuses?.length > 0) {
-    attestationParticipantsStatus = attestationParticipantsStatus.filter((attestationParticipantStatus) =>
-      _filterByStatuses(attestationParticipantStatus, filter.statuses),
-    );
-  }
-
-  const { results, pagination } = _getPage(attestationParticipantsStatus, page);
   return {
-    attestationParticipantsStatus: results,
+    attestationParticipantsStatus: results.map((result) => {
+      return new AttestationParticipantStatus({
+        attestationKey,
+        organizationLearnerId: result.id,
+        ...result,
+      });
+    }),
     pagination,
-  };
-}
-
-function _toAttestationParticipantStatus(organizationLearner, attestationKey, attestations) {
-  const attestation = attestations.find(({ userId }) => userId === organizationLearner.userId);
-  return new AttestationParticipantStatus({
-    attestationKey,
-    organizationLearnerId: organizationLearner.id,
-    obtainedAt: attestation?.createdAt,
-    ...attestation,
-    ...organizationLearner,
-  });
-}
-
-function _filterByStatuses(attestationParticipantStatus, filterStatuses) {
-  const isFilteredByObtained = filterStatuses.includes('OBTAINED') && Boolean(attestationParticipantStatus.obtainedAt);
-  const isFilteredByNotObtained = filterStatuses.includes('NOT_OBTAINED') && !attestationParticipantStatus.obtainedAt;
-  return isFilteredByObtained || isFilteredByNotObtained;
-}
-
-function _getPage(results, page = { number: 1, size: 10 }) {
-  const pageNumber = page.number ?? 1;
-  const pageSize = page.size ?? 10;
-  const start = (pageNumber - 1) * pageSize;
-  const end = pageNumber * pageSize;
-  return {
-    results: results.slice(start, end),
-    pagination: {
-      page: pageNumber,
-      pageCount: Math.ceil(results.length / pageSize),
-      pageSize,
-      rowCount: results.length,
-    },
   };
 }
 
