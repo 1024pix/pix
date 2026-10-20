@@ -22,10 +22,16 @@ module('Integration | Component | Combined Courses | Tunnel', function (hooks) {
     });
 
     clock = sinon.useFakeTimers();
+
+    sinon.stub(document, 'startViewTransition').callsFake((update) => {
+      const updateCallbackDone = Promise.resolve(update());
+      return { updateCallbackDone, ready: updateCallbackDone, finished: updateCallbackDone, skipTransition() {} };
+    });
   });
 
   hooks.afterEach(function () {
     clock.restore();
+    document.startViewTransition.restore();
   });
 
   module('in all cases', function () {
