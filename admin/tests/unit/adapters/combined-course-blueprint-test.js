@@ -22,13 +22,14 @@ module('Unit | Adapters | combined-course-blueprint', function (hooks) {
       // given
       const combinedCourseBlueprintId = 1;
       const organizationId = 2;
-      const expectedUrl = `${ENV.APP.API_HOST}/api/admin/combined-course-blueprints/${combinedCourseBlueprintId}/organizations/${organizationId}`;
+      const expectedUrl = `${ENV.APP.API_HOST}/api/admin/combined-course-blueprints/${combinedCourseBlueprintId}/organizations`;
 
       // when
-      await adapter.detachOrganizations(combinedCourseBlueprintId, organizationId);
+      await adapter.detachOrganizations(combinedCourseBlueprintId, [organizationId]);
+      const expectedPayload = { data: { 'organization-ids': [organizationId] } };
 
       // then
-      sinon.assert.calledWith(adapter.ajax, expectedUrl, 'DELETE');
+      sinon.assert.calledWith(adapter.ajax, expectedUrl, 'DELETE', expectedPayload);
       assert.ok(true);
     });
   });

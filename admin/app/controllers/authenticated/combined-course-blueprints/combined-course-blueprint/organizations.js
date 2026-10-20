@@ -42,12 +42,12 @@ export default class CombinedCourseBlueprintOrganizationsController extends Cont
   }
 
   @action
-  async detachOrganizations(organizationId) {
+  async detachOrganization(organizationId) {
     const adapter = this.store.adapterFor('combined-course-blueprint');
     const organization = await this.store.findRecord('organization', organizationId);
 
     try {
-      await adapter.detachOrganizations(this.model.blueprint.id, organizationId);
+      await adapter.detachOrganizations(this.model.blueprint.id, [organizationId]);
 
       await this.pixToast.sendSuccessNotification({
         message: this.intl.t('components.combined-course-blueprints.organizations.detach-organization-success', {

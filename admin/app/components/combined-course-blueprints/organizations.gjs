@@ -76,7 +76,7 @@ export default class Organizations extends Component {
         @externalId={{@externalId}}
         @administrationTeamId={{@administrationTeamId}}
         @showDetachColumn={{this.isSuperAdminOrMetier}}
-        @detachOrganizations={{@detachOrganizations}}
+        @detachOrganizations={{@detachOrganization}}
         @confirmationLabel="components.combined-course-blueprints.organizations.detach-organization"
       />
     </section>
