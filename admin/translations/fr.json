@@ -678,9 +678,9 @@
               "no-configuration": "Aucune configuration disponible pour cette compétence.",
               "title": "Bornes de capacités par compétences"
             },
-            "edit":"Éditer le scoring",
+            "edit": "Éditer le scoring",
             "level": "Niveau {index}",
-            "no-edit":"Ne plus éditer le scoring",
+            "no-edit": "Ne plus éditer le scoring",
             "previous-version-capacity": "Valeur dans la version précédente : {previousVersionCapacity}",
             "required-error": "Ce champ est obligatoire.",
             "save-error": "Une erreur s'est produite lors de l'enregistrement du scoring.",
@@ -1550,6 +1550,11 @@
           "save-button": "Enregistrer",
           "success": "Date mise à jour avec succès",
           "title": "Configuration des dates de réouverture des espaces Pix Certif SCO"
+        },
+        "sco-redirect-to-announcement": {
+          "action": "Éditer les bandeaux",
+          "description": "Mettre à jour les informations communiquées aux établissements scolaires MENJ et MASA sur l'accueil de leur espace Pix Orga.",
+          "title": "Mise à jour des infos sur l'accueil Pix Orga"
         },
         "sco-whitelist": {
           "export": {
