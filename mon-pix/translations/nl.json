@@ -25,7 +25,7 @@
       "s50": "Deze gebruikersnaam bestaat al",
       "s51": "Je hebt al een Pix-account met het e-mailadres '<br>'{ value }'<br><br>'Om door te gaan log je in op dit account of vraag een leraar om hulp.'<br><br>'(Voor de leraar: zie de ’Probleemoplossingsgids’ in Pix Orga &gt; Documentatie - Code R51)",
       "s52": "Je hebt al een Pix-account die je gebruikt met de gebruikersnaam in de vorm van voornaam.naam gevolgd door 4 cijfers:'<br>'{ value }'<br><br>'Om door te gaan log je in op dit account of vraag je een leraar om hulp.'<br><br>'(Voor de leraar: zie de probleemoplossingskit’ in Pix Orga &gt; Documentatie - Code R52)",
-      "s53": "Je hebt al een Pix-account via het ENT.<br>'Gebruik deze om naar het traject te gaan.",
+      "s53": "Je hebt al een Pix-account via het ENT.'<br>'Gebruik deze om naar het traject te gaan.",
       "s61": "Je hebt al een Pix-account met het e-mailadres'<br>'{ value }'<br><br>'Om door te gaan log je in op dit account of vraag je een leraar om hulp.'<br><br>'(Voor de leraar: zie de probleemoplossingskit’ in Pix Orga &gt; Documentatie - Code R61)",
       "s62": "Je hebt al een Pix-account die je gebruikt met de gebruikersnaam in de vorm van voornaam.naam gevolgd door 4 cijfers:'<br>'{ value }'<br><br>'Om door te gaan log je in op dit account of vraag je een leraar om hulp.'<br><br>'(Voor de leraar: zie de probleemoplossingskit’ in Pix Orga &gt; Documentatie - Code R62)",
       "s63": "Je hebt al een Pix-account via het ENT bij een andere onderwijsinstelling.'<br><br>'Om door te gaan log je in op dit account of vraag je een leraar om hulp.'<br><br>'(Voor de leraar: zie de probleemoplossingskit’ in Pix Orga &gt; Documentatie - Code R63)"
@@ -65,13 +65,13 @@
       "internal-server-error": "Er heeft zich een fout voorgedaan, onze teams werken aan een oplossing. Probeer het later nog eens.",
       "login-unauthorized-error": "Het ingevoerde e-mailadres of de gebruikersnaam en/of het wachtwoord zijn onjuist.",
       "login-unauthorized-remaining-attempts-error": "Let op: je hebt nog {remainingAttempts, plural, =0 {0 pogingen} =1 {1 poging} other {# pogingen}} voordat je Pix-account definitief wordt geblokkeerd.",
-      "login-unauthorized-remaining-attempts-with-user-name-error": "Let op: je hebt nog {remainingAttempts, plural, =0 {0 pogingen} =1 {1 poging} other {# pogingen}} voordat je Pix-account definitief wordt geblokkeerd.<br>'Als je je inloggegevens vergeten bent, '<strong>'neem dan contact op met de leraar'</strong>' om je wachtwoord te resetten en/of je gebruikersnaam terug te halen.",
+      "login-unauthorized-remaining-attempts-with-user-name-error": "Let op: je hebt nog {remainingAttempts, plural, =0 {0 pogingen} =1 {1 poging} other {# pogingen}} voordat je Pix-account definitief wordt geblokkeerd.'<br>'Als je je inloggegevens vergeten bent, '<strong>'neem dan contact op met de leraar'</strong>' om je wachtwoord te resetten en/of je gebruikersnaam terug te halen.",
       "login-unauthorized-with-user-name-error": "De gebruikersnaam en/of het wachtwoord zijn onjuist.'<br>'Als je je inloggegevens vergeten bent, '<strong>'neem dan contact op met de leraar'</strong>' om je wachtwoord te resetten en/of je gebruikersnaam terug te halen.",
       "login-unexpected-error": "Kan niet inloggen. Probeer het later opnieuw. Als het probleem zich blijft voordoen, '<'a href=\"{supportHomeUrl}\" target=\"blank\"'>'neem dan contact met ons op via de helpdesk'</a>'.",
       "login-user-blocked-error": "Je account is geblokkeerd omdat je te vaak hebt geprobeerd in te loggen. '<'a href=\"{url}\"'>'Neem contact met ons op'</a>' om je account te deblokkeren",
       "login-user-blocked-with-username-error": "Je account is geblokkeerd omdat je te vaak hebt geprobeerd in te loggen. '<strong>'Neem contact op met je leraar'</strong>' om je account te deblokkeren; als je leraar niet beschikbaar is, '<'a href=\"{url}\"'>'neem dan contact met ons op'</a>'.",
       "login-user-temporary-blocked-error": "Je account is tijdelijk {blockingDurationMinutes} minuten geblokkeerd omdat je te vaak hebt geprobeerd in te loggen. Probeer het later nog eens of klik op '<'a href=\"{url}\"'>'wachtwoord vergeten'</a>' om het opnieuw in te stellen.",
-      "login-user-temporary-blocked-with-username-error": "Je account is tijdelijk {blockingDurationMinutes} minuten geblokkeerd omdat je te vaak hebt geprobeerd in te loggen. <br>'Als je je inloggegevens vergeten bent, '<strong>'neem dan contact op met de leraar'</strong>' om je wachtwoord te resetten en/of je gebruikersnaam terug te halen."
+      "login-user-temporary-blocked-with-username-error": "Je account is tijdelijk {blockingDurationMinutes} minuten geblokkeerd omdat je te vaak hebt geprobeerd in te loggen. '<br>'Als je je inloggegevens vergeten bent, '<strong>'neem dan contact op met de leraar'</strong>' om je wachtwoord te resetten en/of je gebruikersnaam terug te halen."
     },
     "cgu": {
       "cgu": "gebruiksvoorwaarden",
@@ -1001,7 +1001,7 @@
       },
       "first-title": "Je staat op het punt om aan je certificeringstest te beginnen",
       "language-selector": {
-        "confirmation-label": "\"Ik bevestig dat ik de geselecteerde taal goed beheers om de vragen te beantwoorden.\"<br>\"De taalkeuze is\"<strong>\"definitief\"</strong>\".\"",
+        "confirmation-label": "Ik bevestig dat ik de geselecteerde taal goed beheers om de vragen te beantwoorden.'<br>'De taalkeuze is '<strong>'definitief'</strong>'.",
         "label": "Certificeringstaal",
         "options": {
           "english": "engels - EN",
@@ -1151,7 +1151,7 @@
                 },
                 "embed-displayed-on-mobile-devices-with-problems": {
                   "label": "Op de telefoon of table wordt de simulator wel weergegeven maar er is een probleem",
-                  "solution": "We doen ons best om ervoor te zorgen dat de simulators op alle apparaten, alle besturingssystemen en alle browsers werken, maar het kan zijn dat je een specifiek systeem gebruikt.<br>'Geef een gedetailleerde beschrijving van het probleem en vermeld daarbij het type apparaat (smartphone, tablet, …) de browser en het besturingssysteem."
+                  "solution": "We doen ons best om ervoor te zorgen dat de simulators op alle apparaten, alle besturingssystemen en alle browsers werken, maar het kan zijn dat je een specifiek systeem gebruikt.'<br>'Geef een gedetailleerde beschrijving van het probleem en vermeld daarbij het type apparaat (smartphone, tablet, …) de browser en het besturingssysteem."
                 },
                 "embed-not-displayed": {
                   "label": "De simulator / de app wordt niet weergegeven",

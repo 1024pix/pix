@@ -204,12 +204,12 @@
       "internal-server-error": "Er heeft zich een interne fout voorgedaan, onze teams werken aan een oplossing. Probeer het later nog eens.",
       "login-unauthorized-error": "Het ingevoerde e-mailadres of de gebruikersnaam en/of het wachtwoord zijn onjuist.",
       "login-unauthorized-remaining-attempts-error": "Let op: je hebt nog {remainingAttempts, plural, =0 {0 pogingen} =1 {1 poging} other {# pogingen}} voordat je Pix-account definitief wordt geblokkeerd.",
-      "login-unauthorized-remaining-attempts-with-user-name-error": "Let op: je hebt nog {remainingAttempts, plural, =0 {0 pogingen} =1 {1 poging} other {# pogingen}} voordat je Pix-account definitief wordt geblokkeerd.<br>'Als je je inloggegevens vergeten bent, '<strong>'neem dan contact op met de leraar'</strong>' om je wachtwoord te resetten en/of je gebruikersnaam terug te halen.",
+      "login-unauthorized-remaining-attempts-with-user-name-error": "Let op: je hebt nog {remainingAttempts, plural, =0 {0 pogingen} =1 {1 poging} other {# pogingen}} voordat je Pix-account definitief wordt geblokkeerd.'<br>'Als je je inloggegevens vergeten bent, '<strong>'neem dan contact op met de leraar'</strong>' om je wachtwoord te resetten en/of je gebruikersnaam terug te halen.",
       "login-unauthorized-with-user-name-error": "De gebruikersnaam en/of het wachtwoord zijn onjuist.'<br>'Als je je inloggegevens vergeten bent, '<strong>'neem dan contact op met de leraar'</strong>' om je wachtwoord te resetten en/of je gebruikersnaam terug te halen.",
       "login-unexpected-error": "Kan niet inloggen. Probeer het later opnieuw. Als het probleem zich blijft voordoen, '<'a href=\"{supportHomeUrl}\" target=\"blank\"'>'neem dan contact met ons op via de helpdesk'</a>'.",
       "login-user-blocked-error": "Je account is geblokkeerd omdat je te vaak hebt geprobeerd in te loggen. '<'a href=\"{url}\"'>'Neem contact met ons op'</a>' om je account te deblokkeren",
       "login-user-temporary-blocked-error": "Je account is tijdelijk {blockingDurationMinutes} minuten geblokkeerd omdat je te vaak hebt geprobeerd in te loggen. Probeer het later nog eens of klik op '<'a href=\"{url}\"'>'wachtwoord vergeten'</a>' om het opnieuw in te stellen.",
-      "login-user-temporary-blocked-with-username-error": "Je account is tijdelijk {blockingDurationMinutes} minuten geblokkeerd omdat je te vaak hebt geprobeerd in te loggen. <br>'Als je je inloggegevens vergeten bent, '<strong>'neem dan contact op met de leraar'</strong>' om je wachtwoord te resetten en/of je gebruikersnaam terug te halen."
+      "login-user-temporary-blocked-with-username-error": "Je account is tijdelijk {blockingDurationMinutes} minuten geblokkeerd omdat je te vaak hebt geprobeerd in te loggen. '<br>'Als je je inloggegevens vergeten bent, '<strong>'neem dan contact op met de leraar'</strong>' om je wachtwoord te resetten en/of je gebruikersnaam terug te halen."
     },
     "breadcrumb": "Broodkruimelspoor",
     "cgu": {
@@ -2134,7 +2134,7 @@
         "actions": {
           "remove": "Ja, het lid verwijderen"
         },
-        "message": "{memberFirstName} {memberLastName} heeft geen toegang meer tot deze Pix Orga-omgeving.<br>'Zijn/haar campagnes blijven toegankelijk voor de rest van het team.'",
+        "message": "{memberFirstName} {memberLastName} heeft geen toegang meer tot deze Pix Orga-omgeving.'<br>'Zijn/haar campagnes blijven toegankelijk voor de rest van het team.'",
         "title": "Wil je de verwijdering bevestigen?"
       },
       "table": {
