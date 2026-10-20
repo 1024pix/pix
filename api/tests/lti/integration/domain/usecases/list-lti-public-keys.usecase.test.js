@@ -6,13 +6,16 @@ import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | LTI | Domain | Usecases | ListLtiPublicKeys', function () {
   it('should return LTI public keys', async function () {
+    const { id: platformId } = databaseBuilder.factory.buildLtiPlatform();
     const keyPair1 = await cryptoService.generateJSONWebKeyPair();
     databaseBuilder.factory.buildLtiPlatformRegistration({
+      platformId,
       clientId: 'client1',
       publicKey: keyPair1.publicKey,
     });
     const keyPair2 = await cryptoService.generateJSONWebKeyPair();
     databaseBuilder.factory.buildLtiPlatformRegistration({
+      platformId,
       clientId: 'client2',
       publicKey: keyPair2.publicKey,
     });
