@@ -101,12 +101,12 @@ import { createAccessTokenFromRefreshToken } from './create-access-token-from-re
 import { createOidcUser } from './create-oidc-user.usecase.js';
 import { createResetPasswordDemand } from './create-reset-password-demand.usecase.js';
 import { createUser } from './create-user.usecase.js';
+import { findAllOidcProviders } from './find-all-oidc-providers.usecase.js';
 import { findPaginatedFilteredUsers } from './find-paginated-filtered-users.usecase.js';
 import { findUserAuthenticationMethods } from './find-user-authentication-methods.usecase.js';
 import { findUserForOidcReconciliation } from './find-user-for-oidc-reconciliation.usecase.js';
 import { getAccountRecoveryDetails } from './get-account-recovery-details.usecase.js';
 import { getActiveByUserIds } from './get-active-by-user-ids.usecase.js';
-import { getAllIdentityProviders } from './get-all-identity-providers.usecase.js';
 import { getAuthorizationUrl } from './get-authorization-url.usecase.js';
 import { getIdentityProvidersByRequestedApplication } from './get-identity-providers-by-requested-application.usecase.js';
 import { getRedirectLogoutUrl } from './get-redirect-logout-url.usecase.js';
@@ -153,12 +153,12 @@ const usecasesWithoutInjectedDependencies = {
   createOidcUser,
   createResetPasswordDemand,
   createUser,
+  findAllOidcProviders,
   findPaginatedFilteredUsers,
   findUserAuthenticationMethods,
   findUserForOidcReconciliation,
   getAccountRecoveryDetails,
   getActiveByUserIds,
-  getAllIdentityProviders,
   getAuthorizationUrl,
   getIdentityProvidersByRequestedApplication,
   getRedirectLogoutUrl,

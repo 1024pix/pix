@@ -99,7 +99,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
     });
   });
 
-  describe('GET /api/admin/oidc/identity-providers', function () {
+  describe('GET /api/admin/oidc-providers', function () {
     it('returns the list of all oidc providers with an HTTP status code 200', async function () {
       // given
       const oidcProvider1Properties = {
@@ -144,7 +144,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
       server = await getServer();
       const options = {
         method: 'GET',
-        url: '/api/admin/oidc/identity-providers',
+        url: '/api/admin/oidc-providers',
         headers: generateAuthenticatedUserRequestHeaders({ userId: superAdmin.id }),
       };
 

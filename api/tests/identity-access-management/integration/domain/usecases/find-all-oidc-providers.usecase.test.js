@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
-describe('Integration | Identity Access Management | Domain | UseCases | get-all-identity-providers', function () {
+describe('Integration | Identity Access Management | Domain | UseCases | find-all-oidc-providers', function () {
   it('returns all the oidc providers', async function () {
     // given
     const oidcProvider1Properties = {
@@ -44,7 +44,7 @@ describe('Integration | Identity Access Management | Domain | UseCases | get-all
     await databaseBuilder.commit();
 
     // when
-    const result = await usecases.getAllIdentityProviders();
+    const result = await usecases.findAllOidcProviders();
 
     // then
     expect(result).to.have.length(2);
