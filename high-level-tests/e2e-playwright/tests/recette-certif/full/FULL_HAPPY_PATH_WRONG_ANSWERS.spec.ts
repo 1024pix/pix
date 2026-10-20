@@ -5,14 +5,14 @@ import { getNowAsDDMMYYYY } from '../../../helpers/utils.ts';
 import { CertificationListPage, HomePage as AdminHomePage } from '../../../pages/pix-admin/index.ts';
 import { HomePage } from '../../../pages/pix-app/index.ts';
 import { SessionManagementPage } from '../../../pages/pix-certif/index.ts';
-import { allTestData } from './certif-success-data.ts';
+import { allTestData } from './certif-failure-data.ts';
 
-test.describe('Happy paths on all certifications, 32 right answers', () => {
+test.describe('Happy paths on all certifications, 32 wrong answers', () => {
   for (const testData of allTestData) {
     test(
       `${getTestRef(import.meta.url)}_${testData.certification}`,
       {
-        tag: ['@snapshot', '@full', '@rightAnswersOnly', testData.tag],
+        tag: ['@snapshot', '@full', '@wrongAnswersOnly', testData.tag],
         annotation: [
           {
             type: 'scenario',
@@ -21,7 +21,6 @@ test.describe('Happy paths on all certifications, 32 right answers', () => {
          - Session finalized
          - Results visible in all PixAdmin screens
          - Certificate visible in PixApp
-         - Checks PDF certificate (CORE/CLEA only)
          - Checks CSV results file`,
           },
         ],
@@ -37,14 +36,13 @@ test.describe('Happy paths on all certifications, 32 right answers', () => {
         testRef,
         snapshotPath,
         csvResultPath,
-        certificateBasePath,
       }) => {
-        const certifiableUserData = await getCertifiableUserData('buffy.summers@example.net');
+        const certifiableUserData = await getCertifiableUserData('xander.harris@example.net');
         const pixAppCertifiablePage = await pixAppCertifiableUserPage(certifiableUserData);
         const { sessionNumber, certificationNumber, certificationCenterName, invigilatorOverviewPage } =
           await enrollCandidateAndPassExam({
             testRef,
-            rightWrongAnswersSequence: Array(32).fill(true),
+            rightWrongAnswersSequence: Array(32).fill(false),
             certificationKey: testData.certification,
             pixAppPage: pixAppCertifiablePage,
             certifiableUserData,
@@ -125,8 +123,8 @@ test.describe('Happy paths on all certifications, 32 right answers', () => {
 
               const certificationDetails = await certificationInformationPage.getDetails();
               expect(certificationDetails.nbAnsweredQuestionsOverTotal).toBe('32/32');
-              expect(certificationDetails.nbQuestionsOK).toBe(32);
-              expect(certificationDetails.nbQuestionsKO).toBe(0);
+              expect(certificationDetails.nbQuestionsOK).toBe(0);
+              expect(certificationDetails.nbQuestionsKO).toBe(32);
               expect(certificationDetails.nbQuestionsAband).toBe(0);
               expect(certificationDetails.nbValidatedTechnicalIssues).toBe(0);
               snapshotHandler.push('adminCertificationDetails_status', certificationDetails.status ?? null);
@@ -152,32 +150,16 @@ test.describe('Happy paths on all certifications, 32 right answers', () => {
             examDate,
             result,
             comment,
-            hasBadge: hasBadgeInList,
-            badgeSrc: badgeSrcInList,
+            hasBadge,
           } = await certificateListPage.getCertificateData(certificationNumber);
           expect(mainStatus).toBe(testData.appCertificationListInfo.mainStatus);
           expect(extraStatus).toBe(testData.appCertificationListInfo.extraStatus);
           expect(detailsFramework).toBe(null);
           expect(certificationCenter).toBe('Centre de certification : ' + certificationCenterName);
           expect(examDate).toBe('Date de passage : ' + getNowAsDDMMYYYY());
-          expect(comment).toBe(null);
+          expect(comment).toBe(testData.appCertificationListInfo.comment);
           snapshotHandler.push('appCertificationListInfo_result', result);
-          snapshotHandler.push('appCertificationListInfo_hasBadge', `${hasBadgeInList}`);
-          snapshotHandler.push('appCertificationListInfo_badgeSrc', badgeSrcInList);
-
-          const certificationResultPage = await certificateListPage.goToCertificateDetails(certificationNumber);
-          const { pixScoreObtained, pixLevelReached, isCleaObtained, hasBadge, badgeSrc } =
-            await certificationResultPage.getResultInfo();
-          if (testData.certification === CERTIFICATIONS_DATA.CLEA) {
-            expect(isCleaObtained).toBe(true);
-          }
-          snapshotHandler.push('appCertificationDetails_pixScoreObtained', pixScoreObtained);
-          snapshotHandler.push('appCertificationDetails_pixLevelReached', pixLevelReached);
-          snapshotHandler.push('appCertificationDetails_hasBadge', `${hasBadge}`);
-          snapshotHandler.push('appCertificationDetails_badgeSrc', badgeSrc);
-
-          const certificatePdfBuffer = await certificationResultPage.downloadCertificate();
-          await snapshotHandler.comparePdfOrRecord(certificatePdfBuffer, certificateBasePath);
+          snapshotHandler.push('appCertificationListInfo_hasBadge', `${hasBadge}`);
         });
 
         await test.step('Checking CSV result file content', async () => {
