@@ -7,6 +7,6 @@ export default class OidcIdentityProviderAdapter extends ApplicationAdapter {
     if (snapshot.adapterOptions?.readyIdentityProviders) {
       return `${this.host}/${this.namespace}/oidc/identity-providers`;
     }
-    return `${this.host}/${this.namespace}/admin/oidc/identity-providers`;
+    return `${this.host}/${this.namespace}/admin/oidc-providers`;
   }
 }

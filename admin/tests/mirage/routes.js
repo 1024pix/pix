@@ -737,7 +737,7 @@ export default function routes() {
     };
   });
 
-  this.get('/admin/oidc/identity-providers', () => {
+  this.get('/admin/oidc-providers', () => {
     return {
       data: [
         {
