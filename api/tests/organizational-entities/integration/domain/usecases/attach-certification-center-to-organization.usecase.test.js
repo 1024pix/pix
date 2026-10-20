@@ -102,7 +102,8 @@ describe('Integration | Organizational Entities | Domain | UseCase | attach-cert
           certificationCenterId: alreadyAttachedCertificationCenterId,
         });
 
-        const certificationCenterToAttach = databaseBuilder.factory.buildCertificationCenter();
+        const { certificationCenter: certificationCenterToAttach } =
+          databaseBuilder.factory.buildCertificationCenterWithStructure();
 
         await databaseBuilder.commit();
 

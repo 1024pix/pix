@@ -1,6 +1,5 @@
 /**
  * @typedef {import ('./index.js').OrganizationForAdminRepository} OrganizationForAdminRepository
- * @typedef {import ('./index.js').CertificationCenterForAdminRepository} CertificationCenterForAdminRepository
  */
 
 import { withTransaction } from '../../../shared/domain/DomainTransaction.js';
@@ -11,13 +10,11 @@ import { UnableToAttachCertificationCenterToOrganization } from '../errors.js';
  * @param {number} params.organizationId
  * @param {number} params.certificationCenterId
  * @param {StructureRepository} params.structureRepository
- * @param {CertificationCenterForAdminRepository} params.certificationCenterForAdminRepository
  * @returns {Promise<void>}
  */
 export const attachCertificationCenterToOrganization = withTransaction(async function ({
   organizationId,
   certificationCenterId,
-  certificationCenterForAdminRepository,
   structureRepository,
 }) {
   const organizationStructure = await structureRepository.findByOrganizationId({ organizationId });
@@ -30,9 +27,7 @@ export const attachCertificationCenterToOrganization = withTransaction(async fun
   }
 
   const certificationCenterStructure = await structureRepository.findByCertificationCenterId({ certificationCenterId });
-
-  const existingCertificationCenter = await certificationCenterForAdminRepository.exists({ certificationCenterId });
-  if (!existingCertificationCenter) {
+  if (!certificationCenterStructure) {
     throw new UnableToAttachCertificationCenterToOrganization({
       code: 'NON_EXISTING_CERTIFICATION_CENTER',
       message: 'Unable to attach a non existing certification center.',
