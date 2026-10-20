@@ -1,43 +1,43 @@
 {
   "account-recovery-email": {
     "params": {
-      "choosePassword": "Kies een wachtwoord",
-      "context": "Je hebt de terugvordering van je Pix-account aangevraagd.",
-      "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
-      "instruction": "Kies een wachtwoord om de procedure te voltooien.",
-      "linkValidFor": "Deze link is 24 uur geldig. Als u niet de auteur van dit verzoek bent, negeer deze e-mail dan.",
-      "moreOn": "Ontdek meer over",
-      "pixPresentation": "Pix is de openbare online service voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
-      "signing": "- Het Pix-team"
+      "choosePassword": "Een wachtwoord kiezen",
+      "context": "Je hebt verzocht om het herstellen van je Pix-account.",
+      "doNotAnswer": "Dit is een automatisch gegenereerde e-mail; gelieve hier niet op te reageren.",
+      "instruction": "Kies een wachtwoord om de procedure af te ronden.",
+      "linkValidFor": "Deze link is 24 uur geldig. Als je dit verzoek niet zelf hebt ingediend, kun je deze e-mail negeren.",
+      "moreOn": "Meer weten",
+      "pixPresentation": "Pix is de openbare online dienst voor het beoordelen, ontwikkelen en certificeren van je digitale competenties.",
+      "signing": "– Het Pix-team"
     }
   },
   "attendance-sheet": {
     "certification-information": {
-      "date": "Datum :",
-      "local-time": "Plaatselijke tijd (start) :",
-      "location-name": "Naam site :",
-      "number": "N°",
-      "room-name": "Naam van de locatie :",
-      "session": "De certificeringssessie"
+      "date": "Datum:",
+      "local-time": "Lokale tijd (begin):",
+      "location-name": "Naam van de website:",
+      "number": "Nr.",
+      "room-name": "Naam van de zaal:",
+      "session": "De certificeringssessie bekijken"
     },
     "examiner-information": {
-      "invigilated-by": "Bewaakt door :",
-      "signature": "Handtekening(en) :",
+      "invigilated-by": "Onder toezicht van:",
+      "signature": "Handtekening(en):",
       "title": "De toezichthouder(s)"
     },
-    "file-name": "registratie-sessieblad-",
+    "file-name": "blad-aanwezigheidslijst-zitting-",
     "header": {
       "page": "Pagina",
       "title": "Aanwezigheidslijst"
     },
     "table": {
-      "birth-name": "Geboortenaam",
+      "birth-name": "Geboortenaam:",
       "date-of-birth": {
         "example": "(dd/mm/jjjj)",
-        "label": "Geboortedatum"
+        "label": "Geboortedatum:"
       },
-      "division": "Klasse",
-      "external-id": "Lokaal identificatiesymbool",
+      "division": "Klas",
+      "external-id": "Lokale gebruikersnaam",
       "first-name": "Voornaam",
       "signature": "Handtekening",
       "title": "Kandidatenlijst"
@@ -46,349 +46,910 @@
   "campaign-export": {
     "assessment": {
       "competence-area": {
-        "items-successfully-completed": "Kennis verworven in het {naam} veld",
-        "mastery-percentage": "% beheersing van vaardigheden in het domein {naam}",
-        "total-items": "Aantal prestaties van het doelprofiel van het {naam} domein"
+        "items-successfully-completed": "Verworven vaardigheden op het gebied van {name}",
+        "mastery-percentage": "% beheersing van verworven vaardigheden op het gebied van {name}",
+        "total-items": "Aantal verworven vaardigheden van het doelprofiel op het gebied van {name}"
       },
       "is-shared": "Delen (J/N)",
-      "mastery-percentage-target-profile": "% beheersing van alle vaardigheden in het profiel",
-      "progress": "% toename",
-      "shared-on": "Gedeelde datum en tijd (Europa/Parijs)",
+      "mastery-percentage-target-profile": "% beheersing van alle leerdoelen van het profiel",
+      "progress": "% voortgang",
+      "shared-on": "Datum en tijdstip van het delen (Europa/Parijs)",
       "skill": {
-        "items-successfully-completed": "Vaardigheden beheerst in de {naam} competentie",
-        "mastery-percentage": "% beheersing van verworven vaardigheden {naam}",
-        "total-items": "Aantal prestaties van het doelprofiel in de vaardigheid {naam}"
+        "items-successfully-completed": "Verworven vaardigheden op het gebied van competentie {name}",
+        "mastery-percentage": "% beheersing van verworven competentie {name}",
+        "total-items": "Aantal verworven vaardigheden van het doelprofiel in de competentie {name}"
       },
-      "started-on": "Startdatum en tijd (Europa/Parijs)",
+      "started-on": "Begindatum en -tijd (Europa/Parijs)",
       "status": {
         "ko": "KO",
         "not-tested": "Niet getest",
         "ok": "OK"
       },
-      "success-rate": "Verkregen niveau (/{waarde})",
-      "target-profile-name": "Parken",
-      "thematic-result-name": "{naam} verkregen (J/N)"
+      "success-rate": "Behaald niveau (/{value})",
+      "target-profile-name": "Traject",
+      "thematic-result-name": "{name} behaald (J/N)"
     },
     "common": {
       "campaign-code": "Code",
-      "campaign-id": "ID Campagne",
-      "campaign-name": "Campagne naam",
-      "file-name": "Results-{name}-{id}-{date}.csv",
-      "no": "Geen",
-      "not-available": "NA",
+      "campaign-id": "ID van de campagne",
+      "campaign-name": "Naam van de campagne",
+      "file-name": "Resultaten-{name}-{id}-{date}.csv",
+      "no": "Nee",
+      "not-available": "N.v.t.",
       "organization-name": "Naam van de organisatie",
-      "participant-division": "Klasse",
-      "participant-firstname": "Voornaam deelnemer",
+      "participant-division": "Klas",
+      "participant-firstname": "Voornaam van de deelnemer",
       "participant-group": "Groep",
-      "participant-lastname": "Naam deelnemer",
-      "participant-student-number": "Studentennummer",
+      "participant-lastname": "Naam van de deelnemer",
+      "participant-student-number": "Studentnummer",
       "yes": "Ja"
     },
     "profiles-collection": {
-      "certifiable-skills": "Aantal certificeerbare vaardigheden",
+      "certifiable-skills": "Aantal certificeerbare competenties",
       "is-certifiable": "Certificeerbaar (J/N)",
-      "is-sent": "Verzenden (J/N)",
+      "is-sent": "Verzending (J/N)",
       "pix-score": "Totaal aantal pix",
-      "sent-on": "Datum en tijd van verzending (Europa/Parijs)",
-      "skill-level": "Niveau voor vaardigheid {naam}",
-      "skill-ranking": "Aantal pix voor vaardigheid {naam}"
+      "sent-on": "Verzenddatum en -tijd (Europa/Parijs)",
+      "skill-level": "Niveau van competentie {name}",
+      "skill-ranking": "Aantal pix voor de competentie {name}"
     }
   },
   "candidate-list-template": {
     "billing-mode": {
       "free": "Gratis",
-      "paid": "Betalen",
-      "prepaid": "Vooruitbetaald"
+      "paid": "Betaald",
+      "prepaid": "Prepaid"
     },
     "certification": "Certificering",
-    "complementary": "aanvullende",
-    "filename": "lijst-kandidaten-sessie-",
+    "complementary": "aanvullend",
+    "filename": "lijst-kandidaten-zitting-",
     "headers": {
       "birth-date": "* Geboortedatum (formaat: dd/mm/jjjj)",
       "birthcity": "Naam van de gemeente",
-      "birthcity-inseecode": "Insee code",
+      "birthcity-inseecode": "INSEE-code",
       "birthcity-postcode": "Postcode",
       "birthcountry": "Land",
       "birthname": "* Geboortenaam",
       "birthplace": "* Geboorteplaats",
-      "birthplace-instructions": "Instructies voor het invullen van geboorteplaats :",
-      "birthplace-instructions-abroad": "- Kandidaat die in het buitenland is geboren: Vul de kolommen \"Land\" en \"Naam van gemeente\" in en",
-      "birthplace-instructions-abroad-insee": "voer 99 in in de kolom \"Insee Code",
-      "birthplace-instructions-france": "- Kandidaat geboren in Frankrijk: Vul Frankrijk in in de kolom \"Land",
-      "birthplace-instructions-france-insee": "- Indien Insee code: Vul alleen de \"Insee code\" kolom in",
-      "birthplace-instructions-france-postal": "- Indien postcode: Vul de kolommen \"Postcode\" en \"Naam gemeente\" in.",
-      "born-abroad": "Kandidaat geboren in het buitenland: Insee code 99 EN naam van gemeente",
-      "born-in-france": "Kandidaat geboren in Frankrijk: Insee code OF Postcode en naam van gemeente",
+      "birthplace-instructions": "Instructies voor het invullen van de geboorteplaats:",
+      "birthplace-instructions-abroad": "- Kandidaat geboren in het buitenland: De kolommen “Land” en “Naam van de gemeente” invullen en",
+      "birthplace-instructions-abroad-insee": "       in de kolom INSEE-code 99 invullen",
+      "birthplace-instructions-france": "- In Frankrijk geboren kandidaat: Vul ‘Frankrijk’ in de kolom ‘Land’ in",
+      "birthplace-instructions-france-insee": "    - Indien INSEE-code: Alleen kolom INSEE-code invullen",
+      "birthplace-instructions-france-postal": "    - Indien postcode: 'Naamvan de gemeente' en 'Postcode' invullen",
+      "born-abroad": "- Kandidaat geboren in het buitenland: INSEE-code 99 en naam van de gemeente",
+      "born-in-france": "- In Frankrijk geboren kandidaat: Insee-code OF postcode en naam va de gemeente",
       "candidates": "Deelnemers",
       "candidates-list": "Kandidatenlijst",
       "date": "Datum",
-      "email-convocation": "E-mail uitnodiging",
-      "email-results": "E-mail van de voorschrijver (docent, trainer), voor de ontvangst van de resultaten",
-      "externalid": "Lokaal identificatiesymbool",
-      "extra-time": "Bonus tijd?",
+      "email-convocation": "Uitnodigingse-mail",
+      "email-results": "E-mailadres van de voorschrijver (leraar, opleider) voor de ontvangst van de resultaten.",
+      "externalid": "Lokale gebruikersnaam",
+      "extra-time": "Extra tijd?",
       "firstname": "* Voornaam",
-      "gender": "* Geslacht (M of F)",
-      "locale-time": "Plaatselijke tijd (start)",
-      "room-name": "Naam van de kamer",
-      "session-certification": "De certificeringssessie",
-      "session-invigilates-by": "Sessie begeleid door :",
-      "session-invigilators": "Handtekening van toezichthouder(s) :",
-      "session-number": "Sessienummer",
-      "site-name": "Naam van de site"
+      "gender": "* Geslacht (M of V)",
+      "locale-time": "Lokale tijd (begin):",
+      "room-name": "Naam van zaal:",
+      "session-certification": "De certificeringssessie bekijken",
+      "session-invigilates-by": "Sessie onder toezicht van:",
+      "session-invigilators": "Handtekening toezichthouder(s):",
+      "session-number": "Nr. van de sessie",
+      "site-name": "Naam van de site:"
     },
-    "one-per-candidate": "(slechts één per kandidaat)",
+    "one-per-candidate": "(één per kandidaat)",
     "options": "Mogelijke opties:",
-    "prepayment": "Vooruitbetalingscode",
-    "pricing": "Prijzen",
-    "pricing-pix": "Pix-aandeelprijs",
-    "tooltip-line-1": "(Vooral vereist bij de aankoop van gecombineerde credits)",
-    "tooltip-line-2": "Vermeld het SIRET-nummer van de organisatie en het factuurnummer. Voorbeeld: 12345678912345/FACT12345",
-    "tooltip-line-3": "Als je geen factuur hebt, moet je een vooruitbetalingscode instellen bij Pix.",
+    "prepayment": "Betalingscode",
+    "pricing": "Tarieven",
+    "pricing-pix": "Tarieven deel Pix",
+    "tooltip-line-1": "(Met name vereist bij de aankoop van gecombineerde credits)",
+    "tooltip-line-2": "Moet bestaan uit het SIRET-nummer van de organisatie en het factuurnummer. Bijv.: 12345678912345/FACT12345",
+    "tooltip-line-3": "Als je geen factuur hebt, moet er via Pix een vooruitbetalingscode worden aangemaakt.",
     "tooltips": {
-      "date-format": "Gebruik de datumnotatie dd/mm/jjjj",
-      "email-format": "Je e-mailadres moet een '@' en een ' bevatten.\nVoorbeeld: nom@exemple.fr Dit veld is optioneel,\nhet wordt gebruikt om het uitnodigen van kandidaten te vergemakkelijken.",
-      "email-results": "E-mail van de voorschrijver (docent, trainer), voor de ontvangst van de resultaten.\n De kandidaten zien hun resultaten rechtstreeks op hun Pix-account. Vermeld in dit veld het e-mailadres van de voorschrijver, indien deze ook toegang wil tot het resultaat.",
-      "extra-time": "Dit veld is vereist als de kandidaat recht heeft op extra tijd om de certificering af te ronden.\nEr wordt een heel getal tussen 1 en 99% verwacht, uitgedrukt als percentage (bijv. 33%).",
-      "gender-format": "M=Mannelijk F=Vrouwelijk"
+      "date-format": "Gebruik het datumformaat dd/mm/jjjj",
+      "email-format": "Je e-mailadres moet een ‘@’ en een ‘.’ bevatten, \n. Voorbeeld: nom@exemple.fr. Dit veld is optioneel, \n en dient om het uitnodigen van kandidaten te vergemakkelijken.",
+      "email-results": "E-mailadres van de voorschrijver (leraar, opleider) voor de ontvangst van de resultaten.\n De kandidaten kunnen hun resultaten direct in hun Pix-account bekijken. Geef in dit veld het e-mailadres van de voorschrijver op, als deze ook toegang tot het resultaat wil hebben.",
+      "extra-time": "Dit veld is verplicht als de kandidaat extra tijd krijgt om zijn certificering te behalen. \n Er wordt een heel getal tussen 1 en 99% verwacht, uitgedrukt in procenten (bijv.: 33%):",
+      "gender-format": "M = man, V = vrouw"
     },
     "yes": "Ja",
-    "yes-or-empty": "(\"ja\" of blanco laten)"
+    "yes-or-empty": "(\"ja\" of leeg laten)"
   },
   "certification": {
     "certificate": {
       "file-metadata": {
-        "title": "Pix certificering"
+        "title": "Pix-certificering(en)"
       },
-      "file-name": "certificering-pix-{deliveredAt}.pdf",
+      "file-name": "pix-certificering-{deliveredAt}.pdf",
       "v2": {
         "competences-content": {
           "level": "Niveau",
           "title": "Gecertificeerde vaardigheden (niveaus op {maxReachableLevelOnCertificationDate})"
         },
         "complementary-certification-title": "Andere behaalde certificering",
-        "description": "Dit document verklaart dat Pix",
+        "description": "Dit document is een verklaring van het behalen van een Pix-certificering",
         "main-content": {
-          "birth": "Geboortedatum en -plaats : ",
-          "certification-center": "Certificeringscentrum : ",
-          "delivered-at": "Uitgegeven op : ",
-          "first-and-last-names": "Voornaam en achternaam : ",
-          "from-birthplace": " naar ",
-          "professionalizing-certification-message": "Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 PIX"
+          "birth": "Geboortedatum en -plaats ",
+          "certification-center": "Certificeringscentrum ",
+          "delivered-at": "Afgegeven op: ",
+          "first-and-last-names": "Voor- en achternaam: ",
+          "from-birthplace": " te ",
+          "professionalizing-certification-message": "Het PIX-certificaat wordt door France Compétences erkend als een beroepsgericht certificaat vanaf een minimumscore van 120 PIX"
         },
         "not-a-certificate": "Dit document is geen certificaat",
         "qr-code-content": {
           "link": {
-            "description": "Gebruik deze code op de website :",
-            "label": "app.pix.org/verification-certificat?lang=nl",
-            "url": "https://app.pix.org/verification-certificat?lang=nl"
+            "description": "Gebruik deze code op de website:",
+            "label": "app.pix.fr/verification-certificat",
+            "url": "https://app.pix.fr/verification-certificat"
           },
-          "title": "Controleer de echtheid van de certificering",
-          "verification-code": "Verificatiecode"
+          "title": "De authenticiteit van de certificering controleren",
+          "verification-code": "Verficatiecode"
         },
         "score-content": {
-          "absolute-max-level-indication": "Als de 8 niveaus van de Pix-opslagplaats beschikbaar zijn, zal dit maximumaantal 1024 pixels zijn.",
-          "max-reachable-level-indication": "* Op de datum waarop deze certificering werd behaald, was het maximaal haalbare aantal pix { maxReachableScore }, wat overeenkomt met het niveau { maxReachableLevelOnCertificationDate }."
+          "absolute-max-level-indication": "Zodra alle 8 niveaus van het Pix-referentiekader beschikbaar zijn, is dit maximum 1024 pix.",
+          "max-reachable-level-indication": "* Op de datum waarop deze certificering werd behaald, was het maximaal haalbare aantal punten { maxReachableScore }, wat overeenkomt met niveau { maxReachableLevelOnCertificationDate }."
         },
         "signature": "Benjamin Marteau, directeur van GIP Pix",
-        "title": "Getuigschrift"
+        "title": "Verklaring"
       },
       "v3": {
+        "competence-results": {
+          "areas": {
+            "1": {
+              "competences": {
+                "1": {
+                  "description": "Informatie zoeken en volgen om aan een informatiebehoefte te voldoen en op de hoogte te blijven van de laatste ontwikkelingen rond een bepaald onderwerp (met behulp van een zoekmachine, via een sociaal netwerk, door je te abonneren op feeds of nieuwsbrieven, of op een andere manier)",
+                  "index": "1.1",
+                  "levels": {
+                    "1": "Informatie op een digitaal medium lezen en opzoeken. Weten dat niet alle informatie die op het internet circuleert betrouwbaar is.",
+                    "2": "Een eenvoudige online zoekopdracht uitvoeren met behulp van een zoekmachine. De betrouwbaarheid en relevantie van de bronnen beoordelen.",
+                    "3": "Verschillende online diensten gebruiken om informatie te vinden. Eenvoudige hints herkennen om de betrouwbaarheid en relevantie van een informatiebron te controleren. Weten hoe het is om te werken met een abonnement op online publicaties.",
+                    "4": "Zoeken naar relevante informatie die aan de eigen behoeften voldoet. De betrouwbaarheid en relevantie van een informatiebron beoordelen. Informatie monitoren met behulp van abonnementen op online publicaties.",
+                    "5": "Complexe zoekstrategieën ontwikkelen om relevante en betrouwbare informatie te vinden. Kennis hebben van instrumenten voor informatiemonitoring.",
+                    "6": "Je zoekstrategie aanpassen om de meest geschikte informatie te vinden in een context van informatie-overvloed (ruis) en ambiguïteit. Kennis hebben en gebruiken van instrumenten voor informatiemonitoring. Gebruiken van hulpmiddelen om nepnieuws op te sporen.",
+                    "7": "Je weet hoe je op het internet een grondig onderzoek moet uitvoeren om informatie te vinden, de bron ervan te achterhalen en deze te verifiëren, zelfs als je over zeer beperkte gegevens beschikt, als deze informatie niet door zoekmachines is geïndexeerd of als je gebruik moet maken van geavanceerde zoektechnieken."
+                  },
+                  "title": "Informatie zoeken en monitoren."
+                },
+                "2": {
+                  "description": "Gegevens opslaan en ordenen om ze terug te kunnen vinden, te bewaren en de toegang tot en het beheer ervan te vergemakkelijken (met een bestandsbeheerder, online opslagruimte, mappen, databases, een informatiesysteem,…).",
+                  "index": "1.2",
+                  "levels": {
+                    "1": "Bestanden opslaan en terug kunnen vinden op de computer.",
+                    "2": "Bestanden opslaan en ordenen op de computer die je gebruikt. Een back-up maken van bestanden op een ander opslagmedium.",
+                    "3": "Bestanden in digitale omgevingen opslaan en ordenen, zodat ze gemakkelijk toegankelijk zijn. De basiskenmerken van een bestand kennen (datum, auteur, grootte).",
+                    "4": "Bestanden in digitale omgevingen opslaan en ordenen, zodat ze gemakkelijk toegankelijk zijn. Een efficiënt systeem voor het ordenen van dossiers ontwerpen, rekening houdend met de bestandsformaten.",
+                    "5": "De opslag van bestanden optimaliseren (archiveren, comprimeren, enz.). De metagegevens van de bestanden benutten. Lokale gegevens synchroniseren met een online opslagruimte.",
+                    "6": "Gebruikmaken van de geavanceerde functies van online opslagdiensten. Een strategie uitwerken voor de synchronisatie van gegevens.",
+                    "7": "De boomstructuur van je bestanden en mappen automatiseren. Back-ups automatiseren op basis van je behoeften. De kwaliteit van de organisatie van de gegevens optimaliseren."
+                  },
+                  "title": "Gegevens beheren"
+                },
+                "3": {
+                  "description": "Gegevens bewerken om ze te analyseren en te interpreteren (met een spreadsheet, een programma, software voor enquêteverwerking, een query in een database,…).",
+                  "index": "1.3",
+                  "levels": {
+                    "1": "Gegevens in tabellen lezen en invoeren.",
+                    "2": "Gegevens in tabellen invoeren, vastleggen en sorteren om informatie te verkrijgen. Een eenvoudige interactieve grafiek interpreteren.",
+                    "3": "Gegevens ordenen, sorteren en filteren met behulp van spreadsheetsoftware. Een eenvoudige formule toepassen om een probleem op te lossen. Bij het invoeren van gegevens in een tabel rekening houden met de gegevensformaten.",
+                    "4": "Gegevens verwerken om een vraag te beantwoorden. Veelvoorkomende grafische weergaven maken. Een Functie eenvoudige statistiek toepassen. Een dataset analyseren om de kwaliteit ervan te controleren.",
+                    "5": "Een gegevensverwerking automatiseren. Het formaat van gegevens aanpassen (tekst en getallen). Een grafische weergave op basis van een bepaalde behoefte opstellen. Een dataset opschonen.",
+                    "6": "Open data hulpmiddelen zoeken, vinden en gebruiken Eenvoudige bewerkingen uitvoeren op grote hoeveelheden gegevens. Gegevens opschonen en voorbereiden voor gebruik.",
+                    "7": "Synthetische weergave aanmaken van complexe datasets. Slecht gestructureerde gegevens aanpassen voor analyse. Prompts voor doorzoeken open data automatiseren"
+                  },
+                  "title": "Gegevens verwerken"
+                }
+              },
+              "index": "1",
+              "label": "Informatie en gegevens"
+            },
+            "2": {
+              "competences": {
+                "1": {
+                  "description": "Communiceren met individuen en kleine groepen om in diverse contexten – zowel privé als beroepsmatig – informatie uit te wisselen, zowel eenmalig als regelmatig (via e-mail, instant messaging, videoconferentiesystemen,…).",
+                  "index": "2.1",
+                  "levels": {
+                    "1": "Een digitaal communicatiemiddel of -dienst gebruiken die is afgestemd op een bepaalde behoefte (direct of op een later tijdstip).",
+                    "2": "Verschillende digitale communicatiemiddelen of -diensten gebruiken. De omgangsvormen kennen en toepassen bij online interacties.",
+                    "3": "De communicatiepraktijken aanpassen, rekening houdend met de context en de behoefte. De omgangsvormen en de rechten van personen kennen en toepassen bij online interacties.",
+                    "4": "Verschillende digitale communicatiemiddelen of -diensten kiezen die geschikt zijn voor de context en de communicatiesituatie. Je online communicatie afstemmen op je gesprekspartners. Ongepaste inhoud filteren en vermijden.",
+                    "5": "Verschillende digitale communicatiemiddelen of -diensten kiezen die geschikt zijn voor de context en de communicatiesituatie. Online interacties modereren om naleving van omgangsvormen en de rechten van personen te waarborgen.",
+                    "6": "E-mail efficiënt beheren (automatisering). De toegang van medewerkers tot videoconferentietools organiseren en begeleiden. Een instant messaging groep beheren.",
+                    "7": "Synchrone en asynchrone communicatiemiddelen kiezen en instellen, afhankelijk van de situatie. Het gebruik van communicatiemiddelen optimaliseren door respectvolle en doeltreffende praktijken toe te passen."
+                  },
+                  "title": "Interactie"
+                },
+                "2": {
+                  "description": "Informatie en inhoud delen en publiceren om eigen producties of meningen kenbaar te maken, of die van anderen doorgeven in het kader van publieke communicatie (via platforms voor het delen van inhoud, sociale media, blogs, forums en reactieruimtes, CMS,…).",
+                  "index": "2.2",
+                  "levels": {
+                    "1": "Publicaties op sociale media bekijken.",
+                    "2": "Inhoud online publiceren in een besloten omgeving. De algemene gegevens van het eigen profiel in een digitale omgeving aanpassen aan de gebruikscontext.",
+                    "3": "Online digitale inhoud publiceren in een openbare omgeving en reageren op openbare inhoud. Kennis hebben van de belangrijkste sociale media, de kenmerken van hun publicaties en basisfuncties.",
+                    "4": "Kiezen van een geschikt hulpmiddel om inhoud met een breed publiek te delen. Live-content delen met een breed publiek. De zichtbaarheid van gedeelde inhoud instellen. Meerdere digitale identiteiten aan kunnen maken, afgestemd op verschillende contexten en toepassingen.",
+                    "5": "Online communicatie afstemmen op verschillende media. De strategie voor de verspreiding en zichtbaarheid van de inhoud aanpassen aan de context en het publiek.",
+                    "6": "Een strategie voor online aanwezigheid ontwikkelen op basis van de verwachte impact. Je publiek op verschillende sociale media bijhouden.",
+                    "7": "Online content produceren voor een breed publiek op verschillende sociale media. De verspreiding van je online content optimaal beheren met behulp van tools voor het bijhouden van bezoekersaantallen. Inzicht krijgen in de werking van de gebruikte economische modellen."
+                  },
+                  "title": "Delen en publiceren"
+                },
+                "3": {
+                  "description": "Samenwerken in een groep om een project uit te voeren, middelen, kennis en gegevens gezamenlijk te produceren en om te leren (met platforms voor samenwerking en het delen van documenten, online uitgevers, functies voor het bijhouden van wijzigingen of versiebeheer,…).",
+                  "index": "2.3",
+                  "levels": {
+                    "1": "Een gedeelde elektronische agenda raadplegen.",
+                    "2": "Deelnemen aan gezamenlijke evenementen via een gedeelde agenda. Toegang krijgen tot documenten die beschikbaar zijn in een gedeelde werkruimte.",
+                    "3": "Een platform voor gezamenlijk schrijven gebruiken om in het kader van een project gezamenlijk inhoud te creëren. Documenten delen in een gedeelde werkruimte. Organiseren van gezamenlijke evenementen via een gedeelde agenda.",
+                    "4": "Documenten delen met aangepaste toegangsrechten in het kader van een project. Plannen van gezamenlijke evenementen.",
+                    "5": "Gedrag en werkwijzen hanteren die geschikt zijn voor samenwerken. De toegang van een werkgroep tot online digitale hulpmiddelen beheren.",
+                    "6": "Samenwerkingsvormen organiseren en begeleiden die zijn afgestemd op de behoeften van een project. De samenwerkingstools instellen om de projectorganisatie te verbeteren.",
+                    "7": "Geavanceerd gebruikmaken van tools voor samenwerkingsbeheer om de organisatie van projecten te optimaliseren. Specifieke problemen analyseren en oplossen die voortvloeien uit het delen en gezamenlijk creëren van inhoud (versiebeheer, conflictbeheer, enz.)."
+                  },
+                  "title": "Samenwerken"
+                },
+                "4": {
+                  "description": "De strategieën en uitdagingen van online aanwezigheid onder de knie krijgen, inzicht verwerven in de ontwikkeling van technieken en toepassingen van kunstmatige intelligentie, en keuzes maken om zich te positioneren als sociale, economische en maatschappelijke speler in de digitale wereld, rekening houdend met de regels, beperkingen en mogelijkheden daarvan, en in overeenstemming met waarden en/of om doelstellingen te verwezenlijken (met sociale media en hulpmiddelen waarmee een publieke aanwezigheid op internet kan worden opgebouwd, algoritmen en door kunstmatige intelligentie aangestuurde diensten, en in verband met het maatschappelijk leven, het beroepsleven, het privéleven,…).",
+                  "index": "2.4",
+                  "levels": {
+                    "1": "Inzien dat het noodzakelijk is om je identiteit online te beschermen, ongeacht de context (zakelijk, privé).",
+                    "2": "Gebruiken van eenvoudige manieren om je identiteit online te beschermen. Documenten downloaden op een online dienst.",
+                    "3": "Begrijpen hoe digitale sporen een online reputatie bepalen. Gebruikmaken van online applicaties of diensten om persoonlijke en professionele administratieve taken uit te voeren. Vaststellen of er bij een online interactie sprake is van een systeem op basis van kunstmatige intelligentie.",
+                    "4": "Je openbare digitale identiteit beheren, bijwerken en verbeteren, en je online reputatie beschermen in diverse digitale omgevingen. Gebruikmaken van online applicaties of diensten om persoonlijke en professionele administratieve taken uit te voeren. Inzicht krijgen in de rol van gegevens bij technieken op het gebied van kunstmatige intelligentie.",
+                    "5": "Persoonlijke sporen traceren die bij het gebruik van online diensten worden achtergelaten. Weten wat je rechten zijn op het gebied van informatie, inzage, rectificatie, bezwaar, verwijdering en verwijdering uit zoekresultaten. De beginselen en uitdagingen van gegevensanonimisering kennen. De gangbare toepassingen van kunstmatige intelligentie kennen.",
+                    "6": "Strategieën voor het beschermen van de online reputatie in diverse digitale omgevingen vaststellen. Inzicht krijgen in de ethische kwesties rond het verzamelen en verwerken van gegevens door systemen op basis van kunstmatige intelligentie.",
+                    "7": "Inzicht krijgen in alle digitale sporen die een online aanwezigheid achterlaat. Kennis verwerven van de economische en gedragsmatige strategieën die verband houden met onlinepraktijken. Begrijpen hoe systemen op basis van kunstmatige intelligentie werken en anticiperen op de daarmee samenhangende ethische vraagstukken."
+                  },
+                  "title": "Je weg vinden in de digitale wereld"
+                }
+              },
+              "index": "2",
+              "label": "Communicatie en samenwerking"
+            },
+            "3": {
+              "competences": {
+                "1": {
+                  "description": "Documenten opstellen die voornamelijk uit tekst bestaan om ideeën over te brengen, verslag uit te brengen en het eigen werk onder de aandacht te brengen (met software voor tekstverwerking, presentaties, het maken van webpagina’s, mindmaps,…).",
+                  "index": "3.1",
+                  "levels": {
+                    "1": "Tekst invoeren in een tekstverwerkingsprogramma.",
+                    "2": "Opmaak van een tekst bewerken in een tekstverwerkingsprogramma.",
+                    "3": "Documenten aanmaken met behulp van tekstverwerkingssoftware. Tekstuele inhoud verrijken door er diverse digitale elementen in op te nemen (links, tabellen, afbeeldingen, video’s, enz.).",
+                    "4": "Documenten aanmaken met behulp van verschillende softwareprogramma’s en applicaties (diavoorstellingen, teksten, enz.). Bestaande inhoud importeren, bewerken en aanpassen door er nieuwe digitale objecten in op te nemen.",
+                    "5": "Ontwerpen, organiseren en redigeren van voornamelijk tekstuele inhoud voor verschillende media en in verschillende formaten. De opmaak van een document standaardiseren.",
+                    "6": "Digitale materialen ontwikkelen die zijn afgestemd op de richtlijnen van een organisatie (huisstijl, enz.). Een model ontwerpen en ervoor zorgen dat de ingevoerde inhoud robuust en aanpasbaar is.",
+                    "7": "Opmaakregels ontwerpen die zijn afgestemd op de eigen behoeften en de toepassing van deze regels zoveel mogelijk automatiseren. Het ontwerp van tekstdocumenten en presentaties optimaliseren."
+                  },
+                  "title": "Tekstdocumenten opstellen"
+                },
+                "2": {
+                  "description": "Multimediale documenten ontwikkelen om eigen multimediaproducties te maken en tekstuele creaties te verrijken (met software voor het vastleggen en bewerken van beeld, geluid, video, animaties, enz.).",
+                  "index": "3.2",
+                  "levels": {
+                    "1": "Een afbeelding hanteren. Een geluidsbestand of een video afspelen.",
+                    "2": "Een beeld, geluidsbestand of een video hanteren. De gebruikelijke formaten van beeld- en geluidsbestanden kennen.",
+                    "3": "Online afbeeldingen verkrijgen. Gebruik maken van eenvoudige tekentools in een bewerkingsprogramma. De gebruikelijke formaten van beeld- en geluidsbestanden kennen.",
+                    "4": "Beelden, geluidsbestanden en video's retoucheren. Bekend zijn met software voor beeld-, geluids- en videobewerking.",
+                    "5": "Onderscheid maken tussen vectorafbeeldingen en rasterafbeeldingen. Geavanceerde procedures gebruiken om multimedia-inhoud te bewerken.",
+                    "6": "De eigenschappen van een afbeelding analyseren en instellen. Geavanceerde procedures gebruiken om multimedia-inhoud te bewerken.",
+                    "7": "Geavanceerde technische kenmerken van beelden, geluidsbestanden en video's gebruiken. Bewerkings- en retoucheertools gebruiken om hoogwaardige multimediacreaties te maken."
+                  },
+                  "title": "Multimediadocumenten ontwikkelen"
+                },
+                "3": {
+                  "description": "Allerlei soorten documenten aanpassen aan het beoogde gebruik en licenties beheersen om het gebruik in diverse contexten mogelijk te maken, te vergemakkelijken en te begeleiden (regelmatige updates, verspreiding via meerdere kanalen, afdrukken, online plaatsen, projecteren,…), met behulp van softwarefuncties voor het voorbereiden van afdrukken, projecteren en online plaatsen, en tools voor het converteren van bestandsformaten…",
+                  "index": "3.3",
+                  "levels": {
+                    "1": "De basiskenmerken van de opmaak van een document kennen. Digitale documenten afdrukken",
+                    "2": "De basisregels van het auteursrecht en beeldrecht kennen. Weten dat er manieren zijn om digitale documenten toegankelijk te maken.",
+                    "3": "Digitale inhoud ordenen en optimaliseren om deze online te publiceren. Gebruiken van eenvoudige functies om een document toegankelijk te maken. De basisregels van het auteursrecht en beeldrecht toepassen.",
+                    "4": "Digitale inhoud ordenen zodat deze door anderen kan worden geraadpleegd en/of hergebruikt. De formaten van digitale inhoud aanpassen om deze via verschillende kanalen te verspreiden.",
+                    "5": "Een document beschermen door middel van rechten op reproductie, heruitzending en hergebruik. De toegankelijkheid van digitale documenten voor mensen met een handicap bevorderen.",
+                    "6": "De belangrijkste regels op het gebied van het auteursrecht kennen en toepassen. Een document dat op het internet beschikbaar is hergebruiken door de licentie ervan te vermelden en na te leven. De belangrijkste technieken kennen en toepassen om een document toegankelijk te maken (voor mensen met een beperking).",
+                    "7": "De belangrijkste regels inzake toegankelijkheid en de rechten op hergebruik en naamsvermelding van multimediadocumenten, video’s, muziek en software beheersen om de eigen creaties te verspreiden."
+                  },
+                  "title": "Documenten aanpassen aan hun doel"
+                },
+                "4": {
+                  "description": "Programma’s en algoritmen schrijven om aan een behoefte te voldoen (een terugkerende taak automatiseren, complexe of tijdrovende taken uitvoeren, een logisch probleem oplossen,…) en om rijke inhoud te ontwikkelen (spel, website…), met behulp van eenvoudige informatie-ontwikkelomgevingen en software voor taakplanning.",
+                  "index": "3.4",
+                  "levels": {
+                    "1": "Een programma begrijpen dat uit een reeks eenvoudige instructies bestaat. Een programma uitvoeren in een vereenvoudigde programmeeromgeving.",
+                    "2": "Een programma maken dat uit een reeks eenvoudige instructies bestaat. Een programma aanvullen dat in een blokgebaseerde programmeertaal is geschreven.",
+                    "3": "Een programma ontwikkelen om een probleem op te lossen met behulp van een vereenvoudigde programmeertaal. Het principe van binaire codering begrijpen.",
+                    "4": "Een algoritme ontwerpen met meerdere besturingsinstructies (keuzes, herhalingen). Het gedrag van een object aanpassen dat beheerst wordt door een eenvoudig programma. Kennis hebben van gangbare informatiecoderingen (RGB, ASCII).",
+                    "5": "Een programma aanmaken waarmee een grafisch of reël object geanimeerd wordt in een veelgebruikte programmeertaal. Een bekende algoritmische methode begrijpen. Een principe van informatiecompressie begrijpen.",
+                    "6": "Een eenvoudige formule toepassen om een probleem op te lossen. Een bekende algoritmische methode gebruiken. Prompts schrijven voor het doorzoeken van een database (SQL). Compressiemethodes kennen.",
+                    "7": "Een geoptimaliseerd programma aanmaken om een probleem op te lossen. Veelvoorkomende opdrachten in een programma opsporen en corrigeren. Een relationele database installeren en er gegevens uit opvragen. De doeltreffendheid van een compressiemethodes beoordelen."
+                  },
+                  "title": "Programmeren"
+                }
+              },
+              "index": "3",
+              "label": "Inhoud aanmaken"
+            },
+            "4": {
+              "competences": {
+                "1": {
+                  "description": "Apparatuur, communicatie en gegevens beveiligen ten behoeve van bescherming tegen aanvallen, valstrikken, ongemakken en incidenten die de goede werking van hardware, software en websites kunnen verstoren en transacties en gegevens in gevaar kunnen brengen (met beveiligingssoftware, het toepassen van goede praktijken,…).",
+                  "index": "4.1",
+                  "levels": {
+                    "1": "Op de hoogte zijn van het gedrag en de basispraktijken inzake zorgvuldigheid om het risico op cybercriminaliteit te beperken.",
+                    "2": "Op de hoogte zijn van de belangrijkste risico’s voor de IT-omgeving en online transacties. Op de hoogte zijn van de basispraktijken voor het kiezen en gebruiken van wachtwoorden.",
+                    "3": "Eenvoudige maatregelen kiezen en toepassen om de IT-omgeving te beveiligen. Configuraties herkennen die de veiligheid van online transacties waarborgen (privé-wifi, beveiligde websites).",
+                    "4": "Verschillende digitale risico’s in kaart brengen en strategieën implementeren om hardware en software te beschermen. Controleren of de inhoud geen risico's bevat voordat je actie onderneemt (openen, activeren, installeren). De toegang tot digitale omgevingen beveiligen.",
+                    "5": "Controleren van de gecertificeerde identiteit van een beveiligde website. Weten welke risico’s er aan een open wifi-netwerk verbonden zijn.",
+                    "6": "Een specifiek type bedreiging identificeren (zoals aanvallen, malware of hacktechnieken) en de daarmee samenhangende uitdagingen begrijpen. De relevantie en de mogelijke gevolgen beoordelen van het gebruik van een onbeveiligde internetverbinding, afhankelijk van het gebruiksdoel.",
+                    "7": "De infectierisico’s van een digitale omgeving beoordelen met behulp van geavanceerde controleprocedures. Een apparaat beschermen tegen mogelijke aanvallen door de beveiligingsinstellingen te optimaliseren."
+                  },
+                  "title": "Beveiligen van een digitale omgeving"
+                },
+                "2": {
+                  "description": "Beheersen van sporen en omgaan met persoonsgegevens om de eigen privacy en die van anderen te beschermen, en op een doordachte manier te werk gaan (privacy-instellingen aanpassen, sporen regelmatig controleren, enz.).",
+                  "index": "4.2",
+                  "levels": {
+                    "1": "Bepalen welke persoonsgegevens wel en niet mogen worden gedeeld.",
+                    "2": "Bewustzijn van het feit dat gegevens die bij een online transactie worden gedeeld, door anderen kunnen worden gelezen of verzameld.",
+                    "3": "Procedures toepassen om persoonsgegevens te beschermen. Een digitaal profiel beveiligen en de privacy-instellingen controleren. Persoonlijke sporen beheersen die bij het gebruik van online diensten worden achtergelaten.",
+                    "4": "Strategieën toepassen om de eigen privacy en persoonsgegevens te beschermen en die van anderen respecteren. Online surfen beveiligen en de bekeken en gebruikte pagina’s en bestanden analyseren. De algemene gebruiksvoorwaarden van een online dienst opzoeken en interpreteren.",
+                    "5": "Persoonlijke sporen traceren die bij het gebruik van online diensten worden achtergelaten. Beoordelen of het verzamelen van gegevens via een online dienst zinvol is en begrijpen wat het doel daarvan is. De beginselen en uitdagingen van gegevensanonimisering kennen.",
+                    "6": "Weten welke rechten Europese burgers hebben op grond van de AVG. Het type en de locatie kennen van sporen van internetverbinding. De economische, sociale, politieke en juridische uitdagingen van bescherming van persoonsgegevens kennen.",
+                    "7": "De beperkingen begrijpen van beschermingstools voor persoonsgegevens en privacy. Geavanceerde traceermethoden opsporen en analyseren, en oplossingen kennen om je ertegen te beschermen."
+                  },
+                  "title": "Persoonsgegevens en privacy beschermen."
+                },
+                "3": {
+                  "description": "De risico's van de digitale wereld voor de gezondheid, het welzijn en het milieu voorkomen en beperken, maar ook het potentieel ervan benutten voor eht bevorderen van persoonlijke ontwikkeling, zorg, maatschappelijke inclusie en de kwaliteit van het leven te bevorderen, voor jezelf en anderen (met kennis van de effecten van digitale technologie op de lichamelijke en geestelijke gezondheid en op het milieu, en van digitale praktijken, diensten en hulpmiddelen die gericht zijn op welzijn, gezondheid, toegankelijkheid,…).",
+                  "index": "4.3",
+                  "levels": {
+                    "1": "Begrijpen dat ondoordacht gebruik van digitale technologieën negatieve gevolgen kan hebben voor de gezondheid en het sociale en psychologische evenwicht.",
+                    "2": "Gebruiken van eenvoudige middelen voor behoud van gezondheid door de werkplek aan te passen en werkgewoonten bij te sturen. Gedragingen en inhoud herkennen die onder cyberpesten vallen.",
+                    "3": "Begrijpen dat ondoordacht gebruik van digitale technologieën negatieve gevolgen kan hebben voor de gezondheid en het sociale en psychologische evenwicht. Reageren op situaties van cyberpesten, voor jezelf of anderen. Weten welke digitale praktijken het verbruik van energie en hulpbronnen beperken.",
+                    "4": "De belangrijkste gevolgen kennen van overmatig gebruik van digitale technologieën voor de gezondheid en het sociale en psychologische evenwicht (cyberverslaving). Inzicht krijgen in de rol van recycling en hergebruik bij het verminderen van de milieu-impact van digitale technologie.",
+                    "5": "Strategieën toepassen om de eigen privacy en persoonsgegevens te beschermen en die van anderen respecteren. De tijd die je online doorbrengt onder controle houden en weten wat de gevolgen zijn van overmatig gebruik. Inzicht krijgen in de milieu-impact van de verschillende fasen in de levenscyclus van een digitaal apparaat.",
+                    "6": "Strategieën kiezen en promoten om de eigen gezondheid en die van anderen te beschermen in een digitale omgeving (ergonomie op de werkplek, deconnectie…). De milieu-impact van digitale technologie toelichten aan de hand van onderbouwde indicatoren en modellen (ecologische voetafdruk, levenscyclusanalyse, PUE, enz.).",
+                    "7": "Strategieën kiezen en uitvoeren om de gezondheid van mensen in een digitale omgeving te beschermen en zo de risico’s van cybergeweld en cyberverslaving te beperken. Een kritische visie ontwikkelen op de milieu-impact van digitalisering, door indicatoren en gegevens kritisch te bekijken."
+                  },
+                  "title": "De gezondheid, het welzijn en het milieu beschermen"
+                }
+              },
+              "index": "4",
+              "label": "Bescherming en veiligheid"
+            },
+            "5": {
+              "competences": {
+                "1": {
+                  "description": "Technische problemen oplossen om de goede werking van een IT-omgeving te waarborgen en te herstellen (met behulp van configuratie- en onderhoudstools voor software of besturingssystemen, en door de nodige technische of personele middelen in te zetten,…).",
+                  "index": "5.1",
+                  "levels": {
+                    "1": "Vermijden van bepaalde veelvoorkomende fouten bij het gebruik van een digitale apparatuur (smartphone, toetsenbord, scherm).",
+                    "2": "Veelvoorkomende problemen oplossen bij het gebruik van digitale apparatuur of bij de toegang tot een online dienst (verloren wachtwoord).",
+                    "3": "Technische problemen in verband met een IT-omgeving opsporen. Eenvoudige problemen oplossen die te maken hebben met het opslaan of delen van gegevens.",
+                    "4": "Problemen in verband met het gebruik van technologieën (menselijke fouten, technische storingen, enz.) onderscheiden en interpreteren.",
+                    "5": "Het besturingssysteem, de gegevens, de verbindingen en de apparatuur in zijn persoonlijke en professionele omgeving onderhouden. Eenvoudige storingen aan digitale apparaten opsporen.",
+                    "6": "Strategieën kiezen en uitvoeren om problemen en technische storingen op te lossen of daarop te anticiperen, met behulp van digitale hulpmiddelen en netwerken.",
+                    "7": "Complexe technische problemen of storingen diagnosticeren en oplossen, waarvoor een grondig inzicht in de werking van digitale apparaten, software en netwerken vereist is."
+                  },
+                  "title": "Technische problemen oplossen"
+                },
+                "2": {
+                  "description": "Een digitale omgeving (hardware, tools, diensten) installeren, configureren en uitbreiden om te beschikken over een kader dat is afgestemd op de uitgevoerde activiteiten, de context waarin deze plaatsvinden of de waarden (met behulp van configuratietools voor software en besturingssystemen, het installeren van nieuwe software of het afsluiten van abonnementen op diensten,…).",
+                  "index": "5.2",
+                  "levels": {
+                    "1": "Gebruik maken van de essentiële functies van de digitale omgeving (besturingssysteem). Een app op een smartphone installeren.",
+                    "2": "Bronnen en inhoud terugvinden in de eigen digitale omgeving (besturingssysteem). De belangrijkste apparatuur en randapparatuur in de eigen digitale omgeving kennen.",
+                    "3": "Je digitale omgeving instellen en software installeren. De hardware- en softwarecomponenten van de eigen omgeving kennen.",
+                    "4": "Verbinding maken met het internet en de basisprincipes van de werking ervan begrijpen. Software, tools en diensten kiezen om je digitale omgeving op te zetten",
+                    "5": "Inzicht krijgen in de belangrijkste technische werkingsprincipes van computers en het aanbod aan software. De belangrijkste mijlpalen in de geschiedenis van de informatica en de opkomst van het internet kennen.",
+                    "6": "Inzicht krijgen in de belangrijkste technische werkingsprincipes van IT-netwerken. Inzicht krijgen in de belangrijkste uitdagingen op het gebied van internetgovernance en de openheid van formaten en platforms.",
+                    "7": "Je digitale omgeving opbouwen en de configuratie ervan optimaliseren op basis van een grondig begrip van de werking van digitale apparaten en netwerken en een gedetailleerde kennis van de modellen van software- en hardwarecomponenten."
+                  },
+                  "title": "Opbouwen van een digitale omgeving"
+                }
+              },
+              "index": "5",
+              "label": "Digitale omgeving"
+            }
+          },
+          "competences-info": "Aan de hand van je Pix-score kan een geschat niveau voor alle digitale vaardigheden worden afgeleid. Voor sommige competenties kan je werkelijke niveau variëren. De niveaus worden beoordeeld op een schaal van 1 tot 7.",
+          "competences-title": "Je digitale competentieprofiel:",
+          "level-not-obtained": "Niet behaald",
+          "level-tag": "Niveau "
+        },
         "complementary-content": {
-          "title": "Certification complémentaire obtenue :"
+          "title": "Behaalde aanvullende certificering"
         },
         "main-content": {
-          "birth": "né(e) le : {birthdate} à {birthplace}",
-          "certification-center": "Centre de certification : {certificationCenter}",
+          "birth": "geboren op: {birthdate} in {birthplace}",
+          "certification-center": "Certificeringscentrum: {certificationCenter}",
           "delivered-at": {
-            "date": "le {deliveredAt}",
-            "label": "délivrée à"
+            "date": "op {deliveredAt}",
+            "label": "afgegeven aan"
           },
-          "signature": "Benjamin Marteau, directeur du GIP Pix",
-          "title": "Certification Pix"
+          "signature": "Benjamin Marteau, directeur van GIP Pix",
+          "title": "Pix-certificering",
+          "title-pix-plus": "Pix+ -certificering"
+        },
+        "pix-plus-labels": {
+          "DROIT": "Recht",
+          "EDU_1ER_DEGRE": "Basisonderwijs",
+          "EDU_2ND_DEGRE": "Voortgezet onderwijs",
+          "EDU_CPE": "Kleuteronderwijs",
+          "PRO_SANTE": "Pro gezondheid"
         },
         "qr-code-content": {
-          "explanation": "Pour vérifier l’authenticité de cette attestation, utilisez ce code sur ",
+          "explanation": "Om de authenticiteit van deze verklaring te controleren, gebruik je deze code op ",
           "link": {
             "label": "app.pix.fr/verification-certificat",
             "url": "https://app.pix.fr/verification-certificat"
           }
         },
         "score-content": {
-          "global-level": "Niveau global",
+          "global-level": "Algemeen niveau",
           "level-explanation": {
-            "shareable": "Dit niveau betekent dat :",
-            "user": "Jouw niveau betekent dat :"
+            "shareable": "Het niveau betekent dat:",
+            "user": "Je niveau betekent dat:"
           }
         }
       }
     },
-    "global": {
-      "meshlevel": {
-        "LEVEL_ADVANCED": {
-          "label": "Geavanceerd",
-          "summary": "De kandidaat heeft het niveau Geavanceerd bereikt."
-        },
+    "labels": {
+      "CLEA": "Digitale CléA by Pix",
+      "CORE": "Pix",
+      "DROIT": "Pix+ Recht",
+      "EDU_1ER_DEGRE": "Pix+ Basisonderwijs",
+      "EDU_2ND_DEGRE": "Pix+ Voortgezet onderwijs",
+      "EDU_CPE": "Pix+ Kleuteronderwijs",
+      "PRO_SANTE": "Pix+ Pro gezondheid"
+    },
+    "meshLevels": {
+      "CLEA": {
+        "0": "{pixScore} Pix",
+        "1": "Beginner 1 ({pixScore} Pix)",
+        "2": "Beginner 2 ({pixScore} Pix)",
+        "3": "Zelfstandig 1 ({pixScore} Pix)",
+        "4": "Zelfstandig 2 ({pixScore} Pix)",
+        "5": "Gevorderd 1 ({pixScore} Pix)",
+        "6": "Gevorderd 2 ({pixScore} Pix)",
+        "7": "Deskundige 1 ({pixScore} Pix)",
+        "8": "Deskundige 2 ({pixScore} Pix)",
+        "BELOW_MINIMUM": "{pixScore} Pix"
+      },
+      "CORE": {
+        "0": "{pixScore} Pix",
+        "1": "Beginner 1 ({pixScore} Pix)",
+        "2": "Beginner 2 ({pixScore} Pix)",
+        "3": "Zelfstandig 1 ({pixScore} Pix)",
+        "4": "Zelfstandig 2 ({pixScore} Pix)",
+        "5": "Gevorderd 1 ({pixScore} Pix)",
+        "6": "Gevorderd 2 ({pixScore} Pix)",
+        "7": "Deskundige 1 ({pixScore} Pix)",
+        "8": "Deskundige 2 ({pixScore} Pix)",
+        "BELOW_MINIMUM": "{pixScore} Pix"
+      },
+      "DROIT": {
+        "0": "Behaald ",
+        "BELOW_MINIMUM": "Niet behaald"
+      },
+      "EDU_1ER_DEGRE": {
+        "0": "Toelaatbaar",
+        "BELOW_MINIMUM": "Niet-toelaatbaar"
+      },
+      "EDU_2ND_DEGRE": {
+        "0": "Toelaatbaar",
+        "BELOW_MINIMUM": "Niet-toelaatbaar"
+      },
+      "EDU_CPE": {
+        "0": "Toelaatbaar",
+        "BELOW_MINIMUM": "Niet-toelaatbaar"
+      },
+      "PRO_SANTE": {
+        "0": "Behaald ",
+        "BELOW_MINIMUM": "Niet behaald"
+      }
+    },
+    "meshlevel": {
+      "CORE": {
         "LEVEL_ADVANCED_5": {
-          "description": "You are able to use specialist tools to search for reliable information, manage social networks and edit images and videos. You know how to produce data analyses and appropriate graphic representations. You know how to set up a digital environment (installation and configuration). You are familiar with the issues surrounding tracking and data collection. You understand the environmental and societal impacts of digital usage and know how to adapt your practices",
-          "label": "Advanced 1",
-          "summary": "You have advanced digital skills and sound knowledge enabling you to deal with new situations on your own. You can help others."
+          "description": {
+            "shareable": "De kandidaat is in staat om gespecialiseerde tools te gebruiken om op betrouwbare wijze informatie te zoeken, sociale media te beheren en afbeeldingen en video's te bewerken. Hij/zij kan passende gegevensanalyses en grafische weergaven opstellen. Hij/zij weet hoe een digitale omgeving moet worden opgezet (installatie en configuratie). Hij/zij is op de hoogte van de uitdagingen rond contactopsporing en gegevensverzameling. Hij/zij begrijpt de gevolgen van digitaal gebruik voor het milieu en de samenleving en weet zijn/haar werkwijze daarop aan te passen.",
+            "user": "Je bent in staat om gespecialiseerde tools te gebruiken om op betrouwbare wijze informatie te zoeken, sociale media te beheren en afbeeldingen en video's te bewerken. Je kan passende gegevensanalyses en grafische weergaven opstellen. Je weet hoe een digitale omgeving moet worden opgezet (installatie en configuratie). Je bent op de hoogte van de uitdagingen rond tracking en gegevensverzameling. Je begrijpt de gevolgen van digitaal gebruik voor het milieu en de samenleving en weet zijn/haar werkwijze daarop aan te passen."
+          },
+          "label": "Gevorderd 1",
+          "summary": {
+            "shareable": "De kandidaat beschikt over geavanceerde digitale vaardigheden en heeft een gedegen kennis, waardoor hij/zij zelfstandig met nieuwe situaties kan omgaan. Hij/zij kan andere mensen helpen.",
+            "user": "Je beschikt over geavanceerde digitale vaardigheden en heeft een gedegen kennis, waardoor je zelfstandig met nieuwe situaties kan omgaan. Je kunt andere mensen helpen."
+          }
         },
         "LEVEL_ADVANCED_6": {
-          "description": "You have full control over your digital environment so that you can create and distribute content, communicate and collaborate. You know how to manage your online presence and choose the right settings for your broadcasts. You can programme and automate certain tasks (data processing, backup, updating, etc.). You can help others to secure their practices, and in particular limit their environmental and health impact.",
-          "label": "Advanced 2",
-          "summary": "You have advanced digital skills and in-depth knowledge that you can put to good use, for yourself or others, in a creative and secure way. You can help other people develop their skills."
+          "description": {
+            "shareable": "De kandidaat heeft volledige beheersing over zijn/haar digitale omgeving om inhoud te creëren en te verspreiden, te communiceren en samen te werken. Hij/zij weet hoe hij/zij zijn/haar online aanwezigheid moet beheren en de juiste instellingen voor zijn/haar publicaties moet kiezen. Hij/zij kan bepaalde taken programmeren en automatiseren (gegevensverwerking, back-ups maken, updates uitvoeren, enz.). Hij/zij kan anderen begeleiden om hun werkwijzen veiliger te maken, en met name de gevolgen voor het milieu en de gezondheid te beperken.",
+            "user": "Je hebt volledige beheersing over zijn/haar digitale omgeving om inhoud te creëren en te verspreiden, te communiceren en samen te werken. Je weet hoe je je online aanwezigheid moet beheren en de juiste instellingen voor je publicaties moet kiezen. Je kunt bepaalde taken programmeren en automatiseren (gegevensverwerking, back-ups maken, updates uitvoeren, enz.). Je kunt anderen begeleiden om hun werkwijzen veiliger te maken, en met name de gevolgen voor het milieu en de gezondheid te beperken."
+          },
+          "label": "Gevorderd 2",
+          "summary": {
+            "shareable": "De kandidaat beschikt over geavanceerde digitale vaardigheden en diepgaande kennis, die hij/zij op creatieve en veilige wijze kan inzetten, zowel voor zichzelf als voor anderen. Hij/zij kan anderen helpen bij het ontwikkelen van hun vaardigheden.",
+            "user": "Je beschikt over geavanceerde digitale vaardigheden en diepgaande kennis, die je op creatieve en veilige wijze kan inzetten, zowel voor jezelf als voor anderen. Je kunt anderen helpen bij het ontwikkelen van hun vaardigheden."
+          }
         },
         "LEVEL_BEGINNER_1": {
-          "description": "You can find your way around the interfaces of the digital tools you've already used (phone, tablet, computer). With occasional support, you can visit a website, read and reply to messages (text messages, emails, etc.), use simple applications on your phone or tablet and access online services.",
+          "description": {
+            "shareable": "De kandidaat kan zijn/haar weg vinden in de gebruikersinterfaces van de digitale hulpmiddelen die hij/zij al heeft gebruikt (telefoon, tablet, computer). Met af en toe wat hulp kan hij/zij een website bezoeken, zijn/haar berichten (sms’jes, e-mails, ...) lezen en beantwoorden, eenvoudige apps op een telefoon of tablet gebruiken en toegang krijgen tot online diensten.",
+            "user": "Je kunt je weg vinden in de gebruikersinterfaces van de digitale hulpmiddelen die je al hebt gebruikt (telefoon, tablet, computer). Met af en toe wat hulp kun je een website bezoeken, je berichten (sms’jes, e-mails,...) lezen en beantwoorden, eenvoudige apps op een telefoon of tablet gebruiken en toegang krijgen tot online diensten."
+          },
           "label": "Beginner 1",
-          "summary": "You have simple digital practices and often need help"
+          "summary": {
+            "shareable": "De kandidaat beschikt over eenvoudige digitale vaardigheden, maar heeft vaak hulp nodig",
+            "user": "Je beschikt over eenvoudige digitale vaardigheden, maar hebt vaak hulp nodig"
+          }
         },
         "LEVEL_BEGINNER_2": {
-          "description": "In your usual digital environment, you know how to search for information on the web, download a file and find it again, consult and send electronic messages and connect your devices to the internet (computers, tablets, phones). You can enter text with simple formatting and save it. You know that some information published online is false and that it is important to protect your accounts with secure passwords.",
+          "description": {
+            "shareable": "In zijn/haar vertrouwde digitale omgeving weet de kandidaat informatie op het internet op te zoeken, een bestand te downloaden en terug te vinden, e-mails te bekijken en te versturen, en zijn/haar apparaten (computers, tablet, telefoon) met het internet te verbinden. Hij/zij kan een tekst met een eenvoudige opmaak invoeren en opslaan. Hij/zij weet dat bepaalde online gepubliceerde informatie onjuist is en dat het belangrijk is om zijn/haar accounts te beveiligen met sterke wachtwoorden.",
+            "user": "In zijn/haar vertrouwde digitale omgeving weet de kandidaat informatie op het internet op te zoeken, een bestand te downloaden en terug te vinden, e-mails te bekijken en te versturen, en zijn/haar apparaten (computers, tablet, telefoon) met het internet te verbinden. Je kunt een tekst met een eenvoudige opmaak invoeren en opslaan. Je weet dat bepaalde online gepubliceerde informatie onjuist is en dat het belangrijk is om je accounts te beveiligen met sterke wachtwoorden."
+          },
           "label": "Beginner 2",
-          "summary": "You have simple digital practices, with help when the going gets tough."
-        },
-        "LEVEL_CONFIRMED": {
-          "label": "Bevestigd",
-          "summary": "De kandidaat heeft het niveau Bevestigd bereikt."
-        },
-        "LEVEL_EXPERT": {
-          "label": "Expert",
-          "summary": "De kandidaat heeft het niveau Expert bereikt."
+          "summary": {
+            "shareable": "De kandidaat beschikt over eenvoudige digitale vaardigheden, maar heeft in ingewikkelde situaties hulp nodig",
+            "user": "Je beschikt over eenvoudige digitale vaardigheden, maar hebt in ingewikkelde situaties hulp nodig"
+          }
         },
         "LEVEL_EXPERT_7": {
-          "description": "You will be able to analyse a need, consult documentation, even technical documentation, and evaluate digital solutions in order to implement the most optimal solution, or even develop tools yourself. You will understand the economic, social and ethical issues associated with digital technologies and be able to think critically about your digital practices. You will be able to train in new techniques and have a good grasp of the most recent technological advances, such as those made possible by artificial intelligence.",
-          "label": "Expert 1",
-          "summary": "You have optimised digital practices and expert knowledge enabling you to tackle complex and new situations methodically."
+          "description": {
+            "shareable": "De kandidaat is in staat om een behoefte te analyseren, documentatie – zelfs technische – te raadplegen en digitale oplossingen te beoordelen om de meest optimale oplossing te implementeren, of zelfs zelf tools te ontwikkelen. Hij/zij begrijpt de economische, maatschappelijke en ethische kwesties die verband houden met digitale technologieën en kan zijn/haar digitale gewoonten kritisch onder de loep nemen. Hij/zij is in staat zich nieuwe technieken eigen te maken en gaat moeiteloos om met de allernieuwste technologische ontwikkelingen, zoals die welke mogelijk worden gemaakt door kunstmatige intelligentie.",
+            "user": "Je bent in staat om een behoefte te analyseren, documentatie – zelfs technische – te raadplegen en digitale oplossingen te beoordelen om de meest optimale oplossing te implementeren, of zelfs zelf tools te ontwikkelen. Je begrijpt de economische, maatschappelijke en ethische kwesties die verband houden met digitale technologieën en kan je digitale gewoonten kritisch onder de loep nemen. Je bent in staat zich nieuwe technieken eigen te maken en gaat moeiteloos om met de allernieuwste technologische ontwikkelingen, zoals die welke mogelijk worden gemaakt door kunstmatige intelligentie."
+          },
+          "label": "Deskundige 1",
+          "summary": {
+            "shareable": "De kandidaat beschikt over geavanceerde digitale vaardigheden en heeft een gedegen kennis, waardoor hij/zij zelfstandig met nieuwe situaties kan omgaan.",
+            "user": "Je beschikt over geavanceerde digitale vaardigheden en heeft een gedegen kennis, waardoor je zelfstandig met nieuwe situaties kan omgaan."
+          }
         },
-        "LEVEL_INDEPENDENT": {
-          "label": "Onafhankelijk",
-          "summary": "De kandidaat heeft het niveau Onafhankelijk bereikt."
+        "LEVEL_EXPERT_8": {
+          "label": "Deskundige 2",
+          "summary": {
+            "shareable": "De kandidaat is in staat om zijn/haar oplossingen voor nieuwe en specifieke problemen te documenteren en deze te delen.",
+            "user": "Je bent in staat om je oplossingen voor nieuwe en specifieke problemen te documenteren en deze te delen."
+          }
         },
         "LEVEL_INDEPENDENT_3": {
-          "description": "You know how to surf the Web to carry out in-depth research using relevant information. You can take part in collaborative activities (e-mail, shared diary, video meetings, shared documents). You know how to use the most common functions of standard software (word processing and spreadsheets). You are aware of the risks associated with your digital practices and the need to secure them, as well as the environmental impact of your digital uses. You know how to solve common problems (password, connection).",
-          "label": "Independent 1",
-          "summary": "You will be able to carry out simple digital tasks independently in most everyday situations."
+          "description": {
+            "shareable": "De kandidaat weet hoe hij/zij op het internet moet zoeken om een grondig onderzoek uit te voeren met relevante informatie. Hij/zij kan meewerken aan samenwerkingsactiviteiten (berichtenuitwisseling, gedeelde agenda, videoconferenties, gedeelde documenten). Hij/zij weet hoe hij/zij de meest gangbare functies van gangbare software (tekstverwerking en spreadsheetprogramma's) moet gebruiken. Hij/zij is zich bewust van de risico’s die gepaard gaan met zijn/haar digitale activiteiten en van de noodzaak om deze te beveiligen, evenals van de milieu-impact van zijn/haar digitale gebruik. Hij/zij weet hoe hij/zij veelvoorkomende problemen (wachtwoord, inloggen) moet oplossen.",
+            "user": "Je weet hoe je op het internet moet zoeken om een grondig onderzoek uit te voeren met relevante informatie. Je kunt kan meewerken aan samenwerkingsactiviteiten (berichtenuitwisseling, gedeelde agenda, videoconferenties, gedeelde documenten). Je weet hoe je de meest gangbare functies van gangbare software (tekstverwerking en spreadsheetprogramma's) moet gebruiken. Je bent je bewust van de risico’s die gepaard gaan met zijn/haar digitale activiteiten en van de noodzaak om deze te beveiligen, evenals van de milieu-impact van je digitale gebruik. Hij/zij weet hoe hij/zij veelvoorkomende problemen (wachtwoord, inloggen) moet oplossen."
+          },
+          "label": "Zelfstandig 1",
+          "summary": {
+            "shareable": "De kandidaat beschikt over eenvoudige digitale vaardigheden, maar heeft vaak hulp nodig",
+            "user": "Je beschikt over eenvoudige digitale vaardigheden, maar heeft vaak hulp nodig"
+          }
         },
         "LEVEL_INDEPENDENT_4": {
-          "description": "You know how to set up an information search strategy on the web and via social networks and check the reliability of the information you find. You can use the main functions of collaborative tools and create documents using different software (word processing, spreadsheets, slideshows, images). You can implement secure practices in terms of personal data and device protection. You can adapt your digital practices to limit their impact on the environment and on your health.",
-          "label": "Independent 2",
-          "summary": "You are at ease in all common digital situations and have a good command of the vocabulary associated with digital technologies."
+          "description": {
+            "shareable": "De kandidaat weet hoe hij/zij een strategie moet opzetten om informatie te zoeken op het internet en via sociale media, en hoe hij/zij de betrouwbaarheid van de gevonden informatie moet controleren. Hij/zij weet hoe hij/zij de belangrijkste functies van samenwerkingsprogramma’s moet gebruiken en hoe hij/zij documenten moet maken met behulp van verschillende softwareprogramma’s (tekstverwerking, spreadsheet, diavoorstelling, afbeeldingen). Hij/zij kan veilige werkwijzen toepassen op het gebied van persoonsgegevens en de beveiliging van zijn/haar apparaten. Hij/zij weet zijn/haar digitale gewoonten zo aan te passen dat de impact ervan op het milieu en op zijn/haar gezondheid wordt beperkt.",
+            "user": "Je weet hoe je een strategie moet opzetten om informatie te zoeken op het internet en via sociale media, en hoe je de betrouwbaarheid van de gevonden informatie moet controleren. Je weet hoe je de belangrijkste functies van samenwerkingsprogramma’s moet gebruiken en hoe je documenten moet maken met behulp van verschillende softwareprogramma’s (tekstverwerking, spreadsheet, diavoorstelling, afbeeldingen). Je kunt veilige werkwijzen toepassen op het gebied van persoonsgegevens en de beveiliging van je apparaten. Je weet je digitale gewoonten zo aan te passen dat de impact ervan op het milieu en op je gezondheid wordt beperkt."
+          },
+          "label": "Zelfstandig 2",
+          "summary": {
+            "shareable": "De kandidaat voelt zich op zijn/haar gemak in alle gangbare situaties waarin digitale technologie wordt gebruikt en beheerst de gangbare terminologie op het gebied van digitale technologieën.",
+            "user": "Je voelt je op je gemak in alle gangbare situaties waarin digitale technologie wordt gebruikt en beheerst de gangbare terminologie op het gebied van digitale technologieën."
+          }
+        }
+      },
+      "DROIT": {
+        "LEVEL_ADVANCED": {
+          "description": {
+            "shareable": "Dankzij zijn/haar kennis van digitale technologieën in de juridische sector kan hij/zij de uitdagingen en juridische vraagstukken in kaart brengen die het gebruik van digitale technologieën met zich meebrengt. De kandidaat kan ook het rechtskader vaststellen dat van toepassing is op een bepaalde rechtssituatie, en de desbetreffende rechtsregels toepassen.\nTen slotte beheerst hij/zij ook de digitale hulpmiddelen die ter beschikking staan van juristen en kan hij/zij geavanceerd en doeltreffend juridisch onderzoek verrichten.",
+            "user": "Dankzij je kennis van digitale technologieën in de juridische sector kun je de uitdagingen en juridische vraagstukken in kaart brengen die het gebruik van digitale technologieën met zich meebrengt. De kandidaat kan ook het rechtskader vaststellen dat van toepassing is op een bepaalde rechtssituatie, en de desbetreffende rechtsregels toepassen.\nTen slotte beheerst hij/zij ook de digitale hulpmiddelen die ter beschikking staan van juristen en kan hij/zij geavanceerd en doeltreffend juridisch onderzoek verrichten."
+          },
+          "label": "Gevorderd",
+          "summary": {
+            "shareable": "De kandidaat heeft het niveau ‘Gevorderd’ behaald.",
+            "user": "Je hebt het niveau ‘Gevorderd’ behaald."
+          }
+        },
+        "LEVEL_CONFIRMED": {
+          "description": {
+            "shareable": "Dankzij zijn/haar kennis van digitale technologieën in de juridische sector kan hij/zij de uitdagingen en juridische vraagstukken in kaart brengen die het gebruik van digitale technologieën met zich meebrengt.\nDe kandidaat kan eveneens de belangrijkste digitale tools identificeren waarover juristen beschikken en een pertinente juridische zoekopdracht uitvoeren.",
+            "user": "Dankzij je kennis van digitale technologieën in de juridische sector kun je de uitdagingen en juridische vraagstukken in kaart brengen die het gebruik van digitale technologieën met zich meebrengt.\nDe kandidaat kan eveneens de belangrijkste digitale tools identificeren waarover juristen beschikken en een pertinente juridische zoekopdracht uitvoeren."
+          },
+          "label": "Ervaren",
+          "summary": {
+            "shareable": "De kandidaat heeft het niveau ‘Ervaren’ behaald.",
+            "user": "Je hebt het niveau ‘Ervaren’ behaald."
+          }
+        },
+        "LEVEL_EXPERT": {
+          "description": {
+            "shareable": "Dankzij zijn/haar kennis van digitale technologieën in de juridische sector kan hij/zij de uitdagingen en juridische vraagstukken in kaart brengen die het gebruik van digitale technologieën met zich meebrengt. De kandidaat kan ook het rechtskader vaststellen dat van toepassing is op een bepaalde rechtssituatie, en de desbetreffende rechtsregels toepassen. Hij/zij is in staat om te anticiperen en juridische oplossingen voor te stellen die zijn afgestemd op een behoefte of verwachting.\nTen slotte beheerst hij/zij ook de digitale hulpmiddelen die ter beschikking staan van juristen en kan hij/zij geavanceerd en doeltreffend juridisch onderzoek verrichten.",
+            "user": "Dankzij je kennis van digitale technologieën in de juridische sector kun je de uitdagingen en juridische vraagstukken in kaart brengen die het gebruik van digitale technologieën met zich meebrengt. Zo kan ook het rechtskader worden vastgesteld dat van toepassing is op een bepaalde rechtssituatie, en de desbetreffende rechtsregels kunnen worden toegepast. Je bent in staat om te anticiperen en juridische oplossingen voor te stellen die zijn afgestemd op een behoefte of verwachting.\nTen slotte beheers je ook de digitale hulpmiddelen die ter beschikking staan van juristen en kun je geavanceerd en doeltreffend juridisch onderzoek verrichten."
+          },
+          "label": "Deskundige",
+          "summary": {
+            "shareable": "De kandidaat heeft het niveau ‘Deskundige’ behaald.",
+            "user": "Je hebt het niveau ‘Deskundige’ behaald."
+          }
+        },
+        "LEVEL_INDEPENDENT": {
+          "description": {
+            "shareable": "Dankzij zijn/haar kennis van digitale technologieën in de juridische sector kan hij/zij de uitdagingen en juridische vraagstukken in kaart brengen en de belangrijkste juridische tools identificeren waarover juristen beschikken.",
+            "user": "Dankzij je kennis van digitale technologieën in de juridische sector kun je de uitdagingen en juridische vraagstukken in kaart brengen en de belangrijkste juridische tools identificeren waarover juristen beschikken."
+          },
+          "label": "Zelfstandig",
+          "summary": {
+            "shareable": "De kandidaat heeft het niveau ‘Zelfstandig’ behaald.",
+            "user": "Je hebt het niveau ‘Zelfstandig’ behaald."
+          }
+        }
+      },
+      "EDU_1ER_DEGRE": {
+        "LEVEL_ADMISSIBLE": {
+          "description": {
+            "shareable": "De certificering verloopt in twee fasen:\n 1. Pix-opdracht: hij/zij heeft het net afgelegd.\n 2. Mondelinge test: wordt buiten Pix afgenomen voor een jury.\nNa afloop van dit mondelinge test wordt het definitieve certificeringsniveau van de kandidaat toegekend (Expert, Gevorderd, enz.).",
+            "user": "De certificering verloopt in twee fasen:\n 1. Pix-opdracht: hij/zij heeft het net afgelegd.\n 2. Mondelinge test: wordt buiten Pix afgenomen voor een jury.\nNa afloop van dit mondelinge test wordt je definitieve certificeringsniveau toegekend (Expert, Gevorderd, enz.).\nNeem contact op met je certificeringscentrum voor het plannen van je mondelinge test."
+          },
+          "label": "Toelaatbaar",
+          "summary": {
+            "shareable": "De kandidaat komt in aanmerking voor de Pix+ Édu-certificering.",
+            "user": "Je komt in aanmerking voor de Pix+ Édu-certificering."
+          }
+        },
+        "LEVEL_ADVANCED": {
+          "description": {
+            "shareable": "De kandidaat is in staat om digitale middelen op een veelzijdige en relevante manier in zijn/haar beroepsactiviteiten in te zetten. Hij/zij beschikt over diepgaande kennis, waardoor hij/zij een kritische en weloverwogen blik kan werpen op het gebruik ervan.",
+            "user": "Je bent in staat om digitale middelen op een veelzijdige en relevante manier in je beroepsactiviteiten in te zetten. Je beschikt over diepgaande kennis, waardoor je een kritische en weloverwogen blik kan werpen op het gebruik ervan."
+          },
+          "label": "Gevorderd",
+          "summary": {
+            "shareable": "De kandidaat heeft het niveau ‘Gevorderd’ behaald.",
+            "user": "Je hebt het niveau ‘Gevorderd’ behaald."
+          }
+        },
+        "LEVEL_EXPERT": {
+          "description": {
+            "shareable": "De kandidaat is in staat om in zijn/haar beroepspraktijk op een kritische, doelgerichte en originele manier gebruik te maken van digitale middelen, afgestemd op de context en de behoeften. Hij/zij kan zijn/haar expertise inzetten om collega’s te begeleiden, te inspireren en te ondersteunen bij de ontwikkeling van hun digitale vaardigheden op het werk.",
+            "user": "Je bent in staat om in je beroepspraktijk op een kritische, doelgerichte en originele manier gebruik te maken van digitale middelen, afgestemd op de context en de behoeften. Je kunt je expertise inzetten om collega’s te begeleiden, te inspireren en te ondersteunen bij de ontwikkeling van hun digitale vaardigheden op het werk."
+          },
+          "label": "Deskundige",
+          "summary": {
+            "shareable": "De kandidaat heeft het niveau ‘Deskundige’ behaald.",
+            "user": "Je hebt het niveau ‘Deskundige’ behaald."
+          }
+        }
+      },
+      "EDU_2ND_DEGRE": {
+        "LEVEL_ADMISSIBLE": {
+          "description": {
+            "shareable": "De certificering verloopt in twee fasen:\n 1. Pix-opdracht: hij/zij heeft het net afgelegd.\n 2. Mondelinge test: wordt buiten Pix afgenomen voor een jury.\nNa afloop van dit mondelinge test wordt het definitieve certificeringsniveau van de kandidaat toegekend (Expert, Gevorderd, enz.).",
+            "user": "De certificering verloopt in twee fasen:\n 1. Pix-opdracht: hij/zij heeft het net afgelegd.\n 2. Mondelinge test: wordt buiten Pix afgenomen voor een jury.\nNa afloop van dit mondelinge test wordt je definitieve certificeringsniveau toegekend (Expert, Gevorderd, enz.).\nNeem contact op met je certificeringscentrum voor het plannen van je mondelinge test."
+          },
+          "label": "Toelaatbaar",
+          "summary": {
+            "shareable": "De kandidaat komt in aanmerking voor de Pix+ Édu-certificering.",
+            "user": "Je komt in aanmerking voor de Pix+ Édu-certificering."
+          }
+        },
+        "LEVEL_ADVANCED": {
+          "description": {
+            "shareable": "De kandidaat is in staat om digitale middelen op een veelzijdige en relevante manier in zijn/haar beroepsactiviteiten in te zetten. Hij/zij beschikt over diepgaande kennis, waardoor hij/zij een kritische en weloverwogen blik kan werpen op het gebruik ervan.",
+            "user": "Je bent in staat om digitale middelen op een veelzijdige en relevante manier in je beroepsactiviteiten in te zetten. Je beschikt over diepgaande kennis, waardoor je een kritische en weloverwogen blik kan werpen op het gebruik ervan."
+          },
+          "label": "Gevorderd",
+          "summary": {
+            "shareable": "De kandidaat heeft het niveau ‘Gevorderd’ behaald.",
+            "user": "Je hebt het niveau ‘Gevorderd’ behaald."
+          }
+        },
+        "LEVEL_EXPERT": {
+          "description": {
+            "shareable": "De kandidaat is in staat om in zijn/haar beroepspraktijk op een kritische, doelgerichte en originele manier gebruik te maken van digitale middelen, afgestemd op de context en de behoeften. Hij/zij kan zijn/haar expertise inzetten om collega’s te begeleiden, te inspireren en te ondersteunen bij de ontwikkeling van hun digitale vaardigheden op het werk.",
+            "user": "Je bent in staat om in je beroepspraktijk op een kritische, doelgerichte en originele manier gebruik te maken van digitale middelen, afgestemd op de context en de behoeften. Je kunt je expertise inzetten om collega’s te begeleiden, te inspireren en te ondersteunen bij de ontwikkeling van hun digitale vaardigheden op het werk."
+          },
+          "label": "Deskundige",
+          "summary": {
+            "shareable": "De kandidaat heeft het niveau ‘Deskundige’ behaald.",
+            "user": "Je hebt het niveau ‘Deskundige’ behaald."
+          }
+        }
+      },
+      "EDU_CPE": {
+        "LEVEL_ADMISSIBLE": {
+          "description": {
+            "shareable": "De certificering verloopt in twee fasen: \n 1. Pix-opdracht: hij/zij heeft het net afgelegd.\n 2. Mondelinge test: wordt buiten Pix afgenomen voor een jury.\nNa afloop van dit mondelinge test wordt het definitieve certificeringsniveau van de kandidaat toegekend (Expert, Gevorderd, enz.).",
+            "user": "De certificering verloopt in twee fasen:\n 1. Pix-opdracht: hij/zij heeft het net afgelegd.\n 2. Mondelinge test: wordt buiten Pix afgenomen voor een jury.\nNa afloop van dit mondelinge test wordt je definitieve certificeringsniveau toegekend (Expert, Gevorderd, enz.).\nNeem contact op met je certificeringscentrum voor het plannen van je mondelinge test."
+          },
+          "label": "Toelaatbaar",
+          "summary": {
+            "shareable": "De kandidaat komt in aanmerking voor de Pix+ Édu-certificering.",
+            "user": "Je komt in aanmerking voor de Pix+ Édu-certificering."
+          }
+        },
+        "LEVEL_ADVANCED": {
+          "description": {
+            "shareable": "De kandidaat is in staat om digitale middelen op een veelzijdige en relevante manier in zijn/haar beroepsactiviteiten in te zetten. Hij/zij beschikt over diepgaande kennis, waardoor hij/zij een kritische en weloverwogen blik kan werpen op het gebruik ervan.",
+            "user": "Je bent in staat om digitale middelen op een veelzijdige en relevante manier in je beroepsactiviteiten in te zetten. Je beschikt over diepgaande kennis, waardoor je een kritische en weloverwogen blik kan werpen op het gebruik ervan."
+          },
+          "label": "Gevorderd",
+          "summary": {
+            "shareable": "De kandidaat heeft het niveau ‘Gevorderd’ behaald.",
+            "user": "Je hebt het niveau ‘Gevorderd’ behaald."
+          }
+        },
+        "LEVEL_EXPERT": {
+          "description": {
+            "shareable": "De kandidaat is in staat om in zijn/haar beroepspraktijk op een kritische, doelgerichte en originele manier gebruik te maken van digitale middelen, afgestemd op de context en de behoeften. Hij/zij kan zijn/haar expertise inzetten om collega’s te begeleiden, te inspireren en te ondersteunen bij de ontwikkeling van hun digitale vaardigheden op het werk.",
+            "user": "Je bent in staat om in je beroepspraktijk op een kritische, doelgerichte en originele manier gebruik te maken van digitale middelen, afgestemd op de context en de behoeften. Je kunt je expertise inzetten om collega’s te begeleiden, te inspireren en te ondersteunen bij de ontwikkeling van hun digitale vaardigheden op het werk."
+          },
+          "label": "Deskundige",
+          "summary": {
+            "shareable": "De kandidaat heeft het niveau ‘Deskundige’ behaald.",
+            "user": "Je hebt het niveau ‘Deskundige’ behaald."
+          }
+        }
+      },
+      "PRO_SANTE": {
+        "LEVEL_ADVANCED": {
+          "description": {
+            "shareable": "Dankzij zijn kennis van digitale technologieën in de gezondheidszorg kan hij afwijkingen in een patiëntendossier snel opsporen. De kandidaat is zich bewust van de risico’s, kan bedreigingen herkennen en weet hoe hij/zij zich moet gedragen bij verdachte IT-apparatuur.\nBovendien communiceert hij/zij op een veilige manier: hij/zij is in staat om beveiligde berichten uit te wisselen via MSSanté, met patiënten te communiceren via de berichtenfunctie van Mon Espace Santé en hen tegelijkertijd het nut daarvan uit te leggen, en telegezondheidsdiensten volledig conform de voorschriften in te stellen.",
+            "user": "Dankzij je kennis van digitale technologieën in de gezondheidszorg kun je afwijkingen in een patiëntendossier snel opsporen. Je bent je bewust van de risico’s, kan bedreigingen herkennen en weet hoe je je moet gedragen bij verdachte IT-apparatuur.\nBovendien communiceer je op een veilige manier: je bent in staat om beveiligde berichten uit te wisselen via MSSanté, met patiënten te communiceren via de berichtenfunctie van Mon Espace Santé en hen tegelijkertijd het nut daarvan uit te leggen, en telegezondheidsdiensten volledig conform de voorschriften in te stellen."
+          },
+          "label": "Gevorderd",
+          "summary": {
+            "shareable": "De kandidaat heeft het niveau ‘Gevorderd’ behaald.",
+            "user": "Je hebt het niveau ‘Gevorderd’ behaald."
+          }
+        },
+        "LEVEL_CONFIRMED": {
+          "description": {
+            "shareable": "Dankzij zijn expertise op het gebied van digitale gezondheidszorg kan hij de procedures voor identiteitsbewaking in elke fase van het zorgtraject toepassen, met inachtneming van de regelgeving inzake de verwerking van gezondheidsgegevens. Hij/zij past ook dagelijks de beste praktijken op het gebied van cyberbeveiliging toe om zijn/haar professionele IT-apparatuur te beschermen.\nBovendien is de kandidaat in staat om het gedeelde medisch dossier van patiënten bij te werken en onderscheid te maken tussen verschillende vormen van telegezondheidszorg (teleconsultatie, tele-expertise, enz.).",
+            "user": "Dankzij je expertise op het gebied van digitale gezondheidszorg kun je de procedures voor identiteitsbewaking in elke fase van het zorgtraject toepassen, met inachtneming van de regelgeving inzake de verwerking van gezondheidsgegevens. Je past ook dagelijks de beste praktijken op het gebied van cyberbeveiliging toe om je professionele IT-apparatuur te beschermen.\nBovendien ben je in staat om het gedeelde medisch dossier van patiënten bij te werken en onderscheid te maken tussen verschillende vormen van telegezondheidszorg (teleconsultatie, tele-expertise, enz.)."
+          },
+          "label": "Ervaren",
+          "summary": {
+            "shareable": "De kandidaat heeft het niveau ‘Ervaren’ behaald.",
+            "user": "Je hebt het niveau ‘Ervaren’ behaald."
+          }
+        },
+        "LEVEL_EXPERT": {
+          "description": {
+            "shareable": "Dankzij zijn kennis van digitale technologieën in de gezondheidszorg kan hij afwijkingen in een patiëntendossier snel opsporen. De kandidaat is zich bewust van de risico’s, kan bedreigingen herkennen en weet hoe hij/zij zich moet gedragen bij verdachte IT-apparatuur.\nBovendien communiceert hij/zij op een veilige manier: hij/zij is in staat om beveiligde berichten uit te wisselen via MSSanté, met patiënten te communiceren via de berichtenfunctie van Mon Espace Santé en hen tegelijkertijd het nut daarvan uit te leggen, en telegezondheidsdiensten volledig conform de voorschriften in te stellen.",
+            "user": "Dankzij je expertise op het gebied van digitale gezondheidszorg kun je je professionele omgeving sensibiliseren over identiteitsbewaking en de regelgeving inzake de verwerking van gezondheidsgegevens. Je weet hoe je moet reageren bij een cyberaanval en begrijpt het belang van het beheer van toegangsrechten binnen een zorgteam.\nIn je dagelijkse werkpraktijk is het gebruik van professionele digitale hulpmiddelen een tweede natuur geworden, waardoor je patiënten optimaal kunt begeleiden bij het beheer van hun rechten. Als je op de hoogte bent van de financiële kaders en vergoedingsregels voor telegezondheidsbehandelingen, kun je deze behandelingen volledig zelfstandig uitvoeren.\n"
+          },
+          "label": "Deskundige",
+          "summary": {
+            "shareable": "De kandidaat heeft het niveau ‘Deskundige’ behaald.",
+            "user": "Je hebt het niveau ‘Deskundige’ behaald."
+          }
+        },
+        "LEVEL_INDEPENDENT": {
+          "description": {
+            "shareable": "Dankzij zijn kennis van digitale technologieën in de gezondheidszorg begrijpt hij de uitdagingen van identiteitsbewaking en de regelgeving inzake gegevensbescherming. De kandidaat houdt ook rekening met de gevolgen die een cyberaanval kan hebben voor een zorginstelling. \nHij/zij kan ook goed overweg met de digitale hulpmiddelen die ter beschikking staan van zorgverleners en particulieren, begrijpt de concepten van de professionele digitale identiteit en is bekend met de verschillende vormen van telezorg.",
+            "user": "Dankzij je kennis van digitale technologieën in de gezondheidszorg begrijp je de uitdagingen van identiteitsbewaking en de regelgeving inzake gegevensbescherming. Je houdt ook rekening met de gevolgen die een cyberaanval kan hebben voor een zorginstelling. \nJe kunt ook goed overweg met de digitale hulpmiddelen die ter beschikking staan van zorgverleners en particulieren, begrijpt de concepten van de professionele digitale identiteit en bent bekend met de verschillende vormen van telezorg."
+          },
+          "label": "Zelfstandig",
+          "summary": {
+            "shareable": "De kandidaat heeft het niveau ‘Zelfstandig’ behaald.",
+            "user": "Je hebt het niveau ‘Zelfstandig’ behaald."
+          }
         }
       }
     }
   },
   "certification-center-invitation-email": {
     "params": {
-      "acceptInvitation": "Uitnodiging accepteren",
-      "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
+      "acceptInvitation": "De uitnodiging aannemen",
+      "doNotAnswer": "Dit is een automatisch gegenereerde e-mail; gelieve hier niet op te reageren.",
       "here": "hier",
-      "moreAbout": "Ontdek meer over",
-      "needHelp": "Hulp nodig? Neem contact met ons op",
-      "oneTimeLink": "Deze link is voor eenmalig gebruik",
-      "pixCertifPresentation": "De Pix Certif-ruimte is een hulpmiddel voor het organiseren van certificeringssessies.",
-      "title": "Uitnodiging om deel te nemen aan de ruimte",
-      "yourCertificationCenter": "Uw certificeringscentrum"
+      "moreAbout": "Meer weten",
+      "needHelp": "Hulp nodig, neem contact met ons op",
+      "oneTimeLink": "Deze link kan slechts één keer worden gebruikt",
+      "pixCertifPresentation": "De Pix Certif-omgeving is een hulpmiddel dat speciaal is bedoeld voor het organiseren van certificeringssessies.",
+      "title": "Uitnodiging om mee te doen aan de omgeving",
+      "yourCertificationCenter": "Je certificeringscentrum"
     },
-    "subject": "Uitnodiging voor Pix Certif"
+    "subject": "Uitnodiging om mee te doen aan Pix certif"
   },
   "certification-result-email": {
     "params": {
-      "doNotReply": "Dit is een automatische e-mail, antwoord niet.",
-      "download": "Download de resultaten",
-      "emailValidFor": "Deze link is 30 dagen geldig.",
-      "findOutMore": "Ontdek meer over",
-      "findOutMoreFranceSuffix": "(Frankrijk) of",
-      "findOutMoreInternationalSuffix": "(Internationale)",
-      "guidelines": "De door het certificeringscentrum gerapporteerde waarschuwingen zijn - waar van toepassing - in aanmerking genomen door de Pix-jury. Informatie over de interpretatie van deze resultaten vind je hier.",
-      "guidelinesLinkName": "Interpretatie van voorschrijfresultaten",
-      "overviewText": "Hallo, hier zijn de resultaten van de certificeringen die je aan je publiek hebt voorgeschreven",
-      "resultsAvailable": "De resultaten van de Pix-certificaten die je hebt voorgeschreven aan je doelgroepen zijn beschikbaar.",
+      "doNotReply": "Dit is een automatisch gegenereerde e-mail; gelieve hier niet op te reageren.",
+      "download": "De resultaten downloaden",
+      "emailValidFor": "Deze link is dertig dagen geldig.",
+      "findOutMore": "Meer weten ",
+      "findOutMoreFranceSuffix": " (Frankrijk) of ",
+      "findOutMoreInternationalSuffix": " (Internationaal)",
+      "guidelines": "De door het certificeringscentrum gemelde meldingen zijn – waar van toepassing – inderdaad in aanmerking genomen in het kader van de Pix-jury. Hier vindt je aanwijzingen voor het interpreteren van deze resultaten.",
+      "guidelinesLinkName": "Interpretatie van de resultaten voorschrijver",
+      "overviewText": "Hallo, hier zijn de resultaten van de certificeringen die je voor je doelgroepen hebt voorgeschreven",
+      "resultsAvailable": "De resultaten van de certificeringen die je voor je doelgroepen hebt voorgeschreven",
       "subject": "[Pix] Certificeringssessie",
-      "viewResultsInProfile": "Kandidaten kunnen hun resultaten bekijken in hun Pix-profiel."
+      "viewResultsInProfile": "Kandidaten kunnen hun resultaat bekijken via hun Pix-profiel."
     },
-    "title": "Raadpleeg de resultaten van certificeringssessie nr. {sessionId} !"
+    "title": "De resultaten van de certificeringssessie nr. {sessionId} bekijken!"
   },
   "certification-results-csv": {
     "filenames": {
-      "DIVISION_CERTIFICATION_RESULTS_FILENAME": "{datummettijd}_resultaten_{afdeling}.csv",
-      "SESSION_CERTIFICATION_RESULTS_FILENAME": "{dateWithTime}_results_session_{sessionId}.csv"
+      "DIVISION_CERTIFICATION_RESULTS_FILENAME": "{dateWithTime}_resultaten_{division}.csv",
+      "SESSION_CERTIFICATION_RESULTS_FILENAME": "{dateWithTime}_resultaten_sessie_{sessionId}.csv"
     },
     "headers": {
       "BIRTHDATE": "Geboortedatum",
       "BIRTHPLACE": "Geboorteplaats",
       "CERTIFICATION_CENTER": "Certificeringscentrum",
-      "CERTIFICATION_DATE": "Datum van certificering",
+      "CERTIFICATION_DATE": "Datum afleggen certificeringssessie",
       "CERTIFICATION_LABEL": "Certificering {label}",
       "CERTIFICATION_NUMBER": "Certificeringsnummer",
-      "EXTERNAL_ID": "Externe identificator",
+      "EXTERNAL_ID": "De externe gebruikersnaam",
       "FIRSTNAME": "Voornaam",
-      "JURY_COMMENT_FOR_ORGANIZATION": "Commentaar van de jury op de organisatie",
+      "JURY_COMMENT_FOR_ORGANIZATION": "Commentaar van de jury voor de organisatie",
       "LASTNAME": "Naam",
       "REACHED_LEVEL": "Niveau",
-      "REGISTRATION_STATUS": "Registratiestatus",
-      "SCORE": "Pix-score",
+      "REGISTRATION_STATUS": "Status bij beschrijving",
+      "SCORE": "Score in Pix",
       "SESSION_ID": "Sessie",
       "SKILL_LABEL": "{skillIndex}",
-      "STATUS": "Status"
+      "STATUS": "Status",
+      "TYPE": "Type certificering"
     },
     "values": {
       "CERTIFICATION_CANCELLED": "Geannuleerd",
       "CERTIFICATION_IN_ERROR": "Fout",
-      "CERTIFICATION_REJECTED": "Afgewezen",
-      "CERTIFICATION_STARTED": "Begonnen met",
-      "CERTIFICATION_VALIDATED": "Gevalideerd",
+      "CERTIFICATION_REJECTED": "Niet behaald",
+      "CERTIFICATION_STARTED": "Gestart",
+      "CERTIFICATION_VALIDATED": "Goedgekeurd",
       "COMPLEMENTARY_CERTIFICATION_CANCELLED": "Geannuleerd",
       "COMPLEMENTARY_CERTIFICATION_IN_ERROR": "Fout",
-      "COMPLEMENTARY_CERTIFICATION_NOT_DONE": "Niet aangenomen",
-      "COMPLEMENTARY_CERTIFICATION_REJECTED": "Afgewezen",
-      "COMPLEMENTARY_CERTIFICATION_VALIDATED": "Gevalideerd",
-      "REJECTED_AUTOMATICALLY_COMMENT": "De kandidaat beantwoordde meer dan 50% van de vragen fout, waardoor zijn hele certificering ongeldig werd en hij een score van 0 pix kreeg.",
+      "COMPLEMENTARY_CERTIFICATION_NOT_DONE": "Niet afgelegd",
+      "COMPLEMENTARY_CERTIFICATION_REJECTED": "Niet behaald",
+      "COMPLEMENTARY_CERTIFICATION_VALIDATED": "Goedgekeurd",
+      "REJECTED_AUTOMATICALLY_COMMENT": "De kandidaat heeft meer dan 50% van de gestelde vragen fout beantwoord, waardoor zijn hele certificering ongeldig werd verklaard en hij dus een score van 0 pix behaalde",
       "meshLevels": {
         "CLEA": {
-          "0": "-",
+          "0": ".",
           "1": "Beginner 1",
           "2": "Beginner 2",
-          "3": "Onafhankelijk 1",
-          "4": "Onafhankelijk 2",
+          "3": "Zelfstandig 1",
+          "4": "Zelfstandig 2",
           "5": "Gevorderd 1",
           "6": "Gevorderd 2",
-          "7": "Expert 1",
-          "8": "Expert 2"
+          "7": "Deskundige 1",
+          "8": "Deskundige 2",
+          "BELOW_MINIMUM": "."
         },
         "CORE": {
-          "0": "-",
+          "0": ".",
           "1": "Beginner 1",
           "2": "Beginner 2",
-          "3": "Onafhankelijk 1",
-          "4": "Onafhankelijk 2",
+          "3": "Zelfstandig 1",
+          "4": "Zelfstandig 2",
           "5": "Gevorderd 1",
           "6": "Gevorderd 2",
-          "7": "Expert 1",
-          "8": "Expert 2"
+          "7": "Deskundige 1",
+          "8": "Deskundige 2",
+          "BELOW_MINIMUM": "."
         },
         "DROIT": {
-          "0": "Onafhankelijk",
-          "1": "Bevestigd",
+          "0": "Zelfstandig",
+          "1": "Ervaren",
           "2": "Gevorderd",
-          "3": "Expert",
-          "BELOW_MINIMUM": "-"
+          "3": "Deskundige",
+          "BELOW_MINIMUM": "."
         },
         "EDU_1ER_DEGRE": {
-          "0": "Toelaatbaar"
+          "0": "Toelaatbaar",
+          "BELOW_MINIMUM": "Niet-toelaatbaar"
         },
         "EDU_2ND_DEGRE": {
-          "0": "Toelaatbaar"
+          "0": "Toelaatbaar",
+          "BELOW_MINIMUM": "Niet-toelaatbaar"
         },
         "EDU_CPE": {
-          "0": "Toelaatbaar"
+          "0": "Toelaatbaar",
+          "BELOW_MINIMUM": "Niet-toelaatbaar"
         },
         "PRO_SANTE": {
-          "0": "Onafhankelijk",
-          "1": "Bevestigd",
+          "0": "Zelfstandig",
+          "1": "Ervaren",
           "2": "Gevorderd",
-          "3": "Expert",
-          "BELOW_MINIMUM": "-"
+          "3": "Deskundige",
+          "BELOW_MINIMUM": "."
         }
       }
     }
@@ -396,58 +957,58 @@
   "common": {
     "email": {
       "contactUs": "neem hier contact met ons op",
-      "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
-      "moreOn": "Ontdek meer over",
-      "pixPresentation": "Pix is de openbare online service voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden."
+      "doNotAnswer": "Dit is een automatisch gegenereerde e-mail; gelieve hier niet op te reageren.",
+      "moreOn": "Meer weten",
+      "pixPresentation": "Pix is de openbare online dienst voor het beoordelen, ontwikkelen en certificeren van je digitale competenties."
     }
   },
   "csv-import-values": {
     "sup-organization-learner": {
       "diplomas": {
         "bts": "BTS onder staatscontrole",
-        "classe-preparatoire": "Door de staat gecontroleerde voorbereidende klas",
-        "dcg ": "Door de staat gecontroleerde DCG",
+        "classe-preparatoire": "Voorbereidende opleiding onder staatscontrole",
+        "dcg ": "DCG onder staatscontrole",
         "deust": "DEUST onder staatscontrole",
-        "dma ": "Staatsgestuurde DMA",
-        "dnmade": "Door de staat gecontroleerd DNMADE",
-        "doctorat": "Door de staat gecontroleerd nationaal doctoraatsdiploma",
-        "dts": "Staatsgestuurde SDR",
-        "dut": "Staatsgestuurde DUT",
-        "etat-controle": "Staatsdiploma",
-        "ingenieur": "Staatsgecontroleerd ingenieursdiploma",
-        "license": "Staatsgecontroleerd nationaal bachelordiploma",
-        "license-grade": "Door de staat gecontroleerde graad die de graad van licentie verleent",
-        "master": "Door de staat gecontroleerd nationaal masterdiploma",
-        "master-grade": "Door de staat gecontroleerde master",
-        "other": "Andere",
-        "vise": "Staatsdiploma"
+        "dma ": "DMA onder staatscontrole",
+        "dnmade": "DNMADE onder staatscontrole",
+        "doctorat": "Nationaal doctoraatsdiploma onder staatscontrole",
+        "dts": "DTS onder staatscontrole",
+        "dut": "DUT onder staatscontrole",
+        "etat-controle": "Door de staat gecontroleerd diploma",
+        "ingenieur": "Ingenieursdiploma onder staatscontrole",
+        "license": "Nationaal diploma bachelor onder staatscontrole",
+        "license-grade": "Diploma op bachelor niveau onder staatscontrole",
+        "master": "Nationaal diploma master onder staatscontrole",
+        "master-grade": "Diploma op master niveau onder staatscontrole",
+        "other": "Overig",
+        "vise": "Gericht diploma onder staatscontrole"
       },
       "study-schemes": {
-        "continuous-training": "Voortgezette opleiding",
-        "initial-training": "Initiële opleiding exclusief stages",
-        "other": "Andere",
+        "continuous-training": "Levenslang leren",
+        "initial-training": "Basisopleiding (exclusief leerlingwezen)",
+        "other": "Overig",
         "training": "Leren"
       },
-      "unknown": "Niet erkend"
+      "unknown": "Niet-erkend"
     }
   },
   "csv-template": {
     "fregata-organization-learners": {
-      "birth-city": "Naam van geboortegemeente** (in het Frans)",
-      "birth-city-code": "Geboorteplaatscode** (gemeente)",
-      "birth-country-code": "Code geboorteland",
-      "birth-province-code": "Geboorte afdeling code",
-      "birthdate": "Geboortedatum (dd/mm/jjjj)* (indien van toepassing)",
-      "division": "Divisie",
-      "first-name": "Voornaam",
-      "last-name": "Achternaam* (familienaam)",
-      "mef-code": "MEF* code",
-      "middle-name": "Middelste naam",
-      "national-identifier": "Unieke identificator",
-      "preferred-last-name": "Naam in gebruik",
-      "sex": "Geslachtscode",
-      "status": "Status",
-      "third-name": "Derde naam"
+      "birth-city": "Benaming geboorteplaats**",
+      "birth-city-code": "Benaming geboorteplaats**",
+      "birth-country-code": "Code geboorteland*",
+      "birth-province-code": "Code geboorteland*",
+      "birthdate": "Geboortedatum (dd/mm/jjjj)*",
+      "division": "Divisie*",
+      "first-name": "Eerste voornaam",
+      "last-name": "Achternaam",
+      "mef-code": "MEF-code*",
+      "middle-name": "Tweede voornaam",
+      "national-identifier": "Unieke gebruikersnaam*",
+      "preferred-last-name": "Roepnaam",
+      "sex": "Geslachtcode*",
+      "status": "Status*",
+      "third-name": "Derde voornaam"
     },
     "sup-organization-learners": {
       "birthdate": "Geboortedatum (dd/mm/jjjj)",
@@ -455,157 +1016,171 @@
       "diploma": "Diploma",
       "educational-team": "Onderwijsteam",
       "email": "E-mail",
-      "first-name": "Voornaam",
+      "first-name": "Eerste Voornaam",
       "group": "Groep",
       "last-name": "Achternaam",
-      "middle-name": "Middelste naam",
-      "preferred-last-name": "Naam in gebruik",
+      "middle-name": "Tweede voornaam",
+      "preferred-last-name": "Roepnaam",
       "student-number": "Studentennummer",
-      "study-scheme": "Dieet",
-      "third-name": "Derde naam"
+      "study-scheme": "Regime",
+      "third-name": "Derde voornaam"
     },
     "template-name": "importmodel"
   },
   "email-sender-name": {
     "pix-app": "PIX - Niet beantwoorden",
-    "pix-certif": "Pix Certif - Niet reageren",
-    "pix-orga": "Pix Orga - Niet reageren"
+    "pix-certif": "PIX Certif - Niet beantwoorden",
+    "pix-orga": "PIX Orga - Niet beantwoorden"
   },
   "entity-validation-errors": {
-    "ACCEPT_CGU": "Je moet de gebruiksvoorwaarden van Pix accepteren om een account aan te maken.",
-    "ALREADY_REGISTERED_EMAIL": "Dit e-mailadres is al geregistreerd, log in.",
-    "CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED": "Er wordt een URL voor de knop ingevoerd: er is ook een tekst nodig.",
-    "CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED": "Een tekst voor de knop wordt ingevoerd: een URL is ook vereist.",
+    "ACCEPT_CGU": "Je moet akkoord gaan met de gebruiksvoorwaarden en het privacybeleid van Pix om een account aan te kunnen maken.",
+    "ALREADY_REGISTERED_EMAIL": "Dit E-mailadres is al geregistreerd, je kunt inloggen.",
+    "CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED": "Er is een URL voor de knop ingevoerd: er moet ook tekst worden ingevoerd.",
+    "CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED": "Er is een tekst voor de knop ingevoerd: er moet ook een URL worden ingevoerd.",
     "CUSTOM_RESULT_PAGE_BUTTON_URL_MUST_BE_A_URL": "De URL van de knop moet een volledige en geldige URL zijn.",
-    "EMPTY_EMAIL": "Uw e-mailadres is niet ingevuld.",
+    "EMPTY_EMAIL": "Je e-mailadres is niet ingevuld.",
     "EMPTY_FIRST_NAME": "Je voornaam is niet ingevuld.",
     "EMPTY_INPUT": "Er zijn geen velden ingevuld.",
     "EMPTY_LAST_NAME": "Je naam is niet ingevuld.",
-    "EMPTY_USERNAME": "Uw login is niet ingevuld.",
-    "FILL_USERNAME_OR_EMAIL": "Je moet een e-mailadres en/of een gebruikersnaam invoeren.",
+    "EMPTY_USERNAME": "Je gebruikersnaam is niet ingevuld.",
+    "FILL_USERNAME_OR_EMAIL": "Je moet een e-mailadres en/of een gebruikersnaam invullen.",
     "MAX_SIZE_EMAIL": "Je e-mailadres mag niet langer zijn dan 255 tekens.",
     "MAX_SIZE_FIRST_NAME": "Je voornaam mag niet langer zijn dan 255 tekens.",
     "MAX_SIZE_LAST_NAME": "Je naam mag niet langer zijn dan 255 tekens.",
     "STAGE_TARGET_PROFILE_IS_REQUIRED": "Het doelprofiel is verplicht",
-    "STAGE_THRESHOLD_IS_REQUIRED": "De landingsdrempel is verplicht",
-    "STAGE_TITLE_IS_REQUIRED": "De titel van het niveau is verplicht",
-    "WRONG_EMAIL_FORMAT": "De indeling van het e-mailadres is onjuist."
+    "STAGE_THRESHOLD_IS_REQUIRED": "De drempelwaarde is verplicht",
+    "STAGE_TITLE_IS_REQUIRED": "De drempelwaarde is verplicht",
+    "WRONG_EMAIL_FORMAT": "Het formaat van het e-mailadres is onjuist."
   },
   "jury": {
     "comment": {
+      "CANCELLED_BY_JURY": {
+        "candidate": "Een of meer technische problemen, die tijdens de certificeringssessie aan de toezichthouder zijn gemeld, hebben de kwaliteit van de certificeringstest beïnvloed. De certificering is geannuleerd; de persoon die de certificering heeft afgegeven (indien van toepassing) wordt hiervan op de hoogte gesteld.",
+        "organization": "Een of meer technische problemen, die tijdens de certificeringssessie aan de toezichthouder zijn gemeld, hebben de kwaliteit van de certificeringstest beïnvloed. Wij kunnen hem/haar niet certificeren, waardoor zijn/haar certificering wordt geannuleerd. Houd rekening met deze informatie; dit kan ertoe leiden dat je een nieuwe certificeringssessie voor deze kandidaat voorstelt."
+      },
       "CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON": {
-        "candidate": "Een of meer technische problemen die tijdens de certificeringssessie aan uw surveillant zijn gemeld, hebben de kwaliteit van de certificeringstest beïnvloed. Helaas zijn we door het grote aantal vragen dat u niet goed kon beantwoorden niet in staat om een betrouwbare score te berekenen en een certificaat uit te reiken. De certificering wordt geannuleerd en de voorschrijver van uw certificering (indien van toepassing) wordt hiervan op de hoogte gesteld.",
-        "organization": "Een of meer technische problemen, gemeld door deze kandidaat aan de toezichthouder van de certificeringssessie, hebben het vlotte verloop van de certificeringstest beïnvloed. We kunnen de kandidaat niet certificeren en zijn/haar certificering is daarom geannuleerd. Deze informatie moet in aanmerking worden genomen en kan ertoe leiden dat u een nieuwe certificeringssessie voor deze kandidaat voorstelt."
+        "candidate": "Een of meer technische problemen, die tijdens de certificeringssessie aan de toezichthouder zijn gemeld, hebben de kwaliteit van de certificeringstest beïnvloed. Omdat je te veel vragen niet onder de juiste omstandigheden hebt kunnen beantwoorden, kunnen we helaas geen betrouwbare score berekenen en geen certificaat verstrekken. De certificering is geannuleerd; de persoon die de certificering heeft afgegeven (indien van toepassing) wordt hiervan op de hoogte gesteld.",
+        "organization": "Een of meer technische problemen, die tijdens de certificeringssessie aan de toezichthouder zijn gemeld, hebben de kwaliteit van de certificeringstest beïnvloed. Wij kunnen hem/haar niet certificeren, waardoor zijn/haar certificering wordt geannuleerd. Houd rekening met deze informatie; dit kan ertoe leiden dat je een nieuwe certificeringssessie voor deze kandidaat voorstelt."
       },
       "CANCELLED_DUE_TO_NEUTRALIZATION": {
-        "candidate": "Ten minste één technisch probleem, gemeld aan je surveillant tijdens de certificeringssessie, heeft de kwaliteit van het certificeringsexamen beïnvloed. Vanwege het aantal vragen dat u niet heeft kunnen beantwoorden, kunnen we geen certificering afgeven. Het is geannuleerd, de specificeerder van uw certificeringsexamen (indien van toepassing) is op de hoogte gesteld.",
-        "organization": "Ten minste één technisch probleem heeft de kwaliteit van het certificeringsexamen beïnvloed. We zijn niet in staat om een certificering af te leveren. Het is dus geannuleerd. Deze informatie kan ertoe leiden dat u een andere certificeringssessie voor deze kandidaat voorstelt."
+        "candidate": "Een of meer technische problemen, die tijdens de certificeringssessie aan de toezichthouder zijn gemeld, hebben de kwaliteit van de certificeringstest beïnvloed. Omdat je te veel vragen niet hebt kunnen beantwoorden, kunnen we helaas geen betrouwbare score berekenen en geen certificaat verstrekken. De certificering is geannuleerd; de persoon die de certificering heeft afgegeven (indien van toepassing) wordt hiervan op de hoogte gesteld.",
+        "organization": "Een of meer technische problemen hebben de kwaliteit van de certificeringstest beïnvloed. Wij kunnen het certificaat niet afgeven; het wordt daarom geannuleerd. Houd rekening met deze informatie; dit kan ertoe leiden dat je een nieuwe certificeringssessie voor deze kandidaat voorstelt."
       },
       "FRAUD": {
-        "candidate": "De Pix-certificeringsexamenvoorwaarden zijn niet nageleefd. Je certificeringsexamen is gerapporteerd wegens fraude en daardoor ongeldig verklaard.",
-        "organization": "Er is fraude ontdekt: na analyse hebben we besloten om dit certificeringsexamen af te wijzen."
+        "candidate": "Aangezien niet aan de voorwaarden voor het afleggen van de certificeringstest is voldaan en er een melding van fraude is gedaan, is je certificering bijgevolg ongeldig verklaard.",
+        "organization": "Er is een geval van fraude vastgesteld: na analyse hebben we besloten de certificering af te wijzen."
       },
       "LOWER_LEVEL_COMPLEMENTARY_CERTIFICATION_ACQUIRED": {
-        "candidate": "Gefeliciteerd, met je score heb je je aanvullende certificering goedgekeurd! Het behaalde niveau is het niveau dat lager is dan waarvoor je in aanmerking kwam.",
-        "organization": "De score van de kandidaat was niet voldoende om zijn aanvullende certificering te valideren op het niveau waarvoor hij in aanmerking kwam. Toch heeft hij het direct lagere niveau van deze aanvullende certificering gevalideerd. Het is dus gecertificeerd."
+        "candidate": "Gefeliciteerd, met deze score heb je je aanvullende certificering behaald! Het behaalde niveau komt overeen met het niveau dat één niveau lager ligt dan het niveau waarvoor je in aanmerking kwam.",
+        "organization": "De score van de kandidaat was niet hoog genoeg om zijn aanvullende certificering op het niveau waarvoor hij in aanmerking kwam, te behalen. Toch is dit voldoende voor het direct daaronder liggende niveau van deze aanvullende certificering. De score is dus gecertificeerd."
       },
       "REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS": {
-        "candidate": "Je hebt meer dan 50% van de vragen fout beantwoord, waardoor je hele certificering ongeldig wordt en je een score van 0 pix krijgt.",
-        "organization": "De kandidaat beantwoordde meer dan 50% van de vragen fout, waardoor zijn hele certificering ongeldig werd en hij een score van 0 pix kreeg."
+        "candidate": "Je hebt meer dan 50% van de gestelde vragen fout beantwoord, waardoor je hele certificering ongeldig werd verklaard en er dus een score van 0 pix is behaald.",
+        "organization": "De kandidaat heeft meer dan 50% van de gestelde vragen fout beantwoord, waardoor zijn hele certificering ongeldig werd verklaard en hij dus een score van 0 pix behaalde"
       },
       "REJECTED_DUE_TO_LACK_OF_ANSWERS": {
-        "candidate": "Het aantal beantwoorde vragen tijdens je certificeringstoets is onvoldoende en staat ons niet toe om je een certificering te geven.",
-        "organization": "Het aantal vragen dat de kandidaat tijdens zijn certificeringstest beantwoordt, is onvoldoende en stelt ons niet in staat om hem of haar een certificering te geven."
+        "candidate": "Het aantal beantwoorde vragen tijdens je certificeringstest is onvoldoende, waardoor wij geen certificaat kunnen verstrekken.",
+        "organization": "Het aantal beantwoorde vragen tijdens de certificeringstest van de kandidaat is onvoldoende, waardoor wij geen certificaat kunnen verstrekken."
+      },
+      "REJECTED_DUE_TO_ZERO_PIX_SCORE": {
+        "candidate": "Op basis van de behaalde resultaten kan de Pix-certificering nog niet worden afgegeven. Je moet vooruitgang boeken om je meer op je gemak te voelen in een digitale omgeving en je vaardigheden beter te kunnen benutten.",
+        "organization": "Op basis van de behaalde resultaten van de kandidaat kan de Pix-certificering nog niet worden afgegeven. Hij/zij moet vooruitgang boeken om zcih meer op zijn/haar gemak te voelen in een digitale omgeving en zijn/haar vaardigheden beter te kunnen benutten."
       },
       "REJECTED_EDU_NOT_ELIGIBLE": {
-        "candidate": "Je resultaten maken je niet in aanmerking komend voor de Pix+ Édu-certificering. Je kunt op Pix verdere vooruitgang boeken en het opnieuw proberen tijdens een volgende sessie.",
-        "organization": "De kandidaat komt niet in aanmerking voor de Pix+ Édu-certificering."
+        "candidate": "De behaalde resultaten zijn onvoldoende voor overgang naar luik 2 beroepspraktijk van de Pix+ Edu-certificering. Je moet je kennis (op het gebied van digitaal onderwijs) verdiepen om je professionele vaardigheden beter tot hun recht te laten komen.",
+        "organization": "De kandidaat kan niet doorgaan naar luik 2 beroepspraktijk van de Pix+ Edu-certificering."
       },
       "REJECTED_PIX_PLUS_NOT_OBTAINED": {
-        "candidate": "De behaalde resultaten laten de validatie van uw certificering niet toe. U moet uw kennis consolideren om deze competenties te valoriseren.",
-        "organization": "De behaalde resultaten laten de validatie van de Pix+-certificering niet toe. De kandidaat moet zijn kennis consolideren om deze competenties te valoriseren."
+        "candidate": "Op basis van de behaalde resultaten kan de Pix-certificering niet worden afgegeven. Je moet je kennis verdiepen om je professionele vaardigheden beter tot hun recht te laten komen.",
+        "organization": "Op basis van de behaalde resultaten kan de Pix+ -certificering niet worden afgegeven. De kanidaat moet zijn/haar je kennis verdiepen om zijn/haar professionele vaardigheden beter tot hun recht te laten komen."
       }
+    }
+  },
+  "jury-certification-summary": {
+    "comment": {
+      "CORE": "Pix-certificering",
+      "DOUBLE_CORE_CLEA": "Dubbele Pix-certificering/Digitale CléA"
     }
   },
   "organization-invitation-email": {
     "params": {
-      "acceptInvitation": "Uitnodiging accepteren",
-      "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
-      "here": "Neem contact met ons op hier.",
-      "moreAbout": "Ontdek meer over",
-      "needHelp": "Hulp nodig?",
-      "oneTimeLink": "Deze link is voor eenmalig gebruik",
-      "pixPresentation": "Pix is de openbare online service voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
-      "subtitle": "Met het Pix Orga-platform kun je testcampagnes aanmaken en beheren, en de voortgang van je deelnemers volgen.",
-      "title": "Je bent uitgenodigd om lid te worden van Pix Orga",
-      "yourOrganization": "Uw organisatie"
+      "acceptInvitation": "De uitnodiging aannemen",
+      "doNotAnswer": "Dit is een automatisch gegenereerde e-mail; gelieve hier niet op te reageren.",
+      "here": "hier",
+      "moreAbout": "Meer weten",
+      "needHelp": "Hulp nodig, neem contact met ons op",
+      "oneTimeLink": "Deze link kan slechts één keer worden gebruikt",
+      "pixPresentation": "Pix is de openbare online dienst voor het beoordelen, ontwikkelen en certificeren van je digitale competenties.",
+      "subtitle": "Met het Pix Orga-platform kun je testcampagnes opzetten en beheren en de voortgang van deelnemers volgen.",
+      "title": "Je wordt uitgenodigd om lid te worden van Pix Orga",
+      "yourOrganization": "Jouw organisatie"
     },
-    "subject": "Uitnodiging om lid te worden van Pix Orga"
+    "subject": "Uitnodiging om mee te doen aan Pix Orga"
   },
   "pix-account-creation-email": {
     "params": {
-      "askForHelp": "Hulp nodig? Neem contact met ons op",
-      "disclaimer": "Als je de account niet hebt aangemaakt, kun je vragen om deze te verwijderen.",
-      "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
-      "goToPix": "Mijn e-mailadres bevestigen",
+      "askForHelp": "Hulp nodig, neem contact met ons op",
+      "disclaimer": "Als je dit account niet zelf hebt aangemaakt, kun je verzoeken om verwijdering daarvan.",
+      "doNotAnswer": "Dit is een automatisch gegenereerde e-mail; gelieve hier niet op te reageren.",
+      "goToPix": "Ik controleer mijn emailadres",
       "helpdeskLinkLabel": "hier",
-      "moreOn": "Ontdek meer over",
-      "pixPresentation": "Pix is de online overheidsdienst voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
-      "subtitle": "Bedankt dat je een account hebt aangemaakt! Er is nog één stap nodig om je account te beveiligen: bevestig je e-mailadres.",
-      "subtitleDescription": "Klik op de knop hieronder om je e-mailadres te valideren en toegang te krijgen tot je Pix-account.",
+      "moreOn": "Meer weten",
+      "pixPresentation": "Pix is de openbare online dienst voor het beoordelen, ontwikkelen en certificeren van je digitale competenties.",
+      "subtitle": "Bedankt voor het aanmaken van je account. Er is nog één stap nodig om je account te beveiligen: het verifiëren van je e-mailadres.",
+      "subtitleDescription": "Het is heel eenvoudig: je hoeft alleen maar op de onderstaande knop te klikken en in te loggen op je Pix-account.",
       "title": "Hallo {firstName},"
     },
     "subject": "Je Pix-account is aangemaakt"
   },
   "reset-password-demand-email": {
     "params": {
-      "clickOnTheButton": "Klik op de knop hieronder om een nieuw wachtwoord te kiezen.",
+      "clickOnTheButton": "Klik op de onderstaande knop om een nieuw wachtwoord te kiezen",
       "contactUs": "neem hier contact met ons op",
-      "doNotAnswer": "Dit is een automatische e-mail, antwoord niet. Hulp nodig?",
-      "linkValidFor": "Deze link is 24 uur geldig. Heb je dit verzoek niet zelf ingediend? Negeer deze e-mail dan gewoon.",
-      "moreOn": "Ontdek meer over",
-      "pixPresentation": "Pix is de online overheidsdienst voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
-      "resetMyPassword": "Een nieuw wachtwoord instellen",
-      "title": "Wachtwoord opnieuw instellen",
-      "weCannotSendYourPassword": "Hallo, Om veiligheidsredenen sturen we je wachtwoord niet per e-mail."
+      "doNotAnswer": "Dit is een automatisch gegenereerde e-mail; gelieve hier niet op te reageren. Hulp nodig, ",
+      "linkValidFor": "Deze link is 24 uur geldig. Als je dit verzoek niet zelf hebt ingediend, kun je deze e-mail negeren.",
+      "moreOn": "Meer weten",
+      "pixPresentation": "Pix is de openbare online dienst voor het beoordelen, ontwikkelen en certificeren van je digitale competenties.",
+      "resetMyPassword": "Een wachtwoord instellen",
+      "title": "Je wachtwoord resetten",
+      "weCannotSendYourPassword": "Hallo, om veiligheidsredenen sturen wij je je wachtwoord niet per e-mail toe."
     },
-    "subject": "Verzoek instellen nieuw wachtwoord Pix"
+    "subject": "Verzoek om resetten van het Pix-wachtwoord"
   },
   "self-account-deletion-email": {
     "params": {
       "contactUs": "neem hier contact met ons op",
       "hello": "Hallo {firstName},",
-      "requestConfirmation": "We hebben je verzoek ontvangen om je Pix-account te verwijderen. Zodra het proces is afgerond, ontvang je een bevestiging van ons.",
-      "seeYouSoon": "We hopen je in de toekomst weer te mogen verwelkomen voor nieuwe digitale avonturen.",
-      "signing": "Groeten, Het Pix team",
-      "title": "Je account verwijderen",
-      "warning": "Was jij dit niet? Neem dan contact op met onze ondersteuning."
+      "requestConfirmation": "Naar aanleiding van je verzoek bevestigen wij je dat je Pix-account en je persoonsgegevens zijn verwijderd.",
+      "seeYouSoon": "We hopen je binnenkort weer te zien voor nieuwe digitale avonturen.",
+      "signing": "Het Pix-team",
+      "title": "Verwijdering van je account",
+      "warning": "Als je dit verzoek niet zelf hebt ingediend, neem dan contact op met de helpdesk."
     },
-    "subject": "Je account verwijderen"
+    "subject": "Verwijdering van je account"
   },
   "verification-code-email": {
     "body": {
       "context": "Om je e-mailadres te verifiëren, kun je de volgende code invoeren op Pix:",
-      "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
+      "doNotAnswer": "Dit is een automatisch gegenereerde e-mail; gelieve hier niet op te reageren.",
       "greeting": "Hallo,",
-      "moreOn": "Ontdek meer over",
-      "pixPresentation": "Pix is de online overheidsdienst voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
-      "seeYouSoon": "Tot snel op Pix.",
-      "signing": "- Het Pix-team",
-      "warningMessage": "Als jij het niet was, stel je wachtwoord dan zo snel mogelijk opnieuw in om de veiligheid van je account te garanderen."
+      "moreOn": "Meer weten",
+      "pixPresentation": "Pix is de openbare online dienst voor het beoordelen, ontwikkelen en certificeren van je digitale competenties.",
+      "seeYouSoon": "Tot straks op Pix.",
+      "signing": "Het Pix-team",
+      "warningMessage": "Als je dit niet zelf hebt gedaan, raden wij je aan je wachtwoord zo snel mogelijk opnieuw in te stellen om je account te beveiligen."
     },
-    "subject": "Je Pix-code is {code}."
+    "subject": "Je Pix-code is {code}"
   },
   "warning-connection-email": {
     "params": {
-      "context": "We hebben een nieuwe verbinding met je Pix-account opgemerkt na een periode van inactiviteit van 12 maanden of meer.",
-      "disclaimer": "Als deze verbinding echt van jou komt, is er geen actie nodig.",
+      "context": "We hebben gemerkt dat er een nieuwe aanmelding bij je Pix-account heeft plaatsgevonden na een periode van inactiviteit van 12 maanden of langer.",
+      "disclaimer": "Als jij dit hebt gedaan, hoef je geen actie te ondernemen.",
       "hello": "Hallo {firstName},",
-      "resetMyPassword": "Een nieuw wachtwoord instellen",
-      "signing": "Pix team",
-      "supportContact": "Als je twijfelt of vragen hebt, staat onze support klaar om je te helpen.",
-      "thanks": "Thank you for your vigilance,",
-      "warningMessage": "Als dit niet het geval is, nodigen we je uit om je wachtwoord onmiddellijk te wijzigen om je account te beveiligen door op de onderstaande knop te klikken:"
+      "resetMyPassword": "Een wachtwoord instellen",
+      "signing": "Het Pix-team",
+      "supportContact": "Mocht je twijfelen of vragen hebben, dan kun je altijd terecht bij onze klantenservice.",
+      "thanks": "Bedankt voor het waakzaamheid.",
+      "warningMessage": "Als dat niet het geval is, raden wij je aan je wachtwoord onmiddellijk te wijzigen om je account te beveiligen door op de onderstaande knop te klikken:"
     },
     "subject": "Recente activiteit op je Pix-account"
   }
