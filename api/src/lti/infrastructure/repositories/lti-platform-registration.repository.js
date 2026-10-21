@@ -1,5 +1,6 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { LtiPlatformRegistration } from '../../domain/models/LtiPlatformRegistration.js';
+import { ltiPlatformRepository } from './lti-platform.repository.js';
 
 export const ltiPlatformRegistrationRepository = {
   async findByClientId(clientId) {
@@ -14,7 +15,9 @@ export const ltiPlatformRegistrationRepository = {
       return null;
     }
 
-    return new LtiPlatformRegistration(ltiPlatformRegistrationDTO);
+    const platform = await ltiPlatformRepository.get(ltiPlatformRegistrationDTO.platformId);
+
+    return toDomain(ltiPlatformRegistrationDTO, platform);
   },
 
   async listActivePublicKeys() {
@@ -22,20 +25,12 @@ export const ltiPlatformRegistrationRepository = {
     return knexConn.select('publicKey').from('lti_platform_registrations').where('status', 'active').pluck('publicKey');
   },
 
-  async save({
-    clientId,
-    platformOrigin,
-    status,
-    toolConfig,
-    encryptedPrivateKey,
-    publicKey,
-    platformOpenIdConfigUrl,
-  }) {
+  async save({ clientId, platformId, status, toolConfig, encryptedPrivateKey, publicKey, platformOpenIdConfigUrl }) {
     const knexConn = DomainTransaction.getConnection();
     const [ltiPlatformRegistrationDTO] = await knexConn('lti_platform_registrations')
       .insert({
         clientId,
-        platformOrigin,
+        platformId,
         status,
         toolConfig,
         encryptedPrivateKey,
@@ -44,6 +39,12 @@ export const ltiPlatformRegistrationRepository = {
       })
       .returning('*');
 
-    return new LtiPlatformRegistration(ltiPlatformRegistrationDTO);
+    const platform = await ltiPlatformRepository.get(ltiPlatformRegistrationDTO.platformId);
+
+    return toDomain(ltiPlatformRegistrationDTO, platform);
   },
 };
+
+function toDomain(ltiPlatformRegistrationDTO, platform) {
+  return new LtiPlatformRegistration({ ...ltiPlatformRegistrationDTO, platform });
+}

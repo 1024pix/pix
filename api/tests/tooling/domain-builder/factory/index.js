@@ -224,6 +224,7 @@ import { buildLegalDocumentStatus } from './legal-documents/build-legal-document
 import { buildChat } from './llm/build-chat.js';
 import { buildConfiguration } from './llm/build-configuration.js';
 import { buildAssistantMessage, buildUserMessage } from './llm/build-message.js';
+import { buildLtiPlatform } from './lti/build-lti-platform.js';
 import {
   buildLtiPlatformRegistration,
   buildLtiPlatformRegistrationWithPlatformConfig,
@@ -344,6 +345,10 @@ const evaluation = evaluationBuilders;
 
 const identityAccessManagement = {
   buildUserLogin,
+};
+
+const lti = {
+  buildLtiPlatform,
   buildLtiPlatformRegistration,
   buildLtiPlatformRegistrationWithPlatformConfig,
 };
@@ -545,6 +550,7 @@ export {
   learningContent,
   legalDocuments,
   llm,
+  lti,
   maddo,
   organizationalEntities,
   prescription,

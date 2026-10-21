@@ -4,17 +4,12 @@ export class LtiPlatformRegistration {
     PENDING: 'pending',
   });
 
-  constructor({
-    clientId,
-    platformOrigin,
-    status,
-    toolConfig,
-    encryptedPrivateKey,
-    publicKey,
-    platformOpenIdConfigUrl,
-  }) {
+  /** @type {import('./LtiPlatform.js').LtiPlatform} */
+  #platform;
+
+  constructor({ clientId, platform, status, toolConfig, encryptedPrivateKey, publicKey, platformOpenIdConfigUrl }) {
     this.clientId = clientId;
-    this.platformOrigin = platformOrigin;
+    this.#platform = platform;
     this.status = status;
     this.toolConfig = toolConfig;
     this.encryptedPrivateKey = encryptedPrivateKey;
@@ -55,5 +50,13 @@ export class LtiPlatformRegistration {
 
   get deploymentId() {
     return this.ltiToolConfiguration.deployment_id;
+  }
+
+  get platformId() {
+    return this.#platform.id;
+  }
+
+  get platformOrigin() {
+    return this.#platform.origin;
   }
 }

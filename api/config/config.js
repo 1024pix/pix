@@ -159,7 +159,6 @@ export const schema = Joi.object({
   LOG_FOR_HUMANS: Joi.string().optional().valid('true', 'false'),
   LOG_LEVEL: Joi.string().optional().valid('silent', 'fatal', 'error', 'warn', 'info', 'debug', 'trace'),
   LOG_OPS_METRICS: Joi.string().optional().valid('true', 'false'),
-  LTI_AUTHORIZED_PLATFORMS: Joi.string().optional(),
   LTI_PRESCRIBER_ACCESS_TOKEN_LIFESPAN: Joi.string().optional(),
   MAILING_ENABLED: Joi.string().optional().valid('true', 'false'),
   MAILING_PROVIDER: Joi.string().optional().valid('brevo', 'mailpit'),
@@ -473,7 +472,6 @@ export const config = {
   },
   logOpsMetrics: toBoolean(process.env.LOG_OPS_METRICS),
   lti: {
-    authorizedPlatforms: process.env.LTI_AUTHORIZED_PLATFORMS?.split(',') ?? ['http://localhost:8000'],
     jwkModulusLength: _getNumber(process.env.LTI_JWK_MODULUS_LENGTH, 4096),
     prescriberAccessTokenLifespan: process.env.LTI_PRESCRIBER_ACCESS_TOKEN_LIFESPAN ?? '10m',
   },

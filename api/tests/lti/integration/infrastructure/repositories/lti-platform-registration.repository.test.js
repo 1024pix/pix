@@ -10,9 +10,13 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform-registr
     it('returns LTI platform registration information', async function () {
       // given
       const clientId = 'AbCD1234';
-      const expectedLtiPlatformRegistration = domainBuilder.identityAccessManagement.buildLtiPlatformRegistration();
 
-      databaseBuilder.factory.buildLtiPlatformRegistration(expectedLtiPlatformRegistration);
+      const expectedLtiPlatformRegistration = domainBuilder.lti.buildLtiPlatformRegistration();
+
+      const { platformId, platformOrigin } = expectedLtiPlatformRegistration;
+
+      databaseBuilder.factory.buildLtiPlatform({ id: platformId, origin: platformOrigin });
+      databaseBuilder.factory.buildLtiPlatformRegistration({ ...expectedLtiPlatformRegistration, platformId });
       await databaseBuilder.commit();
 
       // when
@@ -20,6 +24,8 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform-registr
 
       // then
       expect(registration).to.deepEqualInstance(expectedLtiPlatformRegistration);
+      expect(registration).to.have.property('platformId', platformId);
+      expect(registration).to.have.property('platformOrigin', platformOrigin);
     });
 
     it('returns null when no LTI platforms are found', async function () {
@@ -37,17 +43,21 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform-registr
   describe('#listActivePublicKeys', function () {
     it('returns the list of public keys of the active platforms', async function () {
       // given
+      const { id: platformId } = databaseBuilder.factory.buildLtiPlatform();
       databaseBuilder.factory.buildLtiPlatformRegistration({
+        platformId,
         clientId: 'client1',
         status: 'pending',
       });
       const keyPair1 = await cryptoService.generateJSONWebKeyPair();
       databaseBuilder.factory.buildLtiPlatformRegistration({
+        platformId,
         clientId: 'client2',
         publicKey: keyPair1.publicKey,
       });
       const keyPair2 = await cryptoService.generateJSONWebKeyPair();
       databaseBuilder.factory.buildLtiPlatformRegistration({
+        platformId,
         clientId: 'client3',
         publicKey: keyPair2.publicKey,
       });
@@ -63,22 +73,30 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform-registr
 
   describe('#save', function () {
     it('inserts platform registration', async function () {
-      const expectedLtiPlatformRegistration = domainBuilder.identityAccessManagement.buildLtiPlatformRegistration();
+      // given
+      const expectedLtiPlatformRegistration = domainBuilder.lti.buildLtiPlatformRegistration();
+      const { platformId, platformOrigin } = expectedLtiPlatformRegistration;
+      databaseBuilder.factory.buildLtiPlatform({ id: platformId, origin: platformOrigin });
+      await databaseBuilder.commit();
 
       // when
-      await ltiPlatformRegistrationRepository.save(expectedLtiPlatformRegistration);
+      const savedRegistration = await ltiPlatformRegistrationRepository.save(expectedLtiPlatformRegistration);
 
       // then
-      const registration = await knex('lti_platform_registrations').select('*').first();
-      expect(registration.clientId).to.deep.equal(expectedLtiPlatformRegistration.clientId);
-      expect(registration.platformOrigin).to.deep.equal(expectedLtiPlatformRegistration.platformOrigin);
-      expect(registration.status).to.deep.equal(expectedLtiPlatformRegistration.status);
-      expect(registration.toolConfig).to.deep.equal(expectedLtiPlatformRegistration.toolConfig);
-      expect(registration.encryptedPrivateKey).to.deep.equal(expectedLtiPlatformRegistration.encryptedPrivateKey);
-      expect(registration.publicKey).to.deep.equal(expectedLtiPlatformRegistration.publicKey);
-      expect(registration.platformOpenIdConfigUrl).to.deep.equal(
-        expectedLtiPlatformRegistration.platformOpenIdConfigUrl,
-      );
+      expect(savedRegistration).to.deepEqualInstance(expectedLtiPlatformRegistration);
+      expect(savedRegistration).to.have.property('platformId', platformId);
+      expect(savedRegistration).to.have.property('platformOrigin', platformOrigin);
+
+      const registrationFromDb = await knex.select('*').from('lti_platform_registrations').first();
+      expect(registrationFromDb).to.deep.contain({
+        clientId: expectedLtiPlatformRegistration.clientId,
+        platformId,
+        status: expectedLtiPlatformRegistration.status,
+        toolConfig: expectedLtiPlatformRegistration.toolConfig,
+        encryptedPrivateKey: expectedLtiPlatformRegistration.encryptedPrivateKey,
+        publicKey: expectedLtiPlatformRegistration.publicKey,
+        platformOpenIdConfigUrl: expectedLtiPlatformRegistration.platformOpenIdConfigUrl,
+      });
     });
   });
 });

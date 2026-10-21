@@ -1,6 +1,5 @@
 import Joi from 'joi';
 
-import { config } from '../../../../config/config.js';
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { InvalidLtiPlatformRegistrationError } from '../errors.js';
 import { LtiPlatformRegistration } from '../models/LtiPlatformRegistration.js';
@@ -80,6 +79,7 @@ function createPixToolConfiguration({ urlService }) {
  * @param {string} args.registrationToken
  * @param {typeof import('../../../shared/infrastructure/http-agent.js').httpAgent} args.httpAgent
  * @param {typeof import('../../infrastructure/repositories/lti-platform-registration.repository.js').ltiPlatformRegistrationRepository} args.ltiPlatformRegistrationRepository
+ * @param {typeof import('../../infrastructure/repositories/lti-platform.repository.js').ltiPlatformRepository} args.ltiPlatformRepository
  * @param {import('../../../shared/domain/services/crypto-service.js')} args.cryptoService
  */
 
@@ -88,6 +88,7 @@ export async function registerLtiPlatform({
   registrationToken,
   httpAgent,
   ltiPlatformRegistrationRepository,
+  ltiPlatformRepository,
   cryptoService,
   urlService,
 }) {
@@ -109,7 +110,8 @@ export async function registerLtiPlatform({
     });
   }
 
-  if (!config.lti.authorizedPlatforms.includes(platformConfiguration.issuer)) {
+  const ltiPlatform = await ltiPlatformRepository.findByOrigin(platformConfiguration.issuer);
+  if (!ltiPlatform) {
     logger.warn({ issuer: platformConfiguration.issuer }, 'Unauthorized LTI platform issuer.');
     throw new InvalidLtiPlatformRegistrationError('Unauthorized LTI platform issuer');
   }
@@ -141,7 +143,7 @@ export async function registerLtiPlatform({
 
   const savedRegistration = await ltiPlatformRegistrationRepository.save({
     clientId: pixToolRegistration.client_id,
-    platformOrigin: platformConfiguration.issuer,
+    platformId: ltiPlatform.id,
     platformOpenIdConfigUrl: platformConfigurationUrl,
     encryptedPrivateKey,
     toolConfig: pixToolRegistration,

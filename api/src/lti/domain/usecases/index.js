@@ -4,6 +4,7 @@ import { httpAgent } from '../../../shared/infrastructure/http-agent.js';
 import * as organizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
+import { ltiPlatformRepository } from '../../infrastructure/repositories/lti-platform.repository.js';
 import { ltiPlatformRegistrationRepository } from '../../infrastructure/repositories/lti-platform-registration.repository.js';
 import { authenticateLtiPrescriber } from './authenticate-lti-prescriber.usecase.js';
 import { listLtiPublicKeys } from './list-lti-public-keys.usecase.js';
@@ -17,6 +18,7 @@ const services = { cryptoService, urlService };
 
 const repositories = {
   ltiPlatformRegistrationRepository,
+  ltiPlatformRepository,
   organizationRepository,
 };
 
