@@ -34,17 +34,26 @@ module('Integration | Component | Banner::Sco-communication', function (hooks) {
             // given
             this.owner.register('service:current-user', CurrentUserStub);
 
+            const locale = this.owner.lookup('service:locale');
+            locale.setCurrentLocale('fr-BE');
             const router = this.owner.lookup('service:router');
             sinon.stub(router, 'currentRouteName').value(route);
 
             const store = this.owner.lookup('service:store');
-            store.createRecord('announcement', { id: 'SCO', content: { fr: 'Contenu de la bannière' } });
+            store.createRecord('announcement', {
+              id: 'SCO',
+              content: {
+                fr: 'Contenu de la bannière fr',
+                'fr-BE': 'Contenu de la bannière fr-BE',
+                'fr-FR': 'Contenu de la bannière fr-FR',
+              },
+            });
 
             // when
             const screen = await render(<template><ScoCommunication /></template>);
 
             // then
-            assert.ok(screen.getByText('Contenu de la bannière'));
+            assert.ok(screen.getByText('Contenu de la bannière fr-BE'));
           });
         });
       });
