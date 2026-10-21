@@ -213,12 +213,31 @@ describe('Integration | Repository | Session Summary', function () {
         context('with status filter', function () {
           beforeEach(async function () {
             // given
+            const now = new Date(Date.now());
+            now.setHours(now.getHours() - 1);
+            const [, date, time] = now.toISOString().match(/(\d+-\d+-\d+)T(\d+:\d+:\d+)/);
+
             databaseBuilder.factory.buildSession({
               address: 'created',
               finalizedAt: null,
               publishedAt: null,
               assignedCertificationOfficerId: null,
               certificationCenterId,
+              date,
+              time,
+            });
+            const sessionToFinalize = databaseBuilder.factory.buildSession({
+              address: 'to_finalize',
+              finalizedAt: null,
+              publishedAt: null,
+              assignedCertificationOfficerId: null,
+              certificationCenterId,
+              date: '2026-01-01',
+              time: '16:00:00',
+            });
+            databaseBuilder.factory.buildCertificationCourse({
+              sessionId: sessionToFinalize.id,
+              createdAt: new Date('2026-01-01'),
             });
             databaseBuilder.factory.buildSession({
               address: 'finalized',
@@ -238,6 +257,7 @@ describe('Integration | Repository | Session Summary', function () {
 
           [
             { status: SESSION_STATUSES.CREATED, expectedAddress: 'created' },
+            { status: SESSION_STATUSES.TO_FINALIZE, expectedAddress: 'to_finalize' },
             { status: SESSION_STATUSES.FINALIZED, expectedAddress: 'finalized' },
             { status: SESSION_STATUSES.PROCESSED, expectedAddress: 'processed' },
           ].forEach(({ status, expectedAddress }) => {

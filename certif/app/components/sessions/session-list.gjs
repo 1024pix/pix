@@ -10,7 +10,7 @@ import get from 'lodash/get';
 import PaginationWrapper from 'pix-certif/components/ui/pagination-wrapper';
 
 import dayjsUtcFormat from '../../helpers/dayjs-utc-format';
-import { CREATED, FINALIZED, PROCESSED } from '../../models/session-management';
+import { CREATED, FINALIZED, PROCESSED, TO_FINALIZE } from '../../models/session-management';
 import SessionDeleteConfirmModal from './session-delete-confirm-modal';
 
 export default class SessionList extends Component {
@@ -24,6 +24,7 @@ export default class SessionList extends Component {
 
   @action statusLabel(status) {
     if (status === FINALIZED) return this.intl.t(`pages.sessions.list.status.${FINALIZED}`);
+    if (status === TO_FINALIZE) return this.intl.t(`pages.sessions.list.status.${TO_FINALIZE}`);
     if (status === PROCESSED) return this.intl.t(`pages.sessions.list.status.${PROCESSED}`);
     return this.intl.t(`pages.sessions.list.status.${CREATED}`);
   }

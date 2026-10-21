@@ -4,6 +4,7 @@ import ENV from 'pix-certif/config/environment';
 
 export const CREATED = 'created';
 export const FINALIZED = 'finalized';
+export const TO_FINALIZE = 'to_finalize';
 export const IN_PROCESS = 'in_process';
 export const PROCESSED = 'processed';
 

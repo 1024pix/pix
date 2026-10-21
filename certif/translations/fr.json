@@ -982,7 +982,8 @@
           "all": "Tous",
           "created": "Créée",
           "finalized": "Finalisée",
-          "processed": "Résultats transmis par Pix"
+          "processed": "Résultats transmis par Pix",
+          "to_finalize": "À finaliser"
         },
         "table": {
           "empty": "Aucune session trouvée",
