@@ -1,5 +1,70 @@
 # Pix Changelog
 
+# [5.527.0](https://github.com/1024pix/pix/compare/v5.526.0...v5.527.0) (2026-10-21)
+
+### :rocket: Amélioration
+
+- [#18203](https://github.com/1024pix/pix/pull/18203) Ajouter un lien vers la configuration des bandeaux Pix Orga dans l'administration de Pix Admin (PIX-23121).
+
+### :building_construction: Tech
+
+- [#17777](https://github.com/1024pix/pix/pull/17777) Nettoyages et rangements divers dans le code de l’équipe Accès (PIX-24734)
+- [#18200](https://github.com/1024pix/pix/pull/18200) Nettoyer la gestion des structures au rattachement d'un centre de certification (PIX-24402).
+- [#18201](https://github.com/1024pix/pix/pull/18201) Préparation montée de version ember-simple-auth v9 (PIX-24764)
+- [#18202](https://github.com/1024pix/pix/pull/18202) Rend les tests E2E CLEA indépendants
+- [#17829](https://github.com/1024pix/pix/pull/17829) Utiliser la nouvelle page de certification (PIX-24657).
+
+### :arrow_up: Montée de version
+
+- [#18204](https://github.com/1024pix/pix/pull/18204) Update 1024pix/pix-actions digest to 481ebcb (workflows)
+- [#18215](https://github.com/1024pix/pix/pull/18215) Update aws-sdk-js-v3 monorepo to v3.1150.0 (api)
+- [#18224](https://github.com/1024pix/pix/pull/18224) Update aws-sdk-js-v3 monorepo to v3.1151.0 (api)
+- [#18188](https://github.com/1024pix/pix/pull/18188) Update dependency @1024pix/epreuves-components to v4.35.0 (junior)
+- [#18189](https://github.com/1024pix/pix/pull/18189) Update dependency @1024pix/epreuves-components to v4.35.0 (mon-pix)
+- [#18244](https://github.com/1024pix/pix/pull/18244) Update dependency @1024pix/eslint-plugin to v3.0.10 (admin)
+- [#18245](https://github.com/1024pix/pix/pull/18245) Update dependency @1024pix/eslint-plugin to v3.0.10 (api)
+- [#18246](https://github.com/1024pix/pix/pull/18246) Update dependency @1024pix/eslint-plugin to v3.0.10 (audit-logger)
+- [#18247](https://github.com/1024pix/pix/pull/18247) Update dependency @1024pix/eslint-plugin to v3.0.10 (certif)
+- [#18248](https://github.com/1024pix/pix/pull/18248) Update dependency @1024pix/eslint-plugin to v3.0.10 (e2e-playwright)
+- [#18249](https://github.com/1024pix/pix/pull/18249) Update dependency @1024pix/eslint-plugin to v3.0.10 (junior)
+- [#18250](https://github.com/1024pix/pix/pull/18250) Update dependency @1024pix/eslint-plugin to v3.0.10 (mon-pix)
+- [#18251](https://github.com/1024pix/pix/pull/18251) Update dependency @1024pix/eslint-plugin to v3.0.10 (orga)
+- [#18231](https://github.com/1024pix/pix/pull/18231) Update dependency @1024pix/eslint-plugin to v3.0.9 (admin)
+- [#18232](https://github.com/1024pix/pix/pull/18232) Update dependency @1024pix/eslint-plugin to v3.0.9 (api)
+- [#18233](https://github.com/1024pix/pix/pull/18233) Update dependency @1024pix/eslint-plugin to v3.0.9 (audit-logger)
+- [#18234](https://github.com/1024pix/pix/pull/18234) Update dependency @1024pix/eslint-plugin to v3.0.9 (certif)
+- [#18235](https://github.com/1024pix/pix/pull/18235) Update dependency @1024pix/eslint-plugin to v3.0.9 (e2e-playwright)
+- [#18236](https://github.com/1024pix/pix/pull/18236) Update dependency @1024pix/eslint-plugin to v3.0.9 (junior)
+- [#18237](https://github.com/1024pix/pix/pull/18237) Update dependency @1024pix/eslint-plugin to v3.0.9 (mon-pix)
+- [#18238](https://github.com/1024pix/pix/pull/18238) Update dependency @1024pix/eslint-plugin to v3.0.9 (orga)
+- [#18240](https://github.com/1024pix/pix/pull/18240) Update dependency @1024pix/oppsy to v1.1.1 (api)
+- [#18225](https://github.com/1024pix/pix/pull/18225) Update dependency @getbrevo/brevo to v6.1.0 (api)
+- [#18229](https://github.com/1024pix/pix/pull/18229) Update dependency ember-source to v6.12.1 (certif)
+- [#18230](https://github.com/1024pix/pix/pull/18230) Update dependency ember-source to v6.12.1 (junior)
+- [#18241](https://github.com/1024pix/pix/pull/18241) Update dependency ember-source to v6.12.1 (mon-pix)
+- [#18242](https://github.com/1024pix/pix/pull/18242) Update dependency ember-source to v7.3.1 (orga)
+- [#18205](https://github.com/1024pix/pix/pull/18205) Update dependency eslint-plugin-prettier to v5.5.7 (admin)
+- [#18206](https://github.com/1024pix/pix/pull/18206) Update dependency eslint-plugin-prettier to v5.5.7 (audit-logger)
+- [#18207](https://github.com/1024pix/pix/pull/18207) Update dependency eslint-plugin-prettier to v5.5.7 (certif)
+- [#18208](https://github.com/1024pix/pix/pull/18208) Update dependency eslint-plugin-prettier to v5.5.7 (e2e-playwright)
+- [#18209](https://github.com/1024pix/pix/pull/18209) Update dependency eslint-plugin-prettier to v5.5.7 (junior)
+- [#18210](https://github.com/1024pix/pix/pull/18210) Update dependency eslint-plugin-prettier to v5.5.7 (mon-pix)
+- [#18211](https://github.com/1024pix/pix/pull/18211) Update dependency eslint-plugin-prettier to v5.5.7 (orga)
+- [#18217](https://github.com/1024pix/pix/pull/18217) Update dependency eslint-plugin-unicorn to v78 (api)
+- [#18218](https://github.com/1024pix/pix/pull/18218) Update dependency eslint-plugin-unicorn to v78 (audit-logger)
+- [#18219](https://github.com/1024pix/pix/pull/18219) Update dependency eslint-plugin-unicorn to v78 (certif)
+- [#18192](https://github.com/1024pix/pix/pull/18192) Update dependency hyparquet to v1.31.4 (api)
+- [#18212](https://github.com/1024pix/pix/pull/18212) Update dependency hyparquet-writer to v0.16.12 (api)
+- [#18243](https://github.com/1024pix/pix/pull/18243) Update dependency nodemailer to v10.1.1 (api)
+- [#18216](https://github.com/1024pix/pix/pull/18216) Update dependency oxfmt to v0.73.0 (api)
+- [#18220](https://github.com/1024pix/pix/pull/18220) Update dependency p-queue to v10 (admin)
+- [#18221](https://github.com/1024pix/pix/pull/18221) Update dependency p-queue to v10 (certif)
+- [#18222](https://github.com/1024pix/pix/pull/18222) Update dependency p-queue to v10 (mon-pix)
+- [#18223](https://github.com/1024pix/pix/pull/18223) Update dependency p-queue to v10 (orga)
+- [#18226](https://github.com/1024pix/pix/pull/18226) Update dependency pg-boss to v12.38.0 (api)
+- [#18214](https://github.com/1024pix/pix/pull/18214) Update dependency postcss to v8.5.30 (orga)
+- [#18253](https://github.com/1024pix/pix/pull/18253) Update dependency undici to v8.12.0 (api)
+
 # [5.526.0](https://github.com/1024pix/pix/compare/v5.525.0...v5.526.0) (2026-10-20)
 
 ### :rocket: Amélioration
