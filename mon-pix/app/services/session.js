@@ -1,6 +1,14 @@
 import { service } from '@ember/service';
+import { isTesting } from '@embroider/macros';
+import Configuration from 'ember-simple-auth/configuration';
 import SessionService from 'ember-simple-auth/services/session';
+import EphemeralStore from 'ember-simple-auth/session-stores/ephemeral';
 import get from 'lodash/get';
+import Anonymous from 'mon-pix/authenticators/anonymous';
+import Gar from 'mon-pix/authenticators/gar';
+import OAuth2 from 'mon-pix/authenticators/oauth2';
+import Oidc from 'mon-pix/authenticators/oidc';
+import SessionStore from 'mon-pix/session-stores/application';
 import { SessionStorageEntry } from 'mon-pix/utils/session-storage-entry.js';
 
 const externalUserTokenFromGarStorage = new SessionStorageEntry('externalUserTokenFromGar');
@@ -13,6 +21,23 @@ export default class CurrentSessionService extends SessionService {
   @service oidcIdentityProviders;
 
   routeAfterAuthentication = 'authenticated.user-dashboard';
+
+  createConfiguration() {
+    return Configuration.load({
+      useResolver: false,
+    });
+  }
+
+  createAuthenticators(owner) {
+    return [new Anonymous(owner), new Gar(owner), new OAuth2(owner), new Oidc(owner)];
+  }
+
+  createSessionStore(owner) {
+    if (isTesting()) {
+      return new EphemeralStore(owner);
+    }
+    return new SessionStore(owner);
+  }
 
   async authenticateUser(login, password) {
     this.revokeGarAuthenticationContext();

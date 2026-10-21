@@ -10,19 +10,16 @@ module('Unit | Services | session', function (hooks) {
 
   let sessionService;
   let routerService;
-  let oauthAuthenticator;
 
   hooks.beforeEach(function () {
     sessionService = this.owner.lookup('service:session');
     sessionService.currentUser = { load: sinon.stub(), user: null };
     sessionService._getRouteAfterInvalidation = sinon.stub();
+    sessionService.authenticate = sinon.stub().resolves();
 
     routerService = this.owner.lookup('service:router');
     routerService.transitionTo = sinon.stub();
     routerService.replaceWith = sinon.stub();
-
-    oauthAuthenticator = this.owner.lookup('authenticator:oauth2');
-    oauthAuthenticator.authenticate = sinon.stub().resolves('ok');
   });
 
   module('#authenticateUser', function () {
@@ -35,7 +32,7 @@ module('Unit | Services | session', function (hooks) {
       await sessionService.authenticateUser(expectedLogin, expectedPassword);
 
       // then
-      sinon.assert.calledWith(oauthAuthenticator.authenticate, {
+      sinon.assert.calledWith(sessionService.authenticate, 'authenticator:oauth2', {
         login: expectedLogin,
         password: expectedPassword,
       });

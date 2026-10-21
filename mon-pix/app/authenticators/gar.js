@@ -3,6 +3,8 @@ import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 import { decodeToken } from 'mon-pix/helpers/jwt';
 
 export default class GarAuthenticator extends BaseAuthenticator {
+  static id = 'gar';
+
   authenticate(token) {
     const token_type = 'bearer';
     const decodedAccessToken = decodeToken(token);

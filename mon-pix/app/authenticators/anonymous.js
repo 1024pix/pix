@@ -5,6 +5,8 @@ import ENV from 'mon-pix/config/environment';
 import { decodeToken } from 'mon-pix/helpers/jwt';
 
 export default class AnonymousAuthenticator extends BaseAuthenticator {
+  static id = 'anonymous';
+
   @service locale;
 
   async authenticate({ campaignCode }) {
