@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import { click } from '@ember/test-helpers';
 import dayjs from 'dayjs';
 import CustomParseFormat from 'dayjs/plugin/customParseFormat';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
@@ -356,6 +357,64 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
 
         assert.notOk(screen.queryByText(campaignParticipationResult.reachedStage.message));
         assert.notOk(screen.queryByText(campaignParticipationResult.reachedStage.title));
+      });
+    });
+
+    module('when stage message contains a link', function (hooks) {
+      let pixMetrics;
+      let screen;
+
+      hooks.beforeEach(async function () {
+        // given
+        pixMetrics = this.owner.lookup('service:pix-metrics');
+        pixMetrics.trackEvent = sinon.stub();
+
+        const campaign = { id: 123, organizationId: 1 };
+        const campaignParticipationResult = {
+          hasReachedStage: true,
+          reachedStage: {
+            reachedStage: 4,
+            totalStage: 5,
+            message: 'Bravo ! [Découvrir le contenu](https://example.net/contenu)',
+            title: 'existing title stages',
+          },
+        };
+
+        screen = await render(
+          <template>
+            <EvaluationResultsHero
+              @campaign={{campaign}}
+              @campaignParticipationResult={{campaignParticipationResult}}
+            />
+          </template>,
+        );
+        pixMetrics.trackEvent.resetHistory();
+      });
+
+      test('it should send a tracking event when clicking on the link', async function (assert) {
+        // when
+        const link = screen.getByRole('link', { name: 'Découvrir le contenu' });
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+        });
+        await click(link);
+
+        // then
+        sinon.assert.calledOnceWithExactly(
+          pixMetrics.trackEvent,
+          'Fin de parcours - Clic sur un lien du message de palier',
+          { url: 'https://example.net/contenu', campaignId: 123, reachedStage: 4, totalStage: 5 },
+        );
+        assert.ok(true);
+      });
+
+      test('it should not send a tracking event when clicking elsewhere in the message', async function (assert) {
+        // when
+        await click(screen.getByText('Bravo !', { exact: false }));
+
+        // then
+        sinon.assert.notCalled(pixMetrics.trackEvent);
+        assert.ok(true);
       });
     });
   });
