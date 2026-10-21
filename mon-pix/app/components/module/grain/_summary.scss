@@ -12,14 +12,11 @@
   }
 
   &__decoration {
-    width: auto;
-    height: 72px;
+    flex-basis: 72px;
     background: url('/images/modulix/summary-result-mobile.svg') bottom 0 right 0/165px no-repeat, var(--pix-gradient-default-dark);
     border-radius: var(--pix-spacing-4x) var(--pix-spacing-4x) 0 0;
 
     @include breakpoints.device-is('desktop'){
-      width: 72px;
-      height: auto;
       background: url('/images/modulix/summary-result.svg') bottom 0 left 0/65px no-repeat, var(--pix-gradient-default-dark);
       border-radius: var(--pix-spacing-4x) 0 0 var(--pix-spacing-4x);
     }
@@ -33,6 +30,19 @@
     @include breakpoints.device-is('desktop'){
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
+    }
+  }
+
+  &__image {
+    position: absolute;
+    top: -55px;
+    left: -6px;
+    width: 90px;
+
+    @include breakpoints.device-is('desktop'){
+      top: -45px;
+      left: -57px;
+      width: 105px;
     }
   }
 }
