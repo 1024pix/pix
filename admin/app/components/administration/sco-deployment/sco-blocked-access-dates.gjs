@@ -26,12 +26,12 @@ export default class ScoBlockedAccessDates extends Component {
     try {
       await adapter.updateRecord(scoOrganizationTagName, dateInput);
       this.pixToast.sendSuccessNotification({
-        message: this.intl.t('pages.administration.certification.sco-blocked-access-date.success'),
+        message: this.intl.t('pages.administration.sco-deployment.sco-blocked-access-date.success'),
       });
       await this.router.refresh();
     } catch {
       this.pixToast.sendErrorNotification({
-        message: this.intl.t('pages.administration.certification.sco-blocked-access-date.error'),
+        message: this.intl.t('pages.administration.sco-deployment.sco-blocked-access-date.error'),
       });
     }
   }
@@ -48,17 +48,17 @@ export default class ScoBlockedAccessDates extends Component {
 
   <template>
     <AdministrationBlockLayout
-      @title={{t "pages.administration.certification.sco-blocked-access-date.title"}}
+      @title={{t "pages.administration.sco-deployment.sco-blocked-access-date.title"}}
       class="sco-blocked-access-date-configuration"
     >
       <DateEditor
         @date={{this.lyceeDate}}
-        @label={{t "pages.administration.certification.sco-blocked-access-date.high-school-date"}}
+        @label={{t "pages.administration.sco-deployment.sco-blocked-access-date.high-school-date"}}
         @onSave={{this.saveLyceeDate}}
       />
       <DateEditor
         @date={{this.collegeDate}}
-        @label={{t "pages.administration.certification.sco-blocked-access-date.middle-school-date"}}
+        @label={{t "pages.administration.sco-deployment.sco-blocked-access-date.middle-school-date"}}
         @onSave={{this.saveCollegeDate}}
       />
     </AdministrationBlockLayout>

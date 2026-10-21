@@ -13,8 +13,8 @@ export default class DateEditor extends Component {
 
   get displayText() {
     const date = this.args.date?.reopeningDate;
-    if (!date) return this.intl.t('pages.administration.certification.sco-blocked-access-date.not-configured');
-    return `${date.toLocaleDateString('fr-FR')} ${this.intl.t('pages.administration.certification.sco-blocked-access-date.hour')}`;
+    if (!date) return this.intl.t('pages.administration.sco-deployment.sco-blocked-access-date.not-configured');
+    return `${date.toLocaleDateString('fr-FR')} ${this.intl.t('pages.administration.sco-deployment.sco-blocked-access-date.hour')}`;
   }
 
   @action
@@ -46,16 +46,16 @@ export default class DateEditor extends Component {
             <:label><span class="pix-body-l">{{@label}}</span></:label>
           </PixInput>
           <PixButton @variant="secondary" @type="submit">
-            {{t "pages.administration.certification.sco-blocked-access-date.save-button"}}
+            {{t "pages.administration.sco-deployment.sco-blocked-access-date.save-button"}}
           </PixButton>
           <PixButton @variant="tertiary" @type="reset" @triggerAction={{this.toggleEdit}}>
-            {{t "pages.administration.certification.sco-blocked-access-date.cancel-button"}}
+            {{t "pages.administration.sco-deployment.sco-blocked-access-date.cancel-button"}}
           </PixButton>
         </form>
       {{else}}
         <span class="pix-body-l">{{@label}} {{this.displayText}}</span>
         <PixButton @variant="secondary" @triggerAction={{this.toggleEdit}}>
-          {{t "pages.administration.certification.sco-blocked-access-date.modify-button"}}
+          {{t "pages.administration.sco-deployment.sco-blocked-access-date.modify-button"}}
         </PixButton>
       {{/if}}
     </div>

@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/administration/certification', function (hooks) {
+module('Unit | Route | authenticated/administration/sco-deployment', function (hooks) {
   setupTest(hooks);
 
   module('#model', function () {
@@ -14,7 +14,7 @@ module('Unit | Route | authenticated/administration/certification', function (ho
         findAll = findAllStub;
       }
       this.owner.register('service:store', StoreStub);
-      const route = this.owner.lookup('route:authenticated/administration/certification');
+      const route = this.owner.lookup('route:authenticated/administration/sco-deployment');
       const scoBlockedAccessDates = Symbol('sco blocked access date');
       findAllStub.withArgs('sco-blocked-access-date').resolves(scoBlockedAccessDates);
 
@@ -36,7 +36,7 @@ module('Unit | Route | authenticated/administration/certification', function (ho
 
       this.owner.register('service:store', StoreStub);
 
-      const route = this.owner.lookup('route:authenticated/administration/certification');
+      const route = this.owner.lookup('route:authenticated/administration/sco-deployment');
 
       route.pixToast = {
         sendWarningNotification: sendWarningNotificationStub,
@@ -71,7 +71,7 @@ module('Unit | Route | authenticated/administration/certification', function (ho
 
       this.owner.register('service:store', StoreStub);
 
-      const route = this.owner.lookup('route:authenticated/administration/certification');
+      const route = this.owner.lookup('route:authenticated/administration/sco-deployment');
 
       route.pixToast = {
         sendErrorNotification: sendErrorNotificationStub,

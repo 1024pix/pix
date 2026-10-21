@@ -670,9 +670,9 @@
               "no-configuration": "No scoring configuration for this competence.",
               "title": "Bounds of capacities by competence"
             },
-            "edit":"Edit scoring",
+            "edit": "Edit scoring",
             "level": "Level {index}",
-            "no-edit":"Stop editing scoring",
+            "no-edit": "Stop editing scoring",
             "previous-version-capacity": "Value in previous version: {previousVersionCapacity}",
             "required-error": "This field is required.",
             "save-error": "An error occurred while saving the scoring.",
@@ -1530,33 +1530,6 @@
           },
           "title": "Configuration of thresholds by skill"
         },
-        "sco-blocked-access-date": {
-          "cancel-button": "Cancel",
-          "error": "Could not save the new date",
-          "high-school-date": "Reopening date for high schools: {date}",
-          "hour": "(00:00, Metropolitan France time)",
-          "middle-school-date": "Reopening date for middle schools: {date}",
-          "modify-button": "Modify",
-          "not-configured": "Not configured",
-          "not-found": "Reopening dates could not be found",
-          "save-button": "Submit",
-          "success": "Date successfully updated",
-          "title": "Configuration of reopening dates for Pix Certif SCO spaces"
-        },
-        "sco-whitelist": {
-          "export": {
-            "button": "Export whitelist (CSV)",
-            "error": "Could not download SCO whitelist."
-          },
-          "import": {
-            "button": "Import file as whitelist (CSV)",
-            "error": "Could not save SCO whitelist",
-            "error-csv": "Une erreur est survenue. Veuillez vérifier les externalId renseignés aux lignes suivantes du CSV : {errorLines}",
-            "success": "SCO whitelist saved."
-          },
-          "instructions": "Recommended: make an export, modify the export, and import the modified version.",
-          "title": "SCO whitelist"
-        },
         "scoring-simulator": {
           "actions": {
             "submit": "Generate profile"
@@ -1607,6 +1580,43 @@
         },
         "organizations": {
           "label": "Organizations"
+        },
+        "sco-deployment": {
+          "label": "SCO deployment"
+        }
+      },
+      "sco-deployment": {
+        "sco-announcement": {
+          "action": "Edit banners",
+          "description": "Update the information shown to MENJ and MASA schools on the home page of their Pix Orga space.",
+          "title": "Pix Orga banners"
+        },
+        "sco-blocked-access-date": {
+          "cancel-button": "Cancel",
+          "error": "Could not save the new date",
+          "high-school-date": "Reopening date for high schools: {date}",
+          "hour": "(00:00, Metropolitan France time)",
+          "middle-school-date": "Reopening date for middle schools: {date}",
+          "modify-button": "Modify",
+          "not-configured": "Not configured",
+          "not-found": "Reopening dates could not be found",
+          "save-button": "Submit",
+          "success": "Date successfully updated",
+          "title": "Configuration of reopening dates for Pix Certif SCO spaces"
+        },
+        "sco-whitelist": {
+          "export": {
+            "button": "Export whitelist (CSV)",
+            "error": "Could not download SCO whitelist."
+          },
+          "import": {
+            "button": "Import file as whitelist (CSV)",
+            "error": "Could not save SCO whitelist",
+            "error-csv": "Une erreur est survenue. Veuillez vérifier les externalId renseignés aux lignes suivantes du CSV : {errorLines}",
+            "success": "SCO whitelist saved."
+          },
+          "instructions": "Recommended: make an export, modify the export, and import the modified version.",
+          "title": "SCO whitelist"
         }
       }
     },
