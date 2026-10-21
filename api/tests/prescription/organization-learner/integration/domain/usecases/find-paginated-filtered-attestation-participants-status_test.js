@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import { AttestationParticipantStatus } from '../../../../../../src/prescription/organization-learner/domain/read-models/AttestationParticipantStatus.js';
 import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
+import { ProfileRewardStatuses } from '../../../../../../src/profile/domain/models/ProfileReward.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { mockAttestationStorage } from '../../../../../tooling/mocks/attestation-storage.mock.js';
 
@@ -79,7 +80,7 @@ describe('Integration | Prescription | Learner Management | Domain | UseCase | f
             await usecases.findPaginatedFilteredAttestationParticipantsStatus({
               attestationKey: attestation.key,
               organizationId,
-              filter: { statuses: ['OBTAINED'] },
+              filter: { statuses: [ProfileRewardStatuses.OBTAINED] },
             });
 
           // then
@@ -112,7 +113,7 @@ describe('Integration | Prescription | Learner Management | Domain | UseCase | f
             await usecases.findPaginatedFilteredAttestationParticipantsStatus({
               attestationKey: attestation.key,
               organizationId,
-              filter: { statuses: ['NOT_OBTAINED', 'OBTAINED'] },
+              filter: { statuses: [ProfileRewardStatuses.NOT_OBTAINED, ProfileRewardStatuses.OBTAINED] },
             });
 
           // then

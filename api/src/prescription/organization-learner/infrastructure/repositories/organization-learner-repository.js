@@ -3,6 +3,7 @@ import {
   OrganizationLearnerNotFound,
   UserNotFoundError,
 } from '../../../../../src/shared/domain/errors.js';
+import { ProfileRewardStatuses } from '../../../../profile/domain/models/ProfileReward.js';
 import { ORGANIZATION_FEATURE } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
@@ -286,10 +287,10 @@ async function findPaginatedAttestationStatusForOrganizationLearnersAndKey({
       query.whereIn('division', divisions);
     }
     if (statuses?.length > 0) {
-      if (statuses.includes('OBTAINED') && !statuses.includes('NOT_OBTAINED')) {
+      if (statuses.includes(ProfileRewardStatuses.OBTAINED) && !statuses.includes(ProfileRewardStatuses.NOT_OBTAINED)) {
         query.whereNotNull('organizations-profile-rewards.id');
       }
-      if (statuses.includes('NOT_OBTAINED') && !statuses.includes('OBTAINED')) {
+      if (statuses.includes(ProfileRewardStatuses.NOT_OBTAINED) && !statuses.includes(ProfileRewardStatuses.OBTAINED)) {
         query.whereNull('organizations-profile-rewards.id');
       }
     }

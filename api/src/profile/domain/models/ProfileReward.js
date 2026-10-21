@@ -1,3 +1,8 @@
+export const ProfileRewardStatuses = {
+  OBTAINED: 'OBTAINED',
+  NOT_OBTAINED: 'NOT_OBTAINED',
+};
+
 export class ProfileReward {
   constructor({ id, rewardId, rewardType, createdAt, userId } = {}) {
     this.id = id;
