@@ -4,7 +4,6 @@ import { AttestationUserDetail } from '../models/AttestationUserDetail.js';
 export async function getSharedAttestationsUserDetailByOrganizationId({
   attestationKey,
   organizationId,
-  profileRewardRepository,
   attestationRepository,
   organizationProfileRewardRepository,
 }) {
@@ -18,16 +17,13 @@ export async function getSharedAttestationsUserDetailByOrganizationId({
     attestationKey,
     organizationId,
   });
-  const profileRewardIds = sharedProfileRewards.map((sharedProfileReward) => sharedProfileReward.profileRewardId);
 
-  const profileRewards = await profileRewardRepository.getByIds({ profileRewardIds });
-
-  return profileRewards.map((profileReward) => {
+  return sharedProfileRewards.map((sharedProfileReward) => {
     return new AttestationUserDetail({
-      id: profileReward.id,
+      id: sharedProfileReward.profileRewardId,
       attestationKey,
-      obtainedAt: profileReward.createdAt,
-      userId: profileReward.userId,
+      userId: sharedProfileReward.userId,
+      obtainedAt: sharedProfileReward.obtainedAt,
     });
   });
 }

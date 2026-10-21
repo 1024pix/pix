@@ -6,7 +6,6 @@ export async function getSharedAttestationsForOrganizationByUserIds({
   organizationId,
   locale,
   userRepository,
-  profileRewardRepository,
   attestationRepository,
   organizationProfileRewardRepository,
   stringUtils,
@@ -22,10 +21,7 @@ export async function getSharedAttestationsForOrganizationByUserIds({
     attestationKey,
     organizationId,
   });
-  const profileRewardIds = sharedProfileRewards.map((sharedProfileReward) => sharedProfileReward.profileRewardId);
-
-  const profileRewards = await profileRewardRepository.getByIds({ profileRewardIds });
-  const filteredProfileRewards = profileRewards.filter((profileReward) => userIds.includes(profileReward.userId));
+  const filteredProfileRewards = sharedProfileRewards.filter((profileReward) => userIds.includes(profileReward.userId));
 
   if (filteredProfileRewards.length === 0) {
     throw new NoProfileRewardsFoundError();
@@ -48,7 +44,7 @@ export async function getSharedAttestationsForOrganizationByUserIds({
   const usersToAttestationForm = (attestationForms, user) => {
     const profileReward = profileRewardByUserId.get(user.id);
     if (profileReward) {
-      attestationForms.push(user.toForm(profileReward.createdAt, locale, stringUtils.normalizeAndRemoveAccents));
+      attestationForms.push(user.toForm(profileReward.obtainedAt, locale, stringUtils.normalizeAndRemoveAccents));
     }
     return attestationForms;
   };

@@ -120,12 +120,14 @@ describe('Profile | Integration | Infrastructure | Repository | organizations-pr
           profileRewardId: firstProfileReward.id,
           organizationId,
           userId: firstProfileReward.userId,
+          obtainedAt: firstProfileReward.createdAt,
         },
         {
           id: secondOrganizationProfileReward.id,
           profileRewardId: secondProfileReward.id,
           organizationId,
           userId: secondProfileReward.userId,
+          obtainedAt: secondProfileReward.createdAt,
         },
       ];
 
@@ -160,6 +162,7 @@ describe('Profile | Integration | Infrastructure | Repository | organizations-pr
           profileRewardId: firstProfileReward.id,
           organizationId,
           userId: firstProfileReward.userId,
+          obtainedAt: firstProfileReward.createdAt,
         },
       ];
 
@@ -180,6 +183,7 @@ describe('Profile | Integration | Infrastructure | Repository | organizations-pr
           profileRewardId: profileReward.id,
         }),
         userId: profileReward.userId,
+        obtainedAt: profileReward.createdAt,
       });
       databaseBuilder.factory.buildOrganizationsProfileRewards({
         organizationId: otherOrganizationId,
@@ -227,12 +231,14 @@ describe('Profile | Integration | Infrastructure | Repository | organizations-pr
             profileRewardId: firstProfileReward.id,
             organizationId,
             userId: firstProfileReward.userId,
+            obtainedAt: firstProfileReward.createdAt,
           },
           {
             id: secondOrganizationProfileReward.id,
             profileRewardId: secondProfileReward.id,
             organizationId,
             userId: secondProfileReward.userId,
+            obtainedAt: secondProfileReward.createdAt,
           },
         ];
 

@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { ProfileRewardStatuses } from '../../../profile/domain/models/ProfileReward.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { ORGANIZATION_FEATURE } from '../../../shared/constants.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
@@ -94,7 +95,9 @@ const register = async function (server) {
           query: Joi.object({
             filter: Joi.object({
               divisions: Joi.array().items(Joi.string()).optional(),
-              statuses: Joi.array().items(Joi.string().valid('OBTAINED', 'NOT_OBTAINED')).optional(),
+              statuses: Joi.array()
+                .items(Joi.string().valid(ProfileRewardStatuses.OBTAINED, ProfileRewardStatuses.NOT_OBTAINED))
+                .optional(),
               search: Joi.string().allow(null).empty('').optional(),
             }).default({}),
             page: {

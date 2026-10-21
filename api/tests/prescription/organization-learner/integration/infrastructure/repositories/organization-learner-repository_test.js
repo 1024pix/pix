@@ -5,6 +5,7 @@ import { AttestationParticipantStatus } from '../../../../../../src/prescription
 import { OrganizationLearner } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearner.js';
 import { OrganizationLearnerOverviewForAdmin } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerOverviewForAdmin.js';
 import { repositories } from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/index.js';
+import { ProfileRewardStatuses } from '../../../../../../src/profile/domain/models/ProfileReward.js';
 import { User } from '../../../../../../src/profile/domain/models/User.js';
 import { NotFoundError, OrganizationLearnerNotFound } from '../../../../../../src/shared/domain/errors.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
@@ -1572,7 +1573,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
           const result =
             await organizationLearnerRepository.findPaginatedAttestationStatusForOrganizationLearnersAndKey({
               attestationKey: attestation.key,
-              filter: { statuses: ['OBTAINED'] },
+              filter: { statuses: [ProfileRewardStatuses.OBTAINED] },
               organizationId,
             });
 

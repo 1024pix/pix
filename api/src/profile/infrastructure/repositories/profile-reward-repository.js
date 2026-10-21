@@ -46,18 +46,6 @@ export const getById = async ({ profileRewardId }) => {
 
 /**
  * @param {Object} args
- * @param {number} args.profileRewardIds
- * @returns {Promise<Array<ProfileReward>>}
- */
-export const getByIds = async ({ profileRewardIds }) => {
-  const knexConnection = await DomainTransaction.getConnection();
-  const profileRewards = await knexConnection('profile-rewards').whereIn('id', profileRewardIds);
-
-  return profileRewards.map(toDomain);
-};
-
-/**
- * @param {Object} args
  * @param {string} args.attestationKey
  * @param {Array<number>} args.userIds
  * @returns {Promise<Array<ProfileReward>>}
