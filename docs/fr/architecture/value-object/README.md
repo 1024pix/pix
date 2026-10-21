@@ -16,7 +16,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | [V4](#v4-aucun-effet-de-bord-extérieur) | Aucun effet de bord extérieur | pas d'import d'infrastructure ; la date du jour est passée en paramètre |
 | [V5](#v5-contient-ses-règles) | Contient ses règles | une règle sur ses données est une de ses méthodes |
 | [V6](#v6-pas-de-repository) | Pas de repository | il est enregistré avec l'objet qui le contient |
-| [V7](#v7-lecture-seule-tableaux-compris) | Lecture seule, tableaux compris | un getter renvoie une copie : `[...this.#items]`, pas `this.#items` |
+| [V7](#v7-aucun-tableau-interne-exposé) | Aucun tableau interne exposé | un getter renvoie une copie : `[...this.#items]`, pas `this.#items` |
 
 ## Exemple complet
 
@@ -68,7 +68,7 @@ export class QcmSolution {
 
 ## Comment tester
 
-Un Value Object se teste avec un test unitaire, sans stub, mock ni spy. Le test couvre :
+Un Value Object se teste avec un test unitaire, sans stub, sans mock ni spy. Le test couvre :
 
 - la validation : une valeur invalide lève une erreur. Exemple : `refuses a solution without correct choice` ;
 - les règles : chaque méthode, cas limites compris. Exemples : les trois tests de `isCorrect` ;
@@ -79,6 +79,12 @@ Le test de l'[exemple complet](#exemple-complet) :
 
 ```ts
 // tests/devcomp/unit/domain/models/QcmSolution_test.ts
+import { expect } from 'chai';
+
+import { InvalidQcmSolutionError } from '../../../../../src/devcomp/domain/errors.js';
+import { QcmSolution } from '../../../../../src/devcomp/domain/models/QcmSolution.js';
+import type { ChallengeId } from '../../../../../src/shared/domain/Id.js';
+
 describe('Unit | Devcomp | Domain | Models | QcmSolution', function () {
   const challengeId = 'challenge-1' as ChallengeId;
 
@@ -137,7 +143,7 @@ Dépend-il d'autre chose ?
 [ ] V6  Pas de repository
 
 Tests
-[ ] Un test unitaire, sans stub, mock ni spy
+[ ] Un test unitaire, sans stub, sans mock ni spy
 ```
 
 ## Référence des règles
@@ -147,14 +153,14 @@ Tests
 **La règle.** Une fois créé, l'objet ne change plus. Ses champs sont privés ou en lecture seule, et
 aucune méthode ne les modifie. Pour une autre valeur, on crée un autre objet.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 readonly challengeId: ChallengeId; // en lecture seule
 #correctChoiceIds: string[]; // privé
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 export class QcmSolution {
@@ -178,9 +184,10 @@ certains ordres d'exécution : on le cherche longtemps.
 sont égaux. Il peut garder l'identifiant d'autre chose, comme `challengeId` : c'est une donnée comme
 une autre.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
+// QcmSolution
 equals(other: QcmSolution): boolean {
   return other.challengeId === this.challengeId && other.isCorrect(this.#correctChoiceIds);
 }
@@ -188,7 +195,7 @@ equals(other: QcmSolution): boolean {
 
 La comparaison porte sur les valeurs. `challengeId` identifie la question, pas la solution.
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 export class QcmSolution {
@@ -208,16 +215,17 @@ l'objet, puis un repository. L'objet devient une Entity sans que personne l'ait 
 - si le front la renvoie et que le serveur la découpe : dans un Value Object, qui la construit, la
   découpe et la valide ;
 - si l'objet a une vraie identité métier faite de plusieurs champs : c'est une
-  [Entity](../entite/README.md).
+  [Entity](../entity/README.md).
 
 ### V3. Valide dès la construction
 
 **La règle.** Le constructeur vérifie les valeurs reçues. Si une valeur est invalide, il lève une
 erreur du domaine et l'objet n'est pas créé.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
+// QcmSolution
 constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; correctChoiceIds: string[] }) {
   if (correctChoiceIds.length === 0) {
     throw new InvalidQcmSolutionError('A QCM needs at least one correct choice');
@@ -226,9 +234,10 @@ constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; corre
 }
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
+// QcmSolution
 constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; correctChoiceIds: string[] }) {
   // TODO: throw an error if the solution is invalid
   this.challengeId = challengeId; // tout est accepté
@@ -249,7 +258,7 @@ constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; corre
 pas d'appel HTTP. Il n'appelle pas `new Date()` ni `Math.random()`, et ne lit pas la configuration. Si
 ces valeurs sont nécessaires, elles arrivent en paramètre.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 // la solution calcule, sans écrire de log
@@ -262,9 +271,9 @@ const isCorrect = solution.isCorrect(answer.selectedChoiceIds);
 logger.info(`Answer checked for challenge ${solution.challengeId}`);
 ```
 
-C'est le même log que dans le mauvais exemple, mais écrit par le usecase.
+C'est au usecase d'écrire le log, pas au Value Object.
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
@@ -287,13 +296,13 @@ appelle `new Date()` ne donne pas le même résultat d'un lancement à l'autre.
 **La règle.** Une règle qui porte sur les données du Value Object est une de ses méthodes. Sinon,
 chaque appelant réécrit la règle.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 solution.isCorrect(answer.selectedChoiceIds); // la règle de correction est dans la solution
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 // dans un usecase : la règle de correction est réécrite à la main
@@ -317,9 +326,9 @@ fonction qui attend une `QcmSolution` refuse alors une simple liste de chaînes.
 ### V6. Pas de repository
 
 **La règle.** Un Value Object n'a ni repository ni table à lui. Il est enregistré avec l'objet qui le
-contient. Un objet qu'il faut retrouver seul est une [Entity](../entite/README.md).
+contient. Un objet qu'il faut retrouver seul est une [Entity](../entity/README.md).
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 // la solution arrive avec la question, par le repository des questions
@@ -327,7 +336,7 @@ const challenge = await challengeRepository.get(challengeId);
 challenge.solution.isCorrect(answer.selectedChoiceIds);
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 // un repository rien que pour les solutions
@@ -340,29 +349,33 @@ jamais créée ni enregistrée seule.
 **Sans cette règle.** Pour retrouver l'objet, le repository a besoin d'un identifiant. L'objet en
 reçoit un, et on se retrouve avec une Entity déguisée.
 
-### V7. Lecture seule, tableaux compris
+### V7. Aucun tableau interne exposé
 
-**La règle.** On ne peut rien modifier depuis l'extérieur, pas même le contenu d'un tableau. Un getter
-qui renvoie un tableau renvoie une copie, et le constructeur garde une copie du tableau reçu.
+**La règle.** Un getter qui renvoie un tableau renvoie une copie, et le constructeur garde une copie du
+tableau reçu. La copie ne copie que le tableau, pas ses éléments : les éléments doivent donc être
+eux-mêmes immuables, des chaînes, des nombres ou des Value Objects. C'est le cas des identifiants de
+choix de `QcmSolution`.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
+// QcmSolution
 get correctChoiceIds(): string[] {
   return [...this.#correctChoiceIds]; // une copie
 }
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
+// QcmSolution
 get correctChoiceIds(): string[] {
   return this.#correctChoiceIds; // le tableau interne, modifiable par l'appelant
 }
 ```
 
-**Ce que ça apporte.** La solution ne change plus après sa création, même si l'appelant modifie le
-tableau qu'il a reçu.
+**Ce que ça apporte.** L'appelant peut modifier le tableau qu'il a reçu : la solution, elle, ne change
+pas.
 
 **Sans cette règle.** Un appel à `solution.correctChoiceIds.push('b')` change la solution, sans passer
 par aucune de ses méthodes.
