@@ -33,19 +33,6 @@ describe('Unit | Organizational Entities | Domain | Model | Structure', function
 
   describe('#attachCertificationCenter', function () {
     context('when structure has no attached certification center', function () {
-      context('when certification center has no structure', function () {
-        it('should attach the certification center', function () {
-          // given
-          const structure = domainBuilder.acquisition.buildStructure({ id: 1, organizationId: 2 });
-
-          // when
-          structure.attachCertificationCenter({ certificationCenterId: 3 });
-
-          // then
-          expect(structure.certificationCenterId).to.equal(3);
-        });
-      });
-
       context('when certification center structure is not attached to an organization', function () {
         it('should attach the certification center', function () {
           // given
@@ -56,7 +43,7 @@ describe('Unit | Organizational Entities | Domain | Model | Structure', function
           });
 
           // when
-          structure.attachCertificationCenter({ certificationCenterId: 3, certificationCenterStructure });
+          structure.attachCertificationCenter({ certificationCenterStructure });
 
           // then
           expect(structure.certificationCenterId).to.equal(3);
@@ -78,7 +65,6 @@ describe('Unit | Organizational Entities | Domain | Model | Structure', function
             structure.attachCertificationCenter,
             structure,
           )({
-            certificationCenterId: 3,
             certificationCenterStructure,
           });
 
@@ -106,9 +92,13 @@ describe('Unit | Organizational Entities | Domain | Model | Structure', function
           organizationId: 2,
           certificationCenterId: 4,
         });
+        const certificationCenterStructure = domainBuilder.acquisition.buildStructure({
+          id: 10,
+          certificationCenterId: 3,
+        });
 
         // when
-        const error = catchErrSync(structure.attachCertificationCenter, structure)({ certificationCenterId: 3 });
+        const error = catchErrSync(structure.attachCertificationCenter, structure)({ certificationCenterStructure });
 
         // then
         expect(error).to.be.instanceOf(UnableToAttachCertificationCenterToOrganization);

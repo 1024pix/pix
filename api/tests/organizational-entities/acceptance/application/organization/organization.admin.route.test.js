@@ -1725,7 +1725,8 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       // given
       const server = await getServer();
 
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const { certificationCenter } = databaseBuilder.factory.buildCertificationCenterWithStructure();
+      const certificationCenterId = certificationCenter.id;
       const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
       await databaseBuilder.commit();
 
