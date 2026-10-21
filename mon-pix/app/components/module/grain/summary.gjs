@@ -2,8 +2,10 @@ import { PixBlock } from '@1024pix/nebulix-ember';
 
 <template>
   <div class="grain-summary">
-    <div class="grain-summary__decoration"></div>
+    <span class="grain-summary__decoration"></span>
     <PixBlock class="grain-summary__block">
+      <img src="/images/modulix/megaphone.png" class="grain-summary__image" alt="" />
+
       {{yield}}
     </PixBlock>
   </div>
