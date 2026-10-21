@@ -5,23 +5,6 @@ import { InvalidIdentityProviderError } from '../../../../../src/shared/domain/e
 import { RequestedApplication } from '../../../../../src/shared/infrastructure/utils/network.js';
 
 describe('Unit | Identity Access Management | Domain | Services | oidc-authentication-service-registry', function () {
-  describe('getAllOidcProviderServices', function () {
-    it('returns all the OidcAuthenticationServices, enabled or not', async function () {
-      // given
-      const oidcProviderServices = [{ code: 'NOT_ENABLED_OP' }, { code: 'ENABLED_OP', enabled: true }];
-      const oidcAuthenticationServiceRegistry = new OidcAuthenticationServiceRegistry();
-      oidcAuthenticationServiceRegistry.testOnly_reset(oidcProviderServices);
-
-      // when
-      const result = await oidcAuthenticationServiceRegistry.getAllOidcProviderServices();
-
-      // then
-      expect(result).to.have.lengthOf(2);
-      expect(result[0].code).to.eql('NOT_ENABLED_OP');
-      expect(result[1].code).to.eql('ENABLED_OP');
-    });
-  });
-
   describe('getOidcProviderServicesByRequestedApplication', function () {
     it('returns the enabled OidcAuthenticationServices for a given requestedApplication', async function () {
       // given

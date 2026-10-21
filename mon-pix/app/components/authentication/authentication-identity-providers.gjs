@@ -27,7 +27,10 @@ export default class AuthenticationIdentityProviders extends Component {
   @action
   goToOidcProviderLoginPage() {
     this.oidcIdentityProviders.isOidcProviderAuthenticationInProgress = true;
-    this.router.transitionTo('authentication.login-oidc', this.oidcIdentityProviders.featuredIdentityProvider.slug);
+    this.router.transitionTo(
+      'authentication.oidc.login-flow',
+      this.oidcIdentityProviders.featuredIdentityProvider.slug,
+    );
   }
 
   <template>

@@ -30,7 +30,7 @@ export class OidcAuthenticationService {
 
   constructor(
     {
-      accessTokenLifespan = '48h',
+      accessTokenLifespan,
       additionalRequiredProperties,
       application,
       applicationTld,
@@ -41,22 +41,22 @@ export class OidcAuthenticationService {
       extraAuthorizationUrlParameters,
       enabled,
       enabledForPixAdmin,
-      shouldCloseSession = false,
+      shouldCloseSession,
       identityProvider,
       openidClientExtraMetadata,
       openidConfigurationUrl,
       organizationName,
       postLogoutRedirectUri,
       redirectUri,
-      scope = DEFAULT_SCOPE,
+      scope,
       slug,
       source,
-      isVisible = true,
+      isVisible,
       claimMapping,
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage, openidClient = client } = {},
   ) {
-    this.accessTokenLifespanMs = ms(accessTokenLifespan);
+    this.accessTokenLifespanMs = ms(accessTokenLifespan ?? '48h');
     this.additionalRequiredProperties = additionalRequiredProperties;
     this.application = application;
     this.applicationTld = applicationTld;
@@ -65,7 +65,7 @@ export class OidcAuthenticationService {
     this.enabled = enabled;
     this.enabledForPixAdmin = enabledForPixAdmin;
     this.extraAuthorizationUrlParameters = extraAuthorizationUrlParameters;
-    this.shouldCloseSession = shouldCloseSession;
+    this.shouldCloseSession = shouldCloseSession ?? false;
     this.identityProvider = identityProvider;
     this.connectionMethodCode = connectionMethodCode;
     this.openidClientExtraMetadata = openidClientExtraMetadata;
@@ -73,18 +73,18 @@ export class OidcAuthenticationService {
     this.organizationName = organizationName;
     this.postLogoutRedirectUri = postLogoutRedirectUri;
     this.redirectUri = redirectUri;
-    this.scope = scope;
+    this.scope = scope ?? DEFAULT_SCOPE;
     this.sessionTemporaryStorage = sessionTemporaryStorage;
     this.slug = slug;
     this.source = source;
-    this.isVisible = isVisible;
+    this.isVisible = isVisible ?? true;
+    this.claimMapping = claimMapping ?? DEFAULT_CLAIM_MAPPING;
     this.#openidClient = openidClient ?? client;
 
     const additionalClaims = !lodash.isEmpty(claimsToStore)
       ? claimsToStore.split(',').map((claim) => claim.trim())
       : [];
-
-    this.claimManager = new ClaimManager({ claimMapping: claimMapping || DEFAULT_CLAIM_MAPPING, additionalClaims });
+    this.claimManager = new ClaimManager({ claimMapping: this.claimMapping, additionalClaims });
 
     this.sessionDurationSeconds = this.accessTokenLifespanMs / 1000;
   }

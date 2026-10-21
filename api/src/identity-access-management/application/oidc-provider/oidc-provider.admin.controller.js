@@ -34,9 +34,9 @@ async function createInBatch(request, h) {
  * @param h
  * @return {Promise<*>}
  */
-async function getAllIdentityProvidersForAdmin(request, h) {
-  const identityProviders = await usecases.getAllIdentityProviders();
-  return h.response(oidcIdentityProvidersSerializer.serialize(identityProviders)).code(200);
+async function findAllOidcProvidersForAdmin(request, h) {
+  const oidcProviders = await usecases.findAllOidcProviders();
+  return h.response(oidcIdentityProvidersSerializer.serialize(oidcProviders)).code(200);
 }
 
 /**
@@ -76,6 +76,6 @@ async function reconcileUserForAdmin(
 export const oidcProviderAdminController = {
   getImportTemplate,
   createInBatch,
-  getAllIdentityProvidersForAdmin,
+  findAllOidcProvidersForAdmin,
   reconcileUserForAdmin,
 };

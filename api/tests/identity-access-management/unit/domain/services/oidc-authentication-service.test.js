@@ -44,7 +44,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
 
-    context('when claimMapping and claimsToStore are null', function () {
+    context('when claimMapping and claimsToStore are null or undefined', function () {
       it('creates a default claimManager ', async function () {
         // given
         const args = { claimMapping: null, claimsToStore: null };

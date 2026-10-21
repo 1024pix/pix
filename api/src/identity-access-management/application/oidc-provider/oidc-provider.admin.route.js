@@ -36,9 +36,9 @@ export const oidcProviderAdminRoutes = [
   },
   {
     method: 'GET',
-    path: '/api/admin/oidc/identity-providers',
+    path: '/api/admin/oidc-providers',
     config: {
-      handler: (request, h) => oidcProviderAdminController.getAllIdentityProvidersForAdmin(request, h),
+      handler: (request, h) => oidcProviderAdminController.findAllOidcProvidersForAdmin(request, h),
       notes: [
         "Cette route renvoie une liste contenant tous les fournisseurs d'identité OIDC (même désactivés) pour leur gestion dans Pix Admin",
       ],

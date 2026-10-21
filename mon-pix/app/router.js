@@ -135,7 +135,7 @@ Router.map(function () {
 
   this.route('authentication', { path: '/connexion' }, function () {
     this.route('login', { path: '' });
-    this.route('login-oidc', { path: '/:identity_provider_slug' });
+    this.route('oidc.login-flow', { path: '/:identity_provider_slug' });
     this.route('oidc-signup-or-login', { path: '/oidc' });
     this.route('login-gar', { path: '/gar' });
     this.route('sso-selection');

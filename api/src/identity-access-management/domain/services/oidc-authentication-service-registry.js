@@ -7,8 +7,11 @@ import { OidcAuthenticationService } from './oidc-authentication-service.js';
 import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authentication-service.js';
 
 export class OidcAuthenticationServiceRegistry {
+  /** @type {OidcAuthenticationService[] | null} */
   #allOidcProviderServices = null;
+  /** @type {Record<string, OidcAuthenticationService[]>} */
   #oidcProviderServicesByRequestedApplication = {};
+  /** @type {Record<string, OidcAuthenticationService>} */
   #readyOidcProviderServicesByIdentityProviderCode = {};
 
   constructor(dependencies = {}) {
@@ -16,20 +19,9 @@ export class OidcAuthenticationServiceRegistry {
   }
 
   /**
-   * Returns all the OidcAuthenticationServices, enabled or not.
-   *
-   * @returns {OidcAuthenticationService[]|null}
-   */
-  async getAllOidcProviderServices() {
-    await this.#loadAllOidcProviderServices();
-
-    return this.#allOidcProviderServices;
-  }
-
-  /**
    * Returns the enabled OidcAuthenticationServices for the given requestedApplication.
    *
-   * @returns {OidcAuthenticationService[]|null}
+   * @returns {Promise<OidcAuthenticationService[]>}
    */
   async getOidcProviderServicesByRequestedApplication(requestedApplication) {
     await this.#loadAllOidcProviderServices();
@@ -38,14 +30,15 @@ export class OidcAuthenticationServiceRegistry {
       requestedApplication.applicationName,
       requestedApplication.applicationTld,
     );
-    return this.#oidcProviderServicesByRequestedApplication[key] || [];
+    return this.#oidcProviderServicesByRequestedApplication[key] ?? [];
   }
 
   /**
    * Returns the configured OidcAuthenticationService for a given code and requestedApplication.
    *
-   * @returns {OidcAuthenticationService}
-   * @throws {InvalidArgumentException} if oidcProviderService.initializeClientConfig() throws an error
+   * @returns {Promise<OidcAuthenticationService>}
+   * @throws {InvalidIdentityProviderError} there isn’t any matching OidcAuthenticationService
+   * @throws {OidcError} if oidcProviderService.initializeClientConfig() throws an error
    */
   async getOidcProviderServiceByCode({ identityProviderCode, requestedApplication }) {
     await this.#loadAllOidcProviderServices();

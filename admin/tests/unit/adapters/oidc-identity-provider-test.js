@@ -29,7 +29,7 @@ module('Unit | Adapter | OidcIdentityProvider', function (hooks) {
       });
 
       // then
-      assert.ok(url.endsWith('/admin/oidc/identity-providers'));
+      assert.ok(url.endsWith('/admin/oidc-providers'));
     });
   });
 });

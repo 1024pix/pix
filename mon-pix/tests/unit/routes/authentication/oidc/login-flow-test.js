@@ -5,10 +5,10 @@ import Location from 'mon-pix/utils/location';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import { stubOidcIdentityProvidersService } from '../../../helpers/service-stubs';
-import setupIntl from '../../../helpers/setup-intl';
+import { stubOidcIdentityProvidersService } from '../../../../helpers/service-stubs';
+import setupIntl from '../../../../helpers/setup-intl';
 
-module('Unit | Route | login-oidc', function (hooks) {
+module('Unit | Route | Authentication | OIDC | login flow', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks);
 
@@ -16,7 +16,7 @@ module('Unit | Route | login-oidc', function (hooks) {
     module('when receives error from identity provider', function () {
       test('it throws an error', function (assert) {
         // given
-        const route = this.owner.lookup('route:authentication/login-oidc');
+        const route = this.owner.lookup('route:authentication/oidc.login-flow');
 
         // when & then
         assert.rejects(
@@ -56,7 +56,7 @@ module('Unit | Route | login-oidc', function (hooks) {
       module('when identity provider is not supported', function () {
         test('it redirects the user to main login page', async function (assert) {
           // given
-          const route = this.owner.lookup('route:authentication/login-oidc');
+          const route = this.owner.lookup('route:authentication/oidc.login-flow');
           route.router = { transitionTo: sinon.stub() };
 
           // when
@@ -77,7 +77,7 @@ module('Unit | Route | login-oidc', function (hooks) {
               authenticate: sinon.stub().resolves(),
               data: {},
             });
-            const route = this.owner.lookup('route:authentication/login-oidc');
+            const route = this.owner.lookup('route:authentication/oidc.login-flow');
             route.set('session', sessionStub);
             sinon.stub(Location, 'assign');
 
@@ -104,7 +104,7 @@ module('Unit | Route | login-oidc', function (hooks) {
                 authenticate: authenticateStub,
                 data: {},
               });
-              const route = this.owner.lookup('route:authentication/login-oidc');
+              const route = this.owner.lookup('route:authentication/oidc.login-flow');
               route.set('session', sessionStub);
               sinon.stub(Location, 'assign');
               route.router.urlFor = sinon.stub();
@@ -132,7 +132,7 @@ module('Unit | Route | login-oidc', function (hooks) {
                 authenticate: authenticateStub,
                 data: {},
               });
-              const route = this.owner.lookup('route:authentication/login-oidc');
+              const route = this.owner.lookup('route:authentication/oidc.login-flow');
               route.set('session', sessionStub);
               sinon.stub(Location, 'assign');
               route.router.urlFor = sinon.stub();
@@ -160,7 +160,7 @@ module('Unit | Route | login-oidc', function (hooks) {
           authenticate: sinon.stub().resolves(),
           data: { nextURL: '/previous-url' },
         });
-        const route = this.owner.lookup('route:authentication/login-oidc');
+        const route = this.owner.lookup('route:authentication/oidc.login-flow');
         route.set('session', sessionStub);
         sinon.stub(Location, 'assign');
 
@@ -202,7 +202,7 @@ module('Unit | Route | login-oidc', function (hooks) {
           authenticate: authenticateStub,
           data: {},
         });
-        const route = this.owner.lookup('route:authentication/login-oidc');
+        const route = this.owner.lookup('route:authentication/oidc.login-flow');
         route.set('session', sessionStub);
         route.router = { transitionTo: sinon.stub() };
 
@@ -231,7 +231,7 @@ module('Unit | Route | login-oidc', function (hooks) {
           authenticate: authenticateStub,
           data: {},
         });
-        const route = this.owner.lookup('route:authentication/login-oidc');
+        const route = this.owner.lookup('route:authentication/oidc.login-flow');
         route.set('session', sessionStub);
         route.router = { transitionTo: sinon.stub() };
 
@@ -253,7 +253,7 @@ module('Unit | Route | login-oidc', function (hooks) {
           authenticate: authenticateStub,
           data: {},
         });
-        const route = this.owner.lookup('route:authentication/login-oidc');
+        const route = this.owner.lookup('route:authentication/oidc.login-flow');
         route.set('session', sessionStub);
         route.router = { transitionTo: sinon.stub() };
 
