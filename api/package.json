@@ -164,7 +164,7 @@
     "samlify": "2.13.1",
     "sax": "1.6.1",
     "saxpath": "0.6.5",
-    "undici": "8.11.2",
+    "undici": "8.12.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
     "xml2js": "0.6.2",
     "xmlbuilder2": "4.0.3",
