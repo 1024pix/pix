@@ -1586,6 +1586,11 @@
         }
       },
       "sco-deployment": {
+        "sco-announcement": {
+          "action": "Edit banners",
+          "description": "Update the information shown to MENJ and MASA schools on the home page of their Pix Orga space.",
+          "title": "Pix Orga banners"
+        },
         "sco-blocked-access-date": {
           "cancel-button": "Cancel",
           "error": "Could not save the new date",
@@ -1598,11 +1603,6 @@
           "save-button": "Submit",
           "success": "Date successfully updated",
           "title": "Configuration of reopening dates for Pix Certif SCO spaces"
-        },
-        "sco-redirect-to-announcement": {
-          "action": "Edit banners",
-          "description": "Update the information shown to MENJ and MASA schools on the home page of their Pix Orga space.",
-          "title": "Update Pix Orga home page information"
         },
         "sco-whitelist": {
           "export": {
