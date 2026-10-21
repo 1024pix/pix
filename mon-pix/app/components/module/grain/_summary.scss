@@ -1,0 +1,20 @@
+@use 'pix-design-tokens/typography';
+
+.grain-summary {
+  display: flex;
+  flex-direction: row;
+  gap: var(--pix-spacing-4x);
+
+  &__decoration {
+    width: 72px;
+    background: url('/images/illustrations/results/summary-result.svg') bottom 0 left 0/400px no-repeat, var(--pix-gradient-default-dark);
+    border-radius: var(--pix-spacing-4x) 0 0 var(--pix-spacing-4x);
+
+  }
+
+  &__block {
+    width: 100%;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
