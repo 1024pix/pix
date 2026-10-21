@@ -132,7 +132,7 @@ Classer selon les trois cas de V2, puis :
 2. **Clé renvoyée par le client.** Un Value Object porte la paire construire / découper, et les deux
    vivent ensemble. C'est un identifiant, donc V3 s'applique à lui. Le déplacer dans le sérialiseur
    séparerait les deux moitiés d'une même règle.
-3. **Identité métier composite.** L'objet est une Entity. Il relève de `../entite/README.md`, et rien
+3. **Identité métier composite.** L'objet est une Entity. Il relève de `../entity/README.md`, et rien
    n'est à corriger.
 
 Le classement précède la correction : appliquer le cas 1 à un objet du cas 2 casse la requête entrante
@@ -164,7 +164,7 @@ cesse de dire combien de concepts porte le contexte. La théorie est dans
 **Correction.** Le test du motif de V8, retirée de la fiche (voir les numéros retirés de `corpus-index.md`), s'applique fichier par
 fichier. Ce qui exprime une différence de nature reste, comme l'absence d'identité ou un vocabulaire
 d'entrée distinct. Ce qui n'exprime qu'un sous-ensemble de champs disparaît : l'Entity se charge
-entière, change par une méthode nommée, puis se sauve. C'est `E6` de `../entite/README.md`.
+entière, change par une méthode nommée, puis se sauve. C'est `E6` de `../entity/README.md`.
 
 **Révision.** Une mesure change ce verdict pour un cas donné. Un chargement dont le coût est constaté
 en production justifie une forme partielle, documentée avec la mesure à côté du modèle.

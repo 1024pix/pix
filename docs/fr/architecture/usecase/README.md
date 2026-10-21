@@ -1,7 +1,7 @@
 # Usecase
 
 Un usecase réalise une intention du métier : créer une organisation, l'archiver, lui activer une
-fonctionnalité. Il charge un [Aggregate](../racine-agregat/README.md) par son
+fonctionnalité. Il charge un [Aggregate](../aggregate-root/README.md) par son
 [repository](../repository/README.md), appelle ses méthodes, puis enregistre le résultat. Les règles du
 métier vivent dans l'Aggregate, pas dans le usecase. Chaque contexte du code, comme
 `organizational-entities` ou `quest`, range ses usecases dans `domain/usecases/`, un fichier par
@@ -26,7 +26,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 ## Exemple complet
 
 Les trois usecases de l'Aggregate `Organization`, leur index, puis un usecase du contexte `quest` qui
-lit une organisation par l'[API interne](../api-interne/README.md) d'`organizational-entities`. La
+lit une organisation par l'[API interne](../internal-api/README.md) d'`organizational-entities`. La
 règle du métier de l'exemple : si `LEARNER_IMPORT` est activée, `isManagingStudents` est toujours
 `false`. Elle vit dans la méthode `enableFeature()` de l'Aggregate, et aucun usecase ne la réécrit.
 Exemple inventé, d'après
@@ -161,7 +161,7 @@ export const hasAccessToCombinedCourse = async ({
 ## Comment tester
 
 Un usecase se teste avec un test d'intégration, sur une vraie base de données. On l'appelle par
-l'index du contexte, comme le fait le [contrôleur](../controleur/README.md). On ne teste pas un
+l'index du contexte, comme le fait le [contrôleur](../controller/README.md). On ne teste pas un
 usecase en unitaire avec des stubs : le test vérifierait seulement l'ordre des appels, c'est-à-dire
 qu'il recopierait le code. Le test couvre :
 
@@ -429,7 +429,7 @@ l'import montre de quel contexte il vient.
 
 **La règle.** Un usecase ne sait pas comment il est appelé. Il ne reçoit ni `request`, ni `h`, ni le
 payload JSON, et ne choisit pas de code HTTP. Il reçoit des objets du domaine ou des valeurs typées. Le
-contrôleur et le [sérialiseur](../serialiseur/README.md) traduisent la requête avant l'appel.
+contrôleur et le [sérialiseur](../serializer/README.md) traduisent la requête avant l'appel.
 
 **Bon exemple.**
 
@@ -509,7 +509,7 @@ effets.
 
 **La règle.** Un usecase qui écrit est enveloppé dans `withTransaction`. La transaction ne modifie
 qu'un seul Aggregate. Si un autre Aggregate doit suivre, un autre usecase le modifie, dans sa propre
-transaction. La règle [A7](../racine-agregat/README.md#a7-une-transaction-un-aggregate) de la fiche
+transaction. La règle [A7](../aggregate-root/README.md#a7-une-transaction-un-aggregate) de la fiche
 Aggregate Root pose le même principe du côté de l'Aggregate. U7 dit où le usecase pose la transaction.
 
 **Bon exemple.**

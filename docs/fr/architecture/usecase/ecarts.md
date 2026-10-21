@@ -58,7 +58,7 @@ est une règle écrite deux fois. La théorie est dans
 [`explication.md`](explication.md#x1-la-règle-métier-vit-dans-le-usecase).
 
 **Correction.** Déplacer la règle sur l'objet qui porte l'état, sous une méthode qui nomme
-l'intention : c'est `E6` de [`../entite/README.md`](../entite/README.md). Le usecase passe de la
+l'intention : c'est `E6` de [`../entity/README.md`](../entity/README.md). Le usecase passe de la
 condition à l'appel :
 `combinedCourseBlueprint.isSharedWith({ organizationId: combinedCourseForCreation.organizationId })`.
 

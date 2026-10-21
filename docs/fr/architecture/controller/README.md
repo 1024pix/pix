@@ -297,8 +297,8 @@ lit le `code` pour afficher le bon message ne le trouve pas à la création.
 - Certaines choses ont leur place ailleurs que dans le contrôleur :
   - la forme du payload : la validation Joi de la route ;
   - les droits d'accès : un pre-handler sur la route ;
-  - la traduction de l'objet en JSON:API : le [sérialiseur](../serialiseur/README.md) ;
-  - une donnée exposée à un autre contexte : l'[API interne](../api-interne/README.md).
+  - la traduction de l'objet en JSON:API : le [sérialiseur](../serializer/README.md) ;
+  - une donnée exposée à un autre contexte : l'[API interne](../internal-api/README.md).
 
 **Exceptions.**
 
@@ -373,7 +373,7 @@ Le test remplace alors la méthode sur l'objet `usecases` importé :
 ### C4. Aucun accès direct aux données
 
 **La règle.** Le contrôleur ne connaît que les usecases de son contexte. Il n'appelle ni repository, ni
-client de stockage, ni [API interne](../api-interne/README.md), ni usecase d'un autre contexte. Pour
+client de stockage, ni [API interne](../internal-api/README.md), ni usecase d'un autre contexte. Pour
 une donnée d'un autre contexte, c'est le usecase qui la demande, par un
 [repository](../repository/README.md) qui appelle l'API interne de ce contexte.
 

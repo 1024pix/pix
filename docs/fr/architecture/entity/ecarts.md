@@ -167,9 +167,9 @@ ne se justifie pas encore sur l'existant. La théorie est dans
 
 **Correction.** Aucune sur l'existant. Pour le neuf, l'intention de création prend un type distinct,
 `…ForCreation`, sans identifiant. La signature porte alors l'information, et le typage la vérifie.
-C'est `V8` de `../objet-valeur/README.md` appliqué à une Entity.
+C'est `V8` de `../value-object/README.md` appliqué à une Entity.
 
-`X7` de `../objet-valeur/ecarts.md` limite la pratique : une forme de création exprime une
+`X7` de `../value-object/ecarts.md` limite la pratique : une forme de création exprime une
 différence de nature, donc elle est légitime. Une forme de mise à jour portant un sous-ensemble de
 champs ne l'est pas, sauf mesure.
 

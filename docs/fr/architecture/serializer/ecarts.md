@@ -87,7 +87,7 @@ retombe à une liste de noms.
 
 Le déplacement est mécanique quand le calcul est pur. Il ne l'est pas quand il faut décider si le
 champ appartient au read-model, donc à la présentation, ou au domaine. C'est le discriminant du rôle
-dans `../objet-valeur/README.md`. Le critère est celui de `RM1` de `../read-model/README.md` : ce
+dans `../value-object/README.md`. Le critère est celui de `RM1` de `../read-model/README.md` : ce
 calcul décide-t-il quelque chose ?
 
 ### X3. Un champ est retiré, renommé, ou change de sens sans coordination

@@ -76,12 +76,12 @@ revue, d'où le statut `[partiel]` de la ligne U5 dans la checklist.
 
 Un fichier de `domain/services/` qui reçoit un paramètre dont le nom finit par `Repository`, `Api` ou
 `Storage` fait des I/O. Ce n'est donc pas un Domain Service. C'est la règle de signature de `D1`, dans
-[`../service-domaine/README.md`](../service-domaine/README.md).
+[`../domain-service/README.md`](../domain-service/README.md).
 
 La règle est triviale à écrire. Elle se déclenchera sur l'existant, et c'est voulu : elle produit la
 liste des fichiers de `services/` à classer. Elle reste en avertissement jusqu'à la fin de ce
 classement, préalable à la correction de `X1` de
-[`../service-domaine/ecarts.md`](../service-domaine/ecarts.md).
+[`../domain-service/ecarts.md`](../domain-service/ecarts.md).
 
 Le même parcours d'AST sert l'étape 1 de I1 dans
 [`../repository/outillage.md`](../repository/outillage.md#i1--deux-étapes), qui repère déjà les

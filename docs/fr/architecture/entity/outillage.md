@@ -51,7 +51,7 @@ réduit la précision de toutes les règles de cette section.
 commande. Le chemin s'écrit `src/.+/`, pas `src/[^/]+/`. Avec la seconde forme, les contextes à
 sous-contextes ne sont pas atteints : la règle ne s'y déclenche jamais, sans aucun message.
 
-Cette règle est partagée avec `V4` de `../objet-valeur/README.md`, que `../specification/README.md`
+Cette règle est partagée avec `V4` de `../value-object/README.md`, que `../specification/README.md`
 reprend pour ses critères : une seule configuration couvre les trois.
 
 ### E6 — mutateur nu
@@ -109,7 +109,7 @@ format publié.
 
 E2 et E7 demandent de savoir ce qui appartient au même Aggregate. E5 demande de savoir ce qui est un
 format publié. Ces deux informations ne se lisent pas dans un fichier isolé, et elles ne sont écrites
-nulle part. C'est le même manque que celui relevé dans `../racine-agregat/outillage.md`.
+nulle part. C'est le même manque que celui relevé dans `../aggregate-root/outillage.md`.
 
 ### Tests attendus — existence du fichier
 

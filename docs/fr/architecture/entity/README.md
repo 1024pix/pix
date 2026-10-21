@@ -17,7 +17,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | [E5](#e5-rien-pour-la-base-de-données) | Rien pour la base de données | pas de `toDTO()` ni de `fromDTO()`, c'est le travail du repository |
 | [E6](#e6-pas-de-setter) | Pas de setter | chaque changement a sa méthode métier : `endDueToFinalization()`, pas `set state()` |
 | [E7](#e7-un-nom-du-métier) | Un nom du métier | un fichier par Entity, en PascalCase, nommé avec le mot du métier |
-| [E8](#e8-pas-dautre-entity-dedans) | Pas d'autre Entity dedans | des id et des valeurs ; une Entity qui en contient d'autres est une [Aggregate Root](../racine-agregat/README.md) |
+| [E8](#e8-pas-dautre-entity-dedans) | Pas d'autre Entity dedans | des id et des valeurs ; une Entity qui en contient d'autres est une [Aggregate Root](../aggregate-root/README.md) |
 
 ## Exemple complet
 
@@ -548,7 +548,7 @@ vient.
 
 **La règle.** Une Entity ne contient pas d'autre Entity. Elle contient des identifiants et des
 valeurs, comme un état ou un Value Object. Une Entity qui contient d'autres Entities et les modifie
-est une Aggregate Root : voir la fiche [Aggregate Root](../racine-agregat/README.md).
+est une Aggregate Root : voir la fiche [Aggregate Root](../aggregate-root/README.md).
 
 **Exemple de code correct.**
 

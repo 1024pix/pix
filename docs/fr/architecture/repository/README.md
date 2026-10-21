@@ -13,7 +13,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | # | Règle | En pratique |
 | --- | --- | --- |
 | [I1](#i1-renvoie-des-objets-du-domaine) | Renvoie des objets du domaine | `get({ id })` renvoie une `Organization`, jamais la ligne de la table |
-| [I2](#i2-reçoit-des-objets-du-domaine) | Reçoit des objets du domaine | `update({ organization })` reçoit l'[Aggregate](../racine-agregat/README.md) entier, jamais un objet aux noms de colonnes |
+| [I2](#i2-reçoit-des-objets-du-domaine) | Reçoit des objets du domaine | `update({ organization })` reçoit l'[Aggregate](../aggregate-root/README.md) entier, jamais un objet aux noms de colonnes |
 | [I3](#i3-get-lève-find-renvoie-null) | `get*` lève, `find*` renvoie `null` | `get()` lève `OrganizationNotFound` ; un `find*` renvoie `null` ou une liste vide |
 | [I4](#i4-des-erreurs-du-domaine) | Des erreurs du domaine | le repository lève une erreur de `domain/errors.js`, jamais une `Error` nue ni l'erreur de la base |
 | [I5](#i5-les-dépendances-arrivent-en-paramètre) | Les dépendances arrivent en paramètre | pas d'import d'API interne ni de client ; l'index les injecte |
@@ -25,7 +25,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 
 ## Exemple complet
 
-Le repository de l'[Aggregate Root](../racine-agregat/README.md) `Organization` : il charge et
+Le repository de l'[Aggregate Root](../aggregate-root/README.md) `Organization` : il charge et
 enregistre l'organisation et ses fonctionnalités, dans les tables `organizations` et
 `organization-features`. La règle du métier : si `LEARNER_IMPORT` est activée, `isManagingStudents` est
 toujours `false`. La méthode `enableFeature()` de `Organization` applique cette règle. Exemple inventé, d'après
@@ -348,7 +348,7 @@ organisation qui importe ses élèves et qui les gère aussi.
   alors dans le domaine. La traduction ne garde que les champs dont le domaine a besoin.
 - Le DTO de l'API interne d'un autre contexte n'est pas un objet du domaine local, même s'il a déjà la
   forme d'un objet. Le repository qui lit cette API le traduit dans un modèle du contexte. C'est
-  l'Anticorruption Layer : voir la fiche [API interne](../api-interne/README.md).
+  l'Anticorruption Layer : voir la fiche [API interne](../internal-api/README.md).
 - Une liste paginée renvoie une enveloppe `{ models, pagination }`. Les `models` sont des objets du
   domaine.
 

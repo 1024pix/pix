@@ -27,22 +27,22 @@ Un dossier par type de fichier de `api/`. Chacun contient `README.md`, `explicat
 | --- | --- | --- |
 | [`repository/`](repository/README.md) | `I` | le port vers l'extérieur, base ou API voisine |
 | [`usecase/`](usecase/README.md) | `U` | usecase |
-| [`api-interne/`](api-interne/README.md) | `P` | le contrat publié entre contextes |
-| [`controleur/`](controleur/README.md) | `C` | contrôleur |
+| [`internal-api/`](internal-api/README.md) | `P` | le contrat publié entre contextes |
+| [`controller/`](controller/README.md) | `C` | contrôleur |
 | [`route/`](route/README.md) | `R` | route |
-| [`serialiseur/`](serialiseur/README.md) | `M` | sérialiseur, dans les deux sens |
-| [`entite/`](entite/README.md) | `E` | Entity |
-| [`objet-valeur/`](objet-valeur/README.md) | `V` | Value Object |
-| [`racine-agregat/`](racine-agregat/README.md) | `A` | Aggregate Root |
+| [`serializer/`](serializer/README.md) | `M` | sérialiseur, dans les deux sens |
+| [`entity/`](entity/README.md) | `E` | Entity |
+| [`value-object/`](value-object/README.md) | `V` | Value Object |
+| [`aggregate-root/`](aggregate-root/README.md) | `A` | Aggregate Root |
 | [`read-model/`](read-model/README.md) | `RM` | read-model, la forme assemblée pour une lecture |
-| [`service-domaine/`](service-domaine/README.md) | `D` | Domain Service |
+| [`domain-service/`](domain-service/README.md) | `D` | Domain Service |
 | [`specification/`](specification/README.md) | `S` | moteur de règles composable et piloté par des données |
 
 Les écarts se numérotent `X` dans tous les dossiers. `X` n'est le préfixe d'invariant d'aucun
 dossier. Le read-model emploie `RM` pour ne pas entrer en collision avec `R` de la route.
 
 **Le discriminant Value Object / read-model est énoncé une seule fois**, sous « Le discriminant » dans
-`objet-valeur/explication.md`. `read-model/README.md` y renvoie.
+`value-object/explication.md`. `read-model/README.md` y renvoie.
 
 ## Les autres fichiers
 
@@ -63,14 +63,14 @@ Consignées pour ne pas être rejouées.
 
 | Décision | Ce qu'elle tranche | Conséquence dans le corpus |
 | --- | --- | --- |
-| `domain/services/` est réservé aux **vrais Domain Services** | Les fichiers qui font des I/O partent dans `usecases/`. Le dossier devient rare, voire vide par endroits, et c'est attendu | `X1` de `service-domaine/ecarts.md` a une direction. `D1` devient activable en erreur une fois le déplacement fait |
+| `domain/services/` est réservé aux **vrais Domain Services** | Les fichiers qui font des I/O partent dans `usecases/`. Le dossier devient rare, voire vide par endroits, et c'est attendu | `X1` de `domain-service/ecarts.md` a une direction. `D1` devient activable en erreur une fois le déplacement fait |
 | Les champs qui portent une règle sont **privés** | Un champ qui porte une règle ne doit pas pouvoir être réécrit de l'extérieur. Là où rien n'est protégé, c'est de l'hygiène | `V1`, `E1` et `E6` gardent leur règle, avec ce motif. Le modèle de référence de la documentation d'architecture n'est pas la cible |
 | Les deux règles hébergées dans Confluence sont **vraies** | Contrôles d'accès en pre-handler, et objets de contrat dans `application/api/models/` | `R2` et `P5` sont confirmés. Reste à les écrire dans un ADR |
 | Le mot `read-model` est **conservé** | C'est l'Ubiquitous Language de l'équipe, et le renommer n'apportait rien sur l'outillage | `X2` de `read-model/ecarts.md` classé *à surveiller*. Le travail est le classement, pas le renommage |
-| La **désérialisation** relève de `serialiseur/README.md` | Le sérialiseur traduit dans les deux sens, ce que `docs/fr/Anatomy.md` documente. 46 fichiers sur 235 ont une fonction de désérialisation | Invariant `M5` ajouté. `M1` limité au sens sortant, et sa règle dans `serialiseur/outillage.md` doit exclure le corps des désérialisations, sinon elle se déclenche sur du code correct |
-| Les modèles par **intention d'écriture** ne se multiplient pas sans mesure | `…ForCreation` exprime une différence de nature et reste. `…ForUpdate` portant un sous-ensemble de champs est un modèle partiellement rempli, et c'est le côté commande de CQRS sans CQRS | L'écart `X7` de `objet-valeur/ecarts.md` est créé. La règle générale est passée dans le gabarit : un bénéfice de performance non mesuré compte pour nul. Révisé le 2026-10-02 : `V8` est retiré, voir les numéros retirés |
-| La transaction reste au grain du **usecase**, même sur plusieurs Aggregates | ADR 25, sur un motif mesuré : les événements dans les transactions ont causé des deadlocks en production | `A7` de `racine-agregat/README.md` devient une question de conception et non la règle appliquée. `X4` passe en *rien à faire*. `U7` gagne son critère |
-| Pas d'ADR sur la stabilité du format des réponses HTTP | Ce que font les applications front n'est pas le sujet de ce corpus. Et deux tiers de l'écart se règlent par un outil plutôt que par une procédure | `X3` de `serialiseur/ecarts.md` se réduit à une règle : ne jamais redéfinir le sens d'une valeur existante. Le reste attend le paquet partagé : voir `migration-typescript.md` |
+| La **désérialisation** relève de `serializer/README.md` | Le sérialiseur traduit dans les deux sens, ce que `docs/fr/Anatomy.md` documente. 46 fichiers sur 235 ont une fonction de désérialisation | Invariant `M5` ajouté. `M1` limité au sens sortant, et sa règle dans `serializer/outillage.md` doit exclure le corps des désérialisations, sinon elle se déclenche sur du code correct |
+| Les modèles par **intention d'écriture** ne se multiplient pas sans mesure | `…ForCreation` exprime une différence de nature et reste. `…ForUpdate` portant un sous-ensemble de champs est un modèle partiellement rempli, et c'est le côté commande de CQRS sans CQRS | L'écart `X7` de `value-object/ecarts.md` est créé. La règle générale est passée dans le gabarit : un bénéfice de performance non mesuré compte pour nul. Révisé le 2026-10-02 : `V8` est retiré, voir les numéros retirés |
+| La transaction reste au grain du **usecase**, même sur plusieurs Aggregates | ADR 25, sur un motif mesuré : les événements dans les transactions ont causé des deadlocks en production | `A7` de `aggregate-root/README.md` devient une question de conception et non la règle appliquée. `X4` passe en *rien à faire*. `U7` gagne son critère |
+| Pas d'ADR sur la stabilité du format des réponses HTTP | Ce que font les applications front n'est pas le sujet de ce corpus. Et deux tiers de l'écart se règlent par un outil plutôt que par une procédure | `X3` de `serializer/ecarts.md` se réduit à une règle : ne jamais redéfinir le sens d'une valeur existante. Le reste attend le paquet partagé : voir `migration-typescript.md` |
 
 ## ADR à écrire
 
@@ -80,16 +80,16 @@ endroit du dépôt qui fasse autorité : chacune reste à y écrire.
 | Décision | Où elle s'applique |
 | --- | --- |
 | La connexion à la base vient toujours de `DomainTransaction`, avec deux exceptions : le datamart, et l'écriture qui doit survivre à la transaction | `I12` de `repository/README.md` |
-| Un repository par Aggregate ; un repository de plus seulement pour une lecture mesurée, qui renvoie un read-model | `X4` de `repository/ecarts.md`, `A3` de `racine-agregat/README.md` |
+| Un repository par Aggregate ; un repository de plus seulement pour une lecture mesurée, qui renvoie un read-model | `X4` de `repository/ecarts.md`, `A3` de `aggregate-root/README.md` |
 | Un seul régime de câblage : tout repository est dans l'index du contexte | `I6` de `repository/README.md` |
 | Une API interne passe toujours par un repository du contexte consommateur, l'Anticorruption Layer | `U9` de `usecase/README.md` |
-| Une API interne appelle ses usecases par l'index, jamais par un import direct | `api-interne/README.md`, exceptions légitimes |
-| Un DTO n'expose que les champs que ses consommateurs lisent | `P9` de `api-interne/README.md` |
-| Aucune règle métier dans un sérialiseur, exports CSV compris ; une clé de présentation se compose dans le sérialiseur | `M1` de `serialiseur/README.md`, `V2` de `objet-valeur/README.md` |
+| Une API interne appelle ses usecases par l'index, jamais par un import direct | `internal-api/README.md`, exceptions légitimes |
+| Un DTO n'expose que les champs que ses consommateurs lisent | `P9` de `internal-api/README.md` |
+| Aucune règle métier dans un sérialiseur, exports CSV compris ; une clé de présentation se compose dans le sérialiseur | `M1` de `serializer/README.md`, `V2` de `value-object/README.md` |
 | Dans un usecase, aucun `catch` sans filtre qui journalise puis continue | `X7` de `usecase/ecarts.md` |
-| `domain/services/` est réservé aux vrais Domain Services | `service-domaine/README.md`, rôle |
+| `domain/services/` est réservé aux vrais Domain Services | `domain-service/README.md`, rôle |
 | Les contrôles d'accès se déclarent sur la route | `R2` de `route/README.md`, sourcé par une page Confluence |
-| L'emplacement des objets de contrat et la documentation générée des APIs internes | `P3` et `P5` de `api-interne/README.md`, sourcés par la page Confluence liée à l'ADR 55 |
+| L'emplacement des objets de contrat et la documentation générée des APIs internes | `P3` et `P5` de `internal-api/README.md`, sourcés par la page Confluence liée à l'ADR 55 |
 
 ## Numéros retirés
 
@@ -100,19 +100,19 @@ numéro retiré n'est plus réattribué. Les documents de travail (`explication.
 
 | Numéro | Portait | Où c'est traité |
 | --- | --- | --- |
-| `I7` de `repository/` | le modèle ne porte pas de méthode au service de la persistance | `E5` de `entite/README.md` |
+| `I7` de `repository/` | le modèle ne porte pas de méthode au service de la persistance | `E5` de `entity/README.md` |
 | `I8` de `repository/` | le nom du fichier dit la source du repository | écarté : la couche est uniforme, voir `repository/explication.md` |
 | `X5` de `repository/` | `domain/usecases/index.js` importe l'infrastructure | `X3` de `usecase/ecarts.md` |
-| `X3` de `racine-agregat/` | plusieurs repositories pour une même frontière | `X4` de `repository/ecarts.md` |
-| `A5` de `racine-agregat/` | le doublon de `E3` | `E3` de `entite/README.md` |
-| ancien `E7` de `entite/` | pas d'objet d'un autre Aggregate | `A4` de `racine-agregat/README.md` : une règle d'Aggregate, sortie de la fiche Entity ; `A4`, retiré quand il doublait l'ancien `E7`, revient pour la porter. Exception à la règle de non-réattribution : l'ancien `E8` (un nom du métier) devient `E7`, pour garder une suite sans trou, et `E8` porte maintenant « pas d'autre Entity dedans » |
-| `E9` de `entite/` | seule une Aggregate Root émet des événements | mis de côté avec les événements du domaine, voir les chantiers ouverts |
-| `X2` de `entite/` | les règles vivent dans les usecases | `X1` de `usecase/ecarts.md` |
-| `X1`, `X6` de `objet-valeur/` | des écarts du read-model | `read-model/ecarts.md` |
-| `S3`, `S4`, `S9` de `specification/` | des réénoncés de `V4`, de `V1`, `V2`, `V6`, `V7`, et de `V3` | `objet-valeur/README.md` |
-| `D6` de `service-domaine/` | testable en unitaire pur, qui découle de `D1` | « Tests attendus » de `service-domaine/README.md` |
+| `X3` de `aggregate-root/` | plusieurs repositories pour une même frontière | `X4` de `repository/ecarts.md` |
+| `A5` de `aggregate-root/` | le doublon de `E3` | `E3` de `entity/README.md` |
+| ancien `E7` de `entity/` | pas d'objet d'un autre Aggregate | `A4` de `aggregate-root/README.md` : une règle d'Aggregate, sortie de la fiche Entity ; `A4`, retiré quand il doublait l'ancien `E7`, revient pour la porter. Exception à la règle de non-réattribution : l'ancien `E8` (un nom du métier) devient `E7`, pour garder une suite sans trou, et `E8` porte maintenant « pas d'autre Entity dedans » |
+| `E9` de `entity/` | seule une Aggregate Root émet des événements | mis de côté avec les événements du domaine, voir les chantiers ouverts |
+| `X2` de `entity/` | les règles vivent dans les usecases | `X1` de `usecase/ecarts.md` |
+| `X1`, `X6` de `value-object/` | des écarts du read-model | `read-model/ecarts.md` |
+| `S3`, `S4`, `S9` de `specification/` | des réénoncés de `V4`, de `V1`, `V2`, `V6`, `V7`, et de `V3` | `value-object/README.md` |
+| `D6` de `domain-service/` | testable en unitaire pur, qui découle de `D1` | « Tests attendus » de `domain-service/README.md` |
 | `X2` de `route/` | aucune liste des routes délibérément publiques | écarté : `auth: false` déclare une route publique |
-| `V8` de `objet-valeur/` | un type par intention, `…ForCreation` | retiré : une Entity neuve et une Entity enregistrée sont une seule classe, typée `Organization<null>` ou `Organization`. Voir « À savoir » de `E1` dans `entite/README.md` |
+| `V8` de `value-object/` | un type par intention, `…ForCreation` | retiré : une Entity neuve et une Entity enregistrée sont une seule classe, typée `Organization<null>` ou `Organization`. Voir « À savoir » de `E1` dans `entity/README.md` |
 
 ## Chantiers ouverts
 
@@ -135,12 +135,12 @@ numéro retiré n'est plus réattribué. Les documents de travail (`explication.
     Entity a un id.
 - **Les événements du domaine.** La publication des événements (outbox dans la transaction, relais
   après le commit) est mise de côté en attendant une discussion avec les staffs. Une version existe
-  dans le commit `23a5cd7096` (règle A8 de `racine-agregat/README.md`), retirée ensuite. Points à
+  dans le commit `23a5cd7096` (règle A8 de `aggregate-root/README.md`), retirée ensuite. Points à
   éclaircir : la base des jobs est-elle déjà séparée, et comment le job lancé avant le commit est-il
   évité depuis #15451.
 - **Des Aggregates manquants.** Certains usecases portent des règles sur plusieurs objets à la fois,
   faute d'une racine pour les porter. Aucun inventaire de ces règles n'existe. C'est le préalable pour
-  les décrire en écart dans `racine-agregat/ecarts.md`, avec de vrais exemples.
+  les décrire en écart dans `aggregate-root/ecarts.md`, avec de vrais exemples.
 - **Le classement de `read-models/`.** Le classement des fichiers de `read-models/` selon les quatre
   tests du discriminant n'est pas fait. Il conditionne le passage de la règle de `RM3` en erreur.
 - **Les ADR.** Les onze décisions de la section « ADR à écrire ».
@@ -151,7 +151,7 @@ numéro retiré n'est plus réattribué. Les documents de travail (`explication.
 
 - `docs/fr/Anatomy.md` décrit l'arborescence `lib/`, qui n'existe plus depuis l'ADR 51. Il source le
   sens des dossiers, pas la structure.
-- `P3` et `P5` de `api-interne/README.md`, et `R2` de `route/README.md`, reposent sur une page
+- `P3` et `P5` de `internal-api/README.md`, et `R2` de `route/README.md`, reposent sur une page
   Confluence liée en fin d'ADR 55. Elle peut changer ou disparaître sans que rien ici ne le signale,
   et l'ADR ne reproduit pas la décision. À reporter dans l'ADR : le dossier `api` dans la couche
   application, le sous-dossier `models` pour les classes de contrat, et les contrôles d'accès en
@@ -187,7 +187,7 @@ décrit comme un **Value Object défectueux**, et c'est ce cadrage qui rendait l
 insaisissable. Deux dossiers obligent chaque catégorie à se tenir sur ses propres termes.
 
 Le discriminant reste : **le domaine raisonne-t-il avec cet objet ?**, avec quatre tests applicables
-en revue, énoncés sous « Le discriminant » dans `objet-valeur/explication.md`.
+en revue, énoncés sous « Le discriminant » dans `value-object/explication.md`.
 
 **Le mot `read-model` est conservé**, décision du 2026-09-08 qui renverse un verdict précédent. Il
 avait été classé « à corriger » au motif que le renommage débloquerait une vérification par règle de
@@ -201,7 +201,7 @@ Ce qui reste à faire est le **classement** des fichiers, pas le renommage : c'e
 porte le discriminant entre catégories de modèles. Écarté : ce document est un état des lieux daté.
 Y placer du contenu stable casserait la règle qui fonde le corpus : les `README.md` sont intemporels,
 le reste se périme. Les cinq invariants mécaniques communs restent donc énoncés dans
-`objet-valeur/README.md` : immuabilité, absence d'identité, pureté, absence de cycle de vie,
+`value-object/README.md` : immuabilité, absence d'identité, pureté, absence de cycle de vie,
 exposition en lecture seule. `read-model/README.md` y renvoie, et les reprend dans sa checklist
 seulement, parce qu'une checklist doit se copier telle quelle.
 

@@ -3,13 +3,13 @@
 Un read-model est un objet assemblé pour un écran ou une réponse : une ligne de la liste des
 organisations de Pix Admin, le détail d'une campagne. Un [repository](../repository/README.md) le
 construit avec une requête, souvent sur plusieurs tables. Le [usecase](../usecase/README.md) le
-renvoie sans le lire, et le [sérialiseur](../serialiseur/README.md) le met au format de la réponse.
+renvoie sans le lire, et le [sérialiseur](../serializer/README.md) le met au format de la réponse.
 Aucune règle du métier ne le lit. Les read-models se rangent dans `domain/read-models/`.
 
-Comme un [Value Object](../objet-valeur/README.md), il ne change pas après sa création
-([V1](../objet-valeur/README.md#v1-immuable)) et ne dépend d'aucune infrastructure
-([V4](../objet-valeur/README.md#v4-aucun-effet-de-bord-extérieur)). Il est lu dans les tables où
-l'[Aggregate](../racine-agregat/README.md) écrit.
+Comme un [Value Object](../value-object/README.md), il ne change pas après sa création
+([V1](../value-object/README.md#v1-immuable)) et ne dépend d'aucune infrastructure
+([V4](../value-object/README.md#v4-aucun-effet-de-bord-extérieur)). Il est lu dans les tables où
+l'[Aggregate](../aggregate-root/README.md) écrit.
 
 ## Les règles
 
@@ -366,7 +366,7 @@ export const findPaginatedFilteredOrganizations = ({
 ```
 
 Quand il faut décider, le usecase charge l'Aggregate,
-comme `enableOrganizationFeature` dans la [fiche Aggregate Root](../racine-agregat/README.md#exemple-complet) :
+comme `enableOrganizationFeature` dans la [fiche Aggregate Root](../aggregate-root/README.md#exemple-complet) :
 
 ```ts
 // enable-organization-feature.ts
@@ -401,8 +401,8 @@ que la règle de l'Aggregate interdit.
 
 - Si une règle a vraiment besoin de lire l'objet, ce n'est pas un read-model. C'est un Value Object,
   rangé dans `domain/models/` : il valide ses valeurs à la construction
-  ([V3](../objet-valeur/README.md#v3-valide-dès-la-construction)) et porte ses règles
-  ([V5](../objet-valeur/README.md#v5-contient-ses-règles)).
+  ([V3](../value-object/README.md#v3-valide-dès-la-construction)) et porte ses règles
+  ([V5](../value-object/README.md#v5-contient-ses-règles)).
 - L'autre sens est interdit aussi : un modèle du domaine ne fabrique pas de read-model. `Organization`
   n'a pas de méthode `toListItem()`. C'est le repository qui construit la ligne.
 

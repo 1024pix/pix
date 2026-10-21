@@ -38,7 +38,7 @@ ce classement.
 
 Ces invariants ne disent pas si la règle devait être transversale. Un Domain Service correct peut
 cacher une frontière d'Aggregate mal placée : la règle traverse deux Aggregates qui auraient dû n'en
-faire qu'un. Voir `A1` de `../racine-agregat/README.md`.
+faire qu'un. Voir `A1` de `../aggregate-root/README.md`.
 
 ## Les décisions et leur histoire
 

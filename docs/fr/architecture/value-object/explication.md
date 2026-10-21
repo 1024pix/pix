@@ -87,7 +87,7 @@ cible est dans [`outillage.md`](outillage.md#vérifier-par-le-typage).
 
 ### V1 et la règle de l'Entity
 
-La référence de l'Entity, `../entite/README.md`, protège les champs qui portent une règle. La
+La référence de l'Entity, `../entity/README.md`, protège les champs qui portent une règle. La
 référence du Value Object garde sa propre règle, plus large. Le motif retenu est qu'un champ qui porte
 une règle ne doit pas pouvoir être réécrit de l'extérieur. Pour un Value Object, immuable par
 définition, cela vaut pour tous ses champs.

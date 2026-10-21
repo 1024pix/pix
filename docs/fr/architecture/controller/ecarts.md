@@ -124,7 +124,7 @@ hors contrat. C'est une violation de `C4` de [`README.md`](README.md#c4-aucun-ac
 délégation d'une ligne, ce que l'ADR 20 admet (voir `X5` de `../usecase/ecarts.md`).
 
 Le second cas est moins mécanique. Il faut vérifier que le contexte voisin expose la capacité par son
-API interne, et l'y ajouter sinon. Voir `../api-interne/README.md`.
+API interne, et l'y ajouter sinon. Voir `../internal-api/README.md`.
 
 Les deux cas se vérifient par configuration seule. Ils sont donc faciles à empêcher pour l'avenir,
 même si le rattrapage prend du temps : voir [`outillage.md`](outillage.md#c4--règles-de-chemin).

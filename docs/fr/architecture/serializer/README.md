@@ -19,8 +19,8 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 
 ## Exemple complet
 
-Le sérialiseur de l'[`Organization`](../racine-agregat/README.md), pour
-`POST /api/admin/organizations`. Le [contrôleur](../controleur/README.md) lui demande de désérialiser
+Le sérialiseur de l'[`Organization`](../aggregate-root/README.md), pour
+`POST /api/admin/organizations`. Le [contrôleur](../controller/README.md) lui demande de désérialiser
 le payload (le corps de la requête) en `Organization<null>`, une organisation pas encore enregistrée,
 sans id. Puis il lui demande de sérialiser l'organisation créée.
 
@@ -307,9 +307,9 @@ liste de chaînes, sans lien avec le type `Organization`.
   demande un id pour chaque ressource incluse, et le front range chaque ressource dans son cache par
   cet id. `OrganizationFeature` n'a pas d'id, donc le sérialiseur compose
   `${organization.id}_${feature.featureName}`. Le domaine ne connaît pas cette clé. Si le front renvoie la clé au serveur, elle devient un
-  Value Object : voir V2 de la fiche [Value Object](../objet-valeur/README.md).
+  Value Object : voir V2 de la fiche [Value Object](../value-object/README.md).
 - Composer un libellé à partir de plusieurs champs reçus est permis. Ce n'est pas un champ fabriqué.
-- Recevoir un read-model plutôt qu'une [Entity](../entite/README.md) est permis. C'est même la façon
+- Recevoir un read-model plutôt qu'une [Entity](../entity/README.md) est permis. C'est même la façon
   d'exposer un champ que l'Entity ne porte pas.
 
 ### M3. Le format de réponse est un contrat externe

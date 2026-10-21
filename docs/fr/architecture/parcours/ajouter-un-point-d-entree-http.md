@@ -8,12 +8,12 @@ Il ne contient aucun invariant. Les invariants vivent dans les trois dossiers, u
 | Fichier | Fiche | Préfixe |
 | --- | --- | --- |
 | `application/*-route.js` | [`route/`](../route/README.md) | `R` |
-| `application/*-controller.js` | [`controleur/`](../controleur/README.md) | `C` |
-| `infrastructure/serializers/*.js` | [`serialiseur/`](../serialiseur/README.md) | `M` |
+| `application/*-controller.js` | [`controller/`](../controller/README.md) | `C` |
+| `infrastructure/serializers/*.js` | [`serializer/`](../serializer/README.md) | `M` |
 
 Un quatrième élément complète la couche sans avoir de fiche : le **mappeur d'erreurs** du contexte,
 qui associe les erreurs du domaine aux codes HTTP. Il porte seul la logique de statut, ce qui permet
-aux trois autres de n'en porter aucune. Voir C2 de `../controleur/README.md`.
+aux trois autres de n'en porter aucune. Voir C2 de `../controller/README.md`.
 
 ---
 
@@ -25,13 +25,13 @@ aux trois autres de n'en porter aucune. Voir C2 de `../controleur/README.md`.
 rien d'autre où la mettre. Écrire le usecase d'abord oblige à nommer l'intention métier ; le reste
 devient mécanique.
 
-**2. Écrivez le sérialiseur.** Voir `../serialiseur/README.md`.
+**2. Écrivez le sérialiseur.** Voir `../serializer/README.md`.
 
 Il révèle ce que le usecase doit renvoyer. Si un champ à exposer n'existe pas sur l'objet rendu, c'est
 au usecase ou au read-model de le fournir, pas au sérialiseur de le fabriquer (M2). Écrire le
 sérialiseur avant le contrôleur fait apparaître ce manque tout de suite.
 
-**3. Écrivez le contrôleur.** Voir `../controleur/README.md`.
+**3. Écrivez le contrôleur.** Voir `../controller/README.md`.
 
 Il extrait les paramètres, appelle le usecase et rend la réponse. S'il en fait plus, quelque chose
 manque en amont.
@@ -64,10 +64,10 @@ R2 s'appuie sur la documentation d'architecture Pix (Confluence), mais sur aucun
 [ ] U4  L'intention métier a un nom et un fichier dans usecases/         → usecase/
 [ ] R2  Pre-handler de sécurité, stratégie explicite, auth: false, ou authentifiée sans restriction et voulue  → route/
 [ ] R1  La forme de toutes les entrées est déclarée et validée           → route/
-[ ] C1  Un seul usecase appelé par le contrôleur                         → controleur/
-[ ] C2  Aucune décision dans le contrôleur, code d'erreur compris        → controleur/
-[ ] M1  Aucune logique sur l'objet sérialisé, dans le sens sortant       → serialiseur/
-[ ] M2  Tous les champs exposés existent sur l'objet reçu                → serialiseur/
+[ ] C1  Un seul usecase appelé par le contrôleur                         → controller/
+[ ] C2  Aucune décision dans le contrôleur, code d'erreur compris        → controller/
+[ ] M1  Aucune logique sur l'objet sérialisé, dans le sens sortant       → serializer/
+[ ] M2  Tous les champs exposés existent sur l'objet reçu                → serializer/
 [ ] R3  La route déclare ses étiquettes et sa description                → route/
 [ ] Test d'acceptance couvrant le refus de droits, pas seulement l'accès autorisé
 [ ] Tests unitaires du contrôleur et du sérialiseur, sans fixture métier

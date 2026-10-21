@@ -19,7 +19,7 @@ la théorie dans [`explication.md`](explication.md#la-théorie-des-écarts).
 | **X4** La résolution d'une propriété du candidat se fait par nom | convention assumée | Rien ne garantit qu'un nom corresponde à une donnée. C'est ce qui rend `S7` nécessaire | Réel : le format s'étend sans toucher au moteur, et une specification nouvelle ne demande aucun déploiement | *À surveiller* |
 
 L'écart « le candidat est rangé avec les Aggregates » n'est pas listé ici : il est énoncé sous `X1` de
-`../racine-agregat/ecarts.md`, où se trouve le dossier fautif.
+`../aggregate-root/ecarts.md`, où se trouve le dossier fautif.
 
 ---
 

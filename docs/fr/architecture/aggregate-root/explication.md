@@ -64,7 +64,7 @@ de frontière n'est pas formulé, donc un défaut de A1.
 | **A7** une transaction, un Aggregate | moyenne | Les conflits d'écriture concurrente restent raisonnables, et, hors cas échouer-ensemble de l'ADR 25, la question « faut-il une transaction ici ? » a une réponse mécanique |
 | **A3** un repository par racine | hygiène | Le nombre de repositories redevient une information sur la conception. Aucun défaut prévenu |
 
-Les invariants hérités gardent le ROI qu'ils ont dans `../entite/explication.md`. **E3** et **E7**
+Les invariants hérités gardent le ROI qu'ils ont dans `../entity/explication.md`. **E3** et **E7**
 y sont classés en rentabilité forte, et c'est sur une racine que ce classement se justifie le plus.
 
 L'[ordre de mise en œuvre](outillage.md#ordre-de-mise-en-œuvre) suit le coût et les dépendances, pas

@@ -64,10 +64,10 @@ partagé** peut porter deux choses :
 - les **constantes** qui portent du sens — valeurs possibles d'un état, codes d'erreur, énumérations
   du contrat.
 
-Ce que ça change pour le corpus : `M3` de `serialiseur/README.md` est aujourd'hui le seul invariant sans
+Ce que ça change pour le corpus : `M3` de `serializer/README.md` est aujourd'hui le seul invariant sans
 aucun moyen de vérification, parce que ses consommateurs sont hors du dépôt. Le paquet le ramène en
 grande partie dans le domaine du vérifiable, et le détail des trois niveaux est sous
-« La piste qui changerait `M3` » dans `serialiseur/outillage.md`.
+« La piste qui changerait `M3` » dans `serializer/outillage.md`.
 
 Le bénéfice sur les constantes n'attend pas la migration pour exister : la duplication des littéraux
 entre l'API et les fronts est un défaut d'aujourd'hui.

@@ -28,7 +28,7 @@ analyse d'AST.
 | **S6** format publié | test comparant les énumérations à une documentation versionnée | ~15 lignes | aucun. Suppose la documentation du format, voir [`S6`](#s6--ce-qui-manque-avant-de-pouvoir-le-tester) |
 | **S8** pas de redéfinition | règle `dependency-cruiser`, **après** le découpage de `X1` de [`ecarts.md`](ecarts.md) | configuration | — |
 | **S2** | revue | — | — |
-| Invariants hérités | voir `../objet-valeur/outillage.md` | — | — |
+| Invariants hérités | voir `../value-object/outillage.md` | — | — |
 
 ### S7 — le test le plus rentable, et l'erreur à ne pas refaire
 
@@ -113,7 +113,7 @@ Cet ordre suit le coût, pas le ROI : voir [`explication.md`](explication.md#roi
 2. **S1** : test paramétré sur les énumérations
 3. **S5** : test de composition
 4. **Invariants hérités** : la règle de chemin et la règle sur les champs publics, mutualisées avec
-   `../objet-valeur/outillage.md`
+   `../value-object/outillage.md`
 5. **S6** : documenter le format, puis le test qui l'oppose au code
 6. **S2** : choisir la sortie, puis reprendre les sites d'appel
 7. **S8** : après le découpage de `X1`, la règle de chemin qui le verrouille

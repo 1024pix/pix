@@ -1,7 +1,7 @@
 # Domain Service
 
-Un Domain Service porte une règle du métier qui ne relève d'aucune [Entity](../entite/README.md) ni
-d'aucun [Value Object](../objet-valeur/README.md). Il calcule à partir des objets qu'on lui donne, sans
+Un Domain Service porte une règle du métier qui ne relève d'aucune [Entity](../entity/README.md) ni
+d'aucun [Value Object](../value-object/README.md). Il calcule à partir des objets qu'on lui donne, sans
 rien charger ni enregistrer. Par exemple : trouver les paliers qu'une participation à une campagne
 vient d'atteindre. Les Domain Services se rangent dans `domain/services/`, et ce dossier ne contient
 qu'eux.
@@ -265,7 +265,7 @@ service en mémoire.
 - le log : le service importe le logger de l'infrastructure, et le test écrit dans la sortie.
 
 Si le service a besoin d'une de ces valeurs, le usecase la lui passe en paramètre, comme `now` dans
-une [Entity](../entite/README.md#e4-aucun-effet-de-bord-extérieur). Une bibliothèque de calcul, comme `dayjs`, est permise : elle ne fait pas d'I/O.
+une [Entity](../entity/README.md#e4-aucun-effet-de-bord-extérieur). Une bibliothèque de calcul, comme `dayjs`, est permise : elle ne fait pas d'I/O.
 
 **Exceptions.**
 
@@ -374,7 +374,7 @@ classe permet d'ajouter un champ plus tard.
 **La règle.** Avant de créer un Domain Service, le développeur cherche un objet où placer la règle :
 
 - une règle sur les données d'un seul objet va sur ce Value Object ou cette Entity ;
-- une règle qui relie les objets d'un même Aggregate va sur l'[Aggregate Root](../racine-agregat/README.md) ;
+- une règle qui relie les objets d'un même Aggregate va sur l'[Aggregate Root](../aggregate-root/README.md) ;
 - une règle qui a besoin de charger ou d'enregistrer va dans un usecase (voir [D1](#d1-aucune-io)).
 
 Le service ne reçoit que la règle qui reste : elle croise plusieurs objets, et aucun n'en est

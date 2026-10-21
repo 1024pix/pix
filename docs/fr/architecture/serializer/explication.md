@@ -15,7 +15,7 @@ et c'est cette traduction qui empêche la forme du transport d'atteindre le doma
 cette porte le raisonnement que `I1` de `../repository/README.md` applique à la persistance.
 
 `M3` donne à la couche une particularité : c'est la seule du dépôt dont les consommateurs sont
-partiellement inconnus. C'est le pendant externe de `P6` de `../api-interne/README.md`. Une différence
+partiellement inconnus. C'est le pendant externe de `P6` de `../internal-api/README.md`. Une différence
 impose plus de prudence : les consommateurs d'une API interne sont connaissables, puisque ce sont les
 contextes qui déclarent en dépendre. Ceux d'une API HTTP le sont moins.
 
@@ -59,7 +59,7 @@ s'en écarte est décrit sous `X5` de [`ecarts.md`](ecarts.md).
 Une clé de présentation, comme un identifiant composé pour le front, se compose à partir de champs
 reçus. L'équipe a décidé qu'elle se compose dans le sérialiseur. Ce n'est pas fabriquer un champ au
 sens de `M2`, puisque la valeur ne vient que de champs présents. Le raisonnement complet est dans
-`../objet-valeur/`, autour de `V2`.
+`../value-object/`, autour de `V2`.
 
 ### La stabilité du format, sans ADR
 

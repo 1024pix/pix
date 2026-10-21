@@ -31,7 +31,7 @@ application/api/read-models/ → contrat publié vers un autre contexte
 **Code.** Par exemple [`domain/read-models/`](https://github.com/1024pix/pix/tree/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/read-models) et [`application/api/read-models/`](https://github.com/1024pix/pix/tree/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/organization-learner/application/api/read-models).
 
 Sous le premier dossier, deux natures se mélangent. Certains objets sont lus par une règle : ce sont
-des Value Objects, qui doivent satisfaire `V3` et `V5` de `../objet-valeur/README.md`. D'autres ne font
+des Value Objects, qui doivent satisfaire `V3` et `V5` de `../value-object/README.md`. D'autres ne font
 que sortir.
 
 **Verdict.** Le classement est tout le bénéfice attendu, et il n'est pas fait. Le coût est payé sans
@@ -45,10 +45,10 @@ bénéfice : à corriger. La théorie est dans
    ces objets font du travail de domaine.
 2. Un objet assemblé pour sortir reste un **read-model**, dans `domain/read-models/`. Rien à faire.
 3. Le contrat publié vers un autre contexte est un **DTO de contrat**. Il relève de
-   `../api-interne/README.md`. Le mot `read-model` y est trompeur.
+   `../internal-api/README.md`. Le mot `read-model` y est trompeur.
 
 Le classement se fait fichier par fichier, par les quatre tests du discriminant de
-`../objet-valeur/README.md`.
+`../value-object/README.md`.
 
 Ce que la correction débloque : RM3 par une règle de chemin. La règle **peut déjà s'écrire** : les
 deux dossiers sont frères. Mais elle se déclencherait aujourd'hui sur les Value Objects mal rangés. Elle

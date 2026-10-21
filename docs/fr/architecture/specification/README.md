@@ -7,10 +7,10 @@ est une. Elle décide par exemple si un élève a droit à l'attestation de sixi
 
 Une Specification a quatre éléments :
 
-- **la specification**, l'arbre des critères. Ici, la quête : une [Entity](../entite/README.md) ;
+- **la specification**, l'arbre des critères. Ici, la quête : une [Entity](../entity/README.md) ;
 - **les critères**, les feuilles et les combinateurs de l'arbre. Un combinateur regroupe d'autres
   critères, avec `all` (tous remplis) ou `one-of` (au moins un rempli). Ce sont des
-  [Value Objects](../objet-valeur/README.md) ;
+  [Value Objects](../value-object/README.md) ;
 - **le candidat**, l'objet évalué, assemblé pour l'occasion. C'est aussi un Value Object ;
 - **la méthode d'évaluation**, ici `isEligible(candidat)`, le seul point d'entrée.
 
@@ -531,7 +531,7 @@ le traite comme un élève qui n'y a pas droit, et personne ne le sait.
 
 - une donnée du candidat est absente : `false`, c'est `S1` ;
 - un critère est mal écrit, par exemple un type inconnu : l'arbre ne se construit pas, c'est la règle
-  [V3 de la fiche Value Object](../objet-valeur/README.md#v3-valide-dès-la-construction) ;
+  [V3 de la fiche Value Object](../value-object/README.md#v3-valide-dès-la-construction) ;
 - une donnée du candidat est présente mais inexploitable : le moteur le signale, c'est `S2`.
 
 Trois façons de signaler le troisième cas existent : une erreur du domaine, un résultat à trois états,

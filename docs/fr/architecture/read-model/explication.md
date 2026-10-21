@@ -48,7 +48,7 @@ l'essentiel de cette catégorie : la checklist garde ses lignes de jugement.
 
 ### L'immuabilité et l'absence d'identité, une convention Pix
 
-Les invariants communs `V1`, `V2`, `V4`, `V6` et `V7` sont fondés, dans `../objet-valeur/README.md`,
+Les invariants communs `V1`, `V2`, `V4`, `V6` et `V7` sont fondés, dans `../value-object/README.md`,
 sur le Value Object d'Evans. Un read-model n'en est pas un. Pour lui, l'immuabilité et l'absence
 d'identité sont une **convention Pix** posée sur le DTO de Fowler, qui n'exige ni l'une ni l'autre.
 L'énoncé est le même, l'autorité derrière ne l'est pas. Le coût de cette convention est l'écart `X3`
@@ -63,7 +63,7 @@ périme.
 
 Une clé de présentation n'identifie rien : elle satisfait le store du front. L'équipe a décidé qu'elle
 se compose dans le sérialiseur, pas dans le read-model. Le détail est sous `V2` dans
-`../objet-valeur/README.md`.
+`../value-object/README.md`.
 
 ### Pourquoi sous `domain/`
 
@@ -127,7 +127,7 @@ Bibliographie et liens dans `../references-ddd.md`. Sources primaires des conven
 | **RM2** aucune validation | **aucune source** | — |
 | **RM3** n'entre pas dans une règle | Déduction de la validation à la construction : une règle qui décide à partir d'une forme non validée décide à partir de n'importe quoi | — |
 | **RM4** emplacement | **aucune source**. Convention Pix en place | — |
-| Immuabilité et absence d'identité | Convention Pix, pas Fowler : le DTO de *PoEAA* n'exige ni l'une ni l'autre. Les énoncés sont ceux de `V1` et `V2` dans `../objet-valeur/README.md`. Leur autorité, chez Evans, porte sur le Value Object, qu'un read-model n'est pas. Voir `X3` de [`ecarts.md`](ecarts.md) | *PoEAA* ; *DDD Reference* |
+| Immuabilité et absence d'identité | Convention Pix, pas Fowler : le DTO de *PoEAA* n'exige ni l'une ni l'autre. Les énoncés sont ceux de `V1` et `V2` dans `../value-object/README.md`. Leur autorité, chez Evans, porte sur le Value Object, qu'un read-model n'est pas. Voir `X3` de [`ecarts.md`](ecarts.md) | *PoEAA* ; *DDD Reference* |
 | Un repository peut renvoyer un calcul de synthèse | Vérifié. Cela ne concerne pas ce dossier : Evans, ch. 6, autorise un repository à renvoyer un décompte ou une somme, des scalaires, pas un objet assemblé. Le passage appuie les exceptions légitimes de [`../repository/README.md`](../repository/README.md#référence-des-règles) | *Final Manuscript* 2003, p. 109 |
 
 Aucun des quatre invariants propres n'a de source directe : RM2 et RM4 n'ont aucune source, RM1 et

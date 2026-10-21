@@ -44,11 +44,11 @@ Le cas est **rare**, et cet exemple a une cause identifiable. L'identifiant de l
 **clé concaténée**, et le propriétaire est dedans. Le contrôle d'appartenance suppose donc de
 décomposer l'identifiant, ce qu'aucun pre-handler générique ne sait faire.
 
-Cette clé est la clé de présentation décrite sous `V2` de `../objet-valeur/README.md`. Elle a ici une
+Cette clé est la clé de présentation décrite sous `V2` de `../value-object/README.md`. Elle a ici une
 conséquence sur la couche d'accès.
 
 Le contrôleur lève une erreur du domaine au lieu de choisir un code HTTP, donc `C2` de
-`../controleur/README.md` est respecté. La faute porte sur **l'endroit de la décision**, pas sur sa
+`../controller/README.md` est respecté. La faute porte sur **l'endroit de la décision**, pas sur sa
 forme.
 
 **Verdict.** À corriger. Le contrôle sort de la route : un oubli devient invisible, et auditer les
@@ -88,7 +88,7 @@ avec un message utilisateur, se récupère autrement : voir la correction. La th
 
 **Correction.** Garder sur la route la contrainte de **forme** : type, minimum et maximum qui relèvent
 de la forme, présence. Déplacer la règle dans le domaine, sur l'objet qui porte la valeur. Si cet
-objet est un Value Object, `V3` de `../objet-valeur/README.md` s'applique.
+objet est un Value Object, `V3` de `../value-object/README.md` s'applique.
 
 ```js
 // sur la route : la forme seule
@@ -143,7 +143,7 @@ method: securityPreHandlers.hasAtLeastOneAccessOf([
 
 **Code.** Forme corrigée, hypothétique.
 
-Déplacer toute autre fonction dans le contrôleur, où `C2` de `../controleur/README.md` s'applique.
+Déplacer toute autre fonction dans le contrôleur, où `C2` de `../controller/README.md` s'applique.
 
 ### X5. La route est un fichier de configuration écrit en JavaScript
 

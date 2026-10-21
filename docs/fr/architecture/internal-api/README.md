@@ -37,7 +37,7 @@ pour l'API, et d'après
 [`CampaignToJoin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/campaign/domain/read-models/CampaignToJoin.js#L31)
 pour la règle de `isRestricted`.
 
-`Organization` est celle de la fiche [Aggregate Root](../racine-agregat/README.md), avec un getter de
+`Organization` est celle de la fiche [Aggregate Root](../aggregate-root/README.md), avec un getter de
 plus, `isRestricted`. Le repository de prescription et `CampaignOrganization` sont inventés.
 
 ```ts
@@ -304,7 +304,7 @@ changement interne à organizational-entities.
 ### P2. Passer par un usecase
 
 **La règle.** L'API reçoit les appels des autres contextes, comme un
-[contrôleur](../controleur/README.md) reçoit les requêtes HTTP. Chaque fonction appelle un usecase,
+[contrôleur](../controller/README.md) reçoit les requêtes HTTP. Chaque fonction appelle un usecase,
 jamais un repository. Elle appelle le usecase par l'index des usecases, `domain/usecases/index.js`,
 qui lui injecte ses dépendances.
 
@@ -392,7 +392,7 @@ le lance avec `npm run doc:api:<contexte>`, et on committe le fichier généré.
 
 **La règle.** Le DTO recopie des valeurs et peut les mettre en forme. Il ne décide rien : une règle du
 métier vit dans le domaine, et le DTO en reçoit le résultat. Le DTO n'a aucun comportement, et il ne
-change plus après sa création. Ce n'est donc pas un [Value Object](../objet-valeur/README.md), qui
+change plus après sa création. Ce n'est donc pas un [Value Object](../value-object/README.md), qui
 vérifie ses valeurs et porte des règles.
 
 **Bon exemple.**

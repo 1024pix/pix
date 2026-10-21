@@ -26,7 +26,7 @@ déjà un `API.md` committé.
 | **P3** contrat documenté | régénérer `API.md` et comparer au fichier committé | ~10 lignes | aucun |
 | **P1** un DTO | règle ESLint : un `return` d'API qui rend directement le résultat d'un usecase | ~40 lignes | un connu, les autres **à mesurer** |
 | **P5** emplacement | script : l'objet de contrat est dans `application/api/models/` | ~20 lignes | aucun. **Bloquant après `X3`** |
-| **P4** DTO sans comportement | voir `../objet-valeur/outillage.md` | — | — |
+| **P4** DTO sans comportement | voir `../value-object/outillage.md` | — | — |
 | **P6**, **P7**, **P9** | revue | — | — |
 
 ### P2 et P8 — deux règles de chemin

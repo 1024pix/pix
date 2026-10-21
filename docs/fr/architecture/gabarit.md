@@ -24,7 +24,7 @@ l'architecture et de l'outillage. La fiche n'y renvoie pas.
 
 ## `README.md` — la fiche
 
-`objet-valeur/README.md` et `entite/README.md` servent de modèles.
+`value-object/README.md` et `entity/README.md` servent de modèles.
 
 ### La partie à consulter
 
@@ -191,7 +191,7 @@ Dans une fiche, en plus :
 - Aucune phrase ne commente le document lui-même, ni ne prête une intention à l'auteur du code.
 - Aucune question ouverte ni encadré « À instruire » : les questions vont dans `corpus-index.md`.
 
-`objet-valeur/README.md` sert de modèle pour ce niveau de langue.
+`value-object/README.md` sert de modèle pour ce niveau de langue.
 
 ## Le ROI
 

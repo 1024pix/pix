@@ -14,7 +14,7 @@ d'entrée unique d'une intention métier, qu'elle soit appelée par une route, u
 
 La frontière avec le Domain Service vient d'Evans, *DDD*, ch. « A Model Expressed in Software » : le
 Service y est défini sans état et sans I/O. Un fichier qui reçoit une I/O n'est donc pas un Domain
-Service. Le test est énoncé dans [`../service-domaine/README.md`](../service-domaine/README.md).
+Service. Le test est énoncé dans [`../domain-service/README.md`](../domain-service/README.md).
 
 ## ROI des invariants
 
@@ -43,7 +43,7 @@ mérite son usecase. Un usecase par route est une convention, pas une garantie d
 produit aussi des usecases qui ne font que déléguer.
 
 Ils ne disent pas non plus si le fichier devait être un usecase plutôt qu'un Domain Service. Le test
-de discrimination de [`../service-domaine/README.md`](../service-domaine/README.md) répond à cette
+de discrimination de [`../domain-service/README.md`](../domain-service/README.md) répond à cette
 question.
 
 ### Ce que le typage apporte
@@ -79,8 +79,8 @@ fichier.
 **Sur plusieurs Aggregates.** L'ADR 25 retient la transaction qui en couvre plusieurs quand les
 écritures doivent échouer ensemble. C'est une position différente de celle de Vernon, dont la règle 4
 prône la cohérence différée entre Aggregates. Le choix est instruit sous `A7` de
-[`../racine-agregat/README.md`](../racine-agregat/README.md) et `X4` de
-[`../racine-agregat/ecarts.md`](../racine-agregat/ecarts.md).
+[`../aggregate-root/README.md`](../aggregate-root/README.md) et `X4` de
+[`../aggregate-root/ecarts.md`](../aggregate-root/ecarts.md).
 
 ### La communication entre contextes
 
@@ -116,7 +116,7 @@ Martin distingue les règles d'entreprise, qui vivent dans les Entities, des rè
 orchestrent. Fowler nomme le symptôme obtenu quand la distinction tombe : le modèle anémique.
 
 Vu depuis l'Entity, le même écart a pour symptôme le modèle vide. Il est énoncé dans ce dossier, où se
-trouve le fichier fautif, et [`../entite/README.md`](../entite/README.md) y renvoie.
+trouve le fichier fautif, et [`../entity/README.md`](../entity/README.md) y renvoie.
 
 ### X2. Le usecase renvoie un objet façonné pour la réponse HTTP
 

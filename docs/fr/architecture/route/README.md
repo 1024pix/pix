@@ -24,10 +24,10 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 ## Exemple complet
 
 Les routes qui créent des organisations dans Pix Admin. La première crée une organisation, la seconde
-en crée plusieurs depuis un fichier CSV. Le [contrôleur](../controleur/README.md) `create` reçoit la
+en crée plusieurs depuis un fichier CSV. Le [contrôleur](../controller/README.md) `create` reçoit la
 requête et appelle le [usecase](../usecase/README.md) `createOrganization`. `handlerWithDependencies`
 est l'enveloppe qui passe au contrôleur ses dépendances (règle
-[C3](../controleur/README.md#c3-les-dépendances-arrivent-en-paramètre) de la fiche contrôleur).
+[C3](../controller/README.md#c3-les-dépendances-arrivent-en-paramètre) de la fiche contrôleur).
 Exemple inventé, d'après le test
 [`organization.admin.route.test.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/tests/organizational-entities/acceptance/application/organization/organization.admin.route.test.js#L424-L622)
 et l'utilitaire
@@ -298,7 +298,7 @@ const create = async function (
 };
 ```
 
-**Ce que ça apporte.** Le contrôleur et le [sérialiseur](../serialiseur/README.md) reçoivent toujours
+**Ce que ça apporte.** Le contrôleur et le [sérialiseur](../serializer/README.md) reçoivent toujours
 un corps qui a la bonne forme. Et le schéma documente aussi la route : on lit ce qu'elle attend sans
 ouvrir le contrôleur.
 

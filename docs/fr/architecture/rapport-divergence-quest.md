@@ -19,7 +19,7 @@ Trois conséquences de ce cadrage :
   entorse dont le coût est nul.
 
 Références pour les constats ci-dessous : `repository/README.md`, `specification/README.md`,
-`racine-agregat/README.md`, `service-domaine/README.md`.
+`aggregate-root/README.md`, `domain-service/README.md`.
 
 ---
 

@@ -57,7 +57,7 @@ modèle, pas sur le repository. L'invariant vit ici sous le numéro E5.
 ### E3 et E7 énoncés ici pour toute Entity
 
 E3 et E7 valent pour toute Entity, qu'elle soit une racine ou non. Ils sont énoncés dans ce dossier,
-et `../racine-agregat/README.md` y renvoie plutôt que de les répéter. Pour une racine, E3 porte sur
+et `../aggregate-root/README.md` y renvoie plutôt que de les répéter. Pour une racine, E3 porte sur
 la frontière de cohérence entière, et E7 est constitutif de la frontière plutôt qu'une bonne
 pratique.
 
@@ -93,7 +93,7 @@ prescrit rien sur les dossiers. Mais un dossier commun rend le classement invisi
 
 Une Entity est définie par son identité. Une Entity sans identité est une contradiction dans les
 termes. C'est pourquoi le cas mérite un nom : `…ForCreation`, décrit par `V8` de
-`../objet-valeur/README.md`.
+`../value-object/README.md`.
 
 ## Sources
 
@@ -110,7 +110,7 @@ Bibliographie et liens dans `../references-ddd.md`. Sources primaires des conven
 | **E7** référence par identité | Vernon, « Effective Aggregate Design », règle 3 : *reference other aggregates by identity* | dddcommunity.org |
 | **E8** nommage et emplacement | l'**emplacement** est documenté : `docs/fr/Anatomy.md` décrit `domain/models`. Le **nommage**, PascalCase et un fichier par Entity, n'a **aucune source** | `docs/fr/Anatomy.md` ; ADR 51, « Arborescence API » |
 | Le test de discrimination Entity / Value Object | Evans, même ch. : c'est le critère qu'il donne | *DDD Reference* |
-| Typage des identifiants à la frontière HTTP, pas par le domaine (`X2` de `../objet-valeur/ecarts.md`) | **ADR 19**, « Typer les identifiants », qui écarte le typage des identifiants côté domaine pour son coût | ADR 19 |
+| Typage des identifiants à la frontière HTTP, pas par le domaine (`X2` de `../value-object/ecarts.md`) | **ADR 19**, « Typer les identifiants », qui écarte le typage des identifiants côté domaine pour son coût | ADR 19 |
 
 Un seul invariant sur huit n'a aucune source externe : **E8**, la convention de nommage. La catégorie
 Entity est le cœur du vocabulaire tactique de DDD, et ses invariants sont ceux des livres.

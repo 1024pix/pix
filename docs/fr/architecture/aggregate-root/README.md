@@ -2,7 +2,7 @@
 
 Un Aggregate est un groupe d'objets qu'une règle du métier relie : on les modifie et on les enregistre
 ensemble. L'Aggregate Root est l'objet qu'on appelle pour lire ou modifier le groupe. C'est une
-[Entity](../entite/README.md) : les règles de la fiche Entity s'appliquent, plus celles de cette fiche.
+[Entity](../entity/README.md) : les règles de la fiche Entity s'appliquent, plus celles de cette fiche.
 
 ## Les règles
 

@@ -39,7 +39,7 @@ Ses entrées sont écrites à la main, hors du code, par des gens qui ne lisent 
 évaluation a lieu dans des jobs. Un défaut ne casse rien : il produit un résultat faux que personne ne
 relie à sa cause.
 
-Les invariants hérités gardent le ROI qu'ils ont dans `../objet-valeur/explication.md`. `V3` y est en
+Les invariants hérités gardent le ROI qu'ils ont dans `../value-object/explication.md`. `V3` y est en
 rentabilité forte. C'est ici que ce classement se justifie le plus : `V3` élimine un des trois cas de
 `S2`.
 
@@ -59,7 +59,7 @@ expliquent trois choix de la référence.
 
 ### Le candidat est un Value Object
 
-Le discriminant de `../objet-valeur/explication.md` le montre : une règle du domaine lit les valeurs du
+Le discriminant de `../value-object/explication.md` le montre : une règle du domaine lit les valeurs du
 candidat pour décider. Le domaine raisonne donc avec lui, et ce n'est pas un read-model. Ce classement
 n'a pas de source externe. Evans fournit la catégorie Value Object.
 
@@ -117,8 +117,8 @@ Bibliographie et liens dans `../references-ddd.md`. Sources primaires des conven
 | **S6** format publié | Evans, *DDD*, ch. « Maintaining Model Integrity » : **Published Language** | *DDD Reference*, PDF gratuit |
 | **S7** énumération ↔ candidat | **aucune source.** Contrainte propre à la résolution par nom, donc à `X4` | — |
 | **S8** pas de redéfinition par le consommateur | Evans, même ch. : **Anticorruption Layer**, **Bounded Context**. Pix : **ADR 55**, « Communication "séquentielle" entre les contextes fonctionnels » | ADR 55 ; Vernon, *IDDD*, ch. « Integrating Bounded Contexts » |
-| Le candidat est un Value Object | Discriminant de `../objet-valeur/README.md`, sans source externe. Evans pour la catégorie Value Object | *DDD Reference* |
-| Invariants hérités | voir `../objet-valeur/explication.md` | — |
+| Le candidat est un Value Object | Discriminant de `../value-object/README.md`, sans source externe. Evans pour la catégorie Value Object | *DDD Reference* |
+| Invariants hérités | voir `../value-object/explication.md` | — |
 
 Deux invariants propres sur six n'ont **aucune source** : `S2` et `S7`. Ils se discutent sur leurs
 mérites, pas par appel à une autorité. Ils ont la même origine : le caractère piloté par les données du

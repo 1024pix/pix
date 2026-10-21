@@ -20,14 +20,14 @@ Presque tout ici demande de savoir ce qui appartient à la même frontière. Cet
 | **A3** un repository par racine | script `tests/tooling/` : rapport du nombre de repositories au nombre de racines déclarées | ~30 lignes | c'est un **indicateur**, pas une règle. Incalculable avant X2 |
 | **A1** frontière explicite | revue, sur la phrase déclarée | — | impossible avant X2 |
 | **A6** petit Aggregate, **A7** une transaction, un Aggregate | revue | — | — |
-| Invariants hérités | voir `../entite/outillage.md` | — | — |
+| Invariants hérités | voir `../entity/outillage.md` | — | — |
 
 ### A2 — la seule règle nette
 
 Un accesseur qui rend directement une collection interne casse le point d'entrée unique, et c'est
 décidable localement.
 
-C'est la même règle que `V7` de `../objet-valeur/README.md` : une seule implémentation couvre les
+C'est la même règle que `V7` de `../value-object/README.md` : une seule implémentation couvre les
 deux. Elle n'a pas besoin de savoir si le fichier est une racine, un Value Object ou une Entity. Rendre
 une collection interne modifiable est fautif dans les trois cas.
 
@@ -52,7 +52,7 @@ A1 n'est contrôlable que si la phrase de frontière est écrite quelque part. E
 ### Tests attendus — existence du fichier
 
 L'existence du fichier de test d'une racine se vérifie en comparant les noms. Moyens et limites dans
-`../entite/outillage.md`.
+`../entity/outillage.md`.
 
 ### Pièges d'implémentation
 
@@ -61,7 +61,7 @@ L'existence du fichier de test d'une racine se vérifie en comparant les noms. M
 - Le codemod de X1 lancé avant le classement de chaque fichier par le
   [test de discrimination](README.md#a1-une-règle-relie-les-objets) : il applique une décision qui n'a
   pas encore été prise, et déplace au hasard.
-- La règle ESLint de A2 écrite sans mutualisation avec `V7` de `../objet-valeur/README.md` : la même
+- La règle ESLint de A2 écrite sans mutualisation avec `V7` de `../value-object/README.md` : la même
   vérification finit dupliquée dans deux dossiers.
 
 ### Ordre de mise en œuvre
@@ -109,5 +109,5 @@ typage. Mais `readonly` est effacé à la compilation : la protection est statiq
 copie à l'accesseur reste nécessaire pour tout appelant JavaScript. A2 repose sur la copie, pas sur le
 type.
 
-La forme retenue est la classe, comme pour toute Entity : voir `../entite/outillage.md`. Les
+La forme retenue est la classe, comme pour toute Entity : voir `../entity/outillage.md`. Les
 contraintes de syntaxe imposées par la configuration sont dans `../migration-typescript.md`.

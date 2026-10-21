@@ -164,7 +164,7 @@ Bibliographie et liens dans `../references-ddd.md`. Les ADR sont dans `docs/adr/
 | **P1** un DTO, jamais le modèle | Evans, *DDD*, ch. « Maintaining Model Integrity » : **Published Language** et **Open Host Service**. ADR 55, qui accepte la duplication comme contrepartie | *DDD Reference*, PDF gratuit ; ADR 55 |
 | **P2** passe par un usecase | ADR 20, « Est-il obligatoire d'implémenter un use-case dans toutes les situations ? ». Martin, *Clean Architecture*, ch. « Business Rules » | ADR 20 ; le livre de 2017 |
 | **P3** contrat documenté | Evans, même ch. : un Published Language est par définition documenté. La **documentation liée à l'ADR 55** donne le script de génération et l'emplacement du fichier produit | *DDD Reference* ; le lien en fin d'ADR 55 |
-| **P4** DTO sans comportement | Evans, ch. « A Model Expressed in Software » : Value Object. Énoncés dans `../objet-valeur/README.md` | *DDD Reference* |
+| **P4** DTO sans comportement | Evans, ch. « A Model Expressed in Software » : Value Object. Énoncés dans `../value-object/README.md` | *DDD Reference* |
 | **P5** emplacement du DTO | **documentation liée à l'ADR 55** : dossier `api` dans la couche application, sous-dossier `models` pour les classes de contrat. Page Confluence de l'espace EDTDT, donc hors du dépôt | le lien en fin d'ADR 55 |
 | **P6** stabilité du contrat | Evans, ch. « Maintaining Model Integrity ». Vernon, *IDDD*, ch. « Integrating Bounded Contexts » | *DDD Reference* ; dddcommunity.org |
 | **P7** indépendance de l'appelant | **aucune source.** Déduction : une API qui dépend de son appelant n'est pas un Open Host Service | — |

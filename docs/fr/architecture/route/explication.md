@@ -91,7 +91,7 @@ La règle métier vit dans le domaine, où tous les chemins d'appel la traversen
 d'architecture », pose que l'intelligence métier est dans l'API, et que le front ne fait que des
 contrôles de surface. Le même raisonnement s'applique entre la route et le domaine.
 
-Cet écart est voisin de `X2` de `../objet-valeur/ecarts.md`, qui traite la validation de **forme** à
+Cet écart est voisin de `X2` de `../value-object/ecarts.md`, qui traite la validation de **forme** à
 la frontière plutôt que par le type. Ici il s'agit de règles, pas de formes, et le verdict est
 différent.
 
@@ -125,7 +125,7 @@ d'architecture.
 Deux manques restent :
 
 - La règle `R2` n'est adossée à **aucun ADR**. Elle vit dans une page Confluence, hors du dépôt, comme
-  `P5` de `../api-interne/README.md`. Une page peut changer sans que rien ici ne le signale.
+  `P5` de `../internal-api/README.md`. Une page peut changer sans que rien ici ne le signale.
 - Le **motif** du classement de `R2` en rentabilité forte reste une déduction de ce dossier. La
   documentation en donne un autre, plus faible. Un ADR sur `R2` réglerait ce que vaut la règle, pas
   son existence.

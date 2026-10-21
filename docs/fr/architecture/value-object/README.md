@@ -211,11 +211,11 @@ l'objet, puis un repository. L'objet devient une Entity sans que personne l'ait 
 
 **Exceptions.** Le front a souvent besoin d'une clé unique pour son cache. Où la construire ?
 
-- si le front ne renvoie jamais la clé au serveur : dans le [sérialiseur](../serialiseur/README.md) ;
+- si le front ne renvoie jamais la clé au serveur : dans le [sérialiseur](../serializer/README.md) ;
 - si le front la renvoie et que le serveur la découpe : dans un Value Object, qui la construit, la
   découpe et la valide ;
 - si l'objet a une vraie identité métier faite de plusieurs champs : c'est une
-  [Entity](../entite/README.md).
+  [Entity](../entity/README.md).
 
 ### V3. Valide dès la construction
 
@@ -326,7 +326,7 @@ fonction qui attend une `QcmSolution` refuse alors une simple liste de chaînes.
 ### V6. Pas de repository
 
 **La règle.** Un Value Object n'a ni repository ni table à lui. Il est enregistré avec l'objet qui le
-contient. Un objet qu'il faut retrouver seul est une [Entity](../entite/README.md).
+contient. Un objet qu'il faut retrouver seul est une [Entity](../entity/README.md).
 
 **Exemple de code correct.**
 

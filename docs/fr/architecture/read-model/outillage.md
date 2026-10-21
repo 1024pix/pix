@@ -25,7 +25,7 @@ vérifie par contre-épreuve :
 | **Tests** un fichier de test existe | même script | ~15 lignes de plus | aucun |
 | **RM2** aucune validation — signal | règle ESLint : un `throw` dans un fichier de `read-models/` | ~15 lignes | faibles |
 | **RM1** aucune règle métier | aucun moyen : distinguer une dérivation de présentation d'une règle métier n'est pas décidable | — | — |
-| **V1**, **V2**, **V4**, **V6**, **V7** communs | voir `../objet-valeur/outillage.md` | — | — |
+| **V1**, **V2**, **V4**, **V6**, **V7** communs | voir `../value-object/outillage.md` | — | — |
 
 ### RM3 — une règle de chemin
 
@@ -88,7 +88,7 @@ Cet ordre suit le coût, pas le ROI : voir [`explication.md`](explication.md#roi
 
 1. **RM3**, en avertissement, pour produire la liste des fichiers à classer
 2. **X1 classement**, fichier par fichier, par les quatre tests du discriminant de
-   `../objet-valeur/README.md`
+   `../value-object/README.md`
 3. **RM3 en `error`**, une fois la liste vidée
 4. **RM4 + existence des tests**, un seul script de complétude
 5. **RM2 signal**, dernier, son bénéfice étant le plus faible
