@@ -2000,7 +2000,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       const screen = await render(<template><ModuleGrain @grain={{grain}} /></template>);
 
       // then
-      assert.dom(screen.getByText('Leçon')).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Leçon' })).exists();
     });
   });
 
@@ -2026,29 +2026,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
       // then
       assert.dom(screen.queryByText('Leçon')).doesNotExist();
       assert.dom(screen.getByText(contentText)).exists();
-    });
-  });
-
-  module('when grain has type ‘Summary‘', function () {
-    test('should display a title', async function (assert) {
-      // given
-      const textElement = {
-        content: 'element content',
-        type: 'text',
-        isAnswerable: false,
-        tag: ' ',
-      };
-      const grain = {
-        id: '12345-abcdef',
-        type: 'summary',
-        components: [{ type: 'element', element: textElement }],
-      };
-
-      // when
-      const screen = await render(<template><ModuleGrain @grain={{grain}} /></template>);
-
-      // then
-      assert.dom(screen.getByText('Récapitulatif')).exists();
     });
   });
 });

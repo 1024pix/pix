@@ -227,8 +227,8 @@ export default class ModuleGrain extends Component {
     return this.args.grain.type === 'summary';
   }
 
-  get isGrainTypeWithTitle() {
-    return this.args.grain.type === 'lesson' || this.args.grain.type === 'summary';
+  get isGrainTypeLesson() {
+    return this.args.grain.type === 'lesson';
   }
 
   get isGrainTypeActivity() {
@@ -237,17 +237,6 @@ export default class ModuleGrain extends Component {
 
   get isGrainTypeShortLesson() {
     return this.args.grain.type === 'short-lesson';
-  }
-
-  get grainTitle() {
-    switch (this.args.grain.type) {
-      case 'lesson':
-        return this.intl.t('pages.modulix.grain.title.lesson');
-      case 'summary':
-        return this.intl.t('pages.modulix.grain.title.summary');
-      default:
-        return '';
-    }
   }
 
   get skipButtonLabel() {
@@ -292,9 +281,9 @@ export default class ModuleGrain extends Component {
             {{t "pages.modulix.grain.tag.activity"}}
           </PixTag>
         {{/if}}
-        {{#if this.isGrainTypeWithTitle}}
+        {{#if this.isGrainTypeLesson}}
           <h3 class="grain-card-title">
-            {{this.grainTitle}}</h3>
+            {{t "pages.modulix.grain.title.lesson"}}</h3>
         {{/if}}
         <div class="grain-card__content">
           {{#each this.displayableComponents as |component index|}}
