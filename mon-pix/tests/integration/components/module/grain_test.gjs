@@ -2028,4 +2028,29 @@ module('Integration | Component | Module | Grain', function (hooks) {
       assert.dom(screen.getByText(contentText)).exists();
     });
   });
+
+  module('when grain has type ‘summary‘', function () {
+    test('should display the summary illustration and content', async function (assert) {
+      // given
+      const contentText = 'element content';
+      const textElement = {
+        content: contentText,
+        type: 'text',
+        isAnswerable: false,
+        tag: ' ',
+      };
+      const grain = {
+        id: '12345-abcdef',
+        type: 'summary',
+        components: [{ type: 'element', element: textElement }],
+      };
+
+      // when
+      const screen = await render(<template><ModuleGrain @grain={{grain}} /></template>);
+
+      // then
+      assert.strictEqual(screen.getByRole('presentation').getAttribute('src'), '/images/modulix/megaphone.png');
+      assert.dom(screen.getByText(contentText)).exists();
+    });
+  });
 });
