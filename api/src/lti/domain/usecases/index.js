@@ -6,6 +6,7 @@ import { injectDependencies } from '../../../shared/infrastructure/utils/depende
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { ltiPlatformRepository } from '../../infrastructure/repositories/lti-platform.repository.js';
 import { ltiPlatformRegistrationRepository } from '../../infrastructure/repositories/lti-platform-registration.repository.js';
+import { ltiService } from '../services/lti.service.js';
 import { authenticateLtiPrescriber } from './authenticate-lti-prescriber.usecase.js';
 import { listLtiPublicKeys } from './list-lti-public-keys.usecase.js';
 import { registerLtiPlatform } from './register-lti-platform.usecase.js';
@@ -14,7 +15,7 @@ const utils = {
   httpAgent,
 };
 
-const services = { cryptoService, urlService };
+const services = { cryptoService, ltiService, urlService };
 
 const repositories = {
   ltiPlatformRegistrationRepository,
