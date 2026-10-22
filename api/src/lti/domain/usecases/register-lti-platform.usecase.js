@@ -6,12 +6,6 @@ import { LtiPlatformRegistration } from '../models/LtiPlatformRegistration.js';
 
 const logger = child('lti:register-lti-platform', { event: SCOPES.LTI });
 
-function ltiMessage(type) {
-  return Joi.object({
-    type: Joi.string().valid(type).required(),
-  }).unknown(true);
-}
-
 const platformLtiConfigurationSchema = Joi.object({
   messages_supported: Joi.array()
     .items(ltiMessage('LtiResourceLinkRequest').required(), ltiMessage('LtiDeepLinkingRequest').required())
@@ -35,43 +29,6 @@ const platformOpenIdConfigurationSchema = Joi.object({
   claims_supported: Joi.array().items(Joi.string().valid('email').required(), Joi.string()).required(),
   'https://purl.imsglobal.org/spec/lti-platform-configuration': platformLtiConfigurationSchema.required(),
 }).unknown(true);
-
-function createPixToolConfiguration({ urlService }) {
-  const locale = 'fr-FR'; // TODO: Generate this dynamically
-  const jwksUrl = urlService.getPixApiUrl('/api/lti/keys');
-  const initiateLoginUrl = urlService.getPixApiUrl('/api/lti/init');
-  const deepLinkingUrl = urlService.getPixOrgaUrl(locale, { pathname: '/api/lti/deep-linking' });
-  const resourceLinkUrl = urlService.getPixAppUrl(locale, { pathname: '/api/lti/resource-link' });
-  return {
-    response_types: ['id_token'],
-    jwks_uri: jwksUrl, // TODO: Should be on gateway.pix.fr?
-    initiate_login_uri: initiateLoginUrl,
-    grant_types: ['client_credentials', 'implicit'],
-    redirect_uris: [deepLinkingUrl, resourceLinkUrl],
-    application_type: 'web',
-    token_endpoint_auth_method: 'private_key_jwt',
-    client_name: 'Pix',
-    logo_uri: 'https://app.pix.fr/images/pix-logo.svg',
-    scope: [
-      'https://purl.imsglobal.org/spec/lti-ags/scope/score',
-      'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly',
-      'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem',
-      'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly',
-    ].join(' '),
-    'https://purl.imsglobal.org/spec/lti-tool-configuration': {
-      target_link_uri: resourceLinkUrl,
-      domain: new URL(resourceLinkUrl).hostname,
-      description: 'Intégration avec la plateforme Pix',
-      messages: [
-        {
-          type: 'LtiDeepLinkingRequest',
-          target_link_uri: deepLinkingUrl,
-        },
-      ],
-      claims: ['sub', 'iss', 'name', 'family_name', 'given_name', 'email'],
-    },
-  };
-}
 
 /**
  * @param {object} args
@@ -157,4 +114,47 @@ export async function registerLtiPlatform({
   );
 
   return savedRegistration;
+}
+
+function createPixToolConfiguration({ urlService }) {
+  const locale = 'fr-FR'; // TODO: Generate this dynamically
+  const jwksUrl = urlService.getPixApiUrl('/api/lti/keys');
+  const initiateLoginUrl = urlService.getPixApiUrl('/api/lti/init');
+  const deepLinkingUrl = urlService.getPixOrgaUrl(locale, { pathname: '/api/lti/deep-linking' });
+  const resourceLinkUrl = urlService.getPixAppUrl(locale, { pathname: '/api/lti/resource-link' });
+  return {
+    response_types: ['id_token'],
+    jwks_uri: jwksUrl, // TODO: Should be on gateway.pix.fr?
+    initiate_login_uri: initiateLoginUrl,
+    grant_types: ['client_credentials', 'implicit'],
+    redirect_uris: [deepLinkingUrl, resourceLinkUrl],
+    application_type: 'web',
+    token_endpoint_auth_method: 'private_key_jwt',
+    client_name: 'Pix',
+    logo_uri: 'https://app.pix.fr/images/pix-logo.svg',
+    scope: [
+      'https://purl.imsglobal.org/spec/lti-ags/scope/score',
+      'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly',
+      'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem',
+      'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly',
+    ].join(' '),
+    'https://purl.imsglobal.org/spec/lti-tool-configuration': {
+      target_link_uri: resourceLinkUrl,
+      domain: new URL(resourceLinkUrl).hostname,
+      description: 'Intégration avec la plateforme Pix',
+      messages: [
+        {
+          type: 'LtiDeepLinkingRequest',
+          target_link_uri: deepLinkingUrl,
+        },
+      ],
+      claims: ['sub', 'iss', 'name', 'family_name', 'given_name', 'email'],
+    },
+  };
+}
+
+function ltiMessage(type) {
+  return Joi.object({
+    type: Joi.string().valid(type).required(),
+  }).unknown(true);
 }
