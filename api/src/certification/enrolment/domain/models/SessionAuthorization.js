@@ -1,30 +1,28 @@
 export class SessionAuthorization {
-  constructor({ id, isFinalized, hasExpired, hasStarted, certificationCenterId, scoIsManagingStudentsOrganizationId }) {
+  constructor({ id, sessionStatus, certificationCenterId, scoIsManagingStudentsOrganizationId }) {
     this.id = id;
-    this.isFinalized = isFinalized;
-    this.hasExpired = hasExpired;
-    this.hasStarted = hasStarted;
+    this.sessionStatus = sessionStatus;
     this.scoIsManagingStudentsOrganizationId = scoIsManagingStudentsOrganizationId;
     this.certificationCenterId = certificationCenterId;
   }
 
   get canEnrollCandidateIndividually() {
-    return !this.isFinalized && !this.hasExpired;
+    return this.sessionStatus.isAtMostStarted();
   }
 
   get canEnrollScoCandidate() {
-    return !this.isFinalized && !this.hasExpired;
+    return this.sessionStatus.isAtMostStarted();
   }
 
   get canEnrollCandidateViaODS() {
-    return !this.hasStarted;
+    return this.sessionStatus.isCreated();
   }
 
   get canEnrollCandidateViaMassImport() {
-    return !this.hasStarted;
+    return this.sessionStatus.isCreated();
   }
 
   get canJoinSession() {
-    return !this.isFinalized && !this.hasExpired;
+    return this.sessionStatus.isAtMostStarted();
   }
 }

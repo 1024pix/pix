@@ -94,6 +94,7 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
 
     const sessionAuthorization = domainBuilder.certification.enrolment
       .sessionAuthorizationBuilder()
+      .canJoinSession()
       .withParameters({ id: sessionId })
       .build();
     sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
@@ -111,13 +112,14 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     expect(error).to.be.instanceOf(NotFoundError);
   });
 
-  it('throws SessionExpiredError when session has expired', async function () {
+  it('throws SessionExpiredError when session could not be joined', async function () {
     const userId = 123;
     const sessionId = 456;
 
     const sessionAuthorization = domainBuilder.certification.enrolment
       .sessionAuthorizationBuilder()
-      .withParameters({ id: sessionId, hasExpired: true, hasStarted: true, isFinalized: false })
+      .cannotJoinSession()
+      .withParameters({ id: sessionId })
       .build();
 
     sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
@@ -137,6 +139,7 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
   it('throws UnexpectedUserAccountError when the matching candidate is already reconciled to an other user', async function () {
     const sessionAuthorization = domainBuilder.certification.enrolment
       .sessionAuthorizationBuilder()
+      .canJoinSession()
       .withParameters({ id: sessionId })
       .build();
     sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
@@ -178,6 +181,7 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
   it('throws UserAlreadyLinkedToCandidateInSessionError when given user is already reconciled to an other candidate of the session', async function () {
     const sessionAuthorization = domainBuilder.certification.enrolment
       .sessionAuthorizationBuilder()
+      .canJoinSession()
       .withParameters({ id: sessionId })
       .build();
     sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
@@ -230,6 +234,7 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     const userId = domainBuilder.certification.enrolment.buildUser().id;
     const sessionAuthorization = domainBuilder.certification.enrolment
       .sessionAuthorizationBuilder()
+      .canJoinSession()
       .withParameters({ id: sessionId })
       .build();
     sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
@@ -267,6 +272,7 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
     const userId = domainBuilder.certification.enrolment.buildUser().id;
     const sessionAuthorization = domainBuilder.certification.enrolment
       .sessionAuthorizationBuilder()
+      .canJoinSession()
       .withParameters({ id: sessionId })
       .build();
     sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
@@ -318,6 +324,7 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
 
     const sessionAuthorization = domainBuilder.certification.enrolment
       .sessionAuthorizationBuilder()
+      .canJoinSession()
       .withParameters({ id: sessionId })
       .build();
     sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
@@ -375,6 +382,7 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
 
     const sessionAuthorization = domainBuilder.certification.enrolment
       .sessionAuthorizationBuilder()
+      .canJoinSession()
       .withParameters({ id: sessionId })
       .build();
     sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
@@ -419,6 +427,7 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
 
     const sessionAuthorization = domainBuilder.certification.enrolment
       .sessionAuthorizationBuilder()
+      .canJoinSession()
       .withParameters({ id: sessionId })
       .build();
     sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
@@ -468,6 +477,7 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
 
     const sessionAuthorization = domainBuilder.certification.enrolment
       .sessionAuthorizationBuilder()
+      .canJoinSession()
       .withParameters({ id: sessionId })
       .build();
     sessionAuthorizationAdapter.find.resolves(sessionAuthorization);
@@ -519,6 +529,7 @@ describe('Unit | Domain | Usecase | register-candidate-participation', function 
 
     const sessionAuthorization = domainBuilder.certification.enrolment
       .sessionAuthorizationBuilder()
+      .canJoinSession()
       .withParameters({ id: sessionId })
       .build();
     sessionAuthorizationAdapter.find.resolves(sessionAuthorization);

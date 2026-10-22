@@ -1,5 +1,6 @@
 import { CERTIFICATION_CENTER_TYPES, ORGANIZATION_TYPES } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { SessionStatus } from '../../../shared/domain/value-objects/SessionStatus.ts';
 import { SessionAuthorizationInfo } from '../../domain/read-models/SessionAuthorizationInfo.js';
 
 export async function findBySessionId({ sessionId }) {
@@ -8,7 +9,9 @@ export async function findBySessionId({ sessionId }) {
     .select({
       id: 'sessions.id',
       finalizedAt: 'sessions.finalizedAt',
+      publishedAt: 'sessions.publishedAt',
       certificationCenterId: 'sessions.certificationCenterId',
+      assignedCertificationOfficerId: 'sessions.assignedCertificationOfficerId',
       firstCertificationStartedAt: knexConn
         .select('createdAt')
         .from('certification-courses')
@@ -39,6 +42,7 @@ export async function findBySessionId({ sessionId }) {
   if (!sessionAuthorizationData) {
     return null;
   }
+  const sessionStatus = SessionStatus.build(sessionAuthorizationData);
 
-  return new SessionAuthorizationInfo(sessionAuthorizationData);
+  return new SessionAuthorizationInfo({ ...sessionAuthorizationData, sessionStatus });
 }

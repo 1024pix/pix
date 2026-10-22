@@ -35,9 +35,7 @@ describe('Certification | Evaluation | Unit | Adapter | Session authorization', 
       it('returns expected SessionAuthorization', async function () {
         sessionAuthorizationApi.findBySessionId.withArgs({ sessionId: 456 }).resolves({
           id: 456,
-          isFinalized: true,
-          hasExpired: true,
-          hasStarted: true,
+          sessionStatus: domainBuilder.certification.shared.sessionStatusBuilder().build(),
           scoIsManagingStudentsOrganizationId: 999,
           certificationCenterId: 111,
         });
@@ -52,9 +50,7 @@ describe('Certification | Evaluation | Unit | Adapter | Session authorization', 
             .sessionAuthorizationBuilder()
             .withParameters({
               id: 456,
-              isFinalized: true,
-              hasExpired: true,
-              hasStarted: true,
+              sessionStatus: domainBuilder.certification.shared.sessionStatusBuilder().build(),
               scoIsManagingStudentsOrganizationId: 999,
               certificationCenterId: 111,
             })
