@@ -4,7 +4,6 @@ import { ScriptRunner } from '../../shared/application/scripts/script-runner.js'
 import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.js';
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
 import { usecases } from '../learner-management/domain/usecases/index.js';
-import * as organizationLearnerApi from '../organization-learner/application/api/organization-learners-api.js';
 
 export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
   constructor() {
@@ -48,7 +47,7 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
 
     for (const { organizationId } of organizations) {
       await DomainTransaction.execute(async () => {
-        const organizationLearnerIds = await organizationLearnerApi.findIdWithLastActivityDatePriorTo({
+        const organizationLearnerIds = await this.findLearnerIdsWithLastActivityDatePriorTo({
           organizationId,
           lastActivityDate,
         });
@@ -87,6 +86,31 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
         }
       });
     }
+  }
+
+  async findLearnerIdsWithLastActivityDatePriorTo({ organizationId, lastActivityDate }) {
+    const knexConn = DomainTransaction.getConnection();
+    return await knexConn
+      .with('organizationLearnersWithLastParticipationDate', (qb) => {
+        qb.select('id')
+          .select(
+            knexConn('campaign-participations as cp')
+              .select('cp.createdAt')
+              .where('cp.organizationLearnerId', knexConn.ref('view-active-organization-learners.id'))
+              .orderBy('cp.createdAt', 'desc')
+              .limit(1)
+              .as('lastParticipationDate'),
+          )
+          .from('view-active-organization-learners')
+          .where('organizationId', organizationId)
+          .where('updatedAt', '<', lastActivityDate);
+      })
+      .select('*')
+      .from('organizationLearnersWithLastParticipationDate')
+      .where('lastParticipationDate', '<', lastActivityDate)
+      .orWhereNull('lastParticipationDate')
+      .orderBy('id', 'asc')
+      .pluck('id');
   }
 }
 

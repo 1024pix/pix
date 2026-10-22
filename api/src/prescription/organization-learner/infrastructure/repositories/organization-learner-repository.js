@@ -569,39 +569,6 @@ const findAllLearnerWithAtLeastOneParticipationByOrganizationIds = async functio
   return resultByOrganization;
 };
 
-/**
- *
- * @param param0
- * @param param0.organizationId
- * @param param0.lastActivityDate
- * @returns {Promise<Array<Number>>}
- */
-const findIdWithLastActivityDatePriorTo = async function ({ organizationId, lastActivityDate }) {
-  const knexConn = DomainTransaction.getConnection();
-
-  return await knexConn
-    .with('organizationLearnersWithLastParticipationDate', (qb) => {
-      qb.select('id')
-        .select(
-          knexConn('campaign-participations as cp')
-            .select('cp.createdAt')
-            .where('cp.organizationLearnerId', knexConn.ref('view-active-organization-learners.id'))
-            .orderBy('cp.createdAt', 'desc')
-            .limit(1)
-            .as('lastParticipationDate'),
-        )
-        .from('view-active-organization-learners')
-        .where('organizationId', organizationId)
-        .where('updatedAt', '<', lastActivityDate);
-    })
-    .select('*')
-    .from('organizationLearnersWithLastParticipationDate')
-    .where('lastParticipationDate', '<', lastActivityDate)
-    .orWhereNull('lastParticipationDate')
-    .orderBy('id', 'asc')
-    .pluck('id');
-};
-
 export {
   countByOrganizationsWhichNeedToComputeCertificability,
   findAllLearnerWithAtLeastOneParticipationByOrganizationId,
@@ -612,7 +579,6 @@ export {
   findByOrganizationsWhichNeedToComputeCertificability,
   findByUserId,
   findIdByUserIdAndOrganizationId,
-  findIdWithLastActivityDatePriorTo,
   findPaginatedAttestationStatusForOrganizationLearnersAndKey,
   findPaginatedLearnersByOrganizationId,
   findPaginatedLearnersForAdmin,

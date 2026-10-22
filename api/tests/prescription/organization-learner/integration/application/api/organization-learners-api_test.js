@@ -120,31 +120,4 @@ describe('Integration | API | Organization Learner', function () {
       ]);
     });
   });
-
-  describe('#findIdWithLastActivityDatePriorTo', function () {
-    it('should return array of matching learners', async function () {
-      // given
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
-
-      databaseBuilder.factory.buildOrganizationLearner({
-        organizationId,
-        updatedAt: new Date('2020-01-01'),
-      });
-      databaseBuilder.factory.buildOrganizationLearner({
-        organizationId,
-        updatedAt: new Date('2022-01-01'),
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const learners = await organizationLearnersApi.findIdWithLastActivityDatePriorTo({
-        organizationId,
-        lastActivityDate: new Date('2021-01-01'),
-      });
-
-      // then
-      expect(learners).lengthOf(1);
-    });
-  });
 });
