@@ -2,14 +2,17 @@ import jsonwebtoken from 'jsonwebtoken';
 
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 
-export const deepLinkingService = {
+export const ltiService = {
   /**
    * @param {object} args
    * @param {import('../models/LtiPlatformRegistration.js').LtiPlatformRegistration} args.registration
    * @param {object} args.deepLinkingSettings
    * @param {object[]} args.contentItems
    */
-  async encodeResponse({ contentItems, registration, deepLinkingSettings }, dependencies = { cryptoService }) {
+  async encodeDeepLinkingResponse(
+    { contentItems, registration, deepLinkingSettings },
+    dependencies = { cryptoService },
+  ) {
     const privateKey = {
       format: 'jwk',
       key: JSON.parse(await dependencies.cryptoService.decrypt(registration.encryptedPrivateKey)),

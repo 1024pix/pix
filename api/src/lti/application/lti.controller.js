@@ -7,7 +7,7 @@ import { cryptoService } from '../../shared/domain/services/crypto-service.js';
 import * as urlService from '../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../shared/infrastructure/http-agent.js';
 import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
-import { deepLinkingService } from '../domain/services/deep-linking.service.js';
+import { ltiService } from '../domain/services/lti.service.js';
 import { usecases } from '../domain/usecases/index.js';
 import { ltiPlatformRegistrationRepository } from '../infrastructure/repositories/lti-platform-registration.repository.js';
 import { ltiDeepLinkingSerializer } from '../infrastructure/serializers/html/lti-deep-linking-serializer.js';
@@ -148,7 +148,7 @@ async function findAvailableCampaigns(request, h) {
   return h.response(campaigns);
 }
 
-async function selectCampaign(request, h, dependencies = { deepLinkingService }) {
+async function selectCampaign(request, h, dependencies = { ltiService }) {
   const {
     // FIXME check selected campaignCode belongs to one of the organizations
     // credentials: { organizationIds },
@@ -167,7 +167,7 @@ async function selectCampaign(request, h, dependencies = { deepLinkingService })
     },
   };
 
-  const deepLinkingResponse = await dependencies.deepLinkingService.encodeResponse({
+  const deepLinkingResponse = await dependencies.ltiService.encodeDeepLinkingResponse({
     contentItems: [contentItem],
     registration,
     deepLinkingSettings,
