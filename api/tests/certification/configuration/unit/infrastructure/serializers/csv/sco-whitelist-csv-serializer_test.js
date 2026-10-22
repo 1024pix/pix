@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 
-import { CenterTypes } from '../../../../../../../src/certification/configuration/domain/models/CenterTypes.js';
 import { serialize } from '../../../../../../../src/certification/configuration/infrastructure/serializers/csv/sco-whitelist-csv-serializer.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../../src/shared/constants.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Integration | Serializer | CSV | Certification | Configuration | sco-whitelist-csv-serializer', function () {
   it('returns all external ids as a string', async function () {
     // given
     const center = domainBuilder.certification.configuration.buildCenter({
-      type: CenterTypes.SCO,
+      type: CERTIFICATION_CENTER_TYPES.SCO,
       externalId: 'SERIALIZED_EXTERNAL_ID',
     });
 
