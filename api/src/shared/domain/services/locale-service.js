@@ -91,6 +91,17 @@ function getBaseLocale(locale) {
 }
 
 /**
+ * @returns {string|undefined} - the canonical locale without extensions (ex: 'fr-FR' for 'fr-fr'), or undefined if the given locale is invalid
+ */
+function normalizeLocale(locale) {
+  try {
+    return new Intl.Locale(locale).baseName;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
  * @returns {boolean} - returns true when locale from France (ex: fr-fr or fr-FR), otherwise false
  */
 function isFranceLocale(locale) {
@@ -157,4 +168,5 @@ export {
   getSupportedLanguages,
   getSupportedLocales,
   isFranceLocale,
+  normalizeLocale,
 };

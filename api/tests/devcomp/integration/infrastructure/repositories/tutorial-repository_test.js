@@ -245,6 +245,16 @@ describe('Integration | Repository | tutorial-repository', function () {
             skillId: undefined,
             locale: 'en',
           },
+          {
+            duration: '00:01:54',
+            format: 'page',
+            link: 'https://tuto.com',
+            source: 'tuto.com',
+            title: 'tuto3',
+            id: 'recTutorial3',
+            skillId: undefined,
+            locale: 'fr_FR',
+          },
         ];
 
         databaseBuilder.factory.learningContent.build({
@@ -299,6 +309,62 @@ describe('Integration | Repository | tutorial-repository', function () {
             tutorialEvaluation: undefined,
             userSavedTutorial: undefined,
           });
+        });
+      });
+
+      describe('When user locale case differs from tutorial locale case', function () {
+        it('returns tutorials matching user locale regardless of case', async function () {
+          // when
+          const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({
+            ids: ['recTutorial0', 'recTutorial1', 'recTutorial2'],
+            userId: null,
+            locale: 'fr-fr',
+          });
+
+          // then
+          expect(tutorials).lengthOf(1);
+          expect(tutorials[0].id).to.equal('recTutorial0');
+        });
+
+        it('returns tutorials matching language regardless of case when no tutorial matches user locale', async function () {
+          // when
+          const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({
+            ids: ['recTutorial0', 'recTutorial1', 'recTutorial2'],
+            userId: null,
+            locale: 'EN-US',
+          });
+
+          // then
+          expect(tutorials).lengthOf(1);
+          expect(tutorials[0].id).to.equal('recTutorial2');
+        });
+      });
+
+      describe('When a locale is invalid', function () {
+        it('ignores tutorials with an invalid locale', async function () {
+          // when
+          const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({
+            ids: ['recTutorial0', 'recTutorial3'],
+            userId: null,
+            locale: 'fr-FR',
+          });
+
+          // then
+          expect(tutorials).lengthOf(1);
+          expect(tutorials[0].id).to.equal('recTutorial0');
+        });
+
+        it('returns tutorials matching the default language when user locale is invalid', async function () {
+          // when
+          const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({
+            ids: ['recTutorial0', 'recTutorial1', 'recTutorial2', 'recTutorial3'],
+            userId: null,
+            locale: 'fr_FR',
+          });
+
+          // then
+          expect(tutorials).lengthOf(1);
+          expect(tutorials[0].id).to.equal('recTutorial1');
         });
       });
     });
