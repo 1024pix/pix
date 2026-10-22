@@ -57,7 +57,7 @@ export default class ResultItemComponent extends Component {
   <template>
     <PixBlock class="result-item" @condensed={{true}} @variant="primary">
       {{#if this.result}}
-        <h3 class="result-item__title pix-body-l">
+        <h3 class="result-item__title pix-body-m">
           {{t "components.assessments.result-item.question-number" number=this.answerNumber}}
           <PixTag
             @variant={{this.result.color}}
