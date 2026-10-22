@@ -4,7 +4,7 @@ Date : 2026-10-09
 
 ## État
 
-En étude
+Evaluation de proposition 
 
 ## Contexte
 
@@ -137,16 +137,19 @@ d'agrégation, deviennent des projections reconstruites à partir de ce log — 
 
 ## Décision
 
-*(proposition, à valider — l'état de cet ADR est "En étude")*
+*Besoin de POCs pour pouvoir décider*
 
-Les solutions 2 (OLAP colonnaire) et 5 (Parquet) sont les mieux proportionnées au besoin tel qu'il est formulé
-(stockage froid + agrégation) : ce sont les deux seules dont la documentation éditeur confirme explicitement qu'elles
-sont taillées pour ce volume et ce profil de requête, sans réclamer une nouvelle discipline d'architecture.
+- Les solutions 2 et 5 sont les plus à même de répondre à la problématique mais sans études et POC de chacune d'entre elle, il est impossible de trancher.
+- Il faudra estimer:
+  - Faisabilité
+  - Pipeline d'alimentation
+  - Backup restauration etc.
+  - Estimation du coût 
 
-La solution 6 (event sourcing) n'est pas écartée mais n'est pas retenue par défaut : elle ne répond pas qu'à
-l'archivage, elle change la nature de ce qu'est `knowledge-state` (une projection, pas une vérité), ce qui dépasse le
-périmètre de cette décision. Elle mériterait un ADR dédié si un besoin de rejouabilité multi-consommateurs était
-confirmé indépendamment du sujet de l'archivage.
+- Prochaines étapes:
+  - Réalisation d'un POC avec une solution OLAP 
+  - Réalisation d'un POC avec l'écriture du parquet
+ 
 
 ## Conséquences
 
