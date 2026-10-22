@@ -7,7 +7,7 @@ export default class User extends Model {
   @attr('string') email;
   @attr('string') username;
   @attr('string') password;
-  @attr('boolean') cgu;
+  @attr('boolean') hasAcceptedLegalDocuments;
   @attr('boolean') hasSeenAssessmentInstructions;
   @attr('boolean') hasSeenNewDashboardInfo;
   @attr('boolean') hasSeenFocusedChallengeTooltip;

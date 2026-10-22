@@ -29,9 +29,8 @@ export default function index(config) {
     const email = params.data.attributes['email'];
     const password = params.data.attributes['password'];
     const locale = params.data.attributes['locale'];
-    const cgu = params.data.attributes['cgu'];
 
-    return schema.users.create({ id: '10000', firstName, lastName, email, password, cgu, locale });
+    return schema.users.create({ id: '10000', firstName, lastName, email, password, locale });
   });
 
   config.post('/users/:id/competences/:competenceId/reset', resetScorecard);

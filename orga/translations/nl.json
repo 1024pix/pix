@@ -212,11 +212,6 @@
       "login-user-temporary-blocked-with-username-error": "Je hebt te veel inlogpogingen gedaan, je Pix-account is tijdelijk geblokkeerd voor {blockingDurationMinutes} minuten.'<br>'Als je je wachtwoord bent vergeten, '<strong>'neem contact op met je docent'</strong>' om je wachtwoord opnieuw in te stellen en/of je aanmelding te herstellen."
     },
     "breadcrumb": "Leidraad",
-    "cgu": {
-      "error": "Je moet de gebruiksvoorwaarden en het privacybeleid van Pix accepteren om een account aan te maken.",
-      "label": "De gebruiksvoorwaarden van Pix accepteren",
-      "read-message": "Lees de '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'gebruiksvoorwaarden'</a>' en de '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'privacybeleid'</a>'."
-    },
     "filters": {
       "actions": {
         "clear": "Alle filters verwijderen"
@@ -257,6 +252,11 @@
         "division": "Klasse",
         "oralization": "Oralisatie"
       }
+    },
+    "legal-documents": {
+      "error": "Je moet de gebruiksvoorwaarden en het privacybeleid van Pix accepteren om een account aan te maken.",
+      "label": "De gebruiksvoorwaarden van Pix accepteren",
+      "read-message": "Lees de '<'a href=\"{cguUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'gebruiksvoorwaarden'</a>' en de '<'a href=\"{dataProtectionPolicyUrl}\" class=\"link\" target=\"_blank\" rel=\"noreferrer\"'>'privacybeleid'</a>'."
     },
     "loading": "Bezig met laden",
     "no-content": "Geen inhoud",

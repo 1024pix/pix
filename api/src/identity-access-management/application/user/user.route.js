@@ -59,7 +59,7 @@ export const userRoutes = [
               email: Joi.string().allow(null),
               username: Joi.string().allow(null),
               password: Joi.string().allow(null),
-              cgu: Joi.boolean().allow(null),
+              'has-accepted-legal-documents': Joi.boolean().allow(null),
               'is-anonymous': Joi.boolean().allow(null),
               'must-validate-terms-of-service': Joi.boolean().allow(null),
               'code-for-last-profile-to-share': Joi.string().allow(null),
@@ -131,7 +131,7 @@ export const userRoutes = [
               'last-name': Joi.string().required(),
               email: Joi.string().required(),
               password: Joi.string().required(),
-              cgu: Joi.boolean().required(),
+              'has-accepted-legal-documents': Joi.boolean().required(),
               // TODO: attributes bellow should not be sent, they are not used.
               username: Joi.string().allow(null),
               lang: Joi.string().valid(...getSupportedLanguages()),

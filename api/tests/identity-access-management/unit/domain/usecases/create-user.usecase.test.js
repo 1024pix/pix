@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { createAccountCreationEmail } from '../../../../../src/identity-access-management/domain/emails/create-account-creation.email.js';
-import { InvalidOrAlreadyUsedEmailError } from '../../../../../src/identity-access-management/domain/errors.js';
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
 import { createUser } from '../../../../../src/identity-access-management/domain/usecases/create-user.usecase.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
@@ -17,6 +16,8 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
   const user = new User({ email: userEmail });
   const hashedPassword = 'ABCDEF1234';
   const savedUser = new User({ id: userId, email: userEmail, locale });
+  const passwordValidator = Symbol('passwordValidator');
+  const userValidator = Symbol('userValidator');
 
   let campaignCode;
   let authenticationMethodRepository;
@@ -26,8 +27,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
   let campaignRepository;
   let cryptoService;
   let userService;
-  let passwordValidator;
-  let userValidator;
   let emailValidationDemandRepository;
   let legalDocumentApiRepository;
   let token;
@@ -46,9 +45,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
     legalDocumentApiRepository = { acceptPixAppTos: sinon.stub() };
 
     cryptoService = { hashPassword: sinon.stub() };
-    userService = { createUserWithPassword: sinon.stub() };
-    passwordValidator = { validate: sinon.stub() };
-    userValidator = { validate: sinon.stub() };
+    userService = { createUserWithPassword: sinon.stub(), validateUserWithPasswordForCreation: sinon.stub() };
 
     token = '00000000-0000-0000-0000-000000000000';
     emailValidationDemandRepository = {
@@ -58,21 +55,17 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
 
     userToCreateRepository.create.resolves(savedUser);
     emailRepository.sendEmailAsync.resolves();
-    userValidator.validate.returns();
 
-    passwordValidator.validate.returns();
     cryptoService.hashPassword.resolves(hashedPassword);
 
     userService.createUserWithPassword.resolves(savedUser);
+    userService.validateUserWithPasswordForCreation.resolves();
 
     campaignCode = 'AZERTY123';
   });
 
   context('step validation of data', function () {
-    it('should check the non existence of email in UserRepository', async function () {
-      // given
-      userRepository.checkIfEmailIsAvailable.resolves();
-
+    it('should validate user and password', async function () {
       // when
       await createUser({
         user,
@@ -93,98 +86,16 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
       });
 
       // then
-      expect(userRepository.checkIfEmailIsAvailable).to.have.been.calledWithExactly(userEmail);
-    });
-
-    it('should validate the user', async function () {
-      // when
-      await createUser({
-        user,
-        locale,
+      expect(userService.validateUserWithPasswordForCreation).to.have.been.calledWithExactly({
         password,
-        campaignCode,
-        authenticationMethodRepository,
-        campaignRepository,
-        emailRepository,
-        emailValidationDemandRepository,
+        user,
         userRepository,
-        userToCreateRepository,
-        legalDocumentApiRepository,
-        cryptoService,
-        userService,
         userValidator,
         passwordValidator,
       });
-
-      //then
-      expect(userValidator.validate).to.have.been.calledWithExactly({ user });
     });
 
-    it('should validate the password', async function () {
-      // when
-      await createUser({
-        user,
-        locale,
-        password,
-        campaignCode,
-        authenticationMethodRepository,
-        campaignRepository,
-        emailRepository,
-        emailValidationDemandRepository,
-        userRepository,
-        userToCreateRepository,
-        legalDocumentApiRepository,
-        cryptoService,
-        userService,
-        userValidator,
-        passwordValidator,
-      });
-
-      // then
-      expect(passwordValidator.validate).to.have.been.calledWithExactly(password);
-    });
-
-    context('when user email is already used', function () {
-      it('should reject with an error EntityValidationError on email already registered', async function () {
-        // given
-        const emailExistError = new InvalidOrAlreadyUsedEmailError('email already exists');
-        const expectedValidationError = new EntityValidationError({
-          invalidAttributes: [
-            {
-              attribute: 'email',
-              message: 'INVALID_OR_ALREADY_USED_EMAIL',
-            },
-          ],
-        });
-
-        userRepository.checkIfEmailIsAvailable.rejects(emailExistError);
-
-        // when
-        const error = await catchErr(createUser)({
-          user,
-          locale,
-          password,
-          campaignCode,
-          authenticationMethodRepository,
-          campaignRepository,
-          emailRepository,
-          emailValidationDemandRepository,
-          userRepository,
-          userToCreateRepository,
-          legalDocumentApiRepository,
-          cryptoService,
-          userService,
-          userValidator,
-          passwordValidator,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
-      });
-    });
-
-    context('when user validator fails', function () {
+    context('when validation fails', function () {
       it('should reject with an error EntityValidationError containing the entityValidationError', async function () {
         // given
         const expectedValidationError = new EntityValidationError({
@@ -200,7 +111,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
           ],
         });
 
-        userValidator.validate.throws(expectedValidationError);
+        userService.validateUserWithPasswordForCreation.rejects(expectedValidationError);
 
         // when
         const error = await catchErr(createUser)({
@@ -224,51 +135,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | create-user', f
         // then
         expect(error).to.be.instanceOf(EntityValidationError);
         expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
-      });
-    });
-
-    context('when user email is already in use, user validator fails', function () {
-      const entityValidationError = new EntityValidationError({
-        invalidAttributes: [
-          {
-            attribute: 'firstName',
-            message: 'Votre prénom n’est pas renseigné.',
-          },
-          {
-            attribute: 'password',
-            message: 'Votre mot de passe n’est pas renseigné.',
-          },
-        ],
-      });
-      const emailExistError = new InvalidOrAlreadyUsedEmailError('email already exists');
-
-      it('should reject with an error EntityValidationError containing the entityValidationError and the InvalidOrAlreadyUsedEmailError', async function () {
-        // given
-        userRepository.checkIfEmailIsAvailable.rejects(emailExistError);
-        userValidator.validate.throws(entityValidationError);
-
-        // when
-        const error = await catchErr(createUser)({
-          user,
-          locale,
-          password,
-          campaignCode,
-          authenticationMethodRepository,
-          campaignRepository,
-          emailRepository,
-          emailValidationDemandRepository,
-          userRepository,
-          userToCreateRepository,
-          legalDocumentApiRepository,
-          cryptoService,
-          userService,
-          userValidator,
-          passwordValidator,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.invalidAttributes).to.have.lengthOf(3);
       });
     });
   });

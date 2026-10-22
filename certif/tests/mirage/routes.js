@@ -369,7 +369,6 @@ export default function routes() {
     return schema.users.create({
       id: 12345,
       ...user,
-      cgu: attributes.cgu,
     });
   });
 

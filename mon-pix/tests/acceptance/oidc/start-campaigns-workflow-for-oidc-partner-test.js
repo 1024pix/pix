@@ -89,7 +89,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
         // when
         const screen = await visit(`/connexion/oidc?identityProviderSlug=oidc-partner`);
 
-        await click(screen.getByRole('checkbox', { name: t('common.cgu.label') }));
+        await click(screen.getByRole('checkbox', { name: t('common.legal-documents.label') }));
         await click(screen.getByRole('button', { name: 'Je crée mon compte' }));
         // eslint-disable-next-line ember/no-settled-after-test-helper
         await settled();
