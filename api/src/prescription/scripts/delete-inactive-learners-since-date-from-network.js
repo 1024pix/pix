@@ -52,17 +52,9 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
           lastActivityDate,
         });
 
-        const knexConn = DomainTransaction.getConnection();
-
-        const learnersWithCombinedCourseParticipation = await knexConn('organization_learner_participations')
-          .join(
-            'view-active-organization-learners',
-            'organization_learner_participations.organizationLearnerId',
-            'view-active-organization-learners.id',
-          )
-          .where('type', 'COMBINED_COURSE')
-          .where('organizationId', organizationId)
-          .pluck('organizationLearnerId');
+        const learnersWithCombinedCourseParticipation = await this.findLearnersWithCombinedCourseParticipation({
+          organizationId,
+        });
 
         const organizationLearnerIdsToDelete = inactiveLearnerIds.filter(
           (id) => !learnersWithCombinedCourseParticipation.includes(id),
@@ -79,6 +71,7 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
         });
 
         if (options.dryRun) {
+          const knexConn = DomainTransaction.getConnection();
           await knexConn.rollback();
           logger.info('ROLLBACK: no changes were persisted (dry run)');
           logger.info('remove --dryRun to persist changes');
@@ -111,6 +104,19 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
       .orWhereNull('lastParticipationDate')
       .orderBy('id', 'asc')
       .pluck('id');
+  }
+
+  async findLearnersWithCombinedCourseParticipation({ organizationId }) {
+    const knexConn = DomainTransaction.getConnection();
+    return await knexConn('organization_learner_participations')
+      .join(
+        'view-active-organization-learners',
+        'organization_learner_participations.organizationLearnerId',
+        'view-active-organization-learners.id',
+      )
+      .where('type', 'COMBINED_COURSE')
+      .where('organizationId', organizationId)
+      .pluck('organizationLearnerId');
   }
 }
 
