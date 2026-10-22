@@ -121,16 +121,7 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
         const deletedParticipationsInDatabase = await knex('campaign-participations').whereNotNull('deletedAt');
 
         expect(logger.info).to.have.been.calledOnceWithExactly(
-          {
-            networkId: options.networkId,
-            lastActivityDate: options.lastActivityDate,
-            dryRun: false,
-            organizationsCount: 1,
-            processedOrganizationsCount: 1,
-            deletedLearnersCount: 2,
-            deletedLearnersByOrganization: { [organization.id]: 2 },
-          },
-          'Delete learners from network',
+          `Network ${options.networkId}, learners with last activity prior to 2021-01-01: 2 learners deleted, 1/1 organizations processed. Deleted learners by organization: organization ${organization.id}: 2.`,
         );
         expect(learnersInDatabase).lengthOf(4);
         expect(deletedLearnersInDatabase).lengthOf(2);
@@ -306,16 +297,7 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
 
         // then
         expect(logger.info).to.have.been.calledOnceWithExactly(
-          {
-            networkId: network.id,
-            lastActivityDate,
-            dryRun: false,
-            organizationsCount: 2,
-            processedOrganizationsCount: 2,
-            deletedLearnersCount: 1,
-            deletedLearnersByOrganization: { [organization.id]: 1 },
-          },
-          'Delete learners from network',
+          `Network ${network.id}, learners with last activity prior to 2021-01-01: 1 learners deleted, 2/2 organizations processed. Deleted learners by organization: organization ${organization.id}: 1.`,
         );
       });
 
@@ -340,16 +322,7 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
         // then
         expect(error.message).to.equal('boom');
         expect(logger.info).to.have.been.calledOnceWithExactly(
-          {
-            networkId: network.id,
-            lastActivityDate,
-            dryRun: false,
-            organizationsCount: 1,
-            processedOrganizationsCount: 0,
-            deletedLearnersCount: 0,
-            deletedLearnersByOrganization: {},
-          },
-          'Delete learners from network',
+          `Network ${network.id}, learners with last activity prior to 2021-01-01: 0 learners deleted, 0/1 organizations processed. Deleted learners by organization: none.`,
         );
       });
     });
@@ -384,16 +357,7 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
         const deletedParticipationsInDatabase = await knex('campaign-participations').whereNotNull('deletedAt');
 
         expect(logger.info).to.have.been.calledOnceWithExactly(
-          {
-            networkId: options.networkId,
-            lastActivityDate: options.lastActivityDate,
-            dryRun: true,
-            organizationsCount: 1,
-            processedOrganizationsCount: 1,
-            deletedLearnersCount: 1,
-            deletedLearnersByOrganization: { [organization.id]: 1 },
-          },
-          'Delete learners from network: ROLLBACK, no changes were persisted (dry run), remove --dryRun to persist changes',
+          `[DRY RUN] ROLLBACK, no changes were persisted, remove --dryRun to persist changes. Network ${options.networkId}, learners with last activity prior to 2021-01-01: 1 learners deleted, 1/1 organizations processed. Deleted learners by organization: organization ${organization.id}: 1.`,
         );
         expect(learnersInDatabase).lengthOf(1);
         expect(deletedLearnersInDatabase).lengthOf(0);

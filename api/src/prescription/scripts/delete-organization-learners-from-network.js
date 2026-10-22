@@ -47,7 +47,7 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
     const dryRun = Boolean(options.dryRun);
     const summary = {
       networkId,
-      lastActivityDate: options.lastActivityDate,
+      lastActivityDate,
       dryRun,
       organizationsCount: organizations.length,
       processedOrganizationsCount: 0,
@@ -99,14 +99,33 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
         });
       }
     } finally {
-      logger.info(
-        summary,
-        dryRun
-          ? 'Delete learners from network: ROLLBACK, no changes were persisted (dry run), remove --dryRun to persist changes'
-          : 'Delete learners from network',
-      );
+      logger.info(_formatSummary(summary));
     }
   }
+}
+
+function _formatSummary({
+  networkId,
+  lastActivityDate,
+  dryRun,
+  organizationsCount,
+  processedOrganizationsCount,
+  deletedLearnersCount,
+  deletedLearnersByOrganization,
+}) {
+  const details = Object.entries(deletedLearnersByOrganization)
+    .map(([organizationId, count]) => `organization ${organizationId}: ${count}`)
+    .join(', ');
+
+  const sentences = [
+    `Network ${networkId}, learners with last activity prior to ${lastActivityDate.toISOString().slice(0, 10)}:`,
+    `${deletedLearnersCount} learners deleted, ${processedOrganizationsCount}/${organizationsCount} organizations processed.`,
+    `Deleted learners by organization: ${details || 'none'}.`,
+  ];
+  if (dryRun) {
+    sentences.unshift('[DRY RUN] ROLLBACK, no changes were persisted, remove --dryRun to persist changes.');
+  }
+  return sentences.join(' ');
 }
 
 await ScriptRunner.execute(import.meta.url, DeleteOrganizationLearnersFromNetworkScript);
