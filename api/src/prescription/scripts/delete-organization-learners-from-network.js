@@ -44,48 +44,67 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
 
     await super.handle({ jobClient });
 
-    logger.info(`Delete learners from network ${networkId} with last activity prior to ${options.lastActivityDate}`);
+    const dryRun = Boolean(options.dryRun);
+    const summary = {
+      networkId,
+      lastActivityDate: options.lastActivityDate,
+      dryRun,
+      organizationsCount: organizations.length,
+      processedOrganizationsCount: 0,
+      deletedLearnersCount: 0,
+      deletedLearnersByOrganization: {},
+    };
 
-    for (const { organizationId } of organizations) {
-      await DomainTransaction.execute(async () => {
-        const organizationLearnerIds = await organizationLearnerApi.findIdWithLastActivityDatePriorTo({
-          organizationId,
-          lastActivityDate,
+    try {
+      for (const { organizationId } of organizations) {
+        await DomainTransaction.execute(async () => {
+          const organizationLearnerIds = await organizationLearnerApi.findIdWithLastActivityDatePriorTo({
+            organizationId,
+            lastActivityDate,
+          });
+
+          const knexConn = DomainTransaction.getConnection();
+
+          const combinedCourseOrganizationLearners = await knexConn('organization_learner_participations')
+            .join(
+              'view-active-organization-learners',
+              'organization_learner_participations.organizationLearnerId',
+              'view-active-organization-learners.id',
+            )
+            .where('type', 'COMBINED_COURSE')
+            .where('organizationId', organizationId)
+            .pluck('organizationLearnerId');
+
+          const organizationLearnerIdsToDelete = organizationLearnerIds.filter(
+            (id) => !combinedCourseOrganizationLearners.includes(id),
+          );
+
+          await usecases.deleteOrganizationLearners({
+            organizationLearnerIds: organizationLearnerIdsToDelete,
+            userId: engineeringUserId,
+            organizationId,
+            userRole: 'SUPER_ADMIN',
+            client: 'SCRIPT',
+          });
+
+          if (dryRun) {
+            await knexConn.rollback();
+          }
+
+          summary.processedOrganizationsCount++;
+          if (organizationLearnerIdsToDelete.length > 0) {
+            summary.deletedLearnersCount += organizationLearnerIdsToDelete.length;
+            summary.deletedLearnersByOrganization[organizationId] = organizationLearnerIdsToDelete.length;
+          }
         });
-
-        const knexConn = DomainTransaction.getConnection();
-
-        const combinedCourseOrganizationLearners = await knexConn('organization_learner_participations')
-          .join(
-            'view-active-organization-learners',
-            'organization_learner_participations.organizationLearnerId',
-            'view-active-organization-learners.id',
-          )
-          .where('type', 'COMBINED_COURSE')
-          .where('organizationId', organizationId)
-          .pluck('organizationLearnerId');
-
-        const organizationLearnerIdsToDelete = organizationLearnerIds.filter(
-          (id) => !combinedCourseOrganizationLearners.includes(id),
-        );
-
-        logger.info(`Deleting ${organizationLearnerIdsToDelete.length} learners from organization ${organizationId}`);
-
-        await usecases.deleteOrganizationLearners({
-          organizationLearnerIds: organizationLearnerIdsToDelete,
-          userId: engineeringUserId,
-          organizationId,
-          userRole: 'SUPER_ADMIN',
-          client: 'SCRIPT',
-        });
-
-        if (options.dryRun) {
-          await knexConn.rollback();
-          logger.info('ROLLBACK: no changes were persisted (dry run)');
-          logger.info('remove --dryRun to persist changes');
-          return;
-        }
-      });
+      }
+    } finally {
+      logger.info(
+        summary,
+        dryRun
+          ? 'Delete learners from network: ROLLBACK, no changes were persisted (dry run), remove --dryRun to persist changes'
+          : 'Delete learners from network',
+      );
     }
   }
 }

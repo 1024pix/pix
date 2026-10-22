@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { config } from '../../../../config/config.js';
+import { usecases } from '../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { DeleteOrganizationLearnersFromNetworkScript } from '../../../../src/prescription/scripts/delete-organization-learners-from-network.js';
 import { OrganizationLearnerParticipationStatuses } from '../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
@@ -119,12 +120,18 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
         const participationsInDatabase = await knex('campaign-participations');
         const deletedParticipationsInDatabase = await knex('campaign-participations').whereNotNull('deletedAt');
 
-        expect(
-          logger.info.calledWithExactly(
-            `Delete learners from network ${options.networkId} with last activity prior to ${options.lastActivityDate}`,
-          ),
-        ).true;
-        expect(logger.info.calledWithExactly(`Deleting 2 learners from organization ${organization.id}`)).true;
+        expect(logger.info).to.have.been.calledOnceWithExactly(
+          {
+            networkId: options.networkId,
+            lastActivityDate: options.lastActivityDate,
+            dryRun: false,
+            organizationsCount: 1,
+            processedOrganizationsCount: 1,
+            deletedLearnersCount: 2,
+            deletedLearnersByOrganization: { [organization.id]: 2 },
+          },
+          'Delete learners from network',
+        );
         expect(learnersInDatabase).lengthOf(4);
         expect(deletedLearnersInDatabase).lengthOf(2);
         expect(deletedLearnersInDatabase[0].id).to.equal(inactiveLearner1.id);
@@ -273,6 +280,78 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
         expect(deletedLearnersInDatabase[1].id).to.equal(inactiveLearnerWithParticipation.id);
         expect(deletedParticipationsInDatabase[1].id).to.equal(inactiveParticipation.id);
       });
+
+      it('logs a single summary without organizations having no deleted learners', async function () {
+        // given
+        const lastActivityDate = new Date('2021-01-01');
+
+        const { network, organization } = databaseBuilder.factory.buildNetworkAndHeadOrganization();
+        const otherOrganization = databaseBuilder.factory.buildOrganizationInNetwork({
+          networkId: network.id,
+        });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          updatedAt: new Date('2020-01-01'),
+        });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: otherOrganization.id,
+          updatedAt: new Date('2025-01-01'),
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const options = { networkId: network.id, lastActivityDate };
+        await script.handle({ options, logger });
+
+        // then
+        expect(logger.info).to.have.been.calledOnceWithExactly(
+          {
+            networkId: network.id,
+            lastActivityDate,
+            dryRun: false,
+            organizationsCount: 2,
+            processedOrganizationsCount: 2,
+            deletedLearnersCount: 1,
+            deletedLearnersByOrganization: { [organization.id]: 1 },
+          },
+          'Delete learners from network',
+        );
+      });
+
+      it('logs the summary even if the deletion fails', async function () {
+        // given
+        const lastActivityDate = new Date('2021-01-01');
+
+        const { network, organization } = await databaseBuilder.factory.buildNetworkAndHeadOrganization();
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          updatedAt: new Date('2020-01-01'),
+        });
+
+        await databaseBuilder.commit();
+
+        sinon.stub(usecases, 'deleteOrganizationLearners').rejects(new Error('boom'));
+
+        // when
+        const options = { networkId: network.id, lastActivityDate };
+        const error = await catchErr(script.handle, script)({ options, logger });
+
+        // then
+        expect(error.message).to.equal('boom');
+        expect(logger.info).to.have.been.calledOnceWithExactly(
+          {
+            networkId: network.id,
+            lastActivityDate,
+            dryRun: false,
+            organizationsCount: 1,
+            processedOrganizationsCount: 0,
+            deletedLearnersCount: 0,
+            deletedLearnersByOrganization: {},
+          },
+          'Delete learners from network',
+        );
+      });
     });
 
     describe('when dryRun is true', function () {
@@ -304,12 +383,18 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
         const participationsInDatabase = await knex('campaign-participations');
         const deletedParticipationsInDatabase = await knex('campaign-participations').whereNotNull('deletedAt');
 
-        expect(
-          logger.info.calledWithExactly(
-            `Delete learners from network ${options.networkId} with last activity prior to ${options.lastActivityDate}`,
-          ),
-        ).true;
-        expect(logger.info.calledWithExactly(`Deleting 1 learners from organization ${organization.id}`)).true;
+        expect(logger.info).to.have.been.calledOnceWithExactly(
+          {
+            networkId: options.networkId,
+            lastActivityDate: options.lastActivityDate,
+            dryRun: true,
+            organizationsCount: 1,
+            processedOrganizationsCount: 1,
+            deletedLearnersCount: 1,
+            deletedLearnersByOrganization: { [organization.id]: 1 },
+          },
+          'Delete learners from network: ROLLBACK, no changes were persisted (dry run), remove --dryRun to persist changes',
+        );
         expect(learnersInDatabase).lengthOf(1);
         expect(deletedLearnersInDatabase).lengthOf(0);
         expect(participationsInDatabase).lengthOf(1);
