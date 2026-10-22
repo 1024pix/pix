@@ -1,5 +1,38 @@
 # Pix Changelog
 
+# [5.528.0](https://github.com/1024pix/pix/compare/v5.527.0...v5.528.0) (2026-10-22)
+
+### :rocket: Amélioration
+
+- [#18015](https://github.com/1024pix/pix/pull/18015) Ajouter le statut session "À finaliser" sur PixCertif (PIX-24712).
+- [#18193](https://github.com/1024pix/pix/pull/18193) Remplacer la variable d’environnement LTI_AUTHORIZED_PLATFORMS  (PIX-24420 )
+
+### :bug: Correction
+
+- [#18194](https://github.com/1024pix/pix/pull/18194) Afficher la valeur liée à la locale et non à la langue lors de l'affichage du bandeau d'info dans Pix Orga (PIX-23748).
+- [#18199](https://github.com/1024pix/pix/pull/18199) Corriger la pagination de la page d'attestation pour les grandes organisations (PIX-24668)
+- [#18259](https://github.com/1024pix/pix/pull/18259) Fix de la comparaison des locales tutos - utilisateur (PIX-24808).
+
+### :building_construction: Tech
+
+- [#18239](https://github.com/1024pix/pix/pull/18239) Ajouter des informations de corrélation pour renseigner la méthode de recherche dans un appel ParcourSup (PIX-24779)
+- [#17739](https://github.com/1024pix/pix/pull/17739) Remplacement du champ `cgu` dans le endpoint d’inscription (PIX-24568)
+
+### :arrow_up: Montée de version
+
+- [#18257](https://github.com/1024pix/pix/pull/18257) Update aws-sdk-js-v3 monorepo to v3.1152.0 (api)
+- [#18260](https://github.com/1024pix/pix/pull/18260) Update dependency @1024pix/eslint-plugin to v3.0.11 (admin)
+- [#18261](https://github.com/1024pix/pix/pull/18261) Update dependency @1024pix/eslint-plugin to v3.0.11 (api)
+- [#18262](https://github.com/1024pix/pix/pull/18262) Update dependency @1024pix/eslint-plugin to v3.0.11 (audit-logger)
+- [#18263](https://github.com/1024pix/pix/pull/18263) Update dependency @1024pix/eslint-plugin to v3.0.11 (certif)
+- [#18264](https://github.com/1024pix/pix/pull/18264) Update dependency @1024pix/eslint-plugin to v3.0.11 (e2e-playwright)
+- [#18265](https://github.com/1024pix/pix/pull/18265) Update dependency @1024pix/eslint-plugin to v3.0.11 (junior)
+- [#18266](https://github.com/1024pix/pix/pull/18266) Update dependency @1024pix/eslint-plugin to v3.0.11 (mon-pix)
+- [#18267](https://github.com/1024pix/pix/pull/18267) Update dependency @1024pix/eslint-plugin to v3.0.11 (orga)
+- [#18255](https://github.com/1024pix/pix/pull/18255) Update dependency @playwright/test to v1.64.1 (e2e-playwright)
+- [#18258](https://github.com/1024pix/pix/pull/18258) Update dependency file-type to v22.2.0 (api)
+- [#18254](https://github.com/1024pix/pix/pull/18254) Update dependency undici to v8.12.1 (api)
+
 # [5.527.0](https://github.com/1024pix/pix/compare/v5.526.0...v5.527.0) (2026-10-21)
 
 ### :rocket: Amélioration
