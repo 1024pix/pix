@@ -77,6 +77,7 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
           organizationId,
           userRole: 'SUPER_ADMIN',
           client: 'SCRIPT',
+          disableAuditLogger: options.dryRun,
         });
 
         if (options.dryRun) {

@@ -26,6 +26,7 @@ const deleteOrganizationLearners = async function ({
   userRecommendedTrainingRepository,
   organizationsProfileRewardRepository,
   keepPreviousDeletion = false,
+  disableAuditLogger = false, // true in case of dryRun to not instantiate jobs
 }) {
   if (organizationLearnerIds.length === 0) {
     return;
@@ -124,6 +125,8 @@ const deleteOrganizationLearners = async function ({
       campaignParticipationIds: allCampaignParticipationIds,
     });
   });
+
+  if (disableAuditLogger) return;
 
   await auditLoggingJobRepository.performManyAsync(auditLoggingJobs);
 };
