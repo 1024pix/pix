@@ -458,20 +458,17 @@ const isActive = async function ({ userId, campaignId }) {
 };
 
 async function countByOrganizationsWhichNeedToComputeCertificability({
-  skipActivityDate = false,
-  onlyNotComputed = false,
   fromUserActivityDate,
   toUserActivityDate,
 } = {}) {
-  const queryBuilder = _queryBuilderForCertificability({
+  const res = await _queryBuilderForCertificability({
     fromUserActivityDate,
     toUserActivityDate,
-    skipActivityDate,
-    onlyNotComputed,
   });
 
-  const [{ count }] = await queryBuilder.count('view-active-organization-learners.id');
-  return count;
+  console.log(res);
+
+  return res.length;
 }
 
 function findByOrganizationsWhichNeedToComputeCertificability({
@@ -479,35 +476,18 @@ function findByOrganizationsWhichNeedToComputeCertificability({
   offset,
   fromUserActivityDate,
   toUserActivityDate,
-  skipActivityDate = false,
-  onlyNotComputed = false,
 } = {}) {
-  const queryBuilder = _queryBuilderForCertificability({
+  return _queryBuilderForCertificability({
     fromUserActivityDate,
     toUserActivityDate,
-    skipActivityDate,
-    onlyNotComputed,
-  });
-
-  return queryBuilder
+  })
     .orderBy('view-active-organization-learners.id', 'ASC')
-    .modify(function (qB) {
-      if (limit) {
-        qB.limit(limit);
-      }
-      if (offset) {
-        qB.offset(offset);
-      }
-    })
+    .limit(limit)
+    .offset(offset)
     .pluck('view-active-organization-learners.id');
 }
 
-function _queryBuilderForCertificability({
-  fromUserActivityDate,
-  toUserActivityDate,
-  skipActivityDate,
-  onlyNotComputed,
-}) {
+function _queryBuilderForCertificability({ fromUserActivityDate, toUserActivityDate }) {
   const knexConn = DomainTransaction.getConnection();
   return knexConn('view-active-organization-learners')
     .join(
@@ -520,17 +500,13 @@ function _queryBuilderForCertificability({
     .join('users', 'view-active-organization-learners.userId', '=', 'users.id')
     .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
     .where('view-active-organization-learners.isDisabled', false)
+    .whereNull('view-active-organization-learners.isCertifiable')
     .modify(function (queryBuilder) {
-      if (!skipActivityDate) {
-        queryBuilder.join('user-logins', function () {
-          this.on('view-active-organization-learners.userId', 'user-logins.userId')
-            .andOnVal('user-logins.lastLoggedAt', '>', fromUserActivityDate)
-            .andOnVal('user-logins.lastLoggedAt', '<=', toUserActivityDate);
-        });
-      }
-      if (onlyNotComputed) {
-        queryBuilder.whereNull('view-active-organization-learners.isCertifiable');
-      }
+      queryBuilder.join('user-logins', function () {
+        this.on('view-active-organization-learners.userId', 'user-logins.userId')
+          .andOnVal('user-logins.lastLoggedAt', '>', fromUserActivityDate)
+          .andOnVal('user-logins.lastLoggedAt', '<=', toUserActivityDate);
+      });
     });
 }
 

@@ -710,7 +710,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
     });
   });
 
-  describe('#countByOrganizationsWhichNeedToComputeCertificability', function () {
+  describe.only('#countByOrganizationsWhichNeedToComputeCertificability', function () {
     let featureId;
     let fromUserActivityDate;
     let toUserActivityDate;
@@ -728,34 +728,32 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       const userNotComputed = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildUserLogin({
         userId: userNotComputed,
-        lastLoggedAt: dayjs('2023-07-03').hour(21).minute(0).second(0).millisecond(0),
+        lastLoggedAt: dayjs('2023-07-02').hour(21).minute(0).second(0).millisecond(0),
       });
 
       const anotherUserNotComputed = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildUserLogin({
         userId: anotherUserNotComputed,
-        lastLoggedAt: dayjs('2023-07-02').hour(21).minute(0).second(0).millisecond(0),
+        lastLoggedAt: dayjs('2023-07-03').hour(21).minute(1).second(0).millisecond(0),
       });
 
       const userComputed = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildUserLogin({
         userId: userComputed,
-        lastLoggedAt: dayjs('2023-07-02').hour(20).minute(59).second(0).millisecond(0),
+        lastLoggedAt: dayjs('2023-07-03').hour(21).minute(0).second(0).millisecond(0),
       });
 
       const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ userId: userNotComputed });
-      databaseBuilder.factory.buildOrganizationLearner({ userId: userComputed, organizationId });
+      databaseBuilder.factory.buildOrganizationLearner({ userId: userComputed, organizationId, isDisabled: true });
       databaseBuilder.factory.buildOrganizationLearner({ userId: anotherUserNotComputed, organizationId });
 
       databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
       await databaseBuilder.commit();
 
       // when
-      const result = await DomainTransaction.execute(async () => {
-        return organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
-          fromUserActivityDate,
-          toUserActivityDate,
-        });
+      const result = await organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+        fromUserActivityDate,
+        toUserActivityDate,
       });
 
       // then
@@ -782,111 +780,54 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
     it('should not count a disabled organization learner', async function () {
       // given
-      const { organizationId, userId } = databaseBuilder.factory.buildOrganizationLearner({ isDisabled: true });
-      databaseBuilder.factory.buildUserLogin({ userId, lastLoggedAt: new Date() });
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildUserLogin({ userId, lastLoggedAt: toUserActivityDate });
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ userId, isDisabled: false });
 
       databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
       await databaseBuilder.commit();
 
       // when
-      const result = await DomainTransaction.execute(async () => {
-        return organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
-          fromUserActivityDate,
-        });
+      const result = await organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+        fromUserActivityDate,
       });
 
       // then
       expect(result).to.equal(0);
     });
 
-    context('when "skipActivityDate" option is passed', function () {
-      it('should return count of all organization learners', async function () {
-        // given
-        const userRecentlyConnectedId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildUserLogin({ userId: userRecentlyConnectedId, lastLoggedAt: new Date() });
-        const userNotRecentlyConnectedId = databaseBuilder.factory.buildUser().id;
+    it('should return count of organization learners with no certificability', async function () {
+      // given
+      const { organizationId, userId } = databaseBuilder.factory.buildOrganizationLearner({ isCertifiable: null });
+      databaseBuilder.factory.buildUserLogin({ userId, lastLoggedAt: toUserActivityDate });
 
-        const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({
-          userId: userRecentlyConnectedId,
-        });
-        databaseBuilder.factory.buildOrganizationLearner({ userId: userNotRecentlyConnectedId, organizationId });
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
 
-        databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
-        await databaseBuilder.commit();
-
-        // when
-        const result = await DomainTransaction.execute(async () => {
-          return organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
-            fromUserActivityDate,
-            skipActivityDate: true,
-          });
-        });
-
-        // then
-        expect(result).to.equal(2);
+      // when
+      const result = await organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+        fromUserActivityDate,
       });
 
-      it('should not count organization learners not reconciliated with option skipActivityDate', async function () {
-        // given
-        const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ userId: null });
-
-        databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
-        await databaseBuilder.commit();
-
-        // when
-        const result = await DomainTransaction.execute(async () => {
-          return organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
-            fromUserActivityDate,
-            skipActivityDate: true,
-          });
-        });
-
-        // then
-        expect(result).to.equal(0);
-      });
+      // then
+      expect(result).to.equal(1);
     });
 
-    context('when "onlyNotComputed" option is passed', function () {
-      it('should return count of organization learners with no certificability', async function () {
-        // given
-        const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ isCertifiable: null });
+    it('should not count organization learners already computed', async function () {
+      // given
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ isCertifiable: true });
+      databaseBuilder.factory.buildOrganizationLearner({ isCertifiable: null, organizationId });
 
-        databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
-        await databaseBuilder.commit();
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
 
-        // when
-        const result = await DomainTransaction.execute(async () => {
-          return organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
-            fromUserActivityDate,
-            skipActivityDate: true,
-            onlyNotComputed: true,
-          });
-        });
-
-        // then
-        expect(result).to.equal(1);
+      // when
+      const result = await organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+        fromUserActivityDate,
       });
 
-      it('should not count organization learners already computed', async function () {
-        // given
-        const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ isCertifiable: true });
-        databaseBuilder.factory.buildOrganizationLearner({ isCertifiable: null, organizationId });
-
-        databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
-        await databaseBuilder.commit();
-
-        // when
-        const result = await DomainTransaction.execute(async () => {
-          return organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
-            fromUserActivityDate,
-            skipActivityDate: true,
-            onlyNotComputed: true,
-          });
-        });
-
-        // then
-        expect(result).to.equal(1);
-      });
+      // then
+      expect(result).to.equal(1);
     });
   });
 

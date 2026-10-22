@@ -8,7 +8,6 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { computeCertificabilityJobRepository } from '../../../learner-management/infrastructure/repositories/jobs/compute-certificability-job-repository.js';
 import * as organizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/organization-learner-repository.js';
-import { ComputeOrganizationLearnerCertificabilityJobProvidedDateError } from '../../domain/errors.js';
 import { usecases } from '../../domain/usecases/index.js';
 
 class ScheduleComputeOrganizationLearnersCertificabilityJobController extends JobScheduleController {
@@ -23,19 +22,8 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobController extends Jo
   }
 
   async handle({
-    data = {},
     dependencies = { organizationLearnerRepository, computeCertificabilityJobRepository, config, logger },
   }) {
-    const skipActivityDate = data?.skipActivityDate;
-    const onlyNotComputed = data?.onlyNotComputed;
-    const providedDateRange = data?.providedDateRange;
-
-    if (providedDateRange) {
-      dependencies.logger.info(
-        `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - providedDateRange : ${providedDateRange.startDate}-${providedDateRange.endDate}`,
-      );
-    }
-
     const {
       chunkSize,
       cron: cronConfig,
@@ -44,29 +32,16 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobController extends Jo
 
     const isolationLevel = 'repeatable read';
 
-    let toUserActivityDate, fromUserActivityDate;
-    if (providedDateRange && providedDateRange.startDate && providedDateRange.endDate) {
-      const parseStartDate = dayjs(providedDateRange.startDate, 'YYYY-MM-DD');
-      const parseEndDate = dayjs(providedDateRange.endDate, 'YYYY-MM-DD');
-      if (!parseStartDate.isValid() || !parseEndDate.isValid() || parseStartDate.isAfter(parseEndDate)) {
-        throw new ComputeOrganizationLearnerCertificabilityJobProvidedDateError();
-      }
-      fromUserActivityDate = parseStartDate.toDate();
-      toUserActivityDate = parseEndDate.toDate();
-    } else {
-      const parsedCron = CronExpressionParser.parse(cronConfig, { tz: 'Europe/Paris' });
-      toUserActivityDate = parsedCron.prev().toDate();
-      fromUserActivityDate = dayjs(toUserActivityDate).subtract(1, 'day').toDate();
-    }
+    const parsedCron = CronExpressionParser.parse(cronConfig, { tz: 'Europe/Paris' });
+    const toUserActivityDate = parsedCron.prev().toDate();
+    const fromUserActivityDate = dayjs(toUserActivityDate).subtract(1, 'day').toDate();
 
     return await DomainTransaction.execute(
       async () => {
         const count =
           await dependencies.organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
-            skipActivityDate,
             fromUserActivityDate,
             toUserActivityDate,
-            onlyNotComputed,
           });
 
         const chunkCount = Math.ceil(count / chunkSize);
@@ -86,8 +61,6 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobController extends Jo
               offset,
               fromUserActivityDate,
               toUserActivityDate,
-              skipActivityDate,
-              onlyNotComputed,
             });
 
           dependencies.logger.info(

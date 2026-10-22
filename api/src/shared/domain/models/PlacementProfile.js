@@ -23,9 +23,7 @@ export class PlacementProfile {
   }
 
   getCertifiableCompetencesCount() {
-    return _(this.userCompetences)
-      .filter((userCompetence) => userCompetence.isCertifiable())
-      .size();
+    return this.userCompetences.filter((userCompetence) => userCompetence.isCertifiable()).length;
   }
 
   getCompetencesCount() {
