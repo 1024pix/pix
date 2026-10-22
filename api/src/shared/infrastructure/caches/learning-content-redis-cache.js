@@ -42,53 +42,82 @@ class LearningContentRedisCache {
    * @param {string} key
    */
   async getEntity(key) {
-    const value = await this.#pool?.get(key);
-    if (value == null) return undefined;
-    return JSON.parse(value);
+    try {
+      const value = await this.#pool?.get(key);
+      if (value == null) return undefined;
+      return JSON.parse(value);
+    } catch (err) {
+      logger.error({ err }, 'redis cache client error');
+      return undefined;
+    }
   }
 
   /**
    * @param {string[]} keys
    */
   async getEntities(keys) {
-    const values = await this.#pool?.mGet(keys);
-    return values.map((value) => {
-      if (value == null) return undefined;
-      return JSON.parse(value);
-    });
+    try {
+      const values = await this.#pool?.mGet(keys);
+      return (
+        values?.map((value) => {
+          if (value == null) return undefined;
+          return JSON.parse(value);
+        }) ?? Array(keys.length)
+      );
+    } catch (err) {
+      logger.error({ err }, 'redis cache client error');
+      return Array(keys.length);
+    }
   }
 
   /**
    * @param {string} key
    */
   async getIds(key) {
-    const value = await this.#pool?.get(key);
-    if (value == null) return undefined;
-    if (value === '') return [];
-    return value.split(',');
+    try {
+      const value = await this.#pool?.get(key);
+      if (value == null) return undefined;
+      if (value === '') return [];
+      return value.split(',');
+    } catch (err) {
+      logger.error({ err }, 'redis cache client error');
+      return undefined;
+    }
   }
 
   /**
    * @param {string} key
    * @param {any} value
    */
-  setEntity(key, value) {
-    return this.#pool?.set(key, JSON.stringify(value), { condition: 'NX' });
+  async setEntity(key, value) {
+    try {
+      await this.#pool?.set(key, JSON.stringify(value), { condition: 'NX' });
+    } catch (err) {
+      logger.error({ err }, 'redis cache client error');
+    }
   }
 
   /**
    * @param {[key: string, entity: any][]} entities
    */
-  setEntities(entities) {
-    return this.#pool?.mSetNX(entities.map(([key, entity]) => [key, JSON.stringify(entity)]));
+  async setEntities(entities) {
+    try {
+      await this.#pool?.mSetNX(entities.map(([key, entity]) => [key, JSON.stringify(entity)]));
+    } catch (err) {
+      logger.error({ err }, 'redis cache client error');
+    }
   }
 
   /**
    * @param {string} key
    * @param {string[]} ids
    */
-  setIds(key, ids) {
-    return this.#pool?.set(key, ids.join(','), { condition: 'NX' });
+  async setIds(key, ids) {
+    try {
+      await this.#pool?.set(key, ids.join(','), { condition: 'NX' });
+    } catch (err) {
+      logger.error({ err }, 'redis cache client error');
+    }
   }
 
   clear() {
