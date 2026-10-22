@@ -163,6 +163,7 @@ import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
 import { buildComplementaryCertification } from './certification/complementary-certification/build-complementary-certification.js';
 import { buildComplementaryCertificationBadge } from './certification/complementary-certification/build-complementary-certification-badge.js';
+import { attachableTargetProfileBuilder } from './certification/configuration/build-attachable-target-profile.js';
 import { calibrationBuilder } from './certification/configuration/build-calibration.js';
 import { buildCenter as buildConfigurationCenter } from './certification/configuration/build-center.js';
 import { certificationInfoBuilder } from './certification/configuration/build-certification-info.js';
@@ -261,6 +262,7 @@ const certification = {
     versionDetailsBuilder,
     frameworkInfoBuilder,
     calibrationBuilder,
+    attachableTargetProfileBuilder,
   },
   complementaryCertification: {
     buildComplementaryCertificationBadge: buildComplementaryCertificationBadge,

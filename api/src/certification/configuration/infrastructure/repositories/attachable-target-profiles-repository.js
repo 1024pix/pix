@@ -1,6 +1,5 @@
-// @ts-check
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { AttachableTargetProfile } from '../../domain/models/AttachableTargetProfile.js';
+import { AttachableTargetProfile } from '../../domain/read-models/AttachableTargetProfile.ts';
 
 /**
  * @param {object} params

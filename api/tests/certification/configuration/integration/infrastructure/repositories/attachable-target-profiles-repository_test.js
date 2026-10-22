@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import * as attachableTargetProfileRepository from '../../../../../../src/certification/configuration/infrastructure/repositories/attachable-target-profiles-repository.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Integration | Repository | attachable-target-profiles', function () {
   describe('#find', function () {
@@ -17,9 +18,18 @@ describe('Certification | Configuration | Integration | Repository | attachable-
 
       // then
       expect(results).to.deep.equal([
-        { id: 100, name: 'AAA' },
-        { id: 300, name: 'BBB' },
-        { id: 200, name: 'BBB' },
+        domainBuilder.certification.configuration
+          .attachableTargetProfileBuilder()
+          .withParameters({ id: 100, name: 'AAA' })
+          .build(),
+        domainBuilder.certification.configuration
+          .attachableTargetProfileBuilder()
+          .withParameters({ id: 300, name: 'BBB' })
+          .build(),
+        domainBuilder.certification.configuration
+          .attachableTargetProfileBuilder()
+          .withParameters({ id: 200, name: 'BBB' })
+          .build(),
       ]);
     });
 
@@ -33,6 +43,12 @@ describe('Certification | Configuration | Integration | Repository | attachable-
       const results = await attachableTargetProfileRepository.find();
 
       // then
+      expect(results).to.deep.equal([
+        domainBuilder.certification.configuration
+          .attachableTargetProfileBuilder()
+          .withParameters({ id: 100, name: 'NOTOUTDATED' })
+          .build(),
+      ]);
       expect(results).to.deep.equal([{ id: 100, name: 'NOTOUTDATED' }]);
     });
 
@@ -46,7 +62,12 @@ describe('Certification | Configuration | Integration | Repository | attachable-
         const results = await attachableTargetProfileRepository.find();
 
         // then
-        expect(results).to.deep.equal([{ id: 200, name: 'Target profile with a badge' }]);
+        expect(results).to.deep.equal([
+          domainBuilder.certification.configuration
+            .attachableTargetProfileBuilder()
+            .withParameters({ id: 200, name: 'Target profile with a badge' })
+            .build(),
+        ]);
       });
     });
 
@@ -60,7 +81,12 @@ describe('Certification | Configuration | Integration | Repository | attachable-
         const results = await attachableTargetProfileRepository.find();
 
         // then
-        expect(results).to.deep.equal([{ id: 100, name: 'Not tied to a badge' }]);
+        expect(results).to.deep.equal([
+          domainBuilder.certification.configuration
+            .attachableTargetProfileBuilder()
+            .withParameters({ id: 100, name: 'Not tied to a badge' })
+            .build(),
+        ]);
       });
     });
 
@@ -112,9 +138,18 @@ describe('Certification | Configuration | Integration | Repository | attachable-
 
           // then
           expect(results).to.deep.equal([
-            { id: 2, name: 'CLEA aValidResult' },
-            { id: 4, name: 'aValidCLEAResult' },
-            { id: 3, name: 'aValidResult CLEA' },
+            domainBuilder.certification.configuration
+              .attachableTargetProfileBuilder()
+              .withParameters({ id: 2, name: 'CLEA aValidResult' })
+              .build(),
+            domainBuilder.certification.configuration
+              .attachableTargetProfileBuilder()
+              .withParameters({ id: 4, name: 'aValidCLEAResult' })
+              .build(),
+            domainBuilder.certification.configuration
+              .attachableTargetProfileBuilder()
+              .withParameters({ id: 3, name: 'aValidResult CLEA' })
+              .build(),
           ]);
         });
 
@@ -133,10 +168,22 @@ describe('Certification | Configuration | Integration | Repository | attachable-
 
           // then
           expect(results).to.deep.equal([
-            { id: 2, name: 'CLÉA aValidResult' },
-            { id: 4, name: 'aValidCLéAResult' },
-            { id: 3, name: 'aValidResult CléA' },
-            { id: 5, name: 'cléa' },
+            domainBuilder.certification.configuration
+              .attachableTargetProfileBuilder()
+              .withParameters({ id: 2, name: 'CLÉA aValidResult' })
+              .build(),
+            domainBuilder.certification.configuration
+              .attachableTargetProfileBuilder()
+              .withParameters({ id: 4, name: 'aValidCLéAResult' })
+              .build(),
+            domainBuilder.certification.configuration
+              .attachableTargetProfileBuilder()
+              .withParameters({ id: 3, name: 'aValidResult CléA' })
+              .build(),
+            domainBuilder.certification.configuration
+              .attachableTargetProfileBuilder()
+              .withParameters({ id: 5, name: 'cléa' })
+              .build(),
           ]);
         });
       });
@@ -157,9 +204,18 @@ describe('Certification | Configuration | Integration | Repository | attachable-
 
           // then
           expect(results).to.deep.equal([
-            { id: 21, name: 'aValidResult' },
-            { id: 12, name: 'aValidResult' },
-            { id: 2, name: 'aValidResult' },
+            domainBuilder.certification.configuration
+              .attachableTargetProfileBuilder()
+              .withParameters({ id: 21, name: 'aValidResult' })
+              .build(),
+            domainBuilder.certification.configuration
+              .attachableTargetProfileBuilder()
+              .withParameters({ id: 12, name: 'aValidResult' })
+              .build(),
+            domainBuilder.certification.configuration
+              .attachableTargetProfileBuilder()
+              .withParameters({ id: 2, name: 'aValidResult' })
+              .build(),
           ]);
         });
       });
