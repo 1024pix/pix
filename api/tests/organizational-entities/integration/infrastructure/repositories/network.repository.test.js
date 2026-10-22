@@ -208,14 +208,12 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
     describe('when an organization belongs to a network', function () {
       it('returns the network', async function () {
         // given
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
         const network = databaseBuilder.factory.buildNetwork();
         const structureId = databaseBuilder.factory.buildStructure().id;
-        databaseBuilder.factory.buildFactStructure({
+        const organizationId = databaseBuilder.factory.buildOrganization({
           structureId,
           networkId: network.id,
-          organizationId,
-        });
+        }).id;
 
         await databaseBuilder.commit();
 
@@ -368,13 +366,11 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
   describe('#save', function () {
     it('saves and returns the new network', async function () {
       // given
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
       const structure = databaseBuilder.factory.buildStructure();
-      databaseBuilder.factory.buildFactStructure({
+      const organizationId = databaseBuilder.factory.buildOrganization({
         structureId: structure.id,
         networkId: null,
-        organizationId: organizationId,
-      });
+      }).id;
       const networkName = 'Network 1';
       await databaseBuilder.commit();
 
@@ -434,7 +430,10 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
 
     context('error handling', function () {
       it('throws when parent organization does not have a structure', async function () {
-        const parentOrganization = databaseBuilder.factory.buildOrganization({ name: 'Parent organization' });
+        const parentOrganization = databaseBuilder.factory.buildOrganization({
+          name: 'Parent organization',
+          withoutStructure: true,
+        });
 
         const { organization: childOrganization } = databaseBuilder.factory.buildOrganizationWithStructure({
           name: 'Child Organization',
@@ -461,6 +460,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
 
         const childOrganization = databaseBuilder.factory.buildOrganization({
           name: 'Child Organization without structure',
+          withoutStructure: true,
         });
 
         await databaseBuilder.commit();

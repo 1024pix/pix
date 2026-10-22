@@ -208,6 +208,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       it('returns the certification center with its category label', async function () {
         // given
         const centerId = 1;
+        const category = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' });
         databaseBuilder.factory.buildCertificationCenter({
           id: centerId,
           type: CertificationCenter.types.PRO,
@@ -215,10 +216,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           archivedBy: null,
           createdAt: now,
           updatedAt: now,
+          categoryId: category.id,
         });
-        const category = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' });
-        const structure = databaseBuilder.factory.buildStructure({ categoryId: category.id });
-        databaseBuilder.factory.buildFactStructure({ structureId: structure.id, certificationCenterId: centerId });
         await databaseBuilder.commit();
 
         // when

@@ -126,9 +126,10 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
     describe('when a given organization is linked to a certification center', function () {
       it('returns certification center linked to a given organization', async function () {
         // given
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-
-        const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({ certificationCenterId });
+        const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          organizationId: organization.id,
+        }).id;
 
         await databaseBuilder.commit();
 
@@ -145,15 +146,13 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
 
       it('does not return certification center linked to another organization', async function () {
         // given
-        const firstCertificationCenter = databaseBuilder.factory.buildCertificationCenter();
-        const { organization: firstOrganization } = databaseBuilder.factory.buildOrganizationWithStructure({
-          certificationCenterId: firstCertificationCenter.id,
+        const { organization: firstOrganization } = databaseBuilder.factory.buildOrganizationWithStructure();
+        const firstCertificationCenter = databaseBuilder.factory.buildCertificationCenter({
+          organizationId: firstOrganization.id,
         });
 
-        const secondCertificationCenter = databaseBuilder.factory.buildCertificationCenter();
-        databaseBuilder.factory.buildOrganizationWithStructure({
-          certificationCenterId: secondCertificationCenter.id,
-        });
+        const { organization: secondOrganization } = databaseBuilder.factory.buildOrganizationWithStructure();
+        databaseBuilder.factory.buildCertificationCenter({ organizationId: secondOrganization.id });
 
         await databaseBuilder.commit();
 

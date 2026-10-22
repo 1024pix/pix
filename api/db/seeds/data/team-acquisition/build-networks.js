@@ -114,13 +114,7 @@ function _buildScoNetwork(databaseBuilder) {
       },
     });
 
-    const certificationCenterLyceeVersailles = databaseBuilder.factory.buildCertificationCenter({
-      name: "Lycée 1 de l'Académie de Versailles",
-      type: 'SCO',
-      createdAt: new Date('2026-09-03'),
-    });
-
-    databaseBuilder.factory.buildOrganizationInNetwork({
+    const { organization: lyceeVersailles } = databaseBuilder.factory.buildOrganizationInNetwork({
       networkId: network.id,
       parentStructureId: academieVersaillesStructure.id,
       organizationData: {
@@ -134,16 +128,16 @@ function _buildScoNetwork(databaseBuilder) {
         administrationTeamId: ADMINISTRATION_TEAM_ALPHA_ID,
         organizationLearnerTypeId: ORGANIZATION_LEARNER_TYPE_STUDENT_ID,
       },
-      certificationCenterId: certificationCenterLyceeVersailles.id,
     });
 
-    const certificationCenterCollegeVersailles = databaseBuilder.factory.buildCertificationCenter({
-      name: "Collège 1 de l'Académie de Versailles",
+    databaseBuilder.factory.buildCertificationCenter({
+      name: "Lycée 1 de l'Académie de Versailles",
       type: 'SCO',
       createdAt: new Date('2026-09-03'),
+      organizationId: lyceeVersailles.id,
     });
 
-    databaseBuilder.factory.buildOrganizationInNetwork({
+    const { organization: collegeVersailles } = databaseBuilder.factory.buildOrganizationInNetwork({
       networkId: network.id,
       parentStructureId: academieVersaillesStructure.id,
       organizationData: {
@@ -157,7 +151,13 @@ function _buildScoNetwork(databaseBuilder) {
         administrationTeamId: ADMINISTRATION_TEAM_ALPHA_ID,
         organizationLearnerTypeId: ORGANIZATION_LEARNER_TYPE_STUDENT_ID,
       },
-      certificationCenterId: certificationCenterCollegeVersailles.id,
+    });
+
+    databaseBuilder.factory.buildCertificationCenter({
+      name: "Collège 1 de l'Académie de Versailles",
+      type: 'SCO',
+      createdAt: new Date('2026-09-03'),
+      organizationId: collegeVersailles.id,
     });
   }
 

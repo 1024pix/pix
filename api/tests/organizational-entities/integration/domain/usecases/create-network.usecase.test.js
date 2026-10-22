@@ -33,14 +33,12 @@ describe('Integration | Organizational Entities | Domain | UseCase | create-netw
   describe('when the organization already belongs to a network', function () {
     it('throws an error', async function () {
       // given
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
       const network = databaseBuilder.factory.buildNetwork();
       const structureId = databaseBuilder.factory.buildStructure().id;
-      databaseBuilder.factory.buildFactStructure({
+      const organizationId = databaseBuilder.factory.buildOrganization({
         structureId,
         networkId: network.id,
-        organizationId,
-      });
+      }).id;
 
       await databaseBuilder.commit();
 

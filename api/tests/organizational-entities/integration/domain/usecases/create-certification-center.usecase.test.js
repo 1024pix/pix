@@ -216,10 +216,10 @@ describe('Integration | Organizational Entities | Domain | UseCase | create-cert
 
     it('throws when the given organization already has an attached certification center', async function () {
       // given
-      const alreadyAttachedCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const { organization: alreadyAttachedOrganization } = databaseBuilder.factory.buildOrganizationWithStructure({
-        certificationCenterId: alreadyAttachedCertificationCenterId,
-      });
+      const { organization: alreadyAttachedOrganization } = databaseBuilder.factory.buildOrganizationWithStructure();
+      const alreadyAttachedCertificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+        organizationId: alreadyAttachedOrganization.id,
+      }).id;
       await databaseBuilder.commit();
 
       const certificationCenterDTO = domainBuilder.buildCenterForAdmin({

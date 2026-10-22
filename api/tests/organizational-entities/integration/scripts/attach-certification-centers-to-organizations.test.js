@@ -142,7 +142,7 @@ describe('Integration | Organizational Entities | Scripts | Attach certification
           ];
 
           databaseBuilder.factory.buildOrganizationWithStructure({ organizationData: { id: 1 } });
-          databaseBuilder.factory.buildOrganization({ id: 2 });
+          databaseBuilder.factory.buildOrganization({ id: 2, withoutStructure: true });
           databaseBuilder.factory.buildOrganizationWithStructure({ organizationData: { id: 3 } });
           await databaseBuilder.commit();
 
@@ -160,19 +160,13 @@ describe('Integration | Organizational Entities | Scripts | Attach certification
       context('When some organizations already have an attached certification center', function () {
         it('throws an error with organization ids', async function () {
           // given
-          databaseBuilder.factory.buildCertificationCenter({ id: 10 });
-          databaseBuilder.factory.buildCertificationCenter({ id: 20 });
           databaseBuilder.factory.buildCertificationCenter({ id: 30 });
           databaseBuilder.factory.buildCertificationCenter({ id: 40 });
 
-          databaseBuilder.factory.buildOrganizationWithStructure({
-            organizationData: { id: 1 },
-            certificationCenterId: 10,
-          });
-          databaseBuilder.factory.buildOrganizationWithStructure({
-            organizationData: { id: 2 },
-            certificationCenterId: 20,
-          });
+          databaseBuilder.factory.buildOrganizationWithStructure({ organizationData: { id: 1 } });
+          databaseBuilder.factory.buildOrganizationWithStructure({ organizationData: { id: 2 } });
+          databaseBuilder.factory.buildCertificationCenter({ id: 10, organizationId: 1 });
+          databaseBuilder.factory.buildCertificationCenter({ id: 20, organizationId: 2 });
 
           await databaseBuilder.commit();
 
@@ -195,18 +189,11 @@ describe('Integration | Organizational Entities | Scripts | Attach certification
           // given
           databaseBuilder.factory.buildOrganizationWithStructure({ organizationData: { id: 1 } });
           databaseBuilder.factory.buildOrganizationWithStructure({ organizationData: { id: 2 } });
+          databaseBuilder.factory.buildOrganizationWithStructure({ organizationData: { id: 3 } });
+          databaseBuilder.factory.buildOrganizationWithStructure({ organizationData: { id: 4 } });
 
-          databaseBuilder.factory.buildCertificationCenter({ id: 10 });
-          databaseBuilder.factory.buildCertificationCenter({ id: 20 });
-
-          databaseBuilder.factory.buildOrganizationWithStructure({
-            organizationData: { id: 3 },
-            certificationCenterId: 10,
-          });
-          databaseBuilder.factory.buildOrganizationWithStructure({
-            organizationData: { id: 4 },
-            certificationCenterId: 20,
-          });
+          databaseBuilder.factory.buildCertificationCenter({ id: 10, organizationId: 3 });
+          databaseBuilder.factory.buildCertificationCenter({ id: 20, organizationId: 4 });
 
           await databaseBuilder.commit();
 
@@ -232,10 +219,10 @@ describe('Integration | Organizational Entities | Scripts | Attach certification
         it('should attach organizations to certification centers', async function () {
           // given
           databaseBuilder.factory.buildOrganizationWithStructure({ organizationData: { id: 1 } });
-          databaseBuilder.factory.buildCertificationCenter({ id: 10 });
+          databaseBuilder.factory.buildCertificationCenter({ id: 10, withoutStructure: true });
 
           databaseBuilder.factory.buildOrganizationWithStructure({ organizationData: { id: 2 } });
-          databaseBuilder.factory.buildCertificationCenter({ id: 20 });
+          databaseBuilder.factory.buildCertificationCenter({ id: 20, withoutStructure: true });
 
           await databaseBuilder.commit();
 
@@ -260,10 +247,10 @@ describe('Integration | Organizational Entities | Scripts | Attach certification
         it('should not attach organizations to certification centers', async function () {
           // given
           databaseBuilder.factory.buildOrganizationWithStructure({ organizationData: { id: 1 } });
-          databaseBuilder.factory.buildCertificationCenter({ id: 10 });
+          databaseBuilder.factory.buildCertificationCenter({ id: 10, withoutStructure: true });
 
           databaseBuilder.factory.buildOrganizationWithStructure({ organizationData: { id: 2 } });
-          databaseBuilder.factory.buildCertificationCenter({ id: 20 });
+          databaseBuilder.factory.buildCertificationCenter({ id: 20, withoutStructure: true });
 
           await databaseBuilder.commit();
 
