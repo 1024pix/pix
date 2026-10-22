@@ -36,3 +36,10 @@ export class CsvWithNoSessionDataError extends DomainError {
     this.code = 'CSV_DATA_REQUIRED';
   }
 }
+
+export class SessionStatusNotExistingError extends DomainError {
+  constructor(message = "Ce statut de session n'existe pas") {
+    super(message);
+    this.code = 'SESSION_STATUS_NOT_EXISTING';
+  }
+}
