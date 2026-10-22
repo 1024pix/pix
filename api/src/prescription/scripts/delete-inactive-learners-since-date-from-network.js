@@ -68,6 +68,7 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
           organizationId,
           userRole: 'SUPER_ADMIN',
           client: 'SCRIPT',
+          disableAuditLogger: options.dryRun,
         });
 
         if (options.dryRun) {
