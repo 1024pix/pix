@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { NotFoundError } from '../../../shared/domain/errors.js';
-import { FRENCH_SPOKEN, getBaseLocale } from '../../../shared/domain/services/locale-service.js';
+import { FRENCH_SPOKEN, getBaseLocale, normalizeLocale } from '../../../shared/domain/services/locale-service.js';
 import * as knowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
 import { LearningContentRedisRepository } from '../../../shared/infrastructure/repositories/learning-content-redis-repository.js';
 import { LearningContentRepository } from '../../../shared/infrastructure/repositories/learning-content-repository.js';
@@ -19,11 +19,12 @@ export async function findByRecordIdsForCurrentUser({ ids, userId, locale }) {
   tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto);
 
   if (locale) {
-    const formattedLocale = locale.toLowerCase();
-    const hasUserLocale = tutorialDtos.some((tutorial) => tutorial.locale.toLowerCase() === formattedLocale);
-    const tutorialLocale = hasUserLocale ? formattedLocale : getBaseLocale(locale);
+    const userLocale = normalizeLocale(locale);
+    const hasUserLocale =
+      Boolean(userLocale) && tutorialDtos.some((tutorial) => normalizeLocale(tutorial.locale) === userLocale);
+    const tutorialLocale = hasUserLocale ? userLocale : getBaseLocale(locale);
 
-    tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto.locale.toLowerCase() === tutorialLocale);
+    tutorialDtos = tutorialDtos.filter((tutorialDto) => normalizeLocale(tutorialDto.locale) === tutorialLocale);
   }
   tutorialDtos = tutorialDtos.toSorted(byId);
   const tutorials = tutorialDtos.map(toDomain);

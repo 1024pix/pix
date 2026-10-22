@@ -9,6 +9,7 @@ import {
   getNearestSupportedLocale,
   getSupportedLanguages,
   isFranceLocale,
+  normalizeLocale,
 } from '../../../../../src/shared/domain/services/locale-service.js';
 
 describe('Unit | Shared | Domain | Service | Locale', function () {
@@ -116,6 +117,37 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
           // then
           const defaultBaseLocale = new Intl.Locale(getDefaultLocale()).language;
           expect(baseLocale).to.equal(defaultBaseLocale);
+        });
+      });
+    });
+  });
+
+  describe('normalizeLocale', function () {
+    context('when locale is valid', function () {
+      [
+        { locale: 'fr-fr', expectedLocale: 'fr-FR' },
+        { locale: 'FR-FR', expectedLocale: 'fr-FR' },
+        { locale: 'en', expectedLocale: 'en' },
+        { locale: 'fr-FR-u-ca-gregory', expectedLocale: 'fr-FR' },
+      ].forEach(({ locale, expectedLocale }) => {
+        it(`returns ${expectedLocale} for ${locale}`, function () {
+          // given / when
+          const normalizedLocale = normalizeLocale(locale);
+
+          // then
+          expect(normalizedLocale).to.equal(expectedLocale);
+        });
+      });
+    });
+
+    context('when locale is invalid', function () {
+      ['fr_FR', 'yo-yo-yo', null, undefined].forEach((invalidLocale) => {
+        it(`returns undefined for ${invalidLocale}`, function () {
+          // given / when
+          const normalizedLocale = normalizeLocale(invalidLocale);
+
+          // then
+          expect(normalizedLocale).to.be.undefined;
         });
       });
     });
