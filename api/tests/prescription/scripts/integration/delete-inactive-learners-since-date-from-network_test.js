@@ -2,15 +2,15 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { config } from '../../../../config/config.js';
-import { DeleteOrganizationLearnersFromNetworkScript } from '../../../../src/prescription/scripts/delete-organization-learners-from-network.js';
+import { DeleteInactiveLearnersSinceDateFromNetworkScript } from '../../../../src/prescription/scripts/delete-inactive-learners-since-date-from-network.js';
 import { OrganizationLearnerParticipationStatuses } from '../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { catchErr } from '../../../tooling/test-utils/error.js';
 
-describe('Script | Prod | Delete Organization Learners From Network', function () {
+describe('Script | Prod | Delete Inactive Learners Since Date From Network', function () {
   describe('Options', function () {
     it('has the correct options', function () {
-      const script = new DeleteOrganizationLearnersFromNetworkScript();
+      const script = new DeleteInactiveLearnersSinceDateFromNetworkScript();
       const { options } = script.metaInfo;
 
       expect(options.networkId).to.deep.include({
@@ -21,7 +21,7 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
 
       expect(options.lastActivityDate).to.deep.include({
         type: 'string',
-        describe: 'Delete learners which activity is older than this date',
+        describe: 'Delete learners if last activity is older than this date',
         demandOption: true,
       });
     });
@@ -31,7 +31,7 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
     let script, logger;
 
     beforeEach(async function () {
-      script = new DeleteOrganizationLearnersFromNetworkScript();
+      script = new DeleteInactiveLearnersSinceDateFromNetworkScript();
       logger = { info: sinon.spy(), error: sinon.spy() };
       databaseBuilder.factory.buildUser({ id: config.infra.engineeringUserId });
       await databaseBuilder.commit();
@@ -121,7 +121,7 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
 
         expect(
           logger.info.calledWithExactly(
-            `Delete learners from network ${options.networkId} with last activity prior to ${options.lastActivityDate}`,
+            `Delete inactive learners since ${options.lastActivityDate} from network ${options.networkId}`,
           ),
         ).true;
         expect(logger.info.calledWithExactly(`Deleting 2 learners from organization ${organization.id}`)).true;
@@ -304,12 +304,6 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
         const participationsInDatabase = await knex('campaign-participations');
         const deletedParticipationsInDatabase = await knex('campaign-participations').whereNotNull('deletedAt');
 
-        expect(
-          logger.info.calledWithExactly(
-            `Delete learners from network ${options.networkId} with last activity prior to ${options.lastActivityDate}`,
-          ),
-        ).true;
-        expect(logger.info.calledWithExactly(`Deleting 1 learners from organization ${organization.id}`)).true;
         expect(learnersInDatabase).lengthOf(1);
         expect(deletedLearnersInDatabase).lengthOf(0);
         expect(participationsInDatabase).lengthOf(1);
@@ -322,7 +316,7 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
     let script;
 
     beforeEach(async function () {
-      script = new DeleteOrganizationLearnersFromNetworkScript();
+      script = new DeleteInactiveLearnersSinceDateFromNetworkScript();
     });
 
     context('when learners have old participations', function () {
@@ -362,7 +356,7 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
           await databaseBuilder.commit();
 
           // when
-          const learners = await script.findLearnerIdsWithLastActivityDatePriorTo({
+          const learners = await script.findInactiveLearnerIdsSinceDate({
             organizationId,
             lastActivityDate,
           });
@@ -394,7 +388,7 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
           await databaseBuilder.commit();
 
           // when
-          const learners = await script.findLearnerIdsWithLastActivityDatePriorTo({
+          const learners = await script.findInactiveLearnerIdsSinceDate({
             organizationId,
             lastActivityDate,
           });
@@ -440,7 +434,7 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
         await databaseBuilder.commit();
 
         // when
-        const learners = await script.findLearnerIdsWithLastActivityDatePriorTo({
+        const learners = await script.findInactiveLearnerIdsSinceDate({
           organizationId,
           lastActivityDate,
         });
@@ -470,7 +464,7 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
           await databaseBuilder.commit();
 
           // when
-          const learners = await script.findLearnerIdsWithLastActivityDatePriorTo({
+          const learners = await script.findInactiveLearnerIdsSinceDate({
             organizationId,
             lastActivityDate,
           });
@@ -500,7 +494,7 @@ describe('Script | Prod | Delete Organization Learners From Network', function (
           await databaseBuilder.commit();
 
           // when
-          const learners = await script.findLearnerIdsWithLastActivityDatePriorTo({
+          const learners = await script.findInactiveLearnerIdsSinceDate({
             organizationId,
             lastActivityDate,
           });

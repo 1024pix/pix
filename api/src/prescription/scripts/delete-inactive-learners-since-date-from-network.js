@@ -5,11 +5,11 @@ import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
 import { usecases } from '../learner-management/domain/usecases/index.js';
 
-export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
+export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWithJob {
   constructor() {
     super({
       description:
-        'Deletes organization-learners and their participations for a given networkId and older than a given date',
+        'Deletes inactive organization-learners since lastActivityDate with their participations, for a given networkId',
       permanent: true,
       options: {
         dryRun: {
@@ -25,7 +25,7 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
         },
         lastActivityDate: {
           type: 'string',
-          describe: 'Delete learners which activity is older than this date',
+          describe: 'Delete learners if last activity is older than this date',
           demandOption: true,
         },
       },
@@ -43,18 +43,18 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
 
     await super.handle({ jobClient });
 
-    logger.info(`Delete learners from network ${networkId} with last activity prior to ${options.lastActivityDate}`);
+    logger.info(`Delete inactive learners since ${options.lastActivityDate} from network ${networkId}`);
 
     for (const { organizationId } of organizations) {
       await DomainTransaction.execute(async () => {
-        const organizationLearnerIds = await this.findLearnerIdsWithLastActivityDatePriorTo({
+        const inactiveLearnerIds = await this.findInactiveLearnerIdsSinceDate({
           organizationId,
           lastActivityDate,
         });
 
         const knexConn = DomainTransaction.getConnection();
 
-        const combinedCourseOrganizationLearners = await knexConn('organization_learner_participations')
+        const learnersWithCombinedCourseParticipation = await knexConn('organization_learner_participations')
           .join(
             'view-active-organization-learners',
             'organization_learner_participations.organizationLearnerId',
@@ -64,8 +64,8 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
           .where('organizationId', organizationId)
           .pluck('organizationLearnerId');
 
-        const organizationLearnerIdsToDelete = organizationLearnerIds.filter(
-          (id) => !combinedCourseOrganizationLearners.includes(id),
+        const organizationLearnerIdsToDelete = inactiveLearnerIds.filter(
+          (id) => !learnersWithCombinedCourseParticipation.includes(id),
         );
 
         logger.info(`Deleting ${organizationLearnerIdsToDelete.length} learners from organization ${organizationId}`);
@@ -88,7 +88,7 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
     }
   }
 
-  async findLearnerIdsWithLastActivityDatePriorTo({ organizationId, lastActivityDate }) {
+  async findInactiveLearnerIdsSinceDate({ organizationId, lastActivityDate }) {
     const knexConn = DomainTransaction.getConnection();
     return await knexConn
       .with('organizationLearnersWithLastParticipationDate', (qb) => {
@@ -114,4 +114,4 @@ export class DeleteOrganizationLearnersFromNetworkScript extends ScriptWithJob {
   }
 }
 
-await ScriptRunner.execute(import.meta.url, DeleteOrganizationLearnersFromNetworkScript);
+await ScriptRunner.execute(import.meta.url, DeleteInactiveLearnersSinceDateFromNetworkScript);
