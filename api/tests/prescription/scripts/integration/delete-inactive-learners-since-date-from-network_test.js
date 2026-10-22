@@ -505,4 +505,63 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
       });
     });
   });
+
+  describe('#findLearnersWithCombinedCourseParticipation', function () {
+    let script;
+
+    beforeEach(async function () {
+      script = new DeleteInactiveLearnersSinceDateFromNetworkScript();
+    });
+
+    it('returns learners from organization if they have at least one combined course participation', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
+        organizationId,
+        code: 'COMBINIX1',
+      });
+
+      const anotherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      const { id: anotherCombinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
+        organizationId: anotherOrganizationId,
+        code: 'COMBINIX2',
+      });
+
+      // learner with combined course participation
+      const learnerWithCombinedCourseParticipation = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+      });
+      databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
+        combinedCourseId,
+        organizationLearnerId: learnerWithCombinedCourseParticipation.id,
+        status: OrganizationLearnerParticipationStatuses.STARTED,
+      });
+
+      // learner without combined course participation
+      databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+      }).id;
+
+      // learner from another organization
+      const learnerFromAnotherOrganization = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: anotherOrganizationId,
+      });
+      databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
+        combinedCourseId: anotherCombinedCourseId,
+        organizationLearnerId: learnerFromAnotherOrganization.id,
+        status: OrganizationLearnerParticipationStatuses.STARTED,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const learnerIds = await script.findLearnersWithCombinedCourseParticipation({
+        organizationId,
+      });
+
+      // then
+      expect(learnerIds).lengthOf(1);
+      expect(learnerIds[0]).equal(learnerWithCombinedCourseParticipation.id);
+    });
+  });
 });
