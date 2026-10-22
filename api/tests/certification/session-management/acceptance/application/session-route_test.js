@@ -150,17 +150,17 @@ describe('Certification | Session Management | Acceptance | Application | Route 
 
     beforeEach(async function () {
       const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({
-        id: 100002,
+        id: 90002,
         firstName: 'Pix',
         lastName: 'Doe',
       }).id;
       certificationCenter = databaseBuilder.factory.buildCertificationCenter({
-        id: 100003,
+        id: 90003,
         type: 'SCO',
         externalId: 'EXT_ID',
       });
       expectedJurySession = databaseBuilder.factory.buildSession({
-        id: 100004,
+        id: 90004,
         assignedCertificationOfficerId,
         certificationCenterId: certificationCenter.id,
         certificationCenter: certificationCenter.name,
@@ -188,14 +188,14 @@ describe('Certification | Session Management | Acceptance | Application | Route 
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.deep.equal({
-          included: [{ type: 'user', id: '100002', attributes: { 'first-name': 'Pix', 'last-name': 'Doe' } }],
+          included: [{ type: 'user', id: '90002', attributes: { 'first-name': 'Pix', 'last-name': 'Doe' } }],
           data: {
             type: 'sessions',
-            id: '100004',
+            id: '90004',
             attributes: {
               'certification-center-name': 'some name',
               'certification-center-type': 'SCO',
-              'certification-center-id': 100003,
+              'certification-center-id': 90003,
               'certification-center-external-id': 'EXT_ID',
               address: '3 rue des églantines',
               room: 'B315',
@@ -221,10 +221,10 @@ describe('Certification | Session Management | Acceptance | Application | Route 
               version: 2,
             },
             relationships: {
-              'assigned-certification-officer': { data: { type: 'user', id: '100002' } },
+              'assigned-certification-officer': { data: { type: 'user', id: '90002' } },
               'jury-comment-author': { data: null },
               'jury-certification-summaries': {
-                links: { related: '/api/admin/sessions/100004/jury-certification-summaries' },
+                links: { related: '/api/admin/sessions/90004/jury-certification-summaries' },
               },
             },
           },
