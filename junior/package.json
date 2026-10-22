@@ -107,7 +107,7 @@
   },
   "overrides": {
     "eslint": "$eslint",
-    "@xmldom/xmldom": ">=0.9.10",
+    "@xmldom/xmldom": "0.9.12",
     "flatted": "3.4.4",
     "braces": "3.0.3"
   },
