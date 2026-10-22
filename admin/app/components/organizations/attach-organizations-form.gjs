@@ -11,6 +11,7 @@ import uniq from 'lodash/uniq';
 export default class AttachOrganizationsForm extends Component {
   @tracked organizationsToAttach = '';
   @service pixToast;
+  @service intl;
 
   get isDisabledAttachOrganizations() {
     return this.organizationsToAttach === '';
@@ -40,7 +41,9 @@ export default class AttachOrganizationsForm extends Component {
     const message = [];
 
     if (hasInsertedOrganizations) {
-      message.push('Organisation(s) rattaché(es) avec succès.');
+      message.push(
+        this.intl.t('components.combined-course-blueprints.organizations.attach-organizations.message.success'),
+      );
     }
 
     if (hasInsertedOrganizations && hasDuplicatedOrganizations) {
@@ -49,7 +52,10 @@ export default class AttachOrganizationsForm extends Component {
 
     if (hasDuplicatedOrganizations) {
       message.push(
-        `Le(s) organisation(s) suivantes étai(en)t déjà rattachée(s) à ce profil cible : ${duplicatedIds.join(', ')}`,
+        this.intl.t(
+          'components.combined-course-blueprints.organizations.attach-organizations.message.already-attached',
+          { organizationIds: duplicatedIds.join(', ') },
+        ),
       );
     }
 
@@ -60,7 +66,9 @@ export default class AttachOrganizationsForm extends Component {
 
   <template>
     <form class="organization__form" {{on "submit" this.attachOrganizations}}>
-      <label for="attach-organizations">Rattacher une ou plusieurs organisation(s)</label>
+      <label for="attach-organizations">
+        {{t "components.combined-course-blueprints.organizations.attach-organizations.label"}}
+      </label>
       <div class="organization__sub-form">
         <PixInput
           id="attach-organizations"
@@ -70,11 +78,13 @@ export default class AttachOrganizationsForm extends Component {
           aria-describedby="attach-organizations-info"
           {{on "input" this.onOrganizationsToAttachChange}}
         />
-        <p id="attach-organizations-info" hidden>Ids des organisations, séparés par une virgule</p>
+        <p id="attach-organizations-info" hidden>
+          {{t "components.combined-course-blueprints.organizations.attach-organizations.info"}}
+        </p>
         <PixButton
           @type="submit"
           @size="small"
-          aria-label="Valider le rattachement"
+          aria-label={{t "components.combined-course-blueprints.organizations.attach-organizations.confirm"}}
           @isDisabled={{this.isDisabledAttachOrganizations}}
         >
           {{t "common.actions.validate"}}

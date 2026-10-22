@@ -108,33 +108,6 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
     });
   });
 
-  describe('DELETE /api/admin/combined-course-blueprints/{blueprintId}/organizations/{organizationId}', function () {
-    it('should call prehandler', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(combinedCourseBlueprintController, 'detachOrganization').callsFake((_, h) => h.response());
-
-      const httpTestServer = new HttpTestServer();
-      httpTestServer.setupAuthentication();
-      await httpTestServer.register(combinedCourseBlueprintRoute);
-
-      // when
-      await httpTestServer.request(
-        'DELETE',
-        '/api/admin/combined-course-blueprints/123/organizations/456',
-        null,
-        null,
-        generateAuthenticatedUserRequestHeaders({ userId: 123 }),
-      );
-
-      // then
-      expect(securityPreHandlers.hasAtLeastOneAccessOf).to.have.been.calledWithExactly([
-        securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-        securityPreHandlers.checkAdminMemberHasRoleMetier,
-      ]);
-    });
-  });
-
   describe('POST /api/admin/combined-course-blueprints/{blueprintId}/organizations', function () {
     it('should call prehandler', async function () {
       // given
@@ -152,6 +125,33 @@ describe('Quest | Unit | Routes | combined-course-blueprint-route', function () 
         'POST',
         '/api/admin/combined-course-blueprints/123/organizations',
         payload,
+        null,
+        generateAuthenticatedUserRequestHeaders({ userId: 123 }),
+      );
+
+      // then
+      expect(securityPreHandlers.hasAtLeastOneAccessOf).to.have.been.calledWithExactly([
+        securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+        securityPreHandlers.checkAdminMemberHasRoleMetier,
+      ]);
+    });
+  });
+
+  describe('DELETE /api/admin/combined-course-blueprints/{blueprintId}/organizations', function () {
+    it('should call prehandler', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(combinedCourseBlueprintController, 'detachOrganizations').callsFake((_, h) => h.response());
+
+      const httpTestServer = new HttpTestServer();
+      httpTestServer.setupAuthentication();
+      await httpTestServer.register(combinedCourseBlueprintRoute);
+
+      // when
+      await httpTestServer.request(
+        'DELETE',
+        '/api/admin/combined-course-blueprints/123/organizations',
+        { 'organization-ids': [456] },
         null,
         generateAuthenticatedUserRequestHeaders({ userId: 123 }),
       );

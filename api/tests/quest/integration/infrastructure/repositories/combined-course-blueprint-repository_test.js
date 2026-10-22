@@ -85,7 +85,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         id: combinedCourseBlueprintShare.combinedCourseBlueprintId,
       });
 
-      combinedCourseBlueprint.detachOrganization({ organizationId: combinedCourseBlueprintShare.organizationId });
+      combinedCourseBlueprint.detachOrganizations({ organizationIds: [combinedCourseBlueprintShare.organizationId] });
 
       // when
       const result = await combinedCourseBluePrintRepository.save({ combinedCourseBlueprint });
@@ -107,7 +107,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
       const combinedCourseBlueprintToDetach = await combinedCourseBluePrintRepository.findById({
         id: combinedCourseBlueprintShareToDetach.combinedCourseBlueprintId,
       });
-      combinedCourseBlueprintToDetach.detachOrganization({ organizationId: organization.id });
+      combinedCourseBlueprintToDetach.detachOrganizations({ organizationIds: [organization.id] });
 
       // when
       await combinedCourseBluePrintRepository.save({ combinedCourseBlueprint: combinedCourseBlueprintToDetach });

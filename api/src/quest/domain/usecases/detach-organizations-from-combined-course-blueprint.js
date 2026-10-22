@@ -1,7 +1,7 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
 
-export async function detachOrganizationFromCombinedCourseBlueprint({
-  organizationId,
+export async function detachOrganizationsFromCombinedCourseBlueprint({
+  organizationIds,
   combinedCourseBlueprintId,
   combinedCourseBlueprintRepository,
 }) {
@@ -9,6 +9,6 @@ export async function detachOrganizationFromCombinedCourseBlueprint({
   if (!blueprint) {
     throw new NotFoundError(`Combined course blueprint with id:${combinedCourseBlueprintId} not found`);
   }
-  blueprint.detachOrganization({ organizationId });
+  blueprint.detachOrganizations({ organizationIds });
   await combinedCourseBlueprintRepository.save({ combinedCourseBlueprint: blueprint });
 }

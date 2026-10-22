@@ -144,10 +144,6 @@ export class CombinedCourseBlueprint {
     }
   }
 
-  detachOrganization({ organizationId }) {
-    this.organizationIds = this.organizationIds.filter((id) => id !== organizationId);
-  }
-
   attachOrganizations({ organizationIds }) {
     const duplicatedOrganizationIds = [];
     const attachedOrganizationIds = [];
@@ -161,6 +157,10 @@ export class CombinedCourseBlueprint {
 
     this.organizationIds.push(...attachedOrganizationIds);
     return { duplicatedOrganizationIds, attachedOrganizationIds };
+  }
+
+  detachOrganizations({ organizationIds }) {
+    this.organizationIds = this.organizationIds.filter((id) => !organizationIds.includes(id));
   }
 
   update({ combinedCourseBlueprintForUpdate }) {

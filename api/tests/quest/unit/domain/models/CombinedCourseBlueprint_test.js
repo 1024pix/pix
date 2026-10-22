@@ -316,20 +316,6 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
     });
   });
 
-  describe('#detachOrganization', function () {
-    it('should retrieve organization id from model instance', async function () {
-      //given
-      values.organizationIds = [1];
-      const combinedCourseBlueprint = new CombinedCourseBlueprint(values);
-
-      //when
-      combinedCourseBlueprint.detachOrganization({ organizationId: 1 });
-
-      //then
-      expect(combinedCourseBlueprint.organizationIds).empty;
-    });
-  });
-
   describe('#attachOrganizations', function () {
     it('should add organization ids to the model instance', async function () {
       //given
@@ -356,6 +342,23 @@ describe('Quest | Unit | Domain | Models | CombinedCourseBlueprint ', function (
       //then
       expect(attachedOrganizationIds).to.deep.equal([2, 3]);
       expect(duplicatedOrganizationIds).to.deep.equal([1]);
+    });
+  });
+
+  describe('#detachOrganizations', function () {
+    it('should remove specified organizations ids from model instance', async function () {
+      //given
+      values.organizationIds = [123, 456, 789, 901];
+      const combinedCourseBlueprint = new CombinedCourseBlueprint(values);
+      const organizationIdNotAttachedToBlueprint = 888;
+
+      //when
+      combinedCourseBlueprint.detachOrganizations({
+        organizationIds: [123, 789, organizationIdNotAttachedToBlueprint],
+      });
+
+      //then
+      expect(combinedCourseBlueprint.organizationIds).to.deep.equal([456, 901]);
     });
   });
 
