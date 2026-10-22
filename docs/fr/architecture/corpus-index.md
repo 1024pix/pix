@@ -126,13 +126,12 @@ numéro retiré n'est plus réattribué. Les documents de travail (`explication.
     trois questions distinctes ;
   - `updatedAt` : les fiches traitent les dates techniques comme des données de persistance, fixées par
     la base, et seules les dates du métier passent par le domaine ;
-  - le typage des identifiants, retiré de E1 parce qu'il ajoutait une seconde règle à « un identifiant
-    qui ne change pas ». La proposition à discuter : un type dédié par identifiant
-    (`Id<'OrganizationId'>`), pour que le compilateur refuse un `UserId` à la place d'un
-    `OrganizationId`, même quand la valeur est un entier. Écartés : `id: number | null`, qui laisse
-    passer une Entity sans id là où il en faut un, et le passage aux UUID, un chantier trop gros. Le
-    type `Organization<null>` pour une Entity neuve reste dans la fiche, parce qu'il dit quand une
-    Entity a un id.
+  - le typage des identifiants : un type dédié par identifiant (`Id<'OrganizationId'>`), pour que le
+    compilateur refuse un `UserId` à la place d'un `OrganizationId`, même quand la valeur est un
+    entier. Retiré de E1 puis de l'exemple de la fiche Entity, où les identifiants sont des `number`.
+    Écartés : `id: number | null`, qui laisse passer une Entity sans id là où il en faut un, et le
+    passage aux UUID, un chantier trop gros. Le type `Entity<null>` reste dans les fiches : il permet
+    à un usecase de dire s'il reçoit une Entity neuve, sans id, ou une Entity enregistrée.
 - **Les événements du domaine.** La publication des événements (outbox dans la transaction, relais
   après le commit) est mise de côté en attendant une discussion avec les staffs. Une version existe
   dans le commit `23a5cd7096` (règle A8 de `aggregate-root/README.md`), retirée ensuite. Points à

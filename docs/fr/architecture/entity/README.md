@@ -28,7 +28,6 @@ commencée, terminée, arrêtée…) et parfois un motif d'abandon. Exemple inve
 ```ts
 // certification/session-management/domain/models/CertificationCourse.ts — E7 : un fichier, nommé avec le mot du métier
 // E4 : aucun import d'infrastructure
-import type { CertificationCourseId, UserId } from '../../../../shared/domain/Id.js';
 import {
   CertificationCourseNotInProgressError,
   InvalidAbortReasonError,
@@ -50,16 +49,16 @@ export type AbortReason = (typeof AbortReasons)[number];
 
 export type CertificationCourseProps<Id> = {
   id: Id;
-  userId: UserId;
+  userId: number;
   state: CertificationCourseState;
   abortReason: AbortReason | null;
 };
 
 // CertificationCourse<null> : une certification neuve, pas encore enregistrée
 // CertificationCourse : une certification enregistrée, avec un id
-export class CertificationCourse<Id extends CertificationCourseId | null = CertificationCourseId> {
+export class CertificationCourse<Id extends number | null = number> {
   readonly id: Id; // E1 : en lecture seule
-  readonly userId: UserId; // E8 : le candidat, gardé par son id
+  readonly userId: number; // E8 : le candidat, gardé par son id
   #state: CertificationCourseState; // E6 : privé, seules les méthodes métier le modifient
   #abortReason: AbortReason | null; // E6 : privé
 
@@ -74,7 +73,7 @@ export class CertificationCourse<Id extends CertificationCourseId | null = Certi
   }
 
   // le candidat démarre son épreuve : une certification neuve, sans id
-  static start({ userId }: { userId: UserId }): CertificationCourse<null> {
+  static start({ userId }: { userId: number }): CertificationCourse<null> {
     return new CertificationCourse({ id: null, userId, state: 'started', abortReason: null });
   }
 
@@ -147,7 +146,6 @@ Le test de l'[exemple complet](#exemple-complet) :
 // tests/certification/session-management/unit/domain/models/CertificationCourse_test.ts
 import { expect } from 'chai';
 
-import type { CertificationCourseId, UserId } from '../../../../../../src/shared/domain/Id.js';
 import {
   CertificationCourseNotInProgressError,
   InvalidAbortReasonError,
@@ -161,10 +159,10 @@ import {
 } from '../../../../../../src/certification/session-management/domain/models/CertificationCourse.js';
 
 describe('Unit | Certification | Session Management | Domain | Models | CertificationCourse', function () {
-  const buildCertificationCourse = (props: Partial<CertificationCourseProps<CertificationCourseId>> = {}) =>
+  const buildCertificationCourse = (props: Partial<CertificationCourseProps<number>> = {}) =>
     new CertificationCourse({
-      id: 1 as CertificationCourseId,
-      userId: 2 as UserId,
+      id: 1,
+      userId: 2,
       state: 'started',
       abortReason: null,
       ...props,
@@ -178,7 +176,7 @@ describe('Unit | Certification | Session Management | Domain | Models | Certific
 
   describe('.start', function () {
     it('starts a new certification, without id', function () {
-      const certificationCourse = CertificationCourse.start({ userId: 2 as UserId });
+      const certificationCourse = CertificationCourse.start({ userId: 2 });
 
       expect(certificationCourse.id).to.be.null;
       expect(certificationCourse.state).to.equal('started');
@@ -270,9 +268,8 @@ l'objet. Dans Pix, il prend plusieurs formes :
 **Exemple de code correct.**
 
 ```ts
-export class CertificationCourse<Id extends CertificationCourseId | null = CertificationCourseId> {
+// CertificationCourse
   readonly id: Id; // E1 : en lecture seule
-}
 ```
 
 **Exemple de code incorrect.**
@@ -295,7 +292,7 @@ encore. Le type le dit : `CertificationCourse<null>` pour une certification neuv
 ```ts
 interface CertificationCourseRepository {
   add({ certificationCourse }: { certificationCourse: CertificationCourse<null> }): Promise<CertificationCourse>; // la base crée l'id
-  get({ id }: { id: CertificationCourseId }): Promise<CertificationCourse>;
+  get({ id }: { id: number }): Promise<CertificationCourse>;
   update({ certificationCourse }: { certificationCourse: CertificationCourse }): Promise<void>;
 }
 ```
@@ -310,7 +307,7 @@ const startCertification = async ({
   userId,
   certificationCourseRepository,
 }: {
-  userId: UserId;
+  userId: number;
   certificationCourseRepository: CertificationCourseRepository;
 }): Promise<CertificationCourse> => {
   const certificationCourse = CertificationCourse.start({ userId });
@@ -322,7 +319,7 @@ const endCertificationDueToFinalization = async ({
   certificationCourseId,
   certificationCourseRepository,
 }: {
-  certificationCourseId: CertificationCourseId;
+  certificationCourseId: number;
   certificationCourseRepository: CertificationCourseRepository;
 }): Promise<CertificationCourse> => {
   const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
@@ -554,7 +551,7 @@ est une Aggregate Root : voir la fiche [Aggregate Root](../aggregate-root/README
 
 ```ts
 // CertificationCourse
-  readonly userId: UserId; // E8 : le candidat, gardé par son id
+  readonly userId: number; // E8 : le candidat, gardé par son id
 ```
 
 **Exemple de code incorrect.**
