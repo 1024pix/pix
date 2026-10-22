@@ -10,6 +10,7 @@ import uniq from 'lodash/uniq';
 export default class DetachOrganizationsForm extends Component {
   @tracked organizationsToDetach = '';
   @service pixToast;
+  @service intl;
 
   get isDisabledDetachOrganizations() {
     return this.organizationsToDetach === '';
@@ -37,13 +38,17 @@ export default class DetachOrganizationsForm extends Component {
     }
 
     this.organizationsToDetach = '';
-    await this.pixToast.sendSuccessNotification({ message: 'Organisation(s) détachée(s) avec succès.' });
+    await this.pixToast.sendSuccessNotification({
+      message: this.intl.t('components.combined-course-blueprints.organizations.detach-organizations.message.success'),
+    });
     return this.args.reloadAfterSuccess();
   }
 
   <template>
     <form class="organization__form" {{on "submit" this.detachOrganizations}}>
-      <label for="detach-organizations">Détacher une ou plusieurs organisation(s)</label>
+      <label for="detach-organizations">
+        {{t "components.combined-course-blueprints.organizations.detach-organizations.label"}}
+      </label>
       <div class="organization__sub-form">
         <PixInput
           id="detach-organizations"
@@ -53,11 +58,13 @@ export default class DetachOrganizationsForm extends Component {
           aria-describedby="detach-organizations-info"
           {{on "input" this.onOrganizationsToDetachChange}}
         />
-        <p id="detach-organizations-info" hidden>Ids des organisations, séparés par une virgule</p>
+        <p id="detach-organizations-info" hidden>
+          {{t "components.combined-course-blueprints.organizations.detach-organizations.info"}}
+        </p>
         <PixButton
           @type="submit"
           @size="small"
-          aria-label="Valider le détachement"
+          aria-label={{t "components.combined-course-blueprints.organizations.detach-organizations.confirm"}}
           @isDisabled={{this.isDisabledDetachOrganizations}}
         >
           {{t "common.actions.validate"}}

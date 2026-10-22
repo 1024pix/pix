@@ -881,8 +881,25 @@
         "title": "All learner courses"
       },
       "organizations": {
+        "attach-organizations": {
+          "confirm": "Confirm the sharing",
+          "info": "Ids of the organizations to add, separated by a comma",
+          "label": "Attach one or several organization(s)",
+          "message": {
+            "already-attached": "The following organization(s) were already attached : {organizationIds}",
+            "success": "Organization(s) successfully attached."
+          }
+        },
         "detach-organization": "Are you sure you want to detach <strong>{organizationName}</strong> from combined course blueprint <strong>{name}</strong>",
-        "detach-organization-success": "Blueprint is not shared with organization {name} anymore."
+        "detach-organization-success": "Blueprint is not shared with organization {name} anymore.",
+        "detach-organizations": {
+          "confirm": "Confirm remove the sharing of the organization(s)",
+          "info": "Ids of the organizations to add, separated by a comma",
+          "label": "Detach one or several organization(s)",
+          "message": {
+            "success": "Organization(s) successfully detached."
+          }
+        }
       },
       "reward-requirements": {
         "errors": {

@@ -1,5 +1,6 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import DetachOrganizationsForm from 'pix-admin/components/organizations/detach-organizations-form';
 import setupIntlRenderingTest from 'pix-admin/tests/helpers/setup-intl-rendering';
 import { module, test } from 'qunit';
@@ -31,7 +32,13 @@ module('Integration | Component | Organizations | DetachOrganizationsForm', func
     );
 
     // then
-    assert.dom(screen.getByRole('button', { name: 'Valider le détachement' })).hasAttribute('aria-disabled', 'true');
+    assert
+      .dom(
+        screen.getByRole('button', {
+          name: t('components.combined-course-blueprints.organizations.detach-organizations.confirm'),
+        }),
+      )
+      .hasAttribute('aria-disabled', 'true');
   });
 
   module('when detach succeeds', function () {
@@ -50,8 +57,12 @@ module('Integration | Component | Organizations | DetachOrganizationsForm', func
       );
 
       // when
-      await fillByLabel('Détacher une ou plusieurs organisation(s)', '1, 2, 1');
-      await click(screen.getByRole('button', { name: 'Valider le détachement' }));
+      await fillByLabel(t('components.combined-course-blueprints.organizations.detach-organizations.label'), '1, 2, 1');
+      await click(
+        screen.getByRole('button', {
+          name: t('components.combined-course-blueprints.organizations.detach-organizations.confirm'),
+        }),
+      );
 
       // then
       assert.ok(detachOrganizations.calledOnceWithExactly([1, 2]));
@@ -72,15 +83,23 @@ module('Integration | Component | Organizations | DetachOrganizationsForm', func
       );
 
       // when
-      await fillByLabel('Détacher une ou plusieurs organisation(s)', '1, 2');
-      await click(screen.getByRole('button', { name: 'Valider le détachement' }));
+      await fillByLabel(t('components.combined-course-blueprints.organizations.detach-organizations.label'), '1, 2');
+      await click(
+        screen.getByRole('button', {
+          name: t('components.combined-course-blueprints.organizations.detach-organizations.confirm'),
+        }),
+      );
 
       // then
       assert.ok(
-        pixToast.sendSuccessNotification.calledOnceWithExactly({ message: 'Organisation(s) détachée(s) avec succès.' }),
+        pixToast.sendSuccessNotification.calledOnceWithExactly({
+          message: t('components.combined-course-blueprints.organizations.detach-organizations.message.success'),
+        }),
       );
       assert.ok(reloadAfterSuccess.calledOnce);
-      assert.dom(screen.getByLabelText('Détacher une ou plusieurs organisation(s)')).hasValue('');
+      assert
+        .dom(screen.getByLabelText(t('components.combined-course-blueprints.organizations.detach-organizations.label')))
+        .hasValue('');
     });
   });
 
@@ -100,13 +119,19 @@ module('Integration | Component | Organizations | DetachOrganizationsForm', func
       );
 
       // when
-      await fillByLabel('Détacher une ou plusieurs organisation(s)', '1, 2');
-      await click(screen.getByRole('button', { name: 'Valider le détachement' }));
+      await fillByLabel(t('components.combined-course-blueprints.organizations.detach-organizations.label'), '1, 2');
+      await click(
+        screen.getByRole('button', {
+          name: t('components.combined-course-blueprints.organizations.detach-organizations.confirm'),
+        }),
+      );
 
       // then
       assert.ok(pixToast.sendSuccessNotification.notCalled);
       assert.ok(reloadAfterSuccess.notCalled);
-      assert.dom(screen.getByLabelText('Détacher une ou plusieurs organisation(s)')).hasValue('1, 2');
+      assert
+        .dom(screen.getByLabelText(t('components.combined-course-blueprints.organizations.detach-organizations.label')))
+        .hasValue('1, 2');
     });
   });
 });

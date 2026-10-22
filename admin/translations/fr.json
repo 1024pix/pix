@@ -889,8 +889,25 @@
         "title": "Tous les schémas de parcours combinés"
       },
       "organizations": {
+        "attach-organizations": {
+          "confirm": "Valider le rattachement",
+          "info": "Ids des organisations, séparés par une virgule",
+          "label": "Rattacher une ou plusieurs organisation(s)",
+          "message": {
+            "already-attached": "Le(s) organisation(s) suivantes étai(en)t déjà rattachée(s) : {organizationIds}",
+            "success": "Organisation(s) rattachée(s) avec succès."
+          }
+        },
         "detach-organization": "Etes-vous sûr de vouloir détacher l'organisation <strong>{organizationName}</strong> du schéma de parcours <strong>{name}</strong>",
-        "detach-organization-success": "Le schéma de parcours n'est plus partagé avec l'organisation {name}."
+        "detach-organization-success": "Le schéma de parcours n'est plus partagé avec l'organisation {name}.",
+        "detach-organizations": {
+          "confirm": "Valider le détachement",
+          "info": "Ids des organisations, séparés par une virgule",
+          "label": "Détacher une ou plusieurs organisation(s)",
+          "message": {
+            "success": "Organisation(s) détachée(s) avec succès."
+          }
+        }
       },
       "reward-requirements": {
         "errors": {
