@@ -19,10 +19,11 @@ export async function findByRecordIdsForCurrentUser({ ids, userId, locale }) {
   tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto);
 
   if (locale) {
-    const hasUserLocale = tutorialDtos.some((tutorial) => tutorial.locale === locale);
-    const tutorialLocale = hasUserLocale ? locale : getBaseLocale(locale);
+    const formattedLocale = locale.toLowerCase();
+    const hasUserLocale = tutorialDtos.some((tutorial) => tutorial.locale.toLowerCase() === formattedLocale);
+    const tutorialLocale = hasUserLocale ? formattedLocale : getBaseLocale(locale);
 
-    tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto.locale === tutorialLocale);
+    tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto.locale.toLowerCase() === tutorialLocale);
   }
   tutorialDtos = tutorialDtos.toSorted(byId);
   const tutorials = tutorialDtos.map(toDomain);

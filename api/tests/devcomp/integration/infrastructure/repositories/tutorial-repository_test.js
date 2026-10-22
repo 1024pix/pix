@@ -301,6 +301,34 @@ describe('Integration | Repository | tutorial-repository', function () {
           });
         });
       });
+
+      describe('When user locale case differs from tutorial locale case', function () {
+        it('returns tutorials matching user locale regardless of case', async function () {
+          // when
+          const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({
+            ids: ['recTutorial0', 'recTutorial1', 'recTutorial2'],
+            userId: null,
+            locale: 'fr-fr',
+          });
+
+          // then
+          expect(tutorials).lengthOf(1);
+          expect(tutorials[0].id).to.equal('recTutorial0');
+        });
+
+        it('returns tutorials matching language regardless of case when no tutorial matches user locale', async function () {
+          // when
+          const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({
+            ids: ['recTutorial0', 'recTutorial1', 'recTutorial2'],
+            userId: null,
+            locale: 'EN-US',
+          });
+
+          // then
+          expect(tutorials).lengthOf(1);
+          expect(tutorials[0].id).to.equal('recTutorial2');
+        });
+      });
     });
   });
 
