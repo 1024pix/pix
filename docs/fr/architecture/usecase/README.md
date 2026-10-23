@@ -609,7 +609,7 @@ connaître les usecases du contexte ne voit pas l'archivage.
 **La règle.** Un usecase n'importe rien d'un autre contexte : ni son domaine, ni son infrastructure,
 ni ses usecases. Pour lire un autre contexte, il reçoit un repository de son propre contexte. Ce
 repository appelle l'API interne du voisin, et traduit sa réponse en un objet du domaine local : c'est
-l'Anticorruption Layer, la couche de traduction entre deux contextes. Un usecase ne reçoit jamais
+l'[Anticorruption Layer](../adapter/README.md), la couche de traduction entre deux contextes. Un usecase ne reçoit jamais
 l'API interne elle-même.
 
 **Bon exemple.**

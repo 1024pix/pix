@@ -349,7 +349,7 @@ organisation qui importe ses élèves et qui les gère aussi.
   alors dans le domaine. La traduction ne garde que les champs dont le domaine a besoin.
 - Le DTO de l'API interne d'un autre contexte n'est pas un objet du domaine local, même s'il a déjà la
   forme d'un objet. Le repository qui lit cette API le traduit dans un modèle du contexte. C'est
-  l'Anticorruption Layer : voir la fiche [API interne](../internal-api/README.md).
+  l'Anticorruption Layer : voir la fiche [Adapter](../adapter/README.md).
 - Une liste paginée renvoie une enveloppe `{ models, pagination }`. Les `models` sont des objets du
   domaine.
 
