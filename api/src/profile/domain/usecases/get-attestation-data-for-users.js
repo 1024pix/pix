@@ -10,9 +10,9 @@ export async function getAttestationDataForUsers({
   stringUtils,
   attestationStorage,
 }) {
-  const attestationData = await attestationRepository.getDataByKey({ key: attestationKey, attestationStorage });
+  const template = await attestationRepository.getDataByKey({ key: attestationKey, attestationStorage });
 
-  if (!attestationData) {
+  if (!template) {
     throw new AttestationNotFoundError();
   }
   const users = await userRepository.getByIds({ userIds });
@@ -24,6 +24,6 @@ export async function getAttestationDataForUsers({
       const user = users.find((user) => user.id === userId);
       return user.toForm(createdAt, locale, stringUtils.normalizeAndRemoveAccents);
     }),
-    template: attestationData,
+    template,
   };
 }
