@@ -7,7 +7,7 @@ ARG MOODLE_DOCKER_WWWROOT
 ARG MOODLE_VERSION
 
 # Clone Moodle version and remove git files
-RUN git clone --revision ${MOODLE_VERSION} --depth=1 git://git.moodle.org/moodle.git ${MOODLE_DOCKER_WWWROOT} && rm -rf ${MOODLE_DOCKER_WWWROOT}/.git*
+RUN git clone --revision ${MOODLE_VERSION} --depth=1 https://github.com/moodle/moodle.git ${MOODLE_DOCKER_WWWROOT} && rm -rf ${MOODLE_DOCKER_WWWROOT}/.git*
 
 # Copy config file into clone Moodle version
 COPY config.php insecure.patch ${MOODLE_DOCKER_WWWROOT}
