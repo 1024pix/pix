@@ -27,6 +27,12 @@ const DEFAULT_CACHE_STATUS = {};
 const DEFAULT_CACHE_DIRECTORY = path.join(tmpdir(), 'attestation-templates');
 await fs.promises.mkdir(DEFAULT_CACHE_DIRECTORY, { recursive: true });
 
+export const clearCache = () => {
+  for (const key of Object.keys(DEFAULT_CACHE_STATUS)) {
+    delete DEFAULT_CACHE_STATUS[key];
+  }
+};
+
 export const getDataByKey = async ({
   key,
   attestationStorage,

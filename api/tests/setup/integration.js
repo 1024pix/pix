@@ -4,6 +4,7 @@ import * as certificationCpfCityRepository from '../../src/certification/enrolme
 import * as certificationCpfCountryRepository from '../../src/certification/enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as moduleRepository from '../../src/devcomp/infrastructure/repositories/module-repository.js';
 import * as tutorialRepository from '../../src/devcomp/infrastructure/repositories/tutorial-repository.js';
+import * as attestationRepository from '../../src/profile/infrastructure/repositories/attestation-repository.js';
 import * as missionRepository from '../../src/school/infrastructure/repositories/mission-repository.js';
 import { learningContentCache } from '../../src/shared/infrastructure/caches/learning-content-redis-cache.js';
 import { JobClient } from '../../src/shared/infrastructure/jobs/JobClient.js';
@@ -46,6 +47,7 @@ export const mochaHooks = {
       tutorialRepository.clearCache();
       missionRepository.clearCache();
       moduleRepository.clearCache();
+      attestationRepository.clearCache();
       await clearMutex();
       await JobClient.instance.flushJobs();
       await datamartBuilder.clean();
