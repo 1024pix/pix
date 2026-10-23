@@ -5,9 +5,8 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import { eq } from 'ember-truth-helpers';
-import Element from 'mon-pix/components/module/component/element';
-import Stepper from 'mon-pix/components/module/component/stepper';
+import GrainContent from 'mon-pix/components/module/grain/grain-content';
+import GrainSummary from 'mon-pix/components/module/grain/summary';
 import didInsert from 'mon-pix/modifiers/modifier-did-insert';
 
 export default class ModuleGrain extends Component {
@@ -15,8 +14,6 @@ export default class ModuleGrain extends Component {
   @service intl;
   @tracked answeredElements = trackedSet();
   @tracked isSkipButtonDisabled = false;
-
-  grain = this.args.grain;
 
   static STEPPER_DIRECTION = {
     HORIZONTAL: 'horizontal',
@@ -57,13 +54,6 @@ export default class ModuleGrain extends Component {
   static LOCALLY_ANSWERABLE_ELEMENTS = ['qab', 'qcm-declarative', 'qcu-declarative', 'qcu-discovery', 'flashcards'];
 
   @tracked isStepperFinished = this.hasStepper === false;
-
-  get stepperDirection() {
-    if (['challenge', 'activity', 'discovery'].includes(this.grainType)) {
-      return ModuleGrain.STEPPER_DIRECTION.HORIZONTAL;
-    }
-    return ModuleGrain.STEPPER_DIRECTION.VERTICAL;
-  }
 
   get hasStepper() {
     return this.args.grain.components.some((component) => component.type === 'stepper');
@@ -166,10 +156,6 @@ export default class ModuleGrain extends Component {
       });
   }
 
-  get displayableComponents() {
-    return ModuleGrain.getSupportedComponents(this.args.grain);
-  }
-
   get hasAnswerableElements() {
     return this.displayableElements.some((element) => element.isAnswerable);
   }
@@ -215,10 +201,6 @@ export default class ModuleGrain extends Component {
     await this.args.onElementAnswer(answerData);
   }
 
-  get hasTitle() {
-    return this.args.grain.title && this.args.grain.title.length > 0;
-  }
-
   get elementId() {
     return `grain_${this.args.grain.id}`;
   }
@@ -227,8 +209,8 @@ export default class ModuleGrain extends Component {
     return this.args.grain.type === 'summary';
   }
 
-  get isGrainTypeWithTitle() {
-    return this.args.grain.type === 'lesson' || this.args.grain.type === 'summary';
+  get isGrainTypeLesson() {
+    return this.args.grain.type === 'lesson';
   }
 
   get isGrainTypeActivity() {
@@ -237,17 +219,6 @@ export default class ModuleGrain extends Component {
 
   get isGrainTypeShortLesson() {
     return this.args.grain.type === 'short-lesson';
-  }
-
-  get grainTitle() {
-    switch (this.args.grain.type) {
-      case 'lesson':
-        return this.intl.t('pages.modulix.grain.title.lesson');
-      case 'summary':
-        return this.intl.t('pages.modulix.grain.title.summary');
-      default:
-        return '';
-    }
   }
 
   get skipButtonLabel() {
@@ -263,11 +234,6 @@ export default class ModuleGrain extends Component {
       : this.intl.t('pages.modulix.buttons.grain.skip');
   }
 
-  @action
-  preventStepperInitialScrollAndFocus(index) {
-    return index !== 0;
-  }
-
   <template>
     <article
       id={{this.elementId}}
@@ -280,63 +246,54 @@ export default class ModuleGrain extends Component {
           current=@currentStep
           total=@totalSteps
         }}</h3>
-      <div class="grain__card grain-card--{{this.grainType}}">
-        {{#if this.isGrainTypeShortLesson}}
-          <img src="/images/modulix-point-cles.png" class="grain-card__illustration" alt="" />
-          <PixTag class="grain-card-tag" @color="yellow">
-            {{t "pages.modulix.grain.tag.key-points"}}
-          </PixTag>
-        {{/if}}
-        {{#if this.isGrainTypeActivity}}
-          <PixTag class="grain-card-tag" @color="grey">
-            {{t "pages.modulix.grain.tag.activity"}}
-          </PixTag>
-        {{/if}}
-        {{#if this.isGrainTypeWithTitle}}
-          <h3 class="grain-card-title">
-            {{this.grainTitle}}</h3>
-        {{/if}}
-        <div class="grain-card__content">
-          {{#each this.displayableComponents as |component index|}}
-            {{#if (eq component.type "element")}}
-              <div class="grain-card-content__element">
-                <Element
-                  @element={{component.element}}
-                  @passageId={{@passage.id}}
-                  @onImageAlternativeTextOpen={{@onImageAlternativeTextOpen}}
-                  @onVideoTranscriptionOpen={{@onVideoTranscriptionOpen}}
-                  @onElementAnswer={{this.onElementAnswer}}
-                  @onElementRetry={{@onElementRetry}}
-                  @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
-                  @onFileDownload={{@onFileDownload}}
-                  @onExpandToggle={{@onExpandToggle}}
-                  @updateSkipButton={{this.updateSkipButton}}
-                />
-              </div>
-            {{else if (eq component.type "stepper")}}
-              <div class="grain-card-content__stepper">
-                <Stepper
-                  @steps={{component.steps}}
-                  @onElementAnswer={{this.onElementAnswer}}
-                  @onElementRetry={{@onElementRetry}}
-                  @passage={{@passage}}
-                  @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
-                  @stepperIsFinished={{this.stepperIsFinished}}
-                  @onStepperNextStep={{@onStepperNextStep}}
-                  @onImageAlternativeTextOpen={{@onImageAlternativeTextOpen}}
-                  @onVideoTranscriptionOpen={{@onVideoTranscriptionOpen}}
-                  @onFileDownload={{@onFileDownload}}
-                  @onExpandToggle={{@onExpandToggle}}
-                  @preventInitialFocusAndScroll={{this.preventStepperInitialScrollAndFocus index}}
-                  @direction={{this.stepperDirection}}
-                  @updateSkipButton={{this.updateSkipButton}}
-                  @instruction={{component.instruction}}
-                />
-              </div>
-            {{/if}}
-          {{/each}}
+      {{#if this.isGrainTypeSummary}}
+        <GrainSummary
+          @grain={{@grain}}
+          @passage={{@passage}}
+          @onElementAnswer={{this.onElementAnswer}}
+          @onElementRetry={{@onElementRetry}}
+          @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
+          @stepperIsFinished={{this.stepperIsFinished}}
+          @updateSkipButton={{this.updateSkipButton}}
+          @onStepperNextStep={{@onStepperNextStep}}
+          @onImageAlternativeTextOpen={{@onImageAlternativeTextOpen}}
+          @onVideoTranscriptionOpen={{@onVideoTranscriptionOpen}}
+          @onFileDownload={{@onFileDownload}}
+          @onExpandToggle={{@onExpandToggle}}
+        />
+      {{else}}
+        <div class="grain__card grain-card--{{this.grainType}}">
+          {{#if this.isGrainTypeShortLesson}}
+            <img src="/images/modulix-point-cles.png" class="grain-card__illustration" alt="" />
+            <PixTag class="grain-card-tag" @color="yellow">
+              {{t "pages.modulix.grain.tag.key-points"}}
+            </PixTag>
+          {{/if}}
+          {{#if this.isGrainTypeActivity}}
+            <PixTag class="grain-card-tag" @color="grey">
+              {{t "pages.modulix.grain.tag.activity"}}
+            </PixTag>
+          {{/if}}
+          {{#if this.isGrainTypeLesson}}
+            <h3 class="grain-card-title">
+              {{t "pages.modulix.grain.title.lesson"}}</h3>
+          {{/if}}
+          <GrainContent
+            @grain={{@grain}}
+            @passage={{@passage}}
+            @onElementAnswer={{this.onElementAnswer}}
+            @onElementRetry={{@onElementRetry}}
+            @getLastCorrectionForElement={{this.getLastCorrectionForElement}}
+            @stepperIsFinished={{this.stepperIsFinished}}
+            @updateSkipButton={{this.updateSkipButton}}
+            @onStepperNextStep={{@onStepperNextStep}}
+            @onImageAlternativeTextOpen={{@onImageAlternativeTextOpen}}
+            @onVideoTranscriptionOpen={{@onVideoTranscriptionOpen}}
+            @onFileDownload={{@onFileDownload}}
+            @onExpandToggle={{@onExpandToggle}}
+          />
         </div>
-      </div>
+      {{/if}}
 
       {{#if this.shouldDisplaySkipButton}}
         <footer class="grain-card__footer">

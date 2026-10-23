@@ -2000,7 +2000,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       const screen = await render(<template><ModuleGrain @grain={{grain}} /></template>);
 
       // then
-      assert.dom(screen.getByText('Leçon')).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Leçon' })).exists();
     });
   });
 
@@ -2029,11 +2029,12 @@ module('Integration | Component | Module | Grain', function (hooks) {
     });
   });
 
-  module('when grain has type ‘Summary‘', function () {
-    test('should display a title', async function (assert) {
+  module('when grain has type ‘summary‘', function () {
+    test('should display the summary illustration and content', async function (assert) {
       // given
+      const contentText = 'element content';
       const textElement = {
-        content: 'element content',
+        content: contentText,
         type: 'text',
         isAnswerable: false,
         tag: ' ',
@@ -2048,7 +2049,8 @@ module('Integration | Component | Module | Grain', function (hooks) {
       const screen = await render(<template><ModuleGrain @grain={{grain}} /></template>);
 
       // then
-      assert.dom(screen.getByText('Récapitulatif')).exists();
+      assert.strictEqual(screen.getByRole('presentation').getAttribute('src'), '/images/modulix/megaphone.png');
+      assert.dom(screen.getByText(contentText)).exists();
     });
   });
 });
