@@ -1,8 +1,9 @@
 # Sérialiseur
 
-Un sérialiseur traduit entre les objets du domaine et un format d'échange, dans les deux sens. En
-sortie, il met une organisation au format JSON:API, le format des réponses que lit Pix Admin. En entrée, il transforme le JSON
-reçu en objet du domaine. Un export CSV est aussi un sérialiseur. Les sérialiseurs se rangent dans
+Un sérialiseur traduit entre les objets du domaine et un format d'échange, dans les deux sens. Pour la
+réponse, il met une organisation au format JSON:API, le format que lit Pix Admin. Pour la requête, il
+transforme le JSON reçu en objet du domaine. C'est un traducteur dont se sert le contrôleur, l'adapter
+HTTP : voir la fiche [Adapter](../adapter/README.md). Un export CSV est aussi un sérialiseur. Les sérialiseurs se rangent dans
 `infrastructure/serializers/`.
 
 ## Les règles
@@ -83,7 +84,7 @@ export const organizationSerializer = { serialize, deserialize };
 
 Un sérialiseur se teste avec un test unitaire, sans stub, mock ni spy. Le test couvre :
 
-- la sortie, champ par champ. Exemple : `serializes the organization with its features` ;
+- la réponse, champ par champ. Exemple : `serializes the organization with its features` ;
 - une valeur absente, pas seulement l'objet complet : le front doit recevoir `null`, pas un champ
   manquant. Exemple : `serializes an organization that is not archived` ;
 - la clé construite pour le front. Exemple :
@@ -193,7 +194,7 @@ describe('Unit | Organizational Entities | Infrastructure | Serializers | JSON:A
 ## Checklist de revue de code
 
 ```
-La sortie décide-t-elle quelque chose ?
+La réponse décide-t-elle quelque chose ?
 [ ] M1  Ni if, ni ternaire, ni filtre, ni méthode métier sur l'objet sérialisé, exports CSV compris
 [ ] M2  Chaque champ déclaré existe sur l'objet reçu
 
@@ -217,7 +218,7 @@ Le test couvre-t-il les cas utiles ?
 
 ### M1. Aucune logique dans le sens sortant
 
-**La règle.** En sortie, le sérialiseur met en forme ce qu'il reçoit. Il ne contient ni condition, ni
+**La règle.** Pour la réponse, le sérialiseur met en forme ce qu'il reçoit. Il ne contient ni condition, ni
 calcul, ni filtre sur l'objet reçu. Une règle du métier se calcule avant, dans le domaine ou le
 [usecase](../usecase/README.md). La règle vaut aussi pour un export CSV.
 
@@ -410,4 +411,4 @@ est vérifiée à la fois par la route et par le sérialiseur. Si la route rend 
 sérialiseur le refuse encore, et la documentation de la route devient fausse.
 
 **À savoir.** Une garde sur une relation absente, comme `if (relationships?.tags)`, est une
-traduction. Elle est permise ici, alors que la même forme serait une faute en sortie.
+traduction. Elle est permise ici, alors que la même forme serait une faute dans la réponse.

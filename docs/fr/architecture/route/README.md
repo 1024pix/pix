@@ -3,7 +3,8 @@
 Une route dit comment on appelle l'API en HTTP : l'adresse et la méthode, la forme des entrées, qui a
 le droit d'appeler, quel contrôleur répond, et la documentation. Elle déclare tout cela et ne fait rien
 d'autre. Par exemple, `POST /api/admin/organizations` crée une organisation depuis Pix Admin. Les
-routes se rangent dans `application/`, dans un fichier `*.route`.
+routes se rangent dans `application/`, dans un fichier `*.route`. La route branche le contrôleur,
+l'[adapter](../adapter/README.md) HTTP, sur le serveur.
 
 Deux outils reviennent dans toute la fiche. Joi est la bibliothèque qui décrit la forme attendue d'une
 valeur, sous forme de schéma. Un pre-handler est une fonction que le framework (hapi) appelle avant le

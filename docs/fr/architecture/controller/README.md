@@ -4,7 +4,8 @@ Un contrôleur reçoit une requête HTTP, appelle un [usecase](../usecase/README
 résultat en réponse. Il fait trois choses, dans cet ordre : extraire les données de la requête,
 appeler le usecase, rendre la réponse. Par exemple, le contrôleur de `POST /api/admin/organizations`
 lit le formulaire de création d'une organisation et appelle le usecase `createOrganization`. Les
-contrôleurs se rangent dans `application/`, à côté de leur [route](../route/README.md).
+contrôleurs se rangent dans `application/`, à côté de leur [route](../route/README.md). Le contrôleur
+est l'[adapter](../adapter/README.md) HTTP, en entrée.
 
 ## Les règles
 

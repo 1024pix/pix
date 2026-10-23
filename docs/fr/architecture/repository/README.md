@@ -4,7 +4,8 @@ Un repository charge et enregistre les objets du domaine. Le domaine déclare ce
 une interface, le port : `OrganizationRepository` sait charger, ajouter et mettre à jour une
 organisation. L'infrastructure implémente ce port avec la base de données, un fichier, un service HTTP
 ou l'API interne d'un autre contexte (un autre dossier de `src/`, comme `team`). Le port se range dans
-`domain/repositories/`, l'implémentation dans `infrastructure/repositories/`.
+`domain/repositories/`, l'implémentation dans `infrastructure/repositories/`. L'implémentation est un
+[adapter](../adapter/README.md) en sortie.
 
 ## Les règles
 
