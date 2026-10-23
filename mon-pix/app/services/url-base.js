@@ -171,4 +171,16 @@ export const PIX_WEBSITE_PATHS = {
     it: 'certify-my-digital-skills',
     fr: 'se-certifier',
   },
+  CERTIFICATION_FIND_SESSION: {
+    'de-AT': 'find-a-session',
+    'fr-FR': 'trouver-une-session',
+    'fr-BE': 'trouver-une-session',
+    'nl-BE': 'vind-een-sessie',
+    nl: 'vind-een-sessie',
+    en: 'find-a-session',
+    es: 'find-a-session',
+    'es-419': 'find-a-session',
+    it: 'find-a-session',
+    fr: 'trouver-une-session',
+  },
 };

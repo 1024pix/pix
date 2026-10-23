@@ -5,11 +5,13 @@ const buildUserCertificationEligibility = function ({
   id = 123,
   isCertifiable = false,
   doubleCertificationEligibility = domainBuilder.certification.enrolment.buildDoubleCertificationEligibility(),
+  certifiableCompetencesCount = 0,
 } = {}) {
   return new UserCertificationEligibility({
     id,
     isCertifiable,
     doubleCertificationEligibility,
+    certifiableCompetencesCount,
   });
 };
 

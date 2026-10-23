@@ -12,6 +12,7 @@ describe('Certification | Enrolment | Unit | Serializer | user-certification-eli
           id: 123,
           isCertifiable: true,
           doubleCertificationEligibility: null,
+          certifiableCompetencesCount: 2,
         });
 
         // when
@@ -24,6 +25,8 @@ describe('Certification | Enrolment | Unit | Serializer | user-certification-eli
             type: 'isCertifiables',
             attributes: {
               'is-certifiable': true,
+              'certifiable-competences-count': 2,
+              'minimum-certifiable-competences-for-certificability': 5,
             },
           },
         });
@@ -36,6 +39,7 @@ describe('Certification | Enrolment | Unit | Serializer | user-certification-eli
         const userCertificationEligibility = domainBuilder.certification.enrolment.buildUserCertificationEligibility({
           id: 123,
           isCertifiable: true,
+          certifiableCompetencesCount: 2,
           doubleCertificationEligibility: domainBuilder.certification.enrolment.buildDoubleCertificationEligibility({
             label: 'Un super label',
             imageUrl: 'Une super image',
@@ -54,6 +58,8 @@ describe('Certification | Enrolment | Unit | Serializer | user-certification-eli
             type: 'isCertifiables',
             attributes: {
               'is-certifiable': true,
+              'certifiable-competences-count': 2,
+              'minimum-certifiable-competences-for-certificability': 5,
               'double-certification-eligibility': {
                 label: 'Un super label',
                 imageUrl: 'Une super image',

@@ -16,11 +16,14 @@ export async function getUserCertificationEligibility({
   const isCertifiable = placementProfile.isCertifiable();
   let doubleCertificationEligibility = null;
 
+  const certifiableCompetencesCount = placementProfile.getCertifiableCompetencesCount();
+
   if (!isCertifiable) {
     return new UserCertificationEligibility({
       id: userId,
       isCertifiable,
       doubleCertificationEligibility,
+      certifiableCompetencesCount,
     });
   }
 
@@ -75,6 +78,7 @@ export async function getUserCertificationEligibility({
     id: userId,
     isCertifiable,
     doubleCertificationEligibility,
+    certifiableCompetencesCount,
   });
 }
 

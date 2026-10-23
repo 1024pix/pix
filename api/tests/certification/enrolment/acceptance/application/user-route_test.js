@@ -271,12 +271,14 @@ describe('Certification | Enrolment | Acceptance | Routes | User', function () {
             type: 'isCertifiables',
             attributes: {
               'is-certifiable': true,
+              'certifiable-competences-count': 5,
               'double-certification-eligibility': {
                 imageUrl: 'http://my-badge-image-url.com',
                 label: 'alt message',
                 isEligible: true,
                 certificationAlreadySucceeded: false,
               },
+              'minimum-certifiable-competences-for-certificability': 5,
             },
           },
         };
