@@ -1,7 +1,12 @@
 import _ from 'lodash';
 
 import { NotFoundError } from '../../../shared/domain/errors.js';
-import { FRENCH_SPOKEN, getBaseLocale, normalizeLocale } from '../../../shared/domain/services/locale-service.js';
+import {
+  FRENCH_SPOKEN,
+  getBaseLocale,
+  getMatchingLocale,
+  normalizeLocale,
+} from '../../../shared/domain/services/locale-service.js';
 import * as knowledgeElementRepository from '../../../shared/infrastructure/repositories/knowledge-element-repository.js';
 import { makeGetInstance } from '../../../shared/infrastructure/repositories/learning-content-repository.ts';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
@@ -20,10 +25,10 @@ export async function findByRecordIdsForCurrentUser({ ids, userId, locale }) {
   tutorialDtos = tutorialDtos.filter((tutorialDto) => tutorialDto);
 
   if (locale) {
-    const userLocale = normalizeLocale(locale);
-    const hasUserLocale =
-      Boolean(userLocale) && tutorialDtos.some((tutorial) => normalizeLocale(tutorial.locale) === userLocale);
-    const tutorialLocale = hasUserLocale ? userLocale : getBaseLocale(locale);
+    const tutorialLocale = getMatchingLocale(
+      tutorialDtos.map((tutorialDto) => tutorialDto.locale),
+      locale,
+    );
 
     tutorialDtos = tutorialDtos.filter((tutorialDto) => normalizeLocale(tutorialDto.locale) === tutorialLocale);
   }

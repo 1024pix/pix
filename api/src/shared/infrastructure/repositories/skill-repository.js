@@ -2,7 +2,7 @@ import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { Skill } from '../../domain/models/Skill.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
-import { getBaseLocale, normalizeLocale } from '../../domain/services/locale-service.js';
+import { FRENCH_SPOKEN, getMatchingLocale, normalizeLocale } from '../../domain/services/locale-service.js';
 import { child, SCOPES } from '../utils/logger.js';
 import { makeGetInstance } from './learning-content-repository.ts';
 
@@ -90,14 +90,12 @@ function byId(entityA, entityB) {
 }
 
 function getTranslatedHint(hintI18n, locale, useFallback) {
-  const normalizedLocale = normalizeLocale(locale);
-  if (!normalizedLocale) return getTranslatedKey(hintI18n, locale, useFallback);
+  if (!locale) return getTranslatedKey(hintI18n, locale, useFallback);
 
-  const normalizedHintI18n = Object.fromEntries(
-    Object.entries(hintI18n ?? {}).map(([key, value]) => [normalizeLocale(key) ?? key, value]),
-  );
-  const hintLocale = normalizedHintI18n[normalizedLocale] ? normalizedLocale : getBaseLocale(normalizedLocale);
-  return getTranslatedKey(normalizedHintI18n, hintLocale, useFallback);
+  const hintEntries = Object.entries(hintI18n ?? {});
+  const hintLocale = getMatchingLocale(Object.keys(hintI18n ?? {}), locale);
+  const [, hint] = hintEntries.find(([key]) => normalizeLocale(key) === hintLocale) ?? [];
+  return hint || (useFallback ? hintI18n?.[FRENCH_SPOKEN] : null);
 }
 
 function toDomain(skillDto, locale, useFallback) {

@@ -5,6 +5,7 @@ import {
   getBaseLocale,
   getDefaultChallengeLocale,
   getDefaultLocale,
+  getMatchingLocale,
   getNearestChallengeLocale,
   getNearestSupportedLocale,
   getSupportedLanguages,
@@ -149,6 +150,52 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
           // then
           expect(normalizedLocale).to.be.undefined;
         });
+      });
+    });
+  });
+
+  describe('getMatchingLocale', function () {
+    const availableLocales = ['fr', 'es-419', 'de-at', 'nl'];
+
+    context('when locale is available', function () {
+      [
+        { locale: 'es-419', expectedLocale: 'es-419' },
+        { locale: 'de-AT', expectedLocale: 'de-AT' },
+        { locale: 'fr', expectedLocale: 'fr' },
+      ].forEach(({ locale, expectedLocale }) => {
+        it(`returns the normalized locale ${expectedLocale} for ${locale}`, function () {
+          // given / when
+          const matchingLocale = getMatchingLocale(availableLocales, locale);
+
+          // then
+          expect(matchingLocale).to.equal(expectedLocale);
+        });
+      });
+    });
+
+    context('when locale is not available', function () {
+      [
+        { locale: 'nl-BE', expectedLocale: 'nl' },
+        { locale: 'fr-fr', expectedLocale: 'fr' },
+        { locale: 'it', expectedLocale: 'it' },
+      ].forEach(({ locale, expectedLocale }) => {
+        it(`returns the base locale ${expectedLocale} for ${locale}`, function () {
+          // given / when
+          const matchingLocale = getMatchingLocale(availableLocales, locale);
+
+          // then
+          expect(matchingLocale).to.equal(expectedLocale);
+        });
+      });
+    });
+
+    context('when locale is invalid', function () {
+      it('returns the default base locale', function () {
+        // given / when
+        const matchingLocale = getMatchingLocale(availableLocales, 'fr_FR');
+
+        // then
+        expect(matchingLocale).to.equal(new Intl.Locale(getDefaultLocale()).language);
       });
     });
   });

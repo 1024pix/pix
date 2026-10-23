@@ -102,6 +102,18 @@ function normalizeLocale(locale) {
 }
 
 /**
+ * @param {string[]} availableLocales
+ * @param {string} locale
+ * @returns {string} - the normalized locale if it is available (ex: 'es-419' for 'es-419'), otherwise the base locale (ex: 'nl' for 'nl-BE')
+ */
+function getMatchingLocale(availableLocales, locale) {
+  const userLocale = normalizeLocale(locale);
+  const hasUserLocale =
+    Boolean(userLocale) && availableLocales.some((availableLocale) => normalizeLocale(availableLocale) === userLocale);
+  return hasUserLocale ? userLocale : getBaseLocale(locale);
+}
+
+/**
  * @returns {boolean} - returns true when locale from France (ex: fr-fr or fr-FR), otherwise false
  */
 function isFranceLocale(locale) {
@@ -163,6 +175,7 @@ export {
   getChallengeLocales,
   getDefaultChallengeLocale,
   getDefaultLocale,
+  getMatchingLocale,
   getNearestChallengeLocale,
   getNearestSupportedLocale,
   getSupportedLanguages,
