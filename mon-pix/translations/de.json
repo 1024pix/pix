@@ -2600,8 +2600,10 @@
           "other-authentication-label": "Eine andere Verbindung"
         },
         "edit-button": "Bearbeiten",
+        "edit-password-button": "Passwort ändern",
         "email": "E-Mail-Adresse",
         "menu-link-title": "Meine Verbindungen",
+        "password": "Passwort",
         "username": "Username"
       },
       "delete-account": {
@@ -2654,7 +2656,25 @@
         "last-name": "Name",
         "menu-link-title": "Meine persönlichen Informationen"
       },
-      "title": "Mein Konto"
+      "title": "Mein Konto",
+      "update-password": {
+        "fields": {
+          "current-password": {
+            "label": "Aktuelles Passwort"
+          },
+          "errors": {
+            "empty-current-password": "Bitte gib dein aktuelles Passwort ein.",
+            "invalid-current-password": "Dein aktuelles Passwort ist falsch.",
+            "unknown-error": "Es ist ein Fehler aufgetreten. Bitte versuche es noch einmal oder wende dich an den Support."
+          },
+          "new-password": {
+            "label": "Neues Passwort"
+          }
+        },
+        "save-button": "Mein Passwort ändern",
+        "title": "Mein Passwort ändern",
+        "update-successful": "Dein Passwort wurde geändert!"
+      }
     },
     "user-tests": {
       "anonymised-participations": {

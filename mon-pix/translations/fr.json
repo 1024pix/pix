@@ -2600,8 +2600,10 @@
           "other-authentication-label": "Autre méthode de connexion"
         },
         "edit-button": "Modifier",
+        "edit-password-button": "Modifier le mot de passe",
         "email": "Adresse e-mail",
         "menu-link-title": "Mes méthodes de connexion",
+        "password": "Mot de passe",
         "username": "Identifiant"
       },
       "delete-account": {
@@ -2654,7 +2656,25 @@
         "last-name": "Nom",
         "menu-link-title": "Mes informations personnelles"
       },
-      "title": "Mon compte"
+      "title": "Mon compte",
+      "update-password": {
+        "fields": {
+          "current-password": {
+            "label": "Mot de passe actuel"
+          },
+          "errors": {
+            "empty-current-password": "Veuillez saisir votre mot de passe actuel.",
+            "invalid-current-password": "Votre mot de passe actuel est incorrect.",
+            "unknown-error": "Une erreur est survenue. Veuillez recommencer ou contacter le support."
+          },
+          "new-password": {
+            "label": "Nouveau mot de passe"
+          }
+        },
+        "save-button": "Modifier mon mot de passe",
+        "title": "Modifier mon mot de passe",
+        "update-successful": "Votre mot de passe a été modifié !"
+      }
     },
     "user-tests": {
       "anonymised-participations": {

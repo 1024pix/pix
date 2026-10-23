@@ -2600,8 +2600,10 @@
           "other-authentication-label": "Other connection method"
         },
         "edit-button": "Edit",
+        "edit-password-button": "Change the password",
         "email": "Email address",
         "menu-link-title": "Log in methods",
+        "password": "Password",
         "username": "Username"
       },
       "delete-account": {
@@ -2654,7 +2656,25 @@
         "last-name": "Last name",
         "menu-link-title": "Personal information"
       },
-      "title": "My account"
+      "title": "My account",
+      "update-password": {
+        "fields": {
+          "current-password": {
+            "label": "Current password"
+          },
+          "errors": {
+            "empty-current-password": "Please enter your current password.",
+            "invalid-current-password": "Your current password is incorrect.",
+            "unknown-error": "An error has occurred. Please try again or contact the support."
+          },
+          "new-password": {
+            "label": "New password"
+          }
+        },
+        "save-button": "Change my password",
+        "title": "Change my password",
+        "update-successful": "Your password has been changed!"
+      }
     },
     "user-tests": {
       "anonymised-participations": {
