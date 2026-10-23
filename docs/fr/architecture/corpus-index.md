@@ -69,7 +69,7 @@ Consignées pour ne pas être rejouées.
 | Le mot `read-model` est **conservé** | C'est l'Ubiquitous Language de l'équipe, et le renommer n'apportait rien sur l'outillage | `X2` de `read-model/ecarts.md` classé *à surveiller*. Le travail est le classement, pas le renommage |
 | La **désérialisation** relève de `serializer/README.md` | Le sérialiseur traduit dans les deux sens, ce que `docs/fr/Anatomy.md` documente. 46 fichiers sur 235 ont une fonction de désérialisation | Invariant `M5` ajouté. `M1` limité au sens sortant, et sa règle dans `serializer/outillage.md` doit exclure le corps des désérialisations, sinon elle se déclenche sur du code correct |
 | Les modèles par **intention d'écriture** ne se multiplient pas sans mesure | `…ForCreation` exprime une différence de nature et reste. `…ForUpdate` portant un sous-ensemble de champs est un modèle partiellement rempli, et c'est le côté commande de CQRS sans CQRS | L'écart `X7` de `value-object/ecarts.md` est créé. La règle générale est passée dans le gabarit : un bénéfice de performance non mesuré compte pour nul. Révisé le 2026-10-02 : `V8` est retiré, voir les numéros retirés |
-| La transaction reste au grain du **usecase**, même sur plusieurs Aggregates | ADR 25, sur un motif mesuré : les événements dans les transactions ont causé des deadlocks en production | `A7` de `aggregate-root/README.md` devient une question de conception et non la règle appliquée. `X4` passe en *rien à faire*. `U7` gagne son critère |
+| Un usecase ne modifie qu'**un Aggregate par transaction** ; les autres réagissent à un événement, dans leur propre transaction | Décidé avec l'équipe staff en octobre 2026, avec les événements du domaine : la racine enregistre l'événement, le usecase le publie après la validation de la transaction (`DomainTransaction.addSuccessHandler`). La publication hors transaction répond au motif de l'ADR 25 (des événements dans les transactions causaient des deadlocks) | `A7` de `aggregate-root/README.md` reste une règle, alignée avec `U7` de `usecase/README.md`. Le usecase réel d'archivage d'une organisation, qui modifie plusieurs Aggregates dans une transaction, est un écart du code |
 | Pas d'ADR sur la stabilité du format des réponses HTTP | Ce que font les applications front n'est pas le sujet de ce corpus. Et deux tiers de l'écart se règlent par un outil plutôt que par une procédure | `X3` de `serializer/ecarts.md` se réduit à une règle : ne jamais redéfinir le sens d'une valeur existante. Le reste attend le paquet partagé : voir `migration-typescript.md` |
 
 ## ADR à écrire
@@ -106,7 +106,7 @@ numéro retiré n'est plus réattribué. Les documents de travail (`explication.
 | `X3` de `aggregate-root/` | plusieurs repositories pour une même frontière | `X4` de `repository/ecarts.md` |
 | `A5` de `aggregate-root/` | le doublon de `E3` | `E3` de `entity/README.md` |
 | ancien `E7` de `entity/` | pas d'objet d'un autre Aggregate | `A4` de `aggregate-root/README.md` : une règle d'Aggregate, sortie de la fiche Entity ; `A4`, retiré quand il doublait l'ancien `E7`, revient pour la porter. Exception à la règle de non-réattribution : l'ancien `E8` (un nom du métier) devient `E7`, pour garder une suite sans trou, et `E8` porte maintenant « pas d'autre Entity dedans » |
-| `E9` de `entity/` | seule une Aggregate Root émet des événements | mis de côté avec les événements du domaine, voir les chantiers ouverts |
+| `E9` de `entity/` | seule une Aggregate Root émet des événements | `A8` de `aggregate-root/README.md` |
 | `X2` de `entity/` | les règles vivent dans les usecases | `X1` de `usecase/ecarts.md` |
 | `X1`, `X6` de `value-object/` | des écarts du read-model | `read-model/ecarts.md` |
 | `S3`, `S4`, `S9` de `specification/` | des réénoncés de `V4`, de `V1`, `V2`, `V6`, `V7`, et de `V3` | `value-object/README.md` |
@@ -132,11 +132,10 @@ numéro retiré n'est plus réattribué. Les documents de travail (`explication.
     Écartés : `id: number | null`, qui laisse passer une Entity sans id là où il en faut un, et le
     passage aux UUID, un chantier trop gros. Le type `Entity<null>` reste dans les fiches : il permet
     à un usecase de dire s'il reçoit une Entity neuve, sans id, ou une Entity enregistrée.
-- **Les événements du domaine.** La publication des événements (outbox dans la transaction, relais
-  après le commit) est mise de côté en attendant une discussion avec les staffs. Une version existe
-  dans le commit `23a5cd7096` (règle A8 de `aggregate-root/README.md`), retirée ensuite. Points à
-  éclaircir : la base des jobs est-elle déjà séparée, et comment le job lancé avant le commit est-il
-  évité depuis #15451.
+- **Les événements du domaine.** Décidés en octobre 2026 : la racine enregistre ses événements
+  (`A8`), le usecase les publie après la validation de la transaction, et un handler d'événement
+  appelle un usecase de son contexte. Reste ouvert : la fiabilité de la publication (perdre un
+  événement si le processus s'arrête après le commit, ou passer par une outbox).
 - **Des Aggregates manquants.** Certains usecases portent des règles sur plusieurs objets à la fois,
   faute d'une racine pour les porter. Aucun inventaire de ces règles n'existe. C'est le préalable pour
   les décrire en écart dans `aggregate-root/ecarts.md`, avec de vrais exemples.

@@ -24,8 +24,10 @@ L'Aggregate `Organization` : une organisation et ses fonctionnalités activées.
 relie : si `LEARNER_IMPORT` est activée, `isManagingStudents` est toujours `false`. Le constructeur
 refuse l'état inverse, et `enableFeature()` met le champ à `false`. L'organisation garde aussi ses
 lots de places, des places achetées pour une période. Une seconde règle les relie : on n'archive pas
-une organisation qui a encore des places actives ou en attente, et on n'ajoute pas de places à une
-organisation archivée. Exemple inventé, d'après
+une organisation qui a encore des places actives ou en attente. L'exemple ajoute des règles : il refuse
+d'ajouter des places à une organisation archivée, et d'activer une fonctionnalité sur une organisation
+archivée. Il laisse de côté la suppression d'un lot de places et un nombre de places non défini.
+Exemple inventé, d'après
 [`OrganizationForAdmin.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/models/OrganizationForAdmin.js#L241-L248)
 et
 [`archive-organization.usecase.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/domain/usecases/archive-organization.usecase.js#L17-L21).
@@ -88,8 +90,10 @@ export type { PlacesLot, PlacesLotProps } from './PlacesLot.js';
 
 ```ts
 // organization/OrganizationFeature.ts — un objet interne, créé seulement par la racine
+import { InvalidOrganizationError } from '../../errors.js';
+
 export type FeatureName = 'LEARNER_IMPORT' | 'MISSIONS_MANAGEMENT' | 'ATTESTATIONS_MANAGEMENT';
-export type FeatureParams = Record<string, unknown> | null;
+export type FeatureParams = Record<string, unknown> | unknown[] | null; // un objet, un tableau ou rien
 export type OrganizationFeatureProps = { featureName: FeatureName; params: FeatureParams };
 
 export class OrganizationFeature {
@@ -97,8 +101,11 @@ export class OrganizationFeature {
   readonly params: FeatureParams;
 
   constructor({ featureName, params }: OrganizationFeatureProps) {
-    if (featureName === 'ATTESTATIONS_MANAGEMENT' && !params) {
-      throw new InvalidOrganizationError('ATTESTATIONS_MANAGEMENT needs params');
+    if (featureName === 'LEARNER_IMPORT' && (params === null || Array.isArray(params))) {
+      throw new InvalidOrganizationError('LEARNER_IMPORT needs an object of params');
+    }
+    if (featureName === 'ATTESTATIONS_MANAGEMENT' && !Array.isArray(params)) {
+      throw new InvalidOrganizationError('ATTESTATIONS_MANAGEMENT needs a list of params');
     }
     this.featureName = featureName;
     this.params = params;
@@ -163,11 +170,12 @@ export class Organization<Id extends number | null = number> extends AggregateRo
   readonly createdBy: number; // A4 : un autre Aggregate, gardé par son id
   #name: string;
   #isManagingStudents: boolean;
-  #features: OrganizationFeature[]; // A2 : privé
-  #placesLots: PlacesLot[]; // A2 : privé
+  #features: OrganizationFeature[]; // A2 : privé. A6 : une règle les relie à isManagingStudents
+  #placesLots: PlacesLot[]; // A2 : privé. A6 : une règle les relie à l'archivage
   #archivedAt: Date | null; // une date du métier : la date d'archivage
+  // A6 : pas de membres ni de campagnes, aucune règle ne les relie à l'organisation
 
-  // A1 : le constructeur sert à la création comme au chargement depuis la base, la règle y est vérifiée
+  // A1 : la règle est vérifiée à la construction
   constructor({ id, name, type, createdBy, isManagingStudents, features, placesLots, archivedAt }: OrganizationProps<Id>) {
     super();
     assertValidName(name);
@@ -257,16 +265,21 @@ function assertValidName(name: string): void {
 
 ```ts
 // domain/repositories/OrganizationRepository.ts — A3 : un seul repository pour tout le groupe
+import type { Organization } from '../models/organization/index.js';
+
 export interface OrganizationRepository {
-  get({ id }: { id: number }): Promise<Organization>; // l'organisation et ses fonctionnalités
+  get({ id }: { id: number }): Promise<Organization>; // l'organisation, ses fonctionnalités et ses lots de places
   add({ organization }: { organization: Organization<null> }): Promise<Organization>;
-  update({ organization }: { organization: Organization }): Promise<void>; // l'organisation et ses fonctionnalités
+  update({ organization }: { organization: Organization }): Promise<void>; // tout le groupe, lots de places compris
 }
 ```
 
 ```ts
 // domain/usecases/enable-organization-feature.ts — A7 : un seul Aggregate modifié
 // raccourci : la transaction est montrée dans la fiche usecase
+import type { FeatureName, FeatureParams } from '../models/organization/index.js';
+import type { OrganizationRepository } from '../repositories/OrganizationRepository.js';
+
 export const enableOrganizationFeature = async ({
   organizationId,
   featureName,
@@ -295,7 +308,7 @@ couvre :
   `refuses places on an archived organization, and changes nothing` ;
 - chaque cas d'erreur, et le fait que rien n'a changé après l'erreur. Exemples :
   `refuses a feature on an archived organization, and changes nothing`,
-  `refuses a feature that is already enabled` ;
+  `refuses a feature that is already enabled`, `refuses an empty name, and changes nothing` ;
 - qu'on ne peut pas modifier un objet interne depuis l'extérieur. Exemple :
   `cannot change the features through the returned list` ;
 - chaque événement enregistré, et l'absence d'événement quand la méthode refuse. Exemples :
@@ -304,7 +317,7 @@ couvre :
 
 Le repository se teste à part, avec un test d'intégration sur la base : on enregistre l'Aggregate, on
 le recharge, et on vérifie que tout le groupe est revenu. Exemple :
-`saves and reloads the organization with its features`.
+`saves and reloads the organization with its features and its places lots`.
 
 Le test unitaire de l'[exemple complet](#exemple-complet) :
 
@@ -319,7 +332,11 @@ import {
   InvalidOrganizationError,
 } from '../../../../../../src/organizational-entities/domain/errors.js';
 import { OrganizationArchivedEvent } from '../../../../../../src/organizational-entities/domain/events/OrganizationArchivedEvent.js';
-import { Organization, type OrganizationProps } from '../../../../../../src/organizational-entities/domain/models/organization/index.js';
+import {
+  Organization,
+  type OrganizationProps,
+  type OrganizationType,
+} from '../../../../../../src/organizational-entities/domain/models/organization/index.js';
 
 describe('Unit | Organizational Entities | Domain | Models | Organization', function () {
   const buildOrganization = (props: Partial<OrganizationProps<number>> = {}) =>
@@ -335,7 +352,8 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
       ...props,
     });
 
-  const learnerImport = { featureName: 'LEARNER_IMPORT', params: null } as const;
+  const learnerImportParams = { name: 'GENERIC' };
+  const learnerImport = { featureName: 'LEARNER_IMPORT', params: learnerImportParams } as const;
 
   describe('constructor', function () {
     it('refuses an organization that imports its learners and manages students', function () {
@@ -343,13 +361,28 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
         InvalidOrganizationError,
       );
     });
+
+    it('refuses an unknown type', function () {
+      expect(() => buildOrganization({ type: 'UNKNOWN' as string as OrganizationType })).to.throw(
+        InvalidOrganizationError,
+      );
+    });
+  });
+
+  describe('#rename', function () {
+    it('refuses an empty name, and changes nothing', function () {
+      const organization = buildOrganization();
+
+      expect(() => organization.rename(' ')).to.throw(InvalidOrganizationError);
+      expect(organization.name).to.equal('Lycée Victor Hugo');
+    });
   });
 
   describe('#enableFeature', function () {
     it('stops managing students when LEARNER_IMPORT is enabled', function () {
       const organization = buildOrganization({ isManagingStudents: true });
 
-      organization.enableFeature('LEARNER_IMPORT', null);
+      organization.enableFeature('LEARNER_IMPORT', learnerImportParams);
 
       expect(organization.isManagingStudents).to.be.false;
     });
@@ -357,7 +390,9 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
     it('refuses a feature on an archived organization, and changes nothing', function () {
       const organization = buildOrganization({ archivedAt: new Date('2026-01-01'), isManagingStudents: true });
 
-      expect(() => organization.enableFeature('LEARNER_IMPORT', null)).to.throw(ArchivedOrganizationError);
+      expect(() => organization.enableFeature('LEARNER_IMPORT', learnerImportParams)).to.throw(
+        ArchivedOrganizationError,
+      );
       expect(organization.features).to.be.empty;
       expect(organization.isManagingStudents).to.be.true;
     });
@@ -365,7 +400,9 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
     it('refuses a feature that is already enabled', function () {
       const organization = buildOrganization({ features: [learnerImport] });
 
-      expect(() => organization.enableFeature('LEARNER_IMPORT', null)).to.throw(FeatureAlreadyEnabledError);
+      expect(() => organization.enableFeature('LEARNER_IMPORT', learnerImportParams)).to.throw(
+        FeatureAlreadyEnabledError,
+      );
       expect(organization.features).to.have.lengthOf(1);
     });
   });
@@ -390,6 +427,14 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
       expect(() => organization.archive(now)).to.throw(ArchiveOrganizationError);
       expect(organization.isArchived).to.be.false;
       expect(organization.pullDomainEvents()).to.be.empty;
+    });
+
+    it('refuses an organization that has pending places', function () {
+      const placesLot = { count: 30, activationDate: new Date('2026-03-01'), expirationDate: null };
+      const organization = buildOrganization({ placesLots: [placesLot] });
+
+      expect(() => organization.archive(now)).to.throw(ArchiveOrganizationError);
+      expect(organization.isArchived).to.be.false;
     });
 
     it('archives an organization whose places have all expired', function () {
@@ -419,7 +464,7 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
 
       // ReadonlyArray interdit push à la compilation. On force le type pour vérifier qu'à l'exécution,
       // on reçoit bien une copie
-      (organization.features as unknown[]).push(learnerImport);
+      (organization.features as unknown as unknown[]).push(learnerImport);
 
       expect(organization.features).to.be.empty;
     });
@@ -455,19 +500,22 @@ Tests
 **La règle.** Un Aggregate existe parce qu'une règle du métier relie plusieurs objets. Test simple :
 on doit pouvoir finir la phrase « à tout moment, … ». Sinon, ce n'est pas un Aggregate.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
-// Organization — à tout moment : si LEARNER_IMPORT est activée, isManagingStudents est false
-enableFeature(featureName: FeatureName, params: FeatureParams): void {
-  …
-  if (featureName === 'LEARNER_IMPORT') {
-    this.#isManagingStudents = false;
+// Organization
+  // A1 : la seule façon d'ajouter une fonctionnalité, et c'est ici que la règle est vérifiée
+  enableFeature(featureName: FeatureName, params: FeatureParams): void {
+    …
+    if (featureName === 'LEARNER_IMPORT') {
+      this.#isManagingStudents = false; // A1 : la règle qui relie la racine et ses fonctionnalités
+    }
   }
-}
 ```
 
-**Mauvais exemple.**
+La phrase se finit : à tout moment, si `LEARNER_IMPORT` est activée, `isManagingStudents` est `false`.
+
+**Exemple de code incorrect.**
 
 ```ts
 // « ces objets sont affichés ensemble sur l'écran de détail » : ce n'est pas une règle
@@ -494,11 +542,11 @@ champs.
 
 **La règle.** Pour lire ou modifier un objet interne, on passe par la racine. Le champ qui contient les
 objets internes est privé, et les getters renvoient des copies. Les objets internes n'ont aucune
-méthode qui les modifie : la copie de la liste suffit donc à les mettre hors d'atteinte. Hors du dossier de
-l'Aggregate, on n'importe que son `index.ts`, qui exporte la racine et seulement le type des objets
-internes.
+méthode qui les modifie : avec la copie de la liste, aucun code hors de la racine ne peut donc les
+changer. Hors du dossier de l'Aggregate, on n'importe que son `index.ts`, qui exporte la racine et
+seulement le type des objets internes.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 // organization/index.ts
@@ -510,22 +558,26 @@ export type { PlacesLot, PlacesLotProps } from './PlacesLot.js';
 
 ```ts
 // Organization
-get features(): ReadonlyArray<OrganizationFeature> {
-  return [...this.#features];
-}
+  // A2 : on lit une copie, qui ne permet de modifier ni la liste ni ses éléments (ils sont immuables)
+  get features(): ReadonlyArray<OrganizationFeature> {
+    return [...this.#features];
+  }
 ```
 
 On exporte seulement le type : on peut s'en servir dans une signature, mais pas écrire
 `new OrganizationFeature(…)` depuis l'extérieur.
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
-// dans un usecase : on crée l'objet interne et on l'ajoute sans passer par la racine
-import { OrganizationFeature } from '../models/organization/OrganizationFeature.js';
-
-organization.features.push(new OrganizationFeature({ featureName: 'LEARNER_IMPORT', params: null }));
+// Organization : le getter renvoie la liste elle-même, pas une copie
+get features(): OrganizationFeature[] {
+  return this.#features;
+}
 ```
+
+Un usecase peut alors écrire `organization.features.push({ featureName: 'LEARNER_IMPORT', params: { name: 'GENERIC' } })`
+sans passer par `enableFeature()`.
 
 **Ce que ça apporte.** Pour ajouter une fonctionnalité, tout le monde passe par `enableFeature()`, qui
 met à jour `isManagingStudents`.
@@ -541,7 +593,7 @@ point d'entrée :
   name: 'aggregate-entry-point',
   severity: 'error',
   from: { pathNot: '^src/organizational-entities/domain/models/organization/' },
-  to: { path: '^src/organizational-entities/domain/models/organization/', pathNot: 'index\\.js$' },
+  to: { path: '^src/organizational-entities/domain/models/organization/', pathNot: 'index\\.(js|ts)$' },
 }
 ```
 
@@ -552,20 +604,22 @@ point d'entrée :
 **La règle.** Chaque Aggregate a un seul repository, celui de la racine. `get()` charge tout le groupe,
 `update()` enregistre tout le groupe. Un objet interne n'a pas de repository à lui.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
+// domain/repositories/OrganizationRepository.ts — A3 : un seul repository pour tout le groupe
+…
 export interface OrganizationRepository {
-  get({ id }: { id: number }): Promise<Organization>; // l'organisation et ses fonctionnalités
+  get({ id }: { id: number }): Promise<Organization>; // l'organisation, ses fonctionnalités et ses lots de places
   add({ organization }: { organization: Organization<null> }): Promise<Organization>;
-  update({ organization }: { organization: Organization }): Promise<void>; // l'organisation et ses fonctionnalités
+  update({ organization }: { organization: Organization }): Promise<void>; // tout le groupe, lots de places compris
 }
 ```
 
-Le repository écrit dans deux tables, `organizations` et `organization-features`. Le domaine ne voit
-pas ces tables : il appelle seulement `update()`.
+Le repository écrit dans trois tables : `organizations`, `organization-features` et
+`organization-places`. Le domaine ne voit pas ces tables : il appelle seulement `update()`.
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 // un repository rien que pour les fonctionnalités : il écrit sans passer par la racine
@@ -588,14 +642,14 @@ un read-model. Cette règle ne vise que l'écriture.
 **La règle.** Un Aggregate ne garde pas un objet d'un autre Aggregate, seulement son identifiant. Si
 une règle a besoin des données de cet objet, la méthode les reçoit en paramètre.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 // Organization
   readonly createdBy: number; // A4 : un autre Aggregate, gardé par son id
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 // Organization
@@ -617,18 +671,23 @@ fonctionnalités entières, pas leurs id (voir [A6](#a6-petit-aggregate)).
 **La règle.** L'Aggregate ne contient que les objets qu'une règle relie. Les autres forment leurs
 propres Aggregates, et sont gardés par leur identifiant.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
-export class Organization {
-  #features: OrganizationFeature[]; // une règle relie les fonctionnalités et isManagingStudents
-  #placesLots: PlacesLot[]; // une règle relie les places et l'archivage
-  readonly createdBy: number; // un utilisateur est un autre Aggregate
-  // pas de membres, pas d'invitations, pas de campagnes : aucune règle ne les relie à l'organisation
+// Organization
+export class Organization<Id extends number | null = number> extends AggregateRoot {
+  …
+  readonly createdBy: number; // A4 : un autre Aggregate, gardé par son id
+  …
+  #features: OrganizationFeature[]; // A2 : privé. A6 : une règle les relie à isManagingStudents
+  #placesLots: PlacesLot[]; // A2 : privé. A6 : une règle les relie à l'archivage
+  #archivedAt: Date | null; // une date du métier : la date d'archivage
+  // A6 : pas de membres ni de campagnes, aucune règle ne les relie à l'organisation
+  …
 }
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 export class Organization {
@@ -656,17 +715,21 @@ sur l'organisation et l'autre sur un membre, sans conflit.
 **La règle.** Un usecase ne modifie qu'un Aggregate par transaction. Si d'autres Aggregates doivent
 suivre, ils sont modifiés ensuite, chacun dans sa propre transaction.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
-// organizational-entities : on archive l'organisation, et c'est tout
-const organization = await organizationRepository.get({ id: organizationId });
-organization.archive(clock.now());
-await organizationRepository.update({ organization });
-// team réagit à OrganizationArchivedEvent et désactive les membres, dans sa propre transaction
+// domain/usecases/enable-organization-feature.ts — A7 : un seul Aggregate modifié
+…
+  const organization = await organizationRepository.get({ id: organizationId });
+  organization.enableFeature(featureName, params);
+  await organizationRepository.update({ organization });
 ```
 
-**Mauvais exemple.**
+Quand un autre Aggregate doit suivre, par exemple les membres quand une organisation est archivée, il
+réagit à l'événement de la racine ([A8](#a8-la-racine-enregistre-ses-événements)), dans sa propre
+transaction.
+
+**Exemple de code incorrect.**
 
 ```ts
 // un seul usecase modifie trois Aggregates, de deux contextes, dans la même transaction
@@ -691,7 +754,7 @@ archivée ». Il est nommé au passé. C'est la méthode de la racine qui fait l
 l'événement, après avoir vérifié ses règles. L'événement ne contient que des identifiants et des
 valeurs, jamais un objet du domaine.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 // Organization
@@ -703,7 +766,7 @@ valeurs, jamais un objet du domaine.
   }
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 // le usecase crée l'événement lui-même
@@ -725,5 +788,6 @@ date que celle enregistrée par la racine.
   de la racine.
 - Seule la racine enregistre des événements. Un objet interne, comme `OrganizationFeature`, n'en
   enregistre pas : c'est la racine qui vérifie les règles du groupe.
-- Enregistrer n'est pas publier. Le usecase publie les événements de la racine après l'enregistrement :
-  voir la fiche [usecase](../usecase/README.md).
+- Enregistrer n'est pas publier. Le usecase publie les événements de la racine après la validation de
+  la transaction, avec `DomainTransaction.addSuccessHandler` : voir la fiche
+  [usecase](../usecase/README.md).
