@@ -243,9 +243,10 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
 
   describe('GET /api/admin/certification-centers/{id}', function () {
     let expectedCertificationCenter;
+    let category;
 
     beforeEach(async function () {
-      const category = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' });
+      category = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' });
       expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter({
         id: 1234,
         createdAt: new Date('2020-01-01'),
@@ -300,6 +301,7 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
               'data-protection-officer-first-name': undefined,
               'data-protection-officer-last-name': undefined,
               'data-protection-officer-email': undefined,
+              'category-id': category.id,
               'category-label': 'Établissement scolaire',
             },
             relationships: {
