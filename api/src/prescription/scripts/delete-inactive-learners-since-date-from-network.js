@@ -63,14 +63,14 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
 
     for (const { organizationId } of organizations) {
       let batchNumber = 0;
-      let inactiveLearnersCount = 0;
+      const deletedLearnerIds = [];
 
       while (true) {
-        // once deleted, learners are not in this request results anymore, so no offset is needed
         const inactiveLearnerIds = await this.findInactiveLearnerIdsSinceDate({
           organizationId,
           lastActivityDate,
           limit: batchSize,
+          excludedLearnerIds: deletedLearnerIds,
         });
         if (inactiveLearnerIds.length === 0) break;
 
@@ -83,8 +83,6 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
         const organizationLearnerIdsToDelete = inactiveLearnerIds.filter(
           (id) => !learnersWithCombinedCourseParticipation.includes(id),
         );
-
-        inactiveLearnersCount += organizationLearnerIdsToDelete.length;
 
         await DomainTransaction.execute(async () => {
           await usecases.deleteOrganizationLearners({
@@ -102,11 +100,12 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
           }
         });
 
+        deletedLearnerIds.push(organizationLearnerIdsToDelete);
         await setTimeout(throttleDelay);
       }
 
       logger.info(
-        `${inactiveLearnersCount} inactive learners ${options.dryRun ? 'to delete' : 'deleted'} from organization ${organizationId}`,
+        `${deletedLearnerIds.length} inactive learners ${options.dryRun ? 'to delete' : 'deleted'} from organization ${organizationId}`,
       );
     }
     if (options.dryRun) {
@@ -115,7 +114,7 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
     }
   }
 
-  async findInactiveLearnerIdsSinceDate({ organizationId, lastActivityDate, limit }) {
+  async findInactiveLearnerIdsSinceDate({ organizationId, lastActivityDate, limit, excludedLearnerIds }) {
     const knexConn = DomainTransaction.getConnection();
     return await knexConn
       .with('organizationLearnersWithLastParticipationDate', (qb) => {
@@ -129,6 +128,7 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
               .as('lastParticipationDate'),
           )
           .from('view-active-organization-learners')
+          .whereNotIn('view-active-organization-learners.id', excludedLearnerIds)
           .where('organizationId', organizationId)
           .where('updatedAt', '<', lastActivityDate);
       })
