@@ -69,7 +69,7 @@ async function register(server, options, dependencies = { featureToggles }) {
         auth: { strategy: ltiPrescriberStrategyName },
         handler: (request, h) => ltiController.findAvailableCampaigns(request, h),
         notes: [
-          'Cette route permet de recupérer la liste des campagnes disponibles pour les organisations corespondantes.',
+          'Cette route permet de récupérer la liste des campagnes disponibles pour les organisations correspondantes.',
         ],
         tags: ['api', 'lti'],
       },
