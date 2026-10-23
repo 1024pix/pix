@@ -61,6 +61,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           archivedBy: null,
           updatedAt: now,
           createdAt: now,
+          categoryId: null,
           categoryLabel: null,
         });
         expect(result).to.deepEqualInstance(expectedCenter);
@@ -143,6 +144,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           archivedBy: null,
           updatedAt: now,
           createdAt: now,
+          categoryId: null,
           categoryLabel: null,
         });
         expect(result).to.deepEqualInstance(expectedCenter);
@@ -199,13 +201,14 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
             label: droit.label,
           }),
         ],
+        categoryId: null,
         categoryLabel: null,
       });
       expect(result).to.deepEqualInstance(expectedCenter);
     });
 
     context('when the certification center is linked to a structure with a category', function () {
-      it('returns the certification center with its category label', async function () {
+      it('returns the certification center with its category', async function () {
         // given
         const centerId = 1;
         const category = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' });
@@ -224,6 +227,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         const result = await certificationCenterRepository.getById({ id: centerId });
 
         // then
+        expect(result.categoryId).to.equal(category.id);
         expect(result.categoryLabel).to.equal('Établissement scolaire');
       });
     });

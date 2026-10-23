@@ -243,9 +243,10 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
 
   describe('GET /api/admin/certification-centers/{id}', function () {
     let expectedCertificationCenter;
+    let category;
 
     beforeEach(async function () {
-      const category = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' });
+      category = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' });
       expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter({
         id: 1234,
         createdAt: new Date('2020-01-01'),
@@ -300,6 +301,7 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
               'data-protection-officer-first-name': undefined,
               'data-protection-officer-last-name': undefined,
               'data-protection-officer-email': undefined,
+              'category-id': category.id,
               'category-label': 'Établissement scolaire',
             },
             relationships: {
@@ -376,6 +378,7 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
     context('when an admin member updates a certification center information', function () {
       it('returns an HTTP code 200 with the updated data', async function () {
         // given
+        const category = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' });
         const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
 
         await databaseBuilder.commit();
@@ -393,6 +396,7 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
                 'data-protection-officer-email': 'justin.ptipeu@example.net',
                 name: 'Justin Ptipeu Orga',
                 type: 'PRO',
+                'category-id': category.id,
               },
             },
           },
@@ -405,6 +409,8 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
         expect(result.data.attributes['data-protection-officer-last-name']).to.equal('Ptipeu');
         expect(result.data.attributes['data-protection-officer-email']).to.equal('justin.ptipeu@example.net');
         expect(result.data.attributes.name).to.equal('Justin Ptipeu Orga');
+        expect(result.data.attributes['category-id']).to.equal(category.id);
+        expect(result.data.attributes['category-label']).to.equal('Établissement scolaire');
       });
     });
   });

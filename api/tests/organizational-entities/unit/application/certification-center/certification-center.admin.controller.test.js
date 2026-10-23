@@ -65,6 +65,7 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | ce
           name: 'name',
           createdBy: 123,
           type: 'PRO',
+          categoryId: null,
         };
         const dataProtectionOfficer = {
           firstName: 'Firstname',
@@ -118,6 +119,7 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | ce
           name: 'name',
           type: 'PRO',
           createdBy: 123,
+          categoryId: null,
         };
         const dataProtectionOfficer = {};
         const expectedCenterForAdmin = new CenterForAdmin({

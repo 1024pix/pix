@@ -24,6 +24,7 @@ describe('Unit | Organizational Entities | Infrastructure | Serializer | JSONAPI
           'data-protection-officer-first-name': 'Justin',
           'data-protection-officer-last-name': 'Ptipeu',
           'data-protection-officer-email': 'justin.ptipeu@example.net',
+          'category-id': 123,
         },
         relationships: {},
       },
@@ -38,6 +39,7 @@ describe('Unit | Organizational Entities | Infrastructure | Serializer | JSONAPI
       createdBy: 123,
       habilitations: [],
       archivedAt: null,
+      categoryId: 123,
     };
 
     archivistFullName = null;
@@ -95,82 +97,96 @@ describe('Unit | Organizational Entities | Infrastructure | Serializer | JSONAPI
       expect(deserializedCertificationCenterForAdmin).to.deepEqualInstance(expectedCertificationCenterForAdmin);
     });
 
-    describe('#serialize', function () {
-      it('should convert a CertificationCenterForAdmin model object into JSON API data', function () {
-        // given
-        const complementaryCertification = domainBuilder.certification.enrolment.buildHabilitation({
-          id: 1,
-          label: 'Pix+surf',
-          key: 'SURF',
-        });
-        const certificationCenter = domainBuilder.buildCenterForAdmin({
-          center: {
-            ...centerForAdmin,
-            createdAt: new Date('2018-01-01T05:43:10Z'),
-            habilitations: [complementaryCertification],
-            categoryLabel: null,
-          },
-          archivistFullName,
-          dataProtectionOfficer,
-        });
+    it('should convert the category-id into a number when it is a string', function () {
+      // given
+      certificationCenterJsonApi.data.attributes['category-id'] = '123';
 
-        // when
-        const serializedCertificationCenter = certificationCenterForAdminSerializer.serialize(certificationCenter);
-
-        // then
-        certificationCenterJsonApi.data.attributes['created-at'] = new Date('2018-01-01T05:43:10Z');
-        certificationCenterJsonApi.data.attributes['category-label'] = null;
-        certificationCenterJsonApi.data.relationships = {
-          'certification-center-memberships': {
-            links: {
-              related: `/api/admin/certification-centers/${certificationCenter.id}/certification-center-memberships`,
-            },
-          },
-          'certification-center-invitations': {
-            links: {
-              related: `/api/admin/certification-centers/${certificationCenter.id}/invitations`,
-            },
-          },
-          habilitations: {
-            data: [
-              {
-                id: '1',
-                type: 'complementary-certifications',
-              },
-            ],
-          },
-        };
-        certificationCenterJsonApi.included = [
-          {
-            id: '1',
-            type: 'complementary-certifications',
-            attributes: {
-              key: 'SURF',
-              label: 'Pix+surf',
-            },
-          },
-        ];
-
-        expect(serializedCertificationCenter).to.deep.equal(certificationCenterJsonApi);
+      // when
+      const deserializedCertificationCenterForAdmin = certificationCenterForAdminSerializer.deserialize({
+        data: certificationCenterJsonApi.data,
+        createdBy: 123,
       });
 
-      it('should serialize the categoryLabel when present', function () {
-        // given
-        const certificationCenter = domainBuilder.buildCenterForAdmin({
-          center: {
-            ...centerForAdmin,
-            categoryLabel: 'Établissement scolaire',
-          },
-          archivistFullName,
-          dataProtectionOfficer,
-        });
+      // then
+      expect(deserializedCertificationCenterForAdmin.categoryId).to.equal(123);
+    });
+  });
 
-        // when
-        const serializedCertificationCenter = certificationCenterForAdminSerializer.serialize(certificationCenter);
-
-        // then
-        expect(serializedCertificationCenter.data.attributes['category-label']).to.equal('Établissement scolaire');
+  describe('#serialize', function () {
+    it('should convert a CertificationCenterForAdmin model object into JSON API data', function () {
+      // given
+      const complementaryCertification = domainBuilder.certification.enrolment.buildHabilitation({
+        id: 1,
+        label: 'Pix+surf',
+        key: 'SURF',
       });
+      const certificationCenter = domainBuilder.buildCenterForAdmin({
+        center: {
+          ...centerForAdmin,
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          habilitations: [complementaryCertification],
+          categoryLabel: null,
+        },
+        archivistFullName,
+        dataProtectionOfficer,
+      });
+
+      // when
+      const serializedCertificationCenter = certificationCenterForAdminSerializer.serialize(certificationCenter);
+
+      // then
+      certificationCenterJsonApi.data.attributes['created-at'] = new Date('2018-01-01T05:43:10Z');
+      certificationCenterJsonApi.data.attributes['category-label'] = null;
+      certificationCenterJsonApi.data.relationships = {
+        'certification-center-memberships': {
+          links: {
+            related: `/api/admin/certification-centers/${certificationCenter.id}/certification-center-memberships`,
+          },
+        },
+        'certification-center-invitations': {
+          links: {
+            related: `/api/admin/certification-centers/${certificationCenter.id}/invitations`,
+          },
+        },
+        habilitations: {
+          data: [
+            {
+              id: '1',
+              type: 'complementary-certifications',
+            },
+          ],
+        },
+      };
+      certificationCenterJsonApi.included = [
+        {
+          id: '1',
+          type: 'complementary-certifications',
+          attributes: {
+            key: 'SURF',
+            label: 'Pix+surf',
+          },
+        },
+      ];
+
+      expect(serializedCertificationCenter).to.deep.equal(certificationCenterJsonApi);
+    });
+
+    it('should serialize the categoryLabel when present', function () {
+      // given
+      const certificationCenter = domainBuilder.buildCenterForAdmin({
+        center: {
+          ...centerForAdmin,
+          categoryLabel: 'Établissement scolaire',
+        },
+        archivistFullName,
+        dataProtectionOfficer,
+      });
+
+      // when
+      const serializedCertificationCenter = certificationCenterForAdminSerializer.serialize(certificationCenter);
+
+      // then
+      expect(serializedCertificationCenter.data.attributes['category-label']).to.equal('Établissement scolaire');
     });
   });
 });

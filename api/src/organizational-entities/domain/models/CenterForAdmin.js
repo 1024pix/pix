@@ -19,6 +19,7 @@ export class CenterForAdmin {
    * @param {string} params.dataProtectionOfficer.firstName
    * @param {string} params.dataProtectionOfficer.lastName
    * @param {string} params.dataProtectionOfficer.email
+   * @param {number} params.center.categoryId
    */
   constructor({ center, archivistFullName, dataProtectionOfficer = {} } = {}) {
     this.id = center.id;
@@ -36,6 +37,7 @@ export class CenterForAdmin {
     this.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
     this.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;
     this.dataProtectionOfficerEmail = dataProtectionOfficer.email;
+    this.categoryId = center.categoryId;
   }
 
   get isSco() {

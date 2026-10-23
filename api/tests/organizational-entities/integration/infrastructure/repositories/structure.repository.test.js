@@ -221,4 +221,36 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
       });
     });
   });
+
+  describe('#updateCategory', function () {
+    it('updates the category of the given structure', async function () {
+      // given
+      const categoryId = databaseBuilder.factory.buildStructureCategory({ label: 'Nouvelle catégorie' }).id;
+      const structure = databaseBuilder.factory.buildStructure({ updatedAt: new Date('2020-01-01') });
+      await databaseBuilder.commit();
+
+      // when
+      await structureRepository.updateCategory({ structureId: structure.id, categoryId });
+
+      // then
+      const updatedStructure = await knex('structures').where({ id: structure.id }).first();
+      expect(updatedStructure.category_id).to.equal(categoryId);
+      expect(updatedStructure.updated_at).to.be.above(new Date('2020-01-01'));
+    });
+
+    it('does not update the other structures', async function () {
+      // given
+      const categoryId = databaseBuilder.factory.buildStructureCategory({ label: 'Nouvelle catégorie' }).id;
+      const structure = databaseBuilder.factory.buildStructure({});
+      const otherStructure = databaseBuilder.factory.buildStructure({});
+      await databaseBuilder.commit();
+
+      // when
+      await structureRepository.updateCategory({ structureId: structure.id, categoryId });
+
+      // then
+      const untouchedStructure = await knex('structures').where({ id: otherStructure.id }).first();
+      expect(untouchedStructure.category_id).to.be.null;
+    });
+  });
 });

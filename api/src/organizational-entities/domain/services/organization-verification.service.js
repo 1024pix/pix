@@ -43,6 +43,7 @@ async function checkAdministrationTeamExists(administrationTeamId, administratio
   }
 }
 
+// TODO: On devrait sortir ce check dans un structureService pour le réutiliser pour les orga & cdc
 async function checkStructureCategoryExists({ structureCategoryId, structureCategoryRepository, currentLine }) {
   const existingStructureCategory = await structureCategoryRepository.findById(structureCategoryId);
 

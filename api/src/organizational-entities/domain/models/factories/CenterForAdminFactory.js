@@ -23,6 +23,7 @@ export class CenterForAdminFactory {
         createdAt: center.createdAt,
         updatedAt: undefined,
         archivedAt: center.archivedAt,
+        categoryId: center.categoryId,
         categoryLabel: center.categoryLabel,
       },
       archivistFullName,
