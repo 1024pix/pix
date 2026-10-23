@@ -69,8 +69,9 @@ export const tracing = {
    * Mark an object as excluded from tracing, so that {@link tracing.spanify}
    * returns it as-is instead of wrapping it in an OpenTelemetry proxy.
    *
-   * @param {object} resource - The object to exclude from tracing.
-   * @returns {object} The same `resource`, for chaining.
+   * @template {object} T
+   * @param {T} resource - The object to exclude from tracing.
+   * @returns {T} The same `resource`, for chaining.
    */
   prevent: function (resource) {
     resource[preventTracingSymbol] = true;

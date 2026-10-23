@@ -155,7 +155,7 @@ export class EventLoopWatchdog {
     checkInterval = watchdogConfig.checkInterval,
     threshold = watchdogConfig.threshold,
     maxReportedRequests = watchdogConfig.maxReportedRequests,
-    logger = child('event-loop-watchdog', { event: 'event-loop-watchdog' }, {}) as WatchdogLogger,
+    logger = child('event-loop-watchdog', { event: 'event-loop-watchdog' }, {}),
     now = Date.now,
     monotonicNow = () => performance.now(),
   }: {
