@@ -260,7 +260,7 @@ modifie.
 L'identifiant n'est pas forcément un nombre. En DDD, il vient de la façon dont le métier reconnaît
 l'objet. Dans Pix, il prend plusieurs formes :
 
-- un entier créé par la base de données, le cas le plus courant : `CertificationCourse` ;
+- un entier créé par la base de données, le cas le plus courant;
 - une chaîne venue du référentiel : `skillId`, `tubeId`, `challengeId` ;
 - un UUID : les modules, les chats ;
 - une valeur du métier : le `code` d'une campagne, le `slug` d'un module.
