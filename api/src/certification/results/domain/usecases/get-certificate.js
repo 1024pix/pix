@@ -1,11 +1,9 @@
-/**
- * @typedef {import ('../../domain/usecases/index.js').CertificateRepository} CertificateRepository
- */
+import { services } from '../services/index.js';
 
-/**
- * @param {object} params
- * @param {CertificateRepository} params.certificateRepository
- */
-export async function getCertificate({ certificationCourseId, locale, certificateRepository }) {
-  return certificateRepository.getCertificate({ certificationCourseId, locale });
+export function getCertificate({ certificationCourseId, i18n, isFrenchDomainExtension }) {
+  return services.getCertificateFromCertificationCourseService({
+    certificationCourseId,
+    i18n,
+    isFrenchDomainExtension,
+  });
 }

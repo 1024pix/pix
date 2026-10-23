@@ -85,42 +85,19 @@ async function findUserCertificateSummaries(request) {
   return certificateSummarySerializer.serialize(certificateSummaries, { translate: i18n.__ });
 }
 
-async function getPDFCertificate(
-  request,
-  h,
-  dependencies = { v2CertificationAttestationPdf, v3CertificationAttestationPdf },
-) {
+async function getPDFCertificate(request, h) {
   const certificationCourseId = request.params.certificationCourseId;
   const { isFrenchDomainExtension } = request.query;
   const i18n = getI18nFromRequest(request);
 
-  const certificate = await usecases.getCertificate({ certificationCourseId, locale: i18n.getLocale() });
-
-  const fileName = i18n.__('certification.certificate.file-name', {
-    deliveredAt: dayjs(certificate.deliveredAt).format('YYYYMMDD'),
+  const { fileName, content: certificatePDFContent } = await usecases.getCertificate({
+    certificationCourseId,
+    i18n,
+    isFrenchDomainExtension,
   });
 
-  if (certificate instanceof Certificate) {
-    return h
-      .response(
-        await dependencies.v3CertificationAttestationPdf.generate({
-          certificates: [certificate],
-          i18n,
-        }),
-      )
-      .code(200)
-      .header('Content-Disposition', `attachment; filename=${fileName}`)
-      .header('Content-Type', 'application/pdf');
-  }
-
   return h
-    .response(
-      dependencies.v2CertificationAttestationPdf.generate({
-        certificates: [certificate],
-        i18n,
-        isFrenchDomainExtension,
-      }),
-    )
+    .response(certificatePDFContent)
     .code(200)
     .header('Content-Disposition', `attachment; filename=${fileName}`)
     .header('Content-Type', 'application/pdf');
