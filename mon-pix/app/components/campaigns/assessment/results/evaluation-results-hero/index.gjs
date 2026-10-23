@@ -1,5 +1,6 @@
 import { PixButton, PixButtonLink, PixNotificationAlert, PixStars } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
+import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -113,6 +114,19 @@ export default class EvaluationResultsHero extends Component {
     this.pixMetrics.trackEvent('CampaignResultSignUpFromAnonymousUserClick');
   }
 
+  @action
+  handleStageMessageClick(event) {
+    const link = event.target.closest('a');
+    if (!link) return;
+
+    this.pixMetrics.trackEvent('Fin de parcours - Clic sur un lien du message de palier', {
+      url: link.getAttribute('href'),
+      campaignId: this.args.campaign.id,
+      reachedStage: this.args.campaignParticipationResult.reachedStage.reachedStage,
+      totalStage: this.args.campaignParticipationResult.reachedStage.totalStage,
+    });
+  }
+
   <template>
     <div class="evaluation-results-hero">
       <div class="evaluation-results-hero__results">
@@ -153,7 +167,8 @@ export default class EvaluationResultsHero extends Component {
         </h2>
 
         {{#if @campaignParticipationResult.hasReachedStage}}
-          <div class="evaluation-results-hero-details__stage-message">
+          {{! template-lint-disable no-invalid-interactive }}
+          <div class="evaluation-results-hero-details__stage-message" {{on "click" this.handleStageMessageClick}}>
             <MarkdownToHtml @isInline={{true}} @markdown={{@campaignParticipationResult.reachedStage.title}} />
             <MarkdownToHtml @isInline={{true}} @markdown={{@campaignParticipationResult.reachedStage.message}} />
           </div>
