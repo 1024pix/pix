@@ -723,6 +723,30 @@ describe('Integration | Domain | Services | Algorithm-methods | SmartRandom', fu
       });
     });
 
+    context('when the hardest skill of a tube has no challenge', function () {
+      it('should ignore that skill when deciding whether the tube is an easy one', function () {
+        // given
+        // web5 has no challenge: the web tube only counts web2, so it stays an easy tube (max level 3)
+        // and its default level skill web2 is preferred over url3
+        targetSkills = [web2, web5, url3];
+        challenges = [challengeWeb_2, challengeUrl_3];
+        knowledgeElements = [];
+
+        // when
+        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+          targetSkills,
+          challenges,
+          knowledgeElements,
+          lastAnswer,
+          allAnswers,
+          locale,
+        });
+
+        // then
+        expect(possibleSkillsForNextChallenge).to.deep.equal([web2]);
+      });
+    });
+
     context('when one challenge has already been answered but its learning content has been updated', function () {
       it('should not be asked again and ask another challenge from same skill', function () {
         // given

@@ -39,5 +39,20 @@ describe('Integration | Domain | Services | TubeService', function () {
       // then
       expect(actualTubes).to.deep.equal(expectedTubes);
     });
+
+    it('should keep the first skill when two skills of a tube share the same name', function () {
+      // given
+      const web2 = new Skill({ id: 'recWeb2', name: '@web2', difficulty: 2 });
+      const web2v2 = new Skill({ id: 'recWeb2v2', name: '@web2', difficulty: 2 });
+      const web1 = new Skill({ id: 'recWeb1', name: '@web1', difficulty: 1 });
+      const listSkills = [web2, web2v2, web1];
+      const expectedTubes = [new Tube({ skills: [web1, web2] })];
+
+      // when
+      const actualTubes = computeTubesFromSkills(listSkills);
+
+      // then
+      expect(actualTubes).to.deep.equal(expectedTubes);
+    });
   });
 });
