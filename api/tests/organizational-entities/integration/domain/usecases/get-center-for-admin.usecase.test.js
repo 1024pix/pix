@@ -42,10 +42,8 @@ describe('Integration | UseCases | get-center-for-admin', function () {
   it('should get the certification center category label when linked to a structure', async function () {
     // given
     const certificationCenterId = 1234;
-    databaseBuilder.factory.buildCertificationCenter({ id: certificationCenterId });
     const category = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' });
-    const structure = databaseBuilder.factory.buildStructure({ categoryId: category.id });
-    databaseBuilder.factory.buildFactStructure({ structureId: structure.id, certificationCenterId });
+    databaseBuilder.factory.buildCertificationCenter({ id: certificationCenterId, categoryId: category.id });
 
     await databaseBuilder.commit();
 

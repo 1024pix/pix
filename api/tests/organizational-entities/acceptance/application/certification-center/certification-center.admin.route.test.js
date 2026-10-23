@@ -245,9 +245,11 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
     let expectedCertificationCenter;
 
     beforeEach(async function () {
+      const category = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' });
       expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter({
         id: 1234,
         createdAt: new Date('2020-01-01'),
+        categoryId: category.id,
       });
       databaseBuilder.factory.buildComplementaryCertification({
         id: 4567,
@@ -257,12 +259,6 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId: 1234,
         complementaryCertificationId: 4567,
-      });
-      const category = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' });
-      const structure = databaseBuilder.factory.buildStructure({ categoryId: category.id });
-      databaseBuilder.factory.buildFactStructure({
-        structureId: structure.id,
-        certificationCenterId: 1234,
       });
       databaseBuilder.factory.buildCertificationCenter({});
       await databaseBuilder.commit();
@@ -586,9 +582,9 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
       // given
       const server = await getServer();
 
-      const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-      databaseBuilder.factory.buildOrganizationWithStructure({
-        certificationCenterId: certificationCenter.id,
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+      const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
+        organizationId: organization.id,
       });
       await databaseBuilder.commit();
 

@@ -1,5 +1,9 @@
 import { databaseBuffer } from '../database-buffer.js';
-import { buildFactStructure } from './build-fact-structure.js';
+import {
+  attachCertificationCenterToOrganizationStructure,
+  buildFactStructure,
+  findFactStructureByCertificationCenterId,
+} from './build-fact-structure.js';
 import { buildStructure } from './build-structure.js';
 
 const buildCertificationCenter = function ({
@@ -13,6 +17,10 @@ const buildCertificationCenter = function ({
   isScoBlockedAccessWhitelist = false,
   archivedAt = null,
   archivedBy = null,
+  structureId = null,
+  categoryId = null,
+  organizationId = null,
+  withoutStructure = false,
 } = {}) {
   const values = {
     id,
@@ -26,10 +34,18 @@ const buildCertificationCenter = function ({
     archivedAt,
     archivedBy,
   };
-  return databaseBuffer.pushInsertable({
+  const certificationCenter = databaseBuffer.pushInsertable({
     tableName: 'certification-centers',
     values,
   });
+
+  if (organizationId) {
+    attachCertificationCenterToOrganizationStructure({ organizationId, certificationCenterId: id });
+  } else if (!withoutStructure) {
+    buildFactStructure({ structureId: structureId ?? buildStructure({ categoryId }).id, certificationCenterId: id });
+  }
+
+  return certificationCenter;
 };
 
 /**
@@ -46,9 +62,14 @@ const buildCertificationCenterWithStructure = function ({
   organizationId,
   categoryId = null,
 } = {}) {
-  const certificationCenter = buildCertificationCenter(certificationCenterData);
+  if (organizationId) {
+    const certificationCenter = buildCertificationCenter({ ...certificationCenterData, organizationId });
+    const { structure_id: structureId } = findFactStructureByCertificationCenterId(certificationCenter.id);
+    return { certificationCenter, structure: { id: structureId } };
+  }
+
   const structure = buildStructure({ categoryId });
-  buildFactStructure({ structureId: structure.id, organizationId, certificationCenterId: certificationCenter.id });
+  const certificationCenter = buildCertificationCenter({ ...certificationCenterData, structureId: structure.id });
   return { certificationCenter, structure };
 };
 

@@ -299,9 +299,8 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
     it('does not reset the category of the organization', async function () {
       // given
       const structureCategory = databaseBuilder.factory.buildStructureCategory({ label: 'Catégorie initiale' });
-      const organization = databaseBuilder.factory.buildOrganization();
       const structure = databaseBuilder.factory.buildStructure({ categoryId: structureCategory.id });
-      databaseBuilder.factory.buildFactStructure({ structureId: structure.id, organizationId: organization.id });
+      const organization = databaseBuilder.factory.buildOrganization({ structureId: structure.id });
 
       await databaseBuilder.commit();
 

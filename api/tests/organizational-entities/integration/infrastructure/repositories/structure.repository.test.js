@@ -9,12 +9,13 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
     describe('when organization has a structure', function () {
       it('returns the structure', async function () {
         // given
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         const categoryId = databaseBuilder.factory.buildStructureCategory().id;
         const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure({
-          certificationCenterId,
           categoryId,
         });
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          organizationId: organization.id,
+        }).id;
 
         await databaseBuilder.commit();
 
@@ -36,7 +37,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
     describe('when organization has no structure', function () {
       it('returns null', async function () {
         // given
-        const organization = databaseBuilder.factory.buildOrganization();
+        const organization = databaseBuilder.factory.buildOrganization({ withoutStructure: true });
         await databaseBuilder.commit();
 
         // when
@@ -78,7 +79,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
     describe('when certification center has no structure', function () {
       it('returns null', async function () {
         // given
-        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ withoutStructure: true });
         await databaseBuilder.commit();
 
         // when
@@ -129,8 +130,10 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
     context('when the structure has an id', function () {
       it('updates the organization and certification center of the structure and returns it', async function () {
         // given
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-        const newOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          withoutStructure: true,
+        }).id;
+        const newOrganizationId = databaseBuilder.factory.buildOrganization({ withoutStructure: true }).id;
         const { structure } = databaseBuilder.factory.buildOrganizationWithStructure();
         const { organization: otherOrganization } = databaseBuilder.factory.buildOrganizationWithStructure();
         await databaseBuilder.commit();
@@ -192,7 +195,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
     context('when the structure has no id', function () {
       it('creates the structure', async function () {
         // given
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ withoutStructure: true }).id;
         const categoryId = databaseBuilder.factory.buildStructureCategory().id;
         await databaseBuilder.commit();
 

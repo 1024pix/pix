@@ -14,14 +14,12 @@ describe('Integration | Organizational Entities | Domain | UseCase | attach-cert
         const certificationCenterCategoryId = databaseBuilder.factory.buildStructureCategory({
           label: 'CDC category',
         }).id;
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         const certificationCenterStructureId = databaseBuilder.factory.buildStructure({
           categoryId: certificationCenterCategoryId,
         }).id;
-        databaseBuilder.factory.buildFactStructure({
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
           structureId: certificationCenterStructureId,
-          certificationCenterId,
-        });
+        }).id;
         const { organization, structure: organizationStructure } =
           databaseBuilder.factory.buildOrganizationWithStructure({ categoryId: organizationCategoryId });
 
@@ -97,10 +95,10 @@ describe('Integration | Organizational Entities | Domain | UseCase | attach-cert
     context('when organization is already attached to another certification center', function () {
       it('throws an UnableToAttachCertificationCenterToOrganization error', async function () {
         // given
-        const alreadyAttachedCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-        const { organization: alreadyAttachedOrganization } = databaseBuilder.factory.buildOrganizationWithStructure({
-          certificationCenterId: alreadyAttachedCertificationCenterId,
-        });
+        const { organization: alreadyAttachedOrganization } = databaseBuilder.factory.buildOrganizationWithStructure();
+        const alreadyAttachedCertificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          organizationId: alreadyAttachedOrganization.id,
+        }).id;
 
         const { certificationCenter: certificationCenterToAttach } =
           databaseBuilder.factory.buildCertificationCenterWithStructure();
@@ -124,10 +122,10 @@ describe('Integration | Organizational Entities | Domain | UseCase | attach-cert
     context('when certification-center is already attached to another organization', function () {
       it('throws an UnableToAttachCertificationCenterToOrganization error', async function () {
         // given
-        const alreadyAttachedCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-        const { organization: alreadyAttachedOrganization } = databaseBuilder.factory.buildOrganizationWithStructure({
-          certificationCenterId: alreadyAttachedCertificationCenterId,
-        });
+        const { organization: alreadyAttachedOrganization } = databaseBuilder.factory.buildOrganizationWithStructure();
+        const alreadyAttachedCertificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          organizationId: alreadyAttachedOrganization.id,
+        }).id;
 
         const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
 
