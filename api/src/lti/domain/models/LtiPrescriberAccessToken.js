@@ -97,6 +97,10 @@ export class LtiPrescriberAccessToken {
     });
   }
 
+  static get cookieName() {
+    return COOKIE_NAME;
+  }
+
   /**
    * @deprecated
    */
