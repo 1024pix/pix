@@ -1,9 +1,14 @@
+import { setTimeout } from 'node:timers/promises';
+
 import { config } from '../../../config/config.js';
 import * as networkAPI from '../../organizational-entities/application/api/network-api.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
 import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.js';
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
 import { usecases } from '../learner-management/domain/usecases/index.js';
+
+const DEFAULT_BATCH_SIZE = 1000;
+const DEFAULT_THROTTLE_DELAY = 300;
 
 export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWithJob {
   constructor() {
@@ -28,6 +33,16 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
           describe: 'Delete learners if last activity is older than this date',
           demandOption: true,
         },
+        batchSize: {
+          type: 'number',
+          describe: 'Size of the batch to process',
+          default: DEFAULT_BATCH_SIZE,
+        },
+        throttleDelay: {
+          type: 'number',
+          describe: 'Delay between batches in milliseconds',
+          default: DEFAULT_THROTTLE_DELAY,
+        },
       },
     });
   }
@@ -35,7 +50,8 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
   async handle({ options, logger, jobClient }) {
     const engineeringUserId = config.infra.engineeringUserId;
     const lastActivityDate = new Date(options.lastActivityDate);
-    const networkId = options.networkId;
+    const { networkId, batchSize, throttleDelay } = options;
+
     if (isNaN(lastActivityDate)) throw new Error('invalid lastActivityDate');
 
     const organizations = await networkAPI.findNetworkOrganizations({ networkId });
@@ -46,43 +62,60 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
     logger.info(`Delete inactive learners since ${options.lastActivityDate} from network ${networkId}`);
 
     for (const { organizationId } of organizations) {
-      await DomainTransaction.execute(async () => {
+      let batchNumber = 0;
+      let inactiveLearnersCount = 0;
+
+      while (true) {
+        // once deleted, learners are not in this request results anymore, so no offset is needed
         const inactiveLearnerIds = await this.findInactiveLearnerIdsSinceDate({
           organizationId,
           lastActivityDate,
+          limit: batchSize,
         });
+        if (inactiveLearnerIds.length === 0) break;
+
+        logger.info(`Batch #${++batchNumber}: ${inactiveLearnerIds.length} inactive learners`);
 
         const learnersWithCombinedCourseParticipation = await this.findLearnersWithCombinedCourseParticipation({
-          organizationId,
+          organizationLearnerIds: inactiveLearnerIds,
         });
 
         const organizationLearnerIdsToDelete = inactiveLearnerIds.filter(
           (id) => !learnersWithCombinedCourseParticipation.includes(id),
         );
 
-        logger.info(`Deleting ${organizationLearnerIdsToDelete.length} learners from organization ${organizationId}`);
+        inactiveLearnersCount += organizationLearnerIdsToDelete.length;
 
-        await usecases.deleteOrganizationLearners({
-          organizationLearnerIds: organizationLearnerIdsToDelete,
-          userId: engineeringUserId,
-          organizationId,
-          userRole: 'SUPER_ADMIN',
-          client: 'SCRIPT',
-          disableAuditLogger: options.dryRun,
+        await DomainTransaction.execute(async () => {
+          await usecases.deleteOrganizationLearners({
+            organizationLearnerIds: organizationLearnerIdsToDelete,
+            userId: engineeringUserId,
+            organizationId,
+            userRole: 'SUPER_ADMIN',
+            client: 'SCRIPT',
+            disableAuditLogger: options.dryRun,
+          });
+
+          if (options.dryRun) {
+            const knexConn = DomainTransaction.getConnection();
+            await knexConn.rollback();
+          }
         });
 
-        if (options.dryRun) {
-          const knexConn = DomainTransaction.getConnection();
-          await knexConn.rollback();
-          logger.info('ROLLBACK: no changes were persisted (dry run)');
-          logger.info('remove --dryRun to persist changes');
-          return;
-        }
-      });
+        await setTimeout(throttleDelay);
+      }
+
+      logger.info(
+        `${inactiveLearnersCount} inactive learners ${options.dryRun ? 'to delete' : 'deleted'} from organization ${organizationId}`,
+      );
+    }
+    if (options.dryRun) {
+      logger.info('ROLLBACK: no changes were persisted (dry run)');
+      logger.info('remove --dryRun to persist changes');
     }
   }
 
-  async findInactiveLearnerIdsSinceDate({ organizationId, lastActivityDate }) {
+  async findInactiveLearnerIdsSinceDate({ organizationId, lastActivityDate, limit }) {
     const knexConn = DomainTransaction.getConnection();
     return await knexConn
       .with('organizationLearnersWithLastParticipationDate', (qb) => {
@@ -104,10 +137,11 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
       .where('lastParticipationDate', '<', lastActivityDate)
       .orWhereNull('lastParticipationDate')
       .orderBy('id', 'asc')
+      .limit(limit)
       .pluck('id');
   }
 
-  async findLearnersWithCombinedCourseParticipation({ organizationId }) {
+  async findLearnersWithCombinedCourseParticipation({ organizationLearnerIds }) {
     const knexConn = DomainTransaction.getConnection();
     return await knexConn('organization_learner_participations')
       .join(
@@ -116,7 +150,7 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
         'view-active-organization-learners.id',
       )
       .where('type', 'COMBINED_COURSE')
-      .where('organizationId', organizationId)
+      .whereIn('view-active-organization-learners.id', organizationLearnerIds)
       .pluck('organizationLearnerId');
   }
 }

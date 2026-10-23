@@ -7,22 +7,38 @@ import { OrganizationLearnerParticipationStatuses } from '../../../../src/quest/
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { catchErr } from '../../../tooling/test-utils/error.js';
 
+const DEFAULT_BATCH_SIZE = 1000;
+
 describe('Script | Prod | Delete Inactive Learners Since Date From Network', function () {
   describe('Options', function () {
     it('has the correct options', function () {
       const script = new DeleteInactiveLearnersSinceDateFromNetworkScript();
       const { options } = script.metaInfo;
 
+      expect(options.dryRun).to.deep.include({
+        type: 'boolean',
+        describe: 'Run the script without making any database changes',
+        default: true,
+      });
       expect(options.networkId).to.deep.include({
         type: 'number',
         describe: 'an id from a single network',
         demandOption: true,
       });
-
       expect(options.lastActivityDate).to.deep.include({
         type: 'string',
         describe: 'Delete learners if last activity is older than this date',
         demandOption: true,
+      });
+      expect(options.batchSize).to.deep.include({
+        type: 'number',
+        describe: 'Size of the batch to process',
+        default: 1000,
+      });
+      expect(options.throttleDelay).to.deep.include({
+        type: 'number',
+        describe: 'Delay between batches in milliseconds',
+        default: 300,
       });
     });
   });
@@ -39,7 +55,12 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
 
     describe('when dryRun is false', function () {
       it('throws if lastActivityDate is invalid', async function () {
-        const options = { networkId: 1, lastActivityDate: 'champignon' };
+        const options = {
+          networkId: 1,
+          lastActivityDate: 'champignon',
+          batchSize: DEFAULT_BATCH_SIZE,
+          throttleDelay: 0,
+        };
         const error = await catchErr(script.handle, script)({ options, logger });
 
         expect(error).ok;
@@ -47,7 +68,12 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
       });
 
       it('throws if network has no organization', async function () {
-        const options = { networkId: 1, lastActivityDate: '2023-10-02' };
+        const options = {
+          networkId: 1,
+          lastActivityDate: '2023-10-02',
+          batchSize: DEFAULT_BATCH_SIZE,
+          throttleDelay: 0,
+        };
         const error = await catchErr(script.handle, script)({ options, logger });
 
         expect(error).ok;
@@ -110,7 +136,12 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         await databaseBuilder.commit();
 
         // when
-        const options = { networkId: network.id, lastActivityDate };
+        const options = {
+          networkId: network.id,
+          lastActivityDate,
+          batchSize: DEFAULT_BATCH_SIZE,
+          throttleDelay: 0,
+        };
         await script.handle({ options, logger });
 
         // then
@@ -124,7 +155,7 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
             `Delete inactive learners since ${options.lastActivityDate} from network ${options.networkId}`,
           ),
         ).true;
-        expect(logger.info.calledWithExactly(`Deleting 2 learners from organization ${organization.id}`)).true;
+        expect(logger.info).to.be.calledWithExactly(`2 inactive learners deleted from organization ${organization.id}`);
         expect(learnersInDatabase).lengthOf(4);
         expect(deletedLearnersInDatabase).lengthOf(2);
         expect(deletedLearnersInDatabase[0].id).deep.equal(inactiveLearner1.id);
@@ -167,7 +198,12 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         await databaseBuilder.commit();
 
         // when
-        const options = { networkId: network1.id, lastActivityDate };
+        const options = {
+          networkId: network1.id,
+          lastActivityDate,
+          batchSize: DEFAULT_BATCH_SIZE,
+          throttleDelay: 0,
+        };
         await script.handle({ options, logger });
 
         // then
@@ -211,7 +247,12 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         await databaseBuilder.commit();
 
         // when
-        const options = { networkId: network.id, lastActivityDate };
+        const options = {
+          networkId: network.id,
+          lastActivityDate,
+          batchSize: DEFAULT_BATCH_SIZE,
+          throttleDelay: 0,
+        };
         await script.handle({ options, logger });
 
         // then
@@ -254,7 +295,12 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         await databaseBuilder.commit();
 
         // when
-        const options = { networkId: network.id, lastActivityDate };
+        const options = {
+          networkId: network.id,
+          lastActivityDate,
+          batchSize: DEFAULT_BATCH_SIZE,
+          throttleDelay: 0,
+        };
         await script.handle({ options, logger });
 
         // then
@@ -272,6 +318,54 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
 
         expect(deletedLearnersInDatabase[1].id).to.deep.equal(inactiveLearnerWithParticipation.id);
         expect(deletedParticipationsInDatabase[1].id).to.deep.equal(inactiveParticipation.id);
+      });
+
+      it('deletes inactive learners of network in batch', async function () {
+        // given
+        const lastActivityDate = '2021-01-01';
+
+        const { network, organization } = await databaseBuilder.factory.buildNetworkAndHeadOrganization();
+
+        const inactiveLearner1 = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          updatedAt: new Date('2020-01-01'),
+          firstName: 'Jean-Mi',
+          lastName: 'Handriquesse',
+          birthdate: new Date('1942-11-27'),
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId: inactiveLearner1.id,
+          user: inactiveLearner1.userId,
+          createdAt: new Date('2020-01-01'),
+        });
+
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          updatedAt: new Date('2020-01-01'),
+        });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          updatedAt: new Date('2020-01-01'),
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const options = {
+          networkId: network.id,
+          lastActivityDate,
+          batchSize: 2,
+          throttleDelay: 0,
+        };
+        await script.handle({ options, logger });
+
+        // then
+        const loggerCalls = logger.info.getCalls();
+        expect(loggerCalls[1].args[0]).to.deep.equal(`Batch #1: 2 inactive learners`);
+        expect(loggerCalls[2].args[0]).to.deep.equal(`Batch #2: 1 inactive learners`);
+        expect(loggerCalls[3].args[0]).to.deep.equal(
+          `3 inactive learners deleted from organization ${organization.id}`,
+        );
       });
     });
 
@@ -295,7 +389,13 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         await databaseBuilder.commit();
 
         // when
-        const options = { networkId: network.id, lastActivityDate, dryRun: true };
+        const options = {
+          networkId: network.id,
+          lastActivityDate,
+          batchSize: DEFAULT_BATCH_SIZE,
+          throttleDelay: 0,
+          dryRun: true,
+        };
         await script.handle({ options, logger });
 
         // then
@@ -304,6 +404,10 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         const participationsInDatabase = await knex('campaign-participations');
         const deletedParticipationsInDatabase = await knex('campaign-participations').whereNotNull('deletedAt');
 
+        expect(logger.info).to.be.calledWithExactly(`ROLLBACK: no changes were persisted (dry run)`);
+        expect(logger.info).to.be.calledWithExactly(
+          `1 inactive learners to delete from organization ${organization.id}`,
+        );
         expect(learnersInDatabase).lengthOf(1);
         expect(deletedLearnersInDatabase).lengthOf(0);
         expect(participationsInDatabase).lengthOf(1);
@@ -504,6 +608,58 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         });
       });
     });
+
+    context('when using a batch argument', function () {
+      it('returns learners in batches', async function () {
+        // given
+        const lastActivityDate = new Date('2021-01-01');
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const batchSize = 1;
+
+        const inactiveLearner1 = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          updatedAt: new Date('2020-01-01'),
+        });
+        const inactiveLearner2 = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          updatedAt: new Date('2020-06-06'),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const learnersBatch1 = await script.findInactiveLearnerIdsSinceDate({
+          organizationId,
+          lastActivityDate,
+          batchSize,
+          offset: 0,
+        });
+
+        // then
+        expect(learnersBatch1).lengthOf(1);
+        expect(learnersBatch1[0]).to.deep.equal(inactiveLearner1.id);
+
+        // rewhen
+        const learnersBatch2 = await script.findInactiveLearnerIdsSinceDate({
+          organizationId,
+          lastActivityDate,
+          batchSize,
+          offset: 0 + batchSize,
+        });
+        // rethen
+        expect(learnersBatch2).lengthOf(1);
+        expect(learnersBatch2[0]).to.deep.equal(inactiveLearner2.id);
+
+        // rewhen
+        const learnersBatch3 = await script.findInactiveLearnerIdsSinceDate({
+          organizationId,
+          lastActivityDate,
+          batchSize,
+          offset: 0 + batchSize + batchSize,
+        });
+        // rethen
+        expect(learnersBatch3).lengthOf(0);
+      });
+    });
   });
 
   describe('#findLearnersWithCombinedCourseParticipation', function () {
@@ -521,13 +677,6 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         code: 'COMBINIX1',
       });
 
-      const anotherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-      const { id: anotherCombinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
-        organizationId: anotherOrganizationId,
-        code: 'COMBINIX2',
-      });
-
-      // learner with combined course participation
       const learnerWithCombinedCourseParticipation = databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
       });
@@ -537,26 +686,18 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         status: OrganizationLearnerParticipationStatuses.STARTED,
       });
 
-      // learner without combined course participation
-      databaseBuilder.factory.buildOrganizationLearner({
+      const learnerWithoutCombinedCourseParticipation = databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
-      }).id;
-
-      // learner from another organization
-      const learnerFromAnotherOrganization = databaseBuilder.factory.buildOrganizationLearner({
-        organizationId: anotherOrganizationId,
-      });
-      databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
-        combinedCourseId: anotherCombinedCourseId,
-        organizationLearnerId: learnerFromAnotherOrganization.id,
-        status: OrganizationLearnerParticipationStatuses.STARTED,
       });
 
       await databaseBuilder.commit();
 
       // when
       const learnerIds = await script.findLearnersWithCombinedCourseParticipation({
-        organizationId,
+        organizationLearnerIds: [
+          learnerWithoutCombinedCourseParticipation.id,
+          learnerWithCombinedCourseParticipation.id,
+        ],
       });
 
       // then
