@@ -287,50 +287,24 @@ d'une autre certification avec les siennes.
 
 **À savoir.** La base de données crée l'`id` à l'enregistrement, donc une Entity neuve n'en a pas
 encore. Le type le dit : `CertificationCourse<null>` pour une certification neuve,
-`CertificationCourse` pour une certification enregistrée.
+`CertificationCourse` pour une certification enregistrée. Chaque usecase dit ainsi quelle forme il
+attend :
 
 ```ts
-interface CertificationCourseRepository {
-  add({ certificationCourse }: { certificationCourse: CertificationCourse<null> }): Promise<CertificationCourse>; // la base crée l'id
-  get({ id }: { id: number }): Promise<CertificationCourse>;
-  update({ certificationCourse }: { certificationCourse: CertificationCourse }): Promise<void>;
-}
-```
-
-Chaque usecase dit quelle forme il attend :
-
-```ts
-// usecases raccourcis : la transaction est montrée dans la fiche usecase
-
-// création : le usecase crée une certification neuve
-const startCertification = async ({
-  userId,
-  certificationCourseRepository,
-}: {
-  userId: number;
-  certificationCourseRepository: CertificationCourseRepository;
-}): Promise<CertificationCourse> => {
-  const certificationCourse = CertificationCourse.start({ userId });
-  return certificationCourseRepository.add({ certificationCourse });
+// création : le usecase reçoit une certification neuve, qui n'a pas encore d'id
+const startCertification = async ({ certificationCourse }: { certificationCourse: CertificationCourse<null> }) => {
+  …
 };
 
-// modification : le usecase reçoit l'id, charge l'Entity puis appelle sa méthode
-const endCertificationDueToFinalization = async ({
-  certificationCourseId,
-  certificationCourseRepository,
-}: {
-  certificationCourseId: number;
-  certificationCourseRepository: CertificationCourseRepository;
-}): Promise<CertificationCourse> => {
-  const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
-  if (certificationCourse.isInProgress) certificationCourse.endDueToFinalization();
-  await certificationCourseRepository.update({ certificationCourse });
-  return certificationCourse;
+// modification : le usecase reçoit une certification enregistrée, qui a toujours un id
+const endCertificationDueToFinalization = async ({ certificationCourse }: { certificationCourse: CertificationCourse }) => {
+  …
 };
 ```
 
-Le compilateur vérifie que `add()` ne reçoit pas une certification déjà enregistrée, et que `update()`
-ne reçoit pas une certification neuve. Une `CertificationCourse`, sans `<null>`, a toujours un `id`.
+Le compilateur refuse de passer une certification neuve à un usecase qui a besoin de son `id`. Qui
+enregistre la certification dépend de l'objet qui la contient : voir la fiche
+[Aggregate Root](../aggregate-root/README.md).
 
 ### E2. Comparer par identifiant
 
@@ -448,7 +422,7 @@ repository. L'Entity n'a pas de méthode que seul le repository utilise, comme `
 **Exemple de code correct.**
 
 ```ts
-// certification/session-management/infrastructure/repositories/certification-course-repository.ts
+// certification/session-management/infrastructure/repositories/session-repository.ts
 const toCertificationCourseRow = (certificationCourse: CertificationCourse) => ({
   id: certificationCourse.id,
   abortReason: certificationCourse.abortReason,
