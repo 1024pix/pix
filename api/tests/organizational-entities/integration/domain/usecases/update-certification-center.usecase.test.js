@@ -5,14 +5,7 @@ import {
   StructureNotFoundError,
 } from '../../../../../src/organizational-entities/domain/errors.js';
 import { CenterForAdmin } from '../../../../../src/organizational-entities/domain/models/CenterForAdmin.js';
-import * as organizationVerificationService from '../../../../../src/organizational-entities/domain/services/organization-verification.service.js';
-import { updateCertificationCenter } from '../../../../../src/organizational-entities/domain/usecases/update-certification-center.usecase.js';
-import * as certificationCenterRepository from '../../../../../src/organizational-entities/infrastructure/repositories/certification-center.repository.js';
-import * as certificationCenterForAdminRepository from '../../../../../src/organizational-entities/infrastructure/repositories/certification-center-for-admin.repository.js';
-import * as complementaryCertificationHabilitationRepository from '../../../../../src/organizational-entities/infrastructure/repositories/complementary-certification-habilitation.repository.js';
-import * as dataProtectionOfficerRepository from '../../../../../src/organizational-entities/infrastructure/repositories/data-protection-officer.repository.js';
-import * as structureRepository from '../../../../../src/organizational-entities/infrastructure/repositories/structure.repository.js';
-import * as structureCategoryRepository from '../../../../../src/organizational-entities/infrastructure/repositories/structure-category-repository.js';
+import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
@@ -47,17 +40,10 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-cer
     await databaseBuilder.commit();
 
     // when
-    const updatedCertificationCenter = await updateCertificationCenter({
+    const updatedCertificationCenter = await usecases.updateCertificationCenter({
       certificationCenterId,
       certificationCenterInformation,
       complementaryCertificationIds,
-      certificationCenterForAdminRepository,
-      complementaryCertificationHabilitationRepository,
-      dataProtectionOfficerRepository,
-      certificationCenterRepository,
-      organizationVerificationService,
-      structureCategoryRepository,
-      structureRepository,
     });
 
     // then
@@ -94,17 +80,10 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-cer
     await databaseBuilder.commit();
 
     // when
-    const updatedCertificationCenter = await updateCertificationCenter({
+    const updatedCertificationCenter = await usecases.updateCertificationCenter({
       certificationCenterId: certificationCenter.id,
       certificationCenterInformation,
       complementaryCertificationIds: [],
-      certificationCenterForAdminRepository,
-      complementaryCertificationHabilitationRepository,
-      dataProtectionOfficerRepository,
-      certificationCenterRepository,
-      organizationVerificationService,
-      structureCategoryRepository,
-      structureRepository,
     });
 
     // then
@@ -129,17 +108,10 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-cer
     await databaseBuilder.commit();
 
     // when
-    const error = await catchErr(updateCertificationCenter)({
+    const error = await catchErr(usecases.updateCertificationCenter)({
       certificationCenterId: certificationCenter.id,
       certificationCenterInformation,
       complementaryCertificationIds: [],
-      certificationCenterForAdminRepository,
-      complementaryCertificationHabilitationRepository,
-      dataProtectionOfficerRepository,
-      certificationCenterRepository,
-      organizationVerificationService,
-      structureCategoryRepository,
-      structureRepository,
     });
 
     // then
@@ -156,17 +128,10 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-cer
     await databaseBuilder.commit();
 
     // when
-    const error = await catchErr(updateCertificationCenter)({
+    const error = await catchErr(usecases.updateCertificationCenter)({
       certificationCenterId: certificationCenter.id,
       certificationCenterInformation,
       complementaryCertificationIds: [],
-      certificationCenterForAdminRepository,
-      complementaryCertificationHabilitationRepository,
-      dataProtectionOfficerRepository,
-      certificationCenterRepository,
-      organizationVerificationService,
-      structureCategoryRepository,
-      structureRepository,
     });
 
     // then
@@ -185,17 +150,10 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-cer
     await databaseBuilder.commit();
 
     // when
-    await updateCertificationCenter({
+    await usecases.updateCertificationCenter({
       certificationCenterId: certificationCenter.id,
       certificationCenterInformation,
       complementaryCertificationIds: [],
-      certificationCenterForAdminRepository,
-      complementaryCertificationHabilitationRepository,
-      dataProtectionOfficerRepository,
-      certificationCenterRepository,
-      organizationVerificationService,
-      structureCategoryRepository,
-      structureRepository,
     });
 
     // then
@@ -215,17 +173,10 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-cer
     await databaseBuilder.commit();
 
     // when
-    await updateCertificationCenter({
+    await usecases.updateCertificationCenter({
       certificationCenterId: certificationCenter.id,
       certificationCenterInformation,
       complementaryCertificationIds: [],
-      certificationCenterForAdminRepository,
-      complementaryCertificationHabilitationRepository,
-      dataProtectionOfficerRepository,
-      certificationCenterRepository,
-      organizationVerificationService,
-      structureCategoryRepository,
-      structureRepository,
     });
 
     // then
