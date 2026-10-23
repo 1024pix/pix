@@ -245,31 +245,50 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
     });
   });
 
-  describe('#findOrganizationIdsByNetworkId', function () {
+  describe('#findOrganizationsByNetworkId', function () {
     describe('when the network has organizations', function () {
-      it('returns the ids of every organization of the network, whatever their level', async function () {
+      it('returns the id and the external id of every organization of the network, whatever their level', async function () {
         // given
         const { network, structure: headStructure } = databaseBuilder.factory.buildNetworkAndHeadOrganization({
-          headOrganization: { id: 100 },
+          headOrganization: { id: 100, externalId: 'HEAD' },
         });
         databaseBuilder.factory.buildOrganizationInNetwork({
           networkId: network.id,
           parentStructureId: headStructure.id,
-          organizationData: { id: 300 },
+          organizationData: { id: 300, externalId: 'CHILD_B' },
         });
         databaseBuilder.factory.buildOrganizationInNetwork({
           networkId: network.id,
           parentStructureId: headStructure.id,
-          organizationData: { id: 200 },
+          organizationData: { id: 200, externalId: 'CHILD_A' },
         });
 
         await databaseBuilder.commit();
 
         // when
-        const organizationIds = await networkRepository.findOrganizationIdsByNetworkId({ networkId: network.id });
+        const organizations = await networkRepository.findOrganizationsByNetworkId({ networkId: network.id });
 
         // then
-        expect(organizationIds).to.deep.equal([100, 200, 300]);
+        expect(organizations).to.deep.equal([
+          { organizationId: 100, externalId: 'HEAD' },
+          { organizationId: 200, externalId: 'CHILD_A' },
+          { organizationId: 300, externalId: 'CHILD_B' },
+        ]);
+      });
+
+      it('returns a null external id when the organization has none', async function () {
+        // given
+        const { network } = databaseBuilder.factory.buildNetworkAndHeadOrganization({
+          headOrganization: { id: 100, externalId: null },
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const organizations = await networkRepository.findOrganizationsByNetworkId({ networkId: network.id });
+
+        // then
+        expect(organizations).to.deep.equal([{ organizationId: 100, externalId: null }]);
       });
 
       it('does not return organizations of another network', async function () {
@@ -280,10 +299,10 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
         await databaseBuilder.commit();
 
         // when
-        const organizationIds = await networkRepository.findOrganizationIdsByNetworkId({ networkId: network.id });
+        const organizations = await networkRepository.findOrganizationsByNetworkId({ networkId: network.id });
 
         // then
-        expect(organizationIds).to.deep.equal([organization.id]);
+        expect(organizations).to.deep.equal([{ organizationId: organization.id, externalId: organization.externalId }]);
       });
 
       it('does not return structures of the network without organization', async function () {
@@ -298,10 +317,10 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
         await databaseBuilder.commit();
 
         // when
-        const organizationIds = await networkRepository.findOrganizationIdsByNetworkId({ networkId: network.id });
+        const organizations = await networkRepository.findOrganizationsByNetworkId({ networkId: network.id });
 
         // then
-        expect(organizationIds).to.deep.equal([organization.id]);
+        expect(organizations).to.deep.equal([{ organizationId: organization.id, externalId: organization.externalId }]);
       });
     });
 
@@ -313,20 +332,20 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
         await databaseBuilder.commit();
 
         // when
-        const organizationIds = await networkRepository.findOrganizationIdsByNetworkId({ networkId: network.id });
+        const organizations = await networkRepository.findOrganizationsByNetworkId({ networkId: network.id });
 
         // then
-        expect(organizationIds).to.be.empty;
+        expect(organizations).to.be.empty;
       });
     });
 
     describe('when the network does not exist', function () {
       it('returns an empty array', async function () {
         // when
-        const organizationIds = await networkRepository.findOrganizationIdsByNetworkId({ networkId: 404 });
+        const organizations = await networkRepository.findOrganizationsByNetworkId({ networkId: 404 });
 
         // then
-        expect(organizationIds).to.be.empty;
+        expect(organizations).to.be.empty;
       });
     });
   });

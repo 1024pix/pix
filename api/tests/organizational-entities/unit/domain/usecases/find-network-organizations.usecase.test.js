@@ -8,31 +8,35 @@ describe('Unit | Organizational Entities | Domain | UseCase | find-network-organ
 
   beforeEach(function () {
     networkRepository = {
-      findOrganizationIdsByNetworkId: sinon.stub(),
+      findOrganizationsByNetworkId: sinon.stub(),
     };
   });
 
-  it('returns the organization ids of the network', async function () {
+  it('returns the organizations of the network', async function () {
     // given
     const networkId = 123;
-    networkRepository.findOrganizationIdsByNetworkId.withArgs({ networkId }).resolves([1, 2, 3]);
+    const organizationsFromRepository = [
+      { organizationId: 1, externalId: 'A' },
+      { organizationId: 2, externalId: null },
+    ];
+    networkRepository.findOrganizationsByNetworkId.withArgs({ networkId }).resolves(organizationsFromRepository);
 
     // when
-    const organizationIds = await findNetworkOrganizations({ networkId, networkRepository });
+    const organizations = await findNetworkOrganizations({ networkId, networkRepository });
 
     // then
-    expect(organizationIds).to.deep.equal([1, 2, 3]);
+    expect(organizations).to.deep.equal(organizationsFromRepository);
   });
 
   it('returns an empty array when the network has no organization', async function () {
     // given
     const networkId = 123;
-    networkRepository.findOrganizationIdsByNetworkId.withArgs({ networkId }).resolves([]);
+    networkRepository.findOrganizationsByNetworkId.withArgs({ networkId }).resolves([]);
 
     // when
-    const organizationIds = await findNetworkOrganizations({ networkId, networkRepository });
+    const organizations = await findNetworkOrganizations({ networkId, networkRepository });
 
     // then
-    expect(organizationIds).to.deep.equal([]);
+    expect(organizations).to.deep.equal([]);
   });
 });

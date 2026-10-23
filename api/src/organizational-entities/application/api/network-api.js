@@ -9,6 +9,7 @@ import { NetworkOrganizationDTO } from './models/NetworkOrganizationDTO.js';
  * @typedef NetworkOrganizationDTO
  * @type {object}
  * @property {number} organizationId
+ * @property {string|null} externalId
  */
 
 /**
@@ -20,7 +21,9 @@ import { NetworkOrganizationDTO } from './models/NetworkOrganizationDTO.js';
  * @returns {Promise<Array<NetworkOrganizationDTO>>} - Organizations belonging to the network, empty when the network has none or does not exist
  */
 export const findNetworkOrganizations = async ({ networkId }) => {
-  const organizationIds = await usecases.findNetworkOrganizations({ networkId });
+  const organizations = await usecases.findNetworkOrganizations({ networkId });
 
-  return organizationIds.map((organizationId) => new NetworkOrganizationDTO({ organizationId }));
+  return organizations.map(
+    ({ organizationId, externalId }) => new NetworkOrganizationDTO({ organizationId, externalId }),
+  );
 };
