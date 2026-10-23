@@ -1,4 +1,5 @@
 import boom from '@hapi/boom';
+import { parseCookie } from 'cookie';
 
 import { logger } from '../../shared/infrastructure/utils/logger.js';
 import { LtiPrescriberAccessToken } from '../domain/models/LtiPrescriberAccessToken.js';
@@ -14,7 +15,7 @@ export function jwtCookieScheme(_, strategyConfiguration) {
 
 function makeAuthenticateJwtCookie({ cookieName, decode, authenticatePayload }) {
   return async function authenticateJwtCookie(request, h) {
-    const cookies = Object.fromEntries(request.headers.cookie?.split('; ').map((cookie) => cookie.split('=')) ?? []); // TODO : use a lib here
+    const cookies = parseCookie(request.headers.cookie);
     if (!cookies[cookieName]) {
       logger.warn({
         message: 'request has no cookie',
@@ -35,7 +36,7 @@ function makeAuthenticateJwtCookie({ cookieName, decode, authenticatePayload }) 
 export const ltiPrescriberStrategyName = 'lti-prescriber';
 
 export const ltiPrescriberStrategyConfiguration = {
-  cookieName: 'jwtLtiPrescriber',
+  cookieName: LtiPrescriberAccessToken.COOKIE_NAME,
   decode: LtiPrescriberAccessToken.decode,
   authenticatePayload: authenticateLtiPrescriberPayload,
 };
