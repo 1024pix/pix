@@ -10,7 +10,7 @@ import {
 
 /**
  * @typedef {import('../../../../../../src/certification/shared/domain/models/Scopes.js').SCOPES} SCOPES
- * @typedef {import('../../../../../../db/database-builder/database-builder.js').databaseBuilder} DatabaseBuilder
+ * @typedef {import('../../../../../../db/database-builder/database-builder.ts').databaseBuilder} DatabaseBuilder
  */
 
 /**

@@ -1,5 +1,5 @@
 import { COUNTRY_FRANCE_CODE } from '../../seeds/data/common/constants.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildAdministrationTeam } from './build-administration-team.js';
 import { buildFactStructure } from './build-fact-structure.js';
 import { buildOrganizationLearnerType } from './build-organization-learner-type.js';

@@ -1,5 +1,5 @@
 import { cryptoService } from '../../../src/shared/domain/services/crypto-service.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 
 const defaultKeyPair = await cryptoService.generateJSONWebKeyPair();
 defaultKeyPair.encryptedPrivateKey = await cryptoService.encrypt(JSON.stringify(defaultKeyPair.privateKey));

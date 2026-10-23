@@ -1,6 +1,6 @@
 import { LegalDocumentService } from '../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentType } from '../../../src/legal-documents/domain/models/LegalDocumentType.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 
 const buildLegalDocumentVersion = function ({
   id = databaseBuffer.getNextId(),

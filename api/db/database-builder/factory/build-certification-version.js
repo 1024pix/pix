@@ -1,5 +1,5 @@
 import { PIX_COUNT_BY_LEVEL } from '../../../src/shared/constants.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 
 export function buildCertificationVersion({
   id = databaseBuffer.getNextId(),

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { KnowledgeElementCollection } from '../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildKnowledgeElement } from './build-knowledge-element.js';
 import { buildUser } from './build-user.js';
 

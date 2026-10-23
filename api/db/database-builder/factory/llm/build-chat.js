@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 
-import { databaseBuffer } from '../../database-buffer.js';
+import { databaseBuffer } from '../../database-buffer.ts';
 
 const TABLE_NAME = 'chats';
 

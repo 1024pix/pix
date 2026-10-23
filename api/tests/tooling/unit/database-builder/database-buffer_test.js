@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { databaseBuffer } from '../../../../db/database-builder/database-buffer.js';
+import { databaseBuffer } from '../../../../db/database-builder/database-buffer.ts';
 
 describe('Unit | Tooling | DatabaseBuilder | database-buffer', function () {
   afterEach(function () {

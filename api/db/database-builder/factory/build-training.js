@@ -1,5 +1,5 @@
 import { Training } from '../../../src/devcomp/domain/models/Training.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 
 /**
  * @typedef {{

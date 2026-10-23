@@ -1,5 +1,5 @@
 import { ATTESTATIONS } from '../../../src/profile/domain/constants.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 
 const buildAttestation = function ({
   id = databaseBuffer.getNextId(),

@@ -1,4 +1,4 @@
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildCertificationVersion } from './build-certification-version.js';
 
 export function buildCertificationVersionTube({ versionId, tubeId } = {}) {
