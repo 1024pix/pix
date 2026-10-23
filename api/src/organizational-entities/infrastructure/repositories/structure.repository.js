@@ -72,6 +72,17 @@ const save = async function (structure) {
   return _toDomain({ ...createdFactStructure, category_id });
 };
 
+/**
+ * @param {object} params
+ * @param {number} params.structureId
+ * @param {number} params.categoryId
+ * @returns {Promise<void>}
+ */
+const updateCategory = async function ({ structureId, categoryId }) {
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('structures').where({ id: structureId }).update({ category_id: categoryId, updated_at: new Date() });
+};
+
 function _selectStructures(knexConn) {
   return knexConn
     .select({
@@ -93,4 +104,4 @@ function _toDomain(structure) {
   });
 }
 
-export { deleteStructure, findByCertificationCenterId, findByOrganizationId, save };
+export { deleteStructure, findByCertificationCenterId, findByOrganizationId, save, updateCategory };

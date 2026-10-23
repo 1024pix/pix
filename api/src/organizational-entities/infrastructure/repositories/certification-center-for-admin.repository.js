@@ -1,7 +1,5 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
-import { logger } from '../../../shared/infrastructure/utils/logger.js';
-import { StructureNotFoundError } from '../../domain/errors.js';
 import { AttachedCertificationCenter } from '../../domain/models/AttachedCertificationCenter.js';
 import { CenterForAdmin } from '../../domain/models/CenterForAdmin.js';
 
@@ -18,7 +16,6 @@ const save = async function (certificationCenter) {
 
 const update = async function (certificationCenter) {
   const knexConn = DomainTransaction.getConnection();
-  await _updateStructureCategory(knexConn, certificationCenter.id, certificationCenter.categoryId);
   return knexConn('certification-centers')
     .update({
       name: certificationCenter.name,
@@ -106,29 +103,4 @@ function _toDomainCenterForAdmin(certificationCenterDTO) {
       updatedAt: certificationCenterDTO.updatedAt,
     },
   });
-}
-
-async function _updateStructureCategory(knexConn, certificationCenterId, categoryId) {
-  if (!categoryId) return;
-
-  const structure = await knexConn('fct_structures')
-    .join('structures', 'structures.id', 'fct_structures.structure_id')
-    .where({ certification_center_id: certificationCenterId })
-    .select({ id: 'structures.id', currentCategoryId: 'structures.category_id' })
-    .first();
-
-  if (!structure) {
-    logger.error({
-      event: 'Not_found_structure',
-      message: `Not found structure for certification center ${certificationCenterId}`,
-    });
-    throw new StructureNotFoundError({
-      message: `Structure not found for certification center ${certificationCenterId}`,
-      meta: { certificationCenterId: certificationCenterId },
-    });
-  }
-
-  if (structure.currentCategoryId === categoryId) return;
-
-  await knexConn('structures').where({ id: structure.id }).update({ category_id: categoryId, updated_at: new Date() });
 }

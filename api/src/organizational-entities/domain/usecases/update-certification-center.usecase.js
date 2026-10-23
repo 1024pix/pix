@@ -3,10 +3,13 @@
  * @typedef {import('./index.js').CertificationCenterForAdminRepository} CertificationCenterForAdminRepository
  * @typedef {import('./index.js').ComplementaryCertificationHabilitationRepository} ComplementaryCertificationHabilitationRepository
  * @typedef {import('./index.js').DataProtectionOfficerRepository} DataProtectionOfficerRepository
+ * @typedef {import('./index.js').OrganizationVerificationService} OrganizationVerificationService
  * @typedef {import('./index.js').StructureCategoryRepository} StructureCategoryRepository
+ * @typedef {import('./index.js').StructureRepository} StructureRepository
  */
 
-import { StructureCategoryNotFound } from '../errors.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import { StructureNotFoundError } from '../errors.js';
 import { ComplementaryCertificationHabilitation } from '../models/ComplementaryCertificationHabilitation.js';
 import { DataProtectionOfficer } from '../models/DataProtectionOfficer.js';
 import { CenterForAdminFactory } from '../models/factories/CenterForAdminFactory.js';
@@ -21,7 +24,9 @@ import * as certificationCenterCreationValidator from '../validators/certificati
  * @param {CertificationCenterForAdminRepository} params.certificationCenterForAdminRepository
  * @param {ComplementaryCertificationHabilitationRepository} params.complementaryCertificationHabilitationRepository
  * @param {DataProtectionOfficerRepository} params.dataProtectionOfficerRepository
+ * @param {OrganizationVerificationService} params.organizationVerificationService
  * @param {StructureCategoryRepository} params.structureCategoryRepository
+ * @param {StructureRepository} params.structureRepository
  */
 const updateCertificationCenter = async function ({
   certificationCenterId,
@@ -31,20 +36,19 @@ const updateCertificationCenter = async function ({
   certificationCenterForAdminRepository,
   complementaryCertificationHabilitationRepository,
   dataProtectionOfficerRepository,
+  organizationVerificationService,
   structureCategoryRepository,
+  structureRepository,
 }) {
   certificationCenterCreationValidator.validate(certificationCenterInformation);
 
-  const { categoryId } = certificationCenterInformation;
-  if (categoryId) {
-    const existingStructureCategory = await structureCategoryRepository.findById(categoryId);
-    if (!existingStructureCategory) {
-      throw new StructureCategoryNotFound({
-        message: `Structure category not found for id ${categoryId}`,
-        meta: { structureCategoryId: categoryId },
-      });
-    }
-  }
+  await _updateStructureCategory({
+    certificationCenterId,
+    categoryId: certificationCenterInformation.categoryId,
+    organizationVerificationService,
+    structureCategoryRepository,
+    structureRepository,
+  });
 
   await _updateCenter({
     certificationCenterId,
@@ -68,6 +72,46 @@ const updateCertificationCenter = async function ({
 };
 
 export { updateCertificationCenter };
+
+/**
+ * @param {Object} params
+ * @param {number} params.certificationCenterId
+ * @param {number} [params.categoryId]
+ * @param {OrganizationVerificationService} params.organizationVerificationService
+ * @param {StructureCategoryRepository} params.structureCategoryRepository
+ * @param {StructureRepository} params.structureRepository
+ */
+const _updateStructureCategory = async ({
+  certificationCenterId,
+  categoryId,
+  organizationVerificationService,
+  structureCategoryRepository,
+  structureRepository,
+}) => {
+  if (!categoryId) return;
+
+  await organizationVerificationService.checkStructureCategoryExists({
+    structureCategoryId: categoryId,
+    structureCategoryRepository,
+  });
+
+  const structure = await structureRepository.findByCertificationCenterId({ certificationCenterId });
+
+  if (!structure) {
+    logger.error({
+      event: 'Not_found_structure',
+      message: `Not found structure for certification center ${certificationCenterId}`,
+    });
+    throw new StructureNotFoundError({
+      message: `Structure not found for certification center ${certificationCenterId}`,
+      meta: { certificationCenterId },
+    });
+  }
+
+  if (structure.categoryId === categoryId) return;
+
+  await structureRepository.updateCategory({ structureId: structure.id, categoryId });
+};
 
 /**
  * @param {Object} params
