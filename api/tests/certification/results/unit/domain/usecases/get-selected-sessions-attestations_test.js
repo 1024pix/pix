@@ -4,8 +4,8 @@ import sinon from 'sinon';
 import { getCertificate } from '../../../../../../src/certification/results/domain/usecases/get-certificate.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
-describe('Unit | UseCase | get-selected-sessions-certificates', function () {
-  it('should return the certificate enhanced with result competence tree', async function () {
+describe('Unit | UseCase | get-selected-sessions-attestations', function () {
+  it('should return the attestation', async function () {
     // given
     const locale = 'fr';
     const certificateRepository = { getCertificate: sinon.stub() };
