@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { CleaSessionPublishedEventHandler } from '../../../../../../src/certification/session-management/application/clea-session-published.event-handler.js';
+import { SendResultsToCleaPrescribersEventHandler } from '../../../../../../src/certification/session-management/application/send-results-to-clea-prescribers.event-handler.js';
 import { mailService } from '../../../../../../src/certification/session-management/domain/services/mail-service.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
-describe('Integration | Application | Clea Session Published Event Handler ', function () {
+describe('Integration | Application | Send results to clea prescribers Event Handler ', function () {
   describe('#handle', function () {
     it('should send email', async function () {
       // given
@@ -52,7 +52,7 @@ describe('Integration | Application | Clea Session Published Event Handler ', fu
       );
 
       // when
-      const handler = new CleaSessionPublishedEventHandler();
+      const handler = new SendResultsToCleaPrescribersEventHandler();
       const data = {
         sessionId: session.id,
         publishedAt,
@@ -111,7 +111,7 @@ describe('Integration | Application | Clea Session Published Event Handler ', fu
       );
 
       // when
-      const handler = new CleaSessionPublishedEventHandler();
+      const handler = new SendResultsToCleaPrescribersEventHandler();
       const data = {
         sessionId: session.id,
         publishedAt,
