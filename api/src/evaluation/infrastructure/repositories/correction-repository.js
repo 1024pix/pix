@@ -69,7 +69,7 @@ async function _getHint(skill) {
 }
 
 function _getSkill(challenge, locale) {
-  return skillRepository.get(challenge.skillId, { locale: locale?.slice(0, 2), useFallback: false });
+  return skillRepository.get(challenge.skillId, { locale, useFallback: false });
 }
 
 function _hasValidatedHint(skill) {

@@ -266,6 +266,46 @@ describe('Integration | Repository | correction-repository', function () {
         });
       });
 
+      context('when hint is available for the provided regional locale', function () {
+        it('should return regional hint', async function () {
+          // given
+          databaseBuilder.factory.learningContent.buildSkill({
+            id: 'skillRegional',
+            name: '@web4',
+            hintStatus: 'Validé',
+            tutorialIds: [],
+            learningMoreTutorialIds: [],
+            hint_i18n: {
+              es: '¿Se puede geolocalizar un conejo en el banco de hielo?',
+              'es-419': '¿Se puede geolocalizar a un conejo en la banquisa?',
+            },
+          });
+          databaseBuilder.factory.learningContent.buildChallenge({
+            ...challengeBaseData,
+            skillId: 'skillRegional',
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const result = await correctionRepository.getByChallengeId({
+            challengeId: recordId,
+            userId,
+            locale: 'es-419',
+            tutorialRepository,
+            fromDatasourceObject,
+            getCorrection: sinon.stub(),
+          });
+
+          // then
+          expect(result.hint).to.deep.equal(
+            domainBuilder.buildHint({
+              skillName: '@web4',
+              value: '¿Se puede geolocalizar a un conejo en la banquisa?',
+            }),
+          );
+        });
+      });
+
       context('when hint is not available for the provided locale', function () {
         context('but there is a fallback available (ex: fr available for locale fr-fr)', function () {
           it('should return fallback hint', async function () {

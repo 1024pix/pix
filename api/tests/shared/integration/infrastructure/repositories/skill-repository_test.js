@@ -609,6 +609,48 @@ describe('Integration | Repository | skill-repository', function () {
             );
           });
         });
+
+        context('when translations exist for regional locales', function () {
+          beforeEach(async function () {
+            databaseBuilder.factory.learningContent.buildSkill({
+              id: 'skillRegional',
+              hint_i18n: { fr: 'hint FR', 'es-419': 'hint ES-419', 'de-at': 'hint DE-AT', nl: 'hint NL' },
+            });
+            await databaseBuilder.commit();
+          });
+
+          it('should return translation for provided regional locale', async function () {
+            // when
+            const skill = await skillRepository.get('skillRegional', { locale: 'es-419', useFallback: false });
+
+            // then
+            expect(skill.hint).to.equal('hint ES-419');
+          });
+
+          it('should match regional locale regardless of case', async function () {
+            // when
+            const skill = await skillRepository.get('skillRegional', { locale: 'de-AT', useFallback: false });
+
+            // then
+            expect(skill.hint).to.equal('hint DE-AT');
+          });
+
+          it('should return translation for base language when regional locale is not translated', async function () {
+            // when
+            const skill = await skillRepository.get('skillRegional', { locale: 'nl-BE', useFallback: false });
+
+            // then
+            expect(skill.hint).to.equal('hint NL');
+          });
+
+          it('should return null when neither regional locale nor base language is translated', async function () {
+            // when
+            const skill = await skillRepository.get('skillRegional', { locale: 'it', useFallback: false });
+
+            // then
+            expect(skill.hint).to.be.null;
+          });
+        });
       });
 
       context('when no locale provided', function () {

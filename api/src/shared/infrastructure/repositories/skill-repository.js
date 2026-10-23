@@ -2,6 +2,7 @@ import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { Skill } from '../../domain/models/Skill.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
+import { getBaseLocale, normalizeLocale } from '../../domain/services/locale-service.js';
 import { child, SCOPES } from '../utils/logger.js';
 import { makeGetInstance } from './learning-content-repository.ts';
 
@@ -88,8 +89,19 @@ function byId(entityA, entityB) {
   return entityA.id < entityB.id ? -1 : 1;
 }
 
+function getTranslatedHint(hintI18n, locale, useFallback) {
+  const normalizedLocale = normalizeLocale(locale);
+  if (!normalizedLocale) return getTranslatedKey(hintI18n, locale, useFallback);
+
+  const normalizedHintI18n = Object.fromEntries(
+    Object.entries(hintI18n ?? {}).map(([key, value]) => [normalizeLocale(key) ?? key, value]),
+  );
+  const hintLocale = normalizedHintI18n[normalizedLocale] ? normalizedLocale : getBaseLocale(normalizedLocale);
+  return getTranslatedKey(normalizedHintI18n, hintLocale, useFallback);
+}
+
 function toDomain(skillDto, locale, useFallback) {
-  const translatedHint = getTranslatedKey(skillDto.hint_i18n, locale, useFallback);
+  const translatedHint = getTranslatedHint(skillDto.hint_i18n, locale, useFallback);
   return new Skill({
     id: skillDto.id,
     name: skillDto.name,
