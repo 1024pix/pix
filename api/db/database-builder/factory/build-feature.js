@@ -1,5 +1,5 @@
 import { ORGANIZATION_FEATURE } from '../../../src/shared/constants.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildOrganizationLearnerImportFormat } from './build-organization-learner-import-format.js';
 
 const buildFeature = function buildFeature({ id = databaseBuffer.getNextId(), key, description } = {}) {

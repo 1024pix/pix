@@ -1,5 +1,5 @@
 import { KnowledgeState } from '../../../src/shared/domain/models/KnowledgeState.ts';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 
 /**
  * A user's knowledge state on one tube.

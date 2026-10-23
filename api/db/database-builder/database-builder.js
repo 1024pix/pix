@@ -2,7 +2,7 @@
 import _ from 'lodash';
 
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
-import { databaseBuffer as defaultDatabaseBuffer } from './database-buffer.js';
+import { databaseBuffer as defaultDatabaseBuffer } from './database-buffer.ts';
 import * as databaseHelpers from './database-helpers.js';
 import { factory } from './factory/index.js';
 

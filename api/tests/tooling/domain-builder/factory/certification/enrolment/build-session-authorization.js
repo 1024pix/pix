@@ -1,4 +1,4 @@
-import { databaseBuffer } from '../../../../../../db/database-builder/database-buffer.js';
+import { databaseBuffer } from '../../../../../../db/database-builder/database-buffer.ts';
 import { SessionAuthorization } from '../../../../../../src/certification/enrolment/domain/models/SessionAuthorization.js';
 
 /**

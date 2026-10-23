@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { OrganizationInvitation } from '../../../src/team/domain/models/OrganizationInvitation.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildOrganization } from './build-organization.js';
 
 const buildOrganizationInvitation = function ({

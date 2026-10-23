@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { AlgorithmEngineVersion } from '../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../src/certification/shared/domain/models/Frameworks.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildSession } from './build-session.js';
 import { buildUser } from './build-user.js';
 

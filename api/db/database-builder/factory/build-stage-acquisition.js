@@ -1,4 +1,4 @@
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildCampaignParticipation } from './build-campaign-participation.js';
 import { buildStage } from './build-stage.js';
 

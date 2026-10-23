@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { Membership } from '../../../src/shared/domain/models/Membership.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildOrganization } from './build-organization.js';
 import { buildUser } from './build-user.js';
 

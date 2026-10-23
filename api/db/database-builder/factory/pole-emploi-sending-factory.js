@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildAuthenticationMethod } from './build-authentication-method.js';
 import { buildCampaignParticipation } from './build-campaign-participation.js';
 import { buildUser } from './build-user.js';

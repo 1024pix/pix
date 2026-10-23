@@ -1,4 +1,4 @@
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildCombinedCourseBlueprint } from './build-combined-course-blueprint.js';
 import { buildOrganization } from './build-organization.js';
 

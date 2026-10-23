@@ -1,4 +1,4 @@
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildKnowledgeElement } from './build-knowledge-element.js';
 
 function buildSnapshot({ id, knowledgeElementsAttributes, campaignParticipationId }) {

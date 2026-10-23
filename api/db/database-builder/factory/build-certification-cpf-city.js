@@ -1,4 +1,4 @@
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 
 const buildCertificationCpfCity = function ({
   id = databaseBuffer.getNextId(),

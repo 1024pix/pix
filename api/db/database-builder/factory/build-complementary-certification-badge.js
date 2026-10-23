@@ -1,4 +1,4 @@
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildBadge } from './build-badge.js';
 import { buildComplementaryCertification } from './build-complementary-certification.js';
 

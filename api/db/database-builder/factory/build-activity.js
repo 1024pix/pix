@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { Activity } from '../../../src/school/domain/models/Activity.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildPix1dAssessment } from './build-assessment.js';
 
 const buildActivity = function ({
