@@ -1,11 +1,13 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { StructureNotFoundError } from '../../../../../src/organizational-entities/domain/errors.js';
 import { AttachedCertificationCenter } from '../../../../../src/organizational-entities/domain/models/AttachedCertificationCenter.js';
 import { CenterForAdmin } from '../../../../../src/organizational-entities/domain/models/CenterForAdmin.js';
 import * as certificationCenterForAdminRepository from '../../../../../src/organizational-entities/infrastructure/repositories/certification-center-for-admin.repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Organizational Entities | Infrastructure | Repository | certification-center-for-admin', function () {
   const now = new Date('2021-11-16');
@@ -62,6 +64,93 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         name: 'Great Oak Certification Center',
         updatedAt: updatedCertificationCenter.updatedAt,
       });
+    });
+
+    it('updates the category of the certification center structure', async function () {
+      // given
+      const categoryId = databaseBuilder.factory.buildStructureCategory({ label: 'Nouvelle catégorie' }).id;
+      const { certificationCenter, structure } = databaseBuilder.factory.buildCertificationCenterWithStructure({});
+      await databaseBuilder.commit();
+      const certificationCenterForAdmin = new CenterForAdmin({
+        center: { ...certificationCenter, categoryId },
+      });
+
+      // when
+      await certificationCenterForAdminRepository.update(certificationCenterForAdmin);
+
+      // then
+      const updatedStructure = await knex('structures').where({ id: structure.id }).first();
+      expect(updatedStructure.category_id).to.equal(categoryId);
+    });
+
+    it('does not update the structure of another certification center', async function () {
+      // given
+      const categoryId = databaseBuilder.factory.buildStructureCategory({ label: 'Nouvelle catégorie' }).id;
+      const { certificationCenter } = databaseBuilder.factory.buildCertificationCenterWithStructure({});
+      const { structure: otherStructure } = databaseBuilder.factory.buildCertificationCenterWithStructure({});
+      await databaseBuilder.commit();
+      const certificationCenterForAdmin = new CenterForAdmin({
+        center: { ...certificationCenter, categoryId },
+      });
+
+      // when
+      await certificationCenterForAdminRepository.update(certificationCenterForAdmin);
+
+      // then
+      const untouchedStructure = await knex('structures').where({ id: otherStructure.id }).first();
+      expect(untouchedStructure.category_id).to.be.null;
+    });
+
+    it('does not clear the category when no category is given', async function () {
+      // given
+      const { certificationCenter, structureId, categoryId, structureUpdatedAt } =
+        _buildCertificationCenterWithCategorizedStructure();
+      await databaseBuilder.commit();
+      const certificationCenterForAdmin = new CenterForAdmin({
+        center: { ...certificationCenter, categoryId: undefined },
+      });
+
+      // when
+      await certificationCenterForAdminRepository.update(certificationCenterForAdmin);
+
+      // then
+      const untouchedStructure = await knex('structures').where({ id: structureId }).first();
+      expect(untouchedStructure.category_id).to.equal(categoryId);
+      expect(untouchedStructure.updated_at).to.deep.equal(structureUpdatedAt);
+    });
+
+    it('does not write the structure when the category is unchanged', async function () {
+      // given
+      const { certificationCenter, structureId, categoryId, structureUpdatedAt } =
+        _buildCertificationCenterWithCategorizedStructure();
+      await databaseBuilder.commit();
+      const certificationCenterForAdmin = new CenterForAdmin({
+        center: { ...certificationCenter, categoryId },
+      });
+
+      // when
+      await certificationCenterForAdminRepository.update(certificationCenterForAdmin);
+
+      // then
+      const untouchedStructure = await knex('structures').where({ id: structureId }).first();
+      expect(untouchedStructure.updated_at).to.deep.equal(structureUpdatedAt);
+    });
+
+    it('throws a StructureNotFoundError when the certification center has no structure', async function () {
+      // given
+      const categoryId = databaseBuilder.factory.buildStructureCategory({ label: 'Nouvelle catégorie' }).id;
+      const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ withoutStructure: true });
+      await databaseBuilder.commit();
+      const certificationCenterForAdmin = new CenterForAdmin({
+        center: { ...certificationCenter, categoryId },
+      });
+
+      // when
+      const error = await catchErr(certificationCenterForAdminRepository.update)(certificationCenterForAdmin);
+
+      // then
+      expect(error).to.be.instanceOf(StructureNotFoundError);
+      expect(error.meta.certificationCenterId).to.equal(certificationCenter.id);
     });
   });
 
@@ -182,4 +271,13 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       });
     });
   });
+
+  function _buildCertificationCenterWithCategorizedStructure() {
+    const structureUpdatedAt = new Date('2020-01-01');
+    const categoryId = databaseBuilder.factory.buildStructureCategory({ label: 'Catégorie initiale' }).id;
+    const structure = databaseBuilder.factory.buildStructure({ categoryId, updatedAt: structureUpdatedAt });
+    const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ structureId: structure.id });
+
+    return { certificationCenter, structureId: structure.id, categoryId, structureUpdatedAt };
+  }
 });
