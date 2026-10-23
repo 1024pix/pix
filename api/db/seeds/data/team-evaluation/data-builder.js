@@ -10,6 +10,7 @@ import {
   SCO_ORGANIZATION_USER_ID,
   TARGET_PROFILE_PIX_ID,
 } from './constants.js';
+import evalCampaignRecommendationEngineUser from './users/eval-campaign-recommendation-engine.js';
 import evalCampaignWithBadgesUser from './users/eval-campaign-with-badges.js';
 import evalCampaignWithStagesUser from './users/eval-campaign-with-stages.js';
 
@@ -23,6 +24,7 @@ export async function teamEvaluationDataBuilder({ databaseBuilder }) {
   // Other users
   await evalCampaignWithBadgesUser(databaseBuilder);
   await evalCampaignWithStagesUser(databaseBuilder);
+  await evalCampaignRecommendationEngineUser(databaseBuilder);
 
   // Autonomous courses
   await createAutonomousCourses(databaseBuilder);

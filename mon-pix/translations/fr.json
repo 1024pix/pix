@@ -2363,6 +2363,27 @@
           "subtitle": "Approfondissez certains points avec des contenus complémentaires.",
           "title": "Parce que la curiosité est une force."
         },
+        "mobile": {
+          "badges": {
+            "acquired-tab": "Badges obtenus",
+            "description": "Montez en compétences dans un domaine spécifique en fonction de votre niveau.",
+            "empty": "Aucun badge à afficher.",
+            "next": "Badges suivants",
+            "not-acquired-tab": "Badges non obtenus",
+            "previous": "Badges précédents",
+            "title": "Explorer vos badges"
+          },
+          "highlighted-block": {
+            "tag": "<strong>Sélectionné</strong> pour vous",
+            "title": "Un contenu d'apprentissage recommandé pour vous"
+          },
+          "trainings": {
+            "learn-more": "En savoir plus",
+            "show-less": "Voir moins de recommandations",
+            "show-more": "Voir plus de recommandations",
+            "title": "D'autres contenus recommandés pour vous"
+          }
+        },
         "modal": {
           "actions": {
             "discover-module": "Découvrir le module",

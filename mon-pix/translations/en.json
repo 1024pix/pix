@@ -2363,6 +2363,27 @@
           "subtitle": "Deepen certain points with additional content.",
           "title": "Because curiosity is a strength."
         },
+        "mobile": {
+          "badges": {
+            "acquired-tab": "Badges earned",
+            "description": "Build your skills in a specific area based on your level.",
+            "empty": "No badges to display.",
+            "next": "Next badges",
+            "not-acquired-tab": "Badges not earned",
+            "previous": "Previous badges",
+            "title": "Explore your badges"
+          },
+          "highlighted-block": {
+            "tag": "<strong>Selected</strong> for you",
+            "title": "Learning content recommended for you"
+          },
+          "trainings": {
+            "learn-more": "Learn more",
+            "show-less": "See fewer recommendations",
+            "show-more": "See more recommendations",
+            "title": "Other content recommended for you"
+          }
+        },
         "modal": {
           "actions": {
             "discover-module": "Start the module",

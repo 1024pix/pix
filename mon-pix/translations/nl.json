@@ -2363,6 +2363,27 @@
           "subtitle": "Verdiep bepaalde punten met aanvullende inhoud.",
           "title": "Omdat nieuwsgierigheid een kracht is."
         },
+        "mobile": {
+          "badges": {
+            "acquired-tab": "Behaalde badges",
+            "description": "Ontwikkel je vaardigheden in een specifiek domein op basis van je niveau.",
+            "empty": "Geen badges om weer te geven.",
+            "next": "Volgende badges",
+            "not-acquired-tab": "Niet behaalde badges",
+            "previous": "Vorige badges",
+            "title": "Ontdek je badges"
+          },
+          "highlighted-block": {
+            "tag": "<strong>Geselecteerd</strong> voor jou",
+            "title": "Leerinhoud aanbevolen voor jou"
+          },
+          "trainings": {
+            "learn-more": "Meer informatie",
+            "show-less": "Minder aanbevelingen bekijken",
+            "show-more": "Meer aanbevelingen bekijken",
+            "title": "Andere aanbevolen inhoud voor jou"
+          }
+        },
         "modal": {
           "actions": {
             "discover-module": "Module starten",

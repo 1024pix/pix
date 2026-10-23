@@ -39,7 +39,7 @@ export default class CompetenceRow extends Component {
 }
 
 const ICON_DIR = '/images/icons/competences';
-const competencesIcons = {
+export const competencesIcons = {
   pixplus: `${ICON_DIR}/pix-plus.svg`, // pix plus
   recsvLz0W2ShyfD63: `${ICON_DIR}/mener-une-recherche.svg`, // 1.1
   recIkYm646lrGvLNT: `${ICON_DIR}/gerer-des-donnees.svg`, // 1.2

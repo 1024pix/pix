@@ -13,12 +13,11 @@
 .evaluation-results__header {
   display: flex;
   align-items: center;
-  max-width: 1280px;
-  margin: 0 auto var(--pix-spacing-8x);
+  margin-bottom: var(--pix-spacing-8x);
 }
 
 .evaluation-results-header__logo {
-  height: 2.75rem;
+  height: 2rem;
 }
 
 .evaluation-results-header__title {
@@ -40,7 +39,7 @@
   @extend %pix-body-l;
 
   margin-left: auto;
-  font-weight: var(--pix-font-medium);
+  font-weight: var(--pix-font-normal);
 
   &::after {
     margin-left: var(--pix-spacing-2x);

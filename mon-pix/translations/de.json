@@ -2363,6 +2363,27 @@
           "subtitle": "Vertiefe bestimmte Themen mit ergänzenden Inhalten.",
           "title": "Weil Neugier eine Stärke ist."
         },
+        "mobile": {
+          "badges": {
+            "acquired-tab": "Erhaltene Abzeichen",
+            "description": "Baue deine Kompetenzen in einem bestimmten Bereich entsprechend deinem Niveau aus.",
+            "empty": "Keine Abzeichen anzuzeigen.",
+            "next": "Nächste Abzeichen",
+            "not-acquired-tab": "Nicht erhaltene Abzeichen",
+            "previous": "Vorherige Abzeichen",
+            "title": "Entdecke deine Abzeichen"
+          },
+          "highlighted-block": {
+            "tag": "<strong>Ausgewählt</strong> für dich",
+            "title": "Ein für dich empfohlener Lerninhalt"
+          },
+          "trainings": {
+            "learn-more": "Mehr erfahren",
+            "show-less": "Weniger Empfehlungen anzeigen",
+            "show-more": "Mehr Empfehlungen anzeigen",
+            "title": "Weitere für dich empfohlene Inhalte"
+          }
+        },
         "modal": {
           "actions": {
             "discover-module": "Modul starten",

@@ -2363,6 +2363,27 @@
           "subtitle": "Profundiza algunos puntos con contenido complementario.",
           "title": "Porque la curiosidad es una fortaleza."
         },
+        "mobile": {
+          "badges": {
+            "acquired-tab": "Insignias obtenidas",
+            "description": "Desarrolla tus competencias en un ámbito específico según tu nivel.",
+            "empty": "No hay insignias que mostrar.",
+            "next": "Insignias siguientes",
+            "not-acquired-tab": "Insignias no obtenidas",
+            "previous": "Insignias anteriores",
+            "title": "Explora tus insignias"
+          },
+          "highlighted-block": {
+            "tag": "<strong>Seleccionado</strong> para ti",
+            "title": "Un contenido de aprendizaje recomendado para ti"
+          },
+          "trainings": {
+            "learn-more": "Más información",
+            "show-less": "Ver menos recomendaciones",
+            "show-more": "Ver más recomendaciones",
+            "title": "Otros contenidos recomendados para ti"
+          }
+        },
         "modal": {
           "actions": {
             "discover-module": "Iniciar el módulo",
