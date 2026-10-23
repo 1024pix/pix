@@ -13,7 +13,7 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
     assert.strictEqual(applicationAdapter.namespace, 'api');
   });
 
-  module('get headers()', function () {
+  module('ajaxOptions()', function () {
     test('should add header with authentication token when the session is authenticated', function (assert) {
       // Given
       const access_token = '23456789';
@@ -23,7 +23,8 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
       applicationAdapter.set('session', { isAuthenticated: true, data: { authenticated: { access_token } } });
 
       // Then
-      assert.strictEqual(applicationAdapter.headers['Authorization'], `Bearer ${access_token}`);
+      const { headers } = applicationAdapter.ajaxOptions('/url', 'GET', {});
+      assert.strictEqual(headers['Authorization'], `Bearer ${access_token}`);
     });
 
     test('should not add header authentication token when the session is not authenticated', function (assert) {
@@ -34,7 +35,8 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
       applicationAdapter.set('session', {});
 
       // Then
-      assert.notOk(applicationAdapter.headers['Authorization']);
+      const { headers } = applicationAdapter.ajaxOptions('/url', 'GET', {});
+      assert.notOk(headers['Authorization']);
     });
   });
 
