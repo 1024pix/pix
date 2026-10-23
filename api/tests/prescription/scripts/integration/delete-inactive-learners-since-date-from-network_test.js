@@ -43,7 +43,7 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         const error = await catchErr(script.handle, script)({ options, logger });
 
         expect(error).ok;
-        expect(error.message).equal('invalid lastActivityDate');
+        expect(error.message).deep.equal('invalid lastActivityDate');
       });
 
       it('throws if network has no organization', async function () {
@@ -51,7 +51,7 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         const error = await catchErr(script.handle, script)({ options, logger });
 
         expect(error).ok;
-        expect(error.message).to.equal('Network is empty');
+        expect(error.message).to.deep.equal('Network is empty');
       });
 
       it('deletes only inactive learners of network organizations since lastActivityDate and their participations', async function () {
@@ -127,11 +127,11 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         expect(logger.info.calledWithExactly(`Deleting 2 learners from organization ${organization.id}`)).true;
         expect(learnersInDatabase).lengthOf(4);
         expect(deletedLearnersInDatabase).lengthOf(2);
-        expect(deletedLearnersInDatabase[0].id).to.equal(inactiveLearner1.id);
-        expect(deletedLearnersInDatabase[0].firstName).to.equal('(anonymized)');
-        expect(deletedLearnersInDatabase[0].lastName).to.equal('(anonymized)');
-        expect(deletedLearnersInDatabase[0].birthdate).to.equal('1942-01-01');
-        expect(deletedLearnersInDatabase[1].id).to.equal(inactiveLearner2.id);
+        expect(deletedLearnersInDatabase[0].id).deep.equal(inactiveLearner1.id);
+        expect(deletedLearnersInDatabase[0].firstName).to.deep.equal('(anonymized)');
+        expect(deletedLearnersInDatabase[0].lastName).to.deep.equal('(anonymized)');
+        expect(deletedLearnersInDatabase[0].birthdate).to.deep.equal('1942-01-01');
+        expect(deletedLearnersInDatabase[1].id).deep.equal(inactiveLearner2.id);
         expect(participationsInDatabase).lengthOf(4);
         expect(deletedParticipationsInDatabase).lengthOf(2);
       });
@@ -178,10 +178,10 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
 
         expect(learnersInDatabase).lengthOf(2);
         expect(deletedLearnersInDatabase).lengthOf(1);
-        expect(deletedLearnersInDatabase[0].id).to.equal(inactiveLearnerNetwork1.id);
+        expect(deletedLearnersInDatabase[0].id).to.deep.equal(inactiveLearnerNetwork1.id);
         expect(participationsInDatabase).lengthOf(2);
         expect(deletedParticipationsInDatabase).lengthOf(1);
-        expect(deletedParticipationsInDatabase[0].id).to.equal(participationNetwork1.id);
+        expect(deletedParticipationsInDatabase[0].id).to.deep.equal(participationNetwork1.id);
       });
 
       it('does not delete learners with combined course activity', async function () {
@@ -220,7 +220,7 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
 
         expect(learnersInDatabase).lengthOf(2);
         expect(deletedLearnersInDatabase).lengthOf(1);
-        expect(deletedLearnersInDatabase[0].id).equal(inactiveLearnerWithoutCombinedCourseParticipation.id);
+        expect(deletedLearnersInDatabase[0].id).deep.equal(inactiveLearnerWithoutCombinedCourseParticipation.id);
       });
 
       it('does not update deletedAt of already deleted learners and participations', async function () {
@@ -261,17 +261,17 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         const deletedLearnersInDatabase = await knex('organization-learners').whereNotNull('deletedAt');
         const deletedParticipationsInDatabase = await knex('campaign-participations').whereNotNull('deletedAt');
 
-        expect(deletedLearnersInDatabase[0].id).to.equal(deletedLearnerWithDeletedParticipation.id);
+        expect(deletedLearnersInDatabase[0].id).to.deep.equal(deletedLearnerWithDeletedParticipation.id);
         expect(new Date(deletedLearnersInDatabase[0].deletedAt)).to.deep.equal(
           new Date(deletedLearnerWithDeletedParticipation.deletedAt),
         );
-        expect(deletedParticipationsInDatabase[0].id).to.equal(deletedParticipation.id);
+        expect(deletedParticipationsInDatabase[0].id).to.deep.equal(deletedParticipation.id);
         expect(new Date(deletedParticipationsInDatabase[0].deletedAt)).to.deep.equal(
           new Date(deletedParticipation.deletedAt),
         );
 
-        expect(deletedLearnersInDatabase[1].id).to.equal(inactiveLearnerWithParticipation.id);
-        expect(deletedParticipationsInDatabase[1].id).to.equal(inactiveParticipation.id);
+        expect(deletedLearnersInDatabase[1].id).to.deep.equal(inactiveLearnerWithParticipation.id);
+        expect(deletedParticipationsInDatabase[1].id).to.deep.equal(inactiveParticipation.id);
       });
     });
 
@@ -363,8 +363,8 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
 
           // then
           expect(learners).lengthOf(2);
-          expect(learners[0]).equal(learnerWithOldParticipation.id);
-          expect(learners[1]).equal(learnerWithParticipationJustBeforeLastActivityDate.id);
+          expect(learners[0]).deep.equal(learnerWithOldParticipation.id);
+          expect(learners[1]).deep.equal(learnerWithParticipationJustBeforeLastActivityDate.id);
         });
       });
       context('when learners are recent (updatedAt equal or later than lastActivityDate)', function () {
@@ -471,8 +471,8 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
 
           // then
           expect(learners).lengthOf(2);
-          expect(learners[0]).equal(oldLearner.id);
-          expect(learners[1]).equal(oldLearner2.id);
+          expect(learners[0]).deep.equal(oldLearner.id);
+          expect(learners[1]).deep.equal(oldLearner2.id);
         });
       });
       context('when learners are recent (updatedAt equal or later than lastActivityDate)', function () {
@@ -561,7 +561,7 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
 
       // then
       expect(learnerIds).lengthOf(1);
-      expect(learnerIds[0]).equal(learnerWithCombinedCourseParticipation.id);
+      expect(learnerIds[0]).deep.equal(learnerWithCombinedCourseParticipation.id);
     });
   });
 });
