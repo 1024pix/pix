@@ -13,20 +13,20 @@ export const deleteAndAnonymizeParticipationsForALearnerId = withTransaction(
     await organizationLearnerParticipationRepository.deleteCombinedCourseParticipationByCombinedCourseIdAndOrganizationLearnerId(
       { combinedCourseId, userId, organizationLearnerId },
     );
-    const campaignIds = await campaignRepository.getCampaignIdsByCombinedCourseIds({
+    const campaigns = await campaignRepository.getCampaignsByCombinedCourseIds({
       combinedCourseIds: [combinedCourseId],
     });
 
-    for (const campaignId of campaignIds) {
+    for (const campaign of campaigns) {
       const campaignParticipations =
         await campaignParticipationRepository.getCampaignParticipationsByLearnerIdAndCampaignId({
           organizationLearnerId,
-          campaignId,
+          campaignId: campaign.id,
         });
       const campaignParticipationIds = campaignParticipations.map((campaignParticipation) => campaignParticipation.id);
       await campaignParticipationRepository.deleteCampaignParticipations({
         userId,
-        campaignId: campaignId,
+        campaignId: campaign.id,
         campaignParticipationIds,
         userRole: PIX_ADMIN.ROLES.SUPER_ADMIN,
         client: CLIENTS.SCRIPT,

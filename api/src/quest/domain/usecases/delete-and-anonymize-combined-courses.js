@@ -14,14 +14,11 @@ export const deleteAndAnonymizeCombinedCourses = withTransaction(
       deletedBy: userId,
     });
     await organizationLearnerParticipationRepository.deleteCombinedCourseParticipations({ combinedCourseIds, userId });
-    const campaignIds = await campaignRepository.getCampaignIdsByCombinedCourseIds({
+    const campaigns = await campaignRepository.getCampaignsByCombinedCourseIds({
       combinedCourseIds,
     });
 
-    for (const campaignId of campaignIds) {
-      const campaign = await campaignRepository.get({
-        id: campaignId,
-      });
+    for (const campaign of campaigns) {
       await campaignRepository.deleteCampaignsInCombinedCourses({
         userId,
         organizationId: campaign.organizationId,
