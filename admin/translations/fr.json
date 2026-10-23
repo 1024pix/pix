@@ -1685,6 +1685,21 @@
           "team": "Équipe"
         }
       },
+      "information-edit": {
+        "category": {
+          "confirmation-modal": {
+            "attached-organization": "Ce centre est rattaché à l'organisation \"{organizationName}\".",
+            "title": "Modifier la catégorie du centre de certification",
+            "warning": "Modifier sa catégorie modifiera aussi celle de l'organisation."
+          },
+          "selector": {
+            "label": "Catégorie",
+            "placeholder": "Sélectionner une catégorie",
+            "search-label": "Rechercher une catégorie",
+            "search-placeholder": "Rechercher une catégorie"
+          }
+        }
+      },
       "information-view": {
         "habilitations": {
           "aria-label": {

@@ -1675,6 +1675,21 @@
           "team": "Team"
         }
       },
+      "information-edit": {
+        "category": {
+          "confirmation-modal": {
+            "attached-organization": "This center is attached to the organization \"{organizationName}\".",
+            "title": "Change the certification center category",
+            "warning": "Changing its category will also change the organization's one."
+          },
+          "selector": {
+            "label": "Category",
+            "placeholder": "Choose a category",
+            "search-label": "Search for a category",
+            "search-placeholder": "Search for a category"
+          }
+        }
+      },
       "information-view": {
         "habilitations": {
           "aria-label": {
