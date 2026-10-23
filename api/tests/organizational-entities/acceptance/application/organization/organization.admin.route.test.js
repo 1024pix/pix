@@ -653,7 +653,19 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
 
         const organizationLearnerType = databaseBuilder.factory.buildOrganizationLearnerType();
 
+        const network = databaseBuilder.factory.buildNetwork({
+          name: 'Réseau Académique',
+        });
+        const structureCategory = databaseBuilder.factory.buildStructureCategory({
+          label: 'Structure Category',
+        });
+        const structure = databaseBuilder.factory.buildStructure({
+          categoryId: structureCategory.id,
+        });
+
         const organization = databaseBuilder.factory.buildOrganization({
+          structureId: structure.id,
+          networkId: network.id,
           type: 'SCO',
           name: 'Organization catalina',
           logoUrl: 'some logo url',
@@ -682,20 +694,6 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
         const tag = databaseBuilder.factory.buildTag({ id: 7, name: 'AEFE' });
         databaseBuilder.factory.buildOrganizationTag({
           tagId: tag.id,
-          organizationId: organization.id,
-        });
-        const network = databaseBuilder.factory.buildNetwork({
-          name: 'Réseau Académique',
-        });
-        const structureCategory = databaseBuilder.factory.buildStructureCategory({
-          label: 'Structure Category',
-        });
-        const structure = databaseBuilder.factory.buildStructure({
-          categoryId: structureCategory.id,
-        });
-        databaseBuilder.factory.buildFactStructure({
-          structureId: structure.id,
-          networkId: network.id,
           organizationId: organization.id,
         });
         await databaseBuilder.commit();
@@ -1698,10 +1696,8 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       // given
       const server = await getServer();
 
-      const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({
-        certificationCenterId: certificationCenter.id,
-      });
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+      databaseBuilder.factory.buildCertificationCenter({ organizationId: organization.id });
       await databaseBuilder.commit();
 
       const options = {
@@ -1752,10 +1748,8 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       // given
       const server = await getServer();
 
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({
-        certificationCenterId: certificationCenterId,
-      });
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+      databaseBuilder.factory.buildCertificationCenter({ organizationId: organization.id });
       await databaseBuilder.commit();
 
       const options = {

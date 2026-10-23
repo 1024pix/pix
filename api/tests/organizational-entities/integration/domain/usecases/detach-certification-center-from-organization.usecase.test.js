@@ -9,10 +9,8 @@ describe('Integration | Organizational Entities | Domain | UseCase | detach-cert
   describe('success case', function () {
     it('detaches certification center from organization', async function () {
       // given
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({
-        certificationCenterId,
-      });
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+      databaseBuilder.factory.buildCertificationCenter({ organizationId: organization.id });
 
       await databaseBuilder.commit();
 
@@ -31,11 +29,13 @@ describe('Integration | Organizational Entities | Domain | UseCase | detach-cert
 
     it('creates a dedicated structure for the certification center with the organization category', async function () {
       // given
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const categoryId = databaseBuilder.factory.buildStructureCategory().id;
       const { organization, structure: organizationStructure } = databaseBuilder.factory.buildOrganizationWithStructure(
-        { certificationCenterId, categoryId },
+        { categoryId },
       );
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+        organizationId: organization.id,
+      }).id;
 
       await databaseBuilder.commit();
 

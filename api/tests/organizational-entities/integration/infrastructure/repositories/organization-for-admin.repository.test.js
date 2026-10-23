@@ -1452,7 +1452,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
     it('throws a StructureNotFoundError when the organization has no structure', async function () {
       // given
       const categoryId = databaseBuilder.factory.buildStructureCategory({ label: 'Nouvelle catégorie' }).id;
-      const organization = databaseBuilder.factory.buildOrganization();
+      const organization = databaseBuilder.factory.buildOrganization({ withoutStructure: true });
       await databaseBuilder.commit();
       const organizationForAdmin = new OrganizationForAdmin({
         ...organization,
@@ -1978,11 +1978,10 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
     describe('when a certification center is linked to an organization', function () {
       it('returns organization linked to a given certification center', async function () {
         // given
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-
-        const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({
-          certificationCenterId: certificationCenterId,
-        });
+        const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          organizationId: organization.id,
+        }).id;
 
         await databaseBuilder.commit();
 
@@ -1999,15 +1998,13 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
 
       it('does not return organization linked to another certification center', async function () {
         // given
-        const firstCertificationCenter = databaseBuilder.factory.buildCertificationCenter();
-        const { organization: firstOrganization } = databaseBuilder.factory.buildOrganizationWithStructure({
-          certificationCenterId: firstCertificationCenter.id,
+        const { organization: firstOrganization } = databaseBuilder.factory.buildOrganizationWithStructure();
+        const firstCertificationCenter = databaseBuilder.factory.buildCertificationCenter({
+          organizationId: firstOrganization.id,
         });
 
-        const secondCertificationCenter = databaseBuilder.factory.buildCertificationCenter();
-        databaseBuilder.factory.buildOrganizationWithStructure({
-          certificationCenterId: secondCertificationCenter.id,
-        });
+        const { organization: secondOrganization } = databaseBuilder.factory.buildOrganizationWithStructure();
+        databaseBuilder.factory.buildCertificationCenter({ organizationId: secondOrganization.id });
 
         await databaseBuilder.commit();
 
@@ -2042,9 +2039,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
 function _buildOrganizationWithCategorizedStructure() {
   const structureUpdatedAt = new Date('2020-01-01');
   const categoryId = databaseBuilder.factory.buildStructureCategory({ label: 'Catégorie initiale' }).id;
-  const organization = databaseBuilder.factory.buildOrganization();
   const structure = databaseBuilder.factory.buildStructure({ categoryId, updatedAt: structureUpdatedAt });
-  databaseBuilder.factory.buildFactStructure({ structureId: structure.id, organizationId: organization.id });
+  const organization = databaseBuilder.factory.buildOrganization({ structureId: structure.id });
 
   return { organizationId: organization.id, structureId: structure.id, categoryId, structureUpdatedAt };
 }

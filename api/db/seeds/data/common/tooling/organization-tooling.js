@@ -99,9 +99,8 @@ async function createOrganization({
     administrationTeamId,
     countryCode,
     organizationLearnerTypeId,
+    categoryId,
   }).id;
-
-  _buildAndLinkStructure({ databaseBuilder, organizationId, categoryId });
 
   _buildMemberships({
     databaseBuilder,
@@ -203,11 +202,6 @@ function _buildMemberships({ databaseBuilder, organizationId, adminIds, memberId
   );
 }
 
-function _buildAndLinkStructure({ databaseBuilder, organizationId, categoryId }) {
-  const structureId = databaseBuilder.factory.buildStructure({ categoryId }).id;
-  databaseBuilder.factory.buildFactStructure({ structureId, organizationId });
-}
-
 function _buildOrganization({
   databaseBuilder,
   organizationId,
@@ -233,6 +227,7 @@ function _buildOrganization({
   administrationTeamId,
   countryCode,
   organizationLearnerTypeId,
+  categoryId,
 }) {
   return databaseBuilder.factory.buildOrganization({
     id: organizationId,
@@ -258,5 +253,6 @@ function _buildOrganization({
     administrationTeamId,
     countryCode,
     organizationLearnerTypeId,
+    categoryId,
   });
 }

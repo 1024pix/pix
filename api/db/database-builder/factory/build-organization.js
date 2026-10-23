@@ -29,6 +29,11 @@ const buildOrganization = function buildOrganization({
   administrationTeamId = null,
   countryCode = COUNTRY_FRANCE_CODE,
   organizationLearnerTypeId = null,
+  structureId = null,
+  categoryId = null,
+  networkId = null,
+  parentStructureId = null,
+  withoutStructure = false,
 } = {}) {
   if (!administrationTeamId) {
     administrationTeamId = buildAdministrationTeam().id;
@@ -36,6 +41,10 @@ const buildOrganization = function buildOrganization({
 
   if (!organizationLearnerTypeId) {
     organizationLearnerTypeId = buildOrganizationLearnerType({ name: `Type pour organisation ${id}` }).id;
+  }
+
+  if (!structureId && !withoutStructure) {
+    structureId = buildStructure({ categoryId }).id;
   }
 
   const values = {
@@ -64,10 +73,16 @@ const buildOrganization = function buildOrganization({
     organizationLearnerTypeId,
   };
 
-  return databaseBuffer.pushInsertable({
+  const organization = databaseBuffer.pushInsertable({
     tableName: 'organizations',
     values,
   });
+
+  if (structureId) {
+    buildFactStructure({ structureId, networkId, organizationId: id, parentStructureId });
+  }
+
+  return organization;
 };
 
 /**
@@ -77,7 +92,6 @@ const buildOrganization = function buildOrganization({
  * @param {number} options.networkId - Id of the network to attach the organization to
  * @param {number} [options.parentStructureId] - Id of the parent structure (null for a head organization)
  * @param {object} [options.organizationData] - Any parameter accepted by buildOrganization
- * @param {number} [options.certificationCenterId] - optional certification center id to link to the organization
  * @param {number} [options.categoryId] - optional structure category id
  * @returns {{ organization: object, structure: object }}
  */
@@ -85,17 +99,14 @@ const buildOrganizationInNetwork = function ({
   networkId,
   parentStructureId = null,
   organizationData = {},
-  certificationCenterId = null,
   categoryId = null,
 } = {}) {
-  const organization = buildOrganization(organizationData);
   const structure = buildStructure({ categoryId });
-  buildFactStructure({
+  const organization = buildOrganization({
+    ...organizationData,
     structureId: structure.id,
     networkId,
-    organizationId: organization.id,
     parentStructureId,
-    certificationCenterId,
   });
   return { organization, structure };
 };
@@ -105,13 +116,11 @@ const buildOrganizationInNetwork = function ({
  *
  * @param {object} options
  * @param {object} [options.organizationData] - Any parameter accepted by buildOrganization
- * @param {number} [options.certificationCenterId] - optional certification center id to link to the organization
  * @returns {{ organization: object, structure: object }}
  */
-const buildOrganizationWithStructure = function ({ organizationData, certificationCenterId, categoryId } = {}) {
-  const organization = buildOrganization(organizationData);
+const buildOrganizationWithStructure = function ({ organizationData, categoryId } = {}) {
   const structure = buildStructure({ categoryId });
-  buildFactStructure({ structureId: structure.id, organizationId: organization.id, certificationCenterId });
+  const organization = buildOrganization({ ...organizationData, structureId: structure.id });
   return { organization, structure };
 };
 

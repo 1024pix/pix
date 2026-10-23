@@ -1,5 +1,4 @@
 import { databaseBuffer } from '../database-buffer.js';
-import { buildFactStructure } from './build-fact-structure.js';
 import { buildOrganization } from './build-organization.js';
 import { buildStructure } from './build-structure.js';
 
@@ -36,9 +35,13 @@ const buildNetworkAndHeadOrganization = function ({
   headOrganization = {},
 } = {}) {
   const network = buildNetwork({ id, name });
-  const organization = buildOrganization({ name: 'Head Organization', ...headOrganization });
   const structure = buildStructure();
-  buildFactStructure({ structureId: structure.id, networkId: network.id, organizationId: organization.id });
+  const organization = buildOrganization({
+    name: 'Head Organization',
+    ...headOrganization,
+    structureId: structure.id,
+    networkId: network.id,
+  });
   return { network, structure, organization };
 };
 
@@ -84,11 +87,10 @@ const buildNetworkWithMultipleLevels = function ({
   const network = buildNetwork({ id, name });
 
   const headStructure = buildStructure();
-  const headOrganization = buildOrganization({ name: 'Head Organization' });
-  buildFactStructure({
+  const headOrganization = buildOrganization({
+    name: 'Head Organization',
     structureId: headStructure.id,
     networkId: network.id,
-    organizationId: headOrganization.id,
   });
 
   const levels = [];
@@ -112,11 +114,10 @@ export { buildNetwork, buildNetworkAndHeadOrganization, buildNetworkWithMultiple
 
 function _createChildNode(parentStructure, level) {
   const structure = buildStructure();
-  const organization = buildOrganization({ name: `Organization L${level}` });
-  buildFactStructure({
+  const organization = buildOrganization({
+    name: `Organization L${level}`,
     structureId: structure.id,
     networkId: parentStructure.networkId,
-    organizationId: organization.id,
     parentStructureId: parentStructure.id,
   });
   return { organization, structure };
