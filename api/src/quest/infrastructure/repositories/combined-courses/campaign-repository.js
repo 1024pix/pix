@@ -30,7 +30,7 @@ export const deleteCampaignsInCombinedCourses = async function ({
   });
 };
 
-export const getCampaignIdsByCombinedCourseIds = async function ({ combinedCourseIds }) {
+export const getCampaignsByCombinedCourseIds = async function ({ combinedCourseIds }) {
   const knexConn = DomainTransaction.getConnection();
 
   const successRequirements = await knexConn
@@ -45,7 +45,9 @@ export const getCampaignIdsByCombinedCourseIds = async function ({ combinedCours
     .filter((requirement) => requirement.data.campaignId)
     .map((requirement) => parseInt(requirement.data.campaignId.data));
 
-  return campaignIds;
+  const campaigns = await knexConn.select('organizationId', 'id').from('campaigns').whereIn('id', campaignIds);
+
+  return campaigns;
 };
 
 export const save = async function ({ campaigns, campaignsApi }) {
