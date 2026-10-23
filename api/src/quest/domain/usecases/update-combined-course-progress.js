@@ -1,13 +1,11 @@
 import { COMBINED_COURSE_ITEM_TYPES } from '../constants.js';
-import { OrganizationLearnerParticipation } from '../models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 
 export async function updateCombinedCourseProgress({
   userId,
   code,
   combinedCourseRepository,
-  combinedCourseParticipationRepository,
-  organizationLearnerPrescriptionRepository,
   organizationLearnerParticipationRepository,
+  organizationLearnerPrescriptionRepository,
   combinedCourseDetailsService,
   profileRewardRepository,
   successRepository,
@@ -57,10 +55,7 @@ export async function updateCombinedCourseProgress({
     });
     updatedCombinedCourseDetails.dataForQuest.success = success;
     updatedCombinedCourseDetails.participation.complete();
-    const organizationLearnerParticipation = OrganizationLearnerParticipation.buildFromCombinedCourse(
-      updatedCombinedCourseDetails.participation,
-    );
-    await combinedCourseParticipationRepository.update(organizationLearnerParticipation.fieldsForUpdate);
+    await organizationLearnerParticipationRepository.update(updatedCombinedCourseDetails.participation.fieldsForUpdate);
 
     if (updatedCombinedCourseDetails.isSuccessful() && combinedCourse.quest.rewardId) {
       await profileRewardRepository.reward({

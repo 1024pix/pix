@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { CombinedCourseParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.ts';
-import { CombinedCourseParticipation } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/CombinedCourseParticipation.js';
+import { OrganizationLearnerParticipation } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { CombinedCourse } from '../../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
 
 describe('Quest | Unit | Domain | Models | CombinedCourse', function () {
@@ -53,19 +53,19 @@ describe('Quest | Unit | Domain | Models | CombinedCourse', function () {
       // given
       const combinedCourseDetails = new CombinedCourse({ id: 1, organizationId: 1, name: 'name', code: 'code' });
       combinedCourseDetails.participations = [
-        new CombinedCourseParticipation({
+        new OrganizationLearnerParticipation({
           id: 1,
           questId: 1,
           organizationLearnerId: 1,
           status: CombinedCourseParticipationStatuses.STARTED,
         }),
-        new CombinedCourseParticipation({
+        new OrganizationLearnerParticipation({
           id: 2,
           questId: 1,
           organizationLearnerId: 2,
           status: CombinedCourseParticipationStatuses.STARTED,
         }),
-        new CombinedCourseParticipation({
+        new OrganizationLearnerParticipation({
           id: 3,
           questId: 1,
           organizationLearnerId: 3,
@@ -86,19 +86,19 @@ describe('Quest | Unit | Domain | Models | CombinedCourse', function () {
       // given
       const combinedCourseDetails = new CombinedCourse({ id: 1, organizationId: 1, name: 'name', code: 'code' });
       combinedCourseDetails.participations = [
-        new CombinedCourseParticipation({
+        new OrganizationLearnerParticipation({
           id: 1,
           questId: 1,
           organizationLearnerId: 1,
           status: CombinedCourseParticipationStatuses.COMPLETED,
         }),
-        new CombinedCourseParticipation({
+        new OrganizationLearnerParticipation({
           id: 2,
           questId: 1,
           organizationLearnerId: 2,
           status: CombinedCourseParticipationStatuses.STARTED,
         }),
-        new CombinedCourseParticipation({
+        new OrganizationLearnerParticipation({
           id: 3,
           questId: 1,
           organizationLearnerId: 3,

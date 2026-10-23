@@ -13,7 +13,8 @@ import combinedCourseDetailsService from '../services/combined-course-details-se
 const { combinedCourseDetailsService: injectedCombinedCourseDetailsService } = injectDependencies(
   { combinedCourseDetailsService },
   {
-    combinedCourseParticipationRepository: repositories.combinedCourseParticipationRepository,
+    organizationLearnerParticipationRepository: repositories.organizationLearnerParticipationRepository,
+    combinedCourseParticipantRepository: repositories.combinedCourseParticipantRepository,
     combinedCourseRepository: repositories.combinedCourseRepository,
     campaignRepository: repositories.campaignRepository,
     questRepository: repositories.questRepository,
@@ -31,7 +32,6 @@ const dependencies = {
   eligibilityRepository: repositories.eligibilityRepository,
   successRepository: repositories.successRepository,
   questRepository: repositories.questRepository,
-  combinedCourseParticipationRepository: repositories.combinedCourseParticipationRepository,
   combinedCourseParticipantRepository: repositories.combinedCourseParticipantRepository,
   combinedCourseRepository: repositories.combinedCourseRepository,
   membershipRepository,

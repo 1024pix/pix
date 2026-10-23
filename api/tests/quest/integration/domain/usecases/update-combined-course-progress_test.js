@@ -96,6 +96,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
 
       expect(result.status).to.equal(OrganizationLearnerParticipationStatuses.COMPLETED);
       expect(result.updatedAt).to.deep.equal(now);
+      expect(result.completedAt).to.deep.equal(now);
     });
 
     context('when combined course contains a reward', function () {

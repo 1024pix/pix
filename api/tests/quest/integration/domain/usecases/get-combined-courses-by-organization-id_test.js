@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import { CombinedCourseParticipation } from '../../../../../src/quest/domain/models/combined-course-participations/entities/CombinedCourseParticipation.js';
 import {
+  OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,
   OrganizationLearnerParticipationTypes,
 } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
@@ -81,18 +81,18 @@ describe('Integration | Quest | Domain | UseCases | get-combined-courses-by-orga
     expect(firstCourse.code).to.equal('COURSE1');
     expect(firstCourse.name).to.equal('First Combined Course');
     expect(firstCourse.participations).to.have.lengthOf(2);
-    expect(firstCourse.participations[0]).to.be.an.instanceof(CombinedCourseParticipation);
+    expect(firstCourse.participations[0]).to.be.an.instanceof(OrganizationLearnerParticipation);
     expect(firstCourse.participations[0].status).to.equal(OrganizationLearnerParticipationStatuses.STARTED);
-    expect(firstCourse.participations[0].combinedCourseId).to.equal(combinedCourseId1);
+    expect(firstCourse.participations[0].referenceId).to.equal(combinedCourseId1.toString());
     expect(firstCourse.participations[1].status).to.equal(OrganizationLearnerParticipationStatuses.STARTED);
-    expect(firstCourse.participations[1].combinedCourseId).to.equal(combinedCourseId1);
+    expect(firstCourse.participations[1].referenceId).to.equal(combinedCourseId1.toString());
 
     expect(secondCourse.code).to.equal('COURSE2');
     expect(secondCourse.name).to.equal('Second Combined Course');
     expect(secondCourse.participations).to.have.lengthOf(1);
-    expect(secondCourse.participations[0]).to.be.an.instanceof(CombinedCourseParticipation);
+    expect(secondCourse.participations[0]).to.be.an.instanceof(OrganizationLearnerParticipation);
     expect(secondCourse.participations[0].status).to.equal(OrganizationLearnerParticipationStatuses.STARTED);
-    expect(secondCourse.participations[0].combinedCourseId).to.equal(combinedCourseId2);
+    expect(secondCourse.participations[0].referenceId).to.equal(combinedCourseId2.toString());
   });
 
   it('should return combined courses with empty participations when no participations exist', async function () {
@@ -199,11 +199,11 @@ describe('Integration | Quest | Domain | UseCases | get-combined-courses-by-orga
     const secondCourse = result.combinedCourses.find((course) => course.id === combinedCourseId2);
 
     expect(firstCourse.participations).to.have.lengthOf(1);
-    expect(firstCourse.participations[0].combinedCourseId).to.equal(combinedCourseId1);
+    expect(firstCourse.participations[0].referenceId).to.equal(combinedCourseId1.toString());
     expect(firstCourse.participations[0].status).to.equal(OrganizationLearnerParticipationStatuses.STARTED);
 
     expect(secondCourse.participations).to.have.lengthOf(1);
-    expect(secondCourse.participations[0].combinedCourseId).to.equal(combinedCourseId2);
+    expect(secondCourse.participations[0].referenceId).to.equal(combinedCourseId2.toString());
     expect(secondCourse.participations[0].status).to.equal(OrganizationLearnerParticipationStatuses.STARTED);
   });
 });

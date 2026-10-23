@@ -10,7 +10,6 @@ import {
 import { COMBINED_COURSE_ITEM_TYPES, REWARD_TYPES } from '../../../../../../src/quest/domain/constants.js';
 import { CombinedCourseDetails } from '../../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js';
 import { CombinedCourseReward } from '../../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
-import { CombinedCourseParticipation } from '../../../../../../src/quest/domain/models/combined-course-participations/entities/CombinedCourseParticipation.js';
 import {
   OrganizationLearnerParticipation,
   OrganizationLearnerParticipationStatuses,
@@ -21,6 +20,7 @@ import {
   ModuleCombinedCourseItem,
   TrainingCombinedCourseItem,
 } from '../../../../../../src/quest/domain/models/combined-course-participations/value-objects/CombinedCourseItem.ts';
+import { OrganizationLearner } from '../../../../../../src/quest/domain/models/prescription/entities/OrganizationLearner.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
@@ -119,12 +119,15 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
   describe('#participationDetails', function () {
     it('should return a participation details with correct items count', async function () {
       //given
-      const participation = new CombinedCourseParticipation({
-        id: 123,
+      const organizationLearner = new OrganizationLearner({
+        id: 456,
         firstName: 'Bob',
         lastName: 'Lapointe',
         group: 'Groupe A',
         division: '4eme B',
+      });
+      const participation = new OrganizationLearnerParticipation({
+        id: 123,
         status: CombinedCourseParticipationStatuses.STARTED,
         updatedAt: new Date('2024-12-10'),
         createdAt: new Date('2024-12-09'),
@@ -142,11 +145,11 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
         passages: [
           {
             referenceId: 'ebcde1',
-            isTerminated: true,
+            isCompleted: true,
           },
           {
             referenceId: 'ebcde2',
-            isTerminated: false,
+            isCompleted: false,
           },
         ],
         campaignParticipations: [
@@ -155,15 +158,15 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
         ],
       });
 
-      combinedCourseDetails.setDataAndGenerateItems({ participation, dataForQuest });
+      combinedCourseDetails.setDataAndGenerateItems({ participation, organizationLearner, dataForQuest });
 
       // then
       expect(combinedCourseDetails.participationDetails).deep.equal({
         id: participation.id,
-        division: participation.division,
-        group: participation.group,
-        firstName: participation.firstName,
-        lastName: participation.lastName,
+        division: organizationLearner.division,
+        group: organizationLearner.group,
+        firstName: organizationLearner.firstName,
+        lastName: organizationLearner.lastName,
         status: participation.status,
         createdAt: participation.createdAt,
         updatedAt: participation.updatedAt,
@@ -178,12 +181,15 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
 
     it('should return hasFormationItems if a formation item is present', async function () {
       //given
-      const participation = new CombinedCourseParticipation({
-        id: 123,
+      const organizationLearner = new OrganizationLearner({
+        id: 456,
         firstName: 'Bob',
         lastName: 'Lapointe',
         group: 'Groupe A',
         division: '6eme B',
+      });
+      const participation = new OrganizationLearnerParticipation({
+        id: 123,
         status: CombinedCourseParticipationStatuses.STARTED,
         updatedAt: new Date('2024-12-10'),
         createdAt: new Date('2024-12-09'),
@@ -205,20 +211,20 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
         passages: [
           {
             referenceId: 'ebcde1',
-            isTerminated: false,
+            isCompleted: false,
           },
         ],
         campaignParticipations: [{ campaignId: 777, status: CampaignParticipationStatuses.STARTED }],
       });
 
       combinedCourseDetails.setRecommandableModuleIds([{ moduleId: 'ebcde1', targetProfileIds: [666] }]);
-      combinedCourseDetails.setDataAndGenerateItems({ participation, dataForQuest });
+      combinedCourseDetails.setDataAndGenerateItems({ participation, organizationLearner, dataForQuest });
 
       // then
       expect(combinedCourseDetails.participationDetails).deep.equal({
         id: participation.id,
-        firstName: participation.firstName,
-        lastName: participation.lastName,
+        firstName: organizationLearner.firstName,
+        lastName: organizationLearner.lastName,
         status: participation.status,
         group: 'Groupe A',
         division: '6eme B',
@@ -316,7 +322,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           passages: [
             {
               referenceId: 'abcdefgh1',
-              isTerminated: false,
+              isCompleted: false,
             },
           ],
         });
@@ -361,7 +367,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           passages: [
             {
               referenceId: 'module-id',
-              isTerminated: false,
+              isCompleted: false,
             },
           ],
           campaignParticipations: [{ campaignId: 777, status: CampaignParticipationStatuses.SHARED }],
@@ -405,7 +411,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           passages: [
             {
               referenceId: 'ebcde1',
-              isTerminated: false,
+              isCompleted: false,
             },
           ],
           campaignParticipations: [{ campaignId: 777, status: CampaignParticipationStatuses.SHARED }],
@@ -459,7 +465,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
         });
 
         const dataForQuest = domainBuilder.buildCombinedCourseDataForQuest({
-          passages: [{ referenceId: 'abcde', isTerminated: true }],
+          passages: [{ referenceId: 'abcde', isCompleted: true }],
         });
 
         await combinedCourseDetails.setEncryptedUrl();
@@ -494,11 +500,11 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
             passages: [
               {
                 referenceId: 'abcdef1',
-                isTerminated: false,
+                isCompleted: false,
               },
               {
                 referenceId: 'abcdef2',
-                isTerminated: false,
+                isCompleted: false,
               },
             ],
           });
@@ -554,11 +560,11 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
             passages: [
               {
                 referenceId: 'abcdef1',
-                isTerminated: false,
+                isCompleted: false,
               },
               {
                 referenceId: 'abcdef2',
-                isTerminated: false,
+                isCompleted: false,
               },
             ],
           });
@@ -676,11 +682,11 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
             passages: [
               {
                 referenceId: 'abcdef2',
-                isTerminated: false,
+                isCompleted: false,
               },
               {
                 referenceId: 'abcdef1',
-                isTerminated: false,
+                isCompleted: false,
               },
             ],
           });
@@ -897,8 +903,8 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           { campaignId: 3, status: CampaignParticipationStatuses.SHARED, masteryRate: 0.12 },
         ],
         passages: [
-          { referenceId: 'abcde3', isTerminated: true },
-          { referenceId: 'abcde4', isTerminated: true },
+          { referenceId: 'abcde3', isCompleted: true },
+          { referenceId: 'abcde4', isCompleted: true },
         ],
       });
 
@@ -1161,11 +1167,11 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
         passages: [
           {
             referenceId: 'abc123',
-            isTerminated: false,
+            isCompleted: false,
           },
           {
             referenceId: 'abcde1',
-            isTerminated: false,
+            isCompleted: false,
           },
         ],
       });
@@ -1224,7 +1230,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
         passages: [
           {
             referenceId: 'abcdef2',
-            isTerminated: true,
+            isCompleted: true,
           },
         ],
       });
@@ -1262,7 +1268,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
         passages: [
           {
             referenceId: 'abcdef2',
-            isTerminated: true,
+            isCompleted: true,
           },
         ],
       });

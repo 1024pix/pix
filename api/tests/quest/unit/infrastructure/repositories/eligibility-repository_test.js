@@ -70,7 +70,7 @@ describe('Quest | Unit | Infrastructure | repositories | eligibility', function 
           {
             status: OrganizationLearnerParticipationStatuses.STARTED,
             referenceId: 1,
-            isTerminated: true,
+            isCompleted: true,
           },
         ]);
 
@@ -133,7 +133,7 @@ describe('Quest | Unit | Infrastructure | repositories | eligibility', function 
                 {
                   status: OrganizationLearnerParticipationStatuses.STARTED,
                   referenceId: 1,
-                  isTerminated: true,
+                  isCompleted: true,
                 },
               ],
             ],

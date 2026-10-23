@@ -40,12 +40,12 @@ async function instantiateCombinedCourseDetails({
 async function getCombinedCourseDetails({
   combinedCourseDetails,
   organizationLearnerId,
-  combinedCourseParticipationRepository,
+  organizationLearnerParticipationRepository,
   eligibilityRepository,
   recommendedModuleRepository,
   reward,
 }) {
-  const participation = await combinedCourseParticipationRepository.findByLearnerId({
+  const participation = await organizationLearnerParticipationRepository.findByLearnerId({
     organizationLearnerId,
     combinedCourseId: combinedCourseDetails.id,
   });
@@ -85,21 +85,30 @@ async function getCombinedCourseDetails({
 async function getCombinedCourseDetailsForMultipleLearners({
   combinedCourseDetails,
   organizationLearners,
-  combinedCourseParticipationRepository,
+  organizationLearnerParticipationRepository,
   eligibilityRepository,
   recommendedModuleRepository,
   profileRewardRepository,
+  combinedCourseParticipantRepository,
 }) {
   const organizationLearnerIds = organizationLearners.map((organizationLearner) => organizationLearner.id);
   const userIds = organizationLearners.map((organizationLearner) => organizationLearner.userId);
 
-  const participations = await combinedCourseParticipationRepository.findByLearnerIds({
+  const participations = await organizationLearnerParticipationRepository.findByLearnerIds({
     organizationLearnerIds,
     combinedCourseId: combinedCourseDetails.id,
   });
 
+  const organizationLearnersData = await combinedCourseParticipantRepository.findOrganizationLearnersByIds({
+    organizationLearnerIds,
+  });
+
   const participationByLearnerId = new Map(
     participations.map((participation) => [participation.organizationLearnerId, participation]),
+  );
+
+  const organizationLearnerByLearnerId = new Map(
+    organizationLearnersData.map((organizationLearnerData) => [organizationLearnerData.id, organizationLearnerData]),
   );
   const learnerIdsWithParticipation = organizationLearnerIds.filter((organizationLearnerId) =>
     participationByLearnerId.has(organizationLearnerId),
@@ -126,6 +135,7 @@ async function getCombinedCourseDetailsForMultipleLearners({
 
   for (const organizationLearner of organizationLearners) {
     const participation = participationByLearnerId.get(organizationLearner.id);
+    const organizationLearnerData = organizationLearnerByLearnerId.get(organizationLearner.id);
     const eligibility = eligibilitiesByLearnerId.get(organizationLearner.id);
 
     let dataForQuest;
@@ -147,6 +157,7 @@ async function getCombinedCourseDetailsForMultipleLearners({
 
     combinedCourseDetails.setDataAndGenerateItems({
       participation,
+      organizationLearner: organizationLearnerData,
       recommendedModuleIdsForUser,
       dataForQuest,
       reward: { obtainedAt: profileReward?.createdAt },
@@ -156,6 +167,7 @@ async function getCombinedCourseDetailsForMultipleLearners({
       id: combinedCourseDetails.id,
       status: combinedCourseDetails.status,
       participation,
+      organizationLearnerData,
       items: combinedCourseDetails.items,
     };
 

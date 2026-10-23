@@ -2,11 +2,11 @@ export const findCombinedCourseParticipations = async ({
   combinedCourseId,
   page,
   filters,
-  combinedCourseParticipationRepository,
+  organizationLearnerParticipationRepository,
   combinedCourseDetailsService,
 }) => {
   const { organizationLearners, meta } =
-    await combinedCourseParticipationRepository.findPaginatedCombinedCourseParticipationById({
+    await organizationLearnerParticipationRepository.findPaginatedCombinedCourseParticipationById({
       combinedCourseId,
       page,
       filters,

@@ -24,7 +24,8 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 const { combinedCourseDetailsService: CombinedCourseDetailsService } = injectDependencies(
   { combinedCourseDetailsService },
   {
-    combinedCourseParticipationRepository: repositories.combinedCourseParticipationRepository,
+    organizationLearnerParticipationRepository: repositories.organizationLearnerParticipationRepository,
+    combinedCourseParticipantRepository: repositories.combinedCourseParticipantRepository,
     combinedCourseRepository: repositories.combinedCourseRepository,
     campaignRepository: repositories.campaignRepository,
     questRepository: repositories.questRepository,

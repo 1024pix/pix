@@ -53,4 +53,13 @@ export async function findOrganizationLearner({ userId, organizationId }) {
   return result ? _toDomain(result) : null;
 }
 
+export async function findOrganizationLearnersByIds({ organizationLearnerIds }) {
+  const knexConnection = DomainTransaction.getConnection();
+  const result = await knexConnection('view-active-organization-learners')
+    .select('id', 'firstName', 'lastName', 'division', 'group')
+    .whereIn('id', organizationLearnerIds);
+
+  return result.map(_toDomain);
+}
+
 const _toDomain = (organizationLearner) => new OrganizationLearner(organizationLearner);

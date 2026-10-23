@@ -1,4 +1,9 @@
-export default async ({ organizationId, page, combinedCourseRepository, combinedCourseParticipationRepository }) => {
+export default async ({
+  organizationId,
+  page,
+  combinedCourseRepository,
+  organizationLearnerParticipationRepository,
+}) => {
   const { combinedCourses, meta } = await combinedCourseRepository.findByOrganizationId({
     organizationId,
     page: page?.number,
@@ -11,13 +16,13 @@ export default async ({ organizationId, page, combinedCourseRepository, combined
 
   const combinedCourseIds = combinedCourses.map((combinedCourse) => combinedCourse.id);
 
-  const allCombinedCourseParticipations = await combinedCourseParticipationRepository.findByCombinedCourseIds({
+  const allCombinedCourseParticipations = await organizationLearnerParticipationRepository.findByCombinedCourseIds({
     combinedCourseIds,
   });
 
   const combinedCoursesWithParticipations = combinedCourses.map((combinedCourse) => {
     combinedCourse.participations = allCombinedCourseParticipations.filter(
-      (participation) => participation.combinedCourseId === combinedCourse.id,
+      (participation) => participation.referenceId === combinedCourse.id.toString(),
     );
     return combinedCourse;
   });

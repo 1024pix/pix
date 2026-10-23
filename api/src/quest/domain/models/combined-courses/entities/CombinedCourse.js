@@ -1,7 +1,8 @@
 import Joi from 'joi';
 
+import { CombinedCourseParticipationStatuses } from '../../../../../prescription/shared/domain/constants.ts';
 import { EntityValidationError } from '../../../../../shared/domain/errors.js';
-import { CombinedCourseParticipation } from '../../combined-course-participations/entities/CombinedCourseParticipation.js';
+import { OrganizationLearnerParticipation } from '../../combined-course-participations/entities/OrganizationLearnerParticipation.js';
 
 const schema = Joi.object({
   id: Joi.number().allow(null),
@@ -10,7 +11,7 @@ const schema = Joi.object({
   name: Joi.string().required(),
   description: Joi.string().allow(null),
   illustration: Joi.string().allow(null),
-  participations: Joi.array().items(Joi.object().instance(CombinedCourseParticipation)),
+  participations: Joi.array().items(Joi.object().instance(OrganizationLearnerParticipation)),
   questId: Joi.number(),
   blueprintId: Joi.number().allow(null),
   deletedAt: Joi.date().allow(null),
@@ -64,7 +65,9 @@ export class CombinedCourse {
   }
 
   get completedParticipationsCount() {
-    return this.participations.filter((participation) => participation.isCompleted()).length;
+    return this.participations.filter(
+      (participation) => participation.status === CombinedCourseParticipationStatuses.COMPLETED,
+    ).length;
   }
 
   #validate() {

@@ -27,6 +27,7 @@ export class CombinedCourseDetails extends CombinedCourse {
   items = [];
   #combinedCourseTunnelUrl = null;
   #participation = null;
+  #organizationLearner = null;
   dataForQuest = null;
   reward = null;
 
@@ -91,10 +92,10 @@ export class CombinedCourseDetails extends CombinedCourse {
     return new CombinedCourseParticipationDetails({
       id: this.#participation.id,
       status: this.status,
-      firstName: this.#participation.firstName,
-      lastName: this.#participation.lastName,
-      division: this.#participation.division,
-      group: this.#participation.group,
+      firstName: this.#organizationLearner?.firstName,
+      lastName: this.#organizationLearner?.lastName,
+      division: this.#organizationLearner?.division,
+      group: this.#organizationLearner?.group,
       createdAt: this.#participation.createdAt,
       updatedAt: this.#participation.updatedAt,
       hasFormationItem: this.items.some(({ type }) => type === COMBINED_COURSE_ITEM_TYPES.FORMATION),
@@ -297,10 +298,12 @@ export class CombinedCourseDetails extends CombinedCourse {
     recommendedModuleIdsForUser = [],
     dataForQuest,
     participation = null,
+    organizationLearner = null,
     reward = null,
   } = {}) {
     this.recommendedModuleIdsForUser = recommendedModuleIdsForUser;
     this.#participation = participation;
+    this.#organizationLearner = organizationLearner;
     this.#generateItems({ dataForQuest });
     this.reward = reward ? new CombinedCourseReward({ combinedCourseDetails: this, reward }) : null;
   }
