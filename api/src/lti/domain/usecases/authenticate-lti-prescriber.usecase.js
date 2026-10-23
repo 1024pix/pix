@@ -12,15 +12,15 @@ import { LtiPrescriberAccessToken } from '../models/LtiPrescriberAccessToken.js'
  * @param {Array<string>} args.organizationExternalIds
  * @param {import('../models/LtiPlatformRegistration.js').LtiPlatformRegistration} args.registration
  * @param {object} args.deepLinkingSettings
+ * @param {string} args.audience
  */
 export async function authenticateLtiPrescriber({
   organizationExternalIds,
   registration,
   deepLinkingSettings,
+  audience,
   organizationRepository,
-  urlService,
 }) {
-  const locale = 'fr-FR'; // TODO: Generate this dynamically
   const organizationIds = [];
   for (const organizationExternalId of organizationExternalIds) {
     const organizations = await organizationRepository.findActiveScoOrganizationsByExternalId(organizationExternalId);
@@ -28,7 +28,6 @@ export async function authenticateLtiPrescriber({
   }
 
   const scope = 'campaigns:read';
-  const audience = urlService.getPixOrgaUrl(locale);
   const sessionId = crypto.randomUUID();
   const accessToken = new LtiPrescriberAccessToken({
     organizationIds,

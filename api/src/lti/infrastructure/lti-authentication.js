@@ -2,6 +2,7 @@ import boom from '@hapi/boom';
 import { parseCookie } from 'cookie';
 
 import { logger } from '../../shared/infrastructure/utils/logger.js';
+import { getForwardedOrigin } from '../../shared/infrastructure/utils/network.js';
 import { LtiPrescriberAccessToken } from '../domain/models/LtiPrescriberAccessToken.js';
 import { ltiPlatformRegistrationRepository } from './repositories/lti-platform-registration.repository.js';
 
@@ -25,7 +26,12 @@ function makeAuthenticateJwtCookie({ cookieName, decode, authenticatePayload }) 
       return boom.unauthorized(null, jwtCookieSchemeName);
     }
 
-    const payload = decode(cookies[cookieName]);
+    let payload;
+    try {
+      payload = decode(cookies[cookieName], request);
+    } catch {
+      return boom.unauthorized();
+    }
 
     // FIXME check token's session isn't revoked
 
@@ -37,9 +43,18 @@ export const ltiPrescriberStrategyName = 'lti-prescriber';
 
 export const ltiPrescriberStrategyConfiguration = {
   cookieName: LtiPrescriberAccessToken.cookieName,
-  decode: LtiPrescriberAccessToken.decode,
+  decode: decodeLtiPrescriberAccessToken,
   authenticatePayload: authenticateLtiPrescriberPayload,
 };
+
+/**
+ * @param {string} value
+ * @param {import('@hapi/hapi').Request} request
+ */
+function decodeLtiPrescriberAccessToken(value, request) {
+  const expectedAudience = getForwardedOrigin(request.headers);
+  return LtiPrescriberAccessToken.decode(value, { expectedAudience });
+}
 
 /**
  * @param {LtiPrescriberAccessToken} payload
