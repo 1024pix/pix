@@ -386,63 +386,6 @@ export const bacASableModule = {
           ],
         },
         {
-          id: '1dc50ca6-355c-4d7f-941b-608788faa4db',
-          type: 'short-lesson',
-          title: 'Exemple de stepper leçon',
-          components: [
-            {
-              type: 'stepper',
-              steps: [
-                {
-                  elements: [
-                    {
-                      id: '868a2c39-d70b-45ba-847d-76d11a83a6fd',
-                      tag: ' ',
-                      type: 'text',
-                      content:
-                        '<p>Pour apprendre à une IA générative à produire du texte, on lui fait analyser des milliards de textes variés. 📚</p>',
-                    },
-                  ],
-                },
-                {
-                  elements: [
-                    {
-                      id: '3875f579-e152-4309-a630-cd91196381f5',
-                      tag: ' ',
-                      type: 'text',
-                      content:
-                        "<p>L’IA générative s’entraîne à masquer puis&nbsp;deviner&nbsp;des mots au hasard parmi tous ces textes. 🙈</p><p>Petit à petit elle s'améliore&nbsp;: elle apprend quels mots apparaissent&nbsp;souvent&nbsp;ensemble. 🐈 🐁</p>",
-                    },
-                  ],
-                },
-                {
-                  elements: [
-                    {
-                      id: '7b58e24b-b751-4000-b3b6-554e548b9dd9',
-                      tag: ' ',
-                      type: 'text',
-                      content:
-                        "<p>Ainsi à partir d'un début de phrase, l'IA générative&nbsp;prédit le mot suivant&nbsp;📝.<br>Puis elle recommence depuis le début de la phrase pour trouver le mot qui suit.<br>Et ... elle recommence encore et encore ! 🔁</p>",
-                    },
-                  ],
-                },
-                {
-                  elements: [
-                    {
-                      id: '1687e720-8346-4821-b60a-79937bdda1cb',
-                      tag: ' ',
-                      type: 'text',
-                      content:
-                        "<p>À la fin de cette étape, l'IA générative est capable de prolonger ou compléter des débuts de texte. 😮</p>",
-                    },
-                  ],
-                },
-              ],
-              instruction: '<p>😎COOL GANG 😎. Cette instruction ne sera pas visible dans le module.</p>',
-            },
-          ],
-        },
-        {
           id: '06f9478a-36c4-41a7-9165-b2da38f9c3b5',
           type: 'short-lesson',
           title: 'Exemple de short-lesson avec une transition après',
@@ -822,6 +765,63 @@ export const bacASableModule = {
                 content:
                   '<p>Voici un tableau :</p> <table>\n  <tbody>\n <tr>\n    <th scope="col">Player</th>\n    <th scope="col">Gloobles</th>\n    <th scope="col">Za\'taak</th>\n  </tr>\n  <tr>\n    <th scope="row">TR-7</th>\n    <td>7</td>\n    <td>4,569</td>\n  </tr>\n  <tr>\n    <th scope="row">Khiresh Odo</th>\n    <td>7</td>\n    <td>7,223</td>\n  </tr>\n  <tr>\n    <th scope="row">Mia Oolong</th>\n    <td>9</td>\n    <td>6,219</td>\n  </tr>\n </tbody>\n </table>\n',
               },
+            },
+          ],
+        },
+        {
+          id: '1dc50ca6-355c-4d7f-941b-608788faa4db',
+          type: 'short-lesson',
+          title: 'Exemple de stepper leçon',
+          components: [
+            {
+              type: 'stepper',
+              steps: [
+                {
+                  elements: [
+                    {
+                      id: '868a2c39-d70b-45ba-847d-76d11a83a6fd',
+                      tag: ' ',
+                      type: 'text',
+                      content:
+                        '<p>Pour apprendre à une IA générative à produire du texte, on lui fait analyser des milliards de textes variés. 📚</p>',
+                    },
+                  ],
+                },
+                {
+                  elements: [
+                    {
+                      id: '3875f579-e152-4309-a630-cd91196381f5',
+                      tag: ' ',
+                      type: 'text',
+                      content:
+                        "<p>L’IA générative s’entraîne à masquer puis&nbsp;deviner&nbsp;des mots au hasard parmi tous ces textes. 🙈</p><p>Petit à petit elle s'améliore&nbsp;: elle apprend quels mots apparaissent&nbsp;souvent&nbsp;ensemble. 🐈 🐁</p>",
+                    },
+                  ],
+                },
+                {
+                  elements: [
+                    {
+                      id: '7b58e24b-b751-4000-b3b6-554e548b9dd9',
+                      tag: ' ',
+                      type: 'text',
+                      content:
+                        "<p>Ainsi à partir d'un début de phrase, l'IA générative&nbsp;prédit le mot suivant&nbsp;📝.<br>Puis elle recommence depuis le début de la phrase pour trouver le mot qui suit.<br>Et ... elle recommence encore et encore ! 🔁</p>",
+                    },
+                  ],
+                },
+                {
+                  elements: [
+                    {
+                      id: '1687e720-8346-4821-b60a-79937bdda1cb',
+                      tag: ' ',
+                      type: 'text',
+                      content:
+                        "<p>À la fin de cette étape, l'IA générative est capable de prolonger ou compléter des débuts de texte. 😮</p>",
+                    },
+                  ],
+                },
+              ],
+              instruction: '<p>😎COOL GANG 😎. Cette instruction ne sera pas visible dans le module.</p>',
             },
           ],
         },
