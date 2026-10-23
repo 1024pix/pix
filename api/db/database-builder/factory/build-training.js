@@ -66,10 +66,4 @@ function buildTraining({
     values,
   });
 }
-
-/**
- * @typedef {
- *  function(Partial<Training>): Training
- * } BuildTraining
- */
 export { buildTraining };

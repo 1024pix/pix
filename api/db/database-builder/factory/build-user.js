@@ -433,10 +433,4 @@ function _generateEmailIfUndefined(email, id, lastName, firstName) {
   return email;
 }
 
-/**
- * @typedef {
- *  function(Partial<SeedUser>): SeedUser
- * } BuildUser
- */
-
 export { buildUser };
