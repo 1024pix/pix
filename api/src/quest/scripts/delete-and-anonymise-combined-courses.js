@@ -20,7 +20,7 @@ export class DeleteAndAnonymiseCombinedCoursesScript extends ScriptWithJob {
         },
         dryRun: {
           type: 'boolean',
-          default: true,
+          default: false,
         },
       },
     });
@@ -43,7 +43,7 @@ export class DeleteAndAnonymiseCombinedCoursesScript extends ScriptWithJob {
           userId: config.infra.engineeringUserId,
         });
 
-        if (options.dryRun) {
+        if (options.dryRun === true) {
           await knexConn.rollback();
           logger.info(`ROLLBACK due to dryRun`);
           logger.info(`--dryRun true to persist changes`);
