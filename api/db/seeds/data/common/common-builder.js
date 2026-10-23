@@ -60,6 +60,7 @@ export const commonBuilder = async function ({ databaseBuilder }) {
   _createMetierAdmin(databaseBuilder);
 
   createClientApplications(databaseBuilder);
+  createLtiPlatforms(databaseBuilder);
 
   await _createPublicTargetProfile(databaseBuilder);
   await databaseBuilder.commit();
@@ -273,6 +274,10 @@ function createClientApplications(databaseBuilder) {
     clientSecret: 'poc-llm-secret',
     scopes: ['llm-preview'],
   });
+}
+
+function createLtiPlatforms(databaseBuilder) {
+  databaseBuilder.factory.buildLtiPlatform({ origin: 'http://localhost:8000' });
 }
 
 function _createPublicTargetProfile(databaseBuilder) {
