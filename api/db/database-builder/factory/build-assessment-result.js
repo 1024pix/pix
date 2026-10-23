@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { AssessmentResult } from '../../../src/shared/domain/models/AssessmentResult.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildAssessment } from './build-assessment.js';
 import { buildCertificationCourseLastAssessmentResult } from './build-certification-course-last-assessment-result.js';
 import { buildUser } from './build-user.js';

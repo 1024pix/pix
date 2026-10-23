@@ -1,10 +1,11 @@
 /* eslint-disable knex/avoid-injections */
-import _ from 'lodash';
+import type { Knex } from 'knex';
 
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
-import { databaseBuffer as defaultDatabaseBuffer } from './database-buffer.js';
+import type { DatabaseConnection } from '../database-connection.js';
+import { type DatabaseBuffer, databaseBuffer as defaultDatabaseBuffer } from './database-buffer.ts';
 import * as databaseHelpers from './database-helpers.js';
-import { factory } from './factory/index.js';
+import { factory } from './factory/index.ts';
 
 const READONLY_TABLES = [
   'knex_migrations',
@@ -14,33 +15,37 @@ const READONLY_TABLES = [
 ];
 const CHUNK_SIZE = 1000;
 
-/**
- * @typedef {object} Factory
- * @property {typeof import('./factory/build-network.js').buildNetworkAndHeadOrganization} buildNetworkAndHeadOrganization
- * @property {typeof import('./factory/build-network.js').buildNetworkWithMultipleLevels} buildNetworkWithMultipleLevels
- * @property {typeof import('./factory/build-organization.js').buildOrganizationInNetwork} buildOrganizationInNetwork
- */
+type DatabaseBuilderOptions = {
+  databaseConnection: DatabaseConnection;
+  emptyFirst?: boolean;
+  databaseBuffer?: DatabaseBuffer;
+};
 
-/**
- * @class DatabaseBuilder
- * @property {Factory} factory
- */
+type SequenceInfo = { tableName: string; sequenceName: string };
+
 export class DatabaseBuilder {
-  #databaseConnection;
-  #emptyFirst;
-  #databaseBuffer;
+  #databaseConnection: DatabaseConnection;
+  #emptyFirst: boolean;
+  #databaseBuffer: DatabaseBuffer;
 
   #isFirstCommit = true;
 
-  #tablesOrderedByDependency;
-  #insertPriority;
-  #deletePriority;
-  #dirtyTables = new Set();
+  #tablesOrderedByDependency: string[] | undefined;
+  #insertPriority = new Map<string, number>();
+  #deletePriority = new Map<string, number>();
+  #dirtyTables = new Set<string>();
 
-  constructor({ databaseConnection, emptyFirst = true, databaseBuffer = defaultDatabaseBuffer }) {
+  knex: Knex;
+  factory: typeof factory;
+
+  constructor({
+    databaseConnection,
+    emptyFirst = true,
+    databaseBuffer = defaultDatabaseBuffer,
+  }: DatabaseBuilderOptions) {
     this.#databaseConnection = databaseConnection;
-    this.knex = databaseConnection.knex;
-    /** @type {Factory} */
+    // The not-configured stub is only reachable when isConfigured is false, in which case nothing queries the database.
+    this.knex = databaseConnection.knex as Knex;
     this.factory = factory;
     this.#databaseBuffer = databaseBuffer;
     this.#emptyFirst = emptyFirst;
@@ -48,41 +53,43 @@ export class DatabaseBuilder {
     if (this.#databaseConnection.isConfigured) this.#addListeners();
   }
 
-  static async create({ databaseConnection, emptyFirst = true }) {
-    return new DatabaseBuilder({ databaseConnection, emptyFirst });
+  static create({ databaseConnection, emptyFirst = true }: DatabaseBuilderOptions): Promise<DatabaseBuilder> {
+    return Promise.resolve(new DatabaseBuilder({ databaseConnection, emptyFirst }));
   }
 
-  async commit() {
+  async commit(): Promise<void> {
     await this.#init();
 
     const orderedObjectsToInsert = Object.entries(this.#databaseBuffer.objectsToInsert).toSorted(
-      ([tableName1], [tableName2]) => this.#insertPriority.get(tableName1) - this.#insertPriority.get(tableName2),
+      ([tableName1], [tableName2]) =>
+        priorityOf(this.#insertPriority, tableName1) - priorityOf(this.#insertPriority, tableName2),
     );
 
     try {
       await this.knex.transaction(async (trx) => {
         for (const [tableName, objectsToInsert] of orderedObjectsToInsert) {
-          for (const chunk of _.chunk(objectsToInsert, CHUNK_SIZE)) {
+          for (const chunk of toChunks(objectsToInsert, CHUNK_SIZE)) {
             await trx.insert(chunk).into(tableName);
           }
           this.#dirtyTables.add(tableName);
         }
       });
     } catch (err) {
-      logger.error(`Erreur dans databaseBuilder.commit() : ${err}`);
+      logger.error(`Erreur dans databaseBuilder.commit() : ${String(err)}`);
       this.#dirtyTables.clear();
       throw err;
     } finally {
-      this.#databaseBuffer.objectsToInsert = [];
+      this.#databaseBuffer.objectsToInsert = {};
     }
   }
 
-  async clean() {
+  async clean(): Promise<void> {
     if (this.#dirtyTables.size) {
       await this.knex.raw(
         Array.from(this.#dirtyTables)
           .toSorted(
-            (tableName1, tableName2) => this.#deletePriority.get(tableName1) - this.#deletePriority.get(tableName2),
+            (tableName1, tableName2) =>
+              priorityOf(this.#deletePriority, tableName1) - priorityOf(this.#deletePriority, tableName2),
           )
           .map(deleteFrom)
           .join('\n'),
@@ -105,7 +112,7 @@ export class DatabaseBuilder {
    * It is hence important to update sequences to avoid conflict with hard coded identifier
    * i.e. ERROR: duplicate key value violates unique constraint "pk_***"
    */
-  async fixSequences() {
+  async fixSequences(): Promise<void> {
     if (!this.#dirtyTables.size) return;
 
     const dirtyTablesSequencesInfo = await this.#getDirtyTablesSequencesInfo();
@@ -119,12 +126,12 @@ export class DatabaseBuilder {
     }
   }
 
-  async #getDirtyTablesSequencesInfo() {
+  async #getDirtyTablesSequencesInfo(): Promise<SequenceInfo[]> {
     const database = this.#databaseConnection.databaseName;
 
     const rawSequencesInfo = await this.knex
       .from('information_schema.columns')
-      .select('table_name', 'column_default')
+      .select<{ table_name: string; column_default: string }[]>('table_name', 'column_default')
       .whereRaw("column_default like 'nextval%'")
       .where({ table_catalog: database, column_name: 'id' })
       .whereIn('table_name', Array.from(this.#dirtyTables));
@@ -136,12 +143,12 @@ export class DatabaseBuilder {
     return sequencesInfo;
   }
 
-  async #getTableMaxId(tableName) {
-    const { max } = await this.knex.from(tableName).max('id').first();
-    return max;
+  async #getTableMaxId(tableName: string): Promise<number> {
+    const row = await this.knex.from(tableName).max('id').first<{ max: number | null } | undefined>();
+    return row?.max ?? 0;
   }
 
-  async #init() {
+  async #init(): Promise<void> {
     if (!this.#isFirstCommit) return;
     await this.#loadTables();
     if (this.#emptyFirst) {
@@ -150,22 +157,22 @@ export class DatabaseBuilder {
     this.#isFirstCommit = false;
   }
 
-  async emptyDatabase({ keepLearningContent = false } = {}) {
+  async emptyDatabase({ keepLearningContent = false }: { keepLearningContent?: boolean } = {}): Promise<void> {
     // Can be called before #init() has loaded the tables (initial test cleanup)
-    if (!this.#tablesOrderedByDependency) await this.#loadTables();
+    const tablesOrderedByDependency = this.#tablesOrderedByDependency ?? (await this.#loadTables());
 
-    const sortedTableNames = this.#tablesOrderedByDependency
+    const sortedTableNames = tablesOrderedByDependency
       .map(sanitizeTableName)
       .filter((tableName) => {
         return keepLearningContent ? !tableName.includes('learningcontent') : true;
       })
       .join(',');
-    return this.knex.raw(`TRUNCATE ${sortedTableNames}`);
+    await this.knex.raw(`TRUNCATE ${sortedTableNames}`);
   }
 
-  async #loadTables() {
+  async #loadTables(): Promise<string[]> {
     // See this link : https://stackoverflow.com/questions/51279588/sort-tables-in-order-of-dependency-postgres
-    function _constructRawQuery(namespace) {
+    const constructRawQuery = (namespace: string): string => {
       return `with recursive fk_tree as (
       select t.oid as reloid,
       t.relname as table_name,
@@ -198,10 +205,10 @@ export class DatabaseBuilder {
       last_table_row from fk_tree )
       select table_name
       from all_tables at where last_table_row = 1 order by level DESC;`;
-    }
+    };
 
-    const publicResults = await this.knex.raw(_constructRawQuery('public'));
-    const learningContentResults = await this.knex.raw(_constructRawQuery('learningcontent'));
+    const publicResults = await this.knex.raw<TableNamesResult>(constructRawQuery('public'));
+    const learningContentResults = await this.knex.raw<TableNamesResult>(constructRawQuery('learningcontent'));
 
     this.#tablesOrderedByDependency = [
       ...publicResults.rows.map(({ table_name }) => table_name),
@@ -213,10 +220,12 @@ export class DatabaseBuilder {
     this.#insertPriority = new Map(
       this.#tablesOrderedByDependency.toReversed().map((tableName, index) => [tableName, index]),
     );
+
+    return this.#tablesOrderedByDependency;
   }
 
-  #addListeners() {
-    this.knex?.on('query', (queryData) => {
+  #addListeners(): void {
+    this.knex?.on('query', (queryData: { method?: string; sql: string }) => {
       if (queryData.method?.toLowerCase() === 'insert') {
         const tableName = databaseHelpers.getTableNameFromInsertSqlQuery(queryData.sql);
 
@@ -231,13 +240,17 @@ export class DatabaseBuilder {
 }
 /* eslint-enable knex/avoid-injections */
 
-function sanitizeTableName(tableName) {
-  return tableName
+type TableNamesResult = { rows: { table_name: string }[] };
+
+const priorityOf = (priorities: Map<string, number>, tableName: string): number => priorities.get(tableName) ?? 0;
+
+const toChunks = <T>(items: T[], size: number): T[][] =>
+  Array.from({ length: Math.ceil(items.length / size) }, (_, index) => items.slice(index * size, (index + 1) * size));
+
+const sanitizeTableName = (tableName: string): string =>
+  tableName
     .split('.')
     .map((name) => `"${name}"`)
     .join('.');
-}
 
-function deleteFrom(tableName) {
-  return `DELETE FROM ${sanitizeTableName(tableName)};`;
-}
+const deleteFrom = (tableName: string): string => `DELETE FROM ${sanitizeTableName(tableName)};`;

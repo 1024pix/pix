@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { OrganizationLearnerParticipationTypes } from '../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildOrganizationLearner } from './prescription/organization-learners/build-organization-learner.js';
 
 const buildOrganizationLearnerParticipation = function ({

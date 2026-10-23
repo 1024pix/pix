@@ -7,7 +7,7 @@ import { AuthenticationMethod } from '../../../src/identity-access-management/do
 import { PIX_ADMIN } from '../../../src/shared/constants.js';
 import { Membership } from '../../../src/shared/domain/models/Membership.js';
 import { DEFAULT_PASSWORD } from '../../constants.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { getUserHashedPassword } from './build-authentication-method.js';
 import { buildCertificationCenter } from './build-certification-center.js';
 import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
@@ -432,11 +432,5 @@ function _generateEmailIfUndefined(email, id, lastName, firstName) {
 
   return email;
 }
-
-/**
- * @typedef {
- *  function(Partial<SeedUser>): SeedUser
- * } BuildUser
- */
 
 export { buildUser };

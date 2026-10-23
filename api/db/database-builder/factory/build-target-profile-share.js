@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildOrganization } from './build-organization.js';
 import { buildTargetProfile } from './build-target-profile.js';
 

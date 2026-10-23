@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { DatabaseBuilder } from '../../../../db/database-builder/database-builder.js';
+import { DatabaseBuilder } from '../../../../db/database-builder/database-builder.ts';
 import { databaseConnection } from '../../../../db/knex-database-connection.js';
 import { createOrganization } from '../../../../db/seeds/data/common/tooling/organization-tooling.js';
 import { databaseBuilder } from '../../databases.js';

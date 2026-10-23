@@ -1,4 +1,4 @@
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 
 export const buildCertificationChallengeCapacity = ({ answerId, capacity, certificationChallengeId, createdAt }) => {
   return databaseBuffer.pushInsertable({

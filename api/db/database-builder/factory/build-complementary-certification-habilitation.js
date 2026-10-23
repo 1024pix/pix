@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildCertificationCenter } from './build-certification-center.js';
 import { buildComplementaryCertification } from './build-complementary-certification.js';
 

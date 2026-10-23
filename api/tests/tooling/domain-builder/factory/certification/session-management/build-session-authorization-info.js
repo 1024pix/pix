@@ -1,8 +1,8 @@
-import { databaseBuffer } from '../../../../../../db/database-builder/database-buffer.js';
+import { databaseBuffer } from '../../../../../../db/database-builder/database-buffer.ts';
 import { SessionAuthorizationInfo } from '../../../../../../src/certification/session-management/domain/read-models/SessionAuthorizationInfo.js';
 
 /**
- * @typedef {import('../../../../../../db/database-builder/database-builder.js').databaseBuilder} DatabaseBuilder
+ * @typedef {import('../../../../../../db/database-builder/database-builder.ts').databaseBuilder} DatabaseBuilder
  */
 
 /**

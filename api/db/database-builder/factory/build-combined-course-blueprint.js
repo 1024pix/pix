@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { CombinedCourseBlueprint } from '../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildQuest } from './build-quest.js';
 import { buildTargetProfile } from './build-target-profile.js';
 import { buildModule } from './learning-content/build-module.js';

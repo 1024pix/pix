@@ -32,6 +32,7 @@ export default {
         pathNot: [
           'tests/tooling/unit/database-builder/database-buffer_test.js',
           'tests/tooling/unit/database-builder/database-helpers_test.js',
+          'tests/tooling/unit/database-builder/factory-index_test.ts',
         ],
       },
       to: { path: ['(.*)database-builder/(.*)'] },
