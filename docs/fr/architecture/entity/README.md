@@ -268,15 +268,16 @@ l'objet. Dans Pix, il prend plusieurs formes :
 **Exemple de code correct.**
 
 ```ts
-// CertificationCourse
-  readonly id: Id; // E1 : en lecture seule
+export class CertificationCourse {
+  readonly id: number; // En lecture seule
+}
 ```
 
 **Exemple de code incorrect.**
 
 ```ts
 export class CertificationCourse {
-  id: number; // public : modifiable de partout
+  id: number; // Modifiable en dehors
 }
 ```
 
