@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import * as jose from 'jose';
 import nock from 'nock';
 
+import { LtiPrescriberAccessToken } from '../../../../src/lti/domain/models/LtiPrescriberAccessToken.js';
 import { cryptoService } from '../../../../src/shared/domain/services/crypto-service.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
@@ -98,6 +99,76 @@ describe('Acceptance | LTI | Route | Admin', function () {
 
       expect(platformConfigScope.isDone()).to.be.true;
       expect(registrationScope.isDone()).to.be.true;
+    });
+  });
+
+  describe('GET /api/lti/campaigns', function () {
+    it('returns the lti campaigns of the organizations with an HTTP status code 200', async function () {
+      // given
+      const { id: platformId } = databaseBuilder.factory.buildLtiPlatform();
+      const { clientId } = databaseBuilder.factory.buildLtiPlatformRegistration({ platformId });
+
+      const organization = databaseBuilder.factory.buildOrganization({ name: 'Orga 1' });
+      const otherOrganization = databaseBuilder.factory.buildOrganization({ name: 'Orga 2' });
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({ description: 'Un profil cible' });
+      databaseBuilder.factory.buildCampaign({
+        organizationId: organization.id,
+        targetProfileId: targetProfile.id,
+        name: 'Campagne 1',
+        code: 'CAMPAIGN1',
+        type: 'ASSESSMENT',
+      });
+      databaseBuilder.factory.buildCampaign({
+        organizationId: otherOrganization.id,
+        targetProfileId: targetProfile.id,
+      });
+      await databaseBuilder.commit();
+
+      const ltiPrescriberAccessToken = new LtiPrescriberAccessToken({
+        organizationIds: [organization.id],
+        clientId,
+        deepLinkingSettings: {},
+        scope: 'lti-prescriber',
+        audience: 'https://orga.pix.fr',
+        sessionId: 'session-id',
+      });
+
+      const options = {
+        method: 'GET',
+        url: '/api/lti/campaigns',
+        headers: {
+          cookie: `jwtLtiPrescriber=${ltiPrescriberAccessToken.encoded}`,
+          'x-forwarded-proto': 'https',
+          'x-forwarded-host': 'orga.pix.fr',
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).lengthOf(1);
+      expect(response.result.data[0].type).to.equal('lti-campaigns');
+    });
+
+    it('returns an HTTP status code 401 when there is no lti prescriber cookie', async function () {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/lti/campaigns',
+        headers: {
+          cookie: `jwtLtiPrescriber=`,
+          'x-forwarded-proto': 'https',
+          'x-forwarded-host': 'orga.pix.fr',
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(401);
     });
   });
 });
