@@ -1,4 +1,4 @@
-import { Element } from '../Element.js';
+import { Element } from '../Element.ts';
 
 class Flashcards extends Element {
   constructor({ id, title, instruction, introImage, cards }) {
