@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { CenterForAdmin } from '../../../../../src/organizational-entities/domain/models/CenterForAdmin.js';
 import { updateCertificationCenter } from '../../../../../src/organizational-entities/domain/usecases/update-certification-center.usecase.js';
-import * as centerRepository from '../../../../../src/organizational-entities/infrastructure/repositories/center-repository.js';
+import * as certificationCenterRepository from '../../../../../src/organizational-entities/infrastructure/repositories/certification-center.repository.js';
 import * as certificationCenterForAdminRepository from '../../../../../src/organizational-entities/infrastructure/repositories/certification-center-for-admin.repository.js';
 import * as complementaryCertificationHabilitationRepository from '../../../../../src/organizational-entities/infrastructure/repositories/complementary-certification-habilitation.repository.js';
 import * as dataProtectionOfficerRepository from '../../../../../src/organizational-entities/infrastructure/repositories/data-protection-officer.repository.js';
@@ -46,7 +46,7 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-cer
       certificationCenterForAdminRepository,
       complementaryCertificationHabilitationRepository,
       dataProtectionOfficerRepository,
-      centerRepository,
+      certificationCenterRepository,
     });
 
     // then
@@ -64,5 +64,37 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-cer
     );
     expect(updatedCertificationCenter.habilitations[0].key).to.equal(complementaryCertification.key);
     expect(updatedCertificationCenter.habilitations[0].label).to.equal(complementaryCertification.label);
+  });
+
+  it('updates certification center category and returns it', async function () {
+    // given
+    const category = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' });
+    const { certificationCenter } = databaseBuilder.factory.buildCertificationCenterWithStructure();
+    const certificationCenterInformation = domainBuilder.buildCenterForAdmin({
+      center: {
+        id: certificationCenter.id,
+        name: 'Pix Super Center',
+        type: 'PRO',
+        habilitations: [],
+        categoryId: category.id,
+      },
+    });
+
+    await databaseBuilder.commit();
+
+    // when
+    const updatedCertificationCenter = await updateCertificationCenter({
+      certificationCenterId: certificationCenter.id,
+      certificationCenterInformation,
+      complementaryCertificationIds: [],
+      certificationCenterForAdminRepository,
+      complementaryCertificationHabilitationRepository,
+      dataProtectionOfficerRepository,
+      certificationCenterRepository,
+    });
+
+    // then
+    expect(updatedCertificationCenter.categoryId).to.equal(category.id);
+    expect(updatedCertificationCenter.categoryLabel).to.equal('Établissement scolaire');
   });
 });

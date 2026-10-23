@@ -1,5 +1,5 @@
 /**
- * @typedef {import('./index.js').CenterRepository} CenterRepository
+ * @typedef {import('./index.js').CertificationCenterRepository} CertificationCenterRepository
  * @typedef {import('./index.js').CertificationCenterForAdminRepository} CertificationCenterForAdminRepository
  * @typedef {import('./index.js').ComplementaryCertificationHabilitationRepository} ComplementaryCertificationHabilitationRepository
  * @typedef {import('./index.js').DataProtectionOfficerRepository} DataProtectionOfficerRepository
@@ -15,7 +15,7 @@ import * as certificationCenterCreationValidator from '../validators/certificati
  * @param {number} params.certificationCenterId
  * @param {Object} params.certificationCenterInformation - see deserializer
  * @param {Array<number>} params.complementaryCertificationIds
- * @param {CenterRepository} params.centerRepository
+ * @param {CertificationCenterRepository} params.certificationCenterRepository
  * @param {CertificationCenterForAdminRepository} params.certificationCenterForAdminRepository
  * @param {ComplementaryCertificationHabilitationRepository} params.complementaryCertificationHabilitationRepository
  * @param {DataProtectionOfficerRepository} params.dataProtectionOfficerRepository
@@ -24,7 +24,7 @@ const updateCertificationCenter = async function ({
   certificationCenterId,
   certificationCenterInformation,
   complementaryCertificationIds,
-  centerRepository,
+  certificationCenterRepository,
   certificationCenterForAdminRepository,
   complementaryCertificationHabilitationRepository,
   dataProtectionOfficerRepository,
@@ -35,7 +35,6 @@ const updateCertificationCenter = async function ({
     certificationCenterId,
     certificationCenterInformation,
     complementaryCertificationIds,
-    centerRepository,
     certificationCenterForAdminRepository,
     complementaryCertificationHabilitationRepository,
   });
@@ -46,7 +45,7 @@ const updateCertificationCenter = async function ({
     dataProtectionOfficerRepository,
   });
 
-  const updatedCertificationCenter = await centerRepository.getById({ id: certificationCenterId });
+  const updatedCertificationCenter = await certificationCenterRepository.getById({ id: certificationCenterId });
   return CenterForAdminFactory.fromCenterAndDataProtectionOfficer({
     center: updatedCertificationCenter,
     dataProtectionOfficer,
