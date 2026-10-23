@@ -119,10 +119,4 @@ const buildOrganizationLearner = function ({
     values,
   });
 };
-
-/**
- * @typedef {
- *  function(Partial<SeedOrganizationLearner>): SeedOrganizationLearner
- * } BuildOrganizationLearner
- */
 export { buildOrganizationLearner };
