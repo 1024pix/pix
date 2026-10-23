@@ -3,8 +3,10 @@
  * @typedef {import('./index.js').CertificationCenterForAdminRepository} CertificationCenterForAdminRepository
  * @typedef {import('./index.js').ComplementaryCertificationHabilitationRepository} ComplementaryCertificationHabilitationRepository
  * @typedef {import('./index.js').DataProtectionOfficerRepository} DataProtectionOfficerRepository
+ * @typedef {import('./index.js').StructureCategoryRepository} StructureCategoryRepository
  */
 
+import { StructureCategoryNotFound } from '../errors.js';
 import { ComplementaryCertificationHabilitation } from '../models/ComplementaryCertificationHabilitation.js';
 import { DataProtectionOfficer } from '../models/DataProtectionOfficer.js';
 import { CenterForAdminFactory } from '../models/factories/CenterForAdminFactory.js';
@@ -19,6 +21,7 @@ import * as certificationCenterCreationValidator from '../validators/certificati
  * @param {CertificationCenterForAdminRepository} params.certificationCenterForAdminRepository
  * @param {ComplementaryCertificationHabilitationRepository} params.complementaryCertificationHabilitationRepository
  * @param {DataProtectionOfficerRepository} params.dataProtectionOfficerRepository
+ * @param {StructureCategoryRepository} params.structureCategoryRepository
  */
 const updateCertificationCenter = async function ({
   certificationCenterId,
@@ -28,8 +31,20 @@ const updateCertificationCenter = async function ({
   certificationCenterForAdminRepository,
   complementaryCertificationHabilitationRepository,
   dataProtectionOfficerRepository,
+  structureCategoryRepository,
 }) {
   certificationCenterCreationValidator.validate(certificationCenterInformation);
+
+  const { categoryId } = certificationCenterInformation;
+  if (categoryId) {
+    const existingStructureCategory = await structureCategoryRepository.findById(categoryId);
+    if (!existingStructureCategory) {
+      throw new StructureCategoryNotFound({
+        message: `Structure category not found for id ${categoryId}`,
+        meta: { structureCategoryId: categoryId },
+      });
+    }
+  }
 
   await _updateCenter({
     certificationCenterId,
