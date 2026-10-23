@@ -11,6 +11,7 @@ export class CertificationCenter {
     habilitations = [],
     archivedAt,
     archivedBy,
+    categoryId,
     categoryLabel,
   } = {}) {
     this.id = id;
@@ -22,6 +23,7 @@ export class CertificationCenter {
     this.habilitations = habilitations;
     this.archivedAt = archivedAt;
     this.archivedBy = archivedBy;
+    this.categoryId = categoryId;
     this.categoryLabel = categoryLabel;
   }
 

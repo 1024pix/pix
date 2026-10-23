@@ -39,10 +39,11 @@ describe('Unit | Organizational Entities | Domain | Models | Factories | CenterF
     );
   });
 
-  it('should build a Center for admin with its category label', function () {
+  it('should build a Center for admin with its category', function () {
     // given
     const center = {
       ...domainBuilder.certification.enrolment.buildCenter({ createdAt: new Date('2022-01-01') }),
+      categoryId: 12,
       categoryLabel: 'Établissement scolaire',
     };
     const dataProtectionOfficer =
@@ -52,6 +53,7 @@ describe('Unit | Organizational Entities | Domain | Models | Factories | CenterF
     const centerForAdmin = CenterForAdminFactory.fromCenterAndDataProtectionOfficer({ center, dataProtectionOfficer });
 
     // then
+    expect(centerForAdmin.categoryId).to.equal(12);
     expect(centerForAdmin.categoryLabel).to.equal('Établissement scolaire');
   });
 });
