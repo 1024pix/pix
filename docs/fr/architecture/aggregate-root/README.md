@@ -13,7 +13,7 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | [A1](#a1-une-règle-relie-les-objets) | Une règle relie les objets | on peut écrire la règle qui oblige ces objets à changer ensemble |
 | [A2](#a2-la-racine-est-la-seule-porte-dentrée) | La racine est la seule porte d'entrée | le champ qui contient les objets internes est privé ; hors du dossier, seul `index.ts` s'importe |
 | [A3](#a3-un-repository-par-aggregate) | Un repository par Aggregate | `get()` charge tout le groupe, `update()` enregistre tout le groupe |
-| [A4](#a4-pas-dobjet-dun-autre-aggregate) | Pas d'objet d'un autre Aggregate | `createdBy: UserId`, pas `createdBy: User` |
+| [A4](#a4-pas-dobjet-dun-autre-aggregate) | Pas d'objet d'un autre Aggregate | `createdBy: number`, pas `createdBy: User` |
 | [A6](#a6-petit-aggregate) | Petit Aggregate | seulement les objets qu'une règle relie |
 | [A7](#a7-une-transaction-un-aggregate) | Une transaction, un Aggregate | les autres Aggregates sont modifiés dans leur propre transaction |
 | [A8](#a8-la-racine-enregistre-ses-événements) | La racine enregistre ses événements | `archive()` enregistre `OrganizationArchivedEvent`, après avoir vérifié ses règles |
@@ -66,14 +66,13 @@ export abstract class AggregateRoot {
 
 ```ts
 // organizational-entities/domain/events/OrganizationArchivedEvent.ts — A8 : un fait, nommé au passé
-import type { OrganizationId } from '../../../shared/domain/Id.js';
 
 export class OrganizationArchivedEvent {
   static readonly eventName = 'organization.archived';
   readonly eventName = OrganizationArchivedEvent.eventName;
-  readonly payload: { organizationId: OrganizationId; archivedAt: Date }; // des id et des valeurs
+  readonly payload: { organizationId: number; archivedAt: Date }; // des id et des valeurs
 
-  constructor(payload: { organizationId: OrganizationId; archivedAt: Date }) {
+  constructor(payload: { organizationId: number; archivedAt: Date }) {
     this.payload = payload;
   }
 }
@@ -131,7 +130,6 @@ export class PlacesLot {
 
 ```ts
 // organization/Organization.ts — la racine
-import type { OrganizationId, UserId } from '../../../../shared/domain/Id.js';
 import { AggregateRoot } from '../../../../shared/domain/models/AggregateRoot.js';
 import {
   ArchivedOrganizationError,
@@ -151,7 +149,7 @@ export type OrganizationProps<Id> = {
   id: Id;
   name: string;
   type: OrganizationType;
-  createdBy: UserId;
+  createdBy: number;
   isManagingStudents: boolean;
   features: OrganizationFeatureProps[]; // des données : c'est la racine qui crée ses objets internes
   placesLots: PlacesLotProps[];
@@ -159,10 +157,10 @@ export type OrganizationProps<Id> = {
 };
 
 // Organization<null> : une organisation pas encore enregistrée (voir E1 de la fiche Entity)
-export class Organization<Id extends OrganizationId | null = OrganizationId> extends AggregateRoot {
+export class Organization<Id extends number | null = number> extends AggregateRoot {
   readonly id: Id;
   readonly type: OrganizationType;
-  readonly createdBy: UserId; // A4 : un autre Aggregate, gardé par son id
+  readonly createdBy: number; // A4 : un autre Aggregate, gardé par son id
   #name: string;
   #isManagingStudents: boolean;
   #features: OrganizationFeature[]; // A2 : privé
@@ -188,7 +186,7 @@ export class Organization<Id extends OrganizationId | null = OrganizationId> ext
   }
 
   // une organisation neuve, sans id
-  static create({ name, type, createdBy }: { name: string; type: OrganizationType; createdBy: UserId }): Organization<null> {
+  static create({ name, type, createdBy }: { name: string; type: OrganizationType; createdBy: number }): Organization<null> {
     return new Organization({ id: null, name, type, createdBy, isManagingStudents: false, features: [], placesLots: [], archivedAt: null });
   }
 
@@ -260,7 +258,7 @@ function assertValidName(name: string): void {
 ```ts
 // domain/repositories/OrganizationRepository.ts — A3 : un seul repository pour tout le groupe
 export interface OrganizationRepository {
-  get({ id }: { id: OrganizationId }): Promise<Organization>; // l'organisation et ses fonctionnalités
+  get({ id }: { id: number }): Promise<Organization>; // l'organisation et ses fonctionnalités
   add({ organization }: { organization: Organization<null> }): Promise<Organization>;
   update({ organization }: { organization: Organization }): Promise<void>; // l'organisation et ses fonctionnalités
 }
@@ -275,7 +273,7 @@ export const enableOrganizationFeature = async ({
   params,
   organizationRepository,
 }: {
-  organizationId: OrganizationId;
+  organizationId: number;
   featureName: FeatureName;
   params: FeatureParams;
   organizationRepository: OrganizationRepository;
@@ -322,15 +320,14 @@ import {
 } from '../../../../../../src/organizational-entities/domain/errors.js';
 import { OrganizationArchivedEvent } from '../../../../../../src/organizational-entities/domain/events/OrganizationArchivedEvent.js';
 import { Organization, type OrganizationProps } from '../../../../../../src/organizational-entities/domain/models/organization/index.js';
-import type { OrganizationId, UserId } from '../../../../../../src/shared/domain/Id.js';
 
 describe('Unit | Organizational Entities | Domain | Models | Organization', function () {
-  const buildOrganization = (props: Partial<OrganizationProps<OrganizationId>> = {}) =>
+  const buildOrganization = (props: Partial<OrganizationProps<number>> = {}) =>
     new Organization({
-      id: 1 as OrganizationId,
+      id: 1,
       name: 'Lycée Victor Hugo',
       type: 'SCO',
-      createdBy: 2 as UserId,
+      createdBy: 2,
       isManagingStudents: false,
       features: [],
       placesLots: [],
@@ -382,7 +379,7 @@ describe('Unit | Organizational Entities | Domain | Models | Organization', func
       organization.archive(now);
 
       expect(organization.pullDomainEvents()).to.deep.equal([
-        new OrganizationArchivedEvent({ organizationId: 1 as OrganizationId, archivedAt: now }),
+        new OrganizationArchivedEvent({ organizationId: 1, archivedAt: now }),
       ]);
     });
 
@@ -559,7 +556,7 @@ point d'entrée :
 
 ```ts
 export interface OrganizationRepository {
-  get({ id }: { id: OrganizationId }): Promise<Organization>; // l'organisation et ses fonctionnalités
+  get({ id }: { id: number }): Promise<Organization>; // l'organisation et ses fonctionnalités
   add({ organization }: { organization: Organization<null> }): Promise<Organization>;
   update({ organization }: { organization: Organization }): Promise<void>; // l'organisation et ses fonctionnalités
 }
@@ -595,7 +592,7 @@ une règle a besoin des données de cet objet, la méthode les reçoit en param�
 
 ```ts
 // Organization
-  readonly createdBy: UserId; // A4 : un autre Aggregate, gardé par son id
+  readonly createdBy: number; // A4 : un autre Aggregate, gardé par son id
 ```
 
 **Mauvais exemple.**
@@ -626,7 +623,7 @@ propres Aggregates, et sont gardés par leur identifiant.
 export class Organization {
   #features: OrganizationFeature[]; // une règle relie les fonctionnalités et isManagingStudents
   #placesLots: PlacesLot[]; // une règle relie les places et l'archivage
-  readonly createdBy: UserId; // un utilisateur est un autre Aggregate
+  readonly createdBy: number; // un utilisateur est un autre Aggregate
   // pas de membres, pas d'invitations, pas de campagnes : aucune règle ne les relie à l'organisation
 }
 ```

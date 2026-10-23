@@ -24,15 +24,14 @@ La bonne réponse d'une question à choix multiples (QCM), c'est-à-dire la list
 
 ```ts
 // devcomp/domain/models/QcmSolution.ts
-import type { ChallengeId } from '../../../shared/domain/Id.js';
 import { InvalidQcmSolutionError } from '../errors.js';
 
 export class QcmSolution {
-  readonly challengeId: ChallengeId; // V2 : l'identifiant de la question, pas celui de la solution
+  readonly challengeId: string; // V2 : l'identifiant de la question, pas celui de la solution
   #correctChoiceIds: string[]; // V1 : privé, personne ne peut le modifier hors de la classe
 
   // V3 : refuse une valeur invalide
-  constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; correctChoiceIds: string[] }) {
+  constructor({ challengeId, correctChoiceIds }: { challengeId: string; correctChoiceIds: string[] }) {
     if (correctChoiceIds.length === 0) {
       throw new InvalidQcmSolutionError('A QCM needs at least one correct choice');
     }
@@ -83,10 +82,9 @@ import { expect } from 'chai';
 
 import { InvalidQcmSolutionError } from '../../../../../src/devcomp/domain/errors.js';
 import { QcmSolution } from '../../../../../src/devcomp/domain/models/QcmSolution.js';
-import type { ChallengeId } from '../../../../../src/shared/domain/Id.js';
 
 describe('Unit | Devcomp | Domain | Models | QcmSolution', function () {
-  const challengeId = 'challenge-1' as ChallengeId;
+  const challengeId = 'challenge-1';
 
   describe('constructor', function () {
     it('refuses a solution without correct choice', function () {
@@ -156,7 +154,7 @@ aucune méthode ne les modifie. Pour une autre valeur, on crée un autre objet.
 **Exemple de code correct.**
 
 ```ts
-readonly challengeId: ChallengeId; // en lecture seule
+readonly challengeId: string; // en lecture seule
 #correctChoiceIds: string[]; // privé
 ```
 
@@ -164,7 +162,7 @@ readonly challengeId: ChallengeId; // en lecture seule
 
 ```ts
 export class QcmSolution {
-  challengeId: ChallengeId; // public : modifiable de partout
+  challengeId: string; // public : modifiable de partout
   correctChoiceIds: string[]; // public : modifiable de partout
 }
 ```
@@ -226,7 +224,7 @@ erreur du domaine et l'objet n'est pas créé.
 
 ```ts
 // QcmSolution
-constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; correctChoiceIds: string[] }) {
+constructor({ challengeId, correctChoiceIds }: { challengeId: string; correctChoiceIds: string[] }) {
   if (correctChoiceIds.length === 0) {
     throw new InvalidQcmSolutionError('A QCM needs at least one correct choice');
   }
@@ -238,7 +236,7 @@ constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; corre
 
 ```ts
 // QcmSolution
-constructor({ challengeId, correctChoiceIds }: { challengeId: ChallengeId; correctChoiceIds: string[] }) {
+constructor({ challengeId, correctChoiceIds }: { challengeId: string; correctChoiceIds: string[] }) {
   // TODO: throw an error if the solution is invalid
   this.challengeId = challengeId; // tout est accepté
   this.#correctChoiceIds = correctChoiceIds;
