@@ -219,7 +219,12 @@ async function downloadDivisionCertificates(
     .header('Content-Type', 'application/pdf');
 }
 
+function downloadSelectedSessionsAttestations() {
+  // todo
+}
+
 const certificateController = {
+  downloadSelectedSessionsAttestations,
   getCertificate,
   getCertificateByVerificationCode,
   getPDFCertificate,
