@@ -1,4 +1,4 @@
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 
 const buildOrganizationLearnerType = function ({ id = databaseBuffer.getNextId(), name = `Type ${id}` } = {}) {
   const values = {

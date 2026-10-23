@@ -1,5 +1,5 @@
 import { ComplementaryCertificationKeys } from '../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 
 function buildComplementaryCertification({
   id = databaseBuffer.getNextId(),

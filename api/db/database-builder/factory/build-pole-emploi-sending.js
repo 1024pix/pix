@@ -1,5 +1,5 @@
 import { PoleEmploiSending } from '../../../src/prescription/campaign-participation/domain/models/PoleEmploiSending.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 
 const buildPoleEmploiSending = ({
   id = databaseBuffer.getNextId(),

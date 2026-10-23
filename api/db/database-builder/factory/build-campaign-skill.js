@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildCampaign } from './build-campaign.js';
 
 const buildCampaignSkill = function ({ campaignId, skillId = 'recSKI456' } = {}) {

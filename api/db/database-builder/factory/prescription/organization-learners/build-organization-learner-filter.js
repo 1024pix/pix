@@ -1,4 +1,4 @@
-import { databaseBuffer } from '../../../database-buffer.js';
+import { databaseBuffer } from '../../../database-buffer.ts';
 
 const buildOrganizationLearnerFilter = function ({ organizationId, attributeName, values } = {}) {
   const columns = {

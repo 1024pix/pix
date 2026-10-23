@@ -1,4 +1,4 @@
-import { databaseBuffer } from '../../../database-buffer.js';
+import { databaseBuffer } from '../../../database-buffer.ts';
 import { buildFeature } from '../../build-feature.js';
 import { buildOrganizationLearner } from '../../build-organization-learner.js';
 

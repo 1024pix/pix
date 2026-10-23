@@ -1,4 +1,4 @@
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildUser } from './build-user.js';
 
 function buildLastUserApplicationConnection({

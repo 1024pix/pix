@@ -1,5 +1,5 @@
 import { ScoOrganizationTagName } from '../../../src/certification/configuration/domain/models/ScoOrganizationTagName.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 
 export function buildScoBlockedAccessDate({ reopeningDate = new Date('2025-11-15'), scoOrganizationTagName }) {
   databaseBuffer.pushInsertable({
