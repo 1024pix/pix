@@ -152,6 +152,7 @@
     "neoqs": "6.13.0",
     "node-stream-zip": "1.16.0",
     "nodemailer": "10.1.2",
+    "oauth4webapi": "^3.8.8",
     "openid-client": "6.8.8",
     "papaparse": "5.7.0",
     "pdf-lib": "1.17.1",
