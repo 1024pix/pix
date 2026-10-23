@@ -1,5 +1,10 @@
+import {
+  allowInsecureRequests,
+  dynamicClientRegistrationRequest,
+  processDynamicClientRegistrationResponse,
+} from 'oauth4webapi';
+
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
-import { InvalidLtiPlatformRegistrationError } from '../errors.js';
 import { LtiPlatformRegistration } from '../models/LtiPlatformRegistration.js';
 
 const logger = child('lti:register-lti-platform', { event: SCOPES.LTI });
@@ -8,7 +13,6 @@ const logger = child('lti:register-lti-platform', { event: SCOPES.LTI });
  * @param {object} args
  * @param {string} args.platformConfigurationUrl
  * @param {string} args.registrationToken
- * @param {typeof import('../../../shared/infrastructure/http-agent.js').httpAgent} args.httpAgent
  * @param {typeof import('../../infrastructure/repositories/lti-platform-registration.repository.js').ltiPlatformRegistrationRepository} args.ltiPlatformRegistrationRepository
  * @param {typeof import('../../../shared/domain/services/crypto-service.js').cryptoService} args.cryptoService
  * @param {typeof import('../services/lti.service.js').ltiService} args.ltiService
@@ -16,7 +20,6 @@ const logger = child('lti:register-lti-platform', { event: SCOPES.LTI });
 export async function registerLtiPlatform({
   platformConfigurationUrl,
   registrationToken,
-  httpAgent,
   ltiPlatformRegistrationRepository,
   cryptoService,
   ltiService,
@@ -25,17 +28,12 @@ export async function registerLtiPlatform({
 
   const pixToolConfiguration = ltiService.createPixToolConfiguration();
 
-  const { data: pixToolRegistration, ...registrationResponse } = await httpAgent.post({
-    url: platformConfiguration.registration_endpoint,
-    headers: {
-      Authorization: `Bearer ${registrationToken}`,
-    },
-    payload: pixToolConfiguration,
+  const response = await dynamicClientRegistrationRequest(platformConfiguration, pixToolConfiguration, {
+    initialAccessToken: registrationToken,
+    [allowInsecureRequests]: true,
   });
-  if (!registrationResponse.isSuccessful) {
-    logger.error(registrationResponse, 'Registration with LTI platform failed.');
-    throw new InvalidLtiPlatformRegistrationError('Registration with the platform failed');
-  }
+
+  const pixToolRegistration = await processDynamicClientRegistrationResponse(response);
 
   const { publicKey, privateKey } = await cryptoService.generateJSONWebKeyPair();
   const encryptedPrivateKey = await cryptoService.encrypt(JSON.stringify(privateKey));
