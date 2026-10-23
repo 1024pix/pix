@@ -996,9 +996,84 @@ describe('Unit | Domain | services | cat-algorithm', function () {
       // then
       expect(predictedLevel).to.equal(6.5);
     });
+
+    it('should only rely on direct knowledge elements', function () {
+      // given
+      const targetSkills = [1, 2, 3, 4, 5, 6].map((level) =>
+        buildSkill({ id: `recWeb${level}`, name: `@web${level}`, difficulty: level }),
+      );
+      const directKnowledgeElement = buildKnowledgeElement({
+        skillId: 'recWeb5',
+        source: 'direct',
+        status: 'validated',
+      });
+      const inferredKnowledgeElement = buildKnowledgeElement({
+        skillId: 'recWeb1',
+        source: 'inferred',
+        status: 'invalidated',
+      });
+
+      // when
+      const predictedLevelWithInferred = getPredictedLevel(
+        [directKnowledgeElement, inferredKnowledgeElement],
+        targetSkills,
+      );
+
+      // then
+      expect(predictedLevelWithInferred).to.equal(getPredictedLevel([directKnowledgeElement], targetSkills));
+    });
   });
 
   describe('#findMaxRewardingSkills', function () {
+    context('when rewards are computed from the tube of each skill', function () {
+      let web2, url2, smallTubes;
+
+      beforeEach(function () {
+        const webSkills = [1, 2, 3].map((level) =>
+          buildSkill({ id: `recWeb${level}`, name: `@web${level}`, difficulty: level }),
+        );
+        const urlSkills = [1, 2, 3, 4].map((level) =>
+          buildSkill({ id: `recUrl${level}`, name: `@url${level}`, difficulty: level }),
+        );
+        [, web2] = webSkills;
+        [, url2] = urlSkills;
+        smallTubes = [buildTube({ name: 'web', skills: webSkills }), buildTube({ name: 'url', skills: urlSkills })];
+      });
+
+      it('should reward a skill by the number of untested skills of its own tube it would tell about', function () {
+        // when
+        const maxRewardingSkills = findMaxRewardingSkills({
+          predictedLevel: 2,
+          availableSkills: [web2, url2],
+          tubes: smallTubes,
+          knowledgeElements: [],
+        });
+
+        // then
+        // url2 tells about 2 easier and 3 harder skills, web2 about 2 and 2
+        expect(maxRewardingSkills).to.deep.equal([url2]);
+      });
+
+      it('should not count already tested skills in the reward', function () {
+        // given
+        const testedKnowledgeElements = ['recUrl3', 'recUrl4'].map((skillId) =>
+          buildKnowledgeElement({ skillId, source: 'direct', status: 'validated' }),
+        );
+
+        // when
+        const maxRewardingSkills = findMaxRewardingSkills({
+          predictedLevel: 2,
+          availableSkills: [web2, url2],
+          tubes: smallTubes,
+          knowledgeElements: testedKnowledgeElements,
+        });
+
+        // then
+        // url2 now only tells about 2 easier and 1 harder skills, web2 still about 2 and 2
+        expect(maxRewardingSkills).to.deep.equal([web2]);
+      });
+    });
+
     it('should return expected max rewarding skills', async function () {
       // given
       const expectedMaxRewardingSkills = [

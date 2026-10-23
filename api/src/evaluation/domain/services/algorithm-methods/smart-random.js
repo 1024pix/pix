@@ -18,7 +18,7 @@ import { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge }
  * @param {Skill[]} params.targetSkills
  * @param {Answer} params.lastAnswer
  * @param {Answer[]} params.allAnswers
- * @param {string} locale
+ * @param {string} params.locale
  * @returns {{hasAssessmentEnded: boolean, possibleSkillsForNextChallenge: SmartRandomChallenge|SharedChallenge, levelEstimated: number}}
  */
 export function getPossibleSkillsForNextChallenge({
@@ -32,9 +32,8 @@ export function getPossibleSkillsForNextChallenge({
   const isUserStartingTheTest = !lastAnswer;
   const isLastChallengeTimed = lastAnswer ? wasLastChallengeTimed(lastAnswer) : false;
   const tubes = findTubes(targetSkills, challenges);
-  const knowledgeElementsOfTargetSkills = knowledgeElements.filter((ke) => {
-    return targetSkills.find((skill) => skill.id === ke.skillId);
-  });
+  const targetSkillIds = new Set(targetSkills.map((skill) => skill.id));
+  const knowledgeElementsOfTargetSkills = knowledgeElements.filter((ke) => targetSkillIds.has(ke.skillId));
   const filteredChallenges = removeChallengesWithAnswer({ challenges, allAnswers });
   const targetSkillsWithAddedInformations = getSkillsWithAddedInformations({
     targetSkills,
@@ -72,9 +71,8 @@ function findTubes(skills, challenges) {
 }
 
 function filterSkillsByChallenges(skills, challenges) {
-  return skills.filter((skill) => {
-    return challenges.find((challenge) => challenge.skillId === skill.id);
-  });
+  const skillIdsWithChallenges = new Set(challenges.map((challenge) => challenge.skillId));
+  return skills.filter((skill) => skillIdsWithChallenges.has(skill.id));
 }
 
 function findAnyChallenge({ knowledgeElements, targetSkills, tubes, isLastChallengeTimed }) {
@@ -109,10 +107,11 @@ function findFirstChallenge({ knowledgeElements, targetSkills, tubes }) {
 
 function getSkillsWithAddedInformations({ targetSkills, filteredChallenges, locale }) {
   const locales = fallbackChallengeLocales(locale);
+  const challengesBySkillId = Map.groupBy(filteredChallenges, (challenge) => challenge.skillId);
 
   return targetSkills.map((skill) => {
-    const challenges = filteredChallenges.filter(
-      (challenge) => challenge.skillId === skill.id && challenge.locales.some((locale) => locales.includes(locale)),
+    const challenges = (challengesBySkillId.get(skill.id) ?? []).filter((challenge) =>
+      challenge.locales.some((locale) => locales.includes(locale)),
     );
     const [firstChallenge] = challenges;
 
@@ -125,6 +124,6 @@ function getSkillsWithAddedInformations({ targetSkills, filteredChallenges, loca
 }
 
 function removeChallengesWithAnswer({ challenges, allAnswers }) {
-  const challengeIdsWithAnswer = allAnswers.map((answer) => answer.challengeId);
-  return challenges.filter((challenge) => !challengeIdsWithAnswer.includes(challenge.id));
+  const challengeIdsWithAnswer = new Set(allAnswers.map((answer) => answer.challengeId));
+  return challenges.filter((challenge) => !challengeIdsWithAnswer.has(challenge.id));
 }

@@ -1,24 +1,19 @@
-import _ from 'lodash';
-
 import { Tube } from '../../../shared/domain/models/Tube.js';
 
+// Several versions of an acquis share a name; Tube#addSkill kept only the first one, so do we.
+const uniqueByName = (skills) =>
+  Map.groupBy(skills, (skill) => skill.name)
+    .values()
+    .map(([firstSkill]) => firstSkill);
+
+const byDifficulty = (skillA, skillB) => skillA.difficulty - skillB.difficulty;
+
 function computeTubesFromSkills(skills) {
-  const tubes = [];
+  const skillsByTubeName = Map.groupBy(skills, (skill) => skill.tubeNameWithoutPrefix);
 
-  skills.forEach((skill) => {
-    const tubeNameOfSkill = skill.tubeNameWithoutPrefix;
-    const existingTube = tubes.find((tube) => tube.name === tubeNameOfSkill);
-    if (existingTube) {
-      existingTube.addSkill(skill);
-    } else {
-      tubes.push(new Tube({ skills: [skill], name: tubeNameOfSkill }));
-    }
-  });
-  tubes.forEach((tube) => {
-    tube.skills = _.sortBy(tube.skills, ['difficulty']);
-  });
-
-  return tubes;
+  return [...skillsByTubeName].map(
+    ([name, tubeSkills]) => new Tube({ name, skills: uniqueByName(tubeSkills).toArray().toSorted(byDifficulty) }),
+  );
 }
 
 export { computeTubesFromSkills };

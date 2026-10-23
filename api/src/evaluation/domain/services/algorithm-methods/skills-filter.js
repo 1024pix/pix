@@ -9,16 +9,14 @@ import { logPredictedLevel, logStep } from '../smart-random-log-service.js';
 const getPlayableSkills = (skills) => skills.filter(({ isPlayable }) => isPlayable);
 
 const notAlreadyTestedSkill = (knowledgeElements) => {
-  const alreadyTestedSkillIds = knowledgeElements.map(({ skillId }) => skillId);
-  return (skill) => !alreadyTestedSkillIds.includes(skill.id);
+  const alreadyTestedSkillIds = new Set(knowledgeElements.map(({ skillId }) => skillId));
+  return (skill) => !alreadyTestedSkillIds.has(skill.id);
 };
 const getUntestedSkills = (knowledgeElements, skills) => skills.filter(notAlreadyTestedSkill(knowledgeElements));
 
 const keepSkillsFromEasyTubes = (tubes, targetSkills) => {
-  const skillsFromEasyTubes = getPrioritySkills(tubes);
-  const availableSkillsFromEasyTubes = targetSkills.filter((targetSkill) =>
-    skillsFromEasyTubes.map(({ id }) => id).includes(targetSkill.id),
-  );
+  const skillIdsFromEasyTubes = new Set(getPrioritySkills(tubes).map(({ id }) => id));
+  const availableSkillsFromEasyTubes = targetSkills.filter((targetSkill) => skillIdsFromEasyTubes.has(targetSkill.id));
   return availableSkillsFromEasyTubes.length ? availableSkillsFromEasyTubes : targetSkills;
 };
 
