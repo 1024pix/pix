@@ -26,8 +26,8 @@ describe('Acceptance | Organizational Entities | Application | network-api', fun
       // then
       expect(result[0]).to.be.instanceOf(NetworkOrganizationDTO);
       expect(result).to.have.deep.members([
-        { organizationId: headOrganization.id },
-        { organizationId: childOrganization.id },
+        { organizationId: headOrganization.id, externalId: headOrganization.externalId },
+        { organizationId: childOrganization.id, externalId: childOrganization.externalId },
       ]);
     });
 

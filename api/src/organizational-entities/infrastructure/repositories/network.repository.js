@@ -96,16 +96,16 @@ async function findByOrganizationId(organizationId) {
 /**
  * @param {object} params
  * @param {number} params.networkId
- * @returns {Promise<Array<number>>}
+ * @returns {Promise<Array<{organizationId: number, externalId: string|null}>>}
  */
-async function findOrganizationIdsByNetworkId({ networkId }) {
+async function findOrganizationsByNetworkId({ networkId }) {
   const knexConn = DomainTransaction.getConnection();
 
   return knexConn('fct_structures')
-    .pluck('organization_id')
-    .where({ network_id: networkId })
-    .whereNotNull('organization_id')
-    .orderBy('organization_id');
+    .select('organizations.id as organizationId', 'organizations.externalId')
+    .join('organizations', 'fct_structures.organization_id', 'organizations.id')
+    .where({ 'fct_structures.network_id': networkId })
+    .orderBy('organizations.id');
 }
 
 /**
@@ -200,7 +200,7 @@ function _toDomain(network) {
 export {
   attachOrganization,
   findByOrganizationId,
-  findOrganizationIdsByNetworkId,
+  findOrganizationsByNetworkId,
   findPaginatedFiltered,
   getById,
   save,
