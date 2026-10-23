@@ -13,6 +13,7 @@ export default class CertificationCenter extends Model {
   @attr() name;
   @attr() type;
   @attr() externalId;
+  @attr() categoryId;
   @attr() categoryLabel;
   @attr() archivedAt;
   @attr() archivistFullName;
