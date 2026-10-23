@@ -2,7 +2,7 @@ import { databaseBuffer } from '../../../../../../db/database-builder/database-b
 import { SessionAuthorization } from '../../../../../../src/certification/enrolment/domain/models/SessionAuthorization.js';
 
 /**
- * @typedef {import('../../../../../../db/database-builder/database-builder.js').databaseBuilder} DatabaseBuilder
+ * @typedef {import('../../../../../../db/database-builder/database-builder.ts').databaseBuilder} DatabaseBuilder
  */
 
 /**

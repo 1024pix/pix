@@ -6,7 +6,7 @@ import {
   knex as datamartKnex,
 } from '../../datamart/knex-database-connection.js';
 import { knex as datawarehouseKnex } from '../../datawarehouse/knex-database-connection.js';
-import { DatabaseBuilder } from '../../db/database-builder/database-builder.js';
+import { DatabaseBuilder } from '../../db/database-builder/database-builder.ts';
 import { databaseConnection, knex } from '../../db/knex-database-connection.js';
 
 // Init Database builders
