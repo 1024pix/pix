@@ -1,5 +1,44 @@
 # Pix Changelog
 
+# [5.529.0](https://github.com/1024pix/pix/compare/v5.528.0...v5.529.0) (2026-10-23)
+
+### :rocket: Amélioration
+
+- [#18272](https://github.com/1024pix/pix/pull/18272) Améliorations sur la page de checkpoint (PIX-24775).
+- [#18213](https://github.com/1024pix/pix/pull/18213) Détacher plusieurs organisations d'un schéma de parcours (PIX-24772)
+- [#18256](https://github.com/1024pix/pix/pull/18256) Tracker les clics sur les liens des messages de palier (PIX-24654)
+
+### :building_construction: Tech
+
+- [#18296](https://github.com/1024pix/pix/pull/18296) Ajoute l'externalId des organisations dans le retour de l'API interne des réseaux (PIX-24838)
+- [#18197](https://github.com/1024pix/pix/pull/18197) Ajouter une structure catégorisée à toutes les orgas et CDC des seeds (PIX-24745)
+- [#17800](https://github.com/1024pix/pix/pull/17800) Contenu pédagogique : fonctionnement sans cache
+- [#18172](https://github.com/1024pix/pix/pull/18172) Expose la mémoire des conteneurs, swap compris, dans les métriques Prometheus
+
+### :arrow_up: Montée de version
+
+- [#18274](https://github.com/1024pix/pix/pull/18274) Pin dependency @xmldom/xmldom to 0.9.12 (mon-pix)
+- [#18303](https://github.com/1024pix/pix/pull/18303) Update dependency @getbrevo/brevo to v6.2.0 (api)
+- [#18283](https://github.com/1024pix/pix/pull/18283) Update dependency @opentelemetry/instrumentation-pg to v0.76.0 (api)
+- [#18278](https://github.com/1024pix/pix/pull/18278) Update dependency ember-exam to v10.2.1 (admin)
+- [#18279](https://github.com/1024pix/pix/pull/18279) Update dependency ember-exam to v10.2.1 (certif)
+- [#18280](https://github.com/1024pix/pix/pull/18280) Update dependency ember-exam to v10.2.1 (junior)
+- [#18281](https://github.com/1024pix/pix/pull/18281) Update dependency ember-exam to v10.2.1 (mon-pix)
+- [#18282](https://github.com/1024pix/pix/pull/18282) Update dependency ember-exam to v10.2.1 (orga)
+- [#18292](https://github.com/1024pix/pix/pull/18292) Update dependency js-yaml to v5.5.0 (api)
+- [#18293](https://github.com/1024pix/pix/pull/18293) Update dependency js-yaml to v5.5.0 (mon-pix)
+- [#18284](https://github.com/1024pix/pix/pull/18284) Update dependency sass to v1.105.2 (admin)
+- [#18285](https://github.com/1024pix/pix/pull/18285) Update dependency sass to v1.105.2 (certif)
+- [#18288](https://github.com/1024pix/pix/pull/18288) Update dependency sass to v1.105.2 (junior)
+- [#18289](https://github.com/1024pix/pix/pull/18289) Update dependency sass to v1.105.2 (mon-pix)
+- [#18290](https://github.com/1024pix/pix/pull/18290) Update dependency sass-embedded to v1.105.2 (orga)
+- [#18276](https://github.com/1024pix/pix/pull/18276) Update dependency undici to v8.12.2 (api)
+- [#18275](https://github.com/1024pix/pix/pull/18275) Update dependency vitest to v5.0.5 (audit-logger)
+- [#18295](https://github.com/1024pix/pix/pull/18295) Update dependency webpack to v5.112.0 (admin)
+- [#18297](https://github.com/1024pix/pix/pull/18297) Update dependency webpack to v5.112.0 (certif)
+- [#18298](https://github.com/1024pix/pix/pull/18298) Update dependency webpack to v5.112.0 (junior)
+- [#18299](https://github.com/1024pix/pix/pull/18299) Update dependency webpack to v5.112.0 (mon-pix)
+
 # [5.528.0](https://github.com/1024pix/pix/compare/v5.527.0...v5.528.0) (2026-10-22)
 
 ### :rocket: Amélioration
