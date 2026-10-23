@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 
-import { CenterTypes } from '../../../../../src/certification/configuration/domain/models/CenterTypes.js';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/constants.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
@@ -113,12 +112,12 @@ describe('Certification | Configuration | Acceptance | API | sco-whitelist-route
       };
 
       databaseBuilder.factory.buildCertificationCenter({
-        type: CenterTypes.SCO,
+        type: CERTIFICATION_CENTER_TYPES.SCO,
         isScoBlockedAccessWhitelist: true,
         externalId: 'I_AM_WHITELISTED',
       });
       databaseBuilder.factory.buildCertificationCenter({
-        type: CenterTypes.SCO,
+        type: CERTIFICATION_CENTER_TYPES.SCO,
         isScoBlockedAccessWhitelist: false,
         externalId: 'I_AM_NOT_WHITELISTED',
       });

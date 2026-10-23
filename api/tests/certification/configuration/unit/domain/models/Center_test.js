@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { Center } from '../../../../../../src/certification/configuration/domain/models/Center.js';
-import { CenterTypes } from '../../../../../../src/certification/configuration/domain/models/CenterTypes.js';
+import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
@@ -11,14 +11,14 @@ describe('Unit | Certification | Configuration | Domain | Models | Center', func
     // when
     const center = new Center({
       id: 12,
-      type: CenterTypes.PRO,
+      type: CERTIFICATION_CENTER_TYPES.PRO,
       externalId: 'hello',
     });
 
     // then
     expect(center).to.deep.equal({
       id: 12,
-      type: CenterTypes.PRO,
+      type: CERTIFICATION_CENTER_TYPES.PRO,
       externalId: 'hello',
     });
   });

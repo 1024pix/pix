@@ -1,16 +1,16 @@
 import { expect } from 'chai';
 
-import { AttachableTargetProfile } from '../../../../../../src/certification/configuration/domain/models/AttachableTargetProfile.js';
 import * as serializer from '../../../../../../src/certification/configuration/infrastructure/serializers/attachable-target-profiles-serializer.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Configuration | Unit | Serializer | attachable-target-profiles-serializer', function () {
   describe('#serialize', function () {
     it('should serialize attachable target profiles to JSONAPI', function () {
       // given
-      const attachableTargetProfile = new AttachableTargetProfile({
-        id: 1,
-        name: 'AttachableTargetProfiles',
-      });
+      const attachableTargetProfile = domainBuilder.certification.configuration
+        .attachableTargetProfileBuilder()
+        .withParameters({ id: 1, name: 'AttachableTargetProfiles' })
+        .build();
 
       // when
       const serializedAttachableTargetProfiles = serializer.serialize([attachableTargetProfile]);
