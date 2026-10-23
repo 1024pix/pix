@@ -6,7 +6,7 @@ export class LtiCampaign {
    * @param {string} props.name
    * @param {string} props.type
    * @param {string} props.organizationName
-   * @param {string} [props.description]
+   * @param {string} props.description
    */
   constructor({ id, code, name, type, organizationName, description }) {
     this.id = id;
