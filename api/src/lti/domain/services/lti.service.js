@@ -2,6 +2,7 @@ import Joi from 'joi';
 import jsonwebtoken from 'jsonwebtoken';
 
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
+import * as urlService from '../../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../../shared/infrastructure/http-agent.js';
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { ltiPlatformRepository } from '../../infrastructure/repositories/lti-platform.repository.js';
@@ -44,6 +45,43 @@ export const ltiService = {
     }
 
     return { ltiPlatform, platformConfiguration };
+  },
+
+  createPixToolConfiguration(locale = 'fr-FR', dependencies = { urlService }) {
+    const jwksUrl = dependencies.urlService.getPixApiUrl('/api/lti/keys');
+    const initiateLoginUrl = dependencies.urlService.getPixApiUrl('/api/lti/init');
+    const deepLinkingUrl = dependencies.urlService.getPixOrgaUrl(locale, { pathname: '/api/lti/deep-linking' });
+    const resourceLinkUrl = dependencies.urlService.getPixAppUrl(locale, { pathname: '/api/lti/resource-link' });
+
+    return {
+      response_types: ['id_token'],
+      jwks_uri: jwksUrl,
+      initiate_login_uri: initiateLoginUrl,
+      grant_types: ['client_credentials', 'implicit'],
+      redirect_uris: [deepLinkingUrl, resourceLinkUrl],
+      application_type: 'web',
+      token_endpoint_auth_method: 'private_key_jwt',
+      client_name: 'Pix',
+      logo_uri: 'https://app.pix.fr/images/pix-logo.svg',
+      scope: [
+        'https://purl.imsglobal.org/spec/lti-ags/scope/score',
+        'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly',
+        'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem',
+        'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly',
+      ].join(' '),
+      'https://purl.imsglobal.org/spec/lti-tool-configuration': {
+        target_link_uri: resourceLinkUrl,
+        domain: new URL(resourceLinkUrl).hostname,
+        description: 'Intégration avec la plateforme Pix',
+        messages: [
+          {
+            type: 'LtiDeepLinkingRequest',
+            target_link_uri: deepLinkingUrl,
+          },
+        ],
+        claims: ['sub', 'iss', 'name', 'family_name', 'given_name', 'email'],
+      },
+    };
   },
 
   /**

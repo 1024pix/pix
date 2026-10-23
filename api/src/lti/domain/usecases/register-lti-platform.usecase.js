@@ -20,11 +20,10 @@ export async function registerLtiPlatform({
   ltiPlatformRegistrationRepository,
   cryptoService,
   ltiService,
-  urlService,
 }) {
   const { ltiPlatform, platformConfiguration } = await ltiService.discoverLtiPlatform(platformConfigurationUrl);
 
-  const pixToolConfiguration = createPixToolConfiguration({ urlService });
+  const pixToolConfiguration = ltiService.createPixToolConfiguration();
 
   const { data: pixToolRegistration, ...registrationResponse } = await httpAgent.post({
     url: platformConfiguration.registration_endpoint,
@@ -57,41 +56,4 @@ export async function registerLtiPlatform({
   );
 
   return savedRegistration;
-}
-
-function createPixToolConfiguration({ urlService }) {
-  const locale = 'fr-FR'; // TODO: Generate this dynamically
-  const jwksUrl = urlService.getPixApiUrl('/api/lti/keys');
-  const initiateLoginUrl = urlService.getPixApiUrl('/api/lti/init');
-  const deepLinkingUrl = urlService.getPixOrgaUrl(locale, { pathname: '/api/lti/deep-linking' });
-  const resourceLinkUrl = urlService.getPixAppUrl(locale, { pathname: '/api/lti/resource-link' });
-  return {
-    response_types: ['id_token'],
-    jwks_uri: jwksUrl, // TODO: Should be on gateway.pix.fr?
-    initiate_login_uri: initiateLoginUrl,
-    grant_types: ['client_credentials', 'implicit'],
-    redirect_uris: [deepLinkingUrl, resourceLinkUrl],
-    application_type: 'web',
-    token_endpoint_auth_method: 'private_key_jwt',
-    client_name: 'Pix',
-    logo_uri: 'https://app.pix.fr/images/pix-logo.svg',
-    scope: [
-      'https://purl.imsglobal.org/spec/lti-ags/scope/score',
-      'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly',
-      'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem',
-      'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly',
-    ].join(' '),
-    'https://purl.imsglobal.org/spec/lti-tool-configuration': {
-      target_link_uri: resourceLinkUrl,
-      domain: new URL(resourceLinkUrl).hostname,
-      description: 'Intégration avec la plateforme Pix',
-      messages: [
-        {
-          type: 'LtiDeepLinkingRequest',
-          target_link_uri: deepLinkingUrl,
-        },
-      ],
-      claims: ['sub', 'iss', 'name', 'family_name', 'given_name', 'email'],
-    },
-  };
 }
