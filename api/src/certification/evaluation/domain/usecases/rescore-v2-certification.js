@@ -7,29 +7,9 @@
  * @typedef {import('./index.js').Services} Services
  */
 import { NotFinalizedSessionError, NotFoundError } from '../../../../shared/domain/errors.js';
-import CertificationCancelled from '../../../../shared/domain/events/CertificationCancelled.js';
-import { CertificationCourseUnrejected } from '../../../../shared/domain/events/CertificationCourseUnrejected.js';
-import CertificationUncancelled from '../../../../shared/domain/events/CertificationUncancelled.js';
-import { checkEventTypes } from '../../../../shared/domain/events/check-event-types.js';
 import { SessionAlreadyPublishedError } from '../../../session-management/domain/errors.js';
-import { CertificationCourseRejected } from '../../../session-management/domain/events/CertificationCourseRejected.js';
-import { CertificationJuryDone } from '../../../session-management/domain/events/CertificationJuryDone.js';
 import { CertificationComputeError } from '../errors.js';
-import CertificationRescored from '../events/CertificationRescored.js';
-import { ChallengeDeneutralized } from '../events/ChallengeDeneutralized.js';
-import { ChallengeNeutralized } from '../events/ChallengeNeutralized.js';
 import { AssessmentResultFactory } from '../models/factories/AssessmentResultFactory.js';
-
-const eventTypes = [
-  ChallengeNeutralized,
-  ChallengeDeneutralized,
-  CertificationJuryDone,
-  CertificationCourseRejected,
-  CertificationCourseUnrejected,
-  CertificationCancelled,
-  CertificationRescored,
-  CertificationUncancelled,
-];
 
 /**
  * @param {object} params
@@ -52,8 +32,6 @@ export async function rescoreV2Certification({
   sessionRepository,
   services,
 }) {
-  checkEventTypes(event, eventTypes);
-
   const certificationCourseId = event.certificationCourseId;
 
   await _verifySessionIsPublishable({ certificationCourseId, sessionRepository });

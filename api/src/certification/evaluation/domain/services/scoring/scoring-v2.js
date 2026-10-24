@@ -9,7 +9,7 @@
  * @typedef {import('../../../../session-management/domain/models/CertificationAssessment.js').CertificationAssessment} CertificationAssessment
  */
 
-import CertificationCancelled from '../../../../../../src/shared/domain/events/CertificationCancelled.js';
+import CertificationCancelled from '../../../../../shared/domain/events/deprecated/CertificationCancelled.js';
 import { CertificationCandidateNotFoundError } from '../../../../shared/domain/errors.js';
 import { AnswerCollectionForScoring } from '../../../../shared/domain/models/AnswerCollectionForScoring.js';
 import { CompetenceMark } from '../../../../shared/domain/models/CompetenceMark.js';

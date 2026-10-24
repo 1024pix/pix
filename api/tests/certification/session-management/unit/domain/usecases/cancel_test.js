@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { cancel } from '../../../../../../src/certification/session-management/domain/usecases/cancel.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { NotFinalizedSessionError, NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import CertificationCancelled from '../../../../../../src/shared/domain/events/CertificationCancelled.js';
+import CertificationCancelled from '../../../../../../src/shared/domain/events/deprecated/CertificationCancelled.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 

@@ -1,6 +1,6 @@
 /**
- * @typedef {import('../../../../../src/shared/domain/events/CertificationCancelled.js').CertificationCancelled} CertificationCancelled
- * @typedef {import('../../../../../src/shared/domain/events/CertificationUncancelled.js').CertificationUncancelled} CertificationUncancelled
+ * @typedef {import('../../../../shared/domain/events/deprecated/CertificationCancelled.js').CertificationCancelled} CertificationCancelled
+ * @typedef {import('../../../../shared/domain/events/deprecated/CertificationUncancelled.js').CertificationUncancelled} CertificationUncancelled
  * @typedef {import('./index.js').CertificationEvaluationApi} CertificationEvaluationApi
  */
 
