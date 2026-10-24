@@ -161,7 +161,3 @@ export const findWithOrganizationByIds = async ({ organizationLearnerIds, organi
   });
   return learners.map((learner) => new OrganizationLearnerWithOrganization(learner));
 };
-
-export const findIdWithLastActivityDatePriorTo = async ({ organizationId, lastActivityDate }) => {
-  return await usecases.findIdWithLastActivityDatePriorTo({ organizationId, lastActivityDate });
-};
