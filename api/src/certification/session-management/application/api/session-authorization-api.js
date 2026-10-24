@@ -3,9 +3,7 @@ import * as sessionAuthorizationInfoRepository from '../../infrastructure/reposi
 /**
  * @typedef {Object} DTOSessionAuthorization
  * @property {number} id
- * @property {boolean} isFinalized
- * @property {boolean} hasExpired
- * @property {boolean} hasStarted
+ * @property {SessionStatus} sessionStatus
  * @property {number|null} scoIsManagingStudentsOrganizationId
  * @property {number} certificationCenterId
  */
@@ -27,9 +25,7 @@ export async function findBySessionId({ sessionId, dependencies = { sessionAutho
 
   return {
     id: sessionAuthorizationInfo.id,
-    isFinalized: sessionAuthorizationInfo.isFinalized,
-    hasExpired: sessionAuthorizationInfo.hasExpired,
-    hasStarted: sessionAuthorizationInfo.hasStarted,
+    sessionStatus: sessionAuthorizationInfo.sessionStatus,
     scoIsManagingStudentsOrganizationId: sessionAuthorizationInfo.scoIsManagingStudentsOrganizationId,
     certificationCenterId: sessionAuthorizationInfo.certificationCenterId,
   };

@@ -1,4 +1,8 @@
 import { SessionSummary } from '../../../../src/certification/session-management/domain/read-models/SessionSummary.js';
+import {
+  SESSION_STATUSES,
+  SessionStatus,
+} from '../../../../src/certification/shared/domain/value-objects/SessionStatus.ts';
 
 const buildSessionSummary = function ({
   id = 123,
@@ -9,8 +13,9 @@ const buildSessionSummary = function ({
   examiner = 'Flute',
   enrolledCandidatesCount = 5,
   effectiveCandidatesCount = 4,
-  status = SessionSummary.statuses.CREATED,
+  sessionStatus,
 } = {}) {
+  const finalSessionStatus = sessionStatus ? sessionStatus : new SessionStatus({ status: SESSION_STATUSES.CREATED });
   return new SessionSummary({
     id,
     address,
@@ -20,7 +25,7 @@ const buildSessionSummary = function ({
     examiner,
     enrolledCandidatesCount,
     effectiveCandidatesCount,
-    status,
+    sessionStatus: finalSessionStatus,
   });
 };
 
@@ -43,7 +48,7 @@ buildSessionSummary.created = function ({
     examiner,
     enrolledCandidatesCount,
     effectiveCandidatesCount,
-    status: SessionSummary.statuses.CREATED,
+    sessionStatus: new SessionStatus({ status: SESSION_STATUSES.CREATED }),
   });
 };
 
@@ -66,7 +71,7 @@ buildSessionSummary.finalized = function ({
     examiner,
     enrolledCandidatesCount,
     effectiveCandidatesCount,
-    status: SessionSummary.statuses.FINALIZED,
+    sessionStatus: new SessionStatus({ status: SESSION_STATUSES.FINALIZED }),
   });
 };
 
@@ -89,7 +94,7 @@ buildSessionSummary.processed = function ({
     examiner,
     enrolledCandidatesCount,
     effectiveCandidatesCount,
-    status: SessionSummary.statuses.PROCESSED,
+    sessionStatus: new SessionStatus({ status: SESSION_STATUSES.PROCESSED }),
   });
 };
 

@@ -1,9 +1,8 @@
-import { databaseBuffer } from '../../../../../../db/database-builder/database-buffer.js';
 import { SessionAuthorization } from '../../../../../../src/certification/enrolment/domain/models/SessionAuthorization.js';
-
-/**
- * @typedef {import('../../../../../../db/database-builder/database-builder.js').databaseBuilder} DatabaseBuilder
- */
+import {
+  SESSION_STATUSES,
+  SessionStatus,
+} from '../../../../../../src/certification/shared/domain/value-objects/SessionStatus.ts';
 
 /**
  * Fluent builder for the {@link SessionAuthorization} domain model.
@@ -18,11 +17,9 @@ import { SessionAuthorization } from '../../../../../../src/certification/enrolm
 class SessionAuthorizationBuilder {
   constructor() {
     this.id = null;
-    this.isFinalized = false;
-    this.hasExpired = false;
-    this.hasStarted = false;
     this.scoIsManagingStudentsOrganizationId = null;
     this.certificationCenterId = null;
+    this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
   }
 
   /**
@@ -31,9 +28,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   canEnrollCandidateIndividually() {
-    this.isFinalized = false;
-    this.hasExpired = false;
-    this.hasStarted = false;
+    this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
     return this;
   }
 
@@ -43,9 +38,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   cannotEnrollCandidateIndividually() {
-    this.isFinalized = false;
-    this.hasExpired = true;
-    this.hasStarted = true;
+    this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.TO_FINALIZE });
     return this;
   }
 
@@ -55,9 +48,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   canEnrollScoCandidate() {
-    this.isFinalized = false;
-    this.hasExpired = false;
-    this.hasStarted = true;
+    this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
     return this;
   }
 
@@ -67,9 +58,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   cannotEnrollScoCandidate() {
-    this.isFinalized = false;
-    this.hasExpired = true;
-    this.hasStarted = true;
+    this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.TO_FINALIZE });
     return this;
   }
 
@@ -79,9 +68,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   canEnrollMassImportCandidate() {
-    this.isFinalized = false;
-    this.hasExpired = false;
-    this.hasStarted = false;
+    this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
     return this;
   }
 
@@ -91,9 +78,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   cannotEnrollMassImportCandidate() {
-    this.isFinalized = false;
-    this.hasExpired = false;
-    this.hasStarted = true;
+    this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.TO_FINALIZE });
     return this;
   }
 
@@ -103,9 +88,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   canEnrollODSCandidate() {
-    this.isFinalized = false;
-    this.hasExpired = false;
-    this.hasStarted = false;
+    this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
     return this;
   }
 
@@ -115,9 +98,27 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   cannotEnrollODSCandidate() {
-    this.isFinalized = false;
-    this.hasExpired = false;
-    this.hasStarted = true;
+    this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.TO_FINALIZE });
+    return this;
+  }
+
+  /**
+   * Can join the session
+   *
+   * @returns {SessionAuthorizationBuilder}
+   */
+  canJoinSession() {
+    this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
+    return this;
+  }
+
+  /**
+   * Cannot join the session
+   *
+   * @returns {SessionAuthorizationBuilder}
+   */
+  cannotJoinSession() {
+    this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.TO_FINALIZE });
     return this;
   }
 
@@ -130,87 +131,23 @@ class SessionAuthorizationBuilder {
    * @param {number} [params.id] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted session (id null)   * @returns {SessionAuthorizationBuilder}
    * @returns {SessionAuthorizationBuilder}
    */
-  withParameters({
-    id,
-    isFinalized,
-    hasExpired,
-    hasStarted,
-    scoIsManagingStudentsOrganizationId = null,
-    certificationCenterId = null,
-  } = {}) {
+  withParameters({ id, scoIsManagingStudentsOrganizationId = null, certificationCenterId = null, sessionStatus } = {}) {
     this.id = id ?? this.id;
-    this.isFinalized = isFinalized ?? this.isFinalized;
-    this.hasExpired = hasExpired ?? this.hasExpired;
-    this.hasStarted = hasStarted ?? this.hasStarted;
     this.scoIsManagingStudentsOrganizationId = scoIsManagingStudentsOrganizationId;
     this.certificationCenterId = certificationCenterId;
+    this.sessionStatus = sessionStatus ? sessionStatus : this.sessionStatus;
     return this;
   }
 
   /**
-   * Inserts corresponding candidate row and all the underlying necessary data
-   * then returns the built domain SessionAuthorization carrying the persisted id.
-   * Must be called before `await databaseBuilder.commit()`.
-   *
-   * @param {object} params
-   * @param {DatabaseBuilder} params.databaseBuilder
-   * @returns {SessionAuthorization} the persisted sessionAuthorization
-   */
-  insertToDB({ databaseBuilder }) {
-    const sessionAuthorization = this.build();
-    const type = sessionAuthorization.scoIsManagingStudentsOrganizationId ? 'SCO' : 'PRO';
-    const certificationCenterId = sessionAuthorization.certificationCenterId ?? databaseBuffer.getNextId();
-    sessionAuthorization.certificationCenterId = certificationCenterId;
-    const externalId = `EXTERNAL_ID_${certificationCenterId}`;
-    databaseBuilder.factory.buildCertificationCenter({
-      id: certificationCenterId,
-      type,
-      externalId,
-    });
-
-    if (sessionAuthorization.scoIsManagingStudentsOrganizationId) {
-      databaseBuilder.factory.buildOrganization({
-        id: sessionAuthorization.scoIsManagingStudentsOrganizationId ?? undefined,
-        type: 'SCO',
-        externalId,
-        archivedAt: null,
-        isManagingStudents: true,
-      });
-    }
-    const finalizedAt = sessionAuthorization.isFinalized ? null : new Date();
-    const sessionId = databaseBuilder.factory.buildSession({
-      id: this.id ?? undefined,
-      finalizedAt,
-    }).id;
-
-    if (sessionAuthorization.hasStarted) {
-      const startDateTime = new Date();
-      const hoursBefore = sessionAuthorization.hasExpired ? 25 : 12;
-      startDateTime.setHours(startDateTime.getHours() - hoursBefore);
-      const candidateId = databaseBuilder.factory.buildCertificationCandidate({
-        sessionId,
-      }).id;
-      databaseBuilder.factory.buildCertificationCourse({
-        sessionId,
-        candidateId,
-        createdAt: startDateTime,
-      });
-    }
-
-    return sessionAuthorization;
-  }
-
-  /**
-   * Materializes the read-model SessionAuthorization without touching the database.
+   * Materializes the read-model SessionAuthorization.
    *
    * @returns {SessionAuthorization}
    */
   build() {
     return new SessionAuthorization({
       id: this.id,
-      isFinalized: this.isFinalized,
-      hasExpired: this.hasExpired,
-      hasStarted: this.hasStarted,
+      sessionStatus: this.sessionStatus,
       scoIsManagingStudentsOrganizationId: this.scoIsManagingStudentsOrganizationId,
       certificationCenterId: this.certificationCenterId,
     });

@@ -16,9 +16,7 @@ export async function find({ sessionId, dependencies = { sessionAuthorizationApi
 
   return new SessionAuthorization({
     id: sessionAuthorizationDTO.id,
-    isFinalized: sessionAuthorizationDTO.isFinalized,
-    hasExpired: sessionAuthorizationDTO.hasExpired,
-    hasStarted: sessionAuthorizationDTO.hasStarted,
+    sessionStatus: sessionAuthorizationDTO.sessionStatus,
     scoIsManagingStudentsOrganizationId: sessionAuthorizationDTO.scoIsManagingStudentsOrganizationId,
     certificationCenterId: sessionAuthorizationDTO.certificationCenterId,
   });

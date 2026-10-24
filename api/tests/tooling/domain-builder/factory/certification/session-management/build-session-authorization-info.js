@@ -1,9 +1,8 @@
-import { databaseBuffer } from '../../../../../../db/database-builder/database-buffer.js';
 import { SessionAuthorizationInfo } from '../../../../../../src/certification/session-management/domain/read-models/SessionAuthorizationInfo.js';
-
-/**
- * @typedef {import('../../../../../../db/database-builder/database-builder.js').databaseBuilder} DatabaseBuilder
- */
+import {
+  SESSION_STATUSES,
+  SessionStatus,
+} from '../../../../../../src/certification/shared/domain/value-objects/SessionStatus.ts';
 
 /**
  * Fluent builder for the {@link SessionAuthorizationInfo} domain read-model.
@@ -14,40 +13,15 @@ import { SessionAuthorizationInfo } from '../../../../../../src/certification/se
  *   .isFinalized({ at: new Date('2021-01-01') })
  *   .hasExpired()
  *   .withParameters({ id: 456 })
- *   .insertToDB({ databaseBuilder });
+ *   .build()
  */
 class SessionAuthorizationInfoBuilder {
   constructor() {
     this.id = null;
-    this.finalizedAt = null;
-    this.firstCertificationStartedAt = null;
     this.hasOrga = false;
     this.scoIsManagingStudentsOrganizationId = null;
     this.certificationCenterId = null;
-  }
-
-  /**
-   * Set the session as finalized
-   *
-   * @param {object} [params]
-   * @param {Date} [params.at]
-   * @returns {SessionAuthorizationInfoBuilder}
-   */
-  isFinalized({ at = new Date() } = {}) {
-    this.finalizedAt = at;
-    return this;
-  }
-
-  /**
-   * Set the date of the first certification test
-   *
-   * @param {object} [params]
-   * @param {Date} [params.at]
-   * @returns {SessionAuthorizationInfoBuilder}
-   */
-  withFirstCertificationStarted({ at = new Date() } = {}) {
-    this.firstCertificationStartedAt = at;
-    return this;
+    this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
   }
 
   /**
@@ -73,70 +47,15 @@ class SessionAuthorizationInfoBuilder {
    * @param {number} [params.certificationCenterId] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted certification-center (id null)
    * @returns {SessionAuthorizationInfoBuilder}
    */
-  withParameters({ id, certificationCenterId = null } = {}) {
+  withParameters({ id, certificationCenterId = null, sessionStatus } = {}) {
     this.id = id ?? this.id;
     this.certificationCenterId = certificationCenterId;
+    this.sessionStatus = sessionStatus ?? this.sessionStatus;
     return this;
   }
 
   /**
-   * Inserts corresponding session row and all the underlying necessary data
-   * then returns the built domain SessionAuthorizationInfo carrying the persisted id.
-   * Must be called before `await databaseBuilder.commit()`.
-   *
-   * @param {object} params
-   * @param {DatabaseBuilder} params.databaseBuilder
-   * @returns {SessionAuthorizationInfo} the persisted sessionAuthorizationInfo
-   */
-  insertToDB({ databaseBuilder }) {
-    const sessionAuthorizationInfo = this.build();
-    const type = this.hasOrga ? 'SCO' : 'PRO';
-    const certificationCenterId = sessionAuthorizationInfo.certificationCenterId ?? databaseBuffer.getNextId();
-    sessionAuthorizationInfo.certificationCenterId = certificationCenterId;
-    const externalId = `EXTERNAL_ID_${certificationCenterId}`;
-    databaseBuilder.factory.buildCertificationCenter({
-      id: certificationCenterId,
-      type,
-      externalId,
-    });
-
-    if (this.hasOrga) {
-      const orgaId = databaseBuilder.factory.buildOrganization({
-        id: sessionAuthorizationInfo.scoIsManagingStudentsOrganizationId ?? undefined,
-        type: 'SCO',
-        externalId,
-        archivedAt: null,
-        isManagingStudents: true,
-      }).id;
-      sessionAuthorizationInfo.scoIsManagingStudentsOrganizationId = orgaId;
-    }
-
-    const sessionId = databaseBuilder.factory.buildSession({
-      id: sessionAuthorizationInfo.id ?? undefined,
-      finalizedAt: sessionAuthorizationInfo.finalizedAt,
-      certificationCenterId,
-    }).id;
-    sessionAuthorizationInfo.id = sessionId;
-    if (sessionAuthorizationInfo.firstCertificationStartedAt) {
-      const candidateId = databaseBuilder.factory.buildCertificationCandidate({
-        sessionId,
-      }).id;
-      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
-        sessionId,
-        candidateId,
-        createdAt: sessionAuthorizationInfo.firstCertificationStartedAt,
-      }).id;
-      databaseBuilder.factory.buildAssessment({
-        certificationCourseId,
-        state: 'started',
-      });
-    }
-
-    return sessionAuthorizationInfo;
-  }
-
-  /**
-   * Materializes the read-model SessionAuthorizationInfo without touching the database.
+   * Materializes the read-model SessionAuthorizationInfo
    *
    * @returns {SessionAuthorizationInfo}
    */
@@ -144,17 +63,16 @@ class SessionAuthorizationInfoBuilder {
     const organizationId = this.hasOrga ? (this.scoIsManagingStudentsOrganizationId ?? 1) : null;
     return new SessionAuthorizationInfo({
       id: this.id,
-      finalizedAt: this.finalizedAt,
-      firstCertificationStartedAt: this.firstCertificationStartedAt,
       scoIsManagingStudentsOrganizationId: organizationId,
       certificationCenterId: this.certificationCenterId,
+      sessionStatus: this.sessionStatus,
     });
   }
 }
 
 /**
  * Entry point of the fluent SessionAuthorizationInfo builder. Returns the builder, NOT a SessionAuthorizationInfo:
- * Note: end the chain with build() for in-memory storage or insertToDB() for DB storage.
+ * Note: end the chain with build() for in-memory storage
  *
  * @returns {SessionAuthorizationInfoBuilder}
  */

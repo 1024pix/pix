@@ -215,6 +215,7 @@ import { buildCompetenceForScoring } from './certification/shared/build-competen
 import { buildComplementaryCertification as buildSharedComplementaryCertification } from './certification/shared/build-complementary-certification.js';
 import { buildEvent } from './certification/shared/build-event.js';
 import { buildJuryComment } from './certification/shared/build-jury-comment.js';
+import { sessionStatusBuilder } from './certification/shared/build-session-status.js';
 import { buildV3CertificationScoring } from './certification/shared/build-v3-certification-scoring.js';
 import { buildPassage } from './devcomp/build-passage.js';
 import { builders as evaluationBuilders } from './evaluation/index.js';
@@ -308,6 +309,7 @@ const certification = {
     buildJuryComment,
     buildComplementaryCertification: buildSharedComplementaryCertification,
     buildEvent,
+    sessionStatusBuilder,
   },
   results: {
     buildCertificateMeshLevel,
