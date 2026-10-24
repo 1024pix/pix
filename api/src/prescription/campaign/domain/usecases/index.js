@@ -42,6 +42,7 @@ import * as campaignToJoinRepository from '../../infrastructure/repositories/cam
 import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
 import * as groupRepository from '../../infrastructure/repositories/group-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import * as ltiCampaignRepository from '../../infrastructure/repositories/lti-campaign-repository.js';
 import * as organizationMembershipRepository from '../../infrastructure/repositories/organization-membership-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import { archiveCampaign } from './archive-campaign.js';
@@ -63,6 +64,7 @@ import { getCampaignByCode } from './get-campaign-by-code.js';
 import { getCampaignManagement } from './get-campaign-management.js';
 import { getCampaignOfCampaignParticipation } from './get-campaign-of-campaign-participation.js';
 import { getCampaignParticipations } from './get-campaign-participations.js';
+import { getLtiCampaignsByOrganizations } from './get-lti-campaigns-by-organizations.js';
 import { getParticipantsDivision } from './get-participants-division.js';
 import { getParticipantsGroup } from './get-participants-group.js';
 import { getPresentationSteps } from './get-presentation-steps.js';
@@ -125,6 +127,7 @@ const dependencies = {
   targetProfileRepository,
   userRepository,
   userRecommendedTrainingRepository,
+  ltiCampaignRepository,
 };
 
 const usecasesWithoutInjectedDependencies = {
@@ -143,6 +146,7 @@ const usecasesWithoutInjectedDependencies = {
   findPaginatedFilteredOrganizationCampaigns,
   findPaginatedOrganizationCampaignSummaries,
   getCampaignByCode,
+  getLtiCampaignsByOrganizations,
   getCampaignManagement,
   getCampaignOfCampaignParticipation,
   getCampaignParticipations,
