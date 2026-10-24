@@ -1,6 +1,8 @@
 import boom from '@hapi/boom';
+import { parseCookie } from 'cookie';
 
 import { logger } from '../../shared/infrastructure/utils/logger.js';
+import { getForwardedOrigin } from '../../shared/infrastructure/utils/network.js';
 import { LtiPrescriberAccessToken } from '../domain/models/LtiPrescriberAccessToken.js';
 import { ltiPlatformRegistrationRepository } from './repositories/lti-platform-registration.repository.js';
 
@@ -14,7 +16,7 @@ export function jwtCookieScheme(_, strategyConfiguration) {
 
 function makeAuthenticateJwtCookie({ cookieName, decode, authenticatePayload }) {
   return async function authenticateJwtCookie(request, h) {
-    const cookies = Object.fromEntries(request.headers.cookie?.split('; ').map((cookie) => cookie.split('=')) ?? []); // TODO : use a lib here
+    const cookies = parseCookie(request.headers.cookie);
     if (!cookies[cookieName]) {
       logger.warn({
         message: 'request has no cookie',
@@ -24,7 +26,12 @@ function makeAuthenticateJwtCookie({ cookieName, decode, authenticatePayload }) 
       return boom.unauthorized(null, jwtCookieSchemeName);
     }
 
-    const payload = decode(cookies[cookieName]);
+    let payload;
+    try {
+      payload = decode(cookies[cookieName], request);
+    } catch {
+      return boom.unauthorized();
+    }
 
     // FIXME check token's session isn't revoked
 
@@ -35,10 +42,19 @@ function makeAuthenticateJwtCookie({ cookieName, decode, authenticatePayload }) 
 export const ltiPrescriberStrategyName = 'lti-prescriber';
 
 export const ltiPrescriberStrategyConfiguration = {
-  cookieName: 'jwtLtiPrescriber',
-  decode: LtiPrescriberAccessToken.decode,
+  cookieName: LtiPrescriberAccessToken.COOKIE_NAME,
+  decode: decodeLtiPrescriberAccessToken,
   authenticatePayload: authenticateLtiPrescriberPayload,
 };
+
+/**
+ * @param {string} value
+ * @param {import('@hapi/hapi').Request} request
+ */
+function decodeLtiPrescriberAccessToken(value, request) {
+  const expectedAudience = getForwardedOrigin(request.headers);
+  return LtiPrescriberAccessToken.decode(value, { expectedAudience });
+}
 
 /**
  * @param {LtiPrescriberAccessToken} payload
