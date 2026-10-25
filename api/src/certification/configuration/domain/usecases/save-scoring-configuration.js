@@ -29,7 +29,10 @@ export async function saveScoringConfiguration({
 
   const certificationCourseIds = await certificationCoursesToScoreRepository.findIdsByVersionId({ versionId: id });
 
-  for (const certificationCourseId of certificationCourseIds) {
-    await scoreCertificationJobRepository.performAsync(new ScoreCertificationJob({ certificationCourseId }));
+  const jobs = certificationCourseIds.map(
+    (certificationCourseId) => new ScoreCertificationJob({ certificationCourseId }),
+  );
+  if (jobs.length > 0) {
+    await scoreCertificationJobRepository.performManyAsync(jobs);
   }
 }
