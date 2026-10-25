@@ -12,7 +12,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
   beforeEach(function () {
     const now = new Date('2023-08-17');
     sinon.useFakeTimers({ now, toFake: ['Date'] });
-    auditLoggingJobRepository = { performAsync: sinon.stub().resolves() };
+    auditLoggingJobRepository = { performManyAsync: sinon.stub().resolves() };
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
   });
 
@@ -44,7 +44,22 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
     // then
     expect(result.garAnonymizedUserCount).to.be.equal(2);
     expect(result.total).to.be.equal(3);
-    expect(auditLoggingJobRepository.performAsync).to.have.been.calledTwice;
+    expect(auditLoggingJobRepository.performManyAsync).to.have.been.calledOnceWithExactly([
+      AuditLoggingJob.forUsers({
+        client: 'PIX_ADMIN',
+        action: 'ANONYMIZATION_GAR',
+        userIds: [1002],
+        updatedByUserId: 1,
+        role: PIX_ADMIN.ROLES.SUPER_ADMIN,
+      }),
+      AuditLoggingJob.forUsers({
+        client: 'PIX_ADMIN',
+        action: 'ANONYMIZATION_GAR',
+        userIds: [1003],
+        updatedByUserId: 1,
+        role: PIX_ADMIN.ROLES.SUPER_ADMIN,
+      }),
+    ]);
   });
 
   it('triggers a garAnonymizedBatchEventsLogging job', async function () {
@@ -73,6 +88,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | anonymize-gar-a
       updatedByUserId: 1,
       role: PIX_ADMIN.ROLES.SUPER_ADMIN,
     });
-    expect(auditLoggingJobRepository.performAsync).to.have.been.calledWith(payload);
+    expect(auditLoggingJobRepository.performManyAsync).to.have.been.calledOnceWithExactly([payload]);
   });
 });
