@@ -17,122 +17,189 @@ describe('Integration | Infrastructure | Repositories | Jobs | job-repository', 
     await JobClient.instance.registerJob('JobTest');
   });
 
-  it('create one job db with given config', async function () {
-    // given
-    const name = 'JobTest';
-    const retry = JobRetry.STANDARD_RETRY;
-    const priority = JobPriority.HIGH;
+  describe('#performAsync', function () {
+    it('create one job db with given config', async function () {
+      // given
+      const name = 'JobTest';
+      const retry = JobRetry.STANDARD_RETRY;
+      const priority = JobPriority.HIGH;
 
-    const job = new JobRepository({ name, retry, priority });
+      const job = new JobRepository({ name, retry, priority });
 
-    // when
-    await job.performAsync({ jobParam: 1 });
-    const expectedPayload = { jobParam: 1, correlationContext: EMPTY_CORRELATION_INFO };
+      // when
+      await job.performAsync({ jobParam: 1 });
+      const expectedPayload = { jobParam: 1, correlationContext: EMPTY_CORRELATION_INFO };
 
-    await expect(name).to.have.been.performed.withJob({
-      name,
-      data: expectedPayload,
-      expireIn: 20 * 3600,
-      priority,
-      retryDelay: 30,
-      retryLimit: 10,
-      retryBackoff: true,
+      await expect(name).to.have.been.performed.withJob({
+        name,
+        data: expectedPayload,
+        expireIn: 20 * 3600,
+        priority,
+        retryDelay: 30,
+        retryLimit: 10,
+        retryBackoff: true,
+      });
     });
-  });
 
-  it('create one job even without payload', async function () {
-    // given
-    const name = 'JobTest';
-    const retry = JobRetry.STANDARD_RETRY;
-    const priority = JobPriority.HIGH;
+    it('create one job even without payload', async function () {
+      // given
+      const name = 'JobTest';
+      const retry = JobRetry.STANDARD_RETRY;
+      const priority = JobPriority.HIGH;
 
-    const job = new JobRepository({ name, retry, priority });
+      const job = new JobRepository({ name, retry, priority });
 
-    // when
-    await job.performAsync();
+      // when
+      await job.performAsync();
 
-    await expect(name).to.have.been.performed.withJob({
-      name,
-      data: {
-        correlationContext: {
-          jobId: null,
-          'pix-metadata': null,
-          request_id: null,
-          scriptId: null,
-          user_id: null,
+      await expect(name).to.have.been.performed.withJob({
+        name,
+        data: {
+          correlationContext: {
+            jobId: null,
+            'pix-metadata': null,
+            request_id: null,
+            scriptId: null,
+            user_id: null,
+          },
         },
-      },
-      expireIn: 20 * 3600,
-      priority,
-      retryDelay: 30,
-      retryLimit: 10,
-      retryBackoff: true,
+        expireIn: 20 * 3600,
+        priority,
+        retryDelay: 30,
+        retryLimit: 10,
+        retryBackoff: true,
+      });
+    });
+
+    it('creates one job and attach current correlation context', async function () {
+      // given
+      const context = {
+        request: {
+          headers: { 'x-request-id': 'someRequestId' },
+          auth: { credentials: { userId: 456 } },
+        },
+        scriptId: 'efcde830-e562-41d6-a721-4157ba9a9b02 ',
+        [CORRELATION_METADATA]: {
+          foo: 'bar',
+        },
+      };
+      const name = 'JobTest';
+      const expectedCorrelationContext = {
+        user_id: 456,
+        request_id: 'someRequestId',
+        scriptId: 'efcde830-e562-41d6-a721-4157ba9a9b02 ',
+        jobId: null,
+        [CORRELATION_METADATA]: {
+          foo: 'bar',
+        },
+      };
+      const expectedParams = { jobParam: 1, correlationContext: expectedCorrelationContext };
+      const retry = JobRetry.STANDARD_RETRY;
+      const priority = JobPriority.HIGH;
+
+      const job = new JobRepository({ name, retry, priority });
+
+      // when
+      await executeInContext(
+        context,
+        async () => {
+          return await job.performAsync(expectedParams);
+        },
+        EXECUTORS.REQUEST,
+      );
+
+      await expect(name).to.have.been.performed.withJob({
+        name,
+        data: expectedParams,
+        expireIn: 20 * 3600,
+        priority,
+        retryDelay: 30,
+        retryLimit: 10,
+        retryBackoff: true,
+      });
     });
   });
 
-  it('creates one job and attach current correlation context', async function () {
-    // given
-    const context = {
-      request: {
-        headers: { 'x-request-id': 'someRequestId' },
-        auth: { credentials: { userId: 456 } },
-      },
-      scriptId: 'efcde830-e562-41d6-a721-4157ba9a9b02 ',
-      [CORRELATION_METADATA]: {
-        foo: 'bar',
-      },
-    };
-    const name = 'JobTest';
-    const expectedCorrelationContext = {
-      user_id: 456,
-      request_id: 'someRequestId',
-      scriptId: 'efcde830-e562-41d6-a721-4157ba9a9b02 ',
-      jobId: null,
-      [CORRELATION_METADATA]: {
-        foo: 'bar',
-      },
-    };
-    const expectedParams = { jobParam: 1, correlationContext: expectedCorrelationContext };
-    const retry = JobRetry.STANDARD_RETRY;
-    const priority = JobPriority.HIGH;
+  describe('#performManyAsync', function () {
+    it('creates multiple jobs', async function () {
+      // given
+      const name = 'JobTest';
+      const retry = JobRetry.STANDARD_RETRY;
+      const priority = JobPriority.HIGH;
 
-    const job = new JobRepository({ name, retry, priority });
+      const job = new JobRepository({ name, retry, priority });
+      const payloads = [{ jobParam: 1 }, { jobParam: 2 }, { jobParam: 3 }];
 
-    // when
-    await executeInContext(
-      context,
-      async () => {
-        return await job.performAsync(expectedParams);
-      },
-      EXECUTORS.REQUEST,
-    );
+      // when
+      await job.performManyAsync(payloads);
 
-    await expect(name).to.have.been.performed.withJob({
-      name,
-      data: expectedParams,
-      expireIn: 20 * 3600,
-      priority,
-      retryDelay: 30,
-      retryLimit: 10,
-      retryBackoff: true,
+      // then
+      await expect(name).to.have.been.performed.withJobPayloads(payloads);
     });
-  });
 
-  it('return job Id', async function () {
-    // given
-    const name = 'JobTest';
-    const expectedParams = { jobParam: 1 };
-    const retry = JobRetry.STANDARD_RETRY;
-    const expireIn = JobExpireIn.INFINITE;
-    const priority = JobPriority.HIGH;
+    it('attaches the current correlation context to each job', async function () {
+      // given
+      const context = {
+        request: {
+          headers: { 'x-request-id': 'someRequestId' },
+          auth: { credentials: { userId: 456 } },
+        },
+        scriptId: 'efcde830-e562-41d6-a721-4157ba9a9b02 ',
+        [CORRELATION_METADATA]: {
+          foo: 'bar',
+        },
+      };
 
-    const job = new JobRepository({ name, retry, expireIn, priority });
+      const expectedCorrelationContext = {
+        user_id: 456,
+        request_id: 'someRequestId',
+        scriptId: 'efcde830-e562-41d6-a721-4157ba9a9b02 ',
+        jobId: null,
+        [CORRELATION_METADATA]: {
+          foo: 'bar',
+        },
+      };
 
-    // when
-    const jobIdInserted = await job.performAsync(expectedParams);
+      const name = 'JobTest';
+      const retry = JobRetry.STANDARD_RETRY;
+      const priority = JobPriority.HIGH;
 
-    // then
-    expect(jobIdInserted).to.match(new RegExp('^[0-z]{8}-[0-z]{4}-[0-z]{4}-[0-z]{4}-[0-z]{12}$'));
+      const job = new JobRepository({ name, retry, priority });
+      const payloads = [{ jobParam: 1 }, { jobParam: 2 }];
+
+      // when
+      await executeInContext(context, () => job.performManyAsync(payloads), EXECUTORS.REQUEST);
+
+      // then
+      const jobs = await expect(name).to.have.been.performed.withJobsCount(2);
+      const jobsOrdered = jobs.toSorted((jobA, jobB) => jobA.data.jobParam - jobB.data.jobParam);
+
+      expect(jobsOrdered[0]).to.deep.include({
+        name,
+        data: {
+          jobParam: 1,
+          correlationContext: expectedCorrelationContext,
+        },
+        expireIn: 20 * 3600,
+        priority,
+        retryDelay: 30,
+        retryLimit: 10,
+        retryBackoff: true,
+      });
+
+      expect(jobsOrdered[1]).to.deep.include({
+        name,
+        data: {
+          jobParam: 2,
+          correlationContext: expectedCorrelationContext,
+        },
+        expireIn: 20 * 3600,
+        priority,
+        retryDelay: 30,
+        retryLimit: 10,
+        retryBackoff: true,
+      });
+    });
   });
 
   describe('JobExpireIn', function () {

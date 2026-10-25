@@ -46,7 +46,7 @@ class FakePgBoss {
   }
   getDb() {
     return {
-      async exececuteSql() {
+      async executeSql() {
         return;
       },
     };
@@ -65,6 +65,10 @@ class FakePgBoss {
   }
 
   deleteQueue() {
+    return;
+  }
+
+  insert() {
     return;
   }
 }
@@ -588,6 +592,75 @@ describe('Unit | JobClient', function () {
           priority: 1,
         },
       );
+    });
+  });
+
+  context('pushing jobs', function () {
+    let jobClient, insertStub;
+
+    beforeEach(function () {
+      const pgBossStub = new FakePgBoss();
+      insertStub = sinon.stub(pgBossStub, 'insert');
+      jobClient = new JobClient();
+
+      return jobClient.initialize(
+        {
+          jobGroups: [JobGroup.DEFAULT],
+          isTestOnly: true,
+          worker: true,
+        },
+        () => pgBossStub,
+      );
+    });
+
+    context('#send', function () {
+      it('should create a single job', async function () {
+        // given
+        const job = { userId: 123 };
+        const options = {
+          priority: 1,
+        };
+
+        // when
+        await jobClient.send('A_JOB', job, options);
+
+        // then
+        expect(insertStub).to.have.been.calledWith('A_JOB', [
+          {
+            data: job,
+            priority: 1,
+          },
+        ]);
+      });
+    });
+
+    context('#sendMany', function () {
+      it('should create multiple jobs in bulk', async function () {
+        // given
+        const jobs = [{ userId: 123 }, { userId: 456 }, { userId: 789 }];
+        const options = {
+          priority: 1,
+        };
+
+        // when
+        await jobClient.sendMany('A_JOB', jobs, options);
+
+        // then
+        expect(insertStub).to.have.been.calledWith('A_JOB', [
+          {
+            data: jobs[0],
+            priority: 1,
+          },
+          {
+            data: jobs[1],
+            priority: 1,
+          },
+          {
+            data: jobs[2],
+            priority: 1,
+          },
+        ]);
+      });
     });
   });
 });
