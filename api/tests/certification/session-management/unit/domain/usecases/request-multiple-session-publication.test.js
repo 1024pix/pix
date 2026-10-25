@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { SessionAlreadyPublishedError } from '../../../../../../src/certification/session-management/domain/errors.js';
+import { PublishSessionJob } from '../../../../../../src/certification/session-management/domain/models/PublishSessionJob.js';
 import { requestMultipleSessionPublication } from '../../../../../../src/certification/session-management/domain/usecases/request-multiple-session-publication.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -14,7 +15,7 @@ describe('Unit | UseCase | request-multiple-session-publication', function () {
       getSessionIdAndPublishedAt: sinon.stub(),
     };
     publishSessionJobRepository = {
-      performAsync: sinon.stub(),
+      performManyAsync: sinon.stub(),
     };
   });
 
@@ -83,8 +84,10 @@ describe('Unit | UseCase | request-multiple-session-publication', function () {
       sessionManagementRepository,
     });
 
-    expect(publishSessionJobRepository.performAsync.callCount).to.eq(2);
-    expect(publishSessionJobRepository.performAsync.getCall(0).firstArg.sessionId).to.equal(12);
-    expect(publishSessionJobRepository.performAsync.getCall(1).firstArg.sessionId).to.equal(23);
+    expect(publishSessionJobRepository.performManyAsync.callCount).to.eq(1);
+    expect(publishSessionJobRepository.performManyAsync.getCall(0).firstArg).to.deep.equal([
+      new PublishSessionJob({ sessionId: 12 }),
+      new PublishSessionJob({ sessionId: 23 }),
+    ]);
   });
 });

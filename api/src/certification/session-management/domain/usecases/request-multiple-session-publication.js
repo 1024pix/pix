@@ -1,5 +1,6 @@
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { SessionAlreadyPublishedError } from '../errors.js';
+import { PublishSessionJob } from '../models/PublishSessionJob.js';
 
 export async function requestMultipleSessionPublication({
   sessionIds,
@@ -15,12 +16,14 @@ export async function requestMultipleSessionPublication({
     errors[notFoundSessionId] = new NotFoundError(`Session id ${notFoundSessionId} not found`);
   }
 
+  const jobs = [];
   for (const { id, publishedAt } of foundedSessionIdWithPublishedAt) {
     if (publishedAt) {
       errors[id] = new SessionAlreadyPublishedError(`Session id ${id} is already published`);
       continue;
     }
-    await publishSessionJobRepository.performAsync({ sessionId: id });
+    jobs.push(new PublishSessionJob({ sessionId: id }));
   }
+  await publishSessionJobRepository.performManyAsync(jobs);
   return errors;
 }
