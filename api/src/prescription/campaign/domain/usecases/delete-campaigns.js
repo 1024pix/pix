@@ -98,9 +98,7 @@ const deleteCampaigns = async ({
     await campaignAdministrationRepository.removeInBatch(campaignsToDelete);
   });
 
-  for (const auditLoggingJob of auditLoggingJobs) {
-    await auditLoggingJobRepository.performAsync(auditLoggingJob);
-  }
+  await auditLoggingJobRepository.performManyAsync(auditLoggingJobs);
 };
 
 export { deleteCampaigns };
