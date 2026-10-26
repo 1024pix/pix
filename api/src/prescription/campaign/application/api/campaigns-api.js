@@ -301,3 +301,18 @@ export const deleteCampaignsInCombinedCourses = async ({
     isPartOfDeletingCombinedCourse: true,
   });
 };
+
+/**
+ * @typedef {import('../../domain/models/LtiCampaign.js').LtiCampaign} LtiCampaign
+ */
+
+/**
+ * @function
+ * @name getLtiCampaigns
+ *
+ * @param {Array<Number>} organizationIds
+ * @returns {Promise<LtiCampaign[]>}
+ */
+export const getLtiCampaigns = async ({ organizationIds }) => {
+  return await usecases.getLtiCampaignsByOrganizations({ organizationIds });
+};
