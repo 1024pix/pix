@@ -364,6 +364,90 @@ module('Integration | Component | combined course item', function (hooks) {
     });
   });
 
+  module('cta', function () {
+    test('should display CTA for item', async function (assert) {
+      // given
+      const onClickStub = sinon.stub();
+      const store = this.owner.lookup('service:store');
+      const combinedCourseItem = store.createRecord('combined-course-item', {
+        id: 1,
+        title: 'Nom de la campagne',
+        type: CombinedCourseItemTypes.CAMPAIGN,
+        isDiagnostic: true,
+      });
+
+      // when
+      const screen = await render(
+        <template>
+          <CombinedCourseItem
+            @item={{combinedCourseItem}}
+            @isLocked={{false}}
+            @isSelectedItem={{true}}
+            @onClick={{onClickStub}}
+          />
+        </template>,
+      );
+
+      //then
+      assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.items.start-diagnostic') }));
+    });
+
+    test('should display not started module CTA', async function (assert) {
+      // given
+      const onClickStub = sinon.stub();
+      const store = this.owner.lookup('service:store');
+      const combinedCourseItem = store.createRecord('combined-course-item', {
+        id: 2,
+        title: 'Nom du module',
+        type: CombinedCourseItemTypes.MODULE,
+      });
+
+      // when
+      const screen = await render(
+        <template>
+          <CombinedCourseItem
+            @item={{combinedCourseItem}}
+            @isLocked={{false}}
+            @isSelectedItem={{true}}
+            @onClick={{onClickStub}}
+          />
+        </template>,
+      );
+
+      //then
+      assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.items.start-module') }));
+    });
+
+    test('should display not started campaign CTA', async function (assert) {
+      // given
+      const onClickStub = sinon.stub();
+      const store = this.owner.lookup('service:store');
+      const combinedCourseItem = store.createRecord('combined-course-item', {
+        id: 3,
+        title: 'Nom de la campagne',
+        type: CombinedCourseItemTypes.CAMPAIGN,
+        isDiagnostic: false,
+      });
+
+      // when
+      const screen = await render(
+        <template>
+          <CombinedCourseItem
+            @item={{combinedCourseItem}}
+            @isLocked={{false}}
+            @isSelectedItem={{true}}
+            @onClick={{onClickStub}}
+          />
+        </template>,
+      );
+
+      //then
+      assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.items.start-campaign') }));
+    });
+    // diag commencé
+    // campagne commencée
+  });
+
   module('when combined course is completed', function () {
     module('when item is a module', function () {
       test('should display replay button', async function (assert) {

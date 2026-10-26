@@ -201,7 +201,9 @@ function hasWhiteBackground(item) {
             {{/if}}
           </:duration>
           <:blockEnd>
-            {{#if @isSelectedItem}}{{/if}}
+            {{#if @isSelectedItem}}
+              <PixButton>{{t @item.ctaLabel}}</PixButton>
+            {{/if}}
           </:blockEnd>
         </Content>
       </button>

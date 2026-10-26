@@ -1359,6 +1359,8 @@
         "aria-label-duration": "Geschatte duur: {duration} minuten",
         "aria-label-level": "Niveau: {level}",
         "completed": "Voltooid!",
+        "continue-campaign": "Doorgaan.",
+        "continue-diagnostic": "Ga verder met de diagnose.",
         "duration": "≈ {duration} min",
         "formation": {
           "description": "Rond je diagnose af om een programma met modules te deblokkeren dat is afgestemd op je resultaat!",
@@ -1369,8 +1371,8 @@
         "restart-module": "De module opnieuw starten",
         "retry-module": "Deze module opnieuw afspelen",
         "start-campaign": "Beginnen",
-        "start-module": "De Module beginnen",
-        "tagText": "Zover ben je nu!"
+        "start-diagnostic": "De diagnose starten",
+        "start-module": "De Module beginnen"
       },
       "process-custom-passages": {
         "description": "We analyseren je resultaten en stellen een reeks op maat gemaakte trajecten samen.",

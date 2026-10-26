@@ -1,5 +1,9 @@
 import { setupTest } from 'ember-qunit';
-import { CombinedCourseAssets, CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
+import {
+  CampaignParticipationStatus,
+  CombinedCourseAssets,
+  CombinedCourseItemTypes,
+} from 'mon-pix/models/combined-course-item';
 import { module, test } from 'qunit';
 
 module('Unit | Model | Combined Course Item', function (hooks) {
@@ -94,9 +98,64 @@ module('Unit | Model | Combined Course Item', function (hooks) {
     test('returns true for items with type formation', function (assert) {
       const combinedCourseItem = store.createRecord('combined-course-item', {
         type: CombinedCourseItemTypes.FORMATION,
-        image: 'my-module-url',
       });
       assert.true(combinedCourseItem.isFormationBloc);
+    });
+  });
+
+  module('#ctaLabel', function () {
+    test('return correct wording for modules', function (assert) {
+      const combinedCourseItem = store.createRecord('combined-course-item', {
+        type: CombinedCourseItemTypes.MODULE,
+      });
+      assert.deepEqual(combinedCourseItem.ctaLabel, 'pages.combined-courses.items.start-module');
+    });
+
+    module('diagnostic', function () {
+      test('return correct wording for not started diagnostic', function (assert) {
+        const combinedCourseItem = store.createRecord('combined-course-item', {
+          type: CombinedCourseItemTypes.CAMPAIGN,
+          isDiagnostic: true,
+        });
+        assert.deepEqual(combinedCourseItem.ctaLabel, 'pages.combined-courses.items.start-diagnostic');
+      });
+
+      test('return correct wording for started diagnostic', function (assert) {
+        const combinedCourseItem = store.createRecord('combined-course-item', {
+          type: CombinedCourseItemTypes.CAMPAIGN,
+          isDiagnostic: true,
+          participationStatus: CampaignParticipationStatus.STARTED,
+        });
+        assert.deepEqual(combinedCourseItem.ctaLabel, 'pages.combined-courses.items.continue-diagnostic');
+      });
+    });
+
+    module('campaign', function () {
+      test('return correct wording for not started campaigns', function (assert) {
+        const combinedCourseItem = store.createRecord('combined-course-item', {
+          type: CombinedCourseItemTypes.CAMPAIGN,
+          isDiagnostic: false,
+        });
+        assert.deepEqual(combinedCourseItem.ctaLabel, 'pages.combined-courses.items.start-campaign');
+      });
+
+      test('return correct wording for started campaigns', function (assert) {
+        const combinedCourseItem = store.createRecord('combined-course-item', {
+          type: CombinedCourseItemTypes.CAMPAIGN,
+          isDiagnostic: false,
+          participationStatus: CampaignParticipationStatus.STARTED,
+        });
+        assert.deepEqual(combinedCourseItem.ctaLabel, 'pages.combined-courses.items.continue-campaign');
+      });
+    });
+
+    module('formation bloc', function () {
+      test('return no wording for formations', function (assert) {
+        const combinedCourseItem = store.createRecord('combined-course-item', {
+          type: CombinedCourseItemTypes.FORMATION,
+        });
+        assert.deepEqual(combinedCourseItem.ctaLabel, null);
+      });
     });
   });
 });

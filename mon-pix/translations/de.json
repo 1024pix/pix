@@ -1359,6 +1359,8 @@
         "aria-label-duration": "Geschätzte Dauer: {duration} Minuten",
         "aria-label-level": "Stufe: {level}",
         "completed": "Beendet!",
+        "continue-campaign": "Weiter.",
+        "continue-diagnostic": "Die Diagnose fortsetzen.",
         "duration": "≈ {duration} min",
         "formation": {
           "description": "Schließe deine Diagnose ab, um ein auf dein Ergebnis abgestimmtes Modulprogramm freizuschalten!",
@@ -1369,8 +1371,8 @@
         "restart-module": "Das Modul erneut starten",
         "retry-module": "Dieses Modul erneut abspielen",
         "start-campaign": "Beginnen",
-        "start-module": "Das Modul starten",
-        "tagText": "So weit bist du schon!"
+        "start-diagnostic": "Diagnose starten",
+        "start-module": "Das Modul starten"
       },
       "process-custom-passages": {
         "description": "Wir analysieren deine Ergebnisse und stellen eine passende Abfolge von Lernpfaden zusammen.",
