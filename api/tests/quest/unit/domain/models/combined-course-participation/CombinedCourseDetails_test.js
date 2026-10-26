@@ -272,6 +272,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
             participationStatus: CampaignParticipationStatuses.SHARED,
             isCompleted: true,
             isLocked: false,
+            isDiagnostic: false,
           }),
         ]);
       });
@@ -390,6 +391,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
             masteryRate: null,
             totalStagesCount: null,
             validatedStagesCount: null,
+            isDiagnostic: true,
           }),
         ]);
       });
@@ -434,6 +436,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
             totalStagesCount: null,
             validatedStagesCount: null,
             isLocked: false,
+            isDiagnostic: true,
           }),
           new ModuleCombinedCourseItem({
             id: 'ebcde1',
@@ -529,6 +532,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               participationStatus: CampaignParticipationStatuses.STARTED,
               isCompleted: false,
               isLocked: false,
+              isDiagnostic: true,
             }),
             new TrainingCombinedCourseItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 888,
@@ -589,6 +593,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               participationStatus: CampaignParticipationStatuses.STARTED,
               isCompleted: false,
               isLocked: false,
+              isDiagnostic: true,
             }),
             new TrainingCombinedCourseItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 888,
@@ -606,6 +611,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               totalStagesCount: null,
               validatedStagesCount: null,
               isLocked: true,
+              isDiagnostic: true,
             }),
             new TrainingCombinedCourseItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 101,
@@ -650,6 +656,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               validatedStagesCount: null,
               isCompleted: false,
               isLocked: false,
+              isDiagnostic: true,
             }),
             new TrainingCombinedCourseItem({
               id: 'formation_' + combinedCourseDetails.quest.id + '_' + 888,
@@ -708,6 +715,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
               participationStatus: CampaignParticipationStatuses.STARTED,
               isCompleted: false,
               isLocked: false,
+              isDiagnostic: true,
             }),
             new ModuleCombinedCourseItem({
               id: 'abcdef1',
@@ -937,6 +945,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           participationStatus: CampaignParticipationStatuses.SHARED,
           isCompleted: true,
           isLocked: false,
+          isDiagnostic: true,
         }),
         new ModuleCombinedCourseItem({
           id: 'abcde3',
@@ -977,6 +986,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseDetails', function () {
           masteryRate: 0.21,
           isCompleted: true,
           isLocked: false,
+          isDiagnostic: true,
         }),
         new ModuleCombinedCourseItem({
           id: 'abcde1',

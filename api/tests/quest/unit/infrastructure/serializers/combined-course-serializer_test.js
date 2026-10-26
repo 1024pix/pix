@@ -46,6 +46,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
             type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
             redirection: undefined,
             'is-completed': false,
+            'is-diagnostic': false,
             'is-locked': false,
             'mastery-rate': null,
             'validated-stages-count': null,

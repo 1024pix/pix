@@ -82,6 +82,7 @@ function buildCombinedCourseDetails({
 
   const combinedCourseDetails = new CombinedCourseDetails(combinedCourse, quest, cryptoService);
   combinedCourseDetails.setItems({ campaigns, modules });
+
   combinedCourseDetails.setDataAndGenerateItems({ reward: { rewardId, rewardType: quest.rewardType } });
 
   return combinedCourseDetails;
