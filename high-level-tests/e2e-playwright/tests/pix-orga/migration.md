@@ -4,7 +4,7 @@
 
 **Homepage**
 
-- [ ] (NEW) Changer d'organisation
+- [x] (NEW) Changer d'organisation
 - [x] Logout
 
 **Onboarding**
@@ -30,9 +30,9 @@
 
 **campaign-profile**
 
-- [ ] Création d'une campagne de profil
+- [x] Création d'une campagne de profil
 - [ ] Modification d'une campagne de profil
-- [ ] Je consulte le détail d'une campagne de profil
+- [x] Je consulte le détail d'une campagne de profil
 
 **campaign-management**
 
@@ -43,5 +43,5 @@
 
 - [ ] (NEW) Actions non disponibles pour un membre
 - [ ] (NEW) Actions disponibles pour un admin
-- [ ] J'envoie une invitation à rejoindre Pix Orga
+- [x] J'envoie une invitation à rejoindre Pix Orga
 - [ ] (NEW) Modification du rôle d'un membre
