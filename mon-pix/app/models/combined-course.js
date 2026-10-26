@@ -1,6 +1,5 @@
 import { action } from '@ember/object';
 import Model, { attr, belongsTo, hasMany } from '@warp-drive/legacy/model';
-import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 
 export const CombinedCourseStatuses = {
   NOT_STARTED: 'NOT_STARTED',
@@ -52,17 +51,14 @@ export default class CombinedCourse extends Model {
 
   get areItemsOfTheSameType() {
     const items = this.hasMany('items').value();
-    return (
-      items.every((item) => item.type === CombinedCourseItemTypes.MODULE) ||
-      items.every((item) => item.type === CombinedCourseItemTypes.CAMPAIGN)
-    );
+    return items.every((item) => item.isModuleType) || items.every((item) => item.isCampaignType);
   }
 
   get hasItemOfTypeModule() {
     return Boolean(
       this.hasMany('items')
         ?.value()
-        ?.find((item) => item.type === CombinedCourseItemTypes.MODULE),
+        ?.find((item) => item.isModuleType),
     );
   }
 }

@@ -2,8 +2,7 @@ import { PixButton, PixIcon } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { htmlSafe } from '@ember/template';
 import t from 'ember-intl/helpers/t';
-import { and, eq, not, or } from 'ember-truth-helpers';
-import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item.js';
+import { and, not, or } from 'ember-truth-helpers';
 
 import Duration from '../duration';
 import Level from '../level';
@@ -44,9 +43,9 @@ import Level from '../level';
   </div>
 
   <PixButton class="step-details__cta" @triggerAction={{fn @onClick @item}} @isLoading={{@isLoading}}>
-    {{#if (and (eq @item.type CombinedCourseItemTypes.CAMPAIGN) @item.isCompleted)}}
+    {{#if (and @item.isCampaignType @item.isCompleted)}}
       {{t "pages.combined-courses.items.restart-campaign"}}
-    {{else if (eq @item.type CombinedCourseItemTypes.CAMPAIGN)}}
+    {{else if @item.isCampaignType}}
       {{t "pages.combined-courses.items.start-campaign"}}
     {{else if @item.isCompleted}}
       {{t "pages.combined-courses.items.restart-module"}}
