@@ -10,7 +10,6 @@ import { organizationLearnerIdentityRepository } from '../../../../identity-acce
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
 import * as userLoginRepository from '../../../../identity-access-management/infrastructure/repositories/user-login-repository.js';
 import { userToCreateRepository } from '../../../../identity-access-management/infrastructure/repositories/user-to-create.repository.js';
-import * as organizationFeaturesAPI from '../../../../organizational-entities/application/api/organization-features-api.js';
 import { tagRepository } from '../../../../organizational-entities/infrastructure/repositories/tag.repository.js';
 import * as combinedCourseRepository from '../../../../quest/infrastructure/repositories/combined-courses/combined-course-repository.js';
 import { cryptoService } from '../../../../shared/domain/services/crypto-service.js';
@@ -66,12 +65,12 @@ const dependencies = {
   organizationRepository,
   organizationParticipantRepository,
   organizationLearnerActivityRepository,
+  organizationFeaturesRepository: repositories.organizationFeaturesRepository,
   organizationLearnerRepository: repositories.organizationLearnerRepository,
   organizationToJoinRepository: repositories.organizationToJoinRepository,
   organizationLearnerFeatureRepository,
   organizationLearnerIdentityRepository,
   organizationLearnerImportFormatRepository,
-  organizationFeaturesAPI,
   passwordGenerator,
   campaignRepository,
   campaignParticipationOverviewRepository,
