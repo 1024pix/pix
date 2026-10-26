@@ -1317,6 +1317,15 @@
       },
       "title": "Je wordt uitgenodigd om lid te worden van: {organizationName}"
     },
+    "lti-campaigns": {
+      "columns": {
+        "campaign-name": "Naam van de campagne",
+        "campaign-type": "Type campagne",
+        "code": "Code",
+        "organization": "Organisatie"
+      },
+      "title": "Lijst met campagnes"
+    },
     "missions": {
       "list": {
         "actions": {
