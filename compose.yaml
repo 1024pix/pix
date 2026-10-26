@@ -3,7 +3,7 @@ services:
     image: postgres:16.9-alpine
     container_name: pix-api-postgres
     ports:
-      - '${PIX_DATABASE_PORT:-5432}:5432'
+      - '127.0.0.1:${PIX_DATABASE_PORT:-5432}:5432'
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
 
@@ -11,7 +11,7 @@ services:
     image: redis:7.2.14-alpine
     container_name: pix-api-redis
     ports:
-      - '${PIX_CACHE_PORT:-6379}:6379'
+      - '127.0.0.1:${PIX_CACHE_PORT:-6379}:6379'
 
   s3:
     image: adobe/s3mock:5.2.3@sha256:ab01a6946750f451ca215a47e91030695b260e4003b8a5a6201d25029b8fca92
@@ -19,11 +19,11 @@ services:
     environment:
       - COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS=pix-import-dev, pix-import-test, pix-attestations-dev, pix-attestations-test, pix-answers-history-export-test
     ports:
-      - '${PIX_S3_PORT:-9090}:9090'
+      - '127.0.0.1:${PIX_S3_PORT:-9090}:9090'
 
   mailpit:
     image: axllent/mailpit:latest@sha256:c96991d9bef73594c246d89ca81411d4e916f03e76a7d2d72fa2ab5dd3c9ce24
     container_name: pix-api-smtp-server
     ports:
-      - '${PIX_MAILPIT_WEB_PORT:-1025}:1025'
-      - '${PIX_MAILPIT_SMTP_PORT:-8025}:8025'
+      - '127.0.0.1:${PIX_MAILPIT_WEB_PORT:-1025}:1025'
+      - '127.0.0.1:${PIX_MAILPIT_SMTP_PORT:-8025}:8025'
