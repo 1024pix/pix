@@ -49,6 +49,22 @@ class KeyValueStorage {
     throw new Error('Method #lrange(key) must be overridden');
   }
 
+  async hset(/* key, field, value */) {
+    throw new Error('Method hset(key, field, value) must be overridden');
+  }
+
+  async hkeys(/* key */) {
+    throw new Error('Method hkeys(key) must be overridden');
+  }
+
+  async hgetall(/* key */) {
+    throw new Error('Method hgetall(key) must be overridden');
+  }
+
+  async hdel(/* key, ...fields */) {
+    throw new Error('Method hdel(key, ...fields) must be overridden');
+  }
+
   async keys(/* pattern */) {
     throw new Error('Method #keys(pattern) must be overridden');
   }
@@ -108,6 +124,22 @@ class KeyValueStorage {
 
       lrange(key) {
         return storage.lrange(prefix + key);
+      },
+
+      hset(key, field, value) {
+        return storage.hset(prefix + key, field, value);
+      },
+
+      hkeys(key) {
+        return storage.hkeys(prefix + key);
+      },
+
+      hgetall(key) {
+        return storage.hgetall(prefix + key);
+      },
+
+      hdel(key, ...fields) {
+        return storage.hdel(prefix + key, ...fields);
       },
 
       async keys(pattern) {

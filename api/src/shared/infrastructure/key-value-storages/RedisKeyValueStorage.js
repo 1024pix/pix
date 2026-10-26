@@ -85,6 +85,24 @@ class RedisKeyValueStorage extends KeyValueStorage {
     return this._client.lrange(key, start, stop);
   }
 
+  async hset(key, field, value) {
+    const objectAsString = JSON.stringify(value);
+    await this._client.hset(key, field, objectAsString);
+  }
+
+  async hkeys(key) {
+    return this._client.hkeys(key);
+  }
+
+  async hgetall(key) {
+    const hash = await this._client.hgetall(key);
+    return Object.fromEntries(Object.entries(hash).map(([k, v]) => [k, JSON.parse(v)]));
+  }
+
+  async hdel(key, ...fields) {
+    return this._client.hdel(key, ...fields);
+  }
+
   async keys(pattern) {
     const keys = await this._client.keys(pattern);
     return keys.map((key) => key.slice(this.#prefix.length));
