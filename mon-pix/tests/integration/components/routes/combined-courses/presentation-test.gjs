@@ -249,7 +249,6 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       // then
       assert.ok(screen.getByText('ma campagne'));
       assert.ok(screen.getByRole('button', { name: /ma campagne/ }));
-      assert.ok(screen.getByText(t('pages.combined-courses.items.tagText')));
     });
 
     test('should display modules with no link', async function (assert) {
@@ -336,7 +335,6 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
 
       // then
       assert.ok(screen.getByRole('heading', { name: t('pages.combined-courses.completed.title') }));
-      assert.notOk(screen.queryByText(t('pages.combined-courses.items.tagText')));
     });
 
     test('should display survey cta if available', async function (assert) {

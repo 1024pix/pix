@@ -1,4 +1,4 @@
-import { PixButton, PixIcon, PixStars, PixTag } from '@1024pix/nebulix-ember';
+import { PixButton, PixIcon, PixStars } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { htmlSafe } from '@ember/template';
 import { t } from 'ember-intl';
@@ -201,14 +201,7 @@ function hasWhiteBackground(item) {
             {{/if}}
           </:duration>
           <:blockEnd>
-            {{#if @isSelectedItem}}
-              {{#if @displayNextItemTag}}
-                <PixTag @color="purple-light" class="combined-course-item__tag">{{t
-                    "pages.combined-courses.items.tagText"
-                  }}
-                  <PixIcon @name="distance" @plainIcon={{true}} @ariaHidden={{true}} /></PixTag>
-              {{/if}}
-            {{/if}}
+            {{#if @isSelectedItem}}{{/if}}
           </:blockEnd>
         </Content>
       </button>

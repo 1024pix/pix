@@ -200,54 +200,6 @@ module('Integration | Component | combined course item', function (hooks) {
     });
   });
 
-  module('next item tag', function () {
-    test('should display nextItemTag', async function (assert) {
-      // given
-      const onClickStub = sinon.stub();
-      const store = this.owner.lookup('service:store');
-      const combinedCourseItem = store.createRecord('combined-course-item', { id: 1 });
-
-      // when
-      const screen = await render(
-        <template>
-          <CombinedCourseItem
-            @item={{combinedCourseItem}}
-            @isLocked={{false}}
-            @isSelectedItem={{true}}
-            @onClick={{onClickStub}}
-            @displayNextItemTag={{true}}
-          />
-        </template>,
-      );
-
-      //then
-      assert.ok(screen.getByText(t('pages.combined-courses.items.tagText')));
-    });
-
-    test('should not display nextItemTag', async function (assert) {
-      // given
-      const onClickStub = sinon.stub();
-      const store = this.owner.lookup('service:store');
-      const combinedCourseItem = store.createRecord('combined-course-item', { id: 1 });
-
-      // when
-      const screen = await render(
-        <template>
-          <CombinedCourseItem
-            @item={{combinedCourseItem}}
-            @isLocked={{false}}
-            @isNextItemToComplete={{true}}
-            @onClick={{onClickStub}}
-            @displayNextItemTag={{false}}
-          />
-        </template>,
-      );
-
-      //then
-      assert.notOk(await screen.queryByText(t('pages.combined-courses.items.tagText')));
-    });
-  });
-
   module('selectable content', function () {
     test('content should be selectable if not locked', async function (assert) {
       // given

@@ -123,7 +123,6 @@ export default class CombinedCoursePresentation extends Component {
         <article class="combined-course__content">
           <CombinedCourseItemsList
             @combinedCourse={{@combinedCourse}}
-            @displayNextItemTag={{true}}
             @onClick={{this.goToItem}}
             @shouldFocusSelectedItem={{false}}
           />
