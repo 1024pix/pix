@@ -94,7 +94,7 @@ export default {
     type: 'boolean',
     description: 'Enable session logout',
     defaultValue: false,
-    devDefaultValues: { test: false, reviewApp: false },
+    devDefaultValues: { test: false, reviewApp: true },
     tags: ['team-acces', 'frontend', 'backend', 'pix-api', 'mon-pix', 'pix-orga', 'pix-certif', 'pix-admin'],
   },
   isEventSourcingCertificationEnabled: {
