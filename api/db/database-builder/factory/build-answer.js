@@ -3,6 +3,21 @@ import _ from 'lodash';
 import { databaseBuffer } from '../database-buffer.ts';
 import { buildAssessment } from './build-assessment.js';
 
+/**
+ * @param {{
+ *   id?: number,
+ *   value?: string,
+ *   result?: string,
+ *   assessmentId?: number,
+ *   challengeId?: string,
+ *   createdAt?: Date,
+ *   updatedAt?: Date,
+ *   timeout?: number | null,
+ *   resultDetails?: string,
+ *   isFocusedOut?: boolean,
+ *   timeSpent?: number,
+ * }} [attributes]
+ */
 const buildAnswer = function ({
   id = databaseBuffer.getNextId(),
   value = 'Some value for answer',

@@ -1,6 +1,6 @@
 import { buildAnswer } from './build-answer.js';
 import { buildAssessment } from './build-assessment.js';
-import { buildKnowledgeElement } from './build-knowledge-element.js';
+import { buildKnowledgeElement } from './build-knowledge-element.ts';
 import { buildUser } from './build-user.js';
 
 const buildCertifiableUser = function ({ competencesAssociatedSkillsAndChallenges, limitDate }) {

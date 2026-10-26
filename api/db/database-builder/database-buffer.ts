@@ -1,6 +1,7 @@
 const INITIAL_ID = 100000;
 
-type Insertable = Record<string, unknown>;
+// Any row object, a model instance included: a class type has no index signature and would not fit a Record.
+type Insertable = object;
 
 type DatabaseBuffer = {
   // Read and reset directly by DatabaseBuilder.commit(), hence writable.

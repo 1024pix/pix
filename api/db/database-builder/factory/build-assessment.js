@@ -5,6 +5,25 @@ import { databaseBuffer } from '../database-buffer.ts';
 import { buildCertificationCourse } from './build-certification-course.js';
 import { buildUser } from './build-user.js';
 
+/**
+ * @param {{
+ *   id?: number,
+ *   courseId?: string | null,
+ *   certificationCourseId?: number | null,
+ *   userId?: number | null,
+ *   type?: string,
+ *   state?: string,
+ *   isImproving?: boolean,
+ *   lastQuestionDate?: Date,
+ *   lastChallengeId?: string | null,
+ *   lastQuestionState?: string,
+ *   competenceId?: string | null,
+ *   campaignParticipationId?: number | null,
+ *   createdAt?: Date,
+ *   updatedAt?: Date,
+ *   method?: string,
+ * }} [attributes]
+ */
 const buildAssessment = function ({
   id = databaseBuffer.getNextId(),
   courseId = 'recDefaultCourseId',

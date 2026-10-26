@@ -1,14 +1,27 @@
-import _ from 'lodash';
+import { buildCorrectAnswerAndKnowledgeElement } from './build-correct-answer-and-knowledge-element.ts';
 
-import { buildCorrectAnswerAndKnowledgeElement } from './build-correct-answer-and-knowledge-element.js';
+type Challenge = { id: string };
+type Skill = { id: string; challenges: Challenge[] };
+type Tube = { skills: Skill[] };
+type Competence = { id: string; tubes: Tube[] };
+type Area = { frameworkId?: string; competences: Competence[] };
+type Framework = { id: string; name: string; areas: Area[] };
 
-const buildCorrectAnswersAndKnowledgeElementsForLearningContent = function ({
+type PlacementAttributes = {
+  userId: number;
+  placementDate: Date | string;
+  earnedPix: number;
+};
+
+type CompetenceIdSkillIdPair = { competenceId: string; skillId: string; challengeId: string };
+
+const buildCorrectAnswersAndKnowledgeElementsForLearningContent = ({
   learningContent,
   userId,
   placementDate,
   earnedPix,
-}) {
-  const competenceIdSkillIdPairs = [];
+}: PlacementAttributes & { learningContent: Framework[] }) => {
+  const competenceIdSkillIdPairs: CompetenceIdSkillIdPair[] = [];
   learningContent.forEach((framework) => {
     framework.areas.forEach((area) => {
       area.competences.forEach((competence) => {
@@ -37,23 +50,22 @@ const buildCorrectAnswersAndKnowledgeElementsForLearningContent = function ({
   return competenceIdSkillIdPairs;
 };
 
-buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas = function ({
+buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas = ({
   learningContent,
   userId,
   placementDate,
   earnedPix,
-}) {
-  const areasGroupedByFramework = _.groupBy(learningContent, 'frameworkId');
-  const frameworks = [];
-  for (const [frameworkId, areas] of Object.entries(areasGroupedByFramework)) {
+}: PlacementAttributes & { learningContent: Area[] }) => {
+  const areasGroupedByFramework = Map.groupBy(learningContent, (area) => area.frameworkId);
+  const frameworks = [...areasGroupedByFramework].map(([frameworkId, areas]) => {
     const framework = {
       id: frameworkId || 'recDefaultFramework',
       name: frameworkId || 'DefaultFramework',
-      areas: areas,
+      areas,
     };
-    frameworks.push(framework);
     areas.forEach((area) => (area.frameworkId = framework.id));
-  }
+    return framework;
+  });
   return buildCorrectAnswersAndKnowledgeElementsForLearningContent({
     learningContent: frameworks,
     userId,
