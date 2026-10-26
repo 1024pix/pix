@@ -25,6 +25,7 @@ const serialize = function (combinedCourse) {
         'type',
         'redirection',
         'isCompleted',
+        'participationStatus',
         'isDiagnostic',
         'isLocked',
         'masteryRate',
