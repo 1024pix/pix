@@ -116,6 +116,9 @@ export default class EvaluationResultsHero extends Component {
 
   @action
   handleStageMessageClick(event) {
+    const isMiddleClick = event.button === 1;
+    if (event.type === 'auxclick' && !isMiddleClick) return;
+
     const link = event.target.closest('a');
     if (!link) return;
 
@@ -168,7 +171,11 @@ export default class EvaluationResultsHero extends Component {
 
         {{#if @campaignParticipationResult.hasReachedStage}}
           {{! template-lint-disable no-invalid-interactive }}
-          <div class="evaluation-results-hero-details__stage-message" {{on "click" this.handleStageMessageClick}}>
+          <div
+            class="evaluation-results-hero-details__stage-message"
+            {{on "click" this.handleStageMessageClick}}
+            {{on "auxclick" this.handleStageMessageClick}}
+          >
             <MarkdownToHtml @isInline={{true}} @markdown={{@campaignParticipationResult.reachedStage.title}} />
             <MarkdownToHtml @isInline={{true}} @markdown={{@campaignParticipationResult.reachedStage.message}} />
           </div>
