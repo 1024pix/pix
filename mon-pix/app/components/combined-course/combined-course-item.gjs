@@ -2,8 +2,7 @@ import { PixButton, PixIcon, PixStars, PixTag } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { htmlSafe } from '@ember/template';
 import { t } from 'ember-intl';
-import { and, eq, not } from 'ember-truth-helpers';
-import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
+import { and, not } from 'ember-truth-helpers';
 import autofocus from 'mon-pix/modifiers/autofocus.js';
 import scrollIntoView from 'mon-pix/modifiers/scroll-into-view.js';
 
@@ -113,7 +112,7 @@ function hasWhiteBackground(item) {
 }
 
 <template>
-  {{#if (eq @item.type CombinedCourseItemTypes.FORMATION)}}
+  {{#if @item.isFormationBloc}}
     <Content
       @title={{t "pages.combined-courses.items.formation.title"}}
       @isLocked={{true}}
@@ -131,13 +130,13 @@ function hasWhiteBackground(item) {
         @title={{@item.title}}
         @isLocked={{true}}
         @iconUrl={{@item.iconUrl}}
-        @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
+        @displayDuration={{@item.isModuleType}}
       >
         <:duration>
           {{#if @item.duration}}<Duration @duration={{@item.duration}} />{{/if}}
         </:duration>
       </Content>
-    {{else if (and @isCombinedCourseCompleted (eq @item.type CombinedCourseItemTypes.MODULE))}}
+    {{else if (and @isCombinedCourseCompleted @item.isModuleType)}}
       <Content
         @title={{@item.title}}
         @isCompleted={{@item.isCompleted}}
@@ -190,8 +189,8 @@ function hasWhiteBackground(item) {
           @validatedStagesCount={{@item.validatedStages}}
           @totalStagesCount={{@item.totalStages}}
           @iconUrl={{@item.iconUrl}}
-          @isCampaignType={{eq @item.type CombinedCourseItemTypes.CAMPAIGN}}
-          @displayDuration={{eq @item.type CombinedCourseItemTypes.MODULE}}
+          @isCampaignType={{@item.isCampaignType}}
+          @displayDuration={{@item.isModuleType}}
           @hasWhiteBackground={{hasWhiteBackground @item}}
           @isCurrentItem={{@isSelectedItem}}
           @isLoading={{@isLoading}}

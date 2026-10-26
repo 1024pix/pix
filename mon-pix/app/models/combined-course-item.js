@@ -30,25 +30,25 @@ export default class CombinedCourseItem extends Model {
   @belongsTo('combined-course', { async: false, inverse: 'items' }) combinedCourse;
 
   get route() {
-    return this.type === CombinedCourseItemTypes.CAMPAIGN ? 'campaigns' : 'module';
+    return this.isCampaignType ? 'campaigns' : 'module';
   }
 
   get models() {
-    if (this.type === CombinedCourseItemTypes.MODULE) {
+    if (this.isModuleType) {
       return [this.shortId, this.reference];
     }
     return [this.reference];
   }
 
   get iconUrl() {
-    if (this.type === CombinedCourseItemTypes.CAMPAIGN) return CombinedCourseAssets.CAMPAIGN_ICON;
-    if (this.type === CombinedCourseItemTypes.FORMATION) return CombinedCourseAssets.FORMATION_ICON;
+    if (this.isCampaignType) return CombinedCourseAssets.CAMPAIGN_ICON;
+    if (this.isFormationBloc) return CombinedCourseAssets.FORMATION_ICON;
 
     return this.image;
   }
 
   get typeForStepDisplay() {
-    if (this.type === CombinedCourseItemTypes.FORMATION) return CombinedCourseItemTypes.MODULE;
+    if (this.isFormationBloc) return CombinedCourseItemTypes.MODULE;
     return this.type;
   }
 
@@ -62,5 +62,17 @@ export default class CombinedCourseItem extends Model {
 
   get validatedStages() {
     return this.validatedStagesCount - 1;
+  }
+
+  get isCampaignType() {
+    return this.type === CombinedCourseItemTypes.CAMPAIGN;
+  }
+
+  get isModuleType() {
+    return this.type === CombinedCourseItemTypes.MODULE;
+  }
+
+  get isFormationBloc() {
+    return this.type === CombinedCourseItemTypes.FORMATION;
   }
 }

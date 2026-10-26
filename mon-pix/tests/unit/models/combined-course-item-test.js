@@ -69,4 +69,34 @@ module('Unit | Model | Combined Course Item', function (hooks) {
       assert.strictEqual(combinedCourseItem.typeForStepDisplay, CombinedCourseItemTypes.MODULE);
     });
   });
+
+  module('#isCampaignType', function () {
+    test('returns true for items with type campaign', function (assert) {
+      const combinedCourseItem = store.createRecord('combined-course-item', {
+        type: CombinedCourseItemTypes.CAMPAIGN,
+        image: 'my-module-url',
+      });
+      assert.true(combinedCourseItem.isCampaignType);
+    });
+  });
+
+  module('#isModuleType', function () {
+    test('returns true for items with type module', function (assert) {
+      const combinedCourseItem = store.createRecord('combined-course-item', {
+        type: CombinedCourseItemTypes.MODULE,
+        image: 'my-module-url',
+      });
+      assert.true(combinedCourseItem.isModuleType);
+    });
+  });
+
+  module('#isFormationBloc', function () {
+    test('returns true for items with type formation', function (assert) {
+      const combinedCourseItem = store.createRecord('combined-course-item', {
+        type: CombinedCourseItemTypes.FORMATION,
+        image: 'my-module-url',
+      });
+      assert.true(combinedCourseItem.isFormationBloc);
+    });
+  });
 });
