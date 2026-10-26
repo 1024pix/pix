@@ -1,11 +1,11 @@
-import { fillByLabel, render } from '@1024pix/ember-testing-library';
+import { fillByLabel, render, within } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { click } from '@ember/test-helpers';
 import InformationEdit from 'pix-admin/components/certification-centers/information-edit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest, { t } from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | certification-centers/information-edit', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -22,6 +22,20 @@ module('Integration | Component | certification-centers/information-edit', funct
 
   const toggleEditModeStub = sinon.stub();
   const onSubmit = sinon.stub();
+
+  let queryStub;
+
+  hooks.beforeEach(function () {
+    const store = this.owner.lookup('service:store');
+    sinon
+      .stub(store, 'findAll')
+      .withArgs('structure-category')
+      .resolves([
+        store.createRecord('structure-category', { id: '111', label: 'Catégorie 1' }),
+        store.createRecord('structure-category', { id: '222', label: 'Catégorie 2' }),
+      ]);
+    queryStub = sinon.stub(store, 'query').resolves([]);
+  });
 
   module('certification center edit form validation', function () {
     test("it should show an error message if certification center's name is empty", async function (assert) {
@@ -220,6 +234,123 @@ module('Integration | Component | certification-centers/information-edit', funct
         assert.strictEqual(certificationCenter.dataProtectionOfficerFirstName, 'newFirstname');
         assert.strictEqual(certificationCenter.dataProtectionOfficerLastName, 'newLastname');
         assert.strictEqual(certificationCenter.dataProtectionOfficerEmail, 'newMail@example.net');
+      });
+
+      test('it should ask for confirmation when an organization is attached', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const certificationCenter = EmberObject.create({
+          id: '12',
+          name: 'Centre SCO',
+          type: 'SCO',
+          categoryId: 111,
+          habilitations: [],
+        });
+        queryStub
+          .withArgs('attached-organization', { certificationCenterId: '12' })
+          .resolves([store.createRecord('attached-organization', { id: '7', name: 'Orga' })]);
+
+        const screen = await render(
+          <template>
+            <InformationEdit
+              @certificationCenter={{certificationCenter}}
+              @toggleEditMode={{toggleEditModeStub}}
+              @onSubmit={{onSubmit}}
+            />
+          </template>,
+        );
+
+        // when
+        await click(screen.getByRole('button', { name: 'Catégorie' }));
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'Catégorie 2' }));
+        await click(screen.getByRole('button', { name: 'Enregistrer' }));
+
+        // then
+        assert
+          .dom(
+            await screen.findByText(
+              t('pages.certification-centers.information-edit.category.confirmation-modal.attached-organization', {
+                organizationName: 'Orga',
+              }),
+            ),
+          )
+          .exists();
+        assert
+          .dom(screen.getByText(t('pages.certification-centers.information-edit.category.confirmation-modal.warning')))
+          .exists();
+        assert.strictEqual(certificationCenter.categoryId, 111);
+
+        // when
+        await click(screen.getByRole('button', { name: 'Confirmer' }));
+
+        // then
+        assert.strictEqual(certificationCenter.categoryId, '222');
+        assert.strictEqual(certificationCenter.categoryLabel, 'Catégorie 2');
+      });
+
+      test('it should not save the certification center when the confirmation is cancelled', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const certificationCenter = EmberObject.create({
+          id: '13',
+          name: 'Centre SCO',
+          type: 'SCO',
+          categoryId: 111,
+          habilitations: [],
+        });
+        queryStub
+          .withArgs('attached-organization', { certificationCenterId: '13' })
+          .resolves([store.createRecord('attached-organization', { id: '8', name: 'Orga' })]);
+
+        const screen = await render(
+          <template>
+            <InformationEdit
+              @certificationCenter={{certificationCenter}}
+              @toggleEditMode={{toggleEditModeStub}}
+              @onSubmit={{onSubmit}}
+            />
+          </template>,
+        );
+
+        // when
+        await click(screen.getByRole('button', { name: 'Catégorie' }));
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'Catégorie 2' }));
+        await click(screen.getByRole('button', { name: 'Enregistrer' }));
+        await click(within(await screen.findByRole('dialog')).getByRole('button', { name: 'Annuler' }));
+
+        // then
+        assert.strictEqual(certificationCenter.categoryId, 111);
+      });
+
+      test('it should update the certification center category', async function (assert) {
+        // given
+        const certificationCenter = EmberObject.create({
+          name: 'Centre SCO',
+          type: 'SCO',
+          categoryId: 111,
+          habilitations: [],
+        });
+
+        const screen = await render(
+          <template>
+            <InformationEdit
+              @certificationCenter={{certificationCenter}}
+              @toggleEditMode={{toggleEditModeStub}}
+              @onSubmit={{onSubmit}}
+            />
+          </template>,
+        );
+
+        // when
+        await click(screen.getByRole('button', { name: 'Catégorie' }));
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'Catégorie 2' }));
+        await click(screen.getByRole('button', { name: 'Enregistrer' }));
+
+        // then
+        assert.strictEqual(certificationCenter.categoryId, '222');
       });
 
       test('it should add the habilitation to the certification center', async function (assert) {

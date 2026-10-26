@@ -1,4 +1,4 @@
-import { PixButton, PixCheckbox, PixInput, PixSelect } from '@1024pix/nebulix-ember';
+import { PixButton, PixCheckbox, PixInput, PixModal, PixSelect } from '@1024pix/nebulix-ember';
 import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { service } from '@ember/service';
@@ -7,6 +7,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import Joi from 'joi';
 import sortBy from 'lodash/sortBy';
+import SelectSearchWrapper from 'pix-admin/components/ui/select-search-wrapper';
 import { FormValidator } from 'pix-admin/utils/form-validator';
 
 import { types } from '../../models/certification-center';
@@ -14,8 +15,11 @@ import { types } from '../../models/certification-center';
 export default class InformationEdit extends Component {
   @service store;
   @tracked selectedHabilitations = [];
+  @tracked structureCategories = [];
+  @tracked attachedOrganization = null;
   @tracked form = {};
   certificationCenterTypes = types;
+  initialCategoryId = null;
 
   validator = new FormValidator(CERTIFICATION_CENTER_FORM_SCHEMA);
 
@@ -26,6 +30,8 @@ export default class InformationEdit extends Component {
       this.selectedHabilitations = habilitations;
     });
 
+    this.#loadStructureCategories();
+
     this.form = {
       name: this.args.certificationCenter.name,
       externalId: this.args.certificationCenter.externalId,
@@ -33,11 +39,24 @@ export default class InformationEdit extends Component {
       dataProtectionOfficerFirstName: this.args.certificationCenter.dataProtectionOfficerFirstName,
       dataProtectionOfficerLastName: this.args.certificationCenter.dataProtectionOfficerLastName,
       dataProtectionOfficerEmail: this.args.certificationCenter.dataProtectionOfficerEmail,
+      categoryId: this.args.certificationCenter.categoryId ? `${this.args.certificationCenter.categoryId}` : null,
     };
+    this.initialCategoryId = this.form.categoryId;
+  }
+
+  async #loadStructureCategories() {
+    this.structureCategories = await this.store.findAll('structure-category');
   }
 
   get sortedHabilitations() {
     return sortBy(this.args.availableHabilitations, 'id');
+  }
+
+  get categoriesOptions() {
+    return this.structureCategories.map((structureCategory) => ({
+      value: structureCategory.id,
+      label: structureCategory.label,
+    }));
   }
 
   onFormInputChange = (name) => (event) => {
@@ -48,6 +67,10 @@ export default class InformationEdit extends Component {
   onTypeChange = (value) => {
     this.form = { ...this.form, type: value ? value.trim() : value };
     this.validator.validateField('type', this.form.type);
+  };
+
+  onCategoryChange = (value) => {
+    this.form = { ...this.form, categoryId: value };
   };
 
   onToggleHabilitation = (habilitation) => {
@@ -70,6 +93,34 @@ export default class InformationEdit extends Component {
     const isValid = this.validator.validate(this.form);
     if (!isValid) return;
 
+    if (this.form.categoryId !== this.initialCategoryId) {
+      this.attachedOrganization = await this.#findAttachedOrganization();
+      if (this.attachedOrganization) return;
+    }
+
+    return this.#updateCertificationCenter();
+  };
+
+  confirmUpdate = () => {
+    this.attachedOrganization = null;
+    return this.#updateCertificationCenter();
+  };
+
+  closeConfirmationModal = () => {
+    this.attachedOrganization = null;
+  };
+
+  async #findAttachedOrganization() {
+    const [attachedOrganization] = await this.store.query('attached-organization', {
+      certificationCenterId: this.args.certificationCenter.id,
+    });
+
+    return attachedOrganization;
+  }
+
+  #updateCertificationCenter() {
+    const categoryLabel = this.structureCategories.find((category) => category.id === this.form.categoryId)?.label;
+
     this.args.certificationCenter.setProperties({
       name: this.form.name,
       externalId: this.form.externalId || null,
@@ -77,12 +128,14 @@ export default class InformationEdit extends Component {
       dataProtectionOfficerFirstName: this.form.dataProtectionOfficerFirstName,
       dataProtectionOfficerLastName: this.form.dataProtectionOfficerLastName,
       dataProtectionOfficerEmail: this.form.dataProtectionOfficerEmail,
+      categoryId: this.form.categoryId,
+      categoryLabel,
       habilitations: this.selectedHabilitations,
     });
 
     this.args.toggleEditMode();
     return this.args.onSubmit();
-  };
+  }
 
   <template>
     <h2 class="certification-center-information__edit-title">Modifier un centre de certification</h2>
@@ -117,6 +170,20 @@ export default class InformationEdit extends Component {
       >
         <:label>Identifiant externe</:label>
       </PixInput>
+
+      <SelectSearchWrapper
+        @texts={{hash
+          placeholder=(t "pages.certification-centers.information-edit.category.selector.placeholder")
+          selectSearchLabel=(t "pages.certification-centers.information-edit.category.selector.search-label")
+          searchPlaceholder=(t "pages.certification-centers.information-edit.category.selector.search-placeholder")
+        }}
+        @options={{this.categoriesOptions}}
+        @value={{this.form.categoryId}}
+        @onChange={{this.onCategoryChange}}
+        @hideDefaultOption={{true}}
+      >
+        <:label>{{t "pages.certification-centers.information-edit.category.selector.label"}}</:label>
+      </SelectSearchWrapper>
 
       <PixInput
         @value={{this.form.dataProtectionOfficerFirstName}}
@@ -171,6 +238,30 @@ export default class InformationEdit extends Component {
         </PixButton>
       </div>
     </form>
+
+    {{#if this.attachedOrganization}}
+      <PixModal
+        @title={{t "pages.certification-centers.information-edit.category.confirmation-modal.title"}}
+        @showModal={{true}}
+        @onCloseButtonClick={{this.closeConfirmationModal}}
+      >
+        <:content>
+          <p>{{t
+              "pages.certification-centers.information-edit.category.confirmation-modal.attached-organization"
+              organizationName=this.attachedOrganization.name
+            }}</p>
+          <p>{{t "pages.certification-centers.information-edit.category.confirmation-modal.warning"}}</p>
+        </:content>
+        <:footer>
+          <PixButton @triggerAction={{this.closeConfirmationModal}} @size="small" @variant="secondary">
+            {{t "common.actions.cancel"}}
+          </PixButton>
+          <PixButton @triggerAction={{this.confirmUpdate}} @size="small">
+            {{t "common.actions.confirm"}}
+          </PixButton>
+        </:footer>
+      </PixModal>
+    {{/if}}
   </template>
 }
 
@@ -184,6 +275,8 @@ const CERTIFICATION_CENTER_FORM_SCHEMA = Joi.object({
     'any.required': 'Le type ne peut pas être vide',
     'string.empty': 'Le type ne peut pas être vide',
   }),
+  // TODO: rendre la catégorie obligatoire une fois qu'elle sera renseignée à la création d'un centre
+  categoryId: Joi.string().empty(['', null]),
   externalId: Joi.string().min(0).max(255).empty(['', null]).messages({
     'string.max': "La longueur de l'identifiant externe ne doit pas excéder 255 caractères",
   }),
