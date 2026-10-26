@@ -1,4 +1,4 @@
-import { assertNotNullOrUndefined } from '../models/asserts.js';
+import { assertNotNullOrUndefined } from '../../models/asserts.js';
 
 export default class CertificationUncancelled {
   /**

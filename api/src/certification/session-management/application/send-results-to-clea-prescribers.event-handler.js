@@ -3,15 +3,15 @@ import { SessionPublishedEvent } from '../../../shared/domain/events/SessionPubl
 import { addCorrelationInfo } from '../../../shared/infrastructure/execution-context-manager.js';
 import { usecases } from '../domain/usecases/index.js';
 
-export class PrescriberSessionPublishedEventHandler extends EventHandler {
+export class SendResultsToCleaPrescribersEventHandler extends EventHandler {
   constructor() {
-    super('session-published.prescriber.event-queue', SessionPublishedEvent.eventName);
+    super('session-published.clea.event-queue', SessionPublishedEvent.eventName);
   }
 
   async handle({ data }) {
     const event = new SessionPublishedEvent(data);
     const sessionId = event.payload.sessionId;
     addCorrelationInfo('sessionId', sessionId);
-    await usecases.sendSessionResultsToPrescribers({ sessionId });
+    await usecases.sendCleaSessionResultsToReferers({ sessionId });
   }
 }

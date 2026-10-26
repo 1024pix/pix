@@ -66,4 +66,16 @@ export class JobRepository {
 
     return JobClient.instance.send(this.name, augmentedPayload, this.options);
   }
+
+  async performManyAsync(payloads) {
+    const correlationContext = getCorrelationInfo();
+    const openTelemetryContext = trace.getActiveSpan()?.spanContext?.();
+    const augmentedPayloads = payloads.map((payload) => ({
+      ...payload,
+      correlationContext,
+      openTelemetryContext,
+    }));
+
+    return JobClient.instance.sendMany(this.name, augmentedPayloads, this.options);
+  }
 }

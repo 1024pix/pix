@@ -277,10 +277,43 @@ export class JobClient {
     await this.#pgBoss.publish(name, payload, options);
   }
 
-  async send(name, payload, options) {
+  /**
+   * Enqueues a single job on a single queue
+   *
+   * @param {string} name - The name of the queue
+   * @param {*} job - The job payload
+   * @param {object} [options] - PgBoss job options
+   * @returns {Promise<void>}
+   */
+  async send(name, job, options) {
+    await this.#sendMany(name, [job], options);
+    logger.info({ type: 'JOB_LOG', handlerName: name, jobCount: 1 }, '1 PGBOSS JOB CREATED');
+  }
+
+  /**
+   * Enqueues multiple jobs on a single queue
+   *
+   * @param {string} name - The name of the queue
+   * @param {Array<*>} jobs - The job payloads to enqueue
+   * @param {object} [options] - PgBoss job options applied to every job
+   * @returns {Promise<void>}
+   */
+  async sendMany(name, jobs, options) {
+    await this.#sendMany(name, jobs, options);
+    logger.info({ type: 'JOB_LOG', handlerName: name, jobCount: jobs.length }, `${jobs.length} PGBOSS JOBS CREATED`);
+  }
+
+  async #sendMany(name, jobs, options) {
     this.#assertIsInitialized();
-    logger.info({ type: 'JOB_LOG', handlerName: name }, 'PGBOSS JOB CREATED');
-    return await this.#pgBoss.send(name, payload, options);
+
+    if (jobs.length === 0) return;
+
+    const jobsWithOptions = jobs.map((data) => ({
+      data,
+      ...options,
+    }));
+
+    await this.#pgBoss.insert(name, jobsWithOptions);
   }
 
   async fetch(name, options) {

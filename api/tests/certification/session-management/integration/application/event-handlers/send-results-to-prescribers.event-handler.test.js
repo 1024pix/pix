@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { PrescriberSessionPublishedEventHandler } from '../../../../../../src/certification/session-management/application/prescriber-session-published.event-handler.js';
+import { SendResultsToPrescribersEventHandler } from '../../../../../../src/certification/session-management/application/send-results-to-prescribers.event-handler.js';
 import { SendingEmailToResultRecipientError } from '../../../../../../src/certification/session-management/domain/errors.js';
 import { mailService } from '../../../../../../src/certification/session-management/domain/services/mail-service.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
@@ -61,7 +61,7 @@ describe('Integration | Application | Prescriber Session Published Event Handler
       const emailSpy = sinon.spy(mailService, 'sendCertificationResultEmail');
 
       // when
-      const handler = new PrescriberSessionPublishedEventHandler();
+      const handler = new SendResultsToPrescribersEventHandler();
       const data = {
         sessionId: session.id,
         publishedAt,
@@ -88,7 +88,7 @@ describe('Integration | Application | Prescriber Session Published Event Handler
         .resolves(EmailingAttempt.failure(candidate.resultRecipientEmail));
 
       // when
-      const handler = new PrescriberSessionPublishedEventHandler();
+      const handler = new SendResultsToPrescribersEventHandler();
       const data = {
         sessionId: session.id,
         publishedAt,

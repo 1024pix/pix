@@ -7,8 +7,8 @@
  * @typedef {import('../../models/AssessmentSheet.js')} AssessmentSheet
  * @typedef {import('../../models/ComplementaryCertificationScoringCriteria.js')} ComplementaryCertificationScoringCriteria
  * @typedef {import('../index.js').services.scoringDegradationService} ScoringDegradationService
- * @typedef {import('../../../../../shared/domain/events/CertificationCourseUnrejected.js').CertificationCourseUnrejected} CertificationCourseUnrejected
- * @typedef {import('../../../../../shared/domain/events/CertificationUncancelled.js').default} CertificationUncancelled
+ * @typedef {import('../../../../../shared/domain/events/deprecated/CertificationCourseUnrejected.js').CertificationCourseUnrejected} CertificationCourseUnrejected
+ * @typedef {import('../../../../../shared/domain/events/deprecated/CertificationUncancelled.js').default} CertificationUncancelled
  * @typedef {import('../../../../session-management/domain/events/CertificationCourseRejected.js').CertificationCourseRejected} CertificationCourseRejected
  * @typedef {import('../../../../session-management/domain/events/CertificationJuryDone.js').CertificationJuryDone} CertificationJuryDone
  * @typedef {import('../../events/CertificationRescored.js').default} CertificationRescored
@@ -16,7 +16,7 @@
  * @typedef {CertificationJuryDone | CertificationCourseRejected | CertificationCourseUnrejected | CertificationCancelled | CertificationRescored | CertificationUncancelled | CertificationCompleted} CertificationScoringEvent
  */
 
-import CertificationCancelled from '../../../../../shared/domain/events/CertificationCancelled.js';
+import CertificationCancelled from '../../../../../shared/domain/events/deprecated/CertificationCancelled.js';
 import { status as CertificationStatus } from '../../../../../shared/domain/models/AssessmentResult.js';
 import { ABORT_REASONS } from '../../../../shared/domain/constants/abort-reasons.js';
 import { Frameworks, hasCoreScope } from '../../../../shared/domain/models/Frameworks.js';

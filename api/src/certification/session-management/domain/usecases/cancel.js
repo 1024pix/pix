@@ -5,9 +5,9 @@
  * @typedef {import('./index.js').CourseAssessmentResultRepository} CourseAssessmentResultRepository
  */
 
-import CertificationCancelled from '../../../../../src/shared/domain/events/CertificationCancelled.js';
 import { NotFinalizedSessionError } from '../../../../shared/domain/errors.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import CertificationCancelled from '../../../../shared/domain/events/deprecated/CertificationCancelled.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 
 /**

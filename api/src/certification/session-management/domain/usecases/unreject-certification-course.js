@@ -1,4 +1,4 @@
-import { CertificationCourseUnrejected } from '../../../../shared/domain/events/CertificationCourseUnrejected.js';
+import { CertificationCourseUnrejected } from '../../../../shared/domain/events/deprecated/CertificationCourseUnrejected.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 
 export async function unrejectCertificationCourse({

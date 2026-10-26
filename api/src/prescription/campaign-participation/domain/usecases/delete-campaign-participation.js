@@ -54,9 +54,7 @@ const deleteCampaignParticipation = async function ({
     await assessmentRepository.batchRemoveParticipationId(assessments);
   });
 
-  for (const auditLoggingJob of auditLoggingJobs) {
-    await auditLoggingJobRepository.performAsync(auditLoggingJob);
-  }
+  await auditLoggingJobRepository.performManyAsync(auditLoggingJobs);
 };
 
 export { deleteCampaignParticipation };

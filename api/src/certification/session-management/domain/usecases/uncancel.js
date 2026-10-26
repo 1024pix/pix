@@ -5,7 +5,7 @@
  */
 
 import { NotFinalizedSessionError } from '../../../../shared/domain/errors.js';
-import CertificationUncancelled from '../../../../shared/domain/events/CertificationUncancelled.js';
+import CertificationUncancelled from '../../../../shared/domain/events/deprecated/CertificationUncancelled.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 
 /**

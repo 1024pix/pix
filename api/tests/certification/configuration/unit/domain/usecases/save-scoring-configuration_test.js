@@ -25,7 +25,7 @@ describe('Certification | Configuration | Unit | UseCase | save-scoring-configur
       findIdsByVersionId: sinon.stub(),
     };
     scoreCertificationJobRepository = {
-      performAsync: sinon.stub(),
+      performManyAsync: sinon.stub(),
     };
   });
 
@@ -61,7 +61,7 @@ describe('Certification | Configuration | Unit | UseCase | save-scoring-configur
       versionRepository.getById.resolves(version);
       versionRepository.update.resolves();
       certificationCoursesToScoreRepository.findIdsByVersionId.resolves([]);
-      scoreCertificationJobRepository.performAsync.resolves();
+      scoreCertificationJobRepository.performManyAsync.resolves();
     });
 
     it('calls setScoringConfiguration with the right parameters and update', async function () {
@@ -105,15 +105,11 @@ describe('Certification | Configuration | Unit | UseCase | save-scoring-configur
 
       // then
       sinon.assert.calledWithExactly(certificationCoursesToScoreRepository.findIdsByVersionId, { versionId: 42 });
-      expect(scoreCertificationJobRepository.performAsync.getCall(0).firstArg).to.deep.equal(
+      expect(scoreCertificationJobRepository.performManyAsync.getCall(0).firstArg).to.deep.equal([
         new ScoreCertificationJob({ certificationCourseId: 10 }),
-      );
-      expect(scoreCertificationJobRepository.performAsync.getCall(1).firstArg).to.deep.equal(
         new ScoreCertificationJob({ certificationCourseId: 20 }),
-      );
-      expect(scoreCertificationJobRepository.performAsync.getCall(2).firstArg).to.deep.equal(
         new ScoreCertificationJob({ certificationCourseId: 30 }),
-      );
+      ]);
     });
 
     it('enqueues no job when no certification courses are found', async function () {
@@ -131,7 +127,7 @@ describe('Certification | Configuration | Unit | UseCase | save-scoring-configur
       });
 
       // then
-      sinon.assert.notCalled(scoreCertificationJobRepository.performAsync);
+      sinon.assert.notCalled(scoreCertificationJobRepository.performManyAsync);
     });
   });
 });

@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { CleaSessionPublishedEventHandler } from '../../../../../src/certification/session-management/application/clea-session-published.event-handler.js';
-import { PrescriberSessionPublishedEventHandler } from '../../../../../src/certification/session-management/application/prescriber-session-published.event-handler.js';
 import { PublishSessionJobController } from '../../../../../src/certification/session-management/application/publish-session-job-controller.js';
+import { SendResultsToCleaPrescribersEventHandler } from '../../../../../src/certification/session-management/application/send-results-to-clea-prescribers.event-handler.js';
+import { SendResultsToPrescribersEventHandler } from '../../../../../src/certification/session-management/application/send-results-to-prescribers.event-handler.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
@@ -74,15 +74,15 @@ describe('Acceptance | Application | publish-session-job-controller', function (
       const [sessionToCheck] = await knex('sessions').where({ id: session.id });
       expect(sessionToCheck.publishedAt).to.deep.equal(publishedAt);
 
-      const cleaHandler = new CleaSessionPublishedEventHandler();
+      const cleaHandler = new SendResultsToCleaPrescribersEventHandler();
       expect(cleaHandler.jobName).to.have.performed.withEventPayload(payload);
-      const prescriberHandler = new PrescriberSessionPublishedEventHandler();
+      const prescriberHandler = new SendResultsToPrescribersEventHandler();
       expect(prescriberHandler.jobName).to.have.performed.withEventPayload(payload);
 
-      const prescriberSessionPublishedEventHandler = new PrescriberSessionPublishedEventHandler();
+      const prescriberSessionPublishedEventHandler = new SendResultsToPrescribersEventHandler();
       expect(prescriberSessionPublishedEventHandler.jobName).to.have.been.performed.withJobsCount(1);
 
-      const cleaSessionPublishedEventHandler = new CleaSessionPublishedEventHandler();
+      const cleaSessionPublishedEventHandler = new SendResultsToCleaPrescribersEventHandler();
       expect(cleaSessionPublishedEventHandler.jobName).to.have.been.performed.withJobsCount(1);
     });
   });

@@ -45,8 +45,6 @@ export const anonymizeGarAuthenticationMethods = async function ({
       }
     }
   });
-  for (const auditLoggingJob of auditLoggingJobs) {
-    await auditLoggingJobRepository.performAsync(auditLoggingJob);
-  }
+  await auditLoggingJobRepository.performManyAsync(auditLoggingJobs);
   return { garAnonymizedUserCount, total: userIds.length };
 };

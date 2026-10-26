@@ -14,7 +14,7 @@ import { ABORT_REASONS } from '../../../../../../../src/certification/shared/dom
 import { CertificationCandidateNotFoundError } from '../../../../../../../src/certification/shared/domain/errors.js';
 import { AutoJuryCommentKeys } from '../../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import * as scoringService from '../../../../../../../src/evaluation/domain/services/scoring/scoring-service.js';
-import CertificationCancelled from '../../../../../../../src/shared/domain/events/CertificationCancelled.js';
+import CertificationCancelled from '../../../../../../../src/shared/domain/events/deprecated/CertificationCancelled.js';
 import { Assessment } from '../../../../../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult, status } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
