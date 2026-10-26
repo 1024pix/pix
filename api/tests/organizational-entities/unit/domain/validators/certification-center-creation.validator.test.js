@@ -193,6 +193,42 @@ describe('Unit | Organizational Entities | Domain | Validators | certification-c
         });
       });
 
+      context('on categoryId attribute', function () {
+        it('rejects with error when categoryId is not a valid integer', function () {
+          // given
+          const expectedError = [
+            {
+              attribute: 'categoryId',
+              message: 'L’identifiant de la catégorie doit être un nombre entier.',
+            },
+          ];
+
+          const certificationCenterCreationParams = {
+            name: 'ACME',
+            type: 'SCO',
+            categoryId: 'not-a-number',
+          };
+
+          try {
+            // when
+            certificationCenterCreationValidator.validate(certificationCenterCreationParams);
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            expect(errors.invalidAttributes).to.have.lengthOf(1);
+            expect(errors.invalidAttributes).to.have.deep.equal(expectedError);
+          }
+        });
+
+        it('does not throw when categoryId is a valid integer', function () {
+          // given
+          const certificationCenterCreationParams = { name: 'ACME', type: 'SCO', categoryId: 456 };
+
+          // when/then
+          expect(() => certificationCenterCreationValidator.validate(certificationCenterCreationParams)).to.not.throw();
+        });
+      });
+
       it('rejects with errors on all fields (but only once by field) when all fields are missing', function () {
         // given
         const certificationCenterCreationParams = {

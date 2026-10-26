@@ -24,6 +24,9 @@ const certificationCenterSchema = Joi.object({
   organizationId: Joi.number().integer().optional().allow(null).messages({
     'number.base': 'L’identifiant de l’organisation doit être un nombre entier.',
   }),
+  categoryId: Joi.number().integer().optional().allow(null).messages({
+    'number.base': 'L’identifiant de la catégorie doit être un nombre entier.',
+  }),
 });
 
 const validate = function (certificationCenter) {
