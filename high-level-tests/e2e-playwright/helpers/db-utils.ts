@@ -28,7 +28,7 @@ export async function createUserInDB(
     id?: number;
   },
   knex: Knex,
-) {
+): Promise<number> {
   const someDate = new Date();
   const [{ id: userId }] = await knex('users')
     .insert({
@@ -89,7 +89,7 @@ export async function createOrganizationLearnerInDB(
     isDisabled: boolean;
   },
   knex: Knex,
-) {
+): Promise<number> {
   const someDate = new Date();
   const [{ id: organizationLearnerId }] = await knex('organization-learners')
     .insert({

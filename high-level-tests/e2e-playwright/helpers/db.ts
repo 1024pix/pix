@@ -73,6 +73,7 @@ export async function buildExistingOrganizationLearner({
   rawPassword: string;
   organizationId: number;
 }) {
+  const { id: legalDocumentVersionId } = await knex('legal-document-versions').where({ service: 'pix-app' }).first();
   const userId = await createUserInDB(
     {
       firstName,
@@ -86,7 +87,9 @@ export async function buildExistingOrganizationLearner({
     knex,
   );
 
-  return await createOrganizationLearnerInDB(
+  await createLegalDocumentVersionAcceptanceInDB(legalDocumentVersionId, userId);
+
+  const organizationLearnerId = await createOrganizationLearnerInDB(
     {
       firstName,
       lastName,
@@ -98,6 +101,7 @@ export async function buildExistingOrganizationLearner({
     },
     knex,
   );
+  return { userId, organizationLearnerId };
 }
 
 export async function buildFreshPixCertifUser(firstName: string, lastName: string, email: string, rawPassword: string) {
@@ -280,6 +284,7 @@ export async function setAssessmentIdSequence(id: number) {
 
 async function buildAuthenticatedUsers() {
   // PIX-APP
+  await createAppLegalDocumentVersionInDB();
   await createUserInDB(
     {
       firstName: PIX_APP_USER_DATA.firstName,
@@ -295,7 +300,7 @@ async function buildAuthenticatedUsers() {
   );
 
   // PIX-ORGA
-  const legalDocumentVersionId = await createLegalDocumentVersionInDB();
+  const legalDocumentVersionId = await createOrgaLegalDocumentVersionInDB();
   const createdOrganizations: Record<string, number> = {};
   for (const data of [PIX_ORGA_ADMIN_DATA, PIX_ORGA_MEMBER_DATA]) {
     const userId = await createUserInDB(
@@ -376,12 +381,24 @@ async function buildTargetProfiles() {
   await createTargetProfileTubesInDB(smallTargetProfileId, 4, tubeForSmallTargetProfileId);
 }
 
-async function createLegalDocumentVersionInDB() {
+async function createOrgaLegalDocumentVersionInDB() {
   const someDate = new Date('2025-07-09');
   const [{ id }] = await knex('legal-document-versions')
     .insert({
       type: 'TOS',
       service: 'pix-orga',
+      versionAt: someDate,
+    })
+    .returning('id');
+  return id;
+}
+
+async function createAppLegalDocumentVersionInDB() {
+  const someDate = new Date('2025-07-09');
+  const [{ id }] = await knex('legal-document-versions')
+    .insert({
+      type: 'TOS',
+      service: 'pix-app',
       versionAt: someDate,
     })
     .returning('id');
@@ -579,4 +596,64 @@ export async function createGARUser(id: string, firstName: string, lastName: str
 export async function getLastPixOrgaInvitation() {
   const { id: invitationId, code } = await knex('organization-invitations').orderBy('createdAt', 'desc').first();
   return { invitationId, code };
+}
+
+type CampaignData = {
+  name: string;
+  title: string;
+  code: string;
+  type?: string;
+  organizationId: number;
+  ownerId?: number;
+  creatorId?: number;
+};
+export async function createCampaignInDB({
+  name,
+  title,
+  code,
+  organizationId,
+  type = 'ASSESSMENT',
+  creatorId = PIX_ORGA_ADMIN_DATA.id,
+  ownerId = PIX_ORGA_ADMIN_DATA.id,
+}: CampaignData): Promise<number> {
+  const targetProfile = await knex('target-profiles').select('id').where({ name: 'petit Profile Cible' }).first();
+  const [{ id: campaignId }] = await knex('campaigns')
+    .insert({
+      name,
+      title,
+      code,
+      type,
+      organizationId,
+      ownerId,
+      creatorId,
+      targetProfileId: type === 'ASSESSMENT' ? targetProfile.id : null,
+      createdAt: new Date(),
+    })
+    .returning('*');
+  return campaignId;
+}
+
+type campaignParticipationData = {
+  campaignId: number;
+  organizationLearnerId: number;
+  userId: number;
+};
+
+export async function createCampaignParticipationInDB({
+  campaignId,
+  organizationLearnerId,
+  userId,
+}: campaignParticipationData): Promise<number> {
+  const [{ id: campaignParticipationId }] = await knex('campaign-participations')
+    .insert({
+      campaignId,
+      organizationLearnerId,
+      userId,
+      status: 'STARTED',
+      isImproved: false,
+      createdAt: '2021-01-10',
+    })
+    .returning('*');
+
+  return campaignParticipationId;
 }
