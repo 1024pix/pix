@@ -16,6 +16,15 @@ function wrapFunction(func, target, methodName, getSpanOptionsFn) {
     const tracer = trace.getTracer('otel-proxy');
     const spanOptions = getSpanOptionsFn?.() ?? {};
 
+    if (!spanOptions.attributes) spanOptions.attributes = {};
+    for (const [index, arg] of args.entries()) {
+      spanOptions.attributes[`arg${index + 1}`] = JSON.stringify(arg, (key, value) => {
+        if (typeof value === 'symbol') return value.toString();
+        if (typeof value === 'function') return 'Function';
+        return value;
+      });
+    }
+
     return tracer.startActiveSpan(methodName, spanOptions, (span) => {
       try {
         // A bare function (no target) may be installed as a method afterwards, e.g. on a

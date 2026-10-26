@@ -104,13 +104,52 @@ describe('Unit | Infrastructure | Utils | otelProxy', function () {
 
     it('should get span attributes based on the span options function argument', function () {
       const fn = sinon.stub().returns(1);
-      const getSpanOptionsFn = sinon.stub().returns({ 'test.attribute': 123 });
+      const getSpanOptionsFn = sinon.stub().returns({ attributes: { 'test.attribute': 123 } });
 
       const wrapped = otelProxy(fn, 'func', getSpanOptionsFn);
-      wrapped();
+      wrapped('still-here');
 
       expect(getSpanOptionsFn).to.have.been.calledOnce;
-      expect(tracerStub.startActiveSpan).to.have.been.calledWith('func', getSpanOptionsFn());
+      const expectedSpanOptions = getSpanOptionsFn();
+      expectedSpanOptions.attributes.arg1 = 'still-here';
+      expect(tracerStub.startActiveSpan).to.have.been.calledWith('func', expectedSpanOptions);
+    });
+
+    it('should serialize function arguments properly', function () {
+      const fn = sinon.stub().returns(42);
+
+      const wrapped = otelProxy(fn, 'myFunc');
+      const result = wrapped('a', 1, null, undefined, true, [], Symbol('patate'), (a) => a, new Map([['test', 1]]), {
+        a: 'a',
+        b: 1,
+        c: null,
+        d: undefined,
+        e: true,
+        f: [],
+        g: Symbol('patate'),
+        h: (a) => a,
+        i: new Map(),
+        j: {
+          k: 'stop'
+        },
+      });
+
+      expect(result).to.equal(42);
+      expect(tracerStub.startActiveSpan).to.have.been.calledWith('myFunc', { 
+        attributes: {
+          arg1: '"a"',
+          arg2: '1',
+          arg3: 'null',
+          arg4: undefined,
+          arg5: 'true',
+          arg6: '[]',
+          arg7: '"Symbol(patate)"',
+          arg8: '"Function"',
+          arg9: '{}',
+          arg10: '{"a":"a","b":1,"c":null,"e":true,"f":[],"g":"Symbol(patate)","h":"Function","i":{},"j":{"k":"stop"}}' 
+        } 
+      });
+      expect(spanStub.end).to.have.been.calledOnce;
     });
   });
 
