@@ -100,6 +100,7 @@ export default class CombinedCourseTunnel extends Component {
           @selectedItem={{this.selectedItem}}
           @isLoading={{this.isAnimationInProgress}}
           @shouldFocusSelectedItem={{true}}
+          @shouldDisplayItemsCTA={{false}}
         />
       </article>
       <aside class="step-details" id="step-details">

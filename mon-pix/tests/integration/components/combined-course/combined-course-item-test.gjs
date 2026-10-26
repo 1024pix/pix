@@ -384,6 +384,7 @@ module('Integration | Component | combined course item', function (hooks) {
             @isLocked={{false}}
             @isSelectedItem={{true}}
             @onClick={{onClickStub}}
+            @shouldDisplayCTA={{true}}
           />
         </template>,
       );
@@ -392,41 +393,15 @@ module('Integration | Component | combined course item', function (hooks) {
       assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.items.start-diagnostic') }));
     });
 
-    test('should display not started module CTA', async function (assert) {
+    test('should not display CTA', async function (assert) {
       // given
       const onClickStub = sinon.stub();
       const store = this.owner.lookup('service:store');
       const combinedCourseItem = store.createRecord('combined-course-item', {
-        id: 2,
-        title: 'Nom du module',
-        type: CombinedCourseItemTypes.MODULE,
-      });
-
-      // when
-      const screen = await render(
-        <template>
-          <CombinedCourseItem
-            @item={{combinedCourseItem}}
-            @isLocked={{false}}
-            @isSelectedItem={{true}}
-            @onClick={{onClickStub}}
-          />
-        </template>,
-      );
-
-      //then
-      assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.items.start-module') }));
-    });
-
-    test('should display not started campaign CTA', async function (assert) {
-      // given
-      const onClickStub = sinon.stub();
-      const store = this.owner.lookup('service:store');
-      const combinedCourseItem = store.createRecord('combined-course-item', {
-        id: 3,
+        id: 1,
         title: 'Nom de la campagne',
         type: CombinedCourseItemTypes.CAMPAIGN,
-        isDiagnostic: false,
+        isDiagnostic: true,
       });
 
       // when
@@ -437,15 +412,14 @@ module('Integration | Component | combined course item', function (hooks) {
             @isLocked={{false}}
             @isSelectedItem={{true}}
             @onClick={{onClickStub}}
+            @shouldDisplayCTA={{false}}
           />
         </template>,
       );
 
       //then
-      assert.ok(screen.getByRole('button', { name: t('pages.combined-courses.items.start-campaign') }));
+      assert.notOk(await screen.queryByRole('button', { name: t('pages.combined-courses.items.start-diagnostic') }));
     });
-    // diag commencé
-    // campagne commencée
   });
 
   module('when combined course is completed', function () {

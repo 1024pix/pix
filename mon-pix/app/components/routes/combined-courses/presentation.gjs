@@ -125,6 +125,7 @@ export default class CombinedCoursePresentation extends Component {
             @combinedCourse={{@combinedCourse}}
             @onClick={{this.goToItem}}
             @shouldFocusSelectedItem={{false}}
+            @shouldDisplayItemsCTA={{true}}
           />
         </article>
       </article>

@@ -39,6 +39,7 @@ export default class CombinedCourseItemsList extends Component {
         @isCombinedCourseCompleted={{eq @combinedCourse.status "COMPLETED"}}
         @isLoading={{@isLoading}}
         @focusItem={{and (this.isSelectedItem item) @shouldFocusSelectedItem}}
+        @shouldDisplayCTA={{@shouldDisplayItemsCTA}}
       />
     {{/each}}
   </template>
