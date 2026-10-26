@@ -5,9 +5,9 @@ import * as campaignRepository from '../../../../../src/quest/infrastructure/rep
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Repository | campaign', function () {
-  describe('#getCampaignIdsByCombinedCourseIds', function () {
+  describe('#getCampaignsByCombinedCourseIds', function () {
     it('should return correct campaign ids', async function () {
-      const { id: campaignId } = databaseBuilder.factory.buildCampaign();
+      const { id: campaignId, organizationId } = databaseBuilder.factory.buildCampaign();
       const { id: otherCampaignId } = databaseBuilder.factory.buildCampaign();
 
       const { id: questId1 } = databaseBuilder.factory.buildQuestForCombinedCourse({
@@ -30,13 +30,13 @@ describe('Quest | Integration | Repository | campaign', function () {
       await databaseBuilder.commit();
 
       //when
-      const campaignIds = await campaignRepository.getCampaignIdsByCombinedCourseIds({
+      const campaigns = await campaignRepository.getCampaignsByCombinedCourseIds({
         combinedCourseIds: [combinedCourseId1, combinedCourseId2],
       });
 
       // then
-      expect(campaignIds).to.have.lengthOf(1);
-      expect(campaignIds[0]).to.deep.equal(campaignId);
+      expect(campaigns).to.have.lengthOf(1);
+      expect(campaigns[0]).to.deep.equal({ id: campaignId, organizationId });
     });
   });
 });

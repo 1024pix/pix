@@ -17,6 +17,10 @@ describe('DeleteAndAnonymiseCombinedCoursesScript', function () {
         describe: 'a list of comma separated combined course ids',
         demandOption: true,
       });
+      expect(options.dryRun).to.deep.include({
+        type: 'boolean',
+        default: false,
+      });
     });
   });
 
@@ -44,43 +48,65 @@ describe('DeleteAndAnonymiseCombinedCoursesScript', function () {
       sinon.stub(DomainTransaction, 'getConnection').returns({ rollback: sinon.stub() });
     });
 
-    it('should call usecase with correct arguments and log accordingly if usecase resolves', async function () {
-      //given&when
-      await script.handle({
-        options: { combinedCourseIds: [combinedCourseId] },
-        logger,
-        dependencies: { usecases: usecasesStub },
-        jobClient: jobClientStub,
-      });
-
-      //then
-      expect(usecasesStub.deleteAndAnonymizeCombinedCourses).to.be.calledWithExactly({
-        combinedCourseIds: [combinedCourseId],
-        userId: config.infra.engineeringUserId,
-      });
-
-      expect(logger.info).to.have.been.calledWithExactly(
-        { event: 'DeleteAndAnonymizeCombinedCoursesScript' },
-        `COMMIT: Successfully deleted ${[combinedCourseId].length} combined courses and anonymized their participations`,
-      );
-    });
-    it('should rollback and log accordingly if usecase fail', async function () {
-      //given&when
-      usecasesStub.deleteAndAnonymizeCombinedCourses
-        .withArgs({
-          combinedCourseIds: [combinedCourseId],
-          userId: config.infra.engineeringUserId,
-        })
-        .rejects();
-
-      await expect(
-        script.handle({
-          options: { combinedCourseIds: [combinedCourseId] },
+    describe('dryRun false', function () {
+      it('should call usecase with correct arguments and log accordingly if usecase resolves', async function () {
+        //given&when
+        await script.handle({
+          options: { combinedCourseIds: [combinedCourseId], dryRun: false },
           logger,
           dependencies: { usecases: usecasesStub },
           jobClient: jobClientStub,
-        }),
-      ).to.be.rejected;
+        });
+
+        //then
+        expect(usecasesStub.deleteAndAnonymizeCombinedCourses).to.be.calledWithExactly({
+          combinedCourseIds: [combinedCourseId],
+          userId: config.infra.engineeringUserId,
+        });
+
+        expect(logger.info).to.have.been.calledWithExactly(
+          { event: 'DeleteAndAnonymizeCombinedCoursesScript' },
+          `COMMIT: Successfully deleted ${[combinedCourseId].length} combined courses and anonymized their participations`,
+        );
+      });
+      it('should rollback and log accordingly if usecase fail', async function () {
+        //given&when
+        usecasesStub.deleteAndAnonymizeCombinedCourses
+          .withArgs({
+            combinedCourseIds: [combinedCourseId],
+            userId: config.infra.engineeringUserId,
+          })
+          .rejects();
+
+        await expect(
+          script.handle({
+            options: { combinedCourseIds: [combinedCourseId] },
+            logger,
+            dependencies: { usecases: usecasesStub },
+            jobClient: jobClientStub,
+          }),
+        ).to.be.rejected;
+      });
+    });
+
+    describe('dryRun true', function () {
+      it('should log accordingly', async function () {
+        //given&when
+        await script.handle({
+          options: { combinedCourseIds: [combinedCourseId], dryRun: true },
+          logger,
+          dependencies: { usecases: usecasesStub },
+          jobClient: jobClientStub,
+        });
+
+        //then
+        expect(usecasesStub.deleteAndAnonymizeCombinedCourses).to.be.calledWithExactly({
+          combinedCourseIds: [combinedCourseId],
+          userId: config.infra.engineeringUserId,
+        });
+
+        expect(logger.info).to.have.been.calledWithExactly(`ROLLBACK due to dryRun`);
+      });
     });
   });
 });
