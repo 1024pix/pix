@@ -1204,6 +1204,11 @@
           }
         },
         "category": {
+          "confirmation-modal": {
+            "attached-certification-center": "This organization is attached to the certification center \"{certificationCenterName}\".",
+            "title": "Change the organization category",
+            "warning": "Changing its category will also change the certification center's one."
+          },
           "selector": {
             "error-message": "Category is required",
             "label": "Category",

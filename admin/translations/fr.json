@@ -1212,6 +1212,11 @@
           }
         },
         "category": {
+          "confirmation-modal": {
+            "attached-certification-center": "Cette organisation est rattachée au centre de certification \"{certificationCenterName}\".",
+            "title": "Modifier la catégorie du centre de certification",
+            "warning": "Modifier sa catégorie modifiera aussi celle du centre de certification."
+          },
           "selector": {
             "error-message": "La catégorie est requise",
             "label": "Catégorie",

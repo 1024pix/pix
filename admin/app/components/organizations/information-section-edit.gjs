@@ -1,4 +1,4 @@
-import { PixButton, PixInput, PixSelect } from '@1024pix/nebulix-ember';
+import { PixButton, PixInput, PixModal, PixSelect } from '@1024pix/nebulix-ember';
 import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -28,6 +28,8 @@ export default class OrganizationInformationSectionEditionMode extends Component
   @tracked organizationLearnerTypes = [];
   @tracked countries = [];
   @tracked structureCategories = [];
+  @tracked attachedCertificationCenter = null;
+  initialCategoryId = null;
 
   noIdentityProviderOption = { label: this.intl.t('common.words.none'), value: 'None' };
   garIdentityProviderOption = { label: 'GAR', value: 'GAR' };
@@ -69,6 +71,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
         : null,
       categoryId: this.args.organization.categoryId ? `${this.args.organization.categoryId}` : null,
     };
+    this.initialCategoryId = this.form.categoryId;
   }
 
   get identityProviderOptions() {
@@ -149,6 +152,34 @@ export default class OrganizationInformationSectionEditionMode extends Component
       return;
     }
 
+    if (this.form.categoryId !== this.initialCategoryId) {
+      this.attachedCertificationCenter = await this.#findAttachedCertificationCenter();
+      if (this.attachedCertificationCenter) return;
+    }
+
+    return this.#saveOrganization();
+  }
+
+  @action
+  confirmUpdate() {
+    this.attachedCertificationCenter = null;
+    return this.#saveOrganization();
+  }
+
+  @action
+  closeConfirmationModal() {
+    this.attachedCertificationCenter = null;
+  }
+
+  async #findAttachedCertificationCenter() {
+    const [attachedCertificationCenter] = await this.store.query('attached-certification-center', {
+      organizationId: this.args.organization.id,
+    });
+
+    return attachedCertificationCenter;
+  }
+
+  #saveOrganization() {
     if (this.form.identityProviderForCampaigns === 'None') {
       this.form.identityProviderForCampaigns = null;
     }
@@ -391,6 +422,30 @@ export default class OrganizationInformationSectionEditionMode extends Component
         </PixButton>
       </section>
     </form>
+
+    {{#if this.attachedCertificationCenter}}
+      <PixModal
+        @title={{t "components.organizations.editing.category.confirmation-modal.title"}}
+        @showModal={{true}}
+        @onCloseButtonClick={{this.closeConfirmationModal}}
+      >
+        <:content>
+          <p>{{t
+              "components.organizations.editing.category.confirmation-modal.attached-certification-center"
+              certificationCenterName=this.attachedCertificationCenter.name
+            }}</p>
+          <p>{{t "components.organizations.editing.category.confirmation-modal.warning"}}</p>
+        </:content>
+        <:footer>
+          <PixButton @triggerAction={{this.closeConfirmationModal}} @size="small" @variant="secondary">
+            {{t "common.actions.cancel"}}
+          </PixButton>
+          <PixButton @triggerAction={{this.confirmUpdate}} @size="small">
+            {{t "common.actions.confirm"}}
+          </PixButton>
+        </:footer>
+      </PixModal>
+    {{/if}}
   </template>
 }
 
