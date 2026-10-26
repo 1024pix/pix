@@ -4,133 +4,112 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 
 describe('Unit | Certification | Enrolment | Domain | Models | SessionAuthorization', function () {
   describe('#get canEnrollCandidateIndividually', function () {
-    it('returns false when session is finalized', function () {
+    it('returns true when session accepts individual enrolment', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
       const sessionAuthorization = domainBuilder.certification.enrolment
         .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, isFinalized: true, hasExpired: false })
-        .build();
-
-      expect(sessionAuthorization.canEnrollCandidateIndividually).to.be.false;
-    });
-
-    it('returns false when session has expired', function () {
-      const sessionAuthorization = domainBuilder.certification.enrolment
-        .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, isFinalized: false, hasExpired: true })
-        .build();
-
-      expect(sessionAuthorization.canEnrollCandidateIndividually).to.be.false;
-    });
-
-    it('returns true when session has neither expired or been finalized', function () {
-      const sessionAuthorization = domainBuilder.certification.enrolment
-        .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, isFinalized: false, hasExpired: false })
+        .withParameters({ id: 123, sessionStatus })
         .build();
 
       expect(sessionAuthorization.canEnrollCandidateIndividually).to.be.true;
     });
+
+    it('returns false when session does not accept individual enrolment', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().toFinalize().build();
+      const sessionAuthorization = domainBuilder.certification.enrolment
+        .sessionAuthorizationBuilder()
+        .withParameters({ id: 123, sessionStatus })
+        .build();
+
+      expect(sessionAuthorization.canEnrollCandidateIndividually).to.be.false;
+    });
   });
 
   describe('#get canEnrollScoCandidate', function () {
-    it('returns false when session is finalized', function () {
+    it('returns true when session accepts SCO enrolment', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
       const sessionAuthorization = domainBuilder.certification.enrolment
         .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, isFinalized: true, hasExpired: false })
-        .build();
-
-      expect(sessionAuthorization.canEnrollScoCandidate).to.be.false;
-    });
-
-    it('returns false when session has expired', function () {
-      const sessionAuthorization = domainBuilder.certification.enrolment
-        .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, isFinalized: false, hasExpired: true })
-        .build();
-
-      expect(sessionAuthorization.canEnrollScoCandidate).to.be.false;
-    });
-
-    it('returns true when session has neither expired or been finalized', function () {
-      const sessionAuthorization = domainBuilder.certification.enrolment
-        .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, isFinalized: false, hasExpired: false })
+        .withParameters({ id: 123, sessionStatus })
         .build();
 
       expect(sessionAuthorization.canEnrollScoCandidate).to.be.true;
     });
+
+    it('returns false when session does not accept SCO enrolment', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().toFinalize().build();
+      const sessionAuthorization = domainBuilder.certification.enrolment
+        .sessionAuthorizationBuilder()
+        .withParameters({ id: 123, sessionStatus })
+        .build();
+
+      expect(sessionAuthorization.canEnrollScoCandidate).to.be.false;
+    });
   });
 
   describe('#get canEnrollCandidateViaODS', function () {
-    it('returns false when session is started', function () {
+    it('returns true when session accepts ODS enrolment', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
       const sessionAuthorization = domainBuilder.certification.enrolment
         .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, hasStarted: true })
-        .build();
-
-      expect(sessionAuthorization.canEnrollCandidateViaODS).to.be.false;
-    });
-
-    it('returns true when session is not started', function () {
-      const sessionAuthorization = domainBuilder.certification.enrolment
-        .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, hasStarted: false })
+        .withParameters({ id: 123, sessionStatus })
         .build();
 
       expect(sessionAuthorization.canEnrollCandidateViaODS).to.be.true;
     });
+
+    it('returns false when session does not accept ODS enrolment', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().toFinalize().build();
+      const sessionAuthorization = domainBuilder.certification.enrolment
+        .sessionAuthorizationBuilder()
+        .withParameters({ id: 123, sessionStatus })
+        .build();
+
+      expect(sessionAuthorization.canEnrollCandidateViaODS).to.be.false;
+    });
   });
 
   describe('#get canEnrollCandidateViaMassImport', function () {
-    it('returns false when session is started', function () {
+    it('returns true when session accepts mass import enrolment', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
       const sessionAuthorization = domainBuilder.certification.enrolment
         .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, hasStarted: true })
-        .build();
-
-      expect(sessionAuthorization.canEnrollCandidateViaMassImport).to.be.false;
-    });
-
-    it('returns true when session is not started', function () {
-      const sessionAuthorization = domainBuilder.certification.enrolment
-        .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, hasStarted: false })
+        .withParameters({ id: 123, sessionStatus })
         .build();
 
       expect(sessionAuthorization.canEnrollCandidateViaMassImport).to.be.true;
     });
+
+    it('returns false when session does not accept mass import enrolment', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().toFinalize().build();
+      const sessionAuthorization = domainBuilder.certification.enrolment
+        .sessionAuthorizationBuilder()
+        .withParameters({ id: 123, sessionStatus })
+        .build();
+
+      expect(sessionAuthorization.canEnrollCandidateViaMassImport).to.be.false;
+    });
   });
 
   describe('#get canJoinSession', function () {
-    it('returns false if session is expired', function () {
+    it('returns true when session can be joined by a candidate', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
       const sessionAuthorization = domainBuilder.certification.enrolment
         .sessionAuthorizationBuilder()
-        .withParameters({ hasExpired: true, hasStarted: true, isFinalized: false })
-        .build();
-
-      expect(sessionAuthorization.canJoinSession).to.be.false;
-    });
-
-    it('returns false if session is finalized', function () {
-      const sessionAuthorization = domainBuilder.certification.enrolment
-        .sessionAuthorizationBuilder()
-        .withParameters({
-          hasExpired: false,
-          hasStarted: true,
-          isFinalized: true,
-        })
-        .build();
-
-      expect(sessionAuthorization.canJoinSession).to.be.false;
-    });
-
-    it('returns true if session is not expired and not finalized', function () {
-      const sessionAuthorization = domainBuilder.certification.enrolment
-        .sessionAuthorizationBuilder()
-        .withParameters({ hasExpired: false, hasStarted: true, isFinalized: false })
+        .withParameters({ id: 123, sessionStatus })
         .build();
 
       expect(sessionAuthorization.canJoinSession).to.be.true;
+    });
+
+    it('returns false when session cannot be joined by a candidate', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().toFinalize().build();
+      const sessionAuthorization = domainBuilder.certification.enrolment
+        .sessionAuthorizationBuilder()
+        .withParameters({ id: 123, sessionStatus })
+        .build();
+
+      expect(sessionAuthorization.canJoinSession).to.be.false;
     });
   });
 });

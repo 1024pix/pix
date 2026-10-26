@@ -1,4 +1,4 @@
-import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
+import { SESSION_STATUSES } from '../../../shared/domain/value-objects/SessionStatus.ts';
 
 class SessionSummary {
   constructor({
@@ -10,8 +10,8 @@ class SessionSummary {
     examiner,
     enrolledCandidatesCount,
     effectiveCandidatesCount,
-    status,
-  } = {}) {
+    sessionStatus,
+  }) {
     this.id = id;
     this.address = address;
     this.room = room;
@@ -20,67 +20,21 @@ class SessionSummary {
     this.examiner = examiner;
     this.enrolledCandidatesCount = enrolledCandidatesCount;
     this.effectiveCandidatesCount = effectiveCandidatesCount;
-    this.status = status;
-  }
-
-  static from({
-    id,
-    address,
-    room,
-    date,
-    time,
-    examiner,
-    enrolledCandidatesCount,
-    effectiveCandidatesCount,
-    finalizedAt,
-    publishedAt,
-  }) {
-    const isExpired = _computeExpireState({ date, time, effectiveCandidatesCount });
-    const status = _computeStatus({
-      finalizedAt,
-      publishedAt,
-      isExpired,
-    });
-
-    return new SessionSummary({
-      id,
-      address,
-      room,
-      date,
-      time,
-      examiner,
-      enrolledCandidatesCount,
-      effectiveCandidatesCount,
-      status,
-    });
+    this.status = getStatus(sessionStatus);
   }
 }
 
-function _computeExpireState({ date, time, effectiveCandidatesCount }) {
-  const startedSessionTime = new Date(`${date}T${time}Z`);
-  const expirationSessionTime = startedSessionTime.setDate(startedSessionTime.getDate() + 1);
-
-  return Date.now() > expirationSessionTime && effectiveCandidatesCount > 0;
-}
-
-function _computeStatus({ finalizedAt, publishedAt, isExpired }) {
-  if (publishedAt) {
-    return SESSION_STATUSES.PROCESSED;
+function getStatus(sessionStatus) {
+  if (sessionStatus.isAtMostStarted()) {
+    return SESSION_STATUSES.CREATED;
   }
-  if (finalizedAt) {
-    return SESSION_STATUSES.FINALIZED;
-  }
-  if (isExpired) {
+  if (sessionStatus.isToFinalize()) {
     return SESSION_STATUSES.TO_FINALIZE;
   }
-  return SESSION_STATUSES.CREATED;
+  if (sessionStatus.isAtMostInProcess()) {
+    return SESSION_STATUSES.FINALIZED;
+  }
+  return SESSION_STATUSES.PROCESSED;
 }
-
-SessionSummary.statuses = {
-  CREATED: SESSION_STATUSES.CREATED,
-  TO_FINALIZE: SESSION_STATUSES.TO_FINALIZE,
-  FINALIZED: SESSION_STATUSES.FINALIZED,
-  PROCESSED: SESSION_STATUSES.PROCESSED,
-};
 
 export { SessionSummary };
