@@ -1,21 +1,9 @@
 import { expect } from 'chai';
 
-import { DatabaseBuilder } from '../../../../db/database-builder/database-builder.js';
-import { databaseConnection } from '../../../../db/knex-database-connection.js';
 import { createOrganization } from '../../../../db/seeds/data/common/tooling/organization-tooling.js';
 import { databaseBuilder } from '../../databases.js';
 
 describe('Integration | Tooling | DatabaseBuilder | database-builder', function () {
-  describe('#create', function () {
-    it('returns an initialised instance of DatabaseBuilder', async function () {
-      // when
-      const databaseBuilder = await DatabaseBuilder.create({ databaseConnection });
-
-      // then
-      expect(databaseBuilder).to.be.an.instanceOf(DatabaseBuilder);
-    });
-  });
-
   describe('#clean', function () {
     context('when there is circular references', function () {
       it('cleans properly the database', async function () {

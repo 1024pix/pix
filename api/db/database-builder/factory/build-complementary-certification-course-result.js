@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { ComplementaryCertificationCourseResult } from '../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildBadge } from './build-badge.js';
 import { buildCertificationCourse } from './build-certification-course.js';
 import { buildComplementaryCertification } from './build-complementary-certification.js';

@@ -2,7 +2,7 @@ import { CandidateAuthorization } from '../../../../../../src/certification/eval
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 
 /**
- * @typedef {import('../../../../../../db/database-builder/database-builder.js').databaseBuilder} DatabaseBuilder
+ * @typedef {import('../../../../../../db/database-builder/database-builder.ts').databaseBuilder} DatabaseBuilder
  */
 
 const THIRTY_HOURS_IN_MS = 30 * 60 * 60 * 1000;

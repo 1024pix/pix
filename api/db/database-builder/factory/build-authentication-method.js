@@ -5,7 +5,7 @@ import * as OidcIdentityProviders from '../../../src/identity-access-management/
 import { AuthenticationMethod } from '../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { cryptoService } from '../../../src/shared/domain/services/crypto-service.js';
 import { DEFAULT_PASSWORD } from '../../constants.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildUser } from './build-user.js';
 
 // eslint-disable-next-line n/no-sync

@@ -1,5 +1,5 @@
 import { cryptoService } from '../../../src/shared/domain/services/crypto-service.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 
 const DEFAULT_CLIENT_SECRET = 'super-secret';
 // eslint-disable-next-line n/no-sync

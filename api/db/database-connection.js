@@ -193,6 +193,12 @@ export class DatabaseConnection {
   }
 }
 
+/**
+ * Stand-in for a knex instance when the database is not configured: any property access or call throws
+ * the not-configured error. Typed as a real knex instance so that consumers need no special case.
+ * @param {() => Error} buildError
+ * @returns {import('knex').Knex}
+ */
 function buildNotConfiguredKnexStub(buildError) {
   const throwNotConfiguredError = () => {
     throw buildError();

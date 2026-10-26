@@ -1,5 +1,5 @@
 import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.ts';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildCampaign } from './build-campaign.js';
 import { buildOrganizationLearner } from './build-organization-learner.js';
 import { buildUser } from './build-user.js';

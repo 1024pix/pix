@@ -2,7 +2,7 @@ import { CandidateAuthorizationInfo } from '../../../../../../src/certification/
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 
 /**
- * @typedef {import('../../../../../../db/database-builder/database-builder.js').databaseBuilder} DatabaseBuilder
+ * @typedef {import('../../../../../../db/database-builder/database-builder.ts').databaseBuilder} DatabaseBuilder
  */
 
 /**

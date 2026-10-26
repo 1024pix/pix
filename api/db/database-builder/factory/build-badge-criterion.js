@@ -1,5 +1,5 @@
 import { SCOPES } from '../../../src/shared/domain/models/BadgeDetails.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildBadge } from './build-badge.js';
 
 const buildBadgeCriterion = function ({

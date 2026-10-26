@@ -1,4 +1,4 @@
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 
 const buildTag = function ({ id = databaseBuffer.getNextId(), name = 'Tag' } = {}) {
   const values = {

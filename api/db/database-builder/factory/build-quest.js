@@ -1,7 +1,7 @@
 import isUndefined from 'lodash/isUndefined.js';
 
 import { REWARD_TYPES } from '../../../src/quest/domain/constants.js';
-import { databaseBuffer } from '../database-buffer.js';
+import { databaseBuffer } from '../database-buffer.ts';
 import { buildAttestation } from './build-attestation.js';
 
 const buildQuest = function ({

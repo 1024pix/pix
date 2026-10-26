@@ -1,7 +1,7 @@
 import { seedsConfig } from '../../config/seeds-config.js';
 import { learningContentCache } from '../../src/shared/infrastructure/caches/learning-content-redis-cache.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
-import { DatabaseBuilder } from '../database-builder/database-builder.js';
+import { DatabaseBuilder } from '../database-builder/database-builder.ts';
 import { databaseConnection } from '../knex-database-connection.js';
 import { commonBuilder } from './data/common/common-builder.js';
 import { complementaryCertificationBuilder } from './data/common/complementary-certification-builder.js';
