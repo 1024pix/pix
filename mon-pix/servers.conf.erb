@@ -60,6 +60,13 @@ split_clients "${request_id}" $upstream_host {
   * <%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.<%= ENV['API_HOST_SUFFIX'] || 'scalingo.io' %>;
 }
 
+# On auth.pix.* hosts, only /api/* routes are served
+map "$host:$uri" $is_forbidden_auth_route {
+  ~^auth\.pix\.[^:]+:/api/  0;
+  ~^auth\.pix\.             1;
+  default                   0;
+}
+
 #add a catch all on http port to forward to the convenient https
 server {
     listen 80 default_server;
@@ -79,6 +86,10 @@ server {
   gzip off;
 
   root /app/dist/;
+
+  if ($is_forbidden_auth_route) {
+    return 404;
+  }
 
   location = /maintenance_page.html {
     # maintenance page is at the root of the project
