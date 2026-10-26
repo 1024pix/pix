@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto';
+
 import type { Page } from '@playwright/test';
 
 import { expect, test } from '../../fixtures/index.ts';
@@ -6,9 +8,14 @@ import { buildFreshPixAppUser } from '../../helpers/db.js';
 import { PIX_APP_USER_DATA } from '../../helpers/db-data.ts';
 import { LoginPage } from '../../pages/pix-app/index.js';
 
-test('Signup, logout and login', async ({ page, globalTestId }: { page: Page; globalTestId: string }) => {
+let uid: string;
+test.beforeEach(function () {
+  uid = randomUUID().slice(-4);
+});
+
+test('Signup, logout and login', async ({ page }: { page: Page }) => {
   await page.goto(process.env.PIX_APP_URL as string);
-  const email = `buffy.summers.${globalTestId}@example.net`;
+  const email = `buffy.summers.${uid}@example.net`;
 
   await test.step('Signup', async () => {
     const loginPage = new LoginPage(page);
@@ -44,8 +51,8 @@ test('Login as existing GAR user and logout', async ({ page }) => {
   await expect(page.locator('main')).toContainText('Vous êtes bien déconnecté(e).');
 });
 
-test('Accept the new terms of service', async ({ page, globalTestId }: { page: Page; globalTestId: string }) => {
-  const email = `buffy.summers.${globalTestId}@example.net`;
+test('Accept the new terms of service', async ({ page }: { page: Page }) => {
+  const email = `buffy.summers.${uid}@example.net`;
   await buildFreshPixAppUser('Buffy', 'Summers', email, 'Coucoulesdevs66', true);
 
   await page.goto(process.env.PIX_APP_URL as string);
