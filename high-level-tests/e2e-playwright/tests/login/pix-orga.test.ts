@@ -1,11 +1,18 @@
+import { randomUUID } from 'node:crypto';
+
 import type { Page } from '@playwright/test';
 
 import { expect, test } from '../../fixtures/index.ts';
 import { buildFreshPixOrgaUser } from '../../helpers/db.ts';
 import { PixOrgaPage } from '../../pages/pix-orga/index.js';
 
-test('login, cgu and logout', async ({ page, globalTestId }: { page: Page; globalTestId: string }) => {
-  const email = `buffy.summers.${globalTestId}@example.net`;
+let uid: string;
+test.beforeEach(function () {
+  uid = randomUUID().slice(-4);
+});
+
+test('login, cgu and logout', async ({ page }: { page: Page }) => {
+  const email = `buffy.summers.${uid}@example.net`;
   await buildFreshPixOrgaUser('Buffy', 'Summers', email, 'Coucoulesdevs66', 'MEMBER', {
     type: 'PRO',
     externalId: 'PROPRO',

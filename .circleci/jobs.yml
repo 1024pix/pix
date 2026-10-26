@@ -1134,9 +1134,10 @@ jobs:
               echo "Shard 0: run serial tests"
               npx playwright test --grep @runSerially --workers=1
             else
-              SHARD="$((${CIRCLE_NODE_INDEX}+1))"
-              echo "Shard $SHARD of $CIRCLE_NODE_TOTAL: run parallel tests"
-              npx playwright test --grep-invert @runSerially --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
+              # Node 0 runs the serial tests, so the parallel tests are split across the other nodes
+              SHARD_TOTAL="$((${CIRCLE_NODE_TOTAL}-1))"
+              echo "Shard $CIRCLE_NODE_INDEX of $SHARD_TOTAL: run parallel tests"
+              npx playwright test --grep-invert @runSerially --shard=${CIRCLE_NODE_INDEX}/${SHARD_TOTAL}
             fi
           environment:
             PIX_API_PORT: 3000

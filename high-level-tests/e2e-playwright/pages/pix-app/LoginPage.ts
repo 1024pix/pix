@@ -10,8 +10,7 @@ export class LoginPage {
     await this.page.getByRole('button', { name: 'Je me connecte' }).click();
     if (shouldAcceptCgu) {
       await this.page.waitForURL(/\/cgu$/);
-      await this.page.getByRole('checkbox', { name: "J'accepte les conditions" }).check();
-      await this.page.getByRole('button', { name: 'Je continue' }).click();
+      await this.page.getByRole('button', { name: 'Accepter et continuer' }).click();
     }
 
     await this.page.waitForURL(/\/accueil$/);

@@ -1,11 +1,18 @@
+import { randomUUID } from 'node:crypto';
+
 import type { Page } from '@playwright/test';
 
 import { expect, test } from '../../fixtures/index.ts';
 import { buildFreshPixCertifUser } from '../../helpers/db.ts';
 import { LoginPage } from '../../pages/pix-certif/index.js';
 
-test('login, cgu and logout', async ({ page, globalTestId }: { page: Page; globalTestId: string }) => {
-  const email = `buffy.summers.${globalTestId}@example.net`;
+let uid: string;
+test.beforeEach(function () {
+  uid = randomUUID().slice(-4);
+});
+
+test('login, cgu and logout', async ({ page }: { page: Page }) => {
+  const email = `buffy.summers.${uid}@example.net`;
   await buildFreshPixCertifUser('Buffy', 'Summers', email, 'Coucoulesdevs66');
   await page.goto(process.env.PIX_CERTIF_URL as string);
 
