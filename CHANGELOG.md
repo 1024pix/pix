@@ -1,5 +1,66 @@
 # Pix Changelog
 
+# [5.530.0](https://github.com/1024pix/pix/compare/v5.529.0...v5.530.0) (2026-10-26)
+
+### :rocket: Amélioration
+
+- [#18314](https://github.com/1024pix/pix/pull/18314) Chore/dutch translations from translator
+- [#18317](https://github.com/1024pix/pix/pull/18317) Enregistrer la catégorie lors de la modification d'un centre de certification (pix-24603)
+- [#18318](https://github.com/1024pix/pix/pull/18318) Pouvoir modifier la catégorie d'un centre de certif dans PixAdmin (PIX-24604)
+- [#18277](https://github.com/1024pix/pix/pull/18277) Récupérer les campagnes d'une liste d'organisations via l'API interne (PIX-24818).
+
+### :bug: Correction
+
+- [#18323](https://github.com/1024pix/pix/pull/18323) Répare le script de suppression des parcours combinés (PIX-23940)
+
+### :building_construction: Tech
+
+- [#17799](https://github.com/1024pix/pix/pull/17799) Ajoute des fiches sur Entity et Value Object
+- [#18195](https://github.com/1024pix/pix/pull/18195) Crée une copie en cache des templates d'attestation (PIX-24629)
+- [#18302](https://github.com/1024pix/pix/pull/18302) Facilier l’utilisation de Moodle en local pour le développement LTI
+- [#18304](https://github.com/1024pix/pix/pull/18304) Ne plus bloquer la boucle d'événements lors du choix de la prochaine épreuve.
+- [#18340](https://github.com/1024pix/pix/pull/18340) Permet de poster plusieurs jobs d'un coup dans PGBoss
+- [#18287](https://github.com/1024pix/pix/pull/18287) Petits nettoyages dans le bounded context `certification/configuration`
+- [#18286](https://github.com/1024pix/pix/pull/18286) Représente un statut de session par un value-object dans le bounded-context `session-management` (PIX-24704)
+- [#18198](https://github.com/1024pix/pix/pull/18198) Traite le doublon CombinedCourseParticipation / OrganizationLearnerParticipation.js dans le BC quest (PIX-23237)
+- [#18349](https://github.com/1024pix/pix/pull/18349) Utilisation de getters pour les types dans le modèle combined-course-items
+
+### :arrow_up: Montée de version
+
+- [#18306](https://github.com/1024pix/pix/pull/18306) Update dependency @1024pix/eslint-plugin to v3.0.12 (admin)
+- [#18307](https://github.com/1024pix/pix/pull/18307) Update dependency @1024pix/eslint-plugin to v3.0.12 (api)
+- [#18308](https://github.com/1024pix/pix/pull/18308) Update dependency @1024pix/eslint-plugin to v3.0.12 (audit-logger)
+- [#18309](https://github.com/1024pix/pix/pull/18309) Update dependency @1024pix/eslint-plugin to v3.0.12 (certif)
+- [#18310](https://github.com/1024pix/pix/pull/18310) Update dependency @1024pix/eslint-plugin to v3.0.12 (e2e-playwright)
+- [#18311](https://github.com/1024pix/pix/pull/18311) Update dependency @1024pix/eslint-plugin to v3.0.12 (junior)
+- [#18313](https://github.com/1024pix/pix/pull/18313) Update dependency @1024pix/eslint-plugin to v3.0.12 (orga)
+- [#18341](https://github.com/1024pix/pix/pull/18341) Update dependency @1024pix/eslint-plugin to v3.0.14 (admin)
+- [#18342](https://github.com/1024pix/pix/pull/18342) Update dependency @1024pix/eslint-plugin to v3.0.14 (api)
+- [#18343](https://github.com/1024pix/pix/pull/18343) Update dependency @1024pix/eslint-plugin to v3.0.14 (audit-logger)
+- [#18344](https://github.com/1024pix/pix/pull/18344) Update dependency @1024pix/eslint-plugin to v3.0.14 (e2e-playwright)
+- [#18345](https://github.com/1024pix/pix/pull/18345) Update dependency @1024pix/eslint-plugin to v3.0.14 (mon-pix)
+- [#18330](https://github.com/1024pix/pix/pull/18330) Update dependency @ls-lint/ls-lint to v2.3.2 (api)
+- [#18321](https://github.com/1024pix/pix/pull/18321) Update dependency eslint to v10.13.0 (api)
+- [#18322](https://github.com/1024pix/pix/pull/18322) Update dependency eslint to v10.13.0 (audit-logger)
+- [#18324](https://github.com/1024pix/pix/pull/18324) Update dependency eslint to v10.13.0 (e2e-playwright)
+- [#18325](https://github.com/1024pix/pix/pull/18325) Update dependency eslint to v10.13.0 (e2e)
+- [#18333](https://github.com/1024pix/pix/pull/18333) Update dependency eslint-plugin-n to v18.5.0 (admin)
+- [#18334](https://github.com/1024pix/pix/pull/18334) Update dependency eslint-plugin-n to v18.5.0 (api)
+- [#18335](https://github.com/1024pix/pix/pull/18335) Update dependency eslint-plugin-n to v18.5.0 (audit-logger)
+- [#18331](https://github.com/1024pix/pix/pull/18331) Update dependency hyparquet to v1.31.5 (api)
+- [#18319](https://github.com/1024pix/pix/pull/18319) Update dependency joi to v18.3.0 (admin)
+- [#18320](https://github.com/1024pix/pix/pull/18320) Update dependency joi to v18.3.0 (api)
+- [#18326](https://github.com/1024pix/pix/pull/18326) Update dependency joi to v18.3.0 (audit-logger)
+- [#18351](https://github.com/1024pix/pix/pull/18351) Update dependency knip to v6.42.0 (api)
+- [#18328](https://github.com/1024pix/pix/pull/18328) Update dependency nock to v15.0.2 (api)
+- [#18315](https://github.com/1024pix/pix/pull/18315) Update dependency nodemailer to v10.1.2 (api)
+- [#18329](https://github.com/1024pix/pix/pull/18329) Update dependency nodemailer to v10.1.4 (api) [SECURITY]
+- [#18332](https://github.com/1024pix/pix/pull/18332) Update dependency postcss to v8.5.31 (orga)
+- [#18336](https://github.com/1024pix/pix/pull/18336) Update linters (certif)
+- [#18337](https://github.com/1024pix/pix/pull/18337) Update linters (junior)
+- [#18312](https://github.com/1024pix/pix/pull/18312) Update linters (mon-pix)
+- [#18338](https://github.com/1024pix/pix/pull/18338) Update linters (orga)
+
 # [5.529.0](https://github.com/1024pix/pix/compare/v5.528.0...v5.529.0) (2026-10-23)
 
 ### :rocket: Amélioration
