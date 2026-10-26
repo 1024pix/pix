@@ -310,111 +310,145 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
     expect(assessments).deep.equal([assessment1.id, assessment2.id]);
   });
 
-  it('should publish batch event to historize action', async function () {
-    // given
-    const campaignParticipation2 = buildCampaignParticipation({
-      organizationLearnerId: organizationLearner2.id,
-      participantExternalId,
-      userId: organizationLearner2.userId,
+  describe('AuditLogger', function () {
+    context('when AuditLogger is enabled (by default)', function () {
+      it('should publish batch event to historize action', async function () {
+        // given
+        const campaignParticipation2 = buildCampaignParticipation({
+          organizationLearnerId: organizationLearner2.id,
+          participantExternalId,
+          userId: organizationLearner2.userId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        await usecases.deleteOrganizationLearners({
+          userId: adminUserId,
+          organizationLearnerIds: [organizationLearner1.id, organizationLearner2.id],
+          organizationId,
+          userRole: 'ORGA_ADMIN',
+          client: 'PIX_ORGA',
+        });
+
+        // then
+        await expect(AuditLoggingJob.name).to.have.been.performed.withJobPayloads([
+          {
+            client: 'PIX_ORGA',
+            action: OrganizationLearnerLoggerContext.DELETION,
+            role: 'ORGA_ADMIN',
+            userId: adminUserId,
+            occurredAt: now.toISOString(),
+            targetUserIds: [organizationLearner1.id, organizationLearner2.id],
+            data: {},
+            correlationContext: EMPTY_CORRELATION_INFO,
+          },
+          {
+            client: 'PIX_ORGA',
+            action: CampaignParticipationLoggerContext.DELETION,
+            role: 'ORGA_ADMIN',
+            userId: adminUserId,
+            occurredAt: now.toISOString(),
+            targetUserIds: [campaignParticipation1.id, campaignParticipation2.id],
+            data: {},
+            correlationContext: EMPTY_CORRELATION_INFO,
+          },
+        ]);
+      });
+
+      it('should publish an event to historize action according batch size', async function () {
+        // given
+        const campaignParticipation2 = buildCampaignParticipation({
+          organizationLearnerId: organizationLearner2.id,
+          participantExternalId,
+          userId: organizationLearner2.userId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        await usecases.deleteOrganizationLearners({
+          userId: adminUserId,
+          organizationLearnerIds: [organizationLearner1.id, organizationLearner2.id],
+          organizationId,
+          learnerToDeleteChunkSize: 1,
+          userRole: 'ORGA_ADMIN',
+          client: 'PIX_ORGA',
+        });
+
+        // then
+        await expect(AuditLoggingJob.name).to.have.been.performed.withJobPayloads([
+          {
+            client: 'PIX_ORGA',
+            action: OrganizationLearnerLoggerContext.DELETION,
+            role: 'ORGA_ADMIN',
+            userId: adminUserId,
+            occurredAt: now.toISOString(),
+            targetUserIds: [organizationLearner1.id],
+            data: {},
+            correlationContext: EMPTY_CORRELATION_INFO,
+          },
+          {
+            client: 'PIX_ORGA',
+            action: OrganizationLearnerLoggerContext.DELETION,
+            role: 'ORGA_ADMIN',
+            userId: adminUserId,
+            occurredAt: now.toISOString(),
+            targetUserIds: [organizationLearner2.id],
+            data: {},
+            correlationContext: EMPTY_CORRELATION_INFO,
+          },
+          {
+            client: 'PIX_ORGA',
+            action: CampaignParticipationLoggerContext.DELETION,
+            role: 'ORGA_ADMIN',
+            userId: adminUserId,
+            occurredAt: now.toISOString(),
+            targetUserIds: [campaignParticipation1.id],
+            data: {},
+            correlationContext: EMPTY_CORRELATION_INFO,
+          },
+          {
+            client: 'PIX_ORGA',
+            action: CampaignParticipationLoggerContext.DELETION,
+            role: 'ORGA_ADMIN',
+            userId: adminUserId,
+            occurredAt: now.toISOString(),
+            targetUserIds: [campaignParticipation2.id],
+            data: {},
+            correlationContext: EMPTY_CORRELATION_INFO,
+          },
+        ]);
+      });
     });
-    await databaseBuilder.commit();
 
-    // when
-    await usecases.deleteOrganizationLearners({
-      userId: adminUserId,
-      organizationLearnerIds: [organizationLearner1.id, organizationLearner2.id],
-      organizationId,
-      userRole: 'ORGA_ADMIN',
-      client: 'PIX_ORGA',
+    context('when AuditLogger is disabled', function () {
+      it('should not publish batch event to historize action', async function () {
+        // given
+        const auditLoggingJobRepositoryStub = {
+          performManyAsync: sinon.stub(),
+        };
+
+        buildCampaignParticipation({
+          organizationLearnerId: organizationLearner2.id,
+          participantExternalId,
+          userId: organizationLearner2.userId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        await usecases.deleteOrganizationLearners({
+          userId: adminUserId,
+          organizationLearnerIds: [organizationLearner1.id, organizationLearner2.id],
+          organizationId,
+          userRole: 'ORGA_ADMIN',
+          client: 'PIX_ORGA',
+          disableAuditLogger: true,
+          auditLoggingJobRepository: auditLoggingJobRepositoryStub,
+        });
+
+        // then
+        expect(auditLoggingJobRepositoryStub.performManyAsync).to.not.have.been.called;
+      });
     });
-
-    // then
-    await expect(AuditLoggingJob.name).to.have.been.performed.withJobPayloads([
-      {
-        client: 'PIX_ORGA',
-        action: OrganizationLearnerLoggerContext.DELETION,
-        role: 'ORGA_ADMIN',
-        userId: adminUserId,
-        occurredAt: now.toISOString(),
-        targetUserIds: [organizationLearner1.id, organizationLearner2.id],
-        data: {},
-        correlationContext: EMPTY_CORRELATION_INFO,
-      },
-      {
-        client: 'PIX_ORGA',
-        action: CampaignParticipationLoggerContext.DELETION,
-        role: 'ORGA_ADMIN',
-        userId: adminUserId,
-        occurredAt: now.toISOString(),
-        targetUserIds: [campaignParticipation1.id, campaignParticipation2.id],
-        data: {},
-        correlationContext: EMPTY_CORRELATION_INFO,
-      },
-    ]);
-  });
-
-  it('should publish an event to historize action according batch size', async function () {
-    // given
-    const campaignParticipation2 = buildCampaignParticipation({
-      organizationLearnerId: organizationLearner2.id,
-      participantExternalId,
-      userId: organizationLearner2.userId,
-    });
-    await databaseBuilder.commit();
-
-    // when
-    await usecases.deleteOrganizationLearners({
-      userId: adminUserId,
-      organizationLearnerIds: [organizationLearner1.id, organizationLearner2.id],
-      organizationId,
-      learnerToDeleteChunkSize: 1,
-      userRole: 'ORGA_ADMIN',
-      client: 'PIX_ORGA',
-    });
-
-    // then
-    await expect(AuditLoggingJob.name).to.have.been.performed.withJobPayloads([
-      {
-        client: 'PIX_ORGA',
-        action: OrganizationLearnerLoggerContext.DELETION,
-        role: 'ORGA_ADMIN',
-        userId: adminUserId,
-        occurredAt: now.toISOString(),
-        targetUserIds: [organizationLearner1.id],
-        data: {},
-        correlationContext: EMPTY_CORRELATION_INFO,
-      },
-      {
-        client: 'PIX_ORGA',
-        action: OrganizationLearnerLoggerContext.DELETION,
-        role: 'ORGA_ADMIN',
-        userId: adminUserId,
-        occurredAt: now.toISOString(),
-        targetUserIds: [organizationLearner2.id],
-        data: {},
-        correlationContext: EMPTY_CORRELATION_INFO,
-      },
-      {
-        client: 'PIX_ORGA',
-        action: CampaignParticipationLoggerContext.DELETION,
-        role: 'ORGA_ADMIN',
-        userId: adminUserId,
-        occurredAt: now.toISOString(),
-        targetUserIds: [campaignParticipation1.id],
-        data: {},
-        correlationContext: EMPTY_CORRELATION_INFO,
-      },
-      {
-        client: 'PIX_ORGA',
-        action: CampaignParticipationLoggerContext.DELETION,
-        role: 'ORGA_ADMIN',
-        userId: adminUserId,
-        occurredAt: now.toISOString(),
-        targetUserIds: [campaignParticipation2.id],
-        data: {},
-        correlationContext: EMPTY_CORRELATION_INFO,
-      },
-    ]);
   });
 
   context('when there are badges linked to the campaign participations', function () {
