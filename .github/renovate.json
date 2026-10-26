@@ -5,5 +5,5 @@
     "local>1024pix/renovate-config:js-app"
   ],
   "enabled": true,
-  "schedule": ["* * * * 1-5"]
+  "schedule": ["*/15 * * * *"]
 }
