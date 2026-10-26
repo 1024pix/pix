@@ -56,6 +56,8 @@ module('Integration | Component | organizations/information-section', function (
         store.createRecord('structure-category', { id: '111', label: 'Catégorie 1' }),
         store.createRecord('structure-category', { id: '222', label: 'Catégorie 2' }),
       ]);
+
+    sinon.stub(store, 'query').resolves([]);
   });
 
   module('when editing organization', function () {

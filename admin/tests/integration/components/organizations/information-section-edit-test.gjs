@@ -11,10 +11,11 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | organizations/information-section-edit', function (hooks) {
   setupIntlRenderingTest(hooks);
-  let findAllStub, store;
+  let findAllStub, queryStub, store;
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
     findAllStub = sinon.stub(store, 'findAll');
+    queryStub = sinon.stub(store, 'query').resolves([]);
 
     findAllStub
       .withArgs('administration-team')
@@ -517,6 +518,135 @@ module('Integration | Component | organizations/information-section-edit', funct
           }),
         ).getByText(t('components.organizations.editing.category.selector.placeholder')),
       );
+    });
+
+    module('when the category is changed', function () {
+      function buildOrganization() {
+        return EmberObject.create({
+          id: 1,
+          name: 'Organization SCO',
+          externalId: 'VELIT',
+          provinceCode: 'h50',
+          email: 'sco.generic.account@example.net',
+          isOrganizationSCO: true,
+          credit: 0,
+          documentationUrl: 'https://pix.fr/',
+          features: {},
+          administrationTeamId: 123,
+          countryCode: '99100',
+          organizationLearnerTypeId: 789,
+          categoryId: 111,
+        });
+      }
+
+      async function changeCategoryAndSave(screen) {
+        await click(
+          screen.getByRole('button', { name: `${t('components.organizations.editing.category.selector.label')} *` }),
+        );
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'Catégorie 2' }));
+        await click(screen.getByRole('button', { name: t('common.actions.save') }));
+      }
+
+      test('it should ask for confirmation when a certification center is attached', async function (assert) {
+        // given
+        const organization = buildOrganization();
+        const toggleEditMode = sinon.stub();
+        const onSubmit = sinon.stub();
+        queryStub
+          .withArgs('attached-certification-center', { organizationId: 1 })
+          .resolves([store.createRecord('attached-certification-center', { id: '5', name: 'Centre de certifs' })]);
+
+        const screen = await render(
+          <template>
+            <InformationSectionEdit
+              @organization={{organization}}
+              @toggleEditMode={{toggleEditMode}}
+              @onSubmit={{onSubmit}}
+            />
+          </template>,
+        );
+
+        // when
+        await changeCategoryAndSave(screen);
+
+        // then
+        assert
+          .dom(
+            await screen.findByText(
+              t('components.organizations.editing.category.confirmation-modal.attached-certification-center', {
+                certificationCenterName: 'Centre de certifs',
+              }),
+            ),
+          )
+          .exists();
+        assert
+          .dom(await screen.findByText(t('components.organizations.editing.category.confirmation-modal.warning')))
+          .exists();
+        assert.strictEqual(organization.categoryId, 111);
+
+        // when
+        await click(screen.getByRole('button', { name: t('common.actions.confirm') }));
+
+        // then
+        assert.strictEqual(organization.categoryId, '222');
+        assert.strictEqual(organization.categoryLabel, 'Catégorie 2');
+        assert.ok(onSubmit.called);
+      });
+
+      test('it should not save the organization when the confirmation is cancelled', async function (assert) {
+        // given
+        const organization = buildOrganization();
+        const toggleEditMode = sinon.stub();
+        const onSubmit = sinon.stub();
+        queryStub
+          .withArgs('attached-certification-center', { organizationId: 1 })
+          .resolves([store.createRecord('attached-certification-center', { id: '5', name: 'Centre des certifs' })]);
+
+        const screen = await render(
+          <template>
+            <InformationSectionEdit
+              @organization={{organization}}
+              @toggleEditMode={{toggleEditMode}}
+              @onSubmit={{onSubmit}}
+            />
+          </template>,
+        );
+
+        // when
+        await changeCategoryAndSave(screen);
+        await click(
+          within(await screen.findByRole('dialog')).getByRole('button', { name: t('common.actions.cancel') }),
+        );
+
+        // then
+        sinon.assert.notCalled(onSubmit);
+        assert.strictEqual(organization.categoryId, 111);
+      });
+
+      test('it should save without confirmation when no certification center is attached', async function (assert) {
+        // given
+        const organization = buildOrganization();
+        const toggleEditMode = sinon.stub();
+        const onSubmit = sinon.stub();
+
+        const screen = await render(
+          <template>
+            <InformationSectionEdit
+              @organization={{organization}}
+              @toggleEditMode={{toggleEditMode}}
+              @onSubmit={{onSubmit}}
+            />
+          </template>,
+        );
+
+        // when
+        await changeCategoryAndSave(screen);
+
+        // then
+        assert.strictEqual(organization.categoryId, '222');
+        assert.ok(onSubmit.called);
+      });
     });
   });
 
