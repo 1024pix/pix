@@ -26,6 +26,7 @@ export default class CombinedCourseItem extends Model {
   @attr('string') description;
   @attr('array') objectives;
   @attr('string') level;
+  @attr('boolean') isDiagnostic;
 
   @belongsTo('combined-course', { async: false, inverse: 'items' }) combinedCourse;
 
