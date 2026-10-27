@@ -1,10 +1,7 @@
-import { KnowledgeState } from '../../../src/shared/domain/models/KnowledgeState.ts';
+import { KnowledgeState, type KnowledgeStateType } from '../../../src/shared/domain/models/KnowledgeState.ts';
 import { databaseBuffer } from '../database-buffer.ts';
 
-/**
- * A user's knowledge state on one tube.
- */
-const buildKnowledgeState = ({ updatedAt = new Date('2020-01-01'), ...fields }) => {
+const buildKnowledgeState = ({ updatedAt = new Date('2020-01-01'), ...fields }: KnowledgeStateType) => {
   const values = new KnowledgeState({ ...fields, updatedAt });
 
   return databaseBuffer.pushInsertable({ tableName: 'knowledge_states', values });
