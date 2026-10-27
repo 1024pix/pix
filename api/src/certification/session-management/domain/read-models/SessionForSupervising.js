@@ -1,8 +1,4 @@
-import {
-  AUTHORIZED_TO_START_DURATION_VALIDITY_IN_MS,
-  MAXIMAL_CERTIFICATION_DURATION_IN_MS,
-  MAXIMAL_SESSION_DURATION_IN_MS,
-} from '../constants.js';
+import { AUTHORIZED_TO_START_DURATION_VALIDITY_IN_MS, MAXIMAL_CERTIFICATION_DURATION_IN_MS } from '../constants.js';
 
 /**
  * @typedef {object} LiveAlert
@@ -24,9 +20,9 @@ export class SessionForSupervising {
    * @param {Array<CandidateForSupervising>} params.candidates
    * @param {string} params.accessCode
    * @param {string} params.address
-   * @param {Date|null} params.firstCertificationStartedAt
+   * @param {SessionStatus} params.sessionStatus
    */
-  constructor({ id, date, time, examiner, room, candidates, accessCode, address, firstCertificationStartedAt }) {
+  constructor({ id, date, time, examiner, room, candidates, accessCode, address, sessionStatus }) {
     this.id = id;
     this.date = date;
     this.time = time;
@@ -35,19 +31,11 @@ export class SessionForSupervising {
     this.accessCode = accessCode;
     this.candidates = candidates;
     this.address = address;
-    this.firstCertificationStartedAt = firstCertificationStartedAt;
+    this.sessionStatus = sessionStatus;
   }
 
   get hasExpired() {
-    const hasACertificationOnGoing = Boolean(this.firstCertificationStartedAt);
-    if (hasACertificationOnGoing) {
-      return this.#elapsedTimeSinceSessionStarted() > MAXIMAL_SESSION_DURATION_IN_MS;
-    }
-    return false;
-  }
-
-  #elapsedTimeSinceSessionStarted() {
-    return Date.now() - this.firstCertificationStartedAt.getTime();
+    return this.sessionStatus.isAtLeastToFinalize();
   }
 }
 

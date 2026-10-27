@@ -28,6 +28,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
           get: sinon.stub(),
         },
       };
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().finalized().build();
       const foundSession = domainBuilder.certification.sessionManagement
         .sessionForSupervisingBuilder()
         .withParameters({
@@ -38,6 +39,7 @@ describe('Certification | Session Management | Unit | Application | Controller |
           accessCode: 'CODE12',
           date: '2017-01-20',
           time: '14:30:00',
+          sessionStatus,
         })
         .addCandidate({
           id: 1234,
