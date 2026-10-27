@@ -1,5 +1,59 @@
 # Pix Changelog
 
+# [5.531.0](https://github.com/1024pix/pix/compare/v5.530.0...v5.531.0) (2026-10-27)
+
+### :rocket: Amélioration
+
+- [#18352](https://github.com/1024pix/pix/pull/18352) Afficher une modale lors de la modification de la catégorie d'une organisation dans le cas ou elle est attachée à un CDC (PIX-24605)
+- [#18362](https://github.com/1024pix/pix/pull/18362) Crée un booléen isDiagnostic pour les items de type campagne des parcours combinés (PIX-24819)
+- [#18366](https://github.com/1024pix/pix/pull/18366) Enregistrer la catégorie lors de la création d’un centre de certification (PIX-24606)
+- [#18301](https://github.com/1024pix/pix/pull/18301) Ne pas déclencher de job d'AuditLogger en dryRun du script de purge (PIX-24813)
+- [#18268](https://github.com/1024pix/pix/pull/18268) Refonte du grain récap (PIX-22027).
+
+### :bug: Correction
+
+- [#18358](https://github.com/1024pix/pix/pull/18358) Corriger les problèmes de performance de la révocation de session (PIX-24863)
+- [#18346](https://github.com/1024pix/pix/pull/18346) Restreindre l’ouverture des conteneurs Docker au système local (PIX-24860)
+
+### :building_construction: Tech
+
+- [#18353](https://github.com/1024pix/pix/pull/18353)  Schedule Renovate toutes les 15 minutes
+- [#18361](https://github.com/1024pix/pix/pull/18361) Corriger le sharding des tests Playwright sur CircleCI (PIX-24862).
+- [#18339](https://github.com/1024pix/pix/pull/18339) Déplacer l'appel d'API interne d'un usecase vers un repository (PIX-24746).
+- [#18363](https://github.com/1024pix/pix/pull/18363) Envoyer les arguments des fonctions dans les spans OpenTelemetry
+- [#18370](https://github.com/1024pix/pix/pull/18370) Permet de régler MALLOC_ARENA_MAX sur une partie des conteneurs
+- [#18327](https://github.com/1024pix/pix/pull/18327) Préparer la conversion des `database-builder` en TypeScript
+- [#18372](https://github.com/1024pix/pix/pull/18372) Renovate schedule "at any time"
+- [#18360](https://github.com/1024pix/pix/pull/18360) Renvoie une 404 hors /api/ sur le domaine auth.pix.*
+
+### :arrow_up: Montée de version
+
+- [#18373](https://github.com/1024pix/pix/pull/18373) Update dependency @1024pix/eslint-plugin to v3.0.15 (admin)
+- [#18374](https://github.com/1024pix/pix/pull/18374) Update dependency @1024pix/eslint-plugin to v3.0.15 (certif)
+- [#18375](https://github.com/1024pix/pix/pull/18375) Update dependency @1024pix/eslint-plugin to v3.0.15 (junior)
+- [#18376](https://github.com/1024pix/pix/pull/18376) Update dependency @1024pix/eslint-plugin to v3.0.15 (mon-pix)
+- [#18383](https://github.com/1024pix/pix/pull/18383) Update dependency @1024pix/nebulix-ember to v1.4.0 (admin)
+- [#18384](https://github.com/1024pix/pix/pull/18384) Update dependency @1024pix/nebulix-ember to v1.4.0 (certif)
+- [#18385](https://github.com/1024pix/pix/pull/18385) Update dependency @1024pix/nebulix-ember to v1.4.0 (junior)
+- [#18387](https://github.com/1024pix/pix/pull/18387) Update dependency @1024pix/nebulix-ember to v1.4.0 (orga)
+- [#18377](https://github.com/1024pix/pix/pull/18377) Update dependency @1024pix/oppsy to v1.1.2 (api)
+- [#18388](https://github.com/1024pix/pix/pull/18388) Update dependency @1024pix/stylelint-config to v5.2.26 (admin)
+- [#18389](https://github.com/1024pix/pix/pull/18389) Update dependency @1024pix/stylelint-config to v5.2.26 (certif)
+- [#18390](https://github.com/1024pix/pix/pull/18390) Update dependency @1024pix/stylelint-config to v5.2.26 (junior)
+- [#18392](https://github.com/1024pix/pix/pull/18392) Update dependency @1024pix/stylelint-config to v5.2.26 (orga)
+- [#18394](https://github.com/1024pix/pix/pull/18394) Update dependency @formatjs/intl to v6.1.4 (mon-pix)
+- [#18395](https://github.com/1024pix/pix/pull/18395) Update dependency @glint/tsserver-plugin to v2.7.12 (orga)
+- [#18396](https://github.com/1024pix/pix/pull/18396) Update dependency jose to v6.2.13 (api)
+- [#18397](https://github.com/1024pix/pix/pull/18397) Update dependency knip to v6.42.1 (api)
+- [#18354](https://github.com/1024pix/pix/pull/18354) Update dependency nodemailer to v10.1.7 (api)
+- [#18378](https://github.com/1024pix/pix/pull/18378) Update dependency npm-run-all2 to v9.0.4 (api)
+- [#18355](https://github.com/1024pix/pix/pull/18355) Update dependency samlify to v2.14.0 (api)
+- [#18393](https://github.com/1024pix/pix/pull/18393) Update dependency samlify to v2.15.0 (api)
+- [#18379](https://github.com/1024pix/pix/pull/18379) Update linters (api)
+- [#18380](https://github.com/1024pix/pix/pull/18380) Update linters (audit-logger)
+- [#18381](https://github.com/1024pix/pix/pull/18381) Update linters (e2e-playwright)
+- [#18382](https://github.com/1024pix/pix/pull/18382) Update linters (orga)
+
 # [5.530.0](https://github.com/1024pix/pix/compare/v5.529.0...v5.530.0) (2026-10-26)
 
 ### :rocket: Amélioration
