@@ -1,5 +1,6 @@
 import { trace } from '@opentelemetry/api';
 
+import { config } from '../../../../config/config.js';
 import { DomainError } from '../../domain/errors.js';
 import { isOpenTelemetryInitialized } from './state.js';
 const otelProxySymbol = Symbol('otelProxy');
@@ -15,6 +16,17 @@ function wrapFunction(func, target, methodName, getSpanOptionsFn) {
   const wrapped = function (...args) {
     const tracer = trace.getTracer('otel-proxy');
     const spanOptions = getSpanOptionsFn?.() ?? {};
+
+    if (config.environment !== 'production') {
+      if (!spanOptions.attributes) spanOptions.attributes = {};
+      for (const [index, arg] of args.entries()) {
+        spanOptions.attributes[`arg${index + 1}`] = JSON.stringify(arg, (key, value) => {
+          if (typeof value === 'symbol') return value.toString();
+          if (typeof value === 'function') return 'Function';
+          return value;
+        });
+      }
+    }
 
     return tracer.startActiveSpan(methodName, spanOptions, (span) => {
       try {
