@@ -6,7 +6,6 @@ import { certificationCenterMembershipRepository } from '../../../../team/infras
 import * as versionApi from '../../../configuration/application/api/version-api.js';
 import { createLiveAlert } from '../../../evaluation/domain/usecases/create-live-alert.js';
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
-import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as certificationResultAdapter from '../../infrastructure/adapters/certification-result-adapter.js';
 import {
@@ -117,7 +116,6 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {assessmentRepository} AssessmentRepository
  * @typedef {assessmentResultRepository} AssessmentResultRepository
  * @typedef {certificationAssessmentRepository} CertificationAssessmentRepository
- * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
@@ -162,7 +160,6 @@ const dependencies = {
   certificationCpfService,
   eventJobPublisherService,
   mailService,
-  certificationCenterRepository,
   certificationRepository,
   certificationIssueReportRepository,
   certificationCenterMembershipRepository,

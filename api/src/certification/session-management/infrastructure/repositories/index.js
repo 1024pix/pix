@@ -31,6 +31,7 @@ import * as invigilatorAccessRepository from './invigilator-access-repository.js
 import * as juryCertificationRepository from './jury-certification-repository.js';
 import * as juryCertificationSummaryRepository from './jury-certification-summary-repository.js';
 import * as jurySessionRepository from './jury-session-repository.js';
+import * as resultRecipientInfoRepository from './result-recipient-info-repository.js';
 import * as sessionAuthorizationInfoRepository from './session-authorization-info-repository.js';
 import * as sessionForInvigilatorKitRepository from './session-for-invigilator-kit-repository.js';
 import * as sessionForSupervisingRepository from './session-for-supervising-repository.js';
@@ -82,6 +83,7 @@ import * as v3CertificationCourseDetailsForAdministrationRepository from './v3-c
  * @typedef {certificationEvaluationRepository} CertificationEvaluationRepository
  * @typedef {certificationCenterAccessApi} CertificationCenterAccessApi
  * @typedef {certificationCenterAccessRepository} CertificationCenterAccessRepository
+ * @typedef {resultRecipientInfoRepository} ResultRecipientInfoRepository
  * @typedef {sessionRepository} SessionRepository
  */
 const repositoriesWithoutInjectedDependencies = {
@@ -121,6 +123,7 @@ const repositoriesWithoutInjectedDependencies = {
   certificationEvaluationRepository,
   certificationCenterAccessRepository,
   sessionRepository,
+  resultRecipientInfoRepository,
 };
 
 /**

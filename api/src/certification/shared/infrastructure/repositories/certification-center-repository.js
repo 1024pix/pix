@@ -40,20 +40,6 @@ export async function findByExternalId({ externalId }) {
   return toDomain(certificationCenterWithHabilitationsData);
 }
 
-export async function getRefererEmails({ id }) {
-  const knexConn = DomainTransaction.getConnection();
-  return knexConn('certification-centers')
-    .select('users.email')
-    .join(
-      'certification-center-memberships',
-      'certification-center-memberships.certificationCenterId',
-      'certification-centers.id',
-    )
-    .join('users', 'users.id', 'certification-center-memberships.userId')
-    .where('certification-centers.id', id)
-    .where('certification-center-memberships.isReferer', true);
-}
-
 function certificationCenterWithHabilitationsBaseQuery() {
   const knexConn = DomainTransaction.getConnection();
   return knexConn
