@@ -38,7 +38,7 @@ async function register(request, h, dependencies = { registerLtiPlatform: usecas
     return h
       .response(ltiRegistrationSerializer.serialize())
       .header('Content-Type', 'text/html; charset=utf-8')
-      .header('Content-Security-Policy', `frame-ancestors ${registration.platformOrigin}`);
+      .header('Content-Security-Policy', `frame-ancestors ${registration.platformIssuer}`);
   } catch (err) {
     return h
       .response(ltiErrorSerializer.serialize({ title: 'Registration error', message: err.message ?? err }))
@@ -288,7 +288,7 @@ async function getAccessToken(scope, registration, dependencies = { cryptoServic
 
   const client_assertion = jsonwebtoken.sign(
     {
-      iss: registration.platformOrigin,
+      iss: registration.platformIssuer,
       sub: registration.clientId,
       aud: registration.platformOpenIdConfig.token_endpoint,
     },

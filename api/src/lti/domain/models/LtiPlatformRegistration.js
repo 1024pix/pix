@@ -56,7 +56,7 @@ export class LtiPlatformRegistration {
     return this.#platform.id;
   }
 
-  get platformOrigin() {
-    return this.#platform.origin;
+  get platformIssuer() {
+    return this.#platform.issuer;
   }
 }

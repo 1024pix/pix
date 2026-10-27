@@ -40,7 +40,7 @@ export function buildLtiPlatformRegistration({
   clientId = 'AbCD1234',
   encryptedPrivateKey = defaultKeyPair.encryptedPrivateKey,
   platform = buildLtiPlatform(),
-  platformOpenIdConfigUrl = `${platform.origin}/mod/lti/openid-configuration.php`,
+  platformOpenIdConfigUrl = `${platform.issuer}/mod/lti/openid-configuration.php`,
   publicKey = defaultKeyPair.publicKey,
   status = 'active',
   toolConfig = getDefaultToolConfig(clientId),

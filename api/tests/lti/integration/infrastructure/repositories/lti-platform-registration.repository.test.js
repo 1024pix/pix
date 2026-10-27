@@ -13,9 +13,9 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform-registr
 
       const expectedLtiPlatformRegistration = domainBuilder.lti.buildLtiPlatformRegistration();
 
-      const { platformId, platformOrigin } = expectedLtiPlatformRegistration;
+      const { platformId, platformIssuer } = expectedLtiPlatformRegistration;
 
-      databaseBuilder.factory.buildLtiPlatform({ id: platformId, origin: platformOrigin });
+      databaseBuilder.factory.buildLtiPlatform({ id: platformId, issuer: platformIssuer });
       databaseBuilder.factory.buildLtiPlatformRegistration({ ...expectedLtiPlatformRegistration, platformId });
       await databaseBuilder.commit();
 
@@ -25,7 +25,7 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform-registr
       // then
       expect(registration).to.deepEqualInstance(expectedLtiPlatformRegistration);
       expect(registration).to.have.property('platformId', platformId);
-      expect(registration).to.have.property('platformOrigin', platformOrigin);
+      expect(registration).to.have.property('platformIssuer', platformIssuer);
     });
 
     it('returns null when no LTI platforms are found', async function () {
@@ -75,8 +75,8 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform-registr
     it('inserts platform registration', async function () {
       // given
       const expectedLtiPlatformRegistration = domainBuilder.lti.buildLtiPlatformRegistration();
-      const { platformId, platformOrigin } = expectedLtiPlatformRegistration;
-      databaseBuilder.factory.buildLtiPlatform({ id: platformId, origin: platformOrigin });
+      const { platformId, platformIssuer } = expectedLtiPlatformRegistration;
+      databaseBuilder.factory.buildLtiPlatform({ id: platformId, issuer: platformIssuer });
       await databaseBuilder.commit();
 
       // when
@@ -85,7 +85,7 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform-registr
       // then
       expect(savedRegistration).to.deepEqualInstance(expectedLtiPlatformRegistration);
       expect(savedRegistration).to.have.property('platformId', platformId);
-      expect(savedRegistration).to.have.property('platformOrigin', platformOrigin);
+      expect(savedRegistration).to.have.property('platformIssuer', platformIssuer);
 
       const registrationFromDb = await knex.select('*').from('lti_platform_registrations').first();
       expect(registrationFromDb).to.deep.contain({
