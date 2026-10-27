@@ -28,10 +28,10 @@ import * as courseAssessmentResultRepository from './course-assessment-result-re
 import * as cpfExportRepository from './cpf-export-repository.js';
 import * as finalizedSessionRepository from './finalized-session-repository.js';
 import * as invigilatorAccessRepository from './invigilator-access-repository.js';
-import * as invigilatorSessionRepository from './invigilator-session-repository.js';
 import * as juryCertificationRepository from './jury-certification-repository.js';
 import * as juryCertificationSummaryRepository from './jury-certification-summary-repository.js';
 import * as jurySessionRepository from './jury-session-repository.js';
+import * as sessionAuthorizationInfoRepository from './session-authorization-info-repository.js';
 import * as sessionForInvigilatorKitRepository from './session-for-invigilator-kit-repository.js';
 import * as sessionForSupervisingRepository from './session-for-supervising-repository.js';
 import * as sessionJuryCommentRepository from './session-jury-comment-repository.js';
@@ -61,7 +61,7 @@ import * as v3CertificationCourseDetailsForAdministrationRepository from './v3-c
  * @typedef {sessionJuryCommentRepository} SessionJuryCommentRepository
  * @typedef {sessionSummaryRepository} SessionSummaryRepository
  * @typedef {sessionManagementRepository} SessionManagementRepository
- * @typedef {invigilatorSessionRepository} InvigilatorSessionRepository
+ * @typedef {sessionAuthorizationInfoRepository} SessionAuthorizationInfoRepository
  * @typedef {invigilatorAccessRepository} InvigilatorAccessRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
  * @typedef {certificationRepository} CertificationRepository
@@ -98,7 +98,7 @@ const repositoriesWithoutInjectedDependencies = {
   sessionForInvigilatorKitRepository,
   issueReportCategoryRepository,
   sessionManagementRepository,
-  invigilatorSessionRepository,
+  sessionAuthorizationInfoRepository,
   sessionSummaryRepository,
   sessionForSupervisingRepository,
   sessionJuryCommentRepository,
