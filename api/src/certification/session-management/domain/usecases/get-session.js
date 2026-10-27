@@ -1,5 +1,5 @@
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-
+// retour read model
 export async function getSession({ sessionId, sessionManagementRepository }) {
   const session = await sessionManagementRepository.get({ id: sessionId });
 

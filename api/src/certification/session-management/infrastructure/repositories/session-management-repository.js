@@ -57,6 +57,7 @@ export async function isFinalized({ id }) {
   return Boolean(session);
 }
 
+// keep for now, then move to dedicated prehandler auth repo maybe ?
 export async function doesUserHaveCertificationCenterMembershipForSession({ userId, sessionId }) {
   const knexConn = DomainTransaction.getConnection();
   const sessions = await knexConn

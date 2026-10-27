@@ -1,5 +1,6 @@
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
-
+// todo lolo vu : pas d'usage de candidates
+// status, id
 export async function deleteCertificationIssueReport({
   certificationIssueReportId,
   certificationCourseRepository,

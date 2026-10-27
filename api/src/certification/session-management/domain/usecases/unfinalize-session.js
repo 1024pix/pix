@@ -5,7 +5,8 @@
 
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { SessionAlreadyPublishedError, SessionNotFinalizedError } from '../errors.js';
-
+// todo lolo vu : pas d'usage de candidates
+// id, status,
 /**
  * @param {object} params
  * @param {SessionManagementRepository} params.sessionManagementRepository

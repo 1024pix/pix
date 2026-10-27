@@ -1,7 +1,8 @@
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { SessionAlreadyPublishedError } from '../errors.js';
 import { PublishSessionJob } from '../models/PublishSessionJob.js';
-
+// todo lolo vu : pas d'usage de candidates
+// status, id
 export async function requestMultipleSessionPublication({
   sessionIds,
   sessionManagementRepository,
