@@ -1,7 +1,5 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
-import { SessionManagement } from '../../domain/models/SessionManagement.js';
-
 const { Serializer } = jsonapiSerializer;
 
 export function serialize({ session, hasSomeCleaAcquired }) {
@@ -37,20 +35,4 @@ export function serialize({ session, hasSomeCleaAcquired }) {
       },
     },
   }).serialize(session);
-}
-
-export function deserialize(json) {
-  const attributes = json.data.attributes;
-
-  const result = new SessionManagement({
-    id: json.data.id,
-    certificationCenterId: attributes['certification-center-id'],
-    status: attributes.status,
-    examinerGlobalComment: attributes['examiner-global-comment'],
-    hasIncident: attributes['has-incident'],
-    hasJoiningIssue: attributes['has-joining-issue'],
-    version: attributes['version'],
-  });
-
-  return result;
 }

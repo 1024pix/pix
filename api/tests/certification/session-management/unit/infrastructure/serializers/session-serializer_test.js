@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { SessionManagement } from '../../../../../../src/certification/session-management/domain/models/SessionManagement.js';
 import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/session-serializer.js';
 import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
-import { EMPTY_BLANK_AND_NULL } from '../../../../../tooling/test-utils/constants.js';
 
 describe('Unit | Certification | session-management | Serializer | session-serializer', function () {
   describe('#serialize()', function () {
@@ -70,68 +69,6 @@ describe('Unit | Certification | session-management | Serializer | session-seria
 
         // then
         expect(json).to.deep.equal(expectedJsonApiIncludingHasSomeCleaAcquired);
-      });
-    });
-  });
-
-  describe('#deserialize()', function () {
-    const jsonApiSession = {
-      data: {
-        type: 'session-managements',
-        id: '12',
-        attributes: {
-          status: SESSION_STATUSES.CREATED,
-          description: '',
-          'examiner-global-comment': 'It was a fine session my dear',
-          'has-incident': true,
-          'has-joining-issue': true,
-          'finalized-at': new Date('2020-02-17T14:23:56Z'),
-          'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
-          version: 3,
-        },
-        relationships: {
-          certifications: {
-            links: {
-              related: '/api/sessions/12/certifications',
-            },
-          },
-          'certification-reports': {
-            links: {
-              related: '/api/sessions/12/certification-reports',
-            },
-          },
-        },
-      },
-    };
-
-    beforeEach(function () {
-      jsonApiSession.data.attributes.date = '2017-01-20';
-    });
-
-    it('should convert JSON API data to a Session', function () {
-      // when
-      const session = serializer.deserialize(jsonApiSession);
-
-      // then
-      expect(session).to.be.instanceOf(SessionManagement);
-      expect(session.id).to.equal('12');
-      expect(session.examinerGlobalComment).to.equal('It was a fine session my dear');
-      expect(session.hasIncident).to.be.true;
-      expect(session.hasJoiningIssue).to.be.true;
-      expect(session.version).to.equal(3);
-    });
-
-    EMPTY_BLANK_AND_NULL.forEach((emptyValue) => {
-      it(`should return no examiner comment if comment is "${emptyValue}"`, function () {
-        // given
-        const jsonApiSessionWithEmptyExaminerComment = structuredClone(jsonApiSession);
-        jsonApiSessionWithEmptyExaminerComment.data.attributes['examiner-global-comment'] = emptyValue;
-
-        // when
-        const result = serializer.deserialize(jsonApiSessionWithEmptyExaminerComment);
-
-        // then
-        expect(result.examinerGlobalComment).to.be.null;
       });
     });
   });
