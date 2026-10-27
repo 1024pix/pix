@@ -171,7 +171,7 @@
     "yargs": "18.2.0"
   },
   "devDependencies": {
-    "@1024pix/eslint-plugin": "3.0.14",
+    "@1024pix/eslint-plugin": "3.0.15",
     "@ls-lint/ls-lint": "2.3.2",
     "@types/chai": "5.2.3",
     "@types/chai-as-promised": "8.0.2",
@@ -204,7 +204,7 @@
     "sinon": "22.1.0",
     "sinon-chai": "4.0.1",
     "typescript": "npm:@typescript/typescript6@6.0.2",
-    "typescript-eslint": "8.71.2"
+    "typescript-eslint": "8.72.0"
   },
   "overrides": {
     "eslint": "$eslint",
