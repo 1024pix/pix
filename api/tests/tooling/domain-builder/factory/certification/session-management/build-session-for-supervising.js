@@ -6,6 +6,10 @@ import {
   SessionForSupervising,
 } from '../../../../../../src/certification/session-management/domain/read-models/SessionForSupervising.js';
 import { Frameworks, toScope } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
+import {
+  SESSION_STATUSES,
+  SessionStatus,
+} from '../../../../../../src/certification/shared/domain/value-objects/SessionStatus.ts';
 
 /**
  * @typedef {import('../../../../../../src/certification/shared/domain/models/Scopes.js').SCOPES} SCOPES
@@ -32,6 +36,7 @@ class SessionForSupervisingBuilder {
     this.accessCode = 'ABC123';
     this.candidates = [];
     this.address = '3 rue des Pruneaux';
+    this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
   }
 
   /**
@@ -103,9 +108,10 @@ class SessionForSupervisingBuilder {
    * @param {string} [params.room]
    * @param {string} [params.accessCode]
    * @param {string} [params.address]
+   * @param {SessionStatus} [params.sessionStatus]
    * @returns {SessionForSupervisingBuilder}
    */
-  withParameters({ id, date, time, examiner, room, accessCode, address } = {}) {
+  withParameters({ id, date, time, examiner, room, accessCode, address, sessionStatus } = {}) {
     this.id = id ?? this.id;
     this.date = date ?? this.date;
     this.time = time ?? this.time;
@@ -113,6 +119,7 @@ class SessionForSupervisingBuilder {
     this.room = room ?? this.room;
     this.accessCode = accessCode ?? this.accessCode;
     this.address = address ?? this.address;
+    this.sessionStatus = sessionStatus ?? this.sessionStatus;
     return this;
   }
 
@@ -219,11 +226,6 @@ class SessionForSupervisingBuilder {
    */
   build() {
     const candidates = this.candidates.map((candidate) => new CandidateForSupervising(candidate));
-    const firstCertificationStartedAt =
-      [...candidates]
-        .filter(({ startDateTime }) => startDateTime)
-        .toSorted((a, b) => a.startDateTime - b.startDateTime)
-        .at(0)?.startDateTime ?? null;
     return new SessionForSupervising({
       id: this.id,
       date: this.date,
@@ -232,8 +234,8 @@ class SessionForSupervisingBuilder {
       room: this.room,
       examiner: this.examiner,
       accessCode: this.accessCode,
+      sessionStatus: this.sessionStatus,
       candidates,
-      firstCertificationStartedAt,
     });
   }
 }

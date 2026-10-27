@@ -6,6 +6,7 @@ import { CertificationChallengeLiveAlertStatus } from '../../../shared/domain/mo
 import { CertificationCompanionLiveAlertStatus } from '../../../shared/domain/models/CertificationCompanionLiveAlert.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 import * as certificationBadgesService from '../../../shared/domain/services/certification-badges-service.js';
+import { SessionStatus } from '../../../shared/domain/value-objects/SessionStatus.ts';
 import { CandidateForSupervising, SessionForSupervising } from '../../domain/read-models/SessionForSupervising.js';
 
 export async function get({ id, dependencies = { certificationBadgesService } }) {
@@ -19,6 +20,9 @@ export async function get({ id, dependencies = { certificationBadgesService } })
       examiner: 'sessions.examiner',
       accessCode: 'sessions.accessCode',
       address: 'sessions.address',
+      finalizedAt: 'sessions.finalizedAt',
+      publishedAt: 'sessions.publishedAt',
+      assignedCertificationOfficerId: 'sessions.assignedCertificationOfficerId',
       firstCertificationStartedAt: knexConn('certification-courses')
         .min('createdAt')
         .whereRaw('"certification-courses"."sessionId" = "sessions"."id"'),
@@ -117,8 +121,10 @@ async function _toDomain(results, certificationBadgesService) {
     candidates.push(candidate);
   }
 
+  const sessionStatus = SessionStatus.build(results);
   return new SessionForSupervising({
     ...results,
+    sessionStatus,
     candidates,
   });
 }

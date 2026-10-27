@@ -43,6 +43,10 @@ export class SessionStatus {
     return this.#status;
   }
 
+  isAtLeastToFinalize(): boolean {
+    return this.#isAtLeast(SESSION_STATUSES.TO_FINALIZE);
+  }
+
   isAtMostStarted(): boolean {
     return this.#isAtMost(SESSION_STATUSES.STARTED);
   }
@@ -61,6 +65,10 @@ export class SessionStatus {
 
   #isAtMost(status: StatusType): boolean {
     return statusPosition(this.#status) <= statusPosition(status);
+  }
+
+  #isAtLeast(status: StatusType): boolean {
+    return statusPosition(this.#status) >= statusPosition(status);
   }
 
   static build({

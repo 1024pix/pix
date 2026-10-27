@@ -70,6 +70,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
         ],
       };
 
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().finalized().build();
       const sessionForSupervising = domainBuilder.certification.sessionManagement
         .sessionForSupervisingBuilder()
         .withParameters({
@@ -80,6 +81,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
           accessCode: 'CODE12',
           date: '2017-01-20',
           time: '14:30:00',
+          sessionStatus,
         })
         .addCandidate({
           id: 1234,
