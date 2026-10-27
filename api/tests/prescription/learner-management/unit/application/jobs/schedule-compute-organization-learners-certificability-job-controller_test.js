@@ -6,6 +6,7 @@ import sinon from 'sinon';
 
 import { ScheduleComputeOrganizationLearnersCertificabilityJobController } from '../../../../../../src/prescription/learner-management/application/jobs/schedule-compute-organization-learners-certificability-job-controller.js';
 import { ComputeOrganizationLearnerCertificabilityJobProvidedDateError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
+import { ComputeCertificabilityJob } from '../../../../../../src/prescription/learner-management/domain/models/jobs/ComputeCertificabilityJob.js';
 import { usecases } from '../../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { knex } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
@@ -51,10 +52,10 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         .toDate();
 
       computeCertificabilityJobRepository = {
-        performAsync: sinon.stub(),
+        performManyAsync: sinon.stub(),
       };
 
-      computeCertificabilityJobRepository.performAsync.resolves([]);
+      computeCertificabilityJobRepository.performManyAsync.resolves();
 
       organizationLearnerRepository = {
         findByOrganizationsWhichNeedToComputeCertificability: sinon.stub(),
@@ -118,15 +119,13 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         });
 
         // then
-        expect(computeCertificabilityJobRepository.performAsync.getCall(0).args[0]).to.be.deep.equal({
-          organizationLearnerId: 1,
-        });
-        expect(computeCertificabilityJobRepository.performAsync.getCall(1).args[0]).to.be.deep.equal({
-          organizationLearnerId: 2,
-        });
-        expect(computeCertificabilityJobRepository.performAsync.getCall(2).args[0]).to.be.deep.equal({
-          organizationLearnerId: 3,
-        });
+        const calls = computeCertificabilityJobRepository.performManyAsync.getCalls();
+        expect(calls).to.have.length(2);
+        expect(calls[0].firstArg).to.deep.equal([
+          new ComputeCertificabilityJob({ organizationLearnerId: 1 }),
+          new ComputeCertificabilityJob({ organizationLearnerId: 2 }),
+        ]);
+        expect(calls[1].firstArg).to.deep.equal([new ComputeCertificabilityJob({ organizationLearnerId: 3 })]);
       });
 
       it('should take options from event', async function () {
@@ -184,15 +183,13 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         });
 
         // then
-        expect(computeCertificabilityJobRepository.performAsync.getCall(0).args[0]).to.be.deep.equal({
-          organizationLearnerId: 1,
-        });
-        expect(computeCertificabilityJobRepository.performAsync.getCall(1).args[0]).to.be.deep.equal({
-          organizationLearnerId: 2,
-        });
-        expect(computeCertificabilityJobRepository.performAsync.getCall(2).args[0]).to.be.deep.equal({
-          organizationLearnerId: 3,
-        });
+        const calls = computeCertificabilityJobRepository.performManyAsync.getCalls();
+        expect(calls).to.have.length(2);
+        expect(calls[0].firstArg).to.deep.equal([
+          new ComputeCertificabilityJob({ organizationLearnerId: 1 }),
+          new ComputeCertificabilityJob({ organizationLearnerId: 2 }),
+        ]);
+        expect(calls[1].firstArg).to.deep.equal([new ComputeCertificabilityJob({ organizationLearnerId: 3 })]);
       });
 
       it('should test pagination with a lot of results', async function () {
@@ -240,18 +237,15 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
           },
         });
 
-        const jobCalls = computeCertificabilityJobRepository.performAsync.getCalls();
-        expect(jobCalls.length).to.equal(chunkCount * limit);
-
-        const expectedArgs = [];
+        const calls = computeCertificabilityJobRepository.performManyAsync.getCalls();
+        expect(calls).to.have.length(chunkCount);
         for (let index = 0; index < chunkCount; index++) {
-          expectedArgs.push(
-            { organizationLearnerId: index * limit + 1 },
-            { organizationLearnerId: index * limit + 2 },
-            { organizationLearnerId: index * limit + 3 },
-          );
+          expect(calls[index].firstArg).to.deep.equal([
+            new ComputeCertificabilityJob({ organizationLearnerId: index * limit + 1 }),
+            new ComputeCertificabilityJob({ organizationLearnerId: index * limit + 2 }),
+            new ComputeCertificabilityJob({ organizationLearnerId: index * limit + 3 }),
+          ]);
         }
-        expect(jobCalls.map((t) => t.firstArg)).to.deep.equal(expectedArgs);
       });
     });
 
@@ -309,7 +303,7 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
 
         // then
         expect(usecases.computeOrganizationLearnerCertificability).to.have.been.calledThrice;
-        expect(computeCertificabilityJobRepository.performAsync).to.not.have.been.called;
+        expect(computeCertificabilityJobRepository.performManyAsync).to.not.have.been.called;
       });
 
       it('should throw when end date is before start date', async function () {

@@ -2,14 +2,14 @@ import { CronExpressionParser } from 'cron-parser';
 import dayjs from 'dayjs';
 
 import { config } from '../../../../../config/config.js';
-import { ComputeCertificabilityJob } from '../../../../prescription/learner-management/domain/models/jobs/ComputeCertificabilityJob.js';
 import { JobScheduleController } from '../../../../shared/application/jobs/job-schedule-controller.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
-import { computeCertificabilityJobRepository } from '../../../learner-management/infrastructure/repositories/jobs/compute-certificability-job-repository.js';
 import * as organizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { ComputeOrganizationLearnerCertificabilityJobProvidedDateError } from '../../domain/errors.js';
+import { ComputeCertificabilityJob } from '../../domain/models/jobs/ComputeCertificabilityJob.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { computeCertificabilityJobRepository } from '../../infrastructure/repositories/jobs/compute-certificability-job-repository.js';
 
 class ScheduleComputeOrganizationLearnersCertificabilityJobController extends JobScheduleController {
   constructor() {
@@ -105,13 +105,11 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobController extends Jo
             continue;
           }
 
-          for (const organizationLearnerId of organizationLearnerIds) {
-            await dependencies.computeCertificabilityJobRepository.performAsync(
-              new ComputeCertificabilityJob({ organizationLearnerId }),
-            );
-            totalJobsInserted += 1;
-          }
-
+          const jobs = organizationLearnerIds.map(
+            (organizationLearnerId) => new ComputeCertificabilityJob({ organizationLearnerId }),
+          );
+          await dependencies.computeCertificabilityJobRepository.performManyAsync(jobs);
+          totalJobsInserted += jobs.length;
           dependencies.logger.info(
             `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Jobs inserted count  : ${totalJobsInserted}`,
           );
