@@ -46,7 +46,7 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
     expect(error).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
   });
 
-  it('should return the session', async function () {
+  it('should unpublish the session', async function () {
     // given
     const sessionId = 123;
     const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
@@ -58,12 +58,11 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
       publishedAt: null,
     });
     sessionManagementRepository.get.withArgs({ id: sessionId }).onFirstCall().resolves(session);
-    sessionManagementRepository.get.withArgs({ id: sessionId }).onSecondCall().resolves(updatedSession);
     const finalizedSession = new FinalizedSession({ sessionId, publishSession: new Date('2020-01-01') });
     finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
 
     // when
-    const actualSession = await unpublishSession({
+    await unpublishSession({
       sessionId,
       ...dependencies,
     });
@@ -75,6 +74,5 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
     expect(sessionManagementRepository.update).to.have.been.calledWithExactly(updatedSession);
     expect(finalizedSession.publishedAt).to.be.null;
     expect(finalizedSessionRepository.save).to.be.calledWith({ finalizedSession });
-    expect(actualSession).to.deep.equal(updatedSession);
   });
 });

@@ -29,7 +29,7 @@ class JurySession {
    * @param {Date} props.juryCommentedAt
    * @param {CertificationOfficer} props.juryCommentAuthor
    * @param {boolean} props.hasIncident
-   * @param {bollean} props.hasJoiningIssue
+   * @param {boolean} props.hasJoiningIssue
    * @param {number} props.version
    * @param {JurySessionCounters} props.counters - session statistics
    */

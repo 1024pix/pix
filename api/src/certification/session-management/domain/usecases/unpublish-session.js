@@ -19,8 +19,6 @@ export async function unpublishSession({
   await sessionManagementRepository.update(session);
 
   await _updateFinalizedSession(finalizedSessionRepository, sessionId);
-
-  return sessionManagementRepository.get({ id: sessionId });
 }
 
 async function _updateFinalizedSession(finalizedSessionRepository, sessionId) {
