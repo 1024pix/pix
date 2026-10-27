@@ -6,6 +6,7 @@ import * as sessionAuthorizationInfoRepository from '../../infrastructure/reposi
  * @property {SessionStatus} sessionStatus
  * @property {number|null} scoIsManagingStudentsOrganizationId
  * @property {number} certificationCenterId
+ * @property {boolean} certificationCenterArchived
  */
 
 /**
@@ -28,5 +29,6 @@ export async function findBySessionId({ sessionId, dependencies = { sessionAutho
     sessionStatus: sessionAuthorizationInfo.sessionStatus,
     scoIsManagingStudentsOrganizationId: sessionAuthorizationInfo.scoIsManagingStudentsOrganizationId,
     certificationCenterId: sessionAuthorizationInfo.certificationCenterId,
+    certificationCenterArchived: sessionAuthorizationInfo.certificationCenterArchived,
   };
 }

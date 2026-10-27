@@ -38,6 +38,7 @@ describe('Certification | Evaluation | Unit | Adapter | Session authorization', 
           sessionStatus: domainBuilder.certification.shared.sessionStatusBuilder().build(),
           scoIsManagingStudentsOrganizationId: 999,
           certificationCenterId: 111,
+          certificationCenterArchived: false,
         });
 
         const sessionAuthorization = await sessionAuthorizationAdapter.find({
@@ -53,6 +54,7 @@ describe('Certification | Evaluation | Unit | Adapter | Session authorization', 
               sessionStatus: domainBuilder.certification.shared.sessionStatusBuilder().build(),
               scoIsManagingStudentsOrganizationId: 999,
               certificationCenterId: 111,
+              certificationCenterArchived: false,
             })
             .build(),
         );

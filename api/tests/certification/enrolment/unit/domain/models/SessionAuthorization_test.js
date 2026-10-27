@@ -4,11 +4,11 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 
 describe('Unit | Certification | Enrolment | Domain | Models | SessionAuthorization', function () {
   describe('#get canEnrollCandidateIndividually', function () {
-    it('returns true when session accepts individual enrolment', function () {
+    it('returns true when session accepts individual enrolment and certification center is not archived', function () {
       const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
       const sessionAuthorization = domainBuilder.certification.enrolment
         .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, sessionStatus })
+        .withParameters({ id: 123, sessionStatus, certificationCenterArchived: false })
         .build();
 
       expect(sessionAuthorization.canEnrollCandidateIndividually).to.be.true;
@@ -18,7 +18,17 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionAuthorizat
       const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().toFinalize().build();
       const sessionAuthorization = domainBuilder.certification.enrolment
         .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, sessionStatus })
+        .withParameters({ id: 123, sessionStatus, certificationCenterArchived: false })
+        .build();
+
+      expect(sessionAuthorization.canEnrollCandidateIndividually).to.be.false;
+    });
+
+    it('returns false when certification center is archived', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
+      const sessionAuthorization = domainBuilder.certification.enrolment
+        .sessionAuthorizationBuilder()
+        .withParameters({ id: 123, sessionStatus, certificationCenterArchived: true })
         .build();
 
       expect(sessionAuthorization.canEnrollCandidateIndividually).to.be.false;
@@ -26,11 +36,11 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionAuthorizat
   });
 
   describe('#get canEnrollScoCandidate', function () {
-    it('returns true when session accepts SCO enrolment', function () {
+    it('returns true when session accepts SCO enrolment and certification center is not archived', function () {
       const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
       const sessionAuthorization = domainBuilder.certification.enrolment
         .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, sessionStatus })
+        .withParameters({ id: 123, sessionStatus, certificationCenterArchived: false })
         .build();
 
       expect(sessionAuthorization.canEnrollScoCandidate).to.be.true;
@@ -40,7 +50,17 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionAuthorizat
       const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().toFinalize().build();
       const sessionAuthorization = domainBuilder.certification.enrolment
         .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, sessionStatus })
+        .withParameters({ id: 123, sessionStatus, certificationCenterArchived: false })
+        .build();
+
+      expect(sessionAuthorization.canEnrollScoCandidate).to.be.false;
+    });
+
+    it('returns false when certification center is archived', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
+      const sessionAuthorization = domainBuilder.certification.enrolment
+        .sessionAuthorizationBuilder()
+        .withParameters({ id: 123, sessionStatus, certificationCenterArchived: true })
         .build();
 
       expect(sessionAuthorization.canEnrollScoCandidate).to.be.false;
@@ -48,11 +68,11 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionAuthorizat
   });
 
   describe('#get canEnrollCandidateViaODS', function () {
-    it('returns true when session accepts ODS enrolment', function () {
+    it('returns true when session accepts ODS enrolment and certification center is not archived', function () {
       const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
       const sessionAuthorization = domainBuilder.certification.enrolment
         .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, sessionStatus })
+        .withParameters({ id: 123, sessionStatus, certificationCenterArchived: false })
         .build();
 
       expect(sessionAuthorization.canEnrollCandidateViaODS).to.be.true;
@@ -62,7 +82,17 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionAuthorizat
       const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().toFinalize().build();
       const sessionAuthorization = domainBuilder.certification.enrolment
         .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, sessionStatus })
+        .withParameters({ id: 123, sessionStatus, certificationCenterArchived: false })
+        .build();
+
+      expect(sessionAuthorization.canEnrollCandidateViaODS).to.be.false;
+    });
+
+    it('returns false when certification center is archived', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
+      const sessionAuthorization = domainBuilder.certification.enrolment
+        .sessionAuthorizationBuilder()
+        .withParameters({ id: 123, sessionStatus, certificationCenterArchived: true })
         .build();
 
       expect(sessionAuthorization.canEnrollCandidateViaODS).to.be.false;
@@ -70,11 +100,11 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionAuthorizat
   });
 
   describe('#get canEnrollCandidateViaMassImport', function () {
-    it('returns true when session accepts mass import enrolment', function () {
+    it('returns true when session accepts mass import enrolment and certification center is not archived', function () {
       const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
       const sessionAuthorization = domainBuilder.certification.enrolment
         .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, sessionStatus })
+        .withParameters({ id: 123, sessionStatus, certificationCenterArchived: false })
         .build();
 
       expect(sessionAuthorization.canEnrollCandidateViaMassImport).to.be.true;
@@ -84,7 +114,17 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionAuthorizat
       const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().toFinalize().build();
       const sessionAuthorization = domainBuilder.certification.enrolment
         .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, sessionStatus })
+        .withParameters({ id: 123, sessionStatus, certificationCenterArchived: false })
+        .build();
+
+      expect(sessionAuthorization.canEnrollCandidateViaMassImport).to.be.false;
+    });
+
+    it('returns false when certification center is archived', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
+      const sessionAuthorization = domainBuilder.certification.enrolment
+        .sessionAuthorizationBuilder()
+        .withParameters({ id: 123, sessionStatus, certificationCenterArchived: true })
         .build();
 
       expect(sessionAuthorization.canEnrollCandidateViaMassImport).to.be.false;
@@ -92,11 +132,11 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionAuthorizat
   });
 
   describe('#get canJoinSession', function () {
-    it('returns true when session can be joined by a candidate', function () {
+    it('returns true when session can be joined by a candidate and certification center is not archived', function () {
       const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
       const sessionAuthorization = domainBuilder.certification.enrolment
         .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, sessionStatus })
+        .withParameters({ id: 123, sessionStatus, certificationCenterArchived: false })
         .build();
 
       expect(sessionAuthorization.canJoinSession).to.be.true;
@@ -106,7 +146,17 @@ describe('Unit | Certification | Enrolment | Domain | Models | SessionAuthorizat
       const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().toFinalize().build();
       const sessionAuthorization = domainBuilder.certification.enrolment
         .sessionAuthorizationBuilder()
-        .withParameters({ id: 123, sessionStatus })
+        .withParameters({ id: 123, sessionStatus, certificationCenterArchived: false })
+        .build();
+
+      expect(sessionAuthorization.canJoinSession).to.be.false;
+    });
+
+    it('returns false when certification center is archived', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
+      const sessionAuthorization = domainBuilder.certification.enrolment
+        .sessionAuthorizationBuilder()
+        .withParameters({ id: 123, sessionStatus, certificationCenterArchived: true })
         .build();
 
       expect(sessionAuthorization.canJoinSession).to.be.false;
