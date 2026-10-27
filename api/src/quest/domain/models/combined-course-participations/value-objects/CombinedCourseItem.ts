@@ -19,6 +19,7 @@ type CampaignCombinedCourseItemParams = CombinedCourseItemParams & {
   masteryRate?: number | null;
   totalStagesCount?: number | null;
   validatedStagesCount?: number | null;
+  isDiagnostic?: boolean;
 };
 
 type ModuleCombinedCourseItemParams = CombinedCourseItemParams & {
@@ -92,6 +93,7 @@ export class CampaignCombinedCourseItem extends CombinedCourseItem {
   totalStagesCount: number | null;
   validatedStagesCount: number | null;
   isCompleted: boolean;
+  isDiagnostic: boolean;
 
   constructor({
     id,
@@ -106,6 +108,7 @@ export class CampaignCombinedCourseItem extends CombinedCourseItem {
     totalStagesCount = null,
     validatedStagesCount = null,
     isLocked = true,
+    isDiagnostic = false,
   }: CampaignCombinedCourseItemParams) {
     super({
       id,
@@ -121,7 +124,9 @@ export class CampaignCombinedCourseItem extends CombinedCourseItem {
     this.totalStagesCount = totalStagesCount;
     this.validatedStagesCount = validatedStagesCount;
     this.isCompleted = isCompleted;
+    this.isDiagnostic = isDiagnostic;
   }
+
   get type(): CombinedCourseItemCategory {
     return COMBINED_COURSE_ITEM_TYPES.CAMPAIGN;
   }

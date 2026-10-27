@@ -36,7 +36,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseItem', function () {
   });
 
   describe('CampaignCombinedCourseItem', function () {
-    it('should apply default values for isLocked, masteryRate, totalStagesCount and validatedStagesCount', function () {
+    it('should apply default values for isLocked, masteryRate, totalStagesCount, isDiagnostic and validatedStagesCount', function () {
       // when
       const item = new CampaignCombinedCourseItem({
         id: 1,
@@ -48,6 +48,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourseItem', function () {
       expect(item.masteryRate).to.equal(null);
       expect(item.totalStagesCount).to.equal(null);
       expect(item.validatedStagesCount).to.equal(null);
+      expect(item.isDiagnostic).to.equal(false);
       expect(item.type).to.equal(COMBINED_COURSE_ITEM_TYPES.CAMPAIGN);
     });
   });

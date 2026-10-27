@@ -121,6 +121,7 @@ export class CombinedCourseDetails extends CombinedCourse {
     masteryRate,
     totalStagesCount,
     validatedStagesCount,
+    isDiagnostic,
   }) {
     return new CampaignCombinedCourseItem({
       id: campaign.id,
@@ -132,6 +133,7 @@ export class CombinedCourseDetails extends CombinedCourse {
       isLocked,
       totalStagesCount: isCompleted ? totalStagesCount : null,
       validatedStagesCount: isCompleted ? validatedStagesCount : null,
+      isDiagnostic,
     });
   }
 
@@ -236,13 +238,15 @@ export class CombinedCourseDetails extends CombinedCourse {
 
         const participationStatus = associatedParticipation?.status;
 
-        const doesCampaignRecommendModules =
+        const campaignRecommendModules =
           this.recommendableModuleIds.find((recommendableModule) => {
             if (!this.moduleIds.includes(recommendableModule.moduleId)) return false;
             return recommendableModule.targetProfileIds.includes(campaign.targetProfileId);
-          }) ?? [];
+          }) ?? null;
 
-        if (doesCampaignRecommendModules && !isCompleted) {
+        const doesRecommendModules = Boolean(campaignRecommendModules);
+
+        if (doesRecommendModules && !isCompleted) {
           targetProfileIdsThatNeedAFormationItem.push(campaign.targetProfileId);
         }
 
@@ -255,6 +259,7 @@ export class CombinedCourseDetails extends CombinedCourse {
             masteryRate: associatedParticipation?.masteryRate,
             validatedStagesCount: associatedParticipation?.validatedStagesCount,
             totalStagesCount: associatedParticipation?.totalStagesCount,
+            isDiagnostic: doesRecommendModules,
           }),
         );
       } else if (requirement.requirement_type === TYPES.OBJECT.PASSAGES) {
