@@ -5,7 +5,7 @@ import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { databaseBuffer } from '../database-buffer.ts';
 import { buildOrganization } from './build-organization.js';
 import { buildTargetProfile } from './build-target-profile.js';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 const buildCampaign = function ({
   id = databaseBuffer.getNextId(),

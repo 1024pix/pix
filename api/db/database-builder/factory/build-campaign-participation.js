@@ -2,7 +2,7 @@ import { CampaignParticipationStatuses } from '../../../src/prescription/shared/
 import { databaseBuffer } from '../database-buffer.ts';
 import { buildCampaign } from './build-campaign.js';
 import { buildOrganizationLearner } from './build-organization-learner.js';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 const { SHARED } = CampaignParticipationStatuses;
 

@@ -5,7 +5,7 @@ import { buildCampaign } from './build-campaign.js';
 import { buildCampaignParticipation } from './build-campaign-participation.js';
 import { buildCampaignSkill } from './build-campaign-skill.js';
 import { buildOrganizationLearner } from './build-organization-learner.js';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;
 

@@ -1,7 +1,7 @@
 import { KnowledgeElementCollection } from '../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { databaseBuffer } from '../database-buffer.ts';
 import { buildKnowledgeElement } from './build-knowledge-element.ts';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 type KnowledgeElementSnapshotAttributes = {
   id?: number;

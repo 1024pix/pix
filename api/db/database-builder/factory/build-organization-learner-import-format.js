@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { databaseBuffer } from '../database-buffer.ts';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 const buildOrganizationLearnerImportFormat = function ({
   id = databaseBuffer.getNextId(),
