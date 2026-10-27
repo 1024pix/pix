@@ -72,6 +72,13 @@ export default class AssessmentBanner extends Component {
   get redirectionUrl() {
     if (!this.campaign || !this.campaign.customResultPageButtonUrl) return null;
 
+    if (this.campaign.isPartOfCombinedCourse) {
+      const combinedCoursePresentationUrl = this.combinedCoursePresentationUrl;
+      if (combinedCoursePresentationUrl) {
+        return combinedCoursePresentationUrl;
+      }
+    }
+
     if (this.isRedirectionUrlInternal) {
       return this.campaign.customResultPageButtonUrl;
     } else {
@@ -80,6 +87,17 @@ export default class AssessmentBanner extends Component {
       params.externalId = this.campaignParticipation?.participantExternalId ?? undefined;
 
       return buildUrl(this.campaign.customResultPageButtonUrl, params);
+    }
+  }
+
+  get combinedCoursePresentationUrl() {
+    try {
+      const routeInfo = this.router.recognize(this.campaign.customResultPageButtonUrl);
+      const combinedCourseRouteInfo = routeInfo?.find(({ name }) => name === 'combined-courses.combined-course');
+      if (!combinedCourseRouteInfo) return null;
+      return this.router.urlFor('combined-courses.combined-course.presentation', combinedCourseRouteInfo.params.code);
+    } catch {
+      return null;
     }
   }
 
