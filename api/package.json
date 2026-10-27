@@ -197,7 +197,7 @@
     "mocha": "12.0.3",
     "nock": "15.0.2",
     "nodemon": "3.1.14",
-    "npm-run-all2": "9.0.3",
+    "npm-run-all2": "9.0.4",
     "oxfmt": "0.73.0",
     "pdfjs-dist": "6.4.299",
     "schemalint": "2.3.2",
