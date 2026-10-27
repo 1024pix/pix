@@ -171,6 +171,57 @@ module('Integration | Component | Ui | Assessment | assessment-banner', function
       // then
       assert.ok(router.transitionTo.calledWith(campaign.customResultPageButtonUrl));
     });
+
+    module('when campaign is part of a combined course', function () {
+      ['/parcours/CODE/checkpoint', '/parcours/CODE/chargement'].forEach((customResultPageButtonUrl) => {
+        test(`it should redirect to combined course presentation when quit button is clicked (${customResultPageButtonUrl})`, async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const campaign = store.createRecord('campaign', { customResultPageButtonUrl });
+          const assessment = store.createRecord('assessment', {
+            title: 'Mon titre',
+            type: 'CAMPAIGN',
+            campaign,
+          });
+          screen = await render(
+            <template><AssessmentBanner @displayHomeLink={{true}} @assessment={{assessment}} /></template>,
+          );
+
+          // when
+          await click(screen.getByRole('button', { name: 'Quitter' }));
+          await waitForDialog();
+          await click(screen.getByRole('button', { name: "Quitter l'épreuve et retourner à la page d'accueil" }));
+
+          // then
+          assert.ok(router.transitionTo.calledWith('/parcours/CODE'));
+        });
+      });
+
+      test('it should redirect to external url when it contains /parcours/ but is not a combined course url', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const campaign = store.createRecord('campaign', {
+          customResultPageButtonUrl: 'https://pix.fr/parcours/xyz',
+        });
+        const assessment = store.createRecord('assessment', {
+          title: 'Mon titre',
+          type: 'CAMPAIGN',
+          campaign,
+        });
+        sinon.stub(store, 'queryRecord').resolves(null);
+        screen = await render(
+          <template><AssessmentBanner @displayHomeLink={{true}} @assessment={{assessment}} /></template>,
+        );
+
+        // when
+        await click(screen.getByRole('button', { name: 'Quitter' }));
+        await waitForDialog();
+
+        // then
+        const link = screen.getByRole('link', { name: "Quitter l'épreuve et retourner à la page d'accueil" });
+        assert.strictEqual(link.getAttribute('href'), campaign.customResultPageButtonUrl);
+      });
+    });
   });
 
   module('When assessment has a title', function () {
