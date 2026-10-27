@@ -1,5 +1,9 @@
 import { CandidateAuthorizationInfo } from '../../../../../../src/certification/session-management/domain/read-models/CandidateAuthorizationInfo.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
+import {
+  SESSION_STATUSES,
+  SessionStatus,
+} from '../../../../../../src/certification/shared/domain/value-objects/SessionStatus.ts';
 
 /**
  * @typedef {import('../../../../../../db/database-builder/database-builder.ts').databaseBuilder} DatabaseBuilder
@@ -21,14 +25,13 @@ class CandidateAuthorizationInfoBuilder {
     this.id = null;
     this.sessionId = null;
     this.sessionAccessCode = 'ABC123';
-    this.sessionFinalizedAt = null;
-    this.sessionStartedAt = null;
     this.reconciledUserId = null;
     this.reconciledAt = null;
     this.subscription = Frameworks.CORE;
     this.certificationId = null;
     this.certificationStartedAt = null;
     this.authorizedToStartAt = new Date();
+    this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
     this.centerHabilitations = {};
   }
 
@@ -52,15 +55,13 @@ class CandidateAuthorizationInfoBuilder {
    * @param {object} [params]
    * @param {number} [params.sessionId] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted session (id null)
    * @param {string} [params.accessCode]
-   * @param {Date} [params.startedAt]
-   * @param {Date} [params.finalizedAt]
+   * @param {SessionStatus} [params.sessionStatus]
    * @returns {CandidateAuthorizationInfoBuilder}
    */
-  withSession({ sessionId = null, accessCode = 'ABC123', finalizedAt = null, startedAt = null } = {}) {
+  withSession({ sessionId = null, accessCode = 'ABC123', sessionStatus } = {}) {
     this.sessionId = sessionId;
     this.sessionAccessCode = accessCode;
-    this.sessionFinalizedAt = finalizedAt;
-    this.sessionStartedAt = startedAt;
+    this.sessionStatus = sessionStatus ?? this.sessionStatus;
     return this;
   }
 
@@ -160,7 +161,6 @@ class CandidateAuthorizationInfoBuilder {
    */
   insertToDB({ databaseBuilder, complementaryCertificationIdsByFramework = {} }) {
     const candidateAuthorizationInfo = this.build();
-
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
     for (const [framework, isHabilitated] of Object.entries(candidateAuthorizationInfo.centerHabilitations)) {
       if (framework === Frameworks.CORE || !isHabilitated) continue;
@@ -221,8 +221,7 @@ class CandidateAuthorizationInfoBuilder {
       id: this.id,
       sessionId: this.sessionId,
       sessionAccessCode: this.sessionAccessCode,
-      sessionFinalizedAt: this.sessionFinalizedAt,
-      sessionStartedAt: this.sessionStartedAt,
+      sessionStatus: this.sessionStatus,
       authorizedToStartAt: this.authorizedToStartAt,
       reconciledUserId: this.reconciledUserId,
       reconciledAt: this.reconciledAt,
