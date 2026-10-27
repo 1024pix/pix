@@ -16,7 +16,7 @@ describe('Unit | UseCases | find-paginated-participants', function () {
     extraColumns,
     organizationLearnerImportFormatRepository,
     organizationParticipantRepository,
-    organizationFeaturesAPI,
+    organizationFeaturesRepository,
     organizationLearnerFeatureRepository;
 
   beforeEach(function () {
@@ -38,7 +38,7 @@ describe('Unit | UseCases | find-paginated-participants', function () {
       findPaginatedFilteredImportedParticipants: sinon.stub(),
     };
 
-    organizationFeaturesAPI = {
+    organizationFeaturesRepository = {
       getAllFeaturesFromOrganization: sinon.stub(),
     };
 
@@ -49,7 +49,7 @@ describe('Unit | UseCases | find-paginated-participants', function () {
 
   it('should call findPaginatedFilteredParticipants when import not enabled', async function () {
     // given
-    organizationFeaturesAPI.getAllFeaturesFromOrganization.resolves({ hasLearnersImportFeature: false });
+    organizationFeaturesRepository.getAllFeaturesFromOrganization.resolves({ hasLearnersImportFeature: false });
     // when
     await findPaginatedFilteredParticipants({
       organizationId,
@@ -58,7 +58,7 @@ describe('Unit | UseCases | find-paginated-participants', function () {
       page,
       sort,
       organizationParticipantRepository,
-      organizationFeaturesAPI,
+      organizationFeaturesRepository,
     });
 
     // then
@@ -72,8 +72,8 @@ describe('Unit | UseCases | find-paginated-participants', function () {
 
   it('should call findPaginatedFilteredImportedParticipants when import is enabled', async function () {
     // given
-    organizationFeaturesAPI.getAllFeaturesFromOrganization
-      .withArgs(organizationId)
+    organizationFeaturesRepository.getAllFeaturesFromOrganization
+      .withArgs({ organizationId })
       .resolves({ hasLearnersImportFeature: true });
 
     organizationLearnerImportFormatRepository.get
@@ -92,7 +92,7 @@ describe('Unit | UseCases | find-paginated-participants', function () {
       sort,
       organizationParticipantRepository,
       organizationLearnerImportFormatRepository,
-      organizationFeaturesAPI,
+      organizationFeaturesRepository,
     });
 
     // then
@@ -110,8 +110,8 @@ describe('Unit | UseCases | find-paginated-participants', function () {
 
   context('when oralization feature is linked to organization', function () {
     it('should return an headingCustomColumns with oralization', async function () {
-      organizationFeaturesAPI.getAllFeaturesFromOrganization
-        .withArgs(organizationId)
+      organizationFeaturesRepository.getAllFeaturesFromOrganization
+        .withArgs({ organizationId })
         .resolves({ hasLearnersImportFeature: true, hasOralizationFeature: true });
 
       organizationLearnerImportFormatRepository.get
@@ -132,7 +132,7 @@ describe('Unit | UseCases | find-paginated-participants', function () {
         organizationParticipantRepository,
         organizationLearnerImportFormatRepository,
         organizationLearnerFeatureRepository,
-        organizationFeaturesAPI,
+        organizationFeaturesRepository,
       });
 
       expect(result.meta.headingCustomColumns).to.be.deep.equals([{ name: 'ORALIZATION' }]);
@@ -140,8 +140,8 @@ describe('Unit | UseCases | find-paginated-participants', function () {
 
     it('should add oralization value to participants', async function () {
       // given
-      organizationFeaturesAPI.getAllFeaturesFromOrganization
-        .withArgs(organizationId)
+      organizationFeaturesRepository.getAllFeaturesFromOrganization
+        .withArgs({ organizationId })
         .resolves({ hasLearnersImportFeature: true, hasOralizationFeature: true });
 
       organizationLearnerImportFormatRepository.get
@@ -172,7 +172,7 @@ describe('Unit | UseCases | find-paginated-participants', function () {
         sort,
         organizationParticipantRepository,
         organizationLearnerImportFormatRepository,
-        organizationFeaturesAPI,
+        organizationFeaturesRepository,
         organizationLearnerFeatureRepository,
       });
 

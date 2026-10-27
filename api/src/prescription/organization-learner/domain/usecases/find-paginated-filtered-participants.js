@@ -8,10 +8,10 @@ const findPaginatedFilteredParticipants = async function ({
   sort,
   organizationParticipantRepository,
   organizationLearnerImportFormatRepository,
-  organizationFeaturesAPI,
+  organizationFeaturesRepository,
   organizationLearnerFeatureRepository,
 }) {
-  const organizationFeatures = await organizationFeaturesAPI.getAllFeaturesFromOrganization(organizationId);
+  const organizationFeatures = await organizationFeaturesRepository.getAllFeaturesFromOrganization({ organizationId });
 
   if (organizationFeatures.hasLearnersImportFeature) {
     const importFormat = await organizationLearnerImportFormatRepository.get(organizationId);

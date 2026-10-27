@@ -43,12 +43,11 @@ describe('Acceptance | Application | learner-list-route', function () {
       };
 
       // when
-
       const response = await server.inject(request);
-      expect(response.result.data.id).to.deep.equal(expectedResult.data.id);
 
       // then
       expect(response.statusCode).to.equal(200);
+      expect(response.result.data.id).to.deep.equal(expectedResult.data.id);
     });
   });
 
