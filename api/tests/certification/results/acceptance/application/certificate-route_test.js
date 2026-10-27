@@ -962,7 +962,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
         expect(response.statusCode).to.equal(200);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.equal(
-          `attachment; filename=session-${session.id}-certification-pix-${dayjs(session.publishedAt).format('YYYYMMDD')}.pdf`,
+          `attachment; filename=session-${session.id}-pix-certificates.pdf`,
         );
         expect(response.file).not.to.be.null;
       });
@@ -988,7 +988,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
         expect(response.statusCode).to.equal(200);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.equal(
-          `attachment; filename=session-${session.id}-certification-pix-${dayjs(session.publishedAt).format('YYYYMMDD')}.pdf`,
+          `attachment; filename=session-${session.id}-pix-certificates.pdf`,
         );
         expect(response.file).not.to.be.null;
       });

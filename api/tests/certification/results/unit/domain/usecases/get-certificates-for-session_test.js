@@ -20,36 +20,25 @@ describe('Unit | UseCase | get-certificates-for-session', function () {
 
   it('should return multiple certificates enhanced with result competence tree for a sessions', async function () {
     // given
-    domainBuilder.certification.sessionManagement.buildSessionManagement({
-      id: 11,
-      finalizedAt: new Date('2020-01-02T14:00:00Z'),
-      certificationCenter: 'Centre des deux certificats',
-    });
+    const i18nStub = sinon.stub();
+    const generatedPDF = Symbol('pdf');
+
+    const getCertificatesPDFStub = sinon.stub().returns(generatedPDF);
 
     const certificationCourse1 = domainBuilder.buildCertificationCourse({
       id: 1,
       sessionId: 11,
-      userId: 101,
     });
-    domainBuilder.buildResultCompetenceTree({ id: 'firstResultTreeId' });
     const certificate1 = domainBuilder.buildCertificationAttestation({
       id: 1,
-      userId: 101,
-      resultCompetenceTree: 'firstResultTreeId',
-      certificationCenter: 'Centre des deux certificats',
     });
 
     const certificationCourse2 = domainBuilder.buildCertificationCourse({
       id: 2,
       sessionId: 11,
-      userId: 102,
     });
-    domainBuilder.buildResultCompetenceTree({ id: 'secondResultTreeId' });
     const certificate2 = domainBuilder.buildCertificationAttestation({
       id: 2,
-      userId: 102,
-      resultCompetenceTree: 'secondResultTreeId',
-      certificationCenter: 'Centre des deux certificats',
     });
 
     sharedCertificationCourseRepository.findCertificationCoursesBySessionId
@@ -59,29 +48,19 @@ describe('Unit | UseCase | get-certificates-for-session', function () {
     certificateRepository.getCertificate.withArgs({ certificationCourseId: 2 }).resolves(certificate2);
 
     // when
-    const actualCertificates = await getCertificatesForSession({
+    const { filename, content } = await getCertificatesForSession({
       sessionId: 11,
+      i18n: i18nStub,
       certificateRepository,
       sharedCertificationCourseRepository,
+      dependencies: {
+        getCertificatesPDF: getCertificatesPDFStub,
+      },
     });
 
     // then
-    const expectedCertificates = [
-      domainBuilder.buildCertificationAttestation({
-        id: 1,
-        userId: 101,
-        resultCompetenceTree: 'firstResultTreeId',
-        certificationCenter: 'Centre des deux certificats',
-      }),
-      domainBuilder.buildCertificationAttestation({
-        id: 2,
-        userId: 102,
-        resultCompetenceTree: 'secondResultTreeId',
-        certificationCenter: 'Centre des deux certificats',
-      }),
-    ];
-
-    expect(actualCertificates).to.deep.equal(expectedCertificates);
+    expect(filename).to.deep.equal('session-11-pix-certificates.pdf');
+    expect(content).to.deep.equal(generatedPDF);
   });
 
   describe('when there is no certification courses for the session', function () {
