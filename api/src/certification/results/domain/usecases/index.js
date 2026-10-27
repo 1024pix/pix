@@ -20,6 +20,7 @@ import { findCertificationAttestationsForDivision } from './find-certification-a
 import { findUserCertificateSummaries } from './find-user-certificate-summaries.js';
 import { findUserCertificationCourses } from './find-user-certification-courses.js';
 import { getCertificate } from './get-certificate.js';
+import { getCertificatePDF } from './get-certificate-pdf.js';
 import { getCertificatesForSession } from './get-certificates-for-session.js';
 import { getCertificationCourseByVerificationCode } from './get-certification-course-by-verification-code.js';
 import { getCertificationCourseVersion } from './get-certification-course-version.js';
@@ -76,6 +77,7 @@ const usecasesWithoutInjectedDependencies = {
   findUserCertificateSummaries,
   findUserCertificationCourses,
   getCertificate,
+  getCertificatePDF,
   getCertificatesForSession,
   getCertificationCourseByVerificationCode,
   getCertificationCourseVersion,

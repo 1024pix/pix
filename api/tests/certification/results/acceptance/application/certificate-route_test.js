@@ -595,6 +595,52 @@ describe('Certification | Results | Acceptance | Application | Certification', f
       });
     });
 
+    context('when the certification is V3', function () {
+      it('should return 200 HTTP status code and the certification', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const session = databaseBuilder.factory.buildSession({
+          publishedAt: new Date('2018-12-01T01:02:03Z'),
+          version: AlgorithmEngineVersion.V3,
+        });
+        const v3CertificationCourse = databaseBuilder.factory.buildCertificationCourse({
+          sessionId: session.id,
+          userId,
+          isPublished: true,
+          version: AlgorithmEngineVersion.V3,
+          verificationCode: await generateCertificateVerificationCode(),
+        });
+        const assessment = databaseBuilder.factory.buildAssessment({
+          userId,
+          certificationCourseId: v3CertificationCourse.id,
+          type: Assessment.types.CERTIFICATION,
+          state: Assessment.states.COMPLETED,
+        });
+        databaseBuilder.factory.buildAssessmentResult.last({
+          certificationCourseId: v3CertificationCourse.id,
+          assessmentId: assessment.id,
+          pixScore: 123,
+          reachedMeshIndex: 1,
+          status: AssessmentResult.status.VALIDATED,
+        });
+        await databaseBuilder.commit();
+
+        options = {
+          method: 'POST',
+          url: '/api/shared-certifications',
+          payload: { verificationCode: v3CertificationCourse.verificationCode },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data.type).to.equal('certifications');
+        expect(response.result.data.id).to.equal(`${v3CertificationCourse.id}`);
+      });
+    });
+
     context('when the given verificationCode is incorrect', function () {
       it('should return notFound 404 HTTP status code when param is incorrect', async function () {
         // given
@@ -663,7 +709,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
           expect(response.statusCode).to.equal(200);
           expect(response.headers['content-type']).to.equal('application/pdf');
 
-          const filename = `filename=certification-pix-20181201.pdf`;
+          const filename = `filename=certification-pix-2018-12-01.pdf`;
           expect(response.headers['content-disposition']).to.include(filename);
 
           const fileFormat = response.result.substring(1, 4);
