@@ -1,5 +1,6 @@
 import { createPublicKey } from 'node:crypto';
 
+import boom from '@hapi/boom';
 import jsonwebtoken from 'jsonwebtoken';
 
 import { BadRequestError } from '../../shared/application/errors/http-errors.js';
@@ -7,6 +8,8 @@ import { cryptoService } from '../../shared/domain/services/crypto-service.js';
 import * as urlService from '../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../shared/infrastructure/http-agent.js';
 import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
+import { getForwardedOrigin, RequestedApplication } from '../../shared/infrastructure/utils/network.js';
+import { LtiPrescriberAccessToken } from '../domain/models/LtiPrescriberAccessToken.js';
 import { deepLinkingService } from '../domain/services/deep-linking.service.js';
 import { usecases } from '../domain/usecases/index.js';
 import { ltiPlatformRegistrationRepository } from '../infrastructure/repositories/lti-platform-registration.repository.js';
@@ -98,6 +101,12 @@ async function init(request, h, dependencies = { ltiPlatformRegistrationReposito
 async function deepLink(request, h) {
   const { verifiedToken, registration } = await preLaunch(request);
 
+  const origin = getForwardedOrigin(request.headers);
+  const requestApplication = RequestedApplication.fromOrigin(origin);
+  if (!requestApplication.isPixOrga) {
+    return boom.preconditionFailed();
+  }
+
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
 
   // FIXME return 400 bad request if !=
@@ -106,23 +115,19 @@ async function deepLink(request, h) {
 
     // FIXME take from custom claims
     const organizationExternalIds = ['12345', '7890'];
+
     const ltiPrescriberAccessToken = await usecases.authenticateLtiPrescriber({
       organizationExternalIds,
       registration,
       deepLinkingSettings,
+      audience: origin,
     });
 
     const locale = 'fr-FR'; // TODO: Generate this dynamically
     const campaignSelectionPageUrl = urlService.getPixOrgaUrl(locale, { pathname: '/lti-campaign-selection' });
-    return (
-      h
-        .redirect(campaignSelectionPageUrl)
-        // FIXME set cookie expiration using Max-Age
-        .header(
-          'Set-Cookie',
-          `jwtLtiPrescriber=${ltiPrescriberAccessToken}; Secure; HttpOnly; SameSite=None; Partitioned; Path=/api`,
-        )
-    );
+    return h
+      .redirect(campaignSelectionPageUrl)
+      .header('Set-Cookie', ltiPrescriberAccessToken.encodedForSetCookieHeader);
   }
 }
 
@@ -183,7 +188,7 @@ async function selectCampaign(request, h, dependencies = { deepLinkingService })
       }),
     )
     .header('Content-Type', 'text/html; charset=utf-8')
-    .header('Set-Cookie', `jwtLtiPrescriber=; Secure; HttpOnly; SameSite=None; Partitioned; Path=/api; Max-Age=-1`);
+    .header('Set-Cookie', LtiPrescriberAccessToken.setCookieHeaderForClearing());
 }
 
 async function resourceLink(request, h, dependencies = { urlService }) {
