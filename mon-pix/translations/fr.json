@@ -1359,6 +1359,8 @@
         "aria-label-duration": "Durée estimée : {duration} minutes",
         "aria-label-level": "Niveau : {level}",
         "completed": "Complété !",
+        "continue-campaign": "Continuer",
+        "continue-diagnostic": "Continuer le diagnostic",
         "duration": "≈ {duration} min",
         "formation": {
           "description": "Terminez votre diagnostic pour débloquer un programme de modules adapté à votre résultat !",
@@ -1368,9 +1370,9 @@
         "restart-campaign": "Recommencer",
         "restart-module": "Recommencer le module",
         "retry-module": "Rejouer ce module",
-        "start-campaign": "Commencer",
-        "start-module": "Commencer le module",
-        "tagText": "Vous en êtes là !"
+        "start-campaign": "Démarrer",
+        "start-diagnostic": "Démarrer le diagnostic",
+        "start-module": "Démarrer le module"
       },
       "process-custom-passages": {
         "description": "Nous analysons vos résultats et construisons une suite de parcours adaptée.",

@@ -46,6 +46,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
             type: COMBINED_COURSE_ITEM_TYPES.CAMPAIGN,
             redirection: undefined,
             'is-completed': false,
+            'participation-status': undefined,
             'is-diagnostic': false,
             'is-locked': false,
             'mastery-rate': null,
@@ -71,6 +72,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
             level: 'novice',
             description: 'description',
             objectives: ['Objectif 1', 'Objectif 2', 'Objectif 3'],
+            'participation-status': undefined,
           },
         },
         {

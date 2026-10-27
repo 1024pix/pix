@@ -1359,6 +1359,8 @@
         "aria-label-duration": "Duración estimada: {duration} minutos.",
         "aria-label-level": "Nivel: {level}",
         "completed": "¡Completado!",
+        "continue-campaign": "Continuar.",
+        "continue-diagnostic": "Continuar con el diagnóstico.",
         "duration": "≈ {duration} min.",
         "formation": {
           "description": "¡Completa tu diagnóstico para desbloquear un programa de módulos adaptado a tu resultado!",
@@ -1368,9 +1370,9 @@
         "restart-campaign": "Volver a empezar",
         "restart-module": "Volver a empezar el módulo",
         "retry-module": "Volver a reproducir este módulo",
-        "start-campaign": "Empezar",
-        "start-module": "Empezar el módulo",
-        "tagText": "¡Ya estás ahí!"
+        "start-campaign": "Iniciar",
+        "start-diagnostic": "Iniciar el diagnóstico",
+        "start-module": "Iniciar el módulo"
       },
       "process-custom-passages": {
         "description": "Analizamos tus resultados y creamos una serie de cursos adaptada.",

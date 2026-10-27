@@ -6,6 +6,10 @@ export const CombinedCourseItemTypes = {
   MODULE: 'module',
 };
 
+export const CampaignParticipationStatus = {
+  STARTED: 'STARTED',
+};
+
 export const CombinedCourseAssets = {
   CAMPAIGN_ICON: 'https://assets.pix.org/combined-courses/campaign-icon.svg',
   FORMATION_ICON: 'https://assets.pix.org/combined-courses/picto_formation_vector.svg',
@@ -16,6 +20,7 @@ export default class CombinedCourseItem extends Model {
   @attr('string') type;
   @attr('string') redirection;
   @attr('boolean') isCompleted;
+  @attr('string') participationStatus;
   @attr('number') masteryRate;
   @attr('number') totalStagesCount;
   @attr('number') validatedStagesCount;
@@ -75,5 +80,29 @@ export default class CombinedCourseItem extends Model {
 
   get isFormationBloc() {
     return this.type === CombinedCourseItemTypes.FORMATION;
+  }
+
+  get ctaLabel() {
+    if (this.isModuleType) {
+      return 'pages.combined-courses.items.start-module';
+    }
+
+    if (this.isDiagnostic) {
+      if (this.participationStatus === CampaignParticipationStatus.STARTED) {
+        return 'pages.combined-courses.items.continue-diagnostic';
+      } else {
+        return 'pages.combined-courses.items.start-diagnostic';
+      }
+    }
+
+    if (this.isCampaignType) {
+      if (this.participationStatus === CampaignParticipationStatus.STARTED) {
+        return 'pages.combined-courses.items.continue-campaign';
+      } else {
+        return 'pages.combined-courses.items.start-campaign';
+      }
+    }
+
+    return null;
   }
 }
