@@ -190,6 +190,28 @@ Le profil ne voit que le tas JS. Le résultat porte donc aussi `memoryBefore` et
 l'autre qu'en valeur absolue. Les champs issus de `/proc/self/status` manquent
 hors Linux.
 
+### Tester `MALLOC_ARENA_MAX` sur quelques conteneurs
+
+glibc ne lit `MALLOC_ARENA_MAX` qu'au démarrage du process. Le Procfile lance
+donc `web` et `worker` à travers
+[`with-malloc-arena-max.sh`](../../api/scripts/with-malloc-arena-max.sh), qui
+pose la variable sur les seuls conteneurs visés :
+
+| Variable | Rôle |
+| --- | --- |
+| `MALLOC_ARENA_MAX_CONTAINERS` | conteneurs visés, même grammaire que les sélecteurs ci-dessus (`web-2`, `web-%3`…). Vide : aucun |
+| `MALLOC_ARENA_MAX_VALUE` | nombre d'arenas, 2 par défaut |
+
+Le réglage prend effet au prochain démarrage du conteneur. Un conteneur réglé
+l'annonce dans ses logs (`web-2 : MALLOC_ARENA_MAX=2`). On compare ensuite
+`native_unaccounted` et `swap` entre conteneurs réglés et non réglés, en écartant
+les séries figées que le pushgateway garde pour les conteneurs arrêtés :
+
+```promql
+pix_api_process_memory_bytes{type=~"native_unaccounted|swap"}
+  and on(instance) changes(pix_api_process_memory_bytes{type="rss"}[10m]) > 0
+```
+
 ## Coût
 
 Un profil échantillonné n'intercepte qu'une allocation par tranche de
