@@ -89,7 +89,7 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {import('../../infrastructure/repositories/index.js').IssueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionJuryCommentRepository} SessionJuryCommentRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionManagementRepository} SessionManagementRepository
- * @typedef {import('../../infrastructure/repositories/index.js').InvigilatorSessionRepository} InvigilatorSessionRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').SessionAuthorizationInfoRepository} SessionAuthorizationInfoRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationReportRepository} CertificationReportRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CompetenceMarkRepository} CompetenceMarkRepository
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
@@ -131,7 +131,7 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {complementaryCertificationCourseResultRepository} ComplementaryCertificationCourseResultRepository
  * @typedef {sessionJuryCommentRepository} SessionJuryCommentRepository
- * @typedef {invigilatorSessionRepository} InvigilatorSessionRepository
+ * @typedef {sessionAuthorizationInfoRepository} SessionAuthorizationInfoRepository
  * @typedef {sessionSummaryRepository} SessionSummaryRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
  * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
