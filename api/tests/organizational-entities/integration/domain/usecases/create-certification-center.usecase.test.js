@@ -103,14 +103,17 @@ describe('Integration | Organizational Entities | Domain | UseCase | create-cert
   });
 
   context('when no organizationId to attach is provided', function () {
-    it('creates a structure for the certification center', async function () {
+    it('creates a structure for the certification center with the given category', async function () {
       // given
+      const categoryId = databaseBuilder.factory.buildStructureCategory({ label: 'Établissement scolaire' }).id;
+      await databaseBuilder.commit();
       const certificationCenterDTO = domainBuilder.buildCenterForAdmin({
         center: {
           name: 'Centre de certif SCO',
           type: 'SCO',
           externalId: 'EXT123',
           habilitations: [],
+          categoryId: categoryId,
         },
       });
 
@@ -124,6 +127,10 @@ describe('Integration | Organizational Entities | Domain | UseCase | create-cert
       const certificationCenterFactStructure = await knex('fct_structures')
         .where({ certification_center_id: createdCertificationCenter.id })
         .first();
+      const certificationCenterStructure = await knex('structures')
+        .where({ id: certificationCenterFactStructure.structure_id })
+        .first();
+      expect(certificationCenterStructure.category_id).to.equal(categoryId);
       expect(certificationCenterFactStructure.organization_id).to.be.null;
     });
   });
@@ -131,7 +138,8 @@ describe('Integration | Organizational Entities | Domain | UseCase | create-cert
   context('when an organizationId to attach is provided', function () {
     it('attaches the created certification center to the organization', async function () {
       // given
-      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+      const categoryId = databaseBuilder.factory.buildStructureCategory().id;
+      const organization = databaseBuilder.factory.buildOrganization({ categoryId });
       await databaseBuilder.commit();
 
       const certificationCenterDTO = domainBuilder.buildCenterForAdmin({
@@ -141,6 +149,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | create-cert
           externalId: 'EXT123',
           habilitations: [],
           organizationId: organization.id,
+          categoryId,
         },
       });
 
@@ -154,6 +163,11 @@ describe('Integration | Organizational Entities | Domain | UseCase | create-cert
       const organizationFactStructure = await knex('fct_structures')
         .where({ organization_id: organization.id })
         .first();
+      const organizationStructure = await knex('structures')
+        .where({ id: organizationFactStructure.structure_id })
+        .first();
+
+      expect(organizationStructure.category_id).to.equal(categoryId);
       expect(organizationFactStructure.certification_center_id).to.equal(createdCertificationCenter.id);
     });
 

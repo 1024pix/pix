@@ -23,6 +23,8 @@ const createCertificationCenter = withTransaction(async function ({
   certificationCenterForAdminRepository,
   dataProtectionOfficerRepository,
   structureRepository,
+  organizationVerificationService,
+  structureCategoryRepository,
 }) {
   certificationCenterCreationValidator.validate(certificationCenter);
 
@@ -33,8 +35,16 @@ const createCertificationCenter = withTransaction(async function ({
     : null;
 
   const createdCertificationCenter = await certificationCenterForAdminRepository.save(certificationCenter);
-
-  const certificationCenterStructure = new Structure({ certificationCenterId: createdCertificationCenter.id });
+  if (certificationCenter.categoryId) {
+    await organizationVerificationService.checkStructureCategoryExists({
+      structureCategoryId: certificationCenter.categoryId,
+      structureCategoryRepository,
+    });
+  }
+  const certificationCenterStructure = new Structure({
+    certificationCenterId: createdCertificationCenter.id,
+    categoryId: certificationCenter?.categoryId,
+  });
 
   if (organizationStructure) {
     organizationStructure.attachCertificationCenter({ certificationCenterStructure });
