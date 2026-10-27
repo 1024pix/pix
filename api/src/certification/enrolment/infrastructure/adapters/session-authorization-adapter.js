@@ -19,5 +19,6 @@ export async function find({ sessionId, dependencies = { sessionAuthorizationApi
     sessionStatus: sessionAuthorizationDTO.sessionStatus,
     scoIsManagingStudentsOrganizationId: sessionAuthorizationDTO.scoIsManagingStudentsOrganizationId,
     certificationCenterId: sessionAuthorizationDTO.certificationCenterId,
+    certificationCenterArchived: sessionAuthorizationDTO.certificationCenterArchived,
   });
 }

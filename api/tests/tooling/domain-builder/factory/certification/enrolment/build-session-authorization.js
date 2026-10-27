@@ -20,6 +20,7 @@ class SessionAuthorizationBuilder {
     this.scoIsManagingStudentsOrganizationId = null;
     this.certificationCenterId = null;
     this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
+    this.certificationCenterArchived = false;
   }
 
   /**
@@ -28,6 +29,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   canEnrollCandidateIndividually() {
+    this.certificationCenterArchived = false;
     this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
     return this;
   }
@@ -38,6 +40,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   cannotEnrollCandidateIndividually() {
+    this.certificationCenterArchived = false;
     this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.TO_FINALIZE });
     return this;
   }
@@ -48,6 +51,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   canEnrollScoCandidate() {
+    this.certificationCenterArchived = false;
     this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
     return this;
   }
@@ -58,6 +62,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   cannotEnrollScoCandidate() {
+    this.certificationCenterArchived = false;
     this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.TO_FINALIZE });
     return this;
   }
@@ -68,6 +73,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   canEnrollMassImportCandidate() {
+    this.certificationCenterArchived = false;
     this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
     return this;
   }
@@ -78,6 +84,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   cannotEnrollMassImportCandidate() {
+    this.certificationCenterArchived = false;
     this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.TO_FINALIZE });
     return this;
   }
@@ -88,6 +95,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   canEnrollODSCandidate() {
+    this.certificationCenterArchived = false;
     this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
     return this;
   }
@@ -98,6 +106,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   cannotEnrollODSCandidate() {
+    this.certificationCenterArchived = false;
     this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.TO_FINALIZE });
     return this;
   }
@@ -108,6 +117,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   canJoinSession() {
+    this.certificationCenterArchived = false;
     this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
     return this;
   }
@@ -118,6 +128,7 @@ class SessionAuthorizationBuilder {
    * @returns {SessionAuthorizationBuilder}
    */
   cannotJoinSession() {
+    this.certificationCenterArchived = false;
     this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.TO_FINALIZE });
     return this;
   }
@@ -131,11 +142,18 @@ class SessionAuthorizationBuilder {
    * @param {number} [params.id] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted session (id null)   * @returns {SessionAuthorizationBuilder}
    * @returns {SessionAuthorizationBuilder}
    */
-  withParameters({ id, scoIsManagingStudentsOrganizationId = null, certificationCenterId = null, sessionStatus } = {}) {
+  withParameters({
+    id,
+    scoIsManagingStudentsOrganizationId = null,
+    certificationCenterId = null,
+    sessionStatus,
+    certificationCenterArchived,
+  } = {}) {
     this.id = id ?? this.id;
     this.scoIsManagingStudentsOrganizationId = scoIsManagingStudentsOrganizationId;
     this.certificationCenterId = certificationCenterId;
     this.sessionStatus = sessionStatus ? sessionStatus : this.sessionStatus;
+    this.certificationCenterArchived = certificationCenterArchived ?? this.certificationCenterArchived;
     return this;
   }
 
@@ -150,6 +168,7 @@ class SessionAuthorizationBuilder {
       sessionStatus: this.sessionStatus,
       scoIsManagingStudentsOrganizationId: this.scoIsManagingStudentsOrganizationId,
       certificationCenterId: this.certificationCenterId,
+      certificationCenterArchived: this.certificationCenterArchived,
     });
   }
 }
