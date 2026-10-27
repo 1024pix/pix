@@ -125,8 +125,8 @@
     align-items: center;
 
     .combined-course-item__icon {
-      max-width: var(--pix-spacing-8x);
-      max-height: var(--pix-spacing-8x);
+      max-width: var(--pix-spacing-10x);
+      max-height: var(--pix-spacing-10x);
     }
   }
 
@@ -318,6 +318,5 @@
   .combined-course-item__text {
     display: flex;
     flex-direction: column;
-    gap: var(--pix-spacing-1x);
   }
 }
