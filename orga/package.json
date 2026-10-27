@@ -64,7 +64,7 @@
     "@faker-js/faker": "10.6.0",
     "@glimmer/component": "2.1.1",
     "@glint/ember-tsc": "1.13.1",
-    "@glint/template": "1.9.0",
+    "@glint/template": "1.11.0",
     "@glint/tsserver-plugin": "2.7.12",
     "@rollup/plugin-babel": "7.1.0",
     "@testing-library/dom": "10.4.2",
