@@ -16,7 +16,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | logout-o
   it('revokes user’s session given a user ID and session ID and returns a redirectLogoutUrl', async function () {
     // given
     const userId = '1234';
-    const sessionId = '6789';
+    const sessionId = 'f5dd2be6-c617-4bc0-a9b4-193eb7d2f09c';
 
     const logoutUrlUUID = 'some dummy value';
     const sessionTemporaryStorage = {
@@ -52,7 +52,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | logout-o
     // then
     expect(result).to.equal('https://super-it-works.example.net/');
 
-    const revokedKeys = await revokedUserAccessTemporaryStorage.keys(`${userId}:*`);
-    expect(revokedKeys).to.deep.equal([`${userId}:${sessionId}`]);
+    const revokedSessionIds = await revokedUserAccessTemporaryStorage.hkeys(`${userId}:sessions`);
+    expect(revokedSessionIds).to.deep.equal([sessionId]);
   });
 });

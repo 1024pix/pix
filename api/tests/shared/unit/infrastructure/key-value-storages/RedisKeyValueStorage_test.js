@@ -20,6 +20,10 @@ describe('Unit | Infrastructure | key-value-storage | RedisKeyValueStorage', fun
       lpush: sinon.stub(),
       lrem: sinon.stub(),
       lrange: sinon.stub(),
+      hset: sinon.stub(),
+      hkeys: sinon.stub(),
+      hgetall: sinon.stub(),
+      hdel: sinon.stub(),
       keys: sinon.stub(),
     };
 
@@ -253,6 +257,74 @@ describe('Unit | Infrastructure | key-value-storage | RedisKeyValueStorage', fun
 
       // then
       expect(clientStub.lrange).to.have.been.calledWithExactly('key', 0, -1);
+    });
+  });
+
+  describe('#hset', function () {
+    it('should call client hset', async function () {
+      // given
+      const key = 'someKey';
+      const field = 'someField';
+      const value = 'someValue';
+      clientStub.hset.withArgs(key, field, value).resolves();
+      const redisKeyValueStorage = new RedisKeyValueStorage(REDIS_URL, 'some-prefix:');
+
+      // when
+      await redisKeyValueStorage.hset(key, field, value);
+
+      // then
+      expect(clientStub.hset).to.have.been.calledWith(key, field, '"someValue"');
+    });
+  });
+
+  describe('#hkeys', function () {
+    it('should call client hkeys', async function () {
+      // given
+      const key = 'someKey';
+      clientStub.hkeys.withArgs(key).resolves(['aaa', 'bbb', 'ccc']);
+      const redisKeyValueStorage = new RedisKeyValueStorage(REDIS_URL, 'some-prefix:');
+
+      // when
+      const result = await redisKeyValueStorage.hkeys(key);
+
+      // then
+      expect(clientStub.hkeys).to.have.been.calledWith(key);
+      expect(result).to.deep.equal(['aaa', 'bbb', 'ccc']);
+    });
+  });
+
+  describe('#hgetall', function () {
+    it('should call client hgetall', async function () {
+      // given
+      const key = 'someKey';
+      clientStub.hgetall.resolves({ foo: '"bar"', baz: '{"k": "v"}' });
+      const redisKeyValueStorage = new RedisKeyValueStorage(REDIS_URL, 'some-prefix:');
+
+      // when
+      const result = await redisKeyValueStorage.hgetall(key);
+
+      // then
+      expect(clientStub.hgetall).to.have.been.calledWithExactly(key);
+      expect(result).to.deep.equal({
+        foo: 'bar',
+        baz: { k: 'v' },
+      });
+    });
+  });
+
+  describe('#hdel', function () {
+    it('should call client hdel', async function () {
+      // given
+      const key = 'someKey';
+      const fields = ['someField', 'someOtherField'];
+      clientStub.hdel.resolves();
+      const redisKeyValueStorage = new RedisKeyValueStorage(REDIS_URL, 'some-prefix:');
+
+      // when
+      await redisKeyValueStorage.hdel(key, ...fields);
+
+      // then
+      expect(clientStub.hdel).to.have.been.calledWith(key, ...fields);
     });
   });
 

@@ -171,6 +171,149 @@ describe('Unit | Infrastructure | key-value-storage | InMemoryKeyValueStorage', 
     });
   });
 
+  describe('#hset', function () {
+    it('adds a field to a hash', async function () {
+      // given
+      const key = 'someKey';
+      const field = 'someField';
+      const value = 'value';
+
+      // when
+      await inMemoryKeyValueStorage.hset(key, field, value);
+
+      // then
+      expect(store.get(key)).to.deep.equal(new Map([[field, value]]));
+    });
+
+    describe('when hash already has some fields', function () {
+      it('adds a field to a existing hash', async function () {
+        // given
+        const key = 'someKey';
+        const field = 'someField';
+        const value = 'value';
+        store.set(
+          key,
+          new Map([
+            ['existingField1', 1],
+            ['existingField2', 2],
+          ]),
+        );
+
+        // when
+        await inMemoryKeyValueStorage.hset(key, field, value);
+
+        // then
+        expect(store.get(key)).to.deep.equal(
+          new Map([
+            ['existingField1', 1],
+            ['existingField2', 2],
+            [field, value],
+          ]),
+        );
+      });
+    });
+  });
+
+  describe('#hkeys', function () {
+    it('lists all fields of a hash', async function () {
+      // given
+      const key = 'someKey';
+      const hash = new Map([
+        ['field1', 1],
+        ['field2', 2],
+        ['field3', 3],
+      ]);
+      store.set(key, hash);
+
+      // when
+      const result = await inMemoryKeyValueStorage.hkeys(key);
+
+      // then
+      expect(result?.toSorted()).to.deep.equal(['field1', 'field2', 'field3']);
+    });
+
+    describe('when key does not exist', function () {
+      it('returns empty array', async function () {
+        // given
+        const key = 'someKey';
+
+        // when
+        const result = await inMemoryKeyValueStorage.hkeys(key);
+
+        // then
+        expect(result).to.deep.equal([]);
+      });
+    });
+  });
+
+  describe('#hgetall', function () {
+    it('returns an object with all hash values', async function () {
+      // given
+      const key = 'someKey';
+      const hash = new Map([
+        ['field1', 1],
+        ['field2', 2],
+        ['field3', 3],
+      ]);
+      store.set(key, hash);
+
+      // when
+      const result = await inMemoryKeyValueStorage.hgetall(key);
+
+      // then
+      expect(result).to.deep.equal({
+        field1: 1,
+        field2: 2,
+        field3: 3,
+      });
+    });
+
+    describe('when key does not exist', function () {
+      it('returns empty array', async function () {
+        // given
+        const key = 'someKey';
+
+        // when
+        const result = await inMemoryKeyValueStorage.hgetall(key);
+
+        // then
+        expect(result).to.deep.equal({});
+      });
+    });
+  });
+
+  describe('#hdel', function () {
+    it('adds a field to a existing hash', async function () {
+      // given
+      const key = 'someKey';
+      const hash = new Map([
+        ['field1', 1],
+        ['field2', 2],
+        ['field3', 3],
+      ]);
+      store.set(key, hash);
+
+      // when
+      await inMemoryKeyValueStorage.hdel(key, 'field1', 'field3');
+
+      // then
+      expect(store.get(key)).to.deep.equal(new Map([['field2', 2]]));
+    });
+
+    describe('when key does not exist', function () {
+      it('does nothing', async function () {
+        // given
+        const key = 'someKey';
+
+        // when
+        await inMemoryKeyValueStorage.hdel(key, 'field1', 'field3');
+
+        // then
+        expect(store.get(key)).to.be.undefined;
+      });
+    });
+  });
+
   describe('#keys', function () {
     it('should return matching keys', async function () {
       // given

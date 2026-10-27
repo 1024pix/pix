@@ -158,7 +158,7 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
     });
   });
 
-  context('when refresh token is revoked', function () {
+  context('when refresh token’s session is revoked', function () {
     beforeEach(async function () {
       await featureToggles.set('isSessionLogoutEnabled', true);
       await setTimeout(1); // pubsub needs some time...
@@ -170,7 +170,7 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
       const audience = 'https://app.pix.fr';
       const sessionId = '62514ff2-7103-4b92-89f9-505032682de8';
 
-      await revokedUserAccessTemporaryStorage.save({ key: `${userId}:${sessionId}`, value: '' });
+      await revokedUserAccessTemporaryStorage.hset(`${userId}:sessions`, sessionId, Date.now() + 10000);
 
       const refreshToken = UserRefreshToken.generate({ userId, sessionId, audience, source });
 
@@ -193,7 +193,7 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
         const audience = 'https://app.pix.fr';
         const sessionId = '62514ff2-7103-4b92-89f9-505032682de8';
 
-        await revokedUserAccessTemporaryStorage.save({ key: `${userId}:${sessionId}`, value: '' });
+        await revokedUserAccessTemporaryStorage.hset(`${userId}:sessions`, sessionId, Date.now() + 10000);
 
         const refreshToken = RefreshToken.generate({ userId, source, audience, sessionId });
         await refreshTokenRepository.save({ refreshToken });

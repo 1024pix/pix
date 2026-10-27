@@ -9,13 +9,13 @@ describe('Integration | Identity Access Management | Domain | UseCase | revoke-s
   it('revokes user’s session given a user ID and session ID', async function () {
     // given
     const userId = '713705';
-    const sessionId = crypto.randomUUID();
+    const sessionId = '7f397a41-040d-4c15-8258-221b99989c06';
 
     // when
     await usecases.revokeSession({ userId, sessionId });
 
     // then
-    const revokedKeys = await revokedUserAccessTemporaryStorage.keys(`${userId}:*`);
-    expect(revokedKeys).to.deep.equal([`${userId}:${sessionId}`]);
+    const revokedSessionIds = await revokedUserAccessTemporaryStorage.hkeys(`${userId}:sessions`);
+    expect(revokedSessionIds).to.deep.equal([sessionId]);
   });
 });

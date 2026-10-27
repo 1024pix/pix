@@ -618,7 +618,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
       it('revokes the user current session only and returns an object which contains the post logout url with an HTTP status code 200', async function () {
         // given
         const userId = 1992;
-        const sessionId = 123456;
+        const sessionId = '1b26eba8-eec5-4754-935e-42fce712d87d';
         const options = generateInjectOptions({
           method: 'POST',
           url: '/api/oidc/logout',
@@ -639,8 +639,8 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
           'https://oidc.example.net/ea5ac20c-5076-4806-860a-b0aeb01645d4/oauth2/v2.0/logout?client_id=client',
         );
 
-        const revokedKeys = await revokedUserAccessTemporaryStorage.keys(`${userId}:*`);
-        expect(revokedKeys).to.deep.equal([`${userId}:${sessionId}`]);
+        const revokedSessionIds = await revokedUserAccessTemporaryStorage.hkeys(`${userId}:sessions`);
+        expect(revokedSessionIds).to.deep.equal([sessionId]);
       });
     });
 
@@ -656,7 +656,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
       it('revokes the user current session only and returns an HTTP status code 200', async function () {
         // given
         const userId = 1992;
-        const sessionId = 123456;
+        const sessionId = '1b26eba8-eec5-4754-935e-42fce712d87d';
         const options = generateInjectOptions({
           method: 'POST',
           url: '/api/oidc/logout',
@@ -674,8 +674,8 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
         expect(response.statusCode).to.equal(200);
         expect(response.result.redirectLogoutUrl).to.be.undefined;
 
-        const revokedKeys = await revokedUserAccessTemporaryStorage.keys(`${userId}:*`);
-        expect(revokedKeys).to.deep.equal([`${userId}:${sessionId}`]);
+        const revokedSessionIds = await revokedUserAccessTemporaryStorage.hkeys(`${userId}:sessions`);
+        expect(revokedSessionIds).to.deep.equal([sessionId]);
       });
     });
   });

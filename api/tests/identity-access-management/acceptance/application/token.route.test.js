@@ -651,7 +651,7 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
       const { id: userId } = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
 
-      const sessionId = crypto.randomUUID();
+      const sessionId = 'aa975fc5-a9de-4693-a190-54df2df009bd';
 
       const options = generateInjectOptions({
         url: '/api/logout',
@@ -669,8 +669,8 @@ describe('Acceptance | Identity Access Management | Route | Token', function () 
       // then
       expect(response.statusCode).to.equal(204);
 
-      const revokedKeys = await revokedUserAccessTemporaryStorage.keys(`${userId}:*`);
-      expect(revokedKeys).to.deep.equal([`${userId}:${sessionId}`]);
+      const revokedSessionIds = await revokedUserAccessTemporaryStorage.hkeys(`${userId}:sessions`);
+      expect(revokedSessionIds).to.deep.equal([sessionId]);
     });
   });
 });

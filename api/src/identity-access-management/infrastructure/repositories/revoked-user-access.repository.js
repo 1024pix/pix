@@ -21,11 +21,22 @@ async function revokeSession({ userId, sessionId }) {
   Joi.assert(userId, Joi.required());
   Joi.assert(sessionId, Joi.required());
 
-  await revokedUserAccessTemporaryStorage.save({
-    key: `${userId}:${sessionId}`,
-    value: '',
-    expirationDelaySeconds: revokedUserAccessLifespanMs / 1000,
-  });
+  const key = `${userId}:sessions`;
+  const now = Date.now();
+
+  const revokedSessions = await revokedUserAccessTemporaryStorage.hgetall(key);
+  const expiredRevokedSessionIds = Object.entries(revokedSessions)
+    .filter(([, expireAt]) => expireAt < now)
+    .map(([sessionId]) => sessionId);
+  if (expiredRevokedSessionIds.length !== 0) {
+    await revokedUserAccessTemporaryStorage.hdel(key, ...expiredRevokedSessionIds);
+  }
+
+  const expireAt = now + revokedUserAccessLifespanMs;
+  const expirationDelaySeconds = revokedUserAccessLifespanMs / 1000;
+
+  await revokedUserAccessTemporaryStorage.hset(key, sessionId, expireAt);
+  await revokedUserAccessTemporaryStorage.expire({ key, expirationDelaySeconds });
 }
 
 /**
@@ -64,15 +75,9 @@ async function findByUserId(userId) {
     return new RevokedUserAccess({ revokedAllTimeStamp });
   }
 
-  const revokedKeys = await revokedUserAccessTemporaryStorage.keys(`${userId}:*`);
+  const revokedAllTimeStamp = await revokedUserAccessTemporaryStorage.get(`${userId}:all`);
 
-  const revokedAllKey = `${userId}:all`;
-
-  const revokedAllTimeStamp = revokedKeys.includes(revokedAllKey)
-    ? await revokedUserAccessTemporaryStorage.get(`${userId}:all`)
-    : undefined;
-
-  const revokedSessionIds = revokedKeys.filter((key) => key !== revokedAllKey).map((key) => key.split(':')[1]);
+  const revokedSessionIds = await revokedUserAccessTemporaryStorage.hkeys(`${userId}:sessions`);
 
   return new RevokedUserAccess({ revokedAllTimeStamp, revokedSessionIds });
 }

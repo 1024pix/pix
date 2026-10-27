@@ -74,6 +74,26 @@ class InMemoryKeyValueStorage extends KeyValueStorage {
     return this.#store.get(key) || [];
   }
 
+  hset(key, field, value) {
+    const hash = this.#store.get(key) ?? new Map();
+    hash.set(field, value);
+    this.#store.set(key, hash);
+  }
+
+  hkeys(key) {
+    return Array.from(this.#store.get(key)?.keys() ?? []);
+  }
+
+  hgetall(key) {
+    return Object.fromEntries(this.#store.get(key) ?? []);
+  }
+
+  hdel(key, ...fields) {
+    const hash = this.#store.get(key);
+    if (!hash) return;
+    fields.forEach((field) => hash.delete(field));
+  }
+
   keys(pattern) {
     const regex = new RegExp(`^${pattern.replace(/\*/g, '.*')}$`);
     return Array.from(this.#store.keys()).filter((key) => regex.test(key));
