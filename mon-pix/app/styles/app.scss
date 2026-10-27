@@ -82,6 +82,7 @@
 @use 'components/sco-signup-or-login' as *;
 @use '../components/module/feedback' as *;
 @use '../components/module/grain/grain' as *;
+@use '../components/module/grain/summary' as *;
 @use '../components/module/layout/navigation' as *;
 @use '../components/module/layout/navigation-button' as *;
 @use '../components/module/normalize' as *;
