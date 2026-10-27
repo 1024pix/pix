@@ -44,6 +44,10 @@ const Content = <template>
       {{#if (has-block "objectives")}}
         <div class="combined-course-item__objectives">{{yield to="objectives"}}</div>
       {{/if}}
+
+      {{#if (has-block "diagnosticResultLink")}}
+        <div class="combined-course-item__diagnostic-results">{{yield to="diagnosticResultLink"}}</div>
+      {{/if}}
     </div>
 
     {{#if @isLocked}}
@@ -170,6 +174,31 @@ function hasWhiteBackground(item) {
             </ul>
           {{/if}}
         </:objectives>
+      </Content>
+    {{else if (and @item.isDiagnostic @item.isCompleted @shouldDisplayCTA)}}
+      <Content
+        @title={{@item.title}}
+        @isCompleted={{@item.isCompleted}}
+        @masteryRate={{@item.masteryRate}}
+        @hasStagesStars={{@item.hasStagesStars}}
+        @validatedStagesCount={{@item.validatedStages}}
+        @totalStagesCount={{@item.totalStages}}
+        @iconUrl={{@item.iconUrl}}
+        @isCampaignType={{true}}
+        @displayDuration={{false}}
+        @hasWhiteBackground={{hasWhiteBackground @item}}
+        @isCurrentItem={{@isSelectedItem}}
+        @isLoading={{@isLoading}}
+        @onClick={{@onClick}}
+        @isDiagnostic={{true}}
+      >
+        <:diagnosticResultLink>
+          {{#unless @isLoading}}
+            <div class="combined-course-item__campaign-results">
+              <PixButton @variant="tertiary" @triggerAction={{@onClick}}>Voir le détails de mes résultats de diagnostic</PixButton>
+            </div>
+          {{/unless}}
+        </:diagnosticResultLink>
       </Content>
     {{else}}
       <button
