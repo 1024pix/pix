@@ -184,7 +184,7 @@
     "@typescript/native": "npm:typescript@7.0.2",
     "chai": "6.3.0",
     "chai-as-promised": "8.0.2",
-    "dependency-cruiser": "18.6.0",
+    "dependency-cruiser": "18.7.0",
     "eslint": "10.13.0",
     "eslint-plugin-chai-expect": "4.1.1",
     "eslint-plugin-i18n-json": "4.0.1",
