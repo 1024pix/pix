@@ -51,6 +51,7 @@ export default class InfoBar extends Component {
     {{else if this.showChallengeStepper}}
       <PixStepper
         @currentStep={{this.currentStepNumber}}
+        @hideValidationCheck={{true}}
         @variant="primary-light"
         @hideLabel={{true}}
         @steps={{this.steps}}

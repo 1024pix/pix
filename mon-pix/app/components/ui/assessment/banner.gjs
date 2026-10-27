@@ -122,23 +122,23 @@ export default class AssessmentBanner extends Component {
           {{/if}}
         </div>
 
-        {{#unless this.isCertification}}
-          <div class="assessment-banner__action">
-            {{#if this.showTextToSpeechActivationButton}}
-              <PixTooltip @position="left" @isInline={{true}}>
-                <:triggerElement>
-                  <PixIconButton
-                    @ariaLabel={{this.textToSpeechTooltipText}}
-                    @iconName={{if @isTextToSpeechActivated "volumeOn" "volumeOff"}}
-                    @size="small"
-                    @triggerAction={{@toggleTextToSpeech}}
-                  />
-                </:triggerElement>
-                <:tooltip>
-                  {{this.textToSpeechTooltipText}}
-                </:tooltip>
-              </PixTooltip>
-            {{/if}}
+        <div class="assessment-banner__action">
+          {{#if this.showTextToSpeechActivationButton}}
+            <PixTooltip @position="left" @isInline={{true}}>
+              <:triggerElement>
+                <PixIconButton
+                  @ariaLabel={{this.textToSpeechTooltipText}}
+                  @iconName={{if @isTextToSpeechActivated "volumeOn" "volumeOff"}}
+                  @size="small"
+                  @triggerAction={{@toggleTextToSpeech}}
+                />
+              </:triggerElement>
+              <:tooltip>
+                {{this.textToSpeechTooltipText}}
+              </:tooltip>
+            </PixTooltip>
+          {{/if}}
+          {{#unless this.isCertification}}
             {{#if (and this.showTextToSpeechActivationButton @displayHomeLink)}}
               <span class="assessment-banner__separator" />
             {{/if}}
@@ -156,8 +156,8 @@ export default class AssessmentBanner extends Component {
                 />
               {{/if}}
             {{/if}}
-          </div>
-        {{/unless}}
+          {{/unless}}
+        </div>
       </div>
       <InfoBar
         @completionRate={{@completionRate}}
