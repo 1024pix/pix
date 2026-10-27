@@ -12,8 +12,8 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | domain | usecases | publish session', function () {
-  let sessionId,
-    sessionManagementRepository,
+  const sessionId = 123;
+  let sessionManagementRepository,
     eventJobPublisherService,
     certificationRepository,
     certificationResultAdapter,
@@ -22,10 +22,9 @@ describe('Unit | domain | usecases | publish session', function () {
     now;
 
   beforeEach(function () {
-    sessionId = 7402;
     sessionManagementRepository = {
       get: sinon.stub(),
-      updatePublishedAt: sinon.stub(),
+      update: sinon.stub(),
     };
     certificationRepository = {
       getStatusesBySessionId: sinon.stub(),
@@ -43,7 +42,7 @@ describe('Unit | domain | usecases | publish session', function () {
     };
     preventStubsToBeCalledUnexpectedly([
       sessionManagementRepository.get,
-      sessionManagementRepository.updatePublishedAt,
+      sessionManagementRepository.update,
       certificationRepository.getStatusesBySessionId,
       certificationRepository.publishCertificationCourses,
       certificationResultAdapter.buildCertificationResults,
@@ -144,7 +143,7 @@ describe('Unit | domain | usecases | publish session', function () {
           ];
           certificationRepository.getStatusesBySessionId.withArgs(sessionId).resolves(certificationStatuses);
           finalizedSessionRepository.save.resolves();
-          sessionManagementRepository.updatePublishedAt.resolves();
+          sessionManagementRepository.update.resolves();
           certificationResultAdapter.buildCertificationResults.resolves();
           certificationRepository.publishCertificationCourses.resolves();
           eventJobPublisherService.publishEvent.resolves();
@@ -168,7 +167,7 @@ describe('Unit | domain | usecases | publish session', function () {
           sinon.assert.calledOnceWithMatch(finalizedSessionRepository.save, {
             finalizedSession: sinon.match({ publishedAt: now }),
           });
-          sinon.assert.calledOnceWithExactly(sessionManagementRepository.updatePublishedAt, {
+          sinon.assert.calledOnceWithMatch(sessionManagementRepository.update, {
             id: sessionId,
             publishedAt: now,
           });

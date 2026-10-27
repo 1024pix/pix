@@ -117,7 +117,7 @@ describe('Unit | domain | usecases | send-session-results-to-referers', function
       sessionManagementRepository = {
         get: sinon.stub(),
         hasSomeAcquired: sinon.stub(),
-        flagResultsAsSentToPrescriber: sinon.stub(),
+        update: sinon.stub(),
       };
       certificationRepository = {
         getStatusesBySessionId: sinon.stub(),
@@ -132,6 +132,7 @@ describe('Unit | domain | usecases | send-session-results-to-referers', function
       const recipientEmail = candidate.resultRecipientEmail;
       const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
         certificationCandidates: [candidate],
+        publishedAt: new Date('2021-01-01'),
       });
       const sessionId = session.id;
 
@@ -162,6 +163,12 @@ describe('Unit | domain | usecases | send-session-results-to-referers', function
         resultRecipientEmail: recipientEmail,
         daysBeforeExpiration: 30,
       });
+      expect(sessionManagementRepository.update).to.been.calledWith(
+        sinon.match({
+          id: session.id,
+          resultsSentToPrescriberAt: new Date('2021-01-01'),
+        }),
+      );
     });
   });
 });

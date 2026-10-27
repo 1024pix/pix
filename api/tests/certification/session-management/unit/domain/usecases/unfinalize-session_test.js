@@ -6,7 +6,6 @@ import {
   SessionNotFinalizedError,
 } from '../../../../../../src/certification/session-management/domain/errors.js';
 import { unfinalizeSession } from '../../../../../../src/certification/session-management/domain/usecases/unfinalize-session.js';
-import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
@@ -16,11 +15,9 @@ describe('Unit | UseCase | unfinalize-session', function () {
   let finalizedSessionRepository;
 
   beforeEach(function () {
-    sinon.stub(DomainTransaction, 'execute').callsFake((fn) => fn({}));
-
     sessionManagementRepository = {
       get: sinon.stub(),
-      unfinalize: sinon.stub(),
+      update: sinon.stub(),
     };
     finalizedSessionRepository = {
       remove: sinon.stub(),
@@ -43,7 +40,7 @@ describe('Unit | UseCase | unfinalize-session', function () {
       // then
       expect(error).to.deepEqualInstance(new NotFoundError("La session n'existe pas ou son accès est restreint"));
       expect(finalizedSessionRepository.remove).to.not.have.been.called;
-      expect(sessionManagementRepository.unfinalize).to.not.have.been.called;
+      expect(sessionManagementRepository.update).to.not.have.been.called;
     });
   });
 
@@ -68,7 +65,7 @@ describe('Unit | UseCase | unfinalize-session', function () {
       // then
       expect(error).to.be.instanceOf(SessionAlreadyPublishedError);
       expect(finalizedSessionRepository.remove).to.not.have.been.called;
-      expect(sessionManagementRepository.unfinalize).to.not.have.been.called;
+      expect(sessionManagementRepository.update).to.not.have.been.called;
     });
   });
 
@@ -93,16 +90,18 @@ describe('Unit | UseCase | unfinalize-session', function () {
       // then
       expect(error).to.deepEqualInstance(new SessionNotFinalizedError());
       expect(finalizedSessionRepository.remove).to.not.have.been.called;
-      expect(sessionManagementRepository.unfinalize).to.not.have.been.called;
+      expect(sessionManagementRepository.update).to.not.have.been.called;
     });
   });
 
   describe('when session is finalized and not published', function () {
-    it('removes the finalized session and unfinalizes the session within a transaction', async function () {
+    it('removes the finalized session and unfinalizes the session', async function () {
       // given
       const sessionId = 99;
       sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(
         domainBuilder.certification.sessionManagement.buildSessionManagement({
+          id: sessionId,
+          assignedCertificationOfficerId: 123,
           finalizedAt: new Date('2020-01-01'),
           publishedAt: null,
         }),
@@ -113,9 +112,10 @@ describe('Unit | UseCase | unfinalize-session', function () {
       await unfinalizeSession({ sessionId, sessionManagementRepository, finalizedSessionRepository });
 
       // then
-      expect(DomainTransaction.execute).to.have.been.calledOnce;
       expect(finalizedSessionRepository.remove).to.have.been.calledWithExactly({ sessionId });
-      expect(sessionManagementRepository.unfinalize).to.have.been.calledWithExactly({ id: sessionId });
+      expect(sessionManagementRepository.update).to.have.been.calledWith(
+        sinon.match({ id: sessionId, finalizedAt: null, assignedCertificationOfficerId: null }),
+      );
     });
   });
 });

@@ -64,10 +64,8 @@ export async function sendSessionResultsToPrescribers({
   }
 
   if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {
-    await sessionManagementRepository.flagResultsAsSentToPrescriber({
-      id: session.id,
-      resultsSentToPrescriberAt: session.publishedAt,
-    });
+    session.resultsSentToPrescriberAt = session.publishedAt;
+    await sessionManagementRepository.update(session);
   }
 
   if (_someHaveFailed(emailingAttempts)) {

@@ -11,6 +11,7 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
   let certificationRepository;
   let sessionManagementRepository;
   let finalizedSessionRepository;
+  let dependencies;
 
   beforeEach(function () {
     certificationRepository = {
@@ -18,13 +19,17 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
     };
     sessionManagementRepository = {
       get: sinon.stub(),
-      updatePublishedAt: sinon.stub(),
+      update: sinon.stub(),
     };
     finalizedSessionRepository = {
       get: sinon.stub(),
       save: sinon.stub(),
     };
-    sessionManagementRepository.flagResultsAsSentToPrescriber = sinon.stub();
+    dependencies = {
+      certificationRepository,
+      sessionManagementRepository,
+      finalizedSessionRepository,
+    };
   });
 
   it('throws a NotFoundError when no session is found', async function () {
@@ -34,9 +39,7 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
     // when
     const error = await catchErr(unpublishSession)({
       sessionId: 99,
-      certificationRepository,
-      sessionManagementRepository,
-      finalizedSessionRepository,
+      ...dependencies,
     });
 
     // then
@@ -46,35 +49,32 @@ describe('Certification | Session-Management | Unit | Domain | Use Cases | unpub
   it('should return the session', async function () {
     // given
     const sessionId = 123;
-    const expectedSession = domainBuilder.certification.sessionManagement.buildSessionManagement({
+    const session = domainBuilder.certification.sessionManagement.buildSessionManagement({
       id: sessionId,
       publishedAt: new Date('2020-01-01'),
     });
-    sessionManagementRepository.get.withArgs({ id: sessionId }).resolves(expectedSession);
+    const updatedSession = domainBuilder.certification.sessionManagement.buildSessionManagement({
+      id: sessionId,
+      publishedAt: null,
+    });
+    sessionManagementRepository.get.withArgs({ id: sessionId }).onFirstCall().resolves(session);
+    sessionManagementRepository.get.withArgs({ id: sessionId }).onSecondCall().resolves(updatedSession);
     const finalizedSession = new FinalizedSession({ sessionId, publishSession: new Date('2020-01-01') });
     finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
 
     // when
     const actualSession = await unpublishSession({
       sessionId,
-      certificationRepository,
-      sessionManagementRepository,
-      finalizedSessionRepository,
+      ...dependencies,
     });
 
     // then
     expect(certificationRepository.unpublishCertificationCoursesBySessionId).to.have.been.calledWithExactly({
       sessionId,
     });
-    expect(sessionManagementRepository.updatePublishedAt).to.have.been.calledWithExactly({
-      id: sessionId,
-      publishedAt: null,
-    });
+    expect(sessionManagementRepository.update).to.have.been.calledWithExactly(updatedSession);
     expect(finalizedSession.publishedAt).to.be.null;
     expect(finalizedSessionRepository.save).to.be.calledWith({ finalizedSession });
-    expect(actualSession).to.deep.equal({
-      ...expectedSession,
-      publishedAt: null,
-    });
+    expect(actualSession).to.deep.equal(updatedSession);
   });
 });
