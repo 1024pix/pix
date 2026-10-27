@@ -144,15 +144,10 @@ describe('Quest | Unit | Domain | Models | OrganizationLearnerParticipation', fu
   });
 
   describe('#complete', function () {
-    let clock;
     const now = new Date('2025-06-01');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     it('should set status to COMPLETED and update completedAt and updatedAt', function () {
