@@ -17,7 +17,13 @@ const attachedOrganization = {
   name: 'Wayne Enterprises',
   type: 'SCO',
   externalId: 'WAYNE_123',
+  categoryId: '1234',
 };
+
+const structureCategories = [
+  { id: '1234', label: 'Catégorie 1' },
+  { id: '5678', label: 'Catégorie 2' },
+];
 
 module('Integration | Component | certification-centers/creation-form', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -38,12 +44,36 @@ module('Integration | Component | certification-centers/creation-form', function
     sinon.stub(router, 'transitionTo');
   });
 
+  test('should render category options in list', async function (assert) {
+    // when
+    const screen = await render(<template><CreationForm @structureCategories={{structureCategories}} /></template>);
+
+    await click(
+      screen.getByRole('button', {
+        name: `${t('components.certification-centers.creation.category.selector.label')} *`,
+      }),
+    );
+    await screen.findByRole('listbox');
+    const options = await screen.getAllByRole('option');
+
+    // then
+    assert.strictEqual(options.length, 2);
+    assert.strictEqual(options[0].title, 'Catégorie 1');
+    assert.strictEqual(options[1].title, 'Catégorie 2');
+  });
+
   test('fills the form and create a certification center', async function (assert) {
     // given
     const onCancel = () => {};
 
     const screen = await render(
-      <template><CreationForm @habilitations={{habilitations}} @onCancel={{onCancel}} /></template>,
+      <template>
+        <CreationForm
+          @habilitations={{habilitations}}
+          @structureCategories={{structureCategories}}
+          @onCancel={{onCancel}}
+        />
+      </template>,
     );
 
     // when
@@ -56,6 +86,12 @@ module('Integration | Component | certification-centers/creation-form', function
     await fillByLabel(`${t('components.certification-centers.creation.dpo.firstname')}DPO`, 'Jacques');
     await fillByLabel(`${t('components.certification-centers.creation.dpo.email')}DPO`, 'jacques.hadis@example.com');
     await click(screen.getByRole('checkbox', { name: 'Pix+Edu' }));
+    await click(
+      screen.getByRole('button', {
+        name: `${t('components.certification-centers.creation.category.selector.label')} *`,
+      }),
+    );
+    await click(await screen.findByRole('option', { name: 'Catégorie 1' }));
 
     await click(screen.getByRole('button', { name: t('common.actions.add') }));
 
@@ -77,6 +113,7 @@ module('Integration | Component | certification-centers/creation-form', function
       dataProtectionOfficerEmail: 'jacques.hadis@example.com',
       habilitations: [{ id: '1', key: 'E', label: 'Pix+Edu' }],
       organizationId: undefined,
+      categoryId: '1234',
     });
 
     const message = pixToast.sendSuccessNotification.getCall(0).args[0];
@@ -91,7 +128,13 @@ module('Integration | Component | certification-centers/creation-form', function
     const onCancel = () => {};
 
     const screen = await render(
-      <template><CreationForm @habilitations={{habilitations}} @onCancel={{onCancel}} /></template>,
+      <template>
+        <CreationForm
+          @habilitations={{habilitations}}
+          @onCancel={{onCancel}}
+          @structureCategories={{structureCategories}}
+        />
+      </template>,
     );
 
     // when
@@ -105,6 +148,13 @@ module('Integration | Component | certification-centers/creation-form', function
     await click(screen.getByRole('checkbox', { name: 'Pix+Surf' }));
     await click(screen.getByRole('checkbox', { name: 'Pix+Edu' }));
     await click(screen.getByRole('checkbox', { name: 'Pix+Surf' }));
+    await click(
+      screen.getByRole('button', {
+        name: `${t('components.certification-centers.creation.category.selector.label')} *`,
+      }),
+    );
+
+    await click(await screen.findByRole('option', { name: 'Catégorie 1' }));
 
     await click(screen.getByRole('button', { name: t('common.actions.add') }));
 
@@ -121,6 +171,7 @@ module('Integration | Component | certification-centers/creation-form', function
       dataProtectionOfficerEmail: '',
       habilitations: [{ id: '2', key: 'S', label: 'Pix+Surf' }],
       organizationId: undefined,
+      categoryId: '1234',
     });
   });
 
@@ -129,7 +180,13 @@ module('Integration | Component | certification-centers/creation-form', function
     const onCancel = () => {};
 
     const screen = await render(
-      <template><CreationForm @habilitations={{habilitations}} @onCancel={{onCancel}} /></template>,
+      <template>
+        <CreationForm
+          @habilitations={{habilitations}}
+          @onCancel={{onCancel}}
+          @structureCategories={{structureCategories}}
+        />
+      </template>,
     );
 
     // when
@@ -137,6 +194,12 @@ module('Integration | Component | certification-centers/creation-form', function
     await click(screen.getByRole('button', { name: `${t('components.certification-centers.creation.type.label')} *` }));
     await screen.findByRole('listbox');
     await click(screen.getByRole('option', { name: 'Établissement scolaire' }));
+    await click(
+      screen.getByRole('button', {
+        name: `${t('components.certification-centers.creation.category.selector.label')} *`,
+      }),
+    );
+    await click(await screen.findByRole('option', { name: 'Catégorie 1' }));
 
     await click(screen.getByRole('button', { name: t('common.actions.add') }));
 
@@ -152,7 +215,13 @@ module('Integration | Component | certification-centers/creation-form', function
 
       // when
       const screen = await render(
-        <template><CreationForm @habilitations={{habilitations}} @onCancel={{onCancel}} /></template>,
+        <template>
+          <CreationForm
+            @habilitations={{habilitations}}
+            @onCancel={{onCancel}}
+            @structureCategories={{structureCategories}}
+          />
+        </template>,
       );
 
       // then
@@ -168,19 +237,32 @@ module('Integration | Component | certification-centers/creation-form', function
         .doesNotExist();
     });
 
-    test('it does not disable the external id input', async function (assert) {
+    test('it does not disable the external id and category inputs', async function (assert) {
       // given
       const onCancel = () => {};
 
       // when
       const screen = await render(
-        <template><CreationForm @habilitations={{habilitations}} @onCancel={{onCancel}} /></template>,
+        <template>
+          <CreationForm
+            @habilitations={{habilitations}}
+            @onCancel={{onCancel}}
+            @structureCategories={{structureCategories}}
+          />
+        </template>,
       );
 
       // then
       assert
         .dom(screen.getByRole('textbox', { name: t('components.certification-centers.creation.external-id.label') }))
         .isNotDisabled();
+      assert
+        .dom(
+          screen.getByRole('button', {
+            name: `${t('components.certification-centers.creation.category.selector.label')} *`,
+          }),
+        )
+        .doesNotHaveAttribute('aria-disabled');
     });
   });
 
@@ -196,6 +278,7 @@ module('Integration | Component | certification-centers/creation-form', function
             @habilitations={{habilitations}}
             @attachedOrganization={{attachedOrganization}}
             @onCancel={{onCancel}}
+            @structureCategories={{structureCategories}}
           />
         </template>,
       );
@@ -213,7 +296,7 @@ module('Integration | Component | certification-centers/creation-form', function
         .exists();
     });
 
-    test("it prefills the name, the type and the external id (disabled) with the attached organization's ones", async function (assert) {
+    test("it prefills the name, the type and the external id + category (disabled) with the attached organization's ones", async function (assert) {
       // given
       const onCancel = () => {};
 
@@ -224,6 +307,7 @@ module('Integration | Component | certification-centers/creation-form', function
             @habilitations={{habilitations}}
             @attachedOrganization={{attachedOrganization}}
             @onCancel={{onCancel}}
+            @structureCategories={{structureCategories}}
           />
         </template>,
       );
@@ -243,6 +327,13 @@ module('Integration | Component | certification-centers/creation-form', function
       assert
         .dom(screen.getByRole('textbox', { name: t('components.certification-centers.creation.external-id.label') }))
         .isDisabled();
+      assert
+        .dom(
+          screen.getByRole('button', {
+            name: `${t('components.certification-centers.creation.category.selector.label')} *`,
+          }),
+        )
+        .hasAttribute('aria-disabled');
     });
 
     test('it creates a certification center attached to the organization', async function (assert) {
@@ -254,6 +345,7 @@ module('Integration | Component | certification-centers/creation-form', function
             @habilitations={{habilitations}}
             @attachedOrganization={{attachedOrganization}}
             @onCancel={{onCancel}}
+            @structureCategories={{structureCategories}}
           />
         </template>,
       );
@@ -272,6 +364,7 @@ module('Integration | Component | certification-centers/creation-form', function
         dataProtectionOfficerEmail: '',
         habilitations: [],
         organizationId: '123',
+        categoryId: '1234',
       });
       assert.ok(router.transitionTo.called);
     });
@@ -283,7 +376,13 @@ module('Integration | Component | certification-centers/creation-form', function
         // given
         const onCancel = () => {};
         const screen = await render(
-          <template><CreationForm @habilitations={{habilitations}} @onCancel={{onCancel}} /></template>,
+          <template>
+            <CreationForm
+              @habilitations={{habilitations}}
+              @onCancel={{onCancel}}
+              @structureCategories={{structureCategories}}
+            />
+          </template>,
         );
 
         // when
@@ -299,15 +398,25 @@ module('Integration | Component | certification-centers/creation-form', function
 
         const nameErrorMessage = screen.getByText(t('components.certification-centers.creation.error-messages.name'));
         const typeErrorMessage = screen.getByText(t('components.certification-centers.creation.error-messages.type'));
+        const categoryErrorMessage = screen.getByText(
+          t('components.certification-centers.creation.category.selector.error-message'),
+        );
         assert.dom(nameErrorMessage).exists();
         assert.dom(typeErrorMessage).exists();
+        assert.dom(categoryErrorMessage).exists();
       });
 
       test('it should focus on first field in error', async function (assert) {
         // given
         const onCancel = () => {};
         const screen = await render(
-          <template><CreationForm @habilitations={{habilitations}} @onCancel={{onCancel}} /></template>,
+          <template>
+            <CreationForm
+              @habilitations={{habilitations}}
+              @onCancel={{onCancel}}
+              @structureCategories={{structureCategories}}
+            />
+          </template>,
         );
 
         // when
@@ -326,7 +435,13 @@ module('Integration | Component | certification-centers/creation-form', function
       store.createRecord.returns({ save: sinon.stub().rejects() });
 
       const screen = await render(
-        <template><CreationForm @habilitations={{habilitations}} @onCancel={{onCancel}} /></template>,
+        <template>
+          <CreationForm
+            @habilitations={{habilitations}}
+            @onCancel={{onCancel}}
+            @structureCategories={{structureCategories}}
+          />
+        </template>,
       );
 
       // when
@@ -336,6 +451,13 @@ module('Integration | Component | certification-centers/creation-form', function
       );
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'Établissement scolaire' }));
+      await click(
+        screen.getByRole('button', {
+          name: `${t('components.certification-centers.creation.category.selector.label')} *`,
+        }),
+      );
+
+      await click(await screen.findByRole('option', { name: 'Catégorie 1' }));
       await click(screen.getByRole('button', { name: t('common.actions.add') }));
 
       // then
@@ -351,7 +473,13 @@ module('Integration | Component | certification-centers/creation-form', function
       store.createRecord.returns({ save: sinon.stub().rejects({ errors: [{ detail: 'BOOM!' }] }) });
 
       const screen = await render(
-        <template><CreationForm @habilitations={{habilitations}} @onCancel={{onCancel}} /></template>,
+        <template>
+          <CreationForm
+            @habilitations={{habilitations}}
+            @onCancel={{onCancel}}
+            @structureCategories={{structureCategories}}
+          />
+        </template>,
       );
 
       // when
@@ -361,6 +489,12 @@ module('Integration | Component | certification-centers/creation-form', function
       );
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'Établissement scolaire' }));
+      await click(
+        screen.getByRole('button', {
+          name: `${t('components.certification-centers.creation.category.selector.label')} *`,
+        }),
+      );
+      await click(await screen.findByRole('option', { name: 'Catégorie 1' }));
       await click(screen.getByRole('button', { name: t('common.actions.add') }));
 
       // then

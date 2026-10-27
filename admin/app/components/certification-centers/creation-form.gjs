@@ -7,6 +7,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import Joi from 'joi';
 import sortBy from 'lodash/sortBy';
+import SelectSearchWrapper from 'pix-admin/components/ui/select-search-wrapper';
 import { FormValidator } from 'pix-admin/utils/form-validator';
 
 import { types } from '../../models/certification-center';
@@ -22,6 +23,7 @@ export default class CreationForm extends Component {
     name: this.args.attachedOrganization?.name ?? '',
     type: this.args.attachedOrganization?.type ?? '',
     externalId: this.args.attachedOrganization?.externalId ?? '',
+    categoryId: this.args.attachedOrganization?.categoryId ?? '',
     dataProtectionOfficerLastName: '',
     dataProtectionOfficerFirstName: '',
     dataProtectionOfficerEmail: '',
@@ -36,8 +38,16 @@ export default class CreationForm extends Component {
     return sortBy(this.args.habilitations, 'id');
   }
 
-  get isExternalIdDisabled() {
+  get isAttachedToOrganization() {
     return Boolean(this.args.attachedOrganization);
+  }
+
+  get categoriesOptions() {
+    const options = this.args.structureCategories.map((structureCategory) => ({
+      value: structureCategory.id,
+      label: structureCategory.label,
+    }));
+    return options;
   }
 
   get dpoSectionTitle() {
@@ -91,6 +101,7 @@ export default class CreationForm extends Component {
       dataProtectionOfficerEmail: this.form.dataProtectionOfficerEmail,
       habilitations: [...this.form.selectedHabilitations],
       organizationId: this.args.attachedOrganization?.id,
+      categoryId: this.form.categoryId,
     });
 
     try {
@@ -166,12 +177,35 @@ export default class CreationForm extends Component {
           <PixInput
             @id="externalId"
             @value={{this.form.externalId}}
-            disabled={{this.isExternalIdDisabled}}
+            disabled={{this.isAttachedToOrganization}}
             {{on "change" (fn this.handleInputChange "externalId")}}
             placeholder={{t "components.certification-centers.creation.external-id.placeholder"}}
           >
             <:label>{{t "components.certification-centers.creation.external-id.label"}}</:label>
           </PixInput>
+
+          <SelectSearchWrapper
+            class="certification-center-creation-form__input--full"
+            @id="categoryId"
+            required
+            @isDisabled={{this.isAttachedToOrganization}}
+            @aria-required={{true}}
+            @texts={{hash
+              placeholder=(t "components.certification-centers.creation.category.selector.placeholder")
+              selectSearchLabel=(t "components.certification-centers.creation.category.selector.search-label")
+              searchPlaceholder=(t "components.certification-centers.creation.category.selector.search-placeholder")
+              requiredLabel=(t "common.fields.required-field")
+            }}
+            @errorMessage={{if this.validator.errors.categoryId (t this.validator.errors.categoryId)}}
+            @validationStatus={{if this.validator.errors.categoryId "error"}}
+            @options={{this.categoriesOptions}}
+            @value={{this.form.categoryId}}
+            @onChange={{fn this.handleSelectChange "categoryId"}}
+            @hideDefaultOption={{true}}
+            @isFullWidth={{true}}
+          >
+            <:label>{{t "components.certification-centers.creation.category.selector.label"}}</:label>
+          </SelectSearchWrapper>
         </Card>
 
         <Card class="admin-form__card" @title={{t "components.certification-centers.creation.configuration"}}>
@@ -263,6 +297,10 @@ const CERTIFICATION_CENTER_CREATION_FORM_VALIDATOR_SCHEMA = Joi.object({
     'string.empty': 'components.certification-centers.creation.error-messages.type',
   }),
   externalId: Joi.string().empty(['', null]).optional(),
+  categoryId: Joi.string().empty(['', null]).required().messages({
+    'any.required': 'components.certification-centers.creation.category.selector.error-message',
+    'string.empty': 'components.certification-centers.creation.category.selector.error-message',
+  }),
   dataProtectionOfficerLastName: Joi.string().empty(['', null]).optional(),
   dataProtectionOfficerFirstName: Joi.string().empty(['', null]).optional(),
 

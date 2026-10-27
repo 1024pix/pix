@@ -49,6 +49,12 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
       externalId,
     );
     await click(screen.getByRole('checkbox', { name: 'Pix+Surf' }));
+    await click(
+      screen.getByRole('button', {
+        name: `${t('components.certification-centers.creation.category.selector.label')} *`,
+      }),
+    );
+    await click(await screen.findByRole('option', { name: 'Catégorie 1' }));
     await click(screen.getByRole('button', { name: t('common.actions.add') }));
 
     // then

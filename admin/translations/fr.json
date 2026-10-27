@@ -501,6 +501,15 @@
       },
       "creation": {
         "attached-organization-name": "Organisation rattachée : {attachedOrganizationName}",
+        "category": {
+          "selector": {
+            "error-message": "La catégorie est requise",
+            "label": "Catégorie",
+            "placeholder": "Sélectionner une catégorie",
+            "search-label": "Rechercher une catégorie",
+            "search-placeholder": "Rechercher une catégorie"
+          }
+        },
         "complementary-certifications-habilitations": "Habilitations aux certifications complémentaires",
         "configuration": "Paramétrage",
         "dpo": {

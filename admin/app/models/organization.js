@@ -32,7 +32,7 @@ export default class Organization extends Model {
   @attr('string') countryName;
   @attr() organizationLearnerTypeId;
   @attr('string') organizationLearnerTypeName;
-  @attr() categoryId;
+  @attr('string') categoryId;
   @attr('string') categoryLabel;
 
   @hasMany('organization-membership', { async: true, inverse: 'organization' }) organizationMemberships;

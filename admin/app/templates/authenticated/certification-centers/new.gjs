@@ -15,5 +15,6 @@ import CreationForm from 'pix-admin/components/certification-centers/creation-fo
     @habilitations={{@model.habilitations}}
     @onCancel={{@controller.redirectOnCancel}}
     @attachedOrganization={{@model.attachedOrganization}}
+    @structureCategories={{@model.structureCategories}}
   />
 </template>
