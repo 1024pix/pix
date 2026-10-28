@@ -59,7 +59,7 @@ export class LtiPrescriberAccessToken {
     return tokenService.encodeToken(
       {
         organizationIds: this.organizationIds, // FIXME rename
-        clientId: this.clientId, // FIXME rename to client_id? see https://www.rfc-editor.org/info/rfc8693/#section-4.3
+        client_id: this.clientId,
         ['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings']: this.deepLinkingSettings,
         scope: this.scope,
         aud: this.audience,
@@ -81,7 +81,7 @@ export class LtiPrescriberAccessToken {
 
     return new LtiPrescriberAccessToken({
       organizationIds: decoded.organizationIds,
-      clientId: decoded.clientId,
+      clientId: decoded.client_id,
       deepLinkingSettings: decoded['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'],
       scope: decoded.scope,
       audience: decoded.aud,

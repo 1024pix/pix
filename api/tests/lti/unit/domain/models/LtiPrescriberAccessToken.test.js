@@ -28,7 +28,7 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
   });
 
   describe('encodedForSetCookieHeader', function () {
-    it('encodes token for a Set-Cookie header', function () {
+    it('returns an encoded token for a Set-Cookie header', function () {
       // given
       const token = new LtiPrescriberAccessToken({
         organizationIds: [123, 456],
@@ -58,7 +58,7 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
       expect(decodedToken.header).to.deep.equal({ alg: 'HS256', typ: 'at+jwt' });
       expect(decodedToken.payload).to.deep.contain({
         organizationIds: [123, 456],
-        clientId: 'Abcd1234',
+        client_id: 'Abcd1234',
         'https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings': {},
         scope: 'lti:deep-linking',
         aud: 'https://orga.dev.pix.fr',
@@ -75,7 +75,7 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
       const encodedToken = jsonwebtoken.sign(
         {
           organizationIds: [123, 456],
-          clientId: 'Abcd1234',
+          client_id: 'Abcd1234',
           'https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings': {},
           scope: 'lti:deep-linking',
           aud: 'https://orga.dev.pix.fr',
@@ -123,7 +123,7 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
         const encodedToken = jsonwebtoken.sign(
           {
             organizationIds: [123, 456],
-            clientId: 'Abcd1234',
+            client_id: 'Abcd1234',
             'https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings': {},
             scope: 'lti:deep-linking',
             aud: audience,
