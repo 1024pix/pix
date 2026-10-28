@@ -62,6 +62,7 @@
 
 // pages
 @use 'pages/login' as *;
+@use 'pages/lti-page' as *;
 @use 'pages/sign-form' as *;
 @use 'pages/join' as *;
 @use 'pages/join-request' as *;

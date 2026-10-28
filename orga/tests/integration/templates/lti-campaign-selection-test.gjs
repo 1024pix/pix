@@ -10,20 +10,20 @@ module('Integration | Template | lti-campaign-selection', function (hooks) {
 
   test('it renders template', async function (assert) {
     // given
-    const model =  [
-        {
-          name: 'Campaign 1',
-          type: 'ASSESSMENT',
-          organizationName: 'Orga 1',
-          code: 'CAMP1',
-        },
-        {
-          name: 'Campaign 2',
-          type: 'PROFILES_COLLECTION',
-          organizationName: 'Orga 2',
-          code: 'CAMP2',
-        },
-      ];
+    const model = [
+      {
+        name: 'Campaign 1',
+        type: 'ASSESSMENT',
+        organizationName: 'Orga 1',
+        code: 'CAMP1',
+      },
+      {
+        name: 'Campaign 2',
+        type: 'PROFILES_COLLECTION',
+        organizationName: 'Orga 2',
+        code: 'CAMP2',
+      },
+    ];
 
     // when
     const screen = await render(<template><LtiCampaignSelection @model={{model}} /></template>);
