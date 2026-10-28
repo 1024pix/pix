@@ -6,7 +6,7 @@ import { child, SCOPES } from '../utils/logger.js';
 
 const logger = child('learningcontent:cache', { event: SCOPES.LEARNING_CONTENT });
 
-class LearningContentRedisCache {
+export class LearningContentRedisCache {
   #pool;
 
   constructor({ pool = LearningContentRedisCache.createClientPool() } = {}) {
@@ -62,11 +62,11 @@ class LearningContentRedisCache {
         values?.map((value) => {
           if (value == null) return undefined;
           return JSON.parse(value);
-        }) ?? Array(keys.length)
+        }) ?? Array.from({ length: keys.length })
       );
     } catch (err) {
       logger.error({ err }, 'redis cache client error');
-      return Array(keys.length);
+      return Array.from({ length: keys.length });
     }
   }
 
