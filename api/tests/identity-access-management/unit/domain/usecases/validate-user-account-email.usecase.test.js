@@ -10,7 +10,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | validate-user-a
   let now;
 
   const token = '00000000-0000-0000-0000-000000000000';
-  const defaultRedirectionUrl = 'https://test.app.pix.fr/connexion';
+  const defaultRedirectionUrl = 'https://app.test.pix.fr/connexion';
 
   beforeEach(function () {
     emailValidationDemandRepository = {

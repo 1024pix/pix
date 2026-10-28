@@ -66,20 +66,20 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
           const url = getPixAppUrl(locale);
 
           // then
-          expect(url).to.equal('https://test.app.pix.fr/');
+          expect(url).to.equal('https://app.test.pix.fr/');
         });
       });
     });
 
     context('when locale is not fr-FR and supported or not', function () {
       [
-        { locale: 'fr', expected: 'https://test.app.pix.org/?locale=fr' },
-        { locale: 'en', expected: 'https://test.app.pix.org/?locale=en' },
-        { locale: 'fr-BE', expected: 'https://test.app.pix.org/?locale=fr-BE' },
-        { locale: 'tlh', expected: 'https://test.app.pix.org/?locale=fr' },
-        { locale: 'fr-CA', expected: 'https://test.app.pix.org/?locale=fr' },
-        { locale: 'fr_CA', expected: 'https://test.app.pix.org/?locale=fr' },
-        { locale: null, expected: 'https://test.app.pix.org/?locale=fr' },
+        { locale: 'fr', expected: 'https://app.test.pix.org/?locale=fr' },
+        { locale: 'en', expected: 'https://app.test.pix.org/?locale=en' },
+        { locale: 'fr-BE', expected: 'https://app.test.pix.org/?locale=fr-BE' },
+        { locale: 'tlh', expected: 'https://app.test.pix.org/?locale=fr' },
+        { locale: 'fr-CA', expected: 'https://app.test.pix.org/?locale=fr' },
+        { locale: 'fr_CA', expected: 'https://app.test.pix.org/?locale=fr' },
+        { locale: null, expected: 'https://app.test.pix.org/?locale=fr' },
       ].forEach(({ locale, expected }) => {
         it(`returns the Pix App URL with Org domain for locale "${locale}"`, function () {
           // given / when
@@ -101,7 +101,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
         const url = getPixAppUrl(locale, { pathname });
 
         // then
-        expect(url).to.equal('https://test.app.pix.org/connexion?locale=en');
+        expect(url).to.equal('https://app.test.pix.org/connexion?locale=en');
       });
     });
 
@@ -115,7 +115,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
         const url = getPixAppUrl(locale, { queryParams });
 
         // then
-        expect(url).to.equal('https://test.app.pix.org/?code=123%2B&locale=en');
+        expect(url).to.equal('https://app.test.pix.org/?code=123%2B&locale=en');
       });
 
       context('when locale is provided in the queryParams', function () {
@@ -128,7 +128,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
           const url = getPixAppUrl(locale, { queryParams });
 
           // then
-          expect(url).to.equal('https://test.app.pix.org/?locale=en');
+          expect(url).to.equal('https://app.test.pix.org/?locale=en');
         });
       });
 
@@ -142,7 +142,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
           const url = getPixAppUrl(locale, { queryParams });
 
           // then
-          expect(url).to.equal('https://test.app.pix.org/?lang=en');
+          expect(url).to.equal('https://app.test.pix.org/?lang=en');
         });
       });
     });
@@ -157,7 +157,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
         const url = getPixAppUrl(locale, { hash });
 
         // then
-        expect(url).to.equal('https://test.app.pix.org/?locale=en#section');
+        expect(url).to.equal('https://app.test.pix.org/?locale=en#section');
       });
     });
 
@@ -171,7 +171,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
         const url = getPixAppUrl(locale, { pathname, skipLocaleParam: true });
 
         // then
-        expect(url).to.equal('https://test.app.pix.org/api/hello');
+        expect(url).to.equal('https://app.test.pix.org/api/hello');
       });
     });
   });
@@ -184,20 +184,20 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
           const url = getPixOrgaUrl(locale);
 
           // then
-          expect(url).to.equal('https://orga.pix.fr/');
+          expect(url).to.equal('https://orga.test.pix.fr/');
         });
       });
     });
 
     context('when locale is not fr-FR and supported or not', function () {
       [
-        { locale: 'fr', expected: 'https://orga.pix.org/?locale=fr' },
-        { locale: 'en', expected: 'https://orga.pix.org/?locale=en' },
-        { locale: 'fr-BE', expected: 'https://orga.pix.org/?locale=fr-BE' },
-        { locale: 'tlh', expected: 'https://orga.pix.org/?locale=fr' },
-        { locale: 'fr-CA', expected: 'https://orga.pix.org/?locale=fr' },
-        { locale: 'fr_CA', expected: 'https://orga.pix.org/?locale=fr' },
-        { locale: null, expected: 'https://orga.pix.org/?locale=fr' },
+        { locale: 'fr', expected: 'https://orga.test.pix.org/?locale=fr' },
+        { locale: 'en', expected: 'https://orga.test.pix.org/?locale=en' },
+        { locale: 'fr-BE', expected: 'https://orga.test.pix.org/?locale=fr-BE' },
+        { locale: 'tlh', expected: 'https://orga.test.pix.org/?locale=fr' },
+        { locale: 'fr-CA', expected: 'https://orga.test.pix.org/?locale=fr' },
+        { locale: 'fr_CA', expected: 'https://orga.test.pix.org/?locale=fr' },
+        { locale: null, expected: 'https://orga.test.pix.org/?locale=fr' },
       ].forEach(({ locale, expected }) => {
         it(`returns the Pix Orga URL with Org domain for locale "${locale}"`, function () {
           // given / when
@@ -219,7 +219,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
         const url = getPixOrgaUrl(locale, { pathname });
 
         // then
-        expect(url).to.equal('https://orga.pix.org/connexion?locale=en');
+        expect(url).to.equal('https://orga.test.pix.org/connexion?locale=en');
       });
     });
 
@@ -233,7 +233,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
         const url = getPixOrgaUrl(locale, { queryParams });
 
         // then
-        expect(url).to.equal('https://orga.pix.org/?code=123%2B&locale=en');
+        expect(url).to.equal('https://orga.test.pix.org/?code=123%2B&locale=en');
       });
 
       context('when locale is provided in the queryParams', function () {
@@ -246,7 +246,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
           const url = getPixOrgaUrl(locale, { queryParams });
 
           // then
-          expect(url).to.equal('https://orga.pix.org/?locale=en');
+          expect(url).to.equal('https://orga.test.pix.org/?locale=en');
         });
       });
 
@@ -260,7 +260,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
           const url = getPixOrgaUrl(locale, { queryParams });
 
           // then
-          expect(url).to.equal('https://orga.pix.org/?lang=en');
+          expect(url).to.equal('https://orga.test.pix.org/?lang=en');
         });
       });
     });
@@ -275,7 +275,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
         const url = getPixOrgaUrl(locale, { hash });
 
         // then
-        expect(url).to.equal('https://orga.pix.org/?locale=en#section');
+        expect(url).to.equal('https://orga.test.pix.org/?locale=en#section');
       });
     });
   });
@@ -288,20 +288,20 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
           const url = getPixCertifUrl(locale);
 
           // then
-          expect(url).to.equal('https://certif.pix.fr/');
+          expect(url).to.equal('https://certif.test.pix.fr/');
         });
       });
     });
 
     context('when locale is not fr-FR and supported or not', function () {
       [
-        { locale: 'fr', expected: 'https://certif.pix.org/?locale=fr' },
-        { locale: 'en', expected: 'https://certif.pix.org/?locale=en' },
-        { locale: 'fr-BE', expected: 'https://certif.pix.org/?locale=fr-BE' },
-        { locale: 'tlh', expected: 'https://certif.pix.org/?locale=fr' },
-        { locale: 'fr-CA', expected: 'https://certif.pix.org/?locale=fr' },
-        { locale: 'fr_CA', expected: 'https://certif.pix.org/?locale=fr' },
-        { locale: null, expected: 'https://certif.pix.org/?locale=fr' },
+        { locale: 'fr', expected: 'https://certif.test.pix.org/?locale=fr' },
+        { locale: 'en', expected: 'https://certif.test.pix.org/?locale=en' },
+        { locale: 'fr-BE', expected: 'https://certif.test.pix.org/?locale=fr-BE' },
+        { locale: 'tlh', expected: 'https://certif.test.pix.org/?locale=fr' },
+        { locale: 'fr-CA', expected: 'https://certif.test.pix.org/?locale=fr' },
+        { locale: 'fr_CA', expected: 'https://certif.test.pix.org/?locale=fr' },
+        { locale: null, expected: 'https://certif.test.pix.org/?locale=fr' },
       ].forEach(({ locale, expected }) => {
         it(`returns the Pix Certif URL with Org domain for locale "${locale}"`, function () {
           // given / when
@@ -323,7 +323,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
         const url = getPixCertifUrl(locale, { pathname });
 
         // then
-        expect(url).to.equal('https://certif.pix.org/connexion?locale=en');
+        expect(url).to.equal('https://certif.test.pix.org/connexion?locale=en');
       });
     });
 
@@ -337,7 +337,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
         const url = getPixCertifUrl(locale, { queryParams });
 
         // then
-        expect(url).to.equal('https://certif.pix.org/?code=123%2B&locale=en');
+        expect(url).to.equal('https://certif.test.pix.org/?code=123%2B&locale=en');
       });
 
       context('when locale is provided in the queryParams', function () {
@@ -350,7 +350,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
           const url = getPixCertifUrl(locale, { queryParams });
 
           // then
-          expect(url).to.equal('https://certif.pix.org/?locale=en');
+          expect(url).to.equal('https://certif.test.pix.org/?locale=en');
         });
       });
 
@@ -364,7 +364,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
           const url = getPixCertifUrl(locale, { queryParams });
 
           // then
-          expect(url).to.equal('https://certif.pix.org/?lang=en');
+          expect(url).to.equal('https://certif.test.pix.org/?lang=en');
         });
       });
     });
@@ -379,7 +379,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
         const url = getPixCertifUrl(locale, { hash });
 
         // then
-        expect(url).to.equal('https://certif.pix.org/?locale=en#section');
+        expect(url).to.equal('https://certif.test.pix.org/?locale=en#section');
       });
     });
   });
@@ -389,14 +389,14 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
       it('returns the email validation URL on France domain with redirect url', function () {
         // given
         const locale = 'fr-FR';
-        const redirectUrl = 'https://test.app.pix.fr/redirect-here';
+        const redirectUrl = 'https://app.test.pix.fr/redirect-here';
 
         // when
         const url = getEmailValidationUrl({ locale, token: 'ABC', redirectUrl });
 
         // then
         expect(url).to.equal(
-          `https://test.app.pix.fr/api/users/validate-email?token=ABC&redirect_url=${encodeURIComponent(redirectUrl)}`,
+          `https://app.test.pix.fr/api/users/validate-email?token=ABC&redirect_url=${encodeURIComponent(redirectUrl)}`,
         );
       });
     });
@@ -405,14 +405,14 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
       it('returns the email validation URL on Org domain with redirect url', function () {
         // given
         const locale = 'en';
-        const redirectUrl = 'https://test.app.pix.fr/redirect-here';
+        const redirectUrl = 'https://app.test.pix.fr/redirect-here';
 
         // when
         const url = getEmailValidationUrl({ locale, token: 'ABC', redirectUrl });
 
         // then
         expect(url).to.equal(
-          `https://test.app.pix.org/api/users/validate-email?token=ABC&redirect_url=${encodeURIComponent(redirectUrl)}`,
+          `https://app.test.pix.org/api/users/validate-email?token=ABC&redirect_url=${encodeURIComponent(redirectUrl)}`,
         );
       });
     });
@@ -420,7 +420,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
     context('when no validation token', function () {
       it('returns the redirect URL', function () {
         // given
-        const redirectUrl = 'https://test.app.pix.fr/redirect-here';
+        const redirectUrl = 'https://app.test.pix.fr/redirect-here';
 
         // given / when
         const url = getEmailValidationUrl({ locale: 'fr', redirectUrl });
@@ -436,7 +436,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
         const url = getEmailValidationUrl({ locale: 'fr', token: 'ABC' });
 
         // then
-        expect(url).to.equal('https://test.app.pix.org/api/users/validate-email?token=ABC');
+        expect(url).to.equal('https://app.test.pix.org/api/users/validate-email?token=ABC');
       });
     });
   });
@@ -449,7 +449,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
           const url = getPixAppConnexionUrl(locale);
 
           // then
-          expect(url).to.equal('https://test.app.pix.fr/connexion');
+          expect(url).to.equal('https://app.test.pix.fr/connexion');
         });
       });
 
@@ -469,7 +469,7 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
             const url = getPixAppConnexionUrl(locale);
 
             // then
-            expect(url).to.equal(`https://test.app.pix.org/connexion?locale=${nearestBaseLocale}`);
+            expect(url).to.equal(`https://app.test.pix.org/connexion?locale=${nearestBaseLocale}`);
           });
         });
       });

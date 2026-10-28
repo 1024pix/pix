@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 import nock from 'nock';
-import sinon from 'sinon';
 
-import { config } from '../../../../../config/config.js';
 import { InvalidLtiPlatformRegistrationError } from '../../../../../src/lti/domain/errors.js';
 import { ltiService } from '../../../../../src/lti/domain/services/lti.service.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
@@ -129,8 +127,6 @@ describe('Integration | LTI | Domain | Services | LTI', function () {
   describe('createPixToolConfiguration', function () {
     it('creates Pix LTI tool configuration', function () {
       // given
-      sinon.stub(config.domain, 'pixOrga').value('https://orga.test.pix');
-      sinon.stub(config.domain, 'pixApp').value('https://app.test.pix');
       const expectedPixToolConfiguration = {
         response_types: ['id_token'],
         jwks_uri: 'https://api.dev.pix.fr/api/lti/keys',
