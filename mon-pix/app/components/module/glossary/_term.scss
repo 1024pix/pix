@@ -1,0 +1,55 @@
+@use 'pix-design-tokens/typography';
+
+.modulix-rich-content {
+  display: contents;
+}
+
+.module-glossary-term {
+  display: inline;
+  padding: 0 var(--pix-spacing-1x);
+  color: inherit;
+  font: inherit;
+  font-weight: var(--pix-font-bold);
+  background-color: rgb(var(--pix-tertiary-100-inline), 0.5);
+  border: none;
+  border-radius: var(--pix-spacing-1x);
+  cursor: help;
+
+  &:hover,
+  &[aria-expanded="true"] {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--pix-tertiary-500);
+    outline-offset: 1px;
+  }
+}
+
+.module-glossary-tooltip {
+  @extend %pix-body-s;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: max-content;
+  max-width: min(20rem, calc(100vw - 2 * var(--pix-spacing-2x)));
+  padding: var(--pix-spacing-2x) var(--pix-spacing-3x);
+  color: var(--pix-neutral-0);
+  background-color: var(--pix-neutral-900);
+  border-radius: var(--pix-spacing-2x);
+
+  p {
+    margin: 0;
+  }
+
+  p + p {
+    margin-top: var(--pix-spacing-2x);
+  }
+
+  strong,
+  b {
+    font-weight: var(--pix-font-bold);
+  }
+}
