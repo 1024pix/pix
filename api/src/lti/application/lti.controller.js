@@ -143,18 +143,24 @@ async function findAvailableCampaigns(request, h) {
 
 async function selectCampaign(request, h, dependencies = { ltiService }) {
   const {
-    // FIXME check selected campaignCode belongs to one of the organizations
-    // credentials: { organizationIds },
+    credentials: { organizationIds },
     artifacts: { registration, deepLinkingSettings },
   } = request.auth;
 
-  const { campaignCode } = request.payload;
+  const { campaignId } = request.payload;
+  const campaign = await usecases.getLtiCampaign({ campaignId });
+
+  if (!organizationIds.includes(campaign?.organizationId)) {
+    logger.warn({ campaignId, organizationIds }, 'campaign does not belongs to organizations');
+    return boom.unauthorized();
+  }
 
   const contentItem = {
     type: 'ltiResourceLink',
-    title: `Campagne Pix ${campaignCode}`,
-    text: 'Campagne PIX dont la note sera envoyée dans Moodle',
-    custom: { campaign_code: campaignCode },
+    title: campaign.name,
+    // fixme: rajoute le bon wording pour les campagnes de collecte de profils
+    text: campaign.description || 'Collecte de profils',
+    custom: { campaign_code: campaign.code },
     lineItem: {
       scoreMaximum: 100,
     },
