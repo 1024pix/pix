@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { click } from '@ember/test-helpers';
+import { click, triggerEvent } from '@ember/test-helpers';
 import dayjs from 'dayjs';
 import CustomParseFormat from 'dayjs/plugin/customParseFormat';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
@@ -405,6 +405,30 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
           'Fin de parcours - Clic sur un lien du message de palier',
           { url: 'https://example.net/contenu', campaignId: 123, reachedStage: 4, totalStage: 5 },
         );
+        assert.ok(true);
+      });
+
+      test('it should send a tracking event when middle-clicking on the link', async function (assert) {
+        // when
+        const link = screen.getByRole('link', { name: 'Découvrir le contenu' });
+        await triggerEvent(link, 'auxclick', { button: 1 });
+
+        // then
+        sinon.assert.calledOnceWithExactly(
+          pixMetrics.trackEvent,
+          'Fin de parcours - Clic sur un lien du message de palier',
+          { url: 'https://example.net/contenu', campaignId: 123, reachedStage: 4, totalStage: 5 },
+        );
+        assert.ok(true);
+      });
+
+      test('it should not send a tracking event when right-clicking on the link', async function (assert) {
+        // when
+        const link = screen.getByRole('link', { name: 'Découvrir le contenu' });
+        await triggerEvent(link, 'auxclick', { button: 2 });
+
+        // then
+        sinon.assert.notCalled(pixMetrics.trackEvent);
         assert.ok(true);
       });
 
