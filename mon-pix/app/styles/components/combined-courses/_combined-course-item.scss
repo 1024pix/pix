@@ -72,7 +72,8 @@
     }
   }
 
-  &--diagnostic {
+  &--diagnostic,
+  &--current {
     @include breakpoints.device-is('mobile') {
       flex-wrap: wrap;
 
@@ -80,10 +81,6 @@
       .combined-course-item__content,
       .combined-course-item__text {
         display: contents;
-      }
-
-      .combined-course-item__description {
-        display: none;
       }
 
       .combined-course-item__icon {
@@ -99,13 +96,30 @@
         order: 3;
       }
 
-      .combined-course-item__diagnostic-results {
+      .combined-course-item__description {
         flex-basis: 100%;
         order: 4;
       }
 
-      .combined-course-item__campaign-indicators {
+      .combined-course-item__diagnostic-results {
+        flex-basis: 100%;
         order: 5;
+      }
+
+      .combined-course-item__campaign-indicators {
+        order: 6;
+      }
+
+      .combined-course-item__cta {
+        order: 7;
+      }
+    }
+  }
+
+  &--diagnostic {
+    @include breakpoints.device-is('mobile') {
+      .combined-course-item__description {
+        display: none;
       }
     }
   }
@@ -310,42 +324,6 @@
       max-width: var(--pix-spacing-12x);
       min-height: var(--pix-spacing-12x);
       max-height: var(--pix-spacing-12x);
-    }
-
-    @include breakpoints.device-is('mobile') {
-      flex-wrap: wrap;
-
-      .combined-course-item__main,
-      .combined-course-item__content,
-      .combined-course-item__text {
-        display: contents;
-      }
-
-      .combined-course-item__icon {
-        order: 1;
-      }
-
-      .combined-course-item__title {
-        flex: 1;
-        order: 2;
-      }
-
-      .combined-course-item__indicator {
-        order: 3;
-      }
-
-      .combined-course-item__description {
-        flex-basis: 100%;
-        order: 4;
-      }
-
-      .combined-course-item__campaign-indicators {
-        order: 5;
-      }
-
-      .combined-course-item__cta {
-        order: 6;
-      }
     }
 
     @include breakpoints.device-is('tablet') {
