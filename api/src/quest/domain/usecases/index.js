@@ -72,6 +72,7 @@ import { findCombinedCourseBlueprintById } from './find-combined-course-blueprin
 import { findCombinedCourseBlueprints } from './find-combined-course-blueprints.js';
 import { findCombinedCourseByCampaignId } from './find-combined-course-by-campaign-id.js';
 import { findCombinedCourseByModuleIdAndUserId } from './find-combined-course-by-moduleId-and-user-id.js';
+import { findCombinedCourseIdsByOrganizationId } from './find-combined-course-ids-by-organization-id.js';
 import { findCombinedCourseParticipations } from './find-combined-course-participations.js';
 import { getCombinedCourseBlueprintById } from './get-combined-course-blueprint-by-id.js';
 import { getCombinedCourseByCode } from './get-combined-course-by-code.js';
@@ -106,6 +107,7 @@ const usecasesWithoutInjectedDependencies = {
   getCombinedCourseById,
   getCombinedCourseParticipationById,
   findCombinedCourseBlueprintById,
+  findCombinedCourseIdsByOrganizationId,
   findCombinedCourseParticipations,
   findCombinedCourseBlueprints,
   getCombinedCoursesByOrganizationId,
