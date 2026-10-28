@@ -1367,8 +1367,11 @@
           "title": "Programa personalizado de módulos"
         },
         "module-objectives-completed": "En este módulo has visto:",
-        "restart-campaign": "Volver a empezar",
         "restart-module": "Volver a empezar el módulo",
+        "result-cta": {
+          "campaign": "Ver los detalles de mis resultados",
+          "diagnostic": "Ver los detalles de mis resultados de diagnóstico"
+        },
         "retry-module": "Volver a reproducir este módulo",
         "start-campaign": "Iniciar",
         "start-diagnostic": "Iniciar el diagnóstico",

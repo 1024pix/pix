@@ -1367,8 +1367,11 @@
           "title": "Individuelles Programm von Modulen"
         },
         "module-objectives-completed": "In diesem Modul haben Sie Folgendes gelernt:",
-        "restart-campaign": "Neu beginnen",
         "restart-module": "Das Modul erneut starten",
+        "result-cta": {
+          "campaign": "Meine Ergebnisse im Detail anzeigen",
+          "diagnostic": "Meine Diagnoseergebnisse im Detail anzeigen"
+        },
         "retry-module": "Dieses Modul erneut abspielen",
         "start-campaign": "Beginnen",
         "start-diagnostic": "Diagnose starten",
