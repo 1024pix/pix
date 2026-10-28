@@ -1,5 +1,37 @@
 # Pix Changelog
 
+# [5.532.0](https://github.com/1024pix/pix/compare/v5.531.0...v5.532.0) (2026-10-28)
+
+### :rocket: Amélioration
+
+- [#18369](https://github.com/1024pix/pix/pull/18369) Remplace le tag "Vous en êtes là" par un CTA selon le type et l'état de l'item (PIX-24462)
+
+### :bug: Correction
+
+- [#18271](https://github.com/1024pix/pix/pull/18271) Correction design pour la page présentation (PIX-24834)
+- [#18347](https://github.com/1024pix/pix/pull/18347) Corriger la comparaison des locales utilisateur - indice (PIX-24853)
+- [#18399](https://github.com/1024pix/pix/pull/18399) Rediriger vers la page présentation quand on quitte une campagne de parcours combiné(PIX-24877)
+
+### :building_construction: Tech
+
+- [#18364](https://github.com/1024pix/pix/pull/18364) Convertir les builders de knowledge elements en TypeScript
+- [#18412](https://github.com/1024pix/pix/pull/18412) Supprimer des appels clock.restore() inutiles
+- [#18316](https://github.com/1024pix/pix/pull/18316) Utiliser une bibliothèque pour gérer le cookie de deep linking (PIX-24847)
+
+### :arrow_up: Montée de version
+
+- [#18405](https://github.com/1024pix/pix/pull/18405) Update aws-sdk-js-v3 monorepo to v3.1153.0 (api)
+- [#18386](https://github.com/1024pix/pix/pull/18386) Update dependency @1024pix/nebulix-ember to v1.4.0 (mon-pix)
+- [#18391](https://github.com/1024pix/pix/pull/18391) Update dependency @1024pix/stylelint-config to v5.2.26 (mon-pix)
+- [#18406](https://github.com/1024pix/pix/pull/18406) Update dependency @glint/ember-tsc to v1.13.1 (orga)
+- [#18407](https://github.com/1024pix/pix/pull/18407) Update dependency @glint/template to v1.11.0 (orga)
+- [#18408](https://github.com/1024pix/pix/pull/18408) Update dependency dependency-cruiser to v18.7.0 (api)
+- [#18400](https://github.com/1024pix/pix/pull/18400) Update dependency undici to v8.12.3 (api)
+- [#18401](https://github.com/1024pix/pix/pull/18401) Update dependency xss to v1.0.16 (admin)
+- [#18402](https://github.com/1024pix/pix/pull/18402) Update dependency xss to v1.0.16 (junior)
+- [#18403](https://github.com/1024pix/pix/pull/18403) Update dependency xss to v1.0.16 (mon-pix)
+- [#18404](https://github.com/1024pix/pix/pull/18404) Update dependency xss to v1.0.16 (orga)
+
 # [5.531.0](https://github.com/1024pix/pix/compare/v5.530.0...v5.531.0) (2026-10-27)
 
 ### :rocket: Amélioration
