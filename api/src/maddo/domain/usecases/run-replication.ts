@@ -61,6 +61,13 @@ export const runReplication = async ({
     return res;
   } finally {
     await datamartKnex.raw('DROP TABLE IF EXISTS ??', [stagingTarget]);
+    await datamartKnex('replication_metadata')
+      .insert({
+        replication_name: replicationName,
+        last_updated_at: datamartKnex.fn.now(),
+      })
+      .onConflict(['replication_name'])
+      .merge(['last_updated_at']);
   }
 };
 
