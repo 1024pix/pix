@@ -111,4 +111,57 @@ module('Acceptance | Challenge page banner', function (hooks) {
       });
     });
   });
+
+  module('When the assessment is a certification adjusted for accessibility', function () {
+    module('When FT_ENABLE_TEXT_TO_SPEECH_BUTTON is true', function (hooks) {
+      let assessment;
+
+      hooks.beforeEach(function () {
+        class MetricsStubService extends Service {
+          trackPage = sinon.stub();
+          trackEvent = sinon.stub();
+          context = {};
+        }
+        this.owner.register('service:pix-metrics', MetricsStubService);
+
+        server.create('feature-toggle', { id: '0', isTextToSpeechButtonEnabled: true });
+        assessment = server.create('assessment', 'ofCertificationType', {
+          nextChallenge: server.create('challenge', 'forCertification', 'QROCM', {
+            instruction: 'Instruction à lire',
+          }),
+        });
+        server.create('certification-course', {
+          accessCode: 'ABCD12',
+          sessionId: 1,
+          nbChallenges: 1,
+          firstName: 'Laura',
+          lastName: 'Bravo',
+          version: 3,
+          isAdjustedForAccessibility: true,
+          assessment,
+        });
+      });
+
+      test('displays activated text-to-speech by default', async function (assert) {
+        // when
+        const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Désactiver la vocalisation' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Lire la consigne à haute voix' })).exists();
+      });
+
+      test('hides text-to-speech button in challenge instruction when it has been deactivated in the banner', async function (assert) {
+        // given
+        const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
+        // when
+        await click(screen.getByRole('button', { name: 'Désactiver la vocalisation' }));
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Activer la vocalisation' })).exists();
+        assert.dom(screen.queryByRole('button', { name: 'Lire la consigne à haute voix' })).doesNotExist();
+      });
+    });
+  });
 });

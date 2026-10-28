@@ -276,4 +276,121 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
       assert.ok(controller.model.assessment.reload.calledOnce);
     });
   });
+
+  module('text to speech', function (hooks) {
+    function _buildModel({ certificationCourse }) {
+      return {
+        assessment: {
+          belongsTo: sinon
+            .stub()
+            .withArgs('certificationCourse')
+            .returns({ value: () => certificationCourse }),
+        },
+      };
+    }
+
+    hooks.beforeEach(function () {
+      controller.pixMetrics = { trackEvent: sinon.stub() };
+      sinon.stub(speechSynthesis, 'cancel');
+    });
+
+    hooks.afterEach(function () {
+      sinon.restore();
+    });
+
+    module('#isTextToSpeechActivated', function () {
+      test('should be activated by default when certification course is adjusted for accessibility', function (assert) {
+        // given
+        controller.model = _buildModel({ certificationCourse: { isAdjustedForAccessibility: true } });
+
+        // when & then
+        assert.true(controller.isTextToSpeechActivated);
+      });
+
+      test('should not be activated by default when certification course is not adjusted for accessibility', function (assert) {
+        // given
+        controller.model = _buildModel({ certificationCourse: { isAdjustedForAccessibility: false } });
+
+        // when & then
+        assert.false(controller.isTextToSpeechActivated);
+      });
+
+      test('should not be activated by default when there is no certification course', function (assert) {
+        // given
+        controller.model = _buildModel({ certificationCourse: null });
+
+        // when & then
+        assert.false(controller.isTextToSpeechActivated);
+      });
+
+      test('should not be activated when user disabled it even if certification course is adjusted for accessibility', function (assert) {
+        // given
+        controller.model = _buildModel({ certificationCourse: { isAdjustedForAccessibility: true } });
+        controller.userEnabledTextToSpeech = false;
+
+        // when & then
+        assert.false(controller.isTextToSpeechActivated);
+      });
+
+      test('should be activated when user enabled it even if certification course is not adjusted for accessibility', function (assert) {
+        // given
+        controller.model = _buildModel({ certificationCourse: { isAdjustedForAccessibility: false } });
+        controller.userEnabledTextToSpeech = true;
+
+        // when & then
+        assert.true(controller.isTextToSpeechActivated);
+      });
+    });
+
+    module('#toggleTextToSpeech', function () {
+      test('should deactivate text to speech on first toggle when certification course is adjusted for accessibility', function (assert) {
+        // given
+        controller.model = _buildModel({ certificationCourse: { isAdjustedForAccessibility: true } });
+
+        // when
+        controller.toggleTextToSpeech();
+
+        // then
+        assert.false(controller.userEnabledTextToSpeech);
+        assert.false(controller.isTextToSpeechActivated);
+        assert.ok(speechSynthesis.cancel.calledOnce);
+      });
+
+      test('should activate text to speech on first toggle when certification course is not adjusted for accessibility', function (assert) {
+        // given
+        controller.model = _buildModel({ certificationCourse: { isAdjustedForAccessibility: false } });
+
+        // when
+        controller.toggleTextToSpeech();
+
+        // then
+        assert.true(controller.userEnabledTextToSpeech);
+        assert.true(controller.isTextToSpeechActivated);
+        assert.ok(speechSynthesis.cancel.notCalled);
+      });
+
+      test('should reactivate text to speech after user disabled it', function (assert) {
+        // given
+        controller.model = _buildModel({ certificationCourse: { isAdjustedForAccessibility: true } });
+        controller.toggleTextToSpeech();
+
+        // when
+        controller.toggleTextToSpeech();
+
+        // then
+        assert.true(controller.isTextToSpeechActivated);
+      });
+
+      test('should track the toggle event', function (assert) {
+        // given
+        controller.model = _buildModel({ certificationCourse: { isAdjustedForAccessibility: true } });
+
+        // when
+        controller.toggleTextToSpeech();
+
+        // then
+        assert.ok(controller.pixMetrics.trackEvent.calledOnce);
+      });
+    });
+  });
 });
