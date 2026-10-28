@@ -2,7 +2,7 @@ import { databaseBuffer } from '../database-buffer.ts';
 
 const buildStructureCategory = function ({
   id = databaseBuffer.getNextId(),
-  label = 'Structure - Catégorie - socio-culturelle et anticonstitutionnelle',
+  label = `Structure - Catégorie - ${id}`,
 } = {}) {
   const values = {
     id,

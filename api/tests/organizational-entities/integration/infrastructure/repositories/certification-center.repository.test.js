@@ -35,6 +35,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       it('returns the certification center without habilitations', async function () {
         // given
         const centerId = 1;
+        const category = databaseBuilder.factory.buildStructureCategory();
         databaseBuilder.factory.buildCertificationCenter({
           id: centerId,
           type: CertificationCenter.types.PRO,
@@ -42,6 +43,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           archivedBy: null,
           createdAt: now,
           updatedAt: now,
+          categoryId: category.id,
         });
         await databaseBuilder.commit();
 
@@ -61,8 +63,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           archivedBy: null,
           updatedAt: now,
           createdAt: now,
-          categoryId: null,
-          categoryLabel: null,
+          categoryId: category.id,
+          categoryLabel: category.label,
         });
         expect(result).to.deepEqualInstance(expectedCenter);
       });
@@ -73,6 +75,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         // given
         const firstCenterId = 1;
         const secondCenterId = 2;
+        const category = databaseBuilder.factory.buildStructureCategory();
         databaseBuilder.factory.buildCertificationCenter({
           id: firstCenterId,
           type: CertificationCenter.types.PRO,
@@ -80,6 +83,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           archivedBy: null,
           createdAt: now,
           updatedAt: now,
+          categoryId: category.id,
         });
 
         const secondCenter = databaseBuilder.factory.buildCertificationCenter({
@@ -144,8 +148,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           archivedBy: null,
           updatedAt: now,
           createdAt: now,
-          categoryId: null,
-          categoryLabel: null,
+          categoryId: category.id,
+          categoryLabel: category.label,
         });
         expect(result).to.deepEqualInstance(expectedCenter);
       });
@@ -154,6 +158,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
     it('returns the certification center by its id', async function () {
       // given
       const centerId = 1;
+      const category = databaseBuilder.factory.buildStructureCategory();
       databaseBuilder.factory.buildCertificationCenter({
         id: centerId,
         type: CertificationCenter.types.SCO,
@@ -161,6 +166,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         archivedBy: null,
         updatedAt: now,
         createdAt: now,
+        categoryId: category.id,
       });
       const clea = databaseBuilder.factory.buildComplementaryCertification.clea({});
       const droit = databaseBuilder.factory.buildComplementaryCertification.droit({});
@@ -201,8 +207,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
             label: droit.label,
           }),
         ],
-        categoryId: null,
-        categoryLabel: null,
+        categoryId: category.id,
+        categoryLabel: category.label,
       });
       expect(result).to.deepEqualInstance(expectedCenter);
     });
@@ -243,6 +249,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           archivedBy: null,
           createdAt: now,
           updatedAt: now,
+          withoutStructure: true,
         });
         await databaseBuilder.commit();
 

@@ -1,9 +1,9 @@
+import { STRUCTURE_CATEGORY_SCO_ID } from '../common/constants.js';
 import {
   ADMINISTRATION_TEAM_ALPHA_ID,
   ADMINISTRATION_TEAM_SOLO_ID,
   ORGANIZATION_LEARNER_TYPE_PROFESSIONAL_ID,
   ORGANIZATION_LEARNER_TYPE_STUDENT_ID,
-  STRUCTURE_CATEGORY_SCO_ID,
 } from './constants.js';
 
 function _buildProNetwork(databaseBuilder) {

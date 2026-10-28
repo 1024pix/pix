@@ -4,11 +4,9 @@ import { usecases as enrolmentUseCases } from '../../../../../src/certification/
 import { BILLING_MODES } from '../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
+import { CenterForAdmin } from '../../../../../src/organizational-entities/domain/models/CenterForAdmin.js';
 import { usecases as organizationalEntitiesUsecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
-import {
-  CertificationCenter,
-  types as certificationCenterTypes,
-} from '../../../../../src/shared/domain/models/CertificationCenter.js';
+import { types as certificationCenterTypes } from '../../../../../src/shared/domain/models/CertificationCenter.js';
 import { normalize } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
 import { usecases as teamUsecases } from '../../../../../src/team/domain/usecases/index.js';
 import {
@@ -16,6 +14,7 @@ import {
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from '../../common/complementary-certification-builder.js';
+import { STRUCTURE_CATEGORY_SUP_ID } from '../../common/constants.js';
 import { CommonCertifiableUser } from '../shared/common-certifiable-user.js';
 import { CommonCertificationVersions } from '../shared/common-certification-versions.js';
 import { CommonOrganizations } from '../shared/common-organisations.js';
@@ -110,17 +109,20 @@ export class SupWithHabilitationsSeed {
 
   async #addCertificationCenter({ organization, organizationMember }) {
     const certificationCenter = await organizationalEntitiesUsecases.createCertificationCenter({
-      certificationCenter: new CertificationCenter({
-        id: SUP_CERTIFICATION_CENTER_ID,
-        name: 'SUP Certification Center (with habilitations)',
-        type: certificationCenterTypes.SUP,
-        externalId: organization.externalId,
-        createdAt: new Date('2024-01-30'),
-        habilitations: [
-          ComplementaryCertificationKeys.PIX_PLUS_DROIT,
-          ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
-          ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
-        ],
+      certificationCenter: new CenterForAdmin({
+        center: {
+          id: SUP_CERTIFICATION_CENTER_ID,
+          name: 'SUP Certification Center (with habilitations)',
+          type: certificationCenterTypes.SUP,
+          categoryId: STRUCTURE_CATEGORY_SUP_ID,
+          externalId: organization.externalId,
+          createdAt: new Date('2024-01-30'),
+          habilitations: [
+            ComplementaryCertificationKeys.PIX_PLUS_DROIT,
+            ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
+            ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
+          ],
+        },
       }),
       complementaryCertificationIds: [
         PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
