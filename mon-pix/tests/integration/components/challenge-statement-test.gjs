@@ -357,86 +357,6 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
         });
 
         module('when the assessment is a certification', function () {
-          test('it should not render the text to speech button when certification is not adjusted for accessibility', async function (assert) {
-            // given
-            const certificationCourse = this.store.createRecord('certification-course', {
-              id: 'cert123',
-              isAdjustedForAccessibility: false,
-            });
-            const assessment = this.store.createRecord('assessment', {
-              id: '267567',
-              type: 'CERTIFICATION',
-              certificationCourse,
-            });
-            addAssessmentToContext(this, assessment);
-
-            addChallengeToContext(this, {
-              instruction: 'La consigne du test avec un bouton de lecture à haute voix',
-              id: 'rec_challenge1',
-              locales: ['fr'],
-            });
-
-            // when
-            const screen = await render(
-              <template>
-                <ChallengeStatement
-                  @challenge={{state.challenge}}
-                  @assessment={{state.assessment}}
-                  @isTextToSpeechActivated={{true}}
-                />
-              </template>,
-            );
-
-            // then
-            assert
-              .dom(
-                screen.queryByRole('button', {
-                  name: t('pages.challenge.statement.text-to-speech.play'),
-                }),
-              )
-              .doesNotExist();
-          });
-
-          test('it should render the text to speech button when certification is adjusted for accessibility', async function (assert) {
-            // given
-            const certificationCourse = this.store.createRecord('certification-course', {
-              id: 'cert123',
-              isAdjustedForAccessibility: true,
-            });
-            const assessment = this.store.createRecord('assessment', {
-              id: '267567',
-              type: 'CERTIFICATION',
-              certificationCourse,
-            });
-            addAssessmentToContext(this, assessment);
-
-            addChallengeToContext(this, {
-              instruction: 'La consigne du test avec un bouton de lecture à haute voix',
-              id: 'rec_challenge1',
-              locales: ['fr'],
-            });
-
-            // when
-            const screen = await render(
-              <template>
-                <ChallengeStatement
-                  @challenge={{state.challenge}}
-                  @assessment={{state.assessment}}
-                  @isTextToSpeechActivated={{true}}
-                />
-              </template>,
-            );
-
-            // then
-            assert
-              .dom(
-                screen.getByRole('button', {
-                  name: t('pages.challenge.statement.text-to-speech.play'),
-                }),
-              )
-              .exists();
-          });
-
           module('when user clicks on text-to-speech button', function (hooks) {
             hooks.beforeEach(function () {
               window.sessionStorage.removeItem('certifCandidateStorage');
@@ -456,7 +376,6 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
               const certificationCourse = this.store.createRecord('certification-course', {
                 id: 'cert123',
-                isAdjustedForAccessibility: true,
               });
 
               const assessment = this.store.createRecord('assessment', {
