@@ -1,8 +1,11 @@
 import { config } from '../../../../config/config.js';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
+import { markGlossaryWords } from '../services/glossary-service.js';
 
 async function getModuleByShortId({ shortId, encryptedRedirectionUrl, moduleRepository }) {
   const module = await moduleRepository.getByShortId({ shortId });
+
+  markGlossaryWords(module);
 
   if (encryptedRedirectionUrl) {
     try {
