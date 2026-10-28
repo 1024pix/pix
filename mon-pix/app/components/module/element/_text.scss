@@ -42,11 +42,53 @@
     }
   }
 
+  highlighted-button {
+    position: relative;
+    display: inline;
+  }
+
+  .module-glossary-tooltip {
+    position: absolute;
+    bottom: calc(100% + var(--pix-spacing-2x));
+    left: 50%;
+    z-index: 10;
+    display: none;
+    width: max-content;
+    max-width: min(20rem, 80vw);
+    padding: var(--pix-spacing-2x) var(--pix-spacing-3x);
+    color: var(--pix-neutral-0);
+    font-weight: normal;
+    background-color: var(--pix-neutral-900);
+    border-radius: var(--pix-spacing-2x);
+    transform: translateX(-50%);
+
+    &--visible {
+      display: block;
+    }
+
+    // zone de recouvrement pour garder la tooltip ouverte entre le mot et la bulle
+    &::after {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: var(--pix-spacing-2x);
+      content: '';
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
   .module-glossary-word {
-    font-weight: bold;
     display: inline;
     padding: var(--pix-spacing-1x);
+    color: inherit;
+    font: inherit;
+    font-weight: bold;
     background-color: rgb(var(--pix-tertiary-100-inline), 0.5);
+    border: none;
     border-radius: var(--pix-spacing-1x);
     cursor: pointer;
     transition: background-color 0.15s ease, border-color 0.15s ease;

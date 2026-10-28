@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class ModulixGlossaryModal extends Service {
   @tracked isBookModalOpen = false;
+  @tracked selectedWord = null;
 
   openBookModal() {
     this.isBookModalOpen = true;
@@ -11,11 +12,11 @@ export default class ModulixGlossaryModal extends Service {
 
   closeBookModal() {
     this.isBookModalOpen = false;
+    this.selectedWord = null;
   }
 
-  @action handleGlossaryWordClick(event) {
-    if (event.target.closest('.module-glossary-word')) {
-      this.openBookModal();
-    }
+  @action openForWord(event) {
+    this.selectedWord = event.detail.word;
+    this.openBookModal();
   }
 }
