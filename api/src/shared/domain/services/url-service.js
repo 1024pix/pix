@@ -95,6 +95,23 @@ export function getPixCertifUrl(locale, { pathname, queryParams, hash, skipLocal
 
 /**
  * @param {string} locale - user locale or a challenge locale
+ * @param {Object} options - options for building the URL
+ * @param {string} [options.pathname] - optional pathname to append to the URL
+ * @param {Object} [options.queryParams] - optional query parameters to append to the URL
+ * @param {string} [options.hash] - optional hash to append to the URL
+ * @param {boolean} [options.skipLocaleParam] - optional when true, does not automatically add a locale query param
+ * @returns {string} - Pix Auth URL according the locale
+ */
+export function getPixAuthUrl(locale, { pathname, queryParams, hash, skipLocaleParam } = {}) {
+  const rootUrl = isFranceLocale(locale)
+    ? `${config.domain.pixAuth}${config.domain.tldFr}`
+    : `${config.domain.pixAuth}${config.domain.tldOrg}`;
+
+  return _buildUrlWithLocale({ rootUrl, locale, pathname, queryParams, hash, skipLocaleParam });
+}
+
+/**
+ * @param {string} locale - user locale or a challenge locale
  * @returns {string} - Pix App URL according the locale
  */
 export function getPixAppConnexionUrl(locale) {

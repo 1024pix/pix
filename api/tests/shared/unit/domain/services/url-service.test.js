@@ -5,6 +5,7 @@ import {
   getEmailValidationUrl,
   getPixAppConnexionUrl,
   getPixAppUrl,
+  getPixAuthUrl,
   getPixCertifUrl,
   getPixOrgaUrl,
   getPixWebsiteDomain,
@@ -172,6 +173,124 @@ describe('Unit | Shared | Domain | Services | url-service', function () {
 
         // then
         expect(url).to.equal('https://app.test.pix.org/api/hello');
+      });
+    });
+  });
+
+  describe('getPixAuthUrl', function () {
+    context('when locale is fr-FR or fr-fr', function () {
+      ['fr-fr', 'fr-FR'].forEach((locale) => {
+        it(`returns the Pix App URL with France domain for locale "${locale}"`, function () {
+          // given / when
+          const url = getPixAuthUrl(locale);
+
+          // then
+          expect(url).to.equal('https://auth.test.pix.fr/');
+        });
+      });
+    });
+
+    context('when locale is not fr-FR and supported or not', function () {
+      [
+        { locale: 'fr', expected: 'https://auth.test.pix.org/?locale=fr' },
+        { locale: 'en', expected: 'https://auth.test.pix.org/?locale=en' },
+        { locale: 'fr-BE', expected: 'https://auth.test.pix.org/?locale=fr-BE' },
+        { locale: 'tlh', expected: 'https://auth.test.pix.org/?locale=fr' },
+        { locale: 'fr-CA', expected: 'https://auth.test.pix.org/?locale=fr' },
+        { locale: 'fr_CA', expected: 'https://auth.test.pix.org/?locale=fr' },
+        { locale: null, expected: 'https://auth.test.pix.org/?locale=fr' },
+      ].forEach(({ locale, expected }) => {
+        it(`returns the Pix App URL with Org domain for locale "${locale}"`, function () {
+          // given / when
+          const url = getPixAuthUrl(locale);
+
+          // then
+          expect(url).to.equal(expected);
+        });
+      });
+    });
+
+    context('when pathname is provided', function () {
+      it('appends the pathname to the Pix App URL', function () {
+        // given
+        const locale = 'en';
+        const pathname = '/connexion';
+
+        // when
+        const url = getPixAuthUrl(locale, { pathname });
+
+        // then
+        expect(url).to.equal('https://auth.test.pix.org/connexion?locale=en');
+      });
+    });
+
+    context('when queryParams are provided', function () {
+      it('appends the queryParams to the Pix App URL', function () {
+        // given
+        const locale = 'en';
+        const queryParams = { code: '123+' };
+
+        // when
+        const url = getPixAuthUrl(locale, { queryParams });
+
+        // then
+        expect(url).to.equal('https://auth.test.pix.org/?code=123%2B&locale=en');
+      });
+
+      context('when locale is provided in the queryParams', function () {
+        it('overrides the locale parameter', function () {
+          // given
+          const locale = 'fr';
+          const queryParams = { locale: 'en' };
+
+          // when
+          const url = getPixAuthUrl(locale, { queryParams });
+
+          // then
+          expect(url).to.equal('https://auth.test.pix.org/?locale=en');
+        });
+      });
+
+      context('when lang is provided in the queryParams', function () {
+        it('overrides the locale parameter', function () {
+          // given
+          const locale = 'fr';
+          const queryParams = { lang: 'en' };
+
+          // when
+          const url = getPixAuthUrl(locale, { queryParams });
+
+          // then
+          expect(url).to.equal('https://auth.test.pix.org/?lang=en');
+        });
+      });
+    });
+
+    context('when hash is provided', function () {
+      it('appends the hash to the Pix App URL', function () {
+        // given
+        const locale = 'en';
+        const hash = '#section';
+
+        // when
+        const url = getPixAuthUrl(locale, { hash });
+
+        // then
+        expect(url).to.equal('https://auth.test.pix.org/?locale=en#section');
+      });
+    });
+
+    context('when skipLocaleParam is true', function () {
+      it('does not add the locale queryParam', function () {
+        // given
+        const locale = 'en';
+        const pathname = '/api/hello';
+
+        // when
+        const url = getPixAuthUrl(locale, { pathname, skipLocaleParam: true });
+
+        // then
+        expect(url).to.equal('https://auth.test.pix.org/api/hello');
       });
     });
   });
