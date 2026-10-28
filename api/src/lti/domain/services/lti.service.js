@@ -10,6 +10,8 @@ import { validatePlatformConfiguration } from '../validators/platform-configurat
 
 const logger = child('lti:service', { event: SCOPES.LTI });
 
+const ORGANIZATION_EXTERNAL_IDS_CUSTOM_CLAIM = 'pix_orgas';
+
 export const ltiService = {
   /**
    * @param {string} platformConfigurationUrl
@@ -53,7 +55,7 @@ export const ltiService = {
     return { ltiPlatform, platformConfiguration };
   },
 
-  createPixToolConfiguration(locale = 'fr-FR', dependencies = { urlService }) {
+  createPixToolConfiguration({ locale = 'fr-FR', isDevelopmentPlatform = false } = {}, dependencies = { urlService }) {
     const jwksUrl = dependencies.urlService.getPixAuthUrl(locale, { pathname: '/api/lti/keys' });
     const initiateLoginUrl = dependencies.urlService.getPixAuthUrl(locale, { pathname: '/api/lti/init' });
     const deepLinkingUrl = dependencies.urlService.getPixOrgaUrl(locale, { pathname: '/api/lti/deep-linking' });
@@ -86,6 +88,11 @@ export const ltiService = {
           },
         ],
         claims: ['sub', 'iss', 'name', 'family_name', 'given_name', 'email'],
+        custom_parameters: isDevelopmentPlatform
+          ? {
+              [ORGANIZATION_EXTERNAL_IDS_CUSTOM_CLAIM]: ['SCO_SIECLE_MANAGING', 'SCO_NOT_MANAGING'].join(','),
+            }
+          : {},
       },
     };
   },
@@ -122,5 +129,15 @@ export const ltiService = {
         keyid: registration.publicKey.kid,
       },
     );
+  },
+
+  deserializeDeepLinkingCustomClaims(customClaims) {
+    return {
+      organizationExternalIds:
+        customClaims?.[ORGANIZATION_EXTERNAL_IDS_CUSTOM_CLAIM]
+          ?.split(',')
+          .map((organizationExternalId) => organizationExternalId.trim())
+          .filter((organizationExternalId) => organizationExternalId !== '') ?? [],
+    };
   },
 };

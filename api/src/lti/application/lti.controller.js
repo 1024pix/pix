@@ -21,8 +21,6 @@ import { ltiCampaignSerializer } from '../infrastructure/serializers/jsonapi/lti
 
 const logger = child('lti:controller', { event: SCOPES.LTI });
 
-const CUSTOM_CLAIMS_EXTERNAL_IDS = 'pix_orgas';
-
 async function listPublicKeys(request, h, dependencies = { listLtiPublicKeys: usecases.listLtiPublicKeys }) {
   const publicKeys = await dependencies.listLtiPublicKeys();
 
@@ -101,7 +99,7 @@ async function init(request, h, dependencies = { ltiPlatformRegistrationReposito
     .header('Content-Type', 'text/html; charset=utf-8');
 }
 
-async function deepLink(request, h) {
+async function deepLink(request, h, dependencies = { ltiService }) {
   const { verifiedToken, registration } = await preLaunch(request);
 
   const origin = getForwardedOrigin(request.headers);
@@ -117,11 +115,7 @@ async function deepLink(request, h) {
     const deepLinkingSettings = verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'];
 
     const customClaims = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom'];
-    const organizationExternalIdRaw = customClaims[CUSTOM_CLAIMS_EXTERNAL_IDS] ?? '';
-    const organizationExternalIds = organizationExternalIdRaw
-      .split(',')
-      .map((orga) => orga.trim())
-      .filter(Boolean);
+    const { organizationExternalIds } = dependencies.ltiService.deserializeDeepLinkingCustomClaims(customClaims);
 
     const ltiPrescriberAccessToken = await usecases.authenticateLtiPrescriber({
       organizationExternalIds,

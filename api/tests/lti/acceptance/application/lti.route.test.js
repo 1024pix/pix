@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import * as jose from 'jose';
 import nock from 'nock';
 
+import { LtiPlatformRegistration } from '../../../../src/lti/domain/models/LtiPlatformRegistration.js';
 import { LtiPrescriberAccessToken } from '../../../../src/lti/domain/models/LtiPrescriberAccessToken.js';
 import { cryptoService } from '../../../../src/shared/domain/services/crypto-service.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
@@ -99,7 +100,7 @@ describe('Acceptance | LTI | Route | LTI', function () {
       );
 
       const registrations = await knex.select('clientId', 'platformId', 'status').from('lti_platform_registrations');
-      expect(registrations).to.deep.equal([{ clientId, platformId, status: 'active' }]);
+      expect(registrations).to.deep.equal([{ clientId, platformId, status: LtiPlatformRegistration.status.PENDING }]);
 
       expect(platformConfigScope.isDone()).to.be.true;
       expect(registrationScope.isDone()).to.be.true;
