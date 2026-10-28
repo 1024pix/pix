@@ -17,6 +17,20 @@ export class PixOrgaPage {
     await this.page.getByRole('button', { name: 'Accepter et continuer' }).click();
   }
 
+  async importFile(filePath: string, inputSelector = '#students-file-upload') {
+    // // The API creates the new organization import before answering, so waiting for the upload response
+    // // prevents the polling below from seeing the success banner of a previous import.
+
+    await this.page.locator(inputSelector).setInputFiles(filePath);
+
+    await this.page.waitForResponse(
+      (response) =>
+        response.request().method() === 'POST' && /\/organizations\/\d+\/.*(import|replace)/.test(response.url()),
+    );
+
+    await this.waitForTheImportToComplete(this.page);
+  }
+
   async waitForTheImportToComplete(page: Page) {
     let done;
     await page.getByRole('heading', { name: 'Importer des' }).waitFor();

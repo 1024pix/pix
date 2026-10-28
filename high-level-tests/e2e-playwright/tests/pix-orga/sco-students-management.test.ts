@@ -92,14 +92,7 @@ test('Managing sco learners', async ({ page }) => {
   await test.step('Import Learners', async () => {
     await page.getByRole('link', { name: 'Élèves' }).click();
     await page.getByRole('link', { name: 'Importer', exact: true }).click();
-    await page.locator('#students-file-upload').setInputFiles(path.join(os.tmpdir(), `sco-${UAJ}.xml`));
-
-    const hasLoader = await page.locator('.app-loader').isVisible();
-    if (hasLoader) {
-      await page.waitForSelector('.app-loader', { state: 'detached' });
-    }
-
-    await orgaPage.waitForTheImportToComplete(page);
+    await orgaPage.importFile(path.join(os.tmpdir(), `sco-${UAJ}.xml`));
     await page.getByRole('link', { name: 'Élèves' }).click();
     await expect(
       page.getByRole('paragraph').filter({ hasText: 'Les participants ont bien été importés' }),
@@ -290,15 +283,7 @@ test.describe('SCO import does not auto-reconcile a learner when the user alread
 
         await page.getByRole('link', { name: 'Élèves' }).click();
         await page.getByRole('link', { name: 'Importer', exact: true }).click();
-        await page
-          .locator('#students-file-upload')
-          .setInputFiles(path.join(os.tmpdir(), `fregata-a-${UAJ_FREGATA}.csv`));
-
-        const hasLoader = await page.locator('.app-loader').isVisible();
-        if (hasLoader) {
-          await page.waitForSelector('.app-loader', { state: 'detached' });
-        }
-        await orgaPage.waitForTheImportToComplete(page);
+        await orgaPage.importFile(path.join(os.tmpdir(), `fregata-a-${UAJ_FREGATA}.csv`));
       });
 
       await test.step('A user creates an account and reconciles with Jean Michel from Org A (INE 12)', async () => {
@@ -331,15 +316,7 @@ test.describe('SCO import does not auto-reconcile a learner when the user alread
 
         await page.getByRole('link', { name: 'Élèves' }).click();
         await page.getByRole('link', { name: 'Importer', exact: true }).click();
-        await page
-          .locator('#students-file-upload')
-          .setInputFiles(path.join(os.tmpdir(), `fregata-b-${UAJ_FREGATA}.csv`));
-
-        const hasLoader = await page.locator('.app-loader').isVisible();
-        if (hasLoader) {
-          await page.waitForSelector('.app-loader', { state: 'detached' });
-        }
-        await orgaPage.waitForTheImportToComplete(page);
+        await orgaPage.importFile(path.join(os.tmpdir(), `fregata-b-${UAJ_FREGATA}.csv`));
       });
 
       await test.step('Jean Michel manually reconciles with Org B (INE 13) via the campaign', async () => {
@@ -365,15 +342,7 @@ test.describe('SCO import does not auto-reconcile a learner when the user alread
 
         await page.getByRole('link', { name: 'Élèves' }).click();
         await page.getByRole('link', { name: 'Importer', exact: true }).click();
-        await page
-          .locator('#students-file-upload')
-          .setInputFiles(path.join(os.tmpdir(), `fregata-b2-${UAJ_FREGATA}.csv`));
-
-        const hasLoader = await page.locator('.app-loader').isVisible();
-        if (hasLoader) {
-          await page.waitForSelector('.app-loader', { state: 'detached' });
-        }
-        await orgaPage.waitForTheImportToComplete(page);
+        await orgaPage.importFile(path.join(os.tmpdir(), `fregata-b2-${UAJ_FREGATA}.csv`));
       });
 
       await test.step('Jean Michel cannot access the new Organization B campaign (INE 12 was not auto-reconciled)', async () => {
@@ -425,15 +394,7 @@ test.describe('SCO import does not auto-reconcile a learner when the user alread
 
         await page.getByRole('link', { name: 'Élèves' }).click();
         await page.getByRole('link', { name: 'Importer', exact: true }).click();
-        await page
-          .locator('#students-file-upload')
-          .setInputFiles(path.join(os.tmpdir(), `fregata-a-${UAJ_FREGATA}.csv`));
-
-        const hasLoader = await page.locator('.app-loader').isVisible();
-        if (hasLoader) {
-          await page.waitForSelector('.app-loader', { state: 'detached' });
-        }
-        await orgaPage.waitForTheImportToComplete(page);
+        await orgaPage.importFile(path.join(os.tmpdir(), `fregata-a-${UAJ_FREGATA}.csv`));
         await page.getByRole('link', { name: 'Se déconnecter' }).click();
         await page.getByRole('button', { name: 'Je me connecte' }).waitFor();
       });
@@ -467,15 +428,7 @@ test.describe('SCO import does not auto-reconcile a learner when the user alread
 
         await page.getByRole('link', { name: 'Élèves' }).click();
         await page.getByRole('link', { name: 'Importer', exact: true }).click();
-        await page
-          .locator('#students-file-upload')
-          .setInputFiles(path.join(os.tmpdir(), `fregata-b-${UAJ_FREGATA}.csv`));
-
-        const hasLoader = await page.locator('.app-loader').isVisible();
-        if (hasLoader) {
-          await page.waitForSelector('.app-loader', { state: 'detached' });
-        }
-        await orgaPage.waitForTheImportToComplete(page);
+        await orgaPage.importFile(path.join(os.tmpdir(), `fregata-b-${UAJ_FREGATA}.csv`));
         await page.getByRole('link', { name: 'Se déconnecter' }).click();
         await page.getByRole('button', { name: 'Je me connecte' }).waitFor();
       });
@@ -505,15 +458,7 @@ test.describe('SCO import does not auto-reconcile a learner when the user alread
 
         await page.getByRole('link', { name: 'Élèves' }).click();
         await page.getByRole('link', { name: 'Importer', exact: true }).click();
-        await page
-          .locator('#students-file-upload')
-          .setInputFiles(path.join(os.tmpdir(), `fregata-a2-${UAJ_FREGATA}.csv`));
-
-        const hasLoader = await page.locator('.app-loader').isVisible();
-        if (hasLoader) {
-          await page.waitForSelector('.app-loader', { state: 'detached' });
-        }
-        await orgaPage.waitForTheImportToComplete(page);
+        await orgaPage.importFile(path.join(os.tmpdir(), `fregata-a2-${UAJ_FREGATA}.csv`));
         await page.getByRole('link', { name: 'Élèves' }).click();
         await expect(
           page.getByRole('paragraph').filter({ hasText: 'Les participants ont bien été importés' }),
