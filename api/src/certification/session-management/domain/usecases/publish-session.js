@@ -1,5 +1,5 @@
-import { SessionPublishedEvent } from '../../../../../src/shared/domain/events/SessionPublishedEvent.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { SessionPublishedEvent } from '../../../../shared/domain/events/SessionPublishedEvent.ts';
 import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
 import { CertificationCourseNotPublishableError, SessionAlreadyPublishedError } from '../errors.js';
 
