@@ -2100,8 +2100,6 @@
         "actions": {
           "download-certificates": "Download certificates",
           "download-results": "Download published sessions results (.zip)",
-          "download-results-error": "An error occurred, the session results could not be downloaded.",
-          "download-results-no-results-error": "None of the selected sessions appears to have a published status. The download could not be completed.",
           "select-all": {
             "label": "Multiple selection",
             "tooltip": {
@@ -2112,6 +2110,12 @@
           "select-row": "Select session {sessionId}"
         },
         "caption": "Table listing the certification sessions. It indicates the unique identifier, the name of the certification centre to which it belongs, the external identifier, the category, the status, the passing, finalisation and publication dates and the certification version.",
+        "errors": {
+          "download-certificates-error": "An error occurred, the sessions certificates could not be downloaded.",
+          "download-certificates-no-certificates-error": "None of the selected sessions appears to have certificates to download. The download could not be completed.",
+          "download-results-error": "An error occurred, the sessions results could not be downloaded.",
+          "download-results-no-results-error": "None of the selected sessions appears to have a published status. The download could not be completed."
+        },
         "headers": {
           "certification-name": "Centre de certification",
           "external-id": "Identifiant externe",

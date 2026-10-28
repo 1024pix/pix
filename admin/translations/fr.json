@@ -2103,8 +2103,6 @@
         "actions": {
           "download-certificates": "Télécharger les certificats",
           "download-results": "Télécharger les résultats des sessions publiées (.zip)",
-          "download-results-error": "Une erreur est survenue, les résultats des sessions n'ont pas pu être téléchargés.",
-          "download-results-no-results-error": "Aucune session de la sélection ne semble avoir un statut publié. Le téléchargement n'a pas pu être effectué.",
           "select-all": {
             "label": "Sélection multiple",
             "tooltip": {
@@ -2115,6 +2113,12 @@
           "select-row": "Sélectionner la session {sessionId}"
         },
         "caption": "Tableau listant les sessions de certification. Il indique l'identifiant unique, le nom du centre de certification auquel il appartient, l'identifiant externe, la catégorie, le statut, les dates de passage, de finalisation et de publication et la version de certification.",
+        "errors": {
+          "download-certificates-error": "Une erreur est survenue, les certificats n'ont pas pu être téléchargés.",
+          "download-certificates-no-certificates-error": "Aucune session de la sélection ne semble avoir de certificats à télécharger. Le téléchargement n'a pas pu être effectué.",
+          "download-results-error": "Une erreur est survenue, les résultats des sessions n'ont pas pu être téléchargés.",
+          "download-results-no-results-error": "Aucune session de la sélection ne semble avoir un statut publié. Le téléchargement n'a pas pu être effectué."
+        },
         "headers": {
           "certification-name": "Centre de certification",
           "external-id": "Identifiant externe",
