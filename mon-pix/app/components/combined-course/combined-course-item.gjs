@@ -1,6 +1,8 @@
 import { PixButton, PixIcon, PixStars } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
+import { service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
+import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { and, not } from 'ember-truth-helpers';
 import autofocus from 'mon-pix/modifiers/autofocus.js';
@@ -15,7 +17,7 @@ const Content = <template>
       {{if @isCurrentItem 'combined-course-item--current'}}
       {{if @isCampaignType 'combined-course-item--isCampaignType'}}
       {{if @canReplay 'combined-course-item--replayable'}}
-      {{if @isDiagnostic 'combined-course-item--diagnostic'}}"
+      {{if (and @isCampaignType @isCompleted) 'combined-course-item--completed-campaign'}}"
     aria-details={{if @isCurrentItem "step-details"}}
     ...attributes
   >
@@ -40,8 +42,8 @@ const Content = <template>
             {{/if}}
           </div>
 
-          {{#if (has-block "diagnosticResultLink")}}
-            <div class="combined-course-item__diagnostic-results">{{yield to="diagnosticResultLink"}}</div>
+          {{#if (has-block "campaignResultLink")}}
+            <div class="combined-course-item__campaign-results">{{yield to="campaignResultLink"}}</div>
           {{/if}}
         </div>
       </div>
@@ -116,99 +118,43 @@ function hasWhiteBackground(item) {
   return item.isCompleted || !item.isLocked;
 }
 
-<template>
-  {{#if @item.isFormationBloc}}
-    <Content
-      @title={{t "pages.combined-courses.items.formation.title"}}
-      @isLocked={{true}}
-      @iconUrl={{@item.iconUrl}}
-      class="combined-course-item--formation"
-      @displayDuration={{false}}
-    >
-      <:description>
-        <p>{{t "pages.combined-courses.items.formation.description"}}</p>
-      </:description>
-    </Content>
-  {{else}}
-    {{#if (and @isLocked (not @item.isCompleted))}}
+export default class CombinedCourseItem extends Component {
+  @service intl;
+
+  get campaignResultCTALabel() {
+    if (this.args.item.isDiagnostic) {
+      return this.intl.t('pages.combined-courses.items.result-cta.diagnostic');
+    }
+
+    return this.intl.t('pages.combined-courses.items.result-cta.campaign');
+  }
+
+  <template>
+    {{#if @item.isFormationBloc}}
       <Content
-        @title={{@item.title}}
+        @title={{t "pages.combined-courses.items.formation.title"}}
         @isLocked={{true}}
         @iconUrl={{@item.iconUrl}}
-        @displayDuration={{@item.isModuleType}}
-      >
-        <:duration>
-          {{#if @item.duration}}<Duration @duration={{@item.duration}} />{{/if}}
-        </:duration>
-      </Content>
-    {{else if (and @isCombinedCourseCompleted @item.isModuleType)}}
-      <Content
-        @title={{@item.title}}
-        @isCompleted={{@item.isCompleted}}
-        @masteryRate={{@item.masteryRate}}
-        @hasStagesStars={{@item.hasStagesStars}}
-        @validatedStagesCount={{@item.validatedStages}}
-        @totalStagesCount={{@item.totalStages}}
-        @iconUrl={{@item.iconUrl}}
+        class="combined-course-item--formation"
         @displayDuration={{false}}
-        @hasWhiteBackground={{hasWhiteBackground @item}}
-        @canReplay={{true}}
-        @onClick={{@onClick}}
       >
-        <:objectives>
-          {{#if @item.objectives.length}}
-            <p class="combined-course-item__objectives-title">{{t
-                "pages.combined-courses.items.module-objectives-completed"
-              }}</p>
-            <ul class="combined-course-item__objectives-list">
-              {{#each @item.objectives as |objective|}}
-                <li class="combined-course-item__objectives-item">
-                  <PixIcon
-                    @name="checkCircle"
-                    @plainIcon={{true}}
-                    class="combined-course-item__objectives-icon"
-                    @ariaHidden={{true}}
-                  />
-                  {{htmlSafe objective}}
-                </li>
-              {{/each}}
-            </ul>
-          {{/if}}
-        </:objectives>
-      </Content>
-    {{else if (and @item.isDiagnostic @item.isCompleted @shouldDisplayCTA)}}
-      <Content
-        @title={{@item.title}}
-        @isCompleted={{@item.isCompleted}}
-        @masteryRate={{@item.masteryRate}}
-        @hasStagesStars={{@item.hasStagesStars}}
-        @validatedStagesCount={{@item.validatedStages}}
-        @totalStagesCount={{@item.totalStages}}
-        @iconUrl={{@item.iconUrl}}
-        @isCampaignType={{true}}
-        @displayDuration={{false}}
-        @hasWhiteBackground={{hasWhiteBackground @item}}
-        @isCurrentItem={{@isSelectedItem}}
-        @isLoading={{@isLoading}}
-        @onClick={{@onClick}}
-        @isDiagnostic={{true}}
-      >
-        <:diagnosticResultLink>
-          {{#unless @isLoading}}
-              <PixButton @variant="tertiary" @triggerAction={{@onClick}}>Voir le détails de mes résultats de diagnostic</PixButton>
-          {{/unless}}
-        </:diagnosticResultLink>
+        <:description>
+          <p>{{t "pages.combined-courses.items.formation.description"}}</p>
+        </:description>
       </Content>
     {{else}}
-      <button
-        class="combined-course-item--selectable"
-        type="button"
-        {{on "click" @onClick}}
-        data-testid="selectable-item-button"
-        aria-describedby={{if @isSelectedItem "step-details-description step-details-objectives"}}
-        {{autofocus @focusItem}}
-        {{scrollIntoView @focusItem}}
-      >
+      {{#if (and @isLocked (not @item.isCompleted))}}
+        <Content
+          @title={{@item.title}}
+          @isLocked={{true}}
+          @iconUrl={{@item.iconUrl}}
+          @displayDuration={{@item.isModuleType}}
+        >
+          <:duration>
+            {{#if @item.duration}}<Duration @duration={{@item.duration}} />{{/if}}
+          </:duration>
+        </Content>
+      {{else if (and @isCombinedCourseCompleted @item.isModuleType)}}
         <Content
           @title={{@item.title}}
           @isCompleted={{@item.isCompleted}}
@@ -217,24 +163,91 @@ function hasWhiteBackground(item) {
           @validatedStagesCount={{@item.validatedStages}}
           @totalStagesCount={{@item.totalStages}}
           @iconUrl={{@item.iconUrl}}
-          @isCampaignType={{@item.isCampaignType}}
-          @displayDuration={{@item.isModuleType}}
+          @displayDuration={{false}}
+          @hasWhiteBackground={{hasWhiteBackground @item}}
+          @canReplay={{true}}
+          @onClick={{@onClick}}
+        >
+          <:objectives>
+            {{#if @item.objectives.length}}
+              <p class="combined-course-item__objectives-title">{{t
+                  "pages.combined-courses.items.module-objectives-completed"
+                }}</p>
+              <ul class="combined-course-item__objectives-list">
+                {{#each @item.objectives as |objective|}}
+                  <li class="combined-course-item__objectives-item">
+                    <PixIcon
+                      @name="checkCircle"
+                      @plainIcon={{true}}
+                      class="combined-course-item__objectives-icon"
+                      @ariaHidden={{true}}
+                    />
+                    {{htmlSafe objective}}
+                  </li>
+                {{/each}}
+              </ul>
+            {{/if}}
+          </:objectives>
+        </Content>
+      {{else if (and @item.isCampaignType @item.isCompleted @shouldDisplayCTA)}}
+        <Content
+          @title={{@item.title}}
+          @isCompleted={{@item.isCompleted}}
+          @masteryRate={{@item.masteryRate}}
+          @hasStagesStars={{@item.hasStagesStars}}
+          @validatedStagesCount={{@item.validatedStages}}
+          @totalStagesCount={{@item.totalStages}}
+          @iconUrl={{@item.iconUrl}}
+          @isCampaignType={{true}}
+          @displayDuration={{false}}
           @hasWhiteBackground={{hasWhiteBackground @item}}
           @isCurrentItem={{@isSelectedItem}}
           @isLoading={{@isLoading}}
+          @onClick={{@onClick}}
         >
-          <:duration>
-            {{#if @item.duration}}
-              <Duration @duration={{@item.duration}} />
-            {{/if}}
-          </:duration>
-          <:blockEnd>
-            {{#if (and @isSelectedItem @shouldDisplayCTA)}}
-              <PixButton class="combined-course-item__cta">{{t @item.ctaLabel}}</PixButton>
-            {{/if}}
-          </:blockEnd>
+          <:campaignResultLink>
+            {{#unless @isLoading}}
+              <PixButton @variant="tertiary" @triggerAction={{@onClick}}>{{this.campaignResultCTALabel}}</PixButton>
+            {{/unless}}
+          </:campaignResultLink>
         </Content>
-      </button>
+      {{else}}
+        <button
+          class="combined-course-item--selectable"
+          type="button"
+          {{on "click" @onClick}}
+          data-testid="selectable-item-button"
+          aria-describedby={{if @isSelectedItem "step-details-description step-details-objectives"}}
+          {{autofocus @focusItem}}
+          {{scrollIntoView @focusItem}}
+        >
+          <Content
+            @title={{@item.title}}
+            @isCompleted={{@item.isCompleted}}
+            @masteryRate={{@item.masteryRate}}
+            @hasStagesStars={{@item.hasStagesStars}}
+            @validatedStagesCount={{@item.validatedStages}}
+            @totalStagesCount={{@item.totalStages}}
+            @iconUrl={{@item.iconUrl}}
+            @isCampaignType={{@item.isCampaignType}}
+            @displayDuration={{@item.isModuleType}}
+            @hasWhiteBackground={{hasWhiteBackground @item}}
+            @isCurrentItem={{@isSelectedItem}}
+            @isLoading={{@isLoading}}
+          >
+            <:duration>
+              {{#if @item.duration}}
+                <Duration @duration={{@item.duration}} />
+              {{/if}}
+            </:duration>
+            <:blockEnd>
+              {{#if (and @isSelectedItem @shouldDisplayCTA)}}
+                <PixButton class="combined-course-item__cta">{{t @item.ctaLabel}}</PixButton>
+              {{/if}}
+            </:blockEnd>
+          </Content>
+        </button>
+      {{/if}}
     {{/if}}
-  {{/if}}
-</template>
+  </template>
+}

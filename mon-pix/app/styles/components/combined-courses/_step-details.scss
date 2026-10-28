@@ -129,6 +129,10 @@
       }
     }
   }
+
+  &__cta {
+    white-space: normal;
+  }
 }
 
 ::view-transition-old(step-details-main),

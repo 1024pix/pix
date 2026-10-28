@@ -1367,8 +1367,11 @@
           "title": "Programma met modules op maat"
         },
         "module-objectives-completed": "In deze module hebt u het volgende geleerd:",
-        "restart-campaign": "Opnieuw beginnen",
         "restart-module": "De module opnieuw starten",
+        "result-cta": {
+          "campaign": "Mijn resultaten in detail bekijken",
+          "diagnostic": "De details van mijn diagnostische resultaten bekijken"
+        },
         "retry-module": "Deze module opnieuw afspelen",
         "start-campaign": "Beginnen",
         "start-diagnostic": "De diagnose starten",

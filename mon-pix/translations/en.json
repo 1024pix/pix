@@ -1367,8 +1367,11 @@
           "title": "Customised module programme"
         },
         "module-objectives-completed": "In this module, you have learnt:",
-        "restart-campaign": "Restart",
         "restart-module": "Restart module",
+        "result-cta": {
+          "campaign": "View the details of my results",
+          "diagnostic": "View the details of my diagnostic results"
+        },
         "retry-module": "Play this module again",
         "start-campaign": "Start",
         "start-diagnostic": "Start the diagnostic test",

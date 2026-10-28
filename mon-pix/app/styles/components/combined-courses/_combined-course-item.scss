@@ -72,7 +72,7 @@
     }
   }
 
-  &--diagnostic,
+  &--completed-campaign,
   &--current {
     @include breakpoints.device-is('mobile') {
       flex-wrap: wrap;
@@ -101,7 +101,7 @@
         order: 4;
       }
 
-      .combined-course-item__diagnostic-results {
+      .combined-course-item__campaign-results {
         flex-basis: 100%;
         order: 5;
       }
@@ -116,7 +116,7 @@
     }
   }
 
-  &--diagnostic {
+  &--completed-campaign {
     @include breakpoints.device-is('mobile') {
       .combined-course-item__description {
         display: none;
@@ -139,7 +139,7 @@
     gap: var(--pix-spacing-4x);
   }
 
-  &__diagnostic-results .pix-button {
+  &__campaign-results .pix-button {
     justify-content: flex-start;
     padding: 0;
     white-space: normal;
