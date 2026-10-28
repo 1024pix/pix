@@ -1,0 +1,151 @@
+@use 'pix-design-tokens/breakpoints';
+@use 'pix-design-tokens/typography';
+
+.certification-dashboard-eligibility-steps {
+  margin-bottom: var(--pix-spacing-6x);
+  text-wrap: pretty;
+
+  @include breakpoints.device-is('mobile') {
+    width: calc(100% + var(--pix-spacing-4x));
+    margin-left: calc(var(--pix-spacing-2x) * -1);
+    overflow: hidden;
+  }
+
+  &--not-certifiable {
+    @include breakpoints.device-is('mobile') {
+      .certification-dashboard-eligibility-steps__scroll-container {
+        grid-template-columns: 1fr;
+      }
+
+      .certification-dashboard-eligibility-steps__step-item {
+        position: relative;
+        padding-right: calc(6.5rem + var(--pix-spacing-8x));
+      }
+
+      .certification-dashboard-eligibility-step-item__progress,
+      .certification-dashboard-eligibility-step-item__image {
+        position: absolute;
+        top: 50%;
+        right: var(--pix-spacing-6x);
+        transform: translateY(-50%);
+      }
+
+      .certification-dashboard-eligibility-step-item__progress {
+        width: 6.5rem;
+
+        .count {
+          zoom: 0.875;
+        }
+      }
+
+      .certification-dashboard-eligibility-step-item__image {
+        width: 70px;
+        height: 70px;
+      }
+
+      .certification-dashboard-eligibility-step-item__title {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+.certification-dashboard-eligibility-steps__title {
+  @extend %pix-title-xs;
+
+  margin-bottom: var(--pix-spacing-4x);
+  text-wrap: balance;
+
+  @include breakpoints.device-is('mobile') {
+    padding-inline: var(--pix-spacing-6x);
+  }
+}
+
+.certification-dashboard-eligibility-steps__scroll-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--pix-spacing-4x);
+  padding-bottom: var(--pix-spacing-1x);
+  color: var(--pix-neutral-900);
+
+  @include breakpoints.device-is('mobile') {
+    padding-inline: var(--pix-spacing-6x);
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  @include breakpoints.device-is('tablet') {
+    grid-template-columns: 1fr;
+  }
+
+  @include breakpoints.device-is('desktop') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.certification-dashboard-eligibility-steps__step-item {
+  scroll-snap-align: center;
+
+  @include breakpoints.device-is('mobile') {
+    min-width: 66vw;
+  }
+
+  &--active {
+    background-color: var(--pix-certif-50);
+  }
+
+  &:not(.certification-dashboard-eligibility-steps__step-item--active) {
+    color: var(--pix-neutral-500);
+
+    .certification-dashboard-eligibility-step-item__image {
+      opacity: 0.6;
+      filter: grayscale(100%);
+    }
+  }
+}
+
+.certification-dashboard-eligibility-step-item__progress {
+  position: relative;
+  width: 8rem;
+
+  .count {
+    @extend %pix-body-s;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    line-height: 0.75;
+    text-align: center;
+    transform: translate(-50%, -40%);
+
+    b {
+      @extend %pix-title-xs;
+    }
+  }
+}
+
+.certification-dashboard-eligibility-step-item__image {
+  width: 84px;
+  height: 84px;
+  padding: 8px;
+  object-fit: contain;
+  object-position: center center;
+}
+
+.certification-dashboard-eligibility-step-item__title {
+  @extend %pix-body-m;
+
+  margin-block: var(--pix-spacing-3x) var(--pix-spacing-1x);
+  font-weight: bold;
+}
+
+
+.certification-dashboard-eligibility-step-item__text {
+  @extend %pix-body-s;
+}
+
+.certification-dashboard-eligibility-step-item__link {
+  display: inline-block;
+  margin-top: calc(var(--pix-spacing-1x) * -1);
+}
