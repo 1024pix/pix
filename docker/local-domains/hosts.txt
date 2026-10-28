@@ -8,5 +8,5 @@
 127.0.0.1 certif.dev.pix.org
 127.0.0.1 1d.dev.pix.fr
 127.0.0.1 1d.dev.pix.org
-127.0.0.1 api.dev.pix.fr
-127.0.0.1 api.dev.pix.org
+127.0.0.1 auth.dev.pix.fr
+127.0.0.1 auth.dev.pix.org

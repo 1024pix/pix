@@ -10,7 +10,7 @@ import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 
-describe('Acceptance | LTI | Route | Admin', function () {
+describe('Acceptance | LTI | Route | LTI', function () {
   let server;
 
   beforeEach(async function () {

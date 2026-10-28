@@ -48,7 +48,7 @@ certif.dev.pix.fr, certif.dev.pix.org {
   import long_certs
 }
 
-api.dev.pix.fr, api.dev.pix.org {
+auth.dev.pix.fr, auth.dev.pix.org {
   import pix_proxy 3000
   import long_certs
 }

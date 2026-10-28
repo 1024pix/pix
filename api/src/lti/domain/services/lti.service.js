@@ -54,8 +54,8 @@ export const ltiService = {
   },
 
   createPixToolConfiguration(locale = 'fr-FR', dependencies = { urlService }) {
-    const jwksUrl = dependencies.urlService.getPixApiUrl('/api/lti/keys');
-    const initiateLoginUrl = dependencies.urlService.getPixApiUrl('/api/lti/init');
+    const jwksUrl = dependencies.urlService.getPixAuthUrl(locale, { pathname: '/api/lti/keys' });
+    const initiateLoginUrl = dependencies.urlService.getPixAuthUrl(locale, { pathname: '/api/lti/init' });
     const deepLinkingUrl = dependencies.urlService.getPixOrgaUrl(locale, { pathname: '/api/lti/deep-linking' });
     const resourceLinkUrl = dependencies.urlService.getPixAppUrl(locale, { pathname: '/api/lti/resource-link' });
 

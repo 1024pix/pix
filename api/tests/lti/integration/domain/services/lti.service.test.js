@@ -129,8 +129,8 @@ describe('Integration | LTI | Domain | Services | LTI', function () {
       // given
       const expectedPixToolConfiguration = {
         response_types: ['id_token'],
-        jwks_uri: 'https://api.dev.pix.fr/api/lti/keys',
-        initiate_login_uri: 'https://api.dev.pix.fr/api/lti/init',
+        jwks_uri: 'https://auth.test.pix.fr/api/lti/keys',
+        initiate_login_uri: 'https://auth.test.pix.fr/api/lti/init',
         grant_types: ['client_credentials', 'implicit'],
         redirect_uris: [
           'https://orga.test.pix.fr/api/lti/deep-linking',
