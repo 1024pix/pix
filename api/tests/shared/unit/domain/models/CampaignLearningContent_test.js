@@ -57,5 +57,38 @@ describe('Unit | Domain | Models | CampaignLearningContent', function () {
         '@skill2',
       ]);
     });
+
+    it('should compute areas, competences, tubes and skills only once', function () {
+      const learningContent = domainBuilder.buildLearningContent([framework]);
+      const campaignLearningContent = new CampaignLearningContent(learningContent.frameworks);
+
+      expect(campaignLearningContent.areas).to.equal(campaignLearningContent.areas);
+      expect(campaignLearningContent.competences).to.equal(campaignLearningContent.competences);
+      expect(campaignLearningContent.tubes).to.equal(campaignLearningContent.tubes);
+      expect(campaignLearningContent.skills).to.equal(campaignLearningContent.skills);
+    });
+  });
+
+  describe('#findCompetenceIdOfSkill', function () {
+    it('should return the competence id of the skill', function () {
+      const learningContent = domainBuilder.buildLearningContent([framework]);
+      const campaignLearningContent = new CampaignLearningContent(learningContent.frameworks);
+
+      expect(campaignLearningContent.findCompetenceIdOfSkill('skillId4')).to.equal('competenceId2');
+    });
+
+    it('should return null when skill is not in learning content', function () {
+      const learningContent = domainBuilder.buildLearningContent([framework]);
+      const campaignLearningContent = new CampaignLearningContent(learningContent.frameworks);
+
+      expect(campaignLearningContent.findCompetenceIdOfSkill('unknownSkillId')).to.be.null;
+    });
+
+    it('should return null when skill tube is not in learning content', function () {
+      const learningContent = domainBuilder.buildLearningContent([framework]);
+      const campaignLearningContent = new CampaignLearningContent(learningContent.frameworks);
+
+      expect(campaignLearningContent.findCompetenceIdOfSkill('skillId1')).to.be.null;
+    });
   });
 });
