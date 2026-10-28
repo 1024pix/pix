@@ -100,18 +100,4 @@ export class LtiPrescriberAccessToken {
   static get cookieName() {
     return COOKIE_NAME;
   }
-
-  /**
-   * @deprecated
-   */
-  static generate({ organizationIds, clientId, deepLinkingSettings, scope, audience, sessionId }) {
-    return new LtiPrescriberAccessToken({
-      organizationIds,
-      clientId,
-      deepLinkingSettings,
-      scope,
-      audience,
-      sessionId,
-    }).encode();
-  }
 }
