@@ -43,7 +43,7 @@ certif.dev.pix.fr, certif.dev.pix.org {
   import long_certs
 }
 
-1d.dev.pix.fr, 1d.dev.pix.org {
+junior.dev.pix.fr, junior.dev.pix.org {
   import pix_proxy 4205
   import long_certs
 }

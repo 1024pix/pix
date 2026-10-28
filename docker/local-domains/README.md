@@ -4,15 +4,23 @@ Il est possible d'accéder aux applications Pix avec des domaines `*.dev.pix.<tl
 plutôt que `localhost:port` :
 
 - Mon Pix
-  - http://app.dev.pix.fr/
-  - http://app.dev.pix.org/
+  - https://app.dev.pix.fr/
+  - https://app.dev.pix.org/
 - Orga
-  - http://orga.dev.pix.fr/
-  - http://orga.dev.pix.org/
+  - https://orga.dev.pix.fr/
+  - https://orga.dev.pix.org/
 - Admin
-  - http://admin.dev.pix.fr/
+  - https://admin.dev.pix.fr/
+  - https://admin.dev.pix.org/
 - Certif
-  - http://certif.dev.pix.fr/
+  - https://certif.dev.pix.fr/
+  - https://certif.dev.pix.org/
+- Junior
+  - https://junior.dev.pix.fr/
+  - https://junior.dev.pix.org/
+- Auth
+  - https://auth.dev.pix.fr/
+  - https://auth.dev.pix.org/
 
 Pour configurer les domaines locaux, copier les déclarations de noms d’hôte du fichier [hosts.txt](./hosts.txt) dans le fichier d’hôtes de votre système (par exemple `/etc/hosts`).
 
