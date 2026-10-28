@@ -42,38 +42,31 @@
     }
   }
 
-  highlighted-button {
-    position: relative;
-    display: inline;
-  }
-
   .module-glossary-tooltip {
-    position: absolute;
-    bottom: calc(100% + var(--pix-spacing-2x));
-    left: 50%;
+    // top/left calculés par floating-ui (strategy: 'fixed')
+    position: fixed;
+    top: 0;
+    left: 0;
     z-index: 10;
     display: none;
     width: max-content;
-    max-width: min(20rem, 80vw);
+    max-width: min(20rem, calc(100vw - 2 * var(--pix-spacing-2x)));
     padding: var(--pix-spacing-2x) var(--pix-spacing-3x);
     color: var(--pix-neutral-0);
     font-weight: normal;
     background-color: var(--pix-neutral-900);
     border-radius: var(--pix-spacing-2x);
-    transform: translateX(-50%);
 
     &--visible {
       display: block;
     }
 
-    // zone de recouvrement pour garder la tooltip ouverte entre le mot et la bulle
-    &::after {
+    &__arrow {
       position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
+      width: var(--pix-spacing-2x);
       height: var(--pix-spacing-2x);
-      content: '';
+      background-color: inherit;
+      transform: rotate(45deg);
     }
 
     p {
