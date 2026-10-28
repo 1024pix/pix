@@ -60,6 +60,7 @@ export * from './build-issue-report-category.js';
 export * from './build-knowledge-element.ts';
 export * from './build-knowledge-element-snapshot.ts';
 export * from './build-knowledge-state.ts';
+export * from './build-knowledge-state-migration.js';
 export * from './build-last-user-application-connection.js';
 export * from './build-legal-document-version.js';
 export * from './build-legal-document-version-user-acceptance.js';

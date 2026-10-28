@@ -5,6 +5,36 @@ import * as userCompetenceScoreRepository from '../../../../../src/shared/infras
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Integration | Shared | Infrastructure | Repository | user-competence-score', function () {
+  describe('#findByUserId', function () {
+    it('should give the scores of the user only', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const otherUserId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildUserCompetenceScore({ userId, competenceId: 'recHistoire', pix: 12 });
+      databaseBuilder.factory.buildUserCompetenceScore({ userId, competenceId: 'recGeographie', pix: 8 });
+      databaseBuilder.factory.buildUserCompetenceScore({ userId: otherUserId, competenceId: 'recHistoire', pix: 4 });
+      await databaseBuilder.commit();
+
+      // when
+      const scores = await userCompetenceScoreRepository.findByUserId(userId);
+
+      // then
+      expect(scores.map(({ competenceId, pix }) => [competenceId, pix])).to.have.deep.members([
+        ['recHistoire', 12],
+        ['recGeographie', 8],
+      ]);
+      expect(scores[0]).to.be.instanceOf(UserCompetenceScore);
+    });
+
+    it('should return an empty array for a user without scores', async function () {
+      // when
+      const scores = await userCompetenceScoreRepository.findByUserId(12);
+
+      // then
+      expect(scores).to.deep.equal([]);
+    });
+  });
+
   describe('#findByUserIds', function () {
     it('should give the scores of the given users only', async function () {
       // given
@@ -45,7 +75,7 @@ describe('Integration | Shared | Infrastructure | Repository | user-competence-s
     });
   });
 
-  describe('#save', function () {
+  describe('#upsert', function () {
     it('should insert the scores of a competence not scored yet', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
@@ -53,7 +83,7 @@ describe('Integration | Shared | Infrastructure | Repository | user-competence-s
       const updatedAt = new Date('2026-10-08T10:00:00Z');
 
       // when
-      await userCompetenceScoreRepository.save([
+      await userCompetenceScoreRepository.upsert([
         new UserCompetenceScore({ userId, competenceId: 'recHistoire', pix: 12, updatedAt }),
       ]);
 
@@ -73,7 +103,7 @@ describe('Integration | Shared | Infrastructure | Repository | user-competence-s
       const updatedAt = new Date('2026-10-08T10:00:00Z');
 
       // when
-      await userCompetenceScoreRepository.save([
+      await userCompetenceScoreRepository.upsert([
         new UserCompetenceScore({ userId, competenceId: 'recHistoire', pix: 20, updatedAt }),
       ]);
 
@@ -88,7 +118,7 @@ describe('Integration | Shared | Infrastructure | Repository | user-competence-s
 
     it('should do nothing without scores', async function () {
       // when
-      await userCompetenceScoreRepository.save([]);
+      await userCompetenceScoreRepository.upsert([]);
 
       // then
       expect(await knex('user_competence_scores')).to.deep.equal([]);
