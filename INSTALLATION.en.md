@@ -147,18 +147,20 @@ See [the dedicated documentation](./docker/local-domains/README.en.md).
 
 #### Loading OIDC SSO providers when seeding
 
-Loading OIDC SSO providers during seeding is done from the `OIDC_PROVIDERS` environment variable if it is defined. When defined, it must contain JSON. Writing this JSON is quite tedious as there are many properties to provide and newlines cannot currently be used in the `.env` file (even though it would theoretically be possible with here-document notation). An example file `OIDC_PROVIDERS.example.json` is therefore provided with a simplified workflow described below.
+If the `OIDC_PROVIDERS` environment variable is defined and its content is JSON,
+then its content will be loaded along with the seeds.
 
-1. Copy and adapt the `OIDC_PROVIDERS.example.json` file to your needs:
+1. Create a file `OIDC_PROVIDERS.json`, which will hold secrets,
+   anywhere you want as long as its location is outside any Git repository:
 
    ```shell
-   cp OIDC_PROVIDERS.example.json OIDC_PROVIDERS.json
+   vim ~/Documents/OIDC_PROVIDERS.json
    ```
 
 2. Set the `OIDC_PROVIDERS` environment variable with the contents of the `OIDC_PROVIDERS.json` file:
 
    ```shell
-   export OIDC_PROVIDERS=$(cat OIDC_PROVIDERS.json)
+   export OIDC_PROVIDERS=$(cat ~/Documents/OIDC_PROVIDERS.json)
    ```
 
 3. Run the seed loading with debug output to verify that OIDC SSO providers are loaded correctly:
