@@ -304,7 +304,7 @@ export const deleteCampaignsInCombinedCourses = async ({
 };
 
 /**
- * @typedef {import('../../domain/read-models/CampaignOverview.js').CampaignOverview} CampaignOverview
+ * @typedef {import('./models/CampaignOverviewDTO.js').CampaignOverviewDTO} CampaignOverviewDTO
  */
 
 /**
@@ -312,9 +312,21 @@ export const deleteCampaignsInCombinedCourses = async ({
  * @name getCampaignOverviews
  *
  * @param {Array<Number>} organizationIds
- * @returns {Promise<CampaignOverview[]>}
+ * @returns {Promise<CampaignOverviewDTO[]>}
  */
 export const getCampaignOverviews = async ({ organizationIds }) => {
   const campaigns = await usecases.getCampaignOverviewsByOrganizations({ organizationIds });
   return campaigns.map((campaign) => new CampaignOverviewDTO(campaign));
+};
+
+/**
+ * @function
+ * @name getCampaignOverview
+ *
+ * @param {number} campaignId
+ * @returns {Promise<CampaignOverviewDTO|null>}
+ */
+export const getCampaignOverview = async ({ campaignId }) => {
+  const campaign = await usecases.getCampaignOverview({ campaignId });
+  return campaign ? new CampaignOverviewDTO(campaign) : null;
 };

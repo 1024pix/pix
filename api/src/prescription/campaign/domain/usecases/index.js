@@ -63,6 +63,7 @@ import { getCampaign } from './get-campaign.js';
 import { getCampaignByCode } from './get-campaign-by-code.js';
 import { getCampaignManagement } from './get-campaign-management.js';
 import { getCampaignOfCampaignParticipation } from './get-campaign-of-campaign-participation.js';
+import { getCampaignOverview } from './get-campaign-overview.js';
 import { getCampaignOverviewsByOrganizations } from './get-campaign-overviews-by-organizations.js';
 import { getCampaignParticipations } from './get-campaign-participations.js';
 import { getParticipantsDivision } from './get-participants-division.js';
@@ -146,6 +147,7 @@ const usecasesWithoutInjectedDependencies = {
   findPaginatedFilteredOrganizationCampaigns,
   findPaginatedOrganizationCampaignSummaries,
   getCampaignByCode,
+  getCampaignOverview,
   getCampaignOverviewsByOrganizations,
   getCampaignManagement,
   getCampaignOfCampaignParticipation,

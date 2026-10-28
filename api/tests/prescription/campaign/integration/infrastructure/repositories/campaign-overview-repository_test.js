@@ -110,4 +110,77 @@ describe('Integration | Repository | Campaign-Overview', function () {
       });
     });
   });
+
+  describe('#get', function () {
+    it('returns the campaign matching the given campaignId', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization({ name: 'Pix organization' }).id;
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile({ description: 'Parcours rentrée 6ieme' }).id;
+      const campaign = databaseBuilder.factory.buildCampaign({
+        code: 'QWERTY',
+        name: 'Campagne 6A',
+        organizationId,
+        targetProfileId,
+      });
+      databaseBuilder.factory.buildCampaign({ organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignOverviewRepository.get({ campaignId: campaign.id });
+
+      // then
+      expect(result).to.be.an.instanceOf(CampaignOverview);
+      expect(result).deep.equal({
+        id: campaign.id,
+        description: 'Parcours rentrée 6ieme',
+        code: 'QWERTY',
+        name: 'Campagne 6A',
+        organizationName: 'Pix organization',
+        organizationId,
+        targetProfileId,
+        type: CampaignTypes.ASSESSMENT,
+      });
+    });
+
+    it('returns a PROFILES_COLLECTION campaign without description nor target profile', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization({ name: 'Pix organization' }).id;
+      const campaign = databaseBuilder.factory.buildCampaign({
+        code: 'AZERTY',
+        name: 'Collecte de profils 6A',
+        type: CampaignTypes.PROFILES_COLLECTION,
+        organizationId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignOverviewRepository.get({ campaignId: campaign.id });
+
+      // then
+      expect(result).to.be.an.instanceOf(CampaignOverview);
+      expect(result).deep.equal({
+        id: campaign.id,
+        code: 'AZERTY',
+        name: 'Collecte de profils 6A',
+        description: null,
+        organizationName: 'Pix organization',
+        organizationId,
+        type: CampaignTypes.PROFILES_COLLECTION,
+        targetProfileId: null,
+      });
+    });
+
+    it('returns null when no campaign matches the given campaignId', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildCampaign({ organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignOverviewRepository.get({ campaignId: 123456 });
+
+      // then
+      expect(result).to.be.null;
+    });
+  });
 });
