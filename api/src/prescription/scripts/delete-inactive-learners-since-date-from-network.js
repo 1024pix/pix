@@ -67,7 +67,7 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
       let countDeletedLearners = 0;
 
       while (true) {
-        const inactiveLearnerIds = await this.findInactiveLearnerIdsSinceDate({
+        const inactiveLearnerIds = await this.findInactiveLearnerIdsWithoutCombinedCourseParticipationSinceDate({
           organizationId,
           lastActivityDate,
           batchSize,
@@ -77,23 +77,13 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
 
         lastLearnerIdComputed = inactiveLearnerIds[inactiveLearnerIds.length - 1];
 
-        const learnersWithCombinedCourseParticipation = await this.findLearnersWithCombinedCourseParticipation({
-          organizationLearnerIds: inactiveLearnerIds,
-        });
+        logger.info(`Batch #${++batchNumber}: ${inactiveLearnerIds.length} inactive learners to delete`);
 
-        const organizationLearnerIdsToDelete = inactiveLearnerIds.filter(
-          (id) => !learnersWithCombinedCourseParticipation.includes(id),
-        );
-
-        logger.info(`Batch #${++batchNumber}: ${organizationLearnerIdsToDelete.length} inactive learners to delete`);
-
-        if (organizationLearnerIdsToDelete.length === 0) continue;
-
-        countDeletedLearners += organizationLearnerIdsToDelete.length;
+        countDeletedLearners += inactiveLearnerIds.length;
 
         await DomainTransaction.execute(async () => {
           await usecases.deleteOrganizationLearners({
-            organizationLearnerIds: organizationLearnerIdsToDelete,
+            organizationLearnerIds: inactiveLearnerIds,
             userId: engineeringUserId,
             organizationId,
             userRole: 'SUPER_ADMIN',
@@ -120,11 +110,16 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
     }
   }
 
-  async findInactiveLearnerIdsSinceDate({ organizationId, lastActivityDate, batchSize, idOffset = 0 }) {
+  async findInactiveLearnerIdsWithoutCombinedCourseParticipationSinceDate({
+    organizationId,
+    lastActivityDate,
+    batchSize,
+    idOffset = 0,
+  }) {
     const knexConn = DomainTransaction.getConnection();
-    const query = knexConn
+    return await knexConn
       .with('organizationLearnersWithLastParticipationDate', (qb) => {
-        qb.select('id')
+        qb.select('view-active-organization-learners.id')
           .select(
             knexConn('campaign-participations as cp')
               .select('cp.createdAt')
@@ -134,10 +129,17 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
               .as('lastParticipationDate'),
           )
           .from('view-active-organization-learners')
+          .leftJoin(
+            'organization_learner_participations',
+            'view-active-organization-learners.id',
+            'organization_learner_participations.organizationLearnerId',
+          )
+          .whereNull('organization_learner_participations.id')
           .where('view-active-organization-learners.id', '>', idOffset)
-          .where('organizationId', organizationId)
-          .where('updatedAt', '<', lastActivityDate)
-          .orderBy('id', 'asc');
+          .where('view-active-organization-learners.organizationId', organizationId)
+          .where('view-active-organization-learners.updatedAt', '<', lastActivityDate)
+          .orderBy('view-active-organization-learners.id', 'asc')
+          .limit(batchSize);
       })
       .select('*')
       .from('organizationLearnersWithLastParticipationDate')
@@ -145,22 +147,6 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
       .orWhereNull('lastParticipationDate')
       .orderBy('id', 'asc')
       .pluck('id');
-
-    if (batchSize) query.limit(batchSize);
-    return await query;
-  }
-
-  async findLearnersWithCombinedCourseParticipation({ organizationLearnerIds }) {
-    const knexConn = DomainTransaction.getConnection();
-    return await knexConn('organization_learner_participations')
-      .join(
-        'view-active-organization-learners',
-        'organization_learner_participations.organizationLearnerId',
-        'view-active-organization-learners.id',
-      )
-      .where('type', 'COMBINED_COURSE')
-      .whereIn('view-active-organization-learners.id', organizationLearnerIds)
-      .pluck('organizationLearnerId');
   }
 }
 
