@@ -126,6 +126,53 @@ describe('Unit | Devcomp | Domain | Services | glossary-service', function () {
       expect(stepper.instruction).to.equal('<p>Un <span data-glossary-word="chat">chat</span></p>');
       expect(stepperElement.instruction).to.equal('<p>Quel <span data-glossary-word="chat">chat</span> ?</p>');
     });
+
+    it('should mark words in feedback diagnoses of elements, feedbacks and proposals', function () {
+      // given
+      const glossary = [{ word: 'chat', definition: 'Un félin' }];
+      const qcmDeclarative = { type: 'qcm-declarative', feedback: { diagnosis: '<p>Un chat</p>' } };
+      const qcm = {
+        type: 'qcm',
+        feedbacks: {
+          valid: { state: 'Correct chat', diagnosis: '<p>Bravo chat</p>' },
+          invalid: { state: 'Faux', diagnosis: '<p>Raté chat</p>' },
+        },
+      };
+      const qcuDeclarative = {
+        type: 'qcu-declarative',
+        proposals: [{ content: 'chat', feedback: { diagnosis: '<p>Le chat</p>' } }],
+      };
+      const module = _buildModule({ glossary, elements: [qcmDeclarative, qcm, qcuDeclarative] });
+
+      // when
+      markGlossaryWords(module);
+
+      // then
+      expect(qcmDeclarative.feedback.diagnosis).to.equal('<p>Un <span data-glossary-word="chat">chat</span></p>');
+      expect(qcm.feedbacks.valid).to.deep.equal({
+        state: 'Correct chat',
+        diagnosis: '<p>Bravo <span data-glossary-word="chat">chat</span></p>',
+      });
+      expect(qcm.feedbacks.invalid.diagnosis).to.equal('<p>Raté <span data-glossary-word="chat">chat</span></p>');
+      expect(qcuDeclarative.proposals[0].content).to.equal('chat');
+      expect(qcuDeclarative.proposals[0].feedback.diagnosis).to.equal(
+        '<p>Le <span data-glossary-word="chat">chat</span></p>',
+      );
+    });
+
+    it('should not mutate original feedback objects', function () {
+      // given
+      const originalFeedback = { diagnosis: '<p>Un chat</p>' };
+      const element = { type: 'qcu', proposals: [{ content: 'Oui', feedback: originalFeedback }] };
+      const module = _buildModule({ glossary: [{ word: 'chat', definition: 'Un félin' }], elements: [element] });
+
+      // when
+      markGlossaryWords(module);
+
+      // then
+      expect(originalFeedback.diagnosis).to.equal('<p>Un chat</p>');
+      expect(element.proposals[0].feedback).not.to.equal(originalFeedback);
+    });
   });
 });
 

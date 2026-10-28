@@ -5,7 +5,6 @@ import { t } from 'ember-intl';
 import ProposalButton from 'mon-pix/components/module/component/proposal-button';
 import RichContent from 'mon-pix/components/module/rich-content';
 
-import { htmlUnsafe } from '../../../helpers/html-unsafe';
 import { VERIFY_RESPONSE_DELAY } from '../component/element';
 import ModulixIssueReportBlock from '../issue-report/issue-report-block';
 import ModuleElement from './module-element';
@@ -83,7 +82,7 @@ export default class ModuleQcuDeclarative extends ModuleElement {
             {{#if this.modulixPreviewMode.isEnabled}}
               <div class="element-qcu-declarative__feedback" role="status" tabindex="-1">
                 <div class="element-qcu-declarative-feedback__content">
-                  {{htmlUnsafe proposal.feedback.diagnosis}}
+                  <RichContent @html={{proposal.feedback.diagnosis}} />
                 </div>
               </div>
             {{/if}}
@@ -94,7 +93,7 @@ export default class ModuleQcuDeclarative extends ModuleElement {
     {{#if this.shouldDisplayFeedback}}
       <div class="element-qcu-declarative__feedback" role="status" tabindex="-1">
         <div class="element-qcu-declarative-feedback__content">
-          {{htmlUnsafe this.selectedProposalFeedback}}
+          <RichContent @html={{this.selectedProposalFeedback}} />
         </div>
         <div class="element-qcu-declarative-feedback__report-button">
           <ModulixIssueReportBlock @reportInfo={{this.reportInfo}} />

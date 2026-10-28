@@ -36,6 +36,28 @@ function _processElement(element, matcher) {
     _markField(element, 'content', matcher);
   }
   _markField(element, 'instruction', matcher);
+  _processFeedbacks(element, matcher);
+}
+
+function _processFeedbacks(element, matcher) {
+  if (element.feedback) {
+    element.feedback = _markFeedback(element.feedback, matcher);
+  }
+  if (element.feedbacks) {
+    element.feedbacks.valid = _markFeedback(element.feedbacks.valid, matcher);
+    element.feedbacks.invalid = _markFeedback(element.feedbacks.invalid, matcher);
+  }
+  for (const proposal of element.proposals ?? []) {
+    if (proposal.feedback) {
+      proposal.feedback = _markFeedback(proposal.feedback, matcher);
+    }
+  }
+}
+
+// Feedback objects come straight from the cached learning content: copy them instead of mutating.
+function _markFeedback(feedback, matcher) {
+  if (typeof feedback?.diagnosis !== 'string') return feedback;
+  return { ...feedback, diagnosis: _markWordsInHtml(feedback.diagnosis, matcher) };
 }
 
 function _markField(target, fieldName, matcher) {

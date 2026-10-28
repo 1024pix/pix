@@ -119,7 +119,7 @@ export default class ModuleQcmDeclarative extends ModuleElement {
           {{#if this.modulixPreviewMode.isEnabled}}
             <div class="element-qcm-declarative__feedback" role="status" tabindex="-1">
               <div class="element-qcm-declarative-feedback__content">
-                {{htmlUnsafe this.element.feedback.diagnosis}}
+                <RichContent @html={{this.element.feedback.diagnosis}} />
               </div>
             </div>
           {{/if}}
@@ -141,7 +141,7 @@ export default class ModuleQcmDeclarative extends ModuleElement {
     {{#if this.shouldDisplayFeedback}}
       <div class="element-qcm-declarative__feedback" role="status" tabindex="-1">
         <div class="element-qcm-declarative-feedback__content">
-          {{htmlUnsafe this.feedback}}
+          <RichContent @html={{this.feedback}} />
         </div>
         <div class="element-qcm-declarative-feedback__report-button">
           <ModulixIssueReportBlock @reportInfo={{this.reportInfo}} />
