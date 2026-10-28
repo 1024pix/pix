@@ -72,6 +72,44 @@
     }
   }
 
+  &--diagnostic {
+    @include breakpoints.device-is('mobile') {
+      flex-wrap: wrap;
+
+      .combined-course-item__main,
+      .combined-course-item__content,
+      .combined-course-item__text {
+        display: contents;
+      }
+
+      .combined-course-item__description {
+        display: none;
+      }
+
+      .combined-course-item__icon {
+        order: 1;
+      }
+
+      .combined-course-item__title {
+        flex: 1;
+        order: 2;
+      }
+
+      .combined-course-item__indicator {
+        order: 3;
+      }
+
+      .combined-course-item__diagnostic-results {
+        flex-basis: 100%;
+        order: 4;
+      }
+
+      .combined-course-item__campaign-indicators {
+        order: 5;
+      }
+    }
+  }
+
   &--formation {
     background: color-mix(in srgb, var(--pix-primary-100) 20%, transparent);
   }
@@ -85,6 +123,13 @@
     flex: 1;
     flex-direction: column;
     gap: var(--pix-spacing-4x);
+  }
+
+  &__diagnostic-results .pix-button {
+    justify-content: flex-start;
+    padding: 0;
+    white-space: normal;
+    text-align: start;
   }
 
   &__objectives {
@@ -315,7 +360,7 @@
     margin-left: var(--pix-spacing-4x);
   }
 
-  .combined-course-item__text {
+  &__text {
     display: flex;
     flex-direction: column;
   }

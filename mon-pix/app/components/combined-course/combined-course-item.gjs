@@ -14,7 +14,8 @@ const Content = <template>
       {{if @hasWhiteBackground 'combined-course-item--white'}}
       {{if @isCurrentItem 'combined-course-item--current'}}
       {{if @isCampaignType 'combined-course-item--isCampaignType'}}
-      {{if @canReplay 'combined-course-item--replayable'}}"
+      {{if @canReplay 'combined-course-item--replayable'}}
+      {{if @isDiagnostic 'combined-course-item--diagnostic'}}"
     aria-details={{if @isCurrentItem "step-details"}}
     ...attributes
   >
@@ -38,15 +39,15 @@ const Content = <template>
               </span>
             {{/if}}
           </div>
+
+          {{#if (has-block "diagnosticResultLink")}}
+            <div class="combined-course-item__diagnostic-results">{{yield to="diagnosticResultLink"}}</div>
+          {{/if}}
         </div>
       </div>
 
       {{#if (has-block "objectives")}}
         <div class="combined-course-item__objectives">{{yield to="objectives"}}</div>
-      {{/if}}
-
-      {{#if (has-block "diagnosticResultLink")}}
-        <div class="combined-course-item__diagnostic-results">{{yield to="diagnosticResultLink"}}</div>
       {{/if}}
     </div>
 
@@ -194,9 +195,7 @@ function hasWhiteBackground(item) {
       >
         <:diagnosticResultLink>
           {{#unless @isLoading}}
-            <div class="combined-course-item__campaign-results">
               <PixButton @variant="tertiary" @triggerAction={{@onClick}}>Voir le détails de mes résultats de diagnostic</PixButton>
-            </div>
           {{/unless}}
         </:diagnosticResultLink>
       </Content>
