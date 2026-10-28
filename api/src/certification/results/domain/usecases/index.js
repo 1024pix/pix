@@ -29,6 +29,7 @@ import { getCertificationsResultsForLivretScolaire } from './get-certifications-
 import { getCleaCertifiedCandidateBySession } from './get-clea-certified-candidate-by-session.js';
 import { getPrivateCertificate } from './get-private-certificate.js';
 import { getScoCertificationResultsByDivision } from './get-sco-certification-results-by-division.js';
+import { getSelectedSessionsCertificates } from './get-selected-sessions-certificates.js';
 import { getSelectedSessionsResultsZip } from './get-selected-sessions-results-zip.js';
 import { getSessionCertificationReports } from './get-session-certification-reports.js';
 import { getSessionResults } from './get-session-results.js';
@@ -91,6 +92,7 @@ const usecasesWithoutInjectedDependencies = {
   getSessionResultsByResultRecipientEmail,
   getSessionResults,
   getShareableCertificate,
+  getSelectedSessionsCertificates,
   getSelectedSessionsResultsZip,
 };
 

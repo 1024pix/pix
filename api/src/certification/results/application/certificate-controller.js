@@ -172,7 +172,24 @@ async function downloadDivisionCertificates(
     .header('Content-Type', 'application/pdf');
 }
 
+async function downloadSelectedSessionsCertificates(request, h) {
+  const { isFrenchDomainExtension, sessionIds } = request.query;
+  const i18n = getI18nFromRequest(request);
+  const { filename, content: certificatesZipContent } = await usecases.getSelectedSessionsCertificates({
+    sessionIds,
+    isFrenchDomainExtension,
+    i18n,
+  });
+
+  return h
+    .response(certificatesZipContent)
+    .code(200)
+    .header('Content-Disposition', `attachment; filename=${filename}`)
+    .header('Content-Type', 'application/zip');
+}
+
 const certificateController = {
+  downloadSelectedSessionsCertificates,
   getCertificate,
   getCertificateByVerificationCode,
   getPDFCertificate,

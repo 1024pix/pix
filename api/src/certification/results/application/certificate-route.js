@@ -99,6 +99,37 @@ async function register(server) {
       },
     },
     {
+      method: 'GET',
+      path: '/api/admin/sessions/download-selection-certificates',
+      config: {
+        validate: {
+          query: Joi.object({
+            lang: Joi.string().optional().valid(FRENCH_SPOKEN, ENGLISH_SPOKEN),
+            isFrenchDomainExtension: Joi.boolean().required(),
+            sessionIds: Joi.array().items(identifiersType.sessionId).single().min(1).unique().required(),
+          }),
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: certificateController.downloadSelectedSessionsCertificates,
+        tags: ['api', 'sessions', 'certificates'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs ayant un rôle Super Admin, Certif ou Support.',
+          'Elle retourne un fichier Zip contenant un fichier PDF par session sélectionnée.',
+          'Chaque PDF représente un certificat.',
+        ],
+      },
+    },
+    {
       method: 'POST',
       path: '/api/shared-certifications',
       config: {

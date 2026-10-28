@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import { certificateController } from '../../../../../src/certification/results/application/certificate-controller.js';
 import { certificateRoute as moduleUnderTest } from '../../../../../src/certification/results/application/certificate-route.js';
 import { resultsSecurityPreHandlers } from '../../../../../src/certification/results/application/security-pre-handlers.js';
+import { NoCertificatesToDownloadError } from '../../../../../src/certification/results/domain/errors.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
@@ -156,6 +157,115 @@ describe('Certification | Results | Unit | Application | Certification Route', f
       // then
       sinon.assert.calledOnce(resultsSecurityPreHandlers.checkUserOwnsCertificationCourse);
       expect(response.statusCode).to.equal(403);
+    });
+  });
+
+  describe('GET /api/admin/sessions/download-selection-certificates', function () {
+    it('return forbidden access if user has METIER role', async function () {
+      // given
+      sinon
+        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
+        .withArgs([
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+          securityPreHandlers.checkAdminMemberHasRoleCertif,
+          securityPreHandlers.checkAdminMemberHasRoleSupport,
+        ])
+        .callsFake(
+          () => (request, h) =>
+            h
+              .response({ errors: new Error('forbidden') })
+              .code(403)
+              .takeover(),
+        );
+      sinon.stub(certificateController, 'downloadSelectedSessionsCertificates');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request(
+        'GET',
+        '/api/admin/sessions/download-selection-certificates?sessionIds=1&isFrenchDomainExtension=true',
+      );
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      sinon.assert.notCalled(certificateController.downloadSelectedSessionsCertificates);
+    });
+
+    describe('when sessionIds query param is missing', function () {
+      it('should return a 400 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          '/api/admin/sessions/download-selection-certificates?isFrenchDomainExtension=true',
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    describe('when a sessionId is not a valid identifier', function () {
+      it('should return a 400 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          '/api/admin/sessions/download-selection-certificates?sessionIds=not-a-number&isFrenchDomainExtension=true',
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    describe('when sessionIds query param has duplicated session ids', function () {
+      it('should return a 400 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          '/api/admin/sessions/download-selection-certificates?sessionIds=1&sessionIds=1&isFrenchDomainExtension=true',
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    describe('when no selected session has certificates to download', function () {
+      it('should return a 422 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+        sinon
+          .stub(certificateController, 'downloadSelectedSessionsCertificates')
+          .rejects(new NoCertificatesToDownloadError());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          '/api/admin/sessions/download-selection-certificates?sessionIds=1&isFrenchDomainExtension=true',
+        );
+
+        // then
+        expect(response.statusCode).to.equal(422);
+        expect(response.result.errors[0].code).to.equal('NO_CERTIFICATES_TO_DOWNLOAD');
+      });
     });
   });
 });

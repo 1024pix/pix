@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import dayjs from 'dayjs';
+import sinon from 'sinon';
 
 import { generateCertificateVerificationCode } from '../../../../../src/certification/evaluation/domain/services/verify-certificate-code-service.js';
 import {
@@ -992,6 +993,96 @@ describe('Certification | Results | Acceptance | Application | Certification', f
         );
         expect(response.file).not.to.be.null;
       });
+    });
+  });
+
+  describe('GET /api/admin/sessions/download-selection-certificates', function () {
+    const now = new Date('2026-01-01T05:06:07Z');
+
+    beforeEach(function () {
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
+    });
+
+    it('should return 200 HTTP status code', async function () {
+      // given
+      const server = await getServer();
+
+      const minimalLearningContent = [
+        {
+          id: 'recArea0',
+          code: '1',
+          competences: [
+            {
+              id: 'competenceId-1-3',
+              index: '1.3',
+              name: 'Traiter des données',
+            },
+          ],
+        },
+      ];
+      const learningContentObjects = learningContentBuilder.fromAreas(minimalLearningContent);
+      databaseBuilder.factory.learningContent.build(learningContentObjects);
+
+      const { id: userId } = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+
+      const { id: sessionId1 } = databaseBuilder.factory.buildSession({ date: '2026-01-01' });
+      const { id: sessionId2 } = databaseBuilder.factory.buildSession({ date: '2026-02-02' });
+
+      const candidates = [
+        databaseBuilder.factory.buildCertificationCandidate({
+          sessionId: sessionId1,
+        }),
+        databaseBuilder.factory.buildCertificationCandidate({
+          sessionId: sessionId1,
+        }),
+        databaseBuilder.factory.buildCertificationCandidate({
+          sessionId: sessionId2,
+        }),
+      ];
+
+      candidates.forEach((candidate) => {
+        const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+          sessionId: candidate.sessionId,
+          userId: candidate.userId,
+          lastName: candidate.lastName,
+          birthdate: candidate.birthdate,
+          createdAt: candidate.createdAt,
+          candidateId: candidate.id,
+        });
+
+        const assessment = databaseBuilder.factory.buildAssessment({
+          certificationCourseId: certificationCourse.id,
+          type: Assessment.types.CERTIFICATION,
+          state: Assessment.states.COMPLETED,
+        });
+
+        const assessmentResult = databaseBuilder.factory.buildAssessmentResult.last({
+          assessmentId: assessment.id,
+          createdAt: new Date('2018-04-15T00:00:00Z'),
+          certificationCourseId: certificationCourse.id,
+        });
+
+        databaseBuilder.factory.buildCompetenceMark({
+          competenceId: 'competenceId-1-3',
+          assessmentResultId: assessmentResult.id,
+        });
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/admin/sessions/download-selection-certificates?sessionIds=${sessionId1}&sessionIds=${sessionId2}&isFrenchDomainExtension=true&lang=fr`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.headers['content-type']).to.equal('application/zip');
+      expect(response.headers['content-disposition']).to.contain(
+        'attachment; filename=pix-sessions-certificates-1767243967000.zip',
+      );
     });
   });
 });
