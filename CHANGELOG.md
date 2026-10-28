@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## [5.532.1](https://github.com/1024pix/pix/compare/v5.532.0...v5.532.1) (2026-10-28)
+
+### :bug: Correction
+
+- [#18411](https://github.com/1024pix/pix/pull/18411) Évite de bloquer l'event loop lors de l'export CSV des résultats de campagne d'évaluation
+
 # [5.532.0](https://github.com/1024pix/pix/compare/v5.531.0...v5.532.0) (2026-10-28)
 
 ### :rocket: Amélioration
