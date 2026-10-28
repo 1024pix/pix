@@ -28,6 +28,24 @@ Arrêter le conteneur :
 npm run domains:stop
 ```
 
+## Utilisation avec un pare-feu
+
+Si votre système est protégé par un pare-feu, cela peut empêcher le container Docker Caddy
+d’accéder aux différents serveurs NodeJS démarrés sur l’hôte.
+
+Il faut donc autoriser l’accès à l’hôte depuis le réseau Docker nommé `pix_local`.
+
+Voici un exemple de configuration sur Linux avec le pare-feu [ufw](https://launchpad.net/ufw) :
+
+```bash
+ufw allow in on br-$(docker network ls --quiet --filter name=pix_local) to 0.0.0.0/0 port 3000,4200:4205 proto tcp
+```
+
+Elle autorise l’accès depuis l’interface réseau bridge de `pix_local` à toutes les IPs V4 sur les ports 3000 et 4200 à 4205 pour les protocoles TCP.
+
+> [!NOTE]  
+> Cette commande doit être exécutée en tant qu’administrateur (`sudo`).
+
 ## Utiliser les domains réseaux locaux depuis un container Docker
 
 Les domaines réseaux locaux sont disponibles sur un réseau Docker nommé `pix_local`.

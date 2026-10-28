@@ -27,6 +27,24 @@ Stop the container:
 npm run domains:stop
 ```
 
+## Using with a firewall
+
+If your system is protected by a firewall, this can prevent the Caddy Docker container
+from accessing the various NodeJS servers running on the host.
+
+The access to the host from the `pix_local` Docker network must then be allowed.
+
+Here is a configuration example for [ufw](https://launchpad.net/ufw) Linux’s firewall :
+
+```bash
+ufw allow in on br-$(docker network ls --quiet --filter name=pix_local) to 0.0.0.0/0 port 3000,4200:4205 proto tcp
+```
+
+It allows access from the `pix_local` bridge network interface to all V4 IPs on ports 3000 and 4200 through 4205 for TCP protocols.
+
+> [!NOTE]  
+> This command must be executed as administrator (`sudo`).
+
 ## Using local network domains from a Docker container
 
 Local network domains are available on Docker network named `pix_local`.
