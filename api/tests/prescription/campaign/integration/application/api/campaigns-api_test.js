@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 
 import * as campaignApi from '../../../../../../src/prescription/campaign/application/api/campaigns-api.js';
+import { CampaignOverviewDTO } from '../../../../../../src/prescription/campaign/application/api/models/CampaignOverviewDTO.js';
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign/application/api/models/CampaignParticipation.js';
 import { SavedCampaign } from '../../../../../../src/prescription/campaign/application/api/models/SavedCampaign.js';
 import { UserNotAuthorizedToCreateCampaignError } from '../../../../../../src/prescription/campaign/domain/errors.js';
-import { LtiCampaign } from '../../../../../../src/prescription/campaign/domain/models/LtiCampaign.js';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
@@ -579,8 +579,8 @@ describe('Integration | Application | campaign-api', function () {
     });
   });
 
-  describe('#getLtiCampaigns', function () {
-    it('returns ltiCampaign objects', async function () {
+  describe('#getCampaignOverviews', function () {
+    it('returns campaignOverview objects', async function () {
       // given
       const firstOrganizationId = databaseBuilder.factory.buildOrganization({ name: 'Pix organization' }).id;
       const secondOrganizationId = databaseBuilder.factory.buildOrganization({ name: 'FWB organization' }).id;
@@ -602,19 +602,20 @@ describe('Integration | Application | campaign-api', function () {
       await databaseBuilder.commit();
 
       // when
-      const campaigns = await campaignApi.getLtiCampaigns({
+      const campaigns = await campaignApi.getCampaignOverviews({
         organizationIds: [firstOrganizationId, secondOrganizationId],
       });
 
       // then
       expect(campaigns.length).to.equal(3);
-      expect(campaigns[0]).to.be.an.instanceOf(LtiCampaign);
+      expect(campaigns[0]).to.be.an.instanceOf(CampaignOverviewDTO);
       expect(campaigns[0]).deep.equal({
         id: campaign1.id,
         description: 'Parcours rentrée 6ieme',
         code: 'AZERTY',
         name: 'Campagne 6A',
         organizationName: 'Pix organization',
+        organizationId: firstOrganizationId,
         type: 'ASSESSMENT',
       });
     });

@@ -15,7 +15,7 @@ describe('Integration | UseCase | get-campaigns-by-organizations', function () {
     await databaseBuilder.commit();
 
     // when
-    const campaigns = await usecases.getLtiCampaignsByOrganizations({
+    const campaigns = await usecases.getCampaignOverviewsByOrganizations({
       organizationIds: [firstOrganizationId, secondOrganizationId],
     });
 
