@@ -17,8 +17,11 @@ import { ltiDeepLinkingSerializer } from '../infrastructure/serializers/html/lti
 import { ltiErrorSerializer } from '../infrastructure/serializers/html/lti-error-serializer.js';
 import { ltiInitializationSerializer } from '../infrastructure/serializers/html/lti-initialization-serializer.js';
 import { ltiRegistrationSerializer } from '../infrastructure/serializers/html/lti-registration-serializer.js';
+import { ltiCampaignSerializer } from '../infrastructure/serializers/jsonapi/lti-campaign-serializer.js';
 
 const logger = child('lti:controller', { event: SCOPES.LTI });
+
+const CUSTOM_CLAIMS_EXTERNAL_IDS = 'external_ids';
 
 async function listPublicKeys(request, h, dependencies = { listLtiPublicKeys: usecases.listLtiPublicKeys }) {
   const publicKeys = await dependencies.listLtiPublicKeys();
@@ -113,9 +116,10 @@ async function deepLink(request, h) {
   if (messageType === 'LtiDeepLinkingRequest') {
     const deepLinkingSettings = verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'];
 
-    // FIXME take from custom claims
-    const organizationExternalIds = ['12345', '7890'];
-
+    const customClaims = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom'];
+    const organizationExternalIds = customClaims[CUSTOM_CLAIMS_EXTERNAL_IDS]
+      ? JSON.parse(customClaims[CUSTOM_CLAIMS_EXTERNAL_IDS])
+      : [];
     const ltiPrescriberAccessToken = await usecases.authenticateLtiPrescriber({
       organizationExternalIds,
       registration,
@@ -135,22 +139,9 @@ async function findAvailableCampaigns(request, h) {
   const { organizationIds } = request.auth.credentials;
   logger.info({ organizationIds }, 'available campaigns');
 
-  const campaigns = [
-    {
-      name: 'Auto Cours 1',
-      code: 'AUTOCOUR1',
-    },
-    {
-      name: 'Auto Cours 3',
-      code: 'AUTOCOUR3',
-    },
-    {
-      name: 'Auto Cours 5',
-      code: 'AUTOCOUR5',
-    },
-  ];
+  const ltiCampaigns = await usecases.getLtiCampaignsByOrganizations({ organizationIds });
 
-  return h.response(campaigns);
+  return h.response(ltiCampaignSerializer.serialize(ltiCampaigns));
 }
 
 async function selectCampaign(request, h, dependencies = { ltiService }) {

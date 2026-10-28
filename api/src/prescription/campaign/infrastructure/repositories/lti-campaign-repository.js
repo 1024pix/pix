@@ -13,7 +13,7 @@ export async function getAllByOrganizationIds({ organizationIds }) {
       'organizations.name as organizationName',
     )
     .join('organizations', 'organizations.id', 'campaigns.organizationId')
-    .join('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
+    .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
     .whereIn('campaigns.organizationId', organizationIds)
     .orderBy(['organizations.id', 'campaigns.name', 'campaigns.code']);
   return campaigns.map((campaign) => new LtiCampaign(campaign));
