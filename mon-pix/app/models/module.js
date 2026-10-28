@@ -9,6 +9,8 @@ export default class Module extends Model {
   @attr() details;
   @attr('string') version;
   @attr('string') redirectionUrl;
+  // eslint-disable-next-line ember/no-empty-attrs
+  @attr() glossary;
   @hasMany('section', { async: false, inverse: 'module' }) sections;
 
   get isNewPattern() {
