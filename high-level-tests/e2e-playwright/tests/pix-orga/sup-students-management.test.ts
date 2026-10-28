@@ -31,16 +31,10 @@ test('Managing sup students', async ({ page }) => {
     await page.getByRole('link', { name: 'Importer' }).click();
     await page.getByRole('button', { name: 'Importer une nouvelle liste' }).click();
     await page.getByText('Je confirme avoir bien').click();
-    await page
-      .locator('#students-file-upload-replace')
-      .setInputFiles(path.join(import.meta.dirname, '..', '..', 'data', 'sup-ok.csv'));
-
-    const hasLoader = await page.locator('.app-loader').isVisible();
-    if (hasLoader) {
-      await page.waitForSelector('.app-loader', { state: 'detached' });
-    }
-
-    await orgaPage.waitForTheImportToComplete(page);
+    await orgaPage.importFile(
+      path.join(import.meta.dirname, '..', '..', 'data', 'sup-ok.csv'),
+      '#students-file-upload-replace',
+    );
   });
   await test.step('show learners', async () => {
     await page.goto(process.env.PIX_ORGA_URL as string);

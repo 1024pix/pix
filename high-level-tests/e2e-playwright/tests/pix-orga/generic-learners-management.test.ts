@@ -46,11 +46,7 @@ test('Managing generic import learners', async ({ page }) => {
   await test.step('Import learners', async () => {
     await page.getByRole('link', { name: 'Participants' }).click();
     await page.getByRole('link', { name: 'Importer', exact: true }).click();
-    await page
-      .locator('#students-file-upload')
-      .setInputFiles(path.join(import.meta.dirname, '..', '..', 'data', 'generic-ok.csv'));
-
-    await orgaPage.waitForTheImportToComplete(page);
+    await orgaPage.importFile(path.join(import.meta.dirname, '..', '..', 'data', 'generic-ok.csv'));
   });
 
   await test.step('Show learners', async () => {
