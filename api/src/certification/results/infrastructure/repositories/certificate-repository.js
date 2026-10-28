@@ -3,6 +3,8 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { CompetenceMark } from '../../../shared/domain/models/CompetenceMark.js';
+import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
+import { buildForV3 } from '../../domain/models/certificate-builder.ts';
 import { CertificationAttestation } from '../../domain/models/CertificationAttestation.js';
 import { PrivateCertificate } from '../../domain/models/PrivateCertificate.js';
 import { ResultCompetenceTree } from '../../domain/models/ResultCompetenceTree.js';
@@ -112,6 +114,102 @@ export async function getShareableCertificate({ certificationCourseId, locale })
   const certifiedBadges = await _getCertifiedBadges(knexConn, shareableCertificateDTO.id);
 
   return _toDomainForShareableCertificate({ shareableCertificateDTO, competenceTree, certifiedBadges });
+}
+
+export async function buildCertificateV3(certificationId) {
+  const knexConn = DomainTransaction.getConnection();
+  const certificationData = await knexConn
+    .select({
+      id: 'certification-courses.id',
+      algorithmEngineVersion: 'certification-courses.version',
+      userId: 'certification-courses.userId',
+      firstName: 'certification-courses.firstName',
+      lastName: 'certification-courses.lastName',
+      birthdate: 'certification-courses.birthdate',
+      birthplace: 'certification-courses.birthplace',
+      verificationCode: 'certification-courses.verificationCode',
+      certificationCenter: 'certification-centers.name',
+      startedAt: 'certification-courses.createdAt',
+      deliveredAt: 'sessions.publishedAt',
+      status: 'assessment-results.status',
+      versionId: 'certification-courses.versionId',
+      framework: 'certification-courses.framework',
+      maxReachableLevel: 'certification-courses.maxReachableLevelOnCertificationDate',
+      pixScore: 'assessment-results.pixScore',
+      reachedMeshIndex: 'assessment-results.reachedMeshIndex',
+      eduV3ExternalJuryResult: 'assessment-results.eduV3ExternalJuryResult',
+      commentByAutoJury: 'assessment-results.commentByAutoJury',
+      commentByJury: 'assessment-results.commentByJury',
+      commentForCandidate: 'assessment-results.commentForCandidate',
+      commentForOrganization: 'assessment-results.commentForOrganization',
+      competenceMarks: knexConn.raw(`
+        json_agg(
+          json_build_object('level', "competence-marks".level, 'competenceId', "competence-marks"."competenceId")
+          ORDER BY "competence-marks"."competenceId" asc
+        )`),
+      organizationLearnerId: 'certification-candidates.organizationLearnerId',
+    })
+    .where('certification-courses.id', certificationId)
+    .where('certification-courses.version', AlgorithmEngineVersion.V3)
+    .where('certification-courses.isPublished', true)
+    .from('certification-courses')
+    .join('certification-candidates', 'certification-candidates.id', 'certification-courses.candidateId')
+    .join('sessions', 'sessions.id', 'certification-courses.sessionId')
+    .join('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
+    .join(
+      'certification-courses-last-assessment-results',
+      'certification-courses.id',
+      'certification-courses-last-assessment-results.certificationCourseId',
+    )
+    .join(
+      'assessment-results',
+      'assessment-results.id',
+      'certification-courses-last-assessment-results.lastAssessmentResultId',
+    )
+    .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
+    .groupBy(
+      'certification-courses.id',
+      'sessions.id',
+      'assessment-results.id',
+      'certification-centers.id',
+      'certification-candidates.id',
+    )
+    .first();
+  if (!certificationData) {
+    return null;
+  }
+
+  let learnerData = null;
+  if (certificationData.organizationLearnerId) {
+    learnerData = await knexConn
+      .select({
+        middleName: 'middleName',
+        thirdName: 'thirdName',
+        externalId: 'nationalStudentId',
+      })
+      .from('organization-learners')
+      .where({ id: certificationData.organizationLearnerId })
+      .first();
+  }
+
+  let cleaData = null;
+  if (certificationData.framework === Frameworks.CLEA) {
+    cleaData = await knexConn
+      .select(
+        'complementary-certification-course-results.acquired',
+        'complementary-certification-course-results.complementaryCertificationBadgeId',
+      )
+      .from('complementary-certification-course-results')
+      .innerJoin(
+        'complementary-certification-courses',
+        'complementary-certification-courses.id',
+        'complementary-certification-course-results.complementaryCertificationCourseId',
+      )
+      .where({ certificationCourseId: certificationId })
+      .first();
+  }
+
+  return buildForV3(certificationData, learnerData, cleaData);
 }
 
 function _selectCertificationCourseDTOs(knexConn) {

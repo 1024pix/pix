@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { Certificate } from '../../../../../../src/certification/results/domain/models/Certificate.ts';
 import * as certificateRepository from '../../../../../../src/certification/results/infrastructure/repositories/certificate-repository.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
@@ -2652,6 +2653,499 @@ describe('Integration | Infrastructure | Repository | Certification', function (
         expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, [
           'resultCompetenceTree',
         ]);
+      });
+    });
+  });
+
+  describe('#buildCertificateV3', function () {
+    context('when no data found for certification', function () {
+      it('returns null', async function () {
+        const certificate = await certificateRepository.buildCertificateV3(123);
+        expect(certificate).to.be.null;
+      });
+    });
+
+    context('CORE', function () {
+      it('returns a CORE certificate', async function () {
+        const versionId = databaseBuilder.factory.buildCertificationVersion({
+          scope: Frameworks.CORE,
+          challengesConfiguration: {},
+          status: 'active',
+        }).id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          name: 'Centre certification le meilleur',
+        }).id;
+        const sessionId = databaseBuilder.factory.buildSession({
+          certificationCenterId,
+          publishedAt: new Date('2026-01-03'),
+        }).id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+          middleName: 'Ann',
+          thirdName: 'Joan',
+          nationalStudentId: 'xXSlayerXx',
+        }).id;
+        const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+          organizationLearnerId,
+          sessionId,
+        }).id;
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+          userId,
+          candidateId,
+          versionId,
+          framework: Frameworks.CORE,
+          maxReachableLevelOnCertificationDate: 7,
+          sessionId,
+          isPublished: true,
+          version: AlgorithmEngineVersion.V3,
+          firstName: 'Buffy',
+          lastName: 'Summers',
+          birthdate: '1981-01-18',
+          birthplace: 'Sunnydale',
+          verificationCode: 'VERIFCODE',
+          createdAt: new Date('2026-01-01'),
+        }).id;
+        const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
+        const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
+          certificationCourseId,
+          assessmentId,
+          pixScore: 678,
+          status: 'validated',
+          reachedMeshIndex: 3,
+          commentByAutoJury: 'commentByAutoJury',
+          commentByJury: 'commentByJury',
+          commentForOrganization: 'commentForOrganization',
+          commentForCandidate: 'commentForCandidate',
+        }).id;
+        databaseBuilder.factory.buildCompetenceMark({ assessmentResultId, competenceId: 'competenceABC123', level: 1 });
+        databaseBuilder.factory.buildCompetenceMark({ assessmentResultId, competenceId: 'competenceDEF456', level: 7 });
+        await databaseBuilder.commit();
+
+        const certificate = await certificateRepository.buildCertificateV3(certificationCourseId);
+        expect(certificate).to.deepEqualInstance(
+          new Certificate({
+            id: certificationCourseId,
+            algorithmEngineVersion: AlgorithmEngineVersion.V3,
+            userId,
+            firstName: 'Buffy',
+            middleName: 'Ann',
+            thirdName: 'Joan',
+            lastName: 'Summers',
+            externalId: 'xXSlayerXx',
+            birthdate: '1981-01-18',
+            birthplace: 'Sunnydale',
+            verificationCode: 'VERIFCODE',
+            certificationCenter: 'Centre certification le meilleur',
+            startedAt: new Date('2026-01-01'),
+            deliveredAt: new Date('2026-01-03'),
+            status: 'validated',
+            versionId,
+            framework: Frameworks.CORE,
+            franceCompetencesMinScore: 120,
+            commentByAutoJury: 'commentByAutoJury',
+            commentByJury: 'commentByJury',
+            commentForOrganization: 'commentForOrganization',
+            commentForCandidate: 'commentForCandidate',
+            results: {
+              maxReachableLevel: 7,
+              pixScore: 678,
+              reachedMeshIndex: 3,
+              competenceMarks: [
+                {
+                  level: 1,
+                  competenceId: 'competenceABC123',
+                },
+                {
+                  level: 7,
+                  competenceId: 'competenceDEF456',
+                },
+              ],
+            },
+          }),
+        );
+      });
+    });
+
+    context('CLEA', function () {
+      it('returns a CLEA certificate', async function () {
+        const versionId = databaseBuilder.factory.buildCertificationVersion({
+          scope: Frameworks.CORE,
+          challengesConfiguration: {},
+          status: 'active',
+        }).id;
+        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+          key: 'CLEA',
+        }).id;
+        const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+          complementaryCertificationId,
+        }).id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          name: 'Centre certification le meilleur',
+        }).id;
+        const sessionId = databaseBuilder.factory.buildSession({
+          certificationCenterId,
+          publishedAt: new Date('2026-01-03'),
+        }).id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+          middleName: 'Ann',
+          thirdName: 'Joan',
+          nationalStudentId: 'xXSlayerXx',
+        }).id;
+        const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+          organizationLearnerId,
+          sessionId,
+        }).id;
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+          userId,
+          candidateId,
+          versionId,
+          framework: Frameworks.CLEA,
+          maxReachableLevelOnCertificationDate: 7,
+          sessionId,
+          isPublished: true,
+          version: AlgorithmEngineVersion.V3,
+          firstName: 'Buffy',
+          lastName: 'Summers',
+          birthdate: '1981-01-18',
+          birthplace: 'Sunnydale',
+          verificationCode: 'VERIFCODE',
+          createdAt: new Date('2026-01-01'),
+        }).id;
+        const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
+          certificationCourseId,
+          complementaryCertificationId,
+          complementaryCertificationBadgeId,
+          complementaryCertificationKey: 'CLEA',
+        }).id;
+        const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
+        const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
+          certificationCourseId,
+          assessmentId,
+          pixScore: 678,
+          status: 'validated',
+          reachedMeshIndex: 3,
+          commentByAutoJury: 'commentByAutoJury',
+          commentByJury: 'commentByJury',
+          commentForOrganization: 'commentForOrganization',
+          commentForCandidate: 'commentForCandidate',
+        }).id;
+        databaseBuilder.factory.buildCompetenceMark({ assessmentResultId, competenceId: 'competenceABC123', level: 1 });
+        databaseBuilder.factory.buildCompetenceMark({ assessmentResultId, competenceId: 'competenceDEF456', level: 7 });
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+          complementaryCertificationCourseId,
+          complementaryCertificationBadgeId,
+          acquired: true,
+        });
+        await databaseBuilder.commit();
+
+        const certificate = await certificateRepository.buildCertificateV3(certificationCourseId);
+        expect(certificate).to.deepEqualInstance(
+          new Certificate({
+            id: certificationCourseId,
+            algorithmEngineVersion: AlgorithmEngineVersion.V3,
+            userId,
+            firstName: 'Buffy',
+            middleName: 'Ann',
+            thirdName: 'Joan',
+            lastName: 'Summers',
+            externalId: 'xXSlayerXx',
+            birthdate: '1981-01-18',
+            birthplace: 'Sunnydale',
+            verificationCode: 'VERIFCODE',
+            certificationCenter: 'Centre certification le meilleur',
+            startedAt: new Date('2026-01-01'),
+            deliveredAt: new Date('2026-01-03'),
+            status: 'validated',
+            versionId,
+            framework: Frameworks.CLEA,
+            franceCompetencesMinScore: 120,
+            commentByAutoJury: 'commentByAutoJury',
+            commentByJury: 'commentByJury',
+            commentForOrganization: 'commentForOrganization',
+            commentForCandidate: 'commentForCandidate',
+            results: {
+              maxReachableLevel: 7,
+              pixScore: 678,
+              reachedMeshIndex: 3,
+              competenceMarks: [
+                {
+                  level: 1,
+                  competenceId: 'competenceABC123',
+                },
+                {
+                  level: 7,
+                  competenceId: 'competenceDEF456',
+                },
+              ],
+              acquired: true,
+              complementaryCertificationBadgeId,
+            },
+          }),
+        );
+      });
+    });
+
+    context('PRO_SANTE', function () {
+      it('returns a PRO_SANTE certificate', async function () {
+        const versionId = databaseBuilder.factory.buildCertificationVersion({
+          scope: Frameworks.PRO_SANTE,
+          challengesConfiguration: {},
+          status: 'active',
+        }).id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          name: 'Centre certification le meilleur',
+        }).id;
+        const sessionId = databaseBuilder.factory.buildSession({
+          certificationCenterId,
+          publishedAt: new Date('2026-01-03'),
+        }).id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+          middleName: 'Ann',
+          thirdName: 'Joan',
+          nationalStudentId: 'xXSlayerXx',
+        }).id;
+        const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+          organizationLearnerId,
+          sessionId,
+        }).id;
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+          userId,
+          candidateId,
+          versionId,
+          framework: Frameworks.PRO_SANTE,
+          maxReachableLevelOnCertificationDate: null,
+          sessionId,
+          isPublished: true,
+          version: AlgorithmEngineVersion.V3,
+          firstName: 'Buffy',
+          lastName: 'Summers',
+          birthdate: '1981-01-18',
+          birthplace: 'Sunnydale',
+          verificationCode: 'VERIFCODE',
+          createdAt: new Date('2026-01-01'),
+        }).id;
+        const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
+        databaseBuilder.factory.buildAssessmentResult.last({
+          certificationCourseId,
+          assessmentId,
+          pixScore: null,
+          status: 'validated',
+          reachedMeshIndex: 3,
+          commentByAutoJury: 'commentByAutoJury',
+          commentByJury: 'commentByJury',
+          commentForOrganization: 'commentForOrganization',
+          commentForCandidate: 'commentForCandidate',
+        }).id;
+        await databaseBuilder.commit();
+
+        const certificate = await certificateRepository.buildCertificateV3(certificationCourseId);
+        expect(certificate).to.deepEqualInstance(
+          new Certificate({
+            id: certificationCourseId,
+            algorithmEngineVersion: AlgorithmEngineVersion.V3,
+            userId,
+            firstName: 'Buffy',
+            middleName: 'Ann',
+            thirdName: 'Joan',
+            lastName: 'Summers',
+            externalId: 'xXSlayerXx',
+            birthdate: '1981-01-18',
+            birthplace: 'Sunnydale',
+            verificationCode: 'VERIFCODE',
+            certificationCenter: 'Centre certification le meilleur',
+            startedAt: new Date('2026-01-01'),
+            deliveredAt: new Date('2026-01-03'),
+            status: 'validated',
+            versionId,
+            framework: Frameworks.PRO_SANTE,
+            franceCompetencesMinScore: null,
+            commentByAutoJury: 'commentByAutoJury',
+            commentByJury: 'commentByJury',
+            commentForOrganization: 'commentForOrganization',
+            commentForCandidate: 'commentForCandidate',
+            results: {
+              reachedMeshIndex: 3,
+            },
+          }),
+        );
+      });
+    });
+
+    context('DROIT', function () {
+      it('returns a DROIT certificate', async function () {
+        const versionId = databaseBuilder.factory.buildCertificationVersion({
+          scope: Frameworks.DROIT,
+          challengesConfiguration: {},
+          status: 'active',
+        }).id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          name: 'Centre certification le meilleur',
+        }).id;
+        const sessionId = databaseBuilder.factory.buildSession({
+          certificationCenterId,
+          publishedAt: new Date('2026-01-03'),
+        }).id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+          middleName: 'Ann',
+          thirdName: 'Joan',
+          nationalStudentId: 'xXSlayerXx',
+        }).id;
+        const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+          organizationLearnerId,
+          sessionId,
+        }).id;
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+          userId,
+          candidateId,
+          versionId,
+          framework: Frameworks.DROIT,
+          maxReachableLevelOnCertificationDate: null,
+          sessionId,
+          isPublished: true,
+          version: AlgorithmEngineVersion.V3,
+          firstName: 'Buffy',
+          lastName: 'Summers',
+          birthdate: '1981-01-18',
+          birthplace: 'Sunnydale',
+          verificationCode: 'VERIFCODE',
+          createdAt: new Date('2026-01-01'),
+        }).id;
+        const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
+        databaseBuilder.factory.buildAssessmentResult.last({
+          certificationCourseId,
+          assessmentId,
+          pixScore: null,
+          status: 'validated',
+          reachedMeshIndex: 3,
+          commentByAutoJury: 'commentByAutoJury',
+          commentByJury: 'commentByJury',
+          commentForOrganization: 'commentForOrganization',
+          commentForCandidate: 'commentForCandidate',
+        }).id;
+        await databaseBuilder.commit();
+
+        const certificate = await certificateRepository.buildCertificateV3(certificationCourseId);
+        expect(certificate).to.deepEqualInstance(
+          new Certificate({
+            id: certificationCourseId,
+            algorithmEngineVersion: AlgorithmEngineVersion.V3,
+            userId,
+            firstName: 'Buffy',
+            middleName: 'Ann',
+            thirdName: 'Joan',
+            lastName: 'Summers',
+            externalId: 'xXSlayerXx',
+            birthdate: '1981-01-18',
+            birthplace: 'Sunnydale',
+            verificationCode: 'VERIFCODE',
+            certificationCenter: 'Centre certification le meilleur',
+            startedAt: new Date('2026-01-01'),
+            deliveredAt: new Date('2026-01-03'),
+            status: 'validated',
+            versionId,
+            framework: Frameworks.DROIT,
+            franceCompetencesMinScore: null,
+            commentByAutoJury: 'commentByAutoJury',
+            commentByJury: 'commentByJury',
+            commentForOrganization: 'commentForOrganization',
+            commentForCandidate: 'commentForCandidate',
+            results: {
+              reachedMeshIndex: 3,
+            },
+          }),
+        );
+      });
+    });
+
+    context('EDU', function () {
+      it('returns a EDU certificate', async function () {
+        const versionId = databaseBuilder.factory.buildCertificationVersion({
+          scope: Frameworks.EDU_2ND_DEGRE,
+          challengesConfiguration: {},
+          status: 'active',
+        }).id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          name: 'Centre certification le meilleur',
+        }).id;
+        const sessionId = databaseBuilder.factory.buildSession({
+          certificationCenterId,
+          publishedAt: new Date('2026-01-03'),
+        }).id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+          middleName: 'Ann',
+          thirdName: 'Joan',
+          nationalStudentId: 'xXSlayerXx',
+        }).id;
+        const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+          organizationLearnerId,
+          sessionId,
+        }).id;
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+          userId,
+          candidateId,
+          versionId,
+          framework: Frameworks.EDU_2ND_DEGRE,
+          maxReachableLevelOnCertificationDate: null,
+          sessionId,
+          isPublished: true,
+          version: AlgorithmEngineVersion.V3,
+          firstName: 'Buffy',
+          lastName: 'Summers',
+          birthdate: '1981-01-18',
+          birthplace: 'Sunnydale',
+          verificationCode: 'VERIFCODE',
+          createdAt: new Date('2026-01-01'),
+        }).id;
+        const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
+        databaseBuilder.factory.buildAssessmentResult.last({
+          certificationCourseId,
+          assessmentId,
+          pixScore: null,
+          status: 'validated',
+          reachedMeshIndex: 3,
+          eduV3ExternalJuryResult: 'super mec',
+          commentByAutoJury: 'commentByAutoJury',
+          commentByJury: 'commentByJury',
+          commentForOrganization: 'commentForOrganization',
+          commentForCandidate: 'commentForCandidate',
+        }).id;
+        await databaseBuilder.commit();
+
+        const certificate = await certificateRepository.buildCertificateV3(certificationCourseId);
+        expect(certificate).to.deepEqualInstance(
+          new Certificate({
+            id: certificationCourseId,
+            algorithmEngineVersion: AlgorithmEngineVersion.V3,
+            userId,
+            firstName: 'Buffy',
+            middleName: 'Ann',
+            thirdName: 'Joan',
+            lastName: 'Summers',
+            externalId: 'xXSlayerXx',
+            birthdate: '1981-01-18',
+            birthplace: 'Sunnydale',
+            verificationCode: 'VERIFCODE',
+            certificationCenter: 'Centre certification le meilleur',
+            startedAt: new Date('2026-01-01'),
+            deliveredAt: new Date('2026-01-03'),
+            status: 'validated',
+            versionId,
+            framework: Frameworks.EDU_2ND_DEGRE,
+            franceCompetencesMinScore: null,
+            commentByAutoJury: 'commentByAutoJury',
+            commentByJury: 'commentByJury',
+            commentForOrganization: 'commentForOrganization',
+            commentForCandidate: 'commentForCandidate',
+            results: {
+              reachedMeshIndex: 3,
+              eduV3ExternalJuryResult: 'super mec',
+            },
+          }),
+        );
       });
     });
   });
