@@ -55,7 +55,7 @@ export const bacASableModule = {
                 id: 'd95aff0f-e120-4bd6-9566-7d72a11f4f40',
                 type: 'qcm-declarative',
                 feedback: {
-                  diagnosis: '<p>Ça va, tu as bon goût.</p>',
+                  diagnosis: '<p>Ça va, tu as bon goût, comme un chat.</p>',
                 },
                 proposals: [
                   {
@@ -151,7 +151,7 @@ export const bacASableModule = {
                       id: '0401cef4-871e-40a3-876b-5d7571f8b556',
                       type: 'qcm-declarative',
                       feedback: {
-                        diagnosis: "<p>C'est sûr, c'est un vrai kiff !</p>",
+                        diagnosis: "<p>C'est sûr, c'est un vrai kiff ! Demande au chat.</p>",
                       },
                       proposals: [
                         {
@@ -226,7 +226,7 @@ export const bacASableModule = {
                         },
                         invalid: {
                           state: 'Incorrect !',
-                          diagnosis: '<p> vous y arriverez la prochaine fois !</p>',
+                          diagnosis: '<p> vous y arriverez la prochaine fois, foi de chat !</p>',
                         },
                       },
                       proposals: [
@@ -275,14 +275,14 @@ export const bacASableModule = {
                           id: '1',
                           content: 'Vrai',
                           feedback: {
-                            diagnosis: '<p> Et non ! Il y a seulement 5 domaines sur Pix.</p>',
+                            diagnosis: '<p> Et non ! Il y a seulement 5 domaines sur Pix, demande au chat.</p>',
                           },
                         },
                         {
                           id: '2',
                           content: 'Faux',
                           feedback: {
-                            diagnosis: '<p> Bien vu !</p>',
+                            diagnosis: '<p> Bien vu ! Le chat ronronne de plaisir.</p>',
                           },
                         },
                       ],
@@ -299,7 +299,7 @@ export const bacASableModule = {
                       feedbacks: {
                         valid: {
                           state: 'Correct !',
-                          diagnosis: '<p>Vous nous avez bien cernés&nbsp;:)</p>',
+                          diagnosis: '<p>Vous nous avez bien cernés&nbsp;:) Le chat est fier de vous.</p>',
                         },
                         invalid: {
                           state: 'Et non !',
@@ -364,14 +364,14 @@ export const bacASableModule = {
                           id: '1',
                           content: '<p>8</p>',
                           feedback: {
-                            diagnosis: '<p>Bien joué !</p>',
+                            diagnosis: '<p>Bien joué ! Même le chat applaudit.</p>',
                           },
                         },
                         {
                           id: '2',
                           content: '<p>9</p>',
                           feedback: {
-                            diagnosis: "<p>Eh non ! Y'a un bagel dans votre calcul 🥯</p>",
+                            diagnosis: "<p>Eh non ! Y'a un bagel dans votre calcul 🥯 Le chat l'a mangé.</p>",
                           },
                         },
                       ],
@@ -541,7 +541,7 @@ export const bacASableModule = {
                     id: '1',
                     content: 'Nutella 🍫',
                     feedback: {
-                      diagnosis: "<p>Les meilleures c'est clair !</p>",
+                      diagnosis: "<p>Les meilleures c'est clair ! Le chat est d'accord.</p>",
                     },
                   },
                   {
@@ -780,7 +780,7 @@ export const bacASableModule = {
                   },
                   invalid: {
                     state: 'Et non !',
-                    diagnosis: '<p>Essayez encore 🦀</p>',
+                    diagnosis: '<p>Essayez encore 🦀 Le chat croit en vous.</p>',
                   },
                 },
                 proposals: [
@@ -888,7 +888,7 @@ export const bacASableModule = {
                   },
                 ],
                 feedback: {
-                  diagnosis: '<p>Continuez comme ça !</p>',
+                  diagnosis: '<p>Continuez comme ça ! Un chat vous regarde.</p>',
                 },
                 instruction:
                   '<p><strong>Maintenant, entraînez-vous sur des exemples concrets !</strong> </p> <p> Pour chaque exemple, choisissez si l’affirmation est <strong>vraie</strong> ou <strong>fausse</strong>.</p>',
@@ -992,7 +992,7 @@ export const bacASableModule = {
                     content: 'Des recettes végétariennes',
                     feedback: {
                       state: 'Correct !',
-                      diagnosis: '<p>Bonne réponse ! Ce sont bien des recettes végétariennes</p>',
+                      diagnosis: '<p>Bonne réponse ! Ce sont bien des recettes végétariennes, sans chat</p>',
                     },
                   },
                 ],
@@ -1776,7 +1776,7 @@ export const bacASableModule = {
     {
       word: 'chat',
       definition:
-        '<p>Le chat, plus spécifiquement désigné sous le nom de chat domestique, est une espèce de mammifères de l’Ordre des Carnivores, de la famille des félins (Félidés).</p>',
+        '<p>Le chat, plus spécifiquement désigné sous le nom de <strong>chat domestique</strong>, est une espèce de mammifères de l’Ordre des Carnivores, de la famille des félins (Félidés).</p>',
     },
   ],
 };
