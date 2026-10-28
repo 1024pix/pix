@@ -195,17 +195,11 @@ export default class ChallengeStatement extends Component {
   }
 
   get showTextToSpeechButton() {
-    const isTextToSpeechFeatureActivated =
+    return (
       window.speechSynthesis &&
       this.featureToggles.featureToggles?.isTextToSpeechButtonEnabled &&
-      this.args.isTextToSpeechActivated;
-
-    const certificationCourse = this.args.assessment.belongsTo('certificationCourse').value();
-
-    const shouldShowInAssessment =
-      !this.args.assessment.isCertification || certificationCourse?.isAdjustedForAccessibility;
-
-    return isTextToSpeechFeatureActivated && shouldShowInAssessment;
+      this.args.isTextToSpeechActivated
+    );
   }
 
   @action
