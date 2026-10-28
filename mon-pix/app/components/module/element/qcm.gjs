@@ -6,6 +6,7 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import ModulixFeedback from 'mon-pix/components/module/feedback';
+import RichContent from 'mon-pix/components/module/rich-content';
 
 import { htmlUnsafe } from '../../../helpers/html-unsafe';
 import { VERIFY_RESPONSE_DELAY } from '../component/element';
@@ -143,7 +144,7 @@ export default class ModuleQcm extends ModuleElement {
         </legend>
 
         <div class="element-qcm__instruction" id="instruction-{{this.element.id}}">
-          {{htmlUnsafe this.element.instruction}}
+          <RichContent @html={{this.element.instruction}} />
         </div>
 
         <p class="element-qcm__direction" aria-hidden="true">

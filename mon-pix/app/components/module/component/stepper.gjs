@@ -10,6 +10,7 @@ import { t } from 'ember-intl';
 import eq from 'ember-truth-helpers/helpers/eq';
 import Step from 'mon-pix/components/module/component/step';
 import ModuleGrain from 'mon-pix/components/module/grain/grain';
+import RichContent from 'mon-pix/components/module/rich-content';
 import htmlUnsafe from 'mon-pix/helpers/html-unsafe';
 import { inc } from 'mon-pix/helpers/inc';
 import { localCopy } from 'tracked-toolbox';
@@ -203,7 +204,7 @@ export default class ModulixStepper extends Component {
       </PixTag>
       {{#if this.isHorizontalDirection}}
         <div class="stepper-instruction--preview-mode">
-          {{htmlUnsafe @instruction}}
+          <RichContent @html={{@instruction}} />
         </div>
       {{/if}}
     {{/if}}
@@ -254,7 +255,7 @@ export default class ModulixStepper extends Component {
         </div>
         {{#if @instruction}}
           <div class="stepper__instruction">
-            {{htmlUnsafe @instruction}}
+            <RichContent @html={{@instruction}} />
           </div>
         {{/if}}
         <div

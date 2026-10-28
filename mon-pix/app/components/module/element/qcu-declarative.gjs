@@ -3,6 +3,7 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import ProposalButton from 'mon-pix/components/module/component/proposal-button';
+import RichContent from 'mon-pix/components/module/rich-content';
 
 import { htmlUnsafe } from '../../../helpers/html-unsafe';
 import { VERIFY_RESPONSE_DELAY } from '../component/element';
@@ -67,7 +68,7 @@ export default class ModuleQcuDeclarative extends ModuleElement {
           {{t "pages.modulix.qcuDeclarative.direction"}}
         </legend>
         <p class="element-qcu-declarative__instruction" id="instruction-{{this.element.id}}">
-          {{htmlUnsafe this.element.instruction}}
+          <RichContent @html={{this.element.instruction}} />
         </p>
         <p class="element-qcu-declarative__complementary-instruction">
           {{t "pages.modulix.qcuDeclarative.complementaryInstruction"}}

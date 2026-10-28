@@ -8,8 +8,8 @@ import QabProposalButton from 'mon-pix/components/module/element/qab/proposal-bu
 import QabCard from 'mon-pix/components/module/element/qab/qab-card';
 import QabScoreCard from 'mon-pix/components/module/element/qab/qab-score-card';
 import ModulixFeedback from 'mon-pix/components/module/feedback';
+import RichContent from 'mon-pix/components/module/rich-content';
 
-import { htmlUnsafe } from '../../../../helpers/html-unsafe';
 import ModuleElement from '../module-element';
 
 const NEXT_CARD_REMOVE_DELAY = 400;
@@ -151,7 +151,7 @@ export default class ModuleQab extends ModuleElement {
     <form onSubmit={{this.onSubmit}} class="element-qab" aria-describedby="instruction-{{this.element.id}}">
       <fieldset class="element-qab__container">
         <div class="element-qab__instruction" id="instruction-{{this.element.id}}">
-          {{htmlUnsafe this.element.instruction}}
+          <RichContent @html={{this.element.instruction}} />
         </div>
         <div class="element-qab__cards">
           {{#if this.shouldDisplayCards}}

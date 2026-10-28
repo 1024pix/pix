@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import RichContent from 'mon-pix/components/module/rich-content';
 import htmlUnsafe from 'mon-pix/helpers/html-unsafe';
 import didInsert from 'mon-pix/modifiers/modifier-did-insert';
 
@@ -79,7 +80,7 @@ export default class ModulixCustomElement extends ModuleElement {
           {{/if}}
           {{#if this.hasInstruction}}
             <div class="element-custom-container__instruction">
-              {{htmlUnsafe @component.instruction}}
+              <RichContent @html={{@component.instruction}} />
             </div>
           {{/if}}
           {{#if this.hasFunctionalInstruction}}
@@ -90,7 +91,7 @@ export default class ModulixCustomElement extends ModuleElement {
 
           {{#if this.hasInstruction}}
             <legend class="sr-only">
-              {{htmlUnsafe @component.instruction}}{{htmlUnsafe @component.functionalInstruction}}</legend>
+              <RichContent @html={{@component.instruction}} />{{htmlUnsafe @component.functionalInstruction}}</legend>
           {{/if}}
 
           <legend class="element-custom__legend" aria-hidden="true">
@@ -102,7 +103,7 @@ export default class ModulixCustomElement extends ModuleElement {
       {{else}}
         {{#if this.hasInstruction}}
           <div class="element-custom__instruction">
-            {{htmlUnsafe @component.instruction}}
+            <RichContent @html={{@component.instruction}} />
           </div>
         {{/if}}
 

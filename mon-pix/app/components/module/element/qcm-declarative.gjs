@@ -6,6 +6,7 @@ import { trackedSet } from '@ember/reactive/collections';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import RichContent from 'mon-pix/components/module/rich-content';
 
 import { htmlUnsafe } from '../../../helpers/html-unsafe';
 import { VERIFY_RESPONSE_DELAY } from '../component/element';
@@ -98,7 +99,7 @@ export default class ModuleQcmDeclarative extends ModuleElement {
           {{t "pages.modulix.qcmDeclarative.direction"}}
         </legend>
         <p class="element-qcm-declarative__instruction" id="instruction-{{this.element.id}}">
-          {{htmlUnsafe this.element.instruction}}
+          <RichContent @html={{this.element.instruction}} />
         </p>
         <p class="element-qcm-declarative__complementary-instruction">
           {{t "pages.modulix.qcmDeclarative.complementaryInstruction"}}

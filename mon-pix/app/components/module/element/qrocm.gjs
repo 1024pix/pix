@@ -8,6 +8,7 @@ import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import ModuleElement from 'mon-pix/components/module/element/module-element';
 import ModulixFeedback from 'mon-pix/components/module/feedback';
+import RichContent from 'mon-pix/components/module/rich-content';
 import htmlUnsafe from 'mon-pix/helpers/html-unsafe';
 
 import { VERIFY_RESPONSE_DELAY } from '../component/element';
@@ -173,7 +174,7 @@ export default class ModuleQrocm extends ModuleElement {
         </legend>
 
         <div class="element-qrocm__instruction" id="instruction-{{this.element.id}}">
-          {{htmlUnsafe this.element.instruction}}
+          <RichContent @html={{this.element.instruction}} />
         </div>
 
         <p class="element-qrocm__direction" aria-hidden="true">

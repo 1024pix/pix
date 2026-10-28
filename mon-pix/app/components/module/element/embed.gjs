@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import RichContent from 'mon-pix/components/module/rich-content';
 
 import { htmlUnsafe } from '../../../helpers/html-unsafe';
 import didInsert from '../../../modifiers/modifier-did-insert';
@@ -203,7 +204,7 @@ export default class ModulixEmbed extends ModuleElement {
     <div class="element-embed">
       {{#if @embed.instruction}}
         <div class="element-embed__instruction">
-          {{htmlUnsafe @embed.instruction}}
+          <RichContent @html={{@embed.instruction}} />
         </div>
       {{/if}}
 
