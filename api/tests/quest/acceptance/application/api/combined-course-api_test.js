@@ -102,4 +102,44 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
       expect(result).to.deep.equal([]);
     });
   });
+
+  describe('#findCampaignIdsByCombinedCourseIds', function () {
+    it('should return campaign id for combinedCourseId', async function () {
+      //given
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign();
+
+      const { id: questId1 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+        successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
+      });
+
+      const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({
+        code: 'ABCDE1234',
+        questId: questId1,
+      }).id;
+
+      await databaseBuilder.commit();
+
+      //when
+      const result = await combinedCourseApi.findCampaignIdsByCombinedCourseIds([combinedCourseId]);
+
+      // then
+      expect(result).to.deep.equal([campaignId]);
+    });
+
+    it('should return an empty array if no campaign is found', async function () {
+      //given
+      const { id: combinedCourseId1 } = databaseBuilder.factory.buildCombinedCourse({
+        code: 'RANDOM',
+        questId: databaseBuilder.factory.buildQuestForCombinedCourse().id,
+      });
+
+      await databaseBuilder.commit();
+
+      //when
+      const result = await combinedCourseApi.findCampaignIdsByCombinedCourseIds([combinedCourseId1]);
+
+      // then
+      expect(result).to.deep.equal([]);
+    });
+  });
 });
