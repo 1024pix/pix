@@ -48,6 +48,17 @@ const findByOrganizationId = async ({ organizationId, page, size }) => {
   };
 };
 
+export const findCombinedCourseIdsByOrganizationId = async ({ organizationId }) => {
+  const knexConn = DomainTransaction.getConnection();
+
+  const results = await knexConn('combined_courses')
+    .select('combined_courses.id')
+    .whereNull('combined_courses.deletedAt')
+    .where('organizationId', organizationId);
+
+  return results.map((result) => result.id);
+};
+
 const findByCampaignId = async ({ campaignId }) => {
   const knexConn = DomainTransaction.getConnection();
   const combinedCourses = await _baseQuery(knexConn)

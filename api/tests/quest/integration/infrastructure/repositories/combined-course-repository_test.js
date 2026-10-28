@@ -235,6 +235,98 @@ describe('Quest | Integration | Repository | combined-course', function () {
     });
   });
 
+  describe('#findCombinedCourseIdsByOrganizationId', function () {
+    it('should return all combined course ids for a given organization', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const combinedCourse1 = databaseBuilder.factory.buildCombinedCourse({
+        code: 'COURSE1',
+        name: 'Parcours 1',
+        organizationId,
+        createdAt: new Date('2024-01-01'),
+      });
+      const combinedCourse2 = databaseBuilder.factory.buildCombinedCourse({
+        code: 'COURSE2',
+        name: 'Parcours 2',
+        organizationId,
+        createdAt: new Date('2025-01-01'),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await combinedCourseRepository.findCombinedCourseIdsByOrganizationId({ organizationId });
+
+      // then
+      expect(result).to.have.lengthOf(2);
+      expect(result).to.deep.equal([combinedCourse1.id, combinedCourse2.id]);
+    });
+
+    it('should return an empty array when organization has no combined courses', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      await databaseBuilder.commit();
+
+      // when
+      const result = await combinedCourseRepository.findCombinedCourseIdsByOrganizationId({ organizationId });
+
+      // then
+      expect(result).to.have.lengthOf(0);
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should not return combined courses from other organizations', async function () {
+      // given
+      const organization1Id = databaseBuilder.factory.buildOrganization().id;
+      const organization2Id = databaseBuilder.factory.buildOrganization().id;
+      const expectedCombinedCourse = databaseBuilder.factory.buildCombinedCourse({
+        code: 'COURSE1',
+        name: 'Parcours 1',
+        organizationId: organization1Id,
+      });
+      databaseBuilder.factory.buildCombinedCourse({
+        code: 'COURSE2',
+        name: 'Parcours 2',
+        organizationId: organization2Id,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await combinedCourseRepository.findCombinedCourseIdsByOrganizationId({
+        organizationId: organization1Id,
+      });
+
+      // then
+      expect(result).to.have.lengthOf(1);
+      expect(result).to.deep.equal([expectedCombinedCourse.id]);
+    });
+
+    it('should not return deleted combined courses', async function () {
+      // given
+      const organization1Id = databaseBuilder.factory.buildOrganization().id;
+      const expectedCombinedCourse = databaseBuilder.factory.buildCombinedCourse({
+        code: 'COURSE1',
+        name: 'Parcours 1',
+        organizationId: organization1Id,
+      });
+      databaseBuilder.factory.buildCombinedCourse({
+        code: 'COURSE2',
+        name: 'Parcours 2',
+        organizationId: organization1Id,
+        deletedAt: new Date(),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await combinedCourseRepository.findCombinedCourseIdsByOrganizationId({
+        organizationId: organization1Id,
+      });
+
+      // then
+      expect(result).to.have.lengthOf(1);
+      expect(result).to.deep.equal([expectedCombinedCourse.id]);
+    });
+  });
+
   describe('#findByCampaignId', function () {
     let organizationId, combinedCourse, campaignId;
 
