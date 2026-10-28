@@ -1,5 +1,5 @@
 import { assertEnumValue, assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
-import { Element } from './Element.js';
+import { Element } from './Element.ts';
 
 const TextTagEnumValues = Object.freeze({
   NONE: ' ',
