@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { click, findAll, focus, triggerKeyEvent } from '@ember/test-helpers';
+import { click, findAll, focus, triggerKeyEvent, waitUntil } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import ModuleElementText from 'mon-pix/components/module/element/text';
 import { module, test } from 'qunit';
@@ -97,6 +97,20 @@ module('Integration | Component | Module | Text', function (hooks) {
 
         // then
         assert.dom(tooltip).doesNotHaveClass('module-glossary-tooltip--visible');
+      });
+
+      test('should position the tooltip with floating-ui when shown', async function (assert) {
+        // given
+        const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+        const tooltip = screen.getByRole('tooltip', { hidden: true });
+
+        // when
+        await focus(screen.getByRole('button', { name: 'Écran' }));
+        await waitUntil(() => tooltip.style.top !== '');
+
+        // then
+        assert.ok(tooltip.style.left.endsWith('px'));
+        assert.ok(tooltip.style.top.endsWith('px'));
       });
 
       test('should send the glossary word, not the displayed text, on click', async function (assert) {
