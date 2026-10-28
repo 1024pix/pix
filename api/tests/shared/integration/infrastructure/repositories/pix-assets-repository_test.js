@@ -9,7 +9,6 @@ describe('Integration | Infrastructure | Repository | PixAssets', function () {
   const fakeAnswerContent = {
     date: new Date('2025-09-12').toUTCString(),
     'content-type': 'image/svg+xml',
-    'content-length': 4660,
     'x-request-id': 'e33deae7-a480-46af-886d-626adfa1dd43',
     vary: 'Accept-Encoding',
     'x-object-meta-optimized': 'true',
