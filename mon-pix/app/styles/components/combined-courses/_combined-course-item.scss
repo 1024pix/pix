@@ -312,6 +312,42 @@
       max-height: var(--pix-spacing-12x);
     }
 
+    @include breakpoints.device-is('mobile') {
+      flex-wrap: wrap;
+
+      .combined-course-item__main,
+      .combined-course-item__content,
+      .combined-course-item__text {
+        display: contents;
+      }
+
+      .combined-course-item__icon {
+        order: 1;
+      }
+
+      .combined-course-item__title {
+        flex: 1;
+        order: 2;
+      }
+
+      .combined-course-item__indicator {
+        order: 3;
+      }
+
+      .combined-course-item__description {
+        flex-basis: 100%;
+        order: 4;
+      }
+
+      .combined-course-item__campaign-indicators {
+        order: 5;
+      }
+
+      .combined-course-item__cta {
+        order: 6;
+      }
+    }
+
     @include breakpoints.device-is('tablet') {
       flex-direction: row;
       align-items: center;

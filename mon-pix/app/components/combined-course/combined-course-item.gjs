@@ -230,7 +230,7 @@ function hasWhiteBackground(item) {
           </:duration>
           <:blockEnd>
             {{#if (and @isSelectedItem @shouldDisplayCTA)}}
-              <PixButton>{{t @item.ctaLabel}}</PixButton>
+              <PixButton class="combined-course-item__cta">{{t @item.ctaLabel}}</PixButton>
             {{/if}}
           </:blockEnd>
         </Content>
