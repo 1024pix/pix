@@ -52,22 +52,26 @@ describe('Acceptance | LTI | Route | Admin', function () {
       const { clientId, platformOpenIdConfig, platformOpenIdConfigUrl, toolConfig } =
         domainBuilder.lti.buildLtiPlatformRegistrationWithPlatformConfig();
 
-      const platformJwt = new jose.UnsecuredJWT({
+      const registrationToken = new jose.UnsecuredJWT({
         sub: clientId,
         scope: 'reg',
       })
         .setIssuedAt()
-        .setExpirationTime('1h');
+        .setExpirationTime('1h')
+        .encode();
 
       const { origin: platformOrigin, pathname: platformConfigPath } = new URL(platformOpenIdConfigUrl);
       const platformConfigScope = nock(platformOrigin).get(platformConfigPath).reply(200, platformOpenIdConfig);
 
       const { pathname: registrationPath } = new URL(platformOpenIdConfig.registration_endpoint);
-      const registrationScope = nock(platformOrigin).post(registrationPath).reply(200, toolConfig);
+      const registrationScope = nock(platformOrigin)
+        .post(registrationPath)
+        .matchHeader('authorization', `Bearer ${registrationToken}`)
+        .reply(200, toolConfig);
 
       const query = querystring.stringify({
         openid_configuration: platformOpenIdConfigUrl,
-        registration_token: platformJwt.encode(),
+        registration_token: registrationToken,
       });
 
       const options = {

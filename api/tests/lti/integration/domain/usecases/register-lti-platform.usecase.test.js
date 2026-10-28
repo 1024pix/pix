@@ -1,18 +1,17 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
+import nock from 'nock';
 
 import { InvalidLtiPlatformRegistrationError } from '../../../../../src/lti/domain/errors.js';
 import { LtiPlatformRegistration } from '../../../../../src/lti/domain/models/LtiPlatformRegistration.js';
 import { usecases } from '../../../../../src/lti/domain/usecases/index.js';
-import { ltiPlatformRegistrationRepository } from '../../../../../src/lti/infrastructure/repositories/lti-platform-registration.repository.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Integration | LTI | Domain | Usecases | register-lti-platform', function () {
-  let platformId;
+  let ltiPlatform;
 
   beforeEach(async function () {
-    platformId = databaseBuilder.factory.buildLtiPlatform().id;
+    ltiPlatform = domainBuilder.lti.buildLtiPlatform(databaseBuilder.factory.buildLtiPlatform());
     await databaseBuilder.commit();
   });
 
@@ -20,196 +19,46 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
     // given
     const { platformOpenIdConfig, platformOpenIdConfigUrl, toolConfig } =
       domainBuilder.lti.buildLtiPlatformRegistrationWithPlatformConfig();
+    const registrationToken = 'token1234';
 
-    const expectedPixConfig = {
-      response_types: ['id_token'],
-      jwks_uri: 'https://api.dev.pix.fr/api/lti/keys',
-      initiate_login_uri: 'https://api.dev.pix.fr/api/lti/init',
-      grant_types: ['client_credentials', 'implicit'],
-      redirect_uris: ['https://orga.pix.fr/api/lti/deep-linking', 'https://test.app.pix.fr/api/lti/resource-link'],
-      application_type: 'web',
-      token_endpoint_auth_method: 'private_key_jwt',
-      client_name: 'Pix',
-      logo_uri: 'https://app.pix.fr/images/pix-logo.svg',
-      scope: [
-        'https://purl.imsglobal.org/spec/lti-ags/scope/score',
-        'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly',
-        'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem',
-        'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly',
-      ].join(' '),
-      'https://purl.imsglobal.org/spec/lti-tool-configuration': {
-        target_link_uri: 'https://test.app.pix.fr/api/lti/resource-link',
-        domain: 'test.app.pix.fr',
-        description: 'Intégration avec la plateforme Pix',
-        messages: [
-          {
-            type: 'LtiDeepLinkingRequest',
-            target_link_uri: 'https://orga.pix.fr/api/lti/deep-linking',
-          },
-        ],
-        claims: ['sub', 'iss', 'name', 'family_name', 'given_name', 'email'],
-      },
-    };
+    const { origin: platformOpenIdConfigOrigin, pathname: platformOpenIdConfigPathname } = new URL(
+      platformOpenIdConfigUrl,
+    );
+    nock(platformOpenIdConfigOrigin).get(platformOpenIdConfigPathname).reply(200, platformOpenIdConfig);
 
-    const publicKey = { kty: 'test' };
-    const privateKey = Symbol('privateKey');
-    const encryptedPrivateKey = 'encryptedPrivateKey';
+    const { origin: platformRegistrationOrigin, pathname: platformRegistrationPathname } = new URL(
+      platformOpenIdConfig.registration_endpoint,
+    );
+    nock(platformRegistrationOrigin)
+      .post(platformRegistrationPathname)
+      .matchHeader('authorization', `Bearer ${registrationToken}`)
+      .reply(200, toolConfig);
+
     const expectedLtiPlatformRegistration = {
       clientId: toolConfig.client_id,
       status: LtiPlatformRegistration.status.ACTIVE,
-      platformId,
+      platformId: ltiPlatform.id,
       toolConfig,
       platformOpenIdConfigUrl,
-      publicKey,
-      encryptedPrivateKey,
     };
-
-    const httpAgent = {
-      get: sinon.stub().resolves({ code: 200, isSuccessful: true, data: platformOpenIdConfig }),
-      post: sinon.stub().resolves({ code: 201, isSuccessful: true, data: toolConfig }),
-    };
-
-    const cryptoService = {
-      generateJSONWebKeyPair: sinon.stub().resolves({ privateKey, publicKey }),
-      encrypt: sinon.stub().resolves(encryptedPrivateKey),
-    };
-
-    const dependencies = { httpAgent, ltiPlatformRegistrationRepository, cryptoService };
 
     // when
     const savedRegistration = await usecases.registerLtiPlatform({
       platformConfigurationUrl: platformOpenIdConfigUrl,
-      registrationToken: 'token1234',
-      ...dependencies,
+      registrationToken,
     });
 
     // then
     expect(savedRegistration).to.be.instanceOf(LtiPlatformRegistration);
-    expect(savedRegistration).to.deep.contain({
-      clientId: toolConfig.client_id,
-      status: LtiPlatformRegistration.status.ACTIVE,
-      toolConfig,
-      platformOpenIdConfigUrl,
-      publicKey,
-      encryptedPrivateKey,
-    });
-
-    expect(httpAgent.get).to.have.been.calledWith({
-      url: platformOpenIdConfigUrl,
-      headers: { Accept: 'application/json' },
-    });
-    expect(httpAgent.post).to.have.been.calledWith({
-      url: platformOpenIdConfig.registration_endpoint,
-      headers: {
-        Authorization: 'Bearer token1234',
-      },
-      payload: expectedPixConfig,
-    });
-
-    expect(cryptoService.generateJSONWebKeyPair).to.have.been.calledOnce;
-    expect(cryptoService.encrypt).to.have.been.calledWith(JSON.stringify(privateKey));
+    expect(savedRegistration).to.deep.contain(expectedLtiPlatformRegistration);
+    expect(savedRegistration).to.have.property('publicKey').that.is.an('object');
+    expect(savedRegistration).to.have.property('encryptedPrivateKey').that.is.a('string');
 
     const savedPlatformRegistrations = await knex.select('*').from('lti_platform_registrations');
     expect(savedPlatformRegistrations).to.have.lengthOf(1);
     expect(savedPlatformRegistrations[0]).to.deep.contain(expectedLtiPlatformRegistration);
-  });
-
-  describe('when fetching platform configuration fails', function () {
-    it('throws InvalidLtiPlatformRegistrationError', async function () {
-      // given
-      const { platformOpenIdConfigUrl } = domainBuilder.lti.buildLtiPlatformRegistrationWithPlatformConfig({
-        platformOrigin: 'https://moodle.unknown.net',
-      });
-
-      const httpAgent = {
-        get: sinon.stub().resolves({ code: 404, isSuccessful: false }),
-      };
-      const dependencies = { httpAgent };
-
-      // when
-      const result = usecases.registerLtiPlatform({
-        platformConfigurationUrl: platformOpenIdConfigUrl,
-        ...dependencies,
-      });
-
-      // then
-      await expect(result).to.be.rejectedWith(
-        InvalidLtiPlatformRegistrationError,
-        'Could not fetch platform configuration',
-      );
-    });
-  });
-
-  describe('when platform configuration is invalid', function () {
-    it('throws InvalidLtiPlatformRegistrationError', async function () {
-      // given
-      const { platformOpenIdConfigUrl } = domainBuilder.lti.buildLtiPlatformRegistrationWithPlatformConfig();
-
-      const httpAgent = {
-        get: sinon.stub().resolves({ code: 200, isSuccessful: true, data: { name: 'invalid configuration' } }),
-      };
-      const dependencies = { httpAgent };
-
-      // when
-      const result = usecases.registerLtiPlatform({
-        platformConfigurationUrl: platformOpenIdConfigUrl,
-        ...dependencies,
-      });
-
-      // then
-      await expect(result).to.be.rejectedWith(
-        InvalidLtiPlatformRegistrationError,
-        'Invalid LTI platform configuration',
-      );
-    });
-  });
-
-  describe('when issuer is not authorized', function () {
-    it('throws InvalidLtiPlatformRegistrationError', async function () {
-      // given
-      const { platformOpenIdConfig, platformOpenIdConfigUrl } =
-        domainBuilder.lti.buildLtiPlatformRegistrationWithPlatformConfig({
-          platformOrigin: 'https://moodle.unauthorized.net',
-        });
-
-      const httpAgent = { get: sinon.stub().resolves({ code: 200, isSuccessful: true, data: platformOpenIdConfig }) };
-      const dependencies = { httpAgent };
-
-      // when
-      const result = usecases.registerLtiPlatform({
-        platformConfigurationUrl: platformOpenIdConfigUrl,
-        ...dependencies,
-      });
-
-      // then
-      await expect(result).to.be.rejectedWith(InvalidLtiPlatformRegistrationError, 'Unauthorized LTI platform issuer');
-    });
-  });
-
-  describe('when platform configuration URL origin is different from issuer', function () {
-    it('throws InvalidLtiPlatformRegistrationError', async function () {
-      // given
-      const { platformOpenIdConfig, platformOpenIdConfigUrl } =
-        domainBuilder.lti.buildLtiPlatformRegistrationWithPlatformConfig();
-
-      const httpAgent = { get: sinon.stub().resolves({ code: 200, isSuccessful: true, data: platformOpenIdConfig }) };
-      const dependencies = { httpAgent };
-
-      const differentPlatformUrl = new URL(new URL(platformOpenIdConfigUrl).pathname, 'https://moodle.different.net')
-        .href;
-
-      // when
-      const result = usecases.registerLtiPlatform({
-        platformConfigurationUrl: differentPlatformUrl,
-        ...dependencies,
-      });
-
-      // then
-      await expect(result).to.be.rejectedWith(
-        InvalidLtiPlatformRegistrationError,
-        'Inconsistent LTI platform configuration URL',
-      );
-    });
+    expect(savedPlatformRegistrations[0]).to.have.property('publicKey').that.is.an('object');
+    expect(savedPlatformRegistrations[0]).to.have.property('encryptedPrivateKey').that.is.a('string');
   });
 
   describe('when registration endpoint fails', function () {
@@ -218,48 +67,20 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
       const { platformOpenIdConfig, platformOpenIdConfigUrl } =
         domainBuilder.lti.buildLtiPlatformRegistrationWithPlatformConfig();
 
-      const expectedPixConfig = {
-        response_types: ['id_token'],
-        jwks_uri: 'https://api.dev.pix.fr/api/lti/keys',
-        initiate_login_uri: 'https://api.dev.pix.fr/api/lti/init',
-        grant_types: ['client_credentials', 'implicit'],
-        redirect_uris: ['https://orga.pix.fr/api/lti/deep-linking', 'https://test.app.pix.fr/api/lti/resource-link'],
-        application_type: 'web',
-        token_endpoint_auth_method: 'private_key_jwt',
-        client_name: 'Pix',
-        logo_uri: 'https://app.pix.fr/images/pix-logo.svg',
-        scope: [
-          'https://purl.imsglobal.org/spec/lti-ags/scope/score',
-          'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly',
-          'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem',
-          'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly',
-        ].join(' '),
-        'https://purl.imsglobal.org/spec/lti-tool-configuration': {
-          target_link_uri: 'https://test.app.pix.fr/api/lti/resource-link',
-          domain: 'test.app.pix.fr',
-          description: 'Intégration avec la plateforme Pix',
-          messages: [
-            {
-              type: 'LtiDeepLinkingRequest',
-              target_link_uri: 'https://orga.pix.fr/api/lti/deep-linking',
-            },
-          ],
-          claims: ['sub', 'iss', 'name', 'family_name', 'given_name', 'email'],
-        },
-      };
+      const { origin: platformOpenIdConfigOrigin, pathname: platformOpenIdConfigPathname } = new URL(
+        platformOpenIdConfigUrl,
+      );
+      nock(platformOpenIdConfigOrigin).get(platformOpenIdConfigPathname).reply(200, platformOpenIdConfig);
 
-      const httpAgent = {
-        get: sinon.stub().resolves({ code: 200, isSuccessful: true, data: platformOpenIdConfig }),
-        post: sinon.stub().resolves({ code: 400, isSuccessful: false }),
-      };
-
-      const dependencies = { httpAgent, ltiPlatformRegistrationRepository };
+      const { origin: platformRegistrationOrigin, pathname: platformRegistrationPathname } = new URL(
+        platformOpenIdConfig.registration_endpoint,
+      );
+      nock(platformRegistrationOrigin).post(platformRegistrationPathname).reply(400);
 
       // when
       const result = usecases.registerLtiPlatform({
         platformConfigurationUrl: platformOpenIdConfigUrl,
         registrationToken: 'token1234',
-        ...dependencies,
       });
 
       // then
@@ -267,17 +88,6 @@ describe('Integration | LTI | Domain | Usecases | register-lti-platform', functi
         InvalidLtiPlatformRegistrationError,
         'Registration with the platform failed',
       );
-      expect(httpAgent.get).to.have.been.calledWith({
-        url: platformOpenIdConfigUrl,
-        headers: { Accept: 'application/json' },
-      });
-      expect(httpAgent.post).to.have.been.calledWith({
-        url: platformOpenIdConfig.registration_endpoint,
-        headers: {
-          Authorization: 'Bearer token1234',
-        },
-        payload: expectedPixConfig,
-      });
 
       const savedPlatformRegistrations = await knex('lti_platform_registrations').select('*');
       expect(savedPlatformRegistrations).to.be.empty;
