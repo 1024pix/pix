@@ -13,9 +13,9 @@ function serialize(module) {
         isBeta: module.isBeta,
         version: module.version,
         details: module.details,
-        glossary: module.glossary.map(({ word, definition }) => {
+        glossary: module.glossary.map(({ words, definition }) => {
           return {
-            word,
+            words,
             definition,
           };
         }),
