@@ -2,6 +2,7 @@ import { setTimeout } from 'node:timers/promises';
 
 import { config } from '../../../config/config.js';
 import * as networkAPI from '../../organizational-entities/application/api/network-api.js';
+import { commaSeparatedNumberParser } from '../../shared/application/scripts/parsers.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
 import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.js';
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
@@ -24,9 +25,15 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
         },
         networkId: {
           type: 'number',
-          describe: 'an id from a single network',
-          demandOption: true,
+          describe: 'id of network to purge',
+          demandOption: false,
           coerce: Number,
+        },
+        organizationIds: {
+          type: 'string',
+          describe: 'a list of comma separated organization ids to purge',
+          demandOption: false,
+          coerce: commaSeparatedNumberParser(),
         },
         lastActivityDate: {
           type: 'string',
@@ -50,16 +57,37 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
   async handle({ options, logger, jobClient }) {
     const engineeringUserId = config.infra.engineeringUserId;
     const lastActivityDate = new Date(options.lastActivityDate);
-    const { networkId, batchSize, throttleDelay } = options;
+    const { networkId, organizationIds, batchSize, throttleDelay } = options;
 
     if (isNaN(lastActivityDate)) throw new Error('invalid lastActivityDate');
 
-    const organizations = await networkAPI.findNetworkOrganizations({ networkId });
-    if (organizations.length === 0) throw new Error('Network is empty');
+    const noOrganization = !organizationIds || organizationIds?.length === 0;
+
+    if (!networkId && noOrganization) throw new Error('No network or organization in script params');
+
+    let organizations;
+
+    // For a network
+    if (networkId) {
+      organizations = await networkAPI.findNetworkOrganizations({ networkId });
+      if (organizations.length === 0) throw new Error('Network is empty');
+      logger.info(`Delete inactive learners since ${options.lastActivityDate} from network ${networkId}`);
+    }
+    // For a list of organizations
+    else {
+      const nonExistingOrganizationIds = await this.findNonExistingOrganizationIds({ organizationIds });
+      if (nonExistingOrganizationIds.length > 0)
+        throw new Error(`Non existing organization(s): ${nonExistingOrganizationIds.toString()}`);
+
+      organizations = organizationIds.map((id) => {
+        return { organizationId: id };
+      });
+      logger.info(
+        `Delete inactive learners since ${options.lastActivityDate} from organizations ${organizationIds.toString()}`,
+      );
+    }
 
     await super.handle({ jobClient });
-
-    logger.info(`Delete inactive learners since ${options.lastActivityDate} from network ${networkId}`);
 
     for (const { organizationId } of organizations) {
       let batchNumber = 0;
@@ -147,6 +175,13 @@ export class DeleteInactiveLearnersSinceDateFromNetworkScript extends ScriptWith
       .orWhereNull('lastParticipationDate')
       .orderBy('id', 'asc')
       .pluck('id');
+  }
+
+  async findNonExistingOrganizationIds({ organizationIds }) {
+    const knexConn = DomainTransaction.getConnection();
+    const existingOrganizations = await knexConn('organizations').whereIn('id', organizationIds).pluck('id');
+    const nonExistingOrganizations = organizationIds.filter((id) => !existingOrganizations.includes(id));
+    return nonExistingOrganizations;
   }
 }
 
