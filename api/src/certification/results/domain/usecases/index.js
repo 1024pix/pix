@@ -15,6 +15,7 @@ import * as resultRecipientRepository from '../../infrastructure/repositories/re
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
 import * as sessionForResultsSharingRepository from '../../infrastructure/repositories/session-for-results-sharing-repository.js';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
+import { computeCertificatesForSession } from './compute-certificates-for-session.js';
 import { findCertificatesForDivision } from './find-certificates-for-division.js';
 import { findUserCertificateSummaries } from './find-user-certificate-summaries.js';
 import { findUserCertificationCourses } from './find-user-certification-courses.js';
@@ -92,6 +93,7 @@ const usecasesWithoutInjectedDependencies = {
   getShareableCertificate,
   getSelectedSessionsCertificates,
   getSelectedSessionsResultsZip,
+  computeCertificatesForSession,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
