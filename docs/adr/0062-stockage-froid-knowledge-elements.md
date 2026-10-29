@@ -4,7 +4,7 @@ Date : 2026-10-09
 
 ## État
 
-Evaluation de proposition 
+Validé choix retenu: Solution 5 
 
 ## Contexte
 
@@ -140,22 +140,12 @@ d'agrégation, deviennent des projections reconstruites à partir de ce log — 
 *Besoin de POCs pour pouvoir décider*
 
 - Les solutions 2 et 5 sont les plus à même de répondre à la problématique mais sans études et POC de chacune d'entre elle, il est impossible de trancher.
-- Il faudra estimer:
-  - Faisabilité
-  - Pipeline d'alimentation
-  - Backup restauration etc.
-  - Estimation du coût 
 
-- Prochaines étapes:
-  - Réalisation d'un POC avec une solution OLAP 
-  - Réalisation d'un POC avec l'écriture du parquet
+- La solution 2 va au-delà de la problématique du stockage car elle introduit une nouvelle façon de processer les données. 
+- Les équipes en chargent de ce changement ne sont pas en capacité de s'attaquer à cette partie à date
+- La solution 5 peut servir de base à la solution 2 via clickhouse
  
 
 ## Conséquences
 
-- Choix à confirmer entre les solutions 2 et 5 avant implémentation (dépend notamment de l'existence ou non d'un outil
-  BI déjà en place côté Data).
-- Un composant de bufferisation des nouveaux évènements est nécessaire dans les deux cas (ni l'un ni l'autre n'accepte
-  un insert unitaire par réponse).
-- La suppression du passif de la table de production (`knowledge-elements`) devra être faite par lots, après
-  confirmation que l'export vers le stockage choisi est complet et vérifié (checksum ou comptage par cohorte).
+- On part sur la solution 5: ecriture en parquet dans un bucket
