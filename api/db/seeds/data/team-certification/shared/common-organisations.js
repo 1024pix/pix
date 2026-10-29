@@ -5,13 +5,13 @@ import * as organizationCreationValidator from '../../../../../src/organizationa
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../src/shared/constants.js';
 import { Membership } from '../../../../../src/shared/domain/models/Membership.js';
 import { usecases as teamUsecases } from '../../../../../src/team/domain/usecases/index.js';
-import { COUNTRY_FRANCE_CODE } from '../../common/constants.js';
-import { acceptPixOrgaTermsOfService } from '../../common/tooling/legal-documents.js';
 import {
+  COUNTRY_FRANCE_CODE,
   STRUCTURE_CATEGORY_PRO_ID,
   STRUCTURE_CATEGORY_SCO_ID,
   STRUCTURE_CATEGORY_SUP_ID,
-} from '../../team-acquisition/constants.js';
+} from '../../common/constants.js';
+import { acceptPixOrgaTermsOfService } from '../../common/tooling/legal-documents.js';
 import { SHARED_ORGANIZATION_USER_ID } from './constants.js';
 
 /**

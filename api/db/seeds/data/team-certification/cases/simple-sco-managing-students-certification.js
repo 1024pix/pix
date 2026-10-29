@@ -4,15 +4,13 @@ import { Candidate } from '../../../../../src/certification/enrolment/domain/mod
 import { SessionEnrolment } from '../../../../../src/certification/enrolment/domain/models/SessionEnrolment.js';
 import { usecases as enrolmentUseCases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
+import { CenterForAdmin } from '../../../../../src/organizational-entities/domain/models/CenterForAdmin.js';
 import { usecases as organizationalEntitiesUsecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { usecases as prescriptionLearnerManagementUsecases } from '../../../../../src/prescription/learner-management/domain/usecases/index.js';
-import {
-  CertificationCenter,
-  types as certificationCenterTypes,
-} from '../../../../../src/shared/domain/models/CertificationCenter.js';
+import { types as certificationCenterTypes } from '../../../../../src/shared/domain/models/CertificationCenter.js';
 import { normalize } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
 import { usecases as teamUsecases } from '../../../../../src/team/domain/usecases/index.js';
-import { LYCEE_TAG } from '../../common/constants.js';
+import { LYCEE_TAG, STRUCTURE_CATEGORY_SCO_ID } from '../../common/constants.js';
 import { CommonCertifiableUser } from '../shared/common-certifiable-user.js';
 import { CommonCertificationVersions } from '../shared/common-certification-versions.js';
 import { CommonOrganizations } from '../shared/common-organisations.js';
@@ -99,13 +97,16 @@ export class ScoManagingStudent {
 
   async #addCertifCenter({ organization, organizationMember }) {
     const certificationCenter = await organizationalEntitiesUsecases.createCertificationCenter({
-      certificationCenter: new CertificationCenter({
-        id: SCO_CERTIFICATION_CENTER_ID,
-        name: 'SCO Certification Center',
-        type: certificationCenterTypes.SCO,
-        externalId: organization.externalId,
-        createdAt: new Date('2022-01-30'),
-        habilitations: [],
+      certificationCenter: new CenterForAdmin({
+        center: {
+          id: SCO_CERTIFICATION_CENTER_ID,
+          name: 'SCO Certification Center',
+          type: certificationCenterTypes.SCO,
+          categoryId: STRUCTURE_CATEGORY_SCO_ID,
+          externalId: organization.externalId,
+          createdAt: new Date('2022-01-30'),
+          habilitations: [],
+        },
       }),
       complementaryCertificationIds: [],
     });

@@ -18,7 +18,7 @@ const buildCertificationCenter = function ({
   archivedAt = null,
   archivedBy = null,
   structureId = null,
-  categoryId = null,
+  categoryId,
   organizationId = null,
   withoutStructure = false,
 } = {}) {
@@ -57,11 +57,7 @@ const buildCertificationCenter = function ({
  * @param {number} [options.categoryId] - optional categoryId for structure
  * @returns {{ certificationCenter: object, structure: object }}
  */
-const buildCertificationCenterWithStructure = function ({
-  certificationCenterData,
-  organizationId,
-  categoryId = null,
-} = {}) {
+const buildCertificationCenterWithStructure = function ({ certificationCenterData, organizationId, categoryId } = {}) {
   if (organizationId) {
     const certificationCenter = buildCertificationCenter({ ...certificationCenterData, organizationId });
     const { structure_id: structureId } = findFactStructureByCertificationCenterId(certificationCenter.id);

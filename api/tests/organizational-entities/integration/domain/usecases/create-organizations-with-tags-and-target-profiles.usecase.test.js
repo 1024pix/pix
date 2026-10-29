@@ -600,7 +600,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
       });
 
       // then
-      const organizationsInDB = await knex('organizations').select();
+      const organizationsInDB = await knex('organizations').select().orderBy('id');
       expect(organizationsInDB).to.have.lengthOf(2);
       expect(organizationsInDB[0].administrationTeamId).to.equal(administrationTeamId);
       expect(organizationsInDB[1].administrationTeamId).to.equal(anotherAdministrationTeamId);

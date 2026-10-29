@@ -1,4 +1,4 @@
-import { STRUCTURE_CATEGORY_PRO_ID } from './constants.js';
+import { STRUCTURE_CATEGORY_PRO_ID } from '../common/constants.js';
 
 export function buildCertificationCenterWithStructure(databaseBuilder) {
   databaseBuilder.factory.buildCertificationCenterWithStructure({

@@ -831,7 +831,9 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       it('should return an organization with import feature with empty params', async function () {
         // given
         const superAdminUser = databaseBuilder.factory.buildUser({ firstName: 'Cécile', lastName: 'Encieux' });
+        const category = databaseBuilder.factory.buildStructureCategory();
         const organization = databaseBuilder.factory.buildOrganization({
+          categoryId: category.id,
           type: 'SCO',
           name: 'Organization of the dark side',
           logoUrl: 'some logo url',
@@ -913,8 +915,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           organizationLearnerType: domainOrganizationLearnerType,
           networkId: null,
           networkName: null,
-          categoryId: null,
-          categoryLabel: null,
+          categoryId: category.id,
+          categoryLabel: category.label,
         });
         expect(foundOrganizationForAdmin).to.deep.equal(expectedOrganizationForAdmin);
       });
@@ -924,7 +926,9 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       it('should return if its enable and the additional params', async function () {
         // given
         const superAdminUser = databaseBuilder.factory.buildUser({ firstName: 'Cécile', lastName: 'Encieux' });
+        const category = databaseBuilder.factory.buildStructureCategory();
         const organization = databaseBuilder.factory.buildOrganization({
+          categoryId: category.id,
           type: 'SCO',
           name: 'Organization of the dark side',
           logoUrl: 'some logo url',
@@ -1029,8 +1033,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           organizationLearnerType: domainOrganizationLearnerType,
           networkId: null,
           networkName: null,
-          categoryId: null,
-          categoryLabel: null,
+          categoryId: category.id,
+          categoryLabel: category.label,
         });
         expect(foundOrganizationForAdmin).to.deep.equal(expectedOrganizationForAdmin);
       });
@@ -1095,7 +1099,9 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         const archivist = databaseBuilder.factory.buildUser();
         const archivedAt = new Date('2022-02-02');
 
+        const category = databaseBuilder.factory.buildStructureCategory();
         const insertedOrganization = databaseBuilder.factory.buildOrganization({
+          categoryId: category.id,
           type: 'SCO',
           name: 'Organization of the dark side',
           logoUrl: 'some logo url',
@@ -1163,8 +1169,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           organizationLearnerType: domainOrganizationLearnerType,
           networkId: null,
           networkName: null,
-          categoryId: null,
-          categoryLabel: null,
+          categoryId: category.id,
+          categoryLabel: category.label,
         });
         expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
       });
@@ -1408,7 +1414,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
 
       // then
       const untouchedStructure = await knex('structures').where({ id: otherStructure.id }).first();
-      expect(untouchedStructure.category_id).to.be.null;
+      expect(untouchedStructure.category_id).to.equal(otherStructure.category_id);
     });
 
     it('does not clear the category when no category is given', async function () {
