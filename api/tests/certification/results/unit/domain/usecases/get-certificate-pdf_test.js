@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-certificate-pdf', function () {
 
     const certificateRepository = { getCertificate: sinon.stub().returns(certificate) };
     const getCertificatesPDFStub = sinon.stub().returns(generatedPDF);
-    const i18nStub = { getLocale: sinon.stub().returns(locale) };
+    const i18nStub = { getLocale: sinon.stub().returns(locale), __: sinon.stub().returns('filename') };
 
     // when
     const { filename, content } = await getCertificatePDF({
@@ -38,7 +38,7 @@ describe('Unit | UseCase | get-certificate-pdf', function () {
       algorithmEngineVersion: AlgorithmEngineVersion.V3,
     });
     expect(content).to.equal(generatedPDF);
-    expect(filename).to.equal(`certification-pix-2026-10-30.pdf`);
+    expect(filename).to.equal('filename');
   });
 
   it('should return PDF and filename (v2)', async function () {
@@ -52,7 +52,7 @@ describe('Unit | UseCase | get-certificate-pdf', function () {
 
     const certificateRepository = { getCertificate: sinon.stub().returns(certificate) };
     const getCertificatesPDFStub = sinon.stub().returns(generatedPDF);
-    const i18nStub = { getLocale: sinon.stub().returns(locale) };
+    const i18nStub = { getLocale: sinon.stub().returns(locale), __: sinon.stub().returns('filename') };
 
     // when
     const { filename, content } = await getCertificatePDF({
@@ -74,7 +74,7 @@ describe('Unit | UseCase | get-certificate-pdf', function () {
       algorithmEngineVersion: AlgorithmEngineVersion.V2,
     });
     expect(content).to.equal(generatedPDF);
-    expect(filename).to.equal(`certification-pix-2026-10-30.pdf`);
+    expect(filename).to.equal('filename');
   });
 
   describe('when there is no certificate', function () {

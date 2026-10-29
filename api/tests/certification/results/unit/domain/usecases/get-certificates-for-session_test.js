@@ -7,7 +7,7 @@ describe('Unit | UseCase | get-certificates-for-session', function () {
   it('should return certificates pdf from session', async function () {
     // given
     const expectedResponse = Symbol('promise');
-    const getCertificatesForSessionStub = sinon.stub().resolves(expectedResponse);
+    const getSessionCertificatesPDFStub = sinon.stub().resolves(expectedResponse);
     const i18n = Symbol('i18n');
 
     // when
@@ -16,12 +16,12 @@ describe('Unit | UseCase | get-certificates-for-session', function () {
       isFrenchDomainExtension: true,
       i18n,
       dependencies: {
-        getCertificatesForSession: getCertificatesForSessionStub,
+        getSessionCertificatesPDF: getSessionCertificatesPDFStub,
       },
     });
 
     // then
-    expect(getCertificatesForSessionStub).to.be.calledOnceWith({
+    expect(getSessionCertificatesPDFStub).to.be.calledOnceWith({
       sessionId: 11,
       isFrenchDomainExtension: true,
       i18n,

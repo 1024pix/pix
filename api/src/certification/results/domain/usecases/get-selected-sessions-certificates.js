@@ -2,7 +2,7 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { getMultipleFilesAsZip } from '../../../../shared/infrastructure/utils/zip/get-multiple-files-as-zip.js';
 import { NoCertificatesToDownloadError } from '../errors.js';
-import { getCertificatesForSession } from '../services/get-certificates-for-session.js';
+import { getSessionCertificatesPDF } from '../services/get-session-certificates-pdf.js';
 
 /**
  * @param {object} params
@@ -16,7 +16,7 @@ export async function getSelectedSessionsCertificates({
   i18n,
   isFrenchDomainExtension,
   dependencies = {
-    getCertificatesForSession,
+    getCertificatesForSession: getSessionCertificatesPDF,
     getMultipleFilesAsZip,
   },
 }) {

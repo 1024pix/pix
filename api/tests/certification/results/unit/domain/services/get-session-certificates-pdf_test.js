@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { getCertificatesForSession } from '../../../../../../src/certification/results/domain/services/get-certificates-for-session.js';
+import { getSessionCertificatesPDF } from '../../../../../../src/certification/results/domain/services/get-session-certificates-pdf.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Unit | service | get-certificates-for-session', function () {
+describe('Unit | service | get-session-certificates-pdf', function () {
   let certificateRepository, sessionRepository;
 
   beforeEach(function () {
@@ -22,7 +22,7 @@ describe('Unit | service | get-certificates-for-session', function () {
   it('should return multiple certificates for V3', async function () {
     // given
     const locale = 'en';
-    const i18nStub = { getLocale: sinon.stub().returns(locale) };
+    const i18nStub = { getLocale: sinon.stub().returns(locale), __: sinon.stub().returns('filename') };
     const generatedPDF = Symbol('pdf');
 
     const getCertificatesPDFStub = sinon.stub().returns(generatedPDF);
@@ -39,7 +39,7 @@ describe('Unit | service | get-certificates-for-session', function () {
     certificateRepository.getCertificate.withArgs({ certificationCourseId: 2, locale }).resolves(certificate2);
 
     // when
-    const { filename, content } = await getCertificatesForSession({
+    const { filename, content } = await getSessionCertificatesPDF({
       sessionId: 11,
       i18n: i18nStub,
       isFrenchDomainExtension: true,
@@ -51,7 +51,7 @@ describe('Unit | service | get-certificates-for-session', function () {
     });
 
     // then
-    expect(filename).to.deep.equal('session-11-pix-certificates.pdf');
+    expect(filename).to.deep.equal('filename');
     expect(content).to.deep.equal(generatedPDF);
     expect(getCertificatesPDFStub).to.have.been.calledOnceWithExactly({
       certificates: [certificate1, certificate2],
@@ -64,7 +64,7 @@ describe('Unit | service | get-certificates-for-session', function () {
   it('should return multiple certificates for V2', async function () {
     // given
     const locale = 'en';
-    const i18nStub = { getLocale: sinon.stub().returns(locale) };
+    const i18nStub = { getLocale: sinon.stub().returns(locale), __: sinon.stub().returns('filename') };
     const generatedPDF = Symbol('pdf');
 
     const getCertificatesPDFStub = sinon.stub().returns(generatedPDF);
@@ -81,7 +81,7 @@ describe('Unit | service | get-certificates-for-session', function () {
     certificateRepository.getCertificate.withArgs({ certificationCourseId: 2, locale }).resolves(certificate2);
 
     // when
-    const { filename, content } = await getCertificatesForSession({
+    const { filename, content } = await getSessionCertificatesPDF({
       sessionId: 11,
       i18n: i18nStub,
       isFrenchDomainExtension: true,
@@ -93,7 +93,7 @@ describe('Unit | service | get-certificates-for-session', function () {
     });
 
     // then
-    expect(filename).to.deep.equal('session-11-pix-certificates.pdf');
+    expect(filename).to.deep.equal('filename');
     expect(content).to.deep.equal(generatedPDF);
     expect(getCertificatesPDFStub).to.have.been.calledOnceWithExactly({
       certificates: [certificate1, certificate2],
@@ -109,7 +109,7 @@ describe('Unit | service | get-certificates-for-session', function () {
       sessionRepository.get.withArgs(13).resolves(null);
 
       // when
-      const error = await catchErr(getCertificatesForSession)({
+      const error = await catchErr(getSessionCertificatesPDF)({
         sessionId: 13,
         i18n: { getLocale: sinon.stub().returns('fr') },
         dependencies: {
@@ -135,7 +135,7 @@ describe('Unit | service | get-certificates-for-session', function () {
       sessionRepository.get.withArgs(12).resolves(session);
 
       // when
-      const error = await catchErr(getCertificatesForSession)({
+      const error = await catchErr(getSessionCertificatesPDF)({
         sessionId: 12,
         i18n: { getLocale: sinon.stub().returns('fr') },
         dependencies: {

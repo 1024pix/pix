@@ -1,14 +1,14 @@
-import * as getCertificatesForSessionService from '../services/get-certificates-for-session.js';
+import { getSessionCertificatesPDF } from '../services/get-session-certificates-pdf.js';
 
 export async function getCertificatesForSession({
   sessionId,
   isFrenchDomainExtension,
   i18n,
   dependencies = {
-    getCertificatesForSession: getCertificatesForSessionService.getCertificatesForSession,
+    getSessionCertificatesPDF,
   },
 }) {
-  return dependencies.getCertificatesForSession({
+  return dependencies.getSessionCertificatesPDF({
     sessionId,
     isFrenchDomainExtension,
     i18n,

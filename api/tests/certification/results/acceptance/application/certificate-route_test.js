@@ -708,9 +708,10 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
           // then
           expect(response.statusCode).to.equal(200);
+          expect(response.rawPayload).to.be.instanceOf(Buffer);
           expect(response.headers['content-type']).to.equal('application/pdf');
 
-          const filename = `filename=certification-pix-2018-12-01.pdf`;
+          const filename = `filename=certification-pix-20181201.pdf`;
           expect(response.headers['content-disposition']).to.include(filename);
 
           const fileFormat = response.result.substring(1, 4);
@@ -761,6 +762,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
           // then
           expect(response.statusCode).to.equal(200);
+          expect(response.rawPayload).to.be.instanceOf(Buffer);
           expect(response.headers['content-type']).to.equal('application/pdf');
 
           const fileFormat = response.result.substring(1, 4);
@@ -787,6 +789,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
         // then
         expect(response.statusCode).to.equal(200);
+        expect(response.rawPayload).to.be.instanceOf(Buffer);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.include('filename=certification-pix');
         expect(response.file).not.to.be.null;
@@ -862,6 +865,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
         // then
         expect(response.statusCode).to.equal(200);
+        expect(response.rawPayload).to.be.instanceOf(Buffer);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.include(`_attestations_${organizationLearner.division}`);
       });
@@ -933,6 +937,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
         // then
         expect(response.statusCode).to.equal(200);
+        expect(response.rawPayload).to.be.instanceOf(Buffer);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.equal(
           `attachment; filename=${organizationLearner.division.toLowerCase()}-certification-pix-${dayjs(session.publishedAt).format('YYYYMMDD')}.pdf`,
@@ -961,9 +966,10 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
         // then
         expect(response.statusCode).to.equal(200);
+        expect(response.rawPayload).to.be.instanceOf(Buffer);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.equal(
-          `attachment; filename=session-${session.id}-pix-certificates.pdf`,
+          `attachment; filename=session-${session.id}-certificats.pdf`,
         );
         expect(response.file).not.to.be.null;
       });
@@ -987,9 +993,10 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
         // then
         expect(response.statusCode).to.equal(200);
+        expect(response.rawPayload).to.be.instanceOf(Buffer);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.equal(
-          `attachment; filename=session-${session.id}-pix-certificates.pdf`,
+          `attachment; filename=session-${session.id}-certificats.pdf`,
         );
         expect(response.file).not.to.be.null;
       });
