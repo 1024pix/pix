@@ -14,11 +14,13 @@ import * as parcoursupCertificationResultRepository from '../../infrastructure/r
 import * as resultRecipientRepository from '../../infrastructure/repositories/result-recipient-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
 import * as sessionForResultsSharingRepository from '../../infrastructure/repositories/session-for-results-sharing-repository.js';
+import * as sessionRepository from '../../infrastructure/repositories/session-repository.ts';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { computeCertificatesForSession } from './compute-certificates-for-session.js';
 import { findCertificatesForDivision } from './find-certificates-for-division.js';
 import { findUserCertificateSummaries } from './find-user-certificate-summaries.js';
 import { findUserCertificationCourses } from './find-user-certification-courses.js';
+import { generateCpfXml } from './generate-cpf-xml.usecase.ts';
 import { getCertificate } from './get-certificate.js';
 import { getCertificatePDF } from './get-certificate-pdf.js';
 import { getCertificatesForSession } from './get-certificates-for-session.js';
@@ -67,6 +69,7 @@ const dependencies = {
   sessionEnrolmentRepository,
   resultRecipientRepository,
   sessionForResultsSharingRepository,
+  sessionRepository,
   competenceTreeRepository,
   certificationLivretScolaireRepository,
   certificateSummaryRepository,
@@ -85,6 +88,7 @@ const usecasesWithoutInjectedDependencies = {
   getCertificationsResultsForLivretScolaire,
   getCleaCertifiedCandidateBySession,
   getPrivateCertificate,
+  generateCpfXml,
   getScoCertificationResultsByDivision,
   getSessionCertificationReports,
   getSessionCertificationResultsCsv,

@@ -2,7 +2,6 @@ import { expect } from 'chai';
 
 import { Certificate } from '../../../../../../src/certification/results/domain/models/Certificate.ts';
 import * as certificateRepository from '../../../../../../src/certification/results/infrastructure/repositories/certificate-repository.js';
-import { findCertificationsIdAndVersion } from '../../../../../../src/certification/results/infrastructure/repositories/certificate-repository.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -3186,6 +3185,26 @@ describe('Integration | Infrastructure | Repository | Certification', function (
         { id: 1, version: AlgorithmEngineVersion.V3 },
         { id: 3, version: AlgorithmEngineVersion.V2 },
       ]);
+    });
+  });
+
+  describe('getCertificatesForCPF', function () {
+    it('returns the only V3 certificate published and validated', async function () {
+      const session = await databaseBuilder.factory.buildSession();
+      const otherSession = await databaseBuilder.factory.buildSession();
+      const certificate = await databaseBuilder.factory.buildCertificate({ status: AssessmentResult.status.VALIDATED });
+      const otherCertificate = await databaseBuilder.factory.buildCertificate({
+        status: AssessmentResult.status.VALIDATED,
+      });
+      databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id, certificateId: certificate.id });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId: otherSession.id,
+        certificateId: otherCertificate.id,
+      });
+      await databaseBuilder.commit();
+
+      const certificates = await certificateRepository.getCertificatesForCPF({ sessionId: session.id });
+      expect(certificates).to.deep.equal([certificate]);
     });
   });
 });
