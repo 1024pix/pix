@@ -1,5 +1,69 @@
 # Pix Changelog
 
+# [5.533.0](https://github.com/1024pix/pix/compare/v5.532.1...v5.533.0) (2026-10-29)
+
+### :rocket: Amélioration
+
+- [#18434](https://github.com/1024pix/pix/pull/18434) Afficher les campagnes accessibles via Moodle dans un tableau (PIX-24821)
+- [#18420](https://github.com/1024pix/pix/pull/18420) Ajout d'un CTA tertiaire pour renvoyer aux résultats d'une campagne terminée dans un parcours combiné (PIX-24482)
+- [#18437](https://github.com/1024pix/pix/pull/18437) Ajout d'une API interne pour renvoyer les campaignIds de parcours combinés (PIX-24875)
+- [#18431](https://github.com/1024pix/pix/pull/18431) Ajout d'une API interne pour renvoyer les combined course ids d'une organization (PIX-24874)
+- [#18305](https://github.com/1024pix/pix/pull/18305) Ajouter la section "Comment passer sa certification Pix ?" (PIX-24280).
+- [#18168](https://github.com/1024pix/pix/pull/18168) Lire et écrire les knowledge elements d'un utilisateur migré depuis ses knowledge states.
+- [#18350](https://github.com/1024pix/pix/pull/18350) Permettre au script de purge de traiter les learners en batchs (PIX-24861)
+- [#18348](https://github.com/1024pix/pix/pull/18348) Récupérer les campagnes des organisations pour le LTI (PIX-24820)
+- [#18291](https://github.com/1024pix/pix/pull/18291) Refactoring du usecase de dynamic registration (PIX-24422)
+
+### :bug: Correction
+
+- [#18419](https://github.com/1024pix/pix/pull/18419) Corriger l'affichage de la vocalisation en certification (PIX-24878)
+- [#18414](https://github.com/1024pix/pix/pull/18414) Corriger le fallback Postgres quand le cache Redis du learning content est indisponible
+- [#18367](https://github.com/1024pix/pix/pull/18367) Tracker les clics molette sur les liens des messages de palier (PIX-24869)
+
+### :building_construction: Tech
+
+- [#18464](https://github.com/1024pix/pix/pull/18464) Ajout d'assertion manquante dans le test sur la mise à jour de la table replication_metadata
+- [#18460](https://github.com/1024pix/pix/pull/18460) Ajoute une table au datamart pour avoir un suivi de la fraîcheur des données
+- [#18424](https://github.com/1024pix/pix/pull/18424) Corriger le test e2e flaky sco-students-management
+- [#18418](https://github.com/1024pix/pix/pull/18418) Documenter l’utilisation des noms de domaine locaux avec un pare-feu
+- [#18368](https://github.com/1024pix/pix/pull/18368) migre le test cypress user-dashboard en playwright"
+- [#18413](https://github.com/1024pix/pix/pull/18413) Mise à jour des pratiques concernant le fichier OIDC_PROVIDERS.json et suppression de code inutile (PIX-24886)
+- [#18416](https://github.com/1024pix/pix/pull/18416) Poster plusieurs jobs de calcul de certificabilité en même temps
+- [#18415](https://github.com/1024pix/pix/pull/18415) Revoir le model LtiPlatform (PIX-24844)
+
+### :arrow_up: Montée de version
+
+- [#18428](https://github.com/1024pix/pix/pull/18428) Update aws-sdk-js-v3 monorepo to v3.1154.0 (api)
+- [#18454](https://github.com/1024pix/pix/pull/18454) Update aws-sdk-js-v3 monorepo to v3.1155.0 (api)
+- [#18461](https://github.com/1024pix/pix/pull/18461) Update dependency @1024pix/oppsy to v1.1.3 (api)
+- [#18429](https://github.com/1024pix/pix/pull/18429) Update dependency @glimmer/component to v2.2.0 (admin)
+- [#18430](https://github.com/1024pix/pix/pull/18430) Update dependency @glimmer/component to v2.2.0 (certif)
+- [#18432](https://github.com/1024pix/pix/pull/18432) Update dependency @glimmer/component to v2.2.0 (junior)
+- [#18433](https://github.com/1024pix/pix/pull/18433) Update dependency @glimmer/component to v2.2.0 (mon-pix)
+- [#18435](https://github.com/1024pix/pix/pull/18435) Update dependency @glimmer/component to v2.2.0 (orga)
+- [#18444](https://github.com/1024pix/pix/pull/18444) Update dependency @glint/ember-tsc to v1.14.0 (orga)
+- [#18447](https://github.com/1024pix/pix/pull/18447) Update dependency @glint/ember-tsc to v1.14.1 (orga)
+- [#18436](https://github.com/1024pix/pix/pull/18436) Update dependency @glint/tsserver-plugin to v2.7.13 (orga)
+- [#18448](https://github.com/1024pix/pix/pull/18448) Update dependency @glint/tsserver-plugin to v2.7.14 (orga)
+- [#18449](https://github.com/1024pix/pix/pull/18449) Update dependency @hapi/hapi to v21.4.11 (api)
+- [#18450](https://github.com/1024pix/pix/pull/18450) Update dependency @hapi/hapi to v21.4.11 (audit-logger)
+- [#18440](https://github.com/1024pix/pix/pull/18440) Update dependency @hapi/inert to v7.1.3 (api)
+- [#18441](https://github.com/1024pix/pix/pull/18441) Update dependency @types/lodash to v4.17.27 (audit-logger)
+- [#18442](https://github.com/1024pix/pix/pull/18442) Update dependency @types/lodash to v4.17.27 (orga)
+- [#18422](https://github.com/1024pix/pix/pull/18422) Update dependency @types/sinon to v22.0.1 (orga)
+- [#18425](https://github.com/1024pix/pix/pull/18425) Update dependency @types/sinon-chai to v4.0.1 (api)
+- [#18409](https://github.com/1024pix/pix/pull/18409) Update dependency hyparquet-writer to v0.17.0 (api)
+- [#18455](https://github.com/1024pix/pix/pull/18455) Update dependency nodemailer to v10.2.0 (api)
+- [#18410](https://github.com/1024pix/pix/pull/18410) Update dependency oxfmt to v0.74.0 (api)
+- [#18426](https://github.com/1024pix/pix/pull/18426) Update dependency samlify to v2.15.1 (api)
+- [#18445](https://github.com/1024pix/pix/pull/18445) Update dependency sass to v1.106.0 (admin)
+- [#18446](https://github.com/1024pix/pix/pull/18446) Update dependency sass to v1.106.0 (certif)
+- [#18451](https://github.com/1024pix/pix/pull/18451) Update dependency sass to v1.106.0 (junior)
+- [#18452](https://github.com/1024pix/pix/pull/18452) Update dependency sass to v1.106.0 (mon-pix)
+- [#18453](https://github.com/1024pix/pix/pull/18453) Update dependency sass-embedded to v1.106.0 (orga)
+- [#18427](https://github.com/1024pix/pix/pull/18427) Update dependency vite to v8.3.5 (orga)
+- [#18398](https://github.com/1024pix/pix/pull/18398) Update JS test packages (api)
+
 ## [5.532.1](https://github.com/1024pix/pix/compare/v5.532.0...v5.532.1) (2026-10-28)
 
 ### :bug: Correction
