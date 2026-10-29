@@ -51,6 +51,7 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
         sameSite: 'none',
         partitioned: true,
         path: '/api/lti',
+        maxAge: 600,
       });
       expect(parsed).to.have.property('value').that.is.a('string');
 

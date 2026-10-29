@@ -1,5 +1,6 @@
 import { stringifySetCookie } from 'cookie';
 import Joi from 'joi';
+import ms from 'ms';
 
 import { config } from '../../../../config/config.js';
 import { InvalidInputDataError } from '../../../shared/domain/errors.js';
@@ -15,6 +16,7 @@ const COOKIE_CONFIG = Object.freeze({
   sameSite: 'none',
   partitioned: true,
   path: '/api/lti',
+  maxAge: ms(config.lti.prescriberAccessTokenLifespan) / 1000,
 });
 
 export class LtiPrescriberAccessToken {
