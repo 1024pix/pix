@@ -1079,6 +1079,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
       // then
       expect(response.statusCode).to.equal(200);
+      expect(response.rawPayload).to.be.instanceOf(Buffer);
       expect(response.headers['content-type']).to.equal('application/zip');
       expect(response.headers['content-disposition']).to.contain(
         'attachment; filename=pix-sessions-certificates-1767243967000.zip',

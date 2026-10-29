@@ -192,6 +192,44 @@ describe('Certification | Results | Unit | Application | Certification Route', f
       sinon.assert.notCalled(certificateController.downloadSelectedSessionsCertificates);
     });
 
+    describe('when isFrenchDomainExtension query param is missing', function () {
+      it('should return a 400 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          '/api/admin/sessions/download-selection-certificates?sessionIds=1',
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        expect(response.payload.includes('isFrenchDomainExtension')).to.be.true;
+      });
+    });
+
+    describe('when lang query param has not a valid value', function () {
+      it('should return a 400 HTTP status code', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          '/api/admin/sessions/download-selection-certificates?sessionIds=1&isFrenchDomainExtension=true&lang=de',
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+        expect(response.payload.includes('lang')).to.be.true;
+      });
+    });
+
     describe('when sessionIds query param is missing', function () {
       it('should return a 400 HTTP status code', async function () {
         // given
@@ -207,6 +245,7 @@ describe('Certification | Results | Unit | Application | Certification Route', f
 
         // then
         expect(response.statusCode).to.equal(400);
+        expect(response.payload.includes('sessionIds')).to.be.true;
       });
     });
 
@@ -225,6 +264,7 @@ describe('Certification | Results | Unit | Application | Certification Route', f
 
         // then
         expect(response.statusCode).to.equal(400);
+        expect(response.payload.includes('sessionIds')).to.be.true;
       });
     });
 
@@ -243,6 +283,7 @@ describe('Certification | Results | Unit | Application | Certification Route', f
 
         // then
         expect(response.statusCode).to.equal(400);
+        expect(response.payload.includes('sessionIds')).to.be.true;
       });
     });
 

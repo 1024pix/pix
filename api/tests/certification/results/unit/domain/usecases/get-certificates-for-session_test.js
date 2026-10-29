@@ -6,11 +6,12 @@ import { getCertificatesForSession } from '../../../../../../src/certification/r
 describe('Unit | UseCase | get-certificates-for-session', function () {
   it('should return certificates pdf from session', async function () {
     // given
-    const getCertificatesForSessionStub = sinon.stub();
+    const expectedResponse = Symbol('promise');
+    const getCertificatesForSessionStub = sinon.stub().resolves(expectedResponse);
     const i18n = Symbol('i18n');
 
     // when
-    await getCertificatesForSession({
+    const usecaseResponse = await getCertificatesForSession({
       sessionId: 11,
       isFrenchDomainExtension: true,
       i18n,
@@ -25,5 +26,7 @@ describe('Unit | UseCase | get-certificates-for-session', function () {
       isFrenchDomainExtension: true,
       i18n,
     });
+
+    expect(usecaseResponse).to.equal(expectedResponse);
   });
 });
