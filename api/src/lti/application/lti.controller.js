@@ -152,7 +152,7 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
 
   if (!organizationIds.includes(campaign?.organizationId)) {
     logger.warn({ campaignId, organizationIds }, 'campaign does not belongs to organizations');
-    return boom.unauthorized();
+    return boom.badRequest();
   }
 
   const contentItem = {
