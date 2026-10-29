@@ -3188,6 +3188,21 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       ]);
     });
   });
+
+  describe('getCertificatesForCPF', function() {
+    it('returns the only V3 certificate published and validated', async function () {
+      const session = await databaseBuilder.factory.buildSession()
+      const otherSession = await databaseBuilder.factory.buildSession()
+      const certificate = await databaseBuilder.factory.buildCertificate({status: AssessmentResult.status.VALIDATED })
+      const otherCertificate = await databaseBuilder.factory.buildCertificate({status: AssessmentResult.status.VALIDATED})
+      databaseBuilder.factory.buildCertificationCourse({sessionId: session.id, certificateId: certificate.id})
+      databaseBuilder.factory.buildCertificationCourse({sessionId: otherSession.id, certificateId: otherCertificate.id})
+      await databaseBuilder.commit();
+
+      const certificates = await certificateRepository.getCertificatesForCPF({sessionId: session.id})
+      expect(certificates).to.deep.equal([certificate])
+    })
+  })
 });
 
 function _buildIncomplete(certificationAttestationData) {

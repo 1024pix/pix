@@ -221,6 +221,10 @@ export async function buildCertificateV3(certificationId) {
   return buildForV3(certificationData, learnerData, cleaData);
 }
 
+export async function getCertificatesForCPF({sessionId}) {
+  
+}
+
 function _selectCertificationCourseDTOs(knexConn) {
   return _getCertificateQuery(knexConn)
     .select({
