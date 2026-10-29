@@ -117,7 +117,7 @@ async function deepLink(request, h, dependencies = { ltiService }) {
     const customClaims = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom'];
     const { organizationExternalIds } = dependencies.ltiService.deserializeDeepLinkingCustomClaims(customClaims);
 
-    const ltiDeepLinkingAccessToken = await usecases.authenticateLtiPrescriber({
+    const ltiDeepLinkingAccessToken = await usecases.authenticateDeepLinking({
       organizationExternalIds,
       registration,
       deepLinkingSettings,

@@ -14,7 +14,7 @@ import { LtiDeepLinkingAccessToken } from '../models/LtiDeepLinkingAccessToken.j
  * @param {object} args.deepLinkingSettings
  * @param {string} args.audience
  */
-export async function authenticateLtiPrescriber({
+export async function authenticateDeepLinking({
   organizationExternalIds,
   registration,
   deepLinkingSettings,
