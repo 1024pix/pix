@@ -15,10 +15,10 @@ export const ltiPlatformRepository = {
     return new LtiPlatform(ltiPlatformDTO);
   },
 
-  async findByOrigin(origin) {
+  async findByIssuer(issuer) {
     const knexConn = DomainTransaction.getConnection();
 
-    const ltiPlatformDTO = await knexConn.select('*').from('lti_platforms').where('origin', origin).first();
+    const ltiPlatformDTO = await knexConn.select('*').from('lti_platforms').where({ issuer }).first();
 
     if (!ltiPlatformDTO) {
       return null;

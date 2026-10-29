@@ -1,6 +1,6 @@
 export class LtiPlatform {
-  constructor({ id, origin }) {
+  constructor({ id, issuer }) {
     this.id = id;
-    this.origin = origin;
+    this.issuer = issuer;
   }
 }

@@ -44,7 +44,7 @@ export const ltiService = {
       throw new InvalidLtiPlatformRegistrationError('Inconsistent LTI platform configuration URL');
     }
 
-    const ltiPlatform = await dependencies.ltiPlatformRepository.findByOrigin(platformConfiguration.issuer);
+    const ltiPlatform = await dependencies.ltiPlatformRepository.findByIssuer(platformConfiguration.issuer);
     if (!ltiPlatform) {
       logger.warn({ issuer: platformConfiguration.issuer }, 'Unauthorized LTI platform issuer.');
       throw new InvalidLtiPlatformRegistrationError('Unauthorized LTI platform issuer');

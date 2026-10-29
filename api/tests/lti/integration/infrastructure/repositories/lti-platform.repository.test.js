@@ -38,29 +38,29 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform', funct
     });
   });
 
-  describe('findByOrigin', function () {
-    it('returns a LtiPlatform by origin', async function () {
+  describe('findByIssuer', function () {
+    it('returns a LtiPlatform by issuer', async function () {
       // given
       const expectedLtiPlatformData = databaseBuilder.factory.buildLtiPlatform();
       await databaseBuilder.commit();
       const expectedLtiPlatform = domainBuilder.lti.buildLtiPlatform(expectedLtiPlatformData);
 
       // when
-      const ltiPlatform = await ltiPlatformRepository.findByOrigin(expectedLtiPlatformData.origin);
+      const ltiPlatform = await ltiPlatformRepository.findByIssuer(expectedLtiPlatformData.issuer);
 
       // then
       expect(ltiPlatform).to.deepEqualInstance(expectedLtiPlatform);
     });
 
-    describe('when origin is not found', function () {
+    describe('when issuer is not found', function () {
       it('returns null', async function () {
         // given
         databaseBuilder.factory.buildLtiPlatform();
         await databaseBuilder.commit();
-        const notFoundOrigin = 'https://not-found.example.net';
+        const notFoundIssuer = 'https://not-found.example.net';
 
         // when
-        const ltiPlatform = await ltiPlatformRepository.findByOrigin(notFoundOrigin);
+        const ltiPlatform = await ltiPlatformRepository.findByIssuer(notFoundIssuer);
 
         // then
         expect(ltiPlatform).to.be.null;

@@ -277,7 +277,7 @@ function createClientApplications(databaseBuilder) {
 }
 
 function createLtiPlatforms(databaseBuilder) {
-  databaseBuilder.factory.buildLtiPlatform({ origin: 'http://localhost:8000' });
+  databaseBuilder.factory.buildLtiPlatform({ issuer: 'http://localhost:8000' });
 }
 
 function _createPublicTargetProfile(databaseBuilder) {
