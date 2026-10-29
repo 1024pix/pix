@@ -58,7 +58,7 @@ export class LtiPrescriberAccessToken {
   get encoded() {
     return tokenService.encodeToken(
       {
-        organizationIds: this.organizationIds, // FIXME rename
+        'https://pix.org/claims/organization_ids': this.organizationIds,
         client_id: this.clientId,
         ['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings']: this.deepLinkingSettings,
         scope: this.scope,
@@ -80,7 +80,7 @@ export class LtiPrescriberAccessToken {
     if (!decoded) throw new InvalidInputDataError();
 
     return new LtiPrescriberAccessToken({
-      organizationIds: decoded.organizationIds,
+      organizationIds: decoded['https://pix.org/claims/organization_ids'],
       clientId: decoded.client_id,
       deepLinkingSettings: decoded['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'],
       scope: decoded.scope,

@@ -57,7 +57,7 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
       const decodedToken = jsonwebtoken.verify(parsed.value, config.authentication.secret, { complete: true });
       expect(decodedToken.header).to.deep.equal({ alg: 'HS256', typ: 'at+jwt' });
       expect(decodedToken.payload).to.deep.contain({
-        organizationIds: [123, 456],
+        'https://pix.org/claims/organization_ids': [123, 456],
         client_id: 'Abcd1234',
         'https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings': {},
         scope: 'lti:deep-linking',
@@ -74,7 +74,7 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
       // given
       const encodedToken = jsonwebtoken.sign(
         {
-          organizationIds: [123, 456],
+          'https://pix.org/claims/organization_ids': [123, 456],
           client_id: 'Abcd1234',
           'https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings': {},
           scope: 'lti:deep-linking',
