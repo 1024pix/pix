@@ -116,6 +116,15 @@ export async function getShareableCertificate({ certificationCourseId, locale })
   return _toDomainForShareableCertificate({ shareableCertificateDTO, competenceTree, certifiedBadges });
 }
 
+export async function findCertificationsIdAndVersion({ sessionId }) {
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn
+    .select({ id: 'certification-courses.id', version: 'certification-courses.version' })
+    .from('certification-courses')
+    .where({ sessionId, isPublished: true })
+    .orderBy('certification-courses.id');
+}
+
 export async function buildCertificateV3(certificationId) {
   const knexConn = DomainTransaction.getConnection();
   const certificationData = await knexConn
