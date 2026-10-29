@@ -22,6 +22,7 @@ export * from './build-campaign-participation-with-organization-learner.js';
 export * from './build-campaign-participation-with-user.js';
 export * from './build-campaign-skill.js';
 export * from './build-certifiable-user.js';
+export * from './build-certificate.js';
 export * from './build-certification-candidate.js';
 export * from './build-certification-center.js';
 export * from './build-certification-center-invitation.js';
