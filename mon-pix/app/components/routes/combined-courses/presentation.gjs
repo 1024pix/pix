@@ -7,6 +7,7 @@ import { and, eq } from 'ember-truth-helpers';
 import Attestation from 'mon-pix/components/combined-course/attestation';
 import CombinedCourseItemsList from 'mon-pix/components/combined-course/combined-course-items-list';
 import MarkdownToHtml from 'mon-pix/components/markdown-to-html';
+import { CombinedCourseStatuses } from 'mon-pix/models/combined-course';
 
 const CompletedText = <template>
   <div class="completed-text">
@@ -20,29 +21,30 @@ const Header = <template>
     <div class="combined-course-header__text">
       <h1>{{@combinedCourse.name}}</h1>
 
-      {{#if (eq @combinedCourse.status "COMPLETED")}}
+      {{#if (eq @combinedCourse.status CombinedCourseStatuses.COMPLETED)}}
         <div class="combined-course-header__completed">
           <img src="/images/illustrations/combined-course/completed.svg" alt="" role="presentation" />
           <CompletedText />
         </div>
       {{/if}}
 
-      <div class={{unless (eq @combinedCourse.status "COMPLETED") "combined-course__description"}}>
+      <div class={{unless (eq @combinedCourse.status CombinedCourseStatuses.COMPLETED) "combined-course__description"}}>
         <MarkdownToHtml @markdown={{@combinedCourse.description}} @mustReplaceLinksFromMarkdown={{true}} />
       </div>
 
-      {{#if (eq @combinedCourse.status "NOT_STARTED")}}
+      {{#if (eq @combinedCourse.status CombinedCourseStatuses.NOT_STARTED)}}
         <PixButton @type="submit" @triggerAction={{@startQuestParticipation}} @loading-color="white" @size="large">{{t
             "pages.combined-courses.content.start-button"
           }}
         </PixButton>
-      {{else if (eq @combinedCourse.status "STARTED")}}
+      {{else if (eq @combinedCourse.status CombinedCourseStatuses.STARTED)}}
         <PixButton @type="submit" @triggerAction={{@goToNextItem}} @loading-color="white" @size="large">{{t
             "pages.combined-courses.content.resume-button"
           }}
         </PixButton>
       {{/if}}
-      {{#if (and (eq @combinedCourse.status "COMPLETED") @isSurveyEnabled)}}
+
+      {{#if (and (eq @combinedCourse.status CombinedCourseStatuses.COMPLETED) @isSurveyEnabled)}}
         <PixTooltip @id="tooltip-satisfaction-survey" @position="right" @isInline={{true}}>
           <:triggerElement>
             <PixButtonLink
@@ -89,7 +91,7 @@ export default class CombinedCoursePresentation extends Component {
 
   @action
   async goToItem(item) {
-    if (this.args.combinedCourse.status === 'NOT_STARTED') {
+    if (this.args.combinedCourse.status === CombinedCourseStatuses.NOT_STARTED) {
       const combinedCourseAdapter = this.store.adapterFor('combined-course');
       await combinedCourseAdapter.start(this.args.combinedCourse.code);
     }
