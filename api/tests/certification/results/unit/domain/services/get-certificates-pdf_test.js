@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import { getCertificatesPDF } from '../../../../../../src/certification/results/domain/services/get-certificates-pdf.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
-import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | Results | Unit | Domain | Service | Get Certificates PDF', function () {
   describe('getCertificatesPDF', function () {
@@ -21,36 +20,36 @@ describe('Certification | Results | Unit | Domain | Service | Get Certificates P
       };
     });
 
-    describe('when the certification is v3', function () {
-      it('should call pdf generators', async function () {
+    describe('when the algorithm engine version is V3', function () {
+      it('should call pdf generators for V3', async function () {
         // given
-        const certificate = domainBuilder.certification.results.buildCertificate();
+        const certificates = Symbol('some_certificates');
 
         // when
         await getCertificatesPDF({
-          certificates: [certificate],
+          certificates,
+          algorithmEngineVersion: AlgorithmEngineVersion.V3,
           i18n: i18nStub,
           dependencies: dependenciesStub,
         });
 
         // then
         expect(dependenciesStub.generateV3Pdf).calledOnceWithExactly({
-          certificates: [certificate],
+          certificates,
           i18n: i18nStub,
         });
       });
     });
 
-    describe('when the certification is v2', function () {
-      it('should call pdf generators', async function () {
+    describe('when the algorithm engine version is not V3', function () {
+      it('should call pdf generators for V2', async function () {
         // given
-        const certificate = domainBuilder.buildCertificationAttestation({
-          version: AlgorithmEngineVersion.V2,
-        });
+        const certificates = Symbol('some_certificates');
 
         // when
         await getCertificatesPDF({
-          certificates: [certificate],
+          certificates,
+          algorithmEngineVersion: AlgorithmEngineVersion.V2,
           i18n: i18nStub,
           isFrenchDomainExtension: true,
           dependencies: dependenciesStub,
@@ -59,7 +58,7 @@ describe('Certification | Results | Unit | Domain | Service | Get Certificates P
         // then
 
         expect(dependenciesStub.generateV2Pdf).calledOnceWithExactly({
-          certificates: [certificate],
+          certificates,
           i18n: i18nStub,
           isFrenchDomainExtension: true,
         });

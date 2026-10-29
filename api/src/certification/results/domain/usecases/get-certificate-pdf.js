@@ -3,6 +3,8 @@
  * @typedef {import('i18n').I18n} I18n
  */
 
+import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
+import { Certificate } from '../models/v3/Certificate.js';
 import { getCertificatesPDF } from '../services/get-certificates-pdf.js';
 
 /**
@@ -25,8 +27,11 @@ export async function getCertificatePDF({
 
   const deliveredAtFormatted = new Date(certificate.deliveredAt).toLocaleDateString('en-CA');
 
+  const algorithmEngineVersion =
+    certificate instanceof Certificate ? AlgorithmEngineVersion.V3 : AlgorithmEngineVersion.V2;
   const pdf = await dependencies.getCertificatesPDF({
     certificates: [certificate],
+    algorithmEngineVersion,
     i18n,
     isFrenchDomainExtension,
   });
