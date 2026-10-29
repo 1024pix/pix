@@ -25,6 +25,11 @@ export default class NewStage extends Component {
 
   @action
   checkThresholdValidity(event) {
+    if (!event.target.value.trim()) {
+      this.args.stage.set('threshold', null);
+      this.thresholdStatus = null;
+      return;
+    }
     const threshold = Number(event.target.value);
     if (
       !isInteger(threshold) ||
@@ -68,7 +73,7 @@ export default class NewStage extends Component {
   }
 
   <template>
-    <tr aria-label="Informations sur le palier {{@title}}">
+    <tr aria-label="Informations sur le palier {{@stage.title}}">
       <td>
         {{#if @stage.isFirstSkill}}
           1er acquis
