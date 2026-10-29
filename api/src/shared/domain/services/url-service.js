@@ -119,18 +119,6 @@ export function getPixAppConnexionUrl(locale) {
 }
 
 /**
- * @deprecated temporary function for LTI, don’t use.
- *
- * @param {string} pathname
- * @returns {string} - Pix API URL
- */
-export function getPixApiUrl(pathname) {
-  const pixApiDomain = 'https://api.dev.pix';
-  const rootUrl = `${pixApiDomain}${config.domain.tldFr}`;
-  return _buildUrlWithLocale({ rootUrl, pathname, locale: 'fr-FR' });
-}
-
-/**
  * @param {string} locale - user locale or a challenge locale
  * @param {string} redirectUrl - URL to redirect the user to after email validation
  * @param {string} token - Token used for email validation
