@@ -142,7 +142,7 @@ describe('Acceptance | LTI | Route | LTI', function () {
         method: 'GET',
         url: '/api/lti/campaigns',
         headers: {
-          cookie: `jwtLtiPrescriber=${ltiDeepLinkingAccessToken.encoded}`,
+          cookie: `jwtLtiDeepLinking=${ltiDeepLinkingAccessToken.encoded}`,
           'x-forwarded-proto': 'https',
           'x-forwarded-host': 'orga.pix.fr',
         },
@@ -157,13 +157,13 @@ describe('Acceptance | LTI | Route | LTI', function () {
       expect(response.result.data[0].type).to.equal('lti-campaigns');
     });
 
-    it('returns an HTTP status code 401 when there is no lti prescriber cookie', async function () {
+    it('returns an HTTP status code 401 when there is no lti deep linking cookie', async function () {
       // given
       const options = {
         method: 'GET',
         url: '/api/lti/campaigns',
         headers: {
-          cookie: `jwtLtiPrescriber=`,
+          cookie: `jwtLtiDeepLinking=`,
           'x-forwarded-proto': 'https',
           'x-forwarded-host': 'orga.pix.fr',
         },

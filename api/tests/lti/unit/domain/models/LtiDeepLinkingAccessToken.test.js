@@ -45,7 +45,7 @@ describe('Unit | LTI | Domain | Model | LtiDeepLinkingAccessToken', function () 
       // then
       const parsed = parseSetCookie(value);
       expect(parsed).to.contain({
-        name: 'jwtLtiPrescriber',
+        name: 'jwtLtiDeepLinking',
         secure: true,
         httpOnly: true,
         sameSite: 'none',
@@ -182,7 +182,7 @@ describe('Unit | LTI | Domain | Model | LtiDeepLinkingAccessToken', function () 
       // then
       const parsed = parseSetCookie(value);
       expect(parsed).to.deep.equal({
-        name: 'jwtLtiPrescriber',
+        name: 'jwtLtiDeepLinking',
         secure: true,
         httpOnly: true,
         sameSite: 'none',

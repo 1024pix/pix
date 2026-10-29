@@ -7,7 +7,7 @@ import { InvalidInputDataError } from '../../../shared/domain/errors.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { validateEntity } from '../../../shared/domain/validators/entity-validator.js';
 
-const COOKIE_NAME = 'jwtLtiPrescriber';
+const COOKIE_NAME = 'jwtLtiDeepLinking';
 
 const COOKIE_CONFIG = Object.freeze({
   name: COOKIE_NAME,
