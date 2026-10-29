@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { featureToggles } from '../../shared/infrastructure/feature-toggles/index.js';
-import { ltiPrescriberStrategyName } from '../infrastructure/lti-authentication.js';
+import { ltiDeepLinkingStrategyName } from '../infrastructure/lti-authentication.js';
 import { ltiController } from './lti.controller.js';
 
 async function register(server, options, dependencies = { featureToggles }) {
@@ -66,7 +66,7 @@ async function register(server, options, dependencies = { featureToggles }) {
       method: 'GET',
       path: '/api/lti/campaigns',
       options: {
-        auth: { strategy: ltiPrescriberStrategyName },
+        auth: { strategy: ltiDeepLinkingStrategyName },
         handler: (request, h) => ltiController.findAvailableCampaigns(request, h),
         notes: [
           'Cette route permet de récupérer la liste des campagnes disponibles pour les organisations correspondantes.',
@@ -78,7 +78,7 @@ async function register(server, options, dependencies = { featureToggles }) {
       method: 'POST',
       path: '/api/lti/select-campaign',
       options: {
-        auth: { strategy: ltiPrescriberStrategyName },
+        auth: { strategy: ltiDeepLinkingStrategyName },
         handler: (request, h) => ltiController.selectCampaign(request, h),
         notes: ['Cette route renvoie une deep-linking response prêt pour être renvoyée à Moodle.'],
         tags: ['api', 'lti'],

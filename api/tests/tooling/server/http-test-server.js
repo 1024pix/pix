@@ -6,8 +6,8 @@ import * as serverAuthentication from '../../../src/identity-access-management/i
 import {
   jwtCookieScheme,
   jwtCookieSchemeName,
-  ltiPrescriberStrategyConfiguration,
-  ltiPrescriberStrategyName,
+  ltiDeepLinkingStrategyConfiguration,
+  ltiDeepLinkingStrategyName,
 } from '../../../src/lti/infrastructure/lti-authentication.js';
 import { deserializer } from '../../../src/shared/infrastructure/serializers/jsonapi/deserializer.js';
 import { handleFailAction } from '../../../src/shared/validate.js';
@@ -72,7 +72,7 @@ class HttpTestServer {
 
   setupLtiAuthentication() {
     this.hapiServer.auth.scheme(jwtCookieSchemeName, jwtCookieScheme);
-    this.hapiServer.auth.strategy(ltiPrescriberStrategyName, jwtCookieSchemeName, ltiPrescriberStrategyConfiguration);
+    this.hapiServer.auth.strategy(ltiDeepLinkingStrategyName, jwtCookieSchemeName, ltiDeepLinkingStrategyConfiguration);
   }
 
   setupDeserialization() {

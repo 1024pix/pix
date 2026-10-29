@@ -39,12 +39,12 @@ function makeAuthenticateJwtCookie({ cookieName, decode, authenticatePayload }) 
   };
 }
 
-export const ltiPrescriberStrategyName = 'lti-prescriber';
+export const ltiDeepLinkingStrategyName = 'lti-deep-linking';
 
-export const ltiPrescriberStrategyConfiguration = {
+export const ltiDeepLinkingStrategyConfiguration = {
   cookieName: LtiDeepLinkingAccessToken.cookieName,
   decode: decodeLtiDeepLinkingAccessToken,
-  authenticatePayload: authenticateLtiPrescriberPayload,
+  authenticatePayload: authenticateLtiDeepLinkingPayload,
 };
 
 /**
@@ -60,7 +60,7 @@ function decodeLtiDeepLinkingAccessToken(value, request) {
  * @param {LtiDeepLinkingAccessToken} payload
  * @param {import('@hapi/hapi').ResponseToolkit} h
  */
-async function authenticateLtiPrescriberPayload(payload, h) {
+async function authenticateLtiDeepLinkingPayload(payload, h) {
   const { clientId, organizationIds, deepLinkingSettings } = payload;
 
   const registration = await ltiPlatformRegistrationRepository.findByClientId(clientId);
