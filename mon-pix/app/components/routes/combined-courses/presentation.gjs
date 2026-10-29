@@ -62,7 +62,9 @@ const Header = <template>
 
       {{/if}}
     </div>
-    <img alt="" role="presentation" src={{@combinedCourse.illustration}} width="320" />
+    {{#unless (eq @combinedCourse.status CombinedCourseStatuses.COMPLETED)}}
+      <img alt="" role="presentation" src={{@combinedCourse.illustration}} width="320" />
+    {{/unless}}
   </header>
 </template>;
 
