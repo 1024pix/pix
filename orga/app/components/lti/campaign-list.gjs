@@ -64,18 +64,23 @@ export default class CampaignList extends Component {
         @variant="orga"
       >
         <:content>
-          <div>
-            <h2 class="pix-title-xxs">{{this.selectedCampaign.name}}</h2>
+          {{#if (eq this.selectedCampaign.type "ASSESSMENT")}}
+            <PixTag @variant="success">{{t "pages.lti-campaigns.campaign-types.ASSESSMENT"}}</PixTag>
+          {{/if}}
+          {{#if (eq this.selectedCampaign.type "PROFILES_COLLECTION")}}
+            <PixTag @variant="secondary">{{t "pages.lti-campaigns.campaign-types.PROFILES_COLLECTION"}}</PixTag>
+          {{/if}}
 
+          <h2 class="pix-title-xxs lti-campaign-modal-title">{{this.selectedCampaign.name}}</h2>
+
+          <p>
             {{#if (eq this.selectedCampaign.type "ASSESSMENT")}}
-              <PixTag @variant="success">{{t "pages.lti-campaigns.campaign-types.ASSESSMENT"}}</PixTag>
+              {{this.selectedCampaign.description}}
+            {{else if (eq this.selectedCampaign.type "PROFILES_COLLECTION")}}
+              {{t "pages.campaign-creation.purpose.profiles-collection-info"}}
             {{/if}}
-            {{#if (eq this.selectedCampaign.type "PROFILES_COLLECTION")}}
-              <PixTag @variant="secondary">{{t "pages.lti-campaigns.campaign-types.PROFILES_COLLECTION"}}</PixTag>
-            {{/if}}
+          </p>
 
-            <p>{{this.selectedCampaign.description}}</p>
-          </div>
         </:content>
         <:footer>
           <form method="POST" action="/api/lti/select-campaign">
