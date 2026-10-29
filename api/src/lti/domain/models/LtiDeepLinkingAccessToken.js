@@ -19,7 +19,7 @@ const COOKIE_CONFIG = Object.freeze({
   maxAge: ms(config.lti.prescriberAccessTokenLifespan) / 1000,
 });
 
-export class LtiPrescriberAccessToken {
+export class LtiDeepLinkingAccessToken {
   /**
    * @param {object} args
    * @param {number[]} args.organizationIds
@@ -81,7 +81,7 @@ export class LtiPrescriberAccessToken {
     const decoded = tokenService.getDecodedToken(accessToken, config.authentication.secret, { expectedAudience });
     if (!decoded) throw new InvalidInputDataError();
 
-    return new LtiPrescriberAccessToken({
+    return new LtiDeepLinkingAccessToken({
       organizationIds: decoded['https://pix.org/claims/organization_ids'],
       clientId: decoded.client_id,
       deepLinkingSettings: decoded['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'],

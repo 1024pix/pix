@@ -4,8 +4,8 @@ import { expect } from 'chai';
 import * as jose from 'jose';
 import nock from 'nock';
 
+import { LtiDeepLinkingAccessToken } from '../../../../src/lti/domain/models/LtiDeepLinkingAccessToken.js';
 import { LtiPlatformRegistration } from '../../../../src/lti/domain/models/LtiPlatformRegistration.js';
-import { LtiPrescriberAccessToken } from '../../../../src/lti/domain/models/LtiPrescriberAccessToken.js';
 import { cryptoService } from '../../../../src/shared/domain/services/crypto-service.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
@@ -129,7 +129,7 @@ describe('Acceptance | LTI | Route | LTI', function () {
       });
       await databaseBuilder.commit();
 
-      const ltiPrescriberAccessToken = new LtiPrescriberAccessToken({
+      const ltiDeepLinkingAccessToken = new LtiDeepLinkingAccessToken({
         organizationIds: [organization.id],
         clientId,
         deepLinkingSettings: {},
@@ -142,7 +142,7 @@ describe('Acceptance | LTI | Route | LTI', function () {
         method: 'GET',
         url: '/api/lti/campaigns',
         headers: {
-          cookie: `jwtLtiPrescriber=${ltiPrescriberAccessToken.encoded}`,
+          cookie: `jwtLtiPrescriber=${ltiDeepLinkingAccessToken.encoded}`,
           'x-forwarded-proto': 'https',
           'x-forwarded-host': 'orga.pix.fr',
         },

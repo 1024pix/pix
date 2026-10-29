@@ -9,7 +9,7 @@ import * as urlService from '../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../shared/infrastructure/http-agent.js';
 import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
 import { getForwardedOrigin, RequestedApplication } from '../../shared/infrastructure/utils/network.js';
-import { LtiPrescriberAccessToken } from '../domain/models/LtiPrescriberAccessToken.js';
+import { LtiDeepLinkingAccessToken } from '../domain/models/LtiDeepLinkingAccessToken.js';
 import { ltiService } from '../domain/services/lti.service.js';
 import { usecases } from '../domain/usecases/index.js';
 import { ltiPlatformRegistrationRepository } from '../infrastructure/repositories/lti-platform-registration.repository.js';
@@ -117,7 +117,7 @@ async function deepLink(request, h, dependencies = { ltiService }) {
     const customClaims = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom'];
     const { organizationExternalIds } = dependencies.ltiService.deserializeDeepLinkingCustomClaims(customClaims);
 
-    const ltiPrescriberAccessToken = await usecases.authenticateLtiPrescriber({
+    const ltiDeepLinkingAccessToken = await usecases.authenticateLtiPrescriber({
       organizationExternalIds,
       registration,
       deepLinkingSettings,
@@ -128,7 +128,7 @@ async function deepLink(request, h, dependencies = { ltiService }) {
     const campaignSelectionPageUrl = urlService.getPixOrgaUrl(locale, { pathname: '/lti-campaign-selection' });
     return h
       .redirect(campaignSelectionPageUrl)
-      .header('Set-Cookie', ltiPrescriberAccessToken.encodedForSetCookieHeader);
+      .header('Set-Cookie', ltiDeepLinkingAccessToken.encodedForSetCookieHeader);
   }
 }
 
@@ -176,7 +176,7 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
       }),
     )
     .header('Content-Type', 'text/html; charset=utf-8')
-    .header('Set-Cookie', LtiPrescriberAccessToken.setCookieHeaderForClearing());
+    .header('Set-Cookie', LtiDeepLinkingAccessToken.setCookieHeaderForClearing());
 }
 
 async function resourceLink(request, h, dependencies = { urlService }) {
