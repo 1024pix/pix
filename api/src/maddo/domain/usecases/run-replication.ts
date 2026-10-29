@@ -24,7 +24,7 @@ type KnexWithPool = Knex & {
  * Rows are never part of a SQL statement or of its parameters, so the datamart statement logs
  * (which are shipped to Datadog) cannot contain them.
  */
-export const extractTransformAndLoadData = async ({
+export const runReplication = async ({
   replicationName,
   datawarehouseKnex,
   datamartKnex,
@@ -61,6 +61,13 @@ export const extractTransformAndLoadData = async ({
     return res;
   } finally {
     await datamartKnex.raw('DROP TABLE IF EXISTS ??', [stagingTarget]);
+    await datamartKnex('replication_metadata')
+      .insert({
+        replication_name: replicationName,
+        last_updated_at: datamartKnex.fn.now(),
+      })
+      .onConflict(['replication_name'])
+      .merge(['last_updated_at']);
   }
 };
 

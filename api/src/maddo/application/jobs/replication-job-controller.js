@@ -2,18 +2,15 @@ import { knex as datamartKnex } from '../../../../datamart/knex-database-connect
 import { knex as datawarehouseKnex } from '../../../../datawarehouse/knex-database-connection.js';
 import { JobController, JobGroup } from '../../../shared/application/jobs/job-controller.js';
 import { ReplicationJob } from '../../domain/models/ReplicationJob.js';
-import { extractTransformAndLoadData } from '../../domain/usecases/extract-transform-and-load-data.ts';
+import { runReplication } from '../../domain/usecases/run-replication.ts';
 
 export class ReplicationJobController extends JobController {
   constructor() {
     super(ReplicationJob.name, { jobGroup: JobGroup.MADDO });
   }
 
-  async handle({
-    data: { replicationName },
-    dependencies = { extractTransformAndLoadData, datamartKnex, datawarehouseKnex },
-  }) {
-    const { extractTransformAndLoadData, datamartKnex, datawarehouseKnex } = dependencies;
-    return extractTransformAndLoadData({ replicationName, datamartKnex, datawarehouseKnex });
+  async handle({ data: { replicationName }, dependencies = { runReplication, datamartKnex, datawarehouseKnex } }) {
+    const { runReplication, datamartKnex, datawarehouseKnex } = dependencies;
+    return runReplication({ replicationName, datamartKnex, datawarehouseKnex });
   }
 }

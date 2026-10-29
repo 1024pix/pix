@@ -1,17 +1,19 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import environments from '../../../../../datamart/knexfile.js';
 import { DatabaseConnection } from '../../../../../db/database-connection.js';
-import { extractTransformAndLoadData } from '../../../../../src/maddo/domain/usecases/extract-transform-and-load-data.ts';
+import { runReplication } from '../../../../../src/maddo/domain/usecases/run-replication.ts';
 import { executeInContext, EXECUTORS } from '../../../../../src/shared/infrastructure/execution-context-manager.js';
 import { datamartKnex, datawarehouseKnex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
-describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-data', function () {
+describe('Maddo | Domain | Usecases | Integration | run-replication', function () {
   const dropTables = async () => {
     await datawarehouseKnex.schema.dropTableIfExists('to-replicate');
     await datamartKnex.schema.dropTableIfExists('replication');
     await datamartKnex.schema.dropTableIfExists('replication_staging_foo-request-id');
+    await datamartKnex('replication_metadata').del();
   };
   beforeEach(dropTables);
   afterEach(dropTables);
@@ -44,7 +46,7 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
     };
 
     // when
-    const result = await extractTransformAndLoadData({
+    const result = await runReplication({
       replicationName: 'my-replication',
       replications,
       datamartKnex,
@@ -58,6 +60,59 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
       { firstName: 'first1', lastName: 'last1' },
       { firstName: 'first2', lastName: 'last2' },
     ]);
+  });
+
+  it('updated the last_updated_at date upon success in replication_metadata table', async function () {
+    // given
+    const schema = (t) => {
+      t.string('firstName').notNullable();
+      t.string('lastName').notNullable();
+    };
+    await datawarehouseKnex.schema.createTable('to-replicate', (t) => {
+      schema(t);
+      t.string('ignored');
+    });
+    await datamartKnex.schema.createTable('replication', schema);
+    await datamartKnex('replication').insert([
+      { firstName: 'oldfirst1', lastName: 'oldlast1' },
+      { firstName: 'oldfirst2', lastName: 'oldlast2' },
+    ]);
+    await datawarehouseKnex('to-replicate').insert([
+      { firstName: 'first1', lastName: 'last1', ignored: 'x' },
+      { firstName: 'first2', lastName: 'last2', ignored: 'y' },
+    ]);
+    const replications = {
+      'my-replication': {
+        source: 'to-replicate',
+        target: 'replication',
+        columns: ['firstName', 'lastName'],
+      },
+    };
+    await datamartKnex('replication_metadata').insert([
+      { replication_name: 'some_other_replication', last_updated_at: new Date('2025-01-01') },
+      { replication_name: 'my-replication', last_updated_at: new Date('2026-10-05') },
+    ]);
+    const beforeReplication = new Date();
+
+    // when
+    await runReplication({
+      replicationName: 'my-replication',
+      replications,
+      datamartKnex,
+      datawarehouseKnex,
+    });
+
+    // then
+    const metadata = await datamartKnex
+      .select(['replication_name', 'last_updated_at'])
+      .from('replication_metadata')
+      .orderBy('replication_name');
+    sinon.assert.match(metadata, [
+      { replication_name: 'my-replication', last_updated_at: sinon.match.date },
+      { replication_name: 'some_other_replication', last_updated_at: new Date('2025-01-01') },
+    ]);
+    const updatedAt = new Date(metadata[0].last_updated_at).getTime();
+    expect(updatedAt).to.be.at.least(beforeReplication.getTime());
   });
 
   it('should keep indexes in between replications', async function () {
@@ -92,7 +147,7 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
     const indexesBefore = await listIndexDefinitions(datamartKnex, 'replication');
 
     // when
-    const result = await extractTransformAndLoadData({
+    const result = await runReplication({
       replicationName: 'my-replication',
       replications,
       datamartKnex,
@@ -125,7 +180,7 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
     };
 
     // when
-    const result = await extractTransformAndLoadData({
+    const result = await runReplication({
       replicationName: 'my-replication',
       replications,
       datamartKnex,
@@ -161,7 +216,7 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
     const tablesBefore = await listTables(datamartKnex);
 
     // when
-    const result = await extractTransformAndLoadData({
+    const result = await runReplication({
       replicationName: 'my-replication',
       replications,
       datamartKnex,
@@ -206,7 +261,7 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
     const result = await executeInContext(
       { request_id },
       () =>
-        extractTransformAndLoadData({
+        runReplication({
           replicationName: 'my-replication',
           replications,
           datamartKnex,
@@ -253,7 +308,7 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
       };
 
       // when
-      await extractTransformAndLoadData({
+      await runReplication({
         replicationName: 'my-replication',
         replications,
         datamartKnex: datamartWithOneConnectionKnex,
@@ -288,7 +343,7 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
       };
 
       // when
-      await catchErr(extractTransformAndLoadData)({
+      await catchErr(runReplication)({
         replicationName: 'my-replication',
         replications,
         datamartKnex: datamartWithOneConnectionKnex,
@@ -321,7 +376,7 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
         'my-replication': { source: 'to-replicate', target: 'replication', columns: ['id', 'name'] },
       };
       // when
-      const result = await extractTransformAndLoadData({
+      const result = await runReplication({
         replicationName: 'my-replication',
         replications,
         datamartKnex,
@@ -359,7 +414,7 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
       };
 
       // when
-      const err = await catchErr(extractTransformAndLoadData)({
+      const err = await catchErr(runReplication)({
         replicationName: 'bar',
         replications,
         datamartKnex,
@@ -396,7 +451,7 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
     };
 
     // when
-    const error = await catchErr(extractTransformAndLoadData)({
+    const error = await catchErr(runReplication)({
       replicationName: 'my-replication',
       replications,
       datamartKnex,
@@ -436,7 +491,7 @@ describe('Maddo | Domain | Usecases | Integration | extract-transform-and-load-d
       };
 
       // when
-      const result = await extractTransformAndLoadData({
+      const result = await runReplication({
         replicationName: 'json-replication',
         replications,
         datamartKnex,
@@ -479,7 +534,7 @@ async function listIndexDefinitions(knex, tableName) {
      FROM
        pg_indexes
      WHERE
-       schemaname = 'public' and tablename = ? 
+       schemaname = 'public' and tablename = ?
      ORDER BY
        indexname;`,
     [tableName],
