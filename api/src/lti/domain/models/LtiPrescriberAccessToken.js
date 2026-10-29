@@ -60,7 +60,7 @@ export class LtiPrescriberAccessToken {
       {
         'https://pix.org/claims/organization_ids': this.organizationIds,
         client_id: this.clientId,
-        ['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings']: this.deepLinkingSettings,
+        'https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings': this.deepLinkingSettings,
         scope: this.scope,
         aud: this.audience,
         sid: this.sessionId,
