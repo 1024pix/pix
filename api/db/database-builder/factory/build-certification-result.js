@@ -102,6 +102,8 @@ export function buildCertificationResult({
   hasAcquiredClea = null,
   cleaBadgeId = null,
 } = {}) {
+  id = id === undefined ? randomUUID() : id;
+
   const values = {
     id,
     algorithmEngineVersion,

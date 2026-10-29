@@ -199,4 +199,33 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       expect(actualCertificationResults).to.have.lengthOf(0);
     });
   });
+
+  describe('#findCertificatesBySessionId', function () {
+    it('returns nothing when there is no certificates', async function () {
+      const session = databaseBuilder.factory.buildSession();
+      await databaseBuilder.commit();
+
+      const result = await newCertificationResultRepository.findBySessionId({ sessionId: session.id });
+
+      expect(result).to.deep.equal([]);
+    });
+
+    it('returns certificationResult that match with session', async function () {
+      const user = databaseBuilder.factory.buildUser();
+      const session = databaseBuilder.factory.buildSession();
+      const certificationResult = databaseBuilder.factory.buildCertificationResult({
+        sessionId: session.id,
+      });
+      databaseBuilder.factory.buildUserCertificationResult({
+        userId: user.id,
+        sessionId: session.id,
+        certificationResultId: certificationResult.id,
+      });
+      await databaseBuilder.commit();
+
+      const result = await newCertificationResultRepository.findBySessionId({ sessionId: session.id });
+
+      expect(result).to.deep.equal([certificationResult]);
+    });
+  });
 });

@@ -22,6 +22,7 @@ import { filterPublishedSessionIds } from './filter-published-session-ids.js';
 import { findCertificatesForDivision } from './find-certificates-for-division.js';
 import { findUserCertificateSummaries } from './find-user-certificate-summaries.js';
 import { findUserCertificationCourses } from './find-user-certification-courses.js';
+import { generateCpfXml } from './generate-cpf-xml.usecase.ts';
 import { getCertificate } from './get-certificate.js';
 import { getCertificatePDF } from './get-certificate-pdf.js';
 import { getCertificatesForSession } from './get-certificates-for-session.js';
@@ -94,6 +95,7 @@ const usecasesWithoutInjectedDependencies = {
   getCertificationsResultsForLivretScolaire,
   getCleaCertifiedCandidateBySession,
   getPrivateCertificate,
+  generateCpfXml,
   getScoCertificationResultsByDivision,
   getSessionCertificationReports,
   getSessionCertificationResultsCsv,

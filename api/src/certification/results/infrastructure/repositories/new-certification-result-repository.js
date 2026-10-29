@@ -1,4 +1,5 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { CertificationResult } from '../../domain/models/NewCertificationResult.ts';
 
 export async function save({ certificationResults, userCertificationResults }) {
   const knexConn = DomainTransaction.getConnection();
@@ -67,4 +68,13 @@ function toDB({ certificationResults, userCertificationResults }) {
     certificationResultsData,
     userCertificationResultsData,
   };
+}
+
+export async function findBySessionId({ sessionId }) {
+  const knexConn = DomainTransaction.getConnection();
+  const certificationResultDTOs = await knexConn('certification_results')
+    .join('user_certification_results', 'certificationResultId', 'certification_results.id')
+    .where('user_certification_results.sessionId', sessionId);
+
+  return certificationResultDTOs.map((certificationResultDTO) => new CertificationResult(certificationResultDTO));
 }
