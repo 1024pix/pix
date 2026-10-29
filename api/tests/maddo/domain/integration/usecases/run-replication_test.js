@@ -103,6 +103,7 @@ describe('Maddo | Domain | Usecases | Integration | run-replication', function (
     });
 
     // then
+    const afterReplication = new Date();
     const metadata = await datamartKnex
       .select(['replication_name', 'last_updated_at'])
       .from('replication_metadata')
@@ -113,6 +114,7 @@ describe('Maddo | Domain | Usecases | Integration | run-replication', function (
     ]);
     const updatedAt = new Date(metadata[0].last_updated_at).getTime();
     expect(updatedAt).to.be.at.least(beforeReplication.getTime());
+    expect(updatedAt).to.be.at.most(afterReplication.getTime());
   });
 
   it('should keep indexes in between replications', async function () {
