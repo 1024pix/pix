@@ -16,7 +16,7 @@ const deserialize = function ({ data, createdBy }) {
     archivedAt: data.attributes['archived-at'],
     archivistFullName: data.attributes['archivist-full-name'],
     organizationId: data.attributes['organization-id'],
-    categoryId: data.attributes['category-id'] ? parseInt(data.attributes['category-id']) : null,
+    categoryId: parseInt(data.attributes['category-id']),
   };
   const dataProtectionOfficer = {
     firstName: data.attributes['data-protection-officer-first-name'],
