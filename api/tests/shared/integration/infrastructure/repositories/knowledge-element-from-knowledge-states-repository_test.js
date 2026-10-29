@@ -39,6 +39,8 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
       status,
       source,
       earnedPix: status === VALIDATED ? level : 0,
+      assessmentId: 10,
+      answerId: 100,
     });
 
   let userId;
@@ -246,7 +248,7 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
   describe('#batchSave', function () {
     const at = new Date('2026-02-01T10:00:00Z');
 
-    it('should move the knowledge states and the scores with the knowledge elements, and insert no knowledge element', async function () {
+    it('should update the knowledge states and the scores from the knowledge elements, and keep them for the data lake', async function () {
       // given: web is known up to level 2, the user validates level 3 and meets file on level 1
       buildKnowledgeState({
         userId,
@@ -277,9 +279,36 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
       ]);
       expect(pix).to.equal(7);
       expect(await knex('knowledge-elements')).to.deep.equal([]);
+      const keptRows = await knex('migrated_user_knowledge_elements').orderBy('skillId');
+      expect(keptRows.map(({ id: _id, ...row }) => row)).to.deep.equal([
+        {
+          source: DIRECT,
+          status: VALIDATED,
+          createdAt: at,
+          answerId: 100,
+          assessmentId: 10,
+          skillId: skillId('file', 1),
+          earnedPix: 1,
+          userId,
+          competenceId: 'competence_1',
+          savedAt: null,
+        },
+        {
+          source: DIRECT,
+          status: VALIDATED,
+          createdAt: at,
+          answerId: 100,
+          assessmentId: 10,
+          skillId: skillId('web', 3),
+          earnedPix: 3,
+          userId,
+          competenceId: 'competence_1',
+          savedAt: null,
+        },
+      ]);
       expect(saved).to.have.lengthOf(2);
       expect(saved[0]).to.be.instanceOf(KnowledgeElement);
-      expect(saved[0]).to.include({ id: undefined, skillId: skillId('web', 3), createdAt: at });
+      expect(saved[0]).to.deep.include({ id: keptRows[1].id, skillId: skillId('web', 3), createdAt: at });
     });
 
     it('should date the ceiling from a failure', async function () {
@@ -351,6 +380,7 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
       // then
       expect(saved).to.deep.equal([]);
       expect(await knex('knowledge_states')).to.deep.equal([]);
+      expect(await knex('migrated_user_knowledge_elements')).to.deep.equal([]);
     });
   });
 });
