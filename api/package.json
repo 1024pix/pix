@@ -172,7 +172,7 @@
     "yargs": "18.2.0"
   },
   "devDependencies": {
-    "@1024pix/eslint-plugin": "3.0.15",
+    "@1024pix/eslint-plugin": "3.0.16",
     "@ls-lint/ls-lint": "2.3.2",
     "@types/chai": "5.2.3",
     "@types/chai-as-promised": "8.0.2",
