@@ -28,3 +28,7 @@ export const getByCampaignId = async (campaignId) => {
 export const findCombinedCourseIdsByOrganizationId = async (organizationId) => {
   return usecases.findCombinedCourseIdsByOrganizationId({ organizationId });
 };
+
+export const findCampaignIdsByCombinedCourseIds = async (combinedCourseIds) => {
+  return usecases.findCampaignIdsByCombinedCourseIds({ combinedCourseIds });
+};

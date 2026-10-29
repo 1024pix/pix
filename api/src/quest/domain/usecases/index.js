@@ -68,6 +68,7 @@ import { deleteAndAnonymizeParticipationsForALearnerId } from './delete-and-anon
 import { deleteAndAnonymizeCombinedCourses } from './delete-and-anonymize-combined-courses.js';
 import { detachOrganizationsFromCombinedCourseBlueprint } from './detach-organizations-from-combined-course-blueprint.js';
 import { findByOrganizationId } from './find-by-organization-id.js';
+import { findCampaignIdsByCombinedCourseIds } from './find-campaign-ids-by-combined-course-ids.js';
 import { findCombinedCourseBlueprintById } from './find-combined-course-blueprint-by-id.js';
 import { findCombinedCourseBlueprints } from './find-combined-course-blueprints.js';
 import { findCombinedCourseByCampaignId } from './find-combined-course-by-campaign-id.js';
@@ -102,6 +103,7 @@ const usecasesWithoutInjectedDependencies = {
   deleteAndAnonymizeCombinedCourses,
   findCombinedCourseByCampaignId,
   findCombinedCourseByModuleIdAndUserId,
+  findCampaignIdsByCombinedCourseIds,
   getCombinedCourseByCode,
   getCombinedCourseStatistics,
   getCombinedCourseById,
