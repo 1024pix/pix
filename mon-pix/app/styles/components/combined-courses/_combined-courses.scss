@@ -89,27 +89,34 @@
     display: flex;
     gap: var(--pix-spacing-4x);
     align-items: center;
+    justify-content: space-between;
     padding: var(--pix-spacing-6x);
-    background: var(--pix-secondary-100);
-    border: 1px solid var(--pix-secondary-500);
+    background: var(--pix-gradient-default-dark);
     border-radius: 16px;
-    // stylelint-disable color-no-hex
-    box-shadow: 2px 6px 0 1px #cf9430;
 
     .completed-text {
       display: flex;
       flex-direction: column;
-      color: var(--pix-secondary-900);
+      gap: var(--pix-spacing-4x);
+      color: var(--pix-neutral-0);
 
       &__title {
-        margin-bottom: var(--pix-spacing-2x);
-        font-size: 1.125rem;
-
-        @extend %pix-title-l;
+        @extend %pix-title-s;
       }
 
       &__description {
-        @extend %pix-body-m;
+        max-width: 600px;
+
+        @extend %pix-body-l;
+      }
+    }
+
+    img {
+      display: none;
+
+      @include breakpoints.device-is('tablet') {
+        display: block;
+        margin-right: var(--pix-spacing-12x);
       }
     }
   }
@@ -121,6 +128,7 @@
   &__text {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     gap: var(--pix-spacing-8x);
   }
 

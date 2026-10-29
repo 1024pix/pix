@@ -23,8 +23,8 @@ const Header = <template>
 
       {{#if (eq @combinedCourse.status CombinedCourseStatuses.COMPLETED)}}
         <div class="combined-course-header__completed">
-          <img src="/images/illustrations/combined-course/completed.svg" alt="" role="presentation" />
           <CompletedText />
+          <img src="https://assets.pix.org/combined-courses/trophy.svg" alt="" role="presentation" />
         </div>
       {{/if}}
 
