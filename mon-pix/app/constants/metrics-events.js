@@ -7,4 +7,5 @@ export const EVENT_NAMES = {
 export const ATTESTATION_DOWNLOAD_ORIGINS = {
   ATTESTATIONS_PAGE: 'page_mes_attestations',
   CAMPAIGN_RESULT_PAGE: 'page_fin_campagne',
+  COMBINED_COURSE_PAGE: 'page_fin_parcours_apprenant',
 };

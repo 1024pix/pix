@@ -21,6 +21,7 @@ export default class AttestationContent extends Component {
     const { access_token: token, user_id: userId } = this.session.data.authenticated;
     this.pixMetrics.trackEvent(EVENT_NAMES.ATTESTATION.DOWNLOAD_CLICK, {
       origin: ATTESTATION_DOWNLOAD_ORIGINS.ATTESTATIONS_PAGE,
+      attestationKey: attestationDetail.key,
     });
     const url = `/api/users/${userId}/attestations/${attestationDetail.key}`;
     const fileName = 'attestation-' + kebabCase(deburr(attestationDetail.label));

@@ -3,6 +3,7 @@ import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import Attestation, { ATTESTATIONS_PIC_PATH } from 'mon-pix/components/combined-course/attestation';
+import { ATTESTATION_DOWNLOAD_ORIGINS, EVENT_NAMES } from 'mon-pix/constants/metrics-events';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -50,6 +51,33 @@ module('Integration | Component | Combined Courses | Attestation', function (hoo
         }),
       );
     });
+
+    test('clicking download sends metrics', async function (assert) {
+      //given
+      const metrics = this.owner.lookup('service:pixMetrics');
+      const trackEventStub = sinon.stub(metrics, 'trackEvent');
+
+      const attestation = store.createRecord('combined-course-reward', {
+        status: 'OBTAINED',
+        type: 'attestation',
+        label: 'Parentalité',
+        templateName: 'parentalite',
+        data: { key: 'PARENTHOOD' },
+      });
+
+      //when
+      const screen = await render(<template><Attestation @attestation={{attestation}} /></template>);
+      await click(screen.getByRole('button', { name: t('pages.combined-courses.rewards.obtained.link') }));
+
+      // then
+      assert.ok(
+        trackEventStub.calledOnceWithExactly(EVENT_NAMES.ATTESTATION.DOWNLOAD_CLICK, {
+          origin: ATTESTATION_DOWNLOAD_ORIGINS.COMBINED_COURSE_PAGE,
+          attestationKey: 'PARENTHOOD',
+        }),
+      );
+    });
+
     test('should display details', async function (assert) {
       //given
       const attestation = store.createRecord('combined-course-reward', {
