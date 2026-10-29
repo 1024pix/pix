@@ -7,6 +7,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import { CombinedCourseStatuses } from '../../../../../models/combined-course.js';
+import { stubCurrentUserService } from '../../../../helpers/service-stubs';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering.js';
 
 module('Integration | Component | Combined Courses | Presentation', function (hooks) {
@@ -14,6 +15,7 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
   let combinedCourseItems, store;
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
+    stubCurrentUserService(this.owner, { firstName: 'Toto' });
 
     combinedCourseItems = store.createRecord('combined-course-item', {
       id: 0,
@@ -334,7 +336,9 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       );
 
       // then
-      assert.ok(screen.getByRole('heading', { name: t('pages.combined-courses.completed.title') }));
+      assert.ok(
+        screen.getByRole('heading', { name: t('pages.combined-courses.completed.title', { firstName: 'Toto' }) }),
+      );
     });
 
     test('should display survey cta if available', async function (assert) {
@@ -491,7 +495,6 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
   module('when there is a reward attached to the combined course', function () {
     test('it should display the attestation component', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
       const reward = store.createRecord('combined-course-reward', {
         id: 1,
         type: 'attestations',

@@ -46,7 +46,7 @@ test('pass a combined course as sco user and see the final result', async ({ pag
   });
 
   await test.step('End of combined course', async function () {
-    await expect(page.getByRole('heading', { name: 'Félicitations ! Vous avez terminé !' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Félicitations Alain, vous avez terminé !' })).toBeVisible();
   });
 });
 

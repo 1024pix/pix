@@ -11,7 +11,7 @@ import { CombinedCourseStatuses } from 'mon-pix/models/combined-course';
 
 const CompletedText = <template>
   <div class="completed-text">
-    <h2 class="completed-text__title">{{t "pages.combined-courses.completed.title"}}</h2>
+    <h2 class="completed-text__title">{{@title}}</h2>
     <p class="completed-text__description">{{t "pages.combined-courses.completed.description"}}</p>
   </div>
 </template>;
@@ -24,7 +24,7 @@ const Header = <template>
       {{#if (eq @combinedCourse.status CombinedCourseStatuses.COMPLETED)}}
         <div class="combined-course-header__completed">
           <span class="combined-course-header__completed--triangle" />
-          <CompletedText />
+          <CompletedText @title={{@completedTextTitle}} />
           <img src="https://assets.pix.org/combined-courses/trophy.svg" alt="" role="presentation" />
         </div>
       {{/if}}
@@ -103,6 +103,10 @@ export default class CombinedCoursePresentation extends Component {
     });
   }
 
+  get completedTextTitle() {
+    return this.intl.t('pages.combined-courses.completed.title', { firstName: this.currentUser.user.firstName });
+  }
+
   get isSurveyEnabled() {
     return this.featureToggles.featureToggles?.isSurveyEnabledForCombinedCourses && this.args.combinedCourse.surveyUrl;
   }
@@ -120,6 +124,7 @@ export default class CombinedCoursePresentation extends Component {
           @startQuestParticipation={{this.startQuestParticipation}}
           @goToNextItem={{this.goToNextItem}}
           @isSurveyEnabled={{this.isSurveyEnabled}}
+          @completedTextTitle={{this.completedTextTitle}}
         />
         {{#if (eq @combinedCourse.reward.type "attestations")}}
           <Attestation @attestation={{@combinedCourse.reward}} />
