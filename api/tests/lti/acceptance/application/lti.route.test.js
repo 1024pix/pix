@@ -133,7 +133,7 @@ describe('Acceptance | LTI | Route | LTI', function () {
         organizationIds: [organization.id],
         clientId,
         deepLinkingSettings: {},
-        scope: 'lti-prescriber',
+        scope: 'lti:deep-linking',
         audience: 'https://orga.pix.fr',
         sessionId: 'session-id',
       });
