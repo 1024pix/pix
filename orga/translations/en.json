@@ -1318,12 +1318,18 @@
       "title": "You have been invited to join the organisation {organizationName}"
     },
     "lti-campaigns": {
+      "campaign-types": {
+        "ASSESSMENT": "Assess",
+        "PROFILES_COLLECTION": "Collect"
+      },
       "columns": {
         "campaign-name": "Campaign name",
         "campaign-type": "Campaign type",
         "code": "Code",
         "organization": "Organisation"
       },
+      "modal-title": "Campaign selection",
+      "select-campaign": "Select this course",
       "title": "Campaign list"
     },
     "missions": {

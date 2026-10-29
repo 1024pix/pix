@@ -1318,12 +1318,18 @@
       "title": "Je wordt uitgenodigd om lid te worden van: {organizationName}"
     },
     "lti-campaigns": {
+      "campaign-types": {
+        "ASSESSMENT": "Evalueren",
+        "PROFILES_COLLECTION": "Verzamelen"
+      },
       "columns": {
         "campaign-name": "Naam van de campagne",
         "campaign-type": "Type campagne",
         "code": "Code",
         "organization": "Organisatie"
       },
+      "modal-title": "Selectie van de campagne",
+      "select-campaign": "Deze leerroute selecteren",
       "title": "Lijst met campagnes"
     },
     "missions": {
