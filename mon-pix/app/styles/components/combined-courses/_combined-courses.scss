@@ -86,13 +86,35 @@
   }
 
   &__completed {
+    position: relative;
+    z-index: 0;
     display: flex;
     gap: var(--pix-spacing-4x);
     align-items: center;
     justify-content: space-between;
     padding: var(--pix-spacing-6x);
+    overflow: hidden;
     background: var(--pix-gradient-default-dark);
     border-radius: 16px;
+
+    &--triangle {
+      display: none;
+
+      @include breakpoints.device-is('tablet') {
+        position: absolute;
+        right: var(--pix-spacing-12x);
+        bottom: -110%;
+        z-index: 1;
+        display: block;
+        height: 150%;
+        background: linear-gradient(45deg, var(--pix-primary-300) 19.28%, rgb(188 171 244) 55.53%);
+        border-radius: 50px;
+        transform: rotate(45deg);
+        transform-origin: center bottom;
+        opacity: 0.6;
+        aspect-ratio: 1;
+      }
+    }
 
     .completed-text {
       display: flex;
@@ -112,6 +134,7 @@
     }
 
     img {
+      z-index: 2;
       display: none;
 
       @include breakpoints.device-is('tablet') {
