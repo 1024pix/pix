@@ -27,10 +27,10 @@ services:
           - admin.dev.pix.org
           - certif.dev.pix.fr
           - certif.dev.pix.org
-          - 1d.dev.pix.fr
-          - 1d.dev.pix.org
-          - api.dev.pix.fr
-          - api.dev.pix.org
+          - junior.dev.pix.fr
+          - junior.dev.pix.org
+          - auth.dev.pix.fr
+          - auth.dev.pix.org
 
 volumes:
   caddy_data:

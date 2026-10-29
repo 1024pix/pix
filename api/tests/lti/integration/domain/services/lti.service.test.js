@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 import nock from 'nock';
-import sinon from 'sinon';
 
-import { config } from '../../../../../config/config.js';
 import { InvalidLtiPlatformRegistrationError } from '../../../../../src/lti/domain/errors.js';
 import { ltiService } from '../../../../../src/lti/domain/services/lti.service.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
@@ -129,12 +127,10 @@ describe('Integration | LTI | Domain | Services | LTI', function () {
   describe('createPixToolConfiguration', function () {
     it('creates Pix LTI tool configuration', function () {
       // given
-      sinon.stub(config.domain, 'pixOrga').value('https://orga.test.pix');
-      sinon.stub(config.domain, 'pixApp').value('https://app.test.pix');
       const expectedPixToolConfiguration = {
         response_types: ['id_token'],
-        jwks_uri: 'https://api.dev.pix.fr/api/lti/keys',
-        initiate_login_uri: 'https://api.dev.pix.fr/api/lti/init',
+        jwks_uri: 'https://auth.test.pix.fr/api/lti/keys',
+        initiate_login_uri: 'https://auth.test.pix.fr/api/lti/init',
         grant_types: ['client_credentials', 'implicit'],
         redirect_uris: [
           'https://orga.test.pix.fr/api/lti/deep-linking',
@@ -161,6 +157,7 @@ describe('Integration | LTI | Domain | Services | LTI', function () {
             },
           ],
           claims: ['sub', 'iss', 'name', 'family_name', 'given_name', 'email'],
+          custom_parameters: {},
         },
       };
 
@@ -169,6 +166,83 @@ describe('Integration | LTI | Domain | Services | LTI', function () {
 
       // then
       expect(pixToolConfiguration).to.deep.equal(expectedPixToolConfiguration);
+    });
+
+    describe('when isDevelopmentPlatform is true', function () {
+      it('adds custom claims with external organization ids', function () {
+        // given
+        const expectedPixToolConfiguration = {
+          response_types: ['id_token'],
+          jwks_uri: 'https://auth.test.pix.fr/api/lti/keys',
+          initiate_login_uri: 'https://auth.test.pix.fr/api/lti/init',
+          grant_types: ['client_credentials', 'implicit'],
+          redirect_uris: [
+            'https://orga.test.pix.fr/api/lti/deep-linking',
+            'https://app.test.pix.fr/api/lti/resource-link',
+          ],
+          application_type: 'web',
+          token_endpoint_auth_method: 'private_key_jwt',
+          client_name: 'Pix',
+          logo_uri: 'https://app.pix.fr/images/pix-logo.svg',
+          scope: [
+            'https://purl.imsglobal.org/spec/lti-ags/scope/score',
+            'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly',
+            'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem',
+            'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly',
+          ].join(' '),
+          'https://purl.imsglobal.org/spec/lti-tool-configuration': {
+            target_link_uri: 'https://app.test.pix.fr/api/lti/resource-link',
+            domain: 'app.test.pix.fr',
+            description: 'Intégration avec la plateforme Pix',
+            messages: [
+              {
+                type: 'LtiDeepLinkingRequest',
+                target_link_uri: 'https://orga.test.pix.fr/api/lti/deep-linking',
+              },
+            ],
+            claims: ['sub', 'iss', 'name', 'family_name', 'given_name', 'email'],
+            custom_parameters: {
+              pix_orgas: 'SCO_SIECLE_MANAGING,SCO_NOT_MANAGING',
+            },
+          },
+        };
+
+        // when
+        const pixToolConfiguration = ltiService.createPixToolConfiguration({ isDevelopmentPlatform: true });
+
+        // then
+        expect(pixToolConfiguration).to.deep.equal(expectedPixToolConfiguration);
+      });
+    });
+  });
+
+  describe('deserializeDeepLinkingCustomClaims', function () {
+    it('deserializes organization external ids', function () {
+      // given
+      const customClaims = { pix_orgas: 'EXTERNAL_ID_123 , EXTERNAL_ID_456,', other: 'discarded' };
+
+      // when
+      const result = ltiService.deserializeDeepLinkingCustomClaims(customClaims);
+
+      // then
+      expect(result).to.deep.equal({
+        organizationExternalIds: ['EXTERNAL_ID_123', 'EXTERNAL_ID_456'],
+      });
+    });
+
+    describe('when pix_orgas is missing', function () {
+      it('returns an empty array for organization external ids', function () {
+        // given
+        const customClaims = { other: 'discarded' };
+
+        // when
+        const result = ltiService.deserializeDeepLinkingCustomClaims(customClaims);
+
+        // then
+        expect(result).to.deep.equal({
+          organizationExternalIds: [],
+        });
+      });
     });
   });
 });
