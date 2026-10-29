@@ -114,7 +114,7 @@ describe('Unit | LTI | Domain | Model | LtiDeepLinkingAccessToken', function () 
           sid: '6934a1f4-45c7-4bb4-9203-bc5fbe02a244',
         },
         config.authentication.secret,
-        { expiresIn: config.lti.prescriberAccessTokenLifespan },
+        { expiresIn: config.lti.deepLinkingAccessTokenLifespan },
       );
 
       // when
@@ -162,7 +162,7 @@ describe('Unit | LTI | Domain | Model | LtiDeepLinkingAccessToken', function () 
             sid: '6934a1f4-45c7-4bb4-9203-bc5fbe02a244',
           },
           config.authentication.secret,
-          { expiresIn: config.lti.prescriberAccessTokenLifespan },
+          { expiresIn: config.lti.deepLinkingAccessTokenLifespan },
         );
 
         // when

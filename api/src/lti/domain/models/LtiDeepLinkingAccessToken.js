@@ -16,7 +16,7 @@ const COOKIE_CONFIG = Object.freeze({
   sameSite: 'none',
   partitioned: true,
   path: '/api/lti',
-  maxAge: ms(config.lti.prescriberAccessTokenLifespan) / 1000,
+  maxAge: ms(config.lti.deepLinkingAccessTokenLifespan) / 1000,
 });
 
 export class LtiDeepLinkingAccessToken {
@@ -68,7 +68,7 @@ export class LtiDeepLinkingAccessToken {
         sid: this.sessionId,
       },
       config.authentication.secret,
-      config.lti.prescriberAccessTokenLifespan,
+      config.lti.deepLinkingAccessTokenLifespan,
     );
   }
 
