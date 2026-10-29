@@ -16,7 +16,7 @@ describe('Unit | Organizational Entities | Domain | Validators | certification-c
     context('when validation is successful', function () {
       it('does not throw any error', function () {
         // given
-        const certificationCenterCreationParams = { name: 'ACME', type: 'PRO' };
+        const certificationCenterCreationParams = { name: 'ACME', type: 'PRO', categoryId: 123 };
 
         // when/then
         expect(() => certificationCenterCreationValidator.validate(certificationCenterCreationParams)).to.not.throw();
@@ -34,6 +34,7 @@ describe('Unit | Organizational Entities | Domain | Validators | certification-c
           const certificationCenterCreationParams = {
             name: MISSING_VALUE,
             type: 'PRO',
+            categoryId: 123,
           };
 
           try {
@@ -55,6 +56,7 @@ describe('Unit | Organizational Entities | Domain | Validators | certification-c
           const certificationCenterCreationParams = {
             name: 'a'.repeat(256),
             type: 'PRO',
+            categoryId: 123,
           };
 
           try {
@@ -85,6 +87,7 @@ describe('Unit | Organizational Entities | Domain | Validators | certification-c
           const certificationCenterCreationParams = {
             name: 'ACME',
             type: MISSING_VALUE,
+            categoryId: 123,
           };
 
           try {
@@ -104,7 +107,7 @@ describe('Unit | Organizational Entities | Domain | Validators | certification-c
             attribute: 'type',
             message: 'Le type du centre de certification doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.',
           };
-          const certificationCenterCreationParams = { name: 'ACME', type: 'PTT' };
+          const certificationCenterCreationParams = { name: 'ACME', type: 'PTT', categoryId: 123 };
 
           try {
             // when
@@ -119,7 +122,7 @@ describe('Unit | Organizational Entities | Domain | Validators | certification-c
         ['SUP', 'SCO', 'PRO'].forEach((type) => {
           it(`does not throw with ${type} as type`, function () {
             // given
-            const certificationCenterCreationParams = { name: 'ACME', type };
+            const certificationCenterCreationParams = { name: 'ACME', type, categoryId: 123 };
 
             // when/then
             return expect(() =>
@@ -143,6 +146,7 @@ describe('Unit | Organizational Entities | Domain | Validators | certification-c
             name: 'ACME',
             type: 'SCO',
             externalId: 'a'.repeat(256),
+            categoryId: 123,
           };
 
           try {
@@ -171,6 +175,7 @@ describe('Unit | Organizational Entities | Domain | Validators | certification-c
             name: 'ACME',
             type: 'SCO',
             organizationId: 'not-a-number',
+            categoryId: 123,
           };
 
           try {
@@ -186,7 +191,7 @@ describe('Unit | Organizational Entities | Domain | Validators | certification-c
 
         it('does not throw when organizationId is a valid integer', function () {
           // given
-          const certificationCenterCreationParams = { name: 'ACME', type: 'SCO', organizationId: 456 };
+          const certificationCenterCreationParams = { name: 'ACME', type: 'SCO', organizationId: 456, categoryId: 123 };
 
           // when/then
           expect(() => certificationCenterCreationValidator.validate(certificationCenterCreationParams)).to.not.throw();
@@ -220,6 +225,31 @@ describe('Unit | Organizational Entities | Domain | Validators | certification-c
           }
         });
 
+        it('rejects with error when categoryId is not provided', function () {
+          // given
+          const expectedError = [
+            {
+              attribute: 'categoryId',
+              message: 'L’identifiant de la catégorie n’est pas renseigné.',
+            },
+          ];
+
+          const certificationCenterCreationParams = {
+            name: 'ACME',
+            type: 'SCO',
+          };
+
+          try {
+            // when
+            certificationCenterCreationValidator.validate(certificationCenterCreationParams);
+            expect.fail('should have thrown an error');
+          } catch (errors) {
+            // then
+            expect(errors.invalidAttributes).to.have.lengthOf(1);
+            expect(errors.invalidAttributes).to.have.deep.equal(expectedError);
+          }
+        });
+
         it('does not throw when categoryId is a valid integer', function () {
           // given
           const certificationCenterCreationParams = { name: 'ACME', type: 'SCO', categoryId: 456 };
@@ -234,6 +264,7 @@ describe('Unit | Organizational Entities | Domain | Validators | certification-c
         const certificationCenterCreationParams = {
           name: MISSING_VALUE,
           type: MISSING_VALUE,
+          categoryId: MISSING_VALUE,
         };
 
         try {
@@ -242,7 +273,7 @@ describe('Unit | Organizational Entities | Domain | Validators | certification-c
           expect.fail('should have thrown an error');
         } catch (errors) {
           // then
-          expect(errors.invalidAttributes).to.have.lengthOf(3);
+          expect(errors.invalidAttributes).to.have.lengthOf(4);
         }
       });
     });

@@ -76,7 +76,7 @@ export { updateCertificationCenter };
 /**
  * @param {Object} params
  * @param {number} params.certificationCenterId
- * @param {number} [params.categoryId]
+ * @param {number} params.categoryId
  * @param {OrganizationVerificationService} params.organizationVerificationService
  * @param {StructureCategoryRepository} params.structureCategoryRepository
  * @param {StructureRepository} params.structureRepository
@@ -88,8 +88,6 @@ const _updateStructureCategory = async ({
   structureCategoryRepository,
   structureRepository,
 }) => {
-  if (!categoryId) return;
-
   await organizationVerificationService.checkStructureCategoryExists({
     structureCategoryId: categoryId,
     structureCategoryRepository,
