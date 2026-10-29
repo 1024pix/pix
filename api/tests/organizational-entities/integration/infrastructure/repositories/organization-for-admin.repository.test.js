@@ -1417,25 +1417,6 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       expect(untouchedStructure.category_id).to.equal(otherStructure.category_id);
     });
 
-    it('does not clear the category when no category is given', async function () {
-      // given
-      const { organizationId, structureId, categoryId, structureUpdatedAt } =
-        _buildOrganizationWithCategorizedStructure();
-      await databaseBuilder.commit();
-      const organizationForAdmin = new OrganizationForAdmin({
-        id: organizationId,
-        organizationLearnerType: domainOrganizationLearnerType,
-      });
-
-      // when
-      await organizationForAdminRepository.update({ organization: organizationForAdmin });
-
-      // then
-      const untouchedStructure = await knex('structures').where({ id: structureId }).first();
-      expect(untouchedStructure.category_id).to.equal(categoryId);
-      expect(untouchedStructure.updated_at).to.deep.equal(structureUpdatedAt);
-    });
-
     it('does not write the structure when the category is unchanged', async function () {
       // given
       const { organizationId, structureId, categoryId, structureUpdatedAt } =

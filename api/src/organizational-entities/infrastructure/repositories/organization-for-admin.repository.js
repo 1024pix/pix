@@ -529,8 +529,6 @@ async function _removeTags(knexConn, organizationTags) {
 }
 
 async function _updateStructureCategory(knexConn, organizationId, categoryId) {
-  if (!categoryId) return;
-
   const structure = await knexConn('fct_structures')
     .join('structures', 'structures.id', 'fct_structures.structure_id')
     .where({ organization_id: organizationId })
