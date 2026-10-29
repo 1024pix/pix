@@ -1,59 +1,38 @@
-import { PixButton, PixSelect } from '@1024pix/nebulix-ember';
-import { action } from '@ember/object';
-import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
+import { PixTable, PixTableColumn, PixTag } from '@1024pix/nebulix-ember';
+import t from 'ember-intl/helpers/t';
+import PageTitle from 'pix-orga/components/ui/page-title';
 
-export default class SelectionCampaignLti extends Component {
-  @tracked campaignCode;
-  @tracked campaignCodeError;
-
-  @action
-  setCampaignCode(value) {
-    this.campaignCode = value;
-    this.campaignCodeError = undefined;
-  }
-
-  @action noop() {}
-
-  @action validate(event) {
-    if (this.campaignCode != undefined) return;
-
-    event.preventDefault();
-    this.campaignCodeError = 'Veuillez sélectionner une campagne';
-  }
-
-  get buttonText() {
-    return 'OK';
-  }
-
-  get campaignCodeText() {
-    return 'Campaign code';
-  }
-
-  get campaignOptions() {
-    return this.args.model.map((campaign) => {
-      return {
-        label: campaign.name,
-        value: campaign.code,
-      };
-    });
-  }
-
-  <template>
-    <form method="POST" action="/api/lti/select-campaign" {{on "submit" this.validate}}>
-      <PixSelect
-        @options={{this.campaignOptions}}
-        @value={{this.campaignCode}}
-        @onChange={{this.setCampaignCode}}
-        @hideDefaultOption={{true}}
-        @errorMessage={{this.campaignCodeError}}
-      >
-        <:label>{{this.campaignCodeText}}</:label>
-      </PixSelect>
-      <input type="hidden" name="campaignCode" value={{this.campaignCode}} />
-      <PixButton type="submit" @triggerAction={{this.noop}}>
-        {{this.buttonText}}
-      </PixButton>
-    </form>
-  </template>
-}
+<template>
+  <main class="lti-page">
+    <PageTitle>
+      <:title>{{t "pages.lti-campaigns.title"}}</:title>
+    </PageTitle>
+    <PixTable @variant="orga" @caption="{{t 'pages.lti-campaigns.title'}}" @data={{@model}}>
+      <:columns as |campaign context|>
+        <PixTableColumn @context={{context}}>
+          <:header>{{t "pages.lti-campaigns.columns.campaign-name"}}</:header>
+          <:cell>{{campaign.name}}</:cell>
+        </PixTableColumn>
+        <PixTableColumn @context={{context}}>
+          <:header>{{t "pages.lti-campaigns.columns.campaign-type"}}</:header>
+          <:cell>
+            {{#if (eq campaign.type "ASSESSMENT")}}
+              <PixTag @variant="success">Évaluer</PixTag>
+            {{/if}}
+            {{#if (eq campaign.type "PROFILES_COLLECTION")}}
+              <PixTag @variant="secondary">Collecter</PixTag>
+            {{/if}}
+          </:cell>
+        </PixTableColumn>
+        <PixTableColumn @context={{context}}>
+          <:header>{{t "pages.lti-campaigns.columns.organization"}}</:header>
+          <:cell>{{campaign.organizationName}}</:cell>
+        </PixTableColumn>
+        <PixTableColumn @context={{context}}>
+          <:header>{{t "pages.lti-campaigns.columns.code"}}</:header>
+          <:cell>{{campaign.code}}</:cell>
+        </PixTableColumn>
+      </:columns>
+    </PixTable>
+  </main>
+</template>

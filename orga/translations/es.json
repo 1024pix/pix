@@ -1317,6 +1317,15 @@
       },
       "title": "Te invitamos a unirse a la organización {organizationName}."
     },
+    "lti-campaigns": {
+      "columns": {
+        "campaign-name": "Nombre de la campaña",
+        "campaign-type": "Tipo de campaña",
+        "code": "Código",
+        "organization": "Organización"
+      },
+      "title": "Lista de campañas"
+    },
     "missions": {
       "list": {
         "actions": {

@@ -1317,6 +1317,15 @@
       },
       "title": "You have been invited to join the organisation {organizationName}"
     },
+    "lti-campaigns": {
+      "columns": {
+        "campaign-name": "Campaign name",
+        "campaign-type": "Campaign type",
+        "code": "Code",
+        "organization": "Organisation"
+      },
+      "title": "Campaign list"
+    },
     "missions": {
       "list": {
         "actions": {

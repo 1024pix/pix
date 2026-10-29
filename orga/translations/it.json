@@ -1317,6 +1317,15 @@
       },
       "title": "Sei invitato a raggiungere l'organizzazione {organizationName}."
     },
+    "lti-campaigns": {
+      "columns": {
+        "campaign-name": "Nome della campagna",
+        "campaign-type": "Tipo di campagna",
+        "code": "Codice",
+        "organization": "Organizzazione"
+      },
+      "title": "Elenco delle campagne"
+    },
     "missions": {
       "list": {
         "actions": {
