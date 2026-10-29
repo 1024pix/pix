@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import { Certificate } from '../../../../../../src/certification/results/domain/models/Certificate.ts';
 import * as certificateRepository from '../../../../../../src/certification/results/infrastructure/repositories/certificate-repository.js';
+import { findCertificationsIdAndVersion } from '../../../../../../src/certification/results/infrastructure/repositories/certificate-repository.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
@@ -3147,6 +3148,44 @@ describe('Integration | Infrastructure | Repository | Certification', function (
           }),
         );
       });
+    });
+  });
+
+  describe('#findCertificationsIdAndVersion', function () {
+    it('returns an array of published certif ids/version for this session', async function () {
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      const otherSessionId = databaseBuilder.factory.buildSession().id;
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 1,
+        sessionId,
+        isPublished: true,
+        version: AlgorithmEngineVersion.V3,
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 2,
+        sessionId: otherSessionId,
+        isPublished: true,
+        version: AlgorithmEngineVersion.V3,
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 3,
+        sessionId,
+        isPublished: true,
+        version: AlgorithmEngineVersion.V2,
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 4,
+        sessionId,
+        isPublished: false,
+        version: AlgorithmEngineVersion.V3,
+      });
+      await databaseBuilder.commit();
+
+      const certificationInfos = await certificateRepository.findCertificationsIdAndVersion({ sessionId });
+      expect(certificationInfos).to.deepEqualArray([
+        { id: 1, version: AlgorithmEngineVersion.V3 },
+        { id: 3, version: AlgorithmEngineVersion.V2 },
+      ]);
     });
   });
 });
