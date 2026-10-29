@@ -1,5 +1,5 @@
-import { render } from '@1024pix/ember-testing-library';
-import { click, find } from '@ember/test-helpers';
+import { render, within } from '@1024pix/ember-testing-library';
+import { click, fillIn, find } from '@ember/test-helpers';
 import Stages from 'pix-admin/components/target-profiles/stages';
 import { module, test } from 'qunit';
 
@@ -247,6 +247,45 @@ module('Integration | Component | Stages', function (hooks) {
       assert.dom(screen.getByText('Voir détail')).exists();
       assert.dom(screen.getByRole('button', { name: /Supprimer/ })).exists();
       assert.dom(screen.queryByText('Aucun badge associé')).doesNotExist();
+    });
+
+    test('allow to edit threshold event after visiting it and other fields', async function (assert) {
+      // given
+      const firstStage = store.createRecord('stage', {
+        level: null,
+        threshold: 0,
+        isFirstSkill: false,
+        title: 'Parcours terminé !',
+        message:
+          'Vous n’êtes visiblement pas tombé sur vos sujets préférés...Ou peut-être avez-vous besoin d’aide ? Dans tous les cas, rien n’est perdu d’avance ! Avec de l’accompagnement et un peu d’entraînement vous développerez à coup sûr vos compétences numériques !',
+      });
+      const stage = store.createRecord('stage', {
+        isFirstSkill: false,
+        level: null,
+        threshold: null,
+        title: null,
+        message: null,
+      });
+      const stageCollection = store.createRecord('stage-collection', {
+        stages: [firstStage, stage],
+      });
+      const maxLevel = 2;
+
+      // when
+      const screen = await render(
+        <template>
+          <Stages @targetProfileId={{123}} @stageCollection={{stageCollection}} @maxLevel={{maxLevel}} />
+        </template>,
+      );
+      const tr = screen.getByRole('row', { name: 'Informations sur le palier' });
+      const thresholdInput = within(tr).getByLabelText(/Seuil du palier/, { enabled: true });
+      const titleInput = within(tr).getByLabelText(/Titre du palier/, { enabled: true });
+
+      await click(thresholdInput);
+      await click(titleInput);
+      assert.dom(thresholdInput).doesNotHaveAttribute('readonly');
+      await fillIn(thresholdInput, 10);
+      await fillIn(titleInput, 'title');
     });
   });
 
