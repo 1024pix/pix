@@ -103,24 +103,16 @@ describe('Unit | service | get-certificates-for-session', function () {
     });
   });
 
-  describe('when session has no certification', function () {
+  describe('when there is no session', function () {
     it('should throw a NotFoundError', async function () {
       // given
-      domainBuilder.certification.sessionManagement.buildSessionManagement({
-        id: 13,
-        finalizedAt: new Date('2020-01-02T14:00:00Z'),
-        certificationCenter: 'Centre sans attestation',
-      });
-
       sessionRepository.get.withArgs(13).resolves(null);
-      certificateRepository.getCertificate.withArgs({ certificationCourseId: 3, locale: 'fr' }).resolves();
 
       // when
       const error = await catchErr(getCertificatesForSession)({
         sessionId: 13,
         i18n: { getLocale: sinon.stub().returns('fr') },
         dependencies: {
-          certificateRepository,
           sessionRepository,
         },
       });
@@ -130,7 +122,7 @@ describe('Unit | service | get-certificates-for-session', function () {
     });
   });
 
-  describe('when no certifications in the session is eligible for producing certificate', function () {
+  describe('when no certification in the session can produce a certificate', function () {
     it('should throw a NotFoundError', async function () {
       // given
       domainBuilder.certification.sessionManagement.buildSessionManagement({

@@ -3,6 +3,7 @@
  * @typedef {import('i18n').I18n} I18n
  */
 
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { Certificate } from '../models/v3/Certificate.js';
 import { getCertificatesPDF } from '../services/get-certificates-pdf.js';
@@ -24,6 +25,9 @@ export async function getCertificatePDF({
   },
 }) {
   const certificate = await certificateRepository.getCertificate({ certificationCourseId, locale: i18n.getLocale() });
+  if (!certificate) {
+    throw new NotFoundError(`There is no certificate for certification course "${certificationCourseId}"`);
+  }
 
   const deliveredAtFormatted = new Date(certificate.deliveredAt).toLocaleDateString('en-CA');
 

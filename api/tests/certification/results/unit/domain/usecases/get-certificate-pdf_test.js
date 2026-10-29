@@ -3,7 +3,9 @@ import sinon from 'sinon';
 
 import { getCertificatePDF } from '../../../../../../src/certification/results/domain/usecases/get-certificate-pdf.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | get-certificate-pdf', function () {
   it('should return PDF and filename (v3)', async function () {
@@ -73,5 +75,25 @@ describe('Unit | UseCase | get-certificate-pdf', function () {
     });
     expect(content).to.equal(generatedPDF);
     expect(filename).to.equal(`certification-pix-2026-10-30.pdf`);
+  });
+
+  describe('when there is no certificate', function () {
+    it('should throw an error', async function () {
+      // given
+      const locale = 'fr';
+
+      const certificateRepository = { getCertificate: sinon.stub().returns(null) };
+      const i18nStub = { getLocale: sinon.stub().returns(locale) };
+
+      // when
+      const error = await catchErr(getCertificatePDF)({
+        certificationCourseId: 123,
+        i18n: i18nStub,
+        certificateRepository,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(NotFoundError);
+    });
   });
 });

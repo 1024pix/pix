@@ -28,16 +28,15 @@ describe('Integration | Infrastructure | Repository | Certification', function (
   ];
 
   describe('#getCertificate', function () {
-    it('should throw a NotFoundError when certification attestation does not exist', async function () {
+    it('should return null when certification attestation does not exist', async function () {
       // when
-      const error = await catchErr(certificateRepository.getCertificate)({ certificationCourseId: 123 });
+      const result = await certificateRepository.getCertificate({ certificationCourseId: 123 });
 
       // then
-      expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal('There is no certification course with id "123"');
+      expect(result).to.be.null;
     });
 
-    it('should throw a NotFoundError when certification has no assessment-result', async function () {
+    it('should return null when certification has no assessment-result', async function () {
       // given
       const certificationAttestationData = {
         id: 123,
@@ -66,16 +65,15 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(certificateRepository.getCertificate)({
+      const result = await certificateRepository.getCertificate({
         certificationCourseId: certificationAttestationData.id,
       });
 
       // then
-      expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal('There is no certification course with id "123"');
+      expect(result).to.be.null;
     });
 
-    it('should throw a NotFoundError when certification is cancelled', async function () {
+    it('should return null when certification is cancelled', async function () {
       // given
       const certificationAttestationData = {
         id: 123,
@@ -104,16 +102,14 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(certificateRepository.getCertificate)({
+      const result = await certificateRepository.getCertificate({
         certificationCourseId: certificationAttestationData.id,
       });
-
       // then
-      expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal('There is no certification course with id "123"');
+      expect(result).to.be.null;
     });
 
-    it('should throw a NotFoundError when certification is not published', async function () {
+    it('should return null when certification is not published', async function () {
       // given
       const certificationAttestationData = {
         id: 123,
@@ -142,16 +138,14 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(certificateRepository.getCertificate)({
+      const result = await certificateRepository.getCertificate({
         certificationCourseId: certificationAttestationData.id,
       });
-
       // then
-      expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal('There is no certification course with id "123"');
+      expect(result).to.be.null;
     });
 
-    it('should throw a NotFoundError when certification is rejected', async function () {
+    it('should return null when certification is rejected', async function () {
       // given
       const certificationAttestationData = {
         id: 123,
@@ -180,13 +174,12 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(certificateRepository.getCertificate)({
+      const result = await certificateRepository.getCertificate({
         certificationCourseId: certificationAttestationData.id,
       });
 
       // then
-      expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal('There is no certification course with id "123"');
+      expect(result).to.be.null;
     });
 
     it('should take into account the latest validated assessment result of a student', async function () {
