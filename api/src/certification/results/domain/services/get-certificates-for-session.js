@@ -1,9 +1,7 @@
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import isEmpty from '../../../../shared/infrastructure/utils/is-empty.js';
-import { PromiseUtils } from '../../../../shared/infrastructure/utils/promise-utils.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
-import * as sharedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
+import * as sessionRepository from '../../infrastructure/repositories/session-repository.ts';
 import { Certificate } from '../models/v3/Certificate.js';
 import { getCertificatesPDF } from './get-certificates-pdf.js';
 
@@ -13,38 +11,28 @@ export async function getCertificatesForSession({
   i18n,
   dependencies = {
     certificateRepository,
-    sharedCertificationCourseRepository,
+    sessionRepository,
     getCertificatesPDF,
   },
 }) {
-  const certificationCourses =
-    await dependencies.sharedCertificationCourseRepository.findCertificationCoursesBySessionId({
-      sessionId,
-    });
-
-  if (isEmpty(certificationCourses)) {
+  const session = await dependencies.sessionRepository.get(sessionId);
+  if (!session) {
     throw new NotFoundError();
   }
 
   const locale = i18n.getLocale();
-
-  const certificates = (
-    await PromiseUtils.mapSeries(certificationCourses, async (certificationCourse) => {
-      try {
-        return await dependencies.certificateRepository.getCertificate({
-          certificationCourseId: certificationCourse.getId(),
-          locale,
-        });
-      } catch (error) {
-        if (!(error instanceof NotFoundError)) {
-          throw error;
-        }
-      }
-    })
-  ).filter(Boolean);
-
-  if (isEmpty(certificates)) {
-    throw new NotFoundError('No certificate found');
+  const certificates = [];
+  for (const certificationId of session.certificationIds) {
+    const certificate = await dependencies.certificateRepository.getCertificate({
+      certificationCourseId: certificationId,
+      locale,
+    });
+    if (certificate) {
+      certificates.push(certificate);
+    }
+  }
+  if (!certificates.length) {
+    throw new NotFoundError('No certificates found');
   }
 
   const algorithmEngineVersion =

@@ -8,14 +8,14 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | service | get-certificates-for-session', function () {
-  let certificateRepository, sharedCertificationCourseRepository;
+  let certificateRepository, sessionRepository;
 
   beforeEach(function () {
     certificateRepository = {
       getCertificate: sinon.stub(),
     };
-    sharedCertificationCourseRepository = {
-      findCertificationCoursesBySessionId: sinon.stub(),
+    sessionRepository = {
+      get: sinon.stub(),
     };
   });
 
@@ -26,26 +26,15 @@ describe('Unit | service | get-certificates-for-session', function () {
     const generatedPDF = Symbol('pdf');
 
     const getCertificatesPDFStub = sinon.stub().returns(generatedPDF);
-
-    const certificationCourse1 = domainBuilder.buildCertificationCourse({
-      id: 1,
-      sessionId: 11,
-    });
+    const session = domainBuilder.certification.results.buildSession({ id: 11, certificationIds: [1, 2] });
     const certificate1 = domainBuilder.certification.results.buildCertificate({
       id: 1,
-    });
-
-    const certificationCourse2 = domainBuilder.buildCertificationCourse({
-      id: 2,
-      sessionId: 11,
     });
     const certificate2 = domainBuilder.certification.results.buildCertificate({
       id: 2,
     });
 
-    sharedCertificationCourseRepository.findCertificationCoursesBySessionId
-      .withArgs({ sessionId: 11 })
-      .resolves([certificationCourse1, certificationCourse2]);
+    sessionRepository.get.withArgs(11).resolves(session);
     certificateRepository.getCertificate.withArgs({ certificationCourseId: 1, locale }).resolves(certificate1);
     certificateRepository.getCertificate.withArgs({ certificationCourseId: 2, locale }).resolves(certificate2);
 
@@ -57,7 +46,7 @@ describe('Unit | service | get-certificates-for-session', function () {
       dependencies: {
         getCertificatesPDF: getCertificatesPDFStub,
         certificateRepository,
-        sharedCertificationCourseRepository,
+        sessionRepository,
       },
     });
 
@@ -79,26 +68,15 @@ describe('Unit | service | get-certificates-for-session', function () {
     const generatedPDF = Symbol('pdf');
 
     const getCertificatesPDFStub = sinon.stub().returns(generatedPDF);
-
-    const certificationCourse1 = domainBuilder.buildCertificationCourse({
-      id: 1,
-      sessionId: 11,
-    });
+    const session = domainBuilder.certification.results.buildSession({ id: 11, certificationIds: [1, 2] });
     const certificate1 = domainBuilder.buildCertificationAttestation({
       id: 1,
-    });
-
-    const certificationCourse2 = domainBuilder.buildCertificationCourse({
-      id: 2,
-      sessionId: 11,
     });
     const certificate2 = domainBuilder.buildCertificationAttestation({
       id: 2,
     });
 
-    sharedCertificationCourseRepository.findCertificationCoursesBySessionId
-      .withArgs({ sessionId: 11 })
-      .resolves([certificationCourse1, certificationCourse2]);
+    sessionRepository.get.withArgs(11).resolves(session);
     certificateRepository.getCertificate.withArgs({ certificationCourseId: 1, locale }).resolves(certificate1);
     certificateRepository.getCertificate.withArgs({ certificationCourseId: 2, locale }).resolves(certificate2);
 
@@ -110,7 +88,7 @@ describe('Unit | service | get-certificates-for-session', function () {
       dependencies: {
         getCertificatesPDF: getCertificatesPDFStub,
         certificateRepository,
-        sharedCertificationCourseRepository,
+        sessionRepository,
       },
     });
 
@@ -125,32 +103,7 @@ describe('Unit | service | get-certificates-for-session', function () {
     });
   });
 
-  describe('when there is no certification courses for the session', function () {
-    it('should throw a NotFoundError', async function () {
-      // given
-      domainBuilder.certification.sessionManagement.buildSessionManagement({
-        id: 12,
-        finalizedAt: new Date('2020-01-02T14:00:00Z'),
-        certificationCenter: 'Centre sans attestation',
-      });
-
-      sharedCertificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 12 }).resolves([]);
-
-      // when
-      const error = await catchErr(getCertificatesForSession)({
-        sessionId: 12,
-        dependencies: {
-          certificateRepository,
-          sharedCertificationCourseRepository,
-        },
-      });
-
-      // then
-      expect(error).to.be.an.instanceOf(NotFoundError);
-    });
-  });
-
-  describe('when there is no certificate for the session', function () {
+  describe('when session has no certification', function () {
     it('should throw a NotFoundError', async function () {
       // given
       domainBuilder.certification.sessionManagement.buildSessionManagement({
@@ -158,15 +111,8 @@ describe('Unit | service | get-certificates-for-session', function () {
         finalizedAt: new Date('2020-01-02T14:00:00Z'),
         certificationCenter: 'Centre sans attestation',
       });
-      const certificationCourse = domainBuilder.buildCertificationCourse({
-        id: 3,
-        sessionId: 11,
-        userId: 101,
-      });
 
-      sharedCertificationCourseRepository.findCertificationCoursesBySessionId
-        .withArgs({ sessionId: 13 })
-        .resolves([certificationCourse]);
+      sessionRepository.get.withArgs(13).resolves(null);
       certificateRepository.getCertificate.withArgs({ certificationCourseId: 3, locale: 'fr' }).resolves();
 
       // when
@@ -175,7 +121,34 @@ describe('Unit | service | get-certificates-for-session', function () {
         i18n: { getLocale: sinon.stub().returns('fr') },
         dependencies: {
           certificateRepository,
-          sharedCertificationCourseRepository,
+          sessionRepository,
+        },
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(NotFoundError);
+    });
+  });
+
+  describe('when no certifications in the session is eligible for producing certificate', function () {
+    it('should throw a NotFoundError', async function () {
+      // given
+      domainBuilder.certification.sessionManagement.buildSessionManagement({
+        id: 12,
+        finalizedAt: new Date('2020-01-02T14:00:00Z'),
+        certificationCenter: 'Centre sans attestation',
+      });
+
+      const session = domainBuilder.certification.results.buildSession({ id: 12, certificationIds: [] });
+      sessionRepository.get.withArgs(12).resolves(session);
+
+      // when
+      const error = await catchErr(getCertificatesForSession)({
+        sessionId: 12,
+        i18n: { getLocale: sinon.stub().returns('fr') },
+        dependencies: {
+          certificateRepository,
+          sessionRepository,
         },
       });
 
