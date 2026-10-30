@@ -48,6 +48,19 @@ And to check the current value of the toggle:
 npm run toggles -- --list
 ```
 
+### Using in acceptance tests
+
+It is possible to run acceptance tests with OpenTelemetry.
+
+Example with route `GET /api/users/{userId}/campaigns/{campaignId}/assessment-result`:
+
+```
+OTEL_TESTS=true npm run test:api:acceptance -- -f 'GET /api/users/{userId}/campaigns/{campaignId}/assessment-result'
+```
+
+> [!WARNING]
+> If the date is mocked in the run tests (using `sinon.fakeTimers`), traces will be saved with the mocked date!
+
 ## Good to know
 
 The toggle is stored in Redis, so its value survives restarts, and the change is propagated to

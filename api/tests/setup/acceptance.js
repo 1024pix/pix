@@ -1,5 +1,6 @@
 import Hapi from '@hapi/hapi';
 import { context, SpanKind, trace } from '@opentelemetry/api';
+import nock from 'nock';
 
 import { initializeOpenTelemetry } from '../../src/shared/infrastructure/open-telemetry/initialize-open-telemetry.js';
 
@@ -33,6 +34,17 @@ const { mochaHooks: integrationHooks } = await import('./integration.js');
 export const mochaHooks = isOpenTelemetryEnabled
   ? {
       ...integrationHooks,
-      afterAll: [integrationHooks.afterAll, () => trace.getTracerProvider().getDelegate().forceFlush()],
+      beforeAll: [
+        integrationHooks.beforeAll,
+        function () {
+          nock.enableNetConnect(new URL(process.env.OTEL_EXPORTER_OTLP_ENDPOINT ?? 'http://localhost:4318').host);
+        },
+      ],
+      afterAll: [
+        async function () {
+          await trace.getTracerProvider().getDelegate().forceFlush();
+        },
+        integrationHooks.afterAll,
+      ],
     }
   : integrationHooks;
