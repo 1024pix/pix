@@ -2,6 +2,11 @@ const TAGS_WITHOUT_GLOSSARY_MARKER = ['a', 'button'];
 const HTML_TAG_REGEX = /(<[^>]*>)/;
 const OPENING_OR_CLOSING_TAG_NAME_REGEX = /^<(\/?)([a-z0-9-]+)/i;
 
+// Unicode-aware word boundaries: \b only knows [A-Za-z0-9_] and would split "clé" on "é".
+const LETTER_OR_DIGIT = String.raw`[\p{L}\p{N}]`;
+const NOT_PRECEDED_BY_LETTER_OR_DIGIT = `(?<!${LETTER_OR_DIGIT})`;
+const NOT_FOLLOWED_BY_LETTER_OR_DIGIT = `(?!${LETTER_OR_DIGIT})`;
+
 function markGlossaryWords(module) {
   if (!module.glossary?.length) return module;
 
@@ -69,15 +74,20 @@ function _buildMatcher(glossary) {
   const wordsByLowerCase = new Map(
     glossary.flatMap(({ words }) => words ?? []).map((word) => [word.toLocaleLowerCase('fr'), word]),
   );
-  const pattern = [...wordsByLowerCase.values()]
-    .toSorted((a, b) => b.length - a.length)
-    .map(_escapeRegExp)
-    .join('|');
 
   return {
-    regex: new RegExp(`(?<![\\p{L}\\p{N}])(?:${pattern})(?![\\p{L}\\p{N}])`, 'giu'),
+    regex: _buildWholeWordsRegex([...wordsByLowerCase.values()]),
     getGlossaryWord: (match) => wordsByLowerCase.get(match.toLocaleLowerCase('fr')),
   };
+}
+
+function _buildWholeWordsRegex(words) {
+  // Longest first: regex alternation keeps the first alternative that matches,
+  // so "réseau social" must be tried before "réseau".
+  const longestWordsFirst = words.toSorted((a, b) => b.length - a.length);
+  const anyOfWords = `(?:${longestWordsFirst.map(_escapeRegExp).join('|')})`;
+
+  return new RegExp(`${NOT_PRECEDED_BY_LETTER_OR_DIGIT}${anyOfWords}${NOT_FOLLOWED_BY_LETTER_OR_DIGIT}`, 'giu');
 }
 
 function _markWordsInHtml(html, matcher) {
