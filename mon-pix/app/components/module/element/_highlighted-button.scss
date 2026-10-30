@@ -33,10 +33,10 @@
 .module-glossary-word {
   display: inline;
   padding: var(--pix-spacing-1x);
-  color: inherit;
+  color: var(--modulix-glossary-term-color, inherit);
   font: inherit;
   font-weight: bold;
-  background-color: rgb(var(--pix-tertiary-100-inline), 0.5);
+  background-color: var(--modulix-glossary-term-background-color, rgb(var(--pix-tertiary-100-inline), 0.5));
   border: none;
   border-radius: var(--pix-spacing-1x);
   cursor: pointer;
