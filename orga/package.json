@@ -63,7 +63,7 @@
     "@embroider/vite": "1.7.15",
     "@faker-js/faker": "10.6.0",
     "@glimmer/component": "2.2.0",
-    "@glint/ember-tsc": "1.14.1",
+    "@glint/ember-tsc": "1.14.2",
     "@glint/template": "1.11.0",
     "@glint/tsserver-plugin": "2.7.14",
     "@rollup/plugin-babel": "7.1.0",
