@@ -1,0 +1,53 @@
+.module-glossary-tooltip {
+  // top/left calculés par floating-ui (strategy: 'fixed')
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  display: none;
+  width: max-content;
+  max-width: min(20rem, calc(100vw - 2 * var(--pix-spacing-2x)));
+  padding: var(--pix-spacing-2x) var(--pix-spacing-3x);
+  color: var(--pix-neutral-0);
+  font-weight: normal;
+  background-color: var(--pix-neutral-900);
+  border-radius: var(--pix-spacing-2x);
+
+  &--visible {
+    display: block;
+  }
+
+  &__arrow {
+    position: absolute;
+    width: var(--pix-spacing-2x);
+    height: var(--pix-spacing-2x);
+    background-color: inherit;
+    transform: rotate(45deg);
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.module-glossary-word {
+  display: inline;
+  padding: var(--pix-spacing-1x);
+  color: inherit;
+  font: inherit;
+  font-weight: bold;
+  background-color: rgb(var(--pix-tertiary-100-inline), 0.5);
+  border: none;
+  border-radius: var(--pix-spacing-1x);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--pix-tertiary-500);
+    outline-offset: 1px;
+  }
+}

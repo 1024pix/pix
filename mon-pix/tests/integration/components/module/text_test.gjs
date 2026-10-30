@@ -39,31 +39,14 @@ module('Integration | Component | Module | Text', function (hooks) {
       assert.strictEqual(button.tagName, 'BUTTON');
       assert.dom(button).hasAttribute('type', 'button');
       assert.dom(button).hasClass('module-glossary-word');
-      assert.dom(button).hasAttribute('aria-haspopup', 'dialog');
-    });
-
-    test('should open glossary modal with selected word on click', async function (assert) {
-      // given
-      const glossaryModal = this.owner.lookup('service:modulix-glossary-modal');
-      const textElement = {
-        content: '<p>Un <highlighted-button>écran</highlighted-button></p>',
-        type: 'text',
-        tag: ' ',
-      };
-      const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-
-      // when
-      await click(screen.getByRole('button', { name: 'écran' }));
-
-      // then
-      assert.true(glossaryModal.isBookModalOpen);
-      assert.strictEqual(glossaryModal.selectedWord, 'écran');
+      assert.dom(button).doesNotHaveAttribute('aria-expanded');
+      assert.dom(screen.queryByRole('tooltip', { hidden: true })).doesNotExist();
     });
 
     module('when a definition is given', function () {
       const textElement = {
         content:
-          '<p>Un <highlighted-button word="écran" definition="&lt;p&gt;Surface d’affichage&lt;/p&gt;">Écran</highlighted-button></p>',
+          '<p>Un <highlighted-button word="écran" definition="&lt;p&gt;Surface d’affichage&lt;/p&gt;">Écran</highlighted-button> et une <highlighted-button word="clé" definition="Un objet">clé</highlighted-button></p>',
         type: 'text',
         tag: ' ',
       };
@@ -74,8 +57,9 @@ module('Integration | Component | Module | Text', function (hooks) {
 
         // then
         const button = screen.getByRole('button', { name: 'Écran', description: 'Surface d’affichage' });
-        const tooltip = screen.getByRole('tooltip', { hidden: true });
-        assert.dom(button).hasAttribute('aria-describedby', tooltip.id);
+        const tooltip = document.getElementById(button.getAttribute('aria-describedby'));
+        assert.dom(button).hasAttribute('aria-expanded', 'false');
+        assert.dom(tooltip).hasAttribute('role', 'tooltip');
         assert.dom(tooltip).hasText('Surface d’affichage');
         assert.dom(tooltip).doesNotHaveClass('module-glossary-tooltip--visible');
       });
@@ -84,57 +68,84 @@ module('Integration | Component | Module | Text', function (hooks) {
         // given
         const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
         const button = screen.getByRole('button', { name: 'Écran' });
-        const tooltip = screen.getByRole('tooltip', { hidden: true });
+        const tooltip = _tooltipOf(button);
 
         // when
         await focus(button);
 
         // then
         assert.dom(tooltip).hasClass('module-glossary-tooltip--visible');
+        assert.dom(button).hasAttribute('aria-expanded', 'true');
 
         // when
         await triggerKeyEvent(button, 'keydown', 'Escape');
 
         // then
         assert.dom(tooltip).doesNotHaveClass('module-glossary-tooltip--visible');
+        assert.dom(button).hasAttribute('aria-expanded', 'false');
+      });
+
+      test('should toggle a pinned tooltip on click', async function (assert) {
+        // given
+        const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+        const button = screen.getByRole('button', { name: 'Écran' });
+        const tooltip = _tooltipOf(button);
+
+        // when
+        await click(button);
+
+        // then
+        assert.dom(tooltip).hasClass('module-glossary-tooltip--visible');
+
+        // when
+        await click(button);
+
+        // then
+        assert.dom(tooltip).doesNotHaveClass('module-glossary-tooltip--visible');
+      });
+
+      test('should close a pinned tooltip when clicking outside', async function (assert) {
+        // given
+        const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+        const button = screen.getByRole('button', { name: 'Écran' });
+        const tooltip = _tooltipOf(button);
+        await click(button);
+
+        // when
+        await click('.element-text');
+
+        // then
+        assert.dom(tooltip).doesNotHaveClass('module-glossary-tooltip--visible');
+      });
+
+      test('should keep only one tooltip open at a time', async function (assert) {
+        // given
+        const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+        const ecranButton = screen.getByRole('button', { name: 'Écran' });
+        const cleButton = screen.getByRole('button', { name: 'clé' });
+        await click(ecranButton);
+
+        // when
+        await click(cleButton);
+
+        // then
+        assert.dom(_tooltipOf(ecranButton)).doesNotHaveClass('module-glossary-tooltip--visible');
+        assert.dom(_tooltipOf(cleButton)).hasClass('module-glossary-tooltip--visible');
       });
 
       test('should position the tooltip with floating-ui when shown', async function (assert) {
         // given
         const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-        const tooltip = screen.getByRole('tooltip', { hidden: true });
+        const button = screen.getByRole('button', { name: 'Écran' });
+        const tooltip = _tooltipOf(button);
 
         // when
-        await focus(screen.getByRole('button', { name: 'Écran' }));
+        await focus(button);
         await waitUntil(() => tooltip.style.top !== '');
 
         // then
         assert.ok(tooltip.style.left.endsWith('px'));
         assert.ok(tooltip.style.top.endsWith('px'));
-      });
-
-      test('should send the glossary word, not the displayed text, on click', async function (assert) {
-        // given
-        const glossaryModal = this.owner.lookup('service:modulix-glossary-modal');
-        const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-
-        // when
-        await click(screen.getByRole('button', { name: 'Écran' }));
-
-        // then
-        assert.strictEqual(glossaryModal.selectedWord, 'écran');
-      });
-
-      test('should not open the modal when clicking inside the tooltip', async function (assert) {
-        // given
-        const glossaryModal = this.owner.lookup('service:modulix-glossary-modal');
-        const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-
-        // when
-        await click(screen.getByRole('tooltip', { hidden: true }));
-
-        // then
-        assert.false(glossaryModal.isBookModalOpen);
       });
     });
   });
@@ -215,3 +226,7 @@ module('Integration | Component | Module | Text', function (hooks) {
     });
   });
 });
+
+function _tooltipOf(button) {
+  return document.getElementById(button.getAttribute('aria-describedby'));
+}
