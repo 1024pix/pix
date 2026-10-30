@@ -127,10 +127,11 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
   });
 
   describe('POST /api/admin/certification-centers', function () {
-    let complementaryCertification;
+    let complementaryCertification, categoryId;
 
     beforeEach(async function () {
       // given
+      categoryId = databaseBuilder.factory.buildStructureCategory().id;
       complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
       await databaseBuilder.commit();
     });
@@ -153,6 +154,7 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
                 name: 'Nouveau Centre de Certif',
                 type: 'SCO',
                 'data-protection-officer-email': 'adrienne.quepourra@example.net',
+                'category-id': categoryId,
               },
               relationships: {
                 habilitations: {
@@ -179,7 +181,7 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
 
       it('attaches the created certification center to the organization when an organization-id is given', async function () {
         // given
-        const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+        const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure();
         await databaseBuilder.commit();
 
         // when
@@ -195,6 +197,7 @@ describe('Acceptance | Organization Entities | Admin | Route | Certification Cen
                 type: 'SCO',
                 'data-protection-officer-email': 'adrienne.quepourra@example.net',
                 'organization-id': organization.id,
+                'category-id': structure.category_id,
               },
             },
           },

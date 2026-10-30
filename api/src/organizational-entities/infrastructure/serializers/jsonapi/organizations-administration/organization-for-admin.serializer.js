@@ -165,7 +165,7 @@ const deserialize = function (json) {
       id: attributes['organization-learner-type-id'],
       name: attributes['organization-learner-type-name'],
     }),
-    categoryId: attributes['category-id'] ? parseInt(attributes['category-id']) : null,
+    categoryId: parseInt(attributes['category-id']),
   });
   return organization;
 };

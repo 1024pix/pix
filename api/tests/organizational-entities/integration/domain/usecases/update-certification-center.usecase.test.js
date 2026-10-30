@@ -13,7 +13,8 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 describe('Integration | Organizational Entities | Domain | UseCases | update-certification-center', function () {
   it('updates certification center and its data protection officer information', async function () {
     // given
-    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+    const categoryId = databaseBuilder.factory.buildStructureCategory().id;
+    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ categoryId }).id;
     databaseBuilder.factory.buildDataProtectionOfficer.withCertificationCenterId({
       firstName: 'Eddy',
       lastName: 'Taurial',
@@ -28,6 +29,7 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-cer
         name: 'Pix Super Center',
         type: 'PRO',
         habilitations: [],
+        categoryId,
       },
       dataProtectionOfficer: {
         firstName: 'Justin',
@@ -137,29 +139,6 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-cer
     // then
     expect(error).to.be.instanceOf(StructureNotFoundError);
     expect(error.meta.certificationCenterId).to.equal(certificationCenter.id);
-  });
-
-  it('does not clear the category when no category is given', async function () {
-    // given
-    const structureUpdatedAt = new Date('2020-01-01');
-    const categoryId = databaseBuilder.factory.buildStructureCategory({ label: 'Catégorie initiale' }).id;
-    const structure = databaseBuilder.factory.buildStructure({ categoryId, updatedAt: structureUpdatedAt });
-    const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ structureId: structure.id });
-    const certificationCenterInformation = _buildCenterInformation({ certificationCenter, categoryId: undefined });
-
-    await databaseBuilder.commit();
-
-    // when
-    await usecases.updateCertificationCenter({
-      certificationCenterId: certificationCenter.id,
-      certificationCenterInformation,
-      complementaryCertificationIds: [],
-    });
-
-    // then
-    const untouchedStructure = await knex('structures').where({ id: structure.id }).first();
-    expect(untouchedStructure.category_id).to.equal(categoryId);
-    expect(untouchedStructure.updated_at).to.deep.equal(structureUpdatedAt);
   });
 
   it('does not write the structure when the category is unchanged', async function () {

@@ -18,6 +18,7 @@ module('Integration | Component | certification-centers/information-edit', funct
     dataProtectionOfficerLastName: 'Ptipeu',
     dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
     habilitations: [],
+    categoryId: 1234,
   });
 
   const toggleEditModeStub = sinon.stub();
@@ -261,7 +262,7 @@ module('Integration | Component | certification-centers/information-edit', funct
         );
 
         // when
-        await click(screen.getByRole('button', { name: 'Catégorie' }));
+        await click(screen.getByRole('button', { name: 'Catégorie *' }));
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Catégorie 2' }));
         await click(screen.getByRole('button', { name: 'Enregistrer' }));
@@ -314,7 +315,7 @@ module('Integration | Component | certification-centers/information-edit', funct
         );
 
         // when
-        await click(screen.getByRole('button', { name: 'Catégorie' }));
+        await click(screen.getByRole('button', { name: 'Catégorie *' }));
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Catégorie 2' }));
         await click(screen.getByRole('button', { name: 'Enregistrer' }));
@@ -344,7 +345,7 @@ module('Integration | Component | certification-centers/information-edit', funct
         );
 
         // when
-        await click(screen.getByRole('button', { name: 'Catégorie' }));
+        await click(screen.getByRole('button', { name: 'Catégorie *' }));
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Catégorie 2' }));
         await click(screen.getByRole('button', { name: 'Enregistrer' }));
@@ -372,6 +373,7 @@ module('Integration | Component | certification-centers/information-edit', funct
           dataProtectionOfficerLastName: 'Number',
           dataProtectionOfficerEmail: 'lucky@example.net',
           habilitations: [],
+          categoryId: 111,
         });
 
         const screen = await render(
@@ -417,6 +419,7 @@ module('Integration | Component | certification-centers/information-edit', funct
           dataProtectionOfficerLastName: 'Number',
           dataProtectionOfficerEmail: 'lucky@example.net',
           habilitations: [availableHabilitations[0]],
+          categoryId: 111,
         });
 
         const screen = await render(

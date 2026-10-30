@@ -9,6 +9,12 @@ import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Organizational Entities | Domain | UseCase | create-certification-center', function () {
+  let categoryId;
+
+  beforeEach(async function () {
+    categoryId = databaseBuilder.factory.buildStructureCategory().id;
+    await databaseBuilder.commit();
+  });
   it('saves and returns the certification center', async function () {
     // given
     const superAdminUserId = databaseBuilder.factory.buildUser().id;
@@ -21,6 +27,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | create-cert
         externalId: 'EXT123',
         habilitations: [],
         createdBy: superAdminUserId,
+        categoryId,
       },
     });
 
@@ -47,6 +54,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | create-cert
         type: 'SCO',
         externalId: 'EXT123',
         habilitations: [],
+        categoryId,
       },
       dataProtectionOfficer: {
         ...dataProtectionOfficerInfos,
@@ -85,6 +93,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | create-cert
         type: 'SCO',
         externalId: 'EXT123',
         habilitations: [],
+        categoryId,
       },
     });
 
@@ -184,6 +193,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | create-cert
           externalId: 'EXT123',
           habilitations: [],
           organizationId: organization.id,
+          categoryId,
         },
       });
 
@@ -212,6 +222,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | create-cert
           externalId: 'EXT123',
           habilitations: [],
           organizationId: nonExistingOrganizationId,
+          categoryId,
         },
       });
 
@@ -243,6 +254,7 @@ describe('Integration | Organizational Entities | Domain | UseCase | create-cert
           externalId: 'EXT123',
           habilitations: [],
           organizationId: alreadyAttachedOrganization.id,
+          categoryId,
         },
       });
 
