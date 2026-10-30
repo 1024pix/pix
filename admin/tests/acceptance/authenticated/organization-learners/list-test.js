@@ -85,5 +85,30 @@ module('Acceptance | authenticated/organization-learners | list', function (hook
       assert.ok(screen.getByText('firstname'));
       assert.ok(screen.getByText('firstname1'));
     });
+
+    // Is this test working ? Should it stay, should it go ?
+    test('it should display correct organization learner if organization learner ID filter is filled', async function (assert) {
+      // given
+      server.create('admin-organization-learner', {
+        id: 313,
+        firstName: 'firstname',
+        lastName: 'lastname',
+      });
+      server.create('admin-organization-learner', {
+        id: 314,
+        firstName: 'firstname1',
+        lastName: 'lastname2',
+      });
+
+      // when
+      const screen = await visit('/organization-learners/list');
+
+      await fillByLabel('ID Prescrit', 313);
+      await click(screen.getByRole('button', { name: t('common.filters.actions.load') }));
+
+      // then
+      assert.dom(screen.queryByText('firstname')).doesNotExist();
+      assert.dom(screen.getByText('firstname1')).exists();
+    });
   });
 });

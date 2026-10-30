@@ -14,11 +14,37 @@ module('Integration | Component | OrganizationLearners | FilterBanner', function
     //when
     const screen = await render(<template><FilterBanner /></template>);
     //then
-    assert.ok(screen.getByRole('textbox', { name: 'Orga ID Externe' }));
+    assert.ok(screen.getByRole('textbox', { name: 'ID Prescrit' }));
     assert.ok(screen.getByRole('textbox', { name: 'Prénom/Nom' }));
+    assert.ok(screen.getByRole('textbox', { name: 'Orga ID Externe' }));
     assert.ok(screen.getByRole('radiogroup', { name: 'Masquer les prescrits désactivés' }));
     assert.ok(screen.getByRole('button', { name: t('common.filters.actions.load') }));
     assert.ok(screen.getByRole('button', { name: t('common.filters.actions.clear') }));
+  });
+  test('it filters by organizationLearnerId', async function (assert) {
+    //given
+    const router = this.owner.lookup('service:router');
+    const transitionToStub = sinon.stub(router, 'transitionTo');
+
+    //when
+    const screen = await render(<template><FilterBanner /></template>);
+    await fillIn(screen.getByRole('textbox', { name: 'ID Prescrit' }), 12345);
+    await click(screen.getByRole('button', { name: t('common.filters.actions.load') }));
+
+    //then
+    sinon.assert.calledWith(transitionToStub, {
+      queryParams: {
+        organizationLearnerId: '12345',
+        organizationExternalId: undefined,
+        fullName: undefined,
+        hideDisabled: undefined,
+        organizationSort: undefined,
+        birthdateSort: undefined,
+        updatedAtSort: undefined,
+        pageNumber: undefined,
+      },
+    });
+    assert.ok(true);
   });
   test('it should filter by organizationExternalId', async function (assert) {
     //given
@@ -31,6 +57,7 @@ module('Integration | Component | OrganizationLearners | FilterBanner', function
     //then
     sinon.assert.calledWith(transitionToStub, {
       queryParams: {
+        organizationLearnerId: undefined,
         organizationExternalId: 'ID',
         fullName: undefined,
         hideDisabled: undefined,
@@ -53,6 +80,7 @@ module('Integration | Component | OrganizationLearners | FilterBanner', function
     //then
     sinon.assert.calledWith(transitionToStub, {
       queryParams: {
+        organizationLearnerId: undefined,
         organizationExternalId: undefined,
         fullName: 'attestation',
         hideDisabled: undefined,
@@ -75,6 +103,7 @@ module('Integration | Component | OrganizationLearners | FilterBanner', function
     //then
     sinon.assert.calledWith(transitionToStub, {
       queryParams: {
+        organizationLearnerId: undefined,
         organizationExternalId: undefined,
         fullName: undefined,
         hideDisabled: true,
@@ -98,6 +127,7 @@ module('Integration | Component | OrganizationLearners | FilterBanner', function
     //then
     sinon.assert.calledWith(transitionToStub, {
       queryParams: {
+        organizationLearnerId: undefined,
         organizationExternalId: undefined,
         fullName: undefined,
         hideDisabled: undefined,
@@ -109,20 +139,25 @@ module('Integration | Component | OrganizationLearners | FilterBanner', function
     });
     assert.ok(true);
   });
+
   test('it should clear filters but not toggle', async function (assert) {
     //given
     const router = this.owner.lookup('service:router');
     const transitionToStub = sinon.stub(router, 'transitionTo');
+
     //when
     const screen = await render(<template><FilterBanner /></template>);
+    await fillIn(screen.getByRole('textbox', { name: 'ID Prescrit' }), 12345);
     await fillIn(screen.getByRole('textbox', { name: 'Orga ID Externe' }), 'ID');
     await fillIn(screen.getByRole('textbox', { name: 'Prénom/Nom' }), 'attestation');
     const toggle = screen.getByRole('radiogroup', { name: 'Masquer les prescrits désactivés' });
     await click(within(toggle).getByRole('radio', { name: 'Oui' }));
     await click(screen.getByRole('button', { name: t('common.filters.actions.clear') }));
+
     //then
     sinon.assert.calledWith(transitionToStub, {
       queryParams: {
+        organizationLearnerId: undefined,
         organizationExternalId: undefined,
         fullName: undefined,
         hideDisabled: true,
