@@ -1363,7 +1363,7 @@
         "description": "Well done! You have taken an important step toward navigating the digital world.",
         "survey-button": "Answer the survey",
         "survey-button-description": "Complete the survey to give your opinion on the course.",
-        "title": "Congratulations! You're done!"
+        "title": "Congratulations { firstName }, you're done!"
       },
       "content": {
         "resume-button": "Resume course",

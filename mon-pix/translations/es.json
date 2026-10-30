@@ -1363,7 +1363,7 @@
         "description": "¡Bien hecho! Ha dado un paso importante para navegar por el mundo digital.",
         "survey-button": "Responder a la encuesta de satisfacción",
         "survey-button-description": "Responde al cuestionario para dar tu opinión sobre el recorrido.",
-        "title": "¡Enhorabuena! ¡Ya has terminado!"
+        "title": "¡Enhorabuena { firstName }, ya has terminado!"
       },
       "content": {
         "resume-button": "Reanudar mi curso",
