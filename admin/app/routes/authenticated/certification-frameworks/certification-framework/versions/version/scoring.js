@@ -14,11 +14,12 @@ export default class ScoringRoute extends Route {
       'authenticated.certification-frameworks.certification-framework.versions.version',
     );
     const editVersion = await this.store.findRecord('certification-version', versionId);
+    const previousVersion = await this.#resolvePreviousVersion(editVersion, activeVersion, certificationFramework);
 
     return {
-      previousVersion: await this.#resolvePreviousVersion(editVersion, activeVersion, certificationFramework),
+      previousVersion,
       editVersion,
-      calibrationScoringConfiguration: await this.loadCalibrationScoringConfiguration(editVersion),
+      calibrationScoringConfiguration: await this.loadCalibrationScoringConfiguration(editVersion, previousVersion),
     };
   }
 
@@ -32,13 +33,19 @@ export default class ScoringRoute extends Route {
     return mostRecentArchived ? this.store.findRecord('certification-version', mostRecentArchived.id) : null;
   }
 
-  async loadCalibrationScoringConfiguration(editVersion) {
+  async loadCalibrationScoringConfiguration(editVersion, previousVersion) {
     if (!editVersion.externalCalibrationId) return null;
 
     try {
-      return await this.store.queryRecord('calibration-scoring-configuration', {
+      const calibrationScoringConfiguration = await this.store.queryRecord('calibration-scoring-configuration', {
         calibrationId: editVersion.externalCalibrationId,
       });
+      if (!editVersion.isCoreScope && calibrationScoringConfiguration.globalScoringConfiguration.length === 0) {
+        calibrationScoringConfiguration.globalScoringConfiguration = structuredClone(
+          previousVersion.globalScoringConfiguration,
+        );
+      }
+      return calibrationScoringConfiguration;
     } catch {
       return null;
     }
@@ -46,9 +53,20 @@ export default class ScoringRoute extends Route {
 
   afterModel(model) {
     const { editVersion, calibrationScoringConfiguration } = model;
-    const hasCalibrationScoring = calibrationScoringConfiguration?.globalScoringConfiguration?.length;
-    const canAccessScoring =
-      (editVersion.isDraft && hasCalibrationScoring) || (editVersion.isActive && !editVersion.isCoreScope);
+    if (editVersion.isArchived) {
+      this.router.transitionTo('authenticated.certification-frameworks.certification-framework');
+    }
+
+    let canAccessScoring;
+    if (editVersion.isCoreScope) {
+      const attachedCalibrationHasScoringConfig =
+        calibrationScoringConfiguration?.globalScoringConfiguration?.length > 0;
+      canAccessScoring = editVersion.isDraft && attachedCalibrationHasScoringConfig;
+    } else {
+      const hasNoScoringConfigYet = !editVersion.globalScoringConfiguration?.length;
+      console.log(calibrationScoringConfiguration);
+      canAccessScoring = hasNoScoringConfigYet && !!calibrationScoringConfiguration;
+    }
 
     if (!canAccessScoring) {
       this.router.transitionTo('authenticated.certification-frameworks.certification-framework');
