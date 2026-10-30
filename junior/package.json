@@ -50,7 +50,7 @@
     "@ember/test-helpers": "5.7.0",
     "@embroider/compat": "3.9.4",
     "@embroider/core": "3.5.10",
-    "@embroider/macros": "1.21.3",
+    "@embroider/macros": "1.21.4",
     "@embroider/webpack": "4.1.2",
     "@glimmer/component": "2.2.0",
     "@glimmer/tracking": "1.1.2",
