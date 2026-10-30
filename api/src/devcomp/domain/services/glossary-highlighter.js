@@ -1,6 +1,12 @@
+// Unicode-aware word boundaries: \b only knows [A-Za-z0-9_] and would split "clé" on "é".
+const LETTER_OR_DIGIT = String.raw`[\p{L}\p{N}]`;
+const NOT_PRECEDED_BY_LETTER_OR_DIGIT = `(?<!${LETTER_OR_DIGIT})`;
+const NOT_FOLLOWED_BY_LETTER_OR_DIGIT = `(?!${LETTER_OR_DIGIT})`;
+
 export function highlightGlossaryWords(module) {
   if (module.glossary.length === 0) return module;
 
+  // TODO : Gérer le cas où words renvoie un tableau avec une chaîne vide
   const words = module.glossary.flatMap(({ words }) => words);
 
   for (const section of module.sections) {
@@ -67,8 +73,16 @@ function _highlightFeedback(feedback, words) {
 
 function _replaceWordsInHtml(html, words) {
   let result = html;
-  words.forEach((word) => {
-    result = result.replace(new RegExp(word, 'gi'), `<span data-glossary-word="${word}">${word}</span>`);
+
+  // TODO : trier les mots par nombre de caractères descendant
+  // pour gérer le cas ['réseau', 'réseau social']
+  words.forEach((glossaryWord) => {
+    result = result.replace(
+      new RegExp(`${NOT_PRECEDED_BY_LETTER_OR_DIGIT}${glossaryWord}${NOT_FOLLOWED_BY_LETTER_OR_DIGIT}`, 'giu'),
+      (wordMatched) => {
+        return `<span data-glossary-word="${glossaryWord}">${wordMatched}</span>`;
+      },
+    );
   });
 
   return result;

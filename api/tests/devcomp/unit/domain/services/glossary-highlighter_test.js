@@ -26,7 +26,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
           it('should enclose text element content words occurrences with a span tag', function () {
             // given
             const module = {
-              glossary: [{ words: ['réseau'], definition: 'Des machines reliées' }],
+              glossary: [{ words: ['réseau', 'réseaux'], definition: 'Des machines reliées' }],
               sections: [
                 {
                   id: `11111111-1111-1111-1111-111111111111`,
@@ -161,7 +161,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
             const module = {
               glossary: [
                 { words: ['chien'], definition: 'Le meilleur ami des humains' },
-                { words: ['chat'], definition: 'Le meilleur ami des souris' },
+                { words: ['chat', 'chaton'], definition: 'Le meilleur ami des souris' },
               ],
               sections: [
                 {
@@ -265,6 +265,123 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
           );
 
           expect(textElement.content).to.equal('<p>réseau et <span data-glossary-word="chien">chien</span></p>');
+        });
+      });
+
+      describe('Matching cases', function () {
+        it('should match case-insensitively and keep the glossary word as marker value', function () {
+          // given
+          const module = {
+            glossary: [{ words: ['réseau', 'réseaux'], definition: 'Des machines reliées' }],
+            sections: [
+              {
+                id: `11111111-1111-1111-1111-111111111111`,
+                type: 'practise',
+                grains: [
+                  {
+                    id: `22222222-2222-2222-2222-222222222222`,
+                    type: 'lesson',
+                    title: 'Grain de test',
+                    components: [
+                      {
+                        id: `22222222-2222-2222-2222-222222222223`,
+                        type: 'element',
+                        element: { type: 'text', content: '<p>réseau et RÉSEAU</p>' },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          };
+
+          // when
+          const result = highlightGlossaryWords(module);
+
+          // then
+          const firstElement = (moduleData) => moduleData.sections[0].grains[0].components[0].element;
+          expect(firstElement(result).content).to.equal(
+            '<p><span data-glossary-word="réseau">réseau</span> et <span data-glossary-word="réseau">RÉSEAU</span></p>',
+          );
+        });
+
+        it('should only match whole words, including accented ones', function () {
+          // given
+          const module = {
+            glossary: [
+              { words: ['clé'], definition: 'Un objet' },
+              { words: ['chat'], definition: 'Un félin' },
+            ],
+            sections: [
+              {
+                id: `11111111-1111-1111-1111-111111111111`,
+                type: 'practise',
+                grains: [
+                  {
+                    id: `22222222-2222-2222-2222-222222222222`,
+                    type: 'lesson',
+                    title: 'Grain de test',
+                    components: [
+                      {
+                        id: `22222222-2222-2222-2222-222222222223`,
+                        type: 'element',
+                        element: { type: 'text', content: '<p>clés, clé. chaton, chats, chat</p>' },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          };
+
+          // when
+          const result = highlightGlossaryWords(module);
+
+          // then
+          const firstElement = (moduleData) => moduleData.sections[0].grains[0].components[0].element;
+          expect(firstElement(result).content).to.equal(
+            '<p>clés, <span data-glossary-word="clé">clé</span>. chaton, chats, <span data-glossary-word="chat">chat</span></p>',
+          );
+        });
+
+        it('should not match word in a button or link tag', function () {
+          // given
+          const module = {
+            glossary: [{ words: ['chat'], definition: 'Un félin' }],
+            sections: [
+              {
+                id: `11111111-1111-1111-1111-111111111111`,
+                type: 'practise',
+                grains: [
+                  {
+                    id: `22222222-2222-2222-2222-222222222222`,
+                    type: 'lesson',
+                    title: 'Grain de test',
+                    components: [
+                      {
+                        id: `22222222-2222-2222-2222-222222222223`,
+                        type: 'element',
+                        element: {
+                          type: 'text',
+                          content:
+                            '<p title="chat"><a href="/chat">Mon chat></a> <button>chat</button> <strong>chat</strong></p>',
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          };
+
+          // when
+          const result = highlightGlossaryWords(module);
+
+          // then
+          const firstElement = (moduleData) => moduleData.sections[0].grains[0].components[0].element;
+          expect(firstElement(result).content).to.equal(
+            '<p title="chat"><a href="/chat">Mon chat</a> <button>chat</button> <span data-glossary-word="chat"><strong>chat</strong></span></p>',
+          );
         });
       });
     });
