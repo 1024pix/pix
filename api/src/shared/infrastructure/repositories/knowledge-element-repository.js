@@ -2,6 +2,7 @@ import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 import * as knowledgeElementFromKnowledgeStatesRepository from './knowledge-element-from-knowledge-states-repository.ts';
 import * as knowledgeStateMigrationRepository from './knowledge-state-migration-repository.ts';
+import * as knowledgeStateRepository from './knowledge-state-repository.ts';
 
 const tableName = 'knowledge-elements';
 
@@ -92,10 +93,18 @@ const userIdOf = (knowledgeElements) => {
 const batchSave = async function ({ knowledgeElements }) {
   if (knowledgeElements.length === 0) return [];
 
-  if (await knowledgeStateMigrationRepository.isMigrated(userIdOf(knowledgeElements))) {
-    return knowledgeElementFromKnowledgeStatesRepository.batchSave(knowledgeElements);
-  }
-  return batchInsert(knowledgeElements);
+  const userId = userIdOf(knowledgeElements);
+
+  // A migration of the user may be running: the user is held first, so that
+  // the migration status read here holds until the save is done.
+  return DomainTransaction.execute(async () => {
+    await knowledgeStateRepository.lockUser(userId);
+
+    if (await knowledgeStateMigrationRepository.isMigrated(userId)) {
+      return knowledgeElementFromKnowledgeStatesRepository.batchSave(knowledgeElements);
+    }
+    return batchInsert(knowledgeElements);
+  });
 };
 
 const batchInsert = async (knowledgeElements) => {
