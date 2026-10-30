@@ -210,7 +210,7 @@ export class OrganizationFeature {
 
 ## Comment tester
 
-On teste l'Aggregate en passant par la racine, avec un test unitaire sans stub, mock ni spy. Le test
+On teste l'Aggregate en passant par la racine, avec un test unitaire sans stub, sans mock ni spy. Le test
 couvre :
 
 - chaque règle qui relie la racine et ses objets internes, à la création comme à chaque méthode.
