@@ -40,7 +40,7 @@
     "cypress-split": "1.25.0",
     "eslint": "10.13.0",
     "eslint-plugin-cypress": "7.0.2",
-    "npm-run-all2": "9.0.3"
+    "npm-run-all2": "9.0.4"
   },
   "dependencies": {
     "jsonwebtoken": "9.0.3"
