@@ -144,75 +144,6 @@ describe('Integration | Shared | Domain | UseCase | migrate-user-to-knowledge-st
     expect(await knex('knowledge_state_migrations').where({ userId })).to.have.lengthOf(1);
   });
 
-  describe('when an answer and the migration of the user run at the same time', function () {
-    // An answer on level 3 of file tube, which the user never answered.
-    const buildAnswerKnowledgeElement = () =>
-      new KnowledgeElement({
-        userId,
-        skillId: skillId('file', 3),
-        competenceId: 'competence_1',
-        status: VALIDATED,
-        source: DIRECT,
-        earnedPix: 3,
-      });
-
-    const saveAnswer = () =>
-      knowledgeElementRepository.batchSave({ knowledgeElements: [buildAnswerKnowledgeElement()] });
-
-    // Runs outside the transaction of the caller, on its own connection, as another request would.
-    const concurrently = (run) => asyncLocalStorage.exit(run);
-
-    const settledWithin = (promise, milliseconds) =>
-      Promise.race([promise.then(() => true), setTimeout(milliseconds, false)]);
-
-    const expectKnowledgeOfFile3 = async () => {
-      const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
-      const { floor } = await knex('knowledge_states').where({ userId, tubeId: 'tube_file' }).first();
-      const { pix } = await knex('user_competence_scores').where({ userId, competenceId: 'competence_1' }).first();
-      expect(knowledgeElements.map((knowledgeElement) => knowledgeElement.skillId)).to.include(skillId('file', 3));
-      expect(floor).to.equal(3);
-      expect(pix).to.equal(12);
-    };
-
-    it('should make the answer wait for the migration, and go to the knowledge states', async function () {
-      // given
-      const rowCountBefore = await knex('knowledge-elements').where({ userId }).count().first();
-      let save;
-
-      // when: the migration holds the user while the answer arrives
-      await DomainTransaction.execute(async () => {
-        await knowledgeStateRepository.lockUser(userId);
-        save = concurrently(saveAnswer);
-        expect(await settledWithin(save, 200)).to.be.false;
-        await migrate();
-      });
-      await save;
-
-      // then
-      await expectKnowledgeOfFile3();
-      expect(await knex('knowledge-elements').where({ userId }).count().first()).to.deep.equal(rowCountBefore);
-    });
-
-    it('should make the migration wait for the answer, and count it', async function () {
-      // given
-      let migration;
-
-      // when: the answer holds the user while the migration starts
-      await DomainTransaction.execute(async () => {
-        await knowledgeStateRepository.lockUser(userId);
-        migration = concurrently(migrate);
-        expect(await settledWithin(migration, 200)).to.be.false;
-        await saveAnswer();
-      });
-      const report = await migration;
-
-      // then
-      await expectKnowledgeOfFile3();
-      expect(report.knowledgeElementCount).to.equal(7);
-      expect(await knex('knowledge-elements').where({ userId, skillId: skillId('file', 3) })).to.have.lengthOf(1);
-    });
-  });
-
   it('should keep the knowledge on skills the learning content does not know out of the knowledge states', async function () {
     // given
     buildKnowledgeElement({
@@ -231,5 +162,80 @@ describe('Integration | Shared | Domain | UseCase | migrate-user-to-knowledge-st
     expect(report.unknownSkillIds).to.deep.equal(['unknown_skill']);
     expect(report.knowledgeStateCount).to.equal(2);
     expect(pix).to.equal(13);
+  });
+
+  describe('when an answer and the migration of the user run at the same time', function () {
+    // An answer on level 3 of file tube, which the user never answered.
+    const buildAnswerKnowledgeElement = () =>
+      new KnowledgeElement({
+        userId,
+        skillId: skillId('file', 3),
+        competenceId: 'competence_1',
+        status: VALIDATED,
+        source: DIRECT,
+        earnedPix: 3,
+      });
+
+    const saveAnswer = () =>
+      knowledgeElementRepository.batchSave({ knowledgeElements: [buildAnswerKnowledgeElement()] });
+
+    // Runs outside the transaction of the caller, on its own connection, as another request would.
+    const concurrently = (run) => asyncLocalStorage.exit(run);
+
+    const settledWithinFiveHundredSeconds = (promise) =>
+      Promise.race([promise.then(() => true), setTimeout(500, false)]);
+
+    const locksWaitedOnByUser = () => knex('pg_locks').where({ locktype: 'advisory', objid: userId, granted: false });
+
+    const expectKnowledgeOfFile3 = async () => {
+      const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
+
+      const { floor } = await knex('knowledge_states').where({ userId, tubeId: 'tube_file' }).first();
+      const { pix } = await knex('user_competence_scores').where({ userId, competenceId: 'competence_1' }).first();
+
+      expect(knowledgeElements.map((knowledgeElement) => knowledgeElement.skillId)).to.include(skillId('file', 3));
+      expect(floor).to.equal(3);
+      expect(pix).to.equal(12);
+    };
+
+    it('should make the answer wait for the migration, and go to the knowledge states', async function () {
+      // given
+      const rowCountBefore = await knex('knowledge-elements').where({ userId }).count().first();
+      let save;
+
+      // when: the migration holds the user while the answer arrives
+      await DomainTransaction.execute(async () => {
+        await knowledgeStateRepository.lockUser(userId);
+        save = concurrently(saveAnswer);
+        expect(await settledWithinFiveHundredSeconds(save)).to.be.false;
+        expect(await locksWaitedOnByUser()).to.have.lengthOf(1);
+        await migrate();
+      });
+      await save;
+
+      // then
+      await expectKnowledgeOfFile3();
+      expect(await knex('knowledge-elements').where({ userId }).count().first()).to.deep.equal(rowCountBefore);
+    });
+
+    it('should make the migration wait for the answer, and count it', async function () {
+      // given
+      let migration;
+
+      // when: the answer holds the user while the migration starts
+      await DomainTransaction.execute(async () => {
+        await knowledgeStateRepository.lockUser(userId);
+        migration = concurrently(migrate);
+        expect(await settledWithinFiveHundredSeconds(migration)).to.be.false;
+        expect(await locksWaitedOnByUser()).to.have.lengthOf(1);
+        await saveAnswer();
+      });
+      const report = await migration;
+
+      // then
+      await expectKnowledgeOfFile3();
+      expect(report.knowledgeElementCount).to.equal(7);
+      expect(await knex('knowledge-elements').where({ userId, skillId: skillId('file', 3) })).to.have.lengthOf(1);
+    });
   });
 });
