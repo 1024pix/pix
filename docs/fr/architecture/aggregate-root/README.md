@@ -364,7 +364,9 @@ Tests
 
 Test simple : on doit pouvoir finir la phrase « à tout moment, … ». Sinon, ce n'est pas un Aggregate.
 
-Exemple: À tout moment, si `LEARNER_IMPORT` est activée, `isManagingStudents` est `false`.
+**Exemple de code correct.**
+
+À tout moment, si `LEARNER_IMPORT` est activée, alors `isManagingStudents` est `false`.
 
 ```ts
   enableFeature(featureName: FeatureName, params: FeatureParams): void {
