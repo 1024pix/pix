@@ -62,7 +62,6 @@ module('Integration | Component | organizations/information-section-edit', funct
       email: 'sco.generic.account@example.net',
       administrationTeamId: '123',
       isOrganizationSCO: true,
-      credit: 0,
       documentationUrl: 'https://pix.fr/',
       features: {},
     });
@@ -170,41 +169,6 @@ module('Integration | Component | organizations/information-section-edit', funct
       assert.dom(screen.getByText("L'e-mail n'a pas le bon format.")).exists();
     });
 
-    test("it should show error message if organization's credit is not valid", async function (assert) {
-      // given
-      const screen = await render(<template><InformationSectionEdit @organization={{organization}} /></template>);
-
-      // when
-      await fillByLabel(t('components.organizations.information-section-view.credits'), '-7');
-
-      // then
-      assert.dom(screen.getByText('Le nombre de crédits doit être un nombre supérieur ou égal à 0.')).exists();
-    });
-
-    test('it should allow 0 credits', async function (assert) {
-      // given
-      const screen = await render(<template><InformationSectionEdit @organization={{organization}} /></template>);
-
-      // when
-      await fillByLabel(t('components.organizations.information-section-view.credits'), '0');
-      await click(screen.getByRole('button', { name: t('common.actions.save') }));
-
-      // then
-      assert.notOk(screen.queryByText('Le nombre de crédits doit être un nombre supérieur ou égal à 0.'));
-    });
-
-    test('it should allow empty value for credit', async function (assert) {
-      // given
-      const screen = await render(<template><InformationSectionEdit @organization={{organization}} /></template>);
-
-      // when
-      await fillByLabel(t('components.organizations.information-section-view.credits'), '');
-      await click(screen.getByRole('button', { name: t('common.actions.save') }));
-
-      // then
-      assert.notOk(screen.queryByText('Le nombre de crédits doit être un nombre supérieur ou égal à 0.'));
-    });
-
     test("it should show error message if organization's documentationUrl is not valid", async function (assert) {
       // given
       const screen = await render(<template><InformationSectionEdit @organization={{organization}} /></template>);
@@ -227,7 +191,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         documentationUrl: 'https://pix.fr/',
         features: {},
         administrationTeamId: null,
@@ -255,7 +218,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         documentationUrl: 'https://pix.fr/',
         features: {},
         administrationTeamId: 123,
@@ -284,7 +246,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         documentationUrl: 'https://pix.fr/',
         features: {},
         administrationTeamId: 123,
@@ -314,7 +275,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         documentationUrl: 'https://pix.fr/',
         features: {},
         administrationTeamId: 123,
@@ -348,7 +308,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         documentationUrl: 'https://pix.fr/',
         features: {},
         administrationTeamId: 123,
@@ -376,7 +335,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         documentationUrl: 'https://pix.fr/',
         features: {},
         administrationTeamId: 456,
@@ -402,7 +360,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         documentationUrl: 'https://pix.fr/',
         features: {},
         administrationTeamId: null,
@@ -432,7 +389,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         documentationUrl: 'https://pix.fr/',
         features: {},
         administrationTeamId: 123,
@@ -473,7 +429,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         documentationUrl: 'https://pix.fr/',
         features: {},
         administrationTeamId: 123,
@@ -500,7 +455,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         documentationUrl: 'https://pix.fr/',
         features: {},
         administrationTeamId: 123,
@@ -529,7 +483,6 @@ module('Integration | Component | organizations/information-section-edit', funct
           provinceCode: 'h50',
           email: 'sco.generic.account@example.net',
           isOrganizationSCO: true,
-          credit: 0,
           documentationUrl: 'https://pix.fr/',
           features: {},
           administrationTeamId: 123,
@@ -660,7 +613,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         documentationUrl: 'https://pix.fr/',
         features: {},
         administrationTeamId: 123,
@@ -690,7 +642,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         features: {},
         documentationUrl: 'https://pix.fr/',
         administrationTeamId: 123,
@@ -717,7 +668,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         documentationUrl: 'https://pix.fr/',
         features: {},
         administrationTeamId: 123,
@@ -748,7 +698,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         documentationUrl: 'https://pix.fr/',
         features: {},
         administrationTeamId: 123,
@@ -778,7 +727,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         features: {},
         documentationUrl: 'https://pix.fr/',
         administrationTeamId: 123,
@@ -807,7 +755,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         provinceCode: 'h50',
         email: 'sco.generic.account@example.net',
         isOrganizationSCO: true,
-        credit: 0,
         documentationUrl: 'https://pix.fr/',
         features: {},
         administrationTeamId: 123,
@@ -847,7 +794,6 @@ module('Integration | Component | organizations/information-section-edit', funct
         email: 'sco.generic.account@example.net',
         administrationTeamId: '123',
         isOrganizationSCO: true,
-        credit: 0,
         documentationUrl: 'https://pix.fr/',
         features: {},
       });

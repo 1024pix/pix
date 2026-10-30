@@ -58,7 +58,6 @@ export default class OrganizationInformationSectionEditionMode extends Component
       dataProtectionOfficerLastName: this.args.organization.dataProtectionOfficerLastName,
       dataProtectionOfficerEmail: this.args.organization.dataProtectionOfficerEmail,
       email: this.args.organization.email,
-      credit: this.args.organization.credit,
       documentationUrl: this.args.organization.documentationUrl,
       identityProviderForCampaigns:
         this.args.organization.identityProviderForCampaigns ?? this.noIdentityProviderOption.value,
@@ -203,7 +202,6 @@ export default class OrganizationInformationSectionEditionMode extends Component
     this.args.organization.set('dataProtectionOfficerLastName', this.form.dataProtectionOfficerLastName);
     this.args.organization.set('dataProtectionOfficerEmail', this.form.dataProtectionOfficerEmail);
     this.args.organization.set('email', this.form.email);
-    this.args.organization.set('credit', this.form.credit);
     this.args.organization.set('documentationUrl', this.form.documentationUrl);
     this.args.organization.set('identityProviderForCampaigns', this.form.identityProviderForCampaigns);
     this.args.organization.set('administrationTeamId', this.form.administrationTeamId);
@@ -376,14 +374,6 @@ export default class OrganizationInformationSectionEditionMode extends Component
             @value={{this.form.email}}
             {{on "input" (fn this.updateFormValue "email")}}
           ><:label>{{t "components.organizations.information-section-view.sco-activation-email"}}</:label></PixInput>
-
-          <PixInput
-            type="number"
-            @errorMessage={{this.validator.errors.credit}}
-            @validationStatus={{if this.validator.errors.credit "error"}}
-            @value={{this.form.credit}}
-            {{on "input" (fn this.updateFormValue "credit")}}
-          ><:label>{{t "components.organizations.information-section-view.credits"}}</:label></PixInput>
         </Card>
 
         <Card class="admin-form__card organization-creation-form__card" @title={{this.dpoSectionTitle}}>
@@ -474,10 +464,6 @@ const ORGANIZATION_FORM_VALIDATION_SCHEMA = Joi.object({
   email: Joi.string().email({ ignoreLength: true }).max(255).empty(['', null]).messages({
     'string.email': "L'e-mail n'a pas le bon format.",
     'string.max': "La longueur de l'email ne doit pas excéder 255 caractères.",
-  }),
-  credit: Joi.number().integer().positive().empty([0, '', null]).messages({
-    'number.base': 'Le nombre de crédits doit être un nombre supérieur ou égal à 0.',
-    'number.positive': 'Le nombre de crédits doit être un nombre supérieur ou égal à 0.',
   }),
   documentationUrl: Joi.string().uri({ allowRelative: true }).empty(['', null]).messages({
     'string.uri': "Le lien n'est pas valide.",

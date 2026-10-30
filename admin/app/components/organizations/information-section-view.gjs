@@ -149,12 +149,6 @@ class OrganizationDescription extends Component {
         >
           <div class="organization-information-section__field">
             <span class="organization-information-section__label">{{t
-                "components.organizations.information-section-view.credits"
-              }}</span>
-            <span class="organization-information-section__value">{{@organization.credit}}</span>
-          </div>
-          <div class="organization-information-section__field">
-            <span class="organization-information-section__label">{{t
                 "components.organizations.information-section-view.documentation-link"
               }}</span>
             <span class="organization-information-section__value">

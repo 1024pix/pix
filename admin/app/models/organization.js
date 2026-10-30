@@ -10,7 +10,6 @@ export default class Organization extends Model {
   @attr('nullable-string') logoUrl;
   @attr('nullable-string') externalId;
   @attr('nullable-string') provinceCode;
-  @attr('number') credit;
   @attr('nullable-string') email;
   @attr() createdBy;
   @attr('date') createdAt;

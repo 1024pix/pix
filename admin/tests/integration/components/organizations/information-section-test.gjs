@@ -68,7 +68,6 @@ module('Integration | Component | organizations/information-section', function (
       provinceCode: 'h50',
       email: 'sco.generic.account@example.net',
       isOrganizationSCO: true,
-      credit: 0,
       documentationUrl: 'https://pix.fr/',
       features: {},
       administrationTeamId: 123,
@@ -191,7 +190,6 @@ module('Integration | Component | organizations/information-section', function (
       const categoryOption = await screen.findByRole('option', { name: 'Catégorie 1' });
       await click(categoryOption);
 
-      await fillByLabel(t('components.organizations.information-section-view.credits'), 50);
       await fillByLabel(t('components.organizations.information-section-view.documentation-link'), 'https://pix.fr/');
 
       await clickByName(t('components.organizations.information-section-view.sso'));
@@ -221,9 +219,6 @@ module('Integration | Component | organizations/information-section', function (
       assert
         .dom(screen.getByText(t('components.organizations.information-section-view.category')).nextElementSibling)
         .hasText('Catégorie 1');
-      assert
-        .dom(screen.getByText(t('components.organizations.information-section-view.credits')).nextElementSibling)
-        .hasText('50');
       assert.dom(screen.getByRole('link', { name: 'https://pix.fr/' })).exists();
       assert
         .dom(screen.getByText(t('components.organizations.information-section-view.sso')).nextElementSibling)

@@ -48,7 +48,6 @@ module('Integration | Component | organizations/information-section-view', funct
       const organization = {
         type: 'SUP',
         name: 'SUPer Orga',
-        credit: 350,
         documentationUrl: 'https://pix.fr',
         features: {
           SHOW_SKILLS: { active: true },
@@ -104,9 +103,6 @@ module('Integration | Component | organizations/information-section-view', funct
             .nextElementSibling,
         )
         .hasText('team Rocket');
-      assert
-        .dom(screen.getByText(t('components.organizations.information-section-view.credits')).nextElementSibling)
-        .hasText('350');
       assert
         .dom(
           screen.getByText(t('components.organizations.information-section-view.documentation-link'))
@@ -236,7 +232,6 @@ module('Integration | Component | organizations/information-section-view', funct
         const organization = {
           type: 'SUP',
           name: 'SUPer Orga',
-          credit: 350,
           documentationUrl: 'https://pix.fr',
           createdBy: 1,
           createdAtFormattedDate: '02/09/2022',
@@ -276,7 +271,6 @@ module('Integration | Component | organizations/information-section-view', funct
         const organization = {
           type: 'SUP',
           name: 'SUPer Orga',
-          credit: 350,
           documentationUrl: 'https://pix.fr',
           features: { SHOW_SKILLS: { active: true } },
           createdBy: 1,
