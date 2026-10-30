@@ -20,7 +20,7 @@ import { keepOneSkillPerLevel } from './skills.ts';
 const STORED_PIX_BOUND = 64;
 const TOLERANCE = 1e-6;
 
-const withinBound = (pix: number): number => Math.min(STORED_PIX_BOUND, Math.max(0, pix));
+export const withinBound = (pix: number): number => Math.min(STORED_PIX_BOUND, Math.max(0, pix));
 
 /**
  * Gives the pix of each competence from the current value of the skills, each
