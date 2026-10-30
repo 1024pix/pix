@@ -3,14 +3,27 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { executeInContext, EXECUTORS } from '../../../../../src/shared/infrastructure/execution-context-manager.js';
-import { child, logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
+import { child, logger, loggerPino } from '../../../../../src/shared/infrastructure/utils/logger.js';
 
 describe('Unit | Infrastructure | Utils | logger | OpenTelemetry', function () {
   let emitStub;
+  let isLevelEnabledStub;
 
   beforeEach(function () {
     emitStub = sinon.stub();
     sinon.stub(logs, 'getLogger').returns({ emit: emitStub, enabled: () => true });
+    // Pino child loggers inherit from their parent's prototype, so this stub applies to them too.
+    isLevelEnabledStub = sinon.stub(loggerPino, 'isLevelEnabled').returns(true);
+  });
+
+  it('does not emit a log record when the level is disabled in pino', function () {
+    isLevelEnabledStub.withArgs('debug').returns(false);
+
+    logger.debug({ foo: 'bar' }, 'should not be emitted');
+    logger.info({ foo: 'bar' }, 'should be emitted');
+
+    expect(emitStub).to.have.been.calledOnce;
+    expect(emitStub).to.have.been.calledWithMatch({ severityText: 'info', body: 'should be emitted' });
   });
 
   it('emits an OpenTelemetry log record for each log level', function () {
