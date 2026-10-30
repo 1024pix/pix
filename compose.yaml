@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:16.9-alpine
+    image: postgres:17-alpine
     container_name: pix-api-postgres
     ports:
       - '127.0.0.1:${PIX_DATABASE_PORT:-5432}:5432'
