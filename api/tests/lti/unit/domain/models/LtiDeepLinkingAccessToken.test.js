@@ -3,10 +3,10 @@ import { parseSetCookie } from 'cookie';
 import jsonwebtoken from 'jsonwebtoken';
 
 import { config } from '../../../../../config/config.js';
-import { LtiPrescriberAccessToken } from '../../../../../src/lti/domain/models/LtiPrescriberAccessToken.js';
+import { LtiDeepLinkingAccessToken } from '../../../../../src/lti/domain/models/LtiDeepLinkingAccessToken.js';
 import { InvalidInputDataError, ObjectValidationError } from '../../../../../src/shared/domain/errors.js';
 
-describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
+describe('Unit | LTI | Domain | Model | LtiDeepLinkingAccessToken', function () {
   describe('constructor', function () {
     it('validates arguments', function () {
       // given
@@ -20,7 +20,7 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
       };
 
       // when
-      const call = () => new LtiPrescriberAccessToken(args);
+      const call = () => new LtiDeepLinkingAccessToken(args);
 
       // then
       expect(call).to.throw(ObjectValidationError);
@@ -30,7 +30,7 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
   describe('encodedForSetCookieHeader', function () {
     it('returns an encoded token for a Set-Cookie header', function () {
       // given
-      const token = new LtiPrescriberAccessToken({
+      const token = new LtiDeepLinkingAccessToken({
         organizationIds: [123, 456],
         clientId: 'Abcd1234',
         deepLinkingSettings: {},
@@ -45,7 +45,7 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
       // then
       const parsed = parseSetCookie(value);
       expect(parsed).to.contain({
-        name: 'jwtLtiPrescriber',
+        name: 'jwtLtiDeepLinking',
         secure: true,
         httpOnly: true,
         sameSite: 'none',
@@ -73,7 +73,7 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
   describe('encoded', function () {
     it('returns an encoded token for a Cookie header', function () {
       // given
-      const token = new LtiPrescriberAccessToken({
+      const token = new LtiDeepLinkingAccessToken({
         organizationIds: [123, 456],
         clientId: 'Abcd1234',
         deepLinkingSettings: {},
@@ -114,15 +114,15 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
           sid: '6934a1f4-45c7-4bb4-9203-bc5fbe02a244',
         },
         config.authentication.secret,
-        { expiresIn: config.lti.prescriberAccessTokenLifespan },
+        { expiresIn: config.lti.deepLinkingAccessTokenLifespan },
       );
 
       // when
-      const token = LtiPrescriberAccessToken.decode(encodedToken);
+      const token = LtiDeepLinkingAccessToken.decode(encodedToken);
 
       // then
       expect(token).to.deepEqualInstance(
-        new LtiPrescriberAccessToken({
+        new LtiDeepLinkingAccessToken({
           organizationIds: [123, 456],
           clientId: 'Abcd1234',
           deepLinkingSettings: {},
@@ -139,7 +139,7 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
         const encodedToken = 'invalid';
 
         // when
-        const call = () => LtiPrescriberAccessToken.decode(encodedToken);
+        const call = () => LtiDeepLinkingAccessToken.decode(encodedToken);
 
         // then
         expect(call).to.throw(InvalidInputDataError);
@@ -162,11 +162,11 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
             sid: '6934a1f4-45c7-4bb4-9203-bc5fbe02a244',
           },
           config.authentication.secret,
-          { expiresIn: config.lti.prescriberAccessTokenLifespan },
+          { expiresIn: config.lti.deepLinkingAccessTokenLifespan },
         );
 
         // when
-        const call = () => LtiPrescriberAccessToken.decode(encodedToken, { expectedAudience });
+        const call = () => LtiDeepLinkingAccessToken.decode(encodedToken, { expectedAudience });
 
         // then
         expect(call).to.throw(InvalidInputDataError);
@@ -177,12 +177,12 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
   describe('setCookieHeaderForClearing', function () {
     it('returns Set-Cookie header value for clearing cookie', function () {
       // when
-      const value = LtiPrescriberAccessToken.setCookieHeaderForClearing();
+      const value = LtiDeepLinkingAccessToken.setCookieHeaderForClearing();
 
       // then
       const parsed = parseSetCookie(value);
       expect(parsed).to.deep.equal({
-        name: 'jwtLtiPrescriber',
+        name: 'jwtLtiDeepLinking',
         secure: true,
         httpOnly: true,
         sameSite: 'none',

@@ -3,7 +3,7 @@ import { parseCookie } from 'cookie';
 
 import { logger } from '../../shared/infrastructure/utils/logger.js';
 import { getForwardedOrigin } from '../../shared/infrastructure/utils/network.js';
-import { LtiPrescriberAccessToken } from '../domain/models/LtiPrescriberAccessToken.js';
+import { LtiDeepLinkingAccessToken } from '../domain/models/LtiDeepLinkingAccessToken.js';
 import { ltiPlatformRegistrationRepository } from './repositories/lti-platform-registration.repository.js';
 
 export const jwtCookieSchemeName = 'jwt-cookie';
@@ -39,28 +39,28 @@ function makeAuthenticateJwtCookie({ cookieName, decode, authenticatePayload }) 
   };
 }
 
-export const ltiPrescriberStrategyName = 'lti-prescriber';
+export const ltiDeepLinkingStrategyName = 'lti-deep-linking';
 
-export const ltiPrescriberStrategyConfiguration = {
-  cookieName: LtiPrescriberAccessToken.cookieName,
-  decode: decodeLtiPrescriberAccessToken,
-  authenticatePayload: authenticateLtiPrescriberPayload,
+export const ltiDeepLinkingStrategyConfiguration = {
+  cookieName: LtiDeepLinkingAccessToken.cookieName,
+  decode: decodeLtiDeepLinkingAccessToken,
+  authenticatePayload: authenticateLtiDeepLinkingPayload,
 };
 
 /**
  * @param {string} value
  * @param {import('@hapi/hapi').Request} request
  */
-function decodeLtiPrescriberAccessToken(value, request) {
+function decodeLtiDeepLinkingAccessToken(value, request) {
   const expectedAudience = getForwardedOrigin(request.headers);
-  return LtiPrescriberAccessToken.decode(value, { expectedAudience });
+  return LtiDeepLinkingAccessToken.decode(value, { expectedAudience });
 }
 
 /**
- * @param {LtiPrescriberAccessToken} payload
+ * @param {LtiDeepLinkingAccessToken} payload
  * @param {import('@hapi/hapi').ResponseToolkit} h
  */
-async function authenticateLtiPrescriberPayload(payload, h) {
+async function authenticateLtiDeepLinkingPayload(payload, h) {
   const { clientId, organizationIds, deepLinkingSettings } = payload;
 
   const registration = await ltiPlatformRegistrationRepository.findByClientId(clientId);
