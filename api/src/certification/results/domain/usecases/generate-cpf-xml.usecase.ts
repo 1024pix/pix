@@ -42,12 +42,7 @@ function buildFluxCreation(uuid: string): XMLBuilder {
 }
 
 function buildEmetteur(node: XMLBuilder): XMLBuilder {
-  const emetteurNode = node.ele('cpf:emetteur').ele('cpf:idClient').txt('00XXX000').up();
-  return buildCertificateurs(emetteurNode);
-}
-
-function buildCertificateurs(node: XMLBuilder): XMLBuilder {
-  const certificateurNode = node
+  const emetteurNode = node.ele('cpf:emetteur').ele('cpf:idClient').txt('00XXX000').up()
     .ele('cpf:certificateurs')
     .ele('cpf:certificateur')
     .ele('cpf:idClient')
@@ -57,20 +52,32 @@ function buildCertificateurs(node: XMLBuilder): XMLBuilder {
     .txt('XXXXXX000000')
     .up()
     .ele('cpf:certifications');
-  return buildCertifications(certificateurNode);
+  buildCertification(emetteurNode);
+  return emetteurNode
 }
 
-function buildCertifications(node: XMLBuilder): XMLBuilder {
-  for (const course of certificationCourses) {
-    node
-      .ele('cpf:certification')
-      .ele('cpf:type')
-      .txt('RS')
-      .up()
-      .ele('cpf:code')
-      .txt(getCpfCode(course._createdAt))
-      .up()
-      .ele('cpf:passageCertifications')
+function buildCertification(node: XMLBuilder): XMLBuilder {
+  const certificationNode = node
+    .ele('cpf:certification')
+    .ele('cpf:type')
+    .txt('RS')
+    .up()
+    .ele('cpf:code')
+    .txt(getCpfCode(certificationCourses[0]._createdAt))
+    .up()
+    .ele('cpf:passageCertifications')
+
+   buildPassageCertifications(certificationNode, certificationCourses)
+   return certificationNode
+}
+      
+function buildPassageCertifications(node: XMLBuilder, certificationCourses: {}[]): XMLBuilder {
+  if(certificationCourses.length === 0) {
+    return node
+  }
+
+  const course = certificationCourses.pop()
+    const certification = node
       .ele('cpf:passageCertification')
       .ele('cpf:idTechnique')
       .txt('TITU_COMPLET')
@@ -91,10 +98,10 @@ function buildCertifications(node: XMLBuilder): XMLBuilder {
       .txt('10')
       .up()
       .ele('cpf:dateDebutExamen')
-      .txt('2026-05-30')
+      .txt(course._createdAt.toLocaleDateString('en-CA'))
       .up()
       .ele('cpf:dateFinExamen')
-      .txt('2026-06-01')
+      .txt(course._createdAt.toLocaleDateString('en-CA'))
       .up()
       .ele('cpf:modalitePassageExamen')
       .txt('MIXTE')
@@ -103,13 +110,7 @@ function buildCertifications(node: XMLBuilder): XMLBuilder {
       .txt('01000')
       .up()
       .ele('cpf:dateDebutValidite')
-      .txt('2026-06-10')
-      .up()
-      .ele('cpf:dateFinValidite')
-      .txt('2086-06-10')
-      .up()
-      .ele('cpf:mentionValidee')
-      .txt('MENTION_BIEN')
+      .txt(course._createdAt.toLocaleDateString('en-CA'))
       .up()
       .ele('cpf:numeriqueLangue')
       .ele('cpf:niveauLangueEuropeen')
@@ -181,12 +182,8 @@ function buildCertifications(node: XMLBuilder): XMLBuilder {
       .ele('cpf:libelleCommuneNaissance')
       .txt(course._birthplace)
       .up()
-      .up()
-      .up()
       .up();
-  }
-
-  return node;
+   return buildPassageCertifications(node, certificationCourses)
 }
 
 function getCpfCode(createdAt: Date): string {
