@@ -10,7 +10,7 @@ import * as certificationCourseRepository from '../../../shared/infrastructure/r
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import * as eventAdapter from '../../infrastructure/adapters/event-adapter.js';
 import * as sessionAuthorizationAdapter from '../../infrastructure/adapters/session-authorization-adapter.js';
-import { enrolmentRepositories } from '../../infrastructure/repositories/index.js';
+import * as candidateRepository from '../../infrastructure/repositories/candidate-repository.js';
 import * as certificationCandidatesOdsService from '../services/certification-candidates-ods-service.js';
 import * as eligibilityService from '../services/eligibility-service.js';
 import * as sessionCodeService from '../services/session-code-service.js';
@@ -42,33 +42,11 @@ import { updateSession } from './update-session.js';
 import { validateSessions } from './validate-sessions.js';
 
 /**
- * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationBadgeWithOffsetVersionRepository} ComplementaryCertificationBadgeWithOffsetVersionRepository
- * @typedef {import('../../infrastructure/repositories/index.js').SessionRepository} SessionRepository
- * @typedef {import('../../../session-management/infrastructure/repositories/index.js').CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CandidateRepository} CandidateRepository
- * @typedef {import('../../infrastructure/repositories/index.js').SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CenterRepository} CenterRepository
- * @typedef {import('../../../../shared/infrastructure/repositories/index.js').CountryRepository} CountryRepository
- * @typedef {import('../../infrastructure/repositories/index.js').ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
- * @typedef {import('../../../../shared/infrastructure/repositories/index.js').UserRepository} UserRepository
- * @typedef {import('../validators/session-validator.js')} SessionValidator
- * @typedef {import('../../../shared/domain/services/certification-cpf-service.js')} CertificationCpfService
- * @typedef {import('../../infrastructure/utils/pdf/attendance-sheet-pdf.js')} AttendanceSheetPdfUtils
- * @typedef {import('../services/temporary-sessions-storage-for-mass-import-service.js').TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
- * @typedef {import('../services/certification-candidates-ods-service.js')} CertificationCandidatesOdsService
- * @typedef {import('../services/eligibility-service.js')} EligibilityService
- * @typedef {import('../../../../shared/domain/services/placement-profile-service.js')} PlacementProfileService
- * @typedef {import('../../../shared/infrastructure/repositories/certification-center-repository.js')} CertificationCenterRepository
- * @typedef {import('../../infrastructure/adapters/event-adapter.js')} EventAdapter
- * @typedef {import('../../infrastructure/adapters/session-authorization-adapter.js')} SessionAuthorizationAdapter
- **/
-
-/**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
  * @typedef {CandidateRepository} CandidateRepository
+ * @typedef {ComplementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
+ * @typedef {ComplementaryCertificationBadgeWithOffsetVersionRepository} ComplementaryCertificationBadgeWithOffsetVersionRepository
  * @typedef {CenterRepository} CenterRepository
  * @typedef {SessionRepository} SessionRepository
  * @typedef {CertificationCandidateForSupervisingRepository} CertificationCandidateForSupervisingRepository
@@ -89,7 +67,6 @@ import { validateSessions } from './validate-sessions.js';
  * @typedef {CertificationCandidatesOdsService} CertificationCandidatesOdsService
  * @typedef {EligibilityService} EligibilityService
  * @typedef {PlacementProfileService} PlacementProfileService
- * @typedef {import('../../infrastructure/repositories/index.js').DivisionRepository} DivisionRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {eventAdapter} EventAdapter
  * @typedef {sessionAuthorizationAdapter} SessionAuthorizationAdapter
@@ -97,7 +74,6 @@ import { validateSessions } from './validate-sessions.js';
  **/
 const dependencies = {
   certificationBadgesService,
-  ...enrolmentRepositories,
   sessionCodeService,
   sessionsImportValidationService,
   temporarySessionsStorageForMassImportService,
@@ -113,6 +89,7 @@ const dependencies = {
   countryRepository,
   eventAdapter,
   sessionAuthorizationAdapter,
+  candidateRepository,
 };
 
 const usecasesWithoutInjectedDependencies = {

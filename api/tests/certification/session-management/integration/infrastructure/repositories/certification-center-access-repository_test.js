@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { repositories } from '../../../../../../src/certification/session-management/infrastructure/repositories/index.js';
+import * as certificationCenterAccessRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/certification-center-access-repository.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Session Management | Integration | Infrastructure | Repository | certification center access', function () {
@@ -10,10 +10,9 @@ describe('Session Management | Integration | Infrastructure | Repository | certi
 
       await databaseBuilder.commit();
 
-      const certificationCenterAccess =
-        await repositories.certificationCenterAccessRepository.getCertificationCenterAccess({
-          certificationCenterId: certificationCenter.id,
-        });
+      const certificationCenterAccess = await certificationCenterAccessRepository.getCertificationCenterAccess({
+        certificationCenterId: certificationCenter.id,
+      });
 
       expect(certificationCenterAccess).to.deep.equal({
         isAccessBlockedCollege: false,

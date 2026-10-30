@@ -1,5 +1,5 @@
 /**
- * @typedef {import('./index.js').CertificationCenterAccessApi} CertificationCenterAccessApi
+ * @typedef {import('../../../../organizational-entities/application/api/certification-center-access-api.js').CertificationCenterAccessApi} CertificationCenterAccessApi
  */
 
 import { AllowedCertificationCenterAccess } from '../../domain/read-models/AllowedCertificationCenterAccess.js';
