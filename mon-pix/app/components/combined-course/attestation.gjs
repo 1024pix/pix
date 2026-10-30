@@ -4,17 +4,23 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
+import { ATTESTATION_DOWNLOAD_ORIGINS, EVENT_NAMES } from 'mon-pix/constants/metrics-events';
 import { REWARD_STATUSES } from 'mon-pix/models/combined-course-reward';
 
 export const ATTESTATIONS_PIC_PATH = 'https://assets.pix.org/combined-courses/attestation.svg';
 export default class Attestation extends Component {
   @service session;
   @service fileSaver;
+  @service pixMetrics;
   @service intl;
 
   @action
   async onClick() {
     const { access_token: token, user_id: userId } = this.session.data.authenticated;
+    this.pixMetrics.trackEvent(EVENT_NAMES.ATTESTATION.DOWNLOAD_CLICK, {
+      origin: ATTESTATION_DOWNLOAD_ORIGINS.COMBINED_COURSE_PAGE,
+      attestationKey: this.args.attestation.data.key,
+    });
     const url = `/api/users/${userId}/attestations/${this.args.attestation.data.key}`;
     const fileName = this.args.attestation.templateName;
     await this.fileSaver.save({ url, token, fileName });
