@@ -1,13 +1,12 @@
 import { arrow, autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
 
-export const GLOSSARY_WORD_ACTIVATE_EVENT = 'glossary-word-activate';
-
 const TOOLTIP_OFFSET = 8;
 const TOOLTIP_VIEWPORT_PADDING = 8;
-const HIDE_DELAY_MS = 100;
+const HIDE_DELAY_MS = 150;
 const OPPOSITE_SIDES = { top: 'bottom', right: 'left', bottom: 'top', left: 'right' };
 
 let tooltipCounter = 0;
+let openedInstance = null;
 
 class HighlightedButton extends HTMLElement {
   #button = null;
@@ -15,75 +14,119 @@ class HighlightedButton extends HTMLElement {
   #arrow = null;
   #cleanupAutoUpdate = null;
   #hideTimeout = null;
+  #isPinned = false;
 
   connectedCallback() {
     if (!this.querySelector(':scope > button')) {
       this.#render();
     }
+    if (!this.#tooltip) return;
 
-    this.addEventListener('click', this.#activate);
-    this.addEventListener('mouseenter', this.#showTooltip);
-    this.addEventListener('mouseleave', this.#scheduleHideTooltip);
-    this.addEventListener('focusin', this.#showTooltip);
-    this.addEventListener('focusout', this.#hideTooltip);
-    this.addEventListener('keydown', this.#onKeydown);
+    this.addEventListener('pointerenter', this.#onPointerEnter);
+    this.addEventListener('pointerleave', this.#onPointerLeave);
+    this.#button.addEventListener('focus', this.#open);
+    this.#button.addEventListener('blur', this.#onBlur);
+    this.#button.addEventListener('click', this.#togglePinned);
   }
 
   disconnectedCallback() {
-    this.removeEventListener('click', this.#activate);
-    this.removeEventListener('mouseenter', this.#showTooltip);
-    this.removeEventListener('mouseleave', this.#scheduleHideTooltip);
-    this.removeEventListener('focusin', this.#showTooltip);
-    this.removeEventListener('focusout', this.#hideTooltip);
-    this.removeEventListener('keydown', this.#onKeydown);
-    this.#hideTooltip();
+    this.removeEventListener('pointerenter', this.#onPointerEnter);
+    this.removeEventListener('pointerleave', this.#onPointerLeave);
+    this.#button?.removeEventListener('focus', this.#open);
+    this.#button?.removeEventListener('blur', this.#onBlur);
+    this.#button?.removeEventListener('click', this.#togglePinned);
+    this.#close();
   }
 
   #render() {
     this.#button = document.createElement('button');
     this.#button.type = 'button';
     this.#button.className = 'module-glossary-word';
-    this.#button.setAttribute('aria-haspopup', 'dialog');
     this.#button.append(...this.childNodes);
     this.replaceChildren(this.#button);
 
     const definition = this.getAttribute('definition');
-    if (definition) {
-      const content = document.createElement('span');
-      content.innerHTML = definition;
+    if (!definition) return;
 
-      this.#arrow = document.createElement('span');
-      this.#arrow.className = 'module-glossary-tooltip__arrow';
+    const content = document.createElement('span');
+    content.innerHTML = definition;
 
-      this.#tooltip = document.createElement('span');
-      this.#tooltip.id = `glossary-tooltip-${++tooltipCounter}`;
-      this.#tooltip.setAttribute('role', 'tooltip');
-      this.#tooltip.className = 'module-glossary-tooltip';
-      this.#tooltip.append(content, this.#arrow);
+    this.#arrow = document.createElement('span');
+    this.#arrow.className = 'module-glossary-tooltip__arrow';
 
-      this.#button.setAttribute('aria-describedby', this.#tooltip.id);
-      this.append(this.#tooltip);
-    }
+    this.#tooltip = document.createElement('span');
+    this.#tooltip.id = `glossary-tooltip-${++tooltipCounter}`;
+    this.#tooltip.setAttribute('role', 'tooltip');
+    this.#tooltip.className = 'module-glossary-tooltip';
+    this.#tooltip.append(content, this.#arrow);
+
+    this.#button.setAttribute('aria-expanded', 'false');
+    this.#button.setAttribute('aria-describedby', this.#tooltip.id);
+    this.append(this.#tooltip);
   }
 
-  #showTooltip = () => {
+  #open = () => {
     clearTimeout(this.#hideTimeout);
-    if (!this.#tooltip || this.#cleanupAutoUpdate) return;
+    if (this.#cleanupAutoUpdate) return;
+
+    if (openedInstance && openedInstance !== this) openedInstance.#close();
+    openedInstance = this;
 
     this.#tooltip.classList.add('module-glossary-tooltip--visible');
+    this.#button.setAttribute('aria-expanded', 'true');
     this.#cleanupAutoUpdate = autoUpdate(this.#button, this.#tooltip, this.#updatePosition);
+    document.addEventListener('pointerdown', this.#closeIfOutside);
+    document.addEventListener('focusin', this.#closeIfOutside);
+    document.addEventListener('keydown', this.#closeOnEscape);
   };
 
-  #scheduleHideTooltip = () => {
+  #close = () => {
     clearTimeout(this.#hideTimeout);
-    this.#hideTimeout = setTimeout(this.#hideTooltip, HIDE_DELAY_MS);
-  };
+    this.#isPinned = false;
+    if (!this.#cleanupAutoUpdate) return;
 
-  #hideTooltip = () => {
-    clearTimeout(this.#hideTimeout);
-    this.#cleanupAutoUpdate?.();
+    if (openedInstance === this) openedInstance = null;
+
+    this.#cleanupAutoUpdate();
     this.#cleanupAutoUpdate = null;
-    this.#tooltip?.classList.remove('module-glossary-tooltip--visible');
+    this.#tooltip.classList.remove('module-glossary-tooltip--visible');
+    this.#button.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('pointerdown', this.#closeIfOutside);
+    document.removeEventListener('focusin', this.#closeIfOutside);
+    document.removeEventListener('keydown', this.#closeOnEscape);
+  };
+
+  #onPointerEnter = (event) => {
+    if (event.pointerType !== 'mouse') return;
+    this.#open();
+  };
+
+  #onPointerLeave = (event) => {
+    if (event.pointerType !== 'mouse' || this.#isPinned) return;
+    clearTimeout(this.#hideTimeout);
+    this.#hideTimeout = setTimeout(this.#close, HIDE_DELAY_MS);
+  };
+
+  #onBlur = () => {
+    if (this.#isPinned) return;
+    this.#close();
+  };
+
+  #togglePinned = () => {
+    if (this.#isPinned) {
+      this.#close();
+      return;
+    }
+    this.#open();
+    this.#isPinned = true;
+  };
+
+  #closeIfOutside = (event) => {
+    if (!this.contains(event.target)) this.#close();
+  };
+
+  #closeOnEscape = (event) => {
+    if (event.key === 'Escape') this.#close();
   };
 
   #updatePosition = async () => {
@@ -109,23 +152,6 @@ class HighlightedButton extends HTMLElement {
       bottom: '',
       [OPPOSITE_SIDES[side]]: `${-this.#arrow.offsetWidth / 2}px`,
     });
-  };
-
-  #onKeydown = (event) => {
-    if (event.key === 'Escape') {
-      this.#hideTooltip();
-    }
-  };
-
-  #activate = (event) => {
-    if (this.#tooltip?.contains(event.target)) return;
-
-    this.dispatchEvent(
-      new CustomEvent(GLOSSARY_WORD_ACTIVATE_EVENT, {
-        bubbles: true,
-        detail: { word: this.getAttribute('word') ?? this.#button.textContent.trim() },
-      }),
-    );
   };
 }
 
