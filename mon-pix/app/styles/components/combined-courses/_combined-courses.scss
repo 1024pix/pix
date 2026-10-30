@@ -152,6 +152,8 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+
+    // TODO adjust depending on course status
     gap: var(--pix-spacing-8x);
   }
 
@@ -165,5 +167,28 @@
 
   .pix-tooltip {
     width: fit-content;
+  }
+
+  &__duration {
+    dl {
+      display: inline-flex;
+      gap: var(--pix-spacing-1x);
+      align-items: center;
+
+      @extend %pix-body-s;
+
+      dt {
+        width: var(--pix-spacing-4x);
+        height: var(--pix-spacing-4x);
+        line-height: normal;
+
+        .duration {
+          &__icon {
+            width: var(--pix-spacing-4x);
+            height: var(--pix-spacing-4x);
+          }
+        }
+      }
+    }
   }
 }

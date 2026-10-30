@@ -6,6 +6,7 @@ import { t } from 'ember-intl';
 import { and, eq } from 'ember-truth-helpers';
 import Attestation from 'mon-pix/components/combined-course/attestation';
 import CombinedCourseItemsList from 'mon-pix/components/combined-course/combined-course-items-list';
+import Duration from 'mon-pix/components/combined-course/duration';
 import MarkdownToHtml from 'mon-pix/components/markdown-to-html';
 import { CombinedCourseStatuses } from 'mon-pix/models/combined-course';
 
@@ -44,7 +45,13 @@ const Header = <template>
           }}
         </PixButton>
       {{/if}}
-
+      {{#unless (eq @combinedCourse.status CombinedCourseStatuses.COMPLETED)}}
+        {{#if @combinedCourse.durationType}}
+          <span class="combined-course-header__duration">
+            <Duration @duration={{@combinedCourse.durationType}} @isCustomDurationFormat={{true}} />
+          </span>
+        {{/if}}
+      {{/unless}}
       {{#if (and (eq @combinedCourse.status CombinedCourseStatuses.COMPLETED) @isSurveyEnabled)}}
         <PixTooltip @id="tooltip-satisfaction-survey" @position="right" @isInline={{true}}>
           <:triggerElement>

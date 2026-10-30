@@ -1366,6 +1366,18 @@
         "title": "Herzlichen Glückwunsch { firstName }, du bist fertig!"
       },
       "content": {
+        "duration": {
+          "aria-label-estimated": "Geschätzte Dauer: {duration}",
+          "aria-label-estimated-in-minutes": "Geschätzte Dauer: {duration} Minuten",
+          "estimated-duration-in-minutes": "≈ {duration} Min."
+        },
+        "duration-options": {
+          "long": "1:15 bis 2 Studen",
+          "medium": "45 Min. bis 1:15 Studen",
+          "short": "30 bis 45 Min.",
+          "very-long": "mehr als 2 Stunden",
+          "very-short": "weniger als 30 Min."
+        },
         "resume-button": "Meinen Pfad fortsetzen",
         "start-button": "Meine Reise beginnen",
         "step": "Schritt {stepNumber}."
@@ -1380,12 +1392,10 @@
       "items": {
         "aria-label-completed-campaign": "Dieses Element wird mit einer Erfolgsquote von {value, number, ::percent} abgeschlossen.",
         "aria-label-completed-campaign-with-stages": "Du hast {acquired, plural, =0 {keinen Stern} =1 {# Stern} other {# Sterne}} von {total} erhalten.",
-        "aria-label-duration": "Geschätzte Dauer: {duration} Minuten",
         "aria-label-level": "Stufe: {level}",
         "completed": "Beendet!",
         "continue-campaign": "Weiter.",
         "continue-diagnostic": "Die Diagnose fortsetzen.",
-        "duration": "≈ {duration} min",
         "formation": {
           "description": "Schließe deine Diagnose ab, um ein auf dein Ergebnis abgestimmtes Modulprogramm freizuschalten!",
           "title": "Individuelles Programm von Modulen"

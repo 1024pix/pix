@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import CombinedCoursesPresentation from 'mon-pix/components/routes/combined-courses/presentation';
+import { CombinedCourseDurationTypes } from 'mon-pix/models/combined-course';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -515,6 +516,67 @@ module('Integration | Component | Combined Courses | Presentation', function (ho
       );
       // then
       assert.ok(screen.getByText(reward.label, { exact: false }));
+    });
+  });
+
+  module('duration', function () {
+    test('should display duration', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const combinedCourse = store.createRecord('combined-course', {
+        id: 1,
+        status: CombinedCourseStatuses.STARTED,
+        code: 'COMBINIX9',
+        durationType: CombinedCourseDurationTypes.SHORT,
+      });
+
+      // when
+      const screen = await render(
+        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
+      );
+
+      // then
+      assert.ok(screen.getByText(t('pages.combined-courses.content.duration-options.short')));
+      assert.ok(document.getElementsByClassName('combined-course-header__duration'));
+    });
+
+    test('should not display duration if combined course is completed', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const combinedCourse = store.createRecord('combined-course', {
+        id: 1,
+        status: CombinedCourseStatuses.COMPLETED,
+        code: 'COMBINIX9',
+        durationType: CombinedCourseDurationTypes.SHORT,
+      });
+
+      // when
+      const screen = await render(
+        <template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>,
+      );
+
+      // then
+      assert.notOk(await screen.queryByText(t('pages.combined-courses.content.duration-options.short')));
+      assert.ok(document.getElementsByClassName('combined-course-header__duration'));
+    });
+
+    test('should not display duration if combined course has no duration type', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const combinedCourse = store.createRecord('combined-course', {
+        id: 1,
+        status: CombinedCourseStatuses.NOT_STARTED,
+        code: 'COMBINIX9',
+      });
+
+      // when
+      await render(<template><CombinedCoursesPresentation @combinedCourse={{combinedCourse}} /></template>);
+
+      // then
+      assert.notOk(document.getElementsByClassName('combined-course-header__duration')[0]);
     });
   });
 });
