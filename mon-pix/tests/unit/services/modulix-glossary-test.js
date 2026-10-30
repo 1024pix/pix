@@ -8,13 +8,25 @@ module('Unit | Service | modulix-glossary', function (hooks) {
     test('it returns the definition of a glossary word', function (assert) {
       // given
       const modulixGlossary = this.owner.lookup('service:modulix-glossary');
-      modulixGlossary.setEntries([{ word: 'chat', definition: 'Un félin' }]);
+      modulixGlossary.setEntries([{ words: ['chat'], definition: 'Un félin' }]);
 
       // when
       const definition = modulixGlossary.getDefinition('chat');
 
       // then
       assert.strictEqual(definition, 'Un félin');
+    });
+
+    test('it returns the same definition for every word of a glossary entry', function (assert) {
+      // given
+      const modulixGlossary = this.owner.lookup('service:modulix-glossary');
+      modulixGlossary.setEntries([{ words: ['chat', 'chats', 'chaton'], definition: 'Un félin' }]);
+
+      // when
+      const definitions = ['chat', 'chats', 'chaton'].map((word) => modulixGlossary.getDefinition(word));
+
+      // then
+      assert.deepEqual(definitions, ['Un félin', 'Un félin', 'Un félin']);
     });
 
     test('it returns undefined when glossary is missing', function (assert) {

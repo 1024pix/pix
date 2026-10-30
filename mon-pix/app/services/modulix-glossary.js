@@ -6,7 +6,9 @@ export default class ModulixGlossaryService extends Service {
   #definitionsByWord = new Map();
 
   setEntries(glossary) {
-    this.#definitionsByWord = new Map((glossary ?? []).map(({ word, definition }) => [word, definition]));
+    this.#definitionsByWord = new Map(
+      (glossary ?? []).flatMap(({ words, definition }) => (words ?? []).map((word) => [word, definition])),
+    );
   }
 
   getDefinition(word) {

@@ -10,7 +10,7 @@ module('Integration | Component | Module | RichContent', function (hooks) {
 
   hooks.beforeEach(function () {
     const modulixGlossary = this.owner.lookup('service:modulix-glossary');
-    modulixGlossary.setEntries([{ word: 'chat', definition: 'Un petit félin domestique' }]);
+    modulixGlossary.setEntries([{ words: ['chat'], definition: 'Un petit félin domestique' }]);
   });
 
   test('should display html content', async function (assert) {
@@ -59,7 +59,7 @@ module('Integration | Component | Module | RichContent', function (hooks) {
     test('should display a definition containing html', async function (assert) {
       // given
       const modulixGlossary = this.owner.lookup('service:modulix-glossary');
-      modulixGlossary.setEntries([{ word: 'chat', definition: '<p>Un <strong>petit</strong> félin</p>' }]);
+      modulixGlossary.setEntries([{ words: ['chat'], definition: '<p>Un <strong>petit</strong> félin</p>' }]);
       const html = '<p>Un <span data-glossary-word="chat">chat</span></p>';
       const screen = await render(<template><ModulixRichContent @html={{html}} /></template>);
 

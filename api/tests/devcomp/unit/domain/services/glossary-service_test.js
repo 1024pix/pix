@@ -18,7 +18,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-service', function () {
     it('should mark every occurrence of glossary words in text content', function () {
       // given
       const module = _buildModule({
-        glossary: [{ word: 'chat', definition: 'Un félin' }],
+        glossary: [{ words: ['chat'], definition: 'Un félin' }],
         elements: [{ type: 'text', content: '<p>Un chat et un autre chat</p>' }],
       });
 
@@ -34,7 +34,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-service', function () {
     it('should match case-insensitively and keep the glossary word as marker value', function () {
       // given
       const module = _buildModule({
-        glossary: [{ word: 'réseau', definition: 'Des machines reliées' }],
+        glossary: [{ words: ['réseau'], definition: 'Des machines reliées' }],
         elements: [{ type: 'text', content: '<p>Réseau et RÉSEAU</p>' }],
       });
 
@@ -51,8 +51,8 @@ describe('Unit | Devcomp | Domain | Services | glossary-service', function () {
       // given
       const module = _buildModule({
         glossary: [
-          { word: 'clé', definition: 'Un objet' },
-          { word: 'chat', definition: 'Un félin' },
+          { words: ['clé'], definition: 'Un objet' },
+          { words: ['chat'], definition: 'Un félin' },
         ],
         elements: [{ type: 'text', content: '<p>clés, clé. chaton, chats, chat</p>' }],
       });
@@ -70,8 +70,8 @@ describe('Unit | Devcomp | Domain | Services | glossary-service', function () {
       // given
       const module = _buildModule({
         glossary: [
-          { word: 'réseau', definition: 'Des machines reliées' },
-          { word: 'réseau social', definition: 'Une plateforme' },
+          { words: ['réseau'], definition: 'Des machines reliées' },
+          { words: ['réseau social'], definition: 'Une plateforme' },
         ],
         elements: [{ type: 'text', content: '<p>Un réseau social</p>' }],
       });
@@ -85,10 +85,26 @@ describe('Unit | Devcomp | Domain | Services | glossary-service', function () {
       );
     });
 
+    it('should mark every word of a glossary entry', function () {
+      // given
+      const module = _buildModule({
+        glossary: [{ words: ['chat', 'chats', 'chaton'], definition: 'Un félin' }],
+        elements: [{ type: 'text', content: '<p>Un chat, des chats, un chaton</p>' }],
+      });
+
+      // when
+      markGlossaryWords(module);
+
+      // then
+      expect(_firstElement(module).content).to.equal(
+        '<p>Un <span data-glossary-word="chat">chat</span>, des <span data-glossary-word="chats">chats</span>, un <span data-glossary-word="chaton">chaton</span></p>',
+      );
+    });
+
     it('should not mark words in tag attributes, links or buttons', function () {
       // given
       const module = _buildModule({
-        glossary: [{ word: 'chat', definition: 'Un félin' }],
+        glossary: [{ words: ['chat'], definition: 'Un félin' }],
         elements: [
           {
             type: 'text',
@@ -108,7 +124,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-service', function () {
 
     it('should mark words in instructions of elements and steppers', function () {
       // given
-      const glossary = [{ word: 'chat', definition: 'Un félin' }];
+      const glossary = [{ words: ['chat'], definition: 'Un félin' }];
       const qcu = { type: 'qcu', instruction: '<p>Le chat ?</p>', proposals: [{ content: 'chat' }] };
       const stepperElement = { type: 'qcm', instruction: '<p>Quel chat ?</p>' };
       const stepper = { type: 'stepper', instruction: '<p>Un chat</p>', steps: [{ elements: [stepperElement] }] };
@@ -129,7 +145,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-service', function () {
 
     it('should mark words in feedback diagnoses of elements, feedbacks and proposals', function () {
       // given
-      const glossary = [{ word: 'chat', definition: 'Un félin' }];
+      const glossary = [{ words: ['chat'], definition: 'Un félin' }];
       const qcmDeclarative = { type: 'qcm-declarative', feedback: { diagnosis: '<p>Un chat</p>' } };
       const qcm = {
         type: 'qcm',
@@ -164,7 +180,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-service', function () {
       // given
       const originalFeedback = { diagnosis: '<p>Un chat</p>' };
       const element = { type: 'qcu', proposals: [{ content: 'Oui', feedback: originalFeedback }] };
-      const module = _buildModule({ glossary: [{ word: 'chat', definition: 'Un félin' }], elements: [element] });
+      const module = _buildModule({ glossary: [{ words: ['chat'], definition: 'Un félin' }], elements: [element] });
 
       // when
       markGlossaryWords(module);

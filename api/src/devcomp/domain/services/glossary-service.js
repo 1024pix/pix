@@ -66,7 +66,9 @@ function _markField(target, fieldName, matcher) {
 }
 
 function _buildMatcher(glossary) {
-  const wordsByLowerCase = new Map(glossary.map(({ word }) => [word.toLocaleLowerCase('fr'), word]));
+  const wordsByLowerCase = new Map(
+    glossary.flatMap(({ words }) => words ?? []).map((word) => [word.toLocaleLowerCase('fr'), word]),
+  );
   const pattern = [...wordsByLowerCase.values()]
     .toSorted((a, b) => b.length - a.length)
     .map(_escapeRegExp)
