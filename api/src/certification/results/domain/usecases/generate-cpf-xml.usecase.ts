@@ -25,165 +25,94 @@ export async function generateCpfXml({
   );
 
   const internalUuid = uuid || randomUUID();
-  return buildFluxCreation(internalUuid).end();
+
+  const root = {
+    'cpf:fluxCreation': {
+      '@xmlns:cpf': 'urn:cdc:cpf:pc5:schema:creation:1.0.0',
+      '@xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+      'cpf:idFlux': uuid,
+      'cpf:emetteur': {
+        'cpf:idClient': '00XXX000',
+        'cpf:certificateurs': [
+          {
+            'cpf:certificateur': {
+              'cpf:idClient': '00XXX000',
+              'cpf:idContrat': 'XXXXXX000000',
+              'cpf:certifications': [
+                {
+                  'cpf:certification': {
+                    'cpf:type': 'RS',
+                    'cpf:code': getCpfCode(certificationCourses[0]._createdAt),
+                    'cpf:passageCertifications': {
+                      'cpf:passageCertification': buildPassageCertifications(certificationCourses),
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  };
+
+  return xmlbuilder2.create({ version: '1.0', encoding: 'UTF-8' }, root).end();
 }
 
-function buildFluxCreation(uuid: string): XMLBuilder {
-  const root = xmlbuilder2
-    .create({ version: '1.0', encoding: 'UTF-8' })
-    .ele('cpf:fluxCreation', {
-      'xmlns:cpf': 'urn:cdc:cpf:pc5:schema:creation:1.0.0',
-      'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-    })
-    .ele('cpf:idFlux')
-    .txt(uuid)
-    .up();
-  return buildEmetteur(root);
-}
-
-function buildEmetteur(node: XMLBuilder): XMLBuilder {
-  const emetteurNode = node.ele('cpf:emetteur').ele('cpf:idClient').txt('00XXX000').up()
-    .ele('cpf:certificateurs')
-    .ele('cpf:certificateur')
-    .ele('cpf:idClient')
-    .txt('00XXX000')
-    .up()
-    .ele('cpf:idContrat')
-    .txt('XXXXXX000000')
-    .up()
-    .ele('cpf:certifications');
-  buildCertification(emetteurNode);
-  return emetteurNode
-}
-
-function buildCertification(node: XMLBuilder): XMLBuilder {
-  const certificationNode = node
-    .ele('cpf:certification')
-    .ele('cpf:type')
-    .txt('RS')
-    .up()
-    .ele('cpf:code')
-    .txt(getCpfCode(certificationCourses[0]._createdAt))
-    .up()
-    .ele('cpf:passageCertifications')
-
-   buildPassageCertifications(certificationNode, certificationCourses)
-   return certificationNode
-}
-      
-function buildPassageCertifications(node: XMLBuilder, certificationCourses: {}[]): XMLBuilder {
-  if(certificationCourses.length === 0) {
-    return node
-  }
-
-  const course = certificationCourses.pop()
-    const certification = node
-      .ele('cpf:passageCertification')
-      .ele('cpf:idTechnique')
-      .txt('TITU_COMPLET')
-      .up()
-      .ele('cpf:urlPreuve')
-      .txt('https://www.monurl.fr')
-      .up()
-      .ele('cpf:complementTitre')
-      .txt('complement')
-      .up()
-      .ele('cpf:libelleOption')
-      .txt('option')
-      .up()
-      .ele('cpf:obtentionCertification')
-      .txt('PAR_SCORING')
-      .up()
-      .ele('cpf:scoring')
-      .txt('10')
-      .up()
-      .ele('cpf:dateDebutExamen')
-      .txt(course._createdAt.toLocaleDateString('en-CA'))
-      .up()
-      .ele('cpf:dateFinExamen')
-      .txt(course._createdAt.toLocaleDateString('en-CA'))
-      .up()
-      .ele('cpf:modalitePassageExamen')
-      .txt('MIXTE')
-      .up()
-      .ele('cpf:codePostalCentreExamen')
-      .txt('01000')
-      .up()
-      .ele('cpf:dateDebutValidite')
-      .txt(course._createdAt.toLocaleDateString('en-CA'))
-      .up()
-      .ele('cpf:numeriqueLangue')
-      .ele('cpf:niveauLangueEuropeen')
-      .txt('B2')
-      .up()
-      .ele('cpf:niveauNumeriqueEuropeen')
-      .ele('cpf:scoreGeneral')
-      .txt('999')
-      .up()
-      .ele('cpf:resultats')
-      .ele('cpf:resultat')
-      .ele('cpf:niveau')
-      .txt('8')
-      .up()
-      .ele('cpf:domaineCompetenceId')
-      .txt('2')
-      .up()
-      .ele('cpf:competenceId')
-      .txt('6')
-      .up()
-      .up()
-      .up()
-      .up()
-      .up()
-      .ele('cpf:modalitesInscription')
-      .ele('cpf:modaliteAcces')
-      .txt('FORMATION_INITIALE_APPRENTISSAGE')
-      .up()
-      .ele('cpf:initiativeInscription')
-      .txt('AUTRE')
-      .up()
-      .ele('cpf:dateInscription')
-      .txt('2026-04-02')
-      .up()
-      .up()
-      .ele('cpf:identificationTitulaire')
-      .ele('cpf:titulaire')
-      .ele('cpf:nomNaissance')
-      .txt(course._lastName)
-      .up()
-      .ele('cpf:nomUsage')
-      .txt(course._lastName)
-      .up()
-      .ele('cpf:prenom1')
-      .txt(course._firstName)
-      .up()
-      .ele('cpf:prenom2')
-      .txt('PRENOM-DEUX')
-      .up()
-      .ele('cpf:prenom3')
-      .txt('PRENOM-TROIS')
-      .up()
-      .ele('cpf:anneeNaissance')
-      .txt(String(new Date(course._birthdate).getFullYear()))
-      .up()
-      .ele('cpf:moisNaissance')
-      .txt(String(new Date(course._birthdate).getMonth() + 1))
-      .up()
-      .ele('cpf:jourNaissance')
-      .txt(String(new Date(course._birthdate).getDate()))
-      .up()
-      .ele('cpf:codeCommuneNaissance')
-      .ele('cpf:codeInseeNaissance')
-      .ele('cpf:codeInsee')
-      .txt(course._birthINSEECode)
-      .up()
-      .up()
-      .up()
-      .ele('cpf:libelleCommuneNaissance')
-      .txt(course._birthplace)
-      .up()
-      .up();
-   return buildPassageCertifications(node, certificationCourses)
+function buildPassageCertifications(certificationCourses: {}[]) {
+  return certificationCourses.map(function (course) {
+    return {
+      'cpf:idTechnique': 'TITU_COMPLET',
+      'cpf:urlPreuve': 'https://www.monurl.fr',
+      'cpf:complementTitre': 'complement',
+      'cpf:libelleOption': 'option',
+      'cpf:obtentionCertification': 'PAR_SCORING',
+      'cpf:scoring': '10',
+      'cpf:dateDebutExamen': course._createdAt.toLocaleDateString('en-CA'),
+      'cpf:dateFinExamen': course._createdAt.toLocaleDateString('en-CA'),
+      'cpf:modalitePassageExamen': 'MIXTE',
+      'cpf:codePostalCentreExamen': '01000',
+      'cpf:dateDebutValidite': course._createdAt.toLocaleDateString('en-CA'),
+      'cpf:numeriqueLangue': {
+        'cpf:niveauLangueEuropeen': 'B2',
+        'cpf:niveauNumeriqueEuropeen': {
+          'cpf:scoreGeneral': '999',
+          'cpf:resultats': [
+            {
+              'cpf:resultat': {
+                'cpf:niveau': '8',
+                'cpf:domaineCompetenceId': '2',
+                'cpf:competenceId': '6',
+              },
+            },
+          ],
+        },
+      },
+      'cpf:modalitesInscription': {
+        'cpf:modaliteAcces': 'FORMATION_INITIALE_APPRENTISSAGE',
+        'cpf:initiativeInscription': 'AUTRE',
+        'cpf:dateInscription': '2026-04-02',
+      },
+      'cpf:identificationTitulaire': {
+        'cpf:titulaire': {
+          'cpf:nomNaissance': course._lastName,
+          'cpf:nomUsage': course._lastName,
+          'cpf:prenom1': course._firstName,
+          'cpf:prenom2': 'PRENOM-DEUX',
+          'cpf:prenom3': 'PRENOM-TROIS',
+          'cpf:anneeNaissance': String(new Date(course._birthdate).getFullYear()),
+          'cpf:moisNaissance': String(new Date(course._birthdate).getMonth() + 1),
+          'cpf:jourNaissance': String(new Date(course._birthdate).getDate()),
+          'cpf:codeCommuneNaissance': {
+            'cpf:codeInseeNaissance': {
+              'cpf:codeInsee': course._birthINSEECode,
+            },
+          },
+          'cpf:libelleCommuneNaissance': course._birthplace,
+        },
+      },
+    };
+  });
 }
 
 function getCpfCode(createdAt: Date): string {
