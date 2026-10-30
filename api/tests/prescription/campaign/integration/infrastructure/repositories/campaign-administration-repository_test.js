@@ -5,7 +5,6 @@ import sinon from 'sinon';
 import { UnknownCampaignId } from '../../../../../../src/prescription/campaign/domain/errors.js';
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
 import * as campaignAdministrationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
-import { deleteExternalIdLabelFromCampaigns } from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import { CampaignExternalIdTypes, CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { CAMPAIGN_FEATURES } from '../../../../../../src/shared/constants.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
@@ -923,7 +922,7 @@ describe('Integration | Repository | Campaign Administration', function () {
     });
   });
 
-  describe(deleteExternalIdLabelFromCampaigns.name, function () {
+  describe(campaignAdministrationRepository.deleteExternalIdLabelFromCampaigns.name, function () {
     let campaignWithJustTheExternalIdFeatureId;
     let campaignWithExternalIdFeatureAndAnOtherOneId;
     let campaignWithTheExternalFeatureIdNotPassedInTheFunction;
@@ -972,7 +971,7 @@ describe('Integration | Repository | Campaign Administration', function () {
 
     it('should delete the proper campaign feature param', async function () {
       //when
-      await deleteExternalIdLabelFromCampaigns([
+      await campaignAdministrationRepository.deleteExternalIdLabelFromCampaigns([
         campaignWithJustTheExternalIdFeatureId,
         campaignWithExternalIdFeatureAndAnOtherOneId,
       ]);
