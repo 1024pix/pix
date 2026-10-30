@@ -64,7 +64,6 @@ export default class ScoringRoute extends Route {
       canAccessScoring = editVersion.isDraft && attachedCalibrationHasScoringConfig;
     } else {
       const hasNoScoringConfigYet = !editVersion.globalScoringConfiguration?.length;
-      console.log(calibrationScoringConfiguration);
       canAccessScoring = hasNoScoringConfigYet && !!calibrationScoringConfiguration;
     }
 
