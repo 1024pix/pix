@@ -63,7 +63,7 @@ export async function getCertificate({ certificationCourseId, locale }) {
     .first();
 
   if (!certificationCourseDTO) {
-    throw new NotFoundError(`There is no certification course with id "${certificationCourseId}"`);
+    return null;
   }
 
   const competenceTree = await competenceTreeRepository.get({ locale });

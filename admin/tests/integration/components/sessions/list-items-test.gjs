@@ -316,7 +316,7 @@ module('Integration | Component | sessions | list-items', function (hooks) {
               assert.ok(notificationErrorStub.calledOnce);
               assert.strictEqual(
                 notificationErrorStub.firstCall.args[0].message,
-                t('pages.sessions.table.actions.download-results-error'),
+                t('pages.sessions.table.errors.download-results-error'),
               );
             });
 
@@ -345,7 +345,94 @@ module('Integration | Component | sessions | list-items', function (hooks) {
                 assert.ok(notificationErrorStub.calledOnce);
                 assert.strictEqual(
                   notificationErrorStub.firstCall.args[0].message,
-                  t('pages.sessions.table.actions.download-results-no-results-error'),
+                  t('pages.sessions.table.errors.download-results-no-results-error'),
+                );
+              });
+            });
+          });
+        });
+      });
+
+      module('certificates download', function () {
+        module('when some sessions are selected', function () {
+          test('it should be possible to download the selection certificates zip', async function (assert) {
+            // given
+            const domainService = this.owner.lookup('service:current-domain');
+            sinon.stub(domainService, 'getExtension').returns('fr');
+            const sessions = buildSessions();
+
+            // when
+            const screen = await render(
+              <template><ListItems @sessions={{sessions}} @triggerFiltering={{triggerFiltering}} /></template>,
+            );
+
+            await click(
+              screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }) }),
+            );
+            await click(screen.getByRole('button', { name: t('pages.sessions.table.actions.download-certificates') }));
+
+            // then
+            assert.deepEqual(fileSaverStub.firstCall.args[0], {
+              url: `${ENV.APP.API_HOST}/api/admin/sessions/download-selection-certificates?sessionIds=1&isFrenchDomainExtension=true&lang=fr`,
+              token: accessToken,
+            });
+          });
+
+          module('on error', function () {
+            test('it should display a generic error toast', async function (assert) {
+              // given
+              fileSaverStub = sinon.stub().rejects(new Error('error'));
+
+              const sessions = buildSessions();
+
+              // when
+              const screen = await render(
+                <template><ListItems @sessions={{sessions}} @triggerFiltering={{triggerFiltering}} /></template>,
+              );
+
+              await click(
+                screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }) }),
+              );
+              await click(
+                screen.getByRole('button', { name: t('pages.sessions.table.actions.download-certificates') }),
+              );
+
+              // then
+              assert.ok(notificationErrorStub.calledOnce);
+              assert.strictEqual(
+                notificationErrorStub.firstCall.args[0].message,
+                t('pages.sessions.table.errors.download-certificates-error'),
+              );
+            });
+
+            module('when no selected session has certificates to download', function () {
+              test('it should display a dedicated error toast', async function (assert) {
+                // given
+                fileSaverStub = sinon
+                  .stub()
+                  .callsFake(() => Promise.reject([{ status: '422', code: 'NO_CERTIFICATES_TO_DOWNLOAD' }]));
+
+                const sessions = buildSessions();
+
+                // when
+                const screen = await render(
+                  <template><ListItems @sessions={{sessions}} @triggerFiltering={{triggerFiltering}} /></template>,
+                );
+
+                await click(
+                  screen.getByRole('checkbox', {
+                    name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }),
+                  }),
+                );
+                await click(
+                  screen.getByRole('button', { name: t('pages.sessions.table.actions.download-certificates') }),
+                );
+
+                // then
+                assert.ok(notificationErrorStub.calledOnce);
+                assert.strictEqual(
+                  notificationErrorStub.firstCall.args[0].message,
+                  t('pages.sessions.table.errors.download-certificates-no-certificates-error'),
                 );
               });
             });

@@ -204,6 +204,7 @@ import { buildSession } from './certification/evaluation/build-session.js';
 import { buildCertificateMeshLevel } from './certification/results/build-certificate-mesh-level.js';
 import { buildCertificateSummary } from './certification/results/build-certificate-summary.js';
 import { buildResultRecipient } from './certification/results/build-result-recipient.js';
+import { buildSession as buildSessionForResults } from './certification/results/build-session.js';
 import { buildSessionForResultsSharing } from './certification/results/build-session-for-results-sharing.js';
 import { buildCertificate } from './certification/results/build-v3-certification-attestation.js';
 import { buildCertificationResult as parcoursupCertificationResult } from './certification/results/parcoursup/build-certification-result.js';
@@ -314,6 +315,7 @@ const certification = {
   results: {
     buildCertificateMeshLevel,
     buildCertificate,
+    buildSession: buildSessionForResults,
     buildCertificateSummary,
     buildResultRecipient,
     buildSessionForResultsSharing,

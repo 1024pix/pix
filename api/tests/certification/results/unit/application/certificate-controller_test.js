@@ -168,188 +168,68 @@ describe('Certification | Results | Unit | Application | certificate-controller'
   });
 
   describe('#getPDFCertificate', function () {
-    describe('when the attestation is for v3', function () {
-      it('should return attestation in PDF binary format', async function () {
-        // given
-        const userId = 1;
+    it('should return attestation in PDF binary format', async function () {
+      // given
+      const userId = 1;
 
-        const request = {
-          auth: { credentials: { userId } },
-          params: { certificationCourseId: 9 },
-          query: { lang: 'fr' },
-        };
+      const request = {
+        auth: { credentials: { userId } },
+        params: { certificationCourseId: 9 },
+        query: { lang: 'fr', isFrenchDomainExtension: 'true' },
+      };
 
-        const v3CertificationAttestation = domainBuilder.certification.results.buildCertificate();
-        sinon
-          .stub(usecases, 'getCertificate')
-          .withArgs({ certificationCourseId: request.params.certificationCourseId, locale: 'fr' })
-          .resolves(v3CertificationAttestation);
+      const filename = 'some-filename.pdf';
+      const pdfSymbol = Symbol('pdf-content');
 
-        const generatedPdf = Symbol('Stream');
-        const generatePdfStub = {
-          generate: sinon.stub().returns(generatedPdf),
-        };
-
-        // when
-        const response = await certificateController.getPDFCertificate(request, hFake, {
-          v3CertificationAttestationPdf: generatePdfStub,
-        });
-
-        // then
-        expect(generatePdfStub.generate).calledOnceWithExactly({
-          certificates: [v3CertificationAttestation],
-          i18n: getI18nFromRequest(request),
-        });
-        expect(response.source).to.deep.equal(generatedPdf);
-        expect(response.headers['Content-Disposition']).to.contains(
-          `attachment; filename=certification-pix-${dayjs(v3CertificationAttestation.deliveredAt).format('YYYYMMDD')}.pdf`,
-        );
+      const getCertificatePDFStub = sinon.stub(usecases, 'getCertificatePDF').resolves({
+        filename,
+        content: pdfSymbol,
       });
-    });
 
-    describe('when the attestation is for v2', function () {
-      it('should return attestation in PDF binary format', async function () {
-        // given
-        const userId = 1;
+      // when
+      const response = await certificateController.getPDFCertificate(request, hFake);
 
-        const request = {
-          auth: { credentials: { userId } },
-          params: { certificationCourseId: 9 },
-          query: { isFrenchDomainExtension: true, lang: 'fr' },
-        };
-
-        const certificationAttestation = domainBuilder.buildCertificationAttestation();
-        const filename = 'certification-pix-20181003.pdf';
-
-        sinon
-          .stub(usecases, 'getCertificate')
-          .withArgs({ certificationCourseId: request.params.certificationCourseId, locale: 'fr' })
-          .resolves(certificationAttestation);
-
-        const generatedPdf = Symbol('Stream');
-        const generatePdfStub = {
-          generate: sinon.stub().returns(generatedPdf),
-        };
-
-        // when
-        const response = await certificateController.getPDFCertificate(request, hFake, {
-          v2CertificationAttestationPdf: generatePdfStub,
-        });
-
-        // then
-        expect(generatePdfStub.generate).calledOnceWithExactly({
-          certificates: [certificationAttestation],
-          i18n: getI18nFromRequest(request),
-          isFrenchDomainExtension: true,
-        });
-        expect(response.source).to.deep.equal(generatedPdf);
-        expect(response.headers['Content-Disposition']).to.contains(`attachment; filename=${filename}`);
+      // then
+      expect(getCertificatePDFStub).calledOnceWithExactly({
+        certificationCourseId: request.params.certificationCourseId,
+        i18n: getI18nFromRequest(request),
+        isFrenchDomainExtension: 'true',
       });
+      expect(response.headers['Content-Disposition']).to.contains(`attachment; filename=${filename}`);
     });
   });
 
   describe('#getSessionCertificates', function () {
-    describe('when attestations are for a v3 session', function () {
-      it('should return attestation in PDF binary format', async function () {
-        // given
-        const userId = 1;
+    it('should return attestation in PDF binary format', async function () {
+      // given
+      const userId = 1;
 
-        const v3CertificationAttestation = domainBuilder.certification.results.buildCertificate();
-        const session = domainBuilder.certification.sessionManagement.buildSessionManagement.finalized({ id: 12 });
-        const generatedPdf = Symbol('Stream');
+      const session = domainBuilder.certification.sessionManagement.buildSessionManagement.finalized({ id: 12 });
 
-        const request = {
-          auth: { credentials: { userId } },
-          params: { sessionId: session.id },
-          query: { isFrenchDomainExtension: true },
-        };
+      const filename = 'some-filename.pdf';
+      const generatedPdf = Symbol('Stream');
 
-        sinon
-          .stub(usecases, 'getCertificatesForSession')
-          .withArgs({
-            sessionId: session.id,
-          })
-          .resolves([v3CertificationAttestation, v3CertificationAttestation]);
-
-        const generatePdfStub = {
-          generate: sinon.stub().returns(generatedPdf),
-        };
-
-        // when
-        const response = await certificateController.getSessionCertificates(request, hFake, {
-          v3CertificationAttestationPdf: generatePdfStub,
-        });
-
-        // then
-        expect(generatePdfStub.generate).calledOnceWithExactly({
-          certificates: [v3CertificationAttestation, v3CertificationAttestation],
-          i18n: getI18nFromRequest(request),
-        });
-        expect(response.source).to.deep.equal(generatedPdf);
-        expect(response.headers['Content-Disposition']).to.contains(
-          `attachment; filename=session-${session.id}-certification-pix-${dayjs(v3CertificationAttestation.deliveredAt).format('YYYYMMDD')}.pdf`,
-        );
+      const getCertificatesForSessionStub = sinon.stub(usecases, 'getCertificatesForSession').resolves({
+        filename,
+        content: generatedPdf,
       });
-    });
 
-    describe('when attestations are for a v2 session', function () {
-      it('should return an attestation in PDF binary format', async function () {
-        // given
-        const session = domainBuilder.certification.sessionManagement.buildSessionManagement.finalized({ id: 12 });
-        domainBuilder.buildCertificationCourse({
-          id: 1,
-          sessionId: 12,
-          userId: 1,
-        });
-        domainBuilder.buildCertificationCourse({
-          id: 2,
-          sessionId: 12,
-          userId: 2,
-        });
-        domainBuilder.buildCertificationCourse({
-          id: 3,
-          sessionId: 12,
-          userId: 3,
-        });
-        const certification1 = domainBuilder.buildPrivateCertificateWithCompetenceTree({ id: 1 });
-        const certification2 = domainBuilder.buildPrivateCertificateWithCompetenceTree({ id: 2 });
-        const certification3 = domainBuilder.buildPrivateCertificateWithCompetenceTree({ id: 3 });
-        const userId = 1;
-        const generatedPdf = Symbol('Stream');
+      const request = {
+        auth: { credentials: { userId } },
+        params: { sessionId: session.id },
+        query: { isFrenchDomainExtension: 'true' },
+      };
 
-        const request = {
-          auth: { credentials: { userId } },
-          params: { sessionId: session.id },
-          query: { isFrenchDomainExtension: true },
-        };
+      // when
+      const response = await certificateController.getSessionCertificates(request, hFake);
 
-        sinon
-          .stub(usecases, 'getCertificatesForSession')
-          .withArgs({
-            sessionId: session.id,
-          })
-          .resolves([certification1, certification2, certification3]);
-
-        const generatePdfStub = {
-          generate: sinon.stub().returns(generatedPdf),
-        };
-
-        // when
-        const response = await certificateController.getSessionCertificates(request, hFake, {
-          v2CertificationAttestationPdf: generatePdfStub,
-        });
-
-        // then
-        expect(generatePdfStub.generate).calledOnceWithExactly({
-          certificates: [certification1, certification2, certification3],
-          i18n: getI18nFromRequest(request),
-          isFrenchDomainExtension: true,
-        });
-        expect(response.source).to.deep.equal(generatedPdf);
-        expect(response.headers['Content-Disposition']).to.contains(
-          `attachment; filename=session-${session.id}-certification-pix-${dayjs(certification1.deliveredAt).format('YYYYMMDD')}.pdf`,
-        );
+      // then
+      expect(getCertificatesForSessionStub).calledOnceWithExactly({
+        sessionId: session.id,
+        i18n: getI18nFromRequest(request),
+        isFrenchDomainExtension: 'true',
       });
+      expect(response.headers['Content-Disposition']).to.contains(`attachment; filename=${filename}`);
     });
   });
 

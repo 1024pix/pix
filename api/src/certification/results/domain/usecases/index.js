@@ -20,6 +20,7 @@ import { findCertificationAttestationsForDivision } from './find-certification-a
 import { findUserCertificateSummaries } from './find-user-certificate-summaries.js';
 import { findUserCertificationCourses } from './find-user-certification-courses.js';
 import { getCertificate } from './get-certificate.js';
+import { getCertificatePDF } from './get-certificate-pdf.js';
 import { getCertificatesForSession } from './get-certificates-for-session.js';
 import { getCertificationCourseByVerificationCode } from './get-certification-course-by-verification-code.js';
 import { getCertificationCourseVersion } from './get-certification-course-version.js';
@@ -28,6 +29,7 @@ import { getCertificationsResultsForLivretScolaire } from './get-certifications-
 import { getCleaCertifiedCandidateBySession } from './get-clea-certified-candidate-by-session.js';
 import { getPrivateCertificate } from './get-private-certificate.js';
 import { getScoCertificationResultsByDivision } from './get-sco-certification-results-by-division.js';
+import { getSelectedSessionsCertificates } from './get-selected-sessions-certificates.js';
 import { getSelectedSessionsResultsZip } from './get-selected-sessions-results-zip.js';
 import { getSessionCertificationReports } from './get-session-certification-reports.js';
 import { getSessionResults } from './get-session-results.js';
@@ -76,6 +78,7 @@ const usecasesWithoutInjectedDependencies = {
   findUserCertificateSummaries,
   findUserCertificationCourses,
   getCertificate,
+  getCertificatePDF,
   getCertificatesForSession,
   getCertificationCourseByVerificationCode,
   getCertificationCourseVersion,
@@ -89,6 +92,7 @@ const usecasesWithoutInjectedDependencies = {
   getSessionResultsByResultRecipientEmail,
   getSessionResults,
   getShareableCertificate,
+  getSelectedSessionsCertificates,
   getSelectedSessionsResultsZip,
 };
 

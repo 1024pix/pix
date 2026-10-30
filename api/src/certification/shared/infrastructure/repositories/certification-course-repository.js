@@ -189,17 +189,6 @@ export async function isVerificationCodeAvailable({ verificationCode }) {
   return !exist;
 }
 
-/**
- * @returns {Promise<Array<CertificationCourse>>}
- */
-export async function findCertificationCoursesBySessionId({ sessionId }) {
-  const knexConn = DomainTransaction.getConnection();
-
-  const certificationCoursesDTO = await knexConn('certification-courses').where({ sessionId });
-
-  return certificationCoursesDTO.map((certificationCourseDTO) => _toDomain({ certificationCourseDTO }));
-}
-
 function _adaptModelToDb(certificationCourse) {
   const certificationCourseDTO = certificationCourse.toDTO();
   return {

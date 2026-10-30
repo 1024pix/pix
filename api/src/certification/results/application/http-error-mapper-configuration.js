@@ -6,6 +6,7 @@ import {
 import {
   CertificateGenerationError,
   MoreThanOneMatchingCertificationError,
+  NoCertificatesToDownloadError,
   NoCertificationResultForDivision,
   NoCertificationResultsToDownloadError,
 } from '../domain/errors.js';
@@ -28,6 +29,10 @@ const resultsDomainErrorMappingConfiguration = [
   },
   {
     name: NoCertificationResultsToDownloadError.name,
+    httpErrorFn: (error) => new UnprocessableEntityError(error.message, error.code, error.meta),
+  },
+  {
+    name: NoCertificatesToDownloadError.name,
     httpErrorFn: (error) => new UnprocessableEntityError(error.message, error.code, error.meta),
   },
 ];
