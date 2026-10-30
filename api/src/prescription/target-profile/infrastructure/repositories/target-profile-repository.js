@@ -101,12 +101,14 @@ const findSkillsByIds = async function ({ targetProfileIds, dependencies = { ski
     .groupBy('tubeId')
     .whereIn('targetProfileId', targetProfileIds);
 
-  const skillData = [];
-  for (const cappedTube of cappedTubes) {
-    const allLevelSkills = await dependencies.skillRepository.findActiveByTubeId(cappedTube.tubeId);
-    const rightLevelSkills = allLevelSkills.filter((skill) => skill.difficulty <= cappedTube.level);
-    skillData.push(...rightLevelSkills);
-  }
+  const allSkills = await dependencies.skillRepository.findActiveByTubeIds(
+    cappedTubes.map((cappedTube) => cappedTube.tubeId),
+  );
+  const cappedTubesById = Object.fromEntries(cappedTubes.map((cappedTube) => [cappedTube.tubeId, cappedTube]));
+  const skillData = allSkills.filter((skill) => {
+    const cappedTube = cappedTubesById[skill.tubeId];
+    return skill.difficulty <= cappedTube.level;
+  });
 
   return skillData;
 };
