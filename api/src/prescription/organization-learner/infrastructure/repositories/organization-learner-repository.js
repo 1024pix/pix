@@ -178,7 +178,7 @@ async function findPaginatedLearnersForAdmin({ page, filter, sort }) {
     .orderByRaw('LOWER("lastName") ASC');
 
   if (filter) {
-    const { fullName, organizationExternalId, hideDisabled } = filter;
+    const { fullName, organizationExternalId, hideDisabled, organizationLearnerId } = filter;
     if (fullName) {
       filterByFullName(query, fullName, 'firstName', 'lastName', 0.6);
     }
@@ -188,6 +188,9 @@ async function findPaginatedLearnersForAdmin({ page, filter, sort }) {
     }
     if (hideDisabled) {
       query.where({ isDisabled: false });
+    }
+    if (organizationLearnerId) {
+      query.where('view-active-organization-learners.id', organizationLearnerId);
     }
   }
 

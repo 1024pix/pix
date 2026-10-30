@@ -71,6 +71,7 @@ const register = async function (server) {
             filter: Joi.object({
               fullName: Joi.string().empty(''),
               organizationExternalId: Joi.string().empty(''),
+              organizationLearnerId: Joi.number().integer().empty(''),
               hideDisabled: Joi.boolean().allow(null),
             }).default({}),
             sort: {
