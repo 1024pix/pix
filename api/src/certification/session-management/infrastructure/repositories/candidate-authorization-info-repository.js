@@ -1,4 +1,5 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { SessionStatus } from '../../../shared/domain/value-objects/SessionStatus.ts';
 import { CandidateAuthorizationInfo } from '../../domain/read-models/CandidateAuthorizationInfo.js';
 
 export async function findByUserIdAndSessionId({ userId, sessionId }) {
@@ -27,11 +28,13 @@ export async function findByUserIdAndSessionId({ userId, sessionId }) {
       subscription: 'certification-candidates.subscription',
       authorizedToStartAt: 'certification-candidates.authorizedToStartAt',
       sessionId: 'sessions.id',
-      sessionStartedAt: knexConn('certification-courses')
+      sessionFirstCertificationStartedAt: knexConn('certification-courses')
         .min('createdAt')
         .whereRaw('"certification-courses"."sessionId" = "sessions"."id"'),
       sessionAccessCode: 'sessions.accessCode',
       sessionFinalizedAt: 'sessions.finalizedAt',
+      sessionPublishedAt: 'sessions.publishedAt',
+      sessionAssignedCertificationOfficerId: 'sessions.assignedCertificationOfficerId',
       certificationId: 'certification-courses.id',
       certificationStartedAt: 'certification-courses.createdAt',
       centerHabilitations: knexConn.raw(
@@ -61,5 +64,14 @@ export async function findByUserIdAndSessionId({ userId, sessionId }) {
     candidateAuthorizationData.centerHabilitations.map((key) => [key, true]),
   );
 
-  return new CandidateAuthorizationInfo(candidateAuthorizationData);
+  const sessionStatus = SessionStatus.build({
+    finalizedAt: candidateAuthorizationData.sessionFinalizedAt,
+    publishedAt: candidateAuthorizationData.sessionPublishedAt,
+    assignedCertificationOfficerId: candidateAuthorizationData.sessionAssignedCertificationOfficerId,
+    firstCertificationStartedAt: candidateAuthorizationData.sessionFirstCertificationStartedAt,
+  });
+  return new CandidateAuthorizationInfo({
+    ...candidateAuthorizationData,
+    sessionStatus,
+  });
 }

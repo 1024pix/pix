@@ -1,7 +1,7 @@
 import { CERTIFICATION_CENTER_TYPES, ORGANIZATION_TYPES } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { SessionStatus } from '../../../shared/domain/value-objects/SessionStatus.ts';
-import { SessionAuthorizationInfo } from '../../domain/read-models/SessionAuthorizationInfo.js';
+import { SessionAuthorizationInfo } from '../../domain/models/SessionAuthorizationInfo.js';
 
 export async function findBySessionId({ sessionId }) {
   const knexConn = DomainTransaction.getConnection();
@@ -10,8 +10,12 @@ export async function findBySessionId({ sessionId }) {
       id: 'sessions.id',
       finalizedAt: 'sessions.finalizedAt',
       publishedAt: 'sessions.publishedAt',
+      invigilatorPassword: 'sessions.invigilatorPassword',
       certificationCenterId: 'sessions.certificationCenterId',
       assignedCertificationOfficerId: 'sessions.assignedCertificationOfficerId',
+      certificationCenterArchived: knexConn.raw(
+        '("certification-centers"."archivedBy" IS NOT NULL OR "certification-centers"."archivedAt" IS NOT NULL)',
+      ),
       firstCertificationStartedAt: knexConn
         .select('createdAt')
         .from('certification-courses')
@@ -36,6 +40,7 @@ export async function findBySessionId({ sessionId }) {
         .first(),
     })
     .from('sessions')
+    .join('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
     .where('sessions.id', sessionId)
     .first();
 

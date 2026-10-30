@@ -21,7 +21,7 @@ describe('Certification | Session Management | Integration | Application | Api |
 
     it('returns the session authorization DTO when found for given sessionId', async function () {
       // given
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ archivedAt: new Date() }).id;
       const sessionId = databaseBuilder.factory.buildSession({
         certificationCenterId,
         finalizedAt: null,
@@ -42,6 +42,7 @@ describe('Certification | Session Management | Integration | Application | Api |
           .build(),
         scoIsManagingStudentsOrganizationId: null,
         certificationCenterId,
+        certificationCenterArchived: true,
       });
     });
   });

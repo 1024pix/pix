@@ -1,11 +1,11 @@
-import { SessionAuthorizationInfo } from '../../../../../../src/certification/session-management/domain/read-models/SessionAuthorizationInfo.js';
+import { SessionAuthorizationInfo } from '../../../../../../src/certification/session-management/domain/models/SessionAuthorizationInfo.js';
 import {
   SESSION_STATUSES,
   SessionStatus,
 } from '../../../../../../src/certification/shared/domain/value-objects/SessionStatus.ts';
 
 /**
- * Fluent builder for the {@link SessionAuthorizationInfo} domain read-model.
+ * Fluent builder for the {@link SessionAuthorizationInfo} domain model.
  *
  * @example
  * const sessionAuthorizationInfo = domainBuilder.certification.sessionManagement
@@ -17,23 +17,43 @@ import {
  */
 class SessionAuthorizationInfoBuilder {
   constructor() {
-    this.id = null;
-    this.hasOrga = false;
+    this.id = 1;
     this.scoIsManagingStudentsOrganizationId = null;
-    this.certificationCenterId = null;
+    this.certificationCenterId = 3;
+    this.invigilatorPassword = 'FOO';
     this.sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
+    this.certificationCenterArchived = false;
   }
 
   /**
    * Link a matching SCO isManagingStudents organization
    *
    * @param {object} [params]
-   * @param {number} [params.organizationId] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted organization (id null)
+   * @param {number} [params.organizationId]
    * @returns {SessionAuthorizationInfoBuilder}
    */
-  hasMatchingScoIsManagingStudentsOrganization({ organizationId = null }) {
-    this.hasOrga = true;
+  hasMatchingScoIsManagingStudentsOrganization({ organizationId }) {
     this.scoIsManagingStudentsOrganizationId = organizationId;
+    return this;
+  }
+
+  /**
+   * Set the certification center as archived
+   *
+   * @returns {SessionAuthorizationInfoBuilder}
+   */
+  certificationCenterIsArchived() {
+    this.certificationCenterArchived = true;
+    return this;
+  }
+
+  /**
+   * Set the certification center as NOT archived
+   *
+   * @returns {SessionAuthorizationInfoBuilder}
+   */
+  certificationCenterIsNotArchived() {
+    this.certificationCenterArchived = false;
     return this;
   }
 
@@ -43,29 +63,44 @@ class SessionAuthorizationInfoBuilder {
    * several times in the same chain without resetting previous overrides.
    *
    * @param {object} [params]
-   * @param {number} [params.id] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted session (id null)
-   * @param {number} [params.certificationCenterId] - explicit id; without it, insertToDB lets the database assign one and build() produces a non-persisted certification-center (id null)
+   * @param {number} [params.id]
+   * @param {number} [params.certificationCenterId]
+   * @param {number} [params.scoIsManagingStudentsOrganizationId]
+   * @param {string} [params.invigilatorPassword]
+   * @param {boolean} [params.certificationCenterArchived]
    * @returns {SessionAuthorizationInfoBuilder}
    */
-  withParameters({ id, certificationCenterId = null, sessionStatus } = {}) {
+  withParameters({
+    id,
+    invigilatorPassword,
+    certificationCenterId,
+    scoIsManagingStudentsOrganizationId,
+    sessionStatus,
+    certificationCenterArchived,
+  } = {}) {
     this.id = id ?? this.id;
-    this.certificationCenterId = certificationCenterId;
+    this.certificationCenterId = certificationCenterId ?? this.certificationCenterId;
+    this.scoIsManagingStudentsOrganizationId =
+      scoIsManagingStudentsOrganizationId ?? this.scoIsManagingStudentsOrganizationId;
+    this.invigilatorPassword = invigilatorPassword ?? this.invigilatorPassword;
     this.sessionStatus = sessionStatus ?? this.sessionStatus;
+    this.certificationCenterArchived = certificationCenterArchived ?? this.certificationCenterArchived;
     return this;
   }
 
   /**
-   * Materializes the read-model SessionAuthorizationInfo
+   * Materializes the model SessionAuthorizationInfo
    *
    * @returns {SessionAuthorizationInfo}
    */
   build() {
-    const organizationId = this.hasOrga ? (this.scoIsManagingStudentsOrganizationId ?? 1) : null;
     return new SessionAuthorizationInfo({
       id: this.id,
-      scoIsManagingStudentsOrganizationId: organizationId,
+      scoIsManagingStudentsOrganizationId: this.scoIsManagingStudentsOrganizationId,
       certificationCenterId: this.certificationCenterId,
+      invigilatorPassword: this.invigilatorPassword,
       sessionStatus: this.sessionStatus,
+      certificationCenterArchived: this.certificationCenterArchived,
     });
   }
 }

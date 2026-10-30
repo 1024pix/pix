@@ -1,28 +1,35 @@
 export class SessionAuthorization {
-  constructor({ id, sessionStatus, certificationCenterId, scoIsManagingStudentsOrganizationId }) {
+  constructor({
+    id,
+    sessionStatus,
+    certificationCenterId,
+    scoIsManagingStudentsOrganizationId,
+    certificationCenterArchived,
+  }) {
     this.id = id;
     this.sessionStatus = sessionStatus;
     this.scoIsManagingStudentsOrganizationId = scoIsManagingStudentsOrganizationId;
     this.certificationCenterId = certificationCenterId;
+    this.certificationCenterArchived = certificationCenterArchived;
   }
 
   get canEnrollCandidateIndividually() {
-    return this.sessionStatus.isAtMostStarted();
+    return !this.certificationCenterArchived && this.sessionStatus.isAtMostStarted();
   }
 
   get canEnrollScoCandidate() {
-    return this.sessionStatus.isAtMostStarted();
+    return !this.certificationCenterArchived && this.sessionStatus.isAtMostStarted();
   }
 
   get canEnrollCandidateViaODS() {
-    return this.sessionStatus.isCreated();
+    return !this.certificationCenterArchived && this.sessionStatus.isCreated();
   }
 
   get canEnrollCandidateViaMassImport() {
-    return this.sessionStatus.isCreated();
+    return !this.certificationCenterArchived && this.sessionStatus.isCreated();
   }
 
   get canJoinSession() {
-    return this.sessionStatus.isAtMostStarted();
+    return !this.certificationCenterArchived && this.sessionStatus.isAtMostStarted();
   }
 }
