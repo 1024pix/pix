@@ -68,7 +68,7 @@ function buildCertifications(node: XMLBuilder): XMLBuilder {
       .txt('RS')
       .up()
       .ele('cpf:code')
-      .txt('RS0000')
+      .txt(getCpfCode(course._createdAt))
       .up()
       .ele('cpf:passageCertifications')
       .ele('cpf:passageCertification')
@@ -187,4 +187,14 @@ function buildCertifications(node: XMLBuilder): XMLBuilder {
   }
 
   return node;
+}
+
+function getCpfCode(createdAt: Date): string {
+  if (createdAt < new Date('2021-12-31')) {
+    return 'RS3807';
+  }
+  if (createdAt < new Date('2024-12-11')) {
+    return 'RS5875';
+  }
+  return 'RS6894';
 }

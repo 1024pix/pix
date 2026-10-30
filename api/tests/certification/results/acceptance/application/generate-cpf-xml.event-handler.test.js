@@ -20,6 +20,7 @@ describe('Acceptance | Application | Generate CPF XML Event Handler ', function 
         birthdate: '2000-10-30',
         birthplace: 'Romorantin-Lanthenay',
         birthINSEECode: 41194,
+        createdAt: new Date('2023-01-01'),
       });
 
       await databaseBuilder.commit();
