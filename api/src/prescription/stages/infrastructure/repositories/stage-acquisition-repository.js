@@ -46,6 +46,22 @@ const getByCampaignParticipation = async (campaignParticipationsId) =>
   toDomain(await buildSelectAllQuery().where('campaignParticipationId', campaignParticipationsId));
 
 /**
+ *
+ * @param {number} campaignId
+ *
+ * @returns {Promise<StageAcquisition[]>}
+ */
+const getByCampaignId = async (campaignId) =>
+  toDomain(
+    await buildSelectAllQuery()
+      .join('campaign-participations', 'campaign-participations.id', 'stage-acquisitions.campaignParticipationId')
+      .where('campaign-participations.campaignId', campaignId)
+      .where('campaign-participations.isImproved', '=', false)
+      .where('campaign-participations.deletedAt', 'is', null)
+      .where('campaign-participations.status', 'SHARED'),
+  );
+
+/**
  * @param {number} campaignParticipationsId
  *
  * @returns {Promise<number[]>}
@@ -98,4 +114,10 @@ export const getAverageReachedStageByCampaignId = async (campaignId) => {
   return Math.round(result.rows[0].avg);
 };
 
-export { getByCampaignParticipation, getByCampaignParticipations, getStageIdsByCampaignParticipation, saveStages };
+export {
+  getByCampaignId,
+  getByCampaignParticipation,
+  getByCampaignParticipations,
+  getStageIdsByCampaignParticipation,
+  saveStages,
+};
