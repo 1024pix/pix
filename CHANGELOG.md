@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## [5.534.1](https://github.com/1024pix/pix/compare/v5.534.0...v5.534.1) (2026-10-30)
+
+### :bug: Correction
+
+- [#18507](https://github.com/1024pix/pix/pull/18507) Respecte le niveau de log pour l'export OpenTelemetry des logs
+
 # [5.534.0](https://github.com/1024pix/pix/compare/v5.533.0...v5.534.0) (2026-10-30)
 
 ### :rocket: Amélioration
