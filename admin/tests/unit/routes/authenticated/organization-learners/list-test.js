@@ -21,6 +21,7 @@ module('Unit | Route | authenticated/organization-learners/list', function (hook
         // given
         const params = {
           organizationExternalId: undefined,
+          organizationLearnerId: undefined,
           fullName: undefined,
           hideDisabled: true,
           organizationSort: 'asc',
@@ -35,6 +36,7 @@ module('Unit | Route | authenticated/organization-learners/list', function (hook
         sinon.assert.notCalled(route.store.query);
         assert.ok(true);
       });
+
       test('it should call store.query if organizationExternalId is filled', async function (assert) {
         // given
         const params = {
@@ -48,6 +50,21 @@ module('Unit | Route | authenticated/organization-learners/list', function (hook
         sinon.assert.called(route.store.query);
         assert.ok(true);
       });
+
+      test('it should call store.query if organizationLearnerId is filled', async function (assert) {
+        // given
+        const params = {
+          organizationLearnerId: 313,
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        sinon.assert.called(route.store.query);
+        assert.ok(true);
+      });
+
       test('it should call store.query if fullName is filled', async function (assert) {
         // given
         const params = {
@@ -61,6 +78,7 @@ module('Unit | Route | authenticated/organization-learners/list', function (hook
         sinon.assert.called(route.store.query);
         assert.ok(true);
       });
+
       test('it should not call store.query if fullName is filled with less than 2 characters', async function (assert) {
         // given
         const params = {
@@ -76,8 +94,8 @@ module('Unit | Route | authenticated/organization-learners/list', function (hook
       });
     });
 
-    module('when queryParams filters are falsy', function () {
-      test('it should call store.query with empty params', async function (assert) {
+    module('when optional queryParams are falsy', function () {
+      test('it should call store.query with default params', async function (assert) {
         // given
         const params = {
           organizationExternalId: 'SCO',
@@ -90,6 +108,7 @@ module('Unit | Route | authenticated/organization-learners/list', function (hook
           },
           filter: {
             organizationExternalId: 'SCO',
+            organizationLearnerId: undefined,
             fullName: undefined,
             hideDisabled: undefined,
           },
@@ -116,6 +135,7 @@ module('Unit | Route | authenticated/organization-learners/list', function (hook
           pageNumber: 'somePageNumber',
           pageSize: 'somePageSize',
           organizationExternalId: 'SCO',
+          organizationLearnerId: 313,
           fullName: 'attestation',
           hideDisabled: true,
         };
@@ -127,6 +147,7 @@ module('Unit | Route | authenticated/organization-learners/list', function (hook
           },
           filter: {
             organizationExternalId: 'SCO',
+            organizationLearnerId: 313,
             fullName: 'attestation',
             hideDisabled: true,
           },

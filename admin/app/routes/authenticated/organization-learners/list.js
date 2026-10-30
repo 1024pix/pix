@@ -9,6 +9,7 @@ export default class ListRoute extends Route {
 
   queryParams = {
     organizationExternalId: { refreshModel: true },
+    organizationLearnerId: { refreshModel: true },
     fullName: { refreshModel: true },
     hideDisabled: { refreshModel: true },
     pageNumber: { refreshModel: true },
@@ -19,7 +20,11 @@ export default class ListRoute extends Route {
   };
 
   async model(params) {
-    if (!(params.organizationExternalId || params.fullName?.length >= 2)) return [];
+    const isFullNameEmptyOrTooShort = !params.fullName || params.fullName?.length < 2;
+    const isOrganizationExternalIdEmpty = !params.organizationExternalId;
+    const isOrganizationLearnerIdEmpty = !params.organizationLearnerId;
+    if (isFullNameEmptyOrTooShort && isOrganizationExternalIdEmpty && isOrganizationLearnerIdEmpty) return [];
+
     try {
       const organizationLearners = await this.store.query('admin-organization-learner', {
         page: {
@@ -28,6 +33,7 @@ export default class ListRoute extends Route {
         },
         filter: {
           organizationExternalId: params.organizationExternalId,
+          organizationLearnerId: params.organizationLearnerId,
           fullName: params.fullName,
           hideDisabled: params.hideDisabled,
         },
