@@ -1366,6 +1366,18 @@
         "title": "¡Enhorabuena { firstName }, ya has terminado!"
       },
       "content": {
+        "duration": {
+          "aria-label-estimated": "Duración estimada: {duration}",
+          "aria-label-estimated-in-minutes": "Duración estimada: {duration} minutos.",
+          "estimated-duration-in-minutes": "≈ {duration} min"
+        },
+        "duration-options": {
+          "long": "1h15 à 2h",
+          "medium": "45 min a 1h15",
+          "short": "30 a 45 min",
+          "very-long": "más de 2h",
+          "very-short": "menos de 30 min"
+        },
         "resume-button": "Reanudar mi curso",
         "start-button": "Iniciar el curso",
         "step": "Paso {stepNumber}"
@@ -1380,12 +1392,10 @@
       "items": {
         "aria-label-completed-campaign": "Este elemento se completa con una tasa de éxito del {value, number, ::percent}",
         "aria-label-completed-campaign-with-stages": "Ha obtenido {acquired, plural, =0 {no estrella} =1 {# estrella} other {# estrellas}} de {total}",
-        "aria-label-duration": "Duración estimada: {duration} minutos.",
         "aria-label-level": "Nivel: {level}",
         "completed": "¡Completado!",
         "continue-campaign": "Continuar.",
         "continue-diagnostic": "Continuar con el diagnóstico.",
-        "duration": "≈ {duration} min.",
         "formation": {
           "description": "¡Completa tu diagnóstico para desbloquear un programa de módulos adaptado a tu resultado!",
           "title": "Programa personalizado de módulos"

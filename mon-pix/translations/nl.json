@@ -1366,6 +1366,18 @@
         "title": "Gefeliciteerd { firstName }, je hebt de test voltooid!"
       },
       "content": {
+        "duration": {
+          "aria-label-estimated": "Geschatte duur: {duration}",
+          "aria-label-estimated-in-minutes": "Geschatte duur: {duration} minuten",
+          "estimated-duration-in-minutes": "≈ {duration} min"
+        },
+        "duration-options": {
+          "long": "1:15 tot 2 uur",
+          "medium": "45 min tot 1:15 uur",
+          "short": "30 tot 45 min",
+          "very-long": "meer dan 2 uur",
+          "very-short": "minder dan 30 min"
+        },
         "resume-button": "Mijn traject vervolgen",
         "start-button": "Mijn traject beginnen",
         "step": "Stap {stepNumber}"
@@ -1380,12 +1392,10 @@
       "items": {
         "aria-label-completed-campaign": "Dit item is ingevuld met een vals slagingspercentage van {value, number, ::percent}",
         "aria-label-completed-campaign-with-stages": "Je hebt {acquired, plural, =0 {geen sterren} =1 {# ster} other {# sterren}} behaald op {total}",
-        "aria-label-duration": "Geschatte duur: {duration} minuten",
         "aria-label-level": "Niveau: {level}",
         "completed": "Voltooid!",
         "continue-campaign": "Doorgaan.",
         "continue-diagnostic": "Ga verder met de diagnose.",
-        "duration": "≈ {duration} min",
         "formation": {
           "description": "Rond je diagnose af om een programma met modules te deblokkeren dat is afgestemd op je resultaat!",
           "title": "Programma met modules op maat"

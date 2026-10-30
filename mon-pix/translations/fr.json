@@ -1366,6 +1366,18 @@
         "title": "Félicitations { firstName }, vous avez terminé !"
       },
       "content": {
+        "duration": {
+          "aria-label-estimated": "Durée estimée : {duration}",
+          "aria-label-estimated-in-minutes": "Durée estimée : {duration} minutes",
+          "estimated-duration-in-minutes": "≈ {duration} min"
+        },
+        "duration-options": {
+          "long": "1h15 à 2h",
+          "medium": "45 min à 1h15",
+          "short": "30 à 45 min",
+          "very-long": "plus de 2h",
+          "very-short": "moins de 30 min"
+        },
         "resume-button": "Continuer mon parcours",
         "start-button": "Commencer mon parcours",
         "step": "Étape {stepNumber}"
@@ -1380,12 +1392,10 @@
       "items": {
         "aria-label-completed-campaign": "Cet élément est complété avec un taux de réussite de {value, number, ::percent}",
         "aria-label-completed-campaign-with-stages": "Vous avez obtenu {acquired, plural, =0 {aucune étoile} =1 {# étoile} other {# étoiles}} sur {total}",
-        "aria-label-duration": "Durée estimée : {duration} minutes",
         "aria-label-level": "Niveau : {level}",
         "completed": "Complété !",
         "continue-campaign": "Continuer",
         "continue-diagnostic": "Continuer le diagnostic",
-        "duration": "≈ {duration} min",
         "formation": {
           "description": "Terminez votre diagnostic pour débloquer un programme de modules adapté à votre résultat !",
           "title": "Programme personnalisé de modules"
