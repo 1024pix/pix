@@ -529,10 +529,6 @@
     "campaign-page": {
       "aria-label": "Campaign navigation"
     },
-    "credits": {
-      "number": "{count, plural, =0 {0 credits} =1 {1 credit} other {{count, number} credits}}",
-      "tooltip-text": "The number of credits displayed is the number of credits acquired by the organisation and currently valid (regardless of their activation). For more information, please contact us at the following address: '<a href=mailto:pro@pix.fr>'pro@pix.fr'</a>'"
-    },
     "external-link-title": "Open in a new window",
     "footer": {
       "a11y": "Accessibility",

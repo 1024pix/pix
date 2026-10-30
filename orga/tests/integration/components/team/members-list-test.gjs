@@ -18,7 +18,6 @@ module('Integration | Component | Team::MembersList', function (hooks) {
     class CurrentUserMemberStub extends Service {
       isAdminInOrganization = true;
       organization = store.createRecord('organization', {
-        credit: 10000,
         name: 'Super Orga',
       });
       prescriber = {

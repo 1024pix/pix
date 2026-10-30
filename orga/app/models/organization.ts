@@ -1,12 +1,7 @@
 import type { OrganizationType } from '@1024pix/pix-types';
 import type { Type } from '@warp-drive/core/types/symbols';
 import Model, { type AsyncBelongsTo, type AsyncHasMany, attr, belongsTo, hasMany } from '@warp-drive/legacy/model';
-import type {
-  BooleanTransform,
-  DateTransform,
-  NumberTransform,
-  StringTransform,
-} from '@warp-drive/legacy/serializer/transform';
+import type { BooleanTransform, DateTransform, StringTransform } from '@warp-drive/legacy/serializer/transform';
 
 import type Campaign from './campaign';
 import type CombinedCourse from './combined-course';
@@ -24,7 +19,6 @@ export default class Organization extends Model {
   @attr<StringTransform>('string') declare name: string | null;
   @attr<StringTransform>('string') declare type: OrganizationType | null;
   @attr<StringTransform>('string') declare externalId: string | null;
-  @attr<NumberTransform>('number') declare credit: number | null;
   @attr<BooleanTransform>('boolean') declare isManagingStudents: boolean | null;
   @attr<BooleanTransform>('boolean') declare isAgriculture: boolean | null;
   @attr<StringTransform>('string') declare documentationUrl: string | null;

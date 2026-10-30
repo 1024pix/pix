@@ -175,7 +175,7 @@ module('Acceptance | authentication', function (hooks) {
       });
     });
 
-    module('When organization has credits management feature', function (hooks) {
+    module('When organization has places management feature', function (hooks) {
       let user;
       hooks.beforeEach(async () => {
         user = createPrescriberForOrganization({ lang: 'fr' }, {}, 'MEMBER', {

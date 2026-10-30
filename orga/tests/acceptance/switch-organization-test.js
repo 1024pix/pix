@@ -116,7 +116,7 @@ module('Acceptance | Switch Organization', function (hooks) {
         },
       );
 
-      module('When organization has credits management feature', function (hooks) {
+      module('When organization has places management feature', function (hooks) {
         let firstOrganization, secondOrganization, thirdOrganization, user;
         hooks.beforeEach(async () => {
           user = server.create('user', {

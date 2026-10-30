@@ -529,10 +529,6 @@
     "campaign-page": {
       "aria-label": "Navigatie binnen het gedeelte details van een campagne"
     },
-    "credits": {
-      "number": "{count, plural, =0 {0 credits} =1 {1 credit} other {{count, number} credits}}",
-      "tooltip-text": "Het weergegeven aantal credits komt overeen met het aantal credits dat de organisatie heeft verworven en dat nog geldig is (ongeacht of ze zijn geactiveerd). Neem voor meer informatie contact met ons op via '<a href=mailto:pro@pix.fr>'pro@pix.fr'</a>'"
-    },
     "external-link-title": "Openen in een nieuw venster",
     "footer": {
       "a11y": "Toegankelijkheid: gedeeltelijk conform",
