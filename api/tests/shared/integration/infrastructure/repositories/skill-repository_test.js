@@ -469,6 +469,49 @@ describe('Integration | Repository | skill-repository', function () {
     });
   });
 
+  describe('#findActiveByTubeIds', function () {
+    context('when no active skills for given tube ids', function () {
+      it('returns an empty array', async function () {
+        // when
+        const skills = await skillRepository.findActiveByTubeIds(['unkownTubeId1', 'unkownTubeId2']);
+
+        // then
+        expect(skills).to.deep.equal([]);
+      });
+    });
+
+    context('when active skills for given tube ids', function () {
+      it('returns skills', async function () {
+        // when
+        const skills = await skillRepository.findActiveByTubeIds(['tubeIdB', 'unkownTubeId1', 'tubeIdD']);
+
+        // then
+        expect(skills).to.deepEqualArray([
+          domainBuilder.buildSkill({
+            ...skillData03_tubeBcompetenceA_actif,
+            difficulty: skillData03_tubeBcompetenceA_actif.level,
+            hint: skillData03_tubeBcompetenceA_actif.hint_i18n.fr,
+          }),
+          domainBuilder.buildSkill({
+            ...skillData09_tubeDcompetenceB_actif,
+            difficulty: skillData09_tubeDcompetenceB_actif.level,
+            hint: skillData09_tubeDcompetenceB_actif.hint_i18n.fr,
+          }),
+        ]);
+      });
+    });
+
+    context('when no tube ids', function () {
+      it('returns an empty array', async function () {
+        // when
+        const skills = await skillRepository.findActiveByTubeIds([]);
+
+        // then
+        expect(skills).to.deep.equal([]);
+      });
+    });
+  });
+
   describe('#findOperativeByIds', function () {
     context('when no operative skills for given ids', function () {
       it('should return an empty array', async function () {
