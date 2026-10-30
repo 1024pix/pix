@@ -1,5 +1,56 @@
 # Pix Changelog
 
+# [5.534.0](https://github.com/1024pix/pix/compare/v5.533.0...v5.534.0) (2026-10-30)
+
+### :rocket: Amélioration
+
+- [#18359](https://github.com/1024pix/pix/pull/18359) Ajout du paramètre organizationIds au script de purge des OrganizationLearners (PIX-24531)
+- [#18438](https://github.com/1024pix/pix/pull/18438) Enregistrer la catégorie lors de la création d’un centre de certification joint à une organisation (PIX-24607)
+- [#18469](https://github.com/1024pix/pix/pull/18469) Mettre à jour le design du bandeau de fin de parcours apprenant (PIX-24481)
+- [#18439](https://github.com/1024pix/pix/pull/18439) Télécharger les certificats d'une sélection de sessions (PIX-23430).
+
+### :bug: Correction
+
+- [#18470](https://github.com/1024pix/pix/pull/18470) Afficher la liste des catégories pour les rôles CERTIF dans PixAdmin (PIX-24921)
+- [#18463](https://github.com/1024pix/pix/pull/18463) Ne plus considérer un seuil de palier vide comme valide (PIX-24314).
+
+### :building_construction: Tech
+
+- [#18467](https://github.com/1024pix/pix/pull/18467) Ajouter la table des knowledge elements des utilisateurs migrés
+- [#17673](https://github.com/1024pix/pix/pull/17673) Convertir les adapters "campagnes" de PixOrga en TS
+- [#18443](https://github.com/1024pix/pix/pull/18443) Créer et utiliser auth.dev.pix.fr et auth.dev.pix.org (PIX-24889)
+- [#18465](https://github.com/1024pix/pix/pull/18465) Définir une expiration pour le cookie de deep linking (PIX-24848)
+- [#18462](https://github.com/1024pix/pix/pull/18462) Donner une catégorie à toutes les structures des seeds (PIX-24610).
+- [#18466](https://github.com/1024pix/pix/pull/18466) Remplacer "word" pour "words" dans le glossaire des modules (PIX-24915)
+- [#18423](https://github.com/1024pix/pix/pull/18423) Revoir les claims custom de l’access token de deep linking (PIX-24840)
+
+### :arrow_up: Montée de version
+
+- [#18474](https://github.com/1024pix/pix/pull/18474) Update dependency @1024pix/eslint-plugin to v3.0.16 (api)
+- [#18475](https://github.com/1024pix/pix/pull/18475) Update dependency @1024pix/eslint-plugin to v3.0.16 (audit-logger)
+- [#18476](https://github.com/1024pix/pix/pull/18476) Update dependency @1024pix/eslint-plugin to v3.0.16 (e2e-playwright)
+- [#18484](https://github.com/1024pix/pix/pull/18484) Update dependency @1024pix/eslint-plugin to v3.0.17 (admin)
+- [#18485](https://github.com/1024pix/pix/pull/18485) Update dependency @1024pix/eslint-plugin to v3.0.17 (api)
+- [#18486](https://github.com/1024pix/pix/pull/18486) Update dependency @1024pix/eslint-plugin to v3.0.17 (audit-logger)
+- [#18487](https://github.com/1024pix/pix/pull/18487) Update dependency @1024pix/eslint-plugin to v3.0.17 (certif)
+- [#18488](https://github.com/1024pix/pix/pull/18488) Update dependency @1024pix/eslint-plugin to v3.0.17 (e2e-playwright)
+- [#18489](https://github.com/1024pix/pix/pull/18489) Update dependency @1024pix/eslint-plugin to v3.0.17 (junior)
+- [#18490](https://github.com/1024pix/pix/pull/18490) Update dependency @1024pix/eslint-plugin to v3.0.17 (mon-pix)
+- [#18491](https://github.com/1024pix/pix/pull/18491) Update dependency @1024pix/eslint-plugin to v3.0.17 (orga)
+- [#18477](https://github.com/1024pix/pix/pull/18477) Update dependency @1024pix/oppsy to v1.1.4 (api)
+- [#18496](https://github.com/1024pix/pix/pull/18496) Update dependency @embroider/macros to v1.21.4 (certif)
+- [#18498](https://github.com/1024pix/pix/pull/18498) Update dependency @embroider/macros to v1.21.4 (junior)
+- [#18499](https://github.com/1024pix/pix/pull/18499) Update dependency @embroider/macros to v1.21.4 (mon-pix)
+- [#18500](https://github.com/1024pix/pix/pull/18500) Update dependency @glint/ember-tsc to v1.14.2 (orga)
+- [#18501](https://github.com/1024pix/pix/pull/18501) Update dependency @glint/tsserver-plugin to v2.7.15 (orga)
+- [#18502](https://github.com/1024pix/pix/pull/18502) Update dependency baseline-browser-mapping to v2.11.31 (e2e-playwright)
+- [#18504](https://github.com/1024pix/pix/pull/18504) Update dependency dotenv to v18.0.9 (e2e-playwright)
+- [#18478](https://github.com/1024pix/pix/pull/18478) Update linters (admin)
+- [#18479](https://github.com/1024pix/pix/pull/18479) Update linters (certif)
+- [#18480](https://github.com/1024pix/pix/pull/18480) Update linters (junior)
+- [#18481](https://github.com/1024pix/pix/pull/18481) Update linters (mon-pix)
+- [#18482](https://github.com/1024pix/pix/pull/18482) Update linters (orga)
+
 # [5.533.0](https://github.com/1024pix/pix/compare/v5.532.1...v5.533.0) (2026-10-29)
 
 ### :rocket: Amélioration
