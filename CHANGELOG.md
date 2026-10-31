@@ -1,5 +1,48 @@
 # Pix Changelog
 
+# [5.535.0](https://github.com/1024pix/pix/compare/v5.534.1...v5.535.0) (2026-10-31)
+
+### :rocket: Amélioration
+
+- [#18497](https://github.com/1024pix/pix/pull/18497) Tracker le téléchargement d'attestation en fin de parcours apprenant (PIX-24924)
+
+### :bug: Correction
+
+- [#18521](https://github.com/1024pix/pix/pull/18521) Problème N+1 dans `GET /api/users/{userId}/campaigns/{campaignId}/assessment-result`
+
+### :building_construction: Tech
+
+- [#18472](https://github.com/1024pix/pix/pull/18472) Enlever tous les endroits conditionnels pour les catégories étant donné qu'elle sont obligatoires maintenant (PIX-24608)
+- [#18530](https://github.com/1024pix/pix/pull/18530) Évite le polling des bannières d'information sur les applis App, Orga et Certif lors d'une maintenance
+- [#18525](https://github.com/1024pix/pix/pull/18525) Migrer PG 17 pour l'env local et la review app
+- [#18520](https://github.com/1024pix/pix/pull/18520) OpenTelemetry en tests d’acceptance
+- [#18468](https://github.com/1024pix/pix/pull/18468) Renommer LtiPrescriberAccessToken en LtiDeepLinkingAccessToken (PIX-24839)
+
+### :arrow_up: Montée de version
+
+- [#18510](https://github.com/1024pix/pix/pull/18510) Update dependency @glimmer/component to v2.2.1 (admin)
+- [#18511](https://github.com/1024pix/pix/pull/18511) Update dependency @glimmer/component to v2.2.1 (certif)
+- [#18513](https://github.com/1024pix/pix/pull/18513) Update dependency @glimmer/component to v2.2.1 (junior)
+- [#18516](https://github.com/1024pix/pix/pull/18516) Update dependency @glimmer/component to v2.2.1 (mon-pix)
+- [#18517](https://github.com/1024pix/pix/pull/18517) Update dependency @glimmer/component to v2.2.1 (orga)
+- [#18526](https://github.com/1024pix/pix/pull/18526) Update dependency baseline-browser-mapping to v2.11.32 (e2e-playwright)
+- [#18519](https://github.com/1024pix/pix/pull/18519) Update dependency eslint-plugin-ember to v13.9.0 (admin)
+- [#18527](https://github.com/1024pix/pix/pull/18527) Update dependency i18next-browser-languagedetector to v8.2.2 (admin)
+- [#18528](https://github.com/1024pix/pix/pull/18528) Update dependency i18next-browser-languagedetector to v8.2.2 (certif)
+- [#18529](https://github.com/1024pix/pix/pull/18529) Update dependency i18next-browser-languagedetector to v8.2.2 (mon-pix)
+- [#18531](https://github.com/1024pix/pix/pull/18531) Update dependency i18next-browser-languagedetector to v8.2.2 (orga)
+- [#18537](https://github.com/1024pix/pix/pull/18537) Update dependency joi to v18.3.1 (admin) [SECURITY]
+- [#18538](https://github.com/1024pix/pix/pull/18538) Update dependency joi to v18.3.1 (api) [SECURITY]
+- [#18539](https://github.com/1024pix/pix/pull/18539) Update dependency joi to v18.3.1 (audit-logger) [SECURITY]
+- [#18505](https://github.com/1024pix/pix/pull/18505) Update dependency nodemailer to v10.2.1 (api)
+- [#18506](https://github.com/1024pix/pix/pull/18506) Update dependency npm-run-all2 to v9.0.4 (admin)
+- [#18508](https://github.com/1024pix/pix/pull/18508) Update dependency npm-run-all2 to v9.0.4 (e2e)
+- [#18509](https://github.com/1024pix/pix/pull/18509) Update dependency npm-run-all2 to v9.0.4 (junior)
+- [#18532](https://github.com/1024pix/pix/pull/18532) Update dependency npm-run-all2 to v9.0.4 (mon-pix)
+- [#18533](https://github.com/1024pix/pix/pull/18533) Update dependency npm-run-all2 to v9.0.4 (orga)
+- [#18534](https://github.com/1024pix/pix/pull/18534) Update dependency sass to v1.106.1 (admin)
+- [#18535](https://github.com/1024pix/pix/pull/18535) Update dependency sass to v1.106.1 (certif)
+
 ## [5.534.1](https://github.com/1024pix/pix/compare/v5.534.0...v5.534.1) (2026-10-30)
 
 ### :bug: Correction
