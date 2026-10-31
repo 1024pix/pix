@@ -31,10 +31,11 @@ export async function list() {
   return skillDtos.map(toDomain);
 }
 
-export async function findActiveByTubeId(tubeId) {
-  const cacheKey = `findActiveByTubeId(${tubeId})`;
-  const findActiveByTubeIdCallback = (knex) => knex.where({ tubeId, status: ACTIVE_STATUS }).orderBy('id');
-  const skillDtos = await getInstance().find(cacheKey, findActiveByTubeIdCallback);
+export async function findActiveByTubeIds(tubeIds) {
+  const cacheKey = `findActiveByTubeIds(${tubeIds.join(',')})`;
+  const findActiveByTubeIdsCallback = (knex) =>
+    knex.where({ status: ACTIVE_STATUS }).whereIn('tubeId', tubeIds).orderBy('id');
+  const skillDtos = await getInstance().find(cacheKey, findActiveByTubeIdsCallback);
   return skillDtos.map(toDomain);
 }
 

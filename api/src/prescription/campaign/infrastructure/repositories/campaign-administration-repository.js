@@ -125,14 +125,16 @@ const save = async function (campaigns, dependencies = { skillRepository }) {
       const cappedTubes = await knexConn('target-profile_tubes')
         .select('tubeId', 'level')
         .where('targetProfileId', campaignAttributes.targetProfileId);
-      const skillData = [];
-      for (const cappedTube of cappedTubes) {
-        const allLevelSkills = await dependencies.skillRepository.findActiveByTubeId(cappedTube.tubeId);
-        const rightLevelSkills = allLevelSkills.filter((skill) => skill.difficulty <= cappedTube.level);
-        skillData.push(
-          ...rightLevelSkills.map((skill) => ({ skillId: skill.id, campaignId: latestCreatedCampaign.id })),
-        );
-      }
+      const allSkills = await dependencies.skillRepository.findActiveByTubeIds(
+        cappedTubes.map((cappedTube) => cappedTube.tubeId),
+      );
+      const cappedTubesById = Object.fromEntries(cappedTubes.map((cappedTube) => [cappedTube.tubeId, cappedTube]));
+      const skillData = allSkills
+        .filter((skill) => {
+          const cappedTube = cappedTubesById[skill.tubeId];
+          return skill.difficulty <= cappedTube.level;
+        })
+        .map((skill) => ({ skillId: skill.id, campaignId: latestCreatedCampaign.id }));
       await knexConn.batchInsert('campaign_skills', skillData).transacting(knexConn);
     }
 
