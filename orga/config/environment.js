@@ -58,6 +58,7 @@ module.exports = function (environment) {
           defaultValue: 60,
           minValue: 10,
         }),
+      MAINTENANCE_ONGOING: process.env.MAINTENANCE_PLANIFIEE === 'enabled' || process.env.MAINTENANCE === 'enabled',
       CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL,
       COMBINED_COURSES_ROOT_URL: process.env.COMBINED_COURSES_ROOT_URL,
 

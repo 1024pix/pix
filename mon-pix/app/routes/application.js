@@ -60,7 +60,10 @@ export default class ApplicationRoute extends Route {
   }
 
   async model() {
-    const informationBanner = await this.store.findRecord('information-banner', `${ENV.APP.APPLICATION_NAME}`);
+    let informationBanner = null;
+    if (!ENV.APP.MAINTENANCE_ONGOING) {
+      informationBanner = await this.store.findRecord('information-banner', `${ENV.APP.APPLICATION_NAME}`);
+    }
     return {
       headElement: document.querySelector('head'),
       informationBanner,
@@ -68,13 +71,15 @@ export default class ApplicationRoute extends Route {
   }
 
   afterModel() {
-    this.poller = setInterval(async () => {
-      try {
-        this.store.findRecord('information-banner', `${ENV.APP.APPLICATION_NAME}`);
-      } catch {
-        this.#stopPolling();
-      }
-    }, ENV.APP.INFORMATION_BANNER_POLLING_TIME);
+    if (!ENV.APP.MAINTENANCE_ONGOING) {
+      this.poller = setInterval(async () => {
+        try {
+          this.store.findRecord('information-banner', `${ENV.APP.APPLICATION_NAME}`);
+        } catch {
+          this.#stopPolling();
+        }
+      }, ENV.APP.INFORMATION_BANNER_POLLING_TIME);
+    }
   }
 
   deactivate() {
