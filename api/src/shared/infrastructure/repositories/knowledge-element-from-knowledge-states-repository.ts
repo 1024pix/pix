@@ -3,8 +3,9 @@
  * as knowledge states.
  *
  * The knowledge element repository sends here the users found in the
- * migration table. Their knowledge elements are not rows: they are built
- * from their knowledge states on read, and update them on save.
+ * migration table. Their knowledge elements are built from their knowledge
+ * states on read, and update them on save. The saved ones are also kept as
+ * rows, in the migrated user knowledge elements table, for the data lake only.
  */
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
@@ -23,6 +24,7 @@ import {
   updateKnowledgeStatesWithKnowledgeElements,
 } from '../../domain/services/knowledge-state/update-knowledge-states-with-knowledge-elements.ts';
 import * as knowledgeStateRepository from './knowledge-state-repository.ts';
+import * as migratedUserKnowledgeElementRepository from './migrated-user-knowledge-element-repository.ts';
 import * as skillRepository from './skill-repository.js';
 import * as userCompetenceScoreRepository from './user-competence-score-repository.ts';
 
@@ -157,7 +159,12 @@ const scoresAfterUpdate = (
   );
 };
 
-const saveForUser = async (userId: number, knowledgeElements: KnowledgeElement[], skills: Skill[], at: Date) => {
+const saveForUser = async (
+  userId: number,
+  knowledgeElements: KnowledgeElement[],
+  skills: Skill[],
+  at: Date,
+): Promise<KnowledgeElement[]> => {
   await lockUser(userId);
   const knowledgeStatesBefore = await knowledgeStateRepository.findByUserId(userId);
   const userCompetenceScores = await userCompetenceScoreRepository.findByUserId(userId);
@@ -182,14 +189,16 @@ const saveForUser = async (userId: number, knowledgeElements: KnowledgeElement[]
   await knowledgeStateRepository.upsert(update.knowledgeStates);
   await knowledgeStateRepository.remove(userId, update.forgottenTubeIds);
   await userCompetenceScoreRepository.upsert(userCompetenceScoresAfter);
+
+  return migratedUserKnowledgeElementRepository.batchSave(knowledgeElements, at);
 };
 
 /**
  * Updates the knowledge states of a user with the given knowledge elements,
  * those of one answer or one reset, and moves their competence scores
- * accordingly: a score only goes down when its competence is reset. No
- * knowledge element row is inserted: those returned carry the date of the
- * save and no id.
+ * accordingly: a score only goes down when its competence is reset. The
+ * knowledge elements are kept as rows for the data lake, and given back with
+ * their id, dated from the save.
  */
 export const batchSave = async (
   knowledgeElements: KnowledgeElement[],
@@ -200,9 +209,5 @@ export const batchSave = async (
   const skills = await skillRepository.list();
   const { userId } = knowledgeElements[0];
 
-  await DomainTransaction.execute(() => saveForUser(userId, knowledgeElements, skills, at));
-
-  return knowledgeElements.map(
-    (knowledgeElement) => new KnowledgeElement({ ...knowledgeElement, id: undefined, createdAt: at }),
-  );
+  return DomainTransaction.execute(() => saveForUser(userId, knowledgeElements, skills, at));
 };

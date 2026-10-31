@@ -352,7 +352,7 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
       ),
     ];
 
-    it('#batchSave should update the knowledge states and the score, and insert no knowledge element', async function () {
+    it('#batchSave should update the knowledge states and the score, and keep the knowledge elements for the data lake', async function () {
       // given
       await migrate();
       const { count: countBefore } = await knex('knowledge-elements').count().first();
@@ -370,12 +370,20 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
         .first();
       const { pix } = await knex('user_competence_scores').where({ userId: migratedUserId }).first();
 
+      const keptRows = await knex('migrated_user_knowledge_elements')
+        .select('id', 'skillId', 'status', 'createdAt')
+        .where({ userId: migratedUserId })
+        .orderBy('id');
+
       expect(countAfter).to.equal(countBefore);
       expect(knowledgeState).to.deep.equal({ floor: 4, ceiling: 5, directLevels: [3, 4, 5] });
       expect(pix).to.equal(13);
       expect(saved).to.have.lengthOf(4);
       expect(saved[0]).to.be.instanceOf(KnowledgeElement);
       expect(saved[0].createdAt).to.be.instanceOf(Date);
+      expect(keptRows).to.deep.equal(
+        saved.map(({ id, skillId, status, createdAt }) => ({ id, skillId, status, createdAt })),
+      );
     });
 
     it('#batchSave should keep every answer and every pix when two saves of the same user run at once', async function () {
@@ -484,7 +492,7 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
       expect(earnedPix).to.be.closeTo(9, 1e-9);
     });
 
-    it('#batchSave should forget the tubes whose knowledge is reset, and bring their competence back to zero', async function () {
+    it('#batchSave should forget the tubes whose knowledge is reset, bring their competence back to zero, and keep the resets for the data lake', async function () {
       // given
       await migrate();
       const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
@@ -500,9 +508,17 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
       const { pix } = await knex('user_competence_scores').where({ userId: migratedUserId }).first();
       const knowledgeElementsAfter = await knowledgeElementRepository.findUniqByUserId({ userId: migratedUserId });
 
+      const keptRows = await knex('migrated_user_knowledge_elements')
+        .select('status', 'answerId', 'assessmentId')
+        .where({ userId: migratedUserId });
+
       expect(knowledgeStates).to.deep.equal([]);
       expect(pix).to.equal(0);
       expect(knowledgeElementsAfter).to.deep.equal([]);
+      expect(keptRows).to.have.lengthOf(knowledgeElements.length);
+      expect(new Set(keptRows.map((row) => JSON.stringify(row)))).to.deep.equal(
+        new Set([JSON.stringify({ status: RESET, answerId: null, assessmentId: null })]),
+      );
     });
 
     it('#batchSave should start the knowledge of a tube the user never met', async function () {
