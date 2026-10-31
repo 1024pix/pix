@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { KnowledgeState } from '../../../../../src/shared/domain/models/KnowledgeState.ts';
 import * as knowledgeStateRepository from '../../../../../src/shared/infrastructure/repositories/knowledge-state-repository.ts';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -7,6 +8,25 @@ import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 const { buildKnowledgeState, buildUser } = databaseBuilder.factory;
 
 describe('Integration | Shared | Infrastructure | Repository | knowledge-state', function () {
+  describe('#lockUser', function () {
+    it('should hold an advisory lock on the user until the end of the transaction', async function () {
+      // given
+      const userId = buildUser().id;
+      await databaseBuilder.commit();
+      const locksOnUser = () => knex('pg_locks').where({ locktype: 'advisory', objid: userId, granted: true });
+
+      // when
+      const locksDuringTransaction = await DomainTransaction.execute(async () => {
+        await knowledgeStateRepository.lockUser(userId);
+        return locksOnUser();
+      });
+
+      // then
+      expect(locksDuringTransaction).to.have.lengthOf(1);
+      expect(await locksOnUser()).to.deep.equal([]);
+    });
+  });
+
   describe('#findByUserId', function () {
     it('should give the knowledge states of the user only', async function () {
       // given
