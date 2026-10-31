@@ -128,7 +128,7 @@
     "stylelint": "17.16.0",
     "stylelint-order": "8.1.2",
     "tracked-toolbox": "3.0.0",
-    "webpack": "5.112.0",
+    "webpack": "5.112.2",
     "xss": "1.0.16"
   },
   "overrides": {
