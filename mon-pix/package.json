@@ -59,6 +59,7 @@
     "@embroider/macros": "1.21.4",
     "@embroider/util": "1.13.5",
     "@embroider/webpack": "4.1.2",
+    "@floating-ui/dom": "1.8.0",
     "@formatjs/intl": "6.1.4",
     "@formatjs/intl-durationformat": "0.11.1",
     "@glimmer/component": "2.2.1",
