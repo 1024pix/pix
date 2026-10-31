@@ -1,0 +1,58 @@
+import { AlgorithmEngineVersion } from '../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
+import { databaseBuffer } from '../database-buffer.ts';
+
+export function buildCertificate({
+  id = databaseBuffer.getNextId(),
+  algorithmEngineVersion = AlgorithmEngineVersion.V3,
+  userId = null,
+  firstName = 'first-name',
+  middleName = 'middle-name',
+  thirdName = 'third-name',
+  lastName = 'last-name',
+  externalId = 'externalId',
+  birthdate = '2001-05-21',
+  birthplace = 'Paris',
+  verificationCode = 'VERIFCODE',
+  certificationCenter = 'Meilleur centre de certif',
+  startedAt = new Date('2026-01-01'),
+  deliveredAt = new Date('2026-01-03'),
+  status = 'cancelled',
+  versionId = null,
+  framework = 'CORE',
+  franceCompetencesMinScore = 100,
+  commentByAutoJury = null,
+  commentByJury = null,
+  commentForOrganization = null,
+  commentForCandidate = 'Bien joué mon pote',
+  results = {},
+} = {}) {
+  const values = {
+    id,
+    algorithmEngineVersion,
+    userId,
+    firstName,
+    middleName,
+    thirdName,
+    lastName,
+    externalId,
+    birthdate,
+    birthplace,
+    verificationCode,
+    certificationCenter,
+    startedAt,
+    deliveredAt,
+    status,
+    versionId,
+    framework,
+    franceCompetencesMinScore,
+    commentByAutoJury,
+    commentByJury,
+    commentForOrganization,
+    commentForCandidate,
+    results: JSON.stringify(results),
+  };
+  return databaseBuffer.pushInsertable({
+    tableName: 'certificates',
+    values,
+  });
+}
