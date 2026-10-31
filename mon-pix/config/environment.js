@@ -72,6 +72,7 @@ module.exports = function (environment) {
           minValue: 10,
         }),
       IS_PROD_ENVIRONMENT: (process.env.REVIEW_APP === 'false' && environment === 'production') || false,
+      MAINTENANCE_ONGOING: process.env.MAINTENANCE_PLANIFIEE === 'enabled' || process.env.MAINTENANCE === 'enabled',
       EMBED_ALLOWED_ORIGINS: (
         process.env.EMBED_ALLOWED_ORIGINS || 'https://epreuves.pix.fr,https://1024pix.github.io'
       ).split(','),
