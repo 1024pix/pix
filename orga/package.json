@@ -79,7 +79,7 @@
     "@warp-drive/legacy": "5.9.1",
     "@warp-drive/utilities": "5.9.1",
     "babel-plugin-ember-template-compilation": "4.0.1",
-    "chart.js": "4.5.1",
+    "chart.js": "4.6.1",
     "chartjs-adapter-dayjs-4": "1.2.3",
     "dayjs": "1.11.23",
     "decorator-transforms": "2.4.0",
