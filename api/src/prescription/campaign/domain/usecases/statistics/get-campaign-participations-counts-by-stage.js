@@ -1,32 +1,12 @@
 import { NoStagesForCampaign, UserNotAuthorizedToAccessEntityError } from '../../../../../shared/domain/errors.js';
 import { StageAcquisitionCollection } from '../../../../stages/domain/models/StageAcquisitionCollection.js';
 
-/**
- * For each campaign participation, get the highest reached stage id
- *
- * @param {number[]} campaignParticipationsIds
- * @param {Stage[]} stages
- * @param {StageAcquisition[]} acquiredStages
- *
- * @returns {number[]} an array of stage ids
- */
-const getHighestReachedStageIdForEachParticipation = (campaignParticipationsIds, stages, acquiredStages) =>
-  campaignParticipationsIds.map((campaignParticipationId) => {
-    const stageAcquisitionCollection = new StageAcquisitionCollection(
-      stages,
-      acquiredStages.filter((stageAcquisition) => stageAcquisition.campaignParticipationId === campaignParticipationId),
-    );
-
-    return stageAcquisitionCollection.reachedStage.id;
-  });
-
 export const getCampaignParticipationsCountByStage = async function ({
   userId,
   campaignId,
   stageRepository,
   campaignRepository,
   stageAcquisitionRepository,
-  campaignParticipationsStatsRepository,
 }) {
   if (!(await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId))) {
     throw new UserNotAuthorizedToAccessEntityError('User does not belong to the organization that owns the campaign');
@@ -38,22 +18,21 @@ export const getCampaignParticipationsCountByStage = async function ({
     throw new NoStagesForCampaign();
   }
 
-  const campaignParticipations =
-    await campaignParticipationsStatsRepository.getAllParticipationsByCampaignId(campaignId);
-
-  const campaignParticipationsIds = campaignParticipations.map(({ id }) => id);
-
-  const acquiredStages = await stageAcquisitionRepository.getByCampaignParticipations(campaignParticipationsIds);
-
-  const highestReachedStageIdForEachParticipation = getHighestReachedStageIdForEachParticipation(
-    campaignParticipationsIds,
-    stages,
+  const acquiredStages = await stageAcquisitionRepository.getByCampaignId(campaignId);
+  const acquiredStagesByParticipation = Object.groupBy(
     acquiredStages,
+    ({ campaignParticipationId }) => campaignParticipationId,
   );
+
+  const reachedStageIds = Object.values(acquiredStagesByParticipation).map(
+    (participationAcquiredStages) =>
+      new StageAcquisitionCollection(stages, participationAcquiredStages).reachedStage.id,
+  );
+  const participationsByReachedStageId = Object.groupBy(reachedStageIds, (stageId) => stageId);
 
   return stages.map((stage, index) => ({
     id: stage.id,
-    value: highestReachedStageIdForEachParticipation.filter((stageId) => stageId === stage.id).length,
+    value: participationsByReachedStageId[stage.id]?.length ?? 0,
     reachedStage: index + 1,
     totalStage: stages.length,
     title: stage.prescriberTitle,
