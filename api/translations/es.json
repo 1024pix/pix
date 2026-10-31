@@ -528,6 +528,9 @@
       }
     }
   },
+  "lti": {
+    "profiles-collection-campaign-description": "Una campaña de recopilación de perfiles permite obtener el perfil de los participantes: nivel por competencia y puntuación Pix."
+  },
   "organization-invitation-email": {
     "params": {
       "acceptInvitation": "Aceptar invitación",

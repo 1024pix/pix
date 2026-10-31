@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
-import { LtiCampaign } from '../../../../../../src/prescription/campaign/domain/models/LtiCampaign.js';
-import * as ltiCampaignRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/lti-campaign-repository.js';
+import { CampaignOverview } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignOverview.js';
+import * as campaignOverviewRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-overview-repository.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
-describe('Integration | Repository | Lti-Campaign', function () {
+describe('Integration | Repository | Campaign-Overview', function () {
   describe('#getAllByOrganizationIds', function () {
     it('returns only campaigns from given organizationIds', async function () {
       // given
@@ -22,19 +22,21 @@ describe('Integration | Repository | Lti-Campaign', function () {
       await databaseBuilder.commit();
 
       // when
-      const campaigns = await ltiCampaignRepository.getAllByOrganizationIds({
+      const campaigns = await campaignOverviewRepository.getAllByOrganizationIds({
         organizationIds: [firstOrganizationId],
       });
 
       // then
       expect(campaigns.length).to.equal(1);
-      expect(campaigns[0]).to.be.an.instanceOf(LtiCampaign);
+      expect(campaigns[0]).to.be.an.instanceOf(CampaignOverview);
       expect(campaigns[0]).deep.equal({
         id: campaign1.id,
         description: 'Parcours rentrée 6ieme',
         code: 'QWERTY',
         name: 'Campagne 6A',
         organizationName: 'Pix organization',
+        organizationId: firstOrganizationId,
+        targetProfileId,
         type: CampaignTypes.ASSESSMENT,
       });
     });
@@ -59,19 +61,21 @@ describe('Integration | Repository | Lti-Campaign', function () {
       await databaseBuilder.commit();
 
       // when
-      const campaigns = await ltiCampaignRepository.getAllByOrganizationIds({
+      const campaigns = await campaignOverviewRepository.getAllByOrganizationIds({
         organizationIds: [firstOrganizationId, secondOrganizationId],
       });
 
       // then
       expect(campaigns.length).to.equal(3);
-      expect(campaigns[0]).to.be.an.instanceOf(LtiCampaign);
+      expect(campaigns[0]).to.be.an.instanceOf(CampaignOverview);
       expect(campaigns[0]).deep.equal({
         id: campaign1.id,
         description: 'Parcours rentrée 6ieme',
         code: 'AZERTY',
         name: 'Campagne 6A',
+        targetProfileId: campaign1.targetProfileId,
         organizationName: 'Pix organization',
+        organizationId: firstOrganizationId,
         type: 'ASSESSMENT',
       });
     });
@@ -87,21 +91,96 @@ describe('Integration | Repository | Lti-Campaign', function () {
       await databaseBuilder.commit();
 
       // when
-      const campaigns = await ltiCampaignRepository.getAllByOrganizationIds({
+      const campaigns = await campaignOverviewRepository.getAllByOrganizationIds({
         organizationIds: [firstOrganizationId],
       });
 
       // then
       expect(campaigns.length).to.equal(1);
-      expect(campaigns[0]).to.be.an.instanceOf(LtiCampaign);
+      expect(campaigns[0]).to.be.an.instanceOf(CampaignOverview);
       expect(campaigns[0]).deep.equal({
         id: campaign1.id,
         code: 'AZERTY',
         name: 'Collecte de profils 6A',
         description: null,
         organizationName: 'Pix organization',
+        organizationId: firstOrganizationId,
         type: CampaignTypes.PROFILES_COLLECTION,
+        targetProfileId: null,
       });
+    });
+  });
+
+  describe('#get', function () {
+    it('returns the campaign matching the given campaignId', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization({ name: 'Pix organization' }).id;
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile({ description: 'Parcours rentrée 6ieme' }).id;
+      const campaign = databaseBuilder.factory.buildCampaign({
+        code: 'QWERTY',
+        name: 'Campagne 6A',
+        organizationId,
+        targetProfileId,
+      });
+      databaseBuilder.factory.buildCampaign({ organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignOverviewRepository.get({ campaignId: campaign.id });
+
+      // then
+      expect(result).to.be.an.instanceOf(CampaignOverview);
+      expect(result).deep.equal({
+        id: campaign.id,
+        description: 'Parcours rentrée 6ieme',
+        code: 'QWERTY',
+        name: 'Campagne 6A',
+        organizationName: 'Pix organization',
+        organizationId,
+        targetProfileId,
+        type: CampaignTypes.ASSESSMENT,
+      });
+    });
+
+    it('returns a PROFILES_COLLECTION campaign without description nor target profile', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization({ name: 'Pix organization' }).id;
+      const campaign = databaseBuilder.factory.buildCampaign({
+        code: 'AZERTY',
+        name: 'Collecte de profils 6A',
+        type: CampaignTypes.PROFILES_COLLECTION,
+        organizationId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignOverviewRepository.get({ campaignId: campaign.id });
+
+      // then
+      expect(result).to.be.an.instanceOf(CampaignOverview);
+      expect(result).deep.equal({
+        id: campaign.id,
+        code: 'AZERTY',
+        name: 'Collecte de profils 6A',
+        description: null,
+        organizationName: 'Pix organization',
+        organizationId,
+        type: CampaignTypes.PROFILES_COLLECTION,
+        targetProfileId: null,
+      });
+    });
+
+    it('returns null when no campaign matches the given campaignId', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildCampaign({ organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignOverviewRepository.get({ campaignId: 123456 });
+
+      // then
+      expect(result).to.be.null;
     });
   });
 });

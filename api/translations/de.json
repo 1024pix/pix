@@ -542,6 +542,9 @@
       "DOUBLE_CORE_CLEA": "Doppelte Zertifizierung Pix/CléA Numérique"
     }
   },
+  "lti": {
+    "profiles-collection-campaign-description": "Eine Kampagne zur Profilerhebung ermöglicht es, das Profil der Teilnehmenden abzurufen: Niveau je Kompetenz und Pix-Score."
+  },
   "organization-invitation-email": {
     "params": {
       "acceptInvitation": "Einladung annehmen",

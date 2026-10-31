@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 
 import * as campaignApi from '../../../../../../src/prescription/campaign/application/api/campaigns-api.js';
+import { CampaignOverviewDTO } from '../../../../../../src/prescription/campaign/application/api/models/CampaignOverviewDTO.js';
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign/application/api/models/CampaignParticipation.js';
 import { SavedCampaign } from '../../../../../../src/prescription/campaign/application/api/models/SavedCampaign.js';
 import { UserNotAuthorizedToCreateCampaignError } from '../../../../../../src/prescription/campaign/domain/errors.js';
-import { LtiCampaign } from '../../../../../../src/prescription/campaign/domain/models/LtiCampaign.js';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
@@ -579,8 +579,8 @@ describe('Integration | Application | campaign-api', function () {
     });
   });
 
-  describe('#getLtiCampaigns', function () {
-    it('returns ltiCampaign objects', async function () {
+  describe('#getCampaignOverviews', function () {
+    it('returns campaignOverview objects', async function () {
       // given
       const firstOrganizationId = databaseBuilder.factory.buildOrganization({ name: 'Pix organization' }).id;
       const secondOrganizationId = databaseBuilder.factory.buildOrganization({ name: 'FWB organization' }).id;
@@ -602,21 +602,62 @@ describe('Integration | Application | campaign-api', function () {
       await databaseBuilder.commit();
 
       // when
-      const campaigns = await campaignApi.getLtiCampaigns({
+      const campaigns = await campaignApi.getCampaignOverviews({
         organizationIds: [firstOrganizationId, secondOrganizationId],
       });
 
       // then
       expect(campaigns.length).to.equal(3);
-      expect(campaigns[0]).to.be.an.instanceOf(LtiCampaign);
+      expect(campaigns[0]).to.be.an.instanceOf(CampaignOverviewDTO);
       expect(campaigns[0]).deep.equal({
         id: campaign1.id,
         description: 'Parcours rentrée 6ieme',
         code: 'AZERTY',
         name: 'Campagne 6A',
         organizationName: 'Pix organization',
+        organizationId: firstOrganizationId,
         type: 'ASSESSMENT',
       });
+    });
+  });
+
+  describe('#getCampaignOverview', function () {
+    it('returns a campaignOverview object', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization({ name: 'Pix organization' }).id;
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile({ description: 'Parcours rentrée 6ieme' }).id;
+      const campaign = databaseBuilder.factory.buildCampaign({
+        code: 'AZERTY',
+        targetProfileId,
+        name: 'Campagne 6A',
+        type: 'ASSESSMENT',
+        organizationId,
+      });
+      databaseBuilder.factory.buildCampaign({ organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const campaignOverview = await campaignApi.getCampaignOverview({ campaignId: campaign.id });
+
+      // then
+      expect(campaignOverview).to.be.an.instanceOf(CampaignOverviewDTO);
+      expect(campaignOverview).deep.equal({
+        id: campaign.id,
+        description: 'Parcours rentrée 6ieme',
+        code: 'AZERTY',
+        name: 'Campagne 6A',
+        organizationName: 'Pix organization',
+        organizationId,
+        type: 'ASSESSMENT',
+      });
+    });
+
+    it('returns null when the campaign does not exist', async function () {
+      // when
+      const campaignOverview = await campaignApi.getCampaignOverview({ campaignId: 123456 });
+
+      // then
+      expect(campaignOverview).to.be.null;
     });
   });
 });
