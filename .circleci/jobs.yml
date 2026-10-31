@@ -84,7 +84,7 @@ executors:
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
-      - image: postgres:16.9-alpine
+      - image: postgres:17-alpine
         command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
@@ -114,7 +114,7 @@ executors:
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>-browsers
-      - image: postgres:16.9-alpine
+      - image: postgres:17-alpine
         command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
@@ -130,7 +130,7 @@ executors:
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
-      - image: postgres:16.9-alpine
+      - image: postgres:17-alpine
         command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
@@ -143,7 +143,7 @@ executors:
         environment:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
-      - image: postgres:16.9-alpine
+      - image: postgres:17-alpine
         command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
@@ -160,7 +160,7 @@ executors:
         environment:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
-      - image: postgres:16.9-alpine
+      - image: postgres:17-alpine
         command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
           POSTGRES_USER: circleci
