@@ -27,7 +27,7 @@ services:
     container_name: pix-e2e-orga
     user: node
     # renovate datasource=node-version depName=node
-    image: node:24.21.0@sha256:3d27e5c11e5786e309ec3e03f93ae536eb36e6e5eb3714d5eb3300a36157add0
+    image: node:24.22.0@sha256:925de64a85319052d6971ae81ef2417da956e8a3a2c4a0fac732327970f017f5
     environment:
       DEFAULT_LOCALE: fr
     command: npx ember serve --proxy http://api:3000
@@ -40,7 +40,7 @@ services:
   monpix:
     container_name: pix-e2e-monpix
     user: node
-    image: node:24.21.0@sha256:3d27e5c11e5786e309ec3e03f93ae536eb36e6e5eb3714d5eb3300a36157add0
+    image: node:24.22.0@sha256:925de64a85319052d6971ae81ef2417da956e8a3a2c4a0fac732327970f017f5
     environment:
       DEFAULT_LOCALE: fr
     command: npx ember serve --proxy http://api:3000
@@ -53,7 +53,7 @@ services:
   api:
     container_name: pix-e2e-api
     user: node
-    image: node:24.21.0@sha256:3d27e5c11e5786e309ec3e03f93ae536eb36e6e5eb3714d5eb3300a36157add0
+    image: node:24.22.0@sha256:925de64a85319052d6971ae81ef2417da956e8a3a2c4a0fac732327970f017f5
     env_file: ./env-api
     command: npm run dev
     volumes:
