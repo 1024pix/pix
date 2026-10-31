@@ -3,7 +3,35 @@ import { databaseBuffer } from '../database-buffer.ts';
 
 const OIDC_PROVIDERS_TABLE_NAME = 'oidc-providers';
 
-export async function buildOidcProvider({
+// The jsonb columns take any JSON value.
+type OidcProviderAttributes = {
+  id?: number;
+  accessTokenLifespan?: string;
+  additionalRequiredProperties?: unknown;
+  application?: string | null;
+  applicationTld?: string | null;
+  claimMapping?: unknown;
+  claimsToStore?: string | null;
+  clientId?: string;
+  clientSecret: string;
+  connectionMethodCode?: string | null;
+  enabled?: boolean;
+  enabledForPixAdmin?: boolean;
+  extraAuthorizationUrlParameters?: unknown;
+  identityProvider?: string;
+  openidClientExtraMetadata?: unknown;
+  openidConfigurationUrl?: string;
+  organizationName?: string;
+  postLogoutRedirectUri?: string | null;
+  redirectUri?: string;
+  scope?: string;
+  shouldCloseSession?: boolean;
+  slug?: string;
+  source?: string;
+  isVisible?: boolean | null;
+};
+
+const buildOidcProvider = async ({
   id = databaseBuffer.getNextId(),
   accessTokenLifespan,
   additionalRequiredProperties,
@@ -28,7 +56,7 @@ export async function buildOidcProvider({
   slug,
   source,
   isVisible,
-}) {
+}: OidcProviderAttributes) => {
   const encryptedClientSecret = await cryptoService.encrypt(clientSecret);
 
   const values = {
@@ -58,8 +86,7 @@ export async function buildOidcProvider({
     isVisible,
   };
 
-  return databaseBuffer.pushInsertable({
-    tableName: OIDC_PROVIDERS_TABLE_NAME,
-    values,
-  });
-}
+  return databaseBuffer.pushInsertable({ tableName: OIDC_PROVIDERS_TABLE_NAME, values });
+};
+
+export { buildOidcProvider };

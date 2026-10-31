@@ -4,7 +4,7 @@ import { AssessmentResult } from '../../../src/shared/domain/models/AssessmentRe
 import { databaseBuffer } from '../database-buffer.ts';
 import { buildAssessment } from './build-assessment.js';
 import { buildCertificationCourseLastAssessmentResult } from './build-certification-course-last-assessment-result.js';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 function buildAssessmentResult({
   id = databaseBuffer.getNextId(),
