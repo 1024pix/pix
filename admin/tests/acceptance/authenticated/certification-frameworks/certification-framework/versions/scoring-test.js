@@ -1,15 +1,15 @@
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
-import { t } from '../../../../../helpers/setup-intl-rendering';
-
 module('Acceptance | Certification Framework | item | Framework | scoring', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  let calibrationScoringConfigurationForCore;
 
   hooks.beforeEach(function () {
     const versionSummaries = [];
@@ -52,17 +52,23 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
     });
     server.create('certification-version', {
       id: 14,
+      scope: 'CORE',
       status: 'draft',
       externalCalibrationId: 1,
       globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
     });
-    server.create('calibration-scoring-configuration', {
-      id: '1',
+    calibrationScoringConfigurationForCore = server.create('calibration-scoring-configuration', {
+      id: 1,
       calibrationId: 1,
       globalScoringConfiguration: [
         { bounds: { min: -4.67, max: -1.4 }, meshLevel: 0 },
         { bounds: { min: -1.4, max: 0.6 }, meshLevel: 1 },
       ],
+    });
+    server.create('calibration-scoring-configuration', {
+      id: 22,
+      calibrationId: 22,
+      globalScoringConfiguration: [],
     });
   });
 
@@ -89,6 +95,7 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
           id: 20,
           scope: 'DROIT',
           status: 'active',
+          externalCalibrationId: 22,
           globalScoringConfiguration: [],
         });
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
@@ -160,12 +167,9 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
       });
     });
 
-    module('when the attached calibration has no scoring configuration yet', function (hooks) {
-      hooks.beforeEach(function () {
-        server.db.calibrationScoringConfigurations.update('1', { globalScoringConfiguration: [] });
-      });
-
+    module('when the attached calibration has no scoring configuration yet', function () {
       test('redirects to the framework page', async function (assert) {
+        calibrationScoringConfigurationForCore.update({ globalScoringConfiguration: [] });
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
         await visit(`/certification-frameworks/CORE/versions/14/scoring`);
@@ -203,12 +207,12 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
           id: 20,
           scope: 'DROIT',
           status: 'active',
+          externalCalibrationId: 22,
           globalScoringConfiguration: [],
         });
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
         const screen = await visit(`/certification-frameworks/DROIT/versions/20/scoring`);
-
         assert
           .dom(
             screen.getByText(

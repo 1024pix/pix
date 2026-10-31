@@ -33,6 +33,10 @@ export default class CertificationVersion extends Model {
     return this.status === 'active';
   }
 
+  get isArchived() {
+    return this.status === 'archived';
+  }
+
   get isCoreScope() {
     return this.scope === 'CORE';
   }

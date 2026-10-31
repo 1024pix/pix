@@ -180,6 +180,10 @@ export async function seed() {
       );
       continue;
     }
+    if (calibrationScope === 'EDU_2ND_DEGRE') {
+      logger.warn(`No global scoring configuration for scope ${calibrationScope} on purpose`);
+      continue;
+    }
 
     const meshCount = await seedScoringMeshes({ calibrationId, globalScoringConfiguration });
     logger.info(`Seeded ${meshCount} scoring meshes for calibration ${calibrationId} (${calibrationScope})`);
