@@ -1,7 +1,7 @@
 import { PixTag } from '@1024pix/nebulix-ember';
 import { concat } from '@ember/helper';
 import { t } from 'ember-intl';
-import htmlUnsafe from 'mon-pix/helpers/html-unsafe';
+import RichContent from 'mon-pix/components/module/rich-content';
 
 import ModuleElement from './module-element';
 
@@ -28,7 +28,7 @@ export default class ModulixText extends ModuleElement {
           {{t (concat "pages.modulix.elements.text.tag." @text.tag)}}
         </PixTag>
       {{/if}}
-      {{htmlUnsafe @text.content}}
+      <RichContent @html={{@text.content}} />
     </div>
   </template>
 }

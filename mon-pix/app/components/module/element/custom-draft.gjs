@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import RichContent from 'mon-pix/components/module/rich-content';
 
 import { htmlUnsafe } from '../../../helpers/html-unsafe';
 import didInsert from '../../../modifiers/modifier-did-insert';
@@ -48,7 +49,7 @@ export default class ModulixCustomDraft extends ModuleElement {
     <div class="element-custom-draft element-custom">
       {{#if @customDraft.instruction}}
         <div class="element-custom-draft__instruction">
-          {{htmlUnsafe @customDraft.instruction}}
+          <RichContent @html={{@customDraft.instruction}} />
         </div>
       {{/if}}
 

@@ -4,6 +4,7 @@ import { t } from 'ember-intl';
 
 import { htmlUnsafe } from '../../helpers/html-unsafe';
 import ModulixIssueReportBlock from './issue-report/issue-report-block';
+import RichContent from './rich-content';
 
 export default class ModulixFeedback extends Component {
   get type() {
@@ -19,8 +20,7 @@ export default class ModulixFeedback extends Component {
         {{#if @feedback.state}}
           <p class="feedback-content__state">{{htmlUnsafe @feedback.state}}</p>
         {{/if}}
-        {{htmlUnsafe @feedback.diagnosis}}
-
+        <RichContent @html={{@feedback.diagnosis}} />
       </div>
       <div class="feedback__buttons">
         {{#if @reportInfo}}

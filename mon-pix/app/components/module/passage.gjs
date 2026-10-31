@@ -20,6 +20,7 @@ export default class ModulePassage extends Component {
   @service featureToggles;
   @service modulixNavigationProgress;
   @service modulixPreviewMode;
+  @service modulixGlossary;
   @service intl;
   @service pixToast;
 
@@ -29,6 +30,7 @@ export default class ModulePassage extends Component {
     super(...args);
 
     this.modulixPreviewMode.disable();
+    this.modulixGlossary.setEntries(this.args.module.glossary);
   }
 
   get enrichedSections() {
