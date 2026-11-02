@@ -30,10 +30,6 @@ const schema = Joi.object({
     }),
   identityProviderForCampaigns: Joi.string().allow(null),
   provinceCode: Joi.string().allow('', null),
-  credit: Joi.number().min(0).allow(null).messages({
-    'number.base': 'Le crédit doit être un entier.',
-    'number.min': 'Le crédit doit être un nombre entier positif.',
-  }),
   emailInvitations: Joi.string().email().allow('', null).messages({
     'string.email': "L'email fourni n'est pas valide.",
   }),
