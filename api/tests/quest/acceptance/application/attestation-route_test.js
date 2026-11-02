@@ -103,7 +103,6 @@ describe('Quest | Acceptance | Application | Attestation Route ', function () {
       beforeEach(async function () {
         user = databaseBuilder.factory.buildUser();
         organization = databaseBuilder.factory.buildOrganization({
-          credit: 5,
           isManagingStudents: true,
         });
         databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
