@@ -383,6 +383,59 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
             '<p title="chat"><a href="/chat">Mon chat</a> <button>chat</button> <strong><span data-glossary-word="chat">chat</span></strong></p>',
           );
         });
+
+        it('should match glossary words containing regex special characters literally', function () {
+          // given
+          const module = {
+            glossary: [
+              {
+                words: ['e-mail'],
+                definition:
+                  "Message envoyé et reçu sous forme numérique par l'intermédiaire d'un réseau informatique, tel qu'Internet",
+              },
+              {
+                words: ['C++'],
+                definition: 'Langage de programmation compilé',
+              },
+              {
+                words: ['Réseau social'],
+                definition: 'Plateforme numérique qui offre un espace de contenu généré par les utilisateurs',
+              },
+            ],
+            sections: [
+              {
+                id: `11111111-1111-1111-1111-111111111111`,
+                type: 'practise',
+                grains: [
+                  {
+                    id: `22222222-2222-2222-2222-222222222222`,
+                    type: 'lesson',
+                    title: 'Grain de test',
+                    components: [
+                      {
+                        id: `22222222-2222-2222-2222-222222222223`,
+                        type: 'element',
+                        element: {
+                          type: 'text',
+                          content: '<p><em>E-mail</em> et C++, mais pas email ni Cpp. Réseau social aussi</p>',
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          };
+
+          // when
+          const result = highlightGlossaryWords(module);
+
+          // then
+          const firstElement = (moduleData) => moduleData.sections[0].grains[0].components[0].element;
+          expect(firstElement(result).content).to.equal(
+            '<p><em><span data-glossary-word="e-mail">E-mail</span></em> et <span data-glossary-word="C++">C++</span>, mais pas email ni Cpp. <span data-glossary-word="Réseau social">Réseau social</span> aussi</p>',
+          );
+        });
       });
     });
   });

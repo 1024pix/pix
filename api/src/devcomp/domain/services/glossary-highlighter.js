@@ -75,8 +75,9 @@ function _highlightFeedback(feedback, words) {
 function _replaceWordsInHtml(html, words) {
   let result = html;
   words.forEach((glossaryWord) => {
+    const escapedWord = RegExp.escape(glossaryWord);
     const regex = new RegExp(
-      `${EXCLUDED_TAG_BLOCK}|${HTML_TAG}|${NOT_PRECEDED_BY_LETTER_OR_DIGIT}${glossaryWord}${NOT_FOLLOWED_BY_LETTER_OR_DIGIT}`,
+      `${EXCLUDED_TAG_BLOCK}|${HTML_TAG}|${NOT_PRECEDED_BY_LETTER_OR_DIGIT}${escapedWord}${NOT_FOLLOWED_BY_LETTER_OR_DIGIT}`,
       'giu',
     );
     result = result.replace(regex, (match, excludedTag, htmlTag) =>
