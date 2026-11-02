@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import * as skillRepository from '../../../../../src/shared/infrastructure/repositories/skill-repository.js';
@@ -284,6 +285,17 @@ describe('Integration | Repository | skill-repository', function () {
           hint: skillData12_tubeEcompetenceC_perime.hint_i18n.fr,
         }),
       ]);
+    });
+
+    it('does not resolve any locale when building the skills', async function () {
+      // given
+      const intlLocaleSpy = sinon.spy(Intl, 'Locale');
+
+      // when
+      await skillRepository.list();
+
+      // then
+      expect(intlLocaleSpy).not.to.have.been.called;
     });
   });
 
