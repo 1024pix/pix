@@ -20,6 +20,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
       rewardId: 5,
       rewardType: 'ATTESTATION',
       surveyLink: 'http://survey-link-test.fr',
+      durationSpan: 'very_short',
       cappedTubeRequirements: [
         {
           threshold: 0.5,
@@ -67,6 +68,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
             'reward-type': 'ATTESTATION',
             'reward-requirements-description': null,
             'survey-link': 'http://survey-link-test.fr',
+            'duration-span': 'very_short',
           },
         },
       },
@@ -91,6 +93,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
       rewardId: 5,
       rewardType: 'ATTESTATION',
       surveyLink: 'http://survey-link-test.fr',
+      durationSpan: 'very_short',
       cappedTubeRequirements: [
         {
           threshold: 0.5,
@@ -116,6 +119,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
           description: null,
           'prescriber-description': null,
           'survey-link': 'http://survey-link-test.fr',
+          'duration-span': 'very_short',
           'reward-requirements-description': null,
         },
       },
@@ -143,6 +147,7 @@ module('Unit | Serializer | combined-course-blueprint', function (hooks) {
         attributes: {
           name: 'parcours',
           'internal-name': 'Nom interne',
+          'duration-span': null,
           illustration: null,
           description: null,
           'reward-requirements-description': null,

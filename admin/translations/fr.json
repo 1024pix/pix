@@ -834,6 +834,17 @@
         "select-label": "Ajouter une attestation",
         "select-placeholder": "Sélectionner une attestation"
       },
+      "combined-course-duration": {
+        "label": "Durée estimée du parcours",
+        "options": {
+          "long": "1h15 à 2h",
+          "medium": "45 min à 1h15",
+          "short": "30 à 45 min",
+          "very-long": "plus de 2h",
+          "very-short": "moins de 30 min"
+        },
+        "placeholder": "Sélectionner une durée"
+      },
       "create": {
         "addItemButton": "Ajouter",
         "attestations": "Les attestations",

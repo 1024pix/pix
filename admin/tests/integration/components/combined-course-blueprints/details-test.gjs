@@ -204,4 +204,44 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
     //then
     assert.notOk(screen.queryByText(t('components.combined-course-blueprints.reward-requirements.title')));
   });
+
+  test('should display durationSpan if provided', async function (assert) {
+    //given
+    const store = this.owner.lookup('service:store');
+    const combinedCourseBlueprint = store.createRecord('combined-course-blueprint', {
+      id: '123',
+      internalName: 'Modèle de parcours apprenant',
+      createdAt: new Date('2025-12-25'),
+      name: 'Parcours apprenant',
+      content: [],
+      durationSpan: 'short',
+    });
+
+    //when
+    const screen = await render(<template><Details @model={{combinedCourseBlueprint}} /></template>);
+
+    //then
+    assert.ok(await screen.queryByText(t('components.combined-course-blueprints.labels.duration-span')));
+    assert.ok(
+      await screen.queryByText(t('components.combined-course-blueprints.combined-course-duration.options.short')),
+    );
+  });
+
+  test('should not display durationSpan if not provided', async function (assert) {
+    //given
+    const store = this.owner.lookup('service:store');
+    const combinedCourseBlueprint = store.createRecord('combined-course-blueprint', {
+      id: '123',
+      internalName: 'Modèle de parcours apprenant',
+      createdAt: new Date('2025-12-25'),
+      name: 'Parcours apprenant',
+      content: [],
+    });
+
+    //when
+    const screen = await render(<template><Details @model={{combinedCourseBlueprint}} /></template>);
+
+    //then
+    assert.notOk(await screen.queryByText(t('components.combined-course-blueprints.labels.duration-span')));
+  });
 });
