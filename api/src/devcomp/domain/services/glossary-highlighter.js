@@ -1,6 +1,9 @@
 const LETTER_OR_DIGIT = String.raw`[\p{L}\p{N}]`;
 const NOT_PRECEDED_BY_LETTER_OR_DIGIT = `(?<!${LETTER_OR_DIGIT})`;
 const NOT_FOLLOWED_BY_LETTER_OR_DIGIT = `(?!${LETTER_OR_DIGIT})`;
+const EXCLUDED_TAGS = 'a|button';
+const EXCLUDED_TAG_BLOCK = String.raw`<(${EXCLUDED_TAGS})\b[^>]*>[\s\S]*?<\/\1>`;
+const HTML_TAG = String.raw`(<[^>]*>)`;
 
 export function highlightGlossaryWords(module) {
   if (module.glossary.length === 0) return module;
@@ -72,11 +75,12 @@ function _highlightFeedback(feedback, words) {
 function _replaceWordsInHtml(html, words) {
   let result = html;
   words.forEach((glossaryWord) => {
-    result = result.replace(
-      new RegExp(`${NOT_PRECEDED_BY_LETTER_OR_DIGIT}${glossaryWord}${NOT_FOLLOWED_BY_LETTER_OR_DIGIT}`, 'giu'),
-      (wordMatched) => {
-        return `<span data-glossary-word="${glossaryWord}">${wordMatched}</span>`;
-      },
+    const regex = new RegExp(
+      `${EXCLUDED_TAG_BLOCK}|${HTML_TAG}|${NOT_PRECEDED_BY_LETTER_OR_DIGIT}${glossaryWord}${NOT_FOLLOWED_BY_LETTER_OR_DIGIT}`,
+      'giu',
+    );
+    result = result.replace(regex, (match, excludedTag, htmlTag) =>
+      excludedTag || htmlTag ? match : `<span data-glossary-word="${glossaryWord}">${match}</span>`,
     );
   });
 

@@ -343,6 +343,46 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
             '<p>clés, <span data-glossary-word="clé">clé</span>. chaton, chats, <span data-glossary-word="chat">chat</span>, achat</p>',
           );
         });
+
+        it('should not match word in a button or link tag', function () {
+          // given
+          const module = {
+            glossary: [{ words: ['chat'], definition: 'Un félin' }],
+            sections: [
+              {
+                id: `11111111-1111-1111-1111-111111111111`,
+                type: 'practise',
+                grains: [
+                  {
+                    id: `22222222-2222-2222-2222-222222222222`,
+                    type: 'lesson',
+                    title: 'Grain de test',
+                    components: [
+                      {
+                        id: `22222222-2222-2222-2222-222222222223`,
+                        type: 'element',
+                        element: {
+                          type: 'text',
+                          content:
+                            '<p title="chat"><a href="/chat">Mon chat</a> <button>chat</button> <strong>chat</strong></p>',
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          };
+
+          // when
+          const result = highlightGlossaryWords(module);
+
+          // then
+          const firstElement = (moduleData) => moduleData.sections[0].grains[0].components[0].element;
+          expect(firstElement(result).content).to.equal(
+            '<p title="chat"><a href="/chat">Mon chat</a> <button>chat</button> <strong><span data-glossary-word="chat">chat</span></strong></p>',
+          );
+        });
       });
     });
   });
