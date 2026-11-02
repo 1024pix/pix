@@ -112,9 +112,6 @@ describe('Unit | Infrastructure | Helpers | csv.js', function () {
           value = value.replaceAll(' ', '').toLowerCase();
         }
       } else {
-        if (columnName === 'credit') {
-          value = 0;
-        }
         if (
           columnName === 'identityProviderForCampaigns' ||
           columnName === 'DPOFirstName' ||
@@ -160,19 +157,6 @@ describe('Unit | Infrastructure | Helpers | csv.js', function () {
           // then
           expect(data[0].emailInvitations).to.equal('team-acces@example.net');
           expect(data[0].DPOEmail).to.equal('superadmin@example.net');
-        });
-      });
-
-      context('when credits column exists and the value is empty', function () {
-        it('returns 0 by default', async function () {
-          // given & when
-          const data = await parseCsvWithHeader(
-            organizationWithTagsAndTargetProfilesFilePath,
-            batchOrganizationOptionsWithHeader,
-          );
-
-          // then
-          expect(data[0].credit).to.equal(0);
         });
       });
 

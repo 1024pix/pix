@@ -24,9 +24,6 @@ const OPTIONS_WITH_HEADER = {
     if (columnName === 'createdBy') {
       return !isEmpty(trimmedValue) && parseInt(trimmedValue, 10);
     }
-    if (columnName === 'credit' && isEmpty(trimmedValue)) {
-      return 0;
-    }
     if (columnName === 'locale' && isEmpty(trimmedValue)) {
       return 'fr-fr';
     }
