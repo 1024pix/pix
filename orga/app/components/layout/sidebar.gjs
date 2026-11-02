@@ -3,10 +3,9 @@ import { hash } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
-import OrganizationPlacesOrCreditInfo from './organization-places-or-credit-info';
+import OrganizationPlacesInfo from './organization-places-info';
 import SchoolSessionManagement from './school-session-management';
 import UserLoggedMenu from './user-logged-menu';
 
@@ -15,12 +14,6 @@ export default class SidebarMenu extends Component {
   @service url;
   @service router;
   @service featureToggles;
-
-  @tracked canShowCredit;
-
-  handleCanShowCredit = (value) => {
-    this.canShowCredit = value;
-  };
 
   get redirectionRoute() {
     if (this.shouldDisplayMissionsEntry) {
@@ -74,7 +67,7 @@ export default class SidebarMenu extends Component {
   }
 
   get shouldDisplaySeparator() {
-    return this.shouldDisplayMissionsEntry || this.shouldDisplayPlacesEntry || this.canShowCredit;
+    return this.shouldDisplayMissionsEntry || this.shouldDisplayPlacesEntry;
   }
 
   get getOrganizationPlacesStatistics() {
@@ -185,10 +178,7 @@ export default class SidebarMenu extends Component {
 
       </:navElements>
       <:footer>
-        <OrganizationPlacesOrCreditInfo
-          @placesCount={{this.getOrganizationPlacesStatistics}}
-          @onCanShowCredit={{this.handleCanShowCredit}}
-        />
+        <OrganizationPlacesInfo @placesCount={{this.getOrganizationPlacesStatistics}} />
         <SchoolSessionManagement />
         {{#if this.shouldDisplaySeparator}}
           <PixNavigationSeparator />

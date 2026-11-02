@@ -29,7 +29,6 @@ class OrganizationForAdmin {
     externalId,
     provinceCode,
     isManagingStudents,
-    credit = null,
     email,
     documentationUrl,
     createdBy,
@@ -70,7 +69,6 @@ class OrganizationForAdmin {
     this.logoUrl = logoUrl;
     this.externalId = externalId;
     this.provinceCode = provinceCode;
-    this.credit = credit;
     this.email = this.#sanitizeEmptyStrings(email);
     this.documentationUrl = this.#sanitizeEmptyStrings(documentationUrl);
     this.createdBy = createdBy;

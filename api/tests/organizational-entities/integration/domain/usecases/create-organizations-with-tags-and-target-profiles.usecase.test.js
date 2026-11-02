@@ -321,7 +321,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           externalId: 'b200',
           name: 'Youness et Fils',
           provinceCode: '123',
-          credit: 0,
           emailInvitations: 'youness@example.net',
           locale: 'fr-fr',
           tags: 'Tag1_Tag2',
@@ -339,7 +338,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           externalId: 'b300',
           name: 'Andreia & Co',
           provinceCode: '345',
-          credit: 10,
           emailInvitations: 'andreia@example.net',
           locale: 'fr-fr',
           tags: 'Tag2_Tag3',
@@ -357,7 +355,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           externalId: 'b400',
           name: 'Mathieu Bâtiment',
           provinceCode: '567',
-          credit: 20,
           emailInvitations: 'mathieu@example.net',
           locale: 'fr-fr',
           tags: 'Tag1_Tag3',
@@ -385,7 +382,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       for (const organization of organizationsWithTagsAlreadyExist) {
         const organizationInDB = await knex('organizations')
-          .first('id', 'externalId', 'name', 'provinceCode', 'credit')
+          .first('id', 'externalId', 'name', 'provinceCode')
           .where({ externalId: organization.externalId });
         expect(omit(organizationInDB, 'id', 'emailInvitations')).to.be.deep.equal(
           omit(
@@ -934,7 +931,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           externalId: 'b200',
           name: 'Youness et Fils',
           provinceCode: '123',
-          credit: 0,
           emailInvitations: 'youness@example.net',
           locale: 'fr-fr',
           tags: 'Tag1_Tag2',
@@ -952,7 +948,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           externalId: 'b300',
           name: 'Andreia & Co',
           provinceCode: '345',
-          credit: 10,
           emailInvitations: 'andreia@example.net',
           locale: 'fr-fr',
           tags: 'Tag2_Tag3',
@@ -970,7 +965,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           externalId: 'b400',
           name: 'Mathieu Bâtiment',
           provinceCode: '567',
-          credit: 20,
           emailInvitations: 'mathieu@example.net',
           locale: 'fr-fr',
           tags: 'Tag1_Tag3',
@@ -998,7 +992,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
 
       for (const organization of organizationsWithExistingTargetProfiles) {
         const organizationInDB = await knex('organizations')
-          .first('id', 'externalId', 'name', 'provinceCode', 'credit')
+          .first('id', 'externalId', 'name', 'provinceCode')
           .where({ externalId: organization.externalId });
         expect(omit(organizationInDB, 'id', 'emailInvitations')).to.be.deep.equal(
           omit(

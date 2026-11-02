@@ -94,7 +94,6 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'province-code': organization.provinceCode,
             'is-managing-students': organization.isManagingStudents,
             code: organization.code,
-            credit: organization.credit,
             email: organization.email,
             'created-by': organization.createdBy,
             'created-at': organization.createdAt,

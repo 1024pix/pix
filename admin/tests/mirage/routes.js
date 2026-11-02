@@ -397,7 +397,6 @@ export default function routes() {
     const organization = {
       name: attributes.name,
       type: attributes.type,
-      credit: attributes.credit,
       dataProtectionOfficerFirstName: attributes['data-protection-officer-first-name'],
       dataProtectionOfficerLastName: attributes['data-protection-officer-last-name'],
       dataProtectionOfficerEmail: attributes['data-protection-officer-email'],

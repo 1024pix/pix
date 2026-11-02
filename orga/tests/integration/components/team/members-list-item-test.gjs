@@ -23,7 +23,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
 
     store = this.owner.lookup('service:store');
 
-    organization = store.createRecord('organization', { id: '18', credit: '10000' });
+    organization = store.createRecord('organization', { id: '18' });
     prescriber = store.createRecord('prescriber', { id: '344535' });
 
     const user = store.createRecord('user', {
@@ -347,9 +347,7 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         prescriber = {
           id: '113',
         };
-        organization = {
-          credit: 10000,
-        };
+        organization = {};
       }
 
       test('removes current administrator access to the organization, displays a success notification and invalidate the current session', async function (assert) {

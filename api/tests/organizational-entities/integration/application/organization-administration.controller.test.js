@@ -82,7 +82,6 @@ describe('Integration | Organizational Entities | Application | Controller | Org
       expect(response.source.data.attributes['type']).to.equal(savedOrganization.type);
       expect(response.source.data.attributes['logo-url']).to.equal(savedOrganization.logoUrl);
       expect(response.source.data.attributes['email']).to.equal(savedOrganization.email);
-      expect(response.source.data.attributes['credit']).to.equal(savedOrganization.credit);
       expect(response.source.data.attributes['external-id']).to.equal(savedOrganization.externalId);
       expect(response.source.data.attributes['province-code']).to.equal(savedOrganization.provinceCode);
       expect(response.source.data.attributes['is-managing-students']).to.equal(savedOrganization.isManagingStudents);
