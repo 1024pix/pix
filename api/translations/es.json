@@ -46,8 +46,8 @@
   "campaign-export": {
     "assessment": {
       "competence-area": {
-        "items-successfully-completed": "Conocimientos adquiridos en el ámbito {nombre}",
-        "mastery-percentage": "Dominio de las competencias en el ámbito {nombre}.",
+        "items-successfully-completed": "Conocimientos adquiridos en el ámbito {name}",
+        "mastery-percentage": "Dominio de las competencias en el ámbito {name}.",
         "total-items": "Número de realizaciones del perfil de destino del dominio {name}."
       },
       "is-shared": "Compartir (sí/no)",
@@ -55,9 +55,9 @@
       "progress": "% de aumento",
       "shared-on": "Fecha y hora del reparto (Europa/París)",
       "skill": {
-        "items-successfully-completed": "Habilidades dominadas en la competencia {nombre}.",
-        "mastery-percentage": "% dominio de las habilidades adquiridas {nombre}",
-        "total-items": "Número de logros del perfil de destino en la habilidad {nombre}."
+        "items-successfully-completed": "Habilidades dominadas en la competencia {name}.",
+        "mastery-percentage": "% dominio de las habilidades adquiridas {name}",
+        "total-items": "Número de logros del perfil de destino en la habilidad {name}."
       },
       "started-on": "Fecha y hora de inicio (Europa/París)",
       "status": {
@@ -65,9 +65,9 @@
         "not-tested": "No probado",
         "ok": "Ok"
       },
-      "success-rate": "Nivel obtenido (/{valor})",
+      "success-rate": "Nivel obtenido (/{value})",
       "target-profile-name": "Curso",
-      "thematic-result-name": "{nombre} obtenido (sí/no)"
+      "thematic-result-name": "{name} obtenido (sí/no)"
     },
     "common": {
       "campaign-code": "Código",
@@ -90,8 +90,8 @@
       "is-sent": "Enviar (sí/no)",
       "pix-score": "Número total de píxeles",
       "sent-on": "Fecha y ora de expedición (Europa/París)",
-      "skill-level": "Nivel de la habilidad {nombre}",
-      "skill-ranking": "Número de píxeles de la habilidad {nombre}"
+      "skill-level": "Nivel de la habilidad {name}",
+      "skill-ranking": "Número de píxeles de la habilidad {name}"
     }
   },
   "candidate-list-template": {
@@ -320,7 +320,7 @@
       "BIRTHPLACE": "Lugar de nacimiento",
       "CERTIFICATION_CENTER": "Centro de certificación",
       "CERTIFICATION_DATE": "Fecha de certificación",
-      "CERTIFICATION_LABEL": "Certificación {etiqueta}",
+      "CERTIFICATION_LABEL": "Certificación {label}",
       "CERTIFICATION_NUMBER": "Número de certificación",
       "EXTERNAL_ID": "Identificador externo",
       "FIRSTNAME": "Nombre",
