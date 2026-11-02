@@ -842,6 +842,30 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         expect(result.learners).lengthOf(2);
       });
 
+      it('retrieves learners filtered by ID', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const learner1 = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId,
+        });
+        databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await organizationLearnerRepository.findPaginatedLearnersForAdmin({
+          filter: {
+            organizationLearnerId: learner1.id,
+          },
+        });
+
+        // then
+        expect(result.learners).to.have.lengthOf(1);
+        expect(result.learners[0].id).to.equal(learner1.id);
+      });
+
       context('hideDisabled filter', function () {
         it('returns disabled learner by default', async function () {
           const userId = databaseBuilder.factory.buildUser().id;
