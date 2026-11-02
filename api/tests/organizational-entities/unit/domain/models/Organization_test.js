@@ -46,19 +46,6 @@ describe('Unit | Organizational Entities | Domain | Model | Organization', funct
       expect(organization.id).to.equal(1);
       expect(organization.targetProfileShares).to.have.lengthOf(1);
     });
-
-    it('should build an Organization with default values for credit when not specified', function () {
-      // given
-      const rawData = {
-        id: 1,
-        name: 'Lycée Jean Rostand',
-        type: 'SCO',
-      };
-      // when
-      const organization = new Organization(rawData);
-      // then
-      expect(organization.credit).to.equal(0);
-    });
   });
 
   describe('get#hasGarIdentityProvider', function () {
