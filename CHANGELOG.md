@@ -1,5 +1,46 @@
 # Pix Changelog
 
+## [5.535.1](https://github.com/1024pix/pix/compare/v5.535.0...v5.535.1) (2026-11-02)
+
+### :bug: Correction
+
+- [#18570](https://github.com/1024pix/pix/pull/18570) Compatibilité seeds avec PG 17
+- [#18524](https://github.com/1024pix/pix/pull/18524) Problème de N+1 sur lecture des acquis d’un profil cible
+
+### :arrow_up: Montée de version
+
+- [#18553](https://github.com/1024pix/pix/pull/18553) Update aws-sdk-js-v3 monorepo to v3.1156.0 (api)
+- [#18562](https://github.com/1024pix/pix/pull/18562) Update dependency @1024pix/eslint-plugin to v3.0.18 (audit-logger)
+- [#18563](https://github.com/1024pix/pix/pull/18563) Update dependency @1024pix/eslint-plugin to v3.0.18 (certif)
+- [#18564](https://github.com/1024pix/pix/pull/18564) Update dependency @1024pix/eslint-plugin to v3.0.18 (e2e-playwright)
+- [#18565](https://github.com/1024pix/pix/pull/18565) Update dependency @1024pix/eslint-plugin to v3.0.18 (junior)
+- [#18566](https://github.com/1024pix/pix/pull/18566) Update dependency @1024pix/eslint-plugin to v3.0.18 (mon-pix)
+- [#18568](https://github.com/1024pix/pix/pull/18568) Update dependency @1024pix/eslint-plugin to v3.0.18 (orga)
+- [#18560](https://github.com/1024pix/pix/pull/18560) Update dependency @graphql-yoga/redis-event-target to v4 (api)
+- [#18554](https://github.com/1024pix/pix/pull/18554) Update dependency chart.js to v4.6.1 (orga)
+- [#18555](https://github.com/1024pix/pix/pull/18555) Update dependency eslint-plugin-ember to v13.9.0 (certif)
+- [#18556](https://github.com/1024pix/pix/pull/18556) Update dependency eslint-plugin-ember to v13.9.0 (junior)
+- [#18557](https://github.com/1024pix/pix/pull/18557) Update dependency eslint-plugin-ember to v13.9.0 (mon-pix)
+- [#18558](https://github.com/1024pix/pix/pull/18558) Update dependency eslint-plugin-ember to v13.9.0 (orga)
+- [#18559](https://github.com/1024pix/pix/pull/18559) Update dependency knip to v6.43.0 (api)
+- [#18536](https://github.com/1024pix/pix/pull/18536) Update dependency sass to v1.106.1 (junior)
+- [#18542](https://github.com/1024pix/pix/pull/18542) Update dependency sass to v1.106.1 (mon-pix)
+- [#18543](https://github.com/1024pix/pix/pull/18543) Update dependency sass-embedded to v1.106.1 (orga)
+- [#18544](https://github.com/1024pix/pix/pull/18544) Update dependency webpack to v5.112.2 (admin)
+- [#18545](https://github.com/1024pix/pix/pull/18545) Update dependency webpack to v5.112.2 (certif)
+- [#18546](https://github.com/1024pix/pix/pull/18546) Update dependency webpack to v5.112.2 (junior)
+- [#18547](https://github.com/1024pix/pix/pull/18547) Update dependency webpack to v5.112.2 (mon-pix)
+- [#18548](https://github.com/1024pix/pix/pull/18548) Update dependency xss to v1.0.17 (admin)
+- [#18549](https://github.com/1024pix/pix/pull/18549) Update dependency xss to v1.0.17 (junior)
+- [#18550](https://github.com/1024pix/pix/pull/18550) Update dependency xss to v1.0.17 (mon-pix)
+- [#18551](https://github.com/1024pix/pix/pull/18551) Update dependency xss to v1.0.17 (orga)
+- [#18552](https://github.com/1024pix/pix/pull/18552) Update embroider monorepo (orga)
+- [#18569](https://github.com/1024pix/pix/pull/18569) Update linters (admin)
+
+### :coffee: Autre
+
+- [#17785](https://github.com/1024pix/pix/pull/17785) KE (ou son évolution) stockage "à froid"
+
 # [5.535.0](https://github.com/1024pix/pix/compare/v5.534.1...v5.535.0) (2026-10-31)
 
 ### :rocket: Amélioration
