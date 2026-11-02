@@ -5,8 +5,11 @@ const OPENING_OR_CLOSING_TAG_NAME_REGEX = /^<(\/?)([a-z0-9-]+)/i;
 function highlightGlossaryWords(module) {
   if (!module.glossary?.length) return module;
 
-  const words = module.glossary.map(({ word, definition }) => ({ word, definition }));
+  const words = module.glossary.flatMap(({ words, definition }) =>
+    (words ?? []).map((word) => ({ word, definition })),
+  );
   const matcher = _buildMatcher(words);
+  if (!matcher) return module;
 
   for (const section of module.sections) {
     for (const grain of section.grains) {
@@ -67,7 +70,13 @@ function _highlightField(target, fieldName, matcher) {
 }
 
 function _buildMatcher(words) {
-  const entriesByLowerCase = new Map(words.map((entry) => [entry.word.toLocaleLowerCase('fr'), entry]));
+  const entriesByLowerCase = new Map();
+  for (const entry of words) {
+    const key = entry.word.toLocaleLowerCase('fr');
+    if (!entriesByLowerCase.has(key)) entriesByLowerCase.set(key, entry);
+  }
+  if (!entriesByLowerCase.size) return null;
+
   const pattern = [...entriesByLowerCase.values()]
     .map(({ word }) => word)
     .toSorted((a, b) => b.length - a.length)
