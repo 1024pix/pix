@@ -46,9 +46,18 @@ export default class ScoringRoute extends Route {
 
   afterModel(model) {
     const { editVersion, calibrationScoringConfiguration } = model;
-    const hasCalibrationScoring = calibrationScoringConfiguration?.globalScoringConfiguration?.length;
-    const canAccessScoring =
-      (editVersion.isDraft && hasCalibrationScoring) || (editVersion.isActive && !editVersion.isCoreScope);
+
+    if (editVersion.isArchived) {
+      this.router.transitionTo('authenticated.certification-frameworks.certification-framework');
+      return;
+    }
+
+    const hasCalibrationDefaultScoringConfiguration =
+      calibrationScoringConfiguration?.globalScoringConfiguration?.length;
+
+    const canAccessScoring = editVersion.isCoreScope
+      ? editVersion.isDraft && hasCalibrationDefaultScoringConfiguration
+      : editVersion.isDraft || (editVersion.isActive && !editVersion.hasGlobalScoringConfiguration);
 
     if (!canAccessScoring) {
       this.router.transitionTo('authenticated.certification-frameworks.certification-framework');

@@ -27,6 +27,17 @@ export default class GlobalScoringForm extends Component {
     return this.args.previousVersion?.globalScoringConfiguration ?? [];
   }
 
+  get scoringConfigurationToDisplay() {
+    if (this.globalScoringConfiguration.length) {
+      return this.globalScoringConfiguration;
+    } else {
+      return this.previousVersionConfiguration.map(({ meshLevel }) => ({
+        meshLevel,
+        bounds: { min: null, max: null },
+      }));
+    }
+  }
+
   get editButtonLabel() {
     return this.editable
       ? this.intl.t('components.certification-frameworks.certification-framework.versions.scoring.no-edit')
@@ -36,7 +47,7 @@ export default class GlobalScoringForm extends Component {
   @action
   updateValue(name, index, event) {
     const isMax = name === 'max';
-    const newArray = [...this.globalScoringConfiguration];
+    const newArray = [...this.scoringConfigurationToDisplay];
     const value = event.target.value === '' ? null : Number(event.target.value);
     newArray.at(index).bounds[name] = value;
 
@@ -61,8 +72,13 @@ export default class GlobalScoringForm extends Component {
     return this.#boundsAt(index - 1)?.max;
   }
 
+  @action
+  minValue(mesh) {
+    return this.isNotFirstRow(mesh.meshLevel) ? this.lastMaxValue(mesh.meshLevel) : mesh.bounds.min;
+  }
+
   #boundsAt(index) {
-    return this.globalScoringConfiguration.at(index).bounds;
+    return this.scoringConfigurationToDisplay.at(index).bounds;
   }
 
   @action
@@ -102,7 +118,7 @@ export default class GlobalScoringForm extends Component {
         <PixButton @iconBefore="edit" @variant="secondary" @triggerAction={{this.toggleEditable}}>
           {{this.editButtonLabel}}
         </PixButton>
-        {{#each this.globalScoringConfiguration as |mesh|}}
+        {{#each this.scoringConfigurationToDisplay as |mesh|}}
           <h3>
 
             {{t
@@ -120,7 +136,7 @@ export default class GlobalScoringForm extends Component {
                 "components.certification-frameworks.certification-framework.versions.scoring.required-error"
               }}
               @validationStatus={{this.minValidationStatus mesh.meshLevel}}
-              @value={{if (this.isNotFirstRow mesh.meshLevel) (this.lastMaxValue mesh.meshLevel) mesh.bounds.min}}
+              @value={{this.minValue mesh}}
               {{on "change" (fn this.updateValue "min" mesh.meshLevel)}}
             >
               <:label>{{t
