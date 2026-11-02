@@ -4,6 +4,7 @@ type CombinedCourseBlueprintForUpdateArgs = {
   description: string;
   prescriberDescription: string;
   illustration?: string | null;
+  durationSpan?: string | null;
   surveyLink?: string | null;
   rewardRequirementsDescription?: string | null;
 };
@@ -14,6 +15,7 @@ export class CombinedCourseBlueprintForUpdate {
   description: string;
   prescriberDescription: string;
   illustration: string | null;
+  durationSpan: string | null;
   surveyLink: string | null;
   rewardRequirementsDescription: string | null;
 
@@ -23,6 +25,7 @@ export class CombinedCourseBlueprintForUpdate {
     description,
     prescriberDescription,
     illustration = null,
+    durationSpan = null,
     surveyLink = null,
     rewardRequirementsDescription = null,
   }: CombinedCourseBlueprintForUpdateArgs) {
@@ -31,6 +34,7 @@ export class CombinedCourseBlueprintForUpdate {
     this.description = description;
     this.prescriberDescription = prescriberDescription;
     this.illustration = illustration;
+    this.durationSpan = durationSpan;
     this.surveyLink = surveyLink;
     this.rewardRequirementsDescription = rewardRequirementsDescription;
   }

@@ -16,6 +16,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-for-upda
           'prescriber-description': 'PrescriberDescription',
           surveyLink: 'http://www.survey',
           rewardRequirementsDescription: 'description of requirements',
+          durationSpan: 'duration span',
         },
         relationships: {
           organization: {
@@ -45,6 +46,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course-for-upda
       prescriberDescription: 'PrescriberDescription',
       surveyLink: 'http://www.survey',
       rewardRequirementsDescription: 'description of requirements',
+      durationSpan: 'duration span',
     });
   });
 });

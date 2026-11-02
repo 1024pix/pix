@@ -37,6 +37,7 @@ export async function save({ combinedCourseBlueprint }) {
     illustration: combinedCourseBlueprint.illustration,
     rewardRequirementsDescription: combinedCourseBlueprint.rewardRequirementsDescription,
     surveyUrl: combinedCourseBlueprint.surveyLink,
+    durationSpan: combinedCourseBlueprint.durationSpan,
     updatedAt: knexConn.fn.now(),
     questId,
   };
@@ -53,6 +54,7 @@ export async function save({ combinedCourseBlueprint }) {
       'illustration',
       'rewardRequirementsDescription',
       'surveyUrl',
+      'durationSpan',
       'questId',
     ])
     .returning('*');
@@ -170,6 +172,7 @@ function _toDomain(rawData, quest) {
     updatedAt: rawData.updatedAt,
     organizationIds: rawData.organizationIds,
     rewardRequirementsDescription: rawData.rewardRequirementsDescription,
+    durationSpan: rawData.durationSpan,
     quest,
   });
 }
@@ -184,6 +187,7 @@ function _buildSelectFields(knexConn) {
     illustration: 'combined_course_blueprints.illustration',
     surveyUrl: 'combined_course_blueprints.surveyUrl',
     rewardRequirementsDescription: 'combined_course_blueprints.rewardRequirementsDescription',
+    durationSpan: 'combined_course_blueprints.durationSpan',
     createdAt: 'combined_course_blueprints.createdAt',
     updatedAt: 'combined_course_blueprints.updatedAt',
     organizationIds: knexConn.raw(`array_remove(array_agg("combined_course_blueprint_shares"."organizationId"), NULL)`),

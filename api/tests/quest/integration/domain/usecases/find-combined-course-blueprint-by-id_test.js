@@ -76,6 +76,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
       updatedAt: combinedCourseBlueprint.updatedAt,
       surveyLink: null,
       rewardRequirementsDescription: null,
+      durationSpan: null,
       organizationIds: [],
       items: [
         new CampaignCombinedCourseBlueprintItem({
@@ -99,6 +100,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
       },
     });
   });
+
   it('should return a combined course blueprint with campaigns only', async function () {
     // given
     const targetProfile = databaseBuilder.factory.buildTargetProfile({
@@ -140,6 +142,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
       surveyLink: null,
       rewardRequirementsDescription: null,
       organizationIds: [],
+      durationSpan: null,
       items: [
         new CampaignCombinedCourseBlueprintItem({
           id: targetProfile.id,
@@ -155,6 +158,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
       },
     });
   });
+
   it('should return a combined course with module only', async function () {
     const moduleId = 'eeeb4951-6f38-4467-a4ba-0c85ed71321a';
     databaseBuilder.factory.learningContent.buildModule({
@@ -207,6 +211,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-bluepri
       surveyLink: null,
       rewardRequirementsDescription: null,
       organizationIds: [],
+      durationSpan: null,
       items: [
         new ModuleCombinedCourseBlueprintItem({
           id: moduleId,

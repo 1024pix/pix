@@ -19,6 +19,7 @@ const schema = Joi.object({
   illustration: Joi.string().uri().allow(null),
   rewardRequirementsDescription: Joi.string().allow(null),
   quest: Joi.object().instance(Quest),
+  durationSpan: Joi.string().allow(null),
   surveyLink: Joi.string().uri().allow(null),
   schemaThreshold: Joi.number().allow(null),
   cappedTubeRequirements: Joi.array().allow(null),
@@ -33,6 +34,7 @@ export class CombinedCourseBlueprintForCreation {
     prescriberDescription,
     illustration,
     rewardRequirementsDescription = null,
+    durationSpan = null,
     surveyLink = null,
     quest,
     content,
@@ -55,6 +57,7 @@ export class CombinedCourseBlueprintForCreation {
         rewardType: REWARD_TYPES[rewardType] ?? null,
         cappedTubeRequirements: cappedTubeRequirements ?? [],
       }).toQuest();
+    this.durationSpan = durationSpan;
     this.surveyLink = surveyLink;
     this.schemaThreshold = schemaThreshold;
     this.content = content;
@@ -141,6 +144,7 @@ export class CombinedCourseBlueprintForCreation {
       description: this.description,
       prescriberDescription: this.prescriberDescription,
       illustration: this.illustration,
+      durationSpan: this.durationSpan,
       surveyLink: this.surveyLink,
       quest: this.quest,
       rewardRequirementsDescription: this.rewardRequirementsDescription,

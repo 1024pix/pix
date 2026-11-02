@@ -21,6 +21,7 @@ export class CombinedCourseBlueprint {
     description,
     prescriberDescription,
     illustration = null,
+    durationSpan = null,
     surveyLink = null,
     createdAt = null,
     updatedAt = null,
@@ -34,6 +35,7 @@ export class CombinedCourseBlueprint {
     this.description = description;
     this.prescriberDescription = prescriberDescription;
     this.illustration = illustration;
+    this.durationSpan = durationSpan;
     this.surveyLink = surveyLink;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
@@ -169,6 +171,7 @@ export class CombinedCourseBlueprint {
     this.description = combinedCourseBlueprintForUpdate.description;
     this.prescriberDescription = combinedCourseBlueprintForUpdate.prescriberDescription;
     this.illustration = combinedCourseBlueprintForUpdate.illustration;
+    this.durationSpan = combinedCourseBlueprintForUpdate.durationSpan;
     this.surveyLink = combinedCourseBlueprintForUpdate.surveyLink;
     this.rewardRequirementsDescription = combinedCourseBlueprintForUpdate.rewardRequirementsDescription;
 

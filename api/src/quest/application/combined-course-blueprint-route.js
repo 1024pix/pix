@@ -52,6 +52,7 @@ const register = async function (server) {
                 content: Joi.array(),
                 createdAt: Joi.date(),
                 'schema-threshold': Joi.number().allow(null),
+                'duration-span': Joi.string().allow(null),
                 'survey-link': Joi.string().allow(null),
                 'capped-tube-requirements': Joi.array()
                   .items(
@@ -192,6 +193,7 @@ const register = async function (server) {
                 illustration: Joi.string().allow(null),
                 description: Joi.string().required(),
                 'prescriber-description': Joi.string().required(),
+                'duration-span': Joi.string().allow(null),
                 'survey-link': Joi.string().allow(null),
                 'reward-requirements-description': Joi.string().allow(null),
               },
