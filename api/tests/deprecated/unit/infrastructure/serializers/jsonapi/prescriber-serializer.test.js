@@ -281,7 +281,6 @@ function createExpectedPrescriberSerializedWithOneMoreField({
           'external-id': organization.externalId,
           name: organization.name,
           type: organization.type,
-          credit: organization.credit,
           'documentation-url': organization.documentationUrl,
           [serializedField]: organization[field],
         },
@@ -411,7 +410,6 @@ function createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSe
           'external-id': organization.externalId,
           name: organization.name,
           type: organization.type,
-          credit: organization.credit,
           'documentation-url': organization.documentationUrl,
         },
         relationships: {

@@ -55,7 +55,6 @@ const serialize = function (prescriber) {
         attributes: [
           'name',
           'type',
-          'credit',
           'isManagingStudents',
           'isAgriculture',
           'identityProviderForCampaigns',
