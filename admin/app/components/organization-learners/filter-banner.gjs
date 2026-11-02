@@ -10,9 +10,15 @@ export default class LearnersFilterBanner extends Component {
   @service intl;
   @service router;
 
+  @tracked organizationLearnerId = this.router.currentRoute?.queryParams.organizationLearnerId;
   @tracked organizationExternalId = this.router.currentRoute?.queryParams.organizationExternalId;
   @tracked fullName = this.router.currentRoute?.queryParams.fullName;
   @tracked hideDisabled = this.router.currentRoute?.queryParams.hideDisabled;
+
+  @action
+  onChangeOrganizationLearnerId(event) {
+    this.organizationLearnerId = event.target.value === '' ? undefined : event.target.value;
+  }
 
   @action
   onChangeOrganizationExternalId(event) {
@@ -32,6 +38,7 @@ export default class LearnersFilterBanner extends Component {
 
   @action
   clearSearchFields() {
+    this.organizationLearnerId = undefined;
     this.organizationExternalId = undefined;
     this.fullName = undefined;
     this.refreshLearnersList();
@@ -41,6 +48,7 @@ export default class LearnersFilterBanner extends Component {
   refreshLearnersList() {
     this.router.transitionTo({
       queryParams: {
+        organizationLearnerId: this.organizationLearnerId,
         organizationExternalId: this.organizationExternalId,
         fullName: this.fullName,
         hideDisabled: this.hideDisabled,
@@ -60,6 +68,15 @@ export default class LearnersFilterBanner extends Component {
       @onLoadFilters={{this.refreshLearnersList}}
       @loadFiltersLabel={{t "common.filters.actions.load"}}
     >
+
+      <PixInput
+        @id="organizationLearnerId"
+        {{on "change" this.onChangeOrganizationLearnerId}}
+        @value={{this.organizationLearnerId}}
+        @size="small"
+      >
+        <:label>ID Prescrit</:label>
+      </PixInput>
 
       <PixInput @id="fullName" {{on "change" this.onChangeFullName}} @value={{this.fullName}} @size="small">
         <:label>Prénom/Nom</:label>
