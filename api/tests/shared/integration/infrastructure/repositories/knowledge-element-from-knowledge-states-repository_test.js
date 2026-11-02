@@ -248,7 +248,7 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
   describe('#batchSave', function () {
     const at = new Date('2026-02-01T10:00:00Z');
 
-    it('should update the knowledge states and the scores from the knowledge elements, and keep them for the data lake', async function () {
+    it('should update the knowledge states and the scores from the knowledge elements, and keep them', async function () {
       // given: web is known up to level 2, the user validates level 3 and meets file on level 1
       buildKnowledgeState({
         userId,
