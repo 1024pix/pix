@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@1024pix/ember-testing-library": "4.0.1",
-    "@1024pix/eslint-plugin": "3.0.17",
+    "@1024pix/eslint-plugin": "3.0.18",
     "@1024pix/nebulix-ember": "1.4.0",
     "@1024pix/stylelint-config": "5.2.26",
     "@babel/eslint-parser": "7.29.9",
@@ -112,7 +112,7 @@
     "sinon": "22.1.0",
     "stylelint": "17.16.0",
     "stylelint-config-standard-scss": "17.0.0",
-    "stylelint-scss": "7.3.0",
+    "stylelint-scss": "7.4.0",
     "tracked-built-ins": "4.1.2",
     "webpack": "5.112.2",
     "xss": "1.0.17"
