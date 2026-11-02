@@ -105,6 +105,7 @@ async function deepLink(request, h, dependencies = { ltiService }) {
 
   const origin = getForwardedOrigin(request.headers);
   const requestApplication = RequestedApplication.fromOrigin(origin);
+
   if (!requestApplication.isPixOrga) {
     return boom.preconditionFailed();
   }
@@ -239,8 +240,10 @@ async function preLaunch(request, dependencies = { ltiPlatformRegistrationReposi
   const { keys } = await registration.fetchJwks({ httpAgent: dependencies.httpAgent });
 
   const key = keys.find(({ kid }) => kid === decodedToken.header.kid);
+
   if (key === undefined) {
     logger.warn({ kid: decodedToken.header.kid }, 'could not find key');
+    throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
   }
 
   const verifiedToken = jsonwebtoken.verify(encodedToken, createPublicKey({ key, format: 'jwk' }));
