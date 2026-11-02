@@ -105,7 +105,6 @@ const get = async function ({ organizationId }) {
       externalId: 'organizations.externalId',
       provinceCode: 'organizations.provinceCode',
       isManagingStudents: 'organizations.isManagingStudents',
-      credit: 'organizations.credit',
       email: 'organizations.email',
       documentationUrl: 'organizations.documentationUrl',
       createdBy: 'organizations.createdBy',
@@ -239,7 +238,6 @@ const save = async function ({ organization }) {
     'provinceCode',
     'isManagingStudents',
     'identityProviderForCampaigns',
-    'credit',
     'createdBy',
     'documentationUrl',
     'administrationTeamId',
@@ -290,7 +288,6 @@ const save = async function ({ organization }) {
 const update = async function ({ organization }) {
   const knexConn = DomainTransaction.getConnection();
   const organizationRawData = _.pick(organization, [
-    'credit',
     'documentationUrl',
     'email',
     'externalId',
@@ -560,7 +557,6 @@ function _toDomain(rawOrganization) {
     externalId: rawOrganization.externalId,
     provinceCode: rawOrganization.provinceCode,
     isManagingStudents: Boolean(rawOrganization.isManagingStudents),
-    credit: rawOrganization.credit,
     email: rawOrganization.email,
     documentationUrl: rawOrganization.documentationUrl,
     createdBy: rawOrganization.createdBy,
