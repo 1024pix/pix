@@ -28,7 +28,7 @@ export async function list() {
   const cacheKey = 'list()';
   const listCallback = (knex) => knex.orderBy('id');
   const skillDtos = await getInstance().find(cacheKey, listCallback);
-  return skillDtos.map(toDomain);
+  return skillDtos.map((skillDto) => toDomain(skillDto));
 }
 
 export async function findActiveByTubeIds(tubeIds) {
@@ -36,7 +36,7 @@ export async function findActiveByTubeIds(tubeIds) {
   const findActiveByTubeIdsCallback = (knex) =>
     knex.where({ status: ACTIVE_STATUS }).whereIn('tubeId', tubeIds).orderBy('id');
   const skillDtos = await getInstance().find(cacheKey, findActiveByTubeIdsCallback);
-  return skillDtos.map(toDomain);
+  return skillDtos.map((skillDto) => toDomain(skillDto));
 }
 
 export async function findActiveByCompetenceId(competenceId) {
@@ -55,7 +55,7 @@ export async function findOperativeByCompetenceIds(competenceIds) {
     .whereIn('status', OPERATIVE_STATUSES)
     .orderBy('id');
   const skillDtos = await getInstance().loadMany(ids);
-  return skillDtos.map(toDomain);
+  return skillDtos.map((skillDto) => toDomain(skillDto));
 }
 
 export async function findOperativeByIds(ids) {
@@ -63,7 +63,7 @@ export async function findOperativeByIds(ids) {
   return skillDtos
     .filter((skillDto) => skillDto && OPERATIVE_STATUSES.includes(skillDto.status))
     .toSorted(byId)
-    .map(toDomain);
+    .map((skillDto) => toDomain(skillDto));
 }
 
 export async function findByRecordIds(ids) {
@@ -79,7 +79,7 @@ export async function findActiveByRecordIds(ids) {
   return skillDtos
     .filter((skillDto) => skillDto && skillDto.status === ACTIVE_STATUS)
     .toSorted(byId)
-    .map(toDomain);
+    .map((skillDto) => toDomain(skillDto));
 }
 
 export function clearCache(id) {
