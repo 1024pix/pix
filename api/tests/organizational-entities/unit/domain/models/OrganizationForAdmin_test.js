@@ -29,16 +29,6 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
         expect(organization.documentationUrl).to.be.null;
       });
     });
-
-    context('when credit is undefined', function () {
-      it('should set credit to null', function () {
-        // when
-        const organization = new OrganizationForAdmin({ credit: undefined });
-
-        // then
-        expect(organization.credit).to.be.null;
-      });
-    });
   });
 
   describe('features', function () {

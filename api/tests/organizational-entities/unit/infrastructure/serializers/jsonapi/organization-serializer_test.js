@@ -41,7 +41,6 @@ describe('Unit | Serializer | organization-serializer', function () {
             'external-id': organization.externalId,
             'province-code': organization.provinceCode,
             'is-managing-students': organization.isManagingStudents,
-            credit: organization.credit,
             email: organization.email,
             'created-by': organization.createdBy,
             'documentation-url': organization.documentationUrl,
