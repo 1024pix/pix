@@ -8,6 +8,7 @@ import { createLiveAlert } from '../../../evaluation/domain/usecases/create-live
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
+import * as certificationResultAdapter from '../../infrastructure/adapters/certification-result-adapter.js';
 import {
   answerRepository,
   assessmentRepository,
@@ -170,6 +171,7 @@ const dependencies = {
   versionApi,
   userRepository,
   sessionRepository,
+  certificationResultAdapter,
 };
 
 const usecasesWithoutInjectedDependencies = {

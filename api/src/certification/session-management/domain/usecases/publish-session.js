@@ -8,6 +8,7 @@ export async function publishSession({
   certificationRepository,
   finalizedSessionRepository,
   sessionManagementRepository,
+  certificationResultAdapter,
   eventJobPublisherService,
 }) {
   const session = await sessionManagementRepository.get({ id: sessionId });
@@ -31,6 +32,7 @@ export async function publishSession({
     publishedAt: finalizedSession.publishedAt,
   });
   await sessionManagementRepository.updatePublishedAt({ id: sessionId, publishedAt: finalizedSession.publishedAt });
+  await certificationResultAdapter.buildCertificationResults({ sessionId });
 
   const sessionPublishedEvent = new SessionPublishedEvent({ sessionId, publishedAt: finalizedSession.publishedAt });
   await eventJobPublisherService.publishEvent(sessionPublishedEvent);
