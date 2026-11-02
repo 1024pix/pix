@@ -8,7 +8,7 @@ const HTML_TAG = String.raw`(<[^>]*>)`;
 export function highlightGlossaryWords(module) {
   if (module.glossary.length === 0) return module;
 
-  const words = module.glossary.flatMap(({ words }) => words);
+  const words = module.glossary.flatMap(({ words, definition }) => words.map((word) => ({ word, definition })));
 
   for (const section of module.sections) {
     for (const grain of section.grains) {
@@ -74,16 +74,22 @@ function _highlightFeedback(feedback, words) {
 
 function _replaceWordsInHtml(html, words) {
   let result = html;
-  words.forEach((glossaryWord) => {
+  words.forEach(({ word: glossaryWord, definition }) => {
     const escapedWord = RegExp.escape(glossaryWord);
     const regex = new RegExp(
       `${EXCLUDED_TAG_BLOCK}|${HTML_TAG}|${NOT_PRECEDED_BY_LETTER_OR_DIGIT}${escapedWord}${NOT_FOLLOWED_BY_LETTER_OR_DIGIT}`,
       'giu',
     );
     result = result.replace(regex, (match, excludedTag, htmlTag) =>
-      excludedTag || htmlTag ? match : `<span data-glossary-word="${glossaryWord}">${match}</span>`,
+      excludedTag || htmlTag
+        ? match
+        : `<highlighted-button word="${_escapeAttribute(glossaryWord)}" definition="${_escapeAttribute(definition)}">${match}</highlighted-button>`,
     );
   });
 
   return result;
+}
+
+function _escapeAttribute(value) {
+  return value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 }

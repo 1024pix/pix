@@ -25,8 +25,9 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
         describe('When module has a text element', function () {
           it('should enclose text element content words occurrences with a span tag', function () {
             // given
+            const reseauDefinition = 'Des machines reliées';
             const module = {
-              glossary: [{ words: ['réseau', 'réseaux'], definition: 'Des machines reliées' }],
+              glossary: [{ words: ['réseau', 'réseaux'], definition: reseauDefinition }],
               sections: [
                 {
                   id: `11111111-1111-1111-1111-111111111111`,
@@ -55,7 +56,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
             // then
             const firstElement = (moduleData) => moduleData.sections[0].grains[0].components[0].element;
             expect(firstElement(result).content).to.equal(
-              '<p><span data-glossary-word="réseau">réseau</span> et <span data-glossary-word="réseau">réseau</span></p>',
+              `<p><highlighted-button word="réseau" definition="${reseauDefinition}">réseau</highlighted-button> et <highlighted-button word="réseau" definition="${reseauDefinition}">réseau</highlighted-button></p>`,
             );
           });
         });
@@ -63,6 +64,8 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
         describe('When module has an element with an instruction field', function () {
           it('should enclose instruction content occurrences with a span tag', function () {
             // given
+            const chienDefinition = 'Le meilleur ami des humains';
+            const chatDefinition = 'Le meilleur ami des souris';
             const qcu = {
               id: `22222222-2222-2222-2222-222222222223`,
               type: 'element',
@@ -76,8 +79,8 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
 
             const module = {
               glossary: [
-                { words: ['chien'], definition: 'Le meilleur ami des humains' },
-                { words: ['chat'], definition: 'Le meilleur ami des souris' },
+                { words: ['chien'], definition: chienDefinition },
+                { words: ['chat'], definition: chatDefinition },
               ],
               sections: [
                 {
@@ -102,14 +105,20 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
             const qcuElement = result.sections[0].grains[0].components[0].element;
             const qrocmElement = result.sections[0].grains[0].components[1].element;
 
-            expect(qcuElement.instruction).to.equal('<p>Le <span data-glossary-word="chat">chat</span> ?</p>');
-            expect(qrocmElement.instruction).to.equal('<p>Le <span data-glossary-word="chien">chien</span> ?</p>');
+            expect(qcuElement.instruction).to.equal(
+              `<p>Le <highlighted-button word="chat" definition="${chatDefinition}">chat</highlighted-button> ?</p>`,
+            );
+            expect(qrocmElement.instruction).to.equal(
+              `<p>Le <highlighted-button word="chien" definition="${chienDefinition}">chien</highlighted-button> ?</p>`,
+            );
           });
         });
 
         describe('When module has feedbacks', function () {
           it('should enclose diagnoses content occurrences with a span tag', function () {
             // given
+            const chienDefinition = 'Le meilleur ami des humains';
+            const chatDefinition = 'Le meilleur ami des souris';
             const qcmDeclarative = {
               id: `22222222-2222-2222-2222-222222222223`,
               type: 'element',
@@ -160,8 +169,8 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
 
             const module = {
               glossary: [
-                { words: ['chien'], definition: 'Le meilleur ami des humains' },
-                { words: ['chat', 'chaton'], definition: 'Le meilleur ami des souris' },
+                { words: ['chien'], definition: chienDefinition },
+                { words: ['chat', 'chaton'], definition: chatDefinition },
               ],
               sections: [
                 {
@@ -188,17 +197,17 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
             const qcuDiscoveryElement = result.sections[0].grains[0].components[2].element;
 
             expect(qcmDeclarativeElement.feedback.diagnosis).to.equal(
-              '<p>Oui ! C\'est un <span data-glossary-word="chat">chat</span></p>',
+              `<p>Oui ! C'est un <highlighted-button word="chat" definition="${chatDefinition}">chat</highlighted-button></p>`,
             );
             expect(qcmElement.feedbacks.valid.diagnosis).to.equal(
-              '<p>Bravo c\'est le <span data-glossary-word="chien">chien</span> !</p>',
+              `<p>Bravo c'est le <highlighted-button word="chien" definition="${chienDefinition}">chien</highlighted-button> !</p>`,
             );
             expect(qcmElement.feedbacks.invalid.diagnosis).to.equal(
-              '<p>Raté c\'est un <span data-glossary-word="chat">chat</span></p>',
+              `<p>Raté c'est un <highlighted-button word="chat" definition="${chatDefinition}">chat</highlighted-button></p>`,
             );
 
             expect(qcuDiscoveryElement.proposals[1].feedback.diagnosis).to.equal(
-              '<p>Eh non ! Pas de <span data-glossary-word="chat">chat</span> mais un lapin</p>',
+              `<p>Eh non ! Pas de <highlighted-button word="chat" definition="${chatDefinition}">chat</highlighted-button> mais un lapin</p>`,
             );
           });
         });
@@ -207,6 +216,8 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
       describe('When module has stepper component', function () {
         it('should enclose glossary word occurrences with a span tag', function () {
           // given
+          const chienDefinition = 'Le meilleur ami des humains';
+          const chatDefinition = 'Le meilleur ami des souris';
           const qcmDeclarative = {
             type: 'qcm-declarative',
             instruction: '<p>Le chat ?</p>',
@@ -217,8 +228,8 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
 
           const module = {
             glossary: [
-              { words: ['chien'], definition: 'Le meilleur ami des humains' },
-              { words: ['chat'], definition: 'Le meilleur ami des souris' },
+              { words: ['chien'], definition: chienDefinition },
+              { words: ['chat'], definition: chatDefinition },
             ],
             sections: [
               {
@@ -256,23 +267,28 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
           const textElement = result.sections[0].grains[0].components[0].steps[0].elements[1];
 
           expect(stepperInstruction).to.equal(
-            '<p>Ce texte s\'affiche pour un stepper horizontal de type <span data-glossary-word="chat">chat</span>.</p>',
+            `<p>Ce texte s'affiche pour un stepper horizontal de type <highlighted-button word="chat" definition="${chatDefinition}">chat</highlighted-button>.</p>`,
           );
 
-          expect(qcmDeclarativeElement.instruction).to.equal('<p>Le <span data-glossary-word="chat">chat</span> ?</p>');
+          expect(qcmDeclarativeElement.instruction).to.equal(
+            `<p>Le <highlighted-button word="chat" definition="${chatDefinition}">chat</highlighted-button> ?</p>`,
+          );
           expect(qcmDeclarativeElement.feedback.diagnosis).to.equal(
-            '<p>Oui ! C\'est un <span data-glossary-word="chat">chat</span></p>',
+            `<p>Oui ! C'est un <highlighted-button word="chat" definition="${chatDefinition}">chat</highlighted-button></p>`,
           );
 
-          expect(textElement.content).to.equal('<p>réseau et <span data-glossary-word="chien">chien</span></p>');
+          expect(textElement.content).to.equal(
+            `<p>réseau et <highlighted-button word="chien" definition="${chienDefinition}">chien</highlighted-button></p>`,
+          );
         });
       });
 
       describe('Matching cases', function () {
         it('should match case-insensitively and keep the glossary word as marker value', function () {
           // given
+          const reseauDefinition = 'Des machines reliées';
           const module = {
-            glossary: [{ words: ['réseau', 'réseaux'], definition: 'Des machines reliées' }],
+            glossary: [{ words: ['réseau', 'réseaux'], definition: reseauDefinition }],
             sections: [
               {
                 id: `11111111-1111-1111-1111-111111111111`,
@@ -301,16 +317,18 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
           // then
           const firstElement = (moduleData) => moduleData.sections[0].grains[0].components[0].element;
           expect(firstElement(result).content).to.equal(
-            '<p><span data-glossary-word="réseau">réseau</span> et <span data-glossary-word="réseau">RÉSEAU</span></p>',
+            `<p><highlighted-button word="réseau" definition="${reseauDefinition}">réseau</highlighted-button> et <highlighted-button word="réseau" definition="${reseauDefinition}">RÉSEAU</highlighted-button></p>`,
           );
         });
 
         it('should only match whole words, including accented ones', function () {
           // given
+          const chatDefinition = 'Un félin';
+          const cleDefinition = 'Un objet';
           const module = {
             glossary: [
-              { words: ['clé'], definition: 'Un objet' },
-              { words: ['chat'], definition: 'Un félin' },
+              { words: ['clé'], definition: cleDefinition },
+              { words: ['chat'], definition: chatDefinition },
             ],
             sections: [
               {
@@ -340,14 +358,15 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
           // then
           const firstElement = (moduleData) => moduleData.sections[0].grains[0].components[0].element;
           expect(firstElement(result).content).to.equal(
-            '<p>clés, <span data-glossary-word="clé">clé</span>. chaton, chats, <span data-glossary-word="chat">chat</span>, achat</p>',
+            `<p>clés, <highlighted-button word="clé" definition="${cleDefinition}">clé</highlighted-button>. chaton, chats, <highlighted-button word="chat" definition="${chatDefinition}">chat</highlighted-button>, achat</p>`,
           );
         });
 
         it('should not match word in a button or link tag', function () {
           // given
+          const chatDefinition = 'Un félin';
           const module = {
-            glossary: [{ words: ['chat'], definition: 'Un félin' }],
+            glossary: [{ words: ['chat'], definition: chatDefinition }],
             sections: [
               {
                 id: `11111111-1111-1111-1111-111111111111`,
@@ -380,26 +399,30 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
           // then
           const firstElement = (moduleData) => moduleData.sections[0].grains[0].components[0].element;
           expect(firstElement(result).content).to.equal(
-            '<p title="chat"><a href="/chat">Mon chat</a> <button>chat</button> <strong><span data-glossary-word="chat">chat</span></strong></p>',
+            `<p title="chat"><a href="/chat">Mon chat</a> <button>chat</button> <strong><highlighted-button word="chat" definition="${chatDefinition}">chat</highlighted-button></strong></p>`,
           );
         });
 
         it('should match glossary words containing regex special characters literally', function () {
           // given
+          const emailDefinition =
+            "Message envoyé et reçu sous forme numérique par l'intermédiaire d'un réseau informatique, tel qu'Internet";
+          const cppDefinition = 'Langage de programmation compilé';
+          const reseauSocialDefinition =
+            'Plateforme numérique qui offre un espace de contenu généré par les utilisateurs';
           const module = {
             glossary: [
               {
                 words: ['e-mail'],
-                definition:
-                  "Message envoyé et reçu sous forme numérique par l'intermédiaire d'un réseau informatique, tel qu'Internet",
+                definition: emailDefinition,
               },
               {
                 words: ['C++'],
-                definition: 'Langage de programmation compilé',
+                definition: cppDefinition,
               },
               {
                 words: ['Réseau social'],
-                definition: 'Plateforme numérique qui offre un espace de contenu généré par les utilisateurs',
+                definition: reseauSocialDefinition,
               },
             ],
             sections: [
@@ -433,7 +456,43 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
           // then
           const firstElement = (moduleData) => moduleData.sections[0].grains[0].components[0].element;
           expect(firstElement(result).content).to.equal(
-            '<p><em><span data-glossary-word="e-mail">E-mail</span></em> et <span data-glossary-word="C++">C++</span>, mais pas email ni Cpp. <span data-glossary-word="Réseau social">Réseau social</span> aussi</p>',
+            `<p><em><highlighted-button word="e-mail" definition="${emailDefinition}">E-mail</highlighted-button></em> et <highlighted-button word="C++" definition="${cppDefinition}">C++</highlighted-button>, mais pas email ni Cpp. <highlighted-button word="Réseau social" definition="${reseauSocialDefinition}">Réseau social</highlighted-button> aussi</p>`,
+          );
+        });
+
+        it('should escape the definition so it does not break the highlighted button attribute', function () {
+          // given
+          const module = {
+            glossary: [{ words: ['chat'], definition: 'Un "félin" <domestique> & joueur' }],
+            sections: [
+              {
+                id: `11111111-1111-1111-1111-111111111111`,
+                type: 'practise',
+                grains: [
+                  {
+                    id: `22222222-2222-2222-2222-222222222222`,
+                    type: 'lesson',
+                    title: 'Grain de test',
+                    components: [
+                      {
+                        id: `22222222-2222-2222-2222-222222222223`,
+                        type: 'element',
+                        element: { type: 'text', content: '<p>Mon chat</p>' },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          };
+
+          // when
+          const result = highlightGlossaryWords(module);
+
+          // then
+          const firstElement = (moduleData) => moduleData.sections[0].grains[0].components[0].element;
+          expect(firstElement(result).content).to.equal(
+            '<p>Mon <highlighted-button word="chat" definition="Un &quot;félin&quot; &lt;domestique&gt; &amp; joueur">chat</highlighted-button></p>',
           );
         });
       });
