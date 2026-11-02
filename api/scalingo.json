@@ -37,7 +37,7 @@
     {
       "plan": "postgresql:postgresql-starter-512",
       "options": {
-        "version": "16.9"
+        "version": "17"
       }
     },
     {

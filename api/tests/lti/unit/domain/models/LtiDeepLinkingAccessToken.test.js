@@ -3,10 +3,10 @@ import { parseSetCookie } from 'cookie';
 import jsonwebtoken from 'jsonwebtoken';
 
 import { config } from '../../../../../config/config.js';
-import { LtiPrescriberAccessToken } from '../../../../../src/lti/domain/models/LtiPrescriberAccessToken.js';
+import { LtiDeepLinkingAccessToken } from '../../../../../src/lti/domain/models/LtiDeepLinkingAccessToken.js';
 import { InvalidInputDataError, ObjectValidationError } from '../../../../../src/shared/domain/errors.js';
 
-describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
+describe('Unit | LTI | Domain | Model | LtiDeepLinkingAccessToken', function () {
   describe('constructor', function () {
     it('validates arguments', function () {
       // given
@@ -20,7 +20,7 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
       };
 
       // when
-      const call = () => new LtiPrescriberAccessToken(args);
+      const call = () => new LtiDeepLinkingAccessToken(args);
 
       // then
       expect(call).to.throw(ObjectValidationError);
@@ -28,9 +28,9 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
   });
 
   describe('encodedForSetCookieHeader', function () {
-    it('encodes token for a Set-Cookie header', function () {
+    it('returns an encoded token for a Set-Cookie header', function () {
       // given
-      const token = new LtiPrescriberAccessToken({
+      const token = new LtiDeepLinkingAccessToken({
         organizationIds: [123, 456],
         clientId: 'Abcd1234',
         deepLinkingSettings: {},
@@ -45,20 +45,52 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
       // then
       const parsed = parseSetCookie(value);
       expect(parsed).to.contain({
-        name: 'jwtLtiPrescriber',
+        name: 'jwtLtiDeepLinking',
         secure: true,
         httpOnly: true,
         sameSite: 'none',
         partitioned: true,
         path: '/api/lti',
+        maxAge: 600,
       });
       expect(parsed).to.have.property('value').that.is.a('string');
 
       const decodedToken = jsonwebtoken.verify(parsed.value, config.authentication.secret, { complete: true });
       expect(decodedToken.header).to.deep.equal({ alg: 'HS256', typ: 'at+jwt' });
       expect(decodedToken.payload).to.deep.contain({
+        'https://pix.org/claims/organization_ids': [123, 456],
+        client_id: 'Abcd1234',
+        'https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings': {},
+        scope: 'lti:deep-linking',
+        aud: 'https://orga.dev.pix.fr',
+        sid: '6934a1f4-45c7-4bb4-9203-bc5fbe02a244',
+      });
+      expect(decodedToken.payload).to.have.property('iat').which.is.a('number');
+      expect(decodedToken.payload).to.have.property('exp').which.is.a('number');
+    });
+  });
+
+  describe('encoded', function () {
+    it('returns an encoded token for a Cookie header', function () {
+      // given
+      const token = new LtiDeepLinkingAccessToken({
         organizationIds: [123, 456],
         clientId: 'Abcd1234',
+        deepLinkingSettings: {},
+        scope: 'lti:deep-linking',
+        audience: 'https://orga.dev.pix.fr',
+        sessionId: '6934a1f4-45c7-4bb4-9203-bc5fbe02a244',
+      });
+
+      // when
+      const encodedToken = token.encoded;
+
+      // then
+      const decodedToken = jsonwebtoken.verify(encodedToken, config.authentication.secret, { complete: true });
+      expect(decodedToken.header).to.deep.equal({ alg: 'HS256', typ: 'at+jwt' });
+      expect(decodedToken.payload).to.deep.contain({
+        'https://pix.org/claims/organization_ids': [123, 456],
+        client_id: 'Abcd1234',
         'https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings': {},
         scope: 'lti:deep-linking',
         aud: 'https://orga.dev.pix.fr',
@@ -74,23 +106,23 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
       // given
       const encodedToken = jsonwebtoken.sign(
         {
-          organizationIds: [123, 456],
-          clientId: 'Abcd1234',
+          'https://pix.org/claims/organization_ids': [123, 456],
+          client_id: 'Abcd1234',
           'https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings': {},
           scope: 'lti:deep-linking',
           aud: 'https://orga.dev.pix.fr',
           sid: '6934a1f4-45c7-4bb4-9203-bc5fbe02a244',
         },
         config.authentication.secret,
-        { expiresIn: config.lti.prescriberAccessTokenLifespan },
+        { expiresIn: config.lti.deepLinkingAccessTokenLifespan },
       );
 
       // when
-      const token = LtiPrescriberAccessToken.decode(encodedToken);
+      const token = LtiDeepLinkingAccessToken.decode(encodedToken);
 
       // then
       expect(token).to.deepEqualInstance(
-        new LtiPrescriberAccessToken({
+        new LtiDeepLinkingAccessToken({
           organizationIds: [123, 456],
           clientId: 'Abcd1234',
           deepLinkingSettings: {},
@@ -107,7 +139,7 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
         const encodedToken = 'invalid';
 
         // when
-        const call = () => LtiPrescriberAccessToken.decode(encodedToken);
+        const call = () => LtiDeepLinkingAccessToken.decode(encodedToken);
 
         // then
         expect(call).to.throw(InvalidInputDataError);
@@ -123,18 +155,18 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
         const encodedToken = jsonwebtoken.sign(
           {
             organizationIds: [123, 456],
-            clientId: 'Abcd1234',
+            client_id: 'Abcd1234',
             'https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings': {},
             scope: 'lti:deep-linking',
             aud: audience,
             sid: '6934a1f4-45c7-4bb4-9203-bc5fbe02a244',
           },
           config.authentication.secret,
-          { expiresIn: config.lti.prescriberAccessTokenLifespan },
+          { expiresIn: config.lti.deepLinkingAccessTokenLifespan },
         );
 
         // when
-        const call = () => LtiPrescriberAccessToken.decode(encodedToken, { expectedAudience });
+        const call = () => LtiDeepLinkingAccessToken.decode(encodedToken, { expectedAudience });
 
         // then
         expect(call).to.throw(InvalidInputDataError);
@@ -145,12 +177,12 @@ describe('Unit | LTI | Domain | Model | LtiPrescriberAccessToken', function () {
   describe('setCookieHeaderForClearing', function () {
     it('returns Set-Cookie header value for clearing cookie', function () {
       // when
-      const value = LtiPrescriberAccessToken.setCookieHeaderForClearing();
+      const value = LtiDeepLinkingAccessToken.setCookieHeaderForClearing();
 
       // then
       const parsed = parseSetCookie(value);
       expect(parsed).to.deep.equal({
-        name: 'jwtLtiPrescriber',
+        name: 'jwtLtiDeepLinking',
         secure: true,
         httpOnly: true,
         sameSite: 'none',

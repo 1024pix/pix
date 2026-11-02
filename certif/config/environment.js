@@ -47,6 +47,7 @@ module.exports = function (environment) {
           defaultValue: 60,
           minValue: 10,
         }),
+      MAINTENANCE_ONGOING: process.env.MAINTENANCE_PLANIFIEE === 'enabled' || process.env.MAINTENANCE === 'enabled',
       PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.',
       API_ERROR_MESSAGES: {
         BAD_REQUEST: {

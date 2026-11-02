@@ -141,7 +141,6 @@ describe('Organizational Entities | Unit | Infrastructure | Serializers | CSV | 
         'parentOrganizationId',
         'countryCode',
         'organizationLearnerTypeId',
-        'categoryId',
         'credit',
       ];
 

@@ -25,7 +25,7 @@ describe('Learning Content | Unit | Repositories | module-repository', function 
         sections: ['Première section', 'Deuxième section'],
         glossary: [
           {
-            word: 'chat',
+            words: ['chat'],
             definition:
               '<p>Le chat, plus spécifiquement désigné sous le nom de chat domestique, est une espèce de mammifères de l’Ordre des Carnivores, de la famille des félins (Félidés).</p>',
           },
@@ -53,7 +53,7 @@ describe('Learning Content | Unit | Repositories | module-repository', function 
         tabletSupport: 'inconvenient',
         sections: '["Première section","Deuxième section"]',
         glossary:
-          '[{"word":"chat","definition":"<p>Le chat, plus spécifiquement désigné sous le nom de chat domestique, est une espèce de mammifères de l’Ordre des Carnivores, de la famille des félins (Félidés).</p>"}]',
+          '[{"words":["chat"],"definition":"<p>Le chat, plus spécifiquement désigné sous le nom de chat domestique, est une espèce de mammifères de l’Ordre des Carnivores, de la famille des félins (Félidés).</p>"}]',
         version: '3.6',
       });
     });

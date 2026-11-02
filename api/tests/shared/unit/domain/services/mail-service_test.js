@@ -114,8 +114,8 @@ describe('Unit | Service | MailService', function () {
           expect(options.variables).to.include({
             pixHomeName: 'pix.org',
             pixHomeUrl: 'https://pix.org/fr',
-            pixOrgaHomeUrl: 'https://orga.pix.org/?locale=fr',
-            redirectionUrl: `https://orga.pix.org/rejoindre?invitationId=${organizationInvitationId}&code=${code}&locale=fr`,
+            pixOrgaHomeUrl: 'https://orga.test.pix.org/?locale=fr',
+            redirectionUrl: `https://orga.test.pix.org/rejoindre?invitationId=${organizationInvitationId}&code=${code}&locale=fr`,
             supportUrl: 'https://pix.org/fr/support',
             acceptInvitation: i18n.__('organization-invitation-email.params.acceptInvitation'),
             doNotAnswer: i18n.__('organization-invitation-email.params.doNotAnswer'),
@@ -151,8 +151,8 @@ describe('Unit | Service | MailService', function () {
           expect(options.variables).to.include({
             pixHomeName: 'pix.fr',
             pixHomeUrl: 'https://pix.fr',
-            pixOrgaHomeUrl: 'https://orga.pix.fr/',
-            redirectionUrl: `https://orga.pix.fr/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+            pixOrgaHomeUrl: 'https://orga.test.pix.fr/',
+            redirectionUrl: `https://orga.test.pix.fr/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
             supportUrl: 'https://pix.fr/support',
             acceptInvitation: i18n.__('organization-invitation-email.params.acceptInvitation'),
             doNotAnswer: i18n.__('organization-invitation-email.params.doNotAnswer'),
@@ -188,8 +188,8 @@ describe('Unit | Service | MailService', function () {
           expect(options.variables).to.include({
             pixHomeName: 'pix.fr',
             pixHomeUrl: 'https://pix.fr',
-            pixOrgaHomeUrl: 'https://orga.pix.fr/',
-            redirectionUrl: `https://orga.pix.fr/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+            pixOrgaHomeUrl: 'https://orga.test.pix.fr/',
+            redirectionUrl: `https://orga.test.pix.fr/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
             supportUrl: 'https://pix.fr/support',
             acceptInvitation: i18n.__('organization-invitation-email.params.acceptInvitation'),
             doNotAnswer: i18n.__('organization-invitation-email.params.doNotAnswer'),
@@ -225,8 +225,8 @@ describe('Unit | Service | MailService', function () {
           expect(options.variables).to.include({
             pixHomeName: 'pix.org',
             pixHomeUrl: 'https://pix.org/en',
-            pixOrgaHomeUrl: 'https://orga.pix.org/?locale=en',
-            redirectionUrl: `https://orga.pix.org/rejoindre?invitationId=${organizationInvitationId}&code=${code}&locale=en`,
+            pixOrgaHomeUrl: 'https://orga.test.pix.org/?locale=en',
+            redirectionUrl: `https://orga.test.pix.org/rejoindre?invitationId=${organizationInvitationId}&code=${code}&locale=en`,
             supportUrl: 'https://pix.org/en/support',
             acceptInvitation: i18n.__('organization-invitation-email.params.acceptInvitation'),
             doNotAnswer: i18n.__('organization-invitation-email.params.doNotAnswer'),
@@ -264,8 +264,8 @@ describe('Unit | Service | MailService', function () {
           lastName,
           pixHomeName: 'pix.fr',
           pixHomeUrl: 'https://pix.fr',
-          pixOrgaHomeUrl: 'https://orga.pix.fr/',
-          redirectionUrl: `https://orga.pix.fr/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+          pixOrgaHomeUrl: 'https://orga.test.pix.fr/',
+          redirectionUrl: `https://orga.test.pix.fr/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
         },
         tags: null,
       };
@@ -312,8 +312,8 @@ describe('Unit | Service | MailService', function () {
         certificationCenterName: 'Centre Pixou',
         pixHomeName: 'pix.fr',
         pixHomeUrl: 'https://pix.fr',
-        pixCertifHomeUrl: 'https://certif.pix.fr/',
-        redirectionUrl: `https://certif.pix.fr/rejoindre?invitationId=7&code=ABCDEFGH01`,
+        pixCertifHomeUrl: 'https://certif.test.pix.fr/',
+        redirectionUrl: `https://certif.test.pix.fr/rejoindre?invitationId=7&code=ABCDEFGH01`,
         supportUrl: 'https://pix.fr/support',
         acceptInvitation: i18n.__('certification-center-invitation-email.params.acceptInvitation'),
         doNotAnswer: i18n.__('certification-center-invitation-email.params.doNotAnswer'),
@@ -350,8 +350,8 @@ describe('Unit | Service | MailService', function () {
           certificationCenterName: 'Centre Pixi',
           pixHomeName: 'pix.org',
           pixHomeUrl: 'https://pix.org/fr',
-          pixCertifHomeUrl: 'https://certif.pix.org/?locale=fr',
-          redirectionUrl: `https://certif.pix.org/rejoindre?invitationId=7&code=AAABBBCCC7&locale=fr`,
+          pixCertifHomeUrl: 'https://certif.test.pix.org/?locale=fr',
+          redirectionUrl: `https://certif.test.pix.org/rejoindre?invitationId=7&code=AAABBBCCC7&locale=fr`,
           supportUrl: 'https://pix.org/fr/support',
           acceptInvitation: i18n.__('certification-center-invitation-email.params.acceptInvitation'),
           doNotAnswer: i18n.__('certification-center-invitation-email.params.doNotAnswer'),
@@ -389,8 +389,8 @@ describe('Unit | Service | MailService', function () {
           certificationCenterName: 'Centre Pixi',
           pixHomeName: 'pix.org',
           pixHomeUrl: 'https://pix.org/en',
-          pixCertifHomeUrl: 'https://certif.pix.org/?locale=en',
-          redirectionUrl: `https://certif.pix.org/rejoindre?invitationId=777&code=LLLJJJVVV1&locale=en`,
+          pixCertifHomeUrl: 'https://certif.test.pix.org/?locale=en',
+          redirectionUrl: `https://certif.test.pix.org/rejoindre?invitationId=777&code=LLLJJJVVV1&locale=en`,
           supportUrl: 'https://pix.org/en/support',
           acceptInvitation: i18n.__('certification-center-invitation-email.params.acceptInvitation'),
           doNotAnswer: i18n.__('certification-center-invitation-email.params.doNotAnswer'),
@@ -415,7 +415,7 @@ describe('Unit | Service | MailService', function () {
       const firstName = 'Carla';
       const temporaryKey = 'a-temporary-key';
       const email = 'carla@example.net';
-      const redirectionUrl = `https://test.app.pix.fr/recuperer-mon-compte/${temporaryKey}`;
+      const redirectionUrl = `https://app.test.pix.fr/recuperer-mon-compte/${temporaryKey}`;
 
       // when
       await mailService.sendAccountRecoveryEmail({ email, firstName, temporaryKey });

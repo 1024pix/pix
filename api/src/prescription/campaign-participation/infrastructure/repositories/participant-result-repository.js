@@ -175,11 +175,16 @@ async function _getTargetProfileResetAllowed(campaignId) {
 async function _findTargetedCompetences(campaignId, locale) {
   const skillIds = await campaignRepository.findSkillIds({ campaignId });
   const competences = await competenceRepository.list({ locale });
+  const areas = await areaRepository.findByRecordIds({
+    areaIds: competences.map((competence) => competence.areaId),
+    locale,
+  });
+  const areasById = Object.fromEntries(areas.map((area) => [area.id, area]));
   const targetedCompetences = [];
 
   for (const competence of competences) {
     const targetedSkillIds = _.intersection(competence.skillIds, skillIds);
-    const area = await areaRepository.get({ id: competence.areaId, locale });
+    const area = areasById[competence.areaId];
     if (targetedSkillIds.length > 0) {
       targetedCompetences.push({
         competence,

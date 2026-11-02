@@ -64,7 +64,7 @@ test('Combined courses', async ({ page }) => {
     });
 
     await test.step('End of combined course', async function () {
-      await expect(page.getByRole('heading', { name: 'Félicitations ! Vous avez terminé !' })).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Félicitations Buffy, vous avez terminé !' })).toBeVisible();
     });
   });
 

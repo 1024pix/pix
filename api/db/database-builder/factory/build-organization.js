@@ -30,7 +30,7 @@ const buildOrganization = function buildOrganization({
   countryCode = COUNTRY_FRANCE_CODE,
   organizationLearnerTypeId = null,
   structureId = null,
-  categoryId = null,
+  categoryId,
   networkId = null,
   parentStructureId = null,
   withoutStructure = false,
@@ -99,7 +99,7 @@ const buildOrganizationInNetwork = function ({
   networkId,
   parentStructureId = null,
   organizationData = {},
-  categoryId = null,
+  categoryId,
 } = {}) {
   const structure = buildStructure({ categoryId });
   const organization = buildOrganization({

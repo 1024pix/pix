@@ -34,16 +34,16 @@ const createCertificationCenter = withTransaction(async function ({
     ? await _getOrganizationStructure({ organizationId, structureRepository })
     : null;
 
+  await organizationVerificationService.checkStructureCategoryExists({
+    structureCategoryId: certificationCenter.categoryId,
+    structureCategoryRepository,
+  });
+
   const createdCertificationCenter = await certificationCenterForAdminRepository.save(certificationCenter);
-  if (certificationCenter.categoryId) {
-    await organizationVerificationService.checkStructureCategoryExists({
-      structureCategoryId: certificationCenter.categoryId,
-      structureCategoryRepository,
-    });
-  }
+
   const certificationCenterStructure = new Structure({
     certificationCenterId: createdCertificationCenter.id,
-    categoryId: certificationCenter?.categoryId,
+    categoryId: certificationCenter.categoryId,
   });
 
   if (organizationStructure) {

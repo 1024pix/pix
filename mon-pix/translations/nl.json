@@ -1363,7 +1363,7 @@
         "description": "Goed gedaan! Je hebt een belangrijke stap gezet om je weg te vinden in de digitale wereld",
         "survey-button": "Een vragenlijst invullen",
         "survey-button-description": "Een vragenlijst invullen om feedback te geven op het traject",
-        "title": "Gefeliciteerd! Je hebt de test voltooid!"
+        "title": "Gefeliciteerd { firstName }, je hebt de test voltooid!"
       },
       "content": {
         "resume-button": "Mijn traject vervolgen",

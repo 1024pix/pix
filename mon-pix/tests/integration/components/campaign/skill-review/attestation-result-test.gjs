@@ -98,6 +98,7 @@ module('Integration | Component | Campaign | Skill Review | attestation-result',
       assert.ok(
         trackEventStub.calledOnceWithExactly(EVENT_NAMES.ATTESTATION.DOWNLOAD_CLICK, {
           origin: ATTESTATION_DOWNLOAD_ORIGINS.CAMPAIGN_RESULT_PAGE,
+          attestationKey: 'SIXTH_GRADE',
         }),
       );
     });

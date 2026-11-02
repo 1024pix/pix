@@ -160,6 +160,7 @@
         "title": "Pix-certificering(en)"
       },
       "file-name": "pix-certificering-{deliveredAt}.pdf",
+      "session-pdf-file-name": "sessie-{sessionId}-certificaten.pdf",
       "v2": {
         "competences-content": {
           "level": "Niveau",

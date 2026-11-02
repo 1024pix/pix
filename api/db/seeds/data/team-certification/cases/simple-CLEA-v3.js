@@ -6,18 +6,17 @@ import { usecases as enrolmentUseCases } from '../../../../../src/certification/
 import { BILLING_MODES } from '../../../../../src/certification/shared/domain/constants.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
+import { CenterForAdmin } from '../../../../../src/organizational-entities/domain/models/CenterForAdmin.js';
 import { usecases as organizationalEntitiesUsecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
 import { usecases as prescriptionTargetProfilesUsecases } from '../../../../../src/prescription/target-profile/domain/usecases/index.js';
-import {
-  CertificationCenter,
-  types as certificationCenterTypes,
-} from '../../../../../src/shared/domain/models/CertificationCenter.js';
+import { types as certificationCenterTypes } from '../../../../../src/shared/domain/models/CertificationCenter.js';
 import { normalize } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
 import { usecases as teamUsecases } from '../../../../../src/team/domain/usecases/index.js';
 import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   CLEA_V2_TARGET_PROFILE_ID,
 } from '../../common/complementary-certification-builder.js';
+import { STRUCTURE_CATEGORY_PRO_ID } from '../../common/constants.js';
 import { CommonCertifiableUser } from '../shared/common-certifiable-user.js';
 import { CommonCertificationVersions } from '../shared/common-certification-versions.js';
 import { CommonOrganizations } from '../shared/common-organisations.js';
@@ -125,13 +124,16 @@ export class CleaV3Seed {
 
   async #addCertifCenter({ organizationMember }) {
     const certificationCenter = await organizationalEntitiesUsecases.createCertificationCenter({
-      certificationCenter: new CertificationCenter({
-        id: CLEA_CERTIFICATION_CENTER_ID,
-        name: 'CLEA V3 Certification Center',
-        type: certificationCenterTypes.PRO,
-        externalId: 'CLEA_V3_EXTERNAL_ID',
-        createdAt: new Date('2024-01-30'),
-        habilitations: [ComplementaryCertificationKeys.CLEA],
+      certificationCenter: new CenterForAdmin({
+        center: {
+          id: CLEA_CERTIFICATION_CENTER_ID,
+          name: 'CLEA V3 Certification Center',
+          type: certificationCenterTypes.PRO,
+          categoryId: STRUCTURE_CATEGORY_PRO_ID,
+          externalId: 'CLEA_V3_EXTERNAL_ID',
+          createdAt: new Date('2024-01-30'),
+          habilitations: [ComplementaryCertificationKeys.CLEA],
+        },
       }),
       complementaryCertificationIds: [CLEA_COMPLEMENTARY_CERTIFICATION_ID],
     });

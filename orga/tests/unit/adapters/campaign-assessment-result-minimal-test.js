@@ -6,22 +6,28 @@ module('Unit | Adapters | CampaignAssessmentResultMinimal', function (hooks) {
   setupTest(hooks);
 
   let adapter;
+  let ajaxStub;
 
   hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:campaign-assessment-result-minimal');
-    const ajaxStub = sinon.stub().resolves();
+    ajaxStub = sinon.stub().resolves();
     adapter.ajax = ajaxStub;
   });
 
-  module('#urlForQuery', function () {
-    test('should build url with filter and campaign id', async function (assert) {
+  module('#query', function () {
+    test('should call url with campaign id, without it in query params', async function (assert) {
+      // given
+      const query = { campaignId: 1, filter: { divisions: ['3A'] } };
+
       // when
-      const query = { campaignId: 1 };
-      const url = await adapter.urlForQuery(query);
+      await adapter.query(null, { modelName: 'campaign-assessment-result-minimal' }, query);
 
       // then
-      assert.true(url.endsWith(`/campaigns/${1}/assessment-results`));
-      assert.strictEqual(query.campaignId, undefined);
+      const [url, method, options] = ajaxStub.firstCall.args;
+      assert.true(url.endsWith('/campaigns/1/assessment-results'));
+      assert.strictEqual(method, 'GET');
+      assert.deepEqual(options, { data: { filter: { divisions: ['3A'] } } });
+      assert.deepEqual(query, { campaignId: 1, filter: { divisions: ['3A'] } });
     });
   });
 });

@@ -4,6 +4,8 @@ import { LtiPlatformRegistration } from '../models/LtiPlatformRegistration.js';
 
 const logger = child('lti:register-lti-platform', { event: SCOPES.LTI });
 
+const DEVELOPMENT_PLATFORM_ISSUER = 'http://localhost:8000';
+
 /**
  * @param {object} args
  * @param {string} args.platformConfigurationUrl
@@ -23,7 +25,9 @@ export async function registerLtiPlatform({
 }) {
   const { ltiPlatform, platformConfiguration } = await ltiService.discoverLtiPlatform(platformConfigurationUrl);
 
-  const pixToolConfiguration = ltiService.createPixToolConfiguration();
+  const isDevelopmentPlatform = platformConfiguration.issuer === DEVELOPMENT_PLATFORM_ISSUER;
+
+  const pixToolConfiguration = ltiService.createPixToolConfiguration({ isDevelopmentPlatform });
 
   const { data: pixToolRegistration, ...registrationResponse } = await httpAgent.post({
     url: platformConfiguration.registration_endpoint,
@@ -47,7 +51,7 @@ export async function registerLtiPlatform({
     encryptedPrivateKey,
     toolConfig: pixToolRegistration,
     publicKey,
-    status: LtiPlatformRegistration.status.ACTIVE,
+    status: isDevelopmentPlatform ? LtiPlatformRegistration.status.ACTIVE : LtiPlatformRegistration.status.PENDING,
   });
 
   logger.info(

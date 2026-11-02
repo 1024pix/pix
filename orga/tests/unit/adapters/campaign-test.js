@@ -17,6 +17,23 @@ module('Unit | Adapter | campaign', function (hooks) {
     adapter.set('ajax', ajaxStub);
   });
 
+  module('#query', () => {
+    test('should call url with organization id, without it in query filter', async function (assert) {
+      // given
+      const query = { filter: { organizationId: 1, name: 'foo' }, page: { number: 2 } };
+
+      // when
+      await adapter.query(null, { modelName: 'campaign' }, query);
+
+      // then
+      const [calledUrl, method, options] = ajaxStub.firstCall.args;
+      assert.strictEqual(calledUrl, `${ENV.APP.API_HOST}/api/organizations/1/campaigns`);
+      assert.strictEqual(method, 'GET');
+      assert.deepEqual(options, { data: { filter: { name: 'foo' }, page: { number: 2 } } });
+      assert.deepEqual(query, { filter: { organizationId: 1, name: 'foo' }, page: { number: 2 } });
+    });
+  });
+
   module('#delete', () => {
     test('should call campaigns deletion endpoint', async function (assert) {
       // given

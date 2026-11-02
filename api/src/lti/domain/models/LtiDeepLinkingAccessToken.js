@@ -1,12 +1,13 @@
 import { stringifySetCookie } from 'cookie';
 import Joi from 'joi';
+import ms from 'ms';
 
 import { config } from '../../../../config/config.js';
 import { InvalidInputDataError } from '../../../shared/domain/errors.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { validateEntity } from '../../../shared/domain/validators/entity-validator.js';
 
-const COOKIE_NAME = 'jwtLtiPrescriber';
+const COOKIE_NAME = 'jwtLtiDeepLinking';
 
 const COOKIE_CONFIG = Object.freeze({
   name: COOKIE_NAME,
@@ -15,9 +16,10 @@ const COOKIE_CONFIG = Object.freeze({
   sameSite: 'none',
   partitioned: true,
   path: '/api/lti',
+  maxAge: ms(config.lti.deepLinkingAccessTokenLifespan) / 1000,
 });
 
-export class LtiPrescriberAccessToken {
+export class LtiDeepLinkingAccessToken {
   /**
    * @param {object} args
    * @param {number[]} args.organizationIds
@@ -58,15 +60,15 @@ export class LtiPrescriberAccessToken {
   get encoded() {
     return tokenService.encodeToken(
       {
-        organizationIds: this.organizationIds, // FIXME rename
-        clientId: this.clientId, // FIXME rename to client_id? see https://www.rfc-editor.org/info/rfc8693/#section-4.3
-        ['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings']: this.deepLinkingSettings,
+        'https://pix.org/claims/organization_ids': this.organizationIds,
+        client_id: this.clientId,
+        'https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings': this.deepLinkingSettings,
         scope: this.scope,
         aud: this.audience,
         sid: this.sessionId,
       },
       config.authentication.secret,
-      config.lti.prescriberAccessTokenLifespan,
+      config.lti.deepLinkingAccessTokenLifespan,
     );
   }
 
@@ -79,9 +81,9 @@ export class LtiPrescriberAccessToken {
     const decoded = tokenService.getDecodedToken(accessToken, config.authentication.secret, { expectedAudience });
     if (!decoded) throw new InvalidInputDataError();
 
-    return new LtiPrescriberAccessToken({
-      organizationIds: decoded.organizationIds,
-      clientId: decoded.clientId,
+    return new LtiDeepLinkingAccessToken({
+      organizationIds: decoded['https://pix.org/claims/organization_ids'],
+      clientId: decoded.client_id,
       deepLinkingSettings: decoded['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'],
       scope: decoded.scope,
       audience: decoded.aud,
@@ -99,19 +101,5 @@ export class LtiPrescriberAccessToken {
 
   static get cookieName() {
     return COOKIE_NAME;
-  }
-
-  /**
-   * @deprecated
-   */
-  static generate({ organizationIds, clientId, deepLinkingSettings, scope, audience, sessionId }) {
-    return new LtiPrescriberAccessToken({
-      organizationIds,
-      clientId,
-      deepLinkingSettings,
-      scope,
-      audience,
-      sessionId,
-    }).encode();
   }
 }

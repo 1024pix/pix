@@ -28,8 +28,8 @@ import { ltiRoutes } from './src/lti/application/lti.route.js';
 import {
   jwtCookieScheme,
   jwtCookieSchemeName,
-  ltiPrescriberStrategyConfiguration,
-  ltiPrescriberStrategyName,
+  ltiDeepLinkingStrategyConfiguration,
+  ltiDeepLinkingStrategyName,
 } from './src/lti/infrastructure/lti-authentication.js';
 import { organizationalEntitiesRoutes } from './src/organizational-entities/application/routes.js';
 import { campaignRoutes } from './src/prescription/campaign/routes.js';
@@ -180,7 +180,7 @@ async function setupAuthentication(server) {
     return;
   }
   server.auth.scheme(jwtCookieSchemeName, jwtCookieScheme);
-  server.auth.strategy(ltiPrescriberStrategyName, jwtCookieSchemeName, ltiPrescriberStrategyConfiguration);
+  server.auth.strategy(ltiDeepLinkingStrategyName, jwtCookieSchemeName, ltiDeepLinkingStrategyConfiguration);
 }
 
 const rootRoute = {

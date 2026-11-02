@@ -15,8 +15,11 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Organizational Entities | Domain | UseCases | update-organization', function () {
   let adminUserId;
+  let categoryId;
   beforeEach(async function () {
     adminUserId = databaseBuilder.factory.buildUser().id;
+    categoryId = databaseBuilder.factory.buildStructureCategory().id;
+
     databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
   });
 
@@ -48,6 +51,7 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
         id: newOrganizationLearnerType.id,
         name: undefined,
       }),
+      categoryId,
     });
 
     // when
@@ -101,6 +105,7 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
           features: {
             [ORGANIZATION_FEATURE.LEARNER_IMPORT.key]: { active: true, params: { name: 'ONDE' } },
           },
+          categoryId,
         });
         await usecases.updateOrganizationInformation({
           userId: adminUserId,
@@ -211,6 +216,7 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
       const organizationLearnerType = databaseBuilder.factory.buildOrganizationLearnerType();
       const initialOrganization = databaseBuilder.factory.buildOrganization({
         organizationLearnerTypeId: organizationLearnerType.id,
+        categoryId,
       });
 
       const newAdministrationTeamId = databaseBuilder.factory.buildAdministrationTeam().id;
@@ -224,6 +230,7 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
         organizationLearnerType: domainBuilder.acquisition.buildOrganizationLearnerType({
           id: organizationLearnerType.id,
         }),
+        categoryId,
       });
 
       // when
@@ -237,7 +244,7 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
     });
   });
 
-  context('when a structure category is given', function () {
+  context('structure category', function () {
     it('updates the category of the organization structure', async function () {
       // given
       const newStructureCategory = databaseBuilder.factory.buildStructureCategory({ label: 'Nouvelle catégorie' });
@@ -292,36 +299,6 @@ describe('Integration | Organizational Entities | Domain | UseCases | update-org
         expect(error.message).to.equal('Structure category not found for id 123456');
         expect(error.meta.structureCategoryId).to.equal(123456);
       });
-    });
-  });
-
-  context('when no structure category is given', function () {
-    it('does not reset the category of the organization', async function () {
-      // given
-      const structureCategory = databaseBuilder.factory.buildStructureCategory({ label: 'Catégorie initiale' });
-      const structure = databaseBuilder.factory.buildStructure({ categoryId: structureCategory.id });
-      const organization = databaseBuilder.factory.buildOrganization({ structureId: structure.id });
-
-      await databaseBuilder.commit();
-
-      const organizationNewInformation = domainBuilder.buildOrganizationForAdmin({
-        id: organization.id,
-        administrationTeamId: organization.administrationTeamId,
-        categoryId: null,
-        organizationLearnerType: domainBuilder.acquisition.buildOrganizationLearnerType({
-          id: organization.organizationLearnerTypeId,
-        }),
-      });
-
-      // when
-      const updatedOrganization = await usecases.updateOrganizationInformation({
-        userId: adminUserId,
-        organization: organizationNewInformation,
-      });
-
-      // then
-      expect(updatedOrganization.categoryId).to.equal(structureCategory.id);
-      expect(updatedOrganization.categoryLabel).to.equal(structureCategory.label);
     });
   });
 });

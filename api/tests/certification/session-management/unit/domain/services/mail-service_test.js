@@ -46,7 +46,7 @@ describe('Unit | Certification | Session-Management | Domain | Services | MailSe
       const certificationCenterName = 'Vincennes';
       const resultRecipientEmail = 'email1@example.net';
       const daysBeforeExpiration = 30;
-      const link = 'https://test.app.pix.org/api/sessions/download-results/token-1';
+      const link = 'https://app.test.pix.org/api/sessions/download-results/token-1';
 
       sinon
         .stub(CertificationResultsLinkByEmailToken, 'generate')

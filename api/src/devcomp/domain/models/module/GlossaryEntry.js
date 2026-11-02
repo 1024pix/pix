@@ -1,11 +1,10 @@
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 
 class GlossaryEntry {
-  constructor({ word, definition }) {
-    assertNotNullOrUndefined(word, 'The word is required for module glossary');
+  constructor({ words, definition }) {
     assertNotNullOrUndefined(definition, 'The definition is required for module glossary');
 
-    this.word = word;
+    this.words = words;
     this.definition = definition;
   }
 }

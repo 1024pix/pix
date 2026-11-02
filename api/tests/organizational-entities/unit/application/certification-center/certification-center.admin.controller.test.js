@@ -28,6 +28,7 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | ce
                 'data-protection-officer-first-name': 'Firstname',
                 'data-protection-officer-last-name': 'Lastname',
                 'external-id': '12345',
+                'category-id': '12345',
               },
               id: '1',
               relationships: {
@@ -65,7 +66,7 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | ce
           name: 'name',
           createdBy: 123,
           type: 'PRO',
-          categoryId: null,
+          categoryId: 12345,
         };
         const dataProtectionOfficer = {
           firstName: 'Firstname',
@@ -99,6 +100,7 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | ce
                 name: 'name',
                 type: 'PRO',
                 'external-id': null,
+                'category-id': '12345',
               },
             },
           },
@@ -119,7 +121,7 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | ce
           name: 'name',
           type: 'PRO',
           createdBy: 123,
-          categoryId: null,
+          categoryId: 12345,
         };
         const dataProtectionOfficer = {};
         const expectedCenterForAdmin = new CenterForAdmin({

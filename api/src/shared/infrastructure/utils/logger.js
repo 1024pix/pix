@@ -82,6 +82,8 @@ function emitOtelLogRecord(context, mergingObject, message, extraBindings) {
 function buildLogWrapper(context, mergingObject, message, extraBindings = {}, extraOptions = undefined) {
   const loggerChild = loggerPino.child({ ...getCorrelationInfo(), ...extraBindings }, extraOptions);
   loggerChild[context](mergingObject, message);
+  // Same level filtering as stdout, including LOG_DEBUG section overrides.
+  if (!loggerChild.isLevelEnabled(context)) return;
   emitOtelLogRecord(context, mergingObject, message, extraBindings);
 }
 

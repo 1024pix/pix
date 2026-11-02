@@ -14,10 +14,13 @@ import PaginationWrapper from 'pix-admin/components/ui/pagination-wrapper';
 import ENV from 'pix-admin/config/environment';
 
 const NO_CERTIFICATION_RESULTS_TO_DOWNLOAD_CODE = 'NO_CERTIFICATION_RESULTS_TO_DOWNLOAD';
+const NO_CERTIFICATES_TO_DOWNLOAD_CODE = 'NO_CERTIFICATES_TO_DOWNLOAD';
 
 export default class ListItems extends Component {
+  @service currentDomain;
   @service fileSaver;
   @service intl;
+  @service locale;
   @service pixToast;
   @service session;
 
@@ -77,8 +80,32 @@ export default class ListItems extends Component {
       this.pixToast.sendErrorNotification({
         message: this.intl.t(
           hasNoResultsToDownload
-            ? 'pages.sessions.table.actions.download-results-no-results-error'
-            : 'pages.sessions.table.actions.download-results-error',
+            ? 'pages.sessions.table.errors.download-results-no-results-error'
+            : 'pages.sessions.table.errors.download-results-error',
+        ),
+      });
+    }
+  }
+
+  @action
+  async downloadSelectionCertificates() {
+    const token = this.session.data.authenticated.access_token;
+    const lang = this.locale.currentLanguage;
+
+    const params = this.selectedSessionsRows.map((sessionId) => `sessionIds=${sessionId}`).join('&');
+    const url = `${ENV.APP.API_HOST}/api/admin/sessions/download-selection-certificates?${params}&isFrenchDomainExtension=${this.currentDomain.isFranceDomain}&lang=${lang}`;
+
+    try {
+      await this.fileSaver.save({ url, token });
+    } catch (errors) {
+      const hasNoCertificatesToDownload =
+        Array.isArray(errors) && errors.some((error) => error.code === NO_CERTIFICATES_TO_DOWNLOAD_CODE);
+
+      this.pixToast.sendErrorNotification({
+        message: this.intl.t(
+          hasNoCertificatesToDownload
+            ? 'pages.sessions.table.errors.download-certificates-no-certificates-error'
+            : 'pages.sessions.table.errors.download-certificates-error',
         ),
       });
     }
@@ -133,7 +160,11 @@ export default class ListItems extends Component {
           <PixIcon @name="download" />
           {{t "pages.sessions.table.actions.download-results"}}
         </PixButton>
-        <PixButton @variant="tertiary" @isDisabled={{true}}>
+        <PixButton
+          @variant="tertiary"
+          @isDisabled={{not this.hasSelectedRows}}
+          @triggerAction={{this.downloadSelectionCertificates}}
+        >
           <PixIcon @name="download" />
           {{t "pages.sessions.table.actions.download-certificates"}}
         </PixButton>

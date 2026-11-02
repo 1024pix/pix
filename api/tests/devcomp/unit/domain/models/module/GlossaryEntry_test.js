@@ -8,31 +8,15 @@ describe('Unit | Devcomp | Domain | Models | Module | GlossaryEntry', function (
   describe('#constructor', function () {
     it('should create module glossary and keep attributes', function () {
       // given
-      const word = 'Pix';
+      const words = ['Pix'];
       const definition = '<p>Definition de Pix</p>';
 
       // when
-      const glossaryEntry = new GlossaryEntry({ word, definition });
+      const glossaryEntry = new GlossaryEntry({ words, definition });
 
       // then
-      expect(glossaryEntry.word).to.equal(word);
+      expect(glossaryEntry.words).to.equal(words);
       expect(glossaryEntry.definition).to.equal(definition);
-    });
-
-    describe('if glossary do not have word', function () {
-      it('should throw an error', function () {
-        // when
-        const error = catchErrSync(
-          () =>
-            new GlossaryEntry({
-              definition: '<p>Definition de Pix</p>',
-            }),
-        )();
-
-        // then
-        expect(error).to.be.instanceOf(DomainError);
-        expect(error.message).to.equal('The word is required for module glossary');
-      });
     });
 
     describe('if glossary do not have definition', function () {
@@ -41,7 +25,7 @@ describe('Unit | Devcomp | Domain | Models | Module | GlossaryEntry', function (
         const error = catchErrSync(
           () =>
             new GlossaryEntry({
-              word: 'Pix',
+              words: ['Pix'],
             }),
         )();
 

@@ -9,7 +9,7 @@ import * as urlService from '../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../shared/infrastructure/http-agent.js';
 import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
 import { getForwardedOrigin, RequestedApplication } from '../../shared/infrastructure/utils/network.js';
-import { LtiPrescriberAccessToken } from '../domain/models/LtiPrescriberAccessToken.js';
+import { LtiDeepLinkingAccessToken } from '../domain/models/LtiDeepLinkingAccessToken.js';
 import { ltiService } from '../domain/services/lti.service.js';
 import { usecases } from '../domain/usecases/index.js';
 import { ltiPlatformRegistrationRepository } from '../infrastructure/repositories/lti-platform-registration.repository.js';
@@ -20,8 +20,6 @@ import { ltiRegistrationSerializer } from '../infrastructure/serializers/html/lt
 import { ltiCampaignSerializer } from '../infrastructure/serializers/jsonapi/lti-campaign-serializer.js';
 
 const logger = child('lti:controller', { event: SCOPES.LTI });
-
-const CUSTOM_CLAIMS_EXTERNAL_IDS = 'pix_orgas';
 
 async function listPublicKeys(request, h, dependencies = { listLtiPublicKeys: usecases.listLtiPublicKeys }) {
   const publicKeys = await dependencies.listLtiPublicKeys();
@@ -101,7 +99,7 @@ async function init(request, h, dependencies = { ltiPlatformRegistrationReposito
     .header('Content-Type', 'text/html; charset=utf-8');
 }
 
-async function deepLink(request, h) {
+async function deepLink(request, h, dependencies = { ltiService }) {
   const { verifiedToken, registration } = await preLaunch(request);
 
   const origin = getForwardedOrigin(request.headers);
@@ -117,13 +115,9 @@ async function deepLink(request, h) {
     const deepLinkingSettings = verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'];
 
     const customClaims = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom'];
-    const organizationExternalIdRaw = customClaims[CUSTOM_CLAIMS_EXTERNAL_IDS] ?? '';
-    const organizationExternalIds = organizationExternalIdRaw
-      .split(',')
-      .map((orga) => orga.trim())
-      .filter(Boolean);
+    const { organizationExternalIds } = dependencies.ltiService.deserializeDeepLinkingCustomClaims(customClaims);
 
-    const ltiPrescriberAccessToken = await usecases.authenticateLtiPrescriber({
+    const ltiDeepLinkingAccessToken = await usecases.authenticateDeepLinking({
       organizationExternalIds,
       registration,
       deepLinkingSettings,
@@ -134,7 +128,7 @@ async function deepLink(request, h) {
     const campaignSelectionPageUrl = urlService.getPixOrgaUrl(locale, { pathname: '/lti-campaign-selection' });
     return h
       .redirect(campaignSelectionPageUrl)
-      .header('Set-Cookie', ltiPrescriberAccessToken.encodedForSetCookieHeader);
+      .header('Set-Cookie', ltiDeepLinkingAccessToken.encodedForSetCookieHeader);
   }
 }
 
@@ -182,7 +176,7 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
       }),
     )
     .header('Content-Type', 'text/html; charset=utf-8')
-    .header('Set-Cookie', LtiPrescriberAccessToken.setCookieHeaderForClearing());
+    .header('Set-Cookie', LtiDeepLinkingAccessToken.setCookieHeaderForClearing());
 }
 
 async function resourceLink(request, h, dependencies = { urlService }) {

@@ -172,10 +172,13 @@ export default class InformationEdit extends Component {
       </PixInput>
 
       <SelectSearchWrapper
+        required
+        @aria-required={{true}}
         @texts={{hash
           placeholder=(t "pages.certification-centers.information-edit.category.selector.placeholder")
           selectSearchLabel=(t "pages.certification-centers.information-edit.category.selector.search-label")
           searchPlaceholder=(t "pages.certification-centers.information-edit.category.selector.search-placeholder")
+          requiredLabel=(t "common.forms.mandatory")
         }}
         @options={{this.categoriesOptions}}
         @value={{this.form.categoryId}}
@@ -275,8 +278,9 @@ const CERTIFICATION_CENTER_FORM_SCHEMA = Joi.object({
     'any.required': 'Le type ne peut pas être vide',
     'string.empty': 'Le type ne peut pas être vide',
   }),
-  // TODO: rendre la catégorie obligatoire une fois qu'elle sera renseignée à la création d'un centre
-  categoryId: Joi.string().empty(['', null]),
+  categoryId: Joi.string().empty(['', null]).required().messages({
+    'any.required': 'La catégorie ne peut pas être vide',
+  }),
   externalId: Joi.string().min(0).max(255).empty(['', null]).messages({
     'string.max': "La longueur de l'identifiant externe ne doit pas excéder 255 caractères",
   }),

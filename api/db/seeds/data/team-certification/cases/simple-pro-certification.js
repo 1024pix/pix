@@ -5,13 +5,12 @@ import { SessionEnrolment } from '../../../../../src/certification/enrolment/dom
 import { usecases as enrolmentUseCases } from '../../../../../src/certification/enrolment/domain/usecases/index.js';
 import { BILLING_MODES } from '../../../../../src/certification/shared/domain/constants.js';
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
+import { CenterForAdmin } from '../../../../../src/organizational-entities/domain/models/CenterForAdmin.js';
 import { usecases as organizationalEntitiesUsecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
-import {
-  CertificationCenter,
-  types as certificationCenterTypes,
-} from '../../../../../src/shared/domain/models/CertificationCenter.js';
+import { types as certificationCenterTypes } from '../../../../../src/shared/domain/models/CertificationCenter.js';
 import { normalize } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
 import { usecases as teamUsecases } from '../../../../../src/team/domain/usecases/index.js';
+import { STRUCTURE_CATEGORY_PRO_ID } from '../../common/constants.js';
 import { CommonCertifiableUser } from '../shared/common-certifiable-user.js';
 import { CommonCertificationVersions } from '../shared/common-certification-versions.js';
 import { CommonOrganizations } from '../shared/common-organisations.js';
@@ -97,13 +96,16 @@ export class ProSeed {
 
   async #addCertifCenter({ organization, organizationMember }) {
     const certificationCenter = await organizationalEntitiesUsecases.createCertificationCenter({
-      certificationCenter: new CertificationCenter({
-        id: PRO_CERTIFICATION_CENTER_ID,
-        name: 'PRO Certification Center',
-        type: certificationCenterTypes.PRO,
-        externalId: organization.externalId,
-        createdAt: new Date('2022-01-30'),
-        habilitations: [],
+      certificationCenter: new CenterForAdmin({
+        center: {
+          id: PRO_CERTIFICATION_CENTER_ID,
+          name: 'PRO Certification Center',
+          type: certificationCenterTypes.PRO,
+          categoryId: STRUCTURE_CATEGORY_PRO_ID,
+          externalId: organization.externalId,
+          createdAt: new Date('2022-01-30'),
+          habilitations: [],
+        },
       }),
       complementaryCertificationIds: [],
     });

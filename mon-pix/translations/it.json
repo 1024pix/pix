@@ -1363,7 +1363,7 @@
         "description": "Ben fatto! Hai compiuto un passo importante nella navigazione del mondo digitale.",
         "survey-button": "Rispondere al questionario",
         "survey-button-description": "Compila il questionario per dare la tua opinione sul percorso",
-        "title": "Congratulazioni! Hai finito!"
+        "title": "Congratulazioni { firstName }, hai finito!"
       },
       "content": {
         "resume-button": "Continua il test personalizzato",

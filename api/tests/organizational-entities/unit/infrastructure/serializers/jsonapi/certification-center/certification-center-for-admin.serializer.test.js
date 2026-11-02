@@ -97,7 +97,7 @@ describe('Unit | Organizational Entities | Infrastructure | Serializer | JSONAPI
       expect(deserializedCertificationCenterForAdmin).to.deepEqualInstance(expectedCertificationCenterForAdmin);
     });
 
-    it('should convert the category-id into a number when it is a string', function () {
+    it('should convert the category-id into a number', function () {
       // given
       certificationCenterJsonApi.data.attributes['category-id'] = '123';
 

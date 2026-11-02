@@ -160,6 +160,7 @@
         "title": "Certificazione/i Pix"
       },
       "file-name": "certificazione-pix-{deliveredAt}.pdf",
+      "session-pdf-file-name": "sessione-{sessionId}-certificati.pdf",
       "v2": {
         "competences-content": {
           "level": "Livello",

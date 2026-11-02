@@ -53,7 +53,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
     describe('when certification center has a structure', function () {
       it('returns the structure', async function () {
         // given
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const categoryId = databaseBuilder.factory.buildStructureCategory().id;
+        const organizationId = databaseBuilder.factory.buildOrganization({ categoryId }).id;
         const { certificationCenter, structure } = databaseBuilder.factory.buildCertificationCenterWithStructure({
           organizationId,
         });
@@ -64,6 +65,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
           id: structure.id,
           organizationId,
           certificationCenterId: certificationCenter.id,
+          categoryId,
         });
 
         // when
@@ -154,6 +156,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
             id: structure.id,
             organizationId: newOrganizationId,
             certificationCenterId,
+            categoryId: structure.category_id,
           }),
         );
 
@@ -250,7 +253,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repositories 
 
       // then
       const untouchedStructure = await knex('structures').where({ id: otherStructure.id }).first();
-      expect(untouchedStructure.category_id).to.be.null;
+      expect(untouchedStructure.category_id).to.equal(otherStructure.category_id);
     });
   });
 });

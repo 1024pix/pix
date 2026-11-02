@@ -894,10 +894,10 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
   });
 
   describe('PATCH /api/admin/organizations/{organizationId}', function () {
-    it('should return the updated category organization and status code 200', async function () {
+    it('should return the organization updated and status code 200', async function () {
       // given
       const administrationTeamId = databaseBuilder.factory.buildAdministrationTeam().id;
-
+      const categoryId = databaseBuilder.factory.buildStructureCategory().id;
       const country = databaseBuilder.factory.buildCertificationCpfCountry({
         code: '99102',
         commonName: 'Islande',
@@ -931,6 +931,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
             'administration-team-id': administrationTeamId,
             'country-code': country.code,
             'organization-learner-type-name': newOrganizationLearnerType.name,
+            'category-id': categoryId,
           },
         },
       };
@@ -952,10 +953,10 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       expect(response.result.data['external-id']).not.to.equal(organization.externalId);
     });
 
-    it('should return organization updated with status 200', async function () {
+    it('should return the updated category organization and status code 200', async function () {
       // given
       const structureCategory = databaseBuilder.factory.buildStructureCategory({ label: 'Nouvelle catégorie' });
-      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure({});
+      const organization = databaseBuilder.factory.buildOrganization({});
       await databaseBuilder.commit();
 
       const options = {

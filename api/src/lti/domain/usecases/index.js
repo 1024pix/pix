@@ -8,7 +8,7 @@ import { repositories as injectedLtiRepositories } from '../../infrastructure/re
 import { ltiPlatformRepository } from '../../infrastructure/repositories/lti-platform.repository.js';
 import { ltiPlatformRegistrationRepository } from '../../infrastructure/repositories/lti-platform-registration.repository.js';
 import { ltiService } from '../services/lti.service.js';
-import { authenticateLtiPrescriber } from './authenticate-lti-prescriber.usecase.js';
+import { authenticateDeepLinking } from './authenticate-deep-linking.usecase.js';
 import { getLtiCampaignsByOrganizations } from './get-lti-campaigns-by-organizations.usecase.js';
 import { listLtiPublicKeys } from './list-lti-public-keys.usecase.js';
 import { registerLtiPlatform } from './register-lti-platform.usecase.js';
@@ -27,7 +27,7 @@ const repositories = {
 };
 
 const usecasesWithoutInjectedDependencies = {
-  authenticateLtiPrescriber,
+  authenticateDeepLinking,
   listLtiPublicKeys,
   registerLtiPlatform,
   getLtiCampaignsByOrganizations,

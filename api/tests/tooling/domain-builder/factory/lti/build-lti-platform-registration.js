@@ -140,7 +140,7 @@ function getDefaultPlatformOpenIdConfig(origin) {
 export function buildLtiPlatformRegistrationWithPlatformConfig({
   clientId = 'AbCD1234',
   encryptedPrivateKey = defaultKeyPair.encryptedPrivateKey,
-  platformOpenIdConfigUrl = `https://moodle.example.net/mod/lti/openid-configuration.php`,
+  platformOpenIdConfigUrl = 'https://moodle.example.net/mod/lti/openid-configuration.php',
   publicKey = defaultKeyPair.publicKey,
   status = 'active',
   toolConfig = getDefaultToolConfig(clientId),

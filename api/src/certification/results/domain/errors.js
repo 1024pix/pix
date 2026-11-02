@@ -27,9 +27,16 @@ class NoCertificationResultsToDownloadError extends DomainError {
   }
 }
 
+class NoCertificatesToDownloadError extends DomainError {
+  constructor(message = 'No certificates to download for selected sessions.', code = 'NO_CERTIFICATES_TO_DOWNLOAD') {
+    super(message, code);
+  }
+}
+
 export {
   CertificateGenerationError,
   MoreThanOneMatchingCertificationError,
+  NoCertificatesToDownloadError,
   NoCertificationResultForDivision,
   NoCertificationResultsToDownloadError,
 };

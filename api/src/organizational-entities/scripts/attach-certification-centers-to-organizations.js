@@ -150,6 +150,7 @@ export class AttachCertificationCentersToOrganizationsScript extends Script {
           .select('organization_id')
           .whereIn('organization_id', organizationIds)
           .whereNotNull('certification_center_id')
+          .orderBy('organization_id')
           .pluck('organization_id');
 
         if (alreadyAttachedOrganizationsIds.length) {

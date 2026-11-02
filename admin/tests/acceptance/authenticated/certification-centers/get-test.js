@@ -120,6 +120,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         name: 'Center 1',
         externalId: 'ABCDEF',
         type: 'SCO',
+        categoryId: '123',
       });
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
       await clickByName('Modifier');
@@ -154,6 +155,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         name: 'Center 1',
         externalId: 'ABCDEF',
         type: 'SCO',
+        categoryId: '123',
       });
       server.create('complementary-certification', { key: 'S', label: 'Pix+Surf' });
       server.create('complementary-certification', { key: 'A', label: 'Pix+Autre' });
@@ -182,6 +184,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         name: 'Center 1',
         externalId: 'ABCDEF',
         type: 'SCO',
+        categoryId: '123',
       });
       this.server.patch(`/admin/certification-centers/${certificationCenter.id}`, () => new Response(422));
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);

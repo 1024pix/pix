@@ -371,23 +371,6 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
       expect(organization.parentOrganizationId).to.equal(5);
     });
 
-    it('should deserialize categoryId as null if not present', function () {
-      // when
-      const organization = organizationForAdminSerializer.deserialize({
-        data: {
-          type: 'organizations',
-          id: '7',
-          attributes: {
-            name: 'Lycée St Cricq',
-            type: Organization.types.SCO,
-          },
-        },
-      });
-
-      // then
-      expect(organization.categoryId).to.be.null;
-    });
-
     it('should not deserialize country code if not present', function () {
       // when
       const organization = organizationForAdminSerializer.deserialize({

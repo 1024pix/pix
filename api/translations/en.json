@@ -160,6 +160,7 @@
         "title": "Pix certification confirmation"
       },
       "file-name": "pix-certification-{deliveredAt}.pdf",
+      "session-pdf-file-name": "session-{sessionId}-certificates.pdf",
       "v2": {
         "competences-content": {
           "level": "Level",

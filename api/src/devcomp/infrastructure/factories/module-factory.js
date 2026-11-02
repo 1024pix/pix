@@ -49,7 +49,7 @@ export class ModuleFactory {
         isBeta: moduleData.isBeta,
         visibility: moduleData.visibility,
         details: new Details(moduleData.details),
-        glossary: moduleData.glossary.map(({ word, definition }) => new GlossaryEntry({ word, definition })),
+        glossary: moduleData.glossary.map(({ words, definition }) => new GlossaryEntry({ words, definition })),
         sections: await Promise.all(
           await Promise.all(
             moduleData.sections.map(async (section) => {

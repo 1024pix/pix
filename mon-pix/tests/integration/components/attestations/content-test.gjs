@@ -99,6 +99,7 @@ module('Integration | Component | Attestations | content', function (hooks) {
     assert.ok(
       trackEventStub.calledOnceWithExactly(EVENT_NAMES.ATTESTATION.DOWNLOAD_CLICK, {
         origin: ATTESTATION_DOWNLOAD_ORIGINS.ATTESTATIONS_PAGE,
+        attestationKey: 'SIXTH_GRADE',
       }),
     );
   });

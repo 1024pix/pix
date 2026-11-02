@@ -4,13 +4,14 @@ import { expect } from 'chai';
 import * as jose from 'jose';
 import nock from 'nock';
 
-import { LtiPrescriberAccessToken } from '../../../../src/lti/domain/models/LtiPrescriberAccessToken.js';
+import { LtiDeepLinkingAccessToken } from '../../../../src/lti/domain/models/LtiDeepLinkingAccessToken.js';
+import { LtiPlatformRegistration } from '../../../../src/lti/domain/models/LtiPlatformRegistration.js';
 import { cryptoService } from '../../../../src/shared/domain/services/crypto-service.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
 
-describe('Acceptance | LTI | Route | Admin', function () {
+describe('Acceptance | LTI | Route | LTI', function () {
   let server;
 
   beforeEach(async function () {
@@ -99,7 +100,7 @@ describe('Acceptance | LTI | Route | Admin', function () {
       );
 
       const registrations = await knex.select('clientId', 'platformId', 'status').from('lti_platform_registrations');
-      expect(registrations).to.deep.equal([{ clientId, platformId, status: 'active' }]);
+      expect(registrations).to.deep.equal([{ clientId, platformId, status: LtiPlatformRegistration.status.PENDING }]);
 
       expect(platformConfigScope.isDone()).to.be.true;
       expect(registrationScope.isDone()).to.be.true;
@@ -128,11 +129,11 @@ describe('Acceptance | LTI | Route | Admin', function () {
       });
       await databaseBuilder.commit();
 
-      const ltiPrescriberAccessToken = new LtiPrescriberAccessToken({
+      const ltiDeepLinkingAccessToken = new LtiDeepLinkingAccessToken({
         organizationIds: [organization.id],
         clientId,
         deepLinkingSettings: {},
-        scope: 'lti-prescriber',
+        scope: 'lti:deep-linking',
         audience: 'https://orga.pix.fr',
         sessionId: 'session-id',
       });
@@ -141,7 +142,7 @@ describe('Acceptance | LTI | Route | Admin', function () {
         method: 'GET',
         url: '/api/lti/campaigns',
         headers: {
-          cookie: `jwtLtiPrescriber=${ltiPrescriberAccessToken.encoded}`,
+          cookie: `jwtLtiDeepLinking=${ltiDeepLinkingAccessToken.encoded}`,
           'x-forwarded-proto': 'https',
           'x-forwarded-host': 'orga.pix.fr',
         },
@@ -156,13 +157,13 @@ describe('Acceptance | LTI | Route | Admin', function () {
       expect(response.result.data[0].type).to.equal('lti-campaigns');
     });
 
-    it('returns an HTTP status code 401 when there is no lti prescriber cookie', async function () {
+    it('returns an HTTP status code 401 when there is no lti deep linking cookie', async function () {
       // given
       const options = {
         method: 'GET',
         url: '/api/lti/campaigns',
         headers: {
-          cookie: `jwtLtiPrescriber=`,
+          cookie: `jwtLtiDeepLinking=`,
           'x-forwarded-proto': 'https',
           'x-forwarded-host': 'orga.pix.fr',
         },

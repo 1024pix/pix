@@ -1,10 +1,11 @@
 import { databaseBuffer } from '../database-buffer.ts';
+import { buildStructureCategory } from './build-structure-category.js';
 
 const buildStructure = function ({
   id = databaseBuffer.getNextId(),
   createdAt = new Date(),
   updatedAt,
-  categoryId = null,
+  categoryId = buildStructureCategory().id,
 } = {}) {
   const values = {
     id,

@@ -1,4 +1,4 @@
-import { LtiPrescriberAccessToken } from '../models/LtiPrescriberAccessToken.js';
+import { LtiDeepLinkingAccessToken } from '../models/LtiDeepLinkingAccessToken.js';
 
 // TODO: À valider avec Jonathan ? comment on lie à la création de la registration
 // la registation à des networks/organizations ?
@@ -14,7 +14,7 @@ import { LtiPrescriberAccessToken } from '../models/LtiPrescriberAccessToken.js'
  * @param {object} args.deepLinkingSettings
  * @param {string} args.audience
  */
-export async function authenticateLtiPrescriber({
+export async function authenticateDeepLinking({
   organizationExternalIds,
   registration,
   deepLinkingSettings,
@@ -29,7 +29,7 @@ export async function authenticateLtiPrescriber({
 
   const scope = 'campaigns:read';
   const sessionId = crypto.randomUUID();
-  const accessToken = new LtiPrescriberAccessToken({
+  const accessToken = new LtiDeepLinkingAccessToken({
     organizationIds,
     clientId: registration.clientId,
     deepLinkingSettings,

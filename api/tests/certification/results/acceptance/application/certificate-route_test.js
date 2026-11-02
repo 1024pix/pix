@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import dayjs from 'dayjs';
+import sinon from 'sinon';
 
 import { generateCertificateVerificationCode } from '../../../../../src/certification/evaluation/domain/services/verify-certificate-code-service.js';
 import {
@@ -595,6 +596,52 @@ describe('Certification | Results | Acceptance | Application | Certification', f
       });
     });
 
+    context('when the certification is V3', function () {
+      it('should return 200 HTTP status code and the certification', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const session = databaseBuilder.factory.buildSession({
+          publishedAt: new Date('2018-12-01T01:02:03Z'),
+          version: AlgorithmEngineVersion.V3,
+        });
+        const v3CertificationCourse = databaseBuilder.factory.buildCertificationCourse({
+          sessionId: session.id,
+          userId,
+          isPublished: true,
+          version: AlgorithmEngineVersion.V3,
+          verificationCode: await generateCertificateVerificationCode(),
+        });
+        const assessment = databaseBuilder.factory.buildAssessment({
+          userId,
+          certificationCourseId: v3CertificationCourse.id,
+          type: Assessment.types.CERTIFICATION,
+          state: Assessment.states.COMPLETED,
+        });
+        databaseBuilder.factory.buildAssessmentResult.last({
+          certificationCourseId: v3CertificationCourse.id,
+          assessmentId: assessment.id,
+          pixScore: 123,
+          reachedMeshIndex: 1,
+          status: AssessmentResult.status.VALIDATED,
+        });
+        await databaseBuilder.commit();
+
+        options = {
+          method: 'POST',
+          url: '/api/shared-certifications',
+          payload: { verificationCode: v3CertificationCourse.verificationCode },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data.type).to.equal('certifications');
+        expect(response.result.data.id).to.equal(`${v3CertificationCourse.id}`);
+      });
+    });
+
     context('when the given verificationCode is incorrect', function () {
       it('should return notFound 404 HTTP status code when param is incorrect', async function () {
         // given
@@ -661,6 +708,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
           // then
           expect(response.statusCode).to.equal(200);
+          expect(response.rawPayload).to.be.instanceOf(Buffer);
           expect(response.headers['content-type']).to.equal('application/pdf');
 
           const filename = `filename=certification-pix-20181201.pdf`;
@@ -714,6 +762,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
           // then
           expect(response.statusCode).to.equal(200);
+          expect(response.rawPayload).to.be.instanceOf(Buffer);
           expect(response.headers['content-type']).to.equal('application/pdf');
 
           const fileFormat = response.result.substring(1, 4);
@@ -740,6 +789,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
         // then
         expect(response.statusCode).to.equal(200);
+        expect(response.rawPayload).to.be.instanceOf(Buffer);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.include('filename=certification-pix');
         expect(response.file).not.to.be.null;
@@ -815,6 +865,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
         // then
         expect(response.statusCode).to.equal(200);
+        expect(response.rawPayload).to.be.instanceOf(Buffer);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.include(`_attestations_${organizationLearner.division}`);
       });
@@ -886,6 +937,7 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
         // then
         expect(response.statusCode).to.equal(200);
+        expect(response.rawPayload).to.be.instanceOf(Buffer);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.equal(
           `attachment; filename=${organizationLearner.division.toLowerCase()}-certification-pix-${dayjs(session.publishedAt).format('YYYYMMDD')}.pdf`,
@@ -914,9 +966,10 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
         // then
         expect(response.statusCode).to.equal(200);
+        expect(response.rawPayload).to.be.instanceOf(Buffer);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.equal(
-          `attachment; filename=session-${session.id}-certification-pix-${dayjs(session.publishedAt).format('YYYYMMDD')}.pdf`,
+          `attachment; filename=session-${session.id}-certificats.pdf`,
         );
         expect(response.file).not.to.be.null;
       });
@@ -940,12 +993,104 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
         // then
         expect(response.statusCode).to.equal(200);
+        expect(response.rawPayload).to.be.instanceOf(Buffer);
         expect(response.headers['content-type']).to.equal('application/pdf');
         expect(response.headers['content-disposition']).to.equal(
-          `attachment; filename=session-${session.id}-certification-pix-${dayjs(session.publishedAt).format('YYYYMMDD')}.pdf`,
+          `attachment; filename=session-${session.id}-certificats.pdf`,
         );
         expect(response.file).not.to.be.null;
       });
+    });
+  });
+
+  describe('GET /api/admin/sessions/download-selection-certificates', function () {
+    const now = new Date('2026-01-01T05:06:07Z');
+
+    beforeEach(function () {
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
+    });
+
+    it('should return 200 HTTP status code', async function () {
+      // given
+      const server = await getServer();
+
+      const minimalLearningContent = [
+        {
+          id: 'recArea0',
+          code: '1',
+          competences: [
+            {
+              id: 'competenceId-1-3',
+              index: '1.3',
+              name: 'Traiter des données',
+            },
+          ],
+        },
+      ];
+      const learningContentObjects = learningContentBuilder.fromAreas(minimalLearningContent);
+      databaseBuilder.factory.learningContent.build(learningContentObjects);
+
+      const { id: userId } = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+
+      const { id: sessionId1 } = databaseBuilder.factory.buildSession({ date: '2026-01-01' });
+      const { id: sessionId2 } = databaseBuilder.factory.buildSession({ date: '2026-02-02' });
+
+      const candidates = [
+        databaseBuilder.factory.buildCertificationCandidate({
+          sessionId: sessionId1,
+        }),
+        databaseBuilder.factory.buildCertificationCandidate({
+          sessionId: sessionId1,
+        }),
+        databaseBuilder.factory.buildCertificationCandidate({
+          sessionId: sessionId2,
+        }),
+      ];
+
+      candidates.forEach((candidate) => {
+        const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+          sessionId: candidate.sessionId,
+          userId: candidate.userId,
+          lastName: candidate.lastName,
+          birthdate: candidate.birthdate,
+          createdAt: candidate.createdAt,
+          candidateId: candidate.id,
+        });
+
+        const assessment = databaseBuilder.factory.buildAssessment({
+          certificationCourseId: certificationCourse.id,
+          type: Assessment.types.CERTIFICATION,
+          state: Assessment.states.COMPLETED,
+        });
+
+        const assessmentResult = databaseBuilder.factory.buildAssessmentResult.last({
+          assessmentId: assessment.id,
+          createdAt: new Date('2018-04-15T00:00:00Z'),
+          certificationCourseId: certificationCourse.id,
+        });
+
+        databaseBuilder.factory.buildCompetenceMark({
+          competenceId: 'competenceId-1-3',
+          assessmentResultId: assessmentResult.id,
+        });
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/admin/sessions/download-selection-certificates?sessionIds=${sessionId1}&sessionIds=${sessionId2}&isFrenchDomainExtension=true&lang=fr`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.rawPayload).to.be.instanceOf(Buffer);
+      expect(response.headers['content-type']).to.equal('application/zip');
+      expect(response.headers['content-disposition']).to.contain(
+        'attachment; filename=pix-sessions-certificates-1767243967000.zip',
+      );
     });
   });
 });

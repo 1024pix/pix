@@ -11,10 +11,12 @@ describe('Integration | Organizational Entities | Application | Controller | Org
   let featureId;
   let administrationTeamId;
   let adminUserId;
+  let categoryId;
 
   beforeEach(async function () {
     adminUserId = databaseBuilder.factory.buildUser().id;
     administrationTeamId = databaseBuilder.factory.buildAdministrationTeam().id;
+    categoryId = databaseBuilder.factory.buildStructureCategory().id;
     organization = databaseBuilder.factory.buildOrganization({
       name: 'organization name',
       type: 'SCO',
@@ -28,6 +30,7 @@ describe('Integration | Organizational Entities | Application | Controller | Org
       showSkills: false,
       identityProviderForCampaigns: 'POLE_EMPLOI',
       administrationTeamId: administrationTeamId,
+      categoryId,
     });
     databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
     featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
@@ -56,6 +59,7 @@ describe('Integration | Organizational Entities | Application | Controller | Org
               'show-skills': true,
               'identity-provider-for-campaigns': 'genericOidcProviderCode',
               'administration-team-id': administrationTeamId,
+              'category-id': categoryId,
             },
           },
         },
@@ -65,6 +69,11 @@ describe('Integration | Organizational Entities | Application | Controller | Org
 
       // then
       const savedOrganization = await knex('organizations').where('id', organization.id).first();
+      const { category_id: organizationCategory } = await knex('structures')
+        .select('structures.category_id')
+        .join('fct_structures', 'fct_structures.structure_id', 'structures.id')
+        .where('fct_structures.organization_id', organization.id)
+        .first();
 
       expect(response.source.data.type).to.equal('organizations');
       expect(response.source.data.id).to.equal(organization.id.toString());
@@ -85,6 +94,7 @@ describe('Integration | Organizational Entities | Application | Controller | Org
       expect(response.source.data.attributes['administration-team-id']).to.equal(
         savedOrganization.administrationTeamId,
       );
+      expect(response.source.data.attributes['category-id']).to.equal(organizationCategory);
     });
   });
 
@@ -104,6 +114,7 @@ describe('Integration | Organizational Entities | Application | Controller | Org
           id: organization.id,
           attributes: {
             'administration-team-id': administrationTeamId,
+            'category-id': categoryId,
           },
           relationships: {
             tags: {
@@ -146,6 +157,7 @@ describe('Integration | Organizational Entities | Application | Controller | Org
             'data-protection-officer-first-name': 'updated first name',
             'data-protection-officer-last-name': 'updated last name',
             'data-protection-officer-email': 'updatedEmail',
+            'category-id': categoryId,
           },
         },
       },
@@ -172,6 +184,7 @@ describe('Integration | Organizational Entities | Application | Controller | Org
           id: organization.id,
           attributes: {
             'administration-team-id': administrationTeamId,
+            'category-id': categoryId,
             features: {
               [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: { active: true },
             },
@@ -207,6 +220,7 @@ describe('Integration | Organizational Entities | Application | Controller | Org
           id: organization.id,
           attributes: {
             'administration-team-id': administrationTeamId,
+            'category-id': categoryId,
             features: {
               [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: { active: false },
             },

@@ -2845,8 +2845,8 @@ describe('Integration | Devcomp | Infrastructure | Factories | Module ', functio
         const moduleData = {
           ...minimalModuleData,
           glossary: [
-            { word: 'chat', definition: '<p>Animal très mignon</p>' },
-            { word: 'ronron', definition: '<p>Son du chat</p>' },
+            { words: ['chat'], definition: '<p>Animal très mignon</p>' },
+            { words: ['ronron'], definition: '<p>Son du chat</p>' },
           ],
         };
 
@@ -2856,10 +2856,10 @@ describe('Integration | Devcomp | Infrastructure | Factories | Module ', functio
         // then
         expect(module.glossary).to.have.lengthOf(2);
         expect(module.glossary[0]).to.be.an.instanceOf(GlossaryEntry);
-        expect(module.glossary[0].word).to.equal('chat');
+        expect(module.glossary[0].words).to.deep.equal(['chat']);
         expect(module.glossary[0].definition).to.equal('<p>Animal très mignon</p>');
         expect(module.glossary[1]).to.be.an.instanceOf(GlossaryEntry);
-        expect(module.glossary[1].word).to.equal('ronron');
+        expect(module.glossary[1].words).to.deep.equal(['ronron']);
         expect(module.glossary[1].definition).to.equal('<p>Son du chat</p>');
       });
 

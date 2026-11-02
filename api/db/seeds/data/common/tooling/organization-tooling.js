@@ -72,7 +72,7 @@ async function createOrganization({
   administrationTeamId,
   countryCode = COUNTRY_FRANCE_CODE,
   organizationLearnerTypeId,
-  categoryId = null,
+  categoryId,
 }) {
   organizationId = _buildOrganization({
     databaseBuilder,

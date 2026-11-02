@@ -375,52 +375,6 @@ describe('Certification | Shared | Integration | Repository | Certification Cour
     });
   });
 
-  describe('#findCertificationCoursesBySessionId', function () {
-    let sessionId;
-    let sessionIdWithoutCertifCourses;
-    let firstCertifCourse;
-    let secondCertifCourse;
-
-    beforeEach(function () {
-      // given
-      sessionId = databaseBuilder.factory.buildSession().id;
-      sessionIdWithoutCertifCourses = databaseBuilder.factory.buildSession().id;
-      firstCertifCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId });
-      secondCertifCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId });
-      return databaseBuilder.commit();
-    });
-
-    function _cleanCertificationCourse(certificationCourse) {
-      return _.omit(certificationCourse, '_certificationIssueReports', '_assessment', '_challenges', 'updatedAt');
-    }
-
-    it('should returns all certification courses id with given sessionId', async function () {
-      // when
-      const certificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({
-        sessionId,
-      });
-
-      // then
-      expect(certificationCourses).to.have.lengthOf(2);
-      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(
-        _cleanCertificationCourse(new CertificationCourse(firstCertifCourse)),
-      );
-      expect(_cleanCertificationCourse(certificationCourses[1])).to.deep.equal(
-        _cleanCertificationCourse(new CertificationCourse(secondCertifCourse)),
-      );
-    });
-
-    it('should return empty array when no certification course found', async function () {
-      // when
-      const result = await certificationCourseRepository.findCertificationCoursesBySessionId({
-        sessionId: sessionIdWithoutCertifCourses,
-      });
-
-      // then
-      expect(result).to.be.empty;
-    });
-  });
-
   describe('#findAllByUserId', function () {
     context('when user has no certification', function () {
       it('should return empty array when no certification course found', async function () {
