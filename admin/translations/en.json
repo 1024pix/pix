@@ -868,6 +868,7 @@
         "created-at": "Creation date",
         "description": "Pix App description",
         "description-sublabel": "This description will be seen by Pix App users at the beginning of the course",
+        "duration-span": "Durée du parcours",
         "illustration": "Illustration",
         "internal-name": "Internal name",
         "itemId": "Id",

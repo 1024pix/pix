@@ -49,4 +49,8 @@ export default class CombinedCourseBlueprint extends Model {
       label: translationKeys[key],
     }));
   }
+
+  get displayedDurationSpan() {
+    return this.durationOptions.find(({ value }) => value === this.durationSpan).label;
+  }
 }

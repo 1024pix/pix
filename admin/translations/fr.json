@@ -876,6 +876,7 @@
         "created-at": "Date de création",
         "description": "Description Pix App",
         "description-sublabel": "Cette description sera visible par les utilisateurs de Pix App en début de parcours",
+        "duration-span": "Durée du parcours",
         "illustration": "Illustration",
         "internal-name": "Nom interne",
         "itemId": "Identifiant",
