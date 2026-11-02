@@ -1,9 +1,18 @@
 name: 'Security Checks'
 
+## For readability and asynchronicity, the code for all 10 jobs is not in a loop
+
+
 on:
   push:
-    branches:
-      - dev
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+    paths: # only loads on changes of dependencies
+      - '**/package-lock.json'
+      - '.github/workflows/security.yml'
+
+permissions: {}
 
 jobs:
 
@@ -280,7 +289,7 @@ jobs:
         - check_risk_score_audit_logger
         - check_risk_score_tests_e2e
         - check_risk_score_tests_playwright
-    if: ${{ !cancelled() && github.event_name == 'pull_request' && needs.check_risk_score.outputs.status != '' }}
+    if: ${{ !cancelled() && github.event_name == 'pull_request' }}
     permissions:
       pull-requests: write
     steps:
@@ -288,27 +297,42 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           PR: ${{ github.event.pull_request.number }}
-          MONOREPO_SCORE: ${{ needs.check_risk_score_monorepo.riskscore }}
-          MONOREPO_STATUS: ${{ needs.check_risk_score_monorepo.status }}
-          PIX_APP_SCORE: ${{ needs.check_risk_score_app.riskscore }}
-          PIX_APP_STATUS: ${{ needs.check_risk_score_app.status }}
-          PIX_ORGA_SCORE: ${{ needs.check_risk_score_orga.riskscore }}
-          PIX_ORGA_STATUS: ${{ needs.check_risk_score_orga.status }}
-          PIX_CERTIF_SCORE: ${{ needs.check_risk_score_certif.riskscore }}
-          PIX_CERTIF_STATUS: ${{ needs.check_risk_score_certif.status }}
-          PIX_ADMIN_SCORE: ${{ needs.check_risk_score_admin.riskscore }}
-          PIX_ADMIN_STATUS: ${{ needs.check_risk_score_admin.status }}
-          PIX_JUNIOR_SCORE: ${{ needs.check_risk_score_junior.riskscore }}
-          PIX_JUNIOR_STATUS: ${{ needs.check_risk_score_junior.status }}
-          PIX_API_SCORE: ${{ needs.check_risk_score_api.riskscore }}
-          PIX_API_STATUS: ${{ needs.check_risk_score_api.status }}
-          PIX_AUDIT_LOGGER_SCORE: ${{ needs.check_risk_score_audit_logger.riskscore }}
-          PIX_AUDIT_LOGGER_STATUS: ${{ needs.check_risk_score_audit_logger.status }}
-          TESTS_E2E_SCORE: ${{ needs.check_risk_score_tests_e2e.riskscore }}
-          TESTS_E2E_STATUS: ${{ needs.check_risk_score_tests_e2e.status }}
-          TESTS_PLAYWRIGHT_SCORE: ${{ needs.check_risk_score_tests_playwright.riskscore }}
-          TESTS_PLAYWRIGHT_STATUS: ${{ needs.check_risk_score_tests_playwright.status }}
+          MONOREPO_SCORE: ${{ needs.check_risk_score_monorepo.outputs.riskscore }}
+          MONOREPO_STATUS: ${{ needs.check_risk_score_monorepo.outputs.status }}
+          PIX_APP_SCORE: ${{ needs.check_risk_score_app.outputs.riskscore }}
+          PIX_APP_STATUS: ${{ needs.check_risk_score_app.outputs.status }}
+          PIX_ORGA_SCORE: ${{ needs.check_risk_score_orga.outputs.riskscore }}
+          PIX_ORGA_STATUS: ${{ needs.check_risk_score_orga.outputs.status }}
+          PIX_CERTIF_SCORE: ${{ needs.check_risk_score_certif.outputs.riskscore }}
+          PIX_CERTIF_STATUS: ${{ needs.check_risk_score_certif.outputs.status }}
+          PIX_ADMIN_SCORE: ${{ needs.check_risk_score_admin.outputs.riskscore }}
+          PIX_ADMIN_STATUS: ${{ needs.check_risk_score_admin.outputs.status }}
+          PIX_JUNIOR_SCORE: ${{ needs.check_risk_score_junior.outputs.riskscore }}
+          PIX_JUNIOR_STATUS: ${{ needs.check_risk_score_junior.outputs.status }}
+          PIX_API_SCORE: ${{ needs.check_risk_score_api.outputs.riskscore }}
+          PIX_API_STATUS: ${{ needs.check_risk_score_api.outputs.status }}
+          PIX_AUDIT_LOGGER_SCORE: ${{ needs.check_risk_score_audit_logger.outputs.riskscore }}
+          PIX_AUDIT_LOGGER_STATUS: ${{ needs.check_risk_score_audit_logger.outputs.status }}
+          TESTS_E2E_SCORE: ${{ needs.check_risk_score_tests_e2e.outputs.riskscore }}
+          TESTS_E2E_STATUS: ${{ needs.check_risk_score_tests_e2e.outputs.status }}
+          TESTS_PLAYWRIGHT_SCORE: ${{ needs.check_risk_score_tests_playwright.outputs.riskscore }}
+          TESTS_PLAYWRIGHT_STATUS: ${{ needs.check_risk_score_tests_playwright.outputs.status }}
         run: |
+          cat > "$RUNNER_TEMP/body.md" <<EOF
+          ### Dependency-Track
+          | Project | RiskScore | Status |
+          |---|---|---|
+          | MONOREPO | $MONOREPO_SCORE | $MONOREPO_STATUS |
+          | PIX_APP | $PIX_APP_SCORE | $PIX_APP_STATUS |
+          | PIX_ORGA | $PIX_ORGA_SCORE | $PIX_ORGA_STATUS |
+          | PIX_CERTIF | $PIX_CERTIF_SCORE | $PIX_CERTIF_STATUS |
+          | PIX_ADMIN | $PIX_ADMIN_SCORE | $PIX_ADMIN_STATUS |
+          | PIX_JUNIOR | $PIX_JUNIOR_SCORE | $PIX_JUNIOR_STATUS |
+          | PIX_API | $PIX_API_SCORE | $PIX_API_STATUS |
+          | PIX_AUDIT_LOGGER | $PIX_AUDIT_LOGGER_SCORE | $PIX_AUDIT_LOGGER_STATUS |
+          | TESTS_E2E | $TESTS_E2E_SCORE | $TESTS_E2E_STATUS |
+          | TESTS_PLAYWRIGHT | $TESTS_PLAYWRIGHT_SCORE | $TESTS_PLAYWRIGHT_STATUS |
+          EOF
           gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --edit-last --create-if-none \
-            --body "### Dependency-Track\n| Project | Status | RiskScore |\n|---|---|---|\n| MONOREPO | $MONOREPO_SCORE | $MONOREPO_STATUS |\n| PIX_APP | $PIX_APP_SCORE | $PIX_APP_STATUS |\n| PIX_ORGA | $PIX_ORGA_SCORE | $PIX_ORGA_STATUS |\n| PIX_CERTIF | $PIX_CERTIF_SCORE | $PIX_CERTIF_STATUS |\n| PIX_ADMIN | $PIX_ADMIN_SCORE | $PIX_ADMIN_STATUS |\n| PIX_JUNIOR | $PIX_JUNIOR_SCORE | $PIX_JUNIOR_STATUS |\n| PIX_API | $PIX_API_SCORE | $PIX_API_STATUS |\n| PIX_AUDIT_LOGGER | $PIX_AUDIT_LOGGER_SCORE | $PIX_AUDIT_LOGGER_STATUS |\n| TESTS_E2E | $TESTS_E2E_SCORE | $TESTS_E2E_STATUS |\n| TESTS_PLAYWRIGHT | $TESTS_PLAYWRIGHT_SCORE | $TESTS_PLAYWRIGHT_STATUS |\n"
+            --body-file "$RUNNER_TEMP/body.md"
 
