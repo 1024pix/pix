@@ -63,6 +63,7 @@ describe('Acceptance | Application | learner-list-route', function () {
         birthdate: '2000-01-01',
       });
       databaseBuilder.factory.buildOrganizationLearner({
+        id: 313,
         firstName: 'Annie-Marie',
         organizationId,
         birthdate: '2001-01-01',
@@ -86,6 +87,7 @@ describe('Acceptance | Application | learner-list-route', function () {
         '?filter[fullName]=Annie' +
         '&page[number]=1&page[size]=25' +
         `&filter[organizationExternalId]=Abc123` +
+        `&filter[organizationLearnerId]=313` +
         `&filter[hideDisabled]=true` +
         '&sort[birthdateSort]=desc';
       const request = {
@@ -98,10 +100,9 @@ describe('Acceptance | Application | learner-list-route', function () {
 
       //then
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data.length).to.equal(2);
+      expect(response.result.data.length).to.equal(1);
       expect(response.result.data[0].type).to.equal('admin-organization-learners');
       expect(response.result.data[0].attributes['first-name']).to.be.equal('Annie-Marie');
-      expect(response.result.data[1].attributes['first-name']).to.be.equal('Annie');
     });
   });
 
