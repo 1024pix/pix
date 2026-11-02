@@ -85,12 +85,14 @@ describe('Acceptance | Controller | answer-controller-save | with knowledge stat
     return { userId, assessmentId };
   };
 
-  // What the migration of the user writes: their level 1, the pix it earned, and the migration row.
-  const migrate = async ({ userId }) => {
-    buildKnowledgeState({ userId, tubeId: 'tube_web', floor: 1, directLevels: [1] });
-    buildUserCompetenceScore({ userId, competenceId, pix: 2 });
-    buildKnowledgeStateMigration({ userId });
+  // What the migration of the user writes: their level 1, the pix score it earned, and the migration row.
+  const migrate = async (user) => {
+    buildKnowledgeState({ userId: user.userId, tubeId: 'tube_web', floor: 1, directLevels: [1] });
+    buildUserCompetenceScore({ userId: user.userId, competenceId, pix: 2 });
+    buildKnowledgeStateMigration({ userId: user.userId });
     await databaseBuilder.commit();
+
+    return user;
   };
 
   const answer = ({ userId, assessmentId }) =>
@@ -137,10 +139,9 @@ describe('Acceptance | Controller | answer-controller-save | with knowledge stat
   it('should give a migrated user the same profile as another user, before and after the same answer', async function () {
     // given
     buildLearningContent();
-    const migratedUser = buildAssessedUser();
+    const migratedUser = await migrate(buildAssessedUser());
     const otherUser = buildAssessedUser();
     await databaseBuilder.commit();
-    await migrate(migratedUser);
 
     // when
     const migratedUserProfileBefore = await getProfile(migratedUser);
@@ -162,12 +163,10 @@ describe('Acceptance | Controller | answer-controller-save | with knowledge stat
     expect(migratedUserProfileAfter.pixScore).to.equal(6);
   });
 
-  it('should keep the knowledge of a migrated user in the knowledge states only', async function () {
+  it('should keep the knowledge of a migrated user in the knowledge states and save into migrated user knowledge elements', async function () {
     // given
     buildLearningContent();
-    const migratedUser = buildAssessedUser();
-    await databaseBuilder.commit();
-    await migrate(migratedUser);
+    const migratedUser = await migrate(buildAssessedUser());
 
     // when
     await answer(migratedUser);
@@ -180,9 +179,43 @@ describe('Acceptance | Controller | answer-controller-save | with knowledge stat
     const userCompetenceScores = await knex('user_competence_scores')
       .select('competenceId', 'pix')
       .where({ userId: migratedUser.userId });
+    const { id: answerId } = await knex('answers').where({ assessmentId: migratedUser.assessmentId }).first();
+    const savedKnowledgeElements = await knex('migrated_user_knowledge_elements')
+      .select('skillId', 'status', 'source', 'earnedPix', 'answerId', 'assessmentId', 'savedAt')
+      .where({ userId: migratedUser.userId })
+      .orderBy('skillId');
 
     expect(knowledgeElements).to.have.lengthOf(1);
     expect(knowledgeStates).to.deep.equal([{ tubeId: 'tube_web', floor: 3, ceiling: null, directLevels: [1, 3] }]);
     expect(userCompetenceScores).to.deep.equal([{ competenceId, pix: 6 }]);
+    expect(savedKnowledgeElements).to.deep.equal([
+      {
+        skillId: 'skill_web_1',
+        status: 'validated',
+        source: 'inferred',
+        earnedPix: 2,
+        answerId,
+        assessmentId: migratedUser.assessmentId,
+        savedAt: null,
+      },
+      {
+        skillId: 'skill_web_2',
+        status: 'validated',
+        source: 'inferred',
+        earnedPix: 2,
+        answerId,
+        assessmentId: migratedUser.assessmentId,
+        savedAt: null,
+      },
+      {
+        skillId: 'skill_web_3',
+        status: 'validated',
+        source: 'direct',
+        earnedPix: 2,
+        answerId,
+        assessmentId: migratedUser.assessmentId,
+        savedAt: null,
+      },
+    ]);
   });
 });
