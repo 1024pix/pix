@@ -1,13 +1,15 @@
 import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 
-async function findActiveSkillsForCappedTubes(cappedTubes, dependencies = { skillRepository }) {
-  const skills = [];
-  for (const cappedTube of cappedTubes) {
-    const skillsForTube = await dependencies.skillRepository.findActiveByTubeId(cappedTube.id);
-    const skillsCapped = skillsForTube.filter((skill) => skill.difficulty <= parseInt(cappedTube.level));
-    skills.push(...skillsCapped);
-  }
-  return skills;
-}
+export async function findActiveSkillsForCappedTubes(cappedTubes, dependencies = { skillRepository }) {
+  const allSkills = await dependencies.skillRepository.findActiveByTubeIds(
+    cappedTubes.map((cappedTube) => cappedTube.id),
+  );
 
-export { findActiveSkillsForCappedTubes };
+  const cappedTubesById = Object.fromEntries(cappedTubes.map((cappedTube) => [cappedTube.id, cappedTube]));
+  const skillsCapped = allSkills.filter((skill) => {
+    const cappedTube = cappedTubesById[skill.tubeId];
+    return skill.difficulty <= parseInt(cappedTube.level);
+  });
+
+  return skillsCapped;
+}

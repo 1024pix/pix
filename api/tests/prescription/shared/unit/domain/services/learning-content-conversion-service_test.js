@@ -24,11 +24,12 @@ describe('Prescription | Shared | Unit | Service | learning-content-conversion-s
       const skill2Tube2 = domainBuilder.buildSkill({ tubeId: 'recTube2', name: '@skillTube2_2', difficulty: 2 });
       const skill4Tube2 = domainBuilder.buildSkill({ tubeId: 'recTube2', name: '@skillTube2_4', difficulty: 4 });
       const skillRepository = {
-        findActiveByTubeId: sinon.stub(),
+        findActiveByTubeIds: sinon.stub(),
       };
-      skillRepository.findActiveByTubeId.withArgs('recTube1').resolves([skill1Tube1, skill2Tube1, skill6Tube1]);
-      skillRepository.findActiveByTubeId.withArgs('recTube2').resolves([skill2Tube2, skill4Tube2]);
-      skillRepository.findActiveByTubeId.throws(new Error('I should not be called with other arguments'));
+      skillRepository.findActiveByTubeIds
+        .withArgs(['recTube1', 'recTube2'])
+        .resolves([skill1Tube1, skill2Tube1, skill6Tube1, skill2Tube2, skill4Tube2]);
+      skillRepository.findActiveByTubeIds.throws(new Error('I should not be called with other arguments'));
 
       // when
       const skills = await findActiveSkillsForCappedTubes(cappedTubes, { skillRepository });
