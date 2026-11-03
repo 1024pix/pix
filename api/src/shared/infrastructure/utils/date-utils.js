@@ -1,3 +1,10 @@
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone.js';
+import utc from 'dayjs/plugin/utc.js';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 export function isValidDate(dateValue, format) {
   return convertDateValue({ dateString: dateValue, inputFormat: format }) !== null;
 }
@@ -72,4 +79,60 @@ export function anonymizeGeneralizeDate(date) {
   newDate.setUTCDate(1);
   newDate.setUTCHours(0, 0, 0, 0);
   return newDate;
+}
+
+/**
+ * Returns the date(s) one year earlier.
+ * Special cases:
+ * - If the input is Feb 29 (leap day), returns an empty array.
+ * - If the input is March 1 and the previous year is a leap year,
+ *   returns both Feb 29 and March 1 of that year (to cover the "orphan" leap day).
+ *
+ * @param {Date} date
+ * @returns {Date[]}
+ */
+export function getDatesOneYearEarlier(date) {
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth(); // 0-indexed
+  const day = date.getUTCDate();
+  const previousYear = year - 1;
+
+  if (month === 1 && day === 29) {
+    return [];
+  }
+
+  if (month === 2 && day === 1 && isLeapYear(previousYear)) {
+    return [new Date(Date.UTC(previousYear, 1, 29)), new Date(Date.UTC(previousYear, 2, 1))];
+  }
+
+  return [new Date(Date.UTC(previousYear, month, day))];
+}
+
+function isLeapYear(year) {
+  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+}
+
+/**
+ * The day of the date in the timezone, as YYYY-MM-DD.
+ *
+ * @param {Date} date
+ * @param {string} timezone an IANA timezone name, such as Europe/Paris
+ * @returns {string}
+ */
+export function toDay(date, timezone) {
+  return dayjs(date).tz(timezone).format('YYYY-MM-DD');
+}
+
+/**
+ * The bounds of a day in the timezone, given as YYYY-MM-DD: its first instant,
+ * included, and the first instant of the next day, excluded. A day is 23 or
+ * 25 hours long when the clocks change.
+ *
+ * @param {string} day
+ * @param {string} timezone an IANA timezone name, such as Europe/Paris
+ * @returns {{ start: Date, end: Date }}
+ */
+export function dayBounds(day, timezone) {
+  const nextDay = dayjs.utc(day).add(1, 'day').format('YYYY-MM-DD');
+  return { start: dayjs.tz(day, timezone).toDate(), end: dayjs.tz(nextDay, timezone).toDate() };
 }

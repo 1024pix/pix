@@ -3,7 +3,10 @@ import { expect } from 'chai';
 import {
   anonymizeGeneralizeDate,
   convertDateValue,
+  dayBounds,
+  getDatesOneYearEarlier,
   isValidDate,
+  toDay,
 } from '../../../../../src/shared/infrastructure/utils/date-utils.js';
 
 describe('Unit | Utils | date-utils', function () {
@@ -177,6 +180,68 @@ describe('Unit | Utils | date-utils', function () {
 
         // then
         expect(anonymizedGeneralizedDate).to.be.null;
+      });
+    });
+  });
+
+  describe('#getDatesOneYearEarlier', function () {
+    [
+      {
+        date: new Date('2020-01-01T08:00:00Z'),
+        oneYearEarlierDates: [new Date('2019-01-01T00:00:00Z')],
+      },
+      {
+        date: new Date('2020-03-01T08:00:00Z'),
+        oneYearEarlierDates: [new Date('2019-03-01T00:00:00Z')],
+      },
+      {
+        date: new Date('2021-02-28T08:00:00Z'),
+        oneYearEarlierDates: [new Date('2020-02-28T00:00:00Z')],
+      },
+      {
+        date: new Date('2024-02-29T08:00:00Z'),
+        oneYearEarlierDates: [],
+      },
+      {
+        date: new Date('2025-03-01T08:00:00Z'),
+        oneYearEarlierDates: [new Date('2024-02-29T00:00:00Z'), new Date('2024-03-01T00:00:00Z')],
+      },
+      {
+        date: new Date('2101-02-28T08:00:00Z'),
+        oneYearEarlierDates: [new Date('2100-02-28T00:00:00Z')],
+      },
+      {
+        date: new Date('2401-03-01T08:00:00Z'),
+        oneYearEarlierDates: [new Date('2400-02-29T00:00:00Z'), new Date('2400-03-01T00:00:00Z')],
+      },
+    ].forEach(({ date, oneYearEarlierDates }) => {
+      it(`returns ${oneYearEarlierDates} for ${date}`, function () {
+        expect(getDatesOneYearEarlier(date)).to.deep.equal(oneYearEarlierDates);
+      });
+    });
+  });
+
+  describe('#toDay', function () {
+    it('should give the day of the date in the timezone', function () {
+      expect(toDay(new Date('2026-03-01T22:59:59Z'), 'Europe/Paris')).to.equal('2026-03-01');
+      expect(toDay(new Date('2026-03-01T23:00:00Z'), 'Europe/Paris')).to.equal('2026-03-02');
+      expect(toDay(new Date('2026-07-01T22:00:00Z'), 'Europe/Paris')).to.equal('2026-07-02');
+      expect(toDay(new Date('2026-03-01T23:00:00Z'), 'UTC')).to.equal('2026-03-01');
+    });
+  });
+
+  describe('#dayBounds', function () {
+    it('should give the first instant of the day and of the next day, in the timezone', function () {
+      expect(dayBounds('2026-02-28', 'Europe/Paris')).to.deep.equal({
+        start: new Date('2026-02-27T23:00:00Z'),
+        end: new Date('2026-02-28T23:00:00Z'),
+      });
+    });
+
+    it('should give a 23-hour day on the day of the change to summer time', function () {
+      expect(dayBounds('2026-03-29', 'Europe/Paris')).to.deep.equal({
+        start: new Date('2026-03-28T23:00:00Z'),
+        end: new Date('2026-03-29T22:00:00Z'),
       });
     });
   });
