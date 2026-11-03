@@ -1,41 +1,71 @@
 import { PassThrough } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
 
 import ZipStream from 'zip-stream';
 
 /**
- * Creates a ZIP archive progressively from an iterable of documents.
+ * Creates a ZIP archive progressively from an async iterable of documents.
  *
  * @param {AsyncIterable<{
  *   filename: string,
  *   content: import('node:stream').Readable
  * }>} documents
- * @returns {import('node:stream').PassThrough}
+ * @returns {{
+ *   stream: PassThrough,
+ *   completion: Promise<void>
+ * }}
  */
 export function createZipStream(documents) {
   const archive = new ZipStream();
-
   const output = new PassThrough();
 
-  archive.pipe(output);
+  const completion = pipeline(archive, output);
 
-  (async () => {
-    try {
-      for await (const document of documents) {
-        await addEntry(archive, document);
-      }
+  void populateArchive(archive, documents);
 
-      archive.finish();
-    } catch (error) {
-      archive.destroy(error);
-      output.destroy(error);
-    }
-  })();
-
-  return output;
+  return {
+    stream: output,
+    completion,
+  };
 }
 
+/**
+ * Adds documents progressively to the ZIP archive.
+ *
+ * @param {ZipStream} archive
+ * @param {AsyncIterable<{
+ *   filename: string,
+ *   content: import('node:stream').Readable
+ * }>} documents
+ * @returns {Promise<void>}
+ */
+async function populateArchive(archive, documents) {
+  try {
+    for await (const document of documents) {
+      await addEntry(archive, document);
+    }
+
+    archive.finish();
+  } catch (error) {
+    archive.destroy(error);
+  }
+}
+
+/**
+ * Adds a document to the ZIP archive.
+ *
+ * @param {ZipStream} archive
+ * @param {{
+ *   filename: string,
+ *   content: import('node:stream').Readable
+ * }} document
+ * @returns {Promise<void>}
+ */
 function addEntry(archive, document) {
   return new Promise((resolve, reject) => {
-    archive.entry(document.content, { name: document.filename }, (error) => (error ? reject(error) : resolve()));
+    archive.entry(document.content, { name: document.filename }, (error) => {
+      if (error) reject(error);
+      else resolve();
+    });
   });
 }
