@@ -620,4 +620,44 @@ describe('Integration | Application | campaign-api', function () {
       });
     });
   });
+
+  describe('#getCampaignOverview', function () {
+    it('returns a campaignOverview object', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization({ name: 'Pix organization' }).id;
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile({ description: 'Parcours rentrée 6ieme' }).id;
+      const campaign = databaseBuilder.factory.buildCampaign({
+        code: 'AZERTY',
+        targetProfileId,
+        name: 'Campagne 6A',
+        type: 'ASSESSMENT',
+        organizationId,
+      });
+      databaseBuilder.factory.buildCampaign({ organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const campaignOverview = await campaignApi.getCampaignOverview({ campaignId: campaign.id });
+
+      // then
+      expect(campaignOverview).to.be.an.instanceOf(CampaignOverviewDTO);
+      expect(campaignOverview).deep.equal({
+        id: campaign.id,
+        description: 'Parcours rentrée 6ieme',
+        code: 'AZERTY',
+        name: 'Campagne 6A',
+        organizationName: 'Pix organization',
+        organizationId,
+        type: 'ASSESSMENT',
+      });
+    });
+
+    it('returns null when the campaign does not exist', async function () {
+      // when
+      const campaignOverview = await campaignApi.getCampaignOverview({ campaignId: 123456 });
+
+      // then
+      expect(campaignOverview).to.be.null;
+    });
+  });
 });

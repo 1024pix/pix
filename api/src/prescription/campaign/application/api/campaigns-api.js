@@ -314,10 +314,19 @@ export const deleteCampaignsInCombinedCourses = async ({
  * @param {Array<Number>} organizationIds
  * @returns {Promise<CampaignOverviewDTO[]>}
  */
-export const getLtiCampaigns = async ({ organizationIds }) => {
-  return await usecases.getLtiCampaignsByOrganizations({ organizationIds });
 export const getCampaignOverviews = async ({ organizationIds }) => {
   const campaigns = await usecases.getCampaignOverviewsByOrganizations({ organizationIds });
   return campaigns.map((campaign) => new CampaignOverviewDTO(campaign));
 };
+
+/**
+ * @function
+ * @name getCampaignOverview
+ *
+ * @param {number} campaignId
+ * @returns {Promise<CampaignOverviewDTO|null>}
+ */
+export const getCampaignOverview = async ({ campaignId }) => {
+  const campaign = await usecases.getCampaignOverview({ campaignId });
+  return campaign ? new CampaignOverviewDTO(campaign) : null;
 };
