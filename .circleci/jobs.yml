@@ -505,7 +505,7 @@ jobs:
 
   api_lint:
     executor:
-      name: node-docker
+      name: node-docker-medium
     working_directory: ~/pix/api
     steps:
       - run:
