@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import * as certificationResultBuilderRepository from '../../infrastructure/repositories/certification-result-builder-repository.js';
 import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
@@ -14,8 +15,17 @@ import * as certificationResultRepository from '../../infrastructure/repositorie
  */
 export async function buildForSession({
   sessionId,
-  dependencies = { certificationResultBuilderRepository, certificationResultRepository, uuidGenerator: randomUUID },
+  dependencies = {
+    certificationResultBuilderRepository,
+    certificationResultRepository,
+    uuidGenerator: randomUUID,
+    featureToggles,
+  },
 }) {
+  const useNewCertificationResults = await dependencies.featureToggles.get('useNewCertificationResults');
+  if (!useNewCertificationResults) {
+    return;
+  }
   const certificationResultBuilder =
     await dependencies.certificationResultBuilderRepository.findBuilderForCertificationsInSession(sessionId);
   const { certificationResults, userCertificationResults, errors } = certificationResultBuilder.build(
