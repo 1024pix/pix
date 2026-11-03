@@ -62,7 +62,8 @@ describe('Acceptance | Application | publish-session-job-controller', function (
       const data = { sessionId: session.id };
       await jobController.handle({ data });
 
-      const payload = { sessionId: session.id, publishedAt: publishedAt };
+      // job data is stored as JSON by pg-boss, so dates come back as ISO strings
+      const payload = { sessionId: session.id, publishedAt: publishedAt.toISOString() };
 
       const [finalizedSession] = await knex('finalized-sessions').where({ sessionId: session.id });
       expect(finalizedSession.publishedAt).to.deep.equal(publishedAt);
@@ -75,15 +76,10 @@ describe('Acceptance | Application | publish-session-job-controller', function (
       expect(sessionToCheck.publishedAt).to.deep.equal(publishedAt);
 
       const cleaHandler = new SendResultsToCleaPrescribersEventHandler();
-      expect(cleaHandler.jobName).to.have.performed.withEventPayload(payload);
+      // withEventPayload also asserts that exactly one job was performed
+      await expect(cleaHandler.jobName).to.have.performed.withEventPayload(payload);
       const prescriberHandler = new SendResultsToPrescribersEventHandler();
-      expect(prescriberHandler.jobName).to.have.performed.withEventPayload(payload);
-
-      const prescriberSessionPublishedEventHandler = new SendResultsToPrescribersEventHandler();
-      expect(prescriberSessionPublishedEventHandler.jobName).to.have.been.performed.withJobsCount(1);
-
-      const cleaSessionPublishedEventHandler = new SendResultsToCleaPrescribersEventHandler();
-      expect(cleaSessionPublishedEventHandler.jobName).to.have.been.performed.withJobsCount(1);
+      await expect(prescriberHandler.jobName).to.have.performed.withEventPayload(payload);
     });
   });
 });
