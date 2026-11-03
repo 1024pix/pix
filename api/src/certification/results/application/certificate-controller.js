@@ -4,7 +4,7 @@ import { config } from '../../../../config/config.js';
 import { addCorrelationInfos, getCorrelationInfo } from '../../../shared/infrastructure/execution-context-manager.js';
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
 import { generateHash } from '../../../shared/infrastructure/utils/crypto.js';
-import { logger, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
+import { SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { getChallengeLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { normalizeAndRemoveAccents } from '../../../shared/infrastructure/utils/string-utils.js';
 import { createZipStream } from '../../../shared/infrastructure/utils/zip/stream-zip.js';
@@ -176,7 +176,6 @@ async function downloadDivisionCertificates(
 async function downloadSelectedSessionsCertificates(request, h) {
   const { isFrenchDomainExtension, sessionIds } = request.query;
   const i18n = getI18nFromRequest(request);
-  const correlationInfo = getCorrelationInfo();
 
   const documents = usecases.getSelectedSessionsCertificates({
     sessionIds,
@@ -184,11 +183,7 @@ async function downloadSelectedSessionsCertificates(request, h) {
     i18n,
   });
 
-  const { stream, completion } = createZipStream(documents);
-
-  completion.catch((error) => {
-    logger.error(correlationInfo, error);
-  });
+  const { stream } = createZipStream(documents);
 
   return h
     .response(stream)
