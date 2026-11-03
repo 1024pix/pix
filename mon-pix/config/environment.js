@@ -68,8 +68,8 @@ module.exports = function (environment) {
         1000 *
         _getEnvironmentVariableAsNumber({
           environmentVariableName: process.env.INFORMATION_BANNER_POLLING_TIME,
-          defaultValue: 60,
-          minValue: 10,
+          defaultValue: 10,
+          minValue: 5,
         }),
       IS_PROD_ENVIRONMENT: (process.env.REVIEW_APP === 'false' && environment === 'production') || false,
       EMBED_ALLOWED_ORIGINS: (
