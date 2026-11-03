@@ -6,9 +6,11 @@ const EXCLUDED_TAG_BLOCK = String.raw`<(${EXCLUDED_TAGS})\b[^>]*>[\s\S]*?<\/\1>`
 const HTML_TAG = String.raw`(<[^>]*>)`;
 
 export function highlightGlossaryWords(module) {
-  if (module.glossary.length === 0) return module;
+  const words = module.glossary
+    .filter(({ definition }) => definition !== '')
+    .flatMap(({ words, definition }) => words.map((word) => ({ word, definition })));
 
-  const words = module.glossary.flatMap(({ words, definition }) => words.map((word) => ({ word, definition })));
+  if (words.length === 0) return module;
 
   for (const section of module.sections) {
     for (const grain of section.grains) {
