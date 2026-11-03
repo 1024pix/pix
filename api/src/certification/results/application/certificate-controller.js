@@ -7,6 +7,7 @@ import { generateHash } from '../../../shared/infrastructure/utils/crypto.js';
 import { SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { getChallengeLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { normalizeAndRemoveAccents } from '../../../shared/infrastructure/utils/string-utils.js';
+import { createZipStream } from '../../../shared/infrastructure/utils/zip/stream-zip.js';
 import { Certificate } from '../domain/models/v3/Certificate.js';
 import { CERTIFICATE_LABEL_CONTEXTS } from '../domain/models/v3/CertificateMeshLevel.js';
 import { usecases } from '../domain/usecases/index.js';
@@ -175,16 +176,19 @@ async function downloadDivisionCertificates(
 async function downloadSelectedSessionsCertificates(request, h) {
   const { isFrenchDomainExtension, sessionIds } = request.query;
   const i18n = getI18nFromRequest(request);
-  const { filename, content: certificatesZipContent } = await usecases.getSelectedSessionsCertificates({
+
+  const documents = usecases.getSelectedSessionsCertificates({
     sessionIds,
     isFrenchDomainExtension,
     i18n,
   });
 
+  const zipStream = createZipStream(documents);
+
   return h
-    .response(certificatesZipContent)
+    .response(zipStream)
     .code(200)
-    .header('Content-Disposition', `attachment; filename=${filename}`)
+    .header('Content-Disposition', 'attachment; filename="certificates.zip"')
     .header('Content-Type', 'application/zip');
 }
 
