@@ -14,6 +14,7 @@ const insertCertificationResultsInDatamart = async (knex) => {
     datamart: generalPublicDatamart,
     generateFn: caseVerificationCodeOK,
   });
+  await knex('replication_metadata').insert({ replication_name: 'certification_results', last_updated_at: new Date() });
 };
 
 export async function seed(knex) {

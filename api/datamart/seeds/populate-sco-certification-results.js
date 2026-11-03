@@ -36,6 +36,10 @@ const insertScoCertificationResultsInDatamart = async (knex) => {
 
   logger.info('Start Case 5 : Complicated names (accents, dashes)');
   await chunkify({ numberOfSeeds: NUMBER_OF_SEEDS, knex, datamart: scoDatamart, generateFn: caseSpecialNames });
+  await knex('replication_metadata').insert({
+    replication_name: 'sco_certification_results',
+    last_updated_at: new Date(),
+  });
 };
 
 export async function seed(knex) {
