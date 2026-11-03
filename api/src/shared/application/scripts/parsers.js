@@ -132,3 +132,29 @@ export function isoDateParser() {
     return new Date(validatedDate);
   };
 }
+
+/**
+ * Create a parser for a JSON file with the given schema
+ * @param {Joi.Schema} schema
+ * @returns {Promise<any>} parsed and validated data
+ */
+export function jsonFileParser(schema = Joi.any()) {
+  return async (filePath) => {
+    const content = await fs.promises.readFile(filePath, 'utf8');
+
+    let data;
+
+    try {
+      data = JSON.parse(content);
+    } catch (error) {
+      throw new Error(`Invalid JSON file "${filePath}": ${error.message}`, {
+        cause: error,
+      });
+    }
+
+    return Joi.attempt(data, schema, {
+      abortEarly: false,
+      convert: true,
+    });
+  };
+}
