@@ -2,7 +2,7 @@ import iconv from 'iconv-lite';
 import papa from 'papaparse';
 
 import { CsvImportError } from '../../../../../../shared/domain/errors.js';
-import { convertDateValue } from '../../../../../../shared/infrastructure/utils/date-utils.js';
+import { convertDateValue } from '../../../../../../shared/infrastructure/utils/date-utils.ts';
 import { AggregateImportError } from '../../../../domain/errors.js';
 
 const ERRORS = {

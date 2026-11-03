@@ -1,4 +1,4 @@
-import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
+import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.ts';
 
 export class LastUserApplicationConnection {
   constructor({ id, userId, application, lastLoggedAt }) {

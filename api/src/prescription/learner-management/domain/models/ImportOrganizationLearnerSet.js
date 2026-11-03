@@ -4,7 +4,7 @@ import {
   ImportLearnerConfigurationError,
   ModelValidationError,
 } from '../../../../shared/domain/errors.js';
-import { convertDateValue } from '../../../../shared/infrastructure/utils/date-utils.js';
+import { convertDateValue } from '../../../../shared/infrastructure/utils/date-utils.ts';
 import { CommonOrganizationLearner } from '../models/CommonOrganizationLearner.js';
 import { validateCommonOrganizationLearner } from '../validators/common-organization-learner-validator.js';
 import { CommonOrganizationLearnerFilter } from './CommonOrganizationLearnerFilter.js';

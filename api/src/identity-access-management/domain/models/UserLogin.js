@@ -1,5 +1,5 @@
 import { config } from '../../../../config/config.js';
-import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
+import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.ts';
 
 class UserLogin {
   constructor({

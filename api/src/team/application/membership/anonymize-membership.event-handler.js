@@ -1,6 +1,6 @@
 import { EventHandler } from '../../../shared/application/jobs/event-handler.js';
 import { AnonymizeUserEvent } from '../../../shared/domain/events/AnonymizeUserEvent.js';
-import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
+import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.ts';
 import * as membershipRepository from '../../infrastructure/repositories/membership.repository.js';
 
 export class AnonymizeMembershipEventHandler extends EventHandler {
