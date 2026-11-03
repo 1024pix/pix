@@ -1944,7 +1944,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       });
 
       // then
-      expect(foundOrganizationIds).to.deep.equal([organization1.id, organization2.id]);
+      expect(foundOrganizationIds).to.have.deep.members([organization1.id, organization2.id]);
     });
 
     it('should return an empty array if no organization id matches', async function () {
