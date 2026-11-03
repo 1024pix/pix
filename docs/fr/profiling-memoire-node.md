@@ -190,20 +190,30 @@ Le profil ne voit que le tas JS. Le résultat porte donc aussi `memoryBefore` et
 l'autre qu'en valeur absolue. Les champs issus de `/proc/self/status` manquent
 hors Linux.
 
-### Tester `MALLOC_ARENA_MAX` sur quelques conteneurs
+### Tester `MALLOC_ARENA_MAX` ou jemalloc sur quelques conteneurs
 
-glibc ne lit `MALLOC_ARENA_MAX` qu'au démarrage du process. Le Procfile lance
-donc `web` et `worker` à travers
-[`with-malloc-arena-max.sh`](../../api/scripts/with-malloc-arena-max.sh), qui
-pose la variable sur les seuls conteneurs visés :
+L'allocateur natif se choisit au démarrage du process. Le Procfile lance donc
+`web` et `worker` à travers
+[`with-malloc-tuning.sh`](../../api/scripts/with-malloc-tuning.sh), qui ne règle
+que les conteneurs visés :
 
 | Variable | Rôle |
 | --- | --- |
-| `MALLOC_ARENA_MAX_CONTAINERS` | conteneurs visés, même grammaire que les sélecteurs ci-dessus (`web-2`, `web-%3`…). Vide : aucun |
+| `JEMALLOC_CONTAINERS` | conteneurs qui tournent sous jemalloc (`LD_PRELOAD`), même grammaire que les sélecteurs ci-dessus. Vide : aucun |
+| `JEMALLOC_PATH` | chemin de la bibliothèque. Par défaut, celle que l'apt-buildpack installe d'après [`Aptfile`](../../api/Aptfile) |
+| `MALLOC_CONF` | réglages de jemalloc, ignorés par glibc : peut être posée pour tous les conteneurs |
+| `MALLOC_ARENA_MAX_CONTAINERS` | conteneurs visés par `MALLOC_ARENA_MAX`, même grammaire (`web-2`, `web-%3`…). Vide : aucun |
 | `MALLOC_ARENA_MAX_VALUE` | nombre d'arenas, 2 par défaut |
 
+jemalloc ignore `MALLOC_ARENA_MAX` : un conteneur visé par les deux sélecteurs ne
+reçoit que jemalloc. Pour comparer les trois allocateurs en même temps, on peut
+par exemple poser `JEMALLOC_CONTAINERS=web-%3` et
+`MALLOC_ARENA_MAX_CONTAINERS=web-%2`.
+
 Le réglage prend effet au prochain démarrage du conteneur. Un conteneur réglé
-l'annonce dans ses logs (`web-2 : MALLOC_ARENA_MAX=2`). On compare ensuite
+l'annonce dans ses logs (`web-2 : MALLOC_ARENA_MAX=2`, ou
+`web-3 : jemalloc (/app/.apt/…/libjemalloc.so.2)`) ; si la bibliothèque manque, il
+démarre sous glibc malloc et le dit (`jemalloc introuvable`). On compare ensuite
 `native_unaccounted` et `swap` entre conteneurs réglés et non réglés, en écartant
 les séries figées que le pushgateway garde pour les conteneurs arrêtés :
 
