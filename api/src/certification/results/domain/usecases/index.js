@@ -16,7 +16,6 @@ import * as scoCertificationCandidateRepository from '../../infrastructure/repos
 import * as sessionForResultsSharingRepository from '../../infrastructure/repositories/session-for-results-sharing-repository.js';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { findCertificatesForDivision } from './find-certificates-for-division.js';
-import { findCertificationAttestationsForDivision } from './find-certification-attestations-for-division.js';
 import { findUserCertificateSummaries } from './find-user-certificate-summaries.js';
 import { findUserCertificationCourses } from './find-user-certification-courses.js';
 import { getCertificate } from './get-certificate.js';
@@ -74,7 +73,6 @@ const dependencies = {
 
 const usecasesWithoutInjectedDependencies = {
   findCertificatesForDivision,
-  findCertificationAttestationsForDivision,
   findUserCertificateSummaries,
   findUserCertificationCourses,
   getCertificate,
