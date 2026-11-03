@@ -22,7 +22,7 @@ export type CertificationDataV3Props = {
   deliveredAt: Date;
   status: string;
   framework: string;
-  maxReachableLevel: number | null;
+  maxReachableLevel: number;
   pixScore: number | null;
   reachedMeshIndex: number | null;
   eduV3ExternalJuryResult: string | null;
@@ -140,6 +140,7 @@ function buildV3Results(certificationData: CertificationDataV3Props, cleaData: C
   }
   if (isEduFramework(certificationData.framework)) {
     return {
+      maxReachableLevel: certificationData.maxReachableLevel,
       reachedMeshIndex: certificationData.reachedMeshIndex,
       eduV3ExternalJuryResult: certificationData.eduV3ExternalJuryResult,
     };
@@ -155,6 +156,7 @@ function buildV3Results(certificationData: CertificationDataV3Props, cleaData: C
     };
   }
   return {
+    maxReachableLevel: certificationData.maxReachableLevel,
     reachedMeshIndex: certificationData.reachedMeshIndex,
   };
 }

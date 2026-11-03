@@ -22,7 +22,7 @@ export async function findBuilderForCertificationsInSession(sessionId) {
       deliveredAt: 'sessions.publishedAt',
       status: 'assessment-results.status',
       framework: 'certification-courses.framework',
-      maxReachableLevel: 'certification-courses.maxReachableLevelOnCertificationDate',
+      maxReachableLevel: 'certification_versions.maxReachableLevel',
       pixScore: 'assessment-results.pixScore',
       reachedMeshIndex: 'assessment-results.reachedMeshIndex',
       eduV3ExternalJuryResult: 'assessment-results.eduV3ExternalJuryResult',
@@ -40,6 +40,7 @@ export async function findBuilderForCertificationsInSession(sessionId) {
     .where('certification-courses.version', AlgorithmEngineVersion.V3)
     .where('certification-courses.isPublished', true)
     .from('certification-courses')
+    .join('certification_versions', 'certification_versions.id', 'certification-courses.versionId')
     .join('certification-candidates', 'certification-candidates.id', 'certification-courses.candidateId')
     .join('sessions', 'sessions.id', 'certification-courses.sessionId')
     .join('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
@@ -60,6 +61,7 @@ export async function findBuilderForCertificationsInSession(sessionId) {
       'assessment-results.id',
       'certification-centers.id',
       'certification-candidates.id',
+      'certification_versions.id',
     )
     .orderBy('certification-courses.id');
   if (certificationData.length === 0) {

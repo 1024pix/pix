@@ -12,10 +12,16 @@ export function buildCertificationVersion({
   challengesConfiguration,
   minimumAnswersRequiredToValidateACertification,
   externalCalibrationId = null,
+  maxReachableLevel = null,
   status,
   comments,
 } = {}) {
-  const maxReachableLevel = globalScoringConfiguration?.length ? globalScoringConfiguration.length - 1 : null;
+  const finalMaxReachableLevel =
+    maxReachableLevel === null
+      ? globalScoringConfiguration?.length
+        ? globalScoringConfiguration.length - 1
+        : null
+      : maxReachableLevel;
   const maxReachablePixScore =
     maxReachableLevel !== null && competencesScoringConfiguration?.length
       ? maxReachableLevel * competencesScoringConfiguration.length * PIX_COUNT_BY_LEVEL - 1
@@ -36,7 +42,7 @@ export function buildCertificationVersion({
       externalCalibrationId,
       status,
       comments,
-      maxReachableLevel,
+      maxReachableLevel: finalMaxReachableLevel,
       maxReachablePixScore,
     },
   });

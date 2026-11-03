@@ -32,13 +32,14 @@ type CompetenceMarkV3Props = {
 export type Results = CoreV3Results | PixPlusV3Results | EduV3Results | CleaV3Results;
 
 type CoreV3Results = {
-  maxReachableLevel: number | null;
+  maxReachableLevel: number;
   reachedMeshIndex: number | null;
   pixScore: number | null;
   competenceMarks: Array<CompetenceMarkV3Props>;
 };
 
 type PixPlusV3Results = {
+  maxReachableLevel: number;
   reachedMeshIndex: number | null;
 };
 

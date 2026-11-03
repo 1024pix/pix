@@ -119,12 +119,14 @@ function buildCertificateData({ framework, sessionId, withOrgaLearner }) {
     commentForOrganization: `commentForOrganization_${framework}`,
     commentForCandidate: `commentForCandidate_${framework}`,
   };
+  expectedCertifData.maxReachableLevel = isCoreScope ? 7 : null;
   let expectedLearnerData = null;
 
   const versionId = databaseBuilder.factory.buildCertificationVersion({
     scope: isClea ? SCOPES.CORE : framework,
     challengesConfiguration: {},
     status: 'active',
+    maxReachableLevel: expectedCertifData.maxReachableLevel,
   }).id;
 
   let cleaComplementaryCertificationBadgeId, cleaComplementaryCertificationId;
@@ -160,13 +162,11 @@ function buildCertificateData({ framework, sessionId, withOrgaLearner }) {
     organizationLearnerId,
     sessionId,
   }).id;
-  expectedCertifData.maxReachableLevel = isCoreScope ? 7 : null;
   const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
     userId,
     candidateId,
     versionId,
     framework,
-    maxReachableLevelOnCertificationDate: expectedCertifData.maxReachableLevel,
     sessionId,
     isPublished: true,
     version: expectedCertifData.algorithmEngineVersion,
