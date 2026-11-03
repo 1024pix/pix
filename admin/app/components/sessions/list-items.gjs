@@ -14,7 +14,6 @@ import PaginationWrapper from 'pix-admin/components/ui/pagination-wrapper';
 import ENV from 'pix-admin/config/environment';
 
 const NO_CERTIFICATION_RESULTS_TO_DOWNLOAD_CODE = 'NO_CERTIFICATION_RESULTS_TO_DOWNLOAD';
-const NO_CERTIFICATES_TO_DOWNLOAD_CODE = 'NO_CERTIFICATES_TO_DOWNLOAD';
 
 export default class ListItems extends Component {
   @service currentDomain;
@@ -97,16 +96,9 @@ export default class ListItems extends Component {
 
     try {
       await this.fileSaver.save({ url, token });
-    } catch (errors) {
-      const hasNoCertificatesToDownload =
-        Array.isArray(errors) && errors.some((error) => error.code === NO_CERTIFICATES_TO_DOWNLOAD_CODE);
-
+    } catch {
       this.pixToast.sendErrorNotification({
-        message: this.intl.t(
-          hasNoCertificatesToDownload
-            ? 'pages.sessions.table.errors.download-certificates-no-certificates-error'
-            : 'pages.sessions.table.errors.download-certificates-error',
-        ),
+        message: this.intl.t('pages.sessions.table.errors.download-certificates-error'),
       });
     }
   }
