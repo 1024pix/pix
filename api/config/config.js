@@ -120,6 +120,7 @@ export const schema = Joi.object({
   CPF_EXPORTS_STORAGE_SECRET_ACCESS_KEY: Joi.string().optional(),
   CPF_PLANNER_JOB_CHUNK_SIZE: Joi.number().optional(),
   CPF_PLANNER_JOB_CRON: Joi.string().optional(),
+  SCHEDULE_EXPORT_MIGRATED_USER_KNOWLEDGE_ELEMENTS_JOB_CRON: Joi.string().optional(),
   CPF_PLANNER_JOB_MINIMUM_RELIABILITY_PERIOD: Joi.number().optional(),
   CPF_PLANNER_JOB_MONTHS_TO_PROCESS: Joi.number().optional(),
   CPF_SEND_EMAIL_JOB_CRON: Joi.string().optional(),
@@ -368,6 +369,10 @@ export const config = {
     databaseHistory: {
       scheduleHistorizeAnswers: {
         cron: process.env.SCHEDULE_HISTORIZE_ANSWERS_JOB_CRON || '0 0 29 2 *',
+      },
+      scheduleExportMigratedUserKnowledgeElements: {
+        // Unset: the job is disabled.
+        cron: process.env.SCHEDULE_EXPORT_MIGRATED_USER_KNOWLEDGE_ELEMENTS_JOB_CRON,
       },
     },
   },
