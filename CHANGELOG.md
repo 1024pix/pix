@@ -1,5 +1,43 @@
 # Pix Changelog
 
+# [5.536.0](https://github.com/1024pix/pix/compare/v5.535.1...v5.536.0) (2026-11-03)
+
+### :rocket: Amélioration
+
+- [#18471](https://github.com/1024pix/pix/pull/18471) Conserver les knowledge elements produits par un utilisateur migré
+
+### :bug: Correction
+
+- [#18571](https://github.com/1024pix/pix/pull/18571) Corriger les paramètres du map dans le skill repository
+
+### :building_construction: Tech
+
+- [#18576](https://github.com/1024pix/pix/pull/18576) Permet de tester jemalloc sur une partie des conteneurs (PIX-24163)
+- [#18573](https://github.com/1024pix/pix/pull/18573) Retirer toutes les mentions aux crédits v1 sur les applis Orga & Admin (PIX-20606)
+
+### :arrow_up: Montée de version
+
+- [#18583](https://github.com/1024pix/pix/pull/18583) Update dependency @1024pix/eslint-plugin to v3.0.19 (admin)
+- [#18584](https://github.com/1024pix/pix/pull/18584) Update dependency @1024pix/eslint-plugin to v3.0.19 (certif)
+- [#18585](https://github.com/1024pix/pix/pull/18585) Update dependency @1024pix/eslint-plugin to v3.0.19 (junior)
+- [#18586](https://github.com/1024pix/pix/pull/18586) Update dependency @1024pix/eslint-plugin to v3.0.19 (mon-pix)
+- [#18596](https://github.com/1024pix/pix/pull/18596) Update dependency @1024pix/oppsy to v1.1.5 (api)
+- [#18587](https://github.com/1024pix/pix/pull/18587) Update dependency @1024pix/stylelint-config to v5.2.27 (admin)
+- [#18588](https://github.com/1024pix/pix/pull/18588) Update dependency @1024pix/stylelint-config to v5.2.27 (certif)
+- [#18589](https://github.com/1024pix/pix/pull/18589) Update dependency @1024pix/stylelint-config to v5.2.27 (junior)
+- [#18590](https://github.com/1024pix/pix/pull/18590) Update dependency @1024pix/stylelint-config to v5.2.27 (mon-pix)
+- [#18591](https://github.com/1024pix/pix/pull/18591) Update dependency @1024pix/stylelint-config to v5.2.27 (orga)
+- [#18579](https://github.com/1024pix/pix/pull/18579) Update dependency @types/sinon to v22.0.2 (api)
+- [#18580](https://github.com/1024pix/pix/pull/18580) Update dependency @types/sinon to v22.0.2 (orga)
+- [#18581](https://github.com/1024pix/pix/pull/18581) Update dependency baseline-browser-mapping to v2.11.33 (e2e-playwright)
+- [#18582](https://github.com/1024pix/pix/pull/18582) Update dependency i18next-browser-languagedetector to v8.2.3 (admin)
+- [#18599](https://github.com/1024pix/pix/pull/18599) Update dependency i18next-browser-languagedetector to v8.2.3 (certif)
+- [#18592](https://github.com/1024pix/pix/pull/18592) Update linters (api)
+- [#18561](https://github.com/1024pix/pix/pull/18561) Update linters (api)
+- [#18593](https://github.com/1024pix/pix/pull/18593) Update linters (audit-logger)
+- [#18594](https://github.com/1024pix/pix/pull/18594) Update linters (e2e-playwright)
+- [#18595](https://github.com/1024pix/pix/pull/18595) Update linters (orga)
+
 ## [5.535.1](https://github.com/1024pix/pix/compare/v5.535.0...v5.535.1) (2026-11-02)
 
 ### :bug: Correction
