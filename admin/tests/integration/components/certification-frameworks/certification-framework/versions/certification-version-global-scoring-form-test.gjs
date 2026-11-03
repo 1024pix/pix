@@ -225,6 +225,47 @@ module(
         const { min: minInputs } = getBoundsInputs(screen);
         assert.dom(minInputs[0]).hasValue('1');
       });
+
+      test('it displays empty inputs for the levels of the active version when neither the draft nor the calibration has bounds', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const draftVersion = store.createRecord('certification-version', {
+          id: '1',
+          status: 'draft',
+          externalCalibrationId: 5,
+          globalScoringConfiguration: [],
+        });
+        const activeVersion = store.createRecord('certification-version', {
+          id: '2',
+          status: 'active',
+          globalScoringConfiguration: [
+            { bounds: { min: 2, max: 9 }, meshLevel: 0 },
+            { bounds: { min: 9, max: 16 }, meshLevel: 1 },
+          ],
+        });
+        const calibrationScoringConfiguration = createCalibrationProposal(store, []);
+
+        // when
+        const screen = await render(
+          <template>
+            <GlobalScoringForm
+              @editVersion={{draftVersion}}
+              @previousVersion={{activeVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
+        );
+
+        // then
+        const { min: minInputs, max: maxInputs } = getBoundsInputs(screen);
+        assert.dom(screen.getByText(t(LEVEL_KEY, { index: 0 }))).exists();
+        assert.dom(screen.getByText(t(LEVEL_KEY, { index: 1 }))).exists();
+        assert.dom(minInputs[0]).hasValue('');
+        assert.dom(maxInputs[0]).hasValue('');
+        assert.dom(minInputs[1]).hasValue('');
+        assert.dom(maxInputs[1]).hasValue('');
+        assert.dom(labelOf(maxInputs[1])).includesText(t(CAPACITY_LABEL, { previousVersionCapacity: 16 }));
+      });
     });
 
     module('error message', function () {
@@ -369,6 +410,55 @@ module(
 
         // then
         assert.dom(getBoundsInputs(screen).min[1]).hasValue('10');
+      });
+
+      test('it saves the typed value on the draft when starting from the empty levels of the active version', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const draftVersion = store.createRecord('certification-version', {
+          id: '1',
+          status: 'draft',
+          externalCalibrationId: 5,
+          globalScoringConfiguration: [],
+        });
+        const activeVersion = store.createRecord('certification-version', {
+          id: '2',
+          status: 'active',
+          globalScoringConfiguration: [
+            { bounds: { min: 2, max: 9 }, meshLevel: 0 },
+            { bounds: { min: 9, max: 16 }, meshLevel: 1 },
+          ],
+        });
+        const calibrationScoringConfiguration = createCalibrationProposal(store, []);
+
+        const screen = await render(
+          <template>
+            <GlobalScoringForm
+              @editVersion={{draftVersion}}
+              @previousVersion={{activeVersion}}
+              @calibrationScoringConfiguration={{calibrationScoringConfiguration}}
+            />
+          </template>,
+        );
+
+        // when
+        await click(
+          screen.getByRole('button', {
+            name: t('components.certification-frameworks.certification-framework.versions.scoring.edit'),
+          }),
+        );
+        await fillIn(getBoundsInputs(screen).max[0], '10');
+
+        // then
+        assert.dom(getBoundsInputs(screen).min[1]).hasValue('10');
+        assert.deepEqual(draftVersion.globalScoringConfiguration, [
+          { meshLevel: 0, bounds: { min: null, max: 10 } },
+          { meshLevel: 1, bounds: { min: 10, max: null } },
+        ]);
+        assert.deepEqual(activeVersion.globalScoringConfiguration, [
+          { bounds: { min: 2, max: 9 }, meshLevel: 0 },
+          { bounds: { min: 9, max: 16 }, meshLevel: 1 },
+        ]);
       });
     });
   },

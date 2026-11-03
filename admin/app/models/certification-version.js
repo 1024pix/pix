@@ -25,12 +25,20 @@ export default class CertificationVersion extends Model {
     return !!this.externalCalibrationId;
   }
 
+  get hasGlobalScoringConfiguration() {
+    return !!this.globalScoringConfiguration?.length;
+  }
+
   get isDraft() {
     return this.status === 'draft';
   }
 
   get isActive() {
     return this.status === 'active';
+  }
+
+  get isArchived() {
+    return this.status === 'archived';
   }
 
   get isCoreScope() {

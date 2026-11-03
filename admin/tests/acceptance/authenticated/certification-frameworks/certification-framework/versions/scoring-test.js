@@ -52,9 +52,15 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
     });
     server.create('certification-version', {
       id: 14,
+      scope: 'CORE',
       status: 'draft',
       externalCalibrationId: 1,
       globalScoringConfiguration: [{ bounds: { min: 1, max: 8 }, meshLevel: 0 }],
+    });
+    server.create('certification-version', {
+      id: 15,
+      scope: 'CORE',
+      status: 'archived',
     });
     server.create('calibration-scoring-configuration', {
       id: '1',
@@ -82,13 +88,47 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
         assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
       });
 
-      test('allows access for a Pix+ active version without scoring', async function (assert) {
+      test('redirects to framework page for a Pix+ archived version', async function (assert) {
+        server.create('certification-version-summary', { id: 20, status: 'archived' });
+        server.create('certification-framework', { id: 'DROIT', versionSummaries: [] });
+        server.create('certification-version', {
+          id: 20,
+          scope: 'DROIT',
+          status: 'archived',
+          globalScoringConfiguration: [],
+        });
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        await visit(`/certification-frameworks/DROIT/versions/20/scoring`);
+
+        assert.strictEqual(currentURL(), '/certification-frameworks/DROIT');
+      });
+
+      test('redirects to framework page for a Pix+ active version with a scoring configuration', async function (assert) {
         server.create('certification-version-summary', { id: 20, status: 'active' });
         server.create('certification-framework', { id: 'DROIT', versionSummaries: [] });
         server.create('certification-version', {
           id: 20,
           scope: 'DROIT',
           status: 'active',
+          externalCalibrationId: 1,
+          globalScoringConfiguration: [{ bounds: { min: -4, max: 2 }, meshLevel: 0 }],
+        });
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        await visit(`/certification-frameworks/DROIT/versions/20/scoring`);
+
+        assert.strictEqual(currentURL(), '/certification-frameworks/DROIT');
+      });
+
+      test('allows scoring page access for a Pix+ active version without scoring configuration', async function (assert) {
+        server.create('certification-version-summary', { id: 20, status: 'active' });
+        server.create('certification-framework', { id: 'DROIT', versionSummaries: [] });
+        server.create('certification-version', {
+          id: 20,
+          scope: 'DROIT',
+          status: 'active',
+          externalCalibrationId: 1,
           globalScoringConfiguration: [],
         });
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
@@ -165,12 +205,29 @@ module('Acceptance | Certification Framework | item | Framework | scoring', func
         server.db.calibrationScoringConfigurations.update('1', { globalScoringConfiguration: [] });
       });
 
-      test('redirects to the framework page', async function (assert) {
+      test('redirects to the framework page for a CORE draft version', async function (assert) {
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
         await visit(`/certification-frameworks/CORE/versions/14/scoring`);
 
         assert.strictEqual(currentURL(), '/certification-frameworks/CORE');
+      });
+
+      test('allows scoring page access for a Pix+ draft version', async function (assert) {
+        server.create('certification-version-summary', { id: 20, status: 'draft' });
+        server.create('certification-framework', { id: 'DROIT', versionSummaries: [] });
+        server.create('certification-version', {
+          id: 20,
+          scope: 'DROIT',
+          status: 'draft',
+          externalCalibrationId: 1,
+          globalScoringConfiguration: [],
+        });
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        await visit(`/certification-frameworks/DROIT/versions/20/scoring`);
+
+        assert.strictEqual(currentURL(), '/certification-frameworks/DROIT/versions/20/scoring');
       });
     });
 
