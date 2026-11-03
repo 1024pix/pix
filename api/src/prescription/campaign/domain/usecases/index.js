@@ -32,6 +32,7 @@ import * as campaignCreatorRepository from '../../infrastructure/repositories/ca
 import * as campaignFeatureRepository from '../../infrastructure/repositories/campaign-feature-repository.js';
 // TODO : clean with campaign administration ( similar get with a lot difference)
 import * as campaignManagementRepository from '../../infrastructure/repositories/campaign-management-repository.js';
+import * as campaignOverviewRepository from '../../infrastructure/repositories/campaign-overview-repository.js';
 import { campaignParticipantActivityRepository } from '../../infrastructure/repositories/campaign-participant-activity-repository.js';
 import * as campaignParticipationInfoRepository from '../../infrastructure/repositories/campaign-participation-info-repository.js';
 import * as campaignParticipationsStatsRepository from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
@@ -42,7 +43,6 @@ import * as campaignToJoinRepository from '../../infrastructure/repositories/cam
 import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
 import * as groupRepository from '../../infrastructure/repositories/group-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../infrastructure/repositories/knowledge-element-snapshot-repository.js';
-import * as ltiCampaignRepository from '../../infrastructure/repositories/lti-campaign-repository.js';
 import * as organizationMembershipRepository from '../../infrastructure/repositories/organization-membership-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import { archiveCampaign } from './archive-campaign.js';
@@ -63,8 +63,9 @@ import { getCampaign } from './get-campaign.js';
 import { getCampaignByCode } from './get-campaign-by-code.js';
 import { getCampaignManagement } from './get-campaign-management.js';
 import { getCampaignOfCampaignParticipation } from './get-campaign-of-campaign-participation.js';
+import { getCampaignOverview } from './get-campaign-overview.js';
+import { getCampaignOverviewsByOrganizations } from './get-campaign-overviews-by-organizations.js';
 import { getCampaignParticipations } from './get-campaign-participations.js';
-import { getLtiCampaignsByOrganizations } from './get-lti-campaigns-by-organizations.js';
 import { getParticipantsDivision } from './get-participants-division.js';
 import { getParticipantsGroup } from './get-participants-group.js';
 import { getPresentationSteps } from './get-presentation-steps.js';
@@ -127,7 +128,7 @@ const dependencies = {
   targetProfileRepository,
   userRepository,
   userRecommendedTrainingRepository,
-  ltiCampaignRepository,
+  campaignOverviewRepository,
 };
 
 const usecasesWithoutInjectedDependencies = {
@@ -146,7 +147,8 @@ const usecasesWithoutInjectedDependencies = {
   findPaginatedFilteredOrganizationCampaigns,
   findPaginatedOrganizationCampaignSummaries,
   getCampaignByCode,
-  getLtiCampaignsByOrganizations,
+  getCampaignOverview,
+  getCampaignOverviewsByOrganizations,
   getCampaignManagement,
   getCampaignOfCampaignParticipation,
   getCampaignParticipations,
