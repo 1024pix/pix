@@ -207,7 +207,6 @@ export const config = {
       idleTimeoutMillis: _getNumber(process.env.DATABASE_IDLE_TIMEOUT_MS, 10_000),
     },
   },
-
   answersHistoryExport: {
     storage: {
       client: {
@@ -222,6 +221,19 @@ export const config = {
       assessmentIdBatchSize: parseInt(process.env.ANSWERS_HISTORY_ASSESSMENT_ID_BATCH_SIZE),
       answerBatchSize: parseInt(process.env.ANSWERS_HISTORY_ANSWER_BATCH_SIZE),
     },
+  },
+  migratedUserKnowledgeElementsExport: {
+    storage: {
+      client: {
+        accessKeyId: process.env.MIGRATED_USER_KNOWLEDGE_ELEMENTS_EXPORT_STORAGE_ACCESS_KEY_ID,
+        secretAccessKey: process.env.MIGRATED_USER_KNOWLEDGE_ELEMENTS_EXPORT_STORAGE_SECRET_ACCESS_KEY,
+        endpoint: process.env.MIGRATED_USER_KNOWLEDGE_ELEMENTS_EXPORT_STORAGE_ENDPOINT,
+        region: process.env.MIGRATED_USER_KNOWLEDGE_ELEMENTS_EXPORT_STORAGE_REGION,
+        bucket: process.env.MIGRATED_USER_KNOWLEDGE_ELEMENTS_EXPORT_STORAGE_BUCKET_NAME,
+        forcePathStyle: true,
+      },
+    },
+    batchSize: _getNumber(process.env.MIGRATED_USER_KNOWLEDGE_ELEMENTS_EXPORT_BATCH_SIZE, 10_000),
   },
   import: {
     storage: {
