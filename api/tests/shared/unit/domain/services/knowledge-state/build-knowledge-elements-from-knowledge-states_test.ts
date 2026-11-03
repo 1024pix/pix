@@ -65,7 +65,7 @@ describe('Unit | Shared | Domain | Services | knowledge-state | build-knowledge-
 
       // then
       expect({ ...knowledgeElements[0] }).to.deep.equal({
-        id: null,
+        id: undefined,
         createdAt: new Date('2026-01-12'),
         source: 'direct',
         status: 'validated',
