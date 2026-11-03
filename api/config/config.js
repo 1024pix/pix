@@ -368,6 +368,10 @@ export const config = {
       scheduleHistorizeAnswers: {
         cron: process.env.SCHEDULE_HISTORIZE_ANSWERS_JOB_CRON || '0 0 29 2 *',
       },
+      scheduleExportMigratedUserKnowledgeElements: {
+        // Unset: the job is disabled.
+        cron: process.env.SCHEDULE_EXPORT_MIGRATED_USER_KNOWLEDGE_ELEMENTS_JOB_CRON,
+      },
     },
   },
   featureToggles: {
