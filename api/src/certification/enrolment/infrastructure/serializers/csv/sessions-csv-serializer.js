@@ -1,5 +1,5 @@
 import { FileValidationError } from '../../../../../shared/domain/errors.js';
-import { convertDateValue } from '../../../../../shared/infrastructure/utils/date-utils.js';
+import { convertDateValue } from '../../../../../shared/infrastructure/utils/date-utils.ts';
 import {
   COMPLEMENTARY_CERTIFICATION_SUFFIX,
   emptySession,

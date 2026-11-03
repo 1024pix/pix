@@ -3,7 +3,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 const { Serializer, Deserializer } = jsonapiSerializer;
 
 import { WrongDateFormatError } from '../../../../shared/domain/errors.js';
-import { isValidDate } from '../../../../shared/infrastructure/utils/date-utils.js';
+import { isValidDate } from '../../../../shared/infrastructure/utils/date-utils.ts';
 import { CertificationCourse } from '../../../shared/domain/models/CertificationCourse.js';
 import { NO_EXAMINER_COMMENT } from '../../../shared/domain/models/CertificationReport.js';
 

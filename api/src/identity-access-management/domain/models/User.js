@@ -6,7 +6,7 @@ import {
   getDefaultLocale,
   getNearestSupportedLocale,
 } from '../../../shared/domain/services/locale-service.js';
-import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.js';
+import { anonymizeGeneralizeDate } from '../../../shared/infrastructure/utils/date-utils.ts';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { AuthenticationMethod } from './AuthenticationMethod.js';
 
