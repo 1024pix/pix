@@ -11,6 +11,24 @@ describe('Integration | Shared | Infrastructure | Repository | migrated-user-kno
   const { DIRECT } = KnowledgeElement.SourceType;
   const at = new Date('2026-02-01T10:00:00Z');
 
+  const buildRow = (fields) => ({
+    source: DIRECT,
+    status: VALIDATED,
+    createdAt: new Date('2026-03-01T10:00:00Z'),
+    answerId: 100,
+    assessmentId: 10,
+    skillId: 'skill_web_3',
+    earnedPix: 3,
+    userId: 123,
+    competenceId: 'competence_1',
+    savedAt: null,
+    ...fields,
+  });
+
+  afterEach(async function () {
+    await knex('migrated_user_knowledge_elements').delete();
+  });
+
   describe('#batchSave', function () {
     it('should insert the knowledge elements dated from the save, and give them back with their id', async function () {
       // given
@@ -113,6 +131,89 @@ describe('Integration | Shared | Infrastructure | Repository | migrated-user-kno
       // then
       expect(saved).to.deep.equal([]);
       expect(await knex('migrated_user_knowledge_elements')).to.deep.equal([]);
+    });
+  });
+
+  describe('#findUnsaved', function () {
+    it('should give the unsaved rows after the id, by ascending id, up to the limit', async function () {
+      // given
+      await knex('migrated_user_knowledge_elements').insert([
+        buildRow({ id: 1 }),
+        buildRow({ id: 2, savedAt: new Date('2026-03-01T12:00:00Z') }),
+        buildRow({ id: 3, savedAt: new Date('2026-03-01T12:00:00Z') }),
+        buildRow({ id: 5 }),
+        buildRow({ id: 4 }),
+        buildRow({ id: 6 }),
+      ]);
+
+      // when
+      const rows = await migratedUserKnowledgeElementRepository.findUnsaved(1, 2);
+
+      // then
+      expect(rows.map(({ id }) => id)).to.deep.equal([4, 5]);
+      expect(rows[0]).to.deep.equal(buildRow({ id: 4 }));
+    });
+  });
+
+  describe('#findUnsavedInRange', function () {
+    it('should give the unsaved rows whose id is in the range and created in the period, by ascending id', async function () {
+      // given
+      await knex('migrated_user_knowledge_elements').insert([
+        buildRow({ id: 1 }),
+        buildRow({ id: 2, createdAt: new Date('2026-02-28T23:00:00Z') }),
+        buildRow({ id: 3, savedAt: new Date('2026-03-01T12:00:00Z') }),
+        buildRow({ id: 5, createdAt: new Date('2026-03-01T22:59:59Z') }),
+        buildRow({ id: 4 }),
+        buildRow({ id: 6 }),
+        buildRow({ id: 7, createdAt: new Date('2026-02-28T22:59:59Z') }),
+        buildRow({ id: 8, createdAt: new Date('2026-03-01T23:00:00Z') }),
+      ]);
+
+      // when
+      const rows = await migratedUserKnowledgeElementRepository.findUnsavedInRange(
+        2,
+        8,
+        new Date('2026-02-28T23:00:00Z'),
+        new Date('2026-03-01T23:00:00Z'),
+      );
+
+      // then
+      expect(rows.map(({ id }) => id)).to.deep.equal([2, 4, 5, 6]);
+      expect(rows[1]).to.deep.equal(buildRow({ id: 4 }));
+    });
+  });
+
+  describe('#setSavedAt', function () {
+    it('should set no date without ids', async function () {
+      // given
+      await knex('migrated_user_knowledge_elements').insert([buildRow({ id: 1 })]);
+
+      // when
+      await migratedUserKnowledgeElementRepository.setSavedAt([], new Date('2026-03-02T03:00:00Z'));
+
+      // then
+      expect(await knex('migrated_user_knowledge_elements').pluck('savedAt')).to.deep.equal([null]);
+    });
+
+    it('should set the date of the save on the given rows only', async function () {
+      // given
+      const savedAt = new Date('2026-03-02T03:00:00Z');
+      await knex('migrated_user_knowledge_elements').insert([
+        buildRow({ id: 1 }),
+        buildRow({ id: 2 }),
+        buildRow({ id: 3 }),
+      ]);
+
+      // when
+      await migratedUserKnowledgeElementRepository.setSavedAt([1, 3], savedAt);
+
+      // then
+      const rows = await knex('migrated_user_knowledge_elements').select('id', 'savedAt').orderBy('id');
+      expect(rows).to.deep.equal([
+        { id: 1, savedAt },
+        { id: 2, savedAt: null },
+        { id: 3, savedAt },
+      ]);
     });
   });
 });
