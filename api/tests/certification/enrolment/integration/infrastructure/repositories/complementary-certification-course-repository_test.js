@@ -131,10 +131,16 @@ describe('Integration | Repository | complementary-certification-course-reposito
           });
 
         expect(complementaryCertificationCoursesWithResults).to.have.lengthOf(2);
-        expect(complementaryCertificationCoursesWithResults).to.have.deep.members([
-          complementaryCertificationCourseWithResult1,
-          complementaryCertificationCourseWithResult2,
-        ]);
+
+        const sortResults = (courses) =>
+          courses.map((course) => ({
+            ...course,
+            results: course.results.toSorted((a, b) => a.id - b.id),
+          }));
+
+        expect(sortResults(complementaryCertificationCoursesWithResults)).to.have.deep.members(
+          sortResults([complementaryCertificationCourseWithResult1, complementaryCertificationCourseWithResult2]),
+        );
         complementaryCertificationCoursesWithResults.forEach((complementaryCertificationCourseWithResults) => {
           expect(complementaryCertificationCourseWithResults).to.be.instanceOf(
             ComplementaryCertificationCourseWithResults,
