@@ -14,14 +14,14 @@ import ZipStream from 'zip-stream';
  * @param {AbortSignal} abortSignal
  * @returns {{
  *   stream: PassThrough,
- *   completion: Promise<void>
+ *   finishedPromise: Promise<void>
  * }}
  */
 export function createZipStream(documents, abortSignal) {
   const archive = new ZipStream();
   const output = new PassThrough();
 
-  const completion = pipeline(archive, output, {
+  const finishedPromise = pipeline(archive, output, {
     signal: abortSignal,
   });
 
@@ -29,7 +29,7 @@ export function createZipStream(documents, abortSignal) {
 
   return {
     stream: output,
-    completion,
+    finishedPromise,
   };
 }
 
@@ -52,7 +52,7 @@ async function populateArchive(archive, documents, signal) {
     for await (const document of documents) {
       if (signal.aborted || archive.destroyed) return;
 
-      await addEntry(archive, document);
+      await addEntry(archive, document, signal);
     }
 
     if (!signal.aborted) {

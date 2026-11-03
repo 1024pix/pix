@@ -184,12 +184,12 @@ async function downloadSelectedSessionsCertificates(request, h) {
   });
 
   const abortController = new AbortController();
-  const { stream, completion } = createZipStream(documents, abortController.signal);
+  const { stream, finishedPromise } = createZipStream(documents, abortController.signal);
   request.events.once('disconnect', () => {
     abortController.abort();
   });
   const correlationInfo = getCorrelationInfo();
-  completion.catch((error) => {
+  finishedPromise.catch((error) => {
     logger.error(correlationInfo, error);
   });
 
