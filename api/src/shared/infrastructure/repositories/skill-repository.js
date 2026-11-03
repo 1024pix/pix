@@ -43,7 +43,7 @@ export async function findActiveByCompetenceId(competenceId) {
   const cacheKey = `findActiveByCompetenceId(${competenceId})`;
   const findActiveByCompetenceIdCallback = (knex) => knex.where({ competenceId, status: ACTIVE_STATUS }).orderBy('id');
   const skillDtos = await getInstance().find(cacheKey, findActiveByCompetenceIdCallback);
-  return skillDtos.map(toDomain);
+  return skillDtos.map((skillDto) => toDomain(skillDto));
 }
 
 export async function findOperativeByCompetenceIds(competenceIds) {
@@ -71,7 +71,7 @@ export async function findByRecordIds(ids) {
   return skillDtos
     .filter((skillDto) => skillDto)
     .toSorted(byId)
-    .map(toDomain);
+    .map((skillDto) => toDomain(skillDto));
 }
 
 export async function findActiveByRecordIds(ids) {
