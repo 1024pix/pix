@@ -102,7 +102,7 @@
     "miragejs": "0.1.48",
     "npm-run-all2": "9.0.4",
     "p-queue": "10.0.0",
-    "pako": "3.0.2",
+    "pako": "3.0.3",
     "prettier": "3.9.10",
     "prettier-plugin-ember-template-tag": "2.1.8",
     "qunit": "3.0.0",
