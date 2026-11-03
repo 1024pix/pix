@@ -66,7 +66,7 @@ async function register(server, options, dependencies = { featureToggles }) {
       method: 'GET',
       path: '/api/lti/campaigns',
       options: {
-        auth: { strategy: ltiDeepLinkingStrategyName, access: { scope: 'campaigns:read' } },
+        auth: { strategy: ltiDeepLinkingStrategyName, access: { scope: 'lti-campaigns:read' } },
         handler: (request, h) => ltiController.findAvailableCampaigns(request, h),
         notes: [
           'Cette route permet de récupérer la liste des campagnes disponibles pour les organisations correspondantes.',
