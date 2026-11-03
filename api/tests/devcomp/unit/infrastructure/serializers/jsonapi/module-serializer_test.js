@@ -245,6 +245,14 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
           'Comprendre les fonctions des parties d’une adresse mail',
         ],
       };
+      const glossary = [
+        {
+          words: ['Adresse mail'],
+          definition:
+            "Message envoyé et reçu sous forme numérique par l'intermédiaire d'un réseau informatique, tel qu'Internet",
+        },
+      ];
+
       const moduleFromDomain = new Module({
         id,
         shortId,
@@ -268,7 +276,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
             ],
           },
         ],
-        glossary: [],
+        glossary,
       });
 
       // when
@@ -284,7 +292,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
             'is-beta': isBeta,
             version,
             details,
-            glossary: [],
+            glossary,
           },
           id: 'id',
           relationships: {
@@ -325,7 +333,8 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
 function getComponents() {
   const qrocmElement = new QROCM({
     id: '100',
-    instruction: '',
+    instruction:
+      '<highlighted-button word="Adresse mail" definition="Message envoyé et reçu sous forme numérique par l\'intermédiaire d\'un réseau informatique, tel qu\'Internet">Adresse mail</highlighted-button> de Naomi',
     locales: ['fr-FR'],
     proposals: [
       new BlockText({
@@ -502,7 +511,8 @@ function getComponents() {
 function getAttributesComponents() {
   const expectedQrocm = {
     id: '100',
-    instruction: '',
+    instruction:
+      '<highlighted-button word="Adresse mail" definition="Message envoyé et reçu sous forme numérique par l\'intermédiaire d\'un réseau informatique, tel qu\'Internet">Adresse mail</highlighted-button> de Naomi',
     isAnswerable: true,
     locales: ['fr-FR'],
     proposals: [
