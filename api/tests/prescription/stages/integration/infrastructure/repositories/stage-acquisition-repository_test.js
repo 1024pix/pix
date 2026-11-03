@@ -1,8 +1,10 @@
 import { expect } from 'chai';
 
+import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { StageAcquisition } from '../../../../../../src/prescription/stages/domain/models/StageAcquisition.js';
 import {
   getAverageReachedStageByCampaignId,
+  getByCampaignId,
   getByCampaignParticipation,
   getByCampaignParticipations,
   getStageIdsByCampaignParticipation,
@@ -99,6 +101,107 @@ describe('Evaluation | Integration | Repository | Stage Acquisition', function (
 
       // then
       expect(result.length).to.deep.equal(2);
+    });
+  });
+
+  describe('getByCampaignId', function () {
+    let campaignId;
+    let stageId;
+    let expectedStageAcquisitionIds;
+
+    beforeEach(async function () {
+      // given
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      stageId = databaseBuilder.factory.buildStage({ targetProfileId }).id;
+
+      const firstSharedParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
+      const secondSharedParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
+      expectedStageAcquisitionIds = [
+        databaseBuilder.factory.buildStageAcquisition({ stageId, campaignParticipationId: firstSharedParticipationId })
+          .id,
+        databaseBuilder.factory.buildStageAcquisition({ stageId, campaignParticipationId: secondSharedParticipationId })
+          .id,
+      ];
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return StageAcquisition instances', async function () {
+      // when
+      const result = await getByCampaignId(campaignId);
+
+      // then
+      expect(result[0]).to.be.instanceof(StageAcquisition);
+    });
+
+    it('should return stage acquisitions of shared participations of the campaign', async function () {
+      // when
+      const result = await getByCampaignId(campaignId);
+
+      // then
+      expect(result.map(({ id }) => id)).to.have.members(expectedStageAcquisitionIds);
+    });
+
+    it('should not return stage acquisitions of improved participations', async function () {
+      // given
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        isImproved: true,
+      }).id;
+      databaseBuilder.factory.buildStageAcquisition({ stageId, campaignParticipationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await getByCampaignId(campaignId);
+
+      // then
+      expect(result.map(({ id }) => id)).to.have.members(expectedStageAcquisitionIds);
+    });
+
+    it('should not return stage acquisitions of deleted participations', async function () {
+      // given
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        deletedAt: new Date('2020-01-03'),
+      }).id;
+      databaseBuilder.factory.buildStageAcquisition({ stageId, campaignParticipationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await getByCampaignId(campaignId);
+
+      // then
+      expect(result.map(({ id }) => id)).to.have.members(expectedStageAcquisitionIds);
+    });
+
+    it('should not return stage acquisitions of unshared participations', async function () {
+      // given
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        status: CampaignParticipationStatuses.STARTED,
+      }).id;
+      databaseBuilder.factory.buildStageAcquisition({ stageId, campaignParticipationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await getByCampaignId(campaignId);
+
+      // then
+      expect(result.map(({ id }) => id)).to.have.members(expectedStageAcquisitionIds);
+    });
+
+    it('should not return stage acquisitions of participations of another campaign', async function () {
+      // given
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
+      databaseBuilder.factory.buildStageAcquisition({ stageId, campaignParticipationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await getByCampaignId(campaignId);
+
+      // then
+      expect(result.map(({ id }) => id)).to.have.members(expectedStageAcquisitionIds);
     });
   });
 
