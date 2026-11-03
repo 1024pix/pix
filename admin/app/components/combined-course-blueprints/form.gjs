@@ -1,29 +1,17 @@
-import {
-  PixButton,
-  PixIconButton,
-  PixInput,
-  PixRadioButton,
-  PixSelect,
-  PixTable,
-  PixTableColumn,
-  PixTag,
-  PixTextarea,
-} from '@1024pix/nebulix-ember';
+import { PixButton, PixInput, PixRadioButton, PixSelect, PixTextarea } from '@1024pix/nebulix-ember';
 import { concat, fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
-import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import { and, eq, gt, not, or } from 'ember-truth-helpers';
-import sortBy from 'lodash/sortBy';
-import uniqBy from 'lodash/uniqBy';
+import { and, not, or } from 'ember-truth-helpers';
 
 import Card from '../card';
 import CampaignCriterion from '../common/tubes-selection/campaign-criterion';
 import CappedTubesCriterion from '../common/tubes-selection/capped-tubes-criterion';
+import ContentSection from './form/content-section';
 import SelectAttestation from './select-attestation';
 
 export default class CombinedCourseBlueprintForm extends Component {
@@ -31,15 +19,9 @@ export default class CombinedCourseBlueprintForm extends Component {
   @service store;
   @service intl;
   @service router;
-  @tracked itemType = 'campaign';
-  @tracked itemValue = '';
   @tracked blueprint;
-  @tracked itemAddDisabled = true;
-  @tracked itemToAdd = null;
   @tracked cappedTubeRequirements = [];
   @tracked areas;
-  @tracked targetProfilesSnapshots = [];
-  @tracked currentTargetProfile = null;
   @tracked usesCappedTubesSelectionForCriteria = false;
   @tracked usesAllTargetProfilesForCriteria = false;
   @tracked schemaThreshold = null;
@@ -52,66 +34,6 @@ export default class CombinedCourseBlueprintForm extends Component {
         this.blueprint.unloadRecord();
       }
     });
-  }
-
-  @action
-  async addItem(event) {
-    event.preventDefault();
-
-    this.addToContent();
-
-    if (this.itemType === 'campaign') {
-      this.currentTargetProfile = await this.store.findRecord('target-profile', this.itemValue, { reload: true });
-      await this.refreshAreas();
-    }
-
-    this.itemValue = null;
-    document.getElementsByName('itemType')[0].focus();
-    this.itemToAdd = null;
-  }
-
-  addToContent() {
-    this.blueprint.content = [...this.blueprint.content, this.itemToAdd];
-  }
-
-  async previewItem() {
-    this.itemToAdd = null;
-
-    try {
-      if (this.itemType === 'module') {
-        const module = await this.store.findRecord('module', this.itemValue);
-        this.itemToAdd = {
-          type: 'module',
-          value: module.id,
-          label: module.title,
-          shortId: module.shortId,
-          image: module.details.image,
-        };
-      } else {
-        const targetProfile = await this.store.findRecord('target-profile', this.itemValue);
-        this.itemToAdd = {
-          type: 'campaign',
-          value: Number(this.itemValue),
-          label: targetProfile.internalName,
-          image: targetProfile.imageUrl,
-        };
-      }
-    } catch (responseError) {
-      this.#handleErrorForResource(this.itemType, responseError);
-      this.itemAddDisabled = true;
-    }
-  }
-
-  #handleErrorForResource(resourceName, responseError) {
-    if (responseError.errors?.some(({ status }) => status === '404')) {
-      this.pixToast.sendErrorNotification({
-        message: this.intl.t(`components.combined-course-blueprints.create.notifications.${resourceName}NotFound`),
-      });
-    } else {
-      this.pixToast.sendErrorNotification({
-        message: this.intl.t('components.combined-course-blueprints.create.notifications.addItemError'),
-      });
-    }
   }
 
   @action
@@ -162,6 +84,11 @@ export default class CombinedCourseBlueprintForm extends Component {
   }
 
   @action
+  setAreas(areas) {
+    this.areas = areas;
+  }
+
+  @action
   setAttestation(rewardId) {
     this.blueprint.rewardId = rewardId;
     this.blueprint.rewardType = 'ATTESTATION';
@@ -170,114 +97,6 @@ export default class CombinedCourseBlueprintForm extends Component {
   @action
   setDurationOption(durationOption) {
     this.blueprint.durationSpan = durationOption;
-  }
-
-  @action
-  setItemType(e) {
-    this.itemType = e.target.value;
-    this.itemValue = '';
-    this.itemAddDisabled = true;
-    this.itemToAdd = null;
-  }
-
-  @action
-  async setItemValue(e) {
-    this.itemValue = e.target.value;
-
-    if (this.itemValue === '') {
-      this.itemAddDisabled = true;
-      this.itemToAdd = null;
-    } else {
-      this.itemAddDisabled = false;
-      await this.previewItem();
-    }
-  }
-
-  @action
-  handleKeyPress(event) {
-    if (event.key === 'Enter') {
-      this.setItemValue(event);
-      this.addItem(event);
-    }
-  }
-
-  @action
-  async removeItem(index) {
-    const itemToRetrieve = this.blueprint.content.find((item, i) => i === index);
-    if (itemToRetrieve.type === 'campaign') {
-      this.targetProfilesSnapshots = this.targetProfilesSnapshots.filter(
-        (targetProfileSnapshot) => targetProfileSnapshot.id != itemToRetrieve.value,
-      );
-      await this.refreshAreas();
-    }
-    this.blueprint.content = this.blueprint.content.filter((item, i) => i !== index);
-  }
-
-  async refreshAreas() {
-    if (this.currentTargetProfile) {
-      const currentTargetProfileSnapshot = await this.#snapshotTargetProfile(this.currentTargetProfile);
-
-      this.targetProfilesSnapshots = [...this.targetProfilesSnapshots, currentTargetProfileSnapshot];
-      this.currentTargetProfile = null;
-    }
-    const areas = this.targetProfilesSnapshots.flatMap((snapshot) => snapshot.areas);
-    const competences = areas.flatMap((area) => area.competences);
-    const thematics = competences.flatMap((competence) => competence.thematics);
-
-    const childrenOf = (nodes, parentId, key) =>
-      uniqBy(
-        nodes.filter((node) => node.id === parentId).flatMap((node) => node[key]),
-        'id',
-      );
-
-    this.areas = uniqBy(areas, 'id').map((area) => ({
-      ...area,
-      sortedCompetences: sortBy(childrenOf(areas, area.id, 'competences'), 'index').map((competence) => ({
-        ...competence,
-        sortedThematics: sortBy(childrenOf(competences, competence.id, 'thematics'), 'index').map((thematic) => ({
-          ...thematic,
-          tubes: childrenOf(thematics, thematic.id, 'tubes'),
-        })),
-      })),
-    }));
-  }
-
-  async #snapshotTargetProfile(targetProfile) {
-    const areas = await targetProfile.areas;
-
-    return {
-      id: targetProfile.id,
-      areas: await Promise.all(
-        areas.map(async (area) => ({
-          id: area.id,
-          code: area.code,
-          title: area.title,
-          color: area.color,
-          competences: await Promise.all(
-            (await area.competences).map(async (competence) => ({
-              id: competence.id,
-              index: competence.index,
-              name: competence.name,
-              thematics: await Promise.all(
-                (await competence.thematics).map(async (thematic) => ({
-                  id: thematic.id,
-                  index: thematic.index,
-                  name: thematic.name,
-                  tubes: ((await thematic.tubes) ?? []).map((tube) => ({
-                    id: tube.id,
-                    name: tube.name,
-                    practicalTitle: tube.practicalTitle,
-                    level: tube.level,
-                    mobile: tube.mobile,
-                    tablet: tube.tablet,
-                  })),
-                })),
-              ),
-            })),
-          ),
-        })),
-      ),
-    };
   }
 
   get cappedTubesRequirementsErrors() {
@@ -342,11 +161,6 @@ export default class CombinedCourseBlueprintForm extends Component {
   }
 
   @action
-  getItemColor(type) {
-    return type === 'campaign' ? 'purple' : 'blue';
-  }
-
-  @action
   addCappedTubeSubset() {
     this.cappedTubeRequirements = [...this.cappedTubeRequirements, {}];
   }
@@ -384,19 +198,7 @@ export default class CombinedCourseBlueprintForm extends Component {
       />
 
       {{#unless @updateMode}}
-        <ContentSection
-          @setItemType={{this.setItemType}}
-          @addItem={{this.addItem}}
-          @setItemValue={{this.setItemValue}}
-          @blueprint={{this.blueprint}}
-          @updateMode={{@updateMode}}
-          @handleKeyPress={{this.handleKeyPress}}
-          @removeRequirement={{this.removeItem}}
-          @itemValue={{this.itemValue}}
-          @itemAddDisabled={{this.itemAddDisabled}}
-          @itemToAdd={{this.itemToAdd}}
-          @getItemColor={{this.getItemColor}}
-        />
+        <ContentSection @blueprint={{this.blueprint}} @onAreasChange={{this.setAreas}} />
       {{/unless}}
 
       <RewardRequirementsSection
@@ -517,133 +319,6 @@ const GeneralInfoSection = <template>
       </:label>
     </PixInput>
 
-  </Card>
-</template>;
-
-const ContentSection = <template>
-  <Card
-    class="combined-course-blueprint-form__card"
-    @title={{t "components.combined-course-blueprints.create.content"}}
-  >
-    <div class="content-section">
-      <div class="content-section__add-items-column">
-        <fieldset class="content-section__add-items-column--options">
-          <legend>{{t "components.combined-course-blueprints.create.fieldsetElement"}}</legend>
-          <PixRadioButton
-            name="itemType"
-            @value="campaign"
-            checked={{if (eq @itemType "campaign") "checked"}}
-            {{on "change" @setItemType}}
-          >
-            <:label>{{t "components.combined-course-blueprints.labels.target-profile"}}</:label>
-          </PixRadioButton>
-          <PixRadioButton
-            name="itemType"
-            checked={{if (eq @itemType "module") "checked"}}
-            @value="module"
-            {{on "change" @setItemType}}
-          >
-            <:label>{{t "components.combined-course-blueprints.labels.module"}}</:label>
-          </PixRadioButton>
-        </fieldset>
-        <div class="content-section__add-item">
-          <PixInput
-            @id="itemId"
-            @value={{@itemValue}}
-            @requiredLabel="Champ obligatoire"
-            {{on "change" @setItemValue}}
-            {{on "keyup" @handleKeyPress}}
-            class="combined-course-blueprint-form__input"
-          >
-            <:label>
-              {{t "components.combined-course-blueprints.labels.itemId"}}
-            </:label>
-          </PixInput>
-        </div>
-        {{#if @itemToAdd}}
-          <Card class="combined-course-blueprint-form__card--item-to-add">
-            <div class="combined-course-blueprint-form__card--image">
-              <img src={{@itemToAdd.image}} alt={{@itemToAdd.label}} />
-            </div>
-            <div class="combined-course-blueprint-form__card--item-to-add-text">
-              <PixTag class="combined-course-blueprint-form__card--requirement-tag">{{@itemToAdd.type}}</PixTag>
-              {{#if (eq @itemToAdd.type "module")}}
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://app.recette.pix.fr/modules/{{@requirement.shortId}}/slug/details"
-                >{{@itemToAdd.label}}</a>
-              {{/if}}
-              {{#if (eq @itemToAdd.type "campaign")}}
-                <LinkTo
-                  @route="authenticated.target-profiles.target-profile.details"
-                  @model={{@requirement.value}}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {{@itemToAdd.label}}
-                </LinkTo>
-              {{/if}}
-            </div>
-          </Card>
-        {{/if}}
-        <PixButton
-          @isDisabled={{@itemAddDisabled}}
-          @variant="secondary"
-          @triggerAction={{@addItem}}
-          class="combined-course-blueprint-form__button"
-        >{{t "components.combined-course-blueprints.create.addItemButton"}}</PixButton>
-      </div>
-      <div class="content-section__items-preview-column">
-        <h3 class="content-section__title">
-          {{t "components.combined-course-blueprints.create.courseContent"}}</h3>
-        <div>
-          {{#if (gt @blueprint.content.length 0)}}
-            <PixTable @variant="admin" @data={{@blueprint.content}} class="table">
-              <:columns as |row context index|>
-                <PixTableColumn @context={{context}}>
-                  <:header>
-                    {{t "components.combined-course-blueprints.items.item-type-header"}}
-                  </:header>
-                  <:cell>
-                    <PixTag @color={{@getItemColor row.type}}>{{row.type}}</PixTag>
-                  </:cell>
-                </PixTableColumn>
-                <PixTableColumn @context={{context}}>
-                  <:header>
-                    {{t "components.combined-course-blueprints.items.item-name-header"}}
-                  </:header>
-                  <:cell>
-                    {{#if (eq row.type "MODULE")}}
-                      {{row.shortId}}
-                    {{else}}
-                      {{row.id}}
-                    {{/if}}
-                    {{row.label}}
-                  </:cell>
-                </PixTableColumn>
-                <PixTableColumn @context={{context}}>
-                  <:header>
-                    {{t "components.combined-course-blueprints.items.action-header"}}
-                  </:header>
-                  <:cell>
-                    <PixIconButton
-                      @iconName="delete"
-                      @triggerAction={{fn @removeRequirement index}}
-                      @ariaLabel="Supprimer"
-                      data-testid="delete-{{index}}"
-                    />
-                  </:cell>
-                </PixTableColumn>
-              </:columns>
-
-            </PixTable>
-          {{else}}
-            <p> {{t "components.combined-course-blueprints.create.contentFeedback"}}</p>
-          {{/if}}
-        </div>
-      </div>
-    </div>
   </Card>
 </template>;
 
