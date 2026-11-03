@@ -11,10 +11,10 @@ describe('Quest | Unit | Domain | Models | CombinedCourse', function () {
     const organizationId = 1;
     const name = 'name';
     const code = 'code';
-    const surveyUrl = 'http://survey-link.com';
+    const durationSpan = 'very_short';
 
     // when
-    const combinedCourse = new CombinedCourse({ id, organizationId, name, code, questId: 2, surveyUrl });
+    const combinedCourse = new CombinedCourse({ id, organizationId, name, code, questId: 2, durationSpan });
 
     // then
     expect(combinedCourse.code).to.deep.equal(code);
@@ -22,6 +22,7 @@ describe('Quest | Unit | Domain | Models | CombinedCourse', function () {
     expect(combinedCourse.organizationId).to.deep.equal(organizationId);
     expect(combinedCourse.id).to.deep.equal(id);
     expect(combinedCourse.questId).to.deep.equal(2);
+    expect(combinedCourse.durationSpan).to.deep.equal(durationSpan);
   });
 
   it('should throw when combined course model does not pass validation', function () {
