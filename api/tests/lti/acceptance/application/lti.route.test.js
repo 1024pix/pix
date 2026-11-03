@@ -133,7 +133,7 @@ describe('Acceptance | LTI | Route | LTI', function () {
         organizationIds: [organization.id],
         clientId,
         deepLinkingSettings: {},
-        scope: 'lti:deep-linking',
+        scope: 'lti-campaigns:read',
         audience: 'https://orga.pix.fr',
         sessionId: 'session-id',
       });
@@ -174,6 +174,41 @@ describe('Acceptance | LTI | Route | LTI', function () {
 
       // then
       expect(response.statusCode).to.equal(401);
+    });
+
+    it('returns an HTTP status code 403 when scope is different from lti-campaigns:read', async function () {
+      // given
+      const { id: platformId } = databaseBuilder.factory.buildLtiPlatform();
+      const { clientId } = databaseBuilder.factory.buildLtiPlatformRegistration({ platformId });
+      const organization = databaseBuilder.factory.buildOrganization({ name: 'Orga 1' });
+
+      await databaseBuilder.commit();
+
+      const ltiDeepLinkingAccessToken = new LtiDeepLinkingAccessToken({
+        organizationIds: [organization.id],
+        clientId,
+        deepLinkingSettings: {},
+        scope: 'other-scope',
+        audience: 'https://orga.pix.fr',
+        sessionId: 'session-id',
+      });
+
+      const options = {
+        method: 'GET',
+        url: '/api/lti/campaigns',
+        headers: {
+          cookie: `jwtLtiDeepLinking=${ltiDeepLinkingAccessToken.encoded}`,
+          'x-forwarded-proto': 'https',
+          'x-forwarded-host': 'orga.pix.fr',
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      expect(response.result.message).to.equal('Insufficient scope');
     });
   });
 });
