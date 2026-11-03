@@ -98,6 +98,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         details: { image: 'image' },
       });
     });
+
     test('it should save blueprint in store and transition to combined course blueprint screen when data is valid', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -170,6 +171,12 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         'description prescripteur',
       );
 
+      await selectOption(
+        screen,
+        t('components.combined-course-blueprints.combined-course-duration.label'),
+        'plus de 2h',
+      );
+
       await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.survey-link')),
         'http://survey-link.fr',
@@ -191,6 +198,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       assert.strictEqual(blueprintStub.illustration, 'illustrations/hello.svg');
       assert.strictEqual(blueprintStub.description, 'description');
       assert.strictEqual(blueprintStub.prescriberDescription, 'description prescripteur');
+      assert.strictEqual(blueprintStub.durationSpan, 'very_long');
       assert.strictEqual(blueprintStub.surveyLink, 'http://survey-link.fr');
       assert.strictEqual(blueprintStub.rewardId, 5);
       assert.strictEqual(blueprintStub.rewardType, 'ATTESTATION');
@@ -1056,6 +1064,12 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         'updatedPrescriberDescription',
       );
 
+      await selectOption(
+        screen,
+        t('components.combined-course-blueprints.combined-course-duration.label'),
+        'plus de 2h',
+      );
+
       await fillIn(
         screen.getByLabelText(t('components.combined-course-blueprints.labels.survey-link')),
         'http://updated-survey-link.fr',
@@ -1081,6 +1095,7 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
       assert.strictEqual(blueprint.illustration, 'illustrations/updatedHello.svg');
       assert.strictEqual(blueprint.description, 'updatedDescription');
       assert.strictEqual(blueprint.prescriberDescription, 'updatedPrescriberDescription');
+      assert.strictEqual(blueprint.durationSpan, 'very_long');
       assert.strictEqual(blueprint.surveyLink, 'http://updated-survey-link.fr');
       assert.strictEqual(blueprint.rewardId, 5);
       assert.strictEqual(blueprint.rewardType, 'ATTESTATION');

@@ -32,11 +32,11 @@ export class CombinedCourseDetails extends CombinedCourse {
   reward = null;
 
   constructor(
-    { id, code, organizationId, name, description, illustration, questId, baseSurveyUrl },
+    { id, code, organizationId, name, description, illustration, questId, baseSurveyUrl, durationSpan },
     quest,
     cryptoService = injectedCryptoService,
   ) {
-    super({ id, code, organizationId, name, description, illustration, questId, baseSurveyUrl }, quest);
+    super({ id, code, organizationId, name, description, illustration, questId, baseSurveyUrl, durationSpan }, quest);
     this.cryptoService = cryptoService;
   }
 

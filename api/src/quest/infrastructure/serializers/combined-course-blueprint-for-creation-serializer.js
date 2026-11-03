@@ -12,6 +12,7 @@ const serialize = function (combinedCourseBlueprint) {
       'description',
       'prescriberDescription',
       'illustration',
+      'durationSpan',
       'surveyLink',
       'rewardRequirementsDescription',
       'createdAt',

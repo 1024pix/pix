@@ -259,6 +259,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         rewardRequirementsDescription: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
         createdAt: expectedCombinedCourseBlueprint.createdAt,
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
+        durationSpan: expectedCombinedCourseBlueprint.durationSpan,
       });
       expect(JSON.stringify(results[0].content)).to.deep.equal(expectedCombinedCourseBlueprint.content);
       expect(results[0].quest.id).to.equal(questId);
@@ -305,6 +306,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         createdAt: expectedCombinedCourseBlueprint.createdAt,
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
         organizationIds: expectedCombinedCourseBlueprint.organizationIds,
+        durationSpan: expectedCombinedCourseBlueprint.durationSpan,
       });
       expect(result.quest.toDTO()).to.deep.equal({
         createdAt: quest.createdAt,
@@ -345,6 +347,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         rewardRequirementsDescription: expectedCombinedCourseBlueprint.rewardRequirementsDescription,
         createdAt: expectedCombinedCourseBlueprint.createdAt,
         updatedAt: expectedCombinedCourseBlueprint.updatedAt,
+        durationSpan: expectedCombinedCourseBlueprint.durationSpan,
         organizationIds: [],
       });
       expect(result.quest.toDTO()).to.deep.equal({

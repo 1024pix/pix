@@ -148,10 +148,10 @@ export default class CombinedCourseItem extends Component {
           @title={{@item.title}}
           @isLocked={{true}}
           @iconUrl={{@item.iconUrl}}
-          @displayDuration={{@item.isModuleType}}
+          @displayDuration={{and @item.isModuleType @item.duration}}
         >
           <:duration>
-            {{#if @item.duration}}<Duration @duration={{@item.duration}} />{{/if}}
+            <Duration @duration={{@item.duration}} />
           </:duration>
         </Content>
       {{else if (and @isCombinedCourseCompleted @item.isModuleType)}}
@@ -230,15 +230,13 @@ export default class CombinedCourseItem extends Component {
             @totalStagesCount={{@item.totalStages}}
             @iconUrl={{@item.iconUrl}}
             @isCampaignType={{@item.isCampaignType}}
-            @displayDuration={{@item.isModuleType}}
+            @displayDuration={{and @item.isModuleType @item.duration}}
             @hasWhiteBackground={{hasWhiteBackground @item}}
             @isCurrentItem={{@isSelectedItem}}
             @isLoading={{@isLoading}}
           >
             <:duration>
-              {{#if @item.duration}}
-                <Duration @duration={{@item.duration}} />
-              {{/if}}
+              <Duration @duration={{@item.duration}} />
             </:duration>
             <:blockEnd>
               {{#if (and @isSelectedItem @shouldDisplayCTA)}}

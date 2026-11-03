@@ -14,6 +14,7 @@ describe('Quest | Unit | Domain | Models | AdminCombinedCourseBlueprintDetails '
       const internalName = 'internal name';
       const description = 'description';
       const prescriberDescription = 'prescriber description';
+      const durationSpan = 'duration span';
 
       const details = new AdminCombinedCourseBlueprintDetails({
         rewardRequirements,
@@ -22,11 +23,13 @@ describe('Quest | Unit | Domain | Models | AdminCombinedCourseBlueprintDetails '
         internalName,
         description,
         prescriberDescription,
+        durationSpan,
       });
 
       expect(details.content).to.deep.equal(content);
       expect(details.rewardRequirements).to.equal(rewardRequirements);
       expect(details.targetProfileIds).to.deep.equal([12]);
+      expect(details.durationSpan).to.equal(durationSpan);
     });
   });
 

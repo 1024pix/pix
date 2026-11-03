@@ -7,6 +7,14 @@ export const CombinedCourseStatuses = {
   COMPLETED: 'COMPLETED',
 };
 
+export const CombinedCourseDurationTypes = {
+  VERY_SHORT: 'very_short',
+  SHORT: 'short',
+  MEDIUM: 'medium',
+  LONG: 'long',
+  VERY_LONG: 'very_long',
+};
+
 export default class CombinedCourse extends Model {
   @attr('string') name;
   @attr('string') code;
@@ -16,6 +24,7 @@ export default class CombinedCourse extends Model {
   @attr('string') description;
   @attr('string') illustration;
   @attr('string') surveyUrl;
+  @attr('string') durationSpan;
 
   @hasMany('combined-course-item', { async: false, inverse: 'combinedCourse' }) items;
   @belongsTo('combined-course-reward', { async: false, inverse: null }) reward;

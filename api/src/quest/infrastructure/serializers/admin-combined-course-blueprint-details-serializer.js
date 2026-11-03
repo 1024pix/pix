@@ -17,6 +17,7 @@ const serialize = function (adminCombinedCourseBlueprintDetails) {
       'attestationLabel',
       'rewardRequirementsDescription',
       'rewardRequirements',
+      'durationSpan',
     ],
     rewardRequirements: {
       ref: 'id',

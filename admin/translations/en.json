@@ -826,6 +826,17 @@
         "select-label": "Add an attestation",
         "select-placeholder": "Select an attestation"
       },
+      "combined-course-duration": {
+        "label": "Estimated duration for the course",
+        "options": {
+          "long": "1h15 to 2h",
+          "medium": "45 min to 1h15",
+          "short": "30 to 45 min",
+          "very-long": "more than 2h",
+          "very-short": "less than 30 min"
+        },
+        "placeholder": "Select a duration"
+      },
       "create": {
         "addItemButton": "Add",
         "attestations": "Attestations",
@@ -857,6 +868,7 @@
         "created-at": "Creation date",
         "description": "Pix App description",
         "description-sublabel": "This description will be seen by Pix App users at the beginning of the course",
+        "duration-span": "Durée du parcours",
         "illustration": "Illustration",
         "internal-name": "Internal name",
         "itemId": "Id",

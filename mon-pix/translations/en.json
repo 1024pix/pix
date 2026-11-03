@@ -1366,6 +1366,18 @@
         "title": "Congratulations { firstName }, you're done!"
       },
       "content": {
+        "duration": {
+          "aria-label-estimated": "Estimated duration: {duration}",
+          "aria-label-estimated-in-minutes": "Estimated duration: {duration} minutes",
+          "estimated-duration-in-minutes": "≈ {duration} min"
+        },
+        "duration-options": {
+          "long": "1h15 to 2h",
+          "medium": "45 min to 1h15",
+          "short": "30 to 45 min",
+          "very-long": "more than 2h",
+          "very-short": "less than 30 min"
+        },
         "resume-button": "Resume course",
         "start-button": "Start course",
         "step": "Step {stepNumber}"
@@ -1380,12 +1392,10 @@
       "items": {
         "aria-label-completed-campaign": "This element is completed with a success rate of {value, number, ::percent}",
         "aria-label-completed-campaign-with-stages": "You have acquired {acquired, plural, =0 {no star} =1 {# star} other {# stars}} out of {total}",
-        "aria-label-duration": "Estimated duration: {duration} minutes",
         "aria-label-level": "Level: {level}",
         "completed": "Completed!",
         "continue-campaign": "Continue",
         "continue-diagnostic": "Continue the diagnostic test",
-        "duration": "≈ {duration} min",
         "formation": {
           "description": "Complete your assessment to unlock a programme of modules tailored to your results!",
           "title": "Customised module programme"

@@ -87,6 +87,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-by-modu
         deletedAt: null,
         deletedBy: null,
         baseSurveyUrl: null,
+        durationSpan: null,
       },
       {
         id: combinedCourse2.id,
@@ -101,6 +102,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-by-modu
         deletedAt: null,
         deletedBy: null,
         baseSurveyUrl: null,
+        durationSpan: null,
       },
     ]);
   });

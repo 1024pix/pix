@@ -41,6 +41,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
       surveyLink: 'http://example.pix/survey-link-test',
       rewardRequirementsDescription: 'description of requirements',
       organizationIds: [],
+      durationSpan: 'duration span',
       rewardRequirements: [
         {
           id: 'reward-requirements-1',
@@ -77,6 +78,7 @@ describe('Quest | Unit | Infrastructure | Serializers | admin-combined-course-bl
           'attestation-label': '6ème',
           'survey-link': 'http://example.pix/survey-link-test',
           'reward-requirements-description': 'description of requirements',
+          'duration-span': 'duration span',
         },
         type: 'combined-course-blueprints',
         id: '1',

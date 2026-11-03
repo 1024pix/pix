@@ -18,6 +18,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
       rewardId: 456,
       rewardType: REWARD_TYPES.ATTESTATION,
       baseSurveyUrl: 'http://link.to/survey',
+      durationSpan: 'very_short',
     });
     await combinedCourseDetails.setEncryptedUrl();
     const obtainedAt = new Date();
@@ -106,6 +107,7 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
           description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
           illustration: '/illustrations/image.svg',
           'survey-url': 'http://link.to/survey',
+          'duration-span': 'very_short',
         },
         relationships: {
           items: {

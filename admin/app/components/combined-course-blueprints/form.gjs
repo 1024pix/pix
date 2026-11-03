@@ -3,12 +3,13 @@ import {
   PixIconButton,
   PixInput,
   PixRadioButton,
+  PixSelect,
   PixTable,
   PixTableColumn,
   PixTag,
   PixTextarea,
 } from '@1024pix/nebulix-ember';
-import { concat, fn } from '@ember/helper';
+import { concat, fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
@@ -164,6 +165,11 @@ export default class CombinedCourseBlueprintForm extends Component {
   setAttestation(rewardId) {
     this.blueprint.rewardId = rewardId;
     this.blueprint.rewardType = 'ATTESTATION';
+  }
+
+  @action
+  setDurationOption(durationOption) {
+    this.blueprint.durationSpan = durationOption;
   }
 
   @action
@@ -372,6 +378,7 @@ export default class CombinedCourseBlueprintForm extends Component {
       <GeneralInfoSection
         @blueprint={{this.blueprint}}
         @setData={{this.setData}}
+        @setDurationOption={{this.setDurationOption}}
         @updateMode={{@updateMode}}
         @model={{@model}}
       />
@@ -489,6 +496,20 @@ const GeneralInfoSection = <template>
         {{t "components.combined-course-blueprints.labels.prescriber-description"}}
       </:label>
     </PixTextarea>
+
+    {{#if @blueprint.durationOptions}}
+      <PixSelect
+        size="small"
+        @options={{@blueprint.durationOptions}}
+        @value={{@blueprint.durationSpan}}
+        @onChange={{@setDurationOption}}
+        @texts={{hash placeholder=(t "components.combined-course-blueprints.combined-course-duration.placeholder")}}
+      >
+        <:label>
+          {{t "components.combined-course-blueprints.combined-course-duration.label"}}
+        </:label>
+      </PixSelect>
+    {{/if}}
 
     <PixInput @id="surveyLink" @value={{@blueprint.surveyLink}} {{on "change" (fn @setData "surveyLink")}} rows="10">
       <:label>

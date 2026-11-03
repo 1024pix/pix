@@ -7,7 +7,7 @@ import { DataForQuest } from '../../../../src/quest/domain/models/quests/aggrega
 import { Eligibility } from '../../../../src/quest/domain/models/quests/aggregates/Eligibility.js';
 import { Quest } from '../../../../src/quest/domain/models/quests/entities/Quest.js';
 
-function buildCombinedCourse({ name, code, organizationId, questId, baseSurveyUrl } = {}) {
+function buildCombinedCourse({ name, code, organizationId, questId, baseSurveyUrl, durationSpan } = {}) {
   return new CombinedCourse({
     id: 1,
     code: code ?? 'COMBINIX1',
@@ -17,6 +17,7 @@ function buildCombinedCourse({ name, code, organizationId, questId, baseSurveyUr
     illustration: '/illustrations/image.svg',
     questId: questId ?? 777,
     baseSurveyUrl,
+    durationSpan,
   });
 }
 
@@ -30,6 +31,7 @@ function buildCombinedCourseDetails({
   rewardId = null,
   rewardType = null,
   baseSurveyUrl,
+  durationSpan,
 } = {}) {
   const combinedCourse = buildCombinedCourse({
     name,
@@ -37,6 +39,7 @@ function buildCombinedCourseDetails({
     organizationId,
     questId,
     baseSurveyUrl,
+    durationSpan,
   });
 
   const campaigns = [];

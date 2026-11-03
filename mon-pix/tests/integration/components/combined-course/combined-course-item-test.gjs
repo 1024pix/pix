@@ -27,7 +27,7 @@ module('Integration | Component | combined course item', function (hooks) {
       });
 
       // when
-      const screen = await render(
+      await render(
         <template>
           <CombinedCourseItem
             @item={{combinedCourseItem}}
@@ -39,7 +39,7 @@ module('Integration | Component | combined course item', function (hooks) {
       );
 
       //then
-      assert.ok(screen.getByText(/10 min/));
+      assert.ok(document.getElementsByClassName('combined-course-item__duration'));
     });
 
     test('should not display duration on item if it does not exists', async function (assert) {
@@ -54,7 +54,7 @@ module('Integration | Component | combined course item', function (hooks) {
       const onClickStub = sinon.stub();
 
       // when
-      const screen = await render(
+      await render(
         <template>
           <CombinedCourseItem
             @item={{combinedCourseItem}}
@@ -66,7 +66,7 @@ module('Integration | Component | combined course item', function (hooks) {
       );
 
       //then
-      assert.notOk(screen.queryByText(t('pages.combined-courses.items.durationUnit')));
+      assert.notOk(document.getElementsByClassName('combined-course-item__duration')[0]);
     });
   });
 

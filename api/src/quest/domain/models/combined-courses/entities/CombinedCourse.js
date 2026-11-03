@@ -17,6 +17,7 @@ const schema = Joi.object({
   deletedAt: Joi.date().allow(null),
   deletedBy: Joi.number().allow(null),
   baseSurveyUrl: Joi.string().uri().allow(null),
+  durationSpan: Joi.string().allow(null),
 });
 export class CombinedCourse {
   #quest;
@@ -35,6 +36,7 @@ export class CombinedCourse {
       deletedAt = null,
       deletedBy = null,
       baseSurveyUrl = null,
+      durationSpan = null,
     } = {},
     quest,
   ) {
@@ -50,6 +52,7 @@ export class CombinedCourse {
     this.deletedAt = deletedAt;
     this.deletedBy = deletedBy;
     this.baseSurveyUrl = baseSurveyUrl;
+    this.durationSpan = durationSpan;
 
     this.#validate();
 
