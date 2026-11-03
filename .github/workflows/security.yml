@@ -30,7 +30,7 @@ jobs:
 
       - name: Generates BoM and upload to OWASP DTrack
         id: riskscoreMonorepo
-        uses:  1024pix/check-dependency-track-action/node@0250ad7c869b441fb963078d324ec32017cd1826
+        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
         with:
           url: ${{ secrets.DEPENDENCYTRACK_URL }}
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -56,7 +56,7 @@ jobs:
 
       - name: Generates BoM and upload to OWASP DTrack
         id: riskscorePixApp
-        uses:  1024pix/check-dependency-track-action/node@0250ad7c869b441fb963078d324ec32017cd1826
+        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
         with:
           url: ${{ secrets.DEPENDENCYTRACK_URL }}
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -82,7 +82,7 @@ jobs:
 
       - name: Generates BoM and upload to OWASP DTrack
         id: riskscorePixOrga
-        uses:  1024pix/check-dependency-track-action/node@0250ad7c869b441fb963078d324ec32017cd1826
+        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
         with:
           url: ${{ secrets.DEPENDENCYTRACK_URL }}
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -108,7 +108,7 @@ jobs:
 
       - name: Generates BoM and upload to OWASP DTrack
         id: riskscorePixCertif
-        uses:  1024pix/check-dependency-track-action/node@0250ad7c869b441fb963078d324ec32017cd1826
+        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
         with:
           url: ${{ secrets.DEPENDENCYTRACK_URL }}
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -134,7 +134,7 @@ jobs:
 
       - name: Generates BoM and upload to OWASP DTrack
         id: riskscorePixAdmin
-        uses:  1024pix/check-dependency-track-action/node@0250ad7c869b441fb963078d324ec32017cd1826
+        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
         with:
           url: ${{ secrets.DEPENDENCYTRACK_URL }}
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -160,7 +160,7 @@ jobs:
 
       - name: Generates BoM and upload to OWASP DTrack
         id: riskscorePixJunior
-        uses:  1024pix/check-dependency-track-action/node@0250ad7c869b441fb963078d324ec32017cd1826
+        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
         with:
           url: ${{ secrets.DEPENDENCYTRACK_URL }}
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -186,7 +186,7 @@ jobs:
 
       - name: Generates BoM and upload to OWASP DTrack
         id: riskscorePixAPI
-        uses:  1024pix/check-dependency-track-action/node@0250ad7c869b441fb963078d324ec32017cd1826
+        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
         with:
           url: ${{ secrets.DEPENDENCYTRACK_URL }}
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -212,7 +212,7 @@ jobs:
 
       - name: Generates BoM and upload to OWASP DTrack
         id: riskscoreAuditLogger
-        uses:  1024pix/check-dependency-track-action/node@0250ad7c869b441fb963078d324ec32017cd1826
+        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
         with:
           url: ${{ secrets.DEPENDENCYTRACK_URL }}
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -238,7 +238,7 @@ jobs:
 
       - name: Generates BoM and upload to OWASP DTrack
         id: riskscoreTestsE2E
-        uses:  1024pix/check-dependency-track-action/node@0250ad7c869b441fb963078d324ec32017cd1826
+        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
         with:
           url: ${{ secrets.DEPENDENCYTRACK_URL }}
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -264,7 +264,7 @@ jobs:
 
       - name: Generates BoM and upload to OWASP DTrack
         id: riskscoreTestsPlaywright
-        uses:  1024pix/check-dependency-track-action/node@0250ad7c869b441fb963078d324ec32017cd1826
+        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
         with:
           url: ${{ secrets.DEPENDENCYTRACK_URL }}
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
