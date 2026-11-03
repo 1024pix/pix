@@ -9,8 +9,8 @@ export type KnowledgeElementStatus = 'validated' | 'invalidated' | 'reset';
 export type KnowledgeElementSource = 'direct' | 'inferred';
 
 export type KnowledgeElementFields = {
-  id?: number | null;
-  createdAt?: Date | string;
+  id?: number;
+  createdAt?: Date;
   source: KnowledgeElementSource;
   status: KnowledgeElementStatus;
   earnedPix: number;
@@ -25,8 +25,8 @@ export class KnowledgeElement {
   static StatusType: { VALIDATED: 'validated'; INVALIDATED: 'invalidated'; RESET: 'reset' };
   static SourceType: { DIRECT: 'direct'; INFERRED: 'inferred' };
 
-  id?: number | null;
-  createdAt?: Date | string;
+  id?: number;
+  createdAt?: Date;
   source: KnowledgeElementSource;
   status: KnowledgeElementStatus;
   earnedPix: number;
