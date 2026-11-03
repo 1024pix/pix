@@ -236,7 +236,7 @@ describe('Integration | Organizational Entities | Scripts | Attach certification
 
           // then
           const fct_structures = await knex('fct_structures').select('organization_id', 'certification_center_id');
-          expect(fct_structures).to.deep.equal([
+          expect(fct_structures).to.have.deep.members([
             { organization_id: 1, certification_center_id: 10 },
             { organization_id: 2, certification_center_id: 20 },
           ]);
@@ -264,7 +264,7 @@ describe('Integration | Organizational Entities | Scripts | Attach certification
 
           // then
           const fct_structures = await knex('fct_structures').select('organization_id', 'certification_center_id');
-          expect(fct_structures).to.deep.equal([
+          expect(fct_structures).to.have.deep.members([
             { organization_id: 1, certification_center_id: null },
             { organization_id: 2, certification_center_id: null },
           ]);
