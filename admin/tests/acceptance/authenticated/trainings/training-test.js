@@ -129,6 +129,57 @@ module('Acceptance | Trainings | Training', function (hooks) {
       });
     });
 
+    module('training details page', function () {
+      test('should display header training information', async function (assert) {
+        // when
+        const screen = await visit(`/trainings/${trainingId}`);
+
+        // then
+        assert.ok(screen.getByRole('heading', { name: 'Apprendre à piloter des chauves-souris comme Batman' }));
+        assert.ok(
+          screen.getByRole('img', {
+            name: "Ministère de l'éducation nationale et de la jeunesse. Liberté égalité fraternité",
+          }),
+        );
+        assert.ok(screen.getByText('Actif'));
+      });
+
+      test('should display training tabs', async function (assert) {
+        // when
+        const screen = await visit(`/trainings/${trainingId}`);
+
+        // then
+        assert.ok(screen.getByText(t('pages.trainings.training.details.tab')));
+        assert.ok(screen.getByText(t('pages.trainings.training.triggers.tabName')));
+        assert.ok(screen.getByText(t('pages.trainings.training.targetProfiles.tabName')));
+      });
+
+      module('when training is not disabled', function () {
+        test('it should display "Actif"', async function (assert) {
+          // given
+          const screen = await visit(`/trainings/${trainingId}`);
+
+          // then
+          assert.dom(screen.getByText('Actif')).exists();
+        });
+      });
+
+      module('when training is disabled', function () {
+        test('it should display "En pause"', async function (assert) {
+          // given
+          const screen = await visit(`/trainings/${trainingId}`);
+
+          // when
+          await click(screen.getByRole('button', { name: 'Modifier' }));
+          await click(screen.getByRole('checkbox', { name: 'Mettre en pause' }));
+          await click(screen.getByRole('button', { name: 'Modifier le contenu formatif' }));
+
+          // then
+          assert.dom(screen.getByText('En pause')).exists();
+        });
+      });
+    });
+
     module('triggers details page', function () {
       test('it should set trainings menubar item active', async function (assert) {
         // when
