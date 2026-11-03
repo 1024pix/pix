@@ -1,10 +1,8 @@
 import { PassThrough } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
+import { promisify } from 'node:util';
 
 import ZipStream from 'zip-stream';
-
-import { getCorrelationInfo } from '../../execution-context-manager.js';
-import { logger } from '../logger.js';
 
 /**
  * Creates a ZIP archive progressively from an async iterable of documents.
@@ -13,32 +11,25 @@ import { logger } from '../logger.js';
  *   filename: string,
  *   content: import('node:stream').Readable
  * }>} documents
+ * @param {AbortSignal} abortSignal
  * @returns {{
  *   stream: PassThrough,
  *   completion: Promise<void>
- *   abortController: AbortController
  * }}
  */
-export function createZipStream(documents) {
+export function createZipStream(documents, abortSignal) {
   const archive = new ZipStream();
   const output = new PassThrough();
-  const abortController = new AbortController();
 
   const completion = pipeline(archive, output, {
-    signal: abortController.signal,
+    signal: abortSignal,
   });
 
-  const correlationInfo = getCorrelationInfo();
-  completion.catch((error) => {
-    logger.error(correlationInfo, error);
-  });
-
-  void populateArchive(archive, documents, abortController.signal);
+  void populateArchive(archive, documents, abortSignal);
 
   return {
     stream: output,
     completion,
-    abortController,
   };
 }
 
@@ -56,9 +47,10 @@ export function createZipStream(documents) {
  * @returns {Promise<void>}
  */
 async function populateArchive(archive, documents, signal) {
+  const addEntry = promisify(archive.entry.bind(archive));
   try {
     for await (const document of documents) {
-      if (signal.aborted) return;
+      if (signal.aborted || archive.destroyed) return;
 
       await addEntry(archive, document);
     }
@@ -69,23 +61,4 @@ async function populateArchive(archive, documents, signal) {
   } catch (error) {
     archive.destroy(error);
   }
-}
-
-/**
- * Adds a document to the ZIP archive.
- *
- * @param {ZipStream} archive
- * @param {{
- *   filename: string,
- *   content: import('node:stream').Readable
- * }} document
- * @returns {Promise<void>}
- */
-function addEntry(archive, document) {
-  return new Promise((resolve, reject) => {
-    archive.entry(document.content, { name: document.filename }, (error) => {
-      if (error) reject(error);
-      else resolve();
-    });
-  });
 }

@@ -4,7 +4,7 @@ import { config } from '../../../../config/config.js';
 import { addCorrelationInfos, getCorrelationInfo } from '../../../shared/infrastructure/execution-context-manager.js';
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
 import { generateHash } from '../../../shared/infrastructure/utils/crypto.js';
-import { SCOPES } from '../../../shared/infrastructure/utils/logger.js';
+import { logger, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { getChallengeLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { normalizeAndRemoveAccents } from '../../../shared/infrastructure/utils/string-utils.js';
 import { createZipStream } from '../../../shared/infrastructure/utils/zip/stream-zip.js';
@@ -183,7 +183,15 @@ async function downloadSelectedSessionsCertificates(request, h) {
     i18n,
   });
 
-  const { stream } = createZipStream(documents);
+  const abortController = new AbortController();
+  const { stream, completion } = createZipStream(documents, abortController.signal);
+  request.events.once('disconnect', () => {
+    abortController.abort();
+  });
+  const correlationInfo = getCorrelationInfo();
+  completion.catch((error) => {
+    logger.error(correlationInfo, error);
+  });
 
   return h
     .response(stream)
