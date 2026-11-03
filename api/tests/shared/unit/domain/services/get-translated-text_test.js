@@ -65,5 +65,46 @@ describe('Unit | Domain | Services | get-translated-text', function () {
       // then
       expect(result).to.equal(undefined);
     });
+
+    context('when the locale is a regional variant', function () {
+      [
+        { locale: 'es-419', language: 'es' },
+        { locale: 'nl-BE', language: 'nl' },
+      ].forEach(({ locale, language }) => {
+        it('returns the key of the language when the locale key is missing', function () {
+          // given
+          const key = { fr: 'Ma clef', [language]: 'Mi clave' };
+
+          // when
+          const result = service.getTranslatedKey(key, locale);
+
+          // then
+          expect(result).to.equal(key[language]);
+        });
+      });
+
+      it('returns the key of the locale when present', function () {
+        // given
+        const locale = 'es-419';
+        const key = { fr: 'Ma clef', es: 'Mi clave', 'es-419': 'Mi llave' };
+
+        // when
+        const result = service.getTranslatedKey(key, locale);
+
+        // then
+        expect(result).to.equal('Mi llave');
+      });
+
+      it('returns the french key when neither the locale nor the language is present', function () {
+        // given
+        const locale = 'es-419';
+
+        // when
+        const result = service.getTranslatedKey(translatedKey, locale);
+
+        // then
+        expect(result).to.equal('Ma clef');
+      });
+    });
   });
 });
