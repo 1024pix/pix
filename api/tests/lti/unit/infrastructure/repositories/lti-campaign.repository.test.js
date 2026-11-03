@@ -115,4 +115,39 @@ describe('Unit | LTI | Infrastructure | Repository | lti-campaign', function () 
       expect(campaigns[0].id).to.equal(1);
     });
   });
+
+  describe('#getLtiCampaign', function () {
+    it('calls the campaigns api and returns an LtiCampaign', async function () {
+      // given
+      const campaignOverview = {
+        id: 1,
+        code: 'ABCDEF123',
+        name: 'Campagne 6A',
+        type: 'ASSESSMENT',
+        organizationName: 'Pix organization',
+        organizationId: 5,
+        description: 'Parcours rentrée 6ieme',
+      };
+      const campaignsApi = { getCampaignOverview: sinon.stub().resolves(campaignOverview) };
+
+      // when
+      const campaign = await ltiCampaignRepository.getLtiCampaign({ campaignId: 1, campaignsApi });
+
+      // then
+      expect(campaignsApi.getCampaignOverview).to.have.been.calledOnceWithExactly({ campaignId: 1 });
+      expect(campaign).to.be.an.instanceOf(LtiCampaign);
+      expect(campaign).to.deep.equal(new LtiCampaign(campaignOverview));
+    });
+
+    it('returns null when the campaign does not exist', async function () {
+      // given
+      const campaignsApi = { getCampaignOverview: sinon.stub().resolves(null) };
+
+      // when
+      const campaign = await ltiCampaignRepository.getLtiCampaign({ campaignId: 1, campaignsApi });
+
+      // then
+      expect(campaign).to.be.null;
+    });
+  });
 });

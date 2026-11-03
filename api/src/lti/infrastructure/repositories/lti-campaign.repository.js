@@ -19,4 +19,8 @@ export const ltiCampaignRepository = {
       .filter((campaign) => !campaignIdsFromCombinedCourses.includes(campaign.id))
       .map((campaign) => new LtiCampaign(campaign));
   },
+  async getLtiCampaign({ campaignId, campaignsApi }) {
+    const campaign = await campaignsApi.getCampaignOverview({ campaignId });
+    return campaign ? new LtiCampaign(campaign) : null;
+  },
 };
