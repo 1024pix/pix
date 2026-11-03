@@ -1318,12 +1318,18 @@
       "title": "Vous êtes invité(e) à rejoindre l'organisation {organizationName}"
     },
     "lti-campaigns": {
+      "campaign-types": {
+        "ASSESSMENT": "Évaluer",
+        "PROFILES_COLLECTION": "Collecter"
+      },
       "columns": {
         "campaign-name": "Nom de la campagne",
         "campaign-type": "Type de la campagne",
         "code": "Code",
         "organization": "Organisation"
       },
+      "modal-title": "Sélection de la campagne",
+      "select-campaign": "Sélectionner ce parcours",
       "title": "Liste des campagnes"
     },
     "missions": {
