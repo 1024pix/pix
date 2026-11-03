@@ -55,10 +55,7 @@ export default class ApplicationRoute extends Route {
   }
 
   async model() {
-    let informationBanner = null;
-    if (!ENV.APP.MAINTENANCE_ONGOING) {
-      informationBanner = await this.store.findRecord('information-banner', `${ENV.APP.APPLICATION_NAME}`);
-    }
+    const informationBanner = await this.store.findRecord('information-banner', `${ENV.APP.APPLICATION_NAME}`);
     return {
       title: this.currentDomain.isFranceDomain ? 'Pix Orga (France)' : 'Pix Orga (hors France)',
       headElement: document.querySelector('head'),
@@ -67,15 +64,13 @@ export default class ApplicationRoute extends Route {
   }
 
   afterModel() {
-    if (!ENV.APP.MAINTENANCE_ONGOING) {
-      this.poller = setInterval(async () => {
-        try {
-          this.store.findRecord('information-banner', `${ENV.APP.APPLICATION_NAME}`);
-        } catch {
-          this.#stopPolling();
-        }
-      }, ENV.APP.INFORMATION_BANNER_POLLING_TIME);
-    }
+    this.poller = setInterval(async () => {
+      try {
+        this.store.findRecord('information-banner', `${ENV.APP.APPLICATION_NAME}`);
+      } catch {
+        this.#stopPolling();
+      }
+    }, ENV.APP.INFORMATION_BANNER_POLLING_TIME);
   }
 
   deactivate() {
