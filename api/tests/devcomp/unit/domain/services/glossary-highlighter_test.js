@@ -228,6 +228,8 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
             expect(qrocmElement.instruction).to.equal(
               `<p>Le <highlighted-button word="chien" definition="${chienDefinition}">chien</highlighted-button> ?</p>`,
             );
+            expect(qrocmElement.proposals[0].content).to.deep.equal(qrocm.element.proposals[0].content);
+            expect(qcuElement.proposals[0].content).to.deep.equal(qcu.element.proposals[0].content);
           });
         });
 
@@ -326,6 +328,13 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
             expect(qcuDiscoveryElement.proposals[1].feedback.diagnosis).to.equal(
               `<p>Eh non ! Pas de <highlighted-button word="chat" definition="${chatDefinition}">chat</highlighted-button> mais un lapin</p>`,
             );
+
+            expect(qcmDeclarativeElement.proposals[0].content).to.deep.equal(
+              qcmDeclarative.element.proposals[0].content,
+            );
+
+            expect(qcuDiscoveryElement.proposals[0].content).to.deep.equal(qcuDiscovery.element.proposals[0].content);
+            expect(qcuDiscoveryElement.proposals[1].content).to.deep.equal(qcuDiscovery.element.proposals[1].content);
           });
         });
       });
