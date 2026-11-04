@@ -19,7 +19,6 @@ export { createOrganization };
  * @param {string} externalId
  * @param {string} provinceCode
  * @param {boolean} isManagingStudents
- * @param {number} credit
  * @param {Date} createdAt
  * @param {Date} updatedAt
  * @param {email} email
@@ -51,7 +50,6 @@ async function createOrganization({
   externalId,
   provinceCode,
   isManagingStudents,
-  credit,
   createdAt,
   updatedAt,
   email,
@@ -83,7 +81,6 @@ async function createOrganization({
     externalId,
     provinceCode,
     isManagingStudents,
-    credit,
     createdAt,
     updatedAt,
     email,
@@ -211,7 +208,6 @@ function _buildOrganization({
   externalId,
   provinceCode,
   isManagingStudents,
-  credit,
   createdAt,
   updatedAt,
   email,
@@ -237,7 +233,6 @@ function _buildOrganization({
     externalId,
     provinceCode,
     isManagingStudents,
-    credit,
     createdAt,
     updatedAt,
     email,

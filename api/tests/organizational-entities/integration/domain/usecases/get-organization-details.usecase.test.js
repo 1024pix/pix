@@ -18,7 +18,6 @@ describe('Integration | Organizational Entities | Domain | UseCase | get-organiz
       type: 'SCO',
       name: 'Organization of the dark side',
       logoUrl: 'some logo url',
-      credit: 154,
       externalId: '100',
       provinceCode: '75',
       isManagingStudents: 'true',

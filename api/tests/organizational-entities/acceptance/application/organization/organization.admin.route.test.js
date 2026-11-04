@@ -74,9 +74,9 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
       await databaseBuilder.commit();
 
       const buffer =
-        'type,externalId,name,provinceCode,credit,createdBy,documentationUrl,identityProviderForCampaigns,isManagingStudents,emailForSCOActivation,DPOFirstName,DPOLastName,DPOEmail,emailInvitations,organizationInvitationRole,locale,tags,targetProfiles,administrationTeamId,parentOrganizationId,countryCode,organizationLearnerTypeId,categoryId\n' +
-        `SCO,ANNEGRAELLE,Orga des Anne-Graelle,33700,,${superAdminUserId},url.com,,true,,Anne,Graelle,anne-graelle@example.net,,ADMIN,fr,GRAS_GARGOUILLE,${targetProfileId},1234,,99100,${organizationLearnerTypeId},${categoryId}\n` +
-        `PRO,ANNEGARBURE,Orga des Anne-Garbure,33700,999,${superAdminUserId},,,,,Anne,Garbure,anne-garbure@example.net,,ADMIN,fr,GARBURE,${targetProfileId},1234,${parentOrganizationId},99100,${organizationLearnerTypeId},${categoryId}`;
+        'type,externalId,name,provinceCode,createdBy,documentationUrl,identityProviderForCampaigns,isManagingStudents,emailForSCOActivation,DPOFirstName,DPOLastName,DPOEmail,emailInvitations,organizationInvitationRole,locale,tags,targetProfiles,administrationTeamId,parentOrganizationId,countryCode,organizationLearnerTypeId,categoryId\n' +
+        `SCO,ANNEGRAELLE,Orga des Anne-Graelle,33700,${superAdminUserId},url.com,,true,,Anne,Graelle,anne-graelle@example.net,,ADMIN,fr,GRAS_GARGOUILLE,${targetProfileId},1234,,99100,${organizationLearnerTypeId},${categoryId}\n` +
+        `PRO,ANNEGARBURE,Orga des Anne-Garbure,33700,${superAdminUserId},,,,,Anne,Garbure,anne-garbure@example.net,,ADMIN,fr,GARBURE,${targetProfileId},1234,${parentOrganizationId},99100,${organizationLearnerTypeId},${categoryId}`;
 
       // when
       const response = await server.inject({
@@ -670,7 +670,6 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
           externalId: 'ABC123',
           provinceCode: '45',
           isManagingStudents: true,
-          credit: 666,
           email: 'sco.generic.account@example.net',
           createdBy: superAdminUserId,
           documentationUrl: 'https://pix.fr/',
@@ -908,7 +907,6 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
         externalId: '0446758F',
         provinceCode: '044',
         email: 'sco.generic.newaccount@example.net',
-        credit: 50,
       };
 
       const organization = databaseBuilder.factory.buildOrganization({
@@ -924,7 +922,6 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
             'external-id': organizationAttributes.externalId,
             'province-code': organizationAttributes.provinceCode,
             email: organizationAttributes.email,
-            credit: organizationAttributes.credit,
             'administration-team-id': administrationTeamId,
             'country-code': country.code,
             'organization-learner-type-name': newOrganizationLearnerType.name,

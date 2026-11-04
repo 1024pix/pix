@@ -253,7 +253,6 @@ class OrganizationForAdmin {
     if (newOrganization.type) this.type = newOrganization.type;
     if (newOrganization.logoUrl) this.logoUrl = newOrganization.logoUrl;
     this.email = isEmpty(newOrganization.email) ? null : newOrganization.email;
-    this.credit = newOrganization.credit;
     this.externalId = newOrganization.externalId;
     this.provinceCode = newOrganization.provinceCode;
     this.documentationUrl = isEmpty(newOrganization.documentationUrl) ? null : newOrganization.documentationUrl;

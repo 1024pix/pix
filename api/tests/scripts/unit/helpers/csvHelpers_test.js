@@ -97,16 +97,6 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
         });
       });
 
-      context('when credits column exists and the value is empty', function () {
-        it('should return 0 by default', async function () {
-          // given & when
-          const data = await parseCsvWithHeader(organizationWithTagsAndTargetProfilesFilePath, _optionsWithHeader);
-
-          // then
-          expect(data[0].credit).to.equal(0);
-        });
-      });
-
       context('when locale column exists and the value is empty', function () {
         it('should return fr-fr by default', async function () {
           // given & when
@@ -252,9 +242,6 @@ const _optionsWithHeader = {
         value = value.replaceAll(' ', '').toLowerCase();
       }
     } else {
-      if (columnName === 'credit') {
-        value = 0;
-      }
       if (
         columnName === 'identityProviderForCampaigns' ||
         columnName === 'DPOFirstName' ||

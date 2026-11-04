@@ -7,7 +7,6 @@ export const requiredFieldNamesForOrganizationsImport = [
   'externalId',
   'name',
   'provinceCode',
-  'credit',
   'emailInvitations',
   'emailForSCOActivation',
   'identityProviderForCampaigns',
@@ -52,8 +51,7 @@ export async function deserializeForOrganizationsImport(file) {
           columnName === 'administrationTeamId' ||
           columnName === 'countryCode' ||
           columnName === 'organizationLearnerTypeId' ||
-          columnName === 'categoryId' ||
-          columnName === 'credit'
+          columnName === 'categoryId'
         ) {
           return parseInt(trimmedValue, 10);
         }
@@ -73,7 +71,6 @@ export async function deserializeForOrganizationsImport(file) {
           columnName === 'administrationTeamId' ||
           columnName === 'countryCode' ||
           columnName === 'organizationLearnerTypeId' ||
-          columnName === 'credit' ||
           columnName === 'categoryId'
         ) {
           return null;

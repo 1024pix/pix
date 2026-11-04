@@ -696,25 +696,6 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
       expect(givenOrganization.email).to.be.null;
     });
 
-    it('updates organization credit even if null value', function () {
-      // given
-      const initialCredit = 1000;
-      const newCredits = null;
-      const givenOrganization = new OrganizationForAdmin({
-        credit: initialCredit,
-      });
-
-      // when
-      givenOrganization.updateWithDataProtectionOfficerAndTags({
-        credit: newCredits,
-        features,
-        organizationLearnerType,
-      });
-
-      // then
-      expect(givenOrganization.credit).to.equal(newCredits);
-    });
-
     it('updates organization documentationUrl even if empty value', function () {
       // given
       const initialDocumentationUrl = 'https://initial.pix.fr/';

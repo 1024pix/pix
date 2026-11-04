@@ -14,7 +14,6 @@ function _buildProNetwork(databaseBuilder) {
       externalId: 'PRO_FOR_NETWORK',
       type: 'PRO',
       provinceCode: '75',
-      credit: null,
       createdAt: new Date('2026-09-03'),
       updatedAt: new Date('2026-09-03'),
 

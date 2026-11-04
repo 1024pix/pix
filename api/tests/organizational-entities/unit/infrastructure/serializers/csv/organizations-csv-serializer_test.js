@@ -10,7 +10,6 @@ const HEADER_COLUMNS = [
   'externalId',
   'name',
   'provinceCode',
-  'credit',
   'emailInvitations',
   'emailForSCOActivation',
   'identityProviderForCampaigns',
@@ -36,7 +35,6 @@ const DEFAULT_ROW = {
   externalId: 'ext1',
   name: 'ACME',
   provinceCode: '123',
-  credit: '10',
   emailInvitations: '',
   emailForSCOActivation: '',
   identityProviderForCampaigns: '',
@@ -141,7 +139,6 @@ describe('Organizational Entities | Unit | Infrastructure | Serializers | CSV | 
         'parentOrganizationId',
         'countryCode',
         'organizationLearnerTypeId',
-        'credit',
       ];
 
       numericColumnsWithNullDefault.forEach((column) => {

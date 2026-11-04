@@ -12,7 +12,6 @@ const lowerCaseSupportedLocales = getSupportedLocales().map((supportedLocale) =>
 describe('Unit | Domain | Validators | organization-with-tags-and-target-profiles-script.js', function () {
   const DEFAULT_ORGANIZATION = {
     createdBy: 1234,
-    credit: 0,
     externalId: 'EXT_ID_123',
     locale: 'fr-fr',
     name: 'Orga Name',
@@ -67,20 +66,6 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
           });
         });
       });
-    });
-
-    it('should allow null for credit', function () {
-      // given
-      const organization = {
-        ...DEFAULT_ORGANIZATION,
-        credit: null,
-      };
-
-      // when
-      const result = validate(organization);
-
-      // then
-      expect(result).to.be.true;
     });
   });
 
@@ -353,44 +338,6 @@ describe('Unit | Domain | Validators | organization-with-tags-and-target-profile
         expect(error.meta.invalidAttributes).to.deep.include({
           attribute: 'categoryId',
           message: 'FIELD_NOT_A_NUMBER',
-        });
-      });
-    });
-
-    context('credit validation', function () {
-      it('returns an OrganizationBatchCreationError error when credit is neither a number nor null', function () {
-        // given
-        const organization = {
-          ...DEFAULT_ORGANIZATION,
-          credit: 'String credit',
-        };
-
-        // when
-        const error = catchErrSync(validate)(organization);
-
-        // then
-        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
-        expect(error.meta.invalidAttributes).to.deep.include({
-          attribute: 'credit',
-          message: 'Le crédit doit être un entier.',
-        });
-      });
-
-      it('returns an OrganizationBatchCreationError error when credit is not a positive number', function () {
-        // given
-        const organization = {
-          ...DEFAULT_ORGANIZATION,
-          credit: -1,
-        };
-
-        // when
-        const error = catchErrSync(validate)(organization);
-
-        // then
-        expect(error).to.be.instanceOf(OrganizationBatchCreationError);
-        expect(error.meta.invalidAttributes).to.deep.include({
-          attribute: 'credit',
-          message: 'Le crédit doit être un nombre entier positif.',
         });
       });
     });

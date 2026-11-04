@@ -133,7 +133,6 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | or
         externalId: '02A2145V',
         provinceCode: '02A',
         email: 'sco.generic.newaccount@example.net',
-        credit: 50,
       };
       const tagAttributes = { id: '4', type: 'tags' };
       const request = {
@@ -148,7 +147,6 @@ describe('Unit | Organizational Entities | Application | Controller | Admin | or
               'external-id': organizationAttributes.externalId,
               'province-code': organizationAttributes.provinceCode,
               email: organizationAttributes.email,
-              credit: organizationAttributes.credit,
             },
           },
           relationships: {

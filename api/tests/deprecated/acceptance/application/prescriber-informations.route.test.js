@@ -22,7 +22,6 @@ describe('Deprecated | Acceptance | Application | Routes | prescriber-informatio
     beforeEach(async function () {
       user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization({
-        credit: 5,
         isManagingStudents: true,
       });
       membership = databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
@@ -114,7 +113,6 @@ describe('Deprecated | Acceptance | Application | Routes | prescriber-informatio
               id: organization.id.toString(),
               type: 'organizations',
               attributes: {
-                credit: organization.credit,
                 'external-id': organization.externalId,
                 'is-managing-students': organization.isManagingStudents,
                 name: organization.name,

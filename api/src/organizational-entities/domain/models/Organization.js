@@ -9,10 +9,6 @@ const types = {
   SCO1D: 'SCO-1D',
 };
 
-const defaultValues = {
-  credit: 0,
-};
-
 class Organization {
   constructor({
     id,
@@ -23,7 +19,6 @@ class Organization {
     provinceCode,
     isManagingStudents,
     identityProviderForCampaigns,
-    credit = defaultValues.credit,
     email,
     targetProfileShares = [],
     organizationInvitations = [],
@@ -45,7 +40,6 @@ class Organization {
     this.provinceCode = provinceCode;
     this.identityProviderForCampaigns = identityProviderForCampaigns;
     this.isManagingStudents = isManagingStudents;
-    this.credit = credit;
     this.email = email;
     this.targetProfileShares = targetProfileShares;
     this.organizationInvitations = organizationInvitations;
@@ -98,5 +92,4 @@ class Organization {
 }
 
 Organization.types = types;
-Organization.defaultValues = defaultValues;
 export { Organization, types };
