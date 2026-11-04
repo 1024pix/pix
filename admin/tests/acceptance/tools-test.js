@@ -24,12 +24,17 @@ module('Acceptance | tools', function (hooks) {
         assert.strictEqual(currentURL(), '/tools/campaigns');
 
         const toolsNav = screen.getByRole('navigation', { name: t('pages.tools.navigation.aria-label') });
-        assert.strictEqual(toolsNav.children.length, 3);
+        assert.strictEqual(toolsNav.children.length, 4);
         assert
           .dom(within(toolsNav).getByRole('link', { name: t('pages.administration.navigation.campaigns.label') }))
           .exists();
         assert
           .dom(within(toolsNav).getByRole('link', { name: t('pages.administration.navigation.junior.label') }))
+          .exists();
+        assert
+          .dom(
+            within(toolsNav).getByRole('link', { name: t('pages.administration.navigation.knowledge-states.label') }),
+          )
           .exists();
         assert
           .dom(within(toolsNav).getByRole('link', { name: t('pages.administration.navigation.certification.label') }))
@@ -58,12 +63,17 @@ module('Acceptance | tools', function (hooks) {
         assert.strictEqual(currentURL(), '/tools/campaigns');
 
         const toolsNav = screen.getByRole('navigation', { name: t('pages.tools.navigation.aria-label') });
-        assert.strictEqual(toolsNav.children.length, 2);
+        assert.strictEqual(toolsNav.children.length, 3);
         assert
           .dom(within(toolsNav).getByRole('link', { name: t('pages.administration.navigation.campaigns.label') }))
           .exists();
         assert
           .dom(within(toolsNav).getByRole('link', { name: t('pages.administration.navigation.junior.label') }))
+          .exists();
+        assert
+          .dom(
+            within(toolsNav).getByRole('link', { name: t('pages.administration.navigation.knowledge-states.label') }),
+          )
           .exists();
       });
 

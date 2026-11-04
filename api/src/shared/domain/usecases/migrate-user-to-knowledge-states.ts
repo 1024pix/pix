@@ -5,9 +5,7 @@ import { logger as defaultLogger } from '../../infrastructure/utils/logger.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { type KnowledgeElement } from '../models/KnowledgeElement.js';
 import { type Skill } from '../models/Skill.js';
-import { UserCompetenceScore } from '../models/UserCompetenceScore.ts';
-import { buildKnowledgeStatesFromKnowledgeElements } from '../services/knowledge-state/build-knowledge-states-from-knowledge-elements.ts';
-import { withinBound } from '../services/knowledge-state/competence-scores.ts';
+import { translateKnowledgeElements } from '../services/knowledge-state/translate-knowledge-elements.ts';
 
 export type KnowledgeStateMigrationReport = {
   knowledgeElementCount: number;
@@ -59,29 +57,13 @@ export const migrateUserToKnowledgeStates = ({
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
     logger.info({ userId, knowledgeElements }, 'Knowledge elements of the user to migrate.');
     const skills = await skillRepository.list();
-    const knownSkillIds = new Set(skills.map(({ id }) => id));
 
-    const knowledgeStates = buildKnowledgeStatesFromKnowledgeElements({
+    const { knowledgeStates, userCompetenceScores, unknownSkillIds } = translateKnowledgeElements(
       userId,
-      knowledgeElements: knowledgeElements.filter(({ skillId }) => knownSkillIds.has(skillId)),
+      knowledgeElements,
       skills,
-    });
+    );
     logger.info({ userId, knowledgeStates }, 'Knowledge states built from the knowledge elements.');
-
-    // The score keeps every pix the user earned, even on skills the learning
-    // content no longer knows: the score must not move with the migration.
-    const knowledgeElementsByCompetenceId = Map.groupBy(
-      knowledgeElements.filter(({ competenceId }) => Boolean(competenceId)),
-      ({ competenceId }) => competenceId,
-    );
-    const userCompetenceScores = [...knowledgeElementsByCompetenceId].map(
-      ([competenceId, competenceKnowledgeElements]) =>
-        new UserCompetenceScore({
-          userId,
-          competenceId,
-          pix: withinBound(competenceKnowledgeElements.reduce((pix, { earnedPix }) => pix + earnedPix, 0)),
-        }),
-    );
     logger.info(
       { userId, userCompetenceScores },
       'Competence scores of the user computed from the knowledge elements.',
@@ -90,9 +72,7 @@ export const migrateUserToKnowledgeStates = ({
     const report = {
       knowledgeElementCount: knowledgeElements.length,
       knowledgeStateCount: knowledgeStates.length,
-      unknownSkillIds: [
-        ...new Set(knowledgeElements.map(({ skillId }) => skillId).filter((skillId) => !knownSkillIds.has(skillId))),
-      ],
+      unknownSkillIds,
     };
 
     await knowledgeStateRepository.upsert(knowledgeStates);

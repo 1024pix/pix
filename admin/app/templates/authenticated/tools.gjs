@@ -19,6 +19,9 @@ import pageTitle from 'ember-page-title/helpers/page-title';
           <LinkTo @route="authenticated.tools.junior">
             {{t "pages.administration.navigation.junior.label"}}
           </LinkTo>
+          <LinkTo @route="authenticated.tools.knowledge-states">
+            {{t "pages.administration.navigation.knowledge-states.label"}}
+          </LinkTo>
         {{/unless}}
         {{#unless @controller.currentUserRole.isMetier}}
           <LinkTo @route="authenticated.tools.certification">

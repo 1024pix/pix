@@ -1628,6 +1628,9 @@
         "junior": {
           "label": "Junior"
         },
+        "knowledge-states": {
+          "label": "Knowledge states"
+        },
         "organizations": {
           "label": "Organisations"
         },
@@ -2249,6 +2252,76 @@
       }
     },
     "tools": {
+      "knowledge-states": {
+        "actions": {
+          "upload": "Envoyer le fichier JSON des knowledge elements"
+        },
+        "description": "Envoie un fichier JSON contenant les knowledge elements d'un utilisateur (tableau des lignes de la table knowledge-elements) pour voir les knowledge states et les scores par compétence que la migration produirait. Rien n'est lu ni écrit en base.",
+        "errors": {
+          "api": "La simulation a échoué : {detail}",
+          "invalid-json": "Le JSON est invalide.",
+          "not-an-array": "Le JSON doit être un tableau de knowledge elements."
+        },
+        "knowledge-elements-table": {
+          "headers": {
+            "competence": "Compétence",
+            "created-at": "Créé le",
+            "earned-pix": "Pix",
+            "skill": "Acquis",
+            "source": "Source",
+            "status": "Statut"
+          }
+        },
+        "knowledge-states-table": {
+          "headers": {
+            "ceiling": "Ceiling",
+            "ceiling-at": "Ceiling at (dernier échec au-dessus du floor)",
+            "direct-levels": "Direct levels",
+            "floor": "Floor",
+            "tube": "Tube",
+            "updated-at": "Updated at (dernier mouvement)"
+          }
+        },
+        "labels": {
+          "knowledge-element-count": "Knowledge elements",
+          "knowledge-state-count": "Knowledge states",
+          "pix-score": "Score affiché aujourd’hui, depuis les knowledge elements (pix)",
+          "pix-score-after-migration": "Score affiché après migration, depuis les scores stockés et les knowledge states (pix)",
+          "pix-score-difference": "Différence après migration (pix)",
+          "total-pix": "Somme des scores stockés (pix)",
+          "unknown-skill-count": "Acquis inconnus du référentiel"
+        },
+        "report-table": {
+          "headers": {
+            "indicator": "Indicateur",
+            "value": "Valeur"
+          }
+        },
+        "scores-table": {
+          "headers": {
+            "competence": "Compétence",
+            "displayed-pix": "Affiché aujourd’hui",
+            "displayed-pix-after-migration": "Affiché après migration",
+            "pix": "Score stocké (pix)",
+            "pix-from-knowledge-states": "Valeur des knowledge states (pix)"
+          }
+        },
+        "tabs": {
+          "aria-label": "Résultats de la simulation",
+          "knowledge-elements": "Knowledge elements du fichier",
+          "knowledge-states": "Knowledge states par tube",
+          "report": "Rapport",
+          "scores": "Scores par compétence",
+          "unknown-skills": "Acquis inconnus du référentiel"
+        },
+        "title": "Simulateur de migration vers les knowledge states",
+        "unknown-skills-table": {
+          "empty": "Aucun acquis inconnu du référentiel.",
+          "headers": {
+            "skill": "Acquis inconnus du référentiel"
+          }
+        }
+      },
       "navigation": {
         "aria-label": "Navigation de la section outils"
       }

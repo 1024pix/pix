@@ -192,6 +192,7 @@ Router.map(function () {
       this.route('campaigns');
       this.route('certification');
       this.route('junior');
+      this.route('knowledge-states');
     });
 
     this.route('smart-random-simulator', function () {
