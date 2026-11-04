@@ -17,6 +17,49 @@ export const bacASableModule = {
       type: 'question-yourself',
       grains: [
         {
+          id: 'grain-glossary-test',
+          type: 'challenge',
+          title: 'Test blocs definition',
+          components: [
+            {
+              type: 'element',
+              element: {
+                id: '46ebdf1c-3be8-43c7-baf1-883632259855',
+                type: 'qcm-declarative',
+                feedback: {
+                  diagnosis:
+                    "<p>Les 3 le sont mais en réalité il n'existe pas de chat 100 % hypoallergénique. L'allergie est causée principalement par la protéine <strong>Fel d 1</strong>, présente dans la salive, les larmes et les sécrétions sébacées du chat.</p>",
+                },
+                proposals: [
+                  {
+                    id: '1',
+                    content: 'Chat Sibérien',
+                  },
+                  {
+                    id: '2',
+                    content: 'Sphynx',
+                  },
+                  {
+                    id: '3',
+                    content: 'Le Balinais',
+                  },
+                ],
+                instruction: '<p>Y\'a-t-il dans la liste une race de chat dite "hypoallergénique" ?</p>',
+                hasShortProposals: false,
+              },
+            },
+            {
+              type: 'element',
+              element: {
+                id: '9c965b96-2a6b-4e8e-9fbb-8a792a25b504',
+                type: 'text',
+                tag: 'tip',
+                content: '<p>Chaton, chats, chat et achat 🐱.</p>',
+              },
+            },
+          ],
+        },
+        {
           id: 'grain-maxwidth-test',
           type: 'lesson',
           title: 'Test maxWidth',
@@ -1777,6 +1820,11 @@ export const bacASableModule = {
       words: ['chat', 'chats', 'chaton'],
       definition:
         '<p>Le chat, plus spécifiquement désigné sous le nom de chat domestique, est une espèce de mammifères de l’Ordre des Carnivores, de la famille des félins (Félidés).</p>',
+    },
+    {
+      words: ['Pix'],
+      definition:
+        '<p>Le service public en ligne pour évaluer, développer, et certifier ses compétences numériques.</p>',
     },
   ],
 };
