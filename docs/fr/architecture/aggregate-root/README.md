@@ -36,6 +36,27 @@ organizational-entities/domain/events/
 ```
 
 ```ts
+// shared/domain/models/AggregateRoot.ts — A8 : la classe mère de toute racine, en version simplifiée
+export type DomainEvent = { readonly eventName: string; readonly payload: Record<string, unknown> };
+
+export abstract class AggregateRoot {
+  #domainEvents: DomainEvent[] = [];
+
+  // protected : seule une méthode de la racine enregistre un événement
+  protected recordDomainEvent(event: DomainEvent): void {
+    this.#domainEvents.push(event);
+  }
+
+  // le usecase récupère les événements pour les publier ; la liste est vidée
+  pullDomainEvents(): DomainEvent[] {
+    const events = this.#domainEvents;
+    this.#domainEvents = [];
+    return events;
+  }
+}
+```
+
+```ts
 // organization/index.ts — A2 : on exporte la racine, et seulement des types pour le reste
 export { Organization } from './Organization.js';
 export type { OrganizationProps, OrganizationType } from './Organization.js';
@@ -67,8 +88,8 @@ import {
 export const OrganizationTypes = ['SCO', 'SUP', 'PRO', 'SCO-1D'] as const;
 export type OrganizationType = (typeof OrganizationTypes)[number];
 
-export type OrganizationProps = {
-  id: number | null;
+export type OrganizationProps<Id = number> = {
+  id: Id;
   name: string;
   type: OrganizationType;
   createdBy: number;
@@ -77,18 +98,19 @@ export type OrganizationProps = {
   archivedAt: Date | null;
 };
 
-export class Organization extends AggregateRoot {
-  readonly id: number | null;
+// Organization<null> : une organisation neuve, sans id ; Organization : une organisation enregistrée
+export class Organization<Id = number> extends AggregateRoot {
+  readonly id: Id;
   readonly type: OrganizationType;
   readonly createdBy: number; // A4 : un autre Aggregate, gardé par son id
   #name: string;
   #isManagingStudents: boolean;
-  #features: OrganizationFeature[]; // A2 : privé. A6 : une règle les relie à isManagingStudents
+  #features: OrganizationFeature[]; // A2 : privé. A6 : dans l'Aggregate, car une règle les relie à isManagingStudents
   #archivedAt: Date | null; // une date du métier : la date d'archivage
-  // A6 : pas de membres ni de campagnes, aucune règle ne les relie à l'organisation
+  // A6 : les membres et les campagnes restent hors de l'Aggregate, aucune règle ne les relie à l'organisation
 
   // A1 : la règle est vérifiée à la construction
-  constructor({ id, name, type, createdBy, isManagingStudents, features, archivedAt }: OrganizationProps) {
+  constructor({ id, name, type, createdBy, isManagingStudents, features, archivedAt }: OrganizationProps<Id>) {
     super();
     assertValidName(name);
     if (!OrganizationTypes.includes(type)) throw new InvalidOrganizationError(`Unknown type: ${type}`);
@@ -362,7 +384,8 @@ Tests
 
 **La règle.** Un Aggregate existe parce qu'une règle du métier relie plusieurs objets.
 
-Test simple : on doit pouvoir finir la phrase « à tout moment, … ». Sinon, ce n'est pas un Aggregate.
+Pour le vérifier, on doit pouvoir finir la phrase « à tout moment, … » avec une règle qui relie ces
+objets. Sinon, ces objets ne forment pas un Aggregate, et il n'y a pas d'Aggregate Root à écrire.
 
 **Exemple de code correct.**
 
@@ -522,11 +545,11 @@ propres Aggregates.
 
 ```ts
 // Organization
-export class Organization extends AggregateRoot {
+export class Organization<Id = number> extends AggregateRoot {
   …
   readonly createdBy: number; // A4 : un autre Aggregate, gardé par son id
-  #features: OrganizationFeature[]; // A2 : privé. A6 : une règle les relie à isManagingStudents
-  // A6 : pas de membres ni de campagnes, aucune règle ne les relie à l'organisation
+  #features: OrganizationFeature[]; // A2 : privé. A6 : dans l'Aggregate, car une règle les relie à isManagingStudents
+  // A6 : les membres et les campagnes restent hors de l'Aggregate, aucune règle ne les relie à l'organisation
   …
 }
 ```
@@ -626,9 +649,17 @@ date que celle enregistrée par la racine.
 
 **À savoir.**
 
-- `recordDomainEvent()` sera défini dans une classe mère `AggregateRoot` : on ne peut pas l'appeler depuis l'extérieur
-  de la racine.
+- `recordDomainEvent()` est défini dans la classe mère `AggregateRoot` (voir l'exemple complet). Il
+  est `protected` : on ne peut pas l'appeler depuis l'extérieur de la racine.
 - Seule la racine enregistre des événements. Un objet interne, comme `OrganizationFeature`, n'en
   enregistre pas : c'est la racine qui vérifie les règles du groupe.
-- Enregistrer n'est pas publier. Le usecase publie les événements de la racine après la validation de
-  la transaction.
+- Enregistrer n'est pas publier. Le usecase enregistre l'organisation, puis publie les événements de
+  la racine une fois la transaction validée. Le détail sera dans la fiche usecase :
+
+  ```ts
+  // usecase raccourci
+  organization.archive(clock.now());
+  await organizationRepository.update({ organization });
+  const events = organization.pullDomainEvents();
+  await DomainTransaction.addSuccessHandler(() => eventPublisher.publish(events)); // après la validation
+  ```
