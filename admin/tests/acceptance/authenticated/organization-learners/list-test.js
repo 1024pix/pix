@@ -14,7 +14,7 @@ module('Acceptance | authenticated/organization-learners | list', function (hook
   setupIntl(hooks);
 
   module('When user is not logged in', function () {
-    test('it should not be accessible by an unauthenticated user', async function (assert) {
+    test('redirects to login', async function (assert) {
       // when
       await visit('/organization-learners/list');
 
@@ -23,12 +23,12 @@ module('Acceptance | authenticated/organization-learners | list', function (hook
     });
   });
 
-  module('When user is logged in', function (hooks) {
+  module('When user is logged in as super admin', function (hooks) {
     hooks.beforeEach(async () => {
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     });
 
-    test('it should be accessible for an authenticated user', async function (assert) {
+    test('enables route', async function (assert) {
       // when
       await visit('/organization-learners/list');
 
@@ -36,7 +36,7 @@ module('Acceptance | authenticated/organization-learners | list', function (hook
       assert.strictEqual(currentURL(), '/organization-learners/list');
     });
 
-    test('it should not display table if no filter is filled', async function (assert) {
+    test('hides list if no filter is filled', async function (assert) {
       // given
       server.create('admin-organization-learner', { firstName: 'firstname' });
 
@@ -46,7 +46,7 @@ module('Acceptance | authenticated/organization-learners | list', function (hook
       assert.notOk(screen.queryByRole('table', { name: t('components.organization-learners.list-table.caption') }));
     });
 
-    test('it should display organization learners in table if one filter is filled', async function (assert) {
+    test('displays learners list if one filter is filled', async function (assert) {
       // given
       server.create('admin-organization-learner', {
         firstName: 'firstname',
@@ -84,6 +84,30 @@ module('Acceptance | authenticated/organization-learners | list', function (hook
       // then
       assert.ok(screen.getByText('firstname'));
       assert.ok(screen.getByText('firstname1'));
+    });
+
+    test('displays learner matching organizationLearnerId filter', async function (assert) {
+      // given
+      server.create('admin-organization-learner', {
+        id: 313,
+        firstName: 'firstname',
+        lastName: 'lastname',
+      });
+      server.create('admin-organization-learner', {
+        id: 314,
+        firstName: 'firstname1',
+        lastName: 'lastname2',
+      });
+
+      // when
+      const screen = await visit('/organization-learners/list');
+
+      await fillByLabel('ID Prescrit', 313);
+      await click(screen.getByRole('button', { name: t('common.filters.actions.load') }));
+
+      // then
+      assert.dom(screen.getByText('firstname')).exists();
+      assert.dom(screen.queryByText('firstname1')).doesNotExist();
     });
   });
 });
