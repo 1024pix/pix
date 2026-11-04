@@ -1,14 +1,12 @@
-import { PixButton, PixInput, PixSelect, PixTextarea } from '@1024pix/nebulix-ember';
-import { fn, hash } from '@ember/helper';
-import { on } from '@ember/modifier';
+import { PixButton } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
-import Card from '../card';
 import ContentSection from './form/content-section';
+import GeneralInfoSection from './form/general-info-section';
 import RewardRequirementsSection from './form/reward-requirements-section';
 
 export default class CombinedCourseBlueprintForm extends Component {
@@ -76,11 +74,6 @@ export default class CombinedCourseBlueprintForm extends Component {
   }
 
   @action
-  setData(key, e) {
-    this.blueprint[key] = e.target.value;
-  }
-
-  @action
   setAreas(areas) {
     this.areas = areas;
   }
@@ -96,11 +89,6 @@ export default class CombinedCourseBlueprintForm extends Component {
     this.usesCappedTubesSelectionForCriteria = usesCappedTubesSelectionForCriteria;
     this.usesAllTargetProfilesForCriteria = usesAllTargetProfilesForCriteria;
     this.schemaThreshold = schemaThreshold;
-  }
-
-  @action
-  setDurationOption(durationOption) {
-    this.blueprint.durationSpan = durationOption;
   }
 
   get cappedTubesRequirementsErrors() {
@@ -151,13 +139,7 @@ export default class CombinedCourseBlueprintForm extends Component {
           (t "components.combined-course-blueprints.create.title")
         }}</h1>
 
-      <GeneralInfoSection
-        @blueprint={{this.blueprint}}
-        @setData={{this.setData}}
-        @setDurationOption={{this.setDurationOption}}
-        @updateMode={{@updateMode}}
-        @model={{@model}}
-      />
+      <GeneralInfoSection @blueprint={{this.blueprint}} />
 
       {{#unless @updateMode}}
         <ContentSection @blueprint={{this.blueprint}} @onAreasChange={{this.setAreas}} />
@@ -186,87 +168,3 @@ export default class CombinedCourseBlueprintForm extends Component {
     </form>
   </template>
 }
-
-const GeneralInfoSection = <template>
-  <Card
-    class="combined-course-blueprint-form__card"
-    @title={{t "components.combined-course-blueprints.create.generalInfoCardTitle"}}
-  >
-    <PixInput
-      @id="internalName"
-      @value={{@blueprint.internalName}}
-      @requiredLabel={{t "common.forms.mandatory"}}
-      {{on "change" (fn @setData "internalName")}}
-    >
-      <:label>
-        {{t "components.combined-course-blueprints.labels.internal-name"}}
-      </:label>
-    </PixInput>
-
-    <PixInput
-      @id="name"
-      @value={{@blueprint.name}}
-      @requiredLabel={{t "common.forms.mandatory"}}
-      {{on "change" (fn @setData "name")}}
-      @subLabel="Ce titre sera visible par les utilisateurs"
-    >
-      <:label>
-        {{t "components.combined-course-blueprints.labels.name"}}
-      </:label>
-    </PixInput>
-
-    <PixInput @id="illustration" @value={{@blueprint.illustration}} {{on "change" (fn @setData "illustration")}}>
-      <:label>
-        {{t "components.combined-course-blueprints.labels.illustration"}}
-
-      </:label>
-    </PixInput>
-
-    <PixTextarea
-      @id="description"
-      @value={{@blueprint.description}}
-      @requiredLabel={{t "common.forms.mandatory"}}
-      {{on "change" (fn @setData "description")}}
-      rows="10"
-      @subLabel={{t "components.combined-course-blueprints.labels.description-sublabel"}}
-    >
-      <:label>
-        {{t "components.combined-course-blueprints.labels.description"}}
-      </:label>
-    </PixTextarea>
-
-    <PixTextarea
-      @id="prescriber-description"
-      @value={{@blueprint.prescriberDescription}}
-      @requiredLabel={{t "common.forms.mandatory"}}
-      {{on "change" (fn @setData "prescriberDescription")}}
-      rows="10"
-      @subLabel={{t "components.combined-course-blueprints.labels.prescriber-description-sublabel"}}
-    >
-      <:label>
-        {{t "components.combined-course-blueprints.labels.prescriber-description"}}
-      </:label>
-    </PixTextarea>
-
-    {{#if @blueprint.durationOptions}}
-      <PixSelect
-        size="small"
-        @options={{@blueprint.durationOptions}}
-        @value={{@blueprint.durationSpan}}
-        @onChange={{@setDurationOption}}
-        @texts={{hash placeholder=(t "components.combined-course-blueprints.combined-course-duration.placeholder")}}
-      >
-        <:label>
-          {{t "components.combined-course-blueprints.combined-course-duration.label"}}
-        </:label>
-      </PixSelect>
-    {{/if}}
-
-    <PixInput @id="surveyLink" @value={{@blueprint.surveyLink}} {{on "change" (fn @setData "surveyLink")}} rows="10">
-      <:label>
-        {{t "components.combined-course-blueprints.labels.survey-link"}}
-      </:label>
-    </PixInput>
-
-  </Card>
-</template>;
