@@ -42,7 +42,8 @@ Les écarts se numérotent `X` dans tous les dossiers. `X` n'est le préfixe d'i
 dossier. Le read-model emploie `RM` pour ne pas entrer en collision avec `R` de la route.
 
 **Le discriminant Value Object / read-model est énoncé une seule fois**, sous « Le discriminant » dans
-`value-object/explication.md`. `read-model/README.md` y renvoie.
+`value-object/explication.md`, un document de travail. La fiche `read-model/README.md` dit la
+différence en une phrase, avec un lien vers la fiche Value Object.
 
 ## Les autres fichiers
 
@@ -200,8 +201,8 @@ porte le discriminant entre catégories de modèles. Écarté : ce document est 
 Y placer du contenu stable casserait la règle qui fonde le corpus : les `README.md` sont intemporels,
 le reste se périme. Les cinq invariants mécaniques communs restent donc énoncés dans
 `value-object/README.md` : immuabilité, absence d'identité, pureté, absence de cycle de vie,
-exposition en lecture seule. `read-model/README.md` y renvoie, et les reprend dans sa checklist
-seulement, parce qu'une checklist doit se copier telle quelle.
+exposition en lecture seule. `read-model/README.md` renvoie à V1 et V4 par un lien, sans les
+reprendre.
 
 **La Specification est à part.** Un moteur de règles composable et piloté par des données a pour
 invariants la totalité, la pureté et la fermeture par composition, pas l'identité ni le cycle de vie.

@@ -3,13 +3,13 @@
 Un read-model est un objet assemblé pour un écran ou une réponse : une ligne de la liste des
 organisations de Pix Admin, le détail d'une campagne. Un [repository](../repository/README.md) le
 construit avec une requête, souvent sur plusieurs tables. Le [usecase](../usecase/README.md) le
-renvoie sans le lire, et le [sérialiseur](../serializer/README.md) le met au format de la réponse.
-Aucune règle du métier ne le lit. Les read-models se rangent dans `domain/read-models/`.
+renvoie sans décider à partir de lui, et le [sérialiseur](../serializer/README.md) le met au format
+de la réponse. Aucune règle du métier ne le lit. Les read-models se rangent dans `domain/read-models/`.
 
-Comme un [Value Object](../value-object/README.md), il ne change pas après sa création
-([V1](../value-object/README.md#v1-immuable)) et ne dépend d'aucune infrastructure
-([V4](../value-object/README.md#v4-aucun-effet-de-bord-extérieur)). Il est lu dans les tables où
-l'[Aggregate](../aggregate-root/README.md) écrit.
+Il suit les règles [V1](../value-object/README.md#v1-immuable) et
+[V4](../value-object/README.md#v4-aucun-effet-de-bord-extérieur) de la fiche Value Object. À la
+différence d'un [Value Object](../value-object/README.md), il ne valide pas ses données. Ses données
+viennent des tables où l'[Aggregate](../aggregate-root/README.md) écrit.
 
 ## Les règles
 
@@ -17,44 +17,63 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 
 | # | Règle | En pratique |
 | --- | --- | --- |
-| [RM1](#rm1-aucune-règle-métier) | Aucune règle métier | seulement des mises en forme pour l'écran : un total, un libellé, `isArchived` |
+| [RM1](#rm1-aucune-règle-métier) | Aucune règle métier | seulement des mises en forme pour l'écran : un total, un libellé |
 | [RM2](#rm2-aucune-validation) | Aucune validation | pas de `throw` : les données viennent de la base de Pix |
-| [RM3](#rm3-nentre-pas-dans-une-règle) | N'entre pas dans une règle | un usecase le renvoie sans le lire ; pour décider, il charge l'Aggregate |
+| [RM3](#rm3-nentre-pas-dans-une-règle) | N'entre pas dans une règle | un usecase le renvoie sans décider à partir de lui, et charge l'Aggregate pour décider ; aucun modèle du domaine ne l'importe |
 | [RM4](#rm4-rangé-à-part-des-modèles-du-domaine) | Rangé à part des modèles du domaine | le fichier est dans `domain/read-models/`, à côté de `domain/models/` |
 
 ## Exemple complet
 
 Une ligne de la liste des organisations de Pix Admin. La requête joint deux Aggregates,
 l'organisation et son équipe d'administration, et ne lit que les colonnes que la liste affiche.
+`externalId` est l'identifiant de l'organisation hors de Pix, par exemple l'UAI d'un lycée (son code
+officiel auprès de l'Éducation nationale). L'exemple simplifie le filtre par nom : le vrai filtre
+ignore aussi les accents et la ponctuation. L'exemple laisse aussi de côté les autres filtres de la
+liste, comme le type ou l'identifiant externe.
 Exemple inventé, d'après
 [`organization-for-admin.repository.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js#L335-L347).
 
 ```ts
 // organizational-entities/domain/read-models/OrganizationListItem.ts — RM4 : rangé dans read-models/
-import type { OrganizationId } from '../../../shared/domain/Id.js';
 import type { OrganizationType } from '../models/organization/index.js';
 
-// RM2 : un type plutôt qu'une classe. Sans constructeur, il n'y a pas d'endroit où valider, et
-// le repository renvoie un objet littéral. La mise en forme est donc une fonction à part, plus bas
-export type OrganizationListItem = {
-  readonly id: OrganizationId; // V1 : en lecture seule ; l'id de l'organisation affichée
+export type OrganizationListItemProps = {
+  id: number;
+  name: string;
+  type: OrganizationType;
+  externalId: string | null;
+  archivedAt: Date | null;
+  administrationTeamName: string | null;
+};
+
+export class OrganizationListItem {
+  readonly id: number; // l'id de l'organisation affichée
   readonly name: string;
   readonly type: OrganizationType;
   readonly externalId: string | null;
   readonly archivedAt: Date | null;
   readonly administrationTeamName: string | null; // vient d'un autre Aggregate, par la jointure
-};
+  readonly label: string;
 
-// RM1 : une mise en forme pour l'écran, elle ne décide rien
-export const isArchived = (item: OrganizationListItem): boolean => item.archivedAt !== null;
+  // RM2 : le constructeur recopie les données, sans rien vérifier
+  constructor({ id, name, type, externalId, archivedAt, administrationTeamName }: OrganizationListItemProps) {
+    this.id = id;
+    this.name = name;
+    this.type = type;
+    this.externalId = externalId;
+    this.archivedAt = archivedAt;
+    this.administrationTeamName = administrationTeamName;
+    // RM1 : une mise en forme pour l'écran, elle ne décide rien
+    this.label = externalId ? `${name} (${externalId})` : name;
+  }
+}
 ```
 
 ```ts
 // organizational-entities/domain/repositories/OrganizationListRepository.ts
-import type { OrganizationId } from '../../../shared/domain/Id.js';
 import type { OrganizationListItem } from '../read-models/OrganizationListItem.js';
 
-export type OrganizationListFilter = { id?: OrganizationId; name?: string; hideArchived?: boolean };
+export type OrganizationListFilter = { id?: number; name?: string; hideArchived?: boolean };
 export type PageParams = { number: number; size: number };
 export type Pagination = { page: number; pageSize: number; rowCount: number; pageCount: number };
 
@@ -72,10 +91,9 @@ export interface OrganizationListRepository {
 ```ts
 // organizational-entities/infrastructure/repositories/organization-list-repository.ts
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import type { OrganizationId } from '../../../shared/domain/Id.js';
 import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
 import type { OrganizationType } from '../../domain/models/organization/index.js';
-import type { OrganizationListItem } from '../../domain/read-models/OrganizationListItem.js';
+import { OrganizationListItem } from '../../domain/read-models/OrganizationListItem.js';
 import type { OrganizationListFilter, PageParams } from '../../domain/repositories/OrganizationListRepository.js';
 
 // knex ne type pas ses résultats : on déclare la forme de la ligne renvoyée par la requête
@@ -111,16 +129,15 @@ export const findPaginatedFiltered = async ({ filter, page }: { filter: Organiza
   return { models: results.map(toListItem), pagination };
 };
 
-// RM2 : on recopie les colonnes, sans rien vérifier
 function toListItem(row: OrganizationListRow): OrganizationListItem {
-  return {
-    id: row.id as OrganizationId,
+  return new OrganizationListItem({
+    id: row.id,
     name: row.name,
     type: row.type as OrganizationType, // la valeur de la base est reprise telle quelle
     externalId: row.externalId,
     archivedAt: row.archivedAt,
     administrationTeamName: row.administrationTeamName,
-  };
+  });
 }
 ```
 
@@ -132,7 +149,7 @@ import type {
   PageParams,
 } from '../repositories/OrganizationListRepository.js';
 
-// RM3 : le usecase renvoie les lignes sans les lire
+// RM3 : le usecase renvoie les lignes sans décider à partir d'elles
 export const findPaginatedFilteredOrganizations = ({
   filter,
   page,
@@ -146,30 +163,12 @@ export const findPaginatedFilteredOrganizations = ({
 };
 ```
 
-```ts
-// organizational-entities/infrastructure/serializers/jsonapi/organization-list-serializer.ts
-import jsonapiSerializer from 'jsonapi-serializer';
-
-import { isArchived, type OrganizationListItem } from '../../../domain/read-models/OrganizationListItem.js';
-import type { Pagination } from '../../../domain/repositories/OrganizationListRepository.js';
-
-const { Serializer } = jsonapiSerializer;
-
-export const serialize = (items: OrganizationListItem[], pagination: Pagination) =>
-  new Serializer('organizations', {
-    attributes: ['name', 'type', 'externalId', 'administrationTeamName', 'isArchived'],
-    // isArchived est fourni par le read-model : le sérialiseur appelle sa fonction, sans refaire le calcul
-    transform: (item: OrganizationListItem) => ({ ...item, isArchived: isArchived(item) }),
-    meta: pagination,
-  }).serialize(items);
-```
-
 ## Comment tester
 
-Un read-model se teste avec un test unitaire, sans stub, mock ni spy. Le test couvre :
+Un read-model se teste avec un test unitaire, sans stub, sans mock ni spy. Le test couvre :
 
-- chaque mise en forme, cas limites compris. Exemples : `is archived when the organization has an
-  archive date`, `is not archived without archive date`.
+- chaque mise en forme, cas limites compris. Exemples : `shows the name followed by the external id`,
+  `shows the name alone without external id`.
 
 Un read-model sans mise en forme n'a pas de test unitaire : il n'a rien à vérifier.
 
@@ -183,29 +182,29 @@ Le test unitaire de l'[exemple complet](#exemple-complet) :
 import { expect } from 'chai';
 
 import {
-  isArchived,
-  type OrganizationListItem,
+  OrganizationListItem,
+  type OrganizationListItemProps,
 } from '../../../../../src/organizational-entities/domain/read-models/OrganizationListItem.js';
-import type { OrganizationId } from '../../../../../src/shared/domain/Id.js';
 
 describe('Unit | Organizational Entities | Domain | ReadModels | OrganizationListItem', function () {
-  const buildItem = (props: Partial<OrganizationListItem> = {}): OrganizationListItem => ({
-    id: 1 as OrganizationId,
-    name: 'Lycée Victor Hugo',
-    type: 'SCO',
-    externalId: '0750001A',
-    archivedAt: null,
-    administrationTeamName: 'Équipe SCO',
-    ...props,
-  });
-
-  describe('isArchived', function () {
-    it('is archived when the organization has an archive date', function () {
-      expect(isArchived(buildItem({ archivedAt: new Date('2026-01-01') }))).to.be.true;
+  const buildItem = (props: Partial<OrganizationListItemProps> = {}): OrganizationListItem =>
+    new OrganizationListItem({
+      id: 1,
+      name: 'Lycée Victor Hugo',
+      type: 'SCO',
+      externalId: '0750001A',
+      archivedAt: null,
+      administrationTeamName: 'Équipe SCO',
+      ...props,
     });
 
-    it('is not archived without archive date', function () {
-      expect(isArchived(buildItem({ archivedAt: null }))).to.be.false;
+  describe('label', function () {
+    it('shows the name followed by the external id', function () {
+      expect(buildItem({ externalId: '0750001A' }).label).to.equal('Lycée Victor Hugo (0750001A)');
+    });
+
+    it('shows the name alone without external id', function () {
+      expect(buildItem({ externalId: null }).label).to.equal('Lycée Victor Hugo');
     });
   });
 });
@@ -215,7 +214,7 @@ describe('Unit | Organizational Entities | Domain | ReadModels | OrganizationLis
 
 ```
 Porte-t-il une règle ?
-[ ] RM1  Aucune règle du métier ; seulement des mises en forme pour l'écran
+[ ] RM1  Aucune règle du métier, aucun calcul recopié de l'Aggregate ; seulement des mises en forme pour l'écran
 [ ] RM3  Aucun usecase ne décide à partir de lui ; aucun modèle du domaine ne l'importe
 
 Vérifie-t-il ses données ?
@@ -224,12 +223,8 @@ Vérifie-t-il ses données ?
 Est-il au bon endroit ?
 [ ] RM4  Le fichier est dans domain/read-models/
 
-Respecte-t-il les règles du Value Object ?
-[ ] V1  Champs en readonly, aucune écriture après la création
-[ ] V4  Pas d'import d'infrastructure, pas de new Date(), Math.random() ni config
-
 Tests
-[ ] Chaque mise en forme a son test unitaire, sans stub, mock ni spy
+[ ] Chaque mise en forme a son test unitaire, sans stub, sans mock ni spy
 [ ] Le test d'intégration du repository vérifie la forme renvoyée
 ```
 
@@ -237,52 +232,55 @@ Tests
 
 ### RM1. Aucune règle métier
 
-**La règle.** Un read-model ne porte aucune règle du métier. Il peut mettre en forme des données déjà
-chargées : un total, un pourcentage, un libellé. Une règle du métier vit dans l'Aggregate, qui
-l'applique avant d'enregistrer.
+**La règle.** Un read-model ne porte aucune règle du métier. Il ne recopie pas non plus un calcul que
+l'Aggregate porte déjà. Il peut mettre en forme des données déjà chargées pour l'écran : un total, un
+pourcentage, un libellé. Une règle du métier vit dans l'Aggregate, qui l'applique avant d'enregistrer.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 // OrganizationListItem.ts
-// RM1 : une mise en forme pour l'écran, elle ne décide rien
-export const isArchived = (item: OrganizationListItem): boolean => item.archivedAt !== null;
+    // RM1 : une mise en forme pour l'écran, elle ne décide rien
+    this.label = externalId ? `${name} (${externalId})` : name;
 ```
 
-`isArchived` dit seulement si la colonne est remplie. L'écran s'en sert pour afficher un badge.
+`label` assemble deux colonnes pour l'affichage, par exemple « Lycée Victor Hugo (0750001A) ».
+L'Aggregate `Organization` n'a aucun calcul équivalent.
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 // OrganizationListItem.ts
-export type OrganizationListItem = {
+export class OrganizationListItem {
   …
-  readonly isManagingStudents: boolean;
   readonly featureNames: ReadonlyArray<FeatureName>;
-};
-
-// la règle de l'Aggregate, recopiée pour l'écran
-export const managesStudents = (item: OrganizationListItem): boolean =>
-  item.isManagingStudents && !item.featureNames.includes('LEARNER_IMPORT');
+  …
+  // les refus d'enableFeature(), recopiés pour afficher le bouton « Activer l'import »
+  get canEnableLearnerImport(): boolean {
+    return this.archivedAt === null && !this.featureNames.includes('LEARNER_IMPORT');
+  }
+}
 ```
 
-La règle « si `LEARNER_IMPORT` est activée, l'organisation ne gère pas d'élèves » appartient à
-l'Aggregate `Organization`. Pour l'afficher, le read-model lit la colonne `isManagingStudents`, que
-l'Aggregate a déjà mise à jour.
+`LEARNER_IMPORT` est la fonctionnalité d'import des élèves par fichier. Les refus « organisation
+archivée » et « fonctionnalité déjà activée » appartiennent à `enableFeature()`, dans l'Aggregate
+`Organization`.
 
-**Ce que ça apporte.** La règle existe à un seul endroit, dans `Organization`. La liste affiche ce que
-l'Aggregate a enregistré.
+**Ce que ça apporte.** La règle existe à un seul endroit, dans `Organization`. La liste affiche les
+données de la base, mises en forme, sans rien décider.
 
-**Sans cette règle.** La règle vit dans `Organization` et dans la liste. Le jour où elle change dans
-l'Aggregate, la liste de Pix Admin garde l'ancien calcul. Elle affiche « gère des élèves » pour une
-organisation qui ne les gère plus.
+**Sans cette règle.** Un jour, `enableFeature()` accepte `LEARNER_IMPORT` sur une organisation
+archivée. La liste garde l'ancien calcul et cache le bouton : Pix Admin ne permet plus l'activation.
 
 **À savoir.** Pour savoir si un calcul est une mise en forme, se demander : décide-t-il quelque chose ?
-Ici, `isArchived` sert seulement à afficher un badge. Si un usecase s'en servait pour refuser une
-action, le calcul déciderait : il irait dans l'Aggregate (voir [RM3](#rm3-nentre-pas-dans-une-règle)).
+`label` sert seulement à afficher. `canEnableLearnerImport` dit si une action est permise : c'est une
+règle, elle va dans l'Aggregate (voir [RM3](#rm3-nentre-pas-dans-une-règle)). L'écran peut afficher le
+bouton sans recopier la règle : par exemple, le front tente l'activation et affiche le refus, ou un
+autre usecase expose une donnée calculée par l'Aggregate.
 
-**Exceptions.** Un read-model sans aucune mise en forme est permis. Nommer la forme que renvoie une
-requête suffit à justifier le fichier.
+**Exceptions.** Un read-model sans aucune mise en forme est permis. Le fichier donne alors un nom et
+un type à la ligne que renvoie la requête, et le repository, le usecase et le sérialiseur s'en
+servent.
 
 ### RM2. Aucune validation
 
@@ -290,52 +288,48 @@ requête suffit à justifier le fichier.
 Pix, où l'Aggregate les a écrites après les avoir vérifiées. Une donnée ancienne peut ne pas suivre
 les règles d'aujourd'hui : le read-model l'accepte quand même. Il ne lève jamais d'erreur.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 // OrganizationListItem.ts
-// RM2 : un type plutôt qu'une classe. Sans constructeur, il n'y a pas d'endroit où valider, et
-// le repository renvoie un objet littéral. La mise en forme est donc une fonction à part, plus bas
-export type OrganizationListItem = {
-  readonly id: OrganizationId; // V1 : en lecture seule ; l'id de l'organisation affichée
-  readonly name: string;
-  …
-};
+  // RM2 : le constructeur recopie les données, sans rien vérifier
+  constructor({ id, name, type, externalId, archivedAt, administrationTeamName }: OrganizationListItemProps) {
+    this.id = id;
+    this.name = name;
+    this.type = type;
+    …
+  }
 ```
 
 ```ts
 // organization-list-repository.ts
-// RM2 : on recopie les colonnes, sans rien vérifier
-function toListItem(row: OrganizationListRow): OrganizationListItem {
-  return {
-    id: row.id as OrganizationId,
-    name: row.name,
     type: row.type as OrganizationType, // la valeur de la base est reprise telle quelle
-    …
-  };
-}
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```ts
 // OrganizationListItem.ts
+const UAI_FORMAT = /^\d{7}[A-Z]$/;
+
 export class OrganizationListItem {
+  …
   constructor(props: OrganizationListItemProps) {
-    if (props.name.trim() === '') {
-      throw new InvalidOrganizationError('The name is required'); // vérifie ce que la base vient de renvoyer
+    // vérifie ce que la base vient de renvoyer
+    if (props.type === 'SCO' && props.externalId !== null && !UAI_FORMAT.test(props.externalId)) {
+      throw new InvalidOrganizationError('The UAI is not valid');
     }
     …
   }
 }
 ```
 
-**Ce que ça apporte.** La liste s'affiche avec les données telles qu'elles sont en base. Une donnée
-ancienne ou incomplète apparaît à l'écran, où quelqu'un peut la corriger.
+**Ce que ça apporte.** La liste s'affiche avec les données telles qu'elles sont en base, même une
+donnée ancienne qui ne suit pas les règles d'aujourd'hui.
 
-**Sans cette règle.** Une ancienne organisation a un nom vide en base. Le constructeur lève, et toute
-la page de la liste répond une erreur 500. Plus personne ne peut chercher cette organisation dans Pix
-Admin, même pour corriger son nom.
+**Sans cette règle.** Une organisation `SCO` ancienne garde un UAI mal saisi, et le constructeur du
+read-model reprend le contrôle du format et lève. La page de la liste qui contient cette organisation
+répond une erreur, et ses autres organisations ne s'affichent pas.
 
 **Exceptions.** Si les données viennent d'une source externe, comme l'API d'un autre contexte ou un
 service tiers, il faut les vérifier. C'est le repository qui le fait, quand il traduit la source. Le
@@ -345,13 +339,14 @@ read-model reste sans validation.
 
 **La règle.** Aucune règle du métier et aucun usecase ne décide à partir d'un read-model. Le
 read-model sert seulement à construire la réponse. Pour décider, un usecase charge l'Aggregate et
-appelle sa méthode.
+appelle sa méthode, comme dans la règle [A7](../aggregate-root/README.md#a7-une-transaction-un-aggregate)
+de la fiche Aggregate Root.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```ts
 // find-paginated-filtered-organizations.ts
-// RM3 : le usecase renvoie les lignes sans les lire
+// RM3 : le usecase renvoie les lignes sans décider à partir d'elles
 export const findPaginatedFilteredOrganizations = ({
   filter,
   page,
@@ -365,53 +360,39 @@ export const findPaginatedFilteredOrganizations = ({
 };
 ```
 
-Quand il faut décider, le usecase charge l'Aggregate,
-comme `enableOrganizationFeature` dans la [fiche Aggregate Root](../aggregate-root/README.md#exemple-complet) :
+**Exemple de code incorrect.**
 
 ```ts
-// enable-organization-feature.ts
-const organization = await organizationRepository.get({ id: organizationId });
-organization.enableFeature(featureName, params);
-await organizationRepository.update({ organization });
-```
-
-**Mauvais exemple.**
-
-```ts
-// enable-organization-feature.ts : la décision lit une ligne de la liste
+// la décision lit une ligne de la liste
 const {
   models: [item],
 } = await organizationListRepository.findPaginatedFiltered({
   filter: { id: organizationId },
   page: { number: 1, size: 1 },
 });
-if (isArchived(item)) throw new ArchivedOrganizationError(); // une règle lit le read-model
-await organizationFeatureRepository.add({ organizationId, featureName, params }); // sans passer par l'Aggregate
+if (item.archivedAt !== null) throw new ArchivedOrganizationError(); // une règle lit le read-model
+const organization = await organizationRepository.get({ id: organizationId });
+organization.enableFeature(featureName, params);
+await organizationRepository.update({ organization });
 ```
 
-**Ce que ça apporte.** On peut changer la liste pour l'écran, ajouter ou retirer une colonne, sans
-toucher à aucune règle du métier.
+**Ce que ça apporte.** Une règle se change à un seul endroit, dans l'Aggregate. On peut aussi changer
+la liste, ajouter ou retirer une colonne, sans toucher à aucune règle du métier.
 
-**Sans cette règle.** Le usecase lit la ligne de liste, puis enregistre la fonctionnalité sans passer
-par l'Aggregate. `enableFeature()` n'est pas appelée, donc après `LEARNER_IMPORT`,
-`isManagingStudents` reste à `true`. L'organisation importe ses élèves et gère aussi des élèves, ce
-que la règle de l'Aggregate interdit.
+**Sans cette règle.** On change `enableFeature()` pour qu'une organisation archivée puisse recevoir
+`ATTESTATIONS_MANAGEMENT`, la gestion des attestations de fin de parcours des élèves. Le usecase lit
+toujours `archivedAt` sur la ligne de liste et lève `ArchivedOrganizationError` : Pix Admin refuse
+toujours l'activation.
 
-**À savoir.**
-
-- Si une règle a vraiment besoin de lire l'objet, ce n'est pas un read-model. C'est un Value Object,
-  rangé dans `domain/models/` : il valide ses valeurs à la construction
-  ([V3](../value-object/README.md#v3-valide-dès-la-construction)) et porte ses règles
-  ([V5](../value-object/README.md#v5-contient-ses-règles)).
-- L'autre sens est interdit aussi : un modèle du domaine ne fabrique pas de read-model. `Organization`
-  n'a pas de méthode `toListItem()`. C'est le repository qui construit la ligne.
+**À savoir.** L'autre sens est interdit aussi : un modèle du domaine ne fabrique pas de read-model.
+`Organization` n'a pas de méthode `toListItem()`. C'est le repository qui construit la ligne.
 
 ### RM4. Rangé à part des modèles du domaine
 
 **La règle.** Un read-model vit dans `domain/read-models/`, à côté de `domain/models/`. Il ne se range
 ni dans `domain/models/`, ni dans un dossier `aggregates/`.
 
-**Bon exemple.**
+**Exemple de code correct.**
 
 ```
 organizational-entities/domain/
@@ -422,7 +403,7 @@ organizational-entities/domain/
     └── OrganizationListItem.ts
 ```
 
-**Mauvais exemple.**
+**Exemple de code incorrect.**
 
 ```
 organizational-entities/domain/
@@ -432,14 +413,13 @@ organizational-entities/domain/
     └── OrganizationListItem.ts   ← rangé comme un modèle du domaine
 ```
 
-**Ce que ça apporte.** Le dossier dit au relecteur qu'aucune règle ne lit ce fichier. Une règle
-d'outil peut aussi interdire à `domain/models/` et `domain/services/` d'importer
-`domain/read-models/`. Elle vérifie une partie de RM3 : aucun modèle du domaine ne lit un read-model.
-Qu'un usecase ne décide pas à partir d'un read-model reste à vérifier en revue.
+**Ce que ça apporte.** Le relecteur voit au dossier qu'aucune règle ne lit ce fichier. La règle
+d'outil montrée plus bas interdit à `domain/models/` et `domain/services/` d'importer
+`domain/read-models/`.
 
-**Sans cette règle.** Un développeur trouve `OrganizationListItem` à côté d'`Organization`, et y ajoute
-une fonction `canBeArchived()`. La ligne de liste devient une règle du métier. Aucun outil ne le
-signale : pour lui, le fichier est un modèle du domaine comme un autre.
+**Sans cette règle.** `OrganizationListItem` est rangé dans `models/`, donc la règle d'outil laisse
+`Organization` l'importer. Un développeur ajoute `Organization.toListItem()`, qui met
+`administrationTeamName` à `null` faute de le connaître : l'écran affiche des organisations sans équipe.
 
 **À savoir.**
 
