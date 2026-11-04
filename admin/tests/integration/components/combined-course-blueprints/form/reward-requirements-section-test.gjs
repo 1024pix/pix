@@ -8,7 +8,7 @@ import sinon from 'sinon';
 import selectOption from '../../../../helpers/select-option';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Reward Requirements Section', function (hooks) {
+module('Integration | Component | CombinedCourseBlueprints::Form::Reward Requirements Section', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('creation mode', function (hooks) {

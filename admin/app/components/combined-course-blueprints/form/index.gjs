@@ -5,9 +5,9 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
-import ContentSection from './form/content-section';
-import GeneralInfoSection from './form/general-info-section';
-import RewardRequirementsSection from './form/reward-requirements-section';
+import ContentSection from './content-section';
+import GeneralInfoSection from './general-info-section';
+import RewardRequirementsSection from './reward-requirements-section';
 
 export default class CombinedCourseBlueprintForm extends Component {
   @service pixToast;

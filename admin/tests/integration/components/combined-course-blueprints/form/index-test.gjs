@@ -1,14 +1,14 @@
 import { clickByName, render, within } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import CombinedCourseBlueprintForm from 'pix-admin/components/combined-course-blueprints/form';
+import CombinedCourseBlueprintForm from 'pix-admin/components/combined-course-blueprints/form/index';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import selectOption from '../../../helpers/select-option';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import selectOption from '../../../../helpers/select-option';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | CombinedCourseBlueprints::form', function (hooks) {
+module('Integration | Component | CombinedCourseBlueprints::Form::CombinedCourseBlueprintForm', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('creation mode', function (hooks) {
