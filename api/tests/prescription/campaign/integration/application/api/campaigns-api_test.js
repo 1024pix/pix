@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import * as campaignApi from '../../../../../../src/prescription/campaign/application/api/campaigns-api.js';
 import { CampaignOverviewDTO } from '../../../../../../src/prescription/campaign/application/api/models/CampaignOverviewDTO.js';
+import { CampaignOverviewWithCompetencesDTO } from '../../../../../../src/prescription/campaign/application/api/models/CampaignOverviewWithCompetencesDTO.js';
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign/application/api/models/CampaignParticipation.js';
 import { SavedCampaign } from '../../../../../../src/prescription/campaign/application/api/models/SavedCampaign.js';
 import { UserNotAuthorizedToCreateCampaignError } from '../../../../../../src/prescription/campaign/domain/errors.js';
@@ -11,7 +12,12 @@ import {
 } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { KnowledgeElementCollection } from '../../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { CombinedCourseBlueprint } from '../../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
-import { ORGANIZATION_FEATURE, PIX_ADMIN } from '../../../../../../src/shared/constants.js';
+import {
+  MAX_REACHABLE_LEVEL,
+  ORGANIZATION_FEATURE,
+  PIX_ADMIN,
+  PIX_ORIGIN,
+} from '../../../../../../src/shared/constants.js';
 import { KnowledgeElement } from '../../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { Membership } from '../../../../../../src/shared/domain/models/Membership.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
@@ -622,7 +628,88 @@ describe('Integration | Application | campaign-api', function () {
   });
 
   describe('#getCampaignOverview', function () {
-    it('returns a campaignOverview object', async function () {
+    beforeEach(async function () {
+      databaseBuilder.factory.learningContent.buildFramework({ id: 'recFramework1', name: PIX_ORIGIN });
+      databaseBuilder.factory.learningContent.buildArea({
+        id: 'recArea1',
+        code: '1',
+        frameworkId: 'recFramework1',
+        competenceIds: ['recCompetence1', 'recCompetence2'],
+      });
+      databaseBuilder.factory.learningContent.buildCompetence({
+        id: 'recCompetence1',
+        index: '1.1',
+        name_i18n: { fr: 'Mener une recherche', en: 'Search' },
+        origin: PIX_ORIGIN,
+        areaId: 'recArea1',
+      });
+      databaseBuilder.factory.learningContent.buildCompetence({
+        id: 'recCompetence2',
+        index: '1.2',
+        name_i18n: { fr: 'Gérer des données', en: 'Manage data' },
+        origin: PIX_ORIGIN,
+        areaId: 'recArea1',
+      });
+      databaseBuilder.factory.learningContent.buildCompetence({
+        id: 'recCompetenceOtherFramework',
+        index: '1.1',
+        name_i18n: { fr: 'Autre compétence', en: 'Other competence' },
+        origin: 'Pix+',
+        areaId: 'recArea2',
+      });
+      databaseBuilder.factory.learningContent.buildThematic({
+        id: 'recThematic1',
+        competenceId: 'recCompetence1',
+        tubeIds: ['recTube1', 'recTube2'],
+      });
+      databaseBuilder.factory.learningContent.buildThematic({
+        id: 'recThematic2',
+        competenceId: 'recCompetence2',
+        tubeIds: ['recTube3'],
+      });
+      databaseBuilder.factory.learningContent.buildTube({
+        id: 'recTube1',
+        competenceId: 'recCompetence1',
+        thematicId: 'recThematic1',
+      });
+      databaseBuilder.factory.learningContent.buildTube({
+        id: 'recTube2',
+        competenceId: 'recCompetence1',
+        thematicId: 'recThematic1',
+      });
+      databaseBuilder.factory.learningContent.buildTube({
+        id: 'recTube3',
+        competenceId: 'recCompetence2',
+        thematicId: 'recThematic2',
+      });
+      databaseBuilder.factory.learningContent.buildSkill({
+        id: 'recSkill1',
+        status: 'actif',
+        level: 1,
+        tubeId: 'recTube1',
+      });
+      databaseBuilder.factory.learningContent.buildSkill({
+        id: 'recSkill2',
+        status: 'actif',
+        level: 4,
+        tubeId: 'recTube1',
+      });
+      databaseBuilder.factory.learningContent.buildSkill({
+        id: 'recSkill3',
+        status: 'actif',
+        level: 3,
+        tubeId: 'recTube2',
+      });
+      databaseBuilder.factory.learningContent.buildSkill({
+        id: 'recSkill4',
+        status: 'actif',
+        level: 2,
+        tubeId: 'recTube3',
+      });
+      await databaseBuilder.commit();
+    });
+
+    it('returns the campaign overview with target profile competences for an assessment campaign', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization({ name: 'Pix organization' }).id;
       const targetProfileId = databaseBuilder.factory.buildTargetProfile({ description: 'Parcours rentrée 6ieme' }).id;
@@ -630,26 +717,70 @@ describe('Integration | Application | campaign-api', function () {
         code: 'AZERTY',
         targetProfileId,
         name: 'Campagne 6A',
-        type: 'ASSESSMENT',
+        type: CampaignTypes.ASSESSMENT,
         organizationId,
       });
       databaseBuilder.factory.buildCampaign({ organizationId });
+      ['recSkill1', 'recSkill2', 'recSkill3'].forEach((skillId) =>
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId }),
+      );
       await databaseBuilder.commit();
 
       // when
       const campaignOverview = await campaignApi.getCampaignOverview({ campaignId: campaign.id });
 
       // then
-      expect(campaignOverview).to.be.an.instanceOf(CampaignOverviewDTO);
-      expect(campaignOverview).deep.equal({
+      expect(campaignOverview).to.be.an.instanceOf(CampaignOverviewWithCompetencesDTO);
+      expect(campaignOverview).to.deep.equal({
         id: campaign.id,
         description: 'Parcours rentrée 6ieme',
         code: 'AZERTY',
         name: 'Campagne 6A',
         organizationName: 'Pix organization',
         organizationId,
-        type: 'ASSESSMENT',
+        type: CampaignTypes.ASSESSMENT,
+        competences: [{ id: 'recCompetence1', index: '1.1', name: 'Mener une recherche', maxLevel: 3.5 }],
       });
+    });
+
+    it('returns the campaign overview with all Pix competences for a profiles collection campaign', async function () {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({
+        type: CampaignTypes.PROFILES_COLLECTION,
+        targetProfileId: null,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignApi.getCampaignOverview({ campaignId: campaign.id, locale: 'en' });
+
+      // then
+      expect(result).to.be.an.instanceOf(CampaignOverviewWithCompetencesDTO);
+      expect(result.id).to.equal(campaign.id);
+      expect(result.type).to.equal(CampaignTypes.PROFILES_COLLECTION);
+      expect(result.competences).to.deep.equal([
+        { id: 'recCompetence1', index: '1.1', name: 'Search', maxLevel: MAX_REACHABLE_LEVEL },
+        { id: 'recCompetence2', index: '1.2', name: 'Manage data', maxLevel: MAX_REACHABLE_LEVEL },
+      ]);
+    });
+
+    it('returns the campaign overview with target profile competences for an exam campaign', async function () {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.EXAM });
+      ['recSkill1', 'recSkill2', 'recSkill3'].forEach((skillId) =>
+        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId }),
+      );
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignApi.getCampaignOverview({ campaignId: campaign.id });
+
+      // then
+      expect(result.id).to.equal(campaign.id);
+      expect(result.type).to.equal(CampaignTypes.EXAM);
+      expect(result.competences).to.deep.equal([
+        { id: 'recCompetence1', index: '1.1', name: 'Mener une recherche', maxLevel: 3.5 },
+      ]);
     });
 
     it('returns null when the campaign does not exist', async function () {
