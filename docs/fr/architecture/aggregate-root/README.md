@@ -88,8 +88,8 @@ import {
 export const OrganizationTypes = ['SCO', 'SUP', 'PRO', 'SCO-1D'] as const;
 export type OrganizationType = (typeof OrganizationTypes)[number];
 
-export type OrganizationProps = {
-  id: number | null;
+export type OrganizationProps<Id = number> = {
+  id: Id;
   name: string;
   type: OrganizationType;
   createdBy: number;
@@ -98,8 +98,9 @@ export type OrganizationProps = {
   archivedAt: Date | null;
 };
 
-export class Organization extends AggregateRoot {
-  readonly id: number | null;
+// Organization<null> : une organisation neuve, sans id ; Organization : une organisation enregistrée
+export class Organization<Id = number> extends AggregateRoot {
+  readonly id: Id;
   readonly type: OrganizationType;
   readonly createdBy: number; // A4 : un autre Aggregate, gardé par son id
   #name: string;
@@ -109,7 +110,7 @@ export class Organization extends AggregateRoot {
   // A6 : les membres et les campagnes restent hors de l'Aggregate, aucune règle ne les relie à l'organisation
 
   // A1 : la règle est vérifiée à la construction
-  constructor({ id, name, type, createdBy, isManagingStudents, features, archivedAt }: OrganizationProps) {
+  constructor({ id, name, type, createdBy, isManagingStudents, features, archivedAt }: OrganizationProps<Id>) {
     super();
     assertValidName(name);
     if (!OrganizationTypes.includes(type)) throw new InvalidOrganizationError(`Unknown type: ${type}`);
@@ -544,7 +545,7 @@ propres Aggregates.
 
 ```ts
 // Organization
-export class Organization extends AggregateRoot {
+export class Organization<Id = number> extends AggregateRoot {
   …
   readonly createdBy: number; // A4 : un autre Aggregate, gardé par son id
   #features: OrganizationFeature[]; // A2 : privé. A6 : dans l'Aggregate, car une règle les relie à isManagingStudents
