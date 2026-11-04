@@ -396,7 +396,7 @@
       "link-help": "https://pix.org/nl-be/support",
       "skills": "Competenties",
       "trainings": "Mijn opleidingen",
-      "tutorials": "Mijn handleidingen"
+      "tutorials": "Mijn tutorials"
     },
     "mobile-button-title": "Het menu openen",
     "nav-bar": {
@@ -625,7 +625,7 @@
         },
         "details": "Tijdens dit traject heb je de volgende mogelijkheden:",
         "develop": {
-          "description": "Na elke 5 vragen krijg je de juiste antwoorden te zien en ontvang je tips en een persoonlijk advies over handleidingen om je vaardigheden verder te ontwikkelen.",
+          "description": "Na elke 5 vragen krijg je de juiste antwoorden te zien en ontvang je tips en een persoonlijk advies over tutorials om je vaardigheden verder te ontwikkelen.",
           "title": "Bekijk je resultaten tijdens de test en raadpleeg hints om vooruitgang te boeken."
         },
         "evaluate": {
@@ -1136,7 +1136,7 @@
                 "other": "Overig",
                 "picture": "De afbeelding",
                 "question": "De vraag",
-                "tutorial": "De handleiding"
+                "tutorial": "De tutorial"
               }
             },
             "detail-selection": {
@@ -1190,9 +1190,9 @@
                 "picture-other": "De afbeelding heeft nog een ander probleem",
                 "question-improvement": "Ik wil een verbetering van de vraag voorstellen",
                 "question-not-understood": "Ik begrijp de vraag niet",
-                "tutorial-link-error": "De link naar de handleiding leidt naar een andere pagina of naar een foutpagina",
-                "tutorial-not-accepted": "Het handleiding voldoet niet aan de vereisten.",
-                "tutorial-proposal": "Ik heb een handleiding voor jullie"
+                "tutorial-link-error": "De link naar de tutorial leidt naar een andere pagina of naar een foutpagina",
+                "tutorial-not-accepted": "Het tutorial voldoet niet aan de vereisten.",
+                "tutorial-proposal": "Ik heb een tutorial voor jullie"
               },
               "problem-suggestion-description": "Beschrijf je probleem of suggestie"
             }
@@ -2519,8 +2519,8 @@
           "title": "Geen tijdslimiet!"
         },
         "page3": {
-          "explanation": "Bekijk de handleidingen om meer te leren \nover elk onderwerp en vooruitgang te boeken.",
-          "title": "Handleidingen om te leren"
+          "explanation": "Bekijk de tutorials om meer te leren \nover elk onderwerp en vooruitgang te boeken.",
+          "title": "Tutorials om te leren"
         },
         "page4": {
           "explanation": "Afhankelijk van je antwoorden past\nPix de moeilijkheidsgraad van de vragen aan.",
@@ -2673,7 +2673,7 @@
       "title": "Mijn opleidingen"
     },
     "user-tutorials": {
-      "description": "Verbeter je digitale vaardigheden met handleidingen die zijn afgestemd op jouw niveau.",
+      "description": "Verbeter je digitale vaardigheden met tutorials die zijn afgestemd op jouw niveau.",
       "empty-list-info": {
         "description": {
           "part1": "Tijdens het doorlopen van de tests worden er tutorials aanbevolen: klik op het bladwijzerpictogram",
@@ -2683,7 +2683,7 @@
         "title": "Je hebt nog niets opgeslagen"
       },
       "filter": "Filteren",
-      "label": "handleidingen",
+      "label": "tutorials",
       "list": {
         "title": "Mijn lijst",
         "tutorial": {
@@ -2693,10 +2693,10 @@
               "label": "Deze tutorial niet als nuttig markeren"
             },
             "remove": {
-              "label": "Mijn lijst van handleidingen verwijderen"
+              "label": "Mijn lijst van tutorials verwijderen"
             },
             "save": {
-              "label": "Opslaan in mijn lijst van handleidingen"
+              "label": "Opslaan in mijn lijst van tutorials"
             }
           },
           "source": "Door"
@@ -2704,21 +2704,21 @@
       },
       "recommended": "Aanbevolen",
       "recommended-empty": {
-        "description": "Om je handleidingen aan te bevelen die bij je niveau passen, moet je eerst een competentietest doen.",
+        "description": "Om je tutorials aan te bevelen die bij je niveau passen, moet je eerst een competentietest doen.",
         "link": "Ik begin",
-        "title": "{firstName}, hier zijn je favoriete handleidingen"
+        "title": "{firstName}, hier zijn je favoriete tutorials"
       },
       "saved": "Opgeslagen",
       "saved-empty": {
-        "description": "Je moet een aanbevolen handleiding opslaan om deze hier te laten verschijnen.",
-        "title": "Je hebt nog geen opgeslagen handleidingen"
+        "description": "Je moet een aanbevolen tutorial opslaan om deze hier te laten verschijnen.",
+        "title": "Je hebt nog geen opgeslagen tutorials"
       },
       "sidebar": {
         "reset": "Resetten",
         "reset-aria-label": "Alle filters resetten en deselecteren",
         "see-results": "De resultaten bekijken"
       },
-      "title": "Mijn handleidingen"
+      "title": "Mijn tutorials"
     }
   }
 }
