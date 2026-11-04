@@ -60,7 +60,9 @@ export default class ApplicationRoute extends Route {
   }
 
   async model() {
-    const informationBanner = await this.store.findRecord('information-banner', `${ENV.APP.APPLICATION_NAME}`);
+    const informationBanner = await this.store.findRecord('information-banner', `${ENV.APP.APPLICATION_NAME}`, {
+      reload: true,
+    });
     return {
       headElement: document.querySelector('head'),
       informationBanner,
@@ -70,7 +72,7 @@ export default class ApplicationRoute extends Route {
   afterModel() {
     this.poller = setInterval(async () => {
       try {
-        this.store.findRecord('information-banner', `${ENV.APP.APPLICATION_NAME}`);
+        this.store.findRecord('information-banner', `${ENV.APP.APPLICATION_NAME}`, { reload: true });
       } catch {
         this.#stopPolling();
       }
