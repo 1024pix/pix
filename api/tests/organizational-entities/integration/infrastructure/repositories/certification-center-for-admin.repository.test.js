@@ -41,7 +41,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
   describe('#update', function () {
     let center;
 
-    before(async function () {
+    beforeAll(async function () {
       // given
       center = databaseBuilder.factory.buildCertificationCenter();
       await databaseBuilder.commit();

@@ -182,7 +182,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       let userId;
       let assessmentId;
 
-      before(async function () {
+      beforeAll(async function () {
         userId = databaseBuilder.factory.buildUser({}).id;
         assessmentId = databaseBuilder.factory.buildAssessment({
           userId,
@@ -207,7 +207,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const userId = null;
       let assessmentId;
 
-      before(async function () {
+      beforeAll(async function () {
         assessmentId = databaseBuilder.factory.buildAssessment({
           userId,
           courseId: 'courseId',
@@ -302,7 +302,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     // TODO: test with malformed data, e.g.:
     // - completed assessments without an AssessmentResult
 
-    before(async function () {
+    beforeAll(async function () {
       limitDate = new Date('2022-01-01');
 
       const afterLimiteDate = new Date('2022-01-02');
