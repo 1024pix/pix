@@ -64,6 +64,19 @@
       margin-bottom: var(--pix-spacing-4x);
   }
 
+   &-criterion {
+    margin: var(--pix-spacing-3x) 0 var(--pix-spacing-6x);
+    padding: var(--pix-spacing-4x);
+    background: var(--pix-neutral-20);
+    border: 1px solid var(--pix-neutral-100);
+    border-radius: 8px;
+    &__add {
+      svg {
+        margin-right: 0.5rem;
+      }
+    }
+   }
+
 }
 
 .pix-radio-button + .pix-radio-button {

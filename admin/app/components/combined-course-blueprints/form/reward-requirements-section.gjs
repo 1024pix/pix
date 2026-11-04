@@ -112,11 +112,11 @@ export default class RewardRequirementsSection extends Component {
         </PixTextarea>
         {{#unless @updateMode}}
           {{#if this.blueprintHasTargetProfiles}}
-            <fieldset class="badge-form-criteria-choice">
+            <fieldset>
               <p>{{t "components.combined-course-blueprints.labels.reward-requirements.reward-criteria-choice"}}</p>
 
               <PixRadioButton
-                name="subsetNumberChoice"
+                name="criteriaSelectionMode"
                 @checked={{this.usesAllTargetProfilesForCriteria}}
                 @value="use-all-tubes"
                 {{on "change" this.toggleCriteriaSelectionMode}}
@@ -127,7 +127,7 @@ export default class RewardRequirementsSection extends Component {
               </PixRadioButton>
 
               <PixRadioButton
-                name="subsetNumberChoice"
+                name="criteriaSelectionMode"
                 @checked={{this.usesCappedTubesSelectionForCriteria}}
                 @value="use-tubes-selection"
                 {{on "change" this.toggleCriteriaSelectionMode}}
@@ -138,7 +138,7 @@ export default class RewardRequirementsSection extends Component {
               </PixRadioButton>
 
               <PixRadioButton
-                name="subsetNumberChoice"
+                name="criteriaSelectionMode"
                 checked={{if
                   (and (not this.usesAllTargetProfilesForCriteria) (not this.usesCappedTubesSelectionForCriteria))
                   "checked"
@@ -166,7 +166,7 @@ export default class RewardRequirementsSection extends Component {
                 />
               {{/each}}
               <PixButton
-                class="badge-form-criterion__add"
+                class="combined-course-blueprint-form-criterion__add"
                 @variant="primary"
                 @size="small"
                 @triggerAction={{this.addCappedTubeSubset}}
