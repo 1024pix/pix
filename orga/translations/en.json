@@ -730,7 +730,7 @@
       "description": {
         "explanation": "{count, plural, =1 {The ranking reflects the average level achieved by the participant, relative to the maximum level achievable in this campaign.} other {The ranking reflects the average level achieved by participants, relative to the maximum level achievable in this campaign.}}",
         "nota-bene": "{count, plural, =1 {All data presented comes from selected participation.} other {All data presented comes from shared and non-deleted participation in assessment campaigns and is updated with each visit.}}",
-        "resume": "{count, plural, =1 {Analyse, by skill or subject, the participant's positioning in this campaign, which covers a selection of subjects from the Pix reference framework.} other {Analyse, by skill or subject, the positioning of your participants in this campaign, which covers a selection of subjects from the Pix reference framework.}}"
+        "resume": "{count, plural, =1 {Analyse, by competence or topic, the positioning of your participant in this campaign, which covers a selection of topics from the Pix reference framework.} other {Analyse, by competence or topic, the positioning of your participants in this campaign, which covers a selection of topics from the Pix reference framework.}}"
       },
       "levels-correspondence": {
         "infos": {
