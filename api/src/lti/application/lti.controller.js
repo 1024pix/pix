@@ -7,6 +7,7 @@ import { BadRequestError } from '../../shared/application/errors/http-errors.js'
 import { cryptoService } from '../../shared/domain/services/crypto-service.js';
 import * as urlService from '../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../shared/infrastructure/http-agent.js';
+import { getI18nFromRequest } from '../../shared/infrastructure/i18n/i18n.js';
 import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
 import { getForwardedOrigin, RequestedApplication } from '../../shared/infrastructure/utils/network.js';
 import { LtiDeepLinkingAccessToken } from '../domain/models/LtiDeepLinkingAccessToken.js';
@@ -143,18 +144,24 @@ async function findAvailableCampaigns(request, h) {
 
 async function selectCampaign(request, h, dependencies = { ltiService }) {
   const {
-    // FIXME check selected campaignCode belongs to one of the organizations
-    // credentials: { organizationIds },
+    credentials: { organizationIds },
     artifacts: { registration, deepLinkingSettings },
   } = request.auth;
 
-  const { campaignCode } = request.payload;
+  const i18n = getI18nFromRequest(request);
+  const { campaignId } = request.payload;
+  const campaign = await usecases.getLtiCampaign({ campaignId });
+
+  if (!organizationIds.includes(campaign?.organizationId)) {
+    logger.warn({ campaignId, organizationIds }, 'campaign does not belong to organizations');
+    return boom.badRequest();
+  }
 
   const contentItem = {
     type: 'ltiResourceLink',
-    title: `Campagne Pix ${campaignCode}`,
-    text: 'Campagne PIX dont la note sera envoyée dans Moodle',
-    custom: { campaign_code: campaignCode },
+    title: campaign.name,
+    text: campaign.description ?? i18n.__('lti.profiles-collection-campaign-description'),
+    custom: { campaign_code: campaign.code },
     lineItem: {
       scoreMaximum: 100,
     },

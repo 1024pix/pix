@@ -3,6 +3,7 @@ import { AssessmentCampaignParticipation } from '../../domain/read-models/Campai
 import { usecases } from '../../domain/usecases/index.js';
 import { Campaign } from './models/Campaign.js';
 import { CampaignListItem } from './models/CampaignListItem.js';
+import { CampaignOverviewDTO } from './models/CampaignOverviewDTO.js';
 import {
   AssessmentCampaignParticipation as AssessmentCampaignParticipationAPI,
   ProfilesCollectionCampaignParticipation as ProfilesCollectionCampaignParticipationAPI,
@@ -303,16 +304,29 @@ export const deleteCampaignsInCombinedCourses = async ({
 };
 
 /**
- * @typedef {import('../../domain/models/LtiCampaign.js').LtiCampaign} LtiCampaign
+ * @typedef {import('./models/CampaignOverviewDTO.js').CampaignOverviewDTO} CampaignOverviewDTO
  */
 
 /**
  * @function
- * @name getLtiCampaigns
+ * @name getCampaignOverviews
  *
  * @param {Array<Number>} organizationIds
- * @returns {Promise<LtiCampaign[]>}
+ * @returns {Promise<CampaignOverviewDTO[]>}
  */
-export const getLtiCampaigns = async ({ organizationIds }) => {
-  return await usecases.getLtiCampaignsByOrganizations({ organizationIds });
+export const getCampaignOverviews = async ({ organizationIds }) => {
+  const campaigns = await usecases.getCampaignOverviewsByOrganizations({ organizationIds });
+  return campaigns.map((campaign) => new CampaignOverviewDTO(campaign));
+};
+
+/**
+ * @function
+ * @name getCampaignOverview
+ *
+ * @param {number} campaignId
+ * @returns {Promise<CampaignOverviewDTO|null>}
+ */
+export const getCampaignOverview = async ({ campaignId }) => {
+  const campaign = await usecases.getCampaignOverview({ campaignId });
+  return campaign ? new CampaignOverviewDTO(campaign) : null;
 };

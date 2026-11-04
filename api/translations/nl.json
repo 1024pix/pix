@@ -528,6 +528,9 @@
       }
     }
   },
+  "lti": {
+    "profiles-collection-campaign-description": "Met een campagne voor profielverzameling kun je het profiel van de deelnemers opvragen: niveau per competentie en Pix-score."
+  },
   "organization-invitation-email": {
     "params": {
       "acceptInvitation": "De uitnodiging aannemen",

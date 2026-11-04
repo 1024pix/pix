@@ -542,6 +542,9 @@
       "DOUBLE_CORE_CLEA": "Certificazione Dual Pix/CléA Numérique"
     }
   },
+  "lti": {
+    "profiles-collection-campaign-description": "Una campagna di raccolta dei profili permette di recuperare il profilo dei partecipanti: livelli per competenza e punteggio Pix."
+  },
   "organization-invitation-email": {
     "params": {
       "acceptInvitation": "Accettare l'invito",
