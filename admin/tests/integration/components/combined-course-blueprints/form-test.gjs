@@ -615,23 +615,6 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         findRecordStub.withArgs('target-profile', '1').resolves({ internalName: 'super pc', areas: [area] });
       });
 
-      async function renderFormAndSelectAttestation(model) {
-        const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
-
-        await fillIn(
-          screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
-          1,
-        );
-        await screen.findByRole('link', { name: 'super pc', exact: false });
-        await click(
-          screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
-        );
-
-        await selectOption(screen, t('components.combined-course-blueprints.attestation.select-label'), 'Parentalite');
-
-        return screen;
-      }
-
       test('it should display an error and not save when the whole blueprint option is selected without a threshold', async function (assert) {
         // given
         const pixToast = this.owner.lookup('service:pixToast');
@@ -732,6 +715,23 @@ module('Integration | Component | CombinedCourseBlueprints::form', function (hoo
         // then
         sinon.assert.calledOnceWithExactly(blueprint.save, { adapterOptions: { schemaThreshold: '75' } });
       });
+
+      async function renderFormAndSelectAttestation(model) {
+        const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+        await fillIn(
+          screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
+          1,
+        );
+        await screen.findByRole('link', { name: 'super pc', exact: false });
+        await click(
+          screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
+        );
+
+        await selectOption(screen, t('components.combined-course-blueprints.attestation.select-label'), 'Parentalite');
+
+        return screen;
+      }
     });
   });
 

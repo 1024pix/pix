@@ -110,6 +110,7 @@ module('Integration | Component | Reward Requirements Section', function (hooks)
         details: { image: 'image' },
       });
     });
+
     test('it should display tubes selection component when the necessary conditions are met', async function (assert) {
       //given
       const attestations = [
@@ -259,23 +260,6 @@ module('Integration | Component | Reward Requirements Section', function (hooks)
       );
     });
 
-    async function renderFormAndSelectAttestation(model) {
-      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
-
-      await fillIn(
-        screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
-        1,
-      );
-      await screen.findByRole('link', { name: 'super pc', exact: false });
-      await click(
-        screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
-      );
-
-      await selectOption(screen, t('components.combined-course-blueprints.attestation.select-label'), 'Parentalite');
-
-      return screen;
-    }
-
     test('it should display the radio button to not add criteria', async function (assert) {
       // given
       const model = { attestations, blueprint };
@@ -301,6 +285,23 @@ module('Integration | Component | Reward Requirements Section', function (hooks)
         }),
       );
     });
+
+    async function renderFormAndSelectAttestation(model) {
+      const screen = await render(<template><CombinedCourseBlueprintForm @model={{model}} /></template>);
+
+      await fillIn(
+        screen.getByLabelText(t('components.combined-course-blueprints.labels.itemId'), { exact: false }),
+        1,
+      );
+      await screen.findByRole('link', { name: 'super pc', exact: false });
+      await click(
+        screen.getByRole('button', { name: t('components.combined-course-blueprints.create.addItemButton') }),
+      );
+
+      await selectOption(screen, t('components.combined-course-blueprints.attestation.select-label'), 'Parentalite');
+
+      return screen;
+    }
   });
 
   module('edition mode', function () {
