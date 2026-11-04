@@ -1,18 +1,15 @@
-import { PixButton, PixInput, PixRadioButton, PixSelect, PixTextarea } from '@1024pix/nebulix-ember';
-import { concat, fn, hash } from '@ember/helper';
+import { PixButton, PixInput, PixSelect, PixTextarea } from '@1024pix/nebulix-ember';
+import { fn, hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import { and, not, or } from 'ember-truth-helpers';
 
 import Card from '../card';
-import CampaignCriterion from '../common/tubes-selection/campaign-criterion';
-import CappedTubesCriterion from '../common/tubes-selection/capped-tubes-criterion';
 import ContentSection from './form/content-section';
-import SelectAttestation from './select-attestation';
+import RewardRequirementsSection from './form/reward-requirements-section';
 
 export default class CombinedCourseBlueprintForm extends Component {
   @service pixToast;
@@ -89,9 +86,16 @@ export default class CombinedCourseBlueprintForm extends Component {
   }
 
   @action
-  setAttestation(rewardId) {
-    this.blueprint.rewardId = rewardId;
-    this.blueprint.rewardType = 'ATTESTATION';
+  setRewardRequirements({
+    cappedTubeRequirements,
+    usesCappedTubesSelectionForCriteria,
+    usesAllTargetProfilesForCriteria,
+    schemaThreshold,
+  }) {
+    this.cappedTubeRequirements = cappedTubeRequirements;
+    this.usesCappedTubesSelectionForCriteria = usesCappedTubesSelectionForCriteria;
+    this.usesAllTargetProfilesForCriteria = usesAllTargetProfilesForCriteria;
+    this.schemaThreshold = schemaThreshold;
   }
 
   @action
@@ -134,50 +138,8 @@ export default class CombinedCourseBlueprintForm extends Component {
   }
 
   @action
-  onCappedTubesThresholdChange(criterion, e) {
-    criterion.threshold = e.target.value;
-  }
-
-  @action
-  onCappedTubesNameChange(criterion, e) {
-    criterion.name = e.target.value;
-  }
-
-  @action
-  onCappedTubesSelectionChange(criterion, selection) {
-    criterion.tubes = selection.map(({ id, level }) => ({ tubeId: id, level }));
-  }
-
-  @action
-  removeCappedTubeCriterion(index) {
-    const updatedCappedTubeRequirements = [...this.cappedTubeRequirements];
-    updatedCappedTubeRequirements.splice(index, 1);
-    this.cappedTubeRequirements = updatedCappedTubeRequirements;
-  }
-
-  @action
   goToListPage() {
     this.router.transitionTo('authenticated.combined-course-blueprints.list');
-  }
-
-  @action
-  addCappedTubeSubset() {
-    this.cappedTubeRequirements = [...this.cappedTubeRequirements, {}];
-  }
-
-  @action
-  toggleCriteriaSelectionMode(e) {
-    this.usesCappedTubesSelectionForCriteria = e.target.value === 'use-tubes-selection';
-    this.usesAllTargetProfilesForCriteria = e.target.value === 'use-all-tubes';
-  }
-
-  @action
-  setSchemaThreshold(e) {
-    this.schemaThreshold = e.target.value;
-  }
-
-  get blueprintHasTargetProfiles() {
-    return this.blueprint.content.filter((item) => item.type === 'campaign').length > 0;
   }
 
   <template>
@@ -204,22 +166,9 @@ export default class CombinedCourseBlueprintForm extends Component {
       <RewardRequirementsSection
         @model={{@model}}
         @blueprint={{this.blueprint}}
-        @setAttestation={{this.setAttestation}}
-        @setData={{this.setData}}
-        @updateMode={{@updateMode}}
         @areas={{this.areas}}
-        @onCappedTubesThresholdChange={{this.onCappedTubesThresholdChange}}
-        @onCappedTubesNameChange={{this.onCappedTubesNameChange}}
-        @onCappedTubesSelectionChange={{this.onCappedTubesSelectionChange}}
-        @removeCappedTubeCriterion={{this.removeCappedTubeCriterion}}
-        @cappedTubeRequirements={{this.cappedTubeRequirements}}
-        @addCappedTubeSubset={{this.addCappedTubeSubset}}
-        @usesCappedTubesSelectionForCriteria={{this.usesCappedTubesSelectionForCriteria}}
-        @usesAllTargetProfilesForCriteria={{this.usesAllTargetProfilesForCriteria}}
-        @toggleCriteriaSelectionMode={{this.toggleCriteriaSelectionMode}}
-        @schemaThreshold={{this.schemaThreshold}}
-        @setSchemaThreshold={{this.setSchemaThreshold}}
-        @blueprintHasTargetProfiles={{this.blueprintHasTargetProfiles}}
+        @updateMode={{@updateMode}}
+        @onRewardRequirementsChange={{this.setRewardRequirements}}
       />
 
       <fieldset class="controls">
@@ -319,105 +268,5 @@ const GeneralInfoSection = <template>
       </:label>
     </PixInput>
 
-  </Card>
-</template>;
-
-const RewardRequirementsSection = <template>
-  <Card
-    class="combined-course-blueprint-form__card"
-    @title={{t "components.combined-course-blueprints.create.attestations"}}
-  >
-    {{#unless @updateMode}}
-      <SelectAttestation
-        @attestations={{@model.attestations}}
-        @value={{@blueprint.rewardId}}
-        @onChange={{@setAttestation}}
-      />
-    {{/unless}}
-    {{#if (or (and (not @updateMode) @blueprint.rewardId) (and @updateMode @blueprint.attestationLabel))}}
-      <PixTextarea
-        @id="reward-requirements"
-        @value={{@blueprint.rewardRequirementsDescription}}
-        {{on "change" (fn @setData "rewardRequirementsDescription")}}
-        rows="10"
-      >
-        <:label>
-          {{t "components.combined-course-blueprints.labels.reward-requirements.description"}}
-        </:label>
-      </PixTextarea>
-      {{#unless @updateMode}}
-        {{#if @blueprintHasTargetProfiles}}
-          <fieldset class="badge-form-criteria-choice">
-            <p>{{t "components.combined-course-blueprints.labels.reward-requirements.reward-criteria-choice"}}</p>
-
-            <PixRadioButton
-              name="subsetNumberChoice"
-              @checked={{@usesAllTargetProfilesForCriteria}}
-              @value="use-all-tubes"
-              {{on "change" @toggleCriteriaSelectionMode}}
-            >
-              <:label>{{t
-                  "components.combined-course-blueprints.labels.reward-requirements.entire-blueprint-criteria-option"
-                }}</:label>
-            </PixRadioButton>
-
-            <PixRadioButton
-              name="subsetNumberChoice"
-              @checked={{@usesCappedTubesSelectionForCriteria}}
-              @value="use-tubes-selection"
-              {{on "change" @toggleCriteriaSelectionMode}}
-            >
-              <:label>{{t
-                  "components.combined-course-blueprints.labels.reward-requirements.capped-tubes-selection-option"
-                }}</:label>
-            </PixRadioButton>
-
-            <PixRadioButton
-              name="subsetNumberChoice"
-              checked={{if
-                (and (not @usesAllTargetProfilesForCriteria) (not @usesCappedTubesSelectionForCriteria))
-                "checked"
-              }}
-              @value="no-criteria"
-              {{on "change" @toggleCriteriaSelectionMode}}
-            >
-              <:label>{{t
-                  "components.combined-course-blueprints.labels.reward-requirements.no-criteria-option"
-                }}</:label>
-            </PixRadioButton>
-          </fieldset>
-
-          {{#if @usesCappedTubesSelectionForCriteria}}
-            {{#each @cappedTubeRequirements as |criterion index|}}
-              <CappedTubesCriterion
-                @id={{concat "cappedTubeCriterion" index}}
-                @title={{t "components.combined-course-blueprints.labels.reward-requirements.capped-tubes-criteria"}}
-                @areas={{@areas}}
-                @onThresholdChange={{fn @onCappedTubesThresholdChange criterion}}
-                @onNameChange={{fn @onCappedTubesNameChange criterion}}
-                @onTubesSelectionChange={{fn @onCappedTubesSelectionChange criterion}}
-                @remove={{fn @removeCappedTubeCriterion index}}
-                @displayExpandAllButtons={{true}}
-              />
-            {{/each}}
-            <PixButton
-              class="badge-form-criterion__add"
-              @variant="primary"
-              @size="small"
-              @triggerAction={{@addCappedTubeSubset}}
-              @iconBefore="add"
-            >
-              {{t "components.combined-course-blueprints.labels.reward-requirements.add-new-tubes-selection"}}
-            </PixButton>
-          {{else if @usesAllTargetProfilesForCriteria}}
-            <CampaignCriterion
-              @onThresholdChange={{@setSchemaThreshold}}
-              @title={{t "components.combined-course-blueprints.labels.reward-requirements.entire-blueprint-criteria"}}
-            />
-          {{/if}}
-        {{/if}}
-
-      {{/unless}}
-    {{/if}}
   </Card>
 </template>;
