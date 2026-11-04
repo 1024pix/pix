@@ -18,6 +18,45 @@ describe('Certification | SessionManagement | Unit | Domain | ValueObjects | Ses
     });
   });
 
+  describe('#isAtLeastToFinalize', function () {
+    [
+      SESSION_STATUSES.TO_FINALIZE,
+      SESSION_STATUSES.FINALIZED,
+      SESSION_STATUSES.IN_PROCESS,
+      SESSION_STATUSES.PROCESSED,
+    ].forEach((status) => {
+      it(`returns true when status is ${status}`, function () {
+        // given
+        const sessionStatus = domainBuilder.certification.shared
+          .sessionStatusBuilder()
+          .withParameters({ status })
+          .build();
+
+        // when
+        const result = sessionStatus.isAtLeastToFinalize();
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    [SESSION_STATUSES.CREATED, SESSION_STATUSES.STARTED].forEach((status) => {
+      it(`returns false when status is ${status}`, function () {
+        // given
+        const sessionStatus = domainBuilder.certification.shared
+          .sessionStatusBuilder()
+          .withParameters({ status })
+          .build();
+
+        // when
+        const result = sessionStatus.isAtLeastToFinalize();
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
+
   describe('#isAtMostStarted', function () {
     [SESSION_STATUSES.CREATED, SESSION_STATUSES.STARTED].forEach((status) => {
       it(`returns true when status is ${status}`, function () {

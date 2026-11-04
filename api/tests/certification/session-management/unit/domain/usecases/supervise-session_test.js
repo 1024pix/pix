@@ -7,62 +7,66 @@ import {
   SessionFinalized,
   SessionNotJoinable,
 } from '../../../../../../src/certification/session-management/domain/errors.js';
-import { InvigilatorSession } from '../../../../../../src/certification/session-management/domain/read-models/InvigilatorSession.js';
 import { superviseSession } from '../../../../../../src/certification/session-management/domain/usecases/supervise-session.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
+import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
 
-describe('Unit | UseCase | supervise-session', function () {
-  let invigilatorSessionRepository;
+describe('Certification | SessionManagement | Unit | UseCase | supervise-session', function () {
   let invigilatorAccessRepository;
-  let certificationCenterRepository;
   let certificationCenterAccessRepository;
+  let sessionAuthorizationInfoRepository;
+  let dependencies;
 
   beforeEach(function () {
     sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
       return callback();
     });
-    invigilatorSessionRepository = {
-      get: sinon.stub(),
+    sessionAuthorizationInfoRepository = {
+      findBySessionId: sinon.stub(),
     };
     invigilatorAccessRepository = {
       create: sinon.stub(),
     };
-    certificationCenterRepository = {
-      getBySessionId: sinon.stub(),
-    };
     certificationCenterAccessRepository = {
       getCertificationCenterAccess: sinon.stub(),
+    };
+    preventStubsToBeCalledUnexpectedly([
+      sessionAuthorizationInfoRepository.findBySessionId,
+      invigilatorAccessRepository.create,
+      certificationCenterAccessRepository.getCertificationCenterAccess,
+    ]);
+    dependencies = {
+      invigilatorAccessRepository,
+      certificationCenterAccessRepository,
+      sessionAuthorizationInfoRepository,
     };
   });
 
   it('should throw a InvalidSessionSupervisingLoginError when the supervised password is wrong', async function () {
     // given
-    const sessionId = 123;
-    const invigilatorPassword = 'NOT_MATCHING_INVIGILATOR_PASSWORD';
-    const certificationCenter = domainBuilder.buildCertificationCenter();
-    const session = new InvigilatorSession({
-      finalizedAt: null,
-      invigilatorPassword: 'CORRECT_PASSWORD',
-    });
-    const userId = 434;
+    const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().started().build();
+    const sessionAuthorizationInfo = domainBuilder.certification.sessionManagement
+      .sessionAuthorizationInfoBuilder()
+      .withParameters({
+        sessionStatus,
+        certificationCenterArchived: false,
+        invigilatorPassword: 'CORRECT_PASSWORD',
+        certificationCenterId: 456,
+      })
+      .build();
 
-    invigilatorSessionRepository.get.resolves(session);
-    certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-    certificationCenterAccessRepository.getCertificationCenterAccess.resolves(
-      domainBuilder.certification.sessionManagement.buildAllowedCertificationCenterAccess(),
-    );
+    sessionAuthorizationInfoRepository.findBySessionId.withArgs({ sessionId: 123 }).resolves(sessionAuthorizationInfo);
+    certificationCenterAccessRepository.getCertificationCenterAccess
+      .withArgs({ certificationCenterId: 456 })
+      .resolves(domainBuilder.certification.sessionManagement.buildAllowedCertificationCenterAccess());
 
     // when
     const error = await catchErr(superviseSession)({
-      sessionId,
-      invigilatorPassword,
-      userId,
-      invigilatorSessionRepository,
-      invigilatorAccessRepository,
-      certificationCenterRepository,
-      certificationCenterAccessRepository,
+      sessionId: 123,
+      invigilatorPassword: 'NOT_MATCHING_INVIGILATOR_PASSWORD',
+      userId: 789,
+      ...dependencies,
     });
 
     // then
@@ -72,29 +76,25 @@ describe('Unit | UseCase | supervise-session', function () {
 
   it('should throw a SessionFinalized when the session is finalized', async function () {
     // given
-    const sessionId = 123;
-    const certificationCenter = domainBuilder.buildCertificationCenter();
-    const session = new InvigilatorSession({
-      finalizedAt: new Date(),
-      invigilatorPassword: 'PASSWORD',
-    });
-    const userId = 434;
+    const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().finalized().build();
+    const sessionAuthorizationInfo = domainBuilder.certification.sessionManagement
+      .sessionAuthorizationInfoBuilder()
+      .withParameters({
+        sessionStatus,
+        certificationCenterArchived: false,
+        invigilatorPassword: 'CORRECT_PASSWORD',
+        certificationCenterId: 456,
+      })
+      .build();
 
-    invigilatorSessionRepository.get.resolves(session);
-    certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-    certificationCenterAccessRepository.getCertificationCenterAccess.resolves(
-      domainBuilder.certification.sessionManagement.buildAllowedCertificationCenterAccess(),
-    );
+    sessionAuthorizationInfoRepository.findBySessionId.withArgs({ sessionId: 123 }).resolves(sessionAuthorizationInfo);
 
     // when
     const error = await catchErr(superviseSession)({
-      sessionId,
-      invigilatorPassword: session.invigilatorPassword,
-      userId,
-      invigilatorSessionRepository,
-      invigilatorAccessRepository,
-      certificationCenterRepository,
-      certificationCenterAccessRepository,
+      sessionId: 123,
+      invigilatorPassword: 'CORRECT_PASSWORD',
+      userId: 789,
+      ...dependencies,
     });
 
     // then
@@ -103,61 +103,177 @@ describe('Unit | UseCase | supervise-session', function () {
 
   it('should a Certification center is archived error when certification center is archived', async function () {
     // given
-    const sessionId = 123;
-    const session = new InvigilatorSession({
-      finalizedAt: null,
-      invigilatorPassword: 'PASSWORD',
-    });
-    const userId = 434;
+    const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().started().build();
+    const sessionAuthorizationInfo = domainBuilder.certification.sessionManagement
+      .sessionAuthorizationInfoBuilder()
+      .withParameters({
+        sessionStatus,
+        certificationCenterArchived: true,
+        invigilatorPassword: 'CORRECT_PASSWORD',
+        certificationCenterId: 456,
+      })
+      .build();
 
-    invigilatorSessionRepository.get.resolves(session);
-    certificationCenterRepository.getBySessionId.resolves({ archivedAt: new Date(), archivedBy: 1234 });
-    certificationCenterAccessRepository.getCertificationCenterAccess.resolves(
-      domainBuilder.certification.sessionManagement.buildAllowedCertificationCenterAccess(),
-    );
+    sessionAuthorizationInfoRepository.findBySessionId.withArgs({ sessionId: 123 }).resolves(sessionAuthorizationInfo);
+    certificationCenterAccessRepository.getCertificationCenterAccess
+      .withArgs({ certificationCenterId: 456 })
+      .resolves(domainBuilder.certification.sessionManagement.buildAllowedCertificationCenterAccess());
 
     // when
     const error = await catchErr(superviseSession)({
-      sessionId,
-      invigilatorPassword: session.invigilatorPassword,
-      userId,
-      invigilatorSessionRepository,
-      invigilatorAccessRepository,
-      certificationCenterRepository,
-      certificationCenterAccessRepository,
+      sessionId: 123,
+      invigilatorPassword: 'CORRECT_PASSWORD',
+      userId: 789,
+      ...dependencies,
     });
 
     // then
     expect(error).to.be.an.instanceOf(CertificationCenterIsArchivedError);
   });
 
-  context('when certification center has SCO blocked access', function () {
+  context('when certification center has blocked accesses', function () {
     it('should throw SessionNotJoinable when college is blocked', async function () {
       // given
-      const sessionId = 123;
-      const certificationCenterId = 456;
-      const session = domainBuilder.certification.sessionManagement.buildSessionManagement.created({ id: sessionId });
-      const userId = 434;
-      const certificationCenter = domainBuilder.buildCertificationCenter({ id: certificationCenterId });
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().started().build();
+      const sessionAuthorizationInfo = domainBuilder.certification.sessionManagement
+        .sessionAuthorizationInfoBuilder()
+        .withParameters({
+          sessionStatus,
+          certificationCenterArchived: false,
+          invigilatorPassword: 'CORRECT_PASSWORD',
+          certificationCenterId: 456,
+        })
+        .build();
       const blockedCertificationCenterAccess =
         domainBuilder.certification.sessionManagement.buildAllowedCertificationCenterAccess({
           isAccessBlockedCollege: true,
           pixCertifScoBlockedAccessDateCollege: '2021-01-01',
         });
 
-      invigilatorSessionRepository.get.resolves(session);
-      certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-      certificationCenterAccessRepository.getCertificationCenterAccess.resolves(blockedCertificationCenterAccess);
+      sessionAuthorizationInfoRepository.findBySessionId
+        .withArgs({ sessionId: 123 })
+        .resolves(sessionAuthorizationInfo);
+      certificationCenterAccessRepository.getCertificationCenterAccess
+        .withArgs({ certificationCenterId: 456 })
+        .resolves(blockedCertificationCenterAccess);
 
       // when
       const error = await catchErr(superviseSession)({
-        sessionId,
-        invigilatorPassword: session.invigilatorPassword,
-        userId,
-        invigilatorSessionRepository,
-        invigilatorAccessRepository,
-        certificationCenterRepository,
-        certificationCenterAccessRepository,
+        sessionId: 123,
+        invigilatorPassword: 'CORRECT_PASSWORD',
+        userId: 789,
+        ...dependencies,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(SessionNotJoinable);
+    });
+
+    it('should throw SessionNotJoinable when lycee is blocked', async function () {
+      // given
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().started().build();
+      const sessionAuthorizationInfo = domainBuilder.certification.sessionManagement
+        .sessionAuthorizationInfoBuilder()
+        .withParameters({
+          sessionStatus,
+          certificationCenterArchived: false,
+          invigilatorPassword: 'CORRECT_PASSWORD',
+          certificationCenterId: 456,
+        })
+        .build();
+      const blockedCertificationCenterAccess =
+        domainBuilder.certification.sessionManagement.buildAllowedCertificationCenterAccess({
+          isAccessBlockedLycee: true,
+          pixCertifScoBlockedAccessDateLycee: '2021-01-01',
+        });
+
+      sessionAuthorizationInfoRepository.findBySessionId
+        .withArgs({ sessionId: 123 })
+        .resolves(sessionAuthorizationInfo);
+      certificationCenterAccessRepository.getCertificationCenterAccess
+        .withArgs({ certificationCenterId: 456 })
+        .resolves(blockedCertificationCenterAccess);
+
+      // when
+      const error = await catchErr(superviseSession)({
+        sessionId: 123,
+        invigilatorPassword: 'CORRECT_PASSWORD',
+        userId: 789,
+        ...dependencies,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(SessionNotJoinable);
+    });
+
+    it('should throw SessionNotJoinable when aefe is blocked', async function () {
+      // given
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().started().build();
+      const sessionAuthorizationInfo = domainBuilder.certification.sessionManagement
+        .sessionAuthorizationInfoBuilder()
+        .withParameters({
+          sessionStatus,
+          certificationCenterArchived: false,
+          invigilatorPassword: 'CORRECT_PASSWORD',
+          certificationCenterId: 456,
+        })
+        .build();
+      const blockedCertificationCenterAccess =
+        domainBuilder.certification.sessionManagement.buildAllowedCertificationCenterAccess({
+          isAccessBlockedAEFE: true,
+          pixCertifScoBlockedAccessDateLycee: '2021-01-01',
+        });
+
+      sessionAuthorizationInfoRepository.findBySessionId
+        .withArgs({ sessionId: 123 })
+        .resolves(sessionAuthorizationInfo);
+      certificationCenterAccessRepository.getCertificationCenterAccess
+        .withArgs({ certificationCenterId: 456 })
+        .resolves(blockedCertificationCenterAccess);
+
+      // when
+      const error = await catchErr(superviseSession)({
+        sessionId: 123,
+        invigilatorPassword: 'CORRECT_PASSWORD',
+        userId: 789,
+        ...dependencies,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(SessionNotJoinable);
+    });
+
+    it('should throw SessionNotJoinable when agri is blocked', async function () {
+      // given
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().started().build();
+      const sessionAuthorizationInfo = domainBuilder.certification.sessionManagement
+        .sessionAuthorizationInfoBuilder()
+        .withParameters({
+          sessionStatus,
+          certificationCenterArchived: false,
+          invigilatorPassword: 'CORRECT_PASSWORD',
+          certificationCenterId: 456,
+        })
+        .build();
+      const blockedCertificationCenterAccess =
+        domainBuilder.certification.sessionManagement.buildAllowedCertificationCenterAccess({
+          isAccessBlockedAgri: true,
+          pixCertifScoBlockedAccessDateLycee: '2021-01-01',
+        });
+
+      sessionAuthorizationInfoRepository.findBySessionId
+        .withArgs({ sessionId: 123 })
+        .resolves(sessionAuthorizationInfo);
+      certificationCenterAccessRepository.getCertificationCenterAccess
+        .withArgs({ certificationCenterId: 456 })
+        .resolves(blockedCertificationCenterAccess);
+
+      // when
+      const error = await catchErr(superviseSession)({
+        sessionId: 123,
+        invigilatorPassword: 'CORRECT_PASSWORD',
+        userId: 789,
+        ...dependencies,
       });
 
       // then
@@ -167,31 +283,31 @@ describe('Unit | UseCase | supervise-session', function () {
 
   it('should create an invigilator access', async function () {
     // given
-    const sessionId = 123;
-    const userId = 434;
-    const session = new InvigilatorSession({
-      finalizedAt: null,
-      invigilatorPassword: 'PASSWORD',
-    });
-
-    invigilatorSessionRepository.get.resolves(session);
-    certificationCenterRepository.getBySessionId.resolves({ archivedAt: null, archivedBy: null });
+    const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().started().build();
+    const sessionAuthorizationInfo = domainBuilder.certification.sessionManagement
+      .sessionAuthorizationInfoBuilder()
+      .withParameters({
+        sessionStatus,
+        certificationCenterArchived: false,
+        invigilatorPassword: 'CORRECT_PASSWORD',
+        certificationCenterId: 456,
+      })
+      .build();
+    sessionAuthorizationInfoRepository.findBySessionId.withArgs({ sessionId: 123 }).resolves(sessionAuthorizationInfo);
     certificationCenterAccessRepository.getCertificationCenterAccess.resolves(
       domainBuilder.certification.sessionManagement.buildAllowedCertificationCenterAccess(),
     );
+    invigilatorAccessRepository.create.resolves();
 
     // when
     await superviseSession({
-      sessionId,
-      invigilatorPassword: session.invigilatorPassword,
-      userId,
-      invigilatorSessionRepository,
-      invigilatorAccessRepository,
-      certificationCenterRepository,
-      certificationCenterAccessRepository,
+      sessionId: 123,
+      invigilatorPassword: 'CORRECT_PASSWORD',
+      userId: 789,
+      ...dependencies,
     });
 
     // then
-    expect(invigilatorAccessRepository.create).to.have.been.calledWithExactly({ sessionId, userId });
+    expect(invigilatorAccessRepository.create).to.have.been.calledWithExactly({ sessionId: 123, userId: 789 });
   });
 });

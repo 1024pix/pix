@@ -14,34 +14,21 @@ describe('Certification | Session-management | Unit | Domain | Read-models | Can
   });
 
   describe('#isSessionJoinable', function () {
-    it('returns true when session is neither finalized nor overtime', function () {
-      const twentyThreeHoursBefore = new Date();
-      twentyThreeHoursBefore.setHours(twentyThreeHoursBefore.getHours() - 23);
+    it('returns true when session is at most started', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().started().build();
       const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
         .candidateAuthorizationInfoBuilder()
-        .withSession({ finalizedAt: null, startedAt: twentyThreeHoursBefore })
+        .withSession({ sessionStatus })
         .build();
 
       expect(candidateAuthorizationInfo.isSessionJoinable).to.be.true;
     });
 
-    it('returns false when session is finalized', function () {
-      const twentyThreeHoursBefore = new Date();
-      twentyThreeHoursBefore.setHours(twentyThreeHoursBefore.getHours() - 23);
+    it('returns false when session is not at most started', function () {
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().toFinalize().build();
       const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
         .candidateAuthorizationInfoBuilder()
-        .withSession({ finalizedAt: new Date(), startedAt: twentyThreeHoursBefore })
-        .build();
-
-      expect(candidateAuthorizationInfo.isSessionJoinable).to.be.false;
-    });
-
-    it('returns false when session has been started more than 24 hours before and thus is overtime', function () {
-      const twentyFiveHoursBefore = new Date();
-      twentyFiveHoursBefore.setHours(twentyFiveHoursBefore.getHours() - 25);
-      const candidateAuthorizationInfo = domainBuilder.certification.sessionManagement
-        .candidateAuthorizationInfoBuilder()
-        .withSession({ finalizedAt: null, startedAt: twentyFiveHoursBefore })
+        .withSession({ sessionStatus })
         .build();
 
       expect(candidateAuthorizationInfo.isSessionJoinable).to.be.false;

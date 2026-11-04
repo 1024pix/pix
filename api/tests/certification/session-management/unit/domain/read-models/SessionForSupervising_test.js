@@ -81,42 +81,26 @@ describe('Certification | Session-management | Unit | Domain | Read-models | Ses
     });
   });
 
-  describe('#get hasExpired', function () {
-    it('returns false when session has no started certification', function () {
-      const sessionForSupervising = domainBuilder.certification.sessionManagement
-        .sessionForSupervisingBuilder()
-        .addCandidate({
-          startDateTime: null,
-        })
-        .build();
+  describe('SessionForSupervising', function () {
+    describe('#get hasExpired', function () {
+      it('returns true when session is at least to_finalize', function () {
+        const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().toFinalize().build();
+        const sessionForSupervising = domainBuilder.certification.sessionManagement
+          .sessionForSupervisingBuilder()
+          .withParameters({ sessionStatus })
+          .build();
 
-      expect(sessionForSupervising.hasExpired).to.be.false;
-    });
+        expect(sessionForSupervising.hasExpired).to.be.true;
+      });
+      it('returns false when session is not at least to_finalize', function () {
+        const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().started().build();
+        const sessionForSupervising = domainBuilder.certification.sessionManagement
+          .sessionForSupervisingBuilder()
+          .withParameters({ sessionStatus })
+          .build();
 
-    it('returns false when session has a started certification since below 24 hours', function () {
-      const startDateTime = new Date();
-      startDateTime.setHours(startDateTime.getHours() - 23);
-      const sessionForSupervising = domainBuilder.certification.sessionManagement
-        .sessionForSupervisingBuilder()
-        .addCandidate({
-          startDateTime,
-        })
-        .build();
-
-      expect(sessionForSupervising.hasExpired).to.be.false;
-    });
-
-    it('returns true when session has a started certification for more than 24 hours', function () {
-      const startDateTime = new Date();
-      startDateTime.setHours(startDateTime.getHours() - 25);
-      const sessionForSupervising = domainBuilder.certification.sessionManagement
-        .sessionForSupervisingBuilder()
-        .addCandidate({
-          startDateTime,
-        })
-        .build();
-
-      expect(sessionForSupervising.hasExpired).to.be.true;
+        expect(sessionForSupervising.hasExpired).to.be.false;
+      });
     });
   });
 });
