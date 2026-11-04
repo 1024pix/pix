@@ -1,5 +1,48 @@
 # Pix Changelog
 
+# [5.537.0](https://github.com/1024pix/pix/compare/v5.536.0...v5.537.0) (2026-11-04)
+
+### :rocket: Amélioration
+
+- [#18598](https://github.com/1024pix/pix/pull/18598) Modifier la valeur de la traduction pour le résumé de la page d'analyse de campagne (PIX-24787).
+- [#18597](https://github.com/1024pix/pix/pull/18597) Permettre de renseigner une durée de parcours combiné dans Admin et de l'afficher dans Admin (PIX-24487)
+- [#18574](https://github.com/1024pix/pix/pull/18574) Rendre accessible la page de scoring d'une version Pix+ sans calibration (PIX-24898).
+
+### :bug: Correction
+
+- [#18518](https://github.com/1024pix/pix/pull/18518) Corriger le comptage des participations par palier pour les campagnes volumineuses (PIX-24887)
+
+### :building_construction: Tech
+
+- [#18614](https://github.com/1024pix/pix/pull/18614) Ignorer l'ordre des results dans un test de `complementary-certification-course-repository`
+- [#18459](https://github.com/1024pix/pix/pull/18459) Introduction de nouvelles tables permettant de conserver les résultats de certification, calculés à la publication de la session (PIX-24907)
+- [#18522](https://github.com/1024pix/pix/pull/18522) Migration pour ajouter une colonne durationSpan dans combined_course_blueprints
+- [#18610](https://github.com/1024pix/pix/pull/18610) Ne plus dépendre de l'ordre SQL dans le test du script d'attachement des CDC aux organisations
+- [#18612](https://github.com/1024pix/pix/pull/18612) Rendre le test de findExistingIds indépendant de l'ordre des résultats
+- [#18417](https://github.com/1024pix/pix/pull/18417) Répandre un peu l'usage du SessionStatus value-object et du SessionAuthorizationInfo pour centraliser les règles métier autour du statut d'une session
+- [#18577](https://github.com/1024pix/pix/pull/18577) Retirer toutes les utilisations des crédits v1 dans le code côté API (PIX-24694)
+
+### :arrow_up: Montée de version
+
+- [#18608](https://github.com/1024pix/pix/pull/18608) Update aws-sdk-js-v3 monorepo to v3.1158.0 (api)
+- [#18625](https://github.com/1024pix/pix/pull/18625) Update dependency @1024pix/eslint-plugin to v3.0.20 (admin)
+- [#18626](https://github.com/1024pix/pix/pull/18626) Update dependency @1024pix/eslint-plugin to v3.0.20 (api)
+- [#18627](https://github.com/1024pix/pix/pull/18627) Update dependency @1024pix/eslint-plugin to v3.0.20 (audit-logger)
+- [#18628](https://github.com/1024pix/pix/pull/18628) Update dependency @1024pix/eslint-plugin to v3.0.20 (certif)
+- [#18629](https://github.com/1024pix/pix/pull/18629) Update dependency @1024pix/eslint-plugin to v3.0.20 (e2e-playwright)
+- [#18630](https://github.com/1024pix/pix/pull/18630) Update dependency @1024pix/eslint-plugin to v3.0.20 (junior)
+- [#18631](https://github.com/1024pix/pix/pull/18631) Update dependency @1024pix/eslint-plugin to v3.0.20 (mon-pix)
+- [#18632](https://github.com/1024pix/pix/pull/18632) Update dependency @1024pix/eslint-plugin to v3.0.20 (orga)
+- [#18634](https://github.com/1024pix/pix/pull/18634) Update dependency @graphql-yoga/subscription to v6 (api)
+- [#18620](https://github.com/1024pix/pix/pull/18620) Update dependency baseline-browser-mapping to v2.11.34 (e2e-playwright)
+- [#18228](https://github.com/1024pix/pix/pull/18228) Update dependency ember-source to v6.12.1 (admin)
+- [#18609](https://github.com/1024pix/pix/pull/18609) Update dependency ember-source to v7.4.0 (orga)
+- [#18600](https://github.com/1024pix/pix/pull/18600) Update dependency i18next-browser-languagedetector to v8.2.3 (mon-pix)
+- [#18601](https://github.com/1024pix/pix/pull/18601) Update dependency i18next-browser-languagedetector to v8.2.3 (orga)
+- [#18602](https://github.com/1024pix/pix/pull/18602) Update dependency js-base64 to v3.9.5 (admin)
+- [#18603](https://github.com/1024pix/pix/pull/18603) Update dependency pako to v3.0.3 (admin)
+- [#18604](https://github.com/1024pix/pix/pull/18604) Update dependency postcss to v8.5.32 (orga)
+
 # [5.536.0](https://github.com/1024pix/pix/compare/v5.535.1...v5.536.0) (2026-11-03)
 
 ### :rocket: Amélioration
