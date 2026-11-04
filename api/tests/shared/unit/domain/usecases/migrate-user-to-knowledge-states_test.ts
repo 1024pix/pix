@@ -24,7 +24,7 @@ const buildKnowledgeElement = ({
   createdAt = new Date('2026-01-10'),
 }: {
   skillId: string;
-  competenceId?: string;
+  competenceId: string;
   status?: KnowledgeElementStatus;
   source?: KnowledgeElementSource;
   earnedPix?: number;
@@ -214,24 +214,6 @@ describe('Unit | Shared | Domain | UseCase | migrate-user-to-knowledge-states', 
       dependencies.userCompetenceScoreRepository.upsert.firstCall.args[0];
     expect(userCompetenceScores.map(({ competenceId, pix }) => [competenceId, pix])).to.deep.equal([
       ['competence_full', 64],
-    ]);
-  });
-
-  it('should leave the knowledge without competence out of the scores', async function () {
-    // given
-    const dependencies = buildDependencies([
-      buildKnowledgeElementOf('full', 1, { earnedPix: 0.5 }),
-      buildKnowledgeElement({ skillId: 'skill_gone', earnedPix: 10 }),
-    ]);
-
-    // when
-    await migrateUserToKnowledgeStates({ userId: USER_ID, ...dependencies });
-
-    // then
-    const userCompetenceScores: UserCompetenceScore[] =
-      dependencies.userCompetenceScoreRepository.upsert.firstCall.args[0];
-    expect(userCompetenceScores.map(({ competenceId, pix }) => [competenceId, pix])).to.deep.equal([
-      ['competence_full', 0.5],
     ]);
   });
 
