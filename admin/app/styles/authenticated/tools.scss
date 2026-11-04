@@ -32,3 +32,49 @@
     display: inline-flex;
   }
 }
+
+.knowledge-states-simulator {
+  &__upload {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+    margin-bottom: var(--pix-spacing-4x);
+  }
+
+  &__file-name {
+    font-family: monospace;
+  }
+
+  // Outranks the zebra striping of PixTable, set on the cells of even rows.
+  & .pix-table tbody > tr > td#{&}__reset-cell {
+    background-color: var(--pix-warning-50);
+  }
+
+  &__error {
+    margin-bottom: var(--pix-spacing-4x);
+  }
+
+  &__tabs {
+    margin-bottom: var(--pix-spacing-4x);
+
+    button {
+      padding: var(--pix-spacing-3x) var(--pix-spacing-4x);
+      color: var(--pix-neutral-900);
+      font: inherit;
+      background: none;
+      border: none;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+
+      &.active {
+        color: var(--pix-neutral-0);
+        font-weight: var(--pix-font-bold);
+        background-color: var(--pix-tab-color);
+      }
+
+      &:hover:not(.active) {
+        background-color: rgb(var(--pix-tab-color-inline), 30%);
+      }
+    }
+  }
+}

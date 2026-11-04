@@ -1620,6 +1620,9 @@
         "junior": {
           "label": "Junior"
         },
+        "knowledge-states": {
+          "label": "Knowledge states"
+        },
         "organizations": {
           "label": "Organizations"
         },
@@ -2246,6 +2249,76 @@
       }
     },
     "tools": {
+      "knowledge-states": {
+        "actions": {
+          "upload": "Upload the JSON file of knowledge elements"
+        },
+        "description": "Upload a JSON file with the knowledge elements of a user (array of rows of the knowledge-elements table) to see the knowledge states and competence scores the migration would produce. Nothing is read from or written to the database.",
+        "errors": {
+          "api": "The simulation failed: {detail}",
+          "invalid-json": "The JSON is invalid.",
+          "not-an-array": "The JSON must be an array of knowledge elements."
+        },
+        "knowledge-elements-table": {
+          "headers": {
+            "competence": "Competence",
+            "created-at": "Created at",
+            "earned-pix": "Pix",
+            "skill": "Skill",
+            "source": "Source",
+            "status": "Status"
+          }
+        },
+        "knowledge-states-table": {
+          "headers": {
+            "ceiling": "Ceiling",
+            "ceiling-at": "Ceiling at (latest failure above the floor)",
+            "direct-levels": "Direct levels",
+            "floor": "Floor",
+            "tube": "Tube",
+            "updated-at": "Updated at (last move)"
+          }
+        },
+        "labels": {
+          "knowledge-element-count": "Knowledge elements",
+          "knowledge-state-count": "Knowledge states",
+          "pix-score": "Score shown today, from the knowledge elements (pix)",
+          "pix-score-after-migration": "Score shown after the migration, from the stored scores and the knowledge states (pix)",
+          "pix-score-difference": "Difference after the migration (pix)",
+          "total-pix": "Sum of the stored scores (pix)",
+          "unknown-skill-count": "Skills unknown to the learning content"
+        },
+        "report-table": {
+          "headers": {
+            "indicator": "Indicator",
+            "value": "Value"
+          }
+        },
+        "scores-table": {
+          "headers": {
+            "competence": "Competence",
+            "displayed-pix": "Shown today",
+            "displayed-pix-after-migration": "Shown after the migration",
+            "pix": "Stored score (pix)",
+            "pix-from-knowledge-states": "Worth of the knowledge states (pix)"
+          }
+        },
+        "tabs": {
+          "aria-label": "Simulation results",
+          "knowledge-elements": "Knowledge elements of the file",
+          "knowledge-states": "Knowledge states per tube",
+          "report": "Report",
+          "scores": "Scores per competence",
+          "unknown-skills": "Skills unknown to the learning content"
+        },
+        "title": "Knowledge state migration simulator",
+        "unknown-skills-table": {
+          "empty": "No skill unknown to the learning content.",
+          "headers": {
+            "skill": "Skill unknown to the learning content"
+          }
+        }
+      },
       "navigation": {
         "aria-label": "Tools section navigation"
       }
