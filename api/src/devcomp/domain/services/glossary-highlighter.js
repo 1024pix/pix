@@ -12,63 +12,71 @@ export function highlightGlossaryWords(module) {
 
   if (words.length === 0) return module;
 
-  for (const section of module.sections) {
-    for (const grain of section.grains) {
-      for (const component of grain.components) {
-        _processComponent(component, words);
-      }
-    }
-  }
+  const updatedSections = module.sections.map((section) => ({
+    ...section,
+    grains: section.grains.map((grain) => ({
+      ...grain,
+      components: grain.components.map((component) => _processComponent(component, words)),
+    })),
+  }));
 
-  return module;
+  return { ...module, sections: updatedSections };
 }
 
 function _processComponent(component, words) {
+  let componentCopy = { ...component };
   if (component.type === 'element') {
-    _processElement(component.element, words);
+    componentCopy.element = _processElement(componentCopy.element, words);
   } else if (component.type === 'stepper') {
-    _highlightField(component, 'instruction', words);
-    for (const step of component.steps) {
-      for (const element of step.elements) {
-        _processElement(element, words);
-      }
-    }
+    componentCopy = _highlightField(componentCopy, 'instruction', words);
+    componentCopy.steps = component.steps.map((step) => ({
+      ...step,
+      elements: step.elements.map((element) => _processElement(element, words)),
+    }));
   }
+
+  return componentCopy;
 }
 
 function _processElement(element, words) {
+  let elementCopy = { ...element };
   if (element.type === 'text') {
-    _highlightField(element, 'content', words);
+    elementCopy = _highlightField(elementCopy, 'content', words);
   }
 
-  _highlightField(element, 'instruction', words);
+  elementCopy = _highlightField(elementCopy, 'instruction', words);
+  elementCopy = _processFeedbacks(elementCopy, words);
 
-  _processFeedbacks(element, words);
+  return elementCopy;
 }
 
 function _processFeedbacks(element, words) {
-  if (element.feedback) {
-    element.feedback = _highlightFeedback(element.feedback, words);
+  const elementCopy = structuredClone(element);
+  if (elementCopy.feedback) {
+    elementCopy.feedback = _highlightFeedback(elementCopy.feedback, words);
   }
 
-  if (element.feedbacks) {
-    element.feedbacks.valid = _highlightFeedback(element.feedbacks.valid, words);
-    element.feedbacks.invalid = _highlightFeedback(element.feedbacks.invalid, words);
+  if (elementCopy.feedbacks) {
+    elementCopy.feedbacks.valid = _highlightFeedback(elementCopy.feedbacks.valid, words);
+    elementCopy.feedbacks.invalid = _highlightFeedback(elementCopy.feedbacks.invalid, words);
   }
 
-  for (const proposal of element.proposals ?? []) {
+  for (const proposal of elementCopy.proposals ?? []) {
     if (proposal.feedback) {
       proposal.feedback = _highlightFeedback(proposal.feedback, words);
     }
   }
+
+  return elementCopy;
 }
 
 function _highlightField(target, fieldName, words) {
-  if (typeof target[fieldName] !== 'string') return;
-  target[fieldName] = _replaceWordsInHtml(target[fieldName], words);
+  if (typeof target[fieldName] !== 'string') return target;
+  const highlightedFieldName = _replaceWordsInHtml(target[fieldName], words);
+
+  return { ...target, [fieldName]: highlightedFieldName };
 }
 
-// Feedback objects come straight from the cached learning content: copy them instead of mutating.
 function _highlightFeedback(feedback, words) {
   if (typeof feedback?.diagnosis !== 'string') return feedback;
   return { ...feedback, diagnosis: _replaceWordsInHtml(feedback.diagnosis, words) };
