@@ -7,6 +7,7 @@ import * as userCompetenceScoreRepository from '../../infrastructure/repositorie
 import { injectDependencies } from '../../infrastructure/utils/dependency-injection.js';
 import { findCountries } from './find-countries.js';
 import { migrateUserToKnowledgeStates } from './migrate-user-to-knowledge-states.ts';
+import { simulateKnowledgeStateMigration } from './simulate-knowledge-state-migration.ts';
 
 const dependencies = {
   ...sharedInjectedRepositories,
@@ -19,6 +20,7 @@ const dependencies = {
 const usecasesWithoutInjectedDependencies = {
   findCountries,
   migrateUserToKnowledgeStates,
+  simulateKnowledgeStateMigration,
 };
 
 const sharedUsecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
