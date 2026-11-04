@@ -19,7 +19,7 @@ import { eq, gt } from 'ember-truth-helpers';
 
 import Card from '../../card';
 
-const uniqById = (items) => {
+const removeDuplicates = (items) => {
   const seenIds = new Set();
   return items.filter((item) => {
     if (seenIds.has(item.id)) return false;
@@ -160,9 +160,9 @@ export default class ContentSection extends Component {
     const thematics = competences.flatMap((competence) => competence.thematics);
 
     const childrenOf = (nodes, parentId, key) =>
-      uniqById(nodes.filter((node) => node.id === parentId).flatMap((node) => node[key]));
+      removeDuplicates(nodes.filter((node) => node.id === parentId).flatMap((node) => node[key]));
 
-    const sortedAreas = uniqById(areas).map((area) => ({
+    const sortedAreas = removeDuplicates(areas).map((area) => ({
       ...area,
       sortedCompetences: sortByIndex(childrenOf(areas, area.id, 'competences')).map((competence) => ({
         ...competence,
