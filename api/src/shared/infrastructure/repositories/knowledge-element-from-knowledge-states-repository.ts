@@ -112,13 +112,6 @@ export const findUniqByUserIds = async (
   );
 };
 
-// Two saves of the same user at once would read the same knowledge states
-// and scores, and the last one would overwrite the first: they take turns.
-const lockUser = async (userId: number) => {
-  const knexConn = DomainTransaction.getConnection();
-  await knexConn.raw("SELECT pg_advisory_xact_lock(hashtext('knowledge_states'), ?)", [userId]);
-};
-
 // A reset knowledge element carries the date of the one it resets: the save dates every move.
 const withoutDate = (knowledgeElements: KnowledgeElement[]): KnowledgeElement[] =>
   knowledgeElements.map((knowledgeElement) => new KnowledgeElement({ ...knowledgeElement, createdAt: undefined }));
@@ -165,7 +158,7 @@ const saveForUser = async (
   skills: Skill[],
   at: Date,
 ): Promise<KnowledgeElement[]> => {
-  await lockUser(userId);
+  await knowledgeStateRepository.lockUser(userId);
   const knowledgeStatesBefore = await knowledgeStateRepository.findByUserId(userId);
   const userCompetenceScores = await userCompetenceScoreRepository.findByUserId(userId);
 
