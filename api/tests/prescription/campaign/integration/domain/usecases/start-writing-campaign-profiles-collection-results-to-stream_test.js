@@ -114,7 +114,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
       databaseBuilder.factory.learningContent.buildCompetence({
         id: 'recCompetence1',
         index: '2',
-        name_i18n: { fr: 'nom en français recCompetence1' },
+        name_i18n: { fr: 'nom en français recCompetence1', es: 'Viva españa 1' },
         areaId: 'recArea1',
         skillIds: [skillWeb1.id, skillWeb2.id, skillWeb3.id],
         origin: 'Pix',
@@ -122,7 +122,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
       databaseBuilder.factory.learningContent.buildCompetence({
         id: 'recCompetence2',
         index: '3',
-        name_i18n: { fr: 'nom en français recCompetence2' },
+        name_i18n: { fr: 'nom en français recCompetence2', es: 'Viva la sangria 2' },
         areaId: 'recArea2',
         skillIds: [skillUrl1.id, skillUrl8.id],
         origin: 'Pix',
@@ -183,6 +183,27 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         });
 
         await databaseBuilder.commit();
+      });
+      it('should return localized content according to locale', async function () {
+        await startWritingCampaignProfilesCollectionResultsToStream({
+          campaignId: campaign.id,
+          writableStream,
+          locale: 'es-419',
+          campaignRepository,
+          userRepository,
+          competenceRepository,
+          organizationRepository,
+          campaignParticipationRepository,
+          placementProfileService,
+          organizationFeatureApi,
+        });
+
+        const csv = await text(writableStream);
+        const cells = csv.split('\n');
+
+        expect(cells[0]).to.be.equals(
+          '"Nombre de la organización";"ID Campagne";"Código";"Nombre de la campaña";"Nombre del participante";"Nombre del participante";"Enviar (sí/no)";"Fecha y ora de expedición (Europa/París)";"Número total de píxeles";"Certificable (sí/no)";"Número de competencias certificables";"Nivel de la habilidad Viva españa 1";"Número de píxeles de la habilidad Viva españa 1";"Nivel de la habilidad Viva la sangria 2";"Número de píxeles de la habilidad Viva la sangria 2"',
+        );
       });
 
       it('should return all participation for one learner', async function () {
