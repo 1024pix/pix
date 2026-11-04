@@ -1,0 +1,14 @@
+.module-glossary-tooltip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  width: max-content;
+  max-width: 400px;
+  color: var(--pix-neutral-900);
+  background-color: var(--pix-neutral-0);
+
+  &--visible {
+    display: block;
+  }
+}
