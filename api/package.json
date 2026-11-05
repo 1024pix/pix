@@ -169,7 +169,8 @@
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
     "xml2js": "0.6.2",
     "xmlbuilder2": "4.0.3",
-    "yargs": "18.2.0"
+    "yargs": "18.2.0",
+    "zip-stream": "7.0.5"
   },
   "devDependencies": {
     "@1024pix/eslint-plugin": "3.0.20",

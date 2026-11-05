@@ -124,8 +124,8 @@ async function register(server) {
         tags: ['api', 'sessions', 'certificates'],
         notes: [
           'Cette route est restreinte aux utilisateurs ayant un rôle Super Admin, Certif ou Support.',
-          'Elle retourne un fichier Zip contenant un fichier PDF par session sélectionnée.',
-          'Chaque PDF représente un certificat.',
+          "Elle retourne le stream d'un fichier Zip contenant un fichier PDF par session sélectionnée.",
+          'Chaque page des PDFs représente un certificat.',
         ],
       },
     },

@@ -1,10 +1,13 @@
+import { PassThrough } from 'node:stream';
+
 import dayjs from 'dayjs';
+import ZipStream from 'zip-stream';
 
 import { config } from '../../../../config/config.js';
 import { addCorrelationInfos } from '../../../shared/infrastructure/execution-context-manager.js';
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
 import { generateHash } from '../../../shared/infrastructure/utils/crypto.js';
-import { SCOPES } from '../../../shared/infrastructure/utils/logger.js';
+import { logger, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { getChallengeLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { normalizeAndRemoveAccents } from '../../../shared/infrastructure/utils/string-utils.js';
 import { Certificate } from '../domain/models/v3/Certificate.js';
@@ -175,16 +178,30 @@ async function downloadDivisionCertificates(
 async function downloadSelectedSessionsCertificates(request, h) {
   const { isFrenchDomainExtension, sessionIds } = request.query;
   const i18n = getI18nFromRequest(request);
-  const { filename, content: certificatesZipContent } = await usecases.getSelectedSessionsCertificates({
-    sessionIds,
-    isFrenchDomainExtension,
-    i18n,
-  });
+
+  const archive = new ZipStream();
+  const writableStream = new PassThrough();
+
+  archive.on('error', (error) => writableStream.destroy(error));
+  archive.pipe(writableStream);
+  request.events.once('disconnect', () => archive.destroy());
+
+  usecases
+    .getSelectedSessionsCertificates({
+      archive,
+      sessionIds,
+      isFrenchDomainExtension,
+      i18n,
+    })
+    .catch((error) => {
+      logger.error(error, '[selected sessions download] Error while generating certificates zip');
+      archive.destroy(error);
+    });
 
   return h
-    .response(certificatesZipContent)
+    .response(writableStream)
     .code(200)
-    .header('Content-Disposition', `attachment; filename=${filename}`)
+    .header('Content-Disposition', `attachment; filename=pix-sessions-certificates-${Date.now()}.zip`)
     .header('Content-Type', 'application/zip');
 }
 

@@ -404,38 +404,6 @@ module('Integration | Component | sessions | list-items', function (hooks) {
                 t('pages.sessions.table.errors.download-certificates-error'),
               );
             });
-
-            module('when no selected session has certificates to download', function () {
-              test('it should display a dedicated error toast', async function (assert) {
-                // given
-                fileSaverStub = sinon
-                  .stub()
-                  .callsFake(() => Promise.reject([{ status: '422', code: 'NO_CERTIFICATES_TO_DOWNLOAD' }]));
-
-                const sessions = buildSessions();
-
-                // when
-                const screen = await render(
-                  <template><ListItems @sessions={{sessions}} @triggerFiltering={{triggerFiltering}} /></template>,
-                );
-
-                await click(
-                  screen.getByRole('checkbox', {
-                    name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }),
-                  }),
-                );
-                await click(
-                  screen.getByRole('button', { name: t('pages.sessions.table.actions.download-certificates') }),
-                );
-
-                // then
-                assert.ok(notificationErrorStub.calledOnce);
-                assert.strictEqual(
-                  notificationErrorStub.firstCall.args[0].message,
-                  t('pages.sessions.table.errors.download-certificates-no-certificates-error'),
-                );
-              });
-            });
           });
         });
       });

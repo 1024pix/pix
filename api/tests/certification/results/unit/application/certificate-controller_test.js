@@ -1,6 +1,9 @@
+import { EventEmitter } from 'node:events';
+
 import { expect } from 'chai';
 import dayjs from 'dayjs';
 import sinon from 'sinon';
+import ZipStream from 'zip-stream';
 
 import { certificateController } from '../../../../../src/certification/results/application/certificate-controller.js';
 import { CERTIFICATE_LABEL_CONTEXTS } from '../../../../../src/certification/results/domain/models/v3/CertificateMeshLevel.js';
@@ -8,6 +11,7 @@ import { CertificationCourseVersion } from '../../../../../src/certification/res
 import { usecases } from '../../../../../src/certification/results/domain/usecases/index.js';
 import { AlgorithmEngineVersion } from '../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { getI18nFromRequest } from '../../../../../src/shared/infrastructure/i18n/i18n.js';
+import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
@@ -338,6 +342,78 @@ describe('Certification | Results | Unit | Application | certificate-controller'
           'attachment; filename=20190101_attestations_3b.pdf',
         );
       });
+    });
+  });
+
+  describe('#downloadSelectedSessionsCertificates', function () {
+    it('should return certificates in zip format', async function () {
+      // given
+      const now = new Date('2019-01-01T05:06:07Z');
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
+
+      const request = {
+        events: new EventEmitter(),
+        query: { isFrenchDomainExtension: true, sessionIds: [1, 2] },
+      };
+      const getSelectedSessionsCertificatesStub = sinon.stub(usecases, 'getSelectedSessionsCertificates').resolves();
+
+      // when
+      const response = await certificateController.downloadSelectedSessionsCertificates(request, hFake);
+
+      // then
+      expect(getSelectedSessionsCertificatesStub).calledOnceWithExactly({
+        archive: sinon.match.instanceOf(ZipStream),
+        sessionIds: [1, 2],
+        isFrenchDomainExtension: true,
+        i18n: getI18nFromRequest(request),
+      });
+      expect(response.headers['Content-Disposition']).to.equal(
+        `attachment; filename=pix-sessions-certificates-${now.getTime()}.zip`,
+      );
+    });
+
+    it('should destroy the archive when the client disconnects', async function () {
+      // given
+      const request = {
+        events: new EventEmitter(),
+        query: { isFrenchDomainExtension: true, sessionIds: [1, 2] },
+      };
+      const getSelectedSessionsCertificatesStub = sinon.stub(usecases, 'getSelectedSessionsCertificates').resolves();
+
+      await certificateController.downloadSelectedSessionsCertificates(request, hFake);
+      const { archive } = getSelectedSessionsCertificatesStub.firstCall.args[0];
+
+      // when
+      request.events.emit('disconnect');
+
+      // then
+      expect(archive.destroyed).to.be.true;
+    });
+
+    it('should destroy the response stream when the certificates generation fails', async function () {
+      // given
+      const request = {
+        events: new EventEmitter(),
+        query: { isFrenchDomainExtension: true, sessionIds: [1, 2] },
+      };
+      const generationError = new Error('PDF generation failed');
+      const getSelectedSessionsCertificatesStub = sinon
+        .stub(usecases, 'getSelectedSessionsCertificates')
+        .rejects(generationError);
+      sinon.stub(logger, 'error');
+
+      // when
+      const response = await certificateController.downloadSelectedSessionsCertificates(request, hFake);
+      const streamError = await new Promise((resolve) => response.source.once('error', resolve));
+
+      // then
+      const { archive } = getSelectedSessionsCertificatesStub.firstCall.args[0];
+      expect(streamError).to.equal(generationError);
+      expect(archive.destroyed).to.be.true;
+      expect(logger.error).to.have.been.calledOnceWithExactly(
+        generationError,
+        '[selected sessions download] Error while generating certificates zip',
+      );
     });
   });
 });
