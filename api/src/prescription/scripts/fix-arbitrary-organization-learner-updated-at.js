@@ -7,13 +7,17 @@ import { batchUpdate } from '../../shared/infrastructure/utils/knex-utils.js';
 
 const DEFAULT_BATCH_SIZE = 1000;
 const DEFAULT_THROTTLE_DELAY = 300;
+const DEFAULT_START_ID = 22650044;
+const DEFAULT_END_ID = 23783593;
+
+const ARBITRARY_DATE_RANGE = ['2022-02-23T09:00:00.000000+01:00', '2022-02-23T15:59:59.999999+01:00'];
 
 export class FixArbitraryOrganizationLearnerUpdatedAtScript extends Script {
   constructor() {
     super({
       description:
         'Fixes the createdAt & updatedAt of organization-learners with their first participation date, for learners with arbitrary createdAt & updatedAt',
-      permanent: true,
+      permanent: false,
       options: {
         dryRun: {
           type: 'boolean',
@@ -30,6 +34,16 @@ export class FixArbitraryOrganizationLearnerUpdatedAtScript extends Script {
           describe: 'Delay between batches in milliseconds',
           default: DEFAULT_THROTTLE_DELAY,
         },
+        startId: {
+          type: 'number',
+          describe: 'ID of the first organization-learner to scan',
+          default: DEFAULT_START_ID,
+        },
+        endId: {
+          type: 'number',
+          describe: 'ID of the last organization-learner to scan',
+          default: DEFAULT_END_ID,
+        },
       },
     });
   }
@@ -37,7 +51,7 @@ export class FixArbitraryOrganizationLearnerUpdatedAtScript extends Script {
   // Avec cette requête SQL on va :
   // Mettre à jour le createdAt & updatedAt d'un learner avec sa date de participation la plus ancienne
   // Pour tous les learners qui ont une participation plus ancienne que leur createdAt & updatedAt
-  // Avec un createdAt & updatedAt le 23 février 2022 entre minuit et 23h59 9h et 15h59 (plage de lancement du script création de learners pour décrocher les infos des users)
+  // Avec un createdAt & updatedAt le 23 février 2022 entre 9h et 15h59 (plage de lancement du script création de learners pour décrocher les infos des users)
 
   // ---------------------------------------------------------------------------------
 
@@ -46,47 +60,36 @@ export class FixArbitraryOrganizationLearnerUpdatedAtScript extends Script {
 
   // ---------------------------------------------------------------------------------
 
-  // Nombre de learners qui seront concernés par cette requête : 948 660
-  // 948 598
+  // Les learners concernés ont des ids compris entre 22650044 et 23783593 (créés par le script de 2022)
+  // On parcourt donc cette plage par tranches d'ids : chaque batch est un range scan borné sur la clé primaire
+  // Nombre de learners qui seront concernés par cette requête : 948 598
 
-  async findOrganizationLearnersWithArbitraryUpdatedAt({ idOffset, batchSize }) {
-    const dateRange = ['2022-02-23T09:00:00.000000+01:00', '2022-02-23T15:59:59.999999+01:00'];
-
+  async findOrganizationLearnersWithArbitraryUpdatedAt({ startId, endId }) {
     const knexConn = DomainTransaction.getConnection();
 
     return await knexConn('view-active-organization-learners as vaol')
       .select({ organizationLearnerId: 'vaol.id' })
       .min('cp.createdAt as firstParticipationDate')
       .join('campaign-participations as cp', 'cp.organizationLearnerId', 'vaol.id')
-      .whereNotNull('vaol.lastName')
-      .whereBetween('vaol.updatedAt', dateRange)
-      .whereBetween('vaol.createdAt', dateRange)
-      .where('cp.createdAt', '<', '2022-02-23')
-      .where('vaol.id', '>', idOffset)
+      .whereBetween('vaol.id', [startId, endId])
+      .whereNot('vaol.lastName', '')
+      .whereBetween('vaol.updatedAt', ARBITRARY_DATE_RANGE)
+      .whereBetween('vaol.createdAt', ARBITRARY_DATE_RANGE)
+      .where('cp.createdAt', '<', ARBITRARY_DATE_RANGE[0])
       .groupBy('vaol.id')
-      .orderBy('vaol.id')
-      .limit(batchSize);
+      .orderBy('vaol.id');
   }
 
   async handle({ options, logger }) {
-    const { batchSize, throttleDelay } = options;
+    const { dryRun, batchSize, throttleDelay, startId, endId } = options;
+    logger.info(`Script execution started with options ${JSON.stringify(options)}`);
 
     let batchNumber = 0;
     let updatedLearnersCount = 0;
-    let lastComputedOrganizationLearnerId = 0;
+    let currentStartId = startId;
 
-    while (true) {
-      const learnersToUpdate = await this.findOrganizationLearnersWithArbitraryUpdatedAt({
-        idOffset: lastComputedOrganizationLearnerId,
-        batchSize,
-      });
-      if (learnersToUpdate.length === 0) break;
-
-      lastComputedOrganizationLearnerId = learnersToUpdate[learnersToUpdate.length - 1].organizationLearnerId;
-
-      logger.info(`Batch #${++batchNumber}: ${learnersToUpdate.length} learners to update`);
-
-      updatedLearnersCount += learnersToUpdate.length;
+    while (currentStartId <= endId) {
+      const currentEndId = Math.min(currentStartId + batchSize - 1, endId);
 
       const learnersToUpdate = await this.findOrganizationLearnersWithArbitraryUpdatedAt({
         startId: currentStartId,
@@ -102,8 +105,6 @@ export class FixArbitraryOrganizationLearnerUpdatedAtScript extends Script {
       if (learnersToUpdate.length === 0) continue;
 
       await DomainTransaction.execute(async () => {
-        const knexConn = DomainTransaction.getConnection();
-
         await batchUpdate({
           tableName: 'organization-learners',
           primaryKeyName: 'id',
@@ -115,17 +116,19 @@ export class FixArbitraryOrganizationLearnerUpdatedAtScript extends Script {
           chunkSize: batchSize,
         });
 
-        if (options.dryRun) {
-          await knexConn.rollback();
+        updatedLearnersCount += learnersToUpdate.length;
+
+        if (dryRun) {
+          await DomainTransaction.getConnection().rollback();
         }
       });
 
       await setTimeout(throttleDelay);
     }
 
-    logger.info(`${updatedLearnersCount} learners ${options.dryRun ? 'to update' : 'updated'}`);
+    logger.info(`${updatedLearnersCount} learners ${dryRun ? 'would have been updated' : 'updated'}`);
 
-    if (options.dryRun) {
+    if (dryRun) {
       logger.info('ROLLBACK: no changes were persisted (dry run)');
       logger.info('change to --dryRun=false to persist changes');
     }

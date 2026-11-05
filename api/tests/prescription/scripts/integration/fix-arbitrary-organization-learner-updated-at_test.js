@@ -29,6 +29,16 @@ describe('Script | Prod | Fix Arbitrary Organization Learner Updated At', functi
         describe: 'Delay between batches in milliseconds',
         default: 300,
       });
+      expect(options.startId).to.deep.include({
+        type: 'number',
+        describe: 'ID of the first organization-learner to scan',
+        default: 22650044,
+      });
+      expect(options.endId).to.deep.include({
+        type: 'number',
+        describe: 'ID of the last organization-learner to scan',
+        default: 23783593,
+      });
     });
   });
 
@@ -62,6 +72,8 @@ describe('Script | Prod | Fix Arbitrary Organization Learner Updated At', functi
             batchSize: 10,
             throttleDelay: 0,
             dryRun: false,
+            startId: learner.id,
+            endId: learner.id,
           },
         });
 
@@ -103,6 +115,8 @@ describe('Script | Prod | Fix Arbitrary Organization Learner Updated At', functi
             batchSize: 1,
             throttleDelay: 0,
             dryRun: false,
+            startId: learner1.id,
+            endId: learner2.id,
           },
         });
 
@@ -112,8 +126,59 @@ describe('Script | Prod | Fix Arbitrary Organization Learner Updated At', functi
         expect(learner1InDatabase.updatedAt).deep.equal(new Date(dateBeforeRange));
         expect(learner2InDatabase.createdAt).deep.equal(new Date(otherDateBeforeRange));
         expect(learner2InDatabase.updatedAt).deep.equal(new Date(otherDateBeforeRange));
-        expect(logger.info).to.have.been.calledWith('Batch #1: 1 learners to update');
-        expect(logger.info).to.have.been.calledWith('Batch #2: 1 learners to update');
+        const lastBatchNumber = learner2.id - learner1.id + 1;
+        expect(logger.info).to.have.been.calledWith(
+          `Batch #1 (ids ${learner1.id} - ${learner1.id}): 1 learners to update`,
+        );
+        expect(logger.info).to.have.been.calledWith(
+          `Batch #${lastBatchNumber} (ids ${learner2.id} - ${learner2.id}): 1 learners to update`,
+        );
+        expect(logger.info).to.have.been.calledWith('2 learners updated');
+      });
+
+      it('does not update learners outside of the [startId, endId] range', async function () {
+        // given
+        const learnerInIdRange = databaseBuilder.factory.buildOrganizationLearner({
+          lastName: 'not empty',
+          createdAt: dateInRange,
+          updatedAt: dateInRange,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId: learnerInIdRange.id,
+          createdAt: dateBeforeRange,
+        });
+        const learnerOutOfIdRange = databaseBuilder.factory.buildOrganizationLearner({
+          lastName: 'not empty',
+          createdAt: dateInRange,
+          updatedAt: dateInRange,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId: learnerOutOfIdRange.id,
+          createdAt: dateBeforeRange,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        await script.handle({
+          logger,
+          options: {
+            batchSize: 10,
+            throttleDelay: 0,
+            dryRun: false,
+            startId: learnerInIdRange.id,
+            endId: learnerInIdRange.id,
+          },
+        });
+
+        // then
+        const learnerInIdRangeInDatabase = await knex('organization-learners')
+          .where({ id: learnerInIdRange.id })
+          .first();
+        const learnerOutOfIdRangeInDatabase = await knex('organization-learners')
+          .where({ id: learnerOutOfIdRange.id })
+          .first();
+        expect(learnerInIdRangeInDatabase.updatedAt).deep.equal(new Date(dateBeforeRange));
+        expect(learnerOutOfIdRangeInDatabase.updatedAt).deep.equal(new Date(dateInRange));
       });
     });
 
@@ -138,6 +203,8 @@ describe('Script | Prod | Fix Arbitrary Organization Learner Updated At', functi
             batchSize: 10,
             throttleDelay: 0,
             dryRun: true,
+            startId: learner.id,
+            endId: learner.id,
           },
         });
 
@@ -157,12 +224,7 @@ describe('Script | Prod | Fix Arbitrary Organization Learner Updated At', functi
 
     context('when learners have been created before or after the defined range', function () {
       it('does not return learners', async function () {
-        // when
-        const result = await script.findOrganizationLearnersWithArbitraryUpdatedAt({
-          idOffset: 0,
-          batchSize: 10,
-        });
-
+        // given
         const learnerBeforeRange = databaseBuilder.factory.buildOrganizationLearner({
           lastName: 'not empty',
           createdAt: dateBeforeRange,
@@ -183,6 +245,12 @@ describe('Script | Prod | Fix Arbitrary Organization Learner Updated At', functi
           createdAt: dateInRange,
         });
         await databaseBuilder.commit();
+
+        // when
+        const result = await script.findOrganizationLearnersWithArbitraryUpdatedAt({
+          startId: learnerBeforeRange.id,
+          endId: learnerAfterRange.id,
+        });
 
         // then
         expect(result).lengthOf(0);
@@ -219,8 +287,8 @@ describe('Script | Prod | Fix Arbitrary Organization Learner Updated At', functi
 
         // when
         const result = await script.findOrganizationLearnersWithArbitraryUpdatedAt({
-          idOffset: 0,
-          batchSize: 10,
+          startId: learnerWithParticipationBeforeRange.id,
+          endId: learnerInRangeWithParticipationAfterRange.id,
         });
 
         // then
@@ -254,15 +322,38 @@ describe('Script | Prod | Fix Arbitrary Organization Learner Updated At', functi
 
         // when
         const result = await script.findOrganizationLearnersWithArbitraryUpdatedAt({
-          idOffset: 0,
-          batchSize: 10,
+          startId: learnerWithParticipationWithinRange.id,
+          endId: learnerWithParticipationAfterRange.id,
         });
 
         // then
         expect(result).lengthOf(0);
       });
 
-      it('returns learner ID and firstParticipationDate in batch', async function () {
+      it('does not return learners with an empty lastName', async function () {
+        // given
+        const learnerWithEmptyLastName = databaseBuilder.factory.buildOrganizationLearner({
+          lastName: '',
+          createdAt: dateInRange,
+          updatedAt: dateInRange,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId: learnerWithEmptyLastName.id,
+          createdAt: dateBeforeRange,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const result = await script.findOrganizationLearnersWithArbitraryUpdatedAt({
+          startId: learnerWithEmptyLastName.id,
+          endId: learnerWithEmptyLastName.id,
+        });
+
+        // then
+        expect(result).lengthOf(0);
+      });
+
+      it('returns only learners whose ID is within [startId, endId]', async function () {
         // given
         const learnerWithParticipationBeforeRange1 = databaseBuilder.factory.buildOrganizationLearner({
           lastName: 'not empty',
@@ -290,8 +381,8 @@ describe('Script | Prod | Fix Arbitrary Organization Learner Updated At', functi
 
         // when
         const result1 = await script.findOrganizationLearnersWithArbitraryUpdatedAt({
-          idOffset: 0,
-          batchSize: 1,
+          startId: learnerWithParticipationBeforeRange1.id,
+          endId: learnerWithParticipationBeforeRange1.id,
         });
 
         // then
@@ -301,8 +392,8 @@ describe('Script | Prod | Fix Arbitrary Organization Learner Updated At', functi
 
         // re-when
         const result2 = await script.findOrganizationLearnersWithArbitraryUpdatedAt({
-          idOffset: learnerWithParticipationBeforeRange1.id,
-          batchSize: 1,
+          startId: learnerWithParticipationBeforeRange1.id + 1,
+          endId: learnerWithParticipationBeforeRange2.id,
         });
 
         // re-then
