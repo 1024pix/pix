@@ -1,8 +1,8 @@
 import { AllowedCertificationCenterAccess } from '../../../../src/organizational-entities/domain/read-models/AllowedCertificationCenterAccess.js';
 
-const ALLOWED_CERTIFICATION_CENTER_ACCESS_BUILDER_DEFAULT_ID = 123;
+export const ALLOWED_CERTIFICATION_CENTER_ACCESS_BUILDER_DEFAULT_ID = 123;
 
-function buildAllowedCertificationCenterAccess({
+export function buildAllowedCertificationCenterAccess({
   id = 123,
   name = 'Sunnydale Center',
   externalId = 'BUFFY_SLAYER',
@@ -41,5 +41,3 @@ buildAllowedCertificationCenterAccess.notSco = function ({
     isRelatedToManagingStudentsOrganization,
   });
 };
-
-export { ALLOWED_CERTIFICATION_CENTER_ACCESS_BUILDER_DEFAULT_ID, buildAllowedCertificationCenterAccess };

@@ -13,9 +13,7 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | SessionManagement | Unit | UseCase | supervise-session', function () {
-  let invigilatorAccessRepository;
-  let certificationCenterAccessRepository;
-  let sessionAuthorizationInfoRepository;
+  let invigilatorAccessRepository, certificationCenterAccessRepository, sessionAuthorizationInfoRepository;
   let dependencies;
 
   beforeEach(function () {

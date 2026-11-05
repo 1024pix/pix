@@ -16,6 +16,7 @@ describe('Unit | UseCase | reject-certification-course', function () {
       const certificationCourseRepository = { get: sinon.stub(), update: sinon.stub() };
       const certificationEvaluationRepository = { rescoreV2Certification: sinon.stub() };
       const courseAssessmentResultRepository = { getLatestAssessmentResult: sinon.stub() };
+
       const juryId = 123;
 
       const dependencies = {

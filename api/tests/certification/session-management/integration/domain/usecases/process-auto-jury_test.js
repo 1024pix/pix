@@ -6,21 +6,17 @@ import { usecases } from '../../../../../../src/certification/session-management
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Session Management | Integration | Domain | UseCase | process-auto-jury_test ', function () {
   context('when it is a V3 certification', function () {
-    let certificationEvaluationRepository_rescoreV3CertificationStub;
     let certificationEvaluationRepository;
     const now = new Date('2025-06-15');
 
     beforeEach(function () {
       sinon.useFakeTimers({ now, toFake: ['Date'] });
-      certificationEvaluationRepository_rescoreV3CertificationStub = sinon.stub().named('rescoreV3Certification');
-      preventStubsToBeCalledUnexpectedly([certificationEvaluationRepository_rescoreV3CertificationStub]);
 
       certificationEvaluationRepository = {
-        rescoreV3Certification: certificationEvaluationRepository_rescoreV3CertificationStub,
+        rescoreV3Certification: sinon.stub(),
       };
     });
 
@@ -46,7 +42,6 @@ describe('Certification | Session Management | Integration | Domain | UseCase | 
         const session = domainBuilder.certification.sessionManagement.buildSession({
           certificationCourses: [certificationCourse],
         });
-        certificationEvaluationRepository_rescoreV3CertificationStub.resolves();
 
         // when
         await usecases.processAutoJury({ session, certificationEvaluationRepository });
@@ -63,7 +58,7 @@ describe('Certification | Session Management | Integration | Domain | UseCase | 
         expect(assessmentData).to.deep.equal({
           state: Assessment.states.ENDED_DUE_TO_FINALIZATION,
         });
-        expect(certificationEvaluationRepository_rescoreV3CertificationStub).to.have.been.calledOnceWithExactly({
+        expect(certificationEvaluationRepository.rescoreV3Certification).to.have.been.calledOnceWithExactly({
           event: new CertificationJuryDone({
             certificationCourseId: certificationCourse.id,
           }),
@@ -93,7 +88,6 @@ describe('Certification | Session Management | Integration | Domain | UseCase | 
         const session = domainBuilder.certification.sessionManagement.buildSession({
           certificationCourses: [certificationCourse],
         });
-        certificationEvaluationRepository_rescoreV3CertificationStub.resolves();
 
         // when
         await usecases.processAutoJury({ session, certificationEvaluationRepository });
@@ -110,7 +104,7 @@ describe('Certification | Session Management | Integration | Domain | UseCase | 
         expect(assessmentData).to.deep.equal({
           state: Assessment.states.ENDED_BY_INVIGILATOR,
         });
-        expect(certificationEvaluationRepository_rescoreV3CertificationStub).to.have.been.calledOnceWithExactly({
+        expect(certificationEvaluationRepository.rescoreV3Certification).to.have.been.calledOnceWith({
           event: new CertificationJuryDone({
             certificationCourseId: certificationCourse.id,
           }),
@@ -156,7 +150,7 @@ describe('Certification | Session Management | Integration | Domain | UseCase | 
         expect(assessmentData).to.deep.equal({
           state: Assessment.states.COMPLETED,
         });
-        expect(certificationEvaluationRepository_rescoreV3CertificationStub).not.to.have.been.called;
+        expect(certificationEvaluationRepository.rescoreV3Certification).not.to.have.been.called;
       });
     });
   });

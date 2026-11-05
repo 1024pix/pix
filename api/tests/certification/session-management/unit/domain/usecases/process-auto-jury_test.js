@@ -23,6 +23,7 @@ describe('Unit | UseCase | process-auto-jury', function () {
       certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
       certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
       certificationEvaluationRepository = { rescoreV2Certification: sinon.stub() };
+
       challengeRepository = { get: sinon.stub() };
     });
 
