@@ -53,6 +53,7 @@ class DatamartBuilder {
       'target_profiles_course_duration',
       'men_dashboard_certification_dataset',
       'men_dashboard_participation_dataset',
+      'replication_metadata',
     ].forEach((tableName) => {
       rawQuery += `DELETE FROM ${tableName};`;
     });

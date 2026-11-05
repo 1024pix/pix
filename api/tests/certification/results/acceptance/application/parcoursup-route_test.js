@@ -1,101 +1,95 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { datamartBuilder } from '../../../../tooling/databases.js';
 import { getMaddoServer } from '../../../../tooling/server/shared-server.js';
 import { generateValidRequestAuthorizationHeaderForApplication } from '../../../../tooling/test-utils/http-server.js';
 
 describe('Certification | Results | Acceptance | Application | parcoursup-route', function () {
-  let server,
-    ine,
-    organizationUai,
-    lastName,
-    firstName,
-    birthdate,
-    PARCOURSUP_CLIENT_ID,
-    PARCOURSUP_SCOPE,
-    PARCOURSUP_SOURCE,
-    expectedCertification,
-    certificationResultData;
+  let server, PARCOURSUP_CLIENT_ID, PARCOURSUP_SCOPE, PARCOURSUP_SOURCE;
 
   beforeEach(async function () {
     server = await getMaddoServer();
-
     PARCOURSUP_CLIENT_ID = 'test-parcoursupClientId';
     PARCOURSUP_SCOPE = 'parcoursup';
     PARCOURSUP_SOURCE = 'parcoursup';
-
-    ine = '123456789OK';
-    organizationUai = 'UAI ETAB ELEVE';
-    lastName = 'NOM-ELEVE';
-    firstName = 'PRENOM-ELEVE';
-    birthdate = '2000-01-01';
-
-    certificationResultData = {
-      nationalStudentId: ine,
-      organizationUai,
-      lastName,
-      firstName,
-      birthdate,
-      status: 'validated',
-      pixScore: 327,
-      certificationId: 777,
-      certificationCodeVerification: 'CODEVERIF1',
-      certificationDate: new Date('2024-11-22T09:39:54Z'),
-      certificationIssuedAt: new Date('2024-11-24T12:32:55Z'),
-      maxReachableLevel: 7,
-      maxReachablePixScore: 895,
-    };
-
-    expectedCertification = {
-      organizationUai,
-      ine,
-      lastName,
-      firstName,
-      birthdate,
-      status: 'validated',
-      pixScore: 327,
-      certificationId: 777,
-      certificationCodeVerification: 'CODEVERIF1',
-      certificationDate: new Date('2024-11-22T09:39:54Z'),
-      certificationIssuedAt: new Date('2024-11-24T12:32:55Z'),
-      maxReachablePixScore: 895,
-      globalLevel: 'Indépendant 1',
-      maxGlobalLevel: 'Expert 1',
-      competences: [
-        {
-          code: '1.1',
-          name: 'Mener une recherche et une veille d’information',
-          areaName: 'Informations et données',
-          level: 3,
-        },
-        {
-          code: '1.2',
-          name: 'Gérer des données',
-          areaName: 'Informations et données',
-          level: 5,
-        },
-      ],
-    };
-
-    datamartBuilder.factory.buildScoCertificationResult({
-      ...certificationResultData,
-      competenceCode: '1.1',
-      competenceName: 'Mener une recherche et une veille d’information',
-      areaName: 'Informations et données',
-      competenceLevel: 3,
-    });
-    datamartBuilder.factory.buildScoCertificationResult({
-      ...certificationResultData,
-      competenceCode: '1.2',
-      competenceName: 'Gérer des données',
-      areaName: 'Informations et données',
-      competenceLevel: 5,
-    });
-
-    await datamartBuilder.commit();
   });
 
-  describe('POST /api/application/parcoursup/certification/search', function () {
+  describe('/api/application/parcoursup/certification/search', function () {
+    let ine, organizationUai, lastName, firstName, birthdate, expectedCertification, certificationResultData;
+
+    beforeEach(async function () {
+      ine = '123456789OK';
+      organizationUai = 'UAI ETAB ELEVE';
+      lastName = 'NOM-ELEVE';
+      firstName = 'PRENOM-ELEVE';
+      birthdate = '2000-01-01';
+
+      certificationResultData = {
+        nationalStudentId: ine,
+        organizationUai,
+        lastName,
+        firstName,
+        birthdate,
+        status: 'validated',
+        pixScore: 327,
+        certificationId: 777,
+        certificationCodeVerification: 'CODEVERIF1',
+        certificationDate: new Date('2024-11-22T09:39:54Z'),
+        certificationIssuedAt: new Date('2024-11-24T12:32:55Z'),
+        maxReachableLevel: 7,
+        maxReachablePixScore: 895,
+      };
+
+      expectedCertification = {
+        organizationUai,
+        ine,
+        lastName,
+        firstName,
+        birthdate,
+        status: 'validated',
+        pixScore: 327,
+        certificationId: 777,
+        certificationCodeVerification: 'CODEVERIF1',
+        certificationDate: new Date('2024-11-22T09:39:54Z'),
+        certificationIssuedAt: new Date('2024-11-24T12:32:55Z'),
+        maxReachablePixScore: 895,
+        globalLevel: 'Indépendant 1',
+        maxGlobalLevel: 'Expert 1',
+        competences: [
+          {
+            code: '1.1',
+            name: 'Mener une recherche et une veille d’information',
+            areaName: 'Informations et données',
+            level: 3,
+          },
+          {
+            code: '1.2',
+            name: 'Gérer des données',
+            areaName: 'Informations et données',
+            level: 5,
+          },
+        ],
+      };
+
+      datamartBuilder.factory.buildScoCertificationResult({
+        ...certificationResultData,
+        competenceCode: '1.1',
+        competenceName: 'Mener une recherche et une veille d’information',
+        areaName: 'Informations et données',
+        competenceLevel: 3,
+      });
+      datamartBuilder.factory.buildScoCertificationResult({
+        ...certificationResultData,
+        competenceCode: '1.2',
+        competenceName: 'Gérer des données',
+        areaName: 'Informations et données',
+        competenceLevel: 5,
+      });
+
+      await datamartBuilder.commit();
+    });
+
     it('should return 200 HTTP status code and a certification for a given INE', async function () {
       // given
       const options = {
@@ -236,6 +230,49 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal(expectedCertification);
+    });
+  });
+
+  describe('/api/application/parcoursup/info', function () {
+    const fakeDate = new Date('2026-12-25');
+
+    beforeEach(async function () {
+      sinon.useFakeTimers({ now: fakeDate, toFake: ['Date'] });
+      datamartBuilder.factory.buildReplicationMetadata({
+        replicationName: 'sco_certification_results',
+        lastUpdatedAt: new Date('2026-02-03'),
+      });
+      datamartBuilder.factory.buildReplicationMetadata({
+        replicationName: 'certification_results',
+        lastUpdatedAt: new Date('2026-05-06'),
+      });
+      await datamartBuilder.commit();
+    });
+
+    it('should return info', async function () {
+      // given
+      const options = {
+        method: 'GET',
+        url: `/api/application/parcoursup/info`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeaderForApplication(
+            PARCOURSUP_CLIENT_ID,
+            PARCOURSUP_SOURCE,
+            PARCOURSUP_SCOPE,
+          ),
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        sentAt: fakeDate,
+        lastUpdatedAtCurrentSchoolYear: new Date('2026-02-03'),
+        lastUpdatedAtVerificationCode: new Date('2026-05-06'),
+      });
     });
   });
 });

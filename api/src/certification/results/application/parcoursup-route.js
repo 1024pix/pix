@@ -112,6 +112,37 @@ async function register(server) {
         },
       },
     },
+    {
+      method: 'GET',
+      path: '/api/application/parcoursup/info',
+      config: {
+        auth: { strategy: jwtApplicationAuthenticationStrategyName, access: { scope: 'parcoursup' } },
+        handler: parcoursupController.getInfo,
+        tags: ['api', 'parcoursup'],
+        notes: [
+          '**Cette route est accessible uniquement à Parcoursup**\n' +
+            'Permet de récupérer les dates de dernière mise à jour des données mises à disposition',
+        ],
+        response: {
+          failAction: 'log',
+          status: {
+            200: Joi.object({
+              sentAt: Joi.date().description('Date à laquelle le client a interrogé ce endpoint'),
+              lastUpdatedAtCurrentSchoolYear: Joi.date().description(
+                "Date de dernière mise à jour des données contenant les certifications de l'année scolaire en cours",
+              ),
+              lastUpdatedAtVerificationCode: Joi.date().description(
+                'Date de dernière mise à jour des données contenant les certifications par code de vérification, toute année confondue',
+              ),
+            }),
+            401: responseObjectErrorDoc,
+            403: responseObjectErrorDoc,
+            404: responseObjectErrorDoc,
+            409: responseObjectErrorDoc,
+          },
+        },
+      },
+    },
   ]);
 }
 export const parcoursupRoute = { name: 'certification/results/parcoursup-api', register };

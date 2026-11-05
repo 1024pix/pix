@@ -1,5 +1,3 @@
-import Joi from 'joi';
-
 import { healthcheckController } from './healthcheck-controller.js';
 
 const register = async function (server) {
@@ -10,22 +8,7 @@ const register = async function (server) {
       config: {
         auth: false,
         handler: healthcheckController.get,
-        notes: ['- **Cette route est publique**\n' + "- Permet de vérifier que l'API est démarrée\n"],
-        response: {
-          failAction: 'log',
-          status: {
-            200: Joi.object({
-              name: Joi.string(),
-              version: Joi.string(),
-              description: Joi.string(),
-              environment: Joi.string(),
-              'container-version': Joi.string(),
-              'container-app-name': Joi.string(),
-              'current-lang': Joi.string(),
-            }).label('Healthcheck-Object'),
-          },
-        },
-        tags: ['api', 'healthcheck', 'parcoursup'],
+        tags: ['api', 'healthcheck'],
       },
     },
     {
