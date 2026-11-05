@@ -1,0 +1,14 @@
+[
+  {
+    "foo": "hello",
+    "bar": "world@email.com"
+  },
+  {
+    "foo": "baz",
+    "bar": "someone@example.net"
+  },
+  {
+    "foo": "bob",
+    "bar": "john@example.net"
+  }
+]

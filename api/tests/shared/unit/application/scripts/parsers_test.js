@@ -9,6 +9,7 @@ import {
   csvFileParser,
   csvFileStreamer,
   isoDateParser,
+  jsonFileParser,
 } from '../../../../../src/shared/application/scripts/parsers.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
@@ -228,6 +229,80 @@ describe('Shared | Unit | Application | Parsers', function () {
       // then
       expect(error).to.be.instanceOf(Error);
       expect(error.message).to.equal('Invalid date format. Expected "YYYY-MM-DD".');
+    });
+  });
+
+  describe('jsonFileParser', function () {
+    it('parses a JSON file with the given schema', async function () {
+      // given
+      const validFilePath = `${__dirname}files/valid.json`;
+      const schema = Joi.array().items(
+        Joi.object({
+          foo: Joi.string().required(),
+          bar: Joi.string().email().required(),
+        }),
+      );
+
+      // when
+      const parser = jsonFileParser(schema);
+      const result = await parser(validFilePath);
+
+      // then
+      expect(result).to.deep.equal([
+        { foo: 'hello', bar: 'world@email.com' },
+        { foo: 'baz', bar: 'someone@example.net' },
+        { foo: 'bob', bar: 'john@example.net' },
+      ]);
+    });
+
+    it('parses a JSON file without a schema', async function () {
+      // given
+      const validFilePath = `${__dirname}files/valid.json`;
+
+      // when
+      const parser = jsonFileParser();
+      const result = await parser(validFilePath);
+
+      // then
+      expect(result).to.deep.equal([
+        { foo: 'hello', bar: 'world@email.com' },
+        { foo: 'baz', bar: 'someone@example.net' },
+        { foo: 'bob', bar: 'john@example.net' },
+      ]);
+    });
+
+    it('throws a Joi validation error when JSON data is invalid', async function () {
+      // given
+      const invalidFilePath = `${__dirname}files/invalid.json`;
+      const schema = Joi.array().items(
+        Joi.object({
+          foo: Joi.string().required(),
+          bar: Joi.string().email().required(),
+        }),
+      );
+
+      // when
+      const parser = jsonFileParser(schema);
+      const error = await catchErr(parser)(invalidFilePath);
+
+      // then
+      expect(error).to.be.instanceOf(Joi.ValidationError);
+      expect(error.message).to.include('must be a valid email');
+    });
+
+    it('throws an error when JSON syntax is invalid', async function () {
+      // given
+      const invalidJsonFilePath = `${__dirname}files/invalid-syntax.json`;
+
+      // when
+      const parser = jsonFileParser();
+      const error = await catchErr(parser)(invalidJsonFilePath);
+
+      // then
+      expect(error).to.be.instanceOf(Error);
+      expect(error.message).to.include(`Invalid JSON file "${invalidJsonFilePath}"`);
+      expect(error.message).to.include('Expected double-quoted property name');
+      expect(error.cause).to.be.instanceOf(SyntaxError);
     });
   });
 });
