@@ -4,7 +4,7 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
-import { SESSION_STATUSES, SessionStatus } from '../../../shared/domain/value-objects/SessionStatus.ts';
+import { SessionStatus } from '../../../shared/domain/value-objects/SessionStatus.ts';
 import { CertificationAssessment } from '../../domain/models/CertificationAssessment.js';
 import { CertificationOfficer } from '../../domain/models/CertificationOfficer.js';
 import { JurySession, statuses } from '../../domain/models/JurySession.js';
@@ -27,6 +27,13 @@ export async function get({ id }) {
   const jurySessionDTO = await knexConn
     .select(COLUMNS)
     .select(ALIASED_COLUMNS)
+    .select({
+      firstCertificationStartedAt: knexConn('certification-courses')
+        .select('createdAt')
+        .whereColumn('certification-courses.sessionId', 'sessions.id')
+        .orderBy('createdAt', 'asc')
+        .first(),
+    })
     .from('sessions')
     .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
     .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
@@ -45,17 +52,28 @@ export async function get({ id }) {
 export async function findPaginatedFiltered({ filters, page }) {
   const knexConn = DomainTransaction.getConnection();
   const query = knexConn
-    .select(COLUMNS)
-    .select(ALIASED_COLUMNS)
-    .from('sessions')
-    .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
-    .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
-    .leftJoin({ 'jury-comment-authors': 'users' }, 'jury-comment-authors.id', 'sessions.juryCommentAuthorId')
+    .with('sessions_data', (qb) => {
+      qb.select(COLUMNS)
+        .select(ALIASED_COLUMNS)
+        .select({
+          firstCertificationStartedAt: knexConn('certification-courses')
+            .select('createdAt')
+            .whereRaw('?? = ??', ['certification-courses.sessionId', 'sessions.id'])
+            .orderBy('createdAt', 'asc')
+            .first(),
+        })
+        .from('sessions')
+        .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
+        .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
+        .leftJoin({ 'jury-comment-authors': 'users' }, 'jury-comment-authors.id', 'sessions.juryCommentAuthorId');
+    })
+    .select('*')
+    .from('sessions_data')
     .modify(_setupFilters, filters)
     .orderByRaw('?? DESC NULLS FIRST', 'publishedAt')
     .orderByRaw('?? DESC', 'finalizedAt')
-    .orderBy('sessions.date', 'DESC')
-    .orderBy('sessions.id', 'DESC');
+    .orderBy('sessions_data.date', 'DESC')
+    .orderBy('sessions_data.id', 'DESC');
 
   const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
   const jurySessions = results.map(_toDomain);
@@ -152,16 +170,12 @@ function _toDomain(jurySessionFromDB, counters) {
     });
   }
 
-  let sessionStatus;
-  sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
-
-  if (jurySessionFromDB.publishedAt) {
-    sessionStatus = new SessionStatus({ status: SESSION_STATUSES.PROCESSED });
-  } else if (assignedCertificationOfficer) {
-    sessionStatus = new SessionStatus({ status: SESSION_STATUSES.IN_PROCESS });
-  } else if (jurySessionFromDB.finalizedAt) {
-    sessionStatus = new SessionStatus({ status: SESSION_STATUSES.FINALIZED });
-  }
+  const sessionStatus = SessionStatus.build({
+    finalizedAt: jurySessionFromDB.finalizedAt,
+    publishedAt: jurySessionFromDB.publishedAt,
+    assignedCertificationOfficerId: assignedCertificationOfficer?.id,
+    firstCertificationStartedAt: jurySessionFromDB.firstCertificationStartedAt,
+  });
 
   const jurySession = new JurySession({
     ...jurySessionFromDB,
@@ -170,7 +184,7 @@ function _toDomain(jurySessionFromDB, counters) {
     certificationCenterExternalId: jurySessionFromDB.externalId,
     assignedCertificationOfficer,
     juryCommentAuthor,
-    sessionStatus: sessionStatus,
+    sessionStatus,
     counters,
   });
 
@@ -190,26 +204,26 @@ function _setupFilters(query, filters) {
   } = filters;
 
   if (ids) {
-    query.whereIn('sessions.id', ids);
+    query.whereIn('sessions_data.id', ids);
   }
 
   if (certificationCenterName) {
-    query.whereILike('certificationCenter', `%${certificationCenterName}%`);
+    query.whereILike('sessions_data.certificationCenter', `%${certificationCenterName}%`);
   }
 
   if (certificationCenterType) {
-    query.where('certification-centers.type', certificationCenterType);
+    query.where('sessions_data.type', certificationCenterType);
   }
 
   if (certificationCenterExternalId) {
     query.whereRaw('LOWER(??) LIKE ?', [
-      'certification-centers.externalId',
+      'sessions_data.externalId',
       '%' + certificationCenterExternalId.toLowerCase() + '%',
     ]);
   }
 
   if (version) {
-    query.where('sessions.version', version);
+    query.where('sessions_data.version', version);
   }
 
   if (status === statuses.CREATED) {
@@ -231,10 +245,10 @@ function _setupFilters(query, filters) {
   }
 
   if (startDate) {
-    query.where('sessions.date', '>=', startDate);
+    query.where('sessions_data.date', '>=', startDate);
   }
 
   if (endDate) {
-    query.where('sessions.date', '<=', endDate);
+    query.where('sessions_data.date', '<=', endDate);
   }
 }

@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import { databaseBuilder } from '../../../../tooling/databases.js';
-import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
