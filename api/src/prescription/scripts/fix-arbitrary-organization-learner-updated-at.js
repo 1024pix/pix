@@ -3,6 +3,7 @@ import { setTimeout } from 'node:timers/promises';
 import { Script } from '../../shared/application/scripts/script.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
 import { DomainTransaction } from '../../shared/domain/DomainTransaction.js';
+import { batchUpdate } from '../../shared/infrastructure/utils/knex-utils.js';
 
 const DEFAULT_BATCH_SIZE = 1000;
 const DEFAULT_THROTTLE_DELAY = 300;
@@ -87,20 +88,32 @@ export class FixArbitraryOrganizationLearnerUpdatedAtScript extends Script {
 
       updatedLearnersCount += learnersToUpdate.length;
 
+      const learnersToUpdate = await this.findOrganizationLearnersWithArbitraryUpdatedAt({
+        startId: currentStartId,
+        endId: currentEndId,
+      });
+
+      logger.info(
+        `Batch #${++batchNumber} (ids ${currentStartId} - ${currentEndId}): ${learnersToUpdate.length} learners to update`,
+      );
+
+      currentStartId = currentEndId + 1;
+
+      if (learnersToUpdate.length === 0) continue;
+
       await DomainTransaction.execute(async () => {
         const knexConn = DomainTransaction.getConnection();
-        for (const learner of learnersToUpdate) {
-          await knexConn('organization-learners')
-            .update({
-              updatedAt: learner.firstParticipationDate,
-              createdAt: learner.firstParticipationDate,
-            })
-            .where('id', learner.organizationLearnerId);
-        }
-        // update "organization-learners"
-        // set "updatedAt" = learners."firstParticipationDate", "createdAt" = learners."firstParticipationDate"
-        // from learners
-        // where "organization-learners".id = learners."organizationLearnerId";
+
+        await batchUpdate({
+          tableName: 'organization-learners',
+          primaryKeyName: 'id',
+          rows: learnersToUpdate.map(({ organizationLearnerId, firstParticipationDate }) => ({
+            id: organizationLearnerId,
+            createdAt: firstParticipationDate,
+            updatedAt: firstParticipationDate,
+          })),
+          chunkSize: batchSize,
+        });
 
         if (options.dryRun) {
           await knexConn.rollback();
@@ -110,7 +123,7 @@ export class FixArbitraryOrganizationLearnerUpdatedAtScript extends Script {
       await setTimeout(throttleDelay);
     }
 
-    logger.info(`${updatedLearnersCount} learners updatedAt ${options.dryRun ? 'to update' : 'updated'}`);
+    logger.info(`${updatedLearnersCount} learners ${options.dryRun ? 'to update' : 'updated'}`);
 
     if (options.dryRun) {
       logger.info('ROLLBACK: no changes were persisted (dry run)');

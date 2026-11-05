@@ -70,6 +70,51 @@ describe('Script | Prod | Fix Arbitrary Organization Learner Updated At', functi
         expect(learnersInDatabase[0].createdAt).deep.equal(new Date(dateBeforeRange));
         expect(learnersInDatabase[0].updatedAt).deep.equal(new Date(dateBeforeRange));
       });
+
+      it('updates learners batch by batch with their own first participation date', async function () {
+        // given
+        const otherDateBeforeRange = '2020-02-23T12:00:00.000000+01:00';
+
+        const learner1 = databaseBuilder.factory.buildOrganizationLearner({
+          lastName: 'not empty',
+          createdAt: dateInRange,
+          updatedAt: dateInRange,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId: learner1.id,
+          createdAt: dateBeforeRange,
+        });
+
+        const learner2 = databaseBuilder.factory.buildOrganizationLearner({
+          lastName: 'not empty',
+          createdAt: dateInRange,
+          updatedAt: dateInRange,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId: learner2.id,
+          createdAt: otherDateBeforeRange,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        await script.handle({
+          logger,
+          options: {
+            batchSize: 1,
+            throttleDelay: 0,
+            dryRun: false,
+          },
+        });
+
+        // then
+        const [learner1InDatabase, learner2InDatabase] = await knex('organization-learners').orderBy('id');
+        expect(learner1InDatabase.createdAt).deep.equal(new Date(dateBeforeRange));
+        expect(learner1InDatabase.updatedAt).deep.equal(new Date(dateBeforeRange));
+        expect(learner2InDatabase.createdAt).deep.equal(new Date(otherDateBeforeRange));
+        expect(learner2InDatabase.updatedAt).deep.equal(new Date(otherDateBeforeRange));
+        expect(logger.info).to.have.been.calledWith('Batch #1: 1 learners to update');
+        expect(logger.info).to.have.been.calledWith('Batch #2: 1 learners to update');
+      });
     });
 
     describe('when dryRun is true', function () {
