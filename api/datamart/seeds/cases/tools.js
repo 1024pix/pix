@@ -89,6 +89,13 @@ const generateFirstName = () => {
   return faker.person.firstName() + faker.helpers.arrayElement(['', '-élise', '-François']);
 };
 
+const generateSecondaryName = () => {
+  if (Math.random() < 0.4) {
+    return null;
+  }
+  return faker.person.firstName() + faker.helpers.arrayElement(['', '-élise', '-François']);
+};
+
 const getFormattedBirthdate = () => {
   const birthdate = faker.date.birthdate({ min: 13, max: 44, mode: 'age' });
   return birthdate.toISOString().split('T')[0]; // Format "YYYY-MM-DD"
@@ -140,6 +147,7 @@ export {
   generateCompetenceLevel,
   generateFirstName,
   generatePixScore,
+  generateSecondaryName,
   generateStatus,
   getCertificationDate,
   getCertificationIssuedAt,
