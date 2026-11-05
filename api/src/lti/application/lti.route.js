@@ -79,9 +79,12 @@ async function register(server, options, dependencies = { featureToggles }) {
       method: 'POST',
       path: '/api/lti/select-campaign',
       options: {
-        auth: { strategy: ltiDeepLinkingStrategyName },
+        auth: { strategy: ltiDeepLinkingStrategyName, access: { scope: 'lti-campaigns:read' } },
         handler: (request, h) => ltiController.selectCampaign(request, h),
-        notes: ['Cette route renvoie une deep-linking response prêt pour être renvoyée à Moodle.'],
+        notes: [
+          'Cette route renvoie une deep-linking response prêt pour être renvoyée à Moodle.',
+          '**Cette route nécessite le scope `lti-campaigns:read`**',
+        ],
         tags: ['api', 'lti'],
       },
     },
