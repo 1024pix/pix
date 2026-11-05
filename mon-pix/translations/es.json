@@ -1411,6 +1411,9 @@
         "start-diagnostic": "Iniciar el diagnóstico",
         "start-module": "Iniciar el módulo"
       },
+      "onboarding": {
+        "next-step": "Continuar"
+      },
       "process-custom-passages": {
         "description": "Analizamos tus resultados y creamos una serie de cursos adaptada.",
         "list": {

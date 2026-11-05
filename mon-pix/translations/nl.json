@@ -1411,6 +1411,9 @@
         "start-diagnostic": "De diagnose starten",
         "start-module": "De Module beginnen"
       },
+      "onboarding": {
+        "next-step": "Verdergaan"
+      },
       "process-custom-passages": {
         "description": "We analyseren je resultaten en stellen een reeks op maat gemaakte trajecten samen.",
         "list": {

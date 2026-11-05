@@ -1411,6 +1411,9 @@
         "start-diagnostic": "Avviare la diagnosi",
         "start-module": "Inizia il modulo"
       },
+      "onboarding": {
+        "next-step": "Continua"
+      },
       "process-custom-passages": {
         "description": "Analizziamo i tuoi risultati e costruiamo una serie di percorsi adatta a te.",
         "list": {

@@ -1411,6 +1411,9 @@
         "start-diagnostic": "Diagnose starten",
         "start-module": "Das Modul starten"
       },
+      "onboarding": {
+        "next-step": "Weiterlesen"
+      },
       "process-custom-passages": {
         "description": "Wir analysieren deine Ergebnisse und stellen eine passende Abfolge von Lernpfaden zusammen.",
         "list": {

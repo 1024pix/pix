@@ -1411,6 +1411,9 @@
         "start-diagnostic": "Start the diagnostic test",
         "start-module": "Start module"
       },
+      "onboarding": {
+        "next-step": "Continue"
+      },
       "process-custom-passages": {
         "description": "We analyse your results and build a suitable series of courses.",
         "list": {
