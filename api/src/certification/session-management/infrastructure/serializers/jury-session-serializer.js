@@ -58,11 +58,6 @@ export function serialize(jurySessions, meta) {
       included: true,
       attributes: ['firstName', 'lastName'],
     },
-    transform(jurySession) {
-      const transformedJurySession = Object.assign({}, jurySession);
-      transformedJurySession.status = jurySession.status;
-      return transformedJurySession;
-    },
     typeForAttribute: function (attribute) {
       if (attribute === 'assignedCertificationOfficer') {
         return 'user';
