@@ -2,7 +2,7 @@ import { PixBreadcrumb } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import pageTitle from 'ember-page-title/helpers/page-title';
-import CombinedCourseBlueprintForm from 'pix-admin/components/combined-course-blueprints/form';
+import CombinedCourseBlueprintForm from 'pix-admin/components/combined-course-blueprints/form/index';
 
 export default class EditCombinedCourseBlueprint extends Component {
   @service intl;
