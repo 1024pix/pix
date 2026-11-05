@@ -74,6 +74,8 @@ async function register(server) {
                 .example('SOMEGREATSTUDENT456'),
               lastName: Joi.string().description('Nom de famille de l‘élève').example('Doe'),
               firstName: Joi.string().description('Prénom de l‘élève').example('Jane'),
+              middleName: Joi.string().description('Deuxième prénom de l‘élève').example('Diane'),
+              thirdName: Joi.string().description('Troisième prénom de l‘élève').example('Beth'),
               birthdate: Joi.date().description('Date de naissance au format AAAA-MM-JJ').example('2008-01-01'),
               status: Joi.string().description('Statut de la certification').example('validated'),
               pixScore: Joi.number().min(0).max(1024).description('Score global en nombre de pix').example('255'),
