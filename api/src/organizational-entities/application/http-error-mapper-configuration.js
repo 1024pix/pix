@@ -14,6 +14,7 @@ import {
   OrganizationLearnerTypeNotFound,
   OrganizationNotFound,
   ParentOrganizationNotInNetworkError,
+  PlacesAndCreditsAreExclusive,
   StructureCategoryNotFound,
   StructureNotFoundError,
   TagNotFoundError,
@@ -101,6 +102,10 @@ const organizationalEntitiesDomainErrorMappingConfiguration = [
   },
   {
     name: OrganizationBatchCreationError.name,
+    httpErrorFn: (error) => new UnprocessableEntityError(error.message, error.code, error.meta),
+  },
+  {
+    name: PlacesAndCreditsAreExclusive.name,
     httpErrorFn: (error) => new UnprocessableEntityError(error.message, error.code, error.meta),
   },
 ];

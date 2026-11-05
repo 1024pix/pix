@@ -3,7 +3,7 @@ import differenceBy from 'lodash/differenceBy.js';
 import isEmpty from 'lodash/isEmpty.js';
 
 import { ORGANIZATION_FEATURE } from '../../../shared/constants.js';
-import { FeatureParamsNotProcessable } from '../errors.js';
+import { FeatureParamsNotProcessable, PlacesAndCreditsAreExclusive } from '../errors.js';
 import { DataProtectionOfficer } from './DataProtectionOfficer.js';
 import { Network } from './Network.js';
 
@@ -279,6 +279,7 @@ class OrganizationForAdmin {
       this.organizationLearnerType = newOrganization.organizationLearnerType;
     }
     if (newOrganization.categoryId) this.categoryId = newOrganization.categoryId;
+    this.#assertPlacesAndCreditAreExclusive();
   }
 
   setCountryName(countryName) {
@@ -287,6 +288,15 @@ class OrganizationForAdmin {
 
   #sanitizeEmptyStrings(value) {
     return value?.trim(' ') === '' ? null : value;
+  }
+
+  #assertPlacesAndCreditAreExclusive() {
+    const hasCreditsManagement = this.features[ORGANIZATION_FEATURE.CREDITS_MANAGEMENT.key]?.active;
+    const hasPlacesManagement = this.features[ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key]?.active;
+
+    if (hasCreditsManagement && hasPlacesManagement) {
+      throw new PlacesAndCreditsAreExclusive();
+    }
   }
 }
 

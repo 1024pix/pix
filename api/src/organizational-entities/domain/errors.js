@@ -98,6 +98,18 @@ class FeatureParamsNotProcessable extends DomainError {
   }
 }
 
+class PlacesAndCreditsAreExclusive extends DomainError {
+  constructor({
+    code = 'PLACES_AND_CREDITS_ARE_EXCLUSIVE',
+    message = 'An Organization can not have Credits or Places management enabled at the same time',
+    meta,
+  } = {}) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
 class OrganizationLearnerTypeNotFound extends DomainError {
   constructor({
     code = 'ORGANIZATION_LEARNER_TYPE_NOT_FOUND',
@@ -207,6 +219,7 @@ export {
   OrganizationLearnerTypeNotFound,
   OrganizationNotFound,
   ParentOrganizationNotInNetworkError,
+  PlacesAndCreditsAreExclusive,
   StructureCategoryNotFound,
   StructureNotFoundError,
   TagNotFoundError,

@@ -1,7 +1,10 @@
 import { expect } from 'chai';
 
 import { OrganizationBatchUpdateDTO } from '../../../../../src/organizational-entities/domain/dtos/OrganizationBatchUpdateDTO.js';
-import { FeatureParamsNotProcessable } from '../../../../../src/organizational-entities/domain/errors.js';
+import {
+  FeatureParamsNotProcessable,
+  PlacesAndCreditsAreExclusive,
+} from '../../../../../src/organizational-entities/domain/errors.js';
 import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { OrganizationLearnerType } from '../../../../../src/organizational-entities/domain/models/OrganizationLearnerType.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
@@ -205,6 +208,47 @@ describe('Unit | Organizational Entities | Domain | Model | OrganizationForAdmin
         COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: { active: false },
       };
       organizationLearnerType = new OrganizationLearnerType();
+    });
+
+    it('throws an error when both credit management and place management features are active', function () {
+      // given
+      const givenOrganization = new OrganizationForAdmin({});
+
+      // when
+      const error = catchErrSync(
+        givenOrganization.updateWithDataProtectionOfficerAndTags,
+        givenOrganization,
+      )({
+        features: {
+          ...features,
+          [ORGANIZATION_FEATURE.CREDITS_MANAGEMENT.key]: { active: true },
+          [ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key]: { active: true },
+        },
+        organizationLearnerType,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(PlacesAndCreditsAreExclusive);
+    });
+
+    it('it activates credits on an organisation that had places', function () {
+      // given
+      const givenOrganization = new OrganizationForAdmin({
+        features: { PLACES_MANAGEMENT: { active: true } },
+      });
+
+      //when
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
+        features: {
+          ...features,
+          [ORGANIZATION_FEATURE.CREDITS_MANAGEMENT.key]: { active: true },
+          [ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key]: { active: false },
+        },
+        organizationLearnerType,
+      });
+      // then
+      expect(givenOrganization.features[ORGANIZATION_FEATURE.CREDITS_MANAGEMENT.key].active).to.be.true;
+      expect(givenOrganization.features[ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key].active).to.be.false;
     });
 
     it('updates organization name', function () {

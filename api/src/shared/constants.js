@@ -55,6 +55,10 @@ export const ORGANIZATION_FEATURE = {
     key: 'SHOW_NPS',
     description: "Permet l'affichage d'un lien vers le formulaire du Net Promoter Score",
   },
+  CREDITS_MANAGEMENT: {
+    key: 'CREDITS_MANAGEMENT',
+    description: 'Permet la gestion des crédits sur Pix Orga',
+  },
 };
 
 export const CAMPAIGN_FEATURES = {
