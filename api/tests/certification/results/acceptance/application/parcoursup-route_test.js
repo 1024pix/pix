@@ -275,4 +275,74 @@ describe('Certification | Results | Acceptance | Application | parcoursup-route'
       });
     });
   });
+
+  describe('/api/application/parcoursup/certification/latest-certification-by-uai', function () {
+    beforeEach(function () {
+      const fillerData = {
+        nationalStudentId: '1234',
+        lastName: 'coucou',
+        firstName: 'foo',
+        birthdate: '2021-01-01',
+        status: 'validated',
+        pixScore: 327,
+        certificationId: 777,
+        certificationCodeVerification: 'CODEVERIF1',
+        certificationDate: new Date('2024-11-22T09:39:54Z'),
+        maxReachableLevel: 7,
+        maxReachablePixScore: 9000,
+      };
+      datamartBuilder.factory.buildScoCertificationResult({
+        ...fillerData,
+        organizationUai: 'UAI_A',
+        certificationIssuedAt: new Date('2026-12-01'),
+      });
+      datamartBuilder.factory.buildScoCertificationResult({
+        ...fillerData,
+        organizationUai: 'UAI_A',
+        certificationIssuedAt: new Date('2026-01-01'),
+      });
+      datamartBuilder.factory.buildScoCertificationResult({
+        ...fillerData,
+        organizationUai: 'UAI_B',
+        certificationIssuedAt: new Date('2025-10-01'),
+      });
+      datamartBuilder.factory.buildScoCertificationResult({
+        ...fillerData,
+        organizationUai: 'UAI_B',
+        certificationIssuedAt: new Date('2025-11-01'),
+      });
+      datamartBuilder.factory.buildScoCertificationResult({
+        ...fillerData,
+        organizationUai: 'UAI_C',
+        certificationIssuedAt: new Date('2024-02-01'),
+      });
+      return datamartBuilder.commit();
+    });
+
+    it('returns the Map that associates UAI with latest issued certification date', async function () {
+      // given
+      const options = {
+        method: 'GET',
+        url: `/api/application/parcoursup/certification/latest-certification-by-uai`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeaderForApplication(
+            PARCOURSUP_CLIENT_ID,
+            PARCOURSUP_SOURCE,
+            PARCOURSUP_SCOPE,
+          ),
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        UAI_A: new Date('2026-12-01'),
+        UAI_B: new Date('2025-11-01'),
+        UAI_C: new Date('2024-02-01'),
+      });
+    });
+  });
 });

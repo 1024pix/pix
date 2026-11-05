@@ -2,6 +2,7 @@ import { FRENCH_FRANCE } from '../../../shared/domain/services/locale-service.js
 import { addCorrelationInfo } from '../../../shared/infrastructure/execution-context-manager.js';
 import { getI18n } from '../../../shared/infrastructure/i18n/i18n.js';
 import { usecases } from '../domain/usecases/index.js';
+import * as parcoursupCertificationResultRepository from '../infrastructure/repositories/parcoursup-certification-result-repository.js';
 import * as parcoursupInfoRepository from '../infrastructure/repositories/parcoursup-info-repository.js';
 import * as parcoursupCertificationSerializer from '../infrastructure/serializers/parcoursup-certification-serializer.js';
 
@@ -56,7 +57,20 @@ async function getInfo(
     .code(200);
 }
 
+async function getLatestCertificationByUai(
+  request,
+  h,
+  dependencies = {
+    parcoursupCertificationResultRepository,
+  },
+) {
+  const latestByUai = await dependencies.parcoursupCertificationResultRepository.getLatestCertificationByUai();
+
+  return h.response(Object.fromEntries(latestByUai)).code(200);
+}
+
 export const parcoursupController = {
   getCertificationResultForParcoursup,
   getInfo,
+  getLatestCertificationByUai,
 };
