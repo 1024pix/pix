@@ -1,27 +1,32 @@
+import { Readable } from 'node:stream';
+
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
-import { getMultipleFilesAsZip } from '../../../../shared/infrastructure/utils/zip/get-multiple-files-as-zip.js';
-import { NoCertificatesToDownloadError } from '../errors.js';
 import { getSessionCertificatesPDF } from '../services/get-session-certificates-pdf.js';
 
 /**
+ * Returns an iterable that allows lazy generation of PDF certificates for the selected sessions.
+ * One session at a time.
+ *
  * @param {object} params
- * @param {Array<number>} params.sessionIds
+ * @param {number[]} params.sessionIds
  * @param {object} params.i18n
  * @param {boolean} params.isFrenchDomainExtension
+ * @param {object} [params.dependencies]
+ * @param {Function} [params.dependencies.getCertificatesForSession]
+ * @returns {AsyncGenerator<{
+ *   filename: string,
+ *   content: import('node:stream').Readable
+ * }>}
  */
-
-export async function getSelectedSessionsCertificates({
+export async function* getSelectedSessionsCertificates({
   sessionIds,
   i18n,
   isFrenchDomainExtension,
   dependencies = {
     getCertificatesForSession: getSessionCertificatesPDF,
-    getMultipleFilesAsZip,
   },
 }) {
-  const pdfFiles = [];
-
   for (const sessionId of sessionIds) {
     try {
       const pdfFile = await dependencies.getCertificatesForSession({
@@ -30,23 +35,16 @@ export async function getSelectedSessionsCertificates({
         i18n,
       });
 
-      pdfFiles.push(pdfFile);
+      yield {
+        filename: pdfFile.filename,
+        content: Readable.from(pdfFile.content),
+      };
     } catch (error) {
       if (!(error instanceof NotFoundError)) {
         throw error;
       }
-      logger.warn(`[selected sessions download] No certificate for session : ${sessionId}`);
+
+      logger.warn(`No certificate for session: ${sessionId}`);
     }
   }
-
-  if (!pdfFiles.length) {
-    throw new NoCertificatesToDownloadError();
-  }
-
-  const zipContent = await dependencies.getMultipleFilesAsZip({ files: pdfFiles });
-
-  return {
-    filename: `pix-sessions-certificates-${Date.now()}.zip`,
-    content: zipContent,
-  };
 }
