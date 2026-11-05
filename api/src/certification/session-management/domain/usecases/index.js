@@ -213,7 +213,6 @@ const dependencies = {
   certificationEvaluationRepository,
   courseAssessmentResultRepository,
   cpfExportsStorage,
-
   competenceRepository,
   v3CertificationCourseDetailsForAdministrationRepository,
   certificationEvaluationApi,

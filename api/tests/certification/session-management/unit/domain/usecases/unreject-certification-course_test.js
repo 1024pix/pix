@@ -13,16 +13,11 @@ describe('Unit | UseCase | unreject-certification-course', function () {
       // given
       const certificationCourseRepository = { get: sinon.stub(), update: sinon.stub() };
       const certificationEvaluationRepository = { rescoreV2Certification: sinon.stub() };
-      const certificationEvaluationApi = {
-        rescoreV2Certification: sinon.stub(),
-        rescoreV3Certification: sinon.stub(),
-      };
       const juryId = 123;
 
       const dependencies = {
         certificationCourseRepository,
         certificationEvaluationRepository,
-        certificationEvaluationApi,
       };
       const certificationCourse = domainBuilder.buildCertificationCourse({
         isRejectedForFraud: true,
@@ -55,7 +50,6 @@ describe('Unit | UseCase | unreject-certification-course', function () {
           certificationCourseId,
           juryId,
         }),
-        certificationEvaluationApi,
       });
     });
   });
@@ -65,16 +59,11 @@ describe('Unit | UseCase | unreject-certification-course', function () {
       // given
       const certificationCourseRepository = { get: sinon.stub(), update: sinon.stub() };
       const certificationEvaluationRepository = { rescoreV3Certification: sinon.stub() };
-      const certificationEvaluationApi = {
-        rescoreV2Certification: sinon.stub(),
-        rescoreV3Certification: sinon.stub(),
-      };
       const juryId = 123;
 
       const dependencies = {
         certificationCourseRepository,
         certificationEvaluationRepository,
-        certificationEvaluationApi,
       };
       const certificationCourse = domainBuilder.buildCertificationCourse({
         isRejectedForFraud: true,
@@ -107,7 +96,6 @@ describe('Unit | UseCase | unreject-certification-course', function () {
           certificationCourseId,
           juryId,
         }),
-        certificationEvaluationApi,
       });
     });
   });

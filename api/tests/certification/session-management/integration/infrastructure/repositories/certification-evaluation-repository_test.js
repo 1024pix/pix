@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 
-import * as certificationEvaluationApi from '../../../../../../src/certification/evaluation/application/api/certification-evaluation-api.js';
 import * as certificationEvaluationRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/certification-evaluation-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import CertificationCancelled from '../../../../../../src/shared/domain/events/deprecated/CertificationCancelled.js';
@@ -16,7 +15,6 @@ describe('Integration | Repository | certification-evaluation-repository', funct
       // when
       const error = await catchErr(certificationEvaluationRepository.rescoreV2Certification)({
         event: certificationCancelledEvent,
-        certificationEvaluationApi,
       });
 
       // then
@@ -34,7 +32,6 @@ describe('Integration | Repository | certification-evaluation-repository', funct
       // when
       const error = await catchErr(certificationEvaluationRepository.rescoreV3Certification)({
         event: certificationCancelledEvent,
-        certificationEvaluationApi,
       });
 
       // then

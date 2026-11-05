@@ -18,7 +18,6 @@ import { CertificationIssueReportResolutionStrategies } from '../models/Certific
  * @param {Session} params.session
  * @param {CertificationEvaluationRepository} params.certificationEvaluationRepository
  * @param {CertificationAssessmentRepository} params.certificationAssessmentRepository
- * @param {CertificationEvaluationApi} params.certificationEvaluationApi
  * @param {SessionRepository} params.sessionRepository
  */
 export async function processAutoJury({
@@ -28,7 +27,6 @@ export async function processAutoJury({
   challengeRepository,
   certificationEvaluationRepository,
   sessionRepository,
-  certificationEvaluationApi,
 }) {
   for (const certificationCourse of session.certificationCourses) {
     if (certificationCourse.isV3) {
@@ -36,7 +34,6 @@ export async function processAutoJury({
         certificationCourse,
         sessionRepository,
         certificationEvaluationRepository,
-        certificationEvaluationApi,
       });
     }
 
@@ -47,7 +44,6 @@ export async function processAutoJury({
         challengeRepository,
         certificationAssessmentRepository,
         certificationEvaluationRepository,
-        certificationEvaluationApi,
       });
     }
   }
@@ -58,7 +54,6 @@ export async function processAutoJury({
  * @param {CertificationCourse} params.certificationCourse
  * @param {CertificationEvaluationRepository} params.certificationEvaluationRepository
  * @param {CertificationAssessmentRepository} params.certificationAssessmentRepository
- * @param {CertificationEvaluationApi} params.certificationEvaluationApi
  */
 async function _handleAutoJuryV2({
   certificationCourse,
@@ -66,7 +61,6 @@ async function _handleAutoJuryV2({
   challengeRepository,
   certificationAssessmentRepository,
   certificationEvaluationRepository,
-  certificationEvaluationApi,
 }) {
   const resolutionStrategies = new CertificationIssueReportResolutionStrategies({
     certificationIssueReportRepository,
@@ -98,7 +92,6 @@ async function _handleAutoJuryV2({
 
     await certificationEvaluationRepository.rescoreV2Certification({
       event: certificationJuryDoneEvent,
-      certificationEvaluationApi,
     });
   }
 }
@@ -107,15 +100,9 @@ async function _handleAutoJuryV2({
  * @param {object} params
  * @param {CertificationCourse} params.certificationCourse
  * @param {CertificationEvaluationRepository} params.certificationEvaluationRepository
- * @param {CertificationEvaluationApi} params.certificationEvaluationApi
  * @param {SessionRepository} params.sessionRepository
  */
-async function _handleAutoJuryV3({
-  certificationCourse,
-  sessionRepository,
-  certificationEvaluationRepository,
-  certificationEvaluationApi,
-}) {
+async function _handleAutoJuryV3({ certificationCourse, sessionRepository, certificationEvaluationRepository }) {
   if (_v3CertificationShouldBeScored(certificationCourse)) {
     const certificationJuryDoneEvent = new CertificationJuryDone({
       certificationCourseId: certificationCourse.id,
@@ -123,7 +110,6 @@ async function _handleAutoJuryV3({
 
     await certificationEvaluationRepository.rescoreV3Certification({
       event: certificationJuryDoneEvent,
-      certificationEvaluationApi,
     });
 
     certificationCourse.endDueToFinalization();

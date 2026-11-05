@@ -17,7 +17,6 @@ describe('Unit | UseCase | process-auto-jury', function () {
     let certificationIssueReportRepository,
       certificationAssessmentRepository,
       certificationEvaluationRepository,
-      certificationEvaluationApi,
       challengeRepository;
 
     beforeEach(function () {
@@ -25,7 +24,6 @@ describe('Unit | UseCase | process-auto-jury', function () {
       certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
       certificationEvaluationRepository = { rescoreV2Certification: sinon.stub() };
 
-      certificationEvaluationApi = { rescoreV3Certification: sinon.stub(), rescoreV2Certification: sinon.stub() };
       challengeRepository = { get: sinon.stub() };
     });
 
@@ -128,8 +126,6 @@ describe('Unit | UseCase | process-auto-jury', function () {
         certificationIssueReportRepository,
         certificationAssessmentRepository,
         certificationEvaluationRepository,
-
-        certificationEvaluationApi,
       });
 
       // then
@@ -137,7 +133,6 @@ describe('Unit | UseCase | process-auto-jury', function () {
         event: new CertificationJuryDone({
           certificationCourseId: certificationCourse.id,
         }),
-        certificationEvaluationApi,
       });
     });
 
@@ -167,8 +162,6 @@ describe('Unit | UseCase | process-auto-jury', function () {
           certificationIssueReportRepository,
           certificationAssessmentRepository,
           certificationEvaluationRepository,
-
-          certificationEvaluationApi,
         });
 
         // then
@@ -176,7 +169,6 @@ describe('Unit | UseCase | process-auto-jury', function () {
           event: new CertificationJuryDone({
             certificationCourseId: certificationCourse.id,
           }),
-          certificationEvaluationApi,
         });
       });
 

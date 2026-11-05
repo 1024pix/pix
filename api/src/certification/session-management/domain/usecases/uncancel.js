@@ -22,7 +22,6 @@ export async function uncancel({
   certificationCourseRepository,
   certificationEvaluationRepository,
   sessionManagementRepository,
-  certificationEvaluationApi,
 }) {
   const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
   const isSessionFinalized = await sessionManagementRepository.isFinalized({ id: certificationCourse.getSessionId() });
@@ -36,10 +35,10 @@ export async function uncancel({
   });
 
   if (AlgorithmEngineVersion.isV3(certificationCourse.getVersion())) {
-    return certificationEvaluationRepository.rescoreV3Certification({ event, certificationEvaluationApi });
+    return certificationEvaluationRepository.rescoreV3Certification({ event });
   }
 
   if (AlgorithmEngineVersion.isV2(certificationCourse.getVersion())) {
-    return certificationEvaluationRepository.rescoreV2Certification({ event, certificationEvaluationApi });
+    return certificationEvaluationRepository.rescoreV2Certification({ event });
   }
 }

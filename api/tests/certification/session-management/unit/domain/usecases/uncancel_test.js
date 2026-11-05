@@ -31,10 +31,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | uncanc
       const sessionManagementRepository = {
         isFinalized: sinon.stub(),
       };
-      const certificationEvaluationApi = {
-        rescoreV2Certification: sinon.stub(),
-        rescoreV3Certification: sinon.stub(),
-      };
       certificationCourseRepository.get.withArgs({ id: 123 }).resolves(certificationCourse);
       certificationEvaluationRepository.rescoreV2Certification.resolves();
       sessionManagementRepository.isFinalized.withArgs({ id: certificationCourse.getSessionId() }).resolves(true);
@@ -46,7 +42,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | uncanc
         certificationCourseRepository,
         certificationEvaluationRepository,
         sessionManagementRepository,
-        certificationEvaluationApi,
       });
 
       // then
@@ -55,7 +50,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | uncanc
           certificationCourseId: certificationCourse.getId(),
           juryId,
         }),
-        certificationEvaluationApi,
       });
     });
 
@@ -78,10 +72,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | uncanc
         const sessionManagementRepository = {
           isFinalized: sinon.stub(),
         };
-        const certificationEvaluationApi = {
-          rescoreV2Certification: sinon.stub(),
-          rescoreV3Certification: sinon.stub(),
-        };
         certificationCourseRepository.get.withArgs({ id: 123 }).resolves(certificationCourse);
         sessionManagementRepository.isFinalized.withArgs({ id: certificationCourse.getSessionId() }).resolves(false);
 
@@ -91,7 +81,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | uncanc
           certificationCourseId: 123,
           certificationCourseRepository,
           sessionManagementRepository,
-          certificationEvaluationApi,
         });
 
         // then
@@ -122,10 +111,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | uncanc
       const sessionManagementRepository = {
         isFinalized: sinon.stub(),
       };
-      const certificationEvaluationApi = {
-        rescoreV2Certification: sinon.stub(),
-        rescoreV3Certification: sinon.stub(),
-      };
       certificationCourseRepository.get.withArgs({ id: 123 }).resolves(certificationCourse);
       certificationEvaluationRepository.rescoreV3Certification.resolves();
       sessionManagementRepository.isFinalized.withArgs({ id: certificationCourse.getSessionId() }).resolves(true);
@@ -137,7 +122,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | uncanc
         certificationCourseRepository,
         certificationEvaluationRepository,
         sessionManagementRepository,
-        certificationEvaluationApi,
       });
 
       // then
@@ -146,7 +130,6 @@ describe('Certification | Session-management | Unit | Domain | UseCases | uncanc
           certificationCourseId: certificationCourse.getId(),
           juryId,
         }),
-        certificationEvaluationApi,
       });
     });
 

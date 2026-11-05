@@ -17,14 +17,12 @@ describe('Unit | UseCase | reject-certification-course', function () {
       const certificationEvaluationRepository = { rescoreV2Certification: sinon.stub() };
       const courseAssessmentResultRepository = { getLatestAssessmentResult: sinon.stub() };
 
-      const certificationEvaluationApi = { rescoreV2Certification: sinon.stub(), rescoreV3Certification: sinon.stub() };
       const juryId = 123;
 
       const dependencies = {
         certificationCourseRepository,
         certificationEvaluationRepository,
         courseAssessmentResultRepository,
-        certificationEvaluationApi,
       };
       const certificationCourse = domainBuilder.buildCertificationCourse({ version: AlgorithmEngineVersion.V2 });
       const certificationCourseId = certificationCourse.getId();
@@ -56,8 +54,6 @@ describe('Unit | UseCase | reject-certification-course', function () {
           certificationCourseId,
           juryId,
         }),
-
-        certificationEvaluationApi,
       });
     });
     describe('when certification has no previous assessment result', function () {
@@ -107,14 +103,12 @@ describe('Unit | UseCase | reject-certification-course', function () {
       const certificationCourseRepository = { get: sinon.stub(), update: sinon.stub() };
       const certificationEvaluationRepository = { rescoreV3Certification: sinon.stub() };
       const courseAssessmentResultRepository = { getLatestAssessmentResult: sinon.stub() };
-      const certificationEvaluationApi = { rescoreV2Certification: sinon.stub(), rescoreV3Certification: sinon.stub() };
       const juryId = 123;
 
       const dependencies = {
         certificationCourseRepository,
         certificationEvaluationRepository,
         courseAssessmentResultRepository,
-        certificationEvaluationApi,
       };
       const certificationCourse = domainBuilder.buildCertificationCourse({ version: AlgorithmEngineVersion.V3 });
       const certificationCourseId = certificationCourse.getId();
@@ -146,7 +140,6 @@ describe('Unit | UseCase | reject-certification-course', function () {
           certificationCourseId,
           juryId,
         }),
-        certificationEvaluationApi,
       });
     });
   });

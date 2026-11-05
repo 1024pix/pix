@@ -9,17 +9,13 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 
 describe('Certification | Session Management | Integration | Domain | UseCase | process-auto-jury_test ', function () {
   context('when it is a V3 certification', function () {
-    let certificationEvaluationRepository, certificationEvaluationApi;
+    let certificationEvaluationRepository;
     const now = new Date('2025-06-15');
 
     beforeEach(function () {
       sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       certificationEvaluationRepository = {
-        rescoreV3Certification: sinon.stub(),
-      };
-
-      certificationEvaluationApi = {
         rescoreV3Certification: sinon.stub(),
       };
     });
@@ -48,7 +44,7 @@ describe('Certification | Session Management | Integration | Domain | UseCase | 
         });
 
         // when
-        await usecases.processAutoJury({ session, certificationEvaluationRepository, certificationEvaluationApi });
+        await usecases.processAutoJury({ session, certificationEvaluationRepository });
 
         // then
         const certificationCourseData = await knex('certification-courses')
@@ -66,7 +62,6 @@ describe('Certification | Session Management | Integration | Domain | UseCase | 
           event: new CertificationJuryDone({
             certificationCourseId: certificationCourse.id,
           }),
-          certificationEvaluationApi,
         });
       });
     });
@@ -95,7 +90,7 @@ describe('Certification | Session Management | Integration | Domain | UseCase | 
         });
 
         // when
-        await usecases.processAutoJury({ session, certificationEvaluationRepository, certificationEvaluationApi });
+        await usecases.processAutoJury({ session, certificationEvaluationRepository });
 
         // then
         const certificationCourseData = await knex('certification-courses')
@@ -113,7 +108,6 @@ describe('Certification | Session Management | Integration | Domain | UseCase | 
           event: new CertificationJuryDone({
             certificationCourseId: certificationCourse.id,
           }),
-          certificationEvaluationApi,
         });
       });
     });
