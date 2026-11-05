@@ -112,26 +112,25 @@ async function deepLink(request, h, dependencies = { ltiService }) {
 
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
 
-  // FIXME return 400 bad request if !=
-  if (messageType === 'LtiDeepLinkingRequest') {
-    const deepLinkingSettings = verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'];
-
-    const customClaims = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom'];
-    const { organizationExternalIds } = dependencies.ltiService.deserializeDeepLinkingCustomClaims(customClaims);
-
-    const ltiDeepLinkingAccessToken = await usecases.authenticateDeepLinking({
-      organizationExternalIds,
-      registration,
-      deepLinkingSettings,
-      audience: origin,
-    });
-
-    const locale = 'fr-FR'; // TODO: Generate this dynamically
-    const campaignSelectionPageUrl = urlService.getPixOrgaUrl(locale, { pathname: '/lti-campaign-selection' });
-    return h
-      .redirect(campaignSelectionPageUrl)
-      .header('Set-Cookie', ltiDeepLinkingAccessToken.encodedForSetCookieHeader);
+  if (messageType !== 'LtiResourceLinkRequest') {
+    throw new BadRequestError('Unexpected LTI message type');
   }
+
+  const deepLinkingSettings = verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'];
+
+  const customClaims = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom'];
+  const { organizationExternalIds } = dependencies.ltiService.deserializeDeepLinkingCustomClaims(customClaims);
+
+  const ltiDeepLinkingAccessToken = await usecases.authenticateDeepLinking({
+    organizationExternalIds,
+    registration,
+    deepLinkingSettings,
+    audience: origin,
+  });
+
+  const locale = 'fr-FR'; // TODO: Generate this dynamically
+  const campaignSelectionPageUrl = urlService.getPixOrgaUrl(locale, { pathname: '/lti-campaign-selection' });
+  return h.redirect(campaignSelectionPageUrl).header('Set-Cookie', ltiDeepLinkingAccessToken.encodedForSetCookieHeader);
 }
 
 async function findAvailableCampaigns(request, h) {
@@ -192,16 +191,17 @@ async function resourceLink(request, h, dependencies = { urlService }) {
 
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
 
-  // FIXME return 400 bad request if !=
-  if (messageType === 'LtiResourceLinkRequest') {
-    await sendScoring(verifiedToken, registration);
-
-    const campaignCode = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom'].campaign_code;
-
-    const campaignUrl = dependencies.urlService.getPixAppUrl('fr-FR', { pathname: `/campagnes/${campaignCode}` });
-
-    return h.redirect(campaignUrl);
+  if (messageType !== 'LtiResourceLinkRequest') {
+    throw new BadRequestError('Unexpected LTI message type');
   }
+
+  await sendScoring(verifiedToken, registration);
+
+  const campaignCode = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom'].campaign_code;
+
+  const campaignUrl = dependencies.urlService.getPixAppUrl('fr-FR', { pathname: `/campagnes/${campaignCode}` });
+
+  return h.redirect(campaignUrl);
 }
 
 export const ltiController = {
