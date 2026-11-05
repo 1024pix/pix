@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
@@ -164,6 +165,11 @@ describe('Certification | Session Management | Acceptance | Application | Route 
         assignedCertificationOfficerId,
         certificationCenterId: certificationCenter.id,
         certificationCenter: certificationCenter.name,
+        finalizedAt: null,
+        publishedAt: null,
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId: expectedJurySession.id,
       });
       databaseBuilder.factory.buildInvigilatorAccess({ sessionId: expectedJurySession.id });
       databaseBuilder.factory.buildSession({ id: 1000099 });

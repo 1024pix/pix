@@ -4,6 +4,7 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { SESSION_STATUSES, SessionStatus } from '../../../shared/domain/value-objects/SessionStatus.ts';
 import { CertificationAssessment } from '../../domain/models/CertificationAssessment.js';
 import { CertificationOfficer } from '../../domain/models/CertificationOfficer.js';
 import { JurySession, statuses } from '../../domain/models/JurySession.js';
@@ -151,6 +152,17 @@ function _toDomain(jurySessionFromDB, counters) {
     });
   }
 
+  let sessionStatus;
+  sessionStatus = new SessionStatus({ status: SESSION_STATUSES.CREATED });
+
+  if (jurySessionFromDB.publishedAt) {
+    sessionStatus = new SessionStatus({ status: SESSION_STATUSES.PROCESSED });
+  } else if (assignedCertificationOfficer) {
+    sessionStatus = new SessionStatus({ status: SESSION_STATUSES.IN_PROCESS });
+  } else if (jurySessionFromDB.finalizedAt) {
+    sessionStatus = new SessionStatus({ status: SESSION_STATUSES.FINALIZED });
+  }
+
   const jurySession = new JurySession({
     ...jurySessionFromDB,
     certificationCenterName: jurySessionFromDB.certificationCenter,
@@ -158,6 +170,7 @@ function _toDomain(jurySessionFromDB, counters) {
     certificationCenterExternalId: jurySessionFromDB.externalId,
     assignedCertificationOfficer,
     juryCommentAuthor,
+    sessionStatus: sessionStatus,
     counters,
   });
 

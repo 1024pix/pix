@@ -12,6 +12,10 @@ import {
   ImpactfulCategories,
   ImpactfulSubcategories,
 } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import {
+  SESSION_STATUSES,
+  SessionStatus,
+} from '../../../../../../src/certification/shared/domain/value-objects/SessionStatus.ts';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
@@ -86,8 +90,8 @@ describe('Integration | Repository | JurySession', function () {
             firstName: juryCommentAuthor.firstName,
             lastName: juryCommentAuthor.lastName,
           },
+          sessionStatus: new SessionStatus({ status: SESSION_STATUSES.CREATED }),
         });
-
         // when
         const jurySession = await jurySessionRepository.get({ id: sessionId });
 
