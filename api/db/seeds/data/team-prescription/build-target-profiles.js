@@ -1,4 +1,8 @@
-import { PRO_MANAGING_ORGANIZATION_ID, SCO_MANAGING_ORGANIZATION_ID } from '../common/constants.js';
+import {
+  PRO_MANAGING_ORGANIZATION_ID,
+  SCO_MANAGING_ORGANIZATION_ID,
+  SCO_ORGANIZATION_ID,
+} from '../common/constants.js';
 import { createBadge, createStages, createTargetProfile } from '../common/tooling/target-profile-tooling.js';
 import {
   BADGES_CAMP_ID,
@@ -52,6 +56,10 @@ async function _createTargetProfileWithBadgesStages(databaseBuilder) {
   });
   databaseBuilder.factory.buildTargetProfileShare({
     organizationId: SCO_MANAGING_ORGANIZATION_ID,
+    targetProfileId: TARGET_PROFILE_BADGES_STAGES_ID,
+  });
+  databaseBuilder.factory.buildTargetProfileShare({
+    organizationId: SCO_ORGANIZATION_ID,
     targetProfileId: TARGET_PROFILE_BADGES_STAGES_ID,
   });
   databaseBuilder.factory.buildTargetProfileShare({
