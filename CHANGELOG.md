@@ -1,5 +1,34 @@
 # Pix Changelog
 
+# [5.538.0](https://github.com/1024pix/pix/compare/v5.537.0...v5.538.0) (2026-11-05)
+
+### :rocket: Amélioration
+
+- [#18575](https://github.com/1024pix/pix/pull/18575) Ajout du filtre par id dans la liste des prescrits de PixAdmin (PIX-24939)
+- [#18649](https://github.com/1024pix/pix/pull/18649) Ajoute la colonne customLandingPageText dans la table combined_course (PIX-24880)
+- [#18503](https://github.com/1024pix/pix/pull/18503) Créer un script pour migrer un utilisateur vers le système KS
+- [#18613](https://github.com/1024pix/pix/pull/18613) Exposer un endpoint pour ParcourSup afin de connaître le statut du serveur et la date de dernière mise à jour des données (PIX-24900)
+- [#18492](https://github.com/1024pix/pix/pull/18492) Permettre de sélectionner une campagne depuis Moodle (PIX-24896)
+- [#18642](https://github.com/1024pix/pix/pull/18642) Simuler la migration de knowledge elements vers les knowledge states depuis Pix Admin
+- [#18638](https://github.com/1024pix/pix/pull/18638) Update Dutch translations (miss used of handleiding instead of tutorial)
+
+### :bug: Correction
+
+- [#18607](https://github.com/1024pix/pix/pull/18607) Corriger la traduction de l'export CSV quand la locale n'est pas une langue (PIX-24893)
+
+### :building_construction: Tech
+
+- [#18636](https://github.com/1024pix/pix/pull/18636)  Ajouter la table des fichiers d'export des knowledge elements des utilisateurs migrés
+- [#18640](https://github.com/1024pix/pix/pull/18640) Conditionner la route de preview des modules avec une variable d'environnement (PIX-24975). 
+- [#18578](https://github.com/1024pix/pix/pull/18578) Créer le service permettant d'encapsuler les mots à définir dans les modules (PIX-22000).
+- [#18639](https://github.com/1024pix/pix/pull/18639) Refactore le formulaire de création des parcours combinés dans PixAdmin (PIX-24234)
+
+### :arrow_up: Montée de version
+
+- [#18645](https://github.com/1024pix/pix/pull/18645) Update dependency @1024pix/oppsy to v1.1.6 (api)
+- [#18646](https://github.com/1024pix/pix/pull/18646) Update dependency @hapi/hapi to v21.4.12 (api)
+- [#18648](https://github.com/1024pix/pix/pull/18648) Update dependency @hapi/hapi to v21.4.12 (audit-logger)
+
 # [5.537.0](https://github.com/1024pix/pix/compare/v5.536.0...v5.537.0) (2026-11-04)
 
 ### :rocket: Amélioration
