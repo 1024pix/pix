@@ -143,6 +143,43 @@ async function register(server) {
         },
       },
     },
+    {
+      method: 'GET',
+      path: '/api/application/parcoursup/certification/latest-certification-by-uai',
+      config: {
+        auth: { strategy: jwtApplicationAuthenticationStrategyName, access: { scope: 'parcoursup' } },
+        handler: parcoursupController.getLatestCertificationByUai,
+        tags: ['api', 'parcoursup'],
+        notes: [
+          '**Cette route est accessible uniquement à Parcoursup**\n' +
+            'Permet de récupérer pour chaque établissement la date de dernière délivrance de certificat',
+        ],
+        response: {
+          failAction: 'log',
+          status: {
+            200: Joi.object()
+              .pattern(
+                /^.*$/,
+                Joi.date()
+                  .description('Date de dernière délivrance de certification pour cet établissement')
+                  .example('2026-01-15'),
+              )
+              .description(
+                "Objet dont les clés sont des UAI d'établissement et les valeurs contiennent la date de dernière délivrance de certification",
+              )
+              .example({
+                UAI_A: '2026-12-01',
+                UAI_B: '2025-11-01',
+                UAI_C: '2024-02-01',
+              }),
+            401: responseObjectErrorDoc,
+            403: responseObjectErrorDoc,
+            404: responseObjectErrorDoc,
+            409: responseObjectErrorDoc,
+          },
+        },
+      },
+    },
   ]);
 }
 export const parcoursupRoute = { name: 'certification/results/parcoursup-api', register };

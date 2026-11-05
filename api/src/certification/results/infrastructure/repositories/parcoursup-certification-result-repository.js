@@ -113,6 +113,16 @@ export async function getByVerificationCode({ verificationCode }) {
   return toDomain(certificationResultDto);
 }
 
+export async function getLatestCertificationByUai() {
+  const res = await datamartKnex('sco_certification_results')
+    .select({ organizationUai: 'organization_uai' })
+    .max({ latestCertificationIssuedAt: 'certification_issued_at' })
+    .whereNotNull('organization_uai')
+    .groupBy('organization_uai')
+    .orderBy('organization_uai');
+  return new Map(res.map((item) => [item.organizationUai, item.latestCertificationIssuedAt]));
+}
+
 /**
  * @returns {Array<CertificationResult>}
  */

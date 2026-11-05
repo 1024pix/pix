@@ -62,7 +62,7 @@ describe('Maddo | Domain | Usecases | Integration | run-replication', function (
     ]);
   });
 
-  it('updated the last_updated_at date upon success in replication_metadata table', async function () {
+  it('updates the last_updated_at date upon success in replication_metadata table', async function () {
     // given
     const schema = (t) => {
       t.string('firstName').notNullable();
@@ -392,7 +392,7 @@ describe('Maddo | Domain | Usecases | Integration | run-replication', function (
   });
 
   context('when replication is unknown', function () {
-    it('should throw without altering target database', async function () {
+    it('should throw without altering target database not updating the corresponding replication_metadata', async function () {
       // given
       const schema = (t) => {
         t.string('firstName').notNullable();
@@ -410,6 +410,9 @@ describe('Maddo | Domain | Usecases | Integration | run-replication', function (
       await datawarehouseKnex('to-replicate').insert([
         { firstName: 'first1', lastName: 'last1', ignored: 'x' },
         { firstName: 'first2', lastName: 'last2', ignored: 'y' },
+      ]);
+      await datamartKnex('replication_metadata').insert([
+        { replication_name: 'bar', last_updated_at: new Date('2025-01-01') },
       ]);
       const replications = {
         foo: { source: 'to-replicate', target: 'replication', columns: ['firstName', 'lastName'] },
@@ -430,6 +433,15 @@ describe('Maddo | Domain | Usecases | Integration | run-replication', function (
         { firstName: 'oldfirst1', lastName: 'oldlast1' },
         { firstName: 'oldfirst2', lastName: 'oldlast2' },
       ]);
+      const metadata = await datamartKnex
+        .select(['replication_name', 'last_updated_at'])
+        .from('replication_metadata')
+        .where('replication_name', 'bar')
+        .first();
+      expect(metadata).to.deep.equal({
+        replication_name: 'bar',
+        last_updated_at: new Date('2025-01-01'),
+      });
     });
   });
 
