@@ -274,6 +274,22 @@ function createClientApplications(databaseBuilder) {
     clientSecret: 'poc-llm-secret',
     scopes: ['llm-preview'],
   });
+  databaseBuilder.factory.buildClientApplication({
+    name: 'dev',
+    clientId: 'dev',
+    clientSecret: 'dev-secret',
+    scopes: [
+      'llm-preview',
+      'men-dashboard',
+      'meta',
+      'campaigns',
+      'parcoursup',
+      'statistics',
+      'replication',
+      'pole-emploi-participants-result',
+      'organizations-certifications-result',
+    ],
+  });
 }
 
 function createLtiPlatforms(databaseBuilder) {
