@@ -57,17 +57,17 @@ export const runReplication = async ({
     await datamartKnex.transaction(async (trx) => {
       await trx.raw('DROP TABLE ??', [replication.target]);
       await trx.raw('ALTER TABLE ?? RENAME TO ??', [stagingTarget, replication.target]);
+      await trx('replication_metadata')
+        .insert({
+          replication_name: replicationName,
+          last_updated_at: datamartKnex.fn.now(),
+        })
+        .onConflict(['replication_name'])
+        .merge(['last_updated_at']);
     });
     return res;
   } finally {
     await datamartKnex.raw('DROP TABLE IF EXISTS ??', [stagingTarget]);
-    await datamartKnex('replication_metadata')
-      .insert({
-        replication_name: replicationName,
-        last_updated_at: datamartKnex.fn.now(),
-      })
-      .onConflict(['replication_name'])
-      .merge(['last_updated_at']);
   }
 };
 
