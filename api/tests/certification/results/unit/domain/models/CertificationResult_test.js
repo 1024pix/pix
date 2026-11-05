@@ -20,6 +20,8 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       certificationResultData = {
         id: 123,
         firstName: 'Buffy',
+        middleName: 'Ann',
+        thirdName: 'Joan',
         lastName: 'Summers',
         birthdate: '1981-01-19',
         birthplace: 'Torreilles',
@@ -67,6 +69,8 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         id: 123,
         firstName: 'Buffy',
         lastName: 'Summers',
+        middleName: 'Ann',
+        thirdName: 'Joan',
         birthdate: '1981-01-19',
         birthplace: 'Torreilles',
         isPublished: true,
