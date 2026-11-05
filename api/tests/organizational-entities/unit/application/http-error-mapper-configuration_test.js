@@ -6,6 +6,7 @@ import {
   CountryNotFoundError,
   NetworkAlreadyExistError,
   ParentOrganizationNotInNetworkError,
+  PlacesAndCreditsAreExclusive,
   StructureCategoryNotFound,
   StructureNotFoundError,
   TagNotFoundError,
@@ -168,6 +169,24 @@ describe('Unit | Organizational Entities | Application | HttpErrorMapperConfigur
       expect(error).to.be.instanceOf(UnprocessableEntityError);
       expect(error.message).to.equal('Structure not found');
       expect(error.meta).to.equal(meta);
+    });
+  });
+
+  context('when mapping "PlacesAndCreditsAreExclusive"', function () {
+    it('should return a UnprocessableEntityError Http Error', function () {
+      // given
+      const httpErrorMapper = organizationalEntitiesDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === PlacesAndCreditsAreExclusive.name,
+      );
+
+      // when
+      const error = httpErrorMapper.httpErrorFn(new PlacesAndCreditsAreExclusive());
+
+      // then
+      expect(error).to.be.instanceOf(UnprocessableEntityError);
+      expect(error.message).to.equal(
+        'An Organization can not have Credits or Places management enabled at the same time',
+      );
     });
   });
 
