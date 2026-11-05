@@ -1,5 +1,4 @@
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
-import * as certificationCenterAccessApi from '../../../../organizational-entities/application/api/certification-center-access-api.js';
 import * as placementProfileService from '../../../../shared/domain/services/placement-profile-service.js';
 import * as eventJobPublisherService from '../../../../shared/infrastructure/jobs/event-job-publisher-service.js';
 import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
@@ -12,7 +11,6 @@ import { certificationCenterMembershipRepository } from '../../../../team/infras
 import * as versionApi from '../../../configuration/application/api/version-api.js';
 import * as certificationCpfCityRepository from '../../../enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
-import * as certificationEvaluationApi from '../../../evaluation/application/api/certification-evaluation-api.js';
 import { createLiveAlert } from '../../../evaluation/domain/usecases/create-live-alert.js';
 import * as certificationEvaluationRepository from '../../../session-management/infrastructure/repositories/certification-evaluation-repository.js';
 import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
@@ -167,7 +165,6 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {certificationEvaluationRepository} CertificationEvaluationRepository
  * @typedef {courseAssessmentResultRepository} CourseAssessmentResultRepository
- * @typedef {certificationEvaluationApi} CertificationEvaluationApi
  * @typedef {certificationAssessmentRepository} CertificationAssessmentRepository
  * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
@@ -182,7 +179,6 @@ import { validateLiveAlert } from './validate-live-alert.js';
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {invigilatorAccessRepository} InvigilatorAccessRepository
  * @typedef {certificationCenterAccessRepository} CertificationCenterAccessRepository
- * @typedef {certificationCenterAccessApi} CertificationCenterAccessApi
  *
  *
  **/
@@ -196,7 +192,6 @@ const dependencies = {
   challengeRepository,
   competenceMarkRepository,
   sessionAuthorizationInfoRepository,
-  certificationCenterAccessApi,
   invigilatorAccessRepository,
   certificationCenterAccessRepository,
   certificationChallengeLiveAlertRepository,
@@ -215,7 +210,6 @@ const dependencies = {
   cpfExportsStorage,
   competenceRepository,
   v3CertificationCourseDetailsForAdministrationRepository,
-  certificationEvaluationApi,
   cpfExportRepository,
   placementProfileService,
   finalizedSessionRepository,

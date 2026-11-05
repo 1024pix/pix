@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import * as certificationCenterAccessRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/certification-center-access-repository.js';
-import * as certificationCenterAccessApi from '../../../../../../src/organizational-entities/application/api/certification-center-access-api.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
 describe('Session Management | Integration | Infrastructure | Repository | certification center access', function () {
@@ -13,7 +12,6 @@ describe('Session Management | Integration | Infrastructure | Repository | certi
 
       const certificationCenterAccess = await certificationCenterAccessRepository.getCertificationCenterAccess({
         certificationCenterId: certificationCenter.id,
-        certificationCenterAccessApi,
       });
 
       expect(certificationCenterAccess).to.deep.equal({

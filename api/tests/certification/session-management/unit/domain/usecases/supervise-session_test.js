@@ -13,10 +13,7 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | SessionManagement | Unit | UseCase | supervise-session', function () {
-  let invigilatorAccessRepository,
-    certificationCenterAccessRepository,
-    sessionAuthorizationInfoRepository,
-    certificationCenterAccessApi;
+  let invigilatorAccessRepository, certificationCenterAccessRepository, sessionAuthorizationInfoRepository;
   let dependencies;
 
   beforeEach(function () {
@@ -32,10 +29,6 @@ describe('Certification | SessionManagement | Unit | UseCase | supervise-session
     certificationCenterAccessRepository = {
       getCertificationCenterAccess: sinon.stub(),
     };
-
-    certificationCenterAccessApi = {
-      getCertificationCenterAccess: sinon.stub(),
-    };
     preventStubsToBeCalledUnexpectedly([
       sessionAuthorizationInfoRepository.findBySessionId,
       invigilatorAccessRepository.create,
@@ -45,7 +38,6 @@ describe('Certification | SessionManagement | Unit | UseCase | supervise-session
       invigilatorAccessRepository,
       certificationCenterAccessRepository,
       sessionAuthorizationInfoRepository,
-      certificationCenterAccessApi,
     };
   });
 
@@ -64,7 +56,7 @@ describe('Certification | SessionManagement | Unit | UseCase | supervise-session
 
     sessionAuthorizationInfoRepository.findBySessionId.withArgs({ sessionId: 123 }).resolves(sessionAuthorizationInfo);
     certificationCenterAccessRepository.getCertificationCenterAccess
-      .withArgs({ certificationCenterId: 456, certificationCenterAccessApi })
+      .withArgs({ certificationCenterId: 456 })
       .resolves(domainBuilder.certification.sessionManagement.buildAllowedCertificationCenterAccess());
 
     // when
@@ -160,7 +152,7 @@ describe('Certification | SessionManagement | Unit | UseCase | supervise-session
         .withArgs({ sessionId: 123 })
         .resolves(sessionAuthorizationInfo);
       certificationCenterAccessRepository.getCertificationCenterAccess
-        .withArgs({ certificationCenterId: 456, certificationCenterAccessApi })
+        .withArgs({ certificationCenterId: 456 })
         .resolves(blockedCertificationCenterAccess);
 
       // when
@@ -197,7 +189,7 @@ describe('Certification | SessionManagement | Unit | UseCase | supervise-session
         .withArgs({ sessionId: 123 })
         .resolves(sessionAuthorizationInfo);
       certificationCenterAccessRepository.getCertificationCenterAccess
-        .withArgs({ certificationCenterId: 456, certificationCenterAccessApi })
+        .withArgs({ certificationCenterId: 456 })
         .resolves(blockedCertificationCenterAccess);
 
       // when
@@ -234,7 +226,7 @@ describe('Certification | SessionManagement | Unit | UseCase | supervise-session
         .withArgs({ sessionId: 123 })
         .resolves(sessionAuthorizationInfo);
       certificationCenterAccessRepository.getCertificationCenterAccess
-        .withArgs({ certificationCenterId: 456, certificationCenterAccessApi })
+        .withArgs({ certificationCenterId: 456 })
         .resolves(blockedCertificationCenterAccess);
 
       // when
@@ -271,7 +263,7 @@ describe('Certification | SessionManagement | Unit | UseCase | supervise-session
         .withArgs({ sessionId: 123 })
         .resolves(sessionAuthorizationInfo);
       certificationCenterAccessRepository.getCertificationCenterAccess
-        .withArgs({ certificationCenterId: 456, certificationCenterAccessApi })
+        .withArgs({ certificationCenterId: 456 })
         .resolves(blockedCertificationCenterAccess);
 
       // when
