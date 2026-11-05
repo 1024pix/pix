@@ -70,11 +70,11 @@
     },
     "import": {
       "message": "De belangrijkste mijlpalen van het schooljaar:",
-      "step1a": "Instellen&nbsp;: '<'a href='https://cloud.pix.fr/s/TBF97QzSni7SWpc' title='Handleiding voor het downloaden van de resultaten' class='link link--banner link--bold link--underlined' '>'resultaten downloaden'</a>' van certificering en",
+      "step1a": "Instellen&nbsp;: '<'a href='https://cloud.pix.fr/s/TBF97QzSni7SWpc' title='Tutorial voor het downloaden van de resultaten' class='link link--banner link--bold link--underlined' '>'resultaten downloaden'</a>' van certificering en",
       "step1b": "importeren",
       "step1c": "in het leerlingenregister (beheer)",
-      "step2": "'<'a href='https://cloud.pix.fr/s/d7MCSCq2RsSy5Pt' title='Handleiding: Start van trajecten voor het nieuwe schooljaar' class='link link--banner link--bold link--underlined' '>'Campagnes aanmaken'</a>' (trajecten voor het nieuwe schooljaar, 6e, thematisch, vakgericht, doelgericht…).",
-      "step3": "Leerlingen certificeren. '<'a href='https://cloud.pix.fr/s/nkEoMj9BtHX9EzE' title='Handleiding: De certificering van leerlingen voorbereiden en organiseren' class='link link--banner link--bold link--underlined' '>'Meer informatie over certificering'</a>'."
+      "step2": "'<'a href='https://cloud.pix.fr/s/d7MCSCq2RsSy5Pt' title='Tutorial: Start van trajecten voor het nieuwe schooljaar' class='link link--banner link--bold link--underlined' '>'Campagnes aanmaken'</a>' (trajecten voor het nieuwe schooljaar, 6e, thematisch, vakgericht, doelgericht…).",
+      "step3": "Leerlingen certificeren. '<'a href='https://cloud.pix.fr/s/nkEoMj9BtHX9EzE' title='Tutorial: De certificering van leerlingen voorbereiden en organiseren' class='link link--banner link--bold link--underlined' '>'Meer informatie over certificering'</a>'."
     },
     "last-places-lot-available": {
       "message": "Let op: je plaatsen vervallen over {days, number} dagen."
