@@ -4,8 +4,8 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { CERTIFICATION_CENTER_TYPES } from '../../../shared/constants.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { authorization } from '../../shared/application/pre-handlers/authorization.js';
-import { SESSION_STATUSES } from '../../shared/domain/constants.js';
 import { AlgorithmEngineVersion } from '../../shared/domain/models/AlgorithmEngineVersion.js';
+import { SESSION_STATUSES } from '../../shared/domain/value-objects/SessionStatus.ts';
 import { sessionController } from './session-controller.js';
 
 async function register(server) {
@@ -55,6 +55,8 @@ async function register(server) {
                 .trim()
                 .valid(
                   SESSION_STATUSES.CREATED,
+                  SESSION_STATUSES.STARTED,
+                  SESSION_STATUSES.TO_FINALIZE,
                   SESSION_STATUSES.FINALIZED,
                   SESSION_STATUSES.IN_PROCESS,
                   SESSION_STATUSES.PROCESSED,

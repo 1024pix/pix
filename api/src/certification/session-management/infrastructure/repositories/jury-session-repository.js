@@ -4,10 +4,10 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
-import { SessionStatus } from '../../../shared/domain/value-objects/SessionStatus.ts';
+import { SESSION_STATUSES, SessionStatus } from '../../../shared/domain/value-objects/SessionStatus.ts';
 import { CertificationAssessment } from '../../domain/models/CertificationAssessment.js';
 import { CertificationOfficer } from '../../domain/models/CertificationOfficer.js';
-import { JurySession, statuses } from '../../domain/models/JurySession.js';
+import { JurySession } from '../../domain/models/JurySession.js';
 import { JurySessionCounters } from '../../domain/read-models/JurySessionCounters.js';
 
 const COLUMNS = Object.freeze([
@@ -226,21 +226,37 @@ function _setupFilters(query, filters) {
     query.where('sessions_data.version', version);
   }
 
-  if (status === statuses.CREATED) {
+  if (status === SESSION_STATUSES.CREATED) {
     query.whereNull('finalizedAt');
     query.whereNull('publishedAt');
+    query.whereNull('firstCertificationStartedAt');
   }
-  if (status === statuses.FINALIZED) {
+
+  if (status === SESSION_STATUSES.STARTED) {
+    query.whereNull('finalizedAt');
+    query.whereNull('publishedAt');
+    query.whereNotNull('firstCertificationStartedAt');
+    query.whereRaw(`LOCALTIMESTAMP < "firstCertificationStartedAt" + INTERVAL '1 day'`);
+  }
+
+  if (status === SESSION_STATUSES.TO_FINALIZE) {
+    query.whereNull('finalizedAt');
+    query.whereNull('publishedAt');
+    query.whereNotNull('firstCertificationStartedAt');
+    query.whereRaw(`LOCALTIMESTAMP >= "firstCertificationStartedAt" + INTERVAL '1 day'`);
+  }
+  if (status === SESSION_STATUSES.FINALIZED) {
     query.whereNotNull('finalizedAt');
-    query.whereNull('assignedCertificationOfficerId');
     query.whereNull('publishedAt');
   }
-  if (status === statuses.IN_PROCESS) {
+
+  if (status === SESSION_STATUSES.IN_PROCESS) {
     query.whereNotNull('finalizedAt');
     query.whereNotNull('assignedCertificationOfficerId');
     query.whereNull('publishedAt');
   }
-  if (status === statuses.PROCESSED) {
+
+  if (status === SESSION_STATUSES.PROCESSED) {
     query.whereNotNull('publishedAt');
   }
 
