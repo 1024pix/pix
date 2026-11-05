@@ -223,8 +223,21 @@ describe('Integration | Repository | Session Summary', function () {
               publishedAt: null,
               assignedCertificationOfficerId: null,
               certificationCenterId,
+              date: '2026-11-01',
+              time,
+            });
+            const idSessionStarted = databaseBuilder.factory.buildSession({
+              address: 'started',
+              finalizedAt: null,
+              publishedAt: null,
+              assignedCertificationOfficerId: null,
+              certificationCenterId,
               date,
               time,
+            }).id;
+            databaseBuilder.factory.buildCertificationCourse({
+              sessionId: idSessionStarted,
+              createdAt: new Date(),
             });
             const sessionToFinalize = databaseBuilder.factory.buildSession({
               address: 'to_finalize',
@@ -256,11 +269,11 @@ describe('Integration | Repository | Session Summary', function () {
           });
 
           [
-            { status: SESSION_STATUSES.CREATED, expectedAddress: 'created' },
-            { status: SESSION_STATUSES.TO_FINALIZE, expectedAddress: 'to_finalize' },
-            { status: SESSION_STATUSES.FINALIZED, expectedAddress: 'finalized' },
-            { status: SESSION_STATUSES.PROCESSED, expectedAddress: 'processed' },
-          ].forEach(({ status, expectedAddress }) => {
+            { status: SESSION_STATUSES.CREATED, expectedAddresses: ['started', 'created'] },
+            { status: SESSION_STATUSES.TO_FINALIZE, expectedAddresses: ['to_finalize'] },
+            { status: SESSION_STATUSES.FINALIZED, expectedAddresses: ['finalized'] },
+            { status: SESSION_STATUSES.PROCESSED, expectedAddresses: ['processed'] },
+          ].forEach(({ status, expectedAddresses }) => {
             it(`should return the session summaries with the ${status} status`, async function () {
               // when
               const { models: sessionSummaries } =
@@ -271,8 +284,8 @@ describe('Integration | Repository | Session Summary', function () {
                 });
 
               // then
-              expect(sessionSummaries).to.have.lengthOf(1);
-              expect(sessionSummaries[0].address).to.equal(expectedAddress);
+              expect(sessionSummaries).to.have.lengthOf(expectedAddresses.length);
+              expect(sessionSummaries.map(({ address }) => address)).to.deep.equal(expectedAddresses);
             });
           });
         });
