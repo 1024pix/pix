@@ -133,7 +133,7 @@
     "dayjs": "1.11.23",
     "debug": "4.4.3",
     "fast-levenshtein": "3.0.0",
-    "file-type": "22.2.0",
+    "file-type": "22.3.0",
     "hapi-swagger": "17.3.2",
     "hyparquet-writer": "0.17.0",
     "i18n": "0.15.4",
