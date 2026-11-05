@@ -1,7 +1,6 @@
 import { SessionPublicationBatchError } from '../../../shared/application/errors/http-errors.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as sessionManagementSerializer from '../infrastructure/serializers/session-serializer.js';
 
 async function publish(request, h) {
   const sessionId = request.params.id;
@@ -11,12 +10,12 @@ async function publish(request, h) {
   return h.response().code(204);
 }
 
-async function unpublish(request, h, dependencies = { sessionManagementSerializer }) {
+async function unpublish(request, h) {
   const sessionId = request.params.sessionId;
 
-  const session = await usecases.unpublishSession({ sessionId });
+  await usecases.unpublishSession({ sessionId });
 
-  return dependencies.sessionManagementSerializer.serialize({ session });
+  return h.response().code(204);
 }
 
 async function publishInBatch(request, h) {

@@ -3,10 +3,10 @@
  * @typedef {import('./index.js').FinalizedSessionRepository} FinalizedSessionRepository
  */
 
-import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { SessionAlreadyPublishedError, SessionNotFinalizedError } from '../errors.js';
-
+// todo lolo vu : pas d'usage de candidates
+// id, status,
 /**
  * @param {object} params
  * @param {SessionManagementRepository} params.sessionManagementRepository
@@ -16,23 +16,23 @@ import { SessionAlreadyPublishedError, SessionNotFinalizedError } from '../error
  * @throws {SessionNotFinalizedError} the session is not finalized
  */
 export async function unfinalizeSession({ sessionId, sessionManagementRepository, finalizedSessionRepository }) {
-  return DomainTransaction.execute(async () => {
-    const session = await sessionManagementRepository.get({ id: sessionId });
+  const session = await sessionManagementRepository.get({ id: sessionId });
 
-    if (!session) {
-      throw new NotFoundError("La session n'existe pas ou son accès est restreint");
-    }
+  if (!session) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
 
-    if (session.isPublished()) {
-      throw new SessionAlreadyPublishedError();
-    }
+  if (session.isPublished()) {
+    throw new SessionAlreadyPublishedError();
+  }
 
-    if (!session.isFinalized()) {
-      throw new SessionNotFinalizedError();
-    }
+  if (!session.isFinalized()) {
+    throw new SessionNotFinalizedError();
+  }
 
-    await finalizedSessionRepository.remove({ sessionId });
+  await finalizedSessionRepository.remove({ sessionId });
 
-    await sessionManagementRepository.unfinalize({ id: sessionId });
-  });
+  session.finalizedAt = null;
+  session.assignedCertificationOfficerId = null;
+  await sessionManagementRepository.update(session);
 }

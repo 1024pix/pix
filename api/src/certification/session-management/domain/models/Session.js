@@ -1,5 +1,5 @@
 import { CertificationAssessment } from './CertificationAssessment.js';
-
+// todo lolo finalize() should be in sessionManagement
 export class Session {
   constructor({
     id,

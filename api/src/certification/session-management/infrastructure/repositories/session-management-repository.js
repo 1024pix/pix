@@ -1,5 +1,4 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { SessionManagement } from '../../domain/models/SessionManagement.js';
 
@@ -58,6 +57,7 @@ export async function isFinalized({ id }) {
   return Boolean(session);
 }
 
+// keep for now, then move to dedicated prehandler auth repo maybe ?
 export async function doesUserHaveCertificationCenterMembershipForSession({ userId, sessionId }) {
   const knexConn = DomainTransaction.getConnection();
   const sessions = await knexConn
@@ -75,31 +75,6 @@ export async function doesUserHaveCertificationCenterMembershipForSession({ user
       'certification-centers.id',
     );
   return Boolean(sessions.length);
-}
-
-export async function unfinalize({ id }) {
-  const knexConn = DomainTransaction.getConnection();
-  const updates = await knexConn('sessions')
-    .where({ id })
-    .update({ finalizedAt: null, assignedCertificationOfficerId: null });
-  if (updates === 0) {
-    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
-  }
-}
-
-export async function flagResultsAsSentToPrescriber({ id, resultsSentToPrescriberAt }) {
-  const knexConn = DomainTransaction.getConnection();
-  const [flaggedSession] = await knexConn('sessions')
-    .where({ id })
-    .update({ resultsSentToPrescriberAt })
-    .returning('*');
-  return new SessionManagement(flaggedSession);
-}
-
-export async function updatePublishedAt({ id, publishedAt }) {
-  const knexConn = DomainTransaction.getConnection();
-  const [publishedSession] = await knexConn('sessions').where({ id }).update({ publishedAt }).returning('*');
-  return new SessionManagement(publishedSession);
 }
 
 export async function hasSomeCleaAcquired({ id }) {
@@ -140,4 +115,19 @@ export async function hasNoStartedCertification({ id }) {
 export async function getSessionIdAndPublishedAt(sessionIds) {
   const knexConn = DomainTransaction.getConnection();
   return await knexConn.select(['id', 'publishedAt']).from('sessions').where('sessions.id', 'IN', sessionIds);
+}
+
+export async function update(sessionManagement) {
+  const sessionData = adaptModelToDB(sessionManagement);
+  const knexConn = DomainTransaction.getConnection();
+  await knexConn('sessions').where({ id: sessionManagement.id }).update(sessionData);
+}
+
+function adaptModelToDB(sessionManagement) {
+  return {
+    publishedAt: sessionManagement.publishedAt,
+    finalizedAt: sessionManagement.finalizedAt,
+    assignedCertificationOfficerId: sessionManagement.assignedCertificationOfficerId,
+    resultsSentToPrescriberAt: sessionManagement.resultsSentToPrescriberAt,
+  };
 }

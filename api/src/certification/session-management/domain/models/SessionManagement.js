@@ -26,7 +26,7 @@ export class SessionManagement {
     version = AlgorithmEngineVersion.V3,
     createdBy,
     firstCertificationStartedAt,
-  } = {}) {
+  }) {
     this.id = id;
     this.accessCode = accessCode;
     this.address = address;

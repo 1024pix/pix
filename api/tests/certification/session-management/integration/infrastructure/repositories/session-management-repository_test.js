@@ -2,10 +2,9 @@ import { expect } from 'chai';
 
 import { SessionManagement } from '../../../../../../src/certification/session-management/domain/models/SessionManagement.js';
 import * as sessionManagementRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/session-management-repository.js';
-import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
+import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
+import { databaseBuilder } from '../../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Certification | SessionManagement | Integration | Infrastructure | Repository | session-management', function () {
   describe('#get', function () {
@@ -85,6 +84,65 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
 
       // then
       expect(session).to.be.null;
+    });
+  });
+
+  describe('#update', function () {
+    it('only updated allowed columns', async function () {
+      // given
+      const oldUserId = databaseBuilder.factory.buildUser().id;
+      const newUserId = databaseBuilder.factory.buildUser().id;
+      const sessionId = databaseBuilder.factory.buildSession({
+        accessCode: 'accessCode old',
+        address: 'address old',
+        certificationCenter: 'certificationCenter old',
+        date: '2021-01-01',
+        description: 'description old',
+        examiner: 'examiner old',
+        room: 'room old',
+        time: '15:30:00',
+        examinerGlobalComment: 'examinerGlobalComment old',
+        finalizedAt: new Date('2021-01-02'),
+        resultsSentToPrescriberAt: new Date('2021-01-03'),
+        publishedAt: new Date('2021-01-04'),
+        assignedCertificationOfficerId: oldUserId,
+        version: AlgorithmEngineVersion.V3,
+      }).id;
+      await databaseBuilder.commit();
+      const oldSessionManagement = await sessionManagementRepository.get({ id: sessionId });
+
+      // when
+      const sessionManagementToUpdate = domainBuilder.certification.sessionManagement.buildSessionManagement({
+        id: sessionId,
+        accessCode: 'accessCode new',
+        address: 'address new',
+        certificationCenter: 'certificationCenter new',
+        date: '2022-02-02',
+        description: 'description new',
+        examiner: 'examiner new',
+        room: 'room new',
+        time: '12:22:22',
+        examinerGlobalComment: 'examinerGlobalComment new',
+        finalizedAt: new Date('2022-02-12'),
+        resultsSentToPrescriberAt: new Date('2022-02-13'),
+        publishedAt: new Date('2022-02-14'),
+        assignedCertificationOfficerId: newUserId,
+        version: AlgorithmEngineVersion.V2,
+      });
+      await sessionManagementRepository.update(sessionManagementToUpdate);
+
+      // then
+      const newSessionManagement = await sessionManagementRepository.get({ id: sessionId });
+      expect(newSessionManagement).to.deepEqualInstanceOmitting(oldSessionManagement, [
+        'finalizedAt',
+        'publishedAt',
+        'resultsSentToPrescriberAt',
+        'assignedCertificationOfficerId',
+      ]);
+      expect(newSessionManagement.finalizedAt).to.deep.equal(new Date('2022-02-12'));
+      expect(newSessionManagement.publishedAt).to.deep.equal(new Date('2022-02-14'));
+      expect(newSessionManagement.resultsSentToPrescriberAt).to.deep.equal(new Date('2022-02-13'));
+      expect(newSessionManagement.assignedCertificationOfficerId).to.equal(newUserId);
     });
   });
 
@@ -190,106 +248,6 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
 
       // then
       expect(hasMembership).to.be.false;
-    });
-  });
-
-  describe('#unfinalize', function () {
-    it('should update the session', async function () {
-      // given
-      const { id: userId } = databaseBuilder.factory.buildUser();
-      const session = databaseBuilder.factory.buildSession({
-        id: 99,
-        finalizedAt: new Date(),
-        assignedCertificationOfficerId: userId,
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      await sessionManagementRepository.unfinalize({ id: 99 });
-
-      // then
-      const dbSession = await knex('sessions').select('*').where({ id: 99 }).first();
-      expect(dbSession).to.deep.equal({ ...session, finalizedAt: null, assignedCertificationOfficerId: null });
-    });
-
-    context('when there is a transaction', function () {
-      it('allows to rollback', async function () {
-        // given
-        const { id: userId } = databaseBuilder.factory.buildUser();
-        const session = databaseBuilder.factory.buildSession({
-          id: 99,
-          finalizedAt: new Date(),
-          assignedCertificationOfficerId: userId,
-        });
-        await databaseBuilder.commit();
-
-        // when
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await sessionManagementRepository.unfinalize({ id: 99 });
-          return domainTransaction.knexTransaction.rollback();
-        });
-
-        /// then
-        const dbSession = await knex('sessions').select('*').where({ id: 99 }).first();
-        expect(dbSession).to.deep.equal(session);
-      });
-    });
-
-    context('when the session does not exists', function () {
-      it('should throw a not found error', async function () {
-        // given
-        // when
-        const error = await catchErr(sessionManagementRepository.unfinalize)({ id: 99 });
-
-        // then
-        expect(error).to.be.instanceOf(NotFoundError);
-      });
-    });
-  });
-
-  describe('#flagResultsAsSentToPrescriber', function () {
-    let id;
-    const resultsSentToPrescriberAt = new Date('2017-09-01T12:14:33Z');
-
-    beforeEach(function () {
-      id = databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: null }).id;
-
-      return databaseBuilder.commit();
-    });
-
-    it('should return a flagged SessionManagement domain object', async function () {
-      // when
-      const sessionFlagged = await sessionManagementRepository.flagResultsAsSentToPrescriber({
-        id,
-        resultsSentToPrescriberAt,
-      });
-
-      // then
-      expect(sessionFlagged).to.be.an.instanceof(SessionManagement);
-      expect(sessionFlagged.id).to.deep.equal(id);
-      expect(sessionFlagged.resultsSentToPrescriberAt).to.deep.equal(resultsSentToPrescriberAt);
-    });
-  });
-
-  describe('#updatePublishedAt', function () {
-    let id;
-    const publishedAt = new Date('2017-09-01T12:14:33Z');
-
-    beforeEach(function () {
-      id = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
-
-      return databaseBuilder.commit();
-    });
-
-    it('should return a updated SessionManagement domain object', async function () {
-      // when
-      const sessionFlagged = await sessionManagementRepository.updatePublishedAt({ id, publishedAt });
-
-      // then
-      expect(sessionFlagged).to.be.an.instanceof(SessionManagement);
-      expect(sessionFlagged.id).to.deep.equal(id);
-      expect(sessionFlagged.publishedAt).to.deep.equal(publishedAt);
     });
   });
 
@@ -483,7 +441,7 @@ describe('Certification | SessionManagement | Integration | Infrastructure | Rep
     });
   });
 
-  describe('#checkExistingOrAlreadyPublished', function () {
+  describe('#getSessionIdAndPublishedAt', function () {
     it('return empty array when sessionId is not found', async function () {
       const result = await sessionManagementRepository.getSessionIdAndPublishedAt([123]);
       expect(result).to.deep.equal([]);

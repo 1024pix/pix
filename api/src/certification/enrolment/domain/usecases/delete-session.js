@@ -7,6 +7,8 @@ import { SessionStartedDeletionError } from '../errors.js';
  * @typedef {import("./index.js").SessionRepository} SessionRepository
  */
 
+// todo lolo vu : pas d'usage de candidates
+// status, id
 /**
  * @param {object} params
  * @param {SessionRepository} params.sessionRepository

@@ -2,7 +2,6 @@
 /**
  * @typedef {import('./index.js').SessionAuthorizationInfoRepository} SessionAuthorizationInfoRepository
  * @typedef {import('./index.js').InvigilatorAccessRepository} InvigilatorAccessRepository
- * @typedef {import('./index.js').CertificationCenterRepository} CertificationCenterRepository
  * @typedef {import('./index.js').CertificationCenterAccessRepository} CertificationCenterAccessRepository
  */
 

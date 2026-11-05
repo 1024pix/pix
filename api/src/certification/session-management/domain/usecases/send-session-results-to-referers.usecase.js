@@ -3,8 +3,8 @@ import { SendingEmailToRefererError, SendingEmailToResultRecipientError } from '
 
 export async function sendCleaSessionResultsToReferers({
   sessionId,
-  certificationCenterRepository,
   sessionManagementRepository,
+  resultRecipientInfoRepository,
   mailService,
 }) {
   const hasSomeCleaAcquired = await sessionManagementRepository.hasSomeCleaAcquired({ id: sessionId });
@@ -13,19 +13,18 @@ export async function sendCleaSessionResultsToReferers({
     return;
   }
 
-  const session = await sessionManagementRepository.get({ id: sessionId });
-  const refererEmails = await certificationCenterRepository.getRefererEmails({ id: session.certificationCenterId });
-  if (refererEmails.length <= 0) {
-    logger.warn(`Publishing session ${session.id} with Clea certifications but no referer. No email will be sent`);
+  const resultRecipientInfo = await resultRecipientInfoRepository.findBySessionId({ sessionId });
+  if (resultRecipientInfo.uniqueEmailsForClea.length === 0) {
+    logger.warn(`Publishing session ${sessionId} with Clea certifications but no referer. No email will be sent`);
     return;
   }
 
   const refererEmailingAttempts = [];
-  for (const refererEmail of refererEmails) {
+  for (const refererEmail of resultRecipientInfo.uniqueEmailsForClea) {
     const refererEmailingAttempt = await mailService.sendNotificationToCertificationCenterRefererForCleaResults({
-      sessionId: session.id,
+      sessionId: sessionId,
       email: refererEmail.email,
-      sessionDate: session.date,
+      sessionDate: resultRecipientInfo.sessionDate,
     });
     refererEmailingAttempts.push(refererEmailingAttempt);
   }
@@ -38,25 +37,19 @@ export async function sendCleaSessionResultsToReferers({
 
 export async function sendSessionResultsToPrescribers({
   sessionId,
-  certificationRepository,
   sessionManagementRepository,
+  resultRecipientInfoRepository,
   mailService,
 }) {
   const session = await sessionManagementRepository.get({ id: sessionId });
-  const certificationCourses = await certificationRepository.getStatusesBySessionId(sessionId);
-  const startedCertificationCoursesUserIds = certificationCourses.map(({ userId }) => userId);
-
-  const recipientEmails = _distinctCandidatesResultRecipientEmails(
-    session.certificationCandidates,
-    startedCertificationCoursesUserIds,
-  );
+  const resultRecipientInfo = await resultRecipientInfoRepository.findBySessionId({ sessionId });
   const emailingAttempts = [];
-  for (const recipientEmail of recipientEmails) {
+  for (const recipientEmail of resultRecipientInfo.uniqueEmails) {
     const emailingAttempt = await mailService.sendCertificationResultEmail({
       email: recipientEmail,
       sessionId: session.id,
-      sessionDate: session.date,
-      certificationCenterName: session.certificationCenter,
+      sessionDate: resultRecipientInfo.sessionDate,
+      certificationCenterName: resultRecipientInfo.certificationCenter,
       resultRecipientEmail: recipientEmail,
       daysBeforeExpiration: 30,
     });
@@ -64,27 +57,14 @@ export async function sendSessionResultsToPrescribers({
   }
 
   if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {
-    await sessionManagementRepository.flagResultsAsSentToPrescriber({
-      id: session.id,
-      resultsSentToPrescriberAt: session.publishedAt,
-    });
+    session.resultsSentToPrescriberAt = session.publishedAt;
+    await sessionManagementRepository.update(session);
   }
 
   if (_someHaveFailed(emailingAttempts)) {
     const failedEmailsRecipients = _failedAttemptsEmail(emailingAttempts);
     throw new SendingEmailToResultRecipientError(failedEmailsRecipients);
   }
-}
-
-function _distinctCandidatesResultRecipientEmails(certificationCandidates, startedCertificationCoursesUserIds) {
-  const userIdsSet = new Set(startedCertificationCoursesUserIds);
-  const candidatesWithStartedCertificationCourse = certificationCandidates.filter((candidate) =>
-    userIdsSet.has(candidate.userId),
-  );
-  const recipientEmails = candidatesWithStartedCertificationCourse
-    .map((candidate) => candidate.resultRecipientEmail?.toLowerCase())
-    .filter(Boolean);
-  return [...new Set(recipientEmails)];
 }
 
 function _someHaveSucceeded(emailingAttempts) {

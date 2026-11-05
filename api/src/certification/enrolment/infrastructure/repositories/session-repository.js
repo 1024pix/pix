@@ -185,6 +185,7 @@ export async function updateInfo({ id, address, room, examiner, date, time, desc
   await knexConn('sessions').where({ id }).update({ address, room, examiner, date, time, description });
 }
 
+// todo move me to sessionManagementRepository
 /**
  * @function
  * @param {object} params

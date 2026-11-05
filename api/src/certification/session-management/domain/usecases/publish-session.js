@@ -25,13 +25,13 @@ export async function publishSession({
   if (isAnyCertificationNotPublishable(certificationCourseIds)) {
     throw new CertificationCourseNotPublishableError(sessionId);
   }
-
   const finalizedSession = await updateFinalizedSession(finalizedSessionRepository, sessionId);
   await certificationRepository.publishCertificationCourses({
     certificationCourseIds,
     publishedAt: finalizedSession.publishedAt,
   });
-  await sessionManagementRepository.updatePublishedAt({ id: sessionId, publishedAt: finalizedSession.publishedAt });
+  session.publishedAt = finalizedSession.publishedAt;
+  await sessionManagementRepository.update(session);
   await certificationResultAdapter.buildCertificationResults({ sessionId });
 
   const sessionPublishedEvent = new SessionPublishedEvent({ sessionId, publishedAt: finalizedSession.publishedAt });

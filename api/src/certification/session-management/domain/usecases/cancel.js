@@ -9,7 +9,8 @@ import { NotFinalizedSessionError } from '../../../../shared/domain/errors.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import CertificationCancelled from '../../../../shared/domain/events/deprecated/CertificationCancelled.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
-
+// todo lolo vu : pas d'usage de candidates
+// status, id
 /**
  * @param {object} params
  * @param {number} params.certificationCourseId
