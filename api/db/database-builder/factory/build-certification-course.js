@@ -4,7 +4,7 @@ import { AlgorithmEngineVersion } from '../../../src/certification/shared/domain
 import { Frameworks } from '../../../src/certification/shared/domain/models/Frameworks.js';
 import { databaseBuffer } from '../database-buffer.ts';
 import { buildSession } from './build-session.js';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 export function buildCertificationCourse({
   id = databaseBuffer.getNextId(),

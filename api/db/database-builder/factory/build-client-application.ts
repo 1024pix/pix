@@ -5,35 +5,48 @@ const DEFAULT_CLIENT_SECRET = 'super-secret';
 // eslint-disable-next-line n/no-sync
 const DEFAULT_CLIENT_SECRET_HASH = cryptoService.hashPasswordSync(DEFAULT_CLIENT_SECRET);
 
-export function buildClientApplication({
+type ClientApplicationAttributes = {
+  id?: number;
+  name?: string;
+  clientId?: string;
+  clientSecret?: string;
+  scopes?: string[];
+  jurisdiction?: Record<string, unknown> | null;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+const getHashedSecret = (clientSecret: string): string => {
+  if (clientSecret === DEFAULT_CLIENT_SECRET) {
+    return DEFAULT_CLIENT_SECRET_HASH;
+  }
+  // eslint-disable-next-line n/no-sync
+  return cryptoService.hashPasswordSync(clientSecret);
+};
+
+const buildClientApplication = ({
   id = databaseBuffer.getNextId(),
   name = 'clientApplication',
   clientId = 'client-id',
-  clientSecret = 'super-secret',
+  clientSecret = DEFAULT_CLIENT_SECRET,
   scopes = ['scope1', 'scope2'],
   jurisdiction = { rules: [{ name: 'tags', value: ['MEDNUM'] }] },
   createdAt = new Date(),
   updatedAt = new Date(),
-} = {}) {
+}: ClientApplicationAttributes = {}) => {
   return databaseBuffer.pushInsertable({
     tableName: 'client_applications',
     values: {
       id,
       name,
       clientId,
-      clientSecret: _getHashedSecret(clientSecret),
+      clientSecret: getHashedSecret(clientSecret),
       scopes,
       jurisdiction,
       createdAt,
       updatedAt,
     },
   });
-}
+};
 
-function _getHashedSecret(clientSecret) {
-  if (clientSecret === DEFAULT_CLIENT_SECRET) {
-    return DEFAULT_CLIENT_SECRET_HASH;
-  }
-  // eslint-disable-next-line n/no-sync
-  return cryptoService.hashPasswordSync(clientSecret);
-}
+export { buildClientApplication };

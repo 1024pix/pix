@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
 import { databaseBuffer } from '../database-buffer.ts';
-import { buildAuthenticationMethod } from './build-authentication-method.js';
+import { buildAuthenticationMethod } from './build-authentication-method.ts';
 import { buildCampaignParticipation } from './build-campaign-participation.js';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 function build({
   id = databaseBuffer.getNextId(),

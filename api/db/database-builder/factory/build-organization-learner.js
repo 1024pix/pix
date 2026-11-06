@@ -2,43 +2,44 @@ import _ from 'lodash';
 
 import { databaseBuffer } from '../database-buffer.ts';
 import { buildOrganization } from './build-organization.js';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 /**
- * @typedef SeedOrganizationLearner
- * @type {object}
- *
- * @property {number} id
- * @property {string} firstName
- * @property {string} preferredLastName
- * @property {string} lastName
- * @property {string} middleName
- * @property {string} thirdName
- * @property {string} sex
- * @property {string} birthdate
- * @property {string} birthCity
- * @property {string} birthCityCode
- * @property {string} birthCountryCode
- * @property {string} birthProvinceCode
- * @property {string} MEFCode
- * @property {string} status
- * @property {string} nationalStudentId
- * @property {string} division
- * @property {string} studentNumber
- * @property {string} email
- * @property {string} educationalTeam
- * @property {string} department
- * @property {string} group
- * @property {string} diploma
- * @property {boolean} isDisabled
- * @property {Date} createdAt
- * @property {Date} updatedAt
- * @property {number} organizationId
- * @property {number} userId
- * @property {number} deletedBy
- * @property {Date} deletedAt
- * @property {boolean} isCertifiable
- * @property {Date} certifiableAt
+ * @param {{
+ *   id?: number,
+ *   firstName?: string,
+ *   preferredLastName?: string | null,
+ *   lastName?: string,
+ *   middleName?: string | null,
+ *   thirdName?: string | null,
+ *   sex?: string | null,
+ *   birthdate?: string | null,
+ *   birthCity?: string | null,
+ *   birthCityCode?: string | null,
+ *   birthCountryCode?: string | null,
+ *   birthProvinceCode?: string | null,
+ *   MEFCode?: string | null,
+ *   status?: string | null,
+ *   nationalStudentId?: string | null,
+ *   nationalApprenticeId?: string | null,
+ *   division?: string | null,
+ *   studentNumber?: string | null,
+ *   email?: string | null,
+ *   educationalTeam?: string | null,
+ *   department?: string | null,
+ *   group?: string | null,
+ *   diploma?: string | null,
+ *   isDisabled?: boolean,
+ *   createdAt?: Date,
+ *   updatedAt?: Date,
+ *   organizationId?: number,
+ *   userId?: number | null,
+ *   deletedBy?: number | null,
+ *   deletedAt?: Date | null,
+ *   isCertifiable?: boolean | null,
+ *   certifiableAt?: Date | null,
+ *   attributes?: Record<string, unknown> | null,
+ * }} [attributes]
  */
 const buildOrganizationLearner = function ({
   id = databaseBuffer.getNextId(),
