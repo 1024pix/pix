@@ -48,6 +48,7 @@ data:
 
   # Security
   AUTH_SECRET: "change-me-in-production-this-is-for-dev-only"
+  PIX_ADMIN_LOGIN_FROM_PASSWORD_ENABLED: "true"
 
   # Learning content (mocked)
   LCMS_API_URL: "https://lcms.minimal.pix.fr/api"

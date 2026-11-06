@@ -53,7 +53,7 @@ Tilt ouvre des port-forwards vers `localhost` :
 | Orga      | http://localhost:4201     |
 | Admin     | http://localhost:4202     |
 | Certif    | http://localhost:4203     |
-| Junior    | http://localhost:4204     |
+| Junior    | http://localhost:4205     |
 | Postgres  | `localhost:5432`          |
 | Redis     | `localhost:6379`          |
 

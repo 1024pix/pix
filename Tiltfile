@@ -120,7 +120,7 @@ frontend_apps = [
         'name': 'junior',
         'image': 'pix-junior',
         'context': './junior',
-        'port': 4204,
+        'port': 4205,
         'label': 'frontend',
     },
 ]
