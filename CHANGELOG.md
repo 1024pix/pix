@@ -1,5 +1,34 @@
 # Pix Changelog
 
+# [5.539.0](https://github.com/1024pix/pix/compare/v5.538.0...v5.539.0) (2026-11-06)
+
+### :rocket: Amélioration
+
+- [#18658](https://github.com/1024pix/pix/pull/18658)  Ajouter la fonctionnalité Credits Management (PIX-24695)
+- [#18647](https://github.com/1024pix/pix/pull/18647) Expose un endpoint pour ParcourSup afin d'obtenir la date de dernière délivrance de certification par UAI d'établissement (PIX-24461)
+
+### :bug: Correction
+
+- [#18654](https://github.com/1024pix/pix/pull/18654) Mauvaises conditions de filtre pour obtenir la liste des sessions sur PixCertif filtrées par statut de session
+
+### :building_construction: Tech
+
+- [#18616](https://github.com/1024pix/pix/pull/18616) Ajoute un script pour permettre l'import de données dans le datamart pour ParcourSup (PIX-23668)
+- [#18357](https://github.com/1024pix/pix/pull/18357) Supprime le fichier d'index des `repositories`
+- [#18671](https://github.com/1024pix/pix/pull/18671) Surcharge le content-type dans http-agent
+
+### :arrow_up: Montée de version
+
+- [#18660](https://github.com/1024pix/pix/pull/18660) Update aws-sdk-js-v3 monorepo to v3.1159.0 (api)
+- [#18666](https://github.com/1024pix/pix/pull/18666) Update dependency @1024pix/stylelint-config to v5.2.28 (admin)
+- [#18667](https://github.com/1024pix/pix/pull/18667) Update dependency @1024pix/stylelint-config to v5.2.28 (certif)
+- [#18668](https://github.com/1024pix/pix/pull/18668) Update dependency @1024pix/stylelint-config to v5.2.28 (junior)
+- [#18669](https://github.com/1024pix/pix/pull/18669) Update dependency @1024pix/stylelint-config to v5.2.28 (mon-pix)
+- [#18670](https://github.com/1024pix/pix/pull/18670) Update dependency @1024pix/stylelint-config to v5.2.28 (orga)
+- [#18650](https://github.com/1024pix/pix/pull/18650) Update dependency @redis/client to v6.3.1 (api)
+- [#18661](https://github.com/1024pix/pix/pull/18661) Update dependency file-type to v22.3.0 (api)
+- [#18659](https://github.com/1024pix/pix/pull/18659) Update dependency jose to v6.2.14 (api)
+
 # [5.538.0](https://github.com/1024pix/pix/compare/v5.537.0...v5.538.0) (2026-11-05)
 
 ### :rocket: Amélioration
