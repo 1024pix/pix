@@ -17,8 +17,9 @@ const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONT
 const getInstance = makeGetInstance({ tableName: TABLE_NAME });
 
 // The whole list is read on every answer of a user migrated to knowledge
-// states: kept in this process once read, as the Redis implementation would
-// otherwise fetch and parse every skill again on each call.
+// states: built once in this process and shared, frozen, between callers, as
+// the Redis implementation would otherwise fetch and parse every skill again
+// on each call, and the mapping of thousands of skills is not free either.
 const LIST_CACHE_KEY = 'list()';
 const listCache = new LearningContentCache({ name: `${TABLE_NAME}:list` });
 
@@ -32,10 +33,14 @@ export async function get(id, { locale, useFallback } = { locale: null, useFallb
 }
 
 export async function list() {
+  const cachedSkills = listCache.get(LIST_CACHE_KEY);
+  if (cachedSkills) return cachedSkills;
+
   const listCallback = (knex) => knex.orderBy('id');
-  const skillDtos = listCache.get(LIST_CACHE_KEY) ?? (await getInstance().find(LIST_CACHE_KEY, listCallback));
-  listCache.set(LIST_CACHE_KEY, skillDtos);
-  return skillDtos.map((skillDto) => toDomain(skillDto));
+  const skillDtos = await getInstance().find(LIST_CACHE_KEY, listCallback);
+  const skills = Object.freeze(skillDtos.map((skillDto) => Object.freeze(toDomain(skillDto))));
+  listCache.set(LIST_CACHE_KEY, skills);
+  return skills;
 }
 
 export async function findActiveByTubeIds(tubeIds) {
