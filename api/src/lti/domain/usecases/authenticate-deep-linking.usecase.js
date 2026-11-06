@@ -27,7 +27,7 @@ export async function authenticateDeepLinking({
     organizationIds.push(...organizations.map((organization) => organization.id));
   }
 
-  const scope = 'campaigns:read';
+  const scope = 'lti-campaigns:read';
   const sessionId = crypto.randomUUID();
   const accessToken = new LtiDeepLinkingAccessToken({
     organizationIds,
