@@ -17,6 +17,7 @@ import { KnowledgeElement } from '../../models/KnowledgeElement.js';
 import { KnowledgeState } from '../../models/KnowledgeState.ts';
 import { type Skill } from '../../models/Skill.js';
 import { isAssessed, isDirect, isValidated } from './rules.ts';
+import { groupSkillsByTubeId } from './skills.ts';
 
 export type KnowledgeElementFromKnowledgeState = KnowledgeElement & { createdAt: Date };
 
@@ -66,7 +67,7 @@ export const buildKnowledgeElementsFromKnowledgeStates = ({
   knowledgeStates: KnowledgeState[];
   skills: Skill[];
 }): KnowledgeElementFromKnowledgeState[] => {
-  const skillsByTubeId = Map.groupBy(skills, (skill) => skill.tubeId);
+  const skillsByTubeId = groupSkillsByTubeId(skills);
 
   return knowledgeStates.flatMap((knowledgeState) =>
     buildKnowledgeElementsOfTube(knowledgeState, skillsByTubeId.get(knowledgeState.tubeId) ?? []),
