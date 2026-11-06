@@ -6,6 +6,7 @@ import {
   generateCompetenceLevel,
   generateFirstName,
   generatePixScore,
+  generateSecondaryName,
   generateStatus,
   getCertificationDate,
   getCertificationIssuedAt,
@@ -59,6 +60,8 @@ export default function () {
     national_student_id: sameINE,
     last_name: sameLastName,
     first_name: sameFirstName,
+    middle_name: generateSecondaryName(),
+    third_name: generateSecondaryName(),
     birthdate: getFormattedBirthdate(), // We want different birthdate
     status: generateStatus(),
     pix_score: generatePixScore(),

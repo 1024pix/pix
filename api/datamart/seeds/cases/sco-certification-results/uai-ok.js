@@ -3,6 +3,7 @@ import {
   COMPETENCES,
   generateCompetenceLevel,
   generatePixScore,
+  generateSecondaryName,
   generateStatus,
   getCertificationDate,
   getCertificationIssuedAt,
@@ -28,6 +29,8 @@ export default function () {
     national_student_id: null, // We do not want it to be accessible by INE
     last_name: 'Famille' + orgaUAI,
     first_name: 'Prenom' + orgaUAI,
+    middle_name: generateSecondaryName(),
+    third_name: generateSecondaryName(),
     birthdate: '1999-11-12',
     status: generateStatus(),
     pix_score: generatePixScore(),
