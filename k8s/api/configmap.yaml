@@ -11,16 +11,29 @@ data:
   TEST_DATAMART_DATABASE_URL: "postgresql://postgres@postgres:5432/datamart_test"
   DATAWAREHOUSE_DATABASE_URL: "postgresql://postgres@postgres:5432/datawarehouse"
   TEST_DATAWAREHOUSE_DATABASE_URL: "postgresql://postgres@postgres:5432/datawarehouse_test"
+  JOBS_DATABASE_URL: "postgresql://postgres@postgres:5432/pix"
 
   AUTONOMOUS_COURSES_ORGANIZATION_ID: "9000000"
 
   # Redis
   REDIS_URL: "redis://redis:6379"
 
-  # S3
-  S3_ENDPOINT: "http://s3-mock:9090"
-  S3_BUCKET: "pix-import-dev"
-  S3_REGION: "eu-west-1"
+  # S3 (s3-mock)
+  IMPORT_STORAGE_ACCESS_KEY_ID: "test"
+  IMPORT_STORAGE_SECRET_ACCESS_KEY: "test"
+  IMPORT_STORAGE_ENDPOINT: "http://s3-mock:9090"
+  IMPORT_STORAGE_REGION: "pix"
+  IMPORT_STORAGE_BUCKET_NAME: "pix-import-dev"
+  ATTESTATIONS_STORAGE_ACCESS_KEY_ID: "test"
+  ATTESTATIONS_STORAGE_SECRET_ACCESS_KEY: "test"
+  ATTESTATIONS_STORAGE_ENDPOINT: "http://s3-mock:9090"
+  ATTESTATIONS_STORAGE_REGION: "pix"
+  ATTESTATIONS_STORAGE_BUCKET_NAME: "pix-attestations-dev"
+  ANSWERS_HISTORY_EXPORT_STORAGE_ACCESS_KEY_ID: "test"
+  ANSWERS_HISTORY_EXPORT_STORAGE_SECRET_ACCESS_KEY: "test"
+  ANSWERS_HISTORY_EXPORT_STORAGE_ENDPOINT: "http://s3-mock:9090"
+  ANSWERS_HISTORY_EXPORT_STORAGE_REGION: "pix"
+  ANSWERS_HISTORY_EXPORT_STORAGE_BUCKET_NAME: "pix-answers-history-export-dev"
 
   # Email
   MAILING_ENABLED: "true"

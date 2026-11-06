@@ -32,7 +32,7 @@ k8s_yaml([
 docker_build(
     'pix-api',
     context='./api',
-    dockerfile='./docker/dockerfiles/Dockerfile.hapi',
+    dockerfile='./k8s/dockerfiles/Dockerfile.hapi',
 )
 
 k8s_resource(
@@ -99,7 +99,7 @@ for app in frontend_apps:
     docker_build(
         app['image'],
         context=app['context'],
-        dockerfile='./docker/dockerfiles/Dockerfile.ember',
+        dockerfile='./k8s/dockerfiles/Dockerfile.ember',
         build_args={
             'BUILD_ENVIRONMENT': 'production',
         },
@@ -122,7 +122,7 @@ for app in frontend_apps:
 
 local_resource(
     'db-seed',
-    cmd='kubectl -n {} exec deploy/api -c api -- npm run db:seed'.format(namespace),
+    cmd='kubectl -n {} exec deploy/api -c api -- sh -c "npm run cache:refresh && npm run db:reload"'.format(namespace),
     resource_deps=['api'],
     labels=['tools'],
     auto_init=False,

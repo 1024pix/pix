@@ -24,7 +24,7 @@ spec:
             - containerPort: 9090
           env:
             - name: initialBuckets
-              value: "pix-import-dev,pix-import-test"
+              value: "pix-import-dev,pix-import-test,pix-attestations-dev,pix-answers-history-export-dev"
             - name: JAVA_TOOL_OPTIONS
               value: "-XX:MaxRAMPercentage=60"
           resources:
