@@ -225,7 +225,7 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
       ]);
       expect(knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
       expect(knowledgeElements[0]).to.include({
-        id: null,
+        id: undefined,
         answerId: null,
         assessmentId: null,
         userId,

@@ -27,7 +27,6 @@ const buildKnowledgeElementOfSkill = (
   const validated = isValidated(knowledgeState, skill.difficulty);
 
   return new KnowledgeElement({
-    id: null,
     createdAt: validated ? knowledgeState.updatedAt : (knowledgeState.ceilingAt as Date),
     source: isDirect(knowledgeState, skill.difficulty) ? 'direct' : 'inferred',
     status: validated ? 'validated' : 'invalidated',
