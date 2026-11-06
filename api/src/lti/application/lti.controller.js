@@ -112,7 +112,7 @@ async function deepLink(request, h, dependencies = { ltiService }) {
 
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
 
-  if (messageType !== 'LtiResourceLinkRequest') {
+  if (messageType !== 'LtiDeepLinkingRequest') {
     throw new BadRequestError('Unexpected LTI message type');
   }
 

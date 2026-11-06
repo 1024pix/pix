@@ -201,7 +201,7 @@ describe('Acceptance | LTI | Route | LTI', function () {
       const ltiEncodedToken = jsonwebtoken.sign(
         {
           aud: clientId,
-          'https://purl.imsglobal.org/spec/lti/claim/message_type': 'LtiResourceLinkRequest',
+          'https://purl.imsglobal.org/spec/lti/claim/message_type': 'LtiDeepLinkingRequest',
           'https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings': {},
           'https://purl.imsglobal.org/spec/lti/claim/custom': { pix_orgas: organization.externalId },
         },
