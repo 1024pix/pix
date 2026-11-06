@@ -2637,10 +2637,12 @@
           "label": "External login",
           "other-authentication-label": "Other connection method"
         },
-        "edit-button": "Edit",
+        "edit-email-button": "Edit email address",
         "edit-password-button": "Change the password",
         "email": "Email address",
+        "email-and-password-title": "Email address and password",
         "menu-link-title": "Log in methods",
+        "other-methods-title": "Other login methods",
         "password": "Password",
         "username": "Username"
       },

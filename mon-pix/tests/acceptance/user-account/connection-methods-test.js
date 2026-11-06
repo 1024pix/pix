@@ -39,6 +39,37 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       assert.ok(screen.getByText(user.username));
     });
 
+    test('displays connection methods in accessible sections', async function (assert) {
+      // given
+      const user = server.create('user', 'withEmail');
+      server.create('authentication-method', 'withPixIdentityProvider', { user });
+      server.create('authentication-method', 'withGenericOidcIdentityProvider', { user });
+      await authenticate(user);
+
+      // when
+      const screen = await visit('/mon-compte/methodes-de-connexion');
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('heading', {
+            level: 2,
+            name: t('pages.user-account.connexion-methods.email-and-password-title'),
+          }),
+        )
+        .exists();
+      assert
+        .dom(
+          screen.getByRole('heading', {
+            level: 2,
+            name: t('pages.user-account.connexion-methods.other-methods-title'),
+          }),
+        )
+        .exists();
+      assert.dom(screen.getByText(t('pages.user-account.connexion-methods.email'))).hasTagName('DT');
+      assert.dom(screen.getByText(user.email)).hasTagName('DD');
+    });
+
     test("displays user's GAR authentication method", async function (assert) {
       // given
       const garUser = server.create('user', 'external');
@@ -190,7 +221,7 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       server.create('authentication-method', 'withPixIdentityProvider', { user });
       await authenticate(user);
       const screen = await visit('/mon-compte/methodes-de-connexion');
-      await click(screen.getByRole('button', { name: t('pages.user-account.connexion-methods.edit-button') }));
+      await click(screen.getByRole('button', { name: t('pages.user-account.connexion-methods.edit-email-button') }));
 
       // when
       await visit('/mon-compte/informations-personnelles');
@@ -198,7 +229,9 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
 
       // then
       assert.ok(screen.getByText(t('pages.user-account.connexion-methods.email')));
-      assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
+      assert
+        .dom(screen.getByRole('button', { name: t('pages.user-account.connexion-methods.edit-email-button') }))
+        .exists();
     });
 
     test('is able to edit the email, enter the code received, and be successfully redirected to account page', async function (assert) {
@@ -210,7 +243,7 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       const screen = await visit('/mon-compte/methodes-de-connexion');
 
       // when
-      await click(screen.getByRole('button', { name: 'Modifier' }));
+      await click(screen.getByRole('button', { name: t('pages.user-account.connexion-methods.edit-email-button') }));
       await fillIn(screen.getByRole('textbox', { name: 'Nouvelle adresse e-mail' }), newEmail);
       await fillIn(screen.getByLabelText('Mot de passe'), user.password);
       await click(screen.getByRole('button', { name: 'Recevoir un code de vérification' }));

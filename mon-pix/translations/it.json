@@ -2637,10 +2637,12 @@
           "label": "Connessione esterna",
           "other-authentication-label": "Altro metodo di connessione"
         },
-        "edit-button": "Modificare",
+        "edit-email-button": "Modificare l'indirizzo e-mail",
         "edit-password-button": "Modificare la password",
         "email": "Indirizzo e-mail",
+        "email-and-password-title": "Indirizzo e-mail e password",
         "menu-link-title": "I miei metodi di accesso",
+        "other-methods-title": "Altri metodi di connessione",
         "password": "Password",
         "username": "Identificatore"
       },
