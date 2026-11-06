@@ -7,32 +7,17 @@ import { GenerateCpfXmlEventHandler } from '../../../../../src/certification/res
 import { Frameworks } from '../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
-describe('Acceptance | Application | Generate CPF XML Event Handler ', function () {
+describe.only('Acceptance | Application | Generate CPF XML Event Handler ', function () {
   describe('#handle', function () {
     it('should return a XML File', async function () {
       const session = await databaseBuilder.factory.buildSession();
-      await databaseBuilder.factory.buildFinalizedSession({ sessionId: session.id });
 
-      await databaseBuilder.factory.buildCertificationCourse({
-        framework: Frameworks.CORE,
-        sessionId: session.id,
-        lastName: 'Lagagne',
-        firstName: 'Max',
-        birthdate: '2000-10-30',
-        birthplace: 'Romorantin-Lanthenay',
-        birthINSEECode: 41194,
-        createdAt: new Date('2023-10-30'),
-      });
-      await databaseBuilder.factory.buildCertificationCourse({
-        framework: Frameworks.CORE,
-        sessionId: session.id,
-        lastName: 'Winner',
-        firstName: 'Max',
-        birthdate: '2002-12-26',
-        birthplace: 'Paris 15',
-        birthINSEECode: 75115,
-        createdAt: new Date('2023-10-29'),
-      });
+      const firstUser = await databaseBuilder.factory.buildUser();
+      const firstCertifResult = await databaseBuilder.factory.buildCertificationResult({ });
+      await databaseBuilder.factory.buildUserCertificationResult({userId: firstUser.id, sessionId: session.id, certificationResultId: firstCertifResult.id})
+      const secondUser = await databaseBuilder.factory.buildUser();
+      const secondCertifResult = await databaseBuilder.factory.buildCertificationResult({ });
+      await databaseBuilder.factory.buildUserCertificationResult({userId: secondUser.id, sessionId: session.id, certificationResultId: secondCertifResult.id})
 
       await databaseBuilder.commit();
 

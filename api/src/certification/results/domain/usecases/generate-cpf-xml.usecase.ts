@@ -9,20 +9,21 @@ export async function generateCpfXml({
   sessionId,
   uuid,
   sessionRepository,
-  sharedCertificationCourseRepository,
+  certificateRepository,
+  certificationResultRepository,
 }: {
   sessionId: number;
   uuid?: string;
   sessionRepository: { get: (sessionId: number) => Promise<{ id: number; certificationIds: Array<number | null> }> };
-  sharedCertificationCourseRepository: {
+  certificateRepository: {
     get: ({ id }: { id: number | null }) => Promise<{}>;
   };
+  certificationResultRepository: {
+    findBySessionId: ({sessionId}: {sessionId: number}) => Promise<{}>
+  }
 }) {
-  const { certificationIds } = await sessionRepository.get(sessionId);
-
-  certificationCourses = await Promise.all(
-    certificationIds.map(async (id) => await sharedCertificationCourseRepository.get({ id })),
-  );
+  const e = await certificationResultRepository.findBySessionId({sessionId});
+  console.log(e)
 
   const internalUuid = uuid || randomUUID();
 
