@@ -1,17 +1,37 @@
+@use 'pix-design-tokens/breakpoints';
+@use 'pix-design-tokens/typography';
+
+.user-account-panel {
+  & + & {
+    margin-top: var(--pix-spacing-6x);
+    padding-top: var(--pix-spacing-6x);
+    border-top: 1px solid var(--pix-neutral-20);
+  }
+
+  &__title {
+    @extend %pix-title-xxs;
+
+    margin-bottom: var(--pix-spacing-4x);
+  }
+
+  &__list {
+    margin: 0;
+  }
+
+  &__success-message {
+    margin-top: var(--pix-spacing-4x);
+  }
+}
+
 .user-account-panel__item {
   display: flex;
-  flex-direction: column;
-  gap: var(--pix-spacing-6x);
-  justify-content: space-between;
-  padding-top: 16px;
-  padding-bottom: 16px;
+  flex-wrap: wrap;
+  row-gap: var(--pix-spacing-3x);
+  padding-top: var(--pix-spacing-4x);
+  padding-bottom: var(--pix-spacing-4x);
   word-break: normal;
   overflow-wrap: anywhere;
-  border-top: var(--pix-neutral-20) 1px solid;
-
-  &--with-success-message {
-    margin: 20px 0 0;
-  }
+  border-top: 1px solid var(--pix-neutral-20);
 
   &:first-child {
     padding-top: 0;
@@ -23,39 +43,30 @@
   }
 }
 
-.user-account-panel__success-message + .user-account-panel__success-message {
-  margin-top: var(--pix-spacing-2x);
-}
-
-.user-account-panel__success-message + .user-account-panel__item {
-  margin-top: 20px;
-}
-
-.user-account-panel-item__text {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--pix-spacing-2x);
-}
-
 .user-account-panel-item__label {
   display: flex;
   align-items: center;
-  width: 250px;
-  margin: 0 var(--pix-spacing-10x) 0 0;
+  min-width: 140px;
+  margin: 0;
+  color: var(--pix-neutral-800);
+  font-weight: var(--pix-font-medium);
+  font-size: 0.938rem;
+  letter-spacing: 0.031rem;
 }
 
 .user-account-panel-item__value {
-  display: flex;
-  align-items: center;
+  flex: 1;
   margin: 0;
   color: var(--pix-neutral-500);
 }
 
-.user-account-panel-item__edit-button {
-  margin-left: auto;
+.user-account-panel-item__action {
+  flex-basis: 100%;
+  margin: 0;
 }
 
-.user-account-panel-item__add-email-button {
-  align-self: flex-start;
-  max-width: 100%; /* don't overflow the container on small screens */
+@include breakpoints.device-is('mobile') {
+  .user-account-panel__item {
+    flex-direction: column;
+  }
 }

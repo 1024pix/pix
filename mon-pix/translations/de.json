@@ -2638,10 +2638,12 @@
           "label": "Externe Verbindung",
           "other-authentication-label": "Eine andere Verbindung"
         },
-        "edit-button": "Bearbeiten",
+        "edit-email-button": "E-Mail-Adresse bearbeiten",
         "edit-password-button": "Passwort ändern",
         "email": "E-Mail-Adresse",
+        "email-and-password-title": "E-Mail-Adresse und Passwort",
         "menu-link-title": "Meine Verbindungen",
+        "other-methods-title": "Andere Verbindungsmethoden",
         "password": "Passwort",
         "username": "Username"
       },

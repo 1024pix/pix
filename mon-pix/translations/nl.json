@@ -2638,10 +2638,12 @@
           "label": "Extern inloggen",
           "other-authentication-label": "Andere inlogmethode"
         },
-        "edit-button": "Wijzigen",
+        "edit-email-button": "E-mailadres wijzigen",
         "edit-password-button": "Wachtwoord wijzigen",
         "email": "E-mailadres",
+        "email-and-password-title": "E-mailadres en wachtwoord",
         "menu-link-title": "Mijn huidige inlogmethoden",
+        "other-methods-title": "Andere inlogmethoden",
         "password": "Wachtwoord",
         "username": "Gebruikersnaam"
       },
