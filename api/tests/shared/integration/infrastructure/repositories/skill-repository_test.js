@@ -299,7 +299,7 @@ describe('Integration | Repository | skill-repository', function () {
       expect(intlLocaleSpy).not.to.have.been.called;
     });
 
-    it('should keep the list in the process and read the learning content once', async function () {
+    it('should keep the list in the process, frozen, and read the learning content once', async function () {
       // given
       const find = sinon.spy(LearningContentRedisRepository.prototype, 'find');
       const firstSkills = await skillRepository.list();
@@ -309,8 +309,9 @@ describe('Integration | Repository | skill-repository', function () {
 
       // then
       expect(find).to.have.been.calledOnce;
-      expect(skills).to.deep.equal(firstSkills);
-      expect(skills[0]).not.to.equal(firstSkills[0]);
+      expect(skills).to.equal(firstSkills);
+      expect(Object.isFrozen(skills)).to.be.true;
+      expect(Object.isFrozen(skills[0])).to.be.true;
     });
 
     it('should read the learning content again once the cache is cleared', async function () {
