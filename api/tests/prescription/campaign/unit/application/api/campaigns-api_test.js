@@ -2,8 +2,13 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as campaignApi from '../../../../../../src/prescription/campaign/application/api/campaigns-api.js';
+import {
+  CampaignCompetenceDTO,
+  CampaignOverviewWithCompetencesDTO,
+} from '../../../../../../src/prescription/campaign/application/api/models/CampaignOverviewWithCompetencesDTO.js';
 import { UserNotAuthorizedToCreateCampaignError } from '../../../../../../src/prescription/campaign/domain/errors.js';
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
+import { CampaignCompetence } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignCompetence.js';
 import { CampaignReport } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignReport.js';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
@@ -311,6 +316,69 @@ describe('Unit | API | Campaigns', function () {
       expect(firstCampaignListItem.createdAt).to.be.equal(campaignInformation1.createdAt);
       expect(firstCampaignListItem.archivedAt).to.be.equal(campaignInformation1.archivedAt);
       expect(firstCampaignListItem.tubes).to.be.undefined;
+    });
+  });
+
+  describe('#getCampaignOverview', function () {
+    it('returns campaign overview with competences as DTO', async function () {
+      // given
+      const campaignId = 777;
+      sinon
+        .stub(usecases, 'getCampaignOverview')
+        .withArgs({ campaignId, locale: 'en' })
+        .resolves({
+          id: campaignId,
+          code: 'AZERTY',
+          name: 'Campagne 6A',
+          type: 'ASSESSMENT',
+          organizationName: 'Pix organization',
+          organizationId: 12,
+          description: 'Parcours rentrée 6ieme',
+          competences: [
+            new CampaignCompetence({ id: 'recCompetence1', index: '1.1', name: 'Competence 1', maxLevel: 3.5 }),
+          ],
+        });
+
+      // when
+      const result = await campaignApi.getCampaignOverview({ campaignId, locale: 'en' });
+
+      // then
+      expect(result).to.be.an.instanceOf(CampaignOverviewWithCompetencesDTO);
+      expect(result.competences[0]).to.be.an.instanceOf(CampaignCompetenceDTO);
+      expect(result).to.deep.equal({
+        id: campaignId,
+        code: 'AZERTY',
+        name: 'Campagne 6A',
+        type: 'ASSESSMENT',
+        organizationName: 'Pix organization',
+        organizationId: 12,
+        description: 'Parcours rentrée 6ieme',
+        competences: [{ id: 'recCompetence1', index: '1.1', name: 'Competence 1', maxLevel: 3.5 }],
+      });
+    });
+
+    it('uses fr-FR locale by default', async function () {
+      // given
+      const campaignId = 777;
+      const getCampaignOverviewStub = sinon.stub(usecases, 'getCampaignOverview').resolves(null);
+
+      // when
+      await campaignApi.getCampaignOverview({ campaignId });
+
+      // then
+      expect(getCampaignOverviewStub).to.have.been.calledOnceWithExactly({ campaignId, locale: 'fr-FR' });
+    });
+
+    it('returns null when usecase returns null', async function () {
+      // given
+      const campaignId = 777;
+      sinon.stub(usecases, 'getCampaignOverview').withArgs({ campaignId, locale: 'fr-FR' }).resolves(null);
+
+      // when
+      const result = await campaignApi.getCampaignOverview({ campaignId });
+
+      // then
+      expect(result).to.be.null;
     });
   });
 });

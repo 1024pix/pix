@@ -4,6 +4,7 @@ import { usecases } from '../../domain/usecases/index.js';
 import { Campaign } from './models/Campaign.js';
 import { CampaignListItem } from './models/CampaignListItem.js';
 import { CampaignOverviewDTO } from './models/CampaignOverviewDTO.js';
+import { CampaignOverviewWithCompetencesDTO } from './models/CampaignOverviewWithCompetencesDTO.js';
 import {
   AssessmentCampaignParticipation as AssessmentCampaignParticipationAPI,
   ProfilesCollectionCampaignParticipation as ProfilesCollectionCampaignParticipationAPI,
@@ -320,13 +321,19 @@ export const getCampaignOverviews = async ({ organizationIds }) => {
 };
 
 /**
+ * Returns the campaign overview with the competences of its learning content and their max level:
+ * - ASSESSMENT: competences of the target profile, max level is the average of the tubes max level
+ * - PROFILES_COLLECTION: all Pix competences, max level is MAX_REACHABLE_LEVEL
+ *
  * @function
  * @name getCampaignOverview
  *
- * @param {number} campaignId
- * @returns {Promise<CampaignOverviewDTO|null>}
+ * @param {Object} params
+ * @param {number} params.campaignId
+ * @param {string} [params.locale='fr-FR']
+ * @returns {Promise<CampaignOverviewWithCompetencesDTO|null>} null when the campaign is not found
  */
-export const getCampaignOverview = async ({ campaignId }) => {
-  const campaign = await usecases.getCampaignOverview({ campaignId });
-  return campaign ? new CampaignOverviewDTO(campaign) : null;
+export const getCampaignOverview = async ({ campaignId, locale = 'fr-FR' }) => {
+  const campaign = await usecases.getCampaignOverview({ campaignId, locale });
+  return campaign ? new CampaignOverviewWithCompetencesDTO(campaign) : null;
 };
