@@ -22,12 +22,12 @@ function _fetchTargetProfiles(organizationId) {
       'target-profiles.category',
       'target-profiles.areKnowledgeElementsResettable',
       'target-profiles.isSimplifiedAccess',
-      knexConn.count('id').from('badges').whereRaw('badges."targetProfileId"="target-profiles".id').as('countBadges'),
-      knexConn.count('id').from('stages').whereRaw('stages."targetProfileId"="target-profiles".id').as('countStages'),
+      knexConn.count('id').from('badges').whereColumn('badges.targetProfileId', 'target-profiles.id').as('countBadges'),
+      knexConn.count('id').from('stages').whereColumn('stages.targetProfileId', 'target-profiles.id').as('countStages'),
       knexConn
         .count('tubeId')
         .from('target-profile_tubes')
-        .whereRaw('"target-profile_tubes"."targetProfileId"="target-profiles".id')
+        .whereColumn('target-profile_tubes.targetProfileId', 'target-profiles.id')
         .as('countTubes'),
     ])
     .where({ outdated: false })

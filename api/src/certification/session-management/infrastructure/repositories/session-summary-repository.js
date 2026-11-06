@@ -21,13 +21,13 @@ export async function findPaginatedFilteredByCertificationCenterId({ certificati
           assignedCertificationOfficerId: 'sessions.assignedCertificationOfficerId',
           enrolledCandidatesCount: knexConn('certification-candidates')
             .count('id')
-            .whereRaw('?? = ??', ['certification-candidates.sessionId', 'sessions.id']),
+            .whereColumn('certification-candidates.sessionId', 'sessions.id'),
           effectiveCandidatesCount: knexConn('certification-courses')
             .count('id')
-            .whereRaw('?? = ??', ['certification-courses.sessionId', 'sessions.id']),
+            .whereColumn('certification-courses.sessionId', 'sessions.id'),
           firstCertificationStartedAt: knexConn('certification-courses')
             .select('createdAt')
-            .whereRaw('?? = ??', ['certification-courses.sessionId', 'sessions.id'])
+            .whereColumn('certification-courses.sessionId', 'sessions.id')
             .orderBy('createdAt', 'asc')
             .first(),
         })

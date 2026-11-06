@@ -54,14 +54,14 @@ const getParticipations = (qb, campaignId, filters) => {
     'campaign-participations.userId',
     knexConn('campaign-participations')
       .count()
-      .whereRaw('"organizationLearnerId" = "view-active-organization-learners".id')
+      .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
       .where('campaign-participations.campaignId', campaignId)
       .where('campaign-participations.status', SHARED)
       .whereNull('campaign-participations.deletedAt')
       .as('sharedResultCount'),
     knexConn('campaign-participations')
       .select('masteryRate')
-      .whereRaw('"organizationLearnerId" = "view-active-organization-learners".id')
+      .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
       .where('campaign-participations.campaignId', campaignId)
       .where('campaign-participations.status', SHARED)
       .whereNull('campaign-participations.deletedAt')

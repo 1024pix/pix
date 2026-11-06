@@ -61,7 +61,7 @@ export async function get({ id }) {
         )
         .from('certification-candidates')
         .leftJoin('certification-courses', 'certification-courses.candidateId', 'certification-candidates.id')
-        .whereRaw('"certification-candidates"."sessionId" = sessions.id'),
+        .whereColumn('certification-candidates.sessionId', 'sessions.id'),
     })
     .from('sessions')
     .join('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')

@@ -54,8 +54,8 @@ export async function getCertificatesByOrganizationUAI(uai) {
       knexConn
         .select(1)
         .from({ 'last-certification-courses': 'certification-courses' })
-        .whereRaw('"last-certification-courses"."userId" = "certification-courses"."userId"')
-        .whereRaw('"certification-courses"."createdAt" < "last-certification-courses"."createdAt"')
+        .whereColumn('last-certification-courses.userId', 'certification-courses.userId')
+        .whereColumn('certification-courses.createdAt', '<', 'last-certification-courses.createdAt')
         .whereRaw('"assessment-results"."status" <> ?', AssessmentResult.status.CANCELLED)
         .innerJoin(
           'certification-courses-last-assessment-results',

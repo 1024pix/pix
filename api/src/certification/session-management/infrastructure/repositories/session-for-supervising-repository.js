@@ -25,7 +25,7 @@ export async function get({ id, dependencies = { certificationBadgesService } })
       assignedCertificationOfficerId: 'sessions.assignedCertificationOfficerId',
       firstCertificationStartedAt: knexConn('certification-courses')
         .min('createdAt')
-        .whereRaw('"certification-courses"."sessionId" = "sessions"."id"'),
+        .whereColumn('certification-courses.sessionId', 'sessions.id'),
       certificationCandidates: knexConn
         .select(
           knexConn.raw(`
@@ -74,7 +74,7 @@ export async function get({ id, dependencies = { certificationBadgesService } })
             CertificationCompanionLiveAlertStatus.ONGOING,
           );
         })
-        .whereRaw('"certification-candidates"."sessionId" = sessions.id'),
+        .whereColumn('certification-candidates.sessionId', 'sessions.id'),
     })
     .from('sessions')
     .where({ 'sessions.id': id })

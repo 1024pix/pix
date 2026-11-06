@@ -31,8 +31,8 @@ export async function findByDivisionForScoIsManagingStudentsOrganization({ organ
       'view-active-organization-learners.isDisabled': false,
     })
     .whereRaw('LOWER("view-active-organization-learners"."division") = ?', division.toLowerCase())
-    .whereRaw('"certification-candidates"."userId" = "certification-courses"."userId"')
-    .whereRaw('"certification-candidates"."sessionId" = "certification-courses"."sessionId"')
+    .whereColumn('certification-candidates.userId', 'certification-courses.userId')
+    .whereColumn('certification-candidates.sessionId', 'certification-courses.sessionId')
     .modify(_checkOrganizationIsScoIsManagingStudents)
     .groupBy('view-active-organization-learners.id', 'certification-courses.id', 'sessions.id', 'assessment-results.id')
     .orderBy('certification-courses.createdAt', 'DESC');

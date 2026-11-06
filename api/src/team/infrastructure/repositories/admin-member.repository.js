@@ -71,7 +71,7 @@ const deactivate = async function ({ id }) {
   const [deactivatedAdminMember] = await knexConn
     .from('pix-admin-roles')
     .where({ id })
-    .whereRaw('"disabledAt" IS NULL')
+    .whereNull('disabledAt')
     .update({ disabledAt: now, updatedAt: now })
     .returning('*');
 

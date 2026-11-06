@@ -23,7 +23,7 @@ export const isUserScoStudent = async (userId) => {
       this.select(1)
         .from('account-recovery-demands')
         .where({ userId, used: true })
-        .whereRaw('"organizationLearnerId" = "organization-learners"."id"');
+        .whereColumn('organizationLearnerId', 'organization-learners.id');
     })
     .first();
 
