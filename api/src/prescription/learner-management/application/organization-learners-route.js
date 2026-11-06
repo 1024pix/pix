@@ -33,6 +33,7 @@ const register = async (server) => {
       },
     },
     {
+      // duplicate this for admin
       method: 'DELETE',
       path: '/api/organizations/{organizationId}/organization-learners',
       config: {

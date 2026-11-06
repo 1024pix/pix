@@ -3,12 +3,28 @@ import { usecases } from '../domain/usecases/index.js';
 import { organizationLearnerFilterSerializer } from '../infrastructure/serializers/jsonapi/organization-learner-filter-serializer.js';
 import { scoOrganizationLearnerSerializer } from '../infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
 
+// duplicate this for admin
 const deleteOrganizationLearners = async function (request, h) {
   const authenticatedUserId = request.auth.credentials.userId;
   const listLearners = request.payload.listLearners;
   const organizationId = request.params.organizationId;
 
   await usecases.deleteOrganizationLearners({
+    organizationLearnerIds: listLearners,
+    userId: authenticatedUserId,
+    organizationId,
+    userRole: PIX_ORGA.ROLES.ADMIN,
+    client: CLIENTS.ORGA,
+  });
+  return h.response().code(200);
+};
+
+const deleteOrganizationLearnersFromAdmin = async function (request, h) {
+  const authenticatedUserId = request.auth.credentials.userId;
+  const listLearners = request.payload.listLearners;
+
+  // get learners ids associated with organization ids
+  const organizationId = await usecases.deleteOrganizationLearners({
     organizationLearnerIds: listLearners,
     userId: authenticatedUserId,
     organizationId,
@@ -104,6 +120,7 @@ const getOrganizationLearnerFilters = async function (
 const organizationLearnersController = {
   reconcileCommonOrganizationLearner,
   deleteOrganizationLearners,
+  deleteOrganizationLearnersFromAdmin,
   deleteOrganizationLearnerFromAdmin,
   getOrganizationLearnerFilters,
   importOrganizationLearnerFromFeature,

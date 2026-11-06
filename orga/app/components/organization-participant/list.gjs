@@ -160,6 +160,7 @@ export default class List extends Component {
   <template>
     {{#let (uniqueId) (uniqueId) (uniqueId) (uniqueId) as |actionBarId paginationId headerId filtersId|}}
       <div id={{filtersId}} />
+      {{! SelectableList like this }}
       <SelectableList
         @items={{@participants}}
         as |toggleParticipant isParticipantSelected allSelected someSelected toggleAll selectedParticipants reset|
@@ -406,6 +407,7 @@ export default class List extends Component {
           @onResetFilter={{fn this.addResetOnFunction @onResetFilter reset}}
         />
 
+        {{! ActionBar like this }}
         {{#if someSelected}}
           <ActionBar
             @destinationId={{actionBarId}}
