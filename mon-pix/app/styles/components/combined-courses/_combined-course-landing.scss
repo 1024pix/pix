@@ -3,18 +3,22 @@
 .combined-course-landing {
   &__connection {
     @extend %pix-body-m;
+
     display: flex;
     flex-direction: column;
   }
+
   &__login {
     display: flex;
     flex-direction: column;
     gap: var(--pix-spacing-4x);
   }
+
   &__login-actions {
     display: flex;
     gap: var(--pix-spacing-6x);
   }
+
   &__login-info {
     @extend %pix-body-s;
   }

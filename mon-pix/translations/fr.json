@@ -637,11 +637,14 @@
         "title": "Commencez votre parcours Pix",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' prêt à évaluer vos compétences numériques ?"
       },
+      "breaks": "Pauses possibles",
+      "has-reward": "Attestation à la clé",
       "login": {
         "info": "Un compte Pix vous permet de reprendre votre parcours là où vous l'avez laissé ou de prolonger votre apprentissage.",
         "login-cta": "Je me connecte",
         "signup-cta": "Je crée mon compte"
       },
+      "organization": "Proposé par { organizationName }",
       "profiles-collection": {
         "action": "C'est parti !",
         "announcement": "Inscrivez-vous ou connectez-vous sur la plateforme Pix et envoyez votre profil à l'organisation destinataire.",
@@ -651,7 +654,9 @@
       },
       "title": "Présentation",
       "warning-message": "Vous n'êtes pas { firstName } { lastName } ?",
-      "warning-message-logout": "Se déconnecter"
+      "warning-message-logout": "Se déconnecter",
+      "welcome-authenticated": "Bonjour { firstName } !",
+      "welcome-unauthenticated": "Bonjour !"
     },
     "campaign-participation": {
       "title": "Parcours"
@@ -1004,7 +1009,6 @@
     "certifications-dashboard": {
       "eligibility": {
         "steps": {
-          "title": "Comment passer sa certification Pix ?",
           "1": {
             "description": "Obtenir au minimum un niveau 1 dans 5 compétences.",
             "link": "Voir mes compétences",
@@ -1023,7 +1027,8 @@
           "3": {
             "description": "Vos résultats seront disponibles au plus tôt 2 jours après votre test de certification, une fois la session finalisée par votre centre.",
             "title": "Les résultats"
-          }
+          },
+          "title": "Comment passer sa certification Pix ?"
         }
       },
       "enrolment-banner": {
