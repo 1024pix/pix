@@ -1,9 +1,9 @@
-import { AlgorithmEngineVersion } from '../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
+import { randomUUID } from 'node:crypto';
+
 import { databaseBuffer } from '../database-buffer.ts';
 
 export function buildCertificationResult({
-  id = databaseBuffer.getNextId(),
-  version = AlgorithmEngineVersion.V3,
+  id,
   firstName = 'first-name',
   middleName = 'middle-name',
   thirdName = 'third-name',
@@ -17,16 +17,16 @@ export function buildCertificationResult({
   birthCountry = 'FRANCE',
   verificationCode = 'VERIFCODE',
   certificationCenter = 'Meilleur centre de certif',
-  takenAt = new Date('2026-01-01'),
   deliveredAt = new Date('2026-01-03'),
   status = 'cancelled',
   framework = 'CORE',
   franceCompetencesMinScore = 100,
   results = {},
 } = {}) {
+  id = id === undefined ? randomUUID() : id;
+
   const values = {
     id,
-    version,
     firstName,
     middleName,
     thirdName,
@@ -40,7 +40,6 @@ export function buildCertificationResult({
     birthCountry,
     verificationCode,
     certificationCenter,
-    takenAt,
     deliveredAt,
     status,
     framework,

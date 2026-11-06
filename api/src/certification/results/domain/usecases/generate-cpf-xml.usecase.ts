@@ -1,28 +1,38 @@
 import { randomUUID } from 'node:crypto';
 
 import xmlbuilder2 from 'xmlbuilder2';
-import type { XMLBuilder } from 'xmlbuilder2/lib/interfaces.d.ts';
 
-let certificationCourses: Array<{}>;
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 
 export async function generateCpfXml({
   sessionId,
   uuid,
-  sessionRepository,
-  sharedCertificationCourseRepository,
+  certificationResultRepository,
 }: {
   sessionId: number;
   uuid?: string;
-  sessionRepository: { get: (sessionId: number) => Promise<{ id: number; certificationIds: Array<number | null> }> };
-  sharedCertificationCourseRepository: {
-    get: ({ id }: { id: number | null }) => Promise<{}>;
+  certificationResultRepository: {
+    findCertificatesBySessionId: ({ sessionId }: { sessionId: number }) => Promise<
+      [
+        {
+          deliveredAt: Date;
+          lastName: string;
+          firstName: string;
+          birthdate: Date;
+          birthINSEECode: string;
+          birthplace: string;
+          birthCountryCode: string;
+          birthCountryPlace: string;
+        },
+      ]
+    >;
   };
 }) {
-  const { certificationIds } = await sessionRepository.get(sessionId);
+  const certifications = await certificationResultRepository.findCertificatesBySessionId({ sessionId });
 
-  certificationCourses = await Promise.all(
-    certificationIds.map(async (id) => await sharedCertificationCourseRepository.get({ id })),
-  );
+  if (certifications.length <= 0) {
+    throw new NotFoundError('aucun certificats trouvé pour cette session');
+  }
 
   const internalUuid = uuid || randomUUID();
 
@@ -30,7 +40,7 @@ export async function generateCpfXml({
     'cpf:fluxCreation': {
       '@xmlns:cpf': 'urn:cdc:cpf:pc5:schema:creation:1.0.0',
       '@xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-      'cpf:idFlux': uuid,
+      'cpf:idFlux': internalUuid,
       'cpf:emetteur': {
         'cpf:idClient': '00XXX000',
         'cpf:certificateurs': [
@@ -42,9 +52,9 @@ export async function generateCpfXml({
                 {
                   'cpf:certification': {
                     'cpf:type': 'RS',
-                    'cpf:code': getCpfCode(certificationCourses[0]._createdAt),
+                    'cpf:code': getCpfCode(certifications[0].deliveredAt),
                     'cpf:passageCertifications': {
-                      'cpf:passageCertification': buildPassageCertifications(certificationCourses),
+                      'cpf:passageCertification': buildPassageCertifications(certifications),
                     },
                   },
                 },
@@ -59,8 +69,19 @@ export async function generateCpfXml({
   return xmlbuilder2.create({ version: '1.0', encoding: 'UTF-8' }, root).end();
 }
 
-function buildPassageCertifications(certificationCourses: {}[]) {
-  return certificationCourses.map(function (course) {
+function buildPassageCertifications(
+  certifications: {
+    deliveredAt: Date;
+    lastName: string;
+    firstName: string;
+    birthdate: Date;
+    birthINSEECode: string;
+    birthplace: string;
+    birthCountryCode: string;
+    birthCountryPlace: string;
+  }[],
+) {
+  return certifications.map(function (certification) {
     return {
       'cpf:idTechnique': 'TITU_COMPLET',
       'cpf:urlPreuve': 'https://www.monurl.fr',
@@ -68,11 +89,11 @@ function buildPassageCertifications(certificationCourses: {}[]) {
       'cpf:libelleOption': 'option',
       'cpf:obtentionCertification': 'PAR_SCORING',
       'cpf:scoring': '10',
-      'cpf:dateDebutExamen': course._createdAt.toLocaleDateString('en-CA'),
-      'cpf:dateFinExamen': course._createdAt.toLocaleDateString('en-CA'),
+      'cpf:dateDebutExamen': certification.deliveredAt.toLocaleDateString('en-CA'),
+      'cpf:dateFinExamen': certification.deliveredAt.toLocaleDateString('en-CA'),
       'cpf:modalitePassageExamen': 'MIXTE',
       'cpf:codePostalCentreExamen': '01000',
-      'cpf:dateDebutValidite': course._createdAt.toLocaleDateString('en-CA'),
+      'cpf:dateDebutValidite': certification.deliveredAt.toLocaleDateString('en-CA'),
       'cpf:numeriqueLangue': {
         'cpf:niveauLangueEuropeen': 'B2',
         'cpf:niveauNumeriqueEuropeen': {
@@ -95,20 +116,22 @@ function buildPassageCertifications(certificationCourses: {}[]) {
       },
       'cpf:identificationTitulaire': {
         'cpf:titulaire': {
-          'cpf:nomNaissance': course._lastName,
-          'cpf:nomUsage': course._lastName,
-          'cpf:prenom1': course._firstName,
+          'cpf:nomNaissance': certification.lastName,
+          'cpf:nomUsage': certification.lastName,
+          'cpf:prenom1': certification.firstName,
           'cpf:prenom2': 'PRENOM-DEUX',
           'cpf:prenom3': 'PRENOM-TROIS',
-          'cpf:anneeNaissance': String(new Date(course._birthdate).getFullYear()),
-          'cpf:moisNaissance': String(new Date(course._birthdate).getMonth() + 1),
-          'cpf:jourNaissance': String(new Date(course._birthdate).getDate()),
+          'cpf:anneeNaissance': String(new Date(certification.birthdate).getFullYear()),
+          'cpf:moisNaissance': String(new Date(certification.birthdate).getMonth() + 1),
+          'cpf:jourNaissance': String(new Date(certification.birthdate).getDate()),
           'cpf:codeCommuneNaissance': {
-            'cpf:codeInseeNaissance': {
-              'cpf:codeInsee': course._birthINSEECode,
-            },
+            'cpf:codeInseeNaissance': { 'cpf:codeInsee': certification.birthINSEECode },
+            // ou
+            // 'cpf:codeInseeNaissance': { 'cpf:codePostal': certification.birthPostalCode, },
           },
-          'cpf:libelleCommuneNaissance': course._birthplace,
+          'cpf:libelleCommuneNaissance': certification.birthplace,
+          'cpf:codePaysNaissance': certification.birthCountryCode,
+          'cpf:libellePaysNaissance': certification.birthCountryPlace,
         },
       },
     };

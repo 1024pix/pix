@@ -1,6 +1,7 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertificationCourseResult } from '../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { CertificationResult } from '../../domain/models/CertificationResult.js';
+import { CertificationResult as NewCertificationResult } from '../../domain/models/NewCertificationResult.ts';
 
 export async function findBySessionId({ sessionId }) {
   const knexConn = DomainTransaction.getConnection();
@@ -18,6 +19,15 @@ export async function findBySessionId({ sessionId }) {
   return certificationResultDTOs.map((certificationResultDTO) =>
     _toDomain({ certificationResultDTO, complementaryCertificationCourseResultsByCertificationCourseId }),
   );
+}
+
+export async function findCertificatesBySessionId({ sessionId }) {
+  const knexConn = DomainTransaction.getConnection();
+  const certificationResultDTOs = await knexConn('certification_results')
+    .join('user_certification_results', 'certificationResultId', 'certification_results.id')
+    .where('user_certification_results.sessionId', sessionId);
+
+  return certificationResultDTOs.map((certificationResultDTO) => new NewCertificationResult(certificationResultDTO));
 }
 
 export async function findByCertificationCandidateIds({ certificationCandidateIds }) {
