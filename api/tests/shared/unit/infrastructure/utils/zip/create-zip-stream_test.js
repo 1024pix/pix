@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import JSZip from 'jszip';
+import sinon from 'sinon';
 
 import { createZipStream } from '../../../../../../src/shared/infrastructure/utils/zip/create-zip-stream.ts';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
-import sinon from 'sinon';
 
 describe('Unit | Utils | Zip | getMultipleFilesAsZip', function () {
   describe('#createZipStream', function () {
@@ -86,25 +86,61 @@ describe('Unit | Utils | Zip | getMultipleFilesAsZip', function () {
           expect(logger.error).to.have.been.calledOnceWith(err, 'Problem occurred during archive streaming');
         });
       });
+      context('when stream brutally stops', function () {
+        it.only('should send error before end stream', async function () {
+          // given
+          let i = 0;
+          const func = async ({ a, b }) => {
+            const res = {
+              name: `fichier-${i}`,
+              content: `${a + b}`,
+            };
+            if (i === 5) {
+              res.name = undefined;
+            }
+            i++;
+            return res;
+          };
+          const args = [
+            { a: 1, b: 1 },
+            { a: 2, b: 2 },
+            { a: 3, b: 3 },
+            { a: 4, b: 4 },
+            { a: 5, b: 5 },
+            { a: 6, b: 6 },
+          ];
+
+          // when
+          const zipStream = createZipStream(func, args, dependencies);
+          await catchErr(streamToPromise)(zipStream, { stopAbruptely: true });
+
+          expect(logger.error).to.have.been.calledOnceWith('Streaming has been unexpetidly closed');
+        });
+      });
     });
   });
 });
 
-export async function streamToPromise(stream) {
-  return streamToPromiseArray(stream).then((array) => {
+async function streamToPromise(stream, options = {}) {
+  return streamToPromiseArray(stream, options).then((array) => {
     return array.join('');
   });
 }
 
-export function streamToPromiseArray(stream) {
+function streamToPromiseArray(stream, options = {}) {
   return new Promise((resolve, reject) => {
     const result = [];
     stream.on('data', (data) => {
       result.push(data);
+      if (options.stopAbruptely) {
+        stream.destroy();
+      }
     });
+    stream.once('close', resolve)
     stream.on('end', () => {
       resolve(result);
     });
+
     stream.on('error', reject);
   });
 }
