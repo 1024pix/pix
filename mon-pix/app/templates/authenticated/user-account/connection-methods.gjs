@@ -18,69 +18,28 @@ import UpdatePasswordForm from '../../../components/user-account/update-password
         @displayPasswordUpdatedMessage={{@controller.displayPasswordUpdatedMessage}}
       />
     {{else}}
-      {{#if @controller.shouldShowEmailAndPasswordSection}}
+      {{#if @controller.emailAndPasswordItems.length}}
         <section class="user-account-panel" aria-labelledby="email-and-password-title">
           <h2 class="user-account-panel__title" id="email-and-password-title">
             {{t "pages.user-account.connexion-methods.email-and-password-title"}}
           </h2>
 
           <dl class="user-account-panel__list">
-            {{#if @controller.shouldShowEmail}}
+            {{#each @controller.emailAndPasswordItems as |item|}}
               <div class="user-account-panel__item">
-                <dt class="user-account-panel-item__label">
-                  {{t "pages.user-account.connexion-methods.email"}}
-                </dt>
-                <dd class="user-account-panel-item__value" data-test-email>{{@model.user.email}}</dd>
-                <dd class="user-account-panel-item__action">
-                  <PixButton @variant="secondary" @size="small" @triggerAction={{@controller.enableEmailEditionMode}}>
-                    {{t "pages.user-account.connexion-methods.edit-email-button"}}
-                  </PixButton>
+                <dt class="user-account-panel-item__label">{{t item.labelKey}}</dt>
+                <dd class="user-account-panel-item__value" aria-hidden={{if item.isSecret "true"}}>
+                  {{item.value}}
                 </dd>
+                {{#if item.action}}
+                  <dd class="user-account-panel-item__action">
+                    <PixButton @variant="secondary" @size="small" @triggerAction={{item.action.handler}}>
+                      {{t item.action.labelKey}}
+                    </PixButton>
+                  </dd>
+                {{/if}}
               </div>
-            {{/if}}
-
-            {{#if @controller.canAddEmailConnectionMethod}}
-              <div class="user-account-panel__item">
-                <dt class="user-account-panel-item__label">
-                  {{t "pages.user-account.connexion-methods.email"}}
-                </dt>
-                <dd class="user-account-panel-item__value">
-                  —
-                </dd>
-                <dd class="user-account-panel-item__action">
-                  <PixButton @variant="secondary" @size="small" @triggerAction={{@controller.enableEmailEditionMode}}>
-                    {{t "pages.user-account.account-add-or-update-email-with-validation.title.add-email"}}
-                  </PixButton>
-                </dd>
-              </div>
-            {{/if}}
-
-            {{#if @controller.shouldShowUsername}}
-              <div class="user-account-panel__item">
-                <dt class="user-account-panel-item__label">
-                  {{t "pages.user-account.connexion-methods.username"}}
-                </dt>
-                <dd class="user-account-panel-item__value" data-test-username>{{@model.user.username}}</dd>
-              </div>
-            {{/if}}
-
-            {{#if @controller.shouldShowPixAuthenticationMethod}}
-              <div class="user-account-panel__item">
-                <dt class="user-account-panel-item__label">
-                  {{t "pages.user-account.connexion-methods.password"}}
-                </dt>
-                <dd class="user-account-panel-item__value" aria-hidden="true">********</dd>
-                <dd class="user-account-panel-item__action">
-                  <PixButton
-                    @variant="secondary"
-                    @size="small"
-                    @triggerAction={{@controller.enablePasswordEditionMode}}
-                  >
-                    {{t "pages.user-account.connexion-methods.edit-password-button"}}
-                  </PixButton>
-                </dd>
-              </div>
-            {{/if}}
+            {{/each}}
           </dl>
 
           {{#if @controller.showEmailUpdatedMessage}}
@@ -103,34 +62,18 @@ import UpdatePasswordForm from '../../../components/user-account/update-password
         </section>
       {{/if}}
 
-      {{#if @controller.shouldShowOtherConnectionMethodsSection}}
+      {{#if @controller.otherAuthenticationMethodItems.length}}
         <section class="user-account-panel" aria-labelledby="other-connection-methods-title">
           <h2 class="user-account-panel__title" id="other-connection-methods-title">
             {{t "pages.user-account.connexion-methods.other-methods-title"}}
           </h2>
 
           <dl class="user-account-panel__list">
-            {{#if @controller.shouldShowGarAuthenticationMethod}}
+            {{#each @controller.otherAuthenticationMethodItems as |item|}}
               <div class="user-account-panel__item">
-                <dt class="user-account-panel-item__label">
-                  {{t "pages.user-account.connexion-methods.authentication-methods.label"}}
-                </dt>
+                <dt class="user-account-panel-item__label">{{t item.labelKey}}</dt>
                 <dd class="user-account-panel-item__value">
-                  {{t "pages.user-account.connexion-methods.authentication-methods.gar"}}
-                </dd>
-              </div>
-            {{/if}}
-
-            {{#each @controller.oidcAuthenticationMethodOrganizationNames as |organizationName|}}
-              <div class="user-account-panel__item">
-                <dt class="user-account-panel-item__label">
-                  {{t "pages.user-account.connexion-methods.authentication-methods.other-authentication-label"}}
-                </dt>
-                <dd class="user-account-panel-item__value">
-                  {{t
-                    "pages.user-account.connexion-methods.authentication-methods.connection-via"
-                    identityProviderOrganizationName=organizationName
-                  }}
+                  {{t item.valueKey identityProviderOrganizationName=item.valueParams.identityProviderOrganizationName}}
                 </dd>
               </div>
             {{/each}}
