@@ -32,7 +32,13 @@ export async function get(id, { locale, useFallback } = { locale: null, useFallb
   return toDomain(skillDto, locale, useFallback);
 }
 
+/**
+ * All the skills, shared and frozen: not to be changed by the caller.
+ *
+ * @returns {Promise<Skill[]>}
+ */
 export async function list() {
+  /** @type {Skill[] | undefined} */
   const cachedSkills = listCache.get(LIST_CACHE_KEY);
   if (cachedSkills) return cachedSkills;
 

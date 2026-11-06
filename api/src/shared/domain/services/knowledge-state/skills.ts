@@ -1,3 +1,4 @@
+import { memoizeByReference } from '../../../infrastructure/utils/memoize.ts';
 import { type Skill, type SkillStatus } from '../../models/Skill.js';
 
 type PublishedSkillStatus = Extract<SkillStatus, 'actif' | 'archivé' | 'périmé'>;
@@ -11,6 +12,11 @@ const isPublished = (skill: Skill): skill is PublishedSkill => skill.status in P
 
 const statusRank = ({ status }: PublishedSkill): number => PUBLISHED_STATUS_RANKS[status];
 
+// The views of the skills below are computed once per list of skills: the
+// whole learning content is walked on every read and save of a user migrated
+// to knowledge states, and the list the repository gives is shared and frozen.
+// They are shared in turn: not to be changed by their callers.
+
 /**
  * Keeps one published skill per level of a tube.
  *
@@ -22,7 +28,7 @@ const statusRank = ({ status }: PublishedSkill): number => PUBLISHED_STATUS_RANK
  * A level whose skills are not published yet is left out: no learner could
  * have answered it.
  */
-export const keepOneSkillPerLevel = (skills: Skill[]): Skill[] => {
+export const keepOneSkillPerLevel = memoizeByReference((skills: Skill[]): Skill[] => {
   const skillByLevel = new Map<string, Skill>();
   const byPreference = skills
     .filter(isPublished)
@@ -36,4 +42,16 @@ export const keepOneSkillPerLevel = (skills: Skill[]): Skill[] => {
   }
 
   return [...skillByLevel.values()];
-};
+});
+
+export const groupSkillsByTubeId = memoizeByReference((skills: Skill[]): Map<string, Skill[]> =>
+  Map.groupBy(skills, ({ tubeId }) => tubeId),
+);
+
+export const indexSkillsById = memoizeByReference(
+  (skills: Skill[]): Map<string, Skill> => new Map(skills.map((skill) => [skill.id, skill])),
+);
+
+export const indexCompetenceIdsByTubeId = memoizeByReference(
+  (skills: Skill[]): Map<string, string> => new Map(skills.map(({ tubeId, competenceId }) => [tubeId, competenceId])),
+);
