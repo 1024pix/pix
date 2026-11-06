@@ -1,10 +1,7 @@
-import {
-  CampaignParticipationStatuses,
-  CampaignTypes,
-} from '../../../../../src/prescription/shared/domain/constants.ts';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { filterByFullName } from '../../../../shared/infrastructure/utils/filter-utils.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.ts';
 import { SupOrganizationParticipant } from '../../domain/read-models/SupOrganizationParticipant.js';
 
 function _setFilters(qb, { search, studentNumber, groups, certificability } = {}, knexConn) {
@@ -24,7 +21,7 @@ function _setFilters(qb, { search, studentNumber, groups, certificability } = {}
     qb.where(function (query) {
       query.whereInArray('isCertifiable', certificability);
       if (certificability.includes(null)) {
-        query.orWhereRaw('"isCertifiable" IS NULL');
+        query.orWhereNull('isCertifiable');
       }
     });
   }
@@ -77,7 +74,7 @@ const findPaginatedFilteredSupParticipants = async function ({ organizationId, f
           knexConn('campaign-participations')
             .join('campaigns', 'campaigns.id', 'campaignId')
             .select('isCertifiable')
-            .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+            .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
             .and.where('status', CampaignParticipationStatuses.SHARED)
             .and.where('type', CampaignTypes.PROFILES_COLLECTION)
             .and.whereNull('campaign-participations.deletedAt')
@@ -88,7 +85,7 @@ const findPaginatedFilteredSupParticipants = async function ({ organizationId, f
           knexConn('campaign-participations')
             .join('campaigns', 'campaigns.id', 'campaignId')
             .select('sharedAt')
-            .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+            .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
             .and.where('status', CampaignParticipationStatuses.SHARED)
             .and.where('type', CampaignTypes.PROFILES_COLLECTION)
             .and.whereNull('campaign-participations.deletedAt')
@@ -99,7 +96,7 @@ const findPaginatedFilteredSupParticipants = async function ({ organizationId, f
           knexConn('campaign-participations')
             .join('campaigns', 'campaigns.id', 'campaignId')
             .select('campaigns.name')
-            .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+            .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
             .and.whereNull('campaign-participations.deletedAt')
             .and.where('isImproved', false)
             .orderBy('campaign-participations.createdAt', 'desc')
@@ -109,7 +106,7 @@ const findPaginatedFilteredSupParticipants = async function ({ organizationId, f
           knexConn('campaign-participations')
             .join('campaigns', 'campaigns.id', 'campaignId')
             .select('campaign-participations.status')
-            .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+            .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
             .and.whereNull('campaign-participations.deletedAt')
             .and.where('isImproved', false)
             .orderBy('campaign-participations.createdAt', 'desc')
@@ -119,7 +116,7 @@ const findPaginatedFilteredSupParticipants = async function ({ organizationId, f
           knexConn('campaign-participations')
             .join('campaigns', 'campaigns.id', 'campaignId')
             .select('campaigns.type')
-            .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+            .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
             .and.whereNull('campaign-participations.deletedAt')
             .and.where('isImproved', false)
             .orderBy('campaign-participations.createdAt', 'desc')
@@ -129,7 +126,7 @@ const findPaginatedFilteredSupParticipants = async function ({ organizationId, f
           knexConn('campaign-participations')
             .join('campaigns', 'campaigns.id', 'campaignId')
             .select('campaign-participations.createdAt')
-            .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+            .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
             .and.whereNull('campaign-participations.deletedAt')
             .and.where('isImproved', false)
             .orderBy('campaign-participations.createdAt', 'desc')

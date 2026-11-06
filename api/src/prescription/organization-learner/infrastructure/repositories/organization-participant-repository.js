@@ -204,7 +204,7 @@ function _getSelectElement(extraColumns, knexConn) {
   const extraSubQueries = extraColumns.map(({ key, name }) => {
     return knexConn('organization-learners')
       .select(knexConn.raw(`"organization-learners"."attributes" ->> ?`, key))
-      .whereRaw('"id" = "view-active-organization-learners"."id"')
+      .whereColumn('id', 'view-active-organization-learners.id')
       .as(name);
   });
 
@@ -218,7 +218,7 @@ function _getSelectElement(extraColumns, knexConn) {
     knexConn('campaign-participations')
       .join('campaigns', 'campaigns.id', 'campaignId')
       .select('isCertifiable')
-      .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+      .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
       .and.where('status', CampaignParticipationStatuses.SHARED)
       .and.where('type', CampaignTypes.PROFILES_COLLECTION)
       .and.whereNull('campaign-participations.deletedAt')
@@ -229,7 +229,7 @@ function _getSelectElement(extraColumns, knexConn) {
     knexConn('campaign-participations')
       .join('campaigns', 'campaigns.id', 'campaignId')
       .select('sharedAt')
-      .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+      .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
       .and.where('status', CampaignParticipationStatuses.SHARED)
       .and.where('type', CampaignTypes.PROFILES_COLLECTION)
       .and.whereNull('campaign-participations.deletedAt')
@@ -240,7 +240,7 @@ function _getSelectElement(extraColumns, knexConn) {
     knexConn('campaign-participations')
       .join('campaigns', 'campaigns.id', 'campaignId')
       .select('campaigns.name')
-      .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+      .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
       .and.whereNull('campaign-participations.deletedAt')
       .and.where('isImproved', false)
       .orderBy('campaign-participations.createdAt', 'desc')
@@ -250,7 +250,7 @@ function _getSelectElement(extraColumns, knexConn) {
     knexConn('campaign-participations')
       .join('campaigns', 'campaigns.id', 'campaignId')
       .select('campaign-participations.status')
-      .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+      .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
       .and.whereNull('campaign-participations.deletedAt')
       .and.where('isImproved', false)
       .orderBy('campaign-participations.createdAt', 'desc')
@@ -260,7 +260,7 @@ function _getSelectElement(extraColumns, knexConn) {
     knexConn('campaign-participations')
       .join('campaigns', 'campaigns.id', 'campaignId')
       .select('campaigns.type')
-      .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+      .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
       .and.whereNull('campaign-participations.deletedAt')
       .and.where('isImproved', false)
       .orderBy('campaign-participations.createdAt', 'desc')
@@ -270,7 +270,7 @@ function _getSelectElement(extraColumns, knexConn) {
     knexConn('campaign-participations')
       .join('campaigns', 'campaigns.id', 'campaignId')
       .select('campaign-participations.createdAt')
-      .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+      .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
       .and.whereNull('campaign-participations.deletedAt')
       .and.where('isImproved', false)
       .orderBy('campaign-participations.createdAt', 'desc')
@@ -278,7 +278,7 @@ function _getSelectElement(extraColumns, knexConn) {
       .as('lastParticipationDate'),
 
     knexConn('campaign-participations')
-      .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+      .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
       .and.whereNull('campaign-participations.deletedAt')
       .and.where('isImproved', false)
       .count('id')

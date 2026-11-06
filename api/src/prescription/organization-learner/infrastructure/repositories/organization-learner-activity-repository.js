@@ -15,7 +15,7 @@ async function get(organizationLearnerId) {
       'campaigns.name',
       'campaigns.type',
       knexConn('campaign-participations')
-        .whereRaw('"campaignId" = "campaigns"."id"')
+        .whereColumn('campaignId', 'campaigns.id')
         .where('organizationLearnerId', organizationLearnerId)
         .whereNull('deletedAt')
         .groupBy('campaignId')
@@ -23,7 +23,7 @@ async function get(organizationLearnerId) {
         .as('participationsCount'),
       knexConn('campaign-participations')
         .select('campaign-participations.id')
-        .whereRaw('"campaignId" = "campaigns"."id"')
+        .whereColumn('campaignId', 'campaigns.id')
         .where('organizationLearnerId', organizationLearnerId)
         .whereNull('deletedAt')
         .orderBy('createdAt', 'desc')

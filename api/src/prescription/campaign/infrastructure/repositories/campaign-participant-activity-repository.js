@@ -72,7 +72,7 @@ const campaignParticipantActivityRepository = {
         'campaign-participations.participantExternalId',
         'campaign-participations.status',
         knexConn('campaign-participations')
-          .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+          .whereColumn('organizationLearnerId', 'view-active-organization-learners.id')
           .and.whereNull('campaign-participations.deletedAt')
           .and.where('campaignId', campaignId)
           .count('id')

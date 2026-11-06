@@ -37,7 +37,7 @@ export async function countAttachableBadges({ ids }) {
       knexConn
         .select(1)
         .from('complementary-certification-badges')
-        .whereRaw('"complementary-certification-badges"."badgeId" = "badges"."id"'),
+        .whereColumn('complementary-certification-badges.badgeId', 'badges.id'),
     )
     .count('id')
     .first();

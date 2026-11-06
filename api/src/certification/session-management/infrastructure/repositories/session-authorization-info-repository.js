@@ -30,7 +30,7 @@ export async function findBySessionId({ sessionId }) {
           knexConn.raw('LOWER("certification-centers"."externalId")'),
           knexConn.raw('LOWER("organizations"."externalId")'),
         )
-        .whereRaw('"sessions"."certificationCenterId" = "certification-centers".id')
+        .whereColumn('sessions.certificationCenterId', 'certification-centers.id')
         .where({
           'certification-centers.type': CERTIFICATION_CENTER_TYPES.SCO,
           'organizations.type': ORGANIZATION_TYPES.SCO,
