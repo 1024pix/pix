@@ -9,6 +9,9 @@
  * file per day it spans. The rows are created and numbered by the same save,
  * so a page spans two days only around midnight.
  *
+ * A file is never uploaded with a row of another day, and its record keeps
+ * its day, which the database checks against the folder of its name.
+ *
  * Each file is recorded before its upload, and completed after it, in the
  * transaction marking its rows. A run starts by writing again, to their
  * recorded name, the files left incomplete by a previous run, whether that run
@@ -50,6 +53,16 @@ const toParquet = (rows: MigratedUserKnowledgeElementRow[], extractedAt: string)
     ],
   });
 
+/** A row of another day would land in the folder of the wrong day of the data lake. */
+const assertRowsOfDay = (file: MigratedUserKnowledgeElementExportFile, rows: MigratedUserKnowledgeElementRow[]) => {
+  const strayRow = rows.find(({ createdAt }) => toDay(createdAt, DATA_LAKE_TIMEZONE) !== file.day);
+  if (strayRow) {
+    throw new Error(
+      `The knowledge element ${strayRow.id}, created on ${toDay(strayRow.createdAt, DATA_LAKE_TIMEZONE)}, cannot go to the file ${file.filename} of ${file.day}`,
+    );
+  }
+};
+
 /** Gives the number of exported rows. */
 export const exportMigratedUserKnowledgeElements = async ({
   batchSize,
@@ -71,6 +84,7 @@ export const exportMigratedUserKnowledgeElements = async ({
     file: MigratedUserKnowledgeElementExportFile,
     rows: MigratedUserKnowledgeElementRow[],
   ): Promise<void> => {
+    assertRowsOfDay(file, rows);
     if (rows.length > 0) {
       await migratedUserKnowledgeElementExportRepository.sendFile(file.filename, toParquet(rows, extractedAt));
     }
@@ -109,6 +123,7 @@ export const exportMigratedUserKnowledgeElements = async ({
 
     const file = await migratedUserKnowledgeElementExportFileRepository.create(
       migratedUserKnowledgeElementExportRepository.fileName(day, firstRow.id, lastRow.id),
+      day,
       firstRow.id,
       lastRow.id,
       rows.length,

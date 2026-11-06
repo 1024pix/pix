@@ -248,6 +248,7 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
     await knex('migrated_user_knowledge_elements_export_files').insert([
       {
         filename: 'migrated-user-knowledge-elements/2026/03/01/000000000001_000000000001.parquet',
+        day: '2026-03-01',
         first_id: 1,
         last_id: 1,
         row_count: 1,
@@ -255,6 +256,7 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
       },
       {
         filename: 'migrated-user-knowledge-elements/2026/03/01/000000000002_000000000004.parquet',
+        day: '2026-03-01',
         first_id: 2,
         last_id: 4,
         row_count: 3,
@@ -349,6 +351,41 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
         completed_at: null,
       },
     ]);
+    expect((await savedAtById()).get(1)).to.be.null;
+  });
+
+  it('should upload no file holding a row created on another day, in Paris time, than the day of the file, and fail', async function () {
+    // given
+    await knex('migrated_user_knowledge_elements').insert([buildRow({ id: 1 })]);
+    await knex('migrated_user_knowledge_elements_export_files').insert({
+      filename: 'migrated-user-knowledge-elements/2026/03/01/000000000001_000000000001.parquet',
+      day: '2026-03-01',
+      first_id: 1,
+      last_id: 1,
+      row_count: 1,
+      completed_at: null,
+    });
+    // 23:00:00Z on March 1st is midnight on March 2nd in Paris.
+    const strayRow = buildRow({ id: 1, createdAt: new Date('2026-03-01T23:00:00Z') });
+
+    // when
+    const error = await catchErr(exportMigratedUserKnowledgeElements)({
+      batchSize: 2,
+      migratedUserKnowledgeElementRepository: {
+        ...migratedUserKnowledgeElementRepository,
+        findUnsavedInRange: sinon.stub().resolves([strayRow]),
+      },
+      migratedUserKnowledgeElementExportFileRepository,
+      migratedUserKnowledgeElementExportRepository,
+      logger,
+    });
+
+    // then
+    expect(error.message).to.equal(
+      'The knowledge element 1, created on 2026-03-02, cannot go to the file migrated-user-knowledge-elements/2026/03/01/000000000001_000000000001.parquet of 2026-03-01',
+    );
+    expect(await uploadedKeys()).to.deep.equal([]);
+    expect((await exportFiles()).map(({ completed_at }) => completed_at)).to.deep.equal([null]);
     expect((await savedAtById()).get(1)).to.be.null;
   });
 });

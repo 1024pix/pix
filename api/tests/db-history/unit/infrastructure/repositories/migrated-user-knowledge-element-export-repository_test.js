@@ -12,6 +12,10 @@ describe('Unit | History-db | Infrastructure | Repository | migrated-user-knowle
         'migrated-user-knowledge-elements/2026/03/01/000000000012_000000003456.parquet',
       );
     });
+
+    it('should refuse a day not formatted as YYYY-MM-DD', function () {
+      expect(() => fileName('2026-3-1', 12, 3456)).to.throw('2026-3-1 is not a day formatted as YYYY-MM-DD');
+    });
   });
 
   describe('#dayOf', function () {
