@@ -21,8 +21,11 @@ const FILE_NAME_PATTERN = new RegExp(
  * day of creation, so a file holds rows of one day only. A file retried after
  * a failure gets the same name, and is rewritten instead of added.
  */
-export const fileName = (day: string, firstId: number, lastId: number): string =>
-  `${FILE_PREFIX}${day.replaceAll('-', '/')}/${String(firstId).padStart(ID_WIDTH, '0')}_${String(lastId).padStart(ID_WIDTH, '0')}.parquet`;
+export const fileName = (day: string, firstId: number, lastId: number): string => {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error(`${day} is not a day formatted as YYYY-MM-DD`);
+
+  return `${FILE_PREFIX}${day.replaceAll('-', '/')}/${String(firstId).padStart(ID_WIDTH, '0')}_${String(lastId).padStart(ID_WIDTH, '0')}.parquet`;
+};
 
 /** The day of the rows of a file, read back from its name. */
 export const dayOf = (filename: string): string => {
