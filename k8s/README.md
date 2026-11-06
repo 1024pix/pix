@@ -69,7 +69,13 @@ tilt trigger db-seed
 
 Elle recharge le référentiel depuis le LCMS (`npm run cache:refresh`), vide les tables puis rejoue les seeds (`npm run db:reload`). Elle peut être relancée autant de fois que nécessaire.
 
-> ⚠️ Avec le LCMS minimal configuré par défaut, le seed de l'équipe certification échoue actuellement (`Cannot read properties of undefined (reading 'areaId')`), car la configuration de scoring référence des compétences absentes de ce référentiel.
+### Choix du LCMS
+
+Par défaut, l'API utilise le LCMS minimal (`k8s/api/configmap.yaml`). Si le fichier `api/.env` existe et définit des variables `LCMS_API_URL`, `LCMS_API_KEY`, `LCMS_API_OAUTH_BASIC_TOKEN` ou `LCMS_API_RELEASE_ID`, le `Tiltfile` les injecte dans le Secret `api-lcms` (non versionné), qui surcharge la configmap. On utilise ainsi le même LCMS qu'en local hors Kubernetes. Après une modification de `api/.env`, la ressource `api-lcms` est réappliquée automatiquement ; redémarrez le pod `api` pour qu'il prenne les nouvelles valeurs.
+
+Le fichier `api/.env` n'est jamais embarqué dans l'image de l'API (`ignore` dans le `Tiltfile`).
+
+> ⚠️ Avec le LCMS minimal, le seed de l'équipe certification échoue (`Cannot read properties of undefined (reading 'areaId')`) : la configuration de scoring référence les 16 compétences Pix, alors que ce référentiel n'en contient que 6. Utilisez un LCMS complet via `api/.env`.
 
 ## Persistance et remise à zéro
 

@@ -27,6 +27,9 @@ spec:
                 name: api-config
             - secretRef:
                 name: api-secrets
+            - secretRef:
+                name: api-lcms
+                optional: true
       containers:
         - name: api
           image: pix-api:dev
@@ -38,6 +41,9 @@ spec:
                 name: api-config
             - secretRef:
                 name: api-secrets
+            - secretRef:
+                name: api-lcms
+                optional: true
           resources:
             requests:
               memory: "512Mi"

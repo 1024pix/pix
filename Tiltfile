@@ -29,10 +29,46 @@ k8s_yaml([
     'k8s/api/deployment.yaml',
 ])
 
+# LCMS : par défaut, le LCMS minimal défini dans k8s/api/configmap.yaml.
+# Si api/.env définit des variables LCMS_*, elles sont injectées dans le Secret
+# api-lcms (non versionné) qui surcharge la configmap.
+LCMS_ENV_KEYS = ['LCMS_API_URL', 'LCMS_API_KEY', 'LCMS_API_OAUTH_BASIC_TOKEN', 'LCMS_API_RELEASE_ID']
+
+def read_dotenv(path, keys):
+    values = {}
+    if not os.path.exists(path):
+        return values
+    for line in str(read_file(path)).splitlines():
+        line = line.strip()
+        if not line or line.startswith('#') or '=' not in line:
+            continue
+        key, value = line.split('=', 1)
+        key = key.strip()
+        value = value.strip().strip('"').strip("'")
+        if key in keys and value:
+            values[key] = value
+    return values
+
+lcms_overrides = read_dotenv('api/.env', LCMS_ENV_KEYS)
+k8s_yaml(encode_yaml({
+    'apiVersion': 'v1',
+    'kind': 'Secret',
+    'metadata': {'name': 'api-lcms', 'namespace': namespace},
+    'type': 'Opaque',
+    'stringData': lcms_overrides,
+}))
+k8s_resource(
+    objects=['api-lcms:secret'],
+    new_name='api-lcms',
+    labels=['backend'],
+)
+
 docker_build(
     'pix-api',
     context='./api',
     dockerfile='./k8s/dockerfiles/Dockerfile.hapi',
+    # Ne pas embarquer les secrets locaux dans l'image
+    ignore=['.env'],
 )
 
 k8s_resource(
