@@ -110,6 +110,16 @@ export default class ResumeRoute extends Route {
 
   async _rateAssessment(assessment) {
     await assessment.save({ adapterOptions: { completeAssessment: true } });
+
+    // Just finished a campaign belonging to a combined course: skip the results page
+    // and go straight to the next combined course step (results stay reachable later).
+    if (assessment.isForCampaign) {
+      const campaign = await assessment.campaign;
+      if (campaign?.isPartOfCombinedCourse) {
+        return this.router.replaceWith(campaign.customResultPageButtonUrl);
+      }
+    }
+
     return this._routeToResults(assessment);
   }
 

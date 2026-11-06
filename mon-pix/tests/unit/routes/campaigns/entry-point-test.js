@@ -175,6 +175,50 @@ module('Unit | Route | Entry Point', function (hooks) {
         assert.ok(true);
       });
 
+      module('when campaign is part of a combined course', function (hooks) {
+        hooks.beforeEach(function () {
+          campaign.isPartOfCombinedCourse = true;
+        });
+
+        test('should skip landing page and redirect to organizations access when no ongoing campaign participation', async function (assert) {
+          //given
+          route.store.queryRecord.resolves(null);
+
+          //when
+          await route.afterModel(campaign, transition);
+
+          //then
+          sinon.assert.calledWith(route.router.replaceWith, 'organizations.access', 'NEW_CODE');
+          sinon.assert.neverCalledWith(route.router.replaceWith, 'campaigns.campaign-landing-page');
+          assert.ok(true);
+        });
+
+        test('should still redirect to entrance when ongoing campaign participation is existing', async function (assert) {
+          //given
+          route.store.queryRecord.resolves('Ma Participation');
+
+          //when
+          await route.afterModel(campaign, transition);
+
+          //then
+          sinon.assert.calledWith(route.router.replaceWith, 'campaigns.entrance', 'NEW_CODE');
+          assert.ok(true);
+        });
+
+        test('should still redirect to archived error when campaign is not accessible', async function (assert) {
+          //given
+          campaign.isAccessible = false;
+          route.store.queryRecord.resolves(null);
+
+          //when
+          await route.afterModel(campaign, transition);
+
+          //then
+          sinon.assert.calledWith(route.router.replaceWith, 'campaigns.archived-error', 'NEW_CODE');
+          assert.ok(true);
+        });
+      });
+
       test('should redirect to entrance when ongoing campaign participation is existing', async function (assert) {
         //given
         route.store.queryRecord
