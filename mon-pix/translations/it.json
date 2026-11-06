@@ -637,6 +637,11 @@
         "title": "Inizia il tuo viaggio Pix",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' pronti a valutare le tue competenze digitali?"
       },
+      "login": {
+        "info": "Un account Pix ti permette di riprendere il tuo percorso da dove l'avevi lasciato o di proseguire il tuo apprendimento.",
+        "login-cta": "Accedo",
+        "signup-cta": "Creo il mio account"
+      },
       "profiles-collection": {
         "action": "Iniziamo!",
         "announcement": "Registrati o accedi alla piattaforma Pix e inviate il tuo profilo all'organizzazione destinataria.",

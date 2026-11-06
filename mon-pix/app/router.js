@@ -108,6 +108,8 @@ Router.map(function () {
   this.route('combined-courses', { path: '/parcours' }, function () {
     this.route('generic-error', { path: '/oups' });
     this.route('disabled-feature-error', { path: '/erreur' });
+    //dev route
+    this.route('landing-page', { path: '/landing/:code' });
     this.route('combined-course', { path: '/:code' }, function () {
       this.route('presentation', { path: '/' });
       this.route('process-custom-passages', { path: '/chargement' });

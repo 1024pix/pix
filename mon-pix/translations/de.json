@@ -637,6 +637,11 @@
         "title": "Starte deine Pix-Erfahrung",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' bereit, deine digitalen Kompetenzen zu bewerten?"
       },
+      "login": {
+        "info": "Mit einem Pix-Konto kannst du deinen Parcours dort fortsetzen, wo du aufgehört hast, oder dein Lernen vertiefen.",
+        "login-cta": "Ich melde mich an",
+        "signup-cta": "Ich erstelle mein Konto"
+      },
       "profiles-collection": {
         "action": "Los geht's!",
         "announcement": "Registrier dich oder logge dich auf der Pix-Plattform ein und sende dein Profil an die Empfängerorganisation.",

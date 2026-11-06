@@ -637,6 +637,11 @@
         "title": "Begin je Pix-traject",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' Klaar om je digitale vaardigheden te testen?"
       },
+      "login": {
+        "info": "Met een Pix-account kun je je traject hervatten waar je was gebleven of je leerproces voortzetten.",
+        "login-cta": "Ik log in",
+        "signup-cta": "Ik maak mijn account aan"
+      },
       "profiles-collection": {
         "action": "Daar gaan we!",
         "announcement": "Schrijf je in of log in op het Pix-platform en stuur je profiel naar de betreffende organisatie.",

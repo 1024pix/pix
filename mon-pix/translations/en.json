@@ -637,6 +637,11 @@
         "title": "Begin your customised test",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' ready to assess your digital skills?"
       },
+      "login": {
+        "info": "A Pix account lets you resume your course where you left off or continue your learning.",
+        "login-cta": "Log in",
+        "signup-cta": "Create my account"
+      },
       "profiles-collection": {
         "action": "Let’s go!",
         "announcement": "Sign up or log in to the Pix platform and send your profile to the recipient organisation.",

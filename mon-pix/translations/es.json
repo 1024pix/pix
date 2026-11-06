@@ -637,6 +637,11 @@
         "title": "Empieza tu test Pix",
         "title-with-username": "'<span>'¿{userFirstName}'</span>','<br>' Listo para evaluar tus habilidades?"
       },
+      "login": {
+        "info": "Una cuenta Pix te permite retomar tu recorrido donde lo dejaste o seguir aprendiendo.",
+        "login-cta": "Me conecto",
+        "signup-cta": "Creo mi cuenta"
+      },
       "profiles-collection": {
         "action": "¡Empecemos!",
         "announcement": "Regístrate o conéctate a la plataforma Pix y envía tu perfil a la organización de destino.",

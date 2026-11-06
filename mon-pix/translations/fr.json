@@ -637,6 +637,11 @@
         "title": "Commencez votre parcours Pix",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' prêt à évaluer vos compétences numériques ?"
       },
+      "login": {
+        "info": "Un compte Pix vous permet de reprendre votre parcours là où vous l'avez laissé ou de prolonger votre apprentissage.",
+        "login-cta": "Je me connecte",
+        "signup-cta": "Je crée mon compte"
+      },
       "profiles-collection": {
         "action": "C'est parti !",
         "announcement": "Inscrivez-vous ou connectez-vous sur la plateforme Pix et envoyez votre profil à l'organisation destinataire.",
