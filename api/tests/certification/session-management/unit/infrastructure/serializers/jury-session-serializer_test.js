@@ -3,6 +3,10 @@ import sinon from 'sinon';
 
 import * as serializer from '../../../../../../src/certification/session-management/infrastructure/serializers/jury-session-serializer.js';
 import { ImpactfulCategories } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import {
+  SESSION_STATUSES,
+  SessionStatus,
+} from '../../../../../../src/certification/shared/domain/value-objects/SessionStatus.ts';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
@@ -51,6 +55,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
           hasJoiningIssue: true,
           hasIncident: true,
           version: 2,
+          sessionStatus: new SessionStatus({ status: SESSION_STATUSES.IN_PROCESS }),
           counters: domainBuilder.certification.sessionManagement.buildJurySessionCounters({
             startedCertifications: 4,
             certificationsWithScoringError: 3,
@@ -148,6 +153,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
           juryCommentedAt: new Date('2021-02-21T14:23:56Z'),
           juryCommentAuthor,
           version: 3,
+          sessionStatus: new SessionStatus({ status: SESSION_STATUSES.FINALIZED }),
         });
 
         // when
@@ -234,6 +240,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
           resultsSentToPrescriberAt: new Date('2020-02-20T14:23:56Z'),
           publishedAt: new Date('2020-02-21T14:23:56Z'),
           version: 3,
+          sessionStatus: new SessionStatus({ status: SESSION_STATUSES.PROCESSED }),
         });
 
         // when
