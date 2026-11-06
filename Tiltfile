@@ -115,3 +115,16 @@ for app in frontend_apps:
         ],
     )
 
+
+# =============================================================================
+# Outils
+# =============================================================================
+
+local_resource(
+    'db-seed',
+    cmd='kubectl -n {} exec deploy/api -c api -- npm run db:seed'.format(namespace),
+    resource_deps=['api'],
+    labels=['tools'],
+    auto_init=False,
+    trigger_mode=TRIGGER_MODE_MANUAL,
+)

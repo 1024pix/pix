@@ -63,6 +63,8 @@ spec:
                 - postgres
             initialDelaySeconds: 30
             periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
           readinessProbe:
             exec:
               command:
@@ -71,6 +73,8 @@ spec:
                 - postgres
             initialDelaySeconds: 5
             periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 6
       volumes:
         - name: postgres-data
           hostPath:

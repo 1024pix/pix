@@ -17,6 +17,16 @@ spec:
       labels:
         app: api
     spec:
+      initContainers:
+        - name: db-migrate
+          image: pix-api:dev
+          imagePullPolicy: Never
+          command: ["sh", "-c", "npm run db:create && npm run db:migrate"]
+          envFrom:
+            - configMapRef:
+                name: api-config
+            - secretRef:
+                name: api-secrets
       containers:
         - name: api
           image: pix-api:dev
