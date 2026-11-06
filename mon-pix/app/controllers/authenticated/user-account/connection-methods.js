@@ -18,39 +18,39 @@ export default class ConnectionMethodsController extends Controller {
   get emailAndPasswordItems() {
     const { user } = this.model;
 
+    const items = this.shouldShowPixAuthenticationMethod
+      ? [
+          user.email && {
+            key: 'email',
+            labelKey: `${LABELS}.email`,
+            value: user.email,
+            action: { labelKey: `${LABELS}.edit-email-button`, handler: this.enableEmailEditionMode },
+          },
+          user.username && {
+            key: 'username',
+            labelKey: `${LABELS}.username`,
+            value: user.username,
+          },
+          {
+            key: 'password',
+            labelKey: `${LABELS}.password`,
+            value: '********',
+            isSecret: true,
+            action: { labelKey: `${LABELS}.edit-password-button`, handler: this.enablePasswordEditionMode },
+          },
+        ].filter(Boolean)
+      : [];
+
     if (this.canAddEmailConnectionMethod) {
-      return [
-        {
-          key: 'add-email',
-          labelKey: `${LABELS}.email`,
-          value: '—',
-          action: { labelKey: ADD_EMAIL_LABEL, handler: this.enableEmailEditionMode },
-        },
-      ];
+      items.push({
+        key: 'add-email',
+        labelKey: `${LABELS}.email`,
+        value: '—',
+        action: { labelKey: ADD_EMAIL_LABEL, handler: this.enableEmailEditionMode },
+      });
     }
 
-    if (!this.shouldShowPixAuthenticationMethod) return [];
-
-    return [
-      user.email && {
-        key: 'email',
-        labelKey: `${LABELS}.email`,
-        value: user.email,
-        action: { labelKey: `${LABELS}.edit-email-button`, handler: this.enableEmailEditionMode },
-      },
-      user.username && {
-        key: 'username',
-        labelKey: `${LABELS}.username`,
-        value: user.username,
-      },
-      {
-        key: 'password',
-        labelKey: `${LABELS}.password`,
-        value: '********',
-        isSecret: true,
-        action: { labelKey: `${LABELS}.edit-password-button`, handler: this.enablePasswordEditionMode },
-      },
-    ].filter(Boolean);
+    return items;
   }
 
   get otherAuthenticationMethodItems() {
