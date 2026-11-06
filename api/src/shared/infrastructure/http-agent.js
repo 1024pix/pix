@@ -20,6 +20,8 @@ class HttpResponse {
 const httpAgent = {
   /**
    * Sends a POST request with a JSON payload.
+   * The Content-Type defaults to application/json, unless provided in the headers
+   *
    * @param {Object} options
    * @param {string} options.url
    * @param {Object} options.payload
@@ -28,7 +30,10 @@ const httpAgent = {
    */
   async post({ url, payload, headers }) {
     const finalHeaders = structuredClone(headers ?? {});
-    finalHeaders['Content-type'] = 'application/json';
+    const hasContentType = Object.keys(finalHeaders).some((name) => name.toLowerCase() === 'content-type');
+    if (!hasContentType) {
+      finalHeaders['Content-type'] = 'application/json';
+    }
     const body = payload && JSON.stringify(payload);
     return _doRequest({ url, headers: finalHeaders, body, method: 'POST' });
   },
