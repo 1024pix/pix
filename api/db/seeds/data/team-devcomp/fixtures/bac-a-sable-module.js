@@ -54,7 +54,7 @@ export const bacASableModule = {
                 id: '9c965b96-2a6b-4e8e-9fbb-8a792a25b504',
                 type: 'text',
                 tag: 'tip',
-                content: '<p>Chaton, chats, chat et achat 🐱.</p>',
+                content: '<p>Chaton, chats, <strong>chat</strong> et achat 🐱.</p>',
               },
             },
           ],

@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { findAll } from '@ember/test-helpers';
+import { click, findAll } from "@ember/test-helpers";
 import { t } from 'ember-intl/test-support';
 import ModuleElementText from 'mon-pix/components/module/element/text';
 import { module, test } from 'qunit';
