@@ -30,6 +30,24 @@ describe('Shared | Integration | Infrastructure | http-agent', function () {
       expect(requestScope.isDone()).to.be.true;
     });
 
+    it('should allow to override the Content-Type if provided in the headers', async function () {
+      // given
+      const payload = { foo: 'bar' };
+      const headers = { 'Content-Type': 'application/vnd.ims.lis.v2.lineitem+json' };
+      const requestScope = nock('https://my-url.com', {
+        reqheaders: { 'content-type': 'application/vnd.ims.lis.v2.lineitem+json' },
+      })
+        .post('/someresource', payload)
+        .reply(201, JSON.stringify({}));
+
+      // when
+      const actualResponse = await post({ url: 'https://my-url.com/someresource', payload, headers });
+
+      // then
+      expect(actualResponse.isSuccessful).to.be.true;
+      expect(requestScope.isDone()).to.be.true;
+    });
+
     context('when an error occurs', function () {
       context('when fetch succeed but response is not 2xx', function () {
         it("should return an http response with the error's response status as code and data from the failed http call", async function () {
