@@ -17,11 +17,11 @@ export default class ConnectionMethodsController extends Controller {
   }
 
   get shouldShowEmail() {
-    return !!this.model.user.email;
+    return this.shouldShowPixAuthenticationMethod && !!this.model.user.email;
   }
 
   get shouldShowUsername() {
-    return !!this.model.user.username;
+    return this.shouldShowPixAuthenticationMethod && !!this.model.user.username;
   }
 
   get oidcAuthenticationMethodOrganizationNames() {
@@ -42,6 +42,14 @@ export default class ConnectionMethodsController extends Controller {
 
   get canAddEmailConnectionMethod() {
     return this.model.accountInfo.canAddEmailConnectionMethod;
+  }
+
+  get shouldShowEmailAndPasswordSection() {
+    return this.shouldShowPixAuthenticationMethod || this.canAddEmailConnectionMethod;
+  }
+
+  get shouldShowOtherConnectionMethodsSection() {
+    return this.shouldShowGarAuthenticationMethod || this.oidcAuthenticationMethodOrganizationNames.length > 0;
   }
 
   @action
