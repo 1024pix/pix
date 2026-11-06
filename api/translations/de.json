@@ -543,6 +543,8 @@
     }
   },
   "lti": {
+    "line-item-mastery-rate": "Erfolgsquote",
+    "line-item-pix-score": "Gesamter Pix-Score",
     "profiles-collection-campaign-description": "Eine Kampagne zur Profilerhebung ermöglicht es, das Profil der Teilnehmenden abzurufen: Niveau je Kompetenz und Pix-Score."
   },
   "organization-invitation-email": {

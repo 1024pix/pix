@@ -1,10 +1,15 @@
 import { expect } from 'chai';
 import nock from 'nock';
 
-import { InvalidLtiPlatformRegistrationError } from '../../../../../src/lti/domain/errors.js';
+import {
+  InvalidLtiPlatformRegistrationError,
+  LtiLineItemsInitializationError,
+} from '../../../../../src/lti/domain/errors.js';
+import { LtiCampaign } from '../../../../../src/lti/domain/models/LtiCampaign.js';
 import { ltiService } from '../../../../../src/lti/domain/services/lti.service.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
+import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | LTI | Domain | Services | LTI', function () {
   describe('discoverLtiPlatform', function () {
@@ -212,6 +217,228 @@ describe('Integration | LTI | Domain | Services | LTI', function () {
 
         // then
         expect(pixToolConfiguration).to.deep.equal(expectedPixToolConfiguration);
+      });
+    });
+  });
+
+  describe('initializeLineItems', function () {
+    const platformOrigin = 'https://moodle.example.net';
+    const lineItemsUrl = `${platformOrigin}/mod/lti/services.php/2/lineitems?type_id=3`;
+    const accessToken = { token_type: 'Bearer', access_token: 'platform-access-token' };
+
+    let registration;
+
+    beforeEach(function () {
+      registration = domainBuilder.lti.buildLtiPlatformRegistration();
+      registration.platformOpenIdConfig = { token_endpoint: `${platformOrigin}/mod/lti/token.php` };
+    });
+
+    function buildCampaign({ type = 'ASSESSMENT', competences } = {}) {
+      return new LtiCampaign({
+        id: 123,
+        code: 'ABCD12345',
+        name: 'Campagne',
+        type,
+        competences: competences ?? [
+          { id: 'recCompetence1', index: '1.1', name: 'Mener une recherche', maxLevel: 3.4 },
+          { id: 'recCompetence2', index: '1.2', name: 'Gérer des données', maxLevel: 5 },
+        ],
+      });
+    }
+
+    function mockTokenRequest() {
+      return nock(platformOrigin).post('/mod/lti/token.php').reply(200, accessToken);
+    }
+
+    function mockLineItemsListing({ existingLineItems = [] } = {}) {
+      return nock(platformOrigin, { reqheaders: { authorization: 'Bearer platform-access-token' } })
+        .get('/mod/lti/services.php/2/lineitems')
+        .query({ type_id: '3', tag: 'pix-campaign-123', limit: '1000' })
+        .reply(200, existingLineItems);
+    }
+
+    function mockLineItemCreation({ createdLineItems, status = 201 }) {
+      return nock(platformOrigin, {
+        reqheaders: {
+          authorization: 'Bearer platform-access-token',
+          'content-type': 'application/vnd.ims.lis.v2.lineitem+json',
+        },
+      })
+        .post('/mod/lti/services.php/2/lineitems', (body) => {
+          createdLineItems.push(body);
+          return true;
+        })
+        .query({ type_id: '3' })
+        .times(1)
+        .reply(status, {});
+    }
+
+    it('creates a line item per competence, then a mastery rate line item for an assessment campaign', async function () {
+      // given
+      const createdLineItems = [];
+      mockTokenRequest();
+      mockLineItemsListing();
+      mockLineItemCreation({ createdLineItems });
+      mockLineItemCreation({ createdLineItems });
+      mockLineItemCreation({ createdLineItems });
+
+      // when
+      await ltiService.initializeLineItems({ lineItemsUrl, campaign: buildCampaign(), registration });
+
+      // then
+      expect(createdLineItems).to.deep.equal([
+        {
+          label: '1.1 Mener une recherche',
+          resourceId: 'pix:campaign:123:competence:recCompetence1',
+          scoreMaximum: 3,
+          tag: 'pix-campaign-123',
+        },
+        {
+          label: '1.2 Gérer des données',
+          resourceId: 'pix:campaign:123:competence:recCompetence2',
+          scoreMaximum: 5,
+          tag: 'pix-campaign-123',
+        },
+        {
+          label: 'Taux de réussite',
+          resourceId: 'pix:campaign:123:mastery-rate',
+          scoreMaximum: 100,
+          tag: 'pix-campaign-123',
+        },
+      ]);
+      expect(nock.isDone()).to.be.true;
+    });
+
+    it('creates a global Pix score line item for a profiles collection campaign', async function () {
+      // given
+      const createdLineItems = [];
+      mockTokenRequest();
+      mockLineItemsListing();
+      mockLineItemCreation({ createdLineItems });
+
+      const campaign = buildCampaign({
+        type: 'PROFILES_COLLECTION',
+        competences: [],
+      });
+
+      // when
+      await ltiService.initializeLineItems({ lineItemsUrl, campaign, registration });
+
+      // then
+      expect(createdLineItems).to.deep.equal([
+        {
+          label: 'Score Pix global',
+          resourceId: 'pix:campaign:123:pix-score',
+          scoreMaximum: 1024,
+          tag: 'pix-campaign-123',
+        },
+      ]);
+    });
+
+    it('does not create line items that already exist on the platform', async function () {
+      // given
+      const createdLineItems = [];
+      mockTokenRequest();
+      mockLineItemsListing({
+        existingLineItems: [
+          { id: 'https://moodle.example.net/1', resourceId: 'pix:campaign:123:competence:recCompetence1' },
+          { id: 'https://moodle.example.net/3', resourceId: 'pix:campaign:123:mastery-rate' },
+        ],
+      });
+      mockLineItemCreation({ createdLineItems });
+
+      // when
+      await ltiService.initializeLineItems({ lineItemsUrl, campaign: buildCampaign(), registration });
+
+      // then
+      expect(createdLineItems.map(({ resourceId }) => resourceId)).to.deep.equal([
+        'pix:campaign:123:competence:recCompetence2',
+      ]);
+    });
+
+    it('creates nothing when every line item already exists', async function () {
+      // given
+      mockTokenRequest();
+      mockLineItemsListing({
+        existingLineItems: [
+          { resourceId: 'pix:campaign:123:competence:recCompetence1' },
+          { resourceId: 'pix:campaign:123:competence:recCompetence2' },
+          { resourceId: 'pix:campaign:123:mastery-rate' },
+        ],
+      });
+
+      // when / then
+      await ltiService.initializeLineItems({ lineItemsUrl, campaign: buildCampaign(), registration });
+      expect(nock.isDone()).to.be.true;
+    });
+
+    describe('when the line items URL is missing', function () {
+      it('throws a LtiLineItemsInitializationError', async function () {
+        // when
+        const error = await catchErr(ltiService.initializeLineItems)({
+          lineItemsUrl: undefined,
+          campaign: buildCampaign(),
+          registration,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(LtiLineItemsInitializationError);
+      });
+    });
+
+    describe('when the access token cannot be retrieved', function () {
+      it('throws a LtiLineItemsInitializationError', async function () {
+        // given
+        nock(platformOrigin).post('/mod/lti/token.php').reply(401, { error: 'invalid_scope' });
+
+        // when
+        const error = await catchErr(ltiService.initializeLineItems)({
+          lineItemsUrl,
+          campaign: buildCampaign(),
+          registration,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(LtiLineItemsInitializationError);
+      });
+    });
+
+    describe('when existing line items cannot be listed', function () {
+      it('throws a LtiLineItemsInitializationError without creating anything', async function () {
+        // given
+        mockTokenRequest();
+        nock(platformOrigin).get('/mod/lti/services.php/2/lineitems').query(true).reply(500);
+
+        // when
+        const error = await catchErr(ltiService.initializeLineItems)({
+          lineItemsUrl,
+          campaign: buildCampaign(),
+          registration,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(LtiLineItemsInitializationError);
+      });
+    });
+
+    describe('when a line item cannot be created', function () {
+      it('throws a LtiLineItemsInitializationError and stops creating line items', async function () {
+        // given
+        const createdLineItems = [];
+        mockTokenRequest();
+        mockLineItemsListing();
+        mockLineItemCreation({ createdLineItems, status: 500 });
+
+        // when
+        const error = await catchErr(ltiService.initializeLineItems)({
+          lineItemsUrl,
+          campaign: buildCampaign(),
+          registration,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(LtiLineItemsInitializationError);
+        expect(createdLineItems).to.have.lengthOf(1);
       });
     });
   });

@@ -3,14 +3,23 @@ import jsonwebtoken from 'jsonwebtoken';
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import * as urlService from '../../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../../shared/infrastructure/http-agent.js';
+import { getI18n } from '../../../shared/infrastructure/i18n/i18n.js';
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
+import { PromiseUtils } from '../../../shared/infrastructure/utils/promise-utils.js';
 import { ltiPlatformRepository } from '../../infrastructure/repositories/lti-platform.repository.js';
-import { InvalidLtiPlatformRegistrationError } from '../errors.js';
+import { InvalidLtiPlatformRegistrationError, LtiLineItemsInitializationError } from '../errors.js';
 import { validatePlatformConfiguration } from '../validators/platform-configuration.validator.js';
 
 const logger = child('lti:service', { event: SCOPES.LTI });
 
 const ORGANIZATION_EXTERNAL_IDS_CUSTOM_CLAIM = 'pix_orgas';
+
+const LINE_ITEM_SCOPE = 'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem';
+const LINE_ITEM_CONTENT_TYPE = 'application/vnd.ims.lis.v2.lineitem+json';
+const LINE_ITEMS_LOCALE = 'fr';
+const LINE_ITEMS_QUERY_LIMIT = 1000;
+const MASTERY_RATE_SCORE_MAXIMUM = 100;
+const PIX_SCORE_MAXIMUM = 1024;
 
 export const ltiService = {
   /**
@@ -131,6 +140,50 @@ export const ltiService = {
     );
   },
 
+  /**
+   * Creates on the platform the line items matching the campaign, skipping those that already exist.
+   * Existing line items are looked up on the platform (by tag, then by resourceId), so calling this
+   * method several times for the same campaign never creates duplicates.
+   *
+   * @param {object} args
+   * @param {string} args.lineItemsUrl AGS line items container URL
+   * @param {import('../models/LtiCampaign.js').LtiCampaign} args.campaign
+   * @param {import('../models/LtiPlatformRegistration.js').LtiPlatformRegistration} args.registration
+   * @throws {LtiLineItemsInitializationError}
+   */
+  async initializeLineItems(
+    { lineItemsUrl, campaign, registration },
+    dependencies = { cryptoService, getI18n, httpAgent },
+  ) {
+    if (!lineItemsUrl) {
+      throw new LtiLineItemsInitializationError('Missing line items URL');
+    }
+
+    const accessToken = await getAccessToken(LINE_ITEM_SCOPE, registration, dependencies);
+    const headers = { Authorization: `${accessToken.token_type} ${accessToken.access_token}` };
+
+    const tag = buildLineItemsTag(campaign);
+    const existingResourceIds = await findExistingResourceIds({ lineItemsUrl, tag, headers }, dependencies);
+
+    const expectedLineItems = buildExpectedLineItems(campaign, dependencies.getI18n(LINE_ITEMS_LOCALE));
+    const missingLineItems = expectedLineItems.filter(({ resourceId }) => !existingResourceIds.has(resourceId));
+
+    await PromiseUtils.mapSeries(missingLineItems, async (lineItem) => {
+      const response = await dependencies.httpAgent.post({
+        url: lineItemsUrl,
+        payload: lineItem,
+        headers: { ...headers, 'Content-Type': LINE_ITEM_CONTENT_TYPE },
+      });
+      if (!response.isSuccessful) {
+        logger.error(
+          { lineItemsUrl, resourceId: lineItem.resourceId, code: response.code },
+          'could not create line item',
+        );
+        throw new LtiLineItemsInitializationError('Could not create line item');
+      }
+    });
+  },
+
   deserializeDeepLinkingCustomClaims(customClaims) {
     return {
       organizationExternalIds:
@@ -141,3 +194,104 @@ export const ltiService = {
     };
   },
 };
+
+function buildLineItemsTag(campaign) {
+  return `pix-campaign-${campaign.id}`;
+}
+
+function buildExpectedLineItems(campaign, i18n) {
+  const tag = buildLineItemsTag(campaign);
+  const resourceIdPrefix = `pix:campaign:${campaign.id}`;
+
+  const competenceLineItems = campaign.competences.map((competence) => ({
+    label: `${competence.index} ${competence.name}`,
+    resourceId: `${resourceIdPrefix}:competence:${competence.id}`,
+    scoreMaximum: Math.round(competence.maxLevel),
+    tag,
+  }));
+
+  const globalLineItem = buildGlobalLineItem({ campaignType: campaign.type, resourceIdPrefix, tag, i18n });
+
+  return globalLineItem ? [...competenceLineItems, globalLineItem] : competenceLineItems;
+}
+
+function buildGlobalLineItem({ campaignType, resourceIdPrefix, tag, i18n }) {
+  switch (campaignType) {
+    case 'ASSESSMENT':
+    case 'EXAM':
+      return {
+        label: i18n.__('lti.line-item-mastery-rate'),
+        resourceId: `${resourceIdPrefix}:mastery-rate`,
+        scoreMaximum: MASTERY_RATE_SCORE_MAXIMUM,
+        tag,
+      };
+    case 'PROFILES_COLLECTION':
+      return {
+        label: i18n.__('lti.line-item-pix-score'),
+        resourceId: `${resourceIdPrefix}:pix-score`,
+        scoreMaximum: PIX_SCORE_MAXIMUM,
+        tag,
+      };
+    default:
+      return null;
+  }
+}
+
+async function findExistingResourceIds({ lineItemsUrl, tag, headers }, dependencies) {
+  const url = new URL(lineItemsUrl);
+  url.searchParams.set('tag', tag);
+  url.searchParams.set('limit', String(LINE_ITEMS_QUERY_LIMIT));
+
+  const response = await dependencies.httpAgent.get({
+    url: url.toString(),
+    headers: { ...headers, Accept: 'application/vnd.ims.lis.v2.lineitemcontainer+json' },
+  });
+
+  if (!response.isSuccessful || !Array.isArray(response.data)) {
+    logger.error({ lineItemsUrl, code: response.code }, 'could not list line items');
+    throw new LtiLineItemsInitializationError('Could not list line items');
+  }
+
+  return new Set(response.data.map(({ resourceId }) => resourceId));
+}
+
+async function getAccessToken(scope, registration, dependencies) {
+  const privateKey = {
+    format: 'jwk',
+    key: JSON.parse(await dependencies.cryptoService.decrypt(registration.encryptedPrivateKey)),
+  };
+
+  const client_assertion = jsonwebtoken.sign(
+    {
+      iss: registration.platformIssuer,
+      sub: registration.clientId,
+      aud: registration.platformOpenIdConfig.token_endpoint,
+    },
+    privateKey,
+    {
+      expiresIn: 3600,
+      algorithm: 'RS256',
+      keyid: registration.publicKey.kid,
+    },
+  );
+
+  const response = await fetch(registration.platformOpenIdConfig.token_endpoint, {
+    method: 'POST',
+    body: new URLSearchParams({
+      grant_type: 'client_credentials',
+      client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+      client_assertion,
+      scope,
+    }),
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded',
+    },
+  });
+
+  if (!response.ok) {
+    logger.error({ status: response.status, err: await response.text() }, 'could not get access token');
+    throw new LtiLineItemsInitializationError('Could not get access token');
+  }
+
+  return response.json();
+}

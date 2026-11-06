@@ -673,6 +673,8 @@
     }
   },
   "lti": {
+    "line-item-mastery-rate": "Success rate",
+    "line-item-pix-score": "Overall Pix score",
     "profiles-collection-campaign-description": "A profile collection campaign retrieves the participants' profiles: level per competence and Pix score."
   },
   "organization-invitation-email": {

@@ -4,12 +4,12 @@ import boom from '@hapi/boom';
 import jsonwebtoken from 'jsonwebtoken';
 
 import { BadRequestError } from '../../shared/application/errors/http-errors.js';
-import { cryptoService } from '../../shared/domain/services/crypto-service.js';
 import * as urlService from '../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../shared/infrastructure/http-agent.js';
 import { getI18nFromRequest } from '../../shared/infrastructure/i18n/i18n.js';
 import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
 import { getForwardedOrigin, RequestedApplication } from '../../shared/infrastructure/utils/network.js';
+import { LtiLineItemsInitializationError } from '../domain/errors.js';
 import { LtiDeepLinkingAccessToken } from '../domain/models/LtiDeepLinkingAccessToken.js';
 import { ltiService } from '../domain/services/lti.service.js';
 import { usecases } from '../domain/usecases/index.js';
@@ -161,10 +161,7 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
     type: 'ltiResourceLink',
     title: campaign.name,
     text: campaign.description ?? i18n.__('lti.profiles-collection-campaign-description'),
-    custom: { campaign_code: campaign.code },
-    lineItem: {
-      scoreMaximum: 100,
-    },
+    custom: { campaign_id: String(campaign.id), campaign_code: campaign.code },
   };
 
   const deepLinkingResponse = await dependencies.ltiService.encodeDeepLinkingResponse({
@@ -186,18 +183,39 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
     .header('Set-Cookie', LtiDeepLinkingAccessToken.setCookieHeaderForClearing());
 }
 
-async function resourceLink(request, h, dependencies = { urlService }) {
+async function resourceLink(request, h, dependencies = { urlService, ltiService }) {
   const { verifiedToken, registration } = await preLaunch(request);
-
+  logger.info({ verifiedToken }, 'Ressource link verified token');
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
 
   // FIXME return 400 bad request if !=
   if (messageType === 'LtiResourceLinkRequest') {
-    await sendScoring(verifiedToken, registration);
+    const campaignId = Number(verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom']?.campaign_id);
+    const campaign = Number.isInteger(campaignId) ? await usecases.getLtiCampaign({ campaignId }) : null;
+    const resourceLinkId = Number(verifiedToken['https://purl.imsglobal.org/spec/lti/claim/resource_link']?.id);
+    if (!campaign) {
+      logger.warn({ campaignId }, 'unknown campaign');
+      throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
+    }
 
-    const campaignCode = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom'].campaign_code;
+    try {
+      await dependencies.ltiService.initializeLineItems({
+        lineItemsUrl: verifiedToken['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint']?.lineitems,
+        campaign,
+        resourceLinkId,
+        registration,
+      });
+    } catch (err) {
+      if (!(err instanceof LtiLineItemsInitializationError)) throw err;
 
-    const campaignUrl = dependencies.urlService.getPixAppUrl('fr-FR', { pathname: `/campagnes/${campaignCode}` });
+      logger.error({ campaignId, err }, 'could not initialize line items');
+      return h
+        .response(ltiErrorSerializer.serialize({ title: 'Launch error', message: 'Please contact your administrator' }))
+        .header('Content-Type', 'text/html; charset=utf-8')
+        .code(502);
+    }
+
+    const campaignUrl = dependencies.urlService.getPixAppUrl('fr-FR', { pathname: `/campagnes/${campaign.code}` });
 
     return h.redirect(campaignUrl);
   }
@@ -246,81 +264,4 @@ async function preLaunch(request, dependencies = { ltiPlatformRegistrationReposi
   const verifiedToken = jsonwebtoken.verify(encodedToken, createPublicKey({ key, format: 'jwk' }));
 
   return { verifiedToken, registration };
-}
-
-async function sendScoring(request, registration) {
-  const scoringServiceAccessToken = await getAccessToken(
-    'https://purl.imsglobal.org/spec/lti-ags/scope/score',
-    registration,
-  );
-  if (!scoringServiceAccessToken) return;
-
-  const scoringServiceUrl = new URL(request['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint'].lineitem);
-  scoringServiceUrl.pathname += '/scores';
-
-  const scoringPayload = {
-    scoreGiven: 83,
-    scoreMaximum: 100,
-    comment: 'This is exceptional work.',
-    activityProgress: 'Completed',
-    gradingProgress: 'FullyGraded',
-    timestamp: new Date().toISOString(),
-    userId: request.sub,
-  };
-
-  const scoringRes = await fetch(scoringServiceUrl, {
-    method: 'POST',
-    headers: {
-      Authorization: scoringServiceAccessToken.token_type + ' ' + scoringServiceAccessToken.access_token,
-      'Content-Type': 'application/vnd.ims.lis.v1.score+json',
-    },
-    body: JSON.stringify(scoringPayload),
-  });
-
-  if (scoringRes.ok) {
-    logger.info({ payload: await scoringRes.text() }, 'scoring ok');
-  } else {
-    logger.error({ status: scoringRes.status, err: await scoringRes.text() }, 'could not send scoring');
-  }
-}
-
-async function getAccessToken(scope, registration, dependencies = { cryptoService }) {
-  const privateKey = {
-    format: 'jwk',
-    key: JSON.parse(await dependencies.cryptoService.decrypt(registration.encryptedPrivateKey)),
-  };
-
-  const client_assertion = jsonwebtoken.sign(
-    {
-      iss: registration.platformIssuer,
-      sub: registration.clientId,
-      aud: registration.platformOpenIdConfig.token_endpoint,
-    },
-    privateKey,
-    {
-      expiresIn: 3600,
-      algorithm: 'RS256',
-      keyid: registration.publicKey.kid,
-    },
-  );
-
-  const res = await fetch(registration.platformOpenIdConfig.token_endpoint, {
-    method: 'POST',
-    body: new URLSearchParams({
-      grant_type: 'client_credentials',
-      client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-      client_assertion,
-      scope,
-    }),
-    headers: {
-      'Content-type': 'application/x-www-form-urlencoded',
-    },
-  });
-
-  if (!res.ok) {
-    logger.error({ status: res.status, err: await res.text() }, 'could not get access token');
-    return null;
-  }
-
-  return res.json();
 }

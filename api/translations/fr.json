@@ -1104,6 +1104,8 @@
     }
   },
   "lti": {
+    "line-item-mastery-rate": "Taux de réussite",
+    "line-item-pix-score": "Score Pix global",
     "profiles-collection-campaign-description": "Une campagne de collecte de profils permet de récupérer le profil des participants : niveaux par compétence et score pix."
   },
   "organization-invitation-email": {
