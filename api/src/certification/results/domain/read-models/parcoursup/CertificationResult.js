@@ -8,6 +8,8 @@ export class CertificationResult {
    * @param {string} props.[organizationUai]
    * @param {string} props.lastName
    * @param {string} props.firstName
+   * @param {string|null} props.middleName
+   * @param {string|null} props.thirdName
    * @param {string} props.birthdate
    * @param {string} props.status
    * @param {string} props.pixScore
@@ -24,6 +26,8 @@ export class CertificationResult {
     organizationUai,
     lastName,
     firstName,
+    middleName,
+    thirdName,
     birthdate,
     status,
     pixScore,
@@ -39,6 +43,8 @@ export class CertificationResult {
     this.organizationUai = organizationUai;
     this.lastName = lastName;
     this.firstName = firstName;
+    this.middleName = middleName;
+    this.thirdName = thirdName;
     this.birthdate = birthdate;
     this.status = status;
     this.pixScore = pixScore;
