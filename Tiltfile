@@ -108,7 +108,6 @@ for app in frontend_apps:
     k8s_resource(
         app['name'],
         labels=[app['label']],
-        resource_deps=['api'],
         port_forwards=['{}:80'.format(app['port'])],
         links=[
             'http://{}.dev.pix.fr'.format(app['name']),
