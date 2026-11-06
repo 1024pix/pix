@@ -64,6 +64,17 @@ describe('Unit | Infrastructure | Caches | LearningContentCache', function () {
       // then
       expect(topic.publish).to.have.been.calledOnceWithExactly({ type: 'delete', key });
     });
+
+    it('should delete the key from the map at once', async function () {
+      // given
+      const key = Symbol('key');
+
+      // when
+      learningContentCache.delete(key);
+
+      // then
+      expect(map.delete).to.have.been.calledOnceWithExactly(key);
+    });
   });
 
   describe('#clear', function () {
@@ -73,6 +84,14 @@ describe('Unit | Infrastructure | Caches | LearningContentCache', function () {
 
       // then
       expect(topic.publish).to.have.been.calledOnceWithExactly({ type: 'clear' });
+    });
+
+    it('should clear the map at once', async function () {
+      // when
+      learningContentCache.clear();
+
+      // then
+      expect(map.clear).to.have.been.calledOnceWithExactly();
     });
   });
 
