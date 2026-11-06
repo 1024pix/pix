@@ -150,6 +150,30 @@ module('Unit | Controller | user-account | connection-methods', function (hooks)
       });
     });
 
+    module('when user has a PIX authentication method and can add an email connection method', function () {
+      test('lists the PIX items then the add-email item', function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/user-account/connection-methods');
+        controller.set('model', {
+          user: { username: 'john.doe0101' },
+          accountInfo: { canAddEmailConnectionMethod: true },
+          authenticationMethods: [
+            EmberObject.create({ identityProvider: 'PIX' }),
+            EmberObject.create({ identityProvider: 'FRANCE_CONNECT' }),
+          ],
+        });
+
+        // when
+        const items = controller.emailAndPasswordItems;
+
+        // then
+        assert.deepEqual(
+          items.map(({ key }) => key),
+          ['username', 'password', 'add-email'],
+        );
+      });
+    });
+
     module('when user has no PIX authentication method', function () {
       test('lists nothing', function (assert) {
         // given
