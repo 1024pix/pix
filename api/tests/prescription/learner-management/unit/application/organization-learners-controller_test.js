@@ -88,6 +88,81 @@ describe('Unit | Prescription | Learner Management | Application | organization-
     });
   });
 
+  describe('#deleteOrganizationLearnersFromAdmin', function () {
+    it('calls the first usecase to get learners by organizations from a list of learnerIds', async function () {
+      // given
+      const userId = Symbol('userId');
+      const listLearners = [101, 102, 103];
+      sinon
+        .stub(usecases, 'getOrganizationLearnersGroupedByOrganizations')
+        .withArgs({ organizationLearnerIds: listLearners })
+        .resolves([
+          { organizationId: 1001, organizationLearnerIds: [101] },
+          { organizationId: 1002, organizationLearnerIds: [102, 103] },
+        ]);
+      sinon.stub(usecases, 'deleteOrganizationLearners').resolves();
+
+      const request = {
+        auth: { credentials: { userId } },
+        payload: {
+          listLearners,
+        },
+      };
+
+      // when
+      const response = await organizationLearnersController.deleteOrganizationLearnersFromAdmin(request, hFake);
+
+      // then
+      expect(usecases.getOrganizationLearnersGroupedByOrganizations).to.have.been.calledWithExactly({
+        organizationLearnerIds: listLearners,
+      });
+      expect(response.statusCode).to.be.equal(200);
+    });
+
+    it('calls the delete organization learner usecase for each organization retrieved', async function () {
+      // given
+      const userId = Symbol('userId');
+      const listLearners = [101, 102, 103];
+      sinon
+        .stub(usecases, 'getOrganizationLearnersGroupedByOrganizations')
+        .withArgs({ organizationLearnerIds: listLearners })
+        .resolves([
+          { organizationId: 1001, organizationLearnerIds: [101] },
+          { organizationId: 1002, organizationLearnerIds: [102, 103] },
+        ]);
+      const useCaseStub = sinon.stub(usecases, 'deleteOrganizationLearners').resolves();
+
+      const request = {
+        auth: { credentials: { userId } },
+        payload: {
+          listLearners,
+        },
+      };
+
+      // when
+      const response = await organizationLearnersController.deleteOrganizationLearnersFromAdmin(request, hFake);
+
+      // then
+      expect(useCaseStub).to.have.been.calledTwice;
+      expect(useCaseStub.firstCall).to.have.been.calledWithExactly({
+        organizationLearnerIds: [101],
+        userId,
+        organizationId: 1001,
+        userRole: PIX_ADMIN.ROLES.SUPPORT,
+        client: CLIENTS.ADMIN,
+      });
+      expect(useCaseStub.secondCall).to.have.been.calledWithExactly({
+        organizationLearnerIds: [102, 103],
+        userId,
+        organizationId: 1002,
+        userRole: PIX_ADMIN.ROLES.SUPPORT,
+        client: CLIENTS.ADMIN,
+      });
+      //const [{ message: firstErrorMessage }] = notificationErrorStub.getCall(0).args;
+      expect(response.statusCode).to.be.equal(200);
+    });
+  });
+
   describe('#deleteOrganizationLearnerFromAdmin', function () {
     let deleteOrganizationLearnersStub;
 

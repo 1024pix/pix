@@ -23,14 +23,19 @@ const deleteOrganizationLearnersFromAdmin = async function (request, h) {
   const authenticatedUserId = request.auth.credentials.userId;
   const listLearners = request.payload.listLearners;
 
-  // get learners ids associated with organization ids
-  const organizationId = await usecases.deleteOrganizationLearners({
+  const learnersByOrganizations = await usecases.getOrganizationLearnersGroupedByOrganizations({
     organizationLearnerIds: listLearners,
-    userId: authenticatedUserId,
-    organizationId,
-    userRole: PIX_ORGA.ROLES.ADMIN,
-    client: CLIENTS.ORGA,
   });
+
+  for (const organization of learnersByOrganizations) {
+    await usecases.deleteOrganizationLearners({
+      organizationLearnerIds: organization.organizationLearnerIds,
+      userId: authenticatedUserId,
+      organizationId: organization.organizationId,
+      userRole: PIX_ADMIN.ROLES.SUPPORT,
+      client: CLIENTS.ADMIN,
+    });
+  }
   return h.response().code(200);
 };
 

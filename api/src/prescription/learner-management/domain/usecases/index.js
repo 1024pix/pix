@@ -83,6 +83,7 @@ import { getOrganizationImport } from './get-organization-import.js';
 import { getOrganizationImportStatus } from './get-organization-import-status.js';
 import { getOrganizationLearnerFilters } from './get-organization-learner-filters.js';
 import { getOrganizationLearnersCsvTemplate } from './get-organization-learners-csv-template.js';
+import { getOrganizationLearnersGroupedByOrganizations } from './get-organization-learners-grouped-by-organization-ids.js';
 import { handlePayloadTooLargeError } from './handle-payload-too-large-error.js';
 import { hasBeenLearner } from './has-been-learner.js';
 import { sendOrganizationLearnersFile } from './import-from-feature/send-organization-learners-file.js';
@@ -120,6 +121,7 @@ const usecasesWithoutInjectedDependencies = {
   getOrganizationImportStatus,
   getOrganizationImport,
   getOrganizationLearnersCsvTemplate,
+  getOrganizationLearnersGroupedByOrganizations,
   handlePayloadTooLargeError,
   hasBeenLearner,
   importLearnersFromFregataFile,
