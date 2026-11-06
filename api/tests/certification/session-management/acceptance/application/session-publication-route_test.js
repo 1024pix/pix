@@ -95,7 +95,7 @@ describe('Certification | Session-Management | Acceptance | Application | Routes
             expect(response.statusCode).to.equal(204);
 
             const handler = new PublishSessionJobController();
-            expect(handler.jobName).to.have.performed.withJobsCount(1);
+            await expect(handler.jobName).to.have.performed.withJobsCount(1);
           });
         });
 
