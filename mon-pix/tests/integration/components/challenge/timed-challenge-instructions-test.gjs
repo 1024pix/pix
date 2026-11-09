@@ -1,4 +1,4 @@
-import { render, within } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import TimedChallengeInstructions from 'mon-pix/components/challenge/timed-challenge-instructions';
 import { module, test } from 'qunit';

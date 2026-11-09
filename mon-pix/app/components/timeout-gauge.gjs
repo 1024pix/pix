@@ -1,5 +1,6 @@
 import { PixIcon } from '@1024pix/nebulix-ember';
-import { htmlSafe } from '@ember/template';
+import { service } from '@ember/service';
+import { DurationFormat } from '@formatjs/intl-durationformat';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
@@ -10,6 +11,7 @@ const TICK_INTERVAL_IN_MILLISECONDS = 1000;
 export default class TimeoutGauge extends Component {
   @tracked remainingSeconds;
   @tracked timer;
+  @service locale;
 
   constructor() {
     super(...arguments);
@@ -19,7 +21,7 @@ export default class TimeoutGauge extends Component {
       this.remainingSeconds = 0;
     } else {
       this.remainingSeconds = this._isNumeric(allottedTimeInSeconds) ? allottedTimeInSeconds : 0;
-      this._startTimer();
+      if (!this.args.fixedTime) this._startTimer();
     }
   }
 
@@ -48,6 +50,13 @@ export default class TimeoutGauge extends Component {
   }
 
   get formattedRemainingTime() {
+    if (this.args.fixedTime) {
+      const minutes = Math.floor(this.remainingSeconds / 60);
+      const seconds = this.remainingSeconds % 60;
+
+      return new DurationFormat(this.locale.currentLanguage, { style: 'long' }).format({ minutes, seconds });
+    }
+
     return this.remainingSeconds >= 0 ? this._formatMinutesAndSeconds(this.timeRemaining) : '0:00';
   }
 
@@ -63,23 +72,6 @@ export default class TimeoutGauge extends Component {
       seconds,
       minutes,
     };
-  }
-
-  get gaugeWidthStyle() {
-    return htmlSafe(
-      `background: linear-gradient(to right, var(--pix-neutral-100) ${this.percentageOfTimeout}%, transparent ${this.percentageOfTimeout}%);`,
-    );
-  }
-
-  get percentageOfTimeout() {
-    const actualAllottedTime = this.args.allottedTime;
-    if (this.remainingSeconds <= 0) {
-      return 100;
-    } else if (this._isNumeric(actualAllottedTime) && parseInt(actualAllottedTime) >= 1) {
-      return 100 - (this.remainingSeconds / actualAllottedTime) * 100;
-    } else {
-      return 0;
-    }
   }
 
   get isTimedOut() {
@@ -98,16 +90,12 @@ export default class TimeoutGauge extends Component {
   }
 
   <template>
-    <div class="timeout-gauge" tab-index="0">
-      <div class="timeout-gauge__content" style={{this.gaugeWidthStyle}}>
-        <PixIcon @name="time" class={{if this.isTimedOut "timeout-gauge__stop-icon"}} />
+    <span class="timeout-gauge {{if this.isTimedOut 'timeout-gauge--timeout'}}" tab-index="0" ...attributes>
+      <PixIcon @name="time" />
 
-        <span
-          aria-label="{{t 'common.duration' minutes=this.timeRemaining.minutes seconds=this.timeRemaining.seconds}}"
-        >
-          <span aria-hidden="true">{{this.formattedRemainingTime}}</span>
-        </span>
-      </div>
-    </div>
+      <span
+        aria-label="{{t 'common.duration' minutes=this.timeRemaining.minutes seconds=this.timeRemaining.seconds}}"
+      >{{this.formattedRemainingTime}}</span>
+    </span>
   </template>
 }

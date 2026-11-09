@@ -1,22 +1,23 @@
 .timeout-gauge {
-  display: flex;
+  display: inline-flex;
+  gap: var(--pix-spacing-2x);
   align-items: center;
-  justify-content:flex-end;
+  align-self: flex-end;
+  width: fit-content;
+  padding: var(--pix-spacing-2x);
+  color: var(--pix-primary-700);
+  font-weight: var(--pix-font-bold);
+  background-color: var(--pix-primary-100);
+  border: 2px solid var(--pix-primary-100);
+  border-radius: 7px;
 
-  &__stop-icon {
-    color: var(--pix-error-500)
+  &--timeout {
+    color: var(--pix-warning-900);
+    background-color: var(--pix-warning-100);
+    border: 2px solid var(--pix-warning-300);
   }
 
-  &__content {
-    position: relative;
-    display: flex;
-    gap: var(--pix-spacing-2x);
-    align-items: center;
-    width: fit-content;
-    padding: var(--pix-spacing-1x);
-    font-weight: var(--pix-font-bold);
-    font-size: 1.25rem;
-    font-style: normal;
-    border-radius: 5px;
+  &__icon {
+    width: 2.5rem;
   }
 }
