@@ -332,7 +332,7 @@ export class JobClient {
     await this.#pgBoss.deleteAllJobs();
   }
 
-  async stop(options = { graceful: false, timeout: 1000 }) {
+  async stop(options = { graceful: true, timeout: 20000 }) {
     this.#assertIsInitialized();
     await this.#pgBoss.stop(options);
     this.#isInitialized = false;
