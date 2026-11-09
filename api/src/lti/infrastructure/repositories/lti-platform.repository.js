@@ -1,5 +1,7 @@
+import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../db/pgsql-errors.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
+import { AlreadyExistingLtiPlatformError } from '../../domain/errors.js';
 import { LtiPlatform } from '../../domain/models/LtiPlatform.js';
 
 export const ltiPlatformRepository = {
@@ -33,6 +35,21 @@ export const ltiPlatformRepository = {
     const ltiPlatformDtos = await knexConn.select('*').from('lti_platforms').orderBy('issuer');
 
     return ltiPlatformDtos.map(toDomain);
+  },
+
+  async create({ issuer }) {
+    const knexConn = DomainTransaction.getConnection();
+
+    try {
+      const [ltiPlatformDto] = await knexConn.insert({ issuer }).into('lti_platforms').returning('*');
+
+      return toDomain(ltiPlatformDto);
+    } catch (err) {
+      if (err.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
+        throw new AlreadyExistingLtiPlatformError(undefined, { cause: err });
+      }
+      throw err;
+    }
   },
 };
 
