@@ -3,7 +3,7 @@ import { JobController } from '../../../../shared/application/jobs/job-controlle
 import { ComputeCertificabilityJob } from '../../domain/models/jobs/ComputeCertificabilityJob.js';
 import { usecases } from '../../domain/usecases/index.js';
 
-class ComputeCertificabilityJobController extends JobController {
+export class ComputeCertificabilityJobController extends JobController {
   constructor() {
     super(ComputeCertificabilityJob.name);
   }
@@ -13,10 +13,10 @@ class ComputeCertificabilityJobController extends JobController {
   }
 
   async handle({ data }) {
-    const { organizationLearnerId } = data;
+    const { organizationLearnerIds } = data;
 
-    await usecases.computeOrganizationLearnerCertificability({ organizationLearnerId });
+    for (const organizationLearnerId of organizationLearnerIds) {
+      await usecases.computeOrganizationLearnerCertificability({ organizationLearnerId });
+    }
   }
 }
-
-export { ComputeCertificabilityJobController };

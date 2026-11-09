@@ -1,5 +1,5 @@
 export class ComputeCertificabilityJob {
-  constructor({ organizationLearnerId }) {
-    this.organizationLearnerId = organizationLearnerId;
+  constructor({ organizationLearnerIds }) {
+    this.organizationLearnerIds = organizationLearnerIds;
   }
 }

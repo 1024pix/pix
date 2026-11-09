@@ -153,4 +153,11 @@ export default {
     devDefaultValues: { test: true, reviewApp: true },
     tags: ['team-certification', 'backend', 'pix-api'],
   },
+  scheduleCertificabilityBatchMode: {
+    type: 'boolean',
+    description: 'Schedule certificability compute job in batch',
+    defaultValue: true,
+    devDefaultValues: { test: true, reviewApp: true },
+    tags: ['team-prescription', 'backend', 'pix-api'],
+  },
 };

@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { config } from '../../../../../config/config.js';
 import { JobScheduleController } from '../../../../shared/application/jobs/job-schedule-controller.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import * as organizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { ComputeCertificabilityJob } from '../../domain/models/jobs/ComputeCertificabilityJob.js';
@@ -26,6 +27,7 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobController extends Jo
     const { chunkSize, cron: cronConfig } =
       dependencies.config.features.scheduleComputeOrganizationLearnersCertificability;
 
+    const batchMode = await featureToggles.get('scheduleCertificabilityBatchMode');
     const isolationLevel = 'repeatable read';
 
     const parsedCron = CronExpressionParser.parse(cronConfig, { tz: 'Europe/Paris' });
@@ -63,11 +65,20 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobController extends Jo
             `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Ids count  : ${organizationLearnerIds.length}`,
           );
 
-          const jobs = organizationLearnerIds.map(
-            (organizationLearnerId) => new ComputeCertificabilityJob({ organizationLearnerId }),
-          );
-          await dependencies.computeCertificabilityJobRepository.performManyAsync(jobs);
-          totalJobsInserted += jobs.length;
+          if (!batchMode) {
+            const jobs = organizationLearnerIds.map(
+              (organizationLearnerId) =>
+                new ComputeCertificabilityJob({ organizationLearnerIds: [organizationLearnerId] }),
+            );
+            await dependencies.computeCertificabilityJobRepository.performManyAsync(jobs);
+            totalJobsInserted += jobs.length;
+          } else {
+            await dependencies.computeCertificabilityJobRepository.performAsync(
+              new ComputeCertificabilityJob({ organizationLearnerIds }),
+            );
+            totalJobsInserted += 1;
+          }
+
           dependencies.logger.info(
             `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Jobs inserted count  : ${totalJobsInserted}`,
           );
