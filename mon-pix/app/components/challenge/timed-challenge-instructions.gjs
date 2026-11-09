@@ -1,4 +1,4 @@
-import { PixButton, PixIcon } from '@1024pix/nebulix-ember';
+import { PixBlock, PixButton, PixIcon } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import { DurationFormat } from '@formatjs/intl-durationformat';
 import Component from '@glimmer/component';
@@ -6,12 +6,12 @@ import t from 'ember-intl/helpers/t';
 
 export default class TimedChallengeInstructions extends Component {
   <template>
-    <div class="rounded-panel rounded-panel--no-margin-bottom timed-challenge-instructions">
-      <h1 class="timed-challenge-instructions__primary">
+    <PixBlock class="timed-challenge-instructions">
+      <h1 class="timed-challenge-instructions__title">
         {{t "components.timed-challenge-instruction.primary" time=this.allocatedTime htmlSafe=true}}
       </h1>
 
-      <p class="timed-challenge-instructions__secondary">
+      <p class="timed-challenge-instructions__description">
         {{t "components.timed-challenge-instruction.secondary"}}
       </p>
 
@@ -22,12 +22,13 @@ export default class TimedChallengeInstructions extends Component {
 
       <PixButton
         @triggerAction={{@hasUserConfirmedWarning}}
-        class="timed-challenge-instructions-action__confirmation-button"
-        @variant="success"
+        class="timed-challenge-instructions__action"
+        @variant="primary"
+        @iconAfter="arrowRight"
       >
         {{t "components.timed-challenge-instruction.action"}}
       </PixButton>
-    </div>
+    </PixBlock>
   </template>
   @service intl;
   @service locale;
