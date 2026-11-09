@@ -1,8 +1,10 @@
 import { expect } from 'chai';
 
+import { AlreadyExistingLtiPlatformError } from '../../../../../src/lti/domain/errors.js';
+import { LtiPlatform } from '../../../../../src/lti/domain/models/LtiPlatform.js';
 import { ltiPlatformRepository } from '../../../../../src/lti/infrastructure/repositories/lti-platform.repository.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { databaseBuilder } from '../../../../tooling/databases.js';
+import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
@@ -87,6 +89,39 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform', funct
 
       // then
       expect(platforms).to.deep.equal(expectedPlatforms);
+    });
+  });
+
+  describe('create', function () {
+    it('creates and returns an LTI platform', async function () {
+      // given
+      const issuer = 'https://moodle.example.net';
+
+      // when
+      const platform = await ltiPlatformRepository.create({ issuer });
+
+      // then
+      expect(platform).to.be.instanceOf(LtiPlatform);
+      expect(platform).to.have.property('issuer', issuer);
+      expect(platform).to.have.property('id').that.is.a('number');
+
+      const dbPlatforms = await knex.select('issuer').from('lti_platforms');
+      await expect(dbPlatforms).to.deep.equal([{ issuer }]);
+    });
+
+    describe('when issuer is already taken', function () {
+      it('throws AlreadyExistingLtiPlatformError', async function () {
+        // given
+        const issuer = 'https://moodle.example.net';
+        databaseBuilder.factory.buildLtiPlatform({ issuer });
+        await databaseBuilder.commit();
+
+        // when
+        const result = ltiPlatformRepository.create({ issuer });
+
+        // then
+        await expect(result).to.be.rejectedWith(AlreadyExistingLtiPlatformError);
+      });
     });
   });
 });
