@@ -50,4 +50,5 @@ export const JobExpireIn = Object.freeze({
    pg-boss n'arrête pas les jobs expirés. De plus, il empile d'autres jobs par dessus et relance le job expiré, ce qui peut provoquer des états incohérents.
    Par conséquent nous définissons 20 heures comme durée maximale, ce qui fait plus que la durée maximale d'un conteneur.
    */
+  THREE_HOURS: 3 * 3600,
 });
