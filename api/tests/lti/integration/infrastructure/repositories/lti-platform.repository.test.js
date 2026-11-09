@@ -67,4 +67,26 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform', funct
       });
     });
   });
+
+  describe('findAll', function () {
+    it('returns all authorized platforms', async function () {
+      // given
+      const platformsData = [
+        databaseBuilder.factory.buildLtiPlatform({ issuer: 'https://moodle1.example.net' }),
+        databaseBuilder.factory.buildLtiPlatform({ issuer: 'https://lti.example.net/some/path' }),
+        databaseBuilder.factory.buildLtiPlatform({ issuer: 'https://moodle2.example.net' }),
+      ];
+      await databaseBuilder.commit();
+
+      const expectedPlatforms = platformsData
+        .map(domainBuilder.lti.buildLtiPlatform)
+        .toSorted(({ issuer: issuer1 }, { issuer: issuer2 }) => (issuer1 < issuer2 ? -1 : 1));
+
+      // when
+      const platforms = await ltiPlatformRepository.findAll();
+
+      // then
+      expect(platforms).to.deep.equal(expectedPlatforms);
+    });
+  });
 });
