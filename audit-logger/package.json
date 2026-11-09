@@ -38,7 +38,7 @@
   },
   "type": "module",
   "devDependencies": {
-    "@1024pix/eslint-plugin": "3.0.20",
+    "@1024pix/eslint-plugin": "3.0.22",
     "@babel/eslint-parser": "8.0.7",
     "@eslint/compat": "2.1.1",
     "@tsconfig/node24": "24.0.5",
@@ -46,7 +46,7 @@
     "@types/lodash": "4.17.27",
     "@types/node": "24.19.2",
     "@types/pg": "8.23.1",
-    "eslint": "10.13.0",
+    "eslint": "10.14.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-chai-expect": "4.1.1",
     "eslint-plugin-i18n-json": "4.0.1",
