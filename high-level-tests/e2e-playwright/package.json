@@ -33,7 +33,7 @@
     "tsc": "tsc -b"
   },
   "devDependencies": {
-    "@1024pix/eslint-plugin": "3.0.20",
+    "@1024pix/eslint-plugin": "3.0.22",
     "@axe-core/playwright": "4.13.0",
     "@playwright/test": "1.64.1",
     "@types/jsonwebtoken": "9.0.10",
@@ -41,7 +41,7 @@
     "@types/pngjs": "6.0.5",
     "baseline-browser-mapping": "2.11.34",
     "dotenv": "18.0.9",
-    "eslint": "10.13.0",
+    "eslint": "10.14.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.7",
     "globals": "17.13.0",
