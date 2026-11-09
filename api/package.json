@@ -128,7 +128,7 @@
     "@xmldom/xmldom": "0.9.12",
     "bcrypt": "6.0.0",
     "cookie": "2.0.1",
-    "cron-parser": "5.10.2",
+    "cron-parser": "5.10.3",
     "dataloader": "2.2.3",
     "dayjs": "1.11.23",
     "debug": "4.4.3",
