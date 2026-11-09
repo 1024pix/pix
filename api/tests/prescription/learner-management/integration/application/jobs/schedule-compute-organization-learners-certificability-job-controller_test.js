@@ -110,8 +110,35 @@ describe('Integration | Infrastructure | Jobs | scheduleComputeOrganizationLearn
           organizationLearnerIds,
         });
       });
+
+      it('should paginate according chunk size', async function () {
+        // given
+        const scheduleComputeOrganizationLearnersCertificabilityJobHandler =
+          new ScheduleComputeOrganizationLearnersCertificabilityJobController();
+
+        // when
+        await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle({
+          dependencies: {
+            logger,
+            organizationLearnerRepository,
+            computeCertificabilityJobRepository,
+            config: {
+              features: {
+                scheduleComputeOrganizationLearnersCertificability: {
+                  chunkSize: 1,
+                  cron: '0 * * * *',
+                },
+              },
+            },
+          },
+        });
+
+        // then
+        await expect('ComputeCertificabilityJob').to.have.been.performed.withJobPayloads([
+          { organizationLearnerIds: [organizationLearnerIds[0]] },
+          { organizationLearnerIds: [organizationLearnerIds[1]] },
+        ]);
+      });
     });
   });
-
-  // TODO: move unit tests here
 });
