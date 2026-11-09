@@ -95,10 +95,10 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-state-m
       await knowledgeStateMigrationRepository.save(userId, report);
 
       // then
-      const rows = await knex('knowledge_state_migrations').where({ userId });
+      const rows = await knex('knowledge_state_migrations').where({ user_id: userId });
       expect(rows).to.have.lengthOf(1);
       expect(rows[0].report).to.deep.equal(report);
-      expect(rows[0].migratedAt).to.be.instanceOf(Date);
+      expect(rows[0].migrated_at).to.be.instanceOf(Date);
     });
 
     it('should throw when a user is already migrated', async function () {

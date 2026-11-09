@@ -151,8 +151,8 @@ describe('Acceptance | History-db | Application | Jobs | ScheduleExportMigratedU
     );
 
     const savedAts = await knex('migrated_user_knowledge_elements')
-      .pluck('savedAt')
-      .where({ userId: migratedUser.userId });
+      .pluck('saved_at')
+      .where({ user_id: migratedUser.userId });
     expect(savedAts).to.deep.equal([exportedAt, exportedAt, exportedAt]);
 
     const exportFiles = await knex('migrated_user_knowledge_elements_export_files').select(

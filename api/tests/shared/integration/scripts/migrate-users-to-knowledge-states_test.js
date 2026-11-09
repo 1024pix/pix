@@ -26,7 +26,7 @@ describe('Integration | Shared | Scripts | migrate-users-to-knowledge-states', f
     logger = { info: sinon.spy() };
   });
 
-  const migrationRowsOf = (userId) => knex('knowledge_state_migrations').where({ userId });
+  const migrationRowsOf = (userId) => knex('knowledge_state_migrations').where({ user_id: userId });
 
   it('should migrate the users', async function () {
     // when
@@ -34,7 +34,7 @@ describe('Integration | Shared | Scripts | migrate-users-to-knowledge-states', f
 
     // then
     expect(await migrationRowsOf(userId)).to.have.lengthOf(1);
-    expect(await knex('knowledge_states').where({ userId })).to.have.lengthOf(1);
+    expect(await knex('knowledge_states').where({ user_id: userId })).to.have.lengthOf(1);
     expect(logger.info).to.have.been.calledWithMatch(
       { userId, knowledgeElementCount: 1, knowledgeStateCount: 1, unknownSkillIds: [] },
       'User migrated to knowledge states.',
@@ -47,8 +47,8 @@ describe('Integration | Shared | Scripts | migrate-users-to-knowledge-states', f
 
     // then
     expect(await migrationRowsOf(userId)).to.be.empty;
-    expect(await knex('knowledge_states').where({ userId })).to.be.empty;
-    expect(await knex('user_competence_scores').where({ userId })).to.be.empty;
+    expect(await knex('knowledge_states').where({ user_id: userId })).to.be.empty;
+    expect(await knex('user_competence_scores').where({ user_id: userId })).to.be.empty;
     expect(logger.info).to.have.been.calledWithMatch(
       { userId, knowledgeElementCount: 1, knowledgeStateCount: 1, unknownSkillIds: [] },
       'Dry run: user would be migrated to knowledge states.',

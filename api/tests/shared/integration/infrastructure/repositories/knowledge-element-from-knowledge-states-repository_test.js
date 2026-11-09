@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import * as knowledgeElementFromKnowledgeStatesRepository from '../../../../../src/shared/infrastructure/repositories/knowledge-element-from-knowledge-states-repository.ts';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { fromMigratedUserKnowledgeElementRow } from '../../../../tooling/knowledge-state/migrated-user-knowledge-elements.js';
 
 const { buildKnowledgeState, buildUser, buildUserCompetenceScore, learningContent } = databaseBuilder.factory;
 
@@ -269,18 +270,26 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
 
       // then
       const knowledgeStates = await knex('knowledge_states')
-        .select('tubeId', 'floor', 'ceiling', 'directLevels', 'updatedAt')
-        .where({ userId })
-        .orderBy('tubeId');
-      const { pix } = await knex('user_competence_scores').where({ userId, competenceId: 'competence_1' }).first();
+        .select({
+          tubeId: 'tube_id',
+          floor: 'floor',
+          ceiling: 'ceiling',
+          directLevels: 'direct_levels',
+          updatedAt: 'updated_at',
+        })
+        .where({ user_id: userId })
+        .orderBy('tube_id');
+      const { pix } = await knex('user_competence_scores')
+        .where({ user_id: userId, competence_id: 'competence_1' })
+        .first();
       expect(knowledgeStates).to.deep.equal([
         { tubeId: 'tube_file', floor: 1, ceiling: null, directLevels: [1], updatedAt: at },
         { tubeId: 'tube_web', floor: 3, ceiling: null, directLevels: [2, 3], updatedAt: at },
       ]);
       expect(pix).to.equal(7);
       expect(await knex('knowledge-elements')).to.deep.equal([]);
-      const keptRows = await knex('migrated_user_knowledge_elements').orderBy('skillId');
-      expect(keptRows.map(({ id: _id, ...row }) => row)).to.deep.equal([
+      const keptRows = await knex('migrated_user_knowledge_elements').orderBy('skill_id');
+      expect(keptRows.map(fromMigratedUserKnowledgeElementRow).map(({ id: _id, ...row }) => row)).to.deep.equal([
         {
           source: DIRECT,
           status: VALIDATED,
@@ -330,8 +339,8 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
 
       // then
       const knowledgeState = await knex('knowledge_states')
-        .select('floor', 'ceiling', 'ceilingAt', 'directLevels')
-        .where({ userId, tubeId: 'tube_web' })
+        .select({ floor: 'floor', ceiling: 'ceiling', ceilingAt: 'ceiling_at', directLevels: 'direct_levels' })
+        .where({ user_id: userId, tube_id: 'tube_web' })
         .first();
       expect(knowledgeState).to.deep.equal({ floor: 2, ceiling: 4, ceilingAt: at, directLevels: [2, 4] });
     });
@@ -349,7 +358,9 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
       );
 
       // then
-      const { pix } = await knex('user_competence_scores').where({ userId, competenceId: 'competence_1' }).first();
+      const { pix } = await knex('user_competence_scores')
+        .where({ user_id: userId, competence_id: 'competence_1' })
+        .first();
       expect(pix).to.equal(6);
     });
 
@@ -367,8 +378,10 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
       );
 
       // then
-      const tubeIds = await knex('knowledge_states').where({ userId }).pluck('tubeId');
-      const { pix } = await knex('user_competence_scores').where({ userId, competenceId: 'competence_1' }).first();
+      const tubeIds = await knex('knowledge_states').where({ user_id: userId }).pluck('tube_id');
+      const { pix } = await knex('user_competence_scores')
+        .where({ user_id: userId, competence_id: 'competence_1' })
+        .first();
       expect(tubeIds).to.deep.equal(['tube_file']);
       expect(pix).to.equal(3);
     });

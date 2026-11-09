@@ -91,11 +91,23 @@ describe('Integration | Shared | Domain | UseCase | migrate-user-to-knowledge-st
 
     // then
     const knowledgeStates = await knex('knowledge_states')
-      .select('tubeId', 'floor', 'ceiling', 'ceilingAt', 'directLevels', 'updatedAt')
-      .where({ userId })
-      .orderBy('tubeId');
-    const userCompetenceScores = await knex('user_competence_scores').select('competenceId', 'pix').where({ userId });
-    const migration = await knex('knowledge_state_migrations').where({ userId }).first();
+      .select({
+        tubeId: 'tube_id',
+        floor: 'floor',
+        ceiling: 'ceiling',
+        ceilingAt: 'ceiling_at',
+        directLevels: 'direct_levels',
+        updatedAt: 'updated_at',
+      })
+      .where({ user_id: userId })
+      .orderBy('tube_id');
+    const userCompetenceScores = await knex('user_competence_scores')
+      .select({ competenceId: 'competence_id', pix: 'pix' })
+      .where({ user_id: userId });
+    const migration = await knex('knowledge_state_migrations')
+      .select({ userId: 'user_id', migratedAt: 'migrated_at', report: 'report' })
+      .where({ user_id: userId })
+      .first();
 
     expect(report).to.deep.equal({ knowledgeElementCount: 6, knowledgeStateCount: 2, unknownSkillIds: [] });
     expect(knowledgeStates).to.deep.equal([
@@ -141,7 +153,7 @@ describe('Integration | Shared | Domain | UseCase | migrate-user-to-knowledge-st
 
     // then
     expect(report).to.be.null;
-    expect(await knex('knowledge_state_migrations').where({ userId })).to.have.lengthOf(1);
+    expect(await knex('knowledge_state_migrations').where({ user_id: userId })).to.have.lengthOf(1);
   });
 
   it('should keep the knowledge on skills the learning content does not know out of the knowledge states', async function () {
@@ -158,7 +170,7 @@ describe('Integration | Shared | Domain | UseCase | migrate-user-to-knowledge-st
     const report = await migrate();
 
     // then
-    const { pix } = await knex('user_competence_scores').where({ userId }).first();
+    const { pix } = await knex('user_competence_scores').where({ user_id: userId }).first();
     expect(report.unknownSkillIds).to.deep.equal(['unknown_skill']);
     expect(report.knowledgeStateCount).to.equal(2);
     expect(pix).to.equal(13);
@@ -192,8 +204,10 @@ describe('Integration | Shared | Domain | UseCase | migrate-user-to-knowledge-st
     const expectKnowledgeOfFile3 = async () => {
       const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
 
-      const { floor } = await knex('knowledge_states').where({ userId, tubeId: 'tube_file' }).first();
-      const { pix } = await knex('user_competence_scores').where({ userId, competenceId: 'competence_1' }).first();
+      const { floor } = await knex('knowledge_states').where({ user_id: userId, tube_id: 'tube_file' }).first();
+      const { pix } = await knex('user_competence_scores')
+        .where({ user_id: userId, competence_id: 'competence_1' })
+        .first();
 
       expect(knowledgeElements.map((knowledgeElement) => knowledgeElement.skillId)).to.include(skillId('file', 3));
       expect(floor).to.equal(3);

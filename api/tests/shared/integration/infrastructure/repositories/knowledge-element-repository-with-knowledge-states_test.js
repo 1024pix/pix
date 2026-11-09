@@ -180,8 +180,8 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
       // given
       await migrate();
       await knex('knowledge_states')
-        .where({ userId: migratedUserId, tubeId: 'tube_file' })
-        .update({ updatedAt: new Date('2026-03-01') });
+        .where({ user_id: migratedUserId, tube_id: 'tube_file' })
+        .update({ updated_at: new Date('2026-03-01') });
 
       // when
       const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
@@ -365,14 +365,14 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
       // then
       const { count: countAfter } = await knex('knowledge-elements').count().first();
       const knowledgeState = await knex('knowledge_states')
-        .select('floor', 'ceiling', 'directLevels')
-        .where({ userId: migratedUserId, tubeId: 'tube_web' })
+        .select({ floor: 'floor', ceiling: 'ceiling', directLevels: 'direct_levels' })
+        .where({ user_id: migratedUserId, tube_id: 'tube_web' })
         .first();
-      const { pix } = await knex('user_competence_scores').where({ userId: migratedUserId }).first();
+      const { pix } = await knex('user_competence_scores').where({ user_id: migratedUserId }).first();
 
       const keptRows = await knex('migrated_user_knowledge_elements')
-        .select('id', 'skillId', 'status', 'createdAt')
-        .where({ userId: migratedUserId })
+        .select({ id: 'id', skillId: 'skill_id', status: 'status', createdAt: 'created_at' })
+        .where({ user_id: migratedUserId })
         .orderBy('id');
 
       expect(countAfter).to.equal(countBefore);
@@ -408,11 +408,11 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
 
       // then: web went up to level 4, file to level 3, and the score counts both
       const knowledgeStates = await knex('knowledge_states')
-        .select('tubeId', 'floor')
-        .where({ userId: migratedUserId })
-        .orderBy('tubeId');
+        .select({ tubeId: 'tube_id', floor: 'floor' })
+        .where({ user_id: migratedUserId })
+        .orderBy('tube_id');
       const { pix } = await knex('user_competence_scores')
-        .where({ userId: migratedUserId, competenceId: 'competence_1' })
+        .where({ user_id: migratedUserId, competence_id: 'competence_1' })
         .first();
       expect(knowledgeStates).to.deep.equal([
         { tubeId: 'tube_file', floor: 3 },
@@ -481,9 +481,9 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
       // then
       const knowledgeState = await knex('knowledge_states')
         .select('floor', 'ceiling')
-        .where({ userId: migratedUserId, tubeId: 'tube_web' })
+        .where({ user_id: migratedUserId, tube_id: 'tube_web' })
         .first();
-      const { pix } = await knex('user_competence_scores').where({ userId: migratedUserId }).first();
+      const { pix } = await knex('user_competence_scores').where({ user_id: migratedUserId }).first();
       const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: migratedUserId });
       const earnedPix = knowledgeElements.reduce((sum, knowledgeElement) => sum + knowledgeElement.earnedPix, 0);
 
@@ -504,13 +504,13 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
       await knowledgeElementRepository.batchSave({ knowledgeElements: knowledgeElements.map(KnowledgeElement.reset) });
 
       // then
-      const knowledgeStates = await knex('knowledge_states').where({ userId: migratedUserId });
-      const { pix } = await knex('user_competence_scores').where({ userId: migratedUserId }).first();
+      const knowledgeStates = await knex('knowledge_states').where({ user_id: migratedUserId });
+      const { pix } = await knex('user_competence_scores').where({ user_id: migratedUserId }).first();
       const knowledgeElementsAfter = await knowledgeElementRepository.findUniqByUserId({ userId: migratedUserId });
 
       const keptRows = await knex('migrated_user_knowledge_elements')
-        .select('status', 'answerId', 'assessmentId')
-        .where({ userId: migratedUserId });
+        .select({ status: 'status', answerId: 'answer_id', assessmentId: 'assessment_id' })
+        .where({ user_id: migratedUserId });
 
       expect(knowledgeStates).to.deep.equal([]);
       expect(pix).to.equal(0);
@@ -538,9 +538,9 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
 
       // then
       const userCompetenceScores = await knex('user_competence_scores')
-        .select('competenceId', 'pix')
-        .where({ userId: migratedUserId })
-        .orderBy('competenceId');
+        .select({ competenceId: 'competence_id', pix: 'pix' })
+        .where({ user_id: migratedUserId })
+        .orderBy('competence_id');
       const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
         userId: migratedUserId,
         competenceId: 'competence_2',

@@ -174,16 +174,24 @@ describe('Acceptance | Controller | answer-controller-save | with knowledge stat
     // then
     const knowledgeElements = await knex('knowledge-elements').where({ userId: migratedUser.userId });
     const knowledgeStates = await knex('knowledge_states')
-      .select('tubeId', 'floor', 'ceiling', 'directLevels')
-      .where({ userId: migratedUser.userId });
+      .select({ tubeId: 'tube_id', floor: 'floor', ceiling: 'ceiling', directLevels: 'direct_levels' })
+      .where({ user_id: migratedUser.userId });
     const userCompetenceScores = await knex('user_competence_scores')
-      .select('competenceId', 'pix')
-      .where({ userId: migratedUser.userId });
+      .select({ competenceId: 'competence_id', pix: 'pix' })
+      .where({ user_id: migratedUser.userId });
     const { id: answerId } = await knex('answers').where({ assessmentId: migratedUser.assessmentId }).first();
     const savedKnowledgeElements = await knex('migrated_user_knowledge_elements')
-      .select('skillId', 'status', 'source', 'earnedPix', 'answerId', 'assessmentId', 'savedAt')
-      .where({ userId: migratedUser.userId })
-      .orderBy('skillId');
+      .select({
+        skillId: 'skill_id',
+        status: 'status',
+        source: 'source',
+        earnedPix: 'earned_pix',
+        answerId: 'answer_id',
+        assessmentId: 'assessment_id',
+        savedAt: 'saved_at',
+      })
+      .where({ user_id: migratedUser.userId })
+      .orderBy('skill_id');
 
     expect(knowledgeElements).to.have.lengthOf(1);
     expect(knowledgeStates).to.deep.equal([{ tubeId: 'tube_web', floor: 3, ceiling: null, directLevels: [1, 3] }]);

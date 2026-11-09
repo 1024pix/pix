@@ -20,7 +20,7 @@ import { parquetWriteBuffer } from 'hyparquet-writer';
 
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import type * as MigratedUserKnowledgeElementRepository from '../../../shared/infrastructure/repositories/migrated-user-knowledge-element-repository.ts';
-import type { MigratedUserKnowledgeElementRow } from '../../../shared/infrastructure/repositories/migrated-user-knowledge-element-repository.ts';
+import type { MigratedUserKnowledgeElement } from '../../../shared/infrastructure/repositories/migrated-user-knowledge-element-repository.ts';
 import { dayBounds, toDay } from '../../../shared/infrastructure/utils/date-utils.ts';
 import { logger as defaultLogger } from '../../../shared/infrastructure/utils/logger.js';
 import type * as MigratedUserKnowledgeElementExportFileRepository from '../../infrastructure/repositories/migrated-user-knowledge-element-export-file-repository.ts';
@@ -30,7 +30,7 @@ import type * as MigratedUserKnowledgeElementExportRepository from '../../infras
 /** The timezone of the days partitioning the data lake. */
 const DATA_LAKE_TIMEZONE = 'Europe/Paris';
 
-const toParquet = (rows: MigratedUserKnowledgeElementRow[], extractedAt: string): ArrayBuffer =>
+const toParquet = (rows: MigratedUserKnowledgeElement[], extractedAt: string): ArrayBuffer =>
   parquetWriteBuffer({
     columnData: [
       { name: 'id', type: 'INT64', data: rows.map(({ id }) => BigInt(id)) },
@@ -72,7 +72,7 @@ export const exportMigratedUserKnowledgeElements = async ({
   const dayBoundsOf = (file: MigratedUserKnowledgeElementExportFile): { start: Date; end: Date } =>
     dayBounds(migratedUserKnowledgeElementExportRepository.dayOf(file.filename), DATA_LAKE_TIMEZONE);
 
-  const assertRowsOfDay = (file: MigratedUserKnowledgeElementExportFile, rows: MigratedUserKnowledgeElementRow[]) => {
+  const assertRowsOfDay = (file: MigratedUserKnowledgeElementExportFile, rows: MigratedUserKnowledgeElement[]) => {
     const { start, end } = dayBoundsOf(file);
     const strayRow = rows.find(({ createdAt }) => createdAt < start || createdAt >= end);
     if (strayRow) {
@@ -84,7 +84,7 @@ export const exportMigratedUserKnowledgeElements = async ({
 
   const writeFile = async (
     file: MigratedUserKnowledgeElementExportFile,
-    rows: MigratedUserKnowledgeElementRow[],
+    rows: MigratedUserKnowledgeElement[],
   ): Promise<void> => {
     assertRowsOfDay(file, rows);
     if (rows.length > 0) {
@@ -115,7 +115,7 @@ export const exportMigratedUserKnowledgeElements = async ({
   ): Promise<number> =>
     file ? writePendingFiles(others, writtenCount + (await writePendingFile(file))) : writtenCount;
 
-  const exportFile = async (day: string, rows: MigratedUserKnowledgeElementRow[]): Promise<void> => {
+  const exportFile = async (day: string, rows: MigratedUserKnowledgeElement[]): Promise<void> => {
     const [firstRow] = rows;
     const lastRow = rows.at(-1);
     if (!firstRow || !lastRow) return;
@@ -129,7 +129,7 @@ export const exportMigratedUserKnowledgeElements = async ({
     await writeFile(file, rows);
   };
 
-  const exportPage = async (rows: MigratedUserKnowledgeElementRow[]): Promise<void> => {
+  const exportPage = async (rows: MigratedUserKnowledgeElement[]): Promise<void> => {
     for (const [day, rowsOfDay] of Map.groupBy(rows, ({ createdAt }) => toDay(createdAt, DATA_LAKE_TIMEZONE))) {
       await exportFile(day, rowsOfDay);
     }

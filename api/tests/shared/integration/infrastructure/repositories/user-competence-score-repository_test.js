@@ -88,10 +88,10 @@ describe('Integration | Shared | Infrastructure | Repository | user-competence-s
       ]);
 
       // then
-      const rows = await knex('user_competence_scores').where({ userId });
+      const rows = await knex('user_competence_scores').where({ user_id: userId });
       expect(rows).to.have.lengthOf(1);
-      expect(rows[0]).to.include({ competenceId: 'recHistoire', pix: 12 });
-      expect(rows[0].updatedAt).to.deep.equal(updatedAt);
+      expect(rows[0]).to.include({ competence_id: 'recHistoire', pix: 12 });
+      expect(rows[0].updated_at).to.deep.equal(updatedAt);
     });
 
     it('should replace the pix and the date of a competence already scored', async function () {
@@ -108,12 +108,12 @@ describe('Integration | Shared | Infrastructure | Repository | user-competence-s
       ]);
 
       // then
-      const rows = await knex('user_competence_scores').where({ userId }).orderBy('competenceId');
-      expect(rows.map(({ competenceId, pix }) => [competenceId, pix])).to.deep.equal([
+      const rows = await knex('user_competence_scores').where({ user_id: userId }).orderBy('competence_id');
+      expect(rows.map(({ competence_id, pix }) => [competence_id, pix])).to.deep.equal([
         ['recGeographie', 8],
         ['recHistoire', 20],
       ]);
-      expect(rows[1].updatedAt).to.deep.equal(updatedAt);
+      expect(rows[1].updated_at).to.deep.equal(updatedAt);
     });
 
     it('should do nothing without scores', async function () {

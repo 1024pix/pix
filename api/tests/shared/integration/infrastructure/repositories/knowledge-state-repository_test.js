@@ -147,11 +147,11 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-state',
       ]);
 
       // then
-      const rows = await knex('knowledge_states').where({ userId });
+      const rows = await knex('knowledge_states').where({ user_id: userId });
       expect(rows).to.have.lengthOf(1);
-      expect(rows[0]).to.deep.include({ tubeId: 'tube_web', floor: 2, ceiling: 4, directLevels: [2, 4] });
-      expect(rows[0].updatedAt).to.deep.equal(updatedAt);
-      expect(rows[0].ceilingAt).to.deep.equal(updatedAt);
+      expect(rows[0]).to.deep.include({ tube_id: 'tube_web', floor: 2, ceiling: 4, direct_levels: [2, 4] });
+      expect(rows[0].updated_at).to.deep.equal(updatedAt);
+      expect(rows[0].ceiling_at).to.deep.equal(updatedAt);
     });
 
     it('should update the knowledge state of a tube the user already met', async function () {
@@ -175,12 +175,12 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-state',
       ]);
 
       // then
-      const rows = await knex('knowledge_states').where({ userId }).orderBy('tubeId');
-      expect(rows.map(({ tubeId, floor, ceiling, ceilingAt }) => [tubeId, floor, ceiling, ceilingAt])).to.deep.equal([
+      const rows = await knex('knowledge_states').where({ user_id: userId }).orderBy('tube_id');
+      expect(rows.map(({ tube_id, floor, ceiling, ceiling_at }) => [tube_id, floor, ceiling, ceiling_at])).to.deep.equal([
         ['tube_file', 1, null, null],
         ['tube_web', 4, null, null],
       ]);
-      expect(rows[1].updatedAt).to.deep.equal(updatedAt);
+      expect(rows[1].updated_at).to.deep.equal(updatedAt);
     });
 
     it('should not impact the tube of another user', async function () {
@@ -194,8 +194,8 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-state',
       await knowledgeStateRepository.upsert([new KnowledgeState({ userId, tubeId: 'tube_web', floor: 5 })]);
 
       // then
-      const rows = await knex('knowledge_states').orderBy('userId');
-      expect(rows.map(({ userId, floor }) => [userId, floor])).to.deep.equal([
+      const rows = await knex('knowledge_states').orderBy('user_id');
+      expect(rows.map(({ user_id, floor }) => [user_id, floor])).to.deep.equal([
         [userId, 5],
         [otherUserId, 2],
       ]);
@@ -225,8 +225,8 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-state',
       await knowledgeStateRepository.remove(userId, ['tube_web', 'tube_mail']);
 
       // then
-      const rows = await knex('knowledge_states').orderBy('userId');
-      expect(rows.map(({ userId, tubeId }) => [userId, tubeId])).to.deep.equal([
+      const rows = await knex('knowledge_states').orderBy('user_id');
+      expect(rows.map(({ user_id, tube_id }) => [user_id, tube_id])).to.deep.equal([
         [userId, 'tube_file'],
         [otherUserId, 'tube_web'],
       ]);

@@ -8,6 +8,7 @@ import * as migratedUserKnowledgeElementExportFileRepository from '../../../../.
 import * as migratedUserKnowledgeElementExportRepository from '../../../../../src/db-history/infrastructure/repositories/migrated-user-knowledge-element-export-repository.ts';
 import * as migratedUserKnowledgeElementRepository from '../../../../../src/shared/infrastructure/repositories/migrated-user-knowledge-element-repository.ts';
 import { knex } from '../../../../tooling/databases.js';
+import { insertMigratedUserKnowledgeElements } from '../../../../tooling/knowledge-state/migrated-user-knowledge-elements.js';
 import { prepareTestBucket } from '../../../../tooling/storage/s3-test-bucket.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
@@ -52,7 +53,10 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
 
   const savedAtById = async () =>
     new Map(
-      (await knex('migrated_user_knowledge_elements').select('id', 'savedAt')).map(({ id, savedAt }) => [id, savedAt]),
+      (await knex('migrated_user_knowledge_elements').select('id', { savedAt: 'saved_at' })).map(({ id, savedAt }) => [
+        id,
+        savedAt,
+      ]),
     );
 
   it('should export the unsaved rows in one file per page, mark them, and record the files', async function () {
@@ -60,7 +64,7 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
     const runAt = new Date('2026-03-02T05:00:00Z');
     sinon.useFakeTimers({ now: runAt, toFake: ['Date'] });
     const alreadySavedAt = new Date('2026-02-28T03:00:00Z');
-    await knex('migrated_user_knowledge_elements').insert([
+    await insertMigratedUserKnowledgeElements([
       buildRow({ id: 1 }),
       buildRow({ id: 2, status: 'reset', answerId: null, assessmentId: null, earnedPix: 0 }),
       buildRow({ id: 3, skillId: 'skill_web_4', earnedPix: 4.5 }),
@@ -144,7 +148,7 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
     const runAt = new Date('2026-03-03T05:00:00Z');
     sinon.useFakeTimers({ now: runAt, toFake: ['Date'] });
     // The row 3 was numbered after the row 2 but created before midnight in Paris, by a slower save.
-    await knex('migrated_user_knowledge_elements').insert([
+    await insertMigratedUserKnowledgeElements([
       buildRow({ id: 1, createdAt: new Date('2026-03-01T22:59:59Z') }),
       buildRow({ id: 2, createdAt: new Date('2026-03-01T23:00:01Z') }),
       buildRow({ id: 3, createdAt: new Date('2026-03-01T22:59:58Z') }),
@@ -190,9 +194,7 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
 
   it('should export nothing when every row is exported', async function () {
     // given
-    await knex('migrated_user_knowledge_elements').insert([
-      buildRow({ id: 1, savedAt: new Date('2026-03-01T03:00:00Z') }),
-    ]);
+    await insertMigratedUserKnowledgeElements([buildRow({ id: 1, savedAt: new Date('2026-03-01T03:00:00Z') })]);
 
     // when
     const exportedCount = await usecases.exportMigratedUserKnowledgeElements({
@@ -211,7 +213,7 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
     const runAt = new Date('2026-03-02T05:00:00Z');
     sinon.useFakeTimers({ now: runAt, toFake: ['Date'] });
     const previousRunAt = new Date('2026-03-01T05:00:00Z');
-    await knex('migrated_user_knowledge_elements').insert([
+    await insertMigratedUserKnowledgeElements([
       buildRow({ id: 1, savedAt: previousRunAt }),
       buildRow({ id: 2 }),
       buildRow({ id: 3, createdAt: new Date('2026-03-01T23:00:01Z') }),
@@ -295,7 +297,7 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
 
   it('should upload no file holding a row created on another day than the day of the file, and fail', async function () {
     // given
-    await knex('migrated_user_knowledge_elements').insert([buildRow({ id: 1 })]);
+    await insertMigratedUserKnowledgeElements([buildRow({ id: 1 })]);
     await knex('migrated_user_knowledge_elements_export_files').insert({
       filename: 'migrated-user-knowledge-elements/2026/03/01/000000000001_000000000001.parquet',
       first_id: 1,
@@ -329,7 +331,7 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
 
   it('should leave the file of a page whose rows could not be dated recorded as incomplete, and fail', async function () {
     // given
-    await knex('migrated_user_knowledge_elements').insert([buildRow({ id: 1 })]);
+    await insertMigratedUserKnowledgeElements([buildRow({ id: 1 })]);
     const savedAtError = new Error('setSavedAt failed');
 
     // when

@@ -179,11 +179,11 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for compe
       // then
       const keData = await knex('knowledge-elements').where({ userId });
       const knowledgeStates = await knex('knowledge_states')
-        .select(['tubeId', 'floor', 'ceiling', 'directLevels'])
-        .where({ userId });
+        .select({ tubeId: 'tube_id', floor: 'floor', ceiling: 'ceiling', directLevels: 'direct_levels' })
+        .where({ user_id: userId });
       const userCompetenceScores = await knex('user_competence_scores')
-        .select(['competenceId', 'pix'])
-        .where({ userId });
+        .select({ competenceId: 'competence_id', pix: 'pix' })
+        .where({ user_id: userId });
 
       expect(keData.length).to.equal(1);
       expect(knowledgeStates).to.deep.equal([{ tubeId: 'monTubeId', floor: 3, ceiling: null, directLevels: [1, 3] }]);
