@@ -365,6 +365,11 @@
     },
     "locale-switcher": {
       "label": "Selecciona un idioma"
+    },
+    "timed-challenge-instruction": {
+      "action": "Empezar",
+      "primary": "Dispondrás de '<strong>'{time}'</strong>' para superar la siguiente pregunta.",
+      "secondary": "Podrás seguir respondiendo después, pero la pregunta no se considerará acertada."
     }
   },
   "navigation": {
@@ -2518,11 +2523,6 @@
         "message": "Hemos actualizado nuestras CGU. Revisa los cambios y acéptalos para continuar.",
         "title": "Actualización importante de las Condiciones Generales de Uso (CGU)"
       }
-    },
-    "timed-challenge-instructions": {
-      "action": "Empezar",
-      "primary": "Dispondrás de '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' para superar la siguiente pregunta.",
-      "secondary": "Podrás seguir respondiendo después, pero la pregunta no se considerará acertada."
     },
     "training": {
       "editor": "Contenido formativo propuesto por",

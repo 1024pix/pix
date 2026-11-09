@@ -1,0 +1,23 @@
+.timeout-gauge {
+  display: inline-flex;
+  gap: var(--pix-spacing-2x);
+  align-items: center;
+  align-self: flex-end;
+  width: fit-content;
+  padding: var(--pix-spacing-2x);
+  color: var(--pix-primary-700);
+  font-weight: var(--pix-font-bold);
+  background-color: var(--pix-primary-100);
+  border: 2px solid var(--pix-primary-100);
+  border-radius: 7px;
+
+  &--timeout {
+    color: var(--pix-warning-900);
+    background-color: var(--pix-warning-100);
+    border: 2px solid var(--pix-warning-300);
+  }
+
+  &__icon {
+    width: 2.5rem;
+  }
+}

@@ -1,0 +1,32 @@
+@use 'pix-design-tokens/typography';
+
+.timed-challenge-instructions {
+  text-align: center;
+
+  &__title {
+    @extend %pix-title-s;
+
+    margin-bottom: var(--pix-spacing-3x);
+    color: var(--pix-neutral-800);
+    font-weight: var(--pix-font-bold);
+
+    strong {
+      color: var(--pix-primary-500);
+    }
+  }
+
+  &__description {
+    @extend %pix-body-l;
+
+    margin-bottom: var(--pix-spacing-6x);
+    color: var(--pix-neutral-800);
+  }
+
+  &__allocated-time {
+    margin-bottom: var(--pix-spacing-6x);
+  }
+
+  &__action {
+    margin: 0 auto;
+  }
+}

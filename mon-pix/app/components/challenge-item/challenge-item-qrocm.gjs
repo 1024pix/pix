@@ -7,9 +7,9 @@ import t from 'ember-intl/helpers/t';
 import { dump } from 'js-yaml';
 import filter from 'lodash/filter';
 import isEmpty from 'lodash/isEmpty';
+import TimeoutGauge from 'mon-pix/components/challenge/timeout-gauge';
 import ChallengeActions from 'mon-pix/components/challenge-actions';
 import QrocmProposal from 'mon-pix/components/proposals/qrocm-proposal';
-import TimeoutGauge from 'mon-pix/components/timeout-gauge';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
 import ChallengeItemGeneric from './challenge-item-generic';

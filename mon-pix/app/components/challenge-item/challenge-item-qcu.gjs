@@ -3,9 +3,9 @@ import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import t from 'ember-intl/helpers/t';
+import TimeoutGauge from 'mon-pix/components/challenge/timeout-gauge';
 import ChallengeActions from 'mon-pix/components/challenge-actions';
 import QcuProposals from 'mon-pix/components/proposals/qcu-proposals';
-import TimeoutGauge from 'mon-pix/components/timeout-gauge';
 
 import ChallengeItemGeneric from './challenge-item-generic';
 

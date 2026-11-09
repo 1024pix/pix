@@ -365,6 +365,11 @@
     },
     "locale-switcher": {
       "label": "Selecteer een taal"
+    },
+    "timed-challenge-instruction": {
+      "action": "Beginnen",
+      "primary": "Je hebt '<strong>'{time}'</strong>' de tijd om de volgende vraag goed te beantwoorden.",
+      "secondary": "Je kunt daarna verdergaan met het beantwoorden van de vraag, maar de vraag wordt dan niet als goed beantwoord beschouwd."
     }
   },
   "navigation": {
@@ -2518,11 +2523,6 @@
         "message": "We hebben onze gebruiksvoorwaarden bijgewerkt. Bekijk de wijzigingen en accepteer ze om door te gaan.",
         "title": "Belangrijke update van de gebruiksvoorwaarden"
       }
-    },
-    "timed-challenge-instructions": {
-      "action": "Beginnen",
-      "primary": "Je hebt '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' de tijd om de volgende vraag goed te beantwoorden.",
-      "secondary": "Je kunt daarna verdergaan met het beantwoorden van de vraag, maar de vraag wordt dan niet als goed beantwoord beschouwd."
     },
     "training": {
       "editor": "Opleidingsinhoud aangeboden door",
