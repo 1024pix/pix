@@ -12,6 +12,8 @@ const fileSchemas = Joi.array().items(
     ine: Joi.string(),
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
+    middleName: Joi.string().optional().allow(null),
+    thirdName: Joi.string().optional().allow(null),
     birthdate: Joi.alternatives().try(Joi.date().required(), Joi.date().iso().required()),
     status: Joi.string().required(),
     pixScore: Joi.number().required(),
@@ -91,6 +93,8 @@ function toDB(line, replicationName) {
   if (replicationName === 'sco_certification_results') {
     commonData.organization_uai = line.organizationUai;
     commonData.national_student_id = line.ine;
+    commonData.middle_name = line.middleName;
+    commonData.third_name = line.thirdName;
   }
   if (!line.competences || line.competences.length === 0) {
     const data = structuredClone(commonData);

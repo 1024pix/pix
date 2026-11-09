@@ -14,6 +14,8 @@ export function serialize({ certificationResult, translate }) {
     organizationUai: certificationResult.organizationUai,
     ine: certificationResult.ine,
     firstName: certificationResult.firstName,
+    middleName: certificationResult.middleName,
+    thirdName: certificationResult.thirdName,
     lastName: certificationResult.lastName,
     birthdate: certificationResult.birthdate,
     status: certificationResult.status,
