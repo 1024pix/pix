@@ -1,15 +1,21 @@
 import querystring from 'node:querystring';
 
 import { expect } from 'chai';
+import { parseSetCookie } from 'cookie';
 import * as jose from 'jose';
+import jsonwebtoken from 'jsonwebtoken';
+import ms from 'ms';
 import nock from 'nock';
 
+import { config } from '../../../../config/config.js';
 import { LtiDeepLinkingAccessToken } from '../../../../src/lti/domain/models/LtiDeepLinkingAccessToken.js';
 import { LtiPlatformRegistration } from '../../../../src/lti/domain/models/LtiPlatformRegistration.js';
 import { cryptoService } from '../../../../src/shared/domain/services/crypto-service.js';
+import * as urlService from '../../../../src/shared/domain/services/url-service.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 import { getServer } from '../../../tooling/server/shared-server.js';
+import { generateInjectOptions } from '../../../tooling/test-utils/http-server.js';
 
 describe('Acceptance | LTI | Route | LTI', function () {
   let server;
@@ -174,6 +180,71 @@ describe('Acceptance | LTI | Route | LTI', function () {
 
       // then
       expect(response.statusCode).to.equal(401);
+    });
+  });
+
+  describe('POST /api/lti/deep-linking', function () {
+    it('returns https 302 status and sets a cookie', async function () {
+      // given
+      const { id: platformId } = databaseBuilder.factory.buildLtiPlatform({ issuer: 'https://moodle.example.net' });
+      const { clientId } = databaseBuilder.factory.buildLtiPlatformRegistration({ platformId });
+      const organization = databaseBuilder.factory.buildOrganization({ name: 'Orga 1' });
+      await databaseBuilder.commit();
+
+      const jwkPair = await cryptoService.generateJSONWebKeyPair();
+
+      nock('https://moodle.example.net')
+        .get('/mod/lti/openid-configuration.php')
+        .reply(200, { jwks_uri: 'https://moodle.example.net/jwks' })
+        .get('/jwks')
+        .reply(200, { keys: [jwkPair.publicKey] });
+
+      const ltiEncodedToken = jsonwebtoken.sign(
+        {
+          aud: clientId,
+          'https://purl.imsglobal.org/spec/lti/claim/message_type': 'LtiDeepLinkingRequest',
+          'https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings': {},
+          'https://purl.imsglobal.org/spec/lti/claim/custom': { pix_orgas: organization.externalId },
+        },
+        {
+          format: 'jwk',
+          key: jwkPair.privateKey,
+        },
+        {
+          algorithm: 'RS256',
+          keyid: jwkPair.publicKey.kid,
+          expiresIn: 3600,
+        },
+        config.authentication.secret,
+      );
+
+      const options = generateInjectOptions({
+        url: '/api/lti/deep-linking',
+        method: 'POST',
+        payload: {
+          id_token: ltiEncodedToken,
+        },
+        audience: 'https://orga.pix.fr',
+        urlEncodePayload: true,
+      });
+
+      const campaignSelectionPageUrl = urlService.getPixOrgaUrl('fr-FR', { pathname: '/lti-campaign-selection' });
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(302);
+      expect(response.headers.location).to.equal(campaignSelectionPageUrl);
+
+      expect(response.headers).to.have.property('set-cookie');
+      const parsedCookie = parseSetCookie(response.headers['set-cookie']);
+      expect(parsedCookie).to.contain({
+        name: 'jwtLtiDeepLinking',
+        path: '/api/lti',
+        maxAge: ms(config.lti.deepLinkingAccessTokenLifespan) / 1000,
+      });
+      expect(parsedCookie).to.have.property('value').that.is.not.empty;
     });
   });
 });
