@@ -1,5 +1,35 @@
 # Pix Changelog
 
+# [5.540.0](https://github.com/1024pix/pix/compare/v5.539.0...v5.540.0) (2026-11-09)
+
+### :rocket: Amélioration
+
+- [#18653](https://github.com/1024pix/pix/pull/18653) Créer un script pour corriger les dates d'organization learners arbitraires (PIX-24908).
+- [#18673](https://github.com/1024pix/pix/pull/18673) Créer une nouvelle table 'credits_consumptions' pour les crédits v3 (PIX-24697)
+- [#18672](https://github.com/1024pix/pix/pull/18672) Créer une nouvelle table pour places_lots pour la fonctionnalité des crédits v3 (PIX-24696)
+- [#18651](https://github.com/1024pix/pix/pull/18651) Retourner les compétences d'une campagne dans l'API interne getCampaignOverview (PIX-24992).
+
+### :building_construction: Tech
+
+- [#18675](https://github.com/1024pix/pix/pull/18675) Remplacer certains usages de `whereRaw` par `whereColumn` lors de l'utilisation de knex
+
+### :arrow_up: Montée de version
+
+- [#18686](https://github.com/1024pix/pix/pull/18686) Update 1024pix/pix-actions digest to 44ba0bb (workflows)
+- [#18687](https://github.com/1024pix/pix/pull/18687) Update dependency @glint/ember-tsc to v1.14.3 (orga)
+- [#18688](https://github.com/1024pix/pix/pull/18688) Update dependency @glint/template to v1.11.1 (orga)
+- [#18689](https://github.com/1024pix/pix/pull/18689) Update dependency @glint/tsserver-plugin to v2.7.16 (orga)
+- [#18690](https://github.com/1024pix/pix/pull/18690) Update dependency cron-parser to v5.10.3 (api)
+- [#18665](https://github.com/1024pix/pix/pull/18665) Update dependency hyparquet-writer to v0.18.0 (api)
+- [#18678](https://github.com/1024pix/pix/pull/18678) Update linters (admin)
+- [#18679](https://github.com/1024pix/pix/pull/18679) Update linters (api)
+- [#18680](https://github.com/1024pix/pix/pull/18680) Update linters (audit-logger)
+- [#18681](https://github.com/1024pix/pix/pull/18681) Update linters (certif)
+- [#18682](https://github.com/1024pix/pix/pull/18682) Update linters (e2e-playwright)
+- [#18683](https://github.com/1024pix/pix/pull/18683) Update linters (junior)
+- [#18684](https://github.com/1024pix/pix/pull/18684) Update linters (mon-pix)
+- [#18685](https://github.com/1024pix/pix/pull/18685) Update linters (orga)
+
 # [5.539.0](https://github.com/1024pix/pix/compare/v5.538.0...v5.539.0) (2026-11-06)
 
 ### :rocket: Amélioration
