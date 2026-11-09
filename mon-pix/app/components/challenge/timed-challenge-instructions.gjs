@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import { DurationFormat } from '@formatjs/intl-durationformat';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
-import TimeoutGauge from 'mon-pix/components/timeout-gauge';
+import TimeoutGauge from 'mon-pix/components/challenge/timeout-gauge';
 
 export default class TimedChallengeInstructions extends Component {
   @service locale;

@@ -90,7 +90,7 @@ export default class TimeoutGauge extends Component {
   }
 
   <template>
-    <span class="timeout-gauge {{if this.isTimedOut 'timeout-gauge--timeout'}}" tab-index="0" ...attributes>
+    <span class="timeout-gauge{{if this.isTimedOut ' timeout-gauge--timeout'}}" tab-index="0" ...attributes>
       <PixIcon @name="time" />
 
       <span

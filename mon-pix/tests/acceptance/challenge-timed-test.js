@@ -13,21 +13,30 @@ module('Acceptance | Timed challenge', function (hooks) {
 
   module('Timed Challenge', function () {
     module('when asking for confirmation', function (hooks) {
+      let screen;
       hooks.beforeEach(async function () {
         // given
         timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
         assessment = server.create('assessment', 'ofCompetenceEvaluationType', { nextChallenge: timedChallenge });
 
         // when
-        await visit(`/assessments/${assessment.id}/challenges/0`);
-      });
-
-      test('should hide the challenge statement', async function (assert) {
-        assert.dom('.challenge-statement').doesNotExist();
+        screen = await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
       test('should ensure the challenge does not automatically start', async function (assert) {
-        assert.dom('.timeout-gauge').doesNotExist();
+        const expectedTitle =
+          'Vous disposerez de 1 535 minutes et 59\u00a0secondes pour réussir la question suivante.'.replaceAll(
+            / {2,}/g,
+            ' ',
+          );
+        assert
+          .dom(
+            screen.queryByRole('heading', {
+              level: 1,
+              name: expectedTitle,
+            }),
+          )
+          .exists();
       });
     });
 
@@ -121,6 +130,7 @@ module('Acceptance | Timed challenge', function (hooks) {
     });
   });
   module('when user seen two timed challenge', function (hooks) {
+    let screen;
     hooks.beforeEach(async function () {
       // given
       timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
@@ -128,7 +138,7 @@ module('Acceptance | Timed challenge', function (hooks) {
       server.create('challenge', 'forCompetenceEvaluation', 'timed');
 
       // when
-      await visit(`/assessments/${assessment.id}/challenges/0`);
+      screen = await visit(`/assessments/${assessment.id}/challenges/0`);
       await click('.timed-challenge-instructions button');
       await click('.challenge-actions__action-skip');
     });
@@ -138,7 +148,19 @@ module('Acceptance | Timed challenge', function (hooks) {
     });
 
     test('should ensure the challenge does not automatically start of the second challenge', async function (assert) {
-      assert.dom('.timeout-gauge').doesNotExist();
+      const expectedTitle =
+        'Vous disposerez de 1 535 minutes et 59\u00a0secondes pour réussir la question suivante.'.replaceAll(
+          / {2,}/g,
+          ' ',
+        );
+      assert
+        .dom(
+          screen.queryByRole('heading', {
+            level: 1,
+            name: expectedTitle,
+          }),
+        )
+        .exists();
     });
   });
 

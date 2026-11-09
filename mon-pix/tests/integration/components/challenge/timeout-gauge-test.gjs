@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
-import TimeoutGauge from 'mon-pix/components/timeout-gauge';
+import TimeoutGauge from 'mon-pix/components/challenge/timeout-gauge';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | TimeoutGauge', function (hooks) {
   setupIntlRenderingTest(hooks);
