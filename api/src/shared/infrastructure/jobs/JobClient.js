@@ -50,6 +50,7 @@ export class JobClient {
             connectionString: config.database.jobsUrl,
             max: config.pgBoss.workerConnexionPoolMaxSize,
             persistWarnings: config.pgBoss.persistWarnings,
+            persistQueueStats: config.pgBoss.persistQueueStats,
             maintenanceIntervalSeconds: config.pgBoss.maintenanceIntervalSeconds,
             warningRetentionDays: 30,
             useListenNotify: config.pgBoss.useListenNotify && !isTestOnly,
@@ -355,6 +356,8 @@ export class JobClient {
     for (const queue of queues) {
       stats[queue.name] = { ...emptyStat };
     }
+
+    this.#pgBoss.getQueueStats();
 
     const { rows } = await this.#pgBoss
       .getDb()
