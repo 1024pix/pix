@@ -50,6 +50,8 @@ export class JobClient {
             connectionString: config.database.jobsUrl,
             max: config.pgBoss.workerConnexionPoolMaxSize,
             persistWarnings: config.pgBoss.persistWarnings,
+            persistQueueStats: config.pgBoss.persistQueueStats,
+            maintenanceIntervalSeconds: config.pgBoss.maintenanceIntervalSeconds,
             warningRetentionDays: 30,
             useListenNotify: config.pgBoss.useListenNotify && !isTestOnly,
             supervise: !isTestOnly,
@@ -331,7 +333,7 @@ export class JobClient {
     await this.#pgBoss.deleteAllJobs();
   }
 
-  async stop(options = { graceful: false, timeout: 1000 }) {
+  async stop(options = { graceful: true, timeout: 20000 }) {
     this.#assertIsInitialized();
     await this.#pgBoss.stop(options);
     this.#isInitialized = false;
@@ -354,6 +356,8 @@ export class JobClient {
     for (const queue of queues) {
       stats[queue.name] = { ...emptyStat };
     }
+
+    this.#pgBoss.getQueueStats();
 
     const { rows } = await this.#pgBoss
       .getDb()

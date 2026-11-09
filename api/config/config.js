@@ -543,6 +543,8 @@ export const config = {
       10 * 365 * 24 * 3600,
     ),
     persistWarnings: toBoolean(process.env.PGBOSS_PERSIST_WARNINGS, false),
+    persistQueueStats: toBoolean(process.env.PGBOSS_PERSIST_QUEUE_STATS, false),
+    maintenanceIntervalSeconds: _getNumber(process.env.PGBOSS_MAINTENANCE_INTERVAL_SECONDS, 24 * 3600),
     useListenNotify: toBoolean(process.env.PGBOSS_USE_LISTEN_NOTIFY, true),
     statesMonitoringJobCron: process.env.PGBOSS_STATES_MONITORING_JOB_CRON || '* * * * *',
     validationFileJobEnabled: toBoolean(process.env.PGBOSS_VALIDATION_FILE_JOB_ENABLED, true),
