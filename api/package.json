@@ -153,7 +153,7 @@
     "neoqs": "6.13.0",
     "node-stream-zip": "1.16.0",
     "nodemailer": "10.2.1",
-    "openid-client": "6.8.8",
+    "openid-client": "6.8.9",
     "papaparse": "5.7.0",
     "pdf-lib": "1.17.1",
     "pdfkit": "0.20.2",
