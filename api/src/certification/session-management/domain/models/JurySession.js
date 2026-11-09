@@ -87,11 +87,7 @@ class JurySession {
     this.numberOfScoringErrors = counters.certificationsWithScoringError;
     this.totalNumberOfIssueReports = counters.issueReports;
     this.numberOfImpactfullIssueReports = counters.impactfullIssueReports;
-    this.sessionStatus = sessionStatus;
-  }
-
-  get status() {
-    return this.sessionStatus.status;
+    this.status = sessionStatus.status;
   }
 }
 

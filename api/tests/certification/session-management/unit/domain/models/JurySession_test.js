@@ -92,7 +92,7 @@ describe('Unit | Certification | Session-Management | Domain | Models | JurySess
       numberOfScoringErrors: 2,
       totalNumberOfIssueReports: 0,
       numberOfImpactfullIssueReports: 0,
-      sessionStatus: new SessionStatus({ status: SESSION_STATUSES.PROCESSED }),
+      status: SESSION_STATUSES.PROCESSED,
     });
   });
 

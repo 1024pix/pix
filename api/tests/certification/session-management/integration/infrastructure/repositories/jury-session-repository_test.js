@@ -88,7 +88,7 @@ describe('Integration | Repository | JurySession', function () {
             firstName: juryCommentAuthor.firstName,
             lastName: juryCommentAuthor.lastName,
           },
-          sessionStatus: new SessionStatus({ status: SESSION_STATUSES.CREATED }),
+          sessionStatus: new SessionStatus({ status: SESSION_STATUSES.IN_PROCESS }),
         });
         // when
         const jurySession = await jurySessionRepository.get({ id: sessionId });
