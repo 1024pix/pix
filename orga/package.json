@@ -65,7 +65,7 @@
     "@glimmer/component": "2.2.1",
     "@glint/ember-tsc": "1.14.3",
     "@glint/template": "1.11.1",
-    "@glint/tsserver-plugin": "2.7.15",
+    "@glint/tsserver-plugin": "2.7.16",
     "@rollup/plugin-babel": "7.1.0",
     "@testing-library/dom": "10.4.2",
     "@types/lodash": "4.17.27",
