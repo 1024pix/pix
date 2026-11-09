@@ -276,8 +276,8 @@ que celle enregistrée.
 ### M2. N'expose que des champs présents sur l'objet reçu
 
 **La règle.** Le sérialiseur déclare des champs, il ne les fabrique pas. Chaque champ exposé existe
-sur l'objet reçu. Si un écran a besoin d'un champ que l'objet ne porte pas, c'est au usecase ou à un
-[read-model](../read-model/README.md) de le fournir.
+sur l'objet reçu. Si un écran a besoin d'un champ que l'objet ne porte pas, c'est au usecase de le
+fournir.
 
 **Bon exemple.**
 
@@ -310,8 +310,8 @@ liste de chaînes, sans lien avec le type `Organization`.
   `${organization.id}_${feature.featureName}`. Le domaine ne connaît pas cette clé. Si le front renvoie la clé au serveur, elle devient un
   Value Object : voir V2 de la fiche [Value Object](../value-object/README.md).
 - Composer un libellé à partir de plusieurs champs reçus est permis. Ce n'est pas un champ fabriqué.
-- Recevoir un read-model plutôt qu'une [Entity](../entity/README.md) est permis. C'est même la façon
-  d'exposer un champ que l'Entity ne porte pas.
+- Recevoir un [read-model](../read-model/README.md) plutôt qu'une [Entity](../entity/README.md) est
+  permis, quand un read-model existe (voir RM5 de sa fiche).
 
 ### M3. Le format de réponse est un contrat externe
 

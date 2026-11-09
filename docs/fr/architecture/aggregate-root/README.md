@@ -411,7 +411,8 @@ export class OrganizationDetails {
 }
 ```
 
-Un groupe d'objets lus ensemble pour un écran est un read-model, pas un Aggregate.
+Un groupe d'objets lus ensemble pour un écran n'est pas un Aggregate : chaque objet se lit par son
+propre repository.
 
 **Ce que ça apporte.** On connaît la règle à garantir. Les objets qu'elle relie sont enregistrés dans
 la même transaction, et le reste peut être mis à jour après.
@@ -504,8 +505,10 @@ règles.
 **Sans cette règle.** Un second repository écrit les fonctionnalités sans charger l'organisation. Les
 règles de la racine ne sont jamais vérifiées pour ces écritures.
 
-**Exceptions.** Une lecture qui a besoin de plusieurs Aggregates, par exemple pour un écran, passe par
-un read-model. Cette règle ne vise que l'écriture.
+**Exceptions.** Une lecture qui a besoin de plusieurs Aggregates charge chacun par son repository. Un
+read-model n'est permis que si cette lecture est mesurée trop lente
+([RM5](../read-model/README.md#rm5-seulement-sur-une-lenteur-mesurée)). Cette règle ne vise que
+l'écriture.
 
 ### A4. Pas d'objet d'un autre Aggregate
 
