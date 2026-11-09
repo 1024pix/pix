@@ -74,9 +74,6 @@ export class JobClient {
     this.#pgBoss.on('warning', ({ message, data }) => {
       logger.warn({ event: 'pg-boss-warning', data }, message);
     });
-    this.#pgBoss.on('wip', (data) => {
-      logger.info({ event: 'pg-boss-wip', data }, 'PGBOSS WIP');
-    });
 
     await this.#pgBoss.start();
 
@@ -340,32 +337,10 @@ export class JobClient {
 
   async getQueuesStats() {
     const queues = await this.#pgBoss.getQueues();
-    const emptyStat = {
-      pending: 0,
-      created: 0,
-      retry: 0,
-      active: 0,
-      completed: 0,
-      cancelled: 0,
-      failed: 0,
-      all: 0,
-    };
-
-    const stats = { global: { ...emptyStat } };
+    const stats = [];
     for (const queue of queues) {
-      stats[queue.name] = { ...emptyStat };
-    }
-
-    this.#pgBoss.getQueueStats();
-
-    const { rows } = await this.#pgBoss
-      .getDb()
-      .executeSql('SELECT name, state, COUNT(id) FROM pgboss.job GROUP BY 1, 2');
-
-    for (const row of rows) {
-      stats[row.name] = { ...stats[row.name], [row.state]: row.count, all: (stats[row.name].all += row.count) };
-      stats.global[row.state] += row.count;
-      stats.global.all += row.count;
+      const snapshots = await this.#pgBoss.getQueueStats(queue.name, { limit: 1, percentiles: [50, 95, 99] });
+      stats.push(...snapshots);
     }
     return stats;
   }
