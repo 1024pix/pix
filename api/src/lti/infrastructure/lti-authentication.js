@@ -78,7 +78,7 @@ async function authenticateLtiDeepLinkingPayload(payload, h) {
   return h.authenticated({
     credentials: {
       organizationIds,
-      scope,
+      scope: scope.trim().split(/\s+/),
     },
     artifacts: {
       registration,

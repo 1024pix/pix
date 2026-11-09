@@ -244,7 +244,7 @@ describe('Acceptance | LTI | Route | LTI', function () {
         organizationIds: [organization.id],
         clientId,
         deepLinkingSettings,
-        scope: 'lti-campaigns:read',
+        scope: 'lti-campaigns:read other-scope',
         audience: 'https://orga.pix.fr',
         sessionId: 'session-id',
       });
