@@ -50,6 +50,7 @@ export class JobClient {
             connectionString: config.database.jobsUrl,
             max: config.pgBoss.workerConnexionPoolMaxSize,
             persistWarnings: config.pgBoss.persistWarnings,
+            maintenanceIntervalSeconds: config.pgBoss.maintenanceIntervalSeconds,
             warningRetentionDays: 30,
             useListenNotify: config.pgBoss.useListenNotify && !isTestOnly,
             supervise: !isTestOnly,
