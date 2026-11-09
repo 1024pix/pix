@@ -18,6 +18,8 @@ export const replications = Object.freeze({
       'organization_uai',
       'last_name',
       'first_name',
+      'middle_name',
+      'third_name',
       'birthdate',
       'status',
       'pix_score',
