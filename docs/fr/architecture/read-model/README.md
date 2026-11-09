@@ -5,7 +5,7 @@ charge l'Aggregate, et le sérialiseur le met
 au format de la réponse. Un read-model est l'exception à ce chemin.
 
 Un read-model est un objet assemblé pour une lecture précise, par exemple une ligne de la liste des
-organisations de Pix Admin. On le crée seulement quand une mesure montre que la lecture par l'Aggregate
+campagnes de Pix Orga. On le crée seulement quand une mesure montre que la lecture par l'Aggregate
 est trop lente ([RM5](#rm5-seulement-sur-une-lenteur-mesurée)). Un repository le construit alors avec
 une requête ciblée, souvent sur plusieurs tables. Le usecase le renvoie sans
 décider à partir de lui. Aucune règle du métier ne le lit. Les read-models se rangent dans
@@ -30,144 +30,167 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 
 ## Exemple complet
 
-Une ligne de la liste des organisations de Pix Admin. L'exemple suppose qu'une mesure a montré que
-charger chaque organisation entière, avec ses fonctionnalités, rendait cette liste trop lente (RM5). La requête joint deux Aggregates,
-l'organisation et son équipe d'administration, et ne lit que les colonnes que la liste affiche.
-`externalId` est l'identifiant de l'organisation hors de Pix, par exemple l'UAI d'un lycée (son code
-officiel auprès de l'Éducation nationale). L'exemple simplifie le filtre par nom : le vrai filtre
-ignore aussi les accents et la ponctuation. L'exemple laisse aussi de côté les autres filtres de la
-liste, comme le type ou l'identifiant externe.
-Exemple inventé, d'après
-[`organization-for-admin.repository.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/organizational-entities/infrastructure/repositories/organization-for-admin.repository.js#L335-L347).
+Une ligne de la liste des campagnes d'une organisation, dans Pix Orga. La liste affiche, pour chaque
+campagne, le nombre de participations et le nombre de résultats reçus (participations partagées).
+Lire par l'Aggregate `Campaign` demanderait deux requêtes par campagne de la page : la campagne, puis
+le compte de ses participations. Il manquerait aussi le nombre de résultats reçus et le nom du
+propriétaire. Une mesure en production a montré que compter les participations rendait cette liste
+trop lente (RM5). Le read-model fait tout en une requête, qui compte en base. L'exemple laisse de côté
+les filtres de la liste et les autres colonnes. Exemple inventé, d'après
+[`campaign-report-repository.js`](https://github.com/1024pix/pix/blob/bd5b0b8966196f553e9f62ece6031ca6e8435ca3/api/src/prescription/campaign/infrastructure/repositories/campaign-report-repository.js#L106-L162).
 
 ```ts
-// organizational-entities/domain/read-models/OrganizationListItem.ts — RM4 : rangé dans read-models/
-// RM5 : la liste par l'Aggregate est mesurée trop lente (trace citée dans la PR)
-import type { OrganizationType } from '../models/organization/index.js';
-
-export type OrganizationListItemProps = {
+// prescription/campaign/domain/read-models/CampaignListItem.ts — RM4 : rangé dans read-models/
+// RM5 : compter les participations par l'Aggregate rendait la liste trop lente (mesure citée dans la PR)
+export type CampaignListItemProps = {
   id: number;
   name: string;
-  type: OrganizationType;
-  externalId: string | null;
+  code: string;
   archivedAt: Date | null;
-  administrationTeamName: string | null;
+  ownerFirstName: string;
+  ownerLastName: string;
+  participationsCount: number;
+  sharedParticipationsCount: number;
 };
 
-export class OrganizationListItem {
-  readonly id: number; // l'id de l'organisation affichée
+export class CampaignListItem {
+  readonly id: number; // l'id de la campagne affichée
   readonly name: string;
-  readonly type: OrganizationType;
-  readonly externalId: string | null;
+  readonly code: string;
   readonly archivedAt: Date | null;
-  readonly administrationTeamName: string | null; // vient d'un autre Aggregate, par la jointure
-  readonly label: string;
+  readonly participationsCount: number; // compté en base, par la requête
+  readonly sharedParticipationsCount: number;
+  readonly ownerFullName: string;
 
   // RM2 : le constructeur recopie les données, sans rien vérifier
-  constructor({ id, name, type, externalId, archivedAt, administrationTeamName }: OrganizationListItemProps) {
+  constructor({
+    id,
+    name,
+    code,
+    archivedAt,
+    ownerFirstName,
+    ownerLastName,
+    participationsCount,
+    sharedParticipationsCount,
+  }: CampaignListItemProps) {
     this.id = id;
     this.name = name;
-    this.type = type;
-    this.externalId = externalId;
+    this.code = code;
     this.archivedAt = archivedAt;
-    this.administrationTeamName = administrationTeamName;
+    this.participationsCount = participationsCount;
+    this.sharedParticipationsCount = sharedParticipationsCount;
     // RM1 : une mise en forme pour l'écran, elle ne décide rien
-    this.label = externalId ? `${name} (${externalId})` : name;
+    this.ownerFullName = `${ownerFirstName} ${ownerLastName}`;
   }
 }
 ```
 
 ```ts
-// organizational-entities/domain/repositories/OrganizationListRepository.ts
-import type { OrganizationListItem } from '../read-models/OrganizationListItem.js';
+// prescription/campaign/domain/repositories/CampaignListRepository.ts
+import type { CampaignListItem } from '../read-models/CampaignListItem.js';
 
-export type OrganizationListFilter = { id?: number; name?: string; hideArchived?: boolean };
 export type PageParams = { number: number; size: number };
 export type Pagination = { page: number; pageSize: number; rowCount: number; pageCount: number };
 
-export interface OrganizationListRepository {
-  findPaginatedFiltered({
-    filter,
+export interface CampaignListRepository {
+  findPaginatedByOrganizationId({
+    organizationId,
     page,
   }: {
-    filter: OrganizationListFilter;
+    organizationId: number;
     page: PageParams;
-  }): Promise<{ models: OrganizationListItem[]; pagination: Pagination }>;
+  }): Promise<{ models: CampaignListItem[]; pagination: Pagination }>;
 }
 ```
 
 ```ts
-// organizational-entities/infrastructure/repositories/organization-list-repository.ts
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { fetchPage } from '../../../shared/infrastructure/utils/knex-utils.js';
-import type { OrganizationType } from '../../domain/models/organization/index.js';
-import { OrganizationListItem } from '../../domain/read-models/OrganizationListItem.js';
-import type { OrganizationListFilter, PageParams } from '../../domain/repositories/OrganizationListRepository.js';
+// prescription/campaign/infrastructure/repositories/campaign-list-repository.ts
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
+import { CampaignListItem } from '../../domain/read-models/CampaignListItem.js';
+import type { PageParams } from '../../domain/repositories/CampaignListRepository.js';
 
 // knex ne type pas ses résultats : on déclare la forme de la ligne renvoyée par la requête
-type OrganizationListRow = {
+type CampaignListRow = {
   id: number;
   name: string;
-  type: string;
-  externalId: string | null;
+  code: string;
   archivedAt: Date | null;
-  administrationTeamName: string | null;
+  ownerFirstName: string;
+  ownerLastName: string;
+  participationsCount: number;
+  sharedParticipationsCount: number;
 };
 
-export const findPaginatedFiltered = async ({ filter, page }: { filter: OrganizationListFilter; page: PageParams }) => {
+export const findPaginatedByOrganizationId = async ({
+  organizationId,
+  page,
+}: {
+  organizationId: number;
+  page: PageParams;
+}) => {
   const knexConn = DomainTransaction.getConnection();
-  const query = knexConn('organizations')
+  const query = knexConn('campaigns')
     .select({
-      id: 'organizations.id',
-      name: 'organizations.name',
-      type: 'organizations.type',
-      externalId: 'organizations.externalId',
-      archivedAt: 'organizations.archivedAt',
-      administrationTeamName: 'administration_teams.name',
+      id: 'campaigns.id',
+      name: 'campaigns.name',
+      code: 'campaigns.code',
+      archivedAt: 'campaigns.archivedAt',
+      ownerFirstName: 'users.firstName',
+      ownerLastName: 'users.lastName',
     })
-    .leftJoin('administration_teams', 'administration_teams.id', 'organizations.administrationTeamId')
-    .modify((queryBuilder) => {
-      if (filter.id) queryBuilder.where('organizations.id', filter.id);
-      if (filter.name) queryBuilder.whereILike('organizations.name', `%${filter.name}%`);
-      if (filter.hideArchived) queryBuilder.whereNull('organizations.archivedAt');
+    // la base compte les participations : aucune participation n'est chargée
+    .select(knexConn.raw('COUNT("campaign-participations"."id")::int AS "participationsCount"'))
+    .select(
+      knexConn.raw(
+        `COUNT("campaign-participations"."id") FILTER (WHERE "campaign-participations"."status" = 'SHARED')::int AS "sharedParticipationsCount"`,
+      ),
+    )
+    .join('users', 'users.id', 'campaigns.ownerId')
+    .leftJoin('campaign-participations', function () {
+      this.on('campaign-participations.campaignId', 'campaigns.id')
+        .andOnNull('campaign-participations.deletedAt')
+        // une participation améliorée, nouveau passage de la même personne, n'est pas comptée
+        .andOnVal('campaign-participations.isImproved', '=', false);
     })
-    .orderBy('organizations.name', 'ASC');
+    .where('campaigns.organizationId', organizationId)
+    .whereNull('campaigns.deletedAt')
+    .groupBy('campaigns.id', 'users.id')
+    .orderBy('campaigns.createdAt', 'DESC');
 
   const { results, pagination } = await fetchPage({ queryBuilder: query, paginationParams: page });
   return { models: results.map(toListItem), pagination };
 };
 
-function toListItem(row: OrganizationListRow): OrganizationListItem {
-  return new OrganizationListItem({
+function toListItem(row: CampaignListRow): CampaignListItem {
+  return new CampaignListItem({
     id: row.id,
     name: row.name,
-    type: row.type as OrganizationType, // la valeur de la base est reprise telle quelle
-    externalId: row.externalId,
+    code: row.code, // la valeur de la base est reprise telle quelle
     archivedAt: row.archivedAt,
-    administrationTeamName: row.administrationTeamName,
+    ownerFirstName: row.ownerFirstName,
+    ownerLastName: row.ownerLastName,
+    participationsCount: row.participationsCount,
+    sharedParticipationsCount: row.sharedParticipationsCount,
   });
 }
 ```
 
 ```ts
-// organizational-entities/domain/usecases/find-paginated-filtered-organizations.ts
-import type {
-  OrganizationListFilter,
-  OrganizationListRepository,
-  PageParams,
-} from '../repositories/OrganizationListRepository.js';
+// prescription/campaign/domain/usecases/find-paginated-organization-campaigns.ts
+import type { CampaignListRepository, PageParams } from '../repositories/CampaignListRepository.js';
 
 // RM3 : le usecase renvoie les lignes sans décider à partir d'elles
-export const findPaginatedFilteredOrganizations = ({
-  filter,
+export const findPaginatedOrganizationCampaigns = ({
+  organizationId,
   page,
-  organizationListRepository,
+  campaignListRepository,
 }: {
-  filter: OrganizationListFilter;
+  organizationId: number;
   page: PageParams;
-  organizationListRepository: OrganizationListRepository;
+  campaignListRepository: CampaignListRepository;
 }) => {
-  return organizationListRepository.findPaginatedFiltered({ filter, page });
+  return campaignListRepository.findPaginatedByOrganizationId({ organizationId, page });
 };
 ```
 
@@ -175,44 +198,45 @@ export const findPaginatedFilteredOrganizations = ({
 
 Un read-model se teste avec un test unitaire, sans stub, sans mock ni spy. Le test couvre :
 
-- chaque mise en forme, cas limites compris. Exemples : `shows the name followed by the external id`,
-  `shows the name alone without external id`.
+- chaque mise en forme, cas limites compris. Exemple : `joins the first name and the last name of the
+  owner`.
 
 Un read-model sans mise en forme n'a pas de test unitaire : il n'a rien à vérifier.
 
 La forme renvoyée par la requête se teste avec le test d'intégration du repository, sur la base.
-Exemple : `returns the organizations of the page, with the name of their administration team`.
+Exemples : `counts the participations of each campaign of the page`, `does not count deleted
+participations`.
 
 Le test unitaire de l'[exemple complet](#exemple-complet) :
 
 ```ts
-// tests/organizational-entities/unit/domain/read-models/OrganizationListItem_test.ts
+// tests/prescription/campaign/unit/domain/read-models/CampaignListItem_test.ts
 import { expect } from 'chai';
 
 import {
-  OrganizationListItem,
-  type OrganizationListItemProps,
-} from '../../../../../src/organizational-entities/domain/read-models/OrganizationListItem.js';
+  CampaignListItem,
+  type CampaignListItemProps,
+} from '../../../../../../src/prescription/campaign/domain/read-models/CampaignListItem.js';
 
-describe('Unit | Organizational Entities | Domain | ReadModels | OrganizationListItem', function () {
-  const buildItem = (props: Partial<OrganizationListItemProps> = {}): OrganizationListItem =>
-    new OrganizationListItem({
+describe('Unit | Prescription | Campaign | Domain | ReadModels | CampaignListItem', function () {
+  const buildItem = (props: Partial<CampaignListItemProps> = {}): CampaignListItem =>
+    new CampaignListItem({
       id: 1,
-      name: 'Lycée Victor Hugo',
-      type: 'SCO',
-      externalId: '0750001A',
+      name: 'Évaluation de rentrée',
+      code: 'RENTREE25',
       archivedAt: null,
-      administrationTeamName: 'Équipe SCO',
+      ownerFirstName: 'Camille',
+      ownerLastName: 'Martin',
+      participationsCount: 120,
+      sharedParticipationsCount: 95,
       ...props,
     });
 
-  describe('label', function () {
-    it('shows the name followed by the external id', function () {
-      expect(buildItem({ externalId: '0750001A' }).label).to.equal('Lycée Victor Hugo (0750001A)');
-    });
-
-    it('shows the name alone without external id', function () {
-      expect(buildItem({ externalId: null }).label).to.equal('Lycée Victor Hugo');
+  describe('ownerFullName', function () {
+    it('joins the first name and the last name of the owner', function () {
+      expect(buildItem({ ownerFirstName: 'Camille', ownerLastName: 'Martin' }).ownerFullName).to.equal(
+        'Camille Martin',
+      );
     });
   });
 });
@@ -250,44 +274,42 @@ pourcentage, un libellé. Une règle du métier vit dans l'Aggregate, qui l'appl
 **Exemple de code correct.**
 
 ```ts
-// OrganizationListItem.ts
+// CampaignListItem.ts
     // RM1 : une mise en forme pour l'écran, elle ne décide rien
-    this.label = externalId ? `${name} (${externalId})` : name;
+    this.ownerFullName = `${ownerFirstName} ${ownerLastName}`;
 ```
 
-`label` assemble deux colonnes pour l'affichage, par exemple « Lycée Victor Hugo (0750001A) ».
-L'Aggregate `Organization` n'a aucun calcul équivalent.
+`ownerFullName` assemble deux colonnes pour l'affichage, par exemple « Camille Martin ». L'Aggregate
+`Campaign` n'a aucun calcul équivalent.
 
 **Exemple de code incorrect.**
 
 ```ts
-// OrganizationListItem.ts
-export class OrganizationListItem {
+// CampaignListItem.ts
+export class CampaignListItem {
   …
-  readonly featureNames: ReadonlyArray<FeatureName>;
-  …
-  // les refus d'enableFeature(), recopiés pour afficher le bouton « Activer l'import »
-  get canEnableLearnerImport(): boolean {
-    return this.archivedAt === null && !this.featureNames.includes('LEARNER_IMPORT');
+  // le refus de updateFields(), recopié pour afficher le bouton « Modifier l'envoi multiple »
+  get canChangeMultipleSendings(): boolean {
+    return this.participationsCount === 0;
   }
 }
 ```
 
-`LEARNER_IMPORT` est la fonctionnalité d'import des élèves par fichier. Les refus « organisation
-archivée » et « fonctionnalité déjà activée » appartiennent à `enableFeature()`, dans l'Aggregate
-`Organization`.
+L'envoi multiple permet à une personne de repasser la campagne. `updateFields()`, dans l'Aggregate
+`Campaign`, refuse de le changer quand la campagne a déjà des participations.
 
-**Ce que ça apporte.** La règle existe à un seul endroit, dans `Organization`. La liste affiche les
+**Ce que ça apporte.** La règle existe à un seul endroit, dans `Campaign`. La liste affiche les
 données de la base, mises en forme, sans rien décider.
 
-**Sans cette règle.** Un jour, `enableFeature()` accepte `LEARNER_IMPORT` sur une organisation
-archivée. La liste garde l'ancien calcul et cache le bouton : Pix Admin ne permet plus l'activation.
+**Sans cette règle.** Un jour, `updateFields()` permet de changer l'envoi multiple tant qu'aucune
+participation n'est partagée. La liste garde l'ancien calcul et cache le bouton : Pix Orga ne permet
+plus le changement.
 
 **À savoir.** Pour savoir si un calcul est une mise en forme, se demander : décide-t-il quelque chose ?
-`label` sert seulement à afficher. `canEnableLearnerImport` dit si une action est permise : c'est une
-règle, elle va dans l'Aggregate (voir [RM3](#rm3-nentre-pas-dans-une-règle)). L'écran peut afficher le
-bouton sans recopier la règle : par exemple, le front tente l'activation et affiche le refus, ou un
-autre usecase expose une donnée calculée par l'Aggregate.
+`ownerFullName` sert seulement à afficher. `canChangeMultipleSendings` dit si une action est permise :
+c'est une règle, elle va dans l'Aggregate (voir [RM3](#rm3-nentre-pas-dans-une-règle)). L'écran peut
+afficher le bouton sans recopier la règle : par exemple, le front tente la modification et affiche le
+refus, ou un autre usecase expose une donnée calculée par l'Aggregate.
 
 **Exceptions.** Un read-model sans aucune mise en forme est permis. Le fichier donne alors un nom et
 un type à la ligne que renvoie la requête, et le repository, le usecase et le sérialiseur s'en
@@ -302,33 +324,38 @@ les règles d'aujourd'hui : le read-model l'accepte quand même. Il ne lève jam
 **Exemple de code correct.**
 
 ```ts
-// OrganizationListItem.ts
+// CampaignListItem.ts
   // RM2 : le constructeur recopie les données, sans rien vérifier
-  constructor({ id, name, type, externalId, archivedAt, administrationTeamName }: OrganizationListItemProps) {
+  constructor({
+    id,
+    name,
+    code,
+    …
+  }: CampaignListItemProps) {
     this.id = id;
     this.name = name;
-    this.type = type;
+    this.code = code;
     …
   }
 ```
 
 ```ts
-// organization-list-repository.ts
-    type: row.type as OrganizationType, // la valeur de la base est reprise telle quelle
+// campaign-list-repository.ts
+    code: row.code, // la valeur de la base est reprise telle quelle
 ```
 
 **Exemple de code incorrect.**
 
 ```ts
-// OrganizationListItem.ts
-const UAI_FORMAT = /^\d{7}[A-Z]$/;
+// CampaignListItem.ts
+const CODE_FORMAT = /^[A-Z0-9]{9}$/;
 
-export class OrganizationListItem {
+export class CampaignListItem {
   …
-  constructor(props: OrganizationListItemProps) {
+  constructor(props: CampaignListItemProps) {
     // vérifie ce que la base vient de renvoyer
-    if (props.type === 'SCO' && props.externalId !== null && !UAI_FORMAT.test(props.externalId)) {
-      throw new InvalidOrganizationError('The UAI is not valid');
+    if (!CODE_FORMAT.test(props.code)) {
+      throw new CampaignCodeFormatError();
     }
     …
   }
@@ -338,9 +365,9 @@ export class OrganizationListItem {
 **Ce que ça apporte.** La liste s'affiche avec les données telles qu'elles sont en base, même une
 donnée ancienne qui ne suit pas les règles d'aujourd'hui.
 
-**Sans cette règle.** Une organisation `SCO` ancienne garde un UAI mal saisi, et le constructeur du
-read-model reprend le contrôle du format et lève. La page de la liste qui contient cette organisation
-répond une erreur, et ses autres organisations ne s'affichent pas.
+**Sans cette règle.** Une campagne ancienne a un code créé avant le format d'aujourd'hui. Le
+constructeur du read-model reprend le contrôle du format et lève. La page de la liste qui contient
+cette campagne répond une erreur, et ses autres campagnes ne s'affichent pas.
 
 **Exceptions.** Si les données viennent d'une source externe, comme l'API d'un autre contexte ou un
 service tiers, il faut les vérifier. C'est le repository qui le fait, quand il traduit la source. Le
@@ -356,18 +383,18 @@ de la fiche Aggregate Root.
 **Exemple de code correct.**
 
 ```ts
-// find-paginated-filtered-organizations.ts
+// find-paginated-organization-campaigns.ts
 // RM3 : le usecase renvoie les lignes sans décider à partir d'elles
-export const findPaginatedFilteredOrganizations = ({
-  filter,
+export const findPaginatedOrganizationCampaigns = ({
+  organizationId,
   page,
-  organizationListRepository,
+  campaignListRepository,
 }: {
-  filter: OrganizationListFilter;
+  organizationId: number;
   page: PageParams;
-  organizationListRepository: OrganizationListRepository;
+  campaignListRepository: CampaignListRepository;
 }) => {
-  return organizationListRepository.findPaginatedFiltered({ filter, page });
+  return campaignListRepository.findPaginatedByOrganizationId({ organizationId, page });
 };
 ```
 
@@ -375,28 +402,26 @@ export const findPaginatedFilteredOrganizations = ({
 
 ```ts
 // la décision lit une ligne de la liste
-const {
-  models: [item],
-} = await organizationListRepository.findPaginatedFiltered({
-  filter: { id: organizationId },
-  page: { number: 1, size: 1 },
+const { models } = await campaignListRepository.findPaginatedByOrganizationId({
+  organizationId,
+  page: { number: 1, size: 100 },
 });
-if (item.archivedAt !== null) throw new ArchivedOrganizationError(); // une règle lit le read-model
-const organization = await organizationRepository.get({ id: organizationId });
-organization.enableFeature(featureName, params);
-await organizationRepository.update({ organization });
+const item = models.find((campaign) => campaign.id === campaignId);
+if (item?.archivedAt) throw new ArchivedCampaignError(); // une règle lit le read-model
+const campaign = await campaignAdministrationRepository.get(campaignId);
+campaign.archive(now, userId);
+await campaignAdministrationRepository.update(campaign);
 ```
 
 **Ce que ça apporte.** Une règle se change à un seul endroit, dans l'Aggregate. On peut aussi changer
 la liste, ajouter ou retirer une colonne, sans toucher à aucune règle du métier.
 
-**Sans cette règle.** On change `enableFeature()` pour qu'une organisation archivée puisse recevoir
-`ATTESTATIONS_MANAGEMENT`, la gestion des attestations de fin de parcours des élèves. Le usecase lit
-toujours `archivedAt` sur la ligne de liste et lève `ArchivedOrganizationError` : Pix Admin refuse
-toujours l'activation.
+**Sans cette règle.** On change `archive()` pour qu'archiver une campagne déjà archivée ne fasse plus
+rien, sans erreur. Le usecase lit toujours `archivedAt` sur la ligne de liste et lève
+`ArchivedCampaignError` : Pix Orga affiche toujours le refus.
 
 **À savoir.** L'autre sens est interdit aussi : un modèle du domaine ne fabrique pas de read-model.
-`Organization` n'a pas de méthode `toListItem()`. C'est le repository qui construit la ligne.
+`Campaign` n'a pas de méthode `toListItem()`. C'est le repository qui construit la ligne.
 
 ### RM4. Rangé à part des modèles du domaine
 
@@ -406,31 +431,30 @@ ni dans `domain/models/`, ni dans un dossier `aggregates/`.
 **Exemple de code correct.**
 
 ```
-organizational-entities/domain/
+prescription/campaign/domain/
 ├── models/
-│   └── organization/
-│       └── Organization.ts
+│   └── Campaign.ts
 └── read-models/
-    └── OrganizationListItem.ts
+    └── CampaignListItem.ts
 ```
 
 **Exemple de code incorrect.**
 
 ```
-organizational-entities/domain/
+prescription/campaign/domain/
 └── models/
-    ├── organization/
-    │   └── Organization.ts
-    └── OrganizationListItem.ts   ← rangé comme un modèle du domaine
+    ├── Campaign.ts
+    └── CampaignListItem.ts   ← rangé comme un modèle du domaine
 ```
 
 **Ce que ça apporte.** Le relecteur voit au dossier qu'aucune règle ne lit ce fichier. La règle
 d'outil montrée plus bas interdit à `domain/models/` et `domain/services/` d'importer
 `domain/read-models/`.
 
-**Sans cette règle.** `OrganizationListItem` est rangé dans `models/`, donc la règle d'outil laisse
-`Organization` l'importer. Un développeur ajoute `Organization.toListItem()`, qui met
-`administrationTeamName` à `null` faute de le connaître : l'écran affiche des organisations sans équipe.
+**Sans cette règle.** `CampaignListItem` est rangé dans `models/`, donc la règle d'outil laisse
+`Campaign` l'importer. Un développeur ajoute `Campaign.toListItem()`, qui met
+`sharedParticipationsCount` à `0` faute de le connaître : l'écran affiche des campagnes sans résultat
+reçu.
 
 **À savoir.**
 
@@ -460,24 +484,31 @@ cette mesure.
 **Exemple de code correct.**
 
 ```ts
-// organizational-entities/domain/read-models/OrganizationListItem.ts — RM4 : rangé dans read-models/
-// RM5 : la liste par l'Aggregate est mesurée trop lente (trace citée dans la PR)
+// prescription/campaign/domain/read-models/CampaignListItem.ts — RM4 : rangé dans read-models/
+// RM5 : compter les participations par l'Aggregate rendait la liste trop lente (mesure citée dans la PR)
 ```
 
 **Exemple de code incorrect.**
 
 ```ts
-// organizational-entities/domain/read-models/OrganizationDetail.ts
-// un read-model créé « parce que c'est un écran » : le détail d'une organisation se lit par
-// l'Aggregate Organization, sans mesure de lenteur
+// prescription/campaign/domain/read-models/CampaignDetail.ts
+// un read-model créé « parce que c'est un écran » : le détail d'une campagne se lit par
+// l'Aggregate Campaign, sans mesure de lenteur
 ```
 
 **Ce que ça apporte.** Chaque donnée a un seul modèle tant qu'aucune mesure n'en demande un second.
 L'écran lit les mêmes objets que les règles du métier.
 
-**Sans cette règle.** Le détail d'une organisation a deux requêtes, celle de l'Aggregate et celle du
-read-model. On ajoute un champ à `Organization` : le repository de l'Aggregate le charge, la requête
-du read-model l'oublie, et le détail ne l'affiche pas.
+**Sans cette règle.** Le détail d'une campagne a deux requêtes, celle de l'Aggregate et celle du
+read-model. On ajoute un champ à `Campaign` : le repository de l'Aggregate le charge, la requête du
+read-model l'oublie, et le détail ne l'affiche pas.
 
-**À savoir.** Avant de créer un read-model, une autre piste existe : découper l'Aggregate (voir
-A6).
+**À savoir.**
+
+- La liste des campagnes de Pix Orga est un cas réel. Ses requêtes de comptage des participations
+  prenaient près de 75 % du temps de la base, parmi les 20 requêtes les plus présentes en production.
+  Pour l'organisation qui avait le plus de campagnes, environ 330, la requête prenait 850 ms. Une fois
+  réécrite, elle prend 20 ms ([PR #2185](https://github.com/1024pix/pix/pull/2185)).
+  Pour une université de plus de 20 000 étudiants, la page ne s'affichait plus.
+- Avant de créer un read-model, une autre piste existe : découper l'Aggregate (voir
+  A6).
