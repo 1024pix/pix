@@ -1,9 +1,9 @@
 import { render } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
-import TimedChallengeInstructions from 'mon-pix/components/timed-challenge-instructions';
+import TimedChallengeInstructions from 'mon-pix/components/challenge/timed-challenge-instructions';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | timed-challenge-instructions', function (hooks) {
   setupIntlRenderingTest(hooks);

@@ -2,9 +2,9 @@ import { array } from '@ember/helper';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
 import Content from 'mon-pix/components/challenge/content';
+import TimedChallengeInstructions from 'mon-pix/components/challenge/timed-challenge-instructions';
 import FocusedCertificationChallengeInstructions from 'mon-pix/components/focused-certification-challenge-instructions';
 import LevelupNotif from 'mon-pix/components/levelup-notif';
-import TimedChallengeInstructions from 'mon-pix/components/timed-challenge-instructions';
 import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
 
 <template>
