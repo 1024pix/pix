@@ -6,24 +6,36 @@ export const ltiPlatformRepository = {
   async get(id) {
     const knexConn = DomainTransaction.getConnection();
 
-    const ltiPlatformDTO = await knexConn.select('*').from('lti_platforms').where('id', id).first();
+    const ltiPlatformDto = await knexConn.select('*').from('lti_platforms').where('id', id).first();
 
-    if (!ltiPlatformDTO) {
+    if (!ltiPlatformDto) {
       throw new NotFoundError('unknown LTI platform id');
     }
 
-    return new LtiPlatform(ltiPlatformDTO);
+    return toDomain(ltiPlatformDto);
   },
 
   async findByIssuer(issuer) {
     const knexConn = DomainTransaction.getConnection();
 
-    const ltiPlatformDTO = await knexConn.select('*').from('lti_platforms').where({ issuer }).first();
+    const ltiPlatformDto = await knexConn.select('*').from('lti_platforms').where({ issuer }).first();
 
-    if (!ltiPlatformDTO) {
+    if (!ltiPlatformDto) {
       return null;
     }
 
-    return new LtiPlatform(ltiPlatformDTO);
+    return toDomain(ltiPlatformDto);
+  },
+
+  async findAll() {
+    const knexConn = DomainTransaction.getConnection();
+
+    const ltiPlatformDtos = await knexConn.select('*').from('lti_platforms').orderBy('issuer');
+
+    return ltiPlatformDtos.map(toDomain);
   },
 };
+
+function toDomain(ltiPlatformDto) {
+  return new LtiPlatform(ltiPlatformDto);
+}
