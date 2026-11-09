@@ -1,10 +1,15 @@
 # Read-model
 
-Un read-model est un objet assemblé pour un écran ou une réponse : une ligne de la liste des
-organisations de Pix Admin, le détail d'une campagne. Un repository le
-construit avec une requête, souvent sur plusieurs tables. Le usecase le
-renvoie sans décider à partir de lui, et le sérialiseur le met au format
-de la réponse. Aucune règle du métier ne le lit. Les read-models se rangent dans `domain/read-models/`.
+Par défaut, une lecture passe par les objets du domaine. Le repository
+charge l'Aggregate, et le sérialiseur le met
+au format de la réponse. Un read-model est l'exception à ce chemin.
+
+Un read-model est un objet assemblé pour une lecture précise, par exemple une ligne de la liste des
+organisations de Pix Admin. On le crée seulement quand une mesure montre que la lecture par l'Aggregate
+est trop lente ([RM5](#rm5-seulement-sur-une-lenteur-mesurée)). Un repository le construit alors avec
+une requête ciblée, souvent sur plusieurs tables. Le usecase le renvoie sans
+décider à partir de lui. Aucune règle du métier ne le lit. Les read-models se rangent dans
+`domain/read-models/`.
 
 Il suit les règles [V1](../value-object/README.md#v1-immuable) et
 [V4](../value-object/README.md#v4-aucun-effet-de-bord-extérieur) de la fiche Value Object. À la
@@ -21,10 +26,12 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | [RM2](#rm2-aucune-validation) | Aucune validation | pas de `throw` : les données viennent de la base de Pix |
 | [RM3](#rm3-nentre-pas-dans-une-règle) | N'entre pas dans une règle | un usecase le renvoie sans décider à partir de lui, et charge l'Aggregate pour décider ; aucun modèle du domaine ne l'importe |
 | [RM4](#rm4-rangé-à-part-des-modèles-du-domaine) | Rangé à part des modèles du domaine | le fichier est dans `domain/read-models/`, à côté de `domain/models/` |
+| [RM5](#rm5-seulement-sur-une-lenteur-mesurée) | Seulement sur une lenteur mesurée | une mesure (benchmark, trace en production) montre que la lecture par l'Aggregate est trop lente |
 
 ## Exemple complet
 
-Une ligne de la liste des organisations de Pix Admin. La requête joint deux Aggregates,
+Une ligne de la liste des organisations de Pix Admin. L'exemple suppose qu'une mesure a montré que
+charger chaque organisation entière, avec ses fonctionnalités, rendait cette liste trop lente (RM5). La requête joint deux Aggregates,
 l'organisation et son équipe d'administration, et ne lit que les colonnes que la liste affiche.
 `externalId` est l'identifiant de l'organisation hors de Pix, par exemple l'UAI d'un lycée (son code
 officiel auprès de l'Éducation nationale). L'exemple simplifie le filtre par nom : le vrai filtre
@@ -35,6 +42,7 @@ Exemple inventé, d'après
 
 ```ts
 // organizational-entities/domain/read-models/OrganizationListItem.ts — RM4 : rangé dans read-models/
+// RM5 : la liste par l'Aggregate est mesurée trop lente (trace citée dans la PR)
 import type { OrganizationType } from '../models/organization/index.js';
 
 export type OrganizationListItemProps = {
@@ -222,6 +230,9 @@ Vérifie-t-il ses données ?
 
 Est-il au bon endroit ?
 [ ] RM4  Le fichier est dans domain/read-models/
+
+Est-il justifié ?
+[ ] RM5  La PR qui le crée cite la mesure qui montre que la lecture par l'Aggregate est trop lente
 
 Tests
 [ ] Chaque mise en forme a son test unitaire, sans stub, sans mock ni spy
@@ -438,3 +449,35 @@ d'outil montrée plus bas interdit à `domain/models/` et `domain/services/` d'i
   des sous-dossiers, et ne s'y déclenche jamais, sans aucun message.
 - Le read-model est sous `domain/` parce qu'un repository de `infrastructure/` le construit. Rangé sous
   `application/`, il ferait dépendre l'infrastructure de l'application.
+
+### RM5. Seulement sur une lenteur mesurée
+
+**La règle.** On lit d'abord par les objets du domaine : le repository charge l'Aggregate, le
+sérialiseur le met en forme. On crée un read-model seulement quand une mesure montre que cette lecture
+est trop lente, par exemple un benchmark ou une trace en production. La PR qui crée le read-model cite
+cette mesure.
+
+**Exemple de code correct.**
+
+```ts
+// organizational-entities/domain/read-models/OrganizationListItem.ts — RM4 : rangé dans read-models/
+// RM5 : la liste par l'Aggregate est mesurée trop lente (trace citée dans la PR)
+```
+
+**Exemple de code incorrect.**
+
+```ts
+// organizational-entities/domain/read-models/OrganizationDetail.ts
+// un read-model créé « parce que c'est un écran » : le détail d'une organisation se lit par
+// l'Aggregate Organization, sans mesure de lenteur
+```
+
+**Ce que ça apporte.** Chaque donnée a un seul modèle tant qu'aucune mesure n'en demande un second.
+L'écran lit les mêmes objets que les règles du métier.
+
+**Sans cette règle.** Le détail d'une organisation a deux requêtes, celle de l'Aggregate et celle du
+read-model. On ajoute un champ à `Organization` : le repository de l'Aggregate le charge, la requête
+du read-model l'oublie, et le détail ne l'affiche pas.
+
+**À savoir.** Avant de créer un read-model, une autre piste existe : découper l'Aggregate (voir
+A6).
