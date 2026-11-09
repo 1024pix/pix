@@ -348,7 +348,6 @@ export const config = {
     scheduleComputeOrganizationLearnersCertificability: {
       cron: process.env.SCHEDULE_COMPUTE_LEARNERS_CERTIFICABILITY_JOB_CRON || '0 21 * * *',
       chunkSize: process.env.SCHEDULE_COMPUTE_LEARNERS_CERTIFICABILITY_CHUNK_SIZE || 1000,
-      synchronously: toBoolean(process.env.SCHEDULE_COMPUTE_LEARNERS_CERTIFICABILITY_SYNCHRONOUSLY),
     },
     scoAccountRecoveryKeyLifetimeMinutes: process.env.SCO_ACCOUNT_RECOVERY_KEY_LIFETIME_MINUTES,
     organizationPlacesManagementThreshold: parseFloat(process.env.ORGANIZATION_PLACES_MANAGEMENT_THRESHOLD ?? '0.1'),
