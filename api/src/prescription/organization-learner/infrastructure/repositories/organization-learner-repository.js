@@ -492,15 +492,13 @@ function _queryBuilderForCertificability({ fromUserActivityDate, toUserActivityD
     )
     .join('features', 'organization-features.featureId', '=', 'features.id')
     .join('users', 'view-active-organization-learners.userId', '=', 'users.id')
+    .join('user-logins', function () {
+      this.on('view-active-organization-learners.userId', 'user-logins.userId')
+        .andOnVal('user-logins.lastLoggedAt', '>', fromUserActivityDate)
+        .andOnVal('user-logins.lastLoggedAt', '<=', toUserActivityDate);
+    })
     .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
-    .where('view-active-organization-learners.isDisabled', false)
-    .modify(function (queryBuilder) {
-      queryBuilder.join('user-logins', function () {
-        this.on('view-active-organization-learners.userId', 'user-logins.userId')
-          .andOnVal('user-logins.lastLoggedAt', '>', fromUserActivityDate)
-          .andOnVal('user-logins.lastLoggedAt', '<=', toUserActivityDate);
-      });
-    });
+    .where('view-active-organization-learners.isDisabled', false);
 }
 
 /**
