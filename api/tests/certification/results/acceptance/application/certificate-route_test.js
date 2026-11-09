@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import dayjs from 'dayjs';
+import JSZip from 'jszip';
 import sinon from 'sinon';
 
 import { generateCertificateVerificationCode } from '../../../../../src/certification/evaluation/domain/services/verify-certificate-code-service.js';
@@ -1091,6 +1092,14 @@ describe('Certification | Results | Acceptance | Application | Certification', f
       expect(response.headers['content-disposition']).to.contain(
         'attachment; filename=pix-sessions-certificates-1767243967000.zip',
       );
+
+      const zip = await JSZip.loadAsync(response.rawPayload);
+      const files = Object.values(zip.files);
+      expect(files).to.have.lengthOf(2);
+      for (const file of files) {
+        const content = await file.async('string');
+        expect(content.startsWith('%PDF')).to.be.true;
+      }
     });
   });
 });
