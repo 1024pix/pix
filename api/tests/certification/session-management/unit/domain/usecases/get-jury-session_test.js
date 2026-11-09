@@ -2,6 +2,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getJurySession } from '../../../../../../src/certification/session-management/domain/usecases/get-jury-session.js';
+import {
+  SESSION_STATUSES,
+  SessionStatus,
+} from '../../../../../../src/certification/shared/domain/value-objects/SessionStatus.ts';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
@@ -19,7 +23,10 @@ describe('Certification | Session Management | Unit | Domain | UseCase | get-jur
     it('should get the session', async function () {
       // given
       const sessionId = 123;
-      const sessionToFind = domainBuilder.buildJurySession({ id: sessionId });
+      const sessionToFind = domainBuilder.buildJurySession({
+        id: sessionId,
+        sessionStatus: new SessionStatus({ status: SESSION_STATUSES.CREATED }),
+      });
       jurySessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
 
       // when

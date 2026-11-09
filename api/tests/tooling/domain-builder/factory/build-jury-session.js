@@ -28,6 +28,7 @@ const buildJurySession = function ({
   hasIncident = false,
   hasJoiningIssue = false,
   version = 2,
+  sessionStatus,
   counters,
 } = {}) {
   if (_.isUndefined(certificationCenterId)) {
@@ -68,6 +69,7 @@ const buildJurySession = function ({
     hasJoiningIssue,
     version,
     counters,
+    sessionStatus,
   });
 };
 

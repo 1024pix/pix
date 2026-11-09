@@ -1,17 +1,19 @@
 import { expect } from 'chai';
 import _ from 'lodash';
+import sinon from 'sinon';
 
 import { CertificationOfficer } from '../../../../../../src/certification/session-management/domain/models/CertificationOfficer.js';
-import {
-  JurySession,
-  statuses,
-} from '../../../../../../src/certification/session-management/domain/models/JurySession.js';
+import { JurySession } from '../../../../../../src/certification/session-management/domain/models/JurySession.js';
 import * as jurySessionRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/jury-session-repository.js';
 import {
   CertificationIssueReportCategory,
   ImpactfulCategories,
   ImpactfulSubcategories,
 } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import {
+  SESSION_STATUSES,
+  SessionStatus,
+} from '../../../../../../src/certification/shared/domain/value-objects/SessionStatus.ts';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
@@ -86,8 +88,8 @@ describe('Integration | Repository | JurySession', function () {
             firstName: juryCommentAuthor.firstName,
             lastName: juryCommentAuthor.lastName,
           },
+          sessionStatus: new SessionStatus({ status: SESSION_STATUSES.IN_PROCESS }),
         });
-
         // when
         const jurySession = await jurySessionRepository.get({ id: sessionId });
 
@@ -457,7 +459,77 @@ describe('Integration | Repository | JurySession', function () {
 
           it('should apply the strict filter and return the appropriate results', async function () {
             // given
-            const filters = { status: statuses.CREATED };
+            const filters = { status: SESSION_STATUSES.CREATED };
+            const page = { number: 1, size: 10 };
+
+            // when
+            const { jurySessions } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
+
+            // then
+            expect(jurySessions).to.have.lengthOf(1);
+            expect(jurySessions[0].id).to.equal(expectedSessionId);
+          });
+        });
+
+        context('when there is a filter on started sessions', function () {
+          let expectedSessionId;
+
+          beforeEach(function () {
+            expectedSessionId = databaseBuilder.factory.buildSession({
+              createdAt: new Date(),
+              finalizedAt: null,
+              publishedAt: null,
+            }).id;
+            databaseBuilder.factory.buildSession({ finalizedAt: new Date('2020-01-01T00:00:00Z') });
+            databaseBuilder.factory.buildCertificationCourse({
+              sessionId: expectedSessionId,
+              createdAt: new Date(),
+            });
+            return databaseBuilder.commit();
+          });
+
+          it('should apply the strict filter and return the appropriate results', async function () {
+            // given
+            const filters = { status: SESSION_STATUSES.STARTED };
+            const page = { number: 1, size: 10 };
+
+            // when
+            const { jurySessions } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
+
+            // then
+            expect(jurySessions).to.have.lengthOf(1);
+            expect(jurySessions[0].id).to.equal(expectedSessionId);
+          });
+        });
+
+        context('when there is a filter on to_finalized sessions', function () {
+          let expectedSessionId, clock;
+
+          beforeEach(function () {
+            const now = new Date();
+            const expiredDate = now.setDate(now.getDate() - 1);
+            clock = sinon.useFakeTimers({ now: expiredDate });
+
+            expectedSessionId = databaseBuilder.factory.buildSession({
+              createdAt: new Date(),
+              finalizedAt: null,
+              publishedAt: null,
+            }).id;
+            databaseBuilder.factory.buildSession({ finalizedAt: new Date('2020-01-01T00:00:00Z') });
+            databaseBuilder.factory.buildCertificationCourse({
+              sessionId: expectedSessionId,
+              createdAt: new Date(),
+            });
+            return databaseBuilder.commit();
+          });
+
+          afterEach(function () {
+            clock.restore();
+          });
+
+          it('should apply the strict filter and return the appropriate results', async function () {
+            // given
+            const filters = { status: SESSION_STATUSES.TO_FINALIZE };
             const page = { number: 1, size: 10 };
 
             // when
@@ -490,7 +562,7 @@ describe('Integration | Repository | JurySession', function () {
 
           it('should apply the strict filter and return the appropriate results', async function () {
             // given
-            const filters = { status: statuses.FINALIZED };
+            const filters = { status: SESSION_STATUSES.FINALIZED };
             const page = { number: 1, size: 10 };
 
             // when
@@ -520,7 +592,7 @@ describe('Integration | Repository | JurySession', function () {
 
           it('should apply the strict filter and return the appropriate results', async function () {
             // given
-            const filters = { status: statuses.IN_PROCESS };
+            const filters = { status: SESSION_STATUSES.IN_PROCESS };
             const page = { number: 1, size: 10 };
 
             // when
@@ -545,7 +617,7 @@ describe('Integration | Repository | JurySession', function () {
 
           it('should apply the strict filter and return the appropriate results', async function () {
             // given
-            const filters = { status: statuses.PROCESSED };
+            const filters = { status: SESSION_STATUSES.PROCESSED };
             const page = { number: 1, size: 10 };
 
             // when

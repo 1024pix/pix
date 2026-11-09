@@ -2,11 +2,15 @@ import Model, { attr, belongsTo, hasMany } from '@warp-drive/legacy/model';
 import isEmpty from 'lodash/isEmpty';
 
 export const CREATED = 'created';
+export const STARTED = 'started';
+export const TO_FINALIZED = 'to_finalize';
 export const FINALIZED = 'finalized';
 export const IN_PROCESS = 'in_process';
 export const PROCESSED = 'processed';
 export const statusToDisplayName = {
   [CREATED]: 'Créée',
+  [STARTED]: 'Démarrée',
+  [TO_FINALIZED]: 'À finaliser',
   [FINALIZED]: 'Finalisée',
   [IN_PROCESS]: 'En cours de traitement',
   [PROCESSED]: 'Résultats transmis par Pix',

@@ -1,7 +1,10 @@
 import { expect } from 'chai';
 
 import { JurySession } from '../../../../../../src/certification/session-management/domain/models/JurySession.js';
-import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/constants.js';
+import {
+  SESSION_STATUSES,
+  SessionStatus,
+} from '../../../../../../src/certification/shared/domain/value-objects/SessionStatus.ts';
 import { CERTIFICATION_CENTER_TYPES } from '../../../../../../src/shared/constants.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -43,6 +46,7 @@ describe('Unit | Certification | Session-Management | Domain | Models | JurySess
       hasIncident: false,
       hasJoiningIssue: false,
       version: 3,
+      sessionStatus: new SessionStatus({ status: SESSION_STATUSES.PROCESSED }),
       counters: domainBuilder.certification.sessionManagement.buildJurySessionCounters({
         startedCertifications: 1,
         certificationsWithScoringError: 2,
@@ -50,6 +54,7 @@ describe('Unit | Certification | Session-Management | Domain | Models | JurySess
     });
 
     // then
+    expect(jurySession.status).to.equal(SESSION_STATUSES.PROCESSED);
     expect(jurySession).to.deep.equal({
       id: 123,
       certificationCenterName: 'centerName',
@@ -87,6 +92,7 @@ describe('Unit | Certification | Session-Management | Domain | Models | JurySess
       numberOfScoringErrors: 2,
       totalNumberOfIssueReports: 0,
       numberOfImpactfullIssueReports: 0,
+      status: SESSION_STATUSES.PROCESSED,
     });
   });
 
@@ -99,6 +105,7 @@ describe('Unit | Certification | Session-Management | Domain | Models | JurySess
         id: 123,
         publishedAt: new Date('2025-03-03'),
         counters: domainBuilder.certification.sessionManagement.buildJurySessionCounters(),
+        sessionStatus: new SessionStatus({ status: SESSION_STATUSES.PROCESSED }),
       });
 
       // then
@@ -118,6 +125,7 @@ describe('Unit | Certification | Session-Management | Domain | Models | JurySess
           lastName: 'Officer',
         }),
         counters: domainBuilder.certification.sessionManagement.buildJurySessionCounters(),
+        sessionStatus: new SessionStatus({ status: SESSION_STATUSES.IN_PROCESS }),
       });
 
       // then
@@ -132,6 +140,7 @@ describe('Unit | Certification | Session-Management | Domain | Models | JurySess
         id: 123,
         finalizedAt: new Date('2025-03-03'),
         counters: domainBuilder.certification.sessionManagement.buildJurySessionCounters(),
+        sessionStatus: new SessionStatus({ status: SESSION_STATUSES.FINALIZED }),
       });
 
       // then
@@ -145,6 +154,7 @@ describe('Unit | Certification | Session-Management | Domain | Models | JurySess
       const jurySession = new JurySession({
         id: 123,
         counters: domainBuilder.certification.sessionManagement.buildJurySessionCounters(),
+        sessionStatus: new SessionStatus({ status: SESSION_STATUSES.CREATED }),
       });
 
       // then

@@ -3,8 +3,6 @@
  * @typedef {import ('../read-models/JurySessionCounters.js').JurySessionCounters} JurySessionCounters
  */
 
-import { SESSION_STATUSES } from '../../../shared/domain/constants.js';
-
 class JurySession {
   /**
    * @param {object} props
@@ -59,7 +57,8 @@ class JurySession {
     hasJoiningIssue,
     version = 2,
     counters,
-  } = {}) {
+    sessionStatus,
+  }) {
     this.id = id;
     this.certificationCenterName = certificationCenterName;
     this.certificationCenterType = certificationCenterType;
@@ -88,20 +87,8 @@ class JurySession {
     this.numberOfScoringErrors = counters.certificationsWithScoringError;
     this.totalNumberOfIssueReports = counters.issueReports;
     this.numberOfImpactfullIssueReports = counters.impactfullIssueReports;
-  }
-
-  get status() {
-    if (this.publishedAt) {
-      return SESSION_STATUSES.PROCESSED;
-    }
-    if (this.assignedCertificationOfficer) {
-      return SESSION_STATUSES.IN_PROCESS;
-    }
-    if (this.finalizedAt) {
-      return SESSION_STATUSES.FINALIZED;
-    }
-    return SESSION_STATUSES.CREATED;
+    this.status = sessionStatus.status;
   }
 }
 
-export { JurySession, SESSION_STATUSES as statuses };
+export { JurySession };
