@@ -39,7 +39,7 @@ module('Integration | Component | timed-challenge-instructions', function (hooks
               seconds: data.input % 60,
             });
 
-        const headingName = t('pages.timed-challenge-instructions.primary', { time, htmlSfe: true });
+        const headingName = t('components.timed-challenge-instruction.primary', { time, htmlSfe: true });
         assert
           .dom(
             screen.getByRole('heading', {

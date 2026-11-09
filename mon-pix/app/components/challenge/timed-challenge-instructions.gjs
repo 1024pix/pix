@@ -8,11 +8,11 @@ export default class TimedChallengeInstructions extends Component {
   <template>
     <div class="rounded-panel rounded-panel--no-margin-bottom timed-challenge-instructions">
       <h1 class="timed-challenge-instructions__primary">
-        {{t "pages.timed-challenge-instructions.primary" time=this.allocatedTime htmlSafe=true}}
+        {{t "components.timed-challenge-instruction.primary" time=this.allocatedTime htmlSafe=true}}
       </h1>
 
       <p class="timed-challenge-instructions__secondary">
-        {{t "pages.timed-challenge-instructions.secondary"}}
+        {{t "components.timed-challenge-instruction.secondary"}}
       </p>
 
       <div class="timed-challenge-instructions__allocated-time">
@@ -25,7 +25,7 @@ export default class TimedChallengeInstructions extends Component {
         class="timed-challenge-instructions-action__confirmation-button"
         @variant="success"
       >
-        {{t "pages.timed-challenge-instructions.action"}}
+        {{t "components.timed-challenge-instruction.action"}}
       </PixButton>
     </div>
   </template>

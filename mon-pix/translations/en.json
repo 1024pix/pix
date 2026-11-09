@@ -365,6 +365,11 @@
     },
     "locale-switcher": {
       "label": "Select a language"
+    },
+    "timed-challenge-instruction": {
+      "action": "Start",
+      "primary": "You have '<strong>'{time}'</strong>' to complete the next question.",
+      "secondary": "You can continue answering after this, but the question will not be marked as correct."
     }
   },
   "navigation": {
@@ -2518,11 +2523,6 @@
         "message": "We have updated our TCS. Review the changes and accept them to continue.",
         "title": "Important update to the General Terms and Conditions (TCS)"
       }
-    },
-    "timed-challenge-instructions": {
-      "action": "Start",
-      "primary": "You have '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' to complete the next question.",
-      "secondary": "You can continue answering after this, but the question will not be marked as correct."
     },
     "training": {
       "editor": "Training provided by",
