@@ -1,7 +1,7 @@
 import { config } from '../../../../config/config.js';
 import { JobScheduleController } from '../../../shared/application/jobs/job-schedule-controller.js';
+import { getDatesOneYearEarlier } from '../../../shared/infrastructure/utils/date-utils.ts';
 import { usecases } from '../../domain/usecases/index.js';
-import { getDatesOneYearEarlier } from './date-utils.js';
 
 class ScheduleHistorizeAnswersJobController extends JobScheduleController {
   constructor() {

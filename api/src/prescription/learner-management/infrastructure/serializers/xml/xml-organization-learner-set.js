@@ -6,7 +6,7 @@ import lodash from 'lodash';
 const { isEmpty, each } = lodash;
 
 import { SIECLE_ERRORS } from '../../../../../shared/domain/errors.js';
-import { isValidDate } from '../../../../../shared/infrastructure/utils/date-utils.js';
+import { isValidDate } from '../../../../../shared/infrastructure/utils/date-utils.ts';
 import { SiecleXmlImportError } from '../../../domain/errors.js';
 
 const DIVISION = 'D';

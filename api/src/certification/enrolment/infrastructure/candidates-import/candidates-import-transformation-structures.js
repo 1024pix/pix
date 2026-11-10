@@ -1,4 +1,4 @@
-import { convertDateValue } from '../../../../shared/infrastructure/utils/date-utils.js';
+import { convertDateValue } from '../../../../shared/infrastructure/utils/date-utils.ts';
 import isEmpty from '../../../../shared/infrastructure/utils/is-empty.js';
 
 // These are transformation structures. They provide all the necessary info
