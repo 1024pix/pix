@@ -28,11 +28,11 @@ jobs:
         with: 
           persist-credentials: false
 
-      - name: Generates BoM and upload to OWASP DTrack
+      - name: Generates Monorepo SBoM and upload to OWASP DTrack
         id: riskscoreMonorepo
-        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
+        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
         with:
-          url: ${{ secrets.DEPENDENCYTRACK_URL }}
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: '.'
           node_version: '22.14.0'
@@ -54,11 +54,11 @@ jobs:
         with: 
           persist-credentials: false
 
-      - name: Generates BoM and upload to OWASP DTrack
+      - name: Generates PixApp SBoM and upload to OWASP DTrack
         id: riskscorePixApp
-        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
+        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
         with:
-          url: ${{ secrets.DEPENDENCYTRACK_URL }}
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'mon-pix'
           node_version: '22.14.0'
@@ -80,11 +80,11 @@ jobs:
         with: 
           persist-credentials: false
 
-      - name: Generates BoM and upload to OWASP DTrack
+      - name: Generates PixOrga SBoM and upload to OWASP DTrack
         id: riskscorePixOrga
-        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
+        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
         with:
-          url: ${{ secrets.DEPENDENCYTRACK_URL }}
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'orga'
           node_version: '22.14.0'
@@ -106,11 +106,11 @@ jobs:
         with: 
           persist-credentials: false
 
-      - name: Generates BoM and upload to OWASP DTrack
+      - name: Generates PixCertif SBoM and upload to OWASP DTrack
         id: riskscorePixCertif
-        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
+        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
         with:
-          url: ${{ secrets.DEPENDENCYTRACK_URL }}
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'certif'
           node_version: '22.14.0'
@@ -132,11 +132,11 @@ jobs:
         with: 
           persist-credentials: false
 
-      - name: Generates BoM and upload to OWASP DTrack
+      - name: Generates PixAdmin SBoM and upload to OWASP DTrack
         id: riskscorePixAdmin
-        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
+        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
         with:
-          url: ${{ secrets.DEPENDENCYTRACK_URL }}
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'admin'
           node_version: '22.14.0'
@@ -158,11 +158,11 @@ jobs:
         with: 
           persist-credentials: false
 
-      - name: Generates BoM and upload to OWASP DTrack
+      - name: Generates PixJunior SBoM and upload to OWASP DTrack
         id: riskscorePixJunior
-        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
+        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
         with:
-          url: ${{ secrets.DEPENDENCYTRACK_URL }}
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'junior'
           node_version: '22.14.0'
@@ -184,11 +184,11 @@ jobs:
         with: 
           persist-credentials: false
 
-      - name: Generates BoM and upload to OWASP DTrack
+      - name: Generates PixAPI SBoM and upload to OWASP DTrack
         id: riskscorePixAPI
-        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
+        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
         with:
-          url: ${{ secrets.DEPENDENCYTRACK_URL }}
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'api'
           node_version: '22.14.0'
@@ -210,11 +210,11 @@ jobs:
         with: 
           persist-credentials: false
 
-      - name: Generates BoM and upload to OWASP DTrack
+      - name: Generates AuditLogger SBoM and upload to OWASP DTrack
         id: riskscoreAuditLogger
-        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
+        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
         with:
-          url: ${{ secrets.DEPENDENCYTRACK_URL }}
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'audit-logger'
           node_version: '22.14.0'
@@ -236,11 +236,11 @@ jobs:
         with: 
           persist-credentials: false
 
-      - name: Generates BoM and upload to OWASP DTrack
+      - name: Generates TestsE2E SBoM and upload to OWASP DTrack
         id: riskscoreTestsE2E
-        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
+        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
         with:
-          url: ${{ secrets.DEPENDENCYTRACK_URL }}
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'high-level-tests/e2e'
           node_version: '22.14.0'
@@ -262,11 +262,11 @@ jobs:
         with: 
           persist-credentials: false
 
-      - name: Generates BoM and upload to OWASP DTrack
+      - name: Generates TestsPlaywright SBoM and upload to OWASP DTrack
         id: riskscoreTestsPlaywright
-        uses:  1024pix/check-dependency-track-action/node@9843e70f8e017ce38f71fec4c30e719d46c00a58
+        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
         with:
-          url: ${{ secrets.DEPENDENCYTRACK_URL }}
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'high-level-tests/e2e-playwright'
           node_version: '22.14.0'
@@ -290,49 +290,37 @@ jobs:
         - check_risk_score_tests_e2e
         - check_risk_score_tests_playwright
     if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+    steps:
+      - id: fetch all scores
+        uses: 1024pix/check-dependency-track-action/fetch@b9c616bc8284c29d1d37299343a0b486002de68b
+        with:
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
+          key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
+          projects: |
+            ${{ needs.check_risk_score_monorepo.outputs.upload }}
+            ${{ needs.check_risk_score_app.outputs.upload }}
+            ${{ needs.check_risk_score_orga.outputs.upload }}
+            ${{ needs.check_risk_score_certif.outputs.upload }}
+            ${{ needs.check_risk_score_admin.outputs.upload }}
+            ${{ needs.check_risk_score_junior.outputs.upload }}
+            ${{ needs.check_risk_score_api.outputs.upload }}
+            ${{ needs.check_risk_score_audit_logger.outputs.upload }}
+            ${{ needs.check_risk_score_tests_e2e.outputs.upload }}
+            ${{ needs.check_risk_score_tests_playwright.outputs.upload }}
+
+  comment_on_pr:
+    runs-on: ubuntu-latest
+    needs: fetch_results
+    if: ${{ !cancelled() && needs.fetch_results.outputs.status != '' }}
     permissions:
       pull-requests: write
-    steps:
       - name: Comment on the PR
         env:
           GH_TOKEN: ${{ github.token }}
+          MARKDOWN_TABLE: ${{ needs.fetch_results.outputs.markdown }}
           PR: ${{ github.event.pull_request.number }}
-          MONOREPO_SCORE: ${{ needs.check_risk_score_monorepo.outputs.riskscore }}
-          MONOREPO_STATUS: ${{ needs.check_risk_score_monorepo.outputs.status }}
-          PIX_APP_SCORE: ${{ needs.check_risk_score_app.outputs.riskscore }}
-          PIX_APP_STATUS: ${{ needs.check_risk_score_app.outputs.status }}
-          PIX_ORGA_SCORE: ${{ needs.check_risk_score_orga.outputs.riskscore }}
-          PIX_ORGA_STATUS: ${{ needs.check_risk_score_orga.outputs.status }}
-          PIX_CERTIF_SCORE: ${{ needs.check_risk_score_certif.outputs.riskscore }}
-          PIX_CERTIF_STATUS: ${{ needs.check_risk_score_certif.outputs.status }}
-          PIX_ADMIN_SCORE: ${{ needs.check_risk_score_admin.outputs.riskscore }}
-          PIX_ADMIN_STATUS: ${{ needs.check_risk_score_admin.outputs.status }}
-          PIX_JUNIOR_SCORE: ${{ needs.check_risk_score_junior.outputs.riskscore }}
-          PIX_JUNIOR_STATUS: ${{ needs.check_risk_score_junior.outputs.status }}
-          PIX_API_SCORE: ${{ needs.check_risk_score_api.outputs.riskscore }}
-          PIX_API_STATUS: ${{ needs.check_risk_score_api.outputs.status }}
-          PIX_AUDIT_LOGGER_SCORE: ${{ needs.check_risk_score_audit_logger.outputs.riskscore }}
-          PIX_AUDIT_LOGGER_STATUS: ${{ needs.check_risk_score_audit_logger.outputs.status }}
-          TESTS_E2E_SCORE: ${{ needs.check_risk_score_tests_e2e.outputs.riskscore }}
-          TESTS_E2E_STATUS: ${{ needs.check_risk_score_tests_e2e.outputs.status }}
-          TESTS_PLAYWRIGHT_SCORE: ${{ needs.check_risk_score_tests_playwright.outputs.riskscore }}
-          TESTS_PLAYWRIGHT_STATUS: ${{ needs.check_risk_score_tests_playwright.outputs.status }}
         run: |
-          cat > "$RUNNER_TEMP/body.md" <<EOF
-          ### Dependency-Track
-          | Project | RiskScore | Status |
-          |---|---|---|
-          | Monorepo | $MONOREPO_SCORE | $MONOREPO_STATUS |
-          | Pix App | $PIX_APP_SCORE | $PIX_APP_STATUS |
-          | Pix Orga | $PIX_ORGA_SCORE | $PIX_ORGA_STATUS |
-          | Pix Certif | $PIX_CERTIF_SCORE | $PIX_CERTIF_STATUS |
-          | Pix Admin | $PIX_ADMIN_SCORE | $PIX_ADMIN_STATUS |
-          | Pix Junior | $PIX_JUNIOR_SCORE | $PIX_JUNIOR_STATUS |
-          | Pix Api | $PIX_API_SCORE | $PIX_API_STATUS |
-          | Pix Audit logger | $PIX_AUDIT_LOGGER_SCORE | $PIX_AUDIT_LOGGER_STATUS |
-          | Tests E2E | $TESTS_E2E_SCORE | $TESTS_E2E_STATUS |
-          | Tests Playwright | $TESTS_PLAYWRIGHT_SCORE | $TESTS_PLAYWRIGHT_STATUS |
-          EOF
+          printf '%s\n' "$MD" > "$RUNNER_TEMP/body.md"
           gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --edit-last --create-if-none \
             --body-file "$RUNNER_TEMP/body.md"
 
