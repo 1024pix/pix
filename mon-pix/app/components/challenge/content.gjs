@@ -2,6 +2,7 @@ import { PixBlock } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
@@ -15,9 +16,68 @@ import ChallengeItem from './item';
 export default class ChallengeContent extends Component {
   @tracked isLiveAlertButtonEnabled = true;
 
+  @service router;
+  @service store;
+  @service currentUser;
+
   @action
   handleChallengeSubmit() {
     this.isLiveAlertButtonEnabled = false;
+  }
+
+  @action
+  async answerValidated(challenge, assessment, answerValue, answerTimeout, answerFocusedOut) {
+    if (assessment.hasOngoingChallengeLiveAlert) {
+      return;
+    }
+
+    this.handleChallengeSubmit();
+
+    const answer = this.store.createRecord('answer', { assessment, challenge });
+    answer.setProperties({
+      value: answerValue.trim(),
+      timeout: answerTimeout,
+      focusedOut: answerFocusedOut,
+    });
+
+    try {
+      await answer.save();
+      assessment.orderedChallengeIdsAnswered.push(challenge.id);
+
+      let queryParams = { queryParams: {} };
+      const levelup = await answer.get('levelup');
+
+      if (this.currentUser.user && !this.currentUser.user.isAnonymous && levelup) {
+        queryParams = {
+          queryParams: {
+            newLevel: levelup.level,
+            competenceLeveled: levelup.competenceName,
+          },
+        };
+      }
+
+      this.router.transitionTo('assessments.resume', assessment.get('id'), queryParams);
+    } catch (error) {
+      answer.rollbackAttributes();
+
+      const apiError = error?.errors?.[0];
+      const isCertificationEnded =
+        apiError?.code === 'CERTIFICATION_DURATION_EXCEEDED' ||
+        apiError?.detail === 'Le surveillant a mis fin à votre test de certification.' ||
+        apiError?.detail === 'La session a été finalisée par votre centre de certification.';
+
+      if (isCertificationEnded) {
+        this.router.transitionTo('authenticated.certifications.results', assessment.certificationCourse.get('id'));
+        return;
+      }
+
+      this.router.transitionTo('error', error);
+    }
+  }
+
+  @action
+  resumeAssessment(assessment) {
+    this.router.transitionTo('assessments.resume', assessment.get('id'));
   }
 
   <template>
@@ -48,7 +108,8 @@ export default class ChallengeContent extends Component {
           @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
           @isFocusedChallengeAndUserHasFocusedOutOfChallenge={{@isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
           @isTextToSpeechActivated={{@isTextToSpeechActivated}}
-          @onChallengeSubmit={{this.handleChallengeSubmit}}
+          @answerValidated={{this.answerValidated}}
+          @resumeAssessment={{this.resumeAssessment}}
         />
       </PixBlock>
 
