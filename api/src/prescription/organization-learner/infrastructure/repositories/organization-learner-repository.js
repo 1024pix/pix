@@ -558,9 +558,9 @@ const findAllLearnerWithAtLeastOneParticipationByOrganizationIds = async functio
     .join('users', 'users.id', 'view-active-organization-learners.userId')
     .whereIn('view-active-organization-learners.organizationId', organizationIds)
     .whereExists(function () {
-      this.select(knexConn.raw('1'))
+      this.select(1)
         .from('campaign-participations')
-        .whereRaw('"campaign-participations"."organizationLearnerId" = "view-active-organization-learners"."id"')
+        .whereColumn('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id')
         .whereNull('campaign-participations.deletedAt');
     })
     .groupBy('view-active-organization-learners.organizationId');
