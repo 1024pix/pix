@@ -1,6 +1,5 @@
 import { createPublicKey } from 'node:crypto';
 
-import boom from '@hapi/boom';
 import jsonwebtoken from 'jsonwebtoken';
 
 import { BadRequestError } from '../../shared/application/errors/http-errors.js';
@@ -32,13 +31,14 @@ async function register(request, h, dependencies = { registerLtiPlatform: usecas
   const { openid_configuration: platformConfigurationUrl, registration_token: registrationToken } = request.query;
 
   try {
-    const registration = await dependencies.registerLtiPlatform({ platformConfigurationUrl, registrationToken });
+    await dependencies.registerLtiPlatform({ platformConfigurationUrl, registrationToken });
 
     return h
       .response(ltiRegistrationSerializer.serialize())
       .header('Content-Type', 'text/html; charset=utf-8')
-      .header('Content-Security-Policy', `frame-ancestors ${registration.platformIssuer}`);
+      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`);
   } catch (err) {
+    logger.warn({ err }, 'registration error');
     return h
       .response(ltiErrorSerializer.serialize({ title: 'Registration error', message: err.message ?? err }))
       .header('Content-Type', 'text/html; charset=utf-8')
@@ -66,6 +66,7 @@ async function init(request, h, dependencies = { ltiPlatformRegistrationReposito
         ltiErrorSerializer.serialize({ title: 'Initialization error', message: 'Please contact your administrator' }),
       )
       .header('Content-Type', 'text/html; charset=utf-8')
+      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`)
       .code(400);
   }
 
@@ -76,6 +77,7 @@ async function init(request, h, dependencies = { ltiPlatformRegistrationReposito
         ltiErrorSerializer.serialize({ title: 'Initialization error', message: 'Please contact your administrator' }),
       )
       .header('Content-Type', 'text/html; charset=utf-8')
+      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`)
       .code(400);
   }
 
@@ -97,23 +99,47 @@ async function init(request, h, dependencies = { ltiPlatformRegistrationReposito
         state,
       }),
     )
-    .header('Content-Type', 'text/html; charset=utf-8');
+    .header('Content-Type', 'text/html; charset=utf-8')
+    .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`);
 }
 
 async function deepLink(request, h, dependencies = { ltiService }) {
-  const { verifiedToken, registration } = await preLaunch(request);
-
   const origin = getForwardedOrigin(request.headers);
-  const requestApplication = RequestedApplication.fromOrigin(origin);
+  const requestedApplication = RequestedApplication.fromOrigin(origin);
 
-  if (!requestApplication.isPixOrga) {
-    return boom.preconditionFailed();
+  if (!requestedApplication.isPixOrga) {
+    logger.warn('requested application should be PixOrga');
+    return h
+      .response(
+        ltiErrorSerializer.serialize({ title: 'Deep linking error', message: 'Please contact your administrator' }),
+      )
+      .header('Content-Type', 'text/html; charset=utf-8')
+      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`)
+      .code(400);
+  }
+
+  const { verifiedToken, registration, err } = await preLaunch(request);
+  if (err) {
+    return h
+      .response(
+        ltiErrorSerializer.serialize({ title: 'Deep linking error', message: 'Please contact your administrator' }),
+      )
+      .header('Content-Type', 'text/html; charset=utf-8')
+      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`)
+      .code(err.status);
   }
 
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
 
   if (messageType !== 'LtiDeepLinkingRequest') {
-    throw new BadRequestError(`Wrong messageType, should be "LtiDeepLinkingRequest" but was "${messageType}"`);
+    logger.warn({ messageType }, 'wrong LTI message type');
+    return h
+      .response(
+        ltiErrorSerializer.serialize({ title: 'Deep linking error', message: 'Please contact your administrator' }),
+      )
+      .header('Content-Type', 'text/html; charset=utf-8')
+      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`)
+      .code(400);
   }
 
   const deepLinkingSettings = verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'];
@@ -130,7 +156,10 @@ async function deepLink(request, h, dependencies = { ltiService }) {
 
   const locale = 'fr-FR'; // TODO: Generate this dynamically
   const campaignSelectionPageUrl = urlService.getPixOrgaUrl(locale, { pathname: '/lti-campaign-selection' });
-  return h.redirect(campaignSelectionPageUrl).header('Set-Cookie', ltiDeepLinkingAccessToken.encodedForSetCookieHeader);
+  return h
+    .redirect(campaignSelectionPageUrl)
+    .header('Set-Cookie', ltiDeepLinkingAccessToken.encodedForSetCookieHeader)
+    .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`);
 }
 
 async function findAvailableCampaigns(request, h) {
@@ -154,7 +183,13 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
 
   if (!organizationIds.includes(campaign?.organizationId)) {
     logger.warn({ campaignId, organizationIds }, 'campaign does not belong to organizations');
-    return boom.badRequest();
+    return h
+      .response(
+        ltiErrorSerializer.serialize({ title: 'Deep linking error', message: 'Please contact your administrator' }),
+      )
+      .header('Content-Type', 'text/html; charset=utf-8')
+      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`)
+      .code(400);
   }
 
   const contentItem = {
@@ -183,7 +218,8 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
       }),
     )
     .header('Content-Type', 'text/html; charset=utf-8')
-    .header('Set-Cookie', LtiDeepLinkingAccessToken.setCookieHeaderForClearing());
+    .header('Set-Cookie', LtiDeepLinkingAccessToken.setCookieHeaderForClearing())
+    .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`);
 }
 
 async function resourceLink(request, h, dependencies = { urlService }) {
@@ -229,12 +265,12 @@ async function preLaunch(request, dependencies = { ltiPlatformRegistrationReposi
 
   if (!registration) {
     logger.warn({ clientId }, 'unknown client id');
-    throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
+    return { err: new BadRequestError() };
   }
 
   if (!registration.isActive) {
     logger.warn({ clientId }, 'registration is not active');
-    throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
+    return { err: new BadRequestError() };
   }
 
   await registration.fetchPlatformOpenIdConfig({ httpAgent: dependencies.httpAgent });
@@ -245,7 +281,7 @@ async function preLaunch(request, dependencies = { ltiPlatformRegistrationReposi
 
   if (key === undefined) {
     logger.warn({ kid: decodedToken.header.kid }, 'could not find key');
-    throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
+    return { err: new BadRequestError() };
   }
 
   const verifiedToken = jsonwebtoken.verify(encodedToken, createPublicKey({ key, format: 'jwk' }));
