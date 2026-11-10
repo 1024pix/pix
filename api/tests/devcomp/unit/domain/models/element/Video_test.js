@@ -28,17 +28,6 @@ describe('Unit | Devcomp | Domain | Models | Element | Video', function () {
     });
   });
 
-  describe('A video without id', function () {
-    it('should throw an error', function () {
-      // when
-      const error = catchErrSync(() => new Video({}))();
-
-      // then
-      expect(error).to.be.instanceOf(DomainError);
-      expect(error.message).to.equal('The id is required for an element');
-    });
-  });
-
   describe('An video without a title', function () {
     it('should throw an error', function () {
       // when

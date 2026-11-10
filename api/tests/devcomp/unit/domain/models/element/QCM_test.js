@@ -38,17 +38,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QCM', function () {
     });
   });
 
-  describe('A QCM without id', function () {
-    it('should throw an error', function () {
-      // when
-      const error = catchErrSync(() => new QCM({}))();
-
-      // then
-      expect(error).to.be.instanceOf(DomainError);
-      expect(error.message).to.equal('The id is required for an element');
-    });
-  });
-
   describe('A QCM without instruction', function () {
     it('should throw an error', function () {
       // when

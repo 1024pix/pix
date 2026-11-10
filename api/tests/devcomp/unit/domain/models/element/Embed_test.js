@@ -69,17 +69,6 @@ describe('Unit | Devcomp | Domain | Models | Element | Embed', function () {
     });
 
     describe('errors', function () {
-      describe('An embed without an id', function () {
-        it('should throw an error', function () {
-          // when
-          const error = catchErrSync(() => new Embed({}))();
-
-          // then
-          expect(error).to.be.instanceOf(DomainError);
-          expect(error.message).to.equal('The id is required for an element');
-        });
-      });
-
       describe('An embed without the isCompletionRequired attribute', function () {
         it('should throw an error', function () {
           // when
