@@ -1,9 +1,11 @@
+import { PixBlock } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import ChallengeStatement from 'mon-pix/components/challenge-statement';
 
 import AssessmentsLiveAlert from '../assessments/live-alert';
 import CertificationFeedbackPanel from '../certification-feedback-panel';
@@ -26,22 +28,29 @@ export default class ChallengeContent extends Component {
       {{on "mouseenter" @hideOutOfFocusBorder}}
       {{on "mouseleave" @showOutOfFocusBorder}}
     >
+      <PixBlock class="challenge-item">
+        <ChallengeStatement
+          @challenge={{@challenge}}
+          @assessment={{@assessment}}
+          @isTextToSpeechActivated={{@isTextToSpeechActivated}}
+        />
 
-      <ChallengeItem
-        @challenge={{@challenge}}
-        @assessment={{@assessment}}
-        @answer={{@answer}}
-        @timeoutChallenge={{@timeoutChallenge}}
-        @resetAllChallengeInfo={{@resetAllChallengeInfo}}
-        @resetChallengeInfoOnResume={{@resetChallengeInfoOnResume}}
-        @onFocusIntoChallenge={{fn @setFocusedOutOfChallenge false}}
-        @onFocusOutOfChallenge={{fn @setFocusedOutOfChallenge true}}
-        @onFocusOutOfWindow={{@focusedOutOfWindow}}
-        @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
-        @isFocusedChallengeAndUserHasFocusedOutOfChallenge={{@isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
-        @isTextToSpeechActivated={{@isTextToSpeechActivated}}
-        @onChallengeSubmit={{this.handleChallengeSubmit}}
-      />
+        <ChallengeItem
+          @challenge={{@challenge}}
+          @assessment={{@assessment}}
+          @answer={{@answer}}
+          @timeoutChallenge={{@timeoutChallenge}}
+          @resetAllChallengeInfo={{@resetAllChallengeInfo}}
+          @resetChallengeInfoOnResume={{@resetChallengeInfoOnResume}}
+          @onFocusIntoChallenge={{fn @setFocusedOutOfChallenge false}}
+          @onFocusOutOfChallenge={{fn @setFocusedOutOfChallenge true}}
+          @onFocusOutOfWindow={{@focusedOutOfWindow}}
+          @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
+          @isFocusedChallengeAndUserHasFocusedOutOfChallenge={{@isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
+          @isTextToSpeechActivated={{@isTextToSpeechActivated}}
+          @onChallengeSubmit={{this.handleChallengeSubmit}}
+        />
+      </PixBlock>
 
       {{#unless @assessment.hasOngoingCompanionLiveAlert}}
         <div role="complementary">

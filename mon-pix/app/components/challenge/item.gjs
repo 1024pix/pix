@@ -2,7 +2,6 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { ensureSafeComponent } from '@embroider/util';
 import Component from '@glimmer/component';
-import ChallengeStatement from 'mon-pix/components/challenge-statement';
 
 import ChallengeItemQcm from '../challenge-item/challenge-item-qcm';
 import ChallengeItemQcu from '../challenge-item/challenge-item-qcu';
@@ -14,30 +13,18 @@ const FOCUSEDOUT_INTERVAL = 1000;
 
 export default class Item extends Component {
   <template>
-    <article
-      class="rounded-panel rounded-panel--no-margin-bottom challenge-item"
-      data-challenge-id="{{@challenge.id}}"
-      role="article"
-    >
-      <ChallengeStatement
-        @challenge={{@challenge}}
-        @assessment={{@assessment}}
-        @isTextToSpeechActivated={{@isTextToSpeechActivated}}
-      />
-
-      <this.challengeComponent
-        @challenge={{@challenge}}
-        @answer={{@answer}}
-        @assessment={{@assessment}}
-        @timeoutChallenge={{@timeoutChallenge}}
-        @resetAllChallengeInfo={{@resetAllChallengeInfo}}
-        @resetChallengeInfoOnResume={{@resetChallengeInfoOnResume}}
-        @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
-        @answerValidated={{this.answerValidated}}
-        @resumeAssessment={{this.resumeAssessment}}
-        @isFocusedChallenge={{this.isFocusedChallenge}}
-      />
-    </article>
+    <this.challengeComponent
+      @challenge={{@challenge}}
+      @answer={{@answer}}
+      @assessment={{@assessment}}
+      @timeoutChallenge={{@timeoutChallenge}}
+      @resetAllChallengeInfo={{@resetAllChallengeInfo}}
+      @resetChallengeInfoOnResume={{@resetChallengeInfoOnResume}}
+      @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
+      @answerValidated={{this.answerValidated}}
+      @resumeAssessment={{this.resumeAssessment}}
+      @isFocusedChallenge={{this.isFocusedChallenge}}
+    />
   </template>
   @service currentUser;
   @service router;
