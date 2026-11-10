@@ -8,6 +8,8 @@ export default class CombinedCourseRoute extends Route {
   @service metrics;
 
   async beforeModel(transition) {
+    if (transition.to.name === 'combined-courses.combined-course.landing-page') return;
+
     const { code } = this.paramsFor(this.routeName);
 
     if (!transition.from) {
@@ -29,9 +31,6 @@ export default class CombinedCourseRoute extends Route {
   async model(params) {
     const { code } = params;
     const combinedCourse = await this.store.queryRecord('combined-course', { filter: { code } });
-    return {
-      code,
-      organizationId: combinedCourse.organizationId,
-    };
+    return combinedCourse;
   }
 }
