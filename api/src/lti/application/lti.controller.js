@@ -43,6 +43,7 @@ async function register(request, h, dependencies = { registerLtiPlatform: usecas
       .header('Content-Type', 'text/html; charset=utf-8')
       .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`);
   } catch (err) {
+    logger.warn({ err }, 'registration error');
     return h
       .response(ltiErrorSerializer.serialize({ title: 'Registration error', message: err.message ?? err }))
       .header('Content-Type', 'text/html; charset=utf-8')
