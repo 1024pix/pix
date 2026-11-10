@@ -53,6 +53,7 @@ const deleteOrganizationLearners = async function ({
 
   const importFormat = await organizationLearnerImportFormatRepository.get(organizationId);
   const organizationProfileRewards = await organizationsProfileRewardRepository.getByOrganizationId({ organizationId });
+  const organizationProfileRewardsByUserId = Map.groupBy(organizationProfileRewards, ({ userId }) => userId);
 
   const auditLoggingJobs = [];
   const campaignParticipationsToDelete = [];
@@ -65,9 +66,7 @@ const deleteOrganizationLearners = async function ({
 
     for (const organizationLearner of organizationLearnersToDelete) {
       organizationLearnerIds.push(organizationLearner.id);
-      const organizationLearnerRewards = organizationProfileRewards.filter(
-        (organizationProfileReward) => organizationProfileReward.userId === organizationLearner.userId,
-      );
+      const organizationLearnerRewards = organizationProfileRewardsByUserId.get(organizationLearner.userId) ?? [];
       organizationLearner.delete(userId, importFormat);
       organizationLearnersToUpdate.push(organizationLearner.dataToUpdateOnDeletion);
       organizationProfileRewardsToUpdate.push(...organizationLearnerRewards);
