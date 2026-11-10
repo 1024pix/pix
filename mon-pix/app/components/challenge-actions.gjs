@@ -5,7 +5,6 @@ import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
 import eq from 'ember-truth-helpers/helpers/eq';
 import or from 'ember-truth-helpers/helpers/or';
-import FocusedOutNotification from 'mon-pix/components/challenge/focusedOutNotification';
 
 export default class ChallengeActions extends Component {
   get areActionButtonsDisabled() {
@@ -66,13 +65,6 @@ export default class ChallengeActions extends Component {
         </PixButton>
 
       {{else}}
-        <FocusedOutNotification
-          @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
-          @isCertification={{@isCertification}}
-          @certificationVersion={{@certificationVersion}}
-          @isAdjustedCourseForAccessibility={{@isAdjustedCourseForAccessibility}}
-        />
-
         <div class="challenge-actions__group">
           <div class="challenge-actions__buttons">
             <PixButton

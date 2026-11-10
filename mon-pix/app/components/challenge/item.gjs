@@ -1,6 +1,7 @@
 import { service } from '@ember/service';
 import { ensureSafeComponent } from '@embroider/util';
 import Component from '@glimmer/component';
+import TimeoutGauge from 'mon-pix/components/challenge/timeout-gauge';
 
 import ChallengeItemQcm from '../challenge-item/challenge-item-qcm';
 import ChallengeItemQcu from '../challenge-item/challenge-item-qcu';
@@ -11,20 +12,6 @@ const FOCUSEDOUT_EVENT_NAME = 'focusedout';
 const FOCUSEDOUT_INTERVAL = 1000;
 
 export default class Item extends Component {
-  <template>
-    <this.challengeComponent
-      @challenge={{@challenge}}
-      @answer={{@answer}}
-      @assessment={{@assessment}}
-      @timeoutChallenge={{@timeoutChallenge}}
-      @resetAllChallengeInfo={{@resetAllChallengeInfo}}
-      @resetChallengeInfoOnResume={{@resetChallengeInfoOnResume}}
-      @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
-      @answerValidated={{@answerValidated}}
-      @resumeAssessment={{@resumeAssessment}}
-      @isFocusedChallenge={{this.isFocusedChallenge}}
-    />
-  </template>
   @service currentUser;
   @service router;
   @service store;
@@ -87,4 +74,27 @@ export default class Item extends Component {
     super.willDestroy(...arguments);
     this.clearFocusOutEventListener();
   }
+
+  <template>
+    <this.challengeComponent
+      @challenge={{@challenge}}
+      @answer={{@answer}}
+      @assessment={{@assessment}}
+      @isFocusedChallenge={{this.isFocusedChallenge}}
+      @setAnswerValue={{@setAnswerValue}}
+      @setAnswerError={{@setAnswerError}}
+      @displayErrorMessage={{@displayErrorMessage}}
+      @isAnswerFieldDisabled={{@isAnswerFieldDisabled}}
+    >
+      <:timeGauge>
+        {{#if @displayTimer}}
+          <TimeoutGauge
+            @allottedTime={{@challenge.timer}}
+            @hasTimeoutChallenge={{@assessment.hasTimeoutChallenge}}
+            @setChallengeAsTimedOut={{@setChallengeAsTimedOut}}
+          />
+        {{/if}}
+      </:timeGauge>
+    </this.challengeComponent>
+  </template>
 }
