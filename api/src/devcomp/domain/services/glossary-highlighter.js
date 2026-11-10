@@ -4,6 +4,7 @@ const NOT_FOLLOWED_BY_LETTER_OR_DIGIT = `(?!${LETTER_OR_DIGIT})`;
 const EXCLUDED_TAGS = 'a|button';
 const EXCLUDED_TAG_BLOCK = String.raw`<(${EXCLUDED_TAGS})\b[^>]*>[\s\S]*?<\/\1>`;
 const HTML_TAG = String.raw`(<[^>]*>)`;
+import { Module } from '../models/module/Module.js';
 
 export function highlightGlossaryWords(module) {
   const glossaryEntries = module.glossary
@@ -20,7 +21,7 @@ export function highlightGlossaryWords(module) {
     })),
   }));
 
-  return { ...module, sections: updatedSections };
+  return new Module({ ...module, sections: updatedSections });
 }
 
 function _processComponent(component, glossaryEntries) {
