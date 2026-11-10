@@ -21,7 +21,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      upload: ${{ steps.riskscoreMonorepo.outputs.upload_json}}
+      upload: ${{ steps.riskscoreMonorepo.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -35,7 +35,7 @@ jobs:
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: '.'
           wait_for_status: 'false'
-          basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
   check_risk_score_app:
@@ -43,7 +43,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      upload: ${{ steps.riskscorePixApp.outputs.upload_json}}
+      upload: ${{ steps.riskscorePixApp.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -57,7 +57,7 @@ jobs:
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'mon-pix'
           wait_for_status: 'false'
-          basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
   check_risk_score_orga:
@@ -65,7 +65,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      upload: ${{ steps.riskscorePixOrga.outputs.upload_json}}
+      upload: ${{ steps.riskscorePixOrga.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -79,7 +79,7 @@ jobs:
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'orga'
           wait_for_status: 'false'
-          basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
   check_risk_score_certif:
@@ -87,7 +87,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      upload: ${{ steps.riskscorePixCertif.outputs.upload_json}}
+      upload: ${{ steps.riskscorePixCertif.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -101,7 +101,7 @@ jobs:
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'certif'
           wait_for_status: 'false'
-          basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
   check_risk_score_admin:
@@ -109,7 +109,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      upload: ${{ steps.riskscorePixAdmin.outputs.upload_json}}
+      upload: ${{ steps.riskscorePixAdmin.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -123,7 +123,7 @@ jobs:
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'admin'
           wait_for_status: 'false'
-          basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
   check_risk_score_junior:
@@ -131,7 +131,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      upload: ${{ steps.riskscorePixJunior.outputs.upload_json}}
+      upload: ${{ steps.riskscorePixJunior.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -145,7 +145,7 @@ jobs:
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'junior'
           wait_for_status: 'false'
-          basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
   check_risk_score_api:
@@ -153,7 +153,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      upload: ${{ steps.riskscorePixAPI.outputs.upload_json}}
+      upload: ${{ steps.riskscorePixAPI.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -167,7 +167,7 @@ jobs:
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'api'
           wait_for_status: 'false'
-          basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
   check_risk_score_audit_logger:
@@ -175,7 +175,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      upload: ${{ steps.riskscoreAuditLogger.outputs.upload_json}}
+      upload: ${{ steps.riskscoreAuditLogger.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -189,7 +189,7 @@ jobs:
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'audit-logger'
           wait_for_status: 'false'
-          basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
   check_risk_score_tests_e2e:
@@ -197,7 +197,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      upload: ${{ steps.riskscoreTestsE2E.outputs.upload_json}}
+      upload: ${{ steps.riskscoreTestsE2E.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -211,7 +211,7 @@ jobs:
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'high-level-tests/e2e'
           wait_for_status: 'false'
-          basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
   check_risk_score_tests_playwright:
@@ -219,7 +219,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      upload: ${{ steps.riskscoreTestsPlaywright.outputs.upload_json}}
+      upload: ${{ steps.riskscoreTestsPlaywright.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -233,7 +233,7 @@ jobs:
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'high-level-tests/e2e-playwright'
           wait_for_status: 'false'
-          basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
   fetch_results:
@@ -259,7 +259,7 @@ jobs:
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
-          basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
           projects: |
             ${{ needs.check_risk_score_monorepo.outputs.upload }}
