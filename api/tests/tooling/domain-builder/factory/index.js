@@ -218,6 +218,7 @@ import { buildEvent } from './certification/shared/build-event.js';
 import { buildJuryComment } from './certification/shared/build-jury-comment.js';
 import { sessionStatusBuilder } from './certification/shared/build-session-status.js';
 import { buildV3CertificationScoring } from './certification/shared/build-v3-certification-scoring.js';
+import { buildModule } from './devcomp/build-module.js';
 import { buildPassage } from './devcomp/build-passage.js';
 import { builders as evaluationBuilders } from './evaluation/index.js';
 import { buildUserLogin } from './identity-access-management/build-user-login.js';
@@ -481,6 +482,7 @@ export {
   buildLearningContent,
   buildMembership,
   buildMission,
+  buildModule,
   buildOrganization,
   buildOrganizationForAdmin,
   buildOrganizationInvitation,
