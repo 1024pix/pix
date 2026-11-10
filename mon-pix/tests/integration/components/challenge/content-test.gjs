@@ -223,6 +223,18 @@ module('Integration | Component | Challenge | Content', function (hooks) {
           assert.dom(screen.getByText(t('pages.challenge.skip-error-message.qroc'))).exists();
           sinon.assert.notCalled(createRecordStub);
         });
+
+        test('should hide the error message once the user starts answering', async function (assert) {
+          // given
+          const screen = await renderContent();
+          await click(screen.getByRole('button', { name: t('pages.challenge.actions.validate-go-to-next') }));
+
+          // when
+          await fillIn(screen.getByRole('textbox'), 'example');
+
+          // then
+          assert.dom(screen.queryByText(t('pages.challenge.skip-error-message.qroc'))).doesNotExist();
+        });
       });
 
       module('when user has reached a new level', function () {
