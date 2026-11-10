@@ -642,6 +642,17 @@
         "title": "Inizia il tuo viaggio Pix",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' pronti a valutare le tue competenze digitali?"
       },
+      "breaks": "Pause possibili",
+      "has-reward": "Attestato al termine",
+      "login": {
+        "info": "Un account Pix ti permette di riprendere il tuo percorso da dove l'avevi lasciato o di proseguire il tuo apprendimento.",
+        "legal": "Partecipando, le informazioni relative ai tuoi progressi nel percorso e ai tuoi risultati saranno trasmesse all’organizzatore del percorso per permettergli di accompagnarti.",
+        "login-cta": "Accedo",
+        "signup-cta": "Creo il mio account",
+        "start-cta": "Sì, cominciamo!",
+        "title": "Pronto/a a scoprire il tuo percorso?"
+      },
+      "organization": "Proposto da { organizationName }",
       "profiles-collection": {
         "action": "Iniziamo!",
         "announcement": "Registrati o accedi alla piattaforma Pix e inviate il tuo profilo all'organizzazione destinataria.",
@@ -651,7 +662,9 @@
       },
       "title": "Presentazione",
       "warning-message": "Non sei { firstName } { lastName }?",
-      "warning-message-logout": "Esci"
+      "warning-message-logout": "Esci",
+      "welcome-authenticated": "Ciao { firstName }!",
+      "welcome-unauthenticated": "Ciao!"
     },
     "campaign-participation": {
       "title": "Percorso"
@@ -1004,7 +1017,6 @@
     "certifications-dashboard": {
       "eligibility": {
         "steps": {
-          "title": "Come sostenere la certificazione Pix?",
           "1": {
             "description": "Ottenere almeno il livello 1 in 5 competenze.",
             "link": "Vedi le mie competenze",
@@ -1023,7 +1035,8 @@
           "3": {
             "description": "I tuoi risultati saranno disponibili non prima di 2 giorni dopo il test di certificazione, una volta che il tuo centro avrà concluso la sessione.",
             "title": "I risultati"
-          }
+          },
+          "title": "Come sostenere la certificazione Pix?"
         }
       },
       "enrolment-banner": {
