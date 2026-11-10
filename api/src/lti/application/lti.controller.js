@@ -1,6 +1,5 @@
 import { createPublicKey } from 'node:crypto';
 
-import boom from '@hapi/boom';
 import jsonwebtoken from 'jsonwebtoken';
 
 import { BadRequestError } from '../../shared/application/errors/http-errors.js';
@@ -171,37 +170,49 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
 
   const i18n = getI18nFromRequest(request);
   const { campaignId } = request.payload;
-  const campaign = await usecases.getLtiCampaign({ campaignId });
 
-  if (!organizationIds.includes(campaign?.organizationId)) {
-    logger.warn({ campaignId, organizationIds }, 'campaign does not belong to organizations');
-    return boom.badRequest();
+  try {
+    const campaign = await usecases.getLtiCampaign({ campaignId });
+
+    if (!organizationIds.includes(campaign?.organizationId)) {
+      logger.warn({ campaignId, organizationIds }, 'campaign does not belong to organizations');
+      throw new BadRequestError();
+    }
+
+    const contentItem = {
+      type: 'ltiResourceLink',
+      title: campaign.name,
+      text: campaign.description ?? i18n.__('lti.profiles-collection-campaign-description'),
+      custom: { campaign_id: String(campaign.id), campaign_code: campaign.code },
+    };
+
+    const deepLinkingResponse = await dependencies.ltiService.encodeDeepLinkingResponse({
+      contentItems: [contentItem],
+      registration,
+      deepLinkingSettings,
+    });
+
+    // FIXME revoke access token's session
+
+    return h
+      .response(
+        ltiDeepLinkingSerializer.serialize({
+          deepLinkingResponse,
+          deepLinkingReturnUrl: deepLinkingSettings.deep_link_return_url,
+        }),
+      )
+      .header('Content-Type', 'text/html; charset=utf-8')
+      .header('Set-Cookie', LtiDeepLinkingAccessToken.setCookieHeaderForClearing())
+      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`);
+  } catch (err) {
+    return h
+      .response(
+        ltiErrorSerializer.serialize({ title: 'Deep linking error', message: 'Please contact your administrator' }),
+      )
+      .header('Content-Type', 'text/html; charset=utf-8')
+      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`)
+      .code(err.status ?? 500);
   }
-
-  const contentItem = {
-    type: 'ltiResourceLink',
-    title: campaign.name,
-    text: campaign.description ?? i18n.__('lti.profiles-collection-campaign-description'),
-    custom: { campaign_id: String(campaign.id), campaign_code: campaign.code },
-  };
-
-  const deepLinkingResponse = await dependencies.ltiService.encodeDeepLinkingResponse({
-    contentItems: [contentItem],
-    registration,
-    deepLinkingSettings,
-  });
-
-  // FIXME revoke access token's session
-
-  return h
-    .response(
-      ltiDeepLinkingSerializer.serialize({
-        deepLinkingResponse,
-        deepLinkingReturnUrl: deepLinkingSettings.deep_link_return_url,
-      }),
-    )
-    .header('Content-Type', 'text/html; charset=utf-8')
-    .header('Set-Cookie', LtiDeepLinkingAccessToken.setCookieHeaderForClearing());
 }
 
 async function resourceLink(request, h, dependencies = { urlService, ltiScoringService }) {
@@ -270,12 +281,12 @@ async function preLaunch(request, dependencies = { ltiPlatformRegistrationReposi
 
   if (!registration) {
     logger.warn({ clientId }, 'unknown client id');
-    throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
+    throw new BadRequestError();
   }
 
   if (!registration.isActive) {
     logger.warn({ clientId }, 'registration is not active');
-    throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
+    throw new BadRequestError();
   }
 
   await registration.fetchPlatformOpenIdConfig({ httpAgent: dependencies.httpAgent });
@@ -286,7 +297,7 @@ async function preLaunch(request, dependencies = { ltiPlatformRegistrationReposi
 
   if (key === undefined) {
     logger.warn({ kid: decodedToken.header.kid }, 'could not find key');
-    throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
+    throw new BadRequestError();
   }
 
   const verifiedToken = jsonwebtoken.verify(encodedToken, createPublicKey({ key, format: 'jwk' }));
