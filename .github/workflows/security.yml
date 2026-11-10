@@ -29,7 +29,7 @@ jobs:
 
       - name: Generates Monorepo SBoM and upload to OWASP DTrack
         id: riskscoreMonorepo
-        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
+        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -51,7 +51,7 @@ jobs:
 
       - name: Generates PixApp SBoM and upload to OWASP DTrack
         id: riskscorePixApp
-        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
+        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -73,7 +73,7 @@ jobs:
 
       - name: Generates PixOrga SBoM and upload to OWASP DTrack
         id: riskscorePixOrga
-        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
+        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -95,7 +95,7 @@ jobs:
 
       - name: Generates PixCertif SBoM and upload to OWASP DTrack
         id: riskscorePixCertif
-        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
+        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -117,7 +117,7 @@ jobs:
 
       - name: Generates PixAdmin SBoM and upload to OWASP DTrack
         id: riskscorePixAdmin
-        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
+        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -139,7 +139,7 @@ jobs:
 
       - name: Generates PixJunior SBoM and upload to OWASP DTrack
         id: riskscorePixJunior
-        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
+        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -161,7 +161,7 @@ jobs:
 
       - name: Generates PixAPI SBoM and upload to OWASP DTrack
         id: riskscorePixAPI
-        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
+        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -183,7 +183,7 @@ jobs:
 
       - name: Generates AuditLogger SBoM and upload to OWASP DTrack
         id: riskscoreAuditLogger
-        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
+        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -205,7 +205,7 @@ jobs:
 
       - name: Generates TestsE2E SBoM and upload to OWASP DTrack
         id: riskscoreTestsE2E
-        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
+        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -227,7 +227,7 @@ jobs:
 
       - name: Generates TestsPlaywright SBoM and upload to OWASP DTrack
         id: riskscoreTestsPlaywright
-        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
+        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -255,7 +255,7 @@ jobs:
       markdown: ${{ steps.fetch_all_scores.outputs.markdown }}
     steps:
       - id: fetch_all_scores
-        uses: 1024pix/check-dependency-track-action/fetch@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
+        uses: 1024pix/check-dependency-track-action/fetch@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
