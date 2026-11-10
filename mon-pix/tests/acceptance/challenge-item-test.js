@@ -107,7 +107,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                 await triggerEvent(document, 'focusedout');
 
                 // then
-                assert.dom(find('[data-test="alert-message-focused-out-of-window"]')).exists();
+                assert.dom(screen.getByText(t('pages.challenge.has-focused-out-of-window.default'))).exists();
               });
 
               test('should display an info alert with dashed border and overlay', async function (assert) {
@@ -135,7 +135,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
                 // then
                 assert.dom(find('.challenge__info-alert--could-show')).doesNotExist();
-                assert.dom(find('[data-test="alert-message-focused-out-of-window"]')).exists();
+                assert.dom(screen.getByText(t('pages.challenge.has-focused-out-of-window.default'))).exists();
                 assert.dom(find('.focus-zone-warning--triggered')).exists();
                 assert.dom(find('.focus-zone-warning__overlay')).exists();
               });
@@ -264,6 +264,8 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
           });
 
           module('when assessment is not of type certification', function (hooks) {
+            let screen;
+
             hooks.beforeEach(async function () {
               // given
               const challenge = server.create(
@@ -274,7 +276,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               );
               assessment = server.create('assessment', 'ofCompetenceEvaluationType', { nextChallenge: challenge });
 
-              await visit(`/assessments/${assessment.id}/challenges/0`);
+              screen = await visit(`/assessments/${assessment.id}/challenges/0`);
 
               // when
               await triggerEvent(document, 'focusedout');
@@ -282,8 +284,8 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
             test('should display the default warning alert', async function (assert) {
               // then
-              assert.dom(find('[data-test="default-focused-out-error-message"]')).exists();
-              assert.dom('[data-test="certification-focused-out-error-message"]').doesNotExist();
+              assert.dom(screen.getByText(t('pages.challenge.has-focused-out-of-window.default'))).exists();
+              assert.dom(screen.queryByText(t('pages.challenge.has-focused-out-of-window.certification'))).doesNotExist();
             });
 
             test('should not add failure to the page title', async function (assert) {
@@ -323,7 +325,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
           test('should display the warning alert to say it has been focusedouted', async function (assert) {
             // then
-            assert.dom('[data-test="default-focused-out-error-message"]').exists();
+            assert.dom(screen.getByText(t('pages.challenge.has-focused-out-of-window.default'))).exists();
           });
         });
 
@@ -367,7 +369,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               await visit(`/assessments/${assessment2.id}/challenges/0`);
 
               // then
-              assert.dom('[data-test="default-focused-out-error-message"]').doesNotExist();
+              assert.dom(screen.queryByText(t('pages.challenge.has-focused-out-of-window.default'))).doesNotExist();
             });
           });
 
@@ -391,7 +393,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               await visit(`/assessments/${assessment.id}/challenges/0`);
 
               // then
-              assert.dom('[data-test="default-focused-out-error-message"]').exists();
+              assert.dom(screen.getByText(t('pages.challenge.has-focused-out-of-window.default'))).exists();
             });
           });
         });
@@ -781,7 +783,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                   await triggerEvent(document, 'focusedout');
 
                   // then
-                  assert.dom(find('[data-test="alert-message-focused-out-of-window"]')).exists();
+                  assert.dom(screen.getByText(t('pages.challenge.has-focused-out-of-window.certification'))).exists();
                 });
 
                 test('should display an info alert with dashed border and overlay', async function (assert) {
@@ -809,7 +811,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
                   // then
                   assert.dom(find('.challenge__info-alert--could-show')).doesNotExist();
-                  assert.dom(find('[data-test="alert-message-focused-out-of-window"]')).exists();
+                  assert.dom(screen.getByText(t('pages.challenge.has-focused-out-of-window.certification'))).exists();
                   assert.dom(find('.focus-zone-warning--triggered')).exists();
                   assert.dom(find('.focus-zone-warning__overlay')).exists();
                 });

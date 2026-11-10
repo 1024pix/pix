@@ -6,25 +6,11 @@ import t from 'ember-intl/helpers/t';
 import eq from 'ember-truth-helpers/helpers/eq';
 import or from 'ember-truth-helpers/helpers/or';
 
+import FocusedOutNotification from './challenge/focusedOutNotification';
+
 export default class ChallengeActions extends Component {
   get areActionButtonsDisabled() {
     return this.args.disabled || this.hasCurrentOngoingLiveAlert;
-  }
-
-  get isNotCertification() {
-    return !this.args.isCertification;
-  }
-
-  get isV2Certification() {
-    return this.args.certificationVersion === 2;
-  }
-
-  get isV3CertificationAdjustedForAccessibility() {
-    return this.args.certificationVersion === 3 && this.args.isAdjustedCourseForAccessibility;
-  }
-
-  get isV3CertificationNotAdjusted() {
-    return this.args.certificationVersion === 3 && !this.args.isAdjustedCourseForAccessibility;
   }
 
   get hasCurrentOngoingLiveAlert() {
@@ -81,44 +67,12 @@ export default class ChallengeActions extends Component {
         </PixButton>
 
       {{else}}
-        {{#if @hasFocusedOutOfWindow}}
-          <div
-            class="challenge-actions__alert-message"
-            data-test="alert-message-focused-out-of-window"
-            role="alert"
-            aria-live="assertive"
-          >
-            <PixIcon
-              @name="info"
-              @plainIcon={{true}}
-              @ariaHidden={{true}}
-              class="challenge-actions-alert-message__icon"
-            />
-            {{#if this.isNotCertification}}
-              <span data-test="default-focused-out-error-message">{{t
-                  "pages.challenge.has-focused-out-of-window.default"
-                }}</span>
-            {{/if}}
-
-            {{#if this.isV2Certification}}
-              <span data-test="certification-focused-out-error-message">{{t
-                  "pages.challenge.has-focused-out-of-window.certification"
-                }}</span>
-            {{/if}}
-
-            {{#if this.isV3CertificationAdjustedForAccessibility}}
-              <span data-test="certification-v3-focused-out-error-message">{{t
-                  "pages.challenge.has-focused-out-of-window.v3-accessible-certification"
-                }}</span>
-            {{/if}}
-
-            {{#if this.isV3CertificationNotAdjusted}}
-              <span data-test="certification-v3-focused-out-error-message">{{t
-                  "pages.challenge.has-focused-out-of-window.v3-certification"
-                }}</span>
-            {{/if}}
-          </div>
-        {{/if}}
+        <FocusedOutNotification
+          @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
+          @isCertification={{@isCertification}}
+          @certificationVersion={{@certificationVersion}}
+          @isAdjustedCourseForAccessibility={{@isAdjustedCourseForAccessibility}}
+        />
 
         <div class="challenge-actions__group">
           <div class="challenge-actions__buttons">
