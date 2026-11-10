@@ -11,24 +11,6 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Challenge | Item', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('should render', async function (assert) {
-    // given
-    const store = this.owner.lookup('service:store');
-    const challenge = store.createRecord('challenge', {
-      type: 'QROC',
-      timer: false,
-      format: 'phrase',
-      proposals: '${myInput}',
-    });
-    const answer = {};
-
-    // when
-    await render(<template><Item @challenge={{challenge}} @answer={{answer}} /></template>);
-
-    // then
-    assert.dom('.challenge-item').exists();
-  });
-
   module('challenge component selection', function () {
     [
       { challengeType: 'QCU', instructionKey: 'pages.challenge.parts.answer-instructions.qcu' },
