@@ -62,47 +62,48 @@ async function init(request, h, dependencies = { ltiPlatformRegistrationReposito
     target_link_uri: targetLinkUri,
   } = request.payload;
 
-  const registration = await dependencies.ltiPlatformRegistrationRepository.findByClientId(clientId);
+  try {
+    const registration = await dependencies.ltiPlatformRegistrationRepository.findByClientId(clientId);
 
-  if (!registration) {
-    logger.warn({ clientId }, 'unknown client id');
+    if (!registration) {
+      logger.warn({ clientId }, 'unknown client id');
+      throw new BadRequestError();
+    }
+
+    if (!registration.isActive) {
+      logger.warn({ clientId }, 'registration is not active');
+      throw new BadRequestError();
+    }
+
+    // FIXME check issuer?
+
+    await registration.fetchPlatformOpenIdConfig({ httpAgent: dependencies.httpAgent });
+
+    const state = crypto.randomUUID(); // FIXME should be stateless
+
+    return h
+      .response(
+        ltiInitializationSerializer.serialize({
+          targetLinkUri,
+          clientId,
+          loginHint,
+          ltiMessageHint,
+          authorizationEndpoint: registration.authorizationEndpoint,
+          nonce: 'FIXME',
+          state,
+        }),
+      )
+      .header('Content-Type', 'text/html; charset=utf-8')
+      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`);
+  } catch (err) {
     return h
       .response(
         ltiErrorSerializer.serialize({ title: 'Initialization error', message: 'Please contact your administrator' }),
       )
       .header('Content-Type', 'text/html; charset=utf-8')
-      .code(400);
+      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`)
+      .code(err.status ?? 500);
   }
-
-  if (!registration.isActive) {
-    logger.warn({ clientId }, 'registration is not active');
-    return h
-      .response(
-        ltiErrorSerializer.serialize({ title: 'Initialization error', message: 'Please contact your administrator' }),
-      )
-      .header('Content-Type', 'text/html; charset=utf-8')
-      .code(400);
-  }
-
-  // FIXME check issuer?
-
-  await registration.fetchPlatformOpenIdConfig({ httpAgent: dependencies.httpAgent });
-
-  const state = crypto.randomUUID(); // FIXME should be stateless
-
-  return h
-    .response(
-      ltiInitializationSerializer.serialize({
-        targetLinkUri,
-        clientId,
-        loginHint,
-        ltiMessageHint,
-        authorizationEndpoint: registration.authorizationEndpoint,
-        nonce: 'FIXME',
-        state,
-      }),
-    )
-    .header('Content-Type', 'text/html; charset=utf-8');
 }
 
 async function deepLink(request, h, dependencies = { ltiService }) {
