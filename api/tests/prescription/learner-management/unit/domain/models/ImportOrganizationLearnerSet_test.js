@@ -920,6 +920,38 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         expect(learners.list[0].attributes.birthdate).to.equal('2010-03-06');
         expect(learners.list[0].attributes.marriage).to.equal('2027-06-09');
       });
+
+      it('supports mappingColumn config', function () {
+        const importFormatWithMappingDateColumn = {
+          config: {
+            unicityColumns: ['prénom'],
+            headers: [
+              {
+                name: 'prénom',
+                config: { property: 'firstName' },
+              },
+              {
+                name: 'nom',
+                config: { property: 'lastName' },
+              },
+              {
+                name: 'date de naissance',
+                config: {
+                  mappingColumn: 'birthdate',
+                  validate: { type: 'date', format: 'DD-MM-YYYY', required: true },
+                },
+              },
+            ],
+          },
+        };
+        const learnerSet = new ImportOrganizationLearnerSet({
+          organizationId,
+          importFormat: importFormatWithMappingDateColumn,
+        });
+        learnerSet.addLearners([{ prénom: 'Tomie', nom: 'katana', 'date de naissance': '06-03-2010' }]);
+        const learners = learnerSet.learners;
+        expect(learners.list[0].attributes.birthdate).to.equal('2010-03-06');
+      });
     });
 
     context('edge cases', function () {
