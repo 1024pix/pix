@@ -107,36 +107,51 @@ async function init(request, h, dependencies = { ltiPlatformRegistrationReposito
 }
 
 async function deepLink(request, h, dependencies = { ltiService }) {
-  const { verifiedToken, registration } = await preLaunch(request);
-
   const origin = getForwardedOrigin(request.headers);
-  const requestApplication = RequestedApplication.fromOrigin(origin);
+  const requestedApplication = RequestedApplication.fromOrigin(origin);
 
-  if (!requestApplication.isPixOrga) {
-    return boom.preconditionFailed();
+  try {
+    if (!requestedApplication.isPixOrga) {
+      logger.warn('requested application should be PixOrga');
+      throw new BadRequestError();
+    }
+
+    const { verifiedToken, registration } = await preLaunch(request);
+
+    const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
+
+    if (messageType !== 'LtiDeepLinkingRequest') {
+      logger.warn({ messageType }, 'wrong LTI message type');
+      throw new BadRequestError();
+    }
+
+    const deepLinkingSettings = verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'];
+
+    const customClaims = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom'];
+    const { organizationExternalIds } = dependencies.ltiService.deserializeDeepLinkingCustomClaims(customClaims);
+
+    const ltiDeepLinkingAccessToken = await usecases.authenticateDeepLinking({
+      organizationExternalIds,
+      registration,
+      deepLinkingSettings,
+      audience: origin,
+    });
+
+    const locale = 'fr-FR'; // TODO: Generate this dynamically
+    const campaignSelectionPageUrl = urlService.getPixOrgaUrl(locale, { pathname: '/lti-campaign-selection' });
+    return h
+      .redirect(campaignSelectionPageUrl)
+      .header('Set-Cookie', ltiDeepLinkingAccessToken.encodedForSetCookieHeader)
+      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`);
+  } catch (err) {
+    return h
+      .response(
+        ltiErrorSerializer.serialize({ title: 'Deep linking error', message: 'Please contact your administrator' }),
+      )
+      .header('Content-Type', 'text/html; charset=utf-8')
+      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`)
+      .code(err.status ?? 500);
   }
-
-  const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
-
-  if (messageType !== 'LtiDeepLinkingRequest') {
-    throw new BadRequestError(`Wrong messageType, should be "LtiDeepLinkingRequest" but was "${messageType}"`);
-  }
-
-  const deepLinkingSettings = verifiedToken['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'];
-
-  const customClaims = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom'];
-  const { organizationExternalIds } = dependencies.ltiService.deserializeDeepLinkingCustomClaims(customClaims);
-
-  const ltiDeepLinkingAccessToken = await usecases.authenticateDeepLinking({
-    organizationExternalIds,
-    registration,
-    deepLinkingSettings,
-    audience: origin,
-  });
-
-  const locale = 'fr-FR'; // TODO: Generate this dynamically
-  const campaignSelectionPageUrl = urlService.getPixOrgaUrl(locale, { pathname: '/lti-campaign-selection' });
-  return h.redirect(campaignSelectionPageUrl).header('Set-Cookie', ltiDeepLinkingAccessToken.encodedForSetCookieHeader);
 }
 
 async function findAvailableCampaigns(request, h) {
