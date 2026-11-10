@@ -128,8 +128,10 @@ async function loadCalibratedSkillsMap(lcmsChallengeDtos) {
 }
 
 function toDomainMap({ lcmsChallengeDtos, calibrations, calibratedSkillsMap }) {
+  const calibrationsByChallengeId = new Map(calibrations.map((calibration) => [calibration.challengeId, calibration]));
+
   return lcmsChallengeDtos.map((lcmsChallengeDto) => {
-    const { discriminant, difficulty } = calibrations.find(({ challengeId }) => challengeId === lcmsChallengeDto.id);
+    const { discriminant, difficulty } = calibrationsByChallengeId.get(lcmsChallengeDto.id);
     const calibratedSkill = lcmsChallengeDto.skillId ? calibratedSkillsMap.get(lcmsChallengeDto.skillId) : null;
     return new CalibratedChallenge({
       id: lcmsChallengeDto.id,
