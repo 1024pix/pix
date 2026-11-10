@@ -18,4 +18,28 @@ describe('Unit | Domain | Models | ParticipantRepartition', function () {
     // then
     expect(participantRepartition.totalUnRegisteredParticipant).to.equal(1);
   });
+
+  describe('#fromCounts', function () {
+    it('builds a repartition from already computed counts', function () {
+      // when
+      const participantRepartition = ParticipantRepartition.fromCounts({
+        totalRegisteredParticipant: 3,
+        totalUnRegisteredParticipant: 2,
+      });
+
+      // then
+      expect(participantRepartition).to.be.instanceOf(ParticipantRepartition);
+      expect(participantRepartition.totalRegisteredParticipant).to.equal(3);
+      expect(participantRepartition.totalUnRegisteredParticipant).to.equal(2);
+    });
+
+    it('defaults counts to 0', function () {
+      // when
+      const participantRepartition = ParticipantRepartition.fromCounts();
+
+      // then
+      expect(participantRepartition.totalRegisteredParticipant).to.equal(0);
+      expect(participantRepartition.totalUnRegisteredParticipant).to.equal(0);
+    });
+  });
 });

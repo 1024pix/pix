@@ -528,25 +528,31 @@ const findAllLearnerWithAtLeastOneParticipationByOrganizationId = async function
 
 const findAllLearnerWithAtLeastOneParticipationByOrganizationIds = async function (organizationIds) {
   const knexConn = DomainTransaction.getConnection();
-  const results = await knexConn
-    .select('users.isAnonymous', 'view-active-organization-learners.organizationId')
-    .distinct('view-active-organization-learners.id')
+  const countsByOrganization = await knexConn
+    .select('view-active-organization-learners.organizationId')
+    .select(
+      knexConn.raw('COUNT(*) FILTER (WHERE "users"."isAnonymous" IS NOT TRUE)::int AS "totalRegisteredParticipant"'),
+      knexConn.raw('COUNT(*) FILTER (WHERE "users"."isAnonymous" IS TRUE)::int AS "totalUnRegisteredParticipant"'),
+    )
     .from('view-active-organization-learners')
     .join('users', 'users.id', 'view-active-organization-learners.userId')
-    .join('campaign-participations', function () {
-      this.on('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id').andOnVal(
-        'campaign-participations.deletedAt',
-        knexConn.raw('IS'),
-        knexConn.raw('NULL'),
-      );
+    .whereIn('view-active-organization-learners.organizationId', organizationIds)
+    .whereExists(function () {
+      this.select(1)
+        .from('campaign-participations')
+        .whereColumn('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id')
+        .whereNull('campaign-participations.deletedAt');
     })
-    .whereIn('organizationId', organizationIds);
+    .groupBy('view-active-organization-learners.organizationId');
+
+  const countsByOrganizationId = new Map(countsByOrganization.map((counts) => [counts.organizationId, counts]));
 
   const resultByOrganization = {};
 
   organizationIds.forEach((organizationId) => {
-    const participants = results.filter((result) => result.organizationId === organizationId);
-    resultByOrganization[organizationId] = new ParticipantRepartition(participants);
+    resultByOrganization[organizationId] = ParticipantRepartition.fromCounts(
+      countsByOrganizationId.get(organizationId),
+    );
   });
 
   return resultByOrganization;
