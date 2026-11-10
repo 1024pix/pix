@@ -1100,6 +1100,7 @@
         "certification-center": "Centre de certification :",
         "date": "Date de passage :"
       },
+      "result-pending-comment": "Vos résultats seront disponibles au plus tôt 2 jours après votre test de certification, une fois la session finalisée par votre centre.",
       "statuses": {
         "cancelled": "Annulée",
         "not-published": "En attente du résultat",

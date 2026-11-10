@@ -1100,6 +1100,7 @@
         "certification-center": "Certification centre:",
         "date": "Exam date:"
       },
+      "result-pending-comment": "Your results will be available at the earliest 2 days after your certification test, once the session has been finalised by your centre.",
       "statuses": {
         "cancelled": "Cancelled",
         "not-published": "Pending results",

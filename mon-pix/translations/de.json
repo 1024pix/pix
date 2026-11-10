@@ -1100,6 +1100,7 @@
         "certification-center": "Zertifizierungsstelle :",
         "date": "Datum der Zertifizierung :"
       },
+      "result-pending-comment": "Deine Ergebnisse sind frühestens 2 Tage nach deinem Zertifizierungstest verfügbar, sobald die Sitzung von deinem Zentrum abgeschlossen wurde.",
       "statuses": {
         "cancelled": "Abgebrochen",
         "not-published": "Warten auf das Ergebnis",

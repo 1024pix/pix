@@ -1100,6 +1100,7 @@
         "certification-center": "Centro de certificación :",
         "date": "Fecha del examen :"
       },
+      "result-pending-comment": "Tus resultados estarán disponibles como mínimo 2 días después de tu prueba de certificación, una vez que tu centro haya finalizado la sesión.",
       "statuses": {
         "cancelled": "Cancelado",
         "not-published": "Resultados pendientes",

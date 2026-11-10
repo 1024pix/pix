@@ -43,6 +43,27 @@ module('Integration | Component | User certifications | List item', function (ho
         .dom(screen.queryByRole('button', { name: t('pages.certifications-list.buttons.download-certificate') }))
         .doesNotExist();
     });
+
+    test("should display certificateSummary's comment for WAITING_FOR_RESULTS status", async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certificateSummary = store.createRecord('certificate-summary', {
+        certificationStartedAt: new Date('2024-01-15T10:00:00Z'),
+        certificationCenterName: 'Université de Lyon',
+        certificationFramework: 'CORE',
+        pixScore: 654,
+        status: 'WAITING_FOR_RESULTS',
+        comment: 'Super commentaire',
+        verificationCode: null,
+      });
+
+      // when
+      const screen = await render(<template><ListItem @certificateSummary={{certificateSummary}} /></template>);
+      // then
+      assert.ok(screen.getByText(t('pages.certifications-list.statuses.not-published')));
+      assert.dom(screen.queryByText(t('pages.certifications-list.result-pending-comment'), { exact: false })).exists();
+      assert.dom(screen.queryByText(certificateSummary.comment)).doesNotExist();
+    });
   });
 
   module('when status is VALIDATED', function () {
@@ -145,6 +166,29 @@ module('Integration | Component | User certifications | List item', function (ho
         assert.ok(screen.getByText(t('common.error')));
       });
     });
+
+    test('does not display result pending comment for validated status', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certificateSummary = store.createRecord('certificate-summary', {
+        certificationStartedAt: new Date('2024-01-15T10:00:00Z'),
+        certificationCenterName: 'Centre',
+        certificationFramework: 'CORE',
+        pixScore: 500,
+        status: 'VALIDATED',
+        verificationCode: 'P-XYZ',
+        certificateType: 'CERTIFICATE',
+      });
+
+      // when
+      const screen = await render(<template><ListItem @certificateSummary={{certificateSummary}} /></template>);
+
+      // then
+      assert.ok(screen.getByText(t('pages.certifications-list.statuses.validated')));
+      assert
+        .dom(screen.queryByText(t('pages.certifications-list.result-pending-comment'), { exact: false }))
+        .doesNotExist();
+    });
   });
 
   module('when status is REJECTED', function () {
@@ -174,6 +218,29 @@ module('Integration | Component | User certifications | List item', function (ho
       assert.dom(screen.queryByText(t('pages.certifications-list.buttons.details'))).doesNotExist();
       assert
         .dom(screen.queryByRole('button', { name: t('pages.certifications-list.buttons.download-attestation') }))
+        .doesNotExist();
+    });
+
+    test('does not display result pending comment for rejected status', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certificateSummary = store.createRecord('certificate-summary', {
+        certificationStartedAt: new Date('2024-01-15T10:00:00Z'),
+        certificationCenterName: 'Université de Lyon',
+        certificationFramework: 'CORE',
+        pixScore: 34,
+        status: 'REJECTED',
+        comment: null,
+        verificationCode: null,
+      });
+
+      // when
+      const screen = await render(<template><ListItem @certificateSummary={{certificateSummary}} /></template>);
+
+      // then
+      assert.ok(screen.getByText(t('pages.certifications-list.statuses.rejected')));
+      assert
+        .dom(screen.queryByText(t('pages.certifications-list.result-pending-comment'), { exact: false }))
         .doesNotExist();
     });
 
@@ -224,6 +291,29 @@ module('Integration | Component | User certifications | List item', function (ho
       assert.dom(screen.queryByText(t('pages.certifications-list.buttons.details'))).doesNotExist();
       assert
         .dom(screen.queryByRole('button', { name: t('pages.certifications-list.buttons.download-attestation') }))
+        .doesNotExist();
+    });
+
+    test('does not display result pending comment for cancelled status', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certificateSummary = store.createRecord('certificate-summary', {
+        certificationStartedAt: new Date('2024-01-15T10:00:00Z'),
+        certificationCenterName: 'Université de Lyon',
+        certificationFramework: 'CORE',
+        pixScore: 365,
+        status: 'CANCELLED',
+        comment: 'Votre certification a été annulée',
+        verificationCode: null,
+      });
+
+      // when
+      const screen = await render(<template><ListItem @certificateSummary={{certificateSummary}} /></template>);
+
+      // then
+      assert.ok(screen.getByText(t('pages.certifications-list.statuses.cancelled')));
+      assert
+        .dom(screen.queryByText(t('pages.certifications-list.result-pending-comment'), { exact: false }))
         .doesNotExist();
     });
   });
