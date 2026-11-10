@@ -21,8 +21,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      riskscore: ${{ steps.riskscoreMonorepo.outputs.riskscore }}
-      status: ${{ steps.riskscoreMonorepo.outputs.status }}
+      upload: ${{ steps.riskscoreMonorepo.outputs.upload_json}}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -30,25 +29,21 @@ jobs:
 
       - name: Generates Monorepo SBoM and upload to OWASP DTrack
         id: riskscoreMonorepo
-        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
+        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: '.'
-          node_version: '22.14.0'
+          wait_for_status: 'false'
           basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
-      - name: Get the risk score
-        run: echo "The risk score of the Monorepo is ${{ steps.riskscoreMonorepo.outputs.riskscore }}"
-
   check_risk_score_app:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     outputs:
-      riskscore: ${{ steps.riskscorePixApp.outputs.riskscore }}
-      status: ${{ steps.riskscorePixApp.outputs.status }}
+      upload: ${{ steps.riskscorePixApp.outputs.upload_json}}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -56,25 +51,21 @@ jobs:
 
       - name: Generates PixApp SBoM and upload to OWASP DTrack
         id: riskscorePixApp
-        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
+        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'mon-pix'
-          node_version: '22.14.0'
+          wait_for_status: 'false'
           basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
-      - name: Get the risk score
-        run: echo "The risk score of Pix App is ${{ steps.riskscorePixApp.outputs.riskscore }}"
-
   check_risk_score_orga:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     outputs:
-      riskscore: ${{ steps.riskscorePixOrga.outputs.riskscore }}
-      status: ${{ steps.riskscorePixOrga.outputs.status }}
+      upload: ${{ steps.riskscorePixOrga.outputs.upload_json}}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -82,25 +73,21 @@ jobs:
 
       - name: Generates PixOrga SBoM and upload to OWASP DTrack
         id: riskscorePixOrga
-        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
+        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'orga'
-          node_version: '22.14.0'
+          wait_for_status: 'false'
           basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
-      - name: Get the risk score
-        run: echo "The risk score of Pix Orga is ${{ steps.riskscorePixOrga.outputs.riskscore }}"
-
   check_risk_score_certif:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     outputs:
-      riskscore: ${{ steps.riskscorePixCertif.outputs.riskscore }}
-      status: ${{ steps.riskscorePixCertif.outputs.status }}
+      upload: ${{ steps.riskscorePixCertif.outputs.upload_json}}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -108,25 +95,21 @@ jobs:
 
       - name: Generates PixCertif SBoM and upload to OWASP DTrack
         id: riskscorePixCertif
-        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
+        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'certif'
-          node_version: '22.14.0'
+          wait_for_status: 'false'
           basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
-      - name: Get the risk score
-        run: echo "The risk score of Pix Certif is ${{ steps.riskscorePixCertif.outputs.riskscore }}"
-
   check_risk_score_admin:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     outputs:
-      riskscore: ${{ steps.riskscorePixAdmin.outputs.riskscore }}
-      status: ${{ steps.riskscorePixAdmin.outputs.status }}
+      upload: ${{ steps.riskscorePixAdmin.outputs.upload_json}}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -134,25 +117,21 @@ jobs:
 
       - name: Generates PixAdmin SBoM and upload to OWASP DTrack
         id: riskscorePixAdmin
-        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
+        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'admin'
-          node_version: '22.14.0'
+          wait_for_status: 'false'
           basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
-      - name: Get the risk score
-        run: echo "The risk score of Pix Admin is ${{ steps.riskscorePixAdmin.outputs.riskscore }}"
-
   check_risk_score_junior:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     outputs:
-      riskscore: ${{ steps.riskscorePixJunior.outputs.riskscore }}
-      status: ${{ steps.riskscorePixJunior.outputs.status }}
+      upload: ${{ steps.riskscorePixJunior.outputs.upload_json}}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -160,25 +139,21 @@ jobs:
 
       - name: Generates PixJunior SBoM and upload to OWASP DTrack
         id: riskscorePixJunior
-        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
+        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'junior'
-          node_version: '22.14.0'
+          wait_for_status: 'false'
           basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
-      - name: Get the risk score
-        run: echo "The risk score of Pix Junior is ${{ steps.riskscorePixJunior.outputs.riskscore }}"
-
   check_risk_score_api:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     outputs:
-      riskscore: ${{ steps.riskscorePixAPI.outputs.riskscore }}
-      status: ${{ steps.riskscorePixAPI.outputs.status }}
+      upload: ${{ steps.riskscorePixAPI.outputs.upload_json}}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -186,25 +161,21 @@ jobs:
 
       - name: Generates PixAPI SBoM and upload to OWASP DTrack
         id: riskscorePixAPI
-        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
+        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'api'
-          node_version: '22.14.0'
+          wait_for_status: 'false'
           basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
-      - name: Get the risk score
-        run: echo "The risk score of the API is ${{ steps.riskscorePixAPI.outputs.riskscore }}"
-
   check_risk_score_audit_logger:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     outputs:
-      riskscore: ${{ steps.riskscoreAuditLogger.outputs.riskscore }}
-      status: ${{ steps.riskscoreAuditLogger.outputs.status }}
+      upload: ${{ steps.riskscoreAuditLogger.outputs.upload_json}}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -212,25 +183,21 @@ jobs:
 
       - name: Generates AuditLogger SBoM and upload to OWASP DTrack
         id: riskscoreAuditLogger
-        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
+        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'audit-logger'
-          node_version: '22.14.0'
+          wait_for_status: 'false'
           basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
-      - name: Get the risk score
-        run: echo "The risk score of Pix Audit Logger is ${{ steps.riskscoreAuditLogger.outputs.riskscore }}"
-
   check_risk_score_tests_e2e:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     outputs:
-      riskscore: ${{ steps.riskscoreTestsE2E.outputs.riskscore }}
-      status: ${{ steps.riskscoreTestsE2E.outputs.status }}
+      upload: ${{ steps.riskscoreTestsE2E.outputs.upload_json}}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -238,25 +205,21 @@ jobs:
 
       - name: Generates TestsE2E SBoM and upload to OWASP DTrack
         id: riskscoreTestsE2E
-        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
+        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'high-level-tests/e2e'
-          node_version: '22.14.0'
+          wait_for_status: 'false'
           basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
-      - name: Get the risk score
-        run: echo "The risk score of the E2E Tests is ${{ steps.riskscoreTestsE2E.outputs.riskscore }}"
-
   check_risk_score_tests_playwright:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     outputs:
-      riskscore: ${{ steps.riskscoreTestsPlaywright.outputs.riskscore }}
-      status: ${{ steps.riskscoreTestsPlaywright.outputs.status }}
+      upload: ${{ steps.riskscoreTestsPlaywright.outputs.upload_json}}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: 
@@ -264,19 +227,16 @@ jobs:
 
       - name: Generates TestsPlaywright SBoM and upload to OWASP DTrack
         id: riskscoreTestsPlaywright
-        uses:  1024pix/check-dependency-track-action/node@b9c616bc8284c29d1d37299343a0b486002de68b
+        uses:  1024pix/check-dependency-track-action/node@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
           directory: 'high-level-tests/e2e-playwright'
-          node_version: '22.14.0'
+          wait_for_status: 'false'
           basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
       
-      - name: Get the risk score
-        run: echo "The risk score of the Playwright Tests is ${{ steps.riskscoreTestsPlaywright.outputs.riskscore }}"
-
-  comment_on_pr:
+  fetch_results:
     runs-on: ubuntu-latest
     needs: 
         - check_risk_score_monorepo
@@ -290,12 +250,17 @@ jobs:
         - check_risk_score_tests_e2e
         - check_risk_score_tests_playwright
     if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+    outputs:
+      status: ${{ steps.fetch_all_scores.outputs.status }}
+      markdown: ${{ steps.fetch_all_scores.outputs.markdown }}
     steps:
-      - id: fetch all scores
-        uses: 1024pix/check-dependency-track-action/fetch@b9c616bc8284c29d1d37299343a0b486002de68b
+      - id: fetch_all_scores
+        uses: 1024pix/check-dependency-track-action/fetch@264a5247cdc5787d3ebe4f1b64ae36d5d0160fb5
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
+          basic_user: '${{ secrets.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
           projects: |
             ${{ needs.check_risk_score_monorepo.outputs.upload }}
             ${{ needs.check_risk_score_app.outputs.upload }}
@@ -314,13 +279,14 @@ jobs:
     if: ${{ !cancelled() && needs.fetch_results.outputs.status != '' }}
     permissions:
       pull-requests: write
+    steps:
       - name: Comment on the PR
         env:
           GH_TOKEN: ${{ github.token }}
           MARKDOWN_TABLE: ${{ needs.fetch_results.outputs.markdown }}
           PR: ${{ github.event.pull_request.number }}
         run: |
-          printf '%s\n' "$MD" > "$RUNNER_TEMP/body.md"
+          printf '%s\n' "$MARKDOWN_TABLE" > "$RUNNER_TEMP/body.md"
           gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --edit-last --create-if-none \
             --body-file "$RUNNER_TEMP/body.md"
 
