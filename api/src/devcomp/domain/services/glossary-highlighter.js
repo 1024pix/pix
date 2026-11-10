@@ -8,7 +8,7 @@ import { Module } from '../models/module/Module.js';
 
 export function highlightGlossaryWords(module) {
   const glossaryEntries = module.glossary
-    .filter(({ definition }) => definition !== '')
+    .filter(_isValidGlossaryEntry)
     .flatMap(({ words, definition }) => words.map((word) => ({ word, definition })));
 
   if (glossaryEntries.length === 0) return module;
@@ -22,6 +22,10 @@ export function highlightGlossaryWords(module) {
   }));
 
   return new Module({ ...module, sections: updatedSections });
+}
+
+function _isValidGlossaryEntry({ definition, words }) {
+  return definition !== '' && Array.isArray(words) && words.length > 0;
 }
 
 function _processComponent(component, glossaryEntries) {

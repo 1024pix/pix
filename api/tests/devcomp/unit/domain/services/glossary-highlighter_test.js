@@ -60,6 +60,43 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
         });
       });
 
+      describe('When glossary words is missing', function () {
+        it('should not highlight anything', function () {
+          // given
+          const chatDefinition = 'Le meilleur ami des souris';
+          const module = {
+            glossary: [{ definition: chatDefinition }],
+            sections: [
+              {
+                id: `11111111-1111-1111-1111-111111111111`,
+                type: 'practise',
+                grains: [
+                  {
+                    id: `22222222-2222-2222-2222-222222222222`,
+                    type: 'lesson',
+                    title: 'Grain de test',
+                    components: [
+                      {
+                        id: `22222222-2222-2222-2222-222222222223`,
+                        type: 'element',
+                        element: { type: 'text', content: '<p>Chat lu !</p>' },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          };
+
+          // when
+          const result = highlightGlossaryWords(module);
+
+          // then
+          const firstElement = (moduleData) => moduleData.sections[0].grains[0].components[0].element;
+          expect(firstElement(result).content).to.equal('<p>Chat lu !</p>');
+        });
+      });
+
       describe('When glossary definition is empty', function () {
         it('should not highlight entry words', function () {
           // given
