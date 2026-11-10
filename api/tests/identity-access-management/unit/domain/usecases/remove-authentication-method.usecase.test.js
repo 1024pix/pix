@@ -28,7 +28,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | remove-authenti
     return [
       domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId }),
       domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({ userId }),
-      domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+      domainBuilder.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
         userId,
       }),
     ];
@@ -38,7 +38,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | remove-authenti
     return [
       domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId }),
       domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({ userId }),
-      domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+      domainBuilder.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
         userId,
       }),
       domainBuilder.buildAuthenticationMethod.withIdentityProvider({

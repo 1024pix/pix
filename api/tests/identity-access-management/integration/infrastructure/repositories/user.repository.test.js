@@ -76,29 +76,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         });
       });
 
-      context('when identityProvider is POLE_EMPLOI', function () {
-        it('returns user informations for the given external identity id and identity provider', async function () {
-          // given
-          const externalIdentityId = 'external-identity-id';
-          const userId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-            externalIdentifier: externalIdentityId,
-            userId,
-          });
-          await databaseBuilder.commit();
-
-          // when
-          const foundUser = await userRepository.findByExternalIdentifier({
-            externalIdentityId,
-            identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
-          });
-
-          // then
-          expect(foundUser).to.be.an.instanceof(User);
-          expect(foundUser.id).to.equal(userId);
-        });
-      });
-
       it('returns undefined when no user was found with this external identity id', async function () {
         // given
         const badId = 'not-exist-external-identity-id';

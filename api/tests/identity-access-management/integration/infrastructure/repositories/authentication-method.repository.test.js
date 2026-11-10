@@ -314,7 +314,10 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
     it('returns null if there is no AuthenticationMethod for the given user and identity provider', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId });
+      databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
+        userId,
+        identityProvider: 'SOME_IDENTITY_PROVIDER',
+      });
       await databaseBuilder.commit();
 
       // when
@@ -350,35 +353,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           new AuthenticationMethod.PixAuthenticationComplement({
             password: 'H4SHED',
             shouldChangePassword: false,
-          }),
-        );
-      });
-    });
-
-    describe('when Pole Emploi is the authentication provider', function () {
-      it('brings along a Pole Emploi authentication complement', async function () {
-        // given
-        const user = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-          userId: user.id,
-          accessToken: 'AGENCENATIONALEPOURLEMPLOI',
-          refreshToken: 'FRANCETRAVAIL',
-          expiredDate: new Date('2021-01-01'),
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const pixAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
-          userId: user.id,
-          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
-        });
-
-        // then
-        expect(pixAuthenticationMethod.authenticationComplement).to.deep.equal(
-          new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
-            accessToken: 'AGENCENATIONALEPOURLEMPLOI',
-            refreshToken: 'FRANCETRAVAIL',
-            expiredDate: '2021-01-01T00:00:00.000Z',
           }),
         );
       });
@@ -683,15 +657,13 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       let authenticationMethod;
 
       beforeEach(function () {
-        sinon.useFakeTimers({ now: new Date('2020-01-02'), toFake: ['Date'] });
+        sinon.useFakeTimers({ now: new Date('2026-08-08'), toFake: ['Date'] });
         const userId = databaseBuilder.factory.buildUser().id;
-        authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-          id: 123,
-          externalIdentifier: 'identifier',
-          accessToken: 'to_be_updated',
-          refreshToken: 'to_be_updated',
-          expiredDate: Date.now(),
+        authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
           userId,
+          externalIdentifier: 'some-external-identifier',
+          identityProvider: 'SOME_IDENTITY_PROVIDER',
+          authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({ foo: 'bar' }),
         });
         return databaseBuilder.commit();
       });
@@ -699,58 +671,44 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       it('updates the authentication complement in database', async function () {
         // given
         const userId = authenticationMethod.userId;
-        const expiredDate = Date.now();
-        const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
-          accessToken: 'new_access_token',
-          refreshToken: 'new_refresh_token',
-          expiredDate,
-        });
+        const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({ hello: 'goodbye' });
 
         // when
         await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
           authenticationComplement,
           userId,
-          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+          identityProvider: 'SOME_IDENTITY_PROVIDER',
         });
 
         // then
         const [updatedAuthenticationComplement] = await knex('authentication-methods')
           .pluck('authenticationComplement')
-          .where({ id: 123 });
-        expect(updatedAuthenticationComplement.accessToken).to.equal('new_access_token');
-        expect(updatedAuthenticationComplement.refreshToken).to.equal('new_refresh_token');
-        expect(updatedAuthenticationComplement.expiredDate).to.deep.equal(expiredDate);
+          .where({ id: authenticationMethod.id });
+        expect(updatedAuthenticationComplement).to.deep.equal({ hello: 'goodbye' });
       });
 
       it('returns the updated AuthenticationMethod', async function () {
         // given
         const userId = authenticationMethod.userId;
-        const expiredDate = Date.now();
-        const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
-          accessToken: 'new_access_token',
-          refreshToken: 'new_refresh_token',
-          expiredDate,
-        });
+        const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement();
 
         // when
         const updatedAuthenticationMethod =
           await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
             authenticationComplement,
             userId,
-            identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+            identityProvider: 'SOME_IDENTITY_PROVIDER',
           });
 
         // then
-        const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-          id: 123,
-          externalIdentifier: 'identifier',
-          accessToken: 'new_access_token',
-          refreshToken: 'new_refresh_token',
-          expiredDate,
-          userId,
-          updatedAt: new Date(),
-          lastLoggedAt: new Date(),
-        });
+        const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withOidcProviderAsIdentityProvider(
+          {
+            id: updatedAuthenticationMethod.id,
+            userId,
+            externalIdentifier: 'some-external-identifier',
+            updatedAt: new Date('2026-08-08'),
+          },
+        );
         expect(updatedAuthenticationMethod).to.deepEqualInstance(expectedAuthenticationMethod);
       });
     });

@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { config as settings } from '../../../../../config/config.js';
-import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { PoleEmploiOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/pole-emploi-oidc-authentication-service.js';
 import { createOpenIdClientMock, OIDC_PROVIDER_TEST_CONFIG } from '../../../../tooling/mocks/openid-client.mock.js';
 
@@ -45,7 +44,7 @@ describe('Unit | Identity Access Management | Domain | Services | pole-emploi-oi
       const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService(
         {
           ...OIDC_PROVIDER_TEST_CONFIG,
-          additionalRequiredProperties: { logoutUrl: '', afterLogoutUrl: '', sendingUrl: '' },
+          additionalRequiredProperties: { logoutUrl: '', afterLogoutUrl: '' },
           identityProvider: 'POLE_EMPLOI',
           organizationName: 'France Travail',
           shouldCloseSession: true,
@@ -64,36 +63,6 @@ describe('Unit | Identity Access Management | Domain | Services | pole-emploi-oi
         'client',
         { client_secret: 'secret' },
       );
-    });
-  });
-
-  describe('#createAuthenticationComplement', function () {
-    it('should create pole emploi authentication complement', function () {
-      // given
-      const sessionContent = {
-        accessToken: 'accessToken',
-        idToken: 'idToken',
-        expiresIn: 10,
-        refreshToken: 'refreshToken',
-      };
-      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService(
-        {
-          ...OIDC_PROVIDER_TEST_CONFIG,
-          additionalRequiredProperties: { logoutUrl: '', afterLogoutUrl: '', sendingUrl: '' },
-          identityProvider: 'POLE_EMPLOI',
-          organizationName: 'France Travail',
-          shouldCloseSession: true,
-          slug: 'pole-emploi',
-          source: 'pole_emploi_connect',
-        },
-        { openidClient },
-      );
-
-      // when
-      const result = poleEmploiOidcAuthenticationService.createAuthenticationComplement({ sessionContent });
-
-      // then
-      expect(result).to.be.instanceOf(AuthenticationMethod.PoleEmploiOidcAuthenticationComplement);
     });
   });
 });

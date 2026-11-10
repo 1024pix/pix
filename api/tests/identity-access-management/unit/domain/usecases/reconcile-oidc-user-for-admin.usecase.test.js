@@ -107,10 +107,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
         userInfo: { externalIdentityId: externalIdentifier },
       });
       oidcAuthenticationService.createAuthenticationComplement.returns(
-        new AuthenticationMethod.OidcAuthenticationComplement({
-          accessToken: 'accessToken',
-          expiredDate: new Date(),
-        }),
+        new AuthenticationMethod.OidcAuthenticationComplement(),
       );
 
       authenticationSessionService.generateSessionId.returns('random-session-id');
