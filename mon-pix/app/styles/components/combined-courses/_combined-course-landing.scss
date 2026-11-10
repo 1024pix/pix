@@ -1,0 +1,141 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/breakpoints';
+
+
+.combined-course-landing {
+  position: relative;
+  display: flex;
+  gap: var(--pix-spacing-10x);
+  justify-content: center;
+  height: 100%;
+  padding: var(--pix-spacing-6x);
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-12x);
+    justify-content: center;
+    max-width: 500px;
+    margin-top: 150px;
+
+    h1 {
+      @extend %pix-title-l;
+    }
+
+    h2 {
+      @extend %pix-subtitle-l;
+    }
+    
+    @include breakpoints.device-is('desktop') {
+      margin-top: 0;
+    }
+  }
+
+  &__header {
+    display: flex;
+    gap: var(--pix-spacing-12x);
+
+    img {
+      height: 80px;
+    }
+  }
+
+  &__footer {
+    @extend %pix-body-m;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__exit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: var(--pix-spacing-6x);
+
+    @include breakpoints.device-is('tablet') {
+      position: fixed;
+      z-index: 101;
+      padding: var(--pix-spacing-8x);
+    }
+  }
+  
+  aside {
+    display: none;
+
+    @include breakpoints.device-is('desktop') {
+      display: flex;
+      flex-direction: column;
+      justify-content: center
+    }
+  }
+
+  @include breakpoints.device-is('tablet') {
+    padding:0;
+  }
+}
+
+.combined-course-landing-main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-10x);
+    justify-content: center;
+
+  &__hero {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-2x);
+
+
+    &--description {
+      @extend %pix-body-s;
+    }
+
+    &--indicators {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+
+    @extend %pix-body-s;
+
+    dl {
+      display: flex;
+      gap: var(--pix-spacing-1x);
+      align-items: center;
+
+      dt, svg {
+        width: var(--pix-spacing-5x);
+        height: var(--pix-spacing-5x);
+      }
+    }
+  }
+  }
+
+   &__authentication {
+
+    &--connected {
+      @extend %pix-body-m;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    &--not-connected {
+      display: flex;
+      flex-direction: column;
+      gap: var(--pix-spacing-4x);
+    }
+
+    &--buttons {
+      display: flex;
+      gap: var(--pix-spacing-6x);
+      margin-top: var(--pix-spacing-4x);
+    }
+
+    &--legal {
+      @extend %pix-body-s;
+
+      margin-top: var(--pix-spacing-4x);
+    }
+  }
+
+}
