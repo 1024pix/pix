@@ -2,7 +2,6 @@ name: 'Security Checks'
 
 ## For readability and asynchronicity, the code for all 10 jobs is not in a loop
 
-
 on:
   push:
     branches: [dev]
@@ -15,7 +14,6 @@ on:
 permissions: {}
 
 jobs:
-
   check_risk_score_monorepo:
     runs-on: ubuntu-latest
     permissions:
@@ -24,12 +22,12 @@ jobs:
       upload: ${{ steps.riskscoreMonorepo.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: 
+        with:
           persist-credentials: false
 
       - name: Generates Monorepo SBoM and upload to OWASP DTrack
         id: riskscoreMonorepo
-        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
+        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -37,7 +35,7 @@ jobs:
           wait_for_status: 'false'
           basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
-      
+
   check_risk_score_app:
     runs-on: ubuntu-latest
     permissions:
@@ -46,12 +44,12 @@ jobs:
       upload: ${{ steps.riskscorePixApp.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: 
+        with:
           persist-credentials: false
 
       - name: Generates PixApp SBoM and upload to OWASP DTrack
         id: riskscorePixApp
-        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
+        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -59,7 +57,7 @@ jobs:
           wait_for_status: 'false'
           basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
-      
+
   check_risk_score_orga:
     runs-on: ubuntu-latest
     permissions:
@@ -68,12 +66,12 @@ jobs:
       upload: ${{ steps.riskscorePixOrga.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: 
+        with:
           persist-credentials: false
 
       - name: Generates PixOrga SBoM and upload to OWASP DTrack
         id: riskscorePixOrga
-        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
+        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -81,7 +79,7 @@ jobs:
           wait_for_status: 'false'
           basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
-      
+
   check_risk_score_certif:
     runs-on: ubuntu-latest
     permissions:
@@ -90,12 +88,12 @@ jobs:
       upload: ${{ steps.riskscorePixCertif.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: 
+        with:
           persist-credentials: false
 
       - name: Generates PixCertif SBoM and upload to OWASP DTrack
         id: riskscorePixCertif
-        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
+        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -103,7 +101,7 @@ jobs:
           wait_for_status: 'false'
           basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
-      
+
   check_risk_score_admin:
     runs-on: ubuntu-latest
     permissions:
@@ -112,12 +110,12 @@ jobs:
       upload: ${{ steps.riskscorePixAdmin.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: 
+        with:
           persist-credentials: false
 
       - name: Generates PixAdmin SBoM and upload to OWASP DTrack
         id: riskscorePixAdmin
-        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
+        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -125,7 +123,7 @@ jobs:
           wait_for_status: 'false'
           basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
-      
+
   check_risk_score_junior:
     runs-on: ubuntu-latest
     permissions:
@@ -134,12 +132,12 @@ jobs:
       upload: ${{ steps.riskscorePixJunior.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: 
+        with:
           persist-credentials: false
 
       - name: Generates PixJunior SBoM and upload to OWASP DTrack
         id: riskscorePixJunior
-        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
+        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -147,7 +145,7 @@ jobs:
           wait_for_status: 'false'
           basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
-      
+
   check_risk_score_api:
     runs-on: ubuntu-latest
     permissions:
@@ -156,12 +154,12 @@ jobs:
       upload: ${{ steps.riskscorePixAPI.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: 
+        with:
           persist-credentials: false
 
       - name: Generates PixAPI SBoM and upload to OWASP DTrack
         id: riskscorePixAPI
-        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
+        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -169,7 +167,7 @@ jobs:
           wait_for_status: 'false'
           basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
-      
+
   check_risk_score_audit_logger:
     runs-on: ubuntu-latest
     permissions:
@@ -178,12 +176,12 @@ jobs:
       upload: ${{ steps.riskscoreAuditLogger.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: 
+        with:
           persist-credentials: false
 
       - name: Generates AuditLogger SBoM and upload to OWASP DTrack
         id: riskscoreAuditLogger
-        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
+        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -191,7 +189,7 @@ jobs:
           wait_for_status: 'false'
           basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
-      
+
   check_risk_score_tests_e2e:
     runs-on: ubuntu-latest
     permissions:
@@ -200,12 +198,12 @@ jobs:
       upload: ${{ steps.riskscoreTestsE2E.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: 
+        with:
           persist-credentials: false
 
       - name: Generates TestsE2E SBoM and upload to OWASP DTrack
         id: riskscoreTestsE2E
-        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
+        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -213,7 +211,7 @@ jobs:
           wait_for_status: 'false'
           basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
-      
+
   check_risk_score_tests_playwright:
     runs-on: ubuntu-latest
     permissions:
@@ -222,12 +220,12 @@ jobs:
       upload: ${{ steps.riskscoreTestsPlaywright.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: 
+        with:
           persist-credentials: false
 
       - name: Generates TestsPlaywright SBoM and upload to OWASP DTrack
         id: riskscoreTestsPlaywright
-        uses:  1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
+        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -235,27 +233,27 @@ jobs:
           wait_for_status: 'false'
           basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
           basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
-      
+
   fetch_results:
     runs-on: ubuntu-latest
-    needs: 
-        - check_risk_score_monorepo
-        - check_risk_score_app
-        - check_risk_score_orga
-        - check_risk_score_certif
-        - check_risk_score_admin
-        - check_risk_score_junior
-        - check_risk_score_api
-        - check_risk_score_audit_logger
-        - check_risk_score_tests_e2e
-        - check_risk_score_tests_playwright
+    needs:
+      - check_risk_score_monorepo
+      - check_risk_score_app
+      - check_risk_score_orga
+      - check_risk_score_certif
+      - check_risk_score_admin
+      - check_risk_score_junior
+      - check_risk_score_api
+      - check_risk_score_audit_logger
+      - check_risk_score_tests_e2e
+      - check_risk_score_tests_playwright
     if: ${{ !cancelled() && github.event_name == 'pull_request' }}
     outputs:
       status: ${{ steps.fetch_all_scores.outputs.status }}
       markdown: ${{ steps.fetch_all_scores.outputs.markdown }}
     steps:
       - id: fetch_all_scores
-        uses: 1024pix/check-dependency-track-action/fetch@f2966ef0975c668c17b9a74022f21d9ad37eb2d6
+        uses: 1024pix/check-dependency-track-action/fetch@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -290,3 +288,12 @@ jobs:
           gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --edit-last --create-if-none \
             --body-file "$RUNNER_TEMP/body.md"
 
+      - name: Fail on policy violation
+        env:
+          STATUS: ${{ needs.fetch_results.outputs.status }}
+        run: |
+          case "$STATUS" in
+            pass|warn) echo "Dependency-Track status: $STATUS" ;;
+            fail)      echo "::error::Dependency-Track policy violation (fail)"; exit 1 ;;
+            *)         echo "::error::Unknown or missing status: '$STATUS'"; exit 1 ;;
+          esac
