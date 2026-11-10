@@ -36,12 +36,12 @@ async function register(request, h, dependencies = { registerLtiPlatform: usecas
   const { openid_configuration: platformConfigurationUrl, registration_token: registrationToken } = request.query;
 
   try {
-    const registration = await dependencies.registerLtiPlatform({ platformConfigurationUrl, registrationToken });
+    await dependencies.registerLtiPlatform({ platformConfigurationUrl, registrationToken });
 
     return h
       .response(ltiRegistrationSerializer.serialize())
       .header('Content-Type', 'text/html; charset=utf-8')
-      .header('Content-Security-Policy', `frame-ancestors ${registration.platformIssuer}`);
+      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`);
   } catch (err) {
     return h
       .response(ltiErrorSerializer.serialize({ title: 'Registration error', message: err.message ?? err }))
