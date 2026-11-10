@@ -1,3 +1,4 @@
+import { EventEmitter } from 'node:events';
 import stream from 'node:stream';
 import { text } from 'node:stream/consumers';
 
@@ -100,7 +101,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
 
       // when
       await exporter.export(campaignParticipationResultDatas, placementProfileStub, {
-        CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING: 1,
+        CHUNK_SIZE_CAMPAIGN_PROFILES_COLLECTION_EXPORT: 1,
         CONCURRENCY_HEAVY_OPERATIONS: 1,
       });
 
@@ -265,6 +266,80 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       // then
       const csv = await text(outputStream);
       expect(csv).to.equal(expectedHeader);
+    });
+
+    context('when the output stream applies backpressure', function () {
+      let slowStream, placementProfileStub, exporter, participations;
+
+      const flushPromises = () => new Promise((resolve) => setImmediate(resolve));
+      const buildParticipation = (id) => ({
+        id,
+        createdAt: new Date(),
+        isShared: false,
+        sharedAt: null,
+        participantExternalId: null,
+        userId: id,
+        isCompleted: false,
+        studentNumber: null,
+        participantFirstName: `Prénom${id}`,
+        participantLastName: `Nom${id}`,
+        division: null,
+        pixScore: 0,
+        group: null,
+        additionalInfos: {},
+      });
+      const constants = {
+        CHUNK_SIZE_CAMPAIGN_PROFILES_COLLECTION_EXPORT: 1,
+        CONCURRENCY_HEAVY_OPERATIONS: 1,
+      };
+
+      beforeEach(function () {
+        slowStream = Object.assign(new EventEmitter(), { destroyed: false, write: sinon.stub().returns(false) });
+        placementProfileStub = { getPlacementProfilesWithSnapshotting: sinon.stub().resolves([]) };
+        exporter = new CampaignProfilesCollectionExport({
+          outputStream: slowStream,
+          organization,
+          campaign,
+          competences,
+        });
+        participations = [buildParticipation(1), buildParticipation(2)];
+      });
+
+      it('should wait for the stream to drain before processing the next chunk', async function () {
+        // when
+        let isFinished = false;
+        const exportPromise = exporter.export(participations, placementProfileStub, constants).then(() => {
+          isFinished = true;
+        });
+        await flushPromises();
+
+        // then
+        expect(placementProfileStub.getPlacementProfilesWithSnapshotting.callCount).to.equal(1);
+        expect(isFinished).to.be.false;
+
+        slowStream.emit('drain');
+        await flushPromises();
+        expect(placementProfileStub.getPlacementProfilesWithSnapshotting.callCount).to.equal(2);
+        expect(isFinished).to.be.false;
+
+        slowStream.emit('drain');
+        await exportPromise;
+        expect(isFinished).to.be.true;
+        expect(slowStream.listenerCount('drain')).to.equal(0);
+        expect(slowStream.listenerCount('close')).to.equal(0);
+      });
+
+      it('should stop processing chunks when the stream is closed', async function () {
+        // when
+        const exportPromise = exporter.export(participations, placementProfileStub, constants);
+        await flushPromises();
+        slowStream.destroyed = true;
+        slowStream.emit('close');
+        await exportPromise;
+
+        // then
+        expect(placementProfileStub.getPlacementProfilesWithSnapshotting.callCount).to.equal(1);
+      });
     });
   });
 });

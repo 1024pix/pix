@@ -397,6 +397,12 @@ export const config = {
     isReviewApp: toBoolean(process.env.REVIEW_APP),
     concurrencyForHeavyOperations: _getNumber(process.env.INFRA_CONCURRENCY_HEAVY_OPERATIONS, 2),
     chunkSizeForCampaignResultProcessing: _getNumber(process.env.INFRA_CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING, 10),
+    // L'export de collecte de profils charge, pour chaque participation d'un lot, le snapshot
+    // complet des acquis (toutes compétences confondues). Un lot plus petit borne la mémoire.
+    chunkSizeForCampaignProfilesCollectionExport: _getNumber(
+      process.env.INFRA_CHUNK_SIZE_CAMPAIGN_PROFILES_COLLECTION_EXPORT,
+      100,
+    ),
     chunkSizeForOrganizationLearnerDataProcessing: _getNumber(
       process.env.INFRA_CHUNK_SIZE_ORGANIZATION_LEARNER_DATA_PROCESSING,
       1000,
