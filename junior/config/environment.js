@@ -26,9 +26,6 @@ module.exports = function (environment) {
       APP_VERSION: process.env.SOURCE_VERSION || 'development',
       CHALLENGE_DISPLAY_DELAY: process.env.CHALLENGE_DISPLAY_DELAY || 1500,
     },
-    'ember-cli-mirage': {
-      enabled: false,
-    },
   };
 
   if (environment === 'development') {
@@ -50,11 +47,6 @@ module.exports = function (environment) {
     ENV.APP.rootElement = '#ember-testing';
     ENV.APP.autoboot = false;
     ENV.APP.CHALLENGE_DISPLAY_DELAY = 0;
-
-    ENV['ember-cli-mirage'] = {
-      enabled: true,
-      usingProxy: false,
-    };
   }
   return ENV;
 };
