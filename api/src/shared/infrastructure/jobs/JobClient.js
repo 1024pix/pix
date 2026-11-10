@@ -6,7 +6,7 @@ import { PgBoss } from 'pg-boss';
 
 import { config } from '../../../../config/config.js';
 import { executeInContext, EXECUTORS } from '../execution-context-manager.js';
-import { instrumentJobController, registerPgBossMetrics } from '../open-telemetry/job-tracing.js';
+import { instrumentJobController } from '../open-telemetry/job-tracing.js';
 import { importNamedExportFromFile } from '../utils/import-named-exports-from-directory.js';
 import { child } from '../utils/logger.js';
 import { MonitoredJobHandler } from './MonitoredJobHandler.js';
@@ -74,16 +74,12 @@ export class JobClient {
     this.#pgBoss.on('warning', ({ message, data }) => {
       logger.warn({ event: 'pg-boss-warning', data }, message);
     });
-    this.#pgBoss.on('wip', (data) => {
-      logger.info({ event: 'pg-boss-wip', data }, 'PGBOSS WIP');
-    });
 
     await this.#pgBoss.start();
 
     if (worker) {
       await this.#ensureDeadLetterQueue();
       await this.#registerJobs(jobGroups);
-      registerPgBossMetrics(this);
     }
 
     this.#isInitialized = true;
@@ -341,43 +337,11 @@ export class JobClient {
 
   async getQueuesStats() {
     const queues = await this.#pgBoss.getQueues();
-    const emptyStat = {
-      pending: 0,
-      created: 0,
-      retry: 0,
-      active: 0,
-      completed: 0,
-      cancelled: 0,
-      failed: 0,
-      all: 0,
-    };
-
-    const stats = { global: { ...emptyStat } };
+    const stats = [];
     for (const queue of queues) {
-      stats[queue.name] = { ...emptyStat };
-    }
-
-    this.#pgBoss.getQueueStats();
-
-    const { rows } = await this.#pgBoss
-      .getDb()
-      .executeSql('SELECT name, state, COUNT(id) FROM pgboss.job GROUP BY 1, 2');
-
-    for (const row of rows) {
-      stats[row.name] = { ...stats[row.name], [row.state]: row.count, all: (stats[row.name].all += row.count) };
-      stats.global[row.state] += row.count;
-      stats.global.all += row.count;
+      const snapshots = await this.#pgBoss.getQueueStats(queue.name, { limit: 1, percentiles: [50, 95, 99] });
+      stats.push(...snapshots);
     }
     return stats;
-  }
-
-  async getOldestPendingJobAges() {
-    const { rows } = await this.#pgBoss.getDb().executeSql(`
-      SELECT name, EXTRACT(EPOCH FROM (now() - MIN(created_on))) AS "ageInSeconds"
-      FROM pgboss.job
-      WHERE state IN ('created', 'retry')
-      GROUP BY name
-    `);
-    return rows;
   }
 }

@@ -44,13 +44,6 @@ class FakePgBoss {
   getQueueStats() {
     return { queuedCount: 0 };
   }
-  getDb() {
-    return {
-      async executeSql() {
-        return;
-      },
-    };
-  }
 
   publish() {
     return;
@@ -448,89 +441,17 @@ describe('Unit | JobClient', function () {
   });
 
   context('#getQueuesStats', function () {
-    it('returns stats', async function () {
+    it('returns the latest stats snapshot of each queue with percentiles', async function () {
       // given
       const pgBossStub = new FakePgBoss();
-      const executeSql = sinon.stub().resolves({
-        rows: [
-          { name: 'FirstJob', state: 'active', count: 1 },
-          { name: 'FirstJob', state: 'failed', count: 7 },
-          { name: 'FirstJob', state: 'completed', count: 33 },
-          { name: 'SecondJob', state: 'completed', count: 10 },
-        ],
-      });
-      sinon.stub(pgBossStub, 'getDb').returns({ executeSql });
-      sinon.stub(pgBossStub, 'getQueues').resolves([{ name: 'FirstJob' }, { name: 'SecondJob' }, { name: 'ThirdJob' }]);
-
-      const jobClient = new JobClient();
-      await jobClient.initialize(
-        {
-          jobGroups: [JobGroup.DEFAULT],
-          isTestOnly: true,
-          worker: true,
-        },
-        () => pgBossStub,
-      );
-
-      const stats = await jobClient.getQueuesStats();
-
-      // then
-      expect(stats).to.deep.equal({
-        global: {
-          pending: 0,
-          created: 0,
-          retry: 0,
-          active: 1,
-          completed: 43,
-          cancelled: 0,
-          failed: 7,
-          all: 51,
-        },
-        FirstJob: {
-          pending: 0,
-          created: 0,
-          retry: 0,
-          active: 1,
-          completed: 33,
-          cancelled: 0,
-          failed: 7,
-          all: 41,
-        },
-        SecondJob: {
-          pending: 0,
-          created: 0,
-          retry: 0,
-          active: 0,
-          completed: 10,
-          cancelled: 0,
-          failed: 0,
-          all: 10,
-        },
-        ThirdJob: {
-          pending: 0,
-          created: 0,
-          retry: 0,
-          active: 0,
-          completed: 0,
-          cancelled: 0,
-          failed: 0,
-          all: 0,
-        },
-      });
-    });
-  });
-
-  context('#getOldestPendingJobAges', function () {
-    it('returns the age in seconds of the oldest pending job per queue', async function () {
-      // given
-      const pgBossStub = new FakePgBoss();
-      const executeSql = sinon.stub().resolves({
-        rows: [
-          { name: 'FirstJob', ageInSeconds: 42 },
-          { name: 'SecondJob', ageInSeconds: 3600 },
-        ],
-      });
-      sinon.stub(pgBossStub, 'getDb').returns({ executeSql });
+      sinon.stub(pgBossStub, 'getQueues').resolves([{ name: 'FirstJob' }, { name: 'SecondJob' }]);
+      const getQueueStats = sinon.stub(pgBossStub, 'getQueueStats').resolves([]);
+      getQueueStats
+        .withArgs('FirstJob', { limit: 1, percentiles: [50, 95, 99] })
+        .resolves([{ name: 'FirstJob', queuedCount: 3 }]);
+      getQueueStats
+        .withArgs('SecondJob', { limit: 1, percentiles: [50, 95, 99] })
+        .resolves([{ name: 'SecondJob', queuedCount: 5 }]);
 
       const jobClient = new JobClient();
       await jobClient.initialize(
@@ -543,12 +464,12 @@ describe('Unit | JobClient', function () {
       );
 
       // when
-      const ages = await jobClient.getOldestPendingJobAges();
+      const stats = await jobClient.getQueuesStats();
 
       // then
-      expect(ages).to.deep.equal([
-        { name: 'FirstJob', ageInSeconds: 42 },
-        { name: 'SecondJob', ageInSeconds: 3600 },
+      expect(stats).to.deep.equal([
+        { name: 'FirstJob', queuedCount: 3 },
+        { name: 'SecondJob', queuedCount: 5 },
       ]);
     });
   });
