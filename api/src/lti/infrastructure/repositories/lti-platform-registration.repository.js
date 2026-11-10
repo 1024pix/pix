@@ -43,6 +43,25 @@ export const ltiPlatformRegistrationRepository = {
 
     return toDomain(ltiPlatformRegistrationDTO, platform);
   },
+
+  async findAllByPlatformId({ platformId }) {
+    const knexConn = DomainTransaction.getConnection();
+    const ltiPlatformRegistrationDtos = await knexConn
+      .select('*')
+      .from('lti_platform_registrations')
+      .where('platformId', platformId)
+      .orderBy('clientId');
+
+    if (ltiPlatformRegistrationDtos.length === 0) {
+      return [];
+    }
+
+    const platform = await ltiPlatformRepository.get(platformId);
+
+    return ltiPlatformRegistrationDtos.map((ltiPlatformRegistrationDto) =>
+      toDomain(ltiPlatformRegistrationDto, platform),
+    );
+  },
 };
 
 function toDomain(ltiPlatformRegistrationDTO, platform) {
