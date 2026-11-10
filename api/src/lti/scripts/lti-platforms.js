@@ -17,6 +17,16 @@ export class LtiPlatformsScript extends Script {
         list: {
           description: 'List authorized LTI platforms',
         },
+        add: {
+          description: 'Authorizes a new LTI platform',
+          options: {
+            issuer: {
+              description: 'LTI platform’s issuer',
+              demandOption: true,
+              type: 'string',
+            },
+          },
+        },
       },
       permanent: true,
     });
@@ -34,6 +44,17 @@ export class LtiPlatformsScript extends Script {
     const platforms = await ltiPlatformRepository.findAll();
 
     console.table(platforms);
+  }
+
+  /**
+   * @param {object} options
+   * @param {string} options.issuer
+   * @param {CommandDependencies} dependencies
+   */
+  async add({ issuer }, { logger }) {
+    const createdPlatform = await ltiPlatformRepository.create({ issuer });
+
+    logger.info(`LTI platform created with id ${createdPlatform.id} and issuer "${createdPlatform.issuer}"`);
   }
 }
 
