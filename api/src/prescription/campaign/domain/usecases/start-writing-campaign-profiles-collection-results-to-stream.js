@@ -8,9 +8,17 @@ import { CampaignTypeError } from '../../../../shared/domain/errors.js';
 import { getI18n } from '../../../../shared/infrastructure/i18n/i18n.js';
 import { CampaignProfilesCollectionExport } from '../../infrastructure/serializers/csv/campaign-profiles-collection-export.js';
 
+async function* withErrorLogging(csvChunks, logger) {
+  try {
+    yield* csvChunks;
+  } catch (error) {
+    logger.error(error, `Error while generating csv campaign results.`);
+    throw error;
+  }
+}
+
 const startWritingCampaignProfilesCollectionResultsToStream = async function ({
   campaignId,
-  writableStream,
   locale,
   campaignRepository,
   competenceRepository,
@@ -19,6 +27,7 @@ const startWritingCampaignProfilesCollectionResultsToStream = async function ({
   placementProfileService,
   organizationFeatureApi,
   organizationLearnerImportFormatRepository,
+  logger,
 }) {
   const campaign = await campaignRepository.get(campaignId);
   const i18n = getI18n(locale);
@@ -42,7 +51,6 @@ const startWritingCampaignProfilesCollectionResultsToStream = async function ({
   });
 
   const campaignProfilesCollectionExport = new CampaignProfilesCollectionExport({
-    outputStream: writableStream,
     organization,
     campaign,
     competences: allPixCompetences,
@@ -50,19 +58,10 @@ const startWritingCampaignProfilesCollectionResultsToStream = async function ({
     additionalHeaders,
   });
 
-  // No return/await here, we need the writing to continue in the background
-  // after this function's returned promise resolves. If we await the map
-  // function, node will keep all the data in memory until the end of the
-  // complete operation.
-  campaignProfilesCollectionExport
-    .export(campaignParticipationResultDatas, placementProfileService)
-    .then(() => {
-      writableStream.end();
-    })
-    .catch((error) => {
-      writableStream.emit('error', error);
-      throw error;
-    });
+  const csvChunks = withErrorLogging(
+    campaignProfilesCollectionExport.export(campaignParticipationResultDatas, placementProfileService),
+    logger,
+  );
 
   const fileName = i18n.__('campaign-export.common.file-name', {
     name: campaign.name,
@@ -70,7 +69,7 @@ const startWritingCampaignProfilesCollectionResultsToStream = async function ({
     date: dayjs().tz('Europe/Berlin').format('YYYY-MM-DD-HHmm'),
   });
 
-  return { fileName };
+  return { fileName, csvChunks };
 };
 
 export { startWritingCampaignProfilesCollectionResultsToStream };

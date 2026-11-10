@@ -1,15 +1,11 @@
-import _ from 'lodash';
-
-import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../../shared/constants.js';
 import { serializeLine } from '../../../../../shared/infrastructure/helpers/csv.js';
 import { getI18n } from '../../../../../shared/infrastructure/i18n/i18n.js';
-import { PromiseUtils } from '../../../../../shared/infrastructure/utils/promise-utils.js';
-import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../../domain/constants.js';
+import chunk from '../../../../../shared/infrastructure/utils/chunk.js';
+import { CHUNK_SIZE_CAMPAIGN_PROFILES_COLLECTION_EXPORT } from '../../../domain/constants.js';
 import { CampaignProfilesCollectionResultLine } from '../../exports/campaigns/campaign-profiles-collection-result-line.js';
 
 class CampaignProfilesCollectionExport {
-  constructor({ outputStream, organization, campaign, competences, locale, additionalHeaders = [] }) {
-    this.stream = outputStream;
+  constructor({ organization, campaign, competences, locale, additionalHeaders = [] }) {
     this.organization = organization;
     this.campaign = campaign;
     this.externalIdLabel = campaign.externalIdLabel;
@@ -19,31 +15,28 @@ class CampaignProfilesCollectionExport {
     this.additionalHeaders = additionalHeaders;
   }
 
-  export(
+  /**
+   * Yields the CSV header, then the CSV lines chunk by chunk.
+   * Lazy: a chunk is only computed when the consumer asks for the next one,
+   * and stopping the iteration stops the computation of the remaining chunks.
+   *
+   * @returns {AsyncGenerator<string>}
+   */
+  async *export(
     campaignParticipationResultDatas,
     placementProfileService,
-    constants = { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING, CONCURRENCY_HEAVY_OPERATIONS },
+    constants = { CHUNK_SIZE_CAMPAIGN_PROFILES_COLLECTION_EXPORT },
   ) {
-    this.stream.write(this._buildHeader());
+    yield this._buildHeader();
 
-    const campaignParticipationResultDataChunks = _.chunk(
-      campaignParticipationResultDatas,
-      constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
-    );
-
-    return PromiseUtils.map(
-      campaignParticipationResultDataChunks,
-      async (campaignParticipationResultDataChunk) => {
-        const placementProfiles = await this._getUsersPlacementProfiles(
-          campaignParticipationResultDataChunk,
-          placementProfileService,
-        );
-        const csvLines = this._buildLines(placementProfiles, campaignParticipationResultDataChunk);
-
-        this.stream.write(csvLines);
-      },
-      { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS },
-    );
+    const chunks = chunk(campaignParticipationResultDatas, constants.CHUNK_SIZE_CAMPAIGN_PROFILES_COLLECTION_EXPORT);
+    for (const campaignParticipationResultDataChunk of chunks) {
+      const placementProfiles = await this._getUsersPlacementProfiles(
+        campaignParticipationResultDataChunk,
+        placementProfileService,
+      );
+      yield this._buildLines(placementProfiles, campaignParticipationResultDataChunk);
+    }
   }
 
   _buildHeader() {
@@ -124,10 +117,12 @@ class CampaignProfilesCollectionExport {
   }
 
   _competenceColumnHeaders() {
-    return _.flatMap(this.competences, (competence) => [
-      this.i18n.__('campaign-export.profiles-collection.skill-level', { name: competence.name }),
-      this.i18n.__('campaign-export.profiles-collection.skill-ranking', { name: competence.name }),
-    ]);
+    return this.competences
+      .map((competence) => [
+        this.i18n.__('campaign-export.profiles-collection.skill-level', { name: competence.name }),
+        this.i18n.__('campaign-export.profiles-collection.skill-ranking', { name: competence.name }),
+      ])
+      .flat();
   }
 }
 

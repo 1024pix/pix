@@ -1,3 +1,6 @@
+import { Readable } from 'node:stream';
+import { text } from 'node:stream/consumers';
+
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -230,7 +233,7 @@ describe('Unit | Application | Controller | Campaign detail', function () {
 
       sinon
         .stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream')
-        .resolves({ fileName: 'any file name' });
+        .resolves({ fileName: 'any file name', csvChunks: [] });
 
       // when
       await campaignDetailController.getCsvProfilesCollectionResults(request, hFake);
@@ -241,6 +244,21 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       expect(getResultsCampaignArgs).to.have.property('campaignId');
     });
 
+    it('should reply with a stream of the csv chunks returned by the use case', async function () {
+      // given
+      const request = _getRequestForCampaignId(2);
+      sinon
+        .stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream')
+        .resolves({ fileName: 'file.csv', csvChunks: ['header\n', 'line1\n', 'line2\n'] });
+
+      // when
+      const response = await campaignDetailController.getCsvProfilesCollectionResults(request, hFake);
+
+      // then
+      expect(response.source).to.be.instanceOf(Readable);
+      expect(await text(response.source)).to.equal('header\nline1\nline2\n');
+    });
+
     it('should return a response with correct headers', async function () {
       // given
       const campaignId = 2;
@@ -248,7 +266,7 @@ describe('Unit | Application | Controller | Campaign detail', function () {
 
       sinon
         .stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream')
-        .resolves({ fileName: 'expected file name.csv' });
+        .resolves({ fileName: 'expected file name.csv', csvChunks: [] });
 
       // when
       const response = await campaignDetailController.getCsvProfilesCollectionResults(request, hFake);
@@ -264,9 +282,9 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       const campaignId = 2;
       const request = _getRequestForCampaignId(campaignId);
 
-      sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream').resolves({
-        fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv',
-      });
+      sinon
+        .stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream')
+        .resolves({ fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv', csvChunks: [] });
 
       // when
       const response = await campaignDetailController.getCsvProfilesCollectionResults(request, hFake);

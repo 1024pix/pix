@@ -8,7 +8,7 @@ import { campaignReportSerializer } from '../infrastructure/serializers/jsonapi/
 import { campaignToJoinSerializer } from '../infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
 import { targetProfileSerializer } from '../infrastructure/serializers/jsonapi/target-profile-serializer.js';
 
-const { PassThrough } = stream;
+const { PassThrough, Readable } = stream;
 
 const getByCode = async function (
   request,
@@ -97,18 +97,16 @@ const getCsvProfilesCollectionResults = async function (request, h) {
 
   const { campaignId } = request.params;
 
-  const writableStream = new PassThrough();
-
-  const { fileName } = await usecases.startWritingCampaignProfilesCollectionResultsToStream({
+  const { fileName, csvChunks } = await usecases.startWritingCampaignProfilesCollectionResultsToStream({
     campaignId,
-    writableStream,
     locale,
   });
   const escapedFileName = escapeFileName(fileName);
 
   return (
     h
-      .response(writableStream)
+      // WHY: objectMode must be disabled, Hapi refuses to reply with an object mode stream
+      .response(Readable.from(csvChunks, { objectMode: false }))
       .header('content-type', 'text/csv;charset=utf-8')
       // WHY: to avoid compression because when compressing, the server buffers
       // for too long causing a response timeout.

@@ -97,3 +97,4 @@ export const CAMPAIGNS_HEADER = {
 };
 
 export const CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING = config.infra.chunkSizeForCampaignResultProcessing;
+export const CHUNK_SIZE_CAMPAIGN_PROFILES_COLLECTION_EXPORT = config.infra.chunkSizeForCampaignProfilesCollectionExport;
