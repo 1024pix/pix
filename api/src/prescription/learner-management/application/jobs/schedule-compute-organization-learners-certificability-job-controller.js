@@ -4,11 +4,10 @@ import dayjs from 'dayjs';
 import { config } from '../../../../../config/config.js';
 import { JobScheduleController } from '../../../../shared/application/jobs/job-schedule-controller.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import * as organizationLearnerRepository from '../../../organization-learner/infrastructure/repositories/organization-learner-repository.js';
-import { ComputeOrganizationLearnerCertificabilityJobProvidedDateError } from '../../domain/errors.js';
 import { ComputeCertificabilityJob } from '../../domain/models/jobs/ComputeCertificabilityJob.js';
-import { usecases } from '../../domain/usecases/index.js';
 import { computeCertificabilityJobRepository } from '../../infrastructure/repositories/jobs/compute-certificability-job-repository.js';
 
 class ScheduleComputeOrganizationLearnersCertificabilityJobController extends JobScheduleController {
@@ -23,50 +22,24 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobController extends Jo
   }
 
   async handle({
-    data = {},
     dependencies = { organizationLearnerRepository, computeCertificabilityJobRepository, config, logger },
   }) {
-    const skipActivityDate = data?.skipActivityDate;
-    const onlyNotComputed = data?.onlyNotComputed;
-    const providedDateRange = data?.providedDateRange;
+    const { chunkSize, cron: cronConfig } =
+      dependencies.config.features.scheduleComputeOrganizationLearnersCertificability;
 
-    if (providedDateRange) {
-      dependencies.logger.info(
-        `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - providedDateRange : ${providedDateRange.startDate}-${providedDateRange.endDate}`,
-      );
-    }
-
-    const {
-      chunkSize,
-      cron: cronConfig,
-      synchronously,
-    } = dependencies.config.features.scheduleComputeOrganizationLearnersCertificability;
-
+    const batchMode = await featureToggles.get('scheduleCertificabilityBatchMode');
     const isolationLevel = 'repeatable read';
 
-    let toUserActivityDate, fromUserActivityDate;
-    if (providedDateRange && providedDateRange.startDate && providedDateRange.endDate) {
-      const parseStartDate = dayjs(providedDateRange.startDate, 'YYYY-MM-DD');
-      const parseEndDate = dayjs(providedDateRange.endDate, 'YYYY-MM-DD');
-      if (!parseStartDate.isValid() || !parseEndDate.isValid() || parseStartDate.isAfter(parseEndDate)) {
-        throw new ComputeOrganizationLearnerCertificabilityJobProvidedDateError();
-      }
-      fromUserActivityDate = parseStartDate.toDate();
-      toUserActivityDate = parseEndDate.toDate();
-    } else {
-      const parsedCron = CronExpressionParser.parse(cronConfig, { tz: 'Europe/Paris' });
-      toUserActivityDate = parsedCron.prev().toDate();
-      fromUserActivityDate = dayjs(toUserActivityDate).subtract(1, 'day').toDate();
-    }
+    const parsedCron = CronExpressionParser.parse(cronConfig, { tz: 'Europe/Paris' });
+    const toUserActivityDate = parsedCron.prev().toDate();
+    const fromUserActivityDate = dayjs(toUserActivityDate).subtract(1, 'day').toDate();
 
     return await DomainTransaction.execute(
       async () => {
         const count =
           await dependencies.organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
-            skipActivityDate,
             fromUserActivityDate,
             toUserActivityDate,
-            onlyNotComputed,
           });
 
         const chunkCount = Math.ceil(count / chunkSize);
@@ -86,42 +59,31 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobController extends Jo
               offset,
               fromUserActivityDate,
               toUserActivityDate,
-              skipActivityDate,
-              onlyNotComputed,
             });
 
           dependencies.logger.info(
             `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Ids count  : ${organizationLearnerIds.length}`,
           );
 
-          if (synchronously) {
-            for (const organizationLearnerId of organizationLearnerIds) {
-              await usecases.computeOrganizationLearnerCertificability({ organizationLearnerId });
-            }
-
-            dependencies.logger.info(
-              `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Certificability computed count : ${organizationLearnerIds.length}`,
+          if (!batchMode) {
+            const jobs = organizationLearnerIds.map(
+              (organizationLearnerId) =>
+                new ComputeCertificabilityJob({ organizationLearnerIds: [organizationLearnerId] }),
             );
-            continue;
+            await dependencies.computeCertificabilityJobRepository.performManyAsync(jobs);
+            totalJobsInserted += jobs.length;
+          } else {
+            await dependencies.computeCertificabilityJobRepository.performAsync(
+              new ComputeCertificabilityJob({ organizationLearnerIds }),
+            );
+            totalJobsInserted += 1;
           }
 
-          const jobs = organizationLearnerIds.map(
-            (organizationLearnerId) => new ComputeCertificabilityJob({ organizationLearnerId }),
-          );
-          await dependencies.computeCertificabilityJobRepository.performManyAsync(jobs);
-          totalJobsInserted += jobs.length;
           dependencies.logger.info(
             `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Jobs inserted count  : ${totalJobsInserted}`,
           );
         }
 
-        if (synchronously) {
-          dependencies.logger.info(
-            `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Total certificability computed count : ${totalJobsInserted}`,
-          );
-
-          return;
-        }
         dependencies.logger.info(
           `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Total jobs inserted count : ${totalJobsInserted}`,
         );

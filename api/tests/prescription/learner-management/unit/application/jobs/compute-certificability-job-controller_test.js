@@ -10,14 +10,19 @@ describe('Unit | Prescription | Application | Jobs | computeCertificabilityJobCo
       sinon.stub(usecases, 'computeOrganizationLearnerCertificability');
       // given
       const handler = new ComputeCertificabilityJobController();
-      const data = { organizationLearnerId: Symbol('organizationLearnerId') };
+      const data = { organizationLearnerIds: ['123', '456'] };
 
       // when
       await handler.handle({ data });
 
       // then
-      expect(usecases.computeOrganizationLearnerCertificability).to.have.been.calledOnce;
-      expect(usecases.computeOrganizationLearnerCertificability).to.have.been.calledWithExactly(data);
+      expect(usecases.computeOrganizationLearnerCertificability).to.have.been.calledTwice;
+      expect(usecases.computeOrganizationLearnerCertificability).to.have.been.calledWithExactly({
+        organizationLearnerId: '123',
+      });
+      expect(usecases.computeOrganizationLearnerCertificability).to.have.been.calledWithExactly({
+        organizationLearnerId: '456',
+      });
     });
   });
 });

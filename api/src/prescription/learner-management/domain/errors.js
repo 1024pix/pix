@@ -53,15 +53,8 @@ class OrganizationLearnerCertificabilityNotUpdatedError extends DomainError {
   }
 }
 
-class ComputeOrganizationLearnerCertificabilityJobProvidedDateError extends DomainError {
-  constructor() {
-    super('Provided date are not valid', 'COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY_JOB_DATE');
-  }
-}
-
 export {
   AggregateImportError,
-  ComputeOrganizationLearnerCertificabilityJobProvidedDateError,
   CouldNotDeleteLearnersError,
   OrganizationDoesNotHaveFeatureEnabledError,
   OrganizationLearnerCertificabilityNotUpdatedError,
