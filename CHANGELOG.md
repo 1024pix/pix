@@ -1,5 +1,52 @@
 # Pix Changelog
 
+# [5.541.0](https://github.com/1024pix/pix/compare/v5.540.0...v5.541.0) (2026-11-10)
+
+### :rocket: Amélioration
+
+- [#18663](https://github.com/1024pix/pix/pull/18663) Exposer les deuxième et troisième prénoms si disponibles pour les recherches par INE et UAI pour ParcourSup (PIX-25021)
+- [#18657](https://github.com/1024pix/pix/pull/18657) Permettre aux utilisateurs rôle "Certif" de PixAdmin de filtrer la liste de toutes les sessions par tous les statuts possibles sur une session (PIX-24964)
+- [#18702](https://github.com/1024pix/pix/pull/18702) Refonte de la page "timé" avant d'attérir sur un challenge à temps limité (PIX-25056).
+- [#18662](https://github.com/1024pix/pix/pull/18662) Répliquer les deuxième et troisième prénoms dans Maddo pour la réplication ParcourSup (PIX-25020)
+
+### :building_construction: Tech
+
+- [#18728](https://github.com/1024pix/pix/pull/18728) Amelioration de la configuration de pgboss
+- [#18691](https://github.com/1024pix/pix/pull/18691) Améliore le job de calcul de certificabilité.
+- [#18714](https://github.com/1024pix/pix/pull/18714) Déplacer les utilitaires de date dans shared et ajouter le jour d'une date par fuseau horaire.
+- [#18674](https://github.com/1024pix/pix/pull/18674) Rattraper la dette de tests sur le deep linking (PIX-24914)
+
+### :arrow_up: Montée de version
+
+- [#18696](https://github.com/1024pix/pix/pull/18696) Update aws-sdk-js-v3 monorepo to v3.1161.0 (api)
+- [#18697](https://github.com/1024pix/pix/pull/18697) Update dependency @formatjs/intl-durationformat to v0.12.3 (mon-pix)
+- [#18692](https://github.com/1024pix/pix/pull/18692) Update dependency dependency-cruiser to v18.7.1 (api)
+- [#18698](https://github.com/1024pix/pix/pull/18698) Update dependency eslint to v10.14.0 (e2e)
+- [#18699](https://github.com/1024pix/pix/pull/18699) Update dependency globals to v17.14.0 (admin)
+- [#18700](https://github.com/1024pix/pix/pull/18700) Update dependency globals to v17.14.0 (audit-logger)
+- [#18701](https://github.com/1024pix/pix/pull/18701) Update dependency globals to v17.14.0 (certif)
+- [#18703](https://github.com/1024pix/pix/pull/18703) Update dependency globals to v17.14.0 (e2e-playwright)
+- [#18704](https://github.com/1024pix/pix/pull/18704) Update dependency globals to v17.14.0 (junior)
+- [#18705](https://github.com/1024pix/pix/pull/18705) Update dependency globals to v17.14.0 (mon-pix)
+- [#18706](https://github.com/1024pix/pix/pull/18706) Update dependency globals to v17.14.0 (orga)
+- [#18707](https://github.com/1024pix/pix/pull/18707) Update dependency hyparquet to v1.32.0 (api)
+- [#18708](https://github.com/1024pix/pix/pull/18708) Update dependency i18next-browser-languagedetector to v8.3.0 (admin)
+- [#18709](https://github.com/1024pix/pix/pull/18709) Update dependency i18next-browser-languagedetector to v8.3.0 (certif)
+- [#18710](https://github.com/1024pix/pix/pull/18710) Update dependency i18next-browser-languagedetector to v8.3.0 (mon-pix)
+- [#18711](https://github.com/1024pix/pix/pull/18711) Update dependency i18next-browser-languagedetector to v8.3.0 (orga)
+- [#18693](https://github.com/1024pix/pix/pull/18693) Update dependency jose to v6.2.15 (api)
+- [#18694](https://github.com/1024pix/pix/pull/18694) Update dependency js-base64 to v3.9.6 (admin)
+- [#18712](https://github.com/1024pix/pix/pull/18712) Update dependency knip to v6.44.1 (api)
+- [#18713](https://github.com/1024pix/pix/pull/18713) Update dependency nodemailer to v10.3.1 (api)
+- [#18695](https://github.com/1024pix/pix/pull/18695) Update dependency openid-client to v6.8.9 (api)
+- [#18718](https://github.com/1024pix/pix/pull/18718) Update dependency pdfjs-dist to v6.5.438 (api)
+- [#18719](https://github.com/1024pix/pix/pull/18719) Update dependency sass to v1.107.1 (admin)
+- [#18720](https://github.com/1024pix/pix/pull/18720) Update dependency sass to v1.107.1 (certif)
+- [#18721](https://github.com/1024pix/pix/pull/18721) Update dependency sass to v1.107.1 (junior)
+- [#18723](https://github.com/1024pix/pix/pull/18723) Update dependency sass to v1.107.1 (mon-pix)
+- [#18724](https://github.com/1024pix/pix/pull/18724) Update dependency sass-embedded to v1.107.1 (orga)
+- [#18730](https://github.com/1024pix/pix/pull/18730) Update dependency vitest to v5.1.0 (audit-logger)
+
 # [5.540.0](https://github.com/1024pix/pix/compare/v5.539.0...v5.540.0) (2026-11-09)
 
 ### :rocket: Amélioration
