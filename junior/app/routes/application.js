@@ -1,10 +1,12 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import translationsForFr from 'virtual:ember-intl/translations/fr';
 
 export default class ApplicationRoute extends Route {
   @service intl;
 
   async beforeModel() {
+    this.intl.addTranslations('fr', translationsForFr);
     /*
     Ce code permet de définir une locale par défaut différente de celle d'ember-intl.
 
@@ -15,6 +17,6 @@ export default class ApplicationRoute extends Route {
 
     Pour régler ce problème, il faut définir une locale ayant un fichier dans le dossier de traduction.
      */
-    this.intl.setLocale('fr');
+    this.intl.setLocale(['fr']);
   }
 }
