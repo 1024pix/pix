@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## [5.541.1](https://github.com/1024pix/pix/compare/v5.541.0...v5.541.1) (2026-11-11)
+
+### :building_construction: Tech
+
+- [#18740](https://github.com/1024pix/pix/pull/18740) Accélérer la récupération des épreuves calibrées de certification.
+- [#18739](https://github.com/1024pix/pix/pull/18739) Accélérer la suppression en masse de prescrits en indexant les récompenses de profil.
+- [#18715](https://github.com/1024pix/pix/pull/18715) Ajouter les requêtes de l'export des knowledge elements des utilisateurs migrés.
+- [#18731](https://github.com/1024pix/pix/pull/18731) Modifier le monitoring des queues pgBoss
+- [#18734](https://github.com/1024pix/pix/pull/18734) Optimiser le calcul des places occupées de la route data organization-places (PIX-25067).
+
+### :arrow_up: Montée de version
+
+- [#18745](https://github.com/1024pix/pix/pull/18745) Update dependency @1024pix/stylelint-config to v5.2.29 (admin)
+- [#18746](https://github.com/1024pix/pix/pull/18746) Update dependency @1024pix/stylelint-config to v5.2.29 (certif)
+- [#18747](https://github.com/1024pix/pix/pull/18747) Update dependency @1024pix/stylelint-config to v5.2.29 (junior)
+- [#18748](https://github.com/1024pix/pix/pull/18748) Update dependency @1024pix/stylelint-config to v5.2.29 (mon-pix)
+- [#18749](https://github.com/1024pix/pix/pull/18749) Update dependency @1024pix/stylelint-config to v5.2.29 (orga)
+
 # [5.541.0](https://github.com/1024pix/pix/compare/v5.540.0...v5.541.0) (2026-11-10)
 
 ### :rocket: Amélioration
