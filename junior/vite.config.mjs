@@ -1,0 +1,53 @@
+import 'postcss-url';
+
+import { loadTranslations } from '@ember-intl/vite';
+import { classicEmberSupport, ember, extensions } from '@embroider/vite';
+import { babel } from '@rollup/plugin-babel';
+import sassEmbedded from 'sass-embedded';
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern',
+        implementation: sassEmbedded,
+        loadPaths: ['app/styles', 'node_modules/@1024pix/nebulix-ember/dist/styles'],
+      },
+    },
+  },
+  optimizeDeps: {
+    exclude: ['ember-exam'],
+  },
+  test: {
+    sourcemap: true,
+  },
+  plugins: [
+    classicEmberSupport(),
+    ember(),
+    // extra plugins here
+    babel({
+      babelHelpers: 'runtime',
+      extensions,
+    }),
+    loadTranslations(),
+  ],
+  preview: {
+    port: 4205,
+    proxy: {
+      '/api': {
+        target: `http://localhost:${process.env.PIX_API_PORT ?? 3000}`,
+        xfwd: true,
+      },
+    },
+  },
+  server: {
+    port: 4205,
+    proxy: {
+      '/api': {
+        target: `http://localhost:${process.env.PIX_API_PORT ?? 3000}`,
+        xfwd: true,
+      },
+    },
+  },
+});

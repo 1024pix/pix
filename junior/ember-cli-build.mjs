@@ -1,25 +1,12 @@
-import pkg from '@embroider/compat';
-import { Webpack } from '@embroider/webpack';
+import { compatBuild } from '@embroider/compat';
 import { setConfig } from '@warp-drive/build-config';
 import EmberApp from 'ember-cli/lib/broccoli/ember-app.js';
 
-const { compatBuild } = pkg;
-const sourceMapConfig = {
-  production: 'source-map',
-  test: false,
-  default: 'eval-source-map',
-};
 export default async function (defaults) {
+  const { buildOnce } = await import('@embroider/vite');
   const app = new EmberApp(defaults, {
-    sassOptions: {
-      includePaths: ['node_modules/@1024pix/nebulix-ember/dist/styles'],
-    },
     'ember-cli-template-lint': {
       testGenerator: 'qunit', // or 'mocha', etc.
-    },
-
-    'ember-cli-babel': {
-      includePolyfill: true,
     },
   });
 
@@ -30,28 +17,7 @@ export default async function (defaults) {
     polyfillUUID: true,
   });
 
-  // Use `app.import` to add additional libraries to the generated
-  // output files.
-  //
-  // If you need to use different assets in different
-  // environments, specify an object as the first parameter. That
-  // object's keys should be the environment name and the values
-  // should be the asset to use in that environment.
-  //
-  // If the library that you are including contains AMD or ES6
-  // modules that you would like to import into your application
-  // please specify an object with the list of modules as keys
-  // along with the exports of each module as its value.
-
-  return compatBuild(app, Webpack, {
-    staticAddonTestSupportTrees: true,
-    staticAddonTrees: true,
+  return compatBuild(app, buildOnce, {
     staticModifiers: true,
-    staticEmberSource: true,
-    packagerOptions: {
-      webpackConfig: {
-        devtool: sourceMapConfig[process.env.CI ? 'test' : (process.env.NODE_ENV ?? 'default')],
-      },
-    },
   });
 }
