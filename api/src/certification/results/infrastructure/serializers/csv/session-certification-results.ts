@@ -224,7 +224,9 @@ export function serialize(certificationResults: CertificationResultForCsv[], i18
   );
 
   const competenceCodeRegex = /^\d\.\d$/;
-  for (const certificationResult of certificationResults) {
+
+  const sortedCertificationResults = certificationResults.toSorted(sortByLastNameThenFirstName(i18n.getLocale()));
+  for (const certificationResult of sortedCertificationResults) {
     const row: Row = [];
     for (const header of headersToKeep) {
       if (header.key === 'certificationId') {
@@ -363,4 +365,15 @@ function formatCompetenceLevel(certificationResult: CertificationResultForCsv, c
     (currentCompetenceMark) => currentCompetenceMark.competenceCode === competenceCode,
   );
   return competenceMark ? Math.max(competenceMark.level, 0) : '-';
+}
+
+function sortByLastNameThenFirstName(locale: string) {
+  return (certifRes1: CertificationResultForCsv, certifRes2: CertificationResultForCsv) => {
+    const lastNameComparison = certifRes1.lastName.localeCompare(certifRes2.lastName, locale, { sensitivity: 'base' });
+    return lastNameComparison !== 0
+      ? lastNameComparison
+      : certifRes1.firstName.localeCompare(certifRes2.firstName, locale, {
+          sensitivity: 'base',
+        });
+  };
 }

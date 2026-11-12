@@ -802,13 +802,13 @@ describe('Certification | Results | Unit | Infrastructure | Serializer | CSV | s
           startedAt: new Date('2023-01-08'),
         });
 
-        const csv = serialize([coreCertificationResult, cleaCertificationResult, eduCertificationResult], i18n);
+        const csv = serialize([cleaCertificationResult, eduCertificationResult, coreCertificationResult], i18n);
 
         const expectedContent =
           '\uFEFF' +
           expectedCsvHeaders +
-          `"123";"jean-CORE";"coulignant-CORE";"14/07/1986";"puit-en-velin-CORE";"uuid-CORE";"Pix";"Validée";"Non passée";"Novice 1";"43";"1";"2";"3";"4";"7";"3";"5";"2";"4";"5";"1";"6";"2";"1";"4";"0";"c super-CORE";"1";"autre part-CORE";"08/01/2023"\n` +
           `"223";"jean-CLEA";"coulignant-CLEA";"14/07/1986";"puit-en-velin-CLEA";"uuid-CLEA";"CléA Numérique by Pix";"Validée";"Validée";"Indépendant 1";"60";"1";"2";"3";"4";"7";"3";"5";"2";"4";"5";"1";"6";"2";"1";"4";"0";"c super-CLEA";"1";"autre part-CLEA";"08/01/2023"\n` +
+          `"123";"jean-CORE";"coulignant-CORE";"14/07/1986";"puit-en-velin-CORE";"uuid-CORE";"Pix";"Validée";"Non passée";"Novice 1";"43";"1";"2";"3";"4";"7";"3";"5";"2";"4";"5";"1";"6";"2";"1";"4";"0";"c super-CORE";"1";"autre part-CORE";"08/01/2023"\n` +
           `"333";"jean-EDU";"coulignant-EDU";"14/07/1986";"puit-en-velin-EDU";"uuid-EDU";"Pix+ Édu 2nd degré";"Validée";"Non passée";"Admissible";;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"c super-EDU";"1";"autre part-EDU";"08/01/2023"`;
         expect(csv).to.equal(expectedContent);
       });
