@@ -79,10 +79,13 @@ async function getPlacementProfilesWithSnapshotting({ participations, competence
       campaignParticipationIds,
     );
 
+  const knowledgeElementsByParticipationId = Map.groupBy(
+    knowledgeElementsParticipations,
+    ({ campaignParticipationId }) => campaignParticipationId,
+  );
+
   return participations.map((participation) => {
-    const keForParticipation = knowledgeElementsParticipations.find((knowledgeElementsParticipation) => {
-      return knowledgeElementsParticipation.campaignParticipationId === participation.campaignParticipationId;
-    });
+    const [keForParticipation] = knowledgeElementsByParticipationId.get(participation.campaignParticipationId) ?? [];
 
     const knowledgeElementsByCompetence = keForParticipation.knowledgeElements
       ? keForParticipation.knowledgeElements.reduce((acc, ke) => {
