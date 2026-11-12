@@ -1100,6 +1100,7 @@
         "certification-center": "Certificeringscentrum:",
         "date": "Datum test:"
       },
+      "result-pending-comment": "Je resultaten zijn op zijn vroegst 2 dagen na je certificeringstest beschikbaar, zodra de sessie door je centrum is afgerond.",
       "statuses": {
         "cancelled": "Geannuleerd",
         "not-published": "In afwachting van resultaten",

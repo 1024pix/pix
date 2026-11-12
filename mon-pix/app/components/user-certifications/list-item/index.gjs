@@ -19,12 +19,8 @@ export default class ListItem extends Component {
   @service locale;
   @tracked errorMessage = null;
 
-  get isPublished() {
-    return this.args.certificateSummary.status !== CERTIFICATE_STATUSES.WAITING_FOR_RESULTS;
-  }
-
-  get shouldDisplayFramework() {
-    return !this.isPublished;
+  get isWaitingForResult() {
+    return this.args.certificateSummary.status === CERTIFICATE_STATUSES.WAITING_FOR_RESULTS;
   }
 
   get frameworkName() {
@@ -72,7 +68,7 @@ export default class ListItem extends Component {
             @reachedMeshLevel={{@certificateSummary.reachedMeshLevel}}
             @certificateType={{@certificateSummary.certificateType}}
           />
-          {{#if this.shouldDisplayFramework}}
+          {{#if this.isWaitingForResult}}
             <p data-testid="pw-certification-card-details-framework" class="info">
               <strong>{{this.frameworkName}}</strong>
             </p>
@@ -102,6 +98,13 @@ export default class ListItem extends Component {
         <p data-testid="pw-certification-card-comment" class="certification-item-comment">
           {{t "pages.certifications-list.comment"}}
           {{@certificateSummary.comment}}
+        </p>
+      {{/if}}
+
+      {{#if this.isWaitingForResult}}
+        <p data-testid="pw-certification-card-comment" class="certification-item-comment">
+          {{t "pages.certifications-list.comment"}}
+          {{t "pages.certifications-list.result-pending-comment"}}
         </p>
       {{/if}}
 
