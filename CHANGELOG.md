@@ -1,5 +1,29 @@
 # Pix Changelog
 
+# [5.542.0](https://github.com/1024pix/pix/compare/v5.541.1...v5.542.0) (2026-11-12)
+
+### :rocket: Amélioration
+
+- [#18738](https://github.com/1024pix/pix/pull/18738) Ajout d'un commentaire sur les cartes de certification en attente de résultats (PIX-24602)
+- [#18637](https://github.com/1024pix/pix/pull/18637) Connecter le service de définition à un usecase (PIX-24962).
+- [#18732](https://github.com/1024pix/pix/pull/18732) Streamer le téléchargement des certificats de plusieurs sessions (PIX-24978).- #18618
+
+### :building_construction: Tech
+
+- [#18741](https://github.com/1024pix/pix/pull/18741) :card_file_box: ajoute des champs manquants pour la table `certification_results` (PIX-25078)
+- [#18762](https://github.com/1024pix/pix/pull/18762) Introduit le modèle `SessionAuthorization` dans le bounded-context `results` (PIX-25097)
+- [#18755](https://github.com/1024pix/pix/pull/18755) Modifier le type activation/expiration en datetime sur la table credits_lots (PIX-25042)
+- [#18744](https://github.com/1024pix/pix/pull/18744) Remplacer `ember-cli-mirage` par `miragejs` sur Pix Junior.
+
+### :arrow_up: Montée de version
+
+- [#18752](https://github.com/1024pix/pix/pull/18752) Update dependency @1024pix/oppsy to v1.1.7 (api)
+- [#18756](https://github.com/1024pix/pix/pull/18756) Update dependency @1024pix/stylelint-config to v5.2.30 (admin)
+- [#18757](https://github.com/1024pix/pix/pull/18757) Update dependency @1024pix/stylelint-config to v5.2.30 (certif)
+- [#18758](https://github.com/1024pix/pix/pull/18758) Update dependency @1024pix/stylelint-config to v5.2.30 (junior)
+- [#18759](https://github.com/1024pix/pix/pull/18759) Update dependency @1024pix/stylelint-config to v5.2.30 (mon-pix)
+- [#18760](https://github.com/1024pix/pix/pull/18760) Update dependency @1024pix/stylelint-config to v5.2.30 (orga)
+
 ## [5.541.1](https://github.com/1024pix/pix/compare/v5.541.0...v5.541.1) (2026-11-11)
 
 ### :building_construction: Tech
