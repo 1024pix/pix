@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
-import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
+import { COMBINED_COURSE_DURATION_OPTIONS, REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { OrganizationLearnerParticipationStatuses } from '../../../../../src/quest/domain/models/combined-course-participations/entities/OrganizationLearnerParticipation.js';
 import { REQUIREMENT_TYPES } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import { PRO_ORGANIZATION_ID } from '../../common/constants.js';
@@ -41,6 +41,7 @@ export const PRO_COMBINED_COURSE = {
     description:
       "#Un parcours\n pour découvrir l'essentiel sur l'intelligence artificielle : [comprendre sa définition](http://pix.fr), ses domaines d'application, comment elle fonctionne, ainsi que ses enjeux, notamment en matière d'impact environnemental.",
     surveyUrl: 'http://pix.fr',
+    durationSpan: COMBINED_COURSE_DURATION_OPTIONS.VERY_SHORT,
   },
   combinedCourse: {
     code: 'COMBINIX1',
