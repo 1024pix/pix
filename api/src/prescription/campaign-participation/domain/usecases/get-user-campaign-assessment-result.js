@@ -35,17 +35,14 @@ const getUserCampaignAssessmentResult = async function ({
       .filter((badge) => badge.shouldBeObtained(knowledgeElements))
       .map(({ id }) => id);
 
-    const badgeWithAcquisitionPercentage = badgesForCalculation.map((badge) => ({
-      id: badge.id,
-      acquisitionPercentage: badge.getAcquisitionPercentage(knowledgeElements),
-    }));
+    const acquisitionPercentagesByBadgeId = new Map(
+      badgesForCalculation.map((badge) => [badge.id, badge.getAcquisitionPercentage(knowledgeElements)]),
+    );
 
     const badgesWithValidity = badges.map((badge) => ({
       ...badge,
       isValid: stillValidBadgeIds.includes(badge.id),
-      acquisitionPercentage:
-        badgeWithAcquisitionPercentage.find((badgeForCalculation) => badgeForCalculation.id === badge.id)
-          ?.acquisitionPercentage ?? null,
+      acquisitionPercentage: acquisitionPercentagesByBadgeId.get(badge.id) ?? null,
     }));
 
     const stages = await stageRepository.getByCampaignId(campaignId);

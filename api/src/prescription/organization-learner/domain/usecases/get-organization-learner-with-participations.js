@@ -33,17 +33,20 @@ export const getOrganizationLearnerWithParticipations = async function ({
 
   const tags = await tagRepository.findByIds(organization.tags.map((tag) => tag.id));
 
+  const stagesByTargetProfileId = Map.groupBy(stages, ({ targetProfileId }) => targetProfileId);
+  const acquiredStagesByCampaignParticipationId = Map.groupBy(
+    acquiredStages,
+    ({ campaignParticipationId }) => campaignParticipationId,
+  );
+
   const resultByLearnerId = new Map();
 
   organizationLearnerIds.forEach((organizationLearnerId) => {
     const campaignParticipations = campaignParticipationOverviewsByLearner.get(organizationLearnerId) ?? [];
     const campaignParticipationOverviewsWithStages = campaignParticipations.map((campaignParticipationOverview) => {
-      const stagesForThisCampaign = stages.filter(
-        ({ targetProfileId }) => targetProfileId === campaignParticipationOverview.targetProfileId,
-      );
-      const acquiredStagesForThisCampaign = acquiredStages.filter(
-        ({ campaignParticipationId }) => campaignParticipationId === campaignParticipationOverview.id,
-      );
+      const stagesForThisCampaign = stagesByTargetProfileId.get(campaignParticipationOverview.targetProfileId) ?? [];
+      const acquiredStagesForThisCampaign =
+        acquiredStagesByCampaignParticipationId.get(campaignParticipationOverview.id) ?? [];
       const stagesComparison = stageAcquisitionComparisonService.compare(
         stagesForThisCampaign,
         acquiredStagesForThisCampaign,

@@ -188,8 +188,9 @@ async function _getLearningContent(targetProfileId, tubesData, locale) {
   const areaIds = [...new Set(competences.map((c) => c.areaId))];
   const areas = await areaRepository.findByRecordIds({ areaIds, locale });
 
+  const tubesDataByTubeId = Map.groupBy(tubesData, (data) => data.tubeId);
   for (const tube of tubes) {
-    const tubeData = tubesData.find((data) => tube.id === data.tubeId);
+    const [tubeData] = tubesDataByTubeId.get(tube.id) ?? [];
     tube.level = tubeData.level;
   }
 

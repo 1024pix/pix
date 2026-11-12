@@ -75,10 +75,12 @@ async function _addOralizationInformationToParticipants({
     organizationId,
     featureKey: ORGANIZATION_FEATURE.ORALIZATION_MANAGED_BY_PRESCRIBER.key,
   });
+  const learnerIdsWithOralization = new Set(
+    learnersWithOralizationFeature.map((learnerWithOralization) => learnerWithOralization.id),
+  );
+
   return organizationParticipants?.map((participant) => {
-    const hasOralization = learnersWithOralizationFeature.some(
-      (learnerWithOralization) => learnerWithOralization.id === participant.id,
-    );
+    const hasOralization = learnerIdsWithOralization.has(participant.id);
     participant.extraColumns['ORALIZATION'] = hasOralization;
 
     return participant;

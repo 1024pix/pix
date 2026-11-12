@@ -97,10 +97,9 @@ async function _getLearningContentBySkills(skills, locale) {
   const tubeIds = _.uniq(skills.map((skill) => skill.tubeId));
   const tubes = await tubeRepository.findByRecordIds(tubeIds, locale);
 
+  const skillsByTubeId = Map.groupBy(skills, (skill) => skill.tubeId);
   tubes.forEach((tube) => {
-    tube.skills = skills.filter((skill) => {
-      return skill.tubeId === tube.id;
-    });
+    tube.skills = skillsByTubeId.get(tube.id) ?? [];
   });
 
   return _getLearningContentByTubes(tubes, locale);
@@ -114,10 +113,9 @@ async function _getLearningContentByCappedTubes(cappedTubesDTO, locale) {
     locale,
   );
 
+  const skillsByTubeId = Map.groupBy(skills, (skill) => skill.tubeId);
   tubes.forEach((tube) => {
-    tube.skills = skills.filter((skill) => {
-      return skill.tubeId === tube.id;
-    });
+    tube.skills = skillsByTubeId.get(tube.id) ?? [];
   });
 
   return _getLearningContentByTubes(tubes, locale);
@@ -126,40 +124,40 @@ async function _getLearningContentByCappedTubes(cappedTubesDTO, locale) {
 async function _getLearningContentByTubes(tubes, locale) {
   const thematicIds = _.uniq(tubes.map((tube) => tube.thematicId));
   const thematics = await thematicRepository.findByRecordIds(thematicIds, locale);
+  const tubesByThematicId = Map.groupBy(tubes, (tube) => tube.thematicId);
   thematics.forEach((thematic) => {
-    thematic.tubes = tubes.filter((tube) => tube.thematicId === thematic.id);
+    thematic.tubes = tubesByThematicId.get(thematic.id) ?? [];
   });
 
   const competenceIds = _.uniq(tubes.map((tube) => tube.competenceId));
   const competences = await competenceRepository.findByRecordIds({ competenceIds, locale });
 
+  const tubesByCompetenceId = Map.groupBy(tubes, (tube) => tube.competenceId);
+  const thematicsByCompetenceId = Map.groupBy(thematics, (thematic) => thematic.competenceId);
   competences.forEach((competence) => {
-    competence.tubes = tubes.filter((tube) => {
-      return tube.competenceId === competence.id;
-    });
-    competence.thematics = thematics.filter((thematic) => {
-      return thematic.competenceId === competence.id;
-    });
+    competence.tubes = tubesByCompetenceId.get(competence.id) ?? [];
+    competence.thematics = thematicsByCompetenceId.get(competence.id) ?? [];
   });
 
   const allAreaIds = _.map(competences, (competence) => competence.areaId);
   const uniqAreaIds = _.uniq(allAreaIds, 'id');
   const areas = await areaRepository.findByRecordIds({ areaIds: uniqAreaIds, locale });
+  const competencesByAreaId = Map.groupBy(competences, (competence) => competence.areaId);
   for (const area of areas) {
-    area.competences = competences.filter((competence) => {
-      return competence.areaId === area.id;
-    });
+    area.competences = competencesByAreaId.get(area.id) ?? [];
   }
 
   const frameworkIds = _.uniq(areas.map((area) => area.frameworkId));
   const frameworkDtos = await frameworksAPI.findByIds({ ids: frameworkIds });
+
+  const areasByFrameworkId = Map.groupBy(areas, (area) => area.frameworkId);
 
   return frameworkDtos.map(
     ({ id, name }) =>
       new Framework({
         id,
         name,
-        areas: areas.filter((area) => area.frameworkId === id),
+        areas: areasByFrameworkId.get(id) ?? [],
       }),
   );
 }

@@ -50,8 +50,10 @@ const hasTubesWithLevels = async function ({ targetProfileId, tubesWithLevels })
     .whereIn('tubeId', tubeIds)
     .andWhere('targetProfileId', targetProfileId);
 
+  const targetProfileTubesByTubeId = Map.groupBy(result, ({ tubeId }) => tubeId);
+
   for (const tubeWithLevel of tubesWithLevels) {
-    const targetProfileTube = result.find(({ tubeId }) => tubeId === tubeWithLevel.id);
+    const [targetProfileTube] = targetProfileTubesByTubeId.get(tubeWithLevel.id) ?? [];
     if (!targetProfileTube) {
       throw new ObjectValidationError(`Le sujet ${tubeWithLevel.id} ne fait pas partie du profil cible`);
     }
