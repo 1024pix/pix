@@ -621,6 +621,13 @@
       }
     },
     "campaign-landing": {
+      "actions": {
+        "legal": "Al participar, la información sobre tu avance en el recorrido y tus resultados se transmitirá al organizador del recorrido para que pueda acompañarte.",
+        "login-cta": "Me conecto",
+        "signup-cta": "Creo mi cuenta",
+        "start-cta": "¡Sí, vamos!",
+        "title": "¿Listo/a para descubrir tu recorrido?"
+      },
       "assessment": {
         "action": "Empezar",
         "announcement": "Regístrate o conéctate a la plataforma Pix y comienza la prueba.",
@@ -642,15 +649,10 @@
         "title": "Empieza tu test Pix",
         "title-with-username": "'<span>'¿{userFirstName}'</span>','<br>' Listo para evaluar tus habilidades?"
       },
-      "breaks": "Pausas posibles",
+      "breaks-allowed": "Pausas posibles",
       "has-reward": "Con certificado al finalizar",
       "login": {
-        "info": "Una cuenta Pix te permite retomar tu recorrido donde lo dejaste o seguir aprendiendo.",
-        "legal": "Al participar, la información sobre tu avance en el recorrido y tus resultados se transmitirá al organizador del recorrido para que pueda acompañarte.",
-        "login-cta": "Me conecto",
-        "signup-cta": "Creo mi cuenta",
-        "start-cta": "¡Sí, vamos!",
-        "title": "¿Listo/a para descubrir tu recorrido?"
+        "info": "Una cuenta Pix te permite retomar tu recorrido donde lo dejaste o seguir aprendiendo."
       },
       "organization": "Propuesto por { organizationName }",
       "profiles-collection": {

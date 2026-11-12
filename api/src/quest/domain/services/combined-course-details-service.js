@@ -45,13 +45,16 @@ async function getCombinedCourseDetails({
   recommendedModuleRepository,
   reward,
 }) {
-  const participation = await organizationLearnerParticipationRepository.findByLearnerId({
-    organizationLearnerId,
-    combinedCourseId: combinedCourseDetails.id,
-  });
-
   let recommendedModuleIdsForUser = [];
   let dataForQuest;
+  let participation;
+
+  if (organizationLearnerId) {
+    participation = await organizationLearnerParticipationRepository.findByLearnerId({
+      organizationLearnerId,
+      combinedCourseId: combinedCourseDetails.id,
+    });
+  }
 
   if (participation) {
     const eligibility = await eligibilityRepository.findByOrganizationAndOrganizationLearnerId({

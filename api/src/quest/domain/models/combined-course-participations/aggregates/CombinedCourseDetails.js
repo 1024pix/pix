@@ -306,6 +306,10 @@ export class CombinedCourseDetails extends CombinedCourse {
     }
   }
 
+  setReward(reward) {
+    this.reward = reward ? new CombinedCourseReward({ combinedCourseDetails: this, reward }) : null;
+  }
+
   setDataAndGenerateItems({
     recommendedModuleIdsForUser = [],
     dataForQuest,
@@ -317,7 +321,7 @@ export class CombinedCourseDetails extends CombinedCourse {
     this.#participation = participation;
     this.#organizationLearner = organizationLearner;
     this.#generateItems({ dataForQuest });
-    this.reward = reward ? new CombinedCourseReward({ combinedCourseDetails: this, reward }) : null;
+    this.setReward(reward);
   }
 
   isSuccessful() {

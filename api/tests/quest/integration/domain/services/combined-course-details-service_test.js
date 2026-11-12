@@ -463,6 +463,36 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
     });
   });
 
+  describe('when there is no organizationLearnerId', function () {
+    it('should provide data without participation', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+        successRequirements: [],
+      });
+      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
+        code,
+        organizationId,
+        questId,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const combinedCourseDetails = await CombinedCourseDetailsService.instantiateCombinedCourseDetails({
+        combinedCourseId,
+      });
+      const result = await CombinedCourseDetailsService.getCombinedCourseDetails({
+        combinedCourseDetails,
+        organizationLearnerId: undefined,
+      });
+
+      // then
+      expect(result.id).to.equal(combinedCourseId);
+      expect(result.status).to.equal(CombinedCourseStatuses.NOT_STARTED);
+    });
+  });
   describe('when there is no combined course participation yet', function () {
     it('should return correct data for a not started combined course participation', async function () {
       // given

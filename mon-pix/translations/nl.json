@@ -621,6 +621,13 @@
       }
     },
     "campaign-landing": {
+      "actions": {
+        "legal": "Door deel te nemen worden gegevens over je voortgang in het traject en je resultaten gedeeld met de organisator van het traject, zodat die je kan begeleiden.",
+        "login-cta": "Ik log in",
+        "signup-cta": "Ik maak mijn account aan",
+        "start-cta": "Ja, aan de slag!",
+        "title": "Klaar om je traject te ontdekken?"
+      },
       "assessment": {
         "action": "Ik begin",
         "announcement": "Registreer of log in op het Pix-platform en start de test.",
@@ -642,15 +649,10 @@
         "title": "Begin je Pix-traject",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' Klaar om je digitale vaardigheden te testen?"
       },
-      "breaks": "Pauzes mogelijk",
+      "breaks-allowed": "Pauzes mogelijk",
       "has-reward": "Met certificaat",
       "login": {
-        "info": "Met een Pix-account kun je je traject hervatten waar je was gebleven of je leerproces voortzetten.",
-        "legal": "Door deel te nemen worden gegevens over je voortgang in het traject en je resultaten gedeeld met de organisator van het traject, zodat die je kan begeleiden.",
-        "login-cta": "Ik log in",
-        "signup-cta": "Ik maak mijn account aan",
-        "start-cta": "Ja, aan de slag!",
-        "title": "Klaar om je traject te ontdekken?"
+        "info": "Met een Pix-account kun je je traject hervatten waar je was gebleven of je leerproces voortzetten."
       },
       "organization": "Aangeboden door { organizationName }",
       "profiles-collection": {

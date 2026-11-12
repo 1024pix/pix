@@ -621,6 +621,13 @@
       }
     },
     "campaign-landing": {
+      "actions": {
+        "legal": "Wenn du teilnimmst, werden Informationen über deinen Fortschritt im Parcours und deine Ergebnisse an den Organisator des Parcours übermittelt, damit er dich begleiten kann.",
+        "login-cta": "Ich melde mich an",
+        "signup-cta": "Ich erstelle mein Konto",
+        "start-cta": "Ja, los geht's!",
+        "title": "Bereit, deinen Parcours zu entdecken?"
+      },
       "assessment": {
         "action": "Jetzt starten",
         "announcement": "Registriere dich bzw. melde dich auf der Pix-Plattform an und starte dein Assessment.",
@@ -642,15 +649,10 @@
         "title": "Starte deine Pix-Erfahrung",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' bereit, deine digitalen Kompetenzen zu bewerten?"
       },
-      "breaks": "Pausen möglich",
+      "breaks-allowed": "Pausen möglich",
       "has-reward": "Mit Teilnahmebescheinigung",
       "login": {
-        "info": "Mit einem Pix-Konto kannst du deinen Parcours dort fortsetzen, wo du aufgehört hast, oder dein Lernen vertiefen.",
-        "legal": "Wenn du teilnimmst, werden Informationen über deinen Fortschritt im Parcours und deine Ergebnisse an den Organisator des Parcours übermittelt, damit er dich begleiten kann.",
-        "login-cta": "Ich melde mich an",
-        "signup-cta": "Ich erstelle mein Konto",
-        "start-cta": "Ja, los geht's!",
-        "title": "Bereit, deinen Parcours zu entdecken?"
+        "info": "Mit einem Pix-Konto kannst du deinen Parcours dort fortsetzen, wo du aufgehört hast, oder dein Lernen vertiefen."
       },
       "organization": "Angeboten von { organizationName }",
       "profiles-collection": {
