@@ -1960,6 +1960,9 @@
       "title": "Create a network"
     },
     "organization": {
+      "credits": {
+        "title": "Credits"
+      },
       "get": {
         "archiving": {
           "notifications": {
@@ -1971,6 +1974,7 @@
         "aria-label": "Organization section navigation",
         "attached-certification-center": "Link Certif",
         "campaigns": "Campaigns",
+        "credits": "Credits",
         "details": "Details",
         "features": "Features",
         "invitations": "Invitations",

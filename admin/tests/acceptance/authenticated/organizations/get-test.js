@@ -28,6 +28,7 @@ module('Acceptance | Organizations | Get', function (hooks) {
     const ARCHIVED_ORGANIZATION_ID = 2;
     const ORGANIZATION_WITHOUT_PLACES_MANAGEMENT_ID = 3;
     const ORGANIZATION_IN_NETWORK_ID = 4;
+    const ORGANIZATION_WITH_CREDITS_MANAGEMENT_ID = 5;
 
     hooks.beforeEach(async () => {
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
@@ -335,6 +336,38 @@ module('Acceptance | Organizations | Get', function (hooks) {
             // then
             const navigationTabs = screen.getByRole('navigation', { name: t('pages.organization.navbar.aria-label') });
             assert.notOk(within(navigationTabs).queryByRole('link', { name: t('pages.organization.navbar.places') }));
+          });
+        });
+      });
+
+      module('Credits tab', function () {
+        module('when CREDITS_MANAGEMENT feature is enabled', function () {
+          test('it should navigate to credits page when clicking tab', async function (assert) {
+            // given
+            server.create('organization', {
+              id: ORGANIZATION_WITH_CREDITS_MANAGEMENT_ID,
+              name: 'My Organization With CREDITS_MANAGEMENT',
+              features: { CREDITS_MANAGEMENT: { active: true }, PLACES_MANAGEMENT: { active: false } },
+            });
+            const screen = await visit(`/organizations/${ORGANIZATION_WITH_CREDITS_MANAGEMENT_ID}`);
+
+            // when
+            const navigationTabs = screen.getByRole('navigation', { name: t('pages.organization.navbar.aria-label') });
+            await click(within(navigationTabs).getByRole('link', { name: t('pages.organization.navbar.credits') }));
+
+            // then
+            assert.strictEqual(currentURL(), `/organizations/${ORGANIZATION_WITH_CREDITS_MANAGEMENT_ID}/credits`);
+          });
+        });
+
+        module('when CREDITS_MANAGEMENT feature is disabled', function () {
+          test('it should not display credits tab', async function (assert) {
+            // when
+            const screen = await visit(`/organizations/${ORGANIZATION_ID}`);
+
+            // then
+            const navigationTabs = screen.getByRole('navigation', { name: t('pages.organization.navbar.aria-label') });
+            assert.notOk(within(navigationTabs).queryByRole('link', { name: t('pages.organization.navbar.credits') }));
           });
         });
       });
