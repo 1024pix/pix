@@ -203,6 +203,7 @@ import { buildComplementaryCertificationScoringWithComplementaryReferential } fr
 import { buildSession } from './certification/evaluation/build-session.js';
 import { buildCertificateMeshLevel } from './certification/results/build-certificate-mesh-level.js';
 import { buildCertificateSummary } from './certification/results/build-certificate-summary.js';
+import { buildNewCertificationResult } from './certification/results/build-new-certification-result.js';
 import { buildResultRecipient } from './certification/results/build-result-recipient.js';
 import { buildSession as buildSessionForResults } from './certification/results/build-session.js';
 import { sessionAuthorizationBuilder as sessionAuthorizationBuilderForResults } from './certification/results/build-session-authorization.js';
@@ -321,6 +322,7 @@ const certification = {
     buildCertificateSummary,
     buildResultRecipient,
     buildSessionForResultsSharing,
+    buildNewCertificationResult,
     sessionAuthorizationBuilder: sessionAuthorizationBuilderForResults,
     parcoursup: {
       buildCertificationResult: parcoursupCertificationResult,

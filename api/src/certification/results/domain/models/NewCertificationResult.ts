@@ -52,8 +52,8 @@ type EduV3Results = PixPlusV3Results & {
 };
 
 type CleaV3Results = CoreV3Results & {
-  acquired: boolean;
-  complementaryCertificationBadgeId: number;
+  hasAcquiredClea: boolean;
+  cleaBadgeId: number;
 };
 
 export class CertificationResult {

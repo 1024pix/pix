@@ -245,8 +245,8 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
               maxReachableLevel: 7,
               pixScore: 678,
               reachedMeshIndex: 3,
-              acquired: true,
-              complementaryCertificationBadgeId: 789,
+              hasAcquiredClea: true,
+              cleaBadgeId: 789,
               competenceMarks: [
                 {
                   level: 1,
