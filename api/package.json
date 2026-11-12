@@ -173,7 +173,7 @@
     "zip-stream": "7.0.5"
   },
   "devDependencies": {
-    "@1024pix/eslint-plugin": "3.0.22",
+    "@1024pix/eslint-plugin": "3.1.0",
     "@ls-lint/ls-lint": "2.3.2",
     "@types/chai": "5.2.3",
     "@types/chai-as-promised": "8.0.2",
@@ -202,7 +202,7 @@
     "nodemon": "3.1.14",
     "npm-run-all2": "9.0.4",
     "oauth4webapi": "3.8.8",
-    "oxfmt": "0.75.0",
+    "oxfmt": "0.76.0",
     "pdfjs-dist": "6.5.438",
     "schemalint": "2.3.2",
     "sinon": "22.1.0",
