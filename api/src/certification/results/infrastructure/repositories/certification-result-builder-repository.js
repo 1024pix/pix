@@ -14,8 +14,12 @@ export async function findBuilderForCertificationsInSession(sessionId) {
       algorithmEngineVersion: 'certification-courses.version',
       firstName: 'certification-courses.firstName',
       lastName: 'certification-courses.lastName',
+      externalId: 'certification-courses.externalId',
       birthdate: 'certification-courses.birthdate',
       birthplace: 'certification-courses.birthplace',
+      birthPostalCode: 'certification-courses.birthPostalCode',
+      birthINSEECode: 'certification-courses.birthINSEECode',
+      birthCountry: 'certification-courses.birthCountry',
       verificationCode: 'certification-courses.verificationCode',
       certificationCenter: 'certification-centers.name',
       startedAt: 'certification-courses.createdAt',
@@ -79,7 +83,7 @@ export async function findBuilderForCertificationsInSession(sessionId) {
         organizationLearnerId: 'id',
         middleName: 'middleName',
         thirdName: 'thirdName',
-        externalId: 'nationalStudentId',
+        nationalStudentId: 'nationalStudentId',
       })
       .from('organization-learners')
       .whereIn('id', organizationLearnerIds)

@@ -14,8 +14,12 @@ export type CertificationDataV3Props = {
   algorithmEngineVersion: number;
   firstName: string;
   lastName: string;
+  externalId: string | null;
   birthdate: string;
   birthplace: string;
+  birthPostalCode: string | null;
+  birthINSEECode: string | null;
+  birthCountry: string | null;
   verificationCode: string;
   certificationCenter: string;
   startedAt: Date;
@@ -40,7 +44,7 @@ type LearnerDataV3Props = {
   organizationLearnerId: number;
   middleName: string | null;
   thirdName: string | null;
-  externalId: string | null;
+  nationalStudentId: string | null;
 };
 type CleaDataV3Props = {
   certificationCourseId: number;
@@ -95,9 +99,13 @@ export class CertificationResultBuilder {
         middleName: learnerItem?.middleName ?? null,
         thirdName: learnerItem?.thirdName ?? null,
         lastName: certificationItem.lastName,
-        externalId: learnerItem?.externalId ?? null,
+        externalId: certificationItem.externalId ?? null,
+        nationalStudentId: learnerItem?.nationalStudentId ?? null,
         birthdate: certificationItem.birthdate,
         birthplace: certificationItem.birthplace,
+        birthPostalCode: certificationItem.birthPostalCode ?? null,
+        birthINSEECode: certificationItem.birthINSEECode ?? null,
+        birthCountry: certificationItem.birthCountry ?? null,
         verificationCode: certificationItem.verificationCode,
         certificationCenter: certificationItem.certificationCenter,
         startedAt: certificationItem.startedAt,
