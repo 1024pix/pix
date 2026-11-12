@@ -1,0 +1,12 @@
+# renovate datasource=node-version depName=node
+FROM node:24.21.0 as dev
+
+EXPOSE 3000
+
+USER node
+COPY --chown=node:node . /code
+
+WORKDIR /code
+RUN npm ci
+
+CMD [ "npm", "run", "start" ]
