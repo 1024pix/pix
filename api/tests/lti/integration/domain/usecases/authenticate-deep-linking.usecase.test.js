@@ -47,7 +47,7 @@ describe('Integration | LTI | Domain | Usecases | authenticateDeepLinking', func
       organizationIds: [expectedOrganization1Id, expectedOrganization2Id, expectedOrganization3Id],
       clientId,
       deepLinkingSettings: { some_prop: 'some value' },
-      scope: 'campaigns:read',
+      scope: 'lti-campaigns:read',
       audience,
     });
     expect(ltiDeepLinkingAccessToken).to.have.property('sessionId').that.is.a('string');

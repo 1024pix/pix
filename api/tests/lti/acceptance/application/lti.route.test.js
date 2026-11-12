@@ -139,7 +139,7 @@ describe('Acceptance | LTI | Route | LTI', function () {
         organizationIds: [organization.id],
         clientId,
         deepLinkingSettings: {},
-        scope: 'lti:deep-linking',
+        scope: 'lti-campaigns:read',
         audience: 'https://orga.pix.fr',
         sessionId: 'session-id',
       });
@@ -163,23 +163,169 @@ describe('Acceptance | LTI | Route | LTI', function () {
       expect(response.result.data[0].type).to.equal('lti-campaigns');
     });
 
-    it('returns an HTTP status code 401 when there is no lti deep linking cookie', async function () {
+    describe('when there is no lti deep linking cookie', function () {
+      it('returns an HTTP status code 401', async function () {
+        // given
+        const options = {
+          method: 'GET',
+          url: '/api/lti/campaigns',
+          headers: {
+            cookie: `jwtLtiDeepLinking=`,
+            'x-forwarded-proto': 'https',
+            'x-forwarded-host': 'orga.pix.fr',
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+    });
+
+    describe('when scope does not contain lti-campaigns:read', function () {
+      it('returns an HTTP status code 403', async function () {
+        // given
+        const { id: platformId } = databaseBuilder.factory.buildLtiPlatform();
+        const { clientId } = databaseBuilder.factory.buildLtiPlatformRegistration({ platformId });
+
+        await databaseBuilder.commit();
+
+        const ltiDeepLinkingAccessToken = new LtiDeepLinkingAccessToken({
+          organizationIds: [1],
+          clientId,
+          deepLinkingSettings: {},
+          scope: 'other-scope',
+          audience: 'https://orga.pix.fr',
+          sessionId: 'session-id',
+        });
+
+        const options = {
+          method: 'GET',
+          url: '/api/lti/campaigns',
+          headers: {
+            cookie: `jwtLtiDeepLinking=${ltiDeepLinkingAccessToken.encoded}`,
+            'x-forwarded-proto': 'https',
+            'x-forwarded-host': 'orga.pix.fr',
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.result.message).to.equal('Insufficient scope');
+      });
+    });
+  });
+
+  describe('POST /api/lti/select-campaign', function () {
+    it('returns an auto-submit form posting a deep linking response to the platform with an HTTP status code 200', async function () {
       // given
+      const { id: platformId } = databaseBuilder.factory.buildLtiPlatform();
+      const { clientId } = databaseBuilder.factory.buildLtiPlatformRegistration({ platformId });
+
+      const organization = databaseBuilder.factory.buildOrganization();
+      const campaignId = databaseBuilder.factory.buildCampaign({
+        organizationId: organization.id,
+        code: 'CAMPAIGN1',
+        type: 'PROFILES_COLLECTION',
+      }).id;
+
+      await databaseBuilder.commit();
+
+      const deepLinkingSettings = {
+        deep_link_return_url: 'https://moodle.example.net/mod/lti/contentitem_return.php',
+      };
+
+      const ltiDeepLinkingAccessToken = new LtiDeepLinkingAccessToken({
+        organizationIds: [organization.id],
+        clientId,
+        deepLinkingSettings,
+        scope: 'lti-campaigns:read other-scope',
+        audience: 'https://orga.pix.fr',
+        sessionId: 'session-id',
+      });
+
       const options = {
-        method: 'GET',
-        url: '/api/lti/campaigns',
+        method: 'POST',
+        url: '/api/lti/select-campaign',
         headers: {
-          cookie: `jwtLtiDeepLinking=`,
+          cookie: `jwtLtiDeepLinking=${ltiDeepLinkingAccessToken.encoded}`,
           'x-forwarded-proto': 'https',
           'x-forwarded-host': 'orga.pix.fr',
         },
+        payload: { campaignId },
       };
 
       // when
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(401);
+      expect(response.statusCode).to.equal(200);
+      expect(response.headers['content-type']).to.equal('text/html; charset=utf-8');
+      expect(response.payload).to.contain(
+        '<form id="ltiAuthForm" name="ltiAuthForm" action="https://moodle.example.net/mod/lti/contentitem_return.php" method="POST"',
+      );
+    });
+
+    describe('when there is no lti deep linking cookie', function () {
+      it('returns an HTTP status code 401', async function () {
+        // given
+        const options = {
+          method: 'POST',
+          url: '/api/lti/select-campaign',
+          headers: {
+            cookie: `jwtLtiDeepLinking=`,
+            'x-forwarded-proto': 'https',
+            'x-forwarded-host': 'orga.pix.fr',
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+    });
+
+    describe('when scope does not contain lti-campaigns:read', function () {
+      it('returns an HTTP status code 403', async function () {
+        // given
+        const { id: platformId } = databaseBuilder.factory.buildLtiPlatform();
+        const { clientId } = databaseBuilder.factory.buildLtiPlatformRegistration({ platformId });
+
+        await databaseBuilder.commit();
+
+        const ltiDeepLinkingAccessToken = new LtiDeepLinkingAccessToken({
+          organizationIds: [1],
+          clientId,
+          deepLinkingSettings: {},
+          scope: 'other-scope',
+          audience: 'https://orga.pix.fr',
+          sessionId: 'session-id',
+        });
+
+        const options = {
+          method: 'POST',
+          url: '/api/lti/select-campaign',
+          headers: {
+            cookie: `jwtLtiDeepLinking=${ltiDeepLinkingAccessToken.encoded}`,
+            'x-forwarded-proto': 'https',
+            'x-forwarded-host': 'orga.pix.fr',
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.result.message).to.equal('Insufficient scope');
+      });
     });
   });
 

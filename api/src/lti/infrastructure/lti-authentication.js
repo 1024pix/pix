@@ -61,7 +61,7 @@ function decodeLtiDeepLinkingAccessToken(value, request) {
  * @param {import('@hapi/hapi').ResponseToolkit} h
  */
 async function authenticateLtiDeepLinkingPayload(payload, h) {
-  const { clientId, organizationIds, deepLinkingSettings } = payload;
+  const { clientId, organizationIds, deepLinkingSettings, scope } = payload;
 
   const registration = await ltiPlatformRegistrationRepository.findByClientId(clientId);
 
@@ -78,6 +78,7 @@ async function authenticateLtiDeepLinkingPayload(payload, h) {
   return h.authenticated({
     credentials: {
       organizationIds,
+      scope: scope.trim().split(/\s+/),
     },
     artifacts: {
       registration,
