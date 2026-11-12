@@ -138,9 +138,9 @@ export default defineConfig([
       'func-style': ['error', 'declaration'],
     },
   },
-  // Repositories and use cases loop over collections that grow with the data: a lookup on the loop variable is quadratic
+  // Repositories, use cases and services loop over collections that grow with the data: a lookup on the loop variable is quadratic
   {
-    files: ['src/**/repositories/**/*.{js,ts}', 'src/**/usecases/**/*.{js,ts}'],
+    files: ['src/**/repositories/**/*.{js,ts}', 'src/**/usecases/**/*.{js,ts}', 'src/**/services/**/*.{js,ts}'],
     rules: { '@1024pix/no-linear-lookup-in-loop': 'error' },
   },
 ]);
