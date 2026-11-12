@@ -30,6 +30,8 @@ export class CombinedCourseDetails extends CombinedCourse {
   #organizationLearner = null;
   dataForQuest = null;
   reward = null;
+  organizationName = null;
+  organizationLogoUrl = null;
 
   constructor(
     { id, code, organizationId, name, description, illustration, questId, baseSurveyUrl, durationSpan },
@@ -54,6 +56,11 @@ export class CombinedCourseDetails extends CombinedCourse {
   setItems({ campaigns, modules }) {
     this.campaigns = campaigns;
     this.modules = modules;
+  }
+
+  setOrganizationDetails(organizationDetails) {
+    this.organizationName = organizationDetails.name;
+    this.organizationLogoUrl = organizationDetails.logoUrl;
   }
 
   get hasCampaigns() {

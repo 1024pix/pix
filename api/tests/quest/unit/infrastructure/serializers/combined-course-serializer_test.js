@@ -19,6 +19,8 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
       rewardType: REWARD_TYPES.ATTESTATION,
       baseSurveyUrl: 'http://link.to/survey',
       durationSpan: 'very_short',
+      organizationName: 'nom orga',
+      organizationLogoUrl: 'https://www.pix.fr',
     });
     await combinedCourseDetails.setEncryptedUrl();
     const obtainedAt = new Date();
@@ -108,6 +110,8 @@ describe('Quest | Unit | Infrastructure | Serializers | combined-course', functi
           illustration: '/illustrations/image.svg',
           'survey-url': 'http://link.to/survey',
           'duration-span': 'very_short',
+          'organization-logo-url': 'https://www.pix.fr',
+          'organization-name': 'nom orga',
         },
         relationships: {
           items: {
