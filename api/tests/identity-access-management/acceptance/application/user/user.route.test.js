@@ -785,7 +785,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
     });
   });
 
-  describe('POST /api/users/{id}/update-password', function () {
+  describe('POST /api/users/me/password', function () {
     const currentPassword = 'Password123';
     const newPassword = 'NewPassword456';
 
@@ -809,7 +809,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
       const options = {
         method: 'POST',
-        url: `/api/users/${user.id}/update-password`,
+        url: '/api/users/me/password',
         payload,
         headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
       };
@@ -857,7 +857,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
       const options = {
         method: 'POST',
-        url: `/api/users/${user.id}/update-password`,
+        url: '/api/users/me/password',
         payload,
         headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
       };
@@ -890,7 +890,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
       const options = {
         method: 'POST',
-        url: `/api/users/${user.id}/update-password`,
+        url: '/api/users/me/password',
         payload,
         headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
       };
@@ -900,39 +900,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
       // then
       expect(response.statusCode).to.equal(422);
-    });
-
-    it('returns 403 HTTP status code when requested user is not the authenticated user', async function () {
-      // given
-      const user = databaseBuilder.factory.buildUser.withRawPassword({
-        email: 'judy.howl@example.net',
-        rawPassword: currentPassword,
-      });
-      await databaseBuilder.commit();
-
-      const payload = {
-        data: {
-          type: 'password-updates',
-          attributes: {
-            'current-password': currentPassword,
-            'new-password': newPassword,
-          },
-        },
-      };
-
-      const options = {
-        method: 'POST',
-        url: '/api/users/999/update-password',
-        payload,
-        headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(403);
-      expect(response.result.errors[0].detail).to.equal('Missing or insufficient permissions.');
     });
 
     it('returns 403 HTTP status code when user has no Pix authentication method', async function () {
@@ -956,7 +923,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
       const options = {
         method: 'POST',
-        url: `/api/users/${user.id}/update-password`,
+        url: '/api/users/me/password',
         payload,
         headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
       };
@@ -988,7 +955,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
       const options = {
         method: 'POST',
-        url: `/api/users/${user.id}/update-password`,
+        url: '/api/users/me/password',
         payload,
       };
 
