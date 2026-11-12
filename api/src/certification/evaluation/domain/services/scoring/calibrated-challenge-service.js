@@ -76,9 +76,8 @@ async function _findByCertificationCourseId({
     certificationCourseId,
   });
 
-  const askedChallenges = compatibleChallenges.filter((challenge) => {
-    return challengesCalibrations.find((calibration) => challenge.id === calibration.id);
-  });
+  const askedChallengeIds = new Set(challengesCalibrations.map(({ id }) => id));
+  const askedChallenges = compatibleChallenges.filter((challenge) => askedChallengeIds.has(challenge.id));
   return { allChallenges: compatibleChallenges, askedChallenges, challengesCalibrations };
 }
 

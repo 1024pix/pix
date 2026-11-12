@@ -140,11 +140,13 @@ async function _getTestedCompetences({ userId, limitDate, placementProfileServic
 }
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
-  return answers.filter(({ challengeId }) => certificationChallenges.some((cc) => cc.challengeId === challengeId));
+  const certificationChallengeIds = new Set(certificationChallenges.map(({ challengeId }) => challengeId));
+  return answers.filter(({ challengeId }) => certificationChallengeIds.has(challengeId));
 }
 
 function _selectChallengesMatchingCompetences(certificationChallenges, testedCompetences) {
-  return certificationChallenges.filter(({ competenceId }) => testedCompetences.some((e) => e.id === competenceId));
+  const testedCompetenceIds = new Set(testedCompetences.map(({ id }) => id));
+  return certificationChallenges.filter(({ competenceId }) => testedCompetenceIds.has(competenceId));
 }
 
 function _getSumScoreFromCertifiedCompetences(listCompetences) {
@@ -167,8 +169,11 @@ function _getCompetenceMarksWithCertifiedLevelAndScore(
   allAreas,
   scoringService,
 ) {
+  const challengesByCompetenceId = Map.groupBy(certificationChallenges, ({ competenceId }) => competenceId);
+  const areasById = new Map(allAreas.map((area) => [area.id, area]));
+
   return listCompetences.map((competence) => {
-    const challengesForCompetence = certificationChallenges.filter((cc) => cc.competenceId === competence.id);
+    const challengesForCompetence = challengesByCompetenceId.get(competence.id) ?? [];
     const answersForCompetence = _selectAnswersMatchingCertificationChallenges(answers, challengesForCompetence);
 
     CertificationContract.assertThatCompetenceHasAtLeastOneChallenge(challengesForCompetence, competence.index);
@@ -183,7 +188,7 @@ function _getCompetenceMarksWithCertifiedLevelAndScore(
       reproducibilityRate,
     });
     const certifiedScore = CertifiedScore.from({ certifiedLevel, estimatedScore: competence.pixScore });
-    const area = allAreas.find((area) => area.id === competence.areaId);
+    const area = areasById.get(competence.areaId);
     return new CompetenceMark({
       level: scoringService.getBlockedLevel(certifiedLevel.value),
       score: scoringService.getBlockedPixScore(certifiedScore.value),
@@ -198,8 +203,10 @@ function _getCompetenceMarksWithCertifiedLevelAndScore(
  * @param {ScoringService} scoringService
  */
 function _getCompetenceMarksWithFailedLevel(listCompetences, allAreas, scoringService) {
+  const areasById = new Map(allAreas.map((area) => [area.id, area]));
+
   return listCompetences.map((competence) => {
-    const area = allAreas.find((area) => area.id === competence.areaId);
+    const area = areasById.get(competence.areaId);
     return new CompetenceMark({
       level: scoringService.getBlockedLevel(CertifiedLevel.invalidate().value),
       score: scoringService.getBlockedPixScore(0),

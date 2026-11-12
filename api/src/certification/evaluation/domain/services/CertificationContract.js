@@ -2,11 +2,12 @@ import { CertificationComputeError } from '../errors.js';
 
 export class CertificationContract {
   static assertThatWeHaveEnoughAnswers(listAnswers, listChallenges) {
+    const answeredChallengeIds = new Set(listAnswers.map(({ challengeId }) => challengeId));
     const someUnansweredChallenges = listChallenges.some((challenge) => {
       return (
         !challenge.hasBeenSkippedAutomatically &&
         !challenge.isNeutralized &&
-        !listAnswers.find((answer) => answer.challengeId === challenge.challengeId)
+        !answeredChallengeIds.has(challenge.challengeId)
       );
     });
 
@@ -30,9 +31,9 @@ export class CertificationContract {
   }
 
   static assertThatEveryAnswerHasMatchingChallenge(answersForCompetence, challengesForCompetence) {
+    const challengeIdsForCompetence = new Set(challengesForCompetence.map(({ challengeId }) => challengeId));
     answersForCompetence.forEach((answer) => {
-      const challenge = challengesForCompetence.find((challenge) => challenge.challengeId === answer.challengeId);
-      if (!challenge) {
+      if (!challengeIdsForCompetence.has(answer.challengeId)) {
         throw new CertificationComputeError('Problème de chargement du challenge ' + answer.challengeId);
       }
     });
