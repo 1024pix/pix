@@ -44,7 +44,15 @@ function toDB({ certificationResults, userCertificationResults }) {
     commentByJury: certificationResult.commentByJury,
     commentForOrganization: certificationResult.commentForOrganization,
     commentForCandidate: certificationResult.commentForCandidate,
-    results: JSON.stringify(certificationResult.results),
+    maxReachableLevel: certificationResult.results.maxReachableLevel,
+    reachedMeshIndex: certificationResult.results.reachedMeshIndex,
+    pixScore: certificationResult.results.pixScore,
+    competenceMarks: certificationResult.results?.competenceMarks
+      ? JSON.stringify(certificationResult.results.competenceMarks)
+      : null,
+    eduV3ExternalJuryResult: certificationResult.results.eduV3ExternalJuryResult,
+    hasAcquiredClea: certificationResult.results.hasAcquiredClea,
+    cleaBadgeId: certificationResult.results.cleaBadgeId,
   }));
 
   const userCertificationResultsData = userCertificationResults.map((userCertificationResult) => ({

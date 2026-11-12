@@ -22,7 +22,13 @@ export function buildCertificationResult({
   status = 'cancelled',
   framework = 'CORE',
   franceCompetencesMinScore = 100,
-  results = {},
+  maxReachableLevel = 7,
+  reachedMeshIndex = 2,
+  pixScore = 186,
+  competenceMarks = [{ competenceId: 'competenceABC123', level: 2 }],
+  eduV3ExternalJuryResult = null,
+  hasAcquiredClea = null,
+  cleaBadgeId = null,
 } = {}) {
   const values = {
     id,
@@ -45,7 +51,13 @@ export function buildCertificationResult({
     status,
     framework,
     franceCompetencesMinScore,
-    results: JSON.stringify(results),
+    maxReachableLevel,
+    reachedMeshIndex,
+    pixScore,
+    competenceMarks: JSON.stringify(competenceMarks),
+    eduV3ExternalJuryResult,
+    hasAcquiredClea,
+    cleaBadgeId,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification_results',

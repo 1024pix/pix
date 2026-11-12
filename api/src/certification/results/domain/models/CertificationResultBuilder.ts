@@ -159,8 +159,8 @@ function buildV3Results(certificationData: CertificationDataV3Props, cleaData: C
       reachedMeshIndex: certificationData.reachedMeshIndex,
       pixScore: certificationData.pixScore,
       competenceMarks: certificationData.competenceMarks,
-      acquired: cleaData!.acquired,
-      complementaryCertificationBadgeId: cleaData!.complementaryCertificationBadgeId,
+      hasAcquiredClea: cleaData!.acquired,
+      cleaBadgeId: cleaData!.complementaryCertificationBadgeId,
     };
   }
   return {
