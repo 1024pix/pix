@@ -4,10 +4,16 @@ export async function getCertificatesForSession({
   sessionId,
   isFrenchDomainExtension,
   i18n,
+  sessionAuthorizationAdapter,
   dependencies = {
     getSessionCertificatesPDF,
   },
 }) {
+  const sessionAuthorization = await sessionAuthorizationAdapter.find({ sessionId });
+  if (!sessionAuthorization) {
+    return null;
+  }
+
   return dependencies.getSessionCertificatesPDF({
     sessionId,
     isFrenchDomainExtension,
