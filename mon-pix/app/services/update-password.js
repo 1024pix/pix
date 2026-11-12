@@ -3,12 +3,10 @@ import ENV from 'mon-pix/config/environment';
 
 export default class UpdatePasswordService extends Service {
   @service requestManager;
-  @service currentUser;
 
   async updatePassword({ currentPassword, newPassword }) {
-    const userId = this.currentUser.user.get('id');
     return await this.requestManager.request({
-      url: `${ENV.APP.API_HOST}/api/users/${userId}/update-password`,
+      url: `${ENV.APP.API_HOST}/api/users/me/password`,
       method: 'POST',
       body: JSON.stringify({
         data: {

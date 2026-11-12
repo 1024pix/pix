@@ -1,4 +1,3 @@
-import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
@@ -7,19 +6,7 @@ import sinon from 'sinon';
 module('Unit | Service | update-password', function (hooks) {
   setupTest(hooks);
 
-  hooks.beforeEach(function () {
-    class CurrentUserStub extends Service {
-      user = {
-        get() {
-          return 42;
-        },
-      };
-    }
-
-    this.owner.register('service:current-user', CurrentUserStub);
-  });
-
-  test('it sends POST to /api/users/:userId/update-password', async function (assert) {
+  test('it sends POST to /api/users/me/password', async function (assert) {
     this.requestManagerStub = { request: sinon.stub().resolves() };
     this.owner.register('service:request-manager', this.requestManagerStub, { instantiate: false });
 
@@ -30,7 +17,7 @@ module('Unit | Service | update-password', function (hooks) {
 
     assert.true(
       this.requestManagerStub.request.calledWith({
-        url: `${ENV.APP.API_HOST}/api/users/42/update-password`,
+        url: `${ENV.APP.API_HOST}/api/users/me/password`,
         method: 'POST',
         body: JSON.stringify({
           data: {

@@ -390,16 +390,8 @@ export const userRoutes = [
     method: 'POST',
     path: '/api/users/me/password',
     config: {
-      pre: [
-        {
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-        },
-      ],
       handler: userController.changeUserPassword,
       validate: {
-        params: Joi.object({
-          id: identifiersType.userId,
-        }),
         options: {
           allowUnknown: true,
         },
@@ -417,7 +409,7 @@ export const userRoutes = [
         },
       },
       notes: [
-        "- Modifie le mot de passe de l'utilisateur identifié par son id, après vérification de son mot de passe actuel.",
+        "- Modifie le mot de passe de l'utilisateur authentifié, après vérification de son mot de passe actuel.",
       ],
       tags: ['api', 'user', 'update-password'],
     },
