@@ -1033,8 +1033,14 @@ describe('Certification | Results | Acceptance | Application | Certification', f
 
       const { id: userId } = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
 
-      const { id: sessionId1 } = databaseBuilder.factory.buildSession({ date: '2026-01-01' });
-      const { id: sessionId2 } = databaseBuilder.factory.buildSession({ date: '2026-02-02' });
+      const { id: sessionId1 } = databaseBuilder.factory.buildSession({
+        date: '2026-01-01',
+        publishedAt: '2026-01-05',
+      });
+      const { id: sessionId2 } = databaseBuilder.factory.buildSession({
+        date: '2026-02-02',
+        publishedAt: '2026-01-05',
+      });
 
       const candidates = [
         databaseBuilder.factory.buildCertificationCandidate({

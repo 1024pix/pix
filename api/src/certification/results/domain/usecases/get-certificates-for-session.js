@@ -14,6 +14,10 @@ export async function getCertificatesForSession({
     return null;
   }
 
+  if (!sessionAuthorization.canCreateCertificatesPdf) {
+    return null;
+  }
+
   return dependencies.getSessionCertificatesPDF({
     sessionId,
     isFrenchDomainExtension,

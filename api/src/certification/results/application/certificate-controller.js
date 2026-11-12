@@ -109,16 +109,16 @@ async function getSessionCertificates(request, h) {
   const { isFrenchDomainExtension } = request.query;
   const i18n = getI18nFromRequest(request);
 
-  const { filename, content: certificatePDFContent } = await usecases.getCertificatesForSession({
+  const certificate = await usecases.getCertificatesForSession({
     sessionId,
     i18n,
     isFrenchDomainExtension,
   });
 
   return h
-    .response(certificatePDFContent)
+    .response(certificate?.content ?? null)
     .code(200)
-    .header('Content-Disposition', `attachment; filename=${filename}`)
+    .header('Content-Disposition', `attachment; filename=${certificate?.filename}`)
     .header('Content-Type', 'application/pdf');
 }
 
