@@ -3,6 +3,7 @@ import nock from 'nock';
 import sinon from 'sinon';
 
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
+import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CombinedCourseDetails } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseDetails.js';
 import { CombinedCourseReward } from '../../../../../src/quest/domain/models/combined-course-participations/aggregates/CombinedCourseReward.js';
@@ -395,6 +396,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
         trainingId: training2.id,
       });
 
+      const attestation = databaseBuilder.factory.buildAttestation({ key: 'attestation_key' });
       const { id: questId3 } = databaseBuilder.factory.buildQuestForCombinedCourse({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
@@ -402,6 +404,8 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: moduleId2 }).toDTO(),
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: moduleId3 }).toDTO(),
         ],
+        rewardType: REWARD_TYPES.ATTESTATION,
+        rewardId: attestation.id,
       });
       const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
         code,
@@ -418,6 +422,14 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
       expect(result.items[0]).instanceOf(CampaignCombinedCourseItem);
       expect(result.items[1]).instanceOf(TrainingCombinedCourseItem);
       expect(result.items[2]).instanceOf(ModuleCombinedCourseItem);
+      expect(result.reward.data).to.deep.equal({
+        id: attestation.id,
+        key: attestation.key,
+        label: attestation?.label,
+        obtainedAt: undefined,
+        requirementsDescription: null,
+        templateName: attestation.templateName,
+      });
     });
   });
 

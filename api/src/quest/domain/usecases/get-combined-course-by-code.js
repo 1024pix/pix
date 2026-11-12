@@ -14,20 +14,21 @@ export async function getCombinedCourseByCode({
     combinedCourseId: combinedCourse.id,
   });
 
-  if (!userId) {
-    return combinedCourseDetails;
+  let organizationLearnerId, profileReward;
+
+  if (userId) {
+    organizationLearnerId = await organizationLearnerPrescriptionRepository.findIdByUserIdAndOrganizationId({
+      userId,
+      organizationId: combinedCourse.organizationId,
+    });
+    profileReward = await profileRewardRepository.findByUserIdAndRewardId({
+      rewardId: combinedCourse.quest.rewardId,
+      userId,
+    });
   }
 
-  const organizationLearnerId = await organizationLearnerPrescriptionRepository.findIdByUserIdAndOrganizationId({
-    userId,
-    organizationId: combinedCourse.organizationId,
-  });
-
   const attestation = await attestationRepository.getByRewardId({ rewardId: combinedCourse.quest.rewardId });
-  const profileReward = await profileRewardRepository.findByUserIdAndRewardId({
-    rewardId: combinedCourse.quest.rewardId,
-    userId,
-  });
+
   const combinedCourseBlueprint = await combinedCourseBlueprintRepository.findById({ id: combinedCourse.blueprintId });
 
   const organizationDetails = await organizationRepository.get(combinedCourse.organizationId);
