@@ -334,6 +334,18 @@
         }
       }
     },
+    "challenge": {
+      "mode-banner": {
+        "focused": {
+          "content": "You must stay on this page to answer.",
+          "title": "Focus mode."
+        },
+        "free": {
+          "content": "You can use the internet or applications to answer.",
+          "title": "Free mode."
+        }
+      }
+    },
     "info-bar": {
       "certification-number": "Certification no.",
       "completion-percentage": {
@@ -1315,18 +1327,6 @@
           "deactivate": "Deactivate text-to-speech",
           "play": "Read the instructions out loud",
           "stop": "Stop reading the instructions"
-        },
-        "tooltip": {
-          "aria-label": "Show question's warning",
-          "close": "Ok, got it",
-          "focused": {
-            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Stay on this page to answer!'</strong><br/>' Do not use the internet or any application to answer. Any activity outside this zone will be detected.",
-            "title": "Focus Mode"
-          },
-          "other": {
-            "content": "To answer this question, feel free to search the internet or use an external application.",
-            "title": "Free Mode"
-          }
         }
       },
       "timed": {

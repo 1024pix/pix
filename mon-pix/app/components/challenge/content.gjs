@@ -15,6 +15,7 @@ import ChallengeStatement from '../challenge-statement';
 import FeedbackPanel from '../feedback-panel';
 import FocusedOutNotification from './focusedOutNotification';
 import ChallengeItem from './item';
+import ModeBanner from './mode-banner';
 
 export default class ChallengeContent extends Component {
   @tracked isLiveAlertButtonEnabled = true;
@@ -191,7 +192,8 @@ export default class ChallengeContent extends Component {
       {{on "mouseleave" @showOutOfFocusBorder}}
     >
       <form {{on "submit" this.validateAnswer}}>
-        <PixBlock class="challenge-item">
+        <ModeBanner @isFocusedChallenge={{@challenge.focused}} />
+        <PixBlock @condensed={{true}} class="challenge-item">
           <ChallengeStatement
             @challenge={{@challenge}}
             @assessment={{@assessment}}

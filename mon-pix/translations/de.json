@@ -334,6 +334,18 @@
         }
       }
     },
+    "challenge": {
+      "mode-banner": {
+        "focused": {
+          "content": "Du musst auf dieser Seite bleiben, um zu antworten.",
+          "title": "Focus-Modus."
+        },
+        "free": {
+          "content": "Du kannst das Internet oder Anwendungen nutzen, um zu antworten.",
+          "title": "Freier Modus."
+        }
+      }
+    },
     "info-bar": {
       "certification-number": "Zertifizierungs-Nr.",
       "completion-percentage": {
@@ -1315,18 +1327,6 @@
           "deactivate": "Lautes vorlesen ausschalten",
           "play": "Die Aufgabenstellung laut vorlesen",
           "stop": "Das Lesen der Anweisung stoppen"
-        },
-        "tooltip": {
-          "aria-label": "Zeige einen Hinweisan.",
-          "close": "Verstanden",
-          "focused": {
-            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Versuche auf dieser Seite zu bleiben, um zu antworten!'</strong><br/>' Für diese Frage ist weder Internet noch eine Anwendung erforderlich.",
-            "title": "Focus-Modus"
-          },
-          "other": {
-            "content": "Es steht dir frei, das Internet oder Anwendungen zu nutzen, um diese Frage zu beantworten.",
-            "title": "Freier Modus"
-          }
         }
       },
       "timed": {

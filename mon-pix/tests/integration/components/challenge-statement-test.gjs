@@ -58,38 +58,6 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       assert.strictEqual(find('.challenge-statement-instruction__text').textContent.trim(), 'La consigne de mon test');
     });
 
-    test('should render a tag for focused challenge with tooltip', async function (assert) {
-      // given
-      addAssessmentToContext(this, this.store.createRecord('assessment', { id: '267845' }));
-      addChallengeToContext(this, {
-        instruction: 'La consigne de mon test',
-        id: 'rec_challenge',
-        focused: true,
-      });
-
-      // when
-      await renderChallengeStatement(this);
-
-      // then
-      assert.dom('.tooltip__tag').exists();
-    });
-
-    test('should render a tag for other challenge with tooltip', async function (assert) {
-      // given
-      addAssessmentToContext(this, this.store.createRecord('assessment', { id: '267845' }));
-      addChallengeToContext(this, {
-        instruction: 'La consigne de mon test',
-        id: 'rec_challenge',
-        focused: false,
-      });
-
-      // when
-      await renderChallengeStatement(this);
-
-      // then
-      assert.dom('.tooltip__tag').exists();
-    });
-
     test('should not render challenge instruction if it does not exist', async function (assert) {
       // given
       addAssessmentToContext(this, this.store.createRecord('assessment', { id: '267845' }));

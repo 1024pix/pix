@@ -334,6 +334,18 @@
         }
       }
     },
+    "challenge": {
+      "mode-banner": {
+        "focused": {
+          "content": "Devi rimanere su questa pagina per rispondere.",
+          "title": "Modalità focus."
+        },
+        "free": {
+          "content": "Puoi utilizzare internet o le applicazioni per rispondere.",
+          "title": "Modalità libera."
+        }
+      }
+    },
     "info-bar": {
       "certification-number": "Numero di certificazione",
       "completion-percentage": {
@@ -1315,18 +1327,6 @@
           "deactivate": "Disattivare la vocalizzazione",
           "play": "Leggere le istruzioni ad alta voce",
           "stop": "Interrompi la lettura delle istruzioni"
-        },
-        "tooltip": {
-          "aria-label": "Visualizza l'indicazione sulla prova.",
-          "close": "Ho capito",
-          "focused": {
-            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Cerca di rimanere su questa pagina per rispondere!'</strong><br/>' Questa domanda non richiede internet o applicazioni.",
-            "title": "Modalità focus"
-          },
-          "other": {
-            "content": "Sei liberi di utilizzare Internet o le applicazioni per rispondere a questa domanda.",
-            "title": "Modalità libera"
-          }
         }
       },
       "timed": {
