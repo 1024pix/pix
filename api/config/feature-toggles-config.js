@@ -152,6 +152,13 @@ export default {
     devDefaultValues: { test: true, reviewApp: true },
     tags: ['team-certification', 'backend', 'pix-api'],
   },
+  readNewCertificationResults: {
+    type: 'boolean',
+    description: 'Read certification results when needed',
+    defaultValue: false,
+    devDefaultValues: { test: true, reviewApp: true },
+    tags: ['team-certification', 'backend', 'pix-api'],
+  },
   scheduleCertificabilityBatchMode: {
     type: 'boolean',
     description: 'Schedule certificability compute job in batch',

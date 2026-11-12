@@ -48,7 +48,7 @@ describe('Unit | Domain | Use Cases | get-session-results-for-recipient', functi
       const err = await catchErr(getSessionResultsForRecipient)({
         sessionId,
         resultRecipientEmail,
-        dependencies,
+        ...dependencies,
       });
 
       // then
@@ -67,7 +67,7 @@ describe('Unit | Domain | Use Cases | get-session-results-for-recipient', functi
       const err = await catchErr(getSessionResultsForRecipient)({
         sessionId,
         resultRecipientEmail,
-        dependencies,
+        ...dependencies,
       });
 
       // then
@@ -93,7 +93,7 @@ describe('Unit | Domain | Use Cases | get-session-results-for-recipient', functi
         const err = await catchErr(getSessionResultsForRecipient)({
           sessionId,
           resultRecipientEmail,
-          dependencies,
+          ...dependencies,
         });
 
         // then
@@ -116,7 +116,7 @@ describe('Unit | Domain | Use Cases | get-session-results-for-recipient', functi
         const { certificationResults, sessionInfo } = await getSessionResultsForRecipient({
           sessionId,
           resultRecipientEmail,
-          dependencies,
+          ...dependencies,
         });
 
         // then

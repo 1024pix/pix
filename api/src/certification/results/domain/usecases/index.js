@@ -8,6 +8,7 @@ import * as certificateRepository from '../../infrastructure/repositories/certif
 import * as certificateSummaryRepository from '../../infrastructure/repositories/certificate-summary-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 import * as certificationLivretScolaireRepository from '../../infrastructure/repositories/certification-livret-scolaire-repository.js';
+import * as certificationResultForCsvRepository from '../../infrastructure/repositories/certification-result-for-csv-repository.ts';
 import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
 import * as cleaCertifiedCandidateRepository from '../../infrastructure/repositories/clea-certified-candidate-repository.js';
 import * as competenceTreeRepository from '../../infrastructure/repositories/competence-tree-repository.js';
@@ -33,6 +34,7 @@ import { getSelectedSessionsResultsZip } from './get-selected-sessions-results-z
 import { getSessionCertificationReports } from './get-session-certification-reports.js';
 import { getSessionResults } from './get-session-results.js';
 import { getSessionResultsByResultRecipientEmail } from './get-session-results-by-result-recipient-email.js';
+import { getSessionResultsForRecipient } from './get-session-results-for-recipient.js';
 import { getShareableCertificate } from './get-shareable-certificate.js';
 
 /**
@@ -53,9 +55,12 @@ import { getShareableCertificate } from './get-shareable-certificate.js';
  * @typedef {competenceTreeRepository} CompetenceTreeRepository
  * @typedef {certificateSummaryRepository} CertificateSummaryRepository
  * @typedef {sessionForResultsSharingRepository} SessionForResultsSharingRepository
+ * @typedef {sessionAuthorizationAdapter} SessionAuthorizationAdapter
+ * @typedef {certificationResultForCsvRepository} CertificationResultForCsvRepository
  **/
 
 const dependencies = {
+  certificationResultForCsvRepository,
   certificationCourseRepository,
   sharedCertificationCourseRepository,
   certificationResultRepository,
@@ -93,6 +98,7 @@ const usecasesWithoutInjectedDependencies = {
   getSessionResults,
   getShareableCertificate,
   getSelectedSessionsResultsZip,
+  getSessionResultsForRecipient,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
