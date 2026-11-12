@@ -67,8 +67,16 @@ export default class ChallengeItemQrocm extends Component {
     this.args.setAnswerError(this._hasError());
   }
 
+  get classList() {
+    let list = 'rounded-panel__row challenge-response';
+    list += this.args.answer ? ' challenge-response--locked' : '';
+    list += this.args.assessment.isCertification ? ' challenge-response--certif' : '';
+
+    return list;
+  }
+
   <template>
-    <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
+    <div class={{this.classList}}>
       <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
       <div class="challenge-proposals">
         <QrocmProposal

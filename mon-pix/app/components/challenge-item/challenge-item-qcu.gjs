@@ -31,8 +31,16 @@ export default class ChallengeItemQcu extends Component {
     this.args.setAnswerError(this._hasError());
   }
 
+  get classList() {
+    let list = 'rounded-panel__row challenge-response';
+    list += this.args.answer ? ' challenge-response--locked' : '';
+    list += this.args.assessment.isCertification ? ' challenge-response--certif' : '';
+
+    return list;
+  }
+
   <template>
-    <fieldset class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
+    <fieldset class={{this.classList}}>
       <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
       <legend class="challenge-response__instructions">{{t "pages.challenge.parts.answer-instructions.qcu"}}</legend>
       <div class="challenge-proposals">
