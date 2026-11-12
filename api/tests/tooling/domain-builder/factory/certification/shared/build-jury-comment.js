@@ -3,7 +3,7 @@ import {
   JuryCommentContexts,
 } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 
-const buildJuryComment = ({ commentByAutoJury, context, fallbackComment } = {}) => {
+const buildJuryComment = ({ commentByAutoJury = null, context, fallbackComment } = {}) => {
   return new JuryComment({ commentByAutoJury, context, fallbackComment });
 };
 

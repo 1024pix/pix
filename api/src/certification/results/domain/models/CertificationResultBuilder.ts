@@ -2,7 +2,9 @@ import type { UUID } from 'node:crypto';
 
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks, isEduFramework } from '../../../shared/domain/models/Frameworks.js';
-import { FRANCE_COMPETENCES_PROFESSIONAL_START_DATE } from '../constants.js';
+import type { Framework } from '../../../shared/domain/types.ts';
+import { FRANCE_COMPETENCES_PROFESSIONAL_START_DATE } from '../constants.ts';
+import type { CertificationResultStatus } from '../types.ts';
 import { CertificationResult, type Results, UserCertificationResult } from './NewCertificationResult.ts';
 const FRANCE_COMPETENCES_MIN_SCORE = 120;
 
@@ -24,8 +26,8 @@ export type CertificationDataV3Props = {
   certificationCenter: string;
   startedAt: Date;
   deliveredAt: Date;
-  status: string;
-  framework: string;
+  status: CertificationResultStatus;
+  framework: Framework;
   maxReachableLevel: number;
   pixScore: number | null;
   reachedMeshIndex: number | null;

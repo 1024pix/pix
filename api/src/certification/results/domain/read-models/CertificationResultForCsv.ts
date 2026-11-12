@@ -1,5 +1,6 @@
 import { JuryComment, JuryCommentContexts } from '../../../shared/domain/models/JuryComment.js';
-import { CERTIFICATION_RESULT_STATUSES } from '../constants.ts';
+import type { AutoJuryCommentKey, Framework } from '../../../shared/domain/types.ts';
+import type { CertificationResultStatus } from '../types.ts';
 
 type props = {
   certificationId: number;
@@ -8,11 +9,11 @@ type props = {
   birthdate: string;
   birthplace: string;
   externalId: string | null;
-  framework: string;
-  status: (typeof CERTIFICATION_RESULT_STATUSES)[keyof typeof CERTIFICATION_RESULT_STATUSES];
+  framework: Framework;
+  status: CertificationResultStatus;
   reachedMeshIndex: number | null;
   pixScore: number | null;
-  competenceMarks: CompetenceMark[];
+  competenceMarks: CompetenceMark[] | null;
   hasAcquiredClea: boolean | null;
   commentForOrganization: string | null;
   commentByAutoJury: AutoJuryCommentKey | null;
@@ -33,8 +34,8 @@ export class CertificationResultForCsv {
   readonly birthdate: string;
   readonly birthplace: string;
   readonly externalId: string | null;
-  readonly framework: string;
-  readonly status: (typeof CERTIFICATION_RESULT_STATUSES)[keyof typeof CERTIFICATION_RESULT_STATUSES];
+  readonly framework: Framework;
+  readonly status: CertificationResultStatus;
   readonly reachedMeshIndex: number | null;
   readonly pixScore: number | null;
   readonly competenceMarks: CompetenceMark[];
@@ -56,7 +57,7 @@ export class CertificationResultForCsv {
     this.status = props.status;
     this.reachedMeshIndex = props.reachedMeshIndex;
     this.pixScore = props.pixScore;
-    this.competenceMarks = props.competenceMarks;
+    this.competenceMarks = props.competenceMarks ?? [];
     this.hasAcquiredClea = props.hasAcquiredClea;
     this.#commentForOrganization = props.commentForOrganization;
     this.#commentByAutoJury = props.commentByAutoJury;
@@ -67,9 +68,9 @@ export class CertificationResultForCsv {
 
   getCommentForOrganization(translate: (key: string) => string): string | null {
     const juryComment = new JuryComment({
-      fallbackComment: this.#commentForOrganization,
+      fallbackComment: this.#commentForOrganization ?? undefined,
       context: JuryCommentContexts.ORGANIZATION,
-      commentByAutoJury: this.#commentByAutoJury,
+      commentByAutoJury: this.#commentByAutoJury ?? undefined,
     });
     return juryComment.getComment(translate) ?? null;
   }
