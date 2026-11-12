@@ -63,6 +63,10 @@ export class SessionStatus {
     return this.#status === SESSION_STATUSES.TO_FINALIZE;
   }
 
+  isProcessed(): boolean {
+    return this.#status === SESSION_STATUSES.PROCESSED;
+  }
+
   #isAtMost(status: StatusType): boolean {
     return statusPosition(this.#status) <= statusPosition(status);
   }

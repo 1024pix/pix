@@ -206,6 +206,40 @@ describe('Certification | SessionManagement | Unit | Domain | ValueObjects | Ses
     });
   });
 
+  describe('#isProcessed', function () {
+    it('returns true when status is processed', function () {
+      // given
+      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().processed().build();
+
+      // when
+      const result = sessionStatus.isProcessed();
+
+      // then
+      expect(result).to.equal(true);
+    });
+
+    [
+      SESSION_STATUSES.CREATED,
+      SESSION_STATUSES.STARTED,
+      SESSION_STATUSES.FINALIZED,
+      SESSION_STATUSES.TO_FINALIZE,
+      SESSION_STATUSES.IN_PROCESS,
+    ].forEach((status) => {
+      it(`returns false when status is ${status}`, function () {
+        // given
+        const sessionStatus = domainBuilder.certification.shared
+          .sessionStatusBuilder()
+          .withParameters({ status })
+          .build();
+
+        // when
+        const result = sessionStatus.isProcessed();
+
+        // then
+        expect(result).to.equal(false);
+      });
+    });
+  });
   describe('#build', function () {
     it('should build `created` session status', function () {
       // when
