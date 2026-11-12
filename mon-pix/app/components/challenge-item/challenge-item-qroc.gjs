@@ -144,9 +144,18 @@ export default class ChallengeItemQroc extends Component {
     super.willDestroy(...arguments);
     window.removeEventListener('message', this.postMessageHandler);
   }
+
+  get classList() {
+    let list = 'rounded-panel__row challenge-response';
+    list += this.args.answer ? ' challenge-response--locked' : '';
+    list += this.args.assessment.isCertification ? ' challenge-response--certif' : '';
+
+    return list;
+  }
+
   <template>
     {{#if this.showProposal}}
-      <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
+      <div class={{this.classList}}>
         <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
         <div class="challenge-proposals qroc-proposal">
           {{#each this._blocks as |block|}}
