@@ -340,4 +340,57 @@ describe('Certification | Results | Unit | Application | certificate-controller'
       });
     });
   });
+
+  describe('#downloadSelectedSessionsCertificates', function () {
+    const now = Date.now();
+
+    beforeEach(function () {
+      sinon.useFakeTimers({ now, toFake: ['Date'] });
+    });
+
+    it('should return a a .zip file in a stream', async function () {
+      const request = {
+        query: { sessionIds: [1, 10, 18], lang: 'fr', isFrenchDomainExtension: 'true' },
+      };
+
+      const fileName = `pix-sessions-certificates-${now}.zip`;
+      const zipSymbol = Symbol('zip');
+
+      const useCaseStub = sinon.stub(usecases, 'getCertificatesForSession');
+      const createZipStreamStub = sinon.stub();
+
+      createZipStreamStub
+        .withArgs(useCaseStub, [
+          {
+            sessionId: 1,
+            i18n: getI18nFromRequest(request),
+            isFrenchDomainExtension: 'true',
+          },
+          {
+            sessionId: 10,
+            i18n: getI18nFromRequest(request),
+            isFrenchDomainExtension: 'true',
+          },
+          {
+            sessionId: 18,
+            i18n: getI18nFromRequest(request),
+            isFrenchDomainExtension: 'true',
+          },
+        ])
+        .returns(zipSymbol);
+
+      // when
+      const response = await certificateController.downloadSelectedSessionsCertificates(request, hFake, {
+        createZipStream: createZipStreamStub,
+      });
+
+      expect(response.statusCode).to.equal(200);
+      expect(response.headers).to.deep.equal({
+        'Content-Disposition': `attachment; filename=${fileName}`,
+        'Content-Type': 'application/zip',
+      });
+
+      expect(response.source).to.equal(zipSymbol);
+    });
+  });
 });

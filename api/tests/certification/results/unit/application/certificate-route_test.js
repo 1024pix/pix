@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import { certificateController } from '../../../../../src/certification/results/application/certificate-controller.js';
 import { certificateRoute as moduleUnderTest } from '../../../../../src/certification/results/application/certificate-route.js';
 import { resultsSecurityPreHandlers } from '../../../../../src/certification/results/application/security-pre-handlers.js';
-import { NoCertificatesToDownloadError } from '../../../../../src/certification/results/domain/errors.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
@@ -284,28 +283,6 @@ describe('Certification | Results | Unit | Application | Certification Route', f
         // then
         expect(response.statusCode).to.equal(400);
         expect(response.payload.includes('sessionIds')).to.be.true;
-      });
-    });
-
-    describe('when no selected session has certificates to download', function () {
-      it('should return a 422 HTTP status code', async function () {
-        // given
-        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
-        sinon
-          .stub(certificateController, 'downloadSelectedSessionsCertificates')
-          .rejects(new NoCertificatesToDownloadError());
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const response = await httpTestServer.request(
-          'GET',
-          '/api/admin/sessions/download-selection-certificates?sessionIds=1&isFrenchDomainExtension=true',
-        );
-
-        // then
-        expect(response.statusCode).to.equal(422);
-        expect(response.result.errors[0].code).to.equal('NO_CERTIFICATES_TO_DOWNLOAD');
       });
     });
   });

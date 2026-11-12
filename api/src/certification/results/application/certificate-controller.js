@@ -7,6 +7,7 @@ import { generateHash } from '../../../shared/infrastructure/utils/crypto.js';
 import { SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { getChallengeLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { normalizeAndRemoveAccents } from '../../../shared/infrastructure/utils/string-utils.js';
+import { createZipStream } from '../../../shared/infrastructure/utils/zip/create-zip-stream.ts';
 import { Certificate } from '../domain/models/v3/Certificate.js';
 import { CERTIFICATE_LABEL_CONTEXTS } from '../domain/models/v3/CertificateMeshLevel.js';
 import { usecases } from '../domain/usecases/index.js';
@@ -172,19 +173,23 @@ async function downloadDivisionCertificates(
     .header('Content-Type', 'application/pdf');
 }
 
-async function downloadSelectedSessionsCertificates(request, h) {
+async function downloadSelectedSessionsCertificates(request, h, dependencies = { createZipStream: createZipStream }) {
   const { isFrenchDomainExtension, sessionIds } = request.query;
   const i18n = getI18nFromRequest(request);
-  const { filename, content: certificatesZipContent } = await usecases.getSelectedSessionsCertificates({
-    sessionIds,
-    isFrenchDomainExtension,
-    i18n,
+  const argArray = sessionIds.map((sessionId) => {
+    return {
+      sessionId,
+      isFrenchDomainExtension,
+      i18n,
+    };
   });
 
+  const zipStream = dependencies.createZipStream(usecases.getCertificatesForSession, argArray);
+
   return h
-    .response(certificatesZipContent)
+    .response(zipStream)
     .code(200)
-    .header('Content-Disposition', `attachment; filename=${filename}`)
+    .header('Content-Disposition', `attachment; filename=pix-sessions-certificates-${Date.now()}.zip`)
     .header('Content-Type', 'application/zip');
 }
 
