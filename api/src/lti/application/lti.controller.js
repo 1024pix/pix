@@ -161,7 +161,7 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
     type: 'ltiResourceLink',
     title: campaign.name,
     text: campaign.description ?? i18n.__('lti.profiles-collection-campaign-description'),
-    custom: { campaign_code: campaign.code },
+    custom: { campaign_code: campaign.code, campaign_id: campaign.id },
     lineItem: {
       scoreMaximum: 100,
     },
