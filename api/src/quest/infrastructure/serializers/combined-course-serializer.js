@@ -16,6 +16,8 @@ const serialize = function (combinedCourse) {
       'shortId',
       'surveyUrl',
       'durationSpan',
+      'organizationName',
+      'organizationLogoUrl',
     ],
     items: {
       ref: 'id',

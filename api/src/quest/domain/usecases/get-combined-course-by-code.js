@@ -7,6 +7,7 @@ export async function getCombinedCourseByCode({
   attestationRepository,
   profileRewardRepository,
   combinedCourseBlueprintRepository,
+  organizationRepository,
 }) {
   const combinedCourse = await combinedCourseRepository.getByCode({ code });
   const combinedCourseDetails = await combinedCourseDetailsService.instantiateCombinedCourseDetails({
@@ -28,6 +29,12 @@ export async function getCombinedCourseByCode({
     userId,
   });
   const combinedCourseBlueprint = await combinedCourseBlueprintRepository.findById({ id: combinedCourse.blueprintId });
+
+  const organizationDetails = await organizationRepository.get(combinedCourse.organizationId);
+  combinedCourseDetails.setOrganizationDetails({
+    name: organizationDetails.name,
+    logoUrl: organizationDetails.logoUrl,
+  });
 
   return combinedCourseDetailsService.getCombinedCourseDetails({
     organizationLearnerId,
