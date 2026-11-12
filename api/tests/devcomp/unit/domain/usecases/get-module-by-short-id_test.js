@@ -10,7 +10,7 @@ describe('Unit | Devcomp | Domain | UseCases | get-module-by-short-id', function
   describe('#getModuleByShortId', function () {
     it('should get and return a Module', async function () {
       // given
-      const expectedModule = Symbol('module');
+      const expectedModule = { sections: [], glossary: [] };
       const shortId = 'l4cr4me7';
       const moduleRepository = {
         getByShortId: sinon.stub(),
@@ -36,7 +36,20 @@ describe('Unit | Devcomp | Domain | UseCases | get-module-by-short-id', function
       const version = Symbol('version');
       const visibility = Symbol('visibility');
 
-      const expectedModule = new Module({ id, shortId, slug, title, isBeta, sections, details, version, visibility });
+      const glossary = [];
+
+      const expectedModule = new Module({
+        id,
+        shortId,
+        slug,
+        title,
+        isBeta,
+        sections,
+        details,
+        version,
+        visibility,
+        glossary,
+      });
       const moduleRepository = {
         getByShortId: sinon.stub(),
       };
@@ -49,6 +62,46 @@ describe('Unit | Devcomp | Domain | UseCases | get-module-by-short-id', function
 
       // then
       expect(module.redirectionUrl).to.equal(expectedUrl);
+    });
+
+    it('should highlight glossary words in module content', async function () {
+      // given
+      const shortId = 'g7l0s5ry';
+      const definition = 'Des machines reliées';
+      const sections = [
+        {
+          grains: [
+            {
+              components: [{ type: 'element', element: { type: 'text', content: '<p>Un réseau</p>' } }],
+            },
+          ],
+        },
+      ];
+      const glossary = [{ words: ['réseau'], definition }];
+      const moduleFromRepository = new Module({
+        id: 1,
+        shortId,
+        slug: 'les-reseaux',
+        title: 'Les réseaux',
+        isBeta: false,
+        sections,
+        details: Symbol('details'),
+        version: Symbol('version'),
+        visibility: Symbol('visibility'),
+        glossary,
+      });
+      const moduleRepository = {
+        getByShortId: sinon.stub(),
+      };
+      moduleRepository.getByShortId.withArgs({ shortId }).resolves(moduleFromRepository);
+
+      // when
+      const module = await getModuleByShortId({ shortId, moduleRepository });
+
+      // then
+      expect(module.sections[0].grains[0].components[0].element.content).to.equal(
+        `<p>Un <highlighted-button word="réseau" definition="${definition}">réseau</highlighted-button></p>`,
+      );
     });
   });
 });

@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 
+import { Module } from '../../../../../src/devcomp/domain/models/module/Module.js';
 import { highlightGlossaryWords } from '../../../../../src/devcomp/domain/services/glossary-highlighter.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function () {
   describe('#highlightGlossaryWords', function () {
@@ -27,6 +29,43 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
           const chatDefinition = 'Le meilleur ami des souris';
           const module = {
             glossary: [{ words: [], definition: chatDefinition }],
+            sections: [
+              {
+                id: `11111111-1111-1111-1111-111111111111`,
+                type: 'practise',
+                grains: [
+                  {
+                    id: `22222222-2222-2222-2222-222222222222`,
+                    type: 'lesson',
+                    title: 'Grain de test',
+                    components: [
+                      {
+                        id: `22222222-2222-2222-2222-222222222223`,
+                        type: 'element',
+                        element: { type: 'text', content: '<p>Chat lu !</p>' },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          };
+
+          // when
+          const result = highlightGlossaryWords(module);
+
+          // then
+          const firstElement = (moduleData) => moduleData.sections[0].grains[0].components[0].element;
+          expect(firstElement(result).content).to.equal('<p>Chat lu !</p>');
+        });
+      });
+
+      describe('When glossary words is missing', function () {
+        it('should not highlight anything', function () {
+          // given
+          const chatDefinition = 'Le meilleur ami des souris';
+          const module = {
+            glossary: [{ definition: chatDefinition }],
             sections: [
               {
                 id: `11111111-1111-1111-1111-111111111111`,
@@ -98,7 +137,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
         // given
         const chienDefinition = 'Le meilleur ami des humains';
         const sourisDefinition = 'Le meilleur ami des cuisines';
-        const module = {
+        const module = domainBuilder.buildModule({
           glossary: [
             { words: ['chat'], definition: '' },
             { words: [], definition: sourisDefinition },
@@ -124,7 +163,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
               ],
             },
           ],
-        };
+        });
 
         // when
         const result = highlightGlossaryWords(module);
@@ -143,7 +182,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
           it('should enclose text element content words occurrences with a span tag', function () {
             // given
             const reseauDefinition = 'Des machines reliées';
-            const module = {
+            const module = domainBuilder.buildModule({
               glossary: [{ words: ['réseau', 'réseaux'], definition: reseauDefinition }],
               sections: [
                 {
@@ -165,12 +204,13 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
                   ],
                 },
               ],
-            };
+            });
 
             // when
             const result = highlightGlossaryWords(module);
 
             // then
+            expect(result).to.be.an.instanceOf(Module);
             const firstElement = (moduleData) => moduleData.sections[0].grains[0].components[0].element;
             expect(firstElement(result).content).to.equal(
               `<p><highlighted-button word="réseau" definition="${reseauDefinition}">réseau</highlighted-button> et <highlighted-button word="réseau" definition="${reseauDefinition}">réseau</highlighted-button></p>`,
@@ -194,7 +234,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
               element: { type: 'qrocm', instruction: '<p>Le chien ?</p>', proposals: [{ content: 'chien' }] },
             };
 
-            const module = {
+            const module = domainBuilder.buildModule({
               glossary: [
                 { words: ['chien'], definition: chienDefinition },
                 { words: ['chat'], definition: chatDefinition },
@@ -213,7 +253,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
                   ],
                 },
               ],
-            };
+            });
 
             // when
             const result = highlightGlossaryWords(module);
@@ -286,7 +326,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
               },
             };
 
-            const module = {
+            const module = domainBuilder.buildModule({
               glossary: [
                 { words: ['chien'], definition: chienDefinition },
                 { words: ['chat', 'chaton'], definition: chatDefinition },
@@ -305,7 +345,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
                   ],
                 },
               ],
-            };
+            });
 
             // when
             const result = highlightGlossaryWords(module);
@@ -352,7 +392,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
           };
           const text = { type: 'text', content: '<p>réseau et chien</p>' };
 
-          const module = {
+          const module = domainBuilder.buildModule({
             glossary: [
               { words: ['chien'], definition: chienDefinition },
               { words: ['chat'], definition: chatDefinition },
@@ -382,7 +422,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
                 ],
               },
             ],
-          };
+          });
 
           // when
           const result = highlightGlossaryWords(module);
@@ -413,7 +453,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
         it('should match case-insensitively and keep the glossary word as marker value', function () {
           // given
           const reseauDefinition = 'Des machines reliées';
-          const module = {
+          const module = domainBuilder.buildModule({
             glossary: [{ words: ['réseau', 'réseaux'], definition: reseauDefinition }],
             sections: [
               {
@@ -435,7 +475,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
                 ],
               },
             ],
-          };
+          });
 
           // when
           const result = highlightGlossaryWords(module);
@@ -451,7 +491,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
           // given
           const chatDefinition = 'Un félin';
           const cleDefinition = 'Un objet';
-          const module = {
+          const module = domainBuilder.buildModule({
             glossary: [
               { words: ['clé'], definition: cleDefinition },
               { words: ['chat'], definition: chatDefinition },
@@ -476,7 +516,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
                 ],
               },
             ],
-          };
+          });
 
           // when
           const result = highlightGlossaryWords(module);
@@ -491,7 +531,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
         it('should not match word in a button or link tag', function () {
           // given
           const chatDefinition = 'Un félin';
-          const module = {
+          const module = domainBuilder.buildModule({
             glossary: [{ words: ['chat'], definition: chatDefinition }],
             sections: [
               {
@@ -517,7 +557,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
                 ],
               },
             ],
-          };
+          });
 
           // when
           const result = highlightGlossaryWords(module);
@@ -536,7 +576,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
           const cppDefinition = 'Langage de programmation compilé';
           const reseauSocialDefinition =
             'Plateforme numérique qui offre un espace de contenu généré par les utilisateurs';
-          const module = {
+          const module = domainBuilder.buildModule({
             glossary: [
               {
                 words: ['e-mail'],
@@ -574,7 +614,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
                 ],
               },
             ],
-          };
+          });
 
           // when
           const result = highlightGlossaryWords(module);
@@ -588,7 +628,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
 
         it('should escape the definition so it does not break the highlighted button attribute', function () {
           // given
-          const module = {
+          const module = domainBuilder.buildModule({
             glossary: [{ words: ['chat'], definition: 'Un "félin" <domestique> & joueur' }],
             sections: [
               {
@@ -610,7 +650,7 @@ describe('Unit | Devcomp | Domain | Services | glossary-highlighter', function (
                 ],
               },
             ],
-          };
+          });
 
           // when
           const result = highlightGlossaryWords(module);
