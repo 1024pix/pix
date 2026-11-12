@@ -112,17 +112,19 @@ function computeKnowledgeElements({ campaign, assessment, answer, challenge, tar
     );
   }
 
+  const targetSkillsById = new Map(targetSkills.map((skill) => [skill.id, skill]));
+
   return KnowledgeElement.createKnowledgeElementsForAnswer({
     answer,
     challenge,
     previouslyFailedSkills: getSkillsFilteredByStatus(
       knowledgeElements,
-      targetSkills,
+      targetSkillsById,
       KnowledgeElement.StatusType.INVALIDATED,
     ),
     previouslyValidatedSkills: getSkillsFilteredByStatus(
       knowledgeElements,
-      targetSkills,
+      targetSkillsById,
       KnowledgeElement.StatusType.VALIDATED,
     ),
     targetSkills,
@@ -130,11 +132,10 @@ function computeKnowledgeElements({ campaign, assessment, answer, challenge, tar
   });
 }
 
-function getSkillsFilteredByStatus(knowledgeElements, targetSkills, status) {
+function getSkillsFilteredByStatus(knowledgeElements, targetSkillsById, status) {
   return knowledgeElements
     .filter((knowledgeElement) => knowledgeElement.status === status)
-    .map((knowledgeElement) => knowledgeElement.skillId)
-    .map((skillId) => targetSkills.find((skill) => skill.id === skillId));
+    .map((knowledgeElement) => targetSkillsById.get(knowledgeElement.skillId));
 }
 
 async function computeLevelUpInformation({
@@ -168,8 +169,9 @@ async function computeLevelUpInformation({
     ...knowledgeElementsAddedForCompetence,
     ...knowledgeElementsForCompetenceBefore,
   ];
-  const uniqKnowledgeElementsForCompetenceAfter = knowledgeElementsForCompetenceAfter.filter(
-    (ke, index) => knowledgeElementsForCompetenceAfter.findIndex(({ skillId }) => skillId === ke.skillId) === index,
+  const knowledgeElementsBySkillId = Map.groupBy(knowledgeElementsForCompetenceAfter, ({ skillId }) => skillId);
+  const uniqKnowledgeElementsForCompetenceAfter = [...knowledgeElementsBySkillId.values()].map(
+    ([firstKnowledgeElement]) => firstKnowledgeElement,
   );
   return scorecardService.computeLevelUpInformation({
     answer: answerSaved,

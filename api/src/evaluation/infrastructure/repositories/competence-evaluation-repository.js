@@ -84,10 +84,12 @@ const findByUserId = async function (userId) {
     competenceEvaluations.map((competenceEvaluation) => competenceEvaluation.assessmentId),
   );
 
+  const assessmentsById = new Map(assessments.map((assessment) => [assessment.id, assessment]));
+
   const domainCompetenceEvaluations = competenceEvaluations.map((competenceEvaluation) =>
     _toDomain({
       competenceEvaluation,
-      assessment: assessments.find((assessment) => assessment.id === competenceEvaluation.assessmentId),
+      assessment: assessmentsById.get(competenceEvaluation.assessmentId),
     }),
   );
 

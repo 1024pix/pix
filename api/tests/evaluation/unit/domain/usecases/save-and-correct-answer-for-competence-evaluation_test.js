@@ -397,6 +397,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       answerSaved.timeSpent = 5;
       KnowledgeElement.createKnowledgeElementsForAnswer.returns([]);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves([]);
+      skillRepository.findActiveByCompetenceId.resolves([]);
       answerRepository.save.resolves(answerSaved);
       knowledgeElementRepository.batchSave.resolves();
 

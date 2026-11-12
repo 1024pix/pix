@@ -382,6 +382,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       knowledgeElementForParticipationService.findUniqByUserOrCampaignParticipationId
         .withArgs({ userId: assessment.userId, campaignParticipationId: assessment.campaignParticipationId })
         .resolves([]);
+      campaignRepository.findSkillsByCampaignParticipationId.resolves([]);
       answerRepository.save.resolves(answerSaved);
       knowledgeElementForParticipationService.save.resolves();
 
