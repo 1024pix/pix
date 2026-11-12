@@ -6,6 +6,7 @@ import { exportMigratedUserKnowledgeElements } from '../../../../../src/db-histo
 import { usecases } from '../../../../../src/db-history/domain/usecases/index.js';
 import * as migratedUserKnowledgeElementExportFileRepository from '../../../../../src/db-history/infrastructure/repositories/migrated-user-knowledge-element-export-file-repository.ts';
 import * as migratedUserKnowledgeElementExportRepository from '../../../../../src/db-history/infrastructure/repositories/migrated-user-knowledge-element-export-repository.ts';
+import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import * as migratedUserKnowledgeElementRepository from '../../../../../src/shared/infrastructure/repositories/migrated-user-knowledge-element-repository.ts';
 import { knex } from '../../../../tooling/databases.js';
 import { prepareTestBucket } from '../../../../tooling/storage/s3-test-bucket.js';
@@ -107,10 +108,21 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
       },
     ]);
     expect(
-      (await readParquet('migrated-user-knowledge-elements/2026/03/01/000000000003_000000000003.parquet')).map(
-        ({ id }) => id,
-      ),
-    ).to.deep.equal([3n]);
+      await readParquet('migrated-user-knowledge-elements/2026/03/01/000000000003_000000000003.parquet'),
+    ).to.deep.equal([
+      {
+        id: 3n,
+        source: 'direct',
+        status: 'validated',
+        createdAt,
+        answerId: 100n,
+        assessmentId: 10,
+        skillId: 'skill_web_4',
+        earnedPix: 4.5,
+        userId: 123,
+        competenceId: 'competence_1',
+      },
+    ]);
 
     const savedAt = await savedAtById();
     expect(savedAt.get(1)).to.deep.equal(runAt);
@@ -351,6 +363,22 @@ describe('Integration | History-db | Domain | Use-case | export-migrated-user-kn
         completed_at: null,
       },
     ]);
+    expect((await savedAtById()).get(1)).to.be.null;
+  });
+
+  it('should refuse to run inside a transaction, and export nothing', async function () {
+    // given
+    await knex('migrated_user_knowledge_elements').insert([buildRow({ id: 1 })]);
+
+    // when
+    const error = await catchErr(() =>
+      DomainTransaction.execute(() => usecases.exportMigratedUserKnowledgeElements({ batchSize: 2, logger })),
+    )();
+
+    // then
+    expect(error.message).to.equal('The export of migrated user knowledge elements cannot run inside a transaction');
+    expect(await uploadedKeys()).to.deep.equal([]);
+    expect(await exportFiles()).to.deep.equal([]);
     expect((await savedAtById()).get(1)).to.be.null;
   });
 });

@@ -13,6 +13,10 @@
  * transaction dating the save of its rows. A run starts by writing again, to their
  * recorded name, the files left incomplete by a previous run, whether that run
  * stopped before or after the upload: a row is in one file.
+ *
+ * The record of a file must be committed before its upload, so the use case
+ * refuses to run inside a transaction: a rollback would leave uploaded files
+ * that nothing records.
  */
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import type * as MigratedUserKnowledgeElementRepository from '../../../shared/infrastructure/repositories/migrated-user-knowledge-element-repository.ts';
@@ -37,6 +41,10 @@ export const exportMigratedUserKnowledgeElements = async ({
   migratedUserKnowledgeElementExportRepository: typeof MigratedUserKnowledgeElementExportRepository;
   logger?: typeof defaultLogger;
 }): Promise<void> => {
+  if (DomainTransaction.getConnection().isTransaction) {
+    throw new Error('The export of migrated user knowledge elements cannot run inside a transaction');
+  }
+
   const at = new Date();
 
   // First, the files left incomplete by a previous run are written again, with their rows still not exported.
