@@ -84,6 +84,9 @@
   &__content {
     @extend %pix-body-l;
 
+    --modulix-glossary-term-background-color: var(--pix-neutral-0);
+    --modulix-glossary-term-color: var(--pix-neutral-900);
+
     padding: var(--pix-spacing-6x);
     color: var(--pix-neutral-0);
     background: var(--pix-neutral-800);
