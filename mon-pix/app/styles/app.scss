@@ -144,7 +144,6 @@
 @use 'components/show-more-text' as *;
 @use 'components/sitemap/content' as *;
 @use 'components/focused-certification-challenge-instructions' as *;
-@use 'components/tooltip' as *;
 @use 'components/training-card' as *;
 @use 'components/tutorial-card' as *;
 @use 'components/tutorial-item' as *;
@@ -184,8 +183,9 @@
 @use '../components/ui/assessment/progress-bar' as *;
 
 /* challenge */
-@use '../components/challenge/timeout-gauge' as *;
-@use '../components/challenge/timed-challenge-instructions' as *;
+@use 'challenge/timeout-gauge' as *;
+@use 'challenge/mode-banner' as *;
+@use 'challenge/timed-challenge-instructions' as *;
 
 /* pages */
 @use 'pages/campaign-landing-page' as *;

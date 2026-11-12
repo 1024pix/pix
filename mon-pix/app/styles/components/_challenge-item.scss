@@ -3,7 +3,12 @@
 @use '../globals/a11y' as *;
 
 .challenge-item {
-  padding: var(--pix-spacing-1x);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+
+  @include breakpoints.device-is('tablet') {
+    border-top-right-radius: var(--pix-spacing-3x);;
+  }
 }
 
 .challenge-response {

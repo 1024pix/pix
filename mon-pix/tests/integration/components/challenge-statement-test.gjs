@@ -58,38 +58,6 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       assert.strictEqual(find('.challenge-statement-instruction__text').textContent.trim(), 'La consigne de mon test');
     });
 
-    test('should render a tag for focused challenge with tooltip', async function (assert) {
-      // given
-      addAssessmentToContext(this, this.store.createRecord('assessment', { id: '267845' }));
-      addChallengeToContext(this, {
-        instruction: 'La consigne de mon test',
-        id: 'rec_challenge',
-        focused: true,
-      });
-
-      // when
-      await renderChallengeStatement(this);
-
-      // then
-      assert.dom('.tooltip__tag').exists();
-    });
-
-    test('should render a tag for other challenge with tooltip', async function (assert) {
-      // given
-      addAssessmentToContext(this, this.store.createRecord('assessment', { id: '267845' }));
-      addChallengeToContext(this, {
-        instruction: 'La consigne de mon test',
-        id: 'rec_challenge',
-        focused: false,
-      });
-
-      // when
-      await renderChallengeStatement(this);
-
-      // then
-      assert.dom('.tooltip__tag').exists();
-    });
-
     test('should not render challenge instruction if it does not exist', async function (assert) {
       // given
       addAssessmentToContext(this, this.store.createRecord('assessment', { id: '267845' }));
@@ -122,42 +90,6 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       assert.dom(link2).exists();
       assert.dom(link1).hasAttribute('title', `lien 1 (${t('navigation.external-link-title')})`);
       assert.dom(link2).hasAttribute('title', `lien 2 (${t('navigation.external-link-title')})`);
-    });
-
-    test('should display a specific style', async function (assert) {
-      // given
-      addAssessmentToContext(this, this.store.createRecord('assessment', { id: '267845' }));
-      addChallengeToContext(this, {
-        instruction: 'La consigne de mon test',
-        id: 'rec_challenge',
-        type: 'QROC',
-        focused: true,
-      });
-
-      // when
-      await renderChallengeStatement(this);
-
-      // then
-      assert.dom('.tooltip__tag--focused').exists();
-      assert.dom('.tooltip__tag--regular').doesNotExist();
-    });
-
-    test('should not display focused challenges specific style', async function (assert) {
-      // given
-      addAssessmentToContext(this, this.store.createRecord('assessment', { id: '267845' }));
-      addChallengeToContext(this, {
-        instruction: 'La consigne de mon test',
-        id: 'rec_challenge',
-        type: 'QROC',
-        focused: false,
-      });
-
-      // when
-      await renderChallengeStatement(this);
-
-      // then
-      assert.dom('.tooltip__tag--regular').exists();
-      assert.dom('.tooltip__tag--focused').doesNotExist();
     });
 
     test('should have a screen reader only warning if challenge has an embed', async function (assert) {

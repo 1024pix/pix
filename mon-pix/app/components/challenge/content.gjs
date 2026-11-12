@@ -8,6 +8,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import isInteger from 'lodash/isInteger';
 import FocusedOutNotification from 'mon-pix/components/challenge/focusedOutNotification';
+import ModeBanner from 'mon-pix/components/challenge/mode-banner';
 import ChallengeActions from 'mon-pix/components/challenge-actions';
 import ChallengeStatement from 'mon-pix/components/challenge-statement';
 
@@ -191,7 +192,8 @@ export default class ChallengeContent extends Component {
       {{on "mouseleave" @showOutOfFocusBorder}}
     >
       <form {{on "submit" this.validateAnswer}}>
-        <PixBlock class="challenge-item">
+        <ModeBanner @isFocusedChallenge={{@challenge.focused}} />
+        <PixBlock @condensed={{true}} class="challenge-item">
           <ChallengeStatement
             @challenge={{@challenge}}
             @assessment={{@assessment}}
