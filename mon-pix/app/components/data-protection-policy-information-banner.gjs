@@ -3,8 +3,6 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
-import isEmpty from 'lodash/isEmpty';
-import ENV from 'mon-pix/config/environment';
 
 export default class DataProtectionPolicyInformationBanner extends Component {
   <template>
