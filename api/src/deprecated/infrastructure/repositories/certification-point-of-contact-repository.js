@@ -131,8 +131,10 @@ const getPointOfContact = async function ({
 export { getAllowedCenterAccesses, getAuthorizedCenterIds, getPointOfContact };
 
 function _toDomainList({ allowedAccessDTOs, centerList, scoBlockedAccessDates }) {
+  const centersById = Map.groupBy(centerList, (center) => center.id);
+
   return allowedAccessDTOs.map((allowedCenterAccessDTO) => {
-    const center = centerList.find((center) => center.id === allowedCenterAccessDTO.id);
+    const center = centersById.get(allowedCenterAccessDTO.id)?.[0];
 
     return new AllowedCertificationCenterAccess({
       center: {

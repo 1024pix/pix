@@ -76,6 +76,8 @@ function _toPrescriberDomain({
   schools,
 }) {
   const currentSchool = schools.find((school) => school.organizationId === userOrgaSettings.currentOrganizationId);
+  const organizationsById = new Map(organizations.map((organization) => [organization.id, organization]));
+  const schoolsByOrganizationId = Map.groupBy(schools, (school) => school.organizationId);
 
   return new Prescriber({
     ...user,
@@ -87,15 +89,15 @@ function _toPrescriberDomain({
         new Membership({
           ...membership,
           organization: new Organization({
-            ...organizations.find((organization) => organization.id === membership.organizationId),
-            schoolCode: schools.find((school) => school.organizationId === membership.organizationId)?.code,
+            ...organizationsById.get(membership.organizationId),
+            schoolCode: schoolsByOrganizationId.get(membership.organizationId)?.[0]?.code,
           }),
         }),
     ),
     userOrgaSettings: new UserOrgaSettings({
       id: userOrgaSettings.id,
       currentOrganization: new Organization({
-        ...organizations.find((organization) => organization.id === userOrgaSettings.currentOrganizationId),
+        ...organizationsById.get(userOrgaSettings.currentOrganizationId),
         schoolCode: currentSchool?.code,
         sessionExpirationDate: currentSchool?.sessionExpirationDate,
         tags: tags.map((tag) => new Tag(tag)),
@@ -141,8 +143,12 @@ async function _organizationFeatures(currentOrganizationId) {
   const availableFeatures = await _availableFeaturesQueryBuilder(currentOrganizationId);
   const allFeatures = await _allFeatures();
 
+  const availableFeaturesByKey = new Map(
+    availableFeatures.map((availableFeature) => [availableFeature.key, availableFeature]),
+  );
+
   const organizationFeatures = allFeatures.reduce((accumulator, feature) => {
-    const availableFeature = availableFeatures.find(({ key }) => key === feature);
+    const availableFeature = availableFeaturesByKey.get(feature);
     if (!availableFeature) return { ...accumulator, [feature]: { active: false, params: null } };
     return { ...accumulator, [feature]: { active: true, params: availableFeature.params } };
   }, {});
