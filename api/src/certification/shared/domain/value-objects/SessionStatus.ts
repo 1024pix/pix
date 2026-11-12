@@ -43,35 +43,35 @@ export class SessionStatus {
     return this.#status;
   }
 
-  isAtLeastToFinalize(): boolean {
+  isAtLeastToFinalize() {
     return this.#isAtLeast(SESSION_STATUSES.TO_FINALIZE);
   }
 
-  isAtMostStarted(): boolean {
+  isAtMostStarted() {
     return this.#isAtMost(SESSION_STATUSES.STARTED);
   }
 
-  isAtMostInProcess(): boolean {
+  isAtMostInProcess() {
     return this.#isAtMost(SESSION_STATUSES.IN_PROCESS);
   }
 
-  isCreated(): boolean {
+  isCreated() {
     return this.#status === SESSION_STATUSES.CREATED;
   }
 
-  isToFinalize(): boolean {
+  isToFinalize() {
     return this.#status === SESSION_STATUSES.TO_FINALIZE;
   }
 
-  isProcessed(): boolean {
+  isProcessed() {
     return this.#status === SESSION_STATUSES.PROCESSED;
   }
 
-  #isAtMost(status: StatusType): boolean {
+  #isAtMost(status: StatusType) {
     return statusPosition(this.#status) <= statusPosition(status);
   }
 
-  #isAtLeast(status: StatusType): boolean {
+  #isAtLeast(status: StatusType) {
     return statusPosition(this.#status) >= statusPosition(status);
   }
 
@@ -100,7 +100,7 @@ export class SessionStatus {
   }
 }
 
-function isExpired(firstCertificationStartedAt: Date): boolean {
+function isExpired(firstCertificationStartedAt: Date) {
   const elapsedTimeSinceSessionStarted = Date.now() - firstCertificationStartedAt.getTime();
   return elapsedTimeSinceSessionStarted > MAXIMAL_SESSION_DURATION_IN_MS;
 }
