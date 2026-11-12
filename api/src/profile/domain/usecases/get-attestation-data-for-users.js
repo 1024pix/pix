@@ -19,9 +19,11 @@ export async function getAttestationDataForUsers({
 
   const profileRewards = await profileRewardRepository.getByAttestationKeyAndUserIds({ attestationKey, userIds });
 
+  const usersById = new Map(users.map((user) => [user.id, user]));
+
   return {
     data: profileRewards.map(({ userId, createdAt }) => {
-      const user = users.find((user) => user.id === userId);
+      const user = usersById.get(userId);
       return user.toForm(createdAt, locale, stringUtils.normalizeAndRemoveAccents);
     }),
     template,
