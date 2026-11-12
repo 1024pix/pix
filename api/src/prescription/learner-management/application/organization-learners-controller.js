@@ -3,6 +3,18 @@ import { usecases } from '../domain/usecases/index.js';
 import { organizationLearnerFilterSerializer } from '../infrastructure/serializers/jsonapi/organization-learner-filter-serializer.js';
 import { scoOrganizationLearnerSerializer } from '../infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
 
+/*
+API
+1. sortir logique et tests de deleteOrganizationLearners dans un service delete-organization-learners
+2. Modifier le usecase générique deleteOrganizationLearners pour inclure le service et maintenir les autres usages
+- tester les lignes de vérifs que les learners à delete sont en entier (cas d'erreur)
+- stubber le service
+3. Créer les usecases pour chaque route / controller
+- delete-organization-learners-from-admin
+- delete-organization-learner-from-admin
+4. Raccorder routes / controllers aux bons usecases
+*/
+
 const deleteOrganizationLearners = async function (request, h) {
   const authenticatedUserId = request.auth.credentials.userId;
   const listLearners = request.payload.listLearners;
