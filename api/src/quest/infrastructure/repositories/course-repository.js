@@ -116,12 +116,13 @@ const resolveLearningContent = async (rows, locale) => {
   const uniqueAreaIds = [...new Set(competences.map((competence) => competence.areaId))];
   const areas = await areaRepository.findByRecordIds({ areaIds: uniqueAreaIds, locale });
 
-  const competencesByTubeId = new Map(
-    tubes.map((tube) => [tube.id, competences.find((competence) => competence.id === tube.competenceId)]),
-  );
+  const competencesById = new Map(competences.map((competence) => [competence.id, competence]));
+  const areasById = new Map(areas.map((area) => [area.id, area]));
+
+  const competencesByTubeId = new Map(tubes.map((tube) => [tube.id, competencesById.get(tube.competenceId)]));
 
   const areasByCompetenceId = new Map(
-    competences.map((competence) => [competence.id, areas.find((area) => area.id === competence.areaId)]),
+    competences.map((competence) => [competence.id, areasById.get(competence.areaId)]),
   );
 
   return { areasByCompetenceId, competencesByTubeId };

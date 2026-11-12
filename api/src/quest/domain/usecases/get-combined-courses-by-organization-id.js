@@ -20,10 +20,13 @@ export default async ({
     combinedCourseIds,
   });
 
+  const participationsByReferenceId = Map.groupBy(
+    allCombinedCourseParticipations,
+    (participation) => participation.referenceId,
+  );
+
   const combinedCoursesWithParticipations = combinedCourses.map((combinedCourse) => {
-    combinedCourse.participations = allCombinedCourseParticipations.filter(
-      (participation) => participation.referenceId === combinedCourse.id.toString(),
-    );
+    combinedCourse.participations = participationsByReferenceId.get(combinedCourse.id.toString()) ?? [];
     return combinedCourse;
   });
 
