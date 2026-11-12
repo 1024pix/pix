@@ -38,11 +38,8 @@ export async function findByRecordIdsForCurrentUser({ ids, userId, locale }) {
   const tutorialEvaluations = await tutorialEvaluationRepository.find({
     userId,
   });
-  return toTutorialsForUser({
-    tutorials,
-    tutorialEvaluations,
-    userSavedTutorials,
-  });
+
+  return toTutorialsForUser(tutorials, byTutorialId(userSavedTutorials), byTutorialId(tutorialEvaluations));
 }
 
 export async function findPaginatedFilteredForCurrentUser({ userId, filters = {}, page }) {
@@ -64,11 +61,11 @@ export async function findPaginatedFilteredForCurrentUser({ userId, filters = {}
     filteredTutorials = tutorialDtos.filter(({ id }) => filteredTutorialIds.includes(id));
   }
 
-  const tutorialsForUser = toTutorialsForUser({
-    tutorials: filteredTutorials,
-    tutorialEvaluations,
-    userSavedTutorials,
-  });
+  const tutorialsForUser = toTutorialsForUser(
+    filteredTutorials,
+    byTutorialId(userSavedTutorials),
+    byTutorialId(tutorialEvaluations),
+  );
 
   const sortedTutorialsForUser = _.orderBy(tutorialsForUser, ['userSavedTutorial.createdAt'], ['desc']);
   const { results: models, pagination: meta } = paginateModule.paginate(sortedTutorialsForUser, page);
@@ -115,12 +112,12 @@ export async function findPaginatedFilteredRecommendedByUserId({
       tutorialDtos = tutorialDtos.toSorted(byId);
       const tutorials = tutorialDtos.map(toDomain);
 
-      return toTutorialsForUserForRecommandation({
+      return toTutorialsForUser(
         tutorials,
-        tutorialEvaluations,
-        userSavedTutorials,
-        skillId: skill.id,
-      });
+        byTutorialId(userSavedTutorials),
+        byTutorialId(tutorialEvaluations),
+        skill.id,
+      );
     }),
   );
 
@@ -144,31 +141,19 @@ function toDomain(tutorialDto) {
   });
 }
 
-function toTutorialsForUser({ tutorials, tutorialEvaluations, userSavedTutorials }) {
-  return tutorials.map((tutorial) => {
-    const userSavedTutorial = userSavedTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
-    const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
-    return new TutorialForUser({
-      ...tutorial,
-      userSavedTutorial,
-      tutorialEvaluation,
-      skillId: userSavedTutorial?.skillId,
-    });
-  });
-}
+const byTutorialId = (items) => new Map(items.map((item) => [item.tutorialId, item]));
 
-function toTutorialsForUserForRecommandation({ tutorials, tutorialEvaluations, userSavedTutorials, skillId }) {
-  return tutorials.map((tutorial) => {
-    const userSavedTutorial = userSavedTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
-    const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
+// Recommended tutorials carry the skill they are recommended for, the others the skill they were saved with
+const toTutorialsForUser = (tutorials, userSavedTutorialsByTutorialId, tutorialEvaluationsByTutorialId, skillId) =>
+  tutorials.map((tutorial) => {
+    const userSavedTutorial = userSavedTutorialsByTutorialId.get(tutorial.id);
     return new TutorialForUser({
       ...tutorial,
       userSavedTutorial,
-      tutorialEvaluation,
-      skillId,
+      tutorialEvaluation: tutorialEvaluationsByTutorialId.get(tutorial.id),
+      skillId: skillId ?? userSavedTutorial?.skillId,
     });
   });
-}
 
 export function clearCache(id) {
   return getInstance().clearCache?.(id);
