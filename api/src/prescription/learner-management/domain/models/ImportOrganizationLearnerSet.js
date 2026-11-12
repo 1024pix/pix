@@ -113,7 +113,7 @@ class ImportOrganizationLearnerSet {
         const columnName = column.config?.mappingColumn ?? column.name;
         learnerAttributes[columnName] = this.#formatLearnerAttribute({
           attribute: value,
-          columnName,
+          columnName: column.name,
         });
       }
     });
