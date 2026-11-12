@@ -37,7 +37,7 @@ export default function index(config) {
   config.post('/users/:id/competences/:competenceId/reset', resetScorecard);
   config.post('/users/:id/update-email', putUpdateEmail);
   config.post('/users/:id/add-email-connection-method', addEmailConnectionMethod);
-  config.post('/users/:id/update-password', postUpdatePassword);
+  config.post('/users/me/password', postUpdatePassword);
 
   config.patch('/users/:id/pix-terms-of-service-acceptance', patchTermsOfServiceAcceptance);
 
