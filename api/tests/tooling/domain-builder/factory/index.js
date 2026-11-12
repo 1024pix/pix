@@ -181,7 +181,7 @@ import { buildDoubleCertificationEligibility } from './certification/enrolment/b
 import { buildEditedCandidate } from './certification/enrolment/build-edited-candidate.js';
 import { buildPixCertification } from './certification/enrolment/build-pix-certification.js';
 import { sessionEnrolmentBuilder } from './certification/enrolment/build-session.js';
-import { sessionAuthorizationBuilder } from './certification/enrolment/build-session-authorization.js';
+import { sessionAuthorizationBuilder as sessionAuthorizationBuilderForEnrolment } from './certification/enrolment/build-session-authorization.js';
 import { buildUserEnrolment } from './certification/enrolment/build-user.js';
 import { buildUserCertificationEligibility } from './certification/enrolment/build-user-certification-eligibility.js';
 import { buildAssessmentResult as buildCertificationScoringAssessmentResult } from './certification/evaluation/build-assessment-result.js';
@@ -205,6 +205,7 @@ import { buildCertificateMeshLevel } from './certification/results/build-certifi
 import { buildCertificateSummary } from './certification/results/build-certificate-summary.js';
 import { buildResultRecipient } from './certification/results/build-result-recipient.js';
 import { buildSession as buildSessionForResults } from './certification/results/build-session.js';
+import { sessionAuthorizationBuilder as sessionAuthorizationBuilderForResults } from './certification/results/build-session-authorization.js';
 import { buildSessionForResultsSharing } from './certification/results/build-session-for-results-sharing.js';
 import { buildCertificate } from './certification/results/build-v3-certification-attestation.js';
 import { buildCertificationResult as parcoursupCertificationResult } from './certification/results/parcoursup/build-certification-result.js';
@@ -284,7 +285,7 @@ const certification = {
     buildDoubleCertificationEligibility,
     buildPixCertification,
     buildComplementaryCertificationBadge: buildComplementaryCertificationBadgeForEnrolment,
-    sessionAuthorizationBuilder,
+    sessionAuthorizationBuilder: sessionAuthorizationBuilderForEnrolment,
     sessionEnrolmentBuilder,
   },
   evaluation: {
@@ -320,6 +321,7 @@ const certification = {
     buildCertificateSummary,
     buildResultRecipient,
     buildSessionForResultsSharing,
+    sessionAuthorizationBuilder: sessionAuthorizationBuilderForResults,
     parcoursup: {
       buildCertificationResult: parcoursupCertificationResult,
       buildCompetence: parcoursupCompetence,
