@@ -107,8 +107,12 @@ function buildCertificateData({ framework, sessionId, withOrgaLearner }) {
     algorithmEngineVersion: AlgorithmEngineVersion.V3,
     firstName: `Buffy_${framework}`,
     lastName: `Summers_${framework}`,
+    externalId: `externalID_${framework}`,
     birthdate: '1981-01-18',
     birthplace: `Sunnydale_${framework}`,
+    birthPostalCode: `birthPostalCode_${framework}`,
+    birthINSEECode: `birthINSEECode_${framework}`,
+    birthCountry: `birthCountry_${framework}`,
     certificationCenter: 'Centre certification le meilleur',
     startedAt: new Date('2026-01-01'),
     deliveredAt: new Date('2026-01-03'),
@@ -148,11 +152,11 @@ function buildCertificateData({ framework, sessionId, withOrgaLearner }) {
     expectedLearnerData = {};
     expectedLearnerData.middleName = `Ann_${framework}`;
     expectedLearnerData.thirdName = `Joan_${framework}`;
-    expectedLearnerData.externalId = `xXSlayerXx_${framework}`;
+    expectedLearnerData.nationalStudentId = `xXSlayerXx_${framework}`;
     organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
       middleName: expectedLearnerData.middleName,
       thirdName: expectedLearnerData.thirdName,
-      nationalStudentId: expectedLearnerData.externalId,
+      nationalStudentId: expectedLearnerData.nationalStudentId,
     }).id;
     expectedLearnerData.organizationLearnerId = organizationLearnerId;
   }
@@ -172,8 +176,12 @@ function buildCertificateData({ framework, sessionId, withOrgaLearner }) {
     version: expectedCertifData.algorithmEngineVersion,
     firstName: expectedCertifData.firstName,
     lastName: expectedCertifData.lastName,
+    externalId: expectedCertifData.externalId,
     birthdate: expectedCertifData.birthdate,
     birthplace: expectedCertifData.birthplace,
+    birthPostalCode: expectedCertifData.birthPostalCode,
+    birthINSEECode: expectedCertifData.birthINSEECode,
+    birthCountry: expectedCertifData.birthCountry,
     verificationCode: expectedCertifData.verificationCode,
     createdAt: expectedCertifData.startedAt,
   }).id;

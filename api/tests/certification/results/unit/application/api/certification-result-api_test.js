@@ -9,7 +9,7 @@ import { preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-
 describe('Certification | Results | Unit | application | api | certif results', function () {
   describe('#buildForSession', function () {
     let sessionId,
-      certificationResultRepository,
+      newCertificationResultRepository,
       certificationResultBuilderRepository,
       uuidGenerator,
       fakeCertificationResultBuilder,
@@ -22,7 +22,7 @@ describe('Certification | Results | Unit | application | api | certif results', 
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda());
       sessionId = 7402;
       uuidGenerator = () => '00000000-0000-4000-8000-000000000001';
-      certificationResultRepository = {
+      newCertificationResultRepository = {
         save: sinon.stub(),
       };
       certificationResultBuilderRepository = {
@@ -31,7 +31,7 @@ describe('Certification | Results | Unit | application | api | certif results', 
       fakeCertificationResultBuilder = { build: sinon.stub() };
       featureToggles = { get: sinon.stub() };
       preventStubsToBeCalledUnexpectedly([
-        certificationResultRepository.save,
+        newCertificationResultRepository.save,
         certificationResultBuilderRepository.findBuilderForCertificationsInSession,
         fakeCertificationResultBuilder.build,
         featureToggles.get,
@@ -39,12 +39,12 @@ describe('Certification | Results | Unit | application | api | certif results', 
       certificationResultBuilderRepository.findBuilderForCertificationsInSession
         .withArgs(sessionId)
         .resolves(fakeCertificationResultBuilder);
-      certificationResultRepository.save.resolves();
+      newCertificationResultRepository.save.resolves();
       now = new Date('2024-11-23');
       sinon.useFakeTimers({ now, toFake: ['Date'] });
       dependencies = {
         sessionId,
-        certificationResultRepository,
+        newCertificationResultRepository,
         certificationResultBuilderRepository,
         featureToggles,
         uuidGenerator,
@@ -61,7 +61,7 @@ describe('Certification | Results | Unit | application | api | certif results', 
           dependencies,
         });
 
-        sinon.assert.notCalled(certificationResultRepository.save);
+        sinon.assert.notCalled(newCertificationResultRepository.save);
       });
     });
 
@@ -88,7 +88,7 @@ describe('Certification | Results | Unit | application | api | certif results', 
           expect(logErrorSpy).to.have.been.calledWith(
             'Errors encountered when generating certification results: {"123":"I walked in poo","456":"My dog ate my assignment"}',
           );
-          expect(certificationResultRepository.save).to.have.been.calledOnceWithExactly({
+          expect(newCertificationResultRepository.save).to.have.been.calledOnceWithExactly({
             certificationResults,
             userCertificationResults,
           });
@@ -111,7 +111,7 @@ describe('Certification | Results | Unit | application | api | certif results', 
           });
 
           sinon.assert.notCalled(logErrorSpy);
-          expect(certificationResultRepository.save).to.have.been.calledOnceWithExactly({
+          expect(newCertificationResultRepository.save).to.have.been.calledOnceWithExactly({
             certificationResults,
             userCertificationResults,
           });

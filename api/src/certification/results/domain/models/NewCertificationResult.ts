@@ -8,8 +8,12 @@ type CertificationResultProps = {
   thirdName: string | null;
   lastName: string;
   externalId: string | null;
+  nationalStudentId: string | null;
   birthdate: string;
   birthplace: string;
+  birthPostalCode: string | null;
+  birthINSEECode: string | null;
+  birthCountry: string | null;
   verificationCode: string;
   certificationCenter: string;
   startedAt: Date;
@@ -60,8 +64,12 @@ export class CertificationResult {
   readonly thirdName: string | null;
   readonly lastName: string;
   readonly externalId: string | null;
+  readonly nationalStudentId: string | null;
   readonly birthdate: string;
   readonly birthplace: string;
+  readonly birthPostalCode: string | null;
+  readonly birthINSEECode: string | null;
+  readonly birthCountry: string | null;
   readonly verificationCode: string;
   readonly certificationCenter: string;
   readonly startedAt: Date;
@@ -82,8 +90,12 @@ export class CertificationResult {
     thirdName,
     lastName,
     externalId,
+    nationalStudentId,
     birthdate,
     birthplace,
+    birthPostalCode,
+    birthINSEECode,
+    birthCountry,
     verificationCode,
     certificationCenter,
     startedAt,
@@ -104,8 +116,12 @@ export class CertificationResult {
     this.thirdName = thirdName;
     this.lastName = lastName;
     this.externalId = externalId;
+    this.nationalStudentId = nationalStudentId;
     this.birthdate = birthdate;
     this.birthplace = birthplace;
+    this.birthPostalCode = birthPostalCode;
+    this.birthINSEECode = birthINSEECode;
+    this.birthCountry = birthCountry;
     this.verificationCode = verificationCode;
     this.certificationCenter = certificationCenter;
     this.startedAt = startedAt;

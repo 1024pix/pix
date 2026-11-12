@@ -4,7 +4,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import * as certificationResultBuilderRepository from '../../infrastructure/repositories/certification-result-builder-repository.js';
-import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
+import * as newCertificationResultRepository from '../../infrastructure/repositories/new-certification-result-repository.js';
 
 /**
  * @function
@@ -17,7 +17,7 @@ export async function buildForSession({
   sessionId,
   dependencies = {
     certificationResultBuilderRepository,
-    certificationResultRepository,
+    newCertificationResultRepository,
     uuidGenerator: randomUUID,
     featureToggles,
   },
@@ -36,6 +36,6 @@ export async function buildForSession({
   }
 
   await DomainTransaction.execute(() => {
-    return dependencies.certificationResultRepository.save({ certificationResults, userCertificationResults });
+    return dependencies.newCertificationResultRepository.save({ certificationResults, userCertificationResults });
   });
 }
