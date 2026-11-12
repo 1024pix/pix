@@ -13,8 +13,9 @@ export const getMasteryPercentage = (knowledgeElements, skillIds, round = true) 
 
   const validatedKnowledgeElements = knowledgeElements.filter(({ isValidated }) => isValidated);
 
-  const knowledgeElementsInSkills = validatedKnowledgeElements.filter((knowledgeElement) =>
-    skillIds.some((id) => String(id) === String(knowledgeElement.skillId)),
+  const skillIdsAsStrings = new Set(skillIds.map(String));
+  const knowledgeElementsInSkills = validatedKnowledgeElements.filter(({ skillId }) =>
+    skillIdsAsStrings.has(String(skillId)),
   );
 
   if (round) {
