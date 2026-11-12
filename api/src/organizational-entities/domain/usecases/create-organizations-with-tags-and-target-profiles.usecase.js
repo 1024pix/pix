@@ -259,9 +259,11 @@ async function _addDataProtectionOfficers({ createdOrganizations, dataProtection
 
 async function _addTags({ allTags, createdOrganizations, organizationTagRepository }) {
   try {
+    const tagsByName = new Map(allTags.map((tagInDB) => [tagInDB.name, tagInDB]));
+
     const organizationsTags = createdOrganizations.flatMap(({ createdOrganization, organizationToCreate }) => {
       return organizationToCreate.tags.map((tagName) => {
-        const foundTag = allTags.find((tagInDB) => tagInDB.name === tagName.toUpperCase());
+        const foundTag = tagsByName.get(tagName.toUpperCase());
 
         if (!foundTag) {
           throw new OrganizationTagNotFound(
