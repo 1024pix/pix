@@ -388,12 +388,11 @@ export const userRoutes = [
   },
   {
     method: 'POST',
-    path: '/api/users/{id}/update-password',
+    path: '/api/users/me/password',
     config: {
       pre: [
         {
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
         },
       ],
       handler: userController.changeUserPassword,
