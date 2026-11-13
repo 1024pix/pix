@@ -54,7 +54,7 @@ export const bacASableModule = {
                 id: '9c965b96-2a6b-4e8e-9fbb-8a792a25b504',
                 type: 'text',
                 tag: 'tip',
-                content: '<p>Chaton, chats, chat et achat 🐱.</p>',
+                content: '<p>Chaton, chats, <strong>chat</strong> et achat 🐱.</p>',
               },
             },
           ],
@@ -1819,7 +1819,7 @@ export const bacASableModule = {
     {
       words: ['chat', 'chats', 'chaton'],
       definition:
-        '<p>Le chat, plus spécifiquement désigné sous le nom de chat domestique, est une espèce de mammifères de l’Ordre des Carnivores, de la famille des félins (Félidés).</p>',
+        '<p>Le <strong>chat</strong>, plus spécifiquement désigné sous le nom de chat domestique, est une espèce de mammifères de l’Ordre des Carnivores, de la famille des <strong>félins</strong> (Félidés).</p>',
     },
     {
       words: ['Pix'],
