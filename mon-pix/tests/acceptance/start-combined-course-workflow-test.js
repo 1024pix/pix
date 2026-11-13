@@ -13,8 +13,8 @@ module('Acceptance | Combined course | Start Combined course workflow', function
   setupMirage(hooks);
   setupIntl(hooks);
 
-  async function _loginUser(screen, user) {
-    await click(screen.getByRole('link', { name: 'Se connecter' }));
+  async function _loginOnLandingPage(screen, user) {
+    await click(screen.getByRole('button', { name: 'Je me connecte' }));
     await fillIn(screen.getByLabelText('Adresse e-mail ou identifiant', { exact: false }), user.email);
     await fillIn(screen.getByLabelText('Mot de passe', { exact: false }), user.password);
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
@@ -74,14 +74,24 @@ module('Acceptance | Combined course | Start Combined course workflow', function
       });
     });
     module('when combinedCourse is found', function () {
-      test('should redirect to login page before accessing combined course page', async function (assert) {
+      test('should redirect to presentation after accessing combined course landing page and connecting', async function (assert) {
         //given
         const user = server.create('user', 'withEmail', { hasSeenAssessmentInstructions: false });
         // when
         const screen = await visit('/parcours/COMBINIX1');
-        await _loginUser(screen, user);
+        await _loginOnLandingPage(screen, user);
 
-        assert.strictEqual(currentURL(), '/parcours/COMBINIX1');
+        assert.strictEqual(currentURL(), '/parcours/COMBINIX1/presentation');
+      });
+    });
+    module('when combinedCourse code does not exist', function () {
+      test('should display error page', async function (assert) {
+        // when
+        const screen = await visit('/parcours/UNKNOWN1');
+
+        // then
+        assert.strictEqual(currentURL(), '/parcours/UNKNOWN1');
+        assert.dom(screen.getByRole('heading', { name: t('pages.error.first-title') })).exists();
       });
     });
   });
@@ -198,7 +208,7 @@ module('Acceptance | Combined course | Start Combined course workflow', function
           await visit('/parcours/CAMPAIGN');
 
           // then
-          assert.strictEqual(currentURL(), '/campagnes/CAMPAIGN/evaluation/didacticiel');
+          assert.strictEqual(currentURL(), '/campagnes/CAMPAIGN/presentation');
         });
       });
     });
