@@ -221,6 +221,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
         campaignId,
         validatedSkillsCount: 12,
+        masteryRate: 0.75,
       }).id;
       campaignParticipationNotSharedId = databaseBuilder.factory.buildCampaignParticipation({
         campaignId,
@@ -260,6 +261,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       // then
       expect(foundCampaignParticipation.id).to.equal(campaignParticipationId);
       expect(foundCampaignParticipation.validatedSkillsCount).to.equal(12);
+      expect(foundCampaignParticipation.masteryRate).to.equal(0.75);
     });
 
     it('should return a null object for sharedAt when the campaign-participation is not shared', async function () {

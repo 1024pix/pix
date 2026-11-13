@@ -25,6 +25,7 @@ class CampaignParticipation {
     userId,
     validatedSkillsCount,
     pixScore,
+    masteryRate,
     organizationLearnerId,
   } = {}) {
     this.id = id;
@@ -40,6 +41,7 @@ class CampaignParticipation {
     this.status = status;
     this.validatedSkillsCount = validatedSkillsCount || null;
     this.pixScore = pixScore || null;
+    this.masteryRate = masteryRate != null ? Number(masteryRate) : null;
     this.organizationLearnerId = organizationLearnerId;
   }
 
