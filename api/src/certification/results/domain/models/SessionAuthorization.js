@@ -3,4 +3,8 @@ export class SessionAuthorization {
     this.id = id;
     this.sessionStatus = sessionStatus;
   }
+
+  get canCreateCertificatesPdf() {
+    return this.sessionStatus.isProcessed();
+  }
 }

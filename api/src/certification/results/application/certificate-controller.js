@@ -8,6 +8,7 @@ import { SCOPES } from '../../../shared/infrastructure/utils/logger.js';
 import { getChallengeLocale } from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { normalizeAndRemoveAccents } from '../../../shared/infrastructure/utils/string-utils.js';
 import { createZipStream } from '../../../shared/infrastructure/utils/zip/create-zip-stream.ts';
+import { NoCertificationResultsToDownloadError } from '../domain/errors.js';
 import { Certificate } from '../domain/models/v3/Certificate.js';
 import { CERTIFICATE_LABEL_CONTEXTS } from '../domain/models/v3/CertificateMeshLevel.js';
 import { usecases } from '../domain/usecases/index.js';
@@ -109,16 +110,16 @@ async function getSessionCertificates(request, h) {
   const { isFrenchDomainExtension } = request.query;
   const i18n = getI18nFromRequest(request);
 
-  const { filename, content: certificatePDFContent } = await usecases.getCertificatesForSession({
+  const certificate = await usecases.getCertificatesForSession({
     sessionId,
     i18n,
     isFrenchDomainExtension,
   });
 
   return h
-    .response(certificatePDFContent)
+    .response(certificate?.content ?? null)
     .code(200)
-    .header('Content-Disposition', `attachment; filename=${filename}`)
+    .header('Content-Disposition', `attachment; filename=${certificate?.filename}`)
     .header('Content-Type', 'application/pdf');
 }
 
@@ -184,7 +185,11 @@ async function downloadSelectedSessionsCertificates(request, h, dependencies = {
     };
   });
 
-  const zipStream = dependencies.createZipStream(usecases.getCertificatesForSession, argArray);
+  const zipStream = dependencies.createZipStream({
+    callbackFnc: usecases.getCertificatesForSession,
+    callbackArgs: argArray,
+    allowedErrs: [NoCertificationResultsToDownloadError],
+  });
 
   return h
     .response(zipStream)

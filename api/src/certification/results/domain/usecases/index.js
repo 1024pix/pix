@@ -3,6 +3,7 @@ import * as sessionEnrolmentRepository from '../../../enrolment/infrastructure/r
 import * as sharedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
+import * as sessionAuthorizationAdapter from '../../infrastructure/adapters/session-authorization-adapter.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as certificateSummaryRepository from '../../infrastructure/repositories/certificate-summary-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
@@ -37,6 +38,7 @@ import { getShareableCertificate } from './get-shareable-certificate.js';
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
+ * @typedef {sessionAuthorizationAdapter} SessionAuthorizationAdapter
  * @typedef {certificationResultRepository} CertificationResultRepository
  * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
@@ -64,6 +66,7 @@ const dependencies = {
   cleaCertifiedCandidateRepository,
   sessionEnrolmentRepository,
   resultRecipientRepository,
+  sessionAuthorizationAdapter,
   sessionForResultsSharingRepository,
   competenceTreeRepository,
   certificationLivretScolaireRepository,
