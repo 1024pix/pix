@@ -61,7 +61,7 @@ const buildLearningContent = function (learningContent) {
                 competenceId: competence.id,
                 name: skill.name ?? skill.nom, // FIXME delete usages of nom
                 pixValue: skill.pixValue,
-                tutorialIds: skill.tutorials && _.map(skill.tutorials, 'id'),
+                tutorialIds: skill.tutorials && skill.tutorials.map((item) => item.id),
                 version: skill.version,
                 level: skill.level,
               };
