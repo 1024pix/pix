@@ -20,10 +20,9 @@ async function getCertificationCenterIdWithMembershipsUserIdByExternalId(externa
 
   return {
     id: certificationCenterIdWithMemberships[0].id,
-    certificationCenterMemberships: _(certificationCenterIdWithMemberships)
+    certificationCenterMemberships: certificationCenterIdWithMemberships
       .map((certificationCenterMembership) => certificationCenterMembership.userId)
-      .compact()
-      .value(),
+      .filter(Boolean),
   };
 }
 
@@ -60,7 +59,7 @@ async function fetchCertificationCenterMembershipsByExternalId(externalId) {
 }
 
 async function prepareDataForInsert(rawExternalIds) {
-  const externalIds = _.uniq(_.map(rawExternalIds, 'externalId'));
+  const externalIds = _.uniq(rawExternalIds.map((item) => item.externalId));
   const certificationCenterMembershipsLists = await PromiseUtils.mapSeries(
     externalIds,
     fetchCertificationCenterMembershipsByExternalId,
