@@ -9,10 +9,6 @@ export class RefreshLearningContentJobController extends JobScheduleController {
     super(RefreshLearningContentJob.name, { jobCron: config.lcms.refreshJobCron });
   }
 
-  isJobEnabled() {
-    return config.lcms.refreshJobCron !== null;
-  }
-
   async handle() {
     try {
       await usecases.refreshLearningContent();
