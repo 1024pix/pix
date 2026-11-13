@@ -42,9 +42,10 @@ const findTutorials = async function ({
 export { findTutorials };
 
 async function _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository, userId, locale) {
+  const tubesByName = new Map(tubes.map((tube) => [tube.name, tube]));
   return await Promise.all(
     _.map(easiestSkills, async (skill) => {
-      const tube = _.find(tubes, { name: skill.tubeName });
+      const tube = tubesByName.get(skill.tubeName);
       const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({
         ids: skill.tutorialIds,
         userId,
