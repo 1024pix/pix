@@ -1,4 +1,3 @@
-import { CreateBucketCommand, S3Client } from '@aws-sdk/client-s3';
 import { expect } from 'chai';
 import { parquetReadObjects } from 'hyparquet';
 import sinon from 'sinon';
@@ -15,36 +14,15 @@ import { usecases } from '../../../../../src/db-history/domain/usecases/index.js
 import { AnswersHistoryRepository } from '../../../../../src/db-history/infrastructure/repositories/answers-history-repository.js';
 import * as answersRepository from '../../../../../src/db-history/infrastructure/repositories/answers-repository.js';
 import * as assessmentsRepository from '../../../../../src/db-history/infrastructure/repositories/assessments-repository.js';
-import { S3ObjectStorageProvider } from '../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { prepareTestBucket } from '../../../../tooling/storage/s3-test-bucket.js';
 import { catchErr, catchErrSync } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | History-db | Domain | Use-case | historize-answers', function () {
-  let s3Client;
+  let bucket;
 
   beforeEach(async function () {
-    const storageClient = config.answersHistoryExport.storage.client;
-    const rawS3 = new S3Client({
-      credentials: {
-        accessKeyId: storageClient.accessKeyId,
-        secretAccessKey: storageClient.secretAccessKey,
-      },
-      endpoint: storageClient.endpoint,
-      region: storageClient.region,
-      forcePathStyle: true,
-    });
-    try {
-      await rawS3.send(new CreateBucketCommand({ Bucket: storageClient.bucket }));
-    } catch {
-      // bucket already exists
-    }
-
-    s3Client = S3ObjectStorageProvider.createClient(storageClient);
-
-    const { Contents: files } = await s3Client.listFiles();
-    for (const file of files ?? []) {
-      await s3Client.deleteFile({ key: file.Key });
-    }
+    bucket = await prepareTestBucket(config.answersHistoryExport.storage.client);
   });
 
   it('deletes answers from a list of assessments and uploads a parquet file to S3', async function () {
@@ -157,10 +135,10 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
     const remainingAnswers = await knex('answers');
     expect(remainingAnswers.length).to.equal(5);
 
-    const { Contents: uploadedFiles } = await s3Client.listFiles();
+    const uploadedKeys = await bucket.keys();
     // IDs 50001-50003 → range [50001, 51000], IDs 51001-51002 → range [51001, 52000] with range=1000
-    expect(uploadedFiles).to.have.length(2);
-    expect(uploadedFiles[0].Key).to.match(/^answers\//);
+    expect(uploadedKeys).to.have.length(2);
+    expect(uploadedKeys[0]).to.match(/^answers\//);
   });
 
   describe('batching configuration', function () {
@@ -239,11 +217,11 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
     const remainingAnswers = await knex('answers');
     expect(remainingAnswers).to.have.length(0);
 
-    const { Contents: uploadedFiles } = await s3Client.listFiles();
-    expect(uploadedFiles).to.have.length(2);
+    const uploadedKeys = await bucket.keys();
+    expect(uploadedKeys).to.have.length(2);
     const assessmentRangeEnd = firstAssessmentId + assessmentIdRange - 1;
-    for (const file of uploadedFiles) {
-      expect(file.Key).to.match(new RegExp(`^answers/${firstAssessmentId}_${assessmentRangeEnd}/`));
+    for (const key of uploadedKeys) {
+      expect(key).to.match(new RegExp(`^answers/${firstAssessmentId}_${assessmentRangeEnd}/`));
     }
   });
 
@@ -295,8 +273,7 @@ describe('Integration | History-db | Domain | Use-case | historize-answers', fun
       expect(error.cause.message).to.equal('An error occurred during the answers deletion in DB');
       expect(error.cause.cause).to.equal(databaseError);
 
-      const { Contents: uploadedFiles } = await s3Client.listFiles();
-      expect(uploadedFiles ?? []).to.have.length(0);
+      expect(await bucket.keys()).to.have.length(0);
 
       // the cause is what makes the failure diagnosable from the logs alone
       expect(logger.error.lastCall.args[0]).to.include('An error occurred during the answers deletion in DB');
