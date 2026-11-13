@@ -79,7 +79,7 @@ const getAcquisitionPercentage = (
   if (participation.status !== CampaignParticipationStatuses.SHARED) return 0;
   if (isAcquired) return 100;
   return badgesForCalculation
-    .find((badgeForCalculation) => badgeForCalculation.id === badge.id)
+    .get(badge.id)
     .getAcquisitionPercentage(knowledgeElementsByParticipations[participation.id] ?? []);
 };
 
@@ -153,6 +153,9 @@ export const getCampaignParticipations = async function ({
   const knowledgeElementsByParticipations = await knowledgeElementSnapshotRepository.findByCampaignParticipationIds(
     participations.map((participation) => participation.id),
   );
+  const badgesForCalculationById = new Map(
+    badgesForCalculation.map((badgeForCalculation) => [badgeForCalculation.id, badgeForCalculation]),
+  );
 
   return {
     models: participations.map((participation) => {
@@ -168,6 +171,7 @@ export const getCampaignParticipations = async function ({
       );
 
       const badgesAcquisitionsForParticipation = acquiredBadgesByParticipation[participation.id] || [];
+      const acquiredBadgeIds = new Set(badgesAcquisitionsForParticipation.map(({ badgeId }) => badgeId));
 
       return new AssessmentCampaignParticipation({
         ...participation,
@@ -178,13 +182,13 @@ export const getCampaignParticipations = async function ({
         },
         badges: badges.map((badge) => {
           // TODO PIX-21173 Create dedicated repository or service for badges to remove logic duplication for acquisition percentage
-          const isAcquired = badgesAcquisitionsForParticipation.some(({ badgeId }) => badgeId === badge.id);
+          const isAcquired = acquiredBadgeIds.has(badge.id);
 
           const acquisitionPercentage = getAcquisitionPercentage(
             participation,
             badge,
             isAcquired,
-            badgesForCalculation,
+            badgesForCalculationById,
             knowledgeElementsByParticipations,
           );
 

@@ -122,6 +122,7 @@ describe('Unit | UseCases | find-paginated-participants', function () {
         organizationParticipants: [],
         meta: {},
       });
+      organizationLearnerFeatureRepository.getOrganizationLearnersByFeature.resolves([]);
 
       const result = await findPaginatedFilteredParticipants({
         organizationId,

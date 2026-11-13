@@ -29,8 +29,10 @@ async function getByIds(ids) {
 }
 
 function _assertAllIdsMatchAResult({ ids, results }) {
+  const resultIds = new Set(results.map((result) => result.id));
+
   ids.forEach((id) => {
-    if (!results.find((result) => result.id === id)) {
+    if (!resultIds.has(id)) {
       throw new OrganizationLearnerIdentityNotFoundError(`Organization learner identity with id ${id} not found.`);
     }
   });

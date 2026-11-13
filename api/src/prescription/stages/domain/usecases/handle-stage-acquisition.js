@@ -58,8 +58,10 @@ const handleStageAcquisition = async function ({
 
   const validatedKnowledgeElements = knowledgeElements.filter(({ isValidated }) => isValidated);
 
+  const campaignSkillIdsAsStrings = new Set(campaignSkillsIds.map((id) => String(id)));
+
   const knowledgeElementsInSkills = validatedKnowledgeElements.filter((knowledgeElement) =>
-    campaignSkillsIds.some((id) => String(id) === String(knowledgeElement.skillId)),
+    campaignSkillIdsAsStrings.has(String(knowledgeElement.skillId)),
   );
 
   const stagesToStore = getNewAcquiredStagesService.getNewAcquiredStages(

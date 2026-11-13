@@ -53,10 +53,13 @@ export const synchronize = async ({ organizationLearnerId, moduleIds, modulesApi
 
   const updatedParticipations = [];
 
+  const learnerParticipationsByReferenceId = Map.groupBy(
+    learnerParticipationsByModule,
+    (learnerParticipation) => learnerParticipation.referenceId,
+  );
+
   for (const modulePassage of modulePassages) {
-    const learnerParticipationModule = learnerParticipationsByModule.find(
-      (learnerParticipation) => learnerParticipation.referenceId === modulePassage.id,
-    );
+    const [learnerParticipationModule] = learnerParticipationsByReferenceId.get(modulePassage.id) ?? [];
 
     const { id: organizationLearnerParticipationId, ...organizationLearnerPassageParticipation } =
       OrganizationLearnerParticipation.buildFromPassage({

@@ -37,8 +37,10 @@ const getBadgeAcquisitionsStatistics = async function ({
     participations.map(({ id }) => id),
   );
 
+  const badgesAcquisitionsByBadgeId = Map.groupBy(badgesAcquisitions, (badgeAcquisition) => badgeAcquisition.badgeId);
+
   return badges.map((badge) => {
-    const acquiredBadges = badgesAcquisitions.filter((badgeAcquisition) => badgeAcquisition.badgeId === badge.id);
+    const acquiredBadges = badgesAcquisitionsByBadgeId.get(badge.id) ?? [];
 
     return new BadgeAcquisitionParticipationStatistic({
       badge,

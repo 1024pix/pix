@@ -69,8 +69,10 @@ export const findByOrganizationId = async function ({ organizationId }) {
   const membershipUserIds = memberships.map(({ userId }) => userId);
   const users = await knexConnection(USERS_TABLE).whereIn('id', membershipUserIds);
 
+  const usersById = new Map(users.map((user) => [user.id, user]));
+
   return memberships.map((membership) => {
-    const user = users.find(({ id }) => id === membership.userId);
+    const user = usersById.get(membership.userId);
     return _toDomain(membership, user);
   });
 };
@@ -146,9 +148,12 @@ export const findByUserIdAndOrganizationId = async ({ userId, organizationId, in
   const organizationIds = organizations.map(({ id }) => id);
   const organizationsTags = await knexConnection(ORGANIZATION_TAGS_TABLE).whereIn('organizationId', organizationIds);
 
+  const organizationsById = new Map(organizations.map((organization) => [organization.id, organization]));
+  const organizationsTagsByOrganizationId = Map.groupBy(organizationsTags, ({ organizationId }) => organizationId);
+
   return memberships.map((membership) => {
-    const organization = organizations.find(({ id }) => id === membership.organizationId);
-    const organizationTags = organizationsTags.filter(({ organizationId }) => organizationId === organization.id);
+    const organization = organizationsById.get(membership.organizationId);
+    const organizationTags = organizationsTagsByOrganizationId.get(organization.id) ?? [];
     return _toDomain(membership, null, organization, organizationTags);
   });
 };

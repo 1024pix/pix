@@ -17,12 +17,13 @@ const getUserProfile = async function ({
     competenceEvaluationRepository.findByUserId(userId),
   ]);
   const allAreas = await areaRepository.list({ locale });
+  const areasById = new Map(allAreas.map((area) => [area.id, area]));
 
   const scorecards = _.map(competences, (competence) => {
     const competenceId = competence.id;
     const knowledgeElementsForCompetence = knowledgeElementsGroupedByCompetenceId[competenceId];
     const competenceEvaluation = _.find(competenceEvaluations, { competenceId });
-    const area = allAreas.find((area) => area.id === competence.areaId);
+    const area = areasById.get(competence.areaId);
     return Scorecard.buildFrom({
       userId,
       knowledgeElements: knowledgeElementsForCompetence,

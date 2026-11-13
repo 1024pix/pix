@@ -189,6 +189,7 @@ const get = async function ({ organizationId }) {
     });
 
   const importFormats = await knexConn('organization-learner-import-formats');
+  const importFormatsById = new Map(importFormats.map((importFormat) => [importFormat.id, importFormat]));
   organization.features = availableFeatures.reduce((features, { key, enabled, params }) => {
     switch (key) {
       case ORGANIZATION_FEATURE.LEARNER_IMPORT.key:
@@ -196,9 +197,7 @@ const get = async function ({ organizationId }) {
           ...features,
           [key]: {
             active: enabled,
-            params: enabled
-              ? { name: importFormats.find(({ id }) => params.organizationLearnerImportFormatId === id).name }
-              : null,
+            params: enabled ? { name: importFormatsById.get(params.organizationLearnerImportFormatId).name } : null,
           },
         };
       case ORGANIZATION_FEATURE.ATTESTATIONS_MANAGEMENT.key:
@@ -438,6 +437,7 @@ async function _disableFeatures(knexConn, features, organizationId) {
 async function _enableFeatures(knexConn, featuresToEnable, organizationId) {
   const features = await knexConn('features');
   const importFormats = await knexConn('organization-learner-import-formats').select('name', 'id');
+  const featuresByKey = new Map(features.map((feature) => [feature.key, feature]));
 
   await knexConn(ORGANIZATION_FEATURES_TABLE_NAME)
     .insert(
@@ -452,7 +452,7 @@ async function _enableFeatures(knexConn, featuresToEnable, organizationId) {
         .filter((key) => featuresToEnable[key].active)
         .map((key) => ({
           organizationId,
-          featureId: features.find((feature) => feature.key === key).id,
+          featureId: featuresByKey.get(key).id,
           params: _paramsForFeature(importFormats, key, featuresToEnable[key]),
         })),
     )

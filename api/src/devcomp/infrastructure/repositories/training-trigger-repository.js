@@ -54,12 +54,14 @@ const findByTrainingIdForAdmin = async function ({ trainingId }) {
   const trainingTriggerTubes = await knexConn('training-trigger-tubes')
     .whereIn('trainingTriggerId', trainingTriggerIds)
     .select('*');
+  const triggerTubesByTrainingTriggerId = Map.groupBy(
+    trainingTriggerTubes,
+    ({ trainingTriggerId }) => trainingTriggerId,
+  );
 
   return Promise.all(
     trainingTriggers.map(async (trainingTrigger) => {
-      const triggerTubes = trainingTriggerTubes.filter(
-        ({ trainingTriggerId }) => trainingTriggerId === trainingTrigger.id,
-      );
+      const triggerTubes = triggerTubesByTrainingTriggerId.get(trainingTrigger.id) ?? [];
       return await _toDomainForAdmin({ trainingTrigger, triggerTubes });
     }),
   );
@@ -76,12 +78,14 @@ const findByTrainingId = async function ({ trainingId }) {
     .whereIn('trainingTriggerId', trainingTriggerIds)
     .select('*')
     .orderBy('tubeId', 'asc');
+  const triggerTubesByTrainingTriggerId = Map.groupBy(
+    trainingTriggerTubes,
+    ({ trainingTriggerId }) => trainingTriggerId,
+  );
 
   return Promise.all(
     trainingTriggers.map(async (trainingTrigger) => {
-      const triggerTubes = trainingTriggerTubes.filter(
-        ({ trainingTriggerId }) => trainingTriggerId === trainingTrigger.id,
-      );
+      const triggerTubes = triggerTubesByTrainingTriggerId.get(trainingTrigger.id) ?? [];
       return _toDomain({ trainingTrigger, triggerTubes });
     }),
   );
@@ -113,6 +117,7 @@ async function _toDomain({ trainingTrigger, triggerTubes }) {
   const availableTriggerTubes = triggerTubes.filter(({ tubeId }) => {
     return tubeIds.includes(tubeId);
   });
+  const tubesById = new Map(tubes.map((tube) => [tube.id, tube]));
 
   return new TrainingTrigger({
     id: trainingTrigger.id,
@@ -120,7 +125,7 @@ async function _toDomain({ trainingTrigger, triggerTubes }) {
     type: trainingTrigger.type,
     threshold: trainingTrigger.threshold,
     triggerTubes: availableTriggerTubes.map(
-      ({ id, tubeId, level }) => new TrainingTriggerTube({ id, tube: tubes.find(({ id }) => id === tubeId), level }),
+      ({ id, tubeId, level }) => new TrainingTriggerTube({ id, tube: tubesById.get(tubeId), level }),
     ),
   });
 }
@@ -144,6 +149,7 @@ async function _toDomainForAdmin({ trainingTrigger, triggerTubes }) {
   }
 
   const learningContent = await _getLearningContent(tubes);
+  const tubesById = new Map(tubes.map((tube) => [tube.id, tube]));
 
   return new TrainingTriggerForAdmin({
     id: trainingTrigger.id,
@@ -151,7 +157,7 @@ async function _toDomainForAdmin({ trainingTrigger, triggerTubes }) {
     type: trainingTrigger.type,
     threshold: trainingTrigger.threshold,
     triggerTubes: triggerTubes.map(
-      ({ id, tubeId, level }) => new TrainingTriggerTube({ id, tube: tubes.find(({ id }) => id === tubeId), level }),
+      ({ id, tubeId, level }) => new TrainingTriggerTube({ id, tube: tubesById.get(tubeId), level }),
     ),
     areas: learningContent.areas,
     competences: learningContent.competences,

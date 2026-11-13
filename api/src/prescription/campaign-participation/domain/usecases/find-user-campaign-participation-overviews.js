@@ -25,14 +25,17 @@ const findUserCampaignParticipationOverviews = async function ({
   const stages = await stageRepository.getByTargetProfileIds(targetProfileIds);
   const acquiredStages = await stageAcquisitionRepository.getByCampaignParticipations(campaignParticipationIds);
 
+  const stagesByTargetProfileId = Map.groupBy(stages, ({ targetProfileId }) => targetProfileId);
+  const acquiredStagesByCampaignParticipationId = Map.groupBy(
+    acquiredStages,
+    ({ campaignParticipationId }) => campaignParticipationId,
+  );
+
   const campaignParticipationOverviewsWithStages = campaignParticipationOverviews.map(
     (campaignParticipationOverview) => {
-      const stagesForThisCampaign = stages.filter(
-        ({ targetProfileId }) => targetProfileId === campaignParticipationOverview.targetProfileId,
-      );
-      const acquiredStagesForThisCampaign = acquiredStages.filter(
-        ({ campaignParticipationId }) => campaignParticipationId === campaignParticipationOverview.id,
-      );
+      const stagesForThisCampaign = stagesByTargetProfileId.get(campaignParticipationOverview.targetProfileId) ?? [];
+      const acquiredStagesForThisCampaign =
+        acquiredStagesByCampaignParticipationId.get(campaignParticipationOverview.id) ?? [];
       const stagesComparison = compareStagesAndAcquiredStages.compare(
         stagesForThisCampaign,
         acquiredStagesForThisCampaign,

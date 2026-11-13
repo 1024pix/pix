@@ -9,8 +9,9 @@ export async function findAll() {
 
   const allFrameworksInfo = [];
   allFrameworksInfo.push(buildCleaFrameworkInfo());
+  const versionsDataByScope = Map.groupBy(allData, (dataItem) => dataItem.scope);
   for (const scope of Object.values(SCOPES)) {
-    const versionsData = allData.filter((dataItem) => dataItem.scope === scope);
+    const versionsData = versionsDataByScope.get(scope) ?? [];
     const versionSummaries = versionsData.map((versionData) => new VersionSummary(versionData));
     allFrameworksInfo.push(new FrameworkInfo({ id: scope, scope, versionSummaries }));
   }

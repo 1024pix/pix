@@ -71,10 +71,9 @@ export async function getById(id) {
     tubeId: skill.tubeId,
     difficulty: skill.difficulty,
   }));
+  const skillsByTubeId = Map.groupBy(skills, (skill) => skill.tubeId);
   tubes.forEach((tube) => {
-    tube.skills = skills.filter((skill) => {
-      return skill.tubeId === tube.id;
-    });
+    tube.skills = skillsByTubeId.get(tube.id) ?? [];
   });
 
   const thematicIds = tubes.map((tube) => tube.thematicId);
@@ -85,8 +84,9 @@ export async function getById(id) {
     name: thematic.name,
     index: thematic.index,
   }));
+  const tubesByThematicId = Map.groupBy(tubes, (tube) => tube.thematicId);
   thematics.forEach((thematic) => {
-    thematic.tubes = tubes.filter((tube) => tube.thematicId === thematic.id);
+    thematic.tubes = tubesByThematicId.get(thematic.id) ?? [];
   });
 
   const competenceIds = tubes.map((tube) => tube.competenceId);
@@ -100,10 +100,9 @@ export async function getById(id) {
     name: competence.name,
     index: competence.index,
   }));
+  const thematicsByCompetenceId = Map.groupBy(thematics, (thematic) => thematic.competenceId);
   competences.forEach((competence) => {
-    competence.thematics = thematics.filter((thematic) => {
-      return thematic.competenceId === competence.id;
-    });
+    competence.thematics = thematicsByCompetenceId.get(competence.id) ?? [];
   });
 
   const allAreaIds = competences.map((competence) => competence.areaId);
@@ -119,10 +118,9 @@ export async function getById(id) {
     code: area.code,
     title: area.title,
   }));
+  const competencesByAreaId = Map.groupBy(competences, (competence) => competence.areaId);
   areas.forEach((area) => {
-    area.competences = competences.filter((competence) => {
-      return competence.areaId === area.id;
-    });
+    area.competences = competencesByAreaId.get(area.id) ?? [];
   });
 
   competences.forEach((competence) => {

@@ -20,9 +20,11 @@ const getDataOrganizationsPlacesStatistics = withTransaction(async function ({
       organizationWithPlacesIds,
     );
 
+  const placesLotsByOrganizationId = Map.groupBy(placesLots, (place) => place.organizationId);
+
   return organizationWithPlaces.map((organization) => {
     const placeStatistics = PlaceStatistics.buildFrom({
-      placesLots: placesLots.filter((place) => place.organizationId === organization.id),
+      placesLots: placesLotsByOrganizationId.get(organization.id) ?? [],
       placeRepartition: placeRepartitions[organization.id],
       organizationId: organization.id,
     });

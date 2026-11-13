@@ -71,7 +71,9 @@ async function _getByCertificationCourseIds(orderedCertificationCourseIds) {
     )
     .whereIn('certification-courses.id', orderedCertificationCourseIds);
 
-  return orderedCertificationCourseIds.map((orderedId) => results.find(({ id }) => id === orderedId));
+  const resultsById = Map.groupBy(results, ({ id }) => id);
+
+  return orderedCertificationCourseIds.map((orderedId) => resultsById.get(orderedId)?.[0]);
 }
 
 function _getCertificationCoursesIdBySessionIdQuery(sessionId) {
@@ -103,10 +105,14 @@ function _getCertificationCoursesIdBySessionIdQuery(sessionId) {
 }
 
 function _buildJuryCertificationSummaryDTOs(juryCertificationSummaryRows, certificationIssueReportRows) {
+  const certificationIssueReportRowsByCertificationCourseId = Map.groupBy(
+    certificationIssueReportRows,
+    ({ certificationCourseId }) => certificationCourseId,
+  );
+
   return juryCertificationSummaryRows.map((juryCertificationSummaryRow) => {
-    const certificationIssueReports = certificationIssueReportRows.filter(
-      ({ certificationCourseId }) => certificationCourseId === juryCertificationSummaryRow.id,
-    );
+    const certificationIssueReports =
+      certificationIssueReportRowsByCertificationCourseId.get(juryCertificationSummaryRow.id) ?? [];
 
     return {
       ...juryCertificationSummaryRow,
