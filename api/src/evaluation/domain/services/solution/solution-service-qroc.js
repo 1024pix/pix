@@ -9,7 +9,7 @@ import {
 import { getEnabledTreatments, isAnswerValid } from '../services-utils.js';
 import { applyPreTreatments, applyTreatments } from '../validation-treatments.js';
 const CHALLENGE_NUMBER_FORMAT = 'nombre';
-const { every, isEmpty, isString, map } = lodash;
+const { every, isEmpty, isString } = lodash;
 
 const match = function ({ answer, challengeFormat, solution }) {
   const solutionValue = solution.value;
@@ -52,7 +52,7 @@ function _getAnswerStatusFromNumberMatching(answer, solutions) {
 function _getAnswerStatusFromStringMatching(answer, solutions, deactivations, shouldApplyTreatments) {
   const enabledTreatments = getEnabledTreatments(shouldApplyTreatments, deactivations);
   const treatedAnswer = applyTreatments(applyPreTreatments(answer), enabledTreatments);
-  const treatedSolutions = map(solutions, (solution) => applyTreatments(solution, enabledTreatments));
+  const treatedSolutions = solutions.map((solution) => applyTreatments(solution, enabledTreatments));
 
   return isAnswerValid(treatedAnswer, treatedSolutions, enabledTreatments) ? AnswerStatus.OK : AnswerStatus.KO;
 }

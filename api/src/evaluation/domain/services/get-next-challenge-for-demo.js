@@ -13,7 +13,7 @@ export async function getNextChallengeForDemo({ assessment, answerRepository, co
 
 function _selectNextChallengeId(course, answers) {
   const courseChallengeIds = course.challenges;
-  const answeredChallengeIds = _.map(answers, 'challengeId');
+  const answeredChallengeIds = answers.map((item) => item.challengeId);
 
   return _(courseChallengeIds).difference(answeredChallengeIds).first();
 }
