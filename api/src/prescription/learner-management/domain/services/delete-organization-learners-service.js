@@ -16,7 +16,6 @@ export const deleteOrganizationLearnersService = async function ({
   userRole,
   learnerToDeleteChunkSize = CHUNK_SIZE,
   client,
-  keepPreviousDeletion = false,
   disableAuditLogger = false, // true in case of dryRun to not instantiate jobs
   organizationLearnerRepository,
   organizationLearnerImportFormatRepository,
@@ -70,7 +69,6 @@ export const deleteOrganizationLearnersService = async function ({
     const campaignParticipations =
       await campaignParticipationRepository.getAllCampaignParticipationsForOrganizationLearnerIds({
         organizationLearnerIds: computedOrganizationLearnerIds,
-        withDeletedParticipation: keepPreviousDeletion,
       });
 
     for (const campaignParticipation of campaignParticipations) {
