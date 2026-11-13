@@ -12,7 +12,6 @@ import { not } from 'ember-truth-helpers';
 import FilterBanner from 'pix-admin/components/sessions/filter-banner';
 import PaginationWrapper from 'pix-admin/components/ui/pagination-wrapper';
 import ENV from 'pix-admin/config/environment';
-
 const NO_CERTIFICATION_RESULTS_TO_DOWNLOAD_CODE = 'NO_CERTIFICATION_RESULTS_TO_DOWNLOAD';
 
 export default class ListItems extends Component {
@@ -57,6 +56,13 @@ export default class ListItems extends Component {
 
   get hasSelectedRows() {
     return this.selectedSessionsRows.length > 0;
+  }
+
+  get hasOnlySelectedProcessedRows() {
+    const selectedProcessedSession = this.args.sessions.filter((session) =>
+      this.selectedSessionsRows.includes(session.id),
+    );
+    return selectedProcessedSession.length > 0 && selectedProcessedSession.every((session) => session.isProcessed);
   }
 
   get isIndeterminateSelection() {
@@ -154,7 +160,7 @@ export default class ListItems extends Component {
         </PixButton>
         <PixButton
           @variant="tertiary"
-          @isDisabled={{not this.hasSelectedRows}}
+          @isDisabled={{not this.hasOnlySelectedProcessedRows}}
           @triggerAction={{this.downloadSelectionCertificates}}
         >
           <PixIcon @name="download" />
