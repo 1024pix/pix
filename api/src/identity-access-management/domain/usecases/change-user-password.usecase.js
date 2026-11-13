@@ -5,7 +5,7 @@ import {
 } from '../../../shared/domain/errors.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
-const changeUserPassword = async function ({
+export async function changeUserPassword({
   userId,
   currentPassword,
   newPassword,
@@ -36,6 +36,4 @@ const changeUserPassword = async function ({
   const hashedPassword = await cryptoService.hashPassword(newPassword);
 
   await authenticationMethodRepository.updatePassword({ userId, hashedPassword });
-};
-
-export { changeUserPassword };
+}
