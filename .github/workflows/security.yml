@@ -1,154 +1,319 @@
 name: 'Security Checks'
 
+## For readability and asynchronicity, the code for all 10 jobs is not in a loop
+
 on:
   push:
-    branches:
-      - dev
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+    types: [opened, reopened, ready_for_review, labeled]
+    paths: # only loads on changes of dependencies
+      - '**/package-lock.json'
+      - '.github/workflows/security.yml'
+
+permissions: {}
 
 jobs:
-  upload_sboms:
+  gate: # runs only for some actions
     runs-on: ubuntu-latest
+    if: github.event.action != 'labeled' || github.event.label.name == 'security update'
+    steps:
+      - run: echo "Security scan triggered by ${{ github.event_name }}/${{ github.event.action }}"
+
+  check_risk_score_monorepo:
+    runs-on: ubuntu-latest
+    needs: gate
+    needs: gate
+    permissions:
+      contents: read
+    outputs:
+      upload: ${{ steps.riskscoreMonorepo.outputs.upload_json }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Setup Node
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version-file: package.json
-          cache: npm
+          persist-credentials: false
 
-      - name: Install Cyclone DX
-        # cycloneDX is installed as part of the first batch, sinnce we will have to make `npm ci` to fetch dependencies
-        run: npm ci
-
-      - name: Monorepo - Create SBOM
-        run: npx @cyclonedx/cyclonedx-npm --output-file pix-repo-sbom.json package.json && [ -e "pix-repo-sbom.json" ] && echo '[+] SBOM created' || echo '[!] Fail to create SBOM'
-
-      - name: Monorepo - Upload BOM to Dependency-Track
-        uses: DependencyTrack/gh-upload-sbom@48feab3080ff9e8f51f4d21861d9fc914eb744f5
+      - name: Generates Monorepo SBoM and upload to OWASP DTrack
+        id: riskscoreMonorepo
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
-          serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
-          apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
-          projectName: Monorepo
-          projectVersion: dev
-          bomFilename: 'pix-repo-sbom.json'
-          autoCreate: true
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
+          key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
+          directory: '.'
+          wait_for_status: 'false'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
 
-      - name: Pix App - Create SBOM
-        run: npm ci --prefix mon-pix/ && npx @cyclonedx/cyclonedx-npm --output-file pix-app-sbom.json mon-pix/package.json && [ -e "pix-app-sbom.json" ] && echo '[+] SBOM created' || echo '[!] Fail to create SBOM'
-
-      - name: Pix App - Upload BOM to Dependency-Track
-        uses: DependencyTrack/gh-upload-sbom@48feab3080ff9e8f51f4d21861d9fc914eb744f5
+  check_risk_score_app:
+    runs-on: ubuntu-latest
+    needs: gate
+    permissions:
+      contents: read
+    outputs:
+      upload: ${{ steps.riskscorePixApp.outputs.upload_json }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
-          apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
-          projectName: Pix App
-          projectVersion: dev
-          bomFilename: 'pix-app-sbom.json'
-          autoCreate: true
+          persist-credentials: false
 
-      - name: Pix Orga - Create SBOM
-        run: npm ci --prefix orga/ && npx @cyclonedx/cyclonedx-npm --output-file pix-orga-sbom.json orga/package.json && [ -e "pix-orga-sbom.json" ] && echo '[+] SBOM created' || echo '[!] Fail to create SBOM'
-
-      - name: Pix Orga - Upload BOM to Dependency-Track
-        uses: DependencyTrack/gh-upload-sbom@48feab3080ff9e8f51f4d21861d9fc914eb744f5
+      - name: Generates PixApp SBoM and upload to OWASP DTrack
+        id: riskscorePixApp
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
-          serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
-          apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
-          projectName: Pix Orga
-          projectVersion: dev
-          bomFilename: 'pix-orga-sbom.json'
-          autoCreate: true
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
+          key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
+          directory: 'mon-pix'
+          wait_for_status: 'false'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
 
-      - name: Pix Certif - Create SBOM
-        run: npm ci --prefix certif/ && npx @cyclonedx/cyclonedx-npm --output-file pix-certif-sbom.json certif/package.json && [ -e "pix-certif-sbom.json" ] && echo '[+] SBOM created' || echo '[!] Fail to create SBOM'
-
-      - name: Pix Certif - Upload BOM to Dependency-Track
-        uses: DependencyTrack/gh-upload-sbom@48feab3080ff9e8f51f4d21861d9fc914eb744f5
+  check_risk_score_orga:
+    runs-on: ubuntu-latest
+    needs: gate
+    permissions:
+      contents: read
+    outputs:
+      upload: ${{ steps.riskscorePixOrga.outputs.upload_json }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
-          apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
-          projectName: Pix Certif
-          projectVersion: dev
-          bomFilename: 'pix-certif-sbom.json'
-          autoCreate: true
+          persist-credentials: false
 
-      - name: Pix Admin - Create SBOM
-        run: npm ci --prefix admin/ && npx @cyclonedx/cyclonedx-npm --output-file pix-admin-sbom.json admin/package.json && [ -e "pix-admin-sbom.json" ] && echo '[+] SBOM created' || echo '[!] Fail to create SBOM'
-
-      - name: Pix Admin - Upload BOM to Dependency-Track
-        uses: DependencyTrack/gh-upload-sbom@48feab3080ff9e8f51f4d21861d9fc914eb744f5
+      - name: Generates PixOrga SBoM and upload to OWASP DTrack
+        id: riskscorePixOrga
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
-          serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
-          apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
-          projectName: Pix Admin
-          projectVersion: dev
-          bomFilename: 'pix-admin-sbom.json'
-          autoCreate: true
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
+          key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
+          directory: 'orga'
+          wait_for_status: 'false'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
 
-      - name: Pix Junior - Create SBOM
-        run: npm ci --prefix junior/ && npx @cyclonedx/cyclonedx-npm --output-file pix-junior-sbom.json junior/package.json && [ -e "pix-junior-sbom.json" ] && echo '[+] SBOM created' || echo '[!] Fail to create SBOM'
-
-      - name: Pix Junior - Upload BOM to Dependency-Track
-        uses: DependencyTrack/gh-upload-sbom@48feab3080ff9e8f51f4d21861d9fc914eb744f5
+  check_risk_score_certif:
+    runs-on: ubuntu-latest
+    needs: gate
+    permissions:
+      contents: read
+    outputs:
+      upload: ${{ steps.riskscorePixCertif.outputs.upload_json }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
-          apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
-          projectName: Pix Junior
-          projectVersion: dev
-          bomFilename: 'pix-junior-sbom.json'
-          autoCreate: true
+          persist-credentials: false
 
-      - name: Pix API - Create SBOM
-        run: npm ci --prefix api/ && npx @cyclonedx/cyclonedx-npm --output-file pix-api-sbom.json api/package.json && [ -e "pix-api-sbom.json" ] && echo '[+] SBOM created' || echo '[!] Fail to create SBOM'
-
-      - name: Pix API - Upload BOM to Dependency-Track
-        uses: DependencyTrack/gh-upload-sbom@48feab3080ff9e8f51f4d21861d9fc914eb744f5
+      - name: Generates PixCertif SBoM and upload to OWASP DTrack
+        id: riskscorePixCertif
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
-          serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
-          apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
-          projectName: Pix API
-          projectVersion: dev
-          bomFilename: 'pix-api-sbom.json'
-          autoCreate: true
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
+          key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
+          directory: 'certif'
+          wait_for_status: 'false'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
 
-      - name: Pix Audit Logger - Create SBOM
-        run: npm ci --prefix audit-logger/ && npx @cyclonedx/cyclonedx-npm --output-file pix-audit-logger-sbom.json audit-logger/package.json && [ -e "pix-audit-logger-sbom.json" ] && echo '[+] SBOM created' || echo '[!] Fail to create SBOM'
-
-      - name: Pix Audit Logger - Upload BOM to Dependency-Track
-        uses: DependencyTrack/gh-upload-sbom@48feab3080ff9e8f51f4d21861d9fc914eb744f5
+  check_risk_score_admin:
+    runs-on: ubuntu-latest
+    needs: gate
+    permissions:
+      contents: read
+    outputs:
+      upload: ${{ steps.riskscorePixAdmin.outputs.upload_json }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
-          apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
-          projectName: Pix Audit Logger
-          projectVersion: dev
-          bomFilename: 'pix-audit-logger-sbom.json'
-          autoCreate: true
+          persist-credentials: false
 
-      - name: Tests E2E - Create SBOM
-        run: npm ci --prefix high-level-tests/e2e/ && npx @cyclonedx/cyclonedx-npm --output-file pix-tests-e2e-sbom.json high-level-tests/e2e/package.json && [ -e "pix-tests-e2e-sbom.json" ] && echo '[+] SBOM created' || echo '[!] Fail to create SBOM'
-
-      - name: Tests E2E - Upload BOM to Dependency-Track
-        uses: DependencyTrack/gh-upload-sbom@48feab3080ff9e8f51f4d21861d9fc914eb744f5
+      - name: Generates PixAdmin SBoM and upload to OWASP DTrack
+        id: riskscorePixAdmin
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
-          serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
-          apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
-          projectName: Tests E2E
-          projectVersion: dev
-          bomFilename: 'pix-tests-e2e-sbom.json'
-          autoCreate: true
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
+          key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
+          directory: 'admin'
+          wait_for_status: 'false'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
 
-      - name: Tests Playwright - Create SBOM
-        run: npm ci --prefix high-level-tests/e2e-playwright/ && npx @cyclonedx/cyclonedx-npm --output-file pix-tests-playwright-sbom.json high-level-tests/e2e-playwright/package.json && [ -e "pix-tests-playwright-sbom.json" ] && echo '[+] SBOM created' || echo '[!] Fail to create SBOM'
-
-      - name: Tests Playwright - Upload BOM to Dependency-Track
-        uses: DependencyTrack/gh-upload-sbom@48feab3080ff9e8f51f4d21861d9fc914eb744f5
+  check_risk_score_junior:
+    runs-on: ubuntu-latest
+    needs: gate
+    permissions:
+      contents: read
+    outputs:
+      upload: ${{ steps.riskscorePixJunior.outputs.upload_json }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
-          apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
-          projectName: Tests Playwright
-          projectVersion: dev
-          bomFilename: 'pix-tests-playwright-sbom.json'
-          autoCreate: true
+          persist-credentials: false
 
-      # A last folder in tests exists, but there are issues with NPM CI.
+      - name: Generates PixJunior SBoM and upload to OWASP DTrack
+        id: riskscorePixJunior
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
+        with:
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
+          key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
+          directory: 'junior'
+          wait_for_status: 'false'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
+
+  check_risk_score_api:
+    runs-on: ubuntu-latest
+    needs: gate
+    permissions:
+      contents: read
+    outputs:
+      upload: ${{ steps.riskscorePixAPI.outputs.upload_json }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Generates PixAPI SBoM and upload to OWASP DTrack
+        id: riskscorePixAPI
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
+        with:
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
+          key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
+          directory: 'api'
+          wait_for_status: 'false'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
+
+  check_risk_score_audit_logger:
+    runs-on: ubuntu-latest
+    needs: gate
+    permissions:
+      contents: read
+    outputs:
+      upload: ${{ steps.riskscoreAuditLogger.outputs.upload_json }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Generates AuditLogger SBoM and upload to OWASP DTrack
+        id: riskscoreAuditLogger
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
+        with:
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
+          key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
+          directory: 'audit-logger'
+          wait_for_status: 'false'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
+
+  check_risk_score_tests_e2e:
+    runs-on: ubuntu-latest
+    needs: gate
+    permissions:
+      contents: read
+    outputs:
+      upload: ${{ steps.riskscoreTestsE2E.outputs.upload_json }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Generates TestsE2E SBoM and upload to OWASP DTrack
+        id: riskscoreTestsE2E
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
+        with:
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
+          key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
+          directory: 'high-level-tests/e2e'
+          wait_for_status: 'false'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
+
+  check_risk_score_tests_playwright:
+    runs-on: ubuntu-latest
+    needs: gate
+    permissions:
+      contents: read
+    outputs:
+      upload: ${{ steps.riskscoreTestsPlaywright.outputs.upload_json }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Generates TestsPlaywright SBoM and upload to OWASP DTrack
+        id: riskscoreTestsPlaywright
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
+        with:
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
+          key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
+          directory: 'high-level-tests/e2e-playwright'
+          wait_for_status: 'false'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
+
+  fetch_results:
+    runs-on: ubuntu-latest
+    needs:
+      - gate
+      - check_risk_score_monorepo
+      - check_risk_score_app
+      - check_risk_score_orga
+      - check_risk_score_certif
+      - check_risk_score_admin
+      - check_risk_score_junior
+      - check_risk_score_api
+      - check_risk_score_audit_logger
+      - check_risk_score_tests_e2e
+      - check_risk_score_tests_playwright
+    if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+    outputs:
+      status: ${{ steps.fetch_all_scores.outputs.status }}
+      markdown: ${{ steps.fetch_all_scores.outputs.markdown }}
+    steps:
+      - id: fetch_all_scores
+        uses: 1024pix/check-dependency-track-action/fetch@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
+        with:
+          url: '${{ secrets.DEPENDENCYTRACK_URL }}'
+          key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
+          basic_user: '${{ vars.DEPENDENCYTRACK_BASIC_USER }}'
+          basic_password: '${{ secrets.DEPENDENCYTRACK_BASIC_PASSWORD }}'
+          projects: |
+            ${{ needs.check_risk_score_monorepo.outputs.upload }}
+            ${{ needs.check_risk_score_app.outputs.upload }}
+            ${{ needs.check_risk_score_orga.outputs.upload }}
+            ${{ needs.check_risk_score_certif.outputs.upload }}
+            ${{ needs.check_risk_score_admin.outputs.upload }}
+            ${{ needs.check_risk_score_junior.outputs.upload }}
+            ${{ needs.check_risk_score_api.outputs.upload }}
+            ${{ needs.check_risk_score_audit_logger.outputs.upload }}
+            ${{ needs.check_risk_score_tests_e2e.outputs.upload }}
+            ${{ needs.check_risk_score_tests_playwright.outputs.upload }}
+
+  comment_on_pr:
+    runs-on: ubuntu-latest
+    needs: 
+      - gate
+    if: ${{ !cancelled() && needs.fetch_results.outputs.status != '' }}
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Comment on the PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MARKDOWN_TABLE: ${{ needs.fetch_results.outputs.markdown }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          printf '%s\n' "$MARKDOWN_TABLE \nRegarder l’évolution sur [Deptrack](https://deptrack.pto2ls.pix.digital/dashboard) " > "$RUNNER_TEMP/body.md\nPour relancer l’analyse, appliquer le label _security update_"
+          gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --edit-last --create-if-none \
+            --body-file "$RUNNER_TEMP/body.md"
+
+      - name: Fail on policy violation
+        env:
+          STATUS: ${{ needs.fetch_results.outputs.status }}
+        run: |
+          case "$STATUS" in
+            pass|warn) echo "Dependency-Track status: $STATUS" ;;
+            fail)      echo "::error::Dependency-Track policy violation (fail)"; exit 1 ;;
+            *)         echo "::error::Unknown or missing status: '$STATUS'"; exit 1 ;;
+          esac
