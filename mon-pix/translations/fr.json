@@ -334,6 +334,18 @@
         }
       }
     },
+    "challenge": {
+      "mode-banner": {
+        "focused": {
+          "content": "Vous devez rester sur cette page pour répondre.",
+          "title": "Mode focus."
+        },
+        "free": {
+          "content": "Vous pouvez utiliser internet ou des applications pour répondre.",
+          "title": "Mode libre."
+        }
+      }
+    },
     "info-bar": {
       "certification-number": "N° de certification",
       "completion-percentage": {
@@ -1315,18 +1327,6 @@
           "deactivate": "Désactiver la vocalisation",
           "play": "Lire la consigne à haute voix",
           "stop": "Arrêter la lecture de la consigne"
-        },
-        "tooltip": {
-          "aria-label": "Afficher l'indication sur l'épreuve.",
-          "close": "J'ai compris",
-          "focused": {
-            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Essayez de rester sur cette page pour répondre !'</strong><br/>' Cette question ne nécessite ni internet, ni application.",
-            "title": "Mode Focus"
-          },
-          "other": {
-            "content": "Vous êtes libre d’utiliser internet ou des applications pour répondre à cette question.",
-            "title": "Mode Libre"
-          }
         }
       },
       "timed": {

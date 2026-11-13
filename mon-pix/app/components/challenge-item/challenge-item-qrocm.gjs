@@ -1,78 +1,16 @@
 import { PixIcon, PixNotificationAlert } from '@1024pix/nebulix-ember';
-import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
 import { dump } from 'js-yaml';
 import filter from 'lodash/filter';
 import isEmpty from 'lodash/isEmpty';
-import TimeoutGauge from 'mon-pix/components/challenge/timeout-gauge';
-import ChallengeActions from 'mon-pix/components/challenge-actions';
 import QrocmProposal from 'mon-pix/components/proposals/qrocm-proposal';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
-import ChallengeItemGeneric from './challenge-item-generic';
-
-export default class ChallengeItemQrocm extends ChallengeItemGeneric {
-  <template>
-    <form {{on "submit" this.validateAnswer}}>
-
-      <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
-        <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
-        <div class="challenge-proposals">
-          <QrocmProposal
-            @answer={{@answer}}
-            @format={{@challenge.format}}
-            @proposals={{@challenge.proposals}}
-            @answersValue={{this.answersValue}}
-            @answerChanged={{this.answerChanged}}
-            @onChangeSelect={{this.onChangeSelect}}
-            @isAnswerFieldDisabled={{this.isAnswerFieldDisabled}}
-          />
-        </div>
-
-        {{#if @answer}}
-          <div class="challenge-response__locked-overlay">
-            <PixIcon @name="lock" @plainIcon={{true}} @ariaHidden={{true}} class="challenge-response-locked__icon" />
-          </div>
-        {{/if}}
-
-        {{#if this.displayTimer}}
-          <TimeoutGauge
-            @allottedTime={{@challenge.timer}}
-            @hasTimeoutChallenge={{@assessment.hasTimeoutChallenge}}
-            @setChallengeAsTimedOut={{this.setChallengeAsTimedOut}}
-          />
-        {{/if}}
-      </div>
-
-      {{#if this.errorMessage}}
-        <PixNotificationAlert role="alert" class="challenge-response__alert" @type="error" @withIcon={{true}}>
-          {{this.errorMessage}}
-        </PixNotificationAlert>
-      {{/if}}
-
-      {{#if @assessment}}
-        <ChallengeActions
-          @challenge={{@challenge}}
-          @answer={{@answer}}
-          @isValidateActionLoading={{this.isValidateActionLoading}}
-          @isSkipActionLoading={{this.isSkipActionLoading}}
-          @isCertification={{@assessment.isCertification}}
-          @resumeAssessment={{this.resumeAssessment}}
-          @validateAnswer={{this.validateAnswer}}
-          @skipChallenge={{this.skipChallenge}}
-          @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
-          @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
-          @isDisabled={{this.isAnswerFieldDisabled}}
-          @hasOngoingChallengeLiveAlert={{@assessment.hasOngoingChallengeLiveAlert}}
-          @certificationVersion={{@assessment.certificationCourse.version}}
-          @isAdjustedCourseForAccessibility={{@assessment.certificationCourse.isAdjustedForAccessibility}}
-        />
-      {{/if}}
-    </form>
-  </template>
+export default class ChallengeItemQrocm extends Component {
   @service intl;
 
   @tracked answersValue = {};
@@ -112,17 +50,58 @@ export default class ChallengeItemQrocm extends ChallengeItemGeneric {
     return dump(this.answersValue);
   }
 
-  _getErrorMessage() {
+  get errorMessage() {
     return this.intl.t('pages.challenge.skip-error-message.qrocm');
   }
 
   @action
   answerChanged() {
-    this.errorMessage = null;
+    this.args.setAnswerValue(this._getAnswerValue());
+    this.args.setAnswerError(this._hasError());
   }
 
   @action
   onChangeSelect(value) {
     this.answersValue = value;
+    this.args.setAnswerValue(this._getAnswerValue());
+    this.args.setAnswerError(this._hasError());
   }
+
+  get classList() {
+    let list = 'rounded-panel__row challenge-response';
+    list += this.args.answer ? ' challenge-response--locked' : '';
+    list += this.args.assessment.isCertification ? ' challenge-response--certif' : '';
+
+    return list;
+  }
+
+  <template>
+    <div class={{this.classList}}>
+      <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
+      <div class="challenge-proposals">
+        <QrocmProposal
+          @answer={{@answer}}
+          @format={{@challenge.format}}
+          @proposals={{@challenge.proposals}}
+          @answersValue={{this.answersValue}}
+          @answerChanged={{this.answerChanged}}
+          @onChangeSelect={{this.onChangeSelect}}
+          @isAnswerFieldDisabled={{@isAnswerFieldDisabled}}
+        />
+      </div>
+
+      {{#if @answer}}
+        <div class="challenge-response__locked-overlay">
+          <PixIcon @name="lock" @plainIcon={{true}} @ariaHidden={{true}} class="challenge-response-locked__icon" />
+        </div>
+      {{/if}}
+
+      {{yield to="timeGauge"}}
+    </div>
+    {{#if @displayErrorMessage}}
+      <PixNotificationAlert role="alert" class="challenge-response__alert" @type="error" @withIcon={{true}}>
+        {{this.errorMessage}}
+      </PixNotificationAlert>
+    {{/if}}
+  </template>
 }

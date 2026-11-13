@@ -334,6 +334,18 @@
         }
       }
     },
+    "challenge": {
+      "mode-banner": {
+        "focused": {
+          "content": "Debes permanecer en esta página para responder.",
+          "title": "Modo enfoque."
+        },
+        "free": {
+          "content": "Puedes utilizar internet o aplicaciones para responder.",
+          "title": "Modo libre."
+        }
+      }
+    },
     "info-bar": {
       "certification-number": "N.º de certificación",
       "completion-percentage": {
@@ -1315,18 +1327,6 @@
           "deactivate": "Desactivar texto a voz",
           "play": "Lectura en voz alta",
           "stop": "Dejar de leer"
-        },
-        "tooltip": {
-          "aria-label": "Mostrar la indicación en la prueba.",
-          "close": "Lo he entendido",
-          "focused": {
-            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'¡Quédate en esta página para responder!'</strong><br/>' No utilices internet ni ninguna aplicación para responder. Se detectará cualquier actividad fuera de la zona.",
-            "title": "Modo enfoque"
-          },
-          "other": {
-            "content": "Puedes utilizar internet o aplicaciones para responder a esta pregunta.",
-            "title": "Modo libre"
-          }
         }
       },
       "timed": {

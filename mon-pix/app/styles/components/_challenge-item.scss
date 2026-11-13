@@ -3,7 +3,13 @@
 @use '../globals/a11y' as *;
 
 .challenge-item {
-  padding: var(--pix-spacing-1x);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-bottom:var(--pix-spacing-3x);
+
+  @include breakpoints.device-is('tablet') {
+    border-top-right-radius: var(--pix-spacing-3x);;
+  }
 }
 
 .challenge-response {
@@ -99,8 +105,21 @@
 }
 
 form .challenge-response {
+  background: var(--pix-primary-50);
+
+  &--certif {
+    background: var(--pix-certif-50);
+  }
+
   &--locked {
     position: relative;
+
+    &:hover {
+      .challenge-response__locked-overlay {
+        opacity: 1;
+        transition: 0.9s ease;
+      }
+    }
   }
 
   &__locked-overlay {
@@ -137,15 +156,6 @@ form .challenge-response {
     ol,
     p {
       margin: 0;
-    }
-  }
-}
-
-form .challenge-response.challenge-response--locked {
-  &:hover {
-    .challenge-response__locked-overlay {
-      opacity: 1;
-      transition: 0.9s ease;
     }
   }
 }

@@ -1,0 +1,64 @@
+@use 'pix-design-tokens/typography';
+@use 'pix-design-tokens/breakpoints';
+
+.mode-banner {
+  display: flex;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  box-shadow: var(--pix-shadow-default);
+
+
+  @include breakpoints.device-is('tablet') {
+    display: inline-flex;
+  }
+
+  &--focus {
+    --mode-color:var(--pix-secondary-900);
+    --icon-color:var(--pix-secondary-500);
+
+    background-color: var(--pix-secondary-100);
+  }
+
+  &--free {
+    --icon-color:var(--pix-success-500);
+    --mode-color:var(--pix-success-900);
+
+    background-color: var(--pix-success-100);
+  }
+
+  &__icon {
+    padding: var(--pix-spacing-1x) var(--pix-spacing-3x);
+    color:var(--pix-neutral-0);
+    background-color: var(--icon-color);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    line-height: 0;
+
+    img {
+      height: 48px;
+
+      @include breakpoints.device-is('tablet') {
+        height: 100%;
+      }
+    }
+
+    @include breakpoints.device-is('tablet') {
+      padding: var(--pix-spacing-2x) var(--pix-spacing-4x);
+    }
+  }
+
+  &__explanation {
+    @extend %pix-body-s;
+
+    display: flex;
+    gap: var(--pix-spacing-1x);
+    align-items: center;
+    padding: var(--pix-spacing-2x) var(--pix-spacing-3x);
+    color:var(--mode-color);
+  }
+
+  &__title {
+    font-weight: var(--pix-font-bold);
+  }
+
+}

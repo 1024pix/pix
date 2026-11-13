@@ -56,7 +56,6 @@
 @use 'components/communication-banner' as *;
 @use 'components/companion/blocker' as *;
 @use 'components/companion/check' as *;
-@use 'components/challenge-actions' as *;
 @use 'components/challenge-illustration' as *;
 @use 'components/challenge-item' as *;
 @use 'components/challenge-statement' as *;
@@ -142,7 +141,6 @@
 @use 'components/show-more-text' as *;
 @use 'components/sitemap/content' as *;
 @use 'components/focused-certification-challenge-instructions' as *;
-@use 'components/tooltip' as *;
 @use 'components/training-card' as *;
 @use 'components/tutorial-card' as *;
 @use 'components/tutorial-item' as *;
@@ -183,6 +181,8 @@
 
 /* challenge */
 @use 'challenge/timeout-gauge' as *;
+@use 'challenge/challenge-actions' as *;
+@use 'challenge/mode-banner' as *;
 @use 'challenge/timed-challenge-instructions' as *;
 
 /* pages */

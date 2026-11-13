@@ -334,6 +334,18 @@
         }
       }
     },
+    "challenge": {
+      "mode-banner": {
+        "focused": {
+          "content": "Je moet op deze pagina blijven om te antwoorden.",
+          "title": "Focusmodus."
+        },
+        "free": {
+          "content": "Je kunt het internet of apps gebruiken om te antwoorden.",
+          "title": "Vrije modus."
+        }
+      }
+    },
     "info-bar": {
       "certification-number": "Certificeringsnummer",
       "completion-percentage": {
@@ -1315,18 +1327,6 @@
           "deactivate": "De vocalisering deactiveren",
           "play": "De instructie hardop voorlezen",
           "stop": "Het lezen van de instructie stopzetten"
-        },
-        "tooltip": {
-          "aria-label": "De aanwijzing voro de opdracht weergeven.",
-          "close": "Ik begrijp het",
-          "focused": {
-            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Probeer op deze pagina te blijven om te antwoorden!'</strong><br/>'Voor deze vraag heb je geen internet of app nodig.'",
-            "title": "Focusmodus"
-          },
-          "other": {
-            "content": "Het staat je vrij om het internet of apps te gebruiken om deze vraag te beantwoorden.",
-            "title": "Vrije modus"
-          }
         }
       },
       "timed": {

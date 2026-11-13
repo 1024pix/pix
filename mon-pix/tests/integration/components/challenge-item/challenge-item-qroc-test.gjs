@@ -1,4 +1,5 @@
-import { clickByName, render } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
+import { settled } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import ChallengeItemQroc from 'mon-pix/components/challenge-item/challenge-item-qroc';
 import ENV from 'mon-pix/config/environment';
@@ -274,8 +275,8 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
         id: 'rec_123',
         timer: false,
       };
-      embedState.answerValidated = sinon.stub().resolves();
-      embedState.resetAllChallengeInfo = sinon.stub();
+      embedState.setAnswerValue = sinon.stub();
+      embedState.setAnswerError = sinon.stub();
     });
 
     hooks.afterEach(function () {
@@ -290,8 +291,8 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
             @challenge={{embedState.challenge}}
             @answer={{null}}
             @assessment={{state.assessment}}
-            @answerValidated={{embedState.answerValidated}}
-            @resetAllChallengeInfo={{embedState.resetAllChallengeInfo}}
+            @setAnswerValue={{embedState.setAnswerValue}}
+            @setAnswerError={{embedState.setAnswerError}}
           />
         </template>,
       );
@@ -342,19 +343,19 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
                 @challenge={{embedState.challenge}}
                 @answer={{null}}
                 @assessment={{state.assessment}}
-                @answerValidated={{embedState.answerValidated}}
-                @resetAllChallengeInfo={{embedState.resetAllChallengeInfo}}
+                @setAnswerValue={{embedState.setAnswerValue}}
+                @setAnswerError={{embedState.setAnswerError}}
               />
             </template>,
           );
 
           // when
           window.dispatchEvent(new MessageEvent('message', event));
-          await clickByName(t('pages.challenge.actions.validate-go-to-next'));
+          await settled();
 
           // then
-          assert.true(embedState.answerValidated.calledOnce);
-          assert.strictEqual(embedState.answerValidated.firstCall.args[2], expectedAnswer);
+          assert.true(embedState.setAnswerValue.calledOnceWithExactly(expectedAnswer));
+          assert.true(embedState.setAnswerError.calledOnceWithExactly(false));
         });
       });
     });
@@ -372,27 +373,43 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
       ].forEach(({ title, event }) => {
         test(`should not set the auto-reply answer when ${title}`, async function (assert) {
           // given
-          const screen = await render(
+          await render(
             <template>
               <ChallengeItemQroc
                 @challenge={{embedState.challenge}}
                 @answer={{null}}
                 @assessment={{state.assessment}}
-                @answerValidated={{embedState.answerValidated}}
-                @resetAllChallengeInfo={{embedState.resetAllChallengeInfo}}
+                @setAnswerValue={{embedState.setAnswerValue}}
+                @setAnswerError={{embedState.setAnswerError}}
               />
             </template>,
           );
 
           // when
           window.dispatchEvent(new MessageEvent('message', event));
-          await clickByName(t('pages.challenge.actions.validate-go-to-next'));
+          await settled();
 
           // then
-          assert.true(embedState.answerValidated.notCalled);
-          assert.dom(screen.getByText(t('pages.challenge.skip-error-message.qroc-auto-reply'))).exists();
+          assert.true(embedState.setAnswerValue.notCalled);
         });
       });
+    });
+
+    test('should display the auto-reply error message when asked to', async function (assert) {
+      // when
+      const screen = await render(
+        <template>
+          <ChallengeItemQroc
+            @challenge={{embedState.challenge}}
+            @answer={{null}}
+            @assessment={{state.assessment}}
+            @displayErrorMessage={{true}}
+          />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.getByText(t('pages.challenge.skip-error-message.qroc-auto-reply'))).exists();
     });
   });
 });
