@@ -939,7 +939,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
       // then
       expect(response.statusCode).to.equal(400);
-      expect(response.result.errors[0].detail).to.equal('Le mot de passe que vous avez saisi est invalide.');
+      expect(response.result.errors[0].detail).to.equal('The password you entered is invalid.');
     });
 
     it('returns 422 HTTP status code when new password does not match password policy', async function () {
