@@ -7,6 +7,7 @@ on:
     branches: [dev]
   pull_request:
     branches: [dev]
+    types: [opened, reopened, ready_for_review, labeled]
     paths: # only loads on changes of dependencies
       - '**/package-lock.json'
       - '.github/workflows/security.yml'
@@ -14,8 +15,16 @@ on:
 permissions: {}
 
 jobs:
+  gate: # runs only for some actions
+    runs-on: ubuntu-latest
+    if: github.event.action != 'labeled' || github.event.label.name == 'security update'
+    steps:
+      - run: echo "Security scan triggered by ${{ github.event_name }}/${{ github.event.action }}"
+
   check_risk_score_monorepo:
     runs-on: ubuntu-latest
+    needs: gate
+    needs: gate
     permissions:
       contents: read
     outputs:
@@ -27,7 +36,7 @@ jobs:
 
       - name: Generates Monorepo SBoM and upload to OWASP DTrack
         id: riskscoreMonorepo
-        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -38,6 +47,7 @@ jobs:
 
   check_risk_score_app:
     runs-on: ubuntu-latest
+    needs: gate
     permissions:
       contents: read
     outputs:
@@ -49,7 +59,7 @@ jobs:
 
       - name: Generates PixApp SBoM and upload to OWASP DTrack
         id: riskscorePixApp
-        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -60,6 +70,7 @@ jobs:
 
   check_risk_score_orga:
     runs-on: ubuntu-latest
+    needs: gate
     permissions:
       contents: read
     outputs:
@@ -71,7 +82,7 @@ jobs:
 
       - name: Generates PixOrga SBoM and upload to OWASP DTrack
         id: riskscorePixOrga
-        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -82,6 +93,7 @@ jobs:
 
   check_risk_score_certif:
     runs-on: ubuntu-latest
+    needs: gate
     permissions:
       contents: read
     outputs:
@@ -93,7 +105,7 @@ jobs:
 
       - name: Generates PixCertif SBoM and upload to OWASP DTrack
         id: riskscorePixCertif
-        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -104,6 +116,7 @@ jobs:
 
   check_risk_score_admin:
     runs-on: ubuntu-latest
+    needs: gate
     permissions:
       contents: read
     outputs:
@@ -115,7 +128,7 @@ jobs:
 
       - name: Generates PixAdmin SBoM and upload to OWASP DTrack
         id: riskscorePixAdmin
-        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -126,6 +139,7 @@ jobs:
 
   check_risk_score_junior:
     runs-on: ubuntu-latest
+    needs: gate
     permissions:
       contents: read
     outputs:
@@ -137,7 +151,7 @@ jobs:
 
       - name: Generates PixJunior SBoM and upload to OWASP DTrack
         id: riskscorePixJunior
-        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -148,6 +162,7 @@ jobs:
 
   check_risk_score_api:
     runs-on: ubuntu-latest
+    needs: gate
     permissions:
       contents: read
     outputs:
@@ -159,7 +174,7 @@ jobs:
 
       - name: Generates PixAPI SBoM and upload to OWASP DTrack
         id: riskscorePixAPI
-        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -170,6 +185,7 @@ jobs:
 
   check_risk_score_audit_logger:
     runs-on: ubuntu-latest
+    needs: gate
     permissions:
       contents: read
     outputs:
@@ -181,7 +197,7 @@ jobs:
 
       - name: Generates AuditLogger SBoM and upload to OWASP DTrack
         id: riskscoreAuditLogger
-        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -192,6 +208,7 @@ jobs:
 
   check_risk_score_tests_e2e:
     runs-on: ubuntu-latest
+    needs: gate
     permissions:
       contents: read
     outputs:
@@ -203,7 +220,7 @@ jobs:
 
       - name: Generates TestsE2E SBoM and upload to OWASP DTrack
         id: riskscoreTestsE2E
-        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -214,6 +231,7 @@ jobs:
 
   check_risk_score_tests_playwright:
     runs-on: ubuntu-latest
+    needs: gate
     permissions:
       contents: read
     outputs:
@@ -225,7 +243,7 @@ jobs:
 
       - name: Generates TestsPlaywright SBoM and upload to OWASP DTrack
         id: riskscoreTestsPlaywright
-        uses: 1024pix/check-dependency-track-action/node@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
+        uses: 1024pix/check-dependency-track-action/node@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -237,6 +255,7 @@ jobs:
   fetch_results:
     runs-on: ubuntu-latest
     needs:
+      - gate
       - check_risk_score_monorepo
       - check_risk_score_app
       - check_risk_score_orga
@@ -253,7 +272,7 @@ jobs:
       markdown: ${{ steps.fetch_all_scores.outputs.markdown }}
     steps:
       - id: fetch_all_scores
-        uses: 1024pix/check-dependency-track-action/fetch@f2966ef0975c668c17b9a74022f21d9ad37eb2d6 # v1.0.0
+        uses: 1024pix/check-dependency-track-action/fetch@ddb195f5593f8c5894944b37349f08f224f3da37 # v1.0.1
         with:
           url: '${{ secrets.DEPENDENCYTRACK_URL }}'
           key: '${{ secrets.DEPENDENCYTRACK_APIKEY }}'
@@ -273,7 +292,8 @@ jobs:
 
   comment_on_pr:
     runs-on: ubuntu-latest
-    needs: fetch_results
+    needs: 
+      - gate
     if: ${{ !cancelled() && needs.fetch_results.outputs.status != '' }}
     permissions:
       pull-requests: write
@@ -284,7 +304,7 @@ jobs:
           MARKDOWN_TABLE: ${{ needs.fetch_results.outputs.markdown }}
           PR: ${{ github.event.pull_request.number }}
         run: |
-          printf '%s\n' "$MARKDOWN_TABLE" > "$RUNNER_TEMP/body.md"
+          printf '%s\n' "$MARKDOWN_TABLE \nRegarder l’évolution sur [Deptrack](https://deptrack.pto2ls.pix.digital/dashboard) " > "$RUNNER_TEMP/body.md\nPour relancer l’analyse, appliquer le label _security update_"
           gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --edit-last --create-if-none \
             --body-file "$RUNNER_TEMP/body.md"
 
