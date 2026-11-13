@@ -256,7 +256,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
         await createServerWithMockedTestOidcProvider({
           application: 'admin',
           applicationTld: '.fr',
-          identityProvider: 'OIDC2-ADMIN-FR',
+          identityProviderCode: 'OIDC2-ADMIN-FR',
         });
 
         const query = querystring.stringify({ identity_provider: 'OIDC2-ADMIN-FR' });
@@ -689,7 +689,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
           await createServerWithMockedTestOidcProvider({
             application: 'orga',
             applicationTld: '.org',
-            identityProvider: 'OIDC_EXAMPLE_NET-ORGA',
+            identityProviderCode: 'OIDC_EXAMPLE_NET-ORGA',
             connectionMethodCode: 'OIDC_EXAMPLE_NET',
           });
 
@@ -824,7 +824,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
         await createServerWithMockedTestOidcProvider({
           application: 'orga',
           applicationTld: '.org',
-          identityProvider: 'OIDC_EXAMPLE_NET-ORGA',
+          identityProviderCode: 'OIDC_EXAMPLE_NET-ORGA',
           connectionMethodCode: 'OIDC_EXAMPLE_NET',
         });
       });
@@ -884,7 +884,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
         await createServerWithMockedTestOidcProvider({
           application: 'orga',
           applicationTld: '.org',
-          identityProvider: 'OIDC_EXAMPLE_NET-ORGA',
+          identityProviderCode: 'OIDC_EXAMPLE_NET-ORGA',
           connectionMethodCode: 'OIDC_EXAMPLE_NET',
         });
       });
@@ -944,7 +944,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
   async function createServerWithMockedTestOidcProvider({
     application,
     applicationTld,
-    identityProvider,
+    identityProviderCode,
     connectionMethodCode,
     shouldCloseSession,
     postLogoutRedirectUri,
@@ -953,7 +953,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
       {
         application,
         applicationTld,
-        identityProvider,
+        identityProviderCode,
         connectionMethodCode,
         shouldCloseSession,
         postLogoutRedirectUri,
