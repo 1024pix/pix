@@ -1,0 +1,47 @@
+@use 'pix-design-tokens/typography';
+
+.module-glossary-tooltip {
+  @extend %pix-body-m;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  display: none;
+
+  // Square-ish box: width ≈ √(characters × average char width × line height) ≈ √(characters × 0.5em × 1.5em)
+  width: calc(sqrt(var(--definition-length, 100) * 1) * 1em);
+  min-width: 8rem;
+  max-width: min(20rem, calc(100vw - 2 * var(--pix-spacing-2x)));
+  padding: var(--pix-spacing-4x);
+  color: var(--pix-neutral-900);
+  line-height: 24px;
+  background-color: var(--pix-neutral-0);
+  border-radius: var(--pix-spacing-4x);
+  box-shadow: var(--pix-shadow-default);
+
+  &--visible {
+    display: block;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.module-glossary-word {
+  display: inline;
+  padding: var(--pix-spacing-1x);
+  color: var(--modulix-glossary-term-color, inherit);
+  font-weight: bold;
+  background-color: var(--modulix-glossary-term-background-color, rgb(var(--pix-tertiary-100-inline), 70%));
+  border: none;
+  border-radius: var(--pix-spacing-1x);
+  cursor: pointer;
+  text-decoration:  var(--modulix-glossary-term-text-decoration, none);
+
+  &:focus-visible {
+    outline: 2px solid var(--pix-tertiary-500);
+    outline-offset: 1px;
+  }
+}
