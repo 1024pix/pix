@@ -6,50 +6,32 @@ import {
   CampaignParticipationLoggerContext,
   OrganizationLearnerLoggerContext,
 } from '../../../../shared/domain/models/jobs/AuditLoggingJob.js';
-import { OrganizationLearnerList } from '../models/OrganizationLearnerList.js';
 
 const CHUNK_SIZE = 1000;
 
-const deleteOrganizationLearners = async function ({
-  organizationLearnerIds,
+export const deleteOrganizationLearnersService = async function ({
+  organizationLearners,
   userId,
   organizationId,
   userRole,
   learnerToDeleteChunkSize = CHUNK_SIZE,
   client,
+  keepPreviousDeletion = false,
+  disableAuditLogger = false, // true in case of dryRun to not instantiate jobs
   organizationLearnerRepository,
   organizationLearnerImportFormatRepository,
-  campaignParticipationRepositoryFromBC,
+  campaignParticipationRepository,
   badgeAcquisitionRepository,
   assessmentRepository,
   auditLoggingJobRepository,
   userRecommendedTrainingRepository,
   organizationsProfileRewardRepository,
-  keepPreviousDeletion = false,
-  disableAuditLogger = false, // true in case of dryRun to not instantiate jobs
 }) {
-  if (organizationLearnerIds.length === 0) {
+  if (organizationLearners.length === 0) {
     return;
   }
 
-  const organizationLearnersFromOrganization =
-    await organizationLearnerRepository.findOrganizationLearnersByOrganizationIdAndLearnerIds({
-      organizationId,
-      organizationLearnerIds,
-      keepPreviousDeletion,
-    });
-
-  const organizationLearnerList = new OrganizationLearnerList({
-    organizationId,
-    organizationLearners: organizationLearnersFromOrganization,
-  });
-
-  const organizationLearnersToDelete = organizationLearnerList.getDeletableOrganizationLearners(
-    organizationLearnerIds,
-    userId,
-  );
-
-  const learnerToDeleteJobBatches = _.chunk(organizationLearnersToDelete, learnerToDeleteChunkSize);
+  const deletedLearnersToLogInBatch = _.chunk(organizationLearners, learnerToDeleteChunkSize);
 
   const importFormat = await organizationLearnerImportFormatRepository.get(organizationId);
   const organizationProfileRewards = await organizationsProfileRewardRepository.getByOrganizationId({ organizationId });
@@ -62,23 +44,23 @@ const deleteOrganizationLearners = async function ({
   await DomainTransaction.execute(async () => {
     const organizationLearnersToUpdate = [];
     const organizationProfileRewardsToUpdate = [];
-    const organizationLearnerIds = [];
+    const computedOrganizationLearnerIds = [];
 
-    for (const organizationLearner of organizationLearnersToDelete) {
-      organizationLearnerIds.push(organizationLearner.id);
+    for (const organizationLearner of organizationLearners) {
+      computedOrganizationLearnerIds.push(organizationLearner.id);
       const organizationLearnerRewards = organizationProfileRewardsByUserId.get(organizationLearner.userId) ?? [];
       organizationLearner.delete(userId, importFormat);
       organizationLearnersToUpdate.push(organizationLearner.dataToUpdateOnDeletion);
       organizationProfileRewardsToUpdate.push(...organizationLearnerRewards);
     }
 
-    for (const learnerToDeleteBatch of learnerToDeleteJobBatches) {
+    for (const deletedLearnersToLog of deletedLearnersToLogInBatch) {
       auditLoggingJobs.push(
         AuditLoggingJob.forUsers({
           client,
           action: OrganizationLearnerLoggerContext.DELETION,
           role: userRole,
-          userIds: learnerToDeleteBatch.map(({ id }) => id),
+          userIds: deletedLearnersToLog.map(({ id }) => id),
           updatedByUserId: userId,
           data: {},
         }),
@@ -86,8 +68,8 @@ const deleteOrganizationLearners = async function ({
     }
 
     const campaignParticipations =
-      await campaignParticipationRepositoryFromBC.getAllCampaignParticipationsForOrganizationLearnerIds({
-        organizationLearnerIds,
+      await campaignParticipationRepository.getAllCampaignParticipationsForOrganizationLearnerIds({
+        organizationLearnerIds: computedOrganizationLearnerIds,
         withDeletedParticipation: keepPreviousDeletion,
       });
 
@@ -114,7 +96,7 @@ const deleteOrganizationLearners = async function ({
     assessments.forEach((assessment) => assessment.detachCampaignParticipation());
 
     await organizationLearnerRepository.updateInBatchByIds(organizationLearnersToUpdate);
-    await campaignParticipationRepositoryFromBC.updateInBatchByIds(campaignParticipationsToDelete);
+    await campaignParticipationRepository.updateInBatchByIds(campaignParticipationsToDelete);
     await assessmentRepository.batchRemoveParticipationId(assessments);
     await badgeAcquisitionRepository.deleteUserIdOnNonCertifiableBadgesForCampaignParticipations(
       allCampaignParticipationIds,
@@ -129,5 +111,3 @@ const deleteOrganizationLearners = async function ({
 
   await auditLoggingJobRepository.performManyAsync(auditLoggingJobs);
 };
-
-export { deleteOrganizationLearners };
