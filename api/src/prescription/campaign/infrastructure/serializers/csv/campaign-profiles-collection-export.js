@@ -4,7 +4,7 @@ import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../../shared/constants.js
 import { serializeLine } from '../../../../../shared/infrastructure/helpers/csv.js';
 import { getI18n } from '../../../../../shared/infrastructure/i18n/i18n.js';
 import { PromiseUtils } from '../../../../../shared/infrastructure/utils/promise-utils.js';
-import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../../domain/constants.js';
+import { CHUNK_SIZE_CAMPAIGN_PROFILES_COLLECTION_EXPORT } from '../../../domain/constants.js';
 import { CampaignProfilesCollectionResultLine } from '../../exports/campaigns/campaign-profiles-collection-result-line.js';
 
 class CampaignProfilesCollectionExport {
@@ -22,28 +22,47 @@ class CampaignProfilesCollectionExport {
   export(
     campaignParticipationResultDatas,
     placementProfileService,
-    constants = { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING, CONCURRENCY_HEAVY_OPERATIONS },
+    constants = { CHUNK_SIZE_CAMPAIGN_PROFILES_COLLECTION_EXPORT, CONCURRENCY_HEAVY_OPERATIONS },
   ) {
     this.stream.write(this._buildHeader());
 
     const campaignParticipationResultDataChunks = _.chunk(
       campaignParticipationResultDatas,
-      constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
+      constants.CHUNK_SIZE_CAMPAIGN_PROFILES_COLLECTION_EXPORT,
     );
 
     return PromiseUtils.map(
       campaignParticipationResultDataChunks,
       async (campaignParticipationResultDataChunk) => {
+        // WHY: inutile de calculer les lots suivants si le client a abandonné le téléchargement
+        if (this.stream.destroyed) return;
+
         const placementProfiles = await this._getUsersPlacementProfiles(
           campaignParticipationResultDataChunk,
           placementProfileService,
         );
         const csvLines = this._buildLines(placementProfiles, campaignParticipationResultDataChunk);
 
-        this.stream.write(csvLines);
+        await this._write(csvLines);
       },
       { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS },
     );
+  }
+
+  // WHY: respecte la contre-pression du flux, pour ne pas accumuler le CSV en mémoire
+  // quand le client télécharge moins vite que l'export ne produit.
+  async _write(chunk) {
+    if (this.stream.destroyed || this.stream.write(chunk) !== false) return;
+
+    await new Promise((resolve) => {
+      const done = () => {
+        this.stream.off('drain', done);
+        this.stream.off('close', done);
+        resolve();
+      };
+      this.stream.on('drain', done);
+      this.stream.on('close', done);
+    });
   }
 
   _buildHeader() {
