@@ -127,7 +127,7 @@
     "@redis/client": "6.3.1",
     "@xmldom/xmldom": "0.9.12",
     "bcrypt": "6.0.0",
-    "cookie": "2.0.1",
+    "cookie": "2.0.2",
     "cron-parser": "5.10.3",
     "dataloader": "2.2.3",
     "dayjs": "1.11.23",
