@@ -105,26 +105,22 @@ export async function findPaginatedFilteredRecommendedByUserId({
     filteredSkills = skills.filter(({ competenceId }) => filters.competences.includes(competenceId));
   }
 
-  const tutorialsForUserBySkill = await Promise.all(
-    filteredSkills.map(async (skill) => {
-      let tutorialDtos = await getInstance().loadMany(skill.tutorialIds);
-      tutorialDtos = tutorialDtos.map((tutorialDto) => tutorialDto);
-      if (lang) {
-        tutorialDtos = tutorialDtos.filter((tutorialDto) => getBaseLocale(tutorialDto.locale) === lang);
-      }
-      tutorialDtos = tutorialDtos.toSorted(byId);
-      const tutorials = tutorialDtos.map(toDomain);
+  const tutorialIds = filteredSkills.flatMap((skill) => skill.tutorialIds);
+  let tutorialDtos = await getInstance().getMany(tutorialIds);
+  if (lang) {
+    tutorialDtos = tutorialDtos.filter((tutorialDto) => getBaseLocale(tutorialDto.locale) === lang);
+  }
+  tutorialDtos = tutorialDtos.toSorted(byId);
+  const allTutorials = tutorialDtos.map(toDomain);
 
-      return toTutorialsForUserForRecommandation({
-        tutorials,
-        tutorialEvaluations,
-        userSavedTutorials,
-        skillId: skill.id,
-      });
+  const tutorialsForUser = filteredSkills.flatMap((skill) =>
+    toTutorialsForUserForRecommandation({
+      tutorials: allTutorials.filter((tutorial) => skill.tutorialIds.includes(tutorial.id)),
+      tutorialEvaluations,
+      userSavedTutorials,
+      skillId: skill.id,
     }),
   );
-
-  const tutorialsForUser = tutorialsForUserBySkill.flat();
 
   return paginateModule.paginate(tutorialsForUser, page);
 }
