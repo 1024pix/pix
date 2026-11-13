@@ -284,6 +284,20 @@ const findByOrganizationId = async function ({ organizationId }) {
   return knexConn('view-active-organization-learners').select('userId', 'nationalStudentId').where({ organizationId });
 };
 
+const getLearnersGroupedByOrganizations = async function ({ organizationLearnerIds }) {
+  const knexConn = DomainTransaction.getConnection();
+  const rawOrganizationLearners = await knexConn('view-active-organization-learners')
+    .select('*')
+    .whereIn('id', organizationLearnerIds)
+    .orderBy('id');
+
+  const organizationLearners = rawOrganizationLearners.map(
+    (rawOrganizationLearner) => new OrganizationLearner(rawOrganizationLearner),
+  );
+
+  return _.groupBy(organizationLearners, 'organizationId');
+};
+
 export {
   addOrUpdateOrganizationOfOrganizationLearners,
   countByUserId,
@@ -297,6 +311,7 @@ export {
   findOrganizationLearnerIdsBeforeImportFeatureFromOrganizationId,
   findOrganizationLearnersByOrganizationIdAndLearnerIds,
   getLearnerInfo,
+  getLearnersGroupedByOrganizations,
   getOrganizationLearnerForAdmin,
   reconcileUserByNationalStudentIdAndOrganizationId,
   reconcileUserToOrganizationLearner,

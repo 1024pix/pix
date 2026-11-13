@@ -17,6 +17,7 @@ import {
   findOrganizationLearnerIdsBeforeImportFeatureFromOrganizationId,
   findOrganizationLearnersByOrganizationIdAndLearnerIds,
   getLearnerInfo,
+  getLearnersGroupedByOrganizations,
   getOrganizationLearnerForAdmin,
   reconcileUserByNationalStudentIdAndOrganizationId,
   reconcileUserToOrganizationLearner,
@@ -1768,6 +1769,31 @@ describe('Integration | Repository | Organization Learner Management | Organizat
 
       // then
       expect(error).to.be.instanceof(OrganizationLearnerCertificabilityNotUpdatedError);
+    });
+  });
+
+  describe('#getLearnersGroupedByOrganizations', function () {
+    it('should return learners grouped by organizations', async function () {
+      // given
+      const organization1 = databaseBuilder.factory.buildOrganization();
+      const organization2 = databaseBuilder.factory.buildOrganization();
+
+      const learner1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization1.id });
+      const learner2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization1.id });
+      const learner3 = databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization2.id });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await getLearnersGroupedByOrganizations({
+        organizationLearnerIds: [learner1.id, learner2.id, learner3.id],
+      });
+
+      // then
+      expect(result).to.deep.equal({
+        [organization1.id]: [new OrganizationLearner(learner1), new OrganizationLearner(learner2)],
+        [organization2.id]: [new OrganizationLearner(learner3)],
+      });
     });
   });
 });
