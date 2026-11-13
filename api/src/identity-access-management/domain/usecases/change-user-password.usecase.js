@@ -1,8 +1,4 @@
 import { BadRequestError } from '../../../shared/application/errors/http-errors.js';
-import {
-  InvalidPasswordForUpdateEmailError,
-  PasswordNotMatching,
-} from '../../../shared/domain/errors.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
 export async function changeUserPassword({
@@ -24,17 +20,10 @@ export async function changeUserPassword({
     );
   }
 
-  try {
-    await cryptoService.assertMatchPassword({
-      password: currentPassword,
-      passwordHash: authenticationMethod.authenticationComplement.password,
-    });
-  } catch (error) {
-    if (error instanceof PasswordNotMatching) {
-      throw new InvalidPasswordForUpdateEmailError();
-    }
-    throw error;
-  }
+  await cryptoService.assertMatchPassword({
+    password: currentPassword,
+    passwordHash: authenticationMethod.authenticationComplement.password,
+  });
 
   const hashedPassword = await cryptoService.hashPassword(newPassword);
 
