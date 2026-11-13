@@ -30,6 +30,8 @@ class HighlightedButton extends HTMLElement {
       this.#buttonElement.addEventListener('pointerenter', () => this.open());
       this.#buttonElement.addEventListener('pointerleave', () => this.close());
     }
+    this.#buttonElement.addEventListener('focus', () => this.open());
+    this.#buttonElement.addEventListener('blur', () => this.close());
 
     this.replaceChildren(this.#buttonElement, this.#tooltipElement);
   }
