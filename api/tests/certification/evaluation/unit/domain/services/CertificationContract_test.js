@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import _ from 'lodash';
 
 import { CertificationComputeError } from '../../../../../../src/certification/evaluation/domain/errors.js';
 import { CertificationContract } from '../../../../../../src/certification/evaluation/domain/services/CertificationContract.js';
@@ -11,51 +10,45 @@ describe('Unit | Domain | Services | CertificationContract', function () {
     context('when there are unanswered challenges', function () {
       it('should throw', async function () {
         // given
-        const answers = _.map(
-          [
-            { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
-            { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
-            { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
-            { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
-          ],
-          domainBuilder.buildAnswer,
-        );
+        const answers = [
+          { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
+          { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
+        ].map(domainBuilder.buildAnswer);
 
-        const challenges = _.map(
-          [
-            {
-              challengeId: 'challenge_A_for_competence_1',
-              competenceId: 'competence_1',
-              associatedSkillName: '@skillChallengeA_1',
-              type: 'QCM',
-            },
-            {
-              challengeId: 'challenge_C_for_competence_1',
-              competenceId: 'competence_1',
-              associatedSkillName: '@skillChallengeC_1',
-              type: 'QCM',
-            },
-            {
-              challengeId: 'challenge_B_for_competence_1',
-              competenceId: 'competence_1',
-              associatedSkillName: '@skillChallengeB_1',
-              type: 'QCM',
-            },
-            {
-              challengeId: 'challenge_D_for_competence_2',
-              competenceId: 'competence_2',
-              associatedSkillName: '@skillChallengeD_2',
-              type: 'QCM',
-            },
-            {
-              challengeId: 'challenge_E_for_competence_2',
-              competenceId: 'competence_2',
-              associatedSkillName: '@skillChallengeE_2',
-              type: 'QCM',
-            },
-          ],
-          domainBuilder.buildCertificationChallengeWithType,
-        );
+        const challenges = [
+          {
+            challengeId: 'challenge_A_for_competence_1',
+            competenceId: 'competence_1',
+            associatedSkillName: '@skillChallengeA_1',
+            type: 'QCM',
+          },
+          {
+            challengeId: 'challenge_C_for_competence_1',
+            competenceId: 'competence_1',
+            associatedSkillName: '@skillChallengeC_1',
+            type: 'QCM',
+          },
+          {
+            challengeId: 'challenge_B_for_competence_1',
+            competenceId: 'competence_1',
+            associatedSkillName: '@skillChallengeB_1',
+            type: 'QCM',
+          },
+          {
+            challengeId: 'challenge_D_for_competence_2',
+            competenceId: 'competence_2',
+            associatedSkillName: '@skillChallengeD_2',
+            type: 'QCM',
+          },
+          {
+            challengeId: 'challenge_E_for_competence_2',
+            competenceId: 'competence_2',
+            associatedSkillName: '@skillChallengeE_2',
+            type: 'QCM',
+          },
+        ].map(domainBuilder.buildCertificationChallengeWithType);
 
         // when
         const error = await catchErr(CertificationContract.assertThatWeHaveEnoughAnswers)(answers, challenges);
@@ -69,52 +62,46 @@ describe('Unit | Domain | Services | CertificationContract', function () {
 
       it('should not throw', async function () {
         // given
-        const answers = _.map(
-          [
-            { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
-            { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
-            { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
-            { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
-          ],
-          domainBuilder.buildAnswer,
-        );
+        const answers = [
+          { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
+          { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
+        ].map(domainBuilder.buildAnswer);
 
-        const challenges = _.map(
-          [
-            {
-              challengeId: 'challenge_A_for_competence_1',
-              competenceId: 'competence_1',
-              associatedSkillName: '@skillChallengeA_1',
-              type: 'QCM',
-            },
-            {
-              challengeId: 'challenge_B_for_competence_1',
-              competenceId: 'competence_1',
-              associatedSkillName: '@skillChallengeB_1',
-              type: 'QCM',
-            },
-            {
-              challengeId: 'challenge_C_for_competence_1',
-              competenceId: 'competence_1',
-              associatedSkillName: '@skillChallengeC_1',
-              type: 'QCM',
-              hasBeenSkippedAutomatically: true,
-            },
-            {
-              challengeId: 'challenge_D_for_competence_2',
-              competenceId: 'competence_2',
-              associatedSkillName: '@skillChallengeD_2',
-              type: 'QCM',
-            },
-            {
-              challengeId: 'challenge_E_for_competence_2',
-              competenceId: 'competence_2',
-              associatedSkillName: '@skillChallengeE_2',
-              type: 'QCM',
-            },
-          ],
-          domainBuilder.buildCertificationChallengeWithType,
-        );
+        const challenges = [
+          {
+            challengeId: 'challenge_A_for_competence_1',
+            competenceId: 'competence_1',
+            associatedSkillName: '@skillChallengeA_1',
+            type: 'QCM',
+          },
+          {
+            challengeId: 'challenge_B_for_competence_1',
+            competenceId: 'competence_1',
+            associatedSkillName: '@skillChallengeB_1',
+            type: 'QCM',
+          },
+          {
+            challengeId: 'challenge_C_for_competence_1',
+            competenceId: 'competence_1',
+            associatedSkillName: '@skillChallengeC_1',
+            type: 'QCM',
+            hasBeenSkippedAutomatically: true,
+          },
+          {
+            challengeId: 'challenge_D_for_competence_2',
+            competenceId: 'competence_2',
+            associatedSkillName: '@skillChallengeD_2',
+            type: 'QCM',
+          },
+          {
+            challengeId: 'challenge_E_for_competence_2',
+            competenceId: 'competence_2',
+            associatedSkillName: '@skillChallengeE_2',
+            type: 'QCM',
+          },
+        ].map(domainBuilder.buildCertificationChallengeWithType);
 
         // when
         // then
@@ -169,46 +156,40 @@ describe('Unit | Domain | Services | CertificationContract', function () {
     context('when an answer does not match a challenge', function () {
       it('should throw', async function () {
         // given
-        const answers = _.map(
-          [
-            { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
-            { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
-            { challengeId: 'challenge_C_for_competence_1', result: 'ok' },
-            { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
-            { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
-          ],
-          domainBuilder.buildAnswer,
-        );
+        const answers = [
+          { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_C_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
+          { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
+        ].map(domainBuilder.buildAnswer);
 
-        const challenges = _.map(
-          [
-            {
-              challengeId: 'challenge_A_for_competence_1',
-              competenceId: 'competence_1',
-              associatedSkillName: '@skillChallengeA_1',
-              type: 'QCM',
-            },
-            {
-              challengeId: 'challenge_C_for_competence_1',
-              competenceId: 'competence_1',
-              associatedSkillName: '@skillChallengeC_1',
-              type: 'QCM',
-            },
-            {
-              challengeId: 'challenge_B_for_competence_1',
-              competenceId: 'competence_1',
-              associatedSkillName: '@skillChallengeB_1',
-              type: 'QCM',
-            },
-            {
-              challengeId: 'challenge_D_for_competence_2',
-              competenceId: 'competence_2',
-              associatedSkillName: '@skillChallengeD_2',
-              type: 'QCM',
-            },
-          ],
-          domainBuilder.buildCertificationChallengeWithType,
-        );
+        const challenges = [
+          {
+            challengeId: 'challenge_A_for_competence_1',
+            competenceId: 'competence_1',
+            associatedSkillName: '@skillChallengeA_1',
+            type: 'QCM',
+          },
+          {
+            challengeId: 'challenge_C_for_competence_1',
+            competenceId: 'competence_1',
+            associatedSkillName: '@skillChallengeC_1',
+            type: 'QCM',
+          },
+          {
+            challengeId: 'challenge_B_for_competence_1',
+            competenceId: 'competence_1',
+            associatedSkillName: '@skillChallengeB_1',
+            type: 'QCM',
+          },
+          {
+            challengeId: 'challenge_D_for_competence_2',
+            competenceId: 'competence_2',
+            associatedSkillName: '@skillChallengeD_2',
+            type: 'QCM',
+          },
+        ].map(domainBuilder.buildCertificationChallengeWithType);
 
         // when
         const error = await catchErr(CertificationContract.assertThatEveryAnswerHasMatchingChallenge)(
@@ -227,17 +208,14 @@ describe('Unit | Domain | Services | CertificationContract', function () {
     context('when there are several answers for the same challenge', function () {
       it('should throw', async function () {
         // given
-        const answers = _.map(
-          [
-            { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
-            { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
-            { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
-            { challengeId: 'challenge_C_for_competence_1', result: 'ok' },
-            { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
-            { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
-          ],
-          domainBuilder.buildAnswer,
-        );
+        const answers = [
+          { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_C_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
+          { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
+        ].map(domainBuilder.buildAnswer);
 
         // when
         const error = await catchErr(CertificationContract.assertThatNoChallengeHasMoreThanOneAnswer)(answers);
