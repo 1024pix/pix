@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import sinon from 'sinon';
 
 import { certificateController } from '../../../../../src/certification/results/application/certificate-controller.js';
+import { NoCertificationResultsToDownloadError } from '../../../../../src/certification/results/domain/errors.js';
 import { CERTIFICATE_LABEL_CONTEXTS } from '../../../../../src/certification/results/domain/models/v3/CertificateMeshLevel.js';
 import { CertificationCourseVersion } from '../../../../../src/certification/results/domain/read-models/CertificationCourseVersion.js';
 import { usecases } from '../../../../../src/certification/results/domain/usecases/index.js';
@@ -360,23 +361,27 @@ describe('Certification | Results | Unit | Application | certificate-controller'
       const createZipStreamStub = sinon.stub();
 
       createZipStreamStub
-        .withArgs(useCaseStub, [
-          {
-            sessionId: 1,
-            i18n: getI18nFromRequest(request),
-            isFrenchDomainExtension: 'true',
-          },
-          {
-            sessionId: 10,
-            i18n: getI18nFromRequest(request),
-            isFrenchDomainExtension: 'true',
-          },
-          {
-            sessionId: 18,
-            i18n: getI18nFromRequest(request),
-            isFrenchDomainExtension: 'true',
-          },
-        ])
+        .withArgs({
+          callbackFnc: useCaseStub,
+          callbackArgs: [
+            {
+              sessionId: 1,
+              i18n: getI18nFromRequest(request),
+              isFrenchDomainExtension: 'true',
+            },
+            {
+              sessionId: 10,
+              i18n: getI18nFromRequest(request),
+              isFrenchDomainExtension: 'true',
+            },
+            {
+              sessionId: 18,
+              i18n: getI18nFromRequest(request),
+              isFrenchDomainExtension: 'true',
+            },
+          ],
+          allowedErrs: [NoCertificationResultsToDownloadError],
+        })
         .returns(zipSymbol);
 
       // when

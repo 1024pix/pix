@@ -3,9 +3,7 @@ import sinon from 'sinon';
 
 import { getSessionCertificatesPDF } from '../../../../../../src/certification/results/domain/services/get-session-certificates-pdf.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | service | get-session-certificates-pdf', function () {
   let certificateRepository, sessionRepository;
@@ -104,12 +102,12 @@ describe('Unit | service | get-session-certificates-pdf', function () {
   });
 
   describe('when there is no session', function () {
-    it('should throw a NotFoundError', async function () {
+    it('should return null', async function () {
       // given
       sessionRepository.get.withArgs(13).resolves(null);
 
       // when
-      const error = await catchErr(getSessionCertificatesPDF)({
+      const res = await getSessionCertificatesPDF({
         sessionId: 13,
         i18n: { getLocale: sinon.stub().returns('fr') },
         dependencies: {
@@ -118,12 +116,12 @@ describe('Unit | service | get-session-certificates-pdf', function () {
       });
 
       // then
-      expect(error).to.be.an.instanceOf(NotFoundError);
+      expect(res).to.be.null;
     });
   });
 
   describe('when no certification in the session can produce a certificate', function () {
-    it('should throw a NotFoundError', async function () {
+    it('should return null', async function () {
       // given
       domainBuilder.certification.sessionManagement.buildSessionManagement({
         id: 12,
@@ -135,7 +133,7 @@ describe('Unit | service | get-session-certificates-pdf', function () {
       sessionRepository.get.withArgs(12).resolves(session);
 
       // when
-      const error = await catchErr(getSessionCertificatesPDF)({
+      const res = await getSessionCertificatesPDF({
         sessionId: 12,
         i18n: { getLocale: sinon.stub().returns('fr') },
         dependencies: {
@@ -145,7 +143,7 @@ describe('Unit | service | get-session-certificates-pdf', function () {
       });
 
       // then
-      expect(error).to.be.an.instanceOf(NotFoundError);
+      expect(res).to.be.null;
     });
   });
 });

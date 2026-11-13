@@ -1,3 +1,4 @@
+import { NoCertificationResultsToDownloadError } from '../errors.js';
 import { getSessionCertificatesPDF } from '../services/get-session-certificates-pdf.js';
 
 export async function getCertificatesForSession({
@@ -10,17 +11,19 @@ export async function getCertificatesForSession({
   },
 }) {
   const sessionAuthorization = await sessionAuthorizationAdapter.find({ sessionId });
-  if (!sessionAuthorization) {
-    return null;
+  if (!sessionAuthorization || !sessionAuthorization.canCreateCertificatesPdf) {
+    throw new NoCertificationResultsToDownloadError();
   }
 
-  if (!sessionAuthorization.canCreateCertificatesPdf) {
-    return null;
-  }
-
-  return dependencies.getSessionCertificatesPDF({
+  const sessionCertificates = await dependencies.getSessionCertificatesPDF({
     sessionId,
     isFrenchDomainExtension,
     i18n,
   });
+
+  if (!sessionCertificates) {
+    throw new NoCertificationResultsToDownloadError();
+  }
+
+  return sessionCertificates;
 }

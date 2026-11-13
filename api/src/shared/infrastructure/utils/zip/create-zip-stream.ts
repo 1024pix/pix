@@ -16,13 +16,20 @@ type Deps = {
   logger: LoggerType;
 };
 
-export function createZipStream<T>(
-  callbackFnc: (arg: T) => Promise<Result>,
-  callbackArgs: Array<T>,
-  dependencies: Deps = { logger },
-): PassThrough {
+export function createZipStream<T>({
+  callbackFnc,
+  callbackArgs,
+  allowedErrs = [],
+  dependencies,
+}: {
+  callbackFnc: (arg: T) => Promise<Result>;
+  callbackArgs: Array<T>;
+  allowedErrs: Array<Error>;
+  dependencies: Deps;
+}): PassThrough {
   const archive = new ZipStream();
   const output = new PassThrough();
+  const allowedErrNames = allowedErrs.map((errClass) => errClass.name);
 
   pipeline(archive, output, (err) => {
     if (err) {
@@ -35,16 +42,20 @@ export function createZipStream<T>(
   // while this function executes on the side and pushes data in the stream
   void (async () => {
     const addEntry = promisify(archive.entry.bind(archive));
-    try {
-      for (const arg of callbackArgs) {
+    for (const arg of callbackArgs) {
+      try {
         const result = await callbackFnc(arg);
-        if (!result) continue;
         await addEntry(result.content, { name: result.filename });
+      } catch (err) {
+        const currentErrName = (err as object)?.constructor?.name;
+        if (allowedErrNames.includes(currentErrName)) {
+          continue;
+        }
+        archive.destroy(err as Error);
+        return;
       }
-      archive.finalize();
-    } catch (err) {
-      archive.destroy(err as Error);
     }
+    archive.finalize();
   })();
 
   return output;

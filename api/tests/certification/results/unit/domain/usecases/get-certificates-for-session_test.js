@@ -1,22 +1,24 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { NoCertificationResultsToDownloadError } from '../../../../../../src/certification/results/domain/errors.js';
 import { SessionAuthorization } from '../../../../../../src/certification/results/domain/models/SessionAuthorization.js';
 import { getCertificatesForSession } from '../../../../../../src/certification/results/domain/usecases/get-certificates-for-session.js';
 import {
   SESSION_STATUSES,
   SessionStatus,
 } from '../../../../../../src/certification/shared/domain/value-objects/SessionStatus.ts';
+import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | UseCase | get-certificates-for-session', function () {
   describe('when there is no session', function () {
-    it('should return null', async function () {
+    it('should throw NoCertificationResultsToDownloadError', async function () {
       const expectedResponse = Symbol('promise');
       const getSessionCertificatesPDFStub = sinon.stub().resolves(expectedResponse);
       const sessionAuthorizationAdapterStub = { find: sinon.stub().resolves(null) };
       const i18n = Symbol('i18n');
 
-      const usecaseResponse = await getCertificatesForSession({
+      const err = await catchErr(getCertificatesForSession)({
         sessionId: 11,
         isFrenchDomainExtension: true,
         i18n,
@@ -26,7 +28,7 @@ describe('Unit | UseCase | get-certificates-for-session', function () {
         },
       });
 
-      expect(usecaseResponse).to.equal(null);
+      expect(err).to.be.instanceOf(NoCertificationResultsToDownloadError);
     });
   });
 
@@ -67,13 +69,13 @@ describe('Unit | UseCase | get-certificates-for-session', function () {
   });
 
   [
-    { status: SESSION_STATUSES.CREATED, expectedResponse: null },
-    { status: SESSION_STATUSES.STARTED, expectedResponse: null },
-    { status: SESSION_STATUSES.TO_FINALIZE, expectedResponse: null },
-    { status: SESSION_STATUSES.FINALIZED, expectedResponse: null },
-    { status: SESSION_STATUSES.IN_PROCESS, expectedResponse: null },
-  ].forEach(({ status, expectedResponse }) => {
-    it(`when the status is ${status}, should return null`, async function () {
+    { status: SESSION_STATUSES.CREATED },
+    { status: SESSION_STATUSES.STARTED },
+    { status: SESSION_STATUSES.TO_FINALIZE },
+    { status: SESSION_STATUSES.FINALIZED },
+    { status: SESSION_STATUSES.IN_PROCESS },
+  ].forEach(({ status }) => {
+    it(`when the status is ${status}, should throw NoCertificationResultsToDownloadError`, async function () {
       // given
       const getSessionCertificatesPDFStub = sinon.stub();
 
@@ -85,7 +87,7 @@ describe('Unit | UseCase | get-certificates-for-session', function () {
       const i18n = Symbol('i18n');
 
       // when
-      const usecaseResponse = await getCertificatesForSession({
+      const err = await catchErr(getCertificatesForSession)({
         sessionId: 11,
         isFrenchDomainExtension: true,
         i18n,
@@ -96,9 +98,7 @@ describe('Unit | UseCase | get-certificates-for-session', function () {
       });
 
       // then
-      expect(getSessionCertificatesPDFStub).to.be.not.called;
-
-      expect(usecaseResponse).to.equal(expectedResponse);
+      expect(err).to.be.instanceOf(NoCertificationResultsToDownloadError);
     });
   });
 });

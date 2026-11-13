@@ -1,4 +1,3 @@
-import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as sessionRepository from '../../infrastructure/repositories/session-repository.ts';
@@ -18,7 +17,7 @@ export async function getSessionCertificatesPDF({
   const session = await dependencies.sessionRepository.get(sessionId);
 
   if (!session) {
-    throw new NotFoundError();
+    return null;
   }
 
   const locale = i18n.getLocale();
@@ -35,7 +34,7 @@ export async function getSessionCertificatesPDF({
   }
 
   if (!certificates.length) {
-    throw new NotFoundError('No certificates found');
+    return null;
   }
 
   const algorithmEngineVersion =
