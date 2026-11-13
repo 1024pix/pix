@@ -83,9 +83,10 @@ export default class UpdatePasswordForm extends Component {
   }
 
   #handleApiError(errorResponse) {
-    const status = errorResponse?.errors?.[0]?.status;
+    const { status, code } = errorResponse?.errors?.[0] ?? {};
+    const isUserWithoutPixAuthenticationMethod = code === 'USER_WITHOUT_PIX_AUTHENTICATION_METHOD';
 
-    if (status === '400') {
+    if (status === '400' && !isUserWithoutPixAuthenticationMethod) {
       this.validation.currentPassword.status = 'error';
       this.validation.currentPassword.apiError = API_ERRORS.INVALID_CURRENT_PASSWORD;
     } else if (status === '422') {

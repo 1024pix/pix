@@ -1,7 +1,7 @@
+import { BadRequestError } from '../../../shared/application/errors/http-errors.js';
 import {
   InvalidPasswordForUpdateEmailError,
   PasswordNotMatching,
-  UserNotAuthorizedToUpdatePasswordError,
 } from '../../../shared/domain/errors.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
@@ -18,7 +18,10 @@ export async function changeUserPassword({
   });
 
   if (!authenticationMethod) {
-    throw new UserNotAuthorizedToUpdatePasswordError();
+    throw new BadRequestError(
+      'User has no Pix authentication method, password cannot be changed.',
+      'USER_WITHOUT_PIX_AUTHENTICATION_METHOD',
+    );
   }
 
   try {

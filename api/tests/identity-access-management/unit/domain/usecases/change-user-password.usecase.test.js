@@ -3,11 +3,8 @@ import sinon from 'sinon';
 
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { changeUserPassword } from '../../../../../src/identity-access-management/domain/usecases/change-user-password.usecase.js';
-import {
-  InvalidPasswordForUpdateEmailError,
-  PasswordNotMatching,
-  UserNotAuthorizedToUpdatePasswordError,
-} from '../../../../../src/shared/domain/errors.js';
+import { BadRequestError } from '../../../../../src/shared/application/errors/http-errors.js';
+import { InvalidPasswordForUpdateEmailError, PasswordNotMatching } from '../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
@@ -67,7 +64,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | change-user-pas
   });
 
   context('when user has no Pix authentication method (SSO or GAR only)', function () {
-    it('throws UserNotAuthorizedToUpdatePasswordError', async function () {
+    it('throws BadRequestError', async function () {
       // given
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(null);
 
@@ -81,7 +78,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | change-user-pas
       });
 
       // then
-      expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
+      expect(error).to.be.instanceOf(BadRequestError);
       expect(cryptoService.hashPassword).to.not.have.been.called;
       expect(authenticationMethodRepository.updatePassword).to.not.have.been.called;
     });

@@ -969,7 +969,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       expect(response.statusCode).to.equal(422);
     });
 
-    it('returns 403 HTTP status code when user has no Pix authentication method', async function () {
+    it('returns 400 HTTP status code when user has no Pix authentication method', async function () {
       // given
       const user = databaseBuilder.factory.buildUser({ email: 'judy.howl@example.net' });
       databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
@@ -994,7 +994,8 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(403);
+      expect(response.statusCode).to.equal(400);
+      expect(response.result.errors[0].code).to.equal('USER_WITHOUT_PIX_AUTHENTICATION_METHOD');
     });
 
     it('returns 401 HTTP status code when user is not authenticated', async function () {
