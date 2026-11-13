@@ -91,6 +91,32 @@ describe('Shared | Unit | Utils | Zip | create zip stream', function () {
       });
     });
 
+    context('when callback function returns null or undefined', function () {
+      it('skips the entry and continues to the next iteration', async function () {
+        // given
+        callbackArgs = [0, 1, 2, 3];
+        callbackFnc.withArgs(0).resolves({ filename: 'fichier-0', content: 'coucou ' });
+        callbackFnc.withArgs(1).resolves(null);
+        callbackFnc.withArgs(2).resolves(undefined);
+        callbackFnc.withArgs(3).resolves({ filename: 'fichier-3', content: 'ça va ?' });
+
+        // when
+        const zipStream = createZipStream(callbackFnc, callbackArgs, dependencies);
+        const { error, data } = await consumeStream(zipStream);
+
+        // then
+        expect(error).to.be.undefined;
+        const zipContent = await readZip(data);
+        expect(zipContent).to.have.deep.members([
+          { name: 'fichier-0', content: 'coucou ' },
+          { name: 'fichier-3', content: 'ça va ?' },
+        ]);
+        expect(logger.error).not.to.have.been.called;
+        expect(callbackFnc.callCount).to.equal(4);
+        expect(zipStream.destroyed).to.equal(true);
+      });
+    });
+
     context('when the consumer of the stream disconnects', function () {
       it('cancel zip stream and log an error ', async function () {
         // given

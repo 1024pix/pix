@@ -38,6 +38,7 @@ export function createZipStream<T>(
     try {
       for (const arg of callbackArgs) {
         const result = await callbackFnc(arg);
+        if (!result) continue;
         await addEntry(result.content, { name: result.filename });
       }
       archive.finalize();
