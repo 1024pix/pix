@@ -5,6 +5,7 @@
 .challenge-item {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+  margin-bottom:var(--pix-spacing-3x);
 
   @include breakpoints.device-is('tablet') {
     border-top-right-radius: var(--pix-spacing-3x);;

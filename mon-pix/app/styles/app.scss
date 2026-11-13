@@ -56,7 +56,6 @@
 @use 'components/communication-banner' as *;
 @use 'components/companion/blocker' as *;
 @use 'components/companion/check' as *;
-@use 'components/challenge-actions' as *;
 @use 'components/challenge-illustration' as *;
 @use 'components/challenge-item' as *;
 @use 'components/challenge-statement' as *;
@@ -182,6 +181,7 @@
 
 /* challenge */
 @use 'challenge/timeout-gauge' as *;
+@use 'challenge/challenge-actions' as *;
 @use 'challenge/mode-banner' as *;
 @use 'challenge/timed-challenge-instructions' as *;
 
