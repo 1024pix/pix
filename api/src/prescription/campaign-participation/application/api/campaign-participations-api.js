@@ -1,4 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
+import { AssessmentCampaignResult } from './read-models/AssessmentCampaignResult.js';
 import { CampaignParticipation } from './read-models/CampaignParticipation.js';
 
 /**
@@ -54,4 +55,28 @@ export const deleteCampaignParticipations = async ({
       keepPreviousDeleted: keepPreviousDeletion,
     });
   }
+};
+
+/**
+ * Retourne le taux de réussite et les niveaux atteints par compétence et par sujet pour une participation partagée.
+ *
+ * @function
+ * @name getAssessmentCampaignResult
+ *
+ * @param {Object} params
+ * @param {number} params.campaignParticipationId
+ * @param {string} [params.locale='fr-FR']
+ * @returns {Promise<AssessmentCampaignResult>}
+ * @throws {UserNotAuthorizedToAccessEntityError} si la participation n'est pas partagée
+ */
+export const getAssessmentCampaignResult = async ({ campaignParticipationId, locale = 'fr-FR' }) => {
+  const result = await usecases.getResultLevelsPerTubesAndCompetences({ campaignParticipationId, locale });
+  return new AssessmentCampaignResult({
+    id: result.id,
+    masteryRate: result.masteryRate,
+    maxReachableLevel: result.maxReachableLevel,
+    meanReachedLevel: result.meanReachedLevel,
+    levelsPerCompetence: result.levelsPerCompetence,
+    levelsPerTube: result.levelsPerTube,
+  });
 };
