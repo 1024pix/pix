@@ -1,4 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
+import { AssessmentCampaignResult } from './read-models/AssessmentCampaignResult.js';
 import { CampaignParticipation } from './read-models/CampaignParticipation.js';
 
 /**
@@ -54,4 +55,21 @@ export const deleteCampaignParticipations = async ({
       keepPreviousDeleted: keepPreviousDeletion,
     });
   }
+};
+
+/**
+ * Returns the mastery rate and reached levels by tube and competence for a shared participation.
+ *
+ * @function
+ * @name getAssessmentCampaignResult
+ *
+ * @param {Object} params
+ * @param {number} params.campaignParticipationId
+ * @param {string} [params.locale='fr-FR']
+ * @returns {Promise<AssessmentCampaignResult>}
+ * @throws {UserNotAuthorizedToAccessEntityError} when the participation is not shared
+ */
+export const getAssessmentCampaignResult = async ({ campaignParticipationId, locale = 'fr-FR' }) => {
+  const result = await usecases.getResultLevelsPerTubesAndCompetences({ campaignParticipationId, locale });
+  return new AssessmentCampaignResult(result);
 };
