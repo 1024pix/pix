@@ -3,6 +3,7 @@
 @use '../globals/a11y' as *;
 
 .challenge-item {
+  margin-bottom:var(--pix-spacing-3x);
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 

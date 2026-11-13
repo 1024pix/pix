@@ -1,0 +1,26 @@
+@use 'pix-design-tokens/breakpoints';
+@use 'pix-design-tokens/typography';
+
+.challenge-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-3x);
+  padding-block: var(--pix-spacing-2x);
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-3x);
+
+    @include breakpoints.device-is('tablet') {
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+  }
+
+  @include breakpoints.device-is('tablet') {
+    &__action-continue {
+      align-self: flex-end;
+    }
+  }
+}

@@ -7,9 +7,9 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import isInteger from 'lodash/isInteger';
+import ChallengeActions from 'mon-pix/components/challenge/challenge-actions';
 import FocusedOutNotification from 'mon-pix/components/challenge/focusedOutNotification';
 import ModeBanner from 'mon-pix/components/challenge/mode-banner';
-import ChallengeActions from 'mon-pix/components/challenge-actions';
 import ChallengeStatement from 'mon-pix/components/challenge-statement';
 
 import AssessmentsLiveAlert from '../assessments/live-alert';
@@ -221,19 +221,6 @@ export default class ChallengeContent extends Component {
             @isAnswerFieldDisabled={{this.isAnswerFieldDisabled}}
           />
         </PixBlock>
-        {{#unless @assessment.hasOngoingCompanionLiveAlert}}
-          <div role="complementary">
-            {{#if @assessment.isCertification}}
-              <CertificationFeedbackPanel
-                @submitLiveAlert={{@submitLiveAlert}}
-                @assessment={{@assessment}}
-                @isEnabled={{this.isLiveAlertButtonEnabled}}
-              />
-            {{else}}
-              <FeedbackPanel @assessment={{@assessment}} @challenge={{@challenge}} />
-            {{/if}}
-          </div>
-        {{/unless}}
 
         {{#if @assessment}}
           <ChallengeActions
@@ -242,7 +229,6 @@ export default class ChallengeContent extends Component {
             @isSkipActionLoading={{this.isSkipActionLoading}}
             @answer={{@answer}}
             @resumeAssessment={{this.resumeAssessment}}
-            @validateAnswer={{this.validateAnswer}}
             @skipChallenge={{this.skipChallenge}}
             @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
             @isDisabled={{this.isAnswerFieldDisabled}}
@@ -258,6 +244,21 @@ export default class ChallengeContent extends Component {
             @isAdjustedCourseForAccessibility={{@assessment.certificationCourse.isAdjustedForAccessibility}}
           />
         {{/if}}
+
+        {{#unless @assessment.hasOngoingCompanionLiveAlert}}
+          <div role="complementary">
+            {{#if @assessment.isCertification}}
+              <CertificationFeedbackPanel
+                @submitLiveAlert={{@submitLiveAlert}}
+                @assessment={{@assessment}}
+                @isEnabled={{this.isLiveAlertButtonEnabled}}
+              />
+            {{else}}
+              <FeedbackPanel @assessment={{@assessment}} @challenge={{@challenge}} />
+            {{/if}}
+          </div>
+        {{/unless}}
+
       </form>
       {{#if @assessment.hasOngoingCompanionLiveAlert}}
         <AssessmentsLiveAlert @message={{t "pages.challenge.live-alerts.companion.message"}} />
