@@ -1,5 +1,34 @@
 # Pix Changelog
 
+# [5.543.0](https://github.com/1024pix/pix/compare/v5.542.0...v5.543.0) (2026-11-13)
+
+### :rocket: Amélioration
+
+- [#18644](https://github.com/1024pix/pix/pull/18644) Exporter les knowledge elements des utilisateurs migrés vers le data lake.
+- [#18643](https://github.com/1024pix/pix/pull/18643) Verifier le scope sur les routes lti /campaigns et /select-campaign (PIX-24918)
+
+### :bug: Correction
+
+- [#18735](https://github.com/1024pix/pix/pull/18735) supporte la config mappingColumn pour les champ de type date (PIX-24692)"
+
+### :building_construction: Tech
+
+- [#18763](https://github.com/1024pix/pix/pull/18763) Exprimer clairement les résultats dans des colonnes dédiées dans la table `certification_results`
+- [#18776](https://github.com/1024pix/pix/pull/18776) Interdire les recherches linéaires dans les boucles dans l'API.
+- [#18781](https://github.com/1024pix/pix/pull/18781) Supprime `ember-cli-clipboard` de Pix Certif
+- [#18656](https://github.com/1024pix/pix/pull/18656) Vérifier quel origin envoie des modules en preview (PIX-24996).
+
+### :arrow_up: Montée de version
+
+- [#18768](https://github.com/1024pix/pix/pull/18768) Update dependency @1024pix/eslint-plugin to v3.1.0 (audit-logger)
+- [#18769](https://github.com/1024pix/pix/pull/18769) Update dependency @1024pix/eslint-plugin to v3.1.0 (e2e-playwright)
+- [#18770](https://github.com/1024pix/pix/pull/18770) Update linters (admin)
+- [#18771](https://github.com/1024pix/pix/pull/18771) Update linters (api)
+- [#18772](https://github.com/1024pix/pix/pull/18772) Update linters (certif)
+- [#18773](https://github.com/1024pix/pix/pull/18773) Update linters (junior)
+- [#18774](https://github.com/1024pix/pix/pull/18774) Update linters (mon-pix)
+- [#18775](https://github.com/1024pix/pix/pull/18775) Update linters (orga)
+
 # [5.542.0](https://github.com/1024pix/pix/compare/v5.541.1...v5.542.0) (2026-11-12)
 
 ### :rocket: Amélioration
