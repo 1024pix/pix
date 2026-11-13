@@ -17,6 +17,7 @@ describe('Integration | LTI | Domain | Services | LTI Scoring', function () {
       label: 'ABCD12345 : 1.1 Mener une recherche',
       resourceId: 'pix:campaign:123:competence:recCompetence1',
       scoreMaximum: 3,
+      scoreGiven: null,
       tag: 'pix-campaign-123',
       resourceLinkId: '123456',
     };
@@ -24,6 +25,7 @@ describe('Integration | LTI | Domain | Services | LTI Scoring', function () {
       label: 'ABCD12345 : 1.2 Gérer des données',
       resourceId: 'pix:campaign:123:competence:recCompetence2',
       scoreMaximum: 5,
+      scoreGiven: null,
       tag: 'pix-campaign-123',
       resourceLinkId: '123456',
     };
@@ -31,6 +33,7 @@ describe('Integration | LTI | Domain | Services | LTI Scoring', function () {
       label: 'ABCD12345 : Taux de réussite',
       resourceId: 'pix:campaign:123:mastery-rate',
       scoreMaximum: 100,
+      scoreGiven: null,
       tag: 'pix-campaign-123',
       resourceLinkId: '123456',
     };
