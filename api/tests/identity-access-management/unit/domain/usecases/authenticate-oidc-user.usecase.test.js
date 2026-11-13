@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { POLE_EMPLOI } from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { UserAccessToken } from '../../../../../src/identity-access-management/domain/models/UserAccessToken.js';
 import { authenticateOidcUser } from '../../../../../src/identity-access-management/domain/usecases/authenticate-oidc-user.usecase.js';
@@ -289,197 +288,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
     });
   });
 
-  context('when identityProvider is POLE_EMPLOI', function () {
-    let oidcAuthenticationService;
-    let authenticationSessionService;
-    let authenticationMethodRepository;
-    let userRepository;
-    let userLoginRepository;
-    let oidcAuthenticationServiceRegistry;
-    let lastUserApplicationConnectionsRepository;
-    const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
-    const audience = 'https://app.pix.fr';
-    const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
-    const accessTokenLifespanSeconds = 48 * 60 * 60;
-
-    beforeEach(function () {
-      oidcAuthenticationService = {
-        identityProvider: POLE_EMPLOI.code,
-        shouldCloseSession: true,
-        accessTokenLifespanMs: accessTokenLifespanSeconds * 1000,
-        sessionDurationSeconds: accessTokenLifespanSeconds,
-        saveIdToken: sinon.stub(),
-        createAuthenticationComplement: sinon.stub(),
-        exchangeCodeForTokens: sinon.stub(),
-        getUserInfo: sinon.stub(),
-      };
-      oidcAuthenticationServiceRegistry = {
-        getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
-      };
-      authenticationMethodRepository = {
-        updateAuthenticationComplementByUserIdAndIdentityProvider: sinon.stub(),
-        updateLastLoggedAtByIdentityProvider: sinon.stub(),
-      };
-
-      authenticationSessionService = {
-        save: sinon.stub(),
-        generateSessionId: sinon.stub().returns('random-session-id'),
-      };
-
-      userRepository = { findByExternalIdentifier: sinon.stub(), update: sinon.stub() };
-      userLoginRepository = {
-        updateLastLoggedAt: sinon.stub().resolves(),
-      };
-      lastUserApplicationConnectionsRepository = {
-        upsert: sinon.stub().resolves(),
-      };
-    });
-
-    context('when user has an account', function () {
-      it('updates the authentication method', async function () {
-        // given
-        const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
-        const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
-        const user = domainBuilder.buildUser({ id: 1 });
-        userRepository.findByExternalIdentifier.resolves(user);
-        const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
-          accessToken: sessionContent.accessToken,
-          refreshToken: sessionContent.refreshToken,
-          expiredDate: new Date(),
-        });
-        oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
-
-        // when
-        await authenticateOidcUser({
-          requestedApplication,
-          stateReceived: 'state',
-          stateSent: 'state',
-          locale: 'fr-FR',
-          identityProviderCode: POLE_EMPLOI.code,
-          oidcAuthenticationServiceRegistry,
-          authenticationSessionService,
-          authenticationMethodRepository,
-          userRepository,
-          userLoginRepository,
-          audience,
-          lastUserApplicationConnectionsRepository,
-        });
-
-        // then
-        expect(
-          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider,
-        ).to.have.been.calledWithExactly({
-          authenticationComplement,
-          userId: 1,
-          identityProvider: oidcAuthenticationService.identityProvider,
-        });
-        expect(authenticationSessionService.generateSessionId).to.have.been.calledOnce;
-        expect(authenticationMethodRepository.updateLastLoggedAtByIdentityProvider).to.have.been.calledWithExactly({
-          userId: 1,
-          identityProvider: oidcAuthenticationService.identityProvider,
-        });
-        expect(lastUserApplicationConnectionsRepository.upsert).to.have.been.calledWithExactly({
-          userId: 1,
-          application: 'app',
-          lastLoggedAt: sinon.match.instanceOf(Date),
-        });
-      });
-
-      it('returns an access token, the logout url uuid and update the last logged date with the existing external user id', async function () {
-        // given
-        const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
-        const user = domainBuilder.buildUser({ id: 10 });
-        userRepository.findByExternalIdentifier
-          .withArgs({ externalIdentityId, identityProvider: oidcAuthenticationService.identityProvider })
-          .resolves(user);
-        oidcAuthenticationService.createAuthenticationComplement.returns(undefined);
-        sinon
-          .stub(UserAccessToken, 'generateOidcUserToken')
-          .withArgs({ userId: 10, audience, sessionId: 'random-session-id', expiresIn: accessTokenLifespanSeconds })
-          .returns({ accessToken: 'accessTokenForExistingExternalUser' });
-        oidcAuthenticationService.saveIdToken
-          .withArgs({ idToken: sessionContent.idToken, userId: 10 })
-          .resolves('logoutUrlUUID');
-
-        // when
-        const authenticationResult = await authenticateOidcUser({
-          requestedApplication,
-          stateReceived: 'state',
-          stateSent: 'state',
-          locale: 'fr-FR',
-          identityProviderCode: POLE_EMPLOI.code,
-          oidcAuthenticationServiceRegistry,
-          authenticationSessionService,
-          authenticationMethodRepository,
-          userRepository,
-          userLoginRepository,
-          audience,
-          lastUserApplicationConnectionsRepository,
-        });
-
-        // then
-        sinon.assert.calledOnceWithExactly(userLoginRepository.updateLastLoggedAt, { userId: 10 });
-        expect(authenticationResult).to.deep.equal({
-          pixAccessToken: 'accessTokenForExistingExternalUser',
-          logoutUrlUUID: 'logoutUrlUUID',
-          isAuthenticationComplete: true,
-        });
-      });
-    });
-
-    context('when user is logged with their pix account but also has a separate oidc account', function () {
-      it('updates the oidc authentication method', async function () {
-        // given
-        const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
-        const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
-        const user = domainBuilder.buildUser({ id: 10 });
-        userRepository.findByExternalIdentifier
-          .withArgs({ externalIdentityId, identityProvider: oidcAuthenticationService.identityProvider })
-          .resolves(user);
-        const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
-          accessToken: sessionContent.accessToken,
-          refreshToken: sessionContent.refreshToken,
-          expiredDate: new Date(),
-        });
-        oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
-
-        // when
-        await authenticateOidcUser({
-          audience,
-          requestedApplication,
-          stateReceived: 'state',
-          stateSent: 'state',
-          locale: 'fr-FR',
-          identityProviderCode: POLE_EMPLOI.code,
-          oidcAuthenticationServiceRegistry,
-          authenticationSessionService,
-          authenticationMethodRepository,
-          userRepository,
-          userLoginRepository,
-          lastUserApplicationConnectionsRepository,
-        });
-
-        // then
-        expect(
-          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider,
-        ).to.have.been.calledWithExactly({
-          authenticationComplement,
-          userId: 10,
-          identityProvider: oidcAuthenticationService.identityProvider,
-        });
-        expect(authenticationMethodRepository.updateLastLoggedAtByIdentityProvider).to.have.been.calledWithExactly({
-          userId: 10,
-          identityProvider: oidcAuthenticationService.identityProvider,
-        });
-        expect(lastUserApplicationConnectionsRepository.upsert).to.have.been.calledWithExactly({
-          userId: 10,
-          application: 'app',
-          lastLoggedAt: sinon.match.instanceOf(Date),
-        });
-      });
-    });
-  });
-
   context('when the provided locale is different from the one in found user', function () {
     let oidcAuthenticationService;
     let authenticationSessionService;
@@ -493,7 +301,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
 
     beforeEach(function () {
       oidcAuthenticationService = {
-        identityProvider: POLE_EMPLOI.code,
+        identityProvider: 'SOME_IDENTITY_PROVIDER',
         shouldCloseSession: true,
         accessTokenLifespanMs: accessTokenLifespanSeconds * 1000,
         sessionDurationSeconds: accessTokenLifespanSeconds,
@@ -526,14 +334,10 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
     it('updates the user locale', async function () {
       // given
       const locale = 'fr-FR';
-      const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+      _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
       const user = domainBuilder.buildUser({ id: 1, locale: 'fr-BE' });
       userRepository.findByExternalIdentifier.resolves(user);
-      const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
-        accessToken: sessionContent.accessToken,
-        refreshToken: sessionContent.refreshToken,
-        expiredDate: new Date(),
-      });
+      const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement();
       oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
       const requestedApplication = new RequestedApplication({ applicationName: 'app', applicationTld: '.fr' });
 
@@ -543,7 +347,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | authenticate-oi
         stateReceived: 'state',
         stateSent: 'state',
         locale,
-        identityProviderCode: POLE_EMPLOI.code,
+        identityProviderCode: 'SOME_IDENTITY_PROVIDER',
         oidcAuthenticationServiceRegistry,
         authenticationSessionService,
         authenticationMethodRepository,

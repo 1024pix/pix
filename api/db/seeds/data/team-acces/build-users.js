@@ -55,19 +55,7 @@ function _buildOidcUser(databaseBuilder) {
   });
   databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
     userId: user.id,
-    identityProvider: OIDC_PROVIDER_EXAMPLE_NET_IDENTITY_PROVIDER,
-  });
-}
-
-function _buildUserWithPoleEmploiAuthenticationMethod(databaseBuilder) {
-  const user = databaseBuilder.factory.buildUser.withRawPassword({
-    firstName: 'Paul',
-    lastName: 'Emploi',
-    email: 'paul-emploi@example.net',
-  });
-
-  databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-    userId: user.id,
+    identityProviderCode: OIDC_PROVIDER_EXAMPLE_NET_IDENTITY_PROVIDER,
   });
 }
 
@@ -97,7 +85,6 @@ function _buildAnonymisedUser(databaseBuilder) {
 export function buildUsers(databaseBuilder) {
   _buildUsers(databaseBuilder);
   _buildOidcUser(databaseBuilder);
-  _buildUserWithPoleEmploiAuthenticationMethod(databaseBuilder);
   _buildGarUser(databaseBuilder);
   _buildAnonymisedUser(databaseBuilder);
 }

@@ -28,7 +28,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | logout-o
       {
         application: 'orga',
         applicationTld: '.org',
-        identityProvider,
+        identityProviderCode: identityProvider,
         slug: 'oidc-logout-example-net',
         shouldCloseSession: true,
         postLogoutRedirectUri: 'https://orga.pix.org/connexion/oidc-logout-example-net',

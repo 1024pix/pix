@@ -148,8 +148,9 @@ describe('Unit | Identity Access Management | Domain | UseCase | find-user-for-o
   context('when user has an oidc authentication method and external identifiers are different', function () {
     it('throws an DifferentExternalIdentifierError', async function () {
       // given
-      const oidcAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+      const oidcAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
         externalIdentifier: '789fge',
+        identityProviderCode: 'SOME_IDENTITY_PROVIDER',
       });
       pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
       authenticationMethodRepository.findByUserId.resolves([oidcAuthenticationMethod]);
@@ -163,7 +164,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | find-user-for-o
         authenticationKey: 'authenticationKey',
         email: 'ane.trotro@example.net',
         password: 'pix123',
-        identityProvider: 'POLE_EMPLOI',
+        identityProvider: 'SOME_IDENTITY_PROVIDER',
         authenticationSessionService,
         pixAuthenticationService,
         authenticationMethodRepository,

@@ -209,7 +209,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
 
           const userId = databaseBuilder.factory.buildUser({ firstName, lastName }).id;
           databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-            identityProvider: 'OIDC_EXAMPLE_NET',
+            identityProviderCode: 'OIDC_EXAMPLE_NET',
             externalIdentifier,
             userId,
           });
@@ -256,7 +256,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
         await createServerWithMockedTestOidcProvider({
           application: 'admin',
           applicationTld: '.fr',
-          identityProvider: 'OIDC2-ADMIN-FR',
+          identityProviderCode: 'OIDC2-ADMIN-FR',
         });
 
         const query = querystring.stringify({ identity_provider: 'OIDC2-ADMIN-FR' });
@@ -292,7 +292,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
 
           const userId = databaseBuilder.factory.buildUser({ firstName, lastName }).id;
           databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-            identityProvider: 'OIDC2-ADMIN-FR',
+            identityProviderCode: 'OIDC2-ADMIN-FR',
             externalIdentifier,
             userId,
           });
@@ -337,7 +337,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
 
           const userId = databaseBuilder.factory.buildUser.withRole({ firstName, lastName, role: 'SUPER_ADMIN' }).id;
           databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-            identityProvider: 'OIDC2-ADMIN-FR',
+            identityProviderCode: 'OIDC2-ADMIN-FR',
             externalIdentifier,
             userId,
           });
@@ -689,7 +689,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
           await createServerWithMockedTestOidcProvider({
             application: 'orga',
             applicationTld: '.org',
-            identityProvider: 'OIDC_EXAMPLE_NET-ORGA',
+            identityProviderCode: 'OIDC_EXAMPLE_NET-ORGA',
             connectionMethodCode: 'OIDC_EXAMPLE_NET',
           });
 
@@ -776,7 +776,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
 
             const userId = databaseBuilder.factory.buildUser({ firstName, lastName }).id;
             databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-              identityProvider: 'OIDC_EXAMPLE_NET',
+              identityProviderCode: 'OIDC_EXAMPLE_NET',
               externalIdentifier,
               userId,
             });
@@ -824,7 +824,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
         await createServerWithMockedTestOidcProvider({
           application: 'orga',
           applicationTld: '.org',
-          identityProvider: 'OIDC_EXAMPLE_NET-ORGA',
+          identityProviderCode: 'OIDC_EXAMPLE_NET-ORGA',
           connectionMethodCode: 'OIDC_EXAMPLE_NET',
         });
       });
@@ -884,7 +884,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
         await createServerWithMockedTestOidcProvider({
           application: 'orga',
           applicationTld: '.org',
-          identityProvider: 'OIDC_EXAMPLE_NET-ORGA',
+          identityProviderCode: 'OIDC_EXAMPLE_NET-ORGA',
           connectionMethodCode: 'OIDC_EXAMPLE_NET',
         });
       });
@@ -944,7 +944,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
   async function createServerWithMockedTestOidcProvider({
     application,
     applicationTld,
-    identityProvider,
+    identityProviderCode,
     connectionMethodCode,
     shouldCloseSession,
     postLogoutRedirectUri,
@@ -953,7 +953,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
       {
         application,
         applicationTld,
-        identityProvider,
+        identityProviderCode,
         connectionMethodCode,
         shouldCloseSession,
         postLogoutRedirectUri,

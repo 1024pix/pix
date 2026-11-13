@@ -17,12 +17,12 @@ describe('Integration | Identity Access Management | Domain | UseCase | reassign
     const targetUserId = databaseBuilder.factory.buildUser({ id: 2 }).id;
 
     const authenticationMethodFromOriginUser = databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-      identityProvider: authenticationProviderToReassign,
+      identityProviderCode: authenticationProviderToReassign,
       userId: originUserId,
       lastLoggedAt: lastLoggedAtFromOriginUser,
     });
     const authenticationMethodFromTargetUser = databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-      identityProvider: otherAuthenticationProvider,
+      identityProviderCode: otherAuthenticationProvider,
       userId: targetUserId,
       lastLoggedAt: lastLoggedAtFromTargetUser,
     });
@@ -73,13 +73,13 @@ describe('Integration | Identity Access Management | Domain | UseCase | reassign
 
       const authenticationMethodFromOriginUser = databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider(
         {
-          identityProvider: authenticationProviderToReassign,
+          identityProviderCode: authenticationProviderToReassign,
           userId: originUserId,
           lastLoggedAt: lastLoggedAtFromOriginUser,
         },
       );
       databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-        identityProvider: authenticationProviderToReassign,
+        identityProviderCode: authenticationProviderToReassign,
         userId: targetUserId,
         lastLoggedAt: lastLoggedAtFromTargetUser,
       });
@@ -111,7 +111,7 @@ describe('Integration | Identity Access Management | Domain | UseCase | reassign
 
       const authenticationMethodFromOriginUser = databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider(
         {
-          identityProvider: authenticationProviderToReassign,
+          identityProviderCode: authenticationProviderToReassign,
           userId: originUserId,
           lastLoggedAt: lastLoggedAtFromOriginUser,
         },

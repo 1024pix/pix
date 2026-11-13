@@ -2,61 +2,13 @@ import { randomUUID } from 'node:crypto';
 
 import { expect } from 'chai';
 
-import * as OidcIdentityProviders from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
-import { UserToCreate } from '../../../../../src/identity-access-management/domain/models/UserToCreate.js';
 import { PoleEmploiOidcAuthenticationService } from '../../../../../src/identity-access-management/domain/services/pole-emploi-oidc-authentication-service.js';
-import * as authenticationMethodRepository from '../../../../../src/identity-access-management/infrastructure/repositories/authentication-method.repository.js';
-import { userToCreateRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/user-to-create.repository.js';
 import { temporaryStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
-import { knex } from '../../../../tooling/databases.js';
 import { OIDC_PROVIDER_TEST_CONFIG } from '../../../../tooling/mocks/openid-client.mock.js';
 
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
 
 describe('Integration | Identity Access Management | Domain | Services | pole-emploi-oidc-authentication-service', function () {
-  describe('#createUserAccount', function () {
-    it('creates a user with an authentication method and returns a user id', async function () {
-      // given
-      const externalIdentityId = '1HHF940';
-      const sessionContent = {
-        accessToken: 'accessToken',
-        idToken: 'idToken',
-        expiresIn: 10,
-        refreshToken: 'refreshToken',
-      };
-      const user = new UserToCreate({
-        firstName: 'Adam',
-        lastName: 'Troisjours',
-      });
-      const poleEmploiAuthenticationService = new PoleEmploiOidcAuthenticationService({
-        ...OIDC_PROVIDER_TEST_CONFIG,
-        additionalRequiredProperties: { logoutUrl: 'https://logout-url.fr', afterLogoutUrl: 'https://after-logout.fr' },
-        identityProvider: 'POLE_EMPLOI',
-        organizationName: 'France Travail',
-        shouldCloseSession: true,
-        slug: 'pole-emploi',
-        source: 'pole_emploi_connect',
-      });
-
-      // when
-      const createdUserId = await poleEmploiAuthenticationService.createUserAccount({
-        externalIdentityId,
-        user,
-        sessionContent,
-        authenticationMethodRepository,
-        userToCreateRepository,
-      });
-
-      // then
-      const createdUser = await knex('users').where({ id: createdUserId }).first();
-      expect(createdUser.firstName).to.equal('Adam');
-      expect(createdUser.lastName).to.equal('Troisjours');
-      const authenticationMethods = await knex('authentication-methods').where({ userId: createdUserId });
-      expect(authenticationMethods).to.have.lengthOf(1);
-      expect(authenticationMethods[0].identityProvider).to.equal(OidcIdentityProviders.POLE_EMPLOI.code);
-    });
-  });
-
   describe('#getRedirectLogoutUrl', function () {
     it('removes the idToken from temporary storage and returns a redirect logout url', async function () {
       // given

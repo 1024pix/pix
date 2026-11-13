@@ -812,7 +812,7 @@ describe('Acceptance | Maddo | Route | Campaigns', function () {
         databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
           authenticationComplement: { population: 'MCF', employeeNumber: 'MCFCH' },
           externalIdentifier: 'externalIdentifier-1',
-          identityProvider: 'IDENTITY_PROVIDER_EXAMPLE',
+          identityProviderCode: 'IDENTITY_PROVIDER_EXAMPLE',
           userId,
         });
 
