@@ -472,7 +472,7 @@ describe('Integration | Repository | Campaign-Management', function () {
         });
 
         // then
-        expect(_.map(campaignManagements, 'name')).to.exactlyContainInOrder(['July', 'June', 'May']);
+        expect(campaignManagements.map((item) => item.name)).to.exactlyContainInOrder(['July', 'June', 'May']);
       });
     });
 

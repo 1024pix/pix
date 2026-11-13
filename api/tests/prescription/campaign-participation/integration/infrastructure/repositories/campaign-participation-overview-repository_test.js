@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import _ from 'lodash';
 
 import { config } from '../../../../../../config/config.js';
 import { CampaignParticipationOverview } from '../../../../../../src/prescription/campaign-participation/domain/read-models/CampaignParticipationOverview.js';
@@ -142,7 +141,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
       const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByOrganizationLearnerId({
         organizationLearnerId,
       });
-      const campaignParticipationUserIds = _.map(campaignParticipationOverviews, 'id');
+      const campaignParticipationUserIds = campaignParticipationOverviews.map((item) => item.id);
 
       expect(campaignParticipationUserIds).to.exactlyContain([participation1Id, participation2Id]);
     });
@@ -473,7 +472,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
         const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({
           userId,
         });
-        const campaignParticipationUserIds = _.map(campaignParticipationOverviews, 'id');
+        const campaignParticipationUserIds = campaignParticipationOverviews.map((item) => item.id);
 
         expect(campaignParticipationUserIds).to.exactlyContain([participation1Id, participation2Id]);
       });
@@ -499,7 +498,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
         const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({
           userId,
         });
-        const campaignParticipationUserIds = _.map(campaignParticipationOverviews, 'id');
+        const campaignParticipationUserIds = campaignParticipationOverviews.map((item) => item.id);
 
         expect(campaignParticipationUserIds).to.exactlyContain([participation1Id, participation2Id]);
       });
@@ -709,7 +708,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
             states,
           });
 
-          expect(_.map(campaignParticipationOverviews, 'id')).to.exactlyContain([
+          expect(campaignParticipationOverviews.map((item) => item.id)).to.exactlyContain([
             onGoingParticipation.id,
             endedParticipation.id,
           ]);
@@ -737,7 +736,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({
             userId,
           });
-          const campaignParticipationIds = _.map(campaignParticipationOverviews, 'id');
+          const campaignParticipationIds = campaignParticipationOverviews.map((item) => item.id);
 
           expect(campaignParticipationIds).to.exactlyContainInOrder([
             participationOnGoingId,
@@ -764,7 +763,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({
             userId,
           });
-          const campaignParticipationIds = _.map(campaignParticipationOverviews, 'id');
+          const campaignParticipationIds = campaignParticipationOverviews.map((item) => item.id);
 
           expect(campaignParticipationIds).to.exactlyContainInOrder([newestParticipation, oldestParticipation]);
         });
@@ -796,7 +795,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({
             userId,
           });
-          const campaignParticipationIds = _.map(campaignParticipationOverviews, 'id');
+          const campaignParticipationIds = campaignParticipationOverviews.map((item) => item.id);
 
           expect(campaignParticipationIds).to.exactlyContainInOrder([
             lastParticipation,
@@ -832,7 +831,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({
             userId,
           });
-          const campaignParticipationIds = _.map(campaignParticipationOverviews, 'id');
+          const campaignParticipationIds = campaignParticipationOverviews.map((item) => item.id);
 
           expect(campaignParticipationIds).to.exactlyContainInOrder([
             firstParticipation,

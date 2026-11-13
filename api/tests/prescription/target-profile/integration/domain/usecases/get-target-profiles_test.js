@@ -14,7 +14,7 @@ describe('Integration | UseCase | get-target-profiles', function () {
 
     const targetProfileIds = [targetProfile1.id, targetProfile2.id, targetProfile3.id];
 
-    const expectedTargetProfilesAttributes = _.map([targetProfile1, targetProfile3, targetProfile2], (item) =>
+    const expectedTargetProfilesAttributes = [targetProfile1, targetProfile3, targetProfile2].map((item) =>
       _.pick(item, ['id', 'name', 'organizationId', 'outdated']),
     );
 
@@ -22,7 +22,7 @@ describe('Integration | UseCase | get-target-profiles', function () {
     const foundTargetProfiles = await usecases.getTargetProfiles({ targetProfileIds });
 
     // then
-    const foundTargetProfilesAttributes = _.map(foundTargetProfiles, (item) =>
+    const foundTargetProfilesAttributes = foundTargetProfiles.map((item) =>
       _.pick(item, ['id', 'name', 'organizationId', 'outdated']),
     );
     expect(foundTargetProfilesAttributes).to.deep.members(expectedTargetProfilesAttributes);

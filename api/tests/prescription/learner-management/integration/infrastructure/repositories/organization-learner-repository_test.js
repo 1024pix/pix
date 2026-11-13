@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import _ from 'lodash';
 import sinon from 'sinon';
 
 import { OrganizationLearnerCertificabilityNotUpdatedError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
@@ -501,7 +500,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
 
         const rows = await knex('organization-learners').where({ organizationId });
         expect(rows).to.have.lengthOf(2);
-        expect(_.map(rows, 'firstName')).to.have.members(['Lucy', 'Harry']);
+        expect(rows.map((item) => item.firstName)).to.have.members(['Lucy', 'Harry']);
       });
     });
 
@@ -1370,7 +1369,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       const organizationLearners = await organizationLearnerRepository.findByUserId({ userId });
 
       // then
-      expect(_.map(organizationLearners, 'id')).to.deep.equal([
+      expect(organizationLearners.map((item) => item.id)).to.deep.equal([
         firstOrganizationLearner.id,
         secondOrganizationLearner.id,
       ]);
@@ -1390,7 +1389,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       const organizationLearners = await organizationLearnerRepository.findByUserId({ userId });
 
       // then
-      expect(_.map(organizationLearners, 'id')).to.deep.include.ordered.members([
+      expect(organizationLearners.map((item) => item.id)).to.deep.include.ordered.members([
         firstOrganizationLearner.id,
         secondOrganizationLearner.id,
         thirdOrganizationLearner.id,
