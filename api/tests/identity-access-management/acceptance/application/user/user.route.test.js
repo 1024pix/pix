@@ -798,13 +798,8 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       await databaseBuilder.commit();
 
       const payload = {
-        data: {
-          type: 'password-updates',
-          attributes: {
-            'current-password': currentPassword,
-            'new-password': newPassword,
-          },
-        },
+        'current-password': currentPassword,
+        'new-password': newPassword,
       };
 
       const options = {
@@ -846,13 +841,8 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       await databaseBuilder.commit();
 
       const payload = {
-        data: {
-          type: 'password-updates',
-          attributes: {
-            'current-password': 'WrongPassword123',
-            'new-password': newPassword,
-          },
-        },
+        'current-password': 'WrongPassword123',
+        'new-password': newPassword,
       };
 
       const options = {
@@ -879,13 +869,8 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       await databaseBuilder.commit();
 
       const payload = {
-        data: {
-          type: 'password-updates',
-          attributes: {
-            'current-password': currentPassword,
-            'new-password': 'weak',
-          },
-        },
+        'current-password': currentPassword,
+        'new-password': 'weak',
       };
 
       const options = {
@@ -912,13 +897,8 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       await databaseBuilder.commit();
 
       const payload = {
-        data: {
-          type: 'password-updates',
-          attributes: {
-            'current-password': currentPassword,
-            'new-password': newPassword,
-          },
-        },
+        'current-password': currentPassword,
+        'new-password': newPassword,
       };
 
       const options = {
@@ -944,13 +924,8 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       await databaseBuilder.commit();
 
       const payload = {
-        data: {
-          type: 'password-updates',
-          attributes: {
-            'current-password': currentPassword,
-            'new-password': newPassword,
-          },
-        },
+        'current-password': currentPassword,
+        'new-password': newPassword,
       };
 
       const options = {
