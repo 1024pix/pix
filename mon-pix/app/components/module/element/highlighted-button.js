@@ -1,3 +1,5 @@
+import breakpoints from 'mon-pix/breakpoints';
+
 let tooltipCounter = 0;
 
 class HighlightedButton extends HTMLElement {
@@ -21,7 +23,17 @@ class HighlightedButton extends HTMLElement {
       `<button type="button" class="module-glossary-word" aria-expanded="false" aria-describedby="${this.#tooltipElement.id}">${word}</button>`,
     );
 
+    const isMobile = window.matchMedia(breakpoints.mobile).matches;
+    if (isMobile) {
+      this.#buttonElement.addEventListener('click', () => this.open());
+    }
+
     this.replaceChildren(this.#buttonElement, this.#tooltipElement);
+  }
+
+  open() {
+    this.#tooltipElement.classList.add('module-glossary-tooltip--visible');
+    this.#buttonElement.setAttribute('aria-expanded', 'true');
   }
 
   #createElementFromHTML(html) {
