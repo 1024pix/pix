@@ -39,7 +39,7 @@ describe('Integration | Repository | Certification Challenge', function () {
     context('all certification challenges are ignored', function () {
       let certificationCourseId, challengeId;
 
-      before(async function () {
+      beforeAll(async function () {
         // given
         const userId = databaseBuilder.factory.buildUser({}).id;
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
@@ -75,7 +75,7 @@ describe('Integration | Repository | Certification Challenge', function () {
       const firstUnansweredChallengeId = 1;
       let ignoredChallengeIds;
 
-      before(async function () {
+      beforeAll(async function () {
         // given
         const userId = databaseBuilder.factory.buildUser({}).id;
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({

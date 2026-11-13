@@ -18,7 +18,7 @@ describe('Integration | Repository | LearningContentInMemory', function () {
   /** @type {sinon.SinonStub} */
   let queryHook;
 
-  before(function () {
+  beforeAll(function () {
     tableName = `${SCHEMA_NAME}.${TABLE_NAME}`;
     repository = new LearningContentInMemoryRepository({ tableName });
   });

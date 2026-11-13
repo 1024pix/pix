@@ -13,7 +13,7 @@ describe('Integration | Repository | LearningContentPostgres', function () {
   /** @type {LearningContentPostgresRepository} */
   let repository;
 
-  before(function () {
+  beforeAll(function () {
     tableName = `${SCHEMA_NAME}.${TABLE_NAME}`;
     repository = new LearningContentPostgresRepository({ tableName });
   });
