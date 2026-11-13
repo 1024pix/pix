@@ -2655,6 +2655,64 @@ describe('Integration | Infrastructure | Repository | Certification', function (
       });
     });
   });
+
+  describe('#findCertificationsIdAndVersion', function () {
+    it('returns an array of published certif ids/version for this session', async function () {
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      const otherSessionId = databaseBuilder.factory.buildSession().id;
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 1,
+        sessionId,
+        isPublished: true,
+        version: AlgorithmEngineVersion.V3,
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 2,
+        sessionId: otherSessionId,
+        isPublished: true,
+        version: AlgorithmEngineVersion.V3,
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 3,
+        sessionId,
+        isPublished: true,
+        version: AlgorithmEngineVersion.V2,
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 4,
+        sessionId,
+        isPublished: false,
+        version: AlgorithmEngineVersion.V3,
+      });
+      await databaseBuilder.commit();
+
+      const certificationInfos = await certificateRepository.findCertificationsIdAndVersion({ sessionId });
+      expect(certificationInfos).to.deepEqualArray([
+        { id: 1, version: AlgorithmEngineVersion.V3 },
+        { id: 3, version: AlgorithmEngineVersion.V2 },
+      ]);
+    });
+  });
+
+  describe('getCertificatesForCPF', function () {
+    it('returns the only V3 certificate published and validated', async function () {
+      const session = await databaseBuilder.factory.buildSession();
+      const otherSession = await databaseBuilder.factory.buildSession();
+      const certificate = await databaseBuilder.factory.buildCertificate({ status: AssessmentResult.status.VALIDATED });
+      const otherCertificate = await databaseBuilder.factory.buildCertificate({
+        status: AssessmentResult.status.VALIDATED,
+      });
+      databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id, certificateId: certificate.id });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId: otherSession.id,
+        certificateId: otherCertificate.id,
+      });
+      await databaseBuilder.commit();
+
+      const certificates = await certificateRepository.getCertificatesForCPF({ sessionId: session.id });
+      expect(certificates).to.deep.equal([certificate]);
+    });
+  });
 });
 
 function _buildIncomplete(certificationAttestationData) {
