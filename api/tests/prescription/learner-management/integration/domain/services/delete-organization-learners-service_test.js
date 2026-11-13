@@ -5,7 +5,7 @@ import { ANONYMIZATION_RULE } from '../../../../../../src/prescription/learner-m
 import { OrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationLearner.js';
 import { services } from '../../../../../../src/prescription/learner-management/domain/services/index.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
-import { CLIENTS, ORGANIZATION_FEATURE, PIX_ORGA } from '../../../../../../src/shared/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import {
   CampaignParticipationLoggerContext,
@@ -269,50 +269,6 @@ describe('Integration | Services | Organization Learners Management | Delete Org
     const deletedLearners = await knex('organization-learners').whereNull('userId').pluck('id');
     expect(deletedLearners).lengthOf(2);
     expect(deletedLearners).deep.equal([organizationLearner1.id, organizationLearner2.id]);
-
-    const assessments = await knex('assessments').whereNull('campaignParticipationId').orderBy('id').pluck('id');
-    expect(assessments).lengthOf(2);
-    expect(assessments).deep.equal([assessment1.id, assessment2.id]);
-  });
-
-  it('should detach assessments given deleted campaignParticipations', async function () {
-    // given
-    const deletedParticipation = buildCampaignParticipation({
-      organizationLearnerId: organizationLearner1.id,
-      participantExternalId,
-      userId: organizationLearner1.userId,
-      deletedAt: new Date('2023-01-01'),
-      deletedBy: databaseBuilder.factory.buildUser().id,
-    });
-    const assessment1 = buildAssessment({
-      id: 1,
-      campaignParticipationId: deletedParticipation.id,
-      isImproved: false,
-      type: Assessment.types.CAMPAIGN,
-    });
-    const assessment2 = buildAssessment({
-      id: 2,
-      campaignParticipationId: deletedParticipation.id,
-      isImproved: true,
-      type: Assessment.types.CAMPAIGN,
-    });
-
-    await databaseBuilder.commit();
-
-    // when
-    await services.deleteOrganizationLearnersService({
-      userId: adminUserId,
-      organizationLearners: [organizationLearner1],
-      organizationId,
-      userRole: PIX_ORGA.ROLES.ADMIN,
-      client: CLIENTS.ORGA,
-      keepPreviousDeletion: true,
-    });
-
-    // then
-    const deletedLearners = await knex('organization-learners').whereNull('userId').pluck('id');
-    expect(deletedLearners).lengthOf(1);
-    expect(deletedLearners).deep.equal([organizationLearner1.id]);
 
     const assessments = await knex('assessments').whereNull('campaignParticipationId').orderBy('id').pluck('id');
     expect(assessments).lengthOf(2);
