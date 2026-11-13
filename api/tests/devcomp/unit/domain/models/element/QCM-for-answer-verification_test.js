@@ -55,7 +55,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification'
 
         // then
         expect(error).to.be.instanceOf(DomainError);
-        expect(error.message).to.equal('The solutions should be in a list');
+        expect(error.message).to.equal('The solutions are required for a QCM for verification');
       });
     });
   });
