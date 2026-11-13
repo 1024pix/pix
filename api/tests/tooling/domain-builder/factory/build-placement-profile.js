@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { PlacementProfile } from '../../../../src/shared/domain/models/PlacementProfile.js';
 import { buildUserCompetence } from './build-user-competence.js';
 
@@ -16,7 +14,7 @@ export function buildPlacementProfile({
 }
 
 buildPlacementProfile.buildForCompetences = function buildForCompetences({ profileDate, userId, competencesData }) {
-  const userCompetences = _.map(competencesData, (competenceData) => {
+  const userCompetences = competencesData.map((competenceData) => {
     return buildUserCompetence({
       id: competenceData.id,
       index: competenceData.index,
