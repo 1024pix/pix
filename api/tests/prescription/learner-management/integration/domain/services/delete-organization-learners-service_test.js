@@ -2,7 +2,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { ANONYMIZATION_RULE } from '../../../../../../src/prescription/learner-management/domain/constants.js';
-import { usecases } from '../../../../../../src/prescription/learner-management/domain/usecases/index.js';
+import { OrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationLearner.js';
+import { services } from '../../../../../../src/prescription/learner-management/domain/services/index.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.ts';
 import { CLIENTS, ORGANIZATION_FEATURE, PIX_ORGA } from '../../../../../../src/shared/constants.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
@@ -27,7 +28,7 @@ const {
   buildUserRecommendedTraining,
 } = databaseBuilder.factory;
 
-describe('Integration | UseCase | Organization Learners Management | Delete Organization Learners', function () {
+describe('Integration | Services | Organization Learners Management | Delete Organization Learners Service', function () {
   let organizationId;
   let campaign;
   let organizationLearner1, organizationLearner2;
@@ -40,16 +41,20 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
     adminUserId = buildUser().id;
     organizationId = buildOrganization().id;
     campaign = buildCampaign({ organizationId, type: CampaignTypes.ASSESSMENT });
-    organizationLearner1 = buildOrganizationLearner({
-      organizationId,
-      firstName: 'POUET',
-      birthdate: '2020-05-12',
-    });
-    organizationLearner2 = buildOrganizationLearner({
-      organizationId,
-      firstName: 'TEUOP',
-      birthdate: '2020-12-12',
-    });
+    organizationLearner1 = new OrganizationLearner(
+      buildOrganizationLearner({
+        organizationId,
+        firstName: 'POUET',
+        birthdate: '2020-05-12',
+      }),
+    );
+    organizationLearner2 = new OrganizationLearner(
+      buildOrganizationLearner({
+        organizationId,
+        firstName: 'TEUOP',
+        birthdate: '2020-12-12',
+      }),
+    );
     campaignParticipation1 = buildCampaignParticipation({
       organizationLearnerId: organizationLearner1.id,
       participantExternalId,
@@ -65,8 +70,8 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
   context('when no organization learner is provided', function () {
     it('should do nothing', async function () {
       await expect(
-        usecases.deleteOrganizationLearners({
-          organizationLearnerIds: [],
+        services.deleteOrganizationLearnersService({
+          organizationLearners: [],
         }),
       ).to.be.fulfilled;
     });
@@ -81,7 +86,7 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
       userId: organizationLearner1.userId,
     });
 
-    const otherLearner = buildOrganizationLearner();
+    const otherLearner = new OrganizationLearner(buildOrganizationLearner());
     const otherParticipation = buildCampaignParticipation({
       organizationLearnerId: otherLearner.id,
       participantExternalId,
@@ -90,9 +95,9 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
     await databaseBuilder.commit();
 
     // when
-    await usecases.deleteOrganizationLearners({
+    await services.deleteOrganizationLearnersService({
       userId: adminUserId,
-      organizationLearnerIds: [organizationLearner1.id, organizationLearner2.id],
+      organizationLearners: [organizationLearner1, organizationLearner2],
       organizationId,
       userRole: 'ORGA_ADMIN',
       client: 'PIX_ORGA',
@@ -151,10 +156,12 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
 
   it('should selectively anonymize attributes when organization has an import format configured', async function () {
     // given
-    const learner = buildOrganizationLearner({
-      organizationId,
-      attributes: { Classe: '3A', 'Date de naissance': '2005-10-03' },
-    });
+    const learner = new OrganizationLearner(
+      buildOrganizationLearner({
+        organizationId,
+        attributes: { Classe: '3A', 'Date de naissance': '2005-10-03' },
+      }),
+    );
     const importFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.LEARNER_IMPORT);
     const importFormat = databaseBuilder.factory.buildOrganizationLearnerImportFormat({
       name: 'test-delete-anonymize',
@@ -185,9 +192,9 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
     await databaseBuilder.commit();
 
     // when
-    await usecases.deleteOrganizationLearners({
+    await services.deleteOrganizationLearnersService({
       userId: adminUserId,
-      organizationLearnerIds: [learner.id],
+      organizationLearners: [learner],
       organizationId,
       userRole: 'ORGA_ADMIN',
       client: 'PIX_ORGA',
@@ -200,16 +207,18 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
 
   it('should clear attributes when organization has no import format configured', async function () {
     // given
-    const learner = buildOrganizationLearner({
-      organizationId,
-      attributes: { Classe: '3A', 'Date de naissance': '2005-10-03' },
-    });
+    const learner = new OrganizationLearner(
+      buildOrganizationLearner({
+        organizationId,
+        attributes: { Classe: '3A', 'Date de naissance': '2005-10-03' },
+      }),
+    );
     await databaseBuilder.commit();
 
     // when
-    await usecases.deleteOrganizationLearners({
+    await services.deleteOrganizationLearnersService({
       userId: adminUserId,
-      organizationLearnerIds: [learner.id],
+      organizationLearners: [learner],
       organizationId,
       userRole: 'ORGA_ADMIN',
       client: 'PIX_ORGA',
@@ -222,7 +231,7 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
 
   it('should detach assessments given campaignParticipations', async function () {
     // given
-    const otherLearner = buildOrganizationLearner({ organizationId });
+    const otherLearner = new OrganizationLearner(buildOrganizationLearner({ organizationId }));
     const otherParticipation = buildCampaignParticipation({
       organizationLearnerId: otherLearner.id,
       participantExternalId,
@@ -248,9 +257,9 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
     await databaseBuilder.commit();
 
     // when
-    await usecases.deleteOrganizationLearners({
+    await services.deleteOrganizationLearnersService({
       userId: adminUserId,
-      organizationLearnerIds: [organizationLearner1.id, organizationLearner2.id],
+      organizationLearners: [organizationLearner1, organizationLearner2],
       organizationId,
       userRole: 'ORGA_ADMIN',
       client: 'PIX_ORGA',
@@ -291,9 +300,9 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
     await databaseBuilder.commit();
 
     // when
-    await usecases.deleteOrganizationLearners({
+    await services.deleteOrganizationLearnersService({
       userId: adminUserId,
-      organizationLearnerIds: [organizationLearner1.id],
+      organizationLearners: [organizationLearner1],
       organizationId,
       userRole: PIX_ORGA.ROLES.ADMIN,
       client: CLIENTS.ORGA,
@@ -322,9 +331,9 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
         await databaseBuilder.commit();
 
         // when
-        await usecases.deleteOrganizationLearners({
+        await services.deleteOrganizationLearnersService({
           userId: adminUserId,
-          organizationLearnerIds: [organizationLearner1.id, organizationLearner2.id],
+          organizationLearners: [organizationLearner1, organizationLearner2],
           organizationId,
           userRole: 'ORGA_ADMIN',
           client: 'PIX_ORGA',
@@ -365,9 +374,9 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
         await databaseBuilder.commit();
 
         // when
-        await usecases.deleteOrganizationLearners({
+        await services.deleteOrganizationLearnersService({
           userId: adminUserId,
-          organizationLearnerIds: [organizationLearner1.id, organizationLearner2.id],
+          organizationLearners: [organizationLearner1, organizationLearner2],
           organizationId,
           learnerToDeleteChunkSize: 1,
           userRole: 'ORGA_ADMIN',
@@ -435,9 +444,9 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
         await databaseBuilder.commit();
 
         // when
-        await usecases.deleteOrganizationLearners({
+        await services.deleteOrganizationLearnersService({
           userId: adminUserId,
-          organizationLearnerIds: [organizationLearner1.id, organizationLearner2.id],
+          organizationLearners: [organizationLearner1, organizationLearner2],
           organizationId,
           userRole: 'ORGA_ADMIN',
           client: 'PIX_ORGA',
@@ -483,9 +492,9 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
 
     it('should delete userId on non certifiable badgesAcquisitions', async function () {
       // when
-      await usecases.deleteOrganizationLearners({
+      await services.deleteOrganizationLearnersService({
         userId: adminUserId,
-        organizationLearnerIds: [organizationLearner1.id, organizationLearner2.id],
+        organizationLearners: [organizationLearner1, organizationLearner2],
         organizationId,
         userRole: 'ORGA_ADMIN',
         client: 'PIX_ORGA',
@@ -503,9 +512,9 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
 
     it('should not delete userId on certifiable badgesAcquisitions', async function () {
       // when
-      await usecases.deleteOrganizationLearners({
+      await services.deleteOrganizationLearnersService({
         userId: adminUserId,
-        organizationLearnerIds: [organizationLearner1.id, organizationLearner2.id],
+        organizationLearners: [organizationLearner1, organizationLearner2],
         organizationId,
         userRole: 'ORGA_ADMIN',
         client: 'PIX_ORGA',
@@ -526,7 +535,7 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
   context('when there are profile rewards link to learner', function () {
     it('should detach profile-rewards', async function () {
       // given
-      const learner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      const learner = new OrganizationLearner(databaseBuilder.factory.buildOrganizationLearner({ organizationId }));
 
       const profileRewardId = databaseBuilder.factory.buildProfileReward({
         userId: learner.userId,
@@ -539,9 +548,9 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
       await databaseBuilder.commit();
 
       // when
-      await usecases.deleteOrganizationLearners({
+      await services.deleteOrganizationLearnersService({
         userId: adminUserId,
-        organizationLearnerIds: [organizationLearner1.id, organizationLearner2.id, learner.id],
+        organizationLearners: [organizationLearner1, organizationLearner2, learner],
         organizationId,
         userRole: 'ORGA_ADMIN',
         client: 'PIX_ORGA',
@@ -572,7 +581,7 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
 
       organizationId = buildOrganization().id;
 
-      organizationLearner = buildOrganizationLearner({ organizationId, userId });
+      organizationLearner = new OrganizationLearner(buildOrganizationLearner({ organizationId, userId }));
 
       campaignParticipationId = buildCampaignParticipation({
         userId,
@@ -587,8 +596,8 @@ describe('Integration | UseCase | Organization Learners Management | Delete Orga
 
     it('should delete campaignParticipationId', async function () {
       //when
-      await usecases.deleteOrganizationLearners({
-        organizationLearnerIds: [organizationLearner.id],
+      await services.deleteOrganizationLearnersService({
+        organizationLearners: [organizationLearner],
         userId: adminUserId,
         organizationId,
         userRole: 'ORGA_ADMIN',
