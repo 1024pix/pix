@@ -9,11 +9,14 @@ const up = async function (knex) {
       'badge-criteria.scope': 'EveryPartnerCompetence',
     });
 
-  let badgesWithPartnerCompetences = _.groupBy(badgesAndPartnerCompetences, 'badgeId');
-  badgesWithPartnerCompetences = _.map(badgesWithPartnerCompetences, (partnerCompetencesInfos, badgeId) => {
-    const partnerCompetenceIds = _(partnerCompetencesInfos).map('partnerCompetenceId').filter(null).value();
-    return [badgeId, partnerCompetenceIds];
-  });
+  const badgesWithPartnerCompetences = Object.entries(_.groupBy(badgesAndPartnerCompetences, 'badgeId')).map(
+    ([badgeId, partnerCompetencesInfos]) => {
+      const partnerCompetenceIds = partnerCompetencesInfos
+        .map((partnerCompetencesInfo) => partnerCompetencesInfo.partnerCompetenceId)
+        .filter(Boolean);
+      return [badgeId, partnerCompetenceIds];
+    },
+  );
 
   for (const badgeWithPartnerCompetences of badgesWithPartnerCompetences) {
     const badgeId = badgeWithPartnerCompetences[0];
