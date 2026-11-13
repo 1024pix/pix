@@ -56,3 +56,10 @@ export const COMBINED_COURSE_HEADER = {
     }),
   ],
 };
+export const COMBINED_COURSE_DURATION_OPTIONS = {
+  VERY_SHORT: 'very_short',
+  SHORT: 'short',
+  MEDIUM: 'medium',
+  LONG: 'long',
+  VERY_LONG: 'very_long',
+};

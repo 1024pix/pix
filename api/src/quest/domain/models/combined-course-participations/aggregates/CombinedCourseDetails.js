@@ -30,6 +30,8 @@ export class CombinedCourseDetails extends CombinedCourse {
   #organizationLearner = null;
   dataForQuest = null;
   reward = null;
+  organizationName = null;
+  organizationLogoUrl = null;
 
   constructor(
     { id, code, organizationId, name, description, illustration, questId, baseSurveyUrl, durationSpan },
@@ -54,6 +56,11 @@ export class CombinedCourseDetails extends CombinedCourse {
   setItems({ campaigns, modules }) {
     this.campaigns = campaigns;
     this.modules = modules;
+  }
+
+  setOrganizationDetails(organizationDetails) {
+    this.organizationName = organizationDetails.name;
+    this.organizationLogoUrl = organizationDetails.logoUrl;
   }
 
   get hasCampaigns() {
@@ -299,9 +306,13 @@ export class CombinedCourseDetails extends CombinedCourse {
     }
   }
 
+  setReward(reward) {
+    this.reward = reward ? new CombinedCourseReward({ combinedCourseDetails: this, reward }) : null;
+  }
+
   setDataAndGenerateItems({
     recommendedModuleIdsForUser = [],
-    dataForQuest,
+    dataForQuest = null,
     participation = null,
     organizationLearner = null,
     reward = null,
@@ -310,7 +321,7 @@ export class CombinedCourseDetails extends CombinedCourse {
     this.#participation = participation;
     this.#organizationLearner = organizationLearner;
     this.#generateItems({ dataForQuest });
-    this.reward = reward ? new CombinedCourseReward({ combinedCourseDetails: this, reward }) : null;
+    this.setReward(reward);
   }
 
   isSuccessful() {

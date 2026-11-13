@@ -1,6 +1,7 @@
 import * as organizationLearnerPrescriptionRepository from '../../../prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import * as accessCodeGenerator from '../../../shared/domain/services/access-code-generator.js';
 import * as organizationFeatureRepository from '../../../shared/infrastructure/repositories/organization-feature-repository.js';
+import * as organizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import * as membershipRepository from '../../../team/infrastructure/repositories/membership.repository.js';
@@ -45,6 +46,7 @@ const dependencies = {
   organizationFeatureRepository,
   organizationLearnerRepository,
   organizationLearnerPrescriptionRepository,
+  organizationRepository,
   combinedCourseBlueprintRepository,
   courseRepository: repositories.courseRepository,
   campaignParticipationRepository: repositories.campaignParticipationRepository,

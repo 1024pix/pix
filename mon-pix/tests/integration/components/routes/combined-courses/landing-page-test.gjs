@@ -94,6 +94,25 @@ module('Integration | Component | Combined Courses | Landing page', function (ho
         assert.notOk(screen.queryByText(t('pages.campaign-landing.has-reward')));
       });
     });
+    module('when there is no logo', function () {
+      test('should not display logo', async function (assert) {
+        //given
+        const store = this.owner.lookup('service:store');
+
+        const combinedCourse = store.createRecord('combined-course', {
+          organizationId: 1,
+          organizationName: 'Not pix',
+        });
+
+        //when
+        const screen = await render(
+          <template><CombinedCourseLandingPage @combinedCourse={{combinedCourse}} /></template>,
+        );
+
+        //then
+        assert.notOk(await screen.queryByAltText(combinedCourse.organizationName));
+      });
+    });
     module('in every case', function () {
       test('should display combined course name and organization name', async function (assert) {
         // given
