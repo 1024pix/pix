@@ -22,7 +22,7 @@ const getUserProfile = async function ({
     competenceEvaluations.map((competenceEvaluation) => [competenceEvaluation.competenceId, competenceEvaluation]),
   );
 
-  const scorecards = _.map(competences, (competence) => {
+  const scorecards = competences.map((competence) => {
     const competenceId = competence.id;
     const knowledgeElementsForCompetence = knowledgeElementsGroupedByCompetenceId[competenceId];
     const competenceEvaluation = competenceEvaluationsByCompetenceId.get(competenceId);
