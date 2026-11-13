@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { learnerManagementDomainErrorMappingConfiguration } from '../../../../../src/prescription/learner-management/application/http-error-mapper-configuration.js';
 import {
   AggregateImportError,
-  CouldNotDeleteLearnersError,
   SiecleXmlImportError,
 } from '../../../../../src/prescription/learner-management/domain/errors.js';
 import { PreconditionFailedError } from '../../../../../src/shared/application/errors/http-errors.js';
@@ -26,19 +25,6 @@ describe('Prescription | Learner Management | Unit | Application | HttpErrorMapp
       new PreconditionFailedError(error1.message, error1.code),
       new PreconditionFailedError(error2.message, error2.code),
     ]);
-  });
-
-  it('instantiates PreconditionFailedError when CouldNotDeleteLearnersError', async function () {
-    //given
-    const httpErrorMapper = learnerManagementDomainErrorMappingConfiguration.find(
-      (httpErrorMapper) => httpErrorMapper.name === CouldNotDeleteLearnersError.name,
-    );
-
-    //when
-    const error = httpErrorMapper.httpErrorFn(new CouldNotDeleteLearnersError());
-
-    //then
-    expect(error).to.be.instanceOf(PreconditionFailedError);
   });
 
   it('instantiates PreconditionFailedError when SiecleXmlImportError', async function () {

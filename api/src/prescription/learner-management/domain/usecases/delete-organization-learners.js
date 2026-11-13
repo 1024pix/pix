@@ -1,4 +1,3 @@
-import { OrganizationLearnerList } from '../models/OrganizationLearnerList.js';
 import { services } from '../services/index.js';
 
 const deleteOrganizationLearners = async function ({
@@ -10,25 +9,15 @@ const deleteOrganizationLearners = async function ({
   disableAuditLogger = false, // true in case of dryRun to not instantiate jobs
   organizationLearnerRepository,
 }) {
-  if (organizationLearnerIds.length === 0) {
-    return;
-  }
+  if (organizationLearnerIds.length === 0) return;
 
-  const organizationLearnersFromOrganization =
+  const organizationLearnersToDelete =
     await organizationLearnerRepository.findOrganizationLearnersByOrganizationIdAndLearnerIds({
       organizationId,
       organizationLearnerIds,
     });
 
-  const organizationLearnerList = new OrganizationLearnerList({
-    organizationId,
-    organizationLearners: organizationLearnersFromOrganization,
-  });
-
-  const organizationLearnersToDelete = organizationLearnerList.getDeletableOrganizationLearners(
-    organizationLearnerIds,
-    userId,
-  );
+  if (organizationLearnersToDelete.length === 0) return;
 
   await services.deleteOrganizationLearnersService({
     organizationLearners: organizationLearnersToDelete,
