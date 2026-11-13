@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import iconv from 'iconv-lite';
-import lodash from 'lodash';
 
 import { ORGANIZATIONS_UPDATE_HEADER } from '../../../../../src/organizational-entities/domain/constants.js';
 import { PIX_ADMIN } from '../../../../../src/shared/constants.js';
@@ -11,7 +10,6 @@ import { getServer } from '../../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../../tooling/test-utils/http-server.js';
 
 const { ROLES } = PIX_ADMIN;
-const { map: _map } = lodash;
 
 describe('Acceptance | Organizational Entities | Application | Route | Admin | Organization', function () {
   let superAdmin;
@@ -259,7 +257,7 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | O
             // then
             expect(response.statusCode).to.equal(200);
             expect(response.result.data).to.have.lengthOf(2);
-            expect(_map(response.result.data, 'id')).to.have.members([`${firstChild.id}`, `${secondChild.id}`]);
+            expect(response.result.data.map(({ id }) => id)).to.have.members([`${firstChild.id}`, `${secondChild.id}`]);
           });
         });
       });

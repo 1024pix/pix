@@ -389,7 +389,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
 
         // then
         expect(matchingCertificationCenters).to.have.lengthOf(2);
-        expect(_.map(matchingCertificationCenters, 'name')).to.have.members([
+        expect(matchingCertificationCenters.map((item) => item.name)).to.have.members([
           'Dragon & co center',
           'Dragonades & co center',
         ]);
@@ -418,7 +418,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         );
 
         // then
-        expect(_.map(matchingOrganizations, 'name')).to.have.members([
+        expect(matchingOrganizations.map((item) => item.name)).to.have.members([
           'Centre de certification College',
           'Centre de certification Collège+',
         ]);
@@ -444,7 +444,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        expect(_.map(matchingCertificationCenters, 'type')).to.have.members(['SUP', 'SCO']);
+        expect(matchingCertificationCenters.map((item) => item.type)).to.have.members(['SUP', 'SCO']);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
@@ -466,7 +466,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        expect(_.map(matchingCertificationCenters, 'externalId')).to.have.members(['AZH578', 'AZH002']);
+        expect(matchingCertificationCenters.map((item) => item.externalId)).to.have.members(['AZH578', 'AZH002']);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
@@ -489,9 +489,17 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
             await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
           // then
-          expect(_.map(matchingCertificationCenters, 'name')).to.have.members(['name_ok_1', 'name_ok_2', 'name_ok_3']);
-          expect(_.map(matchingCertificationCenters, 'type')).to.have.members(['SCO', 'SCO', 'SCO']);
-          expect(_.map(matchingCertificationCenters, 'externalId')).to.have.members(['c_ok_1', 'c_ok_2', 'c_ok_3']);
+          expect(matchingCertificationCenters.map((item) => item.name)).to.have.members([
+            'name_ok_1',
+            'name_ok_2',
+            'name_ok_3',
+          ]);
+          expect(matchingCertificationCenters.map((item) => item.type)).to.have.members(['SCO', 'SCO', 'SCO']);
+          expect(matchingCertificationCenters.map((item) => item.externalId)).to.have.members([
+            'c_ok_1',
+            'c_ok_2',
+            'c_ok_3',
+          ]);
           expect(pagination).to.deep.equal(expectedPagination);
         });
       },
@@ -515,7 +523,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         });
 
         // then
-        expect(_.map(matchingCertificationCenters, 'name')).to.have.members(['name_ok_1', 'name_ok_3']);
+        expect(matchingCertificationCenters.map((item) => item.name)).to.have.members(['name_ok_1', 'name_ok_3']);
       });
     });
 
@@ -535,7 +543,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        expect(_.map(matchingCertificationCenters, 'id')).to.have.members([1, 2]);
+        expect(matchingCertificationCenters.map((item) => item.id)).to.have.members([1, 2]);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
