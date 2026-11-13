@@ -1,4 +1,3 @@
-import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 import { Element } from './Element.js';
 
 /**
@@ -13,9 +12,6 @@ import { Element } from './Element.js';
 class CustomElement extends Element {
   constructor({ id, title, instruction, functionalInstruction, tagName, props }) {
     super({ id, type: 'custom' });
-
-    assertNotNullOrUndefined(tagName, 'The tagName is required for a CustomElement element');
-    assertNotNullOrUndefined(props, 'The props are required for a CustomElement element');
 
     this.tagName = tagName;
     this.props = props;

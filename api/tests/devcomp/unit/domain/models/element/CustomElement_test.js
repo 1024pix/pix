@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 
 import { CustomElement } from '../../../../../../src/devcomp/domain/models/element/CustomElement.js';
-import { DomainError } from '../../../../../../src/shared/domain/errors.js';
-import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | CustomElement', function () {
   describe('#constructor', function () {
@@ -74,37 +72,6 @@ describe('Unit | Devcomp | Domain | Models | Element | CustomElement', function 
       expect(result.tagName).to.equal(attributes.tagName);
       expect(result.props).to.deep.equal(attributes.props);
       expect(result.type).to.equal('custom');
-    });
-  });
-
-  describe('A CustomElement without a tagName', function () {
-    it('should throw an error', function () {
-      const attributes = {
-        id: '5ce0ddf1-8620-43b5-9e43-cd9b2ffaca17',
-        instruction: 'Instruction',
-      };
-      // when
-      const error = catchErrSync(() => new CustomElement(attributes))();
-
-      // then
-      expect(error).to.be.instanceOf(DomainError);
-      expect(error.message).to.equal('The tagName is required for a CustomElement element');
-    });
-  });
-
-  describe('A CustomElement without props', function () {
-    it('should throw an error', function () {
-      const attributes = {
-        id: '5ce0ddf1-8620-43b5-9e43-cd9b2ffaca17',
-        instruction: 'Instruction',
-        tagName: 'qcu-image',
-      };
-      // when
-      const error = catchErrSync(() => new CustomElement(attributes))();
-
-      // then
-      expect(error).to.be.instanceOf(DomainError);
-      expect(error.message).to.equal('The props are required for a CustomElement element');
     });
   });
 });
