@@ -1,5 +1,4 @@
 import { PixButtonLink, PixIconButton, PixTooltip } from '@1024pix/nebulix-ember';
-import isClipboardSupported from 'ember-cli-clipboard/helpers/is-clipboard-supported';
 import t from 'ember-intl/helpers/t';
 
 <template>
@@ -11,25 +10,23 @@ import t from 'ember-intl/helpers/t';
           }}</h3>
         <div class='session-details-content__clipboard'>
           <span class='content-text content-text--bold session-details-content__text'>{{@controller.session.id}}</span>
-          {{#if (isClipboardSupported)}}
-            <PixTooltip
-              @id='tooltip-clipboard-button'
-              class='session-details-content__clipboard-button'
-              @isInline={{true}}
-              @hide={{@controller.isSessionNumberTooltipTextEmpty}}
-            >
-              <:triggerElement>
-                <PixIconButton
-                  @ariaLabel={{t 'pages.sessions.detail.parameters.session.copy-number'}}
-                  @iconName='copy'
-                  @plainIcon={{true}}
-                  @triggerAction={{@controller.showSessionIdTooltip}}
-                  class='session-details-content__clipboard-button'
-                />
-              </:triggerElement>
-              <:tooltip>{{@controller.sessionNumberTooltipText}}</:tooltip>
-            </PixTooltip>
-          {{/if}}
+          <PixTooltip
+            @id='tooltip-clipboard-button'
+            class='session-details-content__clipboard-button'
+            @isInline={{true}}
+            @hide={{@controller.isSessionNumberTooltipTextEmpty}}
+          >
+            <:triggerElement>
+              <PixIconButton
+                @ariaLabel={{t 'pages.sessions.detail.parameters.session.copy-number'}}
+                @iconName='copy'
+                @plainIcon={{true}}
+                @triggerAction={{@controller.showSessionIdTooltip}}
+                class='session-details-content__clipboard-button'
+              />
+            </:triggerElement>
+            <:tooltip>{{@controller.sessionNumberTooltipText}}</:tooltip>
+          </PixTooltip>
         </div>
       </div>
 
@@ -44,25 +41,23 @@ import t from 'ember-intl/helpers/t';
           <span
             class='content-text content-text--bold session-details-content__text'
           >{{@controller.session.accessCode}}</span>
-          {{#if (isClipboardSupported)}}
-            {{! template-lint-disable no-duplicate-id }}
-            <PixTooltip
-              @id='tooltip-clipboard-button'
-              class='session-details-content__clipboard-button'
-              @isInline={{true}}
-              @hide={{@controller.isAccessCodeTooltipTextEmpty}}
-            >
-              <:triggerElement>
-                <PixIconButton
-                  @ariaLabel={{t 'pages.sessions.detail.parameters.access-code.copy-code'}}
-                  @iconName='copy'
-                  @plainIcon={{true}}
-                  @triggerAction={{@controller.showAccessCodeTooltip}}
-                />
-              </:triggerElement>
-              <:tooltip>{{@controller.accessCodeTooltipText}}</:tooltip>
-            </PixTooltip>
-          {{/if}}
+          {{! template-lint-disable no-duplicate-id }}
+          <PixTooltip
+            @id='tooltip-clipboard-button'
+            class='session-details-content__clipboard-button'
+            @isInline={{true}}
+            @hide={{@controller.isAccessCodeTooltipTextEmpty}}
+          >
+            <:triggerElement>
+              <PixIconButton
+                @ariaLabel={{t 'pages.sessions.detail.parameters.access-code.copy-code'}}
+                @iconName='copy'
+                @plainIcon={{true}}
+                @triggerAction={{@controller.showAccessCodeTooltip}}
+              />
+            </:triggerElement>
+            <:tooltip>{{@controller.accessCodeTooltipText}}</:tooltip>
+          </PixTooltip>
         </div>
       </div>
 
@@ -78,24 +73,22 @@ import t from 'ember-intl/helpers/t';
             C-{{@controller.session.invigilatorPassword}}
           </span>
           {{! template-lint-disable no-duplicate-id }}
-          {{#if (isClipboardSupported)}}
-            <PixTooltip
-              @id='tooltip-clipboard-button'
-              @isInline={{true}}
-              @hide={{@controller.isInvigilatorPasswordTooltipTextEmpty}}
-              class='session-details-content__clipboard-button'
-            >
-              <:triggerElement>
-                <PixIconButton
-                  @ariaLabel={{t 'pages.sessions.detail.parameters.password.copy-password'}}
-                  @iconName='copy'
-                  @plainIcon={{true}}
-                  @triggerAction={{@controller.showInvigilatorPasswordTooltip}}
-                />
-              </:triggerElement>
-              <:tooltip>{{@controller.invigilatorPasswordTooltipText}}</:tooltip>
-            </PixTooltip>
-          {{/if}}
+          <PixTooltip
+            @id='tooltip-clipboard-button'
+            @isInline={{true}}
+            @hide={{@controller.isInvigilatorPasswordTooltipTextEmpty}}
+            class='session-details-content__clipboard-button'
+          >
+            <:triggerElement>
+              <PixIconButton
+                @ariaLabel={{t 'pages.sessions.detail.parameters.password.copy-password'}}
+                @iconName='copy'
+                @plainIcon={{true}}
+                @triggerAction={{@controller.showInvigilatorPasswordTooltip}}
+              />
+            </:triggerElement>
+            <:tooltip>{{@controller.invigilatorPasswordTooltipText}}</:tooltip>
+          </PixTooltip>
         </div>
       </div>
 
