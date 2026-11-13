@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import _ from 'lodash';
 import samlify from 'samlify';
 import sinon from 'sinon';
 
@@ -165,12 +164,13 @@ describe('Acceptance | Identity Access Management | Route | Saml', function () {
             '{AttributeStatement}',
             `
           <saml2:AttributeStatement xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
-            ${_.map(
-              attributes,
-              (value, key) => `<saml2:Attribute Name="${key}">
+            ${Object.entries(attributes)
+              .map(
+                ([key, value]) => `<saml2:Attribute Name="${key}">
                                                  <saml2:AttributeValue>${value}</saml2:AttributeValue>
                                                </saml2:Attribute>`,
-            ).join('\n')}
+              )
+              .join('\n')}
           </saml2:AttributeStatement>`,
           ),
         );
