@@ -74,6 +74,7 @@ const dependencies = {
 
 import { anonymizeUser } from './anonymize-user.js';
 import { computeOrganizationLearnerCertificability } from './compute-organization-learner-certificability.js';
+import { deleteLearnersFromVariousOrganizations } from './delete-learners-from-various-organizations.js';
 import { deleteOrganizationLearners } from './delete-organization-learners.js';
 import { dissociateUserFromOrganizationLearner } from './dissociate-user-from-organization-learner.js';
 import { findAllOrganizationLearnerImportFormats } from './find-all-organization-learner-import-format.js';
@@ -111,6 +112,7 @@ const usecasesWithoutInjectedDependencies = {
   importLearnersFromSiecleFile,
   anonymizeUser,
   computeOrganizationLearnerCertificability,
+  deleteLearnersFromVariousOrganizations,
   deleteOrganizationLearners,
   dissociateUserFromOrganizationLearner,
   findAllOrganizationLearnerImportFormats,
