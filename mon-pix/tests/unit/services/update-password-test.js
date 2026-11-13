@@ -20,13 +20,8 @@ module('Unit | Service | update-password', function (hooks) {
         url: `${ENV.APP.API_HOST}/api/users/me/password`,
         method: 'POST',
         body: JSON.stringify({
-          data: {
-            type: 'password-updates',
-            attributes: {
-              'current-password': 'currentPassword123',
-              'new-password': 'newPassword123',
-            },
-          },
+          'current-password': 'currentPassword123',
+          'new-password': 'newPassword123',
         }),
       }),
     );

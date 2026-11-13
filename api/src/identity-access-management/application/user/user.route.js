@@ -104,7 +104,7 @@ export const userRoutes = [
       handler: (request, h) => userController.getUserAuthenticationMethods(request, h),
       notes: [
         '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          "- Elle permet la récupération des noms des méthodes de connexion de l'utilisateur.",
+        "- Elle permet la récupération des noms des méthodes de connexion de l'utilisateur.",
       ],
       tags: ['identity-access-management', 'api', 'user', 'authentication-methods'],
     },
@@ -162,8 +162,8 @@ export const userRoutes = [
       handler: (request, h) => userController.upgradeToRealUser(request, h),
       notes: [
         '- **Cette route est restreinte aux utilisateurs anonymes**\n' +
-          "- Crée un compte Pix en conservant les points et l'id de l'utilisateur anonyme" +
-          '- L’id demandé doit correspondre à celui de l’utilisateur à enrichir',
+        "- Crée un compte Pix en conservant les points et l'id de l'utilisateur anonyme" +
+        '- L’id demandé doit correspondre à celui de l’utilisateur à enrichir',
       ],
       tags: ['identity-access-management', 'api', 'user'],
     },
@@ -186,9 +186,9 @@ export const userRoutes = [
       handler: (request, h) => userController.acceptPixAppTermsOfService(request, h),
       notes: [
         '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          "- Sauvegarde le fait que l'utilisateur a accepté les dernières Conditions Générales d'Utilisation de Pix App\n" +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
-          "- Le contenu de la requête n'est pas pris en compte.",
+        "- Sauvegarde le fait que l'utilisateur a accepté les dernières Conditions Générales d'Utilisation de Pix App\n" +
+        '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
+        "- Le contenu de la requête n'est pas pris en compte.",
       ],
       tags: ['identity-access-management', 'api', 'user'],
     },
@@ -211,9 +211,9 @@ export const userRoutes = [
       handler: (request, h) => userController.acceptPixOrgaTermsOfService(request, h),
       notes: [
         '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          "- Sauvegarde le fait que l'utilisateur a accepté les Conditions Générales d'Utilisation de Pix Orga\n" +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
-          "- Le contenu de la requête n'est pas pris en compte.",
+        "- Sauvegarde le fait que l'utilisateur a accepté les Conditions Générales d'Utilisation de Pix Orga\n" +
+        '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
+        "- Le contenu de la requête n'est pas pris en compte.",
       ],
       tags: ['identity-access-management', 'api', 'user'],
     },
@@ -236,9 +236,9 @@ export const userRoutes = [
       handler: (request, h) => userController.acceptPixCertifTermsOfService(request, h),
       notes: [
         '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          "- Sauvegarde le fait que l'utilisateur a accepté les Conditions Générales d'Utilisation de Pix Certif\n" +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
-          "- Le contenu de la requête n'est pas pris en compte.",
+        "- Sauvegarde le fait que l'utilisateur a accepté les Conditions Générales d'Utilisation de Pix Certif\n" +
+        '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
+        "- Le contenu de la requête n'est pas pris en compte.",
       ],
       tags: ['identity-access-management', 'api', 'user'],
     },
@@ -262,9 +262,9 @@ export const userRoutes = [
       handler: (request, h) => userController.changeUserLocale(request, h),
       notes: [
         '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          "- Modifie la langue de l'utilisateur\n" +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
-          '- La lang contient les deux lettres de la langue choisie.',
+        "- Modifie la langue de l'utilisateur\n" +
+        '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
+        '- La lang contient les deux lettres de la langue choisie.',
       ],
       tags: ['identity-access-management', 'api', 'user'],
     },
@@ -287,8 +287,8 @@ export const userRoutes = [
       handler: (request, h) => userController.rememberUserHasSeenLastDataProtectionPolicyInformation(request, h),
       notes: [
         '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          "- Sauvegarde le fait que l'utilisateur ait vu la nouvelle politique de confidentialité Pix" +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        "- Sauvegarde le fait que l'utilisateur ait vu la nouvelle politique de confidentialité Pix" +
+        '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
       ],
       tags: ['identity-access-management', 'api', 'user'],
     },
@@ -309,8 +309,8 @@ export const userRoutes = [
       handler: (request, h) => userController.validateUserAccountEmail(request, h),
       notes: [
         '- **Cette route est publique**\n' +
-          "- Valide l'email du compte utilisateur puis le redirige vers la redirect_url\n" +
-          '- Le token de validation en paramètre doit correspondre à celui de l’utilisateur',
+        "- Valide l'email du compte utilisateur puis le redirige vers la redirect_url\n" +
+        '- Le token de validation en paramètre doit correspondre à celui de l’utilisateur',
       ],
       tags: ['identity-access-management', 'api', 'user'],
     },
@@ -396,13 +396,8 @@ export const userRoutes = [
           allowUnknown: true,
         },
         payload: Joi.object({
-          data: {
-            type: Joi.string().valid('password-updates').required(),
-            attributes: {
-              'current-password': Joi.string().required(),
-              'new-password': PasswordSchema.required(),
-            },
-          },
+          'current-password': Joi.string().required(),
+          'new-password': PasswordSchema.required(),
         }),
         failAction: (request, h, error) => {
           return EntityValidationError.fromJoiErrors(error.details);
@@ -433,8 +428,8 @@ export const userRoutes = [
       handler: userController.rememberUserHasSeenChallengeTooltip,
       notes: [
         '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          "- Sauvegarde le fait que l'utilisateur ait vu la tooltip de type d'épreuve" +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        "- Sauvegarde le fait que l'utilisateur ait vu la tooltip de type d'épreuve" +
+        '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         "- Le contenu de la requête n'est pas pris en compte.",
       ],
       tags: ['api', 'user'],

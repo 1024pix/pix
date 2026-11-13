@@ -9,13 +9,8 @@ export default class UpdatePasswordService extends Service {
       url: `${ENV.APP.API_HOST}/api/users/me/password`,
       method: 'POST',
       body: JSON.stringify({
-        data: {
-          type: 'password-updates',
-          attributes: {
-            'current-password': currentPassword,
-            'new-password': newPassword,
-          },
-        },
+        'current-password': currentPassword,
+        'new-password': newPassword,
       }),
     });
   }
