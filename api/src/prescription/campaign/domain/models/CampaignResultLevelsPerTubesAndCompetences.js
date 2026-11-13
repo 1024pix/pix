@@ -5,8 +5,9 @@ class CampaignResultLevelsPerTubesAndCompetences {
   #tubesWithLevels;
   #competencesWithLevels;
 
-  constructor({ id, learningContent } = {}) {
+  constructor({ id, masteryRate, learningContent } = {}) {
     this.id = id;
+    this.masteryRate = masteryRate;
     this.learningContent = learningContent;
 
     this.#tubesWithLevels = learningContent.tubes.map((tube) => {
