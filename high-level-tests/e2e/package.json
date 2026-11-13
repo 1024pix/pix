@@ -39,7 +39,7 @@
     "cypress-on-fix": "1.1.0",
     "cypress-split": "1.25.0",
     "eslint": "10.14.0",
-    "eslint-plugin-cypress": "7.0.2",
+    "eslint-plugin-cypress": "7.0.3",
     "npm-run-all2": "9.0.4"
   },
   "dependencies": {
