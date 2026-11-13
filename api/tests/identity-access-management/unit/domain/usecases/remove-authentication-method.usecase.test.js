@@ -43,7 +43,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | remove-authenti
       }),
       domainBuilder.buildAuthenticationMethod.withIdentityProvider({
         userId,
-        identityProvider: 'genericOidcProviderCode',
+        identityProviderCode: 'genericOidcProviderCode',
       }),
     ];
   }

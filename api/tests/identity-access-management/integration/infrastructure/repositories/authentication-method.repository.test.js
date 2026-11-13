@@ -316,7 +316,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
         userId,
-        identityProvider: 'SOME_IDENTITY_PROVIDER',
+        identityProviderCode: 'SOME_IDENTITY_PROVIDER',
       });
       await databaseBuilder.commit();
 
@@ -391,7 +391,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         const user = databaseBuilder.factory.buildUser();
         databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
           userId: user.id,
-          identityProvider: 'OIDC_PARTNER',
+          identityProviderCode: 'OIDC_PARTNER',
           authenticationComplement: { hello: 'world' },
         });
         await databaseBuilder.commit();
@@ -662,7 +662,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
           userId,
           externalIdentifier: 'some-external-identifier',
-          identityProvider: 'SOME_IDENTITY_PROVIDER',
+          identityProviderCode: 'SOME_IDENTITY_PROVIDER',
           authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({ foo: 'bar' }),
         });
         return databaseBuilder.commit();
@@ -810,11 +810,11 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
       databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId });
       const oidcAuthMethod1 = databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
         userId,
-        identityProvider: 'firstOidcProvider',
+        identityProviderCode: 'firstOidcProvider',
       });
       const oidcAuthMethod2 = databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
         userId,
-        identityProvider: 'secondOidcProvider',
+        identityProviderCode: 'secondOidcProvider',
       });
       await databaseBuilder.commit();
 

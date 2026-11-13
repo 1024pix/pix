@@ -150,7 +150,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | find-user-for-o
       // given
       const oidcAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
         externalIdentifier: '789fge',
-        identityProvider: 'SOME_IDENTITY_PROVIDER',
+        identityProviderCode: 'SOME_IDENTITY_PROVIDER',
       });
       pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
       authenticationMethodRepository.findByUserId.resolves([oidcAuthenticationMethod]);

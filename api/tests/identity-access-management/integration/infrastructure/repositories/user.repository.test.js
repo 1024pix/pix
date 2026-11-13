@@ -59,7 +59,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           const userId = databaseBuilder.factory.buildUser().id;
           databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
             externalIdentifier: externalIdentityId,
-            identityProvider: 'genericOidcProviderCode',
+            identityProviderCode: 'genericOidcProviderCode',
             userId,
           });
           await databaseBuilder.commit();

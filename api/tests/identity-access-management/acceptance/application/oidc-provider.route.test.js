@@ -209,7 +209,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
 
           const userId = databaseBuilder.factory.buildUser({ firstName, lastName }).id;
           databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-            identityProvider: 'OIDC_EXAMPLE_NET',
+            identityProviderCode: 'OIDC_EXAMPLE_NET',
             externalIdentifier,
             userId,
           });
@@ -292,7 +292,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
 
           const userId = databaseBuilder.factory.buildUser({ firstName, lastName }).id;
           databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-            identityProvider: 'OIDC2-ADMIN-FR',
+            identityProviderCode: 'OIDC2-ADMIN-FR',
             externalIdentifier,
             userId,
           });
@@ -337,7 +337,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
 
           const userId = databaseBuilder.factory.buildUser.withRole({ firstName, lastName, role: 'SUPER_ADMIN' }).id;
           databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-            identityProvider: 'OIDC2-ADMIN-FR',
+            identityProviderCode: 'OIDC2-ADMIN-FR',
             externalIdentifier,
             userId,
           });
@@ -776,7 +776,7 @@ describe('Acceptance | Identity Access Management | Application | Route | oidc-p
 
             const userId = databaseBuilder.factory.buildUser({ firstName, lastName }).id;
             databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-              identityProvider: 'OIDC_EXAMPLE_NET',
+              identityProviderCode: 'OIDC_EXAMPLE_NET',
               externalIdentifier,
               userId,
             });

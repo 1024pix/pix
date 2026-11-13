@@ -11,7 +11,7 @@ describe('Unit | Identity Access Management | Infrastructure | Serializer | JSON
       const authenticationMethods = [
         domainBuilder.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
           userId: user.id,
-          externalIdentifier: 'SOME_IDENTITY_PROVIDER',
+          identityProviderCode: 'ZZZ_ZZZ',
         }),
       ];
 
@@ -24,7 +24,7 @@ describe('Unit | Identity Access Management | Infrastructure | Serializer | JSON
           {
             type: 'authentication-methods',
             attributes: {
-              'identity-provider': 'SOME_IDENTITY_PROVIDER',
+              'identity-provider': 'ZZZ_ZZZ',
             },
           },
         ],
