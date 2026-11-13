@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { IMPORT_STATUSES } from '../../../src/prescription/learner-management/domain/constants.js';
 import { databaseBuffer } from '../database-buffer.ts';
 import { buildOrganization } from './build-organization.js';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 const buildOrganizationImport = function buildOrganizationImports({
   id = databaseBuffer.getNextId(),

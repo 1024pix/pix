@@ -6,7 +6,7 @@ import {
 import { databaseBuffer } from '../database-buffer.ts';
 import { buildAnswer } from './build-answer.js';
 import { buildAssessment } from './build-assessment.js';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 type KnowledgeElementAttributes = {
   id?: number;
