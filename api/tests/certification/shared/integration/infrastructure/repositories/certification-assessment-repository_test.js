@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import _ from 'lodash';
 
 import { CertificationAssessment } from '../../../../../../src/certification/session-management/domain/models/CertificationAssessment.js';
 import { CertificationAnswer } from '../../../../../../src/certification/shared/domain/models/CertificationAnswer.js';
@@ -175,7 +174,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         });
 
         // then
-        expect(_.map(certificationAssessment.certificationAnswersByDate, 'id')).to.deep.equal([
+        expect(certificationAssessment.certificationAnswersByDate.map((item) => item.id)).to.deep.equal([
           firstAnswerInTime,
           secondAnswerInTime,
         ]);
@@ -188,11 +187,11 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         });
 
         // then
-        expect(_.map(certificationAssessment.certificationChallenges, 'challengeId')).to.deep.equal([
+        expect(certificationAssessment.certificationChallenges.map((item) => item.challengeId)).to.deep.equal([
           'recChalA',
           'recChalB',
         ]);
-        expect(_.map(certificationAssessment.certificationChallenges, 'type')).to.deep.equal([
+        expect(certificationAssessment.certificationChallenges.map((item) => item.type)).to.deep.equal([
           Challenge.Type.QCU,
           Challenge.Type.QCM,
         ]);

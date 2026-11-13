@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import _ from 'lodash';
 
 import * as sessionSummaryRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/session-summary-repository.js';
 import { SESSION_STATUSES } from '../../../../../../src/certification/shared/domain/value-objects/SessionStatus.ts';
@@ -106,7 +105,7 @@ describe('Integration | Repository | Session Summary', function () {
 
         // then
         expect(sessionSummaries).to.have.lengthOf(4);
-        expect(_.map(sessionSummaries, 'id')).to.deep.equal([3, 1, 2, 4]);
+        expect(sessionSummaries.map((item) => item.id)).to.deep.equal([3, 1, 2, 4]);
       });
 
       context('when sessions have candidates', function () {

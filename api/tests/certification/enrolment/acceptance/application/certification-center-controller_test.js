@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import _ from 'lodash';
 
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
@@ -63,7 +62,7 @@ describe('Acceptance | API | Certification Center', function () {
         const response = await server.inject(request);
 
         // then
-        expect(_.map(response.result.data, 'id')).to.deep.equal(['3', '2', '5', '4', '1']);
+        expect(response.result.data.map((item) => item.id)).to.deep.equal(['3', '2', '5', '4', '1']);
       });
     });
 

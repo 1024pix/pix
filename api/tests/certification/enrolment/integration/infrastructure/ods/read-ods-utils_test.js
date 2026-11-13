@@ -4,8 +4,6 @@ const { promises } = fs;
 
 const { readFile } = promises;
 
-import _ from 'lodash';
-
 const i18n = getI18n();
 
 import * as url from 'node:url';
@@ -73,7 +71,7 @@ describe('Integration | Shared | Infrastructure | Utils | Ods | read-ods-utils',
     context('when the buffer is invalid', function () {
       it('should throw a UnprocessableEntityError', async function () {
         // given
-        const alteredBuffer = Buffer.from(_.map(odsBuffer, (value) => value + 'a'));
+        const alteredBuffer = Buffer.from(odsBuffer.map((value) => value + 'a'));
 
         // when
         const result = await catchErr(extractTableDataFromOdsFile)({

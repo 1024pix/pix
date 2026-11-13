@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import _ from 'lodash';
 
 import * as competenceMarkRepository from '../../../../../../src/certification/session-management/infrastructure/repositories/competence-mark-repository.js';
 import { CompetenceMark } from '../../../../../../src/certification/shared/domain/models/CompetenceMark.js';
@@ -29,40 +28,37 @@ describe('Certification | Session-management | Integration | Infrastructure | Re
       const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
       const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId }).id;
       const anotherAssessmentResultId = databaseBuilder.factory.buildAssessmentResult().id;
-      _.map(
-        [
-          {
-            id: 1,
-            score: 13,
-            level: 2,
-            area_code: '4',
-            competence_code: '4.2',
-            competenceId: 'recABC',
-            assessmentResultId,
-          },
-          {
-            id: 2,
-            score: 10,
-            level: 1,
-            area_code: '3',
-            competence_code: '3.1',
-            competenceId: 'recDEF',
-            assessmentResultId: anotherAssessmentResultId,
-          },
-          {
-            id: 3,
-            score: 24,
-            level: 3,
-            area_code: '3',
-            competence_code: '3.1',
-            competenceId: 'recGHI',
-            assessmentResultId,
-          },
-        ],
-        (mark) => {
-          return databaseBuilder.factory.buildCompetenceMark(mark).id;
+      [
+        {
+          id: 1,
+          score: 13,
+          level: 2,
+          area_code: '4',
+          competence_code: '4.2',
+          competenceId: 'recABC',
+          assessmentResultId,
         },
-      );
+        {
+          id: 2,
+          score: 10,
+          level: 1,
+          area_code: '3',
+          competence_code: '3.1',
+          competenceId: 'recDEF',
+          assessmentResultId: anotherAssessmentResultId,
+        },
+        {
+          id: 3,
+          score: 24,
+          level: 3,
+          area_code: '3',
+          competence_code: '3.1',
+          competenceId: 'recGHI',
+          assessmentResultId,
+        },
+      ].map((mark) => {
+        return databaseBuilder.factory.buildCompetenceMark(mark).id;
+      });
       const expectedCompetenceMarks = [
         domainBuilder.buildCompetenceMark({
           id: 1,
@@ -105,57 +101,51 @@ describe('Certification | Session-management | Integration | Infrastructure | Re
         assessmentId,
         createdAt: new Date('2021-01-01'),
       }).id;
-      _.map(
-        [
-          {
-            id: 1,
-            score: 13,
-            level: 2,
-            area_code: '4',
-            competence_code: '4.2',
-            competenceId: 'recXYZ',
-            assessmentResultId: olderAssessmentResultId,
-          },
-        ],
-        (mark) => {
-          return databaseBuilder.factory.buildCompetenceMark(mark).id;
+      [
+        {
+          id: 1,
+          score: 13,
+          level: 2,
+          area_code: '4',
+          competence_code: '4.2',
+          competenceId: 'recXYZ',
+          assessmentResultId: olderAssessmentResultId,
         },
-      );
-      const expectedCompetenceMarks = _.map(
-        [
-          {
-            id: 4,
-            score: 13,
-            level: 2,
-            area_code: '4',
-            competence_code: '4.2',
-            competenceId: 'recABC',
-            assessmentResultId: latestAssessmentResult,
-          },
-          {
-            id: 5,
-            score: 10,
-            level: 1,
-            area_code: '3',
-            competence_code: '3.1',
-            competenceId: 'recDEF',
-            assessmentResultId: latestAssessmentResult,
-          },
-          {
-            id: 6,
-            score: 24,
-            level: 3,
-            area_code: '3',
-            competence_code: '3.1',
-            competenceId: 'recGHI',
-            assessmentResultId: latestAssessmentResult,
-          },
-        ],
-        (mark) => {
-          databaseBuilder.factory.buildCompetenceMark(mark);
-          return domainBuilder.buildCompetenceMark(mark);
+      ].map((mark) => {
+        return databaseBuilder.factory.buildCompetenceMark(mark).id;
+      });
+      const expectedCompetenceMarks = [
+        {
+          id: 4,
+          score: 13,
+          level: 2,
+          area_code: '4',
+          competence_code: '4.2',
+          competenceId: 'recABC',
+          assessmentResultId: latestAssessmentResult,
         },
-      );
+        {
+          id: 5,
+          score: 10,
+          level: 1,
+          area_code: '3',
+          competence_code: '3.1',
+          competenceId: 'recDEF',
+          assessmentResultId: latestAssessmentResult,
+        },
+        {
+          id: 6,
+          score: 24,
+          level: 3,
+          area_code: '3',
+          competence_code: '3.1',
+          competenceId: 'recGHI',
+          assessmentResultId: latestAssessmentResult,
+        },
+      ].map((mark) => {
+        databaseBuilder.factory.buildCompetenceMark(mark);
+        return domainBuilder.buildCompetenceMark(mark);
+      });
       await databaseBuilder.commit();
 
       // when
