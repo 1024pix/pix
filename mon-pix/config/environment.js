@@ -73,6 +73,10 @@ module.exports = function (environment) {
         }),
       IS_PROD_ENVIRONMENT: (process.env.REVIEW_APP === 'false' && environment === 'production') || false,
       ENABLE_MODULE_PREVIEW: process.env.ENABLE_MODULE_PREVIEW === 'true',
+      IS_DEV_ENVIRONMENT: process.env.NODE_ENV === 'dev',
+      MODULE_PREVIEW_ALLOWED_ORIGINS: (process.env.MODULE_PREVIEW_ALLOWED_ORIGINS || 'https://1024pix.github.io').split(
+        ',',
+      ),
       MAINTENANCE_ONGOING: process.env.MAINTENANCE_PLANIFIEE === 'enabled' || process.env.MAINTENANCE === 'enabled',
       EMBED_ALLOWED_ORIGINS: (
         process.env.EMBED_ALLOWED_ORIGINS || 'https://epreuves.pix.fr,https://1024pix.github.io'
@@ -194,6 +198,8 @@ module.exports = function (environment) {
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
     ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID = 999;
     ENV.APP.AUTO_SHARE_AFTER_DATE = '2025-07-18';
+    ENV.APP.IS_DEV_ENVIRONMENT = false;
+    ENV.APP.MODULE_PREVIEW_ALLOWED_ORIGINS = ['https://1024pix.github.io'];
 
     ENV.companion.disabled = true;
 

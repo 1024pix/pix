@@ -11,6 +11,7 @@ import ModulixGrain from 'mon-pix/components/module/grain/grain';
 import ModulixSectionTitle from 'mon-pix/components/module/section-title';
 
 import didInsert from '../../modifiers/modifier-did-insert';
+import { isModulePreviewAllowedOrigin } from '../../utils/module-preview-allowed-origins';
 
 export default class ModulixPreview extends Component {
   @service router;
@@ -99,14 +100,23 @@ export default class ModulixPreview extends Component {
 
     const isWindowOpenedFromModulixEditor = window.opener !== null;
     if (isWindowOpenedFromModulixEditor) {
-      window.addEventListener('message', (event) => {
-        if (event.data?.from === 'modulix-editor') {
-          this.module = JSON.stringify(event.data.moduleContent, null, 2);
-        }
-      });
+      window.addEventListener('message', this.receiveModulixEditorMessage);
 
       window.opener.postMessage({ from: 'pix-app', message: 'Ready to receive content !' }, '*');
     }
+  }
+
+  willDestroy() {
+    super.willDestroy(...arguments);
+    window.removeEventListener('message', this.receiveModulixEditorMessage);
+  }
+
+  @action
+  receiveModulixEditorMessage(event) {
+    if (!isModulePreviewAllowedOrigin(event.origin)) return;
+    if (event.data?.from !== 'modulix-editor') return;
+
+    this.module = JSON.stringify(event.data.moduleContent, null, 2);
   }
 
   get previewingExistingModule() {

@@ -1,9 +1,10 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 // eslint-disable-next-line no-restricted-imports
-import { click, find } from '@ember/test-helpers';
+import { click, find, settled } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import ModulixPreview from 'mon-pix/components/module/preview';
+import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -29,9 +30,11 @@ module('Integration | Component | Module | Preview', function (hooks) {
   test('should enable preview mode service', async function (assert) {
     // given
     const enableStub = sinon.stub();
+
     class PreviewModeServiceStub extends Service {
       enable = enableStub;
     }
+
     this.owner.register('service:modulixPreviewMode', PreviewModeServiceStub);
 
     // when
@@ -59,6 +62,104 @@ module('Integration | Component | Module | Preview', function (hooks) {
 
     // then
     assert.dom(screen.queryByRole('textbox', { name: 'Contenu du Module' })).exists();
+  });
+
+  module('when opened from Modulix Editor', function (hooks) {
+    const allowedOrigin = 'https://1024pix.github.io';
+    const notAllowedOrigin = 'https://evil.example';
+    const defaultModuleTitle = 'Démo preview Modulix';
+    const sentModuleTitle = 'Module envoyé par Modulix Editor';
+    const modulixEditorMessage = {
+      from: 'modulix-editor',
+      moduleContent: { title: sentModuleTitle, sections: [] },
+    };
+
+    let originalOpener;
+    let originalIsDevEnvironment;
+    let originalModulePreviewAllowedOrigins;
+
+    hooks.beforeEach(function () {
+      originalOpener = window.opener;
+      originalIsDevEnvironment = ENV.APP.IS_DEV_ENVIRONMENT;
+      originalModulePreviewAllowedOrigins = ENV.APP.MODULE_PREVIEW_ALLOWED_ORIGINS;
+
+      window.opener = { postMessage: sinon.stub() };
+      ENV.APP.IS_DEV_ENVIRONMENT = false;
+      ENV.APP.MODULE_PREVIEW_ALLOWED_ORIGINS = [allowedOrigin];
+    });
+
+    hooks.afterEach(function () {
+      window.opener = originalOpener;
+      ENV.APP.IS_DEV_ENVIRONMENT = originalIsDevEnvironment;
+      ENV.APP.MODULE_PREVIEW_ALLOWED_ORIGINS = originalModulePreviewAllowedOrigins;
+    });
+
+    async function sendMessage({ origin, data }) {
+      window.dispatchEvent(new MessageEvent('message', { origin, data }));
+      await settled();
+    }
+
+    test('should notify Modulix Editor that it is ready to receive content', async function (assert) {
+      // when
+      await render(<template><ModulixPreview /></template>);
+
+      // then
+      sinon.assert.calledOnceWithExactly(
+        window.opener.postMessage,
+        { from: 'pix-app', message: 'Ready to receive content !' },
+        '*',
+      );
+      assert.ok(true);
+    });
+
+    test('should display the module sent from an allowed origin', async function (assert) {
+      // given
+      const screen = await render(<template><ModulixPreview /></template>);
+
+      // when
+      await sendMessage({ origin: allowedOrigin, data: modulixEditorMessage });
+
+      // then
+      assert.dom(screen.getByRole('heading', { level: 1, name: sentModuleTitle })).exists();
+    });
+
+    test('should ignore the module sent from an origin which is not allowed', async function (assert) {
+      // given
+      const screen = await render(<template><ModulixPreview /></template>);
+
+      // when
+      await sendMessage({ origin: notAllowedOrigin, data: modulixEditorMessage });
+
+      // then
+      assert.dom(screen.getByRole('heading', { level: 1, name: defaultModuleTitle })).exists();
+      assert.dom(screen.queryByRole('heading', { level: 1, name: sentModuleTitle })).doesNotExist();
+    });
+
+    test('should ignore a message from an allowed origin which is not sent by Modulix Editor', async function (assert) {
+      // given
+      const screen = await render(<template><ModulixPreview /></template>);
+
+      // when
+      await sendMessage({ origin: allowedOrigin, data: { ...modulixEditorMessage, from: 'another-app' } });
+
+      // then
+      assert.dom(screen.getByRole('heading', { level: 1, name: defaultModuleTitle })).exists();
+      assert.dom(screen.queryByRole('heading', { level: 1, name: sentModuleTitle })).doesNotExist();
+    });
+
+    module('when NODE_ENV is dev', function () {
+      test('should display the module sent from an origin which is not allowed', async function (assert) {
+        // given
+        ENV.APP.IS_DEV_ENVIRONMENT = true;
+        const screen = await render(<template><ModulixPreview /></template>);
+
+        // when
+        await sendMessage({ origin: notAllowedOrigin, data: modulixEditorMessage });
+
+        // then
+        assert.dom(screen.getByRole('heading', { level: 1, name: sentModuleTitle })).exists();
+      });
+    });
   });
 
   module('when previewing an existing module passed as argument', function () {
