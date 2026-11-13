@@ -66,10 +66,10 @@ function buildCertificationResult(
   sessionId: number,
   resultRecipientEmail: string,
 ) {
-  let pixScore = null,
-    competenceMarks = null,
-    competenceMarksForDBResult = null,
-    hasAcquiredClea = null;
+  let pixScore: number | null = null;
+  let competenceMarks: Array<{ level: number; competenceCode: string }> | null = null;
+  let competenceMarksForDBResult: Array<{ level: number; competenceId: string }> | null = null;
+  let hasAcquiredClea: boolean | null = null;
   if (framework === Frameworks.CORE || framework === Frameworks.CLEA) {
     pixScore = 678;
     competenceMarks = [
