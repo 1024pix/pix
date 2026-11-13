@@ -67,6 +67,7 @@ describe('Integration | Prescription | Campaign participation | Usecase | get-re
     campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
       campaignId,
       status: CampaignParticipationStatuses.SHARED,
+      masteryRate: 0.35,
     });
 
     learningContentData.skills.forEach((skill) => {
@@ -95,6 +96,7 @@ describe('Integration | Prescription | Campaign participation | Usecase | get-re
 
     expect(result).instanceOf(CampaignResultLevelsPerTubesAndCompetences);
     expect(result.id).equal(campaignParticipation.id);
+    expect(result.masteryRate).to.equal(0.35);
     expect(result.maxReachableLevel).to.equal(1);
     expect(result.meanReachedLevel).to.equal(1);
     expect(result.levelsPerCompetence[0]).instanceOf(CompetenceResultForKnowledgeElementSnapshots);
