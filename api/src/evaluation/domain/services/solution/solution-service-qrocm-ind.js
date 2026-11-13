@@ -32,7 +32,7 @@ function _applyTreatmentsToAnswers(answers, enabledTreatments, qrocBlocksTypes =
 
 function _compareAnswersAndSolutions(answers, solutions, enabledTreatments, qrocBlocksTypes = {}) {
   const results = {};
-  _.map(answers, (answer, answerKey) => {
+  Object.entries(answers).forEach(([answerKey, answer]) => {
     const solutionVariants = solutions[answerKey];
     if (!solutionVariants) {
       logger.warn({

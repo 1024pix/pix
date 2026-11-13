@@ -144,7 +144,7 @@ function _selectOnlyOneCompetenceEvaluationByCompetence(competenceEvaluations) {
     competenceEvaluations,
     (competenceEvaluation) => competenceEvaluation.competenceId,
   );
-  return _.map(assessmentsGroupedByCompetence, _.head);
+  return Object.values(assessmentsGroupedByCompetence).map(_.head);
 }
 
 function _toDomain({ competenceEvaluation, assessment }) {
