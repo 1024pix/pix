@@ -18,7 +18,11 @@ import {
   computePixByCompetenceId,
   updateCompetenceScores,
 } from '../../domain/services/knowledge-state/competence-scores.ts';
-import { keepOneSkillPerLevel } from '../../domain/services/knowledge-state/skills.ts';
+import {
+  indexCompetenceIdsByTubeId,
+  indexSkillsById,
+  keepOneSkillPerLevel,
+} from '../../domain/services/knowledge-state/skills.ts';
 import {
   type KnowledgeStatesUpdate,
   updateKnowledgeStatesWithKnowledgeElements,
@@ -119,9 +123,23 @@ const withoutDate = (knowledgeElements: KnowledgeElement[]): KnowledgeElement[] 
 const resetSkillIdsOf = (knowledgeElements: KnowledgeElement[]): Set<string> =>
   new Set(knowledgeElements.filter(({ status }) => status === 'reset').map(({ skillId }) => skillId));
 
-const competenceIdsOf = (skills: Skill[], isKept: (skill: Skill) => boolean): string[] => [
-  ...new Set(skills.filter(isKept).map(({ competenceId }) => competenceId)),
-];
+const competenceIdsOfTubes = (skills: Skill[], tubeIds: Iterable<string>): string[] => {
+  const competenceIdByTubeId = indexCompetenceIdsByTubeId(skills);
+  const competenceIds = [...tubeIds]
+    .map((tubeId) => competenceIdByTubeId.get(tubeId))
+    .filter((competenceId) => competenceId !== undefined);
+
+  return [...new Set(competenceIds)];
+};
+
+const competenceIdsOfSkills = (skills: Skill[], skillIds: Iterable<string>): string[] => {
+  const skillById = indexSkillsById(skills);
+  const competenceIds = [...skillIds]
+    .map((skillId) => skillById.get(skillId)?.competenceId)
+    .filter((competenceId) => competenceId !== undefined);
+
+  return [...new Set(competenceIds)];
+};
 
 /** The scores of the user once their knowledge states moved. */
 const scoresAfterUpdate = (
@@ -142,8 +160,8 @@ const scoresAfterUpdate = (
     toPixByCompetenceId(userCompetenceScores),
     knowledgeStatesBefore,
     knowledgeStatesAfter,
-    competenceIdsOf(skills, ({ tubeId }) => impactedTubeIds.has(tubeId)),
-    competenceIdsOf(skills, ({ id }) => resetSkillIds.has(id)),
+    competenceIdsOfTubes(skills, impactedTubeIds),
+    competenceIdsOfSkills(skills, resetSkillIds),
     skills,
   );
 
