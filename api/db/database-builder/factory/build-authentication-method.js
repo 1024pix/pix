@@ -140,7 +140,7 @@ buildAuthenticationMethod.withOidcProviderAsIdentityProvider = function ({
   id = databaseBuffer.getNextId(),
   externalIdentifier,
   userId,
-  identityProvider,
+  identityProviderCode,
   authenticationComplement,
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-02-02'),
@@ -154,7 +154,7 @@ buildAuthenticationMethod.withOidcProviderAsIdentityProvider = function ({
   }
   const values = {
     id,
-    identityProvider,
+    identityProvider: identityProviderCode,
     externalIdentifier: generatedIdentifier,
     userId,
     authenticationComplement:
@@ -175,7 +175,7 @@ buildAuthenticationMethod.withOidcProviderAsIdentityProvider = function ({
 
 buildAuthenticationMethod.withIdentityProvider = function ({
   id = databaseBuffer.getNextId(),
-  identityProvider,
+  identityProviderCode,
   externalIdentifier,
   userId,
   createdAt = new Date('2020-01-01'),
@@ -190,7 +190,7 @@ buildAuthenticationMethod.withIdentityProvider = function ({
   }
   const values = {
     id,
-    identityProvider,
+    identityProvider: identityProviderCode,
     externalIdentifier: generatedIdentifier,
     userId,
     createdAt,

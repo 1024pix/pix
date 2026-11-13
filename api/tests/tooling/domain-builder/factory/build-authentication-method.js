@@ -127,7 +127,7 @@ buildAuthenticationMethod.withOidcProviderAsIdentityProvider = function ({
 
 buildAuthenticationMethod.withIdentityProvider = function ({
   id,
-  identityProvider,
+  identityProviderCode,
   externalIdentifier = `externalId${id}`,
   userId,
   createdAt = new Date('2020-01-01'),
@@ -138,7 +138,7 @@ buildAuthenticationMethod.withIdentityProvider = function ({
 
   return new AuthenticationMethod({
     id,
-    identityProvider,
+    identityProvider: identityProviderCode,
     externalIdentifier,
     userId,
     createdAt,

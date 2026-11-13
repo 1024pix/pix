@@ -55,7 +55,7 @@ function _buildOidcUser(databaseBuilder) {
   });
   databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
     userId: user.id,
-    identityProvider: OIDC_PROVIDER_EXAMPLE_NET_IDENTITY_PROVIDER,
+    identityProviderCode: OIDC_PROVIDER_EXAMPLE_NET_IDENTITY_PROVIDER,
   });
 }
 
