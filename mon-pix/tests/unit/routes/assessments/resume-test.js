@@ -152,6 +152,36 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
                 assert.ok(true);
               });
             });
+
+            test('should skip results page and redirect to combined course next step when campaign is part of a combined course', async function (assert) {
+              // given
+              assessment.campaign = Promise.resolve({
+                isPartOfCombinedCourse: true,
+                customResultPageButtonUrl: '/parcours/COMBINIX1/checkpoint',
+              });
+
+              // when
+              await route.redirect(assessment);
+
+              // then
+              sinon.assert.calledOnceWithExactly(route.router.replaceWith, '/parcours/COMBINIX1/checkpoint');
+              assert.ok(true);
+            });
+
+            test('should redirect to campaigns.assessment.results page when campaign is not part of a combined course', async function (assert) {
+              // given
+              assessment.campaign = Promise.resolve({
+                isPartOfCombinedCourse: false,
+                customResultPageButtonUrl: 'https://example.net',
+              });
+
+              // when
+              await route.redirect(assessment);
+
+              // then
+              sinon.assert.calledOnceWithExactly(route.router.replaceWith, 'campaigns.assessment.results', 'konami');
+              assert.ok(true);
+            });
           });
 
           module('when user has not seen checkpoint', function (hooks) {
@@ -187,6 +217,21 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
 
             // then
             sinon.assert.calledWith(route.router.replaceWith, 'campaigns.assessment.results', 'konami');
+            assert.ok(true);
+          });
+
+          test('should still redirect to campaigns.assessment.results page when campaign is part of a combined course', async function (assert) {
+            // given
+            assessment.campaign = Promise.resolve({
+              isPartOfCombinedCourse: true,
+              customResultPageButtonUrl: '/parcours/COMBINIX1/checkpoint',
+            });
+
+            // when
+            await route.redirect(assessment);
+
+            // then
+            sinon.assert.calledOnceWithExactly(route.router.replaceWith, 'campaigns.assessment.results', 'konami');
             assert.ok(true);
           });
         });

@@ -41,5 +41,20 @@ module('Unit | Route | Combined Course | Process custom passages', function (hoo
       // then
       assert.ok(replaceWithStub.notCalled);
     });
+
+    test('should not call transition if user just finished the campaign (redirected from assessments.resume)', function (assert) {
+      // given
+      const transition = {
+        from: { name: 'assessments.resume' },
+      };
+
+      sinon.stub(route, 'modelFor').returns({ code: 'test-code' });
+
+      // when
+      route.beforeModel(transition);
+
+      // then
+      assert.ok(replaceWithStub.notCalled);
+    });
   });
 });
