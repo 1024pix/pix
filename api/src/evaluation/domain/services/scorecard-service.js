@@ -20,7 +20,9 @@ export async function computeScorecard({
   const competence = await competenceRepository.get({ id: competenceId, locale });
   const competenceEvaluations = await competenceEvaluationRepository.findByUserId(userId);
 
-  const competenceEvaluation = _.find(competenceEvaluations, { competenceId: competence.id });
+  const competenceEvaluation = competenceEvaluations.find(
+    (competenceEvaluation) => competenceEvaluation.competenceId === competence.id,
+  );
   const area = await areaRepository.get({ id: competence.areaId, locale });
   return Scorecard.buildFrom({
     userId,

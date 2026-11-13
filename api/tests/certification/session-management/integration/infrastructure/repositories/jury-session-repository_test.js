@@ -156,8 +156,8 @@ describe('Integration | Repository | JurySession', function () {
         });
 
         // then
-        const sessionWithOfficer = _.find(matchingJurySessions, { id: sessionWithCertificationOfficerId });
-        const anotherSession = _.find(matchingJurySessions, { id: sessionWithoutCertificationCenterId });
+        const sessionWithOfficer = matchingJurySessions.find(({ id }) => id === sessionWithCertificationOfficerId);
+        const anotherSession = matchingJurySessions.find(({ id }) => id === sessionWithoutCertificationCenterId);
         expect(sessionWithOfficer.assignedCertificationOfficer).be.an.instanceOf(CertificationOfficer);
         expect(anotherSession.assignedCertificationOfficer).not.be.an.instanceOf(CertificationOfficer);
       });

@@ -26,7 +26,7 @@ async function addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivis
     const numbers = generateCode(1, 'numericSafe');
 
     const generatedDivision = letters.concat(numbers);
-    if (_.find(divisions, (division) => division === generatedDivision)) {
+    if (divisions.includes(generatedDivision)) {
       --i;
     } else {
       divisions.push(generatedDivision);

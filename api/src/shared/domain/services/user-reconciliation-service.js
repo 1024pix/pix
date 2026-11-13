@@ -76,7 +76,7 @@ export async function findMatchingOrganizationLearnerForGivenOrganizationIdAndRe
     throw new NotFoundError('Found no organization learner matching names');
   }
 
-  return lodash.find(organizationLearners, { id: organizationLearnerId });
+  return organizationLearners.find((organizationLearner) => organizationLearner.id === organizationLearnerId);
 }
 
 export async function assertStudentHasAnAlreadyReconciledAccount(

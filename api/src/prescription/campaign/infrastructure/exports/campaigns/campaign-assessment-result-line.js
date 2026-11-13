@@ -171,8 +171,7 @@ class CampaignAssessmentResultLine {
     let knowledgeElementForSkill = null;
     const competenceId = this.learningContent.findCompetenceIdOfSkill(targetedSkill.id);
     if (competenceId in this.targetedKnowledgeElementsByCompetence) {
-      knowledgeElementForSkill = _.find(
-        this.targetedKnowledgeElementsByCompetence[competenceId],
+      knowledgeElementForSkill = this.targetedKnowledgeElementsByCompetence[competenceId].find(
         (knowledgeElement) => knowledgeElement.skillId === targetedSkill.id,
       );
     }

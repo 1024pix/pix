@@ -143,4 +143,24 @@ export default defineConfig([
     files: ['src/**/repositories/**/*.{js,ts}', 'src/**/usecases/**/*.{js,ts}'],
     rules: { '@1024pix/no-linear-lookup-in-loop': 'error' },
   },
+  // Native Array.prototype.find replaces lodash find
+  {
+    files: ['**/*.{js,mjs,ts}'],
+    rules: {
+      'no-restricted-properties': [
+        'error',
+        { object: '_', property: 'find', message: 'Use the native Array.prototype.find instead of lodash find.' },
+        { object: 'lodash', property: 'find', message: 'Use the native Array.prototype.find instead of lodash find.' },
+      ],
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            { name: 'lodash', importNames: ['find'], message: 'Use the native Array.prototype.find instead.' },
+            { name: 'lodash/find.js', message: 'Use the native Array.prototype.find instead.' },
+          ],
+        },
+      ],
+    },
+  },
 ]);

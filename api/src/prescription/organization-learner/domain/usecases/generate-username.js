@@ -6,7 +6,7 @@ import {
   OrganizationLearnerNotFound,
 } from '../../../../shared/domain/errors.js';
 
-const { find, get } = lodash;
+const { get } = lodash;
 
 const generateUsername = async function ({
   studentInformation,
@@ -72,7 +72,7 @@ async function findMatchedOrganizationLearnerForGivenOrganizationIdAndStudentInf
     throw new OrganizationLearnerNotFound('There were no organizationLearners matching with names');
   }
 
-  return find(organizationLearners, { id: organizationLearnerId });
+  return organizationLearners.find((organizationLearner) => organizationLearner.id === organizationLearnerId);
 }
 
 async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(
