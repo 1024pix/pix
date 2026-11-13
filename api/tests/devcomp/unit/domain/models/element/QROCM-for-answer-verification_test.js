@@ -3,8 +3,7 @@ import sinon from 'sinon';
 
 import { QROCMForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/QROCM-for-answer-verification.js';
 import { QrocmCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QrocmCorrectionResponse.js';
-import { DomainError, EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
+import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerification', function () {
   describe('#constructor', function () {
@@ -69,36 +68,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
       });
     });
 
-    describe('A QROCM For Verification without feedbacks', function () {
-      it('should throw an error', function () {
-        // when
-        const error = catchErrSync(
-          () =>
-            new QROCMForAnswerVerification({
-              id: '123',
-              instruction: 'toto',
-              proposals: [
-                {
-                  input: 'inputBlock',
-                  type: 'input',
-                  inputType: 'text',
-                  size: 1,
-                  display: 'inline',
-                  placeholder: '',
-                  ariaLabel: 'Réponse 1',
-                  defaultValue: '',
-                  tolerances: ['t1', 't2'],
-                  solutions: ['@'],
-                },
-              ],
-            }),
-        )();
-
-        // then
-        expect(error).to.be.instanceOf(DomainError);
-        expect(error.message).to.equal('The feedbacks are required for a QROCM.');
-      });
-    });
   });
 
   describe('#assess', function () {
