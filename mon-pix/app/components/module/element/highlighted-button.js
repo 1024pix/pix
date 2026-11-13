@@ -26,6 +26,9 @@ class HighlightedButton extends HTMLElement {
     const isMobile = window.matchMedia(breakpoints.mobile).matches;
     if (isMobile) {
       this.#buttonElement.addEventListener('click', () => this.open());
+    } else {
+      this.#buttonElement.addEventListener('pointerenter', () => this.open());
+      this.#buttonElement.addEventListener('pointerleave', () => this.close());
     }
 
     this.replaceChildren(this.#buttonElement, this.#tooltipElement);
@@ -34,6 +37,11 @@ class HighlightedButton extends HTMLElement {
   open() {
     this.#tooltipElement.classList.add('module-glossary-tooltip--visible');
     this.#buttonElement.setAttribute('aria-expanded', 'true');
+  }
+
+  close() {
+    this.#tooltipElement.classList.remove('module-glossary-tooltip--visible');
+    this.#buttonElement.setAttribute('aria-expanded', 'false');
   }
 
   #createElementFromHTML(html) {

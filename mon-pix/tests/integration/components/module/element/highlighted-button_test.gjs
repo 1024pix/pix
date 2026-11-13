@@ -27,7 +27,60 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
       const button = screen.getByRole('button', { name: 'chien' });
       assert.dom(button).hasAttribute('aria-expanded', 'false');
       assert.dom(screen.queryByRole('tooltip', { name: definition })).doesNotExist();
-    })
+    });
+
+    module('in desktop', function (hooks) {
+      hooks.beforeEach(function () {
+        sinon.stub(window, 'matchMedia').callThrough().withArgs(breakpoints.mobile).returns({ matches: false });
+      });
+
+      hooks.afterEach(function () {
+        sinon.restore();
+      });
+
+      module('when the highlighted button is hovered', function () {
+        test('should display a tooltip with the definition', async function (assert) {
+          // given
+          const definition = "C'est que des emmerdes et à la fin tu meurs.";
+          const textElement = {
+            content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
+            type: 'text',
+            tag: ' ',
+          };
+
+          //  when
+          const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+          const button = screen.getByRole('button', { name: 'vie' });
+          await triggerEvent(button, 'pointerenter');
+
+          // then
+          assert.ok(screen.getByRole('tooltip', { name: definition }));
+          assert.dom(button).hasAttribute('aria-expanded', 'true');
+        });
+
+        module('when the highlighted button is no more hovered', function () {
+          test('should hide the tooltip with the definition', async function (assert) {
+            // given
+            const definition = "C'est que des emmerdes et à la fin tu meurs.";
+            const textElement = {
+              content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
+              type: 'text',
+              tag: ' ',
+            };
+
+            //  when
+            const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+            const button = screen.getByRole('button', { name: 'vie' });
+            await triggerEvent(button, 'pointerenter');
+            await triggerEvent(button, 'pointerleave');
+
+            // then
+            assert.dom(screen.queryByRole('tooltip', { name: definition })).doesNotExist();
+            assert.dom(button).hasAttribute('aria-expanded', 'false');
+          });
+        });
+      });
+    });
 
     module('in mobile', function (hooks) {
       hooks.beforeEach(function () {
