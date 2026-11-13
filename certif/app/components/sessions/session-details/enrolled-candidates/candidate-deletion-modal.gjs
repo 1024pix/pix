@@ -4,8 +4,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-
-import { dayjsUtcFormat } from '../../../../helpers/dayjs-utc-format';
+import { formatUtcDate } from 'pix-certif/helpers/format-utc-date';
 
 const TRANSLATE_PREFIX = 'pages.sessions.detail.candidates';
 
@@ -41,7 +40,7 @@ export default class CandidateCreationModal extends Component {
 
   get candidateFormattedBirthdate() {
     if (!this.args.candidate) return '';
-    return dayjsUtcFormat([this.args.candidate.birthdate, 'DD/MM/YYYY'], {});
+    return formatUtcDate(this.intl, this.args.candidate.birthdate);
   }
 
   <template>

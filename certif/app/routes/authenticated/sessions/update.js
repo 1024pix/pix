@@ -1,10 +1,10 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import { formatSessionTime } from 'pix-certif/helpers/format-session-time';
 
 export default class SessionsUpdateRoute extends Route {
   @service currentUser;
   @service store;
-  @service dayjs;
 
   beforeModel() {
     this.currentUser.checkRestrictedAccess();
@@ -12,8 +12,7 @@ export default class SessionsUpdateRoute extends Route {
 
   async model({ session_id }) {
     const session = await this.store.findRecord('session-enrolment', session_id);
-    this.dayjs.extend('customParseFormat');
-    session.time = this.dayjs.self(session.time, 'HH:mm:ss').format('HH:mm');
+    session.time = formatSessionTime([session.time]);
     return session;
   }
 
@@ -21,9 +20,9 @@ export default class SessionsUpdateRoute extends Route {
     this.currentUser.updateCurrentCertificationCenter(model.certificationCenterId);
   }
 
-  deactivate() {
-    if (!this.isDestroying) {
-      this.controller.model.rollbackAttributes();
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.model.rollbackAttributes();
     }
   }
 }

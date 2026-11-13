@@ -62,7 +62,6 @@
     "@warp-drive/json-api": "5.9.1",
     "@warp-drive/legacy": "5.9.1",
     "@warp-drive/utilities": "5.9.1",
-    "dayjs": "1.11.23",
     "ember-auto-import": "2.13.1",
     "ember-cli": "7.3.0",
     "ember-cli-babel": "8.3.2",
@@ -72,7 +71,6 @@
     "ember-cli-inject-live-reload": "2.1.0",
     "ember-cli-sass": "11.0.1",
     "ember-cookies": "1.4.1",
-    "ember-dayjs": "0.12.4",
     "ember-exam": "10.2.1",
     "ember-intl": "8.4.0",
     "ember-keyboard": "10.0.0",
@@ -116,9 +114,6 @@
   "overrides": {
     "eslint": "$eslint",
     "@xmldom/xmldom": "0.9.12",
-    "ember-dayjs": {
-      "ember-source": "$ember-source"
-    },
     "flatted": "3.4.4",
     "handlebars": "4.7.10",
     "braces": "3.0.3"

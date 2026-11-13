@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { Factory } from 'miragejs';
 
 export default Factory.extend({
@@ -11,7 +10,7 @@ export default Factory.extend({
   },
 
   birthdate() {
-    return dayjs('1975-10-18');
+    return '1975-10-18';
   },
 
   division() {

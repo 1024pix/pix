@@ -8,8 +8,9 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import get from 'lodash/get';
 import PaginationWrapper from 'pix-certif/components/ui/pagination-wrapper';
+import formatSessionTime from 'pix-certif/helpers/format-session-time';
+import formatUtcDate from 'pix-certif/helpers/format-utc-date';
 
-import dayjsUtcFormat from '../../helpers/dayjs-utc-format';
 import { CREATED, FINALIZED, PROCESSED, TO_FINALIZE } from '../../models/session-management';
 import SessionDeleteConfirmModal from './session-delete-confirm-modal';
 
@@ -129,7 +130,7 @@ export default class SessionList extends Component {
               {{t 'common.forms.session-labels.date'}}
             </:header>
             <:cell>
-              {{dayjsUtcFormat sessionSummary.date 'DD/MM/YYYY' allowEmpty=true}}
+              {{formatUtcDate sessionSummary.date}}
             </:cell>
           </PixTableColumn>
           <PixTableColumn @context={{context}} class='table__column--small'>
@@ -137,7 +138,7 @@ export default class SessionList extends Component {
               {{t 'common.forms.session-labels.time'}}
             </:header>
             <:cell>
-              {{dayjsUtcFormat sessionSummary.time 'HH:mm' inputFormat='HH:mm:ss' allowEmpty=true}}
+              {{formatSessionTime sessionSummary.time}}
             </:cell>
           </PixTableColumn>
           <PixTableColumn @context={{context}}>

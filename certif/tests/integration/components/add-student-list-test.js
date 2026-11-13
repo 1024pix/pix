@@ -543,7 +543,7 @@ module('Integration | Component | add-student-list', function (hooks) {
     firstName = 'firstName',
     lastName = 'lastName',
     division = 'division',
-    birthdate = 'birthdate',
+    birthdate = '2010-01-01',
     isEnrolled = false,
   ) {
     return EmberObject.create({
@@ -566,7 +566,7 @@ module('Integration | Component | add-student-list', function (hooks) {
     firstName = 'firstName',
     lastName = 'lastName',
     division = 'division',
-    birthdate = 'birthdate',
+    birthdate = '2010-01-01',
   ) {
     return EmberObject.create({
       firstName,

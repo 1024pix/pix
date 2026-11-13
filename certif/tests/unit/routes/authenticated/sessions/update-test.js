@@ -11,31 +11,42 @@ module('Unit | Route | authenticated/sessions/update', function (hooks) {
   });
 
   module('#model', function () {
-    test('it should return session with time', async function (assert) {
+    test('it should return session with time without seconds', async function (assert) {
       // given
       const session_id = 1;
-      route.store.findRecord = sinon.stub().resolves({});
+      route.store.findRecord = sinon.stub().resolves({ time: '14:30:00' });
 
       // when
       const actualSession = await route.model({ session_id });
 
       // then
       sinon.assert.calledOnceWithExactly(route.store.findRecord, 'session-enrolment', session_id);
-      assert.ok(actualSession.time);
+      assert.strictEqual(actualSession.time, '14:30');
     });
   });
 
-  module('#deactivate', function (hooks) {
-    hooks.beforeEach(function () {
-      route.controller = { model: { rollbackAttributes: sinon.stub().returns() } };
-    });
+  module('#resetController', function () {
+    test('it should rollback the model when exiting the route', function (assert) {
+      // given
+      const controller = { model: { rollbackAttributes: sinon.stub() } };
 
-    test('it should call rollback on controller model', function (assert) {
       // when
-      route.deactivate();
+      route.resetController(controller, true);
 
       // then
-      sinon.assert.calledOnce(route.controller.model.rollbackAttributes);
+      sinon.assert.calledOnce(controller.model.rollbackAttributes);
+      assert.ok(route);
+    });
+
+    test('it should not rollback the model when not exiting the route', function (assert) {
+      // given
+      const controller = { model: { rollbackAttributes: sinon.stub() } };
+
+      // when
+      route.resetController(controller, false);
+
+      // then
+      sinon.assert.notCalled(controller.model.rollbackAttributes);
       assert.ok(route);
     });
   });

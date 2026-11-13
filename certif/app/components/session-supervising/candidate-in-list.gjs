@@ -4,7 +4,6 @@ import { action, set } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import dayjs from 'dayjs';
 import t from 'ember-intl/helpers/t';
 import Content from 'pix-certif/components/dropdown/content';
 import Item from 'pix-certif/components/dropdown/item';
@@ -13,8 +12,8 @@ import ConfirmationModal from 'pix-certif/components/session-supervising/confirm
 import HandleLiveAlertModal from 'pix-certif/components/session-supervising/handle-live-alert-modal';
 import LiveAlertHandledModal from 'pix-certif/components/session-supervising/live-alert-handled-modal';
 import formatPercentage from 'pix-certif/helpers/format-percentage';
-
-import dayjsUtcFormatHelper from '../../helpers/dayjs-utc-format';
+import formatUtcDate from 'pix-certif/helpers/format-utc-date';
+import { addMinutes } from 'pix-certif/utils/date-utils';
 
 const Modals = {
   Confirmation: 'Confirmation',
@@ -114,17 +113,17 @@ export default class CandidateInList extends Component {
   }
 
   get candidateStartTime() {
-    return dayjs(this.args.candidate.startDateTime).format('HH:mm');
+    return this.intl.formatTime(this.args.candidate.startDateTime, { format: 'hhmm' });
   }
 
   get candidateTheoricalEndDateTime() {
     const pixPlusDuration = this._getPixPlusDurationInMinutes(); // todo should be removed ?
 
     if (pixPlusDuration !== null) {
-      return dayjs(this.args.candidate.startDateTime).add(pixPlusDuration, 'minute').format('HH:mm');
+      return this.intl.formatTime(addMinutes(this.args.candidate.startDateTime, pixPlusDuration), { format: 'hhmm' });
     }
 
-    return dayjs(this.args.candidate.theoricalEndDateTime).format('HH:mm');
+    return this.intl.formatTime(this.args.candidate.theoricalEndDateTime, { format: 'hhmm' });
   }
 
   get currentLiveAlertLabel() {
@@ -388,7 +387,7 @@ export default class CandidateInList extends Component {
           </div>
 
           <div class='session-supervising-candidate-in-list__middle-information'>
-            <p>{{dayjsUtcFormatHelper @candidate.birthdate 'DD/MM/YYYY'}}</p>
+            <p>{{formatUtcDate @candidate.birthdate}}</p>
             {{#if this.shouldDisplayEnrolledComplementaryCertification}}
               <p class='session-supervising-candidate-in-list-details__enrolment'>
                 <PixIcon

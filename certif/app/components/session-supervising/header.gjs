@@ -5,8 +5,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
 import ConfirmationModal from 'pix-certif/components/session-supervising/confirmation-modal';
-
-import dayjsUtcFormat from '../../helpers/dayjs-utc-format';
+import formatSessionTime from 'pix-certif/helpers/format-session-time';
+import formatUtcDate from 'pix-certif/helpers/format-utc-date';
 
 export default class Header extends Component {
   @service router;
@@ -64,9 +64,9 @@ export default class Header extends Component {
           sessionId=@session.id
         }}</h1>
       <time class='session-supervising-header__date'>
-        {{dayjsUtcFormat @session.date 'DD/MM/YYYY'}}
+        {{formatUtcDate @session.date}}
         ·
-        {{dayjsUtcFormat @session.time 'HH:mm' inputFormat='HH:mm:ss' allowEmpty=true}}
+        {{formatSessionTime @session.time}}
       </time>
 
       <dl>
