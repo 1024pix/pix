@@ -1,5 +1,5 @@
 import lodash from 'lodash';
-const { each, map, times } = lodash;
+const { each, times } = lodash;
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -277,7 +277,11 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
             const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
 
             // then
-            expect(map(matchingUsers, 'firstName')).to.have.members(['Son Gohan', 'Son Goku', 'Son Goten']);
+            expect(matchingUsers.map(({ firstName }) => firstName)).to.have.members([
+              'Son Gohan',
+              'Son Goku',
+              'Son Goten',
+            ]);
             expect(pagination).to.deep.equal(expectedPagination);
           });
         });
@@ -314,7 +318,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
             });
 
             // then
-            expect(map(matchingUsers, 'firstName')).to.have.members(['Anakin', 'Luke', 'Leia']);
+            expect(matchingUsers.map(({ firstName }) => firstName)).to.have.members(['Anakin', 'Luke', 'Leia']);
             expect(pagination).to.deep.equal(expectedPagination);
           });
         });
@@ -349,7 +353,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
             const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
 
             // then
-            expect(map(matchingUsers, 'email')).to.have.members([
+            expect(matchingUsers.map(({ email }) => email)).to.have.members([
               'panda@pix.fr',
               'panda@example.net',
               'panda@example.net',
@@ -368,7 +372,11 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
             const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
 
             // then
-            expect(map(matchingUsers, 'email')).to.have.members(['playpus@pix.fr', 'panda@pix.fr', 'otter@pix.fr']);
+            expect(matchingUsers.map(({ email }) => email)).to.have.members([
+              'playpus@pix.fr',
+              'panda@pix.fr',
+              'otter@pix.fr',
+            ]);
             expect(pagination).to.deep.equal(expectedPagination);
           });
         });
@@ -396,7 +404,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
             const { models: matchingUsers } = await userRepository.findPaginatedFiltered({ filter, page });
 
             // then
-            expect(map(matchingUsers, 'username')).to.have.members([
+            expect(matchingUsers.map(({ username }) => username)).to.have.members([
               'alex.ception1011',
               'alex.terieur1011',
               'ella.bienhu1011',
@@ -471,14 +479,18 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
               });
 
               // then
-              expect(map(matchingUsers, 'firstName')).to.have.members(['fn_ok_1', 'fn_ok_2', 'fn_ok_3']);
-              expect(map(matchingUsers, 'lastName')).to.have.members(['ln_ok_1', 'ln_ok_2', 'ln_ok_3']);
-              expect(map(matchingUsers, 'email')).to.have.members([
+              expect(matchingUsers.map(({ firstName }) => firstName)).to.have.members([
+                'fn_ok_1',
+                'fn_ok_2',
+                'fn_ok_3',
+              ]);
+              expect(matchingUsers.map(({ lastName }) => lastName)).to.have.members(['ln_ok_1', 'ln_ok_2', 'ln_ok_3']);
+              expect(matchingUsers.map(({ email }) => email)).to.have.members([
                 'email_ok_1@mail.com',
                 'email_ok_2@mail.com',
                 'email_ok_3@mail.com',
               ]);
-              expect(map(matchingUsers, 'username')).to.have.members([
+              expect(matchingUsers.map(({ username }) => username)).to.have.members([
                 'username_ok0210',
                 'username_ok1214',
                 'username_ok1010',
@@ -512,7 +524,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           });
 
           // then
-          expect(map(matchingUsers, 'firstName')).to.have.members(['Son Gohan']);
+          expect(matchingUsers.map(({ firstName }) => firstName)).to.have.members(['Son Gohan']);
         });
 
         it('returns no matching if matching is fuzzy', async function () {
@@ -529,7 +541,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           });
 
           // then
-          expect(map(matchingUsers, 'firstName')).to.be.empty;
+          expect(matchingUsers.map(({ firstName }) => firstName)).to.be.empty;
           expect(pagination).to.deep.equal(expectedPagination);
         });
       });
