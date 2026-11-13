@@ -142,7 +142,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
 
         // then
         expect(matchingOrganizations).to.have.lengthOf(2);
-        expect(_.map(matchingOrganizations, 'name')).to.have.members(['Dragonades co', 'Dragonades & co+']);
+        expect(matchingOrganizations.map((item) => item.name)).to.have.members(['Dragonades co', 'Dragonades & co+']);
         expect(pagination).to.deep.equal(expectedPagination);
       });
 
@@ -167,7 +167,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           });
 
         // then
-        expect(_.map(matchingOrganizations, 'name')).to.have.members(['College', 'Collège']);
+        expect(matchingOrganizations.map((item) => item.name)).to.have.members(['College', 'Collège']);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
@@ -196,7 +196,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           });
 
         // then
-        expect(_.map(matchingOrganizations, 'type')).to.have.members([]);
+        expect(matchingOrganizations.map((item) => item.type)).to.have.members([]);
         expect(pagination).to.deep.equal(expectedPagination);
       });
 
@@ -214,7 +214,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           });
 
         // then
-        expect(_.map(matchingOrganizations, 'type')).to.have.members(['SCO']);
+        expect(matchingOrganizations.map((item) => item.type)).to.have.members(['SCO']);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
@@ -242,7 +242,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           });
 
         // then
-        expect(_.map(matchingOrganizations, 'externalId')).to.have.members(['1234567A', '123456AD']);
+        expect(matchingOrganizations.map((item) => item.externalId)).to.have.members(['1234567A', '123456AD']);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
@@ -277,9 +277,17 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
             });
 
           // then
-          expect(_.map(matchingOrganizations, 'name')).to.have.members(['name_ok_1', 'name_ok_2', 'name_ok_3']);
-          expect(_.map(matchingOrganizations, 'type')).to.have.members(['SCO', 'SCO', 'SCO']);
-          expect(_.map(matchingOrganizations, 'externalId')).to.have.members(['1234567A', '1234568A', '1234569A']);
+          expect(matchingOrganizations.map((item) => item.name)).to.have.members([
+            'name_ok_1',
+            'name_ok_2',
+            'name_ok_3',
+          ]);
+          expect(matchingOrganizations.map((item) => item.type)).to.have.members(['SCO', 'SCO', 'SCO']);
+          expect(matchingOrganizations.map((item) => item.externalId)).to.have.members([
+            '1234567A',
+            '1234568A',
+            '1234569A',
+          ]);
           expect(pagination).to.deep.equal(expectedPagination);
         });
       },
@@ -334,7 +342,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           });
 
         // then
-        expect(_.map(matchingOrganizations, 'archivedAt')).to.have.members([null]);
+        expect(matchingOrganizations.map((item) => item.archivedAt)).to.have.members([null]);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
@@ -364,7 +372,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           });
 
         // then
-        expect(_.map(matchingOrganizations, 'name')).to.have.members(['Org A1', 'Org A2']);
+        expect(matchingOrganizations.map((item) => item.name)).to.have.members(['Org A1', 'Org A2']);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
@@ -402,7 +410,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           });
 
         // then
-        expect(_.map(matchingOrganizations, 'name')).to.have.members(['Org A1', 'Org B1']);
+        expect(matchingOrganizations.map((item) => item.name)).to.have.members(['Org A1', 'Org B1']);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
@@ -439,7 +447,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
           });
 
         // then
-        expect(_.map(matchingOrganizations, 'name')).to.have.members(['Org A1', 'Org B1']);
+        expect(matchingOrganizations.map((item) => item.name)).to.have.members(['Org A1', 'Org B1']);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
@@ -665,7 +673,7 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
         // then
         expect(children).to.have.lengthOf(2);
         expect(children[0]).to.be.instanceOf(OrganizationForAdmin);
-        expect(_.map(children, 'name')).to.deep.equal(['First Child', 'Second Child']);
+        expect(children.map((item) => item.name)).to.deep.equal(['First Child', 'Second Child']);
       });
     });
 
