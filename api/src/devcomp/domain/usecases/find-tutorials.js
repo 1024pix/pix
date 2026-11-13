@@ -44,14 +44,14 @@ export { findTutorials };
 async function _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository, userId, locale) {
   const tubesByName = new Map(tubes.map((tube) => [tube.name, tube]));
   return await Promise.all(
-    _.map(easiestSkills, async (skill) => {
+    easiestSkills.map(async (skill) => {
       const tube = tubesByName.get(skill.tubeName);
       const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({
         ids: skill.tutorialIds,
         userId,
         locale,
       });
-      return _.map(tutorials, (tutorial) => {
+      return tutorials.map((tutorial) => {
         tutorial.tubeName = tube.name;
         tutorial.tubePracticalTitle = tube.practicalTitle;
         tutorial.tubePracticalDescription = tube.practicalDescription;
@@ -63,7 +63,7 @@ async function _getTutorialsWithTubesList(easiestSkills, tubes, tutorialReposito
 }
 
 function _getEasiestSkills(skillsGroupByTube) {
-  return _.map(skillsGroupByTube, _.head);
+  return Object.values(skillsGroupByTube).map(_.head);
 }
 
 function _getSkillsGroupedByTube(failedSkills) {
@@ -75,7 +75,12 @@ function _getSkillsGroupedByTube(failedSkills) {
 }
 
 function _getFailedSkills(skills, invalidatedDirectKnowledgeElements) {
-  return _.filter(skills, (skill) => _.includes(_.map(invalidatedDirectKnowledgeElements, 'skillId'), skill.id));
+  return _.filter(skills, (skill) =>
+    _.includes(
+      invalidatedDirectKnowledgeElements.map((item) => item.skillId),
+      skill.id,
+    ),
+  );
 }
 
 function _getInvalidatedDirectKnowledgeElements(knowledgeElements) {
