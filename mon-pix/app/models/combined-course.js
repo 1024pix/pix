@@ -1,5 +1,6 @@
 import { action } from '@ember/object';
 import Model, { attr, belongsTo, hasMany } from '@warp-drive/legacy/model';
+import ENV from 'mon-pix/config/environment';
 
 export const CombinedCourseStatuses = {
   NOT_STARTED: 'NOT_STARTED',
@@ -20,6 +21,8 @@ export default class CombinedCourse extends Model {
   @attr('string') code;
   // eslint-disable-next-line ember/no-empty-attrs
   @attr() organizationId;
+  @attr('string') organizationName;
+  @attr('string') organizationLogoUrl;
   @attr('string') status;
   @attr('string') description;
   @attr('string') illustration;
@@ -69,5 +72,9 @@ export default class CombinedCourse extends Model {
         ?.value()
         ?.find((item) => item.isModuleType),
     );
+  }
+
+  get displaysLogoOrganization() {
+    return this.args.campaign.organizationId !== ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID;
   }
 }

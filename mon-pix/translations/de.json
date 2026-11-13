@@ -642,6 +642,17 @@
         "title": "Starte deine Pix-Erfahrung",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' bereit, deine digitalen Kompetenzen zu bewerten?"
       },
+      "breaks": "Pausen möglich",
+      "has-reward": "Mit Teilnahmebescheinigung",
+      "login": {
+        "info": "Mit einem Pix-Konto kannst du deinen Parcours dort fortsetzen, wo du aufgehört hast, oder dein Lernen vertiefen.",
+        "legal": "Wenn du teilnimmst, werden Informationen über deinen Fortschritt im Parcours und deine Ergebnisse an den Organisator des Parcours übermittelt, damit er dich begleiten kann.",
+        "login-cta": "Ich melde mich an",
+        "signup-cta": "Ich erstelle mein Konto",
+        "start-cta": "Ja, los geht's!",
+        "title": "Bereit, deinen Parcours zu entdecken?"
+      },
+      "organization": "Angeboten von { organizationName }",
       "profiles-collection": {
         "action": "Los geht's!",
         "announcement": "Registrier dich oder logge dich auf der Pix-Plattform ein und sende dein Profil an die Empfängerorganisation.",
@@ -651,7 +662,9 @@
       },
       "title": "Präsentation",
       "warning-message": "Du bist nicht { firstName } { lastName }?",
-      "warning-message-logout": "Abmelden"
+      "warning-message-logout": "Abmelden",
+      "welcome-authenticated": "Hallo { firstName }!",
+      "welcome-unauthenticated": "Hallo!"
     },
     "campaign-participation": {
       "title": "Lernpfad"
@@ -1004,7 +1017,6 @@
     "certifications-dashboard": {
       "eligibility": {
         "steps": {
-          "title": "Wie legen Sie die Pix-Zertifizierung ab?",
           "1": {
             "description": "Mindestens Stufe 1 in 5 Kompetenzen erreichen.",
             "link": "Meine Kompetenzen ansehen",
@@ -1023,7 +1035,8 @@
           "3": {
             "description": "Ihre Ergebnisse sind frühestens 2 Tage nach Ihrem Zertifizierungstest verfügbar, sobald Ihre Zertifizierungsstelle die Sitzung abgeschlossen hat.",
             "title": "Die Ergebnisse"
-          }
+          },
+          "title": "Wie legen Sie die Pix-Zertifizierung ab?"
         }
       },
       "enrolment-banner": {

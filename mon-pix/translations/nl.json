@@ -642,6 +642,17 @@
         "title": "Begin je Pix-traject",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' Klaar om je digitale vaardigheden te testen?"
       },
+      "breaks": "Pauzes mogelijk",
+      "has-reward": "Met certificaat",
+      "login": {
+        "info": "Met een Pix-account kun je je traject hervatten waar je was gebleven of je leerproces voortzetten.",
+        "legal": "Door deel te nemen worden gegevens over je voortgang in het traject en je resultaten gedeeld met de organisator van het traject, zodat die je kan begeleiden.",
+        "login-cta": "Ik log in",
+        "signup-cta": "Ik maak mijn account aan",
+        "start-cta": "Ja, aan de slag!",
+        "title": "Klaar om je traject te ontdekken?"
+      },
+      "organization": "Aangeboden door { organizationName }",
       "profiles-collection": {
         "action": "Daar gaan we!",
         "announcement": "Schrijf je in of log in op het Pix-platform en stuur je profiel naar de betreffende organisatie.",
@@ -651,7 +662,9 @@
       },
       "title": "Presentatie",
       "warning-message": "Ben je {firstName} {lastName} niet?",
-      "warning-message-logout": "Uitloggen"
+      "warning-message-logout": "Uitloggen",
+      "welcome-authenticated": "Hallo { firstName }!",
+      "welcome-unauthenticated": "Hallo!"
     },
     "campaign-participation": {
       "title": "Traject"
@@ -1004,7 +1017,6 @@
     "certifications-dashboard": {
       "eligibility": {
         "steps": {
-          "title": "Hoe leg je de Pix-certificering af?",
           "1": {
             "description": "Minimaal niveau 1 behalen in 5 vaardigheden.",
             "link": "Bekijk mijn vaardigheden",
@@ -1023,7 +1035,8 @@
           "3": {
             "description": "Je resultaten zijn ten vroegste 2 dagen na je certificeringstest beschikbaar, zodra je centrum de sessie heeft afgerond.",
             "title": "De resultaten"
-          }
+          },
+          "title": "Hoe leg je de Pix-certificering af?"
         }
       },
       "enrolment-banner": {
