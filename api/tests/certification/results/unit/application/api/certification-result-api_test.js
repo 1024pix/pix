@@ -52,9 +52,9 @@ describe('Certification | Results | Unit | application | api | certif results', 
       logErrorSpy = sinon.spy(logger, 'error');
     });
 
-    context('when FT useNewCertificationResults is disabled', function () {
+    context('when FT writeNewCertificationResults is disabled', function () {
       it('does nothing', async function () {
-        featureToggles.get.withArgs('useNewCertificationResults').resolves(false);
+        featureToggles.get.withArgs('writeNewCertificationResults').resolves(false);
 
         await certificationResultApi.buildForSession({
           sessionId,
@@ -65,9 +65,9 @@ describe('Certification | Results | Unit | application | api | certif results', 
       });
     });
 
-    context('when FT useNewCertificationResults is enabled', function () {
+    context('when FT writeNewCertificationResults is enabled', function () {
       beforeEach(function () {
-        featureToggles.get.withArgs('useNewCertificationResults').resolves(true);
+        featureToggles.get.withArgs('writeNewCertificationResults').resolves(true);
       });
 
       context('when some errors occur when building the certification results', function () {

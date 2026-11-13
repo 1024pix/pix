@@ -240,6 +240,7 @@ describe('Certification | SessionManagement | Unit | Domain | ValueObjects | Ses
       });
     });
   });
+
   describe('#build', function () {
     it('should build `created` session status', function () {
       // when

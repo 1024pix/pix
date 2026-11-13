@@ -45,7 +45,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('CORE', function () {
       it('builds a certificationResult and a userCertificationResult for CORE certification', function () {
-        const certificationData = [
+        const certificationData: CertificationDataV3Props[] = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -155,7 +155,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('CLEA', function () {
       it('builds a certificationResult and a userCertificationResult for CLEA certification', function () {
-        const certificationData = [
+        const certificationData: CertificationDataV3Props[] = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -274,7 +274,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('PRO_SANTE', function () {
       it('builds a certificationResult and a userCertificationResult for PRO_SANTE certification', function () {
-        const certificationData = [
+        const certificationData: CertificationDataV3Props[] = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -364,7 +364,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('DROIT', function () {
       it('builds a certificationResult and a userCertificationResult for DROIT certification', function () {
-        const certificationData = [
+        const certificationData: CertificationDataV3Props[] = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -454,7 +454,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('EDU_CPE', function () {
       it('builds a certificationResult and a userCertificationResult for EDU_CPE certification', function () {
-        const certificationData = [
+        const certificationData: CertificationDataV3Props[] = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -545,7 +545,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('EDU_1ER_DEGRE', function () {
       it('builds a certificationResult and a userCertificationResult for EDU_CPE certification', function () {
-        const certificationData = [
+        const certificationData: CertificationDataV3Props[] = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -636,7 +636,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('EDU_2ND_DEGRE', function () {
       it('builds a certificationResult and a userCertificationResult for EDU_2ND_DEGRE certification', function () {
-        const certificationData = [
+        const certificationData: CertificationDataV3Props[] = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -727,7 +727,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('when certification was delivered prior to FRANCE_COMPETENCES_PROFESSIONAL_START_DATE', function () {
       it('builds a certificationResult and a userCertificationResult with no minimum score for france competences', function () {
-        const certificationData = [
+        const certificationData: CertificationDataV3Props[] = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -837,7 +837,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('when no learner matches the organization learner of the certification', function () {
       it('builds a certificationResult and a userCertificationResult with no additional info on candidate identity (middle/third names and external ID)', function () {
-        const certificationData = [
+        const certificationData: CertificationDataV3Props[] = [
           {
             certificationCourseId: 123,
             userId: 456,

@@ -46,6 +46,10 @@ class JuryComment {
     this.fallbackComment = fallbackComment;
   }
 
+  /**
+   * @param {(key: string) => string} translate
+   * @returns {string | undefined}
+   */
   getComment(translate) {
     return this.#shouldBeTranslated() ? translate(this.#getKeyToTranslate()) : this.fallbackComment;
   }
