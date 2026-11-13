@@ -108,10 +108,16 @@ export default class IndexController extends Controller {
     const token = this.session.data.authenticated.access_token;
     try {
       await this.fileSaver.save({ url, token });
-    } catch {
-      this.pixToast.sendErrorNotification({
-        message: "Une erreur est survenue, les attestations n'ont pas pu être téléchargées.",
-      });
+    } catch (err) {
+      if (err[0].code === 'NO_CERTIFICATION_RESULTS_TO_DOWNLOAD') {
+        this.pixToast.sendErrorNotification({
+          message: 'Cette session ne contient pas de certificat.',
+        });
+      } else {
+        this.pixToast.sendErrorNotification({
+          message: "Une erreur est survenue, les attestations n'ont pas pu être téléchargées.",
+        });
+      }
     }
   }
 
