@@ -150,6 +150,7 @@
 @use 'components/user-account' as *;
 @use 'components/user-account/add-email-with-validation' as *;
 @use 'components/user-account/update-email-with-validation' as *;
+@use 'components/user-account/update-password' as *;
 @use 'components/user-account/email-verification-code' as *;
 @use 'components/user-certification-hexagon-score' as *;
 @use 'components/user-logged-menu' as *;
