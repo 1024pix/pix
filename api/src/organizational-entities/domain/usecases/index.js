@@ -9,6 +9,7 @@ import * as featureRepository from '../../../shared/infrastructure/repositories/
 import * as organizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
+import * as creditsLotRepository from '../../infrastructure/credits/repositories/credits-lot-repository.js';
 import * as administrationTeamRepository from '../../infrastructure/repositories/administration-team-repository.js';
 import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
 import * as certificationCenterRepository from '../../infrastructure/repositories/certification-center.repository.js';
@@ -89,10 +90,12 @@ const dependenciesToInject = {
   tagRepository,
   targetProfileShareRepository,
   organizationVerificationService,
+  creditsLotRepository,
 };
 
 const dependencies = Object.assign({}, dependenciesToInject);
 
+import { createCreditsLot } from '../credits/usecases/create-credits-lot.js';
 import { addOrganizationFeatureInBatch } from './add-organization-feature-in-batch.usecase.js';
 import { addTagsToOrganizations } from './add-tags-to-organizations.usecase.js';
 import { archiveCertificationCenter } from './archive-certification-center.usecase.js';
@@ -147,6 +150,7 @@ const usecasesWithoutInjectedDependencies = {
   createOrganization,
   createOrganizationsWithTagsAndTargetProfiles,
   createTag,
+  createCreditsLot,
   detachCertificationCenterFromOrganization,
   detachParentOrganizationFromOrganization,
   findPaginatedFilteredNetworks,
