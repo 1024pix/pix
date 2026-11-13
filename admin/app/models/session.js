@@ -64,6 +64,10 @@ export default class Session extends Model {
     return this.publishedAt !== null;
   }
 
+  get isProcessed() {
+    return this.status === PROCESSED;
+  }
+
   get displayStatus() {
     return statusToDisplayName[this.status];
   }
