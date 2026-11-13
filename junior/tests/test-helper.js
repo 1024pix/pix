@@ -1,18 +1,22 @@
-import '@warp-drive/ember/install';
-
 import { setApplication } from '@ember/test-helpers';
-import start from 'ember-exam/test-support/start';
+import { start as startEmberExam } from 'ember-exam/addon-test-support';
+import { setupEmberOnerrorValidation } from 'ember-qunit';
+import Application from 'junior/app';
+import config from 'junior/config/environment';
 import * as QUnit from 'qunit';
 import { setup } from 'qunit-dom';
 import sinon from 'sinon';
 
-import Application from '../app';
-import config from '../config/environment';
+export async function start(options) {
+  // Restore all sinon stubs after each test to avoid side-effects
+  QUnit.hooks.afterEach(function () {
+    sinon.restore();
+  });
 
-QUnit.hooks.afterEach(function () {
-  sinon.restore();
-});
+  setApplication(Application.create(config.APP));
 
-setApplication(Application.create(config.APP));
-setup(QUnit.assert);
-start();
+  setup(QUnit.assert);
+  setupEmberOnerrorValidation();
+  // Options passed to `start` will be passed-through to ember-qunit
+  await startEmberExam(options);
+}
