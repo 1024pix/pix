@@ -90,6 +90,7 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
       const campaign1 = databaseBuilder.factory.buildCampaign({
         organizationId: orgaInJurisdiction.id,
         targetProfileId: targetProfile.id,
+        createdAt: new Date('2025-03-01'),
       });
       databaseBuilder.factory.buildCampaign({
         organizationId: orgaInJurisdiction.id,
@@ -104,6 +105,7 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
       const campaign2 = databaseBuilder.factory.buildCampaign({
         type: CampaignTypes.PROFILES_COLLECTION,
         organizationId: orgaInJurisdiction.id,
+        createdAt: new Date('2025-01-01'),
       });
       databaseBuilder.factory.buildCampaign({
         organizationId: orgaAlsoInJurisdiction.id,
@@ -160,11 +162,13 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
         const campaign1 = databaseBuilder.factory.buildCampaign({
           organizationId: orgaInJurisdiction.id,
           targetProfileId: targetProfile.id,
+          createdAt: new Date('2025-03-01'),
         });
         const campaign2 = databaseBuilder.factory.buildCampaign({
           organizationId: orgaInJurisdiction.id,
           targetProfileId: targetProfile.id,
           archivedAt: new Date('2026-01-01'),
+          createdAt: new Date('2025-02-01'),
         });
         databaseBuilder.factory.buildCampaign({
           organizationId: orgaInJurisdiction.id,
@@ -174,6 +178,7 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
         const campaign3 = databaseBuilder.factory.buildCampaign({
           type: CampaignTypes.PROFILES_COLLECTION,
           organizationId: orgaInJurisdiction.id,
+          createdAt: new Date('2025-01-01'),
         });
         databaseBuilder.factory.buildCampaign({
           organizationId: orgaAlsoInJurisdiction.id,
@@ -240,10 +245,12 @@ describe('Acceptance | Maddo | Route | Organizations', function () {
         const campaign1InJurisdiction = databaseBuilder.factory.buildCampaign({
           organizationId: orgaInJurisdiction.id,
           targetProfileId: targetProfile.id,
+          createdAt: new Date('2025-02-01'),
         });
 
         databaseBuilder.factory.buildCampaign({
           organizationId: orgaInJurisdiction.id,
+          createdAt: new Date('2025-01-01'),
         });
 
         await databaseBuilder.commit();
