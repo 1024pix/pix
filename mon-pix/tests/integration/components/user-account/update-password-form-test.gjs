@@ -146,6 +146,21 @@ module('Integration | Component | user-account | update-password-form', function
       // then
       assert.dom(screen.getByText(t('pages.user-account.update-password.fields.errors.unknown-error'))).exists();
     });
+
+    test('displays an unknown error message when the user has no Pix authentication method', async function (assert) {
+      // given
+      updatePasswordService.updatePassword = sinon.stub().throws({
+        errors: [{ status: '400', code: 'USER_WITHOUT_PIX_AUTHENTICATION_METHOD' }],
+      });
+
+      const screen = await render(<template><UpdatePasswordForm /></template>);
+
+      // when
+      await _fillValidFormAndSubmit({ screen, t });
+
+      // then
+      assert.dom(screen.getByText(t('pages.user-account.update-password.fields.errors.unknown-error'))).exists();
+    });
   });
 
   async function _fillValidFormAndSubmit({ screen, t }) {
