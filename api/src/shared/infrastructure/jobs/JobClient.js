@@ -14,6 +14,9 @@ import { MonitoredJobHandler } from './MonitoredJobHandler.js';
 const workerDirPath = resolve(dirname(fileURLToPath(import.meta.url)), '../../../..');
 const logger = child('worker', { event: 'worker' });
 
+// JobScheduleController always sets jobCron, possibly to an empty value
+const isScheduleController = (job) => 'jobCron' in job;
+
 export class JobClient {
   /** @type JobClient */
   static #jobClient;
@@ -158,13 +161,21 @@ export class JobClient {
           await this.#subscribeEventHandler({ eventName: job.eventName, handlerName: job.jobName });
           eventHandlerCount++;
         } else {
+          // A schedule controller whose cron has been removed keeps its worker,
+          // but the schedule left by a previous deployment must not fire anymore
+          if (isScheduleController(job)) {
+            await this.#unscheduleCronJob(job.jobName);
+            logger.info(`Job CRON "${job.jobName}" is unscheduled.`);
+          }
+
           jobRegisteredCount++;
         }
       } else {
         logger.warn(`Job "${job.jobName}" is disabled.`);
 
-        // For cronJob we need to unschedule older cron
-        if (job.jobCron) {
+        // Unschedule by name whatever the cron: a controller may be disabled
+        // precisely because its cron has been removed
+        if (isScheduleController(job)) {
           await this.#unscheduleCronJob(job.jobName);
           logger.info(`Job CRON "${job.jobName}" is unscheduled.`);
         } else if (job.eventName) {

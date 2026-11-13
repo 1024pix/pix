@@ -350,6 +350,80 @@ describe('Unit | JobClient', function () {
           // then
           expect(pgBossStub.unschedule).to.have.been.calledWith('Test.CpfExportSenderJob');
         });
+
+        it('unschedule the job even when its cron is not set', async function () {
+          //given
+          const pgBossStub = new FakePgBoss();
+          sinon.stub(pgBossStub, 'unschedule');
+          sinon.stub(pgBossStub, 'schedule');
+          sinon.stub(config.cpf.sendEmailJob, 'cron').value(undefined);
+
+          // when
+          const jobClient = new JobClient();
+          await jobClient.initialize(
+            {
+              jobGroups: [JobGroup.DEFAULT],
+              isTestOnly: true,
+              worker: true,
+            },
+            () => pgBossStub,
+          );
+
+          // then
+          expect(pgBossStub.unschedule).to.have.been.calledWith('Test.CpfExportSenderJob');
+          expect(pgBossStub.schedule).to.not.have.been.calledWith('Test.CpfExportSenderJob');
+        });
+      });
+
+      context('when an enabled cron job has no cron', function () {
+        it('unschedule the job and keep its worker', async function () {
+          //given
+          const pgBossStub = new FakePgBoss();
+          sinon.stub(pgBossStub, 'unschedule');
+          sinon.stub(pgBossStub, 'schedule');
+          sinon.stub(pgBossStub, 'work');
+          sinon.stub(config.features.scheduleComputeOrganizationLearnersCertificability, 'cron').value(undefined);
+
+          // when
+          const jobClient = new JobClient();
+          await jobClient.initialize(
+            {
+              jobGroups: [JobGroup.DEFAULT],
+              isTestOnly: false,
+              worker: true,
+            },
+            () => pgBossStub,
+          );
+
+          // then
+          expect(pgBossStub.unschedule).to.have.been.calledWith(
+            'TEST.ScheduleComputeOrganizationLearnersCertificabilityJob',
+          );
+          expect(pgBossStub.schedule).to.not.have.been.calledWith(
+            'TEST.ScheduleComputeOrganizationLearnersCertificabilityJob',
+          );
+          expect(pgBossStub.work).to.have.been.calledWith('TEST.ScheduleComputeOrganizationLearnersCertificabilityJob');
+        });
+      });
+
+      it('does not unschedule a job that is not a schedule controller', async function () {
+        //given
+        const pgBossStub = new FakePgBoss();
+        sinon.stub(pgBossStub, 'unschedule');
+
+        // when
+        const jobClient = new JobClient();
+        await jobClient.initialize(
+          {
+            jobGroups: [JobGroup.DEFAULT],
+            isTestOnly: true,
+            worker: true,
+          },
+          () => pgBossStub,
+        );
+
+        // then
+        expect(pgBossStub.unschedule).to.not.have.been.calledWith(AuditLoggingJob.name);
       });
     });
 
