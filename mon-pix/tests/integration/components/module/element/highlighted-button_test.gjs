@@ -228,6 +228,32 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           sinon.restore();
         });
       });
+
+      module('when the tooltip is inside a transformed ancestor (horizontal stepper)', function () {
+        test('should position the tooltip relative to the ancestor instead of the viewport', async function (assert) {
+          // given
+          const definition = "C'est que des emmerdes et à la fin tu meurs.";
+          const textElement = {
+            content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
+            type: 'text',
+            tag: ' ',
+          };
+          const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+          const button = screen.getByRole('button', { name: 'vie' });
+          await triggerEvent(button, 'focus');
+          const tooltip = screen.getByRole('tooltip', { name: definition });
+          sinon.stub(button, 'getBoundingClientRect').returns({ top: 100, bottom: 120, left: 42, right: 60 });
+          sinon.stub(tooltip, 'getBoundingClientRect').returns({ top: 30, left: -500, width: 100, height: 50 });
+
+          // when
+          await triggerEvent(window, 'scroll');
+
+          // then
+          assert.strictEqual(tooltip.style.left, '542px');
+          assert.strictEqual(tooltip.style.top, '98px');
+          sinon.restore();
+        });
+      });
     });
   });
 });

@@ -69,15 +69,22 @@ class HighlightedButton extends HTMLElement {
   }
 
   #positionTooltip = () => {
+    const tooltipContainerPosition = { left: '0px', top: '0px' };
+    Object.assign(this.#tooltipElement.style, {
+      left: tooltipContainerPosition.left,
+      top: tooltipContainerPosition.top,
+    });
+
     const buttonInformation = this.#buttonElement.getBoundingClientRect();
     const tooltipInformation = this.#tooltipElement.getBoundingClientRect();
+    const containingBlockOrigin = { left: tooltipInformation.left, top: tooltipInformation.top };
 
     const tooltipTop = this.#computeTooltipTop(buttonInformation, tooltipInformation);
     const tooltipLeft = this.#computeTooltipLeft(buttonInformation, tooltipInformation);
 
     Object.assign(this.#tooltipElement.style, {
-      left: `${tooltipLeft}px`,
-      top: `${tooltipTop}px`,
+      left: `${tooltipLeft - containingBlockOrigin.left}px`,
+      top: `${tooltipTop - containingBlockOrigin.top}px`,
     });
   };
 
