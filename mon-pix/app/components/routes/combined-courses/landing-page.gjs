@@ -35,15 +35,9 @@ export default class CombinedCourseLandingPage extends Component {
 
   @action
   goToLogin() {
-    const identityProviderToVisit = null;
-
-    //until we complete the ticket, we need to redirect in all cases to authentication.login
-    if (!identityProviderToVisit) {
-      return this.router.transitionTo('authentication.login');
-    } else {
-      //todo: modify when branching routes to pass the code
-      return this.router.transitionTo('organizations.access', this.args.combinedCourse.code);
-    }
+    this.router.transitionTo('organizations.access', this.args.combinedCourse.code, {
+      queryParams: { authenticationRoute: 'login' },
+    });
   }
 
   @action

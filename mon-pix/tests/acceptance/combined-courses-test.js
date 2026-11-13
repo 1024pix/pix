@@ -31,7 +31,7 @@ module('Acceptance | CombinedCourses', function (hooks) {
     await visit('/parcours/COMBINIX1');
 
     // then
-    assert.strictEqual(currentURL(), '/parcours/COMBINIX1');
+    assert.strictEqual(currentURL(), '/parcours/COMBINIX1/presentation');
   });
 
   test('it redirects to combined course disabled feature page', async function (assert) {

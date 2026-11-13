@@ -21,7 +21,7 @@ module('Acceptance | CombinedCourse | combined-course-landing-page', function (h
       });
 
       // when
-      const screen = await visit(`/parcours/${combinedCourse.code}/landing`);
+      const screen = await visit(`/parcours/${combinedCourse.code}`);
       await click(screen.getByRole('button', { name: t('pages.campaign-landing.login.login-cta') }));
 
       // then
@@ -40,7 +40,7 @@ module('Acceptance | CombinedCourse | combined-course-landing-page', function (h
       });
 
       // when
-      const screen = await visit(`/parcours/${combinedCourse.code}/landing`);
+      const screen = await visit(`/parcours/${combinedCourse.code}`);
 
       await click(screen.getByRole('button', { name: t('pages.campaign-landing.login.signup-cta') }));
 
@@ -57,18 +57,36 @@ module('Acceptance | CombinedCourse | combined-course-landing-page', function (h
       await authenticate(prescritUser);
     });
 
-    test('when the user clicks on CTA, should redirect to presentation page', async function (assert) {
-      // given
-      const combinedCourse = server.create('combined-course', {
-        code: 'COMBINIX',
+    module('when user has no participation to combined course yet', function () {
+      test('when the user clicks on CTA, should redirect to presentation page', async function (assert) {
+        // given
+        const combinedCourse = server.create('combined-course', {
+          code: 'COMBINIX',
+          status: 'NOT_STARTED',
+        });
+
+        // when
+        const screen = await visit(`/parcours/${combinedCourse.code}`);
+        await click(screen.getByRole('button', { name: t('pages.campaign-landing.login.start-cta') }));
+
+        // then
+        assert.strictEqual(currentURL(), `/parcours/${combinedCourse.code}/presentation`);
       });
+    });
+    module('when user has a participation to combined course', function () {
+      test('the user should be redirected to presentation page', async function (assert) {
+        // given
+        const combinedCourse = server.create('combined-course', {
+          code: 'COMBINIX',
+          status: 'STARTED',
+        });
 
-      // when
-      const screen = await visit(`/parcours/${combinedCourse.code}/landing`);
-      await click(screen.getByRole('button', { name: t('pages.campaign-landing.login.start-cta') }));
+        // when
+        await visit(`/parcours/${combinedCourse.code}`);
 
-      // then
-      assert.strictEqual(currentURL(), `/parcours/${combinedCourse.code}`);
+        // then
+        assert.strictEqual(currentURL(), `/parcours/${combinedCourse.code}/presentation`);
+      });
     });
   });
 });

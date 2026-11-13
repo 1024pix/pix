@@ -51,7 +51,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
         await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
         // then
-        assert.strictEqual(currentURL(), `/parcours/${verifiedCode.id}`);
+        assert.strictEqual(currentURL(), `/parcours/${verifiedCode.id}/presentation`);
       });
       module('when access to combined course is forbidden', function () {
         test('it displays oups page', async function (assert) {
@@ -237,7 +237,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
         });
 
         module('and wants to continue', function () {
-          test('should be redirected to the combined course entry page', async function (assert) {
+          test('should be redirected to the combined course landing page', async function (assert) {
             // given
             const combinedCourse = server.create('combined-course', { code: 'SOMETHING' });
             server.create('organization-to-join', {
@@ -254,6 +254,29 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
             await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
             await waitForDialog();
             await click(screen.getByRole('link', { name: 'Continuer' }));
+
+            // then
+            assert.strictEqual(currentURL(), '/parcours/SOMETHING/landing');
+          });
+
+          test('should be redirected to the student identification page after clicking on login CTA', async function (assert) {
+            // given
+            const combinedCourse = server.create('combined-course', { code: 'SOMETHING' });
+            server.create('organization-to-join', {
+              id: 1,
+              code: combinedCourse.code,
+              identityProvider: 'GAR',
+              type: 'SCO',
+              isRestricted: true,
+            });
+
+            // when
+            const screen = await visit(`/campagnes`);
+            await fillIn(screen.getByLabelText(`${t('pages.fill-in-campaign-code.label')} *`), combinedCourse.code);
+            await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
+            await waitForDialog();
+            await click(screen.getByRole('link', { name: 'Continuer' }));
+            await click(screen.getByRole('button', { name: t('pages.campaign-landing.login.login-cta') }));
 
             // then
             assert.strictEqual(currentURL(), '/organisations/SOMETHING/rejoindre/identification');
