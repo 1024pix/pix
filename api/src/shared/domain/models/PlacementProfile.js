@@ -37,6 +37,6 @@ export class PlacementProfile {
   }
 
   getUserCompetence(competenceId) {
-    return _.find(this.userCompetences, { id: competenceId }) || null;
+    return this.userCompetences.find((userCompetence) => userCompetence.id === competenceId) ?? null;
   }
 }
