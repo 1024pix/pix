@@ -543,6 +543,8 @@
     }
   },
   "lti": {
+    "line-item-mastery-rate": "Tasso di successo",
+    "line-item-pix-score": "Punteggio Pix globale",
     "profiles-collection-campaign-description": "Una campagna di raccolta dei profili permette di recuperare il profilo dei partecipanti: livelli per competenza e punteggio Pix."
   },
   "organization-invitation-email": {
