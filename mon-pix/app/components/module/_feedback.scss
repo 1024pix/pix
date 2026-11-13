@@ -1,4 +1,6 @@
 .feedback {
+  --modulix-glossary-term-background-color: var(--pix-neutral-0);
+
   @media (not (prefers-reduced-motion: reduce)) {
     animation: 0.75s zoom-in-zoom-out ease;
 
