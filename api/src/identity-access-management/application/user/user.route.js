@@ -392,9 +392,6 @@ export const userRoutes = [
     config: {
       handler: userController.changeUserPassword,
       validate: {
-        options: {
-          allowUnknown: true,
-        },
         payload: Joi.object({
           'current-password': Joi.string().required(),
           'new-password': PasswordSchema.required(),
