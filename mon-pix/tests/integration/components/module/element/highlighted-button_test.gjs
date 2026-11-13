@@ -178,6 +178,56 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           });
         });
       });
+
+      module('when the page is scrolled while the tooltip is displayed', function () {
+        test('should reposition the tooltip', async function (assert) {
+          // given
+          const definition = "C'est que des emmerdes et à la fin tu meurs.";
+          const textElement = {
+            content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
+            type: 'text',
+            tag: ' ',
+          };
+          const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+          const button = screen.getByRole('button', { name: 'vie' });
+          await triggerEvent(button, 'focus');
+          const tooltip = screen.getByRole('tooltip', { name: definition });
+          sinon.stub(button, 'getBoundingClientRect').returns({ top: 100, bottom: 120, left: 42, right: 60 });
+          sinon.stub(tooltip, 'getBoundingClientRect').returns({ top: 0, left: 0, width: 100, height: 50 });
+
+          // when
+          await triggerEvent(window, 'scroll');
+
+          // then
+          assert.strictEqual(tooltip.style.left, '42px');
+          assert.strictEqual(tooltip.style.top, '128px');
+          sinon.restore();
+        });
+      });
+
+      module('when the page is scrolled after the tooltip is hidden', function () {
+        test('should not reposition the tooltip', async function (assert) {
+          // given
+          const definition = "C'est que des emmerdes et à la fin tu meurs.";
+          const textElement = {
+            content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
+            type: 'text',
+            tag: ' ',
+          };
+          const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+          const button = screen.getByRole('button', { name: 'vie' });
+          await triggerEvent(button, 'focus');
+          await triggerEvent(button, 'blur');
+          const getBoundingClientRectSpy = sinon.spy(button, 'getBoundingClientRect');
+
+          // when
+          await triggerEvent(window, 'scroll');
+
+          // then
+          assert.ok(getBoundingClientRectSpy.notCalled);
+          sinon.restore();
+        });
+      });
     });
   });
 });

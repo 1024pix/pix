@@ -43,11 +43,23 @@ class HighlightedButton extends HTMLElement {
     this.#tooltipElement.classList.add('module-glossary-tooltip--visible');
     this.#buttonElement.setAttribute('aria-expanded', 'true');
     this.#positionTooltip();
+    window.addEventListener('scroll', this.#positionTooltip, { capture: true, passive: true });
+    window.addEventListener('resize', this.#positionTooltip, { passive: true });
   }
 
   close() {
     this.#tooltipElement.classList.remove('module-glossary-tooltip--visible');
     this.#buttonElement.setAttribute('aria-expanded', 'false');
+    this.#stopTrackingPosition();
+  }
+
+  disconnectedCallback() {
+    this.#stopTrackingPosition();
+  }
+
+  #stopTrackingPosition() {
+    window.removeEventListener('scroll', this.#positionTooltip, { capture: true });
+    window.removeEventListener('resize', this.#positionTooltip);
   }
 
   #createElementFromHTML(html) {
