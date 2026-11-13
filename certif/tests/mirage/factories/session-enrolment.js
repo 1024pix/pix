@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { Factory } from 'miragejs';
 import { CREATED } from 'pix-certif/models/session-management';
 
@@ -12,7 +11,7 @@ export default Factory.extend({
   },
 
   date() {
-    return dayjs('2023-05-17');
+    return '2023-05-17';
   },
 
   description() {

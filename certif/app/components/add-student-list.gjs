@@ -10,8 +10,7 @@ import or from 'ember-truth-helpers/helpers/or';
 import some from 'lodash/some';
 import MultiSelectSearch from 'pix-certif/components/ui/multi-select-search-wrapper';
 import PaginationWrapper from 'pix-certif/components/ui/pagination-wrapper';
-
-import dayjsUtcFormat from '../helpers/dayjs-utc-format';
+import formatUtcDate from 'pix-certif/helpers/format-utc-date';
 
 export default class AddStudentList extends Component {
   @service pixToast;
@@ -204,7 +203,7 @@ export default class AddStudentList extends Component {
               {{t 'pages.sco.enrol-candidates-in-session.list.table.birthdate'}}
             </:header>
             <:cell>
-              {{dayjsUtcFormat student.birthdate 'DD/MM/YYYY'}}
+              {{formatUtcDate student.birthdate}}
             </:cell>
           </PixTableColumn>
         </:columns>

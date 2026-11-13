@@ -5,8 +5,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-
-import { dayjsUtcFormat } from '../../helpers/dayjs-utc-format';
+import { formatUtcDate } from 'pix-certif/helpers/format-utc-date';
 
 export default class LoginSessionInvigilator extends Component {
   @service intl;
@@ -50,7 +49,7 @@ export default class LoginSessionInvigilator extends Component {
           break;
         case 'SESSION_NOT_JOINABLE':
           this.formError = this.intl.t('pages.session-supervising.login.form.errors.session-not-joinable', {
-            date: dayjsUtcFormat([error.meta?.blockedAccessDate, 'DD/MM/YYYY'], {}),
+            date: formatUtcDate(this.intl, error.meta?.blockedAccessDate),
           });
           break;
         default:

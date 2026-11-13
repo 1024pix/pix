@@ -4,8 +4,8 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { formatPercentage } from 'pix-certif/helpers/format-percentage';
+import { formatUtcDate } from 'pix-certif/helpers/format-utc-date';
 
-import { dayjsUtcFormat } from '../../../../helpers/dayjs-utc-format';
 import CandidateDetailsModalRow from './candidate-details-modal-row';
 
 const TRANSLATE_PREFIX = 'pages.sessions.detail.candidates';
@@ -21,7 +21,7 @@ const FIELDS = [
   {
     label: 'labels.candidate.birth-date',
     value: 'birthdate',
-    transform: (value) => (value ? dayjsUtcFormat([value, 'DD/MM/YYYY'], {}) : undefined),
+    transform: (value, intl) => formatUtcDate(intl, value),
   },
   {
     label: 'labels.candidate.gender.title',
@@ -75,7 +75,7 @@ export default class CandidateDetailsModal extends Component {
   getRowValue(key, transform = () => {}) {
     const value = this.args.candidate[key];
 
-    return transform(value) || value || '-';
+    return transform(value, this.intl) || value || '-';
   }
 
   @action

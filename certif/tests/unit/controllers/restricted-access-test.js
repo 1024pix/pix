@@ -1,8 +1,11 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
+import setupIntl from '../../helpers/setup-intl';
+
 module('Unit | Controller | authenticated/restricted-access', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks, 'fr');
 
   module('#certificationOpeningDate', function () {
     module('when isAccessBlockedCollege is true', function () {

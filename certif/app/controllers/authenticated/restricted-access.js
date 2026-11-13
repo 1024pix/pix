@@ -1,7 +1,6 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
-
-import { dayjsUtcFormat } from '../../helpers/dayjs-utc-format';
+import { formatUtcDate } from 'pix-certif/helpers/format-utc-date';
 
 export default class RestrictedAccessController extends Controller {
   @service intl;
@@ -9,13 +8,13 @@ export default class RestrictedAccessController extends Controller {
   get certificationOpeningDate() {
     if (this.model.isAccessBlockedCollege) {
       return this.intl.t('pages.sco.restricted-access.title-access', {
-        date: dayjsUtcFormat([this.model.pixCertifScoBlockedAccessDateCollege, 'DD/MM/YYYY'], {}),
+        date: formatUtcDate(this.intl, this.model.pixCertifScoBlockedAccessDateCollege),
       });
     }
 
     if (this.model.isAccessBlockedLycee || this.model.isAccessBlockedAEFE || this.model.isAccessBlockedAgri) {
       return this.intl.t('pages.sco.restricted-access.title-access', {
-        date: dayjsUtcFormat([this.model.pixCertifScoBlockedAccessDateLycee, 'DD/MM/YYYY'], {}),
+        date: formatUtcDate(this.intl, this.model.pixCertifScoBlockedAccessDateLycee),
       });
     }
 

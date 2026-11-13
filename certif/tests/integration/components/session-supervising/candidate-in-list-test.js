@@ -1,6 +1,5 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import dayjs from 'dayjs';
 import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
@@ -806,15 +805,15 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     module('when candidate has Pix+ Droit certification', function () {
       test('it calculates end time using 1 hour duration', async function (assert) {
         // given
-        const startTime = new Date('2022-10-19T14:30:00Z');
-        const expectedEndTime = dayjs(startTime).add(60, 'minute').format('HH:mm');
+        const startTime = new Date(2022, 9, 19, 14, 30);
+        const expectedEndTime = '15:30';
 
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: '456',
           firstName: 'Marie',
           lastName: 'Dupont',
           startDateTime: startTime,
-          theoricalEndDateTime: new Date('2022-10-19T16:15:00Z'),
+          theoricalEndDateTime: new Date(2022, 9, 19, 16, 15),
           subscription: 'DROIT',
           assessmentStatus: 'started',
         });
@@ -830,15 +829,15 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     module('when candidate has Pix+ Pro Santé certification', function () {
       test('it calculates end time using 1 hour duration', async function (assert) {
         // given
-        const startTime = new Date('2022-10-19T10:00:00Z');
-        const expectedEndTime = dayjs(startTime).add(60, 'minute').format('HH:mm');
+        const startTime = new Date(2022, 9, 19, 10, 0);
+        const expectedEndTime = '11:00';
 
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: '456',
           firstName: 'Jean',
           lastName: 'Martin',
           startDateTime: startTime,
-          theoricalEndDateTime: new Date('2022-10-19T11:45:00Z'),
+          theoricalEndDateTime: new Date(2022, 9, 19, 11, 45),
           subscription: 'PRO_SANTE',
           assessmentStatus: 'started',
         });
@@ -854,15 +853,15 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     module('when candidate has Pix+ Edu certification', function () {
       test('it calculates end time using 90 minutes duration for 1er degré', async function (assert) {
         // given
-        const startTime = new Date('2022-10-19T09:00:00Z');
-        const expectedEndTime = dayjs(startTime).add(90, 'minute').format('HH:mm');
+        const startTime = new Date(2022, 9, 19, 9, 0);
+        const expectedEndTime = '10:30';
 
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: '456',
           firstName: 'Pierre',
           lastName: 'Durand',
           startDateTime: startTime,
-          theoricalEndDateTime: new Date('2022-10-19T10:45:00Z'),
+          theoricalEndDateTime: new Date(2022, 9, 19, 10, 45),
           subscription: 'EDU_1ER_DEGRE',
           assessmentStatus: 'started',
         });
@@ -876,15 +875,15 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
       test('it calculates end time using 90 minutes duration for 2nd degré', async function (assert) {
         // given
-        const startTime = new Date('2022-10-19T14:15:00Z');
-        const expectedEndTime = dayjs(startTime).add(90, 'minute').format('HH:mm');
+        const startTime = new Date(2022, 9, 19, 14, 15);
+        const expectedEndTime = '15:45';
 
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: '456',
           firstName: 'Sophie',
           lastName: 'Bernard',
           startDateTime: startTime,
-          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          theoricalEndDateTime: new Date(2022, 9, 19, 16, 0),
           subscription: 'EDU_2ND_DEGRE',
           assessmentStatus: 'started',
         });
@@ -898,15 +897,15 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
       test('it calculates end time using 90 minutes duration for CPE', async function (assert) {
         // given
-        const startTime = new Date('2022-10-19T16:30:00Z');
-        const expectedEndTime = dayjs(startTime).add(90, 'minute').format('HH:mm');
+        const startTime = new Date(2022, 9, 19, 16, 30);
+        const expectedEndTime = '18:00';
 
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: '456',
           firstName: 'Antoine',
           lastName: 'Moreau',
           startDateTime: startTime,
-          theoricalEndDateTime: new Date('2022-10-19T18:15:00Z'),
+          theoricalEndDateTime: new Date(2022, 9, 19, 18, 15),
           subscription: 'EDU_CPE',
           assessmentStatus: 'started',
         });
@@ -922,14 +921,14 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     module('when candidate has standard Pix certification', function () {
       test('it uses backend calculated theoretical end time', async function (assert) {
         // given
-        const backendEndTime = new Date('2022-10-19T16:15:00Z');
-        const expectedDisplayTime = dayjs(backendEndTime).format('HH:mm');
+        const backendEndTime = new Date(2022, 9, 19, 16, 15);
+        const expectedDisplayTime = '16:15';
 
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: '456',
           firstName: 'Claire',
           lastName: 'Dubois',
-          startDateTime: new Date('2022-10-19T14:30:00Z'),
+          startDateTime: new Date(2022, 9, 19, 14, 30),
           theoricalEndDateTime: backendEndTime,
           assessmentStatus: 'started',
         });
@@ -945,14 +944,14 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     module('when candidate has CléA certification', function () {
       test('it uses backend calculated theoretical end time', async function (assert) {
         // given
-        const backendEndTime = new Date('2022-10-19T14:45:00Z');
-        const expectedDisplayTime = dayjs(backendEndTime).format('HH:mm');
+        const backendEndTime = new Date(2022, 9, 19, 14, 45);
+        const expectedDisplayTime = '14:45';
 
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: '456',
           firstName: 'Lucas',
           lastName: 'Petit',
-          startDateTime: new Date('2022-10-19T13:00:00Z'),
+          startDateTime: new Date(2022, 9, 19, 13, 0),
           theoricalEndDateTime: backendEndTime,
           subscription: 'CLEA',
           assessmentStatus: 'started',
@@ -969,14 +968,14 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     module('when candidate has unknown complementary certification', function () {
       test('it uses backend calculated theoretical end time as fallback', async function (assert) {
         // given
-        const backendEndTime = new Date('2022-10-19T12:45:00Z');
-        const expectedDisplayTime = dayjs(backendEndTime).format('HH:mm');
+        const backendEndTime = new Date(2022, 9, 19, 12, 45);
+        const expectedDisplayTime = '12:45';
 
         this.candidate = store.createRecord('certification-candidate-for-supervising', {
           id: '456',
           firstName: 'Emma',
           lastName: 'Leroy',
-          startDateTime: new Date('2022-10-19T11:00:00Z'),
+          startDateTime: new Date(2022, 9, 19, 11, 0),
           theoricalEndDateTime: backendEndTime,
           subscription: 'UNKNOWN',
           assessmentStatus: 'started',

@@ -113,7 +113,7 @@ module('Acceptance | Team | Invitations', function (hooks) {
     module('when user clicks on resend invitation button', function () {
       test('resends the invitation and displays a success notification', async function (assert) {
         // given
-        const dayjsService = this.owner.lookup('service:dayjs');
+        const intl = this.owner.lookup('service:intl');
         const previousUpdatedAt = new Date('2023-12-05T09:00:00Z');
 
         this.server.create('certification-center-invitation', {
@@ -128,7 +128,7 @@ module('Acceptance | Team | Invitations', function (hooks) {
         await clickByName(t('pages.team-invitations.actions.resend-invitation'));
 
         // then
-        const formattedDate = dayjsService.self(new Date('2023-12-05T11:35:00Z')).format('DD/MM/YYYY [-] HH:mm');
+        const formattedDate = intl.formatDate(new Date('2023-12-05T11:35:00Z'), { format: 'medium' });
 
         assert.dom(screen.getByRole('cell', { name: 'medhi.khaman@example.net' })).exists();
         assert.dom(screen.getByRole('cell', { name: formattedDate })).exists();

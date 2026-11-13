@@ -18,7 +18,6 @@ module('Unit | Services | locale', function (hooks) {
   let localeService;
   let currentDomainService;
   let metricsService;
-  let dayjsService;
 
   hooks.beforeEach(function () {
     localeService = this.owner.lookup('service:locale');
@@ -32,12 +31,6 @@ module('Unit | Services | locale', function (hooks) {
     }
     this.owner.register('service:metrics', metricsServiceStub);
     metricsService = this.owner.lookup('service:metrics');
-
-    class dayjsServiceStub extends Service {
-      setLocale = sinon.stub();
-    }
-    this.owner.register('service:dayjs', dayjsServiceStub);
-    dayjsService = this.owner.lookup('service:dayjs');
   });
 
   module('currentLocale', function () {
@@ -132,7 +125,6 @@ module('Unit | Services | locale', function (hooks) {
       assert.strictEqual(currentLocale, 'nl-BE');
       sinon.assert.calledWith(cookiesService.write, 'locale', 'nl-BE');
       sinon.assert.calledWith(intlService.setLocale, ['nl-BE', 'nl', 'fr']);
-      sinon.assert.calledWith(dayjsService.setLocale, 'nl');
       assert.strictEqual(metricsService.context.locale, 'nl-BE');
     });
   });

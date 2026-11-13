@@ -6,8 +6,8 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
-import dayjsUtcFormat from 'pix-certif/helpers/dayjs-utc-format';
 import { formatPercentage } from 'pix-certif/helpers/format-percentage';
+import formatUtcDate from 'pix-certif/helpers/format-utc-date';
 
 import CandidateDeletionModal from './candidate-deletion-modal';
 import CandidateDetailsModal from './candidate-details-modal';
@@ -149,7 +149,7 @@ export default class EnrolledCandidates extends Component {
               {{t 'common.labels.candidate.birth-date'}}
             </:header>
             <:cell>
-              {{dayjsUtcFormat candidate.birthdate 'DD/MM/YYYY'}}
+              {{formatUtcDate candidate.birthdate}}
             </:cell>
           </PixTableColumn>
           {{#if @shouldDisplayScoStudentRegistration}}

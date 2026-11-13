@@ -1,5 +1,4 @@
 import { clickByName, render as renderScreen, within } from '@1024pix/ember-testing-library';
-import dayjs from 'dayjs';
 import { t } from 'ember-intl/test-support';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
@@ -78,9 +77,9 @@ module('Integration | Component |  team/invitation-list', function (hooks) {
     assert.dom(within(table).getByRole('cell', { name: 'camille.onette@example.net' })).exists();
     assert.dom(within(table).getByRole('cell', { name: 'lee.tige@example.net' })).exists();
 
-    const timeFormat = 'DD/MM/YYYY [-] HH:mm';
-    const TimeOfFirstInvitation = dayjs(invitation.updatedAt).format(timeFormat);
-    const TimeOfSecondInvitation = dayjs(secondInvitation.updatedAt).format(timeFormat);
+    const intl = this.owner.lookup('service:intl');
+    const TimeOfFirstInvitation = intl.formatDate(invitation.updatedAt, { format: 'medium' });
+    const TimeOfSecondInvitation = intl.formatDate(secondInvitation.updatedAt, { format: 'medium' });
     assert.dom(within(table).getByRole('cell', { name: TimeOfFirstInvitation })).exists();
     assert.dom(within(table).getByRole('cell', { name: TimeOfSecondInvitation })).exists();
   });
