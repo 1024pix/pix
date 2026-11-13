@@ -65,13 +65,10 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       userId = databaseBuilder.factory.buildUser().id;
 
-      knowledgeElementsWantedWithLimitDate = _.map(
-        [
-          { id: 1, createdAt: yesterday, skillId: '1', userId },
-          { id: 2, createdAt: yesterday, skillId: '3', userId, status: 'validated' },
-        ],
-        (ke) => databaseBuilder.factory.buildKnowledgeElement(ke),
-      );
+      knowledgeElementsWantedWithLimitDate = [
+        { id: 1, createdAt: yesterday, skillId: '1', userId },
+        { id: 2, createdAt: yesterday, skillId: '3', userId, status: 'validated' },
+      ].map((ke) => databaseBuilder.factory.buildKnowledgeElement(ke));
 
       knowledgeElementsWanted = [
         ...knowledgeElementsWantedWithLimitDate,
@@ -213,13 +210,10 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       competenceId = '3';
       otherCompetenceId = '4';
 
-      wantedKnowledgeElements = _.map(
-        [
-          { id: 1, status: 'validated', userId, competenceId, skillId: 'rec1' },
-          { id: 2, status: 'invalidated', userId, competenceId, skillId: 'rec2' },
-        ],
-        (ke) => databaseBuilder.factory.buildKnowledgeElement(ke),
-      );
+      wantedKnowledgeElements = [
+        { id: 1, status: 'validated', userId, competenceId, skillId: 'rec1' },
+        { id: 2, status: 'invalidated', userId, competenceId, skillId: 'rec2' },
+      ].map((ke) => databaseBuilder.factory.buildKnowledgeElement(ke));
 
       _.each(
         [

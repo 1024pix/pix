@@ -111,7 +111,7 @@ class KnowledgeElement {
   }
 
   static computeDaysSinceLastKnowledgeElement(knowledgeElements) {
-    const lastCreatedAt = _(knowledgeElements).map('createdAt').max();
+    const lastCreatedAt = _.max(knowledgeElements.map(({ createdAt }) => createdAt));
     const precise = true;
     return dayjs().diff(lastCreatedAt, 'days', precise);
   }
