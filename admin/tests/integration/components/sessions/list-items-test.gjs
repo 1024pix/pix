@@ -4,6 +4,7 @@ import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import ListItems from 'pix-admin/components/sessions/list-items';
 import ENV from 'pix-admin/config/environment';
+import { CREATED, PROCESSED, STARTED } from 'pix-admin/models/session';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -116,8 +117,9 @@ module('Integration | Component | sessions | list-items', function (hooks) {
   module('Rows selection', function () {
     function buildSessions() {
       const sessions = [
-        { id: 1, certificationCenterName: 'Centre A', displayStatus: 'Créée' },
-        { id: 2, certificationCenterName: 'Centre B', displayStatus: 'Créée' },
+        { id: 1, certificationCenterName: 'Centre A', status: PROCESSED, displayStatus: 'Résultats transmis par Pix' },
+        { id: 2, certificationCenterName: 'Centre B', status: CREATED, displayStatus: 'Créée' },
+        { id: 3, certificationCenterName: 'Centre C', status: STARTED, displayStatus: 'Commencée' },
       ];
       sessions.meta = { rowCount: 2 };
       return sessions;
@@ -192,7 +194,7 @@ module('Integration | Component | sessions | list-items', function (hooks) {
       await click('.session-list__selected-rows li:nth-child(1) button');
 
       // then
-      assert.dom('.session-list__selected-rows li').exists({ count: 1 });
+      assert.dom('.session-list__selected-rows li').exists({ count: 2 });
       assert
         .dom(screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }) }))
         .isNotChecked();
@@ -216,7 +218,7 @@ module('Integration | Component | sessions | list-items', function (hooks) {
         assert
           .dom(screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 2 }) }))
           .isChecked();
-        assert.dom('.session-list__selected-rows li').exists({ count: 2 });
+        assert.dom('.session-list__selected-rows li').exists({ count: 3 });
       });
 
       test('it should clear the selection when clicking the "select all" checkbox while rows are selected', async function (assert) {
@@ -261,6 +263,9 @@ module('Integration | Component | sessions | list-items', function (hooks) {
         // when
         await click(
           screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 2 }) }),
+        );
+        await click(
+          screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 3 }) }),
         );
 
         // then
@@ -354,6 +359,69 @@ module('Integration | Component | sessions | list-items', function (hooks) {
       });
 
       module('certificates download', function () {
+        module('when only non processed sessions are selected', function () {
+          test('it should disable the certificates download button', async function (assert) {
+            // given
+            const sessions = buildSessions();
+            const screen = await render(
+              <template><ListItems @sessions={{sessions}} @triggerFiltering={{triggerFiltering}} /></template>,
+            );
+
+            // when
+            await click(
+              screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 2 }) }),
+            );
+
+            // then
+            assert
+              .dom(screen.getByRole('button', { name: t('pages.sessions.table.actions.download-certificates') }))
+              .hasAttribute('aria-disabled', 'true');
+          });
+        });
+
+        module('when at least one session selected is not processed', function () {
+          test('it should disable the certificates download button', async function (assert) {
+            // given
+            const sessions = buildSessions();
+            const screen = await render(
+              <template><ListItems @sessions={{sessions}} @triggerFiltering={{triggerFiltering}} /></template>,
+            );
+
+            // when
+            await click(
+              screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }) }),
+            );
+            await click(
+              screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 2 }) }),
+            );
+
+            // then
+            assert
+              .dom(screen.getByRole('button', { name: t('pages.sessions.table.actions.download-certificates') }))
+              .hasAttribute('aria-disabled', 'true');
+          });
+        });
+
+        module('when all sessions selected are processed', function () {
+          test('it should enable the certificates download button', async function (assert) {
+            // given
+            const sessions = buildSessions();
+            const screen = await render(
+              <template><ListItems @sessions={{sessions}} @triggerFiltering={{triggerFiltering}} /></template>,
+            );
+
+            // when
+            await click(
+              screen.getByRole('checkbox', { name: t('pages.sessions.table.actions.select-row', { sessionId: 1 }) }),
+            );
+
+            // then
+            assert
+              .dom(screen.getByRole('button', { name: t('pages.sessions.table.actions.download-certificates') }))
+              .doesNotHaveAttribute('aria-disabled');
+          });
+        });
+
         module('when some sessions are selected', function () {
           test('it should be possible to download the selection certificates zip', async function (assert) {
             // given
