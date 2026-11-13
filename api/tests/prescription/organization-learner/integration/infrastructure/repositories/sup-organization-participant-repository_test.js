@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import _ from 'lodash';
 
 import { SupOrganizationParticipant } from '../../../../../../src/prescription/organization-learner/domain/read-models/SupOrganizationParticipant.js';
 import * as supOrganizationParticipantRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/sup-organization-participant-repository.js';
@@ -55,7 +54,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
       });
 
       // then
-      expect(_.map(data, 'id')).to.have.members([firstOrganizationLearner.id, secondOrganizationLearner.id]);
+      expect(data.map((item) => item.id)).to.have.members([firstOrganizationLearner.id, secondOrganizationLearner.id]);
     });
 
     it('should return only once the same sup participant', async function () {
@@ -156,7 +155,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
       });
 
       // then
-      expect(_.map(data, 'id')).to.deep.include.ordered.members([
+      expect(data.map((item) => item.id)).to.deep.include.ordered.members([
         thirdOrganizationLearner.id,
         fourthOrganizationLearner.id,
         secondOrganizationLearner.id,
@@ -196,7 +195,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         });
 
         // then
-        expect(_.map(data, 'firstName')).to.include.members(['Bar', 'Baz']);
+        expect(data.map((item) => item.firstName)).to.include.members(['Bar', 'Baz']);
       });
 
       it('should return sup participants that are eligible for certificability', async function () {
@@ -303,7 +302,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
 
         // then
         expect(data).to.have.lengthOf(2);
-        expect(_.map(data, 'id')).to.have.members([
+        expect(data.map((item) => item.id)).to.have.members([
           notCommunicatedOrganizationLearner.id,
           notEligibleOrganizationLearner.id,
         ]);
@@ -340,7 +339,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         });
 
         // then
-        expect(_.map(data, 'studentNumber')).to.deep.equal(['BAR123', 'BAZ123']);
+        expect(data.map((item) => item.studentNumber)).to.deep.equal(['BAR123', 'BAZ123']);
       });
 
       it('should return sup participants filtered by group', async function () {
@@ -371,7 +370,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         });
 
         // then
-        expect(_.map(data, 'group')).to.deep.equal(['3B', '3A']);
+        expect(data.map((item) => item.group)).to.deep.equal(['3B', '3A']);
       });
 
       it('should return sup participants paginated', async function () {
@@ -397,7 +396,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         });
 
         // then
-        expect(_.map(data, 'firstName')).to.deep.equal(['Bar']);
+        expect(data.map((item) => item.firstName)).to.deep.equal(['Bar']);
       });
     });
 

@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import _ from 'lodash';
 
 import * as organizationsToAttachToTargetProfileRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
@@ -35,7 +34,7 @@ describe('Integration | Repository | Organizations-to-attach-to-target-profile',
       // then
       const targetProfileShares = await knex('target-profile-shares').where({ organizationId });
       expect(targetProfileShares).to.have.lengthOf(3);
-      expect(_.map(targetProfileShares, 'targetProfileId')).exactlyContain([
+      expect(targetProfileShares.map((item) => item.targetProfileId)).exactlyContain([
         targetProfileIdA,
         targetProfileIdB,
         targetProfileIdC,
@@ -56,7 +55,7 @@ describe('Integration | Repository | Organizations-to-attach-to-target-profile',
       // then
       const targetProfileShares = await knex('target-profile-shares').where({ organizationId });
       expect(targetProfileShares).to.have.lengthOf(3);
-      expect(_.map(targetProfileShares, 'targetProfileId')).to.have.members([
+      expect(targetProfileShares.map((item) => item.targetProfileId)).to.have.members([
         targetProfileIdA,
         targetProfileIdB,
         targetProfileIdC,
@@ -78,7 +77,7 @@ describe('Integration | Repository | Organizations-to-attach-to-target-profile',
       // then
       const targetProfileShares = await knex('target-profile-shares').where({ organizationId });
       expect(targetProfileShares).to.have.lengthOf(3);
-      expect(_.map(targetProfileShares, 'targetProfileId')).exactlyContain([
+      expect(targetProfileShares.map((item) => item.targetProfileId)).exactlyContain([
         targetProfileIdA,
         targetProfileIdB,
         targetProfileIdC,

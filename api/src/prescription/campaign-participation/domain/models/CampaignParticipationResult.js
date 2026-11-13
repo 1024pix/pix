@@ -76,7 +76,7 @@ function _removeUntargetedKnowledgeElements(knowledgeElements, skillIds) {
 function _computeCompetenceResults(competences, skillIds, targetedKnowledgeElements, allAreas) {
   let targetedCompetences = _removeUntargetedSkillIdsFromCompetences(competences, skillIds);
   targetedCompetences = _removeCompetencesWithoutAnyTargetedSkillsLeft(targetedCompetences);
-  const targetedCompetenceResults = _.map(targetedCompetences, (competence) => {
+  const targetedCompetenceResults = targetedCompetences.map((competence) => {
     const area = allAreas.find((area) => area.id === competence.areaId);
     return _getTestedCompetenceResults(competence, area, targetedKnowledgeElements);
   });
@@ -84,7 +84,7 @@ function _computeCompetenceResults(competences, skillIds, targetedKnowledgeEleme
 }
 
 function _removeUntargetedSkillIdsFromCompetences(competences, skillIds) {
-  return _.map(competences, (competence) => {
+  return competences.map((competence) => {
     competence.skillIds = _.intersection(competence.skillIds, skillIds);
     return competence;
   });

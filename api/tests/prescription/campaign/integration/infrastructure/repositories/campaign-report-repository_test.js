@@ -646,7 +646,7 @@ describe('Integration | Repository | Campaign-Report', function () {
 
         // then
         expect(campaignsWithReports).to.have.lengthOf(3);
-        expect(_.map(campaignsWithReports, 'id')).to.deep.equal([
+        expect(campaignsWithReports.map((item) => item.id)).to.deep.equal([
           campaignCInTheFutureId,
           campaignAInThePresentId,
           campaignBInThePastId,
@@ -905,7 +905,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 
           // then
-          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Maths L2']);
+          expect(actualCampaignsWithReports.map((item) => item.name)).to.have.members(['Maths L1', 'Maths L2']);
         });
       });
 
@@ -933,7 +933,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 
           // then
-          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
+          expect(actualCampaignsWithReports.map((item) => item.name)).to.have.members(['Maths L1', 'Chimie']);
         });
 
         it('should handle space before search', async function () {
@@ -957,7 +957,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 
           // then
-          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
+          expect(actualCampaignsWithReports.map((item) => item.name)).to.have.members(['Maths L1', 'Chimie']);
         });
 
         it('should handle space after search', async function () {
@@ -981,7 +981,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 
           // then
-          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
+          expect(actualCampaignsWithReports.map((item) => item.name)).to.have.members(['Maths L1', 'Chimie']);
         });
       });
 
@@ -1009,7 +1009,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 
           // then
-          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
+          expect(actualCampaignsWithReports.map((item) => item.name)).to.have.members(['Maths L1', 'Chimie']);
         });
       });
 
@@ -1038,7 +1038,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 
           // then
-          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
+          expect(actualCampaignsWithReports.map((item) => item.name)).to.have.members(['Maths L1', 'Chimie']);
         });
       });
 
@@ -1104,7 +1104,10 @@ describe('Integration | Repository | Campaign-Report', function () {
             });
 
           // then
-          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Ma campagne', 'Ma campagne 2']);
+          expect(actualCampaignsWithReports.map((item) => item.name)).to.have.members([
+            'Ma campagne',
+            'Ma campagne 2',
+          ]);
         });
 
         it('should return the campaigns matching the given campaign name', async function () {
@@ -1134,7 +1137,7 @@ describe('Integration | Repository | Campaign-Report', function () {
             });
 
           // then
-          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Ma campagne 2']);
+          expect(actualCampaignsWithReports.map((item) => item.name)).to.have.members(['Ma campagne 2']);
         });
       });
     });

@@ -243,11 +243,9 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
           });
 
         // then
-        expect(_.map(participationsForCampaignManagement, 'participantExternalId')).to.exactlyContainInOrder([
-          '1',
-          '2',
-          '3',
-        ]);
+        expect(participationsForCampaignManagement.map((item) => item.participantExternalId)).to.exactlyContainInOrder(
+          ['1', '2', '3'],
+        );
       });
     });
 

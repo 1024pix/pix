@@ -39,7 +39,7 @@ class CampaignAssessmentResultLine {
     this.competences = competences;
     this.stageCollection = stageCollection;
     this.targetedKnowledgeElementsCount = _.sum(
-      _.map(participantKnowledgeElementsByCompetenceId, (knowledgeElements) => knowledgeElements.length),
+      participantKnowledgeElementsByCompetenceId.map((knowledgeElements) => knowledgeElements.length),
     );
     this.targetedKnowledgeElementsByCompetence = participantKnowledgeElementsByCompetenceId;
     this.acquiredStages = acquiredStages;
@@ -150,7 +150,7 @@ class CampaignAssessmentResultLine {
       ...this._makeCompetenceColumns(),
       ...this._makeAreaColumns(),
       ...(this.organization.showSkills
-        ? _.map(this.learningContent.skills, (targetedSkill) => this._makeSkillColumn(targetedSkill))
+        ? this.learningContent.skills.map((targetedSkill) => this._makeSkillColumn(targetedSkill))
         : []),
     ];
   }

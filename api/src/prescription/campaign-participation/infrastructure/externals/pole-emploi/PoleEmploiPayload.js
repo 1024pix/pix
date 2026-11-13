@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { getPixAppUrl } from '../../../../../shared/domain/services/url-service.js';
 
 const CAMPAIGN_TYPE = 'EVALUATION';
@@ -118,7 +116,7 @@ function _buildTest({ etat, targetProfile, participation, participationResult, a
       dateProgression = participation.sharedAt;
       dateValidation = participation.sharedAt;
       evaluation = participationResult.masteryPercentage;
-      elementsEvalues = _.map(participationResult.competenceResults, _buildElementEvalue);
+      elementsEvalues = participationResult.competenceResults.map(_buildElementEvalue);
       break;
   }
 
