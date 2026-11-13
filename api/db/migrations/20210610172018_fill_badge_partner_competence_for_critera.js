@@ -10,10 +10,14 @@ const up = async function (knex) {
     });
 
   let badgesWithPartnerCompetences = _.groupBy(badgesAndPartnerCompetences, 'badgeId');
-  badgesWithPartnerCompetences = _.map(badgesWithPartnerCompetences, (partnerCompetencesInfos, badgeId) => {
-    const partnerCompetenceIds = _(partnerCompetencesInfos).map('partnerCompetenceId').filter(null).value();
-    return [badgeId, partnerCompetenceIds];
-  });
+  badgesWithPartnerCompetences = Object.entries(badgesWithPartnerCompetences).map(
+    ([badgeId, partnerCompetencesInfos]) => {
+      const partnerCompetenceIds = partnerCompetencesInfos
+        .map(({ partnerCompetenceId }) => partnerCompetenceId)
+        .filter(Boolean);
+      return [badgeId, partnerCompetenceIds];
+    },
+  );
 
   for (const badgeWithPartnerCompetences of badgesWithPartnerCompetences) {
     const badgeId = badgeWithPartnerCompetences[0];
