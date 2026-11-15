@@ -66,10 +66,10 @@
   },
   "dependencies": {
     "@hapi/basic": "7.0.2",
-    "@hapi/hapi": "21.4.12",
+    "@hapi/hapi": "21.4.13",
     "bcrypt": "6.0.0",
     "hapi-pino": "13.0.0",
-    "joi": "18.3.1",
+    "joi": "18.3.2",
     "knex": "3.3.0",
     "lodash": "4.18.1",
     "pg": "8.23.1",
