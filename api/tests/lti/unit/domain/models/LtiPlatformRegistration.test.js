@@ -20,4 +20,21 @@ describe('Unit | LTI | Domain | Model | LtiPlatformRegistration', function () {
       expect(ltiPlatformRegistration.platformOpenIdConfig).to.equal(platformOpenIdConfig);
     });
   });
+
+  describe('#frameAncestorsForCspHeader', function () {
+    it('returns frame-ancestors for Content-Security-Policy header', async function () {
+      // given
+      const ltiPlatformRegistration = domainBuilder.lti.buildLtiPlatformRegistration({
+        platform: domainBuilder.lti.buildLtiPlatform({
+          issuer: 'https://moodle.example.com/issuer/path',
+        }),
+      });
+
+      // when
+      const frameAncestors = ltiPlatformRegistration.frameAncestorsForCspHeader;
+
+      // then
+      expect(frameAncestors).to.equal('frame-ancestors https://moodle.example.com;');
+    });
+  });
 });

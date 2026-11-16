@@ -35,18 +35,17 @@ async function register(request, h, dependencies = { registerLtiPlatform: usecas
   const { openid_configuration: platformConfigurationUrl, registration_token: registrationToken } = request.query;
 
   try {
-    await dependencies.registerLtiPlatform({ platformConfigurationUrl, registrationToken });
+    const registration = await dependencies.registerLtiPlatform({ platformConfigurationUrl, registrationToken });
 
     return h
       .response(ltiRegistrationSerializer.serialize())
       .header('Content-Type', 'text/html; charset=utf-8')
-      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`);
+      .header('Content-Security-Policy', registration.frameAncestorsForCspHeader);
   } catch (err) {
     logger.warn({ err }, 'registration error');
     return h
       .response(ltiErrorSerializer.serialize({ title: 'Registration error', message: err.message ?? err }))
       .header('Content-Type', 'text/html; charset=utf-8')
-      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`)
       .code(400);
   }
 }
@@ -93,14 +92,13 @@ async function init(request, h, dependencies = { ltiPlatformRegistrationReposito
         }),
       )
       .header('Content-Type', 'text/html; charset=utf-8')
-      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`);
+      .header('Content-Security-Policy', registration.frameAncestorsForCspHeader);
   } catch (err) {
     return h
       .response(
         ltiErrorSerializer.serialize({ title: 'Initialization error', message: 'Please contact your administrator' }),
       )
       .header('Content-Type', 'text/html; charset=utf-8')
-      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`)
       .code(err.status ?? 500);
   }
 }
@@ -141,14 +139,13 @@ async function deepLink(request, h, dependencies = { ltiService }) {
     return h
       .redirect(campaignSelectionPageUrl)
       .header('Set-Cookie', ltiDeepLinkingAccessToken.encodedForSetCookieHeader)
-      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`);
+      .header('Content-Security-Policy', registration.frameAncestorsForCspHeader);
   } catch (err) {
     return h
       .response(
         ltiErrorSerializer.serialize({ title: 'Deep linking error', message: 'Please contact your administrator' }),
       )
       .header('Content-Type', 'text/html; charset=utf-8')
-      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`)
       .code(err.status ?? 500);
   }
 }
@@ -196,14 +193,13 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
       )
       .header('Content-Type', 'text/html; charset=utf-8')
       .header('Set-Cookie', LtiDeepLinkingAccessToken.setCookieHeaderForClearing())
-      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`);
+      .header('Content-Security-Policy', registration.frameAncestorsForCspHeader);
   } catch (err) {
     return h
       .response(
         ltiErrorSerializer.serialize({ title: 'Deep linking error', message: 'Please contact your administrator' }),
       )
       .header('Content-Type', 'text/html; charset=utf-8')
-      .header('Content-Security-Policy', `frame-ancestors ${request.info.referrer}`)
       .code(err.status ?? 500);
   }
 }
