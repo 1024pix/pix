@@ -137,7 +137,7 @@ async function deepLink(request, h, dependencies = { ltiService }) {
     });
 
     const locale = 'fr-FR'; // TODO: Generate this dynamically
-    const campaignSelectionPageUrl = urlService.getPixOrgaUrl(locale, { pathname: '/lti-campaign-selection' });
+    const campaignSelectionPageUrl = urlService.getPixOrgaUrl(locale, { pathname: '/embedded/lti-campaign-selection' });
     return h
       .redirect(campaignSelectionPageUrl)
       .header('Set-Cookie', ltiDeepLinkingAccessToken.encodedForSetCookieHeader)
