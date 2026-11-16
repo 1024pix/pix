@@ -1,7 +1,6 @@
 import Joi from 'joi';
 
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
-import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 import { EmbedCorrectionResponse } from '../EmbedCorrectionResponse.js';
 import { ValidatorEmbed } from '../validator/ValidatorEmbed.js';
 import { Embed } from './Embed.js';
@@ -10,8 +9,6 @@ class EmbedForAnswerVerification extends Embed {
   userResponse;
   constructor({ id, instruction, solution, validator, title, url, height }) {
     super({ id, instruction, isCompletionRequired: true, solution, title, url, height });
-
-    assertNotNullOrUndefined(solution, 'The solution is required for a verification embed');
 
     this.solution = { value: solution };
 
