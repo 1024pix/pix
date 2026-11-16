@@ -1,16 +1,5 @@
-import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
-
 class BlockInput {
   constructor({ input, inputType, size, display, placeholder, ariaLabel, tolerances, solutions }) {
-    assertNotNullOrUndefined(input, 'The input is required for an input block');
-    assertNotNullOrUndefined(inputType, 'The input type is required for an input block');
-    assertNotNullOrUndefined(size, 'The size is required for an input block');
-    assertNotNullOrUndefined(display, 'The display is required for an input block');
-    assertNotNullOrUndefined(placeholder, 'The placeholder is required for an input block');
-    assertNotNullOrUndefined(ariaLabel, 'The aria Label is required for an input block');
-    assertNotNullOrUndefined(tolerances, 'The tolerances are required for an input block');
-    assertNotNullOrUndefined(solutions, 'The solutions are required for an input block');
-
     this.type = 'input';
     this.input = input;
     this.inputType = inputType;
