@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import { llmDomainErrorMappingConfiguration } from '../../../../src/llm/application/http-error-mapper-configuration.js';
 import {
+  ApiNetworkError,
   ChatForbiddenError,
   ChatNotFoundError,
   ConfigurationNotFoundError,
@@ -154,6 +155,21 @@ describe('Unit | LLM | Application | HttpErrorMapperConfiguration', function () 
 
       // when
       const error = httpErrorMapper.httpErrorFn(new LLMApiError());
+
+      // then
+      expect(error).to.be.instanceOf(ServiceUnavailableError);
+    });
+  });
+
+  context('when mapping "ApiNetworkError"', function () {
+    it('returns an ServiceUnavailableError Http Error', function () {
+      // given
+      const httpErrorMapper = llmDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === ApiNetworkError.name,
+      );
+
+      // when
+      const error = httpErrorMapper.httpErrorFn(new ApiNetworkError());
 
       // then
       expect(error).to.be.instanceOf(ServiceUnavailableError);
