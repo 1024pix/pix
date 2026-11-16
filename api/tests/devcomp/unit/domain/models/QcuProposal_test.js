@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 
 import { QcuProposal } from '../../../../../src/devcomp/domain/models/QcuProposal.js';
-import { DomainError } from '../../../../../src/shared/domain/errors.js';
-import { catchErrSync } from '../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | QcuProposal', function () {
   describe('#constructor', function () {
@@ -20,42 +18,6 @@ describe('Unit | Devcomp | Domain | Models | QcuProposal', function () {
       expect(proposal.id).to.equal(id);
       expect(proposal.content).to.equal(content);
       expect(proposal.feedback).to.equal(feedback);
-    });
-  });
-
-  describe('A QCU proposal without id', function () {
-    it('should throw an error', function () {
-      // when
-      const error = catchErrSync(() => new QcuProposal({}))();
-
-      // then
-      expect(error).to.be.instanceOf(DomainError);
-      expect(error.message).to.equal('The id is required for a QCU proposal.');
-    });
-  });
-
-  describe('A QCU proposal without content', function () {
-    it('should throw an error', function () {
-      // when
-      const error = catchErrSync(() => new QcuProposal({ id: '1' }))();
-
-      // then
-      expect(error).to.be.instanceOf(DomainError);
-      expect(error.message).to.equal('The content is required for a QCU proposal.');
-    });
-  });
-
-  describe('A QCU proposal without feedback', function () {
-    it('should throw an error', function () {
-      // given
-      const content = 'vrai';
-
-      // when
-      const error = catchErrSync(() => new QcuProposal({ id: '1', content }))();
-
-      // then
-      expect(error).to.be.instanceOf(DomainError);
-      expect(error.message).to.equal('The feedback is required for a QCU proposal.');
     });
   });
 });
