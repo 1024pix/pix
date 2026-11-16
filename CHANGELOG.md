@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## [5.544.1](https://github.com/1024pix/pix/compare/v5.544.0...v5.544.1) (2026-11-16)
+
+### :building_construction: Tech
+
+- [#18737](https://github.com/1024pix/pix/pull/18737) LTI : Autoriser l’affichage de certaines URL en iframe (PIX-25065)
+- [#18817](https://github.com/1024pix/pix/pull/18817) Prise en compte de l'extention typescript pour les `EventHandler` et `JobHandler`
+- [#18822](https://github.com/1024pix/pix/pull/18822) Raccourcir le nom des variables d'environnement de l'export des knowledge elements des utilisateurs migrés.
+
+### :arrow_up: Montée de version
+
+- [#18818](https://github.com/1024pix/pix/pull/18818) Pin dependencies (certif)
+- [#18819](https://github.com/1024pix/pix/pull/18819) Pin dependencies (junior)
+- [#18733](https://github.com/1024pix/pix/pull/18733) Update dependency ember-source to v7 (junior)
+- [#18820](https://github.com/1024pix/pix/pull/18820) Update dependency vite to v8.3.7 (orga)
+
 # [5.544.0](https://github.com/1024pix/pix/compare/v5.543.0...v5.544.0) (2026-11-16)
 
 ### :rocket: Amélioration
