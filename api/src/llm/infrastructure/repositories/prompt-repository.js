@@ -95,6 +95,19 @@ export async function prompt({ messages, configuration, chatId }) {
     );
 
     if (status !== 502 || currentRetryCount >= MAX_RETRY_COUNT) {
+      logger.error(
+        {
+          err,
+          context: 'prompt-llm',
+          data: {
+            chatId,
+            configurationContext: configuration.context,
+            configurationName: configurationDTO.name,
+            responseStatus: status,
+          },
+        },
+        `could not reach LLM API after ${currentRetryCount + 1} attempt(s) : code ${status}`,
+      );
       throw new LLMApiError(err);
     }
 
