@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import JSZip from 'jszip';
 import sinon from 'sinon';
 
 import { CERTIFICATION_RESULT_STATUSES } from '../../../../../src/certification/results/domain/constants.ts';
@@ -316,14 +317,16 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
       sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
-    it('should return 200 HTTP status code', async function () {
+    it('should return a zip containing one CSV per published session', async function () {
       // given
       const server = await getServer();
 
       const { id: userId } = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
 
-      const { id: sessionId1 } = databaseBuilder.factory.buildSession({ date: '2026-01-01' });
-      const { id: sessionId2 } = databaseBuilder.factory.buildSession({ date: '2026-02-02' });
+      const { id: sessionId1 } = databaseBuilder.factory.buildSession({ date: '2026-01-01', publishedAt: new Date() });
+      const { id: sessionId2 } = databaseBuilder.factory.buildSession({ date: '2026-02-02', publishedAt: new Date() });
+      const { id: unpublishedSessionId } = databaseBuilder.factory.buildSession({ date: '2026-03-03' });
+      const unknownSessionId = unpublishedSessionId + 1;
 
       const candidates = [
         databaseBuilder.factory.buildCertificationCandidate({
@@ -361,7 +364,7 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
       // when
       const response = await server.inject({
         method: 'GET',
-        url: `/api/admin/sessions/download-selection-results?sessionIds=${sessionId1}&sessionIds=${sessionId2}`,
+        url: `/api/admin/sessions/download-selection-results?sessionIds=${sessionId1}&sessionIds=${sessionId2}&sessionIds=${unpublishedSessionId}&sessionIds=${unknownSessionId}`,
         headers: generateAuthenticatedUserRequestHeaders({ userId }),
       });
 
@@ -371,6 +374,12 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
       expect(response.headers['content-disposition']).to.contain(
         'attachment; filename=pix-sessions-results-1767243967000.zip',
       );
+
+      const zip = await JSZip.loadAsync(response.rawPayload);
+      expect(Object.keys(zip.files)).to.deep.equal([
+        `20260101_1530_resultats_session_${sessionId1}.csv`,
+        `20260202_1530_resultats_session_${sessionId2}.csv`,
+      ]);
     });
   });
 });

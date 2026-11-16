@@ -31,4 +31,22 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       );
     });
   });
+
+  describe('#findPublishedSessionIds', function () {
+    it('should return the ids of the given sessions that are published', async function () {
+      // given
+      const publishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date() }).id;
+      const unpublishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
+      databaseBuilder.factory.buildSession({ publishedAt: new Date() });
+      await databaseBuilder.commit();
+
+      // when
+      const sessionIds = await sessionForResultsSharingRepository.findPublishedSessionIds({
+        sessionIds: [publishedSessionId, unpublishedSessionId],
+      });
+
+      // then
+      expect(sessionIds).to.deep.equal([publishedSessionId]);
+    });
+  });
 });

@@ -10,3 +10,8 @@ export async function get(sessionId) {
     .first();
   return new SessionForResultsSharing(sessionDTO);
 }
+
+export async function findPublishedSessionIds({ sessionIds }) {
+  const knexConn = DomainTransaction.getConnection();
+  return knexConn('sessions').whereIn('id', sessionIds).whereNotNull('publishedAt').pluck('id');
+}

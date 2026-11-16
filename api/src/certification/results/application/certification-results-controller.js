@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 
 import { featureToggles } from '../../../shared/infrastructure/feature-toggles/index.js';
 import { getI18nFromRequest } from '../../../shared/infrastructure/i18n/i18n.js';
+import { createZipStream } from '../../../shared/infrastructure/utils/zip/create-zip-stream.ts';
 import { CertificationResultsLinkByEmailToken } from '../domain/models/tokens/CertificationResultsLinkByEmailToken.js';
 import { CertificationResultsLinkToken } from '../domain/models/tokens/CertificationResultsLinkToken.js';
 import * as sessionResultsLinkService from '../domain/services/session-results-link-service.js';
@@ -105,16 +106,28 @@ function generateSessionResultsDownloadLink(request, h, dependencies = { session
   return h.response({ sessionResultsLink });
 }
 
-async function downloadSelectedSessionsResults(request, h) {
+async function downloadSelectedSessionsResults(request, h, dependencies = { createZipStream: createZipStream }) {
   const i18n = getI18nFromRequest(request);
   const { sessionIds } = request.query;
 
-  const zip = await usecases.getSelectedSessionsResultsZip({ sessionIds, i18n });
+  const publishedSessionIds = await usecases.filterPublishedSessionIds({ sessionIds });
+
+  const argArray = publishedSessionIds.map((sessionId) => {
+    return {
+      sessionId,
+      i18n,
+    };
+  });
+
+  const zipStream = dependencies.createZipStream({
+    callbackFnc: usecases.getSessionCertificationResultsCsv,
+    callbackArgs: argArray,
+  });
 
   return h
-    .response(zip.content)
+    .response(zipStream)
     .header('Content-Type', 'application/zip')
-    .header('Content-Disposition', `attachment; filename=${zip.filename}`);
+    .header('Content-Disposition', `attachment; filename=pix-sessions-results-${Date.now()}.zip`);
 }
 
 export const certificationResultsController = {
