@@ -29,8 +29,8 @@ export async function getSelectedSessionsResultsZip({
     if (certificationResults.length) {
       const csvFile = await getSessionCertificationResultsCsv({
         sessionId,
-        certificationResults,
         i18n,
+        certificationResultRepository,
         sessionForResultsSharingRepository,
       });
 

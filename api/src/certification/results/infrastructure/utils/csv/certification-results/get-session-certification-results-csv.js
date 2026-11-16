@@ -5,11 +5,26 @@ import { SessionCertificationResultsCsvBuilder } from './SessionCertificationRes
 
 export async function getSessionCertificationResultsCsv({
   sessionId,
-  certificationResults,
+  resultRecipientEmail,
   i18n,
+  certificationResultRepository,
+  resultRecipientRepository,
   sessionForResultsSharingRepository,
 }) {
+  let certificationResults;
+
+  if (resultRecipientEmail) {
+    const resultRecipient = await resultRecipientRepository.get({ sessionId, resultRecipientEmail });
+
+    certificationResults = await certificationResultRepository.findByCertificationCandidateIds({
+      certificationCandidateIds: resultRecipient.candidateIds,
+    });
+  } else {
+    certificationResults = await certificationResultRepository.findBySessionId({ sessionId });
+  }
+
   const session = await sessionForResultsSharingRepository.get(sessionId);
+
   const certificationResultsCsvBuilder = new SessionCertificationResultsCsvBuilder({
     session,
     certificationResults,

@@ -32,8 +32,6 @@ import { getPrivateCertificate } from './get-private-certificate.js';
 import { getScoCertificationResultsByDivision } from './get-sco-certification-results-by-division.js';
 import { getSelectedSessionsResultsZip } from './get-selected-sessions-results-zip.js';
 import { getSessionCertificationReports } from './get-session-certification-reports.js';
-import { getSessionResults } from './get-session-results.js';
-import { getSessionResultsByResultRecipientEmail } from './get-session-results-by-result-recipient-email.js';
 import { getSessionResultsForRecipient } from './get-session-results-for-recipient.js';
 import { getShareableCertificate } from './get-shareable-certificate.js';
 
@@ -94,8 +92,6 @@ const usecasesWithoutInjectedDependencies = {
   getScoCertificationResultsByDivision,
   getSessionCertificationReports,
   getSessionCertificationResultsCsv,
-  getSessionResultsByResultRecipientEmail,
-  getSessionResults,
   getShareableCertificate,
   getSelectedSessionsResultsZip,
   getSessionResultsForRecipient,

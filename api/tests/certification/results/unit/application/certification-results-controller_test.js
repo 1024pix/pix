@@ -69,13 +69,8 @@ describe('Certification | Results | Unit | Controller | certification results', 
         .returns({ sessionId: 1, resultRecipientEmail: 'user@example.net' });
 
       sinon
-        .stub(usecases, 'getSessionResultsByResultRecipientEmail')
-        .withArgs({ sessionId: 1, resultRecipientEmail: 'user@example.net' })
-        .resolves([]);
-
-      sinon
         .stub(usecases, 'getSessionCertificationResultsCsv')
-        .withArgs({ sessionId: 1, certificationResults: [], i18n })
+        .withArgs({ sessionId: 1, resultRecipientEmail: 'user@example.net', i18n })
         .resolves({ content: 'csv content', filename: '20200101_1200_resultats_session_1.csv' });
 
       // when
@@ -98,7 +93,6 @@ describe('Certification | Results | Unit | Controller | certification results', 
       const userId = 274939274;
       const sessionId = 1;
       const fileName = `20200101_1200_resultats_session_${sessionId}.csv`;
-      const certificationResults = [];
       const token = Symbol('a beautiful token');
       const request = {
         payload: { token },
@@ -106,10 +100,9 @@ describe('Certification | Results | Unit | Controller | certification results', 
       };
       const i18n = getI18nFromRequest(request);
 
-      sinon.stub(usecases, 'getSessionResults').withArgs({ sessionId }).resolves(certificationResults);
       sinon
         .stub(usecases, 'getSessionCertificationResultsCsv')
-        .withArgs({ sessionId, certificationResults, i18n })
+        .withArgs({ sessionId, i18n })
         .resolves({ content: 'csv-string', filename: fileName });
       sinon.stub(CertificationResultsLinkToken, 'decode').withArgs(token).returns({ sessionId });
 

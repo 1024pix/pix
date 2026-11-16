@@ -36,14 +36,9 @@ async function getSessionResultsByRecipientEmail(request, h) {
 
   const readNewCertificationResults = await featureToggles.get('readNewCertificationResults');
   if (!readNewCertificationResults) {
-    const certificationResults = await usecases.getSessionResultsByResultRecipientEmail({
-      sessionId,
-      resultRecipientEmail,
-    });
-
     const csvResult = await usecases.getSessionCertificationResultsCsv({
       sessionId,
-      certificationResults,
+      resultRecipientEmail,
       i18n,
     });
 
@@ -78,11 +73,9 @@ async function postSessionResultsToDownload(request, h) {
   const i18n = getI18nFromRequest(request);
 
   const { sessionId } = CertificationResultsLinkToken.decode(request.payload.token);
-  const certificationResults = await usecases.getSessionResults({ sessionId });
 
   const csvResult = await usecases.getSessionCertificationResultsCsv({
     sessionId,
-    certificationResults,
     i18n,
   });
 

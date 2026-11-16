@@ -80,10 +80,12 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
 
           const candidate1 = dbf.buildCertificationCandidate({
             sessionId,
+            userId: dbf.buildUser().id,
             resultRecipientEmail: 'recipientEmail@example.net',
           });
           const candidate2 = dbf.buildCertificationCandidate({
             sessionId,
+            userId: dbf.buildUser().id,
             resultRecipientEmail: 'recipientEmail@example.net',
           });
 
