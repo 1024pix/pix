@@ -393,4 +393,136 @@ describe('Acceptance | LTI | Route | LTI', function () {
       expect(parsedCookie).to.have.property('value').that.is.not.empty;
     });
   });
+
+  describe('POST /api/lti/resource-link', function () {
+    const lineItemsUrl = 'https://moodle.example.net/mod/lti/services.php/2/lineitems?type_id=3';
+
+    let clientId, jwkPair;
+
+    beforeEach(async function () {
+      const { id: platformId } = databaseBuilder.factory.buildLtiPlatform({ issuer: 'https://moodle.example.net' });
+      clientId = databaseBuilder.factory.buildLtiPlatformRegistration({ platformId }).clientId;
+
+      jwkPair = await cryptoService.generateJSONWebKeyPair();
+
+      nock('https://moodle.example.net')
+        .get('/mod/lti/openid-configuration.php')
+        .reply(200, {
+          jwks_uri: 'https://moodle.example.net/jwks',
+          token_endpoint: 'https://moodle.example.net/token',
+        })
+        .get('/jwks')
+        .reply(200, { keys: [jwkPair.publicKey] })
+        .post('/token')
+        .reply(200, { token_type: 'Bearer', access_token: 'platform-access-token' })
+        .get('/mod/lti/services.php/2/lineitems')
+        .query(true)
+        .reply(200, [])
+        .post('/mod/lti/services.php/2/lineitems')
+        .query(true)
+        .reply(201, {})
+        .persist();
+    });
+
+    function buildIdToken({ campaignId, sub = '1234', resourceLinkId = '123456' }) {
+      return jsonwebtoken.sign(
+        {
+          aud: clientId,
+          sub,
+          'https://purl.imsglobal.org/spec/lti/claim/message_type': 'LtiResourceLinkRequest',
+          'https://purl.imsglobal.org/spec/lti/claim/custom': { campaign_id: String(campaignId) },
+          'https://purl.imsglobal.org/spec/lti/claim/resource_link': { id: resourceLinkId },
+          'https://purl.imsglobal.org/spec/lti-ags/claim/endpoint': { lineitems: lineItemsUrl },
+        },
+        { format: 'jwk', key: jwkPair.privateKey },
+        { algorithm: 'RS256', keyid: jwkPair.publicKey.kid, expiresIn: 3600 },
+      );
+    }
+
+    it('saves the LTI campaign participation and redirects to the campaign', async function () {
+      // given
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({ code: 'ABC123', type: 'PROFILES_COLLECTION' });
+      await databaseBuilder.commit();
+      const options = generateInjectOptions({
+        url: '/api/lti/resource-link',
+        method: 'POST',
+        payload: { id_token: buildIdToken({ campaignId }) },
+        urlEncodePayload: true,
+      });
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(302);
+      expect(response.headers.location).to.equal(urlService.getPixAppUrl('fr-FR', { pathname: '/campagnes/ABC123' }));
+
+      const [row] = await knex('lti_campaign_participations');
+      expect(row).to.deep.include({
+        clientId,
+        platformUserSub: '1234',
+        lineItemContainerUrl: lineItemsUrl,
+        campaignId,
+        sentAt: null,
+      });
+      expect(row.createdAt).to.be.instanceOf(Date);
+    });
+
+    it('does not save the participation twice when the user launches the resource again', async function () {
+      // given
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({ code: 'ABC123', type: 'PROFILES_COLLECTION' });
+      await databaseBuilder.commit();
+      const options = generateInjectOptions({
+        url: '/api/lti/resource-link',
+        method: 'POST',
+        payload: { id_token: buildIdToken({ campaignId }) },
+        urlEncodePayload: true,
+      });
+      await server.inject(options);
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(302);
+      const rows = await knex('lti_campaign_participations');
+      expect(rows).to.have.lengthOf(1);
+    });
+
+    it('saves a participation per campaign when the user launches two resources of the same course', async function () {
+      // given
+      const { id: firstCampaignId } = databaseBuilder.factory.buildCampaign({
+        code: 'ABC123',
+        type: 'PROFILES_COLLECTION',
+      });
+      const { id: secondCampaignId } = databaseBuilder.factory.buildCampaign({
+        code: 'DEF456',
+        type: 'PROFILES_COLLECTION',
+      });
+      await databaseBuilder.commit();
+      const firstCampaignOptions = generateInjectOptions({
+        url: '/api/lti/resource-link',
+        method: 'POST',
+        payload: { id_token: buildIdToken({ campaignId: firstCampaignId, resourceLinkId: 'resource-link-1' }) },
+        urlEncodePayload: true,
+      });
+      const secondCampaignOptions = generateInjectOptions({
+        url: '/api/lti/resource-link',
+        method: 'POST',
+        payload: { id_token: buildIdToken({ campaignId: secondCampaignId, resourceLinkId: 'resource-link-2' }) },
+        urlEncodePayload: true,
+      });
+
+      // when
+      await server.inject(firstCampaignOptions);
+      await server.inject(secondCampaignOptions);
+
+      // then
+      const rows = await knex('lti_campaign_participations').select('lineItemContainerUrl', 'campaignId').orderBy('id');
+      expect(rows).to.deep.equal([
+        { lineItemContainerUrl: lineItemsUrl, campaignId: firstCampaignId },
+        { lineItemContainerUrl: lineItemsUrl, campaignId: secondCampaignId },
+      ]);
+    });
+  });
 });
