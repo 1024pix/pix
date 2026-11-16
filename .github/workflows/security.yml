@@ -296,6 +296,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: 
       - gate
+      - fetch_results
     if: ${{ !cancelled() && needs.fetch_results.outputs.status != '' }}
     permissions:
       pull-requests: write
