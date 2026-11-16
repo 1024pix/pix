@@ -392,9 +392,6 @@ export const userRoutes = [
           'current-password': Joi.string().required(),
           'new-password': PasswordSchema.required(),
         }),
-        failAction: (request, h, error) => {
-          return EntityValidationError.fromJoiErrors(error.details);
-        },
       },
       notes: [
         "- Modifie le mot de passe de l'utilisateur authentifié, après vérification de son mot de passe actuel.",

@@ -860,7 +860,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       expect(response.result.errors[0].detail).to.equal('The password you entered is invalid.');
     });
 
-    it('returns 422 HTTP status code when new password does not match password policy', async function () {
+    it('returns 400 HTTP status code when new password does not match password policy', async function () {
       // given
       const user = databaseBuilder.factory.buildUser.withRawPassword({
         email: 'judy.howl@example.net',
@@ -884,7 +884,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(422);
+      expect(response.statusCode).to.equal(400);
     });
 
     it('returns 400 HTTP status code when user has no Pix authentication method', async function () {
