@@ -26,6 +26,5 @@ export async function changeUserPassword({
   });
 
   const hashedPassword = await cryptoService.hashPassword(newPassword);
-
   await authenticationMethodRepository.updatePassword({ userId, hashedPassword });
 }
