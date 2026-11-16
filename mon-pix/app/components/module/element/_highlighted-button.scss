@@ -27,6 +27,15 @@
   p {
     margin: 0;
   }
+
+  &__close-button {
+    @extend %pix-body-m;
+
+    margin-top: var(--pix-spacing-2x);
+    color: var(--pix-primary-700);
+    font-weight: var(--pix-font-bold);
+    text-decoration: underline;
+  }
 }
 
 .module-glossary-word {

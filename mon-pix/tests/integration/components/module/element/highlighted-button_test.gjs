@@ -107,8 +107,29 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           await click(button);
 
           // then
-          assert.ok(screen.getByRole('tooltip', { name: definition }));
+          assert.ok(
+            screen.getByRole('tooltip', { name: "C'est que des emmerdes et à la fin tu meurs. Fermer la définition" }),
+          );
           assert.dom(button).hasAttribute('aria-expanded', 'true');
+        });
+
+        test('should display a close button in tooltip', async function (assert) {
+          // given
+          const definition = "C'est que des emmerdes et à la fin tu meurs.";
+          const textElement = {
+            content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
+            type: 'text',
+            tag: ' ',
+          };
+
+          //  when
+          const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+          const button = screen.getByRole('button', { name: 'vie' });
+          await click(button);
+
+          // then
+          const closeButton = screen.getByRole('button', { name: 'Fermer la définition' });
+          assert.dom(closeButton).exists();
         });
 
         module('when the user clicks outside the highlighted button', function () {
@@ -132,10 +153,41 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
             assert.dom(button).hasAttribute('aria-expanded', 'false');
           });
         });
+
+        module('when the user clicks on tooltip close button', function () {
+          test('should hide the tooltip with the definition', async function (assert) {
+            // given
+            const definition = "C'est que des emmerdes et à la fin tu meurs.";
+            const textElement = {
+              content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
+              type: 'text',
+              tag: ' ',
+            };
+
+            //  when
+            const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+            const button = screen.getByRole('button', { name: 'vie' });
+            await click(button);
+            const closeButton = screen.getByRole('button', { name: 'Fermer la définition' });
+            await click(closeButton);
+
+            // then
+            assert.dom(screen.queryByRole('tooltip', { name: definition })).doesNotExist();
+            assert.dom(button).hasAttribute('aria-expanded', 'false');
+          });
+        });
       });
     });
 
-    module('in both', function () {
+    module('in both', function (hooks) {
+      hooks.beforeEach(function () {
+        sinon.stub(window, 'matchMedia').callThrough().withArgs(breakpoints.mobile).returns({ matches: false });
+      });
+
+      hooks.afterEach(function () {
+        sinon.restore();
+      });
+
       module('when the highlighted button is focused', function () {
         test('should display a tooltip with the definition', async function (assert) {
           // given

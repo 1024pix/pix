@@ -8,6 +8,7 @@ let tooltipCounter = 0;
 class HighlightedButton extends HTMLElement {
   #tooltipElement = null;
   #buttonElement = null;
+  #closeButton = null;
 
   connectedCallback() {
     const isAlreadyRendered = this.querySelector(':scope > button');
@@ -28,6 +29,12 @@ class HighlightedButton extends HTMLElement {
 
     const isMobile = window.matchMedia(breakpoints.mobile).matches;
     if (isMobile) {
+      this.#closeButton = this.#createElementFromHTML(
+        `<button type="button" class="module-glossary-tooltip__close-button">Fermer la définition</button>`,
+      );
+      this.#closeButton.addEventListener('click', () => this.close());
+      this.#tooltipElement.append(this.#closeButton);
+
       this.#buttonElement.addEventListener('click', () => this.open());
     } else {
       this.#buttonElement.addEventListener('pointerenter', () => this.open());
