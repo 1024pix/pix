@@ -11,6 +11,26 @@ module('Integration | Component | analysis-header', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('for campaign or global analysis', function () {
+    test('it should display header', async function (assert) {
+      // given
+      const router = this.owner.lookup('service:router');
+      sinon.stub(router, 'currentRouteName').value('');
+      const model = { campaign: { hasSharedParticipations: true } };
+
+      // when
+      const screen = await render(<template><AnalysisHeader @model={{model}} /></template>);
+
+      // then
+      assert.ok(screen.getByText(t('pages.campaign-analysis.description.resume', { count: 2 })));
+      assert.ok(screen.getByText(t('pages.campaign-analysis.description.explanation', { count: 2 })));
+      assert.ok(screen.getByText(t('pages.campaign-analysis.description.nota-bene', { count: 2 })));
+      assert.ok(screen.getByText(t('pages.campaign-analysis.levels-correspondence.levels.beginner')));
+      assert.ok(screen.getByText(t('pages.campaign-analysis.levels-correspondence.levels.independent')));
+      assert.ok(screen.getByText(t('pages.campaign-analysis.levels-correspondence.levels.advanced')));
+      assert.ok(screen.getByText(t('pages.campaign-analysis.levels-correspondence.levels.expert')));
+      assert.ok(screen.getByRole('link', { name: t('pages.campaign-analysis.levels-correspondence.infos.text') }));
+    });
+
     test('it should navigate the competences view', async function (assert) {
       // given
       const router = this.owner.lookup('service:router');
@@ -45,6 +65,26 @@ module('Integration | Component | analysis-header', function (hooks) {
   });
 
   module('for participant assessment analysis', function () {
+    test('it should display header', async function (assert) {
+      // given
+      const router = this.owner.lookup('service:router');
+      sinon.stub(router, 'currentRouteName').value('');
+      const model = { isForParticipant: true };
+
+      // when
+      const screen = await render(<template><AnalysisHeader @model={{model}} /></template>);
+
+      // then
+      assert.ok(screen.getByText(t('pages.campaign-analysis.description.resume', { count: 1 })));
+      assert.ok(screen.getByText(t('pages.campaign-analysis.description.explanation', { count: 1 })));
+      assert.ok(screen.getByText(t('pages.campaign-analysis.description.nota-bene', { count: 1 })));
+      assert.ok(screen.getByText(t('pages.campaign-analysis.levels-correspondence.levels.beginner')));
+      assert.ok(screen.getByText(t('pages.campaign-analysis.levels-correspondence.levels.independent')));
+      assert.ok(screen.getByText(t('pages.campaign-analysis.levels-correspondence.levels.advanced')));
+      assert.ok(screen.getByText(t('pages.campaign-analysis.levels-correspondence.levels.expert')));
+      assert.ok(screen.getByRole('link', { name: t('pages.campaign-analysis.levels-correspondence.infos.text') }));
+    });
+
     test('it should navigate the competences view', async function (assert) {
       // given
       const router = this.owner.lookup('service:router');
