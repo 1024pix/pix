@@ -3,7 +3,6 @@ import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import { validateEntity } from '../../../shared/domain/validators/entity-validator.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
-import { POLE_EMPLOI } from '../constants/oidc-identity-providers.js';
 
 const REVOKED_PASSWORD_VALUE = '[revoked]';
 
@@ -47,21 +46,6 @@ class OidcAuthenticationComplement {
   }
 }
 
-class PoleEmploiOidcAuthenticationComplement extends OidcAuthenticationComplement {
-  constructor({ accessToken, refreshToken, expiredDate } = {}) {
-    super({ accessToken, refreshToken, expiredDate });
-
-    validateEntity(
-      Joi.object({
-        accessToken: Joi.string().required(),
-        refreshToken: Joi.string().optional(),
-        expiredDate: Joi.date().required(),
-      }),
-      this,
-    );
-  }
-}
-
 class GARAuthenticationComplement {
   constructor({ firstName, lastName } = {}) {
     this.firstName = firstName;
@@ -83,7 +67,6 @@ const validationSchema = Joi.object({
   authenticationComplement: Joi.when('identityProvider', {
     switch: [
       { is: NON_OIDC_IDENTITY_PROVIDERS.PIX.code, then: Joi.object().instance(PixAuthenticationComplement).required() },
-      { is: POLE_EMPLOI.code, then: Joi.object().instance(PoleEmploiOidcAuthenticationComplement).required() },
       { is: NON_OIDC_IDENTITY_PROVIDERS.GAR.code, then: Joi.any().empty() },
     ],
     otherwise: Joi.object().instance(OidcAuthenticationComplement).allow(null),
@@ -171,7 +154,6 @@ class AuthenticationMethod {
 
 AuthenticationMethod.PixAuthenticationComplement = PixAuthenticationComplement;
 AuthenticationMethod.OidcAuthenticationComplement = OidcAuthenticationComplement;
-AuthenticationMethod.PoleEmploiOidcAuthenticationComplement = PoleEmploiOidcAuthenticationComplement;
 AuthenticationMethod.GARAuthenticationComplement = GARAuthenticationComplement;
 
 export { AuthenticationMethod };

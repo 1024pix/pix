@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 
-import * as OidcIdentityProviders from '../../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { authenticationMethodsSerializer } from '../../../../../../src/identity-access-management/infrastructure/serializers/jsonapi/authentication-methods.serializer.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -10,7 +9,10 @@ describe('Unit | Identity Access Management | Infrastructure | Serializer | JSON
       // given
       const user = domainBuilder.buildUser();
       const authenticationMethods = [
-        domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId: user.id }),
+        domainBuilder.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
+          userId: user.id,
+          identityProviderCode: 'ZZZ_ZZZ',
+        }),
       ];
 
       // when
@@ -22,7 +24,7 @@ describe('Unit | Identity Access Management | Infrastructure | Serializer | JSON
           {
             type: 'authentication-methods',
             attributes: {
-              'identity-provider': OidcIdentityProviders.POLE_EMPLOI.code,
+              'identity-provider': 'ZZZ_ZZZ',
             },
           },
         ],

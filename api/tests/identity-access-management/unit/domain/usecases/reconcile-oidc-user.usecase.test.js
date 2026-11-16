@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { POLE_EMPLOI } from '../../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import {
   AuthenticationKeyExpired,
   MissingUserAccountError,
@@ -135,12 +134,9 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
           userInfo,
         });
 
-        oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo, sessionContent }).returns(
-          new AuthenticationMethod.OidcAuthenticationComplement({
-            accessToken: 'accessToken',
-            expiredDate: new Date(),
-          }),
-        );
+        oidcAuthenticationService.createAuthenticationComplement
+          .withArgs({ userInfo, sessionContent })
+          .returns(new AuthenticationMethod.OidcAuthenticationComplement());
 
         authenticationMethodRepository.create.throws(
           new AlreadyExistingEntityError(
@@ -176,12 +172,9 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
         userInfo,
       });
 
-      oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo, sessionContent }).returns(
-        new AuthenticationMethod.OidcAuthenticationComplement({
-          accessToken: 'accessToken',
-          expiredDate: new Date(),
-        }),
-      );
+      oidcAuthenticationService.createAuthenticationComplement
+        .withArgs({ userInfo, sessionContent })
+        .returns(new AuthenticationMethod.OidcAuthenticationComplement());
 
       sinon.stub(UserAccessToken, 'generateOidcUserToken').returns({ accessToken: 'accessToken' });
 
@@ -224,12 +217,9 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
         sessionContent,
         userInfo,
       });
-      oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo, sessionContent }).returns(
-        new AuthenticationMethod.OidcAuthenticationComplement({
-          accessToken: 'accessToken',
-          expiredDate: new Date(),
-        }),
-      );
+      oidcAuthenticationService.createAuthenticationComplement
+        .withArgs({ userInfo, sessionContent })
+        .returns(new AuthenticationMethod.OidcAuthenticationComplement());
 
       // when
       await reconcileOidcUser({
@@ -254,143 +244,6 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
       expect(authenticationMethodRepository.updateLastLoggedAtByIdentityProvider).to.be.calledWithExactly({
         userId,
         identityProvider,
-      });
-    });
-  });
-
-  context('when identityProvider is POLE_EMPLOI', function () {
-    let authenticationMethodRepository,
-      authenticationSessionService,
-      identityProvider,
-      oidcAuthenticationService,
-      oidcAuthenticationServiceRegistry,
-      userLoginRepository,
-      lastUserApplicationConnectionsRepository;
-
-    const accessTokenLifespanSeconds = 48 * 60 * 60;
-
-    beforeEach(function () {
-      identityProvider = POLE_EMPLOI.code;
-      authenticationMethodRepository = { create: sinon.stub(), updateLastLoggedAtByIdentityProvider: sinon.stub() };
-      userLoginRepository = {
-        updateLastLoggedAt: sinon.stub(),
-      };
-      authenticationSessionService = {
-        generateSessionId: sinon.stub(),
-        getByKey: sinon.stub(),
-      };
-      oidcAuthenticationService = {
-        identityProvider,
-        shouldCloseSession: true,
-        accessTokenLifespanMs: accessTokenLifespanSeconds * 1000,
-        sessionDurationSeconds: accessTokenLifespanSeconds,
-        saveIdToken: sinon.stub(),
-        createAuthenticationComplement: sinon.stub(),
-      };
-      oidcAuthenticationServiceRegistry = {
-        getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
-      };
-
-      lastUserApplicationConnectionsRepository = {
-        upsert: sinon.stub(),
-      };
-    });
-
-    it('creates authentication method with complement', async function () {
-      // given
-      const sessionContent = { idToken: 'idToken' };
-      const externalIdentifier = 'external_id';
-      const userId = 1;
-      const userInfo = { userId, externalIdentityId: externalIdentifier, firstName: 'Anne' };
-      authenticationSessionService.getByKey.resolves({
-        sessionContent,
-        userInfo,
-      });
-      oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo, sessionContent }).returns(
-        new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
-          accessToken: 'accessToken',
-          expiredDate: new Date(),
-        }),
-      );
-
-      // when
-      await reconcileOidcUser({
-        authenticationKey: 'authenticationKey',
-        identityProvider,
-        audience,
-        authenticationSessionService,
-        authenticationMethodRepository,
-        oidcAuthenticationServiceRegistry,
-        userLoginRepository,
-        requestedApplication,
-        lastUserApplicationConnectionsRepository,
-      });
-
-      // then
-      expect(authenticationMethodRepository.create).to.be.calledOnce;
-      const { authenticationMethod } = authenticationMethodRepository.create.firstCall.args[0];
-      expect(authenticationMethod).to.deep.contain({ identityProvider, externalIdentifier, userId });
-      expect(authenticationMethod.authenticationComplement).to.be.instanceOf(
-        AuthenticationMethod.PoleEmploiOidcAuthenticationComplement,
-      );
-    });
-
-    it('returns an access token, the logout url uuid and updates the last logged date', async function () {
-      // given
-      const sessionContent = { idToken: 'idToken' };
-      const externalIdentifier = 'external_id';
-      const userId = 1;
-      const userInfo = { userId, externalIdentityId: externalIdentifier, firstName: 'Anne' };
-      authenticationSessionService.getByKey.resolves({
-        sessionContent,
-        userInfo,
-      });
-      oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo, sessionContent }).returns(
-        new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
-          accessToken: 'accessToken',
-          expiredDate: new Date(),
-        }),
-      );
-      authenticationSessionService.generateSessionId.returns('random-session-id');
-      sinon.stub(UserAccessToken, 'generateOidcUserToken').returns({ accessToken: 'accessToken' });
-      oidcAuthenticationService.saveIdToken
-        .withArgs({ idToken: sessionContent.idToken, userId })
-        .resolves('logoutUrlUUID');
-
-      // when
-      const result = await reconcileOidcUser({
-        authenticationKey: 'authenticationKey',
-        identityProvider,
-        audience,
-        authenticationSessionService,
-        authenticationMethodRepository,
-        oidcAuthenticationServiceRegistry,
-        userLoginRepository,
-        requestedApplication,
-        lastUserApplicationConnectionsRepository,
-      });
-
-      // then
-      expect(UserAccessToken.generateOidcUserToken).to.be.calledWithExactly({
-        userId,
-        audience,
-        sessionId: 'random-session-id',
-        expiresIn: accessTokenLifespanSeconds,
-      });
-      expect(oidcAuthenticationService.saveIdToken).to.be.calledOnce;
-      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId });
-      expect(result).to.deep.equal({
-        accessToken: 'accessToken',
-        logoutUrlUUID: 'logoutUrlUUID',
-      });
-      expect(lastUserApplicationConnectionsRepository.upsert).to.be.calledWithExactly({
-        userId,
-        application: 'app',
-        lastLoggedAt: sinon.match.instanceOf(Date),
-      });
-      expect(authenticationMethodRepository.updateLastLoggedAtByIdentityProvider).to.be.calledWithExactly({
-        userId,
-        identityProvider: oidcAuthenticationService.identityProvider,
       });
     });
   });

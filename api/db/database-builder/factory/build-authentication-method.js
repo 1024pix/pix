@@ -1,7 +1,6 @@
 import lodash from 'lodash';
 const { isUndefined } = lodash;
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../src/identity-access-management/domain/constants/identity-providers.js';
-import * as OidcIdentityProviders from '../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { cryptoService } from '../../../src/shared/domain/services/crypto-service.js';
 import { DEFAULT_PASSWORD } from '../../constants.js';
@@ -105,12 +104,12 @@ buildAuthenticationMethod.withPixAsIdentityProviderAndPassword = function ({
   });
 };
 
+/**
+ * @deprecated it is a fake, will be removed soon, use withOidcProviderAsIdentityProvider instead.
+ */
 buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
   id = databaseBuffer.getNextId(),
   externalIdentifier,
-  accessToken = 'ABC789',
-  refreshToken = 'DEF753',
-  expiredDate = new Date('2022-01-01'),
   userId,
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-01-02'),
@@ -124,12 +123,7 @@ buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
   }
   const values = {
     id,
-    identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
-    authenticationComplement: new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
-      accessToken,
-      refreshToken,
-      expiredDate,
-    }),
+    identityProvider: 'POLE_EMPLOI',
     externalIdentifier: generatedIdentifier,
     userId,
     createdAt,
@@ -146,9 +140,11 @@ buildAuthenticationMethod.withOidcProviderAsIdentityProvider = function ({
   id = databaseBuffer.getNextId(),
   externalIdentifier,
   userId,
-  identityProvider,
+  identityProviderCode,
   authenticationComplement,
-  lastLoggedAt = new Date(),
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-02-02'),
+  lastLoggedAt = null,
 }) {
   userId = isUndefined(userId) ? buildUser().id : userId;
 
@@ -158,7 +154,7 @@ buildAuthenticationMethod.withOidcProviderAsIdentityProvider = function ({
   }
   const values = {
     id,
-    identityProvider,
+    identityProvider: identityProviderCode,
     externalIdentifier: generatedIdentifier,
     userId,
     authenticationComplement:
@@ -167,8 +163,8 @@ buildAuthenticationMethod.withOidcProviderAsIdentityProvider = function ({
         firstName: 'oidc',
         lastName: 'user',
       }),
-    createdAt: new Date('2020-01-01'),
-    updatedAt: new Date('2020-01-02'),
+    createdAt,
+    updatedAt,
     lastLoggedAt,
   };
   return databaseBuffer.pushInsertable({
@@ -179,7 +175,7 @@ buildAuthenticationMethod.withOidcProviderAsIdentityProvider = function ({
 
 buildAuthenticationMethod.withIdentityProvider = function ({
   id = databaseBuffer.getNextId(),
-  identityProvider,
+  identityProviderCode,
   externalIdentifier,
   userId,
   createdAt = new Date('2020-01-01'),
@@ -194,7 +190,7 @@ buildAuthenticationMethod.withIdentityProvider = function ({
   }
   const values = {
     id,
-    identityProvider,
+    identityProvider: identityProviderCode,
     externalIdentifier: generatedIdentifier,
     userId,
     createdAt,

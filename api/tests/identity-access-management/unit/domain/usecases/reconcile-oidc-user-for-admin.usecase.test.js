@@ -69,7 +69,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
       // given
       const oidcAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withIdentityProvider({
         externalIdentifier: '789fge',
-        identityProvider: 'genericOidcProviderCode',
+        identityProviderCode: 'genericOidcProviderCode',
       });
       userRepository.getByEmail.resolves({ email: 'anne@example.net', id: 1 });
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(oidcAuthenticationMethod);
@@ -82,7 +82,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
       const error = await catchErr(reconcileOidcUserForAdmin)({
         authenticationKey: 'authenticationKey',
         email: 'anne@example.net',
-        identityProvider: 'genericOidcProviderCode',
+        identityProviderCode: 'genericOidcProviderCode',
         audience,
         oidcAuthenticationService,
         authenticationSessionService,
@@ -107,10 +107,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | reconcile-oidc-
         userInfo: { externalIdentityId: externalIdentifier },
       });
       oidcAuthenticationService.createAuthenticationComplement.returns(
-        new AuthenticationMethod.OidcAuthenticationComplement({
-          accessToken: 'accessToken',
-          expiredDate: new Date(),
-        }),
+        new AuthenticationMethod.OidcAuthenticationComplement(),
       );
 
       authenticationSessionService.generateSessionId.returns('random-session-id');

@@ -572,8 +572,6 @@ export const config = {
     computeCertificabilityJobEnabled: toBoolean(process.env.PGBOSS_COMPUTE_CERTIFICABILITY_JOB_ENABLED, true),
   },
   poleEmploi: {
-    clientId: process.env.POLE_EMPLOI_CLIENT_ID,
-    clientSecret: process.env.POLE_EMPLOI_CLIENT_SECRET,
     poleEmploiSendingsLimit: _getNumber(process.env.POLE_EMPLOI_SENDING_LIMIT, 100),
   },
   port: parseInt(process.env.PORT, 10) || 3000,

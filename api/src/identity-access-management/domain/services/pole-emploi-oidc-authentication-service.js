@@ -1,9 +1,5 @@
-import dayjs from 'dayjs';
-
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { OidcAuthenticationService } from '../../domain/services/oidc-authentication-service.js';
-import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
 export class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor(oidcProvider, dependencies) {
@@ -19,33 +15,6 @@ export class PoleEmploiOidcAuthenticationService extends OidcAuthenticationServi
 
     this.logoutUrl = oidcProvider.additionalRequiredProperties.logoutUrl;
     this.afterLogoutUrl = oidcProvider.additionalRequiredProperties.afterLogoutUrl;
-    this.sendingUrl = oidcProvider.additionalRequiredProperties.sendingUrl;
-  }
-
-  // Override because we need idToken to send results after a campaign
-  // Sending campaign results is specific to Pole Emploi
-  async createUserAccount({
-    user,
-    sessionContent,
-    externalIdentityId,
-    userToCreateRepository,
-    authenticationMethodRepository,
-  }) {
-    let createdUserId;
-
-    await DomainTransaction.execute(async () => {
-      createdUserId = (await userToCreateRepository.create({ user })).id;
-
-      const authenticationMethod = new AuthenticationMethod({
-        identityProvider: this.identityProvider,
-        userId: createdUserId,
-        externalIdentifier: externalIdentityId,
-        authenticationComplement: this.createAuthenticationComplement({ sessionContent }),
-      });
-      await authenticationMethodRepository.create({ authenticationMethod });
-    });
-
-    return createdUserId;
   }
 
   async getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
@@ -63,13 +32,5 @@ export class PoleEmploiOidcAuthenticationService extends OidcAuthenticationServi
     await this.sessionTemporaryStorage.delete(key);
 
     return redirectTarget.toString();
-  }
-
-  createAuthenticationComplement({ sessionContent }) {
-    return new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
-      accessToken: sessionContent.accessToken,
-      refreshToken: sessionContent.refreshToken,
-      expiredDate: dayjs().add(sessionContent.expiresIn, 's').toDate(),
-    });
   }
 }

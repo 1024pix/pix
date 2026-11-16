@@ -3,7 +3,6 @@ const { isUndefined } = lodash;
 
 import { DEFAULT_PASSWORD } from '../../../../db/constants.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../src/identity-access-management/domain/constants/identity-providers.js';
-import * as OidcIdentityProviders from '../../../../src/identity-access-management/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { User } from '../../../../src/identity-access-management/domain/models/User.js';
 import { cryptoService } from '../../../../src/shared/domain/services/crypto-service.js';
@@ -103,27 +102,21 @@ buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword = function 
   });
 };
 
-buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
+buildAuthenticationMethod.withOidcProviderAsIdentityProvider = function ({
   id,
+  identityProviderCode = 'SOME_IDENTITY_PROVIDER',
   externalIdentifier = `externalId${id}`,
-  accessToken = 'ABC456789',
-  refreshToken = 'ZFGEADZA789',
-  expiredDate = new Date('2022-01-01'),
   userId,
   createdAt = new Date('2020-01-01'),
-  updatedAt = new Date('2020-02-01'),
+  updatedAt = new Date('2020-02-02'),
   lastLoggedAt = null,
 } = {}) {
   userId = isUndefined(userId) ? _buildUser().id : userId;
 
   return new AuthenticationMethod({
     id,
-    identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
-    authenticationComplement: new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
-      accessToken,
-      refreshToken,
-      expiredDate,
-    }),
+    identityProvider: identityProviderCode,
+    authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement(),
     externalIdentifier,
     userId,
     createdAt,
@@ -134,7 +127,7 @@ buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
 
 buildAuthenticationMethod.withIdentityProvider = function ({
   id,
-  identityProvider,
+  identityProviderCode,
   externalIdentifier = `externalId${id}`,
   userId,
   createdAt = new Date('2020-01-01'),
@@ -145,7 +138,7 @@ buildAuthenticationMethod.withIdentityProvider = function ({
 
   return new AuthenticationMethod({
     id,
-    identityProvider,
+    identityProvider: identityProviderCode,
     externalIdentifier,
     userId,
     createdAt,

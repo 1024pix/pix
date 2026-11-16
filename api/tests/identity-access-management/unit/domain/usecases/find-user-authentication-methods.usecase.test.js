@@ -12,7 +12,7 @@ describe('Unit | Identity Access Management | Domain | UseCase | find-user-authe
     };
 
     const user = domainBuilder.buildUser();
-    domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId: user.id });
+    domainBuilder.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({ userId: user.id });
 
     // when
     await findUserAuthenticationMethods({ userId: user.id, authenticationMethodRepository });

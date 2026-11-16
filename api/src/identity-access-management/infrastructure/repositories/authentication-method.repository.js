@@ -8,7 +8,6 @@ import {
 } from '../../../shared/domain/errors.js';
 import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
-import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
 
 const AUTHENTICATION_METHODS_TABLE = 'authentication-methods';
@@ -379,10 +378,6 @@ function _toDomain(authenticationMethodDTO) {
 function _toAuthenticationComplement(identityProvider, authenticationComplement) {
   if (identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code) {
     return new AuthenticationMethod.PixAuthenticationComplement(authenticationComplement);
-  }
-
-  if (identityProvider === OidcIdentityProviders.POLE_EMPLOI.code) {
-    return new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement(authenticationComplement);
   }
 
   if (identityProvider === NON_OIDC_IDENTITY_PROVIDERS.GAR.code) {

@@ -258,12 +258,12 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
     context('when there is no Pix authentication method', function () {
       it('should return null', function () {
         // given
-        const poleEmploiAuthenticationMethod =
-          domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider();
+        const withOidcProviderAsIdentityProvider =
+          domainBuilder.buildAuthenticationMethod.withOidcProviderAsIdentityProvider();
 
         const user = new User({
           id: 1,
-          authenticationMethods: [poleEmploiAuthenticationMethod],
+          authenticationMethods: [withOidcProviderAsIdentityProvider],
         });
 
         // when
@@ -296,14 +296,12 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
 
     context('when there is no Pix authentication method', function () {
       it('returns null', function () {
-        // given
-        const poleEmploiAuthenticationMethod =
-          domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider();
+        const withOidcProviderAsIdentityProvider =
+          domainBuilder.buildAuthenticationMethod.withOidcProviderAsIdentityProvider();
 
-        // when
         const user = new User({
           id: 1,
-          authenticationMethods: [poleEmploiAuthenticationMethod],
+          authenticationMethods: [withOidcProviderAsIdentityProvider],
         });
 
         // then

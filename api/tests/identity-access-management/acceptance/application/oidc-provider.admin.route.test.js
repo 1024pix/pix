@@ -274,7 +274,7 @@ describe('Acceptance | Identity Access Management | Route | Admin | oidc-provide
           {
             application: 'admin',
             applicationTld: '.fr',
-            identityProvider: 'OIDC_EXAMPLE_NET-ADMIN',
+            identityProviderCode: 'OIDC_EXAMPLE_NET-ADMIN',
             connectionMethodCode: 'OIDC_EXAMPLE_NET',
           },
         ]);

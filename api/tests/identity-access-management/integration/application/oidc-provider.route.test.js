@@ -260,12 +260,12 @@ describe('Integration | Identity Access Management | Application | Route | oidc-
           logout_url_uuid: 'invalid',
         };
 
-        const identityProvider = 'OIDC_LOGOUT_EXAMPLE_NET';
+        const identityProviderCode = 'OIDC_LOGOUT_EXAMPLE_NET';
         const [openIdClientMock] = await createMockedTestOidcProviders([
           {
             application: 'orga',
             applicationTld: '.org',
-            identityProvider,
+            identityProviderCode,
           },
         ]);
 

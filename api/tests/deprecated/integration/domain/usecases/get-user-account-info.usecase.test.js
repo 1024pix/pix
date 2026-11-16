@@ -16,7 +16,7 @@ describe('Integration | Deprecated  | Domain | Usecases | get-user-account-info'
         const user = databaseBuilder.factory.buildUser({ email: null });
         databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
           userId: user.id,
-          identityProvider: 'AUTHORIZED_IDENTITY_PROVIDER',
+          identityProviderCode: 'AUTHORIZED_IDENTITY_PROVIDER',
         });
         await databaseBuilder.commit();
 

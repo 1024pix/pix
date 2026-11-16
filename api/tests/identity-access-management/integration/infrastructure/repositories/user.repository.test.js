@@ -59,7 +59,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           const userId = databaseBuilder.factory.buildUser().id;
           databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
             externalIdentifier: externalIdentityId,
-            identityProvider: 'genericOidcProviderCode',
+            identityProviderCode: 'genericOidcProviderCode',
             userId,
           });
           await databaseBuilder.commit();
@@ -68,29 +68,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
           const foundUser = await userRepository.findByExternalIdentifier({
             externalIdentityId,
             identityProvider: 'genericOidcProviderCode',
-          });
-
-          // then
-          expect(foundUser).to.be.an.instanceof(User);
-          expect(foundUser.id).to.equal(userId);
-        });
-      });
-
-      context('when identityProvider is POLE_EMPLOI', function () {
-        it('returns user informations for the given external identity id and identity provider', async function () {
-          // given
-          const externalIdentityId = 'external-identity-id';
-          const userId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-            externalIdentifier: externalIdentityId,
-            userId,
-          });
-          await databaseBuilder.commit();
-
-          // when
-          const foundUser = await userRepository.findByExternalIdentifier({
-            externalIdentityId,
-            identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
           });
 
           // then
