@@ -120,6 +120,43 @@ describe('Acceptance | Prescription | learner management | Application | organiz
     });
   });
 
+  describe('DELETE /admin/organization-learners', function () {
+    let options;
+
+    it('should return a 200 status after having successfully deleted learners from different organizations', async function () {
+      // given
+      const organization1 = databaseBuilder.factory.buildOrganization();
+      const learner1 = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organization1.id,
+      });
+      const learner2 = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organization1.id,
+      });
+      const organization2 = databaseBuilder.factory.buildOrganization();
+      const learner3 = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organization2.id,
+      });
+      const userId = databaseBuilder.factory.buildUser.withRole({ role: PIX_ADMIN.ROLES.SUPPORT }).id;
+
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'DELETE',
+        url: `/api/admin/organization-learners`,
+        headers: generateAuthenticatedUserRequestHeaders({ userId }),
+        payload: {
+          organizationLearnerIds: [learner1.id, learner2.id, learner3.id],
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
   describe('POST /organizations/{organizationId}/import-organization-learners', function () {
     let options, connectedUser;
 

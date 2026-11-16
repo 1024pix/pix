@@ -94,6 +94,32 @@ const register = async (server) => {
       },
     },
     {
+      method: 'DELETE',
+      path: '/api/admin/organization-learners',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.hasAtLeastOneAccessOf([
+              securityPreHandlers.checkAdminMemberHasRoleSupport,
+              securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            ]),
+            assign: 'hasAtLeastOneAccessOf',
+          },
+        ],
+        validate: {
+          payload: Joi.object({
+            organizationLearnerIds: Joi.array().required().items(identifiersType.organizationLearnerId.required()),
+          }),
+        },
+        handler: organizationLearnersController.deleteOrganizationLearnersFromAdmin,
+        notes: [
+          '- **This is a restricted endpoint to ADMIN_SUPPORT member from Administration back office**\n' +
+            '- it allows to delete a list of organization learners belonging to various organizations',
+        ],
+        tags: ['api', 'admin', 'organization-learners'],
+      },
+    },
+    {
       method: 'PATCH',
       path: '/api/organizations/{organizationId}/organization-learners/{organizationLearnerId}',
       config: {
