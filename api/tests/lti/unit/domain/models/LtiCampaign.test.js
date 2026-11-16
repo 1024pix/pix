@@ -6,18 +6,29 @@ describe('Unit | LTI | Domain | Model | LtiCampaign', function () {
   const i18n = {
     __: (key) =>
       ({
+        'lti.profiles-collection-campaign-description': 'Description campagne collecte de profils',
         'lti.line-item-mastery-rate': 'Taux de réussite',
         'lti.line-item-pix-score': 'Score Pix global',
       })[key],
   };
 
-  function buildLtiCampaign({ type = 'ASSESSMENT', competences } = {}) {
+  function buildLtiCampaign({
+    id = 123,
+    code = 'ABCD12345',
+    name = 'Campagne',
+    type = 'ASSESSMENT',
+    description,
+    competences,
+    organizationId,
+  } = {}) {
     return new LtiCampaign({
-      id: 123,
-      code: 'ABCD12345',
-      name: 'Campagne',
+      id,
+      code,
+      name,
       type,
+      description,
       competences,
+      organizationId,
     });
   }
 
@@ -39,6 +50,66 @@ describe('Unit | LTI | Domain | Model | LtiCampaign', function () {
 
       // then
       expect(campaign.competences).to.equal(competences);
+    });
+  });
+
+  describe('#belongsToOneOf', function () {
+    it('returns whether the campaign belongs to one of a list of organizations', function () {
+      // given
+      const campaign = buildLtiCampaign({ organizationId: 300 });
+
+      // when
+      const result1 = campaign.belongsToOneOf([100, 200]);
+      const result2 = campaign.belongsToOneOf([100, 300]);
+
+      // then
+      expect(result1).to.be.false;
+      expect(result2).to.be.true;
+    });
+  });
+
+  describe('#buildContentItem', function () {
+    it('returns content item for deep linking response', function () {
+      // given
+      const campaign = buildLtiCampaign({
+        id: 713705,
+        code: 'C4MP46N3',
+        name: 'Nom de la campagne',
+        description: 'Description de la campagne',
+      });
+
+      // when
+      const contentItem = campaign.buildContentItem(i18n);
+
+      // then
+      expect(contentItem).to.deep.equal({
+        type: 'ltiResourceLink',
+        title: 'Nom de la campagne',
+        text: 'Description de la campagne',
+        custom: { campaign_id: '713705', campaign_code: 'C4MP46N3' },
+      });
+    });
+
+    describe('when campaign has no description', function () {
+      it('uses generic profiles collection description', function () {
+        // given
+        const campaign = buildLtiCampaign({
+          id: 713705,
+          code: 'C4MP46N3',
+          name: 'Nom de la campagne',
+        });
+
+        // when
+        const contentItem = campaign.buildContentItem(i18n);
+
+        // then
+        expect(contentItem).to.deep.equal({
+          type: 'ltiResourceLink',
+          title: 'Nom de la campagne',
+          text: 'Description campagne collecte de profils',
+          custom: { campaign_id: '713705', campaign_code: 'C4MP46N3' },
+        });
+      });
     });
   });
 

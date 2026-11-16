@@ -174,20 +174,13 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
   try {
     const campaign = await usecases.getLtiCampaign({ campaignId });
 
-    if (!organizationIds.includes(campaign?.organizationId)) {
+    if (!campaign?.belongsToOneOf(organizationIds)) {
       logger.warn({ campaignId, organizationIds }, 'campaign does not belong to organizations');
       throw new BadRequestError();
     }
 
-    const contentItem = {
-      type: 'ltiResourceLink',
-      title: campaign.name,
-      text: campaign.description ?? i18n.__('lti.profiles-collection-campaign-description'),
-      custom: { campaign_id: String(campaign.id), campaign_code: campaign.code },
-    };
-
     const deepLinkingResponse = await dependencies.ltiService.encodeDeepLinkingResponse({
-      contentItems: [contentItem],
+      contentItems: [campaign.buildContentItem(i18n)],
       registration,
       deepLinkingSettings,
     });
