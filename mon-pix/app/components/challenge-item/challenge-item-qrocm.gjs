@@ -1,4 +1,4 @@
-import { PixIcon, PixNotificationAlert } from '@1024pix/nebulix-ember';
+import { PixNotificationAlert } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -58,6 +58,7 @@ export default class ChallengeItemQrocm extends Component {
   answerChanged() {
     this.args.setAnswerValue(this._getAnswerValue());
     this.args.setAnswerError(this._hasError());
+    this.args.hideErrorMessage?.();
   }
 
   @action
@@ -67,16 +68,8 @@ export default class ChallengeItemQrocm extends Component {
     this.args.setAnswerError(this._hasError());
   }
 
-  get classList() {
-    let list = 'rounded-panel__row challenge-response';
-    list += this.args.answer ? ' challenge-response--locked' : '';
-    list += this.args.assessment.isCertification ? ' challenge-response--certif' : '';
-
-    return list;
-  }
-
   <template>
-    <div class={{this.classList}}>
+    <div class="challenge-response">
       <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
       <div class="challenge-proposals">
         <QrocmProposal
@@ -89,12 +82,6 @@ export default class ChallengeItemQrocm extends Component {
           @isAnswerFieldDisabled={{@isAnswerFieldDisabled}}
         />
       </div>
-
-      {{#if @answer}}
-        <div class="challenge-response__locked-overlay">
-          <PixIcon @name="lock" @plainIcon={{true}} @ariaHidden={{true}} class="challenge-response-locked__icon" />
-        </div>
-      {{/if}}
 
       {{yield to="timeGauge"}}
     </div>

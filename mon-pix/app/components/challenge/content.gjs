@@ -8,6 +8,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import isInteger from 'lodash/isInteger';
 import ChallengeActions from 'mon-pix/components/challenge/challenge-actions';
+import ChallengeWrapper from 'mon-pix/components/challenge/challenge-wrapper';
 import FocusedOutNotification from 'mon-pix/components/challenge/focusedOutNotification';
 import ModeBanner from 'mon-pix/components/challenge/mode-banner';
 import ChallengeStatement from 'mon-pix/components/challenge-statement';
@@ -30,7 +31,7 @@ export default class ChallengeContent extends Component {
   @service store;
   @service currentUser;
 
-  get isAnswerFieldDisabled() {
+  get hasAnswer() {
     return !!this.args.answer;
   }
 
@@ -78,12 +79,15 @@ export default class ChallengeContent extends Component {
   @action
   setAnswerValue(value) {
     this.answerValue = value;
-    if (this.displayErrorMessage) this.displayErrorMessage = false;
   }
 
   @action
   setAnswerError(value) {
     this.hasError = value;
+  }
+
+  @action
+  hideErrorMessage() {
     if (this.displayErrorMessage) this.displayErrorMessage = false;
   }
 
@@ -200,26 +204,29 @@ export default class ChallengeContent extends Component {
             @isTextToSpeechActivated={{@isTextToSpeechActivated}}
           />
 
-          <ChallengeItem
-            @challenge={{@challenge}}
-            @assessment={{@assessment}}
-            @answer={{@answer}}
-            @timeoutChallenge={{@timeoutChallenge}}
-            @resetAllChallengeInfo={{@resetAllChallengeInfo}}
-            @resetChallengeInfoOnResume={{@resetChallengeInfoOnResume}}
-            @onFocusIntoChallenge={{fn @setFocusedOutOfChallenge false}}
-            @onFocusOutOfChallenge={{fn @setFocusedOutOfChallenge true}}
-            @onFocusOutOfWindow={{@focusedOutOfWindow}}
-            @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
-            @isFocusedChallengeAndUserHasFocusedOutOfChallenge={{@isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
-            @isTextToSpeechActivated={{@isTextToSpeechActivated}}
-            @setAnswerValue={{this.setAnswerValue}}
-            @setAnswerError={{this.setAnswerError}}
-            @displayErrorMessage={{this.displayErrorMessage}}
-            @displayTimer={{this.displayTimer}}
-            @setChallengeAsTimedOut={{this.setChallengeAsTimedOut}}
-            @isAnswerFieldDisabled={{this.isAnswerFieldDisabled}}
-          />
+          <ChallengeWrapper @hasAnswer={{this.hasAnswer}} @isCertification={{@assessment.isCertification}}>
+            <ChallengeItem
+              @challenge={{@challenge}}
+              @assessment={{@assessment}}
+              @answer={{@answer}}
+              @timeoutChallenge={{@timeoutChallenge}}
+              @resetAllChallengeInfo={{@resetAllChallengeInfo}}
+              @resetChallengeInfoOnResume={{@resetChallengeInfoOnResume}}
+              @onFocusIntoChallenge={{fn @setFocusedOutOfChallenge false}}
+              @onFocusOutOfChallenge={{fn @setFocusedOutOfChallenge true}}
+              @onFocusOutOfWindow={{@focusedOutOfWindow}}
+              @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
+              @isFocusedChallengeAndUserHasFocusedOutOfChallenge={{@isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
+              @isTextToSpeechActivated={{@isTextToSpeechActivated}}
+              @setAnswerValue={{this.setAnswerValue}}
+              @setAnswerError={{this.setAnswerError}}
+              @hideErrorMessage={{this.hideErrorMessage}}
+              @displayErrorMessage={{this.displayErrorMessage}}
+              @displayTimer={{this.displayTimer}}
+              @setChallengeAsTimedOut={{this.setChallengeAsTimedOut}}
+              @isAnswerFieldDisabled={{this.hasAnswer}}
+            />
+          </ChallengeWrapper>
         </PixBlock>
 
         {{#if @assessment}}
@@ -231,7 +238,7 @@ export default class ChallengeContent extends Component {
             @resumeAssessment={{this.resumeAssessment}}
             @skipChallenge={{this.skipChallenge}}
             @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
-            @isDisabled={{this.isAnswerFieldDisabled}}
+            @isDisabled={{this.hasAnswer}}
             @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
             @hasOngoingChallengeLiveAlert={{@assessment.hasOngoingChallengeLiveAlert}}
             @hasOngoingCompanionLiveAlert={{@assessment.hasOngoingCompanionLiveAlert}}

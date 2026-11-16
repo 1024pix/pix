@@ -1,0 +1,23 @@
+@use 'pix-design-tokens/breakpoints';
+
+.challenge-wrapper {
+  position: relative;
+  padding: var(--pix-spacing-4x);
+  background: var(--pix-primary-50);
+  border-radius: 12px;
+
+  @include breakpoints.device-is('tablet') {
+    padding: var(--pix-spacing-6x);;
+  }
+
+  &--certif {
+    background: var(--pix-certif-50);
+  }
+
+  &__lock-icon {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translate(-50%, -50%);
+  }
+}

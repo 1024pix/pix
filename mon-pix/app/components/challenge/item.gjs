@@ -83,6 +83,7 @@ export default class Item extends Component {
       @isFocusedChallenge={{this.isFocusedChallenge}}
       @setAnswerValue={{@setAnswerValue}}
       @setAnswerError={{@setAnswerError}}
+      @hideErrorMessage={{@hideErrorMessage}}
       @displayErrorMessage={{@displayErrorMessage}}
       @isAnswerFieldDisabled={{@isAnswerFieldDisabled}}
     >

@@ -1,4 +1,4 @@
-import { PixIcon, PixInput, PixNotificationAlert, PixSelect, PixTextarea } from '@1024pix/nebulix-ember';
+import { PixInput, PixNotificationAlert, PixSelect, PixTextarea } from '@1024pix/nebulix-ember';
 import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -113,12 +113,14 @@ export default class ChallengeItemQroc extends Component {
   @action
   answerChanged() {
     this._notifyAnswerChange();
+    this.args.hideErrorMessage?.();
   }
 
   @action
   onChangeSelect(value) {
     this.qrocProposalAnswerValue = value;
     this._notifyAnswerChange();
+    this.args.hideErrorMessage?.();
   }
 
   get _blocks() {
@@ -145,17 +147,9 @@ export default class ChallengeItemQroc extends Component {
     window.removeEventListener('message', this.postMessageHandler);
   }
 
-  get classList() {
-    let list = 'rounded-panel__row challenge-response';
-    list += this.args.answer ? ' challenge-response--locked' : '';
-    list += this.args.assessment.isCertification ? ' challenge-response--certif' : '';
-
-    return list;
-  }
-
   <template>
     {{#if this.showProposal}}
-      <div class={{this.classList}}>
+      <div class="challenge-response">
         <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
         <div class="challenge-proposals qroc-proposal">
           {{#each this._blocks as |block|}}
@@ -253,12 +247,6 @@ export default class ChallengeItemQroc extends Component {
 
           {{/each}}
         </div>
-
-        {{#if @answer}}
-          <div class="challenge-response__locked-overlay">
-            <PixIcon @name="lock" @plainIcon={{true}} @ariaHidden={{true}} class="challenge-response-locked__icon" />
-          </div>
-        {{/if}}
 
         {{yield to="timeGauge"}}
       </div>

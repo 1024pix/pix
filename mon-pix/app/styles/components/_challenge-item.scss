@@ -17,8 +17,6 @@
 
   display: flex;
   flex-direction: column;
-  margin: 4px;
-  background-color: var(--pix-neutral-20);
 
   label {
     font-weight: var(--pix-font-normal);
@@ -105,31 +103,6 @@
 }
 
 form .challenge-response {
-  background: var(--pix-primary-50);
-
-  &--certif {
-    background: var(--pix-certif-50);
-  }
-
-  &--locked {
-    position: relative;
-
-    &:hover {
-      .challenge-response__locked-overlay {
-        opacity: 1;
-        transition: 0.9s ease;
-      }
-    }
-  }
-
-  &__locked-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-  }
-
   .challenge-response__instructions {
     @extend %pix-body-s;
 

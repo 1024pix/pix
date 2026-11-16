@@ -1,4 +1,4 @@
-import { PixIcon, PixNotificationAlert } from '@1024pix/nebulix-ember';
+import { PixNotificationAlert } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -29,18 +29,11 @@ export default class ChallengeItemQcu extends Component {
   answerChanged() {
     this.args.setAnswerValue(this._getAnswerValue());
     this.args.setAnswerError(this._hasError());
-  }
-
-  get classList() {
-    let list = 'rounded-panel__row challenge-response';
-    list += this.args.answer ? ' challenge-response--locked' : '';
-    list += this.args.assessment.isCertification ? ' challenge-response--certif' : '';
-
-    return list;
+    this.args.hideErrorMessage?.();
   }
 
   <template>
-    <fieldset class={{this.classList}}>
+    <fieldset class="challenge-response">
       <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
       <legend class="challenge-response__instructions">{{t "pages.challenge.parts.answer-instructions.qcu"}}</legend>
       <div class="challenge-proposals">
@@ -54,12 +47,6 @@ export default class ChallengeItemQcu extends Component {
           @shuffled={{@challenge.shuffled}}
         />
       </div>
-
-      {{#if @answer}}
-        <div class="challenge-response__locked-overlay">
-          <PixIcon @name="lock" @plainIcon={{true}} @ariaHidden={{true}} class="challenge-response-locked__icon" />
-        </div>
-      {{/if}}
 
       {{yield to="timeGauge"}}
     </fieldset>

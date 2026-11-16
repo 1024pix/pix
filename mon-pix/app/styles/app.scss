@@ -182,6 +182,7 @@
 @use '../components/ui/assessment/progress-bar' as *;
 
 /* challenge */
+@use 'challenge/challenge-wrapper' as *;
 @use 'challenge/timeout-gauge' as *;
 @use 'challenge/challenge-actions' as *;
 @use 'challenge/mode-banner' as *;
