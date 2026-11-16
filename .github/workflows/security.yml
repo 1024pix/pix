@@ -17,7 +17,10 @@ permissions: {}
 jobs:
   gate: # runs only for some actions
     runs-on: ubuntu-latest
-    if: github.event.action != 'labeled' || github.event.label.name == 'security update'
+    if: >-
+      github.event.action != 'labeled'
+      || github.event.label.name == '🛡️ security update'
+      || github.event.label.name == 'deptrack-reload'
     steps:
       - run: echo "Security scan triggered by ${{ github.event_name }}/${{ github.event.action }}"
 
