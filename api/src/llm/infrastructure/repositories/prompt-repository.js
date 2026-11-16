@@ -80,7 +80,7 @@ export async function prompt({ messages, configuration, chatId }) {
     }
 
     const { status, err } = await handleFetchErrors(response);
-    logger.error(
+    logger.warn(
       {
         err,
         context: 'prompt-llm',
