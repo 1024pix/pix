@@ -892,7 +892,7 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       const user = databaseBuilder.factory.buildUser({ email: 'judy.howl@example.net' });
       databaseBuilder.factory.buildAuthenticationMethod.withOidcProviderAsIdentityProvider({
         userId: user.id,
-        identityProvider: 'OIDC_PROVIDER_EXAMPLE',
+        identityProviderCode: 'OIDC_PROVIDER_EXAMPLE',
       });
       await databaseBuilder.commit();
 
