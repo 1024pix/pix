@@ -1,5 +1,61 @@
 # Pix Changelog
 
+# [5.544.0](https://github.com/1024pix/pix/compare/v5.543.0...v5.544.0) (2026-11-16)
+
+### :rocket: Amélioration
+
+- [#18780](https://github.com/1024pix/pix/pull/18780) Afficher le formulaire de création de lot de crédits (PIX-24742)
+- [#18778](https://github.com/1024pix/pix/pull/18778) Creer une route pour ajouter un lot de crédits v3 à une organisation (PIX-24740)
+- [#18767](https://github.com/1024pix/pix/pull/18767) Initialiser les line items LTI lors du lancement d'une ressource (PIX-24999)
+- [#18716](https://github.com/1024pix/pix/pull/18716) Planifier l'export des knowledge elements des utilisateurs migrés.
+
+### :bug: Correction
+
+- [#18815](https://github.com/1024pix/pix/pull/18815) Les tests E2E certification sont en échec car la commande de lancement de l'application n'est pas la bonne pour le build en vite
+- [#18779](https://github.com/1024pix/pix/pull/18779) Ne pas interrompre un téléchargement de plusieurs PDFs de plusieurs sessions si une des sessions ne produit pas de certificats (PIX-25098)
+
+### :building_construction: Tech
+
+- [#18777](https://github.com/1024pix/pix/pull/18777) Afficher le bandeau des politiques de confidentialités pour toutes les routes (PIX-24852)
+- [#18300](https://github.com/1024pix/pix/pull/18300) Ajoute une fiche sur les Aggregate Roots
+- [#18783](https://github.com/1024pix/pix/pull/18783) Déprogrammer les jobs planifiés désactivés ou sans cron dans le JobClient.
+- [#18615](https://github.com/1024pix/pix/pull/18615) Fiabilise les tests d'acceptance de publication de session et de campagnes Maddo
+- [#18750](https://github.com/1024pix/pix/pull/18750) Migre Junior vers Vite.
+- [#18802](https://github.com/1024pix/pix/pull/18802) Migre Pix Certif vers Vite.
+- [#18736](https://github.com/1024pix/pix/pull/18736) Nettoyer le code spécifique FranceTravail (Pole emploi) maintenant inutile (PIX-25036)
+- [#18784](https://github.com/1024pix/pix/pull/18784) Retirer la fonction find de lodash
+- [#18786](https://github.com/1024pix/pix/pull/18786) Supprimer ember-dayjs et dayjs de Pix Certif
+- [#18754](https://github.com/1024pix/pix/pull/18754) Utiliser la nouvelle table de résultats pour supporter les téléchargements de résultats CSV pour les prescripteurs (PIX-25061)
+
+### :arrow_up: Montée de version
+
+- [#18816](https://github.com/1024pix/pix/pull/18816) Pin dependencies (api)
+- [#18805](https://github.com/1024pix/pix/pull/18805) Update aws-sdk-js-v3 monorepo to v3.1164.0 (api)
+- [#18787](https://github.com/1024pix/pix/pull/18787) Update dependency @babel/core to v7.29.13 (certif)
+- [#18806](https://github.com/1024pix/pix/pull/18806) Update dependency @ember/test-helpers to v5.8.0 (admin)
+- [#18808](https://github.com/1024pix/pix/pull/18808) Update dependency @ember/test-helpers to v5.8.0 (certif)
+- [#18809](https://github.com/1024pix/pix/pull/18809) Update dependency @ember/test-helpers to v5.8.0 (junior)
+- [#18810](https://github.com/1024pix/pix/pull/18810) Update dependency @ember/test-helpers to v5.8.0 (mon-pix)
+- [#18811](https://github.com/1024pix/pix/pull/18811) Update dependency @formatjs/intl to v6.1.5 (mon-pix)
+- [#18812](https://github.com/1024pix/pix/pull/18812) Update dependency @formatjs/intl-durationformat to v0.12.4 (mon-pix)
+- [#18788](https://github.com/1024pix/pix/pull/18788) Update dependency baseline-browser-mapping to v2.11.35 (e2e-playwright)
+- [#18789](https://github.com/1024pix/pix/pull/18789) Update dependency cookie to v2.0.2 (api)
+- [#18791](https://github.com/1024pix/pix/pull/18791) Update dependency cron-parser to v5.10.4 (api)
+- [#18793](https://github.com/1024pix/pix/pull/18793) Update dependency dependency-cruiser to v18.7.2 (api)
+- [#18813](https://github.com/1024pix/pix/pull/18813) Update dependency dotenv to v18.0.10 (e2e-playwright)
+- [#18727](https://github.com/1024pix/pix/pull/18727) Update dependency ember-source to v7 (certif)
+- [#18794](https://github.com/1024pix/pix/pull/18794) Update dependency eslint-plugin-cypress to v7.0.3 (e2e)
+- [#18804](https://github.com/1024pix/pix/pull/18804) Update dependency eslint-plugin-cypress to v7.0.4 (e2e)
+- [#18795](https://github.com/1024pix/pix/pull/18795) Update dependency joi to v18.3.2 (admin)
+- [#18807](https://github.com/1024pix/pix/pull/18807) Update dependency jose to v6.2.16 (api)
+- [#18801](https://github.com/1024pix/pix/pull/18801) Update dependency knip to v6.44.2 (api)
+- [#18796](https://github.com/1024pix/pix/pull/18796) Update dependency nock to v15.0.6 (api)
+- [#18797](https://github.com/1024pix/pix/pull/18797) Update dependency pg-boss to v12.38.1 (api)
+- [#18798](https://github.com/1024pix/pix/pull/18798) Update dependency undici to v8.12.4 (api)
+- [#18799](https://github.com/1024pix/pix/pull/18799) Update dependency vite to v8.3.6 (orga)
+- [#18800](https://github.com/1024pix/pix/pull/18800) Update hapijs monorepo (api)
+- [#18803](https://github.com/1024pix/pix/pull/18803) Update hapijs monorepo (audit-logger)
+
 # [5.543.0](https://github.com/1024pix/pix/compare/v5.542.0...v5.543.0) (2026-11-13)
 
 ### :rocket: Amélioration
