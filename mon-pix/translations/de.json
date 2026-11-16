@@ -335,6 +335,106 @@
       }
     },
     "challenge": {
+      "feedback-panel": {
+        "actions": {
+          "open-close": "Ein Problem mit der Frage melden"
+        },
+        "description": "Pix freut sich über dein Feedback, um die angebotenen Inhalte zu verbessern!*",
+        "form": {
+          "actions": {
+            "submit": "Senden",
+            "submit-aria-label": "Meine Meldenachricht senden"
+          },
+          "fields": {
+            "category-selection": {
+              "label": "Ich habe ein Problem mit",
+              "options": {
+                "accessibility": "Die Zugänglichkeit der Prüfung",
+                "answer": "Die Antwort",
+                "download": "Die Datei zum Herunterladen",
+                "embed": "Die Anwendung",
+                "link": "Der in der Frage angegebene Link",
+                "other": "Andere",
+                "picture": "Das Bild",
+                "question": "Die Frage",
+                "tutorial": "Das Tutorial"
+              }
+            },
+            "detail-selection": {
+              "add-comment": "Kommentar hinzufügen",
+              "aria-first": "Ich habe ein Problem mit",
+              "aria-secondary": "Wähle eine Option, um dein Problem zu spezifizieren",
+              "label": "Wähle eine Option, um dein Problem zu spezifizieren",
+              "options": {
+                "answer-not-accepted": "Meine Antwort ist richtig, wurde aber nicht bestätigt",
+                "answer-not-agreed": "Ich stimme der Antwort nicht zu",
+                "download": {
+                  "edit-failure": {
+                    "label": "Ich kann die Datei nicht bearbeiten",
+                    "solution": "Die Datei ist wahrscheinlich im \"Schreibgeschützten Modus\" oder \"Geschützten Modus\" geöffnet. '<br>'Klicke auf \"Bearbeitung aktivieren\" oder \"Dokument bearbeiten\" auf dem Banner am oberen Rand der Datei, wenn es angezeigt wird. '<br>'Andernfalls speicheré die Datei unter einem anderen Namen und öffne diese neue Datei."
+                  },
+                  "lost": {
+                    "label": "Ich kann die heruntergeladene Datei nicht finden",
+                    "solution": "Standardmäßig wird eine heruntergeladene Datei in einem Ordner \"Downloads\" oder \"Downloads\" gespeichert. Es kann aber auch sein, dass sie am selben Ort wie dein letzter Download..."
+                  },
+                  "open-failure": {
+                    "label": "Ich kann die Datei nicht auf einem Computer öffnen",
+                    "solution": "Wenn du eine Datei nicht öffnen kannst, sieh dir '<a href=\"https://pix.org/fr/aide-ouvrir-modifier-retrouver-un-fichier-telecharge-depuis-une-question-pix\">'die Hilfe unter der Schaltfläche \"Herunterladen\"'</a>' an. Dort findest du empfohlene Software oder Online-Tools."
+                  },
+                  "other": "Ich habe ein weiteres Problem mit der Datei"
+                },
+                "embed-displayed-on-desktop-with-problems": {
+                  "label": "Auf dem Computer wird die Anwendung angezeigt, hat aber ein Problem",
+                  "solution": "Wir bemühen uns, dass die Anwendung auf allen Geräten, OS und Browsern funktionieren, aber es kann sein, dass du ein bestimmtes System verwendest. Du kannst hier aufhören und auf einem Computer fortfahren. '<br>'Spezifiziere dein Problem, indem du deinen Browser und dein Betriebssystem angibst."
+                },
+                "embed-displayed-on-mobile-devices-with-problems": {
+                  "label": "Auf dem Telefon oder Tablet wird die Anwendung ngezeigt, hat aber ein Problem",
+                  "solution": "Wir bemühen uns, dass die Anwendung auf allen Geräten, OS und Browsern funktionieren, aber es kann sein, dass du ein bestimmtes System verwendest.'<br>'Bitte spezifiziere dein Problem, indem du deinen Gerätetyp (Smartphone, Tablet ...), dein Betriebssystem und deinen Browser angibst."
+                },
+                "embed-not-displayed": {
+                  "label": "Die Anwendung wird nicht angezeigt",
+                  "solution": "Deine Internetverbindung ist vielleicht zu schwach.'<br>'Lade die Seite neu, indem du auf die Schaltfläche Aktualisieren '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' neben der Adressleiste drückst. Warte einen Moment, vielleicht wird der Simulator angezeigt. '<br><br> Falls nicht, kannst du es zu einem anderen Zeitpunkt oder von einem anderen Ort mit einer besseren Verbindung erneut versuchen?"
+                },
+                "embed-other": "Die Anwendung hat ein anderes Problem",
+                "link-other": "Der Link funktioniert nicht oder hat ein anderes Problem",
+                "link-unauthorized": {
+                  "label": "Der Link wird von meiner Organisation / Einrichtung blockiert...",
+                  "solution": "Du gehörst vielleicht einer Organisation an (Schulen, Universitäten, Unternehmen, Behörden, Vereine ...), die deine Accounts und Geräte schützt, indem sie die Internetseiten, auf die du Zugriff hast, einschränkt.'<br>'"
+                },
+                "other-challenge-proposal": "Ich habe eine (geniale) Idee für eine Prüfung",
+                "other-difficulty": "Ich habe ein anderes Problem",
+                "other-site-improvement": "Ich habe einen Verbesserungsvorschlag für die Plattform",
+                "picture-not-displayed": {
+                  "label": "Das Bild wird nicht angezeigt",
+                  "solution": "Deine Internetverbindung ist vielleicht zu schwach. '<br>'Lade die Seite neu, indem du auf die Schaltfläche Aktualisieren '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' neben der Adressleiste drückst. Warte einen Moment, vielleicht wird das Bild angezeigt. '<br><br>'Wenn nicht, kannst du es zu einem anderen Zeitpunkt oder von einem anderen Ort mit einer besseren Verbindung aus erneut versuchen?"
+                },
+                "picture-other": "Das Bild hat ein weiteres Problem",
+                "question-improvement": "Ich möchte eine Verbesserung der Frage vorschlagen",
+                "question-not-understood": "Ich verstehe die Frage nicht",
+                "tutorial-link-error": "Der Link zum Tutorial führt auf eine andere Seite oder eine Fehlerseite",
+                "tutorial-not-accepted": "Das Tutorial ist nicht geeignet",
+                "tutorial-proposal": "Hier ist ein Tutorial für dich"
+              },
+              "problem-suggestion-description": "Beschreibe dein Problem oder Anliegen"
+            }
+          },
+          "status": {
+            "error": {
+              "empty-message": "Bitte gib eine Nachricht ein.",
+              "max-characters": "Deine Nachricht ist auf 10.000 Zeichen begrenzt."
+            },
+            "success": "'<p>'Dein Kommentar wurde erfolgreich an das Pix-Projektteam weitergeleitet.'</p><p>'Dankex!'</p>'"
+          }
+        },
+        "information": {
+          "data-usage": "'<p>'Pix verarbeitet die Daten in diesem Bereich, um die aufgetretene Schwierigkeit zu verwalten und zu analysieren und von deinem Feedback zu profitieren. Du hast Rechte über deine Daten, die du ausüben kannst bei : <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Weitere Informationen über den Schutz deiner Daten und deine Rechte.'</a></p>'",
+          "guidance": "'<p>'* Achte darauf, was du in diesem Bereich schreibst: Bleib objektiv und sachlich in deinem eigenen Interesse und dem anderer.'</p><p>' Gib insbesondere keine Informationen über dich selbst oder Dritte über Gesundheit, Religion, politische, gewerkschaftliche und philosophische Meinungen, ethnische Herkunft sowie über Strafen und Verurteilungen ein.'</p>'"
+        },
+        "modal": {
+          "content": "'<p><strong>'Bist du sicher, dass du dieses Problem melden möchtest?'</strong></p><p>'Wir danken dir für deine Meldung, die vom Pix-Team sorgfältig geprüft wird. Wir berücksichtigen alle deine Rückmeldungen, um unseren Service und die Nutzererfahrung kontinuierlich zu verbessern. Eine persönliche Antwort können wir dir leider nicht geben. Vielen Dank für deine Mitarbeit.'</p>'",
+          "title": "Bestätigung der Ausschreibung"
+        }
+      },
       "mode-banner": {
         "focused": {
           "content": "Du musst auf dieser Seite bleiben, um zu antworten.",
@@ -1176,106 +1276,6 @@
           "reset-label": "Anwendung zurücksetzen"
         },
         "placeholder": "Laden der aktuellen Anwendung"
-      },
-      "feedback-panel": {
-        "actions": {
-          "open-close": "Ein Problem mit der Frage melden"
-        },
-        "description": "Pix freut sich über dein Feedback, um die angebotenen Inhalte zu verbessern!*",
-        "form": {
-          "actions": {
-            "submit": "Senden",
-            "submit-aria-label": "Meine Meldenachricht senden"
-          },
-          "fields": {
-            "category-selection": {
-              "label": "Ich habe ein Problem mit",
-              "options": {
-                "accessibility": "Die Zugänglichkeit der Prüfung",
-                "answer": "Die Antwort",
-                "download": "Die Datei zum Herunterladen",
-                "embed": "Die Anwendung",
-                "link": "Der in der Frage angegebene Link",
-                "other": "Andere",
-                "picture": "Das Bild",
-                "question": "Die Frage",
-                "tutorial": "Das Tutorial"
-              }
-            },
-            "detail-selection": {
-              "add-comment": "Kommentar hinzufügen",
-              "aria-first": "Ich habe ein Problem mit",
-              "aria-secondary": "Wähle eine Option, um dein Problem zu spezifizieren",
-              "label": "Wähle eine Option, um dein Problem zu spezifizieren",
-              "options": {
-                "answer-not-accepted": "Meine Antwort ist richtig, wurde aber nicht bestätigt",
-                "answer-not-agreed": "Ich stimme der Antwort nicht zu",
-                "download": {
-                  "edit-failure": {
-                    "label": "Ich kann die Datei nicht bearbeiten",
-                    "solution": "Die Datei ist wahrscheinlich im \"Schreibgeschützten Modus\" oder \"Geschützten Modus\" geöffnet. '<br>'Klicke auf \"Bearbeitung aktivieren\" oder \"Dokument bearbeiten\" auf dem Banner am oberen Rand der Datei, wenn es angezeigt wird. '<br>'Andernfalls speicheré die Datei unter einem anderen Namen und öffne diese neue Datei."
-                  },
-                  "lost": {
-                    "label": "Ich kann die heruntergeladene Datei nicht finden",
-                    "solution": "Standardmäßig wird eine heruntergeladene Datei in einem Ordner \"Downloads\" oder \"Downloads\" gespeichert. Es kann aber auch sein, dass sie am selben Ort wie dein letzter Download..."
-                  },
-                  "open-failure": {
-                    "label": "Ich kann die Datei nicht auf einem Computer öffnen",
-                    "solution": "Wenn du eine Datei nicht öffnen kannst, sieh dir '<a href=\"https://pix.org/fr/aide-ouvrir-modifier-retrouver-un-fichier-telecharge-depuis-une-question-pix\">'die Hilfe unter der Schaltfläche \"Herunterladen\"'</a>' an. Dort findest du empfohlene Software oder Online-Tools."
-                  },
-                  "other": "Ich habe ein weiteres Problem mit der Datei"
-                },
-                "embed-displayed-on-desktop-with-problems": {
-                  "label": "Auf dem Computer wird die Anwendung angezeigt, hat aber ein Problem",
-                  "solution": "Wir bemühen uns, dass die Anwendung auf allen Geräten, OS und Browsern funktionieren, aber es kann sein, dass du ein bestimmtes System verwendest. Du kannst hier aufhören und auf einem Computer fortfahren. '<br>'Spezifiziere dein Problem, indem du deinen Browser und dein Betriebssystem angibst."
-                },
-                "embed-displayed-on-mobile-devices-with-problems": {
-                  "label": "Auf dem Telefon oder Tablet wird die Anwendung ngezeigt, hat aber ein Problem",
-                  "solution": "Wir bemühen uns, dass die Anwendung auf allen Geräten, OS und Browsern funktionieren, aber es kann sein, dass du ein bestimmtes System verwendest.'<br>'Bitte spezifiziere dein Problem, indem du deinen Gerätetyp (Smartphone, Tablet ...), dein Betriebssystem und deinen Browser angibst."
-                },
-                "embed-not-displayed": {
-                  "label": "Die Anwendung wird nicht angezeigt",
-                  "solution": "Deine Internetverbindung ist vielleicht zu schwach.'<br>'Lade die Seite neu, indem du auf die Schaltfläche Aktualisieren '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' neben der Adressleiste drückst. Warte einen Moment, vielleicht wird der Simulator angezeigt. '<br><br> Falls nicht, kannst du es zu einem anderen Zeitpunkt oder von einem anderen Ort mit einer besseren Verbindung erneut versuchen?"
-                },
-                "embed-other": "Die Anwendung hat ein anderes Problem",
-                "link-other": "Der Link funktioniert nicht oder hat ein anderes Problem",
-                "link-unauthorized": {
-                  "label": "Der Link wird von meiner Organisation / Einrichtung blockiert...",
-                  "solution": "Du gehörst vielleicht einer Organisation an (Schulen, Universitäten, Unternehmen, Behörden, Vereine ...), die deine Accounts und Geräte schützt, indem sie die Internetseiten, auf die du Zugriff hast, einschränkt.'<br>'"
-                },
-                "other-challenge-proposal": "Ich habe eine (geniale) Idee für eine Prüfung",
-                "other-difficulty": "Ich habe ein anderes Problem",
-                "other-site-improvement": "Ich habe einen Verbesserungsvorschlag für die Plattform",
-                "picture-not-displayed": {
-                  "label": "Das Bild wird nicht angezeigt",
-                  "solution": "Deine Internetverbindung ist vielleicht zu schwach. '<br>'Lade die Seite neu, indem du auf die Schaltfläche Aktualisieren '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' neben der Adressleiste drückst. Warte einen Moment, vielleicht wird das Bild angezeigt. '<br><br>'Wenn nicht, kannst du es zu einem anderen Zeitpunkt oder von einem anderen Ort mit einer besseren Verbindung aus erneut versuchen?"
-                },
-                "picture-other": "Das Bild hat ein weiteres Problem",
-                "question-improvement": "Ich möchte eine Verbesserung der Frage vorschlagen",
-                "question-not-understood": "Ich verstehe die Frage nicht",
-                "tutorial-link-error": "Der Link zum Tutorial führt auf eine andere Seite oder eine Fehlerseite",
-                "tutorial-not-accepted": "Das Tutorial ist nicht geeignet",
-                "tutorial-proposal": "Hier ist ein Tutorial für dich"
-              },
-              "problem-suggestion-description": "Beschreibe dein Problem oder Anliegen"
-            }
-          },
-          "status": {
-            "error": {
-              "empty-message": "Bitte gib eine Nachricht ein.",
-              "max-characters": "Deine Nachricht ist auf 10.000 Zeichen begrenzt."
-            },
-            "success": "'<p>'Dein Kommentar wurde erfolgreich an das Pix-Projektteam weitergeleitet.'</p><p>'Dankex!'</p>'"
-          }
-        },
-        "information": {
-          "data-usage": "'<p>'Pix verarbeitet die Daten in diesem Bereich, um die aufgetretene Schwierigkeit zu verwalten und zu analysieren und von deinem Feedback zu profitieren. Du hast Rechte über deine Daten, die du ausüben kannst bei : <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Weitere Informationen über den Schutz deiner Daten und deine Rechte.'</a></p>'",
-          "guidance": "'<p>'* Achte darauf, was du in diesem Bereich schreibst: Bleib objektiv und sachlich in deinem eigenen Interesse und dem anderer.'</p><p>' Gib insbesondere keine Informationen über dich selbst oder Dritte über Gesundheit, Religion, politische, gewerkschaftliche und philosophische Meinungen, ethnische Herkunft sowie über Strafen und Verurteilungen ein.'</p>'"
-        },
-        "modal": {
-          "content": "'<p><strong>'Bist du sicher, dass du dieses Problem melden möchtest?'</strong></p><p>'Wir danken dir für deine Meldung, die vom Pix-Team sorgfältig geprüft wird. Wir berücksichtigen alle deine Rückmeldungen, um unseren Service und die Nutzererfahrung kontinuierlich zu verbessern. Eine persönliche Antwort können wir dir leider nicht geben. Vielen Dank für deine Mitarbeit.'</p>'",
-          "title": "Bestätigung der Ausschreibung"
-        }
       },
       "has-focused-out-of-window": {
         "certification": "Wir haben einen Seitenwechsel festgestellt. Deine Antwort wird als falsch gezählt. Wenn du gezwungen warst, die Seite zu wechseln, benachrichtige deine Aufsichtsperson und beantworte die Frage in ihrer Gegenwart.",

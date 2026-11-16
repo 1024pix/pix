@@ -1,8 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
-import FeedbackPanel from 'mon-pix/components/feedback-panel';
+import FeedbackPanel from 'mon-pix/components/challenge/feedback-panel';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -56,11 +55,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
         await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
-        await click(
-          screen.getByRole('option', {
-            name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
-          }),
-        );
+        await click(screen.getByRole('option', { name: 'L’accessibilité de l’épreuve' }));
       });
 
       test('should display a confirmation modal', async function (assert) {
@@ -77,7 +72,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         // given
         // when
         await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
-        await click(screen.getByText(t('common.actions.cancel')));
+        await click(screen.getByText('Annuler'));
 
         await waitForDialogClose();
 
@@ -87,12 +82,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
       test('should display the "mercix" view without content value', async function (assert) {
         // when
-        await click(
-          screen.getByRole('button', {
-            name: t('pages.challenge.feedback-panel.form.actions.submit-aria-label'),
-          }),
-        );
-        await click(screen.getByText(t('common.actions.validate')));
+        await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
+        await click(screen.getByText('Valider'));
 
         // then
         assert.dom(screen.getByText('Votre commentaire a bien été transmis à l’équipe du projet Pix.')).exists();
@@ -101,11 +92,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
       test('should display the "mercix" view when content value is filled', async function (assert) {
         // given
-        await click(
-          screen.getByRole('button', {
-            name: t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
-          }),
-        );
+        await click(screen.getByRole('button', { name: 'Ajouter un commentaire' }));
         const contentValue = 'Prêtes-moi ta plume, pour écrire un mot';
         await fillIn(
           screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }),
@@ -114,7 +101,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
         // when
         await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
-        await click(screen.getByText(t('common.actions.validate')));
+        await click(screen.getByText('Valider'));
 
         // then
         assert
@@ -137,11 +124,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
         await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
-        await click(
-          screen.getByRole('option', {
-            name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'),
-          }),
-        );
+        await click(screen.getByRole('option', { name: 'La question' }));
 
         // then
         const textareaLabel = screen.queryByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' });
@@ -164,16 +147,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
         await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
-        await click(
-          screen.getByRole('option', {
-            name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
-          }),
-        );
-        await click(
-          screen.getByRole('button', {
-            name: t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
-          }),
-        );
+        await click(screen.getByRole('option', { name: 'L’accessibilité de l’épreuve' }));
+        await click(screen.getByRole('button', { name: 'Ajouter un commentaire' }));
 
         // then
         const textareaLabel = screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' });
@@ -193,11 +168,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
         await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
-        await click(
-          screen.getByRole('option', {
-            name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.picture'),
-          }),
-        );
+        await click(screen.getByRole('option', { name: "L'image" }));
 
         // then
         const textareaLabel = screen.queryByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' });
@@ -220,11 +191,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
         await click(await screen.findByRole('button', { name: "J'ai un problème avec" }));
 
-        await click(
-          await screen.findByRole('option', {
-            name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
-          }),
-        );
+        await click(await screen.findByRole('option', { name: 'L’accessibilité de l’épreuve' }));
 
         await click(await screen.findByRole('button', { name: 'Ajouter un commentaire' }));
 
@@ -248,29 +215,17 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(await screen.findByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
 
+        await click(await screen.findByRole('option', { name: 'La question' }));
+
         await click(
-          await screen.findByRole('option', {
-            name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'),
-          }),
+          await screen.findByRole('button', { name: 'Sélectionner une option pour préciser votre problème' }),
         );
 
         await click(
-          await screen.findByRole('button', {
-            name: t('pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary'),
-          }),
+          await screen.findByRole('option', { name: 'Je souhaite proposer une amélioration de la question' }),
         );
 
-        await click(
-          await screen.findByRole('option', {
-            name: t('pages.challenge.feedback-panel.form.fields.detail-selection.options.question-improvement'),
-          }),
-        );
-
-        await click(
-          await screen.findByRole('button', {
-            name: t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
-          }),
-        );
+        await click(await screen.findByRole('button', { name: 'Ajouter un commentaire' }));
 
         // then
         assert.dom(screen.queryByText('Votre connexion internet est peut-être trop faible.')).doesNotExist();
@@ -291,24 +246,14 @@ module('Integration | Component | feedback-panel', function (hooks) {
         // when
         await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
-        await click(
-          screen.getByRole('option', {
-            name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.embed'),
-          }),
-        );
+        await click(screen.getByRole('option', { name: "Le simulateur / l'application" }));
         await click(screen.getByRole('button', { name: 'Sélectionner une option pour préciser votre problème' }));
         await click(
           await screen.findByRole('option', {
-            name: t(
-              'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-mobile-devices-with-problems.label',
-            ),
+            name: "Sur téléphone ou tablette, le simulateur s'affiche mais a un problème",
           }),
         );
-        await click(
-          screen.getByRole('button', {
-            name: t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
-          }),
-        );
+        await click(screen.getByRole('button', { name: 'Ajouter un commentaire' }));
 
         // then
         assert
@@ -453,16 +398,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
       await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
       await screen.findByRole('listbox');
-      await click(
-        screen.getByRole('option', {
-          name: t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
-        }),
-      );
-      await click(
-        screen.getByRole('button', {
-          name: t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
-        }),
-      );
+      await click(screen.getByRole('option', { name: 'L’accessibilité de l’épreuve' }));
+      await click(screen.getByRole('button', { name: 'Ajouter un commentaire' }));
 
       await fillIn(screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }), '    ');
 
