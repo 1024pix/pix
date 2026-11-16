@@ -346,6 +346,22 @@
         }
       }
     },
+    "challenge-actions": {
+      "actions": {
+        "continue": "Continuar",
+        "continue-go-to-next": "Continuar a la siguiente pregunta",
+        "skip": "Saltar",
+        "skip-go-to-next": "Saltar y continuar a la siguiente pregunta",
+        "validate": "Validar",
+        "validate-go-to-next": "Validar y continuar a la siguiente pregunta"
+      },
+      "notifications": {
+        "already-answered": "Ya has respondido a esta pregunta",
+        "cannot-answer": "Se ha agotado el tiempo. Tu respuesta no será validada.",
+        "wait-for-invigilator": "Las acciones se detienen hasta que llegue el supervisor"
+      },
+      "title": "Validar o saltar la prueba"
+    },
     "info-bar": {
       "certification-number": "N.º de certificación",
       "completion-percentage": {
@@ -1137,16 +1153,6 @@
       "title": "Mis certificaciones"
     },
     "challenge": {
-      "actions": {
-        "continue": "Continuar",
-        "continue-go-to-next": "Continuar a la siguiente pregunta",
-        "skip": "Saltar",
-        "skip-go-to-next": "Saltar y continuar a la siguiente pregunta",
-        "validate": "Validar",
-        "validate-go-to-next": "Validar y continuar a la siguiente pregunta",
-        "wait-for-invigilator": "Las acciones se detienen hasta que llegue el supervisor"
-      },
-      "already-answered": "Ya has respondido a esta pregunta",
       "answer-input": {
         "numbered-label": "Respuesta {number}"
       },
@@ -1306,8 +1312,7 @@
         "feedback": "Informar de un problema",
         "feedback-v3": "Informar de un problema con la pregunta",
         "instruction": "Instrucciones de la prueba",
-        "progress": "Tu progreso",
-        "validation": "Validar o saltar la prueba"
+        "progress": "Tu progreso"
       },
       "skip-error-message": {
         "qcm": "Para validar, selecciona al menos dos respuestas. De lo contrario, puedes continuar.",
@@ -1343,9 +1348,6 @@
           "play": "Lectura en voz alta",
           "stop": "Dejar de leer"
         }
-      },
-      "timed": {
-        "cannot-answer": "Se ha agotado el tiempo. Tu respuesta no será validada."
       },
       "title": {
         "default": "Modo libre - Pregunta {stepNumber} de {totalChallengeNumber}",

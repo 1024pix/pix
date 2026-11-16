@@ -3,7 +3,6 @@ import { fn } from '@ember/helper';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
-import eq from 'ember-truth-helpers/helpers/eq';
 import or from 'ember-truth-helpers/helpers/or';
 
 export default class ChallengeActions extends Component {
@@ -26,17 +25,17 @@ export default class ChallengeActions extends Component {
 
   <template>
     <div class="challenge-actions">
-      <h2 class="sr-only">{{t "pages.challenge.parts.validation"}}</h2>
+      <h2 class="sr-only">{{t "components.challenge-actions.title"}}</h2>
 
       {{#if this.displayChallengeTimeout}}
         <PixNotificationAlert @type="warning" @withIcon="true">
-          {{t "pages.challenge.timed.cannot-answer"}}
+          {{t "components.challenge-actions.notifications.cannot-answer"}}
         </PixNotificationAlert>
       {{/if}}
 
       {{#if @answer}}
         <PixNotificationAlert @type="info" @withIcon="true">
-          {{t "pages.challenge.already-answered"}}
+          {{t "components.challenge-actions.notifications.already-answered"}}
         </PixNotificationAlert>
 
         <PixButton
@@ -44,7 +43,7 @@ export default class ChallengeActions extends Component {
           @variant="primary"
           class="challenge-actions__action-continue"
         >
-          {{t "pages.challenge.actions.continue"}}
+          {{t "components.challenge-actions.actions.continue"}}
         </PixButton>
 
       {{else if @hasChallengeTimedOut}}
@@ -52,14 +51,14 @@ export default class ChallengeActions extends Component {
           @type="submit"
           @variant="primary"
           class="challenge-actions__action-continue"
-          aria-label={{t "pages.challenge.actions.continue-go-to-next"}}
+          aria-label={{t "components.challenge-actions.actions.continue-go-to-next"}}
         >
-          {{t "pages.challenge.actions.continue"}}
+          {{t "components.challenge-actions.actions.continue"}}
         </PixButton>
       {{else}}
         {{#if this.hasCurrentOngoingLiveAlert}}
           <PixNotificationAlert @type="error" @withIcon="true">
-            {{t "pages.challenge.actions.wait-for-invigilator"}}
+            {{t "components.challenge-actions.notifications.wait-for-invigilator"}}
           </PixNotificationAlert>
         {{/if}}
 
@@ -70,9 +69,9 @@ export default class ChallengeActions extends Component {
             @isLoading={{@isSkipActionLoading}}
             @loadingColor="grey"
             @isDisabled={{or this.areActionButtonsDisabled @isValidateActionLoading}}
-            aria-label={{t "pages.challenge.actions.skip-go-to-next"}}
+            aria-label={{t "components.challenge-actions.actions.skip-go-to-next"}}
           >
-            {{t "pages.challenge.actions.skip"}}
+            {{t "components.challenge-actions.actions.skip"}}
           </PixButton>
 
           <PixButton
@@ -81,9 +80,9 @@ export default class ChallengeActions extends Component {
             @isLoading={{@isValidateActionLoading}}
             @isDisabled={{or this.areActionButtonsDisabled @isSkipActionLoading}}
             @iconAfter="arrowRight"
-            aria-label={{t "pages.challenge.actions.validate-go-to-next"}}
+            aria-label={{t "components.challenge-actions.actions.validate-go-to-next"}}
           >
-            {{t "pages.challenge.actions.validate"}}
+            {{t "components.challenge-actions.actions.validate"}}
           </PixButton>
         </div>
       {{/if}}

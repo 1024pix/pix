@@ -346,6 +346,22 @@
         }
       }
     },
+    "challenge-actions": {
+      "actions": {
+        "continue": "Weiter",
+        "continue-go-to-next": "Fortsetzen und zur nächsten Frage",
+        "skip": "Überspringen",
+        "skip-go-to-next": "Überspringen und zur nächsten Frage",
+        "validate": "Bestätigen",
+        "validate-go-to-next": "Bestätigen und zur nächsten Frage"
+      },
+      "notifications": {
+        "already-answered": "Du hast diese Frage bereits beantwortet",
+        "cannot-answer": "Die Zeit ist abgelaufen. Deine Antwort wird nicht miteinbezogen.",
+        "wait-for-invigilator": "Aktionen werden pausiert, bis die Aufsichtsperson kommt"
+      },
+      "title": "Deine Prüfung bestätigen oder ablegen"
+    },
     "info-bar": {
       "certification-number": "Zertifizierungs-Nr.",
       "completion-percentage": {
@@ -1137,16 +1153,6 @@
       "title": "Meine Zertifizierungen"
     },
     "challenge": {
-      "actions": {
-        "continue": "Weiter",
-        "continue-go-to-next": "Fortsetzen und zur nächsten Frage",
-        "skip": "Überspringen",
-        "skip-go-to-next": "Überspringen und zur nächsten Frage",
-        "validate": "Bestätigen",
-        "validate-go-to-next": "Bestätigen und zur nächsten Frage",
-        "wait-for-invigilator": "Aktionen werden pausiert, bis die Aufsichtsperson kommt"
-      },
-      "already-answered": "Du hast diese Frage bereits beantwortet",
       "answer-input": {
         "numbered-label": "Antwort {number}"
       },
@@ -1306,8 +1312,7 @@
         "feedback": "Ein Problem melden",
         "feedback-v3": "Ein Problem mit der Frage melden",
         "instruction": "Aufgabenstellung",
-        "progress": "Dein Fortschritt",
-        "validation": "Deine Prüfung bestätigen oder ablegen"
+        "progress": "Dein Fortschritt"
       },
       "skip-error-message": {
         "qcm": "Wähle zum Bestätigen mindestens zwei Antworten aus. Andernfalls überspringe sie.",
@@ -1343,9 +1348,6 @@
           "play": "Die Aufgabenstellung laut vorlesen",
           "stop": "Das Lesen der Anweisung stoppen"
         }
-      },
-      "timed": {
-        "cannot-answer": "Die Zeit ist abgelaufen. Deine Antwort wird nicht miteinbezogen."
       },
       "title": {
         "default": "Freier Modus - Frage {stepNumber} zu {totalChallengeNumber}.",

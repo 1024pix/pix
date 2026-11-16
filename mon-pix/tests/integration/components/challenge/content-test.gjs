@@ -1,7 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import ChallengeContent from 'mon-pix/components/challenge/content';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -157,7 +156,7 @@ module('Integration | Component | Challenge | Content', function (hooks) {
     async function answerAndValidate() {
       const screen = await renderContent();
       await fillIn(screen.getByRole('textbox'), '  example \n ');
-      await click(screen.getByRole('button', { name: t('pages.challenge.actions.validate-go-to-next') }));
+      await click(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }));
       return screen;
     }
 
@@ -217,7 +216,7 @@ module('Integration | Component | Challenge | Content', function (hooks) {
           const screen = await renderContent();
 
           // when
-          await click(screen.getByRole('button', { name: t('pages.challenge.actions.validate-go-to-next') }));
+          await click(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }));
 
           // then
           assert.dom(screen.getByText('Pour valider, veuillez remplir le champ texte. Sinon, passez.')).exists();
@@ -227,7 +226,7 @@ module('Integration | Component | Challenge | Content', function (hooks) {
         test('should hide the error message once the user starts answering', async function (assert) {
           // given
           const screen = await renderContent();
-          await click(screen.getByRole('button', { name: t('pages.challenge.actions.validate-go-to-next') }));
+          await click(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }));
 
           // when
           await fillIn(screen.getByRole('textbox'), 'example');
@@ -281,7 +280,7 @@ module('Integration | Component | Challenge | Content', function (hooks) {
           // when
           const screen = await renderContent();
           await fillIn(screen.getByRole('textbox'), 'example');
-          await click(screen.getByRole('button', { name: t('pages.challenge.actions.validate-go-to-next') }));
+          await click(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }));
 
           // then
           sinon.assert.notCalled(answer.save);
@@ -346,7 +345,7 @@ module('Integration | Component | Challenge | Content', function (hooks) {
         const screen = await renderContent();
 
         // when
-        await click(screen.getByRole('button', { name: t('pages.challenge.actions.skip-go-to-next') }));
+        await click(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }));
 
         // then
         sinon.assert.calledWith(answer.setProperties, { value: '#ABAND#', timeout: null, focusedOut: false });
@@ -365,7 +364,7 @@ module('Integration | Component | Challenge | Content', function (hooks) {
         // when
         const screen = await renderContent();
         await fillIn(screen.getByRole('textbox'), 'example');
-        await click(screen.getByRole('button', { name: t('pages.challenge.actions.validate-go-to-next') }));
+        await click(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }));
 
         // then
         sinon.assert.calledWithMatch(answer.setProperties, { value: 'example', timeout: 60 });
@@ -391,7 +390,7 @@ module('Integration | Component | Challenge | Content', function (hooks) {
 
           // when
           const screen = await renderContent();
-          await click(screen.getByRole('button', { name: t('pages.challenge.actions.continue-go-to-next') }));
+          await click(screen.getByRole('button', { name: 'Je continue et je vais à la prochaine question' }));
 
           // then
           sinon.assert.calledWithMatch(answer.setProperties, { timeout: -1 });

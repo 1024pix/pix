@@ -346,6 +346,22 @@
         }
       }
     },
+    "challenge-actions": {
+      "actions": {
+        "continue": "Poursuivre",
+        "continue-go-to-next": "Je continue et je vais à la prochaine question",
+        "skip": "Je passe",
+        "skip-go-to-next": "Je passe et je vais à la prochaine question",
+        "validate": "Je valide",
+        "validate-go-to-next": "Je valide et je vais à la prochaine question"
+      },
+      "notifications": {
+        "already-answered": "Vous avez déjà répondu à cette question",
+        "cannot-answer": "Le temps imparti est écoulé. Votre réponse ne sera pas validée.",
+        "wait-for-invigilator": "Les actions sont mises en pause en attendant le surveillant"
+      },
+      "title": "Valider ou passer votre épreuve"
+    },
     "info-bar": {
       "certification-number": "N° de certification",
       "completion-percentage": {
@@ -1137,16 +1153,6 @@
       "title": "Mes certifications"
     },
     "challenge": {
-      "actions": {
-        "continue": "Poursuivre",
-        "continue-go-to-next": "Je continue et je vais à la prochaine question",
-        "skip": "Je passe",
-        "skip-go-to-next": "Je passe et je vais à la prochaine question",
-        "validate": "Je valide",
-        "validate-go-to-next": "Je valide et je vais à la prochaine question",
-        "wait-for-invigilator": "Les actions sont mises en pause en attendant le surveillant"
-      },
-      "already-answered": "Vous avez déjà répondu à cette question",
       "answer-input": {
         "numbered-label": "Réponse {number}"
       },
@@ -1306,8 +1312,7 @@
         "feedback": "Signaler un problème",
         "feedback-v3": "Signaler un problème avec la question",
         "instruction": "Consigne de l'épreuve",
-        "progress": "Votre progression",
-        "validation": "Valider ou passer votre épreuve"
+        "progress": "Votre progression"
       },
       "skip-error-message": {
         "qcm": "Pour valider, sélectionnez au moins deux réponses. Sinon, passez.",
@@ -1343,9 +1348,6 @@
           "play": "Lire la consigne à haute voix",
           "stop": "Arrêter la lecture de la consigne"
         }
-      },
-      "timed": {
-        "cannot-answer": "Le temps imparti est écoulé. Votre réponse ne sera pas validée."
       },
       "title": {
         "default": "Mode libre - Question {stepNumber} sur {totalChallengeNumber}",

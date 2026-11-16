@@ -271,7 +271,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       });
 
       test('should display the error alert if the users tries to validate an empty answer', async function (assert) {
-        await click(find('.challenge-actions__action-skip'));
+        await clickByName('Je passe et je vais à la prochaine question');
 
         assert.strictEqual(currentURL(), `/assessments/${assessment.id}/challenges/1`);
         assert.strictEqual(

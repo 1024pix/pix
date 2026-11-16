@@ -346,6 +346,22 @@
         }
       }
     },
+    "challenge-actions": {
+      "actions": {
+        "continue": "Continua",
+        "continue-go-to-next": "Passo alla domanda successiva",
+        "skip": "Passo",
+        "skip-go-to-next": "Passo alla domanda successiva",
+        "validate": "Confermo",
+        "validate-go-to-next": "Confermo e passo alla domanda successiva"
+      },
+      "notifications": {
+        "already-answered": "Hai già risposto a questa domanda",
+        "cannot-answer": "Il tempo a disposizione è scaduto. La risposta non sarà convalidata.",
+        "wait-for-invigilator": "Le azioni sono sospese fino all'arrivo del sorvegliante."
+      },
+      "title": "Confermare o saltare la prova"
+    },
     "info-bar": {
       "certification-number": "Numero di certificazione",
       "completion-percentage": {
@@ -1137,16 +1153,6 @@
       "title": "Le mie certificazioni"
     },
     "challenge": {
-      "actions": {
-        "continue": "Continua",
-        "continue-go-to-next": "Passo alla domanda successiva",
-        "skip": "Passo",
-        "skip-go-to-next": "Passo alla domanda successiva",
-        "validate": "Confermo",
-        "validate-go-to-next": "Confermo e passo alla domanda successiva",
-        "wait-for-invigilator": "Le azioni sono sospese fino all'arrivo del sorvegliante."
-      },
-      "already-answered": "Hai già risposto a questa domanda",
       "answer-input": {
         "numbered-label": "Risposta {number}"
       },
@@ -1306,8 +1312,7 @@
         "feedback": "Segnala un problema",
         "feedback-v3": "Segnala un problema con la domanda",
         "instruction": "Istruzioni per la prova",
-        "progress": "I tuoi progressi",
-        "validation": "Confermare o saltare la prova"
+        "progress": "I tuoi progressi"
       },
       "skip-error-message": {
         "qcm": "Per convalidare, seleziona almeno due risposte. In caso contrario, saltare.",
@@ -1343,9 +1348,6 @@
           "play": "Leggere le istruzioni ad alta voce",
           "stop": "Interrompi la lettura delle istruzioni"
         }
-      },
-      "timed": {
-        "cannot-answer": "Il tempo a disposizione è scaduto. La risposta non sarà convalidata."
       },
       "title": {
         "default": "Modalità libera - Domanda {stepNumber} su {totalChallengeNumber}.",

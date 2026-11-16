@@ -1,7 +1,6 @@
 import { visit } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, find, triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { getPageTitle } from 'ember-page-title/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'mon-pix/tests/test-support/setup-mirage';
@@ -63,10 +62,10 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
           test('should enable input and buttons', async function (assert) {
             // then
             assert
-              .dom(screen.getByLabelText(t('pages.challenge.actions.skip-go-to-next')))
+              .dom(screen.getByLabelText('Je passe et je vais à la prochaine question'))
               .doesNotHaveAttribute('aria-disabled');
             assert
-              .dom(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')))
+              .dom(screen.getByLabelText('Je valide et je vais à la prochaine question'))
               .doesNotHaveAttribute('aria-disabled');
             assert.dom(find('[data-test="challenge-response-proposal-selector"]')).doesNotHaveAttribute('disabled');
           });
@@ -266,10 +265,10 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
           test('should enable input and buttons', async function (assert) {
             // then
             assert
-              .dom(screen.getByLabelText(t('pages.challenge.actions.skip-go-to-next')))
+              .dom(screen.getByLabelText('Je passe et je vais à la prochaine question'))
               .doesNotHaveAttribute('aria-disabled');
             assert
-              .dom(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')))
+              .dom(screen.getByLabelText('Je valide et je vais à la prochaine question'))
               .doesNotHaveAttribute('aria-disabled');
             assert.notOk(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled'));
           });
@@ -403,10 +402,10 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
           test('should enable input and buttons', async function (assert) {
             // then
             assert
-              .dom(screen.getByLabelText(t('pages.challenge.actions.skip-go-to-next')))
+              .dom(screen.getByLabelText('Je passe et je vais à la prochaine question'))
               .doesNotHaveAttribute('aria-disabled');
             assert
-              .dom(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')))
+              .dom(screen.getByLabelText('Je valide et je vais à la prochaine question'))
               .doesNotHaveAttribute('aria-disabled');
 
             assert.notOk(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled'));
@@ -684,10 +683,10 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
             test('should enable input and buttons', async function (assert) {
               // then
               assert
-                .dom(screen.getByLabelText(t('pages.challenge.actions.skip-go-to-next')))
+                .dom(screen.getByLabelText('Je passe et je vais à la prochaine question'))
                 .doesNotHaveAttribute('aria-disabled');
               assert
-                .dom(screen.getByLabelText(t('pages.challenge.actions.validate-go-to-next')))
+                .dom(screen.getByLabelText('Je valide et je vais à la prochaine question'))
                 .doesNotHaveAttribute('aria-disabled');
 
               assert.notOk(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled'));

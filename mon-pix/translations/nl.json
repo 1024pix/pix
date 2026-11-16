@@ -346,6 +346,22 @@
         }
       }
     },
+    "challenge-actions": {
+      "actions": {
+        "continue": "Doorgaan",
+        "continue-go-to-next": "Ik ga verder en ga naar de volgende vraag",
+        "skip": "Ik sla deze over",
+        "skip-go-to-next": "Ik sla deze over en ga naar de volgende vraag",
+        "validate": "Ik valideer",
+        "validate-go-to-next": "Ik valideer en ga naar de volgende vraag"
+      },
+      "notifications": {
+        "already-answered": "Je hebt deze vraag al beantwoord",
+        "cannot-answer": "De toegewezen tijd is verstreken. Je antwoord wordt niet goedgekeurd.",
+        "wait-for-invigilator": "De activiteiten worden onderbroken in afwachting van de toezichthouder"
+      },
+      "title": "Je opdracht afleggen of goedkeuren"
+    },
     "info-bar": {
       "certification-number": "Certificeringsnummer",
       "completion-percentage": {
@@ -1137,16 +1153,6 @@
       "title": "Mijn certificeringen"
     },
     "challenge": {
-      "actions": {
-        "continue": "Doorgaan",
-        "continue-go-to-next": "Ik ga verder en ga naar de volgende vraag",
-        "skip": "Ik sla deze over",
-        "skip-go-to-next": "Ik sla deze over en ga naar de volgende vraag",
-        "validate": "Ik valideer",
-        "validate-go-to-next": "Ik valideer en ga naar de volgende vraag",
-        "wait-for-invigilator": "De activiteiten worden onderbroken in afwachting van de toezichthouder"
-      },
-      "already-answered": "Je hebt deze vraag al beantwoord",
       "answer-input": {
         "numbered-label": "Antwoord {number}"
       },
@@ -1306,8 +1312,7 @@
         "feedback": "Een probleem melden",
         "feedback-v3": "Een probleem met de vraag melden",
         "instruction": "Instructies voor de opdracht",
-        "progress": "Je voortgang",
-        "validation": "Je opdracht afleggen of goedkeuren"
+        "progress": "Je voortgang"
       },
       "skip-error-message": {
         "qcm": "Selecteer ten minste twee antwoorden om te bevestigen. Anders sla je deze over.",
@@ -1343,9 +1348,6 @@
           "play": "De instructie hardop voorlezen",
           "stop": "Het lezen van de instructie stopzetten"
         }
-      },
-      "timed": {
-        "cannot-answer": "De toegewezen tijd is verstreken. Je antwoord wordt niet goedgekeurd."
       },
       "title": {
         "default": "Vrije modus - Vraag {stepNumber} van {totalChallengeNumber}",

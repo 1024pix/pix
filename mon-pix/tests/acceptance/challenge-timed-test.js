@@ -1,6 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'mon-pix/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
@@ -123,8 +122,8 @@ module('Acceptance | Timed challenge', function (hooks) {
       });
 
       test('should only display continue button', function (assert) {
-        assert.dom('.challenge-actions__action-skip').doesNotExist();
-        assert.dom(screen.queryByLabelText(t('pages.challenge.actions.validate-go-to-next'))).doesNotExist();
+        assert.dom(screen.queryByLabelText('Je passe et je vais à la prochaine question')).doesNotExist();
+        assert.dom(screen.queryByLabelText('Je valide et je vais à la prochaine question')).doesNotExist();
         assert.dom('.challenge-actions__action-continue').exists();
       });
     });
@@ -140,7 +139,7 @@ module('Acceptance | Timed challenge', function (hooks) {
       // when
       screen = await visit(`/assessments/${assessment.id}/challenges/0`);
       await click('.timed-challenge-instructions button');
-      await click('.challenge-actions__action-skip');
+      await click(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }));
     });
 
     test('should hide the challenge statement of the second challenge', async function (assert) {

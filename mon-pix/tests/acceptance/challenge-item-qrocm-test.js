@@ -97,21 +97,9 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // then
-        assert.dom('.challenge-response__alert[role="alert"]').exists();
-        assert.ok(currentURL().includes(`/assessments/${assessment.id}/challenges/0`));
-      });
-
-      test('should not be able to validate the empty option', async function (assert) {
-        // given
-        const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
-
-        // when
-        await clickByName('saladAriaLabel');
-        await screen.findByRole('listbox');
-        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
-
-        // then
-        assert.dom('.challenge-response__alert[role="alert"]').exists();
+        assert
+          .dom(await screen.queryByText('Pour valider, veuillez remplir tous les champs réponse. Sinon, passez.'))
+          .exists();
         assert.ok(currentURL().includes(`/assessments/${assessment.id}/challenges/0`));
       });
 

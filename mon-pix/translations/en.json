@@ -346,6 +346,22 @@
         }
       }
     },
+    "challenge-actions": {
+      "actions": {
+        "continue": "Continue",
+        "continue-go-to-next": "Continue and go to the next question",
+        "skip": "Skip",
+        "skip-go-to-next": "Skip and go to the next question",
+        "validate": "Validate",
+        "validate-go-to-next": "Validate and go to the next question"
+      },
+      "notifications": {
+        "already-answered": "You have already answered this question",
+        "cannot-answer": "You've run out of time. Your answer will not be validated.",
+        "wait-for-invigilator": "Actions are paused while waiting for the invigilator"
+      },
+      "title": "Validate or skip this question"
+    },
     "info-bar": {
       "certification-number": "Certification no.",
       "completion-percentage": {
@@ -1137,16 +1153,6 @@
       "title": "My certifications"
     },
     "challenge": {
-      "actions": {
-        "continue": "Continue",
-        "continue-go-to-next": "Continue and go to the next question",
-        "skip": "Skip",
-        "skip-go-to-next": "Skip and go to the next question",
-        "validate": "Validate",
-        "validate-go-to-next": "Validate and go to the next question",
-        "wait-for-invigilator": "Actions are paused while waiting for the invigilator"
-      },
-      "already-answered": "You have already answered this question",
       "answer-input": {
         "numbered-label": "Answer {number}"
       },
@@ -1306,8 +1312,7 @@
         "feedback": "Report a problem",
         "feedback-v3": "Report a problem with the question",
         "instruction": "Instructions to answer the question",
-        "progress": "Your progression",
-        "validation": "Validate or skip this question"
+        "progress": "Your progression"
       },
       "skip-error-message": {
         "qcm": "To validate, select at least two answers. Otherwise, click Skip.",
@@ -1343,9 +1348,6 @@
           "play": "Read the instructions out loud",
           "stop": "Stop reading the instructions"
         }
-      },
-      "timed": {
-        "cannot-answer": "You've run out of time. Your answer will not be validated."
       },
       "title": {
         "default": "Free Mode - Question {stepNumber} of {totalChallengeNumber}",
