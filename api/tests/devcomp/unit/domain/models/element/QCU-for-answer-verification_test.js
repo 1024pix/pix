@@ -1,10 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { ModuleInstantiationError } from '../../../../../../src/devcomp/domain/errors.js';
 import { QCUForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/QCU-for-answer-verification.js';
 import { QcuCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcuCorrectionResponse.js';
-import { DomainError, EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification', function () {
@@ -39,38 +38,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
       expect(qcu.locales).deep.equal(['fr-FR']);
       expect(qcu.proposals).deep.equal([proposal1, proposal2]);
       expect(qcu.solution).deep.equal(expectedSolution);
-    });
-
-    describe('A QCU For Verification without a solution', function () {
-      it('should throw an error', function () {
-        // when
-        const error = catchErrSync(
-          () => new QCUForAnswerVerification({ id: '123', instruction: 'toto', proposals: [Symbol('proposal1')] }),
-        )();
-
-        // then
-        expect(error).to.be.instanceOf(DomainError);
-        expect(error.message).to.equal('The solution is required for a verification QCU');
-      });
-    });
-
-    describe('A QCU For Verification with an unexisting solution', function () {
-      it('should throw an error', function () {
-        // when
-        const error = catchErrSync(
-          () =>
-            new QCUForAnswerVerification({
-              id: '123',
-              instruction: 'toto',
-              proposals: [Symbol('proposal1')],
-              solution: Symbol('unexistingProposalId'),
-            }),
-        )();
-
-        // then
-        expect(error).to.be.instanceOf(ModuleInstantiationError);
-        expect(error.message).to.equal('The QCU solution id is not an existing proposal id');
-      });
     });
   });
 

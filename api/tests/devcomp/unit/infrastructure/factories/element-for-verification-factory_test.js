@@ -16,24 +16,25 @@ describe('Unit | Devcomp | Infrastructure | Factories | ElementForVerification',
       it('should throw an ElementInstantiationError', function () {
         // given
         const proposals = [
-          { id: '1', content: 'toto', feedback: 'ok' },
+          { id: '1', feedback: 'ok' },
           { id: '2', content: 'foo', feedback: 'ko' },
         ];
 
-        const dataWithMissingSolutionForQCU = {
+        const dataWithMissingProposalContentForQCU = {
           id: '123',
           instruction: 'instruction',
           locales: ['fr-FR'],
           proposals,
+          solution: '1',
           type: 'qcu',
         };
 
         // when
-        const error = catchErrSync(ElementForVerificationFactory.build)(dataWithMissingSolutionForQCU);
+        const error = catchErrSync(ElementForVerificationFactory.build)(dataWithMissingProposalContentForQCU);
 
         // then
         expect(error).to.be.an.instanceOf(ElementInstantiationError);
-        expect(error.message).to.deep.equal('The solution is required for a verification QCU');
+        expect(error.message).to.deep.equal('The content is required for a QCU proposal.');
       });
 
       describe('when the element has a unknown type', function () {

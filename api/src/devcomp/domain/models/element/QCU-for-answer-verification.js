@@ -1,8 +1,6 @@
 import Joi from 'joi';
 
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
-import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
-import { ModuleInstantiationError } from '../../errors.js';
 import { QcuCorrectionResponse } from '../QcuCorrectionResponse.js';
 import { ValidatorQCU } from '../validator/ValidatorQCU.js';
 import { QCU } from './QCU.js';
@@ -12,20 +10,10 @@ class QCUForAnswerVerification extends QCU {
   constructor({ id, instruction, locales, proposals, solution, validator }) {
     super({ id, instruction, locales, proposals, solution: { value: solution } });
 
-    assertNotNullOrUndefined(solution, 'The solution is required for a verification QCU');
-    this.#assertSolutionIsAnExistingProposal(solution, proposals);
-
     if (validator) {
       this.validator = validator;
     } else {
       this.validator = new ValidatorQCU({ solution: this.solution });
-    }
-  }
-
-  #assertSolutionIsAnExistingProposal(solution, proposals) {
-    const isSolutionAnExistingProposal = proposals.find(({ id: proposalId }) => proposalId === solution);
-    if (!isSolutionAnExistingProposal) {
-      throw new ModuleInstantiationError('The QCU solution id is not an existing proposal id');
     }
   }
 
