@@ -4,6 +4,8 @@ import { service } from '@ember/service';
 import ENV from 'pix-certif/config/environment';
 import { formats } from 'pix-certif/ember-intl';
 import PlausibleAdapter from 'pix-certif/metrics-adapters/plausible-adapter';
+import translationsForEn from 'virtual:ember-intl/translations/en';
+import translationsForFr from 'virtual:ember-intl/translations/fr';
 
 export default class ApplicationRoute extends Route {
   @service featureToggles;
@@ -32,6 +34,9 @@ export default class ApplicationRoute extends Route {
   }
 
   async beforeModel(transition) {
+    this.intl.addTranslations('fr', translationsForFr);
+    this.intl.addTranslations('en', translationsForEn);
+
     await this.featureToggles.load();
 
     const queryParams = transition?.to?.queryParams;

@@ -1,6 +1,13 @@
 import { getContext, settled } from '@ember/test-helpers';
 import { setupIntl as setupIntlFromEmberIntl } from 'ember-intl/test-support';
 import { formats } from 'pix-certif/ember-intl';
+import translationsForEn from 'virtual:ember-intl/translations/en';
+import translationsForFr from 'virtual:ember-intl/translations/fr';
+
+const appLocales = {
+  en: translationsForEn,
+  fr: translationsForFr,
+};
 
 export async function setCurrentLocale(locale) {
   const { owner } = getContext();
@@ -10,6 +17,7 @@ export async function setCurrentLocale(locale) {
 
   const localeService = owner.lookup('service:locale');
   localeService.setCurrentLocale(locale);
+  intl.addTranslations(locale, appLocales[locale]);
 
   await settled();
 }
