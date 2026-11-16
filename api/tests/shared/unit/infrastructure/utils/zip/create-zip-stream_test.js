@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import JSZip from 'jszip';
 import sinon from 'sinon';
 
+import { logger as defaultLogger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
 import { createZipStream } from '../../../../../../src/shared/infrastructure/utils/zip/create-zip-stream.ts';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
@@ -131,6 +132,27 @@ describe('Shared | Unit | Utils | Zip | create zip stream', function () {
           expect(logger.error).to.have.been.calledOnceWith(expectedError, 'Problem occurred during archive streaming');
           expect(callbackFnc.callCount).to.equal(2);
           expect(zipStream.destroyed).to.equal(true);
+        });
+
+        it('logs the error with the default logger when no dependencies are given', async function () {
+          // given
+          sinon.stub(defaultLogger, 'error');
+          const expectedError = new Error('Error occurred in callback');
+
+          callbackArgs = [0, 1];
+          callbackFnc.withArgs(0).resolves({ filename: 'fichier-0', content: 'coucou ' });
+          callbackFnc.withArgs(1).rejects(expectedError);
+
+          // when
+          const zipStream = createZipStream({ callbackFnc, callbackArgs });
+          const { error } = await consumeStream(zipStream);
+
+          // then
+          expect(error).to.equal(expectedError);
+          expect(defaultLogger.error).to.have.been.calledOnceWith(
+            expectedError,
+            'Problem occurred during archive streaming',
+          );
         });
       });
     });
