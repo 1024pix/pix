@@ -414,6 +414,10 @@ export default function routes() {
   this.get('/admin/organizations/:id/target-profile-summaries', findOrganizationTargetProfileSummaries);
   this.post('/admin/organizations/:id/attach-target-profiles', attachTargetProfiles);
   this.get('/admin/organizations/:id/invitations', getOrganizationInvitations);
+  this.post(
+    '/admin/organizations/:id/credits-lots',
+    () => new Response(201, {}, { data: { type: 'credits-lots', id: '1' } }),
+  );
   this.get('/admin/organizations/:id/places', getOrganizationPlaces);
   this.get('/admin/organizations/:id/places-statistics', getOrganizationPlacesStatistics);
   this.get('/admin/organizations/:id/certification-centers', getOrganizationAttachedCertificationCenters);

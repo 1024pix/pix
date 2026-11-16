@@ -55,6 +55,7 @@ export default class Organization extends Model {
       SHOW_SKILLS: 'SHOW_SKILLS',
       ATTESTATIONS_MANAGEMENT: 'ATTESTATIONS_MANAGEMENT',
       COVER_RATE: 'COVER_RATE',
+      CREDITS_MANAGEMENT: 'CREDITS_MANAGEMENT',
     };
   }
 
@@ -99,6 +100,10 @@ export default class Organization extends Model {
 
   get isPlacesManagementEnabled() {
     return this.features[Organization.featureList.PLACES_MANAGEMENT].active;
+  }
+
+  get isCreditsManagementEnabled() {
+    return Boolean(this.features[Organization.featureList.CREDITS_MANAGEMENT]?.active);
   }
 
   get dataProtectionOfficerFullName() {

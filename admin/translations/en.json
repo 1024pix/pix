@@ -1209,6 +1209,30 @@
           "placeholder": "Select one type"
         }
       },
+      "credits": {
+        "creation": {
+          "error-messages": {
+            "activation-date": "Activation date is required.",
+            "count": "The number of credits must be an integer greater than 0.",
+            "expiration-date": "Expiration date is required.",
+            "expiration-date-too-early": "Expiration date must be later than activation date.",
+            "reference": "Reference is required."
+          },
+          "labels": {
+            "activation-date": "Activation date",
+            "count": "Number of credits in the lot",
+            "expiration-date": "Expiration date (included)",
+            "reference": "Reference"
+          },
+          "modal-subtitle": "Add a new credits lot",
+          "modal-title": "Add credits",
+          "notifications": {
+            "error": "An error occurred while creating the credits lot.",
+            "success": "The credits lot has been created."
+          },
+          "open-button": "Add credits"
+        }
+      },
       "editing": {
         "administration-team": {
           "selector": {
@@ -1960,6 +1984,9 @@
       "title": "Create a network"
     },
     "organization": {
+      "credits": {
+        "title": "Credits"
+      },
       "get": {
         "archiving": {
           "notifications": {
@@ -1971,6 +1998,7 @@
         "aria-label": "Organization section navigation",
         "attached-certification-center": "Link Certif",
         "campaigns": "Campaigns",
+        "credits": "Credits",
         "details": "Details",
         "features": "Features",
         "invitations": "Invitations",

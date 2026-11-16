@@ -1,0 +1,36 @@
+/* stylelint-disable selector-class-pattern */
+.credits-lot-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-4x);
+
+  &__subtitle {
+    margin: 0 0 var(--pix-spacing-4x);
+    color: var(--pix-neutral-500);
+    font-weight: normal;
+    font-size: 0.875rem;
+  }
+
+  &__dates {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+
+    > * {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .form-field {
+    margin-bottom: 0;
+  }
+
+  .pix-input {
+    width: 100%;
+  }
+}

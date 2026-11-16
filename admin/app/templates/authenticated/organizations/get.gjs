@@ -64,6 +64,12 @@ import HeadInformation from 'pix-admin/components/organizations/head-information
         </LinkTo>
       {{/if}}
 
+      {{#if @model.isCreditsManagementEnabled}}
+        <LinkTo @route="authenticated.organizations.get.credits" @model={{@model}}>
+          {{t "pages.organization.navbar.credits"}}
+        </LinkTo>
+      {{/if}}
+
       {{#if @controller.accessControl.hasAccessToOrganizationActionsScope}}
         <LinkTo @route="authenticated.organizations.get.all-tags" @model={{@model}}>
           {{t "pages.organization.navbar.tags"}}

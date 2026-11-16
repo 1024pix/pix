@@ -50,6 +50,7 @@ Router.map(function () {
           this.route('list', { path: '/' });
           this.route('new');
         });
+        this.route('credits');
         this.route('invitations');
         this.route('network');
         this.route('statistics');

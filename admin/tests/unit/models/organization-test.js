@@ -48,6 +48,35 @@ module('Unit | Model | organization', function (hooks) {
     });
   });
 
+  module('#isCreditsManagementEnabled', function () {
+    test('it returns true when the feature is active', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('organization', { features: { CREDITS_MANAGEMENT: { active: true } } });
+
+      // when & then
+      assert.true(model.isCreditsManagementEnabled);
+    });
+
+    test('it returns false when the feature is inactive', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('organization', { features: { CREDITS_MANAGEMENT: { active: false } } });
+
+      // when & then
+      assert.false(model.isCreditsManagementEnabled);
+    });
+
+    test('it returns false when the feature is unknown', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('organization', { features: {} });
+
+      // when & then
+      assert.false(model.isCreditsManagementEnabled);
+    });
+  });
+
   module('#dataProtectionOfficerFullName', function () {
     test('it returns the data protection officer full name', function (assert) {
       // given
