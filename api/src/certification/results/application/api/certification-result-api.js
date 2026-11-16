@@ -22,8 +22,8 @@ export async function buildForSession({
     featureToggles,
   },
 }) {
-  const useNewCertificationResults = await dependencies.featureToggles.get('useNewCertificationResults');
-  if (!useNewCertificationResults) {
+  const writeNewCertificationResults = await dependencies.featureToggles.get('writeNewCertificationResults');
+  if (!writeNewCertificationResults) {
     return;
   }
   const certificationResultBuilder =

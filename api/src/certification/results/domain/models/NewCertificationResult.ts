@@ -1,5 +1,8 @@
 import type { UUID } from 'node:crypto';
 
+import type { Framework } from '../../../shared/domain/types.ts';
+import type { CertificationResultStatus } from '../types.ts';
+
 type CertificationResultProps = {
   id: UUID;
   algorithmEngineVersion: number;
@@ -18,8 +21,8 @@ type CertificationResultProps = {
   certificationCenter: string;
   startedAt: Date;
   deliveredAt: Date;
-  status: string;
-  framework: string;
+  status: CertificationResultStatus;
+  framework: Framework;
   franceCompetencesMinScore: number | null;
   commentByAutoJury: string | null;
   commentByJury: string | null;
@@ -74,66 +77,40 @@ export class CertificationResult {
   readonly certificationCenter: string;
   readonly startedAt: Date;
   readonly deliveredAt: Date;
-  readonly status: string;
-  readonly framework: string;
+  readonly status: CertificationResultStatus;
+  readonly framework: Framework;
   readonly franceCompetencesMinScore: number | null;
   readonly commentByAutoJury: string | null;
   readonly commentByJury: string | null;
   readonly commentForOrganization: string | null;
   readonly commentForCandidate: string | null;
   readonly results: Results;
-  constructor({
-    id,
-    algorithmEngineVersion,
-    firstName,
-    middleName,
-    thirdName,
-    lastName,
-    externalId,
-    nationalStudentId,
-    birthdate,
-    birthplace,
-    birthPostalCode,
-    birthINSEECode,
-    birthCountry,
-    verificationCode,
-    certificationCenter,
-    startedAt,
-    deliveredAt,
-    status,
-    framework,
-    franceCompetencesMinScore,
-    commentByAutoJury,
-    commentByJury,
-    commentForOrganization,
-    commentForCandidate,
-    results,
-  }: CertificationResultProps) {
-    this.id = id;
-    this.algorithmEngineVersion = algorithmEngineVersion;
-    this.firstName = firstName;
-    this.middleName = middleName;
-    this.thirdName = thirdName;
-    this.lastName = lastName;
-    this.externalId = externalId;
-    this.nationalStudentId = nationalStudentId;
-    this.birthdate = birthdate;
-    this.birthplace = birthplace;
-    this.birthPostalCode = birthPostalCode;
-    this.birthINSEECode = birthINSEECode;
-    this.birthCountry = birthCountry;
-    this.verificationCode = verificationCode;
-    this.certificationCenter = certificationCenter;
-    this.startedAt = startedAt;
-    this.deliveredAt = deliveredAt;
-    this.status = status;
-    this.framework = framework;
-    this.franceCompetencesMinScore = franceCompetencesMinScore;
-    this.commentByAutoJury = commentByAutoJury;
-    this.commentByJury = commentByJury;
-    this.commentForOrganization = commentForOrganization;
-    this.commentForCandidate = commentForCandidate;
-    this.results = results;
+  constructor(props: CertificationResultProps) {
+    this.id = props.id;
+    this.algorithmEngineVersion = props.algorithmEngineVersion;
+    this.firstName = props.firstName;
+    this.middleName = props.middleName;
+    this.thirdName = props.thirdName;
+    this.lastName = props.lastName;
+    this.externalId = props.externalId;
+    this.nationalStudentId = props.nationalStudentId;
+    this.birthdate = props.birthdate;
+    this.birthplace = props.birthplace;
+    this.birthPostalCode = props.birthPostalCode;
+    this.birthINSEECode = props.birthINSEECode;
+    this.birthCountry = props.birthCountry;
+    this.verificationCode = props.verificationCode;
+    this.certificationCenter = props.certificationCenter;
+    this.startedAt = props.startedAt;
+    this.deliveredAt = props.deliveredAt;
+    this.status = props.status;
+    this.framework = props.framework;
+    this.franceCompetencesMinScore = props.franceCompetencesMinScore;
+    this.commentByAutoJury = props.commentByAutoJury;
+    this.commentByJury = props.commentByJury;
+    this.commentForOrganization = props.commentForOrganization;
+    this.commentForCandidate = props.commentForCandidate;
+    this.results = props.results;
   }
 }
 

@@ -3,7 +3,7 @@ import * as url from 'node:url';
 
 import dayjs from 'dayjs';
 
-import { FRANCE_COMPETENCES_PROFESSIONAL_START_DATE, MAX_LEVEL } from '../../../../domain/constants.js';
+import { FRANCE_COMPETENCES_PROFESSIONAL_START_DATE, MAX_LEVEL } from '../../../../domain/constants.ts';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const __badgesDirname = url.fileURLToPath(new URL('../badges/', import.meta.url));

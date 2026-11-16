@@ -145,10 +145,16 @@ export default {
     devDefaultValues: { test: true, reviewApp: true },
     tags: ['team-acces', 'backend', 'pix-api'],
   },
-  useNewCertificationResults: {
+  writeNewCertificationResults: {
     type: 'boolean',
-    description:
-      'Generate certification results at session publication, and read certification results for relevant usecases',
+    description: 'Generate certification results at session publication',
+    defaultValue: false,
+    devDefaultValues: { test: true, reviewApp: true },
+    tags: ['team-certification', 'backend', 'pix-api'],
+  },
+  readNewCertificationResults: {
+    type: 'boolean',
+    description: 'Read certification results when needed',
     defaultValue: false,
     devDefaultValues: { test: true, reviewApp: true },
     tags: ['team-certification', 'backend', 'pix-api'],

@@ -874,6 +874,7 @@
       "BIRTHDATE": "Date de naissance",
       "BIRTHPLACE": "Lieu de naissance",
       "CERTIFICATION_CENTER": "Centre de certification",
+      "CERTIFICATION_CLEA": "Certification CléA",
       "CERTIFICATION_DATE": "Date de passage de la certification",
       "CERTIFICATION_LABEL": "Certification {label}",
       "CERTIFICATION_NUMBER": "Numéro de certification",

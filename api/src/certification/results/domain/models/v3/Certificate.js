@@ -2,7 +2,7 @@
  * @typedef {import ('../../read-models/CertifiedBadge.js').CertifiedBadge} CertifiedBadge
  */
 import { CORE_LEVELS } from '../../../../shared/domain/constants/mesh-configuration.js';
-import { MAX_REACHABLE_SCORE } from '../../constants.js';
+import { MAX_REACHABLE_SCORE } from '../../constants.ts';
 import { CertificateMeshLevel } from './CertificateMeshLevel.js';
 
 export class Certificate {
