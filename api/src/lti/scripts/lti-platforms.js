@@ -1,6 +1,7 @@
 import { Script } from '../../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../../src/shared/application/scripts/script-runner.js';
 import { ltiPlatformRepository } from '../infrastructure/repositories/lti-platform.repository.js';
+import { ltiPlatformRegistrationRepository } from '../infrastructure/repositories/lti-platform-registration.repository.js';
 
 /**
  * @typedef {{
@@ -24,6 +25,16 @@ export class LtiPlatformsScript extends Script {
               description: 'LTI platform’s issuer',
               demandOption: true,
               type: 'string',
+            },
+          },
+        },
+        registrations: {
+          description: 'Lists registrations for a platform',
+          options: {
+            platformId: {
+              description: 'LTI platform’s ID',
+              demandOption: true,
+              type: 'integer',
             },
           },
         },
@@ -55,6 +66,17 @@ export class LtiPlatformsScript extends Script {
     const createdPlatform = await ltiPlatformRepository.create({ issuer });
 
     logger.info(`LTI platform created with id ${createdPlatform.id} and issuer "${createdPlatform.issuer}"`);
+  }
+
+  /**
+   * @param {object} options
+   * @param {string} options.platformId
+   * @param {CommandDependencies} dependencies
+   */
+  async registrations({ platformId }, { console }) {
+    const registrations = await ltiPlatformRegistrationRepository.findAllByPlatformId({ platformId });
+
+    console.table(registrations.map(({ clientId, status }) => ({ clientId, status })));
   }
 }
 
