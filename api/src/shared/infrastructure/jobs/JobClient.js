@@ -14,9 +14,9 @@ import { MonitoredJobHandler } from './MonitoredJobHandler.js';
 const workerDirPath = resolve(dirname(fileURLToPath(import.meta.url)), '../../../..');
 const logger = child('worker', { event: 'worker' });
 
-const JOB_CONTROLLER_FILE_SUFFIX = 'job-controller.js';
-const EVENT_HANDLER_FILE_SUFFIX = 'event-handler.js';
-const BASE_CLASS_FILES = ['**/job-controller.js', '**/event-handler.js', '**/job-schedule-controller.js'];
+const JOB_CONTROLLER_FILE_SUFFIX = 'job-controller.{js,ts}';
+const EVENT_HANDLER_FILE_SUFFIX = 'event-handler.{js,ts}';
+const EXCLUDE_FILES = ['**/job-controller.js', '**/event-handler.js', '**/job-schedule-controller.js'];
 
 const RegistrationKind = {
   JOB: 'job',
@@ -147,7 +147,7 @@ export class JobClient {
 
     const jobFiles = [];
     for (const pattern of [...jobControllerPatterns, ...eventHandlerPatterns]) {
-      jobFiles.push(...(await Array.fromAsync(glob(pattern, { exclude: BASE_CLASS_FILES }))));
+      jobFiles.push(...(await Array.fromAsync(glob(pattern, { exclude: EXCLUDE_FILES }))));
     }
     logger.info(`${jobFiles.length} job handlers files found.`);
 
