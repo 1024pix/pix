@@ -22,10 +22,10 @@ class HighlightedButton extends HTMLElement {
     );
     this.#tooltipElement.style.setProperty('--definition-length', this.#tooltipElement.textContent.length);
 
-    const word = this.textContent;
     this.#buttonElement = this.#createElementFromHTML(
-      `<button type="button" class="module-glossary-word" aria-expanded="false" aria-describedby="${this.#tooltipElement.id}">${word}</button>`,
+      `<button type="button" class="module-glossary-word" aria-expanded="false" aria-describedby="${this.#tooltipElement.id}"></button>`,
     );
+    this.#buttonElement.textContent = this.textContent;
 
     const isMobile = window.matchMedia(breakpoints.mobile).matches;
     if (isMobile) {

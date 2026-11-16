@@ -308,4 +308,22 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
       });
     });
   });
+
+  module('when word contains escaped HTML', function () {
+    test('should render the word as text', async function (assert) {
+      // given
+      const textElement = {
+        content: `<p><highlighted-button word="x" definition="def">&lt;img src=x onerror=alert(1)&gt;</highlighted-button></p>`,
+        type: 'text',
+        tag: ' ',
+      };
+
+      // when
+      const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+
+      // then
+      assert.ok(screen.getByRole('button', { name: '<img src=x onerror=alert(1)>' }));
+      assert.dom('highlighted-button img').doesNotExist();
+    });
+  });
 });
