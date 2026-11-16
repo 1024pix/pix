@@ -10,7 +10,7 @@ import { formatDate, t } from 'ember-intl';
 import { eq, not } from 'ember-truth-helpers';
 import Pagination from 'pix-orga/components/ui/pagination';
 
-import { getColumnName } from '../../helpers/import-format';
+import getExtraColumnLabel from '../../helpers/get-extra-column-label';
 import CertificabilityCell from '../certificability/cell';
 import Tooltip from '../certificability/tooltip';
 import DropdownIconTrigger from '../dropdown/icon-trigger';
@@ -205,7 +205,6 @@ export default class List extends Component {
                 </:cell>
               </PixTableColumn>
             {{/if}}
-
             <PixTableColumn
               @context={{context}}
               @onSort={{fn this.addResetOnFunction @sortByLastname reset}}
@@ -239,7 +238,6 @@ export default class List extends Component {
                 {{participant.firstName}}
               </:cell>
             </PixTableColumn>
-
             {{#each this.customColumns as |heading|}}
               {{#if (eq heading.name "COMMON_DIVISION")}}
                 <PixTableColumn
@@ -253,7 +251,7 @@ export default class List extends Component {
                   @ariaLabelSortDesc={{t "pages.organization-participants.table.column.division.ariaLabelSortDown"}}
                 >
                   <:header>
-                    {{t (getColumnName heading.name)}}
+                    {{getExtraColumnLabel heading.name}}
                   </:header>
                   <:cell>
                     {{this.getExtraColumnRowValue heading participant}}
@@ -263,8 +261,8 @@ export default class List extends Component {
                 <PixTableColumn @context={{context}}>
                   <:header>
                     <div class="organization-participant__align-element">
-                      {{t (getColumnName heading.name)}}
-                      {{#if (eq heading "ORALIZATION")}}
+                      {{getExtraColumnLabel heading.name}}
+                      {{#if (eq heading.name "ORALIZATION")}}
                         <PixTooltip @id="organization-participants-oralization-tooltip" @isWide="true">
                           <:triggerElement>
                             <PixIcon

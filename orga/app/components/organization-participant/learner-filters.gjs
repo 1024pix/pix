@@ -6,7 +6,7 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import ENV from 'pix-orga/config/environment';
 
-import { getColumnName } from '../../helpers/import-format';
+import getExtraColumnLabel from '../../helpers/get-extra-column-label';
 import UiMultiSelectFilter from '../ui/multi-select-filter';
 
 const debounceTime = ENV.pagination.debounce;
@@ -88,8 +88,7 @@ export default class LearnerFilters extends Component {
         />
       {{/unless}}
       {{#each @customFilters as |customFilter|}}
-        {{#let (t (getColumnName customFilter)) as |columnName|}}
-
+        {{#let (getExtraColumnLabel customFilter) as |columnName|}}
           {{#if (this.hasFilterOptions customFilter)}}
             <UiMultiSelectFilter
               @field="extraFilters.{{customFilter}}"
