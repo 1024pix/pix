@@ -27,7 +27,6 @@ jobs:
   check_risk_score_monorepo:
     runs-on: ubuntu-latest
     needs: gate
-    needs: gate
     permissions:
       contents: read
     outputs:
