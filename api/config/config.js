@@ -97,7 +97,7 @@ export const schema = Joi.object({
   // rejects a missing or non-positive value rather than silently skipping its batching
   ANSWERS_HISTORY_ASSESSMENT_ID_RANGE: Joi.number().integer().min(1).optional(),
   ANSWERS_HISTORY_ANSWER_BATCH_SIZE: Joi.number().integer().min(1).optional(),
-  MIGRATED_USER_KNOWLEDGE_ELEMENTS_EXPORT_BATCH_SIZE: Joi.number().integer().min(1).optional(),
+  MIGRATED_USER_KE_EXPORT_BATCH_SIZE: Joi.number().integer().min(1).optional(),
   AUTH_SECRET: Joi.string().required(),
   AUTONOMOUS_COURSES_ORGANIZATION_ID: Joi.number().requiredForApi(),
   API_DATA_URL: Joi.string().uri().optional(),
@@ -120,7 +120,7 @@ export const schema = Joi.object({
   CPF_EXPORTS_STORAGE_SECRET_ACCESS_KEY: Joi.string().optional(),
   CPF_PLANNER_JOB_CHUNK_SIZE: Joi.number().optional(),
   CPF_PLANNER_JOB_CRON: Joi.string().optional(),
-  SCHEDULE_EXPORT_MIGRATED_USER_KNOWLEDGE_ELEMENTS_JOB_CRON: Joi.string().optional(),
+  SCHEDULE_EXPORT_MIGRATED_USER_KE_JOB_CRON: Joi.string().optional(),
   CPF_PLANNER_JOB_MINIMUM_RELIABILITY_PERIOD: Joi.number().optional(),
   CPF_PLANNER_JOB_MONTHS_TO_PROCESS: Joi.number().optional(),
   CPF_SEND_EMAIL_JOB_CRON: Joi.string().optional(),
@@ -227,15 +227,15 @@ export const config = {
   migratedUserKnowledgeElementsExport: {
     storage: {
       client: {
-        accessKeyId: process.env.MIGRATED_USER_KNOWLEDGE_ELEMENTS_EXPORT_STORAGE_ACCESS_KEY_ID,
-        secretAccessKey: process.env.MIGRATED_USER_KNOWLEDGE_ELEMENTS_EXPORT_STORAGE_SECRET_ACCESS_KEY,
-        endpoint: process.env.MIGRATED_USER_KNOWLEDGE_ELEMENTS_EXPORT_STORAGE_ENDPOINT,
-        region: process.env.MIGRATED_USER_KNOWLEDGE_ELEMENTS_EXPORT_STORAGE_REGION,
-        bucket: process.env.MIGRATED_USER_KNOWLEDGE_ELEMENTS_EXPORT_STORAGE_BUCKET_NAME,
+        accessKeyId: process.env.MIGRATED_USER_KE_EXPORT_STORAGE_ACCESS_KEY_ID,
+        secretAccessKey: process.env.MIGRATED_USER_KE_EXPORT_STORAGE_SECRET_ACCESS_KEY,
+        endpoint: process.env.MIGRATED_USER_KE_EXPORT_STORAGE_ENDPOINT,
+        region: process.env.MIGRATED_USER_KE_EXPORT_STORAGE_REGION,
+        bucket: process.env.MIGRATED_USER_KE_EXPORT_STORAGE_BUCKET_NAME,
         forcePathStyle: true,
       },
     },
-    batchSize: _getNumber(process.env.MIGRATED_USER_KNOWLEDGE_ELEMENTS_EXPORT_BATCH_SIZE, 10_000),
+    batchSize: _getNumber(process.env.MIGRATED_USER_KE_EXPORT_BATCH_SIZE, 10_000),
   },
   import: {
     storage: {
@@ -371,7 +371,7 @@ export const config = {
       },
       scheduleExportMigratedUserKnowledgeElements: {
         // Unset: the job is disabled.
-        cron: process.env.SCHEDULE_EXPORT_MIGRATED_USER_KNOWLEDGE_ELEMENTS_JOB_CRON,
+        cron: process.env.SCHEDULE_EXPORT_MIGRATED_USER_KE_JOB_CRON,
       },
     },
   },
