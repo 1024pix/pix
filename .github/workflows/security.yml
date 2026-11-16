@@ -304,7 +304,8 @@ jobs:
           MARKDOWN_TABLE: ${{ needs.fetch_results.outputs.markdown }}
           PR: ${{ github.event.pull_request.number }}
         run: |
-          printf '%s\n' "$MARKDOWN_TABLE \nRegarder l’évolution sur [Deptrack](https://deptrack.pto2ls.pix.digital/dashboard) " > "$RUNNER_TEMP/body.md\nPour relancer l’analyse, appliquer le label _security update_"
+          printf '%s\n' "$MARKDOWN_TABLE" > "$RUNNER_TEMP/body.md"
+          echo "Regarder l’évolution sur [Deptrack](https://deptrack.pto2ls.pix.digital/dashboard). Pour relancer l’analyse, appliquer le label _security update_" >> "$RUNNER_TEMP/body.md"
           gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --edit-last --create-if-none \
             --body-file "$RUNNER_TEMP/body.md"
 
