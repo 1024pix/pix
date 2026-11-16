@@ -22,6 +22,10 @@ export default class Url extends UrlBaseService {
     return this.getPixWebsiteUrlFor('DATA_PROTECTION_POLICY');
   }
 
+  get dataProtectionPolicyDiffUrl() {
+    return this.getPixWebsiteUrlFor('DATA_PROTECTION_POLICY_DIFF');
+  }
+
   get accessibilityUrl() {
     return this.getPixWebsiteUrlFor('ACCESSIBILITY');
   }
