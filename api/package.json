@@ -140,7 +140,7 @@
     "iconv-lite": "0.7.3",
     "ioredis": "5.11.1",
     "joi": "18.3.2",
-    "jose": "6.2.16",
+    "jose": "6.2.17",
     "js-yaml": "5.5.0",
     "json-autotranslate": "1.16.2",
     "jsonapi-serializer": "3.6.9",
