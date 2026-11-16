@@ -38,9 +38,7 @@ export default class AppLayout extends Component {
 
     <PixAppLayout class="{{this.appLayoutClass}}">
       <:banner>
-        {{#if @displayFullLayout}}
-          <DataProtectionPolicyInformationBanner />
-        {{/if}}
+        <DataProtectionPolicyInformationBanner />
         <CommunicationBanner />
         <InformationBanners @banners={{@banners}} />
       </:banner>
