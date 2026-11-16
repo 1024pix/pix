@@ -112,6 +112,8 @@ Router.map(function () {
       this.route('presentation', { path: '/' });
       this.route('process-custom-passages', { path: '/chargement' });
       this.route('tunnel', { path: '/checkpoint' });
+      //dev route
+      this.route('landing-page', { path: '/landing' });
     });
   });
 

@@ -642,6 +642,17 @@
         "title": "Begin your customised test",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' ready to assess your digital skills?"
       },
+      "breaks": "Breaks allowed",
+      "has-reward": "Certificate upon completion",
+      "login": {
+        "info": "A Pix account lets you resume your course where you left off or continue your learning.",
+        "legal": "By taking part, information about your progress in the course and your results will be shared with the course organiser so they can support you.",
+        "login-cta": "Log in",
+        "signup-cta": "Create my account",
+        "start-cta": "Yes, let's go!",
+        "title": "Ready to discover your course?"
+      },
+      "organization": "Offered by { organizationName }",
       "profiles-collection": {
         "action": "Let’s go!",
         "announcement": "Sign up or log in to the Pix platform and send your profile to the recipient organisation.",
@@ -651,7 +662,9 @@
       },
       "title": "Presentation",
       "warning-message": "If you are not { firstName } { lastName },",
-      "warning-message-logout": "Please log out"
+      "warning-message-logout": "Please log out",
+      "welcome-authenticated": "Hello { firstName }!",
+      "welcome-unauthenticated": "Hello!"
     },
     "campaign-participation": {
       "title": "Customised test"
@@ -1004,7 +1017,6 @@
     "certifications-dashboard": {
       "eligibility": {
         "steps": {
-          "title": "How to take the Pix certification?",
           "1": {
             "description": "Reach at least level 1 in 5 competences.",
             "link": "See my competences",
@@ -1023,7 +1035,8 @@
           "3": {
             "description": "Your results will be available no earlier than 2 days after your certification test, once your centre has finalised the session.",
             "title": "Results"
-          }
+          },
+          "title": "How to take the Pix certification?"
         }
       },
       "enrolment-banner": {
