@@ -1,9 +1,9 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { t } from 'ember-intl/test-support';
 import Get from 'pix-admin/components/certification-centers/get';
+import ENV from 'pix-admin/config/environment';
 import { module, test } from 'qunit';
 
-import ENV from '../../../../config/environment';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | certification-centers/get', function (hooks) {
