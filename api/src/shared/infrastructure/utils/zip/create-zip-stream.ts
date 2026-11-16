@@ -20,12 +20,12 @@ export function createZipStream<T>({
   callbackFnc,
   callbackArgs,
   allowedErrs = [],
-  dependencies,
+  dependencies = { logger },
 }: {
   callbackFnc: (arg: T) => Promise<Result>;
   callbackArgs: Array<T>;
-  allowedErrs: Array<Error>;
-  dependencies: Deps;
+  allowedErrs?: Array<Error>;
+  dependencies?: Deps;
 }): PassThrough {
   const archive = new ZipStream();
   const output = new PassThrough();

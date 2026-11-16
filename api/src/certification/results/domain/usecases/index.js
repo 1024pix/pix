@@ -17,6 +17,7 @@ import * as resultRecipientRepository from '../../infrastructure/repositories/re
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
 import * as sessionForResultsSharingRepository from '../../infrastructure/repositories/session-for-results-sharing-repository.js';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
+import { filterPublishedSessionIds } from './filter-published-session-ids.js';
 import { findCertificatesForDivision } from './find-certificates-for-division.js';
 import { findUserCertificateSummaries } from './find-user-certificate-summaries.js';
 import { findUserCertificationCourses } from './find-user-certification-courses.js';
@@ -30,10 +31,7 @@ import { getCertificationsResultsForLivretScolaire } from './get-certifications-
 import { getCleaCertifiedCandidateBySession } from './get-clea-certified-candidate-by-session.js';
 import { getPrivateCertificate } from './get-private-certificate.js';
 import { getScoCertificationResultsByDivision } from './get-sco-certification-results-by-division.js';
-import { getSelectedSessionsResultsZip } from './get-selected-sessions-results-zip.js';
 import { getSessionCertificationReports } from './get-session-certification-reports.js';
-import { getSessionResults } from './get-session-results.js';
-import { getSessionResultsByResultRecipientEmail } from './get-session-results-by-result-recipient-email.js';
 import { getSessionResultsForRecipient } from './get-session-results-for-recipient.js';
 import { getShareableCertificate } from './get-shareable-certificate.js';
 
@@ -79,6 +77,7 @@ const dependencies = {
 };
 
 const usecasesWithoutInjectedDependencies = {
+  filterPublishedSessionIds,
   findCertificatesForDivision,
   findUserCertificateSummaries,
   findUserCertificationCourses,
@@ -94,10 +93,7 @@ const usecasesWithoutInjectedDependencies = {
   getScoCertificationResultsByDivision,
   getSessionCertificationReports,
   getSessionCertificationResultsCsv,
-  getSessionResultsByResultRecipientEmail,
-  getSessionResults,
   getShareableCertificate,
-  getSelectedSessionsResultsZip,
   getSessionResultsForRecipient,
 };
 
