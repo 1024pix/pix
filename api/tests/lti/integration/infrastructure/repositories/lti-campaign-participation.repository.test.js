@@ -9,7 +9,7 @@ import {
 import { KnowledgeElementCollection } from '../../../../../src/prescription/shared/domain/models/KnowledgeElementCollection.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../../src/shared/domain/errors.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
-import { databaseBuilder } from '../../../../tooling/databases.js';
+import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | LTI | Infrastructure | Repository | lti-campaign-participation', function () {
@@ -171,6 +171,103 @@ describe('Integration | LTI | Infrastructure | Repository | lti-campaign-partici
         // then
         expect(error).to.be.an.instanceOf(UserNotAuthorizedToAccessEntityError);
       });
+    });
+  });
+
+  describe('#save', function () {
+    let clientId, campaignId;
+
+    beforeEach(async function () {
+      const platform = databaseBuilder.factory.buildLtiPlatform();
+      clientId = databaseBuilder.factory.buildLtiPlatformRegistration({ platformId: platform.id }).clientId;
+      campaignId = databaseBuilder.factory.buildCampaign().id;
+      await databaseBuilder.commit();
+    });
+
+    it('inserts an LTI campaign participation', async function () {
+      // when
+      await repositories.ltiCampaignParticipationRepository.save({
+        clientId,
+        platformUserSub: '1234',
+        lineItemContainerUrl: 'https://moodle.example.net/mod/lti/services.php/2/lineitems?type_id=3',
+        campaignId,
+      });
+
+      // then
+      const rows = await knex('lti_campaign_participations').select(
+        'clientId',
+        'platformUserSub',
+        'lineItemContainerUrl',
+        'campaignId',
+      );
+      expect(rows).to.deep.equal([
+        {
+          clientId,
+          platformUserSub: '1234',
+          lineItemContainerUrl: 'https://moodle.example.net/mod/lti/services.php/2/lineitems?type_id=3',
+          campaignId,
+        },
+      ]);
+    });
+
+    it('does nothing when the participation already exists', async function () {
+      // given
+      const participation = {
+        clientId,
+        platformUserSub: '1234',
+        lineItemContainerUrl: 'https://moodle.example.net/mod/lti/services.php/2/lineitems?type_id=3',
+        campaignId,
+      };
+      await repositories.ltiCampaignParticipationRepository.save(participation);
+      const [savedParticipation] = await knex('lti_campaign_participations');
+
+      // when
+      await repositories.ltiCampaignParticipationRepository.save(participation);
+
+      // then
+      const rows = await knex('lti_campaign_participations');
+      expect(rows).to.deep.equal([savedParticipation]);
+    });
+
+    it('inserts another participation for the same user on the same line items container for another campaign', async function () {
+      // given
+      const otherCampaignId = databaseBuilder.factory.buildCampaign().id;
+      await databaseBuilder.commit();
+      const participation = {
+        clientId,
+        platformUserSub: '1234',
+        lineItemContainerUrl: 'https://moodle.example.net/mod/lti/services.php/2/lineitems?type_id=3',
+      };
+      await repositories.ltiCampaignParticipationRepository.save({ ...participation, campaignId });
+
+      // when
+      await repositories.ltiCampaignParticipationRepository.save({ ...participation, campaignId: otherCampaignId });
+
+      // then
+      const rows = await knex('lti_campaign_participations').select('campaignId').orderBy('id');
+      expect(rows).to.deep.equal([{ campaignId }, { campaignId: otherCampaignId }]);
+    });
+
+    it('inserts another participation for the same user on another line items container', async function () {
+      // given
+      const participation = { clientId, platformUserSub: '1234', campaignId };
+      await repositories.ltiCampaignParticipationRepository.save({
+        ...participation,
+        lineItemContainerUrl: 'https://moodle.example.net/mod/lti/services.php/2/lineitems?type_id=3',
+      });
+
+      // when
+      await repositories.ltiCampaignParticipationRepository.save({
+        ...participation,
+        lineItemContainerUrl: 'https://moodle.example.net/mod/lti/services.php/5/lineitems?type_id=3',
+      });
+
+      // then
+      const rows = await knex('lti_campaign_participations').select('lineItemContainerUrl').orderBy('id');
+      expect(rows).to.deep.equal([
+        { lineItemContainerUrl: 'https://moodle.example.net/mod/lti/services.php/2/lineitems?type_id=3' },
+        { lineItemContainerUrl: 'https://moodle.example.net/mod/lti/services.php/5/lineitems?type_id=3' },
+      ]);
     });
   });
 });
