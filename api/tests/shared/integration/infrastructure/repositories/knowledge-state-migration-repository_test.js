@@ -1,5 +1,10 @@
 import { expect } from 'chai';
 
+import {
+  CORRELATION_METADATA,
+  executeInContext,
+  getCorrelationInfo,
+} from '../../../../../src/shared/infrastructure/execution-context-manager.js';
 import * as knowledgeStateMigrationRepository from '../../../../../src/shared/infrastructure/repositories/knowledge-state-migration-repository.ts';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
@@ -40,6 +45,37 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-state-m
 
       // then
       expect(migrated).to.equal(false);
+    });
+
+    it('should add to the correlation info that the user is migrated to knowledge states', async function () {
+      // given
+      const userId = buildUser().id;
+      buildKnowledgeStateMigration({ userId });
+      await databaseBuilder.commit();
+
+      // when
+      const correlationInfo = await executeInContext({}, async () => {
+        await knowledgeStateMigrationRepository.isMigrated(userId);
+        return getCorrelationInfo();
+      });
+
+      // then
+      expect(correlationInfo[CORRELATION_METADATA]).to.deep.equal({ isUserMigratedToKnowledgeStates: true });
+    });
+
+    it('should add to the correlation info that the user is not migrated to knowledge states', async function () {
+      // given
+      const userId = buildUser().id;
+      await databaseBuilder.commit();
+
+      // when
+      const correlationInfo = await executeInContext({}, async () => {
+        await knowledgeStateMigrationRepository.isMigrated(userId);
+        return getCorrelationInfo();
+      });
+
+      // then
+      expect(correlationInfo[CORRELATION_METADATA]).to.deep.equal({ isUserMigratedToKnowledgeStates: false });
     });
   });
 
