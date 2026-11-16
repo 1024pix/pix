@@ -4,6 +4,9 @@ Un Aggregate est un groupe d'objets qu'au moins une règle du métier relie : on
 ensemble. L'Aggregate Root est l'objet qu'on appelle pour lire ou modifier le groupe. C'est une
 Entity : les règles de [la fiche Entity](../entity/README.md) s'appliquent, plus celles de cette fiche.
 
+En passant toujours par l’Aggregate Root, on vérifie les règles du métier avant chaque modification, et on enregistre
+tout le groupe d’un coup, donc la base ne contient jamais un état qui viole ces règles.
+
 ## Les règles
 
 Chaque règle est détaillée plus bas, dans la [référence des règles](#référence-des-règles).
@@ -14,8 +17,8 @@ Chaque règle est détaillée plus bas, dans la [référence des règles](#réf�
 | [A2](#a2-la-racine-est-la-seule-porte-dentrée) | La racine est la seule porte d'entrée | Seule l'Aggregate Root est publique et s'importe via son `index.ts`                |
 | [A3](#a3-un-repository-par-aggregate)          | Un repository par Aggregate           | `get()` charge tout le groupe, `update()` enregistre tout le groupe                |
 | [A4](#a4-pas-dobjet-dun-autre-aggregate)       | Pas d'objet d'un autre Aggregate      | `createdBy: number`, pas `createdBy: User`                                         |
-| [A6](#a6-petit-aggregate)                      | Petit Aggregate                       | seulement les objets qu'une règle relie                                            |
-| [A7](#a7-une-transaction-un-aggregate)         | Une transaction, un Aggregate         | les autres Aggregates sont modifiés dans leur propre transaction                   |
+| [A6](#a6-petit-aggregate)                      | Petit Aggregate                       | Un aggregat doit avoir un scope métier bien défini et limité                       |
+| [A7](#a7-un-aggregate-une-transaction)         | Un Aggregate, une transaction         | les autres Aggregates sont modifiés dans leur propre transaction                   |
 | [A8](#a8-la-racine-enregistre-ses-événements)  | La racine enregistre ses événements   | `archive()` enregistre `OrganizationArchivedEvent`, après avoir vérifié ses règles |
 
 ## Exemple complet
@@ -540,8 +543,10 @@ fonctionnalités entières, pas leurs id (voir [A6](#a6-petit-aggregate)).
 
 ### A6. Petit Aggregate
 
-**La règle.** L'Aggregate ne contient que les objets qu'une règle relie. Les autres forment leurs
-propres Aggregates.
+**La règle.** Un aggregat doit avoir un scope métier bien défini et limité. L'Aggregate ne contient que
+les objets qu'une règle relie. Les autres forment leurs propres Aggregates. Il faut éviter les "God modèle" qui font tout.
+Le fait d'avoir beaucoup d'entité ou d'aggrégats liées montre un mauvais découpage au niveau du domaine métier, du contexte
+ou de l'aggrégat
 
 **Exemple de code correct.**
 
@@ -579,7 +584,7 @@ sur l'organisation et l'autre sur un membre, sans conflit.
 - Si le chargement est trop lent en production, et que c'est mesuré : on découpe l'Aggregate, ou on
   fait un read-model pour la lecture concernée. Un Aggregate se charge toujours en entier.
 
-### A7. Une transaction, un Aggregate
+### A7. Un Aggregate, une transaction
 
 **La règle.** Un usecase ne modifie qu'un Aggregate par transaction. Si d'autres Aggregates doivent
 suivre, ils sont modifiés ensuite, chacun dans sa propre transaction.
@@ -632,6 +637,8 @@ valeurs, jamais un objet du domaine.
     this.recordDomainEvent(new OrganizationArchivedEvent({ organizationId: this.id, archivedAt: now })); // A8
   }
 ```
+
+Les domaine events seront alors récupérés et publiés par le usecase.
 
 **Exemple de code incorrect.**
 
