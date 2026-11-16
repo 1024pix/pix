@@ -73,11 +73,13 @@ export default class CombinedCourseLandingPage extends Component {
             />
           </LinkTo>
           {{#unless (eq @combinedCourse.organizationId ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID)}}
-            <img
-              class="combined-course-landing__partner-logo--image"
-              src={{@combinedCourse.organizationLogoUrl}}
-              alt={{@combinedCourse.organizationName}}
-            />
+            {{#if @combinedCourse.organizationLogoUrl}}
+              <img
+                class="combined-course-landing__partner-logo--image"
+                src={{@combinedCourse.organizationLogoUrl}}
+                alt={{@combinedCourse.organizationName}}
+              />
+            {{/if}}
           {{/unless}}
         </header>
         <MainSection

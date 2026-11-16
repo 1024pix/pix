@@ -621,6 +621,13 @@
       }
     },
     "campaign-landing": {
+      "actions": {
+        "legal": "En participant, les informations relatives à votre avancée dans le parcours et vos résultats seront transmises à l’organisateur du parcours pour lui permettre de vous accompagner.",
+        "login-cta": "Je me connecte",
+        "signup-cta": "Je crée mon compte",
+        "start-cta": "Oui, c'est parti !",
+        "title": "Prêt(e) à découvrir votre parcours ?"
+      },
       "assessment": {
         "action": "Je commence",
         "announcement": "Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test.",
@@ -642,15 +649,10 @@
         "title": "Commencez votre parcours Pix",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' prêt à évaluer vos compétences numériques ?"
       },
-      "breaks": "Pauses possibles",
+      "breaks-allowed": "Pauses possibles",
       "has-reward": "Attestation à la clé",
       "login": {
-        "info": "Un compte Pix vous permet de reprendre votre parcours là où vous l'avez laissé ou de prolonger votre apprentissage.",
-        "legal": "En participant, les informations relatives à votre avancée dans le parcours et vos résultats seront transmises à l’organisateur du parcours pour lui permettre de vous accompagner.",
-        "login-cta": "Je me connecte",
-        "signup-cta": "Je crée mon compte",
-        "start-cta": "Oui, c'est parti !",
-        "title": "Prêt(e) à découvrir votre parcours ?"
+        "info": "Un compte Pix vous permet de reprendre votre parcours là où vous l'avez laissé ou de prolonger votre apprentissage."
       },
       "organization": "Proposé par { organizationName }",
       "profiles-collection": {

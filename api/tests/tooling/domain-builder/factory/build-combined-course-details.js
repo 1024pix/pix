@@ -32,6 +32,8 @@ function buildCombinedCourseDetails({
   rewardType = null,
   baseSurveyUrl,
   durationSpan,
+  organizationName,
+  organizationLogoUrl,
 } = {}) {
   const combinedCourse = buildCombinedCourse({
     name,
@@ -84,6 +86,7 @@ function buildCombinedCourseDetails({
   });
 
   const combinedCourseDetails = new CombinedCourseDetails(combinedCourse, quest, cryptoService);
+  combinedCourseDetails.setOrganizationDetails({ name: organizationName, logoUrl: organizationLogoUrl });
   combinedCourseDetails.setItems({ campaigns, modules });
 
   combinedCourseDetails.setDataAndGenerateItems({ reward: { rewardId, rewardType: quest.rewardType } });

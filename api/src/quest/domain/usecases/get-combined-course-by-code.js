@@ -7,27 +7,35 @@ export async function getCombinedCourseByCode({
   attestationRepository,
   profileRewardRepository,
   combinedCourseBlueprintRepository,
+  organizationRepository,
 }) {
   const combinedCourse = await combinedCourseRepository.getByCode({ code });
   const combinedCourseDetails = await combinedCourseDetailsService.instantiateCombinedCourseDetails({
     combinedCourseId: combinedCourse.id,
   });
 
-  if (!userId) {
-    return combinedCourseDetails;
+  let organizationLearnerId, profileReward;
+
+  if (userId) {
+    organizationLearnerId = await organizationLearnerPrescriptionRepository.findIdByUserIdAndOrganizationId({
+      userId,
+      organizationId: combinedCourse.organizationId,
+    });
+    profileReward = await profileRewardRepository.findByUserIdAndRewardId({
+      rewardId: combinedCourse.quest.rewardId,
+      userId,
+    });
   }
 
-  const organizationLearnerId = await organizationLearnerPrescriptionRepository.findIdByUserIdAndOrganizationId({
-    userId,
-    organizationId: combinedCourse.organizationId,
-  });
-
   const attestation = await attestationRepository.getByRewardId({ rewardId: combinedCourse.quest.rewardId });
-  const profileReward = await profileRewardRepository.findByUserIdAndRewardId({
-    rewardId: combinedCourse.quest.rewardId,
-    userId,
-  });
+
   const combinedCourseBlueprint = await combinedCourseBlueprintRepository.findById({ id: combinedCourse.blueprintId });
+
+  const organizationDetails = await organizationRepository.get(combinedCourse.organizationId);
+  combinedCourseDetails.setOrganizationDetails({
+    name: organizationDetails.name,
+    logoUrl: organizationDetails.logoUrl,
+  });
 
   return combinedCourseDetailsService.getCombinedCourseDetails({
     organizationLearnerId,

@@ -621,6 +621,13 @@
       }
     },
     "campaign-landing": {
+      "actions": {
+        "legal": "By taking part, information about your progress in the course and your results will be shared with the course organiser so they can support you.",
+        "login-cta": "Log in",
+        "signup-cta": "Create my account",
+        "start-cta": "Yes, let's go!",
+        "title": "Ready to discover your course?"
+      },
       "assessment": {
         "action": "Begin",
         "announcement": "Sign up or log in to the Pix platform and start your test.",
@@ -642,15 +649,10 @@
         "title": "Begin your customised test",
         "title-with-username": "'<span>'{userFirstName}'</span>','<br>' ready to assess your digital skills?"
       },
-      "breaks": "Breaks allowed",
+      "breaks-allowed": "Breaks allowed",
       "has-reward": "Certificate upon completion",
       "login": {
-        "info": "A Pix account lets you resume your course where you left off or continue your learning.",
-        "legal": "By taking part, information about your progress in the course and your results will be shared with the course organiser so they can support you.",
-        "login-cta": "Log in",
-        "signup-cta": "Create my account",
-        "start-cta": "Yes, let's go!",
-        "title": "Ready to discover your course?"
+        "info": "A Pix account lets you resume your course where you left off or continue your learning."
       },
       "organization": "Offered by { organizationName }",
       "profiles-collection": {
