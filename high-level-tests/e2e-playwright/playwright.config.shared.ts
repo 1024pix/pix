@@ -109,7 +109,7 @@ export function setupWebServer(app: App, reuseExistingServer: boolean): WebServe
     };
   } else {
     let command = `npx ember serve --proxy http://localhost:${process.env.PIX_API_PORT}`;
-    if (app === App.PIX_ORGA) {
+    if ([App.PIX_ORGA, App.PIX_CERTIF].includes(app)) {
       command = `npx vite preview`;
     }
     return {
