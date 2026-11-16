@@ -9,13 +9,13 @@ import { t } from 'ember-intl';
 import isInteger from 'lodash/isInteger';
 import ChallengeActions from 'mon-pix/components/challenge/challenge-actions';
 import ChallengeWrapper from 'mon-pix/components/challenge/challenge-wrapper';
+import FeedbackPanel from 'mon-pix/components/challenge/feedback-panel';
 import FocusedOutNotification from 'mon-pix/components/challenge/focusedOutNotification';
 import ModeBanner from 'mon-pix/components/challenge/mode-banner';
 import ChallengeStatement from 'mon-pix/components/challenge-statement';
 
 import AssessmentsLiveAlert from '../assessments/live-alert';
 import CertificationFeedbackPanel from '../certification-feedback-panel';
-import FeedbackPanel from '../feedback-panel';
 import ChallengeItem from './item';
 
 export default class ChallengeContent extends Component {

@@ -69,7 +69,6 @@
 @use 'components/competence-card' as *;
 @use 'components/competence-card/list' as *;
 @use 'components/dashboard/content' as *;
-@use 'components/feedback-panel' as *;
 @use 'components/copy-paste-button' as *;
 @use 'components/certification-feedback-panel' as *;
 @use 'components/footer' as *;
@@ -187,6 +186,7 @@
 @use 'challenge/challenge-actions' as *;
 @use 'challenge/mode-banner' as *;
 @use 'challenge/timed-challenge-instructions' as *;
+@use 'challenge/feedback-panel' as *;
 
 /* pages */
 @use 'pages/campaign-landing-page' as *;
