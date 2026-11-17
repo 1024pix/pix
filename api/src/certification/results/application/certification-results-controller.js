@@ -54,10 +54,6 @@ async function getSessionResultsByRecipientEmail(request, h) {
     resultRecipientEmail,
   });
 
-  if (certificationResults.length === 0) {
-    return h.response(400);
-  }
-
   const csv = serialize(certificationResults, i18n);
   const dateWithTime = `${sessionInfo.date.replaceAll('-', '')}_${sessionInfo.time.replace(':', '')}`;
   const filename = i18n.__('certification-results-csv.filenames.SESSION_CERTIFICATION_RESULTS_FILENAME', {
