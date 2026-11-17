@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { config } from '../../../../config/config.js';
 import { getCorrelationInfo } from '../../../shared/infrastructure/execution-context-manager.js';
 import { child, SCOPES } from '../../../shared/infrastructure/utils/logger.js';
-import { LLMApiError } from '../../domain/errors.js';
+import { ApiNetworkError, LLMApiError } from '../../domain/errors.js';
 
 const logger = child('llm:api', { event: SCOPES.LLM });
 
@@ -73,14 +73,14 @@ export async function prompt({ messages, configuration, chatId }) {
         },
         'fetch error when trying to reach LLM API',
       );
-      throw new LLMApiError(err.toString());
+      throw new ApiNetworkError(err.toString());
     }
     if (response.ok) {
       return response.body;
     }
 
     const { status, err } = await handleFetchErrors(response);
-    logger.error(
+    logger.warn(
       {
         err,
         context: 'prompt-llm',
@@ -95,6 +95,19 @@ export async function prompt({ messages, configuration, chatId }) {
     );
 
     if (status !== 502 || currentRetryCount >= MAX_RETRY_COUNT) {
+      logger.error(
+        {
+          err,
+          context: 'prompt-llm',
+          data: {
+            chatId,
+            configurationContext: configuration.context,
+            configurationName: configurationDTO.name,
+            responseStatus: status,
+          },
+        },
+        `could not reach LLM API after ${currentRetryCount + 1} attempt(s) : code ${status}`,
+      );
       throw new LLMApiError(err);
     }
 

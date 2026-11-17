@@ -8,6 +8,7 @@ import {
   ServiceUnavailableError,
 } from '../../shared/application/errors/http-errors.js';
 import {
+  ApiNetworkError,
   ChatForbiddenError,
   ChatNotFoundError,
   ConfigurationNotFoundError,
@@ -56,6 +57,10 @@ export const llmDomainErrorMappingConfiguration = [
   },
   {
     name: LLMApiError.name,
+    httpErrorFn: (error) => new ServiceUnavailableError(error.message),
+  },
+  {
+    name: ApiNetworkError.name,
     httpErrorFn: (error) => new ServiceUnavailableError(error.message),
   },
   {

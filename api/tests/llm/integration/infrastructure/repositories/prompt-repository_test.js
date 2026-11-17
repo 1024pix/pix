@@ -3,7 +3,7 @@ import { Readable } from 'node:stream';
 import { expect } from 'chai';
 import nock from 'nock';
 
-import { LLMApiError } from '../../../../../src/llm/domain/errors.js';
+import { ApiNetworkError, LLMApiError } from '../../../../../src/llm/domain/errors.js';
 import { Configuration } from '../../../../../src/llm/domain/models/Configuration.js';
 import { prompt } from '../../../../../src/llm/infrastructure/repositories/prompt-repository.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
@@ -123,6 +123,35 @@ describe('LLM | Integration | Infrastructure | Repositories | prompt-repository'
               expect(llmResponse).to.deep.equal(llmResponseChunks.join(''));
               expect(llmPostPromptScope.isDone()).to.be.true;
             });
+          });
+        });
+
+        context('when the llm api cannot be reached', function () {
+          it('should throw an ApiNetworkError without retrying', async function () {
+            // given
+            const messages = buildMessageDTOs(['salut']);
+            const llmPostPromptScope = nock('https://llm-test.pix.fr/api')
+              .post('/chat', {
+                configuration: {
+                  challenge: {
+                    inputMaxPrompts: 100,
+                    inputMaxChars: 255,
+                  },
+                },
+                history: [],
+                prompt: 'salut',
+              })
+              .replyWithError('connection refused');
+
+            // when
+            const error = await catchErr(prompt)({ messages, configuration });
+
+            // then
+            expect(error).to.be.instanceOf(ApiNetworkError);
+            expect(error.message).to.equal(
+              'A network error occurred when reaching the LLM Api : TypeError: fetch failed',
+            );
+            expect(llmPostPromptScope.isDone()).to.be.true;
           });
         });
 

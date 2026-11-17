@@ -18,6 +18,12 @@ export class LLMApiError extends DomainError {
   }
 }
 
+export class ApiNetworkError extends DomainError {
+  constructor(errorStr) {
+    super(`A network error occurred when reaching the LLM Api : ${errorStr}`);
+  }
+}
+
 export class ChatNotFoundError extends DomainError {
   constructor(id) {
     super(`The chat of id "${id}" does not exist`);
