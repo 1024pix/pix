@@ -127,7 +127,7 @@ describe('Unit | Shared | Domain | UseCase | migrate-user-to-knowledge-states', 
     sinon.assert.calledOnceWithExactly(dependencies.knowledgeStateMigrationRepository.save, USER_ID, expectedReport);
   });
 
-  it('should log the knowledge elements, the knowledge states and the competence scores of the user', async function () {
+  it('should log the knowledge states and the competence scores of the user', async function () {
     // given
     const knowledgeElements = [
       buildKnowledgeElementOf('full', 1, { earnedPix: 0.5 }),
@@ -139,11 +139,6 @@ describe('Unit | Shared | Domain | UseCase | migrate-user-to-knowledge-states', 
     await migrateUserToKnowledgeStates({ userId: USER_ID, ...dependencies });
 
     // then
-    sinon.assert.calledWithExactly(
-      dependencies.logger.info,
-      { userId: USER_ID, knowledgeElements },
-      'Knowledge elements of the user to migrate.',
-    );
     sinon.assert.calledWithExactly(
       dependencies.logger.info,
       { userId: USER_ID, knowledgeStates: dependencies.knowledgeStateRepository.upsert.firstCall.args[0] },
