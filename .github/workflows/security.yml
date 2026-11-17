@@ -294,7 +294,7 @@ jobs:
 
   comment_on_pr:
     runs-on: ubuntu-latest
-    needs: 
+    needs:
       - gate
       - fetch_results
     if: ${{ !cancelled() && needs.fetch_results.outputs.status != '' }}
