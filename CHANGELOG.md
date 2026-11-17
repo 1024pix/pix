@@ -1,5 +1,64 @@
 # Pix Changelog
 
+# [5.545.0](https://github.com/1024pix/pix/compare/v5.544.1...v5.545.0) (2026-11-17)
+
+### :rocket: Amélioration
+
+- [#18782](https://github.com/1024pix/pix/pull/18782) Ajout d'un blocage de téléchargement de pdf de certif si aucune session processed n'est selectionné (PIX-25115)
+- [#18743](https://github.com/1024pix/pix/pull/18743) Ajoute une page de contextualisation au début des parcours combinés (PIX-25003)
+- [#18761](https://github.com/1024pix/pix/pull/18761) Créer un tooltip sur les mots du glossaire d'un module (PIX-22203).
+- [#18765](https://github.com/1024pix/pix/pull/18765) Faire remonter organizationName et organizationUrl dans get-combined-course-by-code (PIX-25089)
+- [#18832](https://github.com/1024pix/pix/pull/18832) Streamer la génération des résultats d'une sélection de sessions (PIX-25096).
+
+### :bug: Correction
+
+- [#18870](https://github.com/1024pix/pix/pull/18870) Test e2e flaky sur PixApp pour le passage des parcours combinés et l'affichage des résultats
+
+### :building_construction: Tech
+
+- [#18871](https://github.com/1024pix/pix/pull/18871) Ajouter des seeds pour un utilisateur migré vers le système de KS.
+- [#18839](https://github.com/1024pix/pix/pull/18839) Amélioration des logs lors en cas de retry d'appel au LLM (PIX-25131).
+- [#18866](https://github.com/1024pix/pix/pull/18866) Identifier dans les logs les requêtes d'un utilisateur migré vers les knowledge states.
+
+### :arrow_up: Montée de version
+
+- [#18823](https://github.com/1024pix/pix/pull/18823) Replace dependency @tsconfig/node24 with @tsconfig/node26 (audit-logger)
+- [#18855](https://github.com/1024pix/pix/pull/18855) Update aws-sdk-js-v3 monorepo to v3.1165.0 (api)
+- [#18862](https://github.com/1024pix/pix/pull/18862) Update dependency @cyclonedx/cyclonedx-npm to v7 (dossier racine)
+- [#18814](https://github.com/1024pix/pix/pull/18814) Update dependency @ember/test-helpers to v5.8.0 (orga)
+- [#18825](https://github.com/1024pix/pix/pull/18825) Update dependency @tsconfig/node26 to v26.0.1 (audit-logger)
+- [#18863](https://github.com/1024pix/pix/pull/18863) Update dependency babel-plugin-ember-template-compilation to v4 (certif)
+- [#18854](https://github.com/1024pix/pix/pull/18854) Update dependency browser-tools to v2.4.3 (.circleci)
+- [#18826](https://github.com/1024pix/pix/pull/18826) Update dependency ember-exam to v10.3.0 (admin)
+- [#18827](https://github.com/1024pix/pix/pull/18827) Update dependency ember-exam to v10.3.0 (certif)
+- [#18828](https://github.com/1024pix/pix/pull/18828) Update dependency ember-exam to v10.3.0 (junior)
+- [#18831](https://github.com/1024pix/pix/pull/18831) Update dependency ember-exam to v10.3.0 (orga)
+- [#18833](https://github.com/1024pix/pix/pull/18833) Update dependency ember-page-title to v9.1.0 (admin)
+- [#18834](https://github.com/1024pix/pix/pull/18834) Update dependency ember-page-title to v9.1.0 (certif)
+- [#18837](https://github.com/1024pix/pix/pull/18837) Update dependency ember-page-title to v9.1.0 (junior)
+- [#18838](https://github.com/1024pix/pix/pull/18838) Update dependency ember-page-title to v9.1.0 (mon-pix)
+- [#18840](https://github.com/1024pix/pix/pull/18840) Update dependency ember-page-title to v9.1.0 (orga)
+- [#18841](https://github.com/1024pix/pix/pull/18841) Update dependency eslint-plugin-import-x to v4.18.1 (audit-logger)
+- [#18844](https://github.com/1024pix/pix/pull/18844) Update dependency eslint-plugin-import-x to v4.18.1 (certif)
+- [#18864](https://github.com/1024pix/pix/pull/18864) Update dependency eslint-plugin-unicorn to v79 (api)
+- [#18865](https://github.com/1024pix/pix/pull/18865) Update dependency eslint-plugin-unicorn to v79 (audit-logger)
+- [#18867](https://github.com/1024pix/pix/pull/18867) Update dependency eslint-plugin-unicorn to v79 (certif)
+- [#18845](https://github.com/1024pix/pix/pull/18845) Update dependency hyparquet to v1.33.0 (api)
+- [#18853](https://github.com/1024pix/pix/pull/18853) Update dependency jose to v6.2.17 (api)
+- [#18850](https://github.com/1024pix/pix/pull/18850) Update dependency nodemailer to v10.4.0 (api)
+- [#18869](https://github.com/1024pix/pix/pull/18869) Update dependency nodemailer to v10.5.0 (api)
+- [#18851](https://github.com/1024pix/pix/pull/18851) Update dependency sass to v1.108.1 (admin)
+- [#18852](https://github.com/1024pix/pix/pull/18852) Update dependency sass to v1.108.1 (certif)
+- [#18856](https://github.com/1024pix/pix/pull/18856) Update dependency sass to v1.108.1 (junior)
+- [#18857](https://github.com/1024pix/pix/pull/18857) Update dependency sass to v1.108.1 (mon-pix)
+- [#18858](https://github.com/1024pix/pix/pull/18858) Update dependency sass-embedded to v1.108.1 (orga)
+- [#18846](https://github.com/1024pix/pix/pull/18846) Update dependency typescript-eslint to v8.72.2 (audit-logger)
+- [#18847](https://github.com/1024pix/pix/pull/18847) Update dependency typescript-eslint to v8.72.2 (e2e-playwright)
+- [#18849](https://github.com/1024pix/pix/pull/18849) Update dependency typescript-eslint to v8.72.2 (orga)
+- [#18859](https://github.com/1024pix/pix/pull/18859) Update jaegertracing/jaeger Docker tag to v2.23.0 (dossier racine)
+- [#18830](https://github.com/1024pix/pix/pull/18830) Update JS test packages (mon-pix)
+- [#18860](https://github.com/1024pix/pix/pull/18860) Update linters (api)
+
 ## [5.544.1](https://github.com/1024pix/pix/compare/v5.544.0...v5.544.1) (2026-11-16)
 
 ### :building_construction: Tech
