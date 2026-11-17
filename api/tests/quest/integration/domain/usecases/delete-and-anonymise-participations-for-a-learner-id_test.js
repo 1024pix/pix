@@ -38,7 +38,7 @@ describe('Integration | Quest | Domain | UseCases | delete-and-anonymise-partici
       organizationId: organization.id,
     });
 
-    const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId } = databaseBuilder.factory.buildQuest({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO(),

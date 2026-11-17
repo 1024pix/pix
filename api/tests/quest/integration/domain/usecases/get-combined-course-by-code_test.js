@@ -83,7 +83,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
         },
       });
 
-      const { id: questId1 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId1 } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: moduleId1 }).toDTO(),
@@ -248,7 +248,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
         status: OrganizationLearnerParticipationStatuses.NOT_STARTED,
       });
 
-      const { id: questId2 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId2 } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: moduleId1 }).toDTO(),
@@ -397,7 +397,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
       });
 
       const attestation = databaseBuilder.factory.buildAttestation({ key: 'attestation_key' });
-      const { id: questId3 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId3 } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: moduleId1 }).toDTO(),
@@ -455,7 +455,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
 
       const attestation = databaseBuilder.factory.buildAttestation();
 
-      const quest = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const quest = databaseBuilder.factory.buildQuest({
         rewardId: attestation.id,
         rewardType: 'attestations',
       });
@@ -480,7 +480,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
 
       const attestation = databaseBuilder.factory.buildAttestation();
 
-      const quest = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const quest = databaseBuilder.factory.buildQuest({
         rewardId: attestation.id,
         rewardType: 'attestations',
       });

@@ -793,7 +793,7 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId });
       // given
       const campaignInCombinedCourse = databaseBuilder.factory.buildCampaign({ organizationId });
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({
             campaignId: campaignInCombinedCourse.id,

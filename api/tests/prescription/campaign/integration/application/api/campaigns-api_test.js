@@ -536,7 +536,7 @@ describe('Integration | Application | campaign-api', function () {
 
       const campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
       const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint();
-      const { id: questId1 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId1 } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: 'module-id' }).toDTO(),
@@ -550,7 +550,7 @@ describe('Integration | Application | campaign-api', function () {
 
       const campaign2 = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
       const combinedCourseBlueprint2 = databaseBuilder.factory.buildCombinedCourseBlueprint();
-      const { id: questId2 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId2 } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign2.id }).toDTO(),
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: 'module-id' }).toDTO(),

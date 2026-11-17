@@ -12,7 +12,7 @@ describe('Quest | Integration | Domain | Usecases | getCombinedCourseById', func
     // given
     const organizationId = databaseBuilder.factory.buildOrganization().id;
 
-    const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId } = databaseBuilder.factory.buildQuest({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: 100 }).toDTO(),
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: 200 }).toDTO(),

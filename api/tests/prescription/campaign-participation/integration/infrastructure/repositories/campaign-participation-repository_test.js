@@ -1763,7 +1763,7 @@ describe('Integration | Repository | Campaign Participation', function () {
     it('should return true user linked to a combined course', async function () {
       const campaignInCombinedCourse = databaseBuilder.factory.buildCampaign({ organizationId });
 
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({
             campaignId: campaignInCombinedCourse.id,
@@ -1805,7 +1805,7 @@ describe('Integration | Repository | Campaign Participation', function () {
         organizationLearnerId,
         userId,
       });
-      const { id: questId2 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId2 } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({
             campaignId: campaignInCombinedCourse.id,

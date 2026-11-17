@@ -121,7 +121,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
 
     it('should return not started combined course', async function () {
       // given
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: moduleId1 }).toDTO(),
@@ -203,7 +203,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
 
     it('should return started combined course', async function () {
       // given
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: moduleId1 }).toDTO(),
@@ -332,7 +332,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
     it('should return independent states for each learner when processing multiple learners', async function () {
       // given
       const secondLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: moduleId1 }).toDTO(),
@@ -409,7 +409,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
       // given
       const secondLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
       const { id: attestationId } = databaseBuilder.factory.buildAttestation();
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         rewardId: attestationId,
         rewardType: REWARD_TYPES.ATTESTATION,
         successRequirements: [
@@ -468,7 +468,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
 
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [],
       });
       const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
@@ -561,7 +561,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
         trainingId: training2.id,
       });
 
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: moduleId1 }).toDTO(),

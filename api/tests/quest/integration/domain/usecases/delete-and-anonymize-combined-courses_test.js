@@ -24,7 +24,7 @@ describe('Integration | Combined course | Domain | UseCases | delete-and-anonymi
     organization = databaseBuilder.factory.buildOrganization();
     campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
 
-    const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId } = databaseBuilder.factory.buildQuest({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO(),

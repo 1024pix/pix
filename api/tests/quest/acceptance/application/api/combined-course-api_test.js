@@ -15,7 +15,7 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
       combinedCourseName = 'Mon parcours Combiné';
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
       combinedCourseId = databaseBuilder.factory.buildCombinedCourse({
@@ -51,7 +51,7 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
 
     it('should throw an error if multiple combined courses found', async function () {
       //given
-      const { id: questId2 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId2 } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
       databaseBuilder.factory.buildCombinedCourse({
@@ -108,7 +108,7 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
       //given
       const { id: campaignId } = databaseBuilder.factory.buildCampaign();
 
-      const { id: questId1 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId1 } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
 
@@ -130,7 +130,7 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
       //given
       const { id: combinedCourseId1 } = databaseBuilder.factory.buildCombinedCourse({
         code: 'RANDOM',
-        questId: databaseBuilder.factory.buildQuestForCombinedCourse().id,
+        questId: databaseBuilder.factory.buildQuest().id,
       });
 
       await databaseBuilder.commit();
