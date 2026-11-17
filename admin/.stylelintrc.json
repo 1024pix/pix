@@ -1,12 +1,3 @@
 {
-  "extends": ["@1024pix/stylelint-config"],
-  "rules": {
-    "scss/no-global-function-names": null,
-    "scss/at-mixin-pattern": null,
-    "import-notation": "string",
-    "rule-empty-line-before": [
-      "always-multi-line",
-      { "except": ["after-single-line-comment"], "ignore": ["first-nested"] }
-      ]
-  }
+  "extends": ["@1024pix/stylelint-config"]
 }
