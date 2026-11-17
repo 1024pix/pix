@@ -1,42 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Pix Admin tests</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Pix Admin tests</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    {{content-for "head"}}
-    {{content-for "test-head"}}
+    {{content-for "head"}} {{content-for "test-head"}}
 
-    <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
-    <link rel="stylesheet" href="{{rootURL}}assets/pix-admin.css">
-    <link rel="stylesheet" href="{{rootURL}}assets/test-support.css">
+    <link rel="stylesheet" href="/@embroider/virtual/vendor.css" />
+    <link rel="stylesheet" href="/app/styles/app.scss" />
+    <link rel="stylesheet" href="/@embroider/virtual/test-support.css" />
 
     <style>
-        dialog:modal {
-          position: fixed;
-          inset: auto 0 0 auto;   /* bas-droite, comme #ember-testing-container */
-          width: 640px;
-          height: 384px;
-          max-width: 640px;
-          max-height: 384px;
-          margin: 0;
-        }
+      dialog:modal {
+        position: fixed;
+        inset: auto 0 0 auto; /* bas-droite, comme #ember-testing-container */
+        width: 640px;
+        height: 384px;
+        max-width: 640px;
+        max-height: 384px;
+        margin: 0;
+      }
 
-        dialog:modal::backdrop {
-          background: transparent;   /* le backdrop couvre toujours tout le
+      dialog:modal::backdrop {
+        background: transparent; /* le backdrop couvre toujours tout le
         viewport */
-        }
+      }
     </style>
 
-    {{content-for "head-footer"}}
-    {{content-for "test-head-footer"}}
+    {{content-for "head-footer"}} {{content-for "test-head-footer"}}
   </head>
   <body>
-    {{content-for "body"}}
-    {{content-for "test-body"}}
+    {{content-for "body"}} {{content-for "test-body"}}
 
     <div id="qunit"></div>
     <div id="qunit-fixture">
@@ -46,12 +43,24 @@
     </div>
 
     <script src="/testem.js" integrity="" data-embroider-ignore></script>
-    <script src="{{rootURL}}assets/vendor.js"></script>
-    <script src="{{rootURL}}assets/test-support.js"></script>
-    <script src="{{rootURL}}assets/pix-admin.js"></script>
-    <script src="{{rootURL}}assets/tests.js"></script>
+    <script src="/@embroider/virtual/vendor.js"></script>
+    <script src="/@embroider/virtual/test-support.js"></script>
+
+    <script type="module">
+      import 'ember-testing';
+    </script>
+    <script type="module">
+      import { start } from './test-helper';
+
+      const availableModules = {
+        ...import.meta.glob('./acceptance/**/*test.{js,ts,gjs,gts}'),
+        ...import.meta.glob('./integration/**/*test.{js,ts,gjs,gts}'),
+        ...import.meta.glob('./unit/**/*test.{js,ts,gjs,gts}'),
+      };
+
+      start({ availableModules });
+    </script>
 
     {{content-for "body-footer"}}
-    {{content-for "test-body-footer"}}
   </body>
 </html>

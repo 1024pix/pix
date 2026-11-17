@@ -1,14 +1,9 @@
 import { setupTest } from 'ember-qunit';
+import formatDuration from 'pix-admin/helpers/format-duration';
 import { module, test } from 'qunit';
 
 module('Unit | Helper | format-duration', function (hooks) {
   setupTest(hooks);
-
-  let formatDuration;
-
-  hooks.beforeEach(function () {
-    formatDuration = this.owner.factoryFor('helper:format-duration').create();
-  });
 
   module('formatDuration', function () {
     [
@@ -20,7 +15,7 @@ module('Unit | Helper | format-duration', function (hooks) {
       { duration: -12000000, format: 'HH:mm:ss', expected: '-03:20:00' },
     ].forEach(function ({ duration, format, expected }) {
       test(`formats ${duration}ms to ${format}`, async function (assert) {
-        assert.strictEqual(formatDuration.compute([duration, format]), expected);
+        assert.strictEqual(formatDuration(duration, format), expected);
       });
     });
   });

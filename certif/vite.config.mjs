@@ -36,7 +36,7 @@ export default defineConfig({
   preview: {
     port: 4203,
     host: true,
-    allowedHosts: ['orga.dev.pix.fr', 'orga.dev.pix.org'],
+    allowedHosts: ['certif.dev.pix.fr', 'certif.dev.pix.org'],
     proxy: {
       '/api': {
         target: `http://localhost:${process.env.PIX_API_PORT ? process.env.PIX_API_PORT : 3000}`,
@@ -47,7 +47,7 @@ export default defineConfig({
   server: {
     port: 4203,
     host: true,
-    allowedHosts: ['orga.dev.pix.fr', 'orga.dev.pix.org'],
+    allowedHosts: ['certif.dev.pix.fr', 'certif.dev.pix.org'],
     proxy: {
       '/api': {
         target: `http://localhost:${process.env.PIX_API_PORT ? process.env.PIX_API_PORT : 3000}`,

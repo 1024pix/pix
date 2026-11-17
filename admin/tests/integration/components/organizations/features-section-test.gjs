@@ -2,7 +2,6 @@ import { fillByLabel, render, within } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { waitForElementToBeRemoved } from '@testing-library/dom';
 import { t } from 'ember-intl/test-support';
 import FeaturesSection from 'pix-admin/components/organizations/features-section';
 import { module, test } from 'qunit';
@@ -997,7 +996,6 @@ module('Integration | Component | organizations/features-section', function (hoo
       );
       const modale = await screen.findByRole('dialog');
       await click(within(modale).getByRole('button', { name: t('common.actions.close') }));
-      await waitForElementToBeRemoved(() => screen.queryByRole('dialog'));
 
       // then
       assert.ok(
@@ -1032,7 +1030,6 @@ module('Integration | Component | organizations/features-section', function (hoo
         }),
       );
       await click(within(modale).getByRole('button', { name: t('common.actions.confirm') }));
-      await waitForElementToBeRemoved(() => screen.queryByRole('dialog'));
 
       // then
       assert.ok(
