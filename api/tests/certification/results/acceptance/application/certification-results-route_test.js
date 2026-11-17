@@ -185,62 +185,112 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
 
   describe('POST /api/sessions/download-all-results', function () {
     context('when a valid token is given', function () {
-      it('should return 200 HTTP status code', async function () {
-        // given
-        const server = await getServer();
-
-        const dbf = databaseBuilder.factory;
-
-        const session = dbf.buildSession({ date: '2020/01/01', time: '12:00' });
-        const sessionId = session.id;
-
-        const candidate1 = dbf.buildCertificationCandidate({
-          sessionId,
-          resultRecipientEmail: 'recipientEmail@example.net',
-        });
-        const candidate2 = dbf.buildCertificationCandidate({
-          sessionId,
-          resultRecipientEmail: 'recipientEmail@example.net',
+      context('FT readNewCertificationResults disabled', function () {
+        beforeEach(async function () {
+          await featureToggles.set('readNewCertificationResults', false);
         });
 
-        const certif1 = dbf.buildCertificationCourse({
-          sessionId: candidate1.sessionId,
-          userId: candidate1.userId,
-          lastName: candidate1.lastName,
-          birthdate: candidate1.birthdate,
-          createdAt: candidate1.createdAt,
+        it('should return 200 HTTP status code', async function () {
+          // given
+          const server = await getServer();
+
+          const dbf = databaseBuilder.factory;
+
+          const session = dbf.buildSession({ date: '2020/01/01', time: '12:00' });
+          const sessionId = session.id;
+
+          const candidate1 = dbf.buildCertificationCandidate({
+            sessionId,
+            resultRecipientEmail: 'recipientEmail@example.net',
+          });
+          const candidate2 = dbf.buildCertificationCandidate({
+            sessionId,
+            resultRecipientEmail: 'recipientEmail@example.net',
+          });
+
+          const certif1 = dbf.buildCertificationCourse({
+            sessionId: candidate1.sessionId,
+            userId: candidate1.userId,
+            lastName: candidate1.lastName,
+            birthdate: candidate1.birthdate,
+            createdAt: candidate1.createdAt,
+          });
+          const certif2 = dbf.buildCertificationCourse({
+            sessionId: candidate2.sessionId,
+            userId: candidate2.userId,
+            lastName: candidate2.lastName,
+            birthdate: candidate2.birthdate,
+            createdAt: candidate2.createdAt,
+          });
+
+          const assessmentId1 = dbf.buildAssessment({ certificationCourseId: certif1.id }).id;
+          dbf.buildAssessment({
+            certificationCourseId: certif2.id,
+            commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+          });
+
+          dbf.buildAssessmentResult({ assessmentId: assessmentId1, createdAt: new Date('2018-04-15T00:00:00Z') });
+
+          const token = CertificationResultsLinkToken.generate({ sessionId });
+
+          const request = {
+            method: 'POST',
+            url: `/api/sessions/download-all-results`,
+            payload: { token },
+          };
+
+          await databaseBuilder.commit();
+
+          // when
+          const response = await server.inject(request);
+
+          // then
+          expect(response.statusCode).to.equal(200);
         });
-        const certif2 = dbf.buildCertificationCourse({
-          sessionId: candidate2.sessionId,
-          userId: candidate2.userId,
-          lastName: candidate2.lastName,
-          birthdate: candidate2.birthdate,
-          createdAt: candidate2.createdAt,
+      });
+
+      context('FT readNewCertificationResults enabled', function () {
+        beforeEach(async function () {
+          await featureToggles.set('readNewCertificationResults', true);
         });
 
-        const assessmentId1 = dbf.buildAssessment({ certificationCourseId: certif1.id }).id;
-        dbf.buildAssessment({
-          certificationCourseId: certif2.id,
-          commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+        it('should return 200 HTTP status code with the csv', async function () {
+          // given
+          const server = await getServer();
+          const sessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date() }).id;
+          databaseBuilder.factory.learningContent.buildCompetence({
+            id: 'competenceABC123',
+            index: '1.1',
+            origin: 'Pix',
+          });
+          databaseBuilder.factory.learningContent.buildCompetence({
+            id: 'competenceDEF456',
+            index: '2.2',
+            origin: 'Pix',
+          });
+          buildCertificationResult(1, Frameworks.CORE, sessionId);
+          buildCertificationResult(4, Frameworks.CLEA, sessionId);
+          buildCertificationResult(5, Frameworks.DROIT, sessionId);
+          await databaseBuilder.commit();
+
+          const token = CertificationResultsLinkToken.generate({ sessionId });
+          const request = {
+            method: 'POST',
+            url: `/api/sessions/download-all-results`,
+            payload: { token },
+          };
+
+          // when
+          const response = await server.inject(request);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result).to.deep
+            .equal(`\uFEFF"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Type de certification";"Statut";"Certification CléA";"Niveau";"Score en Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"
+"1";"firstName 1";"lastName 1";"01/01/1990";"birthplace 1";"externalId 1";"Pix";"Non obtenue";"Non passée";"-";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";;"100000";"certificationCenter 1";"02/02/2026"
+"4";"firstName 4";"lastName 4";"01/01/1990";"birthplace 4";"externalId 4";"CléA Numérique by Pix";"Non obtenue";"Non obtenue";"-";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";;"100000";"certificationCenter 4";"02/02/2026"
+"5";"firstName 5";"lastName 5";"01/01/1990";"birthplace 5";"externalId 5";"Pix+ Droit";"Non obtenue";"Non passée";"-";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";;"100000";"certificationCenter 5";"02/02/2026"`);
         });
-
-        dbf.buildAssessmentResult({ assessmentId: assessmentId1, createdAt: new Date('2018-04-15T00:00:00Z') });
-
-        const token = CertificationResultsLinkToken.generate({ sessionId });
-
-        const request = {
-          method: 'POST',
-          url: `/api/sessions/download-all-results`,
-          payload: { token },
-        };
-
-        await databaseBuilder.commit();
-
-        // when
-        const response = await server.inject(request);
-
-        // then
-        expect(response.statusCode).to.equal(200);
       });
     });
   });
@@ -384,7 +434,12 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
   });
 });
 
-function buildCertificationResult(certificationCourseId, framework, sessionId, resultRecipientEmail) {
+function buildCertificationResult(
+  certificationCourseId,
+  framework,
+  sessionId,
+  resultRecipientEmail = 'foo@example.net',
+) {
   let pixScore = null,
     competenceMarks = null,
     competenceMarksForDBResult = null,
