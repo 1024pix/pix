@@ -6,6 +6,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
 import isEmpty from 'lodash/isEmpty';
+import ENV from 'mon-pix/config/environment';
 
 import { FormValidation } from '../../utils/form-validation';
 import isPasswordValid, { PASSWORD_RULES } from '../../utils/password-validator';
@@ -26,7 +27,7 @@ const ERROR_MESSAGES = {
 
 export default class UpdatePasswordForm extends Component {
   @service intl;
-  @service updatePassword;
+  @service requestManager;
   @tracked isLoading = false;
   @tracked globalError = null;
   @tracked currentPassword = '';
@@ -69,7 +70,14 @@ export default class UpdatePasswordForm extends Component {
     }
 
     try {
-      await this.updatePassword.updatePassword(formData);
+      await this.requestManager.request({
+        url: `${ENV.APP.API_HOST}/api/users/me/password`,
+        method: 'POST',
+        body: JSON.stringify({
+          'current-password': formData.currentPassword,
+          'new-password': formData.newPassword,
+        }),
+      });
 
       this.currentPassword = '';
       this.newPassword = '';
