@@ -50,6 +50,18 @@ export async function findBySessionAndResultRecipient({
   return rows.map((row: Row) => toDomain(row, codeById));
 }
 
+export async function findBySession({ sessionId }: { sessionId: number }) {
+  const rows = await baseQuery()
+    .where('user_certification_results.sessionId', sessionId)
+    .orderBy('certification_results.id');
+
+  const pixCompetences = await competenceRepository.listPixCompetencesOnly();
+  const codeById = new Map<string, string>(
+    pixCompetences.map((pixCompetence) => [pixCompetence.id, pixCompetence.index]),
+  );
+  return rows.map((row: Row) => toDomain(row, codeById));
+}
+
 export async function findMostRecentByLearners({ learnerIds }: { learnerIds: number[] }) {
   const knexConn = DomainTransaction.getConnection();
   const mostRecentByLearner = baseQuery()
