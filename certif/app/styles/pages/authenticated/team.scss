@@ -15,10 +15,11 @@
     }
 
   }
+
   &__header-admin-buttons {
     display: flex;
-    justify-content: flex-end;
     gap: var(--pix-spacing-4x);
+    justify-content: flex-end;
   }
 
   &__tabs {
@@ -31,9 +32,9 @@
   }
 
   &__no-referer-container-grey {
+    display: flex;
     padding: 16px;
     background: var(--pix-neutral-20);
-    display: flex;
   }
 
   &__no-referer-title {
@@ -45,8 +46,8 @@
   &__no-referer-description {
     @extend %pix-body-m;
 
-    color: var(--pix-neutral-500);
     margin: var(--pix-spacing-4x) 0;
+    color: var(--pix-neutral-500);
   }
 
   &__no-referer-icon {

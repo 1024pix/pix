@@ -3,6 +3,7 @@
 .sidebar-footer {
   &__full-name {
     @extend %pix-body-s;
+
     font-weight: var(--pix-font-bold);
   }
 }

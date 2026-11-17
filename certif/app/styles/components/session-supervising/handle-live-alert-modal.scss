@@ -5,9 +5,9 @@
 
   &__actions-list {
     display: flex;
-    justify-content: flex-end;
     flex-wrap: wrap;
     gap: var(--pix-spacing-3x);
+    justify-content: flex-end;
     margin-top: 16px;
   }
 }
