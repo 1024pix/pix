@@ -4,7 +4,7 @@ export class SessionAuthorization {
     this.sessionStatus = sessionStatus;
   }
 
-  canResultRecipientDownloadResult() {
+  get canRetrieveResults() {
     return this.sessionStatus.isProcessed();
   }
 

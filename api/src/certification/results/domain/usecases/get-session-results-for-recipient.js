@@ -8,7 +8,7 @@ export async function getSessionResultsForRecipient({
   sessionForResultsSharingRepository,
 }) {
   const sessionAuthorization = await sessionAuthorizationAdapter.find({ sessionId });
-  if (!sessionAuthorization || !sessionAuthorization.canResultRecipientDownloadResult()) {
+  if (!sessionAuthorization || !sessionAuthorization.canRetrieveResults) {
     throw new NotFoundError();
   }
 
