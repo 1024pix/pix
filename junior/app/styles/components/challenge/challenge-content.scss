@@ -12,11 +12,9 @@
   }
 
   &__grid-multiple-element {
-    grid-template-areas:
-      'left right'
-      'left actions';
-    grid-template-rows: min-content min-content;
-    grid-template-columns: minmax(200px, 1fr) minmax(200px, 1fr);
+    grid-template:
+      'left right' min-content
+      'left actions' min-content / minmax(200px, 1fr) minmax(200px, 1fr);
 
     &--40-60 {
       grid-template-columns: minmax(200px, 2fr) minmax(300px, 3fr);
