@@ -75,6 +75,50 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
     });
   });
 
+  describe('#findBySession', function () {
+    it('returns all certification results for given session', async function () {
+      // given
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      const anotherSessionId = databaseBuilder.factory.buildSession().id;
+      databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceABC123', index: '1.1', origin: 'Pix' });
+      databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceDEF456', index: '2.2', origin: 'Pix' });
+      const expectedResultData1 = buildCertificationResultForSession(1, Frameworks.CORE, sessionId);
+      buildCertificationResultForSession(2, Frameworks.CORE, anotherSessionId); // noise
+      const expectedResultData2 = buildCertificationResultForSession(3, Frameworks.CLEA, sessionId);
+      const expectedResultData3 = buildCertificationResultForSession(4, Frameworks.DROIT, sessionId);
+      await databaseBuilder.commit();
+
+      // when
+      const certificationResults = await certificationResultForCsvRepository.findBySession({
+        sessionId,
+      });
+
+      // then
+      expect(certificationResults).to.deep.equal([
+        new CertificationResultForCsv(expectedResultData1),
+        new CertificationResultForCsv(expectedResultData2),
+        new CertificationResultForCsv(expectedResultData3),
+      ]);
+    });
+
+    it('returns an empty array if no certification found for given session', async function () {
+      // given
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceABC123', index: '1.1', origin: 'Pix' });
+      databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceDEF456', index: '2.2', origin: 'Pix' });
+      buildCertificationResultForSession(1, Frameworks.CORE, sessionId);
+      await databaseBuilder.commit();
+
+      // when
+      const certificationResults = await certificationResultForCsvRepository.findBySession({
+        sessionId: sessionId + 1,
+      });
+
+      // then
+      expect(certificationResults).to.deep.equal([]);
+    });
+  });
+
   describe('#findMostRecentByLearners', function () {
     beforeEach(function () {
       databaseBuilder.factory.buildOrganizationLearner({ id: 10 });
@@ -154,6 +198,19 @@ function buildCertificationResultForSessionAndResultRecipient(
     framework,
     sessionId,
     resultRecipientEmail,
+    null,
+    null,
+    null,
+    new Date(),
+  );
+}
+
+function buildCertificationResultForSession(certificationCourseId: number, framework: Framework, sessionId: number) {
+  return buildCertificationResult(
+    certificationCourseId,
+    framework,
+    sessionId,
+    'foo@example.net',
     null,
     null,
     null,
