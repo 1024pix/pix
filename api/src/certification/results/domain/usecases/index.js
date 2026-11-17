@@ -3,6 +3,7 @@ import * as sessionEnrolmentRepository from '../../../enrolment/infrastructure/r
 import * as sharedCertificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
+import * as organizationLearnerAdapter from '../../infrastructure/adapters/organization-learner-adapter.ts';
 import * as sessionAuthorizationAdapter from '../../infrastructure/adapters/session-authorization-adapter.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as certificateSummaryRepository from '../../infrastructure/repositories/certificate-summary-repository.js';
@@ -27,6 +28,7 @@ import { getCertificatesForSession } from './get-certificates-for-session.js';
 import { getCertificationCourseByVerificationCode } from './get-certification-course-by-verification-code.js';
 import { getCertificationCourseVersion } from './get-certification-course-version.js';
 import { getCertificationResultForParcoursup } from './get-certification-result-for-parcoursup.js';
+import { getCertificationResultsForDivision } from './get-certification-results-for-division.js';
 import { getCertificationsResultsForLivretScolaire } from './get-certifications-results-for-livret-scolaire.js';
 import { getCleaCertifiedCandidateBySession } from './get-clea-certified-candidate-by-session.js';
 import { getPrivateCertificate } from './get-private-certificate.js';
@@ -54,6 +56,7 @@ import { getShareableCertificate } from './get-shareable-certificate.js';
  * @typedef {certificateSummaryRepository} CertificateSummaryRepository
  * @typedef {sessionForResultsSharingRepository} SessionForResultsSharingRepository
  * @typedef {sessionAuthorizationAdapter} SessionAuthorizationAdapter
+ * @typedef {organizationLearnerAdapter} OrganizationLearnerAdapter
  * @typedef {certificationResultForCsvRepository} CertificationResultForCsvRepository
  **/
 
@@ -70,6 +73,7 @@ const dependencies = {
   sessionEnrolmentRepository,
   resultRecipientRepository,
   sessionAuthorizationAdapter,
+  organizationLearnerAdapter,
   sessionForResultsSharingRepository,
   competenceTreeRepository,
   certificationLivretScolaireRepository,
@@ -95,6 +99,7 @@ const usecasesWithoutInjectedDependencies = {
   getSessionCertificationResultsCsv,
   getShareableCertificate,
   getSessionResultsForRecipient,
+  getCertificationResultsForDivision,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies, boundedContext);
