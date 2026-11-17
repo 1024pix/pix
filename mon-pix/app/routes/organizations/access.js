@@ -25,7 +25,8 @@ export default class AccessRoute extends Route {
     const identityProviderToVisit =
       authenticatedIdentityProviderCode != organizationToJoinIdentityProviderCode && organizationToJoinIdentityProvider;
 
-    this.authenticationRoute = 'inscription';
+    this.authenticationRoute =
+      transition.to.queryParams.authenticationRoute === 'login' ? 'authentication.login' : 'inscription';
 
     if (identityProviderToVisit) {
       this.session.setAttemptedTransition(transition);
@@ -37,6 +38,7 @@ export default class AccessRoute extends Route {
     } else if (await this._shouldJoinSimplifiedCampaignAsAnonymous(verifiedCode)) {
       this.authenticationRoute = 'organizations.join.anonymous';
     }
+
     this.session.requireAuthenticationAndApprovedTermsOfService(transition, this.authenticationRoute);
   }
 
