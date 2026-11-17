@@ -45,6 +45,7 @@
 
     display: flex;
     flex-direction: column;
+    align-items: start;
   }
 
   &__exit {
@@ -105,6 +106,7 @@
       dt, svg {
         width: var(--pix-spacing-5x);
         height: var(--pix-spacing-5x);
+        color: var(--pix-primary-500);
       }
     }
   }

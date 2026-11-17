@@ -1,5 +1,4 @@
 import { PixButton, PixButtonLink, PixIcon } from '@1024pix/nebulix-ember';
-import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
@@ -87,9 +86,8 @@ export default class CombinedCourseLandingPage extends Component {
         <footer class="combined-course-landing__footer">
           {{#if this.userIsAuthentified}}
             <span>{{this.connectionMessage}}</span>
-            <a href="#" class="link" {{on "click" this.disconnect}}>
-              {{t "pages.campaign-landing.warning-message-logout"}}
-            </a>
+            <PixButton @variant="tertiary" @triggerAction={{this.disconnect}}>
+              {{t "pages.campaign-landing.warning-message-logout"}}</PixButton>
           {{/if}}
         </footer>
       </main>
