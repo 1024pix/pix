@@ -70,7 +70,6 @@
 @use 'components/competence-card/list' as *;
 @use 'components/dashboard/content' as *;
 @use 'components/copy-paste-button' as *;
-@use 'components/certification-feedback-panel' as *;
 @use 'components/footer' as *;
 @use 'components/form-textfield' as *;
 @use 'components/hexagon-score' as *;
@@ -187,6 +186,7 @@
 @use 'challenge/mode-banner' as *;
 @use 'challenge/timed-challenge-instructions' as *;
 @use 'challenge/feedback-panel' as *;
+@use 'challenge/certification-feedback-panel' as *;
 
 /* pages */
 @use 'pages/campaign-landing-page' as *;

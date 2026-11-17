@@ -96,7 +96,7 @@ export default class FeedbackPanel extends Component {
     const category = this._category
       ? this.intl.t(this._category)
       : this.intl.t(
-          'components.challenge.feedback-panel.form.fields.category-selection.options.' + this._currentMajorCategory,
+          'components.challenge.feedback.common.form.fields.category-selection.options.' + this._currentMajorCategory,
         );
 
     const feedback = this.store.createRecord('feedback', {
@@ -216,7 +216,7 @@ export default class FeedbackPanel extends Component {
   <template>
     {{! template-lint-disable require-input-label no-unknown-arguments-for-builtin-components }}
     <div class="feedback-panel">
-      <h2 class="screen-reader-only">{{t "pages.challenge.parts.feedback"}}</h2>
+      <h2 class="screen-reader-only">{{t "components.challenge.feedback.common.title"}}</h2>
       <PixButton
         class="feedback-panel__open-close"
         @variant="tertiary"
@@ -227,19 +227,19 @@ export default class FeedbackPanel extends Component {
         aria-expanded={{this.isAriaExpanded}}
         aria-controls={{this.feedbackPanelId}}
       >
-        {{t "components.challenge.feedback-panel.actions.open-close"}}
+        {{t "components.challenge.feedback.common.actions.open-close"}}
       </PixButton>
 
       {{#if this.isExpanded}}
         {{#if this.isFormSubmitted}}
           <div class="feedback-panel__view feedback-panel__view--mercix" id="feedback-panel-submitted" role="status">
-            {{t "components.challenge.feedback-panel.form.status.success" htmlSafe=true}}
+            {{t "components.challenge.feedback.common.form.status.success" htmlSafe=true}}
           </div>
         {{else}}
           <div class="feedback-panel__view feedback-panel__view--form" id="feedback-panel">
             <div class="feedback-panel__form-description">
             </div>
-            <p>{{t "components.challenge.feedback-panel.description"}}</p>
+            <p>{{t "components.challenge.feedback.common.description"}}</p>
             <div class="feedback-panel__form-wrapper">
               <form id="feedback-form" class="feedback-panel__form" {{on "submit" this.sendFeedback}} novalidate>
                 <div class="feedback-panel__group">
@@ -247,28 +247,28 @@ export default class FeedbackPanel extends Component {
                     <PixSelect
                       @screenReaderOnly={{true}}
                       @texts={{hash
-                        placeholder=(t "components.challenge.feedback-panel.form.fields.category-selection.label")
+                        placeholder=(t "components.challenge.feedback.common.form.fields.category-selection.label")
                       }}
                       @options={{this.categories}}
                       @onChange={{this.displayCategoryOptions}}
                       @value={{this._currentMajorCategory}}
                     >
                       <:label>{{t
-                          "components.challenge.feedback-panel.form.fields.detail-selection.aria-first"
+                          "components.challenge.feedback.common.form.fields.detail-selection.aria-first"
                         }}</:label>
                     </PixSelect>
                     {{#if this.displayQuestionDropdown}}
                       <PixSelect
                         @screenReaderOnly={{true}}
                         @texts={{hash
-                          placeholder=(t "components.challenge.feedback-panel.form.fields.detail-selection.label")
+                          placeholder=(t "components.challenge.feedback.common.form.fields.detail-selection.label")
                         }}
                         @onChange={{this.showFeedback}}
                         @options={{this.nextCategories}}
                         @value={{this._currentNextCategory}}
                       >
                         <:label>{{t
-                            "components.challenge.feedback-panel.form.fields.detail-selection.aria-secondary"
+                            "components.challenge.feedback.common.form.fields.detail-selection.aria-secondary"
                           }}</:label>
                       </PixSelect>
                     {{/if}}
@@ -284,15 +284,15 @@ export default class FeedbackPanel extends Component {
                   {{#if this.displayAddCommentButton}}
                     <button type="button" class="feedback-panel__comment" onClick={{this.addComment}}>
                       <PixIcon @name="edit" @ariaHidden={{true}} class="feedback-panel-comment__icon" />
-                      {{t "components.challenge.feedback-panel.form.fields.detail-selection.add-comment"}}
+                      {{t "components.challenge.feedback.common.form.fields.detail-selection.add-comment"}}
                     </button>
                   {{else}}
                     <div>
                       <p class="feedback-panel__field-notice">
-                        {{t "components.challenge.feedback-panel.form.status.error.max-characters"}}
+                        {{t "components.challenge.feedback.common.form.status.error.max-characters"}}
                       </p>
                       <label class="screen-reader-only" for="feedback-panel__field">{{t
-                          "components.challenge.feedback-panel.form.fields.detail-selection.problem-suggestion-description"
+                          "components.challenge.feedback.common.form.fields.detail-selection.problem-suggestion-description"
                         }}</label>
                       <PixTextarea
                         class="feedback-panel__field--content"
@@ -301,7 +301,7 @@ export default class FeedbackPanel extends Component {
                         @maxlength="10000"
                         rows="5"
                         placeholder={{t
-                          "components.challenge.feedback-panel.form.fields.detail-selection.problem-suggestion-description"
+                          "components.challenge.feedback.common.form.fields.detail-selection.problem-suggestion-description"
                         }}
                         {{on "change" this.setContent}}
                       />
@@ -310,17 +310,17 @@ export default class FeedbackPanel extends Component {
                   <PixButton
                     @triggerAction={{this.toggleModalVisibility}}
                     @isDisabled={{this.isSendButtonDisabled}}
-                    aria-label={{t "components.challenge.feedback-panel.form.actions.submit-aria-label"}}
+                    aria-label={{t "components.challenge.feedback.common.form.actions.submit-aria-label"}}
                   >
-                    {{t "components.challenge.feedback-panel.form.actions.submit"}}
+                    {{t "components.challenge.feedback.common.form.actions.submit"}}
                   </PixButton>
                 {{/if}}
               </form>
             </div>
 
             <div class="feedback-panel__form-legal-notice">
-              {{t "components.challenge.feedback-panel.information.guidance" htmlSafe=true}}
-              {{t "components.challenge.feedback-panel.information.data-usage" htmlSafe=true}}
+              {{t "components.challenge.feedback.common.information.guidance" htmlSafe=true}}
+              {{t "components.challenge.feedback.common.information.data-usage" htmlSafe=true}}
             </div>
           </div>
         {{/if}}
@@ -328,12 +328,12 @@ export default class FeedbackPanel extends Component {
     </div>
 
     <PixModal
-      @title={{t "components.challenge.feedback-panel.modal.title"}}
+      @title={{t "components.challenge.feedback.common.modal.title"}}
       @showModal={{this.isModalVisible}}
       @onCloseButtonClick={{this.toggleModalVisibility}}
     >
       <:content>
-        {{t "components.challenge.feedback-panel.modal.content" htmlSafe=true}}
+        {{t "components.challenge.feedback.common.modal.content" htmlSafe=true}}
       </:content>
       <:footer>
         <ul class="feedback-panel-submit-modal__action-buttons">

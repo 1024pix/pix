@@ -16,7 +16,7 @@ export default class CertificationFeedbackPanel extends Component {
       <LiveAlert />
     {{else}}
       <div class="certification-feedback-panel">
-        <h2 class="screen-reader-only">{{t "pages.challenge.parts.feedback-v3"}}</h2>
+        <h2 class="screen-reader-only">{{t "components.challenge.feedback.certification.title"}}</h2>
 
         {{#unless this.isToggleFeedbackFormHidden}}
           <PixButton
@@ -27,24 +27,24 @@ export default class CertificationFeedbackPanel extends Component {
             @iconBefore="flag"
             @plainIconBefore={{true}}
           >
-            {{t "components.challenge.feedback-panel.actions.open-close"}}
+            {{t "components.challenge.feedback.common.actions.open-close"}}
           </PixButton>
         {{/unless}}
 
         {{#if this.shouldBeExpanded}}
           <div class="certification-feedback-panel__view">
-            {{t "pages.challenge.certification-feedback-panel.description"}}
+            {{t "components.challenge.feedback.certification.description"}}
             <div class="certification-feedback-panel__action-buttons">
               <button type="button" {{on "click" this.submitLiveAlert}}>
-                {{t "pages.challenge.certification-feedback-panel.actions.send-feedback"}}
+                {{t "components.challenge.feedback.certification.actions.send-feedback"}}
               </button>
               <button type="button" {{on "click" this.toggleFeedbackForm}}>
-                {{t "pages.challenge.certification-feedback-panel.actions.no-send-feedback"}}
+                {{t "components.challenge.feedback.certification.actions.no-send-feedback"}}
               </button>
             </div>
           </div>
           <p class="certification-feedback-panel__information">{{t
-              "pages.challenge.certification-feedback-panel.information"
+              "components.challenge.feedback.certification.information"
             }}</p>
         {{/if}}
       </div>

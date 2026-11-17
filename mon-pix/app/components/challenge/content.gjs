@@ -7,6 +7,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import isInteger from 'lodash/isInteger';
+import CertificationFeedbackPanel from 'mon-pix/components/challenge/certification-feedback-panel';
 import ChallengeActions from 'mon-pix/components/challenge/challenge-actions';
 import ChallengeWrapper from 'mon-pix/components/challenge/challenge-wrapper';
 import FeedbackPanel from 'mon-pix/components/challenge/feedback-panel';
@@ -15,7 +16,6 @@ import ModeBanner from 'mon-pix/components/challenge/mode-banner';
 import ChallengeStatement from 'mon-pix/components/challenge-statement';
 
 import AssessmentsLiveAlert from '../assessments/live-alert';
-import CertificationFeedbackPanel from '../certification-feedback-panel';
 import ChallengeItem from './item';
 
 export default class ChallengeContent extends Component {

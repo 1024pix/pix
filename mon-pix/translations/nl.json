@@ -335,104 +335,116 @@
       }
     },
     "challenge": {
-      "feedback-panel": {
-        "actions": {
-          "open-close": "Een probleem melden"
-        },
-        "description": "Pix is benieuwd naar je opmerkingen om de aangeboden opdrachten te verbeteren!*",
-        "form": {
+      "feedback": {
+        "certification": {
           "actions": {
-            "submit": "Verzenden",
-            "submit-aria-label": "Mijn meldingsbericht verzenden"
+            "no-send-feedback": "Nee, ik ga terug naar de opdracht",
+            "send-feedback": "Ja, ik weet het zeker"
           },
-          "fields": {
-            "category-selection": {
-              "label": "Ik heb een probleem met",
-              "options": {
-                "accessibility": "Toegankelijkheid van de opdracht",
-                "answer": "Het antwoord",
-                "download": "Het te downloaden bestand",
-                "embed": "De simulator / de app",
-                "link": "De link die in de vraag wordt genoemd",
-                "other": "Overig",
-                "picture": "De afbeelding",
-                "question": "De vraag",
-                "tutorial": "De tutorial"
+          "description": "Weet je zeker dat je een probleem wilt melden?",
+          "information": "Wanneer je een probleem meldt, wordt je certificering tijdelijk opgeschort totdat de toezichthouder je melding heeft beoordeeld en deze al dan niet heeft bevestigd.",
+          "title": "Een probleem met de vraag melden"
+        },
+        "common": {
+          "actions": {
+            "open-close": "Een probleem melden"
+          },
+          "description": "Pix is benieuwd naar je opmerkingen om de aangeboden opdrachten te verbeteren!*",
+          "form": {
+            "actions": {
+              "submit": "Verzenden",
+              "submit-aria-label": "Mijn meldingsbericht verzenden"
+            },
+            "fields": {
+              "category-selection": {
+                "label": "Ik heb een probleem met",
+                "options": {
+                  "accessibility": "Toegankelijkheid van de opdracht",
+                  "answer": "Het antwoord",
+                  "download": "Het te downloaden bestand",
+                  "embed": "De simulator / de app",
+                  "link": "De link die in de vraag wordt genoemd",
+                  "other": "Overig",
+                  "picture": "De afbeelding",
+                  "question": "De vraag",
+                  "tutorial": "De tutorial"
+                }
+              },
+              "detail-selection": {
+                "add-comment": "Opmerking toevoegen",
+                "aria-first": "Ik heb een probleem met",
+                "aria-secondary": "Kies een optie om het probleem te beschrijven",
+                "label": "Kies een optie om het probleem te beschrijven",
+                "options": {
+                  "answer-not-accepted": "Mijn antwoord is correct, maar is niet goedgekeurd",
+                  "answer-not-agreed": "Ik ben het niet eens met het antwoord",
+                  "download": {
+                    "edit-failure": {
+                      "label": "Ik kan het bestand niet wijzigen",
+                      "solution": "Het bestand is waarschijnlijk geopend in de modus ‘Alleen-lezen’ of ‘Beveiligde modus’. '<br>'Klik op ‘Bewerken inschakelen’ of ‘Document bewerken’ in de balk bovenaan het bestand, indien deze wordt weergegeven. '<br>'Sla het bestand anders op onder een andere naam en open dit nieuwe bestand."
+                    },
+                    "lost": {
+                      "label": "Ik kan het gedownloade bestand niet terugvinden",
+                      "solution": "Standaard wordt een gedownload bestand opgeslagen in de map “Downloads”. Het kan ook zijn dat het op dezelfde plek wordt opgeslagen als je laatste download..."
+                    },
+                    "open-failure": {
+                      "label": "Ik krijg het bestand op een computer niet open",
+                      "solution": "Als je een bestand niet kunt openen, raadpleeg dan '<a href=\"https://pix.org/fr/aide-ouvrir-modifier-retrouver-un-fichier-telecharge-depuis-une-question-pix\">'de hulp onder de knop \"Downloaden\"'</a>'. Daar vindt je de aanbevolen software of online tools."
+                    },
+                    "other": "Ik heb een ander probleem met het bestand"
+                  },
+                  "embed-displayed-on-desktop-with-problems": {
+                    "label": "Op de computer wordt de simulator wel weergegeven maar er is een probleem",
+                    "solution": "We doen ons best om ervoor te zorgen dat de simulators op alle apparaten, alle besturingssystemen en alle browsers werken, maar het kan zijn dat je een specifiek systeem gebruikt. Je kunt hier stoppen en verdergaan op een computer.'<br>'Geef een gedetailleerde beschrijving van het probleem en vermeld daarbij de browser en het besturingssysteem.'"
+                  },
+                  "embed-displayed-on-mobile-devices-with-problems": {
+                    "label": "Op de telefoon of table wordt de simulator wel weergegeven maar er is een probleem",
+                    "solution": "We doen ons best om ervoor te zorgen dat de simulators op alle apparaten, alle besturingssystemen en alle browsers werken, maar het kan zijn dat je een specifiek systeem gebruikt.'<br>'Geef een gedetailleerde beschrijving van het probleem en vermeld daarbij het type apparaat (smartphone, tablet, …) de browser en het besturingssysteem."
+                  },
+                  "embed-not-displayed": {
+                    "label": "De simulator / de app wordt niet weergegeven",
+                    "solution": "'Je internetverbinding is mogelijk te slecht.'<br>'Laad de pagina opnieuw door op de knop 'Vernieuwen' te klikken'<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />'naast de adresbalk. Wacht even, misschien verschijnt de simulator nu wel. '<br><br>'Als dat niet het geval is, kun je het dan op een ander moment of vanaf een andere locatie met een betere verbinding nog eens proberen?"
+                  },
+                  "embed-other": "De simulator / de app heeft een ander probleem",
+                  "link-other": "De link werkt niet of heeft een ander probleem",
+                  "link-unauthorized": {
+                    "label": "De link wordt geblokkeerd door mijn organisatie / instelling...",
+                    "solution": "Misschien maak je deel uit van een organisatie (scholen, universiteiten, bedrijven, overheidsinstanties, verenigingen...) die haar gebruikers en apparatuur beschermt door de webpagina’s waartoe je toegang hebt te beperken.'<br>'"
+                  },
+                  "other-challenge-proposal": "Ik heb een (geweldig) idee voor een opdracht dat ik wil voorstellen",
+                  "other-difficulty": "Ik heb een ander probleem",
+                  "other-site-improvement": "Ik heb een suggestie om het platform te verbeteren",
+                  "picture-not-displayed": {
+                    "label": "De afbeelding wordt niet weergegeven",
+                    "solution": "'Je internetverbinding is mogelijk te slecht.'<br>'Laad de pagina opnieuw door op de knop 'Vernieuwen' te klikken'<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />'naast de adresbalk. Wacht even, misschien verschijnt de afbeelding nog wel. '<br><br>'Als dat niet het geval is, kun je het dan op een ander moment of vanaf een andere locatie met een betere verbinding nog eens proberen?"
+                  },
+                  "picture-other": "De afbeelding heeft nog een ander probleem",
+                  "question-improvement": "Ik wil een verbetering van de vraag voorstellen",
+                  "question-not-understood": "Ik begrijp de vraag niet",
+                  "tutorial-link-error": "De link naar de tutorial leidt naar een andere pagina of naar een foutpagina",
+                  "tutorial-not-accepted": "Het tutorial voldoet niet aan de vereisten.",
+                  "tutorial-proposal": "Ik heb een tutorial voor jullie"
+                },
+                "problem-suggestion-description": "Beschrijf je probleem of suggestie"
               }
             },
-            "detail-selection": {
-              "add-comment": "Opmerking toevoegen",
-              "aria-first": "Ik heb een probleem met",
-              "aria-secondary": "Kies een optie om het probleem te beschrijven",
-              "label": "Kies een optie om het probleem te beschrijven",
-              "options": {
-                "answer-not-accepted": "Mijn antwoord is correct, maar is niet goedgekeurd",
-                "answer-not-agreed": "Ik ben het niet eens met het antwoord",
-                "download": {
-                  "edit-failure": {
-                    "label": "Ik kan het bestand niet wijzigen",
-                    "solution": "Het bestand is waarschijnlijk geopend in de modus ‘Alleen-lezen’ of ‘Beveiligde modus’. '<br>'Klik op ‘Bewerken inschakelen’ of ‘Document bewerken’ in de balk bovenaan het bestand, indien deze wordt weergegeven. '<br>'Sla het bestand anders op onder een andere naam en open dit nieuwe bestand."
-                  },
-                  "lost": {
-                    "label": "Ik kan het gedownloade bestand niet terugvinden",
-                    "solution": "Standaard wordt een gedownload bestand opgeslagen in de map “Downloads”. Het kan ook zijn dat het op dezelfde plek wordt opgeslagen als je laatste download..."
-                  },
-                  "open-failure": {
-                    "label": "Ik krijg het bestand op een computer niet open",
-                    "solution": "Als je een bestand niet kunt openen, raadpleeg dan '<a href=\"https://pix.org/fr/aide-ouvrir-modifier-retrouver-un-fichier-telecharge-depuis-une-question-pix\">'de hulp onder de knop \"Downloaden\"'</a>'. Daar vindt je de aanbevolen software of online tools."
-                  },
-                  "other": "Ik heb een ander probleem met het bestand"
-                },
-                "embed-displayed-on-desktop-with-problems": {
-                  "label": "Op de computer wordt de simulator wel weergegeven maar er is een probleem",
-                  "solution": "We doen ons best om ervoor te zorgen dat de simulators op alle apparaten, alle besturingssystemen en alle browsers werken, maar het kan zijn dat je een specifiek systeem gebruikt. Je kunt hier stoppen en verdergaan op een computer.'<br>'Geef een gedetailleerde beschrijving van het probleem en vermeld daarbij de browser en het besturingssysteem.'"
-                },
-                "embed-displayed-on-mobile-devices-with-problems": {
-                  "label": "Op de telefoon of table wordt de simulator wel weergegeven maar er is een probleem",
-                  "solution": "We doen ons best om ervoor te zorgen dat de simulators op alle apparaten, alle besturingssystemen en alle browsers werken, maar het kan zijn dat je een specifiek systeem gebruikt.'<br>'Geef een gedetailleerde beschrijving van het probleem en vermeld daarbij het type apparaat (smartphone, tablet, …) de browser en het besturingssysteem."
-                },
-                "embed-not-displayed": {
-                  "label": "De simulator / de app wordt niet weergegeven",
-                  "solution": "'Je internetverbinding is mogelijk te slecht.'<br>'Laad de pagina opnieuw door op de knop 'Vernieuwen' te klikken'<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />'naast de adresbalk. Wacht even, misschien verschijnt de simulator nu wel. '<br><br>'Als dat niet het geval is, kun je het dan op een ander moment of vanaf een andere locatie met een betere verbinding nog eens proberen?"
-                },
-                "embed-other": "De simulator / de app heeft een ander probleem",
-                "link-other": "De link werkt niet of heeft een ander probleem",
-                "link-unauthorized": {
-                  "label": "De link wordt geblokkeerd door mijn organisatie / instelling...",
-                  "solution": "Misschien maak je deel uit van een organisatie (scholen, universiteiten, bedrijven, overheidsinstanties, verenigingen...) die haar gebruikers en apparatuur beschermt door de webpagina’s waartoe je toegang hebt te beperken.'<br>'"
-                },
-                "other-challenge-proposal": "Ik heb een (geweldig) idee voor een opdracht dat ik wil voorstellen",
-                "other-difficulty": "Ik heb een ander probleem",
-                "other-site-improvement": "Ik heb een suggestie om het platform te verbeteren",
-                "picture-not-displayed": {
-                  "label": "De afbeelding wordt niet weergegeven",
-                  "solution": "'Je internetverbinding is mogelijk te slecht.'<br>'Laad de pagina opnieuw door op de knop 'Vernieuwen' te klikken'<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />'naast de adresbalk. Wacht even, misschien verschijnt de afbeelding nog wel. '<br><br>'Als dat niet het geval is, kun je het dan op een ander moment of vanaf een andere locatie met een betere verbinding nog eens proberen?"
-                },
-                "picture-other": "De afbeelding heeft nog een ander probleem",
-                "question-improvement": "Ik wil een verbetering van de vraag voorstellen",
-                "question-not-understood": "Ik begrijp de vraag niet",
-                "tutorial-link-error": "De link naar de tutorial leidt naar een andere pagina of naar een foutpagina",
-                "tutorial-not-accepted": "Het tutorial voldoet niet aan de vereisten.",
-                "tutorial-proposal": "Ik heb een tutorial voor jullie"
+            "status": {
+              "error": {
+                "empty-message": "Je moet een bericht invoeren.",
+                "max-characters": "Je bericht mag maximaal 10.000 tekens bevatten."
               },
-              "problem-suggestion-description": "Beschrijf je probleem of suggestie"
+              "success": "'<p>'Je opmerking is doorgegeven aan het Pix-projectteam.'</p><p>'Bedankt!'</p>'"
             }
           },
-          "status": {
-            "error": {
-              "empty-message": "Je moet een bericht invoeren.",
-              "max-characters": "Je bericht mag maximaal 10.000 tekens bevatten."
-            },
-            "success": "'<p>'Je opmerking is doorgegeven aan het Pix-projectteam.'</p><p>'Bedankt!'</p>'"
-          }
-        },
-        "information": {
-          "data-usage": "'<p>'Pix verwerkt de gegevens uit dit veld om de ondervonden moeilijkheden te beheren en te analyseren en om van je feedback te profiteren.' Je hebt rechten met betrekking tot je gegevens, die je kunt uitoefenen via: <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Meer informatie over de bescherming van je gegevens en je rechten.'</a></p>'",
-          "guidance": "'<p>'* Let goed op wat je in dit veld schrijft: blijf objectief en feitelijk, in je eigen belang en dat van anderen.'</p><p>'Vermeld met name geen informatie over jezelf of derden met betrekking tot gezondheid, religie, politieke, vakbonds- en filosofische opvattingen, etnische afkomst, noch over sancties en veroordelingen.'</p>'"
-        },
-        "modal": {
-          "content": "'<p><strong>'Weet je zeker dat je dit probleem wilt melden?'</strong></p><p>'Hartelijk dank voor je melding. Deze zal zorgvuldig worden onderzocht door het Pix-team.' We houden rekening met al je opmerkingen om onze diensten en de gebruikerservaring voortdurend te verbeteren. We kunnen je geen persoonlijk antwoord geven. Bedankt voor je medewerking!'</p>'",
-          "title": "Bevestiging van de melding"
+          "information": {
+            "data-usage": "'<p>'Pix verwerkt de gegevens uit dit veld om de ondervonden moeilijkheden te beheren en te analyseren en om van je feedback te profiteren.' Je hebt rechten met betrekking tot je gegevens, die je kunt uitoefenen via: <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Meer informatie over de bescherming van je gegevens en je rechten.'</a></p>'",
+            "guidance": "'<p>'* Let goed op wat je in dit veld schrijft: blijf objectief en feitelijk, in je eigen belang en dat van anderen.'</p><p>'Vermeld met name geen informatie over jezelf of derden met betrekking tot gezondheid, religie, politieke, vakbonds- en filosofische opvattingen, etnische afkomst, noch over sancties en veroordelingen.'</p>'"
+          },
+          "modal": {
+            "content": "'<p><strong>'Weet je zeker dat je dit probleem wilt melden?'</strong></p><p>'Hartelijk dank voor je melding. Deze zal zorgvuldig worden onderzocht door het Pix-team.' We houden rekening met al je opmerkingen om onze diensten en de gebruikerservaring voortdurend te verbeteren. We kunnen je geen persoonlijk antwoord geven. Bedankt voor je medewerking!'</p>'",
+            "title": "Bevestiging van de melding"
+          },
+          "title": "Een probleem melden"
         }
       },
       "mode-banner": {
@@ -1259,14 +1271,6 @@
       "certification": {
         "title": "Certificering {certificationNumber}"
       },
-      "certification-feedback-panel": {
-        "actions": {
-          "no-send-feedback": "Nee, ik ga terug naar de opdracht",
-          "send-feedback": "Ja, ik weet het zeker"
-        },
-        "description": "Weet je zeker dat je een probleem wilt melden?",
-        "information": "Wanneer je een probleem meldt, wordt je certificering tijdelijk opgeschort totdat de toezichthouder je melding heeft beoordeeld en deze al dan niet heeft bevestigd."
-      },
       "embed-simulator": {
         "actions": {
           "launch": "Beginnen",
@@ -1305,8 +1309,6 @@
           "qcm": "Meerdere antwoorden selecteren",
           "qcu": "Een enkel antwoord selecteren"
         },
-        "feedback": "Een probleem melden",
-        "feedback-v3": "Een probleem met de vraag melden",
         "instruction": "Instructies voor de opdracht",
         "progress": "Je voortgang"
       },

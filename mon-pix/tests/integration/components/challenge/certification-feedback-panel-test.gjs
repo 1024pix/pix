@@ -1,10 +1,10 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import CertificationFeedbackPanel from 'mon-pix/components/certification-feedback-panel';
+import CertificationFeedbackPanel from 'mon-pix/components/challenge/certification-feedback-panel';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | certification-feedback-panel', function (hooks) {
   setupIntlRenderingTest(hooks);

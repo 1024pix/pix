@@ -335,104 +335,116 @@
       }
     },
     "challenge": {
-      "feedback-panel": {
-        "actions": {
-          "open-close": "Informar de un problema"
-        },
-        "description": "Pix siempre está dispuesto a escuchar tus comentarios para mejorar las pruebas que ofrecemos*.",
-        "form": {
+      "feedback": {
+        "certification": {
           "actions": {
-            "submit": "Enviar",
-            "submit-aria-label": "Enviar mi mensaje de aviso"
+            "no-send-feedback": "No, volver a la prueba",
+            "send-feedback": "Sí, estoy seguro/a"
           },
-          "fields": {
-            "category-selection": {
-              "label": "Tengo un problema con",
-              "options": {
-                "accessibility": "La accesibilidad a la prueba",
-                "answer": "La respuesta",
-                "download": "El archivo que se debe descargar",
-                "embed": "El simulador/la aplicación",
-                "link": "El enlace indicado en la pregunta",
-                "other": "Otro",
-                "picture": "La imagen",
-                "question": "La pregunta",
-                "tutorial": "El tutorial"
+          "description": "¿Estás seguro/a de que quieres informar de un problema?",
+          "information": "Al informar de un problema, tu certificación se pausa hasta que el supervisor intervenga para validar o invalidar tu informe.",
+          "title": "Informar de un problema con la pregunta"
+        },
+        "common": {
+          "actions": {
+            "open-close": "Informar de un problema"
+          },
+          "description": "Pix siempre está dispuesto a escuchar tus comentarios para mejorar las pruebas que ofrecemos*.",
+          "form": {
+            "actions": {
+              "submit": "Enviar",
+              "submit-aria-label": "Enviar mi mensaje de aviso"
+            },
+            "fields": {
+              "category-selection": {
+                "label": "Tengo un problema con",
+                "options": {
+                  "accessibility": "La accesibilidad a la prueba",
+                  "answer": "La respuesta",
+                  "download": "El archivo que se debe descargar",
+                  "embed": "El simulador/la aplicación",
+                  "link": "El enlace indicado en la pregunta",
+                  "other": "Otro",
+                  "picture": "La imagen",
+                  "question": "La pregunta",
+                  "tutorial": "El tutorial"
+                }
+              },
+              "detail-selection": {
+                "add-comment": "Añadir un comentario",
+                "aria-first": "Tengo un problema con",
+                "aria-secondary": "Seleccionar una opción para especificar el problema",
+                "label": "Seleccionar una opción para especificar el problema",
+                "options": {
+                  "answer-not-accepted": "Mi respuesta es correcta, pero no ha sido validada",
+                  "answer-not-agreed": "No estoy de acuerdo con la respuesta",
+                  "download": {
+                    "edit-failure": {
+                      "label": "No puedo modificar el archivo",
+                      "solution": "Es probable que el archivo esté abierto en «Sólo lectura» o «Modo protegido». '<br>'Haz clic en «Activar modificación» o «Editar documento» en el banner de la parte vigilante del archivo si aparece. '<br>'Si no es así, guarda el archivo con otro nombre y abre este nuevo archivo."
+                    },
+                    "lost": {
+                      "label": "No encuentro el archivo descargado",
+                      "solution": "Por defecto, un archivo descargado se guarda en una carpeta «Descargas» o «Downloads». También puede que se haya descargado en la misma ubicación de tu última descarga…"
+                    },
+                    "open-failure": {
+                      "label": "No puedo abrir el archivo en un ordenador",
+                      "solution": "Si no puedes abrir un archivo, consulta la '<a href=\"https://pix.org/en/help-how-to-open-modify-find-a-downloaded-file-in-a-pix-question\">' documentación de ayuda'</a>' situada bajo el botón de descarga. Allí encontrarás programas o herramientas en línea recomendadas."
+                    },
+                    "other": "Tengo otro problema con el archivo"
+                  },
+                  "embed-displayed-on-desktop-with-problems": {
+                    "label": "En un ordenador, aparece el simulador, pero tiene un problema",
+                    "solution": "Hacemos todo lo posible para que los simuladores funcionen en todos los dispositivos, todos los sistemas operativos y todos los navegadores, pero puede que estés utilizando un sistema concreto. Puedes detenerte aquí y retomar el test en otro ordenador.'<br>'Especifica tu problema indicando tu navegador y sistema operativo."
+                  },
+                  "embed-displayed-on-mobile-devices-with-problems": {
+                    "label": "En un teléfono o tableta, aparece el simulador, pero tiene un problema",
+                    "solution": "Hacemos todo lo posible para que los simuladores funcionen en todos los dispositivos, todos los sistemas operativos y todos los navegadores, pero es posible que estés utilizando un sistema concreto.'<br>'Especifica tu problema indicando el tipo de dispositivo (smartphone, tableta, etc.), el sistema operativo y navegador."
+                  },
+                  "embed-not-displayed": {
+                    "label": "No aparece el simulador/la aplicación",
+                    "solution": "Tu conexión a internet puede ser demasiado débil'<br>'Vuelve a cargar la página pulsando el botón de actualización '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' situado junto a la barra de direcciones. Espera un poco, puede que aparezca el simulado. '<br><br>'Si no es así, ¿puedes volver a intentarlo en otro momento o desde otro lugar con mejor conexión?"
+                  },
+                  "embed-other": "El simulador/la aplicación tiene otro problema",
+                  "link-other": "El enlace no funciona o tiene otro problema",
+                  "link-unauthorized": {
+                    "label": "El enlace está bloqueado por mi organización/centro...",
+                    "solution": "Es posible que pertenezcas a una organización (centro escolar, universidad, empresa, administración, asociación, etc.) que protege a sus usuarios y equipos limitando las páginas de internet a las que tienes acceso.'<br>'"
+                  },
+                  "other-challenge-proposal": "Tengo una (brillante) idea para sugerir una prueba",
+                  "other-difficulty": "Tengo otro problema",
+                  "other-site-improvement": "Tengo una sugerencia para mejorar la plataforma",
+                  "picture-not-displayed": {
+                    "label": "La imagen no aparece",
+                    "solution": "Tu conexión a internet puede ser demasiado débil'<br>'Vuelve a cargar la página pulsando el botón de actualización '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' situado junto a la barra de direcciones. Espera un poco, puede que aparezca la imagen. '<br><br>'Si no es así, ¿puedes volver a intentarlo en otro momento o desde otro lugar con mejor conexión?"
+                  },
+                  "picture-other": "La imagen tiene otro problema",
+                  "question-improvement": "Me gustaría proponer una mejora para la pregunta",
+                  "question-not-understood": "No entiendo la pregunta",
+                  "tutorial-link-error": "El enlace al tutorial lleva a otra página o a una página de error",
+                  "tutorial-not-accepted": "El tutorial no es adecuado",
+                  "tutorial-proposal": "Tengo un tutorial que proponeros"
+                },
+                "problem-suggestion-description": "Describe tu problema o sugerencia"
               }
             },
-            "detail-selection": {
-              "add-comment": "Añadir un comentario",
-              "aria-first": "Tengo un problema con",
-              "aria-secondary": "Seleccionar una opción para especificar el problema",
-              "label": "Seleccionar una opción para especificar el problema",
-              "options": {
-                "answer-not-accepted": "Mi respuesta es correcta, pero no ha sido validada",
-                "answer-not-agreed": "No estoy de acuerdo con la respuesta",
-                "download": {
-                  "edit-failure": {
-                    "label": "No puedo modificar el archivo",
-                    "solution": "Es probable que el archivo esté abierto en «Sólo lectura» o «Modo protegido». '<br>'Haz clic en «Activar modificación» o «Editar documento» en el banner de la parte vigilante del archivo si aparece. '<br>'Si no es así, guarda el archivo con otro nombre y abre este nuevo archivo."
-                  },
-                  "lost": {
-                    "label": "No encuentro el archivo descargado",
-                    "solution": "Por defecto, un archivo descargado se guarda en una carpeta «Descargas» o «Downloads». También puede que se haya descargado en la misma ubicación de tu última descarga…"
-                  },
-                  "open-failure": {
-                    "label": "No puedo abrir el archivo en un ordenador",
-                    "solution": "Si no puedes abrir un archivo, consulta la '<a href=\"https://pix.org/en/help-how-to-open-modify-find-a-downloaded-file-in-a-pix-question\">' documentación de ayuda'</a>' situada bajo el botón de descarga. Allí encontrarás programas o herramientas en línea recomendadas."
-                  },
-                  "other": "Tengo otro problema con el archivo"
-                },
-                "embed-displayed-on-desktop-with-problems": {
-                  "label": "En un ordenador, aparece el simulador, pero tiene un problema",
-                  "solution": "Hacemos todo lo posible para que los simuladores funcionen en todos los dispositivos, todos los sistemas operativos y todos los navegadores, pero puede que estés utilizando un sistema concreto. Puedes detenerte aquí y retomar el test en otro ordenador.'<br>'Especifica tu problema indicando tu navegador y sistema operativo."
-                },
-                "embed-displayed-on-mobile-devices-with-problems": {
-                  "label": "En un teléfono o tableta, aparece el simulador, pero tiene un problema",
-                  "solution": "Hacemos todo lo posible para que los simuladores funcionen en todos los dispositivos, todos los sistemas operativos y todos los navegadores, pero es posible que estés utilizando un sistema concreto.'<br>'Especifica tu problema indicando el tipo de dispositivo (smartphone, tableta, etc.), el sistema operativo y navegador."
-                },
-                "embed-not-displayed": {
-                  "label": "No aparece el simulador/la aplicación",
-                  "solution": "Tu conexión a internet puede ser demasiado débil'<br>'Vuelve a cargar la página pulsando el botón de actualización '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' situado junto a la barra de direcciones. Espera un poco, puede que aparezca el simulado. '<br><br>'Si no es así, ¿puedes volver a intentarlo en otro momento o desde otro lugar con mejor conexión?"
-                },
-                "embed-other": "El simulador/la aplicación tiene otro problema",
-                "link-other": "El enlace no funciona o tiene otro problema",
-                "link-unauthorized": {
-                  "label": "El enlace está bloqueado por mi organización/centro...",
-                  "solution": "Es posible que pertenezcas a una organización (centro escolar, universidad, empresa, administración, asociación, etc.) que protege a sus usuarios y equipos limitando las páginas de internet a las que tienes acceso.'<br>'"
-                },
-                "other-challenge-proposal": "Tengo una (brillante) idea para sugerir una prueba",
-                "other-difficulty": "Tengo otro problema",
-                "other-site-improvement": "Tengo una sugerencia para mejorar la plataforma",
-                "picture-not-displayed": {
-                  "label": "La imagen no aparece",
-                  "solution": "Tu conexión a internet puede ser demasiado débil'<br>'Vuelve a cargar la página pulsando el botón de actualización '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' situado junto a la barra de direcciones. Espera un poco, puede que aparezca la imagen. '<br><br>'Si no es así, ¿puedes volver a intentarlo en otro momento o desde otro lugar con mejor conexión?"
-                },
-                "picture-other": "La imagen tiene otro problema",
-                "question-improvement": "Me gustaría proponer una mejora para la pregunta",
-                "question-not-understood": "No entiendo la pregunta",
-                "tutorial-link-error": "El enlace al tutorial lleva a otra página o a una página de error",
-                "tutorial-not-accepted": "El tutorial no es adecuado",
-                "tutorial-proposal": "Tengo un tutorial que proponeros"
+            "status": {
+              "error": {
+                "empty-message": "Debes introducir un mensaje.",
+                "max-characters": "Tu mensaje está limitado a 10 000 caracteres."
               },
-              "problem-suggestion-description": "Describe tu problema o sugerencia"
+              "success": "'<p>'Tu comentario ha sido enviado al equipo del proyecto Pix.'</p><p>'Gracix!'</p>'"
             }
           },
-          "status": {
-            "error": {
-              "empty-message": "Debes introducir un mensaje.",
-              "max-characters": "Tu mensaje está limitado a 10 000 caracteres."
-            },
-            "success": "'<p>'Tu comentario ha sido enviado al equipo del proyecto Pix.'</p><p>'Gracix!'</p>'"
-          }
-        },
-        "information": {
-          "data-usage": "'<p>'Pix trata los datos en este ámbito para gestionar y analizar la dificultad identificada y beneficiarse de tus comentarios. Puedes ejercer tus derechos en relación con tus datos dirigiéndote a: <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Para obtener más información sobre la protección de tus datos y tus derechos.'</a></p>'",
-          "guidance": "'<p>'* Ten cuidado con lo que escribes en esta área: mantén la objetividad y los hechos en tu propio beneficio y en el de los demás.'</p><p>'En particular, no introduzcas ninguna información, que te concierna a ti o a terceros, sobre salud, religión, opiniones políticas, sindicales o filosóficas, orígenes étnicos o sanciones y condenas.'</p>'"
-        },
-        "modal": {
-          "content": "'<p><strong>'¿Estás seguro de que deseas informar de este problema?'</strong></p><p>'Gracias por tu informe, que será revisado cuidadosamente por el equipo de Pix. Tenemos en cuenta todos los comentarios para mejorar continuamente nuestros servicios y la experiencia del usuario. No podremos darte una respuesta personalizada. Gracias por tu colaboración.'</p>'",
-          "title": "Confirmación del aviso"
+          "information": {
+            "data-usage": "'<p>'Pix trata los datos en este ámbito para gestionar y analizar la dificultad identificada y beneficiarse de tus comentarios. Puedes ejercer tus derechos en relación con tus datos dirigiéndote a: <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Para obtener más información sobre la protección de tus datos y tus derechos.'</a></p>'",
+            "guidance": "'<p>'* Ten cuidado con lo que escribes en esta área: mantén la objetividad y los hechos en tu propio beneficio y en el de los demás.'</p><p>'En particular, no introduzcas ninguna información, que te concierna a ti o a terceros, sobre salud, religión, opiniones políticas, sindicales o filosóficas, orígenes étnicos o sanciones y condenas.'</p>'"
+          },
+          "modal": {
+            "content": "'<p><strong>'¿Estás seguro de que deseas informar de este problema?'</strong></p><p>'Gracias por tu informe, que será revisado cuidadosamente por el equipo de Pix. Tenemos en cuenta todos los comentarios para mejorar continuamente nuestros servicios y la experiencia del usuario. No podremos darte una respuesta personalizada. Gracias por tu colaboración.'</p>'",
+            "title": "Confirmación del aviso"
+          },
+          "title": "Informar de un problema"
         }
       },
       "mode-banner": {
@@ -1259,14 +1271,6 @@
       "certification": {
         "title": "Certificación {certificationNumber}"
       },
-      "certification-feedback-panel": {
-        "actions": {
-          "no-send-feedback": "No, volver a la prueba",
-          "send-feedback": "Sí, estoy seguro/a"
-        },
-        "description": "¿Estás seguro/a de que quieres informar de un problema?",
-        "information": "Al informar de un problema, tu certificación se pausa hasta que el supervisor intervenga para validar o invalidar tu informe."
-      },
       "embed-simulator": {
         "actions": {
           "launch": "Empezar",
@@ -1305,8 +1309,6 @@
           "qcm": "Selecciona varias respuestas.",
           "qcu": "Selecciona una sola respuesta."
         },
-        "feedback": "Informar de un problema",
-        "feedback-v3": "Informar de un problema con la pregunta",
         "instruction": "Instrucciones de la prueba",
         "progress": "Tu progreso"
       },
