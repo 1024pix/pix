@@ -68,18 +68,35 @@ async function getSessionResultsByRecipientEmail(request, h) {
 
 async function postSessionResultsToDownload(request, h) {
   const i18n = getI18nFromRequest(request);
-
   const { sessionId } = CertificationResultsLinkToken.decode(request.payload.token);
 
-  const csvResult = await usecases.getSessionCertificationResultsCsv({
+  const readNewCertificationResults = await featureToggles.get('readNewCertificationResults');
+  if (!readNewCertificationResults) {
+    const csvResult = await usecases.getSessionCertificationResultsCsv({
+      sessionId,
+      i18n,
+    });
+
+    return h
+      .response(csvResult.content)
+      .header('Content-Type', 'text/csv;charset=utf-8')
+      .header('Content-Disposition', `attachment; filename=${csvResult.filename}`);
+  }
+
+  const { certificationResults, sessionInfo } = await usecases.getSessionResults({
     sessionId,
-    i18n,
   });
 
+  const csv = serialize(certificationResults, i18n);
+  const dateWithTime = `${sessionInfo.date.replaceAll('-', '')}_${sessionInfo.time.replace(':', '')}`;
+  const filename = i18n.__('certification-results-csv.filenames.SESSION_CERTIFICATION_RESULTS_FILENAME', {
+    dateWithTime,
+    sessionId: sessionInfo.id,
+  });
   return h
-    .response(csvResult.content)
+    .response(csv)
     .header('Content-Type', 'text/csv;charset=utf-8')
-    .header('Content-Disposition', `attachment; filename=${csvResult.filename}`);
+    .header('Content-Disposition', `attachment; filename=${filename}`);
 }
 
 async function getCertifiedProfile(
