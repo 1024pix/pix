@@ -43,7 +43,7 @@
     "@1024pix/ember-testing-library": "4.0.1",
     "@1024pix/eslint-plugin": "3.1.1",
     "@1024pix/nebulix-ember": "1.5.0",
-    "@1024pix/stylelint-config": "5.2.31",
+    "@1024pix/stylelint-config": "6.0.0",
     "@babel/core": "7.29.13",
     "@babel/eslint-parser": "7.29.13",
     "@babel/plugin-proposal-decorators": "7.29.7",
@@ -114,11 +114,11 @@
     "vite": "8.3.8"
   },
   "overrides": {
-    "eslint": "$eslint",
     "@xmldom/xmldom": "0.9.12",
+    "braces": "3.0.3",
+    "eslint": "$eslint",
     "flatted": "3.4.4",
-    "handlebars": "4.7.10",
-    "braces": "3.0.3"
+    "handlebars": "4.7.10"
   },
   "exports": {
     "./tests/*": "./tests/*",
