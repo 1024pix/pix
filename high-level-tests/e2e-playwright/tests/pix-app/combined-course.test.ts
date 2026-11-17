@@ -42,6 +42,7 @@ test('pass a combined course as sco user and see the final result', async ({ pag
   await test.step('Run module', async function () {
     await page.getByRole('button', { name: 'Commencer le module' }).click();
     await page.getByRole('button', { name: 'Terminer' }).click();
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Module terminé !');
     await page.getByRole('button', { name: 'Continuer' }).click();
   });
 
