@@ -4,7 +4,7 @@ import { buildOrganization } from './build-organization.js';
 
 const buildCombinedCourseBlueprintShare = function ({
   id = databaseBuffer.getNextId(),
-  combinedCourseBlueprintId = buildCombinedCourseBlueprint({ content: [] }).id,
+  combinedCourseBlueprintId = buildCombinedCourseBlueprint().id,
   organizationId = buildOrganization().id,
 } = {}) {
   const values = {
