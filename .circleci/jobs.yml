@@ -196,6 +196,8 @@ executors:
             '3001',
             '--host',
             '0.0.0.0',
+            # allow launchOptions.args (--disable-web-security, needed by recette certif tests)
+            '--unsafe',
           ]
       - image: postgres:17-alpine
         command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
