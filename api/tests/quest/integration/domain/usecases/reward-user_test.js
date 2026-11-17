@@ -95,7 +95,10 @@ const setupContextWithCappedTubesQuest = async ({
     });
   }
 
+  const attestation = databaseBuilder.factory.buildAttestation();
+
   const quest = databaseBuilder.factory.buildQuest({
+    rewardId: attestation.id,
     rewardType: REWARD_TYPES.ATTESTATION,
     eligibilityRequirements: [
       {

@@ -86,7 +86,7 @@ describe('Integration | Repository | Participations-For-User-Management', functi
           userId,
         });
         const combinedCourseCampaign = databaseBuilder.factory.buildCampaign();
-        const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+        const { id: questId } = databaseBuilder.factory.buildQuest({
           successRequirements: [
             CombinedCourseBlueprint.buildRequirementForCombinedCourse({
               campaignId: combinedCourseCampaign.id,

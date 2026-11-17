@@ -74,7 +74,7 @@ describe('Integration | UseCases | delete-campaign', function () {
       buildMembership({ userId, organizationId, organizationRole: Membership.roles.ADMIN });
       const campaignId = buildCampaign({ organizationId }).id;
 
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
       databaseBuilder.factory.buildCombinedCourse({
@@ -529,7 +529,7 @@ describe('Integration | UseCases | delete-campaign', function () {
       buildMembership({ userId, organizationId, organizationRole: Membership.roles.ADMIN });
       const campaignId = buildCampaign({ organizationId }).id;
 
-      const { id: questIdForError } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questIdForError } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
       databaseBuilder.factory.buildCombinedCourse({

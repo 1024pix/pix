@@ -46,13 +46,13 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       }).toDTO(),
     ];
 
-    const blueprintQuest1Id = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const blueprintQuest1Id = databaseBuilder.factory.buildQuest({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ targetProfileId: targetProfile.id }).toDTO(),
         ...expectedModules,
       ],
     }).id;
-    const blueprintQuest2Id = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const blueprintQuest2Id = databaseBuilder.factory.buildQuest({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({
           targetProfileId: targetProfileWithTraining.id,

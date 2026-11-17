@@ -334,7 +334,7 @@ describe('Quest | Integration | Repository | combined-course', function () {
       // given
       organizationId = databaseBuilder.factory.buildOrganization().id;
       campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
       combinedCourse = databaseBuilder.factory.buildCombinedCourse({
@@ -346,7 +346,7 @@ describe('Quest | Integration | Repository | combined-course', function () {
 
     it('should return not deleted combined courses that include a given campaignId', async function () {
       // given
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
       databaseBuilder.factory.buildCombinedCourse({
@@ -391,7 +391,7 @@ describe('Quest | Integration | Repository | combined-course', function () {
       const campaignIdNotInQuest = databaseBuilder.factory.buildCampaign({
         organizationId,
       });
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
         ],
@@ -666,7 +666,7 @@ describe('Quest | Integration | Repository | combined-course', function () {
       organizationId2 = databaseBuilder.factory.buildOrganization().id;
       moduleId = 'module-abc';
 
-      const { id: questIdModule1 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questIdModule1 } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO()],
       });
       combinedCourseWithModule = databaseBuilder.factory.buildCombinedCourse({
@@ -676,7 +676,7 @@ describe('Quest | Integration | Repository | combined-course', function () {
         questId: questIdModule1,
       });
 
-      const { id: questIdModule2 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questIdModule2 } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO()],
       });
       combinedCourseWithModuleAndOtherOrga = databaseBuilder.factory.buildCombinedCourse({
@@ -686,7 +686,7 @@ describe('Quest | Integration | Repository | combined-course', function () {
         questId: questIdModule2,
       });
 
-      const { id: questIdModuleCde } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questIdModuleCde } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: 'module-cde' }).toDTO(),
         ],
@@ -698,7 +698,7 @@ describe('Quest | Integration | Repository | combined-course', function () {
         questId: questIdModuleCde,
       });
 
-      const { id: questIdModule3 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questIdModule3 } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO()],
       });
       databaseBuilder.factory.buildCombinedCourse({
@@ -714,7 +714,7 @@ describe('Quest | Integration | Repository | combined-course', function () {
 
     it('should return not deleted combined course for a given module id and organization ids', async function () {
       // given
-      const { id: questIdOther } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questIdOther } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO()],
       });
       const otherCombinedCourseWithModule = databaseBuilder.factory.buildCombinedCourse({
@@ -923,7 +923,7 @@ describe('Quest | Integration | Repository | combined-course', function () {
 
     it('should return false if the combined course including the given campaignId has been deleted', async function () {
       // given
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
       databaseBuilder.factory.buildCombinedCourse({
@@ -943,7 +943,7 @@ describe('Quest | Integration | Repository | combined-course', function () {
     it('should return false if no combined course match campaignId', async function () {
       // given
       const otherCampaignId = databaseBuilder.factory.buildCampaign().id;
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: otherCampaignId }).toDTO(),
         ],
@@ -965,7 +965,7 @@ describe('Quest | Integration | Repository | combined-course', function () {
 
     it('should return true if a combined course matches campaignId', async function () {
       // given
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
       databaseBuilder.factory.buildCombinedCourse({

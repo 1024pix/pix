@@ -30,7 +30,7 @@ describe('Integration | LTI | Domain | Usecases | getLtiCampaignsByOrganizations
     const { id: campaignInCombinedCourseId } = databaseBuilder.factory.buildCampaign({ organizationId });
     const { id: assessmentCampaignId } = databaseBuilder.factory.buildCampaign({ organizationId });
 
-    const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId } = databaseBuilder.factory.buildQuest({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaignInCombinedCourseId }).toDTO(),
       ],
