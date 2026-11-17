@@ -204,13 +204,13 @@
     "nodemon": "3.1.14",
     "npm-run-all2": "9.0.4",
     "oauth4webapi": "3.8.8",
-    "oxfmt": "0.76.0",
+    "oxfmt": "0.78.0",
     "pdfjs-dist": "6.5.438",
     "schemalint": "2.3.2",
     "sinon": "22.1.0",
     "sinon-chai": "4.0.1",
     "typescript": "npm:@typescript/typescript6@6.0.2",
-    "typescript-eslint": "8.72.1"
+    "typescript-eslint": "8.72.2"
   },
   "overrides": {
     "eslint": "$eslint",
