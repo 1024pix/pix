@@ -23,10 +23,18 @@ import { CampaignAssessmentExport } from '../../infrastructure/serializers/csv/c
  * @typedef {import ('./index.js').BadgeAcquisitionRepository} BadgeAcquisitionRepository
  */
 
+async function* withErrorLogging(csvChunks, logger) {
+  try {
+    yield* csvChunks;
+  } catch (error) {
+    logger.error(error, `Error while generating csv campaign results.`);
+    throw error;
+  }
+}
+
 /**
  * @param {Object} params
  * @param {Number} params.campaignId
- * @param {Object} params.writableStream
  * @param {string} locale
  * @param {CampaignRepository} params.campaignRepository
  * @param {CampaignParticipationInfoRepository} params.campaignParticipationInfoRepository
@@ -43,7 +51,6 @@ import { CampaignAssessmentExport } from '../../infrastructure/serializers/csv/c
  */
 const startWritingCampaignAssessmentResultsToStream = async function ({
   campaignId,
-  writableStream,
   locale,
   campaignRepository,
   campaignParticipationInfoRepository,
@@ -84,7 +91,6 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   }
 
   const campaignAssessment = new CampaignAssessmentExport({
-    outputStream: writableStream,
     organization,
     targetProfile,
     learningContent,
@@ -94,25 +100,16 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
     additionalHeaders,
   });
 
-  // No return/await here, we need the writing to continue in the background
-  // after this function's returned promise resolves. If we await the map
-  // function, node will keep all the data in memory until the end of the
-  // complete operation.
-  campaignAssessment
-    .export({
+  const csvChunks = withErrorLogging(
+    campaignAssessment.export({
       campaignParticipationInfos,
       knowledgeElementForParticipationService,
       badgeAcquisitionRepository,
       stageAcquisitionRepository,
       improvementService,
-    })
-    .then(() => {
-      writableStream.end();
-    })
-    .catch((error) => {
-      logger.error(error, `Error while generating csv campaign results.`);
-      writableStream.emit('error', error);
-    });
+    }),
+    logger,
+  );
 
   const i18n = getI18n(locale);
   const fileName = i18n.__('campaign-export.common.file-name', {
@@ -120,6 +117,6 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
     id: campaign.id,
     date: dayjs().tz('Europe/Berlin').format('YYYY-MM-DD-HHmm'),
   });
-  return { fileName };
+  return { fileName, csvChunks };
 };
 export { startWritingCampaignAssessmentResultsToStream };

@@ -1,16 +1,13 @@
 import _ from 'lodash';
 
 import * as improvementService from '../../../../../evaluation/domain/services/improvement-service.js';
-import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../../shared/constants.js';
 import { serializeLine } from '../../../../../shared/infrastructure/helpers/csv.js';
 import { getI18n } from '../../../../../shared/infrastructure/i18n/i18n.js';
-import { PromiseUtils } from '../../../../../shared/infrastructure/utils/promise-utils.js';
 import { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../../domain/constants.js';
 import { CampaignAssessmentResultLine } from '../../exports/campaigns/campaign-assessment-result-line.js';
 
 class CampaignAssessmentExport {
   constructor({
-    outputStream,
     organization,
     targetProfile,
     learningContent,
@@ -19,7 +16,6 @@ class CampaignAssessmentExport {
     locale,
     additionalHeaders = [],
   }) {
-    this.stream = outputStream;
     this.organization = organization;
     this.campaign = campaign;
     this.targetProfile = targetProfile;
@@ -33,73 +29,75 @@ class CampaignAssessmentExport {
     this.additionalHeaders = additionalHeaders;
   }
 
-  export(
+  /**
+   * Yields the CSV header, then the CSV lines chunk by chunk.
+   * Lazy: a chunk is only computed when the consumer asks for the next one,
+   * and stopping the iteration stops the computation of the remaining chunks.
+   *
+   * @returns {AsyncGenerator<string>}
+   */
+  async *export(
     {
       campaignParticipationInfos,
       knowledgeElementForParticipationService,
       badgeAcquisitionRepository,
       stageAcquisitionRepository,
     },
-    constants = {
-      CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
-      CONCURRENCY_HEAVY_OPERATIONS,
-    },
+    constants = { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING },
   ) {
-    this.stream.write(this.#buildHeader());
+    yield this.#buildHeader();
+
     const targetedSkillIds = this.learningContent.skills.map((skill) => skill.id);
     const campaignParticipationInfoChunks = _.chunk(
       campaignParticipationInfos,
       constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
     );
-    return PromiseUtils.map(
-      campaignParticipationInfoChunks,
-      async (campaignParticipationInfoChunk) => {
-        const sharedParticipations = campaignParticipationInfoChunk.filter(({ isShared }) => isShared);
 
-        const acquiredBadges = await this.#getAcquiredBadgesByCampaignParticipations({
-          campaignParticipationInfoChunk: sharedParticipations,
-          badgeAcquisitionRepository,
-        });
-        const acquiredStages = await this.#getAcquiredStagesByCampaignParticipations({
-          campaignParticipationInfoChunk: sharedParticipations,
-          stageAcquisitionRepository,
-        });
+    for (const campaignParticipationInfoChunk of campaignParticipationInfoChunks) {
+      const sharedParticipations = campaignParticipationInfoChunk.filter(({ isShared }) => isShared);
 
-        const sharedKnowledgeElementsByUserIdAndCompetenceId =
-          await knowledgeElementForParticipationService.findUniqByUsersOrCampaignParticipationIds({
-            participationInfos: sharedParticipations.map(({ campaignParticipationId }) => {
-              return { campaignParticipationId };
-            }),
-            fetchFromSnapshot: true,
-          });
+      const acquiredBadges = await this.#getAcquiredBadgesByCampaignParticipations({
+        campaignParticipationInfoChunk: sharedParticipations,
+        badgeAcquisitionRepository,
+      });
+      const acquiredStages = await this.#getAcquiredStagesByCampaignParticipations({
+        campaignParticipationInfoChunk: sharedParticipations,
+        stageAcquisitionRepository,
+      });
 
-        const startedParticipations = campaignParticipationInfoChunk.filter(
-          ({ isShared, isCompleted }) => !isShared && !isCompleted,
-        );
-
-        const startedKnowledgeElementsByUserIdAndCompetenceId =
-          await knowledgeElementForParticipationService.findUniqByUsersOrCampaignParticipationIds({
-            participationInfos: startedParticipations.map(({ userId, campaignParticipationId }) => {
-              return { userId, campaignParticipationId };
-            }),
-            fetchFromSnapshot: this.campaign.isExam,
-            skillIds: targetedSkillIds,
-          });
-
-        const csvLines = campaignParticipationInfoChunk.map((campaignParticipationInfo) =>
-          this.#buildCSVLineForParticipation({
-            acquiredBadges,
-            acquiredStages,
-            campaignParticipationInfo,
-            campaignParticipationInfoChunk,
-            sharedKnowledgeElementsByUserIdAndCompetenceId,
-            startedKnowledgeElementsByUserIdAndCompetenceId,
+      const sharedKnowledgeElementsByUserIdAndCompetenceId =
+        await knowledgeElementForParticipationService.findUniqByUsersOrCampaignParticipationIds({
+          participationInfos: sharedParticipations.map(({ campaignParticipationId }) => {
+            return { campaignParticipationId };
           }),
-        );
-        this.stream.write(csvLines.join(''));
-      },
-      { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
-    );
+          fetchFromSnapshot: true,
+        });
+
+      const startedParticipations = campaignParticipationInfoChunk.filter(
+        ({ isShared, isCompleted }) => !isShared && !isCompleted,
+      );
+
+      const startedKnowledgeElementsByUserIdAndCompetenceId =
+        await knowledgeElementForParticipationService.findUniqByUsersOrCampaignParticipationIds({
+          participationInfos: startedParticipations.map(({ userId, campaignParticipationId }) => {
+            return { userId, campaignParticipationId };
+          }),
+          fetchFromSnapshot: this.campaign.isExam,
+          skillIds: targetedSkillIds,
+        });
+
+      const csvLines = campaignParticipationInfoChunk.map((campaignParticipationInfo) =>
+        this.#buildCSVLineForParticipation({
+          acquiredBadges,
+          acquiredStages,
+          campaignParticipationInfo,
+          campaignParticipationInfoChunk,
+          sharedKnowledgeElementsByUserIdAndCompetenceId,
+          startedKnowledgeElementsByUserIdAndCompetenceId,
+        }),
+      );
+      yield csvLines.join('');
+    }
   }
 
   #buildHeader() {

@@ -1,4 +1,4 @@
-import { PassThrough } from 'node:stream';
+import { text } from 'node:stream/consumers';
 
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -38,26 +38,14 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
   });
 
   context('when the export fails', function () {
-    let clock, logger, writableStream, unhandledRejectionListener;
-
-    beforeEach(function () {
-      clock = sinon.useFakeTimers();
-      logger = { error: sinon.stub() };
-      writableStream = new PassThrough();
-      unhandledRejectionListener = sinon.stub();
-      process.on('unhandledRejection', unhandledRejectionListener);
-    });
-
-    afterEach(function () {
-      process.removeListener('unhandledRejection', unhandledRejectionListener);
-    });
-
-    it('should log and emit the error on the stream without causing an unhandled rejection', async function () {
+    it('should log the error and fail the csv chunks', async function () {
       // given
       const exportError = new Error('export failed');
-      sinon.stub(CampaignAssessmentExport.prototype, 'export').rejects(exportError);
-      const streamErrorListener = sinon.stub();
-      writableStream.on('error', streamErrorListener);
+      // eslint-disable-next-line require-yield
+      sinon.stub(CampaignAssessmentExport.prototype, 'export').callsFake(async function* () {
+        throw exportError;
+      });
+      const logger = { error: sinon.stub() };
 
       const campaign = domainBuilder.buildCampaign.ofTypeAssessment();
       campaignRepository.get.withArgs(campaign.id).resolves(campaign);
@@ -73,9 +61,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       };
 
       // when
-      await startWritingCampaignAssessmentResultsToStream({
+      const { csvChunks } = await startWritingCampaignAssessmentResultsToStream({
         campaignId: campaign.id,
-        writableStream,
         locale: 'fr',
         campaignRepository,
         targetProfileRepository,
@@ -86,12 +73,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
         organizationFeatureApi,
         logger,
       });
-      await clock.tickAsync(0);
 
       // then
-      expect(streamErrorListener).calledWith(exportError);
+      await expect(text(csvChunks)).to.be.rejectedWith(exportError);
       expect(logger.error).calledWith(exportError);
-      expect(unhandledRejectionListener.called).to.be.false;
     });
   });
 });
