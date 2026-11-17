@@ -29,7 +29,7 @@ const buildCombinixQuest = (databaseBuilder, combinedCourseData) => {
     buildKnowledgeElementSnapshot,
     buildOrganizationLearner,
     buildOrganizationLearnerParticipation,
-    buildQuestForCombinedCourse,
+    buildQuest,
     buildStage,
     buildStageAcquisition,
     buildTargetProfile,
@@ -76,7 +76,7 @@ const buildCombinixQuest = (databaseBuilder, combinedCourseData) => {
     return req;
   });
 
-  const { id: blueprintQuestId } = buildQuestForCombinedCourse({
+  const { id: blueprintQuestId } = buildQuest({
     successRequirements: blueprintSuccessRequirements,
     rewardType: combinedCourseData.blueprint.rewardType ?? null,
     rewardId: combinedCourseData.blueprint.rewardId ?? null,
@@ -143,7 +143,7 @@ const buildCombinixQuest = (databaseBuilder, combinedCourseData) => {
     return req;
   });
 
-  const { id: combinedCourseQuestId } = buildQuestForCombinedCourse({
+  const { id: combinedCourseQuestId } = buildQuest({
     successRequirements: combinedCourseSuccessRequirements,
     rewardType: combinedCourseData.blueprint.rewardType ?? null,
     rewardId: combinedCourseData.blueprint.rewardId ?? null,

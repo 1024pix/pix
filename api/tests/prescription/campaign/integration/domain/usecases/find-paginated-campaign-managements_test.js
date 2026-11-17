@@ -13,7 +13,7 @@ describe('Integration | UseCase | find-paginated-campaign-managements', function
     await databaseBuilder.factory.buildCampaign({ organizationId }).id;
     const campaignIdInCombinedCourse = await databaseBuilder.factory.buildCampaign({ organizationId }).id;
 
-    const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId } = databaseBuilder.factory.buildQuest({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaignIdInCombinedCourse }).toDTO(),
       ],

@@ -182,7 +182,7 @@ describe('Integration | Repository | Campaign-Management', function () {
         targetProfileId: targetProfile.id,
       });
 
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
         ],

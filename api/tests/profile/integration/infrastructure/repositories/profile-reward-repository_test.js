@@ -14,11 +14,17 @@ import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Profile | Integration | Repository | profile-reward', function () {
+  let attestation;
+
+  beforeEach(function () {
+    attestation = databaseBuilder.factory.buildAttestation({ key: 'key' });
+  });
   describe('#save', function () {
     it('should give a reward to the user', async function () {
       // given
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { rewardId } = databaseBuilder.factory.buildQuest({
+        rewardId: attestation.id,
         rewardType: REWARD_TYPES.ATTESTATION,
         eligibilityRequirements: [],
         successRequirements: [],
@@ -41,6 +47,7 @@ describe('Profile | Integration | Repository | profile-reward', function () {
       // given
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { rewardId } = databaseBuilder.factory.buildQuest({
+        rewardId: attestation.id,
         rewardType: REWARD_TYPES.ATTESTATION,
         eligibilityRequirements: [],
         successRequirements: [],
@@ -75,7 +82,6 @@ describe('Profile | Integration | Repository | profile-reward', function () {
 
     it('should return the expected profile reward', async function () {
       // given
-      const attestation = databaseBuilder.factory.buildAttestation({ key: 'key' });
       const expectedProfileReward = databaseBuilder.factory.buildProfileReward({ rewardId: attestation.id });
 
       const otherAttestation = databaseBuilder.factory.buildAttestation({ key: 'otherkey' });
@@ -297,7 +303,6 @@ describe('Profile | Integration | Repository | profile-reward', function () {
 
     it('should return the expected profile reward', async function () {
       // given
-      const attestation = databaseBuilder.factory.buildAttestation({ key: 'key' });
       databaseBuilder.factory.buildProfileReward({ rewardId: attestation.id });
       const user = databaseBuilder.factory.buildUser();
 
@@ -320,7 +325,6 @@ describe('Profile | Integration | Repository | profile-reward', function () {
   describe('#findByUserIdsAndRewardIds', function () {
     it('should return the expected profile reward', async function () {
       // given
-      const attestation = databaseBuilder.factory.buildAttestation({ key: 'key' });
       const attestation2 = databaseBuilder.factory.buildAttestation({ key: 'key2' });
       databaseBuilder.factory.buildProfileReward({ rewardId: attestation.id });
       databaseBuilder.factory.buildProfileReward();
