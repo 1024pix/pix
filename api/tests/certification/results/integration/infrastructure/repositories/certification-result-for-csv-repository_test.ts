@@ -17,11 +17,26 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       const anotherSessionId = databaseBuilder.factory.buildSession().id;
       databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceABC123', index: '1.1', origin: 'Pix' });
       databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceDEF456', index: '2.2', origin: 'Pix' });
-      const expectedResultData1 = buildCertificationResult(1, Frameworks.CORE, sessionId, resultRecipientEmail);
-      buildCertificationResult(2, Frameworks.CORE, anotherSessionId, resultRecipientEmail); // noise
-      buildCertificationResult(3, Frameworks.CORE, sessionId, 'someoneelse@example.net'); // noise
-      const expectedResultData2 = buildCertificationResult(4, Frameworks.CLEA, sessionId, resultRecipientEmail);
-      const expectedResultData3 = buildCertificationResult(5, Frameworks.DROIT, sessionId, resultRecipientEmail);
+      const expectedResultData1 = buildCertificationResultForSessionAndResultRecipient(
+        1,
+        Frameworks.CORE,
+        sessionId,
+        resultRecipientEmail,
+      );
+      buildCertificationResultForSessionAndResultRecipient(2, Frameworks.CORE, anotherSessionId, resultRecipientEmail); // noise
+      buildCertificationResultForSessionAndResultRecipient(3, Frameworks.CORE, sessionId, 'someoneelse@example.net'); // noise
+      const expectedResultData2 = buildCertificationResultForSessionAndResultRecipient(
+        4,
+        Frameworks.CLEA,
+        sessionId,
+        resultRecipientEmail,
+      );
+      const expectedResultData3 = buildCertificationResultForSessionAndResultRecipient(
+        5,
+        Frameworks.DROIT,
+        sessionId,
+        resultRecipientEmail,
+      );
       await databaseBuilder.commit();
 
       // when
@@ -37,6 +52,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         new CertificationResultForCsv(expectedResultData3),
       ]);
     });
+
     it('returns an empty array if no certification found for given session and result recipient email', async function () {
       // given
       const resultRecipientEmail = 'lepatron@example.net';
@@ -44,8 +60,8 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       const anotherSessionId = databaseBuilder.factory.buildSession().id;
       databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceABC123', index: '1.1', origin: 'Pix' });
       databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceDEF456', index: '2.2', origin: 'Pix' });
-      buildCertificationResult(2, Frameworks.CORE, anotherSessionId, resultRecipientEmail);
-      buildCertificationResult(3, Frameworks.CORE, sessionId, 'someoneelse@example.net');
+      buildCertificationResultForSessionAndResultRecipient(2, Frameworks.CORE, anotherSessionId, resultRecipientEmail);
+      buildCertificationResultForSessionAndResultRecipient(3, Frameworks.CORE, sessionId, 'someoneelse@example.net');
       await databaseBuilder.commit();
 
       // when
@@ -58,13 +74,108 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       expect(certificationResults).to.deep.equal([]);
     });
   });
+
+  describe('#findMostRecentByLearners', function () {
+    beforeEach(function () {
+      databaseBuilder.factory.buildOrganizationLearner({ id: 10 });
+      databaseBuilder.factory.buildOrganizationLearner({ id: 20 });
+      databaseBuilder.factory.buildOrganizationLearner({ id: 30 });
+      databaseBuilder.factory.buildOrganizationLearner({ id: 40 });
+      databaseBuilder.factory.buildOrganizationLearner({ id: 50 });
+      return databaseBuilder.commit();
+    });
+
+    it('returns all certification results for given learners ordered by last name and first name', async function () {
+      // given
+      databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceABC123', index: '1.1', origin: 'Pix' });
+      databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceDEF456', index: '2.2', origin: 'Pix' });
+      const expectedResultData1 = buildCertificationResultForLearner(1, Frameworks.CORE, 50, new Date());
+      buildCertificationResultForLearner(2, Frameworks.CORE, 20, new Date()); // noise
+      buildCertificationResultForLearner(3, Frameworks.CORE, null, new Date()); // noise
+      const expectedResultData2 = buildCertificationResultForLearner(4, Frameworks.CLEA, 10, new Date());
+      const expectedResultData3 = buildCertificationResultForLearner(5, Frameworks.DROIT, 40, new Date());
+      await databaseBuilder.commit();
+
+      // when
+      const certificationResults = await certificationResultForCsvRepository.findMostRecentByLearners({
+        learnerIds: [10, 40, 50, 999],
+      });
+
+      // then
+      expect(certificationResults).to.deep.equal([
+        new CertificationResultForCsv(expectedResultData1),
+        new CertificationResultForCsv(expectedResultData2),
+        new CertificationResultForCsv(expectedResultData3),
+      ]);
+    });
+
+    it('returns the certification result for which certification started the most recently per learner', async function () {
+      // given
+      databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceABC123', index: '1.1', origin: 'Pix' });
+      databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceDEF456', index: '2.2', origin: 'Pix' });
+      const expectedResultData1 = buildCertificationResultForLearner(1, Frameworks.CORE, 10, new Date('2026-01-01'));
+      buildCertificationResultForLearner(2, Frameworks.CORE, 10, new Date('2025-12-31'));
+      buildCertificationResultForLearner(3, Frameworks.CLEA, 20, new Date('2026-02-10'));
+      const expectedResultData2 = buildCertificationResultForLearner(4, Frameworks.CLEA, 20, new Date());
+      await databaseBuilder.commit();
+
+      // when
+      const certificationResults = await certificationResultForCsvRepository.findMostRecentByLearners({
+        learnerIds: [10, 20],
+      });
+
+      // then
+      expect(certificationResults).to.deep.equal([
+        new CertificationResultForCsv(expectedResultData1),
+        new CertificationResultForCsv(expectedResultData2),
+      ]);
+    });
+
+    it('returns an empty array if no certification found for given learners', async function () {
+      // given
+      databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceABC123', index: '1.1', origin: 'Pix' });
+      databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceDEF456', index: '2.2', origin: 'Pix' });
+      buildCertificationResultForLearner(1, Frameworks.CORE, 10, new Date());
+      buildCertificationResultForLearner(2, Frameworks.CORE, null, new Date());
+      await databaseBuilder.commit();
+
+      // when
+      const certificationResults = await certificationResultForCsvRepository.findMostRecentByLearners({
+        learnerIds: [20, 30],
+      });
+
+      // then
+      expect(certificationResults).to.deep.equal([]);
+    });
+  });
 });
+
+function buildCertificationResultForSessionAndResultRecipient(
+  certificationCourseId: number,
+  framework: Framework,
+  sessionId: number,
+  resultRecipientEmail: string,
+) {
+  return buildCertificationResult(certificationCourseId, framework, sessionId, resultRecipientEmail, null, new Date());
+}
+
+function buildCertificationResultForLearner(
+  certificationCourseId: number,
+  framework: Framework,
+  learnerId: number | null,
+  startedAt: Date,
+) {
+  const sessionId = databaseBuilder.factory.buildSession().id;
+  return buildCertificationResult(certificationCourseId, framework, sessionId, 'foo@example.net', learnerId, startedAt);
+}
 
 function buildCertificationResult(
   certificationCourseId: number,
   framework: Framework,
   sessionId: number,
   resultRecipientEmail: string,
+  learnerId: number | null,
+  startedAt: Date,
 ) {
   let pixScore: number | null = null;
   let competenceMarks: Array<{ level: number; competenceCode: string }> | null = null;
@@ -112,7 +223,7 @@ function buildCertificationResult(
     commentForOrganization: `commentForOrganization ${certificationCourseId}`,
     commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_ZERO_PIX_SCORE,
     certificationCenter: `certificationCenter ${certificationCourseId}`,
-    startedAt: new Date(),
+    startedAt,
     sessionId,
   };
   const userId = databaseBuilder.factory.buildUser().id;
@@ -150,6 +261,7 @@ function buildCertificationResult(
     sessionId,
     certificationCourseId,
     certificationResultId,
+    organizationLearnerId: learnerId,
   });
   return data;
 }
