@@ -144,7 +144,7 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
           </template>,
         );
         // then
-        assert.ok(screen.getByRole('columnheader', { name: t('awesome.column') }));
+        assert.ok(screen.getByRole('columnheader', { name: 'awesome.column' }));
       });
 
       test('it should not display extra header when import feature available disabled', async function (assert) {
