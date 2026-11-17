@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { CreditsLot } from '../../../../../../src/organizational-entities/domain/credits/models/CreditsLot.js';
 import { CreditsLotToCreate } from '../../../../../../src/organizational-entities/domain/credits/models/CreditsLotToCreate.js';
 import * as creditsLotRepository from '../../../../../../src/organizational-entities/infrastructure/credits/repositories/credits-lot-repository.js';
 import { databaseBuilder, knex } from '../../../../../tooling/databases.js';
@@ -31,6 +32,129 @@ describe('Integration | Repository | Credits Lot', function () {
       expect(creditsLotCreated.reference).to.equal('REF123');
       expect(creditsLotCreated.created_by).to.equal(createdBy);
       expect(creditsLotCreated.created_at).to.not.be.null;
+    });
+  });
+
+  context('findAllByStructureId', function () {
+    it('should return an empty array if no creditsLot are found', async function () {
+      // given
+      const { structure } = databaseBuilder.factory.buildOrganizationWithStructure();
+
+      // when
+      const creditsLot = await creditsLotRepository.findAllByStructureId(structure.id);
+
+      // then
+      expect(creditsLot).to.be.empty;
+    });
+
+    it('should return a list of credits lot for given structure id', async function () {
+      // given
+      const { structure } = databaseBuilder.factory.buildOrganizationWithStructure();
+
+      const { structure: otherStructure } = databaseBuilder.factory.buildOrganizationWithStructure();
+
+      const creator = databaseBuilder.factory.buildUser({
+        firstName: 'Bruce',
+        lastName: 'Wayne',
+      });
+
+      const firstCreditsLot = databaseBuilder.factory.buildCreditsLot({
+        structureId: structure.id,
+        count: 100,
+        reference: 'REF123',
+        activationDate: '2027-01-01',
+        expirationDate: '2028-01-01',
+        createdAt: '2026-01-01',
+        createdBy: creator.id,
+      });
+
+      const secondCreditsLot = databaseBuilder.factory.buildCreditsLot({
+        structureId: structure.id,
+        count: 100,
+        reference: 'REF456',
+        activationDate: '2027-06-01',
+        expirationDate: '2028-09-01',
+        createdAt: '2026-01-01',
+        createdBy: creator.id,
+      });
+
+      databaseBuilder.factory.buildCreditsLot({
+        structureId: otherStructure.id,
+        count: 100,
+        reference: 'REF789',
+        activationDate: '2027-06-01',
+        expirationDate: '2028-09-01',
+        createdAt: '2026-01-02',
+        createdBy: creator.id,
+      });
+
+      await databaseBuilder.commit();
+
+      const expectedCreditsLot = [
+        {
+          id: firstCreditsLot.id,
+          structureId: structure.id,
+          count: 100,
+          reference: 'REF123',
+          activationDate: new Date('2027-01-01'),
+          expirationDate: new Date('2028-01-01'),
+          creatorFullName: 'Bruce Wayne',
+        },
+        {
+          id: secondCreditsLot.id,
+          structureId: structure.id,
+          count: 100,
+          reference: 'REF456',
+          activationDate: new Date('2027-06-01'),
+          expirationDate: new Date('2028-09-01'),
+          creatorFullName: 'Bruce Wayne',
+        },
+      ];
+
+      // when
+      const foundCreditsLot = await creditsLotRepository.findAllByStructureId(structure.id);
+
+      // then
+      expect(foundCreditsLot).lengthOf(2);
+      expect(foundCreditsLot[0]).to.be.instanceOf(CreditsLot);
+      expect(foundCreditsLot[1]).to.be.instanceOf(CreditsLot);
+      expect(foundCreditsLot).to.deep.equal(expectedCreditsLot);
+    });
+
+    it('should return credits lot ordered by activation date', async function () {
+      // given
+      const { structure } = databaseBuilder.factory.buildOrganizationWithStructure();
+
+      const creator = databaseBuilder.factory.buildUser();
+
+      databaseBuilder.factory.buildCreditsLot({
+        structureId: structure.id,
+        count: 100,
+        reference: 'SECOND',
+        activationDate: '2027-01-01',
+        expirationDate: '2027-12-31',
+        createdAt: '2026-01-02',
+        createdBy: creator.id,
+      });
+
+      databaseBuilder.factory.buildCreditsLot({
+        structureId: structure.id,
+        count: 100,
+        reference: 'FIRST',
+        activationDate: '2026-01-01',
+        expirationDate: '2027-12-31',
+        createdAt: '2026-01-01',
+        createdBy: creator.id,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const foundCreditsLot = await creditsLotRepository.findAllByStructureId(structure.id);
+
+      // then
+      expect(foundCreditsLot[0].reference).to.equal('FIRST');
+      expect(foundCreditsLot[1].reference).to.equal('SECOND');
     });
   });
 });
