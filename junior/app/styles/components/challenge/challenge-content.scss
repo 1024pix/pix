@@ -3,8 +3,7 @@
 .challenge-content {
   display: grid;
   grid-template-columns: 1fr;
-  row-gap: var(--pix-spacing-4x);
-  column-gap: var(--pix-spacing-6x);
+  gap: var(--pix-spacing-4x) var(--pix-spacing-6x);
   margin: 16px 140px 0;
   transition: all 0.4s;
 
