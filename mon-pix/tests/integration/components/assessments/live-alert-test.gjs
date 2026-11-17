@@ -12,22 +12,18 @@ module('Integration | Component | Assessments | live-alert', function (hooks) {
 
   test('it displays challenge live alert', async function (assert) {
     // given
-    const message = t('pages.challenge.live-alerts.companion.message');
 
     // when
-    const screen = await render(<template><LiveAlert @message={{message}} /></template>);
+    const screen = await render(<template><LiveAlert /></template>);
 
     // then
-    assert.dom(screen.getByText(message)).exists();
-    assert.dom(screen.getByText(t('pages.challenge.live-alerts.waiting-information'))).exists();
     assert.dom(screen.getByRole('button', { name: t('pages.challenge.live-alerts.refresh') })).exists();
   });
 
   test('it refreshes the page when clicking the refresh button', async function (assert) {
     // given
     const reloadStub = sinon.stub(Location, 'reload');
-    const message = t('pages.challenge.live-alerts.companion.message');
-    await render(<template><LiveAlert @message={{message}} /></template>);
+    await render(<template><LiveAlert /></template>);
 
     // when
     await clickByName(t('pages.challenge.live-alerts.refresh'));

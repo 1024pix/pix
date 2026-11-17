@@ -458,7 +458,7 @@
       "notifications": {
         "already-answered": "Ya has respondido a esta pregunta",
         "cannot-answer": "Se ha agotado el tiempo. Tu respuesta no será validada.",
-        "wait-for-invigilator": "Las acciones se detienen hasta que llegue el supervisor"
+        "wait-for-invigilator": "Las acciones se detienen hasta que llegue el supervisor. Avisa al supervisor para que identifique el problema."
       },
       "title": "Validar o saltar la prueba"
     },
@@ -1293,9 +1293,6 @@
         }
       },
       "live-alerts": {
-        "challenge": {
-          "message": "Avisa al supervisor para que identifique el problema."
-        },
         "companion": {
           "message": "Ponte en contacto con el supervisor para confirmar la presencia de la extensión."
         },

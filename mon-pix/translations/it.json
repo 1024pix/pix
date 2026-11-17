@@ -458,7 +458,7 @@
       "notifications": {
         "already-answered": "Hai già risposto a questa domanda",
         "cannot-answer": "Il tempo a disposizione è scaduto. La risposta non sarà convalidata.",
-        "wait-for-invigilator": "Le azioni sono sospese fino all'arrivo del sorvegliante."
+        "wait-for-invigilator": "Le azioni sono sospese fino all'arrivo del sorvegliante. Avvisare il proprio sorvegliante affinché possa identificare il problema e risolverlo direttamente nell'interfaccia \"Area sorvegliante\"."
       },
       "title": "Confermare o saltare la prova"
     },
@@ -1293,9 +1293,6 @@
         }
       },
       "live-alerts": {
-        "challenge": {
-          "message": "Avvisare il proprio sorvegliante affinché possa identificare il problema e risolverlo direttamente nell'interfaccia \"Area sorvegliante\"."
-        },
         "companion": {
           "message": "Contattare il proprio sorvegliante per confermare la presenza dell'estensione."
         },

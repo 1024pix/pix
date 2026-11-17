@@ -592,11 +592,10 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             assert
               .dom(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }))
               .hasAttribute('aria-disabled');
-            assert.dom(screen.getByText('Les actions sont mises en pause en attendant le surveillant')).exists();
             assert
               .dom(
                 screen.getByText(
-                  "Prévenez votre surveillant afin qu'il puisse constater votre problème et le gérer en direct dans son interface « Espace Surveillant ».",
+                  "Les actions sont mises en pause en attendant le surveillant. Prévenez votre surveillant afin qu'il puisse constater votre problème et le gérer en direct dans son interface « Espace Surveillant ».",
                 ),
               )
               .exists();

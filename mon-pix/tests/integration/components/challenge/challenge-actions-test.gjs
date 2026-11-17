@@ -20,7 +20,13 @@ module('Integration | Component | challenge actions', function (hooks) {
     const validateButton = screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' });
     assert.dom(validateButton).doesNotHaveAttribute('aria-disabled');
     assert.dom(validateButton).hasAttribute('type', 'submit');
-    assert.dom(screen.queryByText('Les actions sont mises en pause en attendant le surveillant')).doesNotExist();
+    assert
+      .dom(
+        screen.queryByText(
+          "Les actions sont mises en pause en attendant le surveillant. Prévenez votre surveillant afin qu'il puisse constater votre problème et le gérer en direct dans son interface « Espace Surveillant ».",
+        ),
+      )
+      .doesNotExist();
     assert.dom(screen.queryByText('Le temps imparti est écoulé. Votre réponse ne sera pas validée.')).doesNotExist();
   });
 
@@ -172,7 +178,13 @@ module('Integration | Component | challenge actions', function (hooks) {
       assert
         .dom(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }))
         .hasAttribute('aria-disabled');
-      assert.dom(screen.getByText('Les actions sont mises en pause en attendant le surveillant')).exists();
+      assert
+        .dom(
+          screen.getByText(
+            "Les actions sont mises en pause en attendant le surveillant. Prévenez votre surveillant afin qu'il puisse constater votre problème et le gérer en direct dans son interface « Espace Surveillant ».",
+          ),
+        )
+        .exists();
     });
   });
 
@@ -193,7 +205,13 @@ module('Integration | Component | challenge actions', function (hooks) {
       assert
         .dom(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }))
         .hasAttribute('aria-disabled');
-      assert.dom(screen.getByText('Les actions sont mises en pause en attendant le surveillant')).exists();
+      assert
+        .dom(
+          screen.getByText(
+            "Les actions sont mises en pause en attendant le surveillant. Prévenez votre surveillant afin qu'il puisse constater votre problème et le gérer en direct dans son interface « Espace Surveillant ».",
+          ),
+        )
+        .exists();
     });
   });
 });

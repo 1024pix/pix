@@ -458,7 +458,7 @@
       "notifications": {
         "already-answered": "Du hast diese Frage bereits beantwortet",
         "cannot-answer": "Die Zeit ist abgelaufen. Deine Antwort wird nicht miteinbezogen.",
-        "wait-for-invigilator": "Aktionen werden pausiert, bis die Aufsichtsperson kommt"
+        "wait-for-invigilator": "Aktionen werden pausiert, bis die Aufsichtsperson kommt. Benachrichtige deine Aufsichtsperson, damit dein Problem festgestellt werden und es direkt in der Schnittstelle \"Aufseherbereich\" verwaltet werden kann."
       },
       "title": "Deine Prüfung bestätigen oder ablegen"
     },
@@ -1293,9 +1293,6 @@
         }
       },
       "live-alerts": {
-        "challenge": {
-          "message": "Benachrichtige deine Aufsichtsperson, damit dein Problem festgestellt werden und es direkt in der Schnittstelle \"Aufseherbereich\" verwaltet werden kann."
-        },
         "companion": {
           "message": "Bitte kontaktiere deine Aufsichtsperson, damit diese die Erweiterung bestätigen kann."
         },

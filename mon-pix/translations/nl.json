@@ -458,7 +458,7 @@
       "notifications": {
         "already-answered": "Je hebt deze vraag al beantwoord",
         "cannot-answer": "De toegewezen tijd is verstreken. Je antwoord wordt niet goedgekeurd.",
-        "wait-for-invigilator": "De activiteiten worden onderbroken in afwachting van de toezichthouder"
+        "wait-for-invigilator": "De activiteiten worden onderbroken in afwachting van de toezichthouder. Breng de toezichthouder op de hoogte, zodat hij het probleem kan vaststellen en het direct via zijn interface “Toezichthoudersomgeving” kan oplossen."
       },
       "title": "Je opdracht afleggen of goedkeuren"
     },
@@ -1293,9 +1293,6 @@
         }
       },
       "live-alerts": {
-        "challenge": {
-          "message": "Breng de toezichthouder op de hoogte, zodat hij het probleem kan vaststellen en het direct via zijn interface “Toezichthoudersomgeving” kan oplossen."
-        },
         "companion": {
           "message": "Breng de toezichthouder op de hoogte zodat hij je aanwezigheid kan constateren."
         },

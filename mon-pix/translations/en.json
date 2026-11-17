@@ -458,7 +458,7 @@
       "notifications": {
         "already-answered": "You have already answered this question",
         "cannot-answer": "You've run out of time. Your answer will not be validated.",
-        "wait-for-invigilator": "Actions are paused while waiting for the invigilator"
+        "wait-for-invigilator": "Actions are paused while waiting for the invigilator. Notify your invigilator so that they can check your problem."
       },
       "title": "Validate or skip this question"
     },
@@ -1293,9 +1293,6 @@
         }
       },
       "live-alerts": {
-        "challenge": {
-          "message": "Notify your invigilator so that they can check your problem"
-        },
         "companion": {
           "message": "Notify your invigilator so that they can confirm the presence of the extension."
         },

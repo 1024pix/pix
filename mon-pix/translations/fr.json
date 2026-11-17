@@ -458,7 +458,7 @@
       "notifications": {
         "already-answered": "Vous avez déjà répondu à cette question",
         "cannot-answer": "Le temps imparti est écoulé. Votre réponse ne sera pas validée.",
-        "wait-for-invigilator": "Les actions sont mises en pause en attendant le surveillant"
+        "wait-for-invigilator": "Les actions sont mises en pause en attendant le surveillant. Prévenez votre surveillant afin qu'il puisse constater votre problème et le gérer en direct dans son interface « Espace Surveillant »."
       },
       "title": "Valider ou passer votre épreuve"
     },
@@ -1293,9 +1293,6 @@
         }
       },
       "live-alerts": {
-        "challenge": {
-          "message": "Prévenez votre surveillant afin qu'il puisse constater votre problème et le gérer en direct dans son interface « Espace Surveillant »."
-        },
         "companion": {
           "message": "Merci de contacter votre surveillant afin qu’il confirme la présence de l’extension."
         },

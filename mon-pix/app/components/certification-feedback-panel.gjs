@@ -13,7 +13,7 @@ export default class CertificationFeedbackPanel extends Component {
   <template>
     {{! template-lint-disable require-input-label no-unknown-arguments-for-builtin-components }}
     {{#if this.isAssessmentPaused}}
-      <LiveAlert @message={{t "pages.challenge.live-alerts.challenge.message"}} />
+      <LiveAlert />
     {{else}}
       <div class="certification-feedback-panel">
         <h2 class="screen-reader-only">{{t "pages.challenge.parts.feedback-v3"}}</h2>
@@ -25,6 +25,7 @@ export default class CertificationFeedbackPanel extends Component {
             @isDisabled={{not @isEnabled}}
             aria-expanded={{this.isAriaExpanded}}
             @iconBefore="flag"
+            @plainIconBefore={{true}}
           >
             {{t "components.challenge.feedback-panel.actions.open-close"}}
           </PixButton>

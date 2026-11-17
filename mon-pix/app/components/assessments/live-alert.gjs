@@ -1,4 +1,4 @@
-import { PixButton, PixIcon, PixNotificationAlert } from '@1024pix/nebulix-ember';
+import { PixButton, PixIcon } from '@1024pix/nebulix-ember';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -15,8 +15,6 @@ export default class LiveAlert extends Component {
 
   <template>
     <div class="live-alert">
-      <PixNotificationAlert @type="error" @withIcon={{true}}>{{@message}}</PixNotificationAlert>
-
       <div class="live-alert__refresh-information">
         <p>{{t "pages.challenge.live-alerts.waiting-information"}}</p>
         <PixButton
