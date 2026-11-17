@@ -138,11 +138,30 @@ executors:
           POSTGRES_INITDB_ARGS: '--nosync'
     resource_class: medium
   playwright-executor-medium:
+    parameters:
+      node-version:
+        # renovate datasource=node-version depName=node
+        default: 24.21.0
+        type: string
     docker:
-      - image: mcr.microsoft.com/playwright:v1.64.0-noble
+      - image: cimg/node:<<parameters.node-version>>
+      - image: mcr.microsoft.com/playwright:v1.64.1-noble
+        user: pwuser
         environment:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+        command: [
+            'npx',
+            '-y',
+            # renovate datasource=npm depName=playwright
+            'playwright@1.64.1',
+            'run-server',
+            '--port',
+            '3001',
+            '--host',
+            '0.0.0.0',
+          ]
+
       - image: postgres:17-alpine
         command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
@@ -155,11 +174,29 @@ executors:
           COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: 'pix-import-test,pix-answers-history-export-test'
     resource_class: medium
   playwright-executor-large:
+    parameters:
+      node-version:
+        # renovate datasource=node-version depName=node
+        default: 24.21.0
+        type: string
     docker:
-      - image: mcr.microsoft.com/playwright:v1.64.0-noble
+      - image: cimg/node:<<parameters.node-version>>
+      - image: mcr.microsoft.com/playwright:v1.64.1-noble
+        user: pwuser
         environment:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+        command: [
+            'npx',
+            '-y',
+            # renovate datasource=npm depName=playwright
+            'playwright@1.64.1',
+            'run-server',
+            '--port',
+            '3001',
+            '--host',
+            '0.0.0.0',
+          ]
       - image: postgres:17-alpine
         command: ['postgres', '-c', 'fsync=off', '-c', 'full_page_writes=off']
         environment:
@@ -1154,6 +1191,7 @@ jobs:
             AUTH_SECRET: 'secret'
             REDIRECTION_URL_SECRET: 'secret'
             NODE_OPTIONS: '--no-experimental-strip-types'
+            PW_TEST_CONNECT_WS_ENDPOINT: ws://127.0.0.1:3001
       - store_test_results:
           path: ./node_modules/.playwright/junit
       - store_artifacts:
@@ -1257,6 +1295,8 @@ jobs:
             AUTH_SECRET: 'secret'
             REDIRECTION_URL_SECRET: 'secret'
             NODE_OPTIONS: '--no-experimental-strip-types'
+            PW_TEST_CONNECT_WS_ENDPOINT: ws://127.0.0.1:3001
+
       - store_test_results:
           path: ./node_modules/.playwright/junit
       - store_artifacts:
