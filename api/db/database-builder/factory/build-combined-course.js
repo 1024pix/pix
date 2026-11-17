@@ -19,7 +19,8 @@ const buildCombinedCourse = function ({
 } = {}) {
   organizationId = organizationId ?? buildOrganization().id;
   questId = questId ?? buildQuest().id;
-  combinedCourseBlueprintId = combinedCourseBlueprintId ?? buildCombinedCourseBlueprint().id;
+  combinedCourseBlueprintId =
+    combinedCourseBlueprintId ?? buildCombinedCourseBlueprint({ questId: buildQuest().id }).id;
 
   const values = {
     id,

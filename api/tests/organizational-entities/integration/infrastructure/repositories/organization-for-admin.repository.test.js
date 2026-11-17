@@ -418,7 +418,8 @@ describe('Integration | Organizational Entities | Infrastructure | Repository | 
       let blueprint;
 
       beforeEach(function () {
-        blueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({ content: [] });
+        const quest = databaseBuilder.factory.buildQuest();
+        blueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId: quest.id });
         const orgaA = databaseBuilder.factory.buildOrganization({ name: 'Org A1' });
         const orgaB = databaseBuilder.factory.buildOrganization({ name: 'Org B1' });
         databaseBuilder.factory.buildOrganization({ name: 'Org C1' });

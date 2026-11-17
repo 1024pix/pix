@@ -268,7 +268,8 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
 
   it('should throw NotFoundError when blueprint is not found with the id in payload', async function () {
     //given
-    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+    const { id: questId } = databaseBuilder.factory.buildQuest();
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId }).id;
     const { organizationId } = databaseBuilder.factory.buildCombinedCourseBlueprintShare({ combinedCourseBlueprintId });
     const userId = databaseBuilder.factory.buildUser().id;
 

@@ -6,10 +6,12 @@ import { getServer } from '../../../tooling/server/shared-server.js';
 import { generateAuthenticatedUserRequestHeaders } from '../../../tooling/test-utils/http-server.js';
 
 describe('Quest | Acceptance | Application | Combined course blueprint Route ', function () {
-  let server;
+  let server, questId, questId2;
 
   beforeEach(async function () {
     server = await getServer();
+    questId = databaseBuilder.factory.buildQuest().id;
+    questId2 = databaseBuilder.factory.buildQuest().id;
   });
 
   describe('GET /api/admin/combined-course-blueprints', function () {
@@ -17,8 +19,8 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
       it('should return the list of combined course blueprints', async function () {
         // given
         const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
-        databaseBuilder.factory.buildCombinedCourseBlueprint();
-        databaseBuilder.factory.buildCombinedCourseBlueprint();
+        databaseBuilder.factory.buildCombinedCourseBlueprint({ questId });
+        databaseBuilder.factory.buildCombinedCourseBlueprint({ questId: questId2 });
         await databaseBuilder.commit();
 
         const options = {
@@ -150,7 +152,7 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
       it('should return combined course blueprint for given id', async function () {
         // given
         const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
-        const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint();
+        const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId });
         await databaseBuilder.commit();
 
         const options = {
@@ -177,7 +179,7 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
       it('should attach a combined course blueprint to one or several organizations', async function () {
         // given
         const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
-        const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+        const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId }).id;
         const alreadyAttachedOrganization = databaseBuilder.factory.buildOrganization();
 
         databaseBuilder.factory.buildCombinedCourseBlueprintShare({
@@ -225,7 +227,7 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
       it('should detach a combined course blueprint from the specified organizations', async function () {
         // given
         const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
-        const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint();
+        const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId });
         const combinedCourseBlueprintId = combinedCourseBlueprint.id;
         const attachedOrganizationToKeep = databaseBuilder.factory.buildOrganization();
         const organizationToDetach = databaseBuilder.factory.buildOrganization();
@@ -310,7 +312,7 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
       let combinedCourseBlueprintId;
 
       beforeEach(async function () {
-        combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+        combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId }).id;
         superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
 
         await databaseBuilder.commit();
@@ -360,7 +362,7 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
         userId: user.id,
         organizationId: organization.id,
       });
-      combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint();
+      combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId });
       databaseBuilder.factory.buildCombinedCourseBlueprintShare({
         combinedCourseBlueprintId: combinedCourseBlueprint.id,
         organizationId: organization.id,
