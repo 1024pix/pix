@@ -43,12 +43,12 @@
 
       &::before {
         position: absolute;
+        inset: 0;
         z-index: -1;
         background-color: var(--area-color);
         visibility: hidden;
         opacity: 0.1;
         content: '';
-        inset: 0;
       }
 
       &[aria-selected='true'],
@@ -143,12 +143,12 @@
 
     &::before {
       position: absolute;
+      inset: 0;
       z-index: -1;
       background-color: var(--area-color);
       border-radius: inherit;
       opacity: 0.1;
       content: '';
-      inset: 0;
     }
   }
 
