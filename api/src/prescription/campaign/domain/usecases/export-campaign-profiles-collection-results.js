@@ -17,7 +17,7 @@ async function* withErrorLogging(csvChunks, logger) {
   }
 }
 
-const startWritingCampaignProfilesCollectionResultsToStream = async function ({
+const exportCampaignProfilesCollectionResults = async function ({
   campaignId,
   locale,
   campaignRepository,
@@ -72,4 +72,4 @@ const startWritingCampaignProfilesCollectionResultsToStream = async function ({
   return { fileName, csvChunks };
 };
 
-export { startWritingCampaignProfilesCollectionResultsToStream };
+export { exportCampaignProfilesCollectionResults };

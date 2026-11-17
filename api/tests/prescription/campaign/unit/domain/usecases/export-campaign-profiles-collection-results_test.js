@@ -3,11 +3,11 @@ import { text } from 'node:stream/consumers';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../../../../src/prescription/campaign/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream.js';
+import { exportCampaignProfilesCollectionResults } from '../../../../../../src/prescription/campaign/domain/usecases/export-campaign-profiles-collection-results.js';
 import { CampaignProfilesCollectionExport } from '../../../../../../src/prescription/campaign/infrastructure/serializers/csv/campaign-profiles-collection-export.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
-describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection-results-to-stream', function () {
+describe('Unit | Domain | Use Cases | export-campaign-profiles-collection-results', function () {
   let campaign, logger, dependencies;
 
   beforeEach(function () {
@@ -38,7 +38,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection
       });
 
       // when
-      const { csvChunks } = await startWritingCampaignProfilesCollectionResultsToStream(dependencies);
+      const { csvChunks } = await exportCampaignProfilesCollectionResults(dependencies);
 
       // then
       expect(await text(csvChunks)).to.equal('header\nline\n');
@@ -56,7 +56,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection
       });
 
       // when
-      const { csvChunks } = await startWritingCampaignProfilesCollectionResultsToStream(dependencies);
+      const { csvChunks } = await exportCampaignProfilesCollectionResults(dependencies);
 
       // then
       await expect(text(csvChunks)).to.be.rejectedWith(exportError);
@@ -72,7 +72,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection
       });
 
       // when
-      const { csvChunks } = await startWritingCampaignProfilesCollectionResultsToStream(dependencies);
+      const { csvChunks } = await exportCampaignProfilesCollectionResults(dependencies);
       const received = [];
       const consume = async () => {
         for await (const chunk of csvChunks) received.push(chunk);

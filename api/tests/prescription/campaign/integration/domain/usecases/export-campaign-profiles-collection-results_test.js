@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import * as userRepository from '../../../../../../src/identity-access-management/infrastructure/repositories/user.repository.js';
 import * as organizationFeatureApi from '../../../../../../src/organizational-entities/application/api/organization-features-api.js';
-import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../../../../src/prescription/campaign/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream.js';
+import { exportCampaignProfilesCollectionResults } from '../../../../../../src/prescription/campaign/domain/usecases/export-campaign-profiles-collection-results.js';
 import * as campaignRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import * as campaignParticipationRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import * as organizationLearnerImportFormatRepository from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-learner-import-format-repository.js';
@@ -25,8 +25,8 @@ import * as competenceRepository from '../../../../../../src/shared/infrastructu
 import * as organizationRepository from '../../../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
-describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', function () {
-  describe('#startWritingCampaignProfilesCollectionResultsToStream', function () {
+describe('Integration | Domain | Use Cases | export-campaign-profiles-collection-results', function () {
+  describe('#exportCampaignProfilesCollectionResults', function () {
     let organization;
     let participant;
     let organizationLearner;
@@ -179,7 +179,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         await databaseBuilder.commit();
       });
       it('should return localized content according to locale', async function () {
-        const { csvChunks } = await startWritingCampaignProfilesCollectionResultsToStream({
+        const { csvChunks } = await exportCampaignProfilesCollectionResults({
           campaignId: campaign.id,
           locale: 'es-419',
           campaignRepository,
@@ -200,7 +200,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
       });
 
       it('should return all participation for one learner', async function () {
-        const { csvChunks } = await startWritingCampaignProfilesCollectionResultsToStream({
+        const { csvChunks } = await exportCampaignProfilesCollectionResults({
           campaignId: campaign.id,
           i18n,
           campaignRepository,
@@ -260,7 +260,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
 
         await databaseBuilder.commit();
 
-        const { csvChunks } = await startWritingCampaignProfilesCollectionResultsToStream({
+        const { csvChunks } = await exportCampaignProfilesCollectionResults({
           campaignId: campaign.id,
           i18n,
           campaignRepository,
@@ -319,7 +319,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
       });
 
       it('should return all participation for one learner', async function () {
-        const { csvChunks } = await startWritingCampaignProfilesCollectionResultsToStream({
+        const { csvChunks } = await exportCampaignProfilesCollectionResults({
           campaignId: campaign.id,
           i18n,
           campaignRepository,
@@ -410,7 +410,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
       });
 
       it('should return extra columns', async function () {
-        const { csvChunks } = await startWritingCampaignProfilesCollectionResultsToStream({
+        const { csvChunks } = await exportCampaignProfilesCollectionResults({
           campaignId: campaign.id,
           i18n,
           campaignRepository,
@@ -484,7 +484,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           `${MAX_REACHABLE_PIX_BY_COMPETENCE}`;
 
         // when
-        const { csvChunks } = await startWritingCampaignProfilesCollectionResultsToStream({
+        const { csvChunks } = await exportCampaignProfilesCollectionResults({
           campaignId: campaign.id,
           i18n,
           campaignRepository,
@@ -566,7 +566,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           `${MAX_REACHABLE_PIX_BY_COMPETENCE}`;
 
         // when
-        const { csvChunks } = await startWritingCampaignProfilesCollectionResultsToStream({
+        const { csvChunks } = await exportCampaignProfilesCollectionResults({
           campaignId: campaign.id,
           i18n,
           campaignRepository,
@@ -650,7 +650,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           `${MAX_REACHABLE_PIX_BY_COMPETENCE}`;
 
         // when
-        const { csvChunks } = await startWritingCampaignProfilesCollectionResultsToStream({
+        const { csvChunks } = await exportCampaignProfilesCollectionResults({
           campaignId: campaign.id,
           i18n,
           campaignRepository,

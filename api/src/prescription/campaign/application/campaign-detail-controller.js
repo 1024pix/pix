@@ -97,7 +97,7 @@ const getCsvProfilesCollectionResults = async function (request, h) {
 
   const { campaignId } = request.params;
 
-  const { fileName, csvChunks } = await usecases.startWritingCampaignProfilesCollectionResultsToStream({
+  const { fileName, csvChunks } = await usecases.exportCampaignProfilesCollectionResults({
     campaignId,
     locale,
   });
