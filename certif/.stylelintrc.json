@@ -1,4 +1,3 @@
 {
-  "extends": ["@1024pix/stylelint-config"],
-  "rules": {}
+  "extends": ["@1024pix/stylelint-config"]
 }
