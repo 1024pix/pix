@@ -1044,7 +1044,7 @@
       "enrolment-banner": {
         "action": "Entrer en certification",
         "certifiable": {
-          "description": "Le jour de votre certification, cliquer sur le bouton ci-dessous pour démarrer.",
+          "description": "Le jour de votre certification, cliquez sur le bouton ci-dessous pour démarrer.",
           "title": "Vous souhaitez passer la certification Pix ?"
         },
         "clea": {
