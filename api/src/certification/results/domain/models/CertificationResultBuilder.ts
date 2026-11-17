@@ -126,6 +126,7 @@ export class CertificationResultBuilder {
         new UserCertificationResult({
           certificationCourseId: certificationItem.certificationCourseId,
           sessionId: certificationItem.sessionId,
+          organizationLearnerId: learnerItem?.organizationLearnerId ?? null,
           userId: certificationItem.userId,
           certificationResultId: id,
         }),

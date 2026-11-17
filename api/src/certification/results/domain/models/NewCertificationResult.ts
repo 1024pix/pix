@@ -118,6 +118,7 @@ type UserCertificationResultProps = {
   userId: number;
   certificationCourseId: number | null;
   sessionId: number | null;
+  organizationLearnerId: number | null;
   certificationResultId: UUID;
 };
 
@@ -125,12 +126,14 @@ export class UserCertificationResult {
   readonly userId: number;
   readonly certificationCourseId: number | null;
   readonly sessionId: number | null;
+  readonly organizationLearnerId: number | null;
   readonly certificationResultId: UUID;
 
-  constructor({ userId, certificationCourseId, sessionId, certificationResultId }: UserCertificationResultProps) {
-    this.userId = userId;
-    this.certificationCourseId = certificationCourseId;
-    this.sessionId = sessionId;
-    this.certificationResultId = certificationResultId;
+  constructor(props: UserCertificationResultProps) {
+    this.userId = props.userId;
+    this.certificationCourseId = props.certificationCourseId;
+    this.sessionId = props.sessionId;
+    this.certificationResultId = props.certificationResultId;
+    this.organizationLearnerId = props.organizationLearnerId;
   }
 }

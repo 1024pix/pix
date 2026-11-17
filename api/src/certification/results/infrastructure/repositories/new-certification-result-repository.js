@@ -60,6 +60,7 @@ function toDB({ certificationResults, userCertificationResults }) {
     userId: userCertificationResult.userId,
     sessionId: userCertificationResult.sessionId,
     certificationCourseId: userCertificationResult.certificationCourseId,
+    organizationLearnerId: userCertificationResult.organizationLearnerId,
   }));
 
   return {
