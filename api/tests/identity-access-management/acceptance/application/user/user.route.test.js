@@ -786,8 +786,8 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
   });
 
   describe('POST /api/users/me/password', function () {
-    const currentPassword = 'Password123';
-    const newPassword = 'NewPassword456';
+    const currentPassword = 'example-of-a-valid-password-az-AZ-012343';
+    const newPassword = 'example-of-another-valid-password-az-AZ-012343'';
 
     it('returns 204 HTTP status code and updates the password', async function () {
       // given
