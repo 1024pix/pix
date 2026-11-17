@@ -2,7 +2,6 @@ import isUndefined from 'lodash/isUndefined.js';
 
 import { REWARD_TYPES } from '../../../src/quest/domain/constants.js';
 import { databaseBuffer } from '../database-buffer.ts';
-import { buildAttestation } from './build-attestation.js';
 import { buildUser } from './build-user.js';
 
 const buildProfileReward = function ({
@@ -13,7 +12,6 @@ const buildProfileReward = function ({
   userId,
 } = {}) {
   userId = isUndefined(userId) ? buildUser().id : userId;
-  rewardId = isUndefined(rewardId) && rewardType === REWARD_TYPES.ATTESTATION ? buildAttestation().id : rewardId;
 
   const values = {
     id,
