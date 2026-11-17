@@ -23,11 +23,11 @@
 
     &::before {
       position: absolute;
+      inset: 0;
       z-index: -1;
       background-color: var(--pix-primary-100);
       opacity: 0.95;
       content: '';
-      inset: 0;
     }
 
     &.challenge__info-alert--hide {

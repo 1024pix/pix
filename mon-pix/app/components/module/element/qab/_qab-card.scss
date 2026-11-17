@@ -74,9 +74,9 @@
   }
 
   &--without-transition {
-    transition: none;
     translate: none;
     rotate: none;
+    transition: none;
   }
 }
 

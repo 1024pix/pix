@@ -66,9 +66,9 @@ img {
 /* Global container */
 %global-container {
   width: 100%;
+  max-width: 80rem;
   margin-inline: auto;
   padding-inline: var(--pix-spacing-4x);
-  max-width: 80rem;
 
   @include breakpoints.device-is('desktop') {
     padding-inline: var(--pix-spacing-6x);

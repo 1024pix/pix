@@ -5,9 +5,9 @@
   flex-wrap: wrap;
   gap: var(--pix-spacing-6x);
   justify-content: space-between;
+  margin-block: var(--pix-spacing-6x) var(--pix-spacing-8x);
   padding-bottom: var(--pix-spacing-6x);
   border-bottom: 1px solid rgb(var(--pix-primary-100-inline), 0.8);
-  margin-block: var(--pix-spacing-6x) var(--pix-spacing-8x);
 
   &__breadcrumb {
     flex-direction: column;

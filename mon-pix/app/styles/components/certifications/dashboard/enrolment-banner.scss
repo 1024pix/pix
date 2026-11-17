@@ -5,19 +5,19 @@
   position: relative;
   z-index: 0;
   display: grid;
+  column-gap: var(--pix-spacing-3x);
   margin-bottom: var(--pix-spacing-6x);
   padding: var(--pix-spacing-8x) var(--pix-spacing-10x);
   overflow: hidden;
   text-wrap: pretty;
-  column-gap: var(--pix-spacing-3x);
   border-radius: var(--pix-spacing-4x);
 
   &::before {
     position: absolute;
+    inset: 0;
     z-index: -1;
     background: var(--pix-gradient-certif-dark);
     content: '';
-    inset: 0;
   }
 
   &__triangle {
@@ -26,18 +26,18 @@
     bottom: -68%;
     z-index: -1;
     height: 150%;
+    aspect-ratio: 1;
     overflow: hidden;
     border-radius: 50px;
     transform: rotate(45deg);
     transform-origin: center bottom;
-    aspect-ratio: 1;
 
     &::before {
       position: absolute;
+      inset: 0;
       background: var(--pix-gradient-certif-dark);
       transform: rotate(135deg) scale(1.75);
       content: '';
-      inset: 0;
     }
   }
 
@@ -52,8 +52,8 @@
 
   @include breakpoints.device-is('mobile') {
     margin-top: var(--pix-spacing-2x);
-    padding: var(--pix-spacing-4x);
     margin-inline: var(--pix-spacing-4x) ;
+    padding: var(--pix-spacing-4x);
 
     &__triangle {
       right: var(--pix-spacing-10x);
@@ -93,8 +93,8 @@
   &__description {
     @extend %pix-body-s;
 
-    color: var(--pix-neutral-0);
     margin-block: var(--pix-spacing-1x) var(--pix-spacing-3x);
+    color: var(--pix-neutral-0);
   }
 }
 
@@ -126,8 +126,8 @@
     justify-content: space-between;
     width: fit-content;
     max-width: 100%;
-    padding-right: 26px;
     margin-block: var(--pix-spacing-4x);
+    padding-right: 26px;
   }
 
   &--title {

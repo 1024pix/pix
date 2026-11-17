@@ -113,8 +113,8 @@
 }
 
 .evaluation-results-hero-results__stars {
-  margin-block: var(--pix-spacing-6x) var(--pix-spacing-3x);
   justify-content: center;
+  margin-block: var(--pix-spacing-6x) var(--pix-spacing-3x);
 }
 
 .evaluation-results-hero-details__stage-message {
@@ -125,9 +125,9 @@
   &:not(:last-child)::after {
     display: block;
     height: 1px;
+    margin-block: var(--pix-spacing-4x);
     background-color: var(--pix-neutral-100);
     content: '';
-    margin-block: var(--pix-spacing-4x);
   }
 }
 

@@ -44,7 +44,7 @@
     "@1024pix/epreuves-components": "4.35.0",
     "@1024pix/eslint-plugin": "3.1.1",
     "@1024pix/nebulix-ember": "1.5.0",
-    "@1024pix/stylelint-config": "5.2.31",
+    "@1024pix/stylelint-config": "6.0.0",
     "@babel/eslint-parser": "7.29.13",
     "@babel/plugin-proposal-decorators": "7.29.7",
     "@ember-data/json-api": "5.9.1",
@@ -130,14 +130,14 @@
     "xss": "1.0.17"
   },
   "overrides": {
-    "eslint": "$eslint",
     "@xmldom/xmldom": "0.9.12",
+    "braces": "3.0.3",
     "ember-dayjs": {
       "ember-source": "$ember-source"
     },
+    "eslint": "$eslint",
     "flatted": "3.4.4",
-    "handlebars": "4.7.10",
-    "braces": "3.0.3"
+    "handlebars": "4.7.10"
   },
   "engines": {
     "node": "^24.20.0"

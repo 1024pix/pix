@@ -28,8 +28,8 @@
 
 .circle {
   fill: none;
-  stroke-width: 1.1;
   stroke: var(--pix-neutral-100);
+  stroke-width: 1.1;
   stroke-linecap: round;
 
   &--thick {

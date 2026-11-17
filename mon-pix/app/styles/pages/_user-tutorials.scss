@@ -17,8 +17,8 @@
   &__cards {
     display: grid;
     grid-template-columns: 1fr;
-    margin-bottom: var(--pix-spacing-8x);
     row-gap: var(--pix-spacing-4x);
+    margin-bottom: var(--pix-spacing-8x);
 
     @include breakpoints.device-is('desktop') {
       grid-template-columns: 1fr 1fr;
