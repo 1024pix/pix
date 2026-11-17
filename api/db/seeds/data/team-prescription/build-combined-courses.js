@@ -4,6 +4,7 @@ import { OrganizationLearnerParticipationTypes } from '../../../../src/quest/dom
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { buildCombinedCourseBlueprint } from '../../../database-builder/factory/build-combined-course-blueprint.js';
 import { buildCombinedCourseBlueprintShare } from '../../../database-builder/factory/build-combined-course-blueprint-share.js';
+import { buildQuest } from '../../../database-builder/factory/build-quest.js';
 import {
   PRO_ORGANIZATION_ID,
   SCO_MANAGING_ORGANIZATION_ID,
@@ -228,7 +229,9 @@ const buildCombinixQuest = (databaseBuilder, combinedCourseData) => {
 };
 
 export const buildCombinedCourseBlueprints = () => {
+  const { id: questId } = buildQuest({ rewardType: null, rewardId: null });
   const combinedCourseBlueprintId = buildCombinedCourseBlueprint({
+    questId,
     name: 'Mon parcours combiné 2',
     internalName: 'Mon schéma de parcours combiné 2',
     illustration: 'https://assets.pix.org/combined-courses/picto-nr-parcours.png',

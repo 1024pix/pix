@@ -307,7 +307,8 @@ describe('Quest | Integration | Repository | course-repository', function () {
     it('does not return blueprints not shared with the organization', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
-      databaseBuilder.factory.buildCombinedCourseBlueprint();
+      const questId = databaseBuilder.factory.buildQuest().id;
+      databaseBuilder.factory.buildCombinedCourseBlueprint({ questId });
       await databaseBuilder.commit();
 
       // when
