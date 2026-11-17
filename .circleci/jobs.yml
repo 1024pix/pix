@@ -1222,12 +1222,12 @@ jobs:
       - run:
           name: Start Pix Certif
           working_directory: ~/pix/certif
-          command: npx ember serve --path=./dist --proxy=http://localhost:3000
+          command: npx vite preview
           background: true
       - run:
           name: Start Pix Admin
           working_directory: ~/pix/admin
-          command: npx ember serve --path=./dist --proxy=http://localhost:3000
+          command: npx vite preview
           background: true
       - run:
           name: Refresh cache
