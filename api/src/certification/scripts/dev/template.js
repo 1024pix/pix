@@ -1,10 +1,10 @@
 import { setTimeout } from 'node:timers/promises';
 
-import { knex } from '../../db/knex-database-connection.js';
-import { Script } from '../../src/shared/application/scripts/script.js';
-import { ScriptRunner } from '../../src/shared/application/scripts/script-runner.js';
-import { DomainTransaction } from '../../src/shared/domain/DomainTransaction.js';
-import { batchUpdate } from '../../src/shared/infrastructure/utils/knex-utils.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { Script } from '../../../shared/application/scripts/script.js';
+import { ScriptRunner } from '../../../shared/application/scripts/script-runner.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { batchUpdate } from '../../../shared/infrastructure/utils/knex-utils.js';
 
 export class TemplateCertif extends Script {
   constructor() {

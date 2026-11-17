@@ -85,6 +85,7 @@ export class CertificationResult {
   readonly commentForOrganization: string | null;
   readonly commentForCandidate: string | null;
   readonly results: Results;
+
   constructor(props: CertificationResultProps) {
     this.id = props.id;
     this.algorithmEngineVersion = props.algorithmEngineVersion;

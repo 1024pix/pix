@@ -4,8 +4,17 @@ import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
 import { CertificationResultBuilder } from '../../domain/models/CertificationResultBuilder.ts';
 
 export async function findBuilderForCertificationsInSession(sessionId) {
+  return _findBuilderForCertifications((query) => query.where('sessions.id', sessionId));
+}
+
+export async function findBuilderForCertifications(certificationCourseIds) {
+  return _findBuilderForCertifications((query) => query.whereIn('certification-courses.id', certificationCourseIds));
+}
+
+async function _findBuilderForCertifications(whereCondition) {
   const knexConn = DomainTransaction.getConnection();
-  const certificationData = await knexConn
+
+  const certificationQuery = knexConn
     .select({
       certificationCourseId: 'certification-courses.id',
       userId: 'certification-courses.userId',
@@ -36,13 +45,14 @@ export async function findBuilderForCertificationsInSession(sessionId) {
       commentForOrganization: 'assessment-results.commentForOrganization',
       competenceMarks: knexConn.raw(`
         json_agg(
-          json_build_object('level', "competence-marks".level, 'competenceId', "competence-marks"."competenceId")
-          ORDER BY "competence-marks"."competenceId" asc
-        )`),
+          json_build_object(
+            'level', "competence-marks".level,
+            'competenceId', "competence-marks"."competenceId"
+          )
+          ORDER BY "competence-marks"."competenceId" ASC
+        )
+      `),
     })
-    .where('sessions.id', sessionId)
-    .where('certification-courses.version', AlgorithmEngineVersion.V3)
-    .where('certification-courses.isPublished', true)
     .from('certification-courses')
     .join('certification_versions', 'certification_versions.id', 'certification-courses.versionId')
     .join('certification-candidates', 'certification-candidates.id', 'certification-courses.candidateId')
@@ -59,6 +69,8 @@ export async function findBuilderForCertificationsInSession(sessionId) {
       'certification-courses-last-assessment-results.lastAssessmentResultId',
     )
     .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
+    .where('certification-courses.version', AlgorithmEngineVersion.V3)
+    .where('certification-courses.isPublished', true)
     .groupBy(
       'certification-courses.id',
       'sessions.id',
@@ -68,8 +80,17 @@ export async function findBuilderForCertificationsInSession(sessionId) {
       'certification_versions.id',
     )
     .orderBy('certification-courses.id');
+
+  whereCondition(certificationQuery);
+
+  const certificationData = await certificationQuery;
+
   if (certificationData.length === 0) {
-    return new CertificationResultBuilder({ certificationData: [], learnerData: [], cleaData: [] });
+    return new CertificationResultBuilder({
+      certificationData: [],
+      learnerData: [],
+      cleaData: [],
+    });
   }
 
   const organizationLearnerIds = certificationData
@@ -90,10 +111,11 @@ export async function findBuilderForCertificationsInSession(sessionId) {
       .orderBy('id');
   }
 
-  let cleaData = [];
   const cleaIds = certificationData
     .filter(({ framework }) => framework === Frameworks.CLEA)
     .map(({ certificationCourseId }) => certificationCourseId);
+
+  let cleaData = [];
   if (cleaIds.length > 0) {
     cleaData = await knexConn
       .select(
@@ -116,6 +138,7 @@ export async function findBuilderForCertificationsInSession(sessionId) {
       certificationItem.competenceMarks = [];
     }
   }
+
   return new CertificationResultBuilder({
     certificationData,
     learnerData,
