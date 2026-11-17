@@ -27,13 +27,13 @@
 
   --level-text-spacing-from-gauge: -12px;
 
-  &:not(.cover-rate-gauge__background--hide-max-min):before {
+  &:not(.cover-rate-gauge__background--hide-max-min)::before {
     position: absolute;
     left: var(--level-text-spacing-from-gauge);
     content: '0';
   }
 
-  &:not(.cover-rate-gauge__background--hide-max-min):after {
+  &:not(.cover-rate-gauge__background--hide-max-min)::after {
     position: absolute;
     right: var(--level-text-spacing-from-gauge);
     content: '7';

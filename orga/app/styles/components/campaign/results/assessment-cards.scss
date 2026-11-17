@@ -7,7 +7,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .assessment-cards {
     flex-direction: column;
     margin-bottom: 16px;

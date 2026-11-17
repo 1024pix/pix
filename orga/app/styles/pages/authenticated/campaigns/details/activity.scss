@@ -12,7 +12,7 @@
   font-weight: fonts.$font-medium;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .activity__dashboard {
     margin-bottom: 12px;
   }

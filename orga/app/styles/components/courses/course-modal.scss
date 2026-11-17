@@ -58,10 +58,8 @@
     position: relative;
     z-index: 100;
     display: flex;
-    flex-basis: 24rem;
+    flex: 0 0 24rem;
     flex-direction: column;
-    flex-grow: 0;
-    flex-shrink: 0;
     align-items: stretch;
     justify-content: center;
     padding: var(--pix-spacing-6x);

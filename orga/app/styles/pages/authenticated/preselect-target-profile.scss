@@ -46,7 +46,7 @@
       align-items: center;
       padding-left: 2rem;
 
-      &:before {
+      &::before {
         position: absolute;
         top: 10%;
         left: 1rem;
@@ -55,23 +55,23 @@
         content: '';
       }
 
-      &.jaffa:before {
+      &.jaffa::before {
         border-color: var(--pix-information-light);
       }
 
-      &.emerald:before {
+      &.emerald::before {
         border-color: var(--pix-content-light);
       }
 
-      &.cerulean:before {
+      &.cerulean::before {
         border-color: var(--pix-communication-light);
       }
 
-      &.wild-strawberry:before {
+      &.wild-strawberry::before {
         border-color: var(--pix-security-light);
       }
 
-      &.butterfly-bush:before {
+      &.butterfly-bush::before {
         border-color: var(--pix-environment-light);
       }
     }
