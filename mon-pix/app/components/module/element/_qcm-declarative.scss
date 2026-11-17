@@ -8,6 +8,10 @@
   background-color: rgb(var(--pix-primary-100-inline), 0.6);
   border-radius: var(--pix-spacing-4x) var(--pix-spacing-4x) 0 0;
 
+  --modulix-glossary-term-background-color: var(--pix-neutral-0);
+  --modulix-glossary-term-color: var(--pix-neutral-900);
+  --modulix-glossary-term-text-decoration: underline;
+
   &__instruction {
     @extend %pix-body-m;
 
@@ -83,6 +87,10 @@
 .element-qcm-declarative-feedback {
   &__content {
     @extend %pix-body-l;
+
+    --modulix-glossary-term-background-color: var(--pix-neutral-0);
+    --modulix-glossary-term-color: var(--pix-neutral-900);
+    --modulix-glossary-term-text-decoration: underline;
 
     padding: var(--pix-spacing-6x);
     color: var(--pix-neutral-0);
