@@ -161,10 +161,6 @@ module.exports = function (environment) {
       SITE_ID: process.env.ANALYTICS_SITE_ID,
       SCRIPT_URL: process.env.ANALYTICS_SCRIPT_URL,
     },
-
-    'ember-cli-mirage': {
-      enabled: false,
-    },
   };
 
   if (environment === 'development') {
@@ -202,11 +198,6 @@ module.exports = function (environment) {
     ENV.APP.MODULE_PREVIEW_ALLOWED_ORIGINS = ['https://1024pix.github.io'];
 
     ENV.companion.disabled = true;
-
-    ENV['ember-cli-mirage'] = {
-      enabled: true,
-      usingProxy: false,
-    };
 
     ENV.APP.MODULIX_VERIFICATION_RESPONSE_DELAY = 0;
     ENV.APP.DRAWER_REVEAL_DELAY_MS = 0;

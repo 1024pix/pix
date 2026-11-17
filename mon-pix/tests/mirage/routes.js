@@ -1,6 +1,4 @@
-import { pluralize, singularize } from '@warp-drive/utilities/string';
-import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
-import { createServer, Response } from 'miragejs';
+import { Response } from 'miragejs';
 
 import loadAccountRecoveryRoutes from './routes/account-recovery/index';
 import loadAnswerRoutes from './routes/answers/index';
@@ -47,33 +45,8 @@ import loadSupOrganizationLearnersRoutes from './routes/sup-organization-learner
 import updateCertificationCandidates from './routes/update-certification-candidates';
 import loadUserRoutes from './routes/users/index';
 
-export default function makeServer(config) {
-  const finalConfig = {
-    ...config,
-    models: { ...discoverEmberDataModels(config.store), ...config.models },
-    serializers: applyEmberDataSerializers(config.serializers),
-    routes,
-    logging: true,
-    urlPrefix: 'http://localhost:3000',
-    trackRequests: true,
-    inflector: {
-      pluralize,
-      singularize,
-    },
-  };
-
-  const server = createServer(finalConfig);
-  server.create('information-banner', 'withoutBanners');
-  server.create('feature-toggle', {
-    id: 0,
-    areCombinedCoursesEnabled: true,
-  });
-
-  return server;
-}
-
-/* eslint max-statements: off */
-function routes() {
+/* eslint max-statements: off, ember/no-get: off */
+export default function routes() {
   this.namespace = 'api';
   this.timing = 0; // response delay
 
