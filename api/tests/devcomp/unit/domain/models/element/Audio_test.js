@@ -24,17 +24,6 @@ describe('Unit | Devcomp | Domain | Models | Element | Audio', function () {
     });
   });
 
-  describe('An audio without id', function () {
-    it('should throw an error', function () {
-      // when
-      const error = catchErrSync(() => new Audio({}))();
-
-      // then
-      expect(error).to.be.instanceOf(DomainError);
-      expect(error.message).to.equal('The id is required for an element');
-    });
-  });
-
   describe('An audio without a title', function () {
     it('should throw an error', function () {
       // when

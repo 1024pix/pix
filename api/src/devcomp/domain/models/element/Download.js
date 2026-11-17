@@ -1,6 +1,6 @@
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 import { ModuleInstantiationError } from '../../errors.js';
-import { Element } from './Element.js';
+import { Element } from './Element.ts';
 
 class Download extends Element {
   constructor({ id, files }) {

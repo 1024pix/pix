@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { Element } from '../../../../../../src/devcomp/domain/models/element/Element.ts';
 import { Image } from '../../../../../../src/devcomp/domain/models/element/Image.js';
 import { QCM } from '../../../../../../src/devcomp/domain/models/element/QCM.js';
 import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
@@ -7,6 +8,18 @@ import { QROCM } from '../../../../../../src/devcomp/domain/models/element/QROCM
 import { Text } from '../../../../../../src/devcomp/domain/models/element/Text.js';
 
 describe('Unit | Devcomp | Domain | Models | Element', function () {
+  describe('#constructor', function () {
+    it('should create an element and keep attributes', function () {
+      // when
+      const element = new Element({ id: 'id', type: 'text' });
+
+      // then
+      expect(element.id).to.equal('id');
+      expect(element.type).to.equal('text');
+      expect(element.isAnswerable).to.be.false;
+    });
+  });
+
   describe('#isAnswerable', function () {
     it('should instanciate answerable elements', function () {
       // Given

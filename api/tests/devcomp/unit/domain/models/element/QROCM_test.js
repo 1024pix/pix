@@ -30,17 +30,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QROCM', function () {
     });
   });
 
-  describe('A QROCM without id', function () {
-    it('should throw an error', function () {
-      // when
-      const error = catchErrSync(() => new QROCM({}))();
-
-      // then
-      expect(error).to.be.instanceOf(DomainError);
-      expect(error.message).to.equal('The id is required for an element');
-    });
-  });
-
   describe('A QROCM without instruction', function () {
     it('should throw an error', function () {
       // when

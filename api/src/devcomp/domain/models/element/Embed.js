@@ -1,5 +1,5 @@
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
-import { Element } from './Element.js';
+import { Element } from './Element.ts';
 
 class Embed extends Element {
   constructor({ id, isCompletionRequired, title, url, instruction, height, solution }) {

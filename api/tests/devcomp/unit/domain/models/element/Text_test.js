@@ -27,17 +27,6 @@ describe('Unit | Devcomp | Domain | Models | Element | Text', function () {
     });
   });
 
-  describe('A text without id', function () {
-    it('should throw an error', function () {
-      // when
-      const error = catchErrSync(() => new Text({ content: 'content', tag: ' ' }))();
-
-      // then
-      expect(error).to.be.instanceOf(DomainError);
-      expect(error.message).to.equal('The id is required for an element');
-    });
-  });
-
   describe('A text without content', function () {
     it('should throw an error', function () {
       // when

@@ -1,7 +1,7 @@
 import { assertIsArray, assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 import { ModuleInstantiationError } from '../../errors.js';
 import { Feedbacks } from '../Feedbacks.js';
-import { Element } from './Element.js';
+import { Element } from './Element.ts';
 
 class QCM extends Element {
   constructor({ id, instruction, locales, proposals, feedbacks, solutions, hasShortProposals = false } = {}) {
