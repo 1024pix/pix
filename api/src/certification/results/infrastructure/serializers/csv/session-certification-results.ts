@@ -207,13 +207,23 @@ const ALL_HEADERS = [
 ];
 
 type Row = (string | number | null | undefined)[];
+type Options = {
+  showCertificationCenter?: boolean;
+};
 
-export function serialize(certificationResults: CertificationResultForCsv[], i18n: I18n): string {
+export function serialize(
+  certificationResults: CertificationResultForCsv[],
+  i18n: I18n,
+  { showCertificationCenter = true }: Options = {},
+): string {
   const data: Row[] = [];
   const frameworksInCertification = new Set(certificationResults.map(({ framework }) => framework));
-  const headersToKeep = structuredClone(ALL_HEADERS).filter(
+  let headersToKeep = structuredClone(ALL_HEADERS).filter(
     ({ frameworks }) => frameworksInCertification.intersection(new Set(frameworks)).size > 0,
   );
+  if (!showCertificationCenter) {
+    headersToKeep = headersToKeep.filter((header) => header.key !== 'certificationCenter');
+  }
   data.push(
     headersToKeep.map((header) => {
       if (header.toTranslate) {

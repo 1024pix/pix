@@ -887,5 +887,39 @@ describe('Certification | Results | Unit | Infrastructure | Serializer | CSV | s
         expect(csv).to.equal(expectedContent);
       });
     });
+
+    context('certification center column', function () {
+      it('does not render the certificationCenter column in showCertificationCenter option is false', function () {
+        const eduCertificationResult1 = new CertificationResultForCsv({
+          certificationId: 333,
+          firstName: 'jean-EDU1',
+          lastName: 'coulignant-EDU1',
+          birthdate: '1986-07-14',
+          birthplace: 'puit-en-velin-EDU1',
+          externalId: 'uuid-EDU',
+          framework: Frameworks.EDU_2ND_DEGRE,
+          status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
+          reachedMeshIndex: 0,
+          pixScore: null,
+          competenceMarks: [],
+          hasAcquiredClea: null,
+          commentForOrganization: 'c super-EDU1',
+          commentByAutoJury: null,
+          sessionId: 1,
+          certificationCenter: 'autre part-EDU',
+          startedAt: new Date('2023-01-08'),
+        });
+
+        const csv = serialize([eduCertificationResult1], i18n, { showCertificationCenter: false });
+
+        const expectedCsvHeaders =
+          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Type de certification";"Statut";"Niveau";"Commentaire jury pour l’organisation";"Session";"Date de passage de la certification"\n';
+        const expectedContent =
+          '\uFEFF' +
+          expectedCsvHeaders +
+          `"333";"jean-EDU1";"coulignant-EDU1";"14/07/1986";"puit-en-velin-EDU1";"uuid-EDU";"Pix+ Édu 2nd degré";"Validée";"Admissible";"c super-EDU1";"1";"08/01/2023"`;
+        expect(csv).to.equal(expectedContent);
+      });
+    });
   });
 });
