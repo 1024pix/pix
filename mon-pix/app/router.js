@@ -109,7 +109,8 @@ Router.map(function () {
     this.route('generic-error', { path: '/oups' });
     this.route('disabled-feature-error', { path: '/erreur' });
     this.route('combined-course', { path: '/:code' }, function () {
-      this.route('presentation', { path: '/' });
+      this.route('entry-point', { path: '/' });
+      this.route('presentation');
       this.route('process-custom-passages', { path: '/chargement' });
       this.route('tunnel', { path: '/checkpoint' });
       //dev route

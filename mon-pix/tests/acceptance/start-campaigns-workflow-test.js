@@ -458,7 +458,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           await visit('/campagnes/COMBINIX1');
 
           // then
-          assert.strictEqual(currentURL(), '/parcours/COMBINIX1');
+          assert.strictEqual(currentURL(), '/parcours/COMBINIX1/presentation');
         });
       });
 

@@ -40,6 +40,7 @@ test('Combined courses', async ({ page }) => {
     await page.getByRole('button', { name: 'Accéder au parcours' }).click();
 
     await test.step('Start combined course', async function () {
+      await page.getByRole('button', { name: "Oui, c'est parti !" }).click();
       await page.getByRole('button', { name: 'Commencer mon parcours' }).click();
     });
 

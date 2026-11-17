@@ -57,7 +57,7 @@ export default class FillInCampaignCodeController extends Controller {
         this.campaign = await verifiedCode.campaign;
         this.router.transitionTo('campaigns.entry-point', this.verifiedCode.id);
       } else {
-        this.router.transitionTo('organizations.access', this.verifiedCode.id);
+        this.router.transitionTo('combined-courses.combined-course.entry-point', this.verifiedCode.id);
       }
     } catch (error) {
       this.onStartCampaignError(error);
@@ -65,7 +65,9 @@ export default class FillInCampaignCodeController extends Controller {
   }
 
   get routeToTransitionAfterGarModal() {
-    return this.verifiedCode?.type === 'campaign' ? 'campaigns.entry-point' : 'organizations.access';
+    return this.verifiedCode?.type === 'campaign'
+      ? 'campaigns.entry-point'
+      : 'combined-courses.combined-course.entry-point';
   }
 
   onStartCampaignError(error) {

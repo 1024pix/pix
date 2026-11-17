@@ -90,7 +90,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ongoing
             }),
           }),
         )
-        .hasAttribute('href', '/parcours/12345');
+        .hasAttribute('href', '/parcours/12345/presentation');
     });
   });
 });

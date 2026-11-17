@@ -14,7 +14,8 @@ test.slow();
 test('pass a combined course as sco user and see the final result', async ({ page }) => {
   await createDataForCombinedCourse();
 
-  await page.goto(`${process.env.PIX_APP_URL}/parcours/COMBINIX1/`);
+  await page.goto(`${process.env.PIX_APP_URL}/parcours/COMBINIX1`);
+  await page.getByRole('button', { name: 'Je me connecte' }).click();
   await page.getByRole('button', { name: 'Se connecter' }).click();
 
   const reconciliationLoginPage = new ReconciliationLoginPage(page);
