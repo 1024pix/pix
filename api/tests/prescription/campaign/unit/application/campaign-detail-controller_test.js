@@ -302,16 +302,14 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       const campaignId = 2;
       const request = _getRequestForCampaignId(campaignId);
 
-      sinon
-        .stub(usecases, 'startWritingCampaignAssessmentResultsToStream')
-        .resolves({ fileName: 'any file name', csvChunks: [] });
+      sinon.stub(usecases, 'exportCampaignAssessmentResults').resolves({ fileName: 'any file name', csvChunks: [] });
 
       // when
       await campaignDetailController.getCsvAssessmentResults(request, hFake);
 
       // then
-      expect(usecases.startWritingCampaignAssessmentResultsToStream).to.have.been.calledOnce;
-      const getResultsCampaignArgs = usecases.startWritingCampaignAssessmentResultsToStream.firstCall.args[0];
+      expect(usecases.exportCampaignAssessmentResults).to.have.been.calledOnce;
+      const getResultsCampaignArgs = usecases.exportCampaignAssessmentResults.firstCall.args[0];
       expect(getResultsCampaignArgs).to.have.property('campaignId');
     });
 
@@ -319,7 +317,7 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       // given
       const request = _getRequestForCampaignId(2);
       sinon
-        .stub(usecases, 'startWritingCampaignAssessmentResultsToStream')
+        .stub(usecases, 'exportCampaignAssessmentResults')
         .resolves({ fileName: 'file.csv', csvChunks: ['header\n', 'line1\n', 'line2\n'] });
 
       // when
@@ -336,7 +334,7 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       const request = _getRequestForCampaignId(campaignId);
 
       sinon
-        .stub(usecases, 'startWritingCampaignAssessmentResultsToStream')
+        .stub(usecases, 'exportCampaignAssessmentResults')
         .resolves({ fileName: 'expected file name.csv', csvChunks: [] });
 
       // when
@@ -354,7 +352,7 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       const request = _getRequestForCampaignId(campaignId);
 
       sinon
-        .stub(usecases, 'startWritingCampaignAssessmentResultsToStream')
+        .stub(usecases, 'exportCampaignAssessmentResults')
         .resolves({ fileName: 'file-name_with_invalid_chars •’<>:"/\\|?*"\n.csv', csvChunks: [] });
 
       // when

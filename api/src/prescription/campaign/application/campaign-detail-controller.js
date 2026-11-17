@@ -72,7 +72,7 @@ const getCsvAssessmentResults = async function (request, h) {
 
   const { campaignId } = request.params;
 
-  const { fileName, csvChunks } = await usecases.startWritingCampaignAssessmentResultsToStream({
+  const { fileName, csvChunks } = await usecases.exportCampaignAssessmentResults({
     campaignId,
     locale,
   });

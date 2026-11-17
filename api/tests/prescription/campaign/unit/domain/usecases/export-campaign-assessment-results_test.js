@@ -3,14 +3,14 @@ import { text } from 'node:stream/consumers';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { startWritingCampaignAssessmentResultsToStream } from '../../../../../../src/prescription/campaign/domain/usecases/start-writing-campaign-assessment-results-to-stream.js';
+import { exportCampaignAssessmentResults } from '../../../../../../src/prescription/campaign/domain/usecases/export-campaign-assessment-results.js';
 import { CampaignAssessmentExport } from '../../../../../../src/prescription/campaign/infrastructure/serializers/csv/campaign-assessment-export.js';
 import { CampaignTypeError } from '../../../../../../src/shared/domain/errors.js';
 import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
-describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
+describe('Unit | Domain | Use Cases | export-campaign-assessment-results', function () {
   let campaignRepository;
   let i18n;
 
@@ -26,7 +26,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     campaignRepository.get.withArgs(campaign.id).resolves(campaign);
 
     // when
-    const err = await catchErr(startWritingCampaignAssessmentResultsToStream)({
+    const err = await catchErr(exportCampaignAssessmentResults)({
       campaignId: campaign.id,
       i18n,
       campaignRepository,
@@ -61,7 +61,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       };
 
       // when
-      const { csvChunks } = await startWritingCampaignAssessmentResultsToStream({
+      const { csvChunks } = await exportCampaignAssessmentResults({
         campaignId: campaign.id,
         locale: 'fr',
         campaignRepository,

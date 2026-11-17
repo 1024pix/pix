@@ -18,8 +18,8 @@ import { getI18n } from '../../../../../../src/shared/infrastructure/i18n/i18n.j
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
-describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
-  describe('#startWritingCampaignAssessmentResultsToStream', function () {
+describe('Integration | Domain | Use Cases | export-campaign-assessment-results', function () {
+  describe('#exportCampaignAssessmentResults', function () {
     let organization;
     let targetProfile;
     let participant;
@@ -139,7 +139,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
 
           it('should return the correct filename', async function () {
             // when
-            const filename = await usecases.startWritingCampaignAssessmentResultsToStream({
+            const filename = await usecases.exportCampaignAssessmentResults({
               campaignId: campaign.id,
               i18n,
             });
@@ -261,7 +261,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               '"KO"';
 
             // when
-            const { csvChunks } = await usecases.startWritingCampaignAssessmentResultsToStream({
+            const { csvChunks } = await usecases.exportCampaignAssessmentResults({
               campaignId: campaign.id,
               i18n,
             });
@@ -405,7 +405,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               '"KO"';
 
             // when
-            const { csvChunks } = await usecases.startWritingCampaignAssessmentResultsToStream({
+            const { csvChunks } = await usecases.exportCampaignAssessmentResults({
               campaignId: campaign.id,
               i18n,
             });
@@ -540,7 +540,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               '"OK"';
 
             // when
-            const { csvChunks } = await usecases.startWritingCampaignAssessmentResultsToStream({
+            const { csvChunks } = await usecases.exportCampaignAssessmentResults({
               campaignId: campaign.id,
               i18n,
             });
@@ -703,7 +703,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               '"NA"';
 
             // when
-            const { csvChunks } = await usecases.startWritingCampaignAssessmentResultsToStream({
+            const { csvChunks } = await usecases.exportCampaignAssessmentResults({
               campaignId: campaign.id,
               i18n,
             });
@@ -894,7 +894,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
               '"KO";' +
               '"OK"';
             // when
-            const { csvChunks } = await usecases.startWritingCampaignAssessmentResultsToStream({
+            const { csvChunks } = await usecases.exportCampaignAssessmentResults({
               campaignId: campaign.id,
               i18n,
             });

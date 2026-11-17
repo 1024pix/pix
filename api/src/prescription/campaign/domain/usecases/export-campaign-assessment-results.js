@@ -49,7 +49,7 @@ async function* withErrorLogging(csvChunks, logger) {
  * @param {BadgeAcquisitionRepository} params.badgeAcquisitionRepository
  * @param {StageAcquisitionRepository} params.stageAcquisitionRepository
  */
-const startWritingCampaignAssessmentResultsToStream = async function ({
+const exportCampaignAssessmentResults = async function ({
   campaignId,
   locale,
   campaignRepository,
@@ -119,4 +119,4 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   });
   return { fileName, csvChunks };
 };
-export { startWritingCampaignAssessmentResultsToStream };
+export { exportCampaignAssessmentResults };
