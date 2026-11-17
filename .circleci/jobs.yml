@@ -1105,10 +1105,6 @@ jobs:
           keys:
             - v8-api-npm-{{ checksum "~/pix/api/cachekey" }}
       - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          command: npm ci
-      - run:
           name: Prepare database
           working_directory: ~/pix/api
           environment:
@@ -1217,10 +1213,6 @@ jobs:
       - restore_cache:
           keys:
             - v8-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          command: npm ci
       - run:
           name: Prepare database
           working_directory: ~/pix/api
