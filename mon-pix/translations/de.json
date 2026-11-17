@@ -337,7 +337,7 @@
     "challenge": {
       "feedback-panel": {
         "actions": {
-          "open-close": "Ein Problem mit der Frage melden"
+          "open-close": "Ein Problem melden"
         },
         "description": "Pix freut sich über dein Feedback, um die angebotenen Inhalte zu verbessern!*",
         "form": {
@@ -1262,7 +1262,6 @@
       "certification-feedback-panel": {
         "actions": {
           "no-send-feedback": "Nein, ich will zur Prüfung zurück",
-          "open-close": "Ein Problem mit der Frage melden",
           "send-feedback": "Ja, ich bin mir sicher"
         },
         "description": "Bist du sicher, dass du ein Problem melden möchtest?",

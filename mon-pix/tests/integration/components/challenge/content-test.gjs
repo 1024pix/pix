@@ -61,13 +61,11 @@ module('Integration | Component | Challenge | Content', function (hooks) {
     module('on challenge skip', function () {
       test('should disable the live alert button', async function (assert) {
         // then
-        await click(screen.getByRole('button', { name: /Signaler un problème avec la question/ }));
+        await click(screen.getByRole('button', { name: /Signaler un problème/ }));
         assert.dom(screen.getByRole('button', { name: /Oui, je suis/ })).exists();
 
         await click(screen.getByRole('button', { name: /Je passe/ }));
-        assert
-          .dom(screen.getByRole('button', { name: /Signaler un problème avec la question/ }))
-          .hasAttribute('aria-disabled');
+        assert.dom(screen.getByRole('button', { name: /Signaler un problème/ })).hasAttribute('aria-disabled');
         assert.dom(screen.queryByRole('button', { name: /Oui, je suis/ })).doesNotExist();
       });
     });
@@ -75,15 +73,13 @@ module('Integration | Component | Challenge | Content', function (hooks) {
     module('on challenge answering', function () {
       test('should disable the live alert button', async function (assert) {
         // then
-        await click(screen.getByRole('button', { name: /Signaler un problème avec la question/ }));
+        await click(screen.getByRole('button', { name: /Signaler un problème/ }));
         assert.dom(screen.getByRole('button', { name: /Oui, je suis/ })).exists();
 
         await fillIn(screen.getByRole('textbox'), 'answer');
         await click(screen.getByRole('button', { name: /Je valide/ }));
 
-        assert
-          .dom(screen.getByRole('button', { name: /Signaler un problème avec la question/ }))
-          .hasAttribute('aria-disabled');
+        assert.dom(screen.getByRole('button', { name: /Signaler un problème/ })).hasAttribute('aria-disabled');
         assert.dom(screen.queryByRole('button', { name: /Oui, je suis/ })).doesNotExist();
       });
     });

@@ -26,7 +26,7 @@ export default class CertificationFeedbackPanel extends Component {
             aria-expanded={{this.isAriaExpanded}}
             @iconBefore="flag"
           >
-            {{t "pages.challenge.certification-feedback-panel.actions.open-close"}}
+            {{t "components.challenge.feedback-panel.actions.open-close"}}
           </PixButton>
         {{/unless}}
 

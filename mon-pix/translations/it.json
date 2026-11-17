@@ -337,7 +337,7 @@
     "challenge": {
       "feedback-panel": {
         "actions": {
-          "open-close": "Segnala un problema con la domanda"
+          "open-close": "Segnala un problema"
         },
         "description": "Pix è sempre desideroso di ascoltare i tuoi commenti su come migliorare i test offerti!",
         "form": {
@@ -1262,7 +1262,6 @@
       "certification-feedback-panel": {
         "actions": {
           "no-send-feedback": "No, torno al test...",
-          "open-close": "Segnala un problema con la domanda",
           "send-feedback": "Sì, sono sicuro"
         },
         "description": "Sei sicuri di voler segnalare un problema?",

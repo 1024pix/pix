@@ -230,6 +230,13 @@ export default class ChallengeContent extends Component {
         </PixBlock>
 
         {{#if @assessment}}
+          <FocusedOutNotification
+            @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
+            @isCertification={{@assessment.isCertification}}
+            @certificationVersion={{@assessment.certificationCourse.version}}
+            @isAdjustedCourseForAccessibility={{@assessment.certificationCourse.isAdjustedForAccessibility}}
+          />
+
           <ChallengeActions
             @challenge={{@challenge}}
             @isValidateActionLoading={{this.isValidateActionLoading}}
@@ -242,13 +249,6 @@ export default class ChallengeContent extends Component {
             @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
             @hasOngoingChallengeLiveAlert={{@assessment.hasOngoingChallengeLiveAlert}}
             @hasOngoingCompanionLiveAlert={{@assessment.hasOngoingCompanionLiveAlert}}
-          />
-
-          <FocusedOutNotification
-            @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
-            @isCertification={{@assessment.isCertification}}
-            @certificationVersion={{@assessment.certificationCourse.version}}
-            @isAdjustedCourseForAccessibility={{@assessment.certificationCourse.isAdjustedForAccessibility}}
           />
         {{/if}}
 

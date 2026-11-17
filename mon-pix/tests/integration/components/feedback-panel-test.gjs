@@ -51,7 +51,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
           <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
         );
 
-        await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+        await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
         await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
@@ -120,7 +120,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         );
 
         // when
-        await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+        await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
         await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
@@ -143,7 +143,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         );
 
         // when
-        await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+        await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
         await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
@@ -164,7 +164,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         );
 
         // when
-        await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+        await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
         await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
@@ -185,7 +185,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         const screen = await render(
           <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
         );
-        await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+        await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
         // when
 
@@ -209,7 +209,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         const screen = await render(
           <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
         );
-        await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+        await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
         // when
         await click(await screen.findByRole('button', { name: "J'ai un problème avec" }));
@@ -241,7 +241,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         const screen = await render(
           <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
         );
-        await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+        await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
         // when
         await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
@@ -284,7 +284,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       const screen = await render(<template><FeedbackPanel @assessment={{state.assessment}} /></template>);
 
       // then
-      assert.dom(screen.getByRole('button', { name: 'Signaler un problème avec la question' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Signaler un problème' })).exists();
     });
 
     test('should toggle the form view when clicking on the toggle link', async function (assert) {
@@ -292,7 +292,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       const screen = await render(<template><FeedbackPanel @assessment={{state.assessment}} /></template>);
 
       // when
-      await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+      await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
       // then
       assert
@@ -300,7 +300,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
         .exists();
 
       // when
-      await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+      await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
       // then
       assert
@@ -344,7 +344,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       );
 
       // then
-      assert.true(screen.getByRole('button', { name: 'Signaler un problème avec la question' }).disabled);
+      assert.dom(screen.getByRole('button', { name: 'Signaler un problème' })).hasAttribute('aria-disabled');
       assert
         .dom(screen.getByText('Pix est à l’écoute de vos remarques pour améliorer les épreuves proposées !*'))
         .exists();
@@ -364,7 +364,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       const screen = await render(
         <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
       );
-      await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+      await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
       // then
       assert
@@ -377,10 +377,10 @@ module('Integration | Component | feedback-panel', function (hooks) {
       const screen = await render(
         <template><FeedbackPanel @assessment={{state.assessment}} @challenge={{state.challenge}} /></template>,
       );
-      await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+      await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
       // when
-      await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+      await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
       // then
       assert
@@ -394,7 +394,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
       // given
       const assessment = {};
       const screen = await render(<template><FeedbackPanel @assessment={{assessment}} /></template>);
-      await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+      await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
       await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
       await screen.findByRole('listbox');
@@ -406,8 +406,8 @@ module('Integration | Component | feedback-panel', function (hooks) {
       await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
 
       // when
-      await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
-      await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+      await click(screen.getByRole('button', { name: 'Signaler un problème' }));
+      await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
       // then
       assert.dom(screen.queryByText('Vous devez saisir un message.')).doesNotExist();

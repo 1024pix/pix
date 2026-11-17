@@ -74,6 +74,7 @@ export default class FeedbackPanel extends Component {
 
   @action
   toggleFeedbackForm() {
+    if (this.isToggleFeedbackFormDisabled) return;
     if (this.isExpanded) {
       this.isExpanded = false;
       this._resetPanel();
@@ -216,19 +217,18 @@ export default class FeedbackPanel extends Component {
     {{! template-lint-disable require-input-label no-unknown-arguments-for-builtin-components }}
     <div class="feedback-panel">
       <h2 class="screen-reader-only">{{t "pages.challenge.parts.feedback"}}</h2>
-      <div class="feedback-panel__view feedback-panel__view--link">
-        <button
-          class="feedback-panel__open-button"
-          {{on "click" this.toggleFeedbackForm}}
-          disabled={{this.isToggleFeedbackFormDisabled}}
-          aria-expanded={{this.isAriaExpanded}}
-          aria-controls={{this.feedbackPanelId}}
-          type="button"
-        >
-          <PixIcon @name="flag" @plainIcon={{true}} @ariaHidden={{true}} />
-          {{t "components.challenge.feedback-panel.actions.open-close"}}
-        </button>
-      </div>
+      <PixButton
+        class="feedback-panel__open-close"
+        @variant="tertiary"
+        @iconBefore="flag"
+        @plainIconBefore={{true}}
+        @triggerAction={{this.toggleFeedbackForm}}
+        @isDisabled={{this.isToggleFeedbackFormDisabled}}
+        aria-expanded={{this.isAriaExpanded}}
+        aria-controls={{this.feedbackPanelId}}
+      >
+        {{t "components.challenge.feedback-panel.actions.open-close"}}
+      </PixButton>
 
       {{#if this.isExpanded}}
         {{#if this.isFormSubmitted}}

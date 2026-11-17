@@ -44,7 +44,7 @@ module('Integration | Component | certification-feedback-panel', function (hooks
         );
 
         // when
-        await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+        await click(screen.getByRole('button', { name: 'Signaler un problème' }));
         assert.dom(screen.getByText('Êtes-vous sûr(e) de vouloir signaler un problème ?')).exists();
 
         await click(screen.getByRole('button', { name: "Non, je reviens à l'épreuve" }));

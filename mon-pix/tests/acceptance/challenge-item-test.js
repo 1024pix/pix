@@ -771,7 +771,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
         const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
 
         // then
-        assert.dom(screen.queryByRole('button', { name: 'Signaler un problème avec la question' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Signaler un problème' })).doesNotExist();
       });
     });
   });
@@ -1000,7 +1000,7 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
         const screen = await visit(`/assessments/${certificationCourse.assessment.id}/challenges/0`);
 
         // then
-        assert.dom(screen.queryByRole('button', { name: 'Signaler un problème avec la question' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Signaler un problème' })).doesNotExist();
       });
     });
   });

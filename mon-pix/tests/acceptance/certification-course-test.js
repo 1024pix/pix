@@ -539,7 +539,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           await fillCertificationStarter({ accessCode: 'ABCD12', t });
 
           // when
-          await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+          await click(screen.getByRole('button', { name: 'Signaler un problème' }));
           // eslint-disable-next-line ember/no-settled-after-test-helper
           await settled();
 
@@ -578,7 +578,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             });
             await validateCertificationInstructions({ t });
             await fillCertificationStarter({ accessCode: 'ABCD12', t });
-            await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+            await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
             // when
             await click(screen.getByRole('button', { name: 'Oui, je suis sûr(e)' }));

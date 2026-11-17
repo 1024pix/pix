@@ -107,7 +107,7 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
       await click(screen.getAllByRole('button', { name: 'Voir les réponses et les tutos' })[0]);
 
       // when
-      await clickByText('Signaler un problème avec la question');
+      await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
       await clickByLabel("J'ai un problème avec");
       await clickByText('La question');

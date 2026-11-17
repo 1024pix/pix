@@ -337,7 +337,7 @@
     "challenge": {
       "feedback-panel": {
         "actions": {
-          "open-close": "Een probleem met de vraag melden"
+          "open-close": "Een probleem melden"
         },
         "description": "Pix is benieuwd naar je opmerkingen om de aangeboden opdrachten te verbeteren!*",
         "form": {
@@ -1262,7 +1262,6 @@
       "certification-feedback-panel": {
         "actions": {
           "no-send-feedback": "Nee, ik ga terug naar de opdracht",
-          "open-close": "Een probleem met de vraag melden",
           "send-feedback": "Ja, ik weet het zeker"
         },
         "description": "Weet je zeker dat je een probleem wilt melden?",

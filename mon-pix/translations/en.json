@@ -337,7 +337,7 @@
     "challenge": {
       "feedback-panel": {
         "actions": {
-          "open-close": "Report a problem regarding the challenge"
+          "open-close": "Report a problem"
         },
         "description": "Pix wants to hear from you so we can improve our tests!*",
         "form": {
@@ -1262,7 +1262,6 @@
       "certification-feedback-panel": {
         "actions": {
           "no-send-feedback": "No, I'm coming back to the test",
-          "open-close": "Report a problem with the question",
           "send-feedback": "Yes, I'm sure"
         },
         "description": "Are you sure you want to report a problem?",
