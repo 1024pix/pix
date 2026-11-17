@@ -8,6 +8,7 @@ import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
 import { runTask } from 'ember-lifeline';
 import get from 'lodash/get';
+import FeedbackWrapper from 'mon-pix/components/challenge/feedback/feedback-wrapper';
 import { questions, topLevelLabels } from 'mon-pix/static-data/feedback-panel-issue-labels';
 import buttonStatusTypes from 'mon-pix/utils/button-status-types';
 
@@ -215,117 +216,109 @@ export default class FeedbackPanel extends Component {
 
   <template>
     {{! template-lint-disable require-input-label no-unknown-arguments-for-builtin-components }}
-    <div class="feedback-panel">
-      <h2 class="screen-reader-only">{{t "components.challenge.feedback.common.title"}}</h2>
-      <PixButton
-        class="feedback-panel__open-close"
-        @variant="tertiary"
-        @iconBefore="flag"
-        @plainIconBefore={{true}}
-        @triggerAction={{this.toggleFeedbackForm}}
-        @isDisabled={{this.isToggleFeedbackFormDisabled}}
-        aria-expanded={{this.isAriaExpanded}}
-        aria-controls={{this.feedbackPanelId}}
-      >
-        {{t "components.challenge.feedback.common.actions.open-close"}}
-      </PixButton>
-
-      {{#if this.isExpanded}}
-        {{#if this.isFormSubmitted}}
-          <div class="feedback-panel__view feedback-panel__view--mercix" id="feedback-panel-submitted" role="status">
-            {{t "components.challenge.feedback.common.form.status.success" htmlSafe=true}}
-          </div>
-        {{else}}
-          <div class="feedback-panel__view feedback-panel__view--form" id="feedback-panel">
-            <div class="feedback-panel__form-description">
+    <FeedbackWrapper
+      @triggerAction={{this.toggleFeedbackForm}}
+      @isDisabled={{this.isToggleFeedbackFormDisabled}}
+      @isAriaExpanded={{this.isAriaExpanded}}
+    >
+      <:form>
+        {{#if this.isExpanded}}
+          {{#if this.isFormSubmitted}}
+            <div class="feedback-panel__view feedback-panel__view--mercix" id="feedback-panel-submitted" role="status">
+              {{t "components.challenge.feedback.common.form.status.success" htmlSafe=true}}
             </div>
-            <p>{{t "components.challenge.feedback.common.description"}}</p>
-            <div class="feedback-panel__form-wrapper">
-              <form id="feedback-form" class="feedback-panel__form" {{on "submit" this.sendFeedback}} novalidate>
-                <div class="feedback-panel__group">
-                  <div class="feedback-panel__category-selection">
-                    <PixSelect
-                      @screenReaderOnly={{true}}
-                      @texts={{hash
-                        placeholder=(t "components.challenge.feedback.common.form.fields.category-selection.label")
-                      }}
-                      @options={{this.categories}}
-                      @onChange={{this.displayCategoryOptions}}
-                      @value={{this._currentMajorCategory}}
-                    >
-                      <:label>{{t
-                          "components.challenge.feedback.common.form.fields.detail-selection.aria-first"
-                        }}</:label>
-                    </PixSelect>
-                    {{#if this.displayQuestionDropdown}}
+          {{else}}
+            <div class="feedback-panel__view feedback-panel__view--form" id="feedback-panel">
+              <div class="feedback-panel__form-description">
+              </div>
+              <p>{{t "components.challenge.feedback.common.description"}}</p>
+              <div class="feedback-panel__form-wrapper">
+                <form id="feedback-form" class="feedback-panel__form" {{on "submit" this.sendFeedback}} novalidate>
+                  <div class="feedback-panel__group">
+                    <div class="feedback-panel__category-selection">
                       <PixSelect
                         @screenReaderOnly={{true}}
                         @texts={{hash
-                          placeholder=(t "components.challenge.feedback.common.form.fields.detail-selection.label")
+                          placeholder=(t "components.challenge.feedback.common.form.fields.category-selection.label")
                         }}
-                        @onChange={{this.showFeedback}}
-                        @options={{this.nextCategories}}
-                        @value={{this._currentNextCategory}}
+                        @options={{this.categories}}
+                        @onChange={{this.displayCategoryOptions}}
+                        @value={{this._currentMajorCategory}}
                       >
                         <:label>{{t
-                            "components.challenge.feedback.common.form.fields.detail-selection.aria-secondary"
+                            "components.challenge.feedback.common.form.fields.detail-selection.aria-first"
                           }}</:label>
                       </PixSelect>
-                    {{/if}}
-                    {{#if this.quickHelpInstructions}}
-                      <div class="feedback-panel__quick-help">
-                        <PixIcon @name="error" @plainIcon={{true}} @ariaHidden={{true}} class="tuto-icon__warning" />
-                        <p>{{t this.quickHelpInstructions htmlSafe=true}}</p>
+                      {{#if this.displayQuestionDropdown}}
+                        <PixSelect
+                          @screenReaderOnly={{true}}
+                          @texts={{hash
+                            placeholder=(t "components.challenge.feedback.common.form.fields.detail-selection.label")
+                          }}
+                          @onChange={{this.showFeedback}}
+                          @options={{this.nextCategories}}
+                          @value={{this._currentNextCategory}}
+                        >
+                          <:label>{{t
+                              "components.challenge.feedback.common.form.fields.detail-selection.aria-secondary"
+                            }}</:label>
+                        </PixSelect>
+                      {{/if}}
+                      {{#if this.quickHelpInstructions}}
+                        <div class="feedback-panel__quick-help">
+                          <PixIcon @name="error" @plainIcon={{true}} @ariaHidden={{true}} class="tuto-icon__warning" />
+                          <p>{{t this.quickHelpInstructions htmlSafe=true}}</p>
+                        </div>
+                      {{/if}}
+                    </div>
+                  </div>
+                  {{#if this.displayTextBox}}
+                    {{#if this.displayAddCommentButton}}
+                      <button type="button" class="feedback-panel__comment" onClick={{this.addComment}}>
+                        <PixIcon @name="edit" @ariaHidden={{true}} class="feedback-panel-comment__icon" />
+                        {{t "components.challenge.feedback.common.form.fields.detail-selection.add-comment"}}
+                      </button>
+                    {{else}}
+                      <div>
+                        <p class="feedback-panel__field-notice">
+                          {{t "components.challenge.feedback.common.form.status.error.max-characters"}}
+                        </p>
+                        <label class="screen-reader-only" for="feedback-panel__field">{{t
+                            "components.challenge.feedback.common.form.fields.detail-selection.problem-suggestion-description"
+                          }}</label>
+                        <PixTextarea
+                          class="feedback-panel__field--content"
+                          @value={{this.content}}
+                          @id="feedback-panel__field"
+                          @maxlength="10000"
+                          rows="5"
+                          placeholder={{t
+                            "components.challenge.feedback.common.form.fields.detail-selection.problem-suggestion-description"
+                          }}
+                          {{on "change" this.setContent}}
+                        />
                       </div>
                     {{/if}}
-                  </div>
-                </div>
-                {{#if this.displayTextBox}}
-                  {{#if this.displayAddCommentButton}}
-                    <button type="button" class="feedback-panel__comment" onClick={{this.addComment}}>
-                      <PixIcon @name="edit" @ariaHidden={{true}} class="feedback-panel-comment__icon" />
-                      {{t "components.challenge.feedback.common.form.fields.detail-selection.add-comment"}}
-                    </button>
-                  {{else}}
-                    <div>
-                      <p class="feedback-panel__field-notice">
-                        {{t "components.challenge.feedback.common.form.status.error.max-characters"}}
-                      </p>
-                      <label class="screen-reader-only" for="feedback-panel__field">{{t
-                          "components.challenge.feedback.common.form.fields.detail-selection.problem-suggestion-description"
-                        }}</label>
-                      <PixTextarea
-                        class="feedback-panel__field--content"
-                        @value={{this.content}}
-                        @id="feedback-panel__field"
-                        @maxlength="10000"
-                        rows="5"
-                        placeholder={{t
-                          "components.challenge.feedback.common.form.fields.detail-selection.problem-suggestion-description"
-                        }}
-                        {{on "change" this.setContent}}
-                      />
-                    </div>
+                    <PixButton
+                      @triggerAction={{this.toggleModalVisibility}}
+                      @isDisabled={{this.isSendButtonDisabled}}
+                      aria-label={{t "components.challenge.feedback.common.form.actions.submit-aria-label"}}
+                    >
+                      {{t "components.challenge.feedback.common.form.actions.submit"}}
+                    </PixButton>
                   {{/if}}
-                  <PixButton
-                    @triggerAction={{this.toggleModalVisibility}}
-                    @isDisabled={{this.isSendButtonDisabled}}
-                    aria-label={{t "components.challenge.feedback.common.form.actions.submit-aria-label"}}
-                  >
-                    {{t "components.challenge.feedback.common.form.actions.submit"}}
-                  </PixButton>
-                {{/if}}
-              </form>
-            </div>
+                </form>
+              </div>
 
-            <div class="feedback-panel__form-legal-notice">
-              {{t "components.challenge.feedback.common.information.guidance" htmlSafe=true}}
-              {{t "components.challenge.feedback.common.information.data-usage" htmlSafe=true}}
+              <div class="feedback-panel__form-legal-notice">
+                {{t "components.challenge.feedback.common.information.guidance" htmlSafe=true}}
+                {{t "components.challenge.feedback.common.information.data-usage" htmlSafe=true}}
+              </div>
             </div>
-          </div>
+          {{/if}}
         {{/if}}
-      {{/if}}
-    </div>
+      </:form>
+    </FeedbackWrapper>
 
     <PixModal
       @title={{t "components.challenge.feedback.common.modal.title"}}

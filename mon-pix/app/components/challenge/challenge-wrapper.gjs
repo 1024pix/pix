@@ -14,7 +14,7 @@ export default class ChallengeWrapper extends Component {
     <div class={{this.classList}}>
       {{yield}}
 
-      {{#if this.args.hasAnswer}}
+      {{#if @hasAnswer}}
         <PixIcon @name="lock" @plainIcon={{true}} @ariaHidden={{true}} class="challenge-wrapper__lock-icon" />
       {{/if}}
     </div>

@@ -1,0 +1,11 @@
+@use 'pix-design-tokens/breakpoints';
+
+.feedback-wrapper {
+  &__open-close {
+    margin: 0 auto;
+
+    @include breakpoints.device-is('tablet') {
+      margin: unset;
+    }
+  }
+}

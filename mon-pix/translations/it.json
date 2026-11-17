@@ -342,8 +342,7 @@
             "send-feedback": "Sì, sono sicuro"
           },
           "description": "Sei sicuri di voler segnalare un problema?",
-          "information": "Quando si segnala un problema, la certificazione viene messa in pausa finché il sorvegliante non interviene per convalidare o invalidare la segnalazione.",
-          "title": "Segnala un problema con la domanda"
+          "information": "Quando si segnala un problema, la certificazione viene messa in pausa finché il sorvegliante non interviene per convalidare o invalidare la segnalazione."
         },
         "common": {
           "actions": {
@@ -444,7 +443,7 @@
             "content": "'<p><strong>'Sei sicuro di voler segnalare questo problema?'</strong></p><p>'Grazie per la tua segnalazione, che sarà esaminata attentamente dal team Pix. Prendiamo in considerazione tutti i tuoi commenti per migliorare continuamente i nostri servizi e la nostra esperienza utente. Non saremo in grado di fornirle una risposta personalizzata. Grazie per la collaborazione.'</p>'",
             "title": "Conferma della segnalazione"
           },
-          "title": "Segnala un problema"
+          "title": "Segnala un problema con la domanda"
         }
       },
       "mode-banner": {

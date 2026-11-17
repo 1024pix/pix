@@ -342,8 +342,7 @@
             "send-feedback": "Yes, I'm sure"
           },
           "description": "Are you sure you want to report a problem?",
-          "information": "By reporting a problem, your certification is paused while the invigilator intervenes to validate or invalidate your report",
-          "title": "Report a problem with the question"
+          "information": "By reporting a problem, your certification is paused while the invigilator intervenes to validate or invalidate your report"
         },
         "common": {
           "actions": {
@@ -444,7 +443,7 @@
             "content": "'<p><strong>'Do you confirm this problem report?'</strong></p><p>'Thank you for this problem report, our team will review it soon. Every feedback helps us improve our services and the experience of all Pix users. Please note that we will not reach out to you on this topic. Thank you for your help.'</p>'",
             "title": "Report confirmation"
           },
-          "title": "Report a problem"
+          "title": "Report a problem with the question"
         }
       },
       "mode-banner": {

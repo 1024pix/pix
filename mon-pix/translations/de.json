@@ -342,8 +342,7 @@
             "send-feedback": "Ja, ich bin mir sicher"
           },
           "description": "Bist du sicher, dass du ein Problem melden möchtest?",
-          "information": "Wenn du ein Problem meldest, wird deine Zertifizierung pausiert, bis die Aufsichtsperson eingreift, um deine Meldung zu bestätigen oder für ungültig zu erklären.",
-          "title": "Ein Problem mit der Frage melden"
+          "information": "Wenn du ein Problem meldest, wird deine Zertifizierung pausiert, bis die Aufsichtsperson eingreift, um deine Meldung zu bestätigen oder für ungültig zu erklären."
         },
         "common": {
           "actions": {
@@ -444,7 +443,7 @@
             "content": "'<p><strong>'Bist du sicher, dass du dieses Problem melden möchtest?'</strong></p><p>'Wir danken dir für deine Meldung, die vom Pix-Team sorgfältig geprüft wird. Wir berücksichtigen alle deine Rückmeldungen, um unseren Service und die Nutzererfahrung kontinuierlich zu verbessern. Eine persönliche Antwort können wir dir leider nicht geben. Vielen Dank für deine Mitarbeit.'</p>'",
             "title": "Bestätigung der Ausschreibung"
           },
-          "title": "Ein Problem melden"
+          "title": "Ein Problem mit der Frage melden"
         }
       },
       "mode-banner": {

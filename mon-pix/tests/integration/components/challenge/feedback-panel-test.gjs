@@ -1,11 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
-import FeedbackPanel from 'mon-pix/components/challenge/feedback-panel';
+import FeedbackPanel from 'mon-pix/components/challenge/feedback/feedback-panel';
 import { module, test } from 'qunit';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { waitForDialog, waitForDialogClose } from '../../helpers/wait-for';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import { waitForDialog, waitForDialogClose } from '../../../helpers/wait-for';
 
 module('Integration | Component | feedback-panel', function (hooks) {
   setupIntlRenderingTest(hooks);

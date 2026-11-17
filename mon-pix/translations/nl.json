@@ -342,8 +342,7 @@
             "send-feedback": "Ja, ik weet het zeker"
           },
           "description": "Weet je zeker dat je een probleem wilt melden?",
-          "information": "Wanneer je een probleem meldt, wordt je certificering tijdelijk opgeschort totdat de toezichthouder je melding heeft beoordeeld en deze al dan niet heeft bevestigd.",
-          "title": "Een probleem met de vraag melden"
+          "information": "Wanneer je een probleem meldt, wordt je certificering tijdelijk opgeschort totdat de toezichthouder je melding heeft beoordeeld en deze al dan niet heeft bevestigd."
         },
         "common": {
           "actions": {
@@ -444,7 +443,7 @@
             "content": "'<p><strong>'Weet je zeker dat je dit probleem wilt melden?'</strong></p><p>'Hartelijk dank voor je melding. Deze zal zorgvuldig worden onderzocht door het Pix-team.' We houden rekening met al je opmerkingen om onze diensten en de gebruikerservaring voortdurend te verbeteren. We kunnen je geen persoonlijk antwoord geven. Bedankt voor je medewerking!'</p>'",
             "title": "Bevestiging van de melding"
           },
-          "title": "Een probleem melden"
+          "title": "Een probleem met de vraag melden"
         }
       },
       "mode-banner": {

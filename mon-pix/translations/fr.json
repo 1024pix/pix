@@ -342,8 +342,7 @@
             "send-feedback": "Oui, je suis sûr(e)"
           },
           "description": "Êtes-vous sûr(e) de vouloir signaler un problème ?",
-          "information": "En signalant un problème, votre certification est mise en pause le temps que le surveillant intervienne pour valider ou invalider votre signalement.",
-          "title": "Signaler un problème avec la question"
+          "information": "En signalant un problème, votre certification est mise en pause le temps que le surveillant intervienne pour valider ou invalider votre signalement."
         },
         "common": {
           "actions": {
@@ -444,7 +443,7 @@
             "content": "'<p><strong>'Êtes-vous certain de vouloir signaler ce problème ?'</strong></p><p>'Nous vous remercions pour votre signalement qui sera examiné attentivement par l'équipe de Pix. Nous prenons en compte tous vos commentaires pour améliorer continuellement nos services et l'expérience utilisateur. Nous ne pourrons pas vous donner de réponse personnalisée. Merci pour votre collaboration.'</p>'",
             "title": "Confirmation du signalement"
           },
-          "title": "Signaler un problème"
+          "title": "Signaler un problème avec la question"
         }
       },
       "mode-banner": {
