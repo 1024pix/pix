@@ -715,6 +715,27 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
           expect(result.learners).to.have.lengthOf(1);
           expect(result.learners[0].id).to.equal(rogueLearner.id);
         });
+
+        it('filters divisions regardless of their case', async function () {
+          const learnerInDivision = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+            organizationId,
+            division: '3ème A',
+          });
+          databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+            organizationId,
+            division: '3ème B',
+          });
+
+          await databaseBuilder.commit();
+
+          const result = await organizationLearnerRepository.findPaginatedLearnersByOrganizationId({
+            organizationId,
+            filter: { divisions: ['3ÈME a'] },
+          });
+
+          expect(result.learners).to.have.lengthOf(1);
+          expect(result.learners[0].id).to.equal(learnerInDivision.id);
+        });
       });
     });
   });

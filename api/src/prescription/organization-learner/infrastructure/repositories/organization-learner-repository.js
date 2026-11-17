@@ -118,7 +118,7 @@ async function findPaginatedLearnersByOrganizationId({ organizationId, page, fil
       filterByFullName(query, name, 'firstName', 'lastName');
     }
     if (divisions?.length > 0) {
-      query.whereIn('division', divisions);
+      query.whereRaw('LOWER("division") = ANY(?)', [divisions.map((division) => division.toLowerCase())]);
     }
   }
 

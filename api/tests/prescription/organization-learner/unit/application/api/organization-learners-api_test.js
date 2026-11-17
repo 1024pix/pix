@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { OrganizationLearner } from '../../../../../../src/prescription/organization-learner/application/api/models/OrganizationLearner.js';
+import { OrganizationLearnerWithDivision } from '../../../../../../src/prescription/organization-learner/application/api/models/OrganizationLearnerWithDivision.js';
 import * as organizationLearnersApi from '../../../../../../src/prescription/organization-learner/application/api/organization-learners-api.js';
 import { OrganizationLearnerWithOrganization } from '../../../../../../src/prescription/organization-learner/application/api/read-models/OrganizationLearnerWithOrganization.js';
 import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
@@ -131,6 +132,45 @@ describe('Unit | API | Organization Learner', function () {
           filter: { 'Libellé classe': ['div-2'], name: 'Paul' },
         });
       });
+    });
+  });
+
+  describe('#findByDivisions', function () {
+    it('returns all learners of the given divisions across every page', async function () {
+      // given
+      const organizationId = 3;
+      const divisions = ['3A'];
+      const organizationLearner1 = { id: 1242, firstName: 'Paul', lastName: 'Henri', division: '3A', organizationId };
+      const organizationLearner2 = {
+        id: 1243,
+        firstName: 'Pierre',
+        lastName: 'Jacques',
+        division: '3A',
+        organizationId,
+      };
+
+      const getPaginatedOrganizationLearnerStub = sinon.stub(usecases, 'findPaginatedOrganizationLearners');
+      getPaginatedOrganizationLearnerStub
+        .withArgs({ organizationId, page: { size: 100, number: 1 }, filter: { divisions } })
+        .resolves({
+          learners: [organizationLearner1],
+          pagination: { pageSize: 1, pageCount: 2, rowCount: 2, page: 1 },
+        });
+      getPaginatedOrganizationLearnerStub
+        .withArgs({ organizationId, page: { size: 100, number: 2 }, filter: { divisions } })
+        .resolves({
+          learners: [organizationLearner2],
+          pagination: { pageSize: 1, pageCount: 2, rowCount: 2, page: 2 },
+        });
+
+      // when
+      const { organizationLearners } = await organizationLearnersApi.findByDivisions({ organizationId, divisions });
+
+      // then
+      expect(organizationLearners).to.have.deep.members([
+        new OrganizationLearnerWithDivision(organizationLearner1),
+        new OrganizationLearnerWithDivision(organizationLearner2),
+      ]);
     });
   });
 
