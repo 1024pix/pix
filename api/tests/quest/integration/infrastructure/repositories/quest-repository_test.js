@@ -2,11 +2,61 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { REWARD_TYPES } from '../../../../../src/quest/domain/constants.js';
-import { Quest } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
+import {
+  CRITERION_COMPARISONS,
+  Quest,
+  REQUIREMENT_COMPARISONS,
+  REQUIREMENT_TYPES,
+} from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
 import * as questRepository from '../../../../../src/quest/infrastructure/repositories/quests/quest-repository.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Repository | quest', function () {
+  const eligibilityRequirements = [
+    {
+      requirement_type: REQUIREMENT_TYPES.COMPOSE,
+      comparison: REQUIREMENT_COMPARISONS.ONE_OF,
+      data: [
+        {
+          requirement_type: REQUIREMENT_TYPES.OBJECT.ORGANIZATION,
+          comparison: REQUIREMENT_COMPARISONS.ALL,
+          data: {
+            type: { data: 'SCO', comparison: CRITERION_COMPARISONS.EQUAL },
+            isManagingStudents: { data: true, comparison: CRITERION_COMPARISONS.EQUAL },
+          },
+        },
+        {
+          requirement_type: REQUIREMENT_TYPES.OBJECT.ORGANIZATION,
+          comparison: REQUIREMENT_COMPARISONS.ALL,
+          data: {
+            tags: { data: ['AEFE', 'PRO'], comparison: CRITERION_COMPARISONS.ONE_OF },
+          },
+        },
+      ],
+    },
+    {
+      requirement_type: REQUIREMENT_TYPES.OBJECT.CAMPAIGN_PARTICIPATIONS,
+      comparison: REQUIREMENT_COMPARISONS.ONE_OF,
+      data: {
+        targetProfileId: { data: [1, 2], comparison: CRITERION_COMPARISONS.ONE_OF },
+      },
+    },
+  ];
+
+  const successRequirements = [
+    {
+      requirement_type: REQUIREMENT_TYPES.CAPPED_TUBES,
+      data: {
+        name: 'Tubes requirement',
+        cappedTubes: [
+          { tubeId: 'tubeA', level: 3 },
+          { tubeId: 'tubeB', level: 2 },
+        ],
+        threshold: 70,
+      },
+    },
+  ];
+
   describe('#save', function () {
     it('should save quest and return its id', async function () {
       // given
@@ -25,6 +75,55 @@ describe('Quest | Integration | Repository | quest', function () {
 
       // then
       expect(result).to.equal(quest.id);
+    });
+
+    it('should save eligibility and success requirements mapped to their DTO', async function () {
+      // given
+      const quest = new Quest({
+        id: 1,
+        rewardType: null,
+        rewardId: null,
+        eligibilityRequirements,
+        successRequirements,
+      });
+
+      // when
+      const questId = await questRepository.save({ quest });
+
+      // then
+      const savedQuest = await questRepository.findById({ questId });
+      expect(savedQuest.eligibilityRequirements.map((requirement) => requirement.toDTO())).to.deep.equal(
+        eligibilityRequirements,
+      );
+      expect(savedQuest.successRequirements.map((requirement) => requirement.toDTO())).to.deep.equal(
+        successRequirements,
+      );
+    });
+
+    it('should update eligibility and success requirements if quest already exists in db', async function () {
+      // given
+      databaseBuilder.factory.buildQuest({ id: 1, eligibilityRequirements: [], successRequirements: [] });
+      await databaseBuilder.commit();
+
+      const quest = new Quest({
+        id: 1,
+        rewardType: null,
+        rewardId: null,
+        eligibilityRequirements,
+        successRequirements,
+      });
+
+      // when
+      const questId = await questRepository.save({ quest });
+
+      // then
+      const savedQuest = await questRepository.findById({ questId });
+      expect(savedQuest.eligibilityRequirements.map((requirement) => requirement.toDTO())).to.deep.equal(
+        eligibilityRequirements,
+      );
+      expect(savedQuest.successRequirements.map((requirement) => requirement.toDTO())).to.deep.equal(
+        successRequirements,
+      );
     });
 
     it('should update quest if it already exists in db', async function () {
@@ -120,6 +219,41 @@ describe('Quest | Integration | Repository | quest', function () {
         ),
       );
       expect(result[0]).to.equal(createdQuest.id);
+    });
+
+    it('should save eligibility and success requirements of each quest mapped to their DTO', async function () {
+      // given
+      const questWithRequirements = new Quest({
+        id: 1,
+        rewardType: null,
+        rewardId: null,
+        eligibilityRequirements,
+        successRequirements,
+      });
+      const questWithoutRequirements = new Quest({
+        id: 2,
+        rewardType: null,
+        rewardId: null,
+        eligibilityRequirements: [],
+        successRequirements: [],
+      });
+
+      // when
+      const [questWithRequirementsId, questWithoutRequirementsId] = await questRepository.saveInBatch({
+        quests: [questWithRequirements, questWithoutRequirements],
+      });
+
+      // then
+      const savedQuestWithRequirements = await questRepository.findById({ questId: questWithRequirementsId });
+      expect(
+        savedQuestWithRequirements.eligibilityRequirements.map((requirement) => requirement.toDTO()),
+      ).to.deep.equal(eligibilityRequirements);
+      expect(savedQuestWithRequirements.successRequirements.map((requirement) => requirement.toDTO())).to.deep.equal(
+        successRequirements,
+      );
+      const savedQuestWithoutRequirements = await questRepository.findById({ questId: questWithoutRequirementsId });
+      expect(savedQuestWithoutRequirements.eligibilityRequirements).to.deep.equal([]);
+      expect(savedQuestWithoutRequirements.successRequirements).to.deep.equal([]);
     });
   });
 

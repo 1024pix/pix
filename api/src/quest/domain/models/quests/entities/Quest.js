@@ -152,18 +152,6 @@ class Quest {
     return isFulfilled;
   }
 
-  toDTO() {
-    return {
-      id: this.id,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
-      rewardType: this.rewardType,
-      rewardId: this.rewardId,
-      eligibilityRequirements: this.#eligibilityRequirements.data.map((item) => item.toDTO()),
-      successRequirements: this.#successRequirements.data.map((item) => item.toDTO()),
-    };
-  }
-
   #flattenRequirementsByType(requirements, type) {
     let result = [];
     const filteredRequirements = requirements.filter((requirement) =>

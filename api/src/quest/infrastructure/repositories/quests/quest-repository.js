@@ -42,10 +42,10 @@ const saveInBatch = async ({ quests }) => {
         updatedAt: knexConn.fn.now(),
         rewardId: quest.rewardId,
         rewardType: quest.rewardType,
-        eligibilityRequirements: quest.eligibilityRequirements
-          ? JSON.stringify(quest.toDTO().eligibilityRequirements)
-          : [],
-        successRequirements: quest.successRequirements ? JSON.stringify(quest.toDTO().successRequirements) : [],
+        eligibilityRequirements: JSON.stringify(
+          quest.eligibilityRequirements.map((requirement) => requirement.toDTO()),
+        ),
+        successRequirements: JSON.stringify(quest.successRequirements.map((requirement) => requirement.toDTO())),
       };
     });
     const questsInserted = await knexConn('quests')
@@ -67,8 +67,8 @@ const save = async ({ quest }) => {
     updatedAt: knexConn.fn.now(),
     rewardId: quest.rewardId,
     rewardType: quest.rewardType,
-    eligibilityRequirements: quest.eligibilityRequirements ? JSON.stringify(quest.toDTO().eligibilityRequirements) : [],
-    successRequirements: quest.successRequirements ? JSON.stringify(quest.toDTO().successRequirements) : [],
+    eligibilityRequirements: JSON.stringify(quest.eligibilityRequirements.map((requirement) => requirement.toDTO())),
+    successRequirements: JSON.stringify(quest.successRequirements.map((requirement) => requirement.toDTO())),
   };
 
   const result = await knexConn('quests')
