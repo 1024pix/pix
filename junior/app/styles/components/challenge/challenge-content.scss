@@ -3,10 +3,10 @@
 .challenge-content {
   display: grid;
   grid-template-columns: 1fr;
-  margin: 16px 140px 0;
-  column-gap: var(--pix-spacing-6x);
-  transition: all 0.4s;
   row-gap: var(--pix-spacing-4x);
+  column-gap: var(--pix-spacing-6x);
+  margin: 16px 140px 0;
+  transition: all 0.4s;
 
   @include breakpoints.device-is('tablet') {
     margin: 16px 120px 0;
