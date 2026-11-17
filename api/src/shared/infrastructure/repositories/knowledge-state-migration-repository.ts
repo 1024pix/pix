@@ -1,13 +1,21 @@
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
+import { addCorrelationInfo } from '../execution-context-manager.js';
 
 const TABLE_NAME = 'knowledge_state_migrations';
 
-/** Whether the knowledge of the user is stored as knowledge states. */
+/**
+ * Whether the knowledge of the user is stored as knowledge states.
+ * The answer is added to the logs of the current request, to tell the requests
+ * served from knowledge states from the others.
+ */
 export const isMigrated = async (userId: number): Promise<boolean> => {
   const knexConn = DomainTransaction.getConnection();
   const migration = await knexConn<{ userId: number }>(TABLE_NAME).select('userId').where({ userId }).first();
+  const isUserMigratedToKnowledgeStates = Boolean(migration);
 
-  return Boolean(migration);
+  addCorrelationInfo('isUserMigratedToKnowledgeStates', isUserMigratedToKnowledgeStates);
+
+  return isUserMigratedToKnowledgeStates;
 };
 
 /** Among the given users, those whose knowledge is stored as knowledge states. */
