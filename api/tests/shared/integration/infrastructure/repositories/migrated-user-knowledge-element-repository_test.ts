@@ -217,4 +217,43 @@ describe('Integration | Shared | Infrastructure | Repository | migrated-user-kno
       ]);
     });
   });
+
+  describe('#deleteSavedBefore', function () {
+    const savedBefore = new Date('2026-03-10T00:00:00Z');
+
+    it('should delete the rows exported before the date only, and return the deleted count', async function () {
+      // given
+      await migratedUserKnowledgeElements().insert([
+        buildRow({ id: 1, savedAt: new Date('2026-03-09T23:59:59Z') }),
+        buildRow({ id: 2, savedAt: savedBefore }),
+        buildRow({ id: 3, savedAt: new Date('2026-03-11T00:00:00Z') }),
+        buildRow({ id: 4, savedAt: null }),
+        buildRow({ id: 5, savedAt: new Date('2026-03-01T00:00:00Z') }),
+      ]);
+
+      // when
+      const deletedCount = await migratedUserKnowledgeElementRepository.deleteSavedBefore(savedBefore, 10);
+
+      // then
+      expect(deletedCount).to.equal(2);
+      expect(await migratedUserKnowledgeElements().pluck('id').orderBy('id')).to.deep.equal([2, 3, 4]);
+    });
+
+    it('should delete up to the limit, by ascending id', async function () {
+      // given
+      const savedAt = new Date('2026-03-01T00:00:00Z');
+      await migratedUserKnowledgeElements().insert([
+        buildRow({ id: 3, savedAt }),
+        buildRow({ id: 1, savedAt }),
+        buildRow({ id: 2, savedAt }),
+      ]);
+
+      // when
+      const deletedCount = await migratedUserKnowledgeElementRepository.deleteSavedBefore(savedBefore, 2);
+
+      // then
+      expect(deletedCount).to.equal(2);
+      expect(await migratedUserKnowledgeElements().pluck('id')).to.deep.equal([3]);
+    });
+  });
 });

@@ -6,6 +6,7 @@ import * as migratedUserKnowledgeElementExportFileRepository from '../../infrast
 import * as migratedUserKnowledgeElementExportRepository from '../../infrastructure/repositories/migrated-user-knowledge-element-export-repository.ts';
 import { exportMigratedUserKnowledgeElements } from './export-migrated-user-knowledge-elements.ts';
 import { historizeAnswers } from './historize-answers.js';
+import { purgeExportedMigratedUserKnowledgeElements } from './purge-exported-migrated-user-knowledge-elements.ts';
 
 /**
  * @typedef {answersRepository} AnswersRepository
@@ -22,6 +23,7 @@ const dependencies = {
 const usecasesWithoutInjectedDependencies = {
   exportMigratedUserKnowledgeElements,
   historizeAnswers,
+  purgeExportedMigratedUserKnowledgeElements,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
