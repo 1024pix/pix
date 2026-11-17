@@ -2,6 +2,7 @@ import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import UpdatePasswordForm from 'mon-pix/components/user-account/update-password-form';
+import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -10,10 +11,11 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | user-account | update-password-form', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  let updatePasswordService;
+  let requestManagerStub;
 
   hooks.beforeEach(function () {
-    updatePasswordService = this.owner.lookup('service:update-password');
+    requestManagerStub = { request: sinon.stub().resolves() };
+    this.owner.register('service:request-manager', requestManagerStub, { instantiate: false });
   });
 
   module('when the user opens the update password form', function () {
@@ -50,7 +52,7 @@ module('Integration | Component | user-account | update-password-form', function
     module('when the user submits an empty current password', function () {
       test('displays an error message and does not call the API', async function (assert) {
         // given
-        updatePasswordService.updatePassword = sinon.stub();
+        requestManagerStub.request = sinon.stub();
 
         const screen = await render(<template><UpdatePasswordForm /></template>);
 
@@ -65,7 +67,7 @@ module('Integration | Component | user-account | update-password-form', function
         assert
           .dom(screen.getByText(t('pages.user-account.update-password.fields.errors.empty-current-password')))
           .exists();
-        sinon.assert.notCalled(updatePasswordService.updatePassword);
+        sinon.assert.notCalled(requestManagerStub.request);
       });
     });
   });
@@ -77,7 +79,7 @@ module('Integration | Component | user-account | update-password-form', function
       const newPassword = 'NewPassword456';
       const displayPasswordUpdatedMessage = sinon.stub();
       const disablePasswordEditionMode = sinon.stub();
-      updatePasswordService.updatePassword = sinon.stub();
+      requestManagerStub.request = sinon.stub();
 
       const screen = await render(
         <template>
@@ -100,7 +102,14 @@ module('Integration | Component | user-account | update-password-form', function
       await click(screen.getByRole('button', { name: t('pages.user-account.update-password.save-button') }));
 
       // then
-      sinon.assert.calledOnceWith(updatePasswordService.updatePassword, { currentPassword, newPassword });
+      sinon.assert.calledOnceWith(requestManagerStub.request, {
+        url: `${ENV.APP.API_HOST}/api/users/me/password`,
+        method: 'POST',
+        body: JSON.stringify({
+          'current-password': currentPassword,
+          'new-password': newPassword,
+        }),
+      });
       sinon.assert.calledOnce(displayPasswordUpdatedMessage);
       sinon.assert.calledOnce(disablePasswordEditionMode);
       assert.ok(true);
@@ -108,7 +117,7 @@ module('Integration | Component | user-account | update-password-form', function
 
     test('displays an error message when the current password is invalid', async function (assert) {
       // given
-      updatePasswordService.updatePassword = sinon.stub().throws({ errors: [{ status: '400' }] });
+      requestManagerStub.request = sinon.stub().throws({ errors: [{ status: '400' }] });
 
       const screen = await render(<template><UpdatePasswordForm /></template>);
 
@@ -123,7 +132,7 @@ module('Integration | Component | user-account | update-password-form', function
 
     test('displays an error message when the new password does not match password policy', async function (assert) {
       // given
-      updatePasswordService.updatePassword = sinon.stub().throws({ errors: [{ status: '422' }] });
+      requestManagerStub.request = sinon.stub().throws({ errors: [{ status: '422' }] });
 
       const screen = await render(<template><UpdatePasswordForm /></template>);
 
@@ -136,7 +145,7 @@ module('Integration | Component | user-account | update-password-form', function
 
     test('displays an unknown error message when an unexpected error occurs', async function (assert) {
       // given
-      updatePasswordService.updatePassword = sinon.stub().throws({ errors: [{ status: '500' }] });
+      requestManagerStub.request = sinon.stub().throws({ errors: [{ status: '500' }] });
 
       const screen = await render(<template><UpdatePasswordForm /></template>);
 
@@ -149,7 +158,7 @@ module('Integration | Component | user-account | update-password-form', function
 
     test('displays an unknown error message when the user has no Pix authentication method', async function (assert) {
       // given
-      updatePasswordService.updatePassword = sinon.stub().throws({
+      requestManagerStub.request = sinon.stub().throws({
         errors: [{ status: '400', code: 'USER_WITHOUT_PIX_AUTHENTICATION_METHOD' }],
       });
 
