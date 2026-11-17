@@ -181,8 +181,8 @@ module('Integration | Component | Combined Courses | Landing page', function (ho
         const screen = await render(
           <template><CombinedCourseLandingPage @combinedCourse={{combinedCourse}} /></template>,
         );
-        const loginCta = screen.getByRole('button', { name: t('pages.campaign-landing.login.login-cta') });
-        const signupCta = screen.getByRole('button', { name: t('pages.campaign-landing.login.signup-cta') });
+        const loginCta = screen.getByRole('button', { name: t('pages.campaign-landing.actions.login-cta') });
+        const signupCta = screen.getByRole('button', { name: t('pages.campaign-landing.actions.signup-cta') });
         // then
         assert.notOk(await screen.queryByRole('link', { name: t('pages.campaign-landing.warning-message-logout') }));
         assert.notOk(

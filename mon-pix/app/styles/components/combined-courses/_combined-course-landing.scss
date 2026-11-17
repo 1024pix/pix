@@ -25,7 +25,7 @@
     h2 {
       @extend %pix-subtitle-l;
     }
-    
+
     @include breakpoints.device-is('desktop') {
       margin-top: 0;
     }
@@ -59,7 +59,7 @@
       padding: var(--pix-spacing-8x);
     }
   }
-  
+
   aside {
     display: none;
 
@@ -110,7 +110,7 @@
   }
   }
 
-   &__authentication {
+   &__actions {
 
     &--connected {
       @extend %pix-body-m;

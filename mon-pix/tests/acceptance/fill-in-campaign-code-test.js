@@ -276,7 +276,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
             await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
             await waitForDialog();
             await click(screen.getByRole('link', { name: 'Continuer' }));
-            await click(screen.getByRole('button', { name: t('pages.campaign-landing.login.login-cta') }));
+            await click(screen.getByRole('button', { name: t('pages.campaign-landing.actions.login-cta') }));
 
             // then
             assert.strictEqual(currentURL(), '/organisations/SOMETHING/rejoindre/identification');

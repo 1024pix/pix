@@ -22,7 +22,7 @@ module('Acceptance | CombinedCourse | combined-course-landing-page', function (h
 
       // when
       const screen = await visit(`/parcours/${combinedCourse.code}`);
-      await click(screen.getByRole('button', { name: t('pages.campaign-landing.login.login-cta') }));
+      await click(screen.getByRole('button', { name: t('pages.campaign-landing.actions.login-cta') }));
 
       // then
       assert.strictEqual(currentURL(), '/connexion');
@@ -42,7 +42,7 @@ module('Acceptance | CombinedCourse | combined-course-landing-page', function (h
       // when
       const screen = await visit(`/parcours/${combinedCourse.code}`);
 
-      await click(screen.getByRole('button', { name: t('pages.campaign-landing.login.signup-cta') }));
+      await click(screen.getByRole('button', { name: t('pages.campaign-landing.actions.signup-cta') }));
 
       // then
       assert.strictEqual(currentURL(), '/inscription');
@@ -67,7 +67,7 @@ module('Acceptance | CombinedCourse | combined-course-landing-page', function (h
 
         // when
         const screen = await visit(`/parcours/${combinedCourse.code}`);
-        await click(screen.getByRole('button', { name: t('pages.campaign-landing.login.start-cta') }));
+        await click(screen.getByRole('button', { name: t('pages.campaign-landing.actions.start-cta') }));
 
         // then
         assert.strictEqual(currentURL(), `/parcours/${combinedCourse.code}/presentation`);
