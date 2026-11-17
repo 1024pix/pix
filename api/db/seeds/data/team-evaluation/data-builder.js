@@ -12,6 +12,7 @@ import {
 } from './constants.js';
 import evalCampaignWithBadgesUser from './users/eval-campaign-with-badges.js';
 import evalCampaignWithStagesUser from './users/eval-campaign-with-stages.js';
+import evalMigratedToKnowledgeStatesUser from './users/eval-migrated-to-knowledge-states.js';
 
 export async function teamEvaluationDataBuilder({ databaseBuilder }) {
   createScoOrganization(databaseBuilder);
@@ -23,6 +24,7 @@ export async function teamEvaluationDataBuilder({ databaseBuilder }) {
   // Other users
   await evalCampaignWithBadgesUser(databaseBuilder);
   await evalCampaignWithStagesUser(databaseBuilder);
+  await evalMigratedToKnowledgeStatesUser(databaseBuilder);
 
   // Autonomous courses
   await createAutonomousCourses(databaseBuilder);
