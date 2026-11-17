@@ -85,10 +85,14 @@ export default class CampaignList extends Component {
         <:footer>
           <form method="POST" action="/api/lti/select-campaign">
             <input type="hidden" name="campaignId" value={{this.selectedCampaign.id}} />
-            <PixButton type="submit" @variant="primary">{{t "pages.lti-campaigns.select-campaign"}}</PixButton>
+            <PixButton type="submit" @variant="primary" @triggerAction={{noop}}>
+              {{t "pages.lti-campaigns.select-campaign"}}
+            </PixButton>
           </form>
         </:footer>
       </PixModal>
     </main>
   </template>
 }
+
+function noop() {}

@@ -115,7 +115,7 @@ Router.map(function () {
     });
   });
 
-  this.route('lti-campaign-selection');
+  this.route('lti-campaign-selection', { path: '/embedded/lti-campaign-selection' });
 
   this.route('logout');
 

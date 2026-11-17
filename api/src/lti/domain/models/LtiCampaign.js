@@ -35,6 +35,27 @@ export class LtiCampaign {
     this.#lineItemResourcePrefix = `pix:campaign:${this.id}`;
   }
 
+  /**
+   * Builds the content item for deep linking response.
+   *
+   * @param {{ __: (key: string) => string }} i18n
+   */
+  buildContentItem(i18n) {
+    return {
+      type: 'ltiResourceLink',
+      title: this.name,
+      text: this.description ?? i18n.__('lti.profiles-collection-campaign-description'),
+      custom: { campaign_id: String(this.id), campaign_code: this.code },
+    };
+  }
+
+  /**
+   * @param {number[]} organizationIds
+   */
+  belongsToOneOf(organizationIds) {
+    return organizationIds.includes(this.organizationId);
+  }
+
   /** @returns {string} tag shared by every line item of the campaign, used to find them on the platform */
   get lineItemTag() {
     return `pix-campaign-${this.id}`;

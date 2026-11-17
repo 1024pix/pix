@@ -374,7 +374,9 @@ describe('Acceptance | LTI | Route | LTI', function () {
         urlEncodePayload: true,
       });
 
-      const campaignSelectionPageUrl = urlService.getPixOrgaUrl('fr-FR', { pathname: '/lti-campaign-selection' });
+      const campaignSelectionPageUrl = urlService.getPixOrgaUrl('fr-FR', {
+        pathname: '/embedded/lti-campaign-selection',
+      });
 
       // when
       const response = await server.inject(options);

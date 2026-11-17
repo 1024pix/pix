@@ -60,6 +60,11 @@ split_clients "${request_id}" $upstream_host {
   * <%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.<%= ENV['API_HOST_SUFFIX'] || 'scalingo.io' %>;
 }
 
+map $request_uri $x_frame_options {
+  default "SAMEORIGIN";
+  "~^/embedded/" "";
+}
+
 #add a catch all on http port to forward to the convenient https
 server {
     listen 80 default_server;
@@ -157,7 +162,7 @@ server {
   <% end %>
 
   add_header X-Content-Type-Options "nosniff";
-  add_header X-Frame-Options "SAMEORIGIN";
+  add_header X-Frame-Options $x_frame_options;
   add_header X-XSS-Protection 1;
   add_header Strict-Transport-Security "max-age=31536001; includeSubDomains; preload";
 
