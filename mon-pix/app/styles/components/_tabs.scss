@@ -115,7 +115,7 @@
   }
 }
 
-@media (max-width: 760px) {
+@media (width <= 760px) {
   .monpix-tabs__tab {
     padding: 1rem;
     font-size: 0.875rem;

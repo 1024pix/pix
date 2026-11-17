@@ -14,8 +14,7 @@
 
   &__information {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     justify-content: center;
 
     @include breakpoints.device-is('tablet') {

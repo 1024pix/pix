@@ -37,8 +37,7 @@
   &__list {
     display: flex;
     margin-top: var(--pix-spacing-4x);
-    overflow-x: hidden;
-    overflow-y: hidden;
+    overflow: hidden;
 
     &-spacer {
       flex-shrink: 0;

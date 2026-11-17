@@ -144,8 +144,7 @@
 
 .evaluation-results-hero-details__actions {
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  flex-flow: column wrap;
   gap: var(--pix-spacing-6x);
   align-items: flex-start;
   margin-top: var(--pix-spacing-6x);
@@ -240,7 +239,7 @@
     content: '';
   }
 
-  @media (max-width: 767px) {
+  @media (width <= 767px) {
     display: block;
 
     &::after {

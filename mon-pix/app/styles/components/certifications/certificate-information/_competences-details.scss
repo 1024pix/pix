@@ -135,7 +135,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (width <= 767px) {
   .certificate-competences-details__tabs {
     display: block;
 

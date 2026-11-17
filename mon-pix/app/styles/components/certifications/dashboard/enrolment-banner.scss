@@ -46,8 +46,7 @@
   }
 
   &__action {
-    align-self: start;
-    justify-self: start;
+    place-self: start start;
   }
 
   @include breakpoints.device-is('mobile') {
