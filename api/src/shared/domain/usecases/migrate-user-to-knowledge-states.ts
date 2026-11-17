@@ -55,7 +55,6 @@ export const migrateUserToKnowledgeStates = ({
     }
 
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
-    logger.info({ userId, knowledgeElements }, 'Knowledge elements of the user to migrate.');
     const skills = await skillRepository.list();
 
     const { knowledgeStates, userCompetenceScores, unknownSkillIds } = translateKnowledgeElements(
