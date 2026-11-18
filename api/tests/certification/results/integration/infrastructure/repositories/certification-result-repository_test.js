@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
-import { CertificationResult } from '../../../../../../src/certification/results/domain/models/CertificationResult.js';
+import { CERTIFICATION_RESULT_STATUSES } from '../../../../../../src/certification/results/domain/constants.ts';
+import { CertificationResult } from '../../../../../../src/certification/results/domain/models/CertificationResult.ts';
 import * as certificationResultRepository from '../../../../../../src/certification/results/infrastructure/repositories/certification-result-repository.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { ComplementaryCertificationCourseResult } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
@@ -54,13 +55,13 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       const assessmentResultId1 = databaseBuilder.factory.buildAssessmentResult.last({
         certificationCourseId: certificationCourseId1,
         pixScore: 123,
-        status: AssessmentResult.status.VALIDATED,
+        status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
         commentForOrganization: 'Un commentaire orga 1',
       }).id;
       databaseBuilder.factory.buildAssessmentResult.last({
         certificationCourseId: certificationCourseId2,
         pixScore: 0,
-        status: AssessmentResult.status.REJECTED,
+        status: CERTIFICATION_RESULT_STATUSES.REJECTED,
         commentForOrganization: 'Un commentaire orga 2',
       }).id;
       databaseBuilder.factory.buildCompetenceMark({
@@ -88,7 +89,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         createdAt: new Date('2021-06-06'),
         sessionId,
         reachedMeshIndex: null,
-        status: CertificationResult.status.REJECTED,
+        status: CERTIFICATION_RESULT_STATUSES.REJECTED,
         pixScore: 0,
         commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
           fallbackComment: 'Un commentaire orga 2',
@@ -105,7 +106,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         externalId: 'WITCH',
         createdAt: new Date('2020-10-10'),
         sessionId,
-        status: CertificationResult.status.STARTED,
+        status: CERTIFICATION_RESULT_STATUSES.STARTED,
         reachedMeshIndex: null,
         pixScore: null,
         commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
@@ -124,7 +125,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         createdAt: new Date('2020-01-01'),
         reachedMeshIndex: null,
         sessionId,
-        status: CertificationResult.status.VALIDATED,
+        status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
         pixScore: 123,
         commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
           fallbackComment: 'Un commentaire orga 1',
@@ -169,7 +170,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         certificationCourseId,
         assessmentId,
         pixScore: 123,
-        status: AssessmentResult.status.VALIDATED,
+        status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
         commentForOrganization: 'Un commentaire orga 1',
       }).id;
       databaseBuilder.factory.buildCompetenceMark({
@@ -281,7 +282,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
           pixScore: 456,
           reachedMeshIndex: 6,
           sessionId,
-          status: 'validated',
+          status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
           birthdate: '2001-05-21',
           birthplace: 'Paris',
           createdAt: new Date('2022-01-01T00:00:00Z'),
@@ -317,7 +318,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
           pixScore: 456,
           reachedMeshIndex: 6,
           sessionId,
-          status: 'validated',
+          status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
           birthdate: '2001-05-21',
           birthplace: 'Paris',
           createdAt: new Date('2022-01-01T00:00:00Z'),
@@ -414,7 +415,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
           pixScore: 456,
           reachedMeshIndex: 6,
           sessionId,
-          status: 'validated',
+          status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
           birthdate: '2001-05-21',
           birthplace: 'Paris',
           createdAt: new Date('2022-01-01T00:00:00Z'),
@@ -579,7 +580,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         certificationCourseId: certificationCourseId1,
         pixScore: 123,
         reachedMeshIndex: 2,
-        status: CertificationResult.status.VALIDATED,
+        status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
         commentForOrganization: 'Un commentaire orga 1',
         commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
       }).id;
@@ -587,14 +588,14 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         certificationCourseId: certificationCourseId2,
         pixScore: 0,
         reachedMeshIndex: null,
-        status: AssessmentResult.status.REJECTED,
+        status: CERTIFICATION_RESULT_STATUSES.REJECTED,
         commentForOrganization: 'Un commentaire orga 2',
       }).id;
       databaseBuilder.factory.buildAssessmentResult.last({
         certificationCourseId: certificationCourseId3,
         pixScore: 0,
         reachedMeshIndex: null,
-        status: AssessmentResult.status.CANCELLED,
+        status: CERTIFICATION_RESULT_STATUSES.CANCELLED,
         commentForOrganization: 'Un commentaire orga',
       }).id;
 
@@ -669,7 +670,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         createdAt: new Date('2021-06-06'),
         framework: 'CORE',
         sessionId,
-        status: CertificationResult.status.REJECTED,
+        status: CERTIFICATION_RESULT_STATUSES.REJECTED,
         pixScore: 0,
         reachedMeshIndex: null,
         commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
@@ -688,7 +689,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         createdAt: new Date('2020-10-10'),
         sessionId,
         reachedMeshIndex: null,
-        status: CertificationResult.status.CANCELLED,
+        status: CERTIFICATION_RESULT_STATUSES.CANCELLED,
         pixScore: 0,
         commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
           fallbackComment: 'Un commentaire orga',
@@ -705,7 +706,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         externalId: 'VAMPIRES_SUCK',
         createdAt: new Date('2020-01-01'),
         sessionId,
-        status: CertificationResult.status.VALIDATED,
+        status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
         pixScore: 123,
         reachedMeshIndex: 2,
         commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
@@ -755,7 +756,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         certificationCourseId,
         assessmentId,
         pixScore: 123,
-        status: AssessmentResult.status.VALIDATED,
+        status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
         commentForOrganization: 'Un commentaire orga 1',
       }).id;
       databaseBuilder.factory.buildCompetenceMark({
@@ -910,7 +911,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
           pixScore: 456,
           reachedMeshIndex: 6,
           sessionId,
-          status: 'validated',
+          status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
           birthdate: '2001-05-21',
           birthplace: 'Paris',
           createdAt: new Date('2022-01-01T00:00:00Z'),

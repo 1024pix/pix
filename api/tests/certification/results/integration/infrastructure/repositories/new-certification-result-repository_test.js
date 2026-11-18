@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { UserCertificationResult } from '../../../../../../src/certification/results/domain/models/NewCertificationResult.ts';
+import { UserCertificationResult } from '../../../../../../src/certification/results/domain/models/CertificationResult.ts';
 import * as newCertificationResultRepository from '../../../../../../src/certification/results/infrastructure/repositories/new-certification-result-repository.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';

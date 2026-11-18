@@ -3,13 +3,13 @@ import type { UUID } from 'node:crypto';
 import { expect } from 'chai';
 
 import {
+  CertificationResult,
+  UserCertificationResult,
+} from '../../../../../../src/certification/results/domain/models/CertificationResult.ts';
+import {
   type CertificationDataV3Props,
   CertificationResultBuilder,
 } from '../../../../../../src/certification/results/domain/models/CertificationResultBuilder.ts';
-import {
-  CertificationResult,
-  UserCertificationResult,
-} from '../../../../../../src/certification/results/domain/models/NewCertificationResult.ts';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 

@@ -3,7 +3,9 @@ export const MAX_LEVEL = 8;
 export const MAX_REACHABLE_SCORE = 895;
 
 export const CERTIFICATION_RESULT_STATUSES = {
+  STARTED: 'started',
   VALIDATED: 'validated',
   REJECTED: 'rejected',
+  ERROR: 'error',
   CANCELLED: 'cancelled',
 } as const;

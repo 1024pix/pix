@@ -1,19 +1,15 @@
 import { expect } from 'chai';
 
-import { CertificationResult } from '../../../../../../src/certification/results/domain/models/CertificationResult.js';
+import { CERTIFICATION_RESULT_STATUSES } from '../../../../../../src/certification/results/domain/constants.ts';
+import { CertificationResult } from '../../../../../../src/certification/results/domain/models/CertificationResult.ts';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
-const CERTIFICATION_RESULT_STATUS_CANCELLED = CertificationResult.status.CANCELLED;
-const CERTIFICATION_RESULT_STATUS_ERROR = CertificationResult.status.ERROR;
-const CERTIFICATION_RESULT_STATUS_REJECTED = CertificationResult.status.REJECTED;
-const CERTIFICATION_RESULT_STATUS_STARTED = CertificationResult.status.STARTED;
-const CERTIFICATION_RESULT_STATUS_VALIDATED = CertificationResult.status.VALIDATED;
-
 describe('Unit | Domain | Models | CertificationResult', function () {
-  context('#static from', function () {
+  context('.from', function () {
     let certificationResultData;
 
     beforeEach(function () {
@@ -56,13 +52,11 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       // given
       const certificationResultDTO = {
         ...certificationResultData,
-        assessmentResultStatus: CERTIFICATION_RESULT_STATUS_VALIDATED,
+        assessmentResultStatus: CERTIFICATION_RESULT_STATUSES.VALIDATED,
       };
 
       // when
-      const certificationResult = CertificationResult.from({
-        certificationResultDTO,
-      });
+      const certificationResult = CertificationResult.from(certificationResultDTO);
 
       // then
       const expectedCertificationResult = domainBuilder.buildCertificationResult({
@@ -73,34 +67,23 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         thirdName: 'Joan',
         birthdate: '1981-01-19',
         birthplace: 'Torreilles',
+        birthCountry: 'France',
+        birthINSEECode: '66212',
+        birthPostalCode: '66440',
         isPublished: true,
+        certificationCenter: '',
         externalId: 'VAMPIRES_SUCK',
         createdAt: new Date('2020-01-01'),
         sessionId: 456,
         assessmentId: 789,
         resultCreatedAt: new Date('2020-01-03'),
         pixScore: 123,
-        version: AlgorithmEngineVersion.V2,
+        algorithmEngineVersion: AlgorithmEngineVersion.V2,
         reachedMeshIndex: 2,
         framework: 'CORE',
-        status: CERTIFICATION_RESULT_STATUS_VALIDATED,
-        commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
-          fallbackComment: certificationResultData.commentForOrganization,
-        }),
-        juryId: 159,
-        competencesWithMark: [
-          domainBuilder.buildCompetenceMark({
-            id: 123,
-            level: 4,
-            score: 10,
-            area_code: '2',
-            competence_code: '2.3',
-            competenceId: 'recComp23',
-            assessmentResultId: 753,
-          }),
-        ],
-        complementaryCertificationCourseResults: [],
+        status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
       });
+
       expect(certificationResult).to.deepEqualInstance(expectedCertificationResult);
     });
 
@@ -134,22 +117,22 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       [
         {
           statusName: 'cancelled',
-          assessmentResultStatus: CERTIFICATION_RESULT_STATUS_CANCELLED,
+          assessmentResultStatus: CERTIFICATION_RESULT_STATUSES.CANCELLED,
           validationFunction: 'isCancelled',
         },
         {
           statusName: 'validated',
-          assessmentResultStatus: CERTIFICATION_RESULT_STATUS_VALIDATED,
+          assessmentResultStatus: CERTIFICATION_RESULT_STATUSES.VALIDATED,
           validationFunction: 'isValidated',
         },
         {
           statusName: 'rejected',
-          assessmentResultStatus: CERTIFICATION_RESULT_STATUS_REJECTED,
+          assessmentResultStatus: CERTIFICATION_RESULT_STATUSES.REJECTED,
           validationFunction: 'isRejected',
         },
         {
           statusName: 'error',
-          assessmentResultStatus: CERTIFICATION_RESULT_STATUS_ERROR,
+          assessmentResultStatus: CERTIFICATION_RESULT_STATUSES.ERROR,
           validationFunction: 'isInError',
         },
 
@@ -177,7 +160,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     it('returns true if status is "cancelled"', function () {
       // given
       const cancelledCertificationResult = domainBuilder.buildCertificationResult({
-        status: CERTIFICATION_RESULT_STATUS_CANCELLED,
+        status: CERTIFICATION_RESULT_STATUSES.CANCELLED,
       });
 
       // when / then
@@ -185,13 +168,13 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     });
 
     [
-      { statusName: 'validated', status: CERTIFICATION_RESULT_STATUS_VALIDATED },
+      { statusName: 'validated', status: CERTIFICATION_RESULT_STATUSES.VALIDATED },
 
-      { statusName: 'rejected', status: CERTIFICATION_RESULT_STATUS_REJECTED },
+      { statusName: 'rejected', status: CERTIFICATION_RESULT_STATUSES.REJECTED },
 
-      { statusName: 'error', status: CERTIFICATION_RESULT_STATUS_ERROR },
+      { statusName: 'error', status: CERTIFICATION_RESULT_STATUSES.ERROR },
 
-      { statusName: 'started', status: CERTIFICATION_RESULT_STATUS_STARTED },
+      { statusName: 'started', status: CERTIFICATION_RESULT_STATUSES.STARTED },
     ].forEach(function (testCase) {
       it(`should return false when status is ${testCase.statusName}`, async function () {
         // given
@@ -212,7 +195,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     it('returns true if status is "validated"', function () {
       // given
       const validatedCertificationResult = domainBuilder.buildCertificationResult({
-        status: CERTIFICATION_RESULT_STATUS_VALIDATED,
+        status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
       });
 
       // when
@@ -223,13 +206,13 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     });
 
     [
-      { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUS_CANCELLED },
+      { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUSES.CANCELLED },
 
-      { statusName: 'rejected', status: CERTIFICATION_RESULT_STATUS_REJECTED },
+      { statusName: 'rejected', status: CERTIFICATION_RESULT_STATUSES.REJECTED },
 
-      { statusName: 'error', status: CERTIFICATION_RESULT_STATUS_ERROR },
+      { statusName: 'error', status: CERTIFICATION_RESULT_STATUSES.ERROR },
 
-      { statusName: 'started', status: CERTIFICATION_RESULT_STATUS_STARTED },
+      { statusName: 'started', status: CERTIFICATION_RESULT_STATUSES.STARTED },
     ].forEach(function (testCase) {
       it(`should return false when status is ${testCase.statusName}`, async function () {
         // given
@@ -250,7 +233,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     it('returns true if status is "rejected"', function () {
       // given
       const rejectedCertificationResult = domainBuilder.buildCertificationResult({
-        status: CERTIFICATION_RESULT_STATUS_REJECTED,
+        status: CERTIFICATION_RESULT_STATUSES.REJECTED,
       });
 
       // when
@@ -261,13 +244,13 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     });
 
     [
-      { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUS_CANCELLED },
+      { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUSES.CANCELLED },
 
-      { statusName: 'validated', status: CERTIFICATION_RESULT_STATUS_VALIDATED },
+      { statusName: 'validated', status: CERTIFICATION_RESULT_STATUSES.VALIDATED },
 
-      { statusName: 'error', status: CERTIFICATION_RESULT_STATUS_ERROR },
+      { statusName: 'error', status: CERTIFICATION_RESULT_STATUSES.ERROR },
 
-      { statusName: 'started', status: CERTIFICATION_RESULT_STATUS_STARTED },
+      { statusName: 'started', status: CERTIFICATION_RESULT_STATUSES.STARTED },
     ].forEach(function (testCase) {
       it(`should return false when status is ${testCase.statusName}`, async function () {
         // given
@@ -288,7 +271,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     it('returns true if status is "error"', function () {
       // given
       const errorCertificationResult = domainBuilder.buildCertificationResult({
-        status: CERTIFICATION_RESULT_STATUS_ERROR,
+        status: CERTIFICATION_RESULT_STATUSES.ERROR,
       });
 
       // when
@@ -299,13 +282,13 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     });
 
     [
-      { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUS_CANCELLED },
+      { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUSES.CANCELLED },
 
-      { statusName: 'validated', status: CERTIFICATION_RESULT_STATUS_VALIDATED },
+      { statusName: 'validated', status: CERTIFICATION_RESULT_STATUSES.VALIDATED },
 
-      { statusName: 'rejected', status: CERTIFICATION_RESULT_STATUS_REJECTED },
+      { statusName: 'rejected', status: CERTIFICATION_RESULT_STATUSES.REJECTED },
 
-      { statusName: 'started', status: CERTIFICATION_RESULT_STATUS_STARTED },
+      { statusName: 'started', status: CERTIFICATION_RESULT_STATUSES.STARTED },
     ].forEach(function (testCase) {
       it(`should return false when status is ${testCase.statusName}`, async function () {
         // given
@@ -326,7 +309,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     it('returns true if status is "started"', function () {
       // given
       const startedCertificationResult = domainBuilder.buildCertificationResult({
-        status: CERTIFICATION_RESULT_STATUS_STARTED,
+        status: Assessment.states.STARTED,
       });
 
       // when
@@ -337,10 +320,10 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     });
 
     [
-      { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUS_CANCELLED },
-      { statusName: 'validated', status: CERTIFICATION_RESULT_STATUS_VALIDATED },
-      { statusName: 'rejected', status: CERTIFICATION_RESULT_STATUS_REJECTED },
-      { statusName: 'error', status: CERTIFICATION_RESULT_STATUS_ERROR },
+      { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUSES.CANCELLED },
+      { statusName: 'validated', status: CERTIFICATION_RESULT_STATUSES.VALIDATED },
+      { statusName: 'rejected', status: CERTIFICATION_RESULT_STATUSES.REJECTED },
+      { statusName: 'error', status: CERTIFICATION_RESULT_STATUSES.ERROR },
     ].forEach(function (testCase) {
       it(`should return false when status is ${testCase.statusName}`, async function () {
         // given

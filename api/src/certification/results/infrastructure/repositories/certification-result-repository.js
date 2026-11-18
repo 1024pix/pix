@@ -1,6 +1,6 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertificationCourseResult } from '../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
-import { CertificationResult } from '../../domain/models/CertificationResult.js';
+import { CertificationResult } from '../../domain/models/CertificationResult.ts';
 
 export async function findBySessionId({ sessionId }) {
   const knexConn = DomainTransaction.getConnection();

@@ -1,6 +1,15 @@
 import type { UUID } from 'node:crypto';
 
+import { I18n } from 'i18n';
+
+import { Assessment } from '../../../../shared/domain/models/Assessment.js';
+import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
+import { CompetenceMark } from '../../../shared/domain/models/CompetenceMark.js';
+import { ComplementaryCertificationCourseResult } from '../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
+import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
+import { JuryComment, JuryCommentContexts } from '../../../shared/domain/models/JuryComment.js';
 import type { Framework } from '../../../shared/domain/types.ts';
+import { CERTIFICATION_RESULT_STATUSES } from '../constants.ts';
 import type { CertificationResultStatus } from '../types.ts';
 
 type CertificationResultProps = {
@@ -29,6 +38,27 @@ type CertificationResultProps = {
   commentForOrganization: string | null;
   commentForCandidate: string | null;
   results: Results;
+};
+
+type OldCertificationResultProps = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  birthplace: string;
+  birthdate: string;
+  externalId: string;
+  createdAt: Date;
+  sessionId: number;
+  status: string;
+  framework: Framework;
+  reachedMeshIndex: number;
+  pixScore: number;
+  version: number;
+  commentForOrganization: string;
+  competenceMarks: Array<CompetenceMark>;
+  complementaryCertificationCourseResults: Array<ComplementaryCertificationCourseResult>;
+  assessmentResultStatus: string;
+  commentByAutoJury: string;
 };
 
 type CompetenceMarkV3Props = {
@@ -111,6 +141,89 @@ export class CertificationResult {
     this.commentForOrganization = props.commentForOrganization;
     this.commentForCandidate = props.commentForCandidate;
     this.results = props.results;
+  }
+
+  /**
+   * @deprecated
+   */
+  static from(certificationResultDTO: OldCertificationResultProps) {
+    const certificationStatus = certificationResultDTO?.certificationResultDTO?.assessmentResultStatus ?? Assessment.states.STARTED;
+
+    const commentForOrganization = new JuryComment({
+      fallbackComment: certificationResultDTO.commentForOrganization,
+      context: JuryCommentContexts.ORGANIZATION,
+      commentByAutoJury: certificationResultDTO.commentByAutoJury,
+    });
+
+    const competenceMarkDTOs = certificationResultDTO.competenceMarks?.filter(Boolean);
+    const competencesWithMark = competenceMarkDTOs?.map(
+      (competenceMarkDTO) =>
+        new CompetenceMark({
+          ...competenceMarkDTO,
+          area_code: competenceMarkDTO.area_code.toString(),
+          competence_code: competenceMarkDTO.competence_code.toString(),
+        }),
+    );
+
+    const complementaryCertificationCourseResults = certificationResultDTO.complementaryCertificationCourseResults
+      ?.filter(Boolean)
+      .map(
+        (complementaryCertifCourseResult) =>
+          new ComplementaryCertificationCourseResult(complementaryCertifCourseResult),
+      );
+
+    // TODO Build a convertTool from version to algoEnginVersion
+    return new CertificationResult({
+      algorithmEngineVersion: AlgorithmEngineVersion.V2,
+      birthCountry: 'France',
+      birthINSEECode: '66212',
+      birthPostalCode: '66440',
+      birthdate: certificationResultDTO.birthdate,
+      certificationCenter: '',
+      id: certificationResultDTO.id,
+      firstName: certificationResultDTO.firstName,
+      lastName: certificationResultDTO.lastName,
+      birthplace: certificationResultDTO.birthplace,
+      externalId: certificationResultDTO.externalId,
+      createdAt: certificationResultDTO.createdAt,
+      sessionId: certificationResultDTO.sessionId,
+      status: certificationStatus,
+      framework: certificationResultDTO.framework,
+      reachedMeshIndex: certificationResultDTO.reachedMeshIndex,
+      pixScore: certificationResultDTO.pixScore,
+      version: certificationResultDTO.version,
+      commentForOrganization: commentForOrganization.getComment((key) => I18n.__(key)) || null,
+      competencesWithMark,
+      complementaryCertificationCourseResults,
+    });
+  }
+
+  isCoreFramework() {
+    return this.framework === Frameworks.CORE;
+  }
+
+  isCancelled() {
+    return this.status === CERTIFICATION_RESULT_STATUSES.CANCELLED;
+  }
+
+  isValidated() {
+    return this.status === CERTIFICATION_RESULT_STATUSES.VALIDATED;
+  }
+
+  isRejected() {
+    return this.status === CERTIFICATION_RESULT_STATUSES.REJECTED;
+  }
+
+  isStarted() {
+    return this.status === Assessment.states.STARTED;
+  }
+
+  isInError() {
+    return this.status === CERTIFICATION_RESULT_STATUSES.ERROR;
+  }
+
+  getUniqComplementaryCertificationCourseResultLabels() {
+    return []
   }
 }
 

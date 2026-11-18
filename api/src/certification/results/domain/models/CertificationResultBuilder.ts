@@ -5,7 +5,7 @@ import { Frameworks, isEduFramework } from '../../../shared/domain/models/Framew
 import type { Framework } from '../../../shared/domain/types.ts';
 import { FRANCE_COMPETENCES_PROFESSIONAL_START_DATE } from '../constants.ts';
 import type { CertificationResultStatus } from '../types.ts';
-import { CertificationResult, type Results, UserCertificationResult } from './NewCertificationResult.ts';
+import { CertificationResult, type Results, UserCertificationResult } from './CertificationResult.ts';
 const FRANCE_COMPETENCES_MIN_SCORE = 120;
 
 export type CertificationDataV3Props = {
