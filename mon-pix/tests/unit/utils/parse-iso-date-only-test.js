@@ -27,11 +27,11 @@ module('Unit | Utils | parse-iso-date-only', function (hooks) {
     assert.deepEqual(date, new Date(2020, 11, 31));
   });
 
-  test('throws when the input date does not comply with the "YYYY-MM-DD" format', function (assert) {
+  test('returns null when the input date does not comply with the "YYYY-MM-DD" format', function (assert) {
     // given
     const dateStringWithInvertedDayAndMonth = '2020-31-12';
 
     // when / then
-    assert.throws(() => parseISODateOnly(dateStringWithInvertedDayAndMonth));
+    assert.deepEqual(parseISODateOnly(dateStringWithInvertedDayAndMonth), null);
   });
 });

@@ -4,8 +4,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { formatDate, t } from 'ember-intl';
 import { and } from 'ember-truth-helpers';
+import formatISODate from 'mon-pix/helpers/format-iso-date';
 import { CERTIFICATE_TYPES } from 'mon-pix/models/certificate-summary';
-import parseISODateOnly from 'mon-pix/utils/parse-iso-date-only';
 
 import Hexagon from '../../user-certifications/list-item/hexagon';
 import DownloadPdf from '../certificate-information/download-pdf';
@@ -107,7 +107,7 @@ export default class PixPlusCertificate extends Component {
                 </strong><br />
                 {{t
                   "pages.certificate.candidate-birth-complete"
-                  birthdate=(formatDate (parseISODateOnly @certificate.birthdate) format="L")
+                  birthdate=(formatISODate @certificate.birthdate format="L")
                   birthplace=@certificate.birthplace
                 }}
               </p>

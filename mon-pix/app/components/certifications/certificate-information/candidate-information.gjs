@@ -1,6 +1,6 @@
 import { PixBlock, PixTag } from '@1024pix/nebulix-ember';
 import { formatDate, t } from 'ember-intl';
-import parseISODateOnly from 'mon-pix/utils/parse-iso-date-only';
+import formatISODate from 'mon-pix/helpers/format-iso-date';
 
 <template>
   <PixBlock class="candidate-information">
@@ -27,7 +27,7 @@ import parseISODateOnly from 'mon-pix/utils/parse-iso-date-only';
         <li>
           {{t
             "pages.certificate.candidate-birth-complete"
-            birthdate=(formatDate (parseISODateOnly @certificate.birthdate) format="L")
+            birthdate=(formatISODate @certificate.birthdate format="L")
             birthplace=@certificate.birthplace
           }}
         </li>

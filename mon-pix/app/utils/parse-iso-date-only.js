@@ -1,6 +1,6 @@
 export default function parseISODateOnly(dateString) {
   if (!isDateStringValid(dateString)) {
-    throw new Error(`Date "${dateString}" does not comply with the "YYYY-MM-DD" format`);
+    return null;
   }
   return toDateAtMidnightLocalTime(dateString);
 }
