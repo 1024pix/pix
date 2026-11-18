@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { click, triggerEvent } from '@ember/test-helpers';
+import { blur, click, focus, triggerEvent } from '@ember/test-helpers';
 import breakpoints from 'mon-pix/breakpoints';
 import ModuleElementText from 'mon-pix/components/module/element/text';
 import { module, test } from 'qunit';
@@ -178,6 +178,50 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           });
         });
       });
+      module('when the focus moves from the highlighted button to the close button', function () {
+        test('should keep the tooltip displayed', async function (assert) {
+          // given
+          const definition = "C'est que des emmerdes et à la fin tu meurs.";
+          const textElement = {
+            content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
+            type: 'text',
+            tag: ' ',
+          };
+
+          //  when
+          const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+          const button = screen.getByRole('button', { name: 'vie' });
+          await focus(button);
+          await focus(screen.getByRole('button', { name: 'Fermer la définition' }));
+
+          // then
+          assert.dom(button).hasAttribute('aria-expanded', 'true');
+        });
+
+        module('when the focus then leaves the tooltip', function () {
+          test('should hide the tooltip and let the focus go on', async function (assert) {
+            // given
+            const definition = "C'est que des emmerdes et à la fin tu meurs.";
+            const textElement = {
+              content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p><button type="button">Suite</button>`,
+              type: 'text',
+              tag: ' ',
+            };
+
+            //  when
+            const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+            const button = screen.getByRole('button', { name: 'vie' });
+            await focus(button);
+            await focus(screen.getByRole('button', { name: 'Fermer la définition' }));
+            const nextButton = screen.getByRole('button', { name: 'Suite' });
+            await focus(nextButton);
+
+            // then
+            assert.dom(button).hasAttribute('aria-expanded', 'false');
+            assert.dom(nextButton).isFocused();
+          });
+        });
+      });
     });
 
     module('in both', function (hooks) {
@@ -202,7 +246,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           //  when
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
           const button = screen.getByRole('button', { name: 'vie' });
-          await triggerEvent(button, 'focus');
+          await focus(button);
 
           // then
           assert.ok(screen.getByRole('tooltip', { name: definition }));
@@ -222,8 +266,8 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
             //  when
             const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
             const button = screen.getByRole('button', { name: 'vie' });
-            await triggerEvent(button, 'focus');
-            await triggerEvent(button, 'blur');
+            await focus(button);
+            await blur(button);
 
             // then
             assert.dom(screen.queryByRole('tooltip', { name: definition })).doesNotExist();
@@ -243,7 +287,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           };
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
           const button = screen.getByRole('button', { name: 'vie' });
-          await triggerEvent(button, 'focus');
+          await focus(button);
           const tooltip = screen.getByRole('tooltip', { name: definition });
           sinon.stub(button, 'getBoundingClientRect').returns({ top: 100, bottom: 120, left: 42, right: 60 });
           sinon.stub(tooltip, 'getBoundingClientRect').returns({ top: 0, left: 0, width: 100, height: 50 });
@@ -269,8 +313,8 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           };
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
           const button = screen.getByRole('button', { name: 'vie' });
-          await triggerEvent(button, 'focus');
-          await triggerEvent(button, 'blur');
+          await focus(button);
+          await blur(button);
           const getBoundingClientRectSpy = sinon.spy(button, 'getBoundingClientRect');
 
           // when
@@ -293,7 +337,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           };
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
           const button = screen.getByRole('button', { name: 'vie' });
-          await triggerEvent(button, 'focus');
+          await focus(button);
           const tooltip = screen.getByRole('tooltip', { name: definition });
           sinon.stub(button, 'getBoundingClientRect').returns({ top: 100, bottom: 120, left: 42, right: 60 });
           sinon.stub(tooltip, 'getBoundingClientRect').returns({ top: 30, left: -500, width: 100, height: 50 });

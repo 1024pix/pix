@@ -37,7 +37,10 @@ class HighlightedButton extends HTMLElement {
       this.#setUpTooltip();
     }
     this.#buttonElement.addEventListener('focus', () => this.open());
-    this.#buttonElement.addEventListener('blur', () => this.close());
+    this.addEventListener('focusout', (event) => {
+      const isFocusStillInside = this.contains(event.relatedTarget);
+      if (!isFocusStillInside) this.close();
+    });
 
     this.replaceChildren(this.#buttonElement, this.#tooltipElement);
   }
