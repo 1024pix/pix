@@ -93,6 +93,8 @@ class HighlightedButton extends HTMLElement {
     this.#liveRegion = this.#createElementFromHTML(`<span role="status" class="sr-only"></span>`);
     this.#buttonElement.setAttribute('aria-controls', tooltipId);
 
+    this.#buttonElement.setAttribute('aria-label', `${this.#buttonElement.textContent}, voir la définition`);
+
     // Set aria-hidden=true because the definition is vocalized by the live region
     this.#tooltipElement.querySelector(`#${definitionId}`).setAttribute('aria-hidden', 'true');
 
