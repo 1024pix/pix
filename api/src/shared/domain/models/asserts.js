@@ -36,9 +36,3 @@ export function assertGreaterOrEqualToZero(value, errorMessage = 'value must be 
     throw new DomainError(errorMessage);
   }
 }
-
-export function assertIsArray(value, errorMessage = 'value must be an array') {
-  if (!Array.isArray(value)) {
-    throw new DomainError(errorMessage);
-  }
-}
