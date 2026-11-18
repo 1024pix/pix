@@ -70,7 +70,7 @@ module('Acceptance | CombinedCourse | combined-course-landing-page', function (h
         await click(screen.getByRole('button', { name: t('pages.campaign-landing.actions.start-cta') }));
 
         // then
-        assert.strictEqual(currentURL(), `/parcours/${combinedCourse.code}/presentation`);
+        assert.strictEqual(currentURL(), `/parcours/${combinedCourse.code}/sommaire`);
       });
     });
     module('when user has a participation to combined course', function () {
@@ -85,7 +85,7 @@ module('Acceptance | CombinedCourse | combined-course-landing-page', function (h
         await visit(`/parcours/${combinedCourse.code}`);
 
         // then
-        assert.strictEqual(currentURL(), `/parcours/${combinedCourse.code}/presentation`);
+        assert.strictEqual(currentURL(), `/parcours/${combinedCourse.code}/sommaire`);
       });
     });
   });

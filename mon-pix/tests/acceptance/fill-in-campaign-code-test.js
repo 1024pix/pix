@@ -51,7 +51,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
         await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
         // then
-        assert.strictEqual(currentURL(), `/parcours/${verifiedCode.id}/presentation`);
+        assert.strictEqual(currentURL(), `/parcours/${verifiedCode.id}/sommaire`);
       });
       module('when access to combined course is forbidden', function () {
         test('it displays oups page', async function (assert) {
@@ -256,7 +256,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
             await click(screen.getByRole('link', { name: 'Continuer' }));
 
             // then
-            assert.strictEqual(currentURL(), '/parcours/SOMETHING/landing');
+            assert.strictEqual(currentURL(), '/parcours/SOMETHING/presentation');
           });
 
           test('should be redirected to the student identification page after clicking on login CTA', async function (assert) {

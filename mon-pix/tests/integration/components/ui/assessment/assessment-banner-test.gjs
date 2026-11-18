@@ -170,7 +170,7 @@ module('Integration | Component | Ui | Assessment | assessment-banner', function
       await click(screen.getByRole('button', { name: "Quitter l'épreuve et retourner à la page d'accueil" }));
 
       // then
-      assert.ok(router.transitionTo.calledWith(campaign.customResultPageButtonUrl + '/presentation'));
+      assert.ok(router.transitionTo.calledWith(campaign.customResultPageButtonUrl + '/sommaire'));
     });
 
     module('when campaign is part of a combined course', function () {
@@ -194,7 +194,7 @@ module('Integration | Component | Ui | Assessment | assessment-banner', function
           await click(screen.getByRole('button', { name: "Quitter l'épreuve et retourner à la page d'accueil" }));
 
           // then
-          assert.ok(router.transitionTo.calledWith('/parcours/CODE/presentation'));
+          assert.ok(router.transitionTo.calledWith('/parcours/CODE/sommaire'));
         });
       });
 

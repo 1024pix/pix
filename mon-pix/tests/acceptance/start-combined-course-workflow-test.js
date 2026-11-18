@@ -81,7 +81,7 @@ module('Acceptance | Combined course | Start Combined course workflow', function
         const screen = await visit('/parcours/COMBINIX1');
         await _loginOnLandingPage(screen, user);
 
-        assert.strictEqual(currentURL(), '/parcours/COMBINIX1/presentation');
+        assert.strictEqual(currentURL(), '/parcours/COMBINIX1/sommaire');
       });
     });
   });

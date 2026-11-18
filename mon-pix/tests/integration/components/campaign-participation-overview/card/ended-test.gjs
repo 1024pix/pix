@@ -83,7 +83,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
         // then
         assert
           .dom(screen.getByRole('link', { name: t('pages.campaign-participation-overview.card.see-more') }))
-          .hasAttribute('href', '/parcours/12345/presentation');
+          .hasAttribute('href', '/parcours/12345/sommaire');
       });
     });
 
