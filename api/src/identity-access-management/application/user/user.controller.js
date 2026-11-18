@@ -131,7 +131,7 @@ const addUserEmailWithValidation = async function (request, h, dependencies = { 
 };
 
 const changeUserPassword = async function (request, h) {
-  const userId = request.auth.credentials.userId;
+  const { userId } = request.auth.credentials;
   const currentPassword = request.payload['current-password'];
   const newPassword = request.payload['new-password'];
 
