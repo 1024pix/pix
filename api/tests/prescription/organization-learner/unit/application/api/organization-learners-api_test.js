@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { OrganizationLearner } from '../../../../../../src/prescription/organization-learner/application/api/models/OrganizationLearner.js';
-import { OrganizationLearnerWithDivision } from '../../../../../../src/prescription/organization-learner/application/api/models/OrganizationLearnerWithDivision.js';
+import { OrganizationLearnerForCertificationResult } from '../../../../../../src/prescription/organization-learner/application/api/models/OrganizationLearnerForCertificationResult.js';
 import * as organizationLearnersApi from '../../../../../../src/prescription/organization-learner/application/api/organization-learners-api.js';
 import { OrganizationLearnerWithOrganization } from '../../../../../../src/prescription/organization-learner/application/api/read-models/OrganizationLearnerWithOrganization.js';
 import { usecases } from '../../../../../../src/prescription/organization-learner/domain/usecases/index.js';
@@ -168,8 +168,8 @@ describe('Unit | API | Organization Learner', function () {
 
       // then
       expect(organizationLearners).to.have.deep.members([
-        new OrganizationLearnerWithDivision(organizationLearner1),
-        new OrganizationLearnerWithDivision(organizationLearner2),
+        new OrganizationLearnerForCertificationResult(organizationLearner1),
+        new OrganizationLearnerForCertificationResult(organizationLearner2),
       ]);
     });
   });

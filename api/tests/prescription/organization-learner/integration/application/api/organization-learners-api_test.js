@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { OrganizationLearner } from '../../../../../../src/prescription/organization-learner/application/api/models/OrganizationLearner.js';
-import { OrganizationLearnerWithDivision } from '../../../../../../src/prescription/organization-learner/application/api/models/OrganizationLearnerWithDivision.js';
+import { OrganizationLearnerForCertificationResult } from '../../../../../../src/prescription/organization-learner/application/api/models/OrganizationLearnerForCertificationResult.js';
 import * as organizationLearnersApi from '../../../../../../src/prescription/organization-learner/application/api/organization-learners-api.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
@@ -69,7 +69,7 @@ describe('Integration | API | Organization Learner', function () {
       });
 
       // then
-      expect(organizationLearners).to.deep.equal([new OrganizationLearnerWithDivision(learnerInDivision)]);
+      expect(organizationLearners).to.deep.equal([new OrganizationLearnerForCertificationResult(learnerInDivision)]);
     });
   });
 

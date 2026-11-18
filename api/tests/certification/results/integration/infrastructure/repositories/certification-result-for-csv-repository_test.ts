@@ -85,49 +85,42 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       return databaseBuilder.commit();
     });
 
-    it('returns all certification results for given learners ordered by last name and first name', async function () {
+    it('returns the certification result for the most recent certification of each learner, ordered by last name and first name', async function () {
       // given
       databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceABC123', index: '1.1', origin: 'Pix' });
       databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceDEF456', index: '2.2', origin: 'Pix' });
-      const expectedResultData1 = buildCertificationResultForLearner(1, Frameworks.CORE, 50, new Date());
-      buildCertificationResultForLearner(2, Frameworks.CORE, 20, new Date()); // noise
-      buildCertificationResultForLearner(3, Frameworks.CORE, null, new Date()); // noise
-      const expectedResultData2 = buildCertificationResultForLearner(4, Frameworks.CLEA, 10, new Date());
-      const expectedResultData3 = buildCertificationResultForLearner(5, Frameworks.DROIT, 40, new Date());
+      const expectedResultData1 = buildCertificationResultForLearner(
+        1,
+        Frameworks.CORE,
+        10,
+        'z',
+        'z',
+        new Date('2026-01-01'),
+      );
+      buildCertificationResultForLearner(2, Frameworks.CORE, 10, 'z', 'z', new Date('2025-12-31'));
+      buildCertificationResultForLearner(3, Frameworks.CLEA, 20, 'a', 'a', new Date('2026-02-10'));
+      const expectedResultData2 = buildCertificationResultForLearner(4, Frameworks.CLEA, 20, 'a', 'a', new Date());
+      const expectedResultData3 = buildCertificationResultForLearner(
+        5,
+        Frameworks.DROIT,
+        40,
+        'b',
+        'a',
+        new Date('2025-12-31'),
+      );
+
       await databaseBuilder.commit();
 
       // when
       const certificationResults = await certificationResultForCsvRepository.findMostRecentByLearners({
-        learnerIds: [10, 40, 50, 999],
+        learnerIds: [10, 20, 40],
       });
 
       // then
       expect(certificationResults).to.deep.equal([
-        new CertificationResultForCsv(expectedResultData1),
         new CertificationResultForCsv(expectedResultData2),
         new CertificationResultForCsv(expectedResultData3),
-      ]);
-    });
-
-    it('returns the certification result for which certification started the most recently per learner', async function () {
-      // given
-      databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceABC123', index: '1.1', origin: 'Pix' });
-      databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceDEF456', index: '2.2', origin: 'Pix' });
-      const expectedResultData1 = buildCertificationResultForLearner(1, Frameworks.CORE, 10, new Date('2026-01-01'));
-      buildCertificationResultForLearner(2, Frameworks.CORE, 10, new Date('2025-12-31'));
-      buildCertificationResultForLearner(3, Frameworks.CLEA, 20, new Date('2026-02-10'));
-      const expectedResultData2 = buildCertificationResultForLearner(4, Frameworks.CLEA, 20, new Date());
-      await databaseBuilder.commit();
-
-      // when
-      const certificationResults = await certificationResultForCsvRepository.findMostRecentByLearners({
-        learnerIds: [10, 20],
-      });
-
-      // then
-      expect(certificationResults).to.deep.equal([
         new CertificationResultForCsv(expectedResultData1),
-        new CertificationResultForCsv(expectedResultData2),
       ]);
     });
 
@@ -135,8 +128,8 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       // given
       databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceABC123', index: '1.1', origin: 'Pix' });
       databaseBuilder.factory.learningContent.buildCompetence({ id: 'competenceDEF456', index: '2.2', origin: 'Pix' });
-      buildCertificationResultForLearner(1, Frameworks.CORE, 10, new Date());
-      buildCertificationResultForLearner(2, Frameworks.CORE, null, new Date());
+      buildCertificationResultForLearner(1, Frameworks.CORE, 10, 'a', 'a', new Date());
+      buildCertificationResultForLearner(2, Frameworks.CORE, null, null, null, new Date());
       await databaseBuilder.commit();
 
       // when
@@ -156,17 +149,37 @@ function buildCertificationResultForSessionAndResultRecipient(
   sessionId: number,
   resultRecipientEmail: string,
 ) {
-  return buildCertificationResult(certificationCourseId, framework, sessionId, resultRecipientEmail, null, new Date());
+  return buildCertificationResult(
+    certificationCourseId,
+    framework,
+    sessionId,
+    resultRecipientEmail,
+    null,
+    null,
+    null,
+    new Date(),
+  );
 }
 
 function buildCertificationResultForLearner(
   certificationCourseId: number,
   framework: Framework,
   learnerId: number | null,
+  learnerFirstName: string | null,
+  learnerLastName: string | null,
   startedAt: Date,
 ) {
   const sessionId = databaseBuilder.factory.buildSession().id;
-  return buildCertificationResult(certificationCourseId, framework, sessionId, 'foo@example.net', learnerId, startedAt);
+  return buildCertificationResult(
+    certificationCourseId,
+    framework,
+    sessionId,
+    'foo@example.net',
+    learnerId,
+    learnerFirstName,
+    learnerLastName,
+    startedAt,
+  );
 }
 
 function buildCertificationResult(
@@ -175,6 +188,8 @@ function buildCertificationResult(
   sessionId: number,
   resultRecipientEmail: string,
   learnerId: number | null,
+  learnerFirstName: string | null,
+  learnerLastName: string | null,
   startedAt: Date,
 ) {
   let pixScore: number | null = null;
@@ -209,8 +224,8 @@ function buildCertificationResult(
   }
   const data = {
     certificationId: certificationCourseId,
-    firstName: `firstName ${certificationCourseId}`,
-    lastName: `lastName ${certificationCourseId}`,
+    firstName: learnerFirstName ?? `firstName ${certificationCourseId}`,
+    lastName: learnerLastName ?? `lastName ${certificationCourseId}`,
     birthdate: '1990-01-01',
     birthplace: `birthplace ${certificationCourseId}`,
     externalId: `externalId ${certificationCourseId}`,

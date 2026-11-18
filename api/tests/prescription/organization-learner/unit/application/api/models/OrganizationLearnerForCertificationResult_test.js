@@ -1,18 +1,18 @@
 import { expect } from 'chai';
 
-import { OrganizationLearnerWithDivision } from '../../../../../../../src/prescription/organization-learner/application/api/models/OrganizationLearnerWithDivision.js';
+import { OrganizationLearnerForCertificationResult } from '../../../../../../../src/prescription/organization-learner/application/api/models/OrganizationLearnerForCertificationResult.js';
 
 describe('Unit | Application| API | Models | OrganizationLearnerWithDivision', function () {
   it('should return the division column of the learner, not its attributes', function () {
     // when
-    const organizationLearner = new OrganizationLearnerWithDivision({
+    const organizationLearner = new OrganizationLearnerForCertificationResult({
       id: 123,
       firstName: 'Jean-Hugues',
       lastName: 'Delaforêt',
       division: '4ème A',
-      'Libellé classe': 'CM2',
       organizationId: 358,
       userId: 777,
+      fakeAttribute: 'any',
     });
 
     // then

@@ -4,7 +4,7 @@ import { findOrganizationLearnersWithOrganizationByIds } from '../../domain/usec
 import { usecases } from '../../domain/usecases/index.js';
 import * as libOrganizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import { OrganizationLearner } from './models/OrganizationLearner.js';
-import { OrganizationLearnerWithDivision } from './models/OrganizationLearnerWithDivision.js';
+import { OrganizationLearnerForCertificationResult } from './models/OrganizationLearnerForCertificationResult.js';
 import { OrganizationLearnerWithOrganization } from './read-models/OrganizationLearnerWithOrganization.js';
 
 /**
@@ -94,12 +94,12 @@ export const find = async ({ organizationId, page, filter }) => {
  * @param {object} payload
  * @param {number} payload.organizationId
  * @param {Array<string>} payload.divisions
- * @returns {Promise<{ organizationLearners: Array<OrganizationLearnerWithDivision> }>}
+ * @returns {Promise<{ organizationLearners: Array<OrganizationLearnerForCertificationResult> }>}
  */
 export const findByDivisions = async ({ organizationId, divisions }) => {
   const learners = await _getLearnerWithoutPagination({ organizationId, filter: { divisions } });
 
-  return { organizationLearners: learners.map((learner) => new OrganizationLearnerWithDivision(learner)) };
+  return { organizationLearners: learners.map((learner) => new OrganizationLearnerForCertificationResult(learner)) };
 };
 
 function _toAPIModel(input) {

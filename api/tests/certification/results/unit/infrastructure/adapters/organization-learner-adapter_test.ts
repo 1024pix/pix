@@ -42,15 +42,17 @@ describe('Certification | Results | Unit | Adapter | Organization learner', func
 
     context('when learners found', function () {
       it('returns Learners', async function () {
+        const organizationLearners = [
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+          domainBuilder.certification.results.buildLearner({ id: 1 }),
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+          domainBuilder.certification.results.buildLearner({ id: 2 }),
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+          domainBuilder.certification.results.buildLearner({ id: 3 }),
+        ];
+
         organizationLearnerApi.findByDivisions.withArgs({ organizationId: 123, divisions: ['3èmeC'] }).resolves({
-          organizationLearners: [
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-            domainBuilder.certification.results.buildLearner({ id: 1 }),
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-            domainBuilder.certification.results.buildLearner({ id: 2 }),
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-            domainBuilder.certification.results.buildLearner({ id: 3 }),
-          ],
+          organizationLearners,
         });
 
         const learners = await organizationLearnerAdapter.findInOrganizationByDivision({
@@ -59,14 +61,7 @@ describe('Certification | Results | Unit | Adapter | Organization learner', func
           dependencies,
         });
 
-        expect(learners).to.deep.equal([
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-          domainBuilder.certification.results.buildLearner({ id: 1 }),
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-          domainBuilder.certification.results.buildLearner({ id: 2 }),
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-          domainBuilder.certification.results.buildLearner({ id: 3 }),
-        ]);
+        expect(learners).to.deep.equal(organizationLearners);
       });
     });
   });

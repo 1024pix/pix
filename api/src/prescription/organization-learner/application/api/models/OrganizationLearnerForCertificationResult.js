@@ -1,4 +1,4 @@
-export class OrganizationLearnerWithDivision {
+export class OrganizationLearnerForCertificationResult {
   constructor({ id, firstName, lastName, userId, organizationId, division }) {
     this.id = id;
     this.firstName = firstName;
