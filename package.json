@@ -32,7 +32,7 @@
     "demo-epreuves:update": "./scripts/update-demo-epreuves.sh"
   },
   "devDependencies": {
-    "@1024pix/stylelint-config": "5.2.31",
+    "@1024pix/stylelint-config": "6.0.1",
     "@cyclonedx/cyclonedx-npm": "7.0.0",
     "prettier": "3.9.10",
     "stylelint": "18.0.0"
