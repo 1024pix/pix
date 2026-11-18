@@ -71,7 +71,7 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform-registr
     });
   });
 
-  describe('#save', function () {
+  describe('create', function () {
     it('inserts platform registration', async function () {
       // given
       const expectedLtiPlatformRegistration = domainBuilder.lti.buildLtiPlatformRegistration();
@@ -80,12 +80,12 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform-registr
       await databaseBuilder.commit();
 
       // when
-      const savedRegistration = await ltiPlatformRegistrationRepository.save(expectedLtiPlatformRegistration);
+      const createdRegistration = await ltiPlatformRegistrationRepository.create(expectedLtiPlatformRegistration);
 
       // then
-      expect(savedRegistration).to.deepEqualInstance(expectedLtiPlatformRegistration);
-      expect(savedRegistration).to.have.property('platformId', platformId);
-      expect(savedRegistration).to.have.property('platformIssuer', platformIssuer);
+      expect(createdRegistration).to.deepEqualInstance(expectedLtiPlatformRegistration);
+      expect(createdRegistration).to.have.property('platformId', platformId);
+      expect(createdRegistration).to.have.property('platformIssuer', platformIssuer);
 
       const registrationFromDb = await knex.select('*').from('lti_platform_registrations').first();
       expect(registrationFromDb).to.deep.contain({
