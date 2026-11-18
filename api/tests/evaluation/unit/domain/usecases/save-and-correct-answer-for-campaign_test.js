@@ -54,8 +54,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
     campaign = domainBuilder.buildCampaign({ id: campaignId });
     campaignRepository = {
       findSkillsByCampaignParticipationId: sinon.stub(),
-      get: sinon.stub(),
-      getCampaignIdByCampaignParticipationId: sinon.stub(),
+      getByCampaignParticipationId: sinon.stub(),
     };
     knowledgeElementForParticipationService = {
       findUniqByUserOrCampaignParticipationId: sinon.stub(),
@@ -81,10 +80,7 @@ describe('Unit | Evaluation | Domain | Use Cases | save-and-correct-answer-for-c
       state: Assessment.states.STARTED,
       campaign,
     });
-    campaignRepository.getCampaignIdByCampaignParticipationId
-      .withArgs(assessment.campaignParticipationId)
-      .resolves(campaignId);
-    campaignRepository.get.withArgs(campaignId).resolves(campaign);
+    campaignRepository.getByCampaignParticipationId.withArgs(assessment.campaignParticipationId).resolves(campaign);
     answer = domainBuilder.buildAnswer({ assessmentId: assessment.id, value: correctAnswerValue, challengeId });
     answer.id = undefined;
     answer.result = undefined;

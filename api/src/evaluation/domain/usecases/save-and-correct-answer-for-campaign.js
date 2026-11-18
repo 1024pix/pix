@@ -61,10 +61,7 @@ export async function saveAndCorrectAnswerForCampaign({
     const targetSkills = await campaignRepository.findSkillsByCampaignParticipationId({
       campaignParticipationId: assessment.campaignParticipationId,
     });
-    const campaignId = await campaignRepository.getCampaignIdByCampaignParticipationId(
-      assessment.campaignParticipationId,
-    );
-    const campaign = await campaignRepository.get(campaignId);
+    const campaign = await campaignRepository.getByCampaignParticipationId(assessment.campaignParticipationId);
     savedAnswer = await DomainTransaction.execute(async () => {
       const answerToBeSaved = await answerRepository.save({ answer: correctedAnswer });
       const knowledgeElementsToAdd = computeKnowledgeElements({

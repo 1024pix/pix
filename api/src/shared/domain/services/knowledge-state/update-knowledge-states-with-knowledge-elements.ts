@@ -5,6 +5,7 @@ import { buildKnowledgeElementsFromKnowledgeStates } from './build-knowledge-ele
 import { buildKnowledgeStatesFromKnowledgeElements } from './build-knowledge-states-from-knowledge-elements.ts';
 import { UnknownSkillsError } from './errors.ts';
 import { statusOf } from './rules.ts';
+import { indexSkillsById } from './skills.ts';
 
 type SkillOf = (knowledgeElement: KnowledgeElement) => Skill;
 
@@ -133,7 +134,7 @@ export const updateKnowledgeStatesWithKnowledgeElements = ({
   skills: Skill[];
   at?: Date;
 }): KnowledgeStatesUpdate => {
-  const skillById = new Map(skills.map((skill) => [skill.id, skill]));
+  const skillById = indexSkillsById(skills);
   assertSkillsExist(knowledgeElements, skillById);
   const skillOf: SkillOf = ({ skillId }) => skillById.get(skillId) as Skill;
 

@@ -3,6 +3,7 @@ import { NotFoundError } from '../../domain/errors.js';
 import { Skill } from '../../domain/models/Skill.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { FRENCH_SPOKEN, getMatchingLocale, normalizeLocale } from '../../domain/services/locale-service.js';
+import { LearningContentCache } from '../caches/learning-content-cache.js';
 import { child, SCOPES } from '../utils/logger.js';
 import { makeGetInstance } from './learning-content-repository.ts';
 
@@ -15,6 +16,13 @@ const logger = child('learningcontent:repository', { event: SCOPES.LEARNING_CONT
 
 const getInstance = makeGetInstance({ tableName: TABLE_NAME });
 
+// The whole list is read on every answer of a user migrated to knowledge
+// states: built once in this process and shared, frozen, between callers, as
+// the Redis implementation would otherwise fetch and parse every skill again
+// on each call, and the mapping of thousands of skills is not free either.
+const LIST_CACHE_KEY = 'list()';
+const listCache = new LearningContentCache({ name: `${TABLE_NAME}:list` });
+
 export async function get(id, { locale, useFallback } = { locale: null, useFallback: true }) {
   const skillDto = await getInstance().load(id);
   if (!skillDto) {
@@ -24,11 +32,21 @@ export async function get(id, { locale, useFallback } = { locale: null, useFallb
   return toDomain(skillDto, locale, useFallback);
 }
 
+/**
+ * All the skills, shared and frozen: not to be changed by the caller.
+ *
+ * @returns {Promise<Skill[]>}
+ */
 export async function list() {
-  const cacheKey = 'list()';
+  /** @type {Skill[] | undefined} */
+  const cachedSkills = listCache.get(LIST_CACHE_KEY);
+  if (cachedSkills) return cachedSkills;
+
   const listCallback = (knex) => knex.orderBy('id');
-  const skillDtos = await getInstance().find(cacheKey, listCallback);
-  return skillDtos.map((skillDto) => toDomain(skillDto));
+  const skillDtos = await getInstance().find(LIST_CACHE_KEY, listCallback);
+  const skills = Object.freeze(skillDtos.map((skillDto) => Object.freeze(toDomain(skillDto))));
+  listCache.set(LIST_CACHE_KEY, skills);
+  return skills;
 }
 
 export async function findActiveByTubeIds(tubeIds) {
@@ -83,6 +101,7 @@ export async function findActiveByRecordIds(ids) {
 }
 
 export function clearCache(id) {
+  listCache.clear();
   return getInstance().clearCache?.(id);
 }
 

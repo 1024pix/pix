@@ -6,6 +6,7 @@ import { KnowledgeElement, type KnowledgeElementStatus } from '../../models/Know
 import { KnowledgeState } from '../../models/KnowledgeState.ts';
 import { type Skill } from '../../models/Skill.js';
 import { UnknownSkillsError } from './errors.ts';
+import { indexSkillsById } from './skills.ts';
 
 type KnowledgeElementWithSkill = { knowledgeElement: KnowledgeElement; skill: Skill };
 
@@ -77,7 +78,7 @@ export const buildKnowledgeStatesFromKnowledgeElements = ({
   knowledgeElements: KnowledgeElement[];
   skills: Skill[];
 }): KnowledgeState[] => {
-  const skillById = new Map(skills.map((skill) => [skill.id, skill]));
+  const skillById = indexSkillsById(skills);
   const latestUniqNonResetKnowledgeElements = KnowledgeElement.toLatestUniqNonResetCollection(knowledgeElements);
 
   // A knowledge element gets its date from the database: one without a date

@@ -55,24 +55,36 @@ export class LearningContentCache {
     }
   }
 
+  /** Deletes the key here at once, and in the other processes through the topic. */
   delete(key) {
+    this.#deleteLocally(key);
     return this.#topic.publish({ type: 'delete', key });
   }
 
+  /** Clears the cache here at once, and in the other processes through the topic. */
   clear() {
+    this.#clearLocally();
     return this.#topic.publish({ type: 'clear' });
   }
 
   #onMessage(message) {
     if (message.type === 'clear') {
       logger.debug({ cacheName: this.#name }, 'clearing cache');
-      this.#map.clear();
-      this.#metrics.cacheSize.set(0);
+      this.#clearLocally();
     }
     if (message.type === 'delete') {
       logger.debug({ cacheName: this.#name, key: message.key }, 'deleting cache key');
-      this.#map.delete(message.key);
-      this.#metrics.cacheSize.set(this.#map.size);
+      this.#deleteLocally(message.key);
     }
+  }
+
+  #clearLocally() {
+    this.#map.clear();
+    this.#metrics.cacheSize.set(0);
+  }
+
+  #deleteLocally(key) {
+    this.#map.delete(key);
+    this.#metrics.cacheSize.set(this.#map.size);
   }
 }

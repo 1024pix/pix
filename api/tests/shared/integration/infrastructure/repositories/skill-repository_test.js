@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { LearningContentRedisRepository } from '../../../../../src/shared/infrastructure/repositories/learning-content-redis-repository.js';
 import * as skillRepository from '../../../../../src/shared/infrastructure/repositories/skill-repository.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
@@ -296,6 +297,34 @@ describe('Integration | Repository | skill-repository', function () {
 
       // then
       expect(intlLocaleSpy).not.to.have.been.called;
+    });
+
+    it('should keep the list in the process, frozen, and read the learning content once', async function () {
+      // given
+      const find = sinon.spy(LearningContentRedisRepository.prototype, 'find');
+      const firstSkills = await skillRepository.list();
+
+      // when
+      const skills = await skillRepository.list();
+
+      // then
+      expect(find).to.have.been.calledOnce;
+      expect(skills).to.equal(firstSkills);
+      expect(Object.isFrozen(skills)).to.be.true;
+      expect(Object.isFrozen(skills[0])).to.be.true;
+    });
+
+    it('should read the learning content again once the cache is cleared', async function () {
+      // given
+      const find = sinon.spy(LearningContentRedisRepository.prototype, 'find');
+      await skillRepository.list();
+
+      // when
+      skillRepository.clearCache();
+      await skillRepository.list();
+
+      // then
+      expect(find).to.have.been.calledTwice;
     });
   });
 
