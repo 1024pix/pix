@@ -7,16 +7,15 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import isInteger from 'lodash/isInteger';
+import AssessmentsLiveAlert from 'mon-pix/components/assessments/live-alert';
 import ChallengeActions from 'mon-pix/components/challenge/challenge-actions';
 import ChallengeWrapper from 'mon-pix/components/challenge/challenge-wrapper';
 import CertificationFeedbackPanel from 'mon-pix/components/challenge/feedback/certification-feedback-panel';
 import FeedbackPanel from 'mon-pix/components/challenge/feedback/feedback-panel';
 import FocusedOutNotification from 'mon-pix/components/challenge/focusedOutNotification';
+import ChallengeItem from 'mon-pix/components/challenge/item';
 import ModeBanner from 'mon-pix/components/challenge/mode-banner';
 import ChallengeStatement from 'mon-pix/components/challenge-statement';
-
-import AssessmentsLiveAlert from '../assessments/live-alert';
-import ChallengeItem from './item';
 
 export default class ChallengeContent extends Component {
   @tracked isLiveAlertButtonEnabled = true;

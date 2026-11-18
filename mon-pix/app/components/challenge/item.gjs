@@ -2,11 +2,10 @@ import { service } from '@ember/service';
 import { ensureSafeComponent } from '@embroider/util';
 import Component from '@glimmer/component';
 import TimeoutGauge from 'mon-pix/components/challenge/timeout-gauge';
-
-import ChallengeItemQcm from '../challenge-item/challenge-item-qcm';
-import ChallengeItemQcu from '../challenge-item/challenge-item-qcu';
-import ChallengeItemQroc from '../challenge-item/challenge-item-qroc';
-import ChallengeItemQrocm from '../challenge-item/challenge-item-qrocm';
+import ChallengeItemQcm from 'mon-pix/components/challenge-item/challenge-item-qcm';
+import ChallengeItemQcu from 'mon-pix/components/challenge-item/challenge-item-qcu';
+import ChallengeItemQroc from 'mon-pix/components/challenge-item/challenge-item-qroc';
+import ChallengeItemQrocm from 'mon-pix/components/challenge-item/challenge-item-qrocm';
 
 const FOCUSEDOUT_EVENT_NAME = 'focusedout';
 const FOCUSEDOUT_INTERVAL = 1000;
