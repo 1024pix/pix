@@ -13,6 +13,7 @@ import {
   getRequestId,
   setInContext,
 } from '../../../../src/shared/infrastructure/execution-context-manager.js';
+import { tracing } from '../../../../src/shared/infrastructure/open-telemetry/helpers.js';
 
 describe('Shared | Unit | Infrastructure | execution-context-manager', function () {
   describe('#getCorrelationContext', function () {
@@ -259,9 +260,33 @@ describe('Shared | Unit | Infrastructure | execution-context-manager', function 
         [CORRELATION_METADATA]: null,
       });
     });
+
+    it('should add value as an attribute of the active span', function () {
+      // given
+      sinon.stub(tracing, 'addAttributes');
+
+      // when
+      executeInContext({}, () => addCorrelationInfo('sessionId', 456));
+
+      // then
+      expect(tracing.addAttributes).to.have.been.calledOnceWithExactly({ sessionId: 456 }, CORRELATION_METADATA);
+    });
   });
 
   describe('#addCorrelationInfos', function () {
+    it('should add values as attributes of the active span', function () {
+      // given
+      sinon.stub(tracing, 'addAttributes');
+
+      // when
+      executeInContext({}, () => addCorrelationInfos({ sessionId: 456, userId: 789 }));
+
+      // then
+      expect(tracing.addAttributes).to.have.been.calledTwice;
+      expect(tracing.addAttributes).to.have.been.calledWithExactly({ sessionId: 456 }, CORRELATION_METADATA);
+      expect(tracing.addAttributes).to.have.been.calledWithExactly({ userId: 789 }, CORRELATION_METADATA);
+    });
+
     it('should add values in given paths destined to be available in correlation info', function () {
       // given
       const context = {};
