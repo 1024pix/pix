@@ -49,6 +49,11 @@ class HighlightedButton extends HTMLElement {
       const isFocusStillInside = this.contains(event.relatedTarget);
       if (!isFocusStillInside) this.close();
     });
+    this.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && this.#isOpen) {
+        this.#closeAndReturnFocusToButton();
+      }
+    });
   }
 
   open() {
