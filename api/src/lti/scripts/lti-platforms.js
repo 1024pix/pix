@@ -1,5 +1,6 @@
 import { Script } from '../../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../../src/shared/application/scripts/script-runner.js';
+import { LtiPlatformRegistration } from '../domain/models/LtiPlatformRegistration.js';
 import { ltiPlatformRepository } from '../infrastructure/repositories/lti-platform.repository.js';
 import { ltiPlatformRegistrationRepository } from '../infrastructure/repositories/lti-platform-registration.repository.js';
 
@@ -35,6 +36,22 @@ export class LtiPlatformsScript extends Script {
               description: 'LTI platform’s ID',
               demandOption: true,
               type: 'integer',
+            },
+          },
+        },
+        'set-registration-status': {
+          description: 'Sets registration status',
+          options: {
+            clientId: {
+              description: 'LTI platform registration’s client ID',
+              demandOption: true,
+              type: 'string',
+            },
+            status: {
+              description: 'New status',
+              demandOption: true,
+              type: 'string',
+              choices: Object.values(LtiPlatformRegistration.status),
             },
           },
         },
@@ -78,6 +95,22 @@ export class LtiPlatformsScript extends Script {
     const registrations = await ltiPlatformRegistrationRepository.findAllByPlatformId({ platformId });
 
     console.table(registrations.map(({ clientId, status }) => ({ clientId, status })));
+  }
+
+  /**
+   * @param {object} options
+   * @param {string} options.clientId
+   * @param {string} options.status
+   * @param {CommandDependencies} dependencies
+   */
+  async 'set-registration-status'({ clientId, status }, { logger }) {
+    const registration = await ltiPlatformRegistrationRepository.findByClientId(clientId);
+
+    registration.status = status;
+
+    await ltiPlatformRegistrationRepository.update(registration);
+
+    logger.info(`LTI platform registration clientId=${clientId} updated with status=${status}`);
   }
 }
 
