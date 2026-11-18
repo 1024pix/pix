@@ -1,6 +1,8 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
+const PUBLIC_ROUTES = ['combined-courses.combined-course.entry-point', 'combined-courses.combined-course.landing-page'];
+
 export default class CombinedCourseRoute extends Route {
   @service session;
   @service store;
@@ -15,7 +17,7 @@ export default class CombinedCourseRoute extends Route {
       this.router.transitionTo('organizations.access', verifiedCode.id);
     }
 
-    if (transition.to.name === 'combined-courses.combined-course.entry-point') return;
+    if (PUBLIC_ROUTES.includes(transition.to.name)) return;
 
     if (!transition.from) {
       if (transition.to.name !== 'combined-courses.combined-course.tunnel') {

@@ -47,6 +47,18 @@ module('Acceptance | CombinedCourse | combined-course-landing-page', function (h
       // then
       assert.strictEqual(currentURL(), '/inscription');
     });
+
+    test('it should stay on the landing page when accessing its URL directly', async function (assert) {
+      // given
+      server.create('combined-course', { code: 'COMBINIX' });
+
+      // when
+      const screen = await visit('/parcours/COMBINIX/presentation');
+
+      // then
+      assert.strictEqual(currentURL(), '/parcours/COMBINIX/presentation');
+      assert.dom(screen.getByRole('button', { name: t('pages.campaign-landing.actions.login-cta') })).exists();
+    });
   });
   module('when user is connected', function (hooks) {
     hooks.beforeEach(async function () {
@@ -71,6 +83,18 @@ module('Acceptance | CombinedCourse | combined-course-landing-page', function (h
 
         // then
         assert.strictEqual(currentURL(), `/parcours/${combinedCourse.code}/sommaire`);
+      });
+
+      test('it should stay on the landing page when accessing its URL directly', async function (assert) {
+        // given
+        server.create('combined-course', { code: 'COMBINIX', status: 'NOT_STARTED' });
+
+        // when
+        const screen = await visit('/parcours/COMBINIX/presentation');
+
+        // then
+        assert.strictEqual(currentURL(), '/parcours/COMBINIX/presentation');
+        assert.dom(screen.getByRole('button', { name: t('pages.campaign-landing.actions.start-cta') })).exists();
       });
     });
     module('when user has a participation to combined course', function () {
