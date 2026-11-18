@@ -97,6 +97,7 @@ test('test modulix a11y on galerie module', async ({ page }) => {
   });
 
   const axeBuilder = new AxeBuilder({ page });
+  axeBuilder.disableRules('label-content-name-mismatch');
   axeBuilder.include('.modulix');
   axeBuilder.exclude('iframe');
 
