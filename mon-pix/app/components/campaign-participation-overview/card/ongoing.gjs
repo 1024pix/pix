@@ -1,5 +1,5 @@
 import { PixBlock, PixButtonLink, PixTag } from '@1024pix/nebulix-ember';
-import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
+import { formatDate } from 'ember-intl';
 import t from 'ember-intl/helpers/t';
 import { eq } from 'ember-truth-helpers';
 
@@ -15,7 +15,7 @@ import { eq } from 'ember-truth-helpers';
         title={{@model.campaignTitle}}
       >{{@model.campaignTitle}}</strong>
       <time class="campaign-participation-overview-card-header__date" datetime="{{@model.createdAt}}">
-        {{t "pages.campaign-participation-overview.card.started-at" date=(dayjsFormat @model.createdAt "DD/MM/YYYY")}}
+        {{t "pages.campaign-participation-overview.card.started-at" date=(formatDate @model.createdAt format="L")}}
       </time>
     </div>
     <section class="campaign-participation-overview-card-content">

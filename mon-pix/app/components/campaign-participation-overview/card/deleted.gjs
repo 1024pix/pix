@@ -1,6 +1,5 @@
 import { PixTag } from '@1024pix/nebulix-ember';
-import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
-import { t } from 'ember-intl';
+import { formatDate, t } from 'ember-intl';
 
 function getStatusWording(state) {
   const statusKey = {
@@ -19,7 +18,7 @@ function getStatusWording(state) {
       </PixTag>
       <p>
         <time class="campaign-participation-overview-card-header__date" datetime="{{@model.updatedAt}}">
-          {{t (getStatusWording @model.state) date=(dayjsFormat @model.updatedAt "DD/MM/YYYY")}}
+          {{t (getStatusWording @model.state) date=(formatDate @model.updatedAt format="L")}}
         </time>
       </p>
     </div>

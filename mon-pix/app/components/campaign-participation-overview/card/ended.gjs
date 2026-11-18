@@ -1,7 +1,7 @@
 import { PixBlock, PixButtonLink, PixStars, PixTag } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
-import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
+import { formatDate } from 'ember-intl';
 import t from 'ember-intl/helpers/t';
 import { eq } from 'ember-truth-helpers';
 
@@ -18,7 +18,7 @@ export default class Ended extends Component {
           title={{@model.campaignTitle}}
         >{{@model.campaignTitle}}</strong>
         <time class="campaign-participation-overview-card-header__date" datetime="{{@model.sharedAt}}">
-          {{t "pages.campaign-participation-overview.card.finished-at" date=(dayjsFormat @model.sharedAt "DD/MM/YYYY")}}
+          {{t "pages.campaign-participation-overview.card.finished-at" date=(formatDate @model.sharedAt format="L")}}
         </time>
       </div>
       <section class="campaign-participation-overview-card-content">

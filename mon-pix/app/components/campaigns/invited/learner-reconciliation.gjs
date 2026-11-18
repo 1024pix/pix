@@ -5,13 +5,8 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import dayjs from 'dayjs';
-import CustomParseFormat from 'dayjs/plugin/customParseFormat';
-import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { t } from 'ember-intl';
-
-dayjs.extend(LocalizedFormat);
-dayjs.extend(CustomParseFormat);
+import { formatShortDate, parseShortDate } from 'mon-pix/utils/localized-date';
 
 export default class LearnerReconciliation extends Component {
   @service intl;
@@ -46,7 +41,7 @@ export default class LearnerReconciliation extends Component {
     this.args.onSubmit(
       this.reconciliationFieldData.reduce((object, reconciliationField) => {
         if (reconciliationField.type === 'date') {
-          object[reconciliationField.id] = dayjs(reconciliationField.value, 'L', true).format('YYYY-MM-DD');
+          object[reconciliationField.id] = parseShortDate(reconciliationField.value, this.intl.primaryLocale);
         } else {
           object[reconciliationField.id] = reconciliationField.value;
         }
@@ -63,7 +58,7 @@ export default class LearnerReconciliation extends Component {
   _getSubLabel(type) {
     if (type === 'date') {
       return this.intl.t('components.invited.reconciliation.field.sub-label.date', {
-        dateFormat: dayjs('2020-12-31').format('L'),
+        dateFormat: formatShortDate(new Date(2020, 11, 31), this.intl.primaryLocale),
       });
     } else {
       return null;
@@ -83,7 +78,7 @@ export default class LearnerReconciliation extends Component {
       }
 
       if (field.type === 'date') {
-        const isValidDate = dayjs(field.value, 'L', true).isValid();
+        const isValidDate = parseShortDate(field.value, this.intl.primaryLocale) !== null;
 
         if (!isValidDate) {
           return {

@@ -1,6 +1,6 @@
 import { PixBlock } from '@1024pix/nebulix-ember';
 import { LinkTo } from '@ember/routing';
-import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
+import { formatDate } from 'ember-intl';
 import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
 import HexagonScore from 'mon-pix/components/hexagon-score';
@@ -23,7 +23,7 @@ import ProfileScorecards from 'mon-pix/components/profile-scorecards';
           {{t
             "pages.profile-already-shared.explanation"
             organization=@controller.model.campaign.organizationName
-            date=(dayjsFormat @controller.model.sharedProfile.sharedAt "D MMMM YYYY")
+            date=(formatDate @controller.model.sharedProfile.sharedAt format="LL")
             hour=@controller.model.sharedProfile.sharedAt
             htmlSafe=true
           }}

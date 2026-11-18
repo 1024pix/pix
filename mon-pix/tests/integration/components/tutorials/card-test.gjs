@@ -37,7 +37,7 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
       assert.strictEqual(link.getAttribute('href'), 'https://exemple.net/');
       assert.ok(find('.tutorial-card-content__details').textContent.includes('mon-tuto'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('vidéo'));
-      assert.ok(find('.tutorial-card-content__details').textContent.includes('une minute'));
+      assert.ok(find('.tutorial-card-content__details').textContent.includes('1 minute'));
       assert.dom(screen.getByRole('list')).exists();
       const evaluationButton = screen.getByRole('button', { name: 'Ne plus considérer ce tuto comme utile' });
       assert.strictEqual(evaluationButton.title, 'Ne plus considérer ce tuto comme utile');
@@ -199,7 +199,7 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
       assert.strictEqual(link.getAttribute('href'), 'https://exemple.net/');
       assert.ok(find('.tutorial-card-content__details').textContent.includes('mon-tuto'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('vidéo'));
-      assert.ok(find('.tutorial-card-content__details').textContent.includes('une minute'));
+      assert.ok(find('.tutorial-card-content__details').textContent.includes('1 minute'));
       assert.dom(screen.queryByRole('list')).doesNotExist();
     });
   });

@@ -1,6 +1,6 @@
 import { PixBlock, PixTag } from '@1024pix/nebulix-ember';
-import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
-import { t } from 'ember-intl';
+import { formatDate, t } from 'ember-intl';
+import formatISODate from 'mon-pix/helpers/format-iso-date';
 
 <template>
   <PixBlock class="candidate-information">
@@ -27,7 +27,7 @@ import { t } from 'ember-intl';
         <li>
           {{t
             "pages.certificate.candidate-birth-complete"
-            birthdate=(dayjsFormat @certificate.birthdate "DD/MM/YYYY")
+            birthdate=(formatISODate @certificate.birthdate format="L")
             birthplace=@certificate.birthplace
           }}
         </li>
@@ -37,11 +37,11 @@ import { t } from 'ember-intl';
         </li>
         <li>
           {{t "pages.certificate.certification-date"}}
-          {{dayjsFormat @certificate.certificationDate "DD/MM/YYYY"}}
+          {{formatDate @certificate.certificationDate format="L"}}
         </li>
         <li>
           {{t "pages.certificate.delivered-at"}}
-          {{dayjsFormat @certificate.deliveredAt "DD/MM/YYYY"}}
+          {{formatDate @certificate.deliveredAt format="L"}}
         </li>
       </ul>
     </div>
