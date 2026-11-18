@@ -65,3 +65,19 @@ export const setSavedAt = async (ids: number[], at: Date): Promise<void> => {
 
   await knexConn<MigratedUserKnowledgeElementRow>(TABLE_NAME).whereIn('id', ids).update({ savedAt: at });
 };
+
+/**
+ * Deletes the rows exported before the given date, by ascending id, up to the
+ * limit, and gives the number of rows deleted.
+ */
+export const deleteSavedBefore = async (savedBefore: Date, limit: number): Promise<number> => {
+  const knexConn = DomainTransaction.getConnection();
+
+  const idsToDelete = knexConn<MigratedUserKnowledgeElementRow>(TABLE_NAME)
+    .select('id')
+    .where('savedAt', '<', savedBefore)
+    .orderBy('id')
+    .limit(limit);
+
+  return knexConn<MigratedUserKnowledgeElementRow>(TABLE_NAME).whereIn('id', idsToDelete).delete();
+};

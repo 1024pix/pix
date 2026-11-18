@@ -98,6 +98,8 @@ export const schema = Joi.object({
   ANSWERS_HISTORY_ASSESSMENT_ID_RANGE: Joi.number().integer().min(1).optional(),
   ANSWERS_HISTORY_ANSWER_BATCH_SIZE: Joi.number().integer().min(1).optional(),
   MIGRATED_USER_KE_EXPORT_BATCH_SIZE: Joi.number().integer().min(1).optional(),
+  MIGRATED_USER_KE_PURGE_BATCH_SIZE: Joi.number().integer().min(1).optional(),
+  MIGRATED_USER_KE_PURGE_RETENTION_DAYS: Joi.number().integer().min(1).optional(),
   AUTH_SECRET: Joi.string().required(),
   AUTONOMOUS_COURSES_ORGANIZATION_ID: Joi.number().requiredForApi(),
   API_DATA_URL: Joi.string().uri().optional(),
@@ -121,6 +123,7 @@ export const schema = Joi.object({
   CPF_PLANNER_JOB_CHUNK_SIZE: Joi.number().optional(),
   CPF_PLANNER_JOB_CRON: Joi.string().optional(),
   SCHEDULE_EXPORT_MIGRATED_USER_KE_JOB_CRON: Joi.string().optional(),
+  SCHEDULE_PURGE_MIGRATED_USER_KE_JOB_CRON: Joi.string().optional(),
   CPF_PLANNER_JOB_MINIMUM_RELIABILITY_PERIOD: Joi.number().optional(),
   CPF_PLANNER_JOB_MONTHS_TO_PROCESS: Joi.number().optional(),
   CPF_SEND_EMAIL_JOB_CRON: Joi.string().optional(),
@@ -236,6 +239,10 @@ export const config = {
       },
     },
     batchSize: _getNumber(process.env.MIGRATED_USER_KE_EXPORT_BATCH_SIZE, 10_000),
+  },
+  migratedUserKnowledgeElementsPurge: {
+    retentionDays: _getNumber(process.env.MIGRATED_USER_KE_PURGE_RETENTION_DAYS, 7),
+    batchSize: _getNumber(process.env.MIGRATED_USER_KE_PURGE_BATCH_SIZE, 10_000),
   },
   import: {
     storage: {
@@ -372,6 +379,10 @@ export const config = {
       scheduleExportMigratedUserKnowledgeElements: {
         // Unset: the job is disabled.
         cron: process.env.SCHEDULE_EXPORT_MIGRATED_USER_KE_JOB_CRON,
+      },
+      schedulePurgeMigratedUserKnowledgeElements: {
+        // Unset: the job is disabled.
+        cron: process.env.SCHEDULE_PURGE_MIGRATED_USER_KE_JOB_CRON,
       },
     },
   },
