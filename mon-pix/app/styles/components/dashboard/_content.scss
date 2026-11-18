@@ -12,11 +12,14 @@
 
 .dashboard-content {
   display: grid;
-  grid-template:
+  // stylelint-disable-next-line declaration-block-no-redundant-longhand-properties
+  grid-template-areas:
     'banner'
     'score'
     'main'
-    'certif' / 100%;
+    'certif';
+  grid-template-rows: auto;
+  grid-template-columns: 100%;
 
   .dashboard-banner {
     grid-area: banner;
@@ -41,12 +44,15 @@
   }
 
   @include breakpoints.device-is('tablet') {
-    grid-template:
+    // stylelint-disable-next-line declaration-block-no-redundant-longhand-properties
+    grid-template-areas:
       'banner banner banner banner banner banner'
       'score score score certif certif certif'
       'main main main main main main'
       'main main main main main main'
-      'main main main main main main' / repeat(6, 1fr);
+      'main main main main main main';
+    grid-template-rows: auto;
+    grid-template-columns: repeat(6, 1fr);
 
     .dashboard-banner {
       grid-area: banner;
@@ -75,11 +81,14 @@
   }
 
   @include breakpoints.device-is('large-screen') {
-    grid-template:
+    // stylelint-disable-next-line declaration-block-no-redundant-longhand-properties
+    grid-template-areas:
       'main main main score'
       'main main main certif'
       'main main main certif'
-      'main main main certif' / repeat(4, 1fr);
+      'main main main certif';
+    grid-template-rows: auto;
+    grid-template-columns: repeat(4, 1fr);
 
     .dashboard-banner {
       display: none;
@@ -89,7 +98,6 @@
       grid-area: main;
 
       .dashboard-banner {
-        // stylelint-disable-next-line no-duplicate-selectors
         @include add-dashboard-content-separator;
 
         display: block;
