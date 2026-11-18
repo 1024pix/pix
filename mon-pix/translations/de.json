@@ -1878,6 +1878,10 @@
           "missing-content": "Beim Anzeigen des Videos ist ein Fehler aufgetreten."
         },
         "text": {
+          "glossary": {
+            "close-button": "Definition schließen",
+            "word-label": "{word}, Definition anzeigen"
+          },
           "tag": {
             "context": "Kontext",
             "did-you-know": "Wusstest du schon?",

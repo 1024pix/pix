@@ -1,5 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { blur, click, focus, triggerEvent, triggerKeyEvent } from '@ember/test-helpers';
+import { t } from 'ember-intl/test-support';
 import breakpoints from 'mon-pix/breakpoints';
 import ModuleElementText from 'mon-pix/components/module/element/text';
 import { module, test } from 'qunit';
@@ -24,7 +25,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
       const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
 
       // then
-      const button = screen.getByRole('button', { name: 'chien' });
+      const button = screen.getByRole('button', { name: 'chien, voir la définition' });
       assert.dom(button).hasAttribute('aria-expanded', 'false');
       assert.dom(screen.queryByRole('tooltip', { name: definition })).doesNotExist();
     });
@@ -102,13 +103,17 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
         test('should display a toggletip and announce the definition', async function (assert) {
           // when
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-          const button = screen.getByRole('button', { name: 'vie, voir la définition' });
+          const button = screen.getByRole('button', {
+            name: t('pages.modulix.elements.text.glossary.word-label', { word: 'vie' }),
+          });
           await click(button);
 
           // then
           assert.dom(button).hasAttribute('aria-expanded', 'true');
           assert.dom(screen.getByRole('status')).hasText(definition);
-          assert.dom(screen.getByRole('button', { name: 'Fermer la définition' })).exists();
+          assert
+            .dom(screen.getByRole('button', { name: t('pages.modulix.elements.text.glossary.close-button') }))
+            .exists();
           assert.dom('img').hasAttribute('src', '/images/modulix/definition-illustration.svg');
         });
 
@@ -117,13 +122,17 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
 
           // then
-          assert.ok(screen.getByRole('button', { name: 'vie, voir la définition' }));
+          assert.ok(
+            screen.getByRole('button', { name: t('pages.modulix.elements.text.glossary.word-label', { word: 'vie' }) }),
+          );
         });
 
         test('should keep the focus on the highlighted button', async function (assert) {
           // when
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-          const button = screen.getByRole('button', { name: 'vie, voir la définition' });
+          const button = screen.getByRole('button', {
+            name: t('pages.modulix.elements.text.glossary.word-label', { word: 'vie' }),
+          });
           await click(button);
 
           // then
@@ -134,7 +143,9 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           test('should hide the toggletip', async function (assert) {
             // when
             const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-            const button = screen.getByRole('button', { name: 'vie, voir la définition' });
+            const button = screen.getByRole('button', {
+              name: t('pages.modulix.elements.text.glossary.word-label', { word: 'vie' }),
+            });
             await click(button);
             await click(button);
 
@@ -148,7 +159,9 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           test('should hide the toggletip', async function (assert) {
             // when
             const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-            const button = screen.getByRole('button', { name: 'vie, voir la définition' });
+            const button = screen.getByRole('button', {
+              name: t('pages.modulix.elements.text.glossary.word-label', { word: 'vie' }),
+            });
             await click(button);
             await click(screen.getByText('est belle.', { exact: false }));
 
@@ -162,9 +175,11 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           test('should hide the toggletip and give the focus back to the highlighted button', async function (assert) {
             // when
             const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-            const button = screen.getByRole('button', { name: 'vie, voir la définition' });
+            const button = screen.getByRole('button', {
+              name: t('pages.modulix.elements.text.glossary.word-label', { word: 'vie' }),
+            });
             await click(button);
-            await click(screen.getByRole('button', { name: 'Fermer la définition' }));
+            await click(screen.getByRole('button', { name: t('pages.modulix.elements.text.glossary.close-button') }));
 
             // then
             assert.dom(button).hasAttribute('aria-expanded', 'false');
@@ -176,9 +191,13 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           test('should hide the toggletip and give the focus back to the highlighted button', async function (assert) {
             // when
             const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-            const button = screen.getByRole('button', { name: 'vie, voir la définition' });
+            const button = screen.getByRole('button', {
+              name: t('pages.modulix.elements.text.glossary.word-label', { word: 'vie' }),
+            });
             await click(button);
-            const closeButton = screen.getByRole('button', { name: 'Fermer la définition' });
+            const closeButton = screen.getByRole('button', {
+              name: t('pages.modulix.elements.text.glossary.close-button'),
+            });
             await focus(closeButton);
             await triggerKeyEvent(closeButton, 'keydown', 'Escape');
 
@@ -192,9 +211,11 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           test('should keep the toggletip displayed', async function (assert) {
             // when
             const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-            const button = screen.getByRole('button', { name: 'vie, voir la définition' });
+            const button = screen.getByRole('button', {
+              name: t('pages.modulix.elements.text.glossary.word-label', { word: 'vie' }),
+            });
             await click(button);
-            await focus(screen.getByRole('button', { name: 'Fermer la définition' }));
+            await focus(screen.getByRole('button', { name: t('pages.modulix.elements.text.glossary.close-button') }));
 
             // then
             assert.dom(button).hasAttribute('aria-expanded', 'true');
@@ -204,9 +225,11 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
             test('should hide the toggletip and let the focus go on', async function (assert) {
               // when
               const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-              const button = screen.getByRole('button', { name: 'vie, voir la définition' });
+              const button = screen.getByRole('button', {
+                name: t('pages.modulix.elements.text.glossary.word-label', { word: 'vie' }),
+              });
               await click(button);
-              await focus(screen.getByRole('button', { name: 'Fermer la définition' }));
+              await focus(screen.getByRole('button', { name: t('pages.modulix.elements.text.glossary.close-button') }));
               const nextButton = screen.getByRole('button', { name: 'Suite' });
               await focus(nextButton);
 
@@ -222,7 +245,9 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
         test('should not display the toggletip', async function (assert) {
           // when
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-          const button = screen.getByRole('button', { name: 'vie, voir la définition' });
+          const button = screen.getByRole('button', {
+            name: t('pages.modulix.elements.text.glossary.word-label', { word: 'vie' }),
+          });
           await focus(button);
 
           // then
@@ -398,7 +423,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
       const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
 
       // then
-      assert.ok(screen.getByRole('button', { name: '<img src=x onerror=alert(1)>' }));
+      assert.ok(screen.getByRole('button', { name: '<img src=x onerror=alert(1)>, voir la définition' }));
     });
   });
 });

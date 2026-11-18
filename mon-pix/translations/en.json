@@ -1878,6 +1878,10 @@
           "missing-content": "An error occurred while displaying the video."
         },
         "text": {
+          "glossary": {
+            "close-button": "Close the definition",
+            "word-label": "{word}, see the definition"
+          },
           "tag": {
             "context": "Context",
             "did-you-know": "Did you know?",

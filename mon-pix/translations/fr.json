@@ -1878,6 +1878,10 @@
           "missing-content": "Une erreur est survenue lors de l'affichage de la vidéo."
         },
         "text": {
+          "glossary": {
+            "close-button": "Fermer la définition",
+            "word-label": "{word}, voir la définition"
+          },
           "tag": {
             "context": "Contexte",
             "did-you-know": "Le saviez-vous ?",
