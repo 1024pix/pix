@@ -1,8 +1,8 @@
 import { fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
-import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import ENV from 'mon-pix/config/environment';
+import { setupMirage } from 'mon-pix/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
 import setupIntl from '../../helpers/setup-intl';

@@ -1,7 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import { setupMirage } from 'mon-pix/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
 import setupIntl from '../helpers/setup-intl';
