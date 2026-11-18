@@ -258,9 +258,8 @@ commands:
           cache_key: <<parameters.app_name>>
       - run:
           name: Build
-          command: npm run build
+          command: npm run build -- --mode=development
           environment:
-            BUILD_ENVIRONMENT: development
             DEFAULT_LOCALE: fr
             JOBS: 2
       - persist_to_workspace:
