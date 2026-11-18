@@ -1,5 +1,61 @@
 # Pix Changelog
 
+## [5.545.1](https://github.com/1024pix/pix/compare/v5.545.0...v5.545.1) (2026-11-18)
+
+### :bug: Correction
+
+- [#18878](https://github.com/1024pix/pix/pull/18878) :speech_balloon: Petit correction de texte dans un message sur la page des certifications dans PixApp
+- [#18842](https://github.com/1024pix/pix/pull/18842) Affiche correctement le label d'un champ issue de l'import générique (PIX-25071)
+- [#18875](https://github.com/1024pix/pix/pull/18875) Autoriser l’affichage de la page de sélection de campagne en iframe (PIX-25129)
+- [#18888](https://github.com/1024pix/pix/pull/18888) Les tests E2E certif échoue à cause de vite
+- [#18567](https://github.com/1024pix/pix/pull/18567) Problème de N+1 dans les tutos recommandés
+
+### :building_construction: Tech
+
+- [#18933](https://github.com/1024pix/pix/pull/18933) Ajoute les infos de corrélation comme attributs du span OpenTelemetry actif
+- [#18910](https://github.com/1024pix/pix/pull/18910) Épingler Chrome 157 pour les tests e2e Cypress
+- [#18874](https://github.com/1024pix/pix/pull/18874) Lancer toutes les tâches de lint de l'API quand on fait `npm run lint:fix`.
+- [#18843](https://github.com/1024pix/pix/pull/18843) Migre Pix Admin vers Vite.
+- [#18876](https://github.com/1024pix/pix/pull/18876) Purger les knowledge elements des utilisateurs migrés une semaine après leur export.
+- [#18790](https://github.com/1024pix/pix/pull/18790) Réduire le temps de réponse à une épreuve pour un utilisateur migré vers les knowledge states.
+- [#18908](https://github.com/1024pix/pix/pull/18908) Remplacer `ember-cli-mirage` par `miragejs` sur Pix App.
+- [#18894](https://github.com/1024pix/pix/pull/18894) Spécifie la version de node des exécuteurs CircleCI utilisés pour les tests e2e playwright.
+- [#18897](https://github.com/1024pix/pix/pull/18897) Stylelint config v6 et harmonisation des configs
+- [#18572](https://github.com/1024pix/pix/pull/18572) Update Security CI
+
+### :arrow_up: Montée de version
+
+- [#18883](https://github.com/1024pix/pix/pull/18883) Pin dependencies (admin)
+- [#18916](https://github.com/1024pix/pix/pull/18916) Update dependency @1024pix/eslint-plugin to v3.1.1 (admin)
+- [#18917](https://github.com/1024pix/pix/pull/18917) Update dependency @1024pix/eslint-plugin to v3.1.1 (api)
+- [#18918](https://github.com/1024pix/pix/pull/18918) Update dependency @1024pix/eslint-plugin to v3.1.1 (audit-logger)
+- [#18919](https://github.com/1024pix/pix/pull/18919) Update dependency @1024pix/eslint-plugin to v3.1.1 (certif)
+- [#18920](https://github.com/1024pix/pix/pull/18920) Update dependency @1024pix/eslint-plugin to v3.1.1 (e2e-playwright)
+- [#18921](https://github.com/1024pix/pix/pull/18921) Update dependency @1024pix/eslint-plugin to v3.1.1 (junior)
+- [#18922](https://github.com/1024pix/pix/pull/18922) Update dependency @1024pix/eslint-plugin to v3.1.1 (mon-pix)
+- [#18923](https://github.com/1024pix/pix/pull/18923) Update dependency @1024pix/eslint-plugin to v3.1.1 (orga)
+- [#18898](https://github.com/1024pix/pix/pull/18898) Update dependency @1024pix/nebulix-ember to v1.5.0 (admin)
+- [#18899](https://github.com/1024pix/pix/pull/18899) Update dependency @1024pix/nebulix-ember to v1.5.0 (certif)
+- [#18900](https://github.com/1024pix/pix/pull/18900) Update dependency @1024pix/nebulix-ember to v1.5.0 (junior)
+- [#18901](https://github.com/1024pix/pix/pull/18901) Update dependency @1024pix/nebulix-ember to v1.5.0 (mon-pix)
+- [#18904](https://github.com/1024pix/pix/pull/18904) Update dependency @1024pix/nebulix-ember to v1.5.0 (orga)
+- [#18915](https://github.com/1024pix/pix/pull/18915) Update dependency @1024pix/oppsy to v1.1.8 (api)
+- [#18929](https://github.com/1024pix/pix/pull/18929) Update dependency @types/node to v26.6.6 (api)
+- [#18886](https://github.com/1024pix/pix/pull/18886) Update dependency babel-plugin-ember-template-compilation to v4 (admin)
+- [#18907](https://github.com/1024pix/pix/pull/18907) Update dependency pg-boss to v12.38.2 (api)
+- [#18930](https://github.com/1024pix/pix/pull/18930) Update dependency sass to v1.108.2 (admin)
+- [#18931](https://github.com/1024pix/pix/pull/18931) Update dependency sass to v1.108.2 (certif)
+- [#18934](https://github.com/1024pix/pix/pull/18934) Update dependency sass to v1.108.2 (junior)
+- [#18935](https://github.com/1024pix/pix/pull/18935) Update dependency sass to v1.108.2 (mon-pix)
+- [#18936](https://github.com/1024pix/pix/pull/18936) Update dependency sass-embedded to v1.108.2 (orga)
+- [#18868](https://github.com/1024pix/pix/pull/18868) Update dependency stylelint to v18 (admin)
+- [#18872](https://github.com/1024pix/pix/pull/18872) Update dependency stylelint to v18 (certif)
+- [#18873](https://github.com/1024pix/pix/pull/18873) Update dependency stylelint to v18 (junior)
+- [#18881](https://github.com/1024pix/pix/pull/18881) Update dependency stylelint to v18 (mon-pix)
+- [#18882](https://github.com/1024pix/pix/pull/18882) Update dependency stylelint to v18 (orga)
+- [#18938](https://github.com/1024pix/pix/pull/18938) Update dependency vite to v8.3.8 (orga)
+- [#18227](https://github.com/1024pix/pix/pull/18227) Update node
+
 # [5.545.0](https://github.com/1024pix/pix/compare/v5.544.1...v5.545.0) (2026-11-17)
 
 ### :rocket: Amélioration
