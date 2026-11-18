@@ -958,6 +958,11 @@ jobs:
       - browser-tools/install_browser_tools:
           install_firefox: false
           install_geckodriver: false
+          # Chrome >= 158 rejects Storage.clearDataForOrigin({ origin: '*' }) sent by
+          # Cypress < 15.21.2 ("* is not a valid URL"). Pin Chrome until Cypress is upgraded.
+          # See https://github.com/cypress-io/cypress/issues/35195
+          replace_existing_chrome: true
+          chrome_version: 157.0.8103.78
       - run:
           name: Manual safety start of X11 server
           command: |
