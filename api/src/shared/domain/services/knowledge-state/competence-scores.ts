@@ -43,14 +43,14 @@ export const computePixByCompetenceId = (knowledgeStates: KnowledgeState[], skil
 /**
  * Gives the scores to store after the knowledge states of a user changed.
  *
- * Each impacted competence gains what its knowledge states gained, so that
- * what the user earned before is kept as it was.
+ * A competence the user answered well is scored again from its knowledge
+ * states, at the current value of the skills. A score never goes down on an
+ * answer: it stays as stored after a failure, even when the failure lowers
+ * the knowledge states, and when the current value of the skills gives less
+ * than what the user earned before.
  *
- * A score never goes down on an answer, even when a failure lowers the
- * knowledge states. Only a reset lowers it: a reset competence is scored
- * again from what remains, at the current value of the skills, so that pix
- * earned at another value are not subtracted at the current one. It goes
- * back to zero when no knowledge is left.
+ * Only a reset lowers a score: a reset competence is scored again from what
+ * remains, and goes back to zero when no knowledge is left.
  */
 export const updateCompetenceScores = (
   storedPixByCompetenceId: Map<string, number>,
@@ -58,6 +58,7 @@ export const updateCompetenceScores = (
   knowledgeStatesAfter: KnowledgeState[],
   impactedCompetenceIds: string[],
   resetCompetenceIds: string[],
+  wellAnsweredCompetenceIds: string[],
   skills: Skill[],
 ): Map<string, number> => {
   const pixBefore = computePixByCompetenceId(knowledgeStatesBefore, skills);
@@ -68,14 +69,16 @@ export const updateCompetenceScores = (
 
   return new Map(
     competenceIds.map((competenceId) => {
-      const before = pixBefore.get(competenceId) ?? 0;
       const after = pixAfter.get(competenceId) ?? 0;
-      const stored = storedPixByCompetenceId.get(competenceId) ?? before;
+      const stored = storedPixByCompetenceId.get(competenceId) ?? pixBefore.get(competenceId) ?? 0;
 
       if (resetCompetenceIds.includes(competenceId)) {
         return [competenceId, withinBound(after)];
       }
-      return [competenceId, withinBound(Math.max(stored, stored + after - before))];
+      if (wellAnsweredCompetenceIds.includes(competenceId)) {
+        return [competenceId, withinBound(Math.max(stored, after))];
+      }
+      return [competenceId, withinBound(stored)];
     }),
   );
 };

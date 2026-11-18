@@ -123,6 +123,14 @@ const withoutDate = (knowledgeElements: KnowledgeElement[]): KnowledgeElement[] 
 const resetSkillIdsOf = (knowledgeElements: KnowledgeElement[]): Set<string> =>
   new Set(knowledgeElements.filter(({ status }) => status === 'reset').map(({ skillId }) => skillId));
 
+/** The skills of a good answer: those the user validated by answering, not by inference. */
+const wellAnsweredSkillIdsOf = (knowledgeElements: KnowledgeElement[]): Set<string> =>
+  new Set(
+    knowledgeElements
+      .filter(({ status, source }) => status === 'validated' && source === 'direct')
+      .map(({ skillId }) => skillId),
+  );
+
 const competenceIdsOfTubes = (skills: Skill[], tubeIds: Iterable<string>): string[] => {
   const competenceIdByTubeId = indexCompetenceIdsByTubeId(skills);
   const competenceIds = [...tubeIds]
@@ -148,6 +156,7 @@ const scoresAfterUpdate = (
   knowledgeStatesBefore: KnowledgeState[],
   update: KnowledgeStatesUpdate,
   resetSkillIds: Set<string>,
+  wellAnsweredSkillIds: Set<string>,
   skills: Skill[],
   at: Date,
 ): UserCompetenceScore[] => {
@@ -162,6 +171,7 @@ const scoresAfterUpdate = (
     knowledgeStatesAfter,
     competenceIdsOfTubes(skills, impactedTubeIds),
     competenceIdsOfSkills(skills, resetSkillIds),
+    competenceIdsOfSkills(skills, wellAnsweredSkillIds),
     skills,
   );
 
@@ -193,6 +203,7 @@ const saveForUser = async (
     knowledgeStatesBefore,
     update,
     resetSkillIdsOf(knowledgeElements),
+    wellAnsweredSkillIdsOf(knowledgeElements),
     skills,
     at,
   );

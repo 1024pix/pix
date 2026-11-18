@@ -353,6 +353,23 @@ describe('Integration | Shared | Infrastructure | Repository | knowledge-element
       expect(pix).to.equal(6);
     });
 
+    it('should score the competence of a good answer again, at the current value of the skills', async function () {
+      // given: web is known up to level 2, earned for 2 pix and worth 3 at the current value of the skills
+      buildKnowledgeState({ userId, tubeId: 'tube_web', floor: 2, directLevels: [2] });
+      buildUserCompetenceScore({ userId, competenceId: 'competence_1', pix: 2 });
+      await databaseBuilder.commit();
+
+      // when: the user validates level 3
+      await knowledgeElementFromKnowledgeStatesRepository.batchSave(
+        [buildKnowledgeElement({ userId, tube: 'web', level: 3 })],
+        at,
+      );
+
+      // then: the pix of the three levels, not the stored 2 plus the 3 of the third level
+      const { pix } = await knex('user_competence_scores').where({ userId, competenceId: 'competence_1' }).first();
+      expect(pix).to.equal(6);
+    });
+
     it('should forget the tubes whose knowledge is reset, and score their competence again from what remains', async function () {
       // given
       buildKnowledgeState({ userId, tubeId: 'tube_web', floor: 3, directLevels: [3] });
