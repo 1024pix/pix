@@ -5,6 +5,7 @@ import {
   ArchiveOrganizationError,
   CountryNotFoundError,
   NetworkAlreadyExistError,
+  NoCreditAvailableError,
   ParentOrganizationNotInNetworkError,
   PlacesAndCreditsAreExclusive,
   StructureCategoryNotFound,
@@ -187,6 +188,22 @@ describe('Unit | Organizational Entities | Application | HttpErrorMapperConfigur
       expect(error.message).to.equal(
         'An Organization can not have Credits or Places management enabled at the same time',
       );
+    });
+  });
+
+  context('when mapping "NoCreditAvailableError"', function () {
+    it('should return a UnprocessableEntityError Http Error', function () {
+      // given
+      const httpErrorMapper = organizationalEntitiesDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === NoCreditAvailableError.name,
+      );
+
+      // when
+      const error = httpErrorMapper.httpErrorFn(new NoCreditAvailableError());
+
+      // then
+      expect(error).to.be.instanceOf(UnprocessableEntityError);
+      expect(error.message).to.equal('No credit available for this organization');
     });
   });
 

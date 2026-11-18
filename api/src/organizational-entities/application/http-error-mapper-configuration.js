@@ -9,6 +9,7 @@ import {
   FeatureNotFound,
   FeatureParamsNotProcessable,
   NetworkAlreadyExistError,
+  NoCreditAvailableError,
   OrganizationBatchCreationError,
   OrganizationBatchUpdateError,
   OrganizationLearnerTypeNotFound,
@@ -106,6 +107,10 @@ const organizationalEntitiesDomainErrorMappingConfiguration = [
   },
   {
     name: PlacesAndCreditsAreExclusive.name,
+    httpErrorFn: (error) => new UnprocessableEntityError(error.message, error.code, error.meta),
+  },
+  {
+    name: NoCreditAvailableError.name,
     httpErrorFn: (error) => new UnprocessableEntityError(error.message, error.code, error.meta),
   },
 ];
