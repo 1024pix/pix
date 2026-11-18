@@ -1,5 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
-import { blur, click, focus, triggerEvent } from '@ember/test-helpers';
+import { blur, click, focus, triggerEvent, triggerKeyEvent } from '@ember/test-helpers';
 import breakpoints from 'mon-pix/breakpoints';
 import ModuleElementText from 'mon-pix/components/module/element/text';
 import { module, test } from 'qunit';
@@ -164,6 +164,22 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           });
         });
 
+        module('when the user presses Escape', function () {
+          test('should hide the toggletip and give the focus back to the highlighted button', async function (assert) {
+            // when
+            const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+            const button = screen.getByRole('button', { name: 'vie' });
+            await click(button);
+            const closeButton = screen.getByRole('button', { name: 'Fermer la définition' });
+            await focus(closeButton);
+            await triggerKeyEvent(closeButton, 'keydown', 'Escape');
+
+            // then
+            assert.dom(button).hasAttribute('aria-expanded', 'false');
+            assert.dom(button).isFocused();
+          });
+        });
+
         module('when the focus moves to the close button', function () {
           test('should keep the toggletip displayed', async function (assert) {
             // when
@@ -257,6 +273,29 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
             assert.dom(screen.queryByRole('tooltip', { name: definition })).doesNotExist();
             assert.dom(button).hasAttribute('aria-expanded', 'false');
           });
+        });
+      });
+
+      module('when the user presses Escape while the tooltip is displayed', function () {
+        test('should hide the tooltip and keep the focus on the highlighted button', async function (assert) {
+          // given
+          const definition = "C'est que des emmerdes et à la fin tu meurs.";
+          const textElement = {
+            content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
+            type: 'text',
+            tag: ' ',
+          };
+
+          //  when
+          const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+          const button = screen.getByRole('button', { name: 'vie' });
+          await focus(button);
+          await triggerKeyEvent(button, 'keydown', 'Escape');
+
+          // then
+          assert.dom(screen.queryByRole('tooltip', { name: definition })).doesNotExist();
+          assert.dom(button).hasAttribute('aria-expanded', 'false');
+          assert.dom(button).isFocused();
         });
       });
 
