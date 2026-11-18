@@ -934,20 +934,8 @@ jobs:
       name: node-docker
     working_directory: ~/pix/junior
     steps:
-      - run:
-          name: Skip if not needed
-          command: |
-            if [[ "$CIRCLE_BRANCH" != "dev" ]] && [[ "<< pipeline.parameters.run-junior >>" == "false" ]]; then
-              circleci step halt
-            fi
-      - attach_workspace:
-          at: ~/pix
-      - npm_install_with_cache:
-          cache_key: junior
-      - persist_to_workspace:
-          root: ~/pix
-          paths:
-            - junior
+      - frontend_build:
+          app_name: junior
 
   junior_lint:
     executor:
