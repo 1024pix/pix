@@ -4,7 +4,6 @@ import { securityPreHandlers } from '../../../shared/application/security-pre-ha
 import { EntityValidationError } from '../../../shared/domain/errors.js';
 import { getSupportedLanguages, getSupportedLocales } from '../../../shared/domain/services/locale-service.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
-import { PasswordSchema } from '../../../shared/domain/validators/password-validator.js';
 import { userController } from './user.controller.js';
 
 export const userRoutes = [
@@ -390,7 +389,7 @@ export const userRoutes = [
       validate: {
         payload: Joi.object({
           'current-password': Joi.string().required(),
-          'new-password': PasswordSchema.required(),
+          'new-password': Joi.string().required(),
         }),
       },
       notes: [

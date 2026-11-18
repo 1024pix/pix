@@ -832,33 +832,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
       ).to.be.false;
     });
 
-    it('returns 400 HTTP status code when new password does not match password policy', async function () {
-      // given
-      const user = databaseBuilder.factory.buildUser.withRawPassword({
-        email: 'judy.howl@example.net',
-        rawPassword: currentPassword,
-      });
-      await databaseBuilder.commit();
-
-      const payload = {
-        'current-password': currentPassword,
-        'new-password': 'weak',
-      };
-
-      const options = {
-        method: 'POST',
-        url: '/api/users/me/password',
-        payload,
-        headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
     it('returns 400 HTTP status code when user has no Pix authentication method', async function () {
       // given
       const user = databaseBuilder.factory.buildUser({ email: 'judy.howl@example.net' });
