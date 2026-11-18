@@ -111,6 +111,17 @@ module('Acceptance | CombinedCourse | combined-course-landing-page', function (h
         // then
         assert.strictEqual(currentURL(), `/parcours/${combinedCourse.code}/sommaire`);
       });
+
+      test('it should be redirected to the sommaire page when accessing the landing page URL directly', async function (assert) {
+        // given
+        server.create('combined-course', { code: 'COMBINIX', status: 'STARTED' });
+
+        // when
+        await visit('/parcours/COMBINIX/presentation');
+
+        // then
+        assert.strictEqual(currentURL(), '/parcours/COMBINIX/sommaire');
+      });
     });
   });
 });
