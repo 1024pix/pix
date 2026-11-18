@@ -35,7 +35,10 @@ describe('Integration | LTI | Domain | Usecases | getLtiCampaignsByOrganizations
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaignInCombinedCourseId }).toDTO(),
       ],
     });
-    databaseBuilder.factory.buildCombinedCourse({ code: 'RANDOM', questId, organizationId });
+
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
+    databaseBuilder.factory.buildCombinedCourse({ code: 'RANDOM', questId, organizationId, combinedCourseBlueprintId });
     await databaseBuilder.commit();
 
     // when
