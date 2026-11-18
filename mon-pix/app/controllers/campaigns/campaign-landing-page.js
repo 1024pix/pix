@@ -9,7 +9,7 @@ export default class CampaignLandingPageController extends UtmQueryParamsControl
   @service session;
 
   get shouldDisplayLocaleSwitcher() {
-    return this.isInternationalDomain && this.isUserNotAuthenticated;
+    return this.isInternationalDomain;
   }
 
   get isAutonomousCourse() {
