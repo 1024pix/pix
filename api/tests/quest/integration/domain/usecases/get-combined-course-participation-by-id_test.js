@@ -11,11 +11,21 @@ import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Quest | Integration | Domain | Usecases | getCombinedCourseParticipationById', function () {
+  let combinedCourseBlueprintId;
+
+  beforeEach(async function () {
+    combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+    await databaseBuilder.commit();
+  });
+
   it('should return participation details with given id', async function () {
     // given
     const organizationId = databaseBuilder.factory.buildOrganization().id;
     const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
-    const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({ organizationId }).id;
+    const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({
+      organizationId,
+      combinedCourseBlueprintId,
+    }).id;
     const { id: participationId } = databaseBuilder.factory.buildOrganizationLearnerParticipation({
       organizationLearnerId,
       combinedCourseId,
@@ -35,7 +45,7 @@ describe('Quest | Integration | Domain | Usecases | getCombinedCourseParticipati
 
   it('should throw when no participation found', async function () {
     // given
-    const combinedCourseId = databaseBuilder.factory.buildCombinedCourse().id;
+    const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({ combinedCourseBlueprintId }).id;
     const participationId = 12;
 
     // when

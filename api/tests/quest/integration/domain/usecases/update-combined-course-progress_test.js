@@ -16,9 +16,12 @@ import { buildLearningContent as learningContentBuilder } from '../../../../tool
 
 describe('Integration | Quest | Domain | UseCases | update-combined-course-progress', function () {
   const now = new Date('2025-07-07');
+  let combinedCourseBlueprintId;
 
-  beforeEach(function () {
+  beforeEach(async function () {
     sinon.useFakeTimers({ now, toFake: ['Date'] });
+    combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+    await databaseBuilder.commit();
   });
 
   context('when combined course is completed', function () {
@@ -56,6 +59,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
         code,
         organizationId,
         questId,
+        combinedCourseBlueprintId,
       });
 
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
@@ -183,6 +187,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
           code,
           organizationId,
           questId: rewardQuestId,
+          combinedCourseBlueprintId,
         });
 
         // build terminated passages and started OrganizationLearnerParticipation Passages to validate right synchronization
@@ -227,6 +232,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
           code,
           organizationId,
           questId,
+          combinedCourseBlueprintId,
         });
 
         // build terminated passages and started OrganizationLearnerParticipation Passages to validate right synchronization
@@ -342,6 +348,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
       code,
       organizationId,
       questId: questId3,
+      combinedCourseBlueprintId,
     });
     databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
       organizationLearnerId,
@@ -379,6 +386,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
       code,
       organizationId,
       questId: questId4,
+      combinedCourseBlueprintId,
     });
     const combinedCourseParticipation =
       databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
@@ -415,6 +423,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
       code,
       organizationId,
       questId: questId5,
+      combinedCourseBlueprintId,
     });
     await databaseBuilder.commit();
 
@@ -439,6 +448,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
       code,
       organizationId,
       questId: questId6,
+      combinedCourseBlueprintId,
     });
     const combinedCourseParticipation = databaseBuilder.factory.buildOrganizationLearnerParticipation({
       type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,

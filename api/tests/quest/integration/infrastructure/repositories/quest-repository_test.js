@@ -148,7 +148,8 @@ describe('Quest | Integration | Repository | quest', function () {
         successRequirements: [],
       });
 
-      databaseBuilder.factory.buildCombinedCourse({ questId: 1 });
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+      databaseBuilder.factory.buildCombinedCourse({ questId: 1, combinedCourseBlueprintId });
 
       await databaseBuilder.commit();
 
@@ -170,7 +171,8 @@ describe('Quest | Integration | Repository | quest', function () {
         eligibilityRequirements: [],
         successRequirements: [],
       });
-      databaseBuilder.factory.buildCombinedCourse({ questId: 1 });
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+      databaseBuilder.factory.buildCombinedCourse({ questId: 1, combinedCourseBlueprintId });
 
       databaseBuilder.factory.buildQuest({
         id: 2,

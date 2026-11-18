@@ -49,7 +49,8 @@ describe('Quest | Integration | Application | SecurityPreHandlers', function () 
       const code = 'COMBINIX1';
       userId = databaseBuilder.factory.buildUser().id;
       organizationId = databaseBuilder.factory.buildOrganization().id;
-      databaseBuilder.factory.buildCombinedCourse({ code, organizationId });
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+      databaseBuilder.factory.buildCombinedCourse({ code, organizationId, combinedCourseBlueprintId });
 
       await startServerWithRoute({
         method: 'GET',
@@ -104,7 +105,11 @@ describe('Quest | Integration | Application | SecurityPreHandlers', function () 
   });
 
   describe('#checkParticipationBelongsToCombinedCourse', function () {
+    let combinedCourseBlueprintId;
+
     beforeEach(async function () {
+      combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+      await databaseBuilder.commit();
       await startServerWithRoute({
         method: 'GET',
         path: '/api/fake-cc/{combinedCourseId}/fake-p/{participationId}',
@@ -118,7 +123,7 @@ describe('Quest | Integration | Application | SecurityPreHandlers', function () 
 
     it('returns true if participation belongs to combined course', async function () {
       // given
-      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse();
+      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({ combinedCourseBlueprintId });
       const { id: participationId } = databaseBuilder.factory.buildOrganizationLearnerParticipation({
         combinedCourseId,
         type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,
@@ -140,7 +145,7 @@ describe('Quest | Integration | Application | SecurityPreHandlers', function () 
 
     it('returns an error if participation does not belong to combined course', async function () {
       // given
-      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse();
+      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({ combinedCourseBlueprintId });
       const { id: participationId } = databaseBuilder.factory.buildOrganizationLearnerParticipation({
         type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,
         status: OrganizationLearnerParticipationStatuses.STARTED,

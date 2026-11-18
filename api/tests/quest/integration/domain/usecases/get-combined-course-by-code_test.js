@@ -21,9 +21,10 @@ import { databaseBuilder } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code', function () {
-  let code;
+  let code, combinedCourseBlueprintId;
 
   beforeEach(function () {
+    combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
     code = 'SOMETHING';
 
     sinon.stub(cryptoService, 'encrypt');
@@ -94,6 +95,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
         code,
         organizationId,
         questId: questId1,
+        combinedCourseBlueprintId,
       });
 
       databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
@@ -260,6 +262,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
         code,
         organizationId,
         questId: questId2,
+        combinedCourseBlueprintId,
       });
 
       databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
@@ -411,6 +414,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
         code,
         organizationId,
         questId: questId3,
+        combinedCourseBlueprintId,
       });
 
       await databaseBuilder.commit();
@@ -440,6 +444,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
       const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
         code,
         organizationId,
+        combinedCourseBlueprintId,
       });
 
       await databaseBuilder.commit();
@@ -464,6 +469,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
         code,
         organizationId,
         questId: quest.id,
+        combinedCourseBlueprintId,
       });
 
       const profileReward = databaseBuilder.factory.buildProfileReward({ rewardId: attestation.id });
@@ -489,6 +495,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-code'
         code,
         organizationId,
         questId: quest.id,
+        combinedCourseBlueprintId,
       });
 
       databaseBuilder.factory.buildUser({ id: 123 });

@@ -37,10 +37,13 @@ describe('Quest | Integration | Domain | Usecases | findCombinedCourseParticipat
       ],
       rewardId: reward.id,
     });
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
     const combinedCourse = databaseBuilder.factory.buildCombinedCourse({
       code: 'COMBI1',
       organizationId,
       questId,
+      combinedCourseBlueprintId,
     });
     combinedCourseId = combinedCourse.id;
 
@@ -84,6 +87,7 @@ describe('Quest | Integration | Domain | Usecases | findCombinedCourseParticipat
 
     const { id: anotherCombinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
       code: 'COMBI2',
+      combinedCourseBlueprintId,
     });
     databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
       organizationLearnerId: learner1.id,

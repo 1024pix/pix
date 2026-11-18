@@ -7,9 +7,12 @@ import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Application | Usecases | hasAccessToCombinedCourse', function () {
   const now = new Date('2003-04-05T03:04:05Z');
+  let combinedCourseBlueprintId;
 
-  beforeEach(function () {
+  beforeEach(async function () {
     sinon.useFakeTimers({ now, toFake: ['Date'] });
+    combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+    await databaseBuilder.commit();
   });
 
   context('when user has organization learner in combined course organization', function () {
@@ -18,7 +21,7 @@ describe('Quest | Integration | Application | Usecases | hasAccessToCombinedCour
       const code = 'COMBINIX1';
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
-      databaseBuilder.factory.buildCombinedCourse({ code, organizationId });
+      databaseBuilder.factory.buildCombinedCourse({ code, organizationId, combinedCourseBlueprintId });
       databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId });
       await databaseBuilder.commit();
 
@@ -36,7 +39,7 @@ describe('Quest | Integration | Application | Usecases | hasAccessToCombinedCour
       const code = 'COMBINIX1';
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
-      databaseBuilder.factory.buildCombinedCourse({ code, organizationId });
+      databaseBuilder.factory.buildCombinedCourse({ code, organizationId, combinedCourseBlueprintId });
       await databaseBuilder.commit();
 
       // when
@@ -50,7 +53,7 @@ describe('Quest | Integration | Application | Usecases | hasAccessToCombinedCour
       const code = 'COMBINIX1';
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
-      databaseBuilder.factory.buildCombinedCourse({ code, organizationId });
+      databaseBuilder.factory.buildCombinedCourse({ code, organizationId, combinedCourseBlueprintId });
       await databaseBuilder.commit();
 
       // when
@@ -69,7 +72,7 @@ describe('Quest | Integration | Application | Usecases | hasAccessToCombinedCour
         organizationId,
         featureId: importFeature.id,
       });
-      databaseBuilder.factory.buildCombinedCourse({ code, organizationId });
+      databaseBuilder.factory.buildCombinedCourse({ code, organizationId, combinedCourseBlueprintId });
       await databaseBuilder.commit();
 
       // when

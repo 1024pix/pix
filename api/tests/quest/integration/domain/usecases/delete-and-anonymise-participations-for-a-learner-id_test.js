@@ -44,9 +44,12 @@ describe('Integration | Quest | Domain | UseCases | delete-and-anonymise-partici
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO(),
       ],
     });
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
     combinedCourse = databaseBuilder.factory.buildCombinedCourse({
       questId,
       code: 'RANDOM',
+      combinedCourseBlueprintId,
     });
 
     campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({

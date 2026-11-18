@@ -15,6 +15,8 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-by-modu
 
     const moduleId = 'module-abc';
 
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
     //CombinedCourse1 with module 1 and organization linked to organizationLearner1
     const { id: questId1 } = databaseBuilder.factory.buildQuest({
       successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO()],
@@ -24,6 +26,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-by-modu
       name: 'name1',
       organizationId: organizationLearner.organizationId,
       questId: questId1,
+      combinedCourseBlueprintId,
     });
 
     //CombinedCourse2 with same module but organization linked to organizationLearner2
@@ -35,6 +38,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-by-modu
       name: 'name2',
       organizationId: otherOrganizationLearner.organizationId,
       questId: questId2,
+      combinedCourseBlueprintId,
     });
 
     //CombinedCourse3 with same module but with an organization not linked to user
@@ -46,6 +50,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-by-modu
       name: 'name2',
       organizationId: thirdOrganization.id,
       questId: questId3,
+      combinedCourseBlueprintId,
     });
 
     //CombinedCourse4 with other module but organization linked to user
@@ -59,6 +64,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-by-modu
       name: 'name1',
       organizationId: organizationLearner.organizationId,
       questId: questId4,
+      combinedCourseBlueprintId,
     });
 
     await databaseBuilder.commit();

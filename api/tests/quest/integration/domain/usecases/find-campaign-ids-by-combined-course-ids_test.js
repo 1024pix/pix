@@ -5,6 +5,13 @@ import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Quest | Domain | UseCases | find-campaign-ids-by-combined-course-ids', function () {
+  let combinedCourseBlueprintId;
+
+  beforeEach(async function () {
+    combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+    await databaseBuilder.commit();
+  });
+
   it('should return an array of campaign ids if at least a result is found', async function () {
     //given
     const { id: campaignId } = databaseBuilder.factory.buildCampaign();
@@ -16,6 +23,7 @@ describe('Integration | Quest | Domain | UseCases | find-campaign-ids-by-combine
     const { id: combinedCourseId1 } = databaseBuilder.factory.buildCombinedCourse({
       code: 'RANDOM',
       questId: questId1,
+      combinedCourseBlueprintId,
     });
 
     await databaseBuilder.commit();
@@ -33,6 +41,7 @@ describe('Integration | Quest | Domain | UseCases | find-campaign-ids-by-combine
     const { id: combinedCourseId1 } = databaseBuilder.factory.buildCombinedCourse({
       code: 'RANDOM',
       questId: databaseBuilder.factory.buildQuest().id,
+      combinedCourseBlueprintId,
     });
 
     await databaseBuilder.commit();

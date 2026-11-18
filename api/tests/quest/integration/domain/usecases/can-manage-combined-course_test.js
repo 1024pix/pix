@@ -8,8 +8,10 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Quest | Integration | Application | Usecases | canManageCombinedCourse', function () {
   const now = new Date('2003-04-05T03:04:05Z');
+  let combinedCourseBlueprintId;
 
   beforeEach(function () {
+    combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
     sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
@@ -18,7 +20,10 @@ describe('Quest | Integration | Application | Usecases | canManageCombinedCourse
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({ organizationId }).id;
+      const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({
+        organizationId,
+        combinedCourseBlueprintId,
+      }).id;
       databaseBuilder.factory.buildMembership({ userId, organizationId });
       await databaseBuilder.commit();
 
@@ -35,7 +40,10 @@ describe('Quest | Integration | Application | Usecases | canManageCombinedCourse
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({ organizationId }).id;
+      const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({
+        organizationId,
+        combinedCourseBlueprintId,
+      }).id;
       await databaseBuilder.commit();
 
       // when
@@ -64,7 +72,10 @@ describe('Quest | Integration | Application | Usecases | canManageCombinedCourse
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({ organizationId }).id;
+      const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({
+        organizationId,
+        combinedCourseBlueprintId,
+      }).id;
       databaseBuilder.factory.buildMembership({ userId, organizationId, disabledAt: new Date() });
       await databaseBuilder.commit();
 

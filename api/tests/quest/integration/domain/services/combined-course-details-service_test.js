@@ -37,9 +37,11 @@ const { combinedCourseDetailsService: CombinedCourseDetailsService } = injectDep
 );
 
 describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService', function () {
-  let code;
-  beforeEach(function () {
+  let code, combinedCourseBlueprintId;
+  beforeEach(async function () {
     code = 'SOMETHING';
+    combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+    await databaseBuilder.commit();
 
     sinon.stub(cryptoService, 'encrypt');
     cryptoService.encrypt.resolves('encryptedUrl');
@@ -132,6 +134,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
         code,
         organizationId,
         questId,
+        combinedCourseBlueprintId,
       });
 
       await databaseBuilder.commit();
@@ -215,6 +218,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
         code,
         organizationId,
         questId,
+        combinedCourseBlueprintId,
       });
 
       databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
@@ -343,6 +347,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
         code,
         organizationId,
         questId,
+        combinedCourseBlueprintId,
       });
 
       // First learner: STARTED combined course + SHARED campaign participation (campaign item completed)
@@ -420,6 +425,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
         code,
         organizationId,
         questId,
+        combinedCourseBlueprintId,
       });
 
       databaseBuilder.factory.buildOrganizationLearnerParticipation.ofTypeCombinedCourse({
@@ -475,6 +481,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
         code,
         organizationId,
         questId,
+        combinedCourseBlueprintId,
       });
 
       await databaseBuilder.commit();
@@ -573,6 +580,7 @@ describe('Integration | Quest | Domain | Services | CombinedCourseDetailsService
         code,
         organizationId,
         questId,
+        combinedCourseBlueprintId,
       });
 
       await databaseBuilder.commit();

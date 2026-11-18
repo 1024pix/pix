@@ -413,7 +413,11 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
       const otherOrganizationLearnerId = await databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
       }).id;
-      const combinedCourseId = await databaseBuilder.factory.buildCombinedCourse({ organizationId }).id;
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+      const combinedCourseId = await databaseBuilder.factory.buildCombinedCourse({
+        organizationId,
+        combinedCourseBlueprintId,
+      }).id;
 
       await databaseBuilder.factory.buildOrganizationLearnerParticipation({
         type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,
@@ -459,8 +463,14 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
   describe('#deleteCombinedCourseParticipation', function () {
     it('should delete the exact participation', async function () {
       //given
-      const { id: combinedCourseId } = await databaseBuilder.factory.buildCombinedCourse({ code: 'RANDOM' });
-      const { id: otherCombinedCourseId } = await databaseBuilder.factory.buildCombinedCourse();
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+      const { id: combinedCourseId } = await databaseBuilder.factory.buildCombinedCourse({
+        code: 'RANDOM',
+        combinedCourseBlueprintId,
+      });
+      const { id: otherCombinedCourseId } = await databaseBuilder.factory.buildCombinedCourse({
+        combinedCourseBlueprintId,
+      });
 
       const { userId } = await databaseBuilder.factory.buildMembership();
 
@@ -500,10 +510,17 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
   });
 
   describe('#saveCombinedCourseParticipation', function () {
+    let combinedCourseBlueprintId;
+
+    beforeEach(async function () {
+      combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+      await databaseBuilder.commit();
+    });
+
     it('should insert organization learner participations of type combined course', async function () {
       //given
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
-      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse();
+      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({ combinedCourseBlueprintId });
 
       await databaseBuilder.commit();
 
@@ -542,7 +559,7 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
     it('should left intact combined course participation for given organization learner and combined course id', async function () {
       // given
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
-      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse();
+      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({ combinedCourseBlueprintId });
       databaseBuilder.factory.buildOrganizationLearnerParticipation({
         organizationLearnerId,
         combinedCourseId,
@@ -665,9 +682,16 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
   });
 
   describe('#isParticipationOnCombinedCourse', function () {
+    let combinedCourseBlueprintId;
+
+    beforeEach(async function () {
+      combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+      await databaseBuilder.commit();
+    });
+
     it('should return true if participation is on combined course', async function () {
       // given
-      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse();
+      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({ combinedCourseBlueprintId });
       const { id: participationId } = databaseBuilder.factory.buildOrganizationLearnerParticipation({
         combinedCourseId,
         type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,
@@ -687,7 +711,7 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
 
     it('should return false if participation is not on combined course', async function () {
       // given
-      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse();
+      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({ combinedCourseBlueprintId });
       const { id: participationId } = databaseBuilder.factory.buildOrganizationLearnerParticipation({
         combinedCourseId: '123',
         type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,
@@ -707,7 +731,7 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
 
     it('should return false if participation is not of COMBINED_COURSE type', async function () {
       // given
-      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse();
+      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({ combinedCourseBlueprintId });
       const { id: participationId } = databaseBuilder.factory.buildOrganizationLearnerParticipation({
         combinedCourseId,
         type: OrganizationLearnerParticipationTypes.PASSAGE,
@@ -730,7 +754,11 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
     it('should return combinedCourse participation for given learnerId and combinedCourse ids', async function () {
       // given
       const { id: organizationLearnerId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
-      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({ organizationId });
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
+        organizationId,
+        combinedCourseBlueprintId,
+      });
       const expectedCombinedCourseParticipation = databaseBuilder.factory.buildOrganizationLearnerParticipation({
         organizationLearnerId,
         status: OrganizationLearnerParticipationStatuses.COMPLETED,
@@ -782,9 +810,11 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
       const firstLearner = databaseBuilder.factory.buildOrganizationLearner();
       const secondLearner = databaseBuilder.factory.buildOrganizationLearner();
 
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
       const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
         organizationId: firstLearner.organizationId,
         code: 'COMBINIX1',
+        combinedCourseBlueprintId,
       });
       const expectedCombinedCourseParticipation = databaseBuilder.factory.buildOrganizationLearnerParticipation({
         organizationLearnerId: firstLearner.id,
@@ -870,7 +900,8 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
 
     beforeEach(async function () {
       //given
-      const combinedCourse = databaseBuilder.factory.buildCombinedCourse();
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+      const combinedCourse = databaseBuilder.factory.buildCombinedCourse({ combinedCourseBlueprintId });
       combinedCourseId = combinedCourse.id;
 
       organizationLearner1 = databaseBuilder.factory.buildOrganizationLearner({
@@ -927,6 +958,7 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
       const { id: anotherCombinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
         organizationId: combinedCourse.organizationId,
         code: 'anotherQuest',
+        combinedCourseBlueprintId,
       });
       databaseBuilder.factory.buildOrganizationLearnerParticipation({
         organizationLearnerId: organizationLearner1.id,
@@ -1126,7 +1158,8 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
     it('should update only given field', async function () {
       //given
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
-      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse();
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+      const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({ combinedCourseBlueprintId });
       const combinedCourseParticipationFromDB = databaseBuilder.factory.buildOrganizationLearnerParticipation({
         organizationLearnerId,
         status: OrganizationLearnerParticipationStatuses.STARTED,
@@ -1167,17 +1200,27 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
   });
 
   describe('#findByCombinedCourseIds', function () {
+    let combinedCourseBlueprintId;
+
+    beforeEach(async function () {
+      combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+      await databaseBuilder.commit();
+    });
+
     it('should return a list of participations for given combinedCourse ids', async function () {
       // given
       const { id: combinedCourseId1, organizationId } = databaseBuilder.factory.buildCombinedCourse({
         code: 'COMBI1',
+        combinedCourseBlueprintId,
       });
       const { id: combinedCourseId2 } = databaseBuilder.factory.buildCombinedCourse({
         code: 'COMBI2',
         organizationId,
+        combinedCourseBlueprintId,
       });
       const { id: combinedCourseId3 } = databaseBuilder.factory.buildCombinedCourse({
         code: 'COMBI3',
+        combinedCourseBlueprintId,
       });
 
       const learner1 = databaseBuilder.factory.buildOrganizationLearner({
@@ -1232,8 +1275,14 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
 
     it('should return empty array when no participations match the combinedCourse ids', async function () {
       // given
-      const { id: combinedCourseId1 } = databaseBuilder.factory.buildCombinedCourse({ code: 'COMBI1' });
-      const { id: combinedCourseId2 } = databaseBuilder.factory.buildCombinedCourse({ code: 'COMBI2' });
+      const { id: combinedCourseId1 } = databaseBuilder.factory.buildCombinedCourse({
+        code: 'COMBI1',
+        combinedCourseBlueprintId,
+      });
+      const { id: combinedCourseId2 } = databaseBuilder.factory.buildCombinedCourse({
+        code: 'COMBI2',
+        combinedCourseBlueprintId,
+      });
       await databaseBuilder.commit();
 
       // when
@@ -1249,6 +1298,7 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
       // given
       const { id: combinedCourseId, organizationId } = databaseBuilder.factory.buildCombinedCourse({
         code: 'COMBI1',
+        combinedCourseBlueprintId,
       });
 
       const deletedLearner = databaseBuilder.factory.buildOrganizationLearner({
@@ -1280,6 +1330,7 @@ describe('Quest | Integration | Infrastructure | repositories | organization lea
       // given
       const { id: combinedCourseId, organizationId } = databaseBuilder.factory.buildCombinedCourse({
         code: 'COMBI1',
+        combinedCourseBlueprintId,
       });
 
       const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({

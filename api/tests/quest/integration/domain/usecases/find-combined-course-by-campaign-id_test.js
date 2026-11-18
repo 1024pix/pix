@@ -17,11 +17,14 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-campa
     const { id: questId } = databaseBuilder.factory.buildQuest({
       successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
     });
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
     courseId = databaseBuilder.factory.buildCombinedCourse({
       code,
       name,
       organizationId,
       questId,
+      combinedCourseBlueprintId,
     }).id;
     await databaseBuilder.commit();
   });

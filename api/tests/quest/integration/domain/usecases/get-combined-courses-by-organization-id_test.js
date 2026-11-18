@@ -10,6 +10,13 @@ import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Quest | Domain | UseCases | get-combined-courses-by-organization-id', function () {
+  let combinedCourseBlueprintId;
+
+  beforeEach(async function () {
+    combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+    await databaseBuilder.commit();
+  });
+
   it('should return combined courses for an organization with their participations and pagination metadata', async function () {
     // given
     const { id: organizationId } = databaseBuilder.factory.buildOrganization();
@@ -17,11 +24,13 @@ describe('Integration | Quest | Domain | UseCases | get-combined-courses-by-orga
       code: 'COURSE1',
       name: 'First Combined Course',
       organizationId,
+      combinedCourseBlueprintId,
     });
     const { id: combinedCourseId2 } = databaseBuilder.factory.buildCombinedCourse({
       code: 'COURSE2',
       name: 'Second Combined Course',
       organizationId,
+      combinedCourseBlueprintId,
     });
 
     const { id: organizationLearnerId1 } = databaseBuilder.factory.buildOrganizationLearner({
@@ -102,6 +111,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-courses-by-orga
       code: 'COURSE3',
       name: 'Third Combined Course',
       organizationId,
+      combinedCourseBlueprintId,
     });
 
     await databaseBuilder.commit();
@@ -137,10 +147,12 @@ describe('Integration | Quest | Domain | UseCases | get-combined-courses-by-orga
     databaseBuilder.factory.buildCombinedCourse({
       code: 'ORG1COURSE',
       organizationId: organizationId1,
+      combinedCourseBlueprintId,
     });
     databaseBuilder.factory.buildCombinedCourse({
       code: 'ORG2COURSE',
       organizationId: organizationId2,
+      combinedCourseBlueprintId,
     });
 
     await databaseBuilder.commit();
@@ -159,10 +171,12 @@ describe('Integration | Quest | Domain | UseCases | get-combined-courses-by-orga
     const { id: combinedCourseId1 } = databaseBuilder.factory.buildCombinedCourse({
       code: 'COURSE1',
       organizationId,
+      combinedCourseBlueprintId,
     });
     const { id: combinedCourseId2 } = databaseBuilder.factory.buildCombinedCourse({
       code: 'COURSE2',
       organizationId,
+      combinedCourseBlueprintId,
     });
 
     const { id: organizationLearnerId1 } = databaseBuilder.factory.buildOrganizationLearner({

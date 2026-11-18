@@ -7,15 +7,19 @@ describe('Integration | Quest | Domain | UseCases | get-combined-courses-by-orga
   it('should return array of combined course ids for an organization', async function () {
     // given
     const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
     const { id: combinedCourseId1 } = databaseBuilder.factory.buildCombinedCourse({
       code: 'COURSE1',
       name: 'First Combined Course',
       organizationId,
+      combinedCourseBlueprintId,
     });
     const { id: combinedCourseId2 } = databaseBuilder.factory.buildCombinedCourse({
       code: 'COURSE2',
       name: 'Second Combined Course',
       organizationId,
+      combinedCourseBlueprintId,
     });
 
     await databaseBuilder.commit();

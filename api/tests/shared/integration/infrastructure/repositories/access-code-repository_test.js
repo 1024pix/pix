@@ -19,7 +19,9 @@ describe('#isCodeAvailable', function () {
   });
 
   it('should return false if code is already used in a combined course', async function () {
-    databaseBuilder.factory.buildCombinedCourse({ code: 'USEDCODE1' });
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
+    databaseBuilder.factory.buildCombinedCourse({ code: 'USEDCODE1', combinedCourseBlueprintId });
     await databaseBuilder.commit();
 
     const isCodeAvailable = await accessCodeRepository.isCodeAvailable('USEDCODE1');

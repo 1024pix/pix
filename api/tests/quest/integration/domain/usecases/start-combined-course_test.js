@@ -6,6 +6,13 @@ import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Integration | Combined course | Domain | UseCases | start-combined-course', function () {
+  let combinedCourseBlueprintId;
+
+  beforeEach(async function () {
+    combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+    await databaseBuilder.commit();
+  });
+
   describe('when combined-course participation does not exist', function () {
     it('should create combined-course participation', async function () {
       //given
@@ -14,6 +21,7 @@ describe('Integration | Combined course | Domain | UseCases | start-combined-cou
       const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
         organizationId,
         code: 'COMBINIX8',
+        combinedCourseBlueprintId,
       });
       await databaseBuilder.commit();
 
@@ -40,7 +48,7 @@ describe('Integration | Combined course | Domain | UseCases | start-combined-cou
         //given
         const user = databaseBuilder.factory.buildUser();
         const organizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildCombinedCourse({ organizationId, code: 'COMBINIX8' });
+        databaseBuilder.factory.buildCombinedCourse({ organizationId, code: 'COMBINIX8', combinedCourseBlueprintId });
 
         await databaseBuilder.commit();
 

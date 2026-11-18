@@ -22,10 +22,12 @@ describe('Quest | Integration | Domain | Usecases | getVerifiedCode', function (
 
   it('it returns verified code for a combined course', async function () {
     const organizationId = databaseBuilder.factory.buildOrganization().id;
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
     const quest = databaseBuilder.factory.buildCombinedCourse({
       name: 'Combinix',
       code: 'COMBINIX1',
       organizationId,
+      combinedCourseBlueprintId,
     });
     await databaseBuilder.commit();
 
@@ -49,10 +51,12 @@ describe('Quest | Integration | Domain | Usecases | getVerifiedCode', function (
     });
     it('when the code is correct, it should return a CombinedCourseDisabledError', async function () {
       const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
       const quest = databaseBuilder.factory.buildCombinedCourse({
         name: 'Combinix',
         code: 'COMBINIX1',
         organizationId,
+        combinedCourseBlueprintId,
       });
       await databaseBuilder.commit();
 

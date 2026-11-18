@@ -30,9 +30,12 @@ describe('Integration | Combined course | Domain | UseCases | delete-and-anonymi
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO(),
       ],
     });
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
     combinedCourse = databaseBuilder.factory.buildCombinedCourse({
       questId,
       code: 'RANDOM',
+      combinedCourseBlueprintId,
     });
 
     databaseBuilder.factory.buildOrganizationLearnerParticipation({
@@ -47,7 +50,10 @@ describe('Integration | Combined course | Domain | UseCases | delete-and-anonymi
       status: OrganizationLearnerParticipationStatuses.COMPLETED,
     });
 
-    otherCombinedCourse = databaseBuilder.factory.buildCombinedCourse({ organizationId: organization.id });
+    otherCombinedCourse = databaseBuilder.factory.buildCombinedCourse({
+      organizationId: organization.id,
+      combinedCourseBlueprintId,
+    });
     databaseBuilder.factory.buildOrganizationLearnerParticipation({
       organizationId: organization.id,
       status: OrganizationLearnerParticipationStatuses.COMPLETED,

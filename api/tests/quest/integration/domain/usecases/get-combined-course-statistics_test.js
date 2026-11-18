@@ -9,6 +9,13 @@ import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Quest | Integration | Domain | Usecases | getCombinedCourseStatistics', function () {
+  let combinedCourseBlueprintId;
+
+  beforeEach(async function () {
+    combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+    await databaseBuilder.commit();
+  });
+
   it('should return adequate combined course participations statistics', async function () {
     // given :
     const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -25,6 +32,7 @@ describe('Quest | Integration | Domain | Usecases | getCombinedCourseStatistics'
     const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
       code: 'COMBI1',
       organizationId,
+      combinedCourseBlueprintId,
     });
     databaseBuilder.factory.buildOrganizationLearnerParticipation({
       type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,
@@ -41,6 +49,7 @@ describe('Quest | Integration | Domain | Usecases | getCombinedCourseStatistics'
 
     const { id: anotherCombinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
       code: 'COMBI2',
+      combinedCourseBlueprintId,
     });
     databaseBuilder.factory.buildOrganizationLearnerParticipation({
       type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,
@@ -82,6 +91,7 @@ describe('Quest | Integration | Domain | Usecases | getCombinedCourseStatistics'
     const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
       code: 'COMBI3',
       organizationId,
+      combinedCourseBlueprintId,
     });
     databaseBuilder.factory.buildOrganizationLearnerParticipation({
       type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,

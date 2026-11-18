@@ -19,6 +19,8 @@ describe('Quest | Integration | Domain | Usecases | getCombinedCourseById', func
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: 300 }).toDTO(),
       ],
     });
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
     const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({
       name: 'Test Combined Course',
       description: 'A test combined course description',
@@ -26,6 +28,7 @@ describe('Quest | Integration | Domain | Usecases | getCombinedCourseById', func
       code: 'TEST_COURSE_123',
       organizationId,
       questId,
+      combinedCourseBlueprintId,
     }).id;
 
     await databaseBuilder.commit();

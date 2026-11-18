@@ -15,11 +15,13 @@ describe('Quest | Integration | Repository | combined-course-details', function 
       const { id: questId1 } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
       const combinedCourse1 = databaseBuilder.factory.buildCombinedCourse({
         code: 'COURSE1',
         name: 'Parcours 1',
         organizationId,
         questId: questId1,
+        combinedCourseBlueprintId,
       });
       const { id: questId2 } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO()],
@@ -29,6 +31,7 @@ describe('Quest | Integration | Repository | combined-course-details', function 
         name: 'Parcours 2',
         organizationId,
         questId: questId2,
+        combinedCourseBlueprintId,
       });
       await databaseBuilder.commit();
 
@@ -52,11 +55,13 @@ describe('Quest | Integration | Repository | combined-course-details', function 
       const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: 123 }).toDTO()],
       });
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
       databaseBuilder.factory.buildCombinedCourse({
         code: 'COURSE1',
         name: 'Parcours 1',
         organizationId: anotherOrganizationId,
         questId,
+        combinedCourseBlueprintId,
       });
       await databaseBuilder.commit();
 

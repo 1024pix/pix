@@ -8,17 +8,21 @@ describe('Integration | Quest | Domain | UseCases | update-combined-courses', fu
 
   it('should update names and updatedAt of combined courses with corresponding ids', async function () {
     //given
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
     const firstCombinedCourse = await databaseBuilder.factory.buildCombinedCourse({
       code: 'FIRST',
       updatedAt: lastUpdatedAt,
+      combinedCourseBlueprintId,
     });
     const secondCombinedCourse = await databaseBuilder.factory.buildCombinedCourse({
       code: 'SECOND',
       updatedAt: lastUpdatedAt,
+      combinedCourseBlueprintId,
     });
 
     const otherCombinedCourse = await databaseBuilder.factory.buildCombinedCourse({
       updatedAt: lastUpdatedAt,
+      combinedCourseBlueprintId,
     });
 
     await databaseBuilder.commit();
