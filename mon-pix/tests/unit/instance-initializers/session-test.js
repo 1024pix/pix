@@ -1,4 +1,5 @@
 import Application from '@ember/application';
+import compatModules from '@embroider/virtual/compat-modules';
 import Resolver from 'ember-resolver';
 import { initialize } from 'mon-pix/instance-initializers/session';
 import Location from 'mon-pix/utils/location';
@@ -16,7 +17,11 @@ module('Unit | Instance Initializer | session', function () {
           name: 'initializer under test',
           initialize,
         });
-        this.application = this.TestApplication.create({ autoboot: false, Resolver, modulePrefix: 'mon-pix-test' });
+        this.application = this.TestApplication.create({
+          autoboot: false,
+          Resolver: Resolver.withModules(compatModules),
+          modulePrefix: 'mon-pix-test',
+        });
         this.instance = this.application.buildInstance();
         const key = 'ember_simple_auth-session';
         sinon.stub(Location, 'getHref').returns('/connexion/gar#access_token');
@@ -55,7 +60,11 @@ module('Unit | Instance Initializer | session', function () {
           name: 'initializer under test',
           initialize,
         });
-        this.application = this.TestApplication.create({ autoboot: false, Resolver, modulePrefix: 'mon-pix-test' });
+        this.application = this.TestApplication.create({
+          autoboot: false,
+          Resolver: Resolver.withModules(compatModules),
+          modulePrefix: 'mon-pix-test',
+        });
         this.instance = this.application.buildInstance();
         const key = 'ember_simple_auth-session';
         sinon.stub(Location, 'getHref').returns('/campagnes?externalUser=EXTERNAL_USER_TOKEN');
@@ -96,7 +105,11 @@ module('Unit | Instance Initializer | session', function () {
           name: 'initializer under test',
           initialize,
         });
-        this.application = this.TestApplication.create({ autoboot: false, Resolver, modulePrefix: 'mon-pix-test' });
+        this.application = this.TestApplication.create({
+          autoboot: false,
+          Resolver: Resolver.withModules(compatModules),
+          modulePrefix: 'mon-pix-test',
+        });
         this.instance = this.application.buildInstance();
         const key = 'ember_simple_auth-session';
         sinon.stub(Location, 'getHref').returns('/campagnes');
@@ -131,7 +144,11 @@ module('Unit | Instance Initializer | session', function () {
           name: 'initializer under test',
           initialize,
         });
-        this.application = this.TestApplication.create({ autoboot: false, Resolver, modulePrefix: 'mon-pix-test' });
+        this.application = this.TestApplication.create({
+          autoboot: false,
+          Resolver: Resolver.withModules(compatModules),
+          modulePrefix: 'mon-pix-test',
+        });
         this.instance = this.application.buildInstance();
         const key = 'ember_simple_auth-session';
         sinon.stub(Location, 'getHref').returns('/campagnes/SIMPLIFIE');
@@ -166,7 +183,11 @@ module('Unit | Instance Initializer | session', function () {
           name: 'initializer under test',
           initialize,
         });
-        this.application = this.TestApplication.create({ autoboot: false, Resolver, modulePrefix: 'mon-pix-test' });
+        this.application = this.TestApplication.create({
+          autoboot: false,
+          Resolver: Resolver.withModules(compatModules),
+          modulePrefix: 'mon-pix-test',
+        });
         this.instance = this.application.buildInstance();
         const key = 'ember_simple_auth-session';
         sinon.stub(Location, 'getHref').returns('/campagnes/SIMPLIFIE/evaluation/didacticiel');

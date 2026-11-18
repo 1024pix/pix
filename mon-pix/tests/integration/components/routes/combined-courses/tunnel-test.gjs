@@ -2,11 +2,11 @@ import { render, within } from '@1024pix/ember-testing-library';
 import { click, settled } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import CombinedCourseTunnel, { ANIMATION_DURATION } from 'mon-pix/components/routes/combined-courses/tunnel';
+import { CombinedCourseStatuses } from 'mon-pix/models/combined-course';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import { CombinedCourseStatuses } from '../../../../../models/combined-course.js';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering.js';
 
 module('Integration | Component | Combined Courses | Tunnel', function (hooks) {

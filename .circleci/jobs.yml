@@ -1068,7 +1068,7 @@ jobs:
       - run:
           name: Start Pix App
           working_directory: ~/pix/mon-pix
-          command: npx ember serve --path=./dist --proxy=http://localhost:3000
+          command: npx vite preview
           background: true
       - run:
           name: Run tests
@@ -1149,7 +1149,7 @@ jobs:
       - run:
           name: Start Pix App
           working_directory: ~/pix/mon-pix
-          command: npx ember serve --path=./dist --proxy=http://localhost:3000
+          command: npx vite preview
           background: true
       - run:
           name: Start Pix Certif
@@ -1254,7 +1254,7 @@ jobs:
       - run:
           name: Start Pix App
           working_directory: ~/pix/mon-pix
-          command: npx ember serve --path=./dist --proxy=http://localhost:3000
+          command: npx vite preview
           background: true
       - run:
           name: Start Pix Certif

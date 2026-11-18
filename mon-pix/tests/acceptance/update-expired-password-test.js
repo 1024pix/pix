@@ -3,10 +3,10 @@ import { click, currentURL, fillIn, settled } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
+import ENV from 'mon-pix/config/environment';
 import { setupMirage } from 'mon-pix/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
-import ENV from '../../config/environment';
 import { authenticateByUsername } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
 

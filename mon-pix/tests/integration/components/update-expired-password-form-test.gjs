@@ -4,10 +4,10 @@ import Service from '@ember/service';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import UpdateExpiredPasswordForm from 'mon-pix/components/update-expired-password-form';
+import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import ENV from '../../../config/environment';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;

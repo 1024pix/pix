@@ -3,10 +3,10 @@ import Service from '@ember/service';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import ScoSignupForm from 'mon-pix/components/routes/sco-signup-form';
+import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import ENV from '../../../../config/environment';
 import { stubSessionService } from '../../../helpers/service-stubs.js';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
