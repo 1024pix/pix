@@ -99,7 +99,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
       };
 
       module('when the highlighted button is clicked', function () {
-        test('should display a toggletip with the definition', async function (assert) {
+        test('should display a toggletip and announce the definition', async function (assert) {
           // when
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
           const button = screen.getByRole('button', { name: 'vie' });
@@ -107,7 +107,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
 
           // then
           assert.dom(button).hasAttribute('aria-expanded', 'true');
-          assert.ok(screen.getByText(definition));
+          assert.dom(screen.getByRole('status')).hasText(definition);
           assert.dom(screen.getByRole('button', { name: 'Fermer la définition' })).exists();
           assert.dom('img').hasAttribute('src', '/images/modulix/definition-illustration.svg');
         });
@@ -132,6 +132,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
 
             // then
             assert.dom(button).hasAttribute('aria-expanded', 'false');
+            assert.dom(screen.getByRole('status')).hasNoText();
           });
         });
 
@@ -145,6 +146,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
 
             // then
             assert.dom(button).hasAttribute('aria-expanded', 'false');
+            assert.dom(screen.getByRole('status')).hasNoText();
           });
         });
 
@@ -201,6 +203,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
 
           // then
           assert.dom(button).hasAttribute('aria-expanded', 'false');
+          assert.dom(screen.getByRole('status')).hasNoText();
         });
       });
     });
