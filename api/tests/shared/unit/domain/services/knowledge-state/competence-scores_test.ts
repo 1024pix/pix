@@ -47,7 +47,26 @@ describe('Unit | Shared | Domain | Services | knowledge-state | competence-score
   });
 
   describe('#updateCompetenceScores', function () {
-    it('should add to the stored score what the knowledge states gained', function () {
+    it('should score a well answered competence again from its knowledge states, at the current value of the skills', function () {
+      // given: two levels earned for 2 pix, worth 1.5 at the current value of the skills
+      const stored = 2;
+
+      // when
+      const pixByCompetenceId = updateCompetenceScores(
+        new Map([['competence_web', stored]]),
+        [buildKnowledgeState('web', 2)],
+        [buildKnowledgeState('web', 3)],
+        ['competence_web'],
+        [],
+        ['competence_web'],
+        skills,
+      );
+
+      // then: the pix of the three levels, 3, not the stored 2 plus the 1.5 of the third level
+      expect([...pixByCompetenceId]).to.deep.equal([['competence_web', 3]]);
+    });
+
+    it('should keep the stored score of a well answered competence whose knowledge states are worth less', function () {
       // when
       const pixByCompetenceId = updateCompetenceScores(
         new Map([['competence_web', 10]]),
@@ -55,14 +74,15 @@ describe('Unit | Shared | Domain | Services | knowledge-state | competence-score
         [buildKnowledgeState('web', 3)],
         ['competence_web'],
         [],
+        ['competence_web'],
         skills,
       );
 
       // then
-      expect([...pixByCompetenceId]).to.deep.equal([['competence_web', 11.5]]);
+      expect([...pixByCompetenceId]).to.deep.equal([['competence_web', 10]]);
     });
 
-    it('should score a competence from its knowledge states when it has no stored score yet', function () {
+    it('should score a well answered competence from its knowledge states when it has no stored score yet', function () {
       // given: the first answer in a competence the user had no knowledge in, so no score was stored for it
       // when
       const pixByCompetenceId = updateCompetenceScores(
@@ -71,11 +91,47 @@ describe('Unit | Shared | Domain | Services | knowledge-state | competence-score
         [buildKnowledgeState('web', 3)],
         ['competence_web'],
         [],
+        ['competence_web'],
         skills,
       );
 
       // then
       expect([...pixByCompetenceId]).to.deep.equal([['competence_web', 3]]);
+    });
+
+    it('should not raise the score after a failure, even when the knowledge states are worth more', function () {
+      // given: three levels earned for 2 pix, worth 3 at the current value of the skills
+      const stored = 2;
+
+      // when
+      const pixByCompetenceId = updateCompetenceScores(
+        new Map([['competence_web', stored]]),
+        [buildKnowledgeState('web', 3)],
+        [buildKnowledgeState('web', 3)],
+        ['competence_web'],
+        [],
+        [],
+        skills,
+      );
+
+      // then
+      expect([...pixByCompetenceId]).to.deep.equal([['competence_web', 2]]);
+    });
+
+    it('should keep what the knowledge states were worth after a failure when no score is stored', function () {
+      // when
+      const pixByCompetenceId = updateCompetenceScores(
+        new Map(),
+        [buildKnowledgeState('web', 2)],
+        [buildKnowledgeState('web', 1)],
+        ['competence_web'],
+        [],
+        [],
+        skills,
+      );
+
+      // then
+      expect([...pixByCompetenceId]).to.deep.equal([['competence_web', 1.5]]);
     });
 
     it('should bring back to zero a reset competence with no knowledge left', function () {
@@ -86,6 +142,7 @@ describe('Unit | Shared | Domain | Services | knowledge-state | competence-score
         [],
         ['competence_web'],
         ['competence_web'],
+        [],
         skills,
       );
 
@@ -93,13 +150,14 @@ describe('Unit | Shared | Domain | Services | knowledge-state | competence-score
       expect([...pixByCompetenceId]).to.deep.equal([['competence_web', 0]]);
     });
 
-    it('should not lower the score when an answer lowers the knowledge states', function () {
+    it('should not lower the score when a failure lowers the knowledge states', function () {
       // when
       const pixByCompetenceId = updateCompetenceScores(
         new Map([['competence_web', 10]]),
         [buildKnowledgeState('web', 3)],
         [buildKnowledgeState('web', 1)],
         ['competence_web'],
+        [],
         [],
         skills,
       );
@@ -122,6 +180,7 @@ describe('Unit | Shared | Domain | Services | knowledge-state | competence-score
         [buildKnowledgeState('html', 2)],
         ['competence_web'],
         ['competence_web'],
+        [],
         [...skills, ...html],
       );
 
@@ -140,6 +199,7 @@ describe('Unit | Shared | Domain | Services | knowledge-state | competence-score
         [buildKnowledgeState('dear', 3)],
         ['competence_dear'],
         [],
+        ['competence_dear'],
         dear,
       );
 
@@ -155,6 +215,7 @@ describe('Unit | Shared | Domain | Services | knowledge-state | competence-score
         [],
         [],
         ['competence_web'],
+        [],
         skills,
       );
 
@@ -169,6 +230,7 @@ describe('Unit | Shared | Domain | Services | knowledge-state | competence-score
         [buildKnowledgeState('mail', 1)],
         [buildKnowledgeState('mail', 1), buildKnowledgeState('web', 1)],
         ['competence_web'],
+        [],
         [],
         skills,
       );
