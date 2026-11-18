@@ -1,4 +1,5 @@
 import { BadRequestError } from '../../../shared/application/errors/http-errors.js';
+import { validate } from '../../../shared/domain/validators/password-validator.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
 export async function changeUserPassword({
@@ -24,6 +25,8 @@ export async function changeUserPassword({
     password: currentPassword,
     passwordHash: authenticationMethod.authenticationComplement.password,
   });
+
+  validate(newPassword);
 
   const hashedPassword = await cryptoService.hashPassword(newPassword);
   await authenticationMethodRepository.updatePassword({ userId, hashedPassword });
