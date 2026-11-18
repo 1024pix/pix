@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
+import { CREATED, FINALIZED, PROCESSED, TO_FINALIZE } from 'pix-certif/models/session-management';
 
 import SessionDetailsCleaResultsDownload from './clea-results-download';
 import SessionDetailsControlsLinks from './controls-links';
@@ -35,6 +36,22 @@ export default class SessionDetails extends Component {
     } catch {
       this.pixToast.sendErrorNotification({ message: this.intl.t('common.api-error-messages.internal-server-error') });
     }
+  }
+
+  get sessionStatusLabel() {
+    const status = this.args.model.sessionManagement.status;
+    if (status === FINALIZED) return this.intl.t(`pages.sessions.detail.status.${FINALIZED}`);
+    if (status === TO_FINALIZE) return this.intl.t(`pages.sessions.detail.status.${TO_FINALIZE}`);
+    if (status === PROCESSED) return this.intl.t(`pages.sessions.detail.status.${PROCESSED}`);
+    return this.intl.t(`pages.sessions.detail.status.${CREATED}`);
+  }
+
+  get sessionStatusVariant() {
+    const status = this.args.model.sessionManagement.status;
+    if (status === FINALIZED) return 'tertiary';
+    if (status === TO_FINALIZE) return 'error';
+    if (status === PROCESSED) return 'secondary';
+    return 'success';
   }
 
   get certificationCandidatesCount() {
@@ -75,6 +92,8 @@ export default class SessionDetails extends Component {
       @sessionId={{@model.session.id}}
       @sessionDate={{@model.session.date}}
       @sessionTime={{@model.session.time}}
+      @sessionStatusLabel={{this.sessionStatusLabel}}
+      @sessionStatusVariant={{this.sessionStatusVariant}}
     />
 
     {{#if @model.sessionManagement.shouldDisplayCleaResultDownloadSection}}
