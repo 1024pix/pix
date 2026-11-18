@@ -2,7 +2,6 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 // eslint-disable-next-line no-restricted-imports
 import { click, find, findAll } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import ChallengeStatement from 'mon-pix/components/challenge-statement';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -88,8 +87,8 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       const link2 = screen.queryByRole('link', { name: 'lien 2' });
       assert.dom(link1).exists();
       assert.dom(link2).exists();
-      assert.dom(link1).hasAttribute('title', `lien 1 (${t('navigation.external-link-title')})`);
-      assert.dom(link2).hasAttribute('title', `lien 2 (${t('navigation.external-link-title')})`);
+      assert.dom(link1).hasAttribute('title', 'lien 1 (Ouverture dans une nouvelle fenêtre)');
+      assert.dom(link2).hasAttribute('title', 'lien 2 (Ouverture dans une nouvelle fenêtre)');
     });
 
     test('should have a screen reader only warning if challenge has an embed', async function (assert) {
@@ -107,7 +106,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       // then
       assert.ok(
         find('.challenge-statement__instructions-and-text-to-speech-container > .sr-only').textContent.includes(
-          t('pages.challenge.statement.sr-only.embed'),
+          'Cette épreuve contient un simulateur.',
         ),
       );
     });
@@ -127,7 +126,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       // then
       assert.ok(
         find('.challenge-statement__instruction-section > .sr-only').textContent.includes(
-          t('pages.challenge.statement.sr-only.alternative-instruction'),
+          'Cette épreuve contient une illustration avec une alternative textuelle.',
         ),
       );
     });
@@ -170,7 +169,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               assert
                 .dom(
                   screen.getByRole('button', {
-                    name: t('pages.challenge.statement.text-to-speech.play'),
+                    name: 'Lire la consigne à haute voix',
                   }),
                 )
                 .exists();
@@ -198,7 +197,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
                 // when
                 await click(
                   screen.getByRole('button', {
-                    name: t('pages.challenge.statement.text-to-speech.play'),
+                    name: 'Lire la consigne à haute voix',
                   }),
                 );
 
@@ -206,7 +205,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
                 assert
                   .dom(
                     screen.getByRole('button', {
-                      name: t('pages.challenge.statement.text-to-speech.stop'),
+                      name: 'Arrêter la lecture de la consigne',
                     }),
                   )
                   .exists();
@@ -240,7 +239,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
                 );
 
                 // when
-                await click(screen.getByRole('button', { name: t('pages.challenge.statement.text-to-speech.play') }));
+                await click(screen.getByRole('button', { name: 'Lire la consigne à haute voix' }));
 
                 // then
                 assert.ok(
@@ -280,7 +279,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               assert
                 .dom(
                   screen.queryByRole('button', {
-                    name: t('pages.challenge.statement.text-to-speech.play'),
+                    name: 'Lire la consigne à haute voix',
                   }),
                 )
                 .doesNotExist();
@@ -334,7 +333,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               );
 
               // when
-              await click(screen.getByRole('button', { name: t('pages.challenge.statement.text-to-speech.play') }));
+              await click(screen.getByRole('button', { name: 'Lire la consigne à haute voix' }));
 
               assert.ok(
                 trackEvent.calledWithExactly('certifChallengeTextToSpeech'),
@@ -343,8 +342,8 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
               trackEvent.resetHistory();
 
-              await click(screen.getByRole('button', { name: t('pages.challenge.statement.text-to-speech.stop') }));
-              await click(screen.getByRole('button', { name: t('pages.challenge.statement.text-to-speech.play') }));
+              await click(screen.getByRole('button', { name: 'Arrêter la lecture de la consigne' }));
+              await click(screen.getByRole('button', { name: 'Lire la consigne à haute voix' }));
 
               assert.notOk(
                 trackEvent.calledWithExactly('certifChallengeTextToSpeech'),
@@ -387,7 +386,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               assert
                 .dom(
                   screen.queryByRole('button', {
-                    name: t('pages.challenge.statement.text-to-speech.play'),
+                    name: 'Lire la consigne à haute voix',
                   }),
                 )
                 .doesNotExist();
@@ -419,7 +418,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
               assert
                 .dom(
                   screen.queryByRole('button', {
-                    name: t('pages.challenge.statement.text-to-speech.play'),
+                    name: 'Lire la consigne à haute voix',
                   }),
                 )
                 .doesNotExist();
@@ -455,7 +454,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
           assert
             .dom(
               screen.queryByRole('button', {
-                name: t('pages.challenge.statement.text-to-speech.play'),
+                name: 'Lire la consigne à haute voix',
               }),
             )
             .doesNotExist();

@@ -50,7 +50,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           assert
             .dom(
               screen.getByRole('heading', {
-                name: t('pages.certifications-dashboard.enrolment-banner.not-certifiable.title'),
+                name: 'Vous n’êtes pas encore certifiable',
               }),
             )
             .exists();

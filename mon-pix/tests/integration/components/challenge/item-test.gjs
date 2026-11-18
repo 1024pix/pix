@@ -1,6 +1,5 @@
 import { render } from '@1024pix/ember-testing-library';
 import { fillIn } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import Item from 'mon-pix/components/challenge/item';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -12,11 +11,11 @@ module('Integration | Component | Challenge | Item', function (hooks) {
 
   module('challenge component selection', function () {
     [
-      { challengeType: 'QCU', instructionKey: 'pages.challenge.parts.answer-instructions.qcu' },
-      { challengeType: 'QCUIMG', instructionKey: 'pages.challenge.parts.answer-instructions.qcu' },
-      { challengeType: 'QCM', instructionKey: 'pages.challenge.parts.answer-instructions.qcm' },
-      { challengeType: 'QCMIMG', instructionKey: 'pages.challenge.parts.answer-instructions.qcm' },
-    ].forEach(({ challengeType, instructionKey }) => {
+      { challengeType: 'QCU', instruction: 'Sélectionnez une seule réponse.' },
+      { challengeType: 'QCUIMG', instruction: 'Sélectionnez une seule réponse.' },
+      { challengeType: 'QCM', instruction: 'Sélectionnez plusieurs réponses.' },
+      { challengeType: 'QCMIMG', instruction: 'Sélectionnez plusieurs réponses.' },
+    ].forEach(({ challengeType, instruction }) => {
       test(`should render the proper proposals when challenge type is ${challengeType}`, async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
@@ -34,7 +33,7 @@ module('Integration | Component | Challenge | Item', function (hooks) {
         );
 
         // then
-        assert.dom(screen.getByText(t(instructionKey))).exists();
+        assert.dom(screen.getByText(instruction)).exists();
       });
     });
 
@@ -58,8 +57,8 @@ module('Integration | Component | Challenge | Item', function (hooks) {
 
         // then
         assert.dom(screen.getByRole('textbox')).exists();
-        assert.dom(screen.queryByText(t('pages.challenge.parts.answer-instructions.qcu'))).doesNotExist();
-        assert.dom(screen.queryByText(t('pages.challenge.parts.answer-instructions.qcm'))).doesNotExist();
+        assert.dom(screen.queryByText('Sélectionnez une seule réponse.')).doesNotExist();
+        assert.dom(screen.queryByText('Sélectionnez plusieurs réponses.')).doesNotExist();
       });
     });
   });

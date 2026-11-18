@@ -1,5 +1,4 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import LiveAlert from 'mon-pix/components/assessments/live-alert';
 import Location from 'mon-pix/utils/location';
 import { module, test } from 'qunit';
@@ -17,7 +16,7 @@ module('Integration | Component | Assessments | live-alert', function (hooks) {
     const screen = await render(<template><LiveAlert /></template>);
 
     // then
-    assert.dom(screen.getByRole('button', { name: t('pages.challenge.live-alerts.refresh') })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Rafraîchir la page' })).exists();
   });
 
   test('it refreshes the page when clicking the refresh button', async function (assert) {
@@ -26,7 +25,7 @@ module('Integration | Component | Assessments | live-alert', function (hooks) {
     await render(<template><LiveAlert /></template>);
 
     // when
-    await clickByName(t('pages.challenge.live-alerts.refresh'));
+    await clickByName('Rafraîchir la page');
 
     // then
     sinon.assert.calledOnce(reloadStub);
