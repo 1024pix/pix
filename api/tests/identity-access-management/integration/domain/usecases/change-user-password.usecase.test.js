@@ -9,8 +9,8 @@ import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | Identity Access Management | Domain | UseCase | changeUserPassword', function () {
-  const currentPassword = 'currentPassword123';
-  const newPassword = 'NewPassword456';
+  const currentPassword = 'example-of-a-valid-password-az-AZ-012343';
+  const newPassword = 'example-of-another-valid-password-az-AZ-012343';
 
   it('checks the current password and updates the user password with the hashed new password', async function () {
     // given
