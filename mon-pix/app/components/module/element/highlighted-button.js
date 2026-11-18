@@ -17,32 +17,35 @@ class HighlightedButton extends HTMLElement {
     }
 
     const definition = this.getAttribute('definition');
+    const id = ++tooltipCounter;
+    const tooltipId = `glossary-tooltip-${id}`;
+    const definitionId = `glossary-definition-${id}`;
+
     this.#tooltipElement = this.#createElementFromHTML(
-      `<div id="glossary-tooltip-${++tooltipCounter}" role="tooltip" class="module-glossary-tooltip">
+      `<div id="${tooltipId}" class="module-glossary-tooltip">
       <img src="/images/modulix/definition-illustration.svg" class="module-glossary-tooltip__illustration" alt="" />
-      ${definition}
+      <div id="${definitionId}">${definition}</div>
       </div>`,
     );
     this.#tooltipElement.style.setProperty('--definition-length', this.#tooltipElement.textContent.length);
 
     this.#buttonElement = this.#createElementFromHTML(
-      `<button type="button" class="module-glossary-word" aria-expanded="false" aria-describedby="${this.#tooltipElement.id}"></button>`,
+      `<button type="button" class="module-glossary-word" aria-expanded="false"></button>`,
     );
     this.#buttonElement.textContent = this.textContent;
 
     const isMobile = window.matchMedia(breakpoints.mobile).matches;
     if (isMobile) {
-      this.#setUpToggletip();
+      this.#setUpToggletip(tooltipId);
     } else {
-      this.#setUpTooltip();
+      this.#setUpTooltip(definitionId);
     }
-    this.#buttonElement.addEventListener('focus', () => this.open());
+    this.replaceChildren(this.#buttonElement, this.#tooltipElement);
+
     this.addEventListener('focusout', (event) => {
       const isFocusStillInside = this.contains(event.relatedTarget);
       if (!isFocusStillInside) this.close();
     });
-
-    this.replaceChildren(this.#buttonElement, this.#tooltipElement);
   }
 
   open() {
@@ -51,31 +54,61 @@ class HighlightedButton extends HTMLElement {
     this.#positionTooltip();
     window.addEventListener('scroll', this.#positionTooltip, { capture: true, passive: true });
     window.addEventListener('resize', this.#positionTooltip, { passive: true });
+
+    if (this.#closeButton) {
+      document.addEventListener('click', this.#closeOnClickOutside);
+    }
   }
 
   close() {
     this.#tooltipElement.classList.remove('module-glossary-tooltip--visible');
     this.#buttonElement.setAttribute('aria-expanded', 'false');
     this.#stopTrackingPosition();
+
+    if (this.#closeButton) {
+      document.removeEventListener('click', this.#closeOnClickOutside);
+    }
   }
 
-  #setUpTooltip() {
+  #setUpTooltip(definitionId) {
+    this.#tooltipElement.setAttribute('role', 'tooltip');
+    this.#buttonElement.setAttribute('aria-describedby', definitionId);
+
     this.#buttonElement.addEventListener('pointerenter', () => this.open());
     this.#buttonElement.addEventListener('pointerleave', () => this.close());
+    this.#buttonElement.addEventListener('focus', () => this.open());
   }
 
-  #setUpToggletip() {
+  #setUpToggletip(tooltipId) {
+    this.#buttonElement.setAttribute('aria-controls', tooltipId);
+
     this.#closeButton = this.#createElementFromHTML(
       `<button type="button" class="module-glossary-tooltip__close-button">Fermer la définition</button>`,
     );
-    this.#closeButton.addEventListener('click', () => this.close());
+    this.#closeButton.addEventListener('click', () => this.#closeAndReturnFocusToButton());
     this.#tooltipElement.append(this.#closeButton);
 
-    this.#buttonElement.addEventListener('click', () => this.open());
+    this.#tooltipElement.addEventListener('mousedown', (event) => event.preventDefault());
+
+    this.#buttonElement.addEventListener('click', () => (this.#isOpen ? this.close() : this.open()));
+  }
+
+  #closeOnClickOutside = (event) => {
+    if (!this.contains(event.target)) this.close();
+  };
+
+  get #isOpen() {
+    return this.#tooltipElement.classList.contains('module-glossary-tooltip--visible');
+  }
+
+  #closeAndReturnFocusToButton() {
+    this.close();
+    this.#buttonElement.focus();
   }
 
   disconnectedCallback() {
     this.#stopTrackingPosition();
+    document.removeEventListener('click', this.#closeOnClickOutside);
   }
 
   #stopTrackingPosition() {
