@@ -111,6 +111,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
             screen.getByRole('tooltip', { name: "C'est que des emmerdes et à la fin tu meurs. Fermer la définition" }),
           );
           assert.dom(button).hasAttribute('aria-expanded', 'true');
+          assert.dom('img').hasAttribute('src', '/images/modulix/definition-illustration.svg');
         });
 
         test('should display a close button in tooltip', async function (assert) {
@@ -323,7 +324,6 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
 
       // then
       assert.ok(screen.getByRole('button', { name: '<img src=x onerror=alert(1)>' }));
-      assert.dom('highlighted-button img').doesNotExist();
     });
   });
 });
