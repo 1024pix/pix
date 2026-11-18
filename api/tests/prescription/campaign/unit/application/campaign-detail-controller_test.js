@@ -1,3 +1,6 @@
+import { Readable } from 'node:stream';
+import { text } from 'node:stream/consumers';
+
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -229,16 +232,31 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       const request = _getRequestForCampaignId(campaignId);
 
       sinon
-        .stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream')
-        .resolves({ fileName: 'any file name' });
+        .stub(usecases, 'exportCampaignProfilesCollectionResults')
+        .resolves({ fileName: 'any file name', csvChunks: [] });
 
       // when
       await campaignDetailController.getCsvProfilesCollectionResults(request, hFake);
 
       // then
-      expect(usecases.startWritingCampaignProfilesCollectionResultsToStream).to.have.been.calledOnce;
-      const getResultsCampaignArgs = usecases.startWritingCampaignProfilesCollectionResultsToStream.firstCall.args[0];
+      expect(usecases.exportCampaignProfilesCollectionResults).to.have.been.calledOnce;
+      const getResultsCampaignArgs = usecases.exportCampaignProfilesCollectionResults.firstCall.args[0];
       expect(getResultsCampaignArgs).to.have.property('campaignId');
+    });
+
+    it('should reply with a stream of the csv chunks returned by the use case', async function () {
+      // given
+      const request = _getRequestForCampaignId(2);
+      sinon
+        .stub(usecases, 'exportCampaignProfilesCollectionResults')
+        .resolves({ fileName: 'file.csv', csvChunks: ['header\n', 'line1\n', 'line2\n'] });
+
+      // when
+      const response = await campaignDetailController.getCsvProfilesCollectionResults(request, hFake);
+
+      // then
+      expect(response.source).to.be.instanceOf(Readable);
+      expect(await text(response.source)).to.equal('header\nline1\nline2\n');
     });
 
     it('should return a response with correct headers', async function () {
@@ -247,8 +265,8 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       const request = _getRequestForCampaignId(campaignId);
 
       sinon
-        .stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream')
-        .resolves({ fileName: 'expected file name.csv' });
+        .stub(usecases, 'exportCampaignProfilesCollectionResults')
+        .resolves({ fileName: 'expected file name.csv', csvChunks: [] });
 
       // when
       const response = await campaignDetailController.getCsvProfilesCollectionResults(request, hFake);
@@ -264,9 +282,9 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       const campaignId = 2;
       const request = _getRequestForCampaignId(campaignId);
 
-      sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream').resolves({
-        fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv',
-      });
+      sinon
+        .stub(usecases, 'exportCampaignProfilesCollectionResults')
+        .resolves({ fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv', csvChunks: [] });
 
       // when
       const response = await campaignDetailController.getCsvProfilesCollectionResults(request, hFake);
@@ -284,15 +302,30 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       const campaignId = 2;
       const request = _getRequestForCampaignId(campaignId);
 
-      sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream').resolves({ fileName: 'any file name' });
+      sinon.stub(usecases, 'exportCampaignAssessmentResults').resolves({ fileName: 'any file name', csvChunks: [] });
 
       // when
       await campaignDetailController.getCsvAssessmentResults(request, hFake);
 
       // then
-      expect(usecases.startWritingCampaignAssessmentResultsToStream).to.have.been.calledOnce;
-      const getResultsCampaignArgs = usecases.startWritingCampaignAssessmentResultsToStream.firstCall.args[0];
+      expect(usecases.exportCampaignAssessmentResults).to.have.been.calledOnce;
+      const getResultsCampaignArgs = usecases.exportCampaignAssessmentResults.firstCall.args[0];
       expect(getResultsCampaignArgs).to.have.property('campaignId');
+    });
+
+    it('should reply with a stream of the csv chunks returned by the use case', async function () {
+      // given
+      const request = _getRequestForCampaignId(2);
+      sinon
+        .stub(usecases, 'exportCampaignAssessmentResults')
+        .resolves({ fileName: 'file.csv', csvChunks: ['header\n', 'line1\n', 'line2\n'] });
+
+      // when
+      const response = await campaignDetailController.getCsvAssessmentResults(request, hFake);
+
+      // then
+      expect(response.source).to.be.instanceOf(Readable);
+      expect(await text(response.source)).to.equal('header\nline1\nline2\n');
     });
 
     it('should return a response with correct headers', async function () {
@@ -301,8 +334,8 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       const request = _getRequestForCampaignId(campaignId);
 
       sinon
-        .stub(usecases, 'startWritingCampaignAssessmentResultsToStream')
-        .resolves({ fileName: 'expected file name.csv' });
+        .stub(usecases, 'exportCampaignAssessmentResults')
+        .resolves({ fileName: 'expected file name.csv', csvChunks: [] });
 
       // when
       const response = await campaignDetailController.getCsvAssessmentResults(request, hFake);
@@ -318,9 +351,9 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       const campaignId = 2;
       const request = _getRequestForCampaignId(campaignId);
 
-      sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream').resolves({
-        fileName: 'file-name_with_invalid_chars •’<>:"/\\|?*"\n.csv',
-      });
+      sinon
+        .stub(usecases, 'exportCampaignAssessmentResults')
+        .resolves({ fileName: 'file-name_with_invalid_chars •’<>:"/\\|?*"\n.csv', csvChunks: [] });
 
       // when
       const response = await campaignDetailController.getCsvAssessmentResults(request, hFake);

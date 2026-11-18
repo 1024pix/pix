@@ -1,21 +1,16 @@
-import stream from 'node:stream';
 import { text } from 'node:stream/consumers';
-
-import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
-
-const { PassThrough } = stream;
 
 import { expect } from 'chai';
 
 import { CampaignAssessmentExport } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/csv/campaign-assessment-export.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
+import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
   describe('#export', function () {
-    let outputStream, organization, campaign, competences, targetProfile, learningContent, stageCollection, translate;
+    let organization, campaign, competences, targetProfile, learningContent, stageCollection, translate;
 
     beforeEach(function () {
-      outputStream = new PassThrough();
       translate = getI18n().__;
 
       organization = {};
@@ -46,7 +41,6 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
     it('should display common header parts of csv', async function () {
       //given
       const campaignProfile = new CampaignAssessmentExport({
-        outputStream,
         organization,
         campaign,
         competences,
@@ -57,7 +51,7 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
       });
 
       const expectedHeader =
-        '"Nom de l\'organisation";' +
+        '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
         '"Code";' +
         '"Nom de la campagne";' +
@@ -71,19 +65,15 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
         '"% maitrise de l\'ensemble des acquis du profil"' +
         '\n';
       //when
-      await campaignProfile.export({});
-
-      outputStream.end();
+      const csv = await text(campaignProfile.export({}));
 
       // then
-      const csv = await text(outputStream);
       expect(csv).to.equal(expectedHeader);
     });
 
     it('should display additional header on generic import', async function () {
       //given
       const campaignProfile = new CampaignAssessmentExport({
-        outputStream,
         organization,
         campaign,
         competences,
@@ -95,7 +85,7 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
       });
 
       const expectedHeader =
-        '"Nom de l\'organisation";' +
+        '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
         '"Code";' +
         '"Nom de la campagne";' +
@@ -111,12 +101,9 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
         '"% maitrise de l\'ensemble des acquis du profil"' +
         '\n';
       //when
-      await campaignProfile.export({});
-
-      outputStream.end();
+      const csv = await text(campaignProfile.export({}));
 
       // then
-      const csv = await text(outputStream);
       expect(csv).to.equal(expectedHeader);
     });
 
@@ -124,7 +111,6 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
       //given
       targetProfile.badges = [{ title: 'Un Pins' }, { title: 'Un macaron' }, { title: 'Une gomette' }];
       const campaignProfile = new CampaignAssessmentExport({
-        outputStream,
         organization,
         campaign,
         competences,
@@ -135,7 +121,7 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
       });
 
       const expectedHeader =
-        '"Nom de l\'organisation";' +
+        '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
         '"Code";' +
         '"Nom de la campagne";' +
@@ -152,12 +138,9 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
         '"% maitrise de l\'ensemble des acquis du profil"' +
         '\n';
       //when
-      await campaignProfile.export({});
-
-      outputStream.end();
+      const csv = await text(campaignProfile.export({}));
 
       // then
-      const csv = await text(outputStream);
       expect(csv).to.equal(expectedHeader);
     });
 
@@ -168,7 +151,6 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
       stageCollection.totalStages = 3;
 
       const campaignProfile = new CampaignAssessmentExport({
-        outputStream,
         organization,
         campaign,
         competences,
@@ -179,7 +161,7 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
       });
 
       const expectedHeader =
-        '"Nom de l\'organisation";' +
+        '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
         '"Code";' +
         '"Nom de la campagne";' +
@@ -195,12 +177,9 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
         '"% maitrise de l\'ensemble des acquis du profil"' +
         '\n';
       //when
-      await campaignProfile.export({});
-
-      outputStream.end();
+      const csv = await text(campaignProfile.export({}));
 
       // then
-      const csv = await text(outputStream);
       expect(csv).to.equal(expectedHeader);
     });
 
@@ -210,7 +189,6 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
       organization.isManagingStudents = true;
 
       const campaignProfile = new CampaignAssessmentExport({
-        outputStream,
         organization,
         campaign,
         competences,
@@ -221,7 +199,7 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
       });
 
       const expectedHeader =
-        '"Nom de l\'organisation";' +
+        '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
         '"Code";' +
         '"Nom de la campagne";' +
@@ -237,12 +215,9 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
         '\n';
 
       //when
-      await campaignProfile.export({});
-
-      outputStream.end();
+      const csv = await text(campaignProfile.export({}));
 
       // then
-      const csv = await text(outputStream);
       expect(csv).to.equal(expectedHeader);
     });
 
@@ -252,7 +227,6 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
       organization.isManagingStudents = true;
 
       const campaignProfile = new CampaignAssessmentExport({
-        outputStream,
         organization,
         campaign,
         competences,
@@ -263,7 +237,7 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
       });
 
       const expectedHeader =
-        '"Nom de l\'organisation";' +
+        '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
         '"Code";' +
         '"Nom de la campagne";' +
@@ -280,12 +254,9 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
         '\n';
 
       //when
-      await campaignProfile.export({});
-
-      outputStream.end();
+      const csv = await text(campaignProfile.export({}));
 
       // then
-      const csv = await text(outputStream);
       expect(csv).to.equal(expectedHeader);
     });
 
@@ -293,7 +264,6 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
       //given
       campaign.externalIdLabel = 'email';
       const campaignProfile = new CampaignAssessmentExport({
-        outputStream,
         organization,
         campaign,
         competences,
@@ -304,7 +274,7 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
       });
 
       const expectedHeader =
-        '"Nom de l\'organisation";' +
+        '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
         '"Code";' +
         '"Nom de la campagne";' +
@@ -320,12 +290,9 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
         '\n';
 
       //when
-      await campaignProfile.export({});
-
-      outputStream.end();
+      const csv = await text(campaignProfile.export({}));
 
       // then
-      const csv = await text(outputStream);
       expect(csv).to.equal(expectedHeader);
     });
 
@@ -334,7 +301,6 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
       organization.showSkills = true;
       learningContent.skillNames = ['ouai', 'cool', 'wahou'];
       const campaignProfile = new CampaignAssessmentExport({
-        outputStream,
         organization,
         campaign,
         competences,
@@ -345,7 +311,7 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
       });
 
       const expectedHeader =
-        '"Nom de l\'organisation";' +
+        '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
         '"Code";' +
         '"Nom de la campagne";' +
@@ -363,12 +329,9 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
         '\n';
 
       //when
-      await campaignProfile.export({});
-
-      outputStream.end();
+      const csv = await text(campaignProfile.export({}));
 
       // then
-      const csv = await text(outputStream);
       expect(csv).to.equal(expectedHeader);
     });
   });

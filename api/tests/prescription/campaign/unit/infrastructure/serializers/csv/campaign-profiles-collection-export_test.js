@@ -1,19 +1,15 @@
-import stream from 'node:stream';
 import { text } from 'node:stream/consumers';
-
-import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
-
-const { PassThrough } = stream;
 
 import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { CampaignProfilesCollectionExport } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/csv/campaign-profiles-collection-export.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
+import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | CSV | campaign-profiles-collection-export', function () {
   describe('#export', function () {
-    let outputStream, organization, campaign, competences;
+    let organization, campaign, competences;
 
     const placementProfileServiceStub = {
       getPlacementProfilesWithSnapshotting: sinon.stub(),
@@ -22,8 +18,6 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
     const translate = getI18n().__;
 
     beforeEach(function () {
-      outputStream = new PassThrough();
-
       organization = {};
       campaign = {};
 
@@ -46,14 +40,11 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       ];
     });
 
-    it('should write csv lines to stream', async function () {
+    it('should produce csv lines in the stream', async function () {
       // given
-      const noOpStream = { write: sinon.stub() };
-
       const translateStub = sinon.stub();
       const additionalHeaders = [{ columnName: 'Classe' }];
       const exporter = new CampaignProfilesCollectionExport({
-        outputStream: noOpStream,
         organization,
         campaign,
         competences,
@@ -99,23 +90,24 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       ];
 
       // when
-      await exporter.export(campaignParticipationResultDatas, placementProfileStub, {
-        CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING: 1,
-        CONCURRENCY_HEAVY_OPERATIONS: 1,
-      });
+      const csv = await text(
+        exporter.export(campaignParticipationResultDatas, placementProfileStub, {
+          CHUNK_SIZE_CAMPAIGN_PROFILES_COLLECTION_EXPORT: 1,
+        }),
+      );
 
       // then
-      expect(noOpStream.write.getCall(1).args[0]).to.includes('John');
-      expect(noOpStream.write.getCall(2).args[0]).to.includes('Jane');
+      const [, firstLine, secondLine] = csv.split('\n');
+      expect(firstLine).to.includes('John');
+      expect(secondLine).to.includes('Jane');
       // check additionnalInfos
-      expect(noOpStream.write.getCall(1).args[0]).to.includes('CM1');
-      expect(noOpStream.write.getCall(2).args[0]).to.includes('CM2');
+      expect(firstLine).to.includes('CM1');
+      expect(secondLine).to.includes('CM2');
     });
 
     it('should display common header parts of csv', async function () {
       //given
       const campaignProfile = new CampaignProfilesCollectionExport({
-        outputStream,
         organization,
         campaign,
         competences,
@@ -123,7 +115,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       });
 
       const expectedHeader =
-        '"Nom de l\'organisation";' +
+        '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
         '"Code";' +
         '"Nom de la campagne";' +
@@ -139,12 +131,9 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
         '"Niveau pour la compétence Competence2";' +
         '"Nombre de pix pour la compétence Competence2"\n';
       //when
-      await campaignProfile.export([], placementProfileServiceStub);
-
-      outputStream.end();
+      const csv = await text(campaignProfile.export([], placementProfileServiceStub));
 
       // then
-      const csv = await text(outputStream);
       expect(csv).to.equal(expectedHeader);
     });
 
@@ -154,7 +143,6 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       organization.isManagingStudents = true;
 
       const campaignProfile = new CampaignProfilesCollectionExport({
-        outputStream,
         organization,
         campaign,
         competences,
@@ -162,7 +150,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       });
 
       const expectedHeader =
-        '"Nom de l\'organisation";' +
+        '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
         '"Code";' +
         '"Nom de la campagne";' +
@@ -179,12 +167,9 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
         '"Niveau pour la compétence Competence2";' +
         '"Nombre de pix pour la compétence Competence2"\n';
       //when
-      await campaignProfile.export([], placementProfileServiceStub);
-
-      outputStream.end();
+      const csv = await text(campaignProfile.export([], placementProfileServiceStub));
 
       // then
-      const csv = await text(outputStream);
       expect(csv).to.equal(expectedHeader);
     });
 
@@ -194,7 +179,6 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       organization.isManagingStudents = true;
 
       const campaignProfile = new CampaignProfilesCollectionExport({
-        outputStream,
         organization,
         campaign,
         competences,
@@ -202,7 +186,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       });
 
       const expectedHeader =
-        '"Nom de l\'organisation";' +
+        '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
         '"Code";' +
         '"Nom de la campagne";' +
@@ -220,12 +204,9 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
         '"Niveau pour la compétence Competence2";' +
         '"Nombre de pix pour la compétence Competence2"\n';
       //when
-      await campaignProfile.export([], placementProfileServiceStub);
-
-      outputStream.end();
+      const csv = await text(campaignProfile.export([], placementProfileServiceStub));
 
       // then
-      const csv = await text(outputStream);
       expect(csv).to.equal(expectedHeader);
     });
 
@@ -233,7 +214,6 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       //given
       campaign.externalIdLabel = 'email';
       const campaignProfile = new CampaignProfilesCollectionExport({
-        outputStream,
         organization,
         campaign,
         competences,
@@ -241,7 +221,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       });
 
       const expectedHeader =
-        '"Nom de l\'organisation";' +
+        '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +
         '"Code";' +
         '"Nom de la campagne";' +
@@ -258,13 +238,66 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
         '"Niveau pour la compétence Competence2";' +
         '"Nombre de pix pour la compétence Competence2"\n';
       //when
-      await campaignProfile.export([], placementProfileServiceStub);
-
-      outputStream.end();
+      const csv = await text(campaignProfile.export([], placementProfileServiceStub));
 
       // then
-      const csv = await text(outputStream);
       expect(csv).to.equal(expectedHeader);
+    });
+
+    context('when consuming the stream', function () {
+      let placementProfileStub, exporter, participations;
+
+      const buildParticipation = (id) => ({
+        id,
+        createdAt: new Date(),
+        isShared: false,
+        sharedAt: null,
+        participantExternalId: null,
+        userId: id,
+        isCompleted: false,
+        studentNumber: null,
+        participantFirstName: `Prénom${id}`,
+        participantLastName: `Nom${id}`,
+        division: null,
+        pixScore: 0,
+        group: null,
+        additionalInfos: {},
+      });
+      const constants = {
+        CHUNK_SIZE_CAMPAIGN_PROFILES_COLLECTION_EXPORT: 1,
+      };
+
+      beforeEach(function () {
+        placementProfileStub = { getPlacementProfilesWithSnapshotting: sinon.stub().resolves([]) };
+        exporter = new CampaignProfilesCollectionExport({ organization, campaign, competences });
+        participations = Array.from({ length: 100 }, (_, index) => buildParticipation(index + 1));
+      });
+
+      it('should stop processing chunks when the stream is destroyed', async function () {
+        // given
+        const chunks = exporter.export(participations, placementProfileStub, constants);
+
+        // when
+        // eslint-disable-next-line no-unused-vars
+        for await (const _chunk of chunks) {
+          break;
+        }
+
+        // then
+        expect(placementProfileStub.getPlacementProfilesWithSnapshotting.callCount).to.be.below(participations.length);
+      });
+
+      it('should fail when a chunk cannot be computed', async function () {
+        // given
+        const error = new Error('boom');
+        placementProfileStub.getPlacementProfilesWithSnapshotting.rejects(error);
+
+        // when
+        const call = text(exporter.export(participations, placementProfileStub, constants));
+
+        // then
+        await expect(call).to.be.rejectedWith(error);
+      });
     });
   });
 });

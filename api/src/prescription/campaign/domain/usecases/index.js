@@ -51,6 +51,8 @@ import { computeCampaignCollectiveResult } from './compute-campaign-collective-r
 import { createCampaign } from './create-campaign.js';
 import { createCampaigns } from './create-campaigns.js';
 import { deleteCampaigns } from './delete-campaigns.js';
+import { exportCampaignAssessmentResults } from './export-campaign-assessment-results.js';
+import { exportCampaignProfilesCollectionResults } from './export-campaign-profiles-collection-results.js';
 import { findActiveCampaignIdsByOrganization } from './find-active-campaign-ids-by-organization.js';
 import { findAssessmentParticipationResultList } from './find-assessment-participation-result-list.js';
 import { findCampaignProfilesCollectionParticipationSummaries } from './find-campaign-profiles-collection-participation-summaries.js';
@@ -71,8 +73,6 @@ import { getParticipantsGroup } from './get-participants-group.js';
 import { getPresentationSteps } from './get-presentation-steps.js';
 import { getResultLevelsPerTubesAndCompetences } from './get-result-levels-per-tubes-and-competences.js';
 import { getTargetProfile } from './get-target-profile.js';
-import { startWritingCampaignAssessmentResultsToStream } from './start-writing-campaign-assessment-results-to-stream.js';
-import { startWritingCampaignProfilesCollectionResultsToStream } from './start-writing-campaign-profiles-collection-results-to-stream.js';
 import { getBadgeAcquisitionsStatistics } from './statistics/get-badge-acquisitions-statistics.js';
 import { getCampaignParticipationsActivityByDay } from './statistics/get-campaign-participations-activity-by-day.js';
 import { getCampaignParticipationsCountByStage } from './statistics/get-campaign-participations-counts-by-stage.js';
@@ -159,8 +159,8 @@ const usecasesWithoutInjectedDependencies = {
   getPresentationSteps,
   getResultLevelsPerTubesAndCompetences,
   getTargetProfile,
-  startWritingCampaignAssessmentResultsToStream,
-  startWritingCampaignProfilesCollectionResultsToStream,
+  exportCampaignAssessmentResults,
+  exportCampaignProfilesCollectionResults,
   swapCampaignCodes,
   unarchiveCampaign,
   updateCampaignCode,
