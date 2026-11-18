@@ -18,7 +18,10 @@ class HighlightedButton extends HTMLElement {
 
     const definition = this.getAttribute('definition');
     this.#tooltipElement = this.#createElementFromHTML(
-      `<div id="glossary-tooltip-${++tooltipCounter}" role="tooltip" class="module-glossary-tooltip">${definition}</div>`,
+      `<div id="glossary-tooltip-${++tooltipCounter}" role="tooltip" class="module-glossary-tooltip">
+      <img src="/images/modulix/definition-illustration.svg" class="module-glossary-tooltip__illustration" alt="" />
+      ${definition}
+      </div>`,
     );
     this.#tooltipElement.style.setProperty('--definition-length', this.#tooltipElement.textContent.length);
 
