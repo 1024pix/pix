@@ -3,9 +3,8 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { t } from 'ember-intl';
+import { formatDate, t } from 'ember-intl';
 import CopyPasteButton from 'mon-pix/components/copy-paste-button';
-import dayjsFormat from 'mon-pix/helpers/dayjs-format';
 import { CERTIFICATE_STATUSES } from 'mon-pix/models/certificate-summary';
 
 import Hexagon from './hexagon';
@@ -79,7 +78,7 @@ export default class ListItem extends Component {
           </p>
           <p data-testid="pw-certification-card-exam-date" class="info">
             {{t "pages.certifications-list.information.date"}}
-            {{dayjsFormat @certificateSummary.certificationStartedAt "DD/MM/YYYY"}}
+            {{formatDate @certificateSummary.certificationStartedAt format="L"}}
           </p>
         </div>
         <Hexagon

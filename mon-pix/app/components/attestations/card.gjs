@@ -1,11 +1,6 @@
 import { PixBlock, PixButton } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
-import dayjs from 'dayjs';
-import { t } from 'ember-intl';
-
-function attestationDelivery(obtainedAt) {
-  return dayjs(obtainedAt).format('D MMM YYYY');
-}
+import { formatDate, t } from 'ember-intl';
 
 <template>
   <PixBlock class="attestation-card">
@@ -14,7 +9,7 @@ function attestationDelivery(obtainedAt) {
         <h2 class="attestation-card__title">{{@attestationDetail.label}}</h2>
         <p class="attestation-card__subtitle">{{t
             "components.attestations.obtainedAt"
-            date=(attestationDelivery @attestationDetail.obtainedAt)
+            date=(formatDate @attestationDetail.obtainedAt day="numeric" month="short" year="numeric")
           }}</p>
       </div>
       <img

@@ -1,7 +1,6 @@
 import { PixBlock } from '@1024pix/nebulix-ember';
 import Component from '@glimmer/component';
-import { t } from 'ember-intl';
-import dayjsFormat from 'mon-pix/helpers/dayjs-format';
+import { formatDate, t } from 'ember-intl';
 
 import parseISODateOnly from '../../../utils/parse-iso-date-only';
 
@@ -28,7 +27,7 @@ export default class HeaderDetails extends Component {
           <ul>
             <li class="v2-header-details-information--grey">
               {{t "pages.certificate.issued-on"}}
-              {{dayjsFormat @certificate.deliveredAt "D MMMM YYYY"}}
+              {{formatDate @certificate.deliveredAt format="LL"}}
             </li>
             <li>
               {{@certificate.fullName}}
@@ -37,20 +36,20 @@ export default class HeaderDetails extends Component {
               {{#if @certificate.birthplace}}
                 {{t
                   "pages.certificate.candidate-birth-complete"
-                  birthdate=(dayjsFormat this.birthdateMidnightLocalTime "D MMMM YYYY")
+                  birthdate=(formatDate this.birthdateMidnightLocalTime format="LL")
                   birthplace=@certificate.birthplace
                 }}
               {{else}}
                 {{t
                   "pages.certificate.candidate-birth"
-                  birthdate=(dayjsFormat this.birthdateMidnightLocalTime "D MMMM YYYY")
+                  birthdate=(formatDate this.birthdateMidnightLocalTime format="LL")
                 }}
               {{/if}}
             </li>
             {{#if @certificate.certificationCenter}}
               <li>{{t "pages.certificate.certification-center"}} {{@certificate.certificationCenter}}</li>
             {{/if}}
-            <li>{{t "pages.certificate.exam-date"}} {{dayjsFormat @certificate.date "D MMMM YYYY"}}</li>
+            <li>{{t "pages.certificate.exam-date"}} {{formatDate @certificate.date format="LL"}}</li>
           </ul>
 
           {{#if @certificate.shouldDisplayProfessionalizingWarning}}

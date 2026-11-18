@@ -1,9 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, triggerEvent } from '@ember/test-helpers';
-import dayjs from 'dayjs';
-import CustomParseFormat from 'dayjs/plugin/customParseFormat';
-import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { t } from 'ember-intl/test-support';
 import EvaluationResultsHero from 'mon-pix/components/campaigns/assessment/results/evaluation-results-hero/index';
 import { module, test } from 'qunit';
@@ -11,9 +8,6 @@ import sinon from 'sinon';
 
 import { stubCurrentUserService } from '../../../../../../helpers/service-stubs';
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
-
-dayjs.extend(LocalizedFormat);
-dayjs.extend(CustomParseFormat);
 
 module('Integration | Components | Campaigns | Assessment | Results | Evaluation Results Hero', function (hooks) {
   setupIntlRenderingTest(hooks);

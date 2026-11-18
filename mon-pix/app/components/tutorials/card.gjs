@@ -7,7 +7,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
 import ActionChip from 'mon-pix/components/action-chip';
-import dayjsDurationHumanize from 'mon-pix/helpers/dayjs-duration-humanize';
+import humanizeDuration from 'mon-pix/helpers/humanize-duration';
 import buttonStatusTypes from 'mon-pix/utils/button-status-types';
 import { normalizeAndRemoveAccents } from 'mon-pix/utils/tolerances-validation';
 
@@ -33,7 +33,7 @@ export default class Card extends Component {
             •
             {{t (concat "pages.tutorial-panel.format." (normalizeAndRemoveAccents @tutorial.format))}}
             •
-            {{dayjsDurationHumanize @tutorial.duration "seconds"}}
+            {{humanizeDuration @tutorial.duration}}
           </p>
           {{#if this.shouldShowActions}}
             <ul class="tutorial-card-content__actions">

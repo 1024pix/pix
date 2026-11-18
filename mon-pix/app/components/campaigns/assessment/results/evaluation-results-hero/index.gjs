@@ -5,9 +5,6 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import dayjs from 'dayjs';
-import CustomParseFormat from 'dayjs/plugin/customParseFormat';
-import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { t } from 'ember-intl';
 import or from 'ember-truth-helpers/helpers/or';
 import ENV from 'mon-pix/config/environment';
@@ -18,10 +15,8 @@ import AttestationResult from './attestation-result';
 import CustomOrganizationBlock from './custom-organization-block';
 import RetryOrResetBlock from './retry-or-reset-block';
 
-dayjs.extend(LocalizedFormat);
-dayjs.extend(CustomParseFormat);
-
 export default class EvaluationResultsHero extends Component {
+  @service intl;
   @service currentUser;
 
   @service pixMetrics;
@@ -74,11 +69,11 @@ export default class EvaluationResultsHero extends Component {
   }
 
   get sharedAtDate() {
-    return dayjs(this.args.campaignParticipationResult.sharedAt).format('LL');
+    return this.intl.formatDate(this.args.campaignParticipationResult.sharedAt, { format: 'LL' });
   }
 
   get sharedAtTime() {
-    return dayjs(this.args.campaignParticipationResult.sharedAt).format('LT');
+    return this.intl.formatTime(this.args.campaignParticipationResult.sharedAt, { format: 'hhmm' });
   }
 
   @action

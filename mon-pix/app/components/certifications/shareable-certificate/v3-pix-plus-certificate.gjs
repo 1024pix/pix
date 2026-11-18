@@ -2,10 +2,10 @@ import { PixBlock, PixIcon, PixStepper, PixTag } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { t } from 'ember-intl';
+import { formatDate, t } from 'ember-intl';
 import { and } from 'ember-truth-helpers';
-import dayjsFormat from 'mon-pix/helpers/dayjs-format';
 import { CERTIFICATE_TYPES } from 'mon-pix/models/certificate-summary';
+import parseISODateOnly from 'mon-pix/utils/parse-iso-date-only';
 
 import Hexagon from '../../user-certifications/list-item/hexagon';
 import DownloadPdf from '../certificate-information/download-pdf';
@@ -107,7 +107,7 @@ export default class PixPlusCertificate extends Component {
                 </strong><br />
                 {{t
                   "pages.certificate.candidate-birth-complete"
-                  birthdate=(dayjsFormat @certificate.birthdate "DD/MM/YYYY")
+                  birthdate=(formatDate (parseISODateOnly @certificate.birthdate) format="L")
                   birthplace=@certificate.birthplace
                 }}
               </p>
@@ -116,10 +116,10 @@ export default class PixPlusCertificate extends Component {
                 <dd><strong>{{@certificate.certificationCenter}}</strong></dd>
 
                 <dt>{{t "pages.certificate.certification-date"}}</dt>
-                <dd>{{dayjsFormat @certificate.certificationDate "DD/MM/YYYY"}}</dd>
+                <dd>{{formatDate @certificate.certificationDate format="L"}}</dd>
 
                 <dt>{{t "pages.certificate.delivered-at"}}</dt>
-                <dd>{{dayjsFormat @certificate.deliveredAt "DD/MM/YYYY"}}</dd>
+                <dd>{{formatDate @certificate.deliveredAt format="L"}}</dd>
               </dl>
             </div>
           </div>

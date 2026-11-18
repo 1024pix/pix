@@ -5,7 +5,6 @@ import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import dayjs from 'dayjs';
 import t from 'ember-intl/helpers/t';
 import not from 'ember-truth-helpers/helpers/not';
 import isEmpty from 'lodash/isEmpty';
@@ -239,7 +238,12 @@ export default class StudentInformationFormComponent extends Component {
     const year = parseInt(this.yearOfBirth);
     const month = parseInt(this.monthOfBirth) - 1;
     const day = parseInt(this.dayOfBirth);
-    return dayjs(new Date(year, month, day)).format('YYYY-MM-DD');
+    const birthdate = new Date(year, month, day);
+    return [
+      String(birthdate.getFullYear()).padStart(4, '0'),
+      String(birthdate.getMonth() + 1).padStart(2, '0'),
+      String(birthdate.getDate()).padStart(2, '0'),
+    ].join('-');
   }
 
   @action validateIneIna() {
