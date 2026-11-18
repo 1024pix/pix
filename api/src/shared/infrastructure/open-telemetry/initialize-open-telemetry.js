@@ -16,7 +16,7 @@ import {
   resourceFromAttributes,
 } from '@opentelemetry/resources';
 import { BatchLogRecordProcessor } from '@opentelemetry/sdk-logs';
-import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
+import { AggregationType, PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
@@ -29,11 +29,16 @@ import { setDataExportEnabled, setOpenTelemetryInitialized } from './state.js';
 
 const OPEN_TELEMETRY_FEATURE_TOGGLE = 'isOpenTelemetryEnabled';
 
+// pg-boss publie cette jauge depuis chaque processus qui le démarre, conteneurs web compris.
+// Les valeurs viennent de la base des jobs et sont donc identiques partout : seuls les workers
+// la gardent, sinon chaque conteneur web envoie les mêmes points.
+const PG_BOSS_QUEUE_JOBS_METRIC = 'pgboss.queue.jobs';
+
 const GatedOTLPLogExporter = withDataExportGate(OTLPLogExporter);
 const GatedOTLPTraceExporter = withDataExportGate(OTLPTraceExporter);
 const GatedOTLPMetricExporter = withDataExportGate(OTLPMetricExporter);
 
-export function initializeOpenTelemetry(serviceName, { forceDataExport = false } = {}) {
+export function initializeOpenTelemetry(serviceName, { forceDataExport = false, dropPgBossQueueGauge = false } = {}) {
   diag.setLogger(
     {
       ...console,
@@ -63,6 +68,9 @@ export function initializeOpenTelemetry(serviceName, { forceDataExport = false }
     spanProcessors: [new InheritedAttributesSpanProcessor(), new BatchSpanProcessor({ exporter: traceExporter })],
     logRecordProcessors: [new BatchLogRecordProcessor({ exporter: logExporter })],
     metricReaders: [metricReader],
+    views: dropPgBossQueueGauge
+      ? [{ instrumentName: PG_BOSS_QUEUE_JOBS_METRIC, aggregation: { type: AggregationType.DROP } }]
+      : [],
     instrumentations: [
       new HostMetricsInstrumentation(),
       new HttpInstrumentation(),
