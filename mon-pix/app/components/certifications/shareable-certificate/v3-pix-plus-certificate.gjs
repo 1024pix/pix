@@ -2,9 +2,9 @@ import { PixBlock, PixIcon, PixStepper, PixTag } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
 import { t } from 'ember-intl';
 import { and } from 'ember-truth-helpers';
+import dayjsFormat from 'mon-pix/helpers/dayjs-format';
 import { CERTIFICATE_TYPES } from 'mon-pix/models/certificate-summary';
 
 import Hexagon from '../../user-certifications/list-item/hexagon';

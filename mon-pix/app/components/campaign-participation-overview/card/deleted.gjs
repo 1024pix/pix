@@ -1,6 +1,6 @@
 import { PixTag } from '@1024pix/nebulix-ember';
-import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
 import { t } from 'ember-intl';
+import dayjsFormat from 'mon-pix/helpers/dayjs-format';
 
 function getStatusWording(state) {
   const statusKey = {

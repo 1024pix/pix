@@ -1,9 +1,9 @@
 import { PixBlock, PixButtonLink, PixStars, PixTag } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
-import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
 import t from 'ember-intl/helpers/t';
 import { eq } from 'ember-truth-helpers';
+import dayjsFormat from 'mon-pix/helpers/dayjs-format';
 
 export default class Ended extends Component {
   <template>

@@ -5,9 +5,9 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import dayjsDurationHumanize from 'ember-dayjs/helpers/dayjs-duration-humanize';
 import t from 'ember-intl/helpers/t';
 import ActionChip from 'mon-pix/components/action-chip';
+import dayjsDurationHumanize from 'mon-pix/helpers/dayjs-duration-humanize';
 import buttonStatusTypes from 'mon-pix/utils/button-status-types';
 import { normalizeAndRemoveAccents } from 'mon-pix/utils/tolerances-validation';
 

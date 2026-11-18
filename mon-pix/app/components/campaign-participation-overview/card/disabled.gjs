@@ -1,7 +1,7 @@
 import { PixBlock, PixButtonLink, PixStars, PixTag } from '@1024pix/nebulix-ember';
 import Component from '@glimmer/component';
-import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
 import t from 'ember-intl/helpers/t';
+import dayjsFormat from 'mon-pix/helpers/dayjs-format';
 
 export default class Disabled extends Component {
   <template>

@@ -3,9 +3,9 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import dayjsFormat from 'ember-dayjs/helpers/dayjs-format';
 import { t } from 'ember-intl';
 import CopyPasteButton from 'mon-pix/components/copy-paste-button';
+import dayjsFormat from 'mon-pix/helpers/dayjs-format';
 import { CERTIFICATE_STATUSES } from 'mon-pix/models/certificate-summary';
 
 import Hexagon from './hexagon';
