@@ -4,6 +4,7 @@ const { get, set, update } = lodash;
 import { AsyncLocalStorage } from 'node:async_hooks';
 
 import { tokenService } from '../domain/services/token-service.js';
+import { tracing } from './open-telemetry/helpers.js';
 
 /**
  * @typedef {Object} CorrelationInfo
@@ -160,6 +161,7 @@ function extractUserIdFromRequest(request) {
  */
 export function addCorrelationInfo(path, value) {
   setInContext(CORRELATION_METADATA + '.' + path, value);
+  tracing.addAttributes({ [path]: value }, CORRELATION_METADATA);
 }
 
 /**
@@ -171,7 +173,7 @@ export function addCorrelationInfo(path, value) {
  */
 export function addCorrelationInfos(correlationInfos) {
   for (const [path, value] of Object.entries(correlationInfos)) {
-    setInContext(CORRELATION_METADATA + '.' + path, value);
+    addCorrelationInfo(path, value);
   }
 }
 

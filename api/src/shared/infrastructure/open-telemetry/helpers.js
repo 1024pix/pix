@@ -16,6 +16,7 @@ export const tracing = {
   addAttributes: function (attributes, prefix = 'pix') {
     if (!prefix) {
       trace.getActiveSpan()?.setAttributes(attributes);
+      return;
     }
     const prefixedAttributes = Object.fromEntries(
       Object.entries(attributes).map(([key, value]) => [`${prefix}.${key}`, value]),
