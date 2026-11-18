@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { LtiPlatformRegistration } from '../../../../src/lti/domain/models/LtiPlatformRegistration.js';
 import { LtiPlatformsScript } from '../../../../src/lti/scripts/lti-platforms.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { databaseBuilder, knex } from '../../../tooling/databases.js';
@@ -87,6 +88,25 @@ describe('Integration | LTI | Scripts | lti-platforms', function () {
 
       // then
       expect(console.table).to.have.been.calledOnceWithExactly(expectedRegistrations);
+    });
+  });
+
+  describe('registrations set-status', function () {
+    it('sets registration’s status', async function () {
+      // issuer
+      const { id: platformId } = databaseBuilder.factory.buildLtiPlatform();
+      const { clientId } = databaseBuilder.factory.buildLtiPlatformRegistration({
+        platformId,
+        status: LtiPlatformRegistration.status.PENDING,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await script['set-registration-status']({ clientId, status: LtiPlatformRegistration.status.ACTIVE }, { logger });
+
+      // then
+      const dbPlatforms = await knex.select('clientId', 'status').from('lti_platform_registrations');
+      expect(dbPlatforms).to.deep.equal([{ clientId, status: LtiPlatformRegistration.status.ACTIVE }]);
     });
   });
 });
