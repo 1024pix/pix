@@ -43,7 +43,7 @@
 .certification-feedback-panel__action-buttons {
   display: flex;
   gap: 16px;
-  margin-top: var(--pix-spacing-4x);
+  margin-top: var(--pix-spacing-3x);
 
   @include breakpoints.device-is('tablet') {
     margin-top: unset;

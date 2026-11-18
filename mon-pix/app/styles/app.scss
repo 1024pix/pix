@@ -180,14 +180,14 @@
 @use '../components/ui/assessment/progress-bar' as *;
 
 /* challenge */
-@use 'challenge/challenge-wrapper' as *;
-@use 'challenge/timeout-gauge' as *;
-@use 'challenge/challenge-actions' as *;
-@use 'challenge/mode-banner' as *;
-@use 'challenge/timed-challenge-instructions' as *;
-@use 'challenge/feedback/feedback-wrapper' as *;
-@use 'challenge/feedback/feedback-panel' as *;
-@use 'challenge/feedback/certification-feedback-panel' as *;
+@use '../components/challenge/challenge-wrapper' as *;
+@use '../components/challenge/timeout-gauge' as *;
+@use '../components/challenge/challenge-actions' as *;
+@use '../components/challenge/mode-banner' as *;
+@use '../components/challenge/timed-challenge-instructions' as *;
+@use '../components/challenge/feedback/feedback-wrapper' as *;
+@use '../components/challenge/feedback/feedback-panel' as *;
+@use '../components/challenge/feedback/certification-feedback-panel' as *;
 
 /* pages */
 @use 'pages/campaign-landing-page' as *;
