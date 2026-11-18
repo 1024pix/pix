@@ -91,135 +91,116 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
         sinon.restore();
       });
 
-      module('when the highlighted button is clicked', function () {
-        test('should display a tooltip with the definition', async function (assert) {
-          // given
-          const definition = "C'est que des emmerdes et à la fin tu meurs.";
-          const textElement = {
-            content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
-            type: 'text',
-            tag: ' ',
-          };
+      const definition = "C'est que des emmerdes et à la fin tu meurs.";
+      const textElement = {
+        content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p><button type="button">Suite</button>`,
+        type: 'text',
+        tag: ' ',
+      };
 
-          //  when
+      module('when the highlighted button is clicked', function () {
+        test('should display a toggletip with the definition', async function (assert) {
+          // when
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
           const button = screen.getByRole('button', { name: 'vie' });
           await click(button);
 
           // then
-          assert.ok(
-            screen.getByRole('tooltip', { name: "C'est que des emmerdes et à la fin tu meurs. Fermer la définition" }),
-          );
           assert.dom(button).hasAttribute('aria-expanded', 'true');
+          assert.ok(screen.getByText(definition));
+          assert.dom(screen.getByRole('button', { name: 'Fermer la définition' })).exists();
           assert.dom('img').hasAttribute('src', '/images/modulix/definition-illustration.svg');
         });
 
-        test('should display a close button in tooltip', async function (assert) {
-          // given
-          const definition = "C'est que des emmerdes et à la fin tu meurs.";
-          const textElement = {
-            content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
-            type: 'text',
-            tag: ' ',
-          };
-
-          //  when
+        test('should keep the focus on the highlighted button', async function (assert) {
+          // when
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
           const button = screen.getByRole('button', { name: 'vie' });
           await click(button);
 
           // then
-          const closeButton = screen.getByRole('button', { name: 'Fermer la définition' });
-          assert.dom(closeButton).exists();
+          assert.dom(button).isFocused();
+        });
+
+        module('when the highlighted button is clicked again', function () {
+          test('should hide the toggletip', async function (assert) {
+            // when
+            const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+            const button = screen.getByRole('button', { name: 'vie' });
+            await click(button);
+            await click(button);
+
+            // then
+            assert.dom(button).hasAttribute('aria-expanded', 'false');
+          });
         });
 
         module('when the user clicks outside the highlighted button', function () {
-          test('should hide the tooltip with the definition', async function (assert) {
-            // given
-            const definition = "C'est que des emmerdes et à la fin tu meurs.";
-            const textElement = {
-              content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
-              type: 'text',
-              tag: ' ',
-            };
-
-            //  when
+          test('should hide the toggletip', async function (assert) {
+            // when
             const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
             const button = screen.getByRole('button', { name: 'vie' });
             await click(button);
             await click(screen.getByText('est belle.', { exact: false }));
 
             // then
-            assert.dom(screen.queryByRole('tooltip', { name: definition })).doesNotExist();
             assert.dom(button).hasAttribute('aria-expanded', 'false');
           });
         });
 
-        module('when the user clicks on tooltip close button', function () {
-          test('should hide the tooltip with the definition', async function (assert) {
-            // given
-            const definition = "C'est que des emmerdes et à la fin tu meurs.";
-            const textElement = {
-              content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
-              type: 'text',
-              tag: ' ',
-            };
-
-            //  when
+        module('when the user clicks on the close button', function () {
+          test('should hide the toggletip and give the focus back to the highlighted button', async function (assert) {
+            // when
             const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
             const button = screen.getByRole('button', { name: 'vie' });
             await click(button);
-            const closeButton = screen.getByRole('button', { name: 'Fermer la définition' });
-            await click(closeButton);
+            await click(screen.getByRole('button', { name: 'Fermer la définition' }));
 
             // then
-            assert.dom(screen.queryByRole('tooltip', { name: definition })).doesNotExist();
             assert.dom(button).hasAttribute('aria-expanded', 'false');
+            assert.dom(button).isFocused();
+          });
+        });
+
+        module('when the focus moves to the close button', function () {
+          test('should keep the toggletip displayed', async function (assert) {
+            // when
+            const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+            const button = screen.getByRole('button', { name: 'vie' });
+            await click(button);
+            await focus(screen.getByRole('button', { name: 'Fermer la définition' }));
+
+            // then
+            assert.dom(button).hasAttribute('aria-expanded', 'true');
+          });
+
+          module('when the focus then leaves the toggletip', function () {
+            test('should hide the toggletip and let the focus go on', async function (assert) {
+              // when
+              const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+              const button = screen.getByRole('button', { name: 'vie' });
+              await click(button);
+              await focus(screen.getByRole('button', { name: 'Fermer la définition' }));
+              const nextButton = screen.getByRole('button', { name: 'Suite' });
+              await focus(nextButton);
+
+              // then
+              assert.dom(button).hasAttribute('aria-expanded', 'false');
+              assert.dom(nextButton).isFocused();
+            });
           });
         });
       });
-      module('when the focus moves from the highlighted button to the close button', function () {
-        test('should keep the tooltip displayed', async function (assert) {
-          // given
-          const definition = "C'est que des emmerdes et à la fin tu meurs.";
-          const textElement = {
-            content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
-            type: 'text',
-            tag: ' ',
-          };
 
-          //  when
+      module('when the highlighted button is only focused', function () {
+        test('should not display the toggletip', async function (assert) {
+          // when
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
           const button = screen.getByRole('button', { name: 'vie' });
           await focus(button);
-          await focus(screen.getByRole('button', { name: 'Fermer la définition' }));
 
           // then
-          assert.dom(button).hasAttribute('aria-expanded', 'true');
-        });
-
-        module('when the focus then leaves the tooltip', function () {
-          test('should hide the tooltip and let the focus go on', async function (assert) {
-            // given
-            const definition = "C'est que des emmerdes et à la fin tu meurs.";
-            const textElement = {
-              content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p><button type="button">Suite</button>`,
-              type: 'text',
-              tag: ' ',
-            };
-
-            //  when
-            const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-            const button = screen.getByRole('button', { name: 'vie' });
-            await focus(button);
-            await focus(screen.getByRole('button', { name: 'Fermer la définition' }));
-            const nextButton = screen.getByRole('button', { name: 'Suite' });
-            await focus(nextButton);
-
-            // then
-            assert.dom(button).hasAttribute('aria-expanded', 'false');
-            assert.dom(nextButton).isFocused();
-          });
+          assert.dom(button).hasAttribute('aria-expanded', 'false');
         });
       });
     });
