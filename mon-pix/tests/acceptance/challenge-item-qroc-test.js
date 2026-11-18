@@ -244,7 +244,9 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
         assert.ok(tutorialToSuccess.textContent.includes(tutorial.title));
         assert.ok(tutorialToLearnMore.textContent.includes(learningMoreTutorial.title));
-        assert.dom('.feedback-panel').exists();
+        assert
+          .dom(getScreen().getByRole('heading', { name: 'Signaler un problème avec la question', level: 2 }))
+          .exists();
       });
     });
 
@@ -399,7 +401,9 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
         assert.ok(tutorialToSuccess.textContent.includes(tutorial.title));
         assert.ok(tutorialToLearnMore.textContent.includes(learningMoreTutorial.title));
-        assert.dom('.feedback-panel').exists();
+        assert
+          .dom(getScreen().getByRole('heading', { name: 'Signaler un problème avec la question', level: 2 }))
+          .exists();
       });
     });
   });
@@ -524,7 +528,9 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         assert.ok(tutorialToSuccess.textContent.includes(tutorial.title));
         assert.ok(tutorialToLearnMore.textContent.includes(learningMoreTutorial.title));
 
-        assert.dom('.feedback-panel').exists();
+        assert
+          .dom(getScreen().getByRole('heading', { name: 'Signaler un problème avec la question', level: 2 }))
+          .exists();
       });
     });
   });

@@ -1,6 +1,9 @@
 @use 'pix-design-tokens/breakpoints';
+@use 'pix-design-tokens/typography';
 
 .feedback-wrapper {
+  @extend %pix-body-s;
+
   &__open-close {
     margin: 0 auto;
 

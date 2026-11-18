@@ -1,37 +1,11 @@
 @use 'pix-design-tokens/breakpoints';
 @use 'pix-design-tokens/typography';
 
-.feedback-wrapper {
-  &__open-close {
-    margin: 0 auto;
-
-    @include breakpoints.device-is('tablet') {
-      margin: unset;
-    }
-  }
-}
-
 /* "Form" view
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .feedback-panel__view {
-  font-size: 0.875rem;
-}
-
-.feedback-panel__view--form {
   padding: var(--pix-spacing-2x) 0;
-}
-
-.feedback-panel__form-description {
-  font-size: 1.25rem;
-
-  & .link {
-    color: var(--pix-primary-700);
-
-    &:hover {
-      color: var(--pix-primary-700);
-    }
-  }
 }
 
 .feedback-panel__form-wrapper {
@@ -43,133 +17,32 @@
   width: 100%;
 }
 
-.feedback-panel__comment {
-  @extend %pix-body-s;
-
-  display: flex;
-  align-items: center;
-  margin: var(--pix-spacing-4x) 0;
-  color: var(--pix-neutral-800);
-  font-weight: 500;
-  text-decoration: underline;
-}
-
-.feedback-panel-comment {
-  &__icon {
-    margin-right: var(--pix-spacing-1x);
-    padding: var(--pix-spacing-1x);
-  }
-}
-
 .feedback-panel__field-notice {
   margin: var(--pix-spacing-4x) 0 var(--pix-spacing-1x);
-  font-size: 0.75rem;
+
+  @extend %pix-body-xs;
 }
 
 .feedback-panel__category-selection {
   display: flex;
   flex-direction: column;
   gap: var(--pix-spacing-4x);
-
-  > div {
-    max-width: 100%;
-
-    > button {
-      width: auto;
-      max-width: 100%;
-    }
-
-    @include breakpoints.device-is('mobile') {
-      width: auto;
-    }
-  }
 }
 
-.feedback-panel__quick-help {
-  padding: 20px;
-  font-weight: bold;
-  font-size: 0.938rem;
-  word-break: normal;
-  overflow-wrap: anywhere;
-  background-color: var(--pix-neutral-0);
-  border: dashed var(--pix-neutral-800);
-
-  & .tuto-icon {
-    width: 15px;
-
-    &__warning {
-      float: left;
-      width: 20px;
-      height: 20px;
-      color: var(--pix-warning-700);
-    }
-  }
-
-  & p {
-    margin: 0 0 0 35px;
-  }
+.tuto-icon {
+  width: 15px;
 }
 
-.feedback-panel__button {
-  box-sizing: border-box;
-  margin: 0 10px 20px 0;
-  padding: 10px 20px;
-  background-color: var(--pix-neutral-20);
-  border: 1px solid var(--pix-neutral-500);
-  border-radius: 3px;
-
-  &[disabled] {
-    opacity: 0.3;
-  }
-}
-
-.feedback-panel__button--send {
-  color: var(--pix-neutral-0);
-  background-color: var(--pix-neutral-100);
-
-  &:hover,
-  &:focus {
-    background-color: var(--pix-neutral-800);
-  }
-}
 
 .feedback-panel__form-legal-notice {
+  @extend %pix-body-xs;
+
   margin-top: var(--pix-spacing-4x);
   padding-top: var(--pix-spacing-4x);
   color: var(--pix-neutral-500);
-  font-size: 0.75rem;
-  line-height: 1.5;
   border-top: 1px solid var(--pix-neutral-20);
 
   & a {
     color: var(--pix-primary-700);
-  }
-}
-
-/* "Mercix" view
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-.feedback-panel__view--mercix {
-  padding: var(--pix-spacing-4x) 0 var(--pix-spacing-6x);
-  font-size: 1rem;
-  text-align: center;
-
-  p + p {
-    margin-top: var(--pix-spacing-2x);
-  }
-}
-
-.feedback-panel__alert {
-  margin: 4px 0;
-}
-
-/* Submit modal
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-.feedback-panel-submit-modal {
-  &__action-buttons {
-    display: flex;
-    gap: var(--pix-spacing-4x);
-    justify-content: flex-end
   }
 }

@@ -1,4 +1,4 @@
-import { PixButton, PixIcon, PixModal, PixSelect, PixTextarea } from '@1024pix/nebulix-ember';
+import { PixButton, PixModal, PixNotificationAlert, PixSelect, PixTextarea } from '@1024pix/nebulix-ember';
 import { hash } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -224,13 +224,11 @@ export default class FeedbackPanel extends Component {
       <:form>
         {{#if this.isExpanded}}
           {{#if this.isFormSubmitted}}
-            <div class="feedback-panel__view feedback-panel__view--mercix" id="feedback-panel-submitted" role="status">
+            <PixNotificationAlert @type="success" @withIcon={{true}}>
               {{t "components.challenge.feedback.common.form.status.success" htmlSafe=true}}
-            </div>
+            </PixNotificationAlert>
           {{else}}
-            <div class="feedback-panel__view feedback-panel__view--form" id="feedback-panel">
-              <div class="feedback-panel__form-description">
-              </div>
+            <div class="feedback-panel__view" id="feedback-panel">
               <p>{{t "components.challenge.feedback.common.description"}}</p>
               <div class="feedback-panel__form-wrapper">
                 <form id="feedback-form" class="feedback-panel__form" {{on "submit" this.sendFeedback}} novalidate>
@@ -265,38 +263,37 @@ export default class FeedbackPanel extends Component {
                         </PixSelect>
                       {{/if}}
                       {{#if this.quickHelpInstructions}}
-                        <div class="feedback-panel__quick-help">
-                          <PixIcon @name="error" @plainIcon={{true}} @ariaHidden={{true}} class="tuto-icon__warning" />
-                          <p>{{t this.quickHelpInstructions htmlSafe=true}}</p>
-                        </div>
+                        <PixNotificationAlert @withIcon={{true}} @type="warning">
+                          {{t this.quickHelpInstructions htmlSafe=true}}
+                        </PixNotificationAlert>
                       {{/if}}
                     </div>
                   </div>
                   {{#if this.displayTextBox}}
                     {{#if this.displayAddCommentButton}}
-                      <button type="button" class="feedback-panel__comment" onClick={{this.addComment}}>
-                        <PixIcon @name="edit" @ariaHidden={{true}} class="feedback-panel-comment__icon" />
+                      <PixButton @iconBefore="edit" @variant="tertiary" @triggerAction={{this.addComment}}>
                         {{t "components.challenge.feedback.common.form.fields.detail-selection.add-comment"}}
-                      </button>
+                      </PixButton>
                     {{else}}
                       <div>
                         <p class="feedback-panel__field-notice">
                           {{t "components.challenge.feedback.common.form.status.error.max-characters"}}
                         </p>
-                        <label class="screen-reader-only" for="feedback-panel__field">{{t
-                            "components.challenge.feedback.common.form.fields.detail-selection.problem-suggestion-description"
-                          }}</label>
                         <PixTextarea
                           class="feedback-panel__field--content"
                           @value={{this.content}}
-                          @id="feedback-panel__field"
+                          @screenReaderOnly={{true}}
                           @maxlength="10000"
                           rows="5"
                           placeholder={{t
                             "components.challenge.feedback.common.form.fields.detail-selection.problem-suggestion-description"
                           }}
                           {{on "change" this.setContent}}
-                        />
+                        >
+                          <:label>{{t
+                              "components.challenge.feedback.common.form.fields.detail-selection.problem-suggestion-description"
+                            }}</:label>
+                        </PixTextarea>
                       </div>
                     {{/if}}
                     <PixButton
@@ -329,16 +326,10 @@ export default class FeedbackPanel extends Component {
         {{t "components.challenge.feedback.common.modal.content" htmlSafe=true}}
       </:content>
       <:footer>
-        <ul class="feedback-panel-submit-modal__action-buttons">
-          <li>
-            <PixButton @triggerAction={{this.toggleModalVisibility}} @variant="secondary">
-              {{t "common.actions.cancel"}}
-            </PixButton>
-          </li>
-          <li>
-            <PixButton @type="submit" form="feedback-form">{{t "common.actions.validate"}}</PixButton>
-          </li>
-        </ul>
+        <PixButton @triggerAction={{this.toggleModalVisibility}} @variant="secondary">
+          {{t "common.actions.cancel"}}
+        </PixButton>
+        <PixButton @type="submit" form="feedback-form">{{t "common.actions.validate"}}</PixButton>
       </:footer>
     </PixModal>
   </template>

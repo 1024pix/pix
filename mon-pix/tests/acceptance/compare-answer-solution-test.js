@@ -119,7 +119,8 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
       await clickByText('Valider');
 
       // then
-      assert.dom('.feedback-panel__view--mercix').exists();
+      assert.dom(screen.getByText('Votre commentaire a bien été transmis à l’équipe du projet Pix.')).exists();
+      assert.dom(screen.getByText('Mercix !')).exists();
     });
   });
 

@@ -1,4 +1,4 @@
-import { visit } from '@1024pix/ember-testing-library';
+import { getScreen, visit } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'mon-pix/tests/test-support/setup-mirage';
@@ -57,7 +57,9 @@ module('Acceptance | Timed challenge', function (hooks) {
 
         test('should display the challenge statement and the feedback form', function (assert) {
           assert.dom('.challenge-statement').exists();
-          assert.dom('.feedback-panel').exists();
+          assert
+            .dom(getScreen().getByRole('heading', { name: 'Signaler un problème avec la question', level: 2 }))
+            .exists();
         });
 
         test('should start the timer', function (assert) {
@@ -85,7 +87,9 @@ module('Acceptance | Timed challenge', function (hooks) {
 
         test('should display the challenge statement and the feedback form', function (assert) {
           assert.dom('.challenge-statement').exists();
-          assert.dom('.feedback-panel').exists();
+          assert
+            .dom(getScreen().getByRole('heading', { name: 'Signaler un problème avec la question', level: 2 }))
+            .exists();
         });
 
         test('should not display the timer', function (assert) {
@@ -113,7 +117,9 @@ module('Acceptance | Timed challenge', function (hooks) {
 
       test('should display the challenge statement and the feedback form', function (assert) {
         assert.dom('.challenge-statement').exists();
-        assert.dom('.feedback-panel').exists();
+        assert
+          .dom(getScreen().getByRole('heading', { name: 'Signaler un problème avec la question', level: 2 }))
+          .exists();
       });
 
       test('should display the timer without time remains', function (assert) {
