@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { LtiPlatformRegistration } from '../../../../../src/lti/domain/models/LtiPlatformRegistration.js';
 import { ltiPlatformRegistrationRepository } from '../../../../../src/lti/infrastructure/repositories/lti-platform-registration.repository.js';
 import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -91,6 +92,42 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform-registr
       expect(registrationFromDb).to.deep.contain({
         clientId: expectedLtiPlatformRegistration.clientId,
         platformId,
+        status: expectedLtiPlatformRegistration.status,
+        toolConfig: expectedLtiPlatformRegistration.toolConfig,
+        encryptedPrivateKey: expectedLtiPlatformRegistration.encryptedPrivateKey,
+        publicKey: expectedLtiPlatformRegistration.publicKey,
+        platformOpenIdConfigUrl: expectedLtiPlatformRegistration.platformOpenIdConfigUrl,
+      });
+    });
+  });
+
+  describe('#update', function () {
+    it('updates platform registration', async function () {
+      // given
+      const platform = domainBuilder.lti.buildLtiPlatform(databaseBuilder.factory.buildLtiPlatform());
+      const platformRegistrationData = databaseBuilder.factory.buildLtiPlatformRegistration({
+        platformId: platform.id,
+        status: LtiPlatformRegistration.status.PENDING,
+      });
+      const expectedLtiPlatformRegistration = domainBuilder.lti.buildLtiPlatformRegistration({
+        ...platformRegistrationData,
+        platform,
+        status: LtiPlatformRegistration.status.ACTIVE,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const updatedRegistration = await ltiPlatformRegistrationRepository.update(expectedLtiPlatformRegistration);
+
+      // then
+      expect(updatedRegistration).to.deepEqualInstance(expectedLtiPlatformRegistration);
+      expect(updatedRegistration).to.have.property('platformId', expectedLtiPlatformRegistration.platformId);
+      expect(updatedRegistration).to.have.property('platformIssuer', expectedLtiPlatformRegistration.platformIssuer);
+
+      const registrationFromDb = await knex.select('*').from('lti_platform_registrations').first();
+      expect(registrationFromDb).to.deep.contain({
+        clientId: expectedLtiPlatformRegistration.clientId,
+        platformId: platform.id,
         status: expectedLtiPlatformRegistration.status,
         toolConfig: expectedLtiPlatformRegistration.toolConfig,
         encryptedPrivateKey: expectedLtiPlatformRegistration.encryptedPrivateKey,

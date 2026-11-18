@@ -25,6 +25,9 @@ export const ltiPlatformRegistrationRepository = {
     return knexConn.select('publicKey').from('lti_platform_registrations').where('status', 'active').pluck('publicKey');
   },
 
+  /**
+   * @param {LtiPlatformRegistration} registration
+   */
   async create({ clientId, platformId, status, toolConfig, encryptedPrivateKey, publicKey, platformOpenIdConfigUrl }) {
     const knexConn = DomainTransaction.getConnection();
     const [ltiPlatformRegistrationDTO] = await knexConn('lti_platform_registrations')
@@ -37,6 +40,24 @@ export const ltiPlatformRegistrationRepository = {
         publicKey,
         platformOpenIdConfigUrl,
       })
+      .returning('*');
+
+    const platform = await ltiPlatformRepository.get(ltiPlatformRegistrationDTO.platformId);
+
+    return toDomain(ltiPlatformRegistrationDTO, platform);
+  },
+
+  /**
+   * @param {LtiPlatformRegistration} registration
+   */
+  async update({ clientId, status }) {
+    const knexConn = DomainTransaction.getConnection();
+    const [ltiPlatformRegistrationDTO] = await knexConn('lti_platform_registrations')
+      .update({
+        status,
+        updatedAt: knexConn.fn.now(),
+      })
+      .where({ clientId })
       .returning('*');
 
     const platform = await ltiPlatformRepository.get(ltiPlatformRegistrationDTO.platformId);
