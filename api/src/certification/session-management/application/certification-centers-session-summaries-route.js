@@ -25,6 +25,9 @@ async function register(server) {
               number: Joi.number().integer().empty('').allow(null).optional(),
               size: Joi.number().integer().empty('').allow(null).optional(),
             }).default({}),
+            sort: Joi.object({
+              date: Joi.string().valid('asc', 'desc'),
+            }),
           }),
         },
         handler: certificationCenterController.findPaginatedFilteredSessionSummaries,

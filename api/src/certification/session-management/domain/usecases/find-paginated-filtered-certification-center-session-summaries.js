@@ -5,6 +5,7 @@ export async function findPaginatedFilteredCertificationCenterSessionSummaries({
   certificationCenterId,
   filters,
   page,
+  sort,
   sessionSummaryRepository,
   certificationCenterMembershipRepository,
 }) {
@@ -20,5 +21,6 @@ export async function findPaginatedFilteredCertificationCenterSessionSummaries({
     certificationCenterId,
     filters,
     page,
+    sort,
   });
 }

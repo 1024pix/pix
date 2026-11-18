@@ -27,6 +27,9 @@ describe('Unit | Controller | certifications-center-controller', function () {
             number: 1,
             size: 10,
           },
+          sort: {
+            date: 'asc',
+          },
         },
       };
       const sessionSummary = domainBuilder.buildSessionSummary.created({
@@ -45,6 +48,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
           certificationCenterId: 456,
           filters: { sessionId: 1, status: SESSION_STATUSES.PROCESSED },
           page: { number: 1, size: 10 },
+          sort: { date: 'asc' },
         })
         .resolves({
           models: [sessionSummary],

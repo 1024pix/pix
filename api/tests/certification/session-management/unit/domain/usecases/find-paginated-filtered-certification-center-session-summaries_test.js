@@ -55,6 +55,7 @@ describe('Unit | Domain | Use Cases | find-paginated-certification-center-sessio
           certificationCenterId: 456,
           page: 'pagination-info',
           filters: { sessionId: 1 },
+          sort: { date: 'desc' },
         })
         .resolves({
           models: sessionSummaries,
@@ -67,6 +68,7 @@ describe('Unit | Domain | Use Cases | find-paginated-certification-center-sessio
         certificationCenterId: 456,
         filters: { sessionId: 1 },
         page: 'pagination-info',
+        sort: { date: 'desc' },
         sessionSummaryRepository,
         certificationCenterMembershipRepository,
       });
