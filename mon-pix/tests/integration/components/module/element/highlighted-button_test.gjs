@@ -102,7 +102,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
         test('should display a toggletip and announce the definition', async function (assert) {
           // when
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-          const button = screen.getByRole('button', { name: 'vie' });
+          const button = screen.getByRole('button', { name: 'vie, voir la définition' });
           await click(button);
 
           // then
@@ -112,10 +112,18 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           assert.dom('img').hasAttribute('src', '/images/modulix/definition-illustration.svg');
         });
 
+        test('should tell screen reader users that the word opens a definition', async function (assert) {
+          // when
+          const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+
+          // then
+          assert.ok(screen.getByRole('button', { name: 'vie, voir la définition' }));
+        });
+
         test('should keep the focus on the highlighted button', async function (assert) {
           // when
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-          const button = screen.getByRole('button', { name: 'vie' });
+          const button = screen.getByRole('button', { name: 'vie, voir la définition' });
           await click(button);
 
           // then
@@ -126,7 +134,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           test('should hide the toggletip', async function (assert) {
             // when
             const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-            const button = screen.getByRole('button', { name: 'vie' });
+            const button = screen.getByRole('button', { name: 'vie, voir la définition' });
             await click(button);
             await click(button);
 
@@ -140,7 +148,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           test('should hide the toggletip', async function (assert) {
             // when
             const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-            const button = screen.getByRole('button', { name: 'vie' });
+            const button = screen.getByRole('button', { name: 'vie, voir la définition' });
             await click(button);
             await click(screen.getByText('est belle.', { exact: false }));
 
@@ -154,7 +162,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           test('should hide the toggletip and give the focus back to the highlighted button', async function (assert) {
             // when
             const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-            const button = screen.getByRole('button', { name: 'vie' });
+            const button = screen.getByRole('button', { name: 'vie, voir la définition' });
             await click(button);
             await click(screen.getByRole('button', { name: 'Fermer la définition' }));
 
@@ -168,7 +176,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           test('should hide the toggletip and give the focus back to the highlighted button', async function (assert) {
             // when
             const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-            const button = screen.getByRole('button', { name: 'vie' });
+            const button = screen.getByRole('button', { name: 'vie, voir la définition' });
             await click(button);
             const closeButton = screen.getByRole('button', { name: 'Fermer la définition' });
             await focus(closeButton);
@@ -184,7 +192,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           test('should keep the toggletip displayed', async function (assert) {
             // when
             const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-            const button = screen.getByRole('button', { name: 'vie' });
+            const button = screen.getByRole('button', { name: 'vie, voir la définition' });
             await click(button);
             await focus(screen.getByRole('button', { name: 'Fermer la définition' }));
 
@@ -196,7 +204,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
             test('should hide the toggletip and let the focus go on', async function (assert) {
               // when
               const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-              const button = screen.getByRole('button', { name: 'vie' });
+              const button = screen.getByRole('button', { name: 'vie, voir la définition' });
               await click(button);
               await focus(screen.getByRole('button', { name: 'Fermer la définition' }));
               const nextButton = screen.getByRole('button', { name: 'Suite' });
@@ -214,7 +222,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
         test('should not display the toggletip', async function (assert) {
           // when
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
-          const button = screen.getByRole('button', { name: 'vie' });
+          const button = screen.getByRole('button', { name: 'vie, voir la définition' });
           await focus(button);
 
           // then
