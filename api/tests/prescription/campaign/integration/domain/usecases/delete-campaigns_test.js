@@ -77,11 +77,15 @@ describe('Integration | UseCases | delete-campaign', function () {
       const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
+
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
       databaseBuilder.factory.buildCombinedCourse({
         code: 'ABCDE1234',
         name: 'Mon parcours Combiné',
         organizationId,
         questId,
+        combinedCourseBlueprintId,
       });
 
       buildCampaignParticipation({ campaignId });
@@ -532,11 +536,15 @@ describe('Integration | UseCases | delete-campaign', function () {
       const { id: questIdForError } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
+
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
       databaseBuilder.factory.buildCombinedCourse({
         code: 'ABCDE1234',
         name: 'Mon parcours Combiné',
         organizationId,
         questId: questIdForError,
+        combinedCourseBlueprintId,
       });
 
       buildCampaignParticipation({ campaignId });

@@ -985,11 +985,15 @@ describe('Integration | Repository | Campaign Participation Overview', function 
             }).toDTO(),
           ],
         });
+
+        const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
         databaseBuilder.factory.buildCombinedCourse({
           name: 'Combinix',
           code: 'COMBINIX1',
           organizationId: organization.id,
           questId,
+          combinedCourseBlueprintId,
         });
         databaseBuilder.factory.campaignParticipationOverviewFactory.build({
           userId,
@@ -1281,6 +1285,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
 
       beforeEach(async function () {
         organizationId = databaseBuilder.factory.buildOrganization({ name: 'Organization ABCD' }).id;
+        const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
         organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
           userId,
           organizationId,
@@ -1289,6 +1294,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           name: 'Combinix1',
           code: 'ABCD',
           organizationId,
+          combinedCourseBlueprintId,
         });
         expectedFirstParticipation = databaseBuilder.factory.buildOrganizationLearnerParticipation({
           organizationLearnerId,
@@ -1302,6 +1308,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           name: 'Combinix2',
           code: 'EFGH',
           organizationId,
+          combinedCourseBlueprintId,
         });
 
         await databaseBuilder.commit();

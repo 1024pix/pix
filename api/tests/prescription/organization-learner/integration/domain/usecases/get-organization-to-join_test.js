@@ -33,7 +33,9 @@ describe('Integration | UseCases | get-organization-to-join', function () {
   });
   it('should return organizationToJoin given combinedCourse code', async function () {
     //given
-    const quest = databaseBuilder.factory.buildCombinedCourse({ organizationId: 1, code: 'ABC' });
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
+    const quest = databaseBuilder.factory.buildCombinedCourse({ organizationId: 1, code: 'ABC', combinedCourseBlueprintId });
     const organization = databaseBuilder.factory.buildOrganization({ id: 1 });
     const organizationToJoin = new OrganizationToJoin({
       ...organization,

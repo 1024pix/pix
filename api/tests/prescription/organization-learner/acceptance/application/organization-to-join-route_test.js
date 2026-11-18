@@ -45,7 +45,12 @@ describe('Acceptance | Application | organization-invitation-route', function ()
       it('should return organization with import details corresponding to the given quest code', async function () {
         // given
         const organization = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildCombinedCourse({ code: 'ABC', organizationId: organization.id });
+        const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+        databaseBuilder.factory.buildCombinedCourse({
+          code: 'ABC',
+          organizationId: organization.id,
+          combinedCourseBlueprintId,
+        });
 
         await databaseBuilder.commit();
 

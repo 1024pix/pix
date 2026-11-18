@@ -809,11 +809,15 @@ describe('Acceptance | Campaign Participation | Application | Route', function (
           }).toDTO(),
         ],
       });
+
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
       databaseBuilder.factory.buildCombinedCourse({
         name: 'Combinix',
         code: 'COMBINIX1',
         organizationId,
         questId,
+        combinedCourseBlueprintId,
       });
       databaseBuilder.factory.campaignParticipationOverviewFactory.build({
         userId,

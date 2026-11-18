@@ -1773,11 +1773,14 @@ describe('Integration | Repository | Campaign Participation', function () {
           }).toDTO(),
         ],
       });
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
       const combinedCourse = databaseBuilder.factory.buildCombinedCourse({
         name: 'Combinix',
         code: 'COMBINIX1',
         organizationId,
         questId,
+        combinedCourseBlueprintId,
       });
       databaseBuilder.factory.buildOrganizationLearnerParticipation({
         organizationLearnerId,
@@ -1812,9 +1815,13 @@ describe('Integration | Repository | Campaign Participation', function () {
           }).toDTO(),
         ],
       });
+
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
       databaseBuilder.factory.buildCombinedCourse({
         organizationId,
         questId: questId2,
+        combinedCourseBlueprintId,
       });
 
       databaseBuilder.factory.buildAssessment({

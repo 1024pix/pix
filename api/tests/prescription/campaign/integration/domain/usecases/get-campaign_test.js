@@ -32,11 +32,15 @@ describe('Integration | UseCase | get-campaign', function () {
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
         ],
       });
+
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
       const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({
         code: 'ABCDE1234',
         name: 'Mon parcours Combiné',
         organizationId,
         questId,
+        combinedCourseBlueprintId,
       }).id;
       await databaseBuilder.commit();
 

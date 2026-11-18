@@ -26,7 +26,9 @@ describe('Integration | UseCases | get-organization-learner-with-participations'
       organizationId: organization.id,
     });
 
-    const combinedCourseId = databaseBuilder.factory.buildCombinedCourse().id;
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
+    const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({ combinedCourseBlueprintId }).id;
     databaseBuilder.factory.buildOrganizationLearnerParticipation({
       type: OrganizationLearnerParticipationTypes.COMBINED_COURSE,
       status: OrganizationLearnerParticipationStatuses.STARTED,

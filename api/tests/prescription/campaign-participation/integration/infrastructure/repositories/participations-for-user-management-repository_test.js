@@ -93,11 +93,15 @@ describe('Integration | Repository | Participations-For-User-Management', functi
             }).toDTO(),
           ],
         });
+
+        const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
         databaseBuilder.factory.buildCombinedCourse({
           code: 'ABCDE1234',
           name: 'Mon parcours Combiné',
           organizationId: combinedCourseCampaign.organizationId,
           questId,
+          combinedCourseBlueprintId,
         });
 
         const combinedCourseCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({

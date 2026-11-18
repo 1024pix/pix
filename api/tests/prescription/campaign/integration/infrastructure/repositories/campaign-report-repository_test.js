@@ -1149,11 +1149,15 @@ describe('Integration | Repository | Campaign-Report', function () {
             CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaignInQuest.id }).toDTO(),
           ],
         });
+
+        const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
         databaseBuilder.factory.buildCombinedCourse({
           code: 'ABCDE1234',
           name: 'Mon parcours Combiné',
           organizationId,
           questId,
+          combinedCourseBlueprintId,
         });
         await databaseBuilder.commit();
 
@@ -1176,11 +1180,15 @@ describe('Integration | Repository | Campaign-Report', function () {
             CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaignInQuest.id }).toDTO(),
           ],
         });
+
+        const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
         databaseBuilder.factory.buildCombinedCourse({
           code: 'ABCDE1234',
           name: 'Mon parcours Combiné',
           organizationId,
           questId,
+          combinedCourseBlueprintId,
         });
         await databaseBuilder.commit();
 

@@ -38,11 +38,15 @@ describe('Prescription | Campaign | Integration | Application | SecurityPreHandl
       const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
+
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
       databaseBuilder.factory.buildCombinedCourse({
         code: 'ABCDE1234',
         name: 'Mon parcours Combiné',
         organizationId,
         questId,
+        combinedCourseBlueprintId,
       });
       await databaseBuilder.commit();
     });

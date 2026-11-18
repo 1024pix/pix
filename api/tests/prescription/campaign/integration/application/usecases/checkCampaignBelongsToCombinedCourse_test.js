@@ -7,11 +7,12 @@ import { databaseBuilder } from '../../../../../tooling/databases.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Campaign | Application | Usecases | checkCampaignBelongsToCombinedCourse', function () {
-  let organizationId, campaignId;
+  let organizationId, campaignId, combinedCourseBlueprintId;
 
   beforeEach(async function () {
     organizationId = databaseBuilder.factory.buildOrganization().id;
     campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+    combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
 
     await databaseBuilder.commit();
   });
@@ -26,6 +27,7 @@ describe('Integration | Campaign | Application | Usecases | checkCampaignBelongs
       name: 'Mon parcours Combiné',
       organizationId,
       questId,
+      combinedCourseBlueprintId,
     });
     await databaseBuilder.commit();
 
@@ -49,6 +51,7 @@ describe('Integration | Campaign | Application | Usecases | checkCampaignBelongs
       name: 'Mon parcours Combiné',
       organizationId,
       questId,
+      combinedCourseBlueprintId,
     });
     await databaseBuilder.commit();
 

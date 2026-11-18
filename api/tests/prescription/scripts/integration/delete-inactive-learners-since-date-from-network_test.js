@@ -436,8 +436,12 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         const lastActivityDate = new Date('2021-01-01');
 
         const { network, organization } = await databaseBuilder.factory.buildNetworkAndHeadOrganization();
+
+        const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
         const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
           organizationId: organization.id,
+          combinedCourseBlueprintId,
         });
 
         const inactiveLearnerWithoutCombinedCourseParticipation = databaseBuilder.factory.buildOrganizationLearner({
@@ -541,8 +545,12 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         const lastActivityDate = '2021-01-01';
 
         const { network, organization } = await databaseBuilder.factory.buildNetworkAndHeadOrganization();
+
+        const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
         const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
           organizationId: organization.id,
+          combinedCourseBlueprintId,
         });
 
         const inactiveLearner1 = databaseBuilder.factory.buildOrganizationLearner({
@@ -605,8 +613,12 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         const lastActivityDate = new Date('2021-01-01');
 
         const { network, organization } = await databaseBuilder.factory.buildNetworkAndHeadOrganization();
+
+        const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
         const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
           organizationId: organization.id,
+          combinedCourseBlueprintId,
         });
 
         const inactiveLearner = databaseBuilder.factory.buildOrganizationLearner({
@@ -868,8 +880,12 @@ describe('Script | Prod | Delete Inactive Learners Since Date From Network', fun
         const lastActivityDate = new Date('2021-01-01');
 
         const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+        const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
         const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
           organizationId: organizationId,
+          combinedCourseBlueprintId,
         });
 
         const inactiveLearnerWithCampaignParticipation = databaseBuilder.factory.buildOrganizationLearner({

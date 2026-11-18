@@ -9,10 +9,11 @@ import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Acceptance | Quest | Application | combined-course-api', function () {
   describe('#getByCampaignId', function () {
-    let organizationId, campaignId, combinedCourseId, combinedCourseName;
+    let organizationId, campaignId, combinedCourseId, combinedCourseName, combinedCourseBlueprintId;
     beforeEach(async function () {
       //given
       organizationId = databaseBuilder.factory.buildOrganization().id;
+      combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
       campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
       combinedCourseName = 'Mon parcours Combiné';
       const { id: questId } = databaseBuilder.factory.buildQuest({
@@ -23,6 +24,7 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
         name: combinedCourseName,
         organizationId,
         questId,
+        combinedCourseBlueprintId,
       }).id;
       await databaseBuilder.commit();
     });
@@ -59,6 +61,7 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
         name: combinedCourseName,
         organizationId,
         questId: questId2,
+        combinedCourseBlueprintId,
       });
 
       await databaseBuilder.commit();
@@ -75,10 +78,12 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
     it('should return combined course id for campaignId', async function () {
       //given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
 
       const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({
         code: 'ABCDE1234',
         organizationId,
+        combinedCourseBlueprintId,
       }).id;
 
       await databaseBuilder.commit();
@@ -104,6 +109,13 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
   });
 
   describe('#findCampaignIdsByCombinedCourseIds', function () {
+    let combinedCourseBlueprintId;
+
+    beforeEach(async function () {
+      combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+      await databaseBuilder.commit();
+    });
+
     it('should return campaign id for combinedCourseId', async function () {
       //given
       const { id: campaignId } = databaseBuilder.factory.buildCampaign();
@@ -115,6 +127,7 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
       const combinedCourseId = databaseBuilder.factory.buildCombinedCourse({
         code: 'ABCDE1234',
         questId: questId1,
+        combinedCourseBlueprintId,
       }).id;
 
       await databaseBuilder.commit();
@@ -131,6 +144,7 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
       const { id: combinedCourseId1 } = databaseBuilder.factory.buildCombinedCourse({
         code: 'RANDOM',
         questId: databaseBuilder.factory.buildQuest().id,
+        combinedCourseBlueprintId,
       });
 
       await databaseBuilder.commit();

@@ -18,11 +18,15 @@ describe('Integration | UseCase | find-paginated-campaign-managements', function
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaignIdInCombinedCourse }).toDTO(),
       ],
     });
+
+    const combinedCourseBlueprintId = databaseBuilder.factory.buildCombinedCourseBlueprint().id;
+
     databaseBuilder.factory.buildCombinedCourse({
       code: 'ABCDE1234',
       name: 'Mon parcours Combiné',
       organizationId,
       questId,
+      combinedCourseBlueprintId,
     });
     await databaseBuilder.commit();
 
