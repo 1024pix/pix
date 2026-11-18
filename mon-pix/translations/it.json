@@ -1877,6 +1877,10 @@
           "missing-content": "Si è verificato un errore durante la visualizzazione del video."
         },
         "text": {
+          "glossary": {
+            "close-button": "Chiudi la definizione",
+            "word-label": "{word}, vedi la definizione"
+          },
           "tag": {
             "context": "Contesto",
             "did-you-know": "Lo sapevi?",

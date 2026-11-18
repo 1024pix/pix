@@ -4,6 +4,8 @@ const TOOLTIP_OFFSET = 8;
 const TOOLTIP_VIEWPORT_PADDING = 8;
 
 let tooltipCounter = 0;
+// The custom element is defined once for the whole page: it uses the intl service of the current app instance
+let intl = null;
 
 class HighlightedButton extends HTMLElement {
   #tooltipElement = null;
@@ -93,14 +95,18 @@ class HighlightedButton extends HTMLElement {
     this.#liveRegion = this.#createElementFromHTML(`<span role="status" class="sr-only"></span>`);
     this.#buttonElement.setAttribute('aria-controls', tooltipId);
 
-    this.#buttonElement.setAttribute('aria-label', `${this.#buttonElement.textContent}, voir la définition`);
+    this.#buttonElement.setAttribute(
+      'aria-label',
+      intl.t('pages.modulix.elements.text.glossary.word-label', { word: this.#buttonElement.textContent }),
+    );
 
     // Set aria-hidden=true because the definition is vocalized by the live region
     this.#tooltipElement.querySelector(`#${definitionId}`).setAttribute('aria-hidden', 'true');
 
     this.#closeButton = this.#createElementFromHTML(
-      `<button type="button" class="module-glossary-tooltip__close-button">Fermer la définition</button>`,
+      `<button type="button" class="module-glossary-tooltip__close-button"></button>`,
     );
+    this.#closeButton.textContent = intl.t('pages.modulix.elements.text.glossary.close-button');
     this.#closeButton.addEventListener('click', () => this.#closeAndReturnFocusToButton());
     this.#tooltipElement.append(this.#closeButton);
 
@@ -180,7 +186,8 @@ class HighlightedButton extends HTMLElement {
     return isInForbiddenZone ? buttonInformation.right - tooltipInformation.width : tooltipLeftDefaultPosition;
   }
 }
-export function defineHighlightedButton() {
+export function defineHighlightedButton({ intl: intlService }) {
+  intl = intlService;
   if (!customElements.get('highlighted-button')) {
     customElements.define('highlighted-button', HighlightedButton);
   }
