@@ -2,10 +2,10 @@
 @use 'pix-design-tokens/typography';
 
 .session-supervising-candidate-list-background {
-  background: var(--pix-certif-500);
-  border-radius: 18px 18px 0 0;
   flex-grow: 1;
   padding: 32px 16px;
+  background: var(--pix-certif-500);
+  border-radius: 18px 18px 0 0;
 
   .session-supervising-candidate-list {
       margin: auto;
@@ -16,17 +16,19 @@
 
     &__title {
       @extend %pix-title-s;
+
       color: var(--pix-neutral-0);
     }
 
     &__description {
       @extend %pix-body-s;
+
       color: var(--pix-neutral-0);
     }
 
     &__candidates {
-      list-style: none;
       padding: 0;
+      list-style: none;
 
       > li {
         background: rgb(var(--pix-neutral-900-inline), 40%);
@@ -39,37 +41,38 @@
     }
 
     &__empty-message {
-      color: var(--pix-neutral-20);
-      @extend %pix-title-xs;
-      font-size: 1.125rem;
-      font-weight: 600;
-      margin: auto;
       max-width: 225px;
+      margin: auto;
+      color: var(--pix-neutral-20);
+      font-weight: 600;
+      font-size: 1.125rem;
       text-align: center;
+
+      @extend %pix-title-xs;
     }
 
     &__search {
-      align-items: center;
-      background-color: var(--pix-neutral-0);
-      border-radius: 4px;
-      box-sizing: border-box;
       display: flex;
       flex-direction: row;
+      align-items: center;
+      box-sizing: border-box;
+      width: 100%;
       height: 44px;
       margin: var(--pix-spacing-4x) 0;
       padding: 0 var(--pix-spacing-4x);
-      width: 100%;
+      background-color: var(--pix-neutral-0);
+      border-radius: 4px;
     }
 
     &__candidates-count {
       display: flex;
       justify-content: flex-start;
-      color: var(--pix-neutral-0);
-      font-size: 0.875rem;
-      font-weight: normal;
       height: 14px;
-      letter-spacing: 0;
       margin: var(--pix-spacing-4x) 0 var(--pix-spacing-6x);
+      color: var(--pix-neutral-0);
+      font-weight: normal;
+      font-size: 0.875rem;
+      letter-spacing: 0;
     }
 
     .search-icon {
@@ -79,12 +82,12 @@
     }
 
     .search-input {
-      border: none;
-      box-shadow: none;
+      width: 100%;
+      padding: 0 10px;
       color: var(--pix-neutral-900);
       font-size: 1rem;
-      padding: 0 10px;
-      width: 100%;
+      border: none;
+      box-shadow: none;
     }
 
     .clear-button {

@@ -98,8 +98,7 @@
 
   &__actions {
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+    flex-flow: column wrap;
     gap: var(--pix-spacing-3x);
     align-items: flex-start;
     width: 100%;
@@ -134,10 +133,10 @@
   &__content {
     &--ellipsed {
       display: -webkit-box;
-      -webkit-line-clamp: 4;
-      -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
     }
   }
 }

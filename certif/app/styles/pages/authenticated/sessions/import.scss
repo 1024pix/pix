@@ -2,14 +2,14 @@
 
 .import-page {
   > p {
-    color: var(--pix-neutral-500);
     margin-bottom: 8px;
+    color: var(--pix-neutral-500);
   }
 
   &__title {
     display: flex;
-    align-items: center;
     gap: var(--pix-spacing-2x);
+    align-items: center;
 
     > svg {
       width: 2rem;
@@ -27,9 +27,9 @@
     font-size: 14px;
 
     ul {
-      list-style: disc;
       margin-top: 6px;
       margin-left: 24px;
+      list-style: disc;
     }
 
     .pix-notification-alert--warning {
@@ -40,8 +40,8 @@
   &__section--download {
     display: flex;
     flex-direction: column;
-    padding: var(--pix-spacing-6x);
     gap: var(--pix-spacing-6x);
+    padding: var(--pix-spacing-6x);
 
     .pix-notification-alert__content {
       color: var(--pix-neutral-800);
@@ -84,24 +84,24 @@
 .import-page-section {
 
   &__result-count-list {
-    border-radius: 8px;
-    background-color: var(--pix-neutral-20);
-    color: var(--pix-neutral-500);
-    padding: var(--pix-spacing-4x);
     display: flex;
     flex-direction: column;
     gap: var(--pix-spacing-2x);
+    padding: var(--pix-spacing-4x);
+    color: var(--pix-neutral-500);
+    background-color: var(--pix-neutral-20);
+    border-radius: 8px;
   }
 
   &__result-count-item {
     display: flex;
-    align-items: center;
     gap: var(--pix-spacing-2x);
+    align-items: center;
 
     > svg {
-      fill: var(--pix-neutral-500);
       width: 1.3rem;
       height: 1.3rem;
+      fill: var(--pix-neutral-500);
     }
   }
 
@@ -123,16 +123,16 @@
 .file-import-section {
 
   &__filename {
+    display: inline-flex;
     align-items: center;
+    margin-top: var(--pix-spacing-2x);
+    padding: var(--pix-spacing-2x) var(--pix-spacing-1x) var(--pix-spacing-2x) var(--pix-spacing-4x);
+    color: var(--pix-neutral-500);
+    font-size: 1rem;
     background-color: var(--pix-neutral-0);
     border: 1px solid var(--pix-neutral-100);
     border-radius: 8px;
-    box-shadow: 0 4px 8px 0 rgba(var(--pix-neutral-900), 8%);
-    color: var(--pix-neutral-500);
-    display: inline-flex;
-    font-size: 1rem;
-    margin-top: var(--pix-spacing-2x);
-    padding: var(--pix-spacing-2x) var(--pix-spacing-1x) var(--pix-spacing-2x) var(--pix-spacing-4x);
+    box-shadow: 0 4px 8px 0 rgb(var(--pix-neutral-900), 8%);
   }
 
   &__button {
@@ -147,9 +147,9 @@
 .import-download-block,
 .file-import-block {
   &__icon {
-    fill: var(--pix-neutral-500);
-    height: 3rem;
     width: 7rem;
+    height: 3rem;
+    fill: var(--pix-neutral-500);
   }
 }
 
@@ -169,23 +169,23 @@
 
 .file-import-block,
 .import-download-block {
+  display: flex;
   align-items: center;
+  padding: var(--pix-spacing-6x) var(--pix-spacing-4x);
+  color: var(--pix-neutral-800);
+  font-size: 0.875rem;
   background-color: var(--pix-neutral-20);
   border: 1px solid var(--pix-neutral-100);
   border-radius: 8px;
-  color: var(--pix-neutral-800);
-  display: flex;
-  font-size: 0.875rem;
-  padding: var(--pix-spacing-6x) var(--pix-spacing-4x);
 
   p {
-    line-height: 21px;
     padding-top: var(--pix-spacing-1x);
+    line-height: 21px;
   }
 
   span {
-    font-size: 1rem;
     font-weight: 500;
+    font-size: 1rem;
   }
 
   & .import-download-section,
@@ -198,8 +198,8 @@
 
 .accordions-header {
   .pix-accordions-title__label {
-    font-size: 1rem;
     font-weight: 400;
+    font-size: 1rem;
   }
 
   &__list {

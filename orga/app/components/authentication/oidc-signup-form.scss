@@ -20,13 +20,14 @@
     color: var(--pix-neutral-800);
 
     em {
-      font-style: normal;
       font-weight: var(--pix-font-bold);
+      font-style: normal;
     }
   }
 
   &__information {
     @extend %pix-body-s;
+
     color: var(--pix-neutral-800);
 
     li {

@@ -7,8 +7,8 @@
 
   .panel-actions__header {
     display: flex;
-    align-items: center;
     flex-flow: row nowrap;
+    align-items: center;
     margin-bottom: 2.5rem;
   }
 
@@ -19,28 +19,28 @@
   }
 
   .panel-actions__header-icon {
-    fill: var(--pix-neutral-500);
     width: 2rem;
     height: 2rem;
+    fill: var(--pix-neutral-500);
   }
 
   .panel-actions__action-row {
+    position: relative;
     display: flex;
-    align-items: center;
-    padding: 1.25rem 0 1.25rem 1.25rem;
-    box-sizing: border-box;
     flex-flow: row nowrap;
+    align-items: center;
+    box-sizing: border-box;
     margin-bottom: 1.3rem;
+    padding: 1.25rem 0 1.25rem 1.25rem;
+    background: var(--pix-neutral-20);
     border: 0.062rem solid var(--pix-neutral-100);
     border-radius: 1.25rem;
-    background: var(--pix-neutral-20);
-    position: relative;
   }
 
   .panel-actions__action-icon {
-    fill: var(--pix-neutral-500);
     width: 3rem;
     height: 3rem;
+    fill: var(--pix-neutral-500);
   }
 
   .panel-actions__action-icon svg {
@@ -50,8 +50,8 @@
   .panel-actions__description {
     display: flex;
     flex-flow: column nowrap;
-    margin-left: 1.25rem;
     width: 65%;
+    margin-left: 1.25rem;
     color: var(--pix-neutral-500);
     font-size: 0.8rem;
   }
@@ -65,9 +65,9 @@
   .panel-actions__button {
     display: flex;
     align-items: center;
-    padding-right: 0.625rem;
-    margin-left: auto;
     margin-right: 1.25rem;
+    margin-left: auto;
+    padding-right: 0.625rem;
 
     > label, a {
       min-width: 164px;
@@ -80,10 +80,10 @@
   }
 
   .panel-actions__warning-icon {
-    fill: var(--pix-warning-500);
     width: 2.2rem;
     height: 2.2rem;
     margin-left: var(--pix-spacing-1x);
+    fill: var(--pix-warning-500);
   }
 
   .panel-actions-description  {
@@ -95,8 +95,8 @@
 
   .panel-header {
     display: flex;
-    padding-bottom: var(--pix-spacing-6x);
     margin: var(--pix-spacing-6x) 0 var(--pix-spacing-3x) 0;
+    padding-bottom: var(--pix-spacing-6x);
 
     &__title {
       display: flex;
@@ -112,18 +112,18 @@
     }
 
     &__mandatory-warning {
-      padding-top: 4px;
       margin-left: 16px;
-      font-size: 0.82rem;
-      font-weight: normal;
+      padding-top: 4px;
       color: var(--pix-neutral-500);
+      font-weight: normal;
+      font-size: 0.82rem;
     }
   }
 
   .certification-candidates-table__selected-subscriptions {
-    align-items: center;
     display: flex;
     gap: 0.5rem;
+    align-items: center;
 
     svg {
       width: 1rem;

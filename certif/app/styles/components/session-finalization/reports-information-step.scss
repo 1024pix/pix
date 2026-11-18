@@ -16,16 +16,16 @@
     flex-direction: column;
 
     .add-button {
-      color: var(--pix-neutral-800);
       display: flex;
       gap: 4px;
-      width: fit-content;
       align-items: center;
+      width: fit-content;
+      color: var(--pix-neutral-800);
 
       svg {
-        fill: var(--pix-neutral-800);
         width: 1rem;
         height: 1rem;
+        fill: var(--pix-neutral-800);
       }
     }
 
@@ -39,9 +39,9 @@
     display: flex;
 
     svg {
-      fill: var(--pix-neutral-800);
       width: 1rem;
       height: 1rem;
+      fill: var(--pix-neutral-800);
     }
 
     .pix-tooltip {

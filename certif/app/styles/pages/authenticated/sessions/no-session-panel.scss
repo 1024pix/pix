@@ -3,8 +3,8 @@
 .no-session-panel {
   display: flex;
   flex-direction: column;
-  padding: 92px 0 92px 0;
   align-items: center;
+  padding: 92px 0;
   text-align: center;
 
   @include breakpoints.device-is('mobile') {
@@ -19,7 +19,7 @@
   &__link-to-create {
     display: flex;
     flex-direction: column;
-    padding-top: 20px;
     gap: 8px;
+    padding-top: 20px;
   }
 }

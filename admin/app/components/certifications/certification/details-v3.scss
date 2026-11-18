@@ -9,6 +9,7 @@
 
   &__title {
     @extend %pix-title-xs;
+
     padding-bottom: var(--pix-spacing-3x);
     color: var(--pix-neutral-800);
   }
@@ -54,9 +55,9 @@
 
     & a,
     a:visited {
-      align-items: center;
       display: flex;
       gap: var(--pix-spacing-1x);
+      align-items: center;
 
       svg {
         width: 1rem;
@@ -67,8 +68,8 @@
 
   &__challenge-action-cell {
     display: flex;
-    align-items: flex-end;
     gap: var(--pix-spacing-1x);
+    align-items: flex-end;
 
     & a,
     a:visited,

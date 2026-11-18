@@ -7,7 +7,7 @@
   background: linear-gradient(90deg, rgb(var(--pix-primary-700-inline), 80%) 0%, rgb(var(--pix-primary-700-inline), 0%) 60%), var(--pix-primary-300);
   border-radius: 16px;
 
-  @media (min-width: 769px) {
+  @media (width >= 769px) {
     margin-bottom: var(--pix-spacing-10x);
     padding: var(--pix-spacing-6x) var(--pix-spacing-8x);
   }
@@ -23,7 +23,7 @@
   }
 
   &__title {
-    @media (min-width:769px) {
+    @media (width >= 769px) {
       display: flex;
       gap: var(--pix-spacing-3x);
       align-items: center;
@@ -54,7 +54,7 @@
     gap: var(--pix-spacing-4x);
     align-items: start;
 
-    @media (min-width:769px) {
+    @media (width >= 769px) {
       align-items: center;
     }
 

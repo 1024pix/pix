@@ -4,11 +4,11 @@
 .footer {
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
-  flex-shrink: 0;
-  line-height: 1;
   padding-top: var(--pix-spacing-4x);
+  line-height: 1;
 
   @include breakpoints.device-is('desktop') {
     flex-direction: row;
@@ -23,13 +23,13 @@
     }
 
     &-list {
-      list-style: none;
       display: flex;
       padding: 0;
+      list-style: none;
 
       li {
-        align-self: center;
         display: inline;
+        align-self: center;
         padding: 0;
       }
     }
@@ -38,6 +38,7 @@
   &__copyright {
     color: var(--pix-neutral-500);
     cursor: default;
+
     @extend %pix-body-xs;
   }
 }
@@ -47,7 +48,9 @@
   &__item {
     margin-right: var(--pix-spacing-2x);
     color: var(--pix-neutral-500);
+
     @extend %pix-body-s;
+
     font-weight: 500;
     text-decoration: none;
 
@@ -56,8 +59,8 @@
     }
 
     &.active, &:focus, &:hover {
-      cursor: pointer;
       color: var(--pix-primary-500);
+      cursor: pointer;
     }
 
     &:focus, &:focus-visible {

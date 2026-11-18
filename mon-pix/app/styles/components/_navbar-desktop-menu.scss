@@ -5,8 +5,7 @@
 
 .navbar-desktop-menu-links__list {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   justify-content: flex-end;
   margin: 0;
   padding: 0;

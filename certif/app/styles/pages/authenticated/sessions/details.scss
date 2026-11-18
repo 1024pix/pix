@@ -132,10 +132,12 @@
   .pix-icon-button {
     &:hover {
       background-color: var(--pix-neutral-0);
+
       &:active {
         color: var(--pix-neutral-0);
       }
     }
+
     &:focus {
       &:hover {
         background-color: var(--pix-neutral-800);
@@ -166,6 +168,7 @@
   &__clea-results-download-title {
     margin: 0 0 8px;
     color: var(--pix-neutral-900);
+
     @extend %pix-title-xs;
   }
 
@@ -223,7 +226,7 @@
   &__controls-icon {
     width: 1rem;
     height: 1rem;
-    fill: var(--pix-primary-700);
     margin-right: var(--pix-spacing-1x);
+    fill: var(--pix-primary-700);
   }
 }

@@ -42,8 +42,8 @@ $small-media-width: 500px;
     translate: 15px -10px;
 
     @media (max-width: $small-media-width) {
-      translate: 0;
       margin: 0 auto;
+      translate: 0;
     }
   }
 }

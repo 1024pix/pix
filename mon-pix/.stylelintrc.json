@@ -1,12 +1,6 @@
 {
   "extends": ["@1024pix/stylelint-config"],
   "rules": {
-    "scss/no-global-function-names": null,
-    "declaration-block-no-redundant-longhand-properties": null,
-    "scss/at-mixin-pattern": null,
-    "scss/at-extend-no-missing-placeholder": null,
-    "selector-id-pattern": null,
-    "selector-pseudo-class-no-unknown": null,
-    "media-feature-range-notation": "prefix"
+    "scss/at-extend-no-missing-placeholder": null
   }
 }

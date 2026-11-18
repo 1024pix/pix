@@ -107,12 +107,12 @@
         z-index: 1;
         display: block;
         height: 150%;
+        aspect-ratio: 1;
         background: linear-gradient(45deg, var(--pix-primary-300) 19.28%, rgb(188 171 244) 55.53%);
         border-radius: 42px;
         transform: rotate(42deg) skew(6deg);
         transform-origin: center bottom;
         opacity: 0.6;
-        aspect-ratio: 1;
       }
     }
 

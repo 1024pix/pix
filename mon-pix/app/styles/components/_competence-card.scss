@@ -64,10 +64,7 @@
 .competence-card__wrapper {
   &::after {
     position: absolute;
-    top: -90px;
-    right: -50px;
-    bottom: -90px;
-    left: -80px;
+    inset: -90px -50px -90px -80px;
     width: 110%;
     border-radius: 100%;
     content: '';
@@ -95,10 +92,7 @@
 
   @include breakpoints.device-is('tablet') {
     &::after {
-      top: -330px;
-      right: -200px;
-      bottom: 0;
-      left: -200px;
+      inset: -330px -200px 0;
       width: auto;
     }
 
@@ -178,10 +172,7 @@
 
   @include breakpoints.device-is('tablet') {
     position: absolute;
-    top: 80px;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 80px 0 0;
     flex-direction: column;
     height: auto;
     margin-top: 10px;
@@ -349,10 +340,7 @@
 
     .competence-card-button__label {
       position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 2px;
-      left: 0;
+      inset: 0 0 2px;
       display: flex;
       align-items: center;
       justify-content: center;

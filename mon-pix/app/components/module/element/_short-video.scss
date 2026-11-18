@@ -12,10 +12,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    aspect-ratio: 16 / 9;
     color: var(--pix-neutral-800);
     text-align: center;
     background-color: var(--pix-neutral-20);
     border-radius: var(--pix-spacing-2x);
-    aspect-ratio: 16 / 9;
   }
 }

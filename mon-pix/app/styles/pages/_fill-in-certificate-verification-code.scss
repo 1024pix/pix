@@ -7,7 +7,7 @@
   input {
     background-color: var(--pix-neutral-0);
 
-    @media (max-width: 25rem) {
+    @media (width <= 25rem) {
       height: 14vw;
       font-size: 8vw;
     }

@@ -3,21 +3,18 @@
 .challenge-content {
   display: grid;
   grid-template-columns: 1fr;
+  gap: var(--pix-spacing-4x) var(--pix-spacing-6x);
   margin: 16px 140px 0;
-  column-gap: var(--pix-spacing-6x);
   transition: all 0.4s;
-  row-gap: var(--pix-spacing-4x);
 
   @include breakpoints.device-is('tablet') {
     margin: 16px 120px 0;
   }
 
   &__grid-multiple-element {
-    grid-template-areas:
-      'left right'
-      'left actions';
-    grid-template-rows: min-content min-content;
-    grid-template-columns: minmax(200px, 1fr) minmax(200px, 1fr);
+    grid-template:
+      'left right' min-content
+      'left actions' min-content / minmax(200px, 1fr) minmax(200px, 1fr);
 
     &--40-60 {
       grid-template-columns: minmax(200px, 2fr) minmax(300px, 3fr);
