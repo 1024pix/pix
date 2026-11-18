@@ -38,7 +38,7 @@
   },
   "type": "module",
   "devDependencies": {
-    "@1024pix/eslint-plugin": "3.1.1",
+    "@1024pix/eslint-plugin": "3.1.2",
     "@babel/eslint-parser": "8.0.7",
     "@eslint/compat": "2.1.1",
     "@tsconfig/node26": "26.0.1",
