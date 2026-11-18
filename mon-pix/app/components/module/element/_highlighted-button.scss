@@ -18,7 +18,7 @@
   line-height: 24px;
   background-color: var(--pix-neutral-0);
   border-radius: var(--pix-spacing-4x);
-  box-shadow: var(--pix-shadow-default);
+  box-shadow: 0 2px 5px 0 rgb(74 58 255 / 25%), 0 -2px 5px 0 rgb(74 58 255 / 15%) inset, 0 1px 1px 0 rgb(255 255 255 / 10%) inset, 0 3px 4px 0 rgb(223 238 255 / 10%) inset, 0 0 48px 0 rgb(41 26 93 / 50%) , 0 0 32px 0 rgb(97 63 221 / 35%);
 
   &--visible {
     display: block;
