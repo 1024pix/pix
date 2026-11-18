@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { EmbedForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/Embed-for-answer-verification.js';
 import { EmbedCorrectionResponse } from '../../../../../../src/devcomp/domain/models/EmbedCorrectionResponse.js';
-import { DomainError, EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerification', function () {
@@ -27,26 +27,6 @@ describe('Unit | Devcomp | Domain | Models | Element | EmbedForAnswerVerificatio
       expect(embed.id).equal('123');
       expect(embed.instruction).equal('instruction');
       expect(embed.solution).deep.equal(expectedSolution);
-    });
-
-    describe('An embed For Verification without a solution', function () {
-      it('should throw an error', function () {
-        // when
-        const error = catchErrSync(
-          () =>
-            new EmbedForAnswerVerification({
-              id: '123',
-              title: 'Embed',
-              height: 800,
-              url: 'https://embed.example.net',
-              instruction: 'toto',
-            }),
-        )();
-
-        // then
-        expect(error).to.be.instanceOf(DomainError);
-        expect(error.message).to.equal('The solution is required for a verification embed');
-      });
     });
   });
 

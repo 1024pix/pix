@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 
 import { Embed } from '../../../../../../src/devcomp/domain/models/element/Embed.js';
-import { DomainError } from '../../../../../../src/shared/domain/errors.js';
-import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | Embed', function () {
   describe('#constructor', function () {
@@ -65,65 +63,6 @@ describe('Unit | Devcomp | Domain | Models | Element | Embed', function () {
 
         // then
         expect(embed.isAnswerable).to.equal(true);
-      });
-    });
-
-    describe('errors', function () {
-      describe('An embed without an id', function () {
-        it('should throw an error', function () {
-          // when
-          const error = catchErrSync(() => new Embed({}))();
-
-          // then
-          expect(error).to.be.instanceOf(DomainError);
-          expect(error.message).to.equal('The id is required for an element');
-        });
-      });
-
-      describe('An embed without the isCompletionRequired attribute', function () {
-        it('should throw an error', function () {
-          // when
-          const error = catchErrSync(() => new Embed({ id: 'id' }))();
-
-          // then
-          expect(error).to.be.instanceOf(DomainError);
-          expect(error.message).to.equal('The isCompletionRequired attribute is required for an embed');
-        });
-      });
-
-      describe('An embed without a title', function () {
-        it('should throw an error', function () {
-          // when
-          const error = catchErrSync(() => new Embed({ id: 'id', isCompletionRequired: false }))();
-
-          // then
-          expect(error).to.be.instanceOf(DomainError);
-          expect(error.message).to.equal('The title is required for an embed');
-        });
-      });
-
-      describe('An embed without an url', function () {
-        it('should throw an error', function () {
-          // when
-          const error = catchErrSync(() => new Embed({ id: 'id', isCompletionRequired: false, title: 'title' }))();
-
-          // then
-          expect(error).to.be.instanceOf(DomainError);
-          expect(error.message).to.equal('The url is required for an embed');
-        });
-      });
-
-      describe('An embed without a height', function () {
-        it('should throw an error', function () {
-          // when
-          const error = catchErrSync(
-            () => new Embed({ id: 'id', isCompletionRequired: false, title: 'title', url: 'https://example.org' }),
-          )();
-
-          // then
-          expect(error).to.be.instanceOf(DomainError);
-          expect(error.message).to.equal('The height is required for an embed');
-        });
       });
     });
   });

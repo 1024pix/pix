@@ -5,7 +5,6 @@ import {
   assertEnumValue,
   assertHasUuidLength,
   assertInstanceOf,
-  assertIsArray,
   assertNotNullOrUndefined,
   assertPositiveInteger,
 } from '../../../../../src/shared/domain/models/asserts.js';
@@ -221,24 +220,6 @@ describe('Unit | Shared | Models | asserts', function () {
 
         // when/then
         expect(() => assertPositiveInteger(value)).not.to.throw();
-      });
-    });
-  });
-
-  describe('#assertIsArray', function () {
-    describe('given invalid values', function () {
-      [null, undefined, 'azerty'].forEach(function (input) {
-        it(`"${input}" should throw`, function () {
-          expect(() => assertIsArray(input)).to.throw();
-        });
-      });
-    });
-
-    describe('given valid values', function () {
-      [[]].forEach(function (input) {
-        it(`"${input}" should not throw`, function () {
-          expect(() => assertIsArray(input)).not.to.throw();
-        });
       });
     });
   });

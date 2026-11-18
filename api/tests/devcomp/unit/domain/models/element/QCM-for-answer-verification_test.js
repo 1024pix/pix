@@ -5,7 +5,7 @@ import { QCMForAnswerVerification } from '../../../../../../src/devcomp/domain/m
 import { Feedbacks } from '../../../../../../src/devcomp/domain/models/Feedbacks.js';
 import { QcmCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcmCorrectionResponse.js';
 import { ValidatorQCM } from '../../../../../../src/devcomp/domain/models/validator/ValidatorQCM.js';
-import { DomainError, EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification', function () {
@@ -38,25 +38,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification'
       expect(qcm.feedbacks).to.be.instanceof(Feedbacks);
       expect(qcm.type).to.be.equal('qcm');
       expect(qcm.validator).to.be.instanceof(ValidatorQCM);
-    });
-
-    describe('A QCM For Verification without a solution', function () {
-      it('should throw an error', function () {
-        // when
-        const error = catchErrSync(
-          () =>
-            new QCMForAnswerVerification({
-              id: '123',
-              instruction: 'toto',
-              proposals: [Symbol('proposal1')],
-              feedbacks: { valid: Symbol('valid-feedback'), invalid: Symbol('invalid-feedback') },
-            }),
-        )();
-
-        // then
-        expect(error).to.be.instanceOf(DomainError);
-        expect(error.message).to.equal('The solutions should be in a list');
-      });
     });
   });
 

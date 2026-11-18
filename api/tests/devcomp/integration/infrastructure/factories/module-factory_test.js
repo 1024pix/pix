@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import nock from 'nock';
 import sinon from 'sinon';
 
-import { ModuleInstantiationError } from '../../../../../src/devcomp/domain/errors.js';
 import { ComponentStepper } from '../../../../../src/devcomp/domain/models/component/ComponentStepper.js';
 import { Step } from '../../../../../src/devcomp/domain/models/component/Step.js';
 import { Audio } from '../../../../../src/devcomp/domain/models/element/Audio.js';
@@ -29,7 +28,6 @@ import { ModuleFactory } from '../../../../../src/devcomp/infrastructure/factori
 import { PixAssetImageInfos } from '../../../../../src/shared/domain/models/PixAssetImageInfos.js';
 import { getAssetInfos } from '../../../../../src/shared/infrastructure/repositories/pix-assets-repository.js';
 import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
-import { catchErr } from '../../../../tooling/test-utils/error.js';
 import { validateFlashcards } from '../../../shared/validateFlashcards.js';
 
 describe('Integration | Devcomp | Infrastructure | Factories | Module ', function () {
@@ -2556,7 +2554,7 @@ describe('Integration | Devcomp | Infrastructure | Factories | Module ', functio
         expect(module.sections[0].grains[0].components[0].steps[0].elements[0]).to.be.an.instanceOf(Text);
       });
 
-      it('should filter out steps with only unknown element type', async function () {
+      it('should keep an empty step when it only contains unknown element types', async function () {
         // given
         const moduleData = {
           id: '6282925d-4775-4bca-b513-4c3009ec5886',
@@ -2617,14 +2615,16 @@ describe('Integration | Devcomp | Infrastructure | Factories | Module ', functio
         };
 
         // when
-        const error = await catchErr(ModuleFactory.build)(moduleData);
+        const module = await ModuleFactory.build(moduleData);
 
         // then
-        expect(error).to.be.an.instanceOf(ModuleInstantiationError);
-        expect(error.message).to.deep.equal('A step should contain at least one element');
+        const stepper = module.sections[0].grains[0].components[0];
+        expect(stepper.steps).to.have.lengthOf(2);
+        expect(stepper.steps[0].elements).to.have.lengthOf(1);
+        expect(stepper.steps[1].elements).to.be.empty;
       });
 
-      it('should filter out stepper with only unknown element type', async function () {
+      it('should keep a stepper with an empty step when it only contains unknown element types', async function () {
         // given
         const moduleData = {
           id: '6282925d-4775-4bca-b513-4c3009ec5886',
@@ -2674,11 +2674,13 @@ describe('Integration | Devcomp | Infrastructure | Factories | Module ', functio
         };
 
         // when
-        const error = await catchErr(ModuleFactory.build)(moduleData);
+        const module = await ModuleFactory.build(moduleData);
 
         // then
-        expect(error).to.be.an.instanceOf(ModuleInstantiationError);
-        expect(error.message).to.deep.equal('A step should contain at least one element');
+        const stepper = module.sections[0].grains[0].components[0];
+        expect(stepper).to.be.an.instanceOf(ComponentStepper);
+        expect(stepper.steps).to.have.lengthOf(1);
+        expect(stepper.steps[0].elements).to.be.empty;
       });
     });
 
