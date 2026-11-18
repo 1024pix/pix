@@ -1,5 +1,5 @@
 {
   "name": "lti",
-  "dependsOn": ["shared", "prescription/campaign", "quest"],
+  "dependsOn": ["shared", "prescription/campaign", "prescription/campaign-participation", "quest"],
   "circular": "forbidden"
 }
