@@ -32,16 +32,9 @@ class HighlightedButton extends HTMLElement {
 
     const isMobile = window.matchMedia(breakpoints.mobile).matches;
     if (isMobile) {
-      this.#closeButton = this.#createElementFromHTML(
-        `<button type="button" class="module-glossary-tooltip__close-button">Fermer la définition</button>`,
-      );
-      this.#closeButton.addEventListener('click', () => this.close());
-      this.#tooltipElement.append(this.#closeButton);
-
-      this.#buttonElement.addEventListener('click', () => this.open());
+      this.#setUpToggletip();
     } else {
-      this.#buttonElement.addEventListener('pointerenter', () => this.open());
-      this.#buttonElement.addEventListener('pointerleave', () => this.close());
+      this.#setUpTooltip();
     }
     this.#buttonElement.addEventListener('focus', () => this.open());
     this.#buttonElement.addEventListener('blur', () => this.close());
@@ -61,6 +54,21 @@ class HighlightedButton extends HTMLElement {
     this.#tooltipElement.classList.remove('module-glossary-tooltip--visible');
     this.#buttonElement.setAttribute('aria-expanded', 'false');
     this.#stopTrackingPosition();
+  }
+
+  #setUpTooltip() {
+    this.#buttonElement.addEventListener('pointerenter', () => this.open());
+    this.#buttonElement.addEventListener('pointerleave', () => this.close());
+  }
+
+  #setUpToggletip() {
+    this.#closeButton = this.#createElementFromHTML(
+      `<button type="button" class="module-glossary-tooltip__close-button">Fermer la définition</button>`,
+    );
+    this.#closeButton.addEventListener('click', () => this.close());
+    this.#tooltipElement.append(this.#closeButton);
+
+    this.#buttonElement.addEventListener('click', () => this.open());
   }
 
   disconnectedCallback() {
