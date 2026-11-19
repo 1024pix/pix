@@ -1,5 +1,3 @@
-import breakpoints from 'mon-pix/breakpoints';
-
 const TOOLTIP_OFFSET = 8;
 const TOOLTIP_VIEWPORT_PADDING = 8;
 
@@ -38,13 +36,13 @@ class HighlightedButton extends HTMLElement {
     );
     this.#buttonElement.textContent = this.textContent;
 
-    const isMobile = window.matchMedia(breakpoints.mobile).matches;
-    if (isMobile) {
-      this.#setUpToggletip(tooltipId, definitionId);
-      this.replaceChildren(this.#buttonElement, this.#liveRegion, this.#tooltipElement);
-    } else {
+    const canHover = window.matchMedia('(hover: hover)').matches;
+    if (canHover) {
       this.#setUpTooltip(definitionId);
       this.replaceChildren(this.#buttonElement, this.#tooltipElement);
+    } else {
+      this.#setUpToggletip(tooltipId, definitionId);
+      this.replaceChildren(this.#buttonElement, this.#liveRegion, this.#tooltipElement);
     }
 
     this.addEventListener('focusout', (event) => {
