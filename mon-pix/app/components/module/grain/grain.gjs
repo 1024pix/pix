@@ -264,7 +264,7 @@ export default class ModuleGrain extends Component {
       {{else}}
         <div class="grain__card grain-card--{{this.grainType}}">
           {{#if this.isGrainTypeShortLesson}}
-            <img src="/images/modulix-point-cles.png" class="grain-card__illustration" alt="" />
+            <img src="/images/modulix/keypoints.svg" class="grain-card__illustration" alt="" />
             <PixTag class="grain-card-tag" @color="yellow">
               {{t "pages.modulix.grain.tag.key-points"}}
             </PixTag>
