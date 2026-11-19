@@ -20,4 +20,9 @@ export default class OrganizationLearnerAdapter extends ApplicationAdapter {
     const url = `${this.host}/${this.namespace}/organization-learners/${id}/association`;
     return this.ajax(url, 'DELETE');
   }
+
+  deleteOrganizationLearners(organizationLearnerIds) {
+    const url = `${this.host}/${this.namespace}/organization-learners`;
+    return this.ajax(url, 'DELETE', { data: { organizationLearnerIds } });
+  }
 }
