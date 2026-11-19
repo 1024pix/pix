@@ -14,6 +14,7 @@ class HighlightedButton extends HTMLElement {
   #liveRegion = null;
   #definition = null;
   #closeTimeoutId = null;
+  #isToggletip = false;
 
   connectedCallback() {
     const isAlreadyRendered = this.querySelector(':scope > button');
@@ -39,13 +40,13 @@ class HighlightedButton extends HTMLElement {
     );
     this.#buttonElement.textContent = this.textContent;
 
-    const canHover = window.matchMedia('(hover: hover)').matches;
-    if (canHover) {
-      this.#setUpTooltip(definitionId);
-      this.replaceChildren(this.#buttonElement, this.#tooltipElement);
-    } else {
+    this.#isToggletip = !window.matchMedia('(hover: hover)').matches;
+    if (this.#isToggletip) {
       this.#setUpToggletip(tooltipId, definitionId);
       this.replaceChildren(this.#buttonElement, this.#liveRegion, this.#tooltipElement);
+    } else {
+      this.#setUpTooltip(definitionId);
+      this.replaceChildren(this.#buttonElement, this.#tooltipElement);
     }
 
     this.addEventListener('focusout', (event) => {
@@ -72,7 +73,7 @@ class HighlightedButton extends HTMLElement {
     window.addEventListener('scroll', this.#positionTooltip, { capture: true, passive: true });
     window.addEventListener('resize', this.#positionTooltip, { passive: true });
 
-    if (this.#liveRegion) {
+    if (this.#isToggletip) {
       this.#liveRegion.innerHTML = this.#definition;
       document.addEventListener('click', this.#closeOnClickOutside);
     }
@@ -84,7 +85,7 @@ class HighlightedButton extends HTMLElement {
     this.#buttonElement.setAttribute('aria-expanded', 'false');
     this.#stopTrackingPosition();
 
-    if (this.#liveRegion) {
+    if (this.#isToggletip) {
       this.#liveRegion.replaceChildren();
       document.removeEventListener('click', this.#closeOnClickOutside);
     }
