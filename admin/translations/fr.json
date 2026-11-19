@@ -1097,6 +1097,7 @@
     "organization-learners": {
       "list-table": {
         "caption": "Liste des apprenants des organisations. Contient prénom, nom, date de naissance, INE, classe, organisation et identifiant utilisateur associé.",
+        "checkbox": "Sélectionner/Désélectionner {firstname} {lastname}",
         "headers": {
           "active": "Actif",
           "birthdate": "Date de naissance",
@@ -1104,6 +1105,7 @@
           "first-name": "Prénom",
           "inactive": "Inactif",
           "last-name": "Nom",
+          "main-checkbox": "Sélectionner/Désélectionner tous les apprenants",
           "national-student-id": "INE",
           "organization": "Organisation",
           "updated-at": "Date MAJ",

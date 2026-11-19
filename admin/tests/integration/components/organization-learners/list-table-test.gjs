@@ -15,7 +15,89 @@ module('Integration | Component | OrganizationLearners | ListTable', function (h
     store = this.owner.lookup('service:store');
   });
 
-  test('it should display organization learners list', async function (assert) {
+  test('it displays column headers', async function (assert) {
+    // given
+    const organizationLearners = [store.createRecord('admin-organization-learner')];
+
+    // when
+    const screen = await render(<template><ListTable @organizationLearners={{organizationLearners}} /></template>);
+
+    // then
+    const table = screen.getByRole('table', { name: t('components.organization-learners.list-table.caption') });
+    assert
+      .dom(
+        within(table).getByRole('checkbox', {
+          name: t('components.organization-learners.list-table.headers.main-checkbox'),
+        }),
+      )
+      .exists();
+    assert.dom(within(table).getByRole('columnheader', { name: t('common.fields.id') })).exists();
+    assert
+      .dom(
+        within(table).getByRole('columnheader', {
+          name: t('components.organization-learners.list-table.headers.first-name'),
+        }),
+      )
+      .exists();
+    assert
+      .dom(
+        within(table).getByRole('columnheader', {
+          name: t('components.organization-learners.list-table.headers.last-name'),
+        }),
+      )
+      .exists();
+    assert
+      .dom(
+        within(table).getByRole('columnheader', {
+          name: new RegExp(t('components.organization-learners.list-table.headers.organization')),
+        }),
+      )
+      .exists();
+    assert
+      .dom(
+        within(table).getByRole('columnheader', {
+          name: new RegExp(t('components.organization-learners.list-table.headers.birthdate')),
+        }),
+      )
+      .exists();
+    assert
+      .dom(
+        within(table).getByRole('columnheader', {
+          name: t('components.organization-learners.list-table.headers.national-student-id'),
+        }),
+      )
+      .exists();
+    assert
+      .dom(
+        within(table).getByRole('columnheader', {
+          name: t('components.organization-learners.list-table.headers.division-group'),
+        }),
+      )
+      .exists();
+    assert
+      .dom(
+        within(table).getByRole('columnheader', {
+          name: t('components.organization-learners.list-table.headers.user-id'),
+        }),
+      )
+      .exists();
+    assert
+      .dom(
+        within(table).getByRole('columnheader', {
+          name: t('components.organization-learners.list-table.headers.active'),
+        }),
+      )
+      .exists();
+    assert
+      .dom(
+        within(table).getByRole('columnheader', {
+          name: new RegExp(t('components.organization-learners.list-table.headers.updated-at')),
+        }),
+      )
+      .exists();
+  });
+
+  test('it displays organization learners data in list', async function (assert) {
     // given
     const organizationLearners = [
       store.createRecord('admin-organization-learner', {
@@ -317,6 +399,119 @@ module('Integration | Component | OrganizationLearners | ListTable', function (h
         },
       });
       assert.ok(true);
+    });
+  });
+
+  module('checkboxes', function () {
+    test('it displays learner checkbox', async function (assert) {
+      //given
+      const organizationLearners = [
+        store.createRecord('admin-organization-learner', {
+          firstName: 'firstname1',
+          lastName: 'lastname1',
+        }),
+        store.createRecord('admin-organization-learner', {
+          firstName: 'firstname2',
+          lastName: 'lastname2',
+        }),
+      ];
+
+      //when
+      const screen = await render(<template><ListTable @organizationLearners={{organizationLearners}} /></template>);
+
+      // then
+      const table = screen.getByRole('table', { name: t('components.organization-learners.list-table.caption') });
+      const checkbox1 = within(table).getByRole('checkbox', {
+        name: t('components.organization-learners.list-table.checkbox', {
+          firstname: organizationLearners[0].firstName,
+          lastname: organizationLearners[0].lastName,
+        }),
+      });
+      const checkbox2 = within(table).getByRole('checkbox', {
+        name: t('components.organization-learners.list-table.checkbox', {
+          firstname: organizationLearners[0].firstName,
+          lastname: organizationLearners[0].lastName,
+        }),
+      });
+
+      assert.dom(checkbox1).exists();
+      assert.dom(checkbox2).exists();
+    });
+    test('it toggles learner on checkbox click', async function (assert) {
+      // given
+      const organizationLearners = [
+        store.createRecord('admin-organization-learner', {
+          firstName: 'firstname1',
+          lastName: 'lastname1',
+        }),
+      ];
+      const screen = await render(<template><ListTable @organizationLearners={{organizationLearners}} /></template>);
+
+      // when
+      const checkbox = screen.getByRole('checkbox', {
+        name: t('components.organization-learners.list-table.checkbox', {
+          firstname: organizationLearners[0].firstName,
+          lastname: organizationLearners[0].lastName,
+        }),
+      });
+
+      await click(checkbox);
+
+      // then
+      assert.dom(checkbox).isChecked();
+
+      // rewhen
+      await click(checkbox);
+
+      // rethen
+      assert.dom(checkbox).isNotChecked();
+    });
+
+    test('it toggles all learners on header checkbox click', async function (assert) {
+      // given
+      const organizationLearners = [
+        store.createRecord('admin-organization-learner', {
+          firstName: 'firstname1',
+          lastName: 'lastname1',
+        }),
+        store.createRecord('admin-organization-learner', {
+          firstName: 'firstname2',
+          lastName: 'lastname2',
+        }),
+      ];
+      const screen = await render(<template><ListTable @organizationLearners={{organizationLearners}} /></template>);
+
+      // when
+      const headerCheckbox = screen.getByRole('checkbox', {
+        name: t('components.organization-learners.list-table.headers.main-checkbox'),
+      });
+      const checkbox1 = screen.getByRole('checkbox', {
+        name: t('components.organization-learners.list-table.checkbox', {
+          firstname: organizationLearners[0].firstName,
+          lastname: organizationLearners[0].lastName,
+        }),
+      });
+      const checkbox2 = screen.getByRole('checkbox', {
+        name: t('components.organization-learners.list-table.checkbox', {
+          firstname: organizationLearners[1].firstName,
+          lastname: organizationLearners[1].lastName,
+        }),
+      });
+
+      await click(headerCheckbox);
+
+      // then
+      assert.dom(headerCheckbox).isChecked();
+      assert.dom(checkbox1).isChecked();
+      assert.dom(checkbox2).isChecked();
+
+      // rewhen
+      await click(headerCheckbox);
+
+      // rethen
+      assert.dom(headerCheckbox).isNotChecked();
+      assert.dom(checkbox1).isNotChecked();
+      assert.dom(checkbox2).isNotChecked();
     });
   });
 });
