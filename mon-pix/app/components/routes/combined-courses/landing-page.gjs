@@ -102,7 +102,7 @@ const MainSection = <template>
   <div class="combined-course-landing-main">
     <section class="combined-course-landing-main__hero">
       {{#if @userIsAuthentified}}
-        <h1>{{t "pages.campaign-landing.welcome-unauthenticated" firstName=@currentUser.firstName}}</h1>
+        <h1>{{t "pages.campaign-landing.welcome-authenticated" firstName=@currentUser.user.firstName}}</h1>
       {{else}}
         <h1>{{t "pages.campaign-landing.welcome-unauthenticated"}}</h1>
       {{/if}}
