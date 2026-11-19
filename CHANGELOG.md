@@ -1,5 +1,56 @@
 # Pix Changelog
 
+# [5.546.0](https://github.com/1024pix/pix/compare/v5.545.1...v5.546.0) (2026-11-19)
+
+### :rocket: Amélioration
+
+- [#18970](https://github.com/1024pix/pix/pull/18970) Afficher le statut de la session sur la page détail (PIX-24598).
+- [#18829](https://github.com/1024pix/pix/pull/18829) Exposer le résultat d'une participation à une campagne d'évaluation via une API interne pour LTI (PIX-25112)
+- [#18959](https://github.com/1024pix/pix/pull/18959) Recalculer le score d'une compétence à partir des acquis lors d'une bonne réponse d'un utilisateur migré vers les knowledge states.
+- [#18785](https://github.com/1024pix/pix/pull/18785) Redirections front pour intégrer la nouvelle landing page des parcours combinés (PIX-25030)
+- [#18963](https://github.com/1024pix/pix/pull/18963) Rendre homogène tout les boutons d'action dans la liste de candidats (PIX-24919)
+
+### :bug: Correction
+
+- [#18944](https://github.com/1024pix/pix/pull/18944) Corriger l'affichage du layout du dashboard
+- [#18962](https://github.com/1024pix/pix/pull/18962) Corriger les allowedHosts dans la config Vite de Pix Admin
+- [#18948](https://github.com/1024pix/pix/pull/18948) Ne pas passer par la page tunnel avant la redirection vers présentation si le parcours est terminé (PIX-25012)
+- [#18722](https://github.com/1024pix/pix/pull/18722) Supprimer la validation structurelle redondante des modèles Modulix (PIX-24778)
+
+### :building_construction: Tech
+
+- [#18952](https://github.com/1024pix/pix/pull/18952) Ignore les mises à jour du dossier e2e.
+- [#18914](https://github.com/1024pix/pix/pull/18914) Migre Pix App vers Vite.
+- [#18939](https://github.com/1024pix/pix/pull/18939) Ne publie la jauge pgboss.queue.jobs que depuis worker-1
+- [#18887](https://github.com/1024pix/pix/pull/18887) Réduire la mémoire consommée par les exports CSV de résultats de campagne (PIX-24163).
+- [#18992](https://github.com/1024pix/pix/pull/18992) Retirer le branchement de PgBouncer dans l'API
+- [#18912](https://github.com/1024pix/pix/pull/18912) Supprimer `ember-dayjs` et `dayjs` de Pix App.
+- [#18906](https://github.com/1024pix/pix/pull/18906) Supprimer toDTO de Quest (PIX-23382)
+- [#18835](https://github.com/1024pix/pix/pull/18835) Utiliser la nouvelle table de résultats de certification pour produire le fichier CSV de résultats par classe (PIX-25122)
+
+### :arrow_up: Montée de version
+
+- [#18940](https://github.com/1024pix/pix/pull/18940) Update aws-sdk-js-v3 monorepo to v3.1166.0 (api)
+- [#18975](https://github.com/1024pix/pix/pull/18975) Update aws-sdk-js-v3 monorepo to v3.1167.0 (api)
+- [#18989](https://github.com/1024pix/pix/pull/18989) Update dependency @1024pix/eslint-plugin to v3.1.3 (orga,mon-pix,junior,high-level-tests/e2e-playwright,certif,audit-logger,api,admin)
+- [#18937](https://github.com/1024pix/pix/pull/18937) Update dependency @1024pix/stylelint-config to v6.0.1
+- [#18955](https://github.com/1024pix/pix/pull/18955) Update dependency @axe-core/playwright to v4.14.0 (high-level-tests/e2e-playwright)
+- [#18976](https://github.com/1024pix/pix/pull/18976) Update dependency @babel/eslint-parser to v8.1.2 (audit-logger)
+- [#18979](https://github.com/1024pix/pix/pull/18979) Update dependency @testing-library/user-event to v14.6.10 (mon-pix)
+- [#18980](https://github.com/1024pix/pix/pull/18980) Update dependency @tsconfig/node26 to v26.0.2 (audit-logger)
+- [#18977](https://github.com/1024pix/pix/pull/18977) Update dependency baseline-browser-mapping to v2.11.36 (high-level-tests/e2e-playwright)
+- [#18941](https://github.com/1024pix/pix/pull/18941) Update dependency knip to v6.45.1 (api)
+- [#18971](https://github.com/1024pix/pix/pull/18971) Update dependency papaparse to v5.7.1 (api)
+- [#18945](https://github.com/1024pix/pix/pull/18945) Update dependency prettier to v3.10.0 (admin)
+- [#18946](https://github.com/1024pix/pix/pull/18946) Update dependency prettier to v3.10.0 (audit-logger)
+- [#18947](https://github.com/1024pix/pix/pull/18947) Update dependency prettier to v3.10.0 (certif)
+- [#18949](https://github.com/1024pix/pix/pull/18949) Update dependency prettier to v3.10.0 (dossier racine)
+- [#18950](https://github.com/1024pix/pix/pull/18950) Update dependency prettier to v3.10.0 (junior)
+- [#18982](https://github.com/1024pix/pix/pull/18982) Update dependency prettier to v3.10.1 (root,orga,mon-pix,junior,certif,audit-logger,admin)
+- [#18983](https://github.com/1024pix/pix/pull/18983) Update dependency schemalint to v2.3.3 (api)
+- [#18954](https://github.com/1024pix/pix/pull/18954) Update linters
+- [#18956](https://github.com/1024pix/pix/pull/18956) Update playwright monorepo to v1.65.0 (high-level-tests/e2e-playwright,.circleci)
+
 ## [5.545.1](https://github.com/1024pix/pix/compare/v5.545.0...v5.545.1) (2026-11-18)
 
 ### :bug: Correction
