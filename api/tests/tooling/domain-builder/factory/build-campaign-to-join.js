@@ -31,6 +31,7 @@ export function buildCampaignToJoin({
   multipleSendings = false,
   assessmentMethod = 'SMART_RANDOM',
   recommendationEngine = false,
+  isPartOfCombinedCourse = false,
 } = {}) {
   return new CampaignToJoin({
     id,
@@ -61,5 +62,6 @@ export function buildCampaignToJoin({
     multipleSendings,
     assessmentMethod,
     recommendationEngine,
+    isPartOfCombinedCourse,
   });
 }
