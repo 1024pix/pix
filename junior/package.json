@@ -32,7 +32,7 @@
     "dev": "vite",
     "start": "vite",
     "test": "ember exam --path dist --config-file ./testem.cjs",
-    "test:ci": "vite build --mode test && ember exam --path dist --config-file ./testem.cjs --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX))",
+    "test:ci": "ember exam --path dist --config-file ./testem.cjs --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX))",
     "test:lint": "run-p --continue-on-error test lint"
   },
   "devDependencies": {

@@ -108,15 +108,11 @@ export function setupWebServer(app: App, reuseExistingServer: boolean): WebServe
       reuseExistingServer: true,
     };
   } else {
-    let command = `npx ember serve --proxy http://localhost:${process.env.PIX_API_PORT}`;
-    if ([App.PIX_ORGA, App.PIX_CERTIF, App.PIX_ADMIN].includes(app)) {
-      command = `npx vite preview`;
-    }
     return {
       name: appConfig[app].label,
       cwd: appConfig[app].cwd,
       timeout: 180 * 1000,
-      command,
+      command: 'npx vite preview',
       url: appConfig[app].url,
       reuseExistingServer: false,
       stdout: 'ignore',
