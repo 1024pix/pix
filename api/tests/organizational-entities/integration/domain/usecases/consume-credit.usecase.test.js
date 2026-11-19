@@ -1,7 +1,13 @@
+import { setTimeout as wait } from 'node:timers/promises';
+
 import { expect } from 'chai';
 
+import { consumeCredit } from '../../../../../src/organizational-entities/domain/credits/usecases/consume-credit.js';
 import { NoCreditAvailableError } from '../../../../../src/organizational-entities/domain/errors.js';
 import { usecases } from '../../../../../src/organizational-entities/domain/usecases/index.js';
+import * as creditsConsumptionRepository from '../../../../../src/organizational-entities/infrastructure/credits/repositories/credits-consumption-repository.js';
+import * as creditsLotRepository from '../../../../../src/organizational-entities/infrastructure/credits/repositories/credits-lot-repository.js';
+import * as organizationFeatureRepository from '../../../../../src/organizational-entities/infrastructure/repositories/organization-feature-repository.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/constants.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
@@ -236,6 +242,48 @@ describe('Integration | Organizational Entities | Domain | UseCase | consume-cre
 
       // then
       expect(error).to.be.instanceOf(NoCreditAvailableError);
+    });
+  });
+
+  context('when two learners compete for the last credit at the same time', function () {
+    it('consumes only one credit and rejects the other call', async function () {
+      // given
+      const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure();
+      const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.CREDITS_MANAGEMENT).id;
+      databaseBuilder.factory.buildOrganizationFeature({ organizationId: organization.id, featureId });
+      const creditsLotId = databaseBuilder.factory.buildCreditsLot({ structureId: structure.id, count: 1 }).id;
+      const firstLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id }).id;
+      const secondLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id }).id;
+      await databaseBuilder.commit();
+
+      // Widen the window between reading the balance and saving the consumption,
+      // so that without the lock both calls would read the same remaining credit.
+      const slowCreditsConsumptionRepository = {
+        ...creditsConsumptionRepository,
+        hasConsumptionOnLots: async (args) => {
+          await wait(100);
+          return creditsConsumptionRepository.hasConsumptionOnLots(args);
+        },
+      };
+      const dependencies = {
+        organizationFeatureRepository,
+        creditsLotRepository,
+        creditsConsumptionRepository: slowCreditsConsumptionRepository,
+      };
+
+      // when
+      const results = await Promise.allSettled([
+        consumeCredit({ organizationLearnerId: firstLearnerId, organizationId: organization.id, ...dependencies }),
+        consumeCredit({ organizationLearnerId: secondLearnerId, organizationId: organization.id, ...dependencies }),
+      ]);
+
+      // then
+      const rejected = results.filter(({ status }) => status === 'rejected');
+      expect(rejected).to.have.lengthOf(1);
+      expect(rejected[0].reason).to.be.instanceOf(NoCreditAvailableError);
+
+      const consumptions = await knex('credits_consumptions').where({ credit_lot_id: creditsLotId });
+      expect(consumptions).to.have.lengthOf(1);
     });
   });
 });
