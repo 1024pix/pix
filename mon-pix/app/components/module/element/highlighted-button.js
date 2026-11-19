@@ -59,6 +59,12 @@ class HighlightedButton extends HTMLElement {
     });
   }
 
+  disconnectedCallback() {
+    this.#cancelScheduledClose();
+    this.#stopTrackingPosition();
+    document.removeEventListener('click', this.#closeOnClickOutside);
+  }
+
   open() {
     this.#tooltipElement.classList.add('module-glossary-tooltip--visible');
     this.#buttonElement.setAttribute('aria-expanded', 'true');
@@ -120,9 +126,18 @@ class HighlightedButton extends HTMLElement {
     this.#buttonElement.addEventListener('click', () => (this.#isOpen ? this.close() : this.open()));
   }
 
+  get #isOpen() {
+    return this.#tooltipElement.classList.contains('module-glossary-tooltip--visible');
+  }
+
   #closeOnClickOutside = (event) => {
     if (!this.contains(event.target)) this.close();
   };
+
+  #closeAndReturnFocusToButton() {
+    this.close();
+    this.#buttonElement.focus();
+  }
 
   #scheduleClose() {
     this.#cancelScheduledClose();
@@ -132,32 +147,6 @@ class HighlightedButton extends HTMLElement {
   #cancelScheduledClose() {
     clearTimeout(this.#closeTimeoutId);
     this.#closeTimeoutId = null;
-  }
-
-  get #isOpen() {
-    return this.#tooltipElement.classList.contains('module-glossary-tooltip--visible');
-  }
-
-  #closeAndReturnFocusToButton() {
-    this.close();
-    this.#buttonElement.focus();
-  }
-
-  disconnectedCallback() {
-    this.#cancelScheduledClose();
-    this.#stopTrackingPosition();
-    document.removeEventListener('click', this.#closeOnClickOutside);
-  }
-
-  #stopTrackingPosition() {
-    window.removeEventListener('scroll', this.#positionTooltip, { capture: true });
-    window.removeEventListener('resize', this.#positionTooltip);
-  }
-
-  #createElementFromHTML(html) {
-    const template = document.createElement('template');
-    template.innerHTML = html.trim();
-    return template.content.firstChild;
   }
 
   #positionTooltip = () => {
@@ -200,6 +189,17 @@ class HighlightedButton extends HTMLElement {
 
     const isInForbiddenZone = tooltipRightPosition >= forbiddenZoneRight;
     return isInForbiddenZone ? buttonInformation.right - tooltipInformation.width : tooltipLeftDefaultPosition;
+  }
+
+  #stopTrackingPosition() {
+    window.removeEventListener('scroll', this.#positionTooltip, { capture: true });
+    window.removeEventListener('resize', this.#positionTooltip);
+  }
+
+  #createElementFromHTML(html) {
+    const template = document.createElement('template');
+    template.innerHTML = html.trim();
+    return template.content.firstChild;
   }
 }
 export function defineHighlightedButton({ intl: intlService }) {
