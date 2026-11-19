@@ -6,6 +6,7 @@ import { CombinedCourseBlueprintForCreation } from '../../../../../src/quest/dom
 import { QuestInput } from '../../../../../src/quest/domain/models/combined-course-blueprints/value-objects/QuestInput.js';
 import {
   CRITERION_COMPARISONS,
+  Quest,
   REQUIREMENT_COMPARISONS,
   REQUIREMENT_TYPES,
 } from '../../../../../src/quest/domain/models/quests/entities/Quest.js';
@@ -43,7 +44,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
       expect(results).lengthOf(1);
       expect(results[0]).deep.equal(savedCombinedCourseBlueprint);
       expect(results[0]).deep.contain({ ...combinedCourseBlueprint.combinedCourseBlueprint });
-      expect(results[0].quest.toDTO().successRequirements).deep.equal([
+      expect(results[0].quest.successRequirements.map((requirement) => requirement.toDTO())).deep.equal([
         {
           comparison: REQUIREMENT_COMPARISONS.ALL,
           data: {
@@ -202,7 +203,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
       expect(results[0].prescriberDescription).equal("Updated parcours sur l'IA");
       expect(results[0].illustration).equal('http://example.pix/updated-illustration/ia.svg');
       expect(results[0].surveyLink).equal('https://updated-survey.com');
-      expect(results[0].quest.toDTO().successRequirements).deep.equal([
+      expect(results[0].quest.successRequirements.map((requirement) => requirement.toDTO())).deep.equal([
         {
           comparison: REQUIREMENT_COMPARISONS.ALL,
           requirement_type: REQUIREMENT_TYPES.OBJECT.PASSAGES,
@@ -308,15 +309,16 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         organizationIds: expectedCombinedCourseBlueprint.organizationIds,
         durationSpan: expectedCombinedCourseBlueprint.durationSpan,
       });
-      expect(result.quest.toDTO()).to.deep.equal({
+      const expectedQuest = new Quest({
+        id: quest.id,
         createdAt: quest.createdAt,
+        updatedAt: quest.updatedAt,
+        rewardType: quest.rewardType,
         eligibilityRequirements: [],
         successRequirements: [],
-        id: quest.id,
         rewardId: quest.rewardId,
-        rewardType: quest.rewardType,
-        updatedAt: quest.updatedAt,
       });
+      expect(result.quest).to.deep.equal(expectedQuest);
     });
 
     it('should return combined course blueprint by its id when it is not shared', async function () {
@@ -350,15 +352,16 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         durationSpan: expectedCombinedCourseBlueprint.durationSpan,
         organizationIds: [],
       });
-      expect(result.quest.toDTO()).to.deep.equal({
+      const expectedQuest = new Quest({
+        id: quest.id,
         createdAt: quest.createdAt,
+        updatedAt: quest.updatedAt,
+        rewardType: quest.rewardType,
         eligibilityRequirements: [],
         successRequirements: [],
-        id: quest.id,
         rewardId: quest.rewardId,
-        rewardType: quest.rewardType,
-        updatedAt: quest.updatedAt,
       });
+      expect(result.quest).to.deep.equal(expectedQuest);
     });
 
     it('should return null when no results are found', async function () {

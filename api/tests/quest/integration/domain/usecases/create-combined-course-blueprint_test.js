@@ -32,7 +32,8 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       rewardType: 'ATTESTATION',
     });
 
-    const expectedQuest = combinedCourseBlueprintForCreation.quest.toDTO();
+    const expectedQuest = combinedCourseBlueprintForCreation.quest;
+    const expectedSuccessRequirements = expectedQuest.successRequirements.map((requirement) => requirement.toDTO());
 
     await usecases.createCombinedCourseBlueprint({ combinedCourseBlueprintForCreation });
 
@@ -47,7 +48,7 @@ describe('Integration | Combined course | Domain | UseCases | create-combined-co
       combinedCourseBlueprintForCreation.prescriberDescription,
     );
 
-    expect(questLinkedToBlueprint.successRequirements).to.deep.equal(expectedQuest.successRequirements);
+    expect(questLinkedToBlueprint.successRequirements).to.deep.equal(expectedSuccessRequirements);
     expect(questLinkedToBlueprint.rewardId).to.deep.equal(expectedQuest.rewardId);
     expect(questLinkedToBlueprint.rewardType).to.deep.equal(expectedQuest.rewardType);
 
