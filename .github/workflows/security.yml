@@ -268,7 +268,7 @@ jobs:
       - check_risk_score_audit_logger
       - check_risk_score_tests_e2e
       - check_risk_score_tests_playwright
-    if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+    if: ${{ !cancelled() && github.event_name == 'pull_request' && needs.gate.result == 'success' }}
     outputs:
       status: ${{ steps.fetch_all_scores.outputs.status }}
       markdown: ${{ steps.fetch_all_scores.outputs.markdown }}
