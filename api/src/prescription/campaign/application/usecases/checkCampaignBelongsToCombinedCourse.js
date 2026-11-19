@@ -3,7 +3,7 @@ import * as combinedCourseApi from '../../../../quest/application/api/combined-c
 import { CampaignBelongsToCombinedCourseError } from '../../domain/errors.js';
 
 const execute = async function ({ campaignId, dependencies = { combinedCourseApi } }) {
-  if ((await dependencies.combinedCourseApi.getByCampaignId(campaignId)) !== null) {
+  if (await dependencies.combinedCourseApi.existsForCampaignId(campaignId)) {
     throw new CampaignBelongsToCombinedCourseError();
   }
 };
