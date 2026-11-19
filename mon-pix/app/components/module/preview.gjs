@@ -6,7 +6,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { pageTitle } from 'ember-page-title';
-import { notEq } from 'ember-truth-helpers';
+import { not, notEq } from 'ember-truth-helpers';
 import ModulixGrain from 'mon-pix/components/module/grain/grain';
 import ModulixPreviewGlossary from 'mon-pix/components/module/preview-glossary';
 import ModulixSectionTitle from 'mon-pix/components/module/section-title';
@@ -243,12 +243,20 @@ export default class ModulixPreview extends Component {
         class="module-preview-panel__metadata-display-form"
         aria-label={{t "pages.modulix.preview.elements-display-panel-label"}}
       >
-        <PixSegmentedControl @onChange={{this.toggleElementIdButton}} @variant="primary" @toggled={{true}}>
+        <PixSegmentedControl
+          @onChange={{this.toggleElementIdButton}}
+          @variant="primary"
+          @toggled={{not this.modulixPreviewMode.isElementsIdButtonEnabled}}
+        >
           <:label>{{t "pages.modulix.preview.elements-id-button.label"}}</:label>
           <:viewA>{{t "common.yes"}}</:viewA>
           <:viewB>{{t "common.no"}}</:viewB>
         </PixSegmentedControl>
-        <PixSegmentedControl @onChange={{this.toggleGrainsTitleButton}} @variant="primary" @toggled={{true}}>
+        <PixSegmentedControl
+          @onChange={{this.toggleGrainsTitleButton}}
+          @variant="primary"
+          @toggled={{not this.modulixPreviewMode.isGrainsTitleButtonEnabled}}
+        >
           <:label>{{t "pages.modulix.preview.grains-title-button.label"}}</:label>
           <:viewA>{{t "common.yes"}}</:viewA>
           <:viewB>{{t "common.no"}}</:viewB>

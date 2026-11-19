@@ -317,6 +317,28 @@ module('Integration | Component | Module | Preview', function (hooks) {
     assert.dom(within(radioGroup).getByRole('radio', { name: t('common.no') })).isChecked();
   });
 
+  module('when preview mode toggles are already enabled', function () {
+    test('should check "yes" on elements id and grains title buttons', async function (assert) {
+      // given
+      const modulixPreviewMode = this.owner.lookup('service:modulix-preview-mode');
+      modulixPreviewMode.isElementsIdButtonEnabled = true;
+      modulixPreviewMode.isGrainsTitleButtonEnabled = true;
+
+      // when
+      const screen = await render(<template><ModulixPreview /></template>);
+
+      // then
+      const elementsIdRadioGroup = screen.getByRole('radiogroup', {
+        name: t('pages.modulix.preview.elements-id-button.label'),
+      });
+      const grainsTitleRadioGroup = screen.getByRole('radiogroup', {
+        name: t('pages.modulix.preview.grains-title-button.label'),
+      });
+      assert.dom(within(elementsIdRadioGroup).getByRole('radio', { name: t('common.yes') })).isChecked();
+      assert.dom(within(grainsTitleRadioGroup).getByRole('radio', { name: t('common.yes') })).isChecked();
+    });
+  });
+
   module('grains title button', function () {
     test('should display a display grains title button', async function (assert) {
       // given
