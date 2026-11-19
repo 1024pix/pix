@@ -7,6 +7,8 @@ export default class Module extends Model {
   @attr('boolean') isBeta;
   // eslint-disable-next-line ember/no-empty-attrs
   @attr() details;
+  // eslint-disable-next-line ember/no-empty-attrs
+  @attr() glossary;
   @attr('string') version;
   @attr('string') redirectionUrl;
   @hasMany('section', { async: false, inverse: 'module' }) sections;

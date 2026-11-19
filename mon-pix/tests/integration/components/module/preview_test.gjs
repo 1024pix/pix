@@ -184,6 +184,21 @@ module('Integration | Component | Module | Preview', function (hooks) {
       assert.dom(displayJsonButton).doesNotExist();
     });
 
+    test('should display the module glossary', async function (assert) {
+      // given
+      const moduleData = {
+        title: 'Existing module',
+        glossary: [{ words: ['Pix'], definition: '<p>Le service public en ligne.</p>' }],
+      };
+
+      // when
+      const screen = await render(<template><ModulixPreview @module={{moduleData}} /></template>);
+
+      // then
+      assert.dom(screen.getByRole('heading', { name: t('pages.modulix.preview.glossary.title') })).exists();
+      assert.dom(screen.getByRole('term')).hasText('Pix');
+    });
+
     test('should display the grain navigation form', async function (assert) {
       // given
       const moduleData = {

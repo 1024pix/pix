@@ -8,6 +8,7 @@ import { t } from 'ember-intl';
 import { pageTitle } from 'ember-page-title';
 import { notEq } from 'ember-truth-helpers';
 import ModulixGrain from 'mon-pix/components/module/grain/grain';
+import ModulixPreviewGlossary from 'mon-pix/components/module/preview-glossary';
 import ModulixSectionTitle from 'mon-pix/components/module/section-title';
 
 import didInsert from '../../modifiers/modifier-did-insert';
@@ -277,6 +278,10 @@ export default class ModulixPreview extends Component {
         <div class="module-preview-passage__title">
           <h1>{{this.formattedModule.title}}</h1>
         </div>
+
+        {{#if this.previewingExistingModule}}
+          <ModulixPreviewGlossary @glossary={{this.formattedModule.glossary}} />
+        {{/if}}
 
         <div class="module-preview-passage__content">
           {{#each this.formattedModule.sections as |section|}}
