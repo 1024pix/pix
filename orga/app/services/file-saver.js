@@ -6,6 +6,16 @@ export default class FileSaverService extends Service {
   @service intl;
   @service locale;
 
+  /**
+   * @param {object} options
+   * @param {string} [options.url]
+   * @param {string} [options.token]
+   * @param {string} [options.fileName]
+   * @param {(options: { url?: string, token?: string }) => Promise<Response>} [options.fetcher]
+   * @param {(options: { fileContent: Blob, fileName: string }) => void} [options.downloadFileForIEBrowser]
+   * @param {(options: { fileContent: Blob, fileName: string }) => void} [options.downloadFileForModernBrowsers]
+   * @param {string} [options.noContentMessageNotification]
+   */
   async save({
     url,
     token,

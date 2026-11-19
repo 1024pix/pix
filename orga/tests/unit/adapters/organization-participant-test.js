@@ -15,13 +15,23 @@ module('Unit | Adapters | organization-participant', function (hooks) {
     adapter.set('ajax', ajaxStub);
   });
 
-  module('#urlForQuery', () => {
-    test('should build query url from organization id', async function (assert) {
-      const query = { filter: { organizationId: 'organizationId1' } };
-      const url = await adapter.urlForQuery(query);
+  module('#query', () => {
+    test('should call url with organization id, without it in query filter', async function (assert) {
+      // given
+      const query = { filter: { organizationId: 'organizationId1', divisions: ['3A'] }, page: { number: 2 } };
 
+      // when
+      await adapter.query(null, { modelName: 'organization-participant' }, query);
+
+      // then
+      const [url, method, options] = ajaxStub.firstCall.args;
       assert.ok(url.endsWith('/api/organizations/organizationId1/participants'));
-      assert.strictEqual(query.organizationId, undefined);
+      assert.strictEqual(method, 'GET');
+      assert.deepEqual(options, { data: { filter: { divisions: ['3A'] }, page: { number: 2 } } });
+      assert.deepEqual(query, {
+        filter: { organizationId: 'organizationId1', divisions: ['3A'] },
+        page: { number: 2 },
+      });
     });
   });
 

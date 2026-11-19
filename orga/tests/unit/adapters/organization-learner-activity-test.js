@@ -1,17 +1,33 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Adapters | organization-learner-activity', function (hooks) {
   setupTest(hooks);
 
-  module('#urlForQueryRecord', () => {
-    test('should build query url from organizationLearnerId', async function (assert) {
-      const adapter = this.owner.lookup('adapter:organization-learner-activity');
-      const query = { organizationLearnerId: '123' };
-      const url = await adapter.urlForQueryRecord(query);
+  let adapter;
+  let ajaxStub;
 
+  hooks.beforeEach(function () {
+    adapter = this.owner.lookup('adapter:organization-learner-activity');
+    ajaxStub = sinon.stub().resolves();
+    adapter.ajax = ajaxStub;
+  });
+
+  module('#queryRecord', () => {
+    test('should call url with organization learner id, without it in query params', async function (assert) {
+      // given
+      const query = { organizationLearnerId: '123' };
+
+      // when
+      await adapter.queryRecord(null, { modelName: 'organization-learner-activity' }, query);
+
+      // then
+      const [url, method, options] = ajaxStub.firstCall.args;
       assert.ok(url.endsWith('/api/organization-learners/123/activity'));
-      assert.strictEqual(query.organizationLearnerId, undefined);
+      assert.strictEqual(method, 'GET');
+      assert.deepEqual(options, { data: {} });
+      assert.deepEqual(query, { organizationLearnerId: '123' });
     });
   });
 });
