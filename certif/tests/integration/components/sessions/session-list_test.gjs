@@ -4,6 +4,7 @@ import { t } from 'ember-intl/test-support';
 import SessionList from 'pix-certif/components/sessions/session-list';
 import { SESSION_PAGE_SIZE } from 'pix-certif/utils/pagination';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { waitForDialogClose } from '../../../helpers/wait-for';
@@ -109,6 +110,67 @@ module('Integration | Component | Sessions | SessionList', function (hooks) {
 
       // then
       assert.dom(screen.getByRole('link', { name: 'Session 123' })).exists();
+    });
+
+    module('when sorting by date', function () {
+      test('it should display no sort order and transition with asc on sort click when there is no sortByDate query param', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const sessionSummary = store.createRecord('session-summary', { id: '123' });
+        const sessionSummaries = [sessionSummary];
+        sessionSummaries.meta = { rowCount: 1 };
+        const router = this.owner.lookup('service:router');
+        sinon.stub(router, 'transitionTo');
+        const screen = await render(<template><SessionList @sessionSummaries={{sessionSummaries}} /></template>);
+        const dateColumnHeader = screen.getByRole('columnheader', { name: 'Date' });
+
+        // when
+        await click(within(dateColumnHeader).getByRole('button'));
+
+        // then
+        assert.dom(dateColumnHeader).hasAttribute('aria-sort', 'none');
+        assert.ok(router.transitionTo.calledWithMatch({ queryParams: { sortByDate: 'asc', pageNumber: 1 } }));
+      });
+
+      test('it should display ascending sort and transition with desc on sort click when sortByDate query param is asc', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const sessionSummary = store.createRecord('session-summary', { id: '123' });
+        const sessionSummaries = [sessionSummary];
+        sessionSummaries.meta = { rowCount: 1 };
+        const router = this.owner.lookup('service:router');
+        sinon.stub(router, 'currentRoute').value({ queryParams: { sortByDate: 'asc' } });
+        sinon.stub(router, 'transitionTo');
+        const screen = await render(<template><SessionList @sessionSummaries={{sessionSummaries}} /></template>);
+        const dateColumnHeader = screen.getByRole('columnheader', { name: 'Date' });
+
+        // when
+        await click(within(dateColumnHeader).getByRole('button'));
+
+        // then
+        assert.dom(dateColumnHeader).hasAttribute('aria-sort', 'ascending');
+        assert.ok(router.transitionTo.calledWithMatch({ queryParams: { sortByDate: 'desc', pageNumber: 1 } }));
+      });
+
+      test('it should display descending sort and transition with asc on sort click when sortByDate query param is desc', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const sessionSummary = store.createRecord('session-summary', { id: '123' });
+        const sessionSummaries = [sessionSummary];
+        sessionSummaries.meta = { rowCount: 1 };
+        const router = this.owner.lookup('service:router');
+        sinon.stub(router, 'currentRoute').value({ queryParams: { sortByDate: 'desc' } });
+        sinon.stub(router, 'transitionTo');
+        const screen = await render(<template><SessionList @sessionSummaries={{sessionSummaries}} /></template>);
+        const dateColumnHeader = screen.getByRole('columnheader', { name: 'Date' });
+
+        // when
+        await click(within(dateColumnHeader).getByRole('button'));
+
+        // then
+        assert.dom(dateColumnHeader).hasAttribute('aria-sort', 'descending');
+        assert.ok(router.transitionTo.calledWithMatch({ queryParams: { sortByDate: 'asc', pageNumber: 1 } }));
+      });
     });
 
     module('when there is at least one effective candidate', function () {

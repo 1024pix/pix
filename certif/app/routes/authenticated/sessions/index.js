@@ -11,6 +11,7 @@ export default class ListRoute extends Route {
     sessionId: { refreshModel: true },
     startDate: { refreshModel: true },
     endDate: { refreshModel: true },
+    sortByDate: { refreshModel: true },
   };
 
   @service currentUser;
@@ -34,6 +35,9 @@ export default class ListRoute extends Route {
           startDate: params.startDate || undefined,
           endDate: params.endDate || undefined,
         },
+        sort: {
+          date: params.sortByDate || undefined,
+        },
       },
       { reload: true },
     );
@@ -51,6 +55,7 @@ export default class ListRoute extends Route {
       controller.sessionId = null;
       controller.startDate = null;
       controller.endDate = null;
+      controller.sortByDate = null;
     }
   }
 
