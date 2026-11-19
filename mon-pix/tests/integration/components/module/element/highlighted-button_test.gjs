@@ -1,7 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import { blur, click, focus, triggerEvent, triggerKeyEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
+import { TOOLTIP_CLOSE_DELAY_MS } from 'mon-pix/components/module/element/highlighted-button';
 import ModuleElementText from 'mon-pix/components/module/element/text';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -51,15 +52,21 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
           //  when
           const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
           const button = screen.getByRole('button', { name: 'vie' });
-          await triggerEvent(button, 'pointerenter');
+          await triggerEvent('highlighted-button', 'pointerenter');
 
           // then
           assert.ok(screen.getByRole('tooltip', { name: definition }));
           assert.dom(button).hasAttribute('aria-expanded', 'true');
         });
 
-        module('when the highlighted button is no more hovered', function () {
-          test('should hide the tooltip with the definition', async function (assert) {
+        module('when the highlighted button is no more hovered', function (hooks) {
+          let clock;
+
+          hooks.afterEach(function () {
+            clock?.restore();
+          });
+
+          test('should keep the tooltip displayed during the close delay', async function (assert) {
             // given
             const definition = "C'est que des emmerdes et à la fin tu meurs.";
             const textElement = {
@@ -67,16 +74,65 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
               type: 'text',
               tag: ' ',
             };
-
-            //  when
             const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
             const button = screen.getByRole('button', { name: 'vie' });
-            await triggerEvent(button, 'pointerenter');
-            await triggerEvent(button, 'pointerleave');
+            await triggerEvent('highlighted-button', 'pointerenter');
+            clock = sinon.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+
+            //  when
+            await triggerEvent('highlighted-button', 'pointerleave');
+            clock.tick(TOOLTIP_CLOSE_DELAY_MS - 1);
+
+            // then
+            assert.ok(screen.getByRole('tooltip', { name: definition }));
+            assert.dom(button).hasAttribute('aria-expanded', 'true');
+          });
+
+          test('should hide the tooltip with the definition after the close delay', async function (assert) {
+            // given
+            const definition = "C'est que des emmerdes et à la fin tu meurs.";
+            const textElement = {
+              content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
+              type: 'text',
+              tag: ' ',
+            };
+            const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+            const button = screen.getByRole('button', { name: 'vie' });
+            await triggerEvent('highlighted-button', 'pointerenter');
+            clock = sinon.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+
+            //  when
+            await triggerEvent('highlighted-button', 'pointerleave');
+            clock.tick(TOOLTIP_CLOSE_DELAY_MS);
 
             // then
             assert.dom(screen.queryByRole('tooltip', { name: definition })).doesNotExist();
             assert.dom(button).hasAttribute('aria-expanded', 'false');
+          });
+
+          module('when the pointer comes back before the close delay (e.g. over the tooltip)', function () {
+            test('should keep the tooltip displayed', async function (assert) {
+              // given
+              const definition = "C'est que des emmerdes et à la fin tu meurs.";
+              const textElement = {
+                content: `<p>La <highlighted-button word="vie" definition="${definition}">vie</highlighted-button> est belle.</p>`,
+                type: 'text',
+                tag: ' ',
+              };
+              const screen = await render(<template><ModuleElementText @text={{textElement}} /></template>);
+              const button = screen.getByRole('button', { name: 'vie' });
+              await triggerEvent('highlighted-button', 'pointerenter');
+              clock = sinon.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+
+              //  when
+              await triggerEvent('highlighted-button', 'pointerleave');
+              await triggerEvent('highlighted-button', 'pointerenter');
+              clock.tick(TOOLTIP_CLOSE_DELAY_MS);
+
+              // then
+              assert.ok(screen.getByRole('tooltip', { name: definition }));
+              assert.dom(button).hasAttribute('aria-expanded', 'true');
+            });
           });
         });
       });
