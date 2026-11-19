@@ -151,14 +151,14 @@ module('Integration | Component | Combined Courses | Landing page', function (ho
         assert.ok(
           screen.getByText(t('pages.campaign-landing.warning-message', { firstName: 'Izuku', lastName: 'Midorya' })),
         );
-        assert.ok(screen.getByRole('link', { name: t('pages.campaign-landing.warning-message-logout') }));
+        assert.ok(screen.getByRole('button', { name: t('pages.campaign-landing.warning-message-logout') }));
       });
 
       test('should call session.invalidate to shut down the session when user click on disconnect', async function (assert) {
         // when
         const screen = await render(<template><CombinedCourseLandingPage /></template>);
 
-        await click(screen.getByRole('link', { name: t('pages.campaign-landing.warning-message-logout') }));
+        await click(screen.getByRole('button', { name: t('pages.campaign-landing.warning-message-logout') }));
 
         // then
         sinon.assert.calledOnce(session.invalidate);
@@ -181,10 +181,10 @@ module('Integration | Component | Combined Courses | Landing page', function (ho
         const screen = await render(
           <template><CombinedCourseLandingPage @combinedCourse={{combinedCourse}} /></template>,
         );
-        const loginCta = screen.getByRole('button', { name: t('pages.campaign-landing.login.login-cta') });
-        const signupCta = screen.getByRole('button', { name: t('pages.campaign-landing.login.signup-cta') });
+        const loginCta = screen.getByRole('button', { name: t('pages.campaign-landing.actions.login-cta') });
+        const signupCta = screen.getByRole('button', { name: t('pages.campaign-landing.actions.signup-cta') });
         // then
-        assert.notOk(await screen.queryByRole('link', { name: t('pages.campaign-landing.warning-message-logout') }));
+        assert.notOk(await screen.queryByRole('button', { name: t('pages.campaign-landing.warning-message-logout') }));
         assert.notOk(
           await screen.queryByText(
             t('pages.campaign-landing.warning-message', { firstName: 'Izuku', lastName: 'Midorya' }),

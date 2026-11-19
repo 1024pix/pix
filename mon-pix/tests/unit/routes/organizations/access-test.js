@@ -7,9 +7,10 @@ import { stubOidcIdentityProvidersService, stubSessionService } from '../../../h
 module('Unit | Route | Access', function (hooks) {
   setupTest(hooks);
 
-  let route, organization;
+  let route, organization, transition;
 
   hooks.beforeEach(function () {
+    transition = { from: null, to: { queryParams: {} } };
     organization = {
       verifiedCode: {
         id: 'CAMPAIGN_CODE',
@@ -39,7 +40,7 @@ module('Unit | Route | Access', function (hooks) {
 
       test('should override authentication route', async function (assert) {
         // when
-        await route.beforeModel();
+        await route.beforeModel(transition);
 
         // then
 
@@ -48,7 +49,6 @@ module('Unit | Route | Access', function (hooks) {
 
       test("should call parent's beforeModel and transition to authenticationRoute", async function (assert) {
         // when
-        const transition = { from: null };
         await route.beforeModel(transition);
 
         // then
@@ -84,7 +84,7 @@ module('Unit | Route | Access', function (hooks) {
             route.session.data.authenticated.identityProviderCode = 'OIDC_PARTNER_DIFFERENT';
 
             // when
-            await route.beforeModel();
+            await route.beforeModel(transition);
 
             // then
             sinon.assert.calledWith(route.router.replaceWith, 'authentication.oidc.login-flow', 'oidc-partner');
@@ -98,7 +98,7 @@ module('Unit | Route | Access', function (hooks) {
             route.session.data.authenticated.identityProviderCode = 'OIDC_PARTNER';
 
             // when
-            await route.beforeModel();
+            await route.beforeModel(transition);
 
             // then
             sinon.assert.neverCalledWith(route.router.replaceWith, 'authentication.oidc.login-flow', 'oidc-partner');
@@ -125,7 +125,7 @@ module('Unit | Route | Access', function (hooks) {
           organization.organizationToJoin.hasReconciliationFields = false;
 
           // when
-          await route.beforeModel();
+          await route.beforeModel(transition);
           // then
           assert.strictEqual(route.authenticationRoute, 'organizations.join.student-sco');
         });
@@ -135,7 +135,7 @@ module('Unit | Route | Access', function (hooks) {
           organization.organizationToJoin.hasReconciliationFields = true;
 
           // when
-          await route.beforeModel();
+          await route.beforeModel(transition);
 
           // then
           assert.strictEqual(route.authenticationRoute, 'inscription');
@@ -153,7 +153,7 @@ module('Unit | Route | Access', function (hooks) {
         route.accessStorage.hasUserSeenJoinPage.withArgs(organization.organizationToJoin.id).returns(true);
 
         // when
-        await route.beforeModel();
+        await route.beforeModel(transition);
 
         // then
         assert.strictEqual(route.authenticationRoute, 'organizations.join.student-sco');
@@ -168,7 +168,7 @@ module('Unit | Route | Access', function (hooks) {
         organization.organizationToJoin.isRestricted = true;
 
         // when
-        await route.beforeModel();
+        await route.beforeModel(transition);
 
         // then
         assert.strictEqual(route.authenticationRoute, 'organizations.join.sco-mediacentre');
@@ -184,10 +184,46 @@ module('Unit | Route | Access', function (hooks) {
         route.session.isAuthenticated = false;
 
         // when
-        await route.beforeModel();
+        await route.beforeModel(transition);
 
         // then
         assert.strictEqual(route.authenticationRoute, 'organizations.join.anonymous');
+      });
+    });
+
+    module('when user asked to log in', function (hooks) {
+      let sessionStub;
+
+      hooks.beforeEach(function () {
+        sessionStub = stubSessionService(this.owner, { isAuthenticated: false });
+        route.session = sessionStub;
+        transition.to.queryParams.authenticationRoute = 'login';
+      });
+
+      test('should override authentication route with login', async function (assert) {
+        // when
+        await route.beforeModel(transition);
+
+        // then
+        assert.strictEqual(route.authenticationRoute, 'authentication.login');
+        sinon.assert.calledWith(
+          sessionStub.requireAuthenticationAndApprovedTermsOfService,
+          transition,
+          'authentication.login',
+        );
+      });
+
+      test('should keep student-sco route when campaign is SCO restricted', async function (assert) {
+        // given
+        organization.organizationToJoin.isRestricted = true;
+        organization.organizationToJoin.type = 'SCO';
+        organization.organizationToJoin.hasReconciliationFields = false;
+
+        // when
+        await route.beforeModel(transition);
+
+        // then
+        assert.strictEqual(route.authenticationRoute, 'organizations.join.student-sco');
       });
     });
   });

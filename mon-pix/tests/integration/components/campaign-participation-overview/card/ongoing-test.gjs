@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | CampaignParticipationOverview | Card | Ongoing ', function (hooks) {
+module('Integration | Component | CampaignParticipationOverview | Card | Ongoing', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('should render card info when card has "ONGOING" status', async function (assert) {
@@ -90,7 +90,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ongoing
             }),
           }),
         )
-        .hasAttribute('href', '/parcours/12345');
+        .hasAttribute('href', '/parcours/12345/sommaire');
     });
   });
 });

@@ -1,6 +1,8 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
+const PUBLIC_ROUTES = ['combined-courses.combined-course.entry-point', 'combined-courses.combined-course.landing-page'];
+
 export default class CombinedCourseRoute extends Route {
   @service session;
   @service store;
@@ -8,19 +10,19 @@ export default class CombinedCourseRoute extends Route {
   @service metrics;
 
   async beforeModel(transition) {
-    if (transition.to.name === 'combined-courses.combined-course.landing-page') return;
-
     const { code } = this.paramsFor(this.routeName);
+
+    const verifiedCode = await this.store.findRecord('verified-code', code);
+    if (verifiedCode.type === 'campaign') {
+      this.router.transitionTo('organizations.access', verifiedCode.id);
+    }
+
+    if (PUBLIC_ROUTES.includes(transition.to.name)) return;
 
     if (!transition.from) {
       if (transition.to.name !== 'combined-courses.combined-course.tunnel') {
         return this.router.replaceWith('organizations.access', code, { queryParams: { from: 'parcours' } });
       }
-    }
-
-    const verifiedCode = await this.store.findRecord('verified-code', code);
-    if (verifiedCode.type === 'campaign') {
-      throw new Error();
     }
 
     this.session.requireAuthenticationAndApprovedTermsOfService(transition, () => {

@@ -1,5 +1,4 @@
 import { PixButton, PixButtonLink, PixIcon } from '@1024pix/nebulix-ember';
-import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
 import { service } from '@ember/service';
@@ -35,15 +34,9 @@ export default class CombinedCourseLandingPage extends Component {
 
   @action
   goToLogin() {
-    const identityProviderToVisit = null;
-
-    //until we complete the ticket, we need to redirect in all cases to authentication.login
-    if (!identityProviderToVisit) {
-      return this.router.transitionTo('authentication.login');
-    } else {
-      //todo: modify when branching routes to pass the code
-      return this.router.transitionTo('organizations.access', this.args.combinedCourse.code);
-    }
+    this.router.transitionTo('organizations.access', this.args.combinedCourse.code, {
+      queryParams: { authenticationRoute: 'login' },
+    });
   }
 
   @action
@@ -93,9 +86,8 @@ export default class CombinedCourseLandingPage extends Component {
         <footer class="combined-course-landing__footer">
           {{#if this.userIsAuthentified}}
             <span>{{this.connectionMessage}}</span>
-            <a href="#" class="link" {{on "click" this.disconnect}}>
-              {{t "pages.campaign-landing.warning-message-logout"}}
-            </a>
+            <PixButton @variant="tertiary" @triggerAction={{this.disconnect}}>
+              {{t "pages.campaign-landing.warning-message-logout"}}</PixButton>
           {{/if}}
         </footer>
       </main>
@@ -125,7 +117,7 @@ const MainSection = <template>
         {{/if}}
         <dl>
           <dt><PixIcon @name="pauseCircle" /></dt>
-          <dd>{{t "pages.campaign-landing.breaks"}}</dd>
+          <dd>{{t "pages.campaign-landing.breaks-allowed"}}</dd>
         </dl>
         {{#if @combinedCourse.reward}}
           <dl>
@@ -136,25 +128,24 @@ const MainSection = <template>
       </div>
     </section>
 
-    <section class="combined-course-landing-main__authentication">
-      <h2>{{t "pages.campaign-landing.login.title"}}</h2>
+    <section class="combined-course-landing-main__actions">
+      <h2>{{t "pages.campaign-landing.actions.title"}}</h2>
       {{#if @userIsAuthentified}}
-        <PixButton
-          @triggerAction={{@startCombinedCourse}}
-          class="combined-course-landing-main__authentication--buttons"
-        >{{t "pages.campaign-landing.login.start-cta"}}</PixButton>
+        <PixButton @triggerAction={{@startCombinedCourse}} class="combined-course-landing-main__actions--buttons">{{t
+            "pages.campaign-landing.actions.start-cta"
+          }}</PixButton>
       {{else}}
-        <div class="combined-course-landing-main__authentication--not-connected">
-          <div class="combined-course-landing-main__authentication--buttons">
-            <PixButton @triggerAction={{@goToLogin}}>{{t "pages.campaign-landing.login.login-cta"}}</PixButton>
+        <div class="combined-course-landing-main__actions--not-connected">
+          <div class="combined-course-landing-main__actions--buttons">
+            <PixButton @triggerAction={{@goToLogin}}>{{t "pages.campaign-landing.actions.login-cta"}}</PixButton>
             <PixButton @variant="secondary" @triggerAction={{@goToSignup}}>{{t
-                "pages.campaign-landing.login.signup-cta"
+                "pages.campaign-landing.actions.signup-cta"
               }}</PixButton>
           </div>
           <p>{{t "pages.campaign-landing.login.info"}}</p>
         </div>
       {{/if}}
-      <p class="combined-course-landing-main__authentication--legal">{{t "pages.campaign-landing.login.legal"}}</p>
+      <p class="combined-course-landing-main__actions--legal">{{t "pages.campaign-landing.actions.legal"}}</p>
     </section>
   </div>
 </template>;
