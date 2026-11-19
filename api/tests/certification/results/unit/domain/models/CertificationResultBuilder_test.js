@@ -1,12 +1,7 @@
-import type { UUID } from 'node:crypto';
-
 import { expect } from 'chai';
 
 import { CERTIFICATION_RESULT_STATUSES } from '../../../../../../src/certification/results/domain/constants.ts';
-import {
-  type CertificationDataV3Props,
-  CertificationResultBuilder,
-} from '../../../../../../src/certification/results/domain/models/CertificationResultBuilder.ts';
+import { CertificationResultBuilder } from '../../../../../../src/certification/results/domain/models/CertificationResultBuilder.ts';
 import {
   CertificationResult,
   UserCertificationResult,
@@ -16,7 +11,7 @@ import { Frameworks } from '../../../../../../src/certification/shared/domain/mo
 
 describe('Certification | Unit | Domain | Models | CertificationResultBuilder', function () {
   describe('#build', function () {
-    const uuidGenerator = (): UUID => '00000000-0000-4000-8000-000000000001';
+    const uuidGenerator = () => '00000000-0000-4000-8000-000000000001';
     context('when algorithm version not handled yet', function () {
       it('returns an errors Map with certification course ids in error', function () {
         const builder = new CertificationResultBuilder({
@@ -24,11 +19,11 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
             {
               certificationCourseId: 123,
               algorithmEngineVersion: AlgorithmEngineVersion.V1,
-            } as CertificationDataV3Props,
+            },
             {
               certificationCourseId: 456,
               algorithmEngineVersion: AlgorithmEngineVersion.V2,
-            } as CertificationDataV3Props,
+            },
           ],
           learnerData: [],
           cleaData: [],
@@ -46,7 +41,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('CORE', function () {
       it('builds a certificationResult and a userCertificationResult for CORE certification', function () {
-        const certificationData: CertificationDataV3Props[] = [
+        const certificationData = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -157,7 +152,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('CLEA', function () {
       it('builds a certificationResult and a userCertificationResult for CLEA certification', function () {
-        const certificationData: CertificationDataV3Props[] = [
+        const certificationData = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -277,7 +272,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('PRO_SANTE', function () {
       it('builds a certificationResult and a userCertificationResult for PRO_SANTE certification', function () {
-        const certificationData: CertificationDataV3Props[] = [
+        const certificationData = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -368,7 +363,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('DROIT', function () {
       it('builds a certificationResult and a userCertificationResult for DROIT certification', function () {
-        const certificationData: CertificationDataV3Props[] = [
+        const certificationData = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -459,7 +454,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('EDU_CPE', function () {
       it('builds a certificationResult and a userCertificationResult for EDU_CPE certification', function () {
-        const certificationData: CertificationDataV3Props[] = [
+        const certificationData = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -551,7 +546,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('EDU_1ER_DEGRE', function () {
       it('builds a certificationResult and a userCertificationResult for EDU_CPE certification', function () {
-        const certificationData: CertificationDataV3Props[] = [
+        const certificationData = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -643,7 +638,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('EDU_2ND_DEGRE', function () {
       it('builds a certificationResult and a userCertificationResult for EDU_2ND_DEGRE certification', function () {
-        const certificationData: CertificationDataV3Props[] = [
+        const certificationData = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -735,7 +730,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('when certification was delivered prior to FRANCE_COMPETENCES_PROFESSIONAL_START_DATE', function () {
       it('builds a certificationResult and a userCertificationResult with no minimum score for france competences', function () {
-        const certificationData: CertificationDataV3Props[] = [
+        const certificationData = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -846,7 +841,7 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
 
     context('when no learner matches the organization learner of the certification', function () {
       it('builds a certificationResult and a userCertificationResult with no additional info on candidate identity (middle/third names and external ID)', function () {
-        const certificationData: CertificationDataV3Props[] = [
+        const certificationData = [
           {
             certificationCourseId: 123,
             userId: 456,
@@ -952,6 +947,151 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
           }),
         ]);
         expect(errors).to.deep.equal({});
+      });
+    });
+
+    context('when some certification result is not valid', function () {
+      it('keeps building the other valid ones and return details about the certification in error in errors object', function () {
+        const certificationData1WithoutPixScore = {
+          certificationCourseId: 123,
+          userId: 456,
+          sessionId: 777,
+          organizationLearnerId: 555,
+          algorithmEngineVersion: AlgorithmEngineVersion.V3,
+          firstName: 'Buffy',
+          lastName: 'Summers',
+          externalId: 'the_slayer',
+          birthdate: '1981-01-18',
+          birthplace: 'Sunnydale',
+          birthPostalCode: 'SomePostalCode',
+          birthINSEECode: 'SomeINSEECode',
+          birthCountry: 'USA',
+          verificationCode: 'VERIFCODE',
+          certificationCenter: 'Centre certification le meilleur',
+          startedAt: new Date('2025-12-30'),
+          deliveredAt: new Date('2025-12-31'),
+          status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
+          framework: Frameworks.CORE,
+          maxReachableLevel: 7,
+          reachedMeshIndex: 3,
+          eduV3ExternalJuryResult: null,
+          commentByAutoJury: 'commentByAutoJury',
+          commentByJury: 'commentByJury',
+          commentForOrganization: 'commentForOrganization',
+          commentForCandidate: 'commentForCandidate',
+          competenceMarks: [
+            {
+              level: 1,
+              competenceId: 'competenceABC123',
+            },
+            {
+              level: 7,
+              competenceId: 'competenceDEF456',
+            },
+          ],
+        };
+        const certificationData2 = {
+          certificationCourseId: 555,
+          userId: 456,
+          sessionId: 777,
+          organizationLearnerId: 555,
+          algorithmEngineVersion: AlgorithmEngineVersion.V3,
+          firstName: 'Buffy',
+          lastName: 'Summers',
+          externalId: 'the_slayer',
+          birthdate: '1981-01-18',
+          birthplace: 'Sunnydale',
+          birthPostalCode: 'SomePostalCode',
+          birthINSEECode: 'SomeINSEECode',
+          birthCountry: 'USA',
+          verificationCode: 'VERIFCODE',
+          certificationCenter: 'Centre certification le meilleur',
+          startedAt: new Date('2025-12-30'),
+          deliveredAt: new Date('2025-12-31'),
+          status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
+          framework: Frameworks.CORE,
+          maxReachableLevel: 7,
+          pixScore: 123,
+          reachedMeshIndex: 3,
+          eduV3ExternalJuryResult: null,
+          commentByAutoJury: 'commentByAutoJury',
+          commentByJury: 'commentByJury',
+          commentForOrganization: 'commentForOrganization',
+          commentForCandidate: 'commentForCandidate',
+          competenceMarks: [
+            {
+              level: 1,
+              competenceId: 'competenceABC123',
+            },
+            {
+              level: 7,
+              competenceId: 'competenceDEF456',
+            },
+          ],
+        };
+
+        const builder = new CertificationResultBuilder({
+          certificationData: [certificationData1WithoutPixScore, certificationData2],
+          learnerData: [],
+          cleaData: [],
+        });
+        const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
+
+        expect(certificationResults).to.deep.equal([
+          new CertificationResult({
+            id: '00000000-0000-4000-8000-000000000001',
+            algorithmEngineVersion: AlgorithmEngineVersion.V3,
+            firstName: 'Buffy',
+            middleName: null,
+            thirdName: null,
+            lastName: 'Summers',
+            externalId: 'the_slayer',
+            nationalStudentId: null,
+            birthdate: '1981-01-18',
+            birthplace: 'Sunnydale',
+            birthPostalCode: 'SomePostalCode',
+            birthINSEECode: 'SomeINSEECode',
+            birthCountry: 'USA',
+            verificationCode: 'VERIFCODE',
+            certificationCenter: 'Centre certification le meilleur',
+            startedAt: new Date('2025-12-30'),
+            deliveredAt: new Date('2025-12-31'),
+            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
+            framework: Frameworks.CORE,
+            franceCompetencesMinScore: 120,
+            commentByAutoJury: 'commentByAutoJury',
+            commentByJury: 'commentByJury',
+            commentForOrganization: 'commentForOrganization',
+            commentForCandidate: 'commentForCandidate',
+            results: {
+              maxReachableLevel: 7,
+              pixScore: 123,
+              reachedMeshIndex: 3,
+              competenceMarks: [
+                {
+                  level: 1,
+                  competenceId: 'competenceABC123',
+                },
+                {
+                  level: 7,
+                  competenceId: 'competenceDEF456',
+                },
+              ],
+            },
+          }),
+        ]);
+        expect(userCertificationResults).to.deep.equal([
+          new UserCertificationResult({
+            certificationCourseId: 555,
+            userId: 456,
+            sessionId: 777,
+            certificationResultId: '00000000-0000-4000-8000-000000000001',
+            organizationLearnerId: null,
+          }),
+        ]);
+        expect(errors).to.deep.equal({
+          123: '✖ Invalid input: expected number, received undefined\n  → at results.pixScore',
+        });
       });
     });
   });

@@ -4,8 +4,8 @@ import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmE
 import { Frameworks, isEduFramework } from '../../../shared/domain/models/Frameworks.js';
 import type { Framework } from '../../../shared/domain/types.ts';
 import { FRANCE_COMPETENCES_PROFESSIONAL_START_DATE } from '../constants.ts';
-import type { CertificationResultStatus } from '../types.ts';
-import { CertificationResult, type Results, UserCertificationResult } from './NewCertificationResult.ts';
+import type { CertificationResultStatus, Results } from '../types.ts';
+import { CertificationResult, UserCertificationResult } from './NewCertificationResult.ts';
 const FRANCE_COMPETENCES_MIN_SCORE = 120;
 
 export type CertificationDataV3Props = {
@@ -121,6 +121,11 @@ export class CertificationResultBuilder {
         commentForCandidate: certificationItem.commentForCandidate,
         results,
       });
+      const validationErr = certificationResult.validate();
+      if (validationErr) {
+        errors[certificationItem.certificationCourseId] = validationErr;
+        continue;
+      }
       certificationResults.push(certificationResult);
       userCertificationResults.push(
         new UserCertificationResult({

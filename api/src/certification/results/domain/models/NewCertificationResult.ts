@@ -1,7 +1,18 @@
 import type { UUID } from 'node:crypto';
 
+import { z } from 'zod';
+
 import type { Framework } from '../../../shared/domain/types.ts';
-import type { CertificationResultStatus } from '../types.ts';
+import { type CertificationResultStatus, type Results } from '../types.ts';
+import { CertificationResultV1Schema } from './validators/V1CertificationResult.ts';
+import { CertificationResultV2Schema } from './validators/V2CertificationResult.ts';
+import { CertificationResultV3Schema } from './validators/V3CertificationResult.ts';
+
+export const CertificationResultSchema = z.discriminatedUnion('algorithmEngineVersion', [
+  CertificationResultV1Schema,
+  CertificationResultV2Schema,
+  CertificationResultV3Schema,
+]);
 
 type CertificationResultProps = {
   id: UUID;
@@ -30,35 +41,6 @@ type CertificationResultProps = {
   commentForCandidate: string | null;
   results: Results;
 };
-
-type CompetenceMarkV3Props = {
-  level: number;
-  competenceId: string;
-};
-
-export type Results = CoreV3Results | PixPlusV3Results | EduV3Results | CleaV3Results;
-
-type CoreV3Results = {
-  maxReachableLevel: number;
-  reachedMeshIndex: number | null;
-  pixScore: number | null;
-  competenceMarks: Array<CompetenceMarkV3Props>;
-};
-
-type PixPlusV3Results = {
-  maxReachableLevel: number;
-  reachedMeshIndex: number | null;
-};
-
-type EduV3Results = PixPlusV3Results & {
-  eduV3ExternalJuryResult: string | null;
-};
-
-type CleaV3Results = CoreV3Results & {
-  hasAcquiredClea: boolean;
-  cleaBadgeId: number;
-};
-
 export class CertificationResult {
   readonly id: UUID;
   readonly algorithmEngineVersion: number;
@@ -85,6 +67,7 @@ export class CertificationResult {
   readonly commentForOrganization: string | null;
   readonly commentForCandidate: string | null;
   readonly results: Results;
+
   constructor(props: CertificationResultProps) {
     this.id = props.id;
     this.algorithmEngineVersion = props.algorithmEngineVersion;
@@ -111,6 +94,12 @@ export class CertificationResult {
     this.commentForOrganization = props.commentForOrganization;
     this.commentForCandidate = props.commentForCandidate;
     this.results = props.results;
+  }
+
+  validate() {
+    const { success, error } = CertificationResultSchema.safeParse(this);
+    if (success) return null;
+    return JSON.stringify(z.flattenError(error));
   }
 }
 
