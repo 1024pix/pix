@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## [5.546.1](https://github.com/1024pix/pix/compare/v5.546.0...v5.546.1) (2026-11-19)
+
+### :bug: Correction
+
+- [#18981](https://github.com/1024pix/pix/pull/18981) LTI : Autoriser l'exécution du script d'auto-submit en iframe (PIX-25166)
+
+### :arrow_up: Montée de version
+
+- [#18995](https://github.com/1024pix/pix/pull/18995) Update dependency @1024pix/oppsy to v1.1.9 (api)
+- [#18968](https://github.com/1024pix/pix/pull/18968) Update dependency @ember/string to v4 (mon-pix)
+
 # [5.546.0](https://github.com/1024pix/pix/compare/v5.545.1...v5.546.0) (2026-11-19)
 
 ### :rocket: Amélioration
