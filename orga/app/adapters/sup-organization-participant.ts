@@ -9,14 +9,7 @@ type UpdateStudentNumberSnapshot = Snapshot & {
 };
 
 export default class SupOrganizationParticipantAdapter extends OrganizationParticipantAdapter {
-  query(store: Store, type: ModelSchema, query: { filter: { organizationId: string } }) {
-    const {
-      filter: { organizationId, ...filter },
-      ...params
-    } = query;
-    const url = this.apiUrl(`organizations/${organizationId}/sup-participants`);
-    return this.ajax(url, 'GET', { data: this.sortQueryParams({ ...params, filter }) });
-  }
+  protected participantsResource = 'sup-participants';
 
   updateRecord(store: Store, type: ModelSchema, snapshot: UpdateStudentNumberSnapshot) {
     if (!snapshot.adapterOptions?.updateStudentNumber) {

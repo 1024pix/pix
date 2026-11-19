@@ -4,12 +4,14 @@ import type { ModelSchema } from '@warp-drive/core/types';
 import ApplicationAdapter from './application';
 
 export default class OrganizationParticipantAdapter extends ApplicationAdapter {
+  protected participantsResource = 'participants';
+
   query(store: Store, type: ModelSchema, query: { filter: { organizationId: string } }) {
     const {
       filter: { organizationId, ...filter },
       ...params
     } = query;
-    const url = this.apiUrl(`organizations/${organizationId}/participants`);
+    const url = this.apiUrl(`organizations/${organizationId}/${this.participantsResource}`);
     return this.ajax(url, 'GET', { data: this.sortQueryParams({ ...params, filter }) });
   }
 
