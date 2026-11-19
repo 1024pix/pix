@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { databaseBuffer } from '../database-buffer.ts';
 import { buildOrganization } from './build-organization.js';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 const buildOrganizationLearnerWithUser = function ({
   id = databaseBuffer.getNextId(),

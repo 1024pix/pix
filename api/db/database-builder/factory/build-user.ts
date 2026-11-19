@@ -1,55 +1,94 @@
-import lodash from 'lodash';
-
-const { isUndefined, isNil } = lodash;
-
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../src/identity-access-management/domain/constants/identity-providers.js';
 import { AuthenticationMethod } from '../../../src/identity-access-management/domain/models/AuthenticationMethod.js';
 import { PIX_ADMIN } from '../../../src/shared/constants.js';
 import { Membership } from '../../../src/shared/domain/models/Membership.js';
 import { DEFAULT_PASSWORD } from '../../constants.js';
 import { databaseBuffer } from '../database-buffer.ts';
-import { getUserHashedPassword } from './build-authentication-method.js';
+import { getUserHashedPassword } from './build-authentication-method.ts';
 import { buildCertificationCenter } from './build-certification-center.js';
 import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
 import { buildMembership } from './build-membership.js';
 import { buildOrganization } from './build-organization.js';
-import { buildPixAdminRole } from './build-pix-admin-role.js';
+import { buildPixAdminRole } from './build-pix-admin-role.ts';
 
 const { ROLES } = PIX_ADMIN;
 
-/**
- * @typedef SeedUser
- * @type {object}
- *
- * @property {number} id
- * @property {string} firstName
- * @property {string} lastName
- * @property {string} email
- * @property {string} username
- * @property {boolean} cgu
- * @property {string} lang
- * @property {string} locale
- * @property {Date} lastTermsOfServiceValidatedAt
- * @property {Date} lastPixCertifTermsOfServiceValidatedAt
- * @property {boolean} mustValidateTermsOfService
- * @property {boolean} pixCertifTermsOfServiceAccepted
- * @property {boolean} hasSeenAssessmentInstructions
- * @property {boolean} hasSeenNewDashboardInfo
- * @property {boolean} hasSeenFocusedChallengeTooltip
- * @property {boolean} hasSeenOtherChallengesTooltip
- * @property {boolean} isAnonymous
- * @property {Date} createdAt
- * @property {Date} updatedAt
- * @property {Date} emailConfirmedAt
- * @property {boolean} hasBeenAnonymised
- * @property {number} hasBeenAnonymisedBy
- * @property {Date} lastDataProtectionPolicySeenAt
- */
-const buildUser = function buildUser({
+type UserAttributes = {
+  id?: number;
+  firstName?: string;
+  lastName?: string;
+  email?: string | null;
+  username?: string | null;
+  cgu?: boolean;
+  lang?: string;
+  locale?: string | null;
+  lastTermsOfServiceValidatedAt?: Date | null;
+  lastPixCertifTermsOfServiceValidatedAt?: Date | null;
+  mustValidateTermsOfService?: boolean;
+  pixCertifTermsOfServiceAccepted?: boolean;
+  hasSeenAssessmentInstructions?: boolean;
+  hasSeenNewDashboardInfo?: boolean;
+  hasSeenFocusedChallengeTooltip?: boolean;
+  hasSeenOtherChallengesTooltip?: boolean;
+  isAnonymous?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+  emailConfirmedAt?: Date | null;
+  hasBeenAnonymised?: boolean;
+  hasBeenAnonymisedBy?: number | null;
+  lastDataProtectionPolicySeenAt?: Date | null;
+};
+
+type PasswordAttributes = {
+  rawPassword?: string;
+  shouldChangePassword?: boolean;
+};
+
+type UserWithRoleAttributes = UserAttributes &
+  PasswordAttributes & {
+    role?: string;
+    disabledAt?: Date | null;
+  };
+
+const defaultEmail = (id: number, firstName: string, lastName: string) =>
+  `${firstName}.${lastName}${id}@example.net`.replaceAll(/\s+/g, '_').toLowerCase();
+
+const buildPixAuthenticationMethod = ({
+  id = databaseBuffer.getNextId(),
+  userId,
+  rawPassword = DEFAULT_PASSWORD,
+  shouldChangePassword,
+  createdAt,
+  updatedAt,
+}: {
+  id?: number;
+  userId: number;
+  rawPassword?: string;
+  shouldChangePassword?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}) => {
+  const values = {
+    id,
+    userId,
+    identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
+    authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
+      password: getUserHashedPassword(rawPassword),
+      shouldChangePassword,
+    }),
+    externalIdentifier: undefined,
+    createdAt,
+    updatedAt,
+  };
+
+  return databaseBuffer.pushInsertable({ tableName: 'authentication-methods', values });
+};
+
+const buildUser = ({
   id = databaseBuffer.getNextId(),
   firstName = 'Billy',
   lastName = 'TheKid',
-  email,
+  email = defaultEmail(id, firstName, lastName),
   username = `${firstName}.${lastName}.${id}`,
   cgu = true,
   lang = 'fr',
@@ -69,9 +108,7 @@ const buildUser = function buildUser({
   hasBeenAnonymised = false,
   hasBeenAnonymisedBy = null,
   lastDataProtectionPolicySeenAt = null,
-} = {}) {
-  email = _generateEmailIfUndefined(email, id, lastName, firstName);
-
+}: UserAttributes = {}) => {
   const values = {
     id,
     firstName,
@@ -98,17 +135,14 @@ const buildUser = function buildUser({
     lastDataProtectionPolicySeenAt,
   };
 
-  return databaseBuffer.pushInsertable({
-    tableName: 'users',
-    values,
-  });
+  return databaseBuffer.pushInsertable({ tableName: 'users', values });
 };
 
-buildUser.withRawPassword = function buildUserWithRawPassword({
+buildUser.withRawPassword = ({
   id = databaseBuffer.getNextId(),
   firstName = 'Billy',
   lastName = 'TheKid',
-  email,
+  email = defaultEmail(id, firstName, lastName),
   username,
   cgu = true,
   lang = 'fr',
@@ -123,9 +157,7 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
   emailConfirmedAt = new Date('2021-04-28T02:42:00Z'),
-} = {}) {
-  email = _generateEmailIfUndefined(email, id, lastName, firstName);
-
+}: UserAttributes & PasswordAttributes = {}) => {
   const values = {
     id,
     firstName,
@@ -145,23 +177,14 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
     emailConfirmedAt,
   };
 
-  const user = databaseBuffer.pushInsertable({
-    tableName: 'users',
-    values,
-  });
+  const user = databaseBuffer.pushInsertable({ tableName: 'users', values });
 
-  _buildPixAuthenticationMethod({
-    userId: user.id,
-    rawPassword,
-    shouldChangePassword,
-    createdAt,
-    updatedAt,
-  });
+  buildPixAuthenticationMethod({ userId: user.id, rawPassword, shouldChangePassword, createdAt, updatedAt });
 
   return user;
 };
 
-buildUser.withoutPixAuthenticationMethod = function buildUserWithoutPixAuthenticationMethod({
+buildUser.withoutPixAuthenticationMethod = ({
   id = databaseBuffer.getNextId(),
   firstName = 'Billy',
   lastName = 'TheKid',
@@ -174,7 +197,7 @@ buildUser.withoutPixAuthenticationMethod = function buildUserWithoutPixAuthentic
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
   createdAt = new Date(),
-} = {}) {
+}: UserAttributes = {}) => {
   const values = {
     id,
     firstName,
@@ -190,15 +213,10 @@ buildUser.withoutPixAuthenticationMethod = function buildUserWithoutPixAuthentic
     createdAt,
   };
 
-  const user = databaseBuffer.pushInsertable({
-    tableName: 'users',
-    values,
-  });
-
-  return user;
+  return databaseBuffer.pushInsertable({ tableName: 'users', values });
 };
 
-buildUser.anonymous = function buildUserAnonymous({
+buildUser.anonymous = ({
   id = databaseBuffer.getNextId(),
   firstName = '',
   lastName = '',
@@ -207,7 +225,7 @@ buildUser.anonymous = function buildUserAnonymous({
   cgu = false,
   hasSeenAssessmentInstructions = true,
   isAnonymous = true,
-} = {}) {
+}: UserAttributes = {}) => {
   const values = {
     id,
     firstName,
@@ -218,18 +236,16 @@ buildUser.anonymous = function buildUserAnonymous({
     hasSeenAssessmentInstructions,
     isAnonymous,
   };
-  return databaseBuffer.pushInsertable({
-    tableName: 'users',
-    values,
-  });
+
+  return databaseBuffer.pushInsertable({ tableName: 'users', values });
 };
 
-function buildUserWithRole({
+const buildUserWithRole = ({
   id = databaseBuffer.getNextId(),
   firstName = 'Billy',
   lastName = 'TheKid',
   role = ROLES.SUPER_ADMIN,
-  email,
+  email = defaultEmail(id, firstName, lastName),
   cgu = true,
   lang = 'fr',
   locale,
@@ -243,9 +259,7 @@ function buildUserWithRole({
   disabledAt,
   rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
-} = {}) {
-  email = _generateEmailIfUndefined(email, id, lastName, firstName);
-
+}: UserWithRoleAttributes = {}) => {
   const values = {
     id,
     firstName,
@@ -261,33 +275,26 @@ function buildUserWithRole({
     hasSeenAssessmentInstructions,
   };
 
-  const user = databaseBuffer.pushInsertable({
-    tableName: 'users',
-    values,
-  });
+  const user = databaseBuffer.pushInsertable({ tableName: 'users', values });
 
-  _buildPixAuthenticationMethod({
-    userId: user.id,
-    rawPassword,
-    shouldChangePassword,
-    createdAt,
-    updatedAt,
-  });
+  buildPixAuthenticationMethod({ userId: user.id, rawPassword, shouldChangePassword, createdAt, updatedAt });
 
   buildPixAdminRole({ userId: user.id, role, disabledAt, createdAt, updatedAt });
 
   return user;
-}
+};
 
 buildUser.withRole = buildUserWithRole;
-buildUser.withRoleSuperAdmin = (args) => buildUserWithRole({ ...args, role: ROLES.SUPER_ADMIN });
-buildUser.withRoleCertif = (args) => buildUserWithRole({ ...args, role: ROLES.CERTIF });
+buildUser.withRoleSuperAdmin = (attributes: UserWithRoleAttributes = {}) =>
+  buildUserWithRole({ ...attributes, role: ROLES.SUPER_ADMIN });
+buildUser.withRoleCertif = (attributes: UserWithRoleAttributes = {}) =>
+  buildUserWithRole({ ...attributes, role: ROLES.CERTIF });
 
-buildUser.withMembership = function buildUserWithMemberships({
+buildUser.withMembership = ({
   id = databaseBuffer.getNextId(),
   firstName = 'Billy',
   lastName = 'TheKid',
-  email,
+  email = defaultEmail(id, firstName, lastName),
   cgu = true,
   lang = 'fr',
   locale,
@@ -302,9 +309,7 @@ buildUser.withMembership = function buildUserWithMemberships({
   organizationId = null,
   rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
-} = {}) {
-  email = _generateEmailIfUndefined(email, id, lastName, firstName);
-
+}: UserAttributes & PasswordAttributes & { organizationRole?: string; organizationId?: number | null } = {}) => {
   const values = {
     id,
     firstName,
@@ -322,35 +327,24 @@ buildUser.withMembership = function buildUserWithMemberships({
     updatedAt,
   };
 
-  const user = databaseBuffer.pushInsertable({
-    tableName: 'users',
-    values,
-  });
+  const user = databaseBuffer.pushInsertable({ tableName: 'users', values });
 
-  _buildPixAuthenticationMethod({
-    userId: user.id,
-    rawPassword,
-    shouldChangePassword,
-    createdAt,
-    updatedAt,
-  });
-
-  organizationId = isNil(organizationId) ? buildOrganization().id : organizationId;
+  buildPixAuthenticationMethod({ userId: user.id, rawPassword, shouldChangePassword, createdAt, updatedAt });
 
   buildMembership({
     userId: user.id,
-    organizationId,
+    organizationId: organizationId ?? buildOrganization().id,
     organizationRole,
   });
 
   return user;
 };
 
-buildUser.withCertificationCenterMembership = function buildUserWithCertificationCenterMembership({
+buildUser.withCertificationCenterMembership = ({
   id = databaseBuffer.getNextId(),
   firstName = 'Billy',
   lastName = 'TheKid',
-  email,
+  email = defaultEmail(id, firstName, lastName),
   username = `${firstName}.${lastName}.${id}`,
   cgu = true,
   lang = 'fr',
@@ -365,9 +359,11 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
   certificationCenterId = null,
   role = 'MEMBER',
   membershipDisabledAt = null,
-} = {}) {
-  email = _generateEmailIfUndefined(email, id, lastName, firstName);
-
+}: UserAttributes & {
+  certificationCenterId?: number | null;
+  role?: string;
+  membershipDisabledAt?: Date | null;
+} = {}) => {
   const user = buildUser({
     id,
     firstName,
@@ -386,11 +382,9 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
     updatedAt,
   });
 
-  certificationCenterId = isNil(certificationCenterId) ? buildCertificationCenter().id : certificationCenterId;
-
   buildCertificationCenterMembership({
     userId: user.id,
-    certificationCenterId,
+    certificationCenterId: certificationCenterId ?? buildCertificationCenter().id,
     role,
     disabledAt: membershipDisabledAt,
   });
@@ -398,39 +392,4 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
   return user;
 };
 
-function _buildPixAuthenticationMethod({
-  id = databaseBuffer.getNextId(),
-  userId,
-  rawPassword = DEFAULT_PASSWORD,
-  shouldChangePassword,
-  createdAt,
-  updatedAt,
-} = {}) {
-  const values = {
-    id,
-    userId,
-    identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
-    authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
-      password: getUserHashedPassword(rawPassword),
-      shouldChangePassword,
-    }),
-    externalIdentifier: undefined,
-    createdAt,
-    updatedAt,
-  };
-
-  return databaseBuffer.pushInsertable({
-    tableName: 'authentication-methods',
-    values,
-  });
-}
-
-function _generateEmailIfUndefined(email, id, lastName, firstName) {
-  if (isUndefined(email)) {
-    return `${firstName}.${lastName}${id}@example.net`.replaceAll(/\s+/g, '_').toLowerCase();
-  }
-
-  return email;
-}
-
-export { buildUser };
+export { buildUser, type UserAttributes };

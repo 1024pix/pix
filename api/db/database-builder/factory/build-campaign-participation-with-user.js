@@ -1,6 +1,6 @@
 import { buildAssessment } from './build-assessment.js';
 import { buildCampaignParticipation } from './build-campaign-participation.js';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 const buildCampaignParticipationWithUser = (user, campaignParticipation, withAssessment) => {
   const { id: userId } = buildUser(user);

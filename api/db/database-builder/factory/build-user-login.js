@@ -1,5 +1,5 @@
 import { databaseBuffer } from '../database-buffer.ts';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 function buildUserLogin({
   id = databaseBuffer.getNextId(),

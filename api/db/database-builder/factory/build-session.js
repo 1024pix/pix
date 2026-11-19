@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { databaseBuffer } from '../database-buffer.ts';
 import { buildCertificationCenter } from './build-certification-center.js';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 export function buildSession({
   id = databaseBuffer.getNextId(),

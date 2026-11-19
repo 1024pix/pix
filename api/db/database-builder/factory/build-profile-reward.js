@@ -3,7 +3,7 @@ import isUndefined from 'lodash/isUndefined.js';
 import { REWARD_TYPES } from '../../../src/quest/domain/constants.js';
 import { databaseBuffer } from '../database-buffer.ts';
 import { buildAttestation } from './build-attestation.js';
-import { buildUser } from './build-user.js';
+import { buildUser } from './build-user.ts';
 
 const buildProfileReward = function ({
   id = databaseBuffer.getNextId(),
