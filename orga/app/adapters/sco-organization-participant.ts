@@ -14,7 +14,7 @@ export default class ScoOrganizationParticipantAdapter extends ApplicationAdapte
     return this.ajax(url, 'GET', { data: this.sortQueryParams({ ...params, filter }) });
   }
 
-  async generateOrganizationLearnersUsernamePassword({
+  generateOrganizationLearnersUsernamePassword({
     fileSaver,
     organizationId,
     organizationLearnersIds,
