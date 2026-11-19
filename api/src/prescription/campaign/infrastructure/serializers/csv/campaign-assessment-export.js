@@ -215,7 +215,6 @@ class CampaignAssessmentExport {
     sharedKnowledgeElementsByUserIdAndCompetenceId,
     startedKnowledgeElementsByUserIdAndCompetenceId,
   }) {
-    let participantKnowledgeElementsByCompetenceId;
     if (!campaignParticipationInfo.userId) return this.learningContent.getKnowledgeElementsGroupedByCompetence([]);
 
     if (campaignParticipationInfo.isShared) {
@@ -229,10 +228,10 @@ class CampaignAssessmentExport {
         },
       );
 
-      participantKnowledgeElementsByCompetenceId = this.learningContent.getKnowledgeElementsGroupedByCompetence(
-        sharedResultInfo.knowledgeElements,
-      );
-    } else if (campaignParticipationInfo.isCompleted === false) {
+      return this.learningContent.getKnowledgeElementsGroupedByCompetence(sharedResultInfo.knowledgeElements);
+    }
+
+    if (campaignParticipationInfo.isCompleted === false) {
       const othersResultInfo = startedKnowledgeElementsByUserIdAndCompetenceId.find(
         (knowledElementForOtherParticipation) => {
           const assessmentValidation =
@@ -253,10 +252,11 @@ class CampaignAssessmentExport {
         createdAt: campaignParticipationInfo.createdAt,
       });
 
-      participantKnowledgeElementsByCompetenceId =
-        this.learningContent.getKnowledgeElementsGroupedByCompetence(filteredKnowledgeElements);
+      return this.learningContent.getKnowledgeElementsGroupedByCompetence(filteredKnowledgeElements);
     }
-    return participantKnowledgeElementsByCompetenceId;
+
+    // A completed participation that is not shared has no knowledge elements to export
+    return this.learningContent.getKnowledgeElementsGroupedByCompetence([]);
   }
 
   #getAcquiredBadgesByCampaignParticipations({ campaignParticipationInfoChunk, badgeAcquisitionRepository }) {
