@@ -103,7 +103,7 @@
     "lodash": "4.18.1",
     "miragejs": "0.1.48",
     "p-queue": "10.0.0",
-    "prettier": "3.10.0",
+    "prettier": "3.10.1",
     "prettier-plugin-ember-template-tag": "2.1.8",
     "qunit": "3.0.0",
     "qunit-dom": "3.6.0",
