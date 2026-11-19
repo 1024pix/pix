@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as campaignParticipationsApi from '../../../../../../src/prescription/campaign-participation/application/api/campaign-participations-api.js';
-import { AssessmentCampaignResult } from '../../../../../../src/prescription/campaign-participation/application/api/read-models/AssessmentCampaignResult.js';
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign-participation/application/api/read-models/CampaignParticipation.js';
+import { CampaignParticipationResult } from '../../../../../../src/prescription/campaign-participation/application/api/read-models/CampaignParticipationResult.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 
 describe('Unit | API | Campaign Participations', function () {
@@ -40,14 +40,15 @@ describe('Unit | API | Campaign Participations', function () {
     });
   });
 
-  describe('#getAssessmentCampaignResult', function () {
-    it('should call usecase and return an AssessmentCampaignResult read-model', async function () {
+  describe('#getCampaignParticipationResult', function () {
+    it('should call usecase and return an CampaignParticipationResult read-model', async function () {
       // given
       const campaignParticipationId = 12;
       const locale = 'en';
       sinon.stub(usecases, 'getResultLevelsPerTubesAndCompetences').resolves({
         id: campaignParticipationId,
         masteryRate: 0.42,
+        pixScore: 42,
         maxReachableLevel: 3,
         meanReachedLevel: 1.5,
         levelsPerCompetence: [
@@ -83,7 +84,7 @@ describe('Unit | API | Campaign Participations', function () {
       });
 
       // when
-      const result = await campaignParticipationsApi.getAssessmentCampaignResult({
+      const result = await campaignParticipationsApi.getCampaignParticipationResult({
         campaignParticipationId,
         locale,
       });
@@ -93,10 +94,11 @@ describe('Unit | API | Campaign Participations', function () {
         campaignParticipationId,
         locale,
       });
-      expect(result).to.be.instanceOf(AssessmentCampaignResult);
+      expect(result).to.be.instanceOf(CampaignParticipationResult);
       expect(result).to.deep.equal({
         id: campaignParticipationId,
         masteryRate: 0.42,
+        pixScore: 42,
         maxReachableLevel: 3,
         meanReachedLevel: 1.5,
         levelsPerCompetence: [
@@ -143,7 +145,7 @@ describe('Unit | API | Campaign Participations', function () {
       });
 
       // when
-      await campaignParticipationsApi.getAssessmentCampaignResult({ campaignParticipationId: 1 });
+      await campaignParticipationsApi.getCampaignParticipationResult({ campaignParticipationId: 1 });
 
       // then
       expect(usecases.getResultLevelsPerTubesAndCompetences).to.have.been.calledOnceWithExactly({

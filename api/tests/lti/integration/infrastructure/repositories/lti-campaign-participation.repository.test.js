@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { CampaignAssessmentResult } from '../../../../../src/lti/domain/models/CampaignAssessmentResult.js';
+import { CampaignParticipationResult } from '../../../../../src/lti/domain/models/CampaignParticipationResult.js';
 import { repositories } from '../../../../../src/lti/infrastructure/repositories/index.js';
 import {
   CampaignParticipationStatuses,
@@ -114,14 +114,14 @@ describe('Integration | LTI | Infrastructure | Repository | lti-campaign-partici
       await databaseBuilder.commit();
 
       // when
-      const result = await repositories.ltiCampaignParticipationRepository.getAssessmentCampaignResult({
+      const result = await repositories.ltiCampaignParticipationRepository.getCampaignParticipationResult({
         campaignParticipationId: campaignParticipation.id,
       });
 
       // then
-      expect(result).to.be.an.instanceOf(CampaignAssessmentResult);
+      expect(result).to.be.an.instanceOf(CampaignParticipationResult);
       expect(result).to.deep.equal(
-        new CampaignAssessmentResult({
+        new CampaignParticipationResult({
           campaignParticipationId: campaignParticipation.id,
           masteryRate: 0.33,
           competences: [
@@ -145,7 +145,7 @@ describe('Integration | LTI | Infrastructure | Repository | lti-campaign-partici
       await databaseBuilder.commit();
 
       // when
-      const result = await repositories.ltiCampaignParticipationRepository.getAssessmentCampaignResult({
+      const result = await repositories.ltiCampaignParticipationRepository.getCampaignParticipationResult({
         campaignParticipationId: campaignParticipation.id,
         locale: 'en',
       });
@@ -164,7 +164,7 @@ describe('Integration | LTI | Infrastructure | Repository | lti-campaign-partici
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(repositories.ltiCampaignParticipationRepository.getAssessmentCampaignResult)({
+        const error = await catchErr(repositories.ltiCampaignParticipationRepository.getCampaignParticipationResult)({
           campaignParticipationId: campaignParticipation.id,
         });
 

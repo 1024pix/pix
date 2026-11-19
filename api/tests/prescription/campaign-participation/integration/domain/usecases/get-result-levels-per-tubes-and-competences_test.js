@@ -68,6 +68,7 @@ describe('Integration | Prescription | Campaign participation | Usecase | get-re
       campaignId,
       status: CampaignParticipationStatuses.SHARED,
       masteryRate: 0.35,
+      pixScore: 128,
     });
 
     learningContentData.skills.forEach((skill) => {
@@ -97,6 +98,7 @@ describe('Integration | Prescription | Campaign participation | Usecase | get-re
     expect(result).instanceOf(CampaignResultLevelsPerTubesAndCompetences);
     expect(result.id).equal(campaignParticipation.id);
     expect(result.masteryRate).to.equal(0.35);
+    expect(result.pixScore).to.equal(128);
     expect(result.maxReachableLevel).to.equal(1);
     expect(result.meanReachedLevel).to.equal(1);
     expect(result.levelsPerCompetence[0]).instanceOf(CompetenceResultForKnowledgeElementSnapshots);

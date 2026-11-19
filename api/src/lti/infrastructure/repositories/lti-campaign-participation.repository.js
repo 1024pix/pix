@@ -1,18 +1,22 @@
-import { CampaignAssessmentResult } from '../../domain/models/CampaignAssessmentResult.js';
-
+import { CampaignParticipationResult } from '../../domain/models/CampaignParticipationResult.js';
+/**
+ * @typedef {typeof import('../../../prescription/campaign-participation/application/api/campaign-participations-api.js')} CampaignParticipationApi
+ */
 export const ltiCampaignParticipationRepository = {
   /**
    * @param {Object} params
    * @param {number} params.campaignParticipationId
    * @param {string} [params.locale]
-   * @returns {Promise<CampaignAssessmentResult>}
+   * @param {CampaignParticipationApi} params.campaignParticipationsApi
+   * @returns {Promise<CampaignParticipationResult>}
    */
-  async getAssessmentCampaignResult({ campaignParticipationId, locale, campaignParticipationsApi }) {
-    const result = await campaignParticipationsApi.getAssessmentCampaignResult({ campaignParticipationId, locale });
+  async getCampaignParticipationResult({ campaignParticipationId, locale, campaignParticipationsApi }) {
+    const result = await campaignParticipationsApi.getCampaignParticipationResult({ campaignParticipationId, locale });
 
-    return new CampaignAssessmentResult({
+    return new CampaignParticipationResult({
       campaignParticipationId: result.id,
       masteryRate: result.masteryRate,
+      pixScore: result.pixScore,
       competences: result.levelsPerCompetence.map((competence) => ({
         id: competence.id,
         index: competence.index,

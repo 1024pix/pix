@@ -22,6 +22,7 @@ const getResultLevelsPerTubesAndCompetences = async ({
   const campaignResult = new CampaignResultLevelsPerTubesAndCompetences({
     id: campaignParticipationId,
     masteryRate: participation.masteryRate,
+    pixScore: participation.pixScore,
     learningContent,
   });
 

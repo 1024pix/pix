@@ -110,6 +110,18 @@ describe('Unit | Domain | Models | CampaignResultLevelsPerTubesAndCompetences', 
       };
     });
 
+    it('should expose the mastery rate and the pix score of the participation', function () {
+      const campaignResult = new CampaignResultLevelsPerTubesAndCompetences({
+        id: 1,
+        masteryRate: 0.35,
+        pixScore: 128,
+        learningContent,
+      });
+
+      expect(campaignResult.masteryRate).to.equal(0.35);
+      expect(campaignResult.pixScore).to.equal(128);
+    });
+
     it('should get max level per tube', function () {
       const campaignResult = new CampaignResultLevelsPerTubesAndCompetences({
         id: 1,
