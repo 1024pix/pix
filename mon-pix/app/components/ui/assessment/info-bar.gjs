@@ -6,7 +6,6 @@ import t from 'ember-intl/helpers/t';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 
 export default class InfoBar extends Component {
-  @service media;
   @service locale;
 
   get isCertification() {
