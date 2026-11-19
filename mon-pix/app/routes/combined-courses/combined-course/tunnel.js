@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+
 export default class CombinedCoursePresentationRoute extends Route {
   @service session;
   @service store;
@@ -35,5 +36,9 @@ export default class CombinedCoursePresentationRoute extends Route {
 
   afterModel(combinedCourse) {
     this.accessStorage.clear(combinedCourse.organizationId);
+
+    if (!combinedCourse.nextCombinedCourseItem) {
+      return this.router.replaceWith('combined-courses.combined-course.presentation', combinedCourse.code);
+    }
   }
 }
