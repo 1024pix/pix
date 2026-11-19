@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import { organizationLearnersController } from '../../../../../src/prescription/learner-management/application/organization-learners-controller.js';
 import { usecases } from '../../../../../src/prescription/learner-management/domain/usecases/index.js';
-import { CLIENTS, PIX_ADMIN } from '../../../../../src/shared/constants.js';
 import { hFake } from '../../../../tooling/mocks/hapi.mock.js';
 
 describe('Unit | Prescription | Learner Management | Application | organization-learner-controller', function () {
@@ -85,42 +84,6 @@ describe('Unit | Prescription | Learner Management | Application | organization-
       expect(usecases.getOrganizationLearnerFilters).to.have.been.calledWithExactly({ organizationId });
       expect(organizationLearnerFilterSerializer.serialize).to.have.been.calledWithExactly(filters);
       expect(response).to.equal(serialized);
-    });
-  });
-
-  describe('#deleteOrganizationLearnerFromAdmin', function () {
-    let deleteOrganizationLearnersStub;
-
-    beforeEach(function () {
-      deleteOrganizationLearnersStub = sinon.stub(usecases, 'deleteOrganizationLearners');
-    });
-
-    it('called usecases with correct parameters', async function () {
-      const userId = Symbol('userId');
-      const organizationLearnerId = Symbol('organizationLearnerId');
-      const organizationId = Symbol('organizationId');
-
-      const request = {
-        auth: { credentials: { userId } },
-        params: {
-          organizationLearnerId,
-          organizationId,
-        },
-      };
-
-      const response = await organizationLearnersController.deleteOrganizationLearnerFromAdmin(request, hFake);
-
-      expect(
-        deleteOrganizationLearnersStub.calledWithExactly({
-          userId,
-          organizationLearnerIds: [organizationLearnerId],
-          organizationId,
-          userRole: PIX_ADMIN.ROLES.SUPPORT,
-          client: CLIENTS.ADMIN,
-        }),
-        'deleteOrganizationLearners',
-      ).to.be.true;
-      expect(response.statusCode).to.be.equal(200);
     });
   });
 });

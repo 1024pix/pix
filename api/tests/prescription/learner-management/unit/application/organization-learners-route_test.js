@@ -41,7 +41,7 @@ describe('Unit | Prescription | learner management | Application | Router | orga
   });
 
   describe('DELETE /api/admin/organizations/{organizationId}/organization-learners/{organizationLearnerId}', function () {
-    it('should call right handler before calling controller', async function () {
+    it('should call pre handlers before controller', async function () {
       // given
       sinon
         .stub(learnerManagementSecurityPreHandlers, 'checkOrganizationLearnerBelongsToOrganization')
@@ -55,13 +55,6 @@ describe('Unit | Prescription | learner management | Application | Router | orga
       sinon
         .stub(organizationLearnersController, 'deleteOrganizationLearnerFromAdmin')
         .callsFake((request, h) => h.response('ok').code(200));
-      sinon
-        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
-        .withArgs([
-          securityPreHandlers.checkAdminMemberHasRoleSupport,
-          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-        ])
-        .returns(() => true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -70,8 +63,36 @@ describe('Unit | Prescription | learner management | Application | Router | orga
 
       // then
       sinon.assert.calledOnce(learnerManagementSecurityPreHandlers.checkOrganizationLearnerBelongsToOrganization);
-      sinon.assert.calledOnce(securityPreHandlers.hasAtLeastOneAccessOf);
+      sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
+      sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
       sinon.assert.calledOnce(organizationLearnersController.deleteOrganizationLearnerFromAdmin);
+    });
+  });
+
+  describe('DELETE /api/admin/organization-learners', function () {
+    it('should call pre handlers before controller', async function () {
+      // given
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response().code(200));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response().code(200));
+      sinon
+        .stub(organizationLearnersController, 'deleteOrganizationLearnersFromAdmin')
+        .callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('DELETE', '/api/admin/organization-learners', {
+        organizationLearnerIds: [123, 456],
+      });
+
+      // then
+      sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
+      sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+      sinon.assert.calledOnce(organizationLearnersController.deleteOrganizationLearnersFromAdmin);
     });
   });
 

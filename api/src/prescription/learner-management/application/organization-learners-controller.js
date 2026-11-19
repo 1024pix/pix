@@ -30,7 +30,19 @@ const deleteOrganizationLearnerFromAdmin = async function (request, h) {
     userRole: PIX_ADMIN.ROLES.SUPPORT,
     client: CLIENTS.ADMIN,
   });
+  return h.response().code(200);
+};
 
+const deleteOrganizationLearnersFromAdmin = async function (request, h) {
+  const authenticatedUserId = request.auth.credentials.userId;
+  const organizationLearnerIds = request.payload.organizationLearnerIds;
+
+  await usecases.deleteLearnersFromVariousOrganizations({
+    organizationLearnerIds,
+    userId: authenticatedUserId,
+    userRole: PIX_ADMIN.ROLES.SUPPORT,
+    client: CLIENTS.ADMIN,
+  });
   return h.response().code(200);
 };
 
@@ -105,6 +117,7 @@ const organizationLearnersController = {
   reconcileCommonOrganizationLearner,
   deleteOrganizationLearners,
   deleteOrganizationLearnerFromAdmin,
+  deleteOrganizationLearnersFromAdmin,
   getOrganizationLearnerFilters,
   importOrganizationLearnerFromFeature,
   dissociate,
