@@ -196,7 +196,6 @@ export const schema = Joi.object({
 export const config = {
   database: {
     liveUrl: process.env.DATABASE_URL,
-    pgbouncerUrl: process.env.PGBOUNCER_DATABASE_URL,
     datamartUrl: process.env.DATAMART_DATABASE_URL,
     datawarehouseUrl: process.env.DATAWAREHOUSE_DATABASE_URL,
     jobsUrl: process.env.JOBS_DATABASE_URL,
