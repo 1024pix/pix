@@ -61,6 +61,7 @@ export default class UserDetailPersonalInformationComponent extends Component {
     }
   }
 
+  // delete comme ici
   @action
   async delete() {
     this.isLoading = true;
@@ -87,6 +88,7 @@ export default class UserDetailPersonalInformationComponent extends Component {
       />
     </section>
 
+    {{! reuse modal }}
     <DeletionModal
       @title={{t "components.organization-learner-information.deletion-modal.title"}}
       @onCloseModal={{this.toggleDisplayDeletionLearnerModal}}

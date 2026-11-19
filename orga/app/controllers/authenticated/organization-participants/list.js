@@ -118,6 +118,7 @@ export default class ListController extends Controller {
   }
 
   @action
+  // use this on admin
   async deleteOrganizationLearners(listLearners) {
     try {
       await this.store.adapterFor('organization-participant').deleteParticipants(
