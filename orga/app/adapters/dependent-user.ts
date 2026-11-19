@@ -7,8 +7,9 @@ export default class DependentUserAdapter extends ApplicationAdapter {
     modelName: string,
     snapshot: Snapshot & { adapterOptions?: { generateUsernameAndTemporaryPassword?: boolean } },
   ): string {
-    return snapshot.adapterOptions?.generateUsernameAndTemporaryPassword
-      ? this.apiUrl('sco-organization-learners/username-password-generation')
-      : this.apiUrl('sco-organization-learners/password-update');
+    const path = snapshot.adapterOptions?.generateUsernameAndTemporaryPassword
+      ? 'sco-organization-learners/username-password-generation'
+      : 'sco-organization-learners/password-update';
+    return this.apiUrl(path);
   }
 }
