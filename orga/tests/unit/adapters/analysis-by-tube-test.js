@@ -15,7 +15,7 @@ module('Unit | Adapters | analysis-by-tube', function (hooks) {
   });
 
   module('#queryRecord', () => {
-    test('should call url with organization id, without it in query params', async function (assert) {
+    test('should request the organization analysis endpoint and strip organizationId from the query', async function (assert) {
       // given
       const query = { organizationId: 'organizationId1' };
 

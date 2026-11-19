@@ -28,7 +28,7 @@ module('Unit | Adapter | mission', function (hooks) {
   });
 
   module('#queryRecord', () => {
-    test('should call url with organization and mission ids, without them in query params', async function (assert) {
+    test('should request the mission endpoint and strip organizationId and missionId from the query', async function (assert) {
       // given
       const query = { organizationId: 4, missionId: 12 };
 

@@ -16,7 +16,7 @@ module('Unit | Adapters | organization-participant', function (hooks) {
   });
 
   module('#query', () => {
-    test('should call url with organization id, without it in query filter', async function (assert) {
+    test('should request the organization participants endpoint and strip organizationId from the query filter', async function (assert) {
       // given
       const query = { filter: { organizationId: 'organizationId1', divisions: ['3A'] }, page: { number: 2 } };
 

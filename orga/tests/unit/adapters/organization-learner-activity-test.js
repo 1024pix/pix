@@ -15,7 +15,7 @@ module('Unit | Adapters | organization-learner-activity', function (hooks) {
   });
 
   module('#queryRecord', () => {
-    test('should call url with organization learner id, without it in query params', async function (assert) {
+    test('should request the learner activity endpoint and strip organizationLearnerId from the query', async function (assert) {
       // given
       const query = { organizationLearnerId: '123' };
 
