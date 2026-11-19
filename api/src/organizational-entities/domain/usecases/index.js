@@ -49,6 +49,7 @@ import * as organizationValidator from '../validators/organization-with-tags-and
  * @typedef {import ('../../infrastructure/repositories/organization-learner-type-repository.js')} OrganizationLearnerTypeRepository
  * @typedef {import ('../../infrastructure/repositories/organization-for-admin.repository.js')} OrganizationForAdminRepository
  * @typedef {import ('../../infrastructure/repositories/tag.repository.js')} TagRepository
+ * @typedef {import ('../../infrastructure/credits/repositories/credits-lot-repository.js')} CreditsLotRepository
  * @typedef {import ('../../infrastructure/repositories/network.repository.js')} NetworkRepository
  * @typedef {import ('../../infrastructure/repositories/target-profile-share-repository.js')} TargetProfileShareRepository
  * @typedef {import ('../../infrastructure/repositories/structure.repository.js')} StructureRepository
@@ -96,6 +97,7 @@ const dependenciesToInject = {
 const dependencies = Object.assign({}, dependenciesToInject);
 
 import { createCreditsLot } from '../credits/usecases/create-credits-lot.js';
+import { findOrganizationCreditsLot } from '../credits/usecases/find-organization-credits-lot.js';
 import { addOrganizationFeatureInBatch } from './add-organization-feature-in-batch.usecase.js';
 import { addTagsToOrganizations } from './add-tags-to-organizations.usecase.js';
 import { archiveCertificationCenter } from './archive-certification-center.usecase.js';
@@ -159,6 +161,7 @@ const usecasesWithoutInjectedDependencies = {
   findAttachedOrganizationsForAdmin,
   findChildrenOrganizations,
   findNetworkOrganizations,
+  findOrganizationCreditsLot,
   findOrganizationFeatures,
   findPaginatedFilteredCertificationCenters,
   findPaginatedFilteredOrganizations,
@@ -190,6 +193,7 @@ const usecasesWithoutInjectedDependencies = {
  * @property {findPaginatedFilteredCertificationCenters} findPaginatedFilteredCertificationCenters
  * @property {findAttachedOrganizationsForAdmin} findAttachedOrganizationsForAdmin
  * @property {findAttachedCertificationCenterForAdmin} findAttachedCertificationCenterForAdmin
+ * @property {findOrganizationCreditsLot} findOrganizationCreditsLot
  * @property {getOrganizationDetails} getOrganizationDetails
  * @property {getOrganizationStatistics} getOrganizationStatistics
  * @property {getNetworkDetails} getNetworkDetails
