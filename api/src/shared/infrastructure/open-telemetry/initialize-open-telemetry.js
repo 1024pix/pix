@@ -21,9 +21,11 @@ import { NodeSDK } from '@opentelemetry/sdk-node';
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
+import { config } from '../../../../config/config.js';
 import { logger } from '../utils/logger.js';
 import { withDataExportGate } from './gated-exporter.js';
 import { InheritedAttributesSpanProcessor } from './inherited-span-attributes.js';
+import { pgBossQueueGaugeViews } from './pg-boss-queue-gauge.js';
 import { scalingoDetector } from './scalingo-detector.js';
 import { setDataExportEnabled, setOpenTelemetryInitialized } from './state.js';
 
@@ -63,6 +65,7 @@ export function initializeOpenTelemetry(serviceName, { forceDataExport = false }
     spanProcessors: [new InheritedAttributesSpanProcessor(), new BatchSpanProcessor({ exporter: traceExporter })],
     logRecordProcessors: [new BatchLogRecordProcessor({ exporter: logExporter })],
     metricReaders: [metricReader],
+    views: pgBossQueueGaugeViews(config.infra.containerName),
     instrumentations: [
       new HostMetricsInstrumentation(),
       new HttpInstrumentation(),
