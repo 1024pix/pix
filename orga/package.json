@@ -139,12 +139,10 @@
     "@xmldom/xmldom": "0.9.12",
     "braces": "3.0.3",
     "ember-cli-htmlbars": "$ember-cli-htmlbars",
-    "ember-dayjs": {
-      "ember-source": "$ember-source"
-    },
     "eslint": "$eslint",
     "flatted": "3.4.4",
-    "handlebars": "4.7.10"
+    "handlebars": "4.7.10",
+    "mktemp": "2.0.4"
   },
   "engines": {
     "node": "^26.13.1"

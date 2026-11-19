@@ -109,7 +109,8 @@
     "@xmldom/xmldom": ">=0.9.10",
     "braces": "3.0.3",
     "eslint": "$eslint",
-    "flatted": "3.4.4"
+    "flatted": "3.4.4",
+    "mktemp": "2.0.4"
   },
   "ember": {
     "edition": "octane"

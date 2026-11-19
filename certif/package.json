@@ -118,7 +118,8 @@
     "braces": "3.0.3",
     "eslint": "$eslint",
     "flatted": "3.4.4",
-    "handlebars": "4.7.10"
+    "handlebars": "4.7.10",
+    "mktemp": "2.0.4"
   },
   "exports": {
     "./tests/*": "./tests/*",
