@@ -267,7 +267,7 @@ describe('Acceptance | LTI | Route | LTI', function () {
       expect(response.statusCode).to.equal(200);
       expect(response.headers['content-type']).to.equal('text/html; charset=utf-8');
       expect(response.payload).to.contain(
-        '<form id="ltiAuthForm" name="ltiAuthForm" action="https://moodle.example.net/mod/lti/contentitem_return.php" method="POST"',
+        '<form id="ltiAutoSubmitForm" name="ltiAutoSubmitForm" action="https://moodle.example.net/mod/lti/contentitem_return.php" method="POST"',
       );
     });
 

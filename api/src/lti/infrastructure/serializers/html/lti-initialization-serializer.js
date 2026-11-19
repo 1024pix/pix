@@ -1,8 +1,16 @@
+const HTML_ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (character) => HTML_ESCAPES[character]);
+}
+
 function serialize({ targetLinkUri, clientId, loginHint, ltiMessageHint, authorizationEndpoint, nonce, state }) {
+  const scriptSrc = 'document.ltiAutoSubmitForm.submit();';
+
   return `<!DOCTYPE html>
 <html>
   <body>
-    <form id="ltiAuthForm" name="ltiAuthForm" action="${authorizationEndpoint}" method="POST" enctype="application/x-www-form-urlencoded">
+    <form id="ltiAutoSubmitForm" name="ltiAutoSubmitForm" action="${authorizationEndpoint}" method="POST" enctype="application/x-www-form-urlencoded">
       <input type="hidden" name="client_id" value="${clientId}">
       <input type="hidden" name="login_hint" value="${loginHint}">
       <input type="hidden" name="scope" value="openid">
@@ -10,13 +18,10 @@ function serialize({ targetLinkUri, clientId, loginHint, ltiMessageHint, authori
       <input type="hidden" name="nonce" value="${nonce}">
       <input type="hidden" name="state" value="${state}">
       <input type="hidden" name="response_type" value="id_token">
-      <input type="hidden" name="lti_message_hint">
+      <input type="hidden" name="lti_message_hint" value="${escapeHtml(ltiMessageHint)}">
       <input type="hidden" name="response_mode" value="form_post">
     </form>
-    <script type="text/javascript">
-      document.ltiAuthForm.lti_message_hint.value = ${JSON.stringify(ltiMessageHint)};
-      document.ltiAuthForm.submit();
-    </script>
+    <script>${scriptSrc}</script>
   </body>
 </html>
 `;

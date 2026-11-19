@@ -9,9 +9,9 @@ describe('Unit | LTI | Infrastructure | Serializer | HTML | lti-deep-linking', f
     const deepLinkingReturnUrl = 'https://moodle.net';
 
     // generated with:
-    // echo -n 'document.ltiAuthForm.submit();' | sha512sum | cut -w -f1 | xxd -r -p | base64
+    // echo -n 'document.ltiAutoSubmitForm.submit();' | sha512sum | cut -w -f1 | xxd -r -p | base64
     const expectedScriptSrcHash =
-      '+7VL2CPKHRCVHrzCvMPrHOPSgQUEKALj4vtgm2wTyhEddM+zYZTlUJSPRTtjlXJGLKtCvU1WqowLp7Vdc3bUpg==';
+      'ROsB5iBQpNrTh1y4rZU1xDG2Iac4HgLlL5r1Ey3JxgoWI3f0WNJNvGpBvMarzbqDbz0E11bLUO6qRy5ZwvgeRQ==';
 
     // when
     const { payload, scriptSrcDirective } = await ltiDeepLinkingSerializer.serialize({
@@ -23,10 +23,10 @@ describe('Unit | LTI | Infrastructure | Serializer | HTML | lti-deep-linking', f
     expect(payload).to.deep.equal(`<!DOCTYPE html>
 <html>
   <body>
-    <form id="ltiAuthForm" name="ltiAuthForm" action="${deepLinkingReturnUrl}" method="POST" enctype="application/x-www-form-urlencoded">
+    <form id="ltiAutoSubmitForm" name="ltiAutoSubmitForm" action="${deepLinkingReturnUrl}" method="POST" enctype="application/x-www-form-urlencoded">
       <input type="hidden" name="JWT" value="${deepLinkingResponse}">
     </form>
-    <script>document.ltiAuthForm.submit();</script>
+    <script>document.ltiAutoSubmitForm.submit();</script>
   </body>
 </html>
 `);
