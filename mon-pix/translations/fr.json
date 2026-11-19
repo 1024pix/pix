@@ -1974,6 +1974,9 @@
           "label": "Afficher l'ID des éléments"
         },
         "elements-metadata-panel-label": "Afficher ou cacher les métadonnées",
+        "glossary": {
+          "title": "Glossaire"
+        },
         "grain-select": {
           "button": "Tester le grain",
           "grain-label": "Grain {index} : {title}",
