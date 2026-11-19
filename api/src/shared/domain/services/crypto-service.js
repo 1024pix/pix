@@ -30,6 +30,11 @@ const hashPassword = function (password) {
   return bcrypt.hash(password, bcryptNumberOfSaltRounds);
 };
 
+/**
+ * bcrypt ships no type declarations: typed here for the TypeScript callers.
+ * @param {string} password
+ * @returns {string}
+ */
 const hashPasswordSync = function (password) {
   // eslint-disable-next-line n/no-sync
   return bcrypt.hashSync(password, bcryptNumberOfSaltRounds);

@@ -5,6 +5,19 @@ import { databaseBuffer } from '../database-buffer.ts';
 import { buildOrganization } from './build-organization.js';
 import { buildUser } from './build-user.js';
 
+/**
+ * @param {{
+ *   id?: number,
+ *   organizationRole?: string,
+ *   organizationId?: number,
+ *   userId?: number,
+ *   createdAt?: Date,
+ *   updatedAt?: Date,
+ *   disabledAt?: Date | null,
+ *   updatedByUserId?: number | null,
+ *   lastAccessedAt?: Date | null,
+ * }} [attributes]
+ */
 const buildMembership = function ({
   id = databaseBuffer.getNextId(),
   organizationRole = Membership.roles.MEMBER,

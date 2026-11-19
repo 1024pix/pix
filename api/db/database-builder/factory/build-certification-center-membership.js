@@ -4,6 +4,20 @@ import { databaseBuffer } from '../database-buffer.ts';
 import { buildCertificationCenter } from './build-certification-center.js';
 import { buildUser } from './build-user.js';
 
+/**
+ * @param {{
+ *   id?: number,
+ *   userId?: number,
+ *   updatedByUserId?: number | null,
+ *   certificationCenterId?: number,
+ *   createdAt?: Date,
+ *   updatedAt?: Date,
+ *   disabledAt?: Date | null,
+ *   isReferer?: boolean,
+ *   role?: string,
+ *   lastAccessedAt?: Date | null,
+ * }} [attributes]
+ */
 const buildCertificationCenterMembership = function ({
   id = databaseBuffer.getNextId(),
   userId,
