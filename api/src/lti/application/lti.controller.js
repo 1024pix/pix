@@ -184,16 +184,16 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
 
     // FIXME revoke access token's session
 
+    const { payload, scriptSrcDirective } = await ltiDeepLinkingSerializer.serialize({
+      deepLinkingResponse,
+      deepLinkingReturnUrl: deepLinkingSettings.deep_link_return_url,
+    });
+
     return h
-      .response(
-        ltiDeepLinkingSerializer.serialize({
-          deepLinkingResponse,
-          deepLinkingReturnUrl: deepLinkingSettings.deep_link_return_url,
-        }),
-      )
+      .response(payload)
       .header('Content-Type', 'text/html; charset=utf-8')
       .header('Set-Cookie', LtiDeepLinkingAccessToken.setCookieHeaderForClearing())
-      .header('Content-Security-Policy', registration.frameAncestorsForCspHeader);
+      .header('Content-Security-Policy', [registration.frameAncestorsForCspHeader, scriptSrcDirective].join(' '));
   } catch (err) {
     return h
       .response(
