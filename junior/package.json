@@ -48,7 +48,6 @@
     "@ember-intl/vite": "2.2.4",
     "@ember/optional-features": "3.0.0",
     "@ember/render-modifiers": "4.0.0",
-    "@ember/string": "4.0.1",
     "@ember/test-helpers": "5.8.0",
     "@embroider/compat": "4.1.28",
     "@embroider/config-meta-loader": "1.0.1",
