@@ -25,7 +25,7 @@ module('Unit | Adapters | sup-organization-participant', function (hooks) {
 
       // then
       const [url, method, options] = ajaxStub.firstCall.args;
-      assert.ok(url.endsWith('/api/organizations/organizationId1/sup-participants'));
+      assert.strictEqual(url, `${ENV.APP.API_HOST}/api/organizations/organizationId1/sup-participants`);
       assert.strictEqual(method, 'GET');
       assert.deepEqual(options, { data: { filter: { divisions: ['3A'] }, page: { number: 2 } } });
       assert.deepEqual(query, {

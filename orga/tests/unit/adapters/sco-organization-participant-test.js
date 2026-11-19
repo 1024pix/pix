@@ -17,6 +17,8 @@ module('Unit | Adapters | sco-organization-participant', function (hooks) {
   module('#query', () => {
     test('should request the sco participants endpoint and strip organizationId from the query filter', async function (assert) {
       // given
+      adapter.host = 'pix.local';
+      adapter.namespace = 'api';
       const query = { filter: { organizationId: 'organizationId1', divisions: ['3A'] }, page: { number: 2 } };
 
       // when
@@ -24,7 +26,7 @@ module('Unit | Adapters | sco-organization-participant', function (hooks) {
 
       // then
       const [url, method, options] = ajaxStub.firstCall.args;
-      assert.ok(url.endsWith('/api/organizations/organizationId1/sco-participants'));
+      assert.strictEqual(url, 'pix.local/api/organizations/organizationId1/sco-participants');
       assert.strictEqual(method, 'GET');
       assert.deepEqual(options, { data: { filter: { divisions: ['3A'] }, page: { number: 2 } } });
       assert.deepEqual(query, {
