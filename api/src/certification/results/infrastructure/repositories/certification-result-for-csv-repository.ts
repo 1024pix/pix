@@ -57,7 +57,6 @@ export async function findMostRecentByLearners({ learnerIds }: { learnerIds: num
     .distinctOn('user_certification_results.organizationLearnerId')
     .orderBy('user_certification_results.organizationLearnerId')
     .orderBy('certification_results.startedAt', 'desc')
-    .orderBy('certification_results.id', 'desc')
     .as('mostRecentByLearner');
 
   const rows = await knexConn.select('*').from(mostRecentByLearner).orderBy('lastName').orderBy('firstName');
