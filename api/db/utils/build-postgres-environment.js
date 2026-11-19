@@ -30,9 +30,3 @@ export function buildPostgresEnvironment({
     },
   };
 }
-
-export function setConnectionString(connectionString, configuration) {
-  const updatedConfiguration = structuredClone(configuration);
-  updatedConfiguration.connection.connectionString = connectionString;
-  return updatedConfiguration;
-}

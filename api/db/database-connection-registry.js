@@ -3,7 +3,7 @@ import datamartKnexConfigs from '../datamart/knexfile.js';
 import datawarehouseKnexConfigs from '../datawarehouse/knexfile.js';
 import { DatabaseConnection } from './database-connection.js';
 import { configureGlobalExtensions } from './knex-extensions.js';
-import { knexConfigWithPgBouncer } from './knexfile.js';
+import liveKnexConfigs from './knexfile.js';
 
 configureGlobalExtensions();
 
@@ -65,7 +65,7 @@ export class DatabaseConnectionRegistry {
 const { environment } = config;
 
 export const databaseConnectionRegistry = new DatabaseConnectionRegistry({
-  api: new DatabaseConnection(knexConfigWithPgBouncer[environment]),
+  api: new DatabaseConnection(liveKnexConfigs[environment]),
   datamart: new DatabaseConnection(datamartKnexConfigs[environment]),
   datawarehouse: new DatabaseConnection(datawarehouseKnexConfigs[environment]),
 });

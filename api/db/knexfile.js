@@ -1,5 +1,5 @@
 import { config } from '../config/config.js';
-import { buildPostgresEnvironment, setConnectionString } from './utils/build-postgres-environment.js';
+import { buildPostgresEnvironment } from './utils/build-postgres-environment.js';
 
 const baseConfiguration = {
   name: 'live',
@@ -20,14 +20,6 @@ const defaultKnexConfig = {
   development: buildPostgresEnvironment(baseConfiguration),
   test: buildPostgresEnvironment(baseConfiguration),
   production: buildPostgresEnvironment(baseConfiguration),
-};
-
-export const knexConfigWithPgBouncer = {
-  ...defaultKnexConfig,
-  production: setConnectionString(
-    config.database.pgbouncerUrl ?? config.database.liveUrl,
-    buildPostgresEnvironment(baseConfiguration),
-  ),
 };
 
 export default defaultKnexConfig;
