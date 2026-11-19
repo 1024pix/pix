@@ -152,6 +152,7 @@ module('Integration | Component | Ui | Assessment | assessment-banner', function
       // given
       const store = this.owner.lookup('service:store');
       const campaign = store.createRecord('campaign', {
+        isPartOfCombinedCourse: true,
         customResultPageButtonUrl: '/parcours/CODE',
       });
       const assessment = store.createRecord('assessment', {
@@ -178,7 +179,7 @@ module('Integration | Component | Ui | Assessment | assessment-banner', function
         test(`it should redirect to combined course presentation when quit button is clicked (${customResultPageButtonUrl})`, async function (assert) {
           // given
           const store = this.owner.lookup('service:store');
-          const campaign = store.createRecord('campaign', { customResultPageButtonUrl });
+          const campaign = store.createRecord('campaign', { isPartOfCombinedCourse: true, customResultPageButtonUrl });
           const assessment = store.createRecord('assessment', {
             title: 'Mon titre',
             type: 'CAMPAIGN',
@@ -202,6 +203,7 @@ module('Integration | Component | Ui | Assessment | assessment-banner', function
         // given
         const store = this.owner.lookup('service:store');
         const campaign = store.createRecord('campaign', {
+          isPartOfCombinedCourse: true,
           customResultPageButtonUrl: 'https://pix.fr/parcours/xyz',
         });
         const assessment = store.createRecord('assessment', {
