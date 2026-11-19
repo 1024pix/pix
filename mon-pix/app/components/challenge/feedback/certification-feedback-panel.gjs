@@ -1,4 +1,3 @@
-import { PixButton } from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -8,45 +7,38 @@ import t from 'ember-intl/helpers/t';
 import { runTask } from 'ember-lifeline';
 import not from 'ember-truth-helpers/helpers/not';
 import LiveAlert from 'mon-pix/components/assessments/live-alert';
+import FeedbackWrapper from 'mon-pix/components/challenge/feedback/feedback-wrapper';
 
 export default class CertificationFeedbackPanel extends Component {
   <template>
-    {{! template-lint-disable require-input-label no-unknown-arguments-for-builtin-components }}
     {{#if this.isAssessmentPaused}}
-      <LiveAlert @message={{t "pages.challenge.live-alerts.challenge.message"}} />
+      <LiveAlert />
     {{else}}
-      <div class="certification-feedback-panel">
-        <h2 class="screen-reader-only">{{t "pages.challenge.parts.feedback-v3"}}</h2>
-
-        {{#unless this.isToggleFeedbackFormHidden}}
-          <PixButton
-            @variant="tertiary"
-            @triggerAction={{this.toggleFeedbackForm}}
-            @isDisabled={{not @isEnabled}}
-            aria-expanded={{this.isAriaExpanded}}
-            @iconBefore="flag"
-          >
-            {{t "pages.challenge.certification-feedback-panel.actions.open-close"}}
-          </PixButton>
-        {{/unless}}
-
-        {{#if this.shouldBeExpanded}}
-          <div class="certification-feedback-panel__view">
-            {{t "pages.challenge.certification-feedback-panel.description"}}
-            <div class="certification-feedback-panel__action-buttons">
-              <button type="button" {{on "click" this.submitLiveAlert}}>
-                {{t "pages.challenge.certification-feedback-panel.actions.send-feedback"}}
-              </button>
-              <button type="button" {{on "click" this.toggleFeedbackForm}}>
-                {{t "pages.challenge.certification-feedback-panel.actions.no-send-feedback"}}
-              </button>
+      <FeedbackWrapper
+        @triggerAction={{this.toggleFeedbackForm}}
+        @isDisabled={{not @isEnabled}}
+        @isAriaExpanded={{this.isAriaExpanded}}
+        @isToggleFeedbackFormHidden={{this.isToggleFeedbackFormHidden}}
+      >
+        <:form>
+          {{#if this.shouldBeExpanded}}
+            <div class="certification-feedback-panel__view">
+              <p>{{t "components.challenge.feedback.certification.description"}}</p>
+              <div class="certification-feedback-panel__action-buttons">
+                <button type="button" {{on "click" this.submitLiveAlert}}>
+                  {{t "components.challenge.feedback.certification.actions.send-feedback"}}
+                </button>
+                <button type="button" {{on "click" this.toggleFeedbackForm}}>
+                  {{t "components.challenge.feedback.certification.actions.no-send-feedback"}}
+                </button>
+              </div>
             </div>
-          </div>
-          <p class="certification-feedback-panel__information">{{t
-              "pages.challenge.certification-feedback-panel.information"
-            }}</p>
-        {{/if}}
-      </div>
+            <p class="certification-feedback-panel__information">{{t
+                "components.challenge.feedback.certification.information"
+              }}</p>
+          {{/if}}
+        </:form>
+      </FeedbackWrapper>
     {{/if}}
   </template>
   @service store;

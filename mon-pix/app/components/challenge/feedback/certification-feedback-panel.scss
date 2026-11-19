@@ -1,4 +1,5 @@
 @use 'pix-design-tokens/fonts';
+@use 'pix-design-tokens/breakpoints';
 
 .certification-feedback-panel {
   margin-bottom: var(--pix-spacing-10x);
@@ -31,14 +32,22 @@
 /* "Link" view
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .certification-feedback-panel__view {
-  display: flex;
-  gap: 24px;
   font-weight: var(--pix-font-bold);
+
+  @include breakpoints.device-is('tablet') {
+    display: flex;
+    gap: 24px;
+  }
 }
 
 .certification-feedback-panel__action-buttons {
   display: flex;
   gap: 16px;
+  margin-top: var(--pix-spacing-3x);
+
+  @include breakpoints.device-is('tablet') {
+    margin-top: unset;
+  }
 
   > button {
     text-decoration: underline;

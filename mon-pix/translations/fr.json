@@ -334,6 +334,145 @@
         }
       }
     },
+    "challenge": {
+      "feedback": {
+        "certification": {
+          "actions": {
+            "no-send-feedback": "Non, je reviens à l'épreuve",
+            "send-feedback": "Oui, je suis sûr(e)"
+          },
+          "description": "Êtes-vous sûr(e) de vouloir signaler un problème ?",
+          "information": "En signalant un problème, votre certification est mise en pause le temps que le surveillant intervienne pour valider ou invalider votre signalement."
+        },
+        "common": {
+          "actions": {
+            "open-close": "Signaler un problème"
+          },
+          "description": "Pix est à l’écoute de vos remarques pour améliorer les épreuves proposées !*",
+          "form": {
+            "actions": {
+              "submit": "Envoyer",
+              "submit-aria-label": "Envoyer mon message de signalement"
+            },
+            "fields": {
+              "category-selection": {
+                "label": "J'ai un problème avec",
+                "options": {
+                  "accessibility": "L’accessibilité de l’épreuve",
+                  "answer": "La réponse",
+                  "download": "Le fichier à télécharger",
+                  "embed": "Le simulateur / l'application",
+                  "link": "Le lien indiqué dans la question",
+                  "other": "Autre",
+                  "picture": "L'image",
+                  "question": "La question",
+                  "tutorial": "Le tutoriel"
+                }
+              },
+              "detail-selection": {
+                "add-comment": "Ajouter un commentaire",
+                "aria-first": "J'ai un problème avec",
+                "aria-secondary": "Sélectionner une option pour préciser votre problème",
+                "label": "Sélectionner une option pour préciser votre problème",
+                "options": {
+                  "answer-not-accepted": "Ma réponse est correcte mais n’a pas été validée",
+                  "answer-not-agreed": "Je ne suis pas d’accord avec la réponse",
+                  "download": {
+                    "edit-failure": {
+                      "label": "Je n’arrive pas à modifier le fichier",
+                      "solution": "Le fichier est probablement ouvert en “Lecture seule” ou “Mode protégé”. '<br>'Cliquez sur “Activer la modification” ou “Éditer le document” sur le bandeau en haut du fichier s’il s’affiche. '<br>'Sinon enregistrez le fichier sous un autre nom et ouvrez ce nouveau fichier."
+                    },
+                    "lost": {
+                      "label": "Je ne retrouve pas le fichier téléchargé",
+                      "solution": "Par défaut, un fichier téléchargé est enregistré dans un dossier “Téléchargements” ou “Downloads”. Il se peut aussi qu’il soit téléchargé au même endroit que votre dernier téléchargement..."
+                    },
+                    "open-failure": {
+                      "label": "Je n’arrive pas à ouvrir le fichier sur un ordinateur",
+                      "solution": "Si vous n’arrivez pas à ouvrir un fichier, consultez '<a href=\"https://pix.org/fr/aide-ouvrir-modifier-retrouver-un-fichier-telecharge-depuis-une-question-pix\">'l'aide située sous le bouton « Télécharger »'</a>'. Vous y trouverez les logiciels ou outils en ligne recommandés."
+                    },
+                    "other": "J’ai un autre problème avec le fichier"
+                  },
+                  "embed-displayed-on-desktop-with-problems": {
+                    "label": "Sur ordinateur, le simulateur s'affiche mais a un problème",
+                    "solution": "Nous faisons notre possible pour que les simulateurs fonctionnent sur tous les appareils, tous les OS et tous les navigateurs mais il se peut que vous utilisiez un système particulier. Vous pouvez arrêter là et reprendre sur un ordinateur.'<br>'Précisez votre problème en indiquant votre navigateur et votre système d'exploitation."
+                  },
+                  "embed-displayed-on-mobile-devices-with-problems": {
+                    "label": "Sur téléphone ou tablette, le simulateur s'affiche mais a un problème",
+                    "solution": "Nous faisons notre possible pour que les simulateurs fonctionnent sur tous les appareils, tous les OS et tous les navigateurs mais il se peut que vous utilisiez un système particulier.'<br>'Précisez votre problème en indiquant votre type d'appareil (smartphone, tablette...), votre système d'exploitation et votre navigateur."
+                  },
+                  "embed-not-displayed": {
+                    "label": "Le simulateur / l’application ne s’affiche pas",
+                    "solution": "Votre connexion internet est peut-être trop faible.'<br>'Rechargez la page en appuyant sur le bouton actualiser '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' à côté de la barre d’adresse. Attendez un peu, le simulateur va peut-être s’afficher. '<br><br>'Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion ?"
+                  },
+                  "embed-other": "Le simulateur / l’application a un autre problème",
+                  "link-other": "Le lien ne fonctionne pas ou a un autre problème",
+                  "link-unauthorized": {
+                    "label": "Le lien est bloqué par mon organisation / établissement...",
+                    "solution": "Vous appartenez peut-être à une organisation (établissements scolaires, universitaires, entreprises, administrations, association...) qui protège ses utilisateurs et ses équipements en limitant les pages Internet auxquelles vous avez accès.'<br>'"
+                  },
+                  "other-challenge-proposal": "J’ai une idée (géniale) d’épreuve à proposer",
+                  "other-difficulty": "J’ai un autre problème",
+                  "other-site-improvement": "J’ai une suggestion d’amélioration de la plateforme",
+                  "picture-not-displayed": {
+                    "label": "L'image ne s'affiche pas",
+                    "solution": "Votre connexion internet est peut-être trop faible.'<br>'Rechargez la page en appuyant sur le bouton actualiser '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' à côté de la barre d’adresse. Attendez un peu, l'image va peut-être s’afficher. '<br><br>'Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion ?"
+                  },
+                  "picture-other": "L'image a un autre problème",
+                  "question-improvement": "Je souhaite proposer une amélioration de la question",
+                  "question-not-understood": "Je ne comprends pas la question",
+                  "tutorial-link-error": "Le lien vers le tutoriel mène vers une autre page ou une page d’erreur",
+                  "tutorial-not-accepted": "Le tutoriel n’est pas adapté",
+                  "tutorial-proposal": "J’ai un tutoriel à vous proposer"
+                },
+                "problem-suggestion-description": "Décrivez votre problème ou votre suggestion"
+              }
+            },
+            "status": {
+              "error": {
+                "empty-message": "Vous devez saisir un message.",
+                "max-characters": "Votre message est limité à 10 000 caractères."
+              },
+              "success": "'<p>'Votre commentaire a bien été transmis à l’équipe du projet Pix.'</p><p>'Mercix !'</p>'"
+            }
+          },
+          "information": {
+            "data-usage": "'<p>'Pix traite les données de cette zone pour gérer et analyser la difficulté rencontrée et bénéficier de votre retour d'expérience. Vous disposez de droits sur vos données qui peuvent être exercés auprès de : <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Pour en savoir plus sur la protection de vos données et sur vos droits.'</a></p>'",
+            "guidance": "'<p>'* Soyez attentifs à ce que vous écrivez dans cette zone : restez objectif et factuel pour votre intérêt et celui des autres.'</p><p>'Notamment, ne saisissez aucune information, vous concernant ou concernant des tiers, sur la santé, la religion, les opinions politiques, syndicales et philosophiques, les origines ethniques, ainsi que sur les sanctions et condamnations.'</p>'"
+          },
+          "modal": {
+            "content": "'<p><strong>'Êtes-vous certain de vouloir signaler ce problème ?'</strong></p><p>'Nous vous remercions pour votre signalement qui sera examiné attentivement par l'équipe de Pix. Nous prenons en compte tous vos commentaires pour améliorer continuellement nos services et l'expérience utilisateur. Nous ne pourrons pas vous donner de réponse personnalisée. Merci pour votre collaboration.'</p>'",
+            "title": "Confirmation du signalement"
+          },
+          "title": "Signaler un problème avec la question"
+        }
+      },
+      "mode-banner": {
+        "focused": {
+          "content": "Vous devez rester sur cette page pour répondre.",
+          "title": "Mode focus."
+        },
+        "free": {
+          "content": "Vous pouvez utiliser internet ou des applications pour répondre.",
+          "title": "Mode libre."
+        }
+      }
+    },
+    "challenge-actions": {
+      "actions": {
+        "continue": "Poursuivre",
+        "continue-go-to-next": "Je continue et je vais à la prochaine question",
+        "skip": "Je passe",
+        "skip-go-to-next": "Je passe et je vais à la prochaine question",
+        "validate": "Je valide",
+        "validate-go-to-next": "Je valide et je vais à la prochaine question"
+      },
+      "notifications": {
+        "already-answered": "Vous avez déjà répondu à cette question",
+        "cannot-answer": "Le temps imparti est écoulé. Votre réponse ne sera pas validée.",
+        "wait-for-invigilator": "Les actions sont mises en pause en attendant le surveillant. Prévenez votre surveillant afin qu'il puisse constater votre problème et le gérer en direct dans son interface « Espace Surveillant »."
+      },
+      "title": "Valider ou passer votre épreuve"
+    },
     "info-bar": {
       "certification-number": "N° de certification",
       "completion-percentage": {
@@ -1125,30 +1264,11 @@
       "title": "Mes certifications"
     },
     "challenge": {
-      "actions": {
-        "continue": "Poursuivre",
-        "continue-go-to-next": "Je continue et je vais à la prochaine question",
-        "skip": "Je passe",
-        "skip-go-to-next": "Je passe et je vais à la prochaine question",
-        "validate": "Je valide",
-        "validate-go-to-next": "Je valide et je vais à la prochaine question",
-        "wait-for-invigilator": "Les actions sont mises en pause en attendant le surveillant"
-      },
-      "already-answered": "Vous avez déjà répondu à cette question",
       "answer-input": {
         "numbered-label": "Réponse {number}"
       },
       "certification": {
         "title": "Certification {certificationNumber}"
-      },
-      "certification-feedback-panel": {
-        "actions": {
-          "no-send-feedback": "Non, je reviens à l'épreuve",
-          "open-close": "Signaler un problème avec la question",
-          "send-feedback": "Oui, je suis sûr(e)"
-        },
-        "description": "Êtes-vous sûr(e) de vouloir signaler un problème ?",
-        "information": "En signalant un problème, votre certification est mise en pause le temps que le surveillant intervienne pour valider ou invalider votre signalement."
       },
       "embed-simulator": {
         "actions": {
@@ -1158,106 +1278,6 @@
           "reset-label": "Réinitialiser la simulation"
         },
         "placeholder": "Chargement de l'application en cours"
-      },
-      "feedback-panel": {
-        "actions": {
-          "open-close": "Signaler un problème avec la question"
-        },
-        "description": "Pix est à l’écoute de vos remarques pour améliorer les épreuves proposées !*",
-        "form": {
-          "actions": {
-            "submit": "Envoyer",
-            "submit-aria-label": "Envoyer mon message de signalement"
-          },
-          "fields": {
-            "category-selection": {
-              "label": "J'ai un problème avec",
-              "options": {
-                "accessibility": "L’accessibilité de l’épreuve",
-                "answer": "La réponse",
-                "download": "Le fichier à télécharger",
-                "embed": "Le simulateur / l'application",
-                "link": "Le lien indiqué dans la question",
-                "other": "Autre",
-                "picture": "L'image",
-                "question": "La question",
-                "tutorial": "Le tutoriel"
-              }
-            },
-            "detail-selection": {
-              "add-comment": "Ajouter un commentaire",
-              "aria-first": "J'ai un problème avec",
-              "aria-secondary": "Sélectionner une option pour préciser votre problème",
-              "label": "Sélectionner une option pour préciser votre problème",
-              "options": {
-                "answer-not-accepted": "Ma réponse est correcte mais n’a pas été validée",
-                "answer-not-agreed": "Je ne suis pas d’accord avec la réponse",
-                "download": {
-                  "edit-failure": {
-                    "label": "Je n’arrive pas à modifier le fichier",
-                    "solution": "Le fichier est probablement ouvert en “Lecture seule” ou “Mode protégé”. '<br>'Cliquez sur “Activer la modification” ou “Éditer le document” sur le bandeau en haut du fichier s’il s’affiche. '<br>'Sinon enregistrez le fichier sous un autre nom et ouvrez ce nouveau fichier."
-                  },
-                  "lost": {
-                    "label": "Je ne retrouve pas le fichier téléchargé",
-                    "solution": "Par défaut, un fichier téléchargé est enregistré dans un dossier “Téléchargements” ou “Downloads”. Il se peut aussi qu’il soit téléchargé au même endroit que votre dernier téléchargement..."
-                  },
-                  "open-failure": {
-                    "label": "Je n’arrive pas à ouvrir le fichier sur un ordinateur",
-                    "solution": "Si vous n’arrivez pas à ouvrir un fichier, consultez '<a href=\"https://pix.org/fr/aide-ouvrir-modifier-retrouver-un-fichier-telecharge-depuis-une-question-pix\">'l'aide située sous le bouton « Télécharger »'</a>'. Vous y trouverez les logiciels ou outils en ligne recommandés."
-                  },
-                  "other": "J’ai un autre problème avec le fichier"
-                },
-                "embed-displayed-on-desktop-with-problems": {
-                  "label": "Sur ordinateur, le simulateur s'affiche mais a un problème",
-                  "solution": "Nous faisons notre possible pour que les simulateurs fonctionnent sur tous les appareils, tous les OS et tous les navigateurs mais il se peut que vous utilisiez un système particulier. Vous pouvez arrêter là et reprendre sur un ordinateur.'<br>'Précisez votre problème en indiquant votre navigateur et votre système d'exploitation."
-                },
-                "embed-displayed-on-mobile-devices-with-problems": {
-                  "label": "Sur téléphone ou tablette, le simulateur s'affiche mais a un problème",
-                  "solution": "Nous faisons notre possible pour que les simulateurs fonctionnent sur tous les appareils, tous les OS et tous les navigateurs mais il se peut que vous utilisiez un système particulier.'<br>'Précisez votre problème en indiquant votre type d'appareil (smartphone, tablette...), votre système d'exploitation et votre navigateur."
-                },
-                "embed-not-displayed": {
-                  "label": "Le simulateur / l’application ne s’affiche pas",
-                  "solution": "Votre connexion internet est peut-être trop faible.'<br>'Rechargez la page en appuyant sur le bouton actualiser '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' à côté de la barre d’adresse. Attendez un peu, le simulateur va peut-être s’afficher. '<br><br>'Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion ?"
-                },
-                "embed-other": "Le simulateur / l’application a un autre problème",
-                "link-other": "Le lien ne fonctionne pas ou a un autre problème",
-                "link-unauthorized": {
-                  "label": "Le lien est bloqué par mon organisation / établissement...",
-                  "solution": "Vous appartenez peut-être à une organisation (établissements scolaires, universitaires, entreprises, administrations, association...) qui protège ses utilisateurs et ses équipements en limitant les pages Internet auxquelles vous avez accès.'<br>'"
-                },
-                "other-challenge-proposal": "J’ai une idée (géniale) d’épreuve à proposer",
-                "other-difficulty": "J’ai un autre problème",
-                "other-site-improvement": "J’ai une suggestion d’amélioration de la plateforme",
-                "picture-not-displayed": {
-                  "label": "L'image ne s'affiche pas",
-                  "solution": "Votre connexion internet est peut-être trop faible.'<br>'Rechargez la page en appuyant sur le bouton actualiser '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' à côté de la barre d’adresse. Attendez un peu, l'image va peut-être s’afficher. '<br><br>'Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion ?"
-                },
-                "picture-other": "L'image a un autre problème",
-                "question-improvement": "Je souhaite proposer une amélioration de la question",
-                "question-not-understood": "Je ne comprends pas la question",
-                "tutorial-link-error": "Le lien vers le tutoriel mène vers une autre page ou une page d’erreur",
-                "tutorial-not-accepted": "Le tutoriel n’est pas adapté",
-                "tutorial-proposal": "J’ai un tutoriel à vous proposer"
-              },
-              "problem-suggestion-description": "Décrivez votre problème ou votre suggestion"
-            }
-          },
-          "status": {
-            "error": {
-              "empty-message": "Vous devez saisir un message.",
-              "max-characters": "Votre message est limité à 10 000 caractères."
-            },
-            "success": "'<p>'Votre commentaire a bien été transmis à l’équipe du projet Pix.'</p><p>'Mercix !'</p>'"
-          }
-        },
-        "information": {
-          "data-usage": "'<p>'Pix traite les données de cette zone pour gérer et analyser la difficulté rencontrée et bénéficier de votre retour d'expérience. Vous disposez de droits sur vos données qui peuvent être exercés auprès de : <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Pour en savoir plus sur la protection de vos données et sur vos droits.'</a></p>'",
-          "guidance": "'<p>'* Soyez attentifs à ce que vous écrivez dans cette zone : restez objectif et factuel pour votre intérêt et celui des autres.'</p><p>'Notamment, ne saisissez aucune information, vous concernant ou concernant des tiers, sur la santé, la religion, les opinions politiques, syndicales et philosophiques, les origines ethniques, ainsi que sur les sanctions et condamnations.'</p>'"
-        },
-        "modal": {
-          "content": "'<p><strong>'Êtes-vous certain de vouloir signaler ce problème ?'</strong></p><p>'Nous vous remercions pour votre signalement qui sera examiné attentivement par l'équipe de Pix. Nous prenons en compte tous vos commentaires pour améliorer continuellement nos services et l'expérience utilisateur. Nous ne pourrons pas vous donner de réponse personnalisée. Merci pour votre collaboration.'</p>'",
-          "title": "Confirmation du signalement"
-        }
       },
       "has-focused-out-of-window": {
         "certification": "Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse. Si vous avez été contraint de changer de page, prévenez votre surveillant et répondez à la question en sa présence.",
@@ -1276,9 +1296,6 @@
         }
       },
       "live-alerts": {
-        "challenge": {
-          "message": "Prévenez votre surveillant afin qu'il puisse constater votre problème et le gérer en direct dans son interface « Espace Surveillant »."
-        },
         "companion": {
           "message": "Merci de contacter votre surveillant afin qu’il confirme la présence de l’extension."
         },
@@ -1291,11 +1308,8 @@
           "qcm": "Sélectionnez plusieurs réponses.",
           "qcu": "Sélectionnez une seule réponse."
         },
-        "feedback": "Signaler un problème",
-        "feedback-v3": "Signaler un problème avec la question",
         "instruction": "Consigne de l'épreuve",
-        "progress": "Votre progression",
-        "validation": "Valider ou passer votre épreuve"
+        "progress": "Votre progression"
       },
       "skip-error-message": {
         "qcm": "Pour valider, sélectionnez au moins deux réponses. Sinon, passez.",
@@ -1330,22 +1344,7 @@
           "deactivate": "Désactiver la vocalisation",
           "play": "Lire la consigne à haute voix",
           "stop": "Arrêter la lecture de la consigne"
-        },
-        "tooltip": {
-          "aria-label": "Afficher l'indication sur l'épreuve.",
-          "close": "J'ai compris",
-          "focused": {
-            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Essayez de rester sur cette page pour répondre !'</strong><br/>' Cette question ne nécessite ni internet, ni application.",
-            "title": "Mode Focus"
-          },
-          "other": {
-            "content": "Vous êtes libre d’utiliser internet ou des applications pour répondre à cette question.",
-            "title": "Mode Libre"
-          }
         }
-      },
-      "timed": {
-        "cannot-answer": "Le temps imparti est écoulé. Votre réponse ne sera pas validée."
       },
       "title": {
         "default": "Mode libre - Question {stepNumber} sur {totalChallengeNumber}",

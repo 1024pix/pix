@@ -334,6 +334,145 @@
         }
       }
     },
+    "challenge": {
+      "feedback": {
+        "certification": {
+          "actions": {
+            "no-send-feedback": "No, I'm coming back to the test",
+            "send-feedback": "Yes, I'm sure"
+          },
+          "description": "Are you sure you want to report a problem?",
+          "information": "By reporting a problem, your certification is paused while the invigilator intervenes to validate or invalidate your report"
+        },
+        "common": {
+          "actions": {
+            "open-close": "Report a problem"
+          },
+          "description": "Pix wants to hear from you so we can improve our tests!*",
+          "form": {
+            "actions": {
+              "submit": "Send",
+              "submit-aria-label": "Send my feedback"
+            },
+            "fields": {
+              "category-selection": {
+                "label": "I am experiencing difficulties with",
+                "options": {
+                  "accessibility": "Test accessibility",
+                  "answer": "The answer",
+                  "download": "The file to download",
+                  "embed": "The simulator/app",
+                  "link": "The link in the question",
+                  "other": "Other",
+                  "picture": "The image",
+                  "question": "The question",
+                  "tutorial": "The tutorial"
+                }
+              },
+              "detail-selection": {
+                "add-comment": "Add a comment",
+                "aria-first": "Select the category of the problem encountered",
+                "aria-secondary": "Select an option to specify your problem",
+                "label": "Select an option to specify your problem",
+                "options": {
+                  "answer-not-accepted": "My answer is correct but has not been approved",
+                  "answer-not-agreed": "I disagree with the answer",
+                  "download": {
+                    "edit-failure": {
+                      "label": "I cannot edit the file",
+                      "solution": "The file is probably open in “Read only” or “Protected mode”.'<br>'Click on “Activate editing” or “Edit document” in the banner at the top of the file if this is shown. '<br>'Otherwise save the file under another name and try opening file again from here."
+                    },
+                    "lost": {
+                      "label": "I cannot find the downloaded file",
+                      "solution": "By default, files you download will be saved in your “Downloads” folder. It may also have been saved to the same location as your last download..."
+                    },
+                    "open-failure": {
+                      "label": "I cannot open the file on a computer",
+                      "solution": "If you are unable to open a file, consult the '<a href=\"https://pix.org/en/help-how-to-open-modify-find-a-downloaded-file-in-a-pix-question\">'help'</a>' located under the “download” button. This is where you will find the recommended software or online tools to use."
+                    },
+                    "other": "I have another problem with the file"
+                  },
+                  "embed-displayed-on-desktop-with-problems": {
+                    "label": "On a computer, the simulator is displayed but has a problem",
+                    "solution": "We are doing our best to make the simulators work on all devices, all operating systems, and all browsers but you may be using a specific system.'<br>'You can stop your test and resume on a computer. Please specify your problem, as well as your browser and your operating system."
+                  },
+                  "embed-displayed-on-mobile-devices-with-problems": {
+                    "label": "On a smartphone or a tablet, the simulator is displayed but has a problem",
+                    "solution": "We are doing our best to make the simulators work on all devices, all operating systems, and all browsers but you may be using a specific system.'<br>'Please specify your problem, as well as your type of device (smartphone, tablet etc.), your browser and your operating system."
+                  },
+                  "embed-not-displayed": {
+                    "label": "I cannot see the simulator/app",
+                    "solution": "Your internet connection may not be strong enough.'<br>'Refresh the page by clicking on the refresh button'<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' next to the address bar. Wait a little while, the simulator might display. '<br><br>'If it doesn’t, you can try again later or from another location with a better connection."
+                  },
+                  "embed-other": "There is another problem with the simulator/app",
+                  "link-other": "The link doesn’t work or has another problem",
+                  "link-unauthorized": {
+                    "label": "The link has been blocked by my organisation/school…",
+                    "solution": "You may belong to an organisation (schools, universities, companies, administrations, associations, etc.) that protects its users and devices by limiting the Internet pages you can access.'<br>'"
+                  },
+                  "other-challenge-proposal": "I have a (great) idea to suggest for a question",
+                  "other-difficulty": "I have another problem",
+                  "other-site-improvement": "I have a suggestion for improving the platform",
+                  "picture-not-displayed": {
+                    "label": "The picture isn't displayed.",
+                    "solution": "Your internet connexion may be too slow.'<br>'Reload the page by clicking on the refresh button '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' next to the address bar. Wait for a bit, the picture may be displayed. '<br><br>'If this isn't the case, please try again later or from somewhere with a better connection."
+                  },
+                  "picture-other": "There is another problem with the image.",
+                  "question-improvement": "I want to suggest an improvement to the question",
+                  "question-not-understood": "I do not understand the question",
+                  "tutorial-link-error": "The link to the tutorial is to another page or an error page",
+                  "tutorial-not-accepted": "The tutorial is not helpful to the question",
+                  "tutorial-proposal": "I have a tutorial to suggest"
+                },
+                "problem-suggestion-description": "Describe your problem or suggestion"
+              }
+            },
+            "status": {
+              "error": {
+                "empty-message": "You must enter a message.",
+                "max-characters": "Your message cannot exceed 10,000 characters."
+              },
+              "success": "'<p>'Your comment has been sent to the Pix project team.'</p><p>'Thank you!'</p>'"
+            }
+          },
+          "information": {
+            "data-usage": "'<p>'Pix processes the data from this area to manage and analyse the difficulty encountered and benefit from your feedback. You have rights over your data which can be exercised via: <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.org/en/personal-data-reporting-test\" target=\"_blank\" class=\"link\">'To find out more about protecting your data and your rights.'</a></p>'",
+            "guidance": "'<p>'*Make sure you write in this zone: for your benefit and the benefit of others, please stay objective and keep to the facts.'</p><p>'Do not enter any information about yourself or third parties, or any information related to health; religion; political, or philosophical opinions; trade union affiliation; ethnic origins; or penalties and convictions.'</p>'"
+          },
+          "modal": {
+            "content": "'<p><strong>'Do you confirm this problem report?'</strong></p><p>'Thank you for this problem report, our team will review it soon. Every feedback helps us improve our services and the experience of all Pix users. Please note that we will not reach out to you on this topic. Thank you for your help.'</p>'",
+            "title": "Report confirmation"
+          },
+          "title": "Report a problem with the question"
+        }
+      },
+      "mode-banner": {
+        "focused": {
+          "content": "You must stay on this page to answer.",
+          "title": "Focus mode."
+        },
+        "free": {
+          "content": "You can use the internet or applications to answer.",
+          "title": "Free mode."
+        }
+      }
+    },
+    "challenge-actions": {
+      "actions": {
+        "continue": "Continue",
+        "continue-go-to-next": "Continue and go to the next question",
+        "skip": "Skip",
+        "skip-go-to-next": "Skip and go to the next question",
+        "validate": "Validate",
+        "validate-go-to-next": "Validate and go to the next question"
+      },
+      "notifications": {
+        "already-answered": "You have already answered this question",
+        "cannot-answer": "You've run out of time. Your answer will not be validated.",
+        "wait-for-invigilator": "Actions are paused while waiting for the invigilator. Notify your invigilator so that they can check your problem."
+      },
+      "title": "Validate or skip this question"
+    },
     "info-bar": {
       "certification-number": "Certification no.",
       "completion-percentage": {
@@ -1125,30 +1264,11 @@
       "title": "My certifications"
     },
     "challenge": {
-      "actions": {
-        "continue": "Continue",
-        "continue-go-to-next": "Continue and go to the next question",
-        "skip": "Skip",
-        "skip-go-to-next": "Skip and go to the next question",
-        "validate": "Validate",
-        "validate-go-to-next": "Validate and go to the next question",
-        "wait-for-invigilator": "Actions are paused while waiting for the invigilator"
-      },
-      "already-answered": "You have already answered this question",
       "answer-input": {
         "numbered-label": "Answer {number}"
       },
       "certification": {
         "title": "Certification {certificationNumber}"
-      },
-      "certification-feedback-panel": {
-        "actions": {
-          "no-send-feedback": "No, I'm coming back to the test",
-          "open-close": "Report a problem with the question",
-          "send-feedback": "Yes, I'm sure"
-        },
-        "description": "Are you sure you want to report a problem?",
-        "information": "By reporting a problem, your certification is paused while the invigilator intervenes to validate or invalidate your report"
       },
       "embed-simulator": {
         "actions": {
@@ -1158,106 +1278,6 @@
           "reset-label": "Restart simulation"
         },
         "placeholder": "App loading"
-      },
-      "feedback-panel": {
-        "actions": {
-          "open-close": "Report a problem regarding the challenge"
-        },
-        "description": "Pix wants to hear from you so we can improve our tests!*",
-        "form": {
-          "actions": {
-            "submit": "Send",
-            "submit-aria-label": "Send my feedback"
-          },
-          "fields": {
-            "category-selection": {
-              "label": "I am experiencing difficulties with",
-              "options": {
-                "accessibility": "Test accessibility",
-                "answer": "The answer",
-                "download": "The file to download",
-                "embed": "The simulator/app",
-                "link": "The link in the question",
-                "other": "Other",
-                "picture": "The image",
-                "question": "The question",
-                "tutorial": "The tutorial"
-              }
-            },
-            "detail-selection": {
-              "add-comment": "Add a comment",
-              "aria-first": "Select the category of the problem encountered",
-              "aria-secondary": "Select an option to specify your problem",
-              "label": "Select an option to specify your problem",
-              "options": {
-                "answer-not-accepted": "My answer is correct but has not been approved",
-                "answer-not-agreed": "I disagree with the answer",
-                "download": {
-                  "edit-failure": {
-                    "label": "I cannot edit the file",
-                    "solution": "The file is probably open in “Read only” or “Protected mode”.'<br>'Click on “Activate editing” or “Edit document” in the banner at the top of the file if this is shown. '<br>'Otherwise save the file under another name and try opening file again from here."
-                  },
-                  "lost": {
-                    "label": "I cannot find the downloaded file",
-                    "solution": "By default, files you download will be saved in your “Downloads” folder. It may also have been saved to the same location as your last download..."
-                  },
-                  "open-failure": {
-                    "label": "I cannot open the file on a computer",
-                    "solution": "If you are unable to open a file, consult the '<a href=\"https://pix.org/en/help-how-to-open-modify-find-a-downloaded-file-in-a-pix-question\">'help'</a>' located under the “download” button. This is where you will find the recommended software or online tools to use."
-                  },
-                  "other": "I have another problem with the file"
-                },
-                "embed-displayed-on-desktop-with-problems": {
-                  "label": "On a computer, the simulator is displayed but has a problem",
-                  "solution": "We are doing our best to make the simulators work on all devices, all operating systems, and all browsers but you may be using a specific system.'<br>'You can stop your test and resume on a computer. Please specify your problem, as well as your browser and your operating system."
-                },
-                "embed-displayed-on-mobile-devices-with-problems": {
-                  "label": "On a smartphone or a tablet, the simulator is displayed but has a problem",
-                  "solution": "We are doing our best to make the simulators work on all devices, all operating systems, and all browsers but you may be using a specific system.'<br>'Please specify your problem, as well as your type of device (smartphone, tablet etc.), your browser and your operating system."
-                },
-                "embed-not-displayed": {
-                  "label": "I cannot see the simulator/app",
-                  "solution": "Your internet connection may not be strong enough.'<br>'Refresh the page by clicking on the refresh button'<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' next to the address bar. Wait a little while, the simulator might display. '<br><br>'If it doesn’t, you can try again later or from another location with a better connection."
-                },
-                "embed-other": "There is another problem with the simulator/app",
-                "link-other": "The link doesn’t work or has another problem",
-                "link-unauthorized": {
-                  "label": "The link has been blocked by my organisation/school…",
-                  "solution": "You may belong to an organisation (schools, universities, companies, administrations, associations, etc.) that protects its users and devices by limiting the Internet pages you can access.'<br>'"
-                },
-                "other-challenge-proposal": "I have a (great) idea to suggest for a question",
-                "other-difficulty": "I have another problem",
-                "other-site-improvement": "I have a suggestion for improving the platform",
-                "picture-not-displayed": {
-                  "label": "The picture isn't displayed.",
-                  "solution": "Your internet connexion may be too slow.'<br>'Reload the page by clicking on the refresh button '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' next to the address bar. Wait for a bit, the picture may be displayed. '<br><br>'If this isn't the case, please try again later or from somewhere with a better connection."
-                },
-                "picture-other": "There is another problem with the image.",
-                "question-improvement": "I want to suggest an improvement to the question",
-                "question-not-understood": "I do not understand the question",
-                "tutorial-link-error": "The link to the tutorial is to another page or an error page",
-                "tutorial-not-accepted": "The tutorial is not helpful to the question",
-                "tutorial-proposal": "I have a tutorial to suggest"
-              },
-              "problem-suggestion-description": "Describe your problem or suggestion"
-            }
-          },
-          "status": {
-            "error": {
-              "empty-message": "You must enter a message.",
-              "max-characters": "Your message cannot exceed 10,000 characters."
-            },
-            "success": "'<p>'Your comment has been sent to the Pix project team.'</p><p>'Thank you!'</p>'"
-          }
-        },
-        "information": {
-          "data-usage": "'<p>'Pix processes the data from this area to manage and analyse the difficulty encountered and benefit from your feedback. You have rights over your data which can be exercised via: <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.org/en/personal-data-reporting-test\" target=\"_blank\" class=\"link\">'To find out more about protecting your data and your rights.'</a></p>'",
-          "guidance": "'<p>'*Make sure you write in this zone: for your benefit and the benefit of others, please stay objective and keep to the facts.'</p><p>'Do not enter any information about yourself or third parties, or any information related to health; religion; political, or philosophical opinions; trade union affiliation; ethnic origins; or penalties and convictions.'</p>'"
-        },
-        "modal": {
-          "content": "'<p><strong>'Do you confirm this problem report?'</strong></p><p>'Thank you for this problem report, our team will review it soon. Every feedback helps us improve our services and the experience of all Pix users. Please note that we will not reach out to you on this topic. Thank you for your help.'</p>'",
-          "title": "Report confirmation"
-        }
       },
       "has-focused-out-of-window": {
         "certification": "We have detected a page switch. Your answer will not be validated. If you have been forced to change pages, please inform your invigilator and answer the question in their presence.",
@@ -1276,9 +1296,6 @@
         }
       },
       "live-alerts": {
-        "challenge": {
-          "message": "Notify your invigilator so that they can check your problem"
-        },
         "companion": {
           "message": "Notify your invigilator so that they can confirm the presence of the extension."
         },
@@ -1291,11 +1308,8 @@
           "qcm": "Select several answers",
           "qcu": "Select one answer"
         },
-        "feedback": "Report a problem",
-        "feedback-v3": "Report a problem with the question",
         "instruction": "Instructions to answer the question",
-        "progress": "Your progression",
-        "validation": "Validate or skip this question"
+        "progress": "Your progression"
       },
       "skip-error-message": {
         "qcm": "To validate, select at least two answers. Otherwise, click Skip.",
@@ -1330,22 +1344,7 @@
           "deactivate": "Deactivate text-to-speech",
           "play": "Read the instructions out loud",
           "stop": "Stop reading the instructions"
-        },
-        "tooltip": {
-          "aria-label": "Show question's warning",
-          "close": "Ok, got it",
-          "focused": {
-            "content": "'<strong class=\"tooltip-tag-information__title--focused\">'Stay on this page to answer!'</strong><br/>' Do not use the internet or any application to answer. Any activity outside this zone will be detected.",
-            "title": "Focus Mode"
-          },
-          "other": {
-            "content": "To answer this question, feel free to search the internet or use an external application.",
-            "title": "Free Mode"
-          }
         }
-      },
-      "timed": {
-        "cannot-answer": "You've run out of time. Your answer will not be validated."
       },
       "title": {
         "default": "Free Mode - Question {stepNumber} of {totalChallengeNumber}",

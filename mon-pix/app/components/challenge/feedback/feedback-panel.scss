@@ -1,0 +1,48 @@
+@use 'pix-design-tokens/breakpoints';
+@use 'pix-design-tokens/typography';
+
+/* "Form" view
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.feedback-panel__view {
+  padding: var(--pix-spacing-2x) 0;
+}
+
+.feedback-panel__form-wrapper {
+  display: flex;
+  margin-top: var(--pix-spacing-4x);
+}
+
+.feedback-panel__form {
+  width: 100%;
+}
+
+.feedback-panel__field-notice {
+  margin: var(--pix-spacing-4x) 0 var(--pix-spacing-1x);
+
+  @extend %pix-body-xs;
+}
+
+.feedback-panel__category-selection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-4x);
+}
+
+.tuto-icon {
+  width: 15px;
+}
+
+
+.feedback-panel__form-legal-notice {
+  @extend %pix-body-xs;
+
+  margin-top: var(--pix-spacing-4x);
+  padding-top: var(--pix-spacing-4x);
+  color: var(--pix-neutral-500);
+  border-top: 1px solid var(--pix-neutral-20);
+
+  & a {
+    color: var(--pix-primary-700);
+  }
+}

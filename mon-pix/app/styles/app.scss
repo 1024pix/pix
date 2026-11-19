@@ -57,7 +57,6 @@
 @use 'components/communication-banner' as *;
 @use 'components/companion/blocker' as *;
 @use 'components/companion/check' as *;
-@use 'components/challenge-actions' as *;
 @use 'components/challenge-illustration' as *;
 @use 'components/challenge-item' as *;
 @use 'components/challenge-statement' as *;
@@ -70,9 +69,7 @@
 @use 'components/competence-card' as *;
 @use 'components/competence-card/list' as *;
 @use 'components/dashboard/content' as *;
-@use 'components/feedback-panel' as *;
 @use 'components/copy-paste-button' as *;
-@use 'components/certification-feedback-panel' as *;
 @use 'components/footer' as *;
 @use 'components/form-textfield' as *;
 @use 'components/hexagon-score' as *;
@@ -144,7 +141,6 @@
 @use 'components/show-more-text' as *;
 @use 'components/sitemap/content' as *;
 @use 'components/focused-certification-challenge-instructions' as *;
-@use 'components/tooltip' as *;
 @use 'components/training-card' as *;
 @use 'components/tutorial-card' as *;
 @use 'components/tutorial-item' as *;
@@ -184,8 +180,14 @@
 @use '../components/ui/assessment/progress-bar' as *;
 
 /* challenge */
+@use '../components/challenge/challenge-wrapper' as *;
 @use '../components/challenge/timeout-gauge' as *;
+@use '../components/challenge/challenge-actions' as *;
+@use '../components/challenge/mode-banner' as *;
 @use '../components/challenge/timed-challenge-instructions' as *;
+@use '../components/challenge/feedback/feedback-wrapper' as *;
+@use '../components/challenge/feedback/feedback-panel' as *;
+@use '../components/challenge/feedback/certification-feedback-panel' as *;
 
 /* pages */
 @use 'pages/campaign-landing-page' as *;

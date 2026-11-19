@@ -50,7 +50,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           assert
             .dom(
               screen.getByRole('heading', {
-                name: t('pages.certifications-dashboard.enrolment-banner.not-certifiable.title'),
+                name: 'Vous n’êtes pas encore certifiable',
               }),
             )
             .exists();
@@ -539,7 +539,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           await fillCertificationStarter({ accessCode: 'ABCD12', t });
 
           // when
-          await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+          await click(screen.getByRole('button', { name: 'Signaler un problème' }));
           // eslint-disable-next-line ember/no-settled-after-test-helper
           await settled();
 
@@ -578,7 +578,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             });
             await validateCertificationInstructions({ t });
             await fillCertificationStarter({ accessCode: 'ABCD12', t });
-            await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+            await click(screen.getByRole('button', { name: 'Signaler un problème' }));
 
             // when
             await click(screen.getByRole('button', { name: 'Oui, je suis sûr(e)' }));
@@ -592,11 +592,10 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             assert
               .dom(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }))
               .hasAttribute('aria-disabled');
-            assert.dom(screen.getByText('Les actions sont mises en pause en attendant le surveillant')).exists();
             assert
               .dom(
                 screen.getByText(
-                  "Prévenez votre surveillant afin qu'il puisse constater votre problème et le gérer en direct dans son interface « Espace Surveillant ».",
+                  "Les actions sont mises en pause en attendant le surveillant. Prévenez votre surveillant afin qu'il puisse constater votre problème et le gérer en direct dans son interface « Espace Surveillant ».",
                 ),
               )
               .exists();

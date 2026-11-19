@@ -85,7 +85,7 @@ module('Acceptance | Compare answers and solutions for QROC questions', function
       await click(screen.getByRole('button', { name: 'Voir les réponses et les tutos' }));
 
       // then
-      assert.dom('.feedback-panel__open-button').exists();
+      assert.dom(screen.getByRole('button', { name: 'Signaler un problème' })).exists();
     });
   });
 });

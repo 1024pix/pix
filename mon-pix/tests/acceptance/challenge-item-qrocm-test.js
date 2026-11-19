@@ -97,21 +97,9 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
 
         // then
-        assert.dom('.challenge-response__alert[role="alert"]').exists();
-        assert.ok(currentURL().includes(`/assessments/${assessment.id}/challenges/0`));
-      });
-
-      test('should not be able to validate the empty option', async function (assert) {
-        // given
-        const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
-
-        // when
-        await clickByName('saladAriaLabel');
-        await screen.findByRole('listbox');
-        await click(screen.getByLabelText('Je valide et je vais à la prochaine question'));
-
-        // then
-        assert.dom('.challenge-response__alert[role="alert"]').exists();
+        assert
+          .dom(await screen.queryByText('Pour valider, veuillez remplir tous les champs réponse. Sinon, passez.'))
+          .exists();
         assert.ok(currentURL().includes(`/assessments/${assessment.id}/challenges/0`));
       });
 
@@ -303,7 +291,9 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       assert.ok(tutorialToSuccess.textContent.includes(tutorial.title));
       assert.ok(tutorialToLearnMore.textContent.includes(learningMoreTutorial.title));
 
-      assert.dom('.feedback-panel').exists();
+      assert
+        .dom(getScreen().getByRole('heading', { name: 'Signaler un problème avec la question', level: 2 }))
+        .exists();
     });
 
     test('should show details of QROCM-ind challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
@@ -333,7 +323,9 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       assert.ok(tutorialToSuccess.textContent.includes(tutorial.title));
       assert.ok(tutorialToLearnMore.textContent.includes(learningMoreTutorial.title));
 
-      assert.dom('.feedback-panel').exists();
+      assert
+        .dom(getScreen().getByRole('heading', { name: 'Signaler un problème avec la question', level: 2 }))
+        .exists();
     });
 
     test('should show details of QROCM-ind challenge (with select) result in pop-in, with tutorials and feedbacks', async function (assert) {
@@ -361,7 +353,9 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       assert.ok(tutorialToSuccess.textContent.includes(tutorial.title));
       assert.ok(tutorialToLearnMore.textContent.includes(learningMoreTutorial.title));
 
-      assert.dom('.feedback-panel').exists();
+      assert
+        .dom(getScreen().getByRole('heading', { name: 'Signaler un problème avec la question', level: 2 }))
+        .exists();
     });
   });
 });

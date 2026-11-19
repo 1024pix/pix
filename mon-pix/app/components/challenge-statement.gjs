@@ -8,7 +8,6 @@ import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
 import eq from 'ember-truth-helpers/helpers/eq';
 import sortBy from 'lodash/sortBy';
-import Tooltip from 'mon-pix/components/challenge/statement/tooltip';
 import ChallengeEmbedSimulator from 'mon-pix/components/challenge-embed-simulator';
 import ChallengeIllustration from 'mon-pix/components/challenge-illustration';
 import MarkdownToHtml from 'mon-pix/components/markdown-to-html';
@@ -48,8 +47,6 @@ export default class ChallengeStatement extends Component {
           {{#if @challenge.alternativeInstruction}}
             <div class="sr-only">{{t "pages.challenge.statement.sr-only.alternative-instruction"}}</div>
           {{/if}}
-
-          <Tooltip @challenge={{@challenge}} />
         </div>
       {{/if}}
 

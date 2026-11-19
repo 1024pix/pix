@@ -3,7 +3,13 @@
 @use '../globals/a11y' as *;
 
 .challenge-item {
-  padding: var(--pix-spacing-1x);
+  margin-bottom:var(--pix-spacing-3x);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+
+  @include breakpoints.device-is('tablet') {
+    border-top-right-radius: var(--pix-spacing-3x);;
+  }
 }
 
 .challenge-response {
@@ -11,8 +17,6 @@
 
   display: flex;
   flex-direction: column;
-  margin: 4px;
-  background-color: var(--pix-neutral-20);
 
   label {
     font-weight: var(--pix-font-normal);
@@ -99,18 +103,6 @@
 }
 
 form .challenge-response {
-  &--locked {
-    position: relative;
-  }
-
-  &__locked-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-  }
-
   .challenge-response__instructions {
     @extend %pix-body-s;
 
@@ -137,15 +129,6 @@ form .challenge-response {
     ol,
     p {
       margin: 0;
-    }
-  }
-}
-
-form .challenge-response.challenge-response--locked {
-  &:hover {
-    .challenge-response__locked-overlay {
-      opacity: 1;
-      transition: 0.9s ease;
     }
   }
 }

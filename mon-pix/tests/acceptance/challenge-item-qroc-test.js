@@ -244,7 +244,9 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
         assert.ok(tutorialToSuccess.textContent.includes(tutorial.title));
         assert.ok(tutorialToLearnMore.textContent.includes(learningMoreTutorial.title));
-        assert.dom('.feedback-panel').exists();
+        assert
+          .dom(getScreen().getByRole('heading', { name: 'Signaler un problème avec la question', level: 2 }))
+          .exists();
       });
     });
 
@@ -271,7 +273,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       });
 
       test('should display the error alert if the users tries to validate an empty answer', async function (assert) {
-        await click(find('.challenge-actions__action-skip'));
+        await clickByName('Je passe et je vais à la prochaine question');
 
         assert.strictEqual(currentURL(), `/assessments/${assessment.id}/challenges/1`);
         assert.strictEqual(
@@ -399,7 +401,9 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
         assert.ok(tutorialToSuccess.textContent.includes(tutorial.title));
         assert.ok(tutorialToLearnMore.textContent.includes(learningMoreTutorial.title));
-        assert.dom('.feedback-panel').exists();
+        assert
+          .dom(getScreen().getByRole('heading', { name: 'Signaler un problème avec la question', level: 2 }))
+          .exists();
       });
     });
   });
@@ -524,7 +528,9 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         assert.ok(tutorialToSuccess.textContent.includes(tutorial.title));
         assert.ok(tutorialToLearnMore.textContent.includes(learningMoreTutorial.title));
 
-        assert.dom('.feedback-panel').exists();
+        assert
+          .dom(getScreen().getByRole('heading', { name: 'Signaler un problème avec la question', level: 2 }))
+          .exists();
       });
     });
   });

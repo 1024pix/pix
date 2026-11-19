@@ -1,8 +1,8 @@
 import { PixModal } from '@1024pix/nebulix-ember';
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
+import FeedbackPanel from 'mon-pix/components/challenge/feedback/feedback-panel';
 import ChallengeIllustration from 'mon-pix/components/challenge-illustration';
-import FeedbackPanel from 'mon-pix/components/feedback-panel';
 import LearningMorePanel from 'mon-pix/components/learning-more-panel';
 import MarkdownToHtmlUnsafe from 'mon-pix/components/markdown-to-html-unsafe';
 import QcmSolutionPanel from 'mon-pix/components/solution-panel/qcm-solution-panel';

@@ -1,10 +1,10 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import CertificationFeedbackPanel from 'mon-pix/components/certification-feedback-panel';
+import CertificationFeedbackPanel from 'mon-pix/components/challenge/feedback/certification-feedback-panel';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | certification-feedback-panel', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -44,7 +44,7 @@ module('Integration | Component | certification-feedback-panel', function (hooks
         );
 
         // when
-        await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+        await click(screen.getByRole('button', { name: 'Signaler un problème' }));
         assert.dom(screen.getByText('Êtes-vous sûr(e) de vouloir signaler un problème ?')).exists();
 
         await click(screen.getByRole('button', { name: "Non, je reviens à l'épreuve" }));
@@ -72,13 +72,6 @@ module('Integration | Component | certification-feedback-panel', function (hooks
 
           // then
           assert.dom(screen.getByText('En attente du surveillant...')).exists();
-          assert
-            .dom(
-              screen.getByText(
-                "Prévenez votre surveillant afin qu'il puisse constater votre problème et le gérer en direct dans son interface « Espace Surveillant ».",
-              ),
-            )
-            .exists();
         });
 
         test('should display a refresh button', async function (assert) {

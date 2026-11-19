@@ -151,7 +151,7 @@ module('Acceptance | Common behavior to all challenges', function (hooks) {
       const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
 
       // then
-      assert.dom(screen.getByRole('heading', { name: 'Signaler un problème' })).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Signaler un problème avec la question' })).exists();
     });
   });
 

@@ -1,8 +1,6 @@
 @use 'pix-design-tokens/typography';
 
 .focused-certification-challenge-instructions {
-  position: absolute;
-  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
