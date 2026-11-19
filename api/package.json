@@ -206,7 +206,7 @@
     "oauth4webapi": "3.8.8",
     "oxfmt": "0.78.0",
     "pdfjs-dist": "6.5.438",
-    "schemalint": "2.3.2",
+    "schemalint": "2.3.3",
     "sinon": "22.1.0",
     "sinon-chai": "4.0.1",
     "typescript": "npm:@typescript/typescript6@6.0.2",
