@@ -1,4 +1,12 @@
-import { PixButton, PixButtonLink, PixSegmentedControl, PixSelect, PixTag, PixTextarea } from '@1024pix/nebulix-ember';
+import {
+  PixButton,
+  PixButtonLink,
+  PixIconButton,
+  PixSegmentedControl,
+  PixSelect,
+  PixTag,
+  PixTextarea,
+} from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -6,8 +14,9 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { pageTitle } from 'ember-page-title';
-import { notEq } from 'ember-truth-helpers';
+import { not, notEq } from 'ember-truth-helpers';
 import ModulixGrain from 'mon-pix/components/module/grain/grain';
+import ModulixPreviewGlossary from 'mon-pix/components/module/preview-glossary';
 import ModulixSectionTitle from 'mon-pix/components/module/section-title';
 
 import didInsert from '../../modifiers/modifier-did-insert';
@@ -21,6 +30,7 @@ export default class ModulixPreview extends Component {
   @service intl;
 
   @tracked moduleCodeDisplayed = false;
+  @tracked isOptionsPanelDisplayed = true;
 
   @tracked
   module = `{
@@ -38,6 +48,16 @@ export default class ModulixPreview extends Component {
       "Contribuer au contenu d'un Module"
     ]
   },
+  "glossary": [
+    {
+      "words": ["leçon", "leçons"],
+      "definition": "<p>Contenu qui transmet des connaissances, sans activité à réaliser.</p>"
+    },
+    {
+      "words": ["satellite"],
+      "definition": "<p>Objet placé en orbite autour d'une planète, par exemple pour les télécommunications.</p>"
+    }
+  ],
   "sections": [{
     "id": "845b8985-6855-4d7a-9484-e160b573dba1",
     "type": "blank",
@@ -204,6 +224,11 @@ export default class ModulixPreview extends Component {
   }
 
   @action
+  toggleOptionsPanel() {
+    this.isOptionsPanelDisplayed = !this.isOptionsPanelDisplayed;
+  }
+
+  @action
   onGrainSelectedChange(value) {
     this.selectedGrainIndex = value;
   }
@@ -237,46 +262,74 @@ export default class ModulixPreview extends Component {
       </div>
     {{/unless}}
 
-    <div class="module-preview__panel" {{didInsert this.setHTMLElementOffset}}>
-      <form
-        class="module-preview-panel__metadata-display-form"
-        aria-label={{t "pages.modulix.preview.elements-display-panel-label"}}
-      >
-        <PixSegmentedControl @onChange={{this.toggleElementIdButton}} @variant="primary" @toggled={{true}}>
-          <:label>{{t "pages.modulix.preview.elements-id-button.label"}}</:label>
-          <:viewA>{{t "common.yes"}}</:viewA>
-          <:viewB>{{t "common.no"}}</:viewB>
-        </PixSegmentedControl>
-        <PixSegmentedControl @onChange={{this.toggleGrainsTitleButton}} @variant="primary" @toggled={{true}}>
-          <:label>{{t "pages.modulix.preview.grains-title-button.label"}}</:label>
-          <:viewA>{{t "common.yes"}}</:viewA>
-          <:viewB>{{t "common.no"}}</:viewB>
-        </PixSegmentedControl>
-      </form>
-      {{#if this.previewingExistingModule}}
-        <hr />
-        <form class="module-preview-panel__grain-form">
-          <PixSelect
-            @isComputeWidthDisabled={{true}}
-            @hideDefaultOption={{true}}
-            @options={{this.formattedGrainListWithLabel}}
-            @onChange={{this.onGrainSelectedChange}}
-            @value={{this.selectedGrainIndex}}
+    {{#if this.isOptionsPanelDisplayed}}
+      <div class="module-preview__panel" {{didInsert this.setHTMLElementOffset}}>
+        <PixIconButton
+          class="module-preview-panel__close-button"
+          @iconName="close"
+          @ariaLabel={{t "pages.modulix.preview.options-panel.hide"}}
+          @triggerAction={{this.toggleOptionsPanel}}
+          @size="small"
+        />
+        <form
+          class="module-preview-panel__metadata-display-form"
+          aria-label={{t "pages.modulix.preview.elements-display-panel-label"}}
+        >
+          <PixSegmentedControl
+            @onChange={{this.toggleElementIdButton}}
+            @variant="primary"
+            @toggled={{not this.modulixPreviewMode.isElementsIdButtonEnabled}}
           >
-            <:label>{{t "pages.modulix.preview.grain-select.label"}}</:label>
-          </PixSelect>
-          <PixButton @triggerAction={{this.goToModuleGrain}}>{{t
-              "pages.modulix.preview.grain-select.button"
-            }}</PixButton>
+            <:label>{{t "pages.modulix.preview.elements-id-button.label"}}</:label>
+            <:viewA>{{t "common.yes"}}</:viewA>
+            <:viewB>{{t "common.no"}}</:viewB>
+          </PixSegmentedControl>
+          <PixSegmentedControl
+            @onChange={{this.toggleGrainsTitleButton}}
+            @variant="primary"
+            @toggled={{not this.modulixPreviewMode.isGrainsTitleButtonEnabled}}
+          >
+            <:label>{{t "pages.modulix.preview.grains-title-button.label"}}</:label>
+            <:viewA>{{t "common.yes"}}</:viewA>
+            <:viewB>{{t "common.no"}}</:viewB>
+          </PixSegmentedControl>
         </form>
-      {{/if}}
-    </div>
+        {{#if this.previewingExistingModule}}
+          <hr />
+          <form class="module-preview-panel__grain-form">
+            <PixSelect
+              @isComputeWidthDisabled={{true}}
+              @hideDefaultOption={{true}}
+              @options={{this.formattedGrainListWithLabel}}
+              @onChange={{this.onGrainSelectedChange}}
+              @value={{this.selectedGrainIndex}}
+            >
+              <:label>{{t "pages.modulix.preview.grain-select.label"}}</:label>
+            </PixSelect>
+            <PixButton @triggerAction={{this.goToModuleGrain}}>{{t
+                "pages.modulix.preview.grain-select.button"
+              }}</PixButton>
+          </form>
+        {{/if}}
+      </div>
+    {{else}}
+      <PixIconButton
+        class="module-preview__panel-open-button"
+        @iconName="displaySettings"
+        @ariaLabel={{t "pages.modulix.preview.options-panel.show"}}
+        @triggerAction={{this.toggleOptionsPanel}}
+        @size="small"
+        {{didInsert this.setHTMLElementOffset}}
+      />
+    {{/if}}
 
     <div class="module-preview {{if this.moduleCodeDisplayed 'module-preview--with-editor'}}">
       <aside class="module-preview__passage module-passage">
         <div class="module-preview-passage__title">
           <h1>{{this.formattedModule.title}}</h1>
         </div>
+
+        <ModulixPreviewGlossary @glossary={{this.formattedModule.glossary}} />
 
         <div class="module-preview-passage__content">
           {{#each this.formattedModule.sections as |section|}}

@@ -1974,6 +1974,9 @@
           "label": "Mostra l'ID degli elementi"
         },
         "elements-metadata-panel-label": "Mostra o nascondi i metadati",
+        "glossary": {
+          "title": "Glossario"
+        },
         "grain-select": {
           "button": "Testa il grain",
           "grain-label": "Grain {index} : {title}",
@@ -1983,6 +1986,10 @@
           "label": "Mostra il titolo dei grain"
         },
         "modulix-editor": "Modulix Editor",
+        "options-panel": {
+          "hide": "Nascondi le opzioni",
+          "show": "Mostra le opzioni"
+        },
         "showJson": "Visualizza JSON",
         "stepper": "Anteprima: stepper {direction}",
         "textarea-label": "Contenuto del modulo"

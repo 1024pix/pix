@@ -1974,6 +1974,9 @@
           "label": "De ID van de elementen weergeven"
         },
         "elements-metadata-panel-label": "Metagegevens weergeven of verbergen",
+        "glossary": {
+          "title": "Woordenlijst"
+        },
         "grain-select": {
           "button": "De korrel testen",
           "grain-label": "Korrel {index}: {title}",
@@ -1983,6 +1986,10 @@
           "label": "De titel van de korrels weergeven"
         },
         "modulix-editor": "Modulix Editor",
+        "options-panel": {
+          "hide": "Opties verbergen",
+          "show": "Opties weergeven"
+        },
         "showJson": "Het JSON weergeven",
         "stepper": "Preview: stepper {direction}",
         "textarea-label": "Inhoud van de module"
