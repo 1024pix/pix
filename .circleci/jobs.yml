@@ -54,9 +54,6 @@ parameters:
     type: boolean
     default: false
 
-orbs:
-  browser-tools: circleci/browser-tools@2.4.3
-
 executors:
   node-docker:
     parameters:
@@ -297,14 +294,50 @@ commands:
           command: npm run lint:types --if-present
           when: always
 
+  install_chrome:
+    parameters:
+      version:
+        type: string
+        default: stable
+    steps:
+      - run:
+          name: 'Chrome: resolve version'
+          max_time: 1m
+          command: |
+            VERSION="<<parameters.version>>"
+            if [ "$VERSION" = "stable" ]; then
+              VERSION=$(curl -fsSL --retry 3 https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions.json | jq -r .channels.Stable.version)
+            fi
+            echo "$VERSION" > /tmp/chrome-version
+      - restore_cache:
+          name: 'Chrome: restore cache'
+          keys:
+            - v1-chrome-for-testing-{{ checksum "/tmp/chrome-version" }}
+      - run:
+          name: 'Chrome: install'
+          max_time: 3m
+          command: |
+            VERSION=$(cat /tmp/chrome-version)
+            CHROME_DIR=~/.cache/chrome-for-testing/$VERSION
+            if [ ! -x "$CHROME_DIR/chrome-linux64/chrome" ]; then
+              curl -fsSL --retry 3 -o /tmp/chrome-linux64.zip "https://storage.googleapis.com/chrome-for-testing-public/$VERSION/linux64/chrome-linux64.zip"
+              mkdir -p "$CHROME_DIR"
+              unzip -q /tmp/chrome-linux64.zip -d "$CHROME_DIR"
+            fi
+            sudo ln -sf "$CHROME_DIR/chrome-linux64/chrome" /usr/local/bin/google-chrome
+            google-chrome --version
+      - save_cache:
+          name: 'Chrome: save cache'
+          key: v1-chrome-for-testing-{{ checksum "/tmp/chrome-version" }}
+          paths:
+            - ~/.cache/chrome-for-testing
+
   frontend_test:
     parameters:
       app_name:
         type: string
     steps:
-      - browser-tools/install_browser_tools:
-          install_firefox: false
-          install_geckodriver: false
+      - install_chrome
       - attach_workspace:
           at: ~/pix
       - run:
@@ -991,14 +1024,11 @@ jobs:
             if [[ "$CIRCLE_BRANCH" != "dev" ]] && [[ "<< pipeline.parameters.run-mon-pix >>" == "false" ]] && [[ "<< pipeline.parameters.run-api >>" == "false" ]] && [[ "<< pipeline.parameters.run-e2e-cypress >>" == "false" ]]; then
               circleci step halt
             fi
-      - browser-tools/install_browser_tools:
-          install_firefox: false
-          install_geckodriver: false
+      - install_chrome:
           # Chrome >= 158 rejects Storage.clearDataForOrigin({ origin: '*' }) sent by
           # Cypress < 15.21.2 ("* is not a valid URL"). Pin Chrome until Cypress is upgraded.
           # See https://github.com/cypress-io/cypress/issues/35195
-          replace_existing_chrome: true
-          chrome_version: 157.0.8103.78
+          version: 157.0.8103.78
       - run:
           name: Manual safety start of X11 server
           command: |
