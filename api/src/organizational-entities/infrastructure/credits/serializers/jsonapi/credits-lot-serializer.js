@@ -4,8 +4,8 @@ const { Serializer, Deserializer } = jsonapiSerializer;
 
 const serialize = function (payload) {
   return new Serializer('credits-lot', {
-    attributes: [],
-  }).serialize({ id: payload.id });
+    attributes: ['structureId', 'count', 'activationDate', 'expirationDate', 'reference', 'creatorFullName', 'status'],
+  }).serialize(payload);
 };
 
 const deserialize = function (payload) {

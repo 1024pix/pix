@@ -1,23 +1,34 @@
 import { expect } from 'chai';
 
 import { creditsLotSerializer } from '../../../../../../../src/organizational-entities/infrastructure/credits/serializers/jsonapi/credits-lot-serializer.js';
+import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Serializer | Credits | credits-lot-serializer', function () {
   describe('#serialize', function () {
-    it('should return the created id', function () {
+    it('converts a credits lot model to JSON', function () {
       // given
-      const creditsLotId = 1234;
+      const creditsLot = domainBuilder.acquisition.buildCreditsLot();
+
+      const expectedSerializedCreditsLot = {
+        data: {
+          id: creditsLot.id.toString(),
+          type: 'credits-lots',
+          attributes: {
+            'structure-id': creditsLot.structureId,
+            count: creditsLot.count,
+            'activation-date': creditsLot.activationDate,
+            'expiration-date': creditsLot.expirationDate,
+            reference: creditsLot.reference,
+            'creator-full-name': creditsLot.creatorFullName,
+            status: creditsLot.status,
+          },
+        },
+      };
 
       // when
-      const serializedcreditsLot = creditsLotSerializer.serialize({ id: creditsLotId });
-
+      const json = creditsLotSerializer.serialize(creditsLot);
       // then
-      expect(serializedcreditsLot).to.deep.equal({
-        data: {
-          id: `${creditsLotId}`,
-          type: 'credits-lots',
-        },
-      });
+      expect(json).to.deep.equal(expectedSerializedCreditsLot);
     });
   });
 
