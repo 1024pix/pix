@@ -66,14 +66,13 @@ $grain-card-border-radius: var(--pix-spacing-4x);
   &__illustration {
     position: absolute;
     top: -25px;
-    right: -18px;
-    width: 55px;
-    transform: rotate(-8.8deg);
+    right: -26px;
+    width: 80px;
 
     @include breakpoints.device-is('desktop') {
-      top: -30px;
-      right: -35px;
-      width: 70px;
+      top: -43px;
+      right: -38px;
+      width: 115px;
     }
   }
 
