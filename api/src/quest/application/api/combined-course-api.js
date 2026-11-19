@@ -25,6 +25,10 @@ export const getByCampaignId = async (campaignId) => {
   return new CombinedCourse(courses[0]);
 };
 
+export const existsForCampaignId = async (campaignId) => {
+  return usecases.getCombinedCourseExistsForCampaignId({ campaignId });
+};
+
 export const findCombinedCourseIdsByOrganizationId = async (organizationId) => {
   return usecases.findCombinedCourseIdsByOrganizationId({ organizationId });
 };
