@@ -1,5 +1,5 @@
 # renovate datasource=node-version depName=node
-FROM node:24.22.3@sha256:9d266751ca3d7fdbe651c878ffd5ad0a42fed49a18c283509267c97f025b7496
+FROM node:26.13.1@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
 # To run chrome headless with no-sandbox.
 ENV CI 1
 
