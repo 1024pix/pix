@@ -6,7 +6,7 @@
   "license": "AGPL-3.0",
   "author": "GIP Pix",
   "engines": {
-    "node": "^24.22.3"
+    "node": "^26.13.1"
   },
   "ember": {
     "edition": "octane"
@@ -120,7 +120,8 @@
     "@xmldom/xmldom": "0.9.12",
     "braces": "3.0.3",
     "eslint": "$eslint",
-    "flatted": "3.4.4"
+    "flatted": "3.4.4",
+    "mktemp": "2.0.4"
   },
   "exports": {
     "./tests/*": "./tests/*",

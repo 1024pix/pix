@@ -6,5 +6,5 @@
   ],
   "enabled": true,
   "schedule": ["at any time"],
-  "ignorePaths": ["high-level-tests/e2e/**"]
+  "ignorePaths": ["high-level-tests/e2e/package.json"]
 }
