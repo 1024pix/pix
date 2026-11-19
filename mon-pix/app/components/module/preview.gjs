@@ -48,6 +48,16 @@ export default class ModulixPreview extends Component {
       "Contribuer au contenu d'un Module"
     ]
   },
+  "glossary": [
+    {
+      "words": ["leçon", "leçons"],
+      "definition": "<p>Contenu qui transmet des connaissances, sans activité à réaliser.</p>"
+    },
+    {
+      "words": ["satellite"],
+      "definition": "<p>Objet placé en orbite autour d'une planète, par exemple pour les télécommunications.</p>"
+    }
+  ],
   "sections": [{
     "id": "845b8985-6855-4d7a-9484-e160b573dba1",
     "type": "blank",
@@ -319,9 +329,7 @@ export default class ModulixPreview extends Component {
           <h1>{{this.formattedModule.title}}</h1>
         </div>
 
-        {{#if this.previewingExistingModule}}
-          <ModulixPreviewGlossary @glossary={{this.formattedModule.glossary}} />
-        {{/if}}
+        <ModulixPreviewGlossary @glossary={{this.formattedModule.glossary}} />
 
         <div class="module-preview-passage__content">
           {{#each this.formattedModule.sections as |section|}}

@@ -44,6 +44,15 @@ module('Integration | Component | Module | Preview', function (hooks) {
     assert.true(enableStub.calledOnce);
   });
 
+  test('should display the demo module glossary', async function (assert) {
+    //  when
+    const screen = await render(<template><ModulixPreview /></template>);
+
+    // then
+    assert.dom(screen.getByRole('heading', { name: t('pages.modulix.preview.glossary.title') })).exists();
+    assert.dom(screen.getAllByRole('term')[0]).hasText('leçon, leçons');
+  });
+
   test('should hide json textarea by default', async function (assert) {
     //  when
     const screen = await render(<template><ModulixPreview /></template>);
