@@ -1,7 +1,18 @@
 import { databaseBuffer } from '../database-buffer.ts';
 import { buildUser } from './build-user.ts';
 
-function buildUserLogin({
+type UserLoginAttributes = {
+  id?: number;
+  userId?: number | null;
+  failureCount?: number;
+  temporaryBlockedUntil?: Date | null;
+  blockedAt?: Date | null;
+  createdAt?: Date;
+  updatedAt?: Date;
+  lastLoggedAt?: Date | null;
+};
+
+const buildUserLogin = ({
   id = databaseBuffer.getNextId(),
   userId = null,
   failureCount = 0,
@@ -10,14 +21,10 @@ function buildUserLogin({
   createdAt = new Date(),
   updatedAt = new Date(),
   lastLoggedAt = null,
-} = {}) {
-  if (!userId) {
-    userId = buildUser().id;
-  }
-
+}: UserLoginAttributes = {}) => {
   const values = {
     id,
-    userId,
+    userId: userId || buildUser().id,
     failureCount,
     temporaryBlockedUntil,
     blockedAt,
@@ -25,9 +32,7 @@ function buildUserLogin({
     updatedAt,
     lastLoggedAt,
   };
-  return databaseBuffer.pushInsertable({
-    tableName: 'user-logins',
-    values,
-  });
-}
+  return databaseBuffer.pushInsertable({ tableName: 'user-logins', values });
+};
+
 export { buildUserLogin };
