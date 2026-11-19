@@ -225,7 +225,9 @@ commands:
       - restore_cache:
           keys:
             - v8-<<parameters.cache_key>>-npm-{{ checksum "cachekey" }}
-      - run: npm ci
+      - run:
+          command: npm ci
+          max_time: 10m
       - save_cache:
           key: v8-<<parameters.cache_key>>-npm-{{ checksum "cachekey" }}
           paths:
@@ -240,7 +242,9 @@ commands:
       - restore_cache:
           keys:
             - v8-<<parameters.cache_key>>-npm-{{ checksum "cachekey" }}
-      - run: npm ci
+      - run:
+          command: npm ci
+          max_time: 10m
       - run: npx cypress install
       - save_cache:
           key: v8-<<parameters.cache_key>>-npm-{{ checksum "cachekey" }}
@@ -259,6 +263,7 @@ commands:
       - run:
           name: Build
           command: npm run build -- --mode=development
+          max_time: 10m
           environment:
             DEFAULT_LOCALE: fr
             JOBS: 2
@@ -305,6 +310,7 @@ commands:
       - run:
           name: Test
           command: npm run test:ci
+          max_time: 10m
           environment:
             RESULTS_PATH: ../../test-results/<<parameters.app_name>>
           when: always
@@ -595,6 +601,7 @@ jobs:
       - run:
           name: Test
           command: npm run test:api:unit -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
+          max_time: 10m
           environment:
             NODE_ENV: test
             MOCHA_REPORTER: xunit
@@ -644,6 +651,7 @@ jobs:
       - run:
           name: Test
           command: npm run test:api:integration -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
+          max_time: 15m
           environment:
             NODE_ENV: test
             MOCHA_REPORTER: xunit
@@ -704,6 +712,7 @@ jobs:
       - run:
           name: Test
           command: npm run test:api:acceptance -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
+          max_time: 15m
           environment:
             NODE_ENV: test
             MOCHA_REPORTER: xunit
@@ -757,6 +766,7 @@ jobs:
       - run:
           name: Test
           command: npm run test
+          max_time: 10m
           environment:
             PIX_API_CLIENT_SECRET: $2a$04$vkPRiypzeVQVG92/dCll7.5brjDQZVZc750VwKBc01icXjVIQqRVq
             DATABASE_URL: postgres://circleci@localhost:5432/circleci
@@ -1017,6 +1027,7 @@ jobs:
           name: Install Pix API
           working_directory: ~/pix/api
           command: npm ci
+          max_time: 10m
       - run:
           name: Prepare database
           working_directory: ~/pix/api
@@ -1064,6 +1075,7 @@ jobs:
             JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             AUTH_SECRET: 'the-password-must-be-at-least-32-characters-long'
           command: npm run test:ci:app
+          max_time: 15m
       - store_test_results:
           path: /home/circleci/test-results
 
@@ -1166,6 +1178,7 @@ jobs:
               echo "Shard $CIRCLE_NODE_INDEX of $SHARD_TOTAL: run parallel tests"
               npx playwright test --grep-invert @runSerially --shard=${CIRCLE_NODE_INDEX}/${SHARD_TOTAL}
             fi
+          max_time: 15m
           environment:
             PIX_API_PORT: 3000
             PIX_APP_URL: http://localhost:4200
@@ -1195,7 +1208,9 @@ jobs:
       - restore_cache:
           keys:
             - v8-playwright-npm-{{ checksum "cachekey" }}
-      - run: npm ci
+      - run:
+          command: npm ci
+          max_time: 10m
       - run:
           working_directory: ~/pix/api
           command: cat package*.json > cachekey
@@ -1266,6 +1281,7 @@ jobs:
             SHARD="$((${CIRCLE_NODE_INDEX}+1))"
             echo "Shard $SHARD of $CIRCLE_NODE_TOTAL"
             npx playwright test --config playwright.config.certif.ts --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
+          max_time: 15m
           environment:
             PIX_API_PORT: 3000
             PIX_APP_URL: http://localhost:4200
