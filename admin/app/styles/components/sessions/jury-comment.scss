@@ -28,7 +28,7 @@
   }
 
   &__field {
-    height: 80px;
+    height: var(--pix-spacing-20x);
     margin-bottom: var(--pix-spacing-3x);
   }
 

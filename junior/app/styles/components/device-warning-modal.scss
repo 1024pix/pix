@@ -16,7 +16,7 @@
     gap: var(--pix-spacing-8x);
 
     .logo {
-      height: 80px;
+      height: var(--pix-spacing-20x);
     }
   }
 
@@ -83,7 +83,7 @@
   }
 
   &.is-tablet section {
-    margin: var(--pix-spacing-6x) 80px;
+    margin: var(--pix-spacing-6x) var(--pix-spacing-20x);
 
     h1 {
       font-size: 2.5rem;

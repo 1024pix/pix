@@ -87,7 +87,7 @@
   }
 
   .logo {
-    height: 80px;
+    height: var(--pix-spacing-20x);
   }
 
   @include breakpoints.device-is('desktop') {

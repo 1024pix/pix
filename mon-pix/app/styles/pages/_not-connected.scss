@@ -18,7 +18,7 @@
 
   &__logo {
     width: 100px;
-    height: 80px;
+    height: var(--pix-spacing-20x);
   }
 
   &__text-block {
