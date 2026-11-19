@@ -1,5 +1,7 @@
 const TOOLTIP_OFFSET = 8;
 const TOOLTIP_VIEWPORT_PADDING = 8;
+// Leaves time for the pointer to cross the gap between the button and the tooltip
+export const TOOLTIP_CLOSE_DELAY_MS = 200;
 
 let tooltipCounter = 0;
 // The custom element is defined once for the whole page: it uses the intl service of the current app instance
@@ -11,6 +13,7 @@ class HighlightedButton extends HTMLElement {
   #closeButton = null;
   #liveRegion = null;
   #definition = null;
+  #closeTimeoutId = null;
 
   connectedCallback() {
     const isAlreadyRendered = this.querySelector(':scope > button');
@@ -70,6 +73,7 @@ class HighlightedButton extends HTMLElement {
   }
 
   close() {
+    this.#cancelScheduledClose();
     this.#tooltipElement.classList.remove('module-glossary-tooltip--visible');
     this.#buttonElement.setAttribute('aria-expanded', 'false');
     this.#stopTrackingPosition();
@@ -84,8 +88,11 @@ class HighlightedButton extends HTMLElement {
     this.#tooltipElement.setAttribute('role', 'tooltip');
     this.#buttonElement.setAttribute('aria-describedby', definitionId);
 
-    this.#buttonElement.addEventListener('pointerenter', () => this.open());
-    this.#buttonElement.addEventListener('pointerleave', () => this.close());
+    this.addEventListener('pointerenter', () => {
+      this.#cancelScheduledClose();
+      if (!this.#isOpen) this.open();
+    });
+    this.addEventListener('pointerleave', () => this.#scheduleClose());
     this.#buttonElement.addEventListener('focus', () => this.open());
   }
 
@@ -117,6 +124,16 @@ class HighlightedButton extends HTMLElement {
     if (!this.contains(event.target)) this.close();
   };
 
+  #scheduleClose() {
+    this.#cancelScheduledClose();
+    this.#closeTimeoutId = setTimeout(() => this.close(), TOOLTIP_CLOSE_DELAY_MS);
+  }
+
+  #cancelScheduledClose() {
+    clearTimeout(this.#closeTimeoutId);
+    this.#closeTimeoutId = null;
+  }
+
   get #isOpen() {
     return this.#tooltipElement.classList.contains('module-glossary-tooltip--visible');
   }
@@ -127,6 +144,7 @@ class HighlightedButton extends HTMLElement {
   }
 
   disconnectedCallback() {
+    this.#cancelScheduledClose();
     this.#stopTrackingPosition();
     document.removeEventListener('click', this.#closeOnClickOutside);
   }
