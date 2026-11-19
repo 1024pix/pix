@@ -1,3 +1,5 @@
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { CouldNotDeleteLearnersError } from '../errors.js';
 import { services } from '../services/index.js';
 
 const deleteOrganizationLearners = async function ({
@@ -17,7 +19,12 @@ const deleteOrganizationLearners = async function ({
       organizationLearnerIds,
     });
 
-  if (organizationLearnersToDelete.length === 0) return;
+  if (organizationLearnerIds.length !== organizationLearnersToDelete.length) {
+    logger.error(
+      `User id ${userId} could not delete organization learners because some learner id in (${organizationLearnerIds.join(',')}) don't belong to organization id ${organizationId}`,
+    );
+    throw new CouldNotDeleteLearnersError();
+  }
 
   await services.deleteOrganizationLearnersService({
     organizationLearners: organizationLearnersToDelete,
