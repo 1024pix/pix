@@ -1,4 +1,4 @@
-import { PixButton, PixButtonLink, PixIconButton, PixTable, PixTableColumn, PixTooltip } from '@1024pix/nebulix-ember';
+import { PixButtonLink, PixIconButton, PixTable, PixTableColumn, PixTooltip } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -213,15 +213,15 @@ export default class EnrolledCandidates extends Component {
             <:cell>
               <div class='certification-candidates-actions'>
                 {{#unless @shouldDisplayScoStudentRegistration}}
-                  <PixButton
-                    @variant='tertiary'
+                  <PixIconButton
+                    @iconName='eye'
+                    @plainIcon={{true}}
                     @triggerAction={{fn this.openCertificationCandidateDetailsModal candidate}}
-                    aria-label='{{t
+                    @ariaLabel='{{t
                       "pages.sessions.detail.candidates.list.actions.details.extra-information"
                     }} {{candidate.firstName}} {{candidate.lastName}}'
-                  >
-                    {{t 'pages.sessions.detail.candidates.list.actions.details.label'}}
-                  </PixButton>
+                    aria-describedby='tooltip-edit-student-button'
+                  />
                 {{/unless}}
                 {{#if (this.isAccessibilityAdjustmentEnabled candidate.hasCoreScopeSubscription)}}
                   {{#if candidate.isLinked}}

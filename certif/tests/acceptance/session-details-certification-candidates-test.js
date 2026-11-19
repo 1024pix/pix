@@ -231,7 +231,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         test('it should display the candidate details modal', async function (assert) {
           // when
           const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-          await click(screen.getByLabelText(`Voir le détail du candidat Alain Sassin`));
+          await click(screen.getByRole('button', { name: `Voir le détail du candidat Alain Sassin` }));
 
           // then
           const modal = await screen.findByRole('dialog');
