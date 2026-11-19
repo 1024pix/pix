@@ -792,6 +792,12 @@
             "label": "Session number"
           }
         },
+        "status": {
+          "created": "Created",
+          "finalized": "Finalised",
+          "processed": "Results transmitted by Pix",
+          "to_finalize": "To finalize"
+        },
         "tabs": {
           "aria-label": "Navigation of the session details section",
           "details": "Details"

@@ -2,6 +2,7 @@ import { visit, visit as visitScreen } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import { TO_FINALIZE } from 'pix-certif/models/session-management';
 import { setupMirage } from 'pix-certif/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
@@ -104,6 +105,7 @@ module('Acceptance | Session Details', function (hooks) {
         });
         server.create('session-management', {
           id: 123,
+          status: TO_FINALIZE,
         });
 
         // when
@@ -111,6 +113,7 @@ module('Acceptance | Session Details', function (hooks) {
 
         // then
         assert.dom(screen.getByRole('heading', { name: 'Session 123', level: 1 })).exists();
+        assert.dom(screen.getByText('À finaliser')).exists();
         assert.dom(screen.getByText('123 rue des peupliers')).exists();
         assert.dom(screen.getByText('Salle 101')).exists();
         assert.dom(screen.getByText('Winston')).exists();

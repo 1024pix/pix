@@ -11,6 +11,7 @@
 .session-details__header {
   display: flex;
   flex-wrap: wrap;
+  gap: var(--pix-spacing-4x);
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: var(--pix-spacing-3x);
@@ -19,7 +20,13 @@
 .session-details-header {
 
   &__title {
-    min-width: 300px;
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+
+    h1 {
+      @extend %pix-title-m
+    }
   }
 
   &__datetime {

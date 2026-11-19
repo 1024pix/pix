@@ -1,3 +1,4 @@
+import { PixTag } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
 import formatSessionTime from 'pix-certif/helpers/format-session-time';
 import formatUtcDate from 'pix-certif/helpers/format-utc-date';
@@ -5,7 +6,8 @@ import formatUtcDate from 'pix-certif/helpers/format-utc-date';
 <template>
   <div class='session-details__header'>
     <div class='session-details-header__title'>
-      <h1 class='page-title'>{{t 'pages.sessions.detail.title' sessionId=@sessionId}}</h1>
+      <h1>{{t 'pages.sessions.detail.title' sessionId=@sessionId}}</h1>
+      <PixTag @variant={{@sessionStatusVariant}}>{{@sessionStatusLabel}}</PixTag>
     </div>
 
     <div class='session-details-header__datetime'>
