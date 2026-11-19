@@ -1986,6 +1986,10 @@
           "label": "Display grains title"
         },
         "modulix-editor": "Modulix Editor",
+        "options-panel": {
+          "hide": "Hide options",
+          "show": "Show options"
+        },
         "showJson": "Show JSON",
         "stepper": "Preview : stepper {direction}",
         "textarea-label": "Module content"

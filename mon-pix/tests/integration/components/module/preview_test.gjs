@@ -305,6 +305,64 @@ module('Integration | Component | Module | Preview', function (hooks) {
     assert.dom(screen.queryByRole('button', { name: t('pages.modulix.preview.grain-select.button') })).doesNotExist();
   });
 
+  module('options panel', function () {
+    test('should display options panel by default', async function (assert) {
+      // when
+      const screen = await render(<template><ModulixPreview /></template>);
+
+      // then
+      assert
+        .dom(screen.getByRole('radiogroup', { name: t('pages.modulix.preview.elements-id-button.label') }))
+        .exists();
+      assert.dom(screen.getByRole('button', { name: t('pages.modulix.preview.options-panel.hide') })).exists();
+    });
+
+    test('should hide options panel when clicking on hide button', async function (assert) {
+      // given
+      const screen = await render(<template><ModulixPreview /></template>);
+
+      // when
+      await click(screen.getByRole('button', { name: t('pages.modulix.preview.options-panel.hide') }));
+
+      // then
+      assert
+        .dom(screen.queryByRole('radiogroup', { name: t('pages.modulix.preview.elements-id-button.label') }))
+        .doesNotExist();
+      assert.dom(screen.getByRole('button', { name: t('pages.modulix.preview.options-panel.show') })).exists();
+    });
+
+    test('should show options panel again when clicking on show button', async function (assert) {
+      // given
+      const screen = await render(<template><ModulixPreview /></template>);
+      await click(screen.getByRole('button', { name: t('pages.modulix.preview.options-panel.hide') }));
+
+      // when
+      await click(screen.getByRole('button', { name: t('pages.modulix.preview.options-panel.show') }));
+
+      // then
+      assert
+        .dom(screen.getByRole('radiogroup', { name: t('pages.modulix.preview.elements-id-button.label') }))
+        .exists();
+    });
+
+    test('should keep toggles state when hiding then showing options panel', async function (assert) {
+      // given
+      const screen = await render(<template><ModulixPreview /></template>);
+      const radioGroupName = t('pages.modulix.preview.elements-id-button.label');
+      await click(
+        within(screen.getByRole('radiogroup', { name: radioGroupName })).getByRole('radio', { name: t('common.yes') }),
+      );
+
+      // when
+      await click(screen.getByRole('button', { name: t('pages.modulix.preview.options-panel.hide') }));
+      await click(screen.getByRole('button', { name: t('pages.modulix.preview.options-panel.show') }));
+
+      // then
+      const radioGroup = screen.getByRole('radiogroup', { name: radioGroupName });
+      assert.dom(within(radioGroup).getByRole('radio', { name: t('common.yes') })).isChecked();
+    });
+  });
+
   test('should display a button display elements id (false by default)', async function (assert) {
     // given
     //  when

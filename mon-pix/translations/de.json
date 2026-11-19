@@ -1986,6 +1986,10 @@
           "label": "Körnerbezeichnungen anzeigen"
         },
         "modulix-editor": "Modulix Editor",
+        "options-panel": {
+          "hide": "Optionen ausblenden",
+          "show": "Optionen anzeigen"
+        },
         "showJson": "JSON anzeigen",
         "stepper": "Preview: Stepper {direction}",
         "textarea-label": "Inhalt des Moduls"

@@ -1,4 +1,12 @@
-import { PixButton, PixButtonLink, PixSegmentedControl, PixSelect, PixTag, PixTextarea } from '@1024pix/nebulix-ember';
+import {
+  PixButton,
+  PixButtonLink,
+  PixIconButton,
+  PixSegmentedControl,
+  PixSelect,
+  PixTag,
+  PixTextarea,
+} from '@1024pix/nebulix-ember';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -22,6 +30,7 @@ export default class ModulixPreview extends Component {
   @service intl;
 
   @tracked moduleCodeDisplayed = false;
+  @tracked isOptionsPanelDisplayed = true;
 
   @tracked
   module = `{
@@ -205,6 +214,11 @@ export default class ModulixPreview extends Component {
   }
 
   @action
+  toggleOptionsPanel() {
+    this.isOptionsPanelDisplayed = !this.isOptionsPanelDisplayed;
+  }
+
+  @action
   onGrainSelectedChange(value) {
     this.selectedGrainIndex = value;
   }
@@ -238,48 +252,66 @@ export default class ModulixPreview extends Component {
       </div>
     {{/unless}}
 
-    <div class="module-preview__panel" {{didInsert this.setHTMLElementOffset}}>
-      <form
-        class="module-preview-panel__metadata-display-form"
-        aria-label={{t "pages.modulix.preview.elements-display-panel-label"}}
-      >
-        <PixSegmentedControl
-          @onChange={{this.toggleElementIdButton}}
-          @variant="primary"
-          @toggled={{not this.modulixPreviewMode.isElementsIdButtonEnabled}}
+    {{#if this.isOptionsPanelDisplayed}}
+      <div class="module-preview__panel" {{didInsert this.setHTMLElementOffset}}>
+        <PixIconButton
+          class="module-preview-panel__close-button"
+          @iconName="close"
+          @ariaLabel={{t "pages.modulix.preview.options-panel.hide"}}
+          @triggerAction={{this.toggleOptionsPanel}}
+          @size="small"
+        />
+        <form
+          class="module-preview-panel__metadata-display-form"
+          aria-label={{t "pages.modulix.preview.elements-display-panel-label"}}
         >
-          <:label>{{t "pages.modulix.preview.elements-id-button.label"}}</:label>
-          <:viewA>{{t "common.yes"}}</:viewA>
-          <:viewB>{{t "common.no"}}</:viewB>
-        </PixSegmentedControl>
-        <PixSegmentedControl
-          @onChange={{this.toggleGrainsTitleButton}}
-          @variant="primary"
-          @toggled={{not this.modulixPreviewMode.isGrainsTitleButtonEnabled}}
-        >
-          <:label>{{t "pages.modulix.preview.grains-title-button.label"}}</:label>
-          <:viewA>{{t "common.yes"}}</:viewA>
-          <:viewB>{{t "common.no"}}</:viewB>
-        </PixSegmentedControl>
-      </form>
-      {{#if this.previewingExistingModule}}
-        <hr />
-        <form class="module-preview-panel__grain-form">
-          <PixSelect
-            @isComputeWidthDisabled={{true}}
-            @hideDefaultOption={{true}}
-            @options={{this.formattedGrainListWithLabel}}
-            @onChange={{this.onGrainSelectedChange}}
-            @value={{this.selectedGrainIndex}}
+          <PixSegmentedControl
+            @onChange={{this.toggleElementIdButton}}
+            @variant="primary"
+            @toggled={{not this.modulixPreviewMode.isElementsIdButtonEnabled}}
           >
-            <:label>{{t "pages.modulix.preview.grain-select.label"}}</:label>
-          </PixSelect>
-          <PixButton @triggerAction={{this.goToModuleGrain}}>{{t
-              "pages.modulix.preview.grain-select.button"
-            }}</PixButton>
+            <:label>{{t "pages.modulix.preview.elements-id-button.label"}}</:label>
+            <:viewA>{{t "common.yes"}}</:viewA>
+            <:viewB>{{t "common.no"}}</:viewB>
+          </PixSegmentedControl>
+          <PixSegmentedControl
+            @onChange={{this.toggleGrainsTitleButton}}
+            @variant="primary"
+            @toggled={{not this.modulixPreviewMode.isGrainsTitleButtonEnabled}}
+          >
+            <:label>{{t "pages.modulix.preview.grains-title-button.label"}}</:label>
+            <:viewA>{{t "common.yes"}}</:viewA>
+            <:viewB>{{t "common.no"}}</:viewB>
+          </PixSegmentedControl>
         </form>
-      {{/if}}
-    </div>
+        {{#if this.previewingExistingModule}}
+          <hr />
+          <form class="module-preview-panel__grain-form">
+            <PixSelect
+              @isComputeWidthDisabled={{true}}
+              @hideDefaultOption={{true}}
+              @options={{this.formattedGrainListWithLabel}}
+              @onChange={{this.onGrainSelectedChange}}
+              @value={{this.selectedGrainIndex}}
+            >
+              <:label>{{t "pages.modulix.preview.grain-select.label"}}</:label>
+            </PixSelect>
+            <PixButton @triggerAction={{this.goToModuleGrain}}>{{t
+                "pages.modulix.preview.grain-select.button"
+              }}</PixButton>
+          </form>
+        {{/if}}
+      </div>
+    {{else}}
+      <PixIconButton
+        class="module-preview__panel-open-button"
+        @iconName="displaySettings"
+        @ariaLabel={{t "pages.modulix.preview.options-panel.show"}}
+        @triggerAction={{this.toggleOptionsPanel}}
+        @size="small"
+        {{didInsert this.setHTMLElementOffset}}
+      />
+    {{/if}}
 
     <div class="module-preview {{if this.moduleCodeDisplayed 'module-preview--with-editor'}}">
       <aside class="module-preview__passage module-passage">
