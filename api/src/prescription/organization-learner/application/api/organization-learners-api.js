@@ -4,6 +4,7 @@ import { findOrganizationLearnersWithOrganizationByIds } from '../../domain/usec
 import { usecases } from '../../domain/usecases/index.js';
 import * as libOrganizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import { OrganizationLearner } from './models/OrganizationLearner.js';
+import { OrganizationLearnerForCertificationResult } from './models/OrganizationLearnerForCertificationResult.js';
 import { OrganizationLearnerWithOrganization } from './read-models/OrganizationLearnerWithOrganization.js';
 
 /**
@@ -14,22 +15,22 @@ import { OrganizationLearnerWithOrganization } from './read-models/OrganizationL
  * @typedef PageDefinition
  * @type {object}
  * @property {number} size
- * @property {Page} number
+ * @property {number} number
  */
 
 /**
  * @typedef FilterDefinition
  * @type {object}
- * @property {Array<string>} divisions
- * @property {string} name
+ * @property {Array<string>} [divisions]
+ * @property {string} [name]
  */
 
 /**
  * @typedef OrganizationLearnerListPayload
  * @type {object}
  * @property {number} organizationId
- * @property {(PageDefinition|undefined)} page
- * @propery {(FilterDefinition|undefined)} filter
+ * @property {PageDefinition} [page]
+ * @property {FilterDefinition} [filter]
  */
 
 /**
@@ -65,6 +66,7 @@ import { OrganizationLearnerWithOrganization } from './read-models/OrganizationL
  * Récupère les organization-learners pour une organization. Par défaut, ces organizations-learners sont triés par prénom puis par nom.
  * Si le params 'page' est présent, les organization-learners seront paginés
  * Si le params 'filter' est présent, les organization-learners seront filtrés
+ * Le filtre 'divisions' et la division retournée portent sur l'attribut 'Libellé classe' des learners importés pour Pix Junior
  * @param {OrganizationLearnerListPayload} payload
  * @returns {Promise<OrganizationLearnerListResponse>}
  */
@@ -81,6 +83,23 @@ export const find = async ({ organizationId, page, filter }) => {
 
     return { organizationLearners: _toAPIModel(allLearners) };
   }
+};
+
+/**
+ * @function
+ * @name findByDivisions
+ * @description
+ * Récupère les organization-learners actifs d'une organization appartenant à l'une des divisions données (insensible à la casse).
+ * Par défaut, ces organizations-learners sont triés par prénom puis par nom.
+ * @param {object} payload
+ * @param {number} payload.organizationId
+ * @param {Array<string>} payload.divisions
+ * @returns {Promise<{ organizationLearners: Array<OrganizationLearnerForCertificationResult> }>}
+ */
+export const findByDivisions = async ({ organizationId, divisions }) => {
+  const learners = await _getLearnerWithoutPagination({ organizationId, filter: { divisions } });
+
+  return { organizationLearners: learners.map((learner) => new OrganizationLearnerForCertificationResult(learner)) };
 };
 
 function _toAPIModel(input) {

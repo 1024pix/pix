@@ -134,18 +134,21 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         userId: databaseBuilder.factory.buildUser().id,
         sessionId: databaseBuilder.factory.buildSession().id,
         certificationCourseId: databaseBuilder.factory.buildCertificationCourse().id,
+        organizationLearnerId: databaseBuilder.factory.buildOrganizationLearner().id,
       };
       userCertificationResultData2 = {
         certificationResultId: '20000002-2002-2002-2002-200000000002',
         userId: databaseBuilder.factory.buildUser().id,
         sessionId: null,
         certificationCourseId: null,
+        organizationLearnerId: null,
       };
       userCertificationResultData3 = {
         certificationResultId: '30000003-3003-3003-3003-300000000003',
         userId: databaseBuilder.factory.buildUser().id,
         sessionId: databaseBuilder.factory.buildSession().id,
         certificationCourseId: databaseBuilder.factory.buildCertificationCourse().id,
+        organizationLearnerId: null,
       };
       return databaseBuilder.commit();
     });

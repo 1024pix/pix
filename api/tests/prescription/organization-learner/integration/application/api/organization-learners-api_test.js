@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { OrganizationLearner } from '../../../../../../src/prescription/organization-learner/application/api/models/OrganizationLearner.js';
+import { OrganizationLearnerForCertificationResult } from '../../../../../../src/prescription/organization-learner/application/api/models/OrganizationLearnerForCertificationResult.js';
 import * as organizationLearnersApi from '../../../../../../src/prescription/organization-learner/application/api/organization-learners-api.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
@@ -50,6 +51,25 @@ describe('Integration | API | Organization Learner', function () {
         // then
         expect(organizationLearners.map(({ id }) => id)).to.have.members([organizationLearner2Id]);
       });
+    });
+  });
+
+  describe('#findByDivisions', function () {
+    it('should return learners of the organization belonging to the divisions regardless of their case', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+      const learnerInDivision = databaseBuilder.factory.buildOrganizationLearner({ organizationId, division: '3A' });
+      databaseBuilder.factory.buildOrganizationLearner({ organizationId, division: '3B' });
+      await databaseBuilder.commit();
+
+      // when
+      const { organizationLearners } = await organizationLearnersApi.findByDivisions({
+        organizationId,
+        divisions: ['3a'],
+      });
+
+      // then
+      expect(organizationLearners).to.deep.equal([new OrganizationLearnerForCertificationResult(learnerInDivision)]);
     });
   });
 

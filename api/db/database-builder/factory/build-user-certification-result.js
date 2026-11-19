@@ -23,12 +23,14 @@ export function buildUserCertificationResult({
   userId,
   sessionId = null,
   certificationCourseId = null,
+  organizationLearnerId = null,
 } = {}) {
   const values = {
     certificationResultId,
     userId,
     sessionId,
     certificationCourseId,
+    organizationLearnerId,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'user_certification_results',

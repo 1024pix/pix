@@ -440,7 +440,7 @@ return organization learners link to a given userId
 ### OrganizationLearnerApi~OrganizationLearnerListPayload : <code>object</code>
 
 **Kind**: inner typedef of [<code>OrganizationLearnerApi</code>](#module_OrganizationLearnerApi)  
-**Propery**: <code>(FilterDefinition\|undefined)</code> filter  
+**Property**: <code>(FilterDefinition\|undefined)</code> filter  
 **Properties**
 
 | Name           | Type                                                  |

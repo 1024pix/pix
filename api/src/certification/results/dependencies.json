@@ -1,5 +1,11 @@
 {
   "name": "certification/results",
-  "dependsOn": ["certification/enrolment", "certification/session-management", "certification/shared", "shared"],
+  "dependsOn": [
+    "prescription/organization-learner",
+    "certification/enrolment",
+    "certification/session-management",
+    "certification/shared",
+    "shared"
+  ],
   "circular": "forbidden"
 }
