@@ -1,7 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
 import { blur, click, focus, triggerEvent, triggerKeyEvent } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import breakpoints from 'mon-pix/breakpoints';
 import ModuleElementText from 'mon-pix/components/module/element/text';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -30,9 +29,9 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
       assert.dom(screen.queryByRole('tooltip', { name: definition })).doesNotExist();
     });
 
-    module('in desktop', function (hooks) {
+    module('when device can hover', function (hooks) {
       hooks.beforeEach(function () {
-        sinon.stub(window, 'matchMedia').callThrough().withArgs(breakpoints.mobile).returns({ matches: false });
+        sinon.stub(window, 'matchMedia').callThrough().withArgs('(hover: hover)').returns({ matches: true });
       });
 
       hooks.afterEach(function () {
@@ -83,9 +82,9 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
       });
     });
 
-    module('in mobile', function (hooks) {
+    module('when device cannot hover', function (hooks) {
       hooks.beforeEach(function () {
-        sinon.stub(window, 'matchMedia').callThrough().withArgs(breakpoints.mobile).returns({ matches: true });
+        sinon.stub(window, 'matchMedia').callThrough().withArgs('(hover: hover)').returns({ matches: false });
       });
 
       hooks.afterEach(function () {
@@ -259,7 +258,7 @@ module('Integration | Component | Module | Highlighted Button', function (hooks)
 
     module('in both', function (hooks) {
       hooks.beforeEach(function () {
-        sinon.stub(window, 'matchMedia').callThrough().withArgs(breakpoints.mobile).returns({ matches: false });
+        sinon.stub(window, 'matchMedia').callThrough().withArgs('(hover: hover)').returns({ matches: true });
       });
 
       hooks.afterEach(function () {
