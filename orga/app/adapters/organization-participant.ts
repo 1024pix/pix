@@ -25,7 +25,8 @@ export default class OrganizationParticipantAdapter extends ApplicationAdapter {
 
   deleteParticipants(organizationId: string, ids: string[]) {
     const url = this.apiUrl(`organizations/${organizationId}/organization-learners`);
-    return this.ajax(url, 'DELETE', { data: { listLearners: ids } });
+    const payload = { listLearners: ids };
+    return this.ajax(url, 'DELETE', { data: payload });
   }
 
   updateParticipantName(organizationId: string, learnerId: string, firstName: string, lastName: string) {

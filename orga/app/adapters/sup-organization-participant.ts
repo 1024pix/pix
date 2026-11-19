@@ -18,7 +18,7 @@ export default class SupOrganizationParticipantAdapter extends OrganizationParti
 
     const { organizationId, studentNumber } = snapshot.adapterOptions;
     const url = this.apiUrl(`organizations/${organizationId}/sup-organization-learners/${snapshot.id}`);
-    const data = { data: { attributes: { 'student-number': studentNumber } } };
-    return this.ajax(url, 'PATCH', { data });
+    const payload = { data: { attributes: { 'student-number': studentNumber } } };
+    return this.ajax(url, 'PATCH', { data: payload });
   }
 }
