@@ -14,13 +14,25 @@ module('Unit | Adapters | sco-organization-participant', function (hooks) {
     adapter.set('ajax', ajaxStub);
   });
 
-  module('#urlForQuery', () => {
-    test('should build query url from organization id', async function (assert) {
-      const query = { filter: { organizationId: 'organizationId1' } };
-      const url = await adapter.urlForQuery(query);
+  module('#query', () => {
+    test('should request the sco participants endpoint and strip organizationId from the query filter', async function (assert) {
+      // given
+      adapter.host = 'pix.local';
+      adapter.namespace = 'api';
+      const query = { filter: { organizationId: 'organizationId1', divisions: ['3A'] }, page: { number: 2 } };
 
-      assert.ok(url.endsWith('/api/organizations/organizationId1/sco-participants'));
-      assert.strictEqual(query.organizationId, undefined);
+      // when
+      await adapter.query(null, { modelName: 'sco-organization-participant' }, query);
+
+      // then
+      const [url, method, options] = ajaxStub.firstCall.args;
+      assert.strictEqual(url, 'pix.local/api/organizations/organizationId1/sco-participants');
+      assert.strictEqual(method, 'GET');
+      assert.deepEqual(options, { data: { filter: { divisions: ['3A'] }, page: { number: 2 } } });
+      assert.deepEqual(query, {
+        filter: { organizationId: 'organizationId1', divisions: ['3A'] },
+        page: { number: 2 },
+      });
     });
   });
 
