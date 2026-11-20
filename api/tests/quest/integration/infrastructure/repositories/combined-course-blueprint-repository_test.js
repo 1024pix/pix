@@ -240,7 +240,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
         surveyUrl: 'survey-url',
         rewardRequirementsDescription: 'description of reward requirements',
       });
-      databaseBuilder.factory.buildCombinedCourseBlueprint();
+      databaseBuilder.factory.buildCombinedCourseBlueprint({ questId });
       await databaseBuilder.commit();
 
       // when

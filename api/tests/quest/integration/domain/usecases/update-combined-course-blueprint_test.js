@@ -10,7 +10,9 @@ describe('Integration | Combined course | Domain | UseCases | update-combined-co
   context('when combined course blueprint exists', function () {
     it('should update a combined course blueprint when attributes are changed', async function () {
       // given
+      const questId = await databaseBuilder.factory.buildQuest().id;
       const combinedCourseBlueprint = await databaseBuilder.factory.buildCombinedCourseBlueprint({
+        questId,
         name: 'Old épure',
         internalName: 'Une vieille épure pour tel niveau',
         illustration: 'illustrations/ma-vieille-epure.png',
