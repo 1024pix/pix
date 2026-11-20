@@ -22,6 +22,7 @@ export async function findBuilderForCertificationsInSession(sessionId) {
       birthCountry: 'certification-courses.birthCountry',
       verificationCode: 'certification-courses.verificationCode',
       certificationCenter: 'certification-centers.name',
+      certificationCenterFallback: 'sessions.certificationCenter',
       startedAt: 'certification-courses.createdAt',
       deliveredAt: 'sessions.publishedAt',
       status: 'assessment-results.status',
@@ -29,7 +30,7 @@ export async function findBuilderForCertificationsInSession(sessionId) {
       maxReachableLevel: 'certification_versions.maxReachableLevel',
       pixScore: 'assessment-results.pixScore',
       reachedMeshIndex: 'assessment-results.reachedMeshIndex',
-      eduV3ExternalJuryResult: 'assessment-results.eduV3ExternalJuryResult',
+      v3EduExternalJuryResult: 'assessment-results.eduV3ExternalJuryResult',
       commentByAutoJury: 'assessment-results.commentByAutoJury',
       commentByJury: 'assessment-results.commentByJury',
       commentForCandidate: 'assessment-results.commentForCandidate',
@@ -45,9 +46,9 @@ export async function findBuilderForCertificationsInSession(sessionId) {
     .where('certification-courses.isPublished', true)
     .from('certification-courses')
     .join('certification_versions', 'certification_versions.id', 'certification-courses.versionId')
-    .join('certification-candidates', 'certification-candidates.id', 'certification-courses.candidateId')
+    .leftJoin('certification-candidates', 'certification-candidates.id', 'certification-courses.candidateId')
     .join('sessions', 'sessions.id', 'certification-courses.sessionId')
-    .join('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
+    .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
     .join(
       'certification-courses-last-assessment-results',
       'certification-courses.id',
@@ -69,7 +70,13 @@ export async function findBuilderForCertificationsInSession(sessionId) {
     )
     .orderBy('certification-courses.id');
   if (certificationData.length === 0) {
-    return new CertificationResultBuilder({ certificationData: [], learnerData: [], cleaData: [] });
+    return new CertificationResultBuilder({
+      certificationData: [],
+      learnerData: [],
+      cleaData: [],
+      pixPlusV2VoletPixData: [],
+      pixPlusV2VoletExterneData: [],
+    });
   }
 
   const organizationLearnerIds = certificationData
@@ -96,11 +103,11 @@ export async function findBuilderForCertificationsInSession(sessionId) {
     .map(({ certificationCourseId }) => certificationCourseId);
   if (cleaIds.length > 0) {
     cleaData = await knexConn
-      .select(
-        'complementary-certification-course-results.acquired',
-        'complementary-certification-course-results.complementaryCertificationBadgeId',
-        'complementary-certification-courses.certificationCourseId',
-      )
+      .select({
+        certificationCourseId: 'complementary-certification-courses.certificationCourseId',
+        hasAcquiredClea: 'complementary-certification-course-results.acquired',
+        cleaBadgeId: 'complementary-certification-course-results.complementaryCertificationBadgeId',
+      })
       .from('complementary-certification-course-results')
       .innerJoin(
         'complementary-certification-courses',
@@ -108,6 +115,53 @@ export async function findBuilderForCertificationsInSession(sessionId) {
         'complementary-certification-course-results.complementaryCertificationCourseId',
       )
       .whereIn('complementary-certification-courses.certificationCourseId', cleaIds)
+      .orderBy('complementary-certification-courses.certificationCourseId');
+  }
+
+  let pixPlusV2VoletExterneData = [];
+  let pixPlusV2VoletPixData = [];
+  const pixPlusV2Ids = certificationData
+    .filter(
+      ({ framework, algorithmEngineVersion }) =>
+        [
+          Frameworks.EDU_1ER_DEGRE,
+          Frameworks.EDU_CPE,
+          Frameworks.EDU_2ND_DEGRE,
+          Frameworks.PRO_SANTE,
+          Frameworks.DROIT,
+        ].includes(framework) && algorithmEngineVersion === AlgorithmEngineVersion.V2,
+    )
+    .map(({ certificationCourseId }) => certificationCourseId);
+  if (pixPlusV2Ids.length > 0) {
+    pixPlusV2VoletPixData = await knexConn
+      .select({
+        certificationCourseId: 'complementary-certification-courses.certificationCourseId',
+        v2VoletPixBadgeId: 'complementary-certification-course-results.complementaryCertificationBadgeId',
+        v2VoletPixAcquired: 'complementary-certification-course-results.acquired',
+      })
+      .from('complementary-certification-course-results')
+      .innerJoin(
+        'complementary-certification-courses',
+        'complementary-certification-courses.id',
+        'complementary-certification-course-results.complementaryCertificationCourseId',
+      )
+      .whereIn('complementary-certification-courses.certificationCourseId', pixPlusV2Ids)
+      .where('complementary-certification-course-results.source', 'PIX')
+      .orderBy('complementary-certification-courses.certificationCourseId');
+    pixPlusV2VoletExterneData = await knexConn
+      .select({
+        certificationCourseId: 'complementary-certification-courses.certificationCourseId',
+        v2VoletExterneBadgeId: 'complementary-certification-course-results.complementaryCertificationBadgeId',
+        v2VoletExterneAcquired: 'complementary-certification-course-results.acquired',
+      })
+      .from('complementary-certification-course-results')
+      .innerJoin(
+        'complementary-certification-courses',
+        'complementary-certification-courses.id',
+        'complementary-certification-course-results.complementaryCertificationCourseId',
+      )
+      .whereIn('complementary-certification-courses.certificationCourseId', pixPlusV2Ids)
+      .where('complementary-certification-course-results.source', 'EXTERNAL')
       .orderBy('complementary-certification-courses.certificationCourseId');
   }
 
@@ -120,5 +174,7 @@ export async function findBuilderForCertificationsInSession(sessionId) {
     certificationData,
     learnerData,
     cleaData,
+    pixPlusV2VoletPixData,
+    pixPlusV2VoletExterneData,
   });
 }
