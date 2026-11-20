@@ -229,41 +229,45 @@ export default class ChallengeContent extends Component {
         </PixBlock>
 
         {{#if @assessment}}
+          <div class="challenge-form-actions">
+            {{#unless @assessment.hasOngoingCompanionLiveAlert}}
+              <div role="complementary">
+                {{#if @assessment.isCertification}}
+                  <CertificationFeedbackPanel
+                    @submitLiveAlert={{@submitLiveAlert}}
+                    @assessment={{@assessment}}
+                    @isEnabled={{this.isLiveAlertButtonEnabled}}
+                  />
+                {{else}}
+                  <FeedbackPanel @assessment={{@assessment}} @challenge={{@challenge}} />
+                {{/if}}
+              </div>
+            {{/unless}}
+
+            <ChallengeActions
+              @challenge={{@challenge}}
+              @isValidateActionLoading={{this.isValidateActionLoading}}
+              @isSkipActionLoading={{this.isSkipActionLoading}}
+              @answer={{@answer}}
+              @resumeAssessment={{this.resumeAssessment}}
+              @skipChallenge={{this.skipChallenge}}
+              @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
+              @isDisabled={{this.hasAnswer}}
+              @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
+              @hasOngoingChallengeLiveAlert={{@assessment.hasOngoingChallengeLiveAlert}}
+              @hasOngoingCompanionLiveAlert={{@assessment.hasOngoingCompanionLiveAlert}}
+            />
+          </div>
+        {{/if}}
+
+        {{#if @assessment }}
           <FocusedOutNotification
             @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
             @isCertification={{@assessment.isCertification}}
             @certificationVersion={{@assessment.certificationCourse.version}}
             @isAdjustedCourseForAccessibility={{@assessment.certificationCourse.isAdjustedForAccessibility}}
           />
-
-          <ChallengeActions
-            @challenge={{@challenge}}
-            @isValidateActionLoading={{this.isValidateActionLoading}}
-            @isSkipActionLoading={{this.isSkipActionLoading}}
-            @answer={{@answer}}
-            @resumeAssessment={{this.resumeAssessment}}
-            @skipChallenge={{this.skipChallenge}}
-            @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
-            @isDisabled={{this.hasAnswer}}
-            @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
-            @hasOngoingChallengeLiveAlert={{@assessment.hasOngoingChallengeLiveAlert}}
-            @hasOngoingCompanionLiveAlert={{@assessment.hasOngoingCompanionLiveAlert}}
-          />
         {{/if}}
-
-        {{#unless @assessment.hasOngoingCompanionLiveAlert}}
-          <div role="complementary">
-            {{#if @assessment.isCertification}}
-              <CertificationFeedbackPanel
-                @submitLiveAlert={{@submitLiveAlert}}
-                @assessment={{@assessment}}
-                @isEnabled={{this.isLiveAlertButtonEnabled}}
-              />
-            {{else}}
-              <FeedbackPanel @assessment={{@assessment}} @challenge={{@challenge}} />
-            {{/if}}
-          </div>
-        {{/unless}}
 
       </form>
       {{#if @assessment.hasOngoingCompanionLiveAlert}}
