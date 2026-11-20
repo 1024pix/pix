@@ -2,8 +2,8 @@ import { render } from '@1024pix/ember-testing-library';
 import { PixToastContainer } from '@1024pix/nebulix-ember';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import AnonymizeGarImport from 'pix-admin/components/administration/access/anonymize-gar-import';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

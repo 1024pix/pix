@@ -8,6 +8,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import AttachedCertificationCenterForm from 'pix-admin/components/organizations/attached-certification-centers/attach-certification-center-form';
 import { organizationRequestsBuilder } from 'pix-admin/requests-builders/organization-requests-builder';
+import { escapeHtml } from 'pix-admin/utils/escape-html';
 
 export default class AttachedCertificationCenter extends Component {
   @service intl;
@@ -148,7 +149,7 @@ export default class AttachedCertificationCenter extends Component {
         <p>
           {{t
             "components.organizations.attached-certification-center.actions.detach.confirm-modal-message"
-            certificationCenterName=this.attachedCertificationCenter.name
+            certificationCenterName=(escapeHtml this.attachedCertificationCenter.name)
             htmlSafe=true
           }}
         </p>

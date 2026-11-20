@@ -1,7 +1,7 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
-import { t } from 'ember-intl/test-support';
 import InformationView from 'pix-admin/components/networks/information-view';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';

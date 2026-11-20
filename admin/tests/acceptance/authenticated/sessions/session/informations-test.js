@@ -1,7 +1,7 @@
 import { clickByName, fillByLabel, getByTextWithHtml, visit, within } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 

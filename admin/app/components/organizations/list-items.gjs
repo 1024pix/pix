@@ -15,6 +15,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import PaginationWrapper from 'pix-admin/components/ui/pagination-wrapper';
+import { escapeHtml } from 'pix-admin/utils/escape-html';
 
 export default class OrganizationListItems extends Component {
   @tracked showModal = false;
@@ -198,7 +199,12 @@ export default class OrganizationListItems extends Component {
     >
       <:content>
         <p>
-          {{t @confirmationLabel htmlSafe=true organizationName=this.organizationToDetach.name name=@entityName}}
+          {{t
+            @confirmationLabel
+            htmlSafe=true
+            organizationName=(escapeHtml this.organizationToDetach.name)
+            name=(escapeHtml @entityName)
+          }}
         </p>
       </:content>
       <:footer>

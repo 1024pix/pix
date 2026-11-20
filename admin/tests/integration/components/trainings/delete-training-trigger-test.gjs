@@ -1,8 +1,8 @@
 /* eslint-disable ember/template-no-let-reference */
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import DeleteTrainingTrigger from 'pix-admin/components/trainings/delete-training-trigger';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

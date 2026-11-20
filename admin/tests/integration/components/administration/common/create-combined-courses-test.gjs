@@ -2,9 +2,9 @@ import { render } from '@1024pix/ember-testing-library';
 import { PixToastContainer } from '@1024pix/nebulix-ember';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import CreateCombinedCourses from 'pix-admin/components/administration/common/create-combined-courses';
 import ENV from 'pix-admin/config/environment';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

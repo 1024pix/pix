@@ -2,8 +2,8 @@ import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import InformationSection from 'pix-admin/components/organizations/information-section';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

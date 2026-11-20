@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import { PixToastContainer } from '@1024pix/nebulix-ember';
 import { triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import OidcProvidersImport from 'pix-admin/components/administration/access/oidc-providers-import';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 

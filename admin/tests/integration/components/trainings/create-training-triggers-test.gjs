@@ -1,6 +1,6 @@
 import { clickByText, render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import CreateTrainingTriggers from 'pix-admin/components/trainings/create-training-triggers';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';

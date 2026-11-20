@@ -1,7 +1,7 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import FilterBanner from 'pix-admin/components/organization-learners/filter-banner';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

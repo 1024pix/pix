@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import TargetProfile from 'pix-admin/components/target-profiles/target-profile';
 import ENV from 'pix-admin/config/environment';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
