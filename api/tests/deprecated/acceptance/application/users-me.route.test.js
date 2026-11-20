@@ -73,8 +73,6 @@ describe('Deprecated | Acceptance | Application | Route | User', function () {
             'must-validate-terms-of-service': user.mustValidateTermsOfService,
             'has-seen-assessment-instructions': user.hasSeenAssessmentInstructions,
             'has-seen-new-dashboard-info': user.hasSeenNewDashboardInfo,
-            'has-seen-focused-challenge-tooltip': user.hasSeenFocusedChallengeTooltip,
-            'has-seen-other-challenges-tooltip': user.hasSeenOtherChallengesTooltip,
             'has-assessment-participations': true,
             'code-for-last-profile-to-share': expectedCode,
             'has-recommended-trainings': true,

@@ -118,7 +118,6 @@ import { markUserHasSeenNewDashboardInfo } from './mark-user-has-seen-new-dashbo
 import { reassignAuthenticationMethodToAnotherUser } from './reassign-authentication-method-to-another-user.usecase.js';
 import { reconcileOidcUser } from './reconcile-oidc-user.usecase.js';
 import { reconcileOidcUserForAdmin } from './reconcile-oidc-user-for-admin.usecase.js';
-import { rememberUserHasSeenChallengeTooltip } from './remember-user-has-seen-challenge-tooltip.usecase.js';
 import { rememberUserHasSeenLastDataProtectionPolicyInformation } from './remember-user-has-seen-last-data-protection-policy-information.usecase.js';
 import { removeAuthenticationMethod } from './remove-authentication-method.usecase.js';
 import { revokeAccessForUsers } from './revoke-access-for-users.usecase.js';
@@ -170,7 +169,6 @@ const usecasesWithoutInjectedDependencies = {
   reassignAuthenticationMethodToAnotherUser,
   reconcileOidcUserForAdmin,
   reconcileOidcUser,
-  rememberUserHasSeenChallengeTooltip,
   rememberUserHasSeenLastDataProtectionPolicyInformation,
   removeAuthenticationMethod,
   revokeAccessForUsers,

@@ -17,8 +17,6 @@ export class UserToCreate {
     locale,
     hasSeenNewDashboardInfo = false,
     isAnonymous = false,
-    hasSeenFocusedChallengeTooltip = false,
-    hasSeenOtherChallengesTooltip = false,
     createdAt,
     updatedAt,
   } = {}) {
@@ -35,8 +33,6 @@ export class UserToCreate {
     this.locale = getNearestSupportedLocale(locale);
     this.hasSeenNewDashboardInfo = hasSeenNewDashboardInfo;
     this.isAnonymous = isAnonymous;
-    this.hasSeenFocusedChallengeTooltip = hasSeenFocusedChallengeTooltip;
-    this.hasSeenOtherChallengesTooltip = hasSeenOtherChallengesTooltip;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }

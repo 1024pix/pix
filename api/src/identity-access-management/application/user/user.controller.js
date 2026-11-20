@@ -169,17 +169,6 @@ const validateUserAccountEmail = async function (request, h) {
   return h.redirect(location);
 };
 
-const rememberUserHasSeenChallengeTooltip = async function (request, h, dependencies = { userSerializer }) {
-  const authenticatedUserId = request.auth.credentials.userId;
-  const challengeType = request.params.challengeType;
-
-  const updatedUser = await usecases.rememberUserHasSeenChallengeTooltip({
-    userId: authenticatedUserId,
-    challengeType,
-  });
-  return dependencies.userSerializer.serialize(updatedUser);
-};
-
 /**
  * @param request
  * @param h
@@ -216,7 +205,6 @@ export const userController = {
   acceptPixOrgaTermsOfService,
   changeUserLocale,
   getUserAuthenticationMethods,
-  rememberUserHasSeenChallengeTooltip,
   rememberUserHasSeenLastDataProtectionPolicyInformation,
   createUser,
   sendVerificationCode,

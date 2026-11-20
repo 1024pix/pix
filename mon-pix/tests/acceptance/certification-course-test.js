@@ -59,7 +59,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
 
       module('When user is certifiable', function (hooks) {
         hooks.beforeEach(async function () {
-          user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+          user = server.create('user', 'withEmail', 'certifiable');
           await authenticate(user);
         });
 
@@ -333,7 +333,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
       test('should display "Test terminé !"', async function (assert) {
         assert.timeout(5000);
         // given
-        user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+        user = server.create('user', 'withEmail', 'certifiable');
 
         const NB_CHALLENGES = 3;
         const challenges = [];
@@ -375,7 +375,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
       module('when test was ended by invigilator', function () {
         test('should display "Votre surveillant a mis fin…"', async function (assert) {
           // given
-          const user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+          const user = server.create('user', 'withEmail', 'certifiable');
           const certificationCourse = this.server.create('certification-course', {
             firstName: 'Pouet',
             lastName: 'Plip',
@@ -405,7 +405,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
         module('when test was ended by invigilator', function () {
           test('should redirect to "Votre surveillant a mis fin…"', async function (assert) {
             // given
-            user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+            user = server.create('user', 'withEmail', 'certifiable');
             const challenge = server.create('challenge', 'forCertification');
             server.create('challenge', 'forCertification');
             server.create('certification-course', {
@@ -458,7 +458,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
       module('when test was ended by finalization', function () {
         test('should display "La session a été finalisée par votre centre de certification..."', async function (assert) {
           // given
-          const user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+          const user = server.create('user', 'withEmail', 'certifiable');
           const certificationCourse = this.server.create('certification-course', {});
           this.server.create('assessment', {
             certificationCourseId: certificationCourse.id,
@@ -483,7 +483,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
       module('when test was ended due to duration exceeded', function () {
         test('should display "La durée maximale pour répondre à votre test de certification a été dépassée..."', async function (assert) {
           // given
-          const user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+          const user = server.create('user', 'withEmail', 'certifiable');
           const certificationCourse = this.server.create('certification-course', {});
           this.server.create('assessment', {
             certificationCourseId: certificationCourse.id,
@@ -509,7 +509,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
         test('should display the certification feedback panel', async function (assert) {
           assert.timeout(5000);
           // given
-          user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+          user = server.create('user', 'withEmail', 'certifiable');
 
           const challenge = server.create('challenge', 'forCertification');
           const assessment = server.create('assessment', 'ofCertificationType', { nextChallenge: challenge });
@@ -550,7 +550,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
         module('when confirming invigilator calling', function () {
           test('it should disable challenge action buttons', async function (assert) {
             // given
-            user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+            user = server.create('user', 'withEmail', 'certifiable');
             await authenticate(user);
 
             const challenge = server.create('challenge', 'forCertification');

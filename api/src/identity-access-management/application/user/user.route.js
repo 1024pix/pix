@@ -67,9 +67,7 @@ export const userRoutes = [
               'has-assessment-participations': Joi.boolean().allow(null),
               'has-recommended-trainings': Joi.boolean().allow(null),
               'has-seen-assessment-instructions': Joi.boolean().allow(null),
-              'has-seen-focused-challenge-tooltip': Joi.boolean().allow(null),
               'has-seen-new-dashboard-info': Joi.boolean().allow(null),
-              'has-seen-other-challenges-tooltip': Joi.boolean().allow(null),
               'should-see-data-protection-policy-information-banner': Joi.boolean().allow(null),
               'pix-orga-terms-of-service-status': Joi.boolean().allow(null), // sent by Pix Orga when creating a user upon invitation
               'pix-app-terms-of-service-status': Joi.boolean().allow(null),
@@ -145,9 +143,7 @@ export const userRoutes = [
               'has-assessment-participations': Joi.boolean().allow(null),
               'has-recommended-trainings': Joi.boolean().allow(null),
               'has-seen-assessment-instructions': Joi.boolean().allow(null),
-              'has-seen-focused-challenge-tooltip': Joi.boolean().allow(null),
               'has-seen-new-dashboard-info': Joi.boolean().allow(null),
-              'has-seen-other-challenges-tooltip': Joi.boolean().allow(null),
               'should-see-data-protection-policy-information-banner': Joi.boolean().allow(null),
               'last-terms-of-service-validated-at': Joi.string().allow(null),
               'last-data-protection-policy-seen-at': Joi.string().allow(null),
@@ -383,32 +379,6 @@ export const userRoutes = [
       },
       notes: ["- Ajoute une méthode de connexion par adresse email à la suite d'une demande de l'utilisateur"],
       tags: ['api', 'user', 'add-email'],
-    },
-  },
-  {
-    method: 'PATCH',
-    path: '/api/users/{id}/has-seen-challenge-tooltip/{challengeType}',
-    config: {
-      pre: [
-        {
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        },
-      ],
-      validate: {
-        params: Joi.object({
-          id: identifiersType.userId,
-          challengeType: Joi.string().valid('focused', 'other'),
-        }),
-      },
-      handler: userController.rememberUserHasSeenChallengeTooltip,
-      notes: [
-        '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          "- Sauvegarde le fait que l'utilisateur ait vu la tooltip de type d'épreuve" +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-        "- Le contenu de la requête n'est pas pris en compte.",
-      ],
-      tags: ['api', 'user'],
     },
   },
 ];

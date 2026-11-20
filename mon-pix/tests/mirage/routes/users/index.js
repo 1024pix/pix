@@ -69,12 +69,6 @@ export default function index(config) {
     return user;
   });
 
-  config.patch('/users/:id/has-seen-challenge-tooltip/:challengeType', (schema, request) => {
-    const user = schema.users.find(request.params.id);
-    user.update({ tooltipChallengeType: request.params.challengeType });
-    return user;
-  });
-
   config.patch('/users/:id/has-seen-last-data-protection-policy-information', (schema, request) => {
     const user = schema.users.find(request.params.id);
     user.update({

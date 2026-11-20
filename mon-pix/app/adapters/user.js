@@ -49,12 +49,6 @@ export default class User extends ApplicationAdapter {
       return url + '/has-seen-new-dashboard-info';
     }
 
-    if (adapterOptions && adapterOptions.tooltipChallengeType) {
-      const tooltipChallengeType = adapterOptions.tooltipChallengeType;
-      delete adapterOptions.tooltipChallengeType;
-      return url + '/has-seen-challenge-tooltip/' + tooltipChallengeType;
-    }
-
     if (adapterOptions && adapterOptions.rememberUserHasSeenLastDataProtectionPolicyInformation) {
       delete adapterOptions.rememberUserHasSeenLastDataProtectionPolicyInformation;
       return url + '/has-seen-last-data-protection-policy-information';
