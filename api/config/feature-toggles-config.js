@@ -110,6 +110,14 @@ export default {
     defaultValue: false,
     tags: ['backend', 'pix-api'],
   },
+  heapProfileExportContainers: {
+    type: 'string',
+    description:
+      'Containers whose allocation profile is continuously exported to the OpenTelemetry collector (e.g. "web-2,worker-1", "web-%3", "all"; empty: none)',
+    defaultValue: '',
+    devDefaultValues: { reviewApp: 'all' },
+    tags: ['backend', 'pix-api', 'observability'],
+  },
   isOpenTelemetryEnabled: {
     type: 'boolean',
     description: 'Send the collected OpenTelemetry data (traces, metrics and logs) to the backend',

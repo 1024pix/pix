@@ -1,4 +1,4 @@
-import { getMemoryBreakdown } from '../heap-profile/memory-breakdown.js';
+import { getMemoryBreakdown } from './memory-breakdown.js';
 import { Metrics } from './metrics.js';
 
 /**
@@ -25,8 +25,8 @@ const defaultDependencies = {
 
 /**
  * Expose en continu la décomposition mémoire du process, pour suivre sur
- * plusieurs heures ce que les profils de tas ne mesurent qu'au début et à la
- * fin de leur fenêtre.
+ * plusieurs heures ce que le profil des allocations ne voit pas : la mémoire
+ * hors tas JS.
  */
 export function registerMemoryMetrics(dependencies = {}) {
   const { getMemoryBreakdown, createGauge } = { ...defaultDependencies, ...dependencies };
