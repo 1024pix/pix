@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import nock from 'nock';
 
-import { LtiLineItemsInitializationError } from '../../../../../src/lti/domain/errors.js';
+import { LtiLineItemsInitializationError, LtiScoreSendingError } from '../../../../../src/lti/domain/errors.js';
 import { ltiScoringService } from '../../../../../src/lti/domain/services/lti.scoring.service.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
@@ -160,6 +160,142 @@ describe('Integration | LTI | Domain | Services | LTI Scoring', function () {
         expect(error).to.be.instanceOf(LtiLineItemsInitializationError);
         expect(failingCompetence1Creation.isDone()).to.be.true;
         expect(competence2Creation.isDone()).to.be.false;
+      });
+    });
+  });
+
+  describe('sendScores', function () {
+    const platformOrigin = 'https://moodle.example.net';
+    const lineItemsUrl = `${platformOrigin}/mod/lti/services.php/2/lineitems?type_id=3`;
+    const accessToken = { token_type: 'Bearer', access_token: 'platform-access-token' };
+    const resourceLinkId = '123456';
+    const tag = 'pix-campaign-123';
+    const timestamp = new Date('2026-01-01T10:00:00Z');
+
+    const competenceScore = {
+      resourceId: 'pix:campaign:123:competence:recCompetence1',
+      scoreGiven: 2,
+      scoreMaximum: 3,
+    };
+    const masteryRateScore = { resourceId: 'pix:campaign:123:mastery-rate', scoreGiven: 75, scoreMaximum: 100 };
+
+    function mockLineItemsListing({ existingLineItems }) {
+      return nock(platformOrigin, {
+        reqheaders: {
+          authorization: 'Bearer platform-access-token',
+          accept: 'application/vnd.ims.lis.v2.lineitemcontainer+json',
+        },
+      })
+        .get('/mod/lti/services.php/2/lineitems')
+        .query({ type_id: '3', resourceLinkId, tag, limit: '1000' })
+        .reply(200, existingLineItems);
+    }
+
+    // Mocks the publication of exactly `score` on the line item `lineItemId`: any other body gets no match and fails.
+    function mockScoreSending(lineItemId, { scoreGiven, scoreMaximum }, { status = 200 } = {}) {
+      return nock(platformOrigin, {
+        reqheaders: {
+          authorization: 'Bearer platform-access-token',
+          'content-type': 'application/vnd.ims.lis.v1.score+json',
+        },
+      })
+        .post(`/mod/lti/services.php/2/lineitems/${lineItemId}/lineitem/scores`, {
+          userId: 'lti-user-id',
+          scoreGiven,
+          scoreMaximum,
+          activityProgress: 'Completed',
+          gradingProgress: 'FullyGraded',
+          timestamp: '2026-01-01T10:00:00.000Z',
+        })
+        .query({ type_id: '3' })
+        .reply(status, {});
+    }
+
+    function lineItem(lineItemId, resourceId) {
+      return { id: `${platformOrigin}/mod/lti/services.php/2/lineitems/${lineItemId}/lineitem?type_id=3`, resourceId };
+    }
+
+    function sendScores(args = {}) {
+      return ltiScoringService.sendScores({
+        lineItemsUrl,
+        resourceLinkId,
+        tag,
+        ltiUserId: 'lti-user-id',
+        scores: [competenceScore, masteryRateScore],
+        timestamp,
+        accessToken,
+        ...args,
+      });
+    }
+
+    it('sends each score on its line item', async function () {
+      // given
+      mockLineItemsListing({
+        existingLineItems: [lineItem(1, competenceScore.resourceId), lineItem(3, masteryRateScore.resourceId)],
+      });
+      const competenceScoreSending = mockScoreSending(1, competenceScore);
+      const masteryRateScoreSending = mockScoreSending(3, masteryRateScore);
+
+      // when
+      await sendScores();
+
+      // then
+      expect(competenceScoreSending.isDone()).to.be.true;
+      expect(masteryRateScoreSending.isDone()).to.be.true;
+    });
+
+    it('skips the scores whose line item does not exist on the platform', async function () {
+      // given
+      mockLineItemsListing({ existingLineItems: [lineItem(3, masteryRateScore.resourceId)] });
+      // only the existing line item is mocked: sending any other score would get no match and make the call fail
+      const masteryRateScoreSending = mockScoreSending(3, masteryRateScore);
+
+      // when
+      await sendScores();
+
+      // then
+      expect(masteryRateScoreSending.isDone()).to.be.true;
+    });
+
+    describe('when the line items URL is missing', function () {
+      it('throws a LtiScoreSendingError', async function () {
+        // when
+        const error = await catchErr(sendScores)({ lineItemsUrl: undefined });
+
+        // then
+        expect(error).to.be.instanceOf(LtiScoreSendingError);
+      });
+    });
+
+    describe('when the line items cannot be listed', function () {
+      it('throws a LtiScoreSendingError', async function () {
+        // given
+        nock(platformOrigin).get('/mod/lti/services.php/2/lineitems').query(true).reply(500);
+
+        // when
+        const error = await catchErr(sendScores)();
+
+        // then
+        expect(error).to.be.instanceOf(LtiScoreSendingError);
+      });
+    });
+
+    describe('when the platform rejects a score', function () {
+      it('throws a LtiScoreSendingError and stops sending scores', async function () {
+        // given
+        mockLineItemsListing({
+          existingLineItems: [lineItem(1, competenceScore.resourceId), lineItem(3, masteryRateScore.resourceId)],
+        });
+        const failingCompetenceScoreSending = mockScoreSending(1, competenceScore, { status: 403 });
+        const masteryRateScoreSending = mockScoreSending(3, masteryRateScore);
+
+        // when
+        const error = await catchErr(sendScores)();
+
+        // then
+        expect(error).to.be.instanceOf(LtiScoreSendingError);
+        expect(failingCompetenceScoreSending.isDone()).to.be.true;
+        expect(masteryRateScoreSending.isDone()).to.be.false;
       });
     });
   });

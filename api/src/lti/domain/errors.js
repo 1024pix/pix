@@ -20,4 +20,16 @@ class LtiCampaignNotFoundError extends DomainError {
   }
 }
 
-export { InvalidLtiPlatformRegistrationError, LtiCampaignNotFoundError, LtiLineItemsInitializationError };
+class LtiScoreSendingError extends DomainError {
+  constructor(message = 'Could not send LTI score', { cause } = {}) {
+    super(message, 'LTI_SCORE_SENDING_ERROR');
+    this.cause = cause;
+  }
+}
+
+export {
+  InvalidLtiPlatformRegistrationError,
+  LtiCampaignNotFoundError,
+  LtiLineItemsInitializationError,
+  LtiScoreSendingError,
+};
