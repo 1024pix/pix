@@ -569,6 +569,55 @@ module('Integration | Component | organizations/features-section', function (hoo
     });
   });
 
+  module('CREDITS_MANAGEMENT', function (hooks) {
+    hooks.beforeEach(function () {
+      class AccessControlStub extends Service {
+        hasAccessToOrganizationActionsScope = true;
+      }
+      this.owner.register('service:access-control', AccessControlStub);
+    });
+
+    test('it shows a disabled checked checkbox when feature is active', async function (assert) {
+      // given
+      const onSubmit = onSubmitStub;
+      const organization = EmberObject.create({
+        features: { CREDITS_MANAGEMENT: { active: true } },
+      });
+
+      // when
+      const screen = await render(
+        <template><FeaturesSection @organization={{organization}} @onSubmit={{onSubmit}} /></template>,
+      );
+
+      // then
+      const checkbox = screen.getByLabelText(
+        t('components.organizations.information-section-view.features.CREDITS_MANAGEMENT'),
+      );
+      assert.true(checkbox.checked);
+      assert.true(checkbox.disabled);
+    });
+
+    test('it shows a disabled unchecked checkbox when feature is inactive', async function (assert) {
+      // given
+      const onSubmit = onSubmitStub;
+      const organization = EmberObject.create({
+        features: { CREDITS_MANAGEMENT: { active: false } },
+      });
+
+      // when
+      const screen = await render(
+        <template><FeaturesSection @organization={{organization}} @onSubmit={{onSubmit}} /></template>,
+      );
+
+      // then
+      const checkbox = screen.getByLabelText(
+        t('components.organizations.information-section-view.features.CREDITS_MANAGEMENT'),
+      );
+      assert.false(checkbox.checked);
+      assert.true(checkbox.disabled);
+    });
+  });
+
   module('PLACES_MANAGEMENT', function (hooks) {
     hooks.beforeEach(function () {
       class AccessControlStub extends Service {
