@@ -6,21 +6,29 @@ import { LtiCampaign } from '../../../../../src/lti/domain/models/LtiCampaign.js
 import { usecases } from '../../../../../src/lti/domain/usecases/index.js';
 import { PIX_ORIGIN } from '../../../../../src/shared/constants.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
 
 describe('Integration | LTI | Domain | Usecases | startLtiCampaign', function () {
   const platformOrigin = 'https://moodle.example.net';
   const lineItemsUrl = `${platformOrigin}/mod/lti/services.php/2/lineitems?type_id=3`;
   const resourceLinkId = 'resource-link-id';
-  const accessToken = { token_type: 'Bearer', access_token: 'platform-access-token' };
+  const accessToken = { token_type: 'Bearer', access_token: 'platform-access-token', expires_in: 3600 };
   const platformUserSub = 'platform-user-sub';
 
   let campaignId;
   let clientId;
+  let registration;
 
   beforeEach(async function () {
-    const platformId = databaseBuilder.factory.buildLtiPlatform().id;
-    clientId = databaseBuilder.factory.buildLtiPlatformRegistration({ platformId }).clientId;
+    const platformData = databaseBuilder.factory.buildLtiPlatform({ issuer: platformOrigin });
+    const registrationData = databaseBuilder.factory.buildLtiPlatformRegistration({ platformId: platformData.id });
+    clientId = registrationData.clientId;
+    registration = domainBuilder.lti.buildLtiPlatformRegistration({
+      ...registrationData,
+      platform: domainBuilder.lti.buildLtiPlatform(platformData),
+    });
+    registration.platformOpenIdConfig = { token_endpoint: `${platformOrigin}/mod/lti/token.php` };
     const organizationId = databaseBuilder.factory.buildOrganization().id;
     const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
     campaignId = databaseBuilder.factory.buildCampaign({
@@ -73,6 +81,12 @@ describe('Integration | LTI | Domain | Usecases | startLtiCampaign', function ()
     );
   }
 
+  function mockAccessTokenRequest({ status = 200, body = accessToken } = {}) {
+    return nock(platformOrigin)
+      .post('/mod/lti/token.php', ({ scope }) => scope === 'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem')
+      .reply(status, body);
+  }
+
   function mockLineItemsListing({ status = 200, existingLineItems = [] } = {}) {
     return nock(platformOrigin, { reqheaders: { authorization: 'Bearer platform-access-token' } })
       .get('/mod/lti/services.php/2/lineitems')
@@ -95,6 +109,7 @@ describe('Integration | LTI | Domain | Usecases | startLtiCampaign', function ()
 
   it('initializes the line items of the campaign on the platform, saves the participation and returns the campaign', async function () {
     // given
+    mockAccessTokenRequest();
     mockLineItemsListing();
     const competenceLineItemCreation = mockLineItemCreation({
       label: 'ABCD12345 : 1.1 Mener une recherche',
@@ -116,8 +131,7 @@ describe('Integration | LTI | Domain | Usecases | startLtiCampaign', function ()
       campaignId,
       lineItemsUrl,
       resourceLinkId,
-      accessToken,
-      clientId,
+      registration,
       platformUserSub,
     });
 
@@ -141,6 +155,7 @@ describe('Integration | LTI | Domain | Usecases | startLtiCampaign', function ()
         campaignId,
       });
       await databaseBuilder.commit();
+      mockAccessTokenRequest();
       mockLineItemsListing({
         existingLineItems: [
           { resourceId: `pix:campaign:${campaignId}:competence:recCompetence1` },
@@ -149,14 +164,7 @@ describe('Integration | LTI | Domain | Usecases | startLtiCampaign', function ()
       });
 
       // when
-      await usecases.startLtiCampaign({
-        campaignId,
-        lineItemsUrl,
-        resourceLinkId,
-        accessToken,
-        clientId,
-        platformUserSub,
-      });
+      await usecases.startLtiCampaign({ campaignId, lineItemsUrl, resourceLinkId, registration, platformUserSub });
 
       // then
       expect(await findLtiCampaignParticipations()).to.have.lengthOf(1);
@@ -166,6 +174,7 @@ describe('Integration | LTI | Domain | Usecases | startLtiCampaign', function ()
   context('when the campaign does not exist', function () {
     it('throws a LtiCampaignNotFoundError without requesting the platform', async function () {
       // given
+      const accessTokenRequest = mockAccessTokenRequest();
       const listing = mockLineItemsListing();
 
       // when
@@ -173,13 +182,13 @@ describe('Integration | LTI | Domain | Usecases | startLtiCampaign', function ()
         campaignId: campaignId + 1,
         lineItemsUrl,
         resourceLinkId,
-        accessToken,
-        clientId,
+        registration,
         platformUserSub,
       });
 
       // then
       expect(error).to.be.instanceOf(LtiCampaignNotFoundError);
+      expect(accessTokenRequest.isDone()).to.be.false;
       expect(listing.isDone()).to.be.false;
       expect(await findLtiCampaignParticipations()).to.be.empty;
     });
@@ -192,8 +201,7 @@ describe('Integration | LTI | Domain | Usecases | startLtiCampaign', function ()
         campaignId: NaN,
         lineItemsUrl,
         resourceLinkId,
-        accessToken,
-        clientId,
+        registration,
         platformUserSub,
       });
 
@@ -202,9 +210,32 @@ describe('Integration | LTI | Domain | Usecases | startLtiCampaign', function ()
     });
   });
 
+  context('when the platform does not deliver an access token', function () {
+    it('throws a LtiLineItemsInitializationError without initializing the line items nor saving the participation', async function () {
+      // given
+      mockAccessTokenRequest({ status: 401, body: 'invalid client' });
+      const listing = mockLineItemsListing();
+
+      // when
+      const error = await catchErr(usecases.startLtiCampaign)({
+        campaignId,
+        lineItemsUrl,
+        resourceLinkId,
+        registration,
+        platformUserSub,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(LtiLineItemsInitializationError);
+      expect(listing.isDone()).to.be.false;
+      expect(await findLtiCampaignParticipations()).to.be.empty;
+    });
+  });
+
   context('when line items cannot be initialized', function () {
     it('throws a LtiLineItemsInitializationError without saving the participation', async function () {
       // given
+      mockAccessTokenRequest();
       mockLineItemsListing({ status: 500 });
 
       // when
@@ -212,8 +243,7 @@ describe('Integration | LTI | Domain | Usecases | startLtiCampaign', function ()
         campaignId,
         lineItemsUrl,
         resourceLinkId,
-        accessToken,
-        clientId,
+        registration,
         platformUserSub,
       });
 
