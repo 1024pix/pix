@@ -235,6 +235,11 @@
     background-color: var(--pix-neutral-0);
   }
 
+  &:has(.mode-banner--focus) {
+    background: var(--pix-primary-50);
+    box-shadow: 0 0 32px 8px var(--pix-warning-300) inset;
+  }
+
   @include breakpoints.device-is('tablet') {
     & > .pix-app-layout__main,
     .pix-app-layout__footer {
