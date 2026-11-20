@@ -30,10 +30,10 @@ module('Integration | Component | Certifications | Shareable certificate | v3-ce
 
       // then
       assert
-        .dom(screen.queryByRole('heading', { name: t('pages.certificate.details.competences.title') }))
+        .dom(screen.queryByRole('heading', { name: t('pages.certificate.details.competences.shareable-title') }))
         .doesNotExist();
       assert
-        .dom(screen.queryByRole('tablist', { name: t('pages.certificate.details.competences.title') }))
+        .dom(screen.queryByRole('tablist', { name: t('pages.certificate.details.competences.shareable-title') }))
         .doesNotExist();
     });
   });
@@ -63,6 +63,9 @@ module('Integration | Component | Certifications | Shareable certificate | v3-ce
       // then
       const globalLevelLabels = screen.getAllByText(certification.globalLevelLabel);
       assert.strictEqual(globalLevelLabels.length, 2);
+      assert
+        .dom(screen.getByRole('heading', { name: t('pages.certificate.details.competences.shareable-title') }))
+        .exists();
     });
   });
 
@@ -87,7 +90,7 @@ module('Integration | Component | Certifications | Shareable certificate | v3-ce
       // then
       assert.dom(screen.getAllByText(t('pages.certificate.frameworks.EDU.status'))[0]).exists();
       assert
-        .dom(screen.queryByRole('heading', { name: t('pages.certificate.details.competences.title') }))
+        .dom(screen.queryByRole('heading', { name: t('pages.certificate.details.competences.shareable-title') }))
         .doesNotExist();
     });
   });

@@ -9,11 +9,11 @@ import PixPlusCertificate from './v3-pix-plus-certificate';
     {{#if @certificate.hasPixPlusFramework}}
       <PixPlusCertificate @certificate={{@certificate}} />
     {{else}}
-      <CandidateInformation @certificate={{@certificate}} />
-      <CandidateGlobalLevel @certificate={{@certificate}} />
+      <CandidateInformation @certificate={{@certificate}} @isShareableContext={{true}} />
+      <CandidateGlobalLevel @certificate={{@certificate}} @isShareableContext={{true}} />
       <section class="v3-candidate-certificate__complementary">
         {{#if @certificate.resultCompetenceTree}}
-          <CompetencesDetails @certificate={{@certificate}} />
+          <CompetencesDetails @certificate={{@certificate}} @isShareableContext={{true}} />
         {{/if}}
 
         {{#if @certificate.acquiredComplementaryCertification}}

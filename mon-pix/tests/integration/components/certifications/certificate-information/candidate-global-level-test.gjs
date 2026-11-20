@@ -82,4 +82,48 @@ module('Integration | Component | Certifications | Certificate information | can
         .exists();
     });
   });
+
+  module('when in a shareable context', function () {
+    test('it displays the global positioning with the result reading', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certification = store.createRecord('certification', {
+        pixScore: 840,
+        globalLevelLabel: 'Expert 1',
+        globalDescriptionLabel: 'Vous êtes capable de tout.',
+        globalSummaryLabel: 'Expert de tous les domaines, Pix vous dit bravo !',
+        level: '7',
+      });
+
+      // when
+      const screen = await render(
+        <template><CandidateGlobalLevel @certificate={{certification}} @isShareableContext={{true}} /></template>,
+      );
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('heading', {
+            level: 2,
+            name: t('pages.certificate.global.progress-bar-explanation.shareable-progress-bar-title'),
+          }),
+        )
+        .exists();
+      assert
+        .dom(
+          screen.getByText(t('pages.certificate.global.progress-bar-explanation.shareable-progress-bar-description')),
+        )
+        .exists();
+      assert
+        .dom(
+          screen.getByRole('heading', {
+            level: 3,
+            name: `${t('pages.certificate.results.title')} ${certification.globalLevelLabel}`,
+          }),
+        )
+        .exists();
+      assert.dom(screen.getByText(certification.globalSummaryLabel)).exists();
+      assert.dom(screen.getByText(certification.globalDescriptionLabel)).exists();
+    });
+  });
 });

@@ -864,6 +864,7 @@
       "details": {
         "competences": {
           "description": "Your Pix score gives an estimate of your level in the 16 digital skills.",
+          "shareable-title": "Their digital skills profile",
           "title": "Your digital skills profile"
         }
       },
@@ -915,7 +916,9 @@
         },
         "progress-bar-explanation": {
           "default": "Progress bar indicating the level you have reached ( {level}, i.e. level {globalLevelLabel} ) out of a maximum attainable level of 7 ( Expert 1 level )",
-          "pre-beginner-level": "Progress bar indicating the maximum level that can be reached in certification (i.e. 7 or Expert 1 level)"
+          "pre-beginner-level": "Progress bar indicating the maximum level that can be reached in certification (i.e. 7 or Expert 1 level)",
+          "shareable-progress-bar-description": "Average level out of the maximum attainable level.",
+          "shareable-progress-bar-title": "Overall positioning"
         }
       },
       "hexagon-score": {
@@ -927,6 +930,7 @@
       "learn-about-certification-results": "How to interpret the results?",
       "obtained-certification": {
         "candidate": "The candidate has reached the {globalLevelLabel} level of the {frameworkLabel} certification.",
+        "shareable-core": "The candidate has obtained the Pix certification!",
         "user": "You have reached the {globalLevelLabel} level of the {frameworkLabel} certification."
       },
       "professionalizing-warning": "The Pix certificate is recognised as professionalising by France Compétences upon reaching a minimum score of 120 pix.",

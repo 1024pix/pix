@@ -864,6 +864,7 @@
       "details": {
         "competences": {
           "description": "Votre score Pix donne une estimation de votre niveau dans les 16 compétences numériques.",
+          "shareable-title": "Son profil de compétences numériques",
           "title": "Votre profil de compétences numériques"
         }
       },
@@ -915,7 +916,9 @@
         },
         "progress-bar-explanation": {
           "default": "Barre de progression indiquant votre niveau atteint ( {level}, ou niveau {globalLevelLabel} ) sur un niveau maximum atteignable de 7 ( niveau Expert 1 )",
-          "pre-beginner-level": "Barre de progression indiquant le niveau maximum que l'on peut atteindre en certification (soit, 7 ou niveau Expert 1 )"
+          "pre-beginner-level": "Barre de progression indiquant le niveau maximum que l'on peut atteindre en certification (soit, 7 ou niveau Expert 1 )",
+          "shareable-progress-bar-description": "Niveau moyen sur le niveau maximal atteignable.",
+          "shareable-progress-bar-title": "Positionnement global"
         }
       },
       "hexagon-score": {
@@ -927,6 +930,7 @@
       "learn-about-certification-results": "Comment interpréter les résultats ?",
       "obtained-certification": {
         "candidate": "Le candidat a atteint le niveau {globalLevelLabel} de la certification {frameworkLabel}.",
+        "shareable-core": "Le candidat a obtenu la certification Pix !",
         "user": "Vous avez atteint le niveau {globalLevelLabel} de la certification {frameworkLabel}."
       },
       "professionalizing-warning": "Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix",
