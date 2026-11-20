@@ -515,8 +515,8 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
 
     describe('Error cases', function () {
       beforeEach(function () {
-        challengeType = 'focused';
-        user = databaseBuilder.factory.buildUser({ hasSeenFocusedChallengeTooltip: false });
+        challengeType = 'other';
+        user = databaseBuilder.factory.buildUser({ hasSeenOtherChallengesTooltip: false });
 
         options = {
           method: 'PATCH',
@@ -552,29 +552,10 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
     });
 
     describe('Success cases', function () {
-      it('returns the user with has seen challenge tooltip', async function () {
-        // given
-        challengeType = 'focused';
-        user = databaseBuilder.factory.buildUser({ hasSeenFocusedChallengeTooltip: false });
-
-        options = {
-          method: 'PATCH',
-          url: `/api/users/${user.id}/has-seen-challenge-tooltip/${challengeType}`,
-          headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
-        };
-
-        await databaseBuilder.commit();
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.result.data.attributes['has-seen-focused-challenge-tooltip']).to.be.true;
-      });
-
       it('returns the user with has seen other challenges tooltip', async function () {
         // given
         challengeType = 'other';
-        user = databaseBuilder.factory.buildUser({ hasSeenFocusedChallengeTooltip: false });
+        user = databaseBuilder.factory.buildUser({ hasSeenOtherChallengesTooltip: false });
 
         options = {
           method: 'PATCH',

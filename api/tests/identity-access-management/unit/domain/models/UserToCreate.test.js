@@ -63,7 +63,6 @@ describe('Unit | Identity Access Management | Domain | Model | UserToCreate', fu
         locale: undefined,
         hasSeenNewDashboardInfo: false,
         isAnonymous: false,
-        hasSeenFocusedChallengeTooltip: false,
         hasSeenOtherChallengesTooltip: false,
         createdAt: undefined,
         updatedAt: undefined,

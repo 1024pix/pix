@@ -1142,20 +1142,9 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
       beforeEach(function () {
         userId = databaseBuilder.factory.buildUser({
-          hasSeenFocusedChallengeTooltip: false,
           hasSeenOtherChallengesTooltip: false,
         }).id;
         return databaseBuilder.commit();
-      });
-
-      it('returns the model with hasSeenFocusedChallengeTooltip flag updated to true', async function () {
-        // when
-        const challengeType = 'focused';
-        const actualUser = await userRepository.updateHasSeenChallengeTooltip({ userId, challengeType });
-
-        // then
-        expect(actualUser.hasSeenFocusedChallengeTooltip).to.be.true;
-        expect(actualUser.updatedAt).to.deep.equal(now);
       });
 
       it('returns the model with hasSeenOtherChallengesTooltip flag updated to true', async function () {

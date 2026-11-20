@@ -67,7 +67,6 @@ export const userRoutes = [
               'has-assessment-participations': Joi.boolean().allow(null),
               'has-recommended-trainings': Joi.boolean().allow(null),
               'has-seen-assessment-instructions': Joi.boolean().allow(null),
-              'has-seen-focused-challenge-tooltip': Joi.boolean().allow(null),
               'has-seen-new-dashboard-info': Joi.boolean().allow(null),
               'has-seen-other-challenges-tooltip': Joi.boolean().allow(null),
               'should-see-data-protection-policy-information-banner': Joi.boolean().allow(null),
@@ -145,7 +144,6 @@ export const userRoutes = [
               'has-assessment-participations': Joi.boolean().allow(null),
               'has-recommended-trainings': Joi.boolean().allow(null),
               'has-seen-assessment-instructions': Joi.boolean().allow(null),
-              'has-seen-focused-challenge-tooltip': Joi.boolean().allow(null),
               'has-seen-new-dashboard-info': Joi.boolean().allow(null),
               'has-seen-other-challenges-tooltip': Joi.boolean().allow(null),
               'should-see-data-protection-policy-information-banner': Joi.boolean().allow(null),
@@ -398,7 +396,7 @@ export const userRoutes = [
       validate: {
         params: Joi.object({
           id: identifiersType.userId,
-          challengeType: Joi.string().valid('focused', 'other'),
+          challengeType: Joi.string().valid('other'),
         }),
       },
       handler: userController.rememberUserHasSeenChallengeTooltip,

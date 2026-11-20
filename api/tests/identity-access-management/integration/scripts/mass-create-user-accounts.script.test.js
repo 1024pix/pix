@@ -90,7 +90,6 @@ describe('Integration | Identity Access Management | Scripts | mass-create-user-
         hasSeenNewDashboardInfo: false,
         isAnonymous: false,
         emailConfirmedAt: null,
-        hasSeenFocusedChallengeTooltip: false,
         hasSeenOtherChallengesTooltip: false,
         lastPixCertifTermsOfServiceValidatedAt: null,
         createdAt: now,

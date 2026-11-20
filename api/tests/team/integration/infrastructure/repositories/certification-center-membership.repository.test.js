@@ -833,7 +833,6 @@ describe('Integration | Team | Infrastructure | Repository | Certification Cente
           'lastPixCertifTermsOfServiceValidatedAt',
           'hasSeenAssessmentInstructions',
           'hasSeenNewDashboardInfo',
-          'hasSeenFocusedChallengeTooltip',
           'hasSeenOtherChallengesTooltip',
           'mustValidateTermsOfService',
           'lang',

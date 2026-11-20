@@ -29,7 +29,6 @@ export class User {
     lastDataProtectionPolicySeenAt,
     hasSeenAssessmentInstructions,
     hasSeenNewDashboardInfo,
-    hasSeenFocusedChallengeTooltip,
     hasSeenOtherChallengesTooltip,
     mustValidateTermsOfService,
     lang,
@@ -59,7 +58,6 @@ export class User {
     this.hasSeenAssessmentInstructions = hasSeenAssessmentInstructions;
     this.hasSeenOtherChallengesTooltip = hasSeenOtherChallengesTooltip;
     this.hasSeenNewDashboardInfo = hasSeenNewDashboardInfo;
-    this.hasSeenFocusedChallengeTooltip = hasSeenFocusedChallengeTooltip;
     this.lang = coerceLanguage(lang);
     this.locale = getNearestSupportedLocale(locale);
     this.isAnonymous = isAnonymous;
@@ -173,7 +171,6 @@ export class User {
       hasSeenAssessmentInstructions: this.hasSeenAssessmentInstructions,
       hasSeenOtherChallengesTooltip: this.hasSeenOtherChallengesTooltip,
       hasSeenNewDashboardInfo: this.hasSeenNewDashboardInfo,
-      hasSeenFocusedChallengeTooltip: this.hasSeenFocusedChallengeTooltip,
       lang: this.lang,
       locale: this.locale,
       isAnonymous: this.isAnonymous,

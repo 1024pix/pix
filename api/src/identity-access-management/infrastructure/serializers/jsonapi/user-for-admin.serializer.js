@@ -20,7 +20,6 @@ const serialize = function (users, meta) {
       'isAnonymous',
       'hasSeenAssessmentInstructions',
       'hasSeenNewDashboardInfo',
-      'hasSeenFocusedChallengeTooltip',
       'hasSeenOtherChallengesTooltip',
     ],
     meta,

@@ -405,7 +405,6 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
         'hasSeenAssessmentInstructions',
         'hasSeenOtherChallengesTooltip',
         'hasSeenNewDashboardInfo',
-        'hasSeenFocusedChallengeTooltip',
         'lang',
         'locale',
         'isAnonymous',

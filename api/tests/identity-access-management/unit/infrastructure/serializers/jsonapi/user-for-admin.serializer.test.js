@@ -21,7 +21,6 @@ describe('Unit | Identity Access Management | Serializer | JSONAPI | user-for-ad
         mustValidateTermsOfService: true,
         pixCertifTermsOfServiceAccepted: false,
         hasSeenAssessmentInstructions: false,
-        hasSeenFocusedChallengeTooltip: false,
         hasSeenOtherChallengesTooltip: false,
       });
     });
@@ -48,7 +47,6 @@ describe('Unit | Identity Access Management | Serializer | JSONAPI | user-for-ad
               'last-data-protection-policy-seen-at': userModelObject.lastDataProtectionPolicySeenAt,
               'has-seen-assessment-instructions': userModelObject.hasSeenAssessmentInstructions,
               'has-seen-new-dashboard-info': userModelObject.hasSeenNewDashboardInfo,
-              'has-seen-focused-challenge-tooltip': userModelObject.hasSeenFocusedChallengeTooltip,
               'has-seen-other-challenges-tooltip': userModelObject.hasSeenOtherChallengesTooltip,
             },
           },

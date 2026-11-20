@@ -178,12 +178,6 @@ const updateHasSeenChallengeTooltip = async function ({ userId, challengeType })
   let user;
 
   const knexConn = DomainTransaction.getConnection();
-  if (challengeType === 'focused') {
-    [user] = await knexConn('users')
-      .where({ id: userId })
-      .update({ hasSeenFocusedChallengeTooltip: true, updatedAt: new Date() })
-      .returning('*');
-  }
   if (challengeType === 'other') {
     [user] = await knexConn('users')
       .where({ id: userId })
@@ -344,7 +338,6 @@ function _toDomainFromDTO({ userDTO, authenticationMethodsDTO = [] }) {
     lastPixCertifTermsOfServiceValidatedAt: userDTO.lastPixCertifTermsOfServiceValidatedAt,
     hasSeenAssessmentInstructions: userDTO.hasSeenAssessmentInstructions,
     hasSeenNewDashboardInfo: userDTO.hasSeenNewDashboardInfo,
-    hasSeenFocusedChallengeTooltip: userDTO.hasSeenFocusedChallengeTooltip,
     hasSeenOtherChallengesTooltip: userDTO.hasSeenOtherChallengesTooltip,
     mustValidateTermsOfService: userDTO.mustValidateTermsOfService,
     lang: userDTO.lang,
