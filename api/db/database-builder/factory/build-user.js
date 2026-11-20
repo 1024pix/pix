@@ -35,7 +35,6 @@ const { ROLES } = PIX_ADMIN;
  * @property {boolean} pixCertifTermsOfServiceAccepted
  * @property {boolean} hasSeenAssessmentInstructions
  * @property {boolean} hasSeenNewDashboardInfo
- * @property {boolean} hasSeenFocusedChallengeTooltip
  * @property {boolean} hasSeenOtherChallengesTooltip
  * @property {boolean} isAnonymous
  * @property {Date} createdAt
@@ -60,7 +59,6 @@ const buildUser = function buildUser({
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
   hasSeenNewDashboardInfo = false,
-  hasSeenFocusedChallengeTooltip = false,
   hasSeenOtherChallengesTooltip = false,
   isAnonymous = false,
   createdAt = new Date(),
@@ -87,7 +85,6 @@ const buildUser = function buildUser({
     pixCertifTermsOfServiceAccepted,
     hasSeenAssessmentInstructions,
     hasSeenNewDashboardInfo,
-    hasSeenFocusedChallengeTooltip,
     hasSeenOtherChallengesTooltip,
     isAnonymous,
     createdAt,
