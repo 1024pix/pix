@@ -59,4 +59,12 @@ export default class Campaign extends Model {
   get hasCustomResultPageButton() {
     return Boolean(this.customResultPageButtonUrl) && Boolean(this.customResultPageButtonText);
   }
+
+  get combinedCourseCode() {
+    if (!this.isPartOfCombinedCourse) {
+      return null;
+    }
+
+    return this.customResultPageButtonUrl?.match(/\/parcours\/([^/?#]+)/)?.[1] ?? null;
+  }
 }

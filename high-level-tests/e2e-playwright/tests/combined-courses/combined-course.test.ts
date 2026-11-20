@@ -45,7 +45,6 @@ test('Combined courses', async ({ page }) => {
     });
 
     await test.step('Run campaign', async function () {
-      await page.getByRole('button', { name: 'Je commence' }).click();
       await page.getByRole('button', { name: 'Ignorer' }).click();
       await page.getByText('Oui.').click();
       await page.getByRole('button', { name: 'Je valide et je vais à la' }).click();
