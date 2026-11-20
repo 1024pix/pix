@@ -78,7 +78,6 @@ export function stubSessionService(owner, sessionData = {}) {
  * @param {boolean} [userData.hasRecommendedTrainings=false] - Indicates if the user has recommended trainings.
  * @param {boolean} [userData.hasAssessmentParticipations=false] - Indicates if the user has assessment participations.
  * @param {boolean} [userData.hasSeenOtherChallengesTooltip=false] - Indicates if the user has seen the other challenges tooltip.
- * @param {boolean} [userData.hasSeenFocusedChallengeTooltip=false] - Indicates if the user has seen the focused challenge tooltip.
  * @param {boolean} [userData.shouldSeeDataProtectionPolicyInformationBanner=false] - Indicates if the user should see the data protection policy information banner.
  * @param {string} [userData.codeForLastProfileToShare] - The code for the last profile to share.
  * @param {boolean} [withStoreStubbed=true] - Indicates to stub the store.
@@ -97,7 +96,6 @@ export function stubCurrentUserService(owner, userData = {}, { withStoreStubbed 
   const hasRecommendedTrainings = userData.hasRecommendedTrainings || false;
   const hasAssessmentParticipations = userData.hasAssessmentParticipations || false;
   const hasSeenOtherChallengesTooltip = userData.hasSeenOtherChallengesTooltip || false;
-  const hasSeenFocusedChallengeTooltip = userData.hasSeenFocusedChallengeTooltip || false;
   const shouldSeeDataProtectionPolicyInformationBanner =
     userData.shouldSeeDataProtectionPolicyInformationBanner || false;
 
@@ -133,7 +131,6 @@ export function stubCurrentUserService(owner, userData = {}, { withStoreStubbed 
             profile,
             codeForLastProfileToShare,
             hasRecommendedTrainings,
-            hasSeenFocusedChallengeTooltip,
             hasSeenOtherChallengesTooltip,
             hasAssessmentParticipations,
             shouldSeeDataProtectionPolicyInformationBanner,

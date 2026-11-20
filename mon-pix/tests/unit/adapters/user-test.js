@@ -69,11 +69,11 @@ module('Unit | Adapters | user', function (hooks) {
 
     test('should redirect to has-seen-challenge-tooltip', async function (assert) {
       // when
-      const snapshot = { adapterOptions: { tooltipChallengeType: 'focused' } };
+      const snapshot = { adapterOptions: { tooltipChallengeType: 'other' } };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      assert.true(url.endsWith('/users/123/has-seen-challenge-tooltip/focused'));
+      assert.true(url.endsWith('/users/123/has-seen-challenge-tooltip/other'));
     });
 
     test('should redirect to lang', async function (assert) {
