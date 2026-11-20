@@ -2,7 +2,8 @@ import { expect } from 'chai';
 
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
 import { CombinedCourse } from '../../../../../src/quest/domain/models/combined-courses/entities/CombinedCourse.js';
-import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
+import { findCombinedCourseByCampaignId } from '../../../../../src/quest/domain/usecases/find-combined-course-by-campaign-id.js';
+import * as combinedCourseRepository from '../../../../../src/quest/infrastructure/repositories/combined-courses/combined-course-repository.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Quest | Domain | UseCases | get-combined-course-by-campaign-id', function () {
@@ -28,7 +29,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-campa
 
   it('should return a combined course', async function () {
     // when
-    const result = await usecases.findCombinedCourseByCampaignId({ campaignId });
+    const result = await findCombinedCourseByCampaignId({ campaignId, combinedCourseRepository });
 
     // then
     expect(result).lengthOf(1);
@@ -43,7 +44,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-campa
     await databaseBuilder.commit();
 
     // when
-    const result = await usecases.findCombinedCourseByCampaignId({ campaignId: campaigNotInQuest.id });
+    const result = await findCombinedCourseByCampaignId({ campaignId: campaigNotInQuest.id, combinedCourseRepository });
 
     // then
     expect(result).deep.equal([]);

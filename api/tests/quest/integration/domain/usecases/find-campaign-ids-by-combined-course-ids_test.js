@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
-import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
+import { findCampaignIdsByCombinedCourseIds } from '../../../../../src/quest/domain/usecases/find-campaign-ids-by-combined-course-ids.js';
+import * as campaignRepository from '../../../../../src/quest/infrastructure/repositories/combined-courses/campaign-repository.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Quest | Domain | UseCases | find-campaign-ids-by-combined-course-ids', function () {
@@ -21,7 +22,10 @@ describe('Integration | Quest | Domain | UseCases | find-campaign-ids-by-combine
     await databaseBuilder.commit();
 
     //when
-    const results = await usecases.findCampaignIdsByCombinedCourseIds({ combinedCourseIds: [combinedCourseId1] });
+    const results = await findCampaignIdsByCombinedCourseIds({
+      combinedCourseIds: [combinedCourseId1],
+      campaignRepository,
+    });
 
     //then
     expect(results).lengthOf(1);
@@ -38,7 +42,10 @@ describe('Integration | Quest | Domain | UseCases | find-campaign-ids-by-combine
     await databaseBuilder.commit();
 
     //when
-    const results = await usecases.findCampaignIdsByCombinedCourseIds({ combinedCourseIds: [combinedCourseId1] });
+    const results = await findCampaignIdsByCombinedCourseIds({
+      combinedCourseIds: [combinedCourseId1],
+      campaignRepository,
+    });
 
     //then
     expect(results).lengthOf(0);

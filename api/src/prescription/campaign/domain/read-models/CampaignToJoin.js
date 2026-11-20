@@ -7,6 +7,7 @@ class CampaignToJoin extends Campaign {
     organizationLogoUrl,
     organizationIsManagingStudents,
     hasLearnersImportFeature,
+    isPartOfCombinedCourse,
     identityProvider,
     organizationShowNPS,
     organizationFormNPSUrl,
@@ -30,6 +31,8 @@ class CampaignToJoin extends Campaign {
 
     this.isRestricted = organizationIsManagingStudents || hasLearnersImportFeature;
     this.reconciliationFields = null;
+
+    this.isPartOfCombinedCourse = isPartOfCombinedCourse;
   }
 
   get isReconciliationRequired() {
