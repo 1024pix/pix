@@ -60,3 +60,13 @@
     }
   }
 }
+
+.candidate-global-level__shareable-progress-block {
+  h2 {
+    margin-bottom: var(--pix-spacing-1x);
+  }
+
+  .result-level-gauge {
+    margin-top: var(--pix-spacing-4x);
+  }
+}

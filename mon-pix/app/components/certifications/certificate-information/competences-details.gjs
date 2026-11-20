@@ -68,7 +68,11 @@ export default class CertificateCompetencesDetails extends Component {
   <template>
     <section class="certificate-competences-details">
       <h2 id="competences-list-title" class="certificate-competences-details__title">
-        {{t "pages.certificate.details.competences.title"}}
+        {{#if @isShareableContext}}
+          {{t "pages.certificate.details.competences.shareable-title"}}
+        {{else}}
+          {{t "pages.certificate.details.competences.title"}}
+        {{/if}}
       </h2>
       <p class="certificate-competences-details__description">
         {{t "pages.certificate.details.competences.description"}}
