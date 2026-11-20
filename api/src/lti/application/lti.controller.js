@@ -3,7 +3,6 @@ import { createPublicKey } from 'node:crypto';
 import jsonwebtoken from 'jsonwebtoken';
 
 import { BadRequestError } from '../../shared/application/errors/http-errors.js';
-import { cryptoService } from '../../shared/domain/services/crypto-service.js';
 import * as urlService from '../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../shared/infrastructure/http-agent.js';
 import { getI18nFromRequest } from '../../shared/infrastructure/i18n/i18n.js';
@@ -21,8 +20,6 @@ import { ltiRegistrationSerializer } from '../infrastructure/serializers/html/lt
 import { ltiCampaignSerializer } from '../infrastructure/serializers/jsonapi/lti-campaign-serializer.js';
 
 const logger = child('lti:controller', { event: SCOPES.LTI });
-
-const LINE_ITEM_SCOPE = 'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem';
 
 async function listPublicKeys(request, h, dependencies = { listLtiPublicKeys: usecases.listLtiPublicKeys }) {
   const publicKeys = await dependencies.listLtiPublicKeys();
@@ -213,19 +210,13 @@ async function resourceLink(request, h, dependencies = { urlService }) {
 
   const campaignId = Number(verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom']?.campaign_id);
 
-  const accessToken = await getAccessToken(LINE_ITEM_SCOPE, registration);
-  if (!accessToken) {
-    logger.error({ campaignId }, 'could not get access token to initialize line items');
-    return launchErrorResponse(h);
-  }
-
   let campaign;
   try {
     campaign = await usecases.startLtiCampaign({
       campaignId,
       lineItemsUrl: verifiedToken['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint']?.lineitems,
       resourceLinkId: verifiedToken['https://purl.imsglobal.org/spec/lti/claim/resource_link']?.id,
-      accessToken,
+      registration,
     });
   } catch (err) {
     if (err instanceof LtiCampaignNotFoundError) {
@@ -297,45 +288,4 @@ function launchErrorResponse(h) {
     .response(ltiErrorSerializer.serialize({ title: 'Launch error', message: 'Please contact your administrator' }))
     .header('Content-Type', 'text/html; charset=utf-8')
     .code(502);
-}
-
-async function getAccessToken(scope, registration, dependencies = { cryptoService }) {
-  const privateKey = {
-    format: 'jwk',
-    key: JSON.parse(await dependencies.cryptoService.decrypt(registration.encryptedPrivateKey)),
-  };
-
-  const client_assertion = jsonwebtoken.sign(
-    {
-      iss: registration.platformIssuer,
-      sub: registration.clientId,
-      aud: registration.platformOpenIdConfig.token_endpoint,
-    },
-    privateKey,
-    {
-      expiresIn: 3600,
-      algorithm: 'RS256',
-      keyid: registration.publicKey.kid,
-    },
-  );
-
-  const res = await fetch(registration.platformOpenIdConfig.token_endpoint, {
-    method: 'POST',
-    body: new URLSearchParams({
-      grant_type: 'client_credentials',
-      client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-      client_assertion,
-      scope,
-    }),
-    headers: {
-      'Content-type': 'application/x-www-form-urlencoded',
-    },
-  });
-
-  if (!res.ok) {
-    logger.error({ status: res.status, err: await res.text() }, 'could not get access token');
-    return null;
-  }
-
-  return res.json();
 }

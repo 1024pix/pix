@@ -12,7 +12,10 @@ describe('Unit | LTI | Domain | Usecases | startLtiCampaign', function () {
   const resourceLinkId = 'resource-link-id';
   const accessToken = { token_type: 'Bearer', access_token: 'platform-access-token' };
 
+  const registration = Symbol('registration');
+
   let ltiCampaignRepository;
+  let ltiService;
   let ltiScoringService;
   let campaign;
 
@@ -20,6 +23,10 @@ describe('Unit | LTI | Domain | Usecases | startLtiCampaign', function () {
     campaign = new LtiCampaign({ id: campaignId, code: 'ABCD12345', name: 'Campagne', type: 'ASSESSMENT' });
     ltiCampaignRepository = { getLtiCampaign: sinon.stub() };
     ltiCampaignRepository.getLtiCampaign.withArgs({ campaignId }).resolves(campaign);
+    ltiService = { getAccessToken: sinon.stub() };
+    ltiService.getAccessToken
+      .withArgs({ scope: 'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem', registration })
+      .resolves(accessToken);
     ltiScoringService = { initializeLineItems: sinon.stub().resolves() };
   });
 
@@ -29,8 +36,9 @@ describe('Unit | LTI | Domain | Usecases | startLtiCampaign', function () {
       campaignId,
       lineItemsUrl,
       resourceLinkId,
-      accessToken,
+      registration,
       ltiCampaignRepository,
+      ltiService,
       ltiScoringService,
     });
 
@@ -51,13 +59,15 @@ describe('Unit | LTI | Domain | Usecases | startLtiCampaign', function () {
         campaignId: 999,
         lineItemsUrl,
         resourceLinkId,
-        accessToken,
+        registration,
         ltiCampaignRepository,
+        ltiService,
         ltiScoringService,
       });
 
       // then
       expect(error).to.be.instanceOf(LtiCampaignNotFoundError);
+      expect(ltiService.getAccessToken).not.to.have.been.called;
       expect(ltiScoringService.initializeLineItems).not.to.have.been.called;
     });
   });
@@ -69,14 +79,37 @@ describe('Unit | LTI | Domain | Usecases | startLtiCampaign', function () {
         campaignId: NaN,
         lineItemsUrl,
         resourceLinkId,
-        accessToken,
+        registration,
         ltiCampaignRepository,
+        ltiService,
         ltiScoringService,
       });
 
       // then
       expect(error).to.be.instanceOf(LtiCampaignNotFoundError);
       expect(ltiCampaignRepository.getLtiCampaign).not.to.have.been.called;
+    });
+  });
+
+  context('when the platform does not deliver an access token', function () {
+    it('throws a LtiLineItemsInitializationError and does not initialize line items', async function () {
+      // given
+      ltiService.getAccessToken = sinon.stub().resolves(null);
+
+      // when
+      const error = await catchErr(startLtiCampaign)({
+        campaignId,
+        lineItemsUrl,
+        resourceLinkId,
+        registration,
+        ltiCampaignRepository,
+        ltiService,
+        ltiScoringService,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(LtiLineItemsInitializationError);
+      expect(ltiScoringService.initializeLineItems).not.to.have.been.called;
     });
   });
 
@@ -90,8 +123,9 @@ describe('Unit | LTI | Domain | Usecases | startLtiCampaign', function () {
         campaignId,
         lineItemsUrl,
         resourceLinkId,
-        accessToken,
+        registration,
         ltiCampaignRepository,
+        ltiService,
         ltiScoringService,
       });
 
