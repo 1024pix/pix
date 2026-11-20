@@ -9,7 +9,7 @@
  * @param {typeof import('../../infrastructure/repositories/lti-campaign-participation.repository.js').ltiCampaignParticipationRepository} args.ltiCampaignParticipationRepository
  * @returns {Promise<void>}
  */
-export async function saveLtiCampaignParticipation({
+export async function startLtiCampaign({
   clientId,
   platformUserSub,
   lineItemContainerUrl,

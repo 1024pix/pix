@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { usecases } from '../../../../../src/lti/domain/usecases/index.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 
-describe('Integration | LTI | Domain | Usecases | saveLtiCampaignParticipation', function () {
+describe('Integration | LTI | Domain | Usecases | startLtiCampaign', function () {
   it('saves the LTI campaign participation', async function () {
     // given
     const platform = databaseBuilder.factory.buildLtiPlatform();
@@ -12,7 +12,7 @@ describe('Integration | LTI | Domain | Usecases | saveLtiCampaignParticipation',
     await databaseBuilder.commit();
 
     // when
-    await usecases.saveLtiCampaignParticipation({
+    await usecases.startLtiCampaign({
       clientId,
       platformUserSub: '1234',
       lineItemContainerUrl: 'https://moodle.example.net/mod/lti/services.php/2/lineitems?type_id=3',

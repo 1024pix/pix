@@ -207,7 +207,7 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
 async function resourceLink(
   request,
   h,
-  dependencies = { urlService, ltiScoringService, saveLtiCampaignParticipation: usecases.saveLtiCampaignParticipation },
+  dependencies = { urlService, ltiScoringService, startLtiCampaign: usecases.startLtiCampaign },
 ) {
   const { verifiedToken, registration } = await preLaunch(request);
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
@@ -246,7 +246,7 @@ async function resourceLink(
     return launchErrorResponse(h);
   }
 
-  await dependencies.saveLtiCampaignParticipation({
+  await dependencies.startLtiCampaign({
     clientId: registration.clientId,
     platformUserSub: verifiedToken.sub,
     lineItemContainerUrl: lineItemsUrl,
