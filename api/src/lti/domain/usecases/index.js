@@ -1,6 +1,7 @@
 import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import * as urlService from '../../../shared/domain/services/url-service.js';
 import { httpAgent } from '../../../shared/infrastructure/http-agent.js';
+import { getI18n } from '../../../shared/infrastructure/i18n/i18n.js';
 import * as organizationRepository from '../../../shared/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
@@ -18,6 +19,7 @@ import { sendCampaignParticipationResult } from './send-campaign-participation-r
 import { startLtiCampaign } from './start-lti-campaign.usecase.js';
 
 const utils = {
+  getI18n,
   httpAgent,
 };
 
