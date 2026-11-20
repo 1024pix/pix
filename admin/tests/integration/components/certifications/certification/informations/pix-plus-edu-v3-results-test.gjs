@@ -1,9 +1,9 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
-import { setupIntl, t } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import PixPlusEduV3Results from 'pix-admin/components/certifications/certification/informations/pix-plus-edu-v3-results';
+import setupIntl, { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -44,16 +44,14 @@ module(
       test('should display the reached level for external jury', async function (assert) {
         // given
         const certification = store.createRecord('certification', {
-          reachedResultKey: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE.ADVANCED',
+          reachedResultKey: 'EDU_1ER_DEGRE.ADVANCED',
         });
 
         // when
         const screen = await render(<template><PixPlusEduV3Results @certification={{certification}} /></template>);
 
         // then
-        assert
-          .dom(screen.getByText(t('common.certification.meshLevels.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE.ADVANCED')))
-          .exists();
+        assert.dom(screen.getByText(t('common.certification.meshLevels.EDU_1ER_DEGRE.ADVANCED'))).exists();
       });
     });
 

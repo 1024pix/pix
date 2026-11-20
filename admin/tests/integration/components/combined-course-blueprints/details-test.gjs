@@ -1,6 +1,6 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import Details from 'pix-admin/components/combined-course-blueprints/details';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import setupIntlRenderingTest from 'pix-admin/tests/helpers/setup-intl-rendering';
 import { module, test } from 'qunit';
 
@@ -96,7 +96,7 @@ module('Integration | Component | CombinedCourseBlueprints::Details', function (
 
     assert.notOk(screen.queryByText(t('components.combined-course-blueprints.labels.description')));
     assert.notOk(screen.queryByText(t('components.combined-course-blueprints.labels.illustration')));
-    assert.notOk(screen.queryByText(t('components.combined-course-blueprints.labels.reward-requirements')));
+    assert.notOk(screen.queryByText(t('components.combined-course-blueprints.labels.reward-requirements.description')));
   });
 
   test('should display reward requirements if provided', async function (assert) {
