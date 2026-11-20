@@ -37,6 +37,12 @@ export class RevokedUserAccess {
    * @param {import('./UserRefreshToken.js').UserRefreshToken} refreshToken
    */
   assertRefreshTokenNotRevoked(refreshToken) {
+    if (this.revokedAllTimeStamp && refreshToken.issuedAt < this.revokedAllTimeStamp) {
+      throw new InvalidInputDataError({
+        message: `Refresh token is revoked because user access is revoked`,
+        code: 'INVALID_REFRESH_TOKEN',
+      });
+    }
     if (this.revokedSessionIds?.includes(refreshToken.sessionId)) {
       throw new InvalidInputDataError({
         message: `Refresh token is revoked because sessionId ${refreshToken.sessionId} is revoked`,

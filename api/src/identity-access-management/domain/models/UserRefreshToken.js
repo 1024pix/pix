@@ -8,12 +8,13 @@ import { validateEntity } from '../../../shared/domain/validators/entity-validat
 const expirationDelaySeconds = config.authentication.refreshTokenLifespanMs / 1000;
 
 export class UserRefreshToken {
-  constructor({ id, userId, sessionId, audience, source }) {
+  constructor({ id, userId, sessionId, audience, source, issuedAt }) {
     this.id = id;
     this.userId = userId;
     this.sessionId = sessionId;
     this.audience = audience;
     this.source = source;
+    this.issuedAt = issuedAt;
 
     validateEntity(
       Joi.object({
@@ -22,6 +23,7 @@ export class UserRefreshToken {
         sessionId: Joi.string().required(),
         audience: Joi.string().required(),
         source: Joi.string().optional(),
+        issuedAt: Joi.number().required(),
       }),
       this,
     );
@@ -55,6 +57,7 @@ export class UserRefreshToken {
       sessionId: decodedRefreshToken.sid,
       audience: decodedRefreshToken.aud,
       source: decodedRefreshToken.source,
+      issuedAt: decodedRefreshToken.iat,
     });
   }
 }
