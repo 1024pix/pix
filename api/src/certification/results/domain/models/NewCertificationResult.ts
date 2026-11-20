@@ -101,6 +101,17 @@ export class CertificationResult {
     if (success) return null;
     return JSON.stringify(z.flattenError(error));
   }
+
+  get competenceResults() {
+    if (!('competenceMarks' in this.results)) {
+      return [];
+    }
+
+    return this.results.competenceMarks.map((competenceMark) => ({
+      competenceId: competenceMark.competenceId,
+      level: competenceMark.level,
+    }));
+  }
 }
 
 type UserCertificationResultProps = {

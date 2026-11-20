@@ -2,13 +2,18 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 
 export async function save({ certificationResults, userCertificationResults }) {
   const knexConn = DomainTransaction.getConnection();
-  const { certificationResultsData, userCertificationResultsData } = toDB({
+  const { certificationResultsData, certificationCompetenceResultsData, userCertificationResultsData } = toDB({
     certificationResults,
     userCertificationResults,
   });
   if (certificationResultsData.length > 0) {
     await knexConn
       .batchInsert('certification_results', certificationResultsData)
+      .transacting(knexConn.isTransaction ? knexConn : null);
+  }
+  if (certificationCompetenceResultsData.length > 0) {
+    await knexConn
+      .batchInsert('certification_competence_results', certificationCompetenceResultsData)
       .transacting(knexConn.isTransaction ? knexConn : null);
   }
   if (userCertificationResultsData.length > 0) {
@@ -47,13 +52,22 @@ function toDB({ certificationResults, userCertificationResults }) {
     maxReachableLevel: certificationResult.results.maxReachableLevel,
     reachedMeshIndex: certificationResult.results.reachedMeshIndex,
     pixScore: certificationResult.results.pixScore,
-    competenceMarks: certificationResult.results?.competenceMarks
-      ? JSON.stringify(certificationResult.results.competenceMarks)
-      : null,
-    eduV3ExternalJuryResult: certificationResult.results.eduV3ExternalJuryResult,
+    v3EduExternalJuryResult: certificationResult.results.v3EduExternalJuryResult,
     hasAcquiredClea: certificationResult.results.hasAcquiredClea,
     cleaBadgeId: certificationResult.results.cleaBadgeId,
+    v2VoletPixBadgeId: certificationResult.results.v2VoletPixBadgeId,
+    v2VoletPixAcquired: certificationResult.results.v2VoletPixAcquired,
+    v2VoletExterneBadgeId: certificationResult.results.v2VoletExterneBadgeId,
+    v2VoletExterneAcquired: certificationResult.results.v2VoletExterneAcquired,
   }));
+
+  const certificationCompetenceResultsData = certificationResults.flatMap((certificationResult) =>
+    certificationResult.competenceResults.map((competenceResult) => ({
+      certificationResultId: certificationResult.id,
+      competenceId: competenceResult.competenceId,
+      level: competenceResult.level,
+    })),
+  );
 
   const userCertificationResultsData = userCertificationResults.map((userCertificationResult) => ({
     certificationResultId: userCertificationResult.certificationResultId,
@@ -66,5 +80,6 @@ function toDB({ certificationResults, userCertificationResults }) {
   return {
     certificationResultsData,
     userCertificationResultsData,
+    certificationCompetenceResultsData,
   };
 }

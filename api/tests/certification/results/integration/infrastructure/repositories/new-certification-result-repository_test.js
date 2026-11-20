@@ -9,8 +9,12 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 
 describe('Certification | Results | Integration | Infrastructure | Repository | New Certification Result', function () {
   describe('#save', function () {
-    let certificationResultData1, certificationResultData2, certificationResultData3;
-    let userCertificationResultData1, userCertificationResultData2, userCertificationResultData3;
+    let certificationResultData1, certificationResultData2, certificationResultData3, certificationResultData4;
+    const expectedCompetenceResults = [];
+    let userCertificationResultData1,
+      userCertificationResultData2,
+      userCertificationResultData3,
+      userCertificationResultData4;
     beforeEach(function () {
       certificationResultData1 = {
         id: '10000001-1001-1001-1001-100000000001',
@@ -50,10 +54,28 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
             competenceId: 'competenceDEF456',
           },
         ],
-        eduV3ExternalJuryResult: null,
+        v3EduExternalJuryResult: null,
         hasAcquiredClea: null,
         cleaBadgeId: null,
+        v2VoletExterneAcquired: null,
+        v2VoletExterneBadgeId: null,
+        v2VoletPixAcquired: null,
+        v2VoletPixBadgeId: null,
       };
+      expectedCompetenceResults.push(
+        ...[
+          {
+            certificationResultId: '10000001-1001-1001-1001-100000000001',
+            level: 1,
+            competenceId: 'competenceABC123',
+          },
+          {
+            certificationResultId: '10000001-1001-1001-1001-100000000001',
+            level: 7,
+            competenceId: 'competenceDEF456',
+          },
+        ],
+      );
       certificationResultData2 = {
         id: '20000002-2002-2002-2002-200000000002',
         algorithmEngineVersion: AlgorithmEngineVersion.V3,
@@ -79,13 +101,17 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         commentByJury: 'commentByJury',
         commentForOrganization: 'commentForOrganization',
         commentForCandidate: 'commentForCandidate',
-        eduV3ExternalJuryResult: 'REALLY BAD',
+        v3EduExternalJuryResult: 'REALLY BAD',
         reachedMeshIndex: 2,
         maxReachableLevel: null,
         pixScore: null,
         competenceMarks: null,
         hasAcquiredClea: null,
         cleaBadgeId: null,
+        v2VoletExterneAcquired: null,
+        v2VoletExterneBadgeId: null,
+        v2VoletPixAcquired: null,
+        v2VoletPixBadgeId: null,
       };
       certificationResultData3 = {
         id: '30000003-3003-3003-3003-300000000003',
@@ -127,8 +153,86 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         ],
         hasAcquiredClea: true,
         cleaBadgeId: 444,
-        eduV3ExternalJuryResult: null,
+        v3EduExternalJuryResult: null,
+        v2VoletExterneAcquired: null,
+        v2VoletExterneBadgeId: null,
+        v2VoletPixAcquired: null,
+        v2VoletPixBadgeId: null,
       };
+      expectedCompetenceResults.push(
+        ...[
+          {
+            certificationResultId: '30000003-3003-3003-3003-300000000003',
+            level: 1,
+            competenceId: 'competenceABC123',
+          },
+          {
+            certificationResultId: '30000003-3003-3003-3003-300000000003',
+            level: 7,
+            competenceId: 'competenceDEF456',
+          },
+        ],
+      );
+      certificationResultData4 = {
+        id: '40000004-4004-4004-4004-400000000004',
+        algorithmEngineVersion: AlgorithmEngineVersion.V2,
+        firstName: 'Joe',
+        middleName: 'La',
+        thirdName: 'Mouche',
+        lastName: 'Duran',
+        externalId: 'Random',
+        nationalStudentId: null,
+        birthdate: '1956-04-24',
+        birthplace: 'Pézila-la-rivière',
+        birthPostalCode: '66370',
+        birthINSEECode: null,
+        birthCountry: 'France',
+        verificationCode: 'CODEVERIF',
+        certificationCenter: 'Centre certification joelamouche',
+        startedAt: new Date('2026-11-01'),
+        deliveredAt: new Date('2026-12-01'),
+        status: 'validated',
+        framework: Frameworks.EDU_2ND_DEGRE,
+        franceCompetencesMinScore: null,
+        commentByAutoJury: 'commentByAutoJury',
+        commentByJury: 'commentByJury',
+        commentForOrganization: 'commentForOrganization',
+        commentForCandidate: 'commentForCandidate',
+        v3EduExternalJuryResult: null,
+        maxReachableLevel: null,
+        reachedMeshIndex: null,
+        pixScore: 123,
+        competenceMarks: [
+          {
+            level: 3,
+            competenceId: 'competenceGGG123',
+          },
+          {
+            level: 4,
+            competenceId: 'competenceMMM456',
+          },
+        ],
+        hasAcquiredClea: null,
+        cleaBadgeId: null,
+        v2VoletExterneAcquired: true,
+        v2VoletExterneBadgeId: 123,
+        v2VoletPixAcquired: true,
+        v2VoletPixBadgeId: 456,
+      };
+      expectedCompetenceResults.push(
+        ...[
+          {
+            certificationResultId: '40000004-4004-4004-4004-400000000004',
+            level: 3,
+            competenceId: 'competenceGGG123',
+          },
+          {
+            certificationResultId: '40000004-4004-4004-4004-400000000004',
+            level: 4,
+            competenceId: 'competenceMMM456',
+          },
+        ],
+      );
       userCertificationResultData1 = {
         certificationResultId: '10000001-1001-1001-1001-100000000001',
         userId: databaseBuilder.factory.buildUser().id,
@@ -150,23 +254,38 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         certificationCourseId: databaseBuilder.factory.buildCertificationCourse().id,
         organizationLearnerId: null,
       };
+      userCertificationResultData4 = {
+        certificationResultId: '40000004-4004-4004-4004-400000000004',
+        userId: databaseBuilder.factory.buildUser().id,
+        sessionId: databaseBuilder.factory.buildSession().id,
+        certificationCourseId: databaseBuilder.factory.buildCertificationCourse().id,
+        organizationLearnerId: null,
+      };
       return databaseBuilder.commit();
     });
 
-    it('saves both CertificationResults and UserCertificationResults', async function () {
+    it('saves both CertificationResults, CertificationCompetenceResults, UserCertificationResults', async function () {
       const certificationResult1 =
         domainBuilder.certification.results.buildNewCertificationResult(certificationResultData1);
       const certificationResult2 =
         domainBuilder.certification.results.buildNewCertificationResult(certificationResultData2);
       const certificationResult3 =
         domainBuilder.certification.results.buildNewCertificationResult(certificationResultData3);
-      const userCertificationResults1 = new UserCertificationResult(userCertificationResultData1);
-      const userCertificationResults2 = new UserCertificationResult(userCertificationResultData2);
-      const userCertificationResults3 = new UserCertificationResult(userCertificationResultData3);
+      const certificationResult4 =
+        domainBuilder.certification.results.buildNewCertificationResult(certificationResultData4);
+      const userCertificationResult1 = new UserCertificationResult(userCertificationResultData1);
+      const userCertificationResult2 = new UserCertificationResult(userCertificationResultData2);
+      const userCertificationResult3 = new UserCertificationResult(userCertificationResultData3);
+      const userCertificationResult4 = new UserCertificationResult(userCertificationResultData4);
 
       await newCertificationResultRepository.save({
-        certificationResults: [certificationResult1, certificationResult2, certificationResult3],
-        userCertificationResults: [userCertificationResults1, userCertificationResults2, userCertificationResults3],
+        certificationResults: [certificationResult1, certificationResult2, certificationResult3, certificationResult4],
+        userCertificationResults: [
+          userCertificationResult1,
+          userCertificationResult2,
+          userCertificationResult3,
+          userCertificationResult4,
+        ],
       });
 
       const actualUserCertificationResults = await knex('user_certification_results')
@@ -176,13 +295,23 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         userCertificationResultData1,
         userCertificationResultData2,
         userCertificationResultData3,
+        userCertificationResultData4,
       ]);
+      delete certificationResultData1.competenceMarks;
+      delete certificationResultData2.competenceMarks;
+      delete certificationResultData3.competenceMarks;
+      delete certificationResultData4.competenceMarks;
       const actualCertificationResults = await knex('certification_results').select('*').orderBy('id');
       expect(actualCertificationResults).to.deep.equal([
         certificationResultData1,
         certificationResultData2,
         certificationResultData3,
+        certificationResultData4,
       ]);
+      const actualCompetenceResults = await knex('certification_competence_results')
+        .select('*')
+        .orderBy(['certificationResultId', 'competenceId']);
+      expect(actualCompetenceResults).to.deep.equal(expectedCompetenceResults);
     });
 
     it('does nothing when nothing to save', async function () {
@@ -197,6 +326,8 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       expect(actualUserCertificationResults).to.have.lengthOf(0);
       const actualCertificationResults = await knex('certification_results').select('*').orderBy('id');
       expect(actualCertificationResults).to.have.lengthOf(0);
+      const actualCertificationCompetenceResults = await knex('certification_competence_results').select('*');
+      expect(actualCertificationCompetenceResults).to.have.lengthOf(0);
     });
   });
 });

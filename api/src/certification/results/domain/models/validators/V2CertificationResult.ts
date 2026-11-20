@@ -12,8 +12,8 @@ export const V2PixPlusResultsSchema = BaseCoreResultsSchema.extend({
 });
 
 export const V2EduResultsSchema = V2PixPlusResultsSchema.extend({
-  v2VoletExterneBadgeId: z.number(),
-  v2VoletExterneAcquired: z.boolean(),
+  v2VoletExterneBadgeId: z.number().nullable(),
+  v2VoletExterneAcquired: z.boolean().nullable(),
 });
 
 const V2BaseSchema = BaseSchema.extend({

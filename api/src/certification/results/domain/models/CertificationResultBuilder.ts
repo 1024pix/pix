@@ -4,11 +4,11 @@ import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmE
 import { Frameworks, isEduFramework } from '../../../shared/domain/models/Frameworks.js';
 import type { Framework } from '../../../shared/domain/types.ts';
 import { FRANCE_COMPETENCES_PROFESSIONAL_START_DATE } from '../constants.ts';
-import type { CertificationResultStatus, Results } from '../types.ts';
+import type { CertificationResultStatus, Results, V1Results, V2Results, V3Results } from '../types.ts';
 import { CertificationResult, UserCertificationResult } from './NewCertificationResult.ts';
 const FRANCE_COMPETENCES_MIN_SCORE = 120;
 
-export type CertificationDataV3Props = {
+export type CertificationDataProps = {
   certificationCourseId: number;
   userId: number;
   sessionId: number;
@@ -23,7 +23,8 @@ export type CertificationDataV3Props = {
   birthINSEECode: string | null;
   birthCountry: string | null;
   verificationCode: string;
-  certificationCenter: string;
+  certificationCenter: string | null;
+  certificationCenterFallback: string;
   startedAt: Date;
   deliveredAt: Date;
   status: CertificationResultStatus;
@@ -31,68 +32,112 @@ export type CertificationDataV3Props = {
   maxReachableLevel: number;
   pixScore: number | null;
   reachedMeshIndex: number | null;
-  eduV3ExternalJuryResult: string | null;
+  v3EduExternalJuryResult: string | null;
   commentByAutoJury: string | null;
   commentByJury: string | null;
   commentForOrganization: string | null;
   commentForCandidate: string | null;
-  competenceMarks: Array<CompetenceMarkDataV3Props>;
+  competenceMarks: Array<CompetenceMarkDataProps>;
 };
-type CompetenceMarkDataV3Props = {
+type CompetenceMarkDataProps = {
   level: number;
   competenceId: string;
 };
-type LearnerDataV3Props = {
+type LearnerDataProps = {
   organizationLearnerId: number;
   middleName: string | null;
   thirdName: string | null;
   nationalStudentId: string | null;
 };
-type CleaDataV3Props = {
+type CleaDataProps = {
   certificationCourseId: number;
-  acquired: boolean;
-  complementaryCertificationBadgeId: number;
+  cleaBadgeId: number;
+  hasAcquiredClea: boolean;
+};
+type PixPlusV2VoletPixDataProps = {
+  certificationCourseId: number;
+  v2VoletPixBadgeId: number;
+  v2VoletPixAcquired: boolean;
+};
+type PixPlusV2VoletExterneDataProps = {
+  certificationCourseId: number;
+  v2VoletExterneBadgeId: number;
+  v2VoletExterneAcquired: boolean;
+};
+type FullCertificationData = {
+  certificationItem: CertificationDataProps;
+  learnerItem: LearnerDataProps | null;
+  cleaItem: CleaDataProps | null;
+  pixPlusV2VoletPixItem: PixPlusV2VoletPixDataProps | null;
+  pixPlusV2VoletExterneItem: PixPlusV2VoletExterneDataProps | null;
 };
 
 export class CertificationResultBuilder {
-  readonly certificationData: Array<CertificationDataV3Props>;
-  readonly learnerData: Array<LearnerDataV3Props>;
-  readonly cleaData: Array<CleaDataV3Props>;
-  constructor({
-    certificationData,
-    learnerData,
-    cleaData,
-  }: {
-    certificationData: Array<CertificationDataV3Props>;
-    learnerData: Array<LearnerDataV3Props>;
-    cleaData: Array<CleaDataV3Props>;
+  fullCertificationDataById: Record<number, FullCertificationData>;
+
+  constructor(props: {
+    certificationData: CertificationDataProps[];
+    learnerData: LearnerDataProps[];
+    cleaData: CleaDataProps[];
+    pixPlusV2VoletPixData: PixPlusV2VoletPixDataProps[];
+    pixPlusV2VoletExterneData: PixPlusV2VoletExterneDataProps[];
   }) {
-    this.certificationData = certificationData;
-    this.learnerData = learnerData;
-    this.cleaData = cleaData;
+    const learnerDataByLearnerId = new Map(props.learnerData.map((item) => [item.organizationLearnerId, item]));
+    const cleaDataByCertificationCourseId = new Map(props.cleaData.map((item) => [item.certificationCourseId, item]));
+    const pixPlusV2VoletPixDataByCertificationCourseId = new Map(
+      props.pixPlusV2VoletPixData.map((item) => [item.certificationCourseId, item]),
+    );
+    const pixPlusV2VoletExterneDataByCertificationCourseId = new Map(
+      props.pixPlusV2VoletExterneData.map((item) => [item.certificationCourseId, item]),
+    );
+
+    this.fullCertificationDataById = {};
+
+    for (const certificationItem of props.certificationData) {
+      const { certificationCourseId, organizationLearnerId } = certificationItem;
+
+      this.fullCertificationDataById[certificationCourseId] = {
+        certificationItem,
+        learnerItem: organizationLearnerId ? (learnerDataByLearnerId.get(organizationLearnerId) ?? null) : null,
+        cleaItem: cleaDataByCertificationCourseId.get(certificationCourseId) ?? null,
+        pixPlusV2VoletPixItem: pixPlusV2VoletPixDataByCertificationCourseId.get(certificationCourseId) ?? null,
+        pixPlusV2VoletExterneItem: pixPlusV2VoletExterneDataByCertificationCourseId.get(certificationCourseId) ?? null,
+      };
+    }
   }
 
   build(uuidGenerator: () => UUID) {
     const errors: Record<number, string> = {};
     const certificationResults = [];
     const userCertificationResults = [];
-    for (const certificationItem of this.certificationData) {
-      if (certificationItem.algorithmEngineVersion !== AlgorithmEngineVersion.V3) {
-        errors[certificationItem.certificationCourseId] =
-          `AlgorithmEngineVersion ${certificationItem.algorithmEngineVersion} not implemented yet.`;
-        continue;
-      }
+    for (const {
+      certificationItem,
+      learnerItem,
+      cleaItem,
+      pixPlusV2VoletPixItem,
+      pixPlusV2VoletExterneItem,
+    } of Object.values(this.fullCertificationDataById)) {
       const franceCompetencesMinScore = isRecognizedByFranceCompetences(
         certificationItem.deliveredAt,
         certificationItem.framework,
+        certificationItem.algorithmEngineVersion,
       )
         ? FRANCE_COMPETENCES_MIN_SCORE
         : null;
-      const cleaItem =
-        this.cleaData.find((item) => item.certificationCourseId === certificationItem.certificationCourseId) ?? null;
-      const results = buildV3Results(certificationItem, cleaItem);
-      const learnerItem =
-        this.learnerData.find((item) => item.organizationLearnerId === certificationItem.organizationLearnerId) ?? null;
+      let results;
+      switch (certificationItem.algorithmEngineVersion) {
+        case AlgorithmEngineVersion.V1:
+          results = buildV1Results(certificationItem);
+          break;
+        case AlgorithmEngineVersion.V2:
+          results = buildV2Results(certificationItem, cleaItem, pixPlusV2VoletPixItem, pixPlusV2VoletExterneItem);
+          break;
+        case AlgorithmEngineVersion.V3:
+          results = buildV3Results(certificationItem, cleaItem);
+          break;
+        default:
+          results = null;
+      }
       const id = uuidGenerator();
       const certificationResult = new CertificationResult({
         id,
@@ -109,7 +154,7 @@ export class CertificationResultBuilder {
         birthINSEECode: certificationItem.birthINSEECode ?? null,
         birthCountry: certificationItem.birthCountry ?? null,
         verificationCode: certificationItem.verificationCode,
-        certificationCenter: certificationItem.certificationCenter,
+        certificationCenter: certificationItem.certificationCenter ?? certificationItem.certificationCenterFallback,
         startedAt: certificationItem.startedAt,
         deliveredAt: certificationItem.deliveredAt,
         status: certificationItem.status,
@@ -119,7 +164,7 @@ export class CertificationResultBuilder {
         commentByJury: certificationItem.commentByJury,
         commentForOrganization: certificationItem.commentForOrganization,
         commentForCandidate: certificationItem.commentForCandidate,
-        results,
+        results: results as Results,
       });
       const validationErr = certificationResult.validate();
       if (validationErr) {
@@ -145,7 +190,7 @@ export class CertificationResultBuilder {
   }
 }
 
-function buildV3Results(certificationData: CertificationDataV3Props, cleaData: CleaDataV3Props | null): Results {
+function buildV3Results(certificationData: CertificationDataProps, cleaData: CleaDataProps | null): V3Results {
   if (certificationData.framework === Frameworks.CORE) {
     return {
       maxReachableLevel: certificationData.maxReachableLevel,
@@ -158,7 +203,7 @@ function buildV3Results(certificationData: CertificationDataV3Props, cleaData: C
     return {
       maxReachableLevel: certificationData.maxReachableLevel,
       reachedMeshIndex: certificationData.reachedMeshIndex,
-      eduV3ExternalJuryResult: certificationData.eduV3ExternalJuryResult,
+      v3EduExternalJuryResult: certificationData.v3EduExternalJuryResult,
     };
   }
   if (certificationData.framework === Frameworks.CLEA) {
@@ -167,8 +212,8 @@ function buildV3Results(certificationData: CertificationDataV3Props, cleaData: C
       reachedMeshIndex: certificationData.reachedMeshIndex,
       pixScore: certificationData.pixScore,
       competenceMarks: certificationData.competenceMarks,
-      hasAcquiredClea: cleaData!.acquired,
-      cleaBadgeId: cleaData!.complementaryCertificationBadgeId,
+      hasAcquiredClea: cleaData!.hasAcquiredClea,
+      cleaBadgeId: cleaData!.cleaBadgeId,
     };
   }
   return {
@@ -177,8 +222,63 @@ function buildV3Results(certificationData: CertificationDataV3Props, cleaData: C
   };
 }
 
-function isRecognizedByFranceCompetences(deliveredAt: Date, framework: string) {
+function buildV2Results(
+  certificationData: CertificationDataProps,
+  cleaData: CleaDataProps | null,
+  pixPlusV2VoletPixItem: PixPlusV2VoletPixDataProps | null,
+  pixPlusV2VoletExterneItem: PixPlusV2VoletExterneDataProps | null,
+): V2Results {
+  if (certificationData.framework === Frameworks.CLEA) {
+    return {
+      pixScore: certificationData.pixScore,
+      competenceMarks: certificationData.competenceMarks,
+      hasAcquiredClea: cleaData!.hasAcquiredClea,
+      cleaBadgeId: cleaData!.cleaBadgeId,
+    };
+  }
+  if (certificationData.framework === Frameworks.PRO_SANTE) {
+    return {
+      pixScore: certificationData.pixScore,
+      competenceMarks: certificationData.competenceMarks,
+      v2VoletPixAcquired: pixPlusV2VoletPixItem!.v2VoletPixAcquired,
+      v2VoletPixBadgeId: pixPlusV2VoletPixItem!.v2VoletPixBadgeId,
+    };
+  }
+  if (certificationData.framework === Frameworks.DROIT) {
+    return {
+      pixScore: certificationData.pixScore,
+      competenceMarks: certificationData.competenceMarks,
+      v2VoletPixAcquired: pixPlusV2VoletPixItem!.v2VoletPixAcquired,
+      v2VoletPixBadgeId: pixPlusV2VoletPixItem!.v2VoletPixBadgeId,
+    };
+  }
+  if (isEduFramework(certificationData.framework)) {
+    return {
+      pixScore: certificationData.pixScore,
+      competenceMarks: certificationData.competenceMarks,
+      v2VoletPixAcquired: pixPlusV2VoletPixItem!.v2VoletPixAcquired,
+      v2VoletPixBadgeId: pixPlusV2VoletPixItem!.v2VoletPixBadgeId,
+      v2VoletExterneBadgeId: pixPlusV2VoletExterneItem?.v2VoletExterneBadgeId ?? null,
+      v2VoletExterneAcquired: pixPlusV2VoletExterneItem?.v2VoletExterneAcquired ?? null,
+    };
+  }
+  return {
+    pixScore: certificationData.pixScore,
+    competenceMarks: certificationData.competenceMarks,
+  };
+}
+
+function buildV1Results(certificationData: CertificationDataProps): V1Results {
+  return {
+    pixScore: certificationData.pixScore,
+    competenceMarks: certificationData.competenceMarks,
+  };
+}
+
+function isRecognizedByFranceCompetences(deliveredAt: Date, framework: string, algorithmEngineVersion: number) {
+  if (algorithmEngineVersion === AlgorithmEngineVersion.V1) return;
   // @ts-expect-error je sais pas
   if (![Frameworks.CORE, Frameworks.CLEA].includes(framework)) return;
+
   return deliveredAt.getTime() >= FRANCE_COMPETENCES_PROFESSIONAL_START_DATE.getTime();
 }

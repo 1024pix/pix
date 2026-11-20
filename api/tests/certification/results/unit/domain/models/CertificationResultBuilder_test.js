@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { CERTIFICATION_RESULT_STATUSES } from '../../../../../../src/certification/results/domain/constants.ts';
 import { CertificationResultBuilder } from '../../../../../../src/certification/results/domain/models/CertificationResultBuilder.ts';
@@ -11,1088 +12,1662 @@ import { Frameworks } from '../../../../../../src/certification/shared/domain/mo
 
 describe('Certification | Unit | Domain | Models | CertificationResultBuilder', function () {
   describe('#build', function () {
-    const uuidGenerator = () => '00000000-0000-4000-8000-000000000001';
-    context('when algorithm version not handled yet', function () {
-      it('returns an errors Map with certification course ids in error', function () {
-        const builder = new CertificationResultBuilder({
-          certificationData: [
+    let uuidGenerator = () => '00000000-0000-4000-8000-000000000001';
+    const baseCertificationData = {
+      certificationCourseId: 111,
+      userId: 222,
+      sessionId: 333,
+      firstName: 'Buffy',
+      lastName: 'Summers',
+      externalId: 'the_slayer',
+      birthdate: '1981-01-18',
+      birthplace: 'Sunnydale',
+      birthPostalCode: 'SomePostalCode',
+      birthINSEECode: 'SomeINSEECode',
+      birthCountry: 'USA',
+      verificationCode: 'VERIFCODE',
+      certificationCenter: 'Centre certification le meilleur',
+      certificationCenterFallback: 'Centre certification le meilleur FALLBACK',
+      startedAt: new Date('2025-12-30'),
+      deliveredAt: new Date('2025-12-31'),
+      status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
+      commentByAutoJury: 'commentByAutoJury',
+      commentByJury: 'commentByJury',
+      commentForOrganization: 'commentForOrganization',
+      commentForCandidate: 'commentForCandidate',
+    };
+
+    context('common data', function () {
+      const baseResults = {
+        maxReachableLevel: 7,
+        pixScore: 678,
+        reachedMeshIndex: 3,
+        competenceMarks: [
+          {
+            level: 1,
+            competenceId: 'competenceABC123',
+          },
+          {
+            level: 7,
+            competenceId: 'competenceDEF456',
+          },
+        ],
+        v3EduExternalJuryResult: null,
+      };
+
+      context('common', function () {
+        it('fills the common data attributes from the certification item provided and builds an ID for it', function () {
+          const certificationData = [
             {
-              certificationCourseId: 123,
-              algorithmEngineVersion: AlgorithmEngineVersion.V1,
+              ...baseCertificationData,
+              ...baseResults,
+              algorithmEngineVersion: AlgorithmEngineVersion.V3,
+              framework: Frameworks.CORE,
             },
-            {
-              certificationCourseId: 456,
-              algorithmEngineVersion: AlgorithmEngineVersion.V2,
-            },
-          ],
-          learnerData: [],
-          cleaData: [],
+          ];
+
+          const builder = new CertificationResultBuilder({
+            certificationData,
+            learnerData: [],
+            cleaData: [],
+            pixPlusV2VoletPixData: [],
+            pixPlusV2VoletExterneData: [],
+          });
+          const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
+
+          sinon.assert.match(certificationResults, [
+            sinon.match({
+              id: '00000000-0000-4000-8000-000000000001',
+              algorithmEngineVersion: AlgorithmEngineVersion.V3,
+              firstName: 'Buffy',
+              lastName: 'Summers',
+              externalId: 'the_slayer',
+              birthdate: '1981-01-18',
+              birthplace: 'Sunnydale',
+              birthPostalCode: 'SomePostalCode',
+              birthINSEECode: 'SomeINSEECode',
+              birthCountry: 'USA',
+              verificationCode: 'VERIFCODE',
+              certificationCenter: 'Centre certification le meilleur',
+              startedAt: new Date('2025-12-30'),
+              deliveredAt: new Date('2025-12-31'),
+              status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
+              framework: Frameworks.CORE,
+              franceCompetencesMinScore: 120,
+              commentByAutoJury: 'commentByAutoJury',
+              commentByJury: 'commentByJury',
+              commentForOrganization: 'commentForOrganization',
+              commentForCandidate: 'commentForCandidate',
+            }),
+          ]);
+          expect(userCertificationResults).to.deep.equal([
+            new UserCertificationResult({
+              certificationCourseId: 111,
+              userId: 222,
+              sessionId: 333,
+              certificationResultId: '00000000-0000-4000-8000-000000000001',
+              organizationLearnerId: null,
+            }),
+          ]);
+          expect(errors).to.deep.equal({});
+        });
+      });
+
+      context('learner data', function () {
+        context('when no learner matches the organization learner of the certification', function () {
+          it('builds a certificationResult and a userCertificationResult with no additional info on candidate identity (middle/third names and national student ID)', function () {
+            const certificationData = [
+              {
+                ...baseCertificationData,
+                ...baseResults,
+                organizationLearnerId: 444,
+                algorithmEngineVersion: AlgorithmEngineVersion.V3,
+                framework: Frameworks.CORE,
+              },
+            ];
+            const learnerData = [
+              {
+                organizationLearnerId: 1000,
+                middleName: 'Ann',
+                thirdName: 'Joan',
+                nationalStudentId: 'xXSlayerXx',
+              },
+            ];
+
+            const builder = new CertificationResultBuilder({
+              certificationData,
+              learnerData,
+              cleaData: [],
+              pixPlusV2VoletPixData: [],
+              pixPlusV2VoletExterneData: [],
+            });
+            const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
+
+            sinon.assert.match(certificationResults, [
+              sinon.match({
+                middleName: null,
+                thirdName: null,
+                nationalStudentId: null,
+              }),
+            ]);
+            expect(userCertificationResults).to.deep.equal([
+              new UserCertificationResult({
+                certificationCourseId: 111,
+                userId: 222,
+                sessionId: 333,
+                certificationResultId: '00000000-0000-4000-8000-000000000001',
+                organizationLearnerId: null,
+              }),
+            ]);
+            expect(errors).to.deep.equal({});
+          });
         });
 
-        const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
-        expect(certificationResults).to.have.length(0);
-        expect(userCertificationResults).to.have.length(0);
-        expect(errors).to.deep.equal({
-          123: 'AlgorithmEngineVersion 1 not implemented yet.',
-          456: 'AlgorithmEngineVersion 2 not implemented yet.',
+        context('when a learner matches the organization learner of the certification', function () {
+          it('builds a certificationResult and a userCertificationResult filling additional info on candidate identity (middle/third names and national student ID)', function () {
+            const certificationData = [
+              {
+                ...baseCertificationData,
+                ...baseResults,
+                organizationLearnerId: 444,
+                algorithmEngineVersion: AlgorithmEngineVersion.V3,
+                framework: Frameworks.CORE,
+              },
+            ];
+            const learnerData = [
+              {
+                organizationLearnerId: 444,
+                middleName: 'Ann',
+                thirdName: 'Joan',
+                nationalStudentId: 'xXSlayerXx',
+              },
+            ];
+
+            const builder = new CertificationResultBuilder({
+              certificationData,
+              learnerData,
+              cleaData: [],
+              pixPlusV2VoletPixData: [],
+              pixPlusV2VoletExterneData: [],
+            });
+            const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
+
+            sinon.assert.match(certificationResults, [
+              sinon.match({
+                middleName: 'Ann',
+                thirdName: 'Joan',
+                nationalStudentId: 'xXSlayerXx',
+              }),
+            ]);
+            expect(userCertificationResults).to.deep.equal([
+              new UserCertificationResult({
+                certificationCourseId: 111,
+                userId: 222,
+                sessionId: 333,
+                certificationResultId: '00000000-0000-4000-8000-000000000001',
+                organizationLearnerId: 444,
+              }),
+            ]);
+            expect(errors).to.deep.equal({});
+          });
+        });
+      });
+
+      context('certification center', function () {
+        context('when certificationCenter is provided', function () {
+          it('uses the certificationCenter value, ignoring the fallback', function () {
+            const certificationData = [
+              {
+                ...baseCertificationData,
+                ...baseResults,
+                algorithmEngineVersion: AlgorithmEngineVersion.V3,
+                framework: Frameworks.CORE,
+              },
+            ];
+
+            const builder = new CertificationResultBuilder({
+              certificationData,
+              learnerData: [],
+              cleaData: [],
+              pixPlusV2VoletPixData: [],
+              pixPlusV2VoletExterneData: [],
+            });
+            const { certificationResults, errors } = builder.build(uuidGenerator);
+
+            sinon.assert.match(certificationResults, [
+              sinon.match({
+                certificationCenter: 'Centre certification le meilleur',
+              }),
+            ]);
+            expect(errors).to.deep.equal({});
+          });
+        });
+
+        context('when certificationCenter is not provided', function () {
+          it('uses the certificationCenter fallback value', function () {
+            const certificationData = [
+              {
+                ...baseCertificationData,
+                ...baseResults,
+                certificationCenter: null,
+                algorithmEngineVersion: AlgorithmEngineVersion.V3,
+                framework: Frameworks.CORE,
+              },
+            ];
+
+            const builder = new CertificationResultBuilder({
+              certificationData,
+              learnerData: [],
+              cleaData: [],
+              pixPlusV2VoletPixData: [],
+              pixPlusV2VoletExterneData: [],
+            });
+            const { certificationResults, errors } = builder.build(uuidGenerator);
+
+            sinon.assert.match(certificationResults, [
+              sinon.match({
+                certificationCenter: 'Centre certification le meilleur FALLBACK',
+              }),
+            ]);
+            expect(errors).to.deep.equal({});
+          });
+        });
+      });
+
+      context('france competences min score', function () {
+        const cleaItem = {
+          certificationCourseId: 111,
+          cleaBadgeId: 999,
+          hasAcquiredClea: true,
+        };
+        const pixPlusV2VoletPixItem = {
+          certificationCourseId: 111,
+          v2VoletPixBadgeId: 999,
+          v2VoletPixAcquired: true,
+        };
+        context('when certification is CORE V1', function () {
+          it('has no franceCompetencesMinScore', function () {
+            const certificationData = [
+              {
+                ...baseCertificationData,
+                ...baseResults,
+                birthPostalCode: null,
+                birthINSEECode: null,
+                birthCountry: null,
+                franceCompetencesMinScore: null,
+                commentByAutoJury: null,
+                deliveredAt: new Date('2026-12-31'),
+                algorithmEngineVersion: AlgorithmEngineVersion.V1,
+                framework: Frameworks.CORE,
+              },
+            ];
+
+            const builder = new CertificationResultBuilder({
+              certificationData,
+              learnerData: [],
+              cleaData: [],
+              pixPlusV2VoletPixData: [],
+              pixPlusV2VoletExterneData: [],
+            });
+            const { certificationResults, errors } = builder.build(uuidGenerator);
+
+            sinon.assert.match(certificationResults, [
+              sinon.match({
+                franceCompetencesMinScore: null,
+              }),
+            ]);
+            expect(errors).to.deep.equal({});
+          });
+        });
+
+        context('when certification is V2', function () {
+          context('when certification was delivered prior to FRANCE_COMPETENCES_PROFESSIONAL_START_DATE', function () {
+            Object.values(Frameworks).forEach((framework) => {
+              it(`has no franceCompetencesMinScore for framework ${framework}`, function () {
+                const certificationData = [
+                  {
+                    ...baseCertificationData,
+                    ...baseResults,
+                    deliveredAt: new Date('2021-12-31'),
+                    algorithmEngineVersion: AlgorithmEngineVersion.V2,
+                    framework,
+                  },
+                ];
+
+                const builder = new CertificationResultBuilder({
+                  certificationData,
+                  learnerData: [],
+                  cleaData: [cleaItem],
+                  pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
+                  pixPlusV2VoletExterneData: [],
+                });
+                const { certificationResults, errors } = builder.build(uuidGenerator);
+                sinon.assert.match(certificationResults, [
+                  sinon.match({
+                    franceCompetencesMinScore: null,
+                  }),
+                ]);
+                expect(errors).to.deep.equal({});
+              });
+            });
+          });
+
+          context('when certification was delivered after FRANCE_COMPETENCES_PROFESSIONAL_START_DATE', function () {
+            [
+              { framework: Frameworks.CORE, expectedFranceCompetencesMinScore: 120 },
+              { framework: Frameworks.CLEA, expectedFranceCompetencesMinScore: 120 },
+              { framework: Frameworks.DROIT, expectedFranceCompetencesMinScore: null },
+              { framework: Frameworks.PRO_SANTE, expectedFranceCompetencesMinScore: null },
+              { framework: Frameworks.EDU_CPE, expectedFranceCompetencesMinScore: null },
+              { framework: Frameworks.EDU_2ND_DEGRE, expectedFranceCompetencesMinScore: null },
+              { framework: Frameworks.EDU_1ER_DEGRE, expectedFranceCompetencesMinScore: null },
+            ].forEach(({ framework, expectedFranceCompetencesMinScore }) => {
+              it(`has franceCompetencesMinScore at ${expectedFranceCompetencesMinScore} for framework ${framework}`, function () {
+                const certificationData = [
+                  {
+                    ...baseCertificationData,
+                    ...baseResults,
+                    deliveredAt: new Date('2025-12-31'),
+                    algorithmEngineVersion: AlgorithmEngineVersion.V2,
+                    framework,
+                  },
+                ];
+
+                const builder = new CertificationResultBuilder({
+                  certificationData,
+                  learnerData: [],
+                  cleaData: [cleaItem],
+                  pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
+                  pixPlusV2VoletExterneData: [],
+                });
+                const { certificationResults, errors } = builder.build(uuidGenerator);
+
+                sinon.assert.match(certificationResults, [
+                  sinon.match({
+                    franceCompetencesMinScore: expectedFranceCompetencesMinScore,
+                  }),
+                ]);
+                expect(errors).to.deep.equal({});
+              });
+            });
+          });
+        });
+
+        context('when certification is V3', function () {
+          context('when certification was delivered prior to FRANCE_COMPETENCES_PROFESSIONAL_START_DATE', function () {
+            Object.values(Frameworks).forEach((framework) => {
+              it(`has no franceCompetencesMinScore for framework ${framework}`, function () {
+                const certificationData = [
+                  {
+                    ...baseCertificationData,
+                    ...baseResults,
+                    deliveredAt: new Date('2021-12-31'),
+                    algorithmEngineVersion: AlgorithmEngineVersion.V3,
+                    framework,
+                  },
+                ];
+
+                const builder = new CertificationResultBuilder({
+                  certificationData,
+                  learnerData: [],
+                  cleaData: [cleaItem],
+                  pixPlusV2VoletPixData: [],
+                  pixPlusV2VoletExterneData: [],
+                });
+                const { certificationResults, errors } = builder.build(uuidGenerator);
+                sinon.assert.match(certificationResults, [
+                  sinon.match({
+                    franceCompetencesMinScore: null,
+                  }),
+                ]);
+                expect(errors).to.deep.equal({});
+              });
+            });
+          });
+
+          context('when certification was delivered after FRANCE_COMPETENCES_PROFESSIONAL_START_DATE', function () {
+            [
+              { framework: Frameworks.CORE, expectedFranceCompetencesMinScore: 120 },
+              { framework: Frameworks.CLEA, expectedFranceCompetencesMinScore: 120 },
+              { framework: Frameworks.DROIT, expectedFranceCompetencesMinScore: null },
+              { framework: Frameworks.PRO_SANTE, expectedFranceCompetencesMinScore: null },
+              { framework: Frameworks.EDU_CPE, expectedFranceCompetencesMinScore: null },
+              { framework: Frameworks.EDU_2ND_DEGRE, expectedFranceCompetencesMinScore: null },
+              { framework: Frameworks.EDU_1ER_DEGRE, expectedFranceCompetencesMinScore: null },
+            ].forEach(({ framework, expectedFranceCompetencesMinScore }) => {
+              it(`has franceCompetencesMinScore at ${expectedFranceCompetencesMinScore} for framework ${framework}`, function () {
+                const certificationData = [
+                  {
+                    ...baseCertificationData,
+                    ...baseResults,
+                    deliveredAt: new Date('2025-12-31'),
+                    algorithmEngineVersion: AlgorithmEngineVersion.V3,
+                    framework,
+                  },
+                ];
+
+                const builder = new CertificationResultBuilder({
+                  certificationData,
+                  learnerData: [],
+                  cleaData: [cleaItem],
+                  pixPlusV2VoletPixData: [],
+                  pixPlusV2VoletExterneData: [],
+                });
+                const { certificationResults, errors } = builder.build(uuidGenerator);
+
+                sinon.assert.match(certificationResults, [
+                  sinon.match({
+                    franceCompetencesMinScore: expectedFranceCompetencesMinScore,
+                  }),
+                ]);
+                expect(errors).to.deep.equal({});
+              });
+            });
+          });
         });
       });
     });
 
-    context('CORE', function () {
-      it('builds a certificationResult and a userCertificationResult for CORE certification', function () {
-        const certificationData = [
-          {
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            organizationLearnerId: 555,
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2026-01-01'),
-            deliveredAt: new Date('2026-01-03'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.CORE,
-            maxReachableLevel: 7,
-            pixScore: 678,
-            reachedMeshIndex: 3,
-            eduV3ExternalJuryResult: null,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            competenceMarks: [
-              {
-                level: 1,
-                competenceId: 'competenceABC123',
-              },
-              {
-                level: 7,
-                competenceId: 'competenceDEF456',
-              },
-            ],
-          },
-        ];
-        const learnerData = [
-          {
-            organizationLearnerId: 555,
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            nationalStudentId: 'xXSlayerXx',
-          },
-        ];
+    context('results', function () {
+      context('v1', function () {
+        const algorithmEngineVersion = AlgorithmEngineVersion.V1;
+        const certificationItem = {
+          ...baseCertificationData,
+          birthPostalCode: null,
+          birthINSEECode: null,
+          birthCountry: null,
+          franceCompetencesMinScore: null,
+          commentByAutoJury: null,
+        };
 
-        const builder = new CertificationResultBuilder({ certificationData, learnerData, cleaData: [] });
-        const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
+        context('CORE', function () {
+          it('correctly builds a CORE results for V1', function () {
+            const certificationData = [
+              {
+                ...certificationItem,
+                pixScore: 678,
+                competenceMarks: [
+                  {
+                    level: 1,
+                    competenceId: 'competenceABC123',
+                  },
+                  {
+                    level: 7,
+                    competenceId: 'competenceDEF456',
+                  },
+                ],
+                algorithmEngineVersion,
+                framework: Frameworks.CORE,
+              },
+            ];
 
-        expect(certificationResults).to.deep.equal([
-          new CertificationResult({
-            id: '00000000-0000-4000-8000-000000000001',
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            nationalStudentId: 'xXSlayerXx',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2026-01-01'),
-            deliveredAt: new Date('2026-01-03'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.CORE,
-            franceCompetencesMinScore: 120,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            results: {
-              maxReachableLevel: 7,
-              pixScore: 678,
-              reachedMeshIndex: 3,
-              competenceMarks: [
-                {
-                  level: 1,
-                  competenceId: 'competenceABC123',
+            const builder = new CertificationResultBuilder({
+              certificationData,
+              learnerData: [],
+              cleaData: [],
+              pixPlusV2VoletPixData: [],
+              pixPlusV2VoletExterneData: [],
+            });
+            const { certificationResults, errors } = builder.build(uuidGenerator);
+
+            sinon.assert.match(certificationResults, [
+              sinon.match({
+                results: {
+                  pixScore: 678,
+                  competenceMarks: [
+                    {
+                      level: 1,
+                      competenceId: 'competenceABC123',
+                    },
+                    {
+                      level: 7,
+                      competenceId: 'competenceDEF456',
+                    },
+                  ],
                 },
-                {
-                  level: 7,
-                  competenceId: 'competenceDEF456',
+              }),
+            ]);
+            expect(errors).to.deep.equal({});
+          });
+        });
+      });
+
+      context('v2', function () {
+        const algorithmEngineVersion = AlgorithmEngineVersion.V2;
+        const certificationItem = {
+          ...baseCertificationData,
+          franceCompetencesMinScore: 120,
+        };
+
+        context('CORE', function () {
+          it('correctly builds a CORE results for V2', function () {
+            const certificationData = [
+              {
+                ...certificationItem,
+                pixScore: 678,
+                competenceMarks: [
+                  {
+                    level: 1,
+                    competenceId: 'competenceABC123',
+                  },
+                  {
+                    level: 7,
+                    competenceId: 'competenceDEF456',
+                  },
+                ],
+                algorithmEngineVersion,
+                framework: Frameworks.CORE,
+              },
+            ];
+
+            const builder = new CertificationResultBuilder({
+              certificationData,
+              learnerData: [],
+              cleaData: [],
+              pixPlusV2VoletPixData: [],
+              pixPlusV2VoletExterneData: [],
+            });
+            const { certificationResults, errors } = builder.build(uuidGenerator);
+
+            sinon.assert.match(certificationResults, [
+              sinon.match({
+                results: {
+                  pixScore: 678,
+                  competenceMarks: [
+                    {
+                      level: 1,
+                      competenceId: 'competenceABC123',
+                    },
+                    {
+                      level: 7,
+                      competenceId: 'competenceDEF456',
+                    },
+                  ],
                 },
-              ],
-            },
-          }),
-        ]);
-        expect(userCertificationResults).to.deep.equal([
-          new UserCertificationResult({
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            certificationResultId: '00000000-0000-4000-8000-000000000001',
-            organizationLearnerId: 555,
-          }),
-        ]);
-        expect(errors).to.deep.equal({});
+              }),
+            ]);
+            expect(errors).to.deep.equal({});
+          });
+        });
+
+        context('CLEA', function () {
+          it('correctly builds a CLEA results for V2', function () {
+            const certificationData = [
+              {
+                ...certificationItem,
+                pixScore: 678,
+                competenceMarks: [
+                  {
+                    level: 1,
+                    competenceId: 'competenceABC123',
+                  },
+                  {
+                    level: 7,
+                    competenceId: 'competenceDEF456',
+                  },
+                ],
+                algorithmEngineVersion,
+                framework: Frameworks.CLEA,
+              },
+            ];
+            const cleaItem = {
+              certificationCourseId: 111,
+              hasAcquiredClea: true,
+              cleaBadgeId: 999,
+            };
+
+            const builder = new CertificationResultBuilder({
+              certificationData,
+              learnerData: [],
+              cleaData: [cleaItem],
+              pixPlusV2VoletPixData: [],
+              pixPlusV2VoletExterneData: [],
+            });
+            const { certificationResults, errors } = builder.build(uuidGenerator);
+
+            sinon.assert.match(certificationResults, [
+              sinon.match({
+                results: {
+                  pixScore: 678,
+                  competenceMarks: [
+                    {
+                      level: 1,
+                      competenceId: 'competenceABC123',
+                    },
+                    {
+                      level: 7,
+                      competenceId: 'competenceDEF456',
+                    },
+                  ],
+                  hasAcquiredClea: true,
+                  cleaBadgeId: 999,
+                },
+              }),
+            ]);
+            expect(errors).to.deep.equal({});
+          });
+        });
+
+        context('DROIT', function () {
+          it('correctly builds a DROIT results for V2', function () {
+            const certificationData = [
+              {
+                ...certificationItem,
+                pixScore: 678,
+                competenceMarks: [
+                  {
+                    level: 1,
+                    competenceId: 'competenceABC123',
+                  },
+                  {
+                    level: 7,
+                    competenceId: 'competenceDEF456',
+                  },
+                ],
+                algorithmEngineVersion,
+                framework: Frameworks.DROIT,
+              },
+            ];
+            const pixPlusV2VoletPixItem = {
+              certificationCourseId: 111,
+              v2VoletPixBadgeId: 999,
+              v2VoletPixAcquired: true,
+            };
+
+            const builder = new CertificationResultBuilder({
+              certificationData,
+              learnerData: [],
+              cleaData: [],
+              pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
+              pixPlusV2VoletExterneData: [],
+            });
+            const { certificationResults, errors } = builder.build(uuidGenerator);
+
+            sinon.assert.match(certificationResults, [
+              sinon.match({
+                results: {
+                  pixScore: 678,
+                  competenceMarks: [
+                    {
+                      level: 1,
+                      competenceId: 'competenceABC123',
+                    },
+                    {
+                      level: 7,
+                      competenceId: 'competenceDEF456',
+                    },
+                  ],
+                  v2VoletPixBadgeId: 999,
+                  v2VoletPixAcquired: true,
+                },
+              }),
+            ]);
+            expect(errors).to.deep.equal({});
+          });
+        });
+
+        context('PRO_SANTE', function () {
+          it('correctly builds a PRO_SANTE results for V2', function () {
+            const certificationData = [
+              {
+                ...certificationItem,
+                pixScore: 678,
+                competenceMarks: [
+                  {
+                    level: 1,
+                    competenceId: 'competenceABC123',
+                  },
+                  {
+                    level: 7,
+                    competenceId: 'competenceDEF456',
+                  },
+                ],
+                algorithmEngineVersion,
+                framework: Frameworks.PRO_SANTE,
+              },
+            ];
+            const pixPlusV2VoletPixItem = {
+              certificationCourseId: 111,
+              v2VoletPixBadgeId: 999,
+              v2VoletPixAcquired: true,
+            };
+
+            const builder = new CertificationResultBuilder({
+              certificationData,
+              learnerData: [],
+              cleaData: [],
+              pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
+              pixPlusV2VoletExterneData: [],
+            });
+            const { certificationResults, errors } = builder.build(uuidGenerator);
+
+            sinon.assert.match(certificationResults, [
+              sinon.match({
+                results: {
+                  pixScore: 678,
+                  competenceMarks: [
+                    {
+                      level: 1,
+                      competenceId: 'competenceABC123',
+                    },
+                    {
+                      level: 7,
+                      competenceId: 'competenceDEF456',
+                    },
+                  ],
+                  v2VoletPixBadgeId: 999,
+                  v2VoletPixAcquired: true,
+                },
+              }),
+            ]);
+            expect(errors).to.deep.equal({});
+          });
+        });
+
+        context('EDU', function () {
+          context('when there are no volet externe', function () {
+            [Frameworks.EDU_1ER_DEGRE, Frameworks.EDU_2ND_DEGRE, Frameworks.EDU_CPE].forEach((framework) => {
+              it(`correctly builds a ${framework} results for V2 with no volet externe`, function () {
+                const certificationData = [
+                  {
+                    ...certificationItem,
+                    pixScore: 678,
+                    competenceMarks: [
+                      {
+                        level: 1,
+                        competenceId: 'competenceABC123',
+                      },
+                      {
+                        level: 7,
+                        competenceId: 'competenceDEF456',
+                      },
+                    ],
+                    algorithmEngineVersion,
+                    framework,
+                  },
+                ];
+                const pixPlusV2VoletPixItem = {
+                  certificationCourseId: 111,
+                  v2VoletPixBadgeId: 999,
+                  v2VoletPixAcquired: true,
+                };
+
+                const builder = new CertificationResultBuilder({
+                  certificationData,
+                  learnerData: [],
+                  cleaData: [],
+                  pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
+                  pixPlusV2VoletExterneData: [],
+                });
+                const { certificationResults, errors } = builder.build(uuidGenerator);
+
+                sinon.assert.match(certificationResults, [
+                  sinon.match({
+                    results: {
+                      pixScore: 678,
+                      competenceMarks: [
+                        {
+                          level: 1,
+                          competenceId: 'competenceABC123',
+                        },
+                        {
+                          level: 7,
+                          competenceId: 'competenceDEF456',
+                        },
+                      ],
+                      v2VoletPixBadgeId: 999,
+                      v2VoletPixAcquired: true,
+                      v2VoletExterneBadgeId: null,
+                      v2VoletExterneAcquired: null,
+                    },
+                  }),
+                ]);
+                expect(errors).to.deep.equal({});
+              });
+            });
+          });
+
+          context('when there is a volet externe', function () {
+            [Frameworks.EDU_1ER_DEGRE, Frameworks.EDU_2ND_DEGRE, Frameworks.EDU_CPE].forEach((framework) => {
+              it(`correctly builds a ${framework} results for V2 with volet externe result`, function () {
+                const certificationData = [
+                  {
+                    ...certificationItem,
+                    pixScore: 678,
+                    competenceMarks: [
+                      {
+                        level: 1,
+                        competenceId: 'competenceABC123',
+                      },
+                      {
+                        level: 7,
+                        competenceId: 'competenceDEF456',
+                      },
+                    ],
+                    algorithmEngineVersion,
+                    framework,
+                  },
+                ];
+                const pixPlusV2VoletPixItem = {
+                  certificationCourseId: 111,
+                  v2VoletPixBadgeId: 999,
+                  v2VoletPixAcquired: true,
+                };
+                const pixPlusV2VoletExterneItem = {
+                  certificationCourseId: 111,
+                  v2VoletExterneBadgeId: 888,
+                  v2VoletExterneAcquired: false,
+                };
+
+                const builder = new CertificationResultBuilder({
+                  certificationData,
+                  learnerData: [],
+                  cleaData: [],
+                  pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
+                  pixPlusV2VoletExterneData: [pixPlusV2VoletExterneItem],
+                });
+                const { certificationResults, errors } = builder.build(uuidGenerator);
+
+                sinon.assert.match(certificationResults, [
+                  sinon.match({
+                    results: {
+                      pixScore: 678,
+                      competenceMarks: [
+                        {
+                          level: 1,
+                          competenceId: 'competenceABC123',
+                        },
+                        {
+                          level: 7,
+                          competenceId: 'competenceDEF456',
+                        },
+                      ],
+                      v2VoletPixBadgeId: 999,
+                      v2VoletPixAcquired: true,
+                      v2VoletExterneBadgeId: 888,
+                      v2VoletExterneAcquired: false,
+                    },
+                  }),
+                ]);
+                expect(errors).to.deep.equal({});
+              });
+            });
+          });
+        });
+      });
+
+      context('v3', function () {
+        const algorithmEngineVersion = AlgorithmEngineVersion.V3;
+        const certificationItem = {
+          ...baseCertificationData,
+          franceCompetencesMinScore: 120,
+        };
+
+        context('CORE', function () {
+          it('correctly builds a CORE results for V3', function () {
+            const certificationData = [
+              {
+                ...certificationItem,
+                maxReachableLevel: 7,
+                reachedMeshIndex: 4,
+                pixScore: 678,
+                competenceMarks: [
+                  {
+                    level: 1,
+                    competenceId: 'competenceABC123',
+                  },
+                  {
+                    level: 7,
+                    competenceId: 'competenceDEF456',
+                  },
+                ],
+                algorithmEngineVersion,
+                framework: Frameworks.CORE,
+              },
+            ];
+
+            const builder = new CertificationResultBuilder({
+              certificationData,
+              learnerData: [],
+              cleaData: [],
+              pixPlusV2VoletPixData: [],
+              pixPlusV2VoletExterneData: [],
+            });
+            const { certificationResults, errors } = builder.build(uuidGenerator);
+
+            sinon.assert.match(certificationResults, [
+              sinon.match({
+                results: {
+                  maxReachableLevel: 7,
+                  reachedMeshIndex: 4,
+                  pixScore: 678,
+                  competenceMarks: [
+                    {
+                      level: 1,
+                      competenceId: 'competenceABC123',
+                    },
+                    {
+                      level: 7,
+                      competenceId: 'competenceDEF456',
+                    },
+                  ],
+                },
+              }),
+            ]);
+            expect(errors).to.deep.equal({});
+          });
+        });
+
+        context('CLEA', function () {
+          it('correctly builds a CLEA results for V3', function () {
+            const certificationData = [
+              {
+                ...certificationItem,
+                maxReachableLevel: 7,
+                reachedMeshIndex: 4,
+                pixScore: 678,
+                competenceMarks: [
+                  {
+                    level: 1,
+                    competenceId: 'competenceABC123',
+                  },
+                  {
+                    level: 7,
+                    competenceId: 'competenceDEF456',
+                  },
+                ],
+                algorithmEngineVersion,
+                framework: Frameworks.CLEA,
+              },
+            ];
+            const cleaItem = {
+              certificationCourseId: 111,
+              hasAcquiredClea: true,
+              cleaBadgeId: 999,
+            };
+
+            const builder = new CertificationResultBuilder({
+              certificationData,
+              learnerData: [],
+              cleaData: [cleaItem],
+              pixPlusV2VoletPixData: [],
+              pixPlusV2VoletExterneData: [],
+            });
+            const { certificationResults, errors } = builder.build(uuidGenerator);
+
+            sinon.assert.match(certificationResults, [
+              sinon.match({
+                results: {
+                  maxReachableLevel: 7,
+                  reachedMeshIndex: 4,
+                  pixScore: 678,
+                  competenceMarks: [
+                    {
+                      level: 1,
+                      competenceId: 'competenceABC123',
+                    },
+                    {
+                      level: 7,
+                      competenceId: 'competenceDEF456',
+                    },
+                  ],
+                  hasAcquiredClea: true,
+                  cleaBadgeId: 999,
+                },
+              }),
+            ]);
+            expect(errors).to.deep.equal({});
+          });
+        });
+
+        context('DROIT', function () {
+          it('correctly builds a DROIT results for V3', function () {
+            const certificationData = [
+              {
+                ...certificationItem,
+                maxReachableLevel: 7,
+                reachedMeshIndex: 4,
+                algorithmEngineVersion,
+                framework: Frameworks.DROIT,
+              },
+            ];
+
+            const builder = new CertificationResultBuilder({
+              certificationData,
+              learnerData: [],
+              cleaData: [],
+              pixPlusV2VoletPixData: [],
+              pixPlusV2VoletExterneData: [],
+            });
+            const { certificationResults, errors } = builder.build(uuidGenerator);
+
+            sinon.assert.match(certificationResults, [
+              sinon.match({
+                results: {
+                  maxReachableLevel: 7,
+                  reachedMeshIndex: 4,
+                },
+              }),
+            ]);
+            expect(errors).to.deep.equal({});
+          });
+        });
+
+        context('PRO_SANTE', function () {
+          it('correctly builds a PRO_SANTE results for V3', function () {
+            const certificationData = [
+              {
+                ...certificationItem,
+                maxReachableLevel: 7,
+                reachedMeshIndex: 4,
+                algorithmEngineVersion,
+                framework: Frameworks.PRO_SANTE,
+              },
+            ];
+
+            const builder = new CertificationResultBuilder({
+              certificationData,
+              learnerData: [],
+              cleaData: [],
+              pixPlusV2VoletPixData: [],
+              pixPlusV2VoletExterneData: [],
+            });
+            const { certificationResults, errors } = builder.build(uuidGenerator);
+
+            sinon.assert.match(certificationResults, [
+              sinon.match({
+                results: {
+                  maxReachableLevel: 7,
+                  reachedMeshIndex: 4,
+                },
+              }),
+            ]);
+            expect(errors).to.deep.equal({});
+          });
+        });
+
+        context('EDU', function () {
+          context('when there are no v3EduExternalJuryResult', function () {
+            [Frameworks.EDU_1ER_DEGRE, Frameworks.EDU_2ND_DEGRE, Frameworks.EDU_CPE].forEach((framework) => {
+              it(`correctly builds a ${framework} results for V3 with no v3EduExternalJuryResult`, function () {
+                const certificationData = [
+                  {
+                    ...certificationItem,
+                    maxReachableLevel: 7,
+                    reachedMeshIndex: 4,
+                    v3EduExternalJuryResult: null,
+                    algorithmEngineVersion,
+                    framework,
+                  },
+                ];
+                const pixPlusV2VoletPixItem = {
+                  certificationCourseId: 111,
+                  v2VoletPixBadgeId: 999,
+                  v2VoletPixAcquired: true,
+                };
+
+                const builder = new CertificationResultBuilder({
+                  certificationData,
+                  learnerData: [],
+                  cleaData: [],
+                  pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
+                  pixPlusV2VoletExterneData: [],
+                });
+                const { certificationResults, errors } = builder.build(uuidGenerator);
+
+                sinon.assert.match(certificationResults, [
+                  sinon.match({
+                    results: {
+                      maxReachableLevel: 7,
+                      reachedMeshIndex: 4,
+                      v3EduExternalJuryResult: null,
+                    },
+                  }),
+                ]);
+                expect(errors).to.deep.equal({});
+              });
+            });
+          });
+
+          context('when there is a v3EduExternalJuryResult', function () {
+            [Frameworks.EDU_1ER_DEGRE, Frameworks.EDU_2ND_DEGRE, Frameworks.EDU_CPE].forEach((framework) => {
+              it(`correctly builds a ${framework} results for V3 with a v3EduExternalJuryResult`, function () {
+                const certificationData = [
+                  {
+                    ...certificationItem,
+                    maxReachableLevel: 7,
+                    reachedMeshIndex: 4,
+                    v3EduExternalJuryResult: 'SUPER',
+                    algorithmEngineVersion,
+                    framework,
+                  },
+                ];
+                const pixPlusV2VoletPixItem = {
+                  certificationCourseId: 111,
+                  v2VoletPixBadgeId: 999,
+                  v2VoletPixAcquired: true,
+                };
+
+                const builder = new CertificationResultBuilder({
+                  certificationData,
+                  learnerData: [],
+                  cleaData: [],
+                  pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
+                  pixPlusV2VoletExterneData: [],
+                });
+                const { certificationResults, errors } = builder.build(uuidGenerator);
+
+                sinon.assert.match(certificationResults, [
+                  sinon.match({
+                    results: {
+                      maxReachableLevel: 7,
+                      reachedMeshIndex: 4,
+                      v3EduExternalJuryResult: 'SUPER',
+                    },
+                  }),
+                ]);
+                expect(errors).to.deep.equal({});
+              });
+            });
+          });
+        });
       });
     });
 
-    context('CLEA', function () {
-      it('builds a certificationResult and a userCertificationResult for CLEA certification', function () {
+    context('multiple certifications', function () {
+      it('builds multiple certification results', function () {
+        const certificationItemForCoreV1 = {
+          ...buildCertificationData(1),
+          birthPostalCode: null,
+          birthINSEECode: null,
+          birthCountry: null,
+          commentByAutoJury: null,
+          algorithmEngineVersion: AlgorithmEngineVersion.V1,
+          framework: Frameworks.CORE,
+          pixScore: 11,
+          competenceMarks: buildCompetenceMarks(1),
+        };
+        const certificationItemForCoreV2 = {
+          ...buildCertificationData(2),
+          algorithmEngineVersion: AlgorithmEngineVersion.V2,
+          framework: Frameworks.CORE,
+          organizationLearnerId: 222,
+          pixScore: 22,
+          competenceMarks: buildCompetenceMarks(2),
+        };
+        const certificationItemForCleaV2 = {
+          ...buildCertificationData(3),
+          algorithmEngineVersion: AlgorithmEngineVersion.V2,
+          framework: Frameworks.CLEA,
+          organizationLearnerId: 333,
+          pixScore: 33,
+          competenceMarks: buildCompetenceMarks(3),
+        };
+        const certificationItemForDroitV2 = {
+          ...buildCertificationData(4),
+          algorithmEngineVersion: AlgorithmEngineVersion.V2,
+          framework: Frameworks.DROIT,
+          organizationLearnerId: null,
+          pixScore: 44,
+          competenceMarks: buildCompetenceMarks(4),
+        };
+        const certificationItemForEduV2 = {
+          ...buildCertificationData(5),
+          algorithmEngineVersion: AlgorithmEngineVersion.V2,
+          framework: Frameworks.EDU_2ND_DEGRE,
+          organizationLearnerId: null,
+          pixScore: 55,
+          competenceMarks: buildCompetenceMarks(5),
+        };
+        const certificationItemForCoreV3 = {
+          ...buildCertificationData(6),
+          algorithmEngineVersion: AlgorithmEngineVersion.V3,
+          framework: Frameworks.CORE,
+          organizationLearnerId: 666,
+          pixScore: 66,
+          competenceMarks: buildCompetenceMarks(6),
+          reachedMeshIndex: 3,
+          maxReachableLevel: 7,
+        };
+        const certificationItemForCleaV3 = {
+          ...buildCertificationData(7),
+          algorithmEngineVersion: AlgorithmEngineVersion.V3,
+          framework: Frameworks.CLEA,
+          organizationLearnerId: null,
+          pixScore: 77,
+          competenceMarks: buildCompetenceMarks(7),
+          reachedMeshIndex: 3,
+          maxReachableLevel: 7,
+        };
+        const certificationItemForProSanteV3 = {
+          ...buildCertificationData(8),
+          algorithmEngineVersion: AlgorithmEngineVersion.V3,
+          framework: Frameworks.PRO_SANTE,
+          organizationLearnerId: null,
+          reachedMeshIndex: 3,
+          maxReachableLevel: 7,
+        };
+
         const certificationData = [
-          {
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            organizationLearnerId: 555,
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2026-01-01'),
-            deliveredAt: new Date('2026-01-03'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.CLEA,
-            maxReachableLevel: 7,
-            pixScore: 678,
-            reachedMeshIndex: 3,
-            eduV3ExternalJuryResult: null,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            competenceMarks: [
-              {
-                level: 1,
-                competenceId: 'competenceABC123',
-              },
-              {
-                level: 7,
-                competenceId: 'competenceDEF456',
-              },
-            ],
-          },
+          certificationItemForCoreV1,
+          certificationItemForCoreV2,
+          certificationItemForCleaV2,
+          certificationItemForDroitV2,
+          certificationItemForEduV2,
+          certificationItemForCoreV3,
+          certificationItemForCleaV3,
+          certificationItemForProSanteV3,
         ];
         const learnerData = [
           {
-            organizationLearnerId: 555,
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            nationalStudentId: 'xXSlayerXx',
+            organizationLearnerId: 222,
+            middleName: 'middleName_222',
+            thirdName: 'thirdName_222',
+            nationalStudentId: 'nationalStudentId_222',
+          },
+          {
+            organizationLearnerId: 333,
+            middleName: 'middleName_333',
+            thirdName: 'thirdName_333',
+            nationalStudentId: 'nationalStudentId_333',
+          },
+          {
+            organizationLearnerId: 666,
+            middleName: 'middleName_666',
+            thirdName: 'thirdName_666',
+            nationalStudentId: 'nationalStudentId_666',
           },
         ];
         const cleaData = [
           {
-            certificationCourseId: 123,
-            acquired: true,
-            complementaryCertificationBadgeId: 789,
+            certificationCourseId: 3,
+            hasAcquiredClea: false,
+            cleaBadgeId: 333,
           },
-        ];
-
-        const builder = new CertificationResultBuilder({ certificationData, learnerData, cleaData });
-        const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
-
-        expect(certificationResults).to.deep.equal([
-          new CertificationResult({
-            id: '00000000-0000-4000-8000-000000000001',
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            nationalStudentId: 'xXSlayerXx',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2026-01-01'),
-            deliveredAt: new Date('2026-01-03'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.CLEA,
-            franceCompetencesMinScore: 120,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            results: {
-              maxReachableLevel: 7,
-              pixScore: 678,
-              reachedMeshIndex: 3,
-              hasAcquiredClea: true,
-              cleaBadgeId: 789,
-              competenceMarks: [
-                {
-                  level: 1,
-                  competenceId: 'competenceABC123',
-                },
-                {
-                  level: 7,
-                  competenceId: 'competenceDEF456',
-                },
-              ],
-            },
-          }),
-        ]);
-        expect(userCertificationResults).to.deep.equal([
-          new UserCertificationResult({
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            certificationResultId: '00000000-0000-4000-8000-000000000001',
-            organizationLearnerId: 555,
-          }),
-        ]);
-        expect(errors).to.deep.equal({});
-      });
-    });
-
-    context('PRO_SANTE', function () {
-      it('builds a certificationResult and a userCertificationResult for PRO_SANTE certification', function () {
-        const certificationData = [
           {
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            organizationLearnerId: 555,
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2026-01-01'),
-            deliveredAt: new Date('2026-01-03'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.PRO_SANTE,
-            maxReachableLevel: 1,
-            pixScore: null,
-            reachedMeshIndex: 3,
-            eduV3ExternalJuryResult: null,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            competenceMarks: [],
+            certificationCourseId: 7,
+            hasAcquiredClea: true,
+            cleaBadgeId: 777,
           },
         ];
-        const learnerData = [
+        const pixPlusV2VoletPixData = [
           {
-            organizationLearnerId: 555,
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            nationalStudentId: 'xXSlayerXx',
+            certificationCourseId: 4,
+            v2VoletPixBadgeId: 444,
+            v2VoletPixAcquired: true,
           },
-        ];
-
-        const builder = new CertificationResultBuilder({ certificationData, learnerData, cleaData: [] });
-        const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
-
-        expect(certificationResults).to.deep.equal([
-          new CertificationResult({
-            id: '00000000-0000-4000-8000-000000000001',
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            nationalStudentId: 'xXSlayerXx',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2026-01-01'),
-            deliveredAt: new Date('2026-01-03'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.PRO_SANTE,
-            franceCompetencesMinScore: null,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            results: {
-              reachedMeshIndex: 3,
-              maxReachableLevel: 1,
-            },
-          }),
-        ]);
-        expect(userCertificationResults).to.deep.equal([
-          new UserCertificationResult({
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            certificationResultId: '00000000-0000-4000-8000-000000000001',
-            organizationLearnerId: 555,
-          }),
-        ]);
-        expect(errors).to.deep.equal({});
-      });
-    });
-
-    context('DROIT', function () {
-      it('builds a certificationResult and a userCertificationResult for DROIT certification', function () {
-        const certificationData = [
           {
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            organizationLearnerId: 555,
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2026-01-01'),
-            deliveredAt: new Date('2026-01-03'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.DROIT,
-            maxReachableLevel: 1,
-            pixScore: null,
-            reachedMeshIndex: 3,
-            eduV3ExternalJuryResult: null,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            competenceMarks: [],
+            certificationCourseId: 5,
+            v2VoletPixBadgeId: 555,
+            v2VoletPixAcquired: true,
           },
         ];
-        const learnerData = [
+        const pixPlusV2VoletExterneData = [
           {
-            organizationLearnerId: 555,
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            nationalStudentId: 'xXSlayerXx',
+            certificationCourseId: 5,
+            v2VoletExterneBadgeId: 556,
+            v2VoletExterneAcquired: true,
           },
         ];
-
-        const builder = new CertificationResultBuilder({ certificationData, learnerData, cleaData: [] });
-        const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
-
-        expect(certificationResults).to.deep.equal([
-          new CertificationResult({
-            id: '00000000-0000-4000-8000-000000000001',
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            nationalStudentId: 'xXSlayerXx',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2026-01-01'),
-            deliveredAt: new Date('2026-01-03'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.DROIT,
-            franceCompetencesMinScore: null,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            results: {
-              maxReachableLevel: 1,
-              reachedMeshIndex: 3,
-            },
-          }),
-        ]);
-        expect(userCertificationResults).to.deep.equal([
-          new UserCertificationResult({
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            certificationResultId: '00000000-0000-4000-8000-000000000001',
-            organizationLearnerId: 555,
-          }),
-        ]);
-        expect(errors).to.deep.equal({});
-      });
-    });
-
-    context('EDU_CPE', function () {
-      it('builds a certificationResult and a userCertificationResult for EDU_CPE certification', function () {
-        const certificationData = [
-          {
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            organizationLearnerId: 555,
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2026-01-01'),
-            deliveredAt: new Date('2026-01-03'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.EDU_CPE,
-            maxReachableLevel: 1,
-            pixScore: null,
-            reachedMeshIndex: 3,
-            eduV3ExternalJuryResult: 'super mec',
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            competenceMarks: [],
-          },
-        ];
-        const learnerData = [
-          {
-            organizationLearnerId: 555,
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            nationalStudentId: 'xXSlayerXx',
-          },
-        ];
-
-        const builder = new CertificationResultBuilder({ certificationData, learnerData, cleaData: [] });
-        const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
-
-        expect(certificationResults).to.deep.equal([
-          new CertificationResult({
-            id: '00000000-0000-4000-8000-000000000001',
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            nationalStudentId: 'xXSlayerXx',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2026-01-01'),
-            deliveredAt: new Date('2026-01-03'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.EDU_CPE,
-            franceCompetencesMinScore: null,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            results: {
-              maxReachableLevel: 1,
-              reachedMeshIndex: 3,
-              eduV3ExternalJuryResult: 'super mec',
-            },
-          }),
-        ]);
-        expect(userCertificationResults).to.deep.equal([
-          new UserCertificationResult({
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            certificationResultId: '00000000-0000-4000-8000-000000000001',
-            organizationLearnerId: 555,
-          }),
-        ]);
-        expect(errors).to.deep.equal({});
-      });
-    });
-
-    context('EDU_1ER_DEGRE', function () {
-      it('builds a certificationResult and a userCertificationResult for EDU_CPE certification', function () {
-        const certificationData = [
-          {
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            organizationLearnerId: 555,
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2026-01-01'),
-            deliveredAt: new Date('2026-01-03'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.EDU_1ER_DEGRE,
-            maxReachableLevel: 1,
-            pixScore: null,
-            reachedMeshIndex: 3,
-            eduV3ExternalJuryResult: 'super mec',
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            competenceMarks: [],
-          },
-        ];
-        const learnerData = [
-          {
-            organizationLearnerId: 555,
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            nationalStudentId: 'xXSlayerXx',
-          },
-        ];
-
-        const builder = new CertificationResultBuilder({ certificationData, learnerData, cleaData: [] });
-        const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
-
-        expect(certificationResults).to.deep.equal([
-          new CertificationResult({
-            id: '00000000-0000-4000-8000-000000000001',
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            nationalStudentId: 'xXSlayerXx',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2026-01-01'),
-            deliveredAt: new Date('2026-01-03'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.EDU_1ER_DEGRE,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            franceCompetencesMinScore: null,
-            results: {
-              maxReachableLevel: 1,
-              reachedMeshIndex: 3,
-              eduV3ExternalJuryResult: 'super mec',
-            },
-          }),
-        ]);
-        expect(userCertificationResults).to.deep.equal([
-          new UserCertificationResult({
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            certificationResultId: '00000000-0000-4000-8000-000000000001',
-            organizationLearnerId: 555,
-          }),
-        ]);
-        expect(errors).to.deep.equal({});
-      });
-    });
-
-    context('EDU_2ND_DEGRE', function () {
-      it('builds a certificationResult and a userCertificationResult for EDU_2ND_DEGRE certification', function () {
-        const certificationData = [
-          {
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            organizationLearnerId: 555,
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2026-01-01'),
-            deliveredAt: new Date('2026-01-03'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.EDU_2ND_DEGRE,
-            maxReachableLevel: 1,
-            pixScore: null,
-            reachedMeshIndex: 3,
-            eduV3ExternalJuryResult: 'super mec',
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            competenceMarks: [],
-          },
-        ];
-        const learnerData = [
-          {
-            organizationLearnerId: 555,
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            nationalStudentId: 'xXSlayerXx',
-          },
-        ];
-
-        const builder = new CertificationResultBuilder({ certificationData, learnerData, cleaData: [] });
-        const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
-
-        expect(certificationResults).to.deep.equal([
-          new CertificationResult({
-            id: '00000000-0000-4000-8000-000000000001',
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            nationalStudentId: 'xXSlayerXx',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2026-01-01'),
-            deliveredAt: new Date('2026-01-03'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.EDU_2ND_DEGRE,
-            franceCompetencesMinScore: null,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            results: {
-              maxReachableLevel: 1,
-              reachedMeshIndex: 3,
-              eduV3ExternalJuryResult: 'super mec',
-            },
-          }),
-        ]);
-        expect(userCertificationResults).to.deep.equal([
-          new UserCertificationResult({
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            certificationResultId: '00000000-0000-4000-8000-000000000001',
-            organizationLearnerId: 555,
-          }),
-        ]);
-        expect(errors).to.deep.equal({});
-      });
-    });
-
-    context('when certification was delivered prior to FRANCE_COMPETENCES_PROFESSIONAL_START_DATE', function () {
-      it('builds a certificationResult and a userCertificationResult with no minimum score for france competences', function () {
-        const certificationData = [
-          {
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            organizationLearnerId: 555,
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2021-12-30'),
-            deliveredAt: new Date('2021-12-31'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.CORE,
-            maxReachableLevel: 7,
-            pixScore: 678,
-            reachedMeshIndex: 3,
-            eduV3ExternalJuryResult: null,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            competenceMarks: [
-              {
-                level: 1,
-                competenceId: 'competenceABC123',
-              },
-              {
-                level: 7,
-                competenceId: 'competenceDEF456',
-              },
-            ],
-          },
-        ];
-        const learnerData = [
-          {
-            organizationLearnerId: 555,
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            nationalStudentId: 'xXSlayerXx',
-          },
-        ];
-
-        const builder = new CertificationResultBuilder({ certificationData, learnerData, cleaData: [] });
-        const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
-
-        expect(certificationResults).to.deep.equal([
-          new CertificationResult({
-            id: '00000000-0000-4000-8000-000000000001',
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            nationalStudentId: 'xXSlayerXx',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2021-12-30'),
-            deliveredAt: new Date('2021-12-31'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.CORE,
-            franceCompetencesMinScore: null,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            results: {
-              maxReachableLevel: 7,
-              pixScore: 678,
-              reachedMeshIndex: 3,
-              competenceMarks: [
-                {
-                  level: 1,
-                  competenceId: 'competenceABC123',
-                },
-                {
-                  level: 7,
-                  competenceId: 'competenceDEF456',
-                },
-              ],
-            },
-          }),
-        ]);
-        expect(userCertificationResults).to.deep.equal([
-          new UserCertificationResult({
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            certificationResultId: '00000000-0000-4000-8000-000000000001',
-            organizationLearnerId: 555,
-          }),
-        ]);
-        expect(errors).to.deep.equal({});
-      });
-    });
-
-    context('when no learner matches the organization learner of the certification', function () {
-      it('builds a certificationResult and a userCertificationResult with no additional info on candidate identity (middle/third names and external ID)', function () {
-        const certificationData = [
-          {
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            organizationLearnerId: 555,
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2025-12-30'),
-            deliveredAt: new Date('2025-12-31'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.CORE,
-            maxReachableLevel: 7,
-            pixScore: 678,
-            reachedMeshIndex: 3,
-            eduV3ExternalJuryResult: null,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            competenceMarks: [
-              {
-                level: 1,
-                competenceId: 'competenceABC123',
-              },
-              {
-                level: 7,
-                competenceId: 'competenceDEF456',
-              },
-            ],
-          },
-        ];
-        const learnerData = [
-          {
-            organizationLearnerId: 1000,
-            middleName: 'Ann',
-            thirdName: 'Joan',
-            nationalStudentId: 'xXSlayerXx',
-          },
-        ];
-
-        const builder = new CertificationResultBuilder({ certificationData, learnerData, cleaData: [] });
-        const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
-
-        expect(certificationResults).to.deep.equal([
-          new CertificationResult({
-            id: '00000000-0000-4000-8000-000000000001',
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
-            middleName: null,
-            thirdName: null,
-            lastName: 'Summers',
-            externalId: 'the_slayer',
-            nationalStudentId: null,
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2025-12-30'),
-            deliveredAt: new Date('2025-12-31'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.CORE,
-            franceCompetencesMinScore: 120,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
-            results: {
-              maxReachableLevel: 7,
-              pixScore: 678,
-              reachedMeshIndex: 3,
-              competenceMarks: [
-                {
-                  level: 1,
-                  competenceId: 'competenceABC123',
-                },
-                {
-                  level: 7,
-                  competenceId: 'competenceDEF456',
-                },
-              ],
-            },
-          }),
-        ]);
-        expect(userCertificationResults).to.deep.equal([
-          new UserCertificationResult({
-            certificationCourseId: 123,
-            userId: 456,
-            sessionId: 777,
-            certificationResultId: '00000000-0000-4000-8000-000000000001',
-            organizationLearnerId: null,
-          }),
-        ]);
-        expect(errors).to.deep.equal({});
-      });
-    });
-
-    context('when some certification result is not valid', function () {
-      it('keeps building the other valid ones and return details about the certification in error in errors object', function () {
-        const certificationData1WithoutPixScore = {
-          certificationCourseId: 123,
-          userId: 456,
-          sessionId: 777,
-          organizationLearnerId: 555,
-          algorithmEngineVersion: AlgorithmEngineVersion.V3,
-          firstName: 'Buffy',
-          lastName: 'Summers',
-          externalId: 'the_slayer',
-          birthdate: '1981-01-18',
-          birthplace: 'Sunnydale',
-          birthPostalCode: 'SomePostalCode',
-          birthINSEECode: 'SomeINSEECode',
-          birthCountry: 'USA',
-          verificationCode: 'VERIFCODE',
-          certificationCenter: 'Centre certification le meilleur',
-          startedAt: new Date('2025-12-30'),
-          deliveredAt: new Date('2025-12-31'),
-          status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-          framework: Frameworks.CORE,
-          maxReachableLevel: 7,
-          reachedMeshIndex: 3,
-          eduV3ExternalJuryResult: null,
-          commentByAutoJury: 'commentByAutoJury',
-          commentByJury: 'commentByJury',
-          commentForOrganization: 'commentForOrganization',
-          commentForCandidate: 'commentForCandidate',
-          competenceMarks: [
-            {
-              level: 1,
-              competenceId: 'competenceABC123',
-            },
-            {
-              level: 7,
-              competenceId: 'competenceDEF456',
-            },
-          ],
-        };
-        const certificationData2 = {
-          certificationCourseId: 555,
-          userId: 456,
-          sessionId: 777,
-          organizationLearnerId: 555,
-          algorithmEngineVersion: AlgorithmEngineVersion.V3,
-          firstName: 'Buffy',
-          lastName: 'Summers',
-          externalId: 'the_slayer',
-          birthdate: '1981-01-18',
-          birthplace: 'Sunnydale',
-          birthPostalCode: 'SomePostalCode',
-          birthINSEECode: 'SomeINSEECode',
-          birthCountry: 'USA',
-          verificationCode: 'VERIFCODE',
-          certificationCenter: 'Centre certification le meilleur',
-          startedAt: new Date('2025-12-30'),
-          deliveredAt: new Date('2025-12-31'),
-          status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-          framework: Frameworks.CORE,
-          maxReachableLevel: 7,
-          pixScore: 123,
-          reachedMeshIndex: 3,
-          eduV3ExternalJuryResult: null,
-          commentByAutoJury: 'commentByAutoJury',
-          commentByJury: 'commentByJury',
-          commentForOrganization: 'commentForOrganization',
-          commentForCandidate: 'commentForCandidate',
-          competenceMarks: [
-            {
-              level: 1,
-              competenceId: 'competenceABC123',
-            },
-            {
-              level: 7,
-              competenceId: 'competenceDEF456',
-            },
-          ],
-        };
 
         const builder = new CertificationResultBuilder({
-          certificationData: [certificationData1WithoutPixScore, certificationData2],
-          learnerData: [],
-          cleaData: [],
+          certificationData,
+          learnerData,
+          cleaData,
+          pixPlusV2VoletPixData,
+          pixPlusV2VoletExterneData,
         });
+        uuidGenerator = sinon.stub();
+        uuidGenerator.onCall(0).returns('00000000-0000-4000-8000-000000000001');
+        uuidGenerator.onCall(1).returns('00000000-0000-4000-8000-000000000002');
+        uuidGenerator.onCall(2).returns('00000000-0000-4000-8000-000000000003');
+        uuidGenerator.onCall(3).returns('00000000-0000-4000-8000-000000000004');
+        uuidGenerator.onCall(4).returns('00000000-0000-4000-8000-000000000005');
+        uuidGenerator.onCall(5).returns('00000000-0000-4000-8000-000000000006');
+        uuidGenerator.onCall(6).returns('00000000-0000-4000-8000-000000000007');
+        uuidGenerator.onCall(7).returns('00000000-0000-4000-8000-000000000008');
         const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
 
+        expect(errors).to.deep.equal({});
         expect(certificationResults).to.deep.equal([
           new CertificationResult({
+            ...certificationItemForCoreV1,
             id: '00000000-0000-4000-8000-000000000001',
-            algorithmEngineVersion: AlgorithmEngineVersion.V3,
-            firstName: 'Buffy',
             middleName: null,
             thirdName: null,
-            lastName: 'Summers',
-            externalId: 'the_slayer',
             nationalStudentId: null,
-            birthdate: '1981-01-18',
-            birthplace: 'Sunnydale',
-            birthPostalCode: 'SomePostalCode',
-            birthINSEECode: 'SomeINSEECode',
-            birthCountry: 'USA',
-            verificationCode: 'VERIFCODE',
-            certificationCenter: 'Centre certification le meilleur',
-            startedAt: new Date('2025-12-30'),
-            deliveredAt: new Date('2025-12-31'),
-            status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
-            framework: Frameworks.CORE,
-            franceCompetencesMinScore: 120,
-            commentByAutoJury: 'commentByAutoJury',
-            commentByJury: 'commentByJury',
-            commentForOrganization: 'commentForOrganization',
-            commentForCandidate: 'commentForCandidate',
+            franceCompetencesMinScore: null,
             results: {
-              maxReachableLevel: 7,
-              pixScore: 123,
-              reachedMeshIndex: 3,
-              competenceMarks: [
-                {
-                  level: 1,
-                  competenceId: 'competenceABC123',
-                },
-                {
-                  level: 7,
-                  competenceId: 'competenceDEF456',
-                },
-              ],
+              pixScore: certificationItemForCoreV1.pixScore,
+              competenceMarks: certificationItemForCoreV1.competenceMarks,
+            },
+          }),
+          new CertificationResult({
+            ...certificationItemForCoreV2,
+            id: '00000000-0000-4000-8000-000000000002',
+            middleName: 'middleName_222',
+            thirdName: 'thirdName_222',
+            nationalStudentId: 'nationalStudentId_222',
+            franceCompetencesMinScore: 120,
+            results: {
+              pixScore: certificationItemForCoreV2.pixScore,
+              competenceMarks: certificationItemForCoreV2.competenceMarks,
+            },
+          }),
+          new CertificationResult({
+            ...certificationItemForCleaV2,
+            id: '00000000-0000-4000-8000-000000000003',
+            middleName: 'middleName_333',
+            thirdName: 'thirdName_333',
+            nationalStudentId: 'nationalStudentId_333',
+            franceCompetencesMinScore: 120,
+            results: {
+              pixScore: certificationItemForCleaV2.pixScore,
+              competenceMarks: certificationItemForCleaV2.competenceMarks,
+              hasAcquiredClea: false,
+              cleaBadgeId: 333,
+            },
+          }),
+          new CertificationResult({
+            ...certificationItemForDroitV2,
+            id: '00000000-0000-4000-8000-000000000004',
+            middleName: null,
+            thirdName: null,
+            nationalStudentId: null,
+            franceCompetencesMinScore: null,
+            results: {
+              pixScore: certificationItemForDroitV2.pixScore,
+              competenceMarks: certificationItemForDroitV2.competenceMarks,
+              v2VoletPixBadgeId: 444,
+              v2VoletPixAcquired: true,
+            },
+          }),
+          new CertificationResult({
+            ...certificationItemForEduV2,
+            id: '00000000-0000-4000-8000-000000000005',
+            middleName: null,
+            thirdName: null,
+            nationalStudentId: null,
+            franceCompetencesMinScore: null,
+            results: {
+              pixScore: certificationItemForEduV2.pixScore,
+              competenceMarks: certificationItemForEduV2.competenceMarks,
+              v2VoletPixBadgeId: 555,
+              v2VoletPixAcquired: true,
+              v2VoletExterneBadgeId: 556,
+              v2VoletExterneAcquired: true,
+            },
+          }),
+          new CertificationResult({
+            ...certificationItemForCoreV3,
+            id: '00000000-0000-4000-8000-000000000006',
+            middleName: 'middleName_666',
+            thirdName: 'thirdName_666',
+            nationalStudentId: 'nationalStudentId_666',
+            franceCompetencesMinScore: 120,
+            results: {
+              competenceMarks: certificationItemForCoreV3.competenceMarks,
+              pixScore: certificationItemForCoreV3.pixScore,
+              reachedMeshIndex: certificationItemForCoreV3.reachedMeshIndex,
+              maxReachableLevel: certificationItemForCoreV3.maxReachableLevel,
+            },
+          }),
+          new CertificationResult({
+            ...certificationItemForCleaV3,
+            id: '00000000-0000-4000-8000-000000000007',
+            middleName: null,
+            thirdName: null,
+            nationalStudentId: null,
+            franceCompetencesMinScore: 120,
+            results: {
+              competenceMarks: certificationItemForCleaV3.competenceMarks,
+              pixScore: certificationItemForCleaV3.pixScore,
+              reachedMeshIndex: certificationItemForCleaV3.reachedMeshIndex,
+              maxReachableLevel: certificationItemForCleaV3.maxReachableLevel,
+              hasAcquiredClea: true,
+              cleaBadgeId: 777,
+            },
+          }),
+          new CertificationResult({
+            ...certificationItemForProSanteV3,
+            id: '00000000-0000-4000-8000-000000000008',
+            middleName: null,
+            thirdName: null,
+            nationalStudentId: null,
+            franceCompetencesMinScore: null,
+            results: {
+              reachedMeshIndex: certificationItemForProSanteV3.reachedMeshIndex,
+              maxReachableLevel: certificationItemForProSanteV3.maxReachableLevel,
             },
           }),
         ]);
         expect(userCertificationResults).to.deep.equal([
           new UserCertificationResult({
-            certificationCourseId: 555,
-            userId: 456,
-            sessionId: 777,
+            certificationCourseId: 1,
+            userId: 2,
+            sessionId: 3,
             certificationResultId: '00000000-0000-4000-8000-000000000001',
             organizationLearnerId: null,
           }),
+          new UserCertificationResult({
+            certificationCourseId: 2,
+            userId: 3,
+            sessionId: 4,
+            certificationResultId: '00000000-0000-4000-8000-000000000002',
+            organizationLearnerId: 222,
+          }),
+          new UserCertificationResult({
+            certificationCourseId: 3,
+            userId: 4,
+            sessionId: 5,
+            certificationResultId: '00000000-0000-4000-8000-000000000003',
+            organizationLearnerId: 333,
+          }),
+          new UserCertificationResult({
+            certificationCourseId: 4,
+            userId: 5,
+            sessionId: 6,
+            certificationResultId: '00000000-0000-4000-8000-000000000004',
+            organizationLearnerId: null,
+          }),
+          new UserCertificationResult({
+            certificationCourseId: 5,
+            userId: 6,
+            sessionId: 7,
+            certificationResultId: '00000000-0000-4000-8000-000000000005',
+            organizationLearnerId: null,
+          }),
+          new UserCertificationResult({
+            certificationCourseId: 6,
+            userId: 7,
+            sessionId: 8,
+            certificationResultId: '00000000-0000-4000-8000-000000000006',
+            organizationLearnerId: 666,
+          }),
+          new UserCertificationResult({
+            certificationCourseId: 7,
+            userId: 8,
+            sessionId: 9,
+            certificationResultId: '00000000-0000-4000-8000-000000000007',
+            organizationLearnerId: null,
+          }),
+          new UserCertificationResult({
+            certificationCourseId: 8,
+            userId: 9,
+            sessionId: 10,
+            certificationResultId: '00000000-0000-4000-8000-000000000008',
+            organizationLearnerId: null,
+          }),
         ]);
-        expect(errors).to.deep.equal({
-          123: '✖ Invalid input: expected number, received undefined\n  → at results.pixScore',
+      });
+
+      it('builds multiple certification results except for those in errors, returns errors encountered per certification course id', function () {
+        const certificationItemForCoreV1 = {
+          ...buildCertificationData(1),
+          birthPostalCode: null,
+          birthINSEECode: null,
+          birthCountry: null,
+          commentByAutoJury: null,
+          algorithmEngineVersion: AlgorithmEngineVersion.V1,
+          framework: Frameworks.CORE,
+          pixScore: 11,
+          competenceMarks: buildCompetenceMarks(1),
+        };
+        const certificationItemForBrokenCoreV2 = {
+          ...buildCertificationData(2),
+          algorithmEngineVersion: AlgorithmEngineVersion.V2,
+          framework: Frameworks.CORE,
+          organizationLearnerId: 222,
+          competenceMarks: buildCompetenceMarks(2),
+        };
+        const certificationItemForCleaV2 = {
+          ...buildCertificationData(3),
+          algorithmEngineVersion: AlgorithmEngineVersion.V2,
+          framework: Frameworks.CLEA,
+          organizationLearnerId: 333,
+          pixScore: 33,
+          competenceMarks: buildCompetenceMarks(3),
+        };
+        const certificationItemForBrokenDroitV2 = {
+          ...buildCertificationData(4),
+          algorithmEngineVersion: AlgorithmEngineVersion.V2,
+          framework: Frameworks.DROIT,
+          organizationLearnerId: null,
+          pixScore: 44,
+          competenceMarks: buildCompetenceMarks(4),
+        };
+
+        const certificationData = [
+          certificationItemForCoreV1,
+          certificationItemForBrokenCoreV2,
+          certificationItemForCleaV2,
+          certificationItemForBrokenDroitV2,
+        ];
+        const learnerData = [
+          {
+            organizationLearnerId: 222,
+            middleName: 'middleName_222',
+            thirdName: 'thirdName_222',
+            nationalStudentId: 'nationalStudentId_222',
+          },
+          {
+            organizationLearnerId: 333,
+            middleName: 'middleName_333',
+            thirdName: 'thirdName_333',
+            nationalStudentId: 'nationalStudentId_333',
+          },
+        ];
+        const cleaData = [
+          {
+            certificationCourseId: 3,
+            hasAcquiredClea: false,
+            cleaBadgeId: 333,
+          },
+        ];
+        const pixPlusV2VoletPixData = [
+          {
+            certificationCourseId: 4,
+            v2VoletPixAcquired: true,
+          },
+        ];
+        const pixPlusV2VoletExterneData = [];
+
+        const builder = new CertificationResultBuilder({
+          certificationData,
+          learnerData,
+          cleaData,
+          pixPlusV2VoletPixData,
+          pixPlusV2VoletExterneData,
         });
+        uuidGenerator = sinon.stub();
+        uuidGenerator.onCall(0).returns('00000000-0000-4000-8000-000000000001');
+        uuidGenerator.onCall(1).returns('00000000-0000-4000-8000-000000000002');
+        uuidGenerator.onCall(2).returns('00000000-0000-4000-8000-000000000003');
+        uuidGenerator.onCall(3).returns('00000000-0000-4000-8000-000000000004');
+        const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
+
+        expect(errors).to.deep.equal({
+          2: '{"formErrors":[],"fieldErrors":{"results":["Invalid input: expected number, received undefined"]}}',
+          4: '{"formErrors":[],"fieldErrors":{"results":["Invalid input: expected number, received undefined"]}}',
+        });
+        expect(certificationResults).to.deep.equal([
+          new CertificationResult({
+            ...certificationItemForCoreV1,
+            id: '00000000-0000-4000-8000-000000000001',
+            middleName: null,
+            thirdName: null,
+            nationalStudentId: null,
+            franceCompetencesMinScore: null,
+            results: {
+              pixScore: certificationItemForCoreV1.pixScore,
+              competenceMarks: certificationItemForCoreV1.competenceMarks,
+            },
+          }),
+          new CertificationResult({
+            ...certificationItemForCleaV2,
+            id: '00000000-0000-4000-8000-000000000003',
+            middleName: 'middleName_333',
+            thirdName: 'thirdName_333',
+            nationalStudentId: 'nationalStudentId_333',
+            franceCompetencesMinScore: 120,
+            results: {
+              pixScore: certificationItemForCleaV2.pixScore,
+              competenceMarks: certificationItemForCleaV2.competenceMarks,
+              hasAcquiredClea: false,
+              cleaBadgeId: 333,
+            },
+          }),
+        ]);
+        expect(userCertificationResults).to.deep.equal([
+          new UserCertificationResult({
+            certificationCourseId: 1,
+            userId: 2,
+            sessionId: 3,
+            certificationResultId: '00000000-0000-4000-8000-000000000001',
+            organizationLearnerId: null,
+          }),
+          new UserCertificationResult({
+            certificationCourseId: 3,
+            userId: 4,
+            sessionId: 5,
+            certificationResultId: '00000000-0000-4000-8000-000000000003',
+            organizationLearnerId: 333,
+          }),
+        ]);
       });
     });
   });
 });
+
+function buildCertificationData(certificationCourseId) {
+  return {
+    certificationCourseId: certificationCourseId,
+    userId: certificationCourseId + 1,
+    sessionId: certificationCourseId + 2,
+    firstName: `firstName_${certificationCourseId}`,
+    lastName: `lastName_${certificationCourseId}`,
+    externalId: `externalId_${certificationCourseId}`,
+    birthdate: '1981-01-18',
+    birthplace: `birthplace_${certificationCourseId}`,
+    birthPostalCode: `birthPostalCode_${certificationCourseId}`,
+    birthINSEECode: `birthINSEECode_${certificationCourseId}`,
+    birthCountry: `birthCountry_${certificationCourseId}`,
+    verificationCode: 'VERIFCODE',
+    certificationCenter: `certificationCenter_${certificationCourseId}`,
+    certificationCenterFallback: `certificationCenterFallback_${certificationCourseId}`,
+    startedAt: new Date('2025-12-30'),
+    deliveredAt: new Date('2025-12-31'),
+    status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
+    commentByAutoJury: `commentByAutoJury_${certificationCourseId}`,
+    commentByJury: `commentByJury_${certificationCourseId}`,
+    commentForOrganization: `commentForOrganization_${certificationCourseId}`,
+    commentForCandidate: `commentForCandidate_${certificationCourseId}`,
+  };
+}
+
+function buildCompetenceMarks(i) {
+  return [
+    { competenceId: `competence${i}`, level: 2 },
+    { competenceId: `competence${i}${i}`, level: 7 },
+  ];
+}
