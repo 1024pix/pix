@@ -9,9 +9,8 @@ import { httpAgent } from '../../shared/infrastructure/http-agent.js';
 import { getI18nFromRequest } from '../../shared/infrastructure/i18n/i18n.js';
 import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
 import { getForwardedOrigin, RequestedApplication } from '../../shared/infrastructure/utils/network.js';
-import { LtiLineItemsInitializationError } from '../domain/errors.js';
+import { LtiCampaignNotFoundError, LtiLineItemsInitializationError } from '../domain/errors.js';
 import { LtiDeepLinkingAccessToken } from '../domain/models/LtiDeepLinkingAccessToken.js';
-import { ltiScoringService } from '../domain/services/lti.scoring.service.js';
 import { ltiService } from '../domain/services/lti.service.js';
 import { usecases } from '../domain/usecases/index.js';
 import { ltiPlatformRegistrationRepository } from '../infrastructure/repositories/lti-platform-registration.repository.js';
@@ -204,11 +203,7 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
   }
 }
 
-async function resourceLink(
-  request,
-  h,
-  dependencies = { urlService, ltiScoringService, startLtiCampaign: usecases.startLtiCampaign },
-) {
+async function resourceLink(request, h, dependencies = { urlService, startLtiCampaign: usecases.startLtiCampaign }) {
   const { verifiedToken, registration } = await preLaunch(request);
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
 
@@ -217,12 +212,6 @@ async function resourceLink(
   }
 
   const campaignId = Number(verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom']?.campaign_id);
-  const campaign = Number.isInteger(campaignId) ? await usecases.getLtiCampaign({ campaignId }) : null;
-
-  if (!campaign) {
-    logger.warn({ campaignId }, 'unknown campaign');
-    throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
-  }
 
   const accessToken = await getAccessToken(LINE_ITEM_SCOPE, registration);
   if (!accessToken) {
@@ -230,28 +219,26 @@ async function resourceLink(
     return launchErrorResponse(h);
   }
 
-  const lineItemsUrl = verifiedToken['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint']?.lineitems;
-
+  let campaign;
   try {
-    await dependencies.ltiScoringService.initializeLineItems({
-      lineItemsUrl,
+    campaign = await dependencies.startLtiCampaign({
+      campaignId,
+      lineItemsUrl: verifiedToken['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint']?.lineitems,
       resourceLinkId: verifiedToken['https://purl.imsglobal.org/spec/lti/claim/resource_link']?.id,
-      campaign,
       accessToken,
+      clientId: registration.clientId,
+      platformUserSub: verifiedToken.sub,
     });
   } catch (err) {
+    if (err instanceof LtiCampaignNotFoundError) {
+      logger.warn({ campaignId }, 'unknown campaign');
+      throw new BadRequestError('Please contact your administrator', 'LAUNCH_ERROR');
+    }
     if (!(err instanceof LtiLineItemsInitializationError)) throw err;
 
     logger.error({ campaignId, err }, 'could not initialize line items');
     return launchErrorResponse(h);
   }
-
-  await dependencies.startLtiCampaign({
-    clientId: registration.clientId,
-    platformUserSub: verifiedToken.sub,
-    lineItemContainerUrl: lineItemsUrl,
-    campaignId: campaign.id,
-  });
 
   const locale = 'fr-FR'; // TODO: Generate this dynamically
 

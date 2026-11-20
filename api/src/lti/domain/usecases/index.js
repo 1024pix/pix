@@ -8,6 +8,7 @@ import { repositories as injectedLtiRepositories } from '../../infrastructure/re
 import { ltiCampaignParticipationRepository } from '../../infrastructure/repositories/lti-campaign-participation.repository.js';
 import { ltiPlatformRepository } from '../../infrastructure/repositories/lti-platform.repository.js';
 import { ltiPlatformRegistrationRepository } from '../../infrastructure/repositories/lti-platform-registration.repository.js';
+import { ltiScoringService } from '../services/lti.scoring.service.js';
 import { ltiService } from '../services/lti.service.js';
 import { authenticateDeepLinking } from './authenticate-deep-linking.usecase.js';
 import { getLtiCampaign } from './get-lti-campaign.usecase.js';
@@ -20,7 +21,7 @@ const utils = {
   httpAgent,
 };
 
-const services = { cryptoService, ltiService, urlService };
+const services = { cryptoService, ltiScoringService, ltiService, urlService };
 
 const repositories = {
   ltiPlatformRegistrationRepository,
