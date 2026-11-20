@@ -9,6 +9,7 @@ import * as userRepository from '../../../../../src/identity-access-management/i
 import { userEmailRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/user-email.repository.js';
 import { LegalDocumentService } from '../../../../../src/legal-documents/domain/models/LegalDocumentService.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
+import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
@@ -863,6 +864,80 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
         identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
       });
       expect(pixAuthenticationMethod.authenticationComplement.password).to.deep.equal('ABCDEF1234');
+    });
+  });
+
+  describe('POST /api/users/me/password', function () {
+    const currentPassword = 'example-of-a-valid-password-az-AZ-012343';
+    const newPassword = 'example-of-another-valid-password-az-AZ-012343';
+
+    it('returns 204 HTTP status code and updates the password', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser.withRawPassword({
+        email: 'judy.howl@example.net',
+        rawPassword: currentPassword,
+      });
+      await databaseBuilder.commit();
+
+      const payload = {
+        'current-password': currentPassword,
+        'new-password': newPassword,
+      };
+
+      const options = {
+        method: 'POST',
+        url: '/api/users/me/password',
+        payload,
+        headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+      const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+        userId: user.id,
+        identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
+      });
+      expect(
+        await cryptoService.matchPassword({
+          password: newPassword,
+          passwordHash: authenticationMethod.authenticationComplement.password,
+        }),
+      ).to.be.true;
+      expect(
+        await cryptoService.matchPassword({
+          password: currentPassword,
+          passwordHash: authenticationMethod.authenticationComplement.password,
+        }),
+      ).to.be.false;
+    });
+
+    it('returns 401 HTTP status code when user is not authenticated', async function () {
+      // given
+      databaseBuilder.factory.buildUser.withRawPassword({
+        email: 'judy.howl@example.net',
+        rawPassword: currentPassword,
+      });
+      await databaseBuilder.commit();
+
+      const payload = {
+        'current-password': currentPassword,
+        'new-password': newPassword,
+      };
+
+      const options = {
+        method: 'POST',
+        url: '/api/users/me/password',
+        payload,
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(401);
     });
   });
 });
