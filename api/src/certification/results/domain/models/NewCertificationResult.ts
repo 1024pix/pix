@@ -17,6 +17,8 @@ type CertificationResultProps = {
   birthPostalCode: string | null;
   birthINSEECode: string | null;
   birthCountry: string | null;
+  birthCountryCode: string | null;
+  birthCountryPlace: string | null;
   verificationCode: string;
   certificationCenter: string;
   startedAt: Date;
@@ -73,6 +75,8 @@ export class CertificationResult {
   readonly birthPostalCode: string | null;
   readonly birthINSEECode: string | null;
   readonly birthCountry: string | null;
+  readonly birthCountryCode: string | null;
+  readonly birthCountryPlace: string | null;
   readonly verificationCode: string;
   readonly certificationCenter: string;
   readonly startedAt: Date;
@@ -99,6 +103,8 @@ export class CertificationResult {
     this.birthPostalCode = props.birthPostalCode;
     this.birthINSEECode = props.birthINSEECode;
     this.birthCountry = props.birthCountry;
+    this.birthCountryCode = props.birthCountryCode;
+    this.birthCountryPlace = props.birthCountryPlace;
     this.verificationCode = props.verificationCode;
     this.certificationCenter = props.certificationCenter;
     this.startedAt = props.startedAt;
