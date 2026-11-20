@@ -70,17 +70,13 @@ import { deleteAndAnonymizeParticipationsForALearnerId } from './delete-and-anon
 import { deleteAndAnonymizeCombinedCourses } from './delete-and-anonymize-combined-courses.js';
 import { detachOrganizationsFromCombinedCourseBlueprint } from './detach-organizations-from-combined-course-blueprint.js';
 import { findByOrganizationId } from './find-by-organization-id.js';
-import { findCampaignIdsByCombinedCourseIds } from './find-campaign-ids-by-combined-course-ids.js';
 import { findCombinedCourseBlueprintById } from './find-combined-course-blueprint-by-id.js';
 import { findCombinedCourseBlueprints } from './find-combined-course-blueprints.js';
-import { findCombinedCourseByCampaignId } from './find-combined-course-by-campaign-id.js';
 import { findCombinedCourseByModuleIdAndUserId } from './find-combined-course-by-moduleId-and-user-id.js';
-import { findCombinedCourseIdsByOrganizationId } from './find-combined-course-ids-by-organization-id.js';
 import { findCombinedCourseParticipations } from './find-combined-course-participations.js';
 import { getCombinedCourseBlueprintById } from './get-combined-course-blueprint-by-id.js';
 import { getCombinedCourseByCode } from './get-combined-course-by-code.js';
 import getCombinedCourseById from './get-combined-course-by-id.js';
-import { getCombinedCourseExistsForCampaignId } from './get-combined-course-exists-for-campaign-id.js';
 import { getCombinedCourseParticipationById } from './get-combined-course-participation-by-id.js';
 import { getCombinedCourseStatistics } from './get-combined-course-statistics.js';
 import getCombinedCoursesByOrganizationId from './get-combined-courses-by-organization-id.js';
@@ -104,16 +100,12 @@ const usecasesWithoutInjectedDependencies = {
   createOrUpdateQuestsInBatch,
   detachOrganizationsFromCombinedCourseBlueprint,
   deleteAndAnonymizeCombinedCourses,
-  findCombinedCourseByCampaignId,
-  getCombinedCourseExistsForCampaignId,
   findCombinedCourseByModuleIdAndUserId,
-  findCampaignIdsByCombinedCourseIds,
   getCombinedCourseByCode,
   getCombinedCourseStatistics,
   getCombinedCourseById,
   getCombinedCourseParticipationById,
   findCombinedCourseBlueprintById,
-  findCombinedCourseIdsByOrganizationId,
   findCombinedCourseParticipations,
   findCombinedCourseBlueprints,
   getCombinedCoursesByOrganizationId,

@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 
 import { CombinedCourseBlueprint } from '../../../../../src/quest/domain/models/combined-course-blueprints/entities/CombinedCourseBlueprint.js';
-import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
+import { getCombinedCourseExistsForCampaignId } from '../../../../../src/quest/domain/usecases/get-combined-course-exists-for-campaign-id.js';
+import * as combinedCourseRepository from '../../../../../src/quest/infrastructure/repositories/combined-courses/combined-course-repository.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Quest | Domain | UseCases | get-combined-course-exists-for-campaign-id', function () {
@@ -26,7 +27,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-exists-f
     await databaseBuilder.commit();
 
     // when
-    const result = await usecases.getCombinedCourseExistsForCampaignId({ campaignId });
+    const result = await getCombinedCourseExistsForCampaignId({ campaignId, combinedCourseRepository });
 
     // then
     expect(result).to.be.true;
@@ -47,7 +48,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-exists-f
     await databaseBuilder.commit();
 
     // when
-    const result = await usecases.getCombinedCourseExistsForCampaignId({ campaignId });
+    const result = await getCombinedCourseExistsForCampaignId({ campaignId, combinedCourseRepository });
 
     // then
     expect(result).to.be.false;
