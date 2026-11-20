@@ -14,4 +14,10 @@ class LtiLineItemsInitializationError extends DomainError {
   }
 }
 
-export { InvalidLtiPlatformRegistrationError, LtiLineItemsInitializationError };
+class LtiCampaignNotFoundError extends DomainError {
+  constructor(message = 'LTI campaign not found') {
+    super(message, 'LTI_CAMPAIGN_NOT_FOUND');
+  }
+}
+
+export { InvalidLtiPlatformRegistrationError, LtiCampaignNotFoundError, LtiLineItemsInitializationError };

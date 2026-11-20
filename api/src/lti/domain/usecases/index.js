@@ -7,6 +7,7 @@ import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { repositories as injectedLtiRepositories } from '../../infrastructure/repositories/index.js';
 import { ltiPlatformRepository } from '../../infrastructure/repositories/lti-platform.repository.js';
 import { ltiPlatformRegistrationRepository } from '../../infrastructure/repositories/lti-platform-registration.repository.js';
+import { ltiScoringService } from '../services/lti.scoring.service.js';
 import { ltiService } from '../services/lti.service.js';
 import { authenticateDeepLinking } from './authenticate-deep-linking.usecase.js';
 import { getLtiCampaign } from './get-lti-campaign.usecase.js';
@@ -14,12 +15,13 @@ import { getLtiCampaignsByOrganizations } from './get-lti-campaigns-by-organizat
 import { listLtiPublicKeys } from './list-lti-public-keys.usecase.js';
 import { registerLtiPlatform } from './register-lti-platform.usecase.js';
 import { sendCampaignParticipationResult } from './send-campaign-participation-result.usecase.js';
+import { startLtiCampaign } from './start-lti-campaign.usecase.js';
 
 const utils = {
   httpAgent,
 };
 
-const services = { cryptoService, ltiService, urlService };
+const services = { cryptoService, ltiScoringService, ltiService, urlService };
 
 const repositories = {
   ltiPlatformRegistrationRepository,
@@ -36,6 +38,7 @@ const usecasesWithoutInjectedDependencies = {
   getLtiCampaign,
   getLtiCampaignsByOrganizations,
   sendCampaignParticipationResult,
+  startLtiCampaign,
 };
 
 const dependencies = Object.assign({}, repositories, services, utils);
