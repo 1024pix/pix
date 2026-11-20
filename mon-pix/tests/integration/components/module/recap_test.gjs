@@ -98,7 +98,7 @@ module('Integration | Component | Module | Recap', function (hooks) {
           id: 'mon-slug',
           title: 'Module title',
           isBeta: true,
-          redirectionUrl: 'https//some-url.fr',
+          redirectionUrl: 'https://some-url.fr',
         });
         // when
         const screen = await render(<template><ModuleRecap @module={{module}} /></template>);
@@ -140,7 +140,7 @@ module('Integration | Component | Module | Recap', function (hooks) {
           id: 'mon-slug',
           title: 'Module title',
           isBeta: true,
-          redirectionUrl: 'https//some-url.fr',
+          redirectionUrl: 'https://some-url.fr',
         });
         // when
         const screen = await render(<template><ModuleRecap @module={{module}} /></template>);
