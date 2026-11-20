@@ -151,8 +151,11 @@ module('Acceptance | Combined course | Start Combined course workflow', function
       });
       module('when user is reconciled', function () {
         module('when user clicks on campaign item', function () {
-          test('it redirects to campaign landing page', async function (assert) {
+          test('it skips campaign landing page and starts the campaign', async function (assert) {
             //given
+            campaign.update({
+              customResultPageButtonUrl: '/parcours/COMBINIX1/checkpoint',
+            });
             server.create('sco-organization-learner', {
               campaignCode: campaign.code,
               organizationId: 1,
@@ -164,7 +167,7 @@ module('Acceptance | Combined course | Start Combined course workflow', function
             await click(screen.getByText(combinedCourseCampaignItem.title));
 
             //then
-            assert.strictEqual(currentURL(), '/campagnes/ABCDIAG/presentation');
+            assert.strictEqual(currentURL(), '/campagnes/ABCDIAG/evaluation/didacticiel');
           });
         });
 
@@ -199,6 +202,87 @@ module('Acceptance | Combined course | Start Combined course workflow', function
 
           // then
           assert.strictEqual(currentURL(), '/campagnes/CAMPAIGN/evaluation/didacticiel');
+        });
+      });
+    });
+  });
+
+  module('when accessing directly a campaign that is part of a combined course', function (hooks) {
+    let combinedCourse;
+
+    hooks.beforeEach(function () {
+      const campaign = server.create('campaign', {
+        code: 'ABCDIAG',
+        organizationId: 1,
+        customResultPageButtonUrl: '/parcours/COMBINIX1/checkpoint',
+      });
+      const combinedCourseCampaignItem = server.create('combined-course-item', {
+        title: 'Diagnostique',
+        reference: campaign.code,
+        type: 'campaign',
+      });
+      combinedCourse = server.create('combined-course', {
+        code: 'COMBINIX1',
+        organizationId: 1,
+        items: [combinedCourseCampaignItem],
+      });
+      server.create('organization-to-join', { id: 1, isRestricted: false, code: combinedCourse.code });
+    });
+
+    module('when user is not logged in', function () {
+      test('it redirects to combined course landing page', async function (assert) {
+        // when
+        await visit('/campagnes/ABCDIAG');
+
+        // then
+        assert.strictEqual(currentURL(), '/parcours/COMBINIX1/presentation');
+      });
+    });
+
+    module('when user is logged in', function (hooks) {
+      hooks.beforeEach(async function () {
+        const user = server.create('user', 'withEmail', { pixAppTermsOfServiceStatus: 'accepted' });
+        await authenticate(user);
+      });
+
+      module('when combined course is not started', function () {
+        test('it redirects to combined course landing page', async function (assert) {
+          // given
+          combinedCourse.update({ status: 'NOT_STARTED' });
+
+          // when
+          await visit('/campagnes/ABCDIAG');
+
+          // then
+          assert.strictEqual(currentURL(), '/parcours/COMBINIX1/presentation');
+        });
+      });
+
+      module('when combined course is started', function () {
+        test('it redirects to combined course summary', async function (assert) {
+          // given
+          combinedCourse.update({ status: 'STARTED' });
+
+          // when
+          await visit('/campagnes/ABCDIAG');
+
+          // then
+          assert.strictEqual(currentURL(), '/parcours/COMBINIX1/sommaire');
+        });
+      });
+
+      module('when using fill in code page with the campaign code', function () {
+        test('it redirects to combined course summary', async function (assert) {
+          // given
+          combinedCourse.update({ status: 'STARTED' });
+          const screen = await visit('/campagnes');
+
+          // when
+          await fillByLabel(`${t('pages.fill-in-campaign-code.label')} *`, 'ABCDIAG');
+          await click(screen.getByRole('button', { name: t('pages.fill-in-campaign-code.start') }));
+
+          // then
+          assert.strictEqual(currentURL(), '/parcours/COMBINIX1/sommaire');
         });
       });
     });

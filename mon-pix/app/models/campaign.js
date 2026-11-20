@@ -64,4 +64,12 @@ export default class Campaign extends Model {
     }
     return this.customResultPageButtonUrl.includes('/parcours/');
   }
+
+  get combinedCourseCode() {
+    if (!this.isPartOfCombinedCourse) {
+      return null;
+    }
+
+    return this.customResultPageButtonUrl?.match(/\/parcours\/([^/?#]+)/)?.[1] ?? null;
+  }
 }
