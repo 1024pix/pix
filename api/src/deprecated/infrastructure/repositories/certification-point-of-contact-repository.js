@@ -169,10 +169,7 @@ async function _removeDisabledCertificationCenterAccesses({ certificationPointOf
     )
     .where('certification-center-memberships.disabledAt', null);
 
-  return _.chain(certificationCenters)
-    .map((certificationCenter) => certificationCenter.certificationCenterId)
-    .compact()
-    .value();
+  return certificationCenters.map((certificationCenter) => certificationCenter.certificationCenterId).filter(Boolean);
 }
 
 /**

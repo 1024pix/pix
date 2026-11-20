@@ -139,7 +139,7 @@ async function _getLearningContentByTubes(tubes, locale) {
     competence.thematics = thematicsByCompetenceId.get(competence.id) ?? [];
   });
 
-  const allAreaIds = _.map(competences, (competence) => competence.areaId);
+  const allAreaIds = competences.map((competence) => competence.areaId);
   const uniqAreaIds = _.uniq(allAreaIds, 'id');
   const areas = await areaRepository.findByRecordIds({ areaIds: uniqAreaIds, locale });
   const competencesByAreaId = Map.groupBy(competences, (competence) => competence.areaId);

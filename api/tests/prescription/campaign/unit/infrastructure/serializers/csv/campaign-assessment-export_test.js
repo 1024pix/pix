@@ -1,8 +1,10 @@
 import { text } from 'node:stream/consumers';
 
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { CampaignAssessmentExport } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/csv/campaign-assessment-export.js';
+import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.ts';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
 
@@ -333,6 +335,45 @@ describe('Unit | Serializer | CSV | campaign-assessment-export', function () {
 
       // then
       expect(csv).to.equal(expectedHeader);
+    });
+
+    it('should export a line for a completed participation that is not shared', async function () {
+      // given
+      const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({
+        participantFirstName: 'Ada',
+        participantLastName: 'Lovelace',
+        isCompleted: true,
+        sharedAt: null,
+        masteryRate: null,
+        pixScore: null,
+        status: CampaignParticipationStatuses.TO_SHARE,
+      });
+      const knowledgeElementForParticipationService = {
+        findUniqByUsersOrCampaignParticipationIds: sinon.stub().resolves([]),
+      };
+      const campaignAssessmentExport = new CampaignAssessmentExport({
+        organization,
+        campaign,
+        competences,
+        targetProfile,
+        learningContent: domainBuilder.buildCampaignLearningContent.withSimpleContent(),
+        stageCollection,
+        translate,
+      });
+
+      // when
+      const csv = await text(
+        campaignAssessmentExport.export({
+          campaignParticipationInfos: [campaignParticipationInfo],
+          knowledgeElementForParticipationService,
+        }),
+      );
+
+      // then
+      const [, participationLine] = csv.split('\n');
+      expect(participationLine).to.equal(
+        '"";1;"AZERTY123";"name";"";"Lovelace";"Ada";1;"01/01/2020 01:00";"Non";"NA";"NA";"NA";"NA";"NA";"NA";"NA";"NA"',
+      );
     });
   });
 });

@@ -194,7 +194,7 @@ async function _getLearningContent(targetProfileId, tubesData, locale) {
     tube.level = tubeData.level;
   }
 
-  const skillIds = _.uniq(_.flatten(_.map(tubes, 'skillIds')));
+  const skillIds = _.uniq(_.flatten(tubes.map((item) => item.skillIds)));
   const skills = await skillRepository.findActiveByRecordIds(skillIds);
 
   return {

@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import dayjs from 'dayjs';
-import _ from 'lodash';
 import sinon from 'sinon';
 
 import { OrganizationLearner } from '../../../../../src/prescription/learner-management/domain/models/OrganizationLearner.js';
@@ -30,7 +29,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       expect(anyOrganizationLearner.firstName).to.equal(organizationLearner1.firstName);
       expect(anyOrganizationLearner.lastName).to.equal(organizationLearner1.lastName);
       expect(anyOrganizationLearner.birthdate).to.deep.equal(organizationLearner1.birthdate);
-      expect(_.map(organizationLearnersResult, 'id')).to.have.members([
+      expect(organizationLearnersResult.map((item) => item.id)).to.have.members([
         organizationLearner1.id,
         organizationLearner2.id,
       ]);
@@ -374,7 +373,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       const organizationLearners = await organizationLearnerRepository.findByUserId({ userId });
 
       // then
-      expect(_.map(organizationLearners, 'id')).to.have.members([
+      expect(organizationLearners.map((item) => item.id)).to.have.members([
         firstOrganizationLearner.id,
         secondOrganizationLearner.id,
       ]);
@@ -394,7 +393,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       const organizationLearners = await organizationLearnerRepository.findByUserId({ userId });
 
       // then
-      expect(_.map(organizationLearners, 'id')).to.deep.include.ordered.members([
+      expect(organizationLearners.map((item) => item.id)).to.deep.include.ordered.members([
         firstOrganizationLearner.id,
         secondOrganizationLearner.id,
         thirdOrganizationLearner.id,

@@ -78,7 +78,7 @@ describe('Integration | Repository | Target-profile', function () {
       // given
       targetProfileIds = [targetProfile1.id];
 
-      const expectedTargetProfilesAttributes = _.map([targetProfile1], (item) =>
+      const expectedTargetProfilesAttributes = [targetProfile1].map((item) =>
         _.pick(item, ['id', 'name', 'organizationId', 'outdated']),
       );
 
@@ -86,7 +86,7 @@ describe('Integration | Repository | Target-profile', function () {
       const foundTargetProfiles = await targetProfileRepository.findByIds(targetProfileIds);
 
       // then
-      const foundTargetProfilesAttributes = _.map(foundTargetProfiles, (item) =>
+      const foundTargetProfilesAttributes = foundTargetProfiles.map((item) =>
         _.pick(item, ['id', 'name', 'organizationId', 'outdated']),
       );
       expect(foundTargetProfilesAttributes).to.deep.equal(expectedTargetProfilesAttributes);
@@ -100,7 +100,7 @@ describe('Integration | Repository | Target-profile', function () {
 
       targetProfileIds = [targetProfile1.id, targetProfileIdNotExisting, targetProfile2.id, targetProfile3.id];
 
-      const expectedTargetProfilesAttributes = _.map([targetProfile1, targetProfile3, targetProfile2], (item) =>
+      const expectedTargetProfilesAttributes = [targetProfile1, targetProfile3, targetProfile2].map((item) =>
         _.pick(item, ['id', 'name', 'organizationId', 'outdated']),
       );
 
@@ -108,7 +108,7 @@ describe('Integration | Repository | Target-profile', function () {
       const foundTargetProfiles = await targetProfileRepository.findByIds(targetProfileIds);
 
       // then
-      const foundTargetProfilesAttributes = _.map(foundTargetProfiles, (item) =>
+      const foundTargetProfilesAttributes = foundTargetProfiles.map((item) =>
         _.pick(item, ['id', 'name', 'organizationId', 'outdated']),
       );
       expect(foundTargetProfilesAttributes).to.deep.members(expectedTargetProfilesAttributes);
@@ -122,7 +122,7 @@ describe('Integration | Repository | Target-profile', function () {
       const foundTargetProfiles = await targetProfileRepository.findByIds(targetProfileIds);
 
       // then
-      const foundTargetProfilesAttributes = _.map(foundTargetProfiles, (item) =>
+      const foundTargetProfilesAttributes = foundTargetProfiles.map((item) =>
         _.pick(item, ['id', 'name', 'organizationId', 'outdated']),
       );
       expect(foundTargetProfilesAttributes).to.deep.equal([]);

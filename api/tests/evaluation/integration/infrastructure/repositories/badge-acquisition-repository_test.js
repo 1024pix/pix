@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import _ from 'lodash';
 
 import * as badgeAcquisitionRepository from '../../../../../src/evaluation/infrastructure/repositories/badge-acquisition-repository.js';
 import { deleteUserIdOnNonCertifiableBadgesForCampaignParticipations } from '../../../../../src/evaluation/infrastructure/repositories/badge-acquisition-repository.js';
@@ -358,7 +357,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
         });
 
         // then
-        expect(_.map(acquiredBadgesByCampaignParticipations[campaignParticipationId], 'id')).to.deep.equal([
+        expect(acquiredBadgesByCampaignParticipations[campaignParticipationId].map((item) => item.id)).to.deep.equal([
           badge1.id,
           badge2.id,
         ]);

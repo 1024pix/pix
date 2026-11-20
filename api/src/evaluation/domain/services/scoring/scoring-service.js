@@ -52,13 +52,11 @@ function _getPixScoreAheadOfNextLevel(earnedPix) {
 }
 
 function calculatePixScore(knowledgeElements) {
-  return _(knowledgeElements)
-    .groupBy('competenceId')
-    .values()
-    .map((knowledgeElementsByCompetence) =>
-      calculateScoringInformationForCompetence({ knowledgeElements: knowledgeElementsByCompetence }),
-    )
-    .sumBy('pixScoreForCompetence');
+  const knowledgeElementsByCompetenceId = Object.groupBy(knowledgeElements, ({ competenceId }) => competenceId);
+  const scoringInformations = Object.values(knowledgeElementsByCompetenceId).map((knowledgeElementsByCompetence) =>
+    calculateScoringInformationForCompetence({ knowledgeElements: knowledgeElementsByCompetence }),
+  );
+  return _.sumBy(scoringInformations, 'pixScoreForCompetence');
 }
 
 export { calculatePixScore, calculateScoringInformationForCompetence, getBlockedLevel, getBlockedPixScore };

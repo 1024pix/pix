@@ -57,9 +57,8 @@ const serialize = function (certificationPointOfContact) {
     },
     transform(certificationPointOfContact) {
       const transformedCertificationPointOfContact = _.clone(certificationPointOfContact);
-      transformedCertificationPointOfContact.allowedCertificationCenterAccesses = _.map(
-        certificationPointOfContact.allowedCertificationCenterAccesses,
-        (access) => {
+      transformedCertificationPointOfContact.allowedCertificationCenterAccesses =
+        certificationPointOfContact.allowedCertificationCenterAccesses.map((access) => {
           return {
             ...access,
             habilitations: access.habilitations.map(({ id, label, key }) => ({
@@ -74,8 +73,7 @@ const serialize = function (certificationPointOfContact) {
             pixCertifScoBlockedAccessDateCollege: access.pixCertifScoBlockedAccessDateCollege ?? null,
             pixCertifScoBlockedAccessDateLycee: access.pixCertifScoBlockedAccessDateLycee ?? null,
           };
-        },
-      );
+        });
 
       return transformedCertificationPointOfContact;
     },

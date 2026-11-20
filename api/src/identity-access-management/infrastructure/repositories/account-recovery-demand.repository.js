@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { AccountRecoveryDemand } from '../../domain/models/AccountRecoveryDemand.js';
@@ -9,7 +7,7 @@ const _toDomain = (accountRecoveryDemandDTO) => {
 };
 
 const _toDomainArray = (accountRecoveryDemandsDTOs) => {
-  return _.map(accountRecoveryDemandsDTOs, _toDomain);
+  return accountRecoveryDemandsDTOs.map(_toDomain);
 };
 
 const findByTemporaryKey = async function (temporaryKey) {

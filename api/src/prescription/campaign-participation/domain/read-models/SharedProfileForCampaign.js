@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 
-const { map, isEmpty } = lodash;
+const { isEmpty } = lodash;
 
 import { Scorecard } from '../../../../evaluation/domain/models/Scorecard.js';
 
@@ -32,7 +32,7 @@ class SharedProfileForCampaign {
 
   _buildScorecards(userId, competences, allAreas, knowledgeElementsGroupedByCompetenceId) {
     if (isEmpty(knowledgeElementsGroupedByCompetenceId)) return [];
-    return map(competences, (competence) => {
+    return competences.map((competence) => {
       const competenceId = competence.id;
       const area = allAreas.find((area) => area.id === competence.areaId);
       const knowledgeElements = knowledgeElementsGroupedByCompetenceId[competenceId];

@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import _ from 'lodash';
 import sinon from 'sinon';
 
 import { User } from '../../../../../src/identity-access-management/domain/models/User.js';
@@ -167,7 +166,7 @@ describe('Integration | Team | Infrastructure | Repository | membership-reposito
       const memberships = await membershipRepository.findByOrganizationId({ organizationId: organization_1.id });
 
       // then
-      expect(_.map(memberships, 'user.id')).to.have.members([user_1.id, user_2.id]);
+      expect(memberships.map((item) => item.user.id)).to.have.members([user_1.id, user_2.id]);
     });
 
     it('orders memberships by id', async function () {
@@ -205,7 +204,7 @@ describe('Integration | Team | Infrastructure | Repository | membership-reposito
       const memberships = await membershipRepository.findByOrganizationId({ organizationId: organization.id });
 
       // then
-      expect(_.map(memberships, 'id')).to.deep.include.ordered.members([
+      expect(memberships.map((item) => item.id)).to.deep.include.ordered.members([
         membership_1.id,
         membership_2.id,
         membership_3.id,
@@ -245,7 +244,7 @@ describe('Integration | Team | Infrastructure | Repository | membership-reposito
       const memberships = await membershipRepository.findAdminsByOrganizationId({ organizationId: organization_1.id });
 
       // then
-      expect(_.map(memberships, 'user.id')).to.have.members([user_1.id]);
+      expect(memberships.map((item) => item.user.id)).to.have.members([user_1.id]);
     });
 
     it('orders memberships by id', async function () {
@@ -283,7 +282,7 @@ describe('Integration | Team | Infrastructure | Repository | membership-reposito
       const memberships = await membershipRepository.findAdminsByOrganizationId({ organizationId: organization.id });
 
       // then
-      expect(_.map(memberships, 'id')).to.deep.include.ordered.members([
+      expect(memberships.map((item) => item.id)).to.deep.include.ordered.members([
         membership_1.id,
         membership_2.id,
         membership_3.id,
@@ -391,7 +390,7 @@ describe('Integration | Team | Infrastructure | Repository | membership-reposito
 
         // then
         expect(matchingMemberships).to.have.lengthOf(2);
-        expect(_.map(matchingMemberships, 'user.firstName')).to.have.members(['André', 'Andréa']);
+        expect(matchingMemberships.map((item) => item.user.firstName)).to.have.members(['André', 'Andréa']);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
@@ -422,7 +421,7 @@ describe('Integration | Team | Infrastructure | Repository | membership-reposito
 
         // then
         expect(matchingMemberships).to.have.lengthOf(2);
-        expect(_.map(matchingMemberships, 'user.lastName')).to.have.members(['André', 'Andréa']);
+        expect(matchingMemberships.map((item) => item.user.lastName)).to.have.members(['André', 'Andréa']);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
@@ -453,7 +452,10 @@ describe('Integration | Team | Infrastructure | Repository | membership-reposito
 
         // then
         expect(matchingMemberships).to.have.lengthOf(2);
-        expect(_.map(matchingMemberships, 'user.email')).to.have.members(['andre@example.net', 'andrea@example.net']);
+        expect(matchingMemberships.map((item) => item.user.email)).to.have.members([
+          'andre@example.net',
+          'andrea@example.net',
+        ]);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
@@ -513,9 +515,15 @@ describe('Integration | Team | Infrastructure | Repository | membership-reposito
           });
 
           // then
-          expect(_.map(matchingMemberships, 'user.firstName')).to.have.members(['firstName_ok_1', 'firstName_ok_2']);
-          expect(_.map(matchingMemberships, 'user.lastName')).to.have.members(['lastName_ok_1', 'lastName_ok_2']);
-          expect(_.map(matchingMemberships, 'user.email')).to.have.members([
+          expect(matchingMemberships.map((item) => item.user.firstName)).to.have.members([
+            'firstName_ok_1',
+            'firstName_ok_2',
+          ]);
+          expect(matchingMemberships.map((item) => item.user.lastName)).to.have.members([
+            'lastName_ok_1',
+            'lastName_ok_2',
+          ]);
+          expect(matchingMemberships.map((item) => item.user.email)).to.have.members([
             'email_ok_1@example.net',
             'email_ok_2@example.net',
           ]);
@@ -547,7 +555,7 @@ describe('Integration | Team | Infrastructure | Repository | membership-reposito
         });
 
         // then
-        expect(_.map(matchingMemberships, 'id')).to.have.members([membershipId]);
+        expect(matchingMemberships.map((item) => item.id)).to.have.members([membershipId]);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
@@ -926,7 +934,7 @@ describe('Integration | Team | Infrastructure | Repository | membership-reposito
       const memberships = await membershipRepository.findByUserId(userId);
 
       // then
-      expect(_.map(memberships, 'id')).to.have.members([membership1.id, membership2.id]);
+      expect(memberships.map((item) => item.id)).to.have.members([membership1.id, membership2.id]);
     });
   });
 });

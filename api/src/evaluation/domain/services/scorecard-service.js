@@ -87,7 +87,7 @@ export async function resetScorecard({
 }) {
   const newKnowledgeElements = await _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository });
 
-  const resetSkillIds = _.map(newKnowledgeElements, (knowledgeElement) => knowledgeElement.skillId);
+  const resetSkillIds = newKnowledgeElements.map((knowledgeElement) => knowledgeElement.skillId);
 
   // user can have only answered to questions in campaign, in that case, competenceEvaluation does not exists
   await _resetCampaignAssessments({

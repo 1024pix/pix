@@ -159,7 +159,7 @@ export class DatabaseConnection {
       'view-active-organization-learners',
     );
 
-    const tables = _.map(tablesToDelete, (tableToDelete) => `"${tableToDelete}"`).join();
+    const tables = tablesToDelete.map((tableToDelete) => `"${tableToDelete}"`).join();
 
     // eslint-disable-next-line knex/avoid-injections
     return this.knex.raw(`TRUNCATE ${tables}`);
@@ -172,7 +172,7 @@ export class DatabaseConnection {
     );
 
     const rows = resultSet.rows;
-    return _.map(rows, 'table_name');
+    return rows.map((item) => item.table_name);
   }
 
   getPoolMetrics() {

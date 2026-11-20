@@ -21,7 +21,7 @@ const STRICT_MATCH_RATIO = 0;
 
 export function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
   const standardizedUser = _standardizeUser(user);
-  const standardizedMatchingUserCandidates = lodash.map(matchingUserCandidates, _standardizeMatchingCandidate);
+  const standardizedMatchingUserCandidates = matchingUserCandidates.map(_standardizeMatchingCandidate);
 
   const foundUserId = _findMatchingCandidateId(
     standardizedMatchingUserCandidates,

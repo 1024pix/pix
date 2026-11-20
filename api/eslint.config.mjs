@@ -19,6 +19,11 @@ const i18nJsonPluginCompat = {
   ),
 };
 
+// Setting no-restricted-syntax again replaces the shared options instead of adding to them, so they are spread back in
+const pixRestrictedSyntax = pixRecommendedConfig.find((config) => config.rules?.['no-restricted-syntax']).rules[
+  'no-restricted-syntax'
+];
+
 export default defineConfig([
   // Linter setup
   { linterOptions: { reportUnusedDisableDirectives: 'error' } },
@@ -122,7 +127,7 @@ export default defineConfig([
       ...i18nJsonPlugin.configs.recommended.rules,
     },
   },
-  // Overridden rules for "db/migrations" files : old migrations are never modified
+  // Overridden rules for "db/migrations" files
   {
     files: ['db/migrations/**/*.{js,mjs}'],
     rules: { 'no-useless-assignment': 'off' },
@@ -143,7 +148,7 @@ export default defineConfig([
     files: ['src/**/repositories/**/*.{js,ts}', 'src/**/usecases/**/*.{js,ts}'],
     rules: { '@1024pix/no-linear-lookup-in-loop': 'error' },
   },
-  // Native Array.prototype.find replaces lodash find
+  // Native Array.prototype methods replace lodash find and map
   {
     files: ['**/*.{js,mjs,ts}'],
     rules: {
@@ -151,6 +156,8 @@ export default defineConfig([
         'error',
         { object: '_', property: 'find', message: 'Use the native Array.prototype.find instead of lodash find.' },
         { object: 'lodash', property: 'find', message: 'Use the native Array.prototype.find instead of lodash find.' },
+        { object: '_', property: 'map', message: 'Use the native Array.prototype.map instead of lodash map.' },
+        { object: 'lodash', property: 'map', message: 'Use the native Array.prototype.map instead of lodash map.' },
       ],
       'no-restricted-imports': [
         'error',
@@ -158,7 +165,22 @@ export default defineConfig([
           paths: [
             { name: 'lodash', importNames: ['find'], message: 'Use the native Array.prototype.find instead.' },
             { name: 'lodash/find.js', message: 'Use the native Array.prototype.find instead.' },
+            { name: 'lodash', importNames: ['map'], message: 'Use the native Array.prototype.map instead.' },
+            { name: 'lodash/map.js', message: 'Use the native Array.prototype.map instead.' },
           ],
+        },
+      ],
+      'no-restricted-syntax': [
+        ...pixRestrictedSyntax,
+        {
+          selector:
+            "CallExpression[callee.property.name='map'][callee.object.type='CallExpression'][callee.object.callee.name='_']",
+          message: 'Use the native Array.prototype.map instead of lodash map.',
+        },
+        {
+          selector:
+            "CallExpression[callee.property.name='map'][callee.object.type='CallExpression'][callee.object.callee.object.name='_'][callee.object.callee.property.name='chain']",
+          message: 'Use the native Array.prototype.map instead of lodash map.',
         },
       ],
     },
