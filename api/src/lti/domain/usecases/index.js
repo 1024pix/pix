@@ -13,6 +13,7 @@ import { getLtiCampaign } from './get-lti-campaign.usecase.js';
 import { getLtiCampaignsByOrganizations } from './get-lti-campaigns-by-organizations.usecase.js';
 import { listLtiPublicKeys } from './list-lti-public-keys.usecase.js';
 import { registerLtiPlatform } from './register-lti-platform.usecase.js';
+import { sendCampaignParticipationResult } from './send-campaign-participation-result.usecase.js';
 
 const utils = {
   httpAgent,
@@ -25,6 +26,7 @@ const repositories = {
   ltiPlatformRepository,
   organizationRepository,
   ltiCampaignRepository: injectedLtiRepositories.ltiCampaignRepository,
+  ltiCampaignParticipationRepository: injectedLtiRepositories.ltiCampaignParticipationRepository,
 };
 
 const usecasesWithoutInjectedDependencies = {
@@ -33,6 +35,7 @@ const usecasesWithoutInjectedDependencies = {
   registerLtiPlatform,
   getLtiCampaign,
   getLtiCampaignsByOrganizations,
+  sendCampaignParticipationResult,
 };
 
 const dependencies = Object.assign({}, repositories, services, utils);
