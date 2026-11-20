@@ -39,7 +39,41 @@ const register = async function (server) {
         handler: (request, h) => creditsLotController.create(request, h),
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés ayant le rôle SUPER_ADMIN ou METIER**\n' +
-            "- L'organisation doit avoir la feature de credits activée",
+            "- L'organisation doit avoir la feature de crédits activée\n" +
+            '- Cette route permet de créer un lot de crédits',
+        ],
+        tags: ['api', 'credits-lots'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/organizations/{organizationId}/credits-lots',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+          {
+            method: securityPreHandlers.makeCheckOrganizationHasFeature(ORGANIZATION_FEATURE.CREDITS_MANAGEMENT.key),
+            assign: 'checkOrganizationHasCreditsFeature',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            organizationId: identifiersType.organizationId,
+          }),
+        },
+        handler: (request, h) => creditsLotController.findOrganizationCreditsLot(request, h),
+        notes: [
+          "- **Cette route permet de récupérer les lots de crédits d'une organisation**\n" +
+            "- L'organisation doit avoir la feature de crédits activée",
         ],
         tags: ['api', 'credits-lots'],
       },

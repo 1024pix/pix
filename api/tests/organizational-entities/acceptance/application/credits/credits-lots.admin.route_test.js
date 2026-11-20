@@ -12,8 +12,13 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | C
       const server = await createServer();
       const creditsManagementFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.CREDITS_MANAGEMENT);
       const structureId = databaseBuilder.factory.buildStructure().id;
-      const organizationId = databaseBuilder.factory.buildOrganization({ structureId }).id;
-      databaseBuilder.factory.buildOrganizationFeature({ organizationId, featureId: creditsManagementFeature.id });
+      const organizationId = databaseBuilder.factory.buildOrganization({
+        structureId,
+      }).id;
+      databaseBuilder.factory.buildOrganizationFeature({
+        organizationId,
+        featureId: creditsManagementFeature.id,
+      });
       const superAdminId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
       await databaseBuilder.commit();
 
@@ -21,7 +26,9 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | C
       const response = await server.inject({
         method: 'POST',
         url: `/api/admin/organizations/${organizationId}/credits-lots`,
-        headers: generateAuthenticatedUserRequestHeaders({ userId: superAdminId }),
+        headers: generateAuthenticatedUserRequestHeaders({
+          userId: superAdminId,
+        }),
         payload: {
           data: {
             type: 'credits-lots',
@@ -44,6 +51,48 @@ describe('Acceptance | Organizational Entities | Application | Route | Admin | C
         .first();
 
       expect(createdCreditsLot.structure_id).to.equal(structureId);
+    });
+  });
+
+  describe('GET /api/admin/organizations/{organizationId}/credits-lots', function () {
+    it('returns a list of credits lots with 200 HTTP status code', async function () {
+      // given
+      const server = await createServer();
+      const structureId = databaseBuilder.factory.buildStructure().id;
+
+      const organizationId = databaseBuilder.factory.buildOrganization({
+        structureId,
+      }).id;
+
+      const creditsManagementFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.CREDITS_MANAGEMENT);
+
+      databaseBuilder.factory.buildOrganizationFeature({
+        organizationId,
+        featureId: creditsManagementFeature.id,
+      });
+
+      const superAdminId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
+
+      databaseBuilder.factory.buildCreditsLot({
+        structureId,
+        createdBy: superAdminId,
+      });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/admin/organizations/${organizationId}/credits-lots`,
+        headers: generateAuthenticatedUserRequestHeaders({
+          userId: superAdminId,
+        }),
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 });

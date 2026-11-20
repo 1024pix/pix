@@ -12,6 +12,13 @@ const create = async function (request, h, dependencies = { creditsLotSerializer
   return h.response(dependencies.creditsLotSerializer.serialize({ id })).created();
 };
 
-const creditsLotController = { create };
+const findOrganizationCreditsLot = async function (request, h, dependencies = { creditsLotSerializer }) {
+  const organizationId = request.params.organizationId;
+
+  const organizationCreditsLot = await usecases.findOrganizationCreditsLot({ organizationId });
+  return dependencies.creditsLotSerializer.serialize(organizationCreditsLot);
+};
+
+const creditsLotController = { create, findOrganizationCreditsLot };
 
 export { creditsLotController };

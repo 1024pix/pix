@@ -54,6 +54,7 @@ export * from './build-complementary-certification-course-result.js';
 export * from './build-complementary-certification-habilitation.js';
 export * from './build-correct-answer-and-knowledge-element.ts';
 export * from './build-correct-answers-and-knowledge-elements-for-learning-content.ts';
+export * from './build-credits-lot.js';
 export * from './build-fact-structure.js';
 export * from './build-feature.js';
 export * from './build-finalized-session.js';

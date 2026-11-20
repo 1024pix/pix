@@ -1,3 +1,4 @@
+import { buildCreditsLot } from './acquisition/build-credits-lot.js';
 import { buildNetwork } from './acquisition/build-network.js';
 import { buildOrganizationLearnerType } from './acquisition/build-organization-learner-type.js';
 import { buildStructure } from './acquisition/build-structure.js';
@@ -248,6 +249,7 @@ import { buildStageCollection as buildStageCollectionForTargetProfileManagement 
 import { buildStageCollection as buildStageCollectionForUserCampaignResults } from './user-campaign-results/build-stage-collection.js';
 
 const acquisition = {
+  buildCreditsLot,
   buildStructure,
   buildNetwork,
   buildOrganizationLearnerType,

@@ -1,4 +1,10 @@
-import { STRUCTURE_CATEGORY_SCO_ID } from '../common/constants.js';
+import { buildCreditsLot } from '../../../database-builder/factory/build-credits-lot.js';
+import { buildOrganizationFeature } from '../../../database-builder/factory/build-organization-feature.js';
+import {
+  FEATURE_CREDITS_MANAGEMENT_ID,
+  STRUCTURE_CATEGORY_SCO_ID,
+  USER_ID_ADMIN_ORGANIZATION,
+} from '../common/constants.js';
 import {
   ADMINISTRATION_TEAM_ALPHA_ID,
   ADMINISTRATION_TEAM_SOLO_ID,
@@ -7,7 +13,11 @@ import {
 } from './constants.js';
 
 function _buildProNetwork(databaseBuilder) {
-  const { network, structure: headStructure } = databaseBuilder.factory.buildNetworkAndHeadOrganization({
+  const {
+    network,
+    organization,
+    structure: headStructure,
+  } = databaseBuilder.factory.buildNetworkAndHeadOrganization({
     name: 'Réseau Professionnel',
     headOrganization: {
       name: 'ABC Comptabilité',
@@ -20,6 +30,20 @@ function _buildProNetwork(databaseBuilder) {
       administrationTeamId: ADMINISTRATION_TEAM_SOLO_ID,
       organizationLearnerTypeId: ORGANIZATION_LEARNER_TYPE_PROFESSIONAL_ID,
     },
+  });
+  buildOrganizationFeature({
+    organizationId: organization.id,
+    featureId: FEATURE_CREDITS_MANAGEMENT_ID,
+  });
+  buildCreditsLot({
+    structureId: headStructure.id,
+    createdBy: USER_ID_ADMIN_ORGANIZATION,
+    reference: 'REF5678',
+  });
+  buildCreditsLot({
+    structureId: headStructure.id,
+    createdBy: USER_ID_ADMIN_ORGANIZATION,
+    reference: 'REF1234',
   });
   _buildRegionalAgencies();
 
