@@ -36,7 +36,7 @@ class FakePgBoss {
     return;
   }
   getQueues() {
-    return;
+    return [];
   }
   getQueue() {
     return { queuedCount: 0 };
@@ -534,6 +534,142 @@ describe('Unit | JobClient', function () {
         expect(pgBossStub.deleteQueue).to.not.have.been.called;
         expect(pgBossStub.createQueue).to.not.have.been.calledWith('test.to-delete.event-queue');
       });
+    });
+  });
+
+  context('orphan queues', function () {
+    const twoDaysAgo = new Date(Date.now() - 2 * 24 * 3600 * 1000);
+    const oneHourAgo = new Date(Date.now() - 3600 * 1000);
+    const initializeWorker = (pgBossStub, jobGroups = [JobGroup.DEFAULT]) =>
+      new JobClient().initialize({ jobGroups, isTestOnly: true, worker: true }, () => pgBossStub);
+
+    it('deletes and unschedules an empty queue that no job class declares', async function () {
+      // given
+      const pgBossStub = new FakePgBoss();
+      sinon
+        .stub(pgBossStub, 'getQueues')
+        .resolves([{ name: 'RemovedJob', queuedCount: 0, activeCount: 0, createdOn: twoDaysAgo }]);
+      sinon.stub(pgBossStub, 'unschedule');
+      sinon.stub(pgBossStub, 'deleteQueue');
+
+      // when
+      await initializeWorker(pgBossStub);
+
+      // then
+      expect(pgBossStub.unschedule).to.have.been.calledWith('RemovedJob');
+      expect(pgBossStub.deleteQueue).to.have.been.calledWith('RemovedJob');
+    });
+
+    [
+      { title: 'queued', counts: { queuedCount: 1, activeCount: 0 } },
+      { title: 'active', counts: { queuedCount: 0, activeCount: 1 } },
+    ].forEach(({ title, counts }) => {
+      it(`unschedules but keeps an undeclared queue that still has ${title} jobs`, async function () {
+        // given
+        const pgBossStub = new FakePgBoss();
+        sinon.stub(pgBossStub, 'getQueues').resolves([{ name: 'RemovedJob', ...counts, createdOn: twoDaysAgo }]);
+        sinon.stub(pgBossStub, 'unschedule');
+        sinon.stub(pgBossStub, 'deleteQueue');
+
+        // when
+        await initializeWorker(pgBossStub);
+
+        // then
+        expect(pgBossStub.unschedule).to.have.been.calledWith('RemovedJob');
+        expect(pgBossStub.deleteQueue).to.not.have.been.calledWith('RemovedJob');
+      });
+    });
+
+    it('unsubscribes a kept queue from the events still declared by the code', async function () {
+      // given
+      const pgBossStub = new FakePgBoss();
+      sinon
+        .stub(pgBossStub, 'getQueues')
+        .resolves([{ name: 'RemovedEventHandler', queuedCount: 1, activeCount: 0, createdOn: twoDaysAgo }]);
+      sinon.stub(pgBossStub, 'unsubscribe');
+      sinon.stub(pgBossStub, 'deleteQueue');
+
+      // when
+      await initializeWorker(pgBossStub);
+
+      // then
+      expect(pgBossStub.unsubscribe).to.have.been.calledWith(TestEvent.eventName, 'RemovedEventHandler');
+      expect(pgBossStub.deleteQueue).to.not.have.been.calledWith('RemovedEventHandler');
+    });
+
+    it('leaves untouched an undeclared queue created recently, as a newer deployment may own it', async function () {
+      // given
+      const pgBossStub = new FakePgBoss();
+      sinon
+        .stub(pgBossStub, 'getQueues')
+        .resolves([{ name: 'JobOfNewerDeployment', queuedCount: 0, activeCount: 0, createdOn: oneHourAgo }]);
+      sinon.stub(pgBossStub, 'unschedule');
+      sinon.stub(pgBossStub, 'deleteQueue');
+
+      // when
+      await initializeWorker(pgBossStub);
+
+      // then
+      expect(pgBossStub.unschedule).to.not.have.been.calledWith('JobOfNewerDeployment');
+      expect(pgBossStub.deleteQueue).to.not.have.been.calledWith('JobOfNewerDeployment');
+    });
+
+    it('leaves untouched the internal queues of pg-boss', async function () {
+      // given
+      const pgBossStub = new FakePgBoss();
+      sinon
+        .stub(pgBossStub, 'getQueues')
+        .resolves([{ name: '__pgboss__send-it', queuedCount: 0, activeCount: 0, createdOn: twoDaysAgo }]);
+      sinon.stub(pgBossStub, 'unschedule');
+      sinon.stub(pgBossStub, 'deleteQueue');
+
+      // when
+      await initializeWorker(pgBossStub);
+
+      // then
+      expect(pgBossStub.unschedule).to.not.have.been.calledWith('__pgboss__send-it');
+      expect(pgBossStub.deleteQueue).to.not.have.been.calledWith('__pgboss__send-it');
+    });
+
+    it('keeps the queues declared by the code, whatever their job group or status', async function () {
+      // given
+      const declaredQueueNames = [
+        config.pgBoss.deadLetterQueueName,
+        AuditLoggingJob.name,
+        'TEST.ComputeOrganizationLearnersCertificabilityJob',
+        ValidateSiecleFileJob.name,
+        'test.to-register.event-queue',
+      ];
+      const pgBossStub = new FakePgBoss();
+      sinon
+        .stub(pgBossStub, 'getQueues')
+        .resolves(declaredQueueNames.map((name) => ({ name, queuedCount: 0, activeCount: 0, createdOn: twoDaysAgo })));
+      sinon.stub(pgBossStub, 'deleteQueue');
+      sinon.stub(config.pgBoss, 'validationFileJobEnabled').value(false);
+
+      // when
+      await initializeWorker(pgBossStub, [JobGroup.MADDO]);
+
+      // then
+      declaredQueueNames.forEach((name) => expect(pgBossStub.deleteQueue).to.not.have.been.calledWith(name));
+    });
+
+    it('does not prevent the worker from starting when a deletion fails', async function () {
+      // given
+      const pgBossStub = new FakePgBoss();
+      sinon.stub(pgBossStub, 'getQueues').resolves([
+        { name: 'FirstRemovedJob', queuedCount: 0, activeCount: 0, createdOn: twoDaysAgo },
+        { name: 'SecondRemovedJob', queuedCount: 0, activeCount: 0, createdOn: twoDaysAgo },
+      ]);
+      sinon.stub(pgBossStub, 'deleteQueue').withArgs('FirstRemovedJob').rejects(new Error('deletion failed'));
+      const jobClient = new JobClient();
+
+      // when
+      await jobClient.initialize({ jobGroups: [JobGroup.DEFAULT], isTestOnly: true, worker: true }, () => pgBossStub);
+
+      // then
+      expect(jobClient.isInitialized).to.be.true;
+      expect(pgBossStub.deleteQueue).to.have.been.calledWith('SecondRemovedJob');
     });
   });
 
