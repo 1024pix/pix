@@ -3,8 +3,8 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { fillIn } from '@ember/test-helpers';
 import { waitFor, within } from '@testing-library/dom';
-import { t } from 'ember-intl/test-support';
 import UserOverview from 'pix-admin/components/users/user-overview';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

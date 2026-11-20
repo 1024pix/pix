@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import TrainingDetailsCard from 'pix-admin/components/trainings/training-details-card';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

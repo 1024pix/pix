@@ -1,7 +1,7 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import CopyButton from 'pix-admin/components/ui/copy-button';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

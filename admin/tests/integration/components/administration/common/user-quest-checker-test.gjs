@@ -1,9 +1,9 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import UserQuestChecker from 'pix-admin/components/administration/common/user-quest-checker';
 import ENV from 'pix-admin/config/environment';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

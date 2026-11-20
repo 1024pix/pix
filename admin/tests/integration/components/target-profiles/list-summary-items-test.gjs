@@ -1,7 +1,7 @@
 import { render, within } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import ListSummaryItems from 'pix-admin/components/target-profiles/list-summary-items';
 import { categories as CATEGORIES } from 'pix-admin/helpers/target-profile-categories.js';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

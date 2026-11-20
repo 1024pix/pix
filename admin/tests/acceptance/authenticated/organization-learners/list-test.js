@@ -1,12 +1,11 @@
 import { fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
-import setupIntl from '../../../helpers/setup-intl';
+import setupIntl, { t } from '../../../helpers/setup-intl';
 
 module('Acceptance | authenticated/organization-learners | list', function (hooks) {
   setupApplicationTest(hooks);

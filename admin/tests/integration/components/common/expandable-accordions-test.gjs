@@ -1,7 +1,7 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import ExpandableAccordion from 'pix-admin/components/common/expandable-accordion';
 import ExpandableAccordions from 'pix-admin/components/common/expandable-accordions';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';

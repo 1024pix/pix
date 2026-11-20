@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import { PixToastContainer } from '@1024pix/nebulix-ember';
 import { triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import OrganizationsBatchArchive from 'pix-admin/components/administration/deployment/organizations-batch-archive';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

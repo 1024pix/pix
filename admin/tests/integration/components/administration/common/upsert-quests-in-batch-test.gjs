@@ -3,9 +3,9 @@ import { PixToastContainer } from '@1024pix/nebulix-ember';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
 import { getDefaultNormalizer } from '@testing-library/dom';
-import { t } from 'ember-intl/test-support';
 import UpsertQuestsInBatch from 'pix-admin/components/administration/common/upsert-quests-in-batch';
 import ENV from 'pix-admin/config/environment';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import CombinedCourseBlueprintList from 'pix-admin/templates/authenticated/combined-course-blueprints/list';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';

@@ -1,13 +1,12 @@
 import { clickByName, visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import selectOption from 'pix-admin/tests/helpers/select-option';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
-import setupIntl from '../../../helpers/setup-intl';
+import setupIntl, { t } from '../../../helpers/setup-intl';
 
 module('Acceptance | Combined course blueprint | New', function (hooks) {
   setupApplicationTest(hooks);

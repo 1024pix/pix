@@ -1,10 +1,10 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { statusToDisplayName } from 'pix-admin/models/session';
 import { FINALIZED } from 'pix-admin/models/session';
 import setupIntl from 'pix-admin/tests/helpers/setup-intl';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';

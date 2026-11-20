@@ -1,7 +1,7 @@
 import { clickByName, fillByLabel, visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
-import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import setupIntl from 'pix-admin/tests/helpers/setup-intl';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { waitForDialogClose } from 'pix-admin/tests/helpers/wait-for';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
