@@ -5,8 +5,6 @@ function escapeHtml(value) {
 }
 
 function serialize({ targetLinkUri, clientId, loginHint, ltiMessageHint, authorizationEndpoint, nonce, state }) {
-  const scriptSrc = 'document.ltiAutoSubmitForm.submit();';
-
   return `<!DOCTYPE html>
 <html>
   <body>
@@ -21,7 +19,7 @@ function serialize({ targetLinkUri, clientId, loginHint, ltiMessageHint, authori
       <input type="hidden" name="lti_message_hint" value="${escapeHtml(ltiMessageHint)}">
       <input type="hidden" name="response_mode" value="form_post">
     </form>
-    <script>${scriptSrc}</script>
+    <script>document.ltiAutoSubmitForm.submit();</script>
   </body>
 </html>
 `;
