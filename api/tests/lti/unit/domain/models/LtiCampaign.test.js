@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { CampaignParticipationResult } from '../../../../../src/lti/domain/models/CampaignParticipationResult.js';
 import { LtiCampaign } from '../../../../../src/lti/domain/models/LtiCampaign.js';
 
 describe('Unit | LTI | Domain | Model | LtiCampaign', function () {
@@ -227,6 +228,87 @@ describe('Unit | LTI | Domain | Model | LtiCampaign', function () {
         // then
         expect(lineItems).to.deep.equal([]);
       });
+    });
+  });
+
+  describe('#buildLineItemScores', function () {
+    const competences = [
+      { id: 'recCompetence1', index: '1.1', name: 'Mener une recherche', maxLevel: 3.4 },
+      { id: 'recCompetence2', index: '1.2', name: 'Gérer des données', maxLevel: 5 },
+    ];
+
+    function buildResult({ masteryRate = null, pixScore = null, competenceResults = [] } = {}) {
+      return new CampaignParticipationResult({
+        campaignParticipationId: 456,
+        masteryRate,
+        pixScore,
+        competences: competenceResults,
+      });
+    }
+
+    it('builds a score per competence, then a mastery rate score for an assessment campaign', function () {
+      // given
+      const campaign = buildLtiCampaign({ type: 'ASSESSMENT', competences });
+      const result = buildResult({
+        masteryRate: 0.567,
+        competenceResults: [
+          { id: 'recCompetence1', index: '1.1', name: 'Mener une recherche', maxLevel: 3.4, reachedLevel: 2.5 },
+          { id: 'recCompetence2', index: '1.2', name: 'Gérer des données', maxLevel: 5, reachedLevel: 4 },
+        ],
+      });
+
+      // when
+      const scores = campaign.buildLineItemScores(result);
+
+      // then
+      expect(scores).to.deep.equal([
+        { resourceId: 'pix:campaign:123:competence:recCompetence1', scoreGiven: 2.5, scoreMaximum: 3 },
+        { resourceId: 'pix:campaign:123:competence:recCompetence2', scoreGiven: 4, scoreMaximum: 5 },
+        { resourceId: 'pix:campaign:123:mastery-rate', scoreGiven: 57, scoreMaximum: 100 },
+      ]);
+    });
+
+    it('builds a Pix score for a profiles collection campaign', function () {
+      // given
+      const campaign = buildLtiCampaign({ type: 'PROFILES_COLLECTION' });
+
+      // when
+      const scores = campaign.buildLineItemScores(buildResult({ pixScore: 512 }));
+
+      // then
+      expect(scores).to.deep.equal([{ resourceId: 'pix:campaign:123:pix-score', scoreGiven: 512, scoreMaximum: 1024 }]);
+    });
+
+    it('caps the competence score to the line item maximum score', function () {
+      // given
+      const campaign = buildLtiCampaign({ type: 'ASSESSMENT', competences });
+      const result = buildResult({
+        masteryRate: 1,
+        competenceResults: [
+          { id: 'recCompetence1', index: '1.1', name: 'Mener une recherche', maxLevel: 3.4, reachedLevel: 3.2 },
+        ],
+      });
+
+      // when
+      const [competence1Score] = campaign.buildLineItemScores(result);
+
+      // then
+      expect(competence1Score).to.deep.equal({
+        resourceId: 'pix:campaign:123:competence:recCompetence1',
+        scoreGiven: 3,
+        scoreMaximum: 3,
+      });
+    });
+
+    it('does not build scores for missing results', function () {
+      // given
+      const campaign = buildLtiCampaign({ type: 'ASSESSMENT', competences });
+
+      // when
+      const scores = campaign.buildLineItemScores(buildResult());
+
+      // then
+      expect(scores).to.deep.equal([]);
     });
   });
 });
