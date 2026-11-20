@@ -1,5 +1,40 @@
 # Pix Changelog
 
+# [5.547.0](https://github.com/1024pix/pix/compare/v5.546.1...v5.547.0) (2026-11-20)
+
+### :rocket: Amélioration
+
+- [#18994](https://github.com/1024pix/pix/pull/18994) Afficher le glossaire d'un module dans sa preview (PIX-21999)
+- [#18996](https://github.com/1024pix/pix/pull/18996) Changer l'illustration du point clé (PIX-24864)
+- [#18753](https://github.com/1024pix/pix/pull/18753) Mettre à jour le design des épreuves (PIX-24445).
+- [#19000](https://github.com/1024pix/pix/pull/19000) Permettre de trier la liste des sessions de PixCertif par date (PIX-24634).
+- [#18848](https://github.com/1024pix/pix/pull/18848) Permettre la suppression de learners en batch via Pix Admin (BACK) (PIX-24533)
+
+### :bug: Correction
+
+- [#18997](https://github.com/1024pix/pix/pull/18997) Ajoute le prénom de l'utilisateur connecté à la landing page (PIX-25173)
+
+### :building_construction: Tech
+
+- [#18905](https://github.com/1024pix/pix/pull/18905) :seedling: ajout de donnée pour la table `certification_results`
+- [#19006](https://github.com/1024pix/pix/pull/19006) Convertir les adapters "participants" de PixOrga en TS
+- [#18974](https://github.com/1024pix/pix/pull/18974) Exposer le score Pix d'une participation à une campagne de collecte de profils dans le résultat LTI (PIX-25113).
+- [#19002](https://github.com/1024pix/pix/pull/19002) Fix Security Checks run conditions
+- [#19004](https://github.com/1024pix/pix/pull/19004) Remplacer ember-responsive par un service media interne
+- [#18999](https://github.com/1024pix/pix/pull/18999) Revert "[BUMP] Update dependency @ember/string to v4 (mon-pix) (#18968)".
+- [#19011](https://github.com/1024pix/pix/pull/19011) Supprimer le script inline dynamique des pages d'auto-soumission LTI.
+
+### :arrow_up: Montée de version
+
+- [#19016](https://github.com/1024pix/pix/pull/19016) Update aws-sdk-js-v3 monorepo to v3.1168.0 (api)
+- [#19018](https://github.com/1024pix/pix/pull/19018) Update dependency @cyclonedx/cyclonedx-npm to v7.0.1 (root)
+- [#19015](https://github.com/1024pix/pix/pull/19015) Update dependency baseline-browser-mapping to v2.11.37 (high-level-tests/e2e-playwright)
+- [#19007](https://github.com/1024pix/pix/pull/19007) Update dependency cron-parser to v5.10.5 (api)
+- [#19014](https://github.com/1024pix/pix/pull/19014) Update dependency eslint-plugin-ember to v13.10.0 (orga,mon-pix,junior,certif,admin)
+- [#18988](https://github.com/1024pix/pix/pull/18988) Update node to v26
+- [#19009](https://github.com/1024pix/pix/pull/19009) Update Node.js to v24.22.3
+- [#19010](https://github.com/1024pix/pix/pull/19010) Update Node.js to v26
+
 ## [5.546.1](https://github.com/1024pix/pix/compare/v5.546.0...v5.546.1) (2026-11-19)
 
 ### :bug: Correction
