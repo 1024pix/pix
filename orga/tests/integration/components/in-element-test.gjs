@@ -7,7 +7,7 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 module('Integration | Component | In Element', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('should found the id and renders', async function (assert) {
+  test('it finds the id and renders', async function (assert) {
     const screen = await render(
       <template>
         <div id="ninja"></div>
@@ -18,7 +18,7 @@ module('Integration | Component | In Element', function (hooks) {
     assert.dom(screen.getByText('Coucou le chat')).exists();
   });
 
-  test('should wait if the element does not exists yet', async function (assert) {
+  test('it waits for the element', async function (assert) {
     const screen = await render(
       <template>
         <InElement @destinationId="ninja" @waitForElement={{true}}>Coucou le chat</InElement>
