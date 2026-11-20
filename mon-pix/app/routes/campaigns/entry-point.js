@@ -74,6 +74,16 @@ export default class EntryPoint extends Route {
       this.router.replaceWith('campaigns.archived-error', campaign.code);
     } else if (hasParticipated && !isAutonomousCourse) {
       this.router.replaceWith('campaigns.entrance', campaign.code);
+    } else if (campaign.isPartOfCombinedCourse) {
+      const enteringFromCombinedCoursePage = [
+        'combined-courses.combined-course.presentation',
+        'combined-courses.combined-course.tunnel',
+      ].includes(transition.from?.name);
+      if (campaign.combinedCourseCode && !enteringFromCombinedCoursePage) {
+        this.router.replaceWith('combined-courses.combined-course.entry-point', campaign.combinedCourseCode);
+      } else {
+        this.router.replaceWith('organizations.access', campaign.code);
+      }
     } else {
       this.router.replaceWith('campaigns.campaign-landing-page', campaign.code);
     }

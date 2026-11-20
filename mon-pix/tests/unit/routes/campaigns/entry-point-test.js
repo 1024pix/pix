@@ -233,6 +233,146 @@ module('Unit | Route | Entry Point', function (hooks) {
       });
     });
 
+    module('campaign is part of a combined course', function (hooks) {
+      hooks.beforeEach(function () {
+        campaign.isPartOfCombinedCourse = true;
+        campaign.combinedCourseCode = 'COMBINIX1';
+      });
+
+      module('user not connected', function (hooks) {
+        hooks.beforeEach(function () {
+          route.session.isAuthenticated = false;
+          route.currentUser = undefined;
+        });
+
+        test('should redirect to combined course entry point when accessing campaign directly', async function (assert) {
+          //when
+          await route.afterModel(campaign, transition);
+
+          //then
+          sinon.assert.calledOnceWithExactly(
+            route.router.replaceWith,
+            'combined-courses.combined-course.entry-point',
+            'COMBINIX1',
+          );
+          assert.ok(true);
+        });
+
+        test('should redirect to campaign archived error when campaign is not accessible', async function (assert) {
+          //given
+          campaign.isAccessible = false;
+
+          //when
+          await route.afterModel(campaign, transition);
+
+          //then
+          sinon.assert.calledOnceWithExactly(route.router.replaceWith, 'campaigns.archived-error', 'NEW_CODE');
+          assert.ok(true);
+        });
+      });
+
+      module('user connected', function (hooks) {
+        hooks.beforeEach(function () {
+          route.currentUser = { user: { id: '12' } };
+          route.session.isAuthenticated = true;
+        });
+
+        module('when user has not participated yet', function (hooks) {
+          hooks.beforeEach(function () {
+            route.store.queryRecord
+              .withArgs('campaign-participation', { campaignId: '3', userId: '12' })
+              .resolves(null);
+          });
+
+          test('should redirect to combined course entry point when accessing campaign directly', async function (assert) {
+            //when
+            await route.afterModel(campaign, transition);
+
+            //then
+            sinon.assert.calledOnceWithExactly(
+              route.router.replaceWith,
+              'combined-courses.combined-course.entry-point',
+              'COMBINIX1',
+            );
+            assert.ok(true);
+          });
+
+          test('should redirect to combined course entry point when coming from a route outside the combined course', async function (assert) {
+            //given
+            transition.from = { name: 'fill-in-campaign-code' };
+
+            //when
+            await route.afterModel(campaign, transition);
+
+            //then
+            sinon.assert.calledOnceWithExactly(
+              route.router.replaceWith,
+              'combined-courses.combined-course.entry-point',
+              'COMBINIX1',
+            );
+            assert.ok(true);
+          });
+
+          ['combined-courses.combined-course.presentation', 'combined-courses.combined-course.tunnel'].forEach(
+            (fromRouteName) => {
+              test(`should redirect to organization access, skipping campaign landing page, when coming from ${fromRouteName}`, async function (assert) {
+                //given
+                transition.from = { name: fromRouteName };
+
+                //when
+                await route.afterModel(campaign, transition);
+
+                //then
+                sinon.assert.calledOnceWithExactly(route.router.replaceWith, 'organizations.access', 'NEW_CODE');
+                assert.ok(true);
+              });
+            },
+          );
+
+          test('should redirect to organization access when combined course code cannot be found', async function (assert) {
+            //given
+            campaign.combinedCourseCode = null;
+
+            //when
+            await route.afterModel(campaign, transition);
+
+            //then
+            sinon.assert.calledOnceWithExactly(route.router.replaceWith, 'organizations.access', 'NEW_CODE');
+            assert.ok(true);
+          });
+        });
+
+        module('when user has already participated', function (hooks) {
+          hooks.beforeEach(function () {
+            route.store.queryRecord
+              .withArgs('campaign-participation', { campaignId: '3', userId: '12' })
+              .resolves('Ma Participation');
+          });
+
+          test('should redirect to entrance when accessing campaign directly', async function (assert) {
+            //when
+            await route.afterModel(campaign, transition);
+
+            //then
+            sinon.assert.calledOnceWithExactly(route.router.replaceWith, 'campaigns.entrance', 'NEW_CODE');
+            assert.ok(true);
+          });
+
+          test('should redirect to entrance when coming from the combined course', async function (assert) {
+            //given
+            transition.from = { name: 'combined-courses.combined-course.presentation' };
+
+            //when
+            await route.afterModel(campaign, transition);
+
+            //then
+            sinon.assert.calledOnceWithExactly(route.router.replaceWith, 'campaigns.entrance', 'NEW_CODE');
+            assert.ok(true);
+          });
+        });
+      });
+    });
+
     module('participantExternalId', function () {
       module('when there are participantExternalId', function () {
         test('sets the current participantExternalId', async function (assert) {
