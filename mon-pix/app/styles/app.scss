@@ -256,6 +256,11 @@
   .pix-app-layout__navigation {
     padding: 0;
   }
+
+  .pix-app-layout__main:has(.mode-banner--focus) {
+    background: var(--pix-primary-50);
+    box-shadow: 0 0 34px 6px var(--pix-warning-300) inset;
+  }
 }
 
 .modulix-layout {

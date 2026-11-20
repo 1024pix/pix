@@ -12,6 +12,17 @@
   }
 }
 
+.challenge-form-actions {
+  display: flex;
+  flex-direction: column;
+
+  @include breakpoints.device-is('desktop') {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: var(--pix-spacing-3x);
+  }
+}
+
 .challenge-response {
   @extend %pix-body-m;
 
