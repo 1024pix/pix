@@ -403,7 +403,6 @@ describe('Unit | Identity Access Management | Domain | Model | User', function (
         'mustValidateTermsOfService',
         'pixCertifTermsOfServiceAccepted',
         'hasSeenAssessmentInstructions',
-        'hasSeenOtherChallengesTooltip',
         'hasSeenNewDashboardInfo',
         'lang',
         'locale',

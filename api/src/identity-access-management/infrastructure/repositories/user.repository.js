@@ -174,19 +174,6 @@ const updateHasSeenNewDashboardInfoToTrue = async function (id) {
   return new User(user);
 };
 
-const updateHasSeenChallengeTooltip = async function ({ userId, challengeType }) {
-  let user;
-
-  const knexConn = DomainTransaction.getConnection();
-  if (challengeType === 'other') {
-    [user] = await knexConn('users')
-      .where({ id: userId })
-      .update({ hasSeenOtherChallengesTooltip: true, updatedAt: new Date() })
-      .returning('*');
-  }
-  return new User(user);
-};
-
 const isUsernameAvailable = async function (username) {
   const knexConn = DomainTransaction.getConnection();
   const foundUser = await knexConn('users').where({ username }).first();
@@ -283,7 +270,6 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
  * @property {function} updateEmail
  * @property {function} updateEmailConfirmed
  * @property {function} updateHasSeenAssessmentInstructionsToTrue
- * @property {function} updateHasSeenChallengeTooltip
  * @property {function} updateHasSeenNewDashboardInfoToTrue
  * @property {function} updateLastDataProtectionPolicySeenAt
  * @property {function} updateUserDetailsForAdministration
@@ -309,7 +295,6 @@ export {
   updateEmail,
   updateEmailConfirmed,
   updateHasSeenAssessmentInstructionsToTrue,
-  updateHasSeenChallengeTooltip,
   updateHasSeenNewDashboardInfoToTrue,
   updateLastDataProtectionPolicySeenAt,
   updateUserDetailsForAdministration,
@@ -338,7 +323,6 @@ function _toDomainFromDTO({ userDTO, authenticationMethodsDTO = [] }) {
     lastPixCertifTermsOfServiceValidatedAt: userDTO.lastPixCertifTermsOfServiceValidatedAt,
     hasSeenAssessmentInstructions: userDTO.hasSeenAssessmentInstructions,
     hasSeenNewDashboardInfo: userDTO.hasSeenNewDashboardInfo,
-    hasSeenOtherChallengesTooltip: userDTO.hasSeenOtherChallengesTooltip,
     mustValidateTermsOfService: userDTO.mustValidateTermsOfService,
     lang: userDTO.lang,
     locale: userDTO.locale,

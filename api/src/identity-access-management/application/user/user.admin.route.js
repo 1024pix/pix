@@ -122,7 +122,6 @@ export const userAdminRoutes = [
               'has-recommended-trainings': Joi.boolean().allow(null),
               'has-seen-assessment-instructions': Joi.boolean().allow(null),
               'has-seen-new-dashboard-info': Joi.boolean().allow(null),
-              'has-seen-other-challenges-tooltip': Joi.boolean().allow(null),
               'pix-app-terms-of-service-accepted': Joi.boolean().allow(null),
               'last-pix-app-terms-of-service-validated-at': Joi.string().allow(null),
               'pix-orga-terms-of-service-accepted': Joi.boolean().allow(null),

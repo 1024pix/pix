@@ -1136,27 +1136,6 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
         expect(actualUser.updatedAt).to.deep.equal(now);
       });
     });
-
-    describe('#updateHasSeenChallengeTooltip', function () {
-      let userId;
-
-      beforeEach(function () {
-        userId = databaseBuilder.factory.buildUser({
-          hasSeenOtherChallengesTooltip: false,
-        }).id;
-        return databaseBuilder.commit();
-      });
-
-      it('returns the model with hasSeenOtherChallengesTooltip flag updated to true', async function () {
-        // when
-        const challengeType = 'other';
-        const actualUser = await userRepository.updateHasSeenChallengeTooltip({ userId, challengeType });
-
-        // then
-        expect(actualUser.hasSeenOtherChallengesTooltip).to.be.true;
-        expect(actualUser.updatedAt).to.deep.equal(now);
-      });
-    });
   });
 
   describe('#checkIfEmailIsAvailable', function () {

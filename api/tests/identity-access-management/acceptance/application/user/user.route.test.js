@@ -510,69 +510,6 @@ describe('Acceptance | Identity Access Management | Application | Route | User',
     });
   });
 
-  describe('PATCH /api/users/{id}/has-seen-challenge-tooltip/{challengeType}', function () {
-    let challengeType, user, options;
-
-    describe('Error cases', function () {
-      beforeEach(function () {
-        challengeType = 'other';
-        user = databaseBuilder.factory.buildUser({ hasSeenOtherChallengesTooltip: false });
-
-        options = {
-          method: 'PATCH',
-          url: `/api/users/${user.id}/has-seen-challenge-tooltip/${challengeType}`,
-          headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
-        };
-
-        return databaseBuilder.commit();
-      });
-
-      it('responds with a 401 - unauthorized access - if user is not authenticated', async function () {
-        // given
-        options.headers.authorization = 'invalid.access.token';
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-      });
-
-      it('responds with a 403 - forbidden access - if requested user is not the same as authenticated user', async function () {
-        // given
-        const otherUserId = 9999;
-        options.headers = generateAuthenticatedUserRequestHeaders({ userId: otherUserId });
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-    });
-
-    describe('Success cases', function () {
-      it('returns the user with has seen other challenges tooltip', async function () {
-        // given
-        challengeType = 'other';
-        user = databaseBuilder.factory.buildUser({ hasSeenOtherChallengesTooltip: false });
-
-        options = {
-          method: 'PATCH',
-          url: `/api/users/${user.id}/has-seen-challenge-tooltip/${challengeType}`,
-          headers: generateAuthenticatedUserRequestHeaders({ userId: user.id }),
-        };
-
-        await databaseBuilder.commit();
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.result.data.attributes['has-seen-other-challenges-tooltip']).to.be.true;
-      });
-    });
-  });
-
   describe('GET /api/users/validate-email', function () {
     let user, token;
 

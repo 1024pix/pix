@@ -22,7 +22,6 @@ describe('Unit | Shared | Infrastructure | Serializer | JSONAPI | user-serialize
         mustValidateTermsOfService: true,
         pixCertifTermsOfServiceAccepted: false,
         hasSeenAssessmentInstructions: false,
-        hasSeenOtherChallengesTooltip: false,
         hasSeenNewDashboardInfo: false,
         lastDataProtectionPolicySeenAt: '2022-12-24T10:00:00.000Z',
       });
@@ -49,7 +48,6 @@ describe('Unit | Shared | Infrastructure | Serializer | JSONAPI | user-serialize
               'pix-certif-terms-of-service-accepted': userModelObject.pixCertifTermsOfServiceAccepted,
               'has-seen-assessment-instructions': userModelObject.hasSeenAssessmentInstructions,
               'has-seen-new-dashboard-info': userModelObject.hasSeenNewDashboardInfo,
-              'has-seen-other-challenges-tooltip': userModelObject.hasSeenOtherChallengesTooltip,
               'last-data-protection-policy-seen-at': userModelObject.lastDataProtectionPolicySeenAt,
             },
             relationships: {
