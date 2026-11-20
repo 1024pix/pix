@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { escapeHtml } from 'pix-admin/utils/escape-html';
 
 import { statusToDisplayName } from '../../../../models/session';
 
@@ -66,7 +67,7 @@ export default class IndexController extends Controller {
     if (this.isAssigned) {
       this.modalTitle = 'Assignation de la session';
       this.modalMessage = this.intl.t('pages.sessions.informations.assignment-confirmation-modal', {
-        fullName: this.sessionModel.assignedCertificationOfficer.get('fullName'),
+        fullName: escapeHtml(this.sessionModel.assignedCertificationOfficer.get('fullName')),
         htmlSafe: true,
       });
       this.modalConfirmAction = this.confirmAssignment;
