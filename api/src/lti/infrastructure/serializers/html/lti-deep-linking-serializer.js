@@ -1,12 +1,12 @@
 import { Buffer } from 'node:buffer';
 
 async function serialize({ deepLinkingReturnUrl, deepLinkingResponse }) {
-  const scriptSrc = 'document.ltiAuthForm.submit();';
+  const scriptSrc = 'document.ltiAutoSubmitForm.submit();';
 
   const payload = `<!DOCTYPE html>
 <html>
   <body>
-    <form id="ltiAuthForm" name="ltiAuthForm" action="${deepLinkingReturnUrl}" method="POST" enctype="application/x-www-form-urlencoded">
+    <form id="ltiAutoSubmitForm" name="ltiAutoSubmitForm" action="${deepLinkingReturnUrl}" method="POST" enctype="application/x-www-form-urlencoded">
       <input type="hidden" name="JWT" value="${deepLinkingResponse}">
     </form>
     <script>${scriptSrc}</script>
@@ -19,7 +19,6 @@ async function serialize({ deepLinkingReturnUrl, deepLinkingResponse }) {
   // FIXME starting with node25, replace with:
   // const scriptSrcBase64Hash = new Uint8Array(scriptSrcHash).toBase64();
   const scriptSrcDirective = `script-src 'sha512-${scriptSrcBase64Hash}';`;
-
   return { payload, scriptSrcDirective };
 }
 
