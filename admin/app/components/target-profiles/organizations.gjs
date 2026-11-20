@@ -68,7 +68,7 @@ export default class Organizations extends Component {
 
   @action
   async reloadCurrentPage() {
-    return this.router.replaceWith('authenticated.target-profiles.target-profile.organizations');
+    return this.router.refresh();
   }
 
   @action

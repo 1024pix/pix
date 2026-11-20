@@ -92,7 +92,7 @@ module('Integration | Component | CombinedCourseBlueprints::Organizations', func
       sinon.stub(pixToast, 'sendSuccessNotification').resolves();
       sinon.stub(pixToast, 'sendErrorNotification').resolves();
       router = this.owner.lookup('service:router');
-      sinon.stub(router, 'replaceWith');
+      sinon.stub(router, 'refresh');
     });
 
     test('it should detach the given organizations from the combined course blueprint', async function (assert) {
@@ -119,11 +119,7 @@ module('Integration | Component | CombinedCourseBlueprints::Organizations', func
       // then
       assert.ok(adapter.detachOrganizations.calledOnceWithExactly(1, [123, 456]));
       assert.ok(pixToast.sendSuccessNotification.calledOnce);
-      assert.ok(
-        router.replaceWith.calledOnceWithExactly(
-          'authenticated.combined-course-blueprints.combined-course-blueprint.organizations',
-        ),
-      );
+      assert.ok(router.refresh.calledOnce);
     });
 
     test('it should display an error notification and not reload when detach fails', async function (assert) {
@@ -150,7 +146,7 @@ module('Integration | Component | CombinedCourseBlueprints::Organizations', func
       // then
       assert.ok(pixToast.sendErrorNotification.calledOnceWithExactly({ message: 'Not found' }));
       assert.ok(pixToast.sendSuccessNotification.notCalled);
-      assert.ok(router.replaceWith.notCalled);
+      assert.ok(router.refresh.notCalled);
     });
   });
 });

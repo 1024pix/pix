@@ -33,7 +33,7 @@ export default class Organizations extends Component {
 
   @action
   async reloadCurrentPage() {
-    return this.router.replaceWith('authenticated.combined-course-blueprints.combined-course-blueprint.organizations');
+    return this.router.refresh();
   }
 
   @action
