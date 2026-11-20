@@ -2,11 +2,11 @@
 /* eslint ember/require-tagless-components: 0 */
 
 import { render } from '@1024pix/ember-testing-library';
-import { setBreakpoint } from 'ember-responsive/test-support';
 import ProfileContent from 'mon-pix/components/profile-content';
 import { module, test } from 'qunit';
 
 import { stubSessionService } from '../../helpers/service-stubs.js';
+import { setBreakpoint } from '../../helpers/set-breakpoint';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 const state = {};

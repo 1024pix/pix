@@ -1,11 +1,11 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { t } from 'ember-intl/test-support';
-import { setBreakpoint } from 'ember-responsive/test-support';
 import ModulixDetails from 'mon-pix/components/module/instruction/details';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import { setBreakpoint } from '../../../helpers/set-breakpoint';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Module | Details', function (hooks) {
