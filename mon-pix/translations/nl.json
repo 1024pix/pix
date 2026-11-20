@@ -1877,6 +1877,10 @@
           "missing-content": "Er heeft zich een fout voorgedaan in de videoweergave."
         },
         "text": {
+          "glossary": {
+            "close-button": "Definitie sluiten",
+            "word-label": "{word}, definitie bekijken"
+          },
           "tag": {
             "context": "Context",
             "did-you-know": "Wist je dat?",
