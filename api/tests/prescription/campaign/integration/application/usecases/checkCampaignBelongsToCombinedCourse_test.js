@@ -18,7 +18,7 @@ describe('Integration | Campaign | Application | Usecases | checkCampaignBelongs
 
   it('should throw if a campaign belongs to combined course', async function () {
     // given
-    const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId } = databaseBuilder.factory.buildQuest({
       successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
     });
     databaseBuilder.factory.buildCombinedCourse({
@@ -39,7 +39,7 @@ describe('Integration | Campaign | Application | Usecases | checkCampaignBelongs
   it('should not throw if campaign does not belongs to combined course', async function () {
     const anotherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
 
-    const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId } = databaseBuilder.factory.buildQuest({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: anotherCampaignId }).toDTO(),
       ],

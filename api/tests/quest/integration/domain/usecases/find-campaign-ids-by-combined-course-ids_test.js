@@ -9,7 +9,7 @@ describe('Integration | Quest | Domain | UseCases | find-campaign-ids-by-combine
     //given
     const { id: campaignId } = databaseBuilder.factory.buildCampaign();
 
-    const { id: questId1 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId1 } = databaseBuilder.factory.buildQuest({
       successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
     });
 
@@ -32,7 +32,7 @@ describe('Integration | Quest | Domain | UseCases | find-campaign-ids-by-combine
     //given
     const { id: combinedCourseId1 } = databaseBuilder.factory.buildCombinedCourse({
       code: 'RANDOM',
-      questId: databaseBuilder.factory.buildQuestForCombinedCourse().id,
+      questId: databaseBuilder.factory.buildQuest().id,
     });
 
     await databaseBuilder.commit();

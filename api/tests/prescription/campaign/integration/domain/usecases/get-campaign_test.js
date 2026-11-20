@@ -27,7 +27,7 @@ describe('Integration | UseCase | get-campaign', function () {
 
     it('should return combinedCourse info when a combined course is associated with a campaign', async function () {
       // given
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
         ],

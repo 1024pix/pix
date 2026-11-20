@@ -14,7 +14,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-by-campa
     campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
     const code = 'ABCDE1234';
     const name = 'Mon parcours Combiné';
-    const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId } = databaseBuilder.factory.buildQuest({
       successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
     });
     courseId = databaseBuilder.factory.buildCombinedCourse({
