@@ -5,6 +5,7 @@ import { ParticipationResultCalculationJob } from '../../../../../../src/prescri
 import { ParticipationSharedJob } from '../../../../../../src/prescription/campaign-participation/domain/models/ParticipationSharedJob.js';
 import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
+import { CampaignSharedEvent } from '../../../../../../src/shared/domain/events/CampaignSharedEvent.ts';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
@@ -14,6 +15,7 @@ describe('Unit | UseCase | share-campaign-result', function () {
   let campaignParticipationId;
   let participationResultCalculationJobRepository;
   let participationSharedJobRepository;
+  let eventJobPublisherService;
 
   beforeEach(function () {
     participationResultCalculationJobRepository = {
@@ -21,6 +23,9 @@ describe('Unit | UseCase | share-campaign-result', function () {
     };
     participationSharedJobRepository = {
       performAsync: sinon.stub(),
+    };
+    eventJobPublisherService = {
+      publishEvent: sinon.stub(),
     };
     campaignParticipationRepository = {
       getLocked: sinon.stub(),
@@ -42,6 +47,7 @@ describe('Unit | UseCase | share-campaign-result', function () {
         campaignParticipationRepository,
         participationResultCalculationJobRepository,
         participationSharedJobRepository,
+        eventJobPublisherService,
       });
 
       // then
@@ -66,6 +72,7 @@ describe('Unit | UseCase | share-campaign-result', function () {
         campaignParticipationRepository,
         participationResultCalculationJobRepository,
         participationSharedJobRepository,
+        eventJobPublisherService,
       });
 
       // then
@@ -90,6 +97,7 @@ describe('Unit | UseCase | share-campaign-result', function () {
         campaignParticipationRepository,
         participationResultCalculationJobRepository,
         participationSharedJobRepository,
+        eventJobPublisherService,
       });
 
       // then
@@ -99,6 +107,40 @@ describe('Unit | UseCase | share-campaign-result', function () {
       expect(participationSharedJobRepository.performAsync).to.have.been.calledOnceWithExactly(
         new ParticipationSharedJob({ campaignParticipationId }),
       );
+    });
+
+    it('publishes a CampaignSharedEvent', async function () {
+      // given
+      const campaignId = 789;
+      const sharedAt = new Date('2026-01-01');
+      const campaignParticipation = domainBuilder.prescription.campaignParticipation.buildCampaignParticipation({
+        id: campaignParticipationId,
+        userId,
+        campaign: domainBuilder.buildCampaign({ id: campaignId }),
+        sharedAt: null,
+        isShared: false,
+      });
+      sinon.stub(campaignParticipation, 'share').callsFake(function () {
+        this.sharedAt = sharedAt;
+      });
+
+      campaignParticipationRepository.getLocked.resolves(campaignParticipation);
+
+      // when
+      await usecases.shareCampaignResult({
+        userId,
+        campaignParticipationId,
+        campaignParticipationRepository,
+        participationResultCalculationJobRepository,
+        participationSharedJobRepository,
+        eventJobPublisherService,
+      });
+
+      // then
+      expect(eventJobPublisherService.publishEvent).to.have.been.calledOnce;
+      const [publishedEvent] = eventJobPublisherService.publishEvent.firstCall.args;
+      expect(publishedEvent).to.be.instanceOf(CampaignSharedEvent);
+      expect(publishedEvent.payload).to.deep.equal({ campaignId, campaignParticipationId, userId, sharedAt });
     });
   });
 });
