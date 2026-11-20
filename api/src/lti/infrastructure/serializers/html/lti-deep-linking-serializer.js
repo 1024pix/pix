@@ -1,5 +1,5 @@
 function serialize({ deepLinkingReturnUrl, deepLinkingResponse }) {
-  return `<!DOCTYPE html>
+  return `<!doctype html>
 <html>
   <body>
     <form id="ltiAutoSubmitForm" name="ltiAutoSubmitForm" action="${deepLinkingReturnUrl}" method="POST" enctype="application/x-www-form-urlencoded">

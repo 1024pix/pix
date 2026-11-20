@@ -12,7 +12,7 @@ describe('Unit | LTI | Infrastructure | Serializer | HTML | lti-deep-linking', f
     const html = ltiDeepLinkingSerializer.serialize({ deepLinkingReturnUrl, deepLinkingResponse });
 
     // then
-    expect(html).to.deep.equal(`<!DOCTYPE html>
+    expect(html).to.deep.equal(`<!doctype html>
 <html>
   <body>
     <form id="ltiAutoSubmitForm" name="ltiAutoSubmitForm" action="${deepLinkingReturnUrl}" method="POST" enctype="application/x-www-form-urlencoded">

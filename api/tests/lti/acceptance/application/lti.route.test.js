@@ -93,7 +93,7 @@ describe('Acceptance | LTI | Route | LTI', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal(
-        `<!DOCTYPE html>
+        `<!doctype html>
 <html>
   <body>
     Registration successfull, please wait...

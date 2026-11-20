@@ -5,7 +5,7 @@ function escapeHtml(value) {
 }
 
 function serialize({ targetLinkUri, clientId, loginHint, ltiMessageHint, authorizationEndpoint, nonce, state }) {
-  return `<!DOCTYPE html>
+  return `<!doctype html>
 <html>
   <body>
     <form id="ltiAutoSubmitForm" name="ltiAutoSubmitForm" action="${authorizationEndpoint}" method="POST" enctype="application/x-www-form-urlencoded">

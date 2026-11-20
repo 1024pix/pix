@@ -1,5 +1,5 @@
 function serialize() {
-  return `<!DOCTYPE html>
+  return `<!doctype html>
 <html>
   <body>
     Registration successfull, please wait...
