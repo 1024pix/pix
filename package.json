@@ -32,7 +32,7 @@
     "demo-epreuves:update": "./scripts/update-demo-epreuves.sh"
   },
   "devDependencies": {
-    "@cyclonedx/cyclonedx-npm": "7.0.0",
+    "@cyclonedx/cyclonedx-npm": "7.0.1",
     "prettier": "3.10.1"
   }
 }
