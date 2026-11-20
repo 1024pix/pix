@@ -3,7 +3,12 @@ import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js
 import { SESSION_STATUSES, SessionStatus } from '../../../shared/domain/value-objects/SessionStatus.ts';
 import { SessionSummary } from '../../domain/read-models/SessionSummary.js';
 
-export async function findPaginatedFilteredByCertificationCenterId({ certificationCenterId, filters = {}, page }) {
+export async function findPaginatedFilteredByCertificationCenterId({
+  certificationCenterId,
+  filters = {},
+  page,
+  sort = {},
+}) {
   const knexConn = DomainTransaction.getConnection();
   const query = knexConn
     .with('session_data', (qb) => {
@@ -36,9 +41,7 @@ export async function findPaginatedFilteredByCertificationCenterId({ certificati
     .select('*')
     .from('session_data')
     .modify(_setupFilters, filters)
-    .orderBy('session_data.date', 'DESC')
-    .orderBy('session_data.time', 'DESC')
-    .orderBy('session_data.id', 'ASC');
+    .modify(_setupSort, sort);
 
   const { results, pagination } = await fetchPage({
     queryBuilder: query,
@@ -89,4 +92,12 @@ function _setupFilters(query, filters) {
   if (endDate) {
     query.where('session_data.date', '<=', endDate);
   }
+}
+
+function _setupSort(query, sort) {
+  const dateDirection = sort.date ?? 'DESC';
+
+  query.orderBy('session_data.date', dateDirection);
+  query.orderBy('session_data.time', dateDirection);
+  query.orderBy('session_data.id', 'ASC');
 }

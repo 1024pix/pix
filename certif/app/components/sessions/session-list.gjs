@@ -15,13 +15,19 @@ import { CREATED, FINALIZED, PROCESSED, TO_FINALIZE } from '../../models/session
 import SessionDeleteConfirmModal from './session-delete-confirm-modal';
 
 export default class SessionList extends Component {
-  @tracked shouldDisplaySessionDeletionModal = false;
-  @tracked currentSessionToBeDeletedId = null;
-  @tracked currentEnrolledCandidatesCount = null;
-  @service store;
-  @service pixToast;
   @service intl;
   @service locale;
+  @service pixToast;
+  @service router;
+  @service store;
+
+  @tracked currentSessionToBeDeletedId = null;
+  @tracked currentEnrolledCandidatesCount = null;
+  @tracked shouldDisplaySessionDeletionModal = false;
+
+  get sortOrder() {
+    return this.router.currentRoute?.queryParams?.sortByDate;
+  }
 
   @action statusLabel(status) {
     if (status === FINALIZED) return this.intl.t(`pages.sessions.list.status.${FINALIZED}`);
@@ -41,6 +47,12 @@ export default class SessionList extends Component {
   @action
   closeSessionDeletionConfirmModal() {
     this.shouldDisplaySessionDeletionModal = false;
+  }
+
+  @action
+  handleSortByDate() {
+    const sortByDate = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    this.router.transitionTo({ queryParams: { sortByDate, pageNumber: 1 } });
   }
 
   @action
@@ -125,7 +137,12 @@ export default class SessionList extends Component {
               {{sessionSummary.room}}
             </:cell>
           </PixTableColumn>
-          <PixTableColumn @context={{context}} class='table__column--small'>
+          <PixTableColumn
+            @context={{context}}
+            class='table__column--small'
+            @onSort={{this.handleSortByDate}}
+            @sortOrder={{this.sortOrder}}
+          >
             <:header>
               {{t 'common.forms.session-labels.date'}}
             </:header>
