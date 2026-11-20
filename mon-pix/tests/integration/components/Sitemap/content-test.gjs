@@ -64,7 +64,7 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
           name: `${t('pages.sitemap.cgu.subcontractors')} ${t('navigation.external-link-title')}`,
         }),
       )
-      .hasAttribute('href', 'https://pix.fr/politique-protection-donnees-personnelles-app');
+      .hasAttribute('href', 'https://pix.fr/pix-app-privacy-policy');
   });
 
   test('should contain an external link to pix support home page', async function (assert) {
@@ -132,6 +132,6 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
           name: `${t('pages.sitemap.cgu.policy')} ${t('navigation.external-link-title')}`,
         }),
       )
-      .hasAttribute('href', 'https://pix.fr/politique-protection-donnees-personnelles-app');
+      .hasAttribute('href', 'https://pix.fr/pix-app-privacy-policy');
   });
 });

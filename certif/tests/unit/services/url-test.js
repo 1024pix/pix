@@ -17,7 +17,7 @@ module('Unit | Service | url', function (hooks) {
       const dataProtectionPolicyUrl = service.dataProtectionPolicyUrl;
 
       // then
-      assert.strictEqual(dataProtectionPolicyUrl, 'https://pix.org/fr/politique-protection-donnees-personnelles-app');
+      assert.strictEqual(dataProtectionPolicyUrl, 'https://pix.org/fr/pix-app-privacy-policy');
     });
 
     test('returns the Pix website data protection policy URL for a locale', async function (assert) {
@@ -29,7 +29,7 @@ module('Unit | Service | url', function (hooks) {
       const dataProtectionPolicyUrl = service.dataProtectionPolicyUrl;
 
       // then
-      assert.strictEqual(dataProtectionPolicyUrl, 'https://pix.org/en/personal-data-protection-policy');
+      assert.strictEqual(dataProtectionPolicyUrl, 'https://pix.org/en/pix-app-privacy-policy');
     });
   });
 
