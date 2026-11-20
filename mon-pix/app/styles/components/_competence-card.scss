@@ -165,14 +165,14 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 80px;
+  height: var(--pix-spacing-20x);
   margin: 10px;
   border: 0 solid rgb(var(--pix-neutral-0) 0.4);
   transition: border 0.1s ease-in;
 
   @include breakpoints.device-is('tablet') {
     position: absolute;
-    inset: 80px 0 0;
+    inset: var(--pix-spacing-20x) 0 0;
     flex-direction: column;
     height: auto;
     margin-top: 10px;

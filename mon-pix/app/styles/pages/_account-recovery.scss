@@ -61,7 +61,7 @@
         display: flex;
         flex-basis: 40%;
         justify-content: flex-end;
-        margin-right: 80px;
+        margin-right: var(--pix-spacing-20x);
 
         img {
           width: 350px;

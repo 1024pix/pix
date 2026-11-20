@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: center;
   width: 300px;
-  height: 80px;
+  height: var(--pix-spacing-20x);
   color: var(--pix-neutral-800);
   background-color: rgb(255 255 255 / 92%);
   border-radius: 5px;

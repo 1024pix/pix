@@ -67,7 +67,7 @@ $grain-card-border-radius: var(--pix-spacing-4x);
     position: absolute;
     top: -25px;
     right: -26px;
-    width: 80px;
+    width: var(--pix-spacing-20x);
 
     @include breakpoints.device-is('desktop') {
       top: -43px;

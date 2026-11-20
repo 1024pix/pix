@@ -24,8 +24,8 @@
   &__image {
     img {
       display: block;
-      width: 80px;
-      height: 80px;
+      width: var(--pix-spacing-20x);
+      height: var(--pix-spacing-20x);
     }
   }
 

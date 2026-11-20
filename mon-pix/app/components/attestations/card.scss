@@ -20,8 +20,8 @@
 
   &__illustration {
     flex-shrink: 0;
-    width: 80px;
-    height: 80px;
+    width: var(--pix-spacing-20x);
+    height: var(--pix-spacing-20x);
     object-fit: contain;
   }
 

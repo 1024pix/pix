@@ -19,7 +19,7 @@
       &--tunnel {
         margin-top: 120px;
         margin-bottom: 120px;
-        padding: 0 var(--pix-spacing-4x) 0 80px;
+        padding: 0 var(--pix-spacing-4x) 0 var(--pix-spacing-20x);
 
         &::before {
           position: fixed;

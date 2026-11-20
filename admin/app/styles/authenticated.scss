@@ -1,7 +1,7 @@
 /* stylelint-disable selector-class-pattern */
 .app-container {
   display: grid;
-  grid-template-columns: 80px 1fr;
+  grid-template-columns: var(--pix-spacing-20x) 1fr;
 
   .app-sidebar {
     background-color: var(--pix-neutral-800);

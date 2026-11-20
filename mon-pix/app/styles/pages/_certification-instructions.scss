@@ -3,7 +3,7 @@
 
 .certification-instructions {
   min-height: 100vh;
-  padding: 32px 80px;
+  padding: 32px var(--pix-spacing-20x);
   background: colors.$pix-primary-certif-gradient;
 }
 
@@ -12,7 +12,7 @@
   gap: 16px;
   align-items: center;
   justify-content: start;
-  margin-bottom: 80px;
+  margin-bottom: var(--pix-spacing-20x);
   font-size: 1.125rem;
 
   &__logo {

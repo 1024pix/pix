@@ -73,7 +73,7 @@
   &__features {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--pix-spacing-6x) 80px;
+    gap: var(--pix-spacing-6x) var(--pix-spacing-20x);
 
     @include breakpoints.device-is('mobile') {
       display: flex;
