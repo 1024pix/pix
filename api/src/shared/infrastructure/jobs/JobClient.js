@@ -29,6 +29,19 @@ const isScheduleController = (job) => 'jobCron' in job;
 
 const queueOptionsOf = (job) => ({ isDeadLetterQueueEnabled: job.isDeadLetterQueueEnabled });
 
+const queueNamesOf = (job) => [job.jobName, job.legacyName].filter(Boolean);
+
+// A queue unknown to the running code may have just been created by a newer deployment
+// (rolling deployment, rollback): it is only considered orphan once it is older than this
+const ORPHAN_QUEUE_MIN_AGE_MS = 24 * 3600 * 1000;
+
+// pg-boss owns queues for its own needs (cron scheduling), under this reserved prefix
+const PGBOSS_INTERNAL_QUEUE_PREFIX = '__pgboss__';
+
+const isPgBossInternalQueue = (queue) => queue.name.startsWith(PGBOSS_INTERNAL_QUEUE_PREFIX);
+
+const isOlderThanOrphanMinAge = (queue) => Date.now() - new Date(queue.createdOn).getTime() > ORPHAN_QUEUE_MIN_AGE_MS;
+
 const createWorkerPgBoss = (isTestOnly) =>
   new PgBoss({
     connectionString: config.database.jobsUrl,
@@ -113,8 +126,13 @@ export class JobClient {
     const jobModules = await this.#importJobModules(jobFiles);
 
     const counts = { [RegistrationKind.JOB]: 0, [RegistrationKind.EVENT_HANDLER]: 0, [RegistrationKind.CRON]: 0 };
+    // Collected for every job group: the workers of all groups share the same queues database
+    const knownQueueNames = new Set([config.pgBoss.deadLetterQueueName]);
+    const knownEventNames = new Set();
     for (const [moduleName, ModuleClass] of jobModules) {
       const job = new ModuleClass();
+      queueNamesOf(job).forEach((queueName) => knownQueueNames.add(queueName));
+      if (job.eventName) knownEventNames.add(job.eventName);
 
       instrumentJobController(moduleName, ModuleClass);
 
@@ -131,6 +149,55 @@ export class JobClient {
     logger.info(`${counts[RegistrationKind.JOB]} jobs registered for groups "${jobGroups}".`);
     logger.info(`${counts[RegistrationKind.EVENT_HANDLER]} event handler subscribed for groups "${jobGroups}".`);
     logger.info(`${counts[RegistrationKind.CRON]} cron jobs scheduled for groups "${jobGroups}".`);
+
+    await this.#deleteOrphanQueues(knownQueueNames, knownEventNames);
+  }
+
+  // A queue whose job class has been removed from the code is never registered again,
+  // so nothing else would delete it, nor the schedule and subscriptions attached to it
+  async #deleteOrphanQueues(knownQueueNames, knownEventNames) {
+    const queues = await this.#pgBoss.getQueues();
+    const orphanQueues = queues.filter(
+      (queue) => !knownQueueNames.has(queue.name) && !isPgBossInternalQueue(queue) && isOlderThanOrphanMinAge(queue),
+    );
+
+    for (const queue of orphanQueues) {
+      try {
+        await this.#deleteOrphanQueue(queue, knownEventNames);
+      } catch (err) {
+        logger.error({ event: 'pg-boss-orphan-queue', err }, `Orphan queue "${queue.name}" could not be deleted.`);
+      }
+    }
+  }
+
+  async #deleteOrphanQueue({ name, queuedCount, activeCount }, knownEventNames) {
+    // The schedule is removed whatever the pending jobs, so that it stops feeding the queue
+    await this.#pgBoss.unschedule(name);
+
+    // deleteQueue also deletes the jobs, so a queue with pending jobs is kept.
+    // These counts are refreshed periodically by pg-boss, they may miss the latest jobs
+    if (queuedCount > 0 || activeCount > 0) {
+      await this.#unsubscribeFromKnownEvents(name, knownEventNames);
+      logger.warn(
+        { event: 'pg-boss-orphan-queue', queuedCount, activeCount },
+        `Orphan queue "${name}" is kept: it still has pending jobs and no job class to consume them.`,
+      );
+      return;
+    }
+
+    // Deleting the queue also deletes its subscriptions
+    await this.#pgBoss.deleteQueue(name);
+    logger.info({ event: 'pg-boss-orphan-queue' }, `Orphan queue "${name}" deleted: no job class declares it.`);
+  }
+
+  // An orphan queue that still has pending jobs is not deleted. It must not be fed anymore,
+  // otherwise it never gets empty and is never deleted.
+  // The event of a removed handler is unknown, and pg-boss cannot list the subscriptions of a queue,
+  // so the queue is unsubscribed from every event that the code still declares
+  async #unsubscribeFromKnownEvents(name, knownEventNames) {
+    for (const eventName of knownEventNames) {
+      await this.#pgBoss.unsubscribe(eventName, name);
+    }
   }
 
   #filePatterns(fileSuffix) {
