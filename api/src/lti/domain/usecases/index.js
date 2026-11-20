@@ -6,6 +6,7 @@ import * as organizationRepository from '../../../shared/infrastructure/reposito
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { repositories as injectedLtiRepositories } from '../../infrastructure/repositories/index.js';
+import { ltiLaunchContextRepository } from '../../infrastructure/repositories/lti-launch-context.repository.js';
 import { ltiPlatformRepository } from '../../infrastructure/repositories/lti-platform.repository.js';
 import { ltiPlatformRegistrationRepository } from '../../infrastructure/repositories/lti-platform-registration.repository.js';
 import { ltiScoringService } from '../services/lti.scoring.service.js';
@@ -26,6 +27,7 @@ const utils = {
 const services = { cryptoService, ltiScoringService, ltiService, urlService };
 
 const repositories = {
+  ltiLaunchContextRepository,
   ltiPlatformRegistrationRepository,
   ltiPlatformRepository,
   organizationRepository,
