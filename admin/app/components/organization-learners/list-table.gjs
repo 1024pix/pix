@@ -1,5 +1,5 @@
 import { PixCheckbox, PixIcon, PixTable, PixTableColumn } from '@1024pix/nebulix-ember';
-import { fn } from '@ember/helper';
+import { fn, uniqueId } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { LinkTo } from '@ember/routing';
@@ -9,8 +9,10 @@ import { tracked } from '@glimmer/tracking';
 import formatDate from 'ember-intl/helpers/format-date';
 import t from 'ember-intl/helpers/t';
 import { not } from 'ember-truth-helpers';
+import FilterBanner from 'pix-admin/components/organization-learners/filter-banner';
 import PaginationWrapper from 'pix-admin/components/ui/pagination-wrapper';
 
+import InElement from '../in-element';
 import SelectableList from '../selectable-list';
 
 export const learnerDetailsMetabaseLink = (learnerId) => {
@@ -54,205 +56,220 @@ export default class AdminLearnerList extends Component {
   }
 
   <template>
-    {{#if @organizationLearners}}
-      <SelectableList
-        @items={{@organizationLearners}}
-        as |toggleLearner isLearnerSelected allLearnersSelected someLearnersSelected toggleAllLearners selectedLearners resetSelectedLearners|
-      >
-        <PixTable
-          @variant="admin"
-          @caption={{t "components.organization-learners.list-table.caption"}}
-          @data={{@organizationLearners}}
-          class="table organization-learner-list"
+    {{#let (uniqueId) as |filtersId|}}
+      <div id={{filtersId}} />
+      {{#if @organizationLearners}}
+        <SelectableList
+          @items={{@organizationLearners}}
+          as |toggleLearner isLearnerSelected allLearnersSelected someLearnersSelected toggleAllLearners selectedLearners resetSelectedLearners|
         >
-          <:columns as |organizationLearner context|>
-            <PixTableColumn @context={{context}}>
-              <:header>
-                <PixCheckbox
-                  @screenReaderOnly={{true}}
-                  @checked={{someLearnersSelected}}
-                  @isIndeterminate={{not allLearnersSelected}}
-                  {{on "click" toggleAllLearners}}
-                >
-                  <:label>
-                    {{t "components.organization-learners.list-table.headers.main-checkbox"}}
-                  </:label>
-                </PixCheckbox>
-              </:header>
-              <:cell>
-                <PixCheckbox
-                  @screenReaderOnly={{true}}
-                  {{on "click" (fn toggleLearner organizationLearner)}}
-                  @checked={{isLearnerSelected organizationLearner}}
-                >
-                  <:label>
-                    {{t
-                      "components.organization-learners.list-table.checkbox"
-                      firstname=organizationLearner.firstName
-                      lastname=organizationLearner.lastName
-                    }}
-                  </:label>
-                </PixCheckbox>
-              </:cell>
-            </PixTableColumn>
+          <PixTable
+            @variant="admin"
+            @caption={{t "components.organization-learners.list-table.caption"}}
+            @data={{@organizationLearners}}
+            class="table organization-learner-list"
+          >
+            <:columns as |organizationLearner context|>
+              <PixTableColumn @context={{context}}>
+                <:header>
+                  <PixCheckbox
+                    @screenReaderOnly={{true}}
+                    @checked={{someLearnersSelected}}
+                    @isIndeterminate={{not allLearnersSelected}}
+                    {{on "click" toggleAllLearners}}
+                  >
+                    <:label>
+                      {{t "components.organization-learners.list-table.headers.main-checkbox"}}
+                    </:label>
+                  </PixCheckbox>
+                </:header>
+                <:cell>
+                  <PixCheckbox
+                    @screenReaderOnly={{true}}
+                    {{on "click" (fn toggleLearner organizationLearner)}}
+                    @checked={{isLearnerSelected organizationLearner}}
+                  >
+                    <:label>
+                      {{t
+                        "components.organization-learners.list-table.checkbox"
+                        firstname=organizationLearner.firstName
+                        lastname=organizationLearner.lastName
+                      }}
+                    </:label>
+                  </PixCheckbox>
+                </:cell>
+              </PixTableColumn>
 
-            <PixTableColumn @context={{context}}>
-              <:header>
-                {{t "common.fields.id"}}
-              </:header>
-              <:cell>
-                <a href={{learnerDetailsMetabaseLink organizationLearner.id}} target="_blank" rel="noreferrer noopener">
-                  <span
-                    aria-label={{t
-                      "components.organization-learners.list-table.view-learner"
-                      learner=organizationLearner.fullName
-                    }}
+              <PixTableColumn @context={{context}}>
+                <:header>
+                  {{t "common.fields.id"}}
+                </:header>
+                <:cell>
+                  <a
+                    href={{learnerDetailsMetabaseLink organizationLearner.id}}
+                    target="_blank"
+                    rel="noreferrer noopener"
                   >
-                    {{organizationLearner.id}}
-                  </span>
-                </a>
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn @context={{context}}>
-              <:header>
-                {{t "components.organization-learners.list-table.headers.first-name"}}
-              </:header>
-              <:cell>
-                {{organizationLearner.firstName}}
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn @context={{context}}>
-              <:header>
-                {{t "components.organization-learners.list-table.headers.last-name"}}
-              </:header>
-              <:cell>
-                {{organizationLearner.lastName}}
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn
-              @onSort={{this.sortByOrganizationName}}
-              @sortOrder={{this.organizationSort}}
-              @context={{context}}
-              @ariaLabelDefaultSort="Trier par orga"
-              @ariaLabelSortAsc="Trier par orga asc"
-              @ariaLabelSortDesc="Trier par orga desc"
-            >
-              <:header>
-                {{t "components.organization-learners.list-table.headers.organization"}}
-              </:header>
-              <:cell>
-                {{#if organizationLearner.organizationId}}
-                  <LinkTo
-                    @route="authenticated.organizations.get"
-                    @model={{organizationLearner.organizationId}}
-                    aria-label={{t "components.organization-learners.list-table.view-organization"}}
-                  >
+                    <span
+                      aria-label={{t
+                        "components.organization-learners.list-table.view-learner"
+                        learner=organizationLearner.fullName
+                      }}
+                    >
+                      {{organizationLearner.id}}
+                    </span>
+                  </a>
+                </:cell>
+              </PixTableColumn>
+              <PixTableColumn @context={{context}}>
+                <:header>
+                  {{t "components.organization-learners.list-table.headers.first-name"}}
+                </:header>
+                <:cell>
+                  {{organizationLearner.firstName}}
+                </:cell>
+              </PixTableColumn>
+              <PixTableColumn @context={{context}}>
+                <:header>
+                  {{t "components.organization-learners.list-table.headers.last-name"}}
+                </:header>
+                <:cell>
+                  {{organizationLearner.lastName}}
+                </:cell>
+              </PixTableColumn>
+              <PixTableColumn
+                @onSort={{this.sortByOrganizationName}}
+                @sortOrder={{this.organizationSort}}
+                @context={{context}}
+                @ariaLabelDefaultSort="Trier par orga"
+                @ariaLabelSortAsc="Trier par orga asc"
+                @ariaLabelSortDesc="Trier par orga desc"
+              >
+                <:header>
+                  {{t "components.organization-learners.list-table.headers.organization"}}
+                </:header>
+                <:cell>
+                  {{#if organizationLearner.organizationId}}
+                    <LinkTo
+                      @route="authenticated.organizations.get"
+                      @model={{organizationLearner.organizationId}}
+                      aria-label={{t "components.organization-learners.list-table.view-organization"}}
+                    >
+                      {{organizationLearner.organizationName}}
+                    </LinkTo>
+                  {{else}}
                     {{organizationLearner.organizationName}}
-                  </LinkTo>
-                {{else}}
-                  {{organizationLearner.organizationName}}
-                {{/if}}
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn
-              @type="number"
-              @onSort={{this.sortByBirthdate}}
-              @sortOrder={{this.birthdateSort}}
-              @context={{context}}
-              @ariaLabelDefaultSort="Trier par birthdate"
-              @ariaLabelSortAsc="Trier par birthdate asc"
-              @ariaLabelSortDesc="Trier par birthdate desc"
-            >
-              <:header>
-                {{t "components.organization-learners.list-table.headers.birthdate"}}
-              </:header>
-              <:cell>
-                {{formatDate organizationLearner.birthdate}}
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn @context={{context}}>
-              <:header>
-                {{t "components.organization-learners.list-table.headers.national-student-id"}}
-              </:header>
-              <:cell>
-                {{organizationLearner.nationalStudentId}}
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn @context={{context}}>
-              <:header>
-                {{t "components.organization-learners.list-table.headers.division-group"}}
-              </:header>
-              <:cell>
-                {{#if organizationLearner.division}}
-                  {{organizationLearner.division}}
-                {{else if organizationLearner.group}}
-                  {{organizationLearner.group}}
-                {{/if}}
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn @context={{context}}>
-              <:header>
-                {{t "components.organization-learners.list-table.headers.user-id"}}
-              </:header>
-              <:cell>
-                {{#if organizationLearner.userId}}
-                  <LinkTo
-                    @route="authenticated.users.get"
-                    @model={{organizationLearner.userId}}
-                    aria-label={{t "components.organization-learners.list-table.view-user"}}
-                  >
-                    {{organizationLearner.userId}}
-                  </LinkTo>
-                {{/if}}
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn @context={{context}}>
-              <:header>
-                {{t "components.organization-learners.list-table.headers.active"}}
-              </:header>
-              <:cell>
-                {{#if organizationLearner.isDisabled}}
-                  <span class="organization-learner-list__icon-disabled">
-                    <PixIcon
-                      @name="cancel"
-                      @plainIcon={{true}}
-                      @title={{t "components.organization-learners.list-table.headers.inactive"}}
-                    />
-                  </span>
-                {{else}}
-                  <span class="organization-learner-list__icon-active">
-                    <PixIcon
-                      @name="checkCircle"
-                      @plainIcon={{true}}
-                      @title={{t "components.organization-learners.list-table.headers.active"}}
-                    />
-                  </span>
-                {{/if}}
-              </:cell>
-            </PixTableColumn>
-            <PixTableColumn
-              @type="number"
-              @onSort={{this.sortByUpdatedAt}}
-              @sortOrder={{this.updatedAtSort}}
-              @context={{context}}
-              @ariaLabelDefaultSort="Trier par date maj"
-              @ariaLabelSortAsc="Trier par date maj asc"
-              @ariaLabelSortDesc="Trier par date maj desc"
-            >
-              <:header>
-                {{t "components.organization-learners.list-table.headers.updated-at"}}
-              </:header>
-              <:cell>
-                {{formatDate organizationLearner.updatedAt}}
-              </:cell>
-            </PixTableColumn>
-          </:columns>
-        </PixTable>
+                  {{/if}}
+                </:cell>
+              </PixTableColumn>
+              <PixTableColumn
+                @type="number"
+                @onSort={{this.sortByBirthdate}}
+                @sortOrder={{this.birthdateSort}}
+                @context={{context}}
+                @ariaLabelDefaultSort="Trier par birthdate"
+                @ariaLabelSortAsc="Trier par birthdate asc"
+                @ariaLabelSortDesc="Trier par birthdate desc"
+              >
+                <:header>
+                  {{t "components.organization-learners.list-table.headers.birthdate"}}
+                </:header>
+                <:cell>
+                  {{formatDate organizationLearner.birthdate}}
+                </:cell>
+              </PixTableColumn>
+              <PixTableColumn @context={{context}}>
+                <:header>
+                  {{t "components.organization-learners.list-table.headers.national-student-id"}}
+                </:header>
+                <:cell>
+                  {{organizationLearner.nationalStudentId}}
+                </:cell>
+              </PixTableColumn>
+              <PixTableColumn @context={{context}}>
+                <:header>
+                  {{t "components.organization-learners.list-table.headers.division-group"}}
+                </:header>
+                <:cell>
+                  {{#if organizationLearner.division}}
+                    {{organizationLearner.division}}
+                  {{else if organizationLearner.group}}
+                    {{organizationLearner.group}}
+                  {{/if}}
+                </:cell>
+              </PixTableColumn>
+              <PixTableColumn @context={{context}}>
+                <:header>
+                  {{t "components.organization-learners.list-table.headers.user-id"}}
+                </:header>
+                <:cell>
+                  {{#if organizationLearner.userId}}
+                    <LinkTo
+                      @route="authenticated.users.get"
+                      @model={{organizationLearner.userId}}
+                      aria-label={{t "components.organization-learners.list-table.view-user"}}
+                    >
+                      {{organizationLearner.userId}}
+                    </LinkTo>
+                  {{/if}}
+                </:cell>
+              </PixTableColumn>
+              <PixTableColumn @context={{context}}>
+                <:header>
+                  {{t "components.organization-learners.list-table.headers.active"}}
+                </:header>
+                <:cell>
+                  {{#if organizationLearner.isDisabled}}
+                    <span class="organization-learner-list__icon-disabled">
+                      <PixIcon
+                        @name="cancel"
+                        @plainIcon={{true}}
+                        @title={{t "components.organization-learners.list-table.headers.inactive"}}
+                      />
+                    </span>
+                  {{else}}
+                    <span class="organization-learner-list__icon-active">
+                      <PixIcon
+                        @name="checkCircle"
+                        @plainIcon={{true}}
+                        @title={{t "components.organization-learners.list-table.headers.active"}}
+                      />
+                    </span>
+                  {{/if}}
+                </:cell>
+              </PixTableColumn>
+              <PixTableColumn
+                @type="number"
+                @onSort={{this.sortByUpdatedAt}}
+                @sortOrder={{this.updatedAtSort}}
+                @context={{context}}
+                @ariaLabelDefaultSort="Trier par date maj"
+                @ariaLabelSortAsc="Trier par date maj asc"
+                @ariaLabelSortDesc="Trier par date maj desc"
+              >
+                <:header>
+                  {{t "components.organization-learners.list-table.headers.updated-at"}}
+                </:header>
+                <:cell>
+                  {{formatDate organizationLearner.updatedAt}}
+                </:cell>
+              </PixTableColumn>
+            </:columns>
+          </PixTable>
 
-        <PaginationWrapper @pagination={{@organizationLearners.meta}} />
-      </SelectableList>
-    {{else}}
-      <div class="table__empty">{{t "common.tables.empty-result"}}</div>
-    {{/if}}
+          <Filters @destinationId={{filtersId}} />
+
+          <PaginationWrapper @pagination={{@organizationLearners.meta}} />
+        </SelectableList>
+      {{else}}
+        <div class="table__empty">{{t "common.tables.empty-result"}}</div>
+      {{/if}}
+    {{/let}}
   </template>
 }
+
+const Filters = <template>
+  <InElement @destinationId={{@destinationId}}>
+    <FilterBanner />
+  </InElement>
+</template>;
