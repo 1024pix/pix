@@ -17,60 +17,53 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
     });
 
     context('when data found for session', function () {
-      let sessionId;
+      const sessionId = 1;
       let expectedCoreData, expectedCleaData, expectedProSanteData, expectedDroitData, expectedEduData;
 
       beforeEach(function () {
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-          name: 'Centre certification le meilleur',
-        }).id;
-        sessionId = databaseBuilder.factory.buildSession({
-          certificationCenterId,
-          publishedAt: new Date('2026-01-03'),
-        }).id;
-        expectedCoreData = buildCertificateData({
-          framework: Frameworks.CORE,
+        const res = buildCertificatesDataInSameSession({
           sessionId,
-          certificationCenterId,
-          withOrgaLearner: true,
+          certificateArgs: [
+            {
+              framework: Frameworks.CORE,
+              withOrgaLearner: true,
+            },
+            {
+              framework: Frameworks.CLEA,
+              withOrgaLearner: false,
+            },
+            {
+              framework: Frameworks.PRO_SANTE,
+              withOrgaLearner: true,
+            },
+            {
+              framework: Frameworks.DROIT,
+              withOrgaLearner: false,
+            },
+            {
+              framework: Frameworks.EDU_CPE,
+              withOrgaLearner: true,
+            },
+          ],
         });
-        expectedCleaData = buildCertificateData({
-          framework: Frameworks.CLEA,
-          sessionId,
-          certificationCenterId,
-          withOrgaLearner: false,
-        });
-        expectedProSanteData = buildCertificateData({
-          framework: Frameworks.PRO_SANTE,
-          sessionId,
-          certificationCenterId,
-          withOrgaLearner: true,
-        });
-        expectedDroitData = buildCertificateData({
-          framework: Frameworks.DROIT,
-          sessionId,
-          certificationCenterId,
-          withOrgaLearner: false,
-        });
-        expectedEduData = buildCertificateData({
-          framework: Frameworks.EDU_CPE,
-          sessionId,
-          certificationCenterId,
-          withOrgaLearner: true,
-        });
+        expectedCoreData = res[0];
+        expectedCleaData = res[1];
+        expectedProSanteData = res[2];
+        expectedDroitData = res[3];
+        expectedEduData = res[4];
         // NOISE
-        const anotherCertificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-          name: 'Centre certification le pire',
-        }).id;
-        const anotherSessionId = databaseBuilder.factory.buildSession({
-          certificationCenterId: anotherCertificationCenterId,
-          publishedAt: new Date('2026-01-03'),
-        }).id;
-        buildCertificateData({
-          framework: Frameworks.CORE,
-          sessionId: anotherSessionId,
-          certificationCenterId: anotherCertificationCenterId,
-          withOrgaLearner: true,
+        buildCertificatesDataInSameSession({
+          sessionId: 888,
+          certificateArgs: [
+            {
+              framework: Frameworks.CORE,
+              withOrgaLearner: true,
+            },
+            {
+              framework: Frameworks.EDU_CPE,
+              withOrgaLearner: false,
+            },
+          ],
         });
         return databaseBuilder.commit();
       });
@@ -97,9 +90,126 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       });
     });
   });
+
+  describe('#findBuilderForCertifications', function () {
+    context('when no data found for given ids', function () {
+      it('returns an empty builder', async function () {
+        const certificateBuilder = await certificateBuilderRepository.findBuilderForCertifications([1, 2, 3]);
+        expect(certificateBuilder.certificationData).to.have.lengthOf(0);
+      });
+    });
+
+    context('when data found for ids', function () {
+      let expectedCoreData, expectedCleaData, expectedProSanteData, expectedDroitData, expectedEduData;
+
+      beforeEach(function () {
+        const res_1 = buildCertificatesDataInSameSession({
+          sessionId: 1,
+          certificateArgs: [
+            {
+              framework: Frameworks.CORE,
+              withOrgaLearner: true,
+            },
+            {
+              framework: Frameworks.CLEA,
+              withOrgaLearner: false,
+            },
+            {
+              framework: Frameworks.PRO_SANTE,
+              withOrgaLearner: true,
+            },
+            {
+              framework: Frameworks.DROIT,
+              withOrgaLearner: false,
+            },
+            {
+              framework: Frameworks.EDU_CPE,
+              withOrgaLearner: true,
+            },
+          ],
+        });
+        const res_2 = buildCertificatesDataInSameSession({
+          sessionId: 2,
+          certificateArgs: [
+            {
+              framework: Frameworks.PRO_SANTE,
+              withOrgaLearner: true,
+            },
+            {
+              framework: Frameworks.DROIT,
+              withOrgaLearner: false,
+            },
+            {
+              framework: Frameworks.EDU_CPE,
+              withOrgaLearner: true,
+            },
+          ],
+        });
+        expectedCoreData = res_1[0];
+        expectedCleaData = res_1[1];
+        expectedProSanteData = res_2[0];
+        expectedDroitData = res_2[1];
+        expectedEduData = res_2[2];
+        // NOISE
+        buildCertificatesDataInSameSession({
+          sessionId: 888,
+          certificateArgs: [
+            {
+              framework: Frameworks.CORE,
+              withOrgaLearner: true,
+            },
+            {
+              framework: Frameworks.EDU_CPE,
+              withOrgaLearner: false,
+            },
+          ],
+        });
+        return databaseBuilder.commit();
+      });
+
+      it('returns a CertificateBuilder filled with all data from the certifications of the given ids (ignore ids that would not produce results)', async function () {
+        const expectedAllCertificationData = [
+          expectedCoreData,
+          expectedCleaData,
+          expectedProSanteData,
+          expectedDroitData,
+          expectedEduData,
+        ].map(({ certificationData }) => certificationData);
+        const certificationCourseIds = expectedAllCertificationData.map(
+          ({ certificationCourseId }) => certificationCourseId,
+        );
+        const certificateBuilder = await certificateBuilderRepository.findBuilderForCertifications([
+          ...certificationCourseIds,
+          777,
+        ]);
+        const expectedAllLearnerData = [expectedCoreData, expectedProSanteData, expectedEduData].map(
+          ({ learnerData }) => learnerData,
+        );
+        expect(certificateBuilder).to.deepEqualInstance(
+          new CertificationResultBuilder({
+            certificationData: expectedAllCertificationData,
+            learnerData: expectedAllLearnerData,
+            cleaData: [expectedCleaData.cleaData],
+          }),
+        );
+      });
+    });
+  });
 });
 
-function buildCertificateData({ framework, sessionId, withOrgaLearner }) {
+function buildCertificatesDataInSameSession({ sessionId, certificateArgs }) {
+  const deliveredAt = new Date();
+  const certificationCenter = `Center for session ${sessionId}`;
+  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+    name: certificationCenter,
+  }).id;
+  databaseBuilder.factory.buildSession({ certificationCenterId, id: sessionId, publishedAt: deliveredAt });
+  return certificateArgs.map(({ framework, withOrgaLearner }) =>
+    buildCertificateData({ framework, sessionId, certificationCenter, deliveredAt, withOrgaLearner }),
+  );
+}
+
+function buildCertificateData({ framework, sessionId, certificationCenter, deliveredAt, withOrgaLearner }) {
   const isClea = framework === Frameworks.CLEA;
   const isCoreScope = [Frameworks.CLEA, Frameworks.CORE].includes(framework);
   const expectedCertifData = {
@@ -113,9 +223,9 @@ function buildCertificateData({ framework, sessionId, withOrgaLearner }) {
     birthPostalCode: `birthPostalCode_${framework}`,
     birthINSEECode: `birthINSEECode_${framework}`,
     birthCountry: `birthCountry_${framework}`,
-    certificationCenter: 'Centre certification le meilleur',
+    certificationCenter,
     startedAt: new Date('2026-01-01'),
-    deliveredAt: new Date('2026-01-03'),
+    deliveredAt,
     status: 'validated',
     framework,
     commentByAutoJury: `commentByAutoJury_${framework}`,
