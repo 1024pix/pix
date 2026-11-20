@@ -66,6 +66,7 @@ export * from './build-knowledge-state-migration.js';
 export * from './build-last-user-application-connection.js';
 export * from './build-legal-document-version.js';
 export * from './build-legal-document-version-user-acceptance.js';
+export * from './build-lti-campaign-participation.js';
 export * from './build-lti-platform.js';
 export * from './build-lti-platform-registration.js';
 export * from './build-membership.js';
