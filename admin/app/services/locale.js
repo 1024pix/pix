@@ -8,6 +8,8 @@ import { tracked } from '@glimmer/tracking';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import ENV from 'pix-admin/config/environment';
 
+import { TRANSLATION_LOADERS } from '../../translations/index.js';
+
 const { DEFAULT_LOCALE, SUPPORTED_LOCALES, COOKIE_LOCALE_LIFESPAN_IN_SECONDS } = ENV.APP;
 
 export const FRENCH_FRANCE_LOCALE = 'fr-FR';
@@ -26,11 +28,6 @@ const PIX_LANGUAGES = ['de', 'en', 'es', 'fr', 'it', 'nl'];
 
 const COOKIE_LOCALE = 'locale';
 
-const TRANSLATION_LOADERS = {
-  en: () => import('virtual:ember-intl/translations/en'),
-  fr: () => import('virtual:ember-intl/translations/fr'),
-};
-
 export default class LocaleService extends Service {
   @service featureToggles;
   @service cookies;
@@ -39,7 +36,7 @@ export default class LocaleService extends Service {
 
   @tracked __currentLocale = DEFAULT_LOCALE;
 
-  #loadedTranslations = new Set();
+  #loadedLocales = new Set();
 
   get currentLocale() {
     return this.__currentLocale;
@@ -126,13 +123,13 @@ export default class LocaleService extends Service {
 
   async #loadTranslations(locales) {
     const localesToLoad = [...new Set(locales)].filter(
-      (locale) => TRANSLATION_LOADERS[locale] && !this.#loadedTranslations.has(locale),
+      (locale) => TRANSLATION_LOADERS[locale] && !this.#loadedLocales.has(locale),
     );
     await Promise.all(
       localesToLoad.map(async (locale) => {
         const { default: translations } = await TRANSLATION_LOADERS[locale]();
         this.intl.addTranslations(locale, translations);
-        this.#loadedTranslations.add(locale);
+        this.#loadedLocales.add(locale);
       }),
     );
   }
