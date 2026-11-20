@@ -1,14 +1,13 @@
-import { PixBlock, PixIcon, PixStepper, PixTag } from '@1024pix/nebulix-ember';
+import { PixStepper, PixTag } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { formatDate, t } from 'ember-intl';
 import { and } from 'ember-truth-helpers';
-import formatISODate from 'mon-pix/helpers/format-iso-date';
 import { CERTIFICATE_TYPES } from 'mon-pix/models/certificate-summary';
 
 import Hexagon from '../../user-certifications/list-item/hexagon';
-import DownloadPdf from '../certificate-information/download-pdf';
+import CertificateHero from './certificate-hero';
+import ResultsInfos from './results-infos';
 
 const EDU_STEPS = {
   ADMISSIBLE: 2,
@@ -70,99 +69,45 @@ export default class PixPlusCertificate extends Component {
 
   <template>
     <section class="v3-shareable-certificate">
-      <div class="v3-pix-plus-certificate__hero">
-        <PixBlock class="v3-pix-plus-certificate__infos-block">
-          <div>
-            {{#if this.isUserCertificate}}
-              <h2 class="v3-pix-plus-certificate__title" data-testid="pw-candidate-certificate-global-level">
-                <strong>{{t "pages.certificate.congratulations"}}</strong>
-                {{this.certificationSubTitle}}
-              </h2>
-            {{else}}
-              <PixTag @color="green" class="v3-pix-plus-certificate__valid-tag">
-                <PixIcon @name="check" />
-                {{t "pages.certificate.valid-status"}}
-              </PixTag>
-
-              <h2 class="v3-pix-plus-certificate__title" data-testid="pw-candidate-certificate-global-level">
-                <strong>{{t "pages.certificate.valid-status"}}</strong>
-                {{this.certificationSubTitle}}
-              </h2>
-            {{/if}}
-
-            {{#if this.isCandidateEduAdmissible}}
-              <PixStepper
-                class="v3-pix-plus-certificate__stepper"
-                @steps={{this.steps}}
-                @currentStep={{this.eduCurrentStep}}
-              />
-            {{/if}}
-
-            <div class="v3-pix-plus-certificate__details">
-              <p>
-                <strong>
-                  {{t "pages.certificate.candidate"}}
-                  {{@certificate.firstName}}
-                  {{@certificate.lastName}}
-                </strong><br />
-                {{t
-                  "pages.certificate.candidate-birth-complete"
-                  birthdate=(formatISODate @certificate.birthdate format="L")
-                  birthplace=@certificate.birthplace
-                }}
-              </p>
-              <dl>
-                <dt><strong>{{t "pages.certificate.certification-center"}}</strong></dt>
-                <dd><strong>{{@certificate.certificationCenter}}</strong></dd>
-
-                <dt>{{t "pages.certificate.certification-date"}}</dt>
-                <dd>{{formatDate @certificate.certificationDate format="L"}}</dd>
-
-                <dt>{{t "pages.certificate.delivered-at"}}</dt>
-                <dd>{{formatDate @certificate.deliveredAt format="L"}}</dd>
-              </dl>
-            </div>
-          </div>
-          <div class="v3-pix-plus-certificate__score">
-            {{#if this.isCandidateEduAdmissible}}
-              <Hexagon
-                @framework={{@certificate.certificationFramework}}
-                @certificateType={{CERTIFICATE_TYPES.CERTIFICATE}}
-                @reachedMeshLevel={{@certificate.level}}
-              />
-              <PixTag @color="green">{{this.reachedMeshLabel}}</PixTag>
-            {{else}}
-              <Hexagon @badgeUrl={{@certificate.badgeUrl}} />
-            {{/if}}
-          </div>
-        </PixBlock>
-
-        {{#if this.isUserCertificate}}
-          <DownloadPdf @certificate={{@certificate}} />
-        {{/if}}
-      </div>
+      <CertificateHero
+        @certificate={{@certificate}}
+        @subTitle={{this.certificationSubTitle}}
+        @isUserCertificate={{this.isUserCertificate}}
+      >
+        <:stepper>
+          {{#if this.isCandidateEduAdmissible}}
+            <PixStepper
+              class="v3-pix-plus-certificate__stepper"
+              @steps={{this.steps}}
+              @currentStep={{this.eduCurrentStep}}
+            />
+          {{/if}}
+        </:stepper>
+        <:score>
+          {{#if this.isCandidateEduAdmissible}}
+            <Hexagon
+              @framework={{@certificate.certificationFramework}}
+              @certificateType={{CERTIFICATE_TYPES.CERTIFICATE}}
+              @reachedMeshLevel={{@certificate.level}}
+            />
+            <PixTag @color="green">{{this.reachedMeshLabel}}</PixTag>
+          {{else}}
+            <Hexagon @badgeUrl={{@certificate.badgeUrl}} />
+          {{/if}}
+        </:score>
+      </CertificateHero>
 
       {{#if this.isCandidateEduAdmissible}}
-        <PixBlock class="v3-pix-plus-certificate__results-infos-block">
-          <img src="/images/illustrations/user-certifications/certificate-magnifier.png" alt="" />
-          <div class="v3-pix-plus-certificate__results-infos-details">
-            <h3 class="v3-pix-plus-certificate__title">{{t "pages.certificate.results.title"}}</h3>
-            <p><strong>{{this.eduResultsSubTitle}}</strong></p>
-            {{this.eduResultsInfos}}
-          </div>
-        </PixBlock>
+        <ResultsInfos @summary={{this.eduResultsSubTitle}}>
+          <:description>{{this.eduResultsInfos}}</:description>
+        </ResultsInfos>
       {{else if (and @certificate.globalSummaryLabel @certificate.globalDescriptionLabel)}}
-        <PixBlock class="v3-pix-plus-certificate__results-infos-block">
-          <img src="/images/illustrations/user-certifications/certificate-magnifier.png" alt="" />
-          <div class="v3-pix-plus-certificate__results-infos-details">
-            <h3 class="v3-pix-plus-certificate__title">
-              <span>{{t "pages.certificate.results.title"}}</span>
-              <PixTag class="mesh-level-tag" @color="yellow">{{this.reachedMeshLabel}}</PixTag>
-            </h3>
-            <p><strong>{{@certificate.globalSummaryLabel}}</strong></p>
-            {{@certificate.globalDescriptionLabel}}
-          </div>
-        </PixBlock>
+        <ResultsInfos @summary={{@certificate.globalSummaryLabel}}>
+          <:tag>
+            <PixTag class="v3-pix-plus-certificate__mesh-level-tag" @color="yellow">{{this.reachedMeshLabel}}</PixTag>
+          </:tag>
+          <:description>{{@certificate.globalDescriptionLabel}}</:description>
+        </ResultsInfos>
       {{/if}}
     </section>
   </template>

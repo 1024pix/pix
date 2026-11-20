@@ -1,104 +1,45 @@
-import { PixBlock, PixIcon, PixTag } from '@1024pix/nebulix-ember';
+import { PixBlock, PixTag } from '@1024pix/nebulix-ember';
 import { formatDate, t } from 'ember-intl';
 import formatISODate from 'mon-pix/helpers/format-iso-date';
 
+import PixScoreHexagon from './pix-score-hexagon';
+
 <template>
-  {{#if @isShareableContext}}
-    <div class="v3-pix-plus-certificate__hero">
-      <PixBlock class="v3-pix-plus-certificate__infos-block">
-        <div>
-          <PixTag @color="green" class="v3-pix-plus-certificate__valid-tag">
-            <PixIcon @name="check" />
-            {{t "pages.certificate.valid-status"}}
-          </PixTag>
-
-          <h2 class="v3-pix-plus-certificate__title" data-testid="pw-candidate-certificate-global-level">
-            <strong>{{t "pages.certificate.valid-status"}}</strong>
-            {{t "pages.certificate.obtained-certification.shareable-core"}}
-          </h2>
-
-          <div class="v3-pix-plus-certificate__details">
-            <p>
-              <strong>
-                {{t "pages.certificate.candidate"}}
-                {{@certificate.firstName}}
-                {{@certificate.lastName}}
-              </strong><br />
-              {{t
-                "pages.certificate.candidate-birth-complete"
-                birthdate=(formatISODate @certificate.birthdate format="L")
-                birthplace=@certificate.birthplace
-              }}
-            </p>
-            <dl>
-              <dt><strong>{{t "pages.certificate.certification-center"}}</strong></dt>
-              <dd><strong>{{@certificate.certificationCenter}}</strong></dd>
-
-              <dt>{{t "pages.certificate.certification-date"}}</dt>
-              <dd>{{formatDate @certificate.certificationDate format="L"}}</dd>
-
-              <dt>{{t "pages.certificate.delivered-at"}}</dt>
-              <dd>{{formatDate @certificate.deliveredAt format="L"}}</dd>
-            </dl>
-          </div>
-        </div>
-        <div class="v3-pix-plus-certificate__score">
-          <div data-testid="pw-candidate-certificate-pix-score" class="candidate-information-score__hexagon">
-            <span class="candidate-information-score-hexagon__pix">{{t "common.pix"}}</span>
-            <span class="candidate-information-score-hexagon__score">{{@certificate.pixScore}}</span>
-            <span class="candidate-information-score-hexagon__certified">
-              {{t "pages.certificate.hexagon-score.certified"}}
-            </span>
-          </div>
-          {{#if @certificate.globalLevelLabel}}
-            <PixTag @color="green">{{@certificate.globalLevelLabel}}</PixTag>
-          {{/if}}
-        </div>
-      </PixBlock>
+  <PixBlock class="candidate-information">
+    <div class="candidate-information__score">
+      <PixScoreHexagon @pixScore={{@certificate.pixScore}} />
+      {{#if @certificate.globalLevelLabel}}
+        <PixTag data-testid="global-level-label-tag">{{@certificate.globalLevelLabel}}</PixTag>
+      {{/if}}
     </div>
-  {{else}}
-    <PixBlock class="candidate-information">
-      <div class="candidate-information__score">
-        <div data-testid="pw-candidate-certificate-pix-score" class="candidate-information-score__hexagon">
-          <span class="candidate-information-score-hexagon__pix">{{t "common.pix"}}</span>
-          <span class="candidate-information-score-hexagon__score">{{@certificate.pixScore}}</span>
-          <span class="candidate-information-score-hexagon__certified">
-            {{t "pages.certificate.hexagon-score.certified"}}
-          </span>
-        </div>
-        {{#if @certificate.globalLevelLabel}}
-          <PixTag data-testid="global-level-label-tag">{{@certificate.globalLevelLabel}}</PixTag>
-        {{/if}}
-      </div>
-      <div class="candidate-information__list">
-        {{yield}}
-        <ul>
-          <li class="candidate-information-list--bold candidate-information-list__firstName">
-            {{t "pages.certificate.candidate"}}
-            {{@certificate.firstName}}
-            {{@certificate.lastName}}
-          </li>
-          <li>
-            {{t
-              "pages.certificate.candidate-birth-complete"
-              birthdate=(formatISODate @certificate.birthdate format="L")
-              birthplace=@certificate.birthplace
-            }}
-          </li>
-          <li class="candidate-information-list--bold">
-            {{t "pages.certificate.certification-center"}}
-            {{@certificate.certificationCenter}}
-          </li>
-          <li>
-            {{t "pages.certificate.certification-date"}}
-            {{formatDate @certificate.certificationDate format="L"}}
-          </li>
-          <li>
-            {{t "pages.certificate.delivered-at"}}
-            {{formatDate @certificate.deliveredAt format="L"}}
-          </li>
-        </ul>
-      </div>
-    </PixBlock>
-  {{/if}}
+    <div class="candidate-information__list">
+      {{yield}}
+      <ul>
+        <li class="candidate-information-list--bold candidate-information-list__firstName">
+          {{t "pages.certificate.candidate"}}
+          {{@certificate.firstName}}
+          {{@certificate.lastName}}
+        </li>
+        <li>
+          {{t
+            "pages.certificate.candidate-birth-complete"
+            birthdate=(formatISODate @certificate.birthdate format="L")
+            birthplace=@certificate.birthplace
+          }}
+        </li>
+        <li class="candidate-information-list--bold">
+          {{t "pages.certificate.certification-center"}}
+          {{@certificate.certificationCenter}}
+        </li>
+        <li>
+          {{t "pages.certificate.certification-date"}}
+          {{formatDate @certificate.certificationDate format="L"}}
+        </li>
+        <li>
+          {{t "pages.certificate.delivered-at"}}
+          {{formatDate @certificate.deliveredAt format="L"}}
+        </li>
+      </ul>
+    </div>
+  </PixBlock>
 </template>
