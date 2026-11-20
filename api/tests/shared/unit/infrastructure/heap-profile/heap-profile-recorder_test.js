@@ -9,6 +9,7 @@ import {
   PROFILE_STATUS,
   SKIP_REASON,
 } from '../../../../../src/shared/infrastructure/heap-profile/heap-profile-recorder.js';
+import { SamplingAlreadyInProgressError } from '../../../../../src/shared/infrastructure/heap-profile/sampling-heap-profiler.js';
 
 const gunzipAsync = promisify(gunzip);
 
@@ -181,6 +182,22 @@ describe('Shared | Unit | Infrastructure | HeapProfile | heap-profile-recorder',
       skipReason: SKIP_REASON.IN_PROGRESS,
     });
     expect(startSampling).to.have.been.calledOnce;
+  });
+
+  it('skips a request while the continuous export holds the profiler', async function () {
+    // given
+    startSampling.rejects(new SamplingAlreadyInProgressError());
+    const recordHeapProfile = createHeapProfileRecorder(dependencies);
+
+    // when
+    const result = await recordHeapProfile({ durationMs: 60_000 });
+
+    // then
+    expect(result).to.deep.equal({
+      status: PROFILE_STATUS.SKIPPED,
+      skipReason: SKIP_REASON.IN_PROGRESS,
+    });
+    expect(logger.error).not.to.have.been.called;
   });
 
   it('accepts a new request once the previous window is closed', async function () {

@@ -222,6 +222,103 @@ pix_api_process_memory_bytes{type=~"native_unaccounted|swap"}
   and on(instance) changes(pix_api_process_memory_bytes{type="rss"}[10m]) > 0
 ```
 
+## Export continu vers OpenObserve
+
+Le profil à la demande suppose d'être là au bon moment. Pour les **sauts du tas**
+— plusieurs dizaines de Mo qui montent puis redescendent en quelques secondes —
+c'est rarement le cas, et un profil limité aux allocations survivantes ne les
+verrait de toute façon pas : ces objets sont déjà collectés à la fermeture de la
+fenêtre.
+
+L'export continu enchaîne donc des fenêtres courtes (30 s par défaut) **en
+incluant les objets collectés**, et pousse chaque profil au collector
+OpenTelemetry, qui le transmet à OpenObserve comme profil OTLP. Devant un saut
+sur la courbe du tas, le profil de la même fenêtre dit quel code a alloué :
+
+```
+Node (pprof alloc_space) ──POST /v1/pprof──▶ collector (receiver pprof) ──OTLP profiles──▶ OpenObserve
+```
+
+### Activation
+
+| Variable | Rôle |
+| --- | --- |
+| `HEAP_PROFILE_EXPORT_ENABLED=true` | démarre l'export dans les process lancés avec `tracing*.js` |
+| `HEAP_PROFILE_EXPORT_ENDPOINT` | URL du receiver, ex. `http://otel-collector:4040/v1/pprof` |
+| `HEAP_PROFILE_EXPORT_WINDOW` | durée d'une fenêtre, `30s` par défaut |
+
+L'export suit aussi le feature toggle `isOpenTelemetryEnabled` : toggle coupé, le
+profileur ne tourne pas. L'intervalle d'échantillonnage est le même que pour le
+profil à la demande (`HEAP_PROFILE_SAMPLING_INTERVAL`).
+
+Le profileur de V8 est unique par process : tant que l'export tourne, une
+demande de profil à la demande sur ce conteneur revient `skipped`
+(`in-progress`). Couper l'export le temps d'un profil à la demande si besoin.
+
+### Côté collector
+
+Le signal profiles est en alpha : il faut lancer le collector avec
+`--feature-gates=+service.profilesSupport` (testé avec `otelcol-contrib` 0.153.0).
+
+Le pprof ne porte pas de ressource OpenTelemetry : l'API envoie le service et le
+conteneur dans des en-têtes, que le collector recopie en attributs.
+
+```yaml
+receivers:
+  pprof:
+    server:
+      endpoint: 0.0.0.0:4040
+      include_metadata: true
+
+processors:
+  resource/pprof:
+    attributes:
+      - key: service.name
+        from_context: metadata.x-service-name
+        action: upsert
+      - key: scalingo.container
+        from_context: metadata.x-scalingo-container
+        action: upsert
+
+exporters:
+  otlp_http/openobserve:
+    profiles_endpoint: https://<openobserve>/api/<org>/v1/profiles
+    headers:
+      Authorization: Basic <…>
+      stream-name: default
+
+service:
+  pipelines:
+    profiles:
+      receivers: [pprof]
+      processors: [resource/pprof]
+      exporters: [otlp_http/openobserve]
+```
+
+Ne pas ajouter de labels aux échantillons pprof : OpenObserve rejette alors le
+lot (`dictionary.attribute_table[0] must be the zero value`).
+
+### Lire les profils
+
+OpenObserve range un profil à plat, une ligne par pile : colonnes `stack`
+(feuille en tête, frames séparées par `;`), `value` (octets alloués pendant la
+fenêtre), `profile_type` (`alloc_space`), `service_name`, `scalingo_container`.
+Chaque frame porte son fichier et sa ligne, relatifs à la racine de l'API :
+`from;getResults (src/prescription/…/get-results.js:10);…`.
+
+Les piles qui ont le plus alloué sur un conteneur, autour d'un saut :
+
+```sql
+SELECT stack, sum(value) AS bytes
+FROM "default"
+WHERE profile_type = 'alloc_space' AND scalingo_container = 'web-3'
+GROUP BY stack
+ORDER BY bytes DESC
+LIMIT 20
+```
+
+La page *Profiles* d'OpenObserve affiche les mêmes données en flamegraph.
+
 ## Coût
 
 Un profil échantillonné n'intercepte qu'une allocation par tranche de

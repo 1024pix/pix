@@ -186,6 +186,12 @@ export const schema = Joi.object({
   HEAP_PROFILE_DEFAULT_DURATION: Joi.string().optional(),
   HEAP_PROFILE_MAX_DURATION: Joi.string().optional(),
   HEAP_PROFILE_MAX_REQUEST_AGE: Joi.string().optional(),
+  HEAP_PROFILE_EXPORT_ENABLED: Joi.string().optional().valid('true', 'false'),
+  HEAP_PROFILE_EXPORT_ENDPOINT: Joi.string().uri().optional().when('HEAP_PROFILE_EXPORT_ENABLED', {
+    is: 'true',
+    then: Joi.required(),
+  }),
+  HEAP_PROFILE_EXPORT_WINDOW: Joi.string().optional(),
   EVENT_LOOP_WATCHDOG_ENABLED: Joi.string().optional().valid('true', 'false'),
   EVENT_LOOP_WATCHDOG_CHECK_INTERVAL: Joi.string().duration().optional(),
   EVENT_LOOP_WATCHDOG_THRESHOLD: Joi.string().duration().optional(),
@@ -417,6 +423,15 @@ export const config = {
     maxDuration: ms(process.env.HEAP_PROFILE_MAX_DURATION ?? '30m'),
     // au-delà, une demande reçue est considérée comme périmée et ignorée
     maxRequestAge: ms(process.env.HEAP_PROFILE_MAX_REQUEST_AGE ?? '30s'),
+    // export continu des allocations vers le receiver pprof du collector
+    // OpenTelemetry, pour retrouver après coup le code responsable d'un saut du tas
+    export: {
+      enabled: toBoolean(process.env.HEAP_PROFILE_EXPORT_ENABLED),
+      // ex. http://otel-collector:4040/v1/pprof
+      endpoint: process.env.HEAP_PROFILE_EXPORT_ENDPOINT,
+      // une fenêtre = un profil : sa durée fixe la résolution temporelle
+      window: ms(process.env.HEAP_PROFILE_EXPORT_WINDOW ?? '30s'),
+    },
   },
   infra: {
     appName: process.env.APP,
