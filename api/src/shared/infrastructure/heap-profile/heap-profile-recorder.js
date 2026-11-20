@@ -7,7 +7,7 @@ import { config } from '../../../../config/config.js';
 import { child } from '../utils/logger.js';
 import { summarizeAllocationSites } from './heap-profile-summary.js';
 import { getMemoryBreakdown } from './memory-breakdown.js';
-import { startSampling } from './sampling-heap-profiler.js';
+import { SamplingAlreadyInProgressError, startSampling } from './sampling-heap-profiler.js';
 
 export const PROFILE_STATUS = {
   STARTED: 'started',
@@ -190,6 +190,11 @@ export function createHeapProfileRecorder(dependencies = {}) {
 
       return result;
     } catch (error) {
+      if (error instanceof SamplingAlreadyInProgressError) {
+        // le profileur est tenu par l'export continu (cf. allocation-profile-exporter.js)
+        logger.warn({ reason }, 'le profileur est déjà utilisé dans ce process, demande ignorée');
+        return { status: PROFILE_STATUS.SKIPPED, skipReason: SKIP_REASON.IN_PROGRESS };
+      }
       logger.error({ err: error, reason }, 'profilage des allocations : échec');
       return { status: PROFILE_STATUS.FAILED, error: error.message };
     } finally {

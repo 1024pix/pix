@@ -14,12 +14,20 @@ import { promisify } from 'node:util';
  *
  * `node:inspector` plutôt que `node:inspector/promises`, encore expérimental.
  *
+ * Deux utilisateurs se partagent ce profileur unique — le profilage à la demande
+ * et l'export continu — d'où le verrou au niveau du module : sans lui, V8
+ * accepterait silencieusement le second démarrage.
+ *
  * @param {object} params
  * @param {number} params.samplingInterval un échantillon par tranche de N octets alloués
  * @param {boolean} [params.includeCollected] inclure les objets déjà collectés
  * @returns {Promise<{ stop: () => Promise<object> }>}
+ * @throws {SamplingAlreadyInProgressError} si une fenêtre est déjà ouverte dans le process
  */
 export async function startSampling({ samplingInterval, includeCollected = false }) {
+  if (isSampling) throw new SamplingAlreadyInProgressError();
+  isSampling = true;
+
   const session = new Session();
   session.connect();
   const post = promisify(session.post.bind(session));
@@ -36,8 +44,11 @@ export async function startSampling({ samplingInterval, includeCollected = false
     });
   } catch (error) {
     session.disconnect();
+    isSampling = false;
     throw error;
   }
+
+  let isReleased = false;
 
   return {
     async stop() {
@@ -46,7 +57,22 @@ export async function startSampling({ samplingInterval, includeCollected = false
         return profile;
       } finally {
         session.disconnect();
+        // un second `stop` sur la même prise — le désarmement de secours du
+        // recorder — ne doit pas libérer le verrou d'une fenêtre ouverte depuis
+        if (!isReleased) {
+          isReleased = true;
+          isSampling = false;
+        }
       }
     },
   };
+}
+
+let isSampling = false;
+
+export class SamplingAlreadyInProgressError extends Error {
+  constructor() {
+    super('une fenêtre de profilage des allocations est déjà ouverte dans ce process');
+    this.name = 'SamplingAlreadyInProgressError';
+  }
 }
