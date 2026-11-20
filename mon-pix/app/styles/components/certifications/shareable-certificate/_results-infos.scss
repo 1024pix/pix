@@ -1,0 +1,46 @@
+@use 'pix-design-tokens/breakpoints';
+@use 'pix-design-tokens/typography';
+
+.results-infos {
+  display: grid;
+  grid-template-columns: min(90px, 15%) 1fr;
+  gap: var(--pix-spacing-8x);
+  align-items: center;
+
+  & > img {
+    width: 100%;
+  }
+
+  @include breakpoints.device-is('mobile') {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-3x);
+    align-items: stretch;
+
+    & > :first-child {
+      align-self: center;
+      width: 60px;
+    }
+  }
+
+  &__details {
+    @extend %pix-body-m;
+
+    & > :not(:first-child) {
+      margin-top: var(--pix-spacing-3x);
+    }
+
+    ol {
+      padding-left: 1.5em;
+      list-style: decimal;
+
+      li + li {
+        margin-top: var(--pix-spacing-1x);
+      }
+    }
+  }
+
+  &__title {
+    @extend %pix-title-xs;
+  }
+}

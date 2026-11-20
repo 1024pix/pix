@@ -2,16 +2,12 @@ import { PixBlock, PixTag } from '@1024pix/nebulix-ember';
 import { formatDate, t } from 'ember-intl';
 import formatISODate from 'mon-pix/helpers/format-iso-date';
 
+import PixScoreHexagon from './pix-score-hexagon';
+
 <template>
   <PixBlock class="candidate-information">
     <div class="candidate-information__score">
-      <div data-testid="pw-candidate-certificate-pix-score" class="candidate-information-score__hexagon">
-        <span class="candidate-information-score-hexagon__pix">{{t "common.pix"}}</span>
-        <span class="candidate-information-score-hexagon__score">{{@certificate.pixScore}}</span>
-        <span class="candidate-information-score-hexagon__certified">{{t
-            "pages.certificate.hexagon-score.certified"
-          }}</span>
-      </div>
+      <PixScoreHexagon @pixScore={{@certificate.pixScore}} />
       {{#if @certificate.globalLevelLabel}}
         <PixTag data-testid="global-level-label-tag">{{@certificate.globalLevelLabel}}</PixTag>
       {{/if}}

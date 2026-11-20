@@ -1,0 +1,87 @@
+@use 'pix-design-tokens/breakpoints';
+@use 'pix-design-tokens/typography';
+
+.certificate-hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-8x);
+
+  .download-pdf {
+    flex-shrink: 0;
+    justify-content: center;
+  }
+
+  @include breakpoints.device-is('desktop') {
+    flex-direction: row;
+  }
+
+  &__infos-block {
+    display: grid;
+    flex-grow: 1;
+    grid-template-columns: 1fr auto;
+    gap: max(var(--pix-spacing-6x), 4vw);
+    align-items: center;
+    padding-right: max(var(--pix-spacing-6x), 4vw);
+
+    @include breakpoints.device-is('mobile') {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: stretch;
+
+      & > :last-child {
+        align-self: center;
+      }
+    }
+  }
+
+  &__valid-tag {
+    gap: var(--pix-spacing-1x);
+    margin-bottom: var(--pix-spacing-6x);
+    padding: 0 var(--pix-spacing-3x);
+    font-weight: normal;
+    font-size: 0.75rem;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  &__title {
+    @extend %pix-title-xs;
+
+    strong {
+      @extend %pix-title-s;
+
+      display: block;
+    }
+  }
+
+  &__details {
+    @extend %pix-body-s;
+
+    margin-top: var(--pix-spacing-8x);
+
+    dl {
+      margin-top: var(--pix-spacing-6x);
+    }
+
+    dd, dt {
+      display: inline;
+      vertical-align: middle;
+    }
+
+    dd::after {
+      display: block;
+      content: '';
+    }
+  }
+
+  &__score {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+  }
+}
