@@ -39,10 +39,10 @@ class FakePgBoss {
     return;
   }
   getQueue() {
-    return;
+    return { queuedCount: 0 };
   }
   getQueueStats() {
-    return { queuedCount: 0 };
+    return [];
   }
 
   publish() {
@@ -473,7 +473,7 @@ describe('Unit | JobClient', function () {
         const pgBossStub = new FakePgBoss();
         sinon.stub(pgBossStub, 'deleteQueue');
         sinon.stub(pgBossStub, 'createQueue');
-        sinon.stub(pgBossStub, 'getQueueStats').resolves({ queuedCount: 1 });
+        sinon.stub(pgBossStub, 'getQueue').resolves({ queuedCount: 1 });
 
         // when
         const jobClient = new JobClient();
@@ -495,7 +495,7 @@ describe('Unit | JobClient', function () {
         //given
         const pgBossStub = new FakePgBoss();
         sinon.stub(pgBossStub, 'deleteQueue');
-        sinon.stub(pgBossStub, 'getQueueStats').resolves({ queuedCount: 0 });
+        sinon.stub(pgBossStub, 'getQueue').resolves({ queuedCount: 0 });
 
         // when
         const jobClient = new JobClient();
@@ -509,7 +509,30 @@ describe('Unit | JobClient', function () {
         );
 
         // then
-        expect(pgBossStub.deleteQueue).to.have.been.calledWith();
+        expect(pgBossStub.deleteQueue).to.have.been.calledWith('test.to-delete.event-queue');
+      });
+
+      it('does nothing when queue has already been deleted', async function () {
+        //given
+        const pgBossStub = new FakePgBoss();
+        sinon.stub(pgBossStub, 'deleteQueue');
+        sinon.stub(pgBossStub, 'createQueue');
+        sinon.stub(pgBossStub, 'getQueue').resolves(null);
+
+        // when
+        const jobClient = new JobClient();
+        await jobClient.initialize(
+          {
+            jobGroups: [JobGroup.DEFAULT],
+            isTestOnly: true,
+            worker: true,
+          },
+          () => pgBossStub,
+        );
+
+        // then
+        expect(pgBossStub.deleteQueue).to.not.have.been.called;
+        expect(pgBossStub.createQueue).to.not.have.been.calledWith('test.to-delete.event-queue');
       });
     });
   });

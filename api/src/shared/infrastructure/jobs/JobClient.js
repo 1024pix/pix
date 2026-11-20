@@ -232,10 +232,12 @@ export class JobClient {
     await this.#pgBoss.unsubscribe(job.eventName, job.jobName);
     logger.info(`Event handler "${job.jobName}" unsubscribed from "${job.eventName}".`);
 
-    const stats = await this.#pgBoss.getQueueStats(job.jobName);
+    // Null once the queue has been deleted by a previous deployment
+    const queue = await this.#pgBoss.getQueue(job.jobName);
+    if (!queue) return;
 
-    if (stats.queuedCount > 0) {
-      logger.info(`Event handler "${job.jobName}" has ${stats.queuedCount} pending events.`);
+    if (queue.queuedCount > 0) {
+      logger.info(`Event handler "${job.jobName}" has ${queue.queuedCount} pending events.`);
       logger.info(`Job "${job.jobName}" registered from module "${moduleName}."`);
       await this.registerJob(job.jobName, ModuleClass, queueOptionsOf(job));
     } else {
