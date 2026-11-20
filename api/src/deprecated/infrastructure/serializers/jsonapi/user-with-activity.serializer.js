@@ -23,7 +23,6 @@ const serialize = function (users, meta) {
       'hasSeenAssessmentInstructions',
       'isCertifiable',
       'hasSeenNewDashboardInfo',
-      'hasSeenOtherChallengesTooltip',
       'hasAssessmentParticipations',
       'hasRecommendedTrainings',
       'codeForLastProfileToShare',
