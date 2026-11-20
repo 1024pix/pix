@@ -33,7 +33,7 @@ describe('Integration | LTI | Application | Route', function () {
 
       // then
       expect(response.statusCode).to.equal(400);
-      expect(response.result).to.equal(`<!DOCTYPE html>
+      expect(response.result).to.equal(`<!doctype html>
 <html>
   <body>
     <h1>Registration error</h1>

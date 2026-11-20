@@ -1,11 +1,9 @@
 function serialize() {
-  return `<!DOCTYPE html>
+  return `<!doctype html>
 <html>
   <body>
     Registration successfull, please wait...
-    <script type="text/javascript">
-      (window.opener ?? window.parent).postMessage({ subject:'org.imsglobal.lti.close' }, '*');
-    </script>
+    <script>(window.opener ?? window.parent).postMessage({ subject:'org.imsglobal.lti.close' }, '*');</script>
   </body>
 </html>
 `;

@@ -1,5 +1,5 @@
 function serialize({ title, message }) {
-  return `<!DOCTYPE html>
+  return `<!doctype html>
 <html>
   <body>
     <h1>${title}</h1>
