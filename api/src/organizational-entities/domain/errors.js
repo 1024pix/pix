@@ -170,6 +170,14 @@ class StructureNotFoundError extends DomainError {
   }
 }
 
+class NoCreditAvailableError extends DomainError {
+  constructor({ code = 'NO_CREDIT_AVAILABLE', message = 'No credit available for this organization', meta } = {}) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
 class UnableToAttachCertificationCenterToOrganization extends DomainError {
   constructor({
     code = 'UNABLE_TO_ATTACH_CERTIFICATION_CENTER_TO_ORGANIZATION',
@@ -214,6 +222,7 @@ export {
   FeatureNotFound,
   FeatureParamsNotProcessable,
   NetworkAlreadyExistError,
+  NoCreditAvailableError,
   OrganizationBatchCreationError,
   OrganizationBatchUpdateError,
   OrganizationLearnerTypeNotFound,
