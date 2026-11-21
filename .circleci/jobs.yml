@@ -145,7 +145,7 @@ executors:
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
-      - image: mcr.microsoft.com/playwright:v1.65.0-noble
+      - image: mcr.microsoft.com/playwright:v1.65.1-noble
         user: pwuser
         environment:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
@@ -154,7 +154,7 @@ executors:
             'npx',
             '-y',
             # renovate datasource=npm depName=playwright
-            'playwright@1.65.0',
+            'playwright@1.65.1',
             'run-server',
             '--port',
             '3001',
@@ -181,7 +181,7 @@ executors:
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
-      - image: mcr.microsoft.com/playwright:v1.65.0-noble
+      - image: mcr.microsoft.com/playwright:v1.65.1-noble
         user: pwuser
         environment:
           PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
@@ -190,7 +190,7 @@ executors:
             'npx',
             '-y',
             # renovate datasource=npm depName=playwright
-            'playwright@1.65.0',
+            'playwright@1.65.1',
             'run-server',
             '--port',
             '3001',
