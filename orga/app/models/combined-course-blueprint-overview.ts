@@ -17,6 +17,7 @@ export default class CombinedCourseBlueprintOverview extends Model {
   @attr<StringTransform>('string') declare description: string | null;
   @attr<StringTransform>('string') declare prescriberDescription: string | null;
   @attr<StringTransform>('string') declare illustration: string | null;
+  @attr<StringTransform>('string') declare durationSpan: string | null;
 
   @hasMany<CombinedCourseBlueprintItem>('combined-course-blueprint-item', { async: false, inverse: null })
   declare items: HasMany<CombinedCourseBlueprintItem>;

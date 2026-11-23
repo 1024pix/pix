@@ -14,6 +14,7 @@ import Badges from '../campaign/badges';
 import { COMBINED_COURSE_BLUEPRINT_OVERVIEW, getCourseInfo, TARGET_PROFILE_OVERVIEW } from './course-card.gjs';
 import CombinedCourseBlueprintContent from './course-modal/combined-course-blueprint-content.gjs';
 import TargetProfileContent from './course-modal/target-profile-content.gjs';
+import DurationSpan from './duration-span.gjs';
 
 export default class CourseModal extends Component {
   @service currentUser;
@@ -64,6 +65,10 @@ export default class CourseModal extends Component {
     if (this.isTargetProfile) return this.args.currentCourse.description;
     if (this.isCombinedCourseBlueprint) return this.args.currentCourse.prescriberDescription;
     return '';
+  }
+
+  get displayDurationSpan() {
+    return this.isCombinedCourseBlueprint && Boolean(this.args.currentCourse.durationSpan);
   }
 
   get courseId() {
@@ -139,6 +144,12 @@ export default class CourseModal extends Component {
                 {{else}}
                   {{t "common.target-profile-details.simplified-access.with-account"}}
                 {{/if}}
+              </p>
+            {{/if}}
+
+            {{#if this.displayDurationSpan}}
+              <p class="course-modal__footer__text">
+                <DurationSpan @durationSpan={{@currentCourse.durationSpan}} />
               </p>
             {{/if}}
           </div>

@@ -226,6 +226,47 @@ module('Integration | Component | Catalogue::CourseModal', function (hooks) {
       assert.dom(screen.getByText(t('pages.catalogue.card.tag.blueprint'))).exists();
     });
 
+    test('it shows the estimated duration span', async function (assert) {
+      //given
+      const currentCourse = store.createRecord('combined-course-blueprint-overview', {
+        name: 'Ma super formation',
+        prescriberDescription: 'prescriberDescription',
+        durationSpan: 'medium',
+      });
+
+      //when
+      const screen = await render(
+        <template>
+          <CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} @isModalOpen={{true}} />
+        </template>,
+      );
+
+      // then
+      const durationLabel = t('pages.catalogue.duration.options.medium');
+      assert.dom(screen.getByText(durationLabel)).exists();
+      assert.dom(screen.getByLabelText(t('pages.catalogue.duration.aria-label', { duration: durationLabel }))).exists();
+    });
+
+    test('it does not show duration span when it is not set', async function (assert) {
+      //given
+      const currentCourse = store.createRecord('combined-course-blueprint-overview', {
+        name: 'Ma super formation',
+        prescriberDescription: 'prescriberDescription',
+        durationSpan: null,
+      });
+
+      //when
+      const screen = await render(
+        <template>
+          <CourseModal @currentCourse={{currentCourse}} @closeModal={{closeModal}} @isModalOpen={{true}} />
+        </template>,
+      );
+
+      // then
+      assert.dom(screen.queryByText(t('pages.catalogue.duration.options.medium'))).doesNotExist();
+      assert.dom(screen.queryByLabelText(/Durée estimée/)).doesNotExist();
+    });
+
     test('it shows combined course content title', async function (assert) {
       //given
       const currentCourse = store.createRecord('combined-course-blueprint-overview', {
