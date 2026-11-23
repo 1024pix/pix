@@ -31,6 +31,13 @@
   }
 }
 
+.course-card__infos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pix-spacing-1x);
+  align-items: center;
+}
+
 .catalogue-duration-span {
   display: inline-flex;
   gap: var(--pix-spacing-1x);
