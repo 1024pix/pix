@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import {
   countTrailingFailures,
   getProbabilityBelowThreshold,
+  hasConsecutiveFailures,
   normalCdf,
 } from '../../../../../../../src/certification/evaluation/domain/services/algorithm-methods/early-stop.js';
 import { AnswerStatus } from '../../../../../../../src/shared/domain/models/AnswerStatus.js';
@@ -103,6 +104,24 @@ describe('Unit | Certification | Evaluation | Domain | Service | Algorithm-metho
           expect(result).to.be.closeTo(1, 1e-6);
         });
       });
+    });
+  });
+
+  describe('#hasConsecutiveFailures', function () {
+    it('should return true when trailing failures reach the expected count', function () {
+      // when
+      const result = hasConsecutiveFailures({ answers: [ok(), ko(), ko(), ko()], consecutiveFailures: 3 });
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when trailing failures are below the expected count', function () {
+      // when
+      const result = hasConsecutiveFailures({ answers: [ko(), ok(), ko(), ko()], consecutiveFailures: 3 });
+
+      // then
+      expect(result).to.be.false;
     });
   });
 });
