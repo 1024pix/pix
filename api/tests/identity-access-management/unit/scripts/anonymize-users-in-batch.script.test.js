@@ -6,7 +6,7 @@ import { AnonymizeUsersInBatchScript } from '../../../../src/identity-access-man
 describe('Unit | Identities Access Management | Scripts | Anonymize users in batch', function () {
   let script;
   let logger;
-  let anonymizeUser;
+  let anonymizeUserByAdmin;
   let jobClient;
 
   beforeEach(function () {
@@ -15,7 +15,7 @@ describe('Unit | Identities Access Management | Scripts | Anonymize users in bat
       info: sinon.spy(),
       error: sinon.spy(),
     };
-    anonymizeUser = sinon.stub();
+    anonymizeUserByAdmin = sinon.stub();
     jobClient = { initialize: sinon.stub(), stop: sinon.stub() };
   });
 
@@ -35,7 +35,7 @@ describe('Unit | Identities Access Management | Scripts | Anonymize users in bat
             anonymizerId: 1234,
           },
           logger,
-          anonymizeUser,
+          anonymizeUserByAdmin,
           jobClient,
           delay: 0,
         });
@@ -60,13 +60,13 @@ describe('Unit | Identities Access Management | Scripts | Anonymize users in bat
             anonymizerId: 1234,
           },
           logger,
-          anonymizeUser,
+          anonymizeUserByAdmin,
           jobClient,
           delay: 0,
         });
 
         // then
-        expect(anonymizeUser.callCount).to.equal(3);
+        expect(anonymizeUserByAdmin.callCount).to.equal(3);
         expect(logger.info).to.have.been.calledWith('3 user accounts processed successfully.');
       });
 
@@ -75,7 +75,7 @@ describe('Unit | Identities Access Management | Scripts | Anonymize users in bat
           // given
           const file = [{ userId: 1 }, { userId: 2 }, { userId: 3 }];
           const error = new Error('An error occurred');
-          anonymizeUser.onCall(1).rejects(error);
+          anonymizeUserByAdmin.onCall(1).rejects(error);
 
           // when // then
           await expect(
@@ -88,14 +88,14 @@ describe('Unit | Identities Access Management | Scripts | Anonymize users in bat
                 anonymizerId: 1234,
               },
               logger,
-              anonymizeUser,
+              anonymizeUserByAdmin,
               jobClient,
               delay: 0,
             }),
           ).to.be.rejectedWith('There was some errors during the process.');
 
           // then
-          expect(anonymizeUser.callCount).to.equal(file.length);
+          expect(anonymizeUserByAdmin.callCount).to.equal(file.length);
           expect(logger.info).to.have.been.calledWith(`2 user accounts processed successfully.`);
           expect(logger.error).to.have.been.calledWith(`Error on line 2. ${error}`);
           expect(script.successLines).to.equal(2);

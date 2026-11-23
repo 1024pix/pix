@@ -1,9 +1,9 @@
 import joi from 'joi';
 
+import { usecases } from '../../privacy/domain/usecases/index.js';
 import { csvFileStreamer } from '../../shared/application/scripts/parsers.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
 import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.js';
-import { usecases } from '../domain/usecases/index.js';
 
 const CHUNK_SIZE = 1000;
 const DELAY = 1000;
@@ -52,7 +52,7 @@ export class AnonymizeUsersInBatchScript extends ScriptWithJob {
     this.errorOccured = false;
   }
 
-  async handle({ options, logger, anonymizeUser = usecases.anonymizeUser, jobClient }) {
+  async handle({ options, logger, anonymizeUserByAdmin = usecases.anonymizeUserByAdmin, jobClient }) {
     const { file: streamFile, dryRun, anonymizerId, chunkSize, delayInMilliseconds } = options;
 
     await super.handle({ jobClient });
@@ -68,7 +68,7 @@ export class AnonymizeUsersInBatchScript extends ScriptWithJob {
         if (dryRun) continue;
 
         try {
-          await anonymizeUser({ userId, updatedByUserId: anonymizerId });
+          await anonymizeUserByAdmin({ userId, updatedByUserId: anonymizerId });
           this.successLines++;
         } catch (error) {
           this.errorOccured = true;
