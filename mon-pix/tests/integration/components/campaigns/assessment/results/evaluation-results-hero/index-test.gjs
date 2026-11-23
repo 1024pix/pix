@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import EvaluationResultsHero from 'mon-pix/components/campaigns/assessment/results/evaluation-results-hero/index';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -199,8 +199,6 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
           assert.dom(screen.queryByText(t('pages.signup.save-progress-message'))).exists();
           assert.dom(screen.getByRole('link', { name: t('pages.signup.actions.sign-up-on-pix') })).exists();
           assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).doesNotExist();
-          assert.dom(screen.queryByText(t('pages.skill-review.hero.explanations.send-results'))).doesNotExist();
-          assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.actions.send') })).doesNotExist();
         });
       });
 
@@ -224,9 +222,7 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
 
           // then
           assert.dom(screen.getByRole('link', { name: t('navigation.back-to-homepage') })).exists();
-          assert.dom(screen.queryByText(t('pages.skill-review.hero.explanations.send-results'))).doesNotExist();
           assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).doesNotExist();
-          assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.actions.send') })).doesNotExist();
           assert.dom(screen.queryByText(t('pages.signup.save-progress-message'))).doesNotExist();
           assert.dom(screen.queryByRole('link', { name: t('pages.signup.actions.sign-up-on-pix') })).doesNotExist();
         });
@@ -250,11 +246,8 @@ module('Integration | Components | Campaigns | Assessment | Results | Evaluation
         );
 
         // then
-        assert.dom(screen.queryByText(t('pages.skill-review.hero.explanations.send-results'))).doesNotExist();
-
         assert.dom(screen.queryByRole('link', { name: t('navigation.back-to-homepage') })).doesNotExist();
         assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).doesNotExist();
-        assert.dom(screen.queryByRole('button', { name: t('pages.skill-review.actions.send') })).doesNotExist();
       });
     });
   });

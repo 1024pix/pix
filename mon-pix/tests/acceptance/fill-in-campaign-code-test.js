@@ -1,6 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
 import { setupMirage } from 'mon-pix/tests/test-support/setup-mirage';
@@ -8,7 +7,7 @@ import { module, test } from 'qunit';
 
 import { authenticate } from '../helpers/authentication';
 import { clickByLabel } from '../helpers/click-by-label';
-import setupIntl from '../helpers/setup-intl';
+import setupIntl, { t } from '../helpers/setup-intl';
 import { waitForDialog } from '../helpers/wait-for';
 
 module('Acceptance | Fill in campaign code page', function (hooks) {

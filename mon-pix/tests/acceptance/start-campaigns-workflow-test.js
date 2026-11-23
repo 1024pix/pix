@@ -1,6 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn, settled } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { Response } from 'miragejs';
@@ -10,7 +9,7 @@ import { module, test } from 'qunit';
 
 import { authenticate, authenticateByGAR } from '../helpers/authentication';
 import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
-import setupIntl from '../helpers/setup-intl';
+import setupIntl, { t } from '../helpers/setup-intl';
 
 const AUTHENTICATED_SOURCE_FROM_GAR = ENV.APP.AUTHENTICATED_SOURCE_FROM_GAR;
 

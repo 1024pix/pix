@@ -1,10 +1,10 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, find, findAll } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { VERIFY_RESPONSE_DELAY } from 'mon-pix/components/module/component/element';
 import { NEXT_STEP_BUTTON_DELAY } from 'mon-pix/components/module/component/stepper';
 import ModuleGrain from 'mon-pix/components/module/grain/grain';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

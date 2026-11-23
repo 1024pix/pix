@@ -1,11 +1,10 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import PasswordResetDemandForm from 'mon-pix/components/authentication/password-reset-demand/password-reset-demand-form';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import { setCurrentLocale } from '../../../../helpers/setup-intl';
+import { setCurrentLocale, t } from '../../../../helpers/setup-intl';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 const I18N_KEYS = {

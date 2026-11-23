@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import Card from 'mon-pix/components/campaign-participation-overview/card';
 import Ongoing from 'mon-pix/components/campaign-participation-overview/card/ongoing';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';

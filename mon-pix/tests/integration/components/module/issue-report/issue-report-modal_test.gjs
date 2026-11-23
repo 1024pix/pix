@@ -1,8 +1,8 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import ModulixIssueReportModal from 'mon-pix/components/module/issue-report/issue-report-modal';
 import { categoriesKey } from 'mon-pix/models/module-issue-report';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import CombinedCourseLandingPage from 'mon-pix/components/routes/combined-courses/landing-page';
 import ENV from 'mon-pix/config/environment';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

@@ -1,6 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, settled } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
 import { assessmentStates } from 'mon-pix/models/assessment';
@@ -13,7 +12,7 @@ import {
   fillCertificationStarter,
   validateCertificationInstructions,
 } from '../helpers/certification';
-import setupIntl from '../helpers/setup-intl';
+import setupIntl, { t } from '../helpers/setup-intl';
 
 module('Acceptance | Certification | Certification Course', function (hooks) {
   setupApplicationTest(hooks);

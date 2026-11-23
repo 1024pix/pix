@@ -2,8 +2,8 @@ import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, settled } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
-import { t } from 'ember-intl/test-support';
 import EvaluationResultsHeroRecommendationEngine from 'mon-pix/components/campaigns/assessment/results-recommendation-engine/evaluation-results-hero-recommendation-engine/index';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import { stubCurrentUserService } from '../../../../../../helpers/service-stubs';

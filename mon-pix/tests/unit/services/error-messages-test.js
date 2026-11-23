@@ -1,9 +1,8 @@
-import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 
-import setupIntl from '../../helpers/setup-intl';
+import setupIntl, { t } from '../../helpers/setup-intl';
 
 module('Unit | Service | errorMessages', function (hooks) {
   setupTest(hooks);

@@ -1,6 +1,6 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import PasswordResetForm from 'mon-pix/components/authentication/password-reset-form';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

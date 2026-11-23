@@ -1,9 +1,9 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import ScoSignupForm from 'mon-pix/components/routes/sco-signup-form';
 import ENV from 'mon-pix/config/environment';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

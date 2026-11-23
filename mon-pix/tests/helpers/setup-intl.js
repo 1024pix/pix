@@ -9,7 +9,7 @@ export async function setCurrentLocale(locale) {
   intl.setFormats(formats);
 
   const localeService = owner.lookup('service:locale');
-  localeService.setCurrentLocale(locale);
+  await localeService.setCurrentLocale(locale);
 
   await settled();
 }
@@ -20,4 +20,12 @@ export default function setupIntl(hooks, locale = 'fr') {
   hooks.beforeEach(async function () {
     await setCurrentLocale(locale);
   });
+}
+
+export function t(key, options) {
+  const intl = getContext().owner.lookup('service:intl');
+  if (!intl.exists(key)) {
+    throw new Error(`Missing translation for key "${key}"`);
+  }
+  return intl.t(key, options);
 }

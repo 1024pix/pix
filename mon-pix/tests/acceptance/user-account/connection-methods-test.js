@@ -1,6 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, fillIn, settled, triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'mon-pix/tests/test-support/setup-mirage';
 import Location from 'mon-pix/utils/location';
@@ -13,7 +12,7 @@ import {
   authenticateByUsername,
   generateGarAuthenticationURLHash,
 } from '../../helpers/authentication';
-import setupIntl from '../../helpers/setup-intl';
+import setupIntl, { t } from '../../helpers/setup-intl';
 
 module('Acceptance | user-account | connection-methods', function (hooks) {
   setupApplicationTest(hooks);

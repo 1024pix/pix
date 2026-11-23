@@ -1,8 +1,8 @@
 import { clickByName, render, within } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, find } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import ModulixCustomDraft from 'mon-pix/components/module/element/custom-draft';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

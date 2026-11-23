@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, find, findAll, triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import ModulixAudioElement from 'mon-pix/components/module/element/audio';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

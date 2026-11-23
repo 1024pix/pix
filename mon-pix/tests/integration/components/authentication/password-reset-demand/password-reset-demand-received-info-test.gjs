@@ -1,9 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import PasswordResetDemandReceivedInfo from 'mon-pix/components/authentication/password-reset-demand/password-reset-demand-received-info';
 import { module, test } from 'qunit';
 
-import { setCurrentLocale } from '../../../../helpers/setup-intl';
+import { setCurrentLocale, t } from '../../../../helpers/setup-intl';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module(

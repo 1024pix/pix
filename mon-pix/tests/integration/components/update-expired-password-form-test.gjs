@@ -2,9 +2,9 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import UpdateExpiredPasswordForm from 'mon-pix/components/update-expired-password-form';
 import ENV from 'mon-pix/config/environment';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

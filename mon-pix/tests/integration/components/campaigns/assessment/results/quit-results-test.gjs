@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import QuitResults from 'mon-pix/components/campaigns/assessment/results/quit-results';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import { stubCurrentUserService } from '../../../../../helpers/service-stubs';

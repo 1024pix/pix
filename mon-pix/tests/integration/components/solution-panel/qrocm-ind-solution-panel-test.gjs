@@ -2,8 +2,8 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find, findAll } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import QrocmIndSolutionPanel from 'mon-pix/components/solution-panel/qrocm-ind-solution-panel';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';

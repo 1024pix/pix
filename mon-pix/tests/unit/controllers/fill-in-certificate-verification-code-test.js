@@ -1,4 +1,4 @@
-import { t } from 'ember-intl/test-support';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

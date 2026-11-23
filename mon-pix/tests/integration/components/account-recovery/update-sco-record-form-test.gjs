@@ -2,8 +2,8 @@ import '@ember/service';
 
 import { render } from '@1024pix/ember-testing-library';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import UpdateScoRecordForm from 'mon-pix/components/account-recovery/update-sco-record-form';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';

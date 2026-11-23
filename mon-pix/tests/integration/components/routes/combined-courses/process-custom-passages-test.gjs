@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { waitFor } from '@testing-library/dom';
-import { t } from 'ember-intl/test-support';
 import CombinedCoursesProcessCustomPassages from 'mon-pix/components/routes/combined-courses/process-custom-passages';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

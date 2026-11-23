@@ -3,9 +3,9 @@ import Service from '@ember/service';
 // eslint-disable-next-line no-restricted-imports
 import { click, find } from '@ember/test-helpers';
 import { waitFor } from '@testing-library/dom';
-import { t } from 'ember-intl/test-support';
 import ModulixEmbed from 'mon-pix/components/module/element/embed';
 import ENV from 'mon-pix/config/environment';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

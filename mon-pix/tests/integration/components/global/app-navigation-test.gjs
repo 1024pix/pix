@@ -2,8 +2,8 @@ import { render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { settled } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
-import { t } from 'ember-intl/test-support';
 import AppNavigation from 'mon-pix/components/global/app-navigation';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

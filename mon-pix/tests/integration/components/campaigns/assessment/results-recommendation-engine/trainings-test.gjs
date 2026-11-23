@@ -3,8 +3,8 @@ import Service from '@ember/service';
 // eslint-disable-next-line no-restricted-imports
 import { click, find, waitUntil } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
-import { t } from 'ember-intl/test-support';
 import Trainings from 'mon-pix/components/campaigns/assessment/results-recommendation-engine/trainings';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

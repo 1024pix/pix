@@ -1,11 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import Tags from 'mon-pix/components/user-certifications/list-item/tags';
 import {
   CERTIFICATE_STATUSES,
   CERTIFICATE_TYPES,
   EXTRA_CERTIFICATE_STATUSES,
 } from 'mon-pix/models/certificate-summary';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';

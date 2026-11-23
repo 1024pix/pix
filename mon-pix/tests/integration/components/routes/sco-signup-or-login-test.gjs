@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import ScoSignupOrLogin from 'mon-pix/components/routes/sco-signup-or-login';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import { clickByLabel } from '../../../helpers/click-by-label';

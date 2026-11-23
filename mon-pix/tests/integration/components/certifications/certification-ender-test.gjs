@@ -1,7 +1,7 @@
 /* eslint-disable ember/template-no-let-reference */
 import { render as renderScreen } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import CertificationEnder from 'mon-pix/components/certifications/certification-ender';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import { stubCurrentUserService } from '../../../helpers/service-stubs';
