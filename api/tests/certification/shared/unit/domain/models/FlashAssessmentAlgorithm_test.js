@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import { FlashAssessmentAlgorithm } from '../../../../../../src/certification/evaluation/domain/models/FlashAssessmentAlgorithm.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/shared/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { AssessmentLackOfChallengesError } from '../../../../../../src/shared/domain/errors.js';
+import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErrSync } from '../../../../../tooling/test-utils/error.js';
 
@@ -241,6 +242,88 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
             expectedChallenges,
           );
         });
+      });
+    });
+
+    context('when early stop (R4) is enabled', function () {
+      const earlyStopConfig = {
+        maximumAssessmentLength: 32,
+        earlyStopConsecutiveFailures: 3,
+        earlyStopMinimumLength: 3,
+        earlyStopCapacityThreshold: -4.67,
+        earlyStopConfidence: 0.95,
+      };
+      let assessmentAnswers;
+      let challenges;
+      let remainingChallenge;
+
+      beforeEach(function () {
+        const answeredChallenges = ['skill1', 'skill2', 'skill3'].map((skillId) =>
+          domainBuilder.buildChallenge({
+            id: `challenge-${skillId}`,
+            skill: domainBuilder.buildSkill({ id: skillId, tubeId: `tube-${skillId}` }),
+          }),
+        );
+        remainingChallenge = domainBuilder.buildChallenge({
+          id: 'remainingChallenge',
+          skill: domainBuilder.buildSkill({ id: 'skill4', tubeId: 'tube-skill4' }),
+        });
+        challenges = [...answeredChallenges, remainingChallenge];
+        assessmentAnswers = answeredChallenges.map((challenge) =>
+          domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.KO }),
+        );
+      });
+
+      it('should return no challenge when there are enough consecutive failures and capacity is probably low', function () {
+        // given
+        const algorithm = new FlashAssessmentAlgorithm({
+          flashAlgorithmImplementation,
+          configuration: _getAlgorithmConfig(earlyStopConfig),
+        });
+        flashAlgorithmImplementation.getCapacityAndErrorRate.returns({ capacity: -6, errorRate: 0.5 });
+
+        // when
+        const nextChallenges = algorithm.getPossibleNextChallenges({ assessmentAnswers, challenges });
+
+        // then
+        expect(nextChallenges).to.deep.equal([]);
+        expect(flashAlgorithmImplementation.getPossibleNextChallenges).not.to.have.been.called;
+      });
+
+      it('should return next challenges when capacity is not probably low', function () {
+        // given
+        const algorithm = new FlashAssessmentAlgorithm({
+          flashAlgorithmImplementation,
+          configuration: _getAlgorithmConfig(earlyStopConfig),
+        });
+        flashAlgorithmImplementation.getCapacityAndErrorRate.returns({ capacity: -4, errorRate: 0.5 });
+        flashAlgorithmImplementation.getPossibleNextChallenges
+          .withArgs({ availableChallenges: [remainingChallenge], capacity: -4 })
+          .returns([remainingChallenge]);
+
+        // when
+        const nextChallenges = algorithm.getPossibleNextChallenges({ assessmentAnswers, challenges });
+
+        // then
+        expect(nextChallenges).to.deep.equal([remainingChallenge]);
+      });
+
+      it('should return next challenges when early stop is disabled', function () {
+        // given
+        const algorithm = new FlashAssessmentAlgorithm({
+          flashAlgorithmImplementation,
+          configuration: _getAlgorithmConfig({ maximumAssessmentLength: 32 }),
+        });
+        flashAlgorithmImplementation.getCapacityAndErrorRate.returns({ capacity: -6, errorRate: 0.5 });
+        flashAlgorithmImplementation.getPossibleNextChallenges
+          .withArgs({ availableChallenges: [remainingChallenge], capacity: -6 })
+          .returns([remainingChallenge]);
+
+        // when
+        const nextChallenges = algorithm.getPossibleNextChallenges({ assessmentAnswers, challenges });
+
+        // then
+        expect(nextChallenges).to.deep.equal([remainingChallenge]);
       });
     });
 
