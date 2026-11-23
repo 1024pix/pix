@@ -54,9 +54,6 @@ parameters:
     type: boolean
     default: false
 
-orbs:
-  browser-tools: circleci/browser-tools@2.4.3
-
 executors:
   node-docker:
     parameters:
@@ -225,7 +222,9 @@ commands:
       - restore_cache:
           keys:
             - v8-<<parameters.cache_key>>-npm-{{ checksum "cachekey" }}
-      - run: npm ci
+      - run:
+          command: npm ci
+          max_time: 10m
       - save_cache:
           key: v8-<<parameters.cache_key>>-npm-{{ checksum "cachekey" }}
           paths:
@@ -240,7 +239,9 @@ commands:
       - restore_cache:
           keys:
             - v8-<<parameters.cache_key>>-npm-{{ checksum "cachekey" }}
-      - run: npm ci
+      - run:
+          command: npm ci
+          max_time: 10m
       - run: npx cypress install
       - save_cache:
           key: v8-<<parameters.cache_key>>-npm-{{ checksum "cachekey" }}
@@ -259,6 +260,7 @@ commands:
       - run:
           name: Build
           command: npm run build -- --mode=development
+          max_time: 10m
           environment:
             NODE_ENV: development
             DEFAULT_LOCALE: fr
@@ -293,19 +295,56 @@ commands:
           command: npm run lint:types --if-present
           when: always
 
+  install_chrome:
+    parameters:
+      version:
+        type: string
+        default: stable
+    steps:
+      - run:
+          name: 'Chrome: resolve version'
+          max_time: 1m
+          command: |
+            VERSION="<<parameters.version>>"
+            if [ "$VERSION" = "stable" ]; then
+              VERSION=$(curl -fsSL --retry 3 https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions.json | jq -r .channels.Stable.version)
+            fi
+            echo "$VERSION" > /tmp/chrome-version
+      - restore_cache:
+          name: 'Chrome: restore cache'
+          keys:
+            - v1-chrome-for-testing-{{ checksum "/tmp/chrome-version" }}
+      - run:
+          name: 'Chrome: install'
+          max_time: 3m
+          command: |
+            VERSION=$(cat /tmp/chrome-version)
+            CHROME_DIR=~/.cache/chrome-for-testing/$VERSION
+            if [ ! -x "$CHROME_DIR/chrome-linux64/chrome" ]; then
+              curl -fsSL --retry 3 -o /tmp/chrome-linux64.zip "https://storage.googleapis.com/chrome-for-testing-public/$VERSION/linux64/chrome-linux64.zip"
+              mkdir -p "$CHROME_DIR"
+              unzip -q /tmp/chrome-linux64.zip -d "$CHROME_DIR"
+            fi
+            sudo ln -sf "$CHROME_DIR/chrome-linux64/chrome" /usr/local/bin/google-chrome
+            google-chrome --version
+      - save_cache:
+          name: 'Chrome: save cache'
+          key: v1-chrome-for-testing-{{ checksum "/tmp/chrome-version" }}
+          paths:
+            - ~/.cache/chrome-for-testing
+
   frontend_test:
     parameters:
       app_name:
         type: string
     steps:
-      - browser-tools/install_browser_tools:
-          install_firefox: false
-          install_geckodriver: false
+      - install_chrome
       - attach_workspace:
           at: ~/pix
       - run:
           name: Test
           command: npm run test:ci
+          max_time: 10m
           environment:
             RESULTS_PATH: ../../test-results/<<parameters.app_name>>
           when: always
@@ -596,6 +635,7 @@ jobs:
       - run:
           name: Test
           command: npm run test:api:unit -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
+          max_time: 10m
           environment:
             NODE_ENV: test
             MOCHA_REPORTER: xunit
@@ -645,6 +685,7 @@ jobs:
       - run:
           name: Test
           command: npm run test:api:integration -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
+          max_time: 15m
           environment:
             NODE_ENV: test
             MOCHA_REPORTER: xunit
@@ -705,6 +746,7 @@ jobs:
       - run:
           name: Test
           command: npm run test:api:acceptance -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
+          max_time: 15m
           environment:
             NODE_ENV: test
             MOCHA_REPORTER: xunit
@@ -758,6 +800,7 @@ jobs:
       - run:
           name: Test
           command: npm run test
+          max_time: 10m
           environment:
             PIX_API_CLIENT_SECRET: $2a$04$vkPRiypzeVQVG92/dCll7.5brjDQZVZc750VwKBc01icXjVIQqRVq
             DATABASE_URL: postgres://circleci@localhost:5432/circleci
@@ -982,14 +1025,11 @@ jobs:
             if [[ "$CIRCLE_BRANCH" != "dev" ]] && [[ "<< pipeline.parameters.run-mon-pix >>" == "false" ]] && [[ "<< pipeline.parameters.run-api >>" == "false" ]] && [[ "<< pipeline.parameters.run-e2e-cypress >>" == "false" ]]; then
               circleci step halt
             fi
-      - browser-tools/install_browser_tools:
-          install_firefox: false
-          install_geckodriver: false
+      - install_chrome:
           # Chrome >= 158 rejects Storage.clearDataForOrigin({ origin: '*' }) sent by
           # Cypress < 15.21.2 ("* is not a valid URL"). Pin Chrome until Cypress is upgraded.
           # See https://github.com/cypress-io/cypress/issues/35195
-          replace_existing_chrome: true
-          chrome_version: 157.0.8103.78
+          version: 157.0.8103.78
       - run:
           name: Manual safety start of X11 server
           command: |
@@ -1018,6 +1058,7 @@ jobs:
           name: Install Pix API
           working_directory: ~/pix/api
           command: npm ci
+          max_time: 10m
       - run:
           name: Prepare database
           working_directory: ~/pix/api
@@ -1065,6 +1106,7 @@ jobs:
             JOBS_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             AUTH_SECRET: 'the-password-must-be-at-least-32-characters-long'
           command: npm run test:ci:app
+          max_time: 15m
       - store_test_results:
           path: /home/circleci/test-results
 
@@ -1167,6 +1209,7 @@ jobs:
               echo "Shard $CIRCLE_NODE_INDEX of $SHARD_TOTAL: run parallel tests"
               npx playwright test --grep-invert @runSerially --shard=${CIRCLE_NODE_INDEX}/${SHARD_TOTAL}
             fi
+          max_time: 15m
           environment:
             PIX_API_PORT: 3000
             PIX_APP_URL: http://localhost:4200
@@ -1196,7 +1239,9 @@ jobs:
       - restore_cache:
           keys:
             - v8-playwright-npm-{{ checksum "cachekey" }}
-      - run: npm ci
+      - run:
+          command: npm ci
+          max_time: 10m
       - run:
           working_directory: ~/pix/api
           command: cat package*.json > cachekey
@@ -1267,6 +1312,7 @@ jobs:
             SHARD="$((${CIRCLE_NODE_INDEX}+1))"
             echo "Shard $SHARD of $CIRCLE_NODE_TOTAL"
             npx playwright test --config playwright.config.certif.ts --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
+          max_time: 15m
           environment:
             PIX_API_PORT: 3000
             PIX_APP_URL: http://localhost:4200
