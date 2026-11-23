@@ -14,6 +14,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
+import { escapeHtml } from 'mon-pix/utils/escape-html';
 
 const CODE_LENGTH = 6;
 
@@ -179,7 +180,9 @@ export default class CertificationStarter extends Component {
       this.apiErrorMessage = this.intl.t(ERROR_MESSAGE_KEYS[statusCode]);
     } else if (statusCode === '403' && FORBIDDEN_ERROR_MESSAGE_KEYS[errorCode]) {
       const interpolationValues =
-        errorCode === 'CENTER_HABILITATION_ERROR' ? { subscription: this.subscriptionLabel, htmlSafe: true } : {};
+        errorCode === 'CENTER_HABILITATION_ERROR'
+          ? { subscription: escapeHtml(this.subscriptionLabel), htmlSafe: true }
+          : {};
       this.apiErrorMessage = this.intl.t(FORBIDDEN_ERROR_MESSAGE_KEYS[errorCode], interpolationValues);
     } else if (errorCode === 'CERTIFICATION_DURATION_EXCEEDED') {
       this.apiErrorMessage = this.intl.t('pages.certification-start.error-messages.duration-exceeded');

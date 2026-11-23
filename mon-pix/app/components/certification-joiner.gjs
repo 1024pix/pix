@@ -5,6 +5,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
+import { escapeHtml } from 'mon-pix/utils/escape-html';
 
 export default class CertificationJoiner extends Component {
   @service intl;
@@ -295,7 +296,7 @@ const ERROR_HANDLERS = [
         .join(`, ${NO_BREAK_SPACE}`);
 
       component.errorMessage = component.intl.t('pages.certification-joiner.error-messages.language-not-supported', {
-        userLanguage,
+        userLanguage: escapeHtml(userLanguage),
         availableLanguages,
         htmlSafe: true,
       });
@@ -347,7 +348,7 @@ const ERROR_HANDLERS = [
       const subscription = component.intl.t(`pages.certification-frameworks.${error.meta?.framework}`);
       component.errorMessage = component.intl.t(
         'pages.certification-joiner.error-messages.missing-center-habilitation',
-        { subscription, htmlSafe: true },
+        { subscription: escapeHtml(subscription), htmlSafe: true },
       );
     },
   },
