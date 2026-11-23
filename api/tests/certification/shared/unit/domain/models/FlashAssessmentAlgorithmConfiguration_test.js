@@ -14,6 +14,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithmConfiguration', funct
       variationPercent: 0.2,
       defaultCandidateCapacity: -3,
       defaultProbabilityToPickChallenge: 100,
+      questionNumberToPickFromSkillList: null,
     };
 
     context('maximumAssessmentLength', function () {
@@ -201,6 +202,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithmConfiguration', funct
         expect(err).to.be.an.instanceOf(EntityValidationError);
       });
     });
+
     context('defaultProbabilityToPickChallenge', function () {
       it('should throw an EntityValidationError if it is missing', function () {
         // given
@@ -216,6 +218,30 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithmConfiguration', funct
       it('should throw an EntityValidationError if it is not a number', function () {
         // given
         params.defaultProbabilityToPickChallenge = 'not a number';
+
+        // when
+        const err = catchErrSync(() => new FlashAssessmentAlgorithmConfiguration(params))();
+
+        // then
+        expect(err).to.be.an.instanceOf(EntityValidationError);
+      });
+    });
+
+    context('questionNumberToPickFromSkillList', function () {
+      it('should throw an EntityValidationError if it is not an array of number', function () {
+        // given
+        params.questionNumberToPickFromSkillList = 'not a number';
+
+        // when
+        const err = catchErrSync(() => new FlashAssessmentAlgorithmConfiguration(params))();
+
+        // then
+        expect(err).to.be.an.instanceOf(EntityValidationError);
+      });
+
+      it('should throw an EntityValidationError if array contains negative numbers', function () {
+        // given
+        params.questionNumberToPickFromSkillList = [-1, 0, 1];
 
         // when
         const err = catchErrSync(() => new FlashAssessmentAlgorithmConfiguration(params))();

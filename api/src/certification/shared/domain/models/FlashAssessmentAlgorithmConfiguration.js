@@ -34,6 +34,7 @@ export class FlashAssessmentAlgorithmConfiguration {
         is: Joi.number().required(),
         then: Joi.required().invalid(null),
       }),
+    questionNumberToPickFromSkillList: Joi.array().items(Joi.number().integer().min(1)),
   });
 
   /**
@@ -49,7 +50,9 @@ export class FlashAssessmentAlgorithmConfiguration {
    * @param {number|null} [props.earlyStopMinimumLength] - early stop (R4): minimum number of answers before the rule applies
    * @param {number|null} [props.earlyStopCapacityThreshold] - early stop (R4): capacity threshold
    * @param {number|null} [props.earlyStopConfidence] - early stop (R4): minimum probability for the capacity to be below the threshold
+   * @param {number} props.questionNumberToPickFromSkillList - specify the number of each question that should be picked from a skill list.
    */
+
   constructor({
     maximumAssessmentLength,
     challengesBetweenSameCompetence,
@@ -62,6 +65,7 @@ export class FlashAssessmentAlgorithmConfiguration {
     earlyStopMinimumLength = null,
     earlyStopCapacityThreshold = null,
     earlyStopConfidence = null,
+    questionNumberToPickFromSkillList,
   } = {}) {
     this.maximumAssessmentLength = maximumAssessmentLength;
     this.challengesBetweenSameCompetence = challengesBetweenSameCompetence;
@@ -74,6 +78,7 @@ export class FlashAssessmentAlgorithmConfiguration {
     this.earlyStopMinimumLength = earlyStopMinimumLength;
     this.earlyStopCapacityThreshold = earlyStopCapacityThreshold;
     this.earlyStopConfidence = earlyStopConfidence;
+    this.questionNumberToPickFromSkillList = questionNumberToPickFromSkillList;
     this.#validate();
   }
 

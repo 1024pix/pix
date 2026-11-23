@@ -12,12 +12,14 @@ import { FlashAssessmentAlgorithmNonAnsweredSkillsRule } from './FlashAssessment
 import { FlashAssessmentAlgorithmOneQuestionPerTubeRule } from './FlashAssessmentAlgorithmOneQuestionPerTubeRule.js';
 import { FlashAssessmentAlgorithmPassageByAllCompetencesRule } from './FlashAssessmentAlgorithmPassageByAllCompetencesRule.js';
 import { FlashAssessmentAlgorithmRuleEngine } from './FlashAssessmentAlgorithmRuleEngine.js';
+import { FlashAssessmentAlgorithmSomeQuestionFromSkillListRule } from './FlashAssessmentAlgorithmSomeQuestionFromSkillListRule.js';
 
 const availableRules = [
   FlashAssessmentAlgorithmOneQuestionPerTubeRule,
   FlashAssessmentAlgorithmNonAnsweredSkillsRule,
   FlashAssessmentAlgorithmPassageByAllCompetencesRule,
   FlashAssessmentAlgorithmChallengesBetweenCompetencesRule,
+  FlashAssessmentAlgorithmSomeQuestionFromSkillListRule,
 ];
 
 class FlashAssessmentAlgorithm {
@@ -38,6 +40,7 @@ class FlashAssessmentAlgorithm {
       limitToOneQuestionPerTube: configuration.limitToOneQuestionPerTube,
       challengesBetweenSameCompetence: configuration.challengesBetweenSameCompetence,
       enablePassageByAllCompetences: configuration.enablePassageByAllCompetences,
+      questionNumberToPickFromSkillList: configuration.questionNumberToPickFromSkillList,
     });
   }
 
