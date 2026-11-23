@@ -11,7 +11,7 @@ export default class DataProtectionPolicyInformationBanner extends Component {
         @canCloseBanner={{true}}
         @onCloseBannerTriggerAction={{this.validateLastDataProtectionPolicy}}
         @actionLabel={{t "common.data-protection-policy-information-banner.url-label"}}
-        @actionUrl={{this.dataProtectionPolicyUrl}}
+        @actionUrl={{this.dataProtectionPolicyDiffUrl}}
       >
         {{t "common.data-protection-policy-information-banner.title"}}
       </PixBannerAlert>
@@ -31,8 +31,8 @@ export default class DataProtectionPolicyInformationBanner extends Component {
     return this.currentUser.user?.shouldSeeDataProtectionPolicyInformationBanner;
   }
 
-  get dataProtectionPolicyUrl() {
-    return this.url.dataProtectionPolicyUrl;
+  get dataProtectionPolicyDiffUrl() {
+    return this.url.dataProtectionPolicyDiffUrl;
   }
 
   @action
