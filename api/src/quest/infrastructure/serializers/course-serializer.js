@@ -4,7 +4,17 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function (courseItems) {
   return new Serializer('courses', {
-    attributes: ['name', 'type', 'nbTubes', 'nbModules', 'category', 'isSimplifiedAccess', 'areas', 'sourceId', 'durationSpan'],
+    attributes: [
+      'name',
+      'type',
+      'nbTubes',
+      'nbModules',
+      'category',
+      'isSimplifiedAccess',
+      'areas',
+      'sourceId',
+      'durationSpan',
+    ],
     areas: {
       ref: 'id',
       attributes: ['title', 'code', 'color', 'competences'],
