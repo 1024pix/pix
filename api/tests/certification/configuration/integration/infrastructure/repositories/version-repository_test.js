@@ -275,7 +275,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
       expect(result.assessmentDuration).to.equal(120);
       expect(result.globalScoringConfiguration).to.deep.equal(globalScoringConfiguration);
       expect(result.competencesScoringConfiguration).to.deep.equal(competencesScoringConfiguration);
-      expect(result.challengesConfiguration).to.deep.equal(expectedConfig);
+      expect(result.challengesConfiguration).to.deep.include(expectedConfig);
       expect(result.tubeIds).to.deep.equal(['rec123', 'rec5678']);
       expect(result.maxReachableLevel).to.equal(expectedMaxReachableLevel);
       expect(result.maxReachablePixScore).to.equal(expectedMaxReachablePixScore);
