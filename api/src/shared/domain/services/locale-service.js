@@ -4,7 +4,7 @@ const FRENCH_SPOKEN = 'fr';
 const FRENCH_FRANCE_LOCALE = 'fr-FR';
 
 const DEFAULT_CHALLENGE_LOCALE = 'fr-fr';
-const CHALLENGE_LOCALES = ['de', 'de-AT', 'en', 'es', 'es-419', 'fr', 'fr-fr', 'it', 'nl'];
+const CHALLENGE_LOCALES = ['de', 'de-AT', 'en', 'es', 'es-419', 'fr', 'fr-fr', 'fr-BE', 'it', 'nl'];
 
 const DEFAULT_LOCALE = 'fr';
 const SUPPORTED_LOCALES = ['de-AT', 'en', 'es', 'es-419', 'fr', 'nl', 'fr-BE', 'fr-FR', 'nl-BE', 'it'];

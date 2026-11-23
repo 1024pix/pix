@@ -189,7 +189,7 @@ describe('Unit | Utils | Request Utils', function () {
       { userLocale: 'fr', challengeLocale: 'fr' },
       { userLocale: 'en', challengeLocale: 'en' },
       { userLocale: 'en-US', challengeLocale: 'en' },
-      { userLocale: 'fr-BE', challengeLocale: 'fr' },
+      { userLocale: 'fr-BE', challengeLocale: 'fr-BE' },
       { userLocale: 'nl-BE', challengeLocale: 'nl' },
       { userLocale: 'tlh', challengeLocale: 'fr-fr' }, // tlh: Klingon locale not found, so returns default locale
     ].forEach(function ({ userLocale, challengeLocale }) {
