@@ -4,13 +4,15 @@ import { AuditLoggingJob } from '../../../shared/domain/models/jobs/AuditLogging
 
 /**
  * @param params
- * @param{string} params.userId
- * @param{string} params.updatedByUserId
+ * @param {string} params.userId
+ * @param {string} params.updatedByUserId
+ * @param {boolean} params.force
  * @returns {Promise<void>}
  */
 export const anonymizeUserByAdmin = async function ({
   userId,
   updatedByUserId,
+  force,
   adminMemberRepository,
   userRepository,
   eventJobPublisherService,
@@ -24,7 +26,7 @@ export const anonymizeUserByAdmin = async function ({
   }
 
   const targetUser = await userRepository.get(userId);
-  if (targetUser.hasBeenAnonymised) {
+  if (targetUser.hasBeenAnonymised && !force) {
     throw new UserAlreadyAnonymizedError();
   }
 

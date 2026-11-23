@@ -70,6 +70,34 @@ describe('Unit | Privacy | Scripts | Anonymize users in batch', function () {
         expect(logger.info).to.have.been.calledWith('3 user accounts processed successfully.');
       });
 
+      context('with the force option', function () {
+        it('passes the force option to the usecase', async function () {
+          // given
+          const file = [{ userId: 1 }, { userId: 2 }, { userId: 3 }];
+
+          // when
+          await script.handle({
+            options: {
+              file: async (callback) => {
+                await callback(file);
+              },
+              anonymizerId: 1234,
+              force: true,
+              dryRun: false,
+            },
+            logger,
+            anonymizeUserByAdmin,
+            jobClient,
+            delay: 0,
+          });
+
+          // then
+          expect(anonymizeUserByAdmin).to.have.been.calledWith({ userId: 1, updatedByUserId: 1234, force: true });
+          expect(anonymizeUserByAdmin).to.have.been.calledWith({ userId: 2, updatedByUserId: 1234, force: true });
+          expect(anonymizeUserByAdmin).to.have.been.calledWith({ userId: 3, updatedByUserId: 1234, force: true });
+        });
+      });
+
       context('when there are errors', function () {
         it('continues the process and reports the errors', async function () {
           // given

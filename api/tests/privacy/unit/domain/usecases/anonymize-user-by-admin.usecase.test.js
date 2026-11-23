@@ -92,5 +92,31 @@ describe('Unit | Privacy | Domain | usecases | anonymize user by admin', functio
       expect(eventJobPublisherService.publishEvent).to.not.have.been.called;
       expect(auditLoggingJobRepository.performAsync).to.not.have.been.called;
     });
+
+    context('with the force option', function () {
+      it('does not throw any error and publishes an event', async function () {
+        // given
+        const userId = 1234;
+        const updatedByUserId = 456;
+        const force = true;
+        adminMemberRepository.get.resolves({ id: updatedByUserId, role: 'SUPER_ADMIN' });
+        userRepository.get.resolves({ id: userId, hasBeenAnonymised: true });
+        const event = new AnonymizeUserEvent({ userId, updatedByUserId });
+
+        // when
+        await anonymizeUserByAdmin({
+          userId,
+          updatedByUserId,
+          force,
+          adminMemberRepository,
+          userRepository,
+          eventJobPublisherService,
+          auditLoggingJobRepository,
+        });
+
+        // then
+        expect(eventJobPublisherService.publishEvent).to.have.been.calledWith(event);
+      });
+    });
   });
 });

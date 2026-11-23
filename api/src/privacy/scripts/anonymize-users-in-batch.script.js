@@ -22,15 +22,15 @@ export class AnonymizeUsersInBatchScript extends ScriptWithJob {
           demandOption: true,
           coerce: csvFileStreamer(columnSchemas),
         },
-        dryRun: {
-          type: 'boolean',
-          describe: 'If present, the script will not make any changes to the database',
-          default: false,
-        },
         anonymizerId: {
           type: 'number',
           describe: 'The user id of the anonymizer',
           demandOption: true,
+        },
+        force: {
+          type: 'boolean',
+          describe: 'If present, already anonymized users will be anonymized again',
+          default: false,
         },
         chunkSize: {
           type: 'number',
@@ -41,6 +41,11 @@ export class AnonymizeUsersInBatchScript extends ScriptWithJob {
           type: 'number',
           describe: 'Delay between each chunk in milliseconds',
           default: DELAY,
+        },
+        dryRun: {
+          type: 'boolean',
+          describe: 'If present, the script will not make any changes to the database',
+          default: false,
         },
       },
     });
@@ -53,7 +58,7 @@ export class AnonymizeUsersInBatchScript extends ScriptWithJob {
   }
 
   async handle({ options, logger, anonymizeUserByAdmin = usecases.anonymizeUserByAdmin, jobClient }) {
-    const { file: streamFile, dryRun, anonymizerId, chunkSize, delayInMilliseconds } = options;
+    const { file: streamFile, anonymizerId, force, chunkSize, delayInMilliseconds, dryRun } = options;
 
     await super.handle({ jobClient });
 
@@ -68,7 +73,7 @@ export class AnonymizeUsersInBatchScript extends ScriptWithJob {
         if (dryRun) continue;
 
         try {
-          await anonymizeUserByAdmin({ userId, updatedByUserId: anonymizerId });
+          await anonymizeUserByAdmin({ userId, updatedByUserId: anonymizerId, force });
           this.successLines++;
         } catch (error) {
           this.errorOccured = true;
