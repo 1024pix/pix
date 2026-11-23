@@ -22,6 +22,8 @@ export default class ChallengeItemQrocm extends Component {
     if (this.args.answer) {
       this.answersValue = this.args.answer._valuesAsMap;
     }
+
+    this.args.setAnswerValue?.(this._getAnswerValue());
   }
 
   _extractProposals() {
