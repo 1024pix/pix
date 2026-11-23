@@ -22,6 +22,7 @@ import { BatchSpanProcessor } from '@opentelemetry/sdk-trace';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
 import { config } from '../../../../config/config.js';
+import { startAllocationProfileExport } from '../heap-profile/allocation-profile-exporter.js';
 import { logger } from '../utils/logger.js';
 import { withDataExportGate } from './gated-exporter.js';
 import { InheritedAttributesSpanProcessor } from './inherited-span-attributes.js';
@@ -70,6 +71,8 @@ export function initializeOpenTelemetry(serviceName, { forceDataExport = false }
       new HostMetricsInstrumentation(),
       new HttpInstrumentation(),
       new UndiciInstrumentation({
+        // l'export des allocations n'a rien à faire dans les traces de l'application
+        ignoreRequestHook: (request) => isAllocationProfileExport(request),
         requestHook(span, request) {
           span.updateName(`${request.method} ${request.origin}${request.path}`);
         },
@@ -92,6 +95,7 @@ export function initializeOpenTelemetry(serviceName, { forceDataExport = false }
     sdk.start();
     setOpenTelemetryInitialized(true);
     logger.info('OpenTelemetry initialized');
+    startAllocationProfileExport({ serviceName });
   } catch (error) {
     logger.error('Error initializing OpenTelemetry', error);
   }
@@ -113,6 +117,13 @@ export function initializeOpenTelemetry(serviceName, { forceDataExport = false }
 
   process.on('SIGTERM', shutdown);
   process.on('SIGINT', shutdown);
+}
+
+function isAllocationProfileExport(request) {
+  const { endpoint } = config.heapProfile.export;
+  if (!endpoint) return false;
+  const { origin, pathname } = new URL(endpoint);
+  return request.origin === origin && request.path === pathname;
 }
 
 function watchDataExportFeatureToggle() {

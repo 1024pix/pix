@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import { createMemoryBreakdown } from '../../../../../src/shared/infrastructure/heap-profile/memory-breakdown.js';
+import { createMemoryBreakdown } from '../../../../../src/shared/infrastructure/metrics/memory-breakdown.js';
 
-describe('Shared | Unit | Infrastructure | HeapProfile | memory-breakdown', function () {
+describe('Shared | Unit | Infrastructure | Metrics | memory-breakdown', function () {
   const MB = 1024 * 1024;
 
   const PROC_STATUS = [
