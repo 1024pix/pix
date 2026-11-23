@@ -25,11 +25,10 @@ export async function createVersion({
     tubeIds: [],
     assessmentDuration,
     minimumAnswersRequiredToValidateACertification: DEFAULT_MINIMUM_ANSWERS_REQUIRED_TO_VALIDATE_A_CERTIFICATION,
-    globalScoringConfiguration,
-    competencesScoringConfiguration,
     challengesConfiguration,
     status: VERSION_STATUSES.DRAFT,
   });
+  version.setScoringConfiguration(globalScoringConfiguration, competencesScoringConfiguration);
 
   if (status === VERSION_STATUSES.ACTIVE) {
     version.status = VERSION_STATUSES.ACTIVE;
@@ -53,6 +52,7 @@ export async function createVersion({
     globalScoringConfiguration: version.globalScoringConfiguration,
     competencesScoringConfiguration: version.competencesScoringConfiguration,
     challengesConfiguration: version.challengesConfiguration,
+    maxReachableLevel: version.maxReachableLevel,
     status: version.status,
     comments: version.comments,
   });
