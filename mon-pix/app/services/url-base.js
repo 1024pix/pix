@@ -87,18 +87,6 @@ export const PIX_WEBSITE_PATHS = {
     it: 'legal-notice',
     fr: 'mentions-legales',
   },
-  DATA_PROTECTION_POLICY: {
-    'de-AT': 'personal-data-protection-policy',
-    'fr-FR': 'politique-protection-donnees-personnelles-app',
-    'fr-BE': 'politique-protection-donnees-personnelles-app',
-    'nl-BE': 'beleid-inzake-de-bescherming-van-persoonsgegevens',
-    nl: 'beleid-inzake-de-bescherming-van-persoonsgegevens',
-    en: 'personal-data-protection-policy',
-    es: 'personal-data-protection-policy',
-    'es-419': 'personal-data-protection-policy',
-    it: 'personal-data-protection-policy',
-    fr: 'politique-protection-donnees-personnelles-app',
-  },
   ACCESSIBILITY: {
     'de-AT': 'accessibility',
     'fr-FR': 'accessibilite',
