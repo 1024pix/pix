@@ -4,6 +4,7 @@
 
 import { getOwner } from '@ember/application';
 import Service, { service } from '@ember/service';
+import { waitForPromise } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import ENV from 'mon-pix/config/environment';
@@ -99,7 +100,8 @@ export default class LocaleService extends Service {
     const locales = this.#getLocaleChain(nearestLocale);
 
     try {
-      await this.#loadTranslations(locales);
+      // waitForPromise needed in tests when local changes. no impact on production code.
+      await waitForPromise(this.#loadTranslations(locales));
     } catch {
       if (request === this.#latestLocaleRequest && !this.#hasAppliedLocale) {
         this.intl.setLocale(this.#getLocaleChain(this.currentLocale));
