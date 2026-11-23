@@ -44,3 +44,14 @@ export function getProbabilityBelowThreshold({ capacity, errorRate, threshold })
   const standardDeviation = errorRate > MINIMUM_ERROR_RATE ? errorRate : MINIMUM_ERROR_RATE;
   return normalCdf((threshold - capacity) / standardDeviation);
 }
+
+/**
+ * R1: the last `consecutiveFailures` answers are failures.
+ * @param {object} params
+ * @param {Answer[]} params.answers
+ * @param {number} params.consecutiveFailures
+ * @returns {boolean}
+ */
+export function hasConsecutiveFailures({ answers, consecutiveFailures }) {
+  return countTrailingFailures(answers) >= consecutiveFailures;
+}
