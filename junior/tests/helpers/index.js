@@ -12,14 +12,6 @@ import translationsForFr from 'virtual:ember-intl/translations/fr';
 // test setup functions. This way, you can easily extend the setup that is
 // needed per test type.
 
-function setupTranslations(hooks) {
-  hooks.beforeEach(function () {
-    const intl = this.owner.lookup('service:intl');
-    intl.addTranslations('fr', translationsForFr);
-  });
-  setupIntl(hooks, 'fr'); // ember-intl
-}
-
 function setupApplicationTest(hooks, options) {
   upstreamSetupApplicationTest(hooks, options);
 
@@ -34,7 +26,7 @@ function setupApplicationTest(hooks, options) {
   //
   // This is also a good place to call test setup functions coming
   // from other addons:
-  setupTranslations(hooks);
+  setupIntl(hooks, 'fr', translationsForFr); // ember-intl
   setupMirage(hooks); // ember-cli-mirage
 }
 
@@ -46,7 +38,7 @@ function setupTest(hooks, options) {
 
 export default function setupIntlRenderingTest(hooks) {
   setupRenderingTest(hooks);
-  setupTranslations(hooks);
+  setupIntl(hooks, 'fr', translationsForFr); // ember-intl
 }
 
 export function t(key, options) {
