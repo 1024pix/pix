@@ -5,6 +5,7 @@ import t from 'ember-intl/helpers/t';
 import pageTitle from 'ember-page-title/helpers/page-title';
 import HexagonScore from 'mon-pix/components/hexagon-score';
 import ProfileScorecards from 'mon-pix/components/profile-scorecards';
+import { escapeHtml } from 'mon-pix/utils/escape-html';
 <template>
   {{pageTitle (t "pages.profile-already-shared.title")}}
 
@@ -22,7 +23,7 @@ import ProfileScorecards from 'mon-pix/components/profile-scorecards';
         <p class="send-profile-header__instruction">
           {{t
             "pages.profile-already-shared.explanation"
-            organization=@controller.model.campaign.organizationName
+            organization=(escapeHtml @controller.model.campaign.organizationName)
             date=(formatDate @controller.model.sharedProfile.sharedAt format="LL")
             hour=@controller.model.sharedProfile.sharedAt
             htmlSafe=true

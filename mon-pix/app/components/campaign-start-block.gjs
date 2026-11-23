@@ -6,6 +6,7 @@ import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
 import CampaignLandingPageDetails from 'mon-pix/components/campaign-landing-page-details';
 import MarkdownToHtml from 'mon-pix/components/markdown-to-html';
+import { escapeHtml } from 'mon-pix/utils/escape-html';
 
 export default class CampaignStartBlock extends Component {
   <template>
@@ -86,7 +87,7 @@ export default class CampaignStartBlock extends Component {
   get titleText() {
     if (this.showWarningMessage) {
       return this.intl.t(`pages.campaign-landing.${this.campaignType}.title-with-username`, {
-        userFirstName: this.currentUser.user.firstName,
+        userFirstName: escapeHtml(this.currentUser.user.firstName),
         htmlSafe: true,
       });
     } else {

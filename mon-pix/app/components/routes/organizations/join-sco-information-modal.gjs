@@ -5,6 +5,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
 import ENV from 'mon-pix/config/environment';
+import { escapeHtml } from 'mon-pix/utils/escape-html';
 
 import { getJoinErrorsMessageByShortCode } from '../../../utils/errors-messages';
 
@@ -85,8 +86,11 @@ export default class JoinScoInformationModal extends Component {
     super(owner, args);
     if (this.args.reconciliationWarning) {
       this.isInformationMode = true;
+      const { connectionMethod, firstName, lastName } = this.args.reconciliationWarning;
       this.message = this.intl.t('pages.join.sco.login-information-message', {
-        ...this.args.reconciliationWarning,
+        connectionMethod: escapeHtml(connectionMethod),
+        firstName: escapeHtml(firstName),
+        lastName: escapeHtml(lastName),
         htmlSafe: true,
       });
     }
@@ -101,8 +105,10 @@ export default class JoinScoInformationModal extends Component {
         this.displayContinueButton = !ACCOUNT_WITH_SAMLID_ALREADY_EXISTS_ERRORS.includes(error.meta.shortCode);
         const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
         this.message =
-          this.intl.t(getJoinErrorsMessageByShortCode(error.meta), { value: error.meta.value, htmlSafe: true }) ||
-          defaultMessage;
+          this.intl.t(getJoinErrorsMessageByShortCode(error.meta), {
+            value: escapeHtml(error.meta.value),
+            htmlSafe: true,
+          }) || defaultMessage;
       }
     }
   }

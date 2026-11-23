@@ -2,6 +2,7 @@ import { PixButtonLink, PixIcon } from '@1024pix/nebulix-ember';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { t } from 'ember-intl';
+import { escapeHtml } from 'mon-pix/utils/escape-html';
 
 export default class CompanionCheck extends Component {
   @service intl;
@@ -14,7 +15,7 @@ export default class CompanionCheck extends Component {
 
   get version() {
     if (!this.pixCompanion.version) return '';
-    return this.intl.t('common.companion.check.detected.version', { version: this.pixCompanion.version });
+    return this.intl.t('common.companion.check.detected.version', { version: escapeHtml(this.pixCompanion.version) });
   }
 
   <template>

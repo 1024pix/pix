@@ -5,6 +5,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import ENV from 'mon-pix/config/environment';
+import { escapeHtml } from 'mon-pix/utils/escape-html';
 
 export default class DeleteAccountSection extends Component {
   @service url;
@@ -62,15 +63,15 @@ export default class DeleteAccountSection extends Component {
           {{t
             "pages.user-account.delete-account.warning-email"
             pixScore=@user.profile.pixScore
-            email=@user.email
+            email=(escapeHtml @user.email)
             htmlSafe=true
           }}
         {{else}}
           {{t
             "pages.user-account.delete-account.warning-other"
             pixScore=@user.profile.pixScore
-            firstName=@user.firstName
-            lastName=@user.lastName
+            firstName=(escapeHtml @user.firstName)
+            lastName=(escapeHtml @user.lastName)
             htmlSafe=true
           }}
         {{/if}}

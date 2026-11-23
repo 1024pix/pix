@@ -7,6 +7,7 @@ import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 import Duration from 'mon-pix/components/combined-course/duration';
 import ENV from 'mon-pix/config/environment';
+import { escapeHtml } from 'mon-pix/utils/escape-html';
 
 export default class CombinedCourseLandingPage extends Component {
   @service currentUser;
@@ -21,8 +22,8 @@ export default class CombinedCourseLandingPage extends Component {
 
   get connectionMessage() {
     return this.intl.t(`pages.campaign-landing.warning-message`, {
-      firstName: this.currentUser.user.firstName,
-      lastName: this.currentUser.user.lastName,
+      firstName: escapeHtml(this.currentUser.user.firstName),
+      lastName: escapeHtml(this.currentUser.user.lastName),
       htmlSafe: true,
     });
   }
