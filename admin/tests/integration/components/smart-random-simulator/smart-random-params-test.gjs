@@ -12,7 +12,7 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
   hooks.beforeEach(async function () {
     const knowledgeElements = [];
     const answers = [];
-    const skills = [];
+    const skills = [{ id: 'skill1', name: '@requete2', difficulty: 2 }];
     const challenges = [];
     const locale = 'fr-fr';
     const assessmentId = 1;
@@ -30,6 +30,19 @@ module('Integration | Component | SmartRandomSimulator::TubesViewer', function (
         @updateParametersValue={{updateParametersValue}}
       />
     </template>;
+  });
+
+  test('should display parameters as JSON in the textareas', async function (assert) {
+    // when
+    const screen = await render(component);
+
+    // then
+    assert
+      .dom(screen.getByRole('textbox', { name: /Acquis/ }))
+      .hasValue('[{"id":"skill1","name":"@requete2","difficulty":2}]');
+    assert.dom(screen.getByRole('textbox', { name: /Épreuves/ })).hasValue('[]');
+    assert.dom(screen.getByRole('textbox', { name: /Knowledge elements/ })).hasValue('[]');
+    assert.dom(screen.getByRole('textbox', { name: /Réponses/ })).hasValue('[]');
   });
 
   module('when url does not contain campaign id search query', function () {
