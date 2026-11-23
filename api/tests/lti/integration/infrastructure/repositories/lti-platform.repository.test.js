@@ -12,9 +12,16 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform', funct
   describe('get', function () {
     it('returns a LtiPlatform by id', async function () {
       // given
-      const expectedLtiPlatformData = databaseBuilder.factory.buildLtiPlatform();
+      const { id: organizationId1 } = databaseBuilder.factory.buildOrganization();
+      const { id: organizationId2 } = databaseBuilder.factory.buildOrganization();
+      const expectedLtiPlatformData = databaseBuilder.factory.buildLtiPlatform({
+        organizationIds: [organizationId2, organizationId1],
+      });
       await databaseBuilder.commit();
-      const expectedLtiPlatform = domainBuilder.lti.buildLtiPlatform(expectedLtiPlatformData);
+      const expectedLtiPlatform = domainBuilder.lti.buildLtiPlatform({
+        ...expectedLtiPlatformData,
+        organizationIds: expectedLtiPlatformData.organizationIds.toSorted((id1, id2) => id1 - id2),
+      });
 
       // when
       const ltiPlatform = await ltiPlatformRepository.get(expectedLtiPlatformData.id);
@@ -104,6 +111,7 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform', funct
       expect(platform).to.be.instanceOf(LtiPlatform);
       expect(platform).to.have.property('issuer', issuer);
       expect(platform).to.have.property('id').that.is.a('number');
+      expect(platform).to.have.property('organizationIds').that.deep.equals([]);
 
       const dbPlatforms = await knex.select('issuer').from('lti_platforms');
       await expect(dbPlatforms).to.deep.equal([{ issuer }]);

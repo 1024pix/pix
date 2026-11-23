@@ -6,9 +6,7 @@ import { LtiPlatform } from '../../domain/models/LtiPlatform.js';
 
 export const ltiPlatformRepository = {
   async get(id) {
-    const knexConn = DomainTransaction.getConnection();
-
-    const ltiPlatformDto = await knexConn.select('*').from('lti_platforms').where('id', id).first();
+    const ltiPlatformDto = await selectPlatform().where('id', id).first();
 
     if (!ltiPlatformDto) {
       throw new NotFoundError('unknown LTI platform id');
@@ -18,9 +16,7 @@ export const ltiPlatformRepository = {
   },
 
   async findByIssuer(issuer) {
-    const knexConn = DomainTransaction.getConnection();
-
-    const ltiPlatformDto = await knexConn.select('*').from('lti_platforms').where({ issuer }).first();
+    const ltiPlatformDto = await selectPlatform().where({ issuer }).first();
 
     if (!ltiPlatformDto) {
       return null;
@@ -30,9 +26,7 @@ export const ltiPlatformRepository = {
   },
 
   async findAll() {
-    const knexConn = DomainTransaction.getConnection();
-
-    const ltiPlatformDtos = await knexConn.select('*').from('lti_platforms').orderBy('issuer');
+    const ltiPlatformDtos = await selectPlatform().orderBy('issuer');
 
     return ltiPlatformDtos.map(toDomain);
   },
@@ -41,7 +35,10 @@ export const ltiPlatformRepository = {
     const knexConn = DomainTransaction.getConnection();
 
     try {
-      const [ltiPlatformDto] = await knexConn.insert({ issuer }).into('lti_platforms').returning('*');
+      const [ltiPlatformDto] = await knexConn
+        .insert({ issuer })
+        .into('lti_platforms')
+        .returning(platformProjection(knexConn));
 
       return toDomain(ltiPlatformDto);
     } catch (err) {
@@ -52,6 +49,28 @@ export const ltiPlatformRepository = {
     }
   },
 };
+
+function selectPlatform(knexConn = DomainTransaction.getConnection()) {
+  return knexConn.select(platformProjection(knexConn)).from('lti_platforms');
+}
+
+function platformProjection(knexConn = DomainTransaction.getConnection()) {
+  return [
+    'lti_platforms.*',
+    knexConn.raw(
+      'coalesce((??), \'[]\') as "organizationIds"',
+      knexConn
+        .select(
+          knexConn.raw('json_agg(?? order by ??)', [
+            'lti_platform_organizations.organizationId',
+            'lti_platform_organizations.organizationId',
+          ]),
+        )
+        .from('lti_platform_organizations')
+        .whereColumn('lti_platform_organizations.platformId', 'lti_platforms.id'),
+    ),
+  ];
+}
 
 function toDomain(ltiPlatformDto) {
   return new LtiPlatform(ltiPlatformDto);
