@@ -37,10 +37,7 @@ module.exports = async function (defaults) {
   });
 
   return compatBuild(app, buildOnce, {
-    staticAddonTestSupportTrees: true,
-    staticAddonTrees: true,
     staticModifiers: true,
-    staticEmberSource: true,
     staticHelpers: app.env === 'production',
     staticComponents: app.env === 'production',
     packagerOptions: {
