@@ -6,6 +6,7 @@ import {
   hasConsecutiveFailures,
   isCapacityProbablyBelowThreshold,
   normalCdf,
+  shouldStopEarly,
 } from '../../../../../../../src/certification/evaluation/domain/services/algorithm-methods/early-stop.js';
 import { AnswerStatus } from '../../../../../../../src/shared/domain/models/AnswerStatus.js';
 import { domainBuilder } from '../../../../../../tooling/domain-builder/domain-builder.js';
@@ -148,6 +149,44 @@ describe('Unit | Certification | Evaluation | Domain | Service | Algorithm-metho
         capacityThreshold: -4.67,
         confidence: 0.95,
       });
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('#shouldStopEarly', function () {
+    const lowCapacity = { capacity: -6, errorRate: 0.5 };
+    const thresholdCapacity = { capacity: -4.67, errorRate: 0.5 };
+    const rule = { consecutiveFailures: 3, minimumLength: 5, capacityThreshold: -4.67, confidence: 0.95 };
+
+    it('should return true when there are enough consecutive failures and capacity is probably low', function () {
+      // when
+      const result = shouldStopEarly({ answers: [ok(), ok(), ko(), ko(), ko()], ...lowCapacity, ...rule });
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when there are not enough answers', function () {
+      // when
+      const result = shouldStopEarly({ answers: [ko(), ko(), ko(), ko()], ...lowCapacity, ...rule });
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return false when there are not enough consecutive failures', function () {
+      // when
+      const result = shouldStopEarly({ answers: [ko(), ko(), ko(), ok(), ko()], ...lowCapacity, ...rule });
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return false when capacity is not probably below the threshold', function () {
+      // when
+      const result = shouldStopEarly({ answers: [ko(), ko(), ko(), ko(), ko()], ...thresholdCapacity, ...rule });
 
       // then
       expect(result).to.be.false;
