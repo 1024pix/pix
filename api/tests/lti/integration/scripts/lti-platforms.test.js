@@ -109,4 +109,31 @@ describe('Integration | LTI | Scripts | lti-platforms', function () {
       expect(dbPlatforms).to.deep.equal([{ clientId, status: LtiPlatformRegistration.status.ACTIVE }]);
     });
   });
+
+  describe('organizations', function () {
+    it('displays organizations for LTI platform using console.table', async function () {
+      // given
+      const { id: organizationId1 } = databaseBuilder.factory.buildOrganization({ name: 'First organization' });
+      const { id: organizationId2 } = databaseBuilder.factory.buildOrganization({ name: 'Second organization' });
+      const { id: platformId } = databaseBuilder.factory.buildLtiPlatform({
+        organizationIds: [organizationId1, organizationId2],
+      });
+      await databaseBuilder.commit();
+
+      const expectedOrganizations = [
+        { id: organizationId1, name: 'First organization' },
+        { id: organizationId2, name: 'Second organization' },
+      ];
+
+      const console = {
+        table: sinon.stub(),
+      };
+
+      // when
+      await script.organizations({ platformId }, { console, logger });
+
+      // then
+      expect(console.table).to.have.been.calledOnceWithExactly(expectedOrganizations);
+    });
+  });
 });

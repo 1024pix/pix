@@ -1,5 +1,6 @@
 import { Script } from '../../../src/shared/application/scripts/script.js';
 import { ScriptRunner } from '../../../src/shared/application/scripts/script-runner.js';
+import { getOrganization } from '../../organizational-entities/application/api/organization-api.js';
 import { LtiPlatformRegistration } from '../domain/models/LtiPlatformRegistration.js';
 import { ltiPlatformRepository } from '../infrastructure/repositories/lti-platform.repository.js';
 import { ltiPlatformRegistrationRepository } from '../infrastructure/repositories/lti-platform-registration.repository.js';
@@ -52,6 +53,16 @@ export class LtiPlatformsScript extends Script {
               demandOption: true,
               type: 'string',
               choices: Object.values(LtiPlatformRegistration.status),
+            },
+          },
+        },
+        organizations: {
+          description: 'Lists organizations for a platform',
+          options: {
+            platformId: {
+              description: 'LTI platform’s ID',
+              demandOption: true,
+              type: 'integer',
             },
           },
         },
@@ -111,6 +122,22 @@ export class LtiPlatformsScript extends Script {
     await ltiPlatformRegistrationRepository.update(registration);
 
     logger.info(`LTI platform registration clientId=${clientId} updated with status=${status}`);
+  }
+
+  /**
+   * @param {object} options
+   * @param {string} options.platformId
+   * @param {CommandDependencies} dependencies
+   */
+  async organizations({ platformId }, { console }) {
+    const { organizationIds } = await ltiPlatformRepository.get(platformId);
+
+    const organizations = [];
+    for (const organizationId of organizationIds) {
+      organizations.push(await getOrganization(organizationId));
+    }
+
+    console.table(organizations.map(({ id, name }) => ({ id, name })));
   }
 }
 
