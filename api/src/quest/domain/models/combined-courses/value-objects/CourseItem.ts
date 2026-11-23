@@ -24,6 +24,7 @@ export type CourseItemArgs = {
   category?: string | null;
   isSimplifiedAccess?: boolean | null;
   areas?: CourseItemArea[];
+  durationSpan?: string | null;
   createdAt?: Date | null;
 };
 
@@ -38,6 +39,7 @@ export class CourseItem {
   category: string | null;
   isSimplifiedAccess: boolean | null;
   areas: CourseItemArea[];
+  durationSpan: string | null;
 
   constructor({
     id,
@@ -49,6 +51,7 @@ export class CourseItem {
     category,
     isSimplifiedAccess,
     areas,
+    durationSpan,
     createdAt,
   }: CourseItemArgs) {
     this.id = id;
@@ -61,5 +64,6 @@ export class CourseItem {
     this.category = category ?? null;
     this.isSimplifiedAccess = isSimplifiedAccess ?? null;
     this.areas = areas ?? [];
+    this.durationSpan = durationSpan ?? null;
   }
 }

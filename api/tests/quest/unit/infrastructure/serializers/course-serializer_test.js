@@ -25,6 +25,7 @@ describe('Quest | Unit | Infrastructure | Serializers | course', function () {
           nbModules: 3,
           category: null,
           isSimplifiedAccess: null,
+          durationSpan: 'short',
           areas: [area],
         }),
         new CourseItem({
@@ -56,6 +57,7 @@ describe('Quest | Unit | Infrastructure | Serializers | course', function () {
               category: null,
               'is-simplified-access': null,
               'source-id': 1,
+              'duration-span': 'short',
             },
             relationships: {
               areas: { data: [{ type: 'areas', id: 'recAreaA' }] },
@@ -72,6 +74,7 @@ describe('Quest | Unit | Infrastructure | Serializers | course', function () {
               category: 'PREDEFINED',
               'is-simplified-access': true,
               'source-id': 2,
+              'duration-span': null,
             },
             relationships: {
               areas: { data: [{ type: 'areas', id: 'recAreaA' }] },
