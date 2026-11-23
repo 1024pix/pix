@@ -159,6 +159,8 @@ Ces choix correspondent à des questions ouvertes de l'étude (section 4). Ils r
 
 ### 4.3 Étude et calibrage
 
+Le plan de simulation détaillé (paramétrages, scénarios, indicateurs) est dans [simulations/scenario/scenarios-simulation-r4.md](./simulations/scenario/scenarios-simulation-r4.md).
+
 - **Rejeu A–E** sur les certifications v3 terminées (section 3.5 de l'étude). Il sert à choisir k, `n_min`, θ_seuil et le niveau de confiance. C'est la **prochaine étape conseillée**, car les valeurs des paramètres en dépendent. Les fonctions pures de `early-stop.js` peuvent être réutilisées telles quelles dans le script de rejeu.
 - Mesurer la couverture de la banque en items faciles, pour savoir si la condition sur k filtre vraiment quelque chose (section 3.3.4 de l'étude).
 - Trancher les questions de la [section 3](#3-choix-faits-par-défaut), puis ajuster `countTrailingFailures` en conséquence.
@@ -179,6 +181,7 @@ Ces choix correspondent à des questions ouvertes de l'étude (section 4). Ils r
 
 ## Changelog
 
+- **2026-11-23** : section 4.3, ajout d'un lien vers le plan de simulation.
 - **2026-11-23** : section 2.5 mise à jour après le lancement des suites unitaire, d'intégration et d'acceptation, et du lint complet.
 - **2026-11-23** : commits découpés en une fonctionnalité et ses tests par commit (8 commits au lieu de 3). Mise à jour du tableau 2.1.
 - **2026-11-23** : création du document. Il décrit les commits (fonctions pures, configuration, branchement), les vérifications effectuées, les choix faits par défaut et ce qu'il reste à faire (persistance des paramètres, effets de bord, calibrage, front, tests).
