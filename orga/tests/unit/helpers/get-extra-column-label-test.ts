@@ -11,8 +11,8 @@ module('Unit | Helper | get-extra-column-label', function (hooks) {
   setupIntl(hooks);
 
   let helper: GetExtraColumnLabel;
-  hooks.beforeEach(function (this: TestContext) {
-    (this.owner.lookup('service:locale') as LocaleService).setCurrentLocale('fr');
+  hooks.beforeEach(async function (this: TestContext) {
+    await (this.owner.lookup('service:locale') as LocaleService).setCurrentLocale('fr');
     helper = new GetExtraColumnLabel(this.owner);
   });
 

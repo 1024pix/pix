@@ -1,5 +1,6 @@
 import { PixButton, PixModal } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
+import { escapeHtml } from 'pix-orga/utils/escape-html';
 
 <template>
   <PixModal
@@ -11,8 +12,8 @@ import { t } from 'ember-intl';
       <p class="remove-member-modal">
         {{t
           "pages.team-members.remove-membership-modal.message"
-          memberFirstName=@firstName
-          memberLastName=@lastName
+          memberFirstName=(escapeHtml @firstName)
+          memberLastName=(escapeHtml @lastName)
           htmlSafe=true
         }}
       </p>

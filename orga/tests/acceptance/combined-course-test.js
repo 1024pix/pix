@@ -1,11 +1,10 @@
 import { visit, within } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'pix-orga/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
 import authenticateSession from '../helpers/authenticate-session';
-import setupIntl from '../helpers/setup-intl';
+import setupIntl, { t } from '../helpers/setup-intl';
 import { createPrescriberByUser, createUserManagingStudents } from '../helpers/test-init';
 
 module('Acceptance | Combined course page', function (hooks) {

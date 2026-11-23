@@ -1,9 +1,8 @@
-import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { CSV_IMPORT_ERRORS } from 'pix-orga/services/error-messages';
 import { module, test } from 'qunit';
 
-import setupIntl, { setCurrentLocale } from '../../helpers/setup-intl';
+import setupIntl, { setCurrentLocale, t } from '../../helpers/setup-intl';
 
 module('Unit | Service | Error messages', function (hooks) {
   setupTest(hooks);

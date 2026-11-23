@@ -7,6 +7,8 @@ import { tracked } from '@glimmer/tracking';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import ENV from 'pix-orga/config/environment';
 
+import { TRANSLATION_LOADERS } from '../../translations/index.js';
+
 const { DEFAULT_LOCALE, SUPPORTED_LOCALES, COOKIE_LOCALE_LIFESPAN_IN_SECONDS } = ENV.APP;
 
 export const FRENCH_FRANCE_LOCALE = 'fr-FR';
@@ -32,6 +34,8 @@ export default class LocaleService extends Service {
   @service intl;
 
   @tracked __currentLocale = DEFAULT_LOCALE;
+
+  #loadedLocales = new Set();
 
   get currentLocale() {
     return this.__currentLocale;
@@ -86,14 +90,16 @@ export default class LocaleService extends Service {
       .sort((a, b) => a.label.localeCompare(b.label));
   }
 
-  setCurrentLocale(locale) {
+  async setCurrentLocale(locale) {
     const nearestLocale = this.#getNearestSupportedLocale(locale);
     this.#setCookieLocale(nearestLocale);
     this.__currentLocale = nearestLocale;
 
     const language = this.#getLanguageFromLocale(nearestLocale);
 
-    this.intl.setLocale([nearestLocale, language, DEFAULT_LANGUAGE]);
+    const locales = [nearestLocale, language, DEFAULT_LANGUAGE];
+    await this.#loadTranslations(locales);
+    this.intl.setLocale(locales);
 
     // dayjsService may not be available for the different front apps
     const dayjsService = getOwner(this).lookup('service:dayjs');
@@ -109,9 +115,22 @@ export default class LocaleService extends Service {
     }
   }
 
-  setBestLocale({ queryParams }) {
+  async setBestLocale({ queryParams }) {
     const locale = this.#detectBestLocale({ queryParams });
-    this.setCurrentLocale(locale);
+    await this.setCurrentLocale(locale);
+  }
+
+  async #loadTranslations(locales) {
+    const localesToLoad = [...new Set(locales)].filter(
+      (locale) => TRANSLATION_LOADERS[locale] && !this.#loadedLocales.has(locale),
+    );
+    await Promise.all(
+      localesToLoad.map(async (locale) => {
+        const { default: translations } = await TRANSLATION_LOADERS[locale]();
+        this.intl.addTranslations(locale, translations);
+        this.#loadedLocales.add(locale);
+      }),
+    );
   }
 
   #detectBestLocale({ queryParams }) {

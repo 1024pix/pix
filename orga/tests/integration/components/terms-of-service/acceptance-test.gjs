@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { clickByName } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import Acceptance from 'pix-orga/components/terms-of-service/acceptance';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

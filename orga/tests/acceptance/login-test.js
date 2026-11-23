@@ -1,13 +1,12 @@
 import { clickByName, fillByLabel, visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
 import { setupMirage } from 'pix-orga/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntl, { waitLanguageChanged } from '../helpers/setup-intl';
+import setupIntl, { t, waitLanguageChanged } from '../helpers/setup-intl';
 import { createPrescriberByUser, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 
 module('Acceptance | Login', function (hooks) {

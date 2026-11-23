@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import PlacesLotsAlert from 'pix-orga/components/places/places-lot-alert';
 import { STATUSES } from 'pix-orga/models/organization-places-lot';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import setupIntlRenderingTest from 'pix-orga/tests/helpers/setup-intl-rendering';
 import { module, test } from 'qunit';
 import sinon from 'sinon';

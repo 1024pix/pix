@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import dayjs from 'dayjs';
-import { t } from 'ember-intl/test-support';
 import ImportInformationBanner from 'pix-orga/components/import-information-banner';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

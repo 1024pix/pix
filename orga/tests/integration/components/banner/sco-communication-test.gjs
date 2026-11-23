@@ -35,7 +35,7 @@ module('Integration | Component | Banner::Sco-communication', function (hooks) {
             this.owner.register('service:current-user', CurrentUserStub);
 
             const locale = this.owner.lookup('service:locale');
-            locale.setCurrentLocale('fr-BE');
+            await locale.setCurrentLocale('fr-BE');
             const router = this.owner.lookup('service:router');
             sinon.stub(router, 'currentRouteName').value(route);
 

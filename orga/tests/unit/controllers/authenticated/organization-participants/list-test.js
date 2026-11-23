@@ -1,10 +1,9 @@
-import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import extraFilterSerializer from 'pix-orga/utils/extra-filter-serializer';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntl from '../../../../helpers/setup-intl';
+import setupIntl, { t } from '../../../../helpers/setup-intl';
 
 module('Unit | Controller | authenticated/organization-participants', function (hooks) {
   setupTest(hooks);

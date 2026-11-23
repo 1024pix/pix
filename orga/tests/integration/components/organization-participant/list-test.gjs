@@ -2,8 +2,8 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import List from 'pix-orga/components/organization-participant/list';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -172,7 +172,7 @@ module('Integration | Component | OrganizationParticipant | List', function (hoo
           </template>,
         );
         // then
-        assert.notOk(screen.queryByRole('columnheader', { name: t('awesome.column') }));
+        assert.notOk(screen.queryByRole('columnheader', { name: 'awesome.column' }));
       });
     });
   });

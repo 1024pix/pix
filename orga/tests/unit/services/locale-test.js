@@ -47,9 +47,9 @@ module('Unit | Services | locale', function (hooks) {
     });
 
     module('when current locale is set', function () {
-      test('returns the current locale', function (assert) {
+      test('returns the current locale', async function (assert) {
         // given
-        localeService.setCurrentLocale('fr-BE');
+        await localeService.setCurrentLocale('fr-BE');
 
         // when
         const currentLocale = localeService.currentLocale;
@@ -129,6 +129,21 @@ module('Unit | Services | locale', function (hooks) {
       sinon.assert.calledWith(intlService.setLocale, ['nl-BE', 'nl', 'fr']);
       assert.strictEqual(metricsService.context.locale, 'nl-BE');
     });
+
+    test('loads the translations of the locale fallback chain', async function (assert) {
+      // given
+      const intlService = this.owner.lookup('service:intl');
+      const cookiesService = this.owner.lookup('service:cookies');
+      sinon.stub(cookiesService, 'write');
+
+      // when
+      await localeService.setCurrentLocale('nl-BE');
+
+      // then
+      assert.true(intlService.exists('common.actions.cancel', 'nl'));
+      assert.true(intlService.exists('common.actions.cancel', 'fr'));
+      assert.false(intlService.exists('common.actions.cancel', 'en'));
+    });
   });
 
   module('setBestLocale', function () {
@@ -144,7 +159,7 @@ module('Unit | Services | locale', function (hooks) {
         sinon.stub(cookiesService, 'write');
 
         // when
-        localeService.setBestLocale({ queryParams: null });
+        await localeService.setBestLocale({ queryParams: null });
 
         // then
         const currentLocale = localeService.currentLocale;
@@ -164,7 +179,7 @@ module('Unit | Services | locale', function (hooks) {
         sinon.stub(cookiesService, 'write');
 
         // when
-        localeService.setBestLocale({ queryParams: null });
+        await localeService.setBestLocale({ queryParams: null });
 
         // then
         const currentLocale = localeService.currentLocale;
@@ -178,7 +193,7 @@ module('Unit | Services | locale', function (hooks) {
           cookiesService.write('locale', 'fr');
 
           // when
-          localeService.setBestLocale({ queryParams: { lang: 'fr-BE' } });
+          await localeService.setBestLocale({ queryParams: { lang: 'fr-BE' } });
 
           // then
           const currentLocale = localeService.currentLocale;
@@ -193,7 +208,7 @@ module('Unit | Services | locale', function (hooks) {
           cookiesService.write('locale', 'fr');
 
           // when
-          localeService.setBestLocale({ queryParams: { locale: 'fr-BE' } });
+          await localeService.setBestLocale({ queryParams: { locale: 'fr-BE' } });
 
           // then
           const currentLocale = localeService.currentLocale;
@@ -208,7 +223,7 @@ module('Unit | Services | locale', function (hooks) {
           cookiesService.write('locale', 'fr-BE');
 
           // when
-          localeService.setBestLocale({ queryParams: null });
+          await localeService.setBestLocale({ queryParams: null });
 
           // then
           const currentLocale = localeService.currentLocale;
@@ -223,7 +238,7 @@ module('Unit | Services | locale', function (hooks) {
           cookiesService.write('locale', 'en-CA');
 
           // when
-          localeService.setBestLocale({ queryParams: null });
+          await localeService.setBestLocale({ queryParams: null });
 
           // then
           const currentLocale = localeService.currentLocale;
@@ -238,7 +253,7 @@ module('Unit | Services | locale', function (hooks) {
           cookiesService.write('locale', 'fr-FR');
 
           // when
-          localeService.setBestLocale({ queryParams: null });
+          await localeService.setBestLocale({ queryParams: null });
 
           // then
           const currentLocale = localeService.currentLocale;

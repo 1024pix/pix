@@ -12,7 +12,7 @@ import t from 'ember-intl/helpers/t';
 
 export default class LocaleSwitcher extends Component {
   @service locale;
-  @service localeLoader;
+  @service dayjsLocaleLoader;
   @service router;
   @tracked selectedLocale;
 
@@ -24,8 +24,8 @@ export default class LocaleSwitcher extends Component {
   @action
   async onChange(value) {
     this.selectedLocale = value;
-    await this.localeLoader.load(value);
-    this.locale.setCurrentLocale(value);
+    await this.dayjsLocaleLoader.load(value);
+    await this.locale.setCurrentLocale(value);
     this.router.replaceWith({ queryParams: { lang: null } });
 
     if (this.args.onChange) {

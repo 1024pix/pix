@@ -7,6 +7,7 @@ import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { eq, not } from 'ember-truth-helpers';
 import Pagination from 'pix-orga/components/ui/pagination';
+import { escapeHtml } from 'pix-orga/utils/escape-html';
 
 import ImportInformationBanner from '../import-information-banner';
 import InElement from '../in-element';
@@ -253,8 +254,8 @@ const SupActionBar = <template>
       @title={{t
         "pages.sup-organization-participants.deletion-modal.title"
         count=@count
-        firstname=(get @selectedStudents "0.firstName")
-        lastname=(get @selectedStudents "0.lastName")
+        firstname=(escapeHtml (get @selectedStudents "0.firstName"))
+        lastname=(escapeHtml (get @selectedStudents "0.lastName"))
         htmlSafe=true
       }}
       @showModal={{@showDeletionModal}}

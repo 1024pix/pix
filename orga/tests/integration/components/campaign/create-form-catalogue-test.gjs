@@ -2,9 +2,9 @@ import { clickByName, render, within } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { fillIn } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import CreateForm from 'pix-orga/components/campaign/create-form-catalogue';
 import { EVENT_NAME } from 'pix-orga/constants/metrics-event-name';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

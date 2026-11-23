@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { t } from 'ember-intl/test-support';
 import HeaderActions from 'pix-orga/components/sco-organization-participant/header-actions';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -61,15 +61,7 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
       const screen = await render(<template><HeaderActions /></template>);
 
       assert.strictEqual(
-        screen.queryByLabelText(
-          t('components.organization-participants-header.import-button.label', { types: '.csv' }),
-        ),
-        null,
-      );
-      assert.strictEqual(
-        screen.queryByLabelText(
-          t('components.organization-participants-header.import-button.label', { types: '.xml ou .zip' }),
-        ),
+        screen.queryByRole('link', { name: t('components.organization-participants-header.import-button') }),
         null,
       );
     });

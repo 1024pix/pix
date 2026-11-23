@@ -1,6 +1,6 @@
 import { render, within } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import AssessmentList from 'pix-orga/components/campaign/results/assessment-list';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -352,7 +352,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
         // then
         assert.notOk(
           screen.queryByRole('columnheader', {
-            name: t('pages.campaign-results.table.column.ariaEvolution'),
+            name: t('pages.campaign-results.table.column.evolution'),
           }),
         );
       });

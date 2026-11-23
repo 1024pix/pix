@@ -1,13 +1,12 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'pix-orga/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import authenticateSession from '../helpers/authenticate-session';
-import setupIntl from '../helpers/setup-intl';
+import setupIntl, { t } from '../helpers/setup-intl';
 import {
   createPrescriberByUser,
   createPrescriberForOrganization,
@@ -119,7 +118,7 @@ module('Acceptance | Missions List', function (hooks) {
         assert
           .dom(
             screen.queryByRole('link', {
-              name: t('pages.missions.list.banner.admin.import-text'),
+              name: t('pages.missions.list.banner.step1.admin.link'),
             }),
           )
           .doesNotExist();

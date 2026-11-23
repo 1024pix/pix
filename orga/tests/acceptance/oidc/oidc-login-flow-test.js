@@ -1,6 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn, settled } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { setupMirage } from 'pix-orga/tests/test-support/setup-mirage';
@@ -9,7 +8,7 @@ import { SessionStorageEntry } from 'pix-orga/utils/session-storage-entry';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntl from '../../helpers/setup-intl';
+import setupIntl, { t } from '../../helpers/setup-intl';
 import {
   createPrescriberByUser,
   createUserWithMembership,

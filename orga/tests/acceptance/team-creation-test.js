@@ -1,12 +1,11 @@
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'pix-orga/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
 import authenticateSession from '../helpers/authenticate-session';
-import setupIntl from '../helpers/setup-intl';
+import setupIntl, { t } from '../helpers/setup-intl';
 import { createPrescriberByUser, createUserMembershipWithRole } from '../helpers/test-init';
 import { waitForDialog } from '../helpers/wait-for';
 

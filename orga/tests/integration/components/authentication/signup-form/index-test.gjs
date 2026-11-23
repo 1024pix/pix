@@ -1,6 +1,6 @@
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import SignupForm from 'pix-orga/components/authentication/signup-form';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

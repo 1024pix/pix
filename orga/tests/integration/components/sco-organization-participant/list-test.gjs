@@ -1,8 +1,8 @@
 import { clickByName, fillByLabel, render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import ScoOrganizationParticipantList from 'pix-orga/components/sco-organization-participant/list';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import striptags from 'striptags';
