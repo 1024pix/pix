@@ -4,6 +4,7 @@
 
 import { getOwner } from '@ember/application';
 import Service, { service } from '@ember/service';
+import { waitForPromise } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import ENV from 'pix-certif/config/environment';
@@ -118,12 +119,14 @@ export default class LocaleService extends Service {
     const localesToLoad = [...new Set(locales)].filter(
       (locale) => TRANSLATION_LOADERS[locale] && !this.#loadedLocales.has(locale),
     );
-    await Promise.all(
-      localesToLoad.map(async (locale) => {
-        const { default: translations } = await TRANSLATION_LOADERS[locale]();
-        this.intl.addTranslations(locale, translations);
-        this.#loadedLocales.add(locale);
-      }),
+    await waitForPromise(
+      Promise.all(
+        localesToLoad.map(async (locale) => {
+          const { default: translations } = await TRANSLATION_LOADERS[locale]();
+          this.intl.addTranslations(locale, translations);
+          this.#loadedLocales.add(locale);
+        }),
+      ),
     );
   }
 
