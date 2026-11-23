@@ -13,7 +13,7 @@ type props = {
   status: CertificationResultStatus;
   reachedMeshIndex: number | null;
   pixScore: number | null;
-  competenceMarks: CompetenceMark[] | null;
+  competenceMarks: CompetenceMark[];
   hasAcquiredClea: boolean | null;
   commentForOrganization: string | null;
   commentByAutoJury: AutoJuryCommentKey | null;
@@ -22,7 +22,7 @@ type props = {
   startedAt: Date;
 };
 
-type CompetenceMark = {
+export type CompetenceMark = {
   competenceCode: string;
   level: number;
 };
@@ -57,7 +57,7 @@ export class CertificationResultForCsv {
     this.status = props.status;
     this.reachedMeshIndex = props.reachedMeshIndex;
     this.pixScore = props.pixScore;
-    this.competenceMarks = props.competenceMarks ?? [];
+    this.competenceMarks = props.competenceMarks;
     this.hasAcquiredClea = props.hasAcquiredClea;
     this.#commentForOrganization = props.commentForOrganization;
     this.#commentByAutoJury = props.commentByAutoJury;

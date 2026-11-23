@@ -114,11 +114,12 @@ export function buildCertificationResult({
   v2VoletExterneBadgeId = null,
   v2VoletExterneAcquired = null,
 } = {}) {
-  const competences = competenceMarks.map(({ competenceId, level }) => ({
-    certificationResultId: id,
-    competenceId,
-    level,
-  }));
+  const competences =
+    competenceMarks?.map(({ competenceId, level }) => ({
+      certificationResultId: id,
+      competenceId,
+      level,
+    })) ?? [];
   const values = {
     id,
     algorithmEngineVersion,
@@ -143,7 +144,6 @@ export function buildCertificationResult({
     maxReachableLevel,
     reachedMeshIndex,
     pixScore,
-    competenceMarks: JSON.stringify(competenceMarks),
     v3EduExternalJuryResult,
     hasAcquiredClea,
     cleaBadgeId,
@@ -156,9 +156,11 @@ export function buildCertificationResult({
     tableName: 'certification_results',
     values,
   });
-  databaseBuffer.pushInsertable({
-    tableName: 'certification_competence_results',
-    values: competences,
-  });
+  for (const competence of competences) {
+    databaseBuffer.pushInsertable({
+      tableName: 'certification_competence_results',
+      values: competence,
+    });
+  }
   return values;
 }
