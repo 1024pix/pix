@@ -1,4 +1,5 @@
-import { setupIntl, t } from 'ember-intl/test-support';
+import { getContext } from '@ember/test-helpers';
+import { setupIntl } from 'ember-intl/test-support';
 import {
   setupApplicationTest as upstreamSetupApplicationTest,
   setupRenderingTest,
@@ -25,11 +26,7 @@ function setupApplicationTest(hooks, options) {
   //
   // This is also a good place to call test setup functions coming
   // from other addons:
-  hooks.beforeEach(function () {
-    const intl = this.owner.lookup('service:intl');
-    intl.addTranslations('fr', translationsForFr);
-  });
-  setupIntl(hooks, 'fr'); // ember-intl
+  setupIntl(hooks, 'fr', translationsForFr); // ember-intl
   setupMirage(hooks); // ember-cli-mirage
 }
 
@@ -41,7 +38,15 @@ function setupTest(hooks, options) {
 
 export default function setupIntlRenderingTest(hooks) {
   setupRenderingTest(hooks);
-  setupIntl(hooks, 'fr');
+  setupIntl(hooks, 'fr', translationsForFr); // ember-intl
 }
 
-export { setupApplicationTest, setupIntlRenderingTest, setupRenderingTest, setupTest, t };
+export function t(key, options) {
+  const intl = getContext().owner.lookup('service:intl');
+  if (!intl.exists(key)) {
+    throw new Error(`Missing translation for key "${key}"`);
+  }
+  return intl.t(key, options);
+}
+
+export { setupApplicationTest, setupIntlRenderingTest, setupRenderingTest, setupTest };
