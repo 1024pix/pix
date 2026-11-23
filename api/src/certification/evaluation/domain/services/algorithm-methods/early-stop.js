@@ -2,6 +2,9 @@
  * @typedef {import('../../../../../evaluation/domain/models/Answer.js').Answer} Answer
  */
 
+// Smallest standard deviation the flash posterior grid can represent (step of 18/80 over sqrt(12))
+const MINIMUM_ERROR_RATE = 18 / 80 / Math.sqrt(12);
+
 /**
  * Standard normal cumulative distribution function.
  * Abramowitz & Stegun 7.1.26 approximation, absolute error < 1.5e-7.
@@ -27,4 +30,17 @@ export function countTrailingFailures(answers) {
     count++;
   }
   return count;
+}
+
+/**
+ * Normal approximation of P(θ < threshold | answers), posterior being N(capacity, errorRate).
+ * @param {object} params
+ * @param {number} params.capacity
+ * @param {number} params.errorRate
+ * @param {number} params.threshold
+ * @returns {number}
+ */
+export function getProbabilityBelowThreshold({ capacity, errorRate, threshold }) {
+  const standardDeviation = errorRate > MINIMUM_ERROR_RATE ? errorRate : MINIMUM_ERROR_RATE;
+  return normalCdf((threshold - capacity) / standardDeviation);
 }
