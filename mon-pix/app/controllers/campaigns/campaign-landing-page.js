@@ -9,7 +9,7 @@ export default class CampaignLandingPageController extends UtmQueryParamsControl
   @service session;
 
   get shouldDisplayLocaleSwitcher() {
-    return this.isInternationalDomain && this.isUserNotAuthenticated;
+    return this.isInternationalDomain;
   }
 
   get isAutonomousCourse() {
@@ -26,10 +26,6 @@ export default class CampaignLandingPageController extends UtmQueryParamsControl
 
   get isUserAuthenticatedByPix() {
     return this.session.isAuthenticated;
-  }
-
-  get isUserNotAuthenticated() {
-    return !this.isUserAuthenticatedByPix && !this.isUserAuthenticatedByGAR;
   }
 
   @action
