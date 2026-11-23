@@ -1,9 +1,9 @@
 import joi from 'joi';
 
-import { usecases } from '../../privacy/domain/usecases/index.js';
 import { csvFileStreamer } from '../../shared/application/scripts/parsers.js';
 import { ScriptRunner } from '../../shared/application/scripts/script-runner.js';
 import { ScriptWithJob } from '../../shared/application/scripts/script-with-job.js';
+import { usecases } from '../domain/usecases/index.js';
 
 const CHUNK_SIZE = 1000;
 const DELAY = 1000;
