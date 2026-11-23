@@ -204,7 +204,11 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
   }
 }
 
-async function resourceLink(request, h, dependencies = { urlService, ltiScoringService }) {
+async function resourceLink(
+  request,
+  h,
+  dependencies = { urlService, ltiScoringService, startLtiCampaign: usecases.startLtiCampaign },
+) {
   const { verifiedToken, registration } = await preLaunch(request);
   const messageType = verifiedToken['https://purl.imsglobal.org/spec/lti/claim/message_type'];
 
@@ -226,9 +230,11 @@ async function resourceLink(request, h, dependencies = { urlService, ltiScoringS
     return launchErrorResponse(h);
   }
 
+  const lineItemsUrl = verifiedToken['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint']?.lineitems;
+
   try {
     await dependencies.ltiScoringService.initializeLineItems({
-      lineItemsUrl: verifiedToken['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint']?.lineitems,
+      lineItemsUrl,
       resourceLinkId: verifiedToken['https://purl.imsglobal.org/spec/lti/claim/resource_link']?.id,
       campaign,
       accessToken,
@@ -239,6 +245,13 @@ async function resourceLink(request, h, dependencies = { urlService, ltiScoringS
     logger.error({ campaignId, err }, 'could not initialize line items');
     return launchErrorResponse(h);
   }
+
+  await dependencies.startLtiCampaign({
+    clientId: registration.clientId,
+    platformUserSub: verifiedToken.sub,
+    lineItemContainerUrl: lineItemsUrl,
+    campaignId: campaign.id,
+  });
 
   const locale = 'fr-FR'; // TODO: Generate this dynamically
 

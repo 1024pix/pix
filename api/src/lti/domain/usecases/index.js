@@ -5,6 +5,7 @@ import * as organizationRepository from '../../../shared/infrastructure/reposito
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import boundedContext from '../../dependencies.json' with { type: 'json' };
 import { repositories as injectedLtiRepositories } from '../../infrastructure/repositories/index.js';
+import { ltiCampaignParticipationRepository } from '../../infrastructure/repositories/lti-campaign-participation.repository.js';
 import { ltiPlatformRepository } from '../../infrastructure/repositories/lti-platform.repository.js';
 import { ltiPlatformRegistrationRepository } from '../../infrastructure/repositories/lti-platform-registration.repository.js';
 import { ltiService } from '../services/lti.service.js';
@@ -13,6 +14,7 @@ import { getLtiCampaign } from './get-lti-campaign.usecase.js';
 import { getLtiCampaignsByOrganizations } from './get-lti-campaigns-by-organizations.usecase.js';
 import { listLtiPublicKeys } from './list-lti-public-keys.usecase.js';
 import { registerLtiPlatform } from './register-lti-platform.usecase.js';
+import { startLtiCampaign } from './start-lti-campaign.usecase.js';
 
 const utils = {
   httpAgent,
@@ -25,6 +27,7 @@ const repositories = {
   ltiPlatformRepository,
   organizationRepository,
   ltiCampaignRepository: injectedLtiRepositories.ltiCampaignRepository,
+  ltiCampaignParticipationRepository,
 };
 
 const usecasesWithoutInjectedDependencies = {
@@ -33,6 +36,7 @@ const usecasesWithoutInjectedDependencies = {
   registerLtiPlatform,
   getLtiCampaign,
   getLtiCampaignsByOrganizations,
+  startLtiCampaign,
 };
 
 const dependencies = Object.assign({}, repositories, services, utils);
