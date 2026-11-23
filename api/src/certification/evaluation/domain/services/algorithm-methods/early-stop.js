@@ -55,3 +55,16 @@ export function getProbabilityBelowThreshold({ capacity, errorRate, threshold })
 export function hasConsecutiveFailures({ answers, consecutiveFailures }) {
   return countTrailingFailures(answers) >= consecutiveFailures;
 }
+
+/**
+ * R3: P(θ < capacityThreshold | answers) >= confidence.
+ * @param {object} params
+ * @param {number} params.capacity
+ * @param {number} params.errorRate
+ * @param {number} params.capacityThreshold
+ * @param {number} params.confidence
+ * @returns {boolean}
+ */
+export function isCapacityProbablyBelowThreshold({ capacity, errorRate, capacityThreshold, confidence }) {
+  return getProbabilityBelowThreshold({ capacity, errorRate, threshold: capacityThreshold }) >= confidence;
+}

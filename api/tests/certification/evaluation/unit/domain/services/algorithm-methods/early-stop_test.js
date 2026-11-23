@@ -4,6 +4,7 @@ import {
   countTrailingFailures,
   getProbabilityBelowThreshold,
   hasConsecutiveFailures,
+  isCapacityProbablyBelowThreshold,
   normalCdf,
 } from '../../../../../../../src/certification/evaluation/domain/services/algorithm-methods/early-stop.js';
 import { AnswerStatus } from '../../../../../../../src/shared/domain/models/AnswerStatus.js';
@@ -119,6 +120,34 @@ describe('Unit | Certification | Evaluation | Domain | Service | Algorithm-metho
     it('should return false when trailing failures are below the expected count', function () {
       // when
       const result = hasConsecutiveFailures({ answers: [ko(), ok(), ko(), ko()], consecutiveFailures: 3 });
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('#isCapacityProbablyBelowThreshold', function () {
+    it('should return true when the probability reaches the confidence', function () {
+      // when
+      const result = isCapacityProbablyBelowThreshold({
+        capacity: -6,
+        errorRate: 0.5,
+        capacityThreshold: -4.67,
+        confidence: 0.95,
+      });
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when the probability is below the confidence', function () {
+      // when
+      const result = isCapacityProbablyBelowThreshold({
+        capacity: -5,
+        errorRate: 0.5,
+        capacityThreshold: -4.67,
+        confidence: 0.95,
+      });
 
       // then
       expect(result).to.be.false;
