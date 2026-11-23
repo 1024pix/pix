@@ -68,3 +68,34 @@ export function hasConsecutiveFailures({ answers, consecutiveFailures }) {
 export function isCapacityProbablyBelowThreshold({ capacity, errorRate, capacityThreshold, confidence }) {
   return getProbabilityBelowThreshold({ capacity, errorRate, threshold: capacityThreshold }) >= confidence;
 }
+
+/**
+ * R4 = R1 AND R3, evaluated once at least `minimumLength` answers have been given.
+ * @param {object} params
+ * @param {Answer[]} params.answers
+ * @param {number} params.capacity
+ * @param {number} params.errorRate
+ * @param {number} params.consecutiveFailures
+ * @param {number} params.minimumLength
+ * @param {number} params.capacityThreshold
+ * @param {number} params.confidence
+ * @returns {boolean}
+ */
+export function shouldStopEarly({
+  answers,
+  capacity,
+  errorRate,
+  consecutiveFailures,
+  minimumLength,
+  capacityThreshold,
+  confidence,
+}) {
+  if (answers.length < minimumLength) {
+    return false;
+  }
+
+  return (
+    hasConsecutiveFailures({ answers, consecutiveFailures }) &&
+    isCapacityProbablyBelowThreshold({ capacity, errorRate, capacityThreshold, confidence })
+  );
+}
