@@ -12,24 +12,17 @@ import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
 
   {{#if @controller.couldDisplayInfoAlert}}
     <div
-      class="challenge__info-alert challenge__info-alert--hide challenge__info-alert--could-show"
+      class="challenge__info-alert challenge__info-alert--focus"
       tabindex="0"
       role="alert"
       aria-live="assertive"
     >
-      <div class="challenge-info-alert__icon"></div>
-      {{#if @model.assessment.certificationCourse.isAdjustedForAccessibility}}
-        <p class="challenge-info-alert__title">
-          {{t "pages.challenge.is-focused-challenge.info-alert.adjusted-course-title"}}
-        </p>
-      {{else}}
-        <p class="challenge-info-alert__title">
-          {{t "pages.challenge.is-focused-challenge.info-alert.title"}}
-        </p>
-        <p class="challenge-info-alert__subtitle">
-          {{t "pages.challenge.is-focused-challenge.info-alert.subtitle"}}
-        </p>
-      {{/if}}
+      <div class="challenge-info-alert__icon">
+        <img src="/images/challenge/focus-mode.svg" />
+      </div>
+      <p>
+        {{t "pages.challenge.is-focused-challenge.info-alert"}}
+      </p>
     </div>
   {{/if}}
 
@@ -85,26 +78,19 @@ import AssessmentBanner from 'mon-pix/components/ui/assessment/banner';
 
   {{#if @model.challenge.focused}}
     <div
-      class="challenge__info-alert challenge__info-alert--hide
+      class="challenge__info-alert
         {{if @controller.displayInfoAlertForFocusOut 'challenge__info-alert--show'}}
-        {{if @controller.couldDisplayInfoAlert 'challenge__info-alert--could-show'}}"
+        {{if @controller.couldDisplayInfoAlert 'challenge__info-alert--focus'}}"
       tabindex="0"
       role="alert"
       aria-live="assertive"
     >
-      <div class="challenge-info-alert__icon"></div>
-      {{#if @model.assessment.certificationCourse.isAdjustedForAccessibility}}
-        <p class="challenge-info-alert__title">
-          {{t "pages.challenge.is-focused-challenge.info-alert.adjusted-course-title"}}
-        </p>
-      {{else}}
-        <p class="challenge-info-alert__title">
-          {{t "pages.challenge.is-focused-challenge.info-alert.title"}}
-        </p>
-        <p class="challenge-info-alert__subtitle">
-          {{t "pages.challenge.is-focused-challenge.info-alert.subtitle"}}
-        </p>
-      {{/if}}
+      <div class="challenge-info-alert__icon">
+        <img src="/images/challenge/focus-mode.svg" />
+      </div>
+      <p>
+        {{t "pages.challenge.is-focused-challenge.info-alert"}}
+      </p>
     </div>
   {{/if}}
 

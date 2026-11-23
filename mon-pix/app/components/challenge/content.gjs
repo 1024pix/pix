@@ -204,8 +204,7 @@ export default class ChallengeContent extends Component {
 
   <template>
     <div
-      class="focus-zone-warning
-        {{if @isFocusedChallengeAndUserHasFocusedOutOfChallenge 'focus-zone-warning--triggered'}}"
+      class="focus-zone-warning"
       data-challenge-id="{{@challenge.id}}"
       {{on "mouseenter" @hideOutOfFocusBorder}}
       {{on "mouseleave" @showOutOfFocusBorder}}
@@ -298,9 +297,5 @@ export default class ChallengeContent extends Component {
         <AssessmentsLiveAlert @message={{t "pages.challenge.live-alerts.companion.message"}} />
       {{/if}}
     </div>
-
-    {{#if @isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
-      <div class="focus-zone-warning__overlay" />
-    {{/if}}
   </template>
 }

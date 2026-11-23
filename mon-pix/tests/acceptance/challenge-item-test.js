@@ -92,8 +92,6 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
             // then
             assert.dom(find('.challenge__info-alert--show')).exists();
             assert.dom(find('.challenge__info-alert--could-show')).exists();
-            assert.dom(find('.focus-zone-warning--triggered')).exists();
-            assert.dom(find('.focus-zone-warning__overlay')).exists();
           });
 
           test('should display only the warning alert when it has been triggered', async function (assert) {
@@ -102,8 +100,6 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
             await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
 
             assert.dom(find('.challenge__info-alert--could-show')).exists();
-            assert.dom(find('.focus-zone-warning--triggered')).exists();
-            assert.dom(find('.focus-zone-warning__overlay')).exists();
 
             // when
             await triggerEvent(document, 'focusedout');
@@ -117,8 +113,6 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                 ),
               )
               .exists();
-            assert.dom(find('.focus-zone-warning--triggered')).exists();
-            assert.dom(find('.focus-zone-warning__overlay')).exists();
           });
         });
 
@@ -714,8 +708,6 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               // then
               assert.dom(find('.challenge__info-alert--show')).exists();
               assert.dom(find('.challenge__info-alert--could-show')).exists();
-              assert.dom(find('.focus-zone-warning--triggered')).exists();
-              assert.dom(find('.focus-zone-warning__overlay')).exists();
             });
 
             test('should display only the warning alert when it has been triggered', async function (assert) {
@@ -724,8 +716,6 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
               await triggerEvent(focusZone, 'mouseleave', { relatedTarget: focusZone });
 
               assert.dom(find('.challenge__info-alert--could-show')).exists();
-              assert.dom(find('.focus-zone-warning--triggered')).exists();
-              assert.dom(find('.focus-zone-warning__overlay')).exists();
 
               // when
               await triggerEvent(document, 'focusedout');
@@ -739,8 +729,6 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                   ),
                 )
                 .exists();
-              assert.dom(find('.focus-zone-warning--triggered')).exists();
-              assert.dom(find('.focus-zone-warning__overlay')).exists();
             });
           });
         });
@@ -847,8 +835,6 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                 ).length,
                 2,
               );
-              assert.dom(find('.focus-zone-warning--triggered')).exists();
-              assert.dom(find('.focus-zone-warning__overlay')).exists();
             });
 
             test('should display only the warning alert when it has been triggered', async function (assert) {
@@ -873,8 +859,6 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                   ),
                 )
                 .exists();
-              assert.dom(find('.focus-zone-warning--triggered')).exists();
-              assert.dom(find('.focus-zone-warning__overlay')).exists();
             });
           });
         });
@@ -946,8 +930,6 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                 screen.getAllByText('Répondez à cette question sans vous aider d’internet ou d’applications.').length,
                 2,
               );
-              assert.dom(find('.focus-zone-warning--triggered')).exists();
-              assert.dom(find('.focus-zone-warning__overlay')).exists();
             });
 
             test('should display only the warning alert when it has been triggered', async function (assert) {
@@ -970,8 +952,6 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                   ),
                 )
                 .exists();
-              assert.dom(find('.focus-zone-warning--triggered')).exists();
-              assert.dom(find('.focus-zone-warning__overlay')).exists();
             });
           });
         });

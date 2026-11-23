@@ -1296,7 +1296,7 @@
         "info-alert": {
           "adjusted-course-title": "Répondez à cette question sans vous aider d’internet ou d’applications.",
           "subtitle": "En certification, si vous changez de page, votre réponse ne sera pas validée.",
-          "title": "Essayez de répondre à cette question sans vous aider d’internet ou d’applications."
+          "title": "Attention, vous devez rester sur cette page pour répondre !"
         }
       },
       "live-alerts": {
