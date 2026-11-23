@@ -2,13 +2,27 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { config } from '../../../../../config/config.js';
+import { ValidateSiecleFileJobController } from '../../../../../src/prescription/learner-management/application/jobs/validate-learners-file/validate-siecle-file-job-controller.js';
 import { ValidateSiecleFileJob } from '../../../../../src/prescription/learner-management/domain/models/jobs/ValidateSiecleFileJob.js';
 import { AuditLoggingJobController } from '../../../../../src/shared/application/jobs/audit-logging.job-controller.js';
 import { JobGroup } from '../../../../../src/shared/application/jobs/job-controller.js';
 import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { JobExpireIn } from '../../../../../src/shared/infrastructure/jobs/default-config.js';
 import { JobClient } from '../../../../../src/shared/infrastructure/jobs/JobClient.js';
+import { TestCpfExportSenderJobController } from './test-cpf-export-sender-job-controller.js';
 import { TestEvent } from './test-event.js';
+import { TestScheduleComputeOrganizationLearnersCertificabilityJobController } from './test-schedule-compute-organization-learners-certificability-job-controller.js';
+import { TestToDeleteEventHandler } from './test-to-delete.event-handler.js';
+import { TestToRegisterEventHandler } from './test-to-register.event-handler.js';
+
+const jobControllers = [
+  AuditLoggingJobController,
+  ValidateSiecleFileJobController,
+  TestCpfExportSenderJobController,
+  TestScheduleComputeOrganizationLearnersCertificabilityJobController,
+  TestToDeleteEventHandler,
+  TestToRegisterEventHandler,
+];
 
 class FakePgBoss {
   start() {
@@ -102,6 +116,7 @@ describe('Unit | JobClient', function () {
           jobGroups: [JobGroup.DEFAULT],
           isTestOnly: false,
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );
@@ -123,6 +138,7 @@ describe('Unit | JobClient', function () {
         {
           jobGroups: [JobGroup.DEFAULT],
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );
@@ -152,6 +168,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -179,6 +196,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -205,6 +223,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -230,6 +249,7 @@ describe('Unit | JobClient', function () {
           jobGroups: [JobGroup.DEFAULT],
           isTestOnly: false,
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );
@@ -251,6 +271,7 @@ describe('Unit | JobClient', function () {
           jobGroups: [JobGroup.DEFAULT],
           isTestOnly: false,
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );
@@ -272,6 +293,7 @@ describe('Unit | JobClient', function () {
           jobGroups: [JobGroup.DEFAULT],
           isTestOnly: true,
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );
@@ -294,6 +316,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -320,6 +343,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -343,6 +367,7 @@ describe('Unit | JobClient', function () {
               jobGroups: [JobGroup.DEFAULT],
               isTestOnly: true,
               worker: true,
+              jobControllers,
             },
             () => pgBossStub,
           );
@@ -365,6 +390,7 @@ describe('Unit | JobClient', function () {
               jobGroups: [JobGroup.DEFAULT],
               isTestOnly: true,
               worker: true,
+              jobControllers,
             },
             () => pgBossStub,
           );
@@ -391,6 +417,7 @@ describe('Unit | JobClient', function () {
               jobGroups: [JobGroup.DEFAULT],
               isTestOnly: false,
               worker: true,
+              jobControllers,
             },
             () => pgBossStub,
           );
@@ -418,6 +445,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -440,6 +468,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -460,6 +489,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -482,6 +512,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -504,6 +535,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -526,6 +558,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -541,7 +574,7 @@ describe('Unit | JobClient', function () {
     const twoDaysAgo = new Date(Date.now() - 2 * 24 * 3600 * 1000);
     const oneHourAgo = new Date(Date.now() - 3600 * 1000);
     const initializeWorker = (pgBossStub, jobGroups = [JobGroup.DEFAULT]) =>
-      new JobClient().initialize({ jobGroups, isTestOnly: true, worker: true }, () => pgBossStub);
+      new JobClient().initialize({ jobGroups, isTestOnly: true, worker: true, jobControllers }, () => pgBossStub);
 
     it('deletes and unschedules an empty queue that no job class declares', async function () {
       // given
@@ -665,7 +698,10 @@ describe('Unit | JobClient', function () {
       const jobClient = new JobClient();
 
       // when
-      await jobClient.initialize({ jobGroups: [JobGroup.DEFAULT], isTestOnly: true, worker: true }, () => pgBossStub);
+      await jobClient.initialize(
+        { jobGroups: [JobGroup.DEFAULT], isTestOnly: true, worker: true, jobControllers },
+        () => pgBossStub,
+      );
 
       // then
       expect(jobClient.isInitialized).to.be.true;
@@ -692,6 +728,7 @@ describe('Unit | JobClient', function () {
           jobGroups: [JobGroup.DEFAULT],
           isTestOnly: true,
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );
@@ -719,6 +756,7 @@ describe('Unit | JobClient', function () {
           jobGroups: [JobGroup.DEFAULT],
           isTestOnly: true,
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );
@@ -762,6 +800,7 @@ describe('Unit | JobClient', function () {
           jobGroups: [JobGroup.DEFAULT],
           isTestOnly: true,
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );

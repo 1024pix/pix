@@ -1,5 +1,6 @@
 import nock from 'nock';
 
+import { jobControllers } from '../../jobs.js';
 import * as certificationCpfCityRepository from '../../src/certification/enrolment/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../src/certification/enrolment/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as moduleRepository from '../../src/devcomp/infrastructure/repositories/module-repository.js';
@@ -28,7 +29,7 @@ export const mochaHooks = {
     nock.disableNetConnect();
     nock.enableNetConnect('localhost:9090'); // Unmock S3 storage
 
-    await JobClient.instance.initialize({ worker: true, isTestOnly: true });
+    await JobClient.instance.initialize({ worker: true, isTestOnly: true, jobControllers });
 
     await learningContentCache.connect();
   },

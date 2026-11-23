@@ -1,5 +1,6 @@
 import { schema as configSchema } from './config/config.js';
 import { databaseConnectionRegistry } from './db/database-connection-registry.js';
+import { jobControllers } from './jobs.js';
 import { checkJobGroups, JobGroup } from './src/shared/application/jobs/job-controller.js';
 import { learningContentCache } from './src/shared/infrastructure/caches/learning-content-redis-cache.js';
 import { startHeapProfileListener } from './src/shared/infrastructure/heap-profile/heap-profile-listener.js';
@@ -26,7 +27,7 @@ async function main() {
   await databaseConnectionRegistry.initialize(requiredDatabases);
   await learningContentCache.connect();
 
-  await JobClient.instance.initialize({ worker: true, jobGroups });
+  await JobClient.instance.initialize({ worker: true, jobGroups, jobControllers });
 
   startHeapProfileListener();
 

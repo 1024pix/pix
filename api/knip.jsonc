@@ -2,7 +2,6 @@
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "entry": [
     "**/scripts/**/*.{js,ts}",
-    "**/*job-controller.{js,ts}",
     "datamart/**/*.{js,ts}",
     "datawarehouse/**/*.{js,ts}",
     "db/**/*.{js,ts}",

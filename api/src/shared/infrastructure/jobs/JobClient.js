@@ -1,22 +1,12 @@
-import { glob } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
 import { PgBoss } from 'pg-boss';
 
 import { config } from '../../../../config/config.js';
 import { executeInContext, EXECUTORS } from '../execution-context-manager.js';
 import { instrumentJobController } from '../open-telemetry/job-tracing.js';
-import { importNamedExportFromFile } from '../utils/import-named-exports-from-directory.js';
 import { child } from '../utils/logger.js';
 import { MonitoredJobHandler } from './MonitoredJobHandler.js';
 
-const workerDirPath = resolve(dirname(fileURLToPath(import.meta.url)), '../../../..');
 const logger = child('worker', { event: 'worker' });
-
-const JOB_CONTROLLER_FILE_SUFFIX = 'job-controller.{js,ts}';
-const EVENT_HANDLER_FILE_SUFFIX = 'event-handler.{js,ts}';
-const EXCLUDE_FILES = ['**/job-controller.js', '**/event-handler.js', '**/job-schedule-controller.js'];
 
 const RegistrationKind = {
   JOB: 'job',
@@ -70,7 +60,6 @@ export class JobClient {
   /** @type {PgBoss} */
   #pgBoss = null;
   #isTestOnly = false;
-  #usesFixtureJobs = false;
   #isInitialized = false;
 
   static get instance() {
@@ -84,13 +73,20 @@ export class JobClient {
     return this.#isInitialized;
   }
 
-  async initialize(
-    { worker, isTestOnly, jobGroups } = { worker: false, isTestOnly: false, jobGroups: [] },
-    pgBossFactory,
-  ) {
+  /**
+   * @param {object} options
+   * @param {boolean} [options.worker] - register and work the job queues, instead of only sending jobs
+   * @param {boolean} [options.isTestOnly] - create the queues without working them
+   * @param {string[]} [options.jobGroups] - job groups this worker handles
+   * @param {Array<new () => import('../../application/jobs/job-controller.js').JobController>} [options.jobControllers] - every job controller class the worker may register, see `jobs.js`
+   * @param {() => PgBoss} [pgBossFactory]
+   */
+  async initialize({ worker = false, isTestOnly = false, jobGroups = [], jobControllers } = {}, pgBossFactory) {
     if (this.#isInitialized) return;
+    if (worker && !Array.isArray(jobControllers)) {
+      throw new Error('JobClient worker initialization requires the list of job controllers to register');
+    }
     this.#isTestOnly = isTestOnly;
-    this.#usesFixtureJobs = Boolean(pgBossFactory);
 
     if (pgBossFactory) {
       this.#pgBoss = pgBossFactory();
@@ -109,7 +105,7 @@ export class JobClient {
 
     if (worker) {
       await this.#ensureDeadLetterQueue();
-      await this.#registerJobs(jobGroups);
+      await this.#registerJobs(jobGroups, jobControllers);
     }
 
     this.#isInitialized = true;
@@ -121,15 +117,15 @@ export class JobClient {
     }
   }
 
-  async #registerJobs(jobGroups = []) {
-    const jobFiles = await this.#findJobFiles();
-    const jobModules = await this.#importJobModules(jobFiles);
+  async #registerJobs(jobGroups, jobControllers) {
+    logger.info(`${jobControllers.length} job controllers to register.`);
 
     const counts = { [RegistrationKind.JOB]: 0, [RegistrationKind.EVENT_HANDLER]: 0, [RegistrationKind.CRON]: 0 };
     // Collected for every job group: the workers of all groups share the same queues database
     const knownQueueNames = new Set([config.pgBoss.deadLetterQueueName]);
     const knownEventNames = new Set();
-    for (const [moduleName, ModuleClass] of jobModules) {
+    for (const ModuleClass of jobControllers) {
+      const moduleName = ModuleClass.name;
       const job = new ModuleClass();
       queueNamesOf(job).forEach((queueName) => knownQueueNames.add(queueName));
       if (job.eventName) knownEventNames.add(job.eventName);
@@ -198,39 +194,6 @@ export class JobClient {
     for (const eventName of knownEventNames) {
       await this.#pgBoss.unsubscribe(eventName, name);
     }
-  }
-
-  #filePatterns(fileSuffix) {
-    const sourcePattern = `${workerDirPath}/src/**/application/**/*${fileSuffix}`;
-    const fixturePattern = `${workerDirPath}/tests/**/*${fileSuffix}`;
-    return this.#usesFixtureJobs ? [sourcePattern, fixturePattern] : [sourcePattern];
-  }
-
-  async #findJobFiles() {
-    const jobControllerPatterns = this.#filePatterns(JOB_CONTROLLER_FILE_SUFFIX);
-    const eventHandlerPatterns = this.#filePatterns(EVENT_HANDLER_FILE_SUFFIX);
-    logger.info(`Search for job handlers in ${jobControllerPatterns}`);
-    logger.info(`Search for event handlers in ${eventHandlerPatterns}`);
-
-    const jobFiles = [];
-    for (const pattern of [...jobControllerPatterns, ...eventHandlerPatterns]) {
-      jobFiles.push(...(await Array.fromAsync(glob(pattern, { exclude: EXCLUDE_FILES }))));
-    }
-    logger.info(`${jobFiles.length} job handlers files found.`);
-
-    return jobFiles;
-  }
-
-  /**
-   * @param {Array<string>} jobFiles
-   * @returns {Promise<Array<[string, Function]>>} the [export name, controller class] pairs of every file
-   */
-  async #importJobModules(jobFiles) {
-    const jobModules = {};
-    for (const jobFile of jobFiles) {
-      Object.assign(jobModules, await importNamedExportFromFile(jobFile));
-    }
-    return Object.entries(jobModules);
   }
 
   /**
