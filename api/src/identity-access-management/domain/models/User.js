@@ -29,8 +29,6 @@ export class User {
     lastDataProtectionPolicySeenAt,
     hasSeenAssessmentInstructions,
     hasSeenNewDashboardInfo,
-    hasSeenFocusedChallengeTooltip,
-    hasSeenOtherChallengesTooltip,
     mustValidateTermsOfService,
     lang,
     locale,
@@ -57,9 +55,7 @@ export class User {
     this.mustValidateTermsOfService = mustValidateTermsOfService;
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
     this.hasSeenAssessmentInstructions = hasSeenAssessmentInstructions;
-    this.hasSeenOtherChallengesTooltip = hasSeenOtherChallengesTooltip;
     this.hasSeenNewDashboardInfo = hasSeenNewDashboardInfo;
-    this.hasSeenFocusedChallengeTooltip = hasSeenFocusedChallengeTooltip;
     this.lang = coerceLanguage(lang);
     this.locale = getNearestSupportedLocale(locale);
     this.isAnonymous = isAnonymous;
@@ -171,9 +167,7 @@ export class User {
       mustValidateTermsOfService: this.mustValidateTermsOfService,
       pixCertifTermsOfServiceAccepted: this.pixCertifTermsOfServiceAccepted,
       hasSeenAssessmentInstructions: this.hasSeenAssessmentInstructions,
-      hasSeenOtherChallengesTooltip: this.hasSeenOtherChallengesTooltip,
       hasSeenNewDashboardInfo: this.hasSeenNewDashboardInfo,
-      hasSeenFocusedChallengeTooltip: this.hasSeenFocusedChallengeTooltip,
       lang: this.lang,
       locale: this.locale,
       isAnonymous: this.isAnonymous,
