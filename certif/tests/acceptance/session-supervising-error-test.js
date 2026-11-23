@@ -1,7 +1,7 @@
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import setupIntl, { t } from 'pix-certif/tests/helpers/setup-intl';
 import { setupMirage } from 'pix-certif/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
@@ -9,6 +9,7 @@ import { authenticateSession } from '../helpers/test-init';
 
 module('Acceptance | Session supervising error', function (hooks) {
   setupApplicationTest(hooks);
+  setupIntl(hooks);
   setupMirage(hooks);
 
   hooks.beforeEach(async function () {

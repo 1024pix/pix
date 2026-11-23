@@ -1,7 +1,7 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { t } from 'ember-intl/test-support';
+import { t } from 'pix-certif/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';

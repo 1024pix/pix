@@ -1,6 +1,6 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import setupIntl from 'pix-certif/tests/helpers/setup-intl';
 import { setupMirage } from 'pix-certif/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 

@@ -1,6 +1,7 @@
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
+import setupIntl from 'pix-certif/tests/helpers/setup-intl';
 import { setupMirage } from 'pix-certif/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
@@ -8,6 +9,7 @@ import { authenticateSession } from '../helpers/test-init';
 
 module('Acceptance | Restricted access', function (hooks) {
   setupApplicationTest(hooks);
+  setupIntl(hooks);
   setupMirage(hooks);
 
   module('When certificationPointOfContact is not logged in', function () {

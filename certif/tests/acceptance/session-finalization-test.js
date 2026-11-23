@@ -1,7 +1,7 @@
 import { visit, visit as visitScreen, within } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import setupIntl, { t } from 'pix-certif/tests/helpers/setup-intl';
 import { setupMirage } from 'pix-certif/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
@@ -12,6 +12,7 @@ const MODAL_TITLE = 'Finalisation de la session';
 
 module('Acceptance | Session Finalization', function (hooks) {
   setupApplicationTest(hooks);
+  setupIntl(hooks);
   setupMirage(hooks);
 
   let allowedCertificationCenterAccess;

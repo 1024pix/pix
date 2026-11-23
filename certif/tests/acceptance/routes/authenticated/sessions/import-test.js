@@ -1,8 +1,8 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, settled, triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
+import setupIntl, { t } from 'pix-certif/tests/helpers/setup-intl';
 import { setupMirage } from 'pix-certif/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
@@ -15,6 +15,7 @@ import {
 /* eslint-disable ember/no-settled-after-test-helper */
 module('Acceptance | Routes | Authenticated | Sessions | import', function (hooks) {
   setupApplicationTest(hooks);
+  setupIntl(hooks);
   setupMirage(hooks);
 
   module('When certificationPointOfContact is not authenticated', function () {

@@ -21,9 +21,9 @@ export default class LocaleSwitcher extends Component {
   }
 
   @action
-  onChange(value) {
+  async onChange(value) {
     this.selectedLocale = value;
-    this.locale.setCurrentLocale(value);
+    await this.locale.setCurrentLocale(value);
 
     this.router.replaceWith({ queryParams: { lang: null } });
 

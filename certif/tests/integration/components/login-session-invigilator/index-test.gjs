@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import LoginSessionInvigilator from 'pix-certif/components/login-session-invigilator';
+import { t } from 'pix-certif/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

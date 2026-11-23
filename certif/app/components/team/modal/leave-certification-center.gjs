@@ -1,5 +1,6 @@
 import { PixButton, PixModal } from '@1024pix/nebulix-ember';
 import t from 'ember-intl/helpers/t';
+import { escapeHtml } from 'pix-certif/utils/escape-html';
 
 <template>
   <PixModal
@@ -11,7 +12,7 @@ import t from 'ember-intl/helpers/t';
       <p>
         {{t
           'pages.team.members.modals.leave-certification-center.message'
-          certificationCenterName=@certificationCenterName
+          certificationCenterName=(escapeHtml @certificationCenterName)
           htmlSafe=true
         }}
       </p>

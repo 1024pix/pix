@@ -1,8 +1,7 @@
 import { setupTest } from 'ember-qunit';
+import setupIntl from 'pix-certif/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-
-import setupIntl from '../../../helpers/setup-intl';
 
 module('Unit | Controller | authenticated/team/list', function (hooks) {
   setupTest(hooks);

@@ -2,13 +2,13 @@ import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { t } from 'ember-intl/test-support';
 import {
   categoryToLabel,
   certificationIssueReportCategories,
   certificationIssueReportSubcategories,
   subcategoryToLabel,
 } from 'pix-certif/models/certification-issue-report';
+import { t } from 'pix-certif/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

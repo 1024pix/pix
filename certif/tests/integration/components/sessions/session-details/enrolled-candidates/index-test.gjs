@@ -1,8 +1,8 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import EnrolledCandidates from 'pix-certif/components/sessions/session-details/enrolled-candidates';
+import { t } from 'pix-certif/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

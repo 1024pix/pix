@@ -1,8 +1,8 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, visit as visitWithAbort } from '@ember/test-helpers';
-import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { CREATED, FINALIZED } from 'pix-certif/models/session-management';
+import setupIntl from 'pix-certif/tests/helpers/setup-intl';
 import { setupMirage } from 'pix-certif/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 

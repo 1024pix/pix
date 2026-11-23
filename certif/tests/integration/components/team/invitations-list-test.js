@@ -1,6 +1,6 @@
 import { clickByName, render as renderScreen, within } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import hbs from 'htmlbars-inline-precompile';
+import { t } from 'pix-certif/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

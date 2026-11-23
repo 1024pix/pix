@@ -1,6 +1,6 @@
 import { render, within } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import MembersTable from 'pix-certif/components/members-table';
+import { t } from 'pix-certif/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
