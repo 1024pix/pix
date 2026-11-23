@@ -2,22 +2,20 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { config } from '../../../../../config/config.js';
-import { ValidateSiecleFileJobController } from '../../../../../src/prescription/learner-management/application/jobs/validate-learners-file/validate-siecle-file-job-controller.js';
-import { ValidateSiecleFileJob } from '../../../../../src/prescription/learner-management/domain/models/jobs/ValidateSiecleFileJob.js';
-import { AuditLoggingJobController } from '../../../../../src/shared/application/jobs/audit-logging.job-controller.js';
 import { JobGroup } from '../../../../../src/shared/application/jobs/job-controller.js';
-import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { JobExpireIn } from '../../../../../src/shared/infrastructure/jobs/default-config.js';
 import { JobClient } from '../../../../../src/shared/infrastructure/jobs/JobClient.js';
 import { TestCpfExportSenderJobController } from './test-cpf-export-sender-job-controller.js';
 import { TestEvent } from './test-event.js';
+import { TestPlainJobController } from './test-plain-job-controller.js';
 import { TestScheduleComputeOrganizationLearnersCertificabilityJobController } from './test-schedule-compute-organization-learners-certificability-job-controller.js';
 import { TestToDeleteEventHandler } from './test-to-delete.event-handler.js';
 import { TestToRegisterEventHandler } from './test-to-register.event-handler.js';
+import { TestToggleableJobController } from './test-toggleable-job-controller.js';
 
 const jobControllers = [
-  AuditLoggingJobController,
-  ValidateSiecleFileJobController,
+  TestPlainJobController,
+  TestToggleableJobController,
   TestCpfExportSenderJobController,
   TestScheduleComputeOrganizationLearnersCertificabilityJobController,
   TestToDeleteEventHandler,
@@ -105,7 +103,7 @@ describe('Unit | JobClient', function () {
   });
 
   context('#registerJobs', function () {
-    it('should register AuditLoggingJob', async function () {
+    it('should register a job', async function () {
       // given
       const pgBossStub = new FakePgBoss();
       sinon.stub(pgBossStub, 'work');
@@ -122,7 +120,7 @@ describe('Unit | JobClient', function () {
       );
 
       // then
-      expect(pgBossStub.work).to.have.been.calledWith(AuditLoggingJob.name);
+      expect(pgBossStub.work).to.have.been.calledWith('Test.PlainJob');
     });
 
     it('should enable LISTEN/NOTIFY on registered queues according to configuration', async function () {
@@ -144,11 +142,11 @@ describe('Unit | JobClient', function () {
       );
 
       // then
-      expect(pgBossStub.createQueue).to.have.been.calledWith(AuditLoggingJob.name, {
+      expect(pgBossStub.createQueue).to.have.been.calledWith('Test.PlainJob', {
         retentionSeconds: config.pgBoss.retentionSeconds,
         notify: true,
       });
-      expect(pgBossStub.updateQueue).to.have.been.calledWith(AuditLoggingJob.name, {
+      expect(pgBossStub.updateQueue).to.have.been.calledWith('Test.PlainJob', {
         retentionSeconds: config.pgBoss.retentionSeconds,
         notify: true,
       });
@@ -229,18 +227,18 @@ describe('Unit | JobClient', function () {
         );
 
         // then
-        expect(pgBossStub.createQueue).to.have.been.calledWith(AuditLoggingJob.name, {
+        expect(pgBossStub.createQueue).to.have.been.calledWith('Test.PlainJob', {
           retentionSeconds: config.pgBoss.retentionSeconds,
           notify: false,
         });
       });
     });
 
-    it('should register legacyName from AuditLoggingJob', async function () {
+    it('should register the legacyName of a job', async function () {
       // given
       const pgBossStub = new FakePgBoss();
       sinon.stub(pgBossStub, 'work');
-      sinon.stub(AuditLoggingJobController.prototype, 'legacyName').get(() => 'legacyNameForAuditLoggingJobController');
+      sinon.stub(TestPlainJobController.prototype, 'legacyName').get(() => 'Test.LegacyPlainJob');
 
       // when
       const jobClient = new JobClient();
@@ -255,10 +253,10 @@ describe('Unit | JobClient', function () {
       );
 
       // then
-      expect(pgBossStub.work).to.have.been.calledWith('legacyNameForAuditLoggingJobController');
+      expect(pgBossStub.work).to.have.been.calledWith('Test.LegacyPlainJob');
     });
 
-    it('should register ValidateSiecleFileJob when job is enabled', async function () {
+    it('should register a job when it is enabled', async function () {
       //given
       const pgBossStub = new FakePgBoss();
       sinon.stub(pgBossStub, 'work');
@@ -277,10 +275,10 @@ describe('Unit | JobClient', function () {
       );
 
       // then
-      expect(pgBossStub.work).to.have.been.calledWith(ValidateSiecleFileJob.name);
+      expect(pgBossStub.work).to.have.been.calledWith('Test.ToggleableJob');
     });
 
-    it('should not register ValidateSiecleFileJob when job is disabled', async function () {
+    it('should not register a job when it is disabled', async function () {
       //given
       const pgBossStub = new FakePgBoss();
       sinon.stub(pgBossStub, 'work');
@@ -299,7 +297,7 @@ describe('Unit | JobClient', function () {
       );
 
       // then
-      expect(pgBossStub.work).to.not.have.been.calledWith(ValidateSiecleFileJob.name);
+      expect(pgBossStub.work).to.not.have.been.calledWith('Test.ToggleableJob');
     });
 
     describe('cron Job', function () {
@@ -451,7 +449,7 @@ describe('Unit | JobClient', function () {
         );
 
         // then
-        expect(pgBossStub.unschedule).to.not.have.been.calledWith(AuditLoggingJob.name);
+        expect(pgBossStub.unschedule).to.not.have.been.calledWith('Test.PlainJob');
       });
     });
 
@@ -668,9 +666,9 @@ describe('Unit | JobClient', function () {
       // given
       const declaredQueueNames = [
         config.pgBoss.deadLetterQueueName,
-        AuditLoggingJob.name,
+        'Test.PlainJob',
         'TEST.ComputeOrganizationLearnersCertificabilityJob',
-        ValidateSiecleFileJob.name,
+        'Test.ToggleableJob',
         'test.to-register.event-queue',
       ];
       const pgBossStub = new FakePgBoss();
