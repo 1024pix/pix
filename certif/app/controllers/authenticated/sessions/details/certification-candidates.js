@@ -1,7 +1,5 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
-// eslint-disable-next-line ember/no-computed-properties-in-native-classes
-import { alias } from '@ember/object/computed';
 import { service } from '@ember/service';
 
 export default class CertificationCandidatesController extends Controller {
@@ -11,9 +9,13 @@ export default class CertificationCandidatesController extends Controller {
   @service fileSaver;
   @service session;
 
-  @alias('model.session') currentSession;
-  @alias('model.certificationCandidates') certificationCandidates;
-  @alias('model.reloadCertificationCandidate') reloadCertificationCandidate;
+  get currentSession() {
+    return this.model.session;
+  }
+
+  get certificationCandidates() {
+    return this.model.certificationCandidates;
+  }
 
   get pageTitle() {
     return `${this.intl.t('pages.sessions.detail.candidates.page-title')} | Session ${
@@ -22,7 +24,7 @@ export default class CertificationCandidatesController extends Controller {
   }
 
   get importAllowed() {
-    return this.certificationCandidates.every((certificationCandidate) => {
+    return this.model.certificationCandidates.every((certificationCandidate) => {
       return !certificationCandidate.isLinked;
     });
   }
@@ -52,6 +54,6 @@ export default class CertificationCandidatesController extends Controller {
 
   @action
   async reloadCertificationCandidateInController() {
-    await this.reloadCertificationCandidate();
+    await this.model.reloadCertificationCandidate();
   }
 }

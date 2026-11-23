@@ -1,7 +1,5 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
-// eslint-disable-next-line ember/no-computed-properties-in-native-classes
-import { alias } from '@ember/object/computed';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import isEmpty from 'lodash/isEmpty';
@@ -14,11 +12,13 @@ export default class SessionsFinalizeController extends Controller {
   @service intl;
   @service store;
 
-  @alias('model') session;
-
   examinerGlobalCommentMaxLength = 500;
   issueReportDescriptionMaxLength = 500;
   @tracked showConfirmModal = false;
+
+  get session() {
+    return this.model;
+  }
 
   get pageTitle() {
     return `Finalisation | Session ${this.session.id} | Pix Certif`;

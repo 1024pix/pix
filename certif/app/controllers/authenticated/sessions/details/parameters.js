@@ -1,19 +1,26 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
-// eslint-disable-next-line ember/no-computed-properties-in-native-classes
-import { alias } from '@ember/object/computed';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class SessionParametersController extends Controller {
-  @alias('model.session') session;
-  @alias('model.sessionManagement') sessionManagement;
-  @alias('model.certificationCandidates') certificationCandidates;
   @tracked sessionNumberTooltipText = '';
   @tracked accessCodeTooltipText = '';
   @tracked invigilatorPasswordTooltipText = '';
   @service currentUser;
   @service intl;
+
+  get session() {
+    return this.model.session;
+  }
+
+  get sessionManagement() {
+    return this.model.sessionManagement;
+  }
+
+  get certificationCandidates() {
+    return this.model.certificationCandidates;
+  }
 
   get sessionHasStartedCertification() {
     return this.certificationCandidates.some(({ hasStartedTest }) => hasStartedTest);

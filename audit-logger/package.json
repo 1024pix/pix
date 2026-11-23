@@ -46,7 +46,7 @@
     "@types/lodash": "4.17.27",
     "@types/node": "26.6.6",
     "@types/pg": "8.23.1",
-    "eslint": "10.14.0",
+    "eslint": "10.15.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-chai-expect": "4.1.1",
     "eslint-plugin-i18n-json": "4.0.1",

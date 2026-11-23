@@ -138,7 +138,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
           certificationReports: [],
         });
         const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-        controller.session = session;
+        controller.model = session;
         controller.router = {
           transitionTo: sinon.stub(),
         };
@@ -172,7 +172,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
           certificationReports: [certificationReport],
         });
         const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-        controller.session = session;
+        controller.model = session;
         controller.router = {
           transitionTo: sinon.stub(),
         };
