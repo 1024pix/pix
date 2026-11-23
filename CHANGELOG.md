@@ -1,5 +1,42 @@
 # Pix Changelog
 
+# [5.548.0](https://github.com/1024pix/pix/compare/v5.547.0...v5.548.0) (2026-11-23)
+
+### :rocket: Amélioration
+
+- [#19005](https://github.com/1024pix/pix/pull/19005) Ajouter un endpoint pour recuperer la liste des credits d'une organisation (PIX-24743)
+- [#18953](https://github.com/1024pix/pix/pull/18953) Gestion design du tooltip de définition dans les modules (PIX-25130)
+
+### :bug: Correction
+
+- [#19023](https://github.com/1024pix/pix/pull/19023) Ajouter la traduction dans pix-admin pour CREDITS_MANAGEMENT (PIX-25192)
+- [#19022](https://github.com/1024pix/pix/pull/19022) Conserver les évènements en attente d'un event handler désactivé.
+- [#18951](https://github.com/1024pix/pix/pull/18951) La révocation d’accès d’un user ne bloque pas le rafraîchissement de token (PIX-25158)
+
+### :building_construction: Tech
+
+- [#19012](https://github.com/1024pix/pix/pull/19012) Consolidation du getter indiquant si une campagne est dans un parcours combiné dans PixApp (PIX-25027)
+- [#19013](https://github.com/1024pix/pix/pull/19013) Limiter la durée des steps CircleCI pour éviter les jobs bloqués
+- [#19025](https://github.com/1024pix/pix/pull/19025) Migration vers ember-intl v9 sur Pix Admin
+- [#18993](https://github.com/1024pix/pix/pull/18993) Remplacer les usages de 80px en dur dans les fichiers styles par une variable pix-ui-libs (PIX-25057)
+- [#19008](https://github.com/1024pix/pix/pull/19008) Retirer la fonction map de lodash
+- [#19017](https://github.com/1024pix/pix/pull/19017) Supprimer au démarrage du worker les queues pg-boss des jobs retirés du code.
+
+### :arrow_up: Montée de version
+
+- [#19033](https://github.com/1024pix/pix/pull/19033) Update aws-sdk-js-v3 monorepo to v3.1169.0 (api)
+- [#19039](https://github.com/1024pix/pix/pull/19039) Update dependency @1024pix/stylelint-config to v6.0.2 (orga,mon-pix,junior,certif,admin)
+- [#19040](https://github.com/1024pix/pix/pull/19040) Update dependency @testing-library/user-event to v14.6.12 (mon-pix)
+- [#19036](https://github.com/1024pix/pix/pull/19036) Update dependency cron-parser to v5.10.6 (api)
+- [#19034](https://github.com/1024pix/pix/pull/19034) Update dependency ember-cli to v7.4.0 (orga,mon-pix,junior,certif,admin)
+- [#18972](https://github.com/1024pix/pix/pull/18972) Update dependency ember-source to v7 (mon-pix,admin)
+- [#19038](https://github.com/1024pix/pix/pull/19038) Update dependency eslint-plugin-unicorn to v80 (certif,audit-logger,api)
+- [#19037](https://github.com/1024pix/pix/pull/19037) Update dependency nodemailer to v10.6.0 (api)
+- [#19035](https://github.com/1024pix/pix/pull/19035) Update dependency openid-client to v6.9.0 (api)
+- [#19031](https://github.com/1024pix/pix/pull/19031) Update dependency postcss to v8.5.33 (orga)
+- [#19027](https://github.com/1024pix/pix/pull/19027) Update linters (high-level-tests/e2e-playwright,audit-logger,api,orga,mon-pix,junior,certif,admin)
+- [#19032](https://github.com/1024pix/pix/pull/19032) Update playwright monorepo to v1.65.1 (high-level-tests/e2e-playwright,.circleci)
+
 # [5.547.0](https://github.com/1024pix/pix/compare/v5.546.1...v5.547.0) (2026-11-20)
 
 ### :rocket: Amélioration
