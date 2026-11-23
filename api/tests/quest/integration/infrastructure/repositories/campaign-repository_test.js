@@ -10,7 +10,7 @@ describe('Quest | Integration | Repository | campaign', function () {
       const { id: campaignId, organizationId } = databaseBuilder.factory.buildCampaign();
       const { id: otherCampaignId } = databaseBuilder.factory.buildCampaign();
 
-      const { id: questId1 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId1 } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
       const { id: combinedCourseId1 } = databaseBuilder.factory.buildCombinedCourse({
@@ -18,7 +18,7 @@ describe('Quest | Integration | Repository | campaign', function () {
         questId: questId1,
       });
       const { id: combinedCourseId2 } = databaseBuilder.factory.buildCombinedCourse({ code: 'LKJHG' });
-      const { id: questId3 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId3 } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: otherCampaignId }).toDTO(),
         ],

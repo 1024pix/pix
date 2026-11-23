@@ -46,7 +46,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
 
       const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id, organizationId });
 
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO(),
@@ -164,7 +164,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
         const campaignId = databaseBuilder.factory.buildCampaign().id;
         databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId });
         const reward = databaseBuilder.factory.buildAttestation();
-        const { id: rewardQuestId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+        const { id: rewardQuestId } = databaseBuilder.factory.buildQuest({
           successRequirements: [
             CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO(),
             CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO(),
@@ -222,7 +222,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
           userId,
           organizationId,
         } = databaseBuilder.factory.buildOrganizationLearner();
-        const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({});
+        const { id: questId } = databaseBuilder.factory.buildQuest({});
         const { id: combinedCourseId } = databaseBuilder.factory.buildCombinedCourse({
           code,
           organizationId,
@@ -330,7 +330,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
     databaseBuilder.factory.buildPassage({ userId, moduleId, terminatedAt: new Date() });
     databaseBuilder.factory.buildPassage({ userId, module2Id, terminatedAt: null });
 
-    const { id: questId3 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId3 } = databaseBuilder.factory.buildQuest({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO(),
@@ -370,7 +370,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
     const targetProfile = databaseBuilder.factory.buildTargetProfile();
     const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id, organizationId });
 
-    const { id: questId4 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId4 } = databaseBuilder.factory.buildQuest({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
       ],
@@ -406,7 +406,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
     const targetProfile = databaseBuilder.factory.buildTargetProfile();
     const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id, organizationId });
 
-    const { id: questId5 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId5 } = databaseBuilder.factory.buildQuest({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
       ],
@@ -430,7 +430,7 @@ describe('Integration | Quest | Domain | UseCases | update-combined-course-progr
     const targetProfile = databaseBuilder.factory.buildTargetProfile();
     const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id, organizationId });
 
-    const { id: questId6 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId6 } = databaseBuilder.factory.buildQuest({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaign.id }).toDTO(),
       ],

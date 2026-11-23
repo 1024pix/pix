@@ -274,7 +274,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
 
   describe('#findById', function () {
     it('should return combined course blueprint by its id with shared organization ids', async function () {
-      const quest = databaseBuilder.factory.buildQuestForCombinedCourse();
+      const quest = databaseBuilder.factory.buildQuest();
       const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
         questId: quest.id,
         surveyUrl: 'survey-url',
@@ -322,7 +322,7 @@ describe('Quest | Integration | Repository | combined-course-blueprint', functio
     });
 
     it('should return combined course blueprint by its id when it is not shared', async function () {
-      const quest = databaseBuilder.factory.buildQuestForCombinedCourse();
+      const quest = databaseBuilder.factory.buildQuest();
       const combinedCourseBlueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
         questId: quest.id,
         surveyUrl: 'survey-url',

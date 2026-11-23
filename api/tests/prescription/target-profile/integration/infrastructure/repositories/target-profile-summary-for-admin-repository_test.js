@@ -376,7 +376,7 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
         targetProfileId: targetProfile2.id,
       });
 
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [
           CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaignIdInCombinedCourse }).toDTO(),
         ],

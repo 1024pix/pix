@@ -17,7 +17,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-exists-f
 
   it('should return true when a combined course is found', async function () {
     //given
-    const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId } = databaseBuilder.factory.buildQuest({
       successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
     });
     databaseBuilder.factory.buildCombinedCourse({
@@ -36,7 +36,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-course-exists-f
   it('should return false if no combined course matches', async function () {
     //given
     const otherCampaign = databaseBuilder.factory.buildCampaign();
-    const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId } = databaseBuilder.factory.buildQuest({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: otherCampaign.id }).toDTO(),
       ],

@@ -1144,7 +1144,7 @@ describe('Integration | Repository | Campaign-Report', function () {
         // given
         const campaignInQuest = databaseBuilder.factory.buildCampaign({ organizationId });
         const campaignNotInQuest = databaseBuilder.factory.buildCampaign({ organizationId });
-        const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+        const { id: questId } = databaseBuilder.factory.buildQuest({
           successRequirements: [
             CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaignInQuest.id }).toDTO(),
           ],
@@ -1171,7 +1171,7 @@ describe('Integration | Repository | Campaign-Report', function () {
       it('should return empty campaigns and hasCampaigns to false', async function () {
         // given
         const campaignInQuest = databaseBuilder.factory.buildCampaign({ organizationId });
-        const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+        const { id: questId } = databaseBuilder.factory.buildQuest({
           successRequirements: [
             CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: campaignInQuest.id }).toDTO(),
           ],

@@ -16,7 +16,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-by-modu
     const moduleId = 'module-abc';
 
     //CombinedCourse1 with module 1 and organization linked to organizationLearner1
-    const { id: questId1 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId1 } = databaseBuilder.factory.buildQuest({
       successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO()],
     });
     const combinedCourse1 = databaseBuilder.factory.buildCombinedCourse({
@@ -27,7 +27,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-by-modu
     });
 
     //CombinedCourse2 with same module but organization linked to organizationLearner2
-    const { id: questId2 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId2 } = databaseBuilder.factory.buildQuest({
       successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO()],
     });
     const combinedCourse2 = databaseBuilder.factory.buildCombinedCourse({
@@ -38,7 +38,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-by-modu
     });
 
     //CombinedCourse3 with same module but with an organization not linked to user
-    const { id: questId3 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId3 } = databaseBuilder.factory.buildQuest({
       successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId }).toDTO()],
     });
     databaseBuilder.factory.buildCombinedCourse({
@@ -49,7 +49,7 @@ describe('Integration | Quest | Domain | UseCases | find-combined-course-by-modu
     });
 
     //CombinedCourse4 with other module but organization linked to user
-    const { id: questId4 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId4 } = databaseBuilder.factory.buildQuest({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ moduleId: 'module-cde' }).toDTO(),
       ],

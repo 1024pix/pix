@@ -974,7 +974,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
         const campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
 
         const campaignInCombinedCourse = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
-        const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+        const { id: questId } = databaseBuilder.factory.buildQuest({
           successRequirements: [
             CombinedCourseBlueprint.buildRequirementForCombinedCourse({
               campaignId: campaignInCombinedCourse.id,

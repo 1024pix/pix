@@ -28,7 +28,7 @@ describe('Quest | Integration | Domain | Usecases | findCombinedCourseParticipat
     });
     const { id: campaignId, organizationId } = databaseBuilder.factory.buildCampaign();
     const reward = databaseBuilder.factory.buildAttestation({ id: 2 });
-    const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+    const { id: questId } = databaseBuilder.factory.buildQuest({
       successRequirements: [
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO(),
         CombinedCourseBlueprint.buildRequirementForCombinedCourse({
