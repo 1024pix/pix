@@ -155,11 +155,11 @@ export default class SmartRandomParams extends Component {
 
       <PixTextarea
         @id="skills"
-        @value={{fn this.stringify @skills}}
+        @value={{this.stringify @skills}}
         spellcheck="false"
         class="form-field"
         placeholder={{this.stringify this.skillsExample}}
-        @subLabel={{fn this.stringify this.skillsExample}}
+        @subLabel={{this.stringify this.skillsExample}}
         {{on "change" (fn this.updateJsonFieldValue "skills")}}
         @errorMessage={{this.errors.skills}}
       >
@@ -168,11 +168,11 @@ export default class SmartRandomParams extends Component {
 
       <PixTextarea
         @id="challenges"
-        @value={{fn this.stringify @challenges}}
+        @value={{this.stringify @challenges}}
         spellcheck="false"
         class="form-field"
         placeholder={{this.stringify this.challengesExample}}
-        @subLabel={{fn this.stringify this.challengesExample}}
+        @subLabel={{this.stringify this.challengesExample}}
         {{on "change" (fn this.updateJsonFieldValue "challenges")}}
         @errorMessage={{this.errors.challenges}}
       >
@@ -186,9 +186,9 @@ export default class SmartRandomParams extends Component {
         @id="knowledge-elements"
         class="form-field"
         placeholder={{this.stringify this.knowledgeElementsExample}}
-        @subLabel={{fn this.stringify this.knowledgeElementsExample}}
+        @subLabel={{this.stringify this.knowledgeElementsExample}}
         spellcheck="false"
-        @value={{fn this.stringify @knowledgeElements}}
+        @value={{this.stringify @knowledgeElements}}
         {{on "change" (fn this.updateJsonFieldValue "knowledgeElements")}}
         @errorMessage={{this.errors.knowledgeElements}}
       >
@@ -196,11 +196,11 @@ export default class SmartRandomParams extends Component {
       </PixTextarea>
       <PixTextarea
         @id="answers"
-        @value={{fn this.stringify @answers}}
+        @value={{this.stringify @answers}}
         spellcheck="false"
         class="form-field"
         placeholder={{this.stringify this.answersExample}}
-        @subLabel={{fn this.stringify this.answersExample}}
+        @subLabel={{this.stringify this.answersExample}}
         {{on "change" (fn this.updateJsonFieldValue "answers")}}
         @errorMessage={{this.errors.answers}}
       >
