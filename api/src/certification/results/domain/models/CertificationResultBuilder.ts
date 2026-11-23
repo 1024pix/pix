@@ -4,7 +4,8 @@ import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmE
 import { Frameworks, isEduFramework } from '../../../shared/domain/models/Frameworks.js';
 import type { Framework } from '../../../shared/domain/types.ts';
 import { FRANCE_COMPETENCES_PROFESSIONAL_START_DATE } from '../constants.ts';
-import type { CertificationResultStatus, Results, V1Results, V2Results, V3Results } from '../types.ts';
+import type { CertificationResultStatus } from '../types.ts';
+import type { Results, V1Results, V2Results, V3Results } from './NewCertificationResult.schema.ts';
 import { CertificationResult, UserCertificationResult } from './NewCertificationResult.ts';
 const FRANCE_COMPETENCES_MIN_SCORE = 120;
 

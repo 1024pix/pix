@@ -3,12 +3,13 @@ import type { UUID } from 'node:crypto';
 import { z } from 'zod';
 
 import type { Framework } from '../../../shared/domain/types.ts';
-import { type CertificationResultStatus, type Results } from '../types.ts';
+import { type CertificationResultStatus } from '../types.ts';
+import type { Results } from './NewCertificationResult.schema.ts';
 import { CertificationResultV1Schema } from './validators/V1CertificationResult.ts';
 import { CertificationResultV2Schema } from './validators/V2CertificationResult.ts';
 import { CertificationResultV3Schema } from './validators/V3CertificationResult.ts';
 
-export const CertificationResultSchema = z.discriminatedUnion('algorithmEngineVersion', [
+const CertificationResultSchema = z.discriminatedUnion('algorithmEngineVersion', [
   CertificationResultV1Schema,
   CertificationResultV2Schema,
   CertificationResultV3Schema,
@@ -107,10 +108,12 @@ export class CertificationResult {
       return [];
     }
 
-    return this.results.competenceMarks.map((competenceMark) => ({
-      competenceId: competenceMark.competenceId,
-      level: competenceMark.level,
-    }));
+    return (
+      this.results?.competenceMarks?.map((competenceMark) => ({
+        competenceId: competenceMark.competenceId,
+        level: competenceMark.level,
+      })) ?? []
+    );
   }
 }
 

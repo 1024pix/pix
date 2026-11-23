@@ -264,7 +264,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       return databaseBuilder.commit();
     });
 
-    it('saves both CertificationResults, CertificationCompetenceResults, UserCertificationResults', async function () {
+    it('saves CertificationResults, CertificationCompetenceResults, UserCertificationResults', async function () {
       const certificationResult1 =
         domainBuilder.certification.results.buildNewCertificationResult(certificationResultData1);
       const certificationResult2 =
