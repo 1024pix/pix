@@ -24,7 +24,7 @@ export default function setupIntl(hooks, locale = 'fr') {
 
 export function t(key, options) {
   const intl = getContext().owner.lookup('service:intl');
-  if (!intl.exists(key)) {
+  if (!intl.exists(key, options?.locale)) {
     throw new Error(`Missing translation for key "${key}"`);
   }
   return intl.t(key, options);
