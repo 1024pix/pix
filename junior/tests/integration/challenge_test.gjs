@@ -1,9 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import Challenge from 'junior/components/challenge/challenge';
 import { module, test } from 'qunit';
 
-import { setupIntlRenderingTest } from '../helpers';
+import { setupIntlRenderingTest, t } from '../helpers';
 
 module('Integration | Component | Challenge', function (hooks) {
   setupIntlRenderingTest(hooks);
