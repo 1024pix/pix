@@ -37,6 +37,8 @@ export default class LocaleService extends Service {
   @tracked __currentLocale = DEFAULT_LOCALE;
 
   #loadedLocales = new Set();
+  #latestLocaleRequest = 0;
+  #hasAppliedLocale = false;
 
   get currentLocale() {
     return this.__currentLocale;
@@ -92,15 +94,26 @@ export default class LocaleService extends Service {
   }
 
   async setCurrentLocale(locale) {
+    const request = ++this.#latestLocaleRequest;
     const nearestLocale = this.#getNearestSupportedLocale(locale);
+    const locales = this.#getLocaleChain(nearestLocale);
+
+    try {
+      await this.#loadTranslations(locales);
+    } catch {
+      if (request === this.#latestLocaleRequest && !this.#hasAppliedLocale) {
+        this.intl.setLocale(this.#getLocaleChain(this.currentLocale));
+        this.#hasAppliedLocale = true;
+      }
+      return;
+    }
+
+    if (request !== this.#latestLocaleRequest) return;
+
     this.#setCookieLocale(nearestLocale);
     this.__currentLocale = nearestLocale;
-
-    const language = this.#getLanguageFromLocale(nearestLocale);
-
-    const locales = [nearestLocale, language, DEFAULT_LANGUAGE];
-    await this.#loadTranslations(locales);
     this.intl.setLocale(locales);
+    this.#hasAppliedLocale = true;
 
     // metricsService may not be available for the different front apps
     const metricsService = getOwner(this).lookup('service:metrics');
@@ -179,6 +192,10 @@ export default class LocaleService extends Service {
     } catch {
       return DEFAULT_LOCALE;
     }
+  }
+
+  #getLocaleChain(locale) {
+    return [locale, this.#getLanguageFromLocale(locale), DEFAULT_LANGUAGE];
   }
 
   #getNearestSupportedLanguage(language) {

@@ -8,6 +8,7 @@ import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import { TRANSLATION_LOADERS } from '../../../translations/index.js';
 import { setCurrentLocale } from '../../helpers/setup-intl.js';
 
 const { DEFAULT_LOCALE } = ENV.APP;
@@ -141,6 +142,69 @@ module('Unit | Services | locale', function (hooks) {
       assert.strictEqual(intlService.t('common.actions.cancel'), 'Annuleren');
       assert.true(intlService.exists('common.actions.cancel', 'fr'));
       assert.false(intlService.exists('common.actions.cancel', 'en'));
+    });
+
+    test('applies the most recent locale when calls overlap', async function (assert) {
+      // given
+      const intlService = this.owner.lookup('service:intl');
+      sinon.stub(intlService, 'setLocale');
+      const cookiesService = this.owner.lookup('service:cookies');
+      sinon.stub(cookiesService, 'write');
+      let resolveNlTranslations;
+      sinon.stub(TRANSLATION_LOADERS, 'nl').returns(
+        new Promise((resolve) => {
+          resolveNlTranslations = resolve;
+        }),
+      );
+
+      // when
+      const nlCall = localeService.setCurrentLocale('nl');
+      await localeService.setCurrentLocale('en');
+      resolveNlTranslations({ default: {} });
+      await nlCall;
+
+      // then
+      assert.strictEqual(localeService.currentLocale, 'en');
+      sinon.assert.calledOnceWithExactly(intlService.setLocale, ['en', 'en', 'fr']);
+      sinon.assert.calledOnceWithExactly(cookiesService.write, 'locale', 'en', sinon.match.object);
+      assert.strictEqual(metricsService.context.locale, 'en');
+    });
+
+    module('when translations fail to load', function () {
+      test('keeps the current locale', async function (assert) {
+        // given
+        const intlService = this.owner.lookup('service:intl');
+        sinon.stub(intlService, 'setLocale');
+        const cookiesService = this.owner.lookup('service:cookies');
+        sinon.stub(cookiesService, 'write');
+        await localeService.setCurrentLocale('en');
+        sinon.stub(TRANSLATION_LOADERS, 'nl').rejects(new Error('Failed to fetch dynamically imported module'));
+
+        // when
+        await localeService.setCurrentLocale('nl');
+
+        // then
+        assert.strictEqual(localeService.currentLocale, 'en');
+        sinon.assert.calledOnceWithExactly(intlService.setLocale, ['en', 'en', 'fr']);
+        sinon.assert.calledOnceWithExactly(cookiesService.write, 'locale', 'en', sinon.match.object);
+      });
+
+      test('applies the default locale when no locale was applied yet', async function (assert) {
+        // given
+        const intlService = this.owner.lookup('service:intl');
+        sinon.stub(intlService, 'setLocale');
+        const cookiesService = this.owner.lookup('service:cookies');
+        sinon.stub(cookiesService, 'write');
+        sinon.stub(TRANSLATION_LOADERS, 'nl').rejects(new Error('Failed to fetch dynamically imported module'));
+
+        // when
+        await localeService.setCurrentLocale('nl');
+
+        // then
+        assert.strictEqual(localeService.currentLocale, DEFAULT_LOCALE);
+        sinon.assert.calledOnceWithExactly(intlService.setLocale, [DEFAULT_LOCALE, 'fr', 'fr']);
+        sinon.assert.notCalled(cookiesService.write);
+      });
     });
   });
 
