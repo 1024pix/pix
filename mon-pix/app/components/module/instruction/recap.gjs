@@ -50,11 +50,8 @@ class ButtonAction extends Component {
   }
 
   get isRedirectionUrlInternal() {
-    try {
-      return Boolean(this.router.recognize(this.args.redirectionUrl));
-    } catch {
-      return false;
-    }
+    const { redirectionUrl } = this.args;
+    return redirectionUrl.startsWith(this.router.rootURL) && Boolean(this.router.recognize(redirectionUrl));
   }
 
   <template>
