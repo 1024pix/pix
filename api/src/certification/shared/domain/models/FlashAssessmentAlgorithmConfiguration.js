@@ -11,6 +11,29 @@ export class FlashAssessmentAlgorithmConfiguration {
     variationPercent: Joi.number().min(0).max(1).required(),
     defaultCandidateCapacity: Joi.number().required(),
     defaultProbabilityToPickChallenge: Joi.number().min(0).max(100).required(),
+    earlyStopConsecutiveFailures: Joi.number().integer().min(1).allow(null),
+    earlyStopMinimumLength: Joi.number()
+      .integer()
+      .min(0)
+      .allow(null)
+      .when('earlyStopConsecutiveFailures', {
+        is: Joi.number().required(),
+        then: Joi.required().invalid(null),
+      }),
+    earlyStopCapacityThreshold: Joi.number()
+      .allow(null)
+      .when('earlyStopConsecutiveFailures', {
+        is: Joi.number().required(),
+        then: Joi.required().invalid(null),
+      }),
+    earlyStopConfidence: Joi.number()
+      .greater(0)
+      .less(1)
+      .allow(null)
+      .when('earlyStopConsecutiveFailures', {
+        is: Joi.number().required(),
+        then: Joi.required().invalid(null),
+      }),
   });
 
   /**
@@ -22,6 +45,10 @@ export class FlashAssessmentAlgorithmConfiguration {
    * @param {number} props.variationPercent
    * @param {number} props.defaultCandidateCapacity - starting candidate capacity for first challenge
    * @param {number} props.defaultProbabilityToPickChallenge - The probability (as a percentage, 0-100) that the ramdomizing function will pick a challenge from a list of possible challenges.
+   * @param {number|null} [props.earlyStopConsecutiveFailures] - early stop (R4): number of consecutive failures triggering the stop, null disables it
+   * @param {number|null} [props.earlyStopMinimumLength] - early stop (R4): minimum number of answers before the rule applies
+   * @param {number|null} [props.earlyStopCapacityThreshold] - early stop (R4): capacity threshold
+   * @param {number|null} [props.earlyStopConfidence] - early stop (R4): minimum probability for the capacity to be below the threshold
    */
   constructor({
     maximumAssessmentLength,
@@ -31,6 +58,10 @@ export class FlashAssessmentAlgorithmConfiguration {
     variationPercent,
     defaultCandidateCapacity,
     defaultProbabilityToPickChallenge,
+    earlyStopConsecutiveFailures = null,
+    earlyStopMinimumLength = null,
+    earlyStopCapacityThreshold = null,
+    earlyStopConfidence = null,
   } = {}) {
     this.maximumAssessmentLength = maximumAssessmentLength;
     this.challengesBetweenSameCompetence = challengesBetweenSameCompetence;
@@ -39,7 +70,15 @@ export class FlashAssessmentAlgorithmConfiguration {
     this.variationPercent = variationPercent;
     this.defaultCandidateCapacity = defaultCandidateCapacity;
     this.defaultProbabilityToPickChallenge = defaultProbabilityToPickChallenge;
+    this.earlyStopConsecutiveFailures = earlyStopConsecutiveFailures;
+    this.earlyStopMinimumLength = earlyStopMinimumLength;
+    this.earlyStopCapacityThreshold = earlyStopCapacityThreshold;
+    this.earlyStopConfidence = earlyStopConfidence;
     this.#validate();
+  }
+
+  get isEarlyStopEnabled() {
+    return this.earlyStopConsecutiveFailures !== null;
   }
 
   #validate() {

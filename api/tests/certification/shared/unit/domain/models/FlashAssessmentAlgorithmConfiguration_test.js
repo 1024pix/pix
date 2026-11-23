@@ -224,5 +224,74 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithmConfiguration', funct
         expect(err).to.be.an.instanceOf(EntityValidationError);
       });
     });
+
+    context('early stop (R4)', function () {
+      const validParams = {
+        maximumAssessmentLength: 32,
+        challengesBetweenSameCompetence: 2,
+        limitToOneQuestionPerTube: false,
+        enablePassageByAllCompetences: false,
+        variationPercent: 0.5,
+        defaultCandidateCapacity: -3,
+        defaultProbabilityToPickChallenge: 51,
+      };
+      const earlyStopParams = {
+        earlyStopConsecutiveFailures: 3,
+        earlyStopMinimumLength: 8,
+        earlyStopCapacityThreshold: -4.67,
+        earlyStopConfidence: 0.95,
+      };
+
+      it('should be disabled by default', function () {
+        // when
+        const configuration = new FlashAssessmentAlgorithmConfiguration(validParams);
+
+        // then
+        expect(configuration.isEarlyStopEnabled).to.be.false;
+        expect(configuration.earlyStopConsecutiveFailures).to.be.null;
+        expect(configuration.earlyStopMinimumLength).to.be.null;
+        expect(configuration.earlyStopCapacityThreshold).to.be.null;
+        expect(configuration.earlyStopConfidence).to.be.null;
+      });
+
+      it('should be enabled when all early stop parameters are provided', function () {
+        // when
+        const configuration = new FlashAssessmentAlgorithmConfiguration({ ...validParams, ...earlyStopParams });
+
+        // then
+        expect(configuration.isEarlyStopEnabled).to.be.true;
+      });
+
+      ['earlyStopMinimumLength', 'earlyStopCapacityThreshold', 'earlyStopConfidence'].forEach((parameter) => {
+        it(`should throw an EntityValidationError if ${parameter} is missing while early stop is enabled`, function () {
+          // when
+          const err = catchErrSync(
+            () => new FlashAssessmentAlgorithmConfiguration({ ...validParams, ...earlyStopParams, [parameter]: null }),
+          )();
+
+          // then
+          expect(err).to.be.an.instanceOf(EntityValidationError);
+        });
+      });
+
+      [
+        { parameter: 'earlyStopConsecutiveFailures', value: 0 },
+        { parameter: 'earlyStopConsecutiveFailures', value: 1.5 },
+        { parameter: 'earlyStopMinimumLength', value: -1 },
+        { parameter: 'earlyStopCapacityThreshold', value: 'not a number' },
+        { parameter: 'earlyStopConfidence', value: 0 },
+        { parameter: 'earlyStopConfidence', value: 1 },
+      ].forEach(({ parameter, value }) => {
+        it(`should throw an EntityValidationError if ${parameter} is ${value}`, function () {
+          // when
+          const err = catchErrSync(
+            () => new FlashAssessmentAlgorithmConfiguration({ ...validParams, ...earlyStopParams, [parameter]: value }),
+          )();
+
+          // then
+          expect(err).to.be.an.instanceOf(EntityValidationError);
+        });
+      });
+    });
   });
 });
