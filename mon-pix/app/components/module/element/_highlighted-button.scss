@@ -10,15 +10,15 @@
   display: none;
 
   // Square-ish box: width ≈ √(characters × average char width × line height) ≈ √(characters × 0.5em × 1.5em)
-  width: calc(sqrt(var(--definition-length, 100) * 1) * 1em);
+  width: calc(sqrt(var(--definition-length, 100) * 1.3) * 1em);
   min-width: 8rem;
   max-width: min(20rem, calc(100vw - 2 * var(--pix-spacing-2x)));
-  padding: var(--pix-spacing-4x);
+  padding: var(--pix-spacing-4x)  var(--pix-spacing-12x) var(--pix-spacing-4x) var(--pix-spacing-4x);
   color: var(--pix-neutral-900);
   line-height: 24px;
   background-color: var(--pix-neutral-0);
   border-radius: var(--pix-spacing-4x);
-  box-shadow: var(--pix-shadow-default);
+  box-shadow: 0 2px 5px 0 rgb(74 58 255 / 25%), 0 -2px 5px 0 rgb(74 58 255 / 15%) inset, 0 1px 1px 0 rgb(255 255 255 / 10%) inset, 0 3px 4px 0 rgb(223 238 255 / 10%) inset, 0 0 48px 0 rgb(41 26 93 / 50%) , 0 0 32px 0 rgb(97 63 221 / 35%);
 
   &--visible {
     display: block;
@@ -36,6 +36,12 @@
     font-weight: var(--pix-font-bold);
     text-decoration: underline;
   }
+
+  &__illustration {
+    position: absolute;
+    top: -45px;
+    right: -55px;
+  }
 }
 
 .module-glossary-word {
@@ -43,7 +49,6 @@
   padding: var(--pix-spacing-1x);
   color: var(--modulix-glossary-term-color, inherit);
   font-weight: bold;
-  text-decoration:  var(--modulix-glossary-term-text-decoration, none);
   background-color: var(--modulix-glossary-term-background-color, rgb(var(--pix-tertiary-100-inline), 70%));
   border: none;
   border-radius: var(--pix-spacing-1x);
