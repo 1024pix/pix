@@ -152,6 +152,40 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
                 assert.ok(true);
               });
             });
+
+            test('should redirect to customUrlPage when being a part of a combined course', function (assert) {
+              // given
+              assessment.campaign = Promise.resolve({
+                isPartOfCombinedCourse: true,
+                customResultPageButtonUrl: '/parcours/COMBINIX1/checkpoint',
+              });
+
+              // when
+              const promise = route.redirect(assessment);
+
+              // then
+              return promise.then(() => {
+                sinon.assert.calledWith(route.router.replaceWith, '/parcours/COMBINIX1/checkpoint');
+                assert.ok(true);
+              });
+            });
+
+            test('should redirect to results page when not being a part of a combined course', function (assert) {
+              // given
+              assessment.campaign = Promise.resolve({
+                isPartOfCombinedCourse: false,
+                customResultPageButtonUrl: '/parcours/COMBINIX1/checkpoint',
+              });
+
+              // when
+              const promise = route.redirect(assessment);
+
+              // then
+              return promise.then(() => {
+                sinon.assert.calledWith(route.router.replaceWith, 'campaigns.assessment.results', 'konami');
+                assert.ok(true);
+              });
+            });
           });
 
           module('when user has not seen checkpoint', function (hooks) {
@@ -182,6 +216,21 @@ module('Unit | Route | Assessments | Resume', function (hooks) {
           });
 
           test('should redirect to campaigns.assessment.results page', function (assert) {
+            // when
+            route.redirect(assessment);
+
+            // then
+            sinon.assert.calledWith(route.router.replaceWith, 'campaigns.assessment.results', 'konami');
+            assert.ok(true);
+          });
+
+          test('should still redirect to campaigns.assessment.results page when part of a combined course', function (assert) {
+            // given
+            assessment.campaign = Promise.resolve({
+              isPartOfCombinedCourse: true,
+              customResultPageButtonUrl: '/parcours/COMBINIX1/checkpoint',
+            });
+
             // when
             route.redirect(assessment);
 

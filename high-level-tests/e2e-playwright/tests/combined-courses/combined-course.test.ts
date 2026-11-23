@@ -49,15 +49,10 @@ test('Combined courses', async ({ page }) => {
       await page.getByText('Oui.').click();
       await page.getByRole('button', { name: 'Je valide et je vais à la' }).click();
       await page.getByRole('link', { name: 'Voir mes résultats' }).first().click();
-      await page.getByRole('link', { name: 'Continuer' }).click();
-    });
-
-    await test.step('Resume combined course', async function () {
-      await page.getByRole('button', { name: 'Continuer mon parcours' }).click();
     });
 
     await test.step('Run module', async function () {
-      await page.getByRole('button', { name: 'Commencer le module' }).click();
+      await page.getByRole('button', { name: 'Démarrer le module' }).click();
       await page.getByRole('button', { name: 'Terminer' }).click();
       await expect(page.getByRole('heading', { level: 1 })).toContainText('Module terminé !');
       await page.getByRole('button', { name: 'Continuer' }).click();
@@ -124,7 +119,7 @@ async function createDataForCombinedCourse(uid: string) {
       ownerId: userId,
       type: 'ASSESSMENT',
       customResultPageButtonText: 'Continuer',
-      customResultPageButtonUrl: `${process.env.PIX_APP_URL}/parcours/C${uid.toUpperCase()}`,
+      customResultPageButtonUrl: `/parcours/C${uid.toUpperCase()}/checkpoint`,
     })
     .returning('id');
   await knex('campaign_skills').insert({ campaignId, skillId: CAMPAIGN_SKILLS[0] });
