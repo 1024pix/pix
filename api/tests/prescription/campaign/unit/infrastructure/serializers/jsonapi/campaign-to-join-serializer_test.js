@@ -11,6 +11,7 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function (
       const campaignToJoin = domainBuilder.buildCampaignToJoin({
         identityProvider: 'SUPER_IDP',
         hasLearnersImportFeature: true,
+        isPartOfCombinedCourse: true,
         externalIdType: CampaignExternalIdTypes.STRING,
       });
       campaignToJoin.setReconciliationFields([{ key: 'toto', value: 'titi' }]);
@@ -51,6 +52,7 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function (
             'custom-result-page-button-url': campaignToJoin.customResultPageButtonUrl,
             'multiple-sendings': campaignToJoin.multipleSendings,
             'recommendation-engine': campaignToJoin.recommendationEngine,
+            'is-part-of-combined-course': campaignToJoin.isPartOfCombinedCourse,
           },
         },
       });

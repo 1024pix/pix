@@ -911,4 +911,76 @@ describe('Quest | Integration | Repository | combined-course', function () {
       expect(updatedCombinedCourse.name).to.equal('new-name');
     });
   });
+
+  describe('#existsForCampaignId', function () {
+    let campaignId;
+
+    beforeEach(async function () {
+      // given
+      campaignId = databaseBuilder.factory.buildCampaign().id;
+      await databaseBuilder.commit();
+    });
+
+    it('should return false if the combined course including the given campaignId has been deleted', async function () {
+      // given
+      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+        successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
+      });
+      databaseBuilder.factory.buildCombinedCourse({
+        questId,
+        deletedAt: new Date(),
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await combinedCourseRepository.existsForCampaignId({ campaignId });
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return false if no combined course match campaignId', async function () {
+      // given
+      const otherCampaignId = databaseBuilder.factory.buildCampaign().id;
+      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+        successRequirements: [
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: otherCampaignId }).toDTO(),
+        ],
+      });
+      databaseBuilder.factory.buildCombinedCourse({
+        questId,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await combinedCourseRepository.existsForCampaignId({
+        campaignId: campaignId,
+      });
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return true if a combined course matches campaignId', async function () {
+      // given
+      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+        successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
+      });
+      databaseBuilder.factory.buildCombinedCourse({
+        questId,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await combinedCourseRepository.existsForCampaignId({
+        campaignId,
+      });
+
+      // then
+      expect(result).to.be.true;
+    });
+  });
 });

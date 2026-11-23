@@ -15,7 +15,7 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
       combinedCourseName = 'Mon parcours Combiné';
-      const { id: questId } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
       combinedCourseId = databaseBuilder.factory.buildCombinedCourse({
@@ -51,7 +51,7 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
 
     it('should throw an error if multiple combined courses found', async function () {
       //given
-      const { id: questId2 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId2 } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
       databaseBuilder.factory.buildCombinedCourse({
@@ -108,7 +108,7 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
       //given
       const { id: campaignId } = databaseBuilder.factory.buildCampaign();
 
-      const { id: questId1 } = databaseBuilder.factory.buildQuestForCombinedCourse({
+      const { id: questId1 } = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
       });
 
@@ -130,7 +130,7 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
       //given
       const { id: combinedCourseId1 } = databaseBuilder.factory.buildCombinedCourse({
         code: 'RANDOM',
-        questId: databaseBuilder.factory.buildQuestForCombinedCourse().id,
+        questId: databaseBuilder.factory.buildQuest().id,
       });
 
       await databaseBuilder.commit();
@@ -140,6 +140,52 @@ describe('Acceptance | Quest | Application | combined-course-api', function () {
 
       // then
       expect(result).to.deep.equal([]);
+    });
+  });
+
+  describe('#existsForCampaignId', function () {
+    let campaignId;
+    beforeEach(async function () {
+      //given
+      campaignId = databaseBuilder.factory.buildCampaign().id;
+      await databaseBuilder.commit();
+    });
+
+    it('should return false if usecase does not find combined course for given campaign id', async function () {
+      const otherCampaignId = databaseBuilder.factory.buildCampaign().id;
+      const { id: questId } = databaseBuilder.factory.buildQuest({
+        successRequirements: [
+          CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId: otherCampaignId }).toDTO(),
+        ],
+      });
+      databaseBuilder.factory.buildCombinedCourse({
+        questId,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await combinedCourseApi.existsForCampaignId(campaignId);
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return true if usecase finds one combined course for campaign id', async function () {
+      const { id: questId } = databaseBuilder.factory.buildQuest({
+        successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ campaignId }).toDTO()],
+      });
+      databaseBuilder.factory.buildCombinedCourse({
+        questId,
+      }).id;
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await combinedCourseApi.existsForCampaignId(campaignId);
+
+      // then
+      expect(result).to.be.true;
     });
   });
 });
