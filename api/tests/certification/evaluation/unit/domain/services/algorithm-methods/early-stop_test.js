@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import {
   countTrailingFailures,
+  getProbabilityBelowThreshold,
   normalCdf,
 } from '../../../../../../../src/certification/evaluation/domain/services/algorithm-methods/early-stop.js';
 import { AnswerStatus } from '../../../../../../../src/shared/domain/models/AnswerStatus.js';
@@ -72,6 +73,36 @@ describe('Unit | Certification | Evaluation | Domain | Service | Algorithm-metho
 
       // then
       expect(result).to.equal(2);
+    });
+  });
+
+  describe('#getProbabilityBelowThreshold', function () {
+    it('should return 0.5 when capacity equals the threshold', function () {
+      // when
+      const result = getProbabilityBelowThreshold({ capacity: -4, errorRate: 0.5, threshold: -4 });
+
+      // then
+      expect(result).to.be.closeTo(0.5, 1e-6);
+    });
+
+    it('should return about 0.95 when capacity is 1.645 standard deviations below the threshold', function () {
+      // when
+      const result = getProbabilityBelowThreshold({ capacity: -5.645, errorRate: 1, threshold: -4 });
+
+      // then
+      expect(result).to.be.closeTo(0.95, 1e-3);
+    });
+
+    context('when errorRate is not a positive number', function () {
+      [NaN, 0, -1].forEach((errorRate) => {
+        it(`should still return a probability for errorRate = ${errorRate}`, function () {
+          // when
+          const result = getProbabilityBelowThreshold({ capacity: -5, errorRate, threshold: -4 });
+
+          // then
+          expect(result).to.be.closeTo(1, 1e-6);
+        });
+      });
     });
   });
 });
