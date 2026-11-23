@@ -157,4 +157,60 @@ describe('Integration | Repository | Credits Lot', function () {
       expect(foundCreditsLot[1].reference).to.equal('SECOND');
     });
   });
+
+  context('findByOrganizationIdForUpdate', function () {
+    it('returns the lots of the structure carrying the organization, with their consumed count', async function () {
+      // given
+      const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure();
+
+      const creditsLotId = databaseBuilder.factory.buildCreditsLot({ structureId: structure.id, count: 10 }).id;
+      databaseBuilder.factory.buildCreditsConsumption({
+        creditsLotId,
+        organizationLearnerId: databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id }).id,
+      });
+      databaseBuilder.factory.buildCreditsConsumption({
+        creditsLotId,
+        organizationLearnerId: databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id }).id,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const creditsLots = await creditsLotRepository.findByOrganizationIdForUpdate({ organizationId: organization.id });
+
+      // then
+      expect(creditsLots).to.have.lengthOf(1);
+      expect(creditsLots[0].id).to.equal(creditsLotId);
+      expect(creditsLots[0].count).to.equal(10);
+      expect(creditsLots[0].consumedCount).to.equal(2);
+    });
+
+    it('returns a lot never consumed with a zero count rather than undefined', async function () {
+      // given
+      const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure();
+      databaseBuilder.factory.buildCreditsLot({ structureId: structure.id });
+
+      await databaseBuilder.commit();
+
+      // when
+      const creditsLots = await creditsLotRepository.findByOrganizationIdForUpdate({ organizationId: organization.id });
+
+      // then
+      expect(creditsLots[0].consumedCount).to.equal(0);
+    });
+
+    it('ignores the lots of another structure', async function () {
+      // given
+      const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+      databaseBuilder.factory.buildCreditsLot();
+
+      await databaseBuilder.commit();
+
+      // when
+      const creditsLots = await creditsLotRepository.findByOrganizationIdForUpdate({ organizationId: organization.id });
+
+      // then
+      expect(creditsLots).to.be.empty;
+    });
+  });
 });

@@ -86,6 +86,7 @@ import { buildComplementaryCertificationTargetProfileHistory } from './build-com
 import { buildCountry } from './build-country.js';
 import { buildCourse } from './build-course.js';
 import { buildCpfCertificationResult } from './build-cpf-certification-result.js';
+import { buildCreditsLotBalance } from './build-credits-lot-balance.js';
 import * as buildDataProtectionOfficer from './build-data-protection-officer.js';
 import { buildFeedback } from './build-feedback.js';
 import { buildFinalizedSession } from './build-finalized-session.js';
@@ -476,6 +477,7 @@ export {
   buildCountry,
   buildCourse,
   buildCpfCertificationResult,
+  buildCreditsLotBalance,
   buildDataProtectionOfficer,
   buildFeedback,
   buildFinalizedSession,
