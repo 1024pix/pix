@@ -1057,6 +1057,16 @@
         },
         "tubes-count": "{count, plural, =0 {Aucun sujet} =1 {{count} sujet} other {{count} sujets}}"
       },
+      "duration": {
+        "aria-label": "Durée estimée : {duration}",
+        "options": {
+          "long": "1h15 à 2h",
+          "medium": "45 min à 1h15",
+          "short": "30 à 45 min",
+          "very-long": "plus de 2h",
+          "very-short": "moins de 30 min"
+        }
+      },
       "empty-state": "Aucun parcours disponible pour l'instant. Contactez Pix pour en obtenir.",
       "empty-state-with-filters": "Aucun parcours ne correspond à vos critères de recherche.",
       "filters": {
