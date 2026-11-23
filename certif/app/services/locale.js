@@ -119,6 +119,7 @@ export default class LocaleService extends Service {
     const localesToLoad = [...new Set(locales)].filter(
       (locale) => TRANSLATION_LOADERS[locale] && !this.#loadedLocales.has(locale),
     );
+    // waitForPromise needed in tests when local changes. no impact on production code.
     await waitForPromise(
       Promise.all(
         localesToLoad.map(async (locale) => {
