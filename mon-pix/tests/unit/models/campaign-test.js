@@ -149,4 +149,71 @@ module('Unit | Model | campaign', function (hooks) {
       assert.false(isExam2);
     });
   });
+
+  module('getter combinedCourseCode', function () {
+    [
+      { label: 'relative url', url: '/parcours/COMBINIX1' },
+      { label: 'relative url to tunnel', url: '/parcours/COMBINIX1/checkpoint' },
+      { label: 'absolute url', url: 'https://app.pix.fr/parcours/COMBINIX1' },
+      { label: 'absolute url to tunnel', url: 'https://app.pix.fr/parcours/COMBINIX1/checkpoint' },
+      { label: 'url with query params', url: '/parcours/COMBINIX1?foo=bar' },
+      { label: 'url with hash', url: '/parcours/COMBINIX1#top' },
+    ].forEach(({ label, url }) => {
+      test(`returns the combined course code from a ${label}`, function (assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          customResultPageButtonUrl: url,
+          isPartOfCombinedCourse: true,
+        });
+
+        // when
+        const combinedCourseCode = campaign.combinedCourseCode;
+
+        // then
+        assert.strictEqual(combinedCourseCode, 'COMBINIX1');
+      });
+    });
+
+    test('returns null when campaign is not part of a combined course', function (assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        isPartOfCombinedCourse: false,
+        customResultPageButtonUrl: 'https://example.net',
+      });
+
+      // when
+      const combinedCourseCode = campaign.combinedCourseCode;
+
+      // then
+      assert.strictEqual(combinedCourseCode, null);
+    });
+
+    test('returns null when there is no custom result page button url', function (assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        isPartOfCombinedCourse: true,
+        customResultPageButtonUrl: null,
+      });
+
+      // when
+      const combinedCourseCode = campaign.combinedCourseCode;
+
+      // then
+      assert.strictEqual(combinedCourseCode, null);
+    });
+
+    test('returns null when the url does not contain a combined course code', function (assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        isPartOfCombinedCourse: true,
+        customResultPageButtonUrl: '/parcours/',
+      });
+
+      // when
+      const combinedCourseCode = campaign.combinedCourseCode;
+
+      // then
+      assert.strictEqual(combinedCourseCode, null);
+    });
+  });
 });

@@ -29,7 +29,6 @@ test('pass a combined course as sco user and see the final result', async ({ pag
   });
 
   await test.step('Run campaign', async function () {
-    await page.getByRole('button', { name: 'Je commence' }).click();
     await page.getByRole('button', { name: 'Ignorer' }).click();
     await page.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }).click();
     await page.getByRole('link', { name: 'Voir mes résultats' }).first().click();
