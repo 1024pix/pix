@@ -73,7 +73,7 @@ export class LtiCampaign {
     return this.competences
       .map((competence) => ({
         label: `${this.code} : ${competence.index} ${competence.name}`,
-        resourceId: `${this.#lineItemResourcePrefix}:competence:${competence.id}`,
+        resourceId: this.#competenceResourceId(competence.id),
         scoreMaximum: Math.round(competence.maxLevel),
         tag: this.lineItemTag,
         resourceLinkId,
@@ -82,13 +82,74 @@ export class LtiCampaign {
       .filter(Boolean);
   }
 
+  /**
+   * Builds the scores to publish on the line items of the campaign (see `buildLineItems`)
+   * from the result of a participation.
+   *
+   * @param {import('./CampaignParticipationResult.js').CampaignParticipationResult} campaignParticipationResult
+   * @returns {Array<{ resourceId: string, scoreGiven: number, scoreMaximum: number }>}
+   */
+  buildLineItemScores(campaignParticipationResult) {
+    const participationCompetenceById = new Map(
+      campaignParticipationResult.competences.map((competence) => [competence.id, competence]),
+    );
+    return this.competences
+      .map((competence) => {
+        const competenceResult = participationCompetenceById.get(competence.id);
+        if (!competenceResult) return null;
+
+        const scoreMaximum = Math.round(competence.maxLevel);
+        return {
+          resourceId: this.#competenceResourceId(competence.id),
+          scoreGiven: Math.min(competenceResult.reachedLevel, scoreMaximum),
+          scoreMaximum,
+        };
+      })
+      .concat(this.#buildGlobalLineItemScore(campaignParticipationResult))
+      .filter(Boolean);
+  }
+
+  #competenceResourceId(competenceId) {
+    return `${this.#lineItemResourcePrefix}:competence:${competenceId}`;
+  }
+
+  get #masteryRateResourceId() {
+    return `${this.#lineItemResourcePrefix}:mastery-rate`;
+  }
+
+  get #pixScoreResourceId() {
+    return `${this.#lineItemResourcePrefix}:pix-score`;
+  }
+
+  #buildGlobalLineItemScore({ masteryRate, pixScore }) {
+    switch (this.type) {
+      case 'ASSESSMENT':
+      case 'EXAM':
+        if (masteryRate === null) return null;
+        return {
+          resourceId: this.#masteryRateResourceId,
+          scoreGiven: Math.round(masteryRate * MASTERY_RATE_SCORE_MAXIMUM),
+          scoreMaximum: MASTERY_RATE_SCORE_MAXIMUM,
+        };
+      case 'PROFILES_COLLECTION':
+        if (pixScore === null) return null;
+        return {
+          resourceId: this.#pixScoreResourceId,
+          scoreGiven: pixScore,
+          scoreMaximum: PIX_SCORE_MAXIMUM,
+        };
+      default:
+        return null;
+    }
+  }
+
   #buildGlobalLineItem(resourceLinkId, i18n) {
     switch (this.type) {
       case 'ASSESSMENT':
       case 'EXAM':
         return {
           label: `${this.code} : ${i18n.__('lti.line-item-mastery-rate')}`,
-          resourceId: `${this.#lineItemResourcePrefix}:mastery-rate`,
+          resourceId: this.#masteryRateResourceId,
           scoreMaximum: MASTERY_RATE_SCORE_MAXIMUM,
           tag: this.lineItemTag,
           resourceLinkId,
@@ -96,7 +157,7 @@ export class LtiCampaign {
       case 'PROFILES_COLLECTION':
         return {
           label: `${this.code} : ${i18n.__('lti.line-item-pix-score')}`,
-          resourceId: `${this.#lineItemResourcePrefix}:pix-score`,
+          resourceId: this.#pixScoreResourceId,
           scoreMaximum: PIX_SCORE_MAXIMUM,
           tag: this.lineItemTag,
           resourceLinkId,
