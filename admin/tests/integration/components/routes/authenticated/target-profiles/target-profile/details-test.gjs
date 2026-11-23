@@ -1,6 +1,6 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import Details from 'pix-admin/components/target-profiles/details';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import setupIntlRenderingTest from 'pix-admin/tests/helpers/setup-intl-rendering';
 import { module, test } from 'qunit';
 

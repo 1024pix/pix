@@ -1,6 +1,6 @@
-import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import setupIntl from 'pix-admin/tests/helpers/setup-intl';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { errorValidationCodesRegistry } from 'pix-admin/utils/error-validation-codes-registry';
 import { module, test } from 'qunit';
 

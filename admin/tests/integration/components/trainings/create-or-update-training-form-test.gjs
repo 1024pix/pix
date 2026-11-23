@@ -1,8 +1,8 @@
 import { clickByName, fillByLabel, render, within } from '@1024pix/ember-testing-library';
 import { click, fillIn, triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import CreateOrUpdateTrainingForm from 'pix-admin/components/trainings/create-or-update-training-form';
 import { deliveryModeCategories, localeCategories, typeCategories } from 'pix-admin/models/training';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { t } from 'ember-intl/test-support';
 import CertificationInformations from 'pix-admin/components/certifications/certification/informations';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

@@ -32,10 +32,7 @@ module.exports = async function (defaults) {
   });
 
   return compatBuild(app, buildOnce, {
-    staticAddonTestSupportTrees: true,
-    staticAddonTrees: true,
     staticModifiers: true,
-    staticEmberSource: true,
     packagerOptions: {
       webpackConfig: {
         devtool: sourceMapConfig[process.env.CI ? 'test' : (process.env.NODE_ENV ?? 'default')],

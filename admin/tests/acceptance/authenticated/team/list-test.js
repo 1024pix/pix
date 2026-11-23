@@ -1,7 +1,7 @@
 import { clickByName, visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
@@ -151,7 +151,7 @@ module('Acceptance | Team | List', function (hooks) {
 
       // then
       assert.dom(screen.getByText('Erreur lors de la mise à jour du rôle de cet agent Pix.')).exists();
-      const table = screen.getByRole('table', { name: t('pages.team.table.caption') });
+      const table = screen.getByRole('table', { name: t('pages.team.list.table.caption') });
       assert.dom(within(table).getByRole('cell', { name: 'Anne' })).exists();
       assert.dom(within(table).getByRole('cell', { name: 'Estésie' })).exists();
       assert.dom(within(table).getByRole('cell', { name: 'SUPPORT' })).exists();

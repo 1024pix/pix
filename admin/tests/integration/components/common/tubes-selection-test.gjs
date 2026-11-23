@@ -1,7 +1,7 @@
 import { clickByName, render, within } from '@1024pix/ember-testing-library';
 import { click, triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import TubesSelection from 'pix-admin/components/common/tubes-selection';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import setupIntlRenderingTest from 'pix-admin/tests/helpers/setup-intl-rendering';
 import { module, test } from 'qunit';
 import sinon from 'sinon';

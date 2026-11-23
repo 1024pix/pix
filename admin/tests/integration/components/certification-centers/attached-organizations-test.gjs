@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import AttachedOrganizations from 'pix-admin/components/certification-centers/attached-organizations';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import setupIntlRenderingTest from 'pix-admin/tests/helpers/setup-intl-rendering';
 import { module, test } from 'qunit';
 

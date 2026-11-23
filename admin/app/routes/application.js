@@ -43,7 +43,7 @@ export default class ApplicationRoute extends Route {
 
     const queryParams = transition?.to?.queryParams;
     this.intl.setFormats(formats);
-    this.locale.setBestLocale({ queryParams });
+    await this.locale.setBestLocale({ queryParams });
     await this.session.setup();
     await this.currentUser.load();
   }

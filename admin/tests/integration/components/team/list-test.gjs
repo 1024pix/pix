@@ -27,7 +27,7 @@ module('Integration | Component | team | list', function (hooks) {
       const screen = await render(<template><List @members={{members}} /></template>);
 
       // then
-      const table = screen.getByRole('table', { name: t('pages.team.table.caption') });
+      const table = screen.getByRole('table', { name: t('pages.team.list.table.caption') });
       assert.dom(within(table).getByRole('cell', { name: 'marie.tim@example.net' })).exists();
       assert.dom(within(table).getByRole('cell', { name: 'SUPER_ADMIN' })).exists();
     });

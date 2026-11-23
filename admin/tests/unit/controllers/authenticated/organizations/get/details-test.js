@@ -1,9 +1,8 @@
-import { t } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntl from '../../../../../helpers/setup-intl';
+import setupIntl, { t } from '../../../../../helpers/setup-intl';
 
 module('Unit | Controller | authenticated/organizations/get/details', function (hooks) {
   setupTest(hooks);

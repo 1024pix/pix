@@ -3,6 +3,7 @@ import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { LinkTo } from '@ember/routing';
 import t from 'ember-intl/helpers/t';
+import { escapeHtml } from 'pix-admin/utils/escape-html';
 <template>
   <div class="training-target-profiles">
     {{#if @controller.canAttachTargetProfiles}}
@@ -105,7 +106,7 @@ import t from 'ember-intl/helpers/t';
         {{t
           "pages.trainings.training.targetProfiles.detach-modal"
           htmlSafe=true
-          name=@controller.targetProfileToDetach.internalName
+          name=(escapeHtml @controller.targetProfileToDetach.internalName)
         }}
       </p>
     </:content>

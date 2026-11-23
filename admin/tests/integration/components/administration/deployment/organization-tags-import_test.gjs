@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import { PixToastContainer } from '@1024pix/nebulix-ember';
 import { triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import OrganizationTagsImport from 'pix-admin/components/administration/deployment/organization-tags-import';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 

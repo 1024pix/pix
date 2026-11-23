@@ -1,6 +1,6 @@
 import Service from '@ember/service';
-import { setupIntl } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
+import setupIntl from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

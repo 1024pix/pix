@@ -1,23 +1,15 @@
 import { getContext, settled } from '@ember/test-helpers';
-import { setupIntl as setupIntlFromEmberIntl, t } from 'ember-intl/test-support';
+import { setupIntl as setupIntlFromEmberIntl } from 'ember-intl/test-support';
 import { formats } from 'pix-admin/ember-intl';
-import translationsForEn from 'virtual:ember-intl/translations/en';
-import translationsForFr from 'virtual:ember-intl/translations/fr';
-
-const appLocales = {
-  en: translationsForEn,
-  fr: translationsForFr,
-};
 
 export async function setCurrentLocale(locale) {
   const { owner } = getContext();
 
   const intl = owner.lookup('service:intl');
   intl.setFormats(formats);
-  intl.addTranslations(locale, appLocales[locale]);
 
   const localeService = owner.lookup('service:locale');
-  localeService.setCurrentLocale(locale);
+  await localeService.setCurrentLocale(locale);
 
   await settled();
 }
@@ -29,4 +21,10 @@ export default function setupIntl(hooks, locale = 'fr') {
   });
 }
 
-export { t };
+export function t(key, options) {
+  const intl = getContext().owner.lookup('service:intl');
+  if (!intl.exists(key)) {
+    throw new Error(`Missing translation for key "${key}"`);
+  }
+  return intl.t(key, options);
+}

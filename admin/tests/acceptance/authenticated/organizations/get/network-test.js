@@ -1,8 +1,8 @@
 import { clickByName, fillByLabel, visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import setupIntl from 'pix-admin/tests/helpers/setup-intl';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
@@ -60,7 +60,7 @@ module('Acceptance | Organizations | Network', function (hooks) {
         const screen = await visit(`/organizations/${parentOrganizationId}/network`);
 
         // then
-        assert.dom(screen.queryByText(t('components.organization.network.empty-table'))).doesNotExist();
+        assert.dom(screen.queryByText(t('components.organizations.network.empty-table'))).doesNotExist();
         assert
           .dom(screen.getByRole('table', { name: t('components.organizations.network.children-list.table-name') }))
           .exists();

@@ -1,7 +1,7 @@
 import { visit, within } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'pix-admin/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
@@ -35,7 +35,7 @@ module('Acceptance | Team | Add member', function (hooks) {
         .dom(screen.getByRole('textbox', { name: /Adresse e-mail professionnelle de l'agent Pix à rattacher/ }))
         .hasNoValue();
 
-      const table = screen.getByRole('table', { name: t('pages.team.table.caption') });
+      const table = screen.getByRole('table', { name: t('pages.team.list.table.caption') });
       assert.dom(within(table).getByRole('cell', { name: 'christophe' })).exists();
       assert.dom(within(table).getByRole('cell', { name: 'leclerc' })).exists();
     });
@@ -96,7 +96,7 @@ module('Acceptance | Team | Add member', function (hooks) {
 
       // then
       assert.dom(screen.getByText("Cet utilisateur n'existe pas.")).exists();
-      const table = screen.getByRole('table', { name: t('pages.team.table.caption') });
+      const table = screen.getByRole('table', { name: t('pages.team.list.table.caption') });
       assert.dom(within(table).queryByRole('cell', { name: 'marie.tim@example.net' })).doesNotExist();
     });
   });

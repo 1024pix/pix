@@ -1,9 +1,9 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { settled, triggerEvent, waitUntil } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import HeadInformation from 'pix-admin/components/organizations/head-information';
 import ENV from 'pix-admin/config/environment';
+import { t } from 'pix-admin/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
