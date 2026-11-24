@@ -66,6 +66,21 @@ export class LtiPlatformsScript extends Script {
             },
           },
         },
+        'add-organizations': {
+          description: 'Adds organizations to a platform',
+          options: {
+            platformId: {
+              description: 'LTI platform’s ID',
+              demandOption: true,
+              type: 'integer',
+            },
+            organizationId: {
+              description: 'Organization’s ID',
+              demandOption: true,
+              type: 'array',
+            },
+          },
+        },
       },
       permanent: true,
     });
@@ -138,6 +153,18 @@ export class LtiPlatformsScript extends Script {
     }
 
     console.table(organizations.map(({ id, name }) => ({ id, name })));
+  }
+
+  /**
+   * @param {object} options
+   * @param {string} options.platformId
+   * @param {string[]} options.organizationId
+   * @param {CommandDependencies} dependencies
+   */
+  async 'add-organizations'({ platformId, organizationId: organizationIds }, { logger }) {
+    const insertedCount = await ltiPlatformRepository.addOrganizations({ platformId, organizationIds });
+
+    logger.info(`Added ${insertedCount} organizations to LTI platform platformId=${platformId}`);
   }
 }
 

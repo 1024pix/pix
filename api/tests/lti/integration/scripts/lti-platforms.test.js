@@ -136,4 +136,25 @@ describe('Integration | LTI | Scripts | lti-platforms', function () {
       expect(console.table).to.have.been.calledOnceWithExactly(expectedOrganizations);
     });
   });
+
+  describe('add-organizations', function () {
+    it('adds organizations to LTI platform', async function () {
+      // given
+      const { id: organizationId1 } = databaseBuilder.factory.buildOrganization();
+      const { id: organizationId2 } = databaseBuilder.factory.buildOrganization();
+      const { id: platformId } = databaseBuilder.factory.buildLtiPlatform();
+      await databaseBuilder.commit();
+
+      // when
+      await script['add-organizations']({ platformId, organizationId: [organizationId1, organizationId2] }, { logger });
+
+      // then
+      const organizationIds = await knex
+        .pluck('organizationId')
+        .from('lti_platform_organizations')
+        .where({ platformId })
+        .orderBy('organizationId');
+      expect(organizationIds).to.deep.equal([organizationId1, organizationId2].toSorted((id1, id2) => id1 - id2));
+    });
+  });
 });
