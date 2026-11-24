@@ -296,12 +296,20 @@ describe('Integration | Repository | user-recommended-training-repository', func
       // then
       expect(result).to.have.lengthOf(2);
       expect(result[0]).to.be.instanceOf(UserRecommendedTraining);
-      expect(result[0]).to.deep.equal(new UserRecommendedTraining({ ...training, duration: { hours: 6 } }));
+      expect(result[0]).to.deep.equal(
+        new UserRecommendedTraining({ ...training, campaignParticipationId, duration: { hours: 6 } }),
+      );
       expect(result[1]).to.be.instanceOf(UserRecommendedTraining);
-      expect(result[1]).to.deep.equal(new UserRecommendedTraining({ ...anotherTraining, duration: { hours: 6 } }));
+      expect(result[1]).to.deep.equal(
+        new UserRecommendedTraining({
+          ...anotherTraining,
+          campaignParticipationId: anotherCampaignParticipation.id,
+          duration: { hours: 6 },
+        }),
+      );
     });
 
-    it('should  not return twice the same module', async function () {
+    it('by default, it should  not return twice the same module', async function () {
       // given
       const { id: campaignParticipationId, userId } = databaseBuilder.factory.buildCampaignParticipation();
       const training = databaseBuilder.factory.buildTraining({ type: 'modulix' });
@@ -311,14 +319,13 @@ describe('Integration | Repository | user-recommended-training-repository', func
         campaignParticipationId,
       };
       const anotherCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId });
-      const anotherUserRecommendedTraining = {
+      const anotherRecommendedTraining = {
         userId,
         trainingId: training.id,
-
         campaignParticipationId: anotherCampaignParticipation.id,
       };
       databaseBuilder.factory.buildUserRecommendedTraining(userRecommendedTraining1);
-      databaseBuilder.factory.buildUserRecommendedTraining(anotherUserRecommendedTraining);
+      databaseBuilder.factory.buildUserRecommendedTraining(anotherRecommendedTraining);
       await databaseBuilder.commit();
 
       // when
@@ -329,9 +336,77 @@ describe('Integration | Repository | user-recommended-training-repository', func
       // then
       expect(result).to.have.lengthOf(1);
       expect(result[0]).to.be.instanceOf(UserRecommendedTraining);
-      expect(result[0]).to.deep.equal(new UserRecommendedTraining({ ...training, duration: { hours: 6 } }));
+      expect(result[0].id).to.be.equal(training.id);
     });
 
+    it('if for multiple learners, can return twice the same training id', async function () {
+      // given
+      // first user data
+      const { id: campaignParticipationId, userId } = databaseBuilder.factory.buildCampaignParticipation();
+
+      const training = databaseBuilder.factory.buildTraining({ type: 'modulix' });
+      const userRecommendedTraining1 = {
+        userId,
+        trainingId: training.id,
+        campaignParticipationId,
+      };
+      const anotherCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId });
+      const anotherRecommendedTraining = {
+        userId,
+        trainingId: training.id,
+        campaignParticipationId: anotherCampaignParticipation.id,
+      };
+      databaseBuilder.factory.buildUserRecommendedTraining(userRecommendedTraining1);
+      databaseBuilder.factory.buildUserRecommendedTraining(anotherRecommendedTraining);
+
+      //second user data
+      const { id: campaignParticipationIdUser2, userId: user2Id } =
+        databaseBuilder.factory.buildCampaignParticipation();
+
+      const user2RecommendedTraining1 = {
+        userId: user2Id,
+        trainingId: training.id,
+        campaignParticipationId: campaignParticipationIdUser2,
+      };
+
+      databaseBuilder.factory.buildUserRecommendedTraining(user2RecommendedTraining1);
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await userRecommendedTrainingRepository.findModulesByCampaignParticipationIds({
+        campaignParticipationIds: [
+          campaignParticipationId,
+          anotherCampaignParticipation.id,
+          campaignParticipationIdUser2,
+        ],
+        isForMultipleLearners: true,
+      });
+
+      // then
+      expect(result).to.have.lengthOf(3);
+      expect(result[0]).to.be.an.instanceOf(UserRecommendedTraining);
+      expect(result[1]).to.be.an.instanceOf(UserRecommendedTraining);
+      expect(result[2]).to.be.an.instanceOf(UserRecommendedTraining);
+      const expectedTraining1 = new UserRecommendedTraining({
+        ...training,
+        campaignParticipationId: campaignParticipationIdUser2,
+        duration: { hours: 6 },
+      });
+      const expectedTraining2 = new UserRecommendedTraining({
+        ...training,
+        campaignParticipationId: campaignParticipationIdUser2,
+        duration: { hours: 6 },
+      });
+      const expectedTraining3 = new UserRecommendedTraining({
+        ...training,
+        campaignParticipationId: campaignParticipationIdUser2,
+        duration: { hours: 6 },
+      });
+      expect(result).to.deep.contain(expectedTraining1);
+      expect(result).to.deep.contain(expectedTraining2);
+      expect(result).to.deep.contain(expectedTraining3);
+    });
     it('should not return disabled recommended trainings for given campaignParticipationId and locale', async function () {
       // given
       const { id: campaignParticipationId, userId } = databaseBuilder.factory.buildCampaignParticipation();
@@ -358,7 +433,9 @@ describe('Integration | Repository | user-recommended-training-repository', func
       // then
       expect(result).to.have.lengthOf(1);
       expect(result[0]).to.be.instanceOf(UserRecommendedTraining);
-      expect(result[0]).to.deep.equal(new UserRecommendedTraining({ ...training, duration: { hours: 6 } }));
+      expect(result[0]).to.deep.equal(
+        new UserRecommendedTraining({ ...training, campaignParticipationId, duration: { hours: 6 } }),
+      );
     });
 
     it('should return an empty array when user has no recommended training for this campaignParticipation', async function () {

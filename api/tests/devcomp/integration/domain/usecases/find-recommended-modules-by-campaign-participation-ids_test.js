@@ -50,12 +50,18 @@ describe('Integration | DevComp | Domain | Usecases | findRecommendedModulesByCa
 
     expect(recommendedModules).to.have.lengthOf(2);
     expect(recommendedModules[0]).to.be.an.instanceOf(RecommendedModule);
-    expect(recommendedModules[0]).to.be.deep.equal({ id: training.id, moduleId, shortId: 'ecc13f55' });
+    expect(recommendedModules[0]).to.be.deep.equal({
+      id: training.id,
+      moduleId,
+      shortId: 'ecc13f55',
+      campaignParticipationId: campaignParticipationId1,
+    });
     expect(recommendedModules[1]).to.be.an.instanceOf(RecommendedModule);
     expect(recommendedModules[1]).to.be.deep.equal({
       id: secondTraining.id,
       moduleId: secondModuleId,
       shortId: '9d4dcab8',
+      campaignParticipationId: campaignParticipationId2,
     });
   });
 
@@ -98,6 +104,11 @@ describe('Integration | DevComp | Domain | Usecases | findRecommendedModulesByCa
 
     expect(recommendedModules).to.have.lengthOf(1);
     expect(recommendedModules[0]).to.be.an.instanceOf(RecommendedModule);
-    expect(recommendedModules[0]).to.be.deep.equal({ id: training.id, moduleId, shortId: 'ecc13f55' });
+    expect(recommendedModules[0]).to.be.deep.equal({
+      id: training.id,
+      moduleId,
+      shortId: 'ecc13f55',
+      campaignParticipationId: campaignParticipationId1,
+    });
   });
 });

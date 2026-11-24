@@ -15,6 +15,8 @@ class UserRecommendedTraining {
     description,
     isRelevant,
     isHighlighted,
+    campaignParticipationId,
+    userId,
   } = {}) {
     this.id = id;
     this.title = title;
@@ -33,6 +35,8 @@ class UserRecommendedTraining {
     this.program = program;
     this.objectives = objectives;
     this.description = description;
+    this.campaignParticipationId = campaignParticipationId;
+    this.userId = userId;
   }
 }
 

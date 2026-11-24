@@ -40,7 +40,7 @@ describe('Unit | Repositories | Recommended Module Repository', function () {
         findByCampaignParticipationIds: sinon.stub(),
       };
       recommendedModulesApiStub.findByCampaignParticipationIds
-        .withArgs({ campaignParticipationIds })
+        .withArgs({ campaignParticipationIds, isForMultipleLearners: false })
         .resolves([expectedUserRecommendedModules]);
 
       // when
