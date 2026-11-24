@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## [5.549.1](https://github.com/1024pix/pix/compare/v5.549.0...v5.549.1) (2026-11-24)
+
+### :bug: Correction
+
+- [#19083](https://github.com/1024pix/pix/pull/19083) Revert de [TECH] Consolidation du getter indiquant si une campagne est dans un parcours combiné dans PixApp (PIX-25027).
+
 # [5.549.0](https://github.com/1024pix/pix/compare/v5.548.1...v5.549.0) (2026-11-24)
 
 ### :rocket: Amélioration
