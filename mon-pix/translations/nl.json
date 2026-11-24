@@ -1293,11 +1293,7 @@
         "placeholder": "Bezig met laden van de afbeelding"
       },
       "is-focused-challenge": {
-        "info-alert": {
-          "adjusted-course-title": "Beantwoord deze vraag zonder gebruik te maken van internet of apps.",
-          "subtitle": "Bij certificering wordt je antwoord niet goedgekeurd als je van pagina wisselt.",
-          "title": "Beantwoord deze vraag zonder gebruik te maken van internet of apps."
-        }
+        "info-alert": "Let op: je moet op deze pagina blijven om te antwoorden!"
       },
       "live-alerts": {
         "companion": {

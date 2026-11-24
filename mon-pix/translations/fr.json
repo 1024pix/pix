@@ -1293,11 +1293,7 @@
         "placeholder": "Chargement de l'image en cours"
       },
       "is-focused-challenge": {
-        "info-alert": {
-          "adjusted-course-title": "Répondez à cette question sans vous aider d’internet ou d’applications.",
-          "subtitle": "En certification, si vous changez de page, votre réponse ne sera pas validée.",
-          "title": "Attention, vous devez rester sur cette page pour répondre !"
-        }
+        "info-alert": "Attention, vous devez rester sur cette page pour répondre !"
       },
       "live-alerts": {
         "companion": {

@@ -1293,11 +1293,7 @@
         "placeholder": "Image loading"
       },
       "is-focused-challenge": {
-        "info-alert": {
-          "adjusted-course-title": "Answer this question without using the Internet or any applications.",
-          "subtitle": "If you switch pages or tabs during a certification test, you answer will not be validated.",
-          "title": "Answer this question without searching the internet or using any piece of software."
-        }
+        "info-alert": "Please note: you must stay on this page to answer!"
       },
       "live-alerts": {
         "companion": {
