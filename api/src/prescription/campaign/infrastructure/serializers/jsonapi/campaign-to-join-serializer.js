@@ -35,7 +35,6 @@ const serialize = function (campaignsToJoin) {
       'isMobileCompliant',
       'isTabletCompliant',
       'recommendationEngine',
-      'isPartOfCombinedCourse',
     ],
   }).serialize(campaignsToJoin);
 };

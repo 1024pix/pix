@@ -91,13 +91,13 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
       });
       test('it should not display trainings tab', async function (assert) {
         state.model.showTrainings = false;
-        state.model.campaign.isPartOfCombinedCourse = true;
+        state.model.campaign.customResultPageButtonUrl = 'https://app.pix.fr/parcours/COMBINIX1';
         screen = await render(<template><EvaluationResults @model={{state.model}} /></template>);
         assert.notOk(screen.queryByRole('tab', { name: t('pages.skill-review.tabs.trainings.tab-label') }));
       });
       test('it should not display trainings information and button in the hero', async function (assert) {
         state.model.showTrainings = false;
-        state.model.campaign.isPartOfCombinedCourse = true;
+        state.model.campaign.customResultPageButtonUrl = 'https://app.pix.fr/parcours/COMBINIX1';
         screen = await render(<template><EvaluationResults @model={{state.model}} /></template>);
         assert.notOk(screen.queryByText(t('pages.skill-review.hero.explanations.trainings')));
         assert.notOk(screen.queryByRole('button', { name: t('pages.skill-review.hero.see-trainings') }));
