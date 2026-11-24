@@ -88,7 +88,7 @@
     "ember-metrics": "3.0.0",
     "ember-modifier": "4.3.0",
     "ember-page-title": "9.1.0",
-    "ember-qunit": "9.2.0",
+    "ember-qunit": "9.2.1",
     "ember-resolver": "13.2.0",
     "ember-simple-auth": "8.4.1",
     "ember-source": "7.4.1",
