@@ -1,5 +1,50 @@
 # Pix Changelog
 
+# [5.549.0](https://github.com/1024pix/pix/compare/v5.548.1...v5.549.0) (2026-11-24)
+
+### :rocket: Amélioration
+
+- [#18991](https://github.com/1024pix/pix/pull/18991) Créer une Api interne pour gérer la consommation de crédits des learners (PIX-24829)
+- [#18836](https://github.com/1024pix/pix/pull/18836) Stocker les informations nécessaires au scoring (PIX-25081)
+
+### :bug: Correction
+
+- [#18960](https://github.com/1024pix/pix/pull/18960) Afficher le sélecteur de langue sur la page de présentation d'une campagne quand on est connecté·e (PIX-25116)
+- [#19055](https://github.com/1024pix/pix/pull/19055) Afficher les paramètres en JSON dans le simulateur Smart Random.
+- [#19058](https://github.com/1024pix/pix/pull/19058) Ajouter la locale fr-BE dans la selection des challenges (PIX-25219).
+- [#19073](https://github.com/1024pix/pix/pull/19073) Éviter le plantage du téléchargement d'attestations quand un utilisateur est anonymisé (PIX-25160).
+- [#19053](https://github.com/1024pix/pix/pull/19053) Réparer les seeds des versions de certif
+
+### :building_construction: Tech
+
+- [#19048](https://github.com/1024pix/pix/pull/19048) Ajout de la dépendance `npm-run-all2` sur Pix Certif.
+- [#19045](https://github.com/1024pix/pix/pull/19045) Enregistrer explicitement les jobs de l'API au lieu de les découvrir par glob (PIX-25208).
+- [#19026](https://github.com/1024pix/pix/pull/19026) Exporte en continu le profil des allocations vers OpenObserve
+- [#19077](https://github.com/1024pix/pix/pull/19077) Met à jour browserslist sur toutes les applications front (sauf admin).
+- [#19076](https://github.com/1024pix/pix/pull/19076) Met à jour browserslist sur toutes les applications front.
+- [#19052](https://github.com/1024pix/pix/pull/19052) Migration vers ember-intl v9 sur Pix Certif
+- [#19050](https://github.com/1024pix/pix/pull/19050) Migration vers ember-intl v9 sur Pix Junior
+- [#19051](https://github.com/1024pix/pix/pull/19051) Migration vers ember-intl v9 sur Pix Orga
+- [#19019](https://github.com/1024pix/pix/pull/19019) Retirer les usages de la colonne `hasSeen<Other|Focused>ChallengeTooltip` (PIX-25187).
+- [#18884](https://github.com/1024pix/pix/pull/18884) Supprimer le builder buildQuestForCombinedCourse 
+
+### :arrow_up: Montée de version
+
+- [#19068](https://github.com/1024pix/pix/pull/19068) Update aws-sdk-js-v3 monorepo to v3.1170.0 (api)
+- [#19079](https://github.com/1024pix/pix/pull/19079) Update dependency @ember/test-waiters to v4.1.2 (certif)
+- [#19063](https://github.com/1024pix/pix/pull/19063) Update dependency @glint/ember-tsc to v1.14.4 (orga)
+- [#19064](https://github.com/1024pix/pix/pull/19064) Update dependency @glint/tsserver-plugin to v2.7.17 (orga)
+- [#19066](https://github.com/1024pix/pix/pull/19066) Update dependency baseline-browser-mapping to v2.11.38 (high-level-tests/e2e-playwright)
+- [#19069](https://github.com/1024pix/pix/pull/19069) Update dependency dependency-cruiser to v18.8.0 (api)
+- [#19071](https://github.com/1024pix/pix/pull/19071) Update dependency ember-element-helper to v1 (mon-pix)
+- [#19067](https://github.com/1024pix/pix/pull/19067) Update dependency ember-inflector to v7.0.1 (orga)
+- [#19072](https://github.com/1024pix/pix/pull/19072) Update dependency ember-source to v7.4.1 (orga,mon-pix,junior,certif,admin)
+- [#19070](https://github.com/1024pix/pix/pull/19070) Update dependency eslint-plugin-ember to v13.11.0 (orga,mon-pix,junior,certif,admin)
+- [#19074](https://github.com/1024pix/pix/pull/19074) Update dependency hyparquet to v1.33.1 (api)
+- [#19049](https://github.com/1024pix/pix/pull/19049) Update dependency oxfmt to v0.79.0 (api)
+- [#19054](https://github.com/1024pix/pix/pull/19054) Update dependency pprof-format to v2.4.0 (api)
+- [#19065](https://github.com/1024pix/pix/pull/19065) Update dependency typescript-eslint to v8.73.0 (orga,high-level-tests/e2e-playwright,audit-logger,api)
+
 ## [5.548.1](https://github.com/1024pix/pix/compare/v5.548.0...v5.548.1) (2026-11-24)
 
 ### :bug: Correction
