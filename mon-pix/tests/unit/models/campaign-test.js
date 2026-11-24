@@ -163,7 +163,6 @@ module('Unit | Model | campaign', function (hooks) {
         // given
         const campaign = store.createRecord('campaign', {
           customResultPageButtonUrl: url,
-          isPartOfCombinedCourse: true,
         });
 
         // when
@@ -177,7 +176,6 @@ module('Unit | Model | campaign', function (hooks) {
     test('returns null when campaign is not part of a combined course', function (assert) {
       // given
       const campaign = store.createRecord('campaign', {
-        isPartOfCombinedCourse: false,
         customResultPageButtonUrl: 'https://example.net',
       });
 
@@ -191,7 +189,6 @@ module('Unit | Model | campaign', function (hooks) {
     test('returns null when there is no custom result page button url', function (assert) {
       // given
       const campaign = store.createRecord('campaign', {
-        isPartOfCombinedCourse: true,
         customResultPageButtonUrl: null,
       });
 
@@ -205,7 +202,6 @@ module('Unit | Model | campaign', function (hooks) {
     test('returns null when the url does not contain a combined course code', function (assert) {
       // given
       const campaign = store.createRecord('campaign', {
-        isPartOfCombinedCourse: true,
         customResultPageButtonUrl: '/parcours/',
       });
 
