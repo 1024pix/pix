@@ -51,6 +51,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
       });
     });
   });
+
   describe('update', function () {
     context('when the certification to update exists', function () {
       it('should update the certification version', async function () {
@@ -101,6 +102,7 @@ describe('Certification | Configuration | Integration | Repository | Version', f
       });
     });
   });
+
   describe('#findAllByScope', function () {
     it('returns all the versions of a given scope', async function () {
       // given
@@ -291,6 +293,54 @@ describe('Certification | Configuration | Integration | Repository | Version', f
 
         // then
         expect(nullVersion).to.be.null;
+      });
+    });
+  });
+
+  describe('#getByCampaignId', function () {
+    it('should return the version with the given campaign id', async function () {
+      // given
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+
+      const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId });
+
+      const version = domainBuilder.certification.configuration.versionBuilder().insertToDB({ databaseBuilder });
+
+      databaseBuilder.factory.buildTargetProfileVersion({ versionId: version.id, targetProfileId });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await versionRepository.getByCampaignId({ id: campaign.id });
+
+      // then
+      expect(result).to.be.instanceOf(Version);
+    });
+
+    context('when campaign is not found', function () {
+      it('should return null', async function () {
+        // given
+        const campaignId = 99999;
+
+        // when
+        const result = await versionRepository.getByCampaignId({ id: campaignId });
+
+        // then
+        expect(result).to.be.null;
+      });
+    });
+
+    context('when there is no version related to the given target profile id', function () {
+      it('should return null', async function () {
+        // given
+        const targetProfileId = 99999;
+        databaseBuilder.factory.buildCampaign({ targetProfileId });
+
+        // when
+        const result = await versionRepository.getByCampaignId({ id: targetProfileId });
+
+        // then
+        expect(result).to.be.null;
       });
     });
   });

@@ -107,6 +107,7 @@ export * from './build-target-profile.js';
 export * from './build-target-profile-share.js';
 export * from './build-target-profile-training.js';
 export * from './build-target-profile-tube.js';
+export * from './build-target-profile-version.js';
 export * from './build-training.js';
 export * from './build-training-trigger.js';
 export * from './build-training-trigger-tube.js';

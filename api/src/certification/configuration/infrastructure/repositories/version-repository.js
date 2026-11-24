@@ -32,6 +32,30 @@ export async function getById({ id }) {
 }
 
 /**
+ * @param {number} id
+ * @returns {Promise<Version|null>}
+ */
+export async function getByCampaignId(id) {
+  const knexConn = DomainTransaction.getConnection();
+  const campaignDTO = await knexConn('campaigns').select('targetProfileId').where({ id }).first();
+
+  if (!campaignDTO) {
+    return null;
+  }
+
+  const targetProfileVersion = await knexConn('target_profile_version')
+    .select('version_id')
+    .where({ target_profile_id: campaignDTO.targetProfileId })
+    .first();
+
+  if (!targetProfileVersion) {
+    return null;
+  }
+
+  return getById({ id: targetProfileVersion.version_id });
+}
+
+/**
  * @param {object} params
  * @param {SCOPES} params.scope
  * @returns {Promise<Version[]>}
