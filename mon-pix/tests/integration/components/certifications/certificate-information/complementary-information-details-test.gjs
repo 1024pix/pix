@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
-import { t } from 'ember-intl/test-support';
 import ComplementaryInformationDetails from 'mon-pix/components/certifications/certificate-information/complementary-information-details';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';

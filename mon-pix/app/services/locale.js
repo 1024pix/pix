@@ -4,9 +4,12 @@
 
 import { getOwner } from '@ember/application';
 import Service, { service } from '@ember/service';
+import { waitForPromise } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import ENV from 'mon-pix/config/environment';
+
+import { TRANSLATION_LOADERS } from '../../translations/index.js';
 
 const { DEFAULT_LOCALE, SUPPORTED_LOCALES, COOKIE_LOCALE_LIFESPAN_IN_SECONDS } = ENV.APP;
 
@@ -33,6 +36,10 @@ export default class LocaleService extends Service {
   @service intl;
 
   @tracked __currentLocale = DEFAULT_LOCALE;
+
+  #loadedLocales = new Set();
+  #latestLocaleRequest = 0;
+  #hasAppliedLocale = false;
 
   get currentLocale() {
     return this.__currentLocale;
@@ -87,14 +94,28 @@ export default class LocaleService extends Service {
       .sort((a, b) => a.label.localeCompare(b.label));
   }
 
-  setCurrentLocale(locale) {
+  async setCurrentLocale(locale) {
+    const request = ++this.#latestLocaleRequest;
     const nearestLocale = this.#getNearestSupportedLocale(locale);
+    const locales = this.#getLocaleChain(nearestLocale);
+
+    try {
+      // waitForPromise needed in tests when local changes. no impact on production code.
+      await waitForPromise(this.#loadTranslations(locales));
+    } catch {
+      if (request === this.#latestLocaleRequest && !this.#hasAppliedLocale) {
+        this.intl.setLocale(this.#getLocaleChain(this.currentLocale));
+        this.#hasAppliedLocale = true;
+      }
+      return;
+    }
+
+    if (request !== this.#latestLocaleRequest) return;
+
     this.#setCookieLocale(nearestLocale);
     this.__currentLocale = nearestLocale;
-
-    const language = this.#getLanguageFromLocale(nearestLocale);
-
-    this.intl.setLocale([nearestLocale, language, DEFAULT_LANGUAGE]);
+    this.intl.setLocale(locales);
+    this.#hasAppliedLocale = true;
 
     // metricsService may not be available for the different front apps
     const metricsService = getOwner(this).lookup('service:metrics');
@@ -103,9 +124,22 @@ export default class LocaleService extends Service {
     }
   }
 
-  setBestLocale({ queryParams }) {
+  async setBestLocale({ queryParams }) {
     const locale = this.#detectBestLocale({ queryParams });
-    this.setCurrentLocale(locale);
+    await this.setCurrentLocale(locale);
+  }
+
+  async #loadTranslations(locales) {
+    const localesToLoad = [...new Set(locales)].filter(
+      (locale) => TRANSLATION_LOADERS[locale] && !this.#loadedLocales.has(locale),
+    );
+    await Promise.all(
+      localesToLoad.map(async (locale) => {
+        const { default: translations } = await TRANSLATION_LOADERS[locale]();
+        this.intl.addTranslations(locale, translations);
+        this.#loadedLocales.add(locale);
+      }),
+    );
   }
 
   #detectBestLocale({ queryParams }) {
@@ -160,6 +194,10 @@ export default class LocaleService extends Service {
     } catch {
       return DEFAULT_LOCALE;
     }
+  }
+
+  #getLocaleChain(locale) {
+    return [locale, this.#getLanguageFromLocale(locale), DEFAULT_LANGUAGE];
   }
 
   #getNearestSupportedLanguage(language) {

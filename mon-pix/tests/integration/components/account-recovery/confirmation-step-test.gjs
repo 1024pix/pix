@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { click } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import ConfirmationStep from 'mon-pix/components/account-recovery/confirmation-step';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

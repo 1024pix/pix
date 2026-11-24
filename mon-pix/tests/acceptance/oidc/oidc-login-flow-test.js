@@ -1,13 +1,12 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn, settled } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'mon-pix/tests/test-support/setup-mirage';
 import Location from 'mon-pix/utils/location';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntl from '../../helpers/setup-intl';
+import setupIntl, { t } from '../../helpers/setup-intl';
 
 module('Acceptance | OIDC | login flow', function (hooks) {
   setupApplicationTest(hooks);

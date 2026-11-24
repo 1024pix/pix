@@ -2,7 +2,6 @@ import { PixButton, PixButtonLink, PixCheckbox, PixInput, PixInputPassword } fro
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
@@ -143,7 +142,7 @@ export default class UpdateScoRecordFormComponent extends Component {
         return part.value;
       }
     });
-    return htmlSafe(htmlParts.join(''));
+    return htmlParts.join('');
   }
 
   @action

@@ -1,7 +1,6 @@
 /* eslint ember/no-classic-classes: 0 */
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn, settled, waitUntil } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { setupMirage } from 'mon-pix/tests/test-support/setup-mirage';
@@ -11,7 +10,7 @@ import sinon from 'sinon';
 
 import { authenticateByEmail } from '../../helpers/authentication';
 import { clickByLabel } from '../../helpers/click-by-label';
-import setupIntl from '../../helpers/setup-intl';
+import setupIntl, { t } from '../../helpers/setup-intl';
 
 module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hooks) {
   setupApplicationTest(hooks);

@@ -1,9 +1,9 @@
 import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, find } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import ChallengeEmbedSimulator from 'mon-pix/components/challenge-embed-simulator';
 import ENV from 'mon-pix/config/environment';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

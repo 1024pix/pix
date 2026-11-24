@@ -1,8 +1,8 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { clearRender } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import CompanionBlocker from 'mon-pix/components/companion/blocker';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import Location from 'mon-pix/utils/location';
 import { module, test } from 'qunit';
 import sinon from 'sinon';

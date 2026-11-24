@@ -1,9 +1,9 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, triggerEvent } from '@ember/test-helpers';
 import { tracked } from '@glimmer/tracking';
-import { t } from 'ember-intl/test-support';
 import CombinedCourseItem from 'mon-pix/components/combined-course/combined-course-item';
 import { CombinedCourseItemTypes } from 'mon-pix/models/combined-course-item';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

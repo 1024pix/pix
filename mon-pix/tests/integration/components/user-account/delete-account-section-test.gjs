@@ -1,7 +1,7 @@
 import { clickByName, render, within } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import DeleteAccountSection from 'mon-pix/components/user-account/delete-account-section';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

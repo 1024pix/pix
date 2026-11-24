@@ -1,8 +1,8 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import ModulixFlashcards from 'mon-pix/components/module/element/flashcards/flashcards';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

@@ -1,7 +1,7 @@
 import { visit } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { setupIntl } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 import setupMirage from 'mon-pix/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -25,6 +25,7 @@ module('Acceptance | Application', function (hooks) {
         context = {};
       }
 
+      this.owner.unregister('service:metrics');
       this.owner.register('service:metrics', MetricServiceStub);
     });
 

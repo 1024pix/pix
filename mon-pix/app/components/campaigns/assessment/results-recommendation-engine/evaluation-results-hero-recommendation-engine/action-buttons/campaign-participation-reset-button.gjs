@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import { escapeHtml } from 'mon-pix/utils/escape-html';
 
 export default class CampaignParticipationResetButton extends Component {
   @tracked isResetModalVisible = false;
@@ -25,7 +26,11 @@ export default class CampaignParticipationResetButton extends Component {
     >
       <:content>
         <p class="evaluation-results-hero-recommendation-engine-reset-modal__text">
-          {{t "pages.skill-review.reset.modal.text" targetProfileName=@campaign.targetProfileName htmlSafe=true}}
+          {{t
+            "pages.skill-review.reset.modal.text"
+            targetProfileName=(escapeHtml @campaign.targetProfileName)
+            htmlSafe=true
+          }}
         </p>
         <PixNotificationAlert @type="warning">{{t "pages.skill-review.reset.modal.warning-text"}}</PixNotificationAlert>
       </:content>

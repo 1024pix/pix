@@ -3,8 +3,8 @@ import { A } from '@ember/array';
 import EmberObject from '@ember/object';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import LearningMorePanel from 'mon-pix/components/learning-more-panel';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';

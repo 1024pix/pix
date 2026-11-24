@@ -1,8 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
-import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import scorecardAriaLabel from 'mon-pix/helpers/scorecard-aria-label';
+import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 module('Integration | Helper | scorecard-aria-label', function (hooks) {

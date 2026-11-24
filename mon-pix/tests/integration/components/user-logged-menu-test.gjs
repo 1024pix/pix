@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, settled, triggerEvent, triggerKeyEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import UserLoggedMenu from 'mon-pix/components/user-logged-menu';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import { stubCurrentUserService } from '../../helpers/service-stubs';

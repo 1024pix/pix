@@ -4,6 +4,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
+import { escapeHtml } from 'mon-pix/utils/escape-html';
 
 export default class EvaluationResultsHeroRetryOrResetBlock extends Component {
   @service pixMetrics;
@@ -113,7 +114,7 @@ export default class EvaluationResultsHeroRetryOrResetBlock extends Component {
                 <p class="reset-campaign-participation-modal__text">
                   {{t
                     "pages.skill-review.reset.modal.text"
-                    targetProfileName=@campaign.targetProfileName
+                    targetProfileName=(escapeHtml @campaign.targetProfileName)
                     htmlSafe=true
                   }}
                 </p>

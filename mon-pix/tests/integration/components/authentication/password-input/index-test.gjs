@@ -1,7 +1,7 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import { on } from '@ember/modifier';
-import { t } from 'ember-intl/test-support';
 import NewPasswordInput from 'mon-pix/components/authentication/new-password-input';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

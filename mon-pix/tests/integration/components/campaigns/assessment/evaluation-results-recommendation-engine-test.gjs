@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, settled } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import EvaluationResultsRecommendationEngine from 'mon-pix/components/routes/campaigns/assessment/evaluation-results-recommendation-engine';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

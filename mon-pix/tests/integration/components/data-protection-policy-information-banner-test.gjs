@@ -1,12 +1,11 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import DataProtectionPolicyInformationBanner from 'mon-pix/components/data-protection-policy-information-banner';
 import Location from 'mon-pix/utils/location';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import { stubCurrentUserService, stubSessionService } from '../../helpers/service-stubs';
-import { setCurrentLocale } from '../../helpers/setup-intl';
+import { setCurrentLocale, t } from '../../helpers/setup-intl';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | data-protection-policy-information-banner', function (hooks) {

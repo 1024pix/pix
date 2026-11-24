@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import Duration from 'mon-pix/components/combined-course/duration';
 import { CombinedCourseDurationTypes } from 'mon-pix/models/combined-course';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering.js';

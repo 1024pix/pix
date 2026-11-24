@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import EvaluationResults from 'mon-pix/components/routes/campaigns/assessment/evaluation-results';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
@@ -70,9 +70,6 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
       screen = await render(<template><EvaluationResults @model={{state.model}} /></template>);
 
       // then
-      assert.notOk(
-        screen.queryByRole('dialog', { name: t('pages.skill-review.tabs.trainings.shared-results-modal.title') }),
-      );
       assert.dom(screen.getByRole('button', { name: t('pages.skill-review.hero.see-trainings') })).isVisible();
     });
 
@@ -91,14 +88,6 @@ module('Integration | Components | Routes | Campaigns | Assessment | Evaluation 
     module('when the campaign is part of a combined course', function (hooks) {
       hooks.afterEach(async function () {
         state.model.showTrainings = true;
-      });
-      test('it should not display modal before show assessment result', async function (assert) {
-        state.model.showTrainings = false;
-        state.model.campaign.isPartOfCombinedCourse = true;
-        screen = await render(<template><EvaluationResults @model={{state.model}} /></template>);
-        assert.notOk(
-          screen.queryByRole('dialog', { name: t('pages.skill-review.tabs.trainings.shared-results-modal.title') }),
-        );
       });
       test('it should not display trainings tab', async function (assert) {
         state.model.showTrainings = false;

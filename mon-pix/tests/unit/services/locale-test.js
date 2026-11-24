@@ -8,6 +8,7 @@ import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
+import { TRANSLATION_LOADERS } from '../../../translations/index.js';
 import { setCurrentLocale } from '../../helpers/setup-intl.js';
 
 const { DEFAULT_LOCALE } = ENV.APP;
@@ -45,9 +46,9 @@ module('Unit | Services | locale', function (hooks) {
     });
 
     module('when current locale is set', function () {
-      test('returns the current locale', function (assert) {
+      test('returns the current locale', async function (assert) {
         // given
-        localeService.setCurrentLocale('fr-BE');
+        await localeService.setCurrentLocale('fr-BE');
 
         // when
         const currentLocale = localeService.currentLocale;
@@ -109,7 +110,7 @@ module('Unit | Services | locale', function (hooks) {
   });
 
   module('setCurrentLocale', function () {
-    test('set app locale in the cookies', function (assert) {
+    test('set app locale in the cookies', async function (assert) {
       // given
       const intlService = this.owner.lookup('service:intl');
       sinon.stub(intlService, 'setLocale');
@@ -118,7 +119,7 @@ module('Unit | Services | locale', function (hooks) {
       const locale = 'nl-BE';
 
       // when
-      localeService.setCurrentLocale(locale);
+      await localeService.setCurrentLocale(locale);
 
       // then
       const currentLocale = localeService.currentLocale;
@@ -126,6 +127,84 @@ module('Unit | Services | locale', function (hooks) {
       sinon.assert.calledWith(cookiesService.write, 'locale', 'nl-BE');
       sinon.assert.calledWith(intlService.setLocale, ['nl-BE', 'nl', 'fr']);
       assert.strictEqual(metricsService.context.locale, 'nl-BE');
+    });
+
+    test('loads the translations of the locale fallback chain', async function (assert) {
+      // given
+      const intlService = this.owner.lookup('service:intl');
+      const cookiesService = this.owner.lookup('service:cookies');
+      sinon.stub(cookiesService, 'write');
+
+      // when
+      await localeService.setCurrentLocale('nl-BE');
+
+      // then
+      assert.strictEqual(intlService.t('common.actions.cancel'), 'Annuleren');
+      assert.true(intlService.exists('common.actions.cancel', 'fr'));
+      assert.false(intlService.exists('common.actions.cancel', 'en'));
+    });
+
+    test('applies the most recent locale when calls overlap', async function (assert) {
+      // given
+      const intlService = this.owner.lookup('service:intl');
+      sinon.stub(intlService, 'setLocale');
+      const cookiesService = this.owner.lookup('service:cookies');
+      sinon.stub(cookiesService, 'write');
+      let resolveNlTranslations;
+      sinon.stub(TRANSLATION_LOADERS, 'nl').returns(
+        new Promise((resolve) => {
+          resolveNlTranslations = resolve;
+        }),
+      );
+
+      // when
+      const nlCall = localeService.setCurrentLocale('nl');
+      await localeService.setCurrentLocale('en');
+      resolveNlTranslations({ default: {} });
+      await nlCall;
+
+      // then
+      assert.strictEqual(localeService.currentLocale, 'en');
+      sinon.assert.calledOnceWithExactly(intlService.setLocale, ['en', 'en', 'fr']);
+      sinon.assert.calledOnceWithExactly(cookiesService.write, 'locale', 'en', sinon.match.object);
+      assert.strictEqual(metricsService.context.locale, 'en');
+    });
+
+    module('when translations fail to load', function () {
+      test('keeps the current locale', async function (assert) {
+        // given
+        const intlService = this.owner.lookup('service:intl');
+        sinon.stub(intlService, 'setLocale');
+        const cookiesService = this.owner.lookup('service:cookies');
+        sinon.stub(cookiesService, 'write');
+        await localeService.setCurrentLocale('en');
+        sinon.stub(TRANSLATION_LOADERS, 'nl').rejects(new Error('Failed to fetch dynamically imported module'));
+
+        // when
+        await localeService.setCurrentLocale('nl');
+
+        // then
+        assert.strictEqual(localeService.currentLocale, 'en');
+        sinon.assert.calledOnceWithExactly(intlService.setLocale, ['en', 'en', 'fr']);
+        sinon.assert.calledOnceWithExactly(cookiesService.write, 'locale', 'en', sinon.match.object);
+      });
+
+      test('applies the default locale when no locale was applied yet', async function (assert) {
+        // given
+        const intlService = this.owner.lookup('service:intl');
+        sinon.stub(intlService, 'setLocale');
+        const cookiesService = this.owner.lookup('service:cookies');
+        sinon.stub(cookiesService, 'write');
+        sinon.stub(TRANSLATION_LOADERS, 'nl').rejects(new Error('Failed to fetch dynamically imported module'));
+
+        // when
+        await localeService.setCurrentLocale('nl');
+
+        // then
+        assert.strictEqual(localeService.currentLocale, DEFAULT_LOCALE);
+        sinon.assert.calledOnceWithExactly(intlService.setLocale, [DEFAULT_LOCALE, 'fr', 'fr']);
+        sinon.assert.notCalled(cookiesService.write);
+      });
     });
   });
 
@@ -142,7 +221,7 @@ module('Unit | Services | locale', function (hooks) {
         sinon.stub(cookiesService, 'write');
 
         // when
-        localeService.setBestLocale({ queryParams: null });
+        await localeService.setBestLocale({ queryParams: null });
 
         // then
         const currentLocale = localeService.currentLocale;
@@ -162,7 +241,7 @@ module('Unit | Services | locale', function (hooks) {
         sinon.stub(cookiesService, 'write');
 
         // when
-        localeService.setBestLocale({ queryParams: null });
+        await localeService.setBestLocale({ queryParams: null });
 
         // then
         const currentLocale = localeService.currentLocale;
@@ -176,7 +255,7 @@ module('Unit | Services | locale', function (hooks) {
           cookiesService.write('locale', 'fr');
 
           // when
-          localeService.setBestLocale({ queryParams: { lang: 'fr-BE' } });
+          await localeService.setBestLocale({ queryParams: { lang: 'fr-BE' } });
 
           // then
           const currentLocale = localeService.currentLocale;
@@ -191,7 +270,7 @@ module('Unit | Services | locale', function (hooks) {
           cookiesService.write('locale', 'fr');
 
           // when
-          localeService.setBestLocale({ queryParams: { locale: 'fr-BE' } });
+          await localeService.setBestLocale({ queryParams: { locale: 'fr-BE' } });
 
           // then
           const currentLocale = localeService.currentLocale;
@@ -206,7 +285,7 @@ module('Unit | Services | locale', function (hooks) {
           cookiesService.write('locale', 'fr-BE');
 
           // when
-          localeService.setBestLocale({ queryParams: null });
+          await localeService.setBestLocale({ queryParams: null });
 
           // then
           const currentLocale = localeService.currentLocale;
@@ -221,7 +300,7 @@ module('Unit | Services | locale', function (hooks) {
           cookiesService.write('locale', 'en-CA');
 
           // when
-          localeService.setBestLocale({ queryParams: null });
+          await localeService.setBestLocale({ queryParams: null });
 
           // then
           const currentLocale = localeService.currentLocale;
@@ -236,7 +315,7 @@ module('Unit | Services | locale', function (hooks) {
           cookiesService.write('locale', 'fr-FR');
 
           // when
-          localeService.setBestLocale({ queryParams: null });
+          await localeService.setBestLocale({ queryParams: null });
 
           // then
           const currentLocale = localeService.currentLocale;

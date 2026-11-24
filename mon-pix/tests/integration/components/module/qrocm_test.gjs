@@ -2,9 +2,9 @@ import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 // eslint-disable-next-line no-restricted-imports
 import { click, fillIn, find } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import ModuleQrocm from 'mon-pix/components/module/element/qrocm';
 import ENV from 'mon-pix/config/environment';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

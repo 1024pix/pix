@@ -1,8 +1,8 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { click, tab } from '@ember/test-helpers';
 import userEvent from '@testing-library/user-event';
-import { t } from 'ember-intl/test-support';
 import CompetencesDetails from 'mon-pix/components/certifications/certificate-information/competences-details';
+import { t } from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

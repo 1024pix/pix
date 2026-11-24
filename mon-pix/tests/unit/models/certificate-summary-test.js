@@ -1,6 +1,6 @@
-import { setupIntl } from 'ember-intl/test-support';
 import { setupTest } from 'ember-qunit';
 import { CERTIFICATE_STATUSES } from 'mon-pix/models/certificate-summary';
+import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 module('Unit | Model | certificate-summary', function (hooks) {
