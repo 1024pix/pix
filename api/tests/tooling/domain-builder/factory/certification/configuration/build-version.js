@@ -343,6 +343,11 @@ class VersionBuilder {
       defaultProbabilityToPickChallenge: DEFAULT_PROBABILITY_TO_PICK_CHALLENGE,
       limitToOneQuestionPerTube: true,
       enablePassageByAllCompetences: true,
+      earlyStopConsecutiveFailures: null,
+      earlyStopMinimumLength: null,
+      earlyStopCapacityThreshold: null,
+      earlyStopConfidence: null,
+      questionNumberToPickFromSkillList: null,
       ...this.challengesConfiguration,
     });
 

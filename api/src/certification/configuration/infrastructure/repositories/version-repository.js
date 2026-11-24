@@ -180,14 +180,6 @@ function _toDomain({
     status,
     comments,
     tubeIds,
-    challengesConfiguration: new FlashAssessmentAlgorithmConfiguration({
-      maximumAssessmentLength: challengesConfiguration.maximumAssessmentLength,
-      challengesBetweenSameCompetence: challengesConfiguration.challengesBetweenSameCompetence,
-      limitToOneQuestionPerTube: challengesConfiguration.limitToOneQuestionPerTube,
-      enablePassageByAllCompetences: challengesConfiguration.enablePassageByAllCompetences,
-      variationPercent: challengesConfiguration.variationPercent,
-      defaultCandidateCapacity: challengesConfiguration.defaultCandidateCapacity,
-      defaultProbabilityToPickChallenge: challengesConfiguration.defaultProbabilityToPickChallenge,
-    }),
+    challengesConfiguration: new FlashAssessmentAlgorithmConfiguration(challengesConfiguration),
   });
 }
