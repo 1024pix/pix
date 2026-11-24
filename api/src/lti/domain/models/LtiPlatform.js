@@ -4,4 +4,8 @@ export class LtiPlatform {
     this.issuer = issuer;
     this.organizationIds = organizationIds;
   }
+
+  get issuerOrigin() {
+    return new URL(this.issuer).origin;
+  }
 }
