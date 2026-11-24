@@ -245,4 +245,32 @@ describe('Integration | LTI | Domain | Services | LTI', function () {
       });
     });
   });
+
+  describe('getFrameAncestorsDirective', function () {
+    it('returns a frame-ancestors CSP directive according to authorized platforms', async function () {
+      // given
+      databaseBuilder.factory.buildLtiPlatform({ issuer: 'https://moodle1.example.net' });
+      databaseBuilder.factory.buildLtiPlatform({ issuer: 'https://some.other.platform.tld/issuer/path' });
+      databaseBuilder.factory.buildLtiPlatform({ issuer: 'https://moodle2.example.net' });
+      await databaseBuilder.commit();
+
+      // when
+      const frameAncestorsDirective = await ltiService.getFrameAncestorsDirective();
+
+      // then
+      expect(frameAncestorsDirective).to.equal(
+        'frame-ancestors https://moodle1.example.net https://moodle2.example.net https://some.other.platform.tld;',
+      );
+    });
+
+    describe('when no platforms are authorized', function () {
+      it("returns a frame-ancestors CSP directive set to 'none'", async function () {
+        // when
+        const frameAncestorsDirective = await ltiService.getFrameAncestorsDirective();
+
+        // then
+        expect(frameAncestorsDirective).to.equal("frame-ancestors 'none';");
+      });
+    });
+  });
 });
