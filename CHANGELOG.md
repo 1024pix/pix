@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## [5.548.1](https://github.com/1024pix/pix/compare/v5.548.0...v5.548.1) (2026-11-24)
+
+### :bug: Correction
+
+- [#19062](https://github.com/1024pix/pix/pull/19062) Corriger les épreuves timer sur PixApp
+
 # [5.548.0](https://github.com/1024pix/pix/compare/v5.547.0...v5.548.0) (2026-11-23)
 
 ### :rocket: Amélioration
