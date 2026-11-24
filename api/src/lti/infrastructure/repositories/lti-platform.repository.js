@@ -60,6 +60,18 @@ export const ltiPlatformRepository = {
 
     return insertedCount;
   },
+
+  async removeOrganizations({ platformId, organizationIds }) {
+    const knexConn = DomainTransaction.getConnection();
+
+    const deletedCount = await knexConn
+      .delete()
+      .from('lti_platform_organizations')
+      .where('platformId', platformId)
+      .whereIn('organizationId', organizationIds);
+
+    return deletedCount;
+  },
 };
 
 function selectPlatform(knexConn = DomainTransaction.getConnection()) {

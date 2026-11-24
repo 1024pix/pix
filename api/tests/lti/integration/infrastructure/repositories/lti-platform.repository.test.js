@@ -160,4 +160,33 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform', funct
       );
     });
   });
+
+  describe('removeOrganizations', function () {
+    it('removes organizations from platform', async function () {
+      // given
+      const { id: organizationId1 } = databaseBuilder.factory.buildOrganization();
+      const { id: organizationId2 } = databaseBuilder.factory.buildOrganization();
+      const { id: organizationId3 } = databaseBuilder.factory.buildOrganization();
+      const { id: platformId } = databaseBuilder.factory.buildLtiPlatform({
+        organizationIds: [organizationId1, organizationId2, organizationId3],
+      });
+      await databaseBuilder.commit();
+      const unknownOrganizationId = 666;
+
+      // when
+      const deletedCount = await ltiPlatformRepository.removeOrganizations({
+        platformId,
+        organizationIds: [organizationId1, organizationId3, unknownOrganizationId],
+      });
+
+      // then
+      expect(deletedCount).to.equal(2);
+      const organizationIds = await knex
+        .pluck('organizationId')
+        .from('lti_platform_organizations')
+        .where({ platformId })
+        .orderBy('organizationId');
+      expect(organizationIds).to.deep.equal([organizationId2]);
+    });
+  });
 });
