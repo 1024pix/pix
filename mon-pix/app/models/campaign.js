@@ -34,8 +34,6 @@ export default class Campaign extends Model {
   // eslint-disable-next-line ember/no-empty-attrs
   @attr() reconciliationFields;
 
-  @attr('boolean') isPartOfCombinedCourse;
-
   get isAssessment() {
     return this.type === 'ASSESSMENT';
   }
@@ -58,5 +56,12 @@ export default class Campaign extends Model {
 
   get hasCustomResultPageButton() {
     return Boolean(this.customResultPageButtonUrl) && Boolean(this.customResultPageButtonText);
+  }
+
+  get isPartOfCombinedCourse() {
+    if (!this.customResultPageButtonUrl) {
+      return false;
+    }
+    return this.customResultPageButtonUrl.includes('/parcours/');
   }
 }
