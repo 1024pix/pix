@@ -172,6 +172,7 @@ export const schema = Joi.object({
   LOG_LEVEL: Joi.string().optional().valid('silent', 'fatal', 'error', 'warn', 'info', 'debug', 'trace'),
   LOG_OPS_METRICS: Joi.string().optional().valid('true', 'false'),
   LTI_DEEP_LINKING_ACCESS_TOKEN_LIFESPAN: Joi.string().optional(),
+  LTI_USER_TOKEN_LIFESPAN: Joi.string().optional(),
   MAILING_ENABLED: Joi.string().optional().valid('true', 'false'),
   MAILING_PROVIDER: Joi.string().optional().valid('brevo', 'mailpit'),
   NODE_ENV: Joi.string().optional().valid('development', 'test', 'production'),
@@ -517,6 +518,7 @@ export const config = {
   lti: {
     jwkModulusLength: _getNumber(process.env.LTI_JWK_MODULUS_LENGTH, 4096),
     deepLinkingAccessTokenLifespan: process.env.LTI_DEEP_LINKING_ACCESS_TOKEN_LIFESPAN ?? '10m',
+    ltiUserTokenLifespan: process.env.LTI_USER_TOKEN_LIFESPAN ?? '10m',
   },
   mailing: {
     enabled: toBoolean(process.env.MAILING_ENABLED),
