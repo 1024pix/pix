@@ -1,13 +1,11 @@
-import { setImmediate } from 'node:timers/promises';
-
 import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { config } from '../../../../../config/config.js';
 import { RevokedUserAccess } from '../../../../../src/identity-access-management/domain/models/RevokedUserAccess.js';
 import { revokedUserAccessRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/revoked-user-access.repository.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { temporaryStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
+import { useFeatureToggle } from '../../../../tooling/test-utils/use-feature-toggle.js';
 
 const revokedUserAccessTemporaryStorage = temporaryStorage.withPrefix('revoked-user-access:');
 
@@ -114,8 +112,7 @@ describe('Integration | Identity Access Management | Infrastructure | Repository
 
     describe('when isSessionLogoutEnabled FT is true', function () {
       beforeEach(async function () {
-        await featureToggles.set('isSessionLogoutEnabled', true);
-        await setImmediate();
+        await useFeatureToggle('isSessionLogoutEnabled', true);
       });
 
       it('finds revoked user access by user id', async function () {
