@@ -1,5 +1,11 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { AuditLoggingJob } from '../../../../shared/domain/models/jobs/AuditLoggingJob.js';
+import {
+  AuditLoggingJob,
+  CampaignParticipationLoggerContext,
+} from '../../../../shared/domain/models/jobs/AuditLoggingJob.js';
+import chunk from '../../../../shared/infrastructure/utils/chunk.js';
+
+const CHUNK_SIZE = 1000;
 
 const deleteCampaignParticipation = async function ({
   userId,
@@ -13,6 +19,7 @@ const deleteCampaignParticipation = async function ({
   assessmentRepository,
   userRecommendedTrainingRepository,
   keepPreviousDeleted = false,
+  chunkSize = CHUNK_SIZE,
 }) {
   const campaignParticipations =
     await campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner({
@@ -21,24 +28,23 @@ const deleteCampaignParticipation = async function ({
       keepPreviousDeleted,
     });
 
-  const auditLoggingJobs = [];
+  const auditLoggingJobs = chunk(campaignParticipations, chunkSize).map((campaignParticipationsChunk) =>
+    AuditLoggingJob.forUsers({
+      client,
+      action: CampaignParticipationLoggerContext.DELETION,
+      role: userRole,
+      userIds: campaignParticipationsChunk.map(({ id }) => id),
+      updatedByUserId: userId,
+      data: {},
+    }),
+  );
+
   const campaignParticipationToDelete = [];
 
   await DomainTransaction.execute(async () => {
     for (const campaignParticipation of campaignParticipations) {
       campaignParticipation.delete(userId);
       campaignParticipationToDelete.push(campaignParticipation.dataToUpdateOnDeletion);
-
-      auditLoggingJobs.push(
-        AuditLoggingJob.forUser({
-          client,
-          action: campaignParticipation.loggerContext,
-          role: userRole,
-          userId: campaignParticipation.id,
-          updatedByUserId: userId,
-          data: {},
-        }),
-      );
     }
 
     await campaignParticipationRepository.updateInBatchByIds(campaignParticipationToDelete);
