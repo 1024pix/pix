@@ -1,6 +1,6 @@
 import { auditLogPostgresRepository } from '../../infrastructure/repositories/audit-log-postgres.repository.js';
-import { CreateAuditLogUseCase } from './create-audit-log.usecase.js';
+import { CreateAuditLogsUseCase } from './create-audit-logs.usecase.js';
 
-const createAuditLogUseCase = new CreateAuditLogUseCase(auditLogPostgresRepository);
+const createAuditLogsUseCase = new CreateAuditLogsUseCase(auditLogPostgresRepository);
 
-export { createAuditLogUseCase };
+export { createAuditLogsUseCase };

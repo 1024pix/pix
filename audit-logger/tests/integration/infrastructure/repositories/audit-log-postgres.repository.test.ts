@@ -6,7 +6,7 @@ import { auditLogPostgresRepository } from '../../../../src/lib/infrastructure/r
 
 describe('Integration | Infrastructure | Repositories | AuditLogPostgresRepository', () => {
   beforeEach(function () {
-    vi.useFakeTimers({ now: new Date('2023-08-29') });
+    vi.useFakeTimers({ now: new Date('2023-08-29'), toFake: ['Date'] });
   });
 
   afterEach(async () => {
@@ -14,57 +14,79 @@ describe('Integration | Infrastructure | Repositories | AuditLogPostgresReposito
     await knex('audit-log').truncate();
   });
 
-  describe('create', () => {
-    test('creates new audit log', async () => {
+  describe('createMany', () => {
+    test('creates new audit logs', async () => {
       // given
-      const auditLog = new AuditLog({
-        occurredAt: new Date(),
-        action: 'ANONYMIZATION',
-        userId: '1',
-        targetUserId: '2',
-        client: 'PIX_ADMIN',
-        role: 'SUPER_ADMIN',
-      });
+      const auditLogs = [
+        new AuditLog({
+          occurredAt: new Date(),
+          action: 'ANONYMIZATION',
+          userId: '1',
+          targetUserId: '2',
+          client: 'PIX_ADMIN',
+          role: 'SUPER_ADMIN',
+        }),
+        new AuditLog({
+          occurredAt: new Date(),
+          action: 'ANONYMIZATION',
+          userId: '1',
+          targetUserId: '3',
+          client: 'PIX_ADMIN',
+          role: 'SUPER_ADMIN',
+        }),
+      ];
 
       // when
-      await auditLogPostgresRepository.create(auditLog);
+      await auditLogPostgresRepository.createMany(auditLogs);
 
       // then
-      const result = await knex('audit-log').first();
-      const expectedResult = new AuditLog({
-        id: '1',
-        occurredAt: new Date(),
-        action: 'ANONYMIZATION',
-        userId: '1',
-        targetUserId: '2',
-        client: 'PIX_ADMIN',
-        role: 'SUPER_ADMIN',
-        data: null,
-        createdAt: result.createdAt,
-      });
-      expect(result).toEqual(expectedResult);
+      const results = await knex('audit-log').orderBy('targetUserId');
+      expect(results).toEqual([
+        new AuditLog({
+          id: '1',
+          occurredAt: new Date(),
+          action: 'ANONYMIZATION',
+          userId: '1',
+          targetUserId: '2',
+          client: 'PIX_ADMIN',
+          role: 'SUPER_ADMIN',
+          data: null,
+          createdAt: results[0].createdAt,
+        }),
+        new AuditLog({
+          id: '2',
+          occurredAt: new Date(),
+          action: 'ANONYMIZATION',
+          userId: '1',
+          targetUserId: '3',
+          client: 'PIX_ADMIN',
+          role: 'SUPER_ADMIN',
+          data: null,
+          createdAt: results[1].createdAt,
+        }),
+      ]);
     });
-  });
 
-  describe('when data is specified', () => {
-    test('creates new audit log', async () => {
-      // given
-      const auditLog = new AuditLog({
-        occurredAt: new Date(),
-        action: 'ANONYMIZATION',
-        userId: '1',
-        targetUserId: '2',
-        client: 'PIX_ADMIN',
-        role: 'SUPER_ADMIN',
-        data: { hello: 'world' },
+    describe('when data is specified', () => {
+      test('creates new audit logs with data', async () => {
+        // given
+        const auditLog = new AuditLog({
+          occurredAt: new Date(),
+          action: 'ANONYMIZATION',
+          userId: '1',
+          targetUserId: '2',
+          client: 'PIX_ADMIN',
+          role: 'SUPER_ADMIN',
+          data: { hello: 'world' },
+        });
+
+        // when
+        await auditLogPostgresRepository.createMany([auditLog]);
+
+        // then
+        const result = await knex('audit-log').first();
+        expect(result.data).toEqual({ hello: 'world' });
       });
-
-      // when
-      await auditLogPostgresRepository.create(auditLog);
-
-      // then
-      const result = await knex('audit-log').first();
-      expect(result.data).toEqual({ hello: 'world' });
     });
   });
 });
