@@ -1,4 +1,5 @@
 import { bacASableModule } from './fixtures/bac-a-sable-module.js';
+import { cookixModule } from './fixtures/cookix-module.js';
 
 const ORIGINAL_SANDBOX_MODULE_SHORT_ID = '6a68bf32';
 
@@ -37,6 +38,8 @@ export async function buildModules(databaseBuilder) {
       sections: JSON.stringify(sections),
       glossary: JSON.stringify(glossary),
     });
+
+  databaseBuilder.factory.learningContent.build({ modules: [cookixModule] });
 
   return shortId;
 }
