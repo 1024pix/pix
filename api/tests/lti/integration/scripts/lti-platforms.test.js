@@ -157,4 +157,31 @@ describe('Integration | LTI | Scripts | lti-platforms', function () {
       expect(organizationIds).to.deep.equal([organizationId1, organizationId2].toSorted((id1, id2) => id1 - id2));
     });
   });
+
+  describe('remove-organizations', function () {
+    it('removes organizations from LTI platform', async function () {
+      // given
+      const { id: organizationId1 } = databaseBuilder.factory.buildOrganization();
+      const { id: organizationId2 } = databaseBuilder.factory.buildOrganization();
+      const { id: organizationId3 } = databaseBuilder.factory.buildOrganization();
+      const { id: platformId } = databaseBuilder.factory.buildLtiPlatform({
+        organizationIds: [organizationId1, organizationId2, organizationId3],
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await script['remove-organizations'](
+        { platformId, organizationId: [organizationId1, organizationId3] },
+        { logger },
+      );
+
+      // then
+      const organizationIds = await knex
+        .pluck('organizationId')
+        .from('lti_platform_organizations')
+        .where({ platformId })
+        .orderBy('organizationId');
+      expect(organizationIds).to.deep.equal([organizationId2]);
+    });
+  });
 });
