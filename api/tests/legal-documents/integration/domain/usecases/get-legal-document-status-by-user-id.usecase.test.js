@@ -4,15 +4,15 @@ import { LegalDocumentService } from '../../../../../src/legal-documents/domain/
 import { LegalDocumentStatus, STATUS } from '../../../../../src/legal-documents/domain/models/LegalDocumentStatus.js';
 import { LegalDocumentType } from '../../../../../src/legal-documents/domain/models/LegalDocumentType.js';
 import { usecases } from '../../../../../src/legal-documents/domain/usecases/index.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
+import { useFeatureToggle } from '../../../../tooling/test-utils/use-feature-toggle.js';
 
 const { PIX_APP, PIX_ORGA, PIX_CERTIF } = LegalDocumentService.VALUES;
 const { TOS } = LegalDocumentType.VALUES;
 
 describe('Integration | Legal documents | Domain | Use case | get-legal-document-status-by-user-id', function () {
   afterEach(async function () {
-    await featureToggles.set('newPixAppLegalDocumentsVersioning', false);
+    await useFeatureToggle('newPixAppLegalDocumentsVersioning', false);
   });
 
   it('returns the legal document status for a user', async function () {
@@ -64,7 +64,7 @@ describe('Integration | Legal documents | Domain | Use case | get-legal-document
   context('when service is pix-app', function () {
     context('when feature toggle is disabled', function () {
       beforeEach(async function () {
-        await featureToggles.set('newPixAppLegalDocumentsVersioning', false);
+        await useFeatureToggle('newPixAppLegalDocumentsVersioning', false);
       });
 
       context('when when mustValidateTermsOfService=false', function () {
@@ -140,7 +140,7 @@ describe('Integration | Legal documents | Domain | Use case | get-legal-document
 
     context('when feature toggle is enabled', function () {
       beforeEach(async function () {
-        await featureToggles.set('newPixAppLegalDocumentsVersioning', true);
+        await useFeatureToggle('newPixAppLegalDocumentsVersioning', true);
       });
 
       context('when user has no acceptance and is not an SCO student', function () {
@@ -336,7 +336,7 @@ describe('Integration | Legal documents | Domain | Use case | get-legal-document
   context('when service is pix-certif', function () {
     context('when feature toggle is disabled', function () {
       beforeEach(async function () {
-        await featureToggles.set('newPixCertifLegalDocumentsVersioning', false);
+        await useFeatureToggle('newPixCertifLegalDocumentsVersioning', false);
       });
 
       context('when pixCertifTermsOfServiceAccepted=true', function () {
