@@ -120,6 +120,55 @@ describe('Integration | UseCases | delete-campaign', function () {
       });
     });
 
+    context('audit logging', function () {
+      let adminUserId, organizationId, campaignIds, campaignParticipationIds;
+
+      beforeEach(async function () {
+        adminUserId = buildUser().id;
+        organizationId = buildOrganization().id;
+        buildMembership({ userId: adminUserId, organizationId, organizationRole: 'ADMIN' });
+        campaignIds = [buildCampaign({ organizationId }).id, buildCampaign({ organizationId }).id];
+        campaignParticipationIds = campaignIds.map(
+          (campaignId) => buildCampaignParticipation({ userId: buildUser().id, campaignId, organizationId }).id,
+        );
+
+        await databaseBuilder.commit();
+      });
+
+      it('should publish one event for all campaign participations', async function () {
+        // when
+        await usecases.deleteCampaigns({ userId: adminUserId, campaignIds, organizationId });
+
+        // then
+        const [job] = await expect(AuditLoggingJob.name).to.have.been.performed.withJobsCount(1);
+        expect(job.data.targetUserIds).to.have.members(campaignParticipationIds);
+      });
+
+      it('should publish one event per chunk of campaign participations', async function () {
+        // when
+        await usecases.deleteCampaigns({ userId: adminUserId, campaignIds, organizationId, chunkSize: 1 });
+
+        // then
+        await expect(AuditLoggingJob.name).to.have.been.performed.withJobsCount(2);
+      });
+
+      it('should not publish any event when there is no campaign participation', async function () {
+        // given
+        const campaignWithoutParticipationId = buildCampaign({ organizationId }).id;
+        await databaseBuilder.commit();
+
+        // when
+        await usecases.deleteCampaigns({
+          userId: adminUserId,
+          campaignIds: [campaignWithoutParticipationId],
+          organizationId,
+        });
+
+        // then
+        await expect(AuditLoggingJob.name).to.have.been.performed.withJobsCount(0);
+      });
+    });
+
     it('should delete campaign for given id and anonymize', async function () {
       // given
       const userId = buildUser().id;
