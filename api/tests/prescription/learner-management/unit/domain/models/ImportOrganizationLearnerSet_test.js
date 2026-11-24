@@ -70,27 +70,6 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         ]);
       });
 
-      it('should add a learner once if there is duplicate lines', async function () {
-        // given
-        const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
-
-        // when
-        learnerSet.addLearners([learnerAttributes, learnerAttributes]);
-
-        //then
-        expect(learnerSet.learners.list).lengthOf(1);
-        expect(learnerSet.learners.list[0]).to.be.an.instanceOf(CommonOrganizationLearner);
-        expect(learnerSet.learners.list).to.deep.equal([
-          new CommonOrganizationLearner({
-            firstName: 'Tomie',
-            lastName: 'Katana',
-            organizationId,
-            "nom d'usage": 'Yolo',
-            group: 'Solo',
-          }),
-        ]);
-      });
-
       it('should add a learner with previous configuration', function () {
         const importFormat = {
           config: {
@@ -428,13 +407,13 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           expect(errors[0].code).equal(VALIDATION_ERRORS.UNICITY_COLUMNS_REQUIRED);
         });
 
-        it('should throw unicity errors if learner has same unicity value but different attributes', async function () {
+        it('should throw unicity errors if learner has same unicity value', async function () {
           const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(
             learnerSet.addLearners,
             learnerSet,
-          )([learnerAttributes, { ...learnerAttributes, nom: 'Katnis' }]);
+          )([learnerAttributes, { ...learnerAttributes }]);
 
           expect(errors).lengthOf(1);
           expect(errors[0]).instanceOf(CsvImportError);

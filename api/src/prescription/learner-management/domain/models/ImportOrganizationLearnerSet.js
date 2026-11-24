@@ -39,7 +39,7 @@ class ImportOrganizationLearnerSet {
     this.#learners = [];
     this.#existingLearners = [];
 
-    this.#unicityKeys = new Map();
+    this.#unicityKeys = new Set();
     this.#errors = [];
     this.#constructorValidation();
 
@@ -210,16 +210,12 @@ class ImportOrganizationLearnerSet {
   #checkUnicityRule(learner) {
     const unicityLearnerValue = this.#getUnicityValue(learner);
     if (!this.#unicityKeys.has(unicityLearnerValue)) {
-      this.#unicityKeys.set(unicityLearnerValue, learner);
+      this.#unicityKeys.add(unicityLearnerValue);
       return null;
     } else {
-      const duplicateLearner = this.#unicityKeys.get(unicityLearnerValue);
-      if (!this.#areLearnersEqual(duplicateLearner, learner)) {
-        return ModelValidationError.unicityError({
-          key: this.#unicityColumns.join('-'),
-        });
-      }
-      return null;
+      return ModelValidationError.unicityError({
+        key: this.#unicityColumns.join('-'),
+      });
     }
   }
 
@@ -256,15 +252,6 @@ class ImportOrganizationLearnerSet {
   #getUnicityValue(learner) {
     const learnerUnicityObject = this.#getLearnerUnicityObject(learner);
     return Object.values(learnerUnicityObject).join('-');
-  }
-
-  #areLearnersEqual(learner1, learner2) {
-    for (const column of this.#columnMapping) {
-      if (learner1[column.name] !== learner2[column.name]) {
-        return false;
-      }
-    }
-    return true;
   }
 
   get filtersAvailableValues() {
