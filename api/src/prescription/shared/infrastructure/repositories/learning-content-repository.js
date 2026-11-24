@@ -27,7 +27,7 @@ export async function findByCampaignParticipationId(campaignParticipationId, loc
 }
 
 export async function findByCampaignId(campaignId, locale) {
-  const skills = await campaignRepository.findSkills({ campaignId });
+  const skills = await campaignRepository.findSkills({ campaignId, filterByStatus: 'all' });
 
   const frameworks = await _getLearningContentBySkills(skills, locale);
 
