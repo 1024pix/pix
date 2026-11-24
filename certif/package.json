@@ -51,7 +51,7 @@
     "@ember-intl/vite": "2.2.4",
     "@ember/optional-features": "3.0.0",
     "@ember/test-helpers": "5.8.0",
-    "@ember/test-waiters": "4.1.1",
+    "@ember/test-waiters": "4.1.2",
     "@embroider/compat": "4.1.28",
     "@embroider/config-meta-loader": "1.0.1",
     "@embroider/core": "4.6.10",
