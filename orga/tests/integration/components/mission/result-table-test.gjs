@@ -1,7 +1,7 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { getByText } from '@testing-library/dom';
-import { t } from 'ember-intl/test-support';
 import ResultTable from 'pix-orga/components/mission/result-table';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';

@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import UiDate from 'pix-orga/components/ui/date';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';

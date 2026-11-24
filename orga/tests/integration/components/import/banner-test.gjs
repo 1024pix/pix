@@ -1,6 +1,6 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import ImportBanner from 'pix-orga/components/import/banner';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -216,7 +216,7 @@ module('Integration | Component | Import::Banner', function (hooks) {
       );
       // then
       assert.notOk(
-        screen.queryByText(t('pages.organization-participants-import.banner.error-text'), {
+        screen.queryByText(t('pages.organization-participants-import.banner.in-progress-text'), {
           exact: false,
         }),
       );

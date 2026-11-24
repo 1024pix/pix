@@ -1,8 +1,8 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { click, fillIn } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { COMBINED_COURSE_PARTICIPATION_STATUSES } from 'pix-orga/models/combined-course-participation';
 import Participations from 'pix-orga/templates/authenticated/combined-course/participations';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

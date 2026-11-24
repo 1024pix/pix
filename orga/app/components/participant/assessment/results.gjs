@@ -1,5 +1,6 @@
 import { PixProgressBar, PixTable, PixTableColumn } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
+import { escapeHtml } from 'pix-orga/utils/escape-html';
 
 import EmptyState from '../../ui/empty-state';
 
@@ -49,7 +50,7 @@ function competenceCount(results) {
               @tooltipText={{t
                 "pages.assessment-individual-results.table.column.results.tooltip"
                 result=competenceResult.competenceMasteryRate
-                competence=competenceResult.name
+                competence=(escapeHtml competenceResult.name)
                 htmlSafe=true
               }}
             />

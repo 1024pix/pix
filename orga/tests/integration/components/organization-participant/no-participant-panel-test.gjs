@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { t } from 'ember-intl/test-support';
 import NoParticipantPanel from 'pix-orga/components/organization-participant/no-participant-panel';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';

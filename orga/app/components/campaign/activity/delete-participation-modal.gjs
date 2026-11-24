@@ -1,5 +1,6 @@
 import { PixButton, PixModal } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
+import { escapeHtml } from 'pix-orga/utils/escape-html';
 
 function deleteParticipationModalWarning(type, status) {
   return DELETE_PARTICIPATION_MODAL_WARNING[type][status];
@@ -9,8 +10,8 @@ function deleteParticipationModalWarning(type, status) {
   <PixModal
     @title={{t
       "pages.campaign-activity.delete-participation-modal.title"
-      lastName=@participation.lastName
-      firstName=@participation.firstName
+      lastName=(escapeHtml @participation.lastName)
+      firstName=(escapeHtml @participation.firstName)
       htmlSafe=true
     }}
     @onCloseButtonClick={{@closeModal}}

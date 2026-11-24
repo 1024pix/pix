@@ -1,6 +1,6 @@
 import { fillByLabel, render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import LandingPageText from 'pix-orga/components/campaign/create-form/landing-page-text';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';

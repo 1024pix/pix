@@ -1,7 +1,7 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import MultipleSendings from 'pix-orga/components/campaign/create-form/multiple-sendings';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';

@@ -11,8 +11,8 @@ module('Unit | Helper | display-campaign-errors', function (hooks) {
   setupIntl(hooks);
 
   let helper: DisplayCampaignErrors;
-  hooks.beforeEach(function (this: TestContext) {
-    (this.owner.lookup('service:locale') as LocaleService).setCurrentLocale('fr');
+  hooks.beforeEach(async function (this: TestContext) {
+    await (this.owner.lookup('service:locale') as LocaleService).setCurrentLocale('fr');
     helper = new DisplayCampaignErrors(this.owner);
   });
 

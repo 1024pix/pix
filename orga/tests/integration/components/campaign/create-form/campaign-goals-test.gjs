@@ -1,8 +1,8 @@
 import { clickByName, clickByText, render, within } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { t } from 'ember-intl/test-support';
 import CampaignGoals from 'pix-orga/components/campaign/create-form/campaign-goals';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';

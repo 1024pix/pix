@@ -2,8 +2,8 @@ import { clickByName, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { faker } from '@faker-js/faker';
-import { t } from 'ember-intl/test-support';
 import ScoOrganizationParticipantManageAuthenticationMethodModal from 'pix-orga/components/sco-organization-participant/manage-authentication-method-modal';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

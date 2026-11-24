@@ -1,9 +1,9 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import IndexClassic from 'pix-orga/components/index/classic';
 import { EVENT_NAME } from 'pix-orga/constants/metrics-event-name';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -55,7 +55,7 @@ module('Integration | Component | Index::Classic', function (hooks) {
         };
       }
       const locale = this.owner.lookup('service:locale');
-      locale.setCurrentLocale('fr-BE');
+      await locale.setCurrentLocale('fr-BE');
 
       this.owner.register('service:current-user', CurrentUserStub);
 

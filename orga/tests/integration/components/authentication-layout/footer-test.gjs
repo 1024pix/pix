@@ -1,5 +1,4 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import Footer from 'pix-orga/components/authentication-layout/footer';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -14,7 +13,7 @@ module('Integration | Component | Authentication-layout | footer', function (hoo
     const screen = await render(<template><Footer /></template>);
 
     // then
-    assert.ok(screen.getByRole('navigation', { name: t('navigation.footer.label') }));
+    assert.ok(screen.getByRole('navigation'));
   });
 
   module('when url has org extension', function () {

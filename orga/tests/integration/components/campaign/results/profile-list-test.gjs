@@ -1,6 +1,6 @@
 import { render, within } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import ProfileList from 'pix-orga/components/campaign/results/profile-list';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

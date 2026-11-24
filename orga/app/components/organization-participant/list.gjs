@@ -9,6 +9,7 @@ import { tracked } from '@glimmer/tracking';
 import { formatDate, t } from 'ember-intl';
 import { eq, not } from 'ember-truth-helpers';
 import Pagination from 'pix-orga/components/ui/pagination';
+import { escapeHtml } from 'pix-orga/utils/escape-html';
 
 import getExtraColumnLabel from '../../helpers/get-extra-column-label';
 import CertificabilityCell from '../certificability/cell';
@@ -488,8 +489,8 @@ const DeletionModal = <template>
     @title={{t
       "pages.organization-participants.deletion-modal.title"
       count=@selectedParticipants.length
-      firstname=(get @selectedParticipants "0.firstName")
-      lastname=(get @selectedParticipants "0.lastName")
+      firstname=(escapeHtml (get @selectedParticipants "0.firstName"))
+      lastname=(escapeHtml (get @selectedParticipants "0.lastName"))
       htmlSafe=true
     }}
     @showModal={{@showDeletionModal}}

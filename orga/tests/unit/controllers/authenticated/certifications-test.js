@@ -1,5 +1,5 @@
 import Service from '@ember/service';
-import { t } from 'ember-intl/test-support';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

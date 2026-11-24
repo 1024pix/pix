@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import { click, triggerEvent } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import ImportReplaceStudentsModal from 'pix-orga/components/import/replace-students-modal';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

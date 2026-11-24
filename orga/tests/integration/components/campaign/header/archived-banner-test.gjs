@@ -1,8 +1,8 @@
 import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { t } from 'ember-intl/test-support';
 import ArchivedBanner from 'pix-orga/components/campaign/header/archived-banner';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

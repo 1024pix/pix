@@ -1,7 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
-import { t } from 'ember-intl/test-support';
 import CourseSelection from 'pix-orga/components/campaign/create-form/course-selection';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';

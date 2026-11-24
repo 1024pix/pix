@@ -1,8 +1,7 @@
 import { render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
-import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import ActivityType from 'pix-orga/components/activity-type';
+import setupIntl, { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 module('Integration | Component | ActivityType', function (hooks) {

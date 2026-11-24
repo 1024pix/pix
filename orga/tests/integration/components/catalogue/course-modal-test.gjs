@@ -1,8 +1,8 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import CourseModal from 'pix-orga/components/catalogue/course-modal';
 import { EVENT_NAME } from 'pix-orga/constants/metrics-event-name';
+import { t } from 'pix-orga/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

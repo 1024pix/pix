@@ -1,5 +1,6 @@
 import { PixButton, PixModal } from '@1024pix/nebulix-ember';
 import { t } from 'ember-intl';
+import { escapeHtml } from 'pix-orga/utils/escape-html';
 
 <template>
   <PixModal
@@ -9,7 +10,11 @@ import { t } from 'ember-intl';
   >
     <:content>
       <p class="leave-organization-modal">
-        {{t "pages.team-members.modals.leave-organization.message" organizationName=@organizationName htmlSafe=true}}
+        {{t
+          "pages.team-members.modals.leave-organization.message"
+          organizationName=(escapeHtml @organizationName)
+          htmlSafe=true
+        }}
       </p>
     </:content>
     <:footer>

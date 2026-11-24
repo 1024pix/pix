@@ -7,33 +7,23 @@ import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Unit | Services | locale-loader', function (hooks) {
-  let intlService;
-  let localeLoaderService;
+module('Unit | Services | dayjs-locale-loader', function (hooks) {
+  let dayjsLocaleLoaderService;
 
   setupTest(hooks);
 
   hooks.beforeEach(function () {
-    localeLoaderService = this.owner.lookup('service:locale-loader');
-    intlService = this.owner.lookup('service:intl');
-    sinon.stub(intlService, 'addTranslations');
+    dayjsLocaleLoaderService = this.owner.lookup('service:dayjs-locale-loader');
     sinon.stub(dayjs, 'locale');
   });
   test('loads daysjs language file from locale', async function (assert) {
     // when
-    await localeLoaderService.load('de-AT');
+    await dayjsLocaleLoaderService.load('de-AT');
     // then
     assert.ok(dayjs.locale.calledOnceWith('de'));
   });
-
-  test('loads intl language file from locale', async function (assert) {
-    // when
-    await localeLoaderService.load('de-AT');
-    // then
-    assert.ok(intlService.addTranslations.calledOnceWith('de'));
-  });
   test('throws if language is not supported', function (assert) {
     // when and then
-    assert.rejects(localeLoaderService.load('ja-JP'), /Language not supported/);
+    assert.rejects(dayjsLocaleLoaderService.load('ja-JP'), /Language not supported/);
   });
 });
