@@ -172,7 +172,7 @@
     "xmlbuilder2": "4.0.3",
     "yargs": "18.2.0",
     "zip-stream": "7.0.5",
-    "zod": "^4.6.7"
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@1024pix/eslint-plugin": "3.1.3",
