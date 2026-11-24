@@ -5,6 +5,7 @@ import * as badgeAcquisitionRepository from '../../../../evaluation/infrastructu
 import * as badgeRepository from '../../../../evaluation/infrastructure/repositories/badge-repository.js';
 import * as competenceEvaluationRepository from '../../../../evaluation/infrastructure/repositories/competence-evaluation-repository.js';
 import * as userRepository from '../../../../identity-access-management/infrastructure/repositories/user.repository.js';
+import * as creditsApi from '../../../../organizational-entities/application/api/credits-api.js';
 import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as badgeForCalculationRepository from '../../../../shared/infrastructure/repositories/badge-for-calculation-repository.js';
@@ -60,6 +61,7 @@ const dependencies = {
   compareStagesAndAcquiredStages,
   competenceEvaluationRepository,
   competenceRepository,
+  creditsApi,
   auditLoggingJobRepository,
   knowledgeElementForParticipationService,
   knowledgeElementRepository,

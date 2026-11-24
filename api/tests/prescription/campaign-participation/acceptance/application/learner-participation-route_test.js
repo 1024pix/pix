@@ -3,8 +3,15 @@ import _ from 'lodash';
 
 import { ParticipationResultCalculationJob } from '../../../../../src/prescription/campaign-participation/domain/models/ParticipationResultCalculationJob.js';
 import { ParticipationSharedJob } from '../../../../../src/prescription/campaign-participation/domain/models/ParticipationSharedJob.js';
-import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.ts';
-import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_SCORE } from '../../../../../src/shared/constants.js';
+import {
+  CampaignParticipationStatuses,
+  CampaignTypes,
+} from '../../../../../src/prescription/shared/domain/constants.ts';
+import {
+  MAX_REACHABLE_LEVEL,
+  MAX_REACHABLE_PIX_SCORE,
+  ORGANIZATION_FEATURE,
+} from '../../../../../src/shared/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../src/shared/domain/models/KnowledgeElement.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
@@ -268,6 +275,54 @@ describe('Acceptance | Routes | Campaign Participations', function () {
 
       // then
       expect(response.statusCode).to.equal(412);
+    });
+
+    context('when the organization manages credits', function () {
+      it('charges a credit to the organization learner created for the participation', async function () {
+        // given
+        const { organization, structure } = databaseBuilder.factory.buildOrganizationWithStructure();
+        const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.CREDITS_MANAGEMENT).id;
+        databaseBuilder.factory.buildOrganizationFeature({ organizationId: organization.id, featureId });
+        const creditsLotId = databaseBuilder.factory.buildCreditsLot({ structureId: structure.id, count: 10 }).id;
+        const creditsCampaignId = databaseBuilder.factory.buildCampaign({
+          organizationId: organization.id,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
+        await databaseBuilder.commit();
+        options.payload.data.relationships.campaign.data.id = creditsCampaignId;
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+        const participation = await knex('campaign-participations').where({ id: response.result.data.id }).first();
+        const consumption = await knex('credits_consumptions').where({ credit_lot_id: creditsLotId }).first();
+        expect(consumption.organization_learner_id).to.equal(participation.organizationLearnerId);
+      });
+
+      it('returns a 422 and starts no participation when no credit is available', async function () {
+        // given
+        const { organization } = databaseBuilder.factory.buildOrganizationWithStructure();
+        const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.CREDITS_MANAGEMENT).id;
+        databaseBuilder.factory.buildOrganizationFeature({ organizationId: organization.id, featureId });
+        const creditsCampaignId = databaseBuilder.factory.buildCampaign({
+          organizationId: organization.id,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
+        await databaseBuilder.commit();
+        options.payload.data.relationships.campaign.data.id = creditsCampaignId;
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(422);
+        const participations = await knex('campaign-participations').where({ campaignId: creditsCampaignId });
+        const learners = await knex('organization-learners').where({ organizationId: organization.id });
+        expect(participations).to.be.empty;
+        expect(learners).to.be.empty;
+      });
     });
   });
 

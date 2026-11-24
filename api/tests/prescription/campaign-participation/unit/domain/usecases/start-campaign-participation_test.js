@@ -14,6 +14,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
   let campaignParticipantRepository;
   let campaignParticipationRepository;
   let participationStartedJobRepository;
+  let creditsApi;
 
   beforeEach(function () {
     sinon.stub(DomainTransaction, 'execute');
@@ -32,6 +33,9 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     };
     campaignParticipationRepository = {
       get: sinon.stub(),
+    };
+    creditsApi = {
+      consumeCredit: sinon.stub(),
     };
   });
 
@@ -70,6 +74,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       campaignRepository,
       campaignParticipantRepository,
       campaignParticipationRepository,
+      creditsApi,
     });
 
     // then
@@ -85,6 +90,48 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       id: campaignParticipationAttributes.campaignId,
     });
     expect(campaignRepository.findAllSkills).not.to.have.been.called;
+  });
+
+  it('consumes a credit for the organization learner of the created participation', async function () {
+    // given
+    const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({ organizationId: 777 });
+    const campaignParticipant = new CampaignParticipant({
+      campaignToStartParticipation,
+      organizationLearner: { id: null, hasParticipated: false },
+      userIdentity: { id: userId },
+    });
+    const campaignParticipationAttributes = { campaignId: 12, participantExternalId: 'YvoLoL', isReset: false };
+    const expectedCampaignParticipation = domainBuilder.prescription.campaignParticipation.buildCampaignParticipation({
+      id: 12,
+      organizationLearnerId: 456,
+    });
+
+    campaignParticipantRepository.get
+      .withArgs({ userId, campaignId: campaignParticipationAttributes.campaignId })
+      .resolves(campaignParticipant);
+
+    sinon.stub(campaignParticipant, 'start');
+
+    campaignParticipantRepository.save.withArgs({ campaignParticipant: sinon.match(campaignParticipant) }).resolves(12);
+
+    campaignParticipationRepository.get.withArgs(12).resolves(expectedCampaignParticipation);
+
+    // when
+    await usecases.startCampaignParticipation({
+      participationStartedJobRepository,
+      campaignParticipation: campaignParticipationAttributes,
+      userId,
+      campaignRepository,
+      campaignParticipantRepository,
+      campaignParticipationRepository,
+      creditsApi,
+    });
+
+    // then
+    expect(creditsApi.consumeCredit).to.have.been.calledOnceWithExactly({
+      organizationLearnerId: 456,
+      organizationId: 777,
+    });
   });
 
   context('when there is a reset campaign participation', function () {
@@ -160,6 +207,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           campaignRepository,
           campaignParticipantRepository,
           campaignParticipationRepository,
+          creditsApi,
           knowledgeElementRepository,
           competenceEvaluationRepository,
         });
@@ -183,6 +231,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           campaignRepository,
           campaignParticipantRepository,
           campaignParticipationRepository,
+          creditsApi,
           assessmentRepository,
           knowledgeElementRepository,
           competenceEvaluationRepository,
@@ -213,6 +262,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           campaignRepository,
           campaignParticipantRepository,
           campaignParticipationRepository,
+          creditsApi,
           assessmentRepository,
           knowledgeElementRepository,
           competenceEvaluationRepository,
@@ -242,6 +292,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           campaignRepository,
           campaignParticipantRepository,
           campaignParticipationRepository,
+          creditsApi,
         });
 
         // then
