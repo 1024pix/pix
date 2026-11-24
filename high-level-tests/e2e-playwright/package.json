@@ -39,7 +39,7 @@
     "@types/jsonwebtoken": "9.0.10",
     "@types/node": "26.6.6",
     "@types/pngjs": "6.0.5",
-    "baseline-browser-mapping": "2.11.37",
+    "baseline-browser-mapping": "2.11.38",
     "dotenv": "18.0.10",
     "eslint": "10.15.0",
     "eslint-config-prettier": "10.1.8",
