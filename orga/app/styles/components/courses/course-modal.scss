@@ -105,6 +105,7 @@
     &__text {
       @extend %pix-body-s;
 
+      color: var(--pix-neutral-800);
       text-align: center;
     }
   }
