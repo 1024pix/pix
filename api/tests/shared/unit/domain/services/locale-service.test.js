@@ -243,7 +243,7 @@ describe('Unit | Shared | Domain | Service | Locale', function () {
     context('when locale is supported', function () {
       [
         { locale: 'fr-FR', expectedChallengeLocale: 'fr-fr' },
-        { locale: 'fr-BE', expectedChallengeLocale: 'fr' },
+        { locale: 'fr-BE', expectedChallengeLocale: 'fr-BE' },
         { locale: 'en', expectedChallengeLocale: 'en' },
         { locale: 'nl', expectedChallengeLocale: 'nl' },
         { locale: 'nl-BE', expectedChallengeLocale: 'nl' },
