@@ -634,11 +634,11 @@ jobs:
           at: ~/pix
       - run:
           name: Test
-          command: npm run test:api:unit -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
+          command: npm run test:api:unit
           max_time: 10m
           environment:
             NODE_ENV: test
-            MOCHA_REPORTER: xunit
+            VITEST_JUNIT_OUTPUT: /home/circleci/test-results/test-results.xml
           when: always
       - store_test_results:
           path: /home/circleci/test-results
@@ -684,12 +684,12 @@ jobs:
             DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
       - run:
           name: Test
-          command: npm run test:api:integration -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
+          command: npm run test:api:integration
           max_time: 15m
           environment:
             NODE_ENV: test
-            MOCHA_REPORTER: xunit
-            MOCHA_RETRIES: 2
+            VITEST_JUNIT_OUTPUT: /home/circleci/test-results/test-results.xml
+            VITEST_RETRIES: 2
             DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
             DATAMART_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration_datamart
             DATAWAREHOUSE_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration_datawarehouse
@@ -745,12 +745,12 @@ jobs:
             DATAWAREHOUSE_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance_datawarehouse
       - run:
           name: Test
-          command: npm run test:api:acceptance -- --reporter-option=showRelativePaths --reporter-option output=/home/circleci/test-results/test-results.xml
+          command: npm run test:api:acceptance
           max_time: 15m
           environment:
             NODE_ENV: test
-            MOCHA_REPORTER: xunit
-            MOCHA_RETRIES: 2
+            VITEST_JUNIT_OUTPUT: /home/circleci/test-results/test-results.xml
+            VITEST_RETRIES: 2
             DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance
             DATAMART_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance_datamart
             DATAWAREHOUSE_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance_datawarehouse
