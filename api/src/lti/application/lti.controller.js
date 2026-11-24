@@ -11,6 +11,7 @@ import { child, SCOPES } from '../../shared/infrastructure/utils/logger.js';
 import { getForwardedOrigin, RequestedApplication } from '../../shared/infrastructure/utils/network.js';
 import { LtiLineItemsInitializationError } from '../domain/errors.js';
 import { LtiDeepLinkingAccessToken } from '../domain/models/LtiDeepLinkingAccessToken.js';
+import { LtiUserToken } from '../domain/models/LtiUserToken.js';
 import { ltiScoringService } from '../domain/services/lti.scoring.service.js';
 import { ltiService } from '../domain/services/lti.service.js';
 import { usecases } from '../domain/usecases/index.js';
@@ -216,6 +217,11 @@ async function resourceLink(
     throw new BadRequestError(`Wrong messageType, should be "LtiResourceLinkRequest" but was "${messageType}"`);
   }
 
+  const ltiUserToken = new LtiUserToken({
+    clientId: registration.clientId,
+    userSub: verifiedToken.sub,
+  });
+
   const campaignId = Number(verifiedToken['https://purl.imsglobal.org/spec/lti/claim/custom']?.campaign_id);
   const campaign = Number.isInteger(campaignId) ? await usecases.getLtiCampaign({ campaignId }) : null;
 
@@ -256,8 +262,7 @@ async function resourceLink(
   const locale = 'fr-FR'; // TODO: Generate this dynamically
 
   const campaignUrl = dependencies.urlService.getPixAppUrl(locale, { pathname: `/campagnes/${campaign.code}` });
-
-  return h.redirect(campaignUrl);
+  return h.redirect(campaignUrl).header('Set-Cookie', ltiUserToken.encodedForSetCookieHeader);
 }
 
 export const ltiController = {
