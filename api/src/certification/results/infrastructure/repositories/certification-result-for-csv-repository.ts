@@ -1,6 +1,7 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import type { AutoJuryCommentKey, Framework } from '../../../shared/domain/types.ts';
+import type { CompetenceMark } from '../../domain/read-models/CertificationResultForCsv.ts';
 import { CertificationResultForCsv } from '../../domain/read-models/CertificationResultForCsv.ts';
 import type { CertificationResultStatus } from '../../domain/types.ts';
 
@@ -20,7 +21,7 @@ type Row = {
   status: CertificationResultStatus;
   reachedMeshIndex: number | null;
   pixScore: number | null;
-  competenceMarks: CompetenceMarkDB[] | null;
+  competenceMarks: CompetenceMarkDB[];
   hasAcquiredClea: boolean | null;
   commentForOrganization: string | null;
   commentByAutoJury: AutoJuryCommentKey | null;
@@ -81,14 +82,24 @@ function baseQuery() {
       status: 'certification_results.status',
       reachedMeshIndex: 'certification_results.reachedMeshIndex',
       pixScore: 'certification_results.pixScore',
-      competenceMarks: 'certification_results.competenceMarks',
+      competenceMarks: knexConn.raw(`
+        json_agg(
+          json_build_object('level', "certification_competence_results".level, 'competenceId', "certification_competence_results"."competenceId")
+          ORDER BY "certification_competence_results"."competenceId" asc
+        )`),
       hasAcquiredClea: 'certification_results.hasAcquiredClea',
       commentForOrganization: 'certification_results.commentForOrganization',
       commentByAutoJury: 'certification_results.commentByAutoJury',
       certificationCenter: 'certification_results.certificationCenter',
       startedAt: 'certification_results.startedAt',
     })
-    .join('user_certification_results', 'user_certification_results.certificationResultId', 'certification_results.id');
+    .leftJoin(
+      'certification_competence_results',
+      'certification_competence_results.certificationResultId',
+      'certification_results.id',
+    )
+    .join('user_certification_results', 'user_certification_results.certificationResultId', 'certification_results.id')
+    .groupBy('certification_results.id', 'user_certification_results.certificationResultId');
 }
 
 async function findCompetenceCodesbyId() {
@@ -97,14 +108,18 @@ async function findCompetenceCodesbyId() {
 }
 
 function toDomain(row: Row, codesById: Map<string, string>) {
-  const competenceMarks =
-    row.competenceMarks?.map((competenceMark) => {
+  let competenceMarks: CompetenceMark[];
+  if (row.competenceMarks[0].competenceId === null) {
+    competenceMarks = [];
+  } else {
+    competenceMarks = row.competenceMarks.map((competenceMark) => {
       const competenceCode = codesById.get(competenceMark.competenceId) as string;
       return {
         competenceCode,
         level: competenceMark.level,
       };
-    }) ?? null;
+    });
+  }
   return new CertificationResultForCsv({
     ...row,
     competenceMarks,

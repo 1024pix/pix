@@ -8,6 +8,7 @@ export class PublishSessionJobController extends JobController {
   }
 
   async handle({ data, dependencies = { usecases } }) {
+    // todo add correlation info with session id
     await dependencies.usecases.publishSession(data);
   }
 }

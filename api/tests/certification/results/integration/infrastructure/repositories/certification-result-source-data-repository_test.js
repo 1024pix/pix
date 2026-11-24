@@ -1,24 +1,31 @@
 import { expect } from 'chai';
 
-import { CertificationResultBuilder } from '../../../../../../src/certification/results/domain/models/CertificationResultBuilder.ts';
-import * as certificateBuilderRepository from '../../../../../../src/certification/results/infrastructure/repositories/certification-result-builder-repository.js';
+import * as certificationResultSourceDataRepository from '../../../../../../src/certification/results/infrastructure/repositories/certification-result-source-data-repository.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
+import { ComplementaryCertificationCourseResult } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
-describe('Certification | Results | Integration | Infrastructure | Repository | CertificationResultBuilder', function () {
-  describe('#findBuilderForCertificationsInSession', function () {
+describe('Certification | Results | Integration | Infrastructure | Repository | CertificationResultSourceData', function () {
+  describe('#findBySessionId', function () {
     context('when no data found for session', function () {
-      it('returns an empty builder', async function () {
-        const certificateBuilder = await certificateBuilderRepository.findBuilderForCertificationsInSession(123);
-        expect(certificateBuilder.certificationData).to.have.lengthOf(0); // TODO PAS FAN
+      it('returns empty source data', async function () {
+        const sourceData = await certificationResultSourceDataRepository.findBySessionId(123);
+
+        expect(sourceData).to.deep.equal({
+          certificationData: [],
+          learnerData: [],
+          cleaData: [],
+          pixPlusV2VoletPixData: [],
+          pixPlusV2VoletExterneData: [],
+        });
       });
     });
 
     context('when data found for session', function () {
       let sessionId;
-      let expectedCoreData, expectedCleaData, expectedProSanteData, expectedDroitData, expectedEduData;
+      let expectedCoreV3Data, expectedCleaV3Data, expectedEduV2Data;
 
       beforeEach(function () {
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
@@ -26,37 +33,54 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         }).id;
         sessionId = databaseBuilder.factory.buildSession({
           certificationCenterId,
+          certificationCenter: 'Nom du centre au moment de la session',
           publishedAt: new Date('2026-01-03'),
         }).id;
-        expectedCoreData = buildCertificateData({
+        const versionId = databaseBuilder.factory.buildCertificationVersion({
+          scope: SCOPES.CORE,
+          challengesConfiguration: {},
+          status: 'active',
+          maxReachableLevel: 7,
+        }).id;
+        const cleaComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+          key: 'CLEA',
+        }).id;
+        const cleaComplementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+          complementaryCertificationId: cleaComplementaryCertificationId,
+        }).id;
+        const eduComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+          key: 'EDU_1ER_DEGRE',
+        }).id;
+        const eduComplementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+          complementaryCertificationId: eduComplementaryCertificationId,
+        }).id;
+
+        expectedCoreV3Data = buildCertificateData({
           framework: Frameworks.CORE,
           sessionId,
           certificationCenterId,
           withOrgaLearner: true,
+          algorithmEngineVersion: AlgorithmEngineVersion.V3,
+          versionId,
         });
-        expectedCleaData = buildCertificateData({
+        expectedCleaV3Data = buildCertificateData({
           framework: Frameworks.CLEA,
           sessionId,
           certificationCenterId,
-          withOrgaLearner: false,
-        });
-        expectedProSanteData = buildCertificateData({
-          framework: Frameworks.PRO_SANTE,
-          sessionId,
-          certificationCenterId,
           withOrgaLearner: true,
+          versionId,
+          algorithmEngineVersion: AlgorithmEngineVersion.V3,
+          complementaryCertificationId: cleaComplementaryCertificationId,
+          complementaryCertificationBadgeId: cleaComplementaryCertificationBadgeId,
         });
-        expectedDroitData = buildCertificateData({
-          framework: Frameworks.DROIT,
+        expectedEduV2Data = buildCertificateData({
+          framework: Frameworks.EDU_1ER_DEGRE,
           sessionId,
           certificationCenterId,
           withOrgaLearner: false,
-        });
-        expectedEduData = buildCertificateData({
-          framework: Frameworks.EDU_CPE,
-          sessionId,
-          certificationCenterId,
-          withOrgaLearner: true,
+          algorithmEngineVersion: AlgorithmEngineVersion.V2,
+          complementaryCertificationId: eduComplementaryCertificationId,
+          complementaryCertificationBadgeId: eduComplementaryCertificationBadgeId,
         });
         // NOISE
         const anotherCertificationCenterId = databaseBuilder.factory.buildCertificationCenter({
@@ -75,36 +99,40 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         return databaseBuilder.commit();
       });
 
-      it('returns a CertificateBuilder filled with all data from the certifications of the given session', async function () {
-        const certificateBuilder = await certificateBuilderRepository.findBuilderForCertificationsInSession(sessionId);
-        const expectedAllCertificationData = [
-          expectedCoreData,
-          expectedCleaData,
-          expectedProSanteData,
-          expectedDroitData,
-          expectedEduData,
-        ].map(({ certificationData }) => certificationData);
-        const expectedAllLearnerData = [expectedCoreData, expectedProSanteData, expectedEduData].map(
-          ({ learnerData }) => learnerData,
+      it('returns all source data from the certifications of the given session', async function () {
+        const sourceData = await certificationResultSourceDataRepository.findBySessionId(sessionId);
+
+        const expectedAllCertificationData = [expectedCoreV3Data, expectedCleaV3Data, expectedEduV2Data].map(
+          ({ certificationData }) => certificationData,
         );
-        expect(certificateBuilder).to.deepEqualInstance(
-          new CertificationResultBuilder({
-            certificationData: expectedAllCertificationData,
-            learnerData: expectedAllLearnerData,
-            cleaData: [expectedCleaData.cleaData],
-          }),
-        );
+        const expectedAllLearnerData = [expectedCoreV3Data, expectedCleaV3Data].map(({ learnerData }) => learnerData);
+        expect(sourceData).to.deep.equal({
+          certificationData: expectedAllCertificationData,
+          learnerData: expectedAllLearnerData,
+          cleaData: [expectedCleaV3Data.cleaData],
+          pixPlusV2VoletPixData: [expectedEduV2Data.pixPlusV2VoletPixData],
+          pixPlusV2VoletExterneData: [expectedEduV2Data.pixPlusV2VoletExterneData],
+        });
       });
     });
   });
 });
 
-function buildCertificateData({ framework, sessionId, withOrgaLearner }) {
+function buildCertificateData({
+  framework,
+  sessionId,
+  withOrgaLearner,
+  algorithmEngineVersion,
+  versionId,
+  complementaryCertificationId,
+  complementaryCertificationBadgeId,
+}) {
   const isClea = framework === Frameworks.CLEA;
+  const isEdu = framework === Frameworks.EDU_1ER_DEGRE;
   const isCoreScope = [Frameworks.CLEA, Frameworks.CORE].includes(framework);
   const expectedCertifData = {
     sessionId,
-    algorithmEngineVersion: AlgorithmEngineVersion.V3,
+    algorithmEngineVersion,
     firstName: `Buffy_${framework}`,
     lastName: `Summers_${framework}`,
     externalId: `externalID_${framework}`,
@@ -113,7 +141,7 @@ function buildCertificateData({ framework, sessionId, withOrgaLearner }) {
     birthPostalCode: `birthPostalCode_${framework}`,
     birthINSEECode: `birthINSEECode_${framework}`,
     birthCountry: `birthCountry_${framework}`,
-    certificationCenter: 'Centre certification le meilleur',
+    certificationCenter: 'Nom du centre au moment de la session',
     startedAt: new Date('2026-01-01'),
     deliveredAt: new Date('2026-01-03'),
     status: 'validated',
@@ -125,23 +153,6 @@ function buildCertificateData({ framework, sessionId, withOrgaLearner }) {
   };
   expectedCertifData.maxReachableLevel = isCoreScope ? 7 : null;
   let expectedLearnerData = null;
-
-  const versionId = databaseBuilder.factory.buildCertificationVersion({
-    scope: isClea ? SCOPES.CORE : framework,
-    challengesConfiguration: {},
-    status: 'active',
-    maxReachableLevel: expectedCertifData.maxReachableLevel,
-  }).id;
-
-  let cleaComplementaryCertificationBadgeId, cleaComplementaryCertificationId;
-  if (isClea) {
-    cleaComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-      key: 'CLEA',
-    }).id;
-    cleaComplementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
-      complementaryCertificationId: cleaComplementaryCertificationId,
-    }).id;
-  }
 
   const userId = databaseBuilder.factory.buildUser().id;
   expectedCertifData.userId = userId;
@@ -187,18 +198,27 @@ function buildCertificateData({ framework, sessionId, withOrgaLearner }) {
   }).id;
   expectedCertifData.certificationCourseId = certificationCourseId;
 
-  if (isClea) {
+  if (isClea || isEdu) {
     const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId,
-      complementaryCertificationId: cleaComplementaryCertificationId,
-      complementaryCertificationBadgeId: cleaComplementaryCertificationBadgeId,
-      complementaryCertificationKey: 'CLEA',
+      complementaryCertificationId,
+      complementaryCertificationBadgeId,
+      complementaryCertificationKey: isClea ? 'CLEA' : 'EDU_1ER_DEGRE',
     }).id;
     databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
-      complementaryCertificationBadgeId: cleaComplementaryCertificationBadgeId,
+      complementaryCertificationBadgeId,
       acquired: true,
+      source: ComplementaryCertificationCourseResult.sources.PIX,
     });
+    if (isEdu) {
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId,
+        complementaryCertificationBadgeId,
+        acquired: false,
+        source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
+      });
+    }
   }
   const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
   expectedCertifData.status = 'validated';
@@ -208,7 +228,7 @@ function buildCertificateData({ framework, sessionId, withOrgaLearner }) {
   expectedCertifData.commentByJury = `commentByJury_${framework}`;
   expectedCertifData.commentForOrganization = `commentForOrganization_${framework}`;
   expectedCertifData.commentForCandidate = `commentForCandidate_${framework}`;
-  expectedCertifData.eduV3ExternalJuryResult = framework === Frameworks.EDU_CPE ? 'APPROVED' : null;
+  expectedCertifData.v3EduExternalJuryResult = framework === Frameworks.EDU_CPE ? 'APPROVED' : null;
   const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
     certificationCourseId,
     assessmentId,
@@ -219,10 +239,10 @@ function buildCertificateData({ framework, sessionId, withOrgaLearner }) {
     commentByJury: expectedCertifData.commentByJury,
     commentForOrganization: expectedCertifData.commentForOrganization,
     commentForCandidate: expectedCertifData.commentForCandidate,
-    eduV3ExternalJuryResult: expectedCertifData.eduV3ExternalJuryResult,
+    v3EduExternalJuryResult: expectedCertifData.v3EduExternalJuryResult,
   }).id;
   expectedCertifData.competenceMarks = [];
-  if (isCoreScope) {
+  if (algorithmEngineVersion === AlgorithmEngineVersion.V2 || isCoreScope) {
     databaseBuilder.factory.buildCompetenceMark({
       assessmentResultId,
       competenceId: `competenceABC123_${framework}`,
@@ -240,17 +260,32 @@ function buildCertificateData({ framework, sessionId, withOrgaLearner }) {
   }
 
   let expectedCleaData = null;
+  let expectedPixPlusV2VoletPixData = null;
+  let expectedPixPlusV2VoletExterneData = null;
   if (isClea) {
     expectedCleaData = {
       certificationCourseId,
-      complementaryCertificationBadgeId: cleaComplementaryCertificationBadgeId,
-      acquired: true,
+      cleaBadgeId: complementaryCertificationBadgeId,
+      hasAcquiredClea: true,
     };
   }
-
+  if (isEdu) {
+    expectedPixPlusV2VoletPixData = {
+      certificationCourseId,
+      v2ComplementaryVoletPixBadgeId: complementaryCertificationBadgeId,
+      v2ComplementaryVoletPixAcquired: true,
+    };
+    expectedPixPlusV2VoletExterneData = {
+      certificationCourseId,
+      v2EduVoletExterneBadgeId: complementaryCertificationBadgeId,
+      v2EduVoletExterneAcquired: false,
+    };
+  }
   return {
     certificationData: expectedCertifData,
     learnerData: expectedLearnerData,
     cleaData: expectedCleaData,
+    pixPlusV2VoletPixData: expectedPixPlusV2VoletPixData,
+    pixPlusV2VoletExterneData: expectedPixPlusV2VoletExterneData,
   };
 }

@@ -193,7 +193,7 @@ function buildCertificationResult(
   startedAt: Date,
 ) {
   let pixScore: number | null = null;
-  let competenceMarks: Array<{ level: number; competenceCode: string }> | null = null;
+  let competenceMarks: Array<{ level: number; competenceCode: string }> | null = [];
   let competenceMarksForDBResult: Array<{ level: number; competenceId: string }> | null = null;
   let hasAcquiredClea: boolean | null = null;
   if (framework === Frameworks.CORE || framework === Frameworks.CLEA) {

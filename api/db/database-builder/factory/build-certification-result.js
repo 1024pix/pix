@@ -35,9 +35,13 @@ import { databaseBuffer } from '../database-buffer.ts';
  * @property {number | null} reachedMeshIndex
  * @property {number | null} pixScore
  * @property {string} competenceMarks - JSON stringified array of CompetenceMarkRow
- * @property {string | null} eduV3ExternalJuryResult
+ * @property {string | null} v3EduExternalJuryResult
  * @property {boolean | null} hasAcquiredClea
  * @property {number | null} cleaBadgeId
+ * @property {number | null} v2ComplementaryVoletPixBadgeId
+ * @property {boolean | null} v2ComplementaryVoletPixAcquired
+ * @property {number | null} v2EduVoletExterneBadgeId
+ * @property {boolean | null} v2EduVoletExterneAcquired
  */
 
 /**
@@ -68,9 +72,13 @@ import { databaseBuffer } from '../database-buffer.ts';
  * @param {undefined | number | null} params.reachedMeshIndex
  * @param {undefined | number | null} params.pixScore
  * @param {undefined | Array<CompetenceMarkRow> | null} params.competenceMarks
- * @param {undefined | string | null} params.eduV3ExternalJuryResult
+ * @param {undefined | string | null} params.v3EduExternalJuryResult
  * @param {undefined | boolean | null} params.hasAcquiredClea
  * @param {undefined | number | null} params.cleaBadgeId
+ * @param {undefined | number | null} params.v2ComplementaryVoletPixBadgeId
+ * @param {undefined | boolean | null} params.v2ComplementaryVoletPixAcquired
+ * @param {undefined | number | null} params.v2EduVoletExterneBadgeId
+ * @param {undefined | boolean | null} params.v2EduVoletExterneAcquired
  * @returns {CertificationResultRow}
  */
 export function buildCertificationResult({
@@ -98,10 +106,20 @@ export function buildCertificationResult({
   reachedMeshIndex = 2,
   pixScore = 186,
   competenceMarks = [{ competenceId: 'competenceABC123', level: 2 }],
-  eduV3ExternalJuryResult = null,
+  v3EduExternalJuryResult = null,
   hasAcquiredClea = null,
   cleaBadgeId = null,
+  v2ComplementaryVoletPixBadgeId = null,
+  v2ComplementaryVoletPixAcquired = null,
+  v2EduVoletExterneBadgeId = null,
+  v2EduVoletExterneAcquired = null,
 } = {}) {
+  const competences =
+    competenceMarks?.map(({ competenceId, level }) => ({
+      certificationResultId: id,
+      competenceId,
+      level,
+    })) ?? [];
   const values = {
     id,
     algorithmEngineVersion,
@@ -126,13 +144,23 @@ export function buildCertificationResult({
     maxReachableLevel,
     reachedMeshIndex,
     pixScore,
-    competenceMarks: JSON.stringify(competenceMarks),
-    eduV3ExternalJuryResult,
+    v3EduExternalJuryResult,
     hasAcquiredClea,
     cleaBadgeId,
+    v2ComplementaryVoletPixBadgeId,
+    v2ComplementaryVoletPixAcquired,
+    v2EduVoletExterneBadgeId,
+    v2EduVoletExterneAcquired,
   };
-  return databaseBuffer.pushInsertable({
+  databaseBuffer.pushInsertable({
     tableName: 'certification_results',
     values,
   });
+  for (const competence of competences) {
+    databaseBuffer.pushInsertable({
+      tableName: 'certification_competence_results',
+      values: competence,
+    });
+  }
+  return values;
 }
