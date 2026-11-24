@@ -44,14 +44,9 @@ module(
         subscription: 'EDU_1ER_DEGRE',
       });
 
-      const closeStub = sinon.stub();
-
       // when
-      const screen = await render(
-        <template>
-          <CandidateDetails @closeModal={{closeStub}} @showModal={{true}} @candidate={{candidate}} />
-        </template>,
-      );
+      const screen = await render(<template><CandidateDetails @candidate={{candidate}} /></template>);
+
       // then
       assert.dom(screen.getByText('Détail du candidat')).exists();
       assert.dom(screen.getByText('Jean-Paul')).exists();
@@ -90,13 +85,9 @@ module(
         subscription: cleaSubscription,
       });
 
-      const closeStub = sinon.stub();
-
       // when
       const screen = await render(
-        <template>
-          <CandidateDetails @closeModal={{closeStub}} @showModal={{true}} @candidate={{candidate}} />
-        </template>,
+        <template><CandidateDetails @showModal={{true}} @candidate={{candidate}} /></template>,
       );
 
       // then
@@ -120,14 +111,8 @@ module(
           subscription: 'CORE',
         });
 
-        const closeStub = sinon.stub();
-
         // when
-        const screen = await render(
-          <template>
-            <CandidateDetails @closeModal={{closeStub}} @showModal={{true}} @candidate={{candidate}} />
-          </template>,
-        );
+        const screen = await render(<template><CandidateDetails @candidate={{candidate}} /></template>);
 
         // then
         assert.strictEqual(screen.getAllByText('-').length, 13);
@@ -158,12 +143,8 @@ module(
           subscription: 'CORE',
         });
 
-        const closeStub = sinon.stub();
-
         // when
-        const screen = await render(
-          <template><CandidateDetails @closeModal={{closeStub}} @candidate={{candidate}} /></template>,
-        );
+        const screen = await render(<template><CandidateDetails @candidate={{candidate}} /></template>);
 
         // then
         assert.dom(screen.getByText('Détail du candidat')).exists();
@@ -207,12 +188,8 @@ module(
           subscription: 'CORE',
         });
 
-        const closeStub = sinon.stub();
-
         // when
-        const screen = await render(
-          <template><CandidateDetails @closeModal={{closeStub}} @candidate={{candidate}} /></template>,
-        );
+        const screen = await render(<template><CandidateDetails @candidate={{candidate}} /></template>);
 
         // then
         assert.dom(screen.getByText('Détail du candidat')).exists();
