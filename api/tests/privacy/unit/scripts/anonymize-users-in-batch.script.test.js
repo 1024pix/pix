@@ -32,7 +32,7 @@ describe('Unit | Privacy | Scripts | Anonymize users in batch', function () {
               await callback(file);
             },
             dryRun: true,
-            anonymizerId: 1234,
+            adminId: 1234,
           },
           logger,
           anonymizeUserByAdmin,
@@ -57,7 +57,7 @@ describe('Unit | Privacy | Scripts | Anonymize users in batch', function () {
               await callback(file);
             },
             dryRun: false,
-            anonymizerId: 1234,
+            adminId: 1234,
           },
           logger,
           anonymizeUserByAdmin,
@@ -67,6 +67,9 @@ describe('Unit | Privacy | Scripts | Anonymize users in batch', function () {
 
         // then
         expect(anonymizeUserByAdmin.callCount).to.equal(3);
+        expect(anonymizeUserByAdmin).to.have.been.calledWith({ userId: 1, updatedByUserId: 1234, force: undefined });
+        expect(anonymizeUserByAdmin).to.have.been.calledWith({ userId: 2, updatedByUserId: 1234, force: undefined });
+        expect(anonymizeUserByAdmin).to.have.been.calledWith({ userId: 3, updatedByUserId: 1234, force: undefined });
         expect(logger.info).to.have.been.calledWith('3 user accounts processed successfully.');
       });
 
@@ -81,7 +84,7 @@ describe('Unit | Privacy | Scripts | Anonymize users in batch', function () {
               file: async (callback) => {
                 await callback(file);
               },
-              anonymizerId: 1234,
+              adminId: 1234,
               force: true,
               dryRun: false,
             },
@@ -113,7 +116,7 @@ describe('Unit | Privacy | Scripts | Anonymize users in batch', function () {
                   await callback(file);
                 },
                 dryRun: false,
-                anonymizerId: 1234,
+                adminId: 1234,
               },
               logger,
               anonymizeUserByAdmin,

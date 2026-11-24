@@ -22,9 +22,9 @@ export class AnonymizeUsersInBatchScript extends ScriptWithJob {
           demandOption: true,
           coerce: csvFileStreamer(columnSchemas),
         },
-        anonymizerId: {
+        adminId: {
           type: 'number',
-          describe: 'The user id of the anonymizer',
+          describe: 'The user id of the admin doing the anonymization',
           demandOption: true,
         },
         force: {
@@ -58,7 +58,7 @@ export class AnonymizeUsersInBatchScript extends ScriptWithJob {
   }
 
   async handle({ options, logger, anonymizeUserByAdmin = usecases.anonymizeUserByAdmin, jobClient }) {
-    const { file: streamFile, anonymizerId, force, chunkSize, delayInMilliseconds, dryRun } = options;
+    const { file: streamFile, adminId, force, chunkSize, delayInMilliseconds, dryRun } = options;
 
     await super.handle({ jobClient });
 
@@ -73,7 +73,7 @@ export class AnonymizeUsersInBatchScript extends ScriptWithJob {
         if (dryRun) continue;
 
         try {
-          await anonymizeUserByAdmin({ userId, updatedByUserId: anonymizerId, force });
+          await anonymizeUserByAdmin({ userId, updatedByUserId: adminId, force });
           this.successLines++;
         } catch (error) {
           this.errorOccured = true;
