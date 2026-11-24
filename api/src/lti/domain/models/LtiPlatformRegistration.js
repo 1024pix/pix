@@ -59,9 +59,4 @@ export class LtiPlatformRegistration {
   get platformIssuer() {
     return this.#platform.issuer;
   }
-
-  get frameAncestorsForCspHeader() {
-    const { origin } = new URL(this.#platform.issuer);
-    return `frame-ancestors ${origin};`;
-  }
 }
