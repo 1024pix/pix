@@ -132,4 +132,32 @@ describe('Integration | LTI | Infrastructure | Repository | lti-platform', funct
       });
     });
   });
+
+  describe('addOrganizations', function () {
+    it('adds missing organizations to platform', async function () {
+      // given
+      const { id: organizationId1 } = databaseBuilder.factory.buildOrganization();
+      const { id: organizationId2 } = databaseBuilder.factory.buildOrganization();
+      const { id: organizationId3 } = databaseBuilder.factory.buildOrganization();
+      const { id: platformId } = databaseBuilder.factory.buildLtiPlatform({ organizationIds: [organizationId2] });
+      await databaseBuilder.commit();
+
+      // when
+      const insertedCount = await ltiPlatformRepository.addOrganizations({
+        platformId,
+        organizationIds: [organizationId1, organizationId2, organizationId3],
+      });
+
+      // then
+      expect(insertedCount).to.equal(2);
+      const organizationIds = await knex
+        .pluck('organizationId')
+        .from('lti_platform_organizations')
+        .where({ platformId })
+        .orderBy('organizationId');
+      expect(organizationIds).to.deep.equal(
+        [organizationId1, organizationId2, organizationId3].toSorted((id1, id2) => id1 - id2),
+      );
+    });
+  });
 });

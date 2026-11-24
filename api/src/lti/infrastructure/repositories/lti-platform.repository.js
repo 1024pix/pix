@@ -48,6 +48,18 @@ export const ltiPlatformRepository = {
       throw err;
     }
   },
+
+  async addOrganizations({ platformId, organizationIds }) {
+    const knexConn = DomainTransaction.getConnection();
+
+    const { rowCount: insertedCount } = await knexConn
+      .insert(organizationIds.map((organizationId) => ({ platformId, organizationId })))
+      .into('lti_platform_organizations')
+      .onConflict(['platformId', 'organizationId'])
+      .ignore();
+
+    return insertedCount;
+  },
 };
 
 function selectPlatform(knexConn = DomainTransaction.getConnection()) {
