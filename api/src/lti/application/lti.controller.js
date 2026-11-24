@@ -31,26 +31,27 @@ async function listPublicKeys(request, h, dependencies = { listLtiPublicKeys: us
   return h.response({ keys: publicKeys });
 }
 
-async function register(request, h, dependencies = { registerLtiPlatform: usecases.registerLtiPlatform }) {
+async function register(request, h, dependencies = { registerLtiPlatform: usecases.registerLtiPlatform, ltiService }) {
   const { openid_configuration: platformConfigurationUrl, registration_token: registrationToken } = request.query;
 
   try {
-    const registration = await dependencies.registerLtiPlatform({ platformConfigurationUrl, registrationToken });
+    await dependencies.registerLtiPlatform({ platformConfigurationUrl, registrationToken });
 
     return h
       .response(ltiRegistrationSerializer.serialize())
       .header('Content-Type', 'text/html; charset=utf-8')
-      .header('Content-Security-Policy', registration.frameAncestorsForCspHeader);
+      .header('Content-Security-Policy', await dependencies.ltiService.getFrameAncestorsDirective());
   } catch (err) {
     logger.warn({ err }, 'registration error');
     return h
       .response(ltiErrorSerializer.serialize({ title: 'Registration error', message: err.message ?? err }))
       .header('Content-Type', 'text/html; charset=utf-8')
+      .header('Content-Security-Policy', await dependencies.ltiService.getFrameAncestorsDirective())
       .code(400);
   }
 }
 
-async function init(request, h, dependencies = { ltiPlatformRegistrationRepository, httpAgent }) {
+async function init(request, h, dependencies = { ltiPlatformRegistrationRepository, ltiService, httpAgent }) {
   logger.info({ payload: request.payload }, 'Init');
 
   const {
@@ -92,13 +93,14 @@ async function init(request, h, dependencies = { ltiPlatformRegistrationReposito
         }),
       )
       .header('Content-Type', 'text/html; charset=utf-8')
-      .header('Content-Security-Policy', registration.frameAncestorsForCspHeader);
+      .header('Content-Security-Policy', await dependencies.ltiService.getFrameAncestorsDirective());
   } catch (err) {
     return h
       .response(
         ltiErrorSerializer.serialize({ title: 'Initialization error', message: 'Please contact your administrator' }),
       )
       .header('Content-Type', 'text/html; charset=utf-8')
+      .header('Content-Security-Policy', await dependencies.ltiService.getFrameAncestorsDirective())
       .code(err.status ?? 500);
   }
 }
@@ -139,13 +141,14 @@ async function deepLink(request, h, dependencies = { ltiService }) {
     return h
       .redirect(campaignSelectionPageUrl)
       .header('Set-Cookie', ltiDeepLinkingAccessToken.encodedForSetCookieHeader)
-      .header('Content-Security-Policy', registration.frameAncestorsForCspHeader);
+      .header('Content-Security-Policy', await dependencies.ltiService.getFrameAncestorsDirective());
   } catch (err) {
     return h
       .response(
         ltiErrorSerializer.serialize({ title: 'Deep linking error', message: 'Please contact your administrator' }),
       )
       .header('Content-Type', 'text/html; charset=utf-8')
+      .header('Content-Security-Policy', await dependencies.ltiService.getFrameAncestorsDirective())
       .code(err.status ?? 500);
   }
 }
@@ -193,13 +196,14 @@ async function selectCampaign(request, h, dependencies = { ltiService }) {
       )
       .header('Content-Type', 'text/html; charset=utf-8')
       .header('Set-Cookie', LtiDeepLinkingAccessToken.setCookieHeaderForClearing())
-      .header('Content-Security-Policy', registration.frameAncestorsForCspHeader);
+      .header('Content-Security-Policy', await dependencies.ltiService.getFrameAncestorsDirective());
   } catch (err) {
     return h
       .response(
         ltiErrorSerializer.serialize({ title: 'Deep linking error', message: 'Please contact your administrator' }),
       )
       .header('Content-Type', 'text/html; charset=utf-8')
+      .header('Content-Security-Policy', await dependencies.ltiService.getFrameAncestorsDirective())
       .code(err.status ?? 500);
   }
 }
