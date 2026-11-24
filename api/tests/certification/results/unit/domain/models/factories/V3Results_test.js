@@ -47,6 +47,15 @@ describe('Certification | Results | Unit | Domain | Models | Factories | V3Resul
       });
     });
 
+    it('returns null for CLEA when clea data is missing', function () {
+      const results = buildV3Results({
+        certificationItem: { ...baseCertificationItem, framework: Frameworks.CLEA },
+        cleaItem: null,
+      });
+
+      expect(results).to.be.null;
+    });
+
     [Frameworks.DROIT, Frameworks.PRO_SANTE].forEach((framework) => {
       it(`builds ${framework} results without pix score nor competence marks`, function () {
         const results = buildV3Results({

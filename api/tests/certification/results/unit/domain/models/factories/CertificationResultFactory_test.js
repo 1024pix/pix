@@ -954,6 +954,40 @@ describe('Certification | Results | Unit | Domain | Models | Factories | Certifi
         ]);
       });
     });
+
+    context('when complementary data is missing', function () {
+      it('returns an error for the certification instead of throwing', function () {
+        // given
+        const sourceData = {
+          certificationData: [
+            {
+              ...buildCertificationData(1),
+              algorithmEngineVersion: AlgorithmEngineVersion.V3,
+              framework: Frameworks.CLEA,
+              maxReachableLevel: 7,
+              reachedMeshIndex: 4,
+              pixScore: 678,
+              competenceMarks: buildCompetenceMarks(1),
+            },
+          ],
+          learnerData: [],
+          cleaData: [],
+          pixPlusV2VoletPixData: [],
+          pixPlusV2VoletExterneData: [],
+        };
+
+        // when
+        const { certificationResults, userCertificationResults, errors } = CertificationResultFactory.buildAll(
+          sourceData,
+          () => '00000000-0000-4000-8000-000000000001',
+        );
+
+        // then
+        expect(Object.keys(errors)).to.deep.equal(['1']);
+        expect(certificationResults).to.be.empty;
+        expect(userCertificationResults).to.be.empty;
+      });
+    });
   });
 });
 

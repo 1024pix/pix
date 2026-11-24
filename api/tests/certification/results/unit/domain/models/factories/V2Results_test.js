@@ -60,6 +60,38 @@ describe('Certification | Results | Unit | Domain | Models | Factories | V2Resul
       });
     });
 
+    context('when complementary data is missing', function () {
+      it('returns null for CLEA when clea data is missing', function () {
+        const results = buildV2Results({
+          certificationItem: { framework: Frameworks.CLEA, pixScore: 678, competenceMarks },
+          cleaItem: null,
+          pixPlusV2VoletPixItem: null,
+          pixPlusV2VoletExterneItem: null,
+        });
+
+        expect(results).to.be.null;
+      });
+
+      [
+        Frameworks.DROIT,
+        Frameworks.PRO_SANTE,
+        Frameworks.EDU_1ER_DEGRE,
+        Frameworks.EDU_2ND_DEGRE,
+        Frameworks.EDU_CPE,
+      ].forEach((framework) => {
+        it(`returns null for ${framework} when volet pix data is missing`, function () {
+          const results = buildV2Results({
+            certificationItem: { framework, pixScore: 678, competenceMarks },
+            cleaItem: null,
+            pixPlusV2VoletPixItem: null,
+            pixPlusV2VoletExterneItem: null,
+          });
+
+          expect(results).to.be.null;
+        });
+      });
+    });
+
     context('EDU', function () {
       [Frameworks.EDU_1ER_DEGRE, Frameworks.EDU_2ND_DEGRE, Frameworks.EDU_CPE].forEach((framework) => {
         context(framework, function () {
