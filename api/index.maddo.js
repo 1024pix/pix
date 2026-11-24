@@ -1,5 +1,6 @@
 import { config, schema as configSchema } from './config/config.js';
 import { databaseConnectionRegistry } from './db/database-connection-registry.js';
+import { jobControllers } from './jobs.js';
 import { createMaddoServer } from './server.maddo.js';
 import { JobGroup } from './src/shared/application/jobs/job-controller.js';
 import { learningContentCache } from './src/shared/infrastructure/caches/learning-content-redis-cache.js';
@@ -51,6 +52,7 @@ process.on('SIGINT', async () => {
     await JobClient.instance.initialize({
       worker: config.infra.startJobInWebProcess,
       jobGroups: [JobGroup.MADDO],
+      jobControllers,
     });
 
     registerProcessErrorHandlers();

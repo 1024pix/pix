@@ -2,13 +2,25 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { config } from '../../../../../config/config.js';
-import { ValidateSiecleFileJob } from '../../../../../src/prescription/learner-management/domain/models/jobs/ValidateSiecleFileJob.js';
-import { AuditLoggingJobController } from '../../../../../src/shared/application/jobs/audit-logging.job-controller.js';
 import { JobGroup } from '../../../../../src/shared/application/jobs/job-controller.js';
-import { AuditLoggingJob } from '../../../../../src/shared/domain/models/jobs/AuditLoggingJob.js';
 import { JobExpireIn } from '../../../../../src/shared/infrastructure/jobs/default-config.js';
 import { JobClient } from '../../../../../src/shared/infrastructure/jobs/JobClient.js';
+import { TestCpfExportSenderJobController } from './test-cpf-export-sender-job-controller.js';
 import { TestEvent } from './test-event.js';
+import { TestPlainJobController } from './test-plain-job-controller.js';
+import { TestScheduleComputeOrganizationLearnersCertificabilityJobController } from './test-schedule-compute-organization-learners-certificability-job-controller.js';
+import { TestToDeleteEventHandler } from './test-to-delete.event-handler.js';
+import { TestToRegisterEventHandler } from './test-to-register.event-handler.js';
+import { TestToggleableJobController } from './test-toggleable-job-controller.js';
+
+const jobControllers = [
+  TestPlainJobController,
+  TestToggleableJobController,
+  TestCpfExportSenderJobController,
+  TestScheduleComputeOrganizationLearnersCertificabilityJobController,
+  TestToDeleteEventHandler,
+  TestToRegisterEventHandler,
+];
 
 class FakePgBoss {
   start() {
@@ -91,7 +103,7 @@ describe('Unit | JobClient', function () {
   });
 
   context('#registerJobs', function () {
-    it('should register AuditLoggingJob', async function () {
+    it('should register a job', async function () {
       // given
       const pgBossStub = new FakePgBoss();
       sinon.stub(pgBossStub, 'work');
@@ -102,12 +114,13 @@ describe('Unit | JobClient', function () {
           jobGroups: [JobGroup.DEFAULT],
           isTestOnly: false,
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );
 
       // then
-      expect(pgBossStub.work).to.have.been.calledWith(AuditLoggingJob.name);
+      expect(pgBossStub.work).to.have.been.calledWith('Test.PlainJob');
     });
 
     it('should enable LISTEN/NOTIFY on registered queues according to configuration', async function () {
@@ -123,16 +136,17 @@ describe('Unit | JobClient', function () {
         {
           jobGroups: [JobGroup.DEFAULT],
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );
 
       // then
-      expect(pgBossStub.createQueue).to.have.been.calledWith(AuditLoggingJob.name, {
+      expect(pgBossStub.createQueue).to.have.been.calledWith('Test.PlainJob', {
         retentionSeconds: config.pgBoss.retentionSeconds,
         notify: true,
       });
-      expect(pgBossStub.updateQueue).to.have.been.calledWith(AuditLoggingJob.name, {
+      expect(pgBossStub.updateQueue).to.have.been.calledWith('Test.PlainJob', {
         retentionSeconds: config.pgBoss.retentionSeconds,
         notify: true,
       });
@@ -152,6 +166,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -179,6 +194,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -205,23 +221,24 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
 
         // then
-        expect(pgBossStub.createQueue).to.have.been.calledWith(AuditLoggingJob.name, {
+        expect(pgBossStub.createQueue).to.have.been.calledWith('Test.PlainJob', {
           retentionSeconds: config.pgBoss.retentionSeconds,
           notify: false,
         });
       });
     });
 
-    it('should register legacyName from AuditLoggingJob', async function () {
+    it('should register the legacyName of a job', async function () {
       // given
       const pgBossStub = new FakePgBoss();
       sinon.stub(pgBossStub, 'work');
-      sinon.stub(AuditLoggingJobController.prototype, 'legacyName').get(() => 'legacyNameForAuditLoggingJobController');
+      sinon.stub(TestPlainJobController.prototype, 'legacyName').get(() => 'Test.LegacyPlainJob');
 
       // when
       const jobClient = new JobClient();
@@ -230,15 +247,16 @@ describe('Unit | JobClient', function () {
           jobGroups: [JobGroup.DEFAULT],
           isTestOnly: false,
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );
 
       // then
-      expect(pgBossStub.work).to.have.been.calledWith('legacyNameForAuditLoggingJobController');
+      expect(pgBossStub.work).to.have.been.calledWith('Test.LegacyPlainJob');
     });
 
-    it('should register ValidateSiecleFileJob when job is enabled', async function () {
+    it('should register a job when it is enabled', async function () {
       //given
       const pgBossStub = new FakePgBoss();
       sinon.stub(pgBossStub, 'work');
@@ -251,15 +269,16 @@ describe('Unit | JobClient', function () {
           jobGroups: [JobGroup.DEFAULT],
           isTestOnly: false,
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );
 
       // then
-      expect(pgBossStub.work).to.have.been.calledWith(ValidateSiecleFileJob.name);
+      expect(pgBossStub.work).to.have.been.calledWith('Test.ToggleableJob');
     });
 
-    it('should not register ValidateSiecleFileJob when job is disabled', async function () {
+    it('should not register a job when it is disabled', async function () {
       //given
       const pgBossStub = new FakePgBoss();
       sinon.stub(pgBossStub, 'work');
@@ -272,12 +291,13 @@ describe('Unit | JobClient', function () {
           jobGroups: [JobGroup.DEFAULT],
           isTestOnly: true,
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );
 
       // then
-      expect(pgBossStub.work).to.not.have.been.calledWith(ValidateSiecleFileJob.name);
+      expect(pgBossStub.work).to.not.have.been.calledWith('Test.ToggleableJob');
     });
 
     describe('cron Job', function () {
@@ -294,6 +314,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -320,6 +341,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -343,6 +365,7 @@ describe('Unit | JobClient', function () {
               jobGroups: [JobGroup.DEFAULT],
               isTestOnly: true,
               worker: true,
+              jobControllers,
             },
             () => pgBossStub,
           );
@@ -365,6 +388,7 @@ describe('Unit | JobClient', function () {
               jobGroups: [JobGroup.DEFAULT],
               isTestOnly: true,
               worker: true,
+              jobControllers,
             },
             () => pgBossStub,
           );
@@ -391,6 +415,7 @@ describe('Unit | JobClient', function () {
               jobGroups: [JobGroup.DEFAULT],
               isTestOnly: false,
               worker: true,
+              jobControllers,
             },
             () => pgBossStub,
           );
@@ -418,12 +443,13 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
 
         // then
-        expect(pgBossStub.unschedule).to.not.have.been.calledWith(AuditLoggingJob.name);
+        expect(pgBossStub.unschedule).to.not.have.been.calledWith('Test.PlainJob');
       });
     });
 
@@ -440,6 +466,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -460,6 +487,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -482,6 +510,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -504,6 +533,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -526,6 +556,7 @@ describe('Unit | JobClient', function () {
             jobGroups: [JobGroup.DEFAULT],
             isTestOnly: true,
             worker: true,
+            jobControllers,
           },
           () => pgBossStub,
         );
@@ -541,7 +572,7 @@ describe('Unit | JobClient', function () {
     const twoDaysAgo = new Date(Date.now() - 2 * 24 * 3600 * 1000);
     const oneHourAgo = new Date(Date.now() - 3600 * 1000);
     const initializeWorker = (pgBossStub, jobGroups = [JobGroup.DEFAULT]) =>
-      new JobClient().initialize({ jobGroups, isTestOnly: true, worker: true }, () => pgBossStub);
+      new JobClient().initialize({ jobGroups, isTestOnly: true, worker: true, jobControllers }, () => pgBossStub);
 
     it('deletes and unschedules an empty queue that no job class declares', async function () {
       // given
@@ -635,9 +666,9 @@ describe('Unit | JobClient', function () {
       // given
       const declaredQueueNames = [
         config.pgBoss.deadLetterQueueName,
-        AuditLoggingJob.name,
+        'Test.PlainJob',
         'TEST.ComputeOrganizationLearnersCertificabilityJob',
-        ValidateSiecleFileJob.name,
+        'Test.ToggleableJob',
         'test.to-register.event-queue',
       ];
       const pgBossStub = new FakePgBoss();
@@ -665,7 +696,10 @@ describe('Unit | JobClient', function () {
       const jobClient = new JobClient();
 
       // when
-      await jobClient.initialize({ jobGroups: [JobGroup.DEFAULT], isTestOnly: true, worker: true }, () => pgBossStub);
+      await jobClient.initialize(
+        { jobGroups: [JobGroup.DEFAULT], isTestOnly: true, worker: true, jobControllers },
+        () => pgBossStub,
+      );
 
       // then
       expect(jobClient.isInitialized).to.be.true;
@@ -692,6 +726,7 @@ describe('Unit | JobClient', function () {
           jobGroups: [JobGroup.DEFAULT],
           isTestOnly: true,
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );
@@ -719,6 +754,7 @@ describe('Unit | JobClient', function () {
           jobGroups: [JobGroup.DEFAULT],
           isTestOnly: true,
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );
@@ -762,6 +798,7 @@ describe('Unit | JobClient', function () {
           jobGroups: [JobGroup.DEFAULT],
           isTestOnly: true,
           worker: true,
+          jobControllers,
         },
         () => pgBossStub,
       );
