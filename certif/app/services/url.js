@@ -16,7 +16,7 @@ export default class Url extends UrlBaseService {
   }
 
   get dataProtectionPolicyUrl() {
-    return this.getPixWebsiteUrlFor('DATA_PROTECTION_POLICY');
+    return this.getPixWebsiteUrl('pix-app-privacy-policy');
   }
 
   get accessibilityUrl() {

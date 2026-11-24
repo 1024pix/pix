@@ -72,7 +72,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
       .hasAttribute('href', 'https://pix.org/fr/conditions-generales-d-utilisation');
     assert
       .dom(screen.getByRole('link', { name: 'politique de confidentialité' }))
-      .hasAttribute('href', 'https://pix.org/fr/politique-protection-donnees-personnelles-app');
+      .hasAttribute('href', 'https://pix.org/fr/pix-app-privacy-policy');
   });
 
   module('errors management', function () {

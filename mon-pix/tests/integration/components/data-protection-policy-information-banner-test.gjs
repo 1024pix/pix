@@ -70,7 +70,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
         assert.dom(screen.getByRole('alert')).exists();
         assert
           .dom(screen.getByRole('link', { name: 'Politique de protection des données.' }))
-          .hasAttribute('href', 'https://pix.fr/politique-protection-donnees-personnelles-app');
+          .hasAttribute('href', 'https://pix.fr/pix-app-privacy-policy-diff');
 
         const content = screen.getByText((content) =>
           content.startsWith(
@@ -94,7 +94,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
             // then
             assert
               .dom(screen.getByRole('link', { name: 'Personal data protection policy.' }))
-              .hasAttribute('href', 'https://pix.org/en/personal-data-protection-policy');
+              .hasAttribute('href', 'https://pix.org/en/pix-app-privacy-policy-diff');
 
             const content = screen.getByText((content) =>
               content.startsWith(
@@ -118,7 +118,7 @@ module('Integration | Component | data-protection-policy-information-banner', fu
             // then
             assert
               .dom(screen.getByRole('link', { name: 'Gegevensbeschermingsbeleid' }))
-              .hasAttribute('href', 'https://pix.org/nl-be/beleid-inzake-de-bescherming-van-persoonsgegevens');
+              .hasAttribute('href', 'https://pix.org/nl-be/pix-app-privacy-policy-diff');
 
             const content = screen.getByText((content) =>
               content.startsWith('Ons privacybeleid is gewijzigd. Wij nodigen je uit om hier kennis van te nemen:'),
