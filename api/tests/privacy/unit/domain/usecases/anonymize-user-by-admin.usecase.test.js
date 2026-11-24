@@ -26,7 +26,7 @@ describe('Unit | Privacy | Domain | usecases | anonymize user by admin', functio
     };
   });
 
-  it('should publish an event', async function () {
+  it('publishes an event', async function () {
     // given
     const userId = 1234;
     const updatedByUserId = 456;
@@ -48,7 +48,7 @@ describe('Unit | Privacy | Domain | usecases | anonymize user by admin', functio
     expect(eventJobPublisherService.publishEvent).to.have.been.calledWith(event);
   });
 
-  it('should log anomymization with AuditLoggingJob object', async function () {
+  it('logs anomymization through the AuditLoggingJob', async function () {
     // given
     const userId = 1234;
     const updatedByUserId = 456;
@@ -69,26 +69,54 @@ describe('Unit | Privacy | Domain | usecases | anonymize user by admin', functio
     expect(auditLoggingJobRepository.performAsync).to.have.been.called;
   });
 
-  it('should throw a UserAlreadyAnonymizedError and not publish an event when the user has already been anonymized', async function () {
-    // given
-    const userId = 1234;
-    const updatedByUserId = 456;
-    adminMemberRepository.get.resolves({ id: updatedByUserId, role: 'SUPER_ADMIN' });
-    userRepository.get.resolves({ id: userId, hasBeenAnonymised: true });
+  context('when the user has already been anonymized', function () {
+    it('throws a UserAlreadyAnonymizedError and does not publish an event', async function () {
+      // given
+      const userId = 1234;
+      const updatedByUserId = 456;
+      adminMemberRepository.get.resolves({ id: updatedByUserId, role: 'SUPER_ADMIN' });
+      userRepository.get.resolves({ id: userId, hasBeenAnonymised: true });
 
-    // when
-    const error = await catchErr(anonymizeUserByAdmin)({
-      userId,
-      updatedByUserId,
-      adminMemberRepository,
-      userRepository,
-      eventJobPublisherService,
-      auditLoggingJobRepository,
+      // when
+      const error = await catchErr(anonymizeUserByAdmin)({
+        userId,
+        updatedByUserId,
+        adminMemberRepository,
+        userRepository,
+        eventJobPublisherService,
+        auditLoggingJobRepository,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(UserAlreadyAnonymizedError);
+      expect(eventJobPublisherService.publishEvent).to.not.have.been.called;
+      expect(auditLoggingJobRepository.performAsync).to.not.have.been.called;
     });
 
-    // then
-    expect(error).to.be.instanceOf(UserAlreadyAnonymizedError);
-    expect(eventJobPublisherService.publishEvent).to.not.have.been.called;
-    expect(auditLoggingJobRepository.performAsync).to.not.have.been.called;
+    context('with the force option', function () {
+      it('does not throw any error and publishes an event', async function () {
+        // given
+        const userId = 1234;
+        const updatedByUserId = 456;
+        const force = true;
+        adminMemberRepository.get.resolves({ id: updatedByUserId, role: 'SUPER_ADMIN' });
+        userRepository.get.resolves({ id: userId, hasBeenAnonymised: true });
+        const event = new AnonymizeUserEvent({ userId, updatedByUserId });
+
+        // when
+        await anonymizeUserByAdmin({
+          userId,
+          updatedByUserId,
+          force,
+          adminMemberRepository,
+          userRepository,
+          eventJobPublisherService,
+          auditLoggingJobRepository,
+        });
+
+        // then
+        expect(eventJobPublisherService.publishEvent).to.have.been.calledWith(event);
+      });
+    });
   });
 });

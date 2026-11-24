@@ -22,15 +22,15 @@ export class AnonymizeUsersInBatchScript extends ScriptWithJob {
           demandOption: true,
           coerce: csvFileStreamer(columnSchemas),
         },
-        dryRun: {
-          type: 'boolean',
-          describe: 'If present, the script will not make any changes to the database',
-          default: false,
-        },
-        anonymizerId: {
+        adminId: {
           type: 'number',
-          describe: 'The user id of the anonymizer',
+          describe: 'The user id of the admin doing the anonymization',
           demandOption: true,
+        },
+        force: {
+          type: 'boolean',
+          describe: 'If present, already anonymized users will be anonymized again',
+          default: false,
         },
         chunkSize: {
           type: 'number',
@@ -42,6 +42,11 @@ export class AnonymizeUsersInBatchScript extends ScriptWithJob {
           describe: 'Delay between each chunk in milliseconds',
           default: DELAY,
         },
+        dryRun: {
+          type: 'boolean',
+          describe: 'If present, the script will not make any changes to the database',
+          default: false,
+        },
       },
     });
 
@@ -52,8 +57,8 @@ export class AnonymizeUsersInBatchScript extends ScriptWithJob {
     this.errorOccured = false;
   }
 
-  async handle({ options, logger, anonymizeUser = usecases.anonymizeUser, jobClient }) {
-    const { file: streamFile, dryRun, anonymizerId, chunkSize, delayInMilliseconds } = options;
+  async handle({ options, logger, anonymizeUserByAdmin = usecases.anonymizeUserByAdmin, jobClient }) {
+    const { file: streamFile, adminId, force, chunkSize, delayInMilliseconds, dryRun } = options;
 
     await super.handle({ jobClient });
 
@@ -68,7 +73,7 @@ export class AnonymizeUsersInBatchScript extends ScriptWithJob {
         if (dryRun) continue;
 
         try {
-          await anonymizeUser({ userId, updatedByUserId: anonymizerId });
+          await anonymizeUserByAdmin({ userId, updatedByUserId: adminId, force });
           this.successLines++;
         } catch (error) {
           this.errorOccured = true;
