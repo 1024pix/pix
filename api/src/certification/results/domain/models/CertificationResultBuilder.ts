@@ -22,6 +22,8 @@ export type CertificationDataV3Props = {
   birthPostalCode: string | null;
   birthINSEECode: string | null;
   birthCountry: string | null;
+  birthCountryCode: string | null;
+  birthCountryPlace: string | null;
   verificationCode: string;
   certificationCenter: string;
   startedAt: Date;
@@ -108,6 +110,8 @@ export class CertificationResultBuilder {
         birthPostalCode: certificationItem.birthPostalCode ?? null,
         birthINSEECode: certificationItem.birthINSEECode ?? null,
         birthCountry: certificationItem.birthCountry ?? null,
+        birthCountryCode: certificationItem.birthCountryCode ?? null,
+        birthCountryPlace: certificationItem.birthCountryPlace ?? null,
         verificationCode: certificationItem.verificationCode,
         certificationCenter: certificationItem.certificationCenter,
         startedAt: certificationItem.startedAt,
