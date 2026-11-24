@@ -1,4 +1,4 @@
-import { AttestationNotFoundError } from '../errors.js';
+import { AttestationNotFoundError, ProfileRewardCantBeSharedError } from '../errors.js';
 
 export async function getAttestationDataForUsers({
   attestationKey,
@@ -24,6 +24,9 @@ export async function getAttestationDataForUsers({
   return {
     data: profileRewards.map(({ userId, createdAt }) => {
       const user = usersById.get(userId);
+      if (!user) {
+        throw new ProfileRewardCantBeSharedError();
+      }
       return user.toForm(createdAt, locale, stringUtils.normalizeAndRemoveAccents);
     }),
     template,

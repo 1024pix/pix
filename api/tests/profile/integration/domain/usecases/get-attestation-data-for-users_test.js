@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { AttestationNotFoundError } from '../../../../../src/profile/domain/errors.js';
+import { AttestationNotFoundError, ProfileRewardCantBeSharedError } from '../../../../../src/profile/domain/errors.js';
 import { User } from '../../../../../src/profile/domain/models/User.js';
 import { usecases } from '../../../../../src/profile/domain/usecases/index.js';
 import { normalizeAndRemoveAccents } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
@@ -73,6 +73,37 @@ describe('Profile | Integration | Domain | get-attestation-data-for-users', func
 
       //then
       expect(error).to.be.an.instanceof(AttestationNotFoundError);
+    });
+
+    it('should throw an AttestationNotFound error if user has been anonymised', async function () {
+      const locale = 'FR-fr';
+      const attestation = databaseBuilder.factory.buildAttestation();
+      mockAttestationStorage(attestation);
+
+      const adminUser = databaseBuilder.factory.buildUser();
+      const anonymisedUser = databaseBuilder.factory.buildUser({
+        firstName: 'alex',
+        lastName: 'Terieur',
+        hasBeenAnonymised: true,
+        hasBeenAnonymisedBy: adminUser.id,
+      });
+
+      databaseBuilder.factory.buildProfileReward({
+        rewardId: attestation.id,
+        userId: anonymisedUser.id,
+      }).createdAt;
+
+      await databaseBuilder.commit();
+
+      //when
+      const error = await catchErr(usecases.getAttestationDataForUsers)({
+        attestationKey: attestation.key,
+        userIds: [anonymisedUser.id],
+        locale,
+      });
+
+      // then
+      expect(error).to.be.an.instanceof(ProfileRewardCantBeSharedError);
     });
   });
 });
