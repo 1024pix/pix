@@ -31,7 +31,7 @@ module('Integration | Component | LocaleSwitcher', function (hooks) {
   module('when component renders', function () {
     test('displays current locale', async function (assert) {
       // given
-      setCurrentLocale('en');
+      await setCurrentLocale('en');
 
       // when
       const screen = await render(<template><LocaleSwitcher /></template>);
@@ -47,7 +47,7 @@ module('Integration | Component | LocaleSwitcher', function (hooks) {
   module('when component is clicked', function () {
     test('displays a list of available locales with french locale first', async function (assert) {
       // given
-      setCurrentLocale('fr');
+      await setCurrentLocale('fr');
       const screen = await render(<template><LocaleSwitcher /></template>);
 
       // when
@@ -66,9 +66,9 @@ module('Integration | Component | LocaleSwitcher', function (hooks) {
     test('calls onChange callback', async function (assert) {
       // given
       const onLocaleChangeStub = sinon.stub();
-      sinon.stub(localeService, 'setCurrentLocale');
+      sinon.stub(localeService, 'setCurrentLocale').resolves();
       sinon.stub(routerService, 'replaceWith');
-      setCurrentLocale('fr');
+      await setCurrentLocale('fr');
 
       const screen = await render(<template><LocaleSwitcher @onChange={{onLocaleChangeStub}} /></template>);
 

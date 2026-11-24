@@ -1,13 +1,12 @@
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
+import setupIntl from 'pix-certif/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlForModels from '../../../helpers/setup-intl';
-
 module('Unit | Controller | authenticated/sessions/import', function (hooks) {
   setupTest(hooks);
-  setupIntlForModels(hooks);
+  setupIntl(hooks);
 
   let controller;
 

@@ -5,6 +5,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 import { formatUtcDate } from 'pix-certif/helpers/format-utc-date';
+import { escapeHtml } from 'pix-certif/utils/escape-html';
 
 const TRANSLATE_PREFIX = 'pages.sessions.detail.candidates';
 
@@ -55,8 +56,8 @@ export default class CandidateCreationModal extends Component {
         <p>
           {{t
             'pages.sessions.detail.candidates.deletion-modal.body'
-            firstName=@candidate.firstName
-            lastName=@candidate.lastName
+            firstName=(escapeHtml @candidate.firstName)
+            lastName=(escapeHtml @candidate.lastName)
             birthdate=this.candidateFormattedBirthdate
             htmlSafe=true
           }}

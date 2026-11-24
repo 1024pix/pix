@@ -1,8 +1,8 @@
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { click, currentURL, visit } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
+import setupIntl, { t } from 'pix-certif/tests/helpers/setup-intl';
 import { setupMirage } from 'pix-certif/tests/test-support/setup-mirage';
 import { STUDENT_PAGE_SIZE } from 'pix-certif/utils/pagination';
 import { module, test } from 'qunit';
@@ -11,6 +11,7 @@ import { authenticateSession } from '../helpers/test-init';
 
 module('Acceptance | Session Add Sco Students', function (hooks) {
   setupApplicationTest(hooks);
+  setupIntl(hooks);
   setupMirage(hooks);
 
   let allowedCertificationCenterAccess;

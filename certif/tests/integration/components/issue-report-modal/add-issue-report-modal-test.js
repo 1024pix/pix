@@ -1,13 +1,13 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { t } from 'ember-intl/test-support';
 import {
   categoryToCode,
   categoryToLabel,
   certificationIssueReportCategories,
   v3CertificationIssueReportCategories,
 } from 'pix-certif/models/certification-issue-report';
+import { t } from 'pix-certif/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

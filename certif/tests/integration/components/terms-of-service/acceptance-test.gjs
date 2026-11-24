@@ -1,6 +1,6 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import Acceptance from 'pix-certif/components/terms-of-service/acceptance';
+import { t } from 'pix-certif/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

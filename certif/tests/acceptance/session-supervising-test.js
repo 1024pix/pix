@@ -1,9 +1,9 @@
 import { visit, within } from '@1024pix/ember-testing-library';
 import { click, fillIn, settled, waitUntil } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
 import ENV from 'pix-certif/config/environment';
+import setupIntl, { t } from 'pix-certif/tests/helpers/setup-intl';
 import { setupMirage } from 'pix-certif/tests/test-support/setup-mirage';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -21,6 +21,7 @@ const waitUntilElementIsVisible = (element) => {
 /* eslint-disable ember/no-settled-after-test-helper */
 module('Acceptance | Session supervising', function (hooks) {
   setupApplicationTest(hooks);
+  setupIntl(hooks);
   setupMirage(hooks);
 
   hooks.beforeEach(async function () {

@@ -1,6 +1,6 @@
 import { render, within } from '@1024pix/ember-testing-library';
-import { t } from 'ember-intl/test-support';
 import Footer from 'pix-certif/components/layout/footer';
+import { t } from 'pix-certif/tests/helpers/setup-intl';
 import { module, test } from 'qunit';
 
 import setupRenderingIntlTest from '../../../helpers/setup-intl-rendering';

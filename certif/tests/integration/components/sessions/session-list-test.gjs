@@ -1,7 +1,7 @@
 import { render, within } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
-import { t } from 'ember-intl/test-support';
 import SessionList from 'pix-certif/components/sessions/session-list';
+import { t } from 'pix-certif/tests/helpers/setup-intl';
 import { SESSION_PAGE_SIZE } from 'pix-certif/utils/pagination';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
