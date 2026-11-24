@@ -1,29 +1,25 @@
 import { expect } from 'chai';
 
-import { CertificationResultBuilder } from '../../../../../../src/certification/results/domain/models/CertificationResultBuilder.ts';
-import * as certificationResultBuilderRepository from '../../../../../../src/certification/results/infrastructure/repositories/certification-result-builder-repository.js';
+import * as certificationResultSourceDataRepository from '../../../../../../src/certification/results/infrastructure/repositories/certification-result-source-data-repository.js';
 import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
 import { ComplementaryCertificationCourseResult } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { SCOPES } from '../../../../../../src/certification/shared/domain/models/Scopes.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
 
-describe('Certification | Results | Integration | Infrastructure | Repository | CertificationResultBuilder', function () {
-  describe('#findBuilderForCertificationsInSession', function () {
+describe('Certification | Results | Integration | Infrastructure | Repository | CertificationResultSourceData', function () {
+  describe('#findBySessionId', function () {
     context('when no data found for session', function () {
-      it('returns an empty builder', async function () {
-        const certificationResultBuilder =
-          await certificationResultBuilderRepository.findBuilderForCertificationsInSession(123);
+      it('returns empty source data', async function () {
+        const sourceData = await certificationResultSourceDataRepository.findBySessionId(123);
 
-        expect(certificationResultBuilder).to.deepEqualInstance(
-          new CertificationResultBuilder({
-            certificationData: [],
-            learnerData: [],
-            cleaData: [],
-            pixPlusV2VoletPixData: [],
-            pixPlusV2VoletExterneData: [],
-          }),
-        );
+        expect(sourceData).to.deep.equal({
+          certificationData: [],
+          learnerData: [],
+          cleaData: [],
+          pixPlusV2VoletPixData: [],
+          pixPlusV2VoletExterneData: [],
+        });
       });
     });
 
@@ -102,22 +98,20 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         return databaseBuilder.commit();
       });
 
-      it('returns a CertificateBuilder filled with all data from the certifications of the given session', async function () {
-        const certificationResultBuilder =
-          await certificationResultBuilderRepository.findBuilderForCertificationsInSession(sessionId);
+      it('returns all source data from the certifications of the given session', async function () {
+        const sourceData = await certificationResultSourceDataRepository.findBySessionId(sessionId);
+
         const expectedAllCertificationData = [expectedCoreV3Data, expectedCleaV3Data, expectedEduV2Data].map(
           ({ certificationData }) => certificationData,
         );
         const expectedAllLearnerData = [expectedCoreV3Data, expectedCleaV3Data].map(({ learnerData }) => learnerData);
-        expect(certificationResultBuilder).to.deepEqualInstance(
-          new CertificationResultBuilder({
-            certificationData: expectedAllCertificationData,
-            learnerData: expectedAllLearnerData,
-            cleaData: [expectedCleaV3Data.cleaData],
-            pixPlusV2VoletPixData: [expectedEduV2Data.pixPlusV2VoletPixData],
-            pixPlusV2VoletExterneData: [expectedEduV2Data.pixPlusV2VoletExterneData],
-          }),
-        );
+        expect(sourceData).to.deep.equal({
+          certificationData: expectedAllCertificationData,
+          learnerData: expectedAllLearnerData,
+          cleaData: [expectedCleaV3Data.cleaData],
+          pixPlusV2VoletPixData: [expectedEduV2Data.pixPlusV2VoletPixData],
+          pixPlusV2VoletExterneData: [expectedEduV2Data.pixPlusV2VoletExterneData],
+        });
       });
     });
   });

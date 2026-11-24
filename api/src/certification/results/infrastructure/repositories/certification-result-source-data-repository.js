@@ -1,9 +1,8 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
-import { CertificationResultBuilder } from '../../domain/models/CertificationResultBuilder.ts';
 
-export async function findBuilderForCertificationsInSession(sessionId) {
+export async function findBySessionId(sessionId) {
   const knexConn = DomainTransaction.getConnection();
   const certificationData = await knexConn
     .select({
@@ -69,13 +68,13 @@ export async function findBuilderForCertificationsInSession(sessionId) {
     )
     .orderBy('certification-courses.id');
   if (certificationData.length === 0) {
-    return new CertificationResultBuilder({
+    return {
       certificationData: [],
       learnerData: [],
       cleaData: [],
       pixPlusV2VoletPixData: [],
       pixPlusV2VoletExterneData: [],
-    });
+    };
   }
 
   const organizationLearnerIds = certificationData
@@ -169,11 +168,11 @@ export async function findBuilderForCertificationsInSession(sessionId) {
       certificationItem.competenceMarks = [];
     }
   }
-  return new CertificationResultBuilder({
+  return {
     certificationData,
     learnerData,
     cleaData,
     pixPlusV2VoletPixData,
     pixPlusV2VoletExterneData,
-  });
+  };
 }

@@ -1,17 +1,17 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { CERTIFICATION_RESULT_STATUSES } from '../../../../../../src/certification/results/domain/constants.ts';
-import { CertificationResultBuilder } from '../../../../../../src/certification/results/domain/models/CertificationResultBuilder.ts';
+import { CERTIFICATION_RESULT_STATUSES } from '../../../../../../../src/certification/results/domain/constants.ts';
+import { CertificationResultFactory } from '../../../../../../../src/certification/results/domain/models/factories/CertificationResultFactory.ts';
 import {
   CertificationResult,
   UserCertificationResult,
-} from '../../../../../../src/certification/results/domain/models/NewCertificationResult.ts';
-import { AlgorithmEngineVersion } from '../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
-import { Frameworks } from '../../../../../../src/certification/shared/domain/models/Frameworks.js';
+} from '../../../../../../../src/certification/results/domain/models/NewCertificationResult.ts';
+import { AlgorithmEngineVersion } from '../../../../../../../src/certification/shared/domain/models/AlgorithmEngineVersion.js';
+import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
 
-describe('Certification | Unit | Domain | Models | CertificationResultBuilder', function () {
-  describe('#build', function () {
+describe('Certification | Results | Unit | Domain | Models | Factories | CertificationResultFactory', function () {
+  describe('#buildAll', function () {
     let uuidGenerator = () => '00000000-0000-4000-8000-000000000001';
     const baseCertificationData = {
       certificationCourseId: 111,
@@ -66,14 +66,16 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
             },
           ];
 
-          const builder = new CertificationResultBuilder({
-            certificationData,
-            learnerData: [],
-            cleaData: [],
-            pixPlusV2VoletPixData: [],
-            pixPlusV2VoletExterneData: [],
-          });
-          const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
+          const { certificationResults, userCertificationResults, errors } = CertificationResultFactory.buildAll(
+            {
+              certificationData,
+              learnerData: [],
+              cleaData: [],
+              pixPlusV2VoletPixData: [],
+              pixPlusV2VoletExterneData: [],
+            },
+            uuidGenerator,
+          );
 
           sinon.assert.match(certificationResults, [
             sinon.match({
@@ -134,14 +136,16 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
               },
             ];
 
-            const builder = new CertificationResultBuilder({
-              certificationData,
-              learnerData,
-              cleaData: [],
-              pixPlusV2VoletPixData: [],
-              pixPlusV2VoletExterneData: [],
-            });
-            const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
+            const { certificationResults, userCertificationResults, errors } = CertificationResultFactory.buildAll(
+              {
+                certificationData,
+                learnerData,
+                cleaData: [],
+                pixPlusV2VoletPixData: [],
+                pixPlusV2VoletExterneData: [],
+              },
+              uuidGenerator,
+            );
 
             sinon.assert.match(certificationResults, [
               sinon.match({
@@ -183,14 +187,16 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
               },
             ];
 
-            const builder = new CertificationResultBuilder({
-              certificationData,
-              learnerData,
-              cleaData: [],
-              pixPlusV2VoletPixData: [],
-              pixPlusV2VoletExterneData: [],
-            });
-            const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
+            const { certificationResults, userCertificationResults, errors } = CertificationResultFactory.buildAll(
+              {
+                certificationData,
+                learnerData,
+                cleaData: [],
+                pixPlusV2VoletPixData: [],
+                pixPlusV2VoletExterneData: [],
+              },
+              uuidGenerator,
+            );
 
             sinon.assert.match(certificationResults, [
               sinon.match({
@@ -225,14 +231,16 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
               },
             ];
 
-            const builder = new CertificationResultBuilder({
-              certificationData,
-              learnerData: [],
-              cleaData: [],
-              pixPlusV2VoletPixData: [],
-              pixPlusV2VoletExterneData: [],
-            });
-            const { certificationResults, errors } = builder.build(uuidGenerator);
+            const { certificationResults, errors } = CertificationResultFactory.buildAll(
+              {
+                certificationData,
+                learnerData: [],
+                cleaData: [],
+                pixPlusV2VoletPixData: [],
+                pixPlusV2VoletExterneData: [],
+              },
+              uuidGenerator,
+            );
 
             sinon.assert.match(certificationResults, [
               sinon.match({
@@ -255,14 +263,16 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
               },
             ];
 
-            const builder = new CertificationResultBuilder({
-              certificationData,
-              learnerData: [],
-              cleaData: [],
-              pixPlusV2VoletPixData: [],
-              pixPlusV2VoletExterneData: [],
-            });
-            const { certificationResults, errors } = builder.build(uuidGenerator);
+            const { certificationResults, errors } = CertificationResultFactory.buildAll(
+              {
+                certificationData,
+                learnerData: [],
+                cleaData: [],
+                pixPlusV2VoletPixData: [],
+                pixPlusV2VoletExterneData: [],
+              },
+              uuidGenerator,
+            );
 
             sinon.assert.match(certificationResults, [
               sinon.match({
@@ -302,14 +312,16 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
               },
             ];
 
-            const builder = new CertificationResultBuilder({
-              certificationData,
-              learnerData: [],
-              cleaData: [],
-              pixPlusV2VoletPixData: [],
-              pixPlusV2VoletExterneData: [],
-            });
-            const { certificationResults, errors } = builder.build(uuidGenerator);
+            const { certificationResults, errors } = CertificationResultFactory.buildAll(
+              {
+                certificationData,
+                learnerData: [],
+                cleaData: [],
+                pixPlusV2VoletPixData: [],
+                pixPlusV2VoletExterneData: [],
+              },
+              uuidGenerator,
+            );
 
             sinon.assert.match(certificationResults, [
               sinon.match({
@@ -334,14 +346,16 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
                   },
                 ];
 
-                const builder = new CertificationResultBuilder({
-                  certificationData,
-                  learnerData: [],
-                  cleaData: [cleaItem],
-                  pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
-                  pixPlusV2VoletExterneData: [],
-                });
-                const { certificationResults, errors } = builder.build(uuidGenerator);
+                const { certificationResults, errors } = CertificationResultFactory.buildAll(
+                  {
+                    certificationData,
+                    learnerData: [],
+                    cleaData: [cleaItem],
+                    pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
+                    pixPlusV2VoletExterneData: [],
+                  },
+                  uuidGenerator,
+                );
                 sinon.assert.match(certificationResults, [
                   sinon.match({
                     franceCompetencesMinScore: null,
@@ -373,14 +387,16 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
                   },
                 ];
 
-                const builder = new CertificationResultBuilder({
-                  certificationData,
-                  learnerData: [],
-                  cleaData: [cleaItem],
-                  pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
-                  pixPlusV2VoletExterneData: [],
-                });
-                const { certificationResults, errors } = builder.build(uuidGenerator);
+                const { certificationResults, errors } = CertificationResultFactory.buildAll(
+                  {
+                    certificationData,
+                    learnerData: [],
+                    cleaData: [cleaItem],
+                    pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
+                    pixPlusV2VoletExterneData: [],
+                  },
+                  uuidGenerator,
+                );
 
                 sinon.assert.match(certificationResults, [
                   sinon.match({
@@ -407,14 +423,16 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
                   },
                 ];
 
-                const builder = new CertificationResultBuilder({
-                  certificationData,
-                  learnerData: [],
-                  cleaData: [cleaItem],
-                  pixPlusV2VoletPixData: [],
-                  pixPlusV2VoletExterneData: [],
-                });
-                const { certificationResults, errors } = builder.build(uuidGenerator);
+                const { certificationResults, errors } = CertificationResultFactory.buildAll(
+                  {
+                    certificationData,
+                    learnerData: [],
+                    cleaData: [cleaItem],
+                    pixPlusV2VoletPixData: [],
+                    pixPlusV2VoletExterneData: [],
+                  },
+                  uuidGenerator,
+                );
                 sinon.assert.match(certificationResults, [
                   sinon.match({
                     franceCompetencesMinScore: null,
@@ -446,724 +464,20 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
                   },
                 ];
 
-                const builder = new CertificationResultBuilder({
-                  certificationData,
-                  learnerData: [],
-                  cleaData: [cleaItem],
-                  pixPlusV2VoletPixData: [],
-                  pixPlusV2VoletExterneData: [],
-                });
-                const { certificationResults, errors } = builder.build(uuidGenerator);
+                const { certificationResults, errors } = CertificationResultFactory.buildAll(
+                  {
+                    certificationData,
+                    learnerData: [],
+                    cleaData: [cleaItem],
+                    pixPlusV2VoletPixData: [],
+                    pixPlusV2VoletExterneData: [],
+                  },
+                  uuidGenerator,
+                );
 
                 sinon.assert.match(certificationResults, [
                   sinon.match({
                     franceCompetencesMinScore: expectedFranceCompetencesMinScore,
-                  }),
-                ]);
-                expect(errors).to.deep.equal({});
-              });
-            });
-          });
-        });
-      });
-    });
-
-    context('results', function () {
-      context('v1', function () {
-        const algorithmEngineVersion = AlgorithmEngineVersion.V1;
-        const certificationItem = {
-          ...baseCertificationData,
-          birthPostalCode: null,
-          birthINSEECode: null,
-          birthCountry: null,
-          franceCompetencesMinScore: null,
-          commentByAutoJury: null,
-        };
-
-        context('CORE', function () {
-          it('correctly builds a CORE results for V1', function () {
-            const certificationData = [
-              {
-                ...certificationItem,
-                pixScore: 678,
-                competenceMarks: [
-                  {
-                    level: 1,
-                    competenceId: 'competenceABC123',
-                  },
-                  {
-                    level: 7,
-                    competenceId: 'competenceDEF456',
-                  },
-                ],
-                algorithmEngineVersion,
-                framework: Frameworks.CORE,
-              },
-            ];
-
-            const builder = new CertificationResultBuilder({
-              certificationData,
-              learnerData: [],
-              cleaData: [],
-              pixPlusV2VoletPixData: [],
-              pixPlusV2VoletExterneData: [],
-            });
-            const { certificationResults, errors } = builder.build(uuidGenerator);
-
-            sinon.assert.match(certificationResults, [
-              sinon.match({
-                results: {
-                  pixScore: 678,
-                  competenceMarks: [
-                    {
-                      level: 1,
-                      competenceId: 'competenceABC123',
-                    },
-                    {
-                      level: 7,
-                      competenceId: 'competenceDEF456',
-                    },
-                  ],
-                },
-              }),
-            ]);
-            expect(errors).to.deep.equal({});
-          });
-        });
-      });
-
-      context('v2', function () {
-        const algorithmEngineVersion = AlgorithmEngineVersion.V2;
-        const certificationItem = {
-          ...baseCertificationData,
-          franceCompetencesMinScore: 120,
-        };
-
-        context('CORE', function () {
-          it('correctly builds a CORE results for V2', function () {
-            const certificationData = [
-              {
-                ...certificationItem,
-                pixScore: 678,
-                competenceMarks: [
-                  {
-                    level: 1,
-                    competenceId: 'competenceABC123',
-                  },
-                  {
-                    level: 7,
-                    competenceId: 'competenceDEF456',
-                  },
-                ],
-                algorithmEngineVersion,
-                framework: Frameworks.CORE,
-              },
-            ];
-
-            const builder = new CertificationResultBuilder({
-              certificationData,
-              learnerData: [],
-              cleaData: [],
-              pixPlusV2VoletPixData: [],
-              pixPlusV2VoletExterneData: [],
-            });
-            const { certificationResults, errors } = builder.build(uuidGenerator);
-
-            sinon.assert.match(certificationResults, [
-              sinon.match({
-                results: {
-                  pixScore: 678,
-                  competenceMarks: [
-                    {
-                      level: 1,
-                      competenceId: 'competenceABC123',
-                    },
-                    {
-                      level: 7,
-                      competenceId: 'competenceDEF456',
-                    },
-                  ],
-                },
-              }),
-            ]);
-            expect(errors).to.deep.equal({});
-          });
-        });
-
-        context('CLEA', function () {
-          it('correctly builds a CLEA results for V2', function () {
-            const certificationData = [
-              {
-                ...certificationItem,
-                pixScore: 678,
-                competenceMarks: [
-                  {
-                    level: 1,
-                    competenceId: 'competenceABC123',
-                  },
-                  {
-                    level: 7,
-                    competenceId: 'competenceDEF456',
-                  },
-                ],
-                algorithmEngineVersion,
-                framework: Frameworks.CLEA,
-              },
-            ];
-            const cleaItem = {
-              certificationCourseId: 111,
-              hasAcquiredClea: true,
-              cleaBadgeId: 999,
-            };
-
-            const builder = new CertificationResultBuilder({
-              certificationData,
-              learnerData: [],
-              cleaData: [cleaItem],
-              pixPlusV2VoletPixData: [],
-              pixPlusV2VoletExterneData: [],
-            });
-            const { certificationResults, errors } = builder.build(uuidGenerator);
-
-            sinon.assert.match(certificationResults, [
-              sinon.match({
-                results: {
-                  pixScore: 678,
-                  competenceMarks: [
-                    {
-                      level: 1,
-                      competenceId: 'competenceABC123',
-                    },
-                    {
-                      level: 7,
-                      competenceId: 'competenceDEF456',
-                    },
-                  ],
-                  hasAcquiredClea: true,
-                  cleaBadgeId: 999,
-                },
-              }),
-            ]);
-            expect(errors).to.deep.equal({});
-          });
-        });
-
-        context('DROIT', function () {
-          it('correctly builds a DROIT results for V2', function () {
-            const certificationData = [
-              {
-                ...certificationItem,
-                pixScore: 678,
-                competenceMarks: [
-                  {
-                    level: 1,
-                    competenceId: 'competenceABC123',
-                  },
-                  {
-                    level: 7,
-                    competenceId: 'competenceDEF456',
-                  },
-                ],
-                algorithmEngineVersion,
-                framework: Frameworks.DROIT,
-              },
-            ];
-            const pixPlusV2VoletPixItem = {
-              certificationCourseId: 111,
-              v2VoletPixBadgeId: 999,
-              v2VoletPixAcquired: true,
-            };
-
-            const builder = new CertificationResultBuilder({
-              certificationData,
-              learnerData: [],
-              cleaData: [],
-              pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
-              pixPlusV2VoletExterneData: [],
-            });
-            const { certificationResults, errors } = builder.build(uuidGenerator);
-
-            sinon.assert.match(certificationResults, [
-              sinon.match({
-                results: {
-                  pixScore: 678,
-                  competenceMarks: [
-                    {
-                      level: 1,
-                      competenceId: 'competenceABC123',
-                    },
-                    {
-                      level: 7,
-                      competenceId: 'competenceDEF456',
-                    },
-                  ],
-                  v2VoletPixBadgeId: 999,
-                  v2VoletPixAcquired: true,
-                },
-              }),
-            ]);
-            expect(errors).to.deep.equal({});
-          });
-        });
-
-        context('PRO_SANTE', function () {
-          it('correctly builds a PRO_SANTE results for V2', function () {
-            const certificationData = [
-              {
-                ...certificationItem,
-                pixScore: 678,
-                competenceMarks: [
-                  {
-                    level: 1,
-                    competenceId: 'competenceABC123',
-                  },
-                  {
-                    level: 7,
-                    competenceId: 'competenceDEF456',
-                  },
-                ],
-                algorithmEngineVersion,
-                framework: Frameworks.PRO_SANTE,
-              },
-            ];
-            const pixPlusV2VoletPixItem = {
-              certificationCourseId: 111,
-              v2VoletPixBadgeId: 999,
-              v2VoletPixAcquired: true,
-            };
-
-            const builder = new CertificationResultBuilder({
-              certificationData,
-              learnerData: [],
-              cleaData: [],
-              pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
-              pixPlusV2VoletExterneData: [],
-            });
-            const { certificationResults, errors } = builder.build(uuidGenerator);
-
-            sinon.assert.match(certificationResults, [
-              sinon.match({
-                results: {
-                  pixScore: 678,
-                  competenceMarks: [
-                    {
-                      level: 1,
-                      competenceId: 'competenceABC123',
-                    },
-                    {
-                      level: 7,
-                      competenceId: 'competenceDEF456',
-                    },
-                  ],
-                  v2VoletPixBadgeId: 999,
-                  v2VoletPixAcquired: true,
-                },
-              }),
-            ]);
-            expect(errors).to.deep.equal({});
-          });
-        });
-
-        context('EDU', function () {
-          context('when there are no volet externe', function () {
-            [Frameworks.EDU_1ER_DEGRE, Frameworks.EDU_2ND_DEGRE, Frameworks.EDU_CPE].forEach((framework) => {
-              it(`correctly builds a ${framework} results for V2 with no volet externe`, function () {
-                const certificationData = [
-                  {
-                    ...certificationItem,
-                    pixScore: 678,
-                    competenceMarks: [
-                      {
-                        level: 1,
-                        competenceId: 'competenceABC123',
-                      },
-                      {
-                        level: 7,
-                        competenceId: 'competenceDEF456',
-                      },
-                    ],
-                    algorithmEngineVersion,
-                    framework,
-                  },
-                ];
-                const pixPlusV2VoletPixItem = {
-                  certificationCourseId: 111,
-                  v2VoletPixBadgeId: 999,
-                  v2VoletPixAcquired: true,
-                };
-
-                const builder = new CertificationResultBuilder({
-                  certificationData,
-                  learnerData: [],
-                  cleaData: [],
-                  pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
-                  pixPlusV2VoletExterneData: [],
-                });
-                const { certificationResults, errors } = builder.build(uuidGenerator);
-
-                sinon.assert.match(certificationResults, [
-                  sinon.match({
-                    results: {
-                      pixScore: 678,
-                      competenceMarks: [
-                        {
-                          level: 1,
-                          competenceId: 'competenceABC123',
-                        },
-                        {
-                          level: 7,
-                          competenceId: 'competenceDEF456',
-                        },
-                      ],
-                      v2VoletPixBadgeId: 999,
-                      v2VoletPixAcquired: true,
-                      v2VoletExterneBadgeId: null,
-                      v2VoletExterneAcquired: null,
-                    },
-                  }),
-                ]);
-                expect(errors).to.deep.equal({});
-              });
-            });
-          });
-
-          context('when there is a volet externe', function () {
-            [Frameworks.EDU_1ER_DEGRE, Frameworks.EDU_2ND_DEGRE, Frameworks.EDU_CPE].forEach((framework) => {
-              it(`correctly builds a ${framework} results for V2 with volet externe result`, function () {
-                const certificationData = [
-                  {
-                    ...certificationItem,
-                    pixScore: 678,
-                    competenceMarks: [
-                      {
-                        level: 1,
-                        competenceId: 'competenceABC123',
-                      },
-                      {
-                        level: 7,
-                        competenceId: 'competenceDEF456',
-                      },
-                    ],
-                    algorithmEngineVersion,
-                    framework,
-                  },
-                ];
-                const pixPlusV2VoletPixItem = {
-                  certificationCourseId: 111,
-                  v2VoletPixBadgeId: 999,
-                  v2VoletPixAcquired: true,
-                };
-                const pixPlusV2VoletExterneItem = {
-                  certificationCourseId: 111,
-                  v2VoletExterneBadgeId: 888,
-                  v2VoletExterneAcquired: false,
-                };
-
-                const builder = new CertificationResultBuilder({
-                  certificationData,
-                  learnerData: [],
-                  cleaData: [],
-                  pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
-                  pixPlusV2VoletExterneData: [pixPlusV2VoletExterneItem],
-                });
-                const { certificationResults, errors } = builder.build(uuidGenerator);
-
-                sinon.assert.match(certificationResults, [
-                  sinon.match({
-                    results: {
-                      pixScore: 678,
-                      competenceMarks: [
-                        {
-                          level: 1,
-                          competenceId: 'competenceABC123',
-                        },
-                        {
-                          level: 7,
-                          competenceId: 'competenceDEF456',
-                        },
-                      ],
-                      v2VoletPixBadgeId: 999,
-                      v2VoletPixAcquired: true,
-                      v2VoletExterneBadgeId: 888,
-                      v2VoletExterneAcquired: false,
-                    },
-                  }),
-                ]);
-                expect(errors).to.deep.equal({});
-              });
-            });
-          });
-        });
-      });
-
-      context('v3', function () {
-        const algorithmEngineVersion = AlgorithmEngineVersion.V3;
-        const certificationItem = {
-          ...baseCertificationData,
-          franceCompetencesMinScore: 120,
-        };
-
-        context('CORE', function () {
-          it('correctly builds a CORE results for V3', function () {
-            const certificationData = [
-              {
-                ...certificationItem,
-                maxReachableLevel: 7,
-                reachedMeshIndex: 4,
-                pixScore: 678,
-                competenceMarks: [
-                  {
-                    level: 1,
-                    competenceId: 'competenceABC123',
-                  },
-                  {
-                    level: 7,
-                    competenceId: 'competenceDEF456',
-                  },
-                ],
-                algorithmEngineVersion,
-                framework: Frameworks.CORE,
-              },
-            ];
-
-            const builder = new CertificationResultBuilder({
-              certificationData,
-              learnerData: [],
-              cleaData: [],
-              pixPlusV2VoletPixData: [],
-              pixPlusV2VoletExterneData: [],
-            });
-            const { certificationResults, errors } = builder.build(uuidGenerator);
-
-            sinon.assert.match(certificationResults, [
-              sinon.match({
-                results: {
-                  maxReachableLevel: 7,
-                  reachedMeshIndex: 4,
-                  pixScore: 678,
-                  competenceMarks: [
-                    {
-                      level: 1,
-                      competenceId: 'competenceABC123',
-                    },
-                    {
-                      level: 7,
-                      competenceId: 'competenceDEF456',
-                    },
-                  ],
-                },
-              }),
-            ]);
-            expect(errors).to.deep.equal({});
-          });
-        });
-
-        context('CLEA', function () {
-          it('correctly builds a CLEA results for V3', function () {
-            const certificationData = [
-              {
-                ...certificationItem,
-                maxReachableLevel: 7,
-                reachedMeshIndex: 4,
-                pixScore: 678,
-                competenceMarks: [
-                  {
-                    level: 1,
-                    competenceId: 'competenceABC123',
-                  },
-                  {
-                    level: 7,
-                    competenceId: 'competenceDEF456',
-                  },
-                ],
-                algorithmEngineVersion,
-                framework: Frameworks.CLEA,
-              },
-            ];
-            const cleaItem = {
-              certificationCourseId: 111,
-              hasAcquiredClea: true,
-              cleaBadgeId: 999,
-            };
-
-            const builder = new CertificationResultBuilder({
-              certificationData,
-              learnerData: [],
-              cleaData: [cleaItem],
-              pixPlusV2VoletPixData: [],
-              pixPlusV2VoletExterneData: [],
-            });
-            const { certificationResults, errors } = builder.build(uuidGenerator);
-
-            sinon.assert.match(certificationResults, [
-              sinon.match({
-                results: {
-                  maxReachableLevel: 7,
-                  reachedMeshIndex: 4,
-                  pixScore: 678,
-                  competenceMarks: [
-                    {
-                      level: 1,
-                      competenceId: 'competenceABC123',
-                    },
-                    {
-                      level: 7,
-                      competenceId: 'competenceDEF456',
-                    },
-                  ],
-                  hasAcquiredClea: true,
-                  cleaBadgeId: 999,
-                },
-              }),
-            ]);
-            expect(errors).to.deep.equal({});
-          });
-        });
-
-        context('DROIT', function () {
-          it('correctly builds a DROIT results for V3', function () {
-            const certificationData = [
-              {
-                ...certificationItem,
-                maxReachableLevel: 7,
-                reachedMeshIndex: 4,
-                algorithmEngineVersion,
-                framework: Frameworks.DROIT,
-              },
-            ];
-
-            const builder = new CertificationResultBuilder({
-              certificationData,
-              learnerData: [],
-              cleaData: [],
-              pixPlusV2VoletPixData: [],
-              pixPlusV2VoletExterneData: [],
-            });
-            const { certificationResults, errors } = builder.build(uuidGenerator);
-
-            sinon.assert.match(certificationResults, [
-              sinon.match({
-                results: {
-                  maxReachableLevel: 7,
-                  reachedMeshIndex: 4,
-                },
-              }),
-            ]);
-            expect(errors).to.deep.equal({});
-          });
-        });
-
-        context('PRO_SANTE', function () {
-          it('correctly builds a PRO_SANTE results for V3', function () {
-            const certificationData = [
-              {
-                ...certificationItem,
-                maxReachableLevel: 7,
-                reachedMeshIndex: 4,
-                algorithmEngineVersion,
-                framework: Frameworks.PRO_SANTE,
-              },
-            ];
-
-            const builder = new CertificationResultBuilder({
-              certificationData,
-              learnerData: [],
-              cleaData: [],
-              pixPlusV2VoletPixData: [],
-              pixPlusV2VoletExterneData: [],
-            });
-            const { certificationResults, errors } = builder.build(uuidGenerator);
-
-            sinon.assert.match(certificationResults, [
-              sinon.match({
-                results: {
-                  maxReachableLevel: 7,
-                  reachedMeshIndex: 4,
-                },
-              }),
-            ]);
-            expect(errors).to.deep.equal({});
-          });
-        });
-
-        context('EDU', function () {
-          context('when there are no v3EduExternalJuryResult', function () {
-            [Frameworks.EDU_1ER_DEGRE, Frameworks.EDU_2ND_DEGRE, Frameworks.EDU_CPE].forEach((framework) => {
-              it(`correctly builds a ${framework} results for V3 with no v3EduExternalJuryResult`, function () {
-                const certificationData = [
-                  {
-                    ...certificationItem,
-                    maxReachableLevel: 7,
-                    reachedMeshIndex: 4,
-                    v3EduExternalJuryResult: null,
-                    algorithmEngineVersion,
-                    framework,
-                  },
-                ];
-                const pixPlusV2VoletPixItem = {
-                  certificationCourseId: 111,
-                  v2VoletPixBadgeId: 999,
-                  v2VoletPixAcquired: true,
-                };
-
-                const builder = new CertificationResultBuilder({
-                  certificationData,
-                  learnerData: [],
-                  cleaData: [],
-                  pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
-                  pixPlusV2VoletExterneData: [],
-                });
-                const { certificationResults, errors } = builder.build(uuidGenerator);
-
-                sinon.assert.match(certificationResults, [
-                  sinon.match({
-                    results: {
-                      maxReachableLevel: 7,
-                      reachedMeshIndex: 4,
-                      v3EduExternalJuryResult: null,
-                    },
-                  }),
-                ]);
-                expect(errors).to.deep.equal({});
-              });
-            });
-          });
-
-          context('when there is a v3EduExternalJuryResult', function () {
-            [Frameworks.EDU_1ER_DEGRE, Frameworks.EDU_2ND_DEGRE, Frameworks.EDU_CPE].forEach((framework) => {
-              it(`correctly builds a ${framework} results for V3 with a v3EduExternalJuryResult`, function () {
-                const certificationData = [
-                  {
-                    ...certificationItem,
-                    maxReachableLevel: 7,
-                    reachedMeshIndex: 4,
-                    v3EduExternalJuryResult: 'SUPER',
-                    algorithmEngineVersion,
-                    framework,
-                  },
-                ];
-                const pixPlusV2VoletPixItem = {
-                  certificationCourseId: 111,
-                  v2VoletPixBadgeId: 999,
-                  v2VoletPixAcquired: true,
-                };
-
-                const builder = new CertificationResultBuilder({
-                  certificationData,
-                  learnerData: [],
-                  cleaData: [],
-                  pixPlusV2VoletPixData: [pixPlusV2VoletPixItem],
-                  pixPlusV2VoletExterneData: [],
-                });
-                const { certificationResults, errors } = builder.build(uuidGenerator);
-
-                sinon.assert.match(certificationResults, [
-                  sinon.match({
-                    results: {
-                      maxReachableLevel: 7,
-                      reachedMeshIndex: 4,
-                      v3EduExternalJuryResult: 'SUPER',
-                    },
                   }),
                 ]);
                 expect(errors).to.deep.equal({});
@@ -1310,13 +624,6 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
           },
         ];
 
-        const builder = new CertificationResultBuilder({
-          certificationData,
-          learnerData,
-          cleaData,
-          pixPlusV2VoletPixData,
-          pixPlusV2VoletExterneData,
-        });
         uuidGenerator = sinon.stub();
         uuidGenerator.onCall(0).returns('00000000-0000-4000-8000-000000000001');
         uuidGenerator.onCall(1).returns('00000000-0000-4000-8000-000000000002');
@@ -1326,7 +633,16 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
         uuidGenerator.onCall(5).returns('00000000-0000-4000-8000-000000000006');
         uuidGenerator.onCall(6).returns('00000000-0000-4000-8000-000000000007');
         uuidGenerator.onCall(7).returns('00000000-0000-4000-8000-000000000008');
-        const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
+        const { certificationResults, userCertificationResults, errors } = CertificationResultFactory.buildAll(
+          {
+            certificationData,
+            learnerData,
+            cleaData,
+            pixPlusV2VoletPixData,
+            pixPlusV2VoletExterneData,
+          },
+          uuidGenerator,
+        );
 
         expect(errors).to.deep.equal({});
         expect(certificationResults).to.deep.equal([
@@ -1572,19 +888,21 @@ describe('Certification | Unit | Domain | Models | CertificationResultBuilder', 
         ];
         const pixPlusV2VoletExterneData = [];
 
-        const builder = new CertificationResultBuilder({
-          certificationData,
-          learnerData,
-          cleaData,
-          pixPlusV2VoletPixData,
-          pixPlusV2VoletExterneData,
-        });
         uuidGenerator = sinon.stub();
         uuidGenerator.onCall(0).returns('00000000-0000-4000-8000-000000000001');
         uuidGenerator.onCall(1).returns('00000000-0000-4000-8000-000000000002');
         uuidGenerator.onCall(2).returns('00000000-0000-4000-8000-000000000003');
         uuidGenerator.onCall(3).returns('00000000-0000-4000-8000-000000000004');
-        const { certificationResults, userCertificationResults, errors } = builder.build(uuidGenerator);
+        const { certificationResults, userCertificationResults, errors } = CertificationResultFactory.buildAll(
+          {
+            certificationData,
+            learnerData,
+            cleaData,
+            pixPlusV2VoletPixData,
+            pixPlusV2VoletExterneData,
+          },
+          uuidGenerator,
+        );
 
         expect(errors).to.deep.equal({
           2: '{"formErrors":[],"fieldErrors":{"results":["Invalid input: expected number, received undefined"]}}',
