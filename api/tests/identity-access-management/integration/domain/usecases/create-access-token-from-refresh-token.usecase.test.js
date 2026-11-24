@@ -1,5 +1,3 @@
-import { setTimeout } from 'node:timers/promises';
-
 import { expect } from 'chai';
 
 import { RefreshToken } from '../../../../../src/identity-access-management/domain/models/RefreshToken.js';
@@ -8,10 +6,10 @@ import { UserRefreshToken } from '../../../../../src/identity-access-management/
 import { usecases } from '../../../../../src/identity-access-management/domain/usecases/index.js';
 import { refreshTokenRepository } from '../../../../../src/identity-access-management/infrastructure/repositories/refresh-token.repository.js';
 import { UnauthorizedError } from '../../../../../src/shared/application/errors/http-errors.js';
-import { featureToggles } from '../../../../../src/shared/infrastructure/feature-toggles/index.js';
 import { temporaryStorage } from '../../../../../src/shared/infrastructure/key-value-storages/index.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
 import { catchErr } from '../../../../tooling/test-utils/error.js';
+import { useFeatureToggle } from '../../../../tooling/test-utils/use-feature-toggle.js';
 
 const revokedUserAccessTemporaryStorage = temporaryStorage.withPrefix('revoked-user-access:');
 
@@ -160,8 +158,7 @@ describe('Integration | Identity Access Management | Domain | UseCases | create-
 
   context('when refresh token’s session is revoked', function () {
     beforeEach(async function () {
-      await featureToggles.set('isSessionLogoutEnabled', true);
-      await setTimeout(1); // pubsub needs some time...
+      await useFeatureToggle('isSessionLogoutEnabled', true);
     });
 
     it('throws an unauthorized error', async function () {
