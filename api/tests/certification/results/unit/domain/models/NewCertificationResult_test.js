@@ -446,7 +446,7 @@ describe('Certification | Result | Unit | Domain | Models | NewCertificationResu
 
         // then
         expect(errString).to.equal(
-          '{"formErrors":[],"fieldErrors":{"framework":["Invalid discriminator value. Expected \'CORE\'"]}}',
+          '{"formErrors":[],"fieldErrors":{"framework":["Invalid input: expected \\"CORE\\""],"results":["Invalid input: expected object, received undefined"]}}',
         );
       });
     });
