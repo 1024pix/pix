@@ -55,10 +55,10 @@ function toDB({ certificationResults, userCertificationResults }) {
     v3EduExternalJuryResult: certificationResult.results.v3EduExternalJuryResult,
     hasAcquiredClea: certificationResult.results.hasAcquiredClea,
     cleaBadgeId: certificationResult.results.cleaBadgeId,
-    v2VoletPixBadgeId: certificationResult.results.v2VoletPixBadgeId,
-    v2VoletPixAcquired: certificationResult.results.v2VoletPixAcquired,
-    v2VoletExterneBadgeId: certificationResult.results.v2VoletExterneBadgeId,
-    v2VoletExterneAcquired: certificationResult.results.v2VoletExterneAcquired,
+    v2ComplementaryVoletPixBadgeId: certificationResult.results.v2ComplementaryVoletPixBadgeId,
+    v2ComplementaryVoletPixAcquired: certificationResult.results.v2ComplementaryVoletPixAcquired,
+    v2EduVoletExterneBadgeId: certificationResult.results.v2EduVoletExterneBadgeId,
+    v2EduVoletExterneAcquired: certificationResult.results.v2EduVoletExterneAcquired,
   }));
 
   const certificationCompetenceResultsData = certificationResults.flatMap((certificationResult) =>

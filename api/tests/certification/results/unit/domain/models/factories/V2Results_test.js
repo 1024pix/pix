@@ -11,8 +11,8 @@ describe('Certification | Results | Unit | Domain | Models | Factories | V2Resul
     ];
     const pixPlusV2VoletPixItem = {
       certificationCourseId: 111,
-      v2VoletPixBadgeId: 999,
-      v2VoletPixAcquired: true,
+      v2ComplementaryVoletPixBadgeId: 999,
+      v2ComplementaryVoletPixAcquired: true,
     };
 
     it('builds CORE results', function () {
@@ -54,8 +54,8 @@ describe('Certification | Results | Unit | Domain | Models | Factories | V2Resul
         expect(results).to.deep.equal({
           pixScore: 678,
           competenceMarks,
-          v2VoletPixBadgeId: 999,
-          v2VoletPixAcquired: true,
+          v2ComplementaryVoletPixBadgeId: 999,
+          v2ComplementaryVoletPixAcquired: true,
         });
       });
     });
@@ -106,10 +106,10 @@ describe('Certification | Results | Unit | Domain | Models | Factories | V2Resul
             expect(results).to.deep.equal({
               pixScore: 678,
               competenceMarks,
-              v2VoletPixBadgeId: 999,
-              v2VoletPixAcquired: true,
-              v2VoletExterneBadgeId: null,
-              v2VoletExterneAcquired: null,
+              v2ComplementaryVoletPixBadgeId: 999,
+              v2ComplementaryVoletPixAcquired: true,
+              v2EduVoletExterneBadgeId: null,
+              v2EduVoletExterneAcquired: null,
             });
           });
 
@@ -120,18 +120,18 @@ describe('Certification | Results | Unit | Domain | Models | Factories | V2Resul
               pixPlusV2VoletPixItem,
               pixPlusV2VoletExterneItem: {
                 certificationCourseId: 111,
-                v2VoletExterneBadgeId: 888,
-                v2VoletExterneAcquired: false,
+                v2EduVoletExterneBadgeId: 888,
+                v2EduVoletExterneAcquired: false,
               },
             });
 
             expect(results).to.deep.equal({
               pixScore: 678,
               competenceMarks,
-              v2VoletPixBadgeId: 999,
-              v2VoletPixAcquired: true,
-              v2VoletExterneBadgeId: 888,
-              v2VoletExterneAcquired: false,
+              v2ComplementaryVoletPixBadgeId: 999,
+              v2ComplementaryVoletPixAcquired: true,
+              v2EduVoletExterneBadgeId: 888,
+              v2EduVoletExterneAcquired: false,
             });
           });
         });

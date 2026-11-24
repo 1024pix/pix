@@ -285,8 +285,8 @@ describe('Certification | Result | Unit | Domain | Models | NewCertificationResu
           results: {
             pixScore: 123,
             competenceMarks: [{ competenceId: 'competenceABC123', level: 1 }],
-            v2VoletPixBadgeId: 2,
-            v2VoletPixAcquired: true,
+            v2ComplementaryVoletPixBadgeId: 2,
+            v2ComplementaryVoletPixAcquired: true,
           },
         });
 
@@ -305,8 +305,8 @@ describe('Certification | Result | Unit | Domain | Models | NewCertificationResu
           results: {
             pixScore: 123,
             competenceMarks: [{ competenceId: 'competenceABC123', level: 1 }],
-            v2VoletPixBadgeId: 2,
-            v2VoletPixAcquired: true,
+            v2ComplementaryVoletPixBadgeId: 2,
+            v2ComplementaryVoletPixAcquired: true,
           },
         });
 
@@ -325,10 +325,10 @@ describe('Certification | Result | Unit | Domain | Models | NewCertificationResu
           results: {
             pixScore: 123,
             competenceMarks: [{ competenceId: 'competenceABC123', level: 1 }],
-            v2VoletPixBadgeId: 2,
-            v2VoletPixAcquired: true,
-            v2VoletExterneBadgeId: 3,
-            v2VoletExterneAcquired: false,
+            v2ComplementaryVoletPixBadgeId: 2,
+            v2ComplementaryVoletPixAcquired: true,
+            v2EduVoletExterneBadgeId: 3,
+            v2EduVoletExterneAcquired: false,
           },
         });
 
@@ -347,10 +347,10 @@ describe('Certification | Result | Unit | Domain | Models | NewCertificationResu
           results: {
             pixScore: 123,
             competenceMarks: [{ competenceId: 'competenceABC123', level: 1 }],
-            v2VoletPixBadgeId: 2,
-            v2VoletPixAcquired: true,
-            v2VoletExterneBadgeId: 3,
-            v2VoletExterneAcquired: false,
+            v2ComplementaryVoletPixBadgeId: 2,
+            v2ComplementaryVoletPixAcquired: true,
+            v2EduVoletExterneBadgeId: 3,
+            v2EduVoletExterneAcquired: false,
           },
         });
 
@@ -369,10 +369,10 @@ describe('Certification | Result | Unit | Domain | Models | NewCertificationResu
           results: {
             pixScore: 123,
             competenceMarks: [{ competenceId: 'competenceABC123', level: 1 }],
-            v2VoletPixBadgeId: 2,
-            v2VoletPixAcquired: true,
-            v2VoletExterneBadgeId: 3,
-            v2VoletExterneAcquired: false,
+            v2ComplementaryVoletPixBadgeId: 2,
+            v2ComplementaryVoletPixAcquired: true,
+            v2EduVoletExterneBadgeId: 3,
+            v2EduVoletExterneAcquired: false,
           },
         });
 

@@ -57,10 +57,10 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         v3EduExternalJuryResult: null,
         hasAcquiredClea: null,
         cleaBadgeId: null,
-        v2VoletExterneAcquired: null,
-        v2VoletExterneBadgeId: null,
-        v2VoletPixAcquired: null,
-        v2VoletPixBadgeId: null,
+        v2EduVoletExterneAcquired: null,
+        v2EduVoletExterneBadgeId: null,
+        v2ComplementaryVoletPixAcquired: null,
+        v2ComplementaryVoletPixBadgeId: null,
       };
       expectedCompetenceResults.push(
         ...[
@@ -108,10 +108,10 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         competenceMarks: null,
         hasAcquiredClea: null,
         cleaBadgeId: null,
-        v2VoletExterneAcquired: null,
-        v2VoletExterneBadgeId: null,
-        v2VoletPixAcquired: null,
-        v2VoletPixBadgeId: null,
+        v2EduVoletExterneAcquired: null,
+        v2EduVoletExterneBadgeId: null,
+        v2ComplementaryVoletPixAcquired: null,
+        v2ComplementaryVoletPixBadgeId: null,
       };
       certificationResultData3 = {
         id: '30000003-3003-3003-3003-300000000003',
@@ -154,10 +154,10 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         hasAcquiredClea: true,
         cleaBadgeId: 444,
         v3EduExternalJuryResult: null,
-        v2VoletExterneAcquired: null,
-        v2VoletExterneBadgeId: null,
-        v2VoletPixAcquired: null,
-        v2VoletPixBadgeId: null,
+        v2EduVoletExterneAcquired: null,
+        v2EduVoletExterneBadgeId: null,
+        v2ComplementaryVoletPixAcquired: null,
+        v2ComplementaryVoletPixBadgeId: null,
       };
       expectedCompetenceResults.push(
         ...[
@@ -214,10 +214,10 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         ],
         hasAcquiredClea: null,
         cleaBadgeId: null,
-        v2VoletExterneAcquired: true,
-        v2VoletExterneBadgeId: 123,
-        v2VoletPixAcquired: true,
-        v2VoletPixBadgeId: 456,
+        v2EduVoletExterneAcquired: true,
+        v2EduVoletExterneBadgeId: 123,
+        v2ComplementaryVoletPixAcquired: true,
+        v2ComplementaryVoletPixBadgeId: 456,
       };
       expectedCompetenceResults.push(
         ...[

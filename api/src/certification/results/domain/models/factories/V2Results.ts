@@ -24,8 +24,8 @@ export function buildV2Results({
     return {
       pixScore,
       competenceMarks,
-      v2VoletPixAcquired: pixPlusV2VoletPixItem.v2VoletPixAcquired,
-      v2VoletPixBadgeId: pixPlusV2VoletPixItem.v2VoletPixBadgeId,
+      v2ComplementaryVoletPixAcquired: pixPlusV2VoletPixItem.v2ComplementaryVoletPixAcquired,
+      v2ComplementaryVoletPixBadgeId: pixPlusV2VoletPixItem.v2ComplementaryVoletPixBadgeId,
     };
   }
   if (isEduFramework(framework)) {
@@ -33,10 +33,10 @@ export function buildV2Results({
     return {
       pixScore,
       competenceMarks,
-      v2VoletPixAcquired: pixPlusV2VoletPixItem.v2VoletPixAcquired,
-      v2VoletPixBadgeId: pixPlusV2VoletPixItem.v2VoletPixBadgeId,
-      v2VoletExterneBadgeId: pixPlusV2VoletExterneItem?.v2VoletExterneBadgeId ?? null,
-      v2VoletExterneAcquired: pixPlusV2VoletExterneItem?.v2VoletExterneAcquired ?? null,
+      v2ComplementaryVoletPixAcquired: pixPlusV2VoletPixItem.v2ComplementaryVoletPixAcquired,
+      v2ComplementaryVoletPixBadgeId: pixPlusV2VoletPixItem.v2ComplementaryVoletPixBadgeId,
+      v2EduVoletExterneBadgeId: pixPlusV2VoletExterneItem?.v2EduVoletExterneBadgeId ?? null,
+      v2EduVoletExterneAcquired: pixPlusV2VoletExterneItem?.v2EduVoletExterneAcquired ?? null,
     };
   }
   return {

@@ -272,13 +272,13 @@ function buildCertificateData({
   if (isEdu) {
     expectedPixPlusV2VoletPixData = {
       certificationCourseId,
-      v2VoletPixBadgeId: complementaryCertificationBadgeId,
-      v2VoletPixAcquired: true,
+      v2ComplementaryVoletPixBadgeId: complementaryCertificationBadgeId,
+      v2ComplementaryVoletPixAcquired: true,
     };
     expectedPixPlusV2VoletExterneData = {
       certificationCourseId,
-      v2VoletExterneBadgeId: complementaryCertificationBadgeId,
-      v2VoletExterneAcquired: false,
+      v2EduVoletExterneBadgeId: complementaryCertificationBadgeId,
+      v2EduVoletExterneAcquired: false,
     };
   }
   return {

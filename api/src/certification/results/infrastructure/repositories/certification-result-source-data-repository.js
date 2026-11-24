@@ -131,8 +131,8 @@ export async function findBySessionId(sessionId) {
     pixPlusV2VoletPixData = await knexConn
       .select({
         certificationCourseId: 'complementary-certification-courses.certificationCourseId',
-        v2VoletPixBadgeId: 'complementary-certification-course-results.complementaryCertificationBadgeId',
-        v2VoletPixAcquired: 'complementary-certification-course-results.acquired',
+        v2ComplementaryVoletPixBadgeId: 'complementary-certification-course-results.complementaryCertificationBadgeId',
+        v2ComplementaryVoletPixAcquired: 'complementary-certification-course-results.acquired',
       })
       .from('complementary-certification-course-results')
       .innerJoin(
@@ -146,8 +146,8 @@ export async function findBySessionId(sessionId) {
     pixPlusV2VoletExterneData = await knexConn
       .select({
         certificationCourseId: 'complementary-certification-courses.certificationCourseId',
-        v2VoletExterneBadgeId: 'complementary-certification-course-results.complementaryCertificationBadgeId',
-        v2VoletExterneAcquired: 'complementary-certification-course-results.acquired',
+        v2EduVoletExterneBadgeId: 'complementary-certification-course-results.complementaryCertificationBadgeId',
+        v2EduVoletExterneAcquired: 'complementary-certification-course-results.acquired',
       })
       .from('complementary-certification-course-results')
       .innerJoin(

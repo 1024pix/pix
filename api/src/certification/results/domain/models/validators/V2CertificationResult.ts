@@ -7,13 +7,13 @@ import { BaseCleaResultsSchema, BaseCoreResultsSchema, BaseSchema } from './Cert
 export const V2CleaResultsSchema = BaseCoreResultsSchema.extend(BaseCleaResultsSchema.shape);
 
 export const V2PixPlusResultsSchema = BaseCoreResultsSchema.extend({
-  v2VoletPixBadgeId: z.number(),
-  v2VoletPixAcquired: z.boolean(),
+  v2ComplementaryVoletPixBadgeId: z.number(),
+  v2ComplementaryVoletPixAcquired: z.boolean(),
 });
 
 export const V2EduResultsSchema = V2PixPlusResultsSchema.extend({
-  v2VoletExterneBadgeId: z.number().nullable(),
-  v2VoletExterneAcquired: z.boolean().nullable(),
+  v2EduVoletExterneBadgeId: z.number().nullable(),
+  v2EduVoletExterneAcquired: z.boolean().nullable(),
 });
 
 const V2BaseSchema = BaseSchema.extend({

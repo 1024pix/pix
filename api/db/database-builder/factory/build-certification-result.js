@@ -38,10 +38,10 @@ import { databaseBuffer } from '../database-buffer.ts';
  * @property {string | null} v3EduExternalJuryResult
  * @property {boolean | null} hasAcquiredClea
  * @property {number | null} cleaBadgeId
- * @property {number | null} v2VoletPixBadgeId
- * @property {boolean | null} v2VoletPixAcquired
- * @property {number | null} v2VoletExterneBadgeId
- * @property {boolean | null} v2VoletExterneAcquired
+ * @property {number | null} v2ComplementaryVoletPixBadgeId
+ * @property {boolean | null} v2ComplementaryVoletPixAcquired
+ * @property {number | null} v2EduVoletExterneBadgeId
+ * @property {boolean | null} v2EduVoletExterneAcquired
  */
 
 /**
@@ -75,10 +75,10 @@ import { databaseBuffer } from '../database-buffer.ts';
  * @param {undefined | string | null} params.v3EduExternalJuryResult
  * @param {undefined | boolean | null} params.hasAcquiredClea
  * @param {undefined | number | null} params.cleaBadgeId
- * @param {undefined | number | null} params.v2VoletPixBadgeId
- * @param {undefined | boolean | null} params.v2VoletPixAcquired
- * @param {undefined | number | null} params.v2VoletExterneBadgeId
- * @param {undefined | boolean | null} params.v2VoletExterneAcquired
+ * @param {undefined | number | null} params.v2ComplementaryVoletPixBadgeId
+ * @param {undefined | boolean | null} params.v2ComplementaryVoletPixAcquired
+ * @param {undefined | number | null} params.v2EduVoletExterneBadgeId
+ * @param {undefined | boolean | null} params.v2EduVoletExterneAcquired
  * @returns {CertificationResultRow}
  */
 export function buildCertificationResult({
@@ -109,10 +109,10 @@ export function buildCertificationResult({
   v3EduExternalJuryResult = null,
   hasAcquiredClea = null,
   cleaBadgeId = null,
-  v2VoletPixBadgeId = null,
-  v2VoletPixAcquired = null,
-  v2VoletExterneBadgeId = null,
-  v2VoletExterneAcquired = null,
+  v2ComplementaryVoletPixBadgeId = null,
+  v2ComplementaryVoletPixAcquired = null,
+  v2EduVoletExterneBadgeId = null,
+  v2EduVoletExterneAcquired = null,
 } = {}) {
   const competences =
     competenceMarks?.map(({ competenceId, level }) => ({
@@ -147,10 +147,10 @@ export function buildCertificationResult({
     v3EduExternalJuryResult,
     hasAcquiredClea,
     cleaBadgeId,
-    v2VoletPixBadgeId,
-    v2VoletPixAcquired,
-    v2VoletExterneBadgeId,
-    v2VoletExterneAcquired,
+    v2ComplementaryVoletPixBadgeId,
+    v2ComplementaryVoletPixAcquired,
+    v2EduVoletExterneBadgeId,
+    v2EduVoletExterneAcquired,
   };
   databaseBuffer.pushInsertable({
     tableName: 'certification_results',

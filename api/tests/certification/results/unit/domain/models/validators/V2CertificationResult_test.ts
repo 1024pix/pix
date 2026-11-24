@@ -15,8 +15,8 @@ describe('Certification | Results | Unit | Domain | Models | Validators | V2Cert
     competenceMarks: [{ competenceId: 'recCompetence', level: 4 }],
   };
   const cleaResults = { ...coreResults, hasAcquiredClea: true, cleaBadgeId: 1 };
-  const pixPlusResults = { ...coreResults, v2VoletPixBadgeId: 2, v2VoletPixAcquired: true };
-  const eduResults = { ...pixPlusResults, v2VoletExterneBadgeId: 3, v2VoletExterneAcquired: false };
+  const pixPlusResults = { ...coreResults, v2ComplementaryVoletPixBadgeId: 2, v2ComplementaryVoletPixAcquired: true };
+  const eduResults = { ...pixPlusResults, v2EduVoletExterneBadgeId: 3, v2EduVoletExterneAcquired: false };
 
   describe('V2CleaResultsSchema', function () {
     it('should accept valid clea results', function () {
@@ -53,17 +53,17 @@ describe('Certification | Results | Unit | Domain | Models | Validators | V2Cert
       expect(result.success).to.equal(true);
     });
 
-    it('should reject a missing v2VoletPixAcquired', function () {
+    it('should reject a missing v2ComplementaryVoletPixAcquired', function () {
       // when
-      const result = V2PixPlusResultsSchema.safeParse({ v2VoletPixBadgeId: 2 });
+      const result = V2PixPlusResultsSchema.safeParse({ v2ComplementaryVoletPixBadgeId: 2 });
 
       // then
       expect(result.success).to.equal(false);
     });
 
-    it('should reject a missing v2VoletPixBadgeId', function () {
+    it('should reject a missing v2ComplementaryVoletPixBadgeId', function () {
       // when
-      const result = V2PixPlusResultsSchema.safeParse({ v2VoletPixAcquired: true });
+      const result = V2PixPlusResultsSchema.safeParse({ v2ComplementaryVoletPixAcquired: true });
 
       // then
       expect(result.success).to.equal(false);
@@ -71,7 +71,10 @@ describe('Certification | Results | Unit | Domain | Models | Validators | V2Cert
 
     it('should reject without core results', function () {
       // when
-      const result = V2CleaResultsSchema.safeParse({ v2VoletPixAcquired: true, v2VoletPixBadgeId: 123 });
+      const result = V2CleaResultsSchema.safeParse({
+        v2ComplementaryVoletPixAcquired: true,
+        v2ComplementaryVoletPixBadgeId: 123,
+      });
 
       // then
       expect(result.success).to.equal(false);
@@ -95,17 +98,17 @@ describe('Certification | Results | Unit | Domain | Models | Validators | V2Cert
       expect(result.success).to.equal(false);
     });
 
-    it('should reject a missing v2VoletExterneAcquired', function () {
+    it('should reject a missing v2EduVoletExterneAcquired', function () {
       // when
-      const result = V2EduResultsSchema.safeParse({ ...eduResults, v2VoletExterneAcquired: undefined });
+      const result = V2EduResultsSchema.safeParse({ ...eduResults, v2EduVoletExterneAcquired: undefined });
 
       // then
       expect(result.success).to.equal(false);
     });
 
-    it('should reject a missing v2VoletExterneBadgeId', function () {
+    it('should reject a missing v2EduVoletExterneBadgeId', function () {
       // when
-      const result = V2EduResultsSchema.safeParse({ ...eduResults, v2VoletExterneBadgeId: undefined });
+      const result = V2EduResultsSchema.safeParse({ ...eduResults, v2EduVoletExterneBadgeId: undefined });
 
       // then
       expect(result.success).to.equal(false);
@@ -114,10 +117,10 @@ describe('Certification | Results | Unit | Domain | Models | Validators | V2Cert
     it('should reject without core results', function () {
       // when
       const result = V2CleaResultsSchema.safeParse({
-        v2VoletPixAcquired: true,
-        v2VoletPixBadgeId: 123,
-        v2VoletExterneAcquired: true,
-        v2VoletExterneBadgeId: 123,
+        v2ComplementaryVoletPixAcquired: true,
+        v2ComplementaryVoletPixBadgeId: 123,
+        v2EduVoletExterneAcquired: true,
+        v2EduVoletExterneBadgeId: 123,
       });
 
       // then

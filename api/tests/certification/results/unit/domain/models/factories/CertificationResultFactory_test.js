@@ -226,8 +226,8 @@ describe('Certification | Results | Unit | Domain | Models | Factories | Certifi
         };
         const pixPlusV2VoletPixItem = {
           certificationCourseId: 111,
-          v2VoletPixBadgeId: 999,
-          v2VoletPixAcquired: true,
+          v2ComplementaryVoletPixBadgeId: 999,
+          v2ComplementaryVoletPixAcquired: true,
         };
         context('when certification is CORE V1', function () {
           it('has no franceCompetencesMinScore', function () {
@@ -541,20 +541,20 @@ describe('Certification | Results | Unit | Domain | Models | Factories | Certifi
         const pixPlusV2VoletPixData = [
           {
             certificationCourseId: 4,
-            v2VoletPixBadgeId: 444,
-            v2VoletPixAcquired: true,
+            v2ComplementaryVoletPixBadgeId: 444,
+            v2ComplementaryVoletPixAcquired: true,
           },
           {
             certificationCourseId: 5,
-            v2VoletPixBadgeId: 555,
-            v2VoletPixAcquired: true,
+            v2ComplementaryVoletPixBadgeId: 555,
+            v2ComplementaryVoletPixAcquired: true,
           },
         ];
         const pixPlusV2VoletExterneData = [
           {
             certificationCourseId: 5,
-            v2VoletExterneBadgeId: 556,
-            v2VoletExterneAcquired: true,
+            v2EduVoletExterneBadgeId: 556,
+            v2EduVoletExterneAcquired: true,
           },
         ];
 
@@ -628,8 +628,8 @@ describe('Certification | Results | Unit | Domain | Models | Factories | Certifi
             results: {
               pixScore: certificationItemForDroitV2.pixScore,
               competenceMarks: certificationItemForDroitV2.competenceMarks,
-              v2VoletPixBadgeId: 444,
-              v2VoletPixAcquired: true,
+              v2ComplementaryVoletPixBadgeId: 444,
+              v2ComplementaryVoletPixAcquired: true,
             },
           }),
           new CertificationResult({
@@ -642,10 +642,10 @@ describe('Certification | Results | Unit | Domain | Models | Factories | Certifi
             results: {
               pixScore: certificationItemForEduV2.pixScore,
               competenceMarks: certificationItemForEduV2.competenceMarks,
-              v2VoletPixBadgeId: 555,
-              v2VoletPixAcquired: true,
-              v2VoletExterneBadgeId: 556,
-              v2VoletExterneAcquired: true,
+              v2ComplementaryVoletPixBadgeId: 555,
+              v2ComplementaryVoletPixAcquired: true,
+              v2EduVoletExterneBadgeId: 556,
+              v2EduVoletExterneAcquired: true,
             },
           }),
           new CertificationResult({
@@ -817,7 +817,7 @@ describe('Certification | Results | Unit | Domain | Models | Factories | Certifi
         const pixPlusV2VoletPixData = [
           {
             certificationCourseId: 4,
-            v2VoletPixAcquired: true,
+            v2ComplementaryVoletPixAcquired: true,
           },
         ];
         const pixPlusV2VoletExterneData = [];

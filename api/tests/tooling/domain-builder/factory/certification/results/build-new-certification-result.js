@@ -34,10 +34,10 @@ export function buildNewCertificationResult({
   v3EduExternalJuryResult = null,
   hasAcquiredClea = null,
   cleaBadgeId = null,
-  v2VoletPixAcquired = null,
-  v2VoletPixBadgeId = null,
-  v2VoletExterneAcquired = null,
-  v2VoletExterneBadgeId = null,
+  v2ComplementaryVoletPixAcquired = null,
+  v2ComplementaryVoletPixBadgeId = null,
+  v2EduVoletExterneAcquired = null,
+  v2EduVoletExterneBadgeId = null,
 } = {}) {
   return new CertificationResult({
     id,
@@ -72,10 +72,10 @@ export function buildNewCertificationResult({
       v3EduExternalJuryResult,
       hasAcquiredClea,
       cleaBadgeId,
-      v2VoletPixAcquired,
-      v2VoletPixBadgeId,
-      v2VoletExterneAcquired,
-      v2VoletExterneBadgeId,
+      v2ComplementaryVoletPixAcquired,
+      v2ComplementaryVoletPixBadgeId,
+      v2EduVoletExterneAcquired,
+      v2EduVoletExterneBadgeId,
     },
   });
 }

@@ -48,13 +48,13 @@ type CleaDataProps = {
 };
 type PixPlusV2VoletPixDataProps = {
   certificationCourseId: number;
-  v2VoletPixBadgeId: number;
-  v2VoletPixAcquired: boolean;
+  v2ComplementaryVoletPixBadgeId: number;
+  v2ComplementaryVoletPixAcquired: boolean;
 };
 type PixPlusV2VoletExterneDataProps = {
   certificationCourseId: number;
-  v2VoletExterneBadgeId: number;
-  v2VoletExterneAcquired: boolean;
+  v2EduVoletExterneBadgeId: number;
+  v2EduVoletExterneAcquired: boolean;
 };
 
 export type CertificationResultSourceData = {
