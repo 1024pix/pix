@@ -16,8 +16,7 @@ export type CertificationDataProps = {
   birthINSEECode: string | null;
   birthCountry: string | null;
   verificationCode: string;
-  certificationCenter: string | null;
-  certificationCenterFallback: string;
+  certificationCenter: string;
   startedAt: Date;
   deliveredAt: Date;
   status: CertificationResultStatus;

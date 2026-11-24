@@ -10,4 +10,4 @@ const V1CoreSchema = BaseSchema.extend({
   results: BaseCoreResultsSchema,
 });
 
-export const CertificationResultV1Schema = z.discriminatedUnion('framework', [V1CoreSchema]);
+export const CertificationResultV1Schema = V1CoreSchema;

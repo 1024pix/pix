@@ -99,7 +99,7 @@ export class CertificationResultFactory {
       birthINSEECode: certificationItem.birthINSEECode ?? null,
       birthCountry: certificationItem.birthCountry ?? null,
       verificationCode: certificationItem.verificationCode,
-      certificationCenter: certificationItem.certificationCenter ?? certificationItem.certificationCenterFallback,
+      certificationCenter: certificationItem.certificationCenter,
       startedAt: certificationItem.startedAt,
       deliveredAt: certificationItem.deliveredAt,
       status: certificationItem.status,

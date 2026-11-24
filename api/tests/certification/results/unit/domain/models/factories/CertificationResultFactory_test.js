@@ -27,7 +27,6 @@ describe('Certification | Results | Unit | Domain | Models | Factories | Certifi
       birthCountry: 'USA',
       verificationCode: 'VERIFCODE',
       certificationCenter: 'Centre certification le meilleur',
-      certificationCenterFallback: 'Centre certification le meilleur FALLBACK',
       startedAt: new Date('2025-12-30'),
       deliveredAt: new Date('2025-12-31'),
       status: CERTIFICATION_RESULT_STATUSES.VALIDATED,
@@ -212,71 +211,6 @@ describe('Certification | Results | Unit | Domain | Models | Factories | Certifi
                 sessionId: 333,
                 certificationResultId: '00000000-0000-4000-8000-000000000001',
                 organizationLearnerId: 444,
-              }),
-            ]);
-            expect(errors).to.deep.equal({});
-          });
-        });
-      });
-
-      context('certification center', function () {
-        context('when certificationCenter is provided', function () {
-          it('uses the certificationCenter value, ignoring the fallback', function () {
-            const certificationData = [
-              {
-                ...baseCertificationData,
-                ...baseResults,
-                algorithmEngineVersion: AlgorithmEngineVersion.V3,
-                framework: Frameworks.CORE,
-              },
-            ];
-
-            const { certificationResults, errors } = CertificationResultFactory.buildAll(
-              {
-                certificationData,
-                learnerData: [],
-                cleaData: [],
-                pixPlusV2VoletPixData: [],
-                pixPlusV2VoletExterneData: [],
-              },
-              uuidGenerator,
-            );
-
-            sinon.assert.match(certificationResults, [
-              sinon.match({
-                certificationCenter: 'Centre certification le meilleur',
-              }),
-            ]);
-            expect(errors).to.deep.equal({});
-          });
-        });
-
-        context('when certificationCenter is not provided', function () {
-          it('uses the certificationCenter fallback value', function () {
-            const certificationData = [
-              {
-                ...baseCertificationData,
-                ...baseResults,
-                certificationCenter: null,
-                algorithmEngineVersion: AlgorithmEngineVersion.V3,
-                framework: Frameworks.CORE,
-              },
-            ];
-
-            const { certificationResults, errors } = CertificationResultFactory.buildAll(
-              {
-                certificationData,
-                learnerData: [],
-                cleaData: [],
-                pixPlusV2VoletPixData: [],
-                pixPlusV2VoletExterneData: [],
-              },
-              uuidGenerator,
-            );
-
-            sinon.assert.match(certificationResults, [
-              sinon.match({
-                certificationCenter: 'Centre certification le meilleur FALLBACK',
               }),
             ]);
             expect(errors).to.deep.equal({});
@@ -1006,7 +940,6 @@ function buildCertificationData(certificationCourseId) {
     birthCountry: `birthCountry_${certificationCourseId}`,
     verificationCode: 'VERIFCODE',
     certificationCenter: `certificationCenter_${certificationCourseId}`,
-    certificationCenterFallback: `certificationCenterFallback_${certificationCourseId}`,
     startedAt: new Date('2025-12-30'),
     deliveredAt: new Date('2025-12-31'),
     status: CERTIFICATION_RESULT_STATUSES.VALIDATED,

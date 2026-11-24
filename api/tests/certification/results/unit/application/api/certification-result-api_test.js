@@ -168,7 +168,6 @@ function buildCertificationItem({ certificationCourseId, userId, sessionId }) {
     birthCountry: null,
     verificationCode: 'VERIFCODE',
     certificationCenter: 'Centre certification le meilleur',
-    certificationCenterFallback: 'Centre certification le meilleur FALLBACK',
     startedAt: new Date('2025-12-30'),
     deliveredAt: new Date('2025-12-31'),
     status: CERTIFICATION_RESULT_STATUSES.VALIDATED,

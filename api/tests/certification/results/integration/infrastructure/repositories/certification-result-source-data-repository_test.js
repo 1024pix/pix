@@ -33,6 +33,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         }).id;
         sessionId = databaseBuilder.factory.buildSession({
           certificationCenterId,
+          certificationCenter: 'Nom du centre au moment de la session',
           publishedAt: new Date('2026-01-03'),
         }).id;
         const versionId = databaseBuilder.factory.buildCertificationVersion({
@@ -140,8 +141,7 @@ function buildCertificateData({
     birthPostalCode: `birthPostalCode_${framework}`,
     birthINSEECode: `birthINSEECode_${framework}`,
     birthCountry: `birthCountry_${framework}`,
-    certificationCenter: 'Centre certification le meilleur',
-    certificationCenterFallback: 'Centre de certif Pix',
+    certificationCenter: 'Nom du centre au moment de la session',
     startedAt: new Date('2026-01-01'),
     deliveredAt: new Date('2026-01-03'),
     status: 'validated',

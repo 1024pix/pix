@@ -20,8 +20,7 @@ export async function findBySessionId(sessionId) {
       birthINSEECode: 'certification-courses.birthINSEECode',
       birthCountry: 'certification-courses.birthCountry',
       verificationCode: 'certification-courses.verificationCode',
-      certificationCenter: 'certification-centers.name',
-      certificationCenterFallback: 'sessions.certificationCenter',
+      certificationCenter: 'sessions.certificationCenter',
       startedAt: 'certification-courses.createdAt',
       deliveredAt: 'sessions.publishedAt',
       status: 'assessment-results.status',
@@ -46,7 +45,6 @@ export async function findBySessionId(sessionId) {
     .leftJoin('certification_versions', 'certification_versions.id', 'certification-courses.versionId')
     .leftJoin('certification-candidates', 'certification-candidates.id', 'certification-courses.candidateId')
     .join('sessions', 'sessions.id', 'certification-courses.sessionId')
-    .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
     .join(
       'certification-courses-last-assessment-results',
       'certification-courses.id',
@@ -62,7 +60,6 @@ export async function findBySessionId(sessionId) {
       'certification-courses.id',
       'sessions.id',
       'assessment-results.id',
-      'certification-centers.id',
       'certification-candidates.id',
       'certification_versions.id',
     )
