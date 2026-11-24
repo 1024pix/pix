@@ -60,7 +60,7 @@
     "@embroider/macros": "1.21.4",
     "@embroider/util": "1.13.5",
     "@embroider/vite": "1.8.0",
-    "@formatjs/intl": "6.1.5",
+    "@formatjs/intl": "6.1.6",
     "@formatjs/intl-durationformat": "0.12.4",
     "@glimmer/component": "2.2.1",
     "@rollup/plugin-babel": "7.1.0",
