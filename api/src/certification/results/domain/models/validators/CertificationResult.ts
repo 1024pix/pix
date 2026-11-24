@@ -1,11 +1,16 @@
 import { z } from 'zod';
 
+import { AlgorithmEngineVersion } from '../../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { MAX_LEVEL } from '../../constants.ts';
 import { CertificationResultStatusSchema } from '../../types.ts';
 
 export const BaseSchema = z.strictObject({
   id: z.string().uuid(),
-  algorithmEngineVersion: z.number(),
+  algorithmEngineVersion: z.enum({
+    V1: AlgorithmEngineVersion.V1,
+    V2: AlgorithmEngineVersion.V2,
+    V3: AlgorithmEngineVersion.V3,
+  }),
   firstName: z.string(),
   middleName: z.null(),
   thirdName: z.null(),
