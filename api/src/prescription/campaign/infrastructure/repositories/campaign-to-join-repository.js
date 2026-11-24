@@ -1,15 +1,10 @@
 import * as organizationalEntitiesFeatureAPI from '../../../../organizational-entities/application/api/organization-features-api.js';
-import * as combinedCourseApi from '../../../../quest/application/api/combined-course-api.js';
 import { CAMPAIGN_FEATURES } from '../../../../shared/constants.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CampaignToJoin } from '../../domain/read-models/CampaignToJoin.js';
 
-const getByCode = async function ({
-  code,
-  organizationFeatureAPI = organizationalEntitiesFeatureAPI,
-  combinedCourseAPI = combinedCourseApi,
-}) {
+const getByCode = async function ({ code, organizationFeatureAPI = organizationalEntitiesFeatureAPI }) {
   const knexConn = DomainTransaction.getConnection();
 
   const result = await knexConn('campaigns')
@@ -51,15 +46,12 @@ const getByCode = async function ({
     result.organizationId,
   );
 
-  const isPartOfCombinedCourse = await combinedCourseAPI.existsForCampaignId(result.id);
-
   return new CampaignToJoin({
     ...result,
     externalIdLabel: externalFeature?.params?.label,
     externalIdType: externalFeature?.params?.type,
     recommendationEngine: hasRecommendationEngine,
     hasLearnersImportFeature,
-    isPartOfCombinedCourse,
   });
 };
 

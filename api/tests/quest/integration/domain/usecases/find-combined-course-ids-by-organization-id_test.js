@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
-import { findCombinedCourseIdsByOrganizationId } from '../../../../../src/quest/domain/usecases/find-combined-course-ids-by-organization-id.js';
-import * as combinedCourseRepository from '../../../../../src/quest/infrastructure/repositories/combined-courses/combined-course-repository.js';
+import { usecases } from '../../../../../src/quest/domain/usecases/index.js';
 import { databaseBuilder } from '../../../../tooling/databases.js';
 
 describe('Integration | Quest | Domain | UseCases | get-combined-courses-by-organization-id', function () {
@@ -22,7 +21,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-courses-by-orga
     await databaseBuilder.commit();
 
     // when
-    const result = await findCombinedCourseIdsByOrganizationId({ organizationId, combinedCourseRepository });
+    const result = await usecases.findCombinedCourseIdsByOrganizationId({ organizationId });
 
     // then
     expect(result).to.have.lengthOf(2);
@@ -35,7 +34,7 @@ describe('Integration | Quest | Domain | UseCases | get-combined-courses-by-orga
     await databaseBuilder.commit();
 
     // when
-    const result = await findCombinedCourseIdsByOrganizationId({ organizationId, combinedCourseRepository });
+    const result = await usecases.findCombinedCourseIdsByOrganizationId({ organizationId });
 
     // then
     expect(result).to.deep.equal([]);

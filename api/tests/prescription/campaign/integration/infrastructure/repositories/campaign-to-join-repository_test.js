@@ -161,40 +161,5 @@ describe('Integration | Repository | CampaignToJoin', function () {
       expect(actualCampaign).to.be.instanceOf(CampaignToJoin);
       expect(actualCampaign.id).to.equal(expectedCampaign.id);
     });
-
-    it('should return true for isPartOfCombinedCourse when there is an associated combined course', async function () {
-      // given
-      const combinedCourseAPI = { existsForCampaignId: sinon.stub().resolves(true) };
-
-      const campaign = databaseBuilder.factory.buildCampaign();
-      await databaseBuilder.commit();
-
-      // when
-      const actualCampaign = await campaignToJoinRepository.getByCode({
-        code: campaign.code,
-        organizationFeatureAPI,
-        combinedCourseAPI,
-      });
-
-      // then
-      expect(actualCampaign.isPartOfCombinedCourse).to.be.true;
-    });
-
-    it('should return false for isPartOfCombinedCourse when there is no associated combined course', async function () {
-      // given
-      const combinedCourseAPI = { existsForCampaignId: sinon.stub().resolves(false) };
-      const { code } = databaseBuilder.factory.buildCampaign();
-      await databaseBuilder.commit();
-
-      // when
-      const actualCampaign = await campaignToJoinRepository.getByCode({
-        code,
-        organizationFeatureAPI,
-        combinedCourseAPI,
-      });
-
-      // then
-      expect(actualCampaign.isPartOfCombinedCourse).to.be.false;
-    });
   });
 });

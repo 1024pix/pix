@@ -68,19 +68,6 @@ const findByCampaignId = async ({ campaignId }) => {
   return combinedCourses.map((combinedCourse) => _toDomain(combinedCourse));
 };
 
-const existsForCampaignId = async ({ campaignId }) => {
-  const knexConn = DomainTransaction.getConnection();
-
-  const combinedCourse = await knexConn('combined_courses')
-    .select('combined_courses.id')
-    .whereNull('combined_courses.deletedAt')
-    .join('quests', 'quests.id', 'combined_courses.questId')
-    .whereJsonSupersetOf('quests.successRequirements', [{ data: { campaignId: { data: campaignId } } }])
-    .first();
-
-  return Boolean(combinedCourse);
-};
-
 const _baseQuery = (knexConn) => {
   return knexConn('combined_courses')
     .select(
@@ -231,7 +218,6 @@ const _toDomain = ({
 
 export {
   deleteCombinedCourses,
-  existsForCampaignId,
   findByCampaignId,
   findByModuleIdAndOrganizationIds,
   findByOrganizationId,
