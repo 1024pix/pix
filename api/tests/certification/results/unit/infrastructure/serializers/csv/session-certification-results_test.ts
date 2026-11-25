@@ -3,7 +3,10 @@ import { I18n } from 'i18n';
 
 import { CERTIFICATION_RESULT_STATUSES } from '../../../../../../../src/certification/results/domain/constants.ts';
 import { CertificationResultForCsv } from '../../../../../../../src/certification/results/domain/read-models/CertificationResultForCsv.ts';
-import { serialize } from '../../../../../../../src/certification/results/infrastructure/serializers/csv/session-certification-results.ts';
+import {
+  serialize,
+  serializeFilename,
+} from '../../../../../../../src/certification/results/infrastructure/serializers/csv/session-certification-results.ts';
 import { Frameworks } from '../../../../../../../src/certification/shared/domain/models/Frameworks.js';
 import { AutoJuryCommentKeys } from '../../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { getI18n } from '../../../../../../../src/shared/infrastructure/i18n/i18n.js';
@@ -920,6 +923,19 @@ describe('Certification | Results | Unit | Infrastructure | Serializer | CSV | s
           `"333";"jean-EDU1";"coulignant-EDU1";"14/07/1986";"puit-en-velin-EDU1";"uuid-EDU";"Pix+ Édu 2nd degré";"Validée";"Admissible";"c super-EDU1";"1";"08/01/2023"`;
         expect(csv).to.equal(expectedContent);
       });
+    });
+  });
+
+  context('#serializeFilename', function () {
+    it('returns the filename built from session date, time and id', function () {
+      // given
+      const sessionInfo = { id: 123, date: '2020-01-01', time: '16:00:00' };
+
+      // when
+      const filename = serializeFilename(sessionInfo, i18n);
+
+      // then
+      expect(filename).to.equal('20200101_1600_resultats_session_123.csv');
     });
   });
 });

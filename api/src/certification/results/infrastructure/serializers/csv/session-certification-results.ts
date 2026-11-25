@@ -211,6 +211,20 @@ type Options = {
   showCertificationCenter?: boolean;
 };
 
+type SessionInfo = {
+  id: number;
+  date: string;
+  time: string;
+};
+
+export function serializeFilename({ id, date, time }: SessionInfo, i18n: I18n): string {
+  const dateWithTime = `${date.replaceAll('-', '')}_${time.slice(0, 5).replace(':', '')}`;
+  return i18n.__('certification-results-csv.filenames.SESSION_CERTIFICATION_RESULTS_FILENAME', {
+    dateWithTime,
+    sessionId: String(id),
+  });
+}
+
 export function serialize(
   certificationResults: CertificationResultForCsv[],
   i18n: I18n,

@@ -9,7 +9,7 @@ import * as sessionResultsLinkService from '../domain/services/session-results-l
 import { usecases } from '../domain/usecases/index.js';
 import * as certifiedProfileRepository from '../infrastructure/repositories/certified-profile-repository.js';
 import * as certifiedProfileSerializer from '../infrastructure/serializers/certified-profile-serializer.js';
-import { serialize } from '../infrastructure/serializers/csv/session-certification-results.ts';
+import { serialize, serializeFilename } from '../infrastructure/serializers/csv/session-certification-results.ts';
 import { getCleaCertifiedCandidateCsv } from '../infrastructure/utils/csv/certification-results/get-clea-certified-candidate-csv.js';
 
 async function getCleaCertifiedCandidateDataCsv(request, h, dependencies = { getCleaCertifiedCandidateCsv }) {
@@ -55,11 +55,7 @@ async function getSessionResultsByRecipientEmail(request, h) {
   });
 
   const csv = serialize(certificationResults, i18n);
-  const dateWithTime = `${sessionInfo.date.replaceAll('-', '')}_${sessionInfo.time.replace(':', '')}`;
-  const filename = i18n.__('certification-results-csv.filenames.SESSION_CERTIFICATION_RESULTS_FILENAME', {
-    dateWithTime,
-    sessionId: sessionInfo.id,
-  });
+  const filename = serializeFilename(sessionInfo, i18n);
   return h
     .response(csv)
     .header('Content-Type', 'text/csv;charset=utf-8')
@@ -88,11 +84,7 @@ async function postSessionResultsToDownload(request, h) {
   });
 
   const csv = serialize(certificationResults, i18n);
-  const dateWithTime = `${sessionInfo.date.replaceAll('-', '')}_${sessionInfo.time.replace(':', '')}`;
-  const filename = i18n.__('certification-results-csv.filenames.SESSION_CERTIFICATION_RESULTS_FILENAME', {
-    dateWithTime,
-    sessionId: sessionInfo.id,
-  });
+  const filename = serializeFilename(sessionInfo, i18n);
   return h
     .response(csv)
     .header('Content-Type', 'text/csv;charset=utf-8')

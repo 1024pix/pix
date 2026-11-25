@@ -7,7 +7,7 @@ import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
 
-describe('Unit | Domain | Use Cases | get-session-results', function () {
+describe('Certification | Results | Unit | Domain | UseCases | get-session-results', function () {
   let sessionAuthorizationAdapter,
     certificationResultForCsvRepository,
     sessionForResultsSharingRepository,

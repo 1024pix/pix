@@ -141,7 +141,11 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
           // given
           const server = await getServer();
           const resultRecipientEmail = 'lepatron@example.net';
-          const sessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date() }).id;
+          const sessionId = databaseBuilder.factory.buildSession({
+            date: '2020-01-01',
+            time: '12:00:00',
+            publishedAt: new Date(),
+          }).id;
           databaseBuilder.factory.learningContent.buildCompetence({
             id: 'competenceABC123',
             index: '1.1',
@@ -173,6 +177,9 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
 
           // then
           expect(response.statusCode).to.equal(200);
+          expect(response.headers['content-disposition']).to.equal(
+            `attachment; filename=20200101_1200_resultats_session_${sessionId}.csv`,
+          );
           expect(response.result).to.deep
             .equal(`\uFEFF"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Type de certification";"Statut";"Certification CléA";"Niveau";"Score en Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"
 "1";"firstName 1";"lastName 1";"01/01/1990";"birthplace 1";"externalId 1";"Pix";"Non obtenue";"Non passée";"-";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";;"100000";"certificationCenter 1";"02/02/2026"
@@ -257,7 +264,11 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
         it('should return 200 HTTP status code with the csv', async function () {
           // given
           const server = await getServer();
-          const sessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date() }).id;
+          const sessionId = databaseBuilder.factory.buildSession({
+            date: '2020-01-01',
+            time: '12:00:00',
+            publishedAt: new Date(),
+          }).id;
           databaseBuilder.factory.learningContent.buildCompetence({
             id: 'competenceABC123',
             index: '1.1',
@@ -285,6 +296,9 @@ describe('Certification | Results | Acceptance | Application | Routes | certific
 
           // then
           expect(response.statusCode).to.equal(200);
+          expect(response.headers['content-disposition']).to.equal(
+            `attachment; filename=20200101_1200_resultats_session_${sessionId}.csv`,
+          );
           expect(response.result).to.deep
             .equal(`\uFEFF"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Type de certification";"Statut";"Certification CléA";"Niveau";"Score en Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"
 "1";"firstName 1";"lastName 1";"01/01/1990";"birthplace 1";"externalId 1";"Pix";"Non obtenue";"Non passée";"-";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";;"100000";"certificationCenter 1";"02/02/2026"
