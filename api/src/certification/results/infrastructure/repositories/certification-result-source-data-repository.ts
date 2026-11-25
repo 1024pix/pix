@@ -99,9 +99,11 @@ async function findCertificationData(applyFilter: QueryFilter): Promise<Certific
   const query = knexConn
     .select({
       certificationCourseId: 'certification-courses.id',
-      userId: 'certification-courses.userId',
+      userId: knexConn.raw(`
+        CASE WHEN "users"."hasBeenAnonymised" THEN NULL ELSE "certification-courses"."userId" END`),
       sessionId: 'certification-courses.sessionId',
-      organizationLearnerId: 'certification-candidates.organizationLearnerId',
+      organizationLearnerId: knexConn.raw(`
+        CASE WHEN "organization-learners"."deletedAt" IS NOT NULL THEN NULL ELSE "organization-learners"."id" END`),
       algorithmEngineVersion: 'certification-courses.version',
       firstName: 'certification-courses.firstName',
       lastName: 'certification-courses.lastName',
@@ -135,6 +137,8 @@ async function findCertificationData(applyFilter: QueryFilter): Promise<Certific
     .from('certification-courses')
     .leftJoin('certification_versions', 'certification_versions.id', 'certification-courses.versionId')
     .leftJoin('certification-candidates', 'certification-candidates.id', 'certification-courses.candidateId')
+    .leftJoin('organization-learners', 'organization-learners.id', 'certification-candidates.organizationLearnerId')
+    .leftJoin('users', 'users.id', 'certification-courses.userId')
     .join('sessions', 'sessions.id', 'certification-courses.sessionId')
     .join(
       'certification-courses-last-assessment-results',
@@ -153,6 +157,8 @@ async function findCertificationData(applyFilter: QueryFilter): Promise<Certific
       'assessment-results.id',
       'certification-candidates.id',
       'certification_versions.id',
+      'organization-learners.id',
+      'users.id',
     )
     .orderBy('certification-courses.id');
   applyFilter(query);
