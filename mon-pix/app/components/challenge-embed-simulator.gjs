@@ -38,9 +38,9 @@ export default class ChallengeEmbedSimulator extends Component {
             tabindex={{unless this.isSimulatorLaunched "-1"}}
             aria-hidden={{unless this.isSimulatorLaunched "true"}}
             class="embed__iframe"
-            src="{{@embedDocument.url}}"
-            title="{{@embedDocument.title}}"
-            {{modifierDidInsert this.configureIframe @embedDocument.url this}}
+            src="{{this.embedDocument.url}}"
+            title="{{this.embedDocument.title}}"
+            {{modifierDidInsert this.configureIframe this.embedDocument.url this}}
             frameBorder="0"
             style="{{this.embedDocumentHeightStyle}}"
             allow="{{this.permissionToClipboardWrite}}"
@@ -83,7 +83,15 @@ export default class ChallengeEmbedSimulator extends Component {
 
   constructor(owner, args) {
     super(owner, args);
-    this.embedHeight = args.embedDocument?.height;
+    this.embedHeight = args.challenge?.embedHeight;
+  }
+
+  get embedDocument() {
+    return {
+      url: this.args.challenge.embedUrl,
+      title: this.args.challenge.embedTitle,
+      height: this.args.challenge.embedHeight,
+    };
   }
 
   get embedDocumentHeightStyle() {
@@ -94,10 +102,10 @@ export default class ChallengeEmbedSimulator extends Component {
   }
 
   get permissionToClipboardWrite() {
-    if (!this.args.embedDocument?.url) {
+    if (!this.embedDocument?.url) {
       return null;
     }
-    return isEmbedAllowedOrigin(this.args.embedDocument.url) ? 'clipboard-write' : null;
+    return isEmbedAllowedOrigin(this.embedDocument.url) ? 'clipboard-write' : null;
   }
 
   configureIframe = (iframe, embedUrl, thisComponent) => {

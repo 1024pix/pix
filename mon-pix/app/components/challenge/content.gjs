@@ -1,4 +1,4 @@
-import { PixBlock, PixNotificationAlert } from '@1024pix/nebulix-ember';
+import { PixBlock } from '@1024pix/nebulix-ember';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { action } from '@ember/object';
@@ -15,6 +15,7 @@ import FeedbackPanel from 'mon-pix/components/challenge/feedback/feedback-panel'
 import FocusedOutNotification from 'mon-pix/components/challenge/focusedOutNotification';
 import ChallengeItem from 'mon-pix/components/challenge/item';
 import ModeBanner from 'mon-pix/components/challenge/mode-banner';
+import ChallengeEmbedSimulator from 'mon-pix/components/challenge-embed-simulator';
 import ChallengeStatement from 'mon-pix/components/challenge-statement';
 
 export default class ChallengeContent extends Component {
@@ -216,38 +217,39 @@ export default class ChallengeContent extends Component {
             @challenge={{@challenge}}
             @assessment={{@assessment}}
             @isTextToSpeechActivated={{@isTextToSpeechActivated}}
-            @onAutoReplyMessage={{if @challenge.autoReply this.receiveAutoReplyMessage}}
           />
 
-          {{#unless @challenge.autoReply}}
-            <ChallengeWrapper @hasAnswer={{this.hasAnswer}} @isCertification={{@assessment.isCertification}}>
-              <ChallengeItem
+          <ChallengeWrapper @hasAnswer={{this.hasAnswer}} @isCertification={{@assessment.isCertification}}>
+            {{#if (and @challenge.hasValidEmbedDocument @challenge.autoReply)}}
+              <ChallengeEmbedSimulator
                 @challenge={{@challenge}}
-                @assessment={{@assessment}}
-                @answer={{@answer}}
-                @timeoutChallenge={{@timeoutChallenge}}
-                @resetAllChallengeInfo={{@resetAllChallengeInfo}}
-                @resetChallengeInfoOnResume={{@resetChallengeInfoOnResume}}
-                @onFocusIntoChallenge={{fn @setFocusedOutOfChallenge false}}
-                @onFocusOutOfChallenge={{fn @setFocusedOutOfChallenge true}}
-                @onFocusOutOfWindow={{@focusedOutOfWindow}}
-                @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
-                @isFocusedChallengeAndUserHasFocusedOutOfChallenge={{@isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
-                @isTextToSpeechActivated={{@isTextToSpeechActivated}}
-                @setAnswerValue={{this.setAnswerValue}}
-                @setAnswerError={{this.setAnswerError}}
-                @hideErrorMessage={{this.hideErrorMessage}}
-                @displayErrorMessage={{this.displayErrorMessage}}
-                @displayTimer={{this.displayTimer}}
-                @setChallengeAsTimedOut={{this.setChallengeAsTimedOut}}
-                @isAnswerFieldDisabled={{this.hasAnswer}}
+                @assessmentId={{@assessment.id}}
+                @onAutoReplyMessage={{if @challenge.autoReply this.receiveAutoReplyMessage}}
               />
-            </ChallengeWrapper>
-          {{else if this.displayErrorMessage}}
-            <PixNotificationAlert role="alert" class="challenge-response__alert" @type="error" @withIcon={{true}}>
-              {{this.autoReplyDisplayedErrorMessage}}
-            </PixNotificationAlert>
-          {{/unless}}
+            {{/if}}
+            <ChallengeItem
+              @challenge={{@challenge}}
+              @assessment={{@assessment}}
+              @answer={{@answer}}
+              @timeoutChallenge={{@timeoutChallenge}}
+              @resetAllChallengeInfo={{@resetAllChallengeInfo}}
+              @resetChallengeInfoOnResume={{@resetChallengeInfoOnResume}}
+              @onFocusIntoChallenge={{fn @setFocusedOutOfChallenge false}}
+              @onFocusOutOfChallenge={{fn @setFocusedOutOfChallenge true}}
+              @onFocusOutOfWindow={{@focusedOutOfWindow}}
+              @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
+              @isFocusedChallengeAndUserHasFocusedOutOfChallenge={{@isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
+              @isTextToSpeechActivated={{@isTextToSpeechActivated}}
+              @setAnswerValue={{this.setAnswerValue}}
+              @setAnswerError={{this.setAnswerError}}
+              @hideErrorMessage={{this.hideErrorMessage}}
+              @displayErrorMessage={{this.displayErrorMessage}}
+              @displayTimer={{this.displayTimer}}
+              @setChallengeAsTimedOut={{this.setChallengeAsTimedOut}}
+              @isAnswerFieldDisabled={{this.hasAnswer}}
+              @autoReplyDisplayedErrorMessage={{this.autoReplyDisplayedErrorMessage}}
+            />
+          </ChallengeWrapper>
         </PixBlock>
 
         {{#if @assessment}}

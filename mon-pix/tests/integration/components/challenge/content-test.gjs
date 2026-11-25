@@ -447,6 +447,7 @@ module('Integration | Component | Challenge | Content', function (hooks) {
           embedUrl: 'https://epreuves.pix.fr/embed.html',
           embedTitle: 'Embed',
           embedHeight: 300,
+          proposals: null,
         });
       });
 
@@ -465,7 +466,6 @@ module('Integration | Component | Challenge | Content', function (hooks) {
 
         // then
         assert.strictEqual(screen.queryByRole('textbox'), null);
-        assert.dom('.challenge-response').doesNotExist();
       });
 
       module('when the event message is from Pix', function () {

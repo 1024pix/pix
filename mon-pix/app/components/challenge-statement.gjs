@@ -127,12 +127,8 @@ export default class ChallengeStatement extends Component {
         </div>
       {{/if}}
 
-      {{#if @challenge.hasValidEmbedDocument}}
-        <ChallengeEmbedSimulator
-          @embedDocument={{this.challengeEmbedDocument}}
-          @assessmentId={{@assessment.id}}
-          @onAutoReplyMessage={{@onAutoReplyMessage}}
-        />
+      {{#if (and @challenge.hasValidEmbedDocument (not @challenge.autoReply))}}
+        <ChallengeEmbedSimulator @challenge={{@challenge}} @assessmentId={{@assessment.id}} />
       {{/if}}
 
       {{#if @challenge.alternativeInstruction}}
@@ -178,17 +174,6 @@ export default class ChallengeStatement extends Component {
 
   get linkTitle() {
     return this.intl.t('navigation.external-link-title');
-  }
-
-  get challengeEmbedDocument() {
-    if (this.args.challenge && this.args.challenge.hasValidEmbedDocument) {
-      return {
-        url: this.args.challenge.embedUrl,
-        title: this.args.challenge.embedTitle,
-        height: this.args.challenge.embedHeight,
-      };
-    }
-    return undefined;
   }
 
   get id() {

@@ -85,6 +85,7 @@ export default class Item extends Component {
       @hideErrorMessage={{@hideErrorMessage}}
       @displayErrorMessage={{@displayErrorMessage}}
       @isAnswerFieldDisabled={{@isAnswerFieldDisabled}}
+      @autoReplyDisplayedErrorMessage={{@autoReplyDisplayedErrorMessage}}
     >
       <:timeGauge>
         {{#if @displayTimer}}

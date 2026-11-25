@@ -32,7 +32,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
       test('should render challenge information and question', function (assert) {
         // then
-        assert.dom('.challenge-response__proposal').doesNotExist();
+        assert.dom(screen.queryByRole('heading', { level: 2, name: 'Votre réponse' })).doesNotExist();
       });
 
       test('should display the alert box when user validates without successfully finishing the embed', async function (assert) {
