@@ -864,6 +864,7 @@
       "details": {
         "competences": {
           "description": "Tu puntuación Pix da una estimación de tu nivel en las 16 competencias digitales.",
+          "shareable-title": "Su perfil de competencias digitales",
           "title": "Tu perfil de competencias digitales"
         }
       },
@@ -915,7 +916,9 @@
         },
         "progress-bar-explanation": {
           "default": "Barra de progreso que indica el nivel que has alcanzado ({level}, es decir, el nivel {globalLevelLabel}) de un máximo de 7 niveles (nivel Experto 1)",
-          "pre-beginner-level": "Barra de progreso que indica el nivel máximo que se puede alcanzar en la certificación (es decir, 7 o el nivel Experto 1)"
+          "pre-beginner-level": "Barra de progreso que indica el nivel máximo que se puede alcanzar en la certificación (es decir, 7 o el nivel Experto 1)",
+          "shareable-progress-bar-description": "Nivel medio sobre el nivel máximo alcanzable.",
+          "shareable-progress-bar-title": "Posicionamiento global"
         }
       },
       "hexagon-score": {
@@ -927,6 +930,7 @@
       "learn-about-certification-results": "¿Cómo interpretar los resultados?",
       "obtained-certification": {
         "candidate": "El candidato ha alcanzado el nivel {globalLevelLabel} de la certificación {frameworkLabel}.",
+        "shareable-core": "¡El candidato ha obtenido la certificación Pix!",
         "user": "Has alcanzado el nivel {globalLevelLabel} de la certificación {frameworkLabel}."
       },
       "professionalizing-warning": "El certificado Pix está reconocido como cualificación profesional por France Compétences una vez alcanzada una puntuación mínima de 120 pix.",

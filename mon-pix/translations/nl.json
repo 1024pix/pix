@@ -864,6 +864,7 @@
       "details": {
         "competences": {
           "description": "Je Pix-score geeft een schatting van je niveau in de 16 digitale competenties.",
+          "shareable-title": "Digitaal competentieprofiel",
           "title": "Je digitale competentieprofiel"
         }
       },
@@ -915,7 +916,9 @@
         },
         "progress-bar-explanation": {
           "default": "Voortgangsbalk die aangeeft welk niveau je hebt bereikt ({level} of niveau {globalLevelLabel}) op een maximaal haalbaar niveau van 7 (niveau Deskundige 1)",
-          "pre-beginner-level": "Voortgangsbalk die het hoogste niveau aangeeft dat bij de certificering kan worden behaald (namelijk 7 of niveau Deskundige 1)"
+          "pre-beginner-level": "Voortgangsbalk die het hoogste niveau aangeeft dat bij de certificering kan worden behaald (namelijk 7 of niveau Deskundige 1)",
+          "shareable-progress-bar-description": "Gemiddeld niveau ten opzichte van het maximaal haalbare niveau.",
+          "shareable-progress-bar-title": "Algemene positionering"
         }
       },
       "hexagon-score": {
@@ -927,6 +930,7 @@
       "learn-about-certification-results": "Hoe interpreteer je de resultaten?",
       "obtained-certification": {
         "candidate": "De kandidaat heeft niveau {globalLevelLabel} van de {frameworkLabel} certificering bereikt.",
+        "shareable-core": "De kandidaat heeft de Pix-certificering behaald!",
         "user": "Je hebt niveau {globalLevelLabel} van de {frameworkLabel} certificering bereikt."
       },
       "professionalizing-warning": "Het PIX-certificaat wordt door France Compétences erkend als een beroepsgericht certificaat vanaf een minimumscore van 120 PIX",

@@ -864,6 +864,7 @@
       "details": {
         "competences": {
           "description": "Dein Pix-Score gibt eine Einschätzung deines Niveaus in den 16 Kompetenzen.",
+          "shareable-title": "Digitales Kompetenzprofil",
           "title": "Dein digitales Kompetenzprofil"
         }
       },
@@ -915,7 +916,9 @@
         },
         "progress-bar-explanation": {
           "default": "Fortschrittsbalken, der deine erreichte Stufe ( {level}, oder Stufe {globalLevelLabel} ) auf einer maximal erreichbaren Stufe von 7 ( Stufe Expert 1 ) anzeigt.",
-          "pre-beginner-level": "Fortschrittsbalken, der die maximale Stufe anzeigt, die man in der Zertifizierung erreichen kann (entweder, 7 oder Expert 1 )"
+          "pre-beginner-level": "Fortschrittsbalken, der die maximale Stufe anzeigt, die man in der Zertifizierung erreichen kann (entweder, 7 oder Expert 1 )",
+          "shareable-progress-bar-description": "Durchschnittliche Stufe im Verhältnis zur maximal erreichbaren Stufe.",
+          "shareable-progress-bar-title": "Gesamteinstufung"
         }
       },
       "hexagon-score": {
@@ -927,6 +930,7 @@
       "learn-about-certification-results": "Wie sind die Ergebnisse zu interpretieren?",
       "obtained-certification": {
         "candidate": "Der Kandidat hat das Niveau {globalLevelLabel} der {frameworkLabel}-Zertifizierung erreicht.",
+        "shareable-core": "Der Kandidat hat die Pix-Zertifizierung erhalten!",
         "user": "Du hast das Niveau {globalLevelLabel} der {frameworkLabel}-Zertifizierung erreicht."
       },
       "professionalizing-warning": "Das Pix-Zertifikat wird von France compétences ab einer Mindestpunktzahl von 120 Pix als berufsqualifizierend anerkannt.",
