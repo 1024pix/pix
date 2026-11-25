@@ -1,5 +1,43 @@
 # Pix Changelog
 
+# [5.550.0](https://github.com/1024pix/pix/compare/v5.549.1...v5.550.0) (2026-11-25)
+
+### :rocket: Amélioration
+
+- [#19046](https://github.com/1024pix/pix/pull/19046) Afficher la durée des parcours apprenants dans le catalogue PixOrga (PIX-25044)
+
+### :bug: Correction
+
+- [#19091](https://github.com/1024pix/pix/pull/19091) Corriger des flakies de l'API
+- [#19041](https://github.com/1024pix/pix/pull/19041) Corriger le script anonymize-user-in-batch suite au passage de l’anonymisation en Event Driven Architecture (PIX-25207)
+- [#19094](https://github.com/1024pix/pix/pull/19094) Retire isPartOfCombinedCourse des tests du model campaign
+- [#19075](https://github.com/1024pix/pix/pull/19075) Retourner tous les acquis d'une campagne, y compris les non-opérationnels, dans le contenu pédagogique (PIX-24762).
+
+### :building_construction: Tech
+
+- [#19081](https://github.com/1024pix/pix/pull/19081) Améliorer et utiliser l'audit logger par batch
+- [#19090](https://github.com/1024pix/pix/pull/19090) Changement de composant pour afficher le détail d'un candidat (PIX-25234)
+- [#18877](https://github.com/1024pix/pix/pull/18877) Faire pointer tous les liens politique de confidentialité des applications vers les adresses génériques (PIX-24846 )
+- [#19056](https://github.com/1024pix/pix/pull/19056) Migration vers ember-intl v9 sur Pix App
+- [#19101](https://github.com/1024pix/pix/pull/19101) Pin les versions des images Docker
+- [#19095](https://github.com/1024pix/pix/pull/19095) Supprimer la fonction importNamedExportsFromDirectory
+- [#19020](https://github.com/1024pix/pix/pull/19020) Valider la conformité d'un `certification_result` avant son insertion en BDD (PIX-25079)
+
+### :arrow_up: Montée de version
+
+- [#19096](https://github.com/1024pix/pix/pull/19096) Pin dependency zod to 4.6.7 (api)
+- [#19098](https://github.com/1024pix/pix/pull/19098) Update aws-sdk-js-v3 monorepo to v3.1171.0 (api)
+- [#19082](https://github.com/1024pix/pix/pull/19082) Update dependency @ember/test-waiters to v4.1.2 (mon-pix)
+- [#19097](https://github.com/1024pix/pix/pull/19097) Update dependency @embroider/vite to v1.8.1 (orga,mon-pix,junior,certif,admin)
+- [#19086](https://github.com/1024pix/pix/pull/19086) Update dependency @formatjs/intl to v6.1.6 (mon-pix)
+- [#19099](https://github.com/1024pix/pix/pull/19099) Update dependency @formatjs/intl to v6.2.0 (mon-pix)
+- [#19085](https://github.com/1024pix/pix/pull/19085) Update dependency @formatjs/intl-durationformat to v0.13.0 (mon-pix)
+- [#19088](https://github.com/1024pix/pix/pull/19088) Update dependency ember-qunit to v9.2.1 (orga,mon-pix,junior,certif,admin)
+- [#19084](https://github.com/1024pix/pix/pull/19084) Update dependency i18next-browser-languagedetector to v8.3.1 (orga,mon-pix,certif,admin)
+- [#19102](https://github.com/1024pix/pix/pull/19102) Update dependency js-base64 to v3.9.7 (admin)
+- [#19100](https://github.com/1024pix/pix/pull/19100) Update dependency vitest to v5.1.1 (audit-logger)
+- [#19089](https://github.com/1024pix/pix/pull/19089) Update ember-intl (orga,mon-pix,junior,certif,admin)
+
 ## [5.549.1](https://github.com/1024pix/pix/compare/v5.549.0...v5.549.1) (2026-11-24)
 
 ### :bug: Correction
