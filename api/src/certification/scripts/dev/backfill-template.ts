@@ -78,8 +78,8 @@ export class BackfillTemplate extends Script {
     let currentStartId = startId;
     // Computed once: items created during the run are not processed
     const maxId = await findMaxId();
-    let itemDataToProcess = await findNextItemsToProcess(currentStartId, chunkSize);
     while (currentStartId <= maxId) {
+      const itemDataToProcess = await findNextItemsToProcess(currentStartId, chunkSize);
       if (itemDataToProcess.length > 0) {
         try {
           await executeInTransaction({ dryRun }, () =>
@@ -103,7 +103,6 @@ export class BackfillTemplate extends Script {
       logger.info(`Batch from ${currentStartId} to ${currentStartId + chunkSize - 1} done`);
       cntTotalItemsHandled += itemDataToProcess.length;
       currentStartId += chunkSize;
-      itemDataToProcess = await findNextItemsToProcess(currentStartId, chunkSize);
       await dependencies.sleep(throttleDelay);
     }
     logger.info(`Script finished. Number of items processed : ${cntTotalItemsHandled}, youpi`);
