@@ -1,5 +1,6 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module(
   'Unit | Controller | authenticated/combined-course-blueprints/combined-course-blueprint/organizations',
@@ -96,6 +97,64 @@ module(
           // then
           assert.strictEqual(controller.id, expectedValue);
         });
+      });
+    });
+
+    module('#detachOrganization', function (hooks) {
+      let adapter, store;
+
+      hooks.beforeEach(function () {
+        store = this.owner.lookup('service:store');
+        adapter = store.adapterFor('combined-course-blueprint');
+        controller.model = { blueprint: { id: 12 } };
+
+        sinon.stub(store, 'findRecord').withArgs('organization', 34).resolves({ id: 34, name: 'Orga 34' });
+        sinon.stub(controller.pixToast, 'sendSuccessNotification').resolves();
+        sinon.stub(controller.pixToast, 'sendErrorNotification').resolves();
+        sinon.stub(controller.router, 'transitionTo');
+        sinon.stub(controller.intl, 't').callsFake((key) => key);
+      });
+
+      test('it should detach only the given organization from the combined course blueprint', async function (assert) {
+        // given
+        sinon.stub(adapter, 'detachOrganizations').resolves();
+
+        // when
+        await controller.detachOrganization(34);
+
+        // then
+        assert.ok(
+          adapter.detachOrganizations.calledOnceWithExactly({ combinedCourseBlueprintId: 12, organizationIds: [34] }),
+        );
+        assert.ok(
+          controller.intl.t.calledWithExactly(
+            'components.combined-course-blueprints.organizations.detach-organization-success',
+            { name: 'Orga 34' },
+          ),
+        );
+        assert.ok(controller.pixToast.sendSuccessNotification.calledOnce);
+        assert.ok(
+          controller.router.transitionTo.calledOnceWithExactly(
+            'authenticated.combined-course-blueprints.combined-course-blueprint.organizations',
+          ),
+        );
+      });
+
+      test('it should display an error notification and not redirect when detach fails', async function (assert) {
+        // given
+        sinon.stub(adapter, 'detachOrganizations').rejects();
+
+        // when
+        await controller.detachOrganization(34);
+
+        // then
+        assert.ok(
+          controller.pixToast.sendErrorNotification.calledOnceWithExactly({
+            message: 'common.notifications.generic-error',
+          }),
+        );
+        assert.ok(controller.pixToast.sendSuccessNotification.notCalled);
+        assert.ok(controller.router.transitionTo.notCalled);
       });
     });
   },

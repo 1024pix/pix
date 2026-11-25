@@ -97,7 +97,9 @@ module('Integration | Component | CombinedCourseBlueprints::Organizations', func
 
     test('it should detach the given organizations from the combined course blueprint', async function (assert) {
       // given
-      sinon.stub(adapter, 'detachOrganizations').resolves();
+      sinon.stub(adapter, 'detachOrganizations').resolves({
+        data: { attributes: { 'detached-ids': [123, 456], 'already-detached-ids': [] } },
+      });
       const combinedCourseBlueprint = { id: 1 };
       const organizations = [];
       const administrationTeams = [];
@@ -117,7 +119,12 @@ module('Integration | Component | CombinedCourseBlueprints::Organizations', func
       await click(screen.getByRole('button', { name: 'Valider le détachement' }));
 
       // then
-      assert.ok(adapter.detachOrganizations.calledOnceWithExactly(1, [123, 456]));
+      assert.ok(
+        adapter.detachOrganizations.calledOnceWithExactly({
+          combinedCourseBlueprintId: 1,
+          organizationIds: [123, 456],
+        }),
+      );
       assert.ok(pixToast.sendSuccessNotification.calledOnce);
       assert.ok(router.refresh.calledOnce);
     });

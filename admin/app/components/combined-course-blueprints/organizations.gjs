@@ -56,8 +56,12 @@ export default class Organizations extends Component {
   async detachOrganizations(organizationsToDetach) {
     const adapter = this.store.adapterFor('combined-course-blueprint');
     try {
-      await adapter.detachOrganizations(this.args.combinedCourseBlueprint.id, organizationsToDetach);
-      return true;
+      const response = await adapter.detachOrganizations({
+        organizationIds: organizationsToDetach,
+        combinedCourseBlueprintId: this.args.combinedCourseBlueprint.id,
+      });
+      const { 'detached-ids': detachedIds, 'already-detached-ids': alreadyDetachedIds } = response.data.attributes;
+      return { detachedIds, alreadyDetachedIds };
     } catch (responseError) {
       this._handleResponseError(responseError);
       return false;

@@ -25,7 +25,7 @@ module('Unit | Adapters | combined-course-blueprint', function (hooks) {
       const expectedUrl = `${ENV.APP.API_HOST}/api/admin/combined-course-blueprints/${combinedCourseBlueprintId}/organizations`;
 
       // when
-      await adapter.detachOrganizations(combinedCourseBlueprintId, [organizationId]);
+      await adapter.detachOrganizations({ combinedCourseBlueprintId, organizationIds: [organizationId] });
       const expectedPayload = { data: { 'organization-ids': [organizationId] } };
 
       // then

@@ -918,6 +918,8 @@
           "info": "Ids of the organizations to add, separated by a comma",
           "label": "Detach one or several organization(s)",
           "message": {
+            "already-detached": "The following organizations were already detached: {organizationIds}",
+            "no-organization-detached": "No organization was detached.",
             "success": "Organization(s) successfully detached."
           }
         }
