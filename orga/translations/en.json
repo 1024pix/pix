@@ -1057,6 +1057,16 @@
         },
         "tubes-count": "{count, plural, =0 {No topic} =1 {{count} topic} other {{count} topics}}"
       },
+      "duration": {
+        "aria-label": "Estimated duration: {duration}",
+        "options": {
+          "long": "1h15 to 2h",
+          "medium": "45 min to 1h15",
+          "short": "30 to 45 min",
+          "very-long": "more than 2h",
+          "very-short": "less than 30 min"
+        }
+      },
       "empty-state": "No courses available at the moment. Contact Pix to obtain some.",
       "empty-state-with-filters": "No courses match your search criteria.",
       "filters": {

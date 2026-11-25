@@ -14,6 +14,7 @@ export default class Course extends Model {
   @attr<StringTransform>('string') declare category: string | null;
   @attr<BooleanTransform>('boolean') declare isSimplifiedAccess: boolean | null;
   @attr<NumberTransform>('number') declare sourceId: number | null;
+  @attr<StringTransform>('string') declare durationSpan: string | null;
 
   @hasMany<Area>('area', { async: false, inverse: null }) declare areas: HasMany<Area>;
 }

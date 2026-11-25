@@ -6,6 +6,8 @@ import Component from '@glimmer/component';
 import { t } from 'ember-intl';
 import { eq } from 'ember-truth-helpers';
 
+import DurationSpan from './duration-span.gjs';
+
 export const TARGET_PROFILE_OVERVIEW = 'target-profile-overview';
 export const TARGET_PROFILE = 'targetProfile';
 export const BLUEPRINT = 'blueprint';
@@ -52,11 +54,17 @@ export default class CourseCard extends Component {
           <PixTag @color={{this.courseInfo.color}} class="course-card__tag">{{t this.courseInfo.label}}</PixTag>
         </:tag>
         <:footer>
-          {{#if (eq @course.type "targetProfile")}}
-            {{t "pages.catalogue.card.tubes-count" count=@course.nbTubes}}
-          {{else}}
-            {{t "pages.catalogue.card.modules-count" count=@course.nbModules}}
-          {{/if}}
+          <p class="course-card__infos">
+            {{#if (eq @course.type "targetProfile")}}
+              {{t "pages.catalogue.card.tubes-count" count=@course.nbTubes}}
+            {{else}}
+              {{t "pages.catalogue.card.modules-count" count=@course.nbModules}}
+            {{/if}}
+            {{#if @course.durationSpan}}
+              <span aria-hidden="true">•</span>
+              <DurationSpan @durationSpan={{@course.durationSpan}} />
+            {{/if}}
+          </p>
           {{#if @course.isSimplifiedAccess}}
             <p class="course-card__footer">{{t "pages.catalogue.card.simplified-access"}}</p>
           {{/if}}

@@ -1057,6 +1057,16 @@
         },
         "tubes-count": "{count, plural, =0 {Kein Thema} =1 {{count} Thema} other {{count} Themen}}"
       },
+      "duration": {
+        "aria-label": "Geschätzte Dauer: {duration}",
+        "options": {
+          "long": "1:15 bis 2 Stunden",
+          "medium": "45 Min. bis 1:15 Stunden",
+          "short": "30 bis 45 Min.",
+          "very-long": "mehr als 2 Stunden",
+          "very-short": "weniger als 30 Min."
+        }
+      },
       "empty-state": "Derzeit ist kein Parcours verfügbar. Kontaktiere Pix, um welche zu erhalten.",
       "empty-state-with-filters": "Keine Kurse entsprechen Ihren Suchkriterien.",
       "filters": {

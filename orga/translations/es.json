@@ -1057,6 +1057,16 @@
         },
         "tubes-count": "{count, plural, =0 {Sin temas} =1 {{count} tema} other {{count} temas}}"
       },
+      "duration": {
+        "aria-label": "Duración estimada: {duration}",
+        "options": {
+          "long": "1h15 a 2h",
+          "medium": "45 min a 1h15",
+          "short": "30 a 45 min",
+          "very-long": "más de 2h",
+          "very-short": "menos de 30 min"
+        }
+      },
       "empty-state": "No hay itinerarios disponibles por el momento. Contacta Pix para obtenerlos.",
       "empty-state-with-filters": "Ningún curso coincide con sus criterios de búsqueda.",
       "filters": {

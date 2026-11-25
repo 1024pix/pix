@@ -15,7 +15,11 @@ describe('Quest | Integration | Repository | course-repository', function () {
       const questId = databaseBuilder.factory.buildQuest({
         successRequirements: [CombinedCourseBlueprint.buildRequirementForCombinedCourse({ targetProfileId }).toDTO()],
       }).id;
-      const blueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({ questId, name: 'BleuImprimer' });
+      const blueprint = databaseBuilder.factory.buildCombinedCourseBlueprint({
+        questId,
+        name: 'BleuImprimer',
+        durationSpan: 'short',
+      });
       databaseBuilder.factory.buildCombinedCourseBlueprintShare({
         organizationId,
         combinedCourseBlueprintId: blueprint.id,
@@ -32,6 +36,7 @@ describe('Quest | Integration | Repository | course-repository', function () {
       expect(result[0].sourceId).to.equal(blueprint.id);
       expect(result[0].name).to.equal('BleuImprimer');
       expect(result[0].type).to.equal(COURSE_ITEM_TYPES.BLUEPRINT);
+      expect(result[0].durationSpan).to.equal('short');
     });
 
     it('aggregates tubes from all target profiles in the blueprint quest as nbTubes', async function () {
@@ -143,6 +148,7 @@ describe('Quest | Integration | Repository | course-repository', function () {
       expect(result[0].nbTubes).to.equal(2);
       expect(result[0].category).to.equal('SUBJECT');
       expect(result[0].isSimplifiedAccess).to.equal(false);
+      expect(result[0].durationSpan).to.be.null;
     });
 
     it('resolves areas with nested competences from learning content for a TARGET_PROFILE item', async function () {

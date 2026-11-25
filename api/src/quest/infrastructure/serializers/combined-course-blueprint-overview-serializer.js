@@ -10,6 +10,7 @@ const serialize = function (combinedCourseBlueprint) {
       'description',
       'prescriberDescription',
       'illustration',
+      'durationSpan',
       'createdAt',
       'updatedAt',
       'items',

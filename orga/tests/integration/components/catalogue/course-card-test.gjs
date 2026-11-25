@@ -107,6 +107,36 @@ module('Integration | Component | Catalogue::CourseCard', function (hooks) {
       assert.dom(screen.getByText(t('pages.catalogue.card.modules-count', { count: 4 }))).exists();
     });
 
+    test('it shows the estimated duration span', async function (assert) {
+      const store = this.owner.lookup('service:store');
+      const course = store.createRecord('course', {
+        name: 'Mon parcours',
+        type: 'blueprint',
+        nbModules: 4,
+        durationSpan: 'very_short',
+      });
+
+      const screen = await render(
+        <template><CourseCard @course={{course}} @type="all" @selectCourse={{selectCourse}} /></template>,
+      );
+
+      const durationLabel = t('pages.catalogue.duration.options.very-short');
+      assert.dom(screen.getByText(durationLabel)).exists();
+      assert.dom(screen.getByLabelText(t('pages.catalogue.duration.aria-label', { duration: durationLabel }))).exists();
+    });
+
+    test('it does not show duration span when it is not set', async function (assert) {
+      const store = this.owner.lookup('service:store');
+      const course = store.createRecord('course', { name: 'Mon parcours', type: 'blueprint', nbModules: 4 });
+
+      const screen = await render(
+        <template><CourseCard @course={{course}} @type="all" @selectCourse={{selectCourse}} /></template>,
+      );
+
+      assert.dom(screen.queryByLabelText(/Durée estimée/)).doesNotExist();
+      assert.dom(screen.queryByText('•')).doesNotExist();
+    });
+
     test('it should have a link to open modal with the correct blueprintId', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');

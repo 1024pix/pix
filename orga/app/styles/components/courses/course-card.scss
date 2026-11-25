@@ -31,6 +31,24 @@
   }
 }
 
+.course-card__infos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pix-spacing-1x);
+  align-items: center;
+}
+
+.catalogue-duration-span {
+  display: inline-flex;
+  gap: var(--pix-spacing-1x);
+  align-items: center;
+
+  &__icon {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
 // Temporary fixes to PixCard (faster fix)
 // TODO Move in Pix UI later OR move Pix Card back to monorepo (maybe best)
 .pix-card {

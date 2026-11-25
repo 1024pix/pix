@@ -46,6 +46,7 @@ export const findByOrganizationId = async ({ organizationId, locale }) => {
       category: row.category,
       isSimplifiedAccess: row.isSimplifiedAccess,
       areas,
+      durationSpan: row.durationSpan,
       createdAt: row.createdAt,
     });
   };
@@ -84,6 +85,7 @@ const buildBlueprintRow = (blueprint, tubeIdsByTargetProfileId) => {
     tubeIds: uniqueTubeIds,
     category: null,
     isSimplifiedAccess: null,
+    durationSpan: blueprint.durationSpan,
   };
 };
 
@@ -98,6 +100,7 @@ const buildTargetProfileRow = (targetProfile, tubeIdsByTargetProfileId) => {
     tubeIds,
     category: targetProfile.category,
     isSimplifiedAccess: targetProfile.isSimplifiedAccess,
+    durationSpan: null,
   };
 };
 
