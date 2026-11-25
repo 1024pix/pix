@@ -41,10 +41,10 @@ const buildAssessment = function ({
   updatedAt = new Date('2020-01-02'),
   method,
 } = {}) {
-  if (campaignParticipationId) {
-    type = Assessment.types.CAMPAIGN;
-    courseId = null;
-  }
+  // if (campaignParticipationId) {
+  //   type = Assessment.types.CAMPAIGN;
+  //   courseId = null;
+  // }
 
   if (type !== Assessment.types.DEMO) {
     userId = _.isUndefined(userId) ? buildUser().id : userId;

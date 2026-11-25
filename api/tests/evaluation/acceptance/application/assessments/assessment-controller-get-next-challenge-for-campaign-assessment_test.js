@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { databaseBuilder, knex } from '../../../../tooling/databases.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { buildLearningContent as learningContentBuilder } from '../../../../tooling/learning-content-builder/index.js';
 import { getServer } from '../../../../tooling/server/shared-server.js';
 import {
@@ -80,70 +81,151 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-campai
     const userId = 1234;
 
     context('When there still are challenges to answer', function () {
-      beforeEach(async function () {
-        databaseBuilder.factory.buildUser({ id: userId });
-        const campaign = databaseBuilder.factory.buildCampaign({ assessmentMethod: 'SMART_RANDOM' });
-        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-          userId,
-          campaignId: campaign.id,
-        });
-
-        databaseBuilder.factory.buildCampaignSkill({
-          campaignId: campaign.id,
-          skillId: skillWeb1Id,
-        });
-
-        assessment = databaseBuilder.factory.buildAssessment({
-          type: Assessment.types.CAMPAIGN,
-          userId,
-          campaignParticipationId: campaignParticipation.id,
-          lastQuestionDate: new Date('2020-01-20'),
-          state: 'started',
-        });
-        await databaseBuilder.commit();
-      });
-
-      it('should return an assessment', async function () {
-        // given
-        const options = {
-          method: 'GET',
-          url: `/api/assessments/${assessment.id}`,
-          headers: generateAuthenticatedUserRequestHeaders({ userId }),
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionDate');
-        expect(assessmentsInDb.lastQuestionDate).to.be.greaterThan(assessment.lastQuestionDate);
-        expect(response.result.data.id).to.equal(assessment.id.toString());
-        expect(response.result.data.relationships['next-challenge'].data.id).to.be.oneOf([
-          thirdChallengeId,
-          otherChallengeId,
-        ]);
-      });
-
-      context('When user locale is de-AT', function () {
-        it('should return german validated challenge', async function () {
-          // given
-          const options = generateInjectOptions({
-            url: `/api/assessments/${assessment.id}`,
-            method: 'GET',
-            locale: 'de-AT',
-            audience: ' https://app.pix.org',
-            authorizationData: { userId },
+      context('When assessment method is Smart Random', function () {
+        beforeEach(async function () {
+          databaseBuilder.factory.buildUser({ id: userId });
+          const campaign = databaseBuilder.factory.buildCampaign({ assessmentMethod: 'SMART_RANDOM' });
+          const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+            userId,
+            campaignId: campaign.id,
           });
+
+          databaseBuilder.factory.buildCampaignSkill({
+            campaignId: campaign.id,
+            skillId: skillWeb1Id,
+          });
+
+          assessment = databaseBuilder.factory.buildAssessment({
+            type: Assessment.types.CAMPAIGN,
+            userId,
+            campaignParticipationId: campaignParticipation.id,
+            lastQuestionDate: new Date('2020-01-20'),
+            state: 'started',
+          });
+          await databaseBuilder.commit();
+        });
+
+        it('should return an assessment', async function () {
+          // given
+          const options = {
+            method: 'GET',
+            url: `/api/assessments/${assessment.id}`,
+            headers: generateAuthenticatedUserRequestHeaders({ userId }),
+          };
 
           // when
           const response = await server.inject(options);
 
           // then
-
           const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionDate');
           expect(assessmentsInDb.lastQuestionDate).to.be.greaterThan(assessment.lastQuestionDate);
           expect(response.result.data.id).to.equal(assessment.id.toString());
-          expect(response.result.data.relationships['next-challenge'].data.id).to.be.equal('germanChallengeId_web1');
+          expect(response.result.data.relationships['next-challenge'].data.id).to.be.oneOf([
+            thirdChallengeId,
+            otherChallengeId,
+          ]);
+        });
+
+        context('When user locale is de-AT', function () {
+          it('should return german validated challenge', async function () {
+            // given
+            const options = generateInjectOptions({
+              url: `/api/assessments/${assessment.id}`,
+              method: 'GET',
+              locale: 'de-AT',
+              audience: ' https://app.pix.org',
+              authorizationData: { userId },
+            });
+
+            // when
+            const response = await server.inject(options);
+
+            // then
+
+            const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionDate');
+            expect(assessmentsInDb.lastQuestionDate).to.be.greaterThan(assessment.lastQuestionDate);
+            expect(response.result.data.id).to.equal(assessment.id.toString());
+            expect(response.result.data.relationships['next-challenge'].data.id).to.be.equal('germanChallengeId_web1');
+          });
+        });
+      });
+
+      context('When assessment method is IRT', function () {
+        beforeEach(async function () {
+          databaseBuilder.factory.buildUser({ id: userId });
+          const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+          const version = domainBuilder.certification.configuration
+            .versionBuilder()
+            .withParameters({
+              challengesConfiguration: {
+                maximumAssessmentLength: 10,
+                challengesBetweenSameCompetence: 0,
+                limitToOneQuestionPerTube: false,
+                enablePassageByAllCompetences: false,
+                variationPercent: 0.5,
+                defaultCandidateCapacity: -3,
+                defaultProbabilityToPickChallenge: 51,
+                questionNumberToPickFromSkillList: [2],
+              },
+            })
+            .insertToDB({ databaseBuilder });
+
+          databaseBuilder.factory.buildCertificationFrameworksChallenge({
+            challengeId: firstChallengeId,
+            versionId: version.id,
+          });
+
+          databaseBuilder.factory.buildCertificationFrameworksChallenge({
+            challengeId: secondChallengeId,
+            versionId: version.id,
+          });
+
+          databaseBuilder.factory.buildCertificationFrameworksChallenge({
+            challengeId: thirdChallengeId,
+            versionId: version.id,
+          });
+
+          databaseBuilder.factory.buildTargetProfileVersion({ versionId: version.id, targetProfileId });
+
+          const campaign = databaseBuilder.factory.buildCampaign({ assessmentMethod: 'IRT', targetProfileId });
+          const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+            userId,
+            campaignId: campaign.id,
+          });
+
+          databaseBuilder.factory.buildCampaignSkill({
+            campaignId: campaign.id,
+            skillId: skillWeb1Id,
+          });
+
+          assessment = databaseBuilder.factory.buildAssessment({
+            type: Assessment.types.DIAG,
+            userId,
+            campaignParticipationId: campaignParticipation.id,
+            lastQuestionDate: new Date('2020-01-20'),
+            state: 'started',
+          });
+
+          databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id, challengeId: firstChallengeId });
+          await databaseBuilder.commit();
+        });
+
+        it('should return an assessment', async function () {
+          // given
+          const options = {
+            method: 'GET',
+            url: `/api/assessments/${assessment.id}`,
+            headers: generateAuthenticatedUserRequestHeaders({ userId }),
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionDate');
+          expect(assessmentsInDb.lastQuestionDate).to.be.greaterThan(assessment.lastQuestionDate);
+          expect(response.result.data.id).to.equal(assessment.id.toString());
+          expect(response.result.data.relationships['next-challenge'].data.id).to.be.oneOf([thirdChallengeId]);
         });
       });
     });

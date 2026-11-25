@@ -2,6 +2,7 @@
   "name": "evaluation",
   "dependsOn": [
     "certification/evaluation",
+    "certification/configuration",
     "devcomp",
     "identity-access-management",
     "llm",

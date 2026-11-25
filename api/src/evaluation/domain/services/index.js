@@ -1,3 +1,7 @@
+import * as versionRepository from '../../../certification/configuration/infrastructure/repositories/version-repository.js';
+import * as flashAlgorithmService from '../../../certification/evaluation/domain/services/algorithm-methods/flash.js';
+import certificationPickChallengeService from '../../../certification/evaluation/domain/services/pick-challenge-service.js';
+import * as calibratedChallengeRepository from '../../../certification/evaluation/infrastructure/repositories/calibrated-challenge-repository.js';
 import * as campaignRepository from '../../../prescription/campaign/infrastructure/repositories/campaign-repository.js';
 import * as campaignParticipationRepository from '../../../prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import knowledgeElementForParticipationService from '../../../prescription/shared/domain/services/knowledge-element-for-participation-service.js';
@@ -20,16 +24,20 @@ import { pickChallengeService } from './pick-challenge-service.js';
 const dependencies = {
   algorithmDataFetcherService,
   answerRepository,
+  calibratedChallengeRepository,
   campaignParticipationRepository,
   campaignRepository,
   courseRepository,
+  flashAlgorithmService,
   improvementService,
   knowledgeElementForParticipationService,
   knowledgeElementRepository,
   pickChallengeService,
+  certificationPickChallengeService,
   skillRepository,
   smartRandomChallengeRepository,
   smartRandomService,
+  versionRepository,
 };
 
 const servicesWithoutInjectedDependencies = {

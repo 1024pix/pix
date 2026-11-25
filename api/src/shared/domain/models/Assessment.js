@@ -24,6 +24,7 @@ const types = {
   CAMPAIGN: 'CAMPAIGN',
   PIX1D_MISSION: 'PIX1D_MISSION',
   EXAM: 'EXAM',
+  DIAG: 'DIAG',
 };
 
 const TYPES_OF_ASSESSMENT_NEEDING_USER = [types.CERTIFICATION, types.COMPETENCE_EVALUATION, types.CAMPAIGN];
@@ -34,6 +35,7 @@ const methods = {
   COURSE_DETERMINED: 'COURSE_DETERMINED',
   CHOSEN: 'CHOSEN',
   PIX1D: 'PIX1D',
+  IRT: 'IRT',
 };
 
 const statesOfLastQuestion = {
@@ -122,7 +124,7 @@ class Assessment {
   }
 
   isForCampaign() {
-    return this.type === types.CAMPAIGN;
+    return this.type === types.CAMPAIGN || this.type === types.DIAG;
   }
 
   isForExamCampaign() {
@@ -149,6 +151,10 @@ class Assessment {
     return this.method === methods.SMART_RANDOM;
   }
 
+  isIRT() {
+    return this.method === methods.IRT;
+  }
+
   attachLiveAlerts({ challengeLiveAlerts, companionLiveAlerts }) {
     this.challengeLiveAlerts = challengeLiveAlerts;
     this.companionLiveAlerts = companionLiveAlerts;
@@ -171,6 +177,8 @@ class Assessment {
         return methods.COURSE_DETERMINED;
       case Assessment.types.PREVIEW:
         return methods.CHOSEN;
+      case Assessment.types.DIAG:
+        return methods.IRT;
       default:
         return methods.SMART_RANDOM;
     }

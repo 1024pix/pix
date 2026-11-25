@@ -1,6 +1,9 @@
 import Debug from 'debug';
 
+import { FlashAssessmentAlgorithm } from '../../../certification/evaluation/domain/models/FlashAssessmentAlgorithm.js';
+import { candidateCertificationReferential } from '../../../certification/evaluation/domain/usecases/get-next-challenge.js';
 import { AssessmentEndedError } from '../../../shared/domain/errors.js';
+import { Assessment } from '../../../shared/domain/models/Assessment.js';
 
 const debugChallengeLocales = Debug('pix:challenge:locales');
 
@@ -10,6 +13,7 @@ export async function getNextChallengeForCampaignAssessment({
   smartRandomChallengeRepository,
   answerRepository,
   pickChallengeService,
+  certificationPickChallengeService,
   algorithmDataFetcherService,
   smartRandomService,
   campaignRepository,
@@ -17,6 +21,9 @@ export async function getNextChallengeForCampaignAssessment({
   knowledgeElementForParticipationService,
   campaignParticipationRepository,
   improvementService,
+  versionRepository,
+  calibratedChallengeRepository,
+  flashAlgorithmService,
 }) {
   const { allAnswers, lastAnswer, targetSkills, challenges, knowledgeElements } =
     await algorithmDataFetcherService.fetchForCampaigns({
@@ -41,6 +48,43 @@ export async function getNextChallengeForCampaignAssessment({
       };
     }),
   );
+
+  if (assessment.method === Assessment.methods.IRT) {
+    const version = await versionRepository.getByCampaignId(assessment.campaign.id);
+
+    const answeredChallengeIds = allAnswers.map(({ challengeId }) => challengeId);
+
+    const currentCalibratedChallenges = await calibratedChallengeRepository.findActiveFlashCompatible({
+      locale,
+      version,
+    });
+
+    const answeredCalibratedChallenges = await calibratedChallengeRepository.getMany({
+      ids: answeredChallengeIds,
+      version,
+    });
+
+    const challenges = candidateCertificationReferential(answeredCalibratedChallenges, currentCalibratedChallenges);
+
+    const assessmentAlgorithm = new FlashAssessmentAlgorithm({
+      flashAlgorithmImplementation: flashAlgorithmService,
+      configuration: version.challengesConfiguration,
+    });
+
+    const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
+      assessmentAnswers: allAnswers,
+      challenges,
+    });
+
+    if (possibleChallenges.length === 0) {
+      throw new AssessmentEndedError();
+    }
+    const challenge = certificationPickChallengeService.getChallengePicker(
+      version.challengesConfiguration.defaultProbabilityToPickChallenge,
+    )({ possibleChallenges });
+
+    return challenge.id;
+  }
 
   const algoResult = smartRandomService.getPossibleSkillsForNextChallenge({
     knowledgeElements,
