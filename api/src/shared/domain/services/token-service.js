@@ -17,7 +17,7 @@ export const tokenType = Object.freeze({
  * @param {{
  *   type?: tokenType[keyof tokenType]
  * }} options
- * @returns an encoded and signed token containing the given payload
+ * @returns {string} an encoded and signed token containing the given payload
  */
 function encodeToken(payload, secret, expiresIn, { type = tokenType.ACCESS_TOKEN } = {}) {
   Joi.assert(expiresIn, Joi.required());
