@@ -7,8 +7,4 @@ export class SessionAuthorization {
   get canRetrieveResults() {
     return this.sessionStatus.isProcessed();
   }
-
-  get canCreateCertificatesPdf() {
-    return this.sessionStatus.isProcessed();
-  }
 }

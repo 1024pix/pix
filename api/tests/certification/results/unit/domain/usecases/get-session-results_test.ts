@@ -2,16 +2,20 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { SessionAuthorization } from '../../../../../../src/certification/results/domain/models/SessionAuthorization.js';
-import { getSessionResults } from '../../../../../../src/certification/results/domain/usecases/get-session-results.js';
+import { getSessionResults } from '../../../../../../src/certification/results/domain/usecases/get-session-results.ts';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { sessionStatusBuilder } from '../../../../../tooling/domain-builder/factory/certification/shared/build-session-status.js';
 import { catchErr, preventStubsToBeCalledUnexpectedly } from '../../../../../tooling/test-utils/error.js';
 
 describe('Certification | Results | Unit | Domain | UseCases | get-session-results', function () {
-  let sessionAuthorizationAdapter,
-    certificationResultForCsvRepository,
-    sessionForResultsSharingRepository,
-    dependencies;
+  let sessionAuthorizationAdapter: { find: sinon.SinonStub };
+  let certificationResultForCsvRepository: { findBySession: sinon.SinonStub };
+  let sessionForResultsSharingRepository: { get: sinon.SinonStub };
+  let dependencies: {
+    sessionAuthorizationAdapter: typeof sessionAuthorizationAdapter;
+    certificationResultForCsvRepository: typeof certificationResultForCsvRepository;
+    sessionForResultsSharingRepository: typeof sessionForResultsSharingRepository;
+  };
   const sessionId = 123;
 
   beforeEach(function () {
@@ -57,7 +61,7 @@ describe('Certification | Results | Unit | Domain | UseCases | get-session-resul
   describe('when the results cannot be fetched because of session state', function () {
     it('should throw an error', async function () {
       // given
-      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().created().build();
+      const sessionStatus = sessionStatusBuilder().created().build();
       const sessionAuthorization = new SessionAuthorization({ id: sessionId, sessionStatus });
       sessionAuthorizationAdapter.find.withArgs({ sessionId }).resolves(sessionAuthorization);
 
@@ -74,7 +78,7 @@ describe('Certification | Results | Unit | Domain | UseCases | get-session-resul
 
   describe('when can fetch the results', function () {
     beforeEach(function () {
-      const sessionStatus = domainBuilder.certification.shared.sessionStatusBuilder().processed().build();
+      const sessionStatus = sessionStatusBuilder().processed().build();
       const sessionAuthorization = new SessionAuthorization({ id: sessionId, sessionStatus });
       sessionAuthorizationAdapter.find.withArgs({ sessionId }).resolves(sessionAuthorization);
     });

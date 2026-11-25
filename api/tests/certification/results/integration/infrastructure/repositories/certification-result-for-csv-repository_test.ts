@@ -111,7 +111,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
 
       // when
       const certificationResults = await certificationResultForCsvRepository.findBySession({
-        sessionId: sessionId + 1,
+        sessionId: 7777777,
       });
 
       // then
