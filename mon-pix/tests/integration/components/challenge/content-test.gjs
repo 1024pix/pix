@@ -442,7 +442,12 @@ module('Integration | Component | Challenge | Content', function (hooks) {
           'https://1024pix.github.io',
           'https://*.review.pix.fr',
         ];
-        state.challenge.autoReply = true;
+        state.challenge.setProperties({
+          autoReply: true,
+          embedUrl: 'https://epreuves.pix.fr/embed.html',
+          embedTitle: 'Embed',
+          embedHeight: 300,
+        });
       });
 
       hooks.afterEach(function () {

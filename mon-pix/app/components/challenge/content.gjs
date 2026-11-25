@@ -16,7 +16,6 @@ import FocusedOutNotification from 'mon-pix/components/challenge/focusedOutNotif
 import ChallengeItem from 'mon-pix/components/challenge/item';
 import ModeBanner from 'mon-pix/components/challenge/mode-banner';
 import ChallengeStatement from 'mon-pix/components/challenge-statement';
-import { getAutoReplyMessage } from 'mon-pix/utils/embed-auto-reply-message';
 
 export default class ChallengeContent extends Component {
   @tracked isLiveAlertButtonEnabled = true;
@@ -33,28 +32,14 @@ export default class ChallengeContent extends Component {
   @service currentUser;
   @service intl;
 
-  constructor() {
-    super(...arguments);
-    if (this.args.challenge.autoReply) {
-      window.addEventListener('message', this._receiveAutoReplyMessage);
-    }
-  }
-
-  willDestroy() {
-    super.willDestroy(...arguments);
-    window.removeEventListener('message', this._receiveAutoReplyMessage);
-  }
-
-  _receiveAutoReplyMessage = (event) => {
-    const message = getAutoReplyMessage(event);
-    if (message == null) return;
-
+  @action
+  receiveAutoReplyMessage(message) {
     if (message.validity != null) this.autoReplyErrorMessage = message.validity;
 
     if (message.answer == null) return;
     this.answerValue = String(message.answer);
     this.hasError = this.answerValue.length < 1;
-  };
+  }
 
   get autoReplyDisplayedErrorMessage() {
     return this.autoReplyErrorMessage || this.intl.t('pages.challenge.skip-error-message.qroc-auto-reply');
@@ -231,6 +216,7 @@ export default class ChallengeContent extends Component {
             @challenge={{@challenge}}
             @assessment={{@assessment}}
             @isTextToSpeechActivated={{@isTextToSpeechActivated}}
+            @onAutoReplyMessage={{if @challenge.autoReply this.receiveAutoReplyMessage}}
           />
 
           {{#unless @challenge.autoReply}}

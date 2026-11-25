@@ -8,6 +8,7 @@ import { tracked } from '@glimmer/tracking';
 import t from 'ember-intl/helpers/t';
 import modifierDidInsert from 'mon-pix/modifiers/modifier-did-insert';
 import { isEmbedAllowedOrigin } from 'mon-pix/utils/embed-allowed-origins';
+import { getAutoReplyMessage } from 'mon-pix/utils/embed-auto-reply-message';
 
 export default class ChallengeEmbedSimulator extends Component {
   <template>
@@ -112,7 +113,10 @@ export default class ChallengeEmbedSimulator extends Component {
 
     iframe.addEventListener('load', loadListener);
 
-    thisComponent._embedMessageListener = ({ origin, data, ports }) => {
+    window.removeEventListener('message', thisComponent._embedMessageListener);
+
+    thisComponent._embedMessageListener = (event) => {
+      const { origin, data, ports } = event;
       if (!isEmbedAllowedOrigin(origin)) return;
       if (isInitMessage(data)) {
         if (data.enableFetchFromApi) {
@@ -130,6 +134,10 @@ export default class ChallengeEmbedSimulator extends Component {
       }
       if (isHeightMessage(data)) {
         thisComponent.embedHeight = data.height;
+      }
+      if (this.args.onAutoReplyMessage) {
+        const autoReplyMessage = getAutoReplyMessage(event);
+        if (autoReplyMessage) this.args.onAutoReplyMessage(autoReplyMessage);
       }
     };
 
