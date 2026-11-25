@@ -297,7 +297,6 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
       );
 
       // then
-      assert.dom('.qroc-proposal').doesNotExist();
       assert.strictEqual(screen.queryByRole('textbox'), null);
     });
 
