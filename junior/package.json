@@ -74,7 +74,7 @@
     "ember-load-initializers": "3.0.1",
     "ember-modifier": "4.3.0",
     "ember-page-title": "9.1.0",
-    "ember-qunit": "9.2.0",
+    "ember-qunit": "9.2.1",
     "ember-resolver": "13.2.0",
     "ember-source": "7.4.1",
     "ember-template-lint": "7.9.4",
