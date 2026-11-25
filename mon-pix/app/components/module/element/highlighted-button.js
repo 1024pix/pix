@@ -1,14 +1,20 @@
-import breakpoints from 'mon-pix/breakpoints';
-
 const TOOLTIP_OFFSET = 8;
 const TOOLTIP_VIEWPORT_PADDING = 8;
+// Leaves time for the pointer to cross the gap between the button and the tooltip
+export const TOOLTIP_CLOSE_DELAY_MS = 200;
 
 let tooltipCounter = 0;
+// The custom element is defined once for the whole page: it uses the intl service of the current app instance
+let intl = null;
 
 class HighlightedButton extends HTMLElement {
   #tooltipElement = null;
   #buttonElement = null;
   #closeButton = null;
+  #liveRegion = null;
+  #definition = null;
+  #closeTimeoutId = null;
+  #isToggletip = false;
 
   connectedCallback() {
     const isAlreadyRendered = this.querySelector(':scope > button');
@@ -16,37 +22,48 @@ class HighlightedButton extends HTMLElement {
       return;
     }
 
-    const definition = this.getAttribute('definition');
+    this.#definition = this.getAttribute('definition');
+    const id = ++tooltipCounter;
+    const tooltipId = `glossary-tooltip-${id}`;
+    const definitionId = `glossary-definition-${id}`;
+
     this.#tooltipElement = this.#createElementFromHTML(
-      `<div id="glossary-tooltip-${++tooltipCounter}" role="tooltip" class="module-glossary-tooltip">
+      `<div id="${tooltipId}" class="module-glossary-tooltip">
       <img src="/images/modulix/definition-illustration.svg" class="module-glossary-tooltip__illustration" alt="" />
-      ${definition}
+      <div id="${definitionId}">${this.#definition}</div>
       </div>`,
     );
     this.#tooltipElement.style.setProperty('--definition-length', this.#tooltipElement.textContent.length);
 
     this.#buttonElement = this.#createElementFromHTML(
-      `<button type="button" class="module-glossary-word" aria-expanded="false" aria-describedby="${this.#tooltipElement.id}"></button>`,
+      `<button type="button" class="module-glossary-word" aria-expanded="false"></button>`,
     );
     this.#buttonElement.textContent = this.textContent;
 
-    const isMobile = window.matchMedia(breakpoints.mobile).matches;
-    if (isMobile) {
-      this.#closeButton = this.#createElementFromHTML(
-        `<button type="button" class="module-glossary-tooltip__close-button">Fermer la définition</button>`,
-      );
-      this.#closeButton.addEventListener('click', () => this.close());
-      this.#tooltipElement.append(this.#closeButton);
-
-      this.#buttonElement.addEventListener('click', () => this.open());
+    this.#isToggletip = !window.matchMedia('(hover: hover)').matches;
+    if (this.#isToggletip) {
+      this.#setUpToggletip(tooltipId, definitionId);
+      this.replaceChildren(this.#buttonElement, this.#liveRegion, this.#tooltipElement);
     } else {
-      this.#buttonElement.addEventListener('pointerenter', () => this.open());
-      this.#buttonElement.addEventListener('pointerleave', () => this.close());
+      this.#setUpTooltip(definitionId);
+      this.replaceChildren(this.#buttonElement, this.#tooltipElement);
     }
-    this.#buttonElement.addEventListener('focus', () => this.open());
-    this.#buttonElement.addEventListener('blur', () => this.close());
 
-    this.replaceChildren(this.#buttonElement, this.#tooltipElement);
+    this.addEventListener('focusout', (event) => {
+      const isFocusStillInside = this.contains(event.relatedTarget);
+      if (!isFocusStillInside) this.close();
+    });
+    this.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && this.#isOpen) {
+        this.#closeAndReturnFocusToButton();
+      }
+    });
+  }
+
+  disconnectedCallback() {
+    this.#cancelScheduledClose();
+    this.#stopTrackingPosition();
+    document.removeEventListener('click', this.#closeOnClickOutside);
   }
 
   open() {
@@ -55,27 +72,82 @@ class HighlightedButton extends HTMLElement {
     this.#positionTooltip();
     window.addEventListener('scroll', this.#positionTooltip, { capture: true, passive: true });
     window.addEventListener('resize', this.#positionTooltip, { passive: true });
+
+    if (this.#isToggletip) {
+      this.#liveRegion.innerHTML = this.#definition;
+      document.addEventListener('click', this.#closeOnClickOutside);
+    }
   }
 
   close() {
+    this.#cancelScheduledClose();
     this.#tooltipElement.classList.remove('module-glossary-tooltip--visible');
     this.#buttonElement.setAttribute('aria-expanded', 'false');
     this.#stopTrackingPosition();
+
+    if (this.#isToggletip) {
+      this.#liveRegion.replaceChildren();
+      document.removeEventListener('click', this.#closeOnClickOutside);
+    }
   }
 
-  disconnectedCallback() {
-    this.#stopTrackingPosition();
+  #setUpTooltip(definitionId) {
+    this.#tooltipElement.setAttribute('role', 'tooltip');
+    this.#buttonElement.setAttribute('aria-describedby', definitionId);
+
+    this.addEventListener('pointerenter', () => {
+      this.#cancelScheduledClose();
+      if (!this.#isOpen) this.open();
+    });
+    this.addEventListener('pointerleave', () => this.#scheduleClose());
+    this.#buttonElement.addEventListener('focus', () => this.open());
   }
 
-  #stopTrackingPosition() {
-    window.removeEventListener('scroll', this.#positionTooltip, { capture: true });
-    window.removeEventListener('resize', this.#positionTooltip);
+  #setUpToggletip(tooltipId, definitionId) {
+    this.#liveRegion = this.#createElementFromHTML(`<span role="status" class="sr-only"></span>`);
+    this.#buttonElement.setAttribute('aria-controls', tooltipId);
+
+    this.#buttonElement.setAttribute(
+      'aria-label',
+      intl.t('pages.modulix.elements.text.glossary.word-label', { word: this.#buttonElement.textContent }),
+    );
+
+    // Set aria-hidden=true because the definition is vocalized by the live region
+    this.#tooltipElement.querySelector(`#${definitionId}`).setAttribute('aria-hidden', 'true');
+
+    this.#closeButton = this.#createElementFromHTML(
+      `<button type="button" class="module-glossary-tooltip__close-button"></button>`,
+    );
+    this.#closeButton.textContent = intl.t('pages.modulix.elements.text.glossary.close-button');
+    this.#closeButton.addEventListener('click', () => this.#closeAndReturnFocusToButton());
+    this.#tooltipElement.append(this.#closeButton);
+
+    this.#tooltipElement.addEventListener('mousedown', (event) => event.preventDefault());
+
+    this.#buttonElement.addEventListener('click', () => (this.#isOpen ? this.close() : this.open()));
   }
 
-  #createElementFromHTML(html) {
-    const template = document.createElement('template');
-    template.innerHTML = html.trim();
-    return template.content.firstChild;
+  get #isOpen() {
+    return this.#tooltipElement.classList.contains('module-glossary-tooltip--visible');
+  }
+
+  #closeOnClickOutside = (event) => {
+    if (!this.contains(event.target)) this.close();
+  };
+
+  #closeAndReturnFocusToButton() {
+    this.close();
+    this.#buttonElement.focus();
+  }
+
+  #scheduleClose() {
+    this.#cancelScheduledClose();
+    this.#closeTimeoutId = setTimeout(() => this.close(), TOOLTIP_CLOSE_DELAY_MS);
+  }
+
+  #cancelScheduledClose() {
+    clearTimeout(this.#closeTimeoutId);
+    this.#closeTimeoutId = null;
   }
 
   #positionTooltip = () => {
@@ -119,8 +191,20 @@ class HighlightedButton extends HTMLElement {
     const isInForbiddenZone = tooltipRightPosition >= forbiddenZoneRight;
     return isInForbiddenZone ? buttonInformation.right - tooltipInformation.width : tooltipLeftDefaultPosition;
   }
+
+  #stopTrackingPosition() {
+    window.removeEventListener('scroll', this.#positionTooltip, { capture: true });
+    window.removeEventListener('resize', this.#positionTooltip);
+  }
+
+  #createElementFromHTML(html) {
+    const template = document.createElement('template');
+    template.innerHTML = html.trim();
+    return template.content.firstChild;
+  }
 }
-export function defineHighlightedButton() {
+export function defineHighlightedButton({ intl: intlService }) {
+  intl = intlService;
   if (!customElements.get('highlighted-button')) {
     customElements.define('highlighted-button', HighlightedButton);
   }

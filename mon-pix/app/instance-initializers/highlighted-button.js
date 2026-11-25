@@ -1,7 +1,7 @@
 import { defineHighlightedButton } from '../components/module/element/highlighted-button';
 
-export function initialize() {
-  defineHighlightedButton();
+export function initialize(applicationInstance) {
+  defineHighlightedButton({ intl: applicationInstance.lookup('service:intl') });
 }
 
 export default {
