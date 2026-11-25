@@ -1,7 +1,8 @@
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { click, fillIn } from '@ember/test-helpers';
+import { click, fillIn, settled } from '@ember/test-helpers';
 import ChallengeContent from 'mon-pix/components/challenge/content';
+import ENV from 'mon-pix/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
@@ -426,6 +427,147 @@ module('Integration | Component | Challenge | Content', function (hooks) {
             ),
           )
           .doesNotExist();
+      });
+    });
+
+    module('when the challenge is an auto-reply embed', function (hooks) {
+      const originalEmbedAllowedOrigins = ENV.APP.EMBED_ALLOWED_ORIGINS;
+      const validateButtonName = 'Je valide et je vais à la prochaine question';
+      const defaultAutoReplyErrorMessage =
+        '“Vous pouvez valider” s‘affiche quand l‘épreuve est réussie. Essayez encore ou passez.';
+
+      hooks.beforeEach(function () {
+        ENV.APP.EMBED_ALLOWED_ORIGINS = [
+          'https://epreuves.pix.fr',
+          'https://1024pix.github.io',
+          'https://*.review.pix.fr',
+        ];
+        state.challenge.autoReply = true;
+      });
+
+      hooks.afterEach(function () {
+        ENV.APP.EMBED_ALLOWED_ORIGINS = originalEmbedAllowedOrigins;
+      });
+
+      async function sendEmbedMessage(event) {
+        window.dispatchEvent(new MessageEvent('message', event));
+        await settled();
+      }
+
+      test('should not display the answer section', async function (assert) {
+        // when
+        const screen = await renderContent();
+
+        // then
+        assert.strictEqual(screen.queryByRole('textbox'), null);
+        assert.dom('.challenge-response').doesNotExist();
+      });
+
+      module('when the event message is from Pix', function () {
+        [
+          {
+            title: 'a string from an allowed origin',
+            event: { data: 'magicWord', origin: 'https://epreuves.pix.fr' },
+            expectedAnswer: 'magicWord',
+          },
+          {
+            title: 'a JSON string from an allowed origin',
+            event: { data: '{ "answer": "magicWord", "from": "pix"}', origin: 'https://epreuves.pix.fr' },
+            expectedAnswer: 'magicWord',
+          },
+          {
+            title: 'a numeric string from an allowed origin',
+            event: { data: '2', origin: 'https://epreuves.pix.fr' },
+            expectedAnswer: '2',
+          },
+          {
+            title: 'an object from an allowed origin',
+            event: { data: { answer: 'magicWord', from: 'pix' }, origin: 'https://epreuves.pix.fr' },
+            expectedAnswer: 'magicWord',
+          },
+          {
+            title: 'an object from the preview origin',
+            event: { data: { answer: 'magicWord', from: 'pix' }, origin: 'https://1024pix.github.io' },
+            expectedAnswer: 'magicWord',
+          },
+          {
+            title: 'an object from an origin allowed via a wildcard',
+            event: { data: { answer: 'magicWord', from: 'pix' }, origin: 'https://test-pr14.review.pix.fr' },
+            expectedAnswer: 'magicWord',
+          },
+        ].forEach(({ title, event, expectedAnswer }) => {
+          test(`should save the auto-reply answer from ${title}`, async function (assert) {
+            // given
+            const screen = await renderContent();
+            await sendEmbedMessage(event);
+
+            // when
+            await click(screen.getByRole('button', { name: validateButtonName }));
+
+            // then
+            sinon.assert.calledWithMatch(answer.setProperties, { value: expectedAnswer });
+            sinon.assert.calledOnce(answer.save);
+            assert.ok(true);
+          });
+        });
+      });
+
+      module('when the event message is not from Pix', function () {
+        [
+          {
+            title: 'the origin is not allowed',
+            event: { data: { answer: 'magicWord', from: 'pix' }, origin: 'https://epreuves.fake.fr' },
+          },
+          {
+            title: 'the data object does not come from pix',
+            event: { data: { answer: 'magicWord' }, origin: 'https://epreuves.pix.fr' },
+          },
+          {
+            title: 'the data object is not an answer',
+            event: { data: { type: 'init', answer: 'magicWord', from: 'pix' }, origin: 'https://epreuves.pix.fr' },
+          },
+        ].forEach(({ title, event }) => {
+          test(`should ignore the message when ${title}`, async function (assert) {
+            // given
+            const screen = await renderContent();
+            await sendEmbedMessage(event);
+
+            // when
+            await click(screen.getByRole('button', { name: validateButtonName }));
+
+            // then
+            assert.dom(screen.getByText(defaultAutoReplyErrorMessage)).exists();
+            sinon.assert.notCalled(answer.save);
+          });
+        });
+      });
+
+      test('should display the default auto-reply error message when validating without answer', async function (assert) {
+        // given
+        const screen = await renderContent();
+
+        // when
+        await click(screen.getByRole('button', { name: validateButtonName }));
+
+        // then
+        assert.dom(screen.getByRole('alert')).hasText(defaultAutoReplyErrorMessage);
+        sinon.assert.notCalled(createRecordStub);
+      });
+
+      test('should display the error message sent by the embed when validating without answer', async function (assert) {
+        // given
+        const screen = await renderContent();
+        await sendEmbedMessage({
+          data: { answer: '', validity: 'C’est l’embed qui décide quand vous pouvez valider.', from: 'pix' },
+          origin: 'https://epreuves.pix.fr',
+        });
+
+        // when
+        await click(screen.getByRole('button', { name: validateButtonName }));
+
+        // then
+        assert.dom(screen.getByRole('alert')).hasText('C’est l’embed qui décide quand vous pouvez valider.');
+        sinon.assert.notCalled(createRecordStub);
       });
     });
   });
