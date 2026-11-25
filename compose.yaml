@@ -22,7 +22,7 @@ services:
       - '127.0.0.1:${PIX_S3_PORT:-9090}:9090'
 
   mailpit:
-    image: axllent/mailpit:latest@sha256:c96991d9bef73594c246d89ca81411d4e916f03e76a7d2d72fa2ab5dd3c9ce24
+    image: axllent/mailpit:v1
     container_name: pix-api-smtp-server
     ports:
       - '127.0.0.1:${PIX_MAILPIT_WEB_PORT:-1025}:1025'
