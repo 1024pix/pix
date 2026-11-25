@@ -13,7 +13,7 @@ describe('Integration | Repository | learning-content', function () {
   let competence1Fr, competence1En, competence2Fr, competence2En, competence3Fr, competence3En;
   let thematic1Fr, thematic1En, thematic2Fr, thematic2En, thematic3Fr, thematic3En;
   let tube1Fr, tube1En, tube2Fr, tube2En, tube4Fr, tube4En;
-  let skill1Fr, skill2Fr, skill3Fr, skill4Fr;
+  let skill1Fr, skill2Fr, skill3Fr, skill4Fr, skill5Fr;
 
   beforeEach(async function () {
     const framework1DB = databaseBuilder.factory.learningContent.buildFramework({
@@ -224,6 +224,16 @@ describe('Integration | Repository | learning-content', function () {
       tubeId: 'recTube4',
     });
 
+    const skill5DB = databaseBuilder.factory.learningContent.buildSkill({
+      id: 'recSkill5',
+      name: 'tube2_name3',
+      status: 'périmé',
+      level: 3,
+      pixValue: 56,
+      version: 54,
+      tubeId: 'recTube2',
+    });
+
     await databaseBuilder.commit();
 
     [framework1Fr, framework2Fr] = _buildDomainFrameworksFromDB([framework1DB, framework2DB]);
@@ -248,7 +258,10 @@ describe('Integration | Repository | learning-content', function () {
     );
     [tube1Fr, tube2Fr, , tube4Fr] = _buildDomainTubesFromDB([tube1DB, tube2DB, tube3DB, tube4DB], 'fr');
     [tube1En, tube2En, , tube4En] = _buildDomainTubesFromDB([tube1DB, tube2DB, tube3DB, tube4DB], 'en');
-    [skill1Fr, skill2Fr, skill3Fr, skill4Fr] = _buildDomainSkillsFromDB([skill1DB, skill2DB, skill3DB, skill4DB], 'fr');
+    [skill1Fr, skill2Fr, skill3Fr, skill4Fr, skill5Fr] = _buildDomainSkillsFromDB(
+      [skill1DB, skill2DB, skill3DB, skill4DB, skill5DB],
+      'fr',
+    );
   });
 
   describe('#findBySkillIds', function () {
@@ -292,7 +305,7 @@ describe('Integration | Repository | learning-content', function () {
     it('should return frameworks, areas, competences, thematics and tubes of the skills hierarchy', async function () {
       // given
       campaignId = databaseBuilder.factory.buildCampaign().id;
-      ['recSkill2', 'recSkill3'].forEach((skillId) =>
+      ['recSkill2', 'recSkill3', 'recSkill5'].forEach((skillId) =>
         databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId }),
       );
       await databaseBuilder.commit();
@@ -302,7 +315,7 @@ describe('Integration | Repository | learning-content', function () {
       competence2Fr.thematics = [thematic2Fr];
       competence2Fr.tubes = [tube2Fr];
       thematic2Fr.tubes = [tube2Fr];
-      tube2Fr.skills = [skill2Fr, skill3Fr];
+      tube2Fr.skills = [skill2Fr, skill3Fr, skill5Fr];
 
       // when
       const learningContentFromCampaign = await learningContentRepository.findByCampaignId(campaignId);
