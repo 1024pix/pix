@@ -27,35 +27,22 @@ export default class AdminLearnerList extends Component {
   @tracked selectedLearners = [];
   @tracked showDeletionModal = false;
 
-  @tracked organizationSort = this.router.currentRoute?.queryParams.organizationSort;
-  @tracked birthdateSort = this.router.currentRoute?.queryParams.birthdateSort;
-  @tracked updatedAtSort = this.router.currentRoute?.queryParams.updatedAtSort;
+  @tracked sort = {
+    organizationSort: this.router.currentRoute?.queryParams.organizationSort,
+    birthdateSort: this.router.currentRoute?.queryParams.birthdateSort,
+    updatedAtSort: this.router.currentRoute?.queryParams.updatedAtSort,
+  };
 
   @action
-  sortByOrganizationName() {
-    this.updateSort({ organizationSort: this.organizationSort === 'asc' ? 'desc' : 'asc' });
-  }
-
-  @action
-  sortByBirthdate() {
-    this.updateSort({ birthdateSort: this.birthdateSort === 'asc' ? 'desc' : 'asc' });
-  }
-
-  @action
-  sortByUpdatedAt() {
-    this.updateSort({ updatedAtSort: this.updatedAtSort === 'asc' ? 'desc' : 'asc' });
-  }
-
-  updateSort({ organizationSort, birthdateSort, updatedAtSort }) {
+  sortBy(key) {
+    const keyToSort = {
+      [key]: this.sort[key] === 'asc' ? 'desc' : 'asc',
+    };
+    this.sort = { organizationSort: undefined, birthdateSort: undefined, updatedAtSort: undefined, ...keyToSort };
     this.resetSelectedLearners();
-    this.organizationSort = organizationSort;
-    this.birthdateSort = birthdateSort;
-    this.updatedAtSort = updatedAtSort;
     this.router.transitionTo({
       queryParams: {
-        organizationSort: this.organizationSort ?? undefined,
-        birthdateSort: this.birthdateSort ?? undefined,
-        updatedAtSort: this.updatedAtSort ?? undefined,
+        ...this.sort,
         pageNumber: undefined,
       },
     });
@@ -200,8 +187,8 @@ export default class AdminLearnerList extends Component {
             </:cell>
           </PixTableColumn>
           <PixTableColumn
-            @onSort={{this.sortByOrganizationName}}
-            @sortOrder={{this.organizationSort}}
+            @onSort={{fn this.sortBy "organizationSort"}}
+            @sortOrder={{this.sort.organizationSort}}
             @context={{context}}
             @ariaLabelDefaultSort={{t "components.organization-learners.list-table.sort.organization.default"}}
             @ariaLabelSortAsc={{t "components.organization-learners.list-table.sort.organization.asc"}}
@@ -226,8 +213,8 @@ export default class AdminLearnerList extends Component {
           </PixTableColumn>
           <PixTableColumn
             @type="number"
-            @onSort={{this.sortByBirthdate}}
-            @sortOrder={{this.birthdateSort}}
+            @onSort={{fn this.sortBy "birthdateSort"}}
+            @sortOrder={{this.sort.birthdateSort}}
             @context={{context}}
             @ariaLabelDefaultSort={{t "components.organization-learners.list-table.sort.birthdate.default"}}
             @ariaLabelSortAsc={{t "components.organization-learners.list-table.sort.birthdate.asc"}}
@@ -302,8 +289,8 @@ export default class AdminLearnerList extends Component {
           </PixTableColumn>
           <PixTableColumn
             @type="number"
-            @onSort={{this.sortByUpdatedAt}}
-            @sortOrder={{this.updatedAtSort}}
+            @onSort={{fn this.sortBy "updatedAtSort"}}
+            @sortOrder={{this.sort.updatedAtSort}}
             @context={{context}}
             @ariaLabelDefaultSort={{t "components.organization-learners.list-table.sort.updated-at.default"}}
             @ariaLabelSortAsc={{t "components.organization-learners.list-table.sort.updated-at.asc"}}

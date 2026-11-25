@@ -268,7 +268,9 @@ module('Integration | Component | OrganizationLearners | ListTable', function (h
       });
 
       await click(
-        screen.getByRole('button', { name: t('components.organization-learners.list-table.sort.organization.desc') }),
+        screen.getByRole('button', {
+          name: t('components.organization-learners.list-table.sort.organization.desc'),
+        }),
       );
 
       sinon.assert.calledWith(transitionToStub, {
@@ -288,7 +290,9 @@ module('Integration | Component | OrganizationLearners | ListTable', function (h
         <template><ListTable @organizationLearners={{this.organizationLearners}} /></template>,
       );
       await click(
-        screen.getByRole('button', { name: t('components.organization-learners.list-table.sort.birthdate.default') }),
+        screen.getByRole('button', {
+          name: t('components.organization-learners.list-table.sort.birthdate.default'),
+        }),
       );
 
       sinon.assert.calledWith(transitionToStub, {
@@ -301,7 +305,9 @@ module('Integration | Component | OrganizationLearners | ListTable', function (h
       });
 
       await click(
-        screen.getByRole('button', { name: t('components.organization-learners.list-table.sort.birthdate.desc') }),
+        screen.getByRole('button', {
+          name: t('components.organization-learners.list-table.sort.birthdate.desc'),
+        }),
       );
 
       sinon.assert.calledWith(transitionToStub, {
@@ -321,7 +327,9 @@ module('Integration | Component | OrganizationLearners | ListTable', function (h
         <template><ListTable @organizationLearners={{this.organizationLearners}} /></template>,
       );
       await click(
-        screen.getByRole('button', { name: t('components.organization-learners.list-table.sort.updated-at.default') }),
+        screen.getByRole('button', {
+          name: t('components.organization-learners.list-table.sort.updated-at.default'),
+        }),
       );
 
       sinon.assert.calledWith(transitionToStub, {
@@ -334,7 +342,9 @@ module('Integration | Component | OrganizationLearners | ListTable', function (h
       });
 
       await click(
-        screen.getByRole('button', { name: t('components.organization-learners.list-table.sort.updated-at.desc') }),
+        screen.getByRole('button', {
+          name: t('components.organization-learners.list-table.sort.updated-at.desc'),
+        }),
       );
 
       sinon.assert.calledWith(transitionToStub, {
