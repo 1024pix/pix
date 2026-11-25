@@ -122,8 +122,14 @@ module(
         await fillIn(screen.getByLabelText(/E-mail de convocation/), candidateData.email);
         await click(screen.getByRole('button', { name: `${t('common.forms.certification-labels.pricing')} *` }));
         await click(await screen.findByRole('option', { name: t('common.labels.billing-mode.free') }));
-        await click(screen.getByRole('radio', { name: 'Certification Pix' }));
 
+        await click(screen.getByLabelText('Certification sélectionnée *'));
+        await click(
+          await screen.findByRole('option', {
+            name: 'Certification Pix',
+            exact: false,
+          }),
+        );
         // when
         await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
@@ -161,8 +167,13 @@ module(
         await fillIn(screen.getByLabelText('Date de naissance *'), '1985-08-23');
         await click(screen.getByRole('radio', { name: 'Code INSEE' }));
         await fillIn(screen.getByLabelText('Code INSEE de naissance *'), '59386');
-        await click(screen.getByRole('radio', { name: 'Certification Pix' }));
-
+        await click(screen.getByLabelText('Certification sélectionnée *'));
+        await click(
+          await screen.findByRole('option', {
+            name: 'Certification Pix',
+            exact: false,
+          }),
+        );
         // when
         await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
@@ -234,7 +245,13 @@ module(
           await fillIn(screen.getByLabelText('Date de naissance *'), '1985-08-23');
           await click(screen.getByRole('radio', { name: 'Code INSEE' }));
           await fillIn(screen.getByLabelText('Code INSEE de naissance *'), '59386');
-          await click(screen.getByRole('radio', { name: 'Certification Pix' }));
+          await click(screen.getByLabelText('Certification sélectionnée *'));
+          await click(
+            await screen.findByRole('option', {
+              name: 'Certification Pix',
+              exact: false,
+            }),
+          );
 
           await click(screen.getByRole('button', { name: `${t('common.forms.certification-labels.pricing')} *` }));
           await click(await screen.findByRole('option', { name: t('common.labels.billing-mode.prepaid') }));
@@ -316,7 +333,13 @@ module(
         );
         await click(screen.getByRole('radio', { name: 'Code INSEE' }));
         await fillIn(screen.getByLabelText('Code INSEE de naissance *'), candidateData.birthInseeCode);
-        await click(screen.getByRole('radio', { name: 'Certification Pix' }));
+        await click(screen.getByLabelText('Certification sélectionnée *'));
+        await click(
+          await screen.findByRole('option', {
+            name: 'Certification Pix',
+            exact: false,
+          }),
+        );
 
         // when
         await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
@@ -462,10 +485,12 @@ module(
         // when
         const screen = await render(<template><CandidateCreationForm @countries={{countries}} /></template>);
 
+        await click(screen.getByLabelText('Certification sélectionnée *'));
+
         // then
-        assert.dom(screen.getByRole('group', { name: 'Choix de la certification *' })).exists();
-        assert.dom(screen.getByRole('radio', { name: 'Pix+ Droit' })).exists();
-        assert.dom(screen.getByRole('radio', { name: 'Pix+ Professionnels de Santé' })).exists();
+        assert.dom(await screen.findByRole('option', { name: 'Pix+ Droit', exact: false })).exists();
+        assert.dom(await screen.findByRole('option', { name: 'Pix+ Professionnels de Santé', exact: false })).exists();
+        assert.dom(await screen.findByRole('option', { name: 'Certification Pix', exact: false })).exists();
       });
     });
   },

@@ -142,6 +142,12 @@
       },
       "mandatory-fields": "Les champs marqués de '<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' sont obligatoires.",
       "required": "Obligatoire",
+      "section-labels": {
+        "accessibility": "Accessibilité et aménagements",
+        "billings": "Tarification et certification",
+        "coordination": "Coordonnées et suivi",
+        "personal-data": "Données personnelles"
+      },
       "session-labels": {
         "center-name": "Nom du site",
         "date": "Date",

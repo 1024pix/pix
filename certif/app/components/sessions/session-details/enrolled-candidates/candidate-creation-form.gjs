@@ -16,8 +16,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { t } from 'ember-intl';
 
-import CandidateCreationFormComplementaryList from './candidate-creation-form-complementary-list';
-
 const FRANCE_INSEE_CODE = '99100';
 const INSEE_CODE_OPTION = 'insee';
 const POSTAL_CODE_OPTION = 'postal';
@@ -31,6 +29,7 @@ export default class CandidateCreationForm extends Component {
   @tracked selectedCountryInseeCode = FRANCE_INSEE_CODE;
   @tracked isLoading = false;
   @tracked selectedBillingMode;
+  @tracked selectedSubscriptionType = 'CORE';
   @tracked hasAttemptedSubmit = false;
   @tracked candidateData;
 
@@ -52,7 +51,7 @@ export default class CandidateCreationForm extends Component {
       externalId: '',
       resultRecipientEmail: '',
       extraTimePercentage: '',
-      subscription: 'CORE',
+      subscription: '',
       ...billingFields,
     };
   }
@@ -136,6 +135,14 @@ export default class CandidateCreationForm extends Component {
     return this.intl.t('common.api-error-messages.certification-candidate.CANDIDATE_BILLING_MODE_REQUIRED');
   }
 
+  get subscriptionTypeError() {
+    if (!this.hasAttemptedSubmit || this.selectedSubscriptionType) {
+      return null;
+    }
+
+    return this.intl.t('common.api-error-messages.certification-candidate.CANDIDATE_BILLING_MODE_REQUIRED');
+  }
+
   get billingModeOptions() {
     const freeLabel = this.intl.t('common.labels.billing-mode.free');
     const paidLabel = this.intl.t('common.labels.billing-mode.paid');
@@ -146,6 +153,20 @@ export default class CandidateCreationForm extends Component {
       { label: paidLabel, value: 'PAID' },
       { label: prepaidLabel, value: 'PREPAID' },
     ];
+  }
+
+  get subscriptionTypeOptions() {
+    const options = this.currentUser.currentAllowedCertificationCenterAccess?.habilitations?.map((scope) => {
+      const label = this.intl.t(`common.forms.certification-labels.subscriptions.${scope.key}`);
+      return { label, value: scope.key };
+    });
+    return [...options, { label: this.intl.t(`common.forms.certification-labels.subscriptions.CORE`), value: 'CORE' }];
+  }
+
+  @action
+  subscritionTypeChange(value) {
+    this.selectedSubscriptionType = value;
+    this.updateField('subscription', value);
   }
 
   @action
@@ -204,6 +225,10 @@ export default class CandidateCreationForm extends Component {
       return;
     }
 
+    if (this.subscriptionTypeError) {
+      return;
+    }
+
     this.isLoading = true;
 
     try {
@@ -244,7 +269,10 @@ export default class CandidateCreationForm extends Component {
         {{t 'common.forms.mandatory-fields' htmlSafe=true}}
       </p>
 
-      <div class='new-candidate-form__field'>
+      <fieldset class='new-candidate-form__fields-group'>
+        <h2 class='new-candidate-form__fields-group__title'>
+          {{t 'common.forms.section-labels.personal-data'}}
+        </h2>
         <PixInput
           @id='lastname'
           {{on 'input' (fn this.updateFieldFromEvent 'lastName')}}
@@ -265,45 +293,35 @@ export default class CandidateCreationForm extends Component {
         >
           <:label>{{t 'common.labels.candidate.firstname'}}</:label>
         </PixInput>
-      </div>
 
-      <div class='new-candidate-form__field'>
-        <fieldset>
+        <fieldset class='new-candidate-form__fields-group--inline'>
           <legend class='label'>
             <PixLabel @requiredLabel={{t 'common.forms.required'}}>
               {{t 'common.labels.candidate.gender.title'}}
             </PixLabel>
           </legend>
-          <div class='radio-button-container'>
-            <PixRadioButton @value='F' name='sex' required {{on 'change' (fn this.updateFieldFromEvent 'sex')}}>
-              <:label>{{t 'common.labels.candidate.gender.woman'}}</:label>
-            </PixRadioButton>
-            <PixRadioButton @value='M' name='sex' required {{on 'change' (fn this.updateFieldFromEvent 'sex')}}>
-              <:label>{{t 'common.labels.candidate.gender.man'}}</:label>
-            </PixRadioButton>
-          </div>
+          <PixRadioButton @value='F' name='sex' required {{on 'change' (fn this.updateFieldFromEvent 'sex')}}>
+            <:label>{{t 'common.labels.candidate.gender.woman'}}</:label>
+          </PixRadioButton>
+          <PixRadioButton @value='M' name='sex' required {{on 'change' (fn this.updateFieldFromEvent 'sex')}}>
+            <:label>{{t 'common.labels.candidate.gender.man'}}</:label>
+          </PixRadioButton>
         </fieldset>
-      </div>
 
-      <div class='new-candidate-form__field'>
-        <div>
-          <PixLabel @requiredLabel={{t 'common.forms.required'}} for='birth-date'>
-            {{t 'common.labels.candidate.birth-date'}}
-          </PixLabel>
-          <input
-            id='birth-date'
-            type='date'
-            placeholder={{t 'common.labels.candidate.birth-date-example'}}
-            name='birth-date'
-            class='input input--small'
-            {{on 'change' (fn this.updateFieldFromEvent 'birthdate')}}
-            required
-            autocomplete='off'
-          />
-        </div>
-      </div>
+        <PixLabel @requiredLabel={{t 'common.forms.required'}} for='birth-date'>
+          {{t 'common.labels.candidate.birth-date'}}
+        </PixLabel>
+        <input
+          id='birth-date'
+          type='date'
+          placeholder={{t 'common.labels.candidate.birth-date-example'}}
+          name='birth-date'
+          class='input input--small'
+          {{on 'change' (fn this.updateFieldFromEvent 'birthdate')}}
+          required
+          autocomplete='off'
+        />
 
-      <div class='new-candidate-form__field'>
         <PixSelect
           @id='birth-country'
           @options={{this.countryOptions}}
@@ -315,41 +333,35 @@ export default class CandidateCreationForm extends Component {
         >
           <:label>{{t 'common.labels.candidate.birth-country'}}</:label>
         </PixSelect>
-      </div>
 
-      {{#if this.isBirthGeoCodeRequired}}
-        <div class='new-candidate-form__field'>
-          <fieldset>
+        {{#if this.isBirthGeoCodeRequired}}
+          <fieldset class='new-candidate-form__fields-group--inline'>
             <legend class='label'>
               <PixLabel @requiredLabel={{t 'common.forms.required'}}>
                 {{t 'common.labels.candidate.birth-geographical-code'}}
               </PixLabel>
             </legend>
-            <div class='radio-button-container'>
-              <PixRadioButton
-                name='birth-geo-code-option'
-                @value='insee'
-                checked='checked'
-                {{on 'change' (fn this.selectBirthGeoCodeOption 'insee')}}
-                required
-              >
-                <:label>{{t 'common.labels.candidate.insee-code'}}</:label>
-              </PixRadioButton>
-              <PixRadioButton
-                name='birth-geo-code-option'
-                @value='postal'
-                {{on 'change' (fn this.selectBirthGeoCodeOption 'postal')}}
-                required
-              >
-                <:label>{{t 'common.labels.candidate.postcode'}}</:label>
-              </PixRadioButton>
-            </div>
+            <PixRadioButton
+              name='birth-geo-code-option'
+              @value='insee'
+              checked='checked'
+              {{on 'change' (fn this.selectBirthGeoCodeOption 'insee')}}
+              required
+            >
+              <:label>{{t 'common.labels.candidate.insee-code'}}</:label>
+            </PixRadioButton>
+            <PixRadioButton
+              name='birth-geo-code-option'
+              @value='postal'
+              {{on 'change' (fn this.selectBirthGeoCodeOption 'postal')}}
+              required
+            >
+              <:label>{{t 'common.labels.candidate.postcode'}}</:label>
+            </PixRadioButton>
           </fieldset>
-        </div>
-      {{/if}}
+        {{/if}}
 
-      {{#if this.isBirthInseeCodeRequired}}
-        <div class='new-candidate-form__field'>
+        {{#if this.isBirthInseeCodeRequired}}
           <PixInput
             @id='birth-insee-code'
             @value={{this.candidateData.birthInseeCode}}
@@ -362,11 +374,9 @@ export default class CandidateCreationForm extends Component {
           >
             <:label>{{t 'common.labels.candidate.birth-city-insee-code'}}</:label>
           </PixInput>
-        </div>
-      {{/if}}
+        {{/if}}
 
-      {{#if this.isBirthPostalCodeRequired}}
-        <div class='new-candidate-form__field'>
+        {{#if this.isBirthPostalCodeRequired}}
           <PixInput
             @id='birth-postal-code'
             @value={{this.candidateData.birthPostalCode}}
@@ -379,11 +389,9 @@ export default class CandidateCreationForm extends Component {
           >
             <:label>{{t 'common.labels.candidate.birth-city-postcode'}}</:label>
           </PixInput>
-        </div>
-      {{/if}}
+        {{/if}}
 
-      {{#if this.isBirthCityRequired}}
-        <div class='new-candidate-form__field'>
+        {{#if this.isBirthCityRequired}}
           <PixInput
             @id='birth-city'
             @value={{this.candidateData.birthCity}}
@@ -395,16 +403,18 @@ export default class CandidateCreationForm extends Component {
           >
             <:label>{{t 'common.labels.candidate.birth-city'}}</:label>
           </PixInput>
-        </div>
-      {{/if}}
+        {{/if}}
 
-      <div class='new-candidate-form__field'>
         <PixInput @id='external-id' {{on 'input' (fn this.updateFieldFromEvent 'externalId')}} autocomplete='off'>
           <:label>{{t 'common.forms.certification-labels.local-id'}}</:label>
         </PixInput>
-      </div>
 
-      <div class='new-candidate-form__field'>
+      </fieldset>
+
+      <fieldset class='new-candidate-form__fields-group'>
+        <h2 class='new-candidate-form__fields-group__title'>
+          {{t 'common.forms.section-labels.accessibility'}}
+        </h2>
         <PixInput
           @id='extra-time-percentage'
           {{on 'input' (fn this.updateFieldFromEvent 'extraTimePercentage')}}
@@ -412,9 +422,12 @@ export default class CandidateCreationForm extends Component {
         >
           <:label>{{t 'common.forms.certification-labels.extratime-percentage'}}</:label>
         </PixInput>
-      </div>
+      </fieldset>
 
-      <div class='new-candidate-form__field'>
+      <fieldset class='new-candidate-form__fields-group'>
+        <h2 class='new-candidate-form__fields-group__title'>
+          {{t 'common.forms.section-labels.accessibility'}}
+        </h2>
         <PixInput
           @id='result-recipient-email'
           {{on 'input' (fn this.updateFieldFromEvent 'resultRecipientEmail')}}
@@ -424,9 +437,7 @@ export default class CandidateCreationForm extends Component {
         >
           <:label>{{t 'common.forms.certification-labels.email-results'}}</:label>
         </PixInput>
-      </div>
 
-      <div class='new-candidate-form__field'>
         <PixInput
           @id='email'
           {{on 'input' (fn this.updateFieldFromEvent 'email')}}
@@ -436,10 +447,13 @@ export default class CandidateCreationForm extends Component {
         >
           <:label>{{t 'common.forms.certification-labels.email-convocation'}}</:label>
         </PixInput>
-      </div>
+      </fieldset>
 
-      {{#if this.shouldDisplayPaymentOptions}}
-        <div class='new-candidate-form__field'>
+      <fieldset class='new-candidate-form__fields-group'>
+        <h2 class='new-candidate-form__fields-group__title'>
+          {{t 'common.forms.section-labels.billings'}}
+        </h2>
+        {{#if this.shouldDisplayPaymentOptions}}
           <PixSelect
             @id='billing-mode'
             @options={{this.billingModeOptions}}
@@ -456,7 +470,7 @@ export default class CandidateCreationForm extends Component {
 
           {{#if this.isPrepaidBillingMode}}
             <div>
-              <div class='new-candidate-form__tooltip'>
+              <div class='new-candidate-form__fields-group__tooltip-label'>
                 <label for='prepayment-code' class='label'>
                   {{t 'common.forms.certification-labels.prepayment-code'}}
                 </label>
@@ -476,7 +490,6 @@ export default class CandidateCreationForm extends Component {
                     {{t 'pages.sessions.detail.candidates.add-form.prepayment-tooltip' htmlSafe=true}}
                   </:tooltip>
                 </PixTooltip>
-
               </div>
               <PixInput
                 @id='prepayment-code'
@@ -486,15 +499,23 @@ export default class CandidateCreationForm extends Component {
               />
             </div>
           {{/if}}
-        </div>
-      {{/if}}
+        {{/if}}
 
-      {{#if this.complementaryCertificationsHabilitations.length}}
-        <CandidateCreationFormComplementaryList
-          @complementaryCertificationsHabilitations={{this.complementaryCertificationsHabilitations}}
-          @updateSubscription={{fn this.updateField 'subscription'}}
-        />
-      {{/if}}
+        {{#if this.complementaryCertificationsHabilitations.length}}
+          <PixSelect
+            @id='subscription-type'
+            @options={{this.subscriptionTypeOptions}}
+            @onChange={{this.subscritionTypeChange}}
+            @value={{this.selectedSubscriptionType}}
+            @hideDefaultOption={{true}}
+            @texts={{hash requiredLabel=(t 'common.forms.required')}}
+            @errorMessage={{this.subscriptionTypeError}}
+            @validationStatus={{if this.subscriptionTypeError 'error'}}
+          >
+            <:label>{{t 'common.forms.certification-labels.selected-subscriptions'}}</:label>
+          </PixSelect>
+        {{/if}}
+      </fieldset>
 
       <div class='new-candidate-form__actions'>
         <PixButtonLink
