@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test';
 
-import { waitForVisibleWithReload } from '../../helpers/utils.ts';
+import { waitForHiddenWithReload, waitForVisibleWithReload } from '../../helpers/utils.ts';
 import { CertificationInformationPage, CertificationSessionPage } from './index.ts';
 
 export class CertificationSessionsMainPage {
@@ -41,11 +41,15 @@ export class CertificationSessionsMainPage {
     await this.page.getByRole('link', { name: /V3 — Sessions à publier/ }).click();
     await this.page.waitForURL(/\/sessions\/list\/to-be-published\?version=3$/);
     await this.page.getByRole('button', { name: `Publier la session numéro ${sessionNumber}` }).click();
+    const publicationResponse = this.page.waitForResponse(
+      (response) => response.request().method() === 'PATCH' && /\/sessions\/\d+\/publish$/.test(response.url()),
+    );
     await this.page.getByRole('button', { name: 'Confirmer' }).click();
+    await publicationResponse;
     const row = this.page.locator('table tbody tr').filter({
       has: this.page.getByText(sessionNumber, { exact: true }),
     });
-    await row.waitFor({ state: 'detached' });
+    await waitForHiddenWithReload(this.page, row, { timeout: 15_000 });
   }
 
   async goToCertificationWithSearchBar(certificationNumber: string) {

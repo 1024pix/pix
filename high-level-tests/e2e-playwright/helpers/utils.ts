@@ -105,6 +105,34 @@ export async function waitForVisibleWithReload(
   throw new Error('Element did not appear before timeout');
 }
 
+export async function waitForHiddenWithReload(
+  page: Page,
+  locator: Locator,
+  options?: {
+    timeout?: number;
+    interval?: number;
+  },
+) {
+  const timeout = options?.timeout ?? 60_000;
+  const interval = options?.interval ?? 2_000;
+
+  const start = Date.now();
+
+  while (Date.now() - start < timeout) {
+    await page.reload();
+    await page.waitForLoadState('domcontentloaded');
+
+    try {
+      await expect(locator).toBeHidden({ timeout: interval });
+      return;
+    } catch {
+      // element still here, reloading...
+    }
+  }
+
+  throw new Error('Element did not disappear before timeout');
+}
+
 export async function getInnerTextOrDefault(locator: Locator, text: string | null) {
   let innerText = text;
 
