@@ -3,7 +3,7 @@ import type { CertificationResultStatus } from '../../types.ts';
 
 export type CertificationDataProps = {
   certificationCourseId: number;
-  userId: number;
+  userId: number | null;
   sessionId: number;
   organizationLearnerId: number | null;
   algorithmEngineVersion: number;

@@ -291,7 +291,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       const actualUserCertificationResults = await knex('user_certification_results')
         .select('*')
         .orderBy('certificationResultId');
-      expect(actualUserCertificationResults).to.deep.equal([
+      expect(withoutTimestamps(actualUserCertificationResults)).to.deep.equal([
         userCertificationResultData1,
         userCertificationResultData2,
         userCertificationResultData3,
@@ -302,7 +302,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       delete certificationResultData3.competenceMarks;
       delete certificationResultData4.competenceMarks;
       const actualCertificationResults = await knex('certification_results').select('*').orderBy('id');
-      expect(actualCertificationResults).to.deep.equal([
+      expect(withoutTimestamps(actualCertificationResults)).to.deep.equal([
         certificationResultData1,
         certificationResultData2,
         certificationResultData3,
@@ -311,7 +311,7 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
       const actualCompetenceResults = await knex('certification_competence_results')
         .select('*')
         .orderBy(['certificationResultId', 'competenceId']);
-      expect(actualCompetenceResults).to.deep.equal(expectedCompetenceResults);
+      expect(withoutTimestamps(actualCompetenceResults)).to.deep.equal(expectedCompetenceResults);
     });
 
     it('does nothing when nothing to save', async function () {
@@ -331,3 +331,13 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
     });
   });
 });
+
+function withoutTimestamps(rows) {
+  return rows.map(({ createdAt, updatedAt, ...row }) => {
+    expect(createdAt).to.be.instanceOf(Date);
+    if (updatedAt !== undefined) {
+      expect(updatedAt).to.be.instanceOf(Date);
+    }
+    return row;
+  });
+}

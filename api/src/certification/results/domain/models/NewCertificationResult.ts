@@ -118,7 +118,7 @@ export class CertificationResult {
 }
 
 type UserCertificationResultProps = {
-  userId: number;
+  userId: number | null;
   certificationCourseId: number | null;
   sessionId: number | null;
   organizationLearnerId: number | null;
@@ -126,7 +126,7 @@ type UserCertificationResultProps = {
 };
 
 export class UserCertificationResult {
-  readonly userId: number;
+  readonly userId: number | null;
   readonly certificationCourseId: number | null;
   readonly sessionId: number | null;
   readonly organizationLearnerId: number | null;

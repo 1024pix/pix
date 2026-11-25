@@ -261,6 +261,55 @@ describe('Certification | Results | Integration | Infrastructure | Repository | 
         });
       });
     });
+
+    context('when the user has been anonymised', function () {
+      it('returns certification data without userId', async function () {
+        // given
+        const sessionId = factory.buildSession({ publishedAt: new Date('2026-01-03') }).id;
+        const anonymisedUserData = buildCertificateData({
+          framework: Frameworks.CORE,
+          sessionId,
+          withOrgaLearner: false,
+          algorithmEngineVersion: AlgorithmEngineVersion.V3,
+          hasUserBeenAnonymised: true,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const sourceData = await certificationResultSourceDataRepository.findByCertificationCourseIds([
+          anonymisedUserData.certificationData.certificationCourseId,
+        ]);
+
+        // then
+        expect(sourceData.certificationData).to.have.lengthOf(1);
+        expect(sourceData.certificationData[0].userId).to.equal(null);
+      });
+    });
+
+    context('when the organization learner has been deleted', function () {
+      it('returns certification data without organizationLearnerId and no learner data', async function () {
+        // given
+        const sessionId = factory.buildSession({ publishedAt: new Date('2026-01-03') }).id;
+        const deletedLearnerData = buildCertificateData({
+          framework: Frameworks.CORE,
+          sessionId,
+          withOrgaLearner: true,
+          algorithmEngineVersion: AlgorithmEngineVersion.V3,
+          hasLearnerBeenDeleted: true,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const sourceData = await certificationResultSourceDataRepository.findByCertificationCourseIds([
+          deletedLearnerData.certificationData.certificationCourseId,
+        ]);
+
+        // then
+        expect(sourceData.certificationData).to.have.lengthOf(1);
+        expect(sourceData.certificationData[0].organizationLearnerId).to.equal(null);
+        expect(sourceData.learnerData).to.deep.equal([]);
+      });
+    });
   });
 });
 
@@ -275,6 +324,8 @@ function buildCertificateData({
   versionId,
   complementaryCertificationId,
   complementaryCertificationBadgeId,
+  hasUserBeenAnonymised = false,
+  hasLearnerBeenDeleted = false,
 }: {
   framework: Framework;
   sessionId: number;
@@ -284,12 +335,14 @@ function buildCertificateData({
   versionId?: number;
   complementaryCertificationId?: number;
   complementaryCertificationBadgeId?: number;
+  hasUserBeenAnonymised?: boolean;
+  hasLearnerBeenDeleted?: boolean;
 }) {
   const isClea = framework === Frameworks.CLEA;
   const isEdu = framework === Frameworks.EDU_1ER_DEGRE;
   const isCoreScope = isClea || framework === Frameworks.CORE;
 
-  const userId = factory.buildUser().id;
+  const userId = factory.buildUser({ hasBeenAnonymised: hasUserBeenAnonymised }).id;
 
   let expectedLearnerData = null;
   if (withOrgaLearner) {
@@ -298,7 +351,10 @@ function buildCertificateData({
       thirdName: `Joan_${framework}`,
       nationalStudentId: `xXSlayerXx_${framework}`,
     };
-    const organizationLearnerId = factory.buildOrganizationLearner(learnerAttributes).id;
+    const organizationLearnerId = factory.buildOrganizationLearner({
+      ...learnerAttributes,
+      deletedAt: hasLearnerBeenDeleted ? new Date('2026-02-01') : null,
+    }).id;
     expectedLearnerData = { organizationLearnerId, ...learnerAttributes };
   }
   const organizationLearnerId = expectedLearnerData?.organizationLearnerId ?? null;
