@@ -20,6 +20,7 @@ export default class PaginationWrapper extends Component {
 
   <template>
     <PixPagination
+      @onChange={{@onChange}}
       @pagination={{@pagination}}
       @texts={{hash
         title=(t "common.pagination.title")

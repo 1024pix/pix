@@ -116,6 +116,7 @@
 @use 'display/footer-modal' as *;
 
 /* App/Components */
+@use '../../app/components/ui/action-bar' as *;
 @use '../../app/components/ui/copyable-id' as *;
 @use '../../app/components/ui/deletion-modal' as *;
 @use '../../app/components/ui/head-information-block' as *;

@@ -1088,7 +1088,16 @@
     },
     "organization-learners": {
       "list-table": {
+        "action-bar": {
+          "delete-button": "Delete",
+          "information": "{count, plural, =1 {{count} learner selected} other {{count} learners selected}}"
+        },
         "caption": "List of learners from organisations. Contains first name, surname, date of birth, INE, class, organisation and associated user ID.",
+        "deletion-modal": {
+          "success-message": "{count, plural, =1 {{count} learner has been deleted.} other {{count} learners have been deleted.}}",
+          "title": "Confirm learners deletion",
+          "warning-message": "{count, plural, =1 {You are about to delete the {count} selected learner. This action is irreversible.} other {You are about to delete the {count} selected learners. This action is irreversible.}}"
+        },
         "headers": {
           "active": "Active",
           "birthdate": "Birthdate",
@@ -1098,8 +1107,27 @@
           "last-name": "Last Name",
           "national-student-id": "INE",
           "organization": "Organization",
+          "select-all": "Select/Unselect all learners",
           "updated-at": "Updated at",
           "user-id": "User ID"
+        },
+        "select-learner": "Select/Unselect {firstname} {lastname}",
+        "sort": {
+          "birthdate": {
+            "asc": "Sort by birthdate ascending",
+            "default": "Sort by birthdate",
+            "desc": "Sort by birthdate descending"
+          },
+          "organization": {
+            "asc": "Sort by organization ascending",
+            "default": "Sort by organization",
+            "desc": "Sort by organization descending"
+          },
+          "updated-at": {
+            "asc": "Sort by update date ascending",
+            "default": "Sort by update date",
+            "desc": "Sort by update date descending"
+          }
         },
         "view-learner": "View more informations about the learner {learner} - external link",
         "view-organization": "View organization",
