@@ -95,6 +95,12 @@ export async function saveAndCorrectAnswerForCampaign({
     });
   }
 
+  if (assessment.isIRT()) {
+    savedAnswer = await DomainTransaction.execute(async () => {
+      return await answerRepository.save({ answer: correctedAnswer });
+    });
+  }
+
   return savedAnswer;
 }
 

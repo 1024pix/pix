@@ -444,4 +444,68 @@ describe('Evaluation | Integration | Usecase | Save and correct answer for campa
       expect(savedAnswer).to.be.instanceOf(Answer);
     });
   });
+
+  context('for campaign of type assessment with method IRT', function () {
+    it('should correct and save answer', async function () {
+      // given
+      const locale = 'fr';
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignId = databaseBuilder.factory.buildCampaign({
+        type: CampaignTypes.ASSESSMENT,
+        code: 'PILIPILIX',
+      }).id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        sharedAt: null,
+      }).id;
+      const assessmentDB = databaseBuilder.factory.buildAssessment({
+        userId,
+        campaignParticipationId,
+        type: Assessment.types.DIAG,
+        state: Assessment.states.STARTED,
+      });
+
+      databaseBuilder.factory.learningContent.buildChallenge({
+        id: 'monEpreuveId',
+        skillId: skillIds[2],
+        competenceId: 'maCompetenceId',
+        locales: [locale],
+        status: 'validé',
+        solution: 'correct',
+        proposals: '${a}',
+        type: 'QROC',
+      });
+      skillIds.map((id, index) =>
+        databaseBuilder.factory.learningContent.buildSkill({
+          id,
+          competenceId: 'maCompetenceId',
+          pixValue: PIX_COUNT_BY_LEVEL,
+          status: 'actif',
+          tubeId: 'monTubeId',
+          level: index + 1,
+        }),
+      );
+
+      await databaseBuilder.commit();
+
+      // when
+      const assessment = domainBuilder.buildAssessment(assessmentDB);
+      const answer = new Answer({
+        value: 'correct',
+        challengeId: 'monEpreuveId',
+        assessmentId: assessment.id,
+      });
+
+      const savedAnswer = await evaluationUsecases.saveAndCorrectAnswerForCampaign({
+        answer,
+        userId,
+        assessment,
+        locale,
+        forceOKAnswer: false,
+      });
+
+      // then
+      expect(savedAnswer).to.be.instanceOf(Answer);
+    });
+  });
 });
