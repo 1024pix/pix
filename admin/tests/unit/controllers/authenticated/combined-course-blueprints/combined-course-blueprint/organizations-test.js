@@ -111,7 +111,7 @@ module(
         sinon.stub(store, 'findRecord').withArgs('organization', 34).resolves({ id: 34, name: 'Orga 34' });
         sinon.stub(controller.pixToast, 'sendSuccessNotification').resolves();
         sinon.stub(controller.pixToast, 'sendErrorNotification').resolves();
-        sinon.stub(controller.router, 'transitionTo');
+        sinon.stub(controller.router, 'refresh');
         sinon.stub(controller.intl, 't').callsFake((key) => key);
       });
 
@@ -134,7 +134,7 @@ module(
         );
         assert.ok(controller.pixToast.sendSuccessNotification.calledOnce);
         assert.ok(
-          controller.router.transitionTo.calledOnceWithExactly(
+          controller.router.refresh.calledOnceWithExactly(
             'authenticated.combined-course-blueprints.combined-course-blueprint.organizations',
           ),
         );
@@ -154,7 +154,7 @@ module(
           }),
         );
         assert.ok(controller.pixToast.sendSuccessNotification.notCalled);
-        assert.ok(controller.router.transitionTo.notCalled);
+        assert.ok(controller.router.refresh.notCalled);
       });
     });
   },

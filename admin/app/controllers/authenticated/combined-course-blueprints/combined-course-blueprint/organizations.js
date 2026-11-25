@@ -57,7 +57,7 @@ export default class CombinedCourseBlueprintOrganizationsController extends Cont
           name: organization.name,
         }),
       });
-      this.router.transitionTo('authenticated.combined-course-blueprints.combined-course-blueprint.organizations');
+      return this.router.refresh('authenticated.combined-course-blueprints.combined-course-blueprint.organizations');
     } catch {
       return this.pixToast.sendErrorNotification({ message: this.intl.t('common.notifications.generic-error') });
     }
