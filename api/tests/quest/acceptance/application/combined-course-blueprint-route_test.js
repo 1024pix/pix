@@ -230,6 +230,7 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
         const attachedOrganizationToKeep = databaseBuilder.factory.buildOrganization();
         const organizationToDetach = databaseBuilder.factory.buildOrganization();
         const otherOrganizationToDetach = databaseBuilder.factory.buildOrganization();
+        const organizationNotAttached = databaseBuilder.factory.buildOrganization();
 
         databaseBuilder.factory.buildCombinedCourseBlueprintShare({
           combinedCourseBlueprintId,
@@ -247,7 +248,7 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
         await databaseBuilder.commit();
 
         const payload = {
-          'organization-ids': [organizationToDetach.id, otherOrganizationToDetach.id],
+          'organization-ids': [organizationToDetach.id, otherOrganizationToDetach.id, organizationNotAttached.id],
         };
 
         const options = {
@@ -263,7 +264,11 @@ describe('Quest | Acceptance | Application | Combined course blueprint Route ', 
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(204);
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data.attributes).to.deep.equal({
+          'detached-ids': [organizationToDetach.id, otherOrganizationToDetach.id],
+          'already-detached-ids': [organizationNotAttached.id],
+        });
         const remainingOrganizationIds = await knex('combined_course_blueprint_shares')
           .where({ combinedCourseBlueprintId })
           .pluck('organizationId');

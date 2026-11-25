@@ -2,11 +2,21 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-const serialize = function (model) {
+const serializeAttachedOrganizations = function (model) {
   return new Serializer('combined-course-blueprint-organizations', {
     id: 'combinedCourseBlueprintId',
-    attributes: ['duplicatedIds', 'attachedIds'],
+    attributes: ['attachedIds', 'duplicatedIds'],
   }).serialize(model);
 };
 
-export const combinedCourseBlueprintOrganizationSerializer = { serialize };
+const serializeDetachedOrganizations = function (model) {
+  return new Serializer('combined-course-blueprint-organizations', {
+    id: 'combinedCourseBlueprintId',
+    attributes: ['detachedIds', 'alreadyDetachedIds'],
+  }).serialize(model);
+};
+
+export const combinedCourseBlueprintOrganizationSerializer = {
+  serializeAttachedOrganizations,
+  serializeDetachedOrganizations,
+};

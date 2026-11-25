@@ -162,7 +162,20 @@ export class CombinedCourseBlueprint {
   }
 
   detachOrganizations({ organizationIds }) {
+    const alreadyDetachedOrganizationIds = [];
+    const detachedOrganizationIds = [];
+
+    organizationIds.map((organizationId) => {
+      if (!this.organizationIds.includes(organizationId)) {
+        alreadyDetachedOrganizationIds.push(organizationId);
+      } else {
+        detachedOrganizationIds.push(organizationId);
+      }
+    });
+
     this.organizationIds = this.organizationIds.filter((id) => !organizationIds.includes(id));
+
+    return { alreadyDetachedOrganizationIds, detachedOrganizationIds };
   }
 
   update({ combinedCourseBlueprintForUpdate }) {
