@@ -4,7 +4,7 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 import { featureToggles } from '../../../../shared/infrastructure/feature-toggles/index.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { CertificationResultFactory } from '../../domain/models/factories/CertificationResultFactory.ts';
-import * as certificationResultSourceDataRepository from '../../infrastructure/repositories/certification-result-source-data-repository.js';
+import * as certificationResultSourceDataRepository from '../../infrastructure/repositories/certification-result-source-data-repository.ts';
 import * as newCertificationResultRepository from '../../infrastructure/repositories/new-certification-result-repository.js';
 
 /**

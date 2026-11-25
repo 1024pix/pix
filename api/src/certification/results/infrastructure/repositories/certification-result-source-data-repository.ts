@@ -1,9 +1,22 @@
+import type { Knex } from 'knex';
+
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { AlgorithmEngineVersion } from '../../../shared/domain/models/AlgorithmEngineVersion.js';
 import { ComplementaryCertificationCourseResult } from '../../../shared/domain/models/ComplementaryCertificationCourseResult.js';
 import { Frameworks } from '../../../shared/domain/models/Frameworks.js';
+import type { Framework } from '../../../shared/domain/types.ts';
+import type {
+  CertificationDataProps,
+  CertificationResultSourceData,
+  CleaDataProps,
+  LearnerDataProps,
+  PixPlusV2VoletExterneDataProps,
+  PixPlusV2VoletPixDataProps,
+} from '../../domain/models/factories/CertificationResultSourceData.ts';
 
-const PIX_PLUS_V2_FRAMEWORKS = [
+type QueryFilter = (queryBuilder: Knex.QueryBuilder) => Knex.QueryBuilder;
+
+const PIX_PLUS_V2_FRAMEWORKS: Framework[] = [
   Frameworks.EDU_1ER_DEGRE,
   Frameworks.EDU_CPE,
   Frameworks.EDU_2ND_DEGRE,
@@ -11,18 +24,20 @@ const PIX_PLUS_V2_FRAMEWORKS = [
   Frameworks.DROIT,
 ];
 
-export async function findBySessionId(sessionId) {
+export async function findBySessionId(sessionId: number): Promise<CertificationResultSourceData> {
   return findSourceData((queryBuilder) => queryBuilder.where('sessions.id', sessionId));
 }
 
-export async function findByCertificationCourseIds(certificationCourseIds) {
+export async function findByCertificationCourseIds(
+  certificationCourseIds: number[],
+): Promise<CertificationResultSourceData> {
   if (certificationCourseIds.length === 0) {
     return emptySourceData();
   }
   return findSourceData((queryBuilder) => queryBuilder.whereIn('certification-courses.id', certificationCourseIds));
 }
 
-async function findSourceData(applyFilter) {
+async function findSourceData(applyFilter: QueryFilter): Promise<CertificationResultSourceData> {
   const certificationData = await findCertificationData(applyFilter);
   if (certificationData.length === 0) {
     return emptySourceData();
@@ -30,7 +45,7 @@ async function findSourceData(applyFilter) {
 
   const organizationLearnerIds = certificationData
     .map(({ organizationLearnerId }) => organizationLearnerId)
-    .filter(Boolean);
+    .filter((organizationLearnerId) => organizationLearnerId !== null);
   const cleaIds = certificationData
     .filter(({ framework }) => framework === Frameworks.CLEA)
     .map(({ certificationCourseId }) => certificationCourseId);
@@ -42,18 +57,18 @@ async function findSourceData(applyFilter) {
     .map(({ certificationCourseId }) => certificationCourseId);
 
   const learnerData = await findLearnerData(organizationLearnerIds);
-  const cleaData = await findComplementaryResults({
+  const cleaData = await findComplementaryResults<CleaDataProps>({
     certificationCourseIds: cleaIds,
     badgeIdAlias: 'cleaBadgeId',
     acquiredAlias: 'hasAcquiredClea',
   });
-  const pixPlusV2VoletPixData = await findComplementaryResults({
+  const pixPlusV2VoletPixData = await findComplementaryResults<PixPlusV2VoletPixDataProps>({
     certificationCourseIds: pixPlusV2Ids,
     badgeIdAlias: 'v2ComplementaryVoletPixBadgeId',
     acquiredAlias: 'v2ComplementaryVoletPixAcquired',
     source: ComplementaryCertificationCourseResult.sources.PIX,
   });
-  const pixPlusV2VoletExterneData = await findComplementaryResults({
+  const pixPlusV2VoletExterneData = await findComplementaryResults<PixPlusV2VoletExterneDataProps>({
     certificationCourseIds: pixPlusV2Ids,
     badgeIdAlias: 'v2EduVoletExterneBadgeId',
     acquiredAlias: 'v2EduVoletExterneAcquired',
@@ -69,7 +84,7 @@ async function findSourceData(applyFilter) {
   };
 }
 
-function emptySourceData() {
+function emptySourceData(): CertificationResultSourceData {
   return {
     certificationData: [],
     learnerData: [],
@@ -79,7 +94,7 @@ function emptySourceData() {
   };
 }
 
-async function findCertificationData(applyFilter) {
+async function findCertificationData(applyFilter: QueryFilter): Promise<CertificationDataProps[]> {
   const knexConn = DomainTransaction.getConnection();
   const query = knexConn
     .select({
@@ -141,7 +156,7 @@ async function findCertificationData(applyFilter) {
     )
     .orderBy('certification-courses.id');
   applyFilter(query);
-  const certificationData = await query;
+  const certificationData = (await query) as CertificationDataProps[];
 
   for (const certificationItem of certificationData) {
     if (certificationItem.competenceMarks[0].competenceId === null) {
@@ -151,7 +166,7 @@ async function findCertificationData(applyFilter) {
   return certificationData;
 }
 
-async function findLearnerData(organizationLearnerIds) {
+async function findLearnerData(organizationLearnerIds: number[]): Promise<LearnerDataProps[]> {
   if (organizationLearnerIds.length === 0) {
     return [];
   }
@@ -168,7 +183,17 @@ async function findLearnerData(organizationLearnerIds) {
     .orderBy('id');
 }
 
-async function findComplementaryResults({ certificationCourseIds, badgeIdAlias, acquiredAlias, source }) {
+async function findComplementaryResults<T>({
+  certificationCourseIds,
+  badgeIdAlias,
+  acquiredAlias,
+  source,
+}: {
+  certificationCourseIds: number[];
+  badgeIdAlias: string;
+  acquiredAlias: string;
+  source?: string;
+}): Promise<T[]> {
   if (certificationCourseIds.length === 0) {
     return [];
   }
