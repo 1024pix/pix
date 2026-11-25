@@ -10,6 +10,7 @@ describe('Unit | Identity Access Management | Domain | Model | UserRefreshToken'
   describe('UserRefreshToken.decode', function () {
     it('returns the decoded token', function () {
       // given
+      const iat = Math.floor(Date.now() / 1000);
       const encodedRefreshToken = jsonwebtoken.sign(
         {
           jti: '4b725ef5-88dc-427e-8f86-caa11b0e5f97',
@@ -17,7 +18,7 @@ describe('Unit | Identity Access Management | Domain | Model | UserRefreshToken'
           source: 'source!',
           aud: 'audience!',
           sid: 'ABC-123-321',
-          iat: 1795011639,
+          iat,
         },
         config.authentication.secret,
         { expiresIn: config.authentication.refreshTokenLifespanMs / 1000, header: { typ: tokenType.REFRESH_TOKEN } },
@@ -34,7 +35,7 @@ describe('Unit | Identity Access Management | Domain | Model | UserRefreshToken'
         source: 'source!',
         audience: 'audience!',
         sessionId: 'ABC-123-321',
-        issuedAt: 1795011639,
+        issuedAt: iat,
       });
     });
 
