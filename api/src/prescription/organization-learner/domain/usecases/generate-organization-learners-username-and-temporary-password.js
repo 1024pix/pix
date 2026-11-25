@@ -1,5 +1,4 @@
 import { UserNotAuthorizedToUpdatePasswordError } from '../../../../shared/domain/errors.js';
-import { OrganizationLearnerIdentities } from '../models/OrganizationLearnerIdentities.js';
 import { OrganizationLearnerPasswordResetDTO } from '../models/OrganizationLearnerPasswordResetDTO.js';
 
 const ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE =
@@ -19,27 +18,38 @@ export const generateOrganizationLearnersUsernameAndTemporaryPassword = async fu
   userRepository,
   userLoginRepository,
 }) {
-  const errorMessage = `User ${userId} cannot reset passwords of some students in organization ${organizationId}`;
   const organization = await organizationRepository.get(organizationId);
-  const organizationLearnerIdentities = await _buildOrganizationLearnerIdentities({
-    errorMessage,
-    organization,
-    organizationLearnersId,
-    organizationLearnerIdentityRepository,
-  });
-  let organizationLearnerIdentitiesValues = organizationLearnerIdentities.values;
 
-  if (!organizationLearnerIdentities.hasScoGarIdentityProvider) {
-    organizationLearnerIdentitiesValues = await _generateAndUpdateUsernameForOrganizationLearnerIdentities({
-      organizationLearnerIdentities: organizationLearnerIdentitiesValues,
+  let organizationLearnerIdentities = await organizationLearnerIdentityRepository.getByIds(
+    organization.id,
+    organizationLearnersId,
+  );
+
+  if (organizationLearnerIdentities.length !== organizationLearnersId.length) {
+    throw new UserNotAuthorizedToUpdatePasswordError(
+      `User ${userId} cannot reset passwords of some students in organization ${organizationId}`,
+      ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
+    );
+  }
+
+  if (!organization.hasGarIdentityProvider) {
+    organizationLearnerIdentities = await _generateUsernames({
+      organizationLearnerIdentities,
       userReconciliationService,
       userRepository,
     });
   }
 
-  const userIdWithPasswords = await _generateAndUpdateUsersWithTemporaryPassword({
-    errorMessage,
-    organizationLearnerIdentities: organizationLearnerIdentitiesValues,
+  const usersHaveAnUsername = organizationLearnerIdentities.every((student) => student.username);
+  if (!usersHaveAnUsername) {
+    throw new UserNotAuthorizedToUpdatePasswordError(
+      `User ${userId} cannot reset passwords of some students in organization ${organizationId}`,
+      ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE,
+    );
+  }
+
+  const userIdWithPasswords = await _generateTemporaryPasswords({
+    organizationLearnerIdentities,
     authenticationMethodRepository,
     cryptoService,
     passwordGenerator,
@@ -47,38 +57,12 @@ export const generateOrganizationLearnersUsernameAndTemporaryPassword = async fu
   });
 
   return _buildOrganizationLearnerPasswordResetDTOs({
-    organizationLearnerIdentities: organizationLearnerIdentitiesValues,
+    organizationLearnerIdentities,
     userIdWithPasswords,
   });
 };
 
-async function _buildOrganizationLearnerIdentities({
-  errorMessage,
-  organization,
-  organizationLearnersId,
-  organizationLearnerIdentityRepository,
-}) {
-  try {
-    const organizationLearnerIdentities = await organizationLearnerIdentityRepository.getByIds(organizationLearnersId);
-
-    return new OrganizationLearnerIdentities({
-      id: organization.id,
-      hasScoGarIdentityProvider: organization.hasGarIdentityProvider,
-      values: organizationLearnerIdentities,
-    });
-  } catch {
-    throw new UserNotAuthorizedToUpdatePasswordError(
-      errorMessage,
-      ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
-    );
-  }
-}
-
-async function _generateAndUpdateUsernameForOrganizationLearnerIdentities({
-  organizationLearnerIdentities,
-  userReconciliationService,
-  userRepository,
-}) {
+async function _generateUsernames({ organizationLearnerIdentities, userReconciliationService, userRepository }) {
   const result = [];
   for (const organizationLearnerIdentity of organizationLearnerIdentities) {
     const temporaryOrganizationLearnerIdentity = { ...organizationLearnerIdentity };
@@ -97,16 +81,13 @@ async function _generateAndUpdateUsernameForOrganizationLearnerIdentities({
   return result;
 }
 
-async function _generateAndUpdateUsersWithTemporaryPassword({
-  errorMessage,
+async function _generateTemporaryPasswords({
   organizationLearnerIdentities,
   authenticationMethodRepository,
   cryptoService,
   passwordGenerator,
   userLoginRepository,
 }) {
-  _assertAllUsersHasAnUsername({ errorMessage, users: organizationLearnerIdentities });
-
   const userIdWithPasswords = await _generateNewTemporaryPasswordForOrganizationLearnerIdentities({
     organizationLearnerIdentities,
     passwordGenerator,
@@ -119,14 +100,6 @@ async function _generateAndUpdateUsersWithTemporaryPassword({
   await userLoginRepository.batchUnblock(userIds);
 
   return userIdWithPasswords;
-}
-
-function _assertAllUsersHasAnUsername({ errorMessage, users }) {
-  const usersHaveAnUsername = users.every((student) => student.username);
-
-  if (!usersHaveAnUsername) {
-    throw new UserNotAuthorizedToUpdatePasswordError(errorMessage, ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE);
-  }
 }
 
 async function _generateNewTemporaryPasswordForOrganizationLearnerIdentities({
