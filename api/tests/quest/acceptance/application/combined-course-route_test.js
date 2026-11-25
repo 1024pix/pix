@@ -289,6 +289,7 @@ ${organizationId};"{""name"":""Combinix"",""content"":[],""description"":""ma de
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result.data.type).to.equal('combined-course-statistics');
+        expect(response.result.data.id).to.equal(String(combinedCourseId));
       });
     });
   });

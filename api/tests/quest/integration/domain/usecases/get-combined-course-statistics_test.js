@@ -57,7 +57,7 @@ describe('Quest | Integration | Domain | Usecases | getCombinedCourseStatistics'
     // then
     expect(result).instanceOf(CombinedCourseStatistics);
     expect(result).deep.equal({
-      id: combinedCourseId,
+      combinedCourseId,
       participationsCount: 2,
       completedParticipationsCount: 1,
     });
@@ -104,7 +104,7 @@ describe('Quest | Integration | Domain | Usecases | getCombinedCourseStatistics'
     // then
     expect(result).instanceOf(CombinedCourseStatistics);
     expect(result).deep.equal({
-      id: combinedCourseId,
+      combinedCourseId,
       participationsCount: 1,
       completedParticipationsCount: 1,
     });

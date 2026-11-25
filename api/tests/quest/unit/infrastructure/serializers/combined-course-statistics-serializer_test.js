@@ -6,7 +6,7 @@ import { combinedCourseStatisticsSerializer } from '../../../../../src/quest/inf
 describe('CombinedCourseStatisticsSerializer', function () {
   it('should serialize CombinedCourseStatistics', function () {
     const combinedCourseStatistics = new CombinedCourseStatistics({
-      id: 1,
+      combinedCourseId: 1,
       participationsCount: 2,
       completedParticipationsCount: 1,
     });
@@ -15,8 +15,8 @@ describe('CombinedCourseStatisticsSerializer', function () {
 
     expect(serialized).to.deep.equal({
       data: {
-        type: 'combined-course-statistics',
         id: '1',
+        type: 'combined-course-statistics',
         attributes: {
           'participations-count': 2,
           'completed-participations-count': 1,

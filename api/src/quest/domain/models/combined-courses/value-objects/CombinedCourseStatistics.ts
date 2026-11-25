@@ -1,16 +1,16 @@
 type CombinedCourseStatisticsArgs = {
-  id: number;
+  combinedCourseId: number;
   participationsCount: number;
   completedParticipationsCount: number;
 };
 
 export class CombinedCourseStatistics {
-  id: number;
+  combinedCourseId: number;
   participationsCount: number;
   completedParticipationsCount: number;
 
-  constructor({ id, participationsCount, completedParticipationsCount }: CombinedCourseStatisticsArgs) {
-    this.id = id;
+  constructor({ combinedCourseId, participationsCount, completedParticipationsCount }: CombinedCourseStatisticsArgs) {
+    this.combinedCourseId = combinedCourseId;
     this.participationsCount = participationsCount;
     this.completedParticipationsCount = completedParticipationsCount;
   }
