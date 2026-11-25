@@ -1,91 +1,94 @@
 import { expect } from 'chai';
 
-import { OrganizationLearnerIdentityNotFoundError } from '../../../../../../src/prescription/organization-learner/domain/error.js';
 import { OrganizationLearnerIdentity } from '../../../../../../src/prescription/organization-learner/domain/models/OrganizationLearnerIdentity.js';
 import { organizationLearnerIdentityRepository } from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-identity.repository.js';
 import { databaseBuilder } from '../../../../../tooling/databases.js';
-import { catchErr } from '../../../../../tooling/test-utils/error.js';
 
 describe('Integration | Identity Access Management | Infrastructure | Repositories | OrganizationLearnerIdentity', function () {
   describe('#getByIds', function () {
-    let ids, organizationLearners;
+    let organization1, learner1, learner2;
 
     beforeEach(async function () {
-      const userData = [
-        {
-          email: 'holly-garchie@example.net',
-          firstName: 'Holly',
-          lastName: 'Garchie',
-          username: 'holly.garchie',
-        },
-        {
-          email: undefined,
-          firstName: 'Kay',
-          lastName: 'Lidiote',
-          username: 'kay.lidiote',
-        },
-      ];
+      organization1 = databaseBuilder.factory.buildOrganization();
+      const organization2 = databaseBuilder.factory.buildOrganization();
 
-      organizationLearners = userData.map((user) => {
-        const organization = databaseBuilder.factory.buildOrganization();
-        const buildUser = databaseBuilder.factory.buildUser(user);
+      const user1 = databaseBuilder.factory.buildUser({
+        email: 'holly-garchie@example.net',
+        firstName: 'Holly',
+        lastName: 'Garchie',
+        username: 'holly.garchie',
+      });
+      learner1 = databaseBuilder.factory.buildOrganizationLearner({
+        division: '6B',
+        firstName: user1.firstName,
+        lastName: user1.lastName,
+        organizationId: organization1.id,
+        userId: user1.id,
+      });
 
-        return databaseBuilder.factory.buildOrganizationLearner({
-          division: '6B',
-          firstName: user.firstName,
-          lastName: user.lastName,
-          organizationId: organization.id,
-          userId: buildUser.id,
-        });
+      const user2 = databaseBuilder.factory.buildUser({
+        email: undefined,
+        firstName: 'Kay',
+        lastName: 'Lidiote',
+        username: 'kay.lidiote',
+      });
+      learner2 = databaseBuilder.factory.buildOrganizationLearner({
+        division: '6B',
+        firstName: user2.firstName,
+        lastName: user2.lastName,
+        organizationId: organization1.id,
+        userId: user2.id,
+      });
+
+      const user3 = databaseBuilder.factory.buildUser({
+        email: undefined,
+        firstName: 'Kay',
+        lastName: 'Lidiote2',
+        username: 'kay.lidiote2',
+      });
+      databaseBuilder.factory.buildOrganizationLearner({
+        division: '6B',
+        firstName: user3.firstName,
+        lastName: user3.lastName,
+        organizationId: organization2.id,
+        userId: user3.id,
       });
 
       await databaseBuilder.commit();
     });
 
-    context("when all organization learner identity in 'ids' list exist in database", function () {
-      beforeEach(function () {
-        ids = organizationLearners.map((organizationLearner) => organizationLearner.id);
-      });
+    it('returns a list of organization learner identity', async function () {
+      // when
+      const result = await organizationLearnerIdentityRepository.getByIds(organization1.id, [learner1.id, learner2.id]);
 
-      it('returns a list of organization learner identity', async function () {
-        // when
-        const result = await organizationLearnerIdentityRepository.getByIds(ids);
+      // then
+      expect(result.length).to.be.equal(2);
 
-        // then
-        const expectedResult = organizationLearners.map(
-          (organizationLearner) =>
-            new OrganizationLearnerIdentity({
-              id: organizationLearner.id,
-              birthdate: organizationLearner.birthdate,
-              division: organizationLearner.division,
-              firstName: organizationLearner.firstName,
-              lastName: organizationLearner.lastName,
-              organizationId: organizationLearner.organizationId,
-              userId: organizationLearner.userId,
-              username: `${organizationLearner.firstName}.${organizationLearner.lastName}`.toLowerCase(),
-            }),
-        );
+      const identityLearner1 = result.find((identity) => identity.id === learner1.id);
+      expect(identityLearner1).to.deep.equal(
+        new OrganizationLearnerIdentity({
+          id: learner1.id,
+          birthdate: learner1.birthdate,
+          division: learner1.division,
+          firstName: learner1.firstName,
+          lastName: learner1.lastName,
+          userId: learner1.userId,
+          username: `${learner1.firstName}.${learner1.lastName}`.toLowerCase(),
+        }),
+      );
 
-        expect(result).to.deep.include.members(expectedResult);
-      });
-    });
-
-    context("when an organization learner identity in 'ids' list does not exist", function () {
-      const notFoundId = 999999;
-
-      beforeEach(function () {
-        ids = organizationLearners.map((organizationLearner) => organizationLearner.id);
-        ids.push(notFoundId);
-      });
-
-      it('throws an OrganizationLearnerIdentityNotFoundError', async function () {
-        // when
-        const error = await catchErr(organizationLearnerIdentityRepository.getByIds)(ids);
-
-        // then
-        expect(error).to.be.instanceOf(OrganizationLearnerIdentityNotFoundError);
-        expect(error.message).to.eq(`Organization learner identity with id ${notFoundId} not found.`);
-      });
+      const identityLearner2 = result.find((identity) => identity.id === learner2.id);
+      expect(identityLearner2).to.deep.equal(
+        new OrganizationLearnerIdentity({
+          id: learner2.id,
+          birthdate: learner2.birthdate,
+          division: learner2.division,
+          firstName: learner2.firstName,
+          lastName: learner2.lastName,
+          userId: learner2.userId,
+          username: `${learner2.firstName}.${learner2.lastName}`.toLowerCase(),
+        }),
+      );
     });
   });
 });

@@ -1,11 +1,10 @@
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { OrganizationLearnerIdentityNotFoundError } from '../../domain/error.js';
 import { OrganizationLearnerIdentity } from '../../domain/models/OrganizationLearnerIdentity.js';
 
 const USER_TABLE_NAME = 'users';
 const VIEW_ORGANIZATION_LEARNERS_TABLE_NAME = 'view-active-organization-learners';
 
-async function getByIds(ids) {
+async function getByIds(organizationId, ids) {
   const knexConn = DomainTransaction.getConnection();
   const results = await knexConn({
     viewOrganizationLearners: VIEW_ORGANIZATION_LEARNERS_TABLE_NAME,
@@ -17,30 +16,17 @@ async function getByIds(ids) {
       division: 'viewOrganizationLearners.division',
       firstName: 'viewOrganizationLearners.firstName',
       lastName: 'viewOrganizationLearners.lastName',
-      organizationId: 'viewOrganizationLearners.organizationId',
       userId: 'users.id',
       username: 'users.username',
     })
-    .whereIn('viewOrganizationLearners.id', ids);
-
-  _assertAllIdsMatchAResult({ ids, results });
+    .whereIn('viewOrganizationLearners.id', ids)
+    .where('viewOrganizationLearners.organizationId', organizationId);
 
   return results.map(_toDomain);
 }
 
-function _assertAllIdsMatchAResult({ ids, results }) {
-  const resultIds = new Set(results.map((result) => result.id));
-
-  ids.forEach((id) => {
-    if (!resultIds.has(id)) {
-      throw new OrganizationLearnerIdentityNotFoundError(`Organization learner identity with id ${id} not found.`);
-    }
-  });
-}
-
 function _toDomain(organizationLearnerIdentityDTO) {
-  const { id, birthdate, division, firstName, lastName, organizationId, userId, username } =
-    organizationLearnerIdentityDTO;
+  const { id, birthdate, division, firstName, lastName, userId, username } = organizationLearnerIdentityDTO;
 
   return new OrganizationLearnerIdentity({
     id,
@@ -48,14 +34,9 @@ function _toDomain(organizationLearnerIdentityDTO) {
     division,
     firstName,
     lastName,
-    organizationId,
     userId,
     username,
   });
 }
 
-const organizationLearnerIdentityRepository = {
-  getByIds,
-};
-
-export { organizationLearnerIdentityRepository };
+export const organizationLearnerIdentityRepository = { getByIds };
